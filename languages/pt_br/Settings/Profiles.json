@@ -88,7 +88,8 @@
     "ActivityCancel": "Cancelar registros",
     "ActivityComplete": "Fechar registros",
     "ActivityPostponed": "Adiar registros",
-    "Emails": "Enviar emails [SMTP]"
+    "Emails": "Enviar emails [SMTP]",
+    "ModTracker": "Change history"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Perfil exclu\u00eddo com Sucesso"

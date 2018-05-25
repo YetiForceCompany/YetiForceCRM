@@ -40,6 +40,8 @@
     "LBL_MBSTRING_LIBRARY": "Mbstring (required for mPDF)",
     "LBL_EXIF_LIBRARY": "Exif (improves security of uploaded files)",
     "LBL_ZIP_ARCHIVE": "ZIP",
+    "LBL_FILEINFO_LIBRARY": "FileInfo",
+    "LBL_LIBICONV_LIBRARY": "Libiconv",
     "LBL_SPACE": "Capacity",
     "LBL_SPACE_TOTAL": "Total",
     "LBL_SPACE_FREE": "Free",

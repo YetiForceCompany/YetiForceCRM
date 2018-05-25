@@ -15,7 +15,7 @@
 			<form class="" name="step1" method="post" action="Install.php">
 				<div class="row">
 					<div class="col-md-9">
-						<h2>{\App\Language::translate('LBL_SETUP_WIZARD_HEADER', 'Install')} {\App\Version::get()}</h2>
+						<h2>{\App\Language::translate('LBL_SETUP_WIZARD_HEADER', 'Install')} {$YETIFORCE_VERSION}</h2>
 					</div>
 					<div class="col-md-3">
 						<select name="lang" class="select2" style="width: 250px;">

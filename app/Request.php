@@ -436,7 +436,6 @@ class Request
 		if (!isset($_SERVER[$key])) {
 			return $default;
 		}
-
 		return Purifier::purifyByType($_SERVER[$key], 'Text');
 	}
 

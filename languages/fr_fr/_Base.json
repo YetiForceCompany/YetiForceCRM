@@ -412,6 +412,7 @@
     "LBL_CHOOSE_COLUMNS": "Choisir les colonnes et ordre",
     "LBL_CHOOSE_FILTER_CONDITIONS": "Choisir les conditions du filtre ",
     "LBL_CLEAR": "R\u00e9initialiser",
+    "LBL_CLEAR_SEARCH": "Clear search result",
     "LBL_CLICK_ADD": "Ajouter",
     "LBL_CLOSE": "Fermer",
     "LBL_COMMENTED": "a comment\u00e9",
@@ -760,7 +761,7 @@
     "Po Box": "Boite postale",
     "Postal Code": "Code postal",
     "Dashboards": "Ma page d'accueil",
-    "POWEREDBY": "Propuls\u00e9 par YetiForce (moteur Vtiger)",
+    "POWEREDBY": "Propuls\u00e9 par YetiForce",
     "Price": "Prix",
     "PriceBooks": "Catalogues de prix",
     "Priority": "Priorit\u00e9",
@@ -1157,6 +1158,7 @@
     "Sales": "Vente",
     "LBL_DEFAULT": "D\u00e9faut",
     "BTN_GENERATE_RECORD": "G\u00e9n\u00e9rer un enregistrement",
+    "LBL_MARK_AS_HELD": "Mark as held",
     "LBL_GENERATE_RECORD_FOR_MODULE": "G\u00e9n\u00e9rer un enregistrement pour le module",
     "LBL_REMOVE_SEARCH_OPTION_INFO": "R\u00e9initialiser les param\u00e8tres de recherche",
     "LBL_REMOVE_ALPH_SEARCH_INFO": "R\u00e9initialiser les param\u00e8tres de recherche alphab\u00e9tiques",
@@ -1303,7 +1305,8 @@
     "LBL_NOVEMDECILLION": "d\u00e9cillion",
     "LBL_NOVEMDECILLIONS": "d\u00e9cillions",
     "LBL_NOVEMDECILLIONSS": "d\u00e9cillions",
-    "LBL_DELETE_RECORD": "Supprimer enregistrement"
+    "LBL_DELETE_RECORD": "Supprimer enregistrement",
+    "LBL_SHOP_YETIFORCE": "Store"
   },
   "js": {
     "AM": "AM",
@@ -1381,7 +1384,7 @@
     "JS_DUPLICTAE_CREATION_CONFIRMATION": "Nom du compte existe d\u00e9j\u00e0. Voulez-vous cr\u00e9er un doublon?",
     "JS_EMAIL_SERVER_CONFIGURATION": "Merci de configurer les param\u00e8tres du serveur sortant dans la page des param\u00e8tres",
     "JS_END_DATE_TIME": "Date & Heure de fin",
-    "JS_ERROR": "Erreur",
+    "JS_ERROR": "Error, please inform the Administrator",
     "JS_FAILED_TO_SAVE": "Echec de la sauvegarde des modifications sur le serveur",
     "JS_FIELD_MAPPED_MORE_THAN_ONCE": "Champ vu plus d'une fois",
     "JS_IMPORT_FILE_CAN_NOT_BE_EMPTY": "Le fichier d'importation ne peut pas \u00eatre vide",

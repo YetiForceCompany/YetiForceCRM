@@ -243,6 +243,7 @@
     "LBL_CHOOSE_COLUMNS": "Elige columnas y el orden",
     "LBL_CHOOSE_FILTER_CONDITIONS": "Elegir condiciones del filtro",
     "LBL_CLEAR": "Limpiar",
+    "LBL_CLEAR_SEARCH": "Clear search result",
     "LBL_CLICK_ADD": "Haga clic en a\u00f1adir",
     "LBL_CLOSE": "Cerrar",
     "LBL_COMMENTED": "comentado",
@@ -627,7 +628,7 @@
     "Po Box": "Apartado de correos",
     "Postal Code": "C\u00f3digo postal",
     "Dashboards": "Mi p\u00e1gina de inicio",
-    "POWEREDBY": "Desarrollado por YetiForce (motor Vtiger)",
+    "POWEREDBY": "Desarrollado por YetiForce",
     "Price": "Precio",
     "PriceBooks": "Listas de precios",
     "Priority": "Prioridad",
@@ -1071,6 +1072,7 @@
     "Sales": "Venta",
     "LBL_DEFAULT": "Por defecto",
     "BTN_GENERATE_RECORD": "Generar registro",
+    "LBL_MARK_AS_HELD": "Mark as held",
     "LBL_GENERATE_RECORD_FOR_MODULE": "Generar registro para el m\u00f3dulo",
     "LBL_REMOVE_SEARCH_OPTION_INFO": "Restablecer par\u00e1metros de b\u00fasqueda",
     "LBL_REMOVE_ALPH_SEARCH_INFO": "Restablecer par\u00e1metro de b\u00fasqueda alfab\u00e9tico",
@@ -1302,7 +1304,9 @@
     "LBL_FULLTEXT_WORD": "Palabra",
     "BTN_PERMISSION_INSPECTOR": "Inspector de permisos",
     "LBL_ADVANCED_SEARCH": "B\u00fasqueda Avanzada",
-    "_Base": "System"
+    "LBL_MERGING": "Merging records",
+    "_Base": "System",
+    "LBL_SHOP_YETIFORCE": "Store"
   },
   "js": {
     "JS_VIEWNAME_ALERT": "Nombre del filtro demasiado largo",

@@ -210,12 +210,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'current' => static::getFlag(ini_get('expose_php')),
 				'status' => ini_get('expose_php') == 1 || stripos(ini_get('expose_php'), 'On') !== false,
 			],
-			'session_regenerate_id' => [
-				'recommended' => 'On',
-				'help' => 'LBL_SESSION_REGENERATE_HELP_TEXT',
-				'current' => static::getFlag(AppConfig::main('session_regenerate_id')),
-				'status' => AppConfig::main('session_regenerate_id') !== null && !AppConfig::main('session_regenerate_id'),
-			],
 			'Header: X-Frame-Options' => ['recommended' => 'SAMEORIGIN', 'help' => 'LBL_HEADER_X_FRAME_OPTIONS_HELP_TEXT', 'current' => '?'],
 			'Header: X-XSS-Protection' => ['recommended' => '1; mode=block', 'help' => 'LBL_HEADER_X_XSS_PROTECTION_HELP_TEXT', 'current' => '?'],
 			'Header: X-Content-Type-Options' => ['recommended' => 'nosniff', 'help' => 'LBL_HEADER_X_CONTENT_TYPE_OPTIONS_HELP_TEXT', 'current' => '?'],
@@ -227,17 +221,29 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'Header: Referrer-Policy' => ['recommended' => 'same-origin', 'help' => 'LBL_HEADER_REFERRER_POLICY_HELP_TEXT', 'current' => '?'],
 			'Header: Strict-Transport-Security' => ['recommended' => 'max-age=31536000; includeSubDomains; preload', 'help' => 'LBL_HEADER_STRICT_TRANSPORT_SECURITY_HELP_TEXT', 'current' => '?'],
 		];
+		if (!$instalMode) {
+			$directiveValues['session_regenerate_id'] = [
+				'recommended' => 'On',
+				'help' => 'LBL_SESSION_REGENERATE_HELP_TEXT',
+				'current' => static::getFlag(AppConfig::main('session_regenerate_id')),
+				'status' => AppConfig::main('session_regenerate_id') !== null && !AppConfig::main('session_regenerate_id'),
+			];
+		}
 		if (IS_PUBLIC_DIR === true) {
 			$directiveValues['public_html']['current'] = static::getFlag(true);
 		} else {
 			$directiveValues['public_html']['status'] = true;
 			$directiveValues['public_html']['current'] = static::getFlag(false);
 		}
-		if (!isset($_SERVER['HTACCESS_TEST'])) {
-			$directiveValues['.htaccess']['status'] = true;
-			$directiveValues['.htaccess']['current'] = 'Off';
+		if (strpos($_SERVER['SERVER_SOFTWARE'], 'nginx') === false) {
+			if (!isset($_SERVER['HTACCESS_TEST'])) {
+				$directiveValues['.htaccess']['status'] = true;
+				$directiveValues['.htaccess']['current'] = 'Off';
+			} else {
+				$directiveValues['.htaccess']['current'] = 'On';
+			}
 		} else {
-			$directiveValues['.htaccess']['current'] = 'On';
+			unset($directiveValues['.htaccess']);
 		}
 		if (App\RequestUtil::getBrowserInfo()->https) {
 			$directiveValues['HTTPS']['status'] = false;
@@ -258,7 +264,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				$directiveValues['session.cookie_secure']['status'] = true;
 			}
 		}
-
 		stream_context_set_default([
 			'ssl' => [
 				'verify_peer' => false,
@@ -304,7 +309,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
-
 		return $directiveValues;
 	}
 
@@ -398,7 +402,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
-
 		return $directiveValues;
 	}
 
@@ -414,6 +417,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		$params = [
 			'LBL_OPERATING_SYSTEM' => \AppConfig::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
+			'LBL_SERVER_SOFTWARE' => $_SERVER['SERVER_SOFTWARE'],
 			'LBL_TMP_DIR' => App\Fields\File::getTmpPath(),
 			'LBL_CRM_DIR' => ROOT_DIRECTORY,
 			'LBL_PHP_SAPI' => ['www' => $ini['SAPI'], 'cli' => $cliConf ? $cliConf['SAPI'] : ''],
@@ -424,7 +428,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (!empty($ini['INI_FILES']) || !empty($cliConf['INI_FILES'])) {
 			$params['LBL_PHPINIS'] = ['www' => $ini['INI_FILES'], 'cli' => $cliConf ? $cliConf['INI_FILES'] : ''];
 		}
-
 		return $params;
 	}
 
@@ -442,7 +445,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'storage/' => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . 'storage')],
 			'user_privileges/' => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . 'user_privileges')],
 		];
-
 		return $denyPublicDirState;
 	}
 
@@ -466,7 +468,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				$permissions[$index]['permission'] = 'FailedPermission';
 			}
 		}
-
 		return $permissions;
 	}
 

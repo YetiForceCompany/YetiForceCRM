@@ -55,8 +55,10 @@ class Users_Login_Action extends \App\Controller\Action
 			$bfInstance->incAttempts();
 			$moduleModel->saveLoginHistory(strtolower($userName), 'Blocked IP');
 			header('Location: index.php?module=Users&view=Login');
-
 			return false;
+		}
+		if ($request->getMode('mode') === 'install') {
+			$this->cleanInstallationFiles();
 		}
 		$this->userRecordModel = Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
 		if (!empty($password) && $this->userRecordModel->doLogin($password)) {
@@ -65,19 +67,17 @@ class Users_Login_Action extends \App\Controller\Action
 				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_YOUR_PASSWORD_HAS_EXPIRED', $moduleName));
 				\App\Session::set('UserLoginMessageType', 'error');
 				header('Location: index.php');
-
 				return true;
 			}
 			$this->afterLogin($request);
 			$moduleModel->saveLoginHistory(strtolower($userName)); //Track the login History
 			if (isset($_SESSION['return_params'])) {
-				header('Location: index.php?' . urldecode($_SESSION['return_params']));
+				header('Location: index.php?' . $_SESSION['return_params']);
 			} elseif (AppConfig::performance('SHOW_ADMIN_PANEL') && $this->userModel->isAdmin()) {
 				header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
 			} else {
 				header('Location: index.php');
 			}
-
 			return true;
 		}
 		\App\Session::set('UserLoginMessage', App\Language::translate('LBL_INVALID_USER_OR_PASSWORD', $moduleName));
@@ -114,5 +114,28 @@ class Users_Login_Action extends \App\Controller\Action
 		if ($request->has('layout')) {
 			App\Session::set('layout', $request->getByType('layout'));
 		}
+	}
+
+	/**
+	 * Clean installation files.
+	 */
+	public function cleanInstallationFiles()
+	{
+		foreach (glob('languages/*/Install.php') as $path) {
+			unlink($path);
+		}
+		\vtlib\Functions::recurseDelete('install');
+		\vtlib\Functions::recurseDelete('public_html/install');
+		\vtlib\Functions::recurseDelete('tests');
+		\vtlib\Functions::recurseDelete('config/config.template.php');
+		\vtlib\Functions::recurseDelete('.github');
+		\vtlib\Functions::recurseDelete('.gitattributes');
+		\vtlib\Functions::recurseDelete('.gitignore');
+		\vtlib\Functions::recurseDelete('.travis.yml');
+		\vtlib\Functions::recurseDelete('.codecov.yml');
+		\vtlib\Functions::recurseDelete('.gitlab-ci.yml');
+		\vtlib\Functions::recurseDelete('.php_cs.dist');
+		\vtlib\Functions::recurseDelete('.scrutinizer.yml');
+		\vtlib\Functions::recurseDelete('.sensiolabs.yml');
 	}
 }

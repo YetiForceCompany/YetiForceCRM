@@ -37,14 +37,12 @@ class AppConfig
 
 			return $GLOBALS[$key];
 		} else {
-			require 'config/config.php';
+			require ROOT_DIRECTORY . '/config/config.php';
 			if (isset($$key)) {
 				self::$main[$key] = $$key;
-
 				return $$key;
 			}
 			App\Log::warning("Parameter does not exist: $key");
-
 			return $value;
 		}
 	}

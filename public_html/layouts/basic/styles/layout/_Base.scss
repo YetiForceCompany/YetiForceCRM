@@ -28,14 +28,10 @@
 		z-index: 1030;
 		background: $white;
 		min-height: 100%;
-
-		@include sidebarTransition();
 	}
 
 	.bodyHeader {
 		left: 230px;
-
-		@include sidebarTransition();
 	}
 
 	&:not(.leftPanelOpen) {

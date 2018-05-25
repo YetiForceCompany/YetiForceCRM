@@ -57,13 +57,12 @@
 														{/if}
 														>
 														{if $LINK->get('linkicon') neq ''}
-															<span class="{$LINK->get('linkicon')}" title="{\App\Language::translate($LABEL, $BTN_MODULE)}"></span>
+															<span class="{$LINK->get('linkicon')}" {if $LABEL neq 'LBL_ADD_RECORD'} title="{\App\Language::translate($LABEL, $BTN_MODULE)}" {/if}></span>
 														{/if}
 														{if $LABEL neq '' && $LINK->get('showLabel') == 1}
 															{if $LINK->get('linkimg') neq '' || $LINK->get('linkicon') neq ''}&nbsp;&nbsp;{/if}
 															{\App\Language::translate($LABEL, $BTN_MODULE)}
 														{else}
-														<span class="sr-only">{\App\Language::translate($LABEL, $BTN_MODULE)}</span>
 														{/if}
 														{if $LINK->get('linkhref')}</a>{else}</button>{/if}
 										</div>

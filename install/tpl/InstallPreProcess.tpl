@@ -31,8 +31,6 @@
 					<h3>{\App\Language::translate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br>
 					<img src="../{\App\Layout::getPublicUrl('layouts/basic/images/install_loading.gif')}"
 						 alt="Install loading"><br>
-					<h6>{\App\Language::translate('LBL_PLEASE_WAIT','Install')}.... </h6>
-					<br><br>
 					<h6>{\App\Language::translate('LBL_STEP7_DESCRIPTION','Install')}</h6>
 					<ul class="text-center list-inline">
 						<li class="yetiforceDetailsLink list-inline-item">

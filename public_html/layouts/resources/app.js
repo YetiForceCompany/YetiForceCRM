@@ -1221,6 +1221,8 @@ app = {
 				window.location = $(e.currentTarget).attr('href');
 			}
 		});
+
+		this.registerPinEvent();
 	},
 	openSidebar: function () {
 		this.sidebar.addClass('js-expand');
@@ -1237,6 +1239,36 @@ app = {
 			this.openSidebar();
 			this.sidebar.find('.js-menu :tabbable').first().focus();
 		}
+	},
+	registerPinEvent: function () {
+		const self = this;
+		let pinButton = self.sidebar.find('.js-menu-pin');
+		let baseContainer = self.sidebar.closest('.baseContainer');
+		pinButton.on('click', () => {
+			let hideMenu = 0;
+			if (pinButton.attr('data-show') === '0') {
+				hideMenu = 'on';
+				pinButton.removeClass('u-opacity-muted');
+				baseContainer.addClass('leftPanelOpen');
+				self.sidebar.off('mouseleave mouseenter');
+			} else {
+				pinButton.addClass('u-opacity-muted');
+				baseContainer.removeClass('leftPanelOpen');
+				self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
+				self.closeSidebar.bind(self);
+			}
+			AppConnector.request({
+				module: 'Users',
+				action: 'SaveAjax',
+				field: 'leftpanelhide',
+				record: CONFIG.userId,
+				value: hideMenu
+			}).then(function (responseData) {
+				if (responseData.success && responseData.result) {
+					pinButton.attr('data-show', hideMenu);
+				}
+			});
+		});
 	},
 	sidebarKeyboard: function (e) {
 		let target = $(e.target);

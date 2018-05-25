@@ -201,9 +201,9 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue, secondDateFormat);
 		var timeBetweenDates = secondDateInstance - new Date();
 		if (timeBetweenDates >= 0) {
-			container.find('.saveAndComplete').addClass('d-none');
+			container.find('.js-btn--mark-as-held').addClass('d-none');
 		} else {
-			container.find('.saveAndComplete').removeClass('d-none');
+			container.find('.js-btn--mark-as-held').removeClass('d-none');
 		}
 	},
 	registerEndDateTimeChangeLogger: function (container) {
@@ -386,12 +386,13 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 	},
 	registerSaveAndCloseBtn: function (container) {
 		this.setVisibilityBtnSaveAndClose(container);
-		container.find('.saveAndComplete').on('click', function () {
-			var invalidFields = container.data('jqv').InvalidFields;
-			if (invalidFields.length == 0) {
-				container.append('<input type=hidden name="saveAndClose" value="PLL_COMPLETED">');
+		container.find('.js-btn--mark-as-held').on('click', function () {
+			const self = $(this);
+			if (self.hasClass('active')) {
+				container.find('.js-completed').remove();
+			} else {
+				container.append('<input class="js-completed" type=hidden name="saveAndClose" value="PLL_COMPLETED" data-js="remove">');
 			}
-			container.find('[type="submit"]').trigger('click');
 		});
 	},
 	registerBasicEvents: function (container) {

@@ -7,6 +7,12 @@
 			</div>
 		</div>
 		<div class="encryptionContainer mt-3">
+			<div class="alert alert-info alert-dismissible fade show" role="alert">
+				{App\Language::translate('LBL_ENCRYPT_DESCRIPTION', $QUALIFIED_MODULE)}
+				<button type="button" class="close" data-dismiss="alert">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
 			{if !$ENCRYPT->isActive()}
 				<div class="alert alert-warning alert-dismissible fade show" role="alert">
 					{App\Language::translate('LBL_ENCRYPT_IS_NOT_ACTIVE', $QUALIFIED_MODULE)}

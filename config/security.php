@@ -56,4 +56,18 @@ $SECURITY_CONFIG = [
 	'PURIFIER_ALLOWED_DOMAINS' => [],
 	// Lifetime session (in seconds)
 	'MAX_LIFETIME_SESSION' => 21600,
+	/**
+	 * User authentication mode possible values:
+	 * TOTP_OFF - 2FA TOTP is checking off
+	 * TOTP_OPTIONAL - It is defined by the user
+	 * TOTP_OBLIGATORY - It is obligatory.
+	 */
+	'USER_AUTHY_MODE' => 'TOTP_OPTIONAL',
+	/**
+	 * Exceptions list of users (int[])
+	 * TOTP - Time-based One-time Password.
+	 */
+	'USER_AUTHY_EXCEPTIONS' => [
+		'TOTP' => []
+	]
 ];

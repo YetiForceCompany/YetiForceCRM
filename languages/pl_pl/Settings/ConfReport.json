@@ -114,6 +114,7 @@
     "LBL_INNODB_FILE_PER_TABLE_HELP_TEXT": "Czy dane b\u0119d\u0105 przechowywane w bazie danych w wielu plikach, gdzie ka\u017cda tabela ma sw\u00f3j plik. W odr\u00f3\u017cnieniu od starego podej\u015bcia gdzie wszystkie dane by\u0142y w jednym pliku. Ta opcja jest w\u0142\u0105czona domy\u015blnie od wersji 5.6.6 MySQL.",
     "LBL_INNODB_STATS_ON_METADATA_HELP_TEXT": "Aktualizuje statystyki dla tabel InnoDB dla niekt\u00f3rych zapyta\u0144 jak np. SHOW TABLE STATUS. Wy\u0142\u0105czenie tej opcji korzystnie wp\u0142ywa na wydajno\u015b\u0107 dla du\u017cych tabel InnoDB. Zaleca si\u0119 wy\u0142\u0105czenie tej opcji.",
     "LBL_TMP_DIR": "Tymczasowy katalog",
+    "LBL_SERVER_SOFTWARE": "Identyfikator serwera",
     "LBL_INVALID_TIME_ZONE": "Nieprawid\u0142owa strefa czasowa: ",
     "LBL_DATABASE_INFORMATION": "Informacje o bazie danych",
     "LBL_DB_DRIVER": "Silnik",
