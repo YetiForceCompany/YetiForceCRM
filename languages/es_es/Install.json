@@ -8,6 +8,7 @@
     "ERR_UNABLE_CREATE_DATABASE": "No se puede crear la base de datos",
     "LBL_ADMIN_INFORMATION": "Informaci\u00f3n del Usuario Administrador",
     "LBL_ADMIN_USER_INFORMATION": "Informaci\u00f3n del Usuario Administrador",
+    "LBL_CHOOSE_LANGUAGE": "Idioma",
     "LBL_CONFIRM_CONFIGURATION_SETTINGS": "Confirmar configuraci\u00f3n",
     "LBL_CREATE_NEW_DB": "Crear nueva base de datos",
     "LBL_CURRENCIES": "Moneda",

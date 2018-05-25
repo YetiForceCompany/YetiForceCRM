@@ -18,7 +18,7 @@
 						<h2>{\App\Language::translate('LBL_SETUP_WIZARD_HEADER', 'Install')} {$YETIFORCE_VERSION}</h2>
 					</div>
 					<div class="col-md-3">
-						<select name="lang" class="select2" style="width: 250px;">
+						<select name="lang" class="select2" title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}" style="width: 250px;">
 							{foreach key=key item=item from=$LANGUAGES}
 								<option value="{$key}" {if $LANG eq $key}selected{/if}>{$item}</option>
 							{/foreach}

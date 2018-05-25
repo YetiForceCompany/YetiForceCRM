@@ -8,6 +8,7 @@
     "ERR_UNABLE_CREATE_DATABASE": "Veritaban\u0131 olu\u015fturulamad\u0131",
     "LBL_ADMIN_INFORMATION": "Y\u00f6netici Kullan\u0131c\u0131 Bilgileri",
     "LBL_ADMIN_USER_INFORMATION": "Y\u00f6netici Kullan\u0131c\u0131 Bilgileri",
+    "LBL_CHOOSE_LANGUAGE": "Choose language",
     "LBL_CONFIRM_CONFIGURATION_SETTINGS": "Yap\u0131land\u0131rma ayarlar\u0131n\u0131 onayla",
     "LBL_CREATE_NEW_DB": "Yeni veritaban\u0131 olu\u015ftur",
     "LBL_CURRENCIES": "Para birimleri",
