@@ -1372,6 +1372,7 @@
     "JS_MORE_THAN_ONE_ITEM_SELECTED": "M\u00e1s de un elemento seleccionado",
     "JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED": "No hay permisos para crear o creaci\u00f3n r\u00e1pida",
     "JS_NO_ITEM_SELECTED": "Ning\u00fan elemento seleccionado",
+    "JS_NO_RECORDS": "No hay registros",
     "JS_NO_RECORDS_RELATED_TO_THIS_FILTER": "No hay registros relacionados con este filtro",
     "JS_NO_RESULTS_FOUND": "No se han encontrado resultados",
     "JS_NO_VIEW_PERMISSION_AFTER_SAVE": "No tendr\u00e1 permisos para ver este registro despu\u00e9s de guardarlo. \u00bfTe gustaria continuar?",
