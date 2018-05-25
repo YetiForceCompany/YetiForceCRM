@@ -72,28 +72,7 @@ App.Fields = {
 				params = $.extend(params, customParams);
 			}
 			elements.each((index, element) => {
-				// transform data- attributes to custom params like data-locale.format="YYYY"
-				let currentParams = {...params};
-				let dataAttributes = $(element).data();
-				let keys = Object.keys(dataAttributes);
-				if (keys.length) {
-					keys.forEach((key) => {
-						if (key === 'dateFormat') {
-							return;
-						}
-						let path = key.split('.');
-						path.reduce((o, currentKey) => {
-							if (typeof o[currentKey] === 'undefined') {
-								o[currentKey] = {};
-							}
-							if (currentKey === path.slice(-1).pop()) {
-								o[currentKey] = dataAttributes[key];
-							}
-							return o[currentKey];
-						}, currentParams);
-					});
-				}
-				$(element).datepicker(currentParams);
+				$(element).datepicker($.extend(true, params, $(element).data('params')));
 			});
 		},
 
@@ -155,27 +134,7 @@ App.Fields = {
 				$(e.currentTarget).parent().next('.dateRangeField')[0].focus();
 			});
 			elements.each((index, element) => {
-				// transform data- attributes to custom params like data-locale.format="YYYY"
-				let currentParams = {...params};
-				let dataAttributes = $(element).data();
-				let keys = Object.keys(dataAttributes);
-				if (keys.length) {
-					keys.forEach((key) => {
-						if (key === 'dateFormat') {
-							return;
-						}
-						let path = key.split('.');
-						path.reduce((o, currentKey) => {
-							if (typeof o[currentKey] === 'undefined') {
-								o[currentKey] = {};
-							}
-							if (currentKey === path.slice(-1).pop()) {
-								o[currentKey] = dataAttributes[key];
-							}
-							return o[currentKey];
-						}, currentParams);
-					});
-				}
+				let currentParams = $.extend(true, params, $(element).data('params'));
 				$(element).daterangepicker(currentParams).on('apply.daterangepicker', function (ev, picker) {
 					$(this).val(picker.startDate.format(currentParams.locale.format) + ',' + picker.endDate.format(currentParams.locale.format));
 					$(this).trigger('change');
