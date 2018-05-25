@@ -109,7 +109,7 @@ dt {
   font-weight: 700; }
 
 dd {
-  margin-bottom: 0.5rem;
+  margin-bottom: .5rem;
   margin-left: 0; }
 
 blockquote {
@@ -133,10 +133,10 @@ sup {
   vertical-align: baseline; }
 
 sub {
-  bottom: -0.25em; }
+  bottom: -.25em; }
 
 sup {
-  top: -0.5em; }
+  top: -.5em; }
 
 a {
   color: #006cdf;
@@ -260,7 +260,7 @@ legend {
   width: 100%;
   max-width: 100%;
   padding: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: .5rem;
   font-size: 1.5rem;
   line-height: inherit;
   color: inherit;
@@ -1580,13 +1580,13 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
   z-index: 5;
   display: none;
   max-width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.1rem;
-  font-size: 0.875rem;
+  padding: .5rem;
+  margin-top: .1rem;
+  font-size: .875rem;
   line-height: 1;
   color: #fff;
   background-color: rgba(40, 167, 69, 0.8);
-  border-radius: 0.2rem; }
+  border-radius: .2rem; }
 
 .was-validated .form-control:valid, .form-control.is-valid,
 .was-validated .custom-select:valid,
@@ -1655,13 +1655,13 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
   z-index: 5;
   display: none;
   max-width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.1rem;
-  font-size: 0.875rem;
+  padding: .5rem;
+  margin-top: .1rem;
+  font-size: .875rem;
   line-height: 1;
   color: #fff;
   background-color: rgba(220, 53, 69, 0.8);
-  border-radius: 0.2rem; }
+  border-radius: .2rem; }
 
 .was-validated .form-control:invalid, .form-control.is-invalid,
 .was-validated .custom-select:invalid,
@@ -3799,11 +3799,11 @@ input[type="button"].btn-block {
   line-height: 1;
   color: #000;
   text-shadow: 0 1px 0 #fff;
-  opacity: 0.5; }
+  opacity: .5; }
   .close:hover, .close:focus {
     color: #000;
     text-decoration: none;
-    opacity: 0.75; }
+    opacity: .75; }
   .close:not(:disabled):not(.disabled) {
     cursor: pointer; }
 
@@ -3902,9 +3902,9 @@ button.close {
   padding: 1rem;
   border-top: 1px solid #e9ecef; }
   .modal-footer > :not(:first-child) {
-    margin-left: 0.25rem; }
+    margin-left: .25rem; }
   .modal-footer > :not(:last-child) {
-    margin-right: 0.25rem; }
+    margin-right: .25rem; }
 
 .modal-scrollbar-measure {
   position: absolute;
@@ -4196,7 +4196,7 @@ button.close {
 
 .carousel-fade .carousel-item {
   opacity: 0;
-  transition-duration: 0.6s;
+  transition-duration: .6s;
   transition-property: opacity; }
 .carousel-fade .carousel-item.active,
 .carousel-fade .carousel-item-next.carousel-item-left,
@@ -4237,7 +4237,7 @@ button.close {
     color: #fff;
     text-decoration: none;
     outline: 0;
-    opacity: 0.9; }
+    opacity: .9; }
 
 .carousel-control-prev {
   left: 0; }
@@ -10216,6 +10216,9 @@ border1px {
       .rightRecordActions .actions .dropdown-menu .btn-group,
       .leftRecordActions .actions .dropdown-menu .btn-group {
         vertical-align: top; }
+
+.c-table--word-break td {
+  word-break: break-all; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {

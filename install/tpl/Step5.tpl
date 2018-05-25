@@ -41,7 +41,7 @@
 					<div class="offset2">
 						<div>
 							{assign var="LIBRARY" value=Settings_ConfReport_Module_Model::getLibrary()}
-							<table class="config-table table">
+							<table class="config-table table c-table--word-break">
 								<thead>
 								<tr>
 									<th>
@@ -73,7 +73,7 @@
 							</table>
 							{assign var="STABILITY_CONF" value=$SECURITY_CONF}
 							<br>
-							<table class="config-table table">
+							<table class="config-table table c-table--word-break">
 								<thead>
 								<tr>
 									<th>{App\Language::translate('LBL_SECURITY_RECOMMENDED_SETTINGS', 'Install')}</th>
@@ -103,7 +103,7 @@
 							</table>
 							{assign var="STABILITY_CONF" value=$STABILITY_CONF}
 							<br>
-							<table class="config-table table">
+							<table class="config-table table c-table--word-break">
 								<thead>
 								<tr>
 									<th>{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</th>
@@ -132,7 +132,7 @@
 								</tbody>
 							</table>
 							<br>
-							<table class="config-table table">
+							<table class="config-table table c-table--word-break">
 								<thead>
 								<tr>
 									<th>{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</th>
@@ -167,7 +167,7 @@
 								</tbody>
 							</table>
 							{if $FAILED_FILE_PERMISSIONS}
-								<table class="config-table table">
+								<table class="config-table table c-table--word-break">
 									<thead>
 									<tr class="blockHeader">
 										<th colspan="1" class="mediumWidthType">

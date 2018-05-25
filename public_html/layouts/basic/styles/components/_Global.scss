@@ -203,3 +203,8 @@
 	}
 }
 
+.c-table--word-break {
+	td {
+		word-break: break-all;
+	}
+}
