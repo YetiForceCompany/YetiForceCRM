@@ -253,11 +253,11 @@
 						<a class="headerButton btn btn-light btn headerLinkChat js-popover-tooltip" role="button" data-js="popover" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
 							<span class="fas fa-comments fa-fw" title="{\App\Language::translate('LBL_CHAT')}"></span>
 						</a>
-						<div class="chatModal modal fade" tabindex="-1" role="dialog"
+						<div class="chatModal modal fade row" tabindex="-1" role="dialog"
 							 aria-labelledby="c-chat-modal__title"
 							 data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
 							<div class="modal-dialog modalRightSiteBar" role="document">
-								<div class="modal-content">
+								<div class="modal-content rounded-0">
 									<div class="modal-header">
 										<h5 class="modal-title" id="c-chat-modal__title">
 											<span class="fas fa-comments fa-fw"></span>

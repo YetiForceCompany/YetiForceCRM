@@ -399,71 +399,6 @@ var Vtiger_Index_Js = {
 			}, 600);
 		});
 	},
-	registerChat: function () {
-		var modal = $('.chatModal');
-		if (modal.length === 0) {
-			return;
-		}
-		modal.on('shown.bs.modal', function (e) {
-			var modalBody = modal.find('.modal-body');
-			var modalFooter = modal.find('.modal-footer');
-			var modalHeader = modal.find('.modal-header');
-			var height = app.getScreenHeight() - modalFooter.outerHeight(true) - modalHeader.outerHeight(true);
-			modalBody.css('max-height', height + 'px');
-			app.showNewScrollbar(modalBody, {wheelPropagation: true});
-		});
-		$('.headerLinkChat').on('click', function (e) {
-			e.stopPropagation();
-			var remindersNoticeContainer = $('.remindersNoticeContainer,.remindersNotificationContainer');
-			if (remindersNoticeContainer.hasClass('toggled')) {
-				remindersNoticeContainer.removeClass('toggled');
-			}
-			$('.actionMenu').removeClass('actionMenuOn');
-			$('.chatModal').modal({backdrop: false});
-		});
-		this.registerChatLoadItems(modal.data('timer'));
-		modal.find('.addMsg').on('click', function (e) {
-			var message = modal.find('.message').val();
-			clearTimeout(Vtiger_Index_Js.chatTimer);
-			AppConnector.request({
-				dataType: 'html',
-				data: {
-					module: 'Chat',
-					action: 'Entries',
-					mode: 'add',
-					message: message,
-					cid: $('.chatModal .chatItem').last().data('cid')
-				}
-			}).then(function (html) {
-				$('.chatModal .modal-body').append(html);
-				Vtiger_Index_Js.registerChatLoadItems(modal.data('timer'));
-			});
-			modal.find('.message').val('');
-		});
-	},
-	registerChatLoadItems: function (timer) {
-		var icon = $('.chatModal .modal-title .fa-comments');
-		this.chatTimer = setTimeout(function () {
-			icon.css('color', '#00e413');
-			Vtiger_Index_Js.getChatItems();
-			Vtiger_Index_Js.registerChatLoadItems(timer);
-			icon.css('color', '#000');
-		}, timer);
-	},
-	getChatItems: function () {
-		AppConnector.request({
-			module: 'Chat',
-			view: 'Entries',
-			mode: 'get',
-			cid: $('.chatModal .chatItem').last().data('cid')
-		}).then(function (html) {
-			if (html) {
-				$('.chatModal .modal-body').append(html);
-			}
-		}, function (error, err) {
-			clearTimeout(Vtiger_Index_Js.chatTimer);
-		});
-	},
 	/**
 	 * Function to trigger tooltip feature.
 	 */
@@ -672,7 +607,6 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.registerTooltipEvents();
 		Vtiger_Index_Js.changeSkin();
 		Vtiger_Index_Js.registerResizeEvent();
-		Vtiger_Index_Js.registerChat();
 		Vtiger_Index_Js.registerUserPasswordChangeModal();
 	},
 	registerPostAjaxEvents: function () {
