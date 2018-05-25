@@ -603,6 +603,11 @@ $.Class("Vtiger_Inventory_Js", {}, {
 				}
 			});
 		}
+
+		if(netPriceWithoutTax) {
+			let taxValue = (valuePrices - netPriceWithoutTax) / netPriceWithoutTax * 100;
+			modal.find('.taxValue').text(app.parseNumberToShow(taxValue));
+		}
 		modal.find('.valuePrices').text(app.parseNumberToShow(valuePrices));
 		modal.find('.valueTax').text(app.parseNumberToShow(valuePrices - netPriceWithoutTax));
 	},
