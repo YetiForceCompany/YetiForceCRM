@@ -64,15 +64,15 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 			if ($this->getName() === 'date_start') {
 				$dateTimeValue = $value . ' ' . $recordModel->get('time_start');
 				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
-				list($startDate, $startTime, $meridiem) = explode(' ', $value);
+				list($startDate, $startTime) = explode(' ', $value);
 
-				return $startDate . ' ' . $startTime . ' ' . $meridiem;
+				return $startDate . ' ' . $startTime;
 			} elseif ($this->getName() === 'due_date') {
 				$dateTimeValue = $value . ' ' . $recordModel->get('time_end');
 				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
-				list($startDate, $startTime, $meridiem) = explode(' ', $value);
+				list($startDate, $startTime) = explode(' ', $value);
 
-				return $startDate . ' ' . $startTime . ' ' . $meridiem;
+				return $startDate . ' ' . $startTime;
 			}
 		}
 		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
