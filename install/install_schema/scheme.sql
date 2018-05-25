@@ -5196,7 +5196,7 @@ CREATE TABLE `vtiger_end_hour_seq` (
 
 CREATE TABLE `vtiger_entity_stats` (
   `crmid` int(10) NOT NULL,
-  `crmactivity` smallint(5) DEFAULT NULL,
+  `crmactivity` mediumint(8) DEFAULT NULL,
   PRIMARY KEY (`crmid`),
   CONSTRAINT `fk_1_vtiger_entity_stats` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
