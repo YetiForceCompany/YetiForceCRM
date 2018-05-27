@@ -123,8 +123,16 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			groupTax.addClass('d-none');
 			items.find('.changeTax').removeClass('d-none');
 			newRow.find('.changeTax').removeClass('d-none');
-			thisInstance.setTax(items, 0);
-			thisInstance.setTaxParam(items, []);
+			let parentRow = thisInstance.getInventoryItemsContainer();
+			let taxParam = {aggregationType: 'global'};
+
+			parentRow.find(thisInstance.rowClass).each(function () {
+				let defaultTax = $(this).find('.tax').attr('data-default-tax');
+				taxParam['globalTax'] = app.parseNumberToShow(defaultTax);
+				thisInstance.setTaxParam($(this), taxParam);
+			});
+
+
 			thisInstance.rowsCalculations();
 		} else {
 			thisInstance.setDefaultGlobalTax(row);
@@ -137,19 +145,23 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		let thisInstance = this;
 		let parentRow = thisInstance.getInventoryItemsContainer();
 		let taxDefaultValue = thisInstance.getInventorySummaryTaxesContainer().find('.js-default-tax').data('tax-default-value');
-		console.log(taxDefaultValue);
-		if(taxDefaultValue) {
-			let taxParam = {aggregationType: 'global'};
-			taxParam['globalTax'] = app.parseNumberToShow(taxDefaultValue);
-			taxParam['individualTax'] = '';
-			thisInstance.setTaxParam($('#blackIthemTable'), taxParam);
-			thisInstance.setTaxParam(parentRow, taxParam);
-			parentRow.closest('.inventoryItems').data('taxParam', JSON.stringify(taxParam));
-			parentRow.find(thisInstance.rowClass).each(function () {
-				thisInstance.quantityChangeActions($(this));
-			});
+		let isGroupTax = thisInstance.isGroupTaxMode();
+		if(isGroupTax){
+			if(taxDefaultValue) {
+				let taxParam = {aggregationType: 'global'};
+				taxParam['globalTax'] = app.parseNumberToShow(taxDefaultValue);
+				taxParam['individualTax'] = '';
+				thisInstance.setTaxParam($('#blackIthemTable'), taxParam);
+				thisInstance.setTaxParam(parentRow, taxParam);
+				parentRow.closest('.inventoryItems').data('taxParam', JSON.stringify(taxParam));
+				parentRow.find(thisInstance.rowClass).each(function () {
+					thisInstance.quantityChangeActions($(this));
+				});
+			}
+		} else {
+			thisInstance.setTaxParam($('#blackIthemTable'), []);
+			parentRow.closest('.inventoryItems').data('taxParam', []);
 		}
-
 	},
 	getDiscountModeSelectElement: function (row) {
 		var items = this.getInventoryHeadContainer();
@@ -236,6 +248,11 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	setUnitPrice: function (row, val) {
 		val = app.parseNumberToShow(val);
 		row.find('.unitPrice').val(val).attr('title', val);
+		return this;
+	},
+	setDefaultProductTax: function (row, val) {
+		val = app.parseNumberToShow(val);
+		row.find('.tax').attr('data-default-tax', val);
 		return this;
 	},
 	setNetPrice: function (row, val) {
@@ -744,6 +761,9 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			} else if (recordData['taxes']) {
 				taxParam = {aggregationType: recordData.taxes.type};
 				taxParam[recordData.taxes.type + 'Tax'] = recordData.taxes.value;
+			}
+			if(recordData['taxes']) {
+				thisInstance.setDefaultProductTax(parentRow, recordData.taxes.value)
 			}
 			thisInstance.setTaxParam(parentRow, taxParam);
 			thisInstance.setTax(parentRow, 0);

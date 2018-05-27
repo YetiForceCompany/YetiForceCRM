@@ -168,12 +168,21 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 			}
 		}
 		$info['autoFields'] = $autoFields;
-		if (!$recordModel->isEmpty('taxes') && strpos($recordModel->get('taxes'), ',') === false) {
-			$taxModel = Settings_Inventory_Record_Model::getInstanceById($recordModel->get('taxes'), 'Taxes');
-			$info['taxes'] = [
-				'type' => 'group',
-				'value' => $taxModel->get('value'),
-			];
+		if (!$recordModel->isEmpty('taxes')) {
+			if (strpos($recordModel->get('taxes'), ',') === false) {
+				$taxModel = Settings_Inventory_Record_Model::getInstanceById($recordModel->get('taxes'), 'Taxes');
+				$info['taxes'] = [
+					'type' => 'group',
+					'value' => $taxModel->get('value')
+				];
+			} else {
+				$productTaxes = explode(',', $recordModel->get('taxes'));
+				$taxModel = Settings_Inventory_Record_Model::getInstanceById(reset($productTaxes), 'Taxes');
+				$info['taxes'] = [
+						'type' => 'group',
+						'value' => $taxModel->get('value')
+					];
+			}
 		}
 		$autoCustomFields = $inventoryField->getCustomAutoComplete($moduleName, $fieldName, $recordModel);
 
