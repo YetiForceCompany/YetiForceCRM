@@ -41,6 +41,12 @@ abstract class Modal extends View
 	 * @var string
 	 */
 	public $dangerBtn = 'LBL_CANCEL';
+	/**
+	 * Block the window closing.
+	 *
+	 * @var bool
+	 */
+	public $lockExit = false;
 
 	/**
 	 * {@inheritdoc}
@@ -56,6 +62,7 @@ abstract class Modal extends View
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('VIEW', $view);
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('LOCK_EXIT', $this->lockExit);
 		$viewer->assign('PARENT_MODULE', $request->getByType('parent', 2));
 		$viewer->assign('MODAL_VIEW', $this);
 		$viewer->assign('MODAL_SCRIPTS', $this->getModalScripts($request));
