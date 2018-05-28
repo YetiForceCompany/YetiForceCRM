@@ -35,17 +35,13 @@ class Users_TwoFactorAuthenticationModal_View extends Vtiger_BasicModal_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userRecordModel = Users_Record_Model::getInstanceById(\App\User::getCurrentUserRealId(), $moduleName);
-		$secret = Users_Totp_Authmethod::createSecret();
-		$otpAuthUrl = Users_Totp_Authmethod::getOtpAuthUrl($secret, $userRecordModel->get('user_name'));
+		$authMethod = new Users_Totp_Authmethod(\App\User::getCurrentUserRealId());
 		$moduleName = $request->getModule();
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('MODE_TITLE', 'LBL_RESET_PASSWORD_HEAD');
-		$viewer->assign('RECORD', $request->getInteger('record'));
-		$viewer->assign('SECRET', $secret);
-		$viewer->assign('QR_CODE_HTML', Users_Totp_Authmethod::createQrCode($otpAuthUrl));
+		$viewer->assign('RECORD', \App\User::getCurrentUserRealId());
+		$viewer->assign('SECRET', $authMethod->createSecret());
+		$viewer->assign('QR_CODE_HTML', $authMethod->createQrCodeForUser());
 		$viewer->assign('LOCK_EXIT', AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OBLIGATORY');
 		$this->preProcess($request);
 		$viewer->view('TwoFactorAuthenticationModal.tpl', $moduleName);

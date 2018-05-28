@@ -19,11 +19,9 @@
 			<div class="col-sm-12 controls">
 				{\App\Language::translate('LBL_2FA_SECRET', $MODULE_NAME)}: {$SECRET}
 			</div>
-
 			<div class="col-sm-12 controls marginBottom10px marginTop10">
 				{$QR_CODE_HTML}
 			</div>
-
 			<div class="col-sm-12 controls">
 				{\App\Language::translate('LBL_AUTHENTICATION_CODE', $MODULE_NAME)}: <input type="text" name="user_code" value=""/>
 			</div>
@@ -43,7 +41,6 @@
 					{if AppConfig::main('systemMode') === 'demo'}disabled="disabled"{/if}>
 				<span class="fas fa-edit mr-1"></span><strong>{\App\Language::translate('BTN_SAVE', $MODULE_NAME)}</strong>
 			</button>
-
 			{if !$LOCK_EXIT}
 			<button class="btn btn-danger" type="reset" data-dismiss="modal">
 				<span class="fas fa-times mr-1"></span><strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
