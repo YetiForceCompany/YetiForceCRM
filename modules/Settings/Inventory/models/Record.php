@@ -35,6 +35,11 @@ class Settings_Inventory_Record_Model extends \App\Base
 		return $this->get('status');
 	}
 
+	/**
+	 * Is default tax value for group.
+	 *
+	 * @return int
+	 */
 	public function getDefault()
 	{
 		return $this->get('default');
@@ -140,7 +145,6 @@ class Settings_Inventory_Record_Model extends \App\Base
 				->execute();
 		}
 		$this->clearCache();
-		return true;
 	}
 
 	public function delete()
