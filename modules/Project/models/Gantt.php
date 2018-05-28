@@ -1,15 +1,12 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * *********************************************************************************** */
-
-class Project_Gantt_Model extends App\Base
+/**
+ * Gantt Model class.
+ *
+ * @copyright YetiForce Sp. z o.o.
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
+ */
+class Project_Gantt_Model
 {
 	/**
 	 * @var array project tasks,milesones and projects
@@ -430,9 +427,14 @@ class Project_Gantt_Model extends App\Base
 	 */
 	public function getStatusColors()
 	{
-		$this->statusColors['Project'] = \App\Colors::getPicklists('Project');
-		$this->statusColors['ProjectMilestone'] = App\Colors::getPicklists('ProjectMilestone');
-		$this->statusColors['ProjectTask'] = App\Colors::getPicklists('ProjectTask');
+		$configColors = \AppConfig::module('Project', 'defaultGanttColors');
+		if (empty($configColors)) {
+			$this->statusColors['Project'] = \App\Colors::getPicklists('Project');
+			$this->statusColors['ProjectMilestone'] = App\Colors::getPicklists('ProjectMilestone');
+			$this->statusColors['ProjectTask'] = App\Colors::getPicklists('ProjectTask');
+		} else {
+			$this->statusColors = $configColors;
+		}
 		return $this->statusColors;
 	}
 
@@ -508,11 +510,7 @@ class Project_Gantt_Model extends App\Base
 		$project['projectstatus'] = $recordModel->get('projectstatus');
 		$project['assigned_user_id'] = $recordModel->get('assigned_user_id');
 		$project['assigned_user_name'] = \App\Fields\Owner::getUserLabel($recordModel->get('assigned_user_id'));
-		$color = $this->statusColors['Project']['projectstatus'][$project['projectstatus']];
-		if (empty($color)) {
-			$color = \AppConfig::module('Project', 'defaultStatusColors')['Project'][$recordModel->get('projectstatus')];
-		}
-		$project['color'] = $color;
+		$project['color'] = $this->statusColors['Project']['projectstatus'][$project['projectstatus']];
 		if (!empty($recordModel->get('startdate'))) {
 			$project['start_date'] = $recordModel->get('startdate');
 			$project['start'] = strtotime($project['start_date']) * 1000;
@@ -707,11 +705,7 @@ class Project_Gantt_Model extends App\Base
 			$milestone['assigned_user_id'] = $row['assigned_user_id'];
 			$milestone['assigned_user_name'] = \App\Fields\Owner::getUserLabel($row['assigned_user_id']);
 			$milestone['startIsMilestone'] = true;
-			$color = $this->statusColors['ProjectMilestone']['projectmilestone_priority'][$row['projectmilestone_priority']];
-			if (empty($color)) {
-				$color = \AppConfig::module('Project', 'defaultStatusColors')['ProjectMilestone'][$row['projectmilestone_status']];
-			}
-			$milestone['color'] = $color;
+			$milestone['color'] = $this->statusColors['ProjectMilestone']['projectmilestone_status'][$row['projectmilestone_status']];
 			$milestones[] = $milestone;
 		}
 		$dataReader->close();
@@ -753,11 +747,7 @@ class Project_Gantt_Model extends App\Base
 			$task['description'] = App\Purifier::encodeHtml($row['description']);
 			$task['projecttask_no'] = $row['projecttask_no'];
 			$task['projecttaskstatus'] = $row['projecttaskstatus'];
-			$color = $this->statusColors['ProjectTask']['projecttaskstatus'][$row['projecttaskstatus']];
-			if (empty($color)) {
-				$color = \AppConfig::module('Project', 'defaultStatusColors')['ProjectTask'][$row['projecttaskstatus']];
-			}
-			$task['color'] = $color;
+			$task['color'] = $this->statusColors['ProjectTask']['projecttaskstatus'][$row['projecttaskstatus']];
 			$task['start_date'] = date('d-m-Y', strtotime($row['startdate']));
 			$task['start'] = strtotime($row['startdate']) * 1000;
 			$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');

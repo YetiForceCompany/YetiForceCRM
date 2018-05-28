@@ -54,11 +54,7 @@
   },
   "js": {
     "JS_NO.": "Nr",
-    "JS_NAME": "Nazwa",
-    "JS_PRIORITY": "Priorytet",
     "JS_DURATION_SHORT": "Czas",
-    "JS_TODAY": "Dzisiaj",
-    "JS_STATUS": "Status",
     "JS_FILTER_BY_STATUSES":"Filtry statusów",
     "JS_UPDATE_GANTT":"Aktualizuj widok",
     "JS_PROJECT_STATUSES":"Statusy projektów",
