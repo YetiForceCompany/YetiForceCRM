@@ -35,11 +35,6 @@ class Project_Gantt_Model
 	public $statusColors = [];
 
 	/**
-	 * @var array already loaded ids
-	 */
-	private $loadedIds = [];
-
-	/**
 	 * @var array if some task is already loaded get it from here
 	 */
 	private $tasksById = [];
@@ -48,11 +43,6 @@ class Project_Gantt_Model
 	 * @var picklists values
 	 */
 	private $picklistsValues;
-
-	/**
-	 * @var projects
-	 */
-	private $projects = [];
 
 	/**
 	 * Get parent nodes id as associative array [taskId]=>[parentId1,parentId2,...].
