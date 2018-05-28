@@ -762,9 +762,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$values[$this->valueType] = (float) $values[$this->valueType];
 				foreach ($values as $valueKey => $value) {
 					foreach ($this->data as $otherDividingValueKey => &$otherDividing) {
-						if (!isset($otherDividing[$groupValueKey])) {
-							$otherGroup[$groupValueKey] = [];
-						}
 						if (!isset($otherDividing[$groupValueKey][$valueKey])) {
 							// if record doesn't have this value,
 							// doesn't have records with picklist value that other records have
