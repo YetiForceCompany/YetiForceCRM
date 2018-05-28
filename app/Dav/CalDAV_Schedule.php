@@ -5,7 +5,7 @@ namespace App\Dav;
 use Sabre\DAV;
 use Sabre\VObject\ITip;
 
-class CalDAV_Schedule extends DAV\ServerPlugin
+class CalDavSchedule extends DAV\ServerPlugin
 {
 	/**
 	 * Reference to server object.

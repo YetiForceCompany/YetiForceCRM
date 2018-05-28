@@ -12,7 +12,7 @@ use Sabre\HTTP\URLUtil;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class WebDAV_File extends WebDAV_Node implements DAV\IFile
+class WebDavFile extends WebDavNode implements DAV\IFile
 {
 	/**
 	 * Updates the data.

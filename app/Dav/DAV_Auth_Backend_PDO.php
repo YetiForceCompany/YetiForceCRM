@@ -11,7 +11,7 @@ use Sabre\DAV;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class DAV_Auth_Backend_PDO extends DAV\Auth\Backend\PDO
+class DavAuthBackendPdo extends DAV\Auth\Backend\PDO
 {
 	/**
 	 * PDO table name we'll be using.

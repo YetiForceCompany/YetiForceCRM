@@ -14,7 +14,7 @@ use Sabre\CalDAV;
  * @author    Evert Pot (http://evertpot.com/)
  * @license   http://sabre.io/license/ Modified BSD License
  */
-class CalDAV_Backend_PDO extends CalDAV\Backend\PDO
+class CalDavBackendPdo extends CalDAV\Backend\PDO
 {
 	/**
 	 * The table name that will be used for calendars.
