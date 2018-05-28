@@ -873,13 +873,13 @@ class Vtiger_Field_Model extends vtlib\Field
 				break;
 			case 'multiImage':
 				$params = $this->getFieldParams();
-				$this->fieldInfo['limit'] = $params['limit'] ?: Vtiger_MultiImage_File::$defaultLimit;
-				$this->fieldInfo['formats'] = $params['formats'] ?: \App\Fields\File::$allowedFormats['image'];
+				$this->fieldInfo['limit'] = $params['limit'] ?? Vtiger_MultiImage_File::$defaultLimit;
+				$this->fieldInfo['formats'] = $params['formats'] ?? \App\Fields\File::$allowedFormats['image'];
 				break;
 			case 'image':
 				$params = $this->getFieldParams();
-				$this->fieldInfo['limit'] = $params['limit'] ?: Vtiger_Image_UIType::$defaultLimit;
-				$this->fieldInfo['formats'] = $params['formats'] ?: \App\Fields\File::$allowedFormats['image'];
+				$this->fieldInfo['limit'] = $params['limit'] ?? Vtiger_Image_UIType::$defaultLimit;
+				$this->fieldInfo['formats'] = $params['formats'] ?? \App\Fields\File::$allowedFormats['image'];
 				break;
 		}
 		return $this->fieldInfo;

@@ -30,7 +30,7 @@
 				</div>
 				<div class="row d-none" id="errorMessage"></div>
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-lg-6 table-responsive">
 						<table class="config-table input-table">
 							<thead>
 							<tr>
@@ -87,7 +87,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="col-md-6">
+					<div class="col-lg-6">
 						<table class="config-table input-table">
 							<thead>
 							<tr>
@@ -109,85 +109,93 @@
 							</tr>
 							</tbody>
 						</table>
-						<table class="config-table input-table">
-							<thead>
-							<tr>
-								<th colspan="2">{\App\Language::translate('LBL_ADMIN_INFORMATION', 'Install')}</th>
-							</tr>
-							</thead>
-							<tbody>
-							<tr>
-								<td>{\App\Language::translate('LBL_USERNAME', 'Install')}</td>
-								<td><input type="text"
-										   class="form-control validate[required,funcCall[Install_Index_Js.checkUsername]]"
-										   value="{$ADMIN_NAME}" name="user_name"></td>
-							</tr>
-							<tr>
-								<td>{\App\Language::translate('LBL_PASSWORD', 'Install')}<span class="no">*</span></td>
-								<td><input type="password" class="form-control validate[required]"
-										   value="{$ADMIN_PASSWORD}" name="password" id="password"></td>
-							</tr>
-							<tr>
-								<td>{\App\Language::translate('LBL_RETYPE_PASSWORD', 'Install')} <span
-											class="no">*</span></td>
-								<td>
-									<input type="password" class="form-control validate[required]"
-										   value="{$ADMIN_PASSWORD}" name="retype_password" id="retype_password">
-									<span id="passwordError" class="no"></span>
-								</td>
-							</tr>
-							<tr>
-								<td>{\App\Language::translate('First Name', 'Install')}</td>
-								<td><input type="text" class="form-control" value="{$ADMIN_FIRSTNAME}" name="firstname">
-								</td>
-							</tr>
-							<tr>
-								<td>{\App\Language::translate('Last Name', 'Install')} <span class="no">*</span></td>
-								<td><input type="text" class="form-control" value="{$ADMIN_LASTNAME}" name="lastname">
-								</td>
-							</tr>
-							<tr>
-								<td>{\App\Language::translate('LBL_EMAIL','Install')} <span class="no">*</span></td>
-								<td><input type="text" class="form-control validate[required,custom[email]]"
-										   value="{$ADMIN_EMAIL}" name="admin_email"></td>
-							</tr>
-							<tr>
-								<td>{\App\Language::translate('LBL_DATE_FORMAT','Install')} <span class="no">*</span>
-								</td>
-								<td>
-									<select class="select2 form-control" style="width:220px;" name="dateformat">
-										<option>yyyy-mm-dd</option>
-										<option>dd-mm-yyyy</option>
-										<option>mm-dd-yyyy</option>
-										<option>yyyy.mm.dd</option>
-										<option>dd.mm.yyyy</option>
-										<option>mm.dd.yyyy</option>
-										<option>yyyy/mm/dd</option>
-										<option>dd/mm/yyyy</option>
-										<option>mm/dd/yyyy</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td>{\App\Language::translate('LBL_TIME_ZONE','Install')} <span class="no">*</span></td>
-								<td>
-									<select class="select2 form-control" name="timezone">
-										{foreach item=TIMEZONE from=$TIMEZONES}
-											<option value="{$TIMEZONE}"
-													{if $TIMEZONE eq 'Europe/London'}selected{/if}>{\App\Language::translate($TIMEZONE, 'Users')}</option>
-										{/foreach}
-									</select>
-								</td>
-							</tr>
-							</tbody>
-						</table>
+						<div class="table-responsive">
+							<table class="config-table input-table">
+								<thead>
+								<tr>
+									<th colspan="2">{\App\Language::translate('LBL_ADMIN_INFORMATION', 'Install')}</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+									<td>{\App\Language::translate('LBL_USERNAME', 'Install')}</td>
+									<td><input type="text"
+											   class="form-control validate[required,funcCall[Install_Index_Js.checkUsername]]"
+											   value="{$ADMIN_NAME}" name="user_name"></td>
+								</tr>
+								<tr>
+									<td>{\App\Language::translate('LBL_PASSWORD', 'Install')}<span class="no">*</span>
+									</td>
+									<td><input type="password" class="form-control validate[required]"
+											   value="{$ADMIN_PASSWORD}" name="password" id="password"></td>
+								</tr>
+								<tr>
+									<td>{\App\Language::translate('LBL_RETYPE_PASSWORD', 'Install')} <span
+												class="no">*</span></td>
+									<td>
+										<input type="password" class="form-control validate[required]"
+											   value="{$ADMIN_PASSWORD}" name="retype_password" id="retype_password">
+										<span id="passwordError" class="no"></span>
+									</td>
+								</tr>
+								<tr>
+									<td>{\App\Language::translate('First Name', 'Install')}</td>
+									<td><input type="text" class="form-control" value="{$ADMIN_FIRSTNAME}"
+											   name="firstname">
+									</td>
+								</tr>
+								<tr>
+									<td>{\App\Language::translate('Last Name', 'Install')} <span class="no">*</span>
+									</td>
+									<td><input type="text" class="form-control" value="{$ADMIN_LASTNAME}"
+											   name="lastname">
+									</td>
+								</tr>
+								<tr>
+									<td>{\App\Language::translate('LBL_EMAIL','Install')} <span class="no">*</span></td>
+									<td><input type="text" class="form-control validate[required,custom[email]]"
+											   value="{$ADMIN_EMAIL}" name="admin_email"></td>
+								</tr>
+								<tr>
+									<td>{\App\Language::translate('LBL_DATE_FORMAT','Install')} <span
+												class="no">*</span>
+									</td>
+									<td>
+										<select class="select2 form-control" style="width:220px;" name="dateformat">
+											<option>yyyy-mm-dd</option>
+											<option>dd-mm-yyyy</option>
+											<option>mm-dd-yyyy</option>
+											<option>yyyy.mm.dd</option>
+											<option>dd.mm.yyyy</option>
+											<option>mm.dd.yyyy</option>
+											<option>yyyy/mm/dd</option>
+											<option>dd/mm/yyyy</option>
+											<option>mm/dd/yyyy</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>{\App\Language::translate('LBL_TIME_ZONE','Install')} <span class="no">*</span>
+									</td>
+									<td>
+										<select class="select2 form-control" name="timezone">
+											{foreach item=TIMEZONE from=$TIMEZONES}
+												<option value="{$TIMEZONE}"
+														{if $TIMEZONE eq 'Europe/London'}selected{/if}>{\App\Language::translate($TIMEZONE, 'Users')}</option>
+											{/foreach}
+										</select>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
 						<div class="form-buttom-nav fixed-bottom button-container p-1">
 							<div class="text-center">
-								<a class="btn btn-md btn-danger" href="Install.php">
+								<a class="btn c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php">
 									<span class="fas fa-arrow-circle-left mr-1"></span>
 									{App\Language::translate('LBL_BACK', 'Install')}
 								</a>
-								<button type="submit" role="button" class="btn btn-md btn-primary">
+								<button type="submit" role="button" class="btn c-btn-block-xs-down btn-primary">
 									<span class="fas fa-arrow-circle-right mr-1"></span>
 									{App\Language::translate('LBL_NEXT', 'Install')}
 								</button>

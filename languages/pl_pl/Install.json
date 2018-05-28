@@ -8,6 +8,7 @@
     "ERR_UNABLE_CREATE_DATABASE": "Nie mo\u017cna utworzy\u0107 bazy danych",
     "LBL_ADMIN_INFORMATION": "Informacje dotycz\u0105ce administratora",
     "LBL_ADMIN_USER_INFORMATION": "Informacje dotycz\u0105ce administratora",
+    "LBL_CHOOSE_LANGUAGE": "Wybierz j\u0119zyk",
     "LBL_CONFIRM_CONFIGURATION_SETTINGS": "Potwierd\u017a wprowadzon\u0105 konfiguracje",
     "LBL_CREATE_NEW_DB": "Utw\u00f3rz now\u0105 baz\u0119 danych",
     "LBL_CURRENCIES": "Waluta",
@@ -38,6 +39,7 @@
     "LBL_PLEASE_WAIT": "Prosz\u0119 czeka\u0107...",
     "LBL_PRESENT_VALUE": "Aktualne warto\u015bci",
     "LBL_READ_WRITE_ACCESS": "Uprawnienia odczytu\/zapisu",
+
     "LBL_RECHECK": "Sprawd\u017a ponownie",
     "LBL_REQUIRED_VALUE": "Wymagane warto\u015bci",
     "LBL_RETYPE_PASSWORD": "Powt\u00f3rz has\u0142o",

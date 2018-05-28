@@ -1348,6 +1348,7 @@
     "JS_MORE_THAN_ONE_ITEM_SELECTED": "Wybrano wi\u0119cej ni\u017c jeden element",
     "JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED": "Brak uprawnie\u0144 do tworzenia lub szybkiego tworzenia",
     "JS_NO_ITEM_SELECTED": "Nie wybrano element\u00f3w",
+    "JS_NO_RECORDS": "Brak rekord\u00f3w",
     "JS_NO_RECORDS_RELATED_TO_THIS_FILTER": "Nie ma rekord\u00f3w powi\u0105zanych z tym filtrem",
     "JS_NO_RESULTS_FOUND": "Nie znaleziono",
     "JS_NO_VIEW_PERMISSION_AFTER_SAVE": "Po zapisaniu rekordu nie b\u0119dziesz mia\u0142(a) uprawnie\u0144 do jego przegl\u0105dania. Kontynuowa\u0107?",

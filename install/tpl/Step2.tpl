@@ -22,29 +22,28 @@
 				</div>
 				<hr>
 				<div class="row">
-					<div class="span12">
+					<div class="col-12">
 						<p>
 							{\App\Language::translate('LBL_STEP2_DESCRIPTION_1','Install')}&nbsp;
 							<a target="_blank" rel="noreferrer"
 							   href="https://yetiforce.com/en/yetiforce/license">
-								https://yetiforce.com/en/yetiforce/license
-							</a><br/><br/>
+								<span class="fas fa-link"></span>							</a><br/><br/>
 							{\App\Language::translate('LBL_STEP2_DESCRIPTION_2','Install')}
 						</p>
 					</div>
 				</div>
 				<div class="row">
-					<div class="span12">
+					<div class="col-12">
 						<p class="license">{$LICENSE}</p>
 					</div>
 				</div>
 				<div class="form-buttom-nav fixed-bottom button-container p-1">
 					<div class="text-center">
-						<a class="btn btn-md btn-danger" href="Install.php">
+						<a class="btn c-btn-block-xs-down btn-danger mb-1 mb-sm-0 mr-sm-1" href="Install.php">
 							<span class="fas fa-times-circle mr-1"></span>
 							{App\Language::translate('LBL_DISAGREE', 'Install')}
 						</a>
-						<button type="submit" class="btn btn-md btn-primary">
+						<button type="submit" class="btn c-btn-block-xs-down btn-primary">
 							<span class="fas fa-check mr-1"></span>
 							{App\Language::translate('LBL_I_AGREE', 'Install')}
 						</button>

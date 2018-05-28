@@ -32,13 +32,15 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
+		if(empty($value)){
+			return '';
+		}
 		$fieldModel = $this->getFieldModel();
 		if ($rawText) {
 			$text = \App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName())[$value];
 			if (is_int($length)) {
 				$text = \App\TextParser::textTruncate($text, $length);
 			}
-
 			return \App\Purifier::encodeHtml($text);
 		}
 		$value = \App\Fields\Tree::getPicklistValueImage($fieldModel->getFieldParams(), $fieldModel->getModuleName(), $value);
@@ -49,7 +51,6 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		if (isset($value['icon'])) {
 			return $value['icon'] . '' . \App\Purifier::encodeHtml($text);
 		}
-
 		return \App\Purifier::encodeHtml($text);
 	}
 

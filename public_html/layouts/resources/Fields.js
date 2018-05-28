@@ -71,7 +71,9 @@ App.Fields = {
 			if (typeof customParams !== "undefined") {
 				params = $.extend(params, customParams);
 			}
-			elements.datepicker(params);
+			elements.each((index, element) => {
+				$(element).datepicker($.extend(true, params, $(element).data('params')));
+			});
 		},
 
 		/**
@@ -79,7 +81,7 @@ App.Fields = {
 		 * @param {jQuery} parentElement
 		 * @param {object} customParams
 		 */
-		registerRange(parentElement, customParams) {
+		registerRange(parentElement, customParams = {}) {
 			if (typeof parentElement === "undefined") {
 				parentElement = $('body');
 			} else {
@@ -124,14 +126,19 @@ App.Fields = {
 					monthNames: App.Fields.Date.fullMonthsTranslated,
 				},
 			};
+
 			if (typeof customParams !== "undefined") {
 				params = $.extend(params, customParams);
 			}
 			$('.js-date__btn').off().on('click', (e) => {
 				$(e.currentTarget).parent().next('.dateRangeField')[0].focus();
 			});
-			elements.daterangepicker(params).on('apply.daterangepicker', function (ev, picker) {
-				$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
+			elements.each((index, element) => {
+				let currentParams = $.extend(true, params, $(element).data('params'));
+				$(element).daterangepicker(currentParams).on('apply.daterangepicker', function (ev, picker) {
+					$(this).val(picker.startDate.format(currentParams.locale.format) + ',' + picker.endDate.format(currentParams.locale.format));
+					$(this).trigger('change');
+				});
 			});
 		},
 	},
@@ -473,7 +480,7 @@ App.Fields = {
 					this.showSelect2ElementView($(element).eq(0), params);
 				});
 			}
-			if(typeof params.dropdownParent === 'undefined') {
+			if (typeof params.dropdownParent === 'undefined') {
 				const modalParent = $(selectElement).closest('.modal-body');
 				if (modalParent.length) {
 					params.dropdownParent = modalParent;
