@@ -13,7 +13,7 @@ use Sabre\CardDAV;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class CardDAV_Backend_PDO extends CardDAV\Backend\PDO
+class CardDavBackendPdo extends CardDAV\Backend\PDO
 {
 	/**
 	 * The PDO table name used to store addressbooks.

@@ -15,7 +15,7 @@ use Sabre\DAVACL;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class DAVACL_PrincipalBackend_PDO extends DAVACL\PrincipalBackend\PDO
+class DavaclPrincipalBackendPdo extends DAVACL\PrincipalBackend\PDO
 {
 	/**
 	 * PDO table name for 'principals'.

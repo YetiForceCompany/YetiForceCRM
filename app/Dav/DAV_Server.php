@@ -11,6 +11,6 @@ use Sabre\DAV;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class DAV_Server extends DAV\Server
+class DavServer extends DAV\Server
 {
 }

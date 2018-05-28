@@ -14,7 +14,7 @@ use Sabre\HTTP\URLUtil;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-abstract class WebDAV_Node implements DAV\INode
+abstract class WebDavNode implements DAV\INode
 {
 	/**
 	 * The path to the current node.

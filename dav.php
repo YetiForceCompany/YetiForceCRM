@@ -16,18 +16,18 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 set_error_handler(['App\Dav\Debug', 'exceptionErrorHandler']);
 $enableWebDAV = false;
 // Backends
-$authBackend = new App\Dav\DAV_Auth_Backend_PDO($pdo);
-$principalBackend = new App\Dav\DAVACL_PrincipalBackend_PDO($pdo);
+$authBackend = new App\Dav\DavAuthBackendPdo($pdo);
+$principalBackend = new App\Dav\DavaclPrincipalBackendPdo($pdo);
 $nodes = [
 	new Sabre\DAVACL\PrincipalCollection($principalBackend),
 ];
 if ($enableCalDAV) {
-	$calendarBackend = new App\Dav\CalDAV_Backend_PDO($pdo);
+	$calendarBackend = new App\Dav\CalDavBackendPdo($pdo);
 	$nodes[] = new Sabre\CalDAV\Principal\Collection($principalBackend);
 	$nodes[] = new Sabre\CalDAV\CalendarRoot($principalBackend, $calendarBackend);
 }
 if ($enableCardDAV) {
-	$carddavBackend = new App\Dav\CardDAV_Backend_PDO($pdo);
+	$carddavBackend = new App\Dav\CardDavBackendPdoCardDAV_Backend_PDO($pdo);
 	$nodes[] = new Sabre\CardDAV\AddressBookRoot($principalBackend, $carddavBackend);
 }
 if ($enableWebDAV) {
@@ -37,12 +37,12 @@ if ($enableWebDAV) {
 	$exData->historyDir = $davHistoryDir;
 	$exData->localStorageDir = ROOT_DIRECTORY . $exData->storageDir;
 	$exData->localHistoryDir = ROOT_DIRECTORY . $exData->historyDir;
-	$directory = new App\Dav\WebDAV_Directory('files', $exData);
+	$directory = new App\Dav\WebDavDirectory('files', $exData);
 	$directory->getRootChild();
 	$nodes[] = $directory;
 }
 // The object tree needs in turn to be passed to the server class
-$server = new App\Dav\DAV_Server($nodes);
+$server = new App\Dav\DavServer($nodes);
 $server->setBaseUri($_SERVER['SCRIPT_NAME']);
 $server->debugExceptions = AppConfig::debug('DAV_DEBUG_EXCEPTIONS');
 // Plugins

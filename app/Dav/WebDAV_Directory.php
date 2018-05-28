@@ -12,7 +12,7 @@ use Sabre\HTTP\URLUtil;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuota, DAV\IMoveTarget
+class WebDavDirectory extends WebDavNode implements DAV\ICollection, DAV\IQuota, DAV\IMoveTarget
 {
 	/**
 	 * Creates a new file in the directory.
@@ -144,7 +144,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 		$stmt->execute([$hash, 0, $this->exData->crmUserId]);
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
 		if ($row) {
-			$directory = new WebDAV_File($this->path . '/' . $file, $this->exData);
+			$directory = new WebDavFile($this->path . '/' . $file, $this->exData);
 			$directory->size = $row['size'];
 			$directory->localPath = $row['path'];
 			$directory->filesid = $row['filesid'];
@@ -178,7 +178,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 		$stmt->execute([$this->dirid, 0, $this->exData->crmUserId]);
 		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			$path = $this->path . '/' . $row['name'] . '.' . $row['extension'];
-			$file = new WebDAV_File($path, $this->exData);
+			$file = new WebDavFile($path, $this->exData);
 			$file->mtime = $row['mtime'];
 			$file->size = $row['size'];
 			$file->localPath = $row['path'];
@@ -276,7 +276,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 		$log = print_r([$targetName, $sourcePath, $sourceNode, $this], true);
 		file_put_contents('cache/logs/xxebug.log', ' --- ' . date('Y-m-d H:i:s') . ' --- RequestInterface --- ' . PHP_EOL . $log, FILE_APPEND);
 
-		if (!$sourceNode instanceof WebDAV_File) {
+		if (!$sourceNode instanceof WebDavFile) {
 			return false;
 		}
 		$from = $sourceNode->exData->localStorageDir . $sourceNode->localPath;
