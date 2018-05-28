@@ -779,9 +779,4 @@ App.Fields = {
 			});
 		}
 	},
-	Gantt:{
-		register(container, data){
-			return new GanttField(container, data);
-		}
-	}
 };

@@ -26,7 +26,7 @@
 
 								{assign var=STATUS_CLOSED_PROJECT value=$STATUS_NOT_MODIFY['Project']}
 								<select class="select2 js-config-field" data-js="change" multiple name="projectStatus" data-moduleid="{$STATUS_CLOSED_PROJECT.id}">
-									{foreach  item=STATUS from=$PROJECT_STATUS['Project']}
+									{foreach  item=STATUS from=\App\Fields\Picklist::getValuesName('projectstatus')}
 										{if !empty($STATUS_NOT_MODIFY['Project'])}
 											<option value="{$STATUS}" {if in_array($STATUS, $STATUS_CLOSED_PROJECT.status)} selected {/if}  >{\App\Language::translate($STATUS, 'Project')}</option>
 										{else}
@@ -43,7 +43,7 @@
 							<td>
 								{assign var=STATUS_CLOSED_MILESTONE value=$STATUS_NOT_MODIFY['ProjectMilestone']}
 								<select class="select2 js-config-field" data-js="change" multiple name="projectMilestoneStatus" data-moduleid="{$STATUS_CLOSED_MILESTONE.id}">
-									{foreach  item=STATUS from=$PROJECT_STATUS['ProjectMilestone']}
+									{foreach  item=STATUS from=\App\Fields\Picklist::getValuesName('projectmilestone_status')}
 										{if !empty($STATUS_NOT_MODIFY['ProjectMilestone'])}
 											<option value="{$STATUS}" {if in_array($STATUS, $STATUS_CLOSED_MILESTONE.status)} selected {/if} >{\App\Language::translate($STATUS, 'ProjectMilestone')}</option>
 										{else}
@@ -60,7 +60,7 @@
 							<td>
 								{assign var=STATUS_CLOSED_TASK value=$STATUS_NOT_MODIFY['ProjectTask']}
 								<select class="select2 js-config-field" data-js="change" multiple name="projectTaskStatus" data-moduleid="{$STATUS_CLOSED_TASK.id}">
-									{foreach  item=STATUS from=$PROJECT_STATUS['ProjectTask']}
+									{foreach  item=STATUS from=\App\Fields\Picklist::getValuesName('projecttaskstatus')}
 										{if !empty($STATUS_NOT_MODIFY['ProjectTask'])}
 											<option value="{$STATUS}" {if in_array($STATUS, $STATUS_CLOSED_TASK.status)} selected {/if} >{\App\Language::translate($STATUS, 'ProjectTask')}</option>
 										{else}
