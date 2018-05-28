@@ -218,7 +218,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'Header: X-Powered-By' => ['recommended' => '', 'help' => 'LBL_HEADER_X_POWERED_BY_HELP_TEXT', 'current' => '?'],
 			'Header: Server' => ['recommended' => '', 'help' => 'LBL_HEADER_SERVER_HELP_TEXT', 'current' => '?'],
 			'Header: Expect-CT' => ['recommended' => 'enforce; max-age=3600', 'help' => 'LBL_HEADER_EXPECT_CT_HELP_TEXT', 'current' => '?'],
-			'Header: Referrer-Policy' => ['recommended' => 'same-origin', 'help' => 'LBL_HEADER_REFERRER_POLICY_HELP_TEXT', 'current' => '?'],
+			'Header: Referrer-Policy' => ['recommended' => 'no-referrer', 'help' => 'LBL_HEADER_REFERRER_POLICY_HELP_TEXT', 'current' => '?'],
 			'Header: Strict-Transport-Security' => ['recommended' => 'max-age=31536000; includeSubDomains; preload', 'help' => 'LBL_HEADER_STRICT_TRANSPORT_SECURITY_HELP_TEXT', 'current' => '?'],
 		];
 		if (!$instalMode) {
@@ -293,7 +293,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['Header: X-Permitted-Cross-Domain-Policies']['current'] = $headers['X-PERMITTED-CROSS-DOMAIN-POLICIES'];
 			$directiveValues['Header: Server']['status'] = !empty($headers['SERVER']);
 			$directiveValues['Header: Server']['current'] = $headers['SERVER'];
-			$directiveValues['Header: Referrer-Policy']['status'] = strtolower($headers['REFERRER-POLICY']) !== 'same-origin';
+			$directiveValues['Header: Referrer-Policy']['status'] = strtolower($headers['REFERRER-POLICY']) !== 'no-referrer';
 			$directiveValues['Header: Referrer-Policy']['current'] = $headers['REFERRER-POLICY'];
 			$directiveValues['Header: Expect-CT']['status'] = strtolower($headers['EXPECT-CT']) !== 'enforce; max-age=3600';
 			$directiveValues['Header: Expect-CT']['current'] = $headers['EXPECT-CT'];
@@ -589,7 +589,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function validateGreaterMb($row, $isCli)
 	{
-		if (vtlib\Functions::parseBytes($row['current']) < vtlib\Functions::parseBytes($row['recommended'])) {
+		if ($row['current'] !== '-1' && vtlib\Functions::parseBytes($row['current']) < vtlib\Functions::parseBytes($row['recommended'])) {
 			$row['incorrect'] = true;
 		}
 		$row['current'] = vtlib\Functions::showBytes($row['current']);
