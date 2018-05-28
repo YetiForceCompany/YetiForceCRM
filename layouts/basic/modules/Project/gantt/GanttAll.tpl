@@ -23,7 +23,6 @@
 					<input type="hidden" value="0" id="customFilter"/>
 					{/if}
 				</div>
-
 			</div>
 		</div>
 	</div>
