@@ -1268,7 +1268,8 @@
     "LBL_ADVANCED_SEARCH": "Cautare avansata",
     "LBL_MERGING": "Imbinare inregistrari",
     "BTN_PERMISSION_INSPECTOR": "Inspector permisiuni",
-    "_Base": "Sistem"
+    "_Base": "Sistem",
+    "LBL_DUPLICATES": "duplicated",
   },
   "js": {
     "JS_SUMMARY": "Sumar",
