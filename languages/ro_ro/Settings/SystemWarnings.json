@@ -24,10 +24,10 @@
     "LBL_MISSING_HTTPS": "Your connection to the server is not encrypted. If the connection is not established through the HTTPS protocol the communication may be intercepted or altered by third parties. The recommended configuration can be found in the \"Web server requirements\" article in the documentation.",
     "LBL_DISK_USAGE": "Spatiu disponibil pe disc",
     "LBL_DISK_FULL": "There is not enough free space on your disk (%s of %s), so the system may stop working. Directory path: %s",
-    "SystemWarnings": "Atentionari sistem"
-    "BTN_CONFIGURE_ENCRYPTION": "Activare criptare"
-    "Security": "Securitate"
-    "LBL_MECHANISM_ENCRYPTION": "Mecanism criptare"
+    "SystemWarnings": "Atentionari sistem",
+    "BTN_CONFIGURE_ENCRYPTION": "Activare criptare",
+    "Security": "Securitate",
+    "LBL_MECHANISM_ENCRYPTION": "Mecanism criptare",
     "LBL_CONFIGURE_ENCRYPTION_DESCRIPTION": "Nicio criptare nu face ca datele sensibile cum ar fi parolele la cutiile postale si cheile de accces sa fie stocate intr-o forma publica in baza de date:"
   }
 }
