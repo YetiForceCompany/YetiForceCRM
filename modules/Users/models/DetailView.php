@@ -75,7 +75,6 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linkurl' => "javascript:Users_Detail_Js.triggerChangeAccessKey('index.php?module = Users&action = SaveAjax&mode = changeAccessKey&record = $recordId')",
 				'linkicon' => '',
 			];
-
 			if (AppConfig::security('USER_AUTHY_MODE') !== 'TOTP_OFF') {
 				$detailViewActionLinks[] = [
 					'linktype' => 'DETAIL_VIEW_BASIC',
@@ -84,11 +83,9 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 					'linkicon' => '',
 				];
 			}
-
 			foreach ($detailViewActionLinks as $detailViewLink) {
 				$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 			}
-
 			return $linkModelList;
 		}
 	}

@@ -18,19 +18,37 @@ class Users_Totp_Authmethod
 	 *  User authentication mode possible values.
 	 */
 	const ALLOWED_USER_AUTHY_MODE = ['TOTP_OFF', 'TOTP_OPTIONAL', 'TOTP_OBLIGATORY'];
+	/**
+	 * @var int - User id
+	 */
+	private $userId;
+	/**
+	 * @var string - Secret code
+	 */
+	private $secret;
+
+	/**
+	 * Users_Totp_Authmethod constructor.
+	 *
+	 * @param int $userId - Id of user
+	 */
+	public function __construct($userId)
+	{
+		$this->userId = $userId;
+	}
 
 	/**
 	 * Generate otaauth url for QR codes.
 	 *
 	 * @link https://github.com/google/google-authenticator/wiki/Key-Uri-Format
 	 *
-	 * @param      $secret - REQUIRED: The secret parameter is an arbitrary key value encoded in Base32 according to RFC 3548. The padding specified in RFC 3548 section 2.2 is not required and should be omitted.
-	 * @param      $name   - The name is used to identify which account a key is associated with.
-	 * @param null $issuer - STRONGLY RECOMMENDED: The issuer parameter is a string value indicating the provider or service this account is associated with, URL-encoded according to RFC 3986.
+	 * @param string      $secret - REQUIRED: The secret parameter is an arbitrary key value encoded in Base32 according to RFC 3548. The padding specified in RFC 3548 section 2.2 is not required and should be omitted.
+	 * @param string      $name   - The name is used to identify which account a key is associated with.
+	 * @param string|null $issuer - STRONGLY RECOMMENDED: The issuer parameter is a string value indicating the provider or service this account is associated with, URL-encoded according to RFC 3986.
 	 *
 	 * @return string - otpauth url
 	 */
-	public static function getOtpAuthUrl($secret, $name, $issuer = null)
+	public function getOtpAuthUrl($secret, $name, $issuer = null)
 	{
 		if (is_null($issuer)) {
 			$arr = parse_url($PORTAL_URL);
@@ -40,10 +58,9 @@ class Users_Totp_Authmethod
 		if (!empty($issuer)) {
 			$url .= "&issuer={$issuer}";
 		}
-
 		//$period - OPTIONAL only if type is totp: The period parameter defines a period that a TOTP code will be valid for, in seconds. The default value is 30.
 		$period = 30 * static::CLOCK_TOLERANCE;
-		$url .= "&$period={$period}";
+		$url .= "&period={$period}";
 		return $url;
 	}
 
@@ -52,23 +69,24 @@ class Users_Totp_Authmethod
 	 *
 	 * @return string
 	 */
-	public static function createSecret()
+	public function createSecret()
 	{
 		$googleAuthenticator = new PHPGangsta_GoogleAuthenticator();
-		return $googleAuthenticator->createSecret();
+		$this->secret = $googleAuthenticator->createSecret();
+		return $this->secret;
 	}
 
 	/**
 	 * Create QR code.
 	 *
-	 * @param        $otpAuthUrl
+	 * @param string $otpAuthUrl
 	 * @param string $type       - acceptable types [HTML, SVG, PNG]
 	 *
 	 * @throws \App\Exceptions\NotAllowedMethod
 	 *
 	 * @return \Milon\Barcode\path|string - HTML code
 	 */
-	public static function createQrCode($otpAuthUrl, $type = 'HTML')
+	private function createQrCode($otpAuthUrl, $type = 'HTML')
 	{
 		$qrCodeGenerator = new \Milon\Barcode\DNS2D();
 		$qrCodeGenerator->setStorPath(__DIR__ . '/cache/');
@@ -85,8 +103,21 @@ class Users_Totp_Authmethod
 					'" alt="QR code" />';
 				break;
 		}
-
 		throw new \App\Exceptions\NotAllowedMethod('LBL_NOT_EXIST: ' . $type);
+	}
+
+	/**
+	 * Create QR code for user.
+	 *
+	 * @param string $type - acceptable types [HTML, SVG, PNG]
+	 *
+	 * @throws \App\Exceptions\NotAllowedMethod
+	 *
+	 * @return \Milon\Barcode\path|string
+	 */
+	public function createQrCodeForUser($type = 'HTML')
+	{
+		return $this->createQrCode($this->getOtpAuthUrl($this->secret, \App\User::getUserModel($this->userId)->getDetail('user_name')), $type);
 	}
 
 	/**
@@ -99,6 +130,6 @@ class Users_Totp_Authmethod
 	 */
 	public static function verifyCode($secret, $userCode)
 	{
-		return (new PHPGangsta_GoogleAuthenticator())->verifyCode($secret, $userCode, static::CLOCK_TOLERANCE);
+		return (new PHPGangsta_GoogleAuthenticator())->verifyCode($secret, (string) $userCode, static::CLOCK_TOLERANCE);
 	}
 }

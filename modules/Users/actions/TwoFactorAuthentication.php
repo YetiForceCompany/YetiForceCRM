@@ -26,22 +26,20 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$secret = $request->getForSql('secret');
-		$userCode = $request->get('user_code');
+		$secret = $request->getByType('secret', 'Alnum');
+		$userCode = $request->getInteger('user_code');
 		$checkResult = Users_Totp_Authmethod::verifyCode($secret, $userCode);
 		if ($checkResult) {
 			$userRecordModel = Users_Record_Model::getInstanceById(\App\User::getCurrentUserRealId(), $moduleName);
 			$userRecordModel->set('authy_secret_totp', $secret);
+			$userRecordModel->set('authy_methods', 'PLL_AUTHY_TOTP');
 			$userRecordModel->save();
 		}
-
 		$response = new Vtiger_Response();
-		$response->setResult(
-			[
-				'message'=> \App\Language::translate('LBL_AUTHY_SECRET_TOTP_SUCCESS', 'Users'),
-				'success' => $checkResult
-			]
-		);
+		$response->setResult([
+			'message'=> \App\Language::translate('LBL_AUTHY_SECRET_TOTP_SUCCESS', 'Users'),
+			'success' => $checkResult
+		]);
 		$response->emit();
 	}
 }
