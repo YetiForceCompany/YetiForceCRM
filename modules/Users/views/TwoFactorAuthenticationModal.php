@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Two factor authentication modal view class.
  *
@@ -6,17 +7,19 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-class Users_TwoFactorAuthenticationModal_View extends Vtiger_BasicModal_View
+class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 {
 	use \App\Controller\ExposeMethod;
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
+	public $modalSize = 'modal-lg';
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public $lockExit = ture;
 
 	/**
 	 * {@inheritdoc}
@@ -42,9 +45,37 @@ class Users_TwoFactorAuthenticationModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('RECORD', \App\User::getCurrentUserRealId());
 		$viewer->assign('SECRET', $authMethod->createSecret());
 		$viewer->assign('QR_CODE_HTML', $authMethod->createQrCodeForUser());
-		$viewer->assign('LOCK_EXIT', AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OBLIGATORY');
-		$this->preProcess($request);
+		$viewer->assign('LOCK_EXIT', $this->lockExit);
 		$viewer->view('TwoFactorAuthenticationModal.tpl', $moduleName);
-		$this->postProcess($request);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function preProcessAjax(\App\Request $request)
+	{
+		$this->pageTitle = \App\Language::translate('LBL_TWO_FACTOR_AUTHENTICATION', $request->getModule());
+		$this->lockExit = AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OBLIGATORY';
+		parent::preProcessAjax($request);
+	}
+
+	/**
+	 * {@inheritdoc} - Override parent method for custom footer
+	 */
+	public function postProcessAjax(\App\Request $request)
+	{
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getModalScripts(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$jsFileNames = [
+			'modules.Users.resources.TwoFactorAuthenticationModal',
+			"modules.$moduleName.resources.TwoFactorAuthenticationModal",
+		];
+		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 }
