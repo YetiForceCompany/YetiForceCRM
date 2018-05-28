@@ -127,19 +127,19 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			let taxParam = {aggregationType: 'global'};
 
 			parentRow.find(thisInstance.rowClass).each(function () {
-				let defaultTax = $(this).find('.tax').attr('data-default-tax');
-				taxParam['globalTax'] = app.parseNumberToShow(defaultTax);
-				thisInstance.setTaxParam($(this), taxParam);
+				let thisItem = $(this);
+				taxParam['globalTax'] = app.parseNumberToShow(thisItem.find('.js-tax').attr('data-default-tax'));
+				thisInstance.setTaxParam(thisItem, taxParam);
 			});
-
-
-			thisInstance.rowsCalculations();
 		} else {
+			thisInstance.setTax(items, 0);
+			thisInstance.setTaxParam(items, []);
 			thisInstance.setDefaultGlobalTax(row);
 			groupTax.removeClass('d-none');
 			items.find('.changeTax').addClass('d-none');
 			newRow.find('.changeTax').addClass('d-none');
 		}
+		thisInstance.rowsCalculations();
 	},
 	setDefaultGlobalTax: function (row) {
 		let thisInstance = this;
@@ -248,11 +248,6 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	setUnitPrice: function (row, val) {
 		val = app.parseNumberToShow(val);
 		row.find('.unitPrice').val(val).attr('title', val);
-		return this;
-	},
-	setDefaultProductTax: function (row, val) {
-		val = app.parseNumberToShow(val);
-		row.find('.tax').attr('data-default-tax', val);
 		return this;
 	},
 	setNetPrice: function (row, val) {
@@ -759,7 +754,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 				taxParam[recordData.taxes.type + 'Tax'] = recordData.taxes.value;
 			}
 			if(recordData['taxes']) {
-				thisInstance.setDefaultProductTax(parentRow, recordData.taxes.value)
+				parentRow.find('.js-tax').attr('data-default-tax', app.parseNumberToShow(recordData.taxes.value));
 			}
 			thisInstance.setTaxParam(parentRow, taxParam);
 			thisInstance.setTax(parentRow, 0);
