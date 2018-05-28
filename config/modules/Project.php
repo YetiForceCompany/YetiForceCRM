@@ -6,6 +6,10 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
+	/**
+	 * Default colors of statuses for gantt chart.
+	 * If not specified - picklists colors are taken or random color is assigned if there isn't one in picklist.
+	 */
 	'defaultGanttColors'=>[
 		'Project'=>[
 			'projectstatus'=>[
