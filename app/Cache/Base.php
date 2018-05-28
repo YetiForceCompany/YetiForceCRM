@@ -59,7 +59,7 @@ class Base
 	public function save($key, $value = null, $duration = false)
 	{
 		static::$cache[$key] = $value;
-
+		unset($duration);
 		return true;
 	}
 
