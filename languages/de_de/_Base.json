@@ -1283,6 +1283,7 @@
     "BTN_PERMISSION_INSPECTOR": "Berechtigungs Inspektor",
     "LBL_ADVANCED_SEARCH": "Erweiterte Suche",
     "LBL_MERGING": "Merging records",
+    "LBL_DUPLICATES": "duplicated",
     "_Base": "System",
     "LBL_SHOP_YETIFORCE": "Store"
   },
