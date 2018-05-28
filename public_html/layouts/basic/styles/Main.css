@@ -491,7 +491,7 @@ pre {
     padding-right: 0;
     padding-left: 0; }
 
-.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .o-label-container, .o-btn-container, .col,
+.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .chatModal .modal-dialog, .o-label-container, .o-btn-container, .col,
 .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .c-panel__label, .col-sm,
 .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .c-panel__body, .col-md,
 .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg,
@@ -557,7 +557,7 @@ pre {
   flex: 0 0 91.6666666667%;
   max-width: 91.6666666667%; }
 
-.col-12, .o-label-container, .o-btn-container {
+.col-12, .chatModal .modal-dialog, .o-label-container, .o-btn-container {
   flex: 0 0 100%;
   max-width: 100%; }
 
@@ -678,7 +678,7 @@ pre {
     flex: 0 0 58.3333333333%;
     max-width: 58.3333333333%; }
 
-  .col-sm-8 {
+  .col-sm-8, .chatModal .modal-dialog {
     flex: 0 0 66.6666666667%;
     max-width: 66.6666666667%; }
 
@@ -936,7 +936,7 @@ pre {
     flex: 0 0 16.6666666667%;
     max-width: 16.6666666667%; }
 
-  .col-lg-3 {
+  .col-lg-3, .chatModal .modal-dialog {
     flex: 0 0 25%;
     max-width: 25%; }
 
@@ -8281,9 +8281,6 @@ td.listViewEntryValue .row input {
   white-space: nowrap;
   overflow: hidden; }
 
-.input-group.input-group-sm > .input-group-addon img {
-  width: 15px; }
-
 table tr td .input-sm {
   min-width: 50px; }
 
@@ -8980,9 +8977,6 @@ html, body, .baseContainer {
   * {
     zoom: 1 !important; } }
 @media only screen and (max-width: 992px) {
-  .modalRightSiteBar {
-    width: 60%; }
-
   .listViewActionsDiv .btn-toolbar, .editViewContainer .btn-toolbar, .widget_header .btn-toolbar {
     margin-bottom: 5px; }
 
@@ -9078,9 +9072,6 @@ html, body, .baseContainer {
     width: 100% !important;
     padding: 0 !important; } }
 @media only screen and (min-width: 992px) {
-  .modalRightSiteBar {
-    width: 40%; }
-
   .conditionList .conditionField {
     padding-left: 0; }
 
@@ -9248,9 +9239,6 @@ html, body, .baseContainer {
   .breadcrumbsLinks {
     font-size: 14px; } }
 @media only screen and (max-width: 480px) {
-  .modalRightSiteBar {
-    width: 100%; }
-
   .detailViewToolbar {
     text-align: center !important; }
     .detailViewToolbar .btn-group, .detailViewToolbar > div {
@@ -9740,34 +9728,6 @@ select.form-control {
   font-size: 40px;
   margin-right: 15px; }
 
-.modalRightSiteBar {
-  margin: 0;
-  height: 100%;
-  right: 0;
-  top: 0;
-  position: fixed;
-  z-index: 1070;
-  overflow: hidden; }
-  .modalRightSiteBar .modal-content {
-    height: 100%;
-    overflow: auto; }
-  .modalRightSiteBar button.close {
-    position: absolute;
-    right: 10px;
-    z-index: 5; }
-  .modalRightSiteBar .moduleIcon {
-    float: left; }
-  .modalRightSiteBar .quickDetailWidget h4 {
-    background-color: #f8f9fa;
-    padding: 4px 10px; }
-  .modalRightSiteBar .listViewEntriesTable thead > tr > th {
-    padding: 2px; }
-
-.input-group-sm .input-group-addon.checkbox-addon {
-  padding: 4px 7px !important; }
-  .input-group-sm .input-group-addon.checkbox-addon input[type="checkbox"] {
-    vertical-align: middle !important; }
-
 .remindersContent .notificationIcon {
   font-size: 30px;
   text-align: center;
@@ -9794,31 +9754,11 @@ select.form-control {
 .Home_DashBoard .widget_header {
   margin-bottom: 0; }
 
-.chatModal {
-  color: #000; }
-
 .pinToDown {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0; }
-
-.chatModal .modal-body {
-  padding: 5px 0; }
-.chatModal .modal-footer {
-  background: #fff; }
-.chatModal .chatItem {
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 3px;
-  padding: 2px 8px 2px 8px; }
-  .chatModal .chatItem.active {
-    background: #f9f9f9; }
-  .chatModal .chatItem .author {
-    padding-bottom: 3px; }
-    .chatModal .chatItem .author span {
-      vertical-align: top;
-      margin-left: 6px;
-      font-weight: bold; }
 
 #jstree-marker {
   z-index: 1100; }
@@ -9914,9 +9854,6 @@ border1px {
 .popover.activities {
   min-width: 400px; }
 
-.inventoryRow .input-group-addon {
-  padding: 0 5px; }
-
 .table tr.inventoryRow td, .c-detail-widget__table tr.inventoryRow td {
   padding: 4px; }
 
@@ -9960,6 +9897,9 @@ border1px {
 
 .u-word-break-all {
   word-break: break-all !important; }
+
+.u-word-break {
+  word-break: break-word !important; }
 
 .u-font-size-95per {
   font-size: 95% !important; }
@@ -10099,6 +10039,9 @@ border1px {
 .u-opacity-muted {
   opacity: 0.2; }
 
+@media (max-width: 575.98px) {
+  .c-btn-block-xs-down {
+    width: 100% !important; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .openStreetMapModalBody .input-group {
   flex-wrap: nowrap; }
@@ -10610,6 +10553,7 @@ label.btn.btn-outline-primary:not(.active) {
 
 .remindersNoticeContainer,
 .remindersNotificationContainer {
+  visibility: hidden;
   position: fixed;
   right: -380px;
   top: 50px;
@@ -10625,6 +10569,7 @@ label.btn.btn-outline-primary:not(.active) {
   max-width: 100%; }
   .remindersNoticeContainer.toggled,
   .remindersNotificationContainer.toggled {
+    visibility: visible;
     right: 0; }
 
 .remindersContent {
@@ -10639,13 +10584,50 @@ label.btn.btn-outline-primary:not(.active) {
 .activityTypeIcon {
   height: 20px; }
 
-.remindersNoticeContainer .panel, .remindersNotificationContainer .panel {
-  margin-bottom: 10px; }
-
 .remindersNoticeContainer .panel-body {
   padding: 5px 10px 10px 10px; }
 .remindersNoticeContainer .actionRow a.btn {
   margin-right: 1%; }
+
+.modalRightSiteBar {
+  margin: 0;
+  height: calc(100vh - 83px);
+  right: 0;
+  top: 50px;
+  position: fixed !important;
+  z-index: 1070;
+  overflow: hidden;
+  width: -webkit-fill-available; }
+  .modalRightSiteBar .modal-content {
+    height: 100%; }
+  .modalRightSiteBar button.close {
+    position: absolute;
+    right: 10px;
+    z-index: 5; }
+  .modalRightSiteBar .moduleIcon {
+    float: left; }
+  .modalRightSiteBar .quickDetailWidget h4 {
+    background-color: #f8f9fa;
+    padding: 4px 10px; }
+  .modalRightSiteBar .listViewEntriesTable thead > tr > th {
+    padding: 2px; }
+
+.chatModal .modal-body {
+  padding: 5px 0; }
+.chatModal .modal-footer {
+  background: #fff; }
+.chatModal .chatItem {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 3px;
+  padding: 2px 8px 2px 8px; }
+  .chatModal .chatItem.active {
+    background: #f9f9f9; }
+  .chatModal .chatItem .author {
+    padding-bottom: 3px; }
+    .chatModal .chatItem .author span {
+      vertical-align: top;
+      margin-left: 6px;
+      font-weight: bold; }
 
 .dropdown-menu.historyList {
   left: auto;
@@ -10973,6 +10955,14 @@ label.btn.btn-outline-primary:not(.active) {
     top: 42px !important; } }
 .modal-blg {
   max-width: 90%; }
+
+.modal.fade {
+  opacity: 1; }
+
+.modal.fade .modal-dialog {
+  -webkit-transform: translate(0);
+  -moz-transform: translate(0);
+  transform: translate(0); }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv .gridster {

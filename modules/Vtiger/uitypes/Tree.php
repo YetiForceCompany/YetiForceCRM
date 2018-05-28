@@ -32,7 +32,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if(empty($value)){
+		if (empty($value)) {
 			return '';
 		}
 		$fieldModel = $this->getFieldModel();
