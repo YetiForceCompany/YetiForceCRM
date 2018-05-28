@@ -1397,4 +1397,15 @@ class PrivilegeUtil
 		}
 		Log::trace('Exiting deleteRelatedSharingRules method ...');
 	}
+
+	/**
+	 * Function for test to check privilege utils.
+	 *
+	 * @param int $recordId
+	 */
+	public static function testPrivileges($recordId)
+	{
+		static::getHelpDeskRelatedAccounts($recordId);
+		return true;
+	}
 }
