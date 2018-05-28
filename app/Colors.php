@@ -128,23 +128,27 @@ class Colors
 	public static function getPicklists($moduleName)
 	{
 		$colors = [];
-		$fields = self::getPicklistFieldsByModule($moduleName);
+		$fields = static::getPicklistFieldsByModule($moduleName);
 		foreach ($fields as $field) {
 			$colors[$field->getName()]=[];
-			$values = \App\Fields\Picklist::getValues($field->getName());
+			$values = Fields\Picklist::getValues($field->getName());
 			if ($values) {
 				$firstRow = reset($values);
-				if (array_key_exists('color', $firstRow)) {
+				if (isset($firstRow['color'])) {
 					foreach ($values as $item) {
-						if (ltrim($item['color'], '#')) {
-							if (strpos($item['color'], '#') === false) {
-								$item['color'] = '#' . $item['color'];
-							}
+						if (ltrim($item['color'], '# ')) {
 							if (empty($item['color'])) {
-								$item['color'] = static::getRandomColor($item['picklistValue']);
+								$item['color'] = static::getRandomColor($moduleName . $item['picklistValue'], '#');
+							}
+							if (substr($item['color'], 0, 1)!=='#') {
+								$item['color'] = '#' . $item['color'];
 							}
 							$colors[$field->getName()][$item['picklistValue']] = $item['color'];
 						}
+					}
+				} else {
+					foreach ($values as $item) {
+						$colors[$field->getName()][$item['picklistValue']] = static::getRandomColor($moduleName . $item['picklistValue']);
 					}
 				}
 			}
