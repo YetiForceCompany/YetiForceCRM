@@ -51,7 +51,7 @@ class GanttField {
 		Date.dayNames = App.Fields.Date.fullDaysTranslated.map(day => day);
 		Date.firstDayOfWeek = CONFIG.firstDayOfWeekNo;
 		Date.defaultFormat = CONFIG.dateFormat;
-		Date.today = app.vtranslate('JS_TODAY', 'Project');
+		Date.today = app.vtranslate('JS_TODAY');
 		Number.decimalSeparator = CONFIG.currencyDecimalSeparator;
 		Number.groupingSeparator = CONFIG.currencyGroupingSeparator;
 		Number.currencyFormat = "###,##0.00";
@@ -96,9 +96,9 @@ class GanttField {
 				<thead>
 				<tr style="height:40px">
       				<th class="gdfColHeader gdfResizable" style="width:80px">${app.vtranslate("JS_NO.", "Project")}</th>
-					<th class="gdfColHeader gdfResizable" style="width:300px">${app.vtranslate("JS_NAME", "Project")}</th>
-					<th class="gdfColHeader gdfResizable" style="width:60px">${app.vtranslate("JS_PRIORITY", "Project")}</th>
-					<th class="gdfColHeader gdfResizable" style="width:100px">${app.vtranslate("JS_STATUS", "Project")}</th>
+					<th class="gdfColHeader gdfResizable" style="width:300px">${app.vtranslate("JS_NAME")}</th>
+					<th class="gdfColHeader gdfResizable" style="width:60px">${app.vtranslate("JS_PRIORITY")}</th>
+					<th class="gdfColHeader gdfResizable" style="width:100px">${app.vtranslate("JS_STATUS")}</th>
 					<th class="gdfColHeader gdfResizable" style="width:70px">${app.vtranslate("JS_DURATION_SHORT", "Project")}</th>
 					<th class="gdfColHeader gdfResizable" style="width:50px">%</th>
 					<th class="gdfColHeader gdfResizable" style="width:200px">${app.vtranslate("JS_ASSIGNED","Project")}</th>
@@ -777,11 +777,9 @@ jQuery.Class("Vtiger_Gantt_Js", {
 	},
 	registerEvents: function () {
 		this.breadCrumbsFilter();
-		//this.registerHeadersClickEvent();
 		this.changeCustomFilterElementView();
 		this.registerChangeCustomFilterEvent();
 		this.registerCustomFilterOptionsHoverEvent();
-		//this.triggerDisplayTypeEvent();
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		this.getListSearchInstance(false);
 		this.loadGantt();

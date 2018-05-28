@@ -1,13 +1,11 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
-
+/**
+ * Gantt view.
+ *
+ * @copyright YetiForce Sp. z o.o.
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
+ */
 class Project_Gantt_View extends Vtiger_Index_View
 {
 	public function preProcess(\App\Request $request, $display = true)
@@ -41,7 +39,7 @@ class Project_Gantt_View extends Vtiger_Index_View
 
 	public function preProcessTplName(\App\Request $request)
 	{
-		return 'gantt/ListViewPreProcess.tpl';
+		return 'gantt/GanttViewPreProcess.tpl';
 	}
 
 	protected function preProcessDisplay(\App\Request $request)
@@ -53,7 +51,7 @@ class Project_Gantt_View extends Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$viewer->view('gantt/ListViewPostProcess.tpl', $moduleName);
+		$viewer->view('EmptyPostProcess.tpl', $moduleName);
 		parent::postProcess($request);
 	}
 
