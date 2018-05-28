@@ -1251,7 +1251,9 @@
     "BTN_PERMISSION_INSPECTOR": "Permission Inspector",
     "LBL_ADVANCED_SEARCH": "Advanced search",
     "LBL_MERGING": "Merging records",
-    "_Base": "System"
+    "_Base": "System",
+    "LBL_SHOP_YETIFORCE": "Shop",
+    "LBL_DUPLICATES": "duplicated",
   },
   "js": {
     "JS_SUMMARY": "Summary",
