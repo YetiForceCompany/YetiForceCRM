@@ -2,7 +2,7 @@
 {strip}
 	<div class="tpl-Project-gantt-GanntContents c-gantt" data-js="container">
 		<input type="hidden" id="ganttData" value="{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}">
-		<div id="c-gantt__container" class="j-gantt" data-js="container"></div>
+		<div class="js-gantt__container" data-js="container"></div>
 	</div>
 {/strip}
 {literal}
