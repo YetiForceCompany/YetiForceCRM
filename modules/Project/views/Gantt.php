@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Gantt view.
  *
@@ -8,27 +9,18 @@
  */
 class Project_Gantt_View extends Vtiger_Index_View
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$mid = false;
-		if ($request->has('mid')) {
-			$mid = $request->getInteger('mid');
-		}
-		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
+		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAll($moduleName));
 		$this->viewName = App\CustomView::getInstance($moduleName)->getViewId();
 		if ($request->isEmpty('viewname') && App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
-			$customViewModel = CustomView_Record_Model::getInstanceById($this->viewName);
-			if ($customViewModel) {
-				App\CustomView::setDefaultSortOrderBy($moduleName, ['orderBy' => $customViewModel->getSortOrderBy('orderBy'), 'sortOrder' => $customViewModel->getSortOrderBy('sortOrder')]);
-			}
 			App\CustomView::setCurrentView($moduleName, $this->viewName);
-		}
-		$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
-		if (isset($_SESSION['lvs'][$moduleName]['entityState'])) {
-			$this->listViewModel->set('entityState', $_SESSION['lvs'][$moduleName]['entityState']);
 		}
 		$viewer->assign('VIEWID', $this->viewName);
 		$viewer->assign('MODULE_MODEL', Vtiger_Module_Model::getInstance($moduleName));
@@ -37,16 +29,25 @@ class Project_Gantt_View extends Vtiger_Index_View
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function preProcessTplName(\App\Request $request)
 	{
 		return 'gantt/GanttViewPreProcess.tpl';
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	protected function preProcessDisplay(\App\Request $request)
 	{
 		parent::preProcessDisplay($request);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function postProcess(\App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
@@ -55,6 +56,9 @@ class Project_Gantt_View extends Vtiger_Index_View
 		parent::postProcess($request);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -63,7 +67,7 @@ class Project_Gantt_View extends Vtiger_Index_View
 		$data = $gantt->getAllData();
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
-		if ($request->has('view') && $request->getByType('view', 2) ==='Gantt') {
+		if ($request->has('view') && $request->getByType('view', 2) === 'Gantt') {
 			$viewer->view('gantt/GanttAll.tpl', $moduleName);
 		} else {
 			$viewer->view('gantt/GanttContents.tpl', $moduleName);
@@ -116,6 +120,7 @@ class Project_Gantt_View extends Vtiger_Index_View
 			'~libraries/jQueryGantt/ganttGridEditor.js',
 			'~libraries/jQueryGantt/ganttMaster.js',
 			'modules.Project.resources.Gantt',
+			'modules.Project.resources.GanttController',
 		]));
 	}
 }

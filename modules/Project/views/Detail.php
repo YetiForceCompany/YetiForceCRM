@@ -1,13 +1,12 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
 
+/**
+ * Gantt view.
+ *
+ * @copyright YetiForce Sp. z o.o.
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
+ */
 class Project_Detail_View extends Vtiger_Detail_View
 {
 	/**
@@ -33,12 +32,8 @@ class Project_Detail_View extends Vtiger_Detail_View
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$moduleModel = Vtiger_Module_Model::getInstance('OSSTimeControl');
-		if ($moduleModel) {
-			$data = $moduleModel->getTimeUsers($recordId, $moduleName);
-		}
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('DATA', $data);
+		$viewer->assign('DATA', Vtiger_Module_Model::getInstance('OSSTimeControl')->getTimeUsers($recordId, $moduleName));
 		$viewer->view('charts/ShowTimeProjectUsers.tpl', $moduleName);
 	}
 
@@ -74,12 +69,6 @@ class Project_Detail_View extends Vtiger_Detail_View
 		]));
 	}
 
-	public function getHeaderScripts(\App\Request $request)
-	{
-		return array_merge(parent::getHeaderScripts($request), $this->checkAndConvertJsScripts([
-		]));
-	}
-
 	/**
 	 * {@inheritdoc}
 	 */
@@ -107,6 +96,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 			'~libraries/jQueryGantt/ganttGridEditor.js',
 			'~libraries/jQueryGantt/ganttMaster.js',
 			'modules.Project.resources.Gantt',
+			'modules.Project.resources.GanttController',
 		]));
 	}
 }
