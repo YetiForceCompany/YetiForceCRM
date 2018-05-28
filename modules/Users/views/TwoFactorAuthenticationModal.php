@@ -14,7 +14,7 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public $modalSize = 'modal-lg';
+	public $modalSize = 'modal-dialog-centered';
 
 	/**
 	 * {@inheritdoc}
@@ -54,6 +54,7 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 	 */
 	public function preProcessAjax(\App\Request $request)
 	{
+		$this->modalIcon = 'fa fa-key';
 		$this->pageTitle = \App\Language::translate('LBL_TWO_FACTOR_AUTHENTICATION', $request->getModule());
 		$this->lockExit = AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OBLIGATORY';
 		parent::preProcessAjax($request);
