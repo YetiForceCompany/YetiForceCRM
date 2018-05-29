@@ -627,7 +627,6 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$instance->setEntity($focus);
 		\App\Cache::staticSave('RecordModelCleanInstance', $moduleName, clone $instance);
-
 		return $instance;
 	}
 

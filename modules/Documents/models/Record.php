@@ -182,8 +182,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		$fileNameByField = 'filename';
 		$fileName = $fileType = '';
 		$fileSize = 0;
-		$fileLocationType = null;
-		$fileDownloadCount = null;
+		$fileLocationType = $fileDownloadCount = null;
 		if ($this->get('filelocationtype') === 'I') {
 			if (!isset($this->file)) {
 				if (isset($_FILES[$fileNameByField])) {
