@@ -31,7 +31,6 @@
     "ext-imap": "*",
     "ext-openssl": "*",
     "ext-mbstring": "*",
-	"ext-mcrypt": "*",
 	"ext-iconv": "*",
 	"ext-intl": "*",
     "ext-spl": "*",
