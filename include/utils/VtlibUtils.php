@@ -166,7 +166,6 @@ class VtlibUtils
 				],
 			],
 		];
-
 		return $mod_var_mapping[$module][$varname] ?? [];
 	}
 }
