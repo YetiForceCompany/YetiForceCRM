@@ -94,8 +94,6 @@ class Project_Gantt_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-			'modules.Vtiger.resources.List',
-			"modules.$moduleName.resources.List",
 			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
