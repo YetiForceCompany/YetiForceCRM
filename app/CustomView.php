@@ -324,7 +324,7 @@ class CustomView
 		if (file_exists($filterDir)) {
 			$handlerClass = \Vtiger_Loader::getComponentClassName('Filter', $cvId, $this->moduleName);
 			$filter = new $handlerClass();
-			Cache::staticSave('getCustomViewFile', $cvId, $filter);
+			Cache::staticSave('getCustomView', $cvId, $filter);
 		} else {
 			Log::error(Language::translate('LBL_NOT_FOUND_VIEW') . "cvId: $cvId");
 			throw new Exceptions\AppException('LBL_NOT_FOUND_VIEW');
