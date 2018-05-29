@@ -472,6 +472,7 @@ class Project_Gantt_Model
 			$project['end'] = strtotime($project['end_date']) * 1000;
 		}
 		$this->tasksById[$id] = $project;
+		unset($recordModel);
 		return $project;
 	}
 
@@ -496,6 +497,7 @@ class Project_Gantt_Model
 			$childChildren = $this->getProjectChildren($childrenId);
 			$children = array_merge($children, $childChildren);
 		}
+		unset($queryGenerator, $childrenRows, $childrenIds);
 		return $children;
 	}
 
@@ -556,7 +558,7 @@ class Project_Gantt_Model
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
 			$response['tasks'] = $this->cleanup($this->flattenRecordTasks($this->tree['children']));
 		}
-		unset($projectIds, $milestones, $tasks, $projects);
+		unset($projectIds, $milestones, $tasks, $projects, $queryGenerator, $rootProjectIds, $projectIdsRows);
 		return $response;
 	}
 
