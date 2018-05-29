@@ -622,7 +622,10 @@ class Vtiger_Record_Model extends \App\Base
 		$instance = new $modelClassName();
 		$instance->setModuleFromInstance($module);
 		$instance->isNew = true;
-		$instance->setData($focus->column_fields)->setEntity($focus);
+		if (isset($focus->column_fields)) {
+			$instance->setData($focus->column_fields);
+		}
+		$instance->setEntity($focus);
 		\App\Cache::staticSave('RecordModelCleanInstance', $moduleName, clone $instance);
 
 		return $instance;
