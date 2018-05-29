@@ -1253,7 +1253,7 @@
     "LBL_MERGING": "Merging records",
     "_Base": "System",
     "LBL_SHOP_YETIFORCE": "Shop",
-    "LBL_DUPLICATES": "duplicated",
+    "LBL_DUPLICATES": "duplicated"
   },
   "js": {
     "JS_SUMMARY": "Summary",

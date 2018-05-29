@@ -34,6 +34,8 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	public function getSummaryValuesFromData($data)
 	{
 		$sum = 0;
+		$purchase = 0;
+		$margin = 0;
 		if (is_array($data)) {
 			foreach ($data as $row) {
 				$purchase += $row['purchase'];
