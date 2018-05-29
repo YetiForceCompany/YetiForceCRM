@@ -209,7 +209,7 @@ class File
 			return false;
 		}
 		try {
-			$responsse = \Requests::get($url);
+			$responsse = \Requests::get($url, [], ['timeout' => 5, 'connect_timeout' => 5]);
 			if ($responsse->status_code !== 200) {
 				Log::error('Error when downloading content: ' . $url . ' | Status code: ' . $responsse->status_code, __CLASS__);
 				return false;
