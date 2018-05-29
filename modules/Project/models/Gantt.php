@@ -429,89 +429,116 @@ class Project_Gantt_Model
 	/**
 	 * Get project data.
 	 *
-	 * @param int $id project id
+	 * @param int|array $id project id
 	 *
 	 * @return array
 	 */
 	private function getProject($id)
 	{
-		if (isset($this->tasksById[$id])) {
-			return $this->tasksById[$id];
+		if (!is_array($id) && isset($this->tasksById[$id])) {
+			return [$this->tasksById[$id]];
 		}
-		$recordModel = Vtiger_Record_Model::getInstanceById($id, 'Project');
-		$project = [
-			'id' => $id,
-			'parent' => $recordModel->get('parentid'), // we must collet parent,
-			'name' => \App\Purifier::encodeHtml($recordModel->get('projectname')),
-			'text' => \App\Purifier::encodeHtml($recordModel->get('projectname')),
-			'priority' => $recordModel->get('projectpriority'),
-			'priority_label' => \App\Language::translate($recordModel->get('projectpriority'), 'Project'),
-			'status' => 'STATUS_ACTIVE',
-			'type' => 'project',
-			'module' => 'Project',
-			'open' => true,
-			'canWrite' => false,
-			'canDelete' => false,
-			'cantWriteOnParent' => false,
-			'canAdd' => false,
-			'description' => \App\Purifier::encodeHtml($recordModel->get('description')),
-			'no' => $recordModel->get('project_no'),
-			'normalized_status' => $recordModel->get('projectstatus'),
-			'status_label' => App\Language::translate($recordModel->get('projectstatus'), 'Project'),
-			'assigned_user_id' => $recordModel->get('assigned_user_id'),
-			'assigned_user_name' => \App\Fields\Owner::getUserLabel($recordModel->get('assigned_user_id')),
-			'color' => $recordModel->get('projectstatus') ? $this->statusColors['Project']['projectstatus'][$recordModel->get('projectstatus')] : \App\Colors::getRandomColor('projectstatus_' . $id),
-		];
-		if (!empty($recordModel->get('startdate'))) {
-			$project['start_date'] = $recordModel->get('startdate');
-			$project['start'] = strtotime($project['start_date']) * 1000;
+		$projects = [];
+		$queryGenerator = new App\QueryGenerator('Project');
+		$queryGenerator->setFields([
+			'id',
+			'projectid',
+			'parentid',
+			'projectname',
+			'projectpriority',
+			'description',
+			'project_no',
+			'projectstatus',
+			'startdate',
+			'actualenddate',
+			'targetenddate'
+		]);
+		$queryGenerator->addNativeCondition([
+			'or',
+			['parentid' => $id],
+			['projectid' => $id]
+		]);
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$project = [
+				'id' => $row['id'],
+				'parent' => $row['parentid'],
+				'name' => \App\Purifier::encodeHtml($row['projectname']),
+				'text' => \App\Purifier::encodeHtml($row['projectname']),
+				'priority' => $row['projectpriority'],
+				'priority_label' => \App\Language::translate($row['projectpriority'], 'Project'),
+				'status' => 'STATUS_ACTIVE',
+				'type' => 'project',
+				'module' => 'Project',
+				'open' => true,
+				'canWrite' => false,
+				'canDelete' => false,
+				'cantWriteOnParent' => false,
+				'canAdd' => false,
+				'description' => \App\Purifier::encodeHtml($row['description']),
+				'no' => $row['project_no'],
+				'normalized_status' => $row['projectstatus'],
+				'status_label' => App\Language::translate($row['projectstatus'], 'Project'),
+				'assigned_user_id' => $row['assigned_user_id'],
+				'assigned_user_name' => \App\Fields\Owner::getUserLabel($row['assigned_user_id']),
+				'color' => $row['projectstatus'] ? $this->statusColors['Project']['projectstatus'][$row['projectstatus']] : \App\Colors::getRandomColor('projectstatus_' . $id),
+			];
+			if (!empty($row['startdate'])) {
+				$project['start_date'] = $row['startdate'];
+				$project['start'] = strtotime($project['start_date']) * 1000;
+			}
+			$project['end_date'] = $row['actualenddate'];
+			if (empty($project['end_date']) && !empty($row['targetenddate'])) {
+				$project['end_date'] = $row['targetenddate'];
+				$project['end'] = strtotime($project['end_date']) * 1000;
+			}
+			$this->tasksById[$row['id']] = $project;
+			$projects[] = $project;
 		}
-		$project['end_date'] = $recordModel->get('actualenddate');
-		if (empty($project['end_date']) && !empty($recordModel->get('targetenddate'))) {
-			$project['end_date'] = $recordModel->get('targetenddate');
-			$project['end'] = strtotime($project['end_date']) * 1000;
-		}
-		$this->tasksById[$id] = $project;
-		unset($recordModel);
-		return $project;
+		unset($queryGenerator, $dataReader, $project);
+		return $projects;
 	}
 
 	/**
 	 * Recursively collect project children (sub projects).
 	 *
-	 * @param $id project id
+	 * @param int $id project id
 	 *
 	 * @return array
 	 */
-	private function getProjectChildren($id)
+	private function getProjectWithChildren($id)
 	{
 		$queryGenerator = new App\QueryGenerator('Project');
-		$queryGenerator->setFields(['id', 'parentid']);
-		$queryGenerator->addNativeCondition(['parentid' => (int) $id]);
+		$queryGenerator->setFields(['id', 'projectid', 'parentid']);
+		$queryGenerator->addNativeCondition([
+			'or',
+			['parentid' => $id],
+			['projectid' => $id]
+		]);
 		$childrenRows = $queryGenerator->createQuery()->createCommand()->queryAll();
 		$childrenIds = array_column($childrenRows, 'id');
-		$children = [];
-		foreach ($childrenIds as $childrenId) {
-			$child = $this->getProject($childrenId);
-			$children[] = $child;
-			$childChildren = $this->getProjectChildren($childrenId);
-			$children = array_merge($children, $childChildren);
-		}
-		unset($queryGenerator, $childrenRows, $childrenIds);
-		return $children;
+		unset($queryGenerator, $childrenRows);
+		return $this->getProject($childrenIds);
 	}
 
 	/**
 	 * Get flatt array of projects with children.
 	 *
-	 * @param int $id project id
+	 * @param int|array $id project id
 	 *
 	 * @return array
 	 */
 	private function getProjects($id)
 	{
-		$projects = [$this->getProject($id)];
-		return array_merge($projects, $this->getProjectChildren($id));
+		if (is_array($id)) {
+			foreach ($id as $currentId) {
+				foreach ($this->getProjectWithChildren($currentId) as $child) {
+					$projects[] = $child;
+				}
+			}
+			return $projects;
+		}
+		return $this->getProjectWithChildren($id);
 	}
 
 	/**
@@ -532,10 +559,7 @@ class Project_Gantt_Model
 		}
 		$projectIdsRows = $query->createCommand()->queryAll();
 		$rootProjectIds = array_column($projectIdsRows, 'id');
-		$projects = [];
-		foreach ($rootProjectIds as $projectId) {
-			$projects = array_merge($projects, $this->getProjects($projectId));
-		}
+		$projects = $this->getProjects($rootProjectIds);
 		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
 		$tasks = $this->getGanttTasks($projectIds);
