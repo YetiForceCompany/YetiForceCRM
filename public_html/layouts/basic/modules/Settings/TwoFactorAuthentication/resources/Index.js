@@ -8,19 +8,18 @@ jQuery.Class('Settings_TwoFactorAuthentication_Index_Js', {}, {
 	 * Get Container (Form)
 	 * @returns {Object}
 	 */
-	getContainer: function(){
+	getContainer(){
 		if( this.container===null ){
-			this.container = $('.tpl-Settings-TwoFactorAuthentication-Index').find('form');
+			this.container = $('form.js-two-factor-auth__form');
 		}
 		return this.container;
 	},
 	/**
 	 * Register events for form
 	 */
-	registerForm: function(){
-		let thisInstance = this;
-		let container = thisInstance.getContainer();
-		container.on('submit', function (event) {
+	registerForm(){
+		let container = this.getContainer();
+		container.on('submit', (event) => {
 			event.preventDefault();
 			container.validationEngine(app.validationEngineOptions);
 			if (container.validationEngine('validate')) {
@@ -30,7 +29,7 @@ jQuery.Class('Settings_TwoFactorAuthentication_Index_Js', {}, {
 						enabled: true
 					}
 				});
-				AppConnector.request(container.serializeFormData()).then(function (response) {
+				AppConnector.request(container.serializeFormData()).then((response) => {
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
 					Vtiger_Helper_Js.showPnotify({
 						text: response.result.message,
@@ -43,7 +42,7 @@ jQuery.Class('Settings_TwoFactorAuthentication_Index_Js', {}, {
 	/**
 	 * Register all events in view
 	 */
-	registerEvents: function () {
+	registerEvents() {
 		this.registerForm();
 	}
 });
