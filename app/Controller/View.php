@@ -476,33 +476,11 @@ abstract class View extends Base
 				}
 				// Checking if file exists in selected layout
 				$isFileExists = false;
-				$layoutPath = 'custom/layouts/' . \App\Layout::getActiveLayout();
+				$layoutName = \App\Layout::getActiveLayout() ? \App\Layout::getActiveLayout() : \Vtiger_Viewer::getDefaultLayoutName();
+				$layoutPath = 'custom/layouts/' . $layoutName;
 				$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
 				if (!($isFileExists = is_file($fallBackFilePath))) {
-					$layoutPath = 'layouts/' . \App\Layout::getActiveLayout();
-					$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
-					$isFileExists = is_file($fallBackFilePath);
-				}
-				if ($isFileExists) {
-					$cssScriptModel->set('base', $fallBackFilePath);
-					if (empty($preLayoutPath)) {
-						$filePath = str_replace('.', '/', $cssFile) . '.css';
-					}
-					$minFilePath = str_replace('.css', '.min.css', $filePath);
-					if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
-						$filePath = $minFilePath;
-					}
-					$filePath = "{$prefix}{$layoutPath}/{$filePath}";
-					\App\Cache::save('ConvertCssStyles', $cssFileName, $filePath, \App\Cache::LONG);
-					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
-					continue;
-				}
-				// Checking if file exists in default layout
-				$isFileExists = false;
-				$layoutPath = 'custom/layouts/' . \Vtiger_Viewer::getDefaultLayoutName();
-				$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
-				if (!($isFileExists = is_file($fallBackFilePath))) {
-					$layoutPath = 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName();
+					$layoutPath = 'layouts/' . $layoutName;
 					$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
 					$isFileExists = is_file($fallBackFilePath);
 				}
@@ -522,7 +500,6 @@ abstract class View extends Base
 				}
 			}
 		}
-
 		return $cssStyleInstances;
 	}
 
