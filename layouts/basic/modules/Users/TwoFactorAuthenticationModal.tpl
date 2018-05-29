@@ -1,11 +1,11 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<form name="PasswordUsersForm" class="form-horizontal validateForm" action="index.php" method="post"
+	<form name="PasswordUsersForm" class="form-horizontal validateForm tpl-TwoFactorAuthenticationModal" action="index.php" method="post"
 		  autocomplete="off">
 		<input type="hidden" name="module" value="{$MODULE_NAME}"/>
 		<input type="hidden" name="action" value="TwoFactorAuthentication"/>
 		<input type="hidden" name="secret" value="{$SECRET}"/>
-		<div class="modal-body tpl-TwoFactorAuthenticationModal">
+		<div class="modal-body">
 			<div class="col-sm-12 controls">
 				{\App\Language::translate('LBL_2FA_SECRET', $MODULE_NAME)}: {$SECRET}
 			</div>
@@ -20,7 +20,7 @@
 		</div>
 		<div class="modal-body">
 			<div class="alert alert-info alert-dismissible hide js-wrong-code" role="alert"
-				 data-js="class: .js-wrong-code">
+				 data-js="container|css:display">
 				{\App\Language::translate('LBL_2FA_WRONG_CODE', $MODULE_NAME)}
 			</div>
 			{if AppConfig::main('systemMode') === 'demo'}
