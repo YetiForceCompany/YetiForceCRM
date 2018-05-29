@@ -31,8 +31,8 @@ commit_failure_conditions:
 # Configure rules.
 rules:
     composer.warning:
-        enabled: false
+        enabled: true
     web.apache_config:
-        enabled: false
+        enabled: true
     php.duplicated_code:
         enabled: true
