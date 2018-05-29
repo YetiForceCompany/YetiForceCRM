@@ -6,6 +6,15 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
 		</div>
+		<div class="contents">
+			<div class="alert alert-info">
+				<h5 class="alert-heading">{\App\Language::translate('LBL_2FA_CONF', $QUALIFIED_MODULE)}</h5>
+				<p><strong>TOTP</strong> - {\App\Language::translate('LBL_TOTP',$QUALIFIED_MODULE)}</p>
+				<p><strong>{\App\Language::translate('LBL_TOTP_AUTHY_MODE',$QUALIFIED_MODULE)}</strong> - {\App\Language::translate('LBL_TOTP_AUTHY_MODE_DESC',$QUALIFIED_MODULE)}</p>
+				<p><strong>{\App\Language::translate('LBL_TOTP_USER_AUTHY_EXCEPTIONS',$QUALIFIED_MODULE)}</strong> - {\App\Language::translate('LBL_TOTP_USER_AUTHY_EXCEPTIONS_DESC',$QUALIFIED_MODULE)}</p>
+				<p><strong>{\App\Language::translate('LBL_TOTP_NUMBER_OF_WRONG_ATTEMPTS',$QUALIFIED_MODULE)}</strong> - {\App\Language::translate('LBL_TOTP_NUMBER_OF_WRONG_ATTEMPTS_DESC',$QUALIFIED_MODULE)}</p>
+			</div>
+		</div>
 		<div>
 			<form class="js-two-factor-auth__form" method="post" data-js="submit">
 				<input type="hidden" name="parent" value="Settings">
