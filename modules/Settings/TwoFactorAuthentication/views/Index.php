@@ -8,17 +8,33 @@
  */
 class Settings_TwoFactorAuthentication_Index_View extends Settings_Vtiger_Index_View
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		$currentUserModel = \App\User::getCurrentUserModel();
+		if ($currentUserModel->isAdmin()) {
+			return true;
+		} else {
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$userAuthyExceptions = AppConfig::security('USER_AUTHY_EXCEPTIONS');
-
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('AVAILABLE_METHODS', Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE);
 		$viewer->assign('USER_EXCEPTIONS', $userAuthyExceptions['TOTP'] ?? []);
-
+		$viewer->assign('USER_AUTHY_MODE', AppConfig::security('USER_AUTHY_MODE'));
+		$viewer->assign('USER_AUTHY_TOTP_NUMBER_OF_WRONG_ATTEMPTS', AppConfig::security('USER_AUTHY_TOTP_NUMBER_OF_WRONG_ATTEMPTS'));
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 }
