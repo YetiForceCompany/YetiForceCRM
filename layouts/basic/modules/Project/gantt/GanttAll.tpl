@@ -1,8 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<div class="tpl-Project-gantt-GanttAll listViewPageDiv">
-	<div class="listViewTopMenuDiv noprint mb-2">
-		<div class="listViewActionsDiv row">
+<div class="tpl-Project-gantt-GanttAll">
+	<div class="noprint mb-2">
+		<div class="row">
 			<div class="col-lg-5 col-12">
 				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS=buttonTextHolder}
 			</div>
