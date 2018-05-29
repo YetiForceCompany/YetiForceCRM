@@ -10,7 +10,7 @@
 		</div>
 		<div class="alert alert-info">
 			<h5 class="alert-heading">{\App\Language::translate('LBL_ALERT_TAX_CONFIG_TITLE', $QUALIFIED_MODULE)}</h5>
-			<p>{\App\Language::translateArgs('LBL_ALERT_TAX_CONFIG_DESC', $QUALIFIED_MODULE,AppConfig::main('site_URL'))|unescape:"html"}</p>
+			<p>{\App\Language::translateArgs('LBL_ALERT_TAX_CONFIG_DESC', $QUALIFIED_MODULE,AppConfig::main('site_URL'))}</p>
 		</div>
 		<div class="contents mt-3 form-horizontal">
 			<div class="form-group form-row">
