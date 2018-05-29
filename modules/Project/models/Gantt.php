@@ -714,39 +714,29 @@ class Project_Gantt_Model
 		}
 		$data = [];
 		$closingStatuses = Settings_RealizationProcesses_Module_Model::getStatusNotModify();
-		$projectClosing = [];
-		if (!empty($closingStatuses['Project']) && !empty($closingStatuses['Project']['status'])) {
-			$projectClosing = $closingStatuses['Project']['status'];
-		}
-		$milestoneClosing = [];
-		if (!empty($closingStatuses['ProjectMilestone']) && !empty($closingStatuses['ProjectMilestone']['status'])) {
-			$milestoneClosing = $closingStatuses['ProjectMilestone']['status'];
-		}
-		$taskClosing = [];
-		if (!empty($closingStatuses['ProjectTask']) && !empty($closingStatuses['ProjectTask']['status'])) {
-			$taskClosing = $closingStatuses['ProjectTask']['status'];
-		}
 		$allStatuses = $this->getPicklistValues();
-		foreach ($allStatuses as $moduleName => $fieldName) {
-			switch ($moduleName) {
-				case 'Project':
-					foreach ($fieldName['projectstatus'] as $status) {
-						$status['closing'] = in_array($status['value'], $projectClosing);
-						$data['Project'][] = $status;
-					}
-					break;
-				case 'ProjectMilestone':
-					foreach ($fieldName['projectmilestone_status'] as $status) {
-						$status['closing'] = in_array($status['value'], $milestoneClosing);
-						$data['ProjectMilestone'][] = $status;
-					}
-					break;
-				case 'ProjectTask':
-					foreach ($fieldName['projecttaskstatus'] as $status) {
-						$status['closing'] = in_array($status['value'], $taskClosing);
-						$data['ProjectTask'][] = $status;
-					}
-					break;
+		if (!empty($allStatuses['Project']['projectstatus'])) {
+			foreach ($allStatuses['Project']['projectstatus'] as $status) {
+				if (!empty($closingStatuses['Project']['status'])) {
+					$status['closing'] = in_array($status['value'], $closingStatuses['Project']['status']);
+				}
+				$data['Project'][] = $status;
+			}
+		}
+		if (!empty($allStatuses['ProjectMilestone']['projectmilestone_status'])) {
+			foreach ($allStatuses['ProjectMilestone']['projectmilestone_status'] as $status) {
+				if (!empty($closingStatuses['ProjectMilestone']['status'])) {
+					$status['closing'] = in_array($status['value'], $closingStatuses['ProjectMilestone']['status']);
+				}
+				$data['ProjectMilestone'][] = $status;
+			}
+		}
+		if (!empty($allStatuses['ProjectTask']['projecttaskstatus'])) {
+			foreach ($allStatuses['ProjectTask']['projecttaskstatus'] as $status) {
+				if (!empty($closingStatuses['ProjectTask']['status'])) {
+					$status['closing'] = in_array($status['value'], $closingStatuses['ProjectTask']['status']);
+				}
+				$data['ProjectTask'][] = $status;
 			}
 		}
 		return $data;
