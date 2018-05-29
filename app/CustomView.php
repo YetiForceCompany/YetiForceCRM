@@ -342,8 +342,8 @@ class CustomView
 	public function getCustomView($cvIds)
 	{
 		\App\Log::trace(__METHOD__ . ' - ' . $cvIds);
-		if (Cache::staticHas('getCustomViewFile', $cvIds)) {
-			return Cache::staticGet('getCustomViewFile', $cvIds);
+		if (Cache::staticHas('getCustomView', $cvIds)) {
+			return Cache::staticGet('getCustomView', $cvIds);
 		}
 		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
 			return $this->getCustomViewFromFile($cvIds);
@@ -352,7 +352,7 @@ class CustomView
 		foreach (explode(',', $cvIds) as $cvId) {
 			$filters[] = $this->getCustomViewFromFile($cvId);
 		}
-		Cache::save('getCustomView', $cvIds, $filters);
+		Cache::staticSave('getCustomView', $cvIds, $filters);
 		return $filters;
 	}
 
@@ -365,7 +365,7 @@ class CustomView
 	 *
 	 * @return array
 	 */
-	private function getColumnsFromDb($cvId)
+	private function getColumnsByCvidFromDb($cvId)
 	{
 		\App\Log::trace(__METHOD__ . ' - ' . $cvId);
 		if (is_numeric($cvId)) {
@@ -398,11 +398,11 @@ class CustomView
 			return Cache::get('getColumnsListByCvid', $cvIds);
 		}
 		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
-			return $this->getColumnsFromDb($cvIds);
+			return $this->getColumnsByCvidFromDb($cvIds);
 		}
 		$columnLists = [];
 		foreach (explode(',', $cvIds) as $cvId) {
-			$columnLists[] = $this->getColumnsFromDb($cvId);
+			$columnLists[] = $this->getColumnsByCvidFromDb($cvId);
 		}
 		Cache::save('getColumnsListByCvid', $cvIds, $columnLists);
 		return $columnLists;
@@ -415,7 +415,7 @@ class CustomView
 	 *
 	 * @return array
 	 */
-	public function getStdFilterFromDb($cvId)
+	public function getStdFilterByCvidFromDb($cvId)
 	{
 		if (Cache::has('getStdFilterByCvid', $cvId)) {
 			return Cache::get('getStdFilterByCvid', $cvId);
@@ -449,11 +449,11 @@ class CustomView
 			return Cache::get('getStdFilterByCvid', $cvIds);
 		}
 		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
-			return $this->getStdFilterFromDb($cvIds);
+			return $this->getStdFilterByCvidFromDb($cvIds);
 		}
 		$stdFilters = [];
 		foreach (explode(',', $cvIds) as $cvId) {
-			$stdFilters[] = $this->getStdFilterFromDb($cvId);
+			$stdFilters[] = $this->getStdFilterByCvidFromDb($cvId);
 		}
 		Cache::save('getStdFilterByCvid', $cvId, $stdFilters);
 		return $stdFilters;
@@ -495,7 +495,7 @@ class CustomView
 	 *
 	 * @return array
 	 */
-	public function getAdvFilterFromDb($cvId)
+	public function getAdvFilterByCvidFromDb($cvId)
 	{
 		if (Cache::has('getAdvFilterByCvid', $cvId)) {
 			return Cache::get('getAdvFilterByCvid', $cvId);
@@ -550,11 +550,11 @@ class CustomView
 			$this->module = \Vtiger_Module_Model::getInstance($this->moduleName);
 		}
 		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
-			return $this->getAdvFilterFromDb($cvIds);
+			return $this->getAdvFilterByCvidFromDb($cvIds);
 		}
 		$advftCriteria = [];
 		foreach (explode(',', $cvIds) as $cvId) {
-			foreach ($this->getAdvFilterFromDb($cvId) as $criteria) {
+			foreach ($this->getAdvFilterByCvidFromDb($cvId) as $criteria) {
 				$advftCriteria[] = $criteria;
 			}
 		}
