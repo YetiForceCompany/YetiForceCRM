@@ -52,7 +52,7 @@ class Project_Gantt_Model
 	 *
 	 * @return array
 	 */
-	private function getRecordParents($parentId, $parents = [])
+	private function getParentRecordsIdsRecursive($parentId, $parents = [])
 	{
 		if (empty($parentId)) {
 			return $parents;
@@ -63,7 +63,7 @@ class Project_Gantt_Model
 		foreach ($this->tasks as $task) {
 			if ($task['id'] === $parentId) {
 				if (!empty($task['parent'])) {
-					$parents = $this->getRecordParents($task['parent'], $parents);
+					$parents = $this->getParentRecordsIdsRecursive($task['parent'], $parents);
 				}
 				break;
 			}
@@ -76,12 +76,12 @@ class Project_Gantt_Model
 	 *
 	 * @return array
 	 */
-	private function collectRecordParents()
+	private function getAllParentRecordsIds()
 	{
 		$parents = [];
 		foreach ($this->tasks as $task) {
 			if (!empty($task['parent'])) {
-				$parents[$task['id']] = $this->getRecordParents($task['parent']);
+				$parents[$task['id']] = $this->getParentRecordsIdsRecursive($task['parent']);
 			} else {
 				$parents[$task['id']] = [];
 			}
@@ -95,7 +95,7 @@ class Project_Gantt_Model
 	 */
 	private function calculateLevels()
 	{
-		$parents = $this->collectRecordParents();
+		$parents = $this->getAllParentRecordsIds();
 		foreach ($this->tasks as &$task) {
 			$task['level'] = count($parents[$task['id']]);
 			$task['parents'] = $parents[$task['id']];
