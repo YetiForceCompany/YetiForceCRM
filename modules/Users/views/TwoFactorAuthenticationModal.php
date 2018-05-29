@@ -72,11 +72,8 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 	 */
 	public function getModalScripts(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$jsFileNames = [
-			'modules.Users.resources.TwoFactorAuthenticationModal',
-			"modules.$moduleName.resources.TwoFactorAuthenticationModal",
-		];
-		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
+		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
+			'modules.Users.resources.TwoFactorAuthenticationModal'
+		]));
 	}
 }

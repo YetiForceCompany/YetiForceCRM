@@ -73,7 +73,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_CHANGE_ACCESS_KEY',
 				'linkurl' => "javascript:Users_Detail_Js.triggerChangeAccessKey('index.php?module = Users&action = SaveAjax&mode = changeAccessKey&record = $recordId')",
-				'linkicon' => '',
+				'linkicon' => 'fas fa-edit',
 				'showLabel' => true,
 			];
 			if (AppConfig::security('USER_AUTHY_MODE') !== 'TOTP_OFF') {
