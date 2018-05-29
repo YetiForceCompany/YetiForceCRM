@@ -199,9 +199,9 @@ class AppConfig
 if (!defined('ROOT_DIRECTORY')) {
 	define('ROOT_DIRECTORY', str_replace(DIRECTORY_SEPARATOR . 'include', '', __DIR__));
 }
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../config/api.php';
-require_once __DIR__ . '/../config/config.php';
+require_once ROOT_DIRECTORY . '/vendor/autoload.php';
+require_once ROOT_DIRECTORY . '/config/api.php';
+require_once ROOT_DIRECTORY . '/config/config.php';
 AppConfig::load('api', $API_CONFIG);
 session_save_path(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'session');
 if (!defined('IS_PUBLIC_DIR')) {
