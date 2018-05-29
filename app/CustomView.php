@@ -365,7 +365,7 @@ class CustomView
 	 *
 	 * @return array
 	 */
-	private function getColumnsListByDb($cvId)
+	private function getColumnsFromDb($cvId)
 	{
 		\App\Log::trace(__METHOD__ . ' - ' . $cvId);
 		if (is_numeric($cvId)) {
@@ -398,11 +398,11 @@ class CustomView
 			return Cache::get('getColumnsListByCvid', $cvIds);
 		}
 		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
-			return $this->getColumnsListByDb($cvIds);
+			return $this->getColumnsFromDb($cvIds);
 		}
 		$columnLists = [];
 		foreach (explode(',', $cvIds) as $cvId) {
-			$columnLists[] = $this->getColumnsListByDb($cvId);
+			$columnLists[] = $this->getColumnsFromDb($cvId);
 		}
 		Cache::save('getColumnsListByCvid', $cvIds, $columnLists);
 		return $columnLists;
@@ -415,7 +415,7 @@ class CustomView
 	 *
 	 * @return array
 	 */
-	public function getStdFilterByDb($cvId)
+	public function getStdFilterFromDb($cvId)
 	{
 		if (Cache::has('getStdFilterByCvid', $cvId)) {
 			return Cache::get('getStdFilterByCvid', $cvId);
@@ -449,11 +449,11 @@ class CustomView
 			return Cache::get('getStdFilterByCvid', $cvIds);
 		}
 		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
-			return $this->getStdFilterByDb($cvIds);
+			return $this->getStdFilterFromDb($cvIds);
 		}
 		$stdFilters = [];
 		foreach (explode(',', $cvIds) as $cvId) {
-			$stdFilters[] = $this->getStdFilterByDb($cvId);
+			$stdFilters[] = $this->getStdFilterFromDb($cvId);
 		}
 		Cache::save('getStdFilterByCvid', $cvId, $stdFilters);
 		return $stdFilters;
@@ -495,7 +495,7 @@ class CustomView
 	 *
 	 * @return array
 	 */
-	public function getAdvFilterByDb($cvId)
+	public function getAdvFilterFromDb($cvId)
 	{
 		if (Cache::has('getAdvFilterByCvid', $cvId)) {
 			return Cache::get('getAdvFilterByCvid', $cvId);
@@ -550,11 +550,11 @@ class CustomView
 			$this->module = \Vtiger_Module_Model::getInstance($this->moduleName);
 		}
 		if (empty($cvIds) || !static::isMultiViewId($cvIds)) {
-			return $this->getAdvFilterByDb($cvIds);
+			return $this->getAdvFilterFromDb($cvIds);
 		}
 		$advftCriteria = [];
 		foreach (explode(',', $cvIds) as $cvId) {
-			foreach ($this->getAdvFilterByDb($cvId) as $criteria) {
+			foreach ($this->getAdvFilterFromDb($cvId) as $criteria) {
 				$advftCriteria[] = $criteria;
 			}
 		}
