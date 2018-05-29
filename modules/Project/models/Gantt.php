@@ -501,48 +501,6 @@ class Project_Gantt_Model
 	}
 
 	/**
-	 * Recursively collect project children (sub projects).
-	 *
-	 * @param int $id project id
-	 *
-	 * @return array
-	 */
-	private function getProjectWithChildren($id)
-	{
-		$queryGenerator = new App\QueryGenerator('Project');
-		$queryGenerator->setFields(['id', 'projectid', 'parentid']);
-		$queryGenerator->addNativeCondition([
-			'or',
-			['parentid' => $id],
-			['projectid' => $id]
-		]);
-		$childrenRows = $queryGenerator->createQuery()->createCommand()->queryAll();
-		$childrenIds = array_column($childrenRows, 'id');
-		unset($queryGenerator, $childrenRows);
-		return $this->getProject($childrenIds);
-	}
-
-	/**
-	 * Get flatt array of projects with children.
-	 *
-	 * @param int|array $id project id
-	 *
-	 * @return array
-	 */
-	private function getProjects($id)
-	{
-		if (is_array($id)) {
-			foreach ($id as $currentId) {
-				foreach ($this->getProjectWithChildren($currentId) as $child) {
-					$projects[] = $child;
-				}
-			}
-			return $projects;
-		}
-		return $this->getProjectWithChildren($id);
-	}
-
-	/**
 	 * Get all projects from the system.
 	 *
 	 * @return array projects,milestones,tasks
@@ -560,7 +518,7 @@ class Project_Gantt_Model
 		}
 		$projectIdsRows = $query->createCommand()->queryAll();
 		$rootProjectIds = array_column($projectIdsRows, 'id');
-		$projects = $this->getProjects($rootProjectIds);
+		$projects = $this->getProject($rootProjectIds);
 		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
 		$tasks = $this->getGanttTasks($projectIds);
