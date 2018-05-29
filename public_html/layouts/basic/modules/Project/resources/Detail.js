@@ -30,15 +30,30 @@ Vtiger_Detail_Js("Project_Detail_Js", {}, {
 			}
 		);
 	},
-
-	registerGantt(){
-		app.event.on('gantt.view.shown',()=> {
-			let gantt = new Project_Gantt_Js();
+	/**
+	 * Load gantt component
+	 */
+	loadGantt(){
+		let ganttContainer = $('.c-gantt', this.detailViewContentHolder);
+		if (ganttContainer.length) {
+			let gantt = new Project_Gantt_Js(this.detailViewContentHolder);
 			gantt.registerEvents();
-		});
-
+		}
 	},
-
+	/**
+	 * Load gantt component when needed
+	 */
+	registerGantt() {
+		this.loadGantt();
+		app.event.on('DetailView.Tab.AfterLoad', (e, data, instance) => {
+			instance.detailViewContentHolder.ready(() => {
+				this.loadGantt();
+			})
+		});
+	},
+	/**
+	 * Register events
+	 */
 	registerEvents: function () {
 		var detailContentsHolder = this.getContentHolder();
 		var thisInstance = this;

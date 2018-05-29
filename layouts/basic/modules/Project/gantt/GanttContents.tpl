@@ -5,12 +5,3 @@
 		<div class="js-gantt__container" data-js="container"></div>
 	</div>
 {/strip}
-{literal}
-	<script>
-		$(document).ready(function(){
-			setTimeout(()=>{ // wait for all events to end and trigger next one
-				app.event.trigger('gantt.view.shown');
-			},0);
-		});
-	</script>
-{/literal}
