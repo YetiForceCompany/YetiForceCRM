@@ -35,4 +35,4 @@ rules:
     web.apache_config:
         enabled: false
     php.duplicated_code:
-        enabled: false
+        enabled: true
