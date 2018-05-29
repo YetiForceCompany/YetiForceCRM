@@ -60,6 +60,7 @@ class Users_Login_Action extends \App\Controller\Action
 		if ($request->getMode('mode') === 'install') {
 			$this->cleanInstallationFiles();
 		}
+
 		$this->userRecordModel = Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
 		if (!empty($password) && $this->userRecordModel->doLogin($password)) {
 			$this->userModel = App\User::getUserModel($this->userRecordModel->getId());
@@ -69,6 +70,7 @@ class Users_Login_Action extends \App\Controller\Action
 				header('Location: index.php');
 				return true;
 			}
+
 			$this->afterLogin($request);
 			$moduleModel->saveLoginHistory(strtolower($userName)); //Track the login History
 			if (isset($_SESSION['return_params'])) {

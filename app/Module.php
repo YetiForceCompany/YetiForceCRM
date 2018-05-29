@@ -166,7 +166,6 @@ class Module
 				$sharingModules[] = $row['name'];
 			}
 		}
-
 		return $sharingModules;
 	}
 
