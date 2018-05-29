@@ -180,7 +180,7 @@ Vtiger_Base_Validator_Js("Vtiger_PositiveNumber_Validator_Js", {
 		} else {
 			maximumLength = this.getElement().data('maximumlength');
 		}
-		if (maximumLength && parseFieldValue > maximumLength) {
+		if (maximumLength && parseFieldValue > parseFloat(maximumLength)) {
 			this.setError(app.vtranslate('JS_ERROR_MAX_VALUE'));
 			return false;
 		}
@@ -225,13 +225,13 @@ Vtiger_Base_Validator_Js("Vtiger_Integer_Validator_Js", {
 		}
 		let ranges = fieldInfo.maximumlength.split(',');
 		if (ranges.length === 2) {
-			if (fieldValue > ranges[1] || fieldValue < parseInt(ranges[0])) {
+			if (fieldValue > parseFloat(ranges[1]) || fieldValue < parseFloat(ranges[0])) {
 				errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
 				this.setError(errorInfo);
 				return false;
 			}
 		} else {
-			if (fieldValue > ranges[0] || fieldValue < 0) {
+			if (fieldValue > parseFloat(ranges[0]) || fieldValue < 0) {
 				errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
 				this.setError(errorInfo);
 				return false;
@@ -793,7 +793,8 @@ Vtiger_Base_Validator_Js('Vtiger_Currency_Validator_Js', {
 			this.setError(errorInfo);
 			return false;
 		}
-		if (strippedValue > fieldData.fieldinfo.maximumlength) {
+		const maximumLength = fieldData.fieldinfo.maximumlength;
+		if (maximumLength && strippedValue > parseFloat(maximumLength)) {
 			errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
 			this.setError(errorInfo);
 			return false;
@@ -861,7 +862,7 @@ Vtiger_Base_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
 		} else {
 			maximumLength = this.getElement().data('maximumlength');
 		}
-		if (maximumLength && strippedValue > maximumLength) {
+		if (maximumLength && strippedValue > parseFloat(maximumLength)) {
 			errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
 			this.setError(errorInfo);
 			return false;
