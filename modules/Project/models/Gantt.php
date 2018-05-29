@@ -451,7 +451,8 @@ class Project_Gantt_Model
 			'projectstatus',
 			'startdate',
 			'actualenddate',
-			'targetenddate'
+			'targetenddate',
+			'assigned_user_id'
 		]);
 		$queryGenerator->addNativeCondition([
 			'or',
