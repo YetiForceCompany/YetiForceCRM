@@ -7,7 +7,7 @@
 			</div>
 		</div>
 		<div>
-			<form class="js-two-factor-auth__form" method="post">
+			<form class="js-two-factor-auth__form" method="post" data-js="submit">
 				<input type="hidden" name="parent" value="Settings">
 				<input type="hidden" name="module" value="{$MODULE}">
 				<input type="hidden" name="action" value="SaveAjax">
@@ -40,7 +40,7 @@
 					</div>
 				</div>
 				<div class="formActionsPanel">
-					<button type="submit" class="btn btn-xs btn-success"><span
+					<button type="submit" class="btn btn-success"><span
 								class="fas fa-check"></span><strong class="m-1">{\App\Language::translate('LBL_SAVE')}</strong>
 					</button>
 				</div>
