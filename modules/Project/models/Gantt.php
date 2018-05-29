@@ -462,7 +462,12 @@ class Project_Gantt_Model
 			['parentid' => $id],
 			['projectid' => array_diff($id, array_keys($this->tasksById))]
 		]);
-		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		if ($viewName) {
+			$query = $queryGenerator->getCustomViewQueryById($viewName);
+		} else {
+			$query = $queryGenerator->createQuery();
+		}
+		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$project = [
 				'id' => $row['id'],
@@ -503,10 +508,9 @@ class Project_Gantt_Model
 			}
 		}
 		if (!empty($childrenIds)) {
-			$children=$this->getProject($childrenIds, $viewName);
-			$projects = array_merge($projects, $children);
+			$projects = array_merge($projects, $this->getProject($childrenIds, $viewName));
 		}
-		unset($queryGenerator, $dataReader, $project);
+		unset($queryGenerator, $query, $dataReader, $project);
 		return $projects;
 	}
 
