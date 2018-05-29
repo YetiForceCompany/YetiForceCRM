@@ -433,10 +433,13 @@ class Project_Gantt_Model
 	 *
 	 * @return array
 	 */
-	private function getProject($id)
+	private function getProject($id, $viewName = null)
 	{
 		if (!is_array($id) && isset($this->tasksById[$id])) {
 			return [$this->tasksById[$id]];
+		}
+		if (!is_array($id)) {
+			$id = [$id];
 		}
 		$projects = [];
 		$queryGenerator = new App\QueryGenerator('Project');
@@ -457,7 +460,7 @@ class Project_Gantt_Model
 		$queryGenerator->addNativeCondition([
 			'or',
 			['parentid' => $id],
-			['projectid' => $id]
+			['projectid' => array_diff($id, array_keys($this->tasksById))]
 		]);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -495,6 +498,13 @@ class Project_Gantt_Model
 			}
 			$this->tasksById[$row['id']] = $project;
 			$projects[] = $project;
+			if (!in_array($row['id'], $id)) {
+				$childrenIds[] = $row['id'];
+			}
+		}
+		if (!empty($childrenIds)) {
+			$children=$this->getProject($childrenIds, $viewName);
+			$projects = array_merge($projects, $children);
 		}
 		unset($queryGenerator, $dataReader, $project);
 		return $projects;
@@ -508,17 +518,7 @@ class Project_Gantt_Model
 	public function getAllData($viewName = null)
 	{
 		$this->getStatusColors();
-		$queryGenerator = new App\QueryGenerator('Project');
-		$queryGenerator->setFields(['id', 'parentid', 'no' => 'project_no']);
-		$queryGenerator->addNativeCondition(['vtiger_project.parentid' => 0]);
-		if ($viewName) {
-			$query = $queryGenerator->getCustomViewQueryById($viewName);
-		} else {
-			$query = $queryGenerator->createQuery();
-		}
-		$projectIdsRows = $query->createCommand()->queryAll();
-		$rootProjectIds = array_column($projectIdsRows, 'id');
-		$projects = $this->getProject($rootProjectIds);
+		$projects = $this->getProject(0, $viewName);
 		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
 		$tasks = $this->getGanttTasks($projectIds);
