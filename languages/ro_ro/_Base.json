@@ -1269,7 +1269,7 @@
     "LBL_MERGING": "Imbinare inregistrari",
     "BTN_PERMISSION_INSPECTOR": "Inspector permisiuni",
     "_Base": "Sistem",
-    "LBL_DUPLICATES": "duplicated",
+    "LBL_DUPLICATES": "duplicated"
   },
   "js": {
     "JS_SUMMARY": "Sumar",

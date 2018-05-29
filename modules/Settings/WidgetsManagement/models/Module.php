@@ -341,7 +341,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 */
 	public function addWidget($data, $moduleName, $addToUser = false)
 	{
-		\App\Log::trace('Entering Settings_WidgetsManagement_Module_Model::addWidget(' . $data . ', ' . $moduleName . ') method ...');
+		\App\Log::trace('Entering Settings_WidgetsManagement_Module_Model::addWidget(' . $data['data'] . ', ' . $moduleName . ') method ...');
 		$db = App\Db::getInstance();
 		$status = false;
 		$widgetWithLimit = self::getWidgetsWithLimit();
@@ -388,11 +388,11 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'title' => $data['title'],
 			'data' => $data['data'],
 			'size' => $size,
-			'limit' => $data['limit'],
+			'limit' => $data['limit'] ?? null,
 			'owners' => $owners,
 			'isdefault' => $data['isdefault'],
-			'cache' => $data['cache'],
-			'date' => $data['default_date'],
+			'cache' => $data['cache'] ?? null,
+			'date' => $data['default_date'] ?? null,
 		])->execute();
 		$templateId = $db->getLastInsertID('vtiger_module_dashboard_id_seq');
 		if ($addToUser) {
@@ -405,13 +405,13 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				'filterid' => $data['filtersId'],
 				'title' => $data['title'],
 				'data' => $data['data'],
-				'size' => $size, 'limit' => $data['limit'],
+				'size' => $size, 'limit' => $data['limit'] ?? null,
 				'owners' => $owners,
 				'isdefault' => $data['isdefault'],
 				'active' => $active,
 				'module' => \App\Module::getModuleId($moduleName),
-				'cache' => $data['cache'],
-				'date' => $data['default_date'],
+				'cache' => $data['cache'] ?? null,
+				'date' => $data['default_date'] ?? null,
 				'dashboardid' => empty($data['dashboardId']) ? self::getDefaultDashboard() : $data['dashboardId'],
 			])->execute();
 			$widgetId = $db->getLastInsertID('vtiger_module_dashboard_widgets_id_seq');
