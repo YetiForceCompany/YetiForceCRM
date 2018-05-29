@@ -28,8 +28,8 @@
     "PLL_COURIER_DHL": "Curier DHL",
     "PLL_COURIER_UPS": "Curier UPS",
     "PLL_COURIER_GLS": "Curier GLS",
-    "PLL_COURIER_DPD": "Curier DPD"
-    "PLL_FAN_COURIER": "Fan Courier"
+    "PLL_COURIER_DPD": "Curier DPD",
+    "PLL_FAN_COURIER": "Fan Courier",
     "PLL_TELEX": "Telex",
     "PLL_EMAIL": "E-mail",
     "PLL_POCZTEX": "Pocztex",
