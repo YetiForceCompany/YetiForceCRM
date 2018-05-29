@@ -17,6 +17,12 @@
 	}
 }
 
+@include media-breakpoint-down(xs) {
+	.c-btn-block-xs-down {
+		width: 100% !important;
+	}
+}
+
 .c-btn-checkbox {
 	.c-btn-checkbox--checked {
 		display: none;
@@ -31,4 +37,12 @@
 			display: inline-block;
 		}
 	}
+}
+
+.c-btn-outline-done {
+	@include button-outline-variant($indigo-dark);
+}
+
+.c-btn-done {
+	@include button-variant($indigo-dark, $indigo-dark);
 }

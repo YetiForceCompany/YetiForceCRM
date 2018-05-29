@@ -108,7 +108,7 @@
 										</div>
 										<div class="float-right d-flex my-2">
 											<div class="btn-group-toggle pr-1" data-toggle="buttons">
-												<label class="btn btn-outline-primary c-btn-checkbox js-btn--mark-as-held" data-js="click">
+												<label class="btn c-btn-checkbox c-btn-outline-done js-btn--mark-as-completed" data-js="click">
 													<strong>
 													<span class="far fa-square fa-lg mr-1 c-btn-checkbox--unchecked"></span>
 													<span class="far fa-check-square fa-lg mr-1 c-btn-checkbox--checked"></span>
