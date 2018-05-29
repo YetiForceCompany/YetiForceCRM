@@ -457,11 +457,14 @@ class Project_Gantt_Model
 			'targetenddate',
 			'assigned_user_id'
 		]);
-		$queryGenerator->addNativeCondition([
-			'or',
-			['parentid' => $id],
-			['projectid' => array_diff($id, array_keys($this->tasksById))]
-		]);
+		if ($id !== [0]) {
+			// empty id means that we want all projects
+			$queryGenerator->addNativeCondition([
+				'or',
+				['parentid' => $id],
+				['projectid' => array_diff($id, array_keys($this->tasksById))]
+			]);
+		}
 		if ($viewName) {
 			$query = $queryGenerator->getCustomViewQueryById($viewName);
 		} else {
@@ -503,7 +506,7 @@ class Project_Gantt_Model
 			}
 			$this->tasksById[$row['id']] = $project;
 			$projects[] = $project;
-			if (!in_array($row['id'], $id)) {
+			if ($id !== [0] && !in_array($row['id'], $id)) {
 				$childrenIds[] = $row['id'];
 			}
 		}
