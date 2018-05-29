@@ -621,7 +621,7 @@ class Project_Gantt_Model
 				'type' => 'milestone',
 				'projectmilestone_status' => $row['projectmilestone_status'],
 				'normalized_status' => $row['projectmilestone_status'],
-				'status_label'=> App\Language::translate($row['projectmilestone_status'], 'ProjectMilestone'),
+				'status_label' => App\Language::translate($row['projectmilestone_status'], 'ProjectMilestone'),
 				'canWrite' => false,
 				'canDelete' => false,
 				'status' => 'STATUS_ACTIVE',
@@ -722,18 +722,28 @@ class Project_Gantt_Model
 			$taskClosing = $closingStatuses['ProjectTask']['status'];
 		}
 		$allStatuses = $this->getPicklistValues();
-		$data['Project'] = array_values(array_map(function ($status) use ($projectClosing) {
-			$status['closing'] = in_array($status['value'], $projectClosing);
-			return $status;
-		}, $allStatuses['Project']['projectstatus']));
-		$data['ProjectMilestone'] = array_values(array_map(function ($status) use ($milestoneClosing) {
-			$status['closing'] = in_array($status['value'], $milestoneClosing);
-			return $status;
-		}, $allStatuses['ProjectMilestone']['projectmilestone_status']));
-		$data['ProjectTask'] = array_values(array_map(function ($status) use ($taskClosing) {
-			$status['closing'] = in_array($status['value'], $taskClosing);
-			return $status;
-		}, $allStatuses['ProjectTask']['projecttaskstatus']));
+		foreach ($allStatuses as $moduleName => $fieldName) {
+			switch ($moduleName) {
+				case 'Project':
+					foreach ($fieldName['projectstatus'] as $status) {
+						$status['closing'] = in_array($status['value'], $projectClosing);
+						$data['Project'][] = $status;
+					}
+					break;
+				case 'ProjectMilestone':
+					foreach ($fieldName['projectmilestone_status'] as $status) {
+						$status['closing'] = in_array($status['value'], $milestoneClosing);
+						$data['ProjectMilestone'][] = $status;
+					}
+					break;
+				case 'ProjectTask':
+					foreach ($fieldName['projecttaskstatus'] as $status) {
+						$status['closing'] = in_array($status['value'], $taskClosing);
+						$data['ProjectTask'][] = $status;
+					}
+					break;
+			}
+		}
 		return $data;
 	}
 }
