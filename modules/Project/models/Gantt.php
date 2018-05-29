@@ -45,6 +45,11 @@ class Project_Gantt_Model
 	private $picklistsValues;
 
 	/**
+	 * @var statuses - with closing value
+	 */
+	private $statuses;
+
+	/**
 	 * Get parent nodes id as associative array [taskId]=>[parentId1,parentId2,...].
 	 *
 	 * @param string|int $parentId
@@ -707,6 +712,9 @@ class Project_Gantt_Model
 	 */
 	public function getStatuses()
 	{
+		if (!empty($this->statuses)) {
+			return $this->statuses;
+		}
 		$data = [];
 		$closingStatuses = Settings_RealizationProcesses_Module_Model::getStatusNotModify();
 		$projectClosing = [];
