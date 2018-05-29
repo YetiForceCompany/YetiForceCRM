@@ -148,8 +148,8 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$recordModel->set('activitytype', $activityType);
 			$recordModel->set('visibility', $visibility);
 		}
-		if ($request->has('saveAndClose')) {
-			$recordModel->set('activitystatus', $request->get('saveAndClose'));
+		if ($request->has('markAsCompleted')) {
+			$recordModel->set('activitystatus', $request->get('markAsCompleted'));
 		}
 		if ($endTime && $startTime) {
 			$time = (strtotime($endTime)) - (strtotime($startTime));
