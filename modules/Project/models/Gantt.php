@@ -555,7 +555,7 @@ class Project_Gantt_Model
 	public function getById($id)
 	{
 		$this->getStatusColors();
-		$projects = $this->getProjects($id);
+		$projects = $this->getProject($id);
 		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
 		$tasks = $this->getGanttTasks($projectIds);
