@@ -556,6 +556,7 @@ class Project_Gantt_Model
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
 			$response['tasks'] = $this->cleanup($this->flattenRecordTasks($this->tree['children']));
 		}
+		unset($projectIds, $milestones, $tasks, $projects);
 		return $response;
 	}
 
@@ -570,9 +571,7 @@ class Project_Gantt_Model
 	{
 		$this->getStatusColors();
 		$projects = $this->getProjects($id);
-		$projectIds = array_map(function ($item) {
-			return $item['id'];
-		}, $projects);
+		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
 		$tasks = $this->getGanttTasks($projectIds);
 		$this->tasks = array_merge($projects, $milestones, $tasks);
@@ -594,6 +593,7 @@ class Project_Gantt_Model
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
 			$response['tasks'] = $this->cleanup($this->flattenRecordTasks($this->tree['children']));
 		}
+		unset($projects, $projectIds, $milestones, $tasks);
 		return $response;
 	}
 
@@ -644,6 +644,7 @@ class Project_Gantt_Model
 			$milestones[] = $milestone;
 		}
 		$dataReader->close();
+		unset($dataReader, $queryGenerator);
 		return $milestones;
 	}
 
@@ -699,6 +700,7 @@ class Project_Gantt_Model
 			$tasks[] = $task;
 		}
 		$dataReader->close();
+		unset($dataReader, $queryGenerator, $taskTime, $endDate);
 		return $tasks;
 	}
 
@@ -739,6 +741,7 @@ class Project_Gantt_Model
 				$data['ProjectTask'][] = $status;
 			}
 		}
+		unset($closingStatuses, $allStatuses);
 		return $data;
 	}
 }
