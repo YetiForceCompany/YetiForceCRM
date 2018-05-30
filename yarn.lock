@@ -265,7 +265,7 @@ inputmask@^3.3.11:
 
 "jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master":
   version "0.0.0"
-  resolved "https://github.com/YetiForceCompany/jQuery-Validation-Engine#04e426be92aed34f4e2f887031b558ed39460dc3"
+  resolved "https://github.com/YetiForceCompany/jQuery-Validation-Engine#2116548bf1d91cf5f33b725e3e759146f088679f"
 
 "jQueryGantt@https://github.com/robicch/jQueryGantt#master":
   version "0.0.0"
@@ -395,6 +395,10 @@ redeyed@~1.0.0:
 respond.js@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/respond.js/-/respond.js-1.4.2.tgz#fd5c07450acce6090916d8d090b86b672dd9748b"
+
+sass-material-colors@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/sass-material-colors/-/sass-material-colors-0.0.5.tgz#b944539236c94e2d4ece35d2ee3fa22f10b2ed43"
 
 "select2-bootstrap-theme@https://github.com/angel-vladov/select2-bootstrap-theme.git":
   version "0.2.0-beta.2"

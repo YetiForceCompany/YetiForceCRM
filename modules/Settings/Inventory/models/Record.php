@@ -92,7 +92,7 @@ class Settings_Inventory_Record_Model extends \App\Base
 				'value' => $this->get('value'),
 				'status' => $this->get('status')
 			];
-			if($this->getType() === 'Taxes') {
+			if ($this->getType() === 'Taxes') {
 				if ($this->get('default')) {
 					$this->disableDefaultsTax();
 				}
@@ -100,7 +100,7 @@ class Settings_Inventory_Record_Model extends \App\Base
 			}
 			\App\Db::getInstance()->createCommand()
 				->update($tablename, $updateRows, ['id' => $id])
-					->execute();
+				->execute();
 		} else {
 			$id = $this->add();
 		}
