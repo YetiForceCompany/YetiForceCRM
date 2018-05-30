@@ -1,52 +1,33 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-
-.c-menu--container {
-	.c-menu__header {
-		height: 50px;
-		padding-right: 0;
-		padding-left: 0;
-		background-color: #406a95;
-	}
-
-	position: fixed;
-	left: 0;
-	top: 0;
-	bottom: 33px;
-	width: 230px;
-	color: $y-menu-font-color;
-	z-index: 1030;
-	background: $y-menu-background;
-
-	.c-menu__body {
-		height: calc(100% - 50px);
-		width: 100%;
-		position: relative;
-	}
-
-	.c-menu__body .modulesList .menuIcon {
-		padding-right: 18px;
-		font-size: 1.6em;
-		height: 100%;
-		min-width: 42px;
-	}
-
-	.row {
-		padding: 0;
-		margin: 0;
-	}
-
-	a {
+.c-menu {
+	&--container {
+		position: fixed;
+		left: 0;
+		top: 0;
+		bottom: 33px;
+		width: 230px;
 		color: $y-menu-font-color;
+		z-index: 1030;
+		background: $y-menu-background;
 
-		&:hover {
-			text-decoration: none;
-			cursor: pointer;
+		.row {
+			padding: 0;
+			margin: 0;
 		}
 
-		transition: background-color 0.2s ease;
+		a {
+			color: $y-menu-font-color;
+
+			&:hover {
+				text-decoration: none;
+				cursor: pointer;
+			}
+
+			transition: background-color 0.2s ease;
+		}
 	}
 
-	.tpl-Menu {
+	&__content {
 		a {
 			display: inline-flex;
 			width: 100%;
@@ -164,6 +145,33 @@
 					padding: 6px 12px;
 				}
 			}
+		}
+	}
+
+	&__body {
+		height: calc(100% - 50px);
+		width: 100%;
+		position: relative;
+
+		.modulesList .menuIcon {
+			padding-right: 18px;
+			font-size: 1.6em;
+			height: 100%;
+			min-width: 42px;
+		}
+	}
+
+	&__header {
+		height: 50px;
+		padding-right: 0;
+		padding-left: 0;
+		background-color: #406a95;
+	}
+
+	&--animation {
+		.basePanel,
+		.bodyHeader {
+			@include u-transition((left ease 0.2s 0.5s));
 		}
 	}
 }
