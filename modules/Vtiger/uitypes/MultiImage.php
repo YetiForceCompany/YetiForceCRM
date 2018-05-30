@@ -315,11 +315,10 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	/**
 	 * Duplicate value from record.
 	 *
-	 * @param              $value
+	 * @param array        $value
 	 * @param \App\Request $request
 	 *
-	 * @throws \App\Exceptions\AppException
-	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\FieldException
 	 */
 	public function duplicateValueFromRecord(&$value, \App\Request $request)
 	{
@@ -333,16 +332,52 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				if ($key === false) {
 					continue;
 				}
-				$suffix = \App\Encryption::generatePassword(2);
-				if (copy($item['path'], $item['path'] . $suffix)) {
-					$item['key'] .= $suffix;
-					$item['path'] .= $suffix;
+				$file = \App\Fields\File::loadFromPath($item['path']);
+				$dirPath = $file->getDirectoryPath();
+				$newKey = $file->generateHash(true, $dirPath);
+				$path = $dirPath . DIRECTORY_SEPARATOR . $newKey;
+				if (copy($item['path'], $path)) {
+					$item['key'] = $newKey;
+					$item['path'] = $path;
 					$value[$key] = $item;
 				} else {
-					\App\Log::error("Error during file copy: {$item['path']} >> {$item['path']}{$suffix}");
+					\App\Log::error("Error during file copy: {$item['path']} >> {$path}");
+					throw new \App\Exceptions\FieldException('ERR_CREATE_FILE_FAILURE');
 				}
 			}
 		}
+	}
+
+	/**
+	 * Duplicate value from record.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 *
+	 * @throws \App\Exceptions\FieldException
+	 *
+	 * @return string
+	 */
+	public function getDuplicateValue(Vtiger_Record_Model $recordModel)
+	{
+		$value = [];
+		$copyValue = $recordModel->get($this->getFieldModel()->getFieldName());
+		if ($copyValue && $copyValue !== '[]' && $copyValue !== '""') {
+			foreach (\App\Json::decode($copyValue) as $item) {
+				$file = \App\Fields\File::loadFromPath($item['path']);
+				$dirPath = $file->getDirectoryPath();
+				$newKey = $file->generateHash(true, $dirPath);
+				$path = $dirPath . DIRECTORY_SEPARATOR . $newKey;
+				if (copy($item['path'], $path)) {
+					$item['key'] = $newKey;
+					$item['path'] = $path;
+					$value[] = $item;
+				} else {
+					\App\Log::error("Error during file copy: {$item['path']} >> {$item['path']}{$suffix}");
+					throw new \App\Exceptions\FieldException('ERR_CREATE_FILE_FAILURE');
+				}
+			}
+		}
+		return $this->getDBValue($value, $recordModel);
 	}
 
 	/**
