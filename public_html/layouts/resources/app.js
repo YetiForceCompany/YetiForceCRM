@@ -1436,7 +1436,6 @@ $(document).ready(function () {
 		window.pageController = pageController;
 		window.pageController.registerEvents();
 	}
-	app.animateModal($('.modal'), 'fadeIn', 'fadeOut');
 });
 (function ($) {
 	$.fn.getNumberFromValue = function () {
