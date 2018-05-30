@@ -1120,26 +1120,24 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var module = app.getModuleName();
 			var element = jQuery(e.currentTarget);
 
-			var customParams = {};
+			let customParams = {};
 			customParams['sourceModule'] = module;
 			customParams['sourceRecord'] = recordId;
 			if (module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] !== "undefined" && typeof thisInstance.referenceFieldNames[referenceModuleName][module] !== "undefined") {
 				var relField = thisInstance.referenceFieldNames[referenceModuleName][module];
 				customParams[relField] = recordId;
+
 			}
 			var fullFormUrl = element.data('url');
 			var preQuickCreateSave = function (data) {
 				thisInstance.addElementsToQuickCreateForCreatingRelation(data, customParams);
-
 				var taskGoToFullFormButton = data.find('[class^="CalendarQuikcCreateContents"]').find('#goToFullForm');
 				var eventsGoToFullFormButton = data.find('[class^="EventsQuikcCreateContents"]').find('#goToFullForm');
 				var taskFullFormUrl = taskGoToFullFormButton.data('edit-view-url') + "&" + fullFormUrl;
 				var eventsFullFormUrl = eventsGoToFullFormButton.data('edit-view-url') + "&" + fullFormUrl;
 				taskGoToFullFormButton.data('editViewUrl', taskFullFormUrl);
 				eventsGoToFullFormButton.data('editViewUrl', eventsFullFormUrl);
-
 			}
-
 			var callbackFunction = function () {
 				var widgetContainer = element.closest('.js-detail-widget');
 				var widgetContentBlock = widgetContainer.find('.widgetContentBlock');
@@ -1159,10 +1157,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 				thisInstance.loadWidgets();
 			}
 
+
+
 			var QuickCreateParams = {};
 			QuickCreateParams['callbackPostShown'] = preQuickCreateSave;
 			QuickCreateParams['callbackFunction'] = callbackFunction;
-			QuickCreateParams['data'] = customParams;
+			QuickCreateParams['data'] = {...customParams};
 			QuickCreateParams['noCache'] = false;
 			Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, QuickCreateParams);
 		});
