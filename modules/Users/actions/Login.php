@@ -11,6 +11,8 @@
 
 class Users_Login_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * Users record model.
 	 *
@@ -24,6 +26,16 @@ class Users_Login_Action extends \App\Controller\Action
 	 * @var \App\User
 	 */
 	private $userModel;
+
+	/**
+	 * Constructor.
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('login');
+		$this->exposeMethod('checkTotp');
+	}
 
 	/**
 	 * {@inheritdoc}
@@ -46,6 +58,58 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	public function process(\App\Request $request)
 	{
+		if (\App\Session::get('authy_method') === 'TOTP') {
+			$this->checkTotp($request);
+		} else {
+			$this->login($request);
+		}
+	}
+
+	/**
+	 * Check if 2FA verification is necessary.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function checkTotp(\App\Request $request)
+	{
+		$userCode = $request->getInteger('user_code');
+		$userId = \App\Session::get('totp_user_id');
+		$userModel = \App\User::getUserModel($userId);
+		$secret = $userModel->getDetail('authy_secret_totp');
+		$checkResult = Users_Totp_Authmethod::verifyCode($secret, $userCode);
+		if ($checkResult) {
+			\App\Session::set('authenticated_user_id', $userId);
+			\App\Session::delete('totp_user_id');
+			$this->redirectUser();
+		}
+		//TODO - Wrong code
+	}
+
+	/**
+	 * Redirect the user to a different page.
+	 */
+	private function redirectUser()
+	{
+		if (isset($_SESSION['return_params'])) {
+			header('Location: index.php?' . $_SESSION['return_params']);
+		} elseif (AppConfig::performance('SHOW_ADMIN_PANEL') && $this->userModel->isAdmin()) {
+			header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
+		} else {
+			header('Location: index.php');
+		}
+	}
+
+	/**
+	 * User login to the system.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return bool
+	 */
+	public function login(\App\Request $request)
+	{
 		$moduleName = $request->getModule();
 		$userName = $request->get('username');
 		$password = $request->getRaw('password');
@@ -60,7 +124,6 @@ class Users_Login_Action extends \App\Controller\Action
 		if ($request->getMode('mode') === 'install') {
 			$this->cleanInstallationFiles();
 		}
-
 		$this->userRecordModel = Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
 		if (!empty($password) && $this->userRecordModel->doLogin($password)) {
 			$this->userModel = App\User::getUserModel($this->userRecordModel->getId());
@@ -70,15 +133,12 @@ class Users_Login_Action extends \App\Controller\Action
 				header('Location: index.php');
 				return true;
 			}
-
 			$this->afterLogin($request);
 			$moduleModel->saveLoginHistory(strtolower($userName)); //Track the login History
-			if (isset($_SESSION['return_params'])) {
-				header('Location: index.php?' . $_SESSION['return_params']);
-			} elseif (AppConfig::performance('SHOW_ADMIN_PANEL') && $this->userModel->isAdmin()) {
-				header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
+			if (Users_Totp_Authmethod::isRequired($this->userRecordModel->getId()) && !Users_Totp_Authmethod::isRequiredInit($this->userRecordModel->getId())) {
+				header('Location: index.php?module=Users&view=Login');
 			} else {
-				header('Location: index.php');
+				$this->redirectUser();
 			}
 			return true;
 		}
@@ -103,18 +163,28 @@ class Users_Login_Action extends \App\Controller\Action
 	public function afterLogin(\App\Request $request)
 	{
 		if (AppConfig::main('session_regenerate_id')) {
-			App\Session::regenerateId(true); // to overcome session id reuse.
+			\App\Session::regenerateId(true); // to overcome session id reuse.
 		}
-		App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
-		App\Session::set('app_unique_key', AppConfig::main('application_unique_key'));
-		App\Session::set('user_name', $this->userRecordModel->get('user_name'));
-		App\Session::set('full_user_name', $this->userModel->getName());
-		App\Session::set('fingerprint', $request->get('fingerprint'));
+		if (Users_Totp_Authmethod::isRequired($this->userRecordModel->getId())) {
+			if (Users_Totp_Authmethod::isRequiredInit($this->userRecordModel->getId())) {
+				\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
+				\App\Session::set('authy_totp_init', true);
+			} else {
+				\App\Session::set('authy_method', 'TOTP');
+				\App\Session::set('totp_user_id', $this->userRecordModel->getId());
+			}
+		} else {
+			\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
+		}
+		\App\Session::set('app_unique_key', AppConfig::main('application_unique_key'));
+		\App\Session::set('user_name', $this->userRecordModel->get('user_name'));
+		\App\Session::set('full_user_name', $this->userModel->getName());
+		\App\Session::set('fingerprint', $request->get('fingerprint'));
 		if ($request->has('loginLanguage') && AppConfig::main('langInLoginView')) {
-			App\Session::set('language', $request->getByType('loginLanguage'));
+			\App\Session::set('language', $request->getByType('loginLanguage'));
 		}
 		if ($request->has('layout')) {
-			App\Session::set('layout', $request->getByType('layout'));
+			\App\Session::set('layout', $request->getByType('layout'));
 		}
 	}
 

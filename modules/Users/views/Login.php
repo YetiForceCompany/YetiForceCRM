@@ -11,6 +11,18 @@
 
 class Users_Login_View extends \App\Controller\View
 {
+	use \App\Controller\ExposeMethod;
+
+	/**
+	 * Constructor.
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('login');
+		$this->exposeMethod('checkTotp');
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -57,6 +69,37 @@ class Users_Login_View extends \App\Controller\View
 	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
+	{
+		if (\App\Session::get('authy_method') === 'TOTP') {
+			$this->checkTotp($request);
+		} else {
+			$this->login($request);
+		}
+	}
+
+	/**
+	 * Check if 2FA verification is necessary.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function checkTotp(\App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULE', $request->getModule());
+		$viewer->assign('IS_BLOCKED_IP', Settings_BruteForce_Module_Model::getCleanInstance()->isBlockedIp());
+		$viewer->view('Login2faTotp.tpl', 'Users');
+	}
+
+	/**
+	 * User login to the system.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return bool
+	 */
+	public function login(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
