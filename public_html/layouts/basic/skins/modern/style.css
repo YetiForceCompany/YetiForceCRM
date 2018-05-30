@@ -243,7 +243,7 @@ i {
 .quickAction .dropdown-menu.dropdown-menu-right.commonActionsButtonDropDown {
 	padding: 0;
 }
-.vtFooter p, .userDetailsContainer {
+.vtFooter p, .c-menu__header {
 	background-color: #12ad4e;
 }
 .vtFooter p {
@@ -427,10 +427,10 @@ label {
 .labelConstainer {
 	width: 150px;
 }
-.o-base-container .leftPanel .menuContainer a.hasIcon {
+.o-base-container .leftPanel .c-menu__body a.hasIcon {
 	padding: 3px 13px;
 }
-.o-base-container .leftPanel .menuContainer a {
+.o-base-container .leftPanel .c-menu__body a {
 	font-size: 14px;
 	font-weight: 500;
 }
@@ -451,13 +451,13 @@ label {
 .iconContainer {
 	min-width: 34px;
 }
-.o-base-container .leftPanel .menuContainer a {
+.o-base-container .leftPanel .c-menu__body a {
 	padding: 6px 15px 6px 35px;
 }
 .hovernav .menuLabel .labelConstainer {
 	width: 175px;
 }
-.leftPanel .menuContainer .modulesList .menuIcon,
+.leftPanel .c-menu__body .modulesList .menuIcon,
 .ui-draggable-menuShortcut .menuIcon {
 	padding-right: 16px;
 }

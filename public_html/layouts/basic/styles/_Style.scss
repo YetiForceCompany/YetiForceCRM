@@ -2971,7 +2971,7 @@ html, body, .o-base-container {
 }
 
 @media only screen and (max-width: 1200px) {
-	.o-base-container:not(.leftPanelOpen) .leftPanel:hover + .basePanel {
+	.o-base-container:not(.c-menu--open) .leftPanel:hover + .basePanel {
 		width: calc(100% - 180px);
 		-webkit-transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
 		transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;

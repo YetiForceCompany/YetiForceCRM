@@ -1250,11 +1250,11 @@ app = {
 			if (pinButton.attr('data-show') === '0') {
 				hideMenu = 'on';
 				pinButton.removeClass('u-opacity-muted');
-				baseContainer.addClass('leftPanelOpen');
+				baseContainer.addClass('c-menu--open');
 				self.sidebar.off('mouseleave mouseenter');
 			} else {
 				pinButton.addClass('u-opacity-muted');
-				baseContainer.removeClass('leftPanelOpen');
+				baseContainer.removeClass('c-menu--open');
 				self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
 				self.closeSidebar.bind(self);
 			}

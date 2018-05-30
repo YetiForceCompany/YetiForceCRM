@@ -3,7 +3,7 @@
 </div>
 </div>
 </div>
-<div class="{if $USER_MODEL->get('leftpanelhide')}leftPanelOpen {/if}siteBarRight">
+<div class="{if $USER_MODEL->get('leftpanelhide')}c-menu--open {/if}siteBarRight">
 	<div class="btn btn-block toggleSiteBarRightButton" title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
 		<span class="fas fa-chevron-right"></span>
 	</div>

@@ -780,7 +780,7 @@ $.Class("Vtiger_Header_Js", {
 	registerEvents: function () {
 		var thisInstance = this;
 		const container = thisInstance.getContentsContainer(),
-			menuContainer = container.find('.leftPanel .menuContainer'),
+			menuContainer = container.find('.js-menu--scroll'),
 			quickCreateModal = container.find('.quickCreateModules');
 		app.showNewLeftScrollbar(menuContainer, {suppressScrollX: true});
 		app.showNewScrollbar(menuContainer.find('.subMenu').last(), {suppressScrollX: true});
