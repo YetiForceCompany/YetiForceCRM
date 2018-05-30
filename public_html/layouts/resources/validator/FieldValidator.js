@@ -180,9 +180,19 @@ Vtiger_Base_Validator_Js("Vtiger_PositiveNumber_Validator_Js", {
 		} else {
 			maximumLength = this.getElement().data('maximumlength');
 		}
-		if (maximumLength && parseFieldValue > parseFloat(maximumLength)) {
-			this.setError(app.vtranslate('JS_ERROR_MAX_VALUE'));
-			return false;
+		let ranges = maximumLength.split(',');
+		if (ranges.length === 2) {
+			if (fieldValue > parseFloat(ranges[1]) || fieldValue < parseFloat(ranges[0])) {
+				errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
+				this.setError(errorInfo);
+				return false;
+			}
+		} else {
+			if (fieldValue > parseFloat(ranges[0]) || fieldValue < 0) {
+				errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
+				this.setError(errorInfo);
+				return false;
+			}
 		}
 		return true;
 	}
