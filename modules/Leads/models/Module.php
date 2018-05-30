@@ -12,45 +12,6 @@
 class Leads_Module_Model extends Vtiger_Module_Model
 {
 	/**
-	 * Function returns the Number of Leads created per week.
-	 *
-	 * @param type $data
-	 *
-	 * @return <Array>
-	 */
-	public function getLeadsCreated($owner, $dateFilter)
-	{
-		$db = PearDatabase::getInstance();
-		$module = $this->getName();
-		$securityParameter = \App\PrivilegeQuery::getAccessConditions($module);
-		if (!empty($owner)) {
-			$ownerSql = ' && smownerid = ' . $owner;
-		}
-
-		$params = [];
-		if (!empty($dateFilter)) {
-			$dateFilterSql = ' && createdtime BETWEEN ? AND ? ';
-			//client is not giving time frame so we are appending it
-			$params[] = $dateFilter['start'] . ' 00:00:00';
-			$params[] = $dateFilter['end'] . ' 23:59:59';
-		}
-
-		$sql = sprintf('SELECT COUNT(*) AS count, date(createdtime) AS time FROM vtiger_leaddetails
-		INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-		WHERE deleted = 0 %s %s %s', $ownerSql, $dateFilterSql, $securityParameter);
-		$sql .= ' && converted = 0 GROUP BY week(createdtime)';
-		$result = $db->pquery($sql, $params);
-
-		$response = [];
-		while ($row = $db->getRow($result)) {
-			$response[$i][0] = $row['count'];
-			$response[$i][1] = $row['time'];
-		}
-
-		return $response;
-	}
-
-	/**
 	 * Function to get Converted Information for selected records.
 	 *
 	 * @param array $recordIdsList
@@ -66,7 +27,6 @@ class Leads_Module_Model extends Vtiger_Module_Model
 				->where(['leadid' => $recordIdsList])
 				->createCommand()->queryAllByGroup(0);
 		}
-
 		return $convertedInfo;
 	}
 
