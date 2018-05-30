@@ -53,13 +53,17 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$fieldId = $request->get('fieldid');
 		$fieldInstance = Vtiger_Field_Model::getInstance($fieldId);
 		$uitypeModel = $fieldInstance->getUITypeModel();
-		$fields = ['presence', 'quickcreate', 'summaryfield', 'helpinfo', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn'];
-		foreach ($request->getAll() as $key => $value) {
-			if ($key == 'mandatory') {
-				$fieldInstance->updateTypeofDataFromMandatory($value);
-			}
-			if (in_array($key, $fields)) {
-				$fieldInstance->set($key, $value);
+		$fields = ['presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'mandatory'];
+		foreach ($fields as $field) {
+			if ($request->has($field)) {
+				switch ($field) {
+					case 'mandatory':
+						$fieldInstance->updateTypeofDataFromMandatory($request->getByType($field, 'Standard'));
+						break;
+					default:
+						$fieldInstance->set($field, $request->getInteger($field));
+						break;
+				}
 			}
 		}
 		if ($request->has('fieldMask')) {
