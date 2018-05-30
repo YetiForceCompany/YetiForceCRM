@@ -132,4 +132,53 @@ class Users_Totp_Authmethod
 	{
 		return (new PHPGangsta_GoogleAuthenticator())->verifyCode($secret, (string) $userCode, static::CLOCK_TOLERANCE);
 	}
+
+	/**
+	 * Determine whether 2FA is required.
+	 *
+	 * @param int|null $userId - if null then getCurrentUserRealId
+	 *
+	 * @return bool
+	 */
+	public static function isRequired($userId = null)
+	{
+		if (\AppConfig::main('systemMode') === 'demo') {
+			return false;
+		}
+		switch (AppConfig::security('USER_AUTHY_MODE')) {
+			case 'TOTP_OFF':
+				return false;
+				break;
+			case 'TOTP_OPTIONAL':
+				if (empty($userId)) {
+					$userId = \App\User::getCurrentUserRealId();
+				}
+				$userModel = \App\User::getUserModel($userId);
+				return $userModel->getDetail('authy_methods') === 'PLL_AUTHY_TOTP';
+				break;
+			case 'TOTP_OBLIGATORY':
+				if (in_array(\App\User::getCurrentUserRealId(), AppConfig::security('USER_AUTHY_TOTP_EXCEPTIONS'))) {
+					return false;
+				}
+				return true;
+				break;
+		}
+		return false;
+	}
+
+	/**
+	 * Check if 2FA initiation is necessary.
+	 *
+	 * @param int|null $userId - if null then getCurrentUserRealId
+	 *
+	 * @return bool
+	 */
+	public static function isRequiredInit($userId = null)
+	{
+		if (static::isRequired($userId)) {
+			$userModel = \App\User::getUserModel($userId);
+			return empty($userModel->getDetail('authy_secret_totp'));
+		}
+		return false;
+	}
 }
