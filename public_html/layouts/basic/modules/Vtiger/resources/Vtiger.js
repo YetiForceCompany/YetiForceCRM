@@ -430,18 +430,21 @@ var Vtiger_Index_Js = {
 				});
 			}
 		}
+
 		function get_popover_placement(el) {
 			if (window.innerWidth - jQuery(el).offset().left < 400 || checkLastElement(el)) {
 				return 'left';
 			}
 			return 'right';
 		}
+
 		//The function checks if the selected element is the last element of the table in list view.
 		function checkLastElement(el) {
 			let parent = el.closest('tr');
 			let lastElementTd = parent.find('td.listViewEntryValue:last a');
 			return el.attr('href') === lastElementTd.attr('href');
 		}
+
 		function showTooltip(el, data) {
 			el.popover({
 				//title: '', - Is derived from the Anchor Element (el).
@@ -455,11 +458,13 @@ var Vtiger_Index_Js = {
 			lastPopovers.push(el.popover('show'));
 			registerToolTipDestroy();
 		}
+
 		function hideAllTooltipViews() {
 			while (lastPopover = lastPopovers.pop()) {
 				lastPopover.popover('hide');
 			}
 		}
+
 		function hidePop() {
 			$(".popover").on("mouseleave", function () {
 				hideAllTooltipViews();
@@ -472,6 +477,7 @@ var Vtiger_Index_Js = {
 				}, 100);
 			});
 		}
+
 		function registerToolTipDestroy() {
 			$('button[name="vtTooltipClose"]').on('click', function (e) {
 				const lastPopover = lastPopovers.pop();
@@ -479,6 +485,7 @@ var Vtiger_Index_Js = {
 				$('.popover').css("display", "none", "important");
 			});
 		}
+
 		references.hoverIntent({
 			interval: 100,
 			sensitivity: 7,
@@ -600,6 +607,20 @@ var Vtiger_Index_Js = {
 			app.showModalWindow(null, 'index.php?module=Users&view=PasswordModal&mode=change&record=' + CONFIG.userId);
 		}
 	},
+	/**
+	 * Modal window support from 2FA authentication
+	 * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+	 * @param timer
+	 */
+	registerTwoFactorAuthenticationModalModal: function () {
+		if (app.getMainParams('authy_totp_init')) {
+			let params = {
+				backdrop: 'static',
+				url: 'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' + CONFIG.userId
+			};
+			app.showModalWindow(params);
+		}
+	},
 	registerEvents: function () {
 		Vtiger_Index_Js.registerWidgetsEvents();
 		Vtiger_Index_Js.loadWidgetsOnLoad();
@@ -608,6 +629,7 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.changeSkin();
 		Vtiger_Index_Js.registerResizeEvent();
 		Vtiger_Index_Js.registerUserPasswordChangeModal();
+		Vtiger_Index_Js.registerTwoFactorAuthenticationModalModal();
 	},
 	registerPostAjaxEvents: function () {
 		Vtiger_Index_Js.registerTooltipEvents();
