@@ -25,7 +25,9 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 		$pageNumber = $request->getInteger('page');
 		$searchResult = $request->get('searchResult');
 		$qualifiedModuleName = $request->getModule(false);
+		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $qualifiedModuleName);
 		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
+		$listViewModel->set('query_generator', new \App\QueryGenerator($modelClassName));
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
@@ -54,7 +56,7 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
-		$transformedSearchParams = $this->transferListSearchParamsToFilterCondition($searchParmams, $listViewModel->getModule());
+		$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 		$listViewModel->set('search_params', $transformedSearchParams);
 		if (!empty($searchResult) && is_array($searchResult)) {
 			$listViewModel->get('query_generator')->addNativeCondition(['vtiger_crmentity.crmid' => $searchResult]);
@@ -77,11 +79,6 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		echo $viewer->view('Pagination.tpl', $moduleName, true);
-	}
-
-	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
-	{
-		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
+		echo $viewer->view('Pagination.tpl', $qualifiedModuleName, true);
 	}
 }
