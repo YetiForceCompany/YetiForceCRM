@@ -64,7 +64,7 @@ class Inventory extends \Tests\Base
 		$recordModel->set('name', $name);
 		$recordModel->set('value', $value);
 		$recordModel->set('status', $status);
-		if($default !== false && $type === 'Taxes') {
+		if ($default !== false && $type === 'Taxes') {
 			$recordModel->set('default', $default);
 		}
 		$recordModel->setType($type);
