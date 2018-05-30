@@ -14,16 +14,6 @@
 	border-top: 3px solid #404952;
 }
 
-.c-menu {
-	&--animation {
-	.basePanel,
-	.bodyHeader {
-		@include u-transition((left ease 0.2s 0.5s));
-	}
-}
-
-}
-
 .o-base-container {
 	.basePanel {
 		position: relative;
