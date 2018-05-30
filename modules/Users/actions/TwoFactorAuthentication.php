@@ -59,7 +59,7 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	{
 		$moduleName = $request->getModule();
 		$secret = $request->getByType('secret', 'Alnum');
-		$userCode = $request->getInteger('user_code');
+		$userCode = $request->getByType('user_code', 'Digital');
 		$checkResult = Users_Totp_Authmethod::verifyCode($secret, $userCode);
 		if ($checkResult) {
 			$userRecordModel = Users_Record_Model::getInstanceById(\App\User::getCurrentUserRealId(), $moduleName);
