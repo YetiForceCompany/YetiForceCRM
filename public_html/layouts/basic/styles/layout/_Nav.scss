@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 .leftPanel {
-	.userDetailsContainer {
+	.c-menu__header {
 		height: 50px;
 		padding-right: 0;
 		padding-left: 0;
@@ -17,13 +17,13 @@
 	z-index: 1030;
 	background: $y-menu-background;
 
-	.menuContainer {
+	.c-menu__body {
 		height: calc(100% - 50px);
 		width: 100%;
 		position: relative;
 	}
 
-	.menuContainer .modulesList .menuIcon {
+	.c-menu__body .modulesList .menuIcon {
 		padding-right: 18px;
 		font-size: 1.6em;
 		height: 100%;

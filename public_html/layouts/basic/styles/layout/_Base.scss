@@ -14,11 +14,14 @@
 	border-top: 3px solid #404952;
 }
 
-.c-menu--animation {
+.c-menu {
+	&--animation {
 	.basePanel,
 	.bodyHeader {
 		@include u-transition((left ease 0.2s 0.5s));
 	}
+}
+
 }
 
 .o-base-container {
@@ -36,7 +39,7 @@
 		left: 230px;
 	}
 
-	&:not(.leftPanelOpen) {
+	&:not(.c-menu--open) {
 		.basePanel {
 			margin-left: 50px;
 		}
