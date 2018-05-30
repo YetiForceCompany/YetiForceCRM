@@ -18,11 +18,11 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	public function getDBValue($value, $recordModel = false)
 	{
 		if ($value) {
+			$value = trim($value, ',');
 			$value = ",$value,";
 		} elseif (is_null($value)) {
 			$value = '';
 		}
-
 		return \App\Purifier::decodeHtml($value);
 	}
 
