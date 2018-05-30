@@ -197,6 +197,18 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Duplicate value from record.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 *
+	 * @return mixed
+	 */
+	public function getDuplicateValue(Vtiger_Record_Model $recordModel)
+	{
+		return $recordModel->get($this->getFieldModel()->getFieldName());
+	}
+
+	/**
 	 * Static function to get the UIType object from Vtiger Field Model.
 	 *
 	 * @param Vtiger_Field_Model $fieldModel
