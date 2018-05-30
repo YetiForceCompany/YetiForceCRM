@@ -1,8 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @charset 'UTF-8';
 //-------- global variables --------//
-@import '../../../libraries/sass-material-colors/sass/_sass-material-colors.scss';
-@import '../../../libraries/sass-material-colors/sass/_sass-material-colors-classes.scss';
 @import '_Variables';
 //-------- bootstrap --------//
 @import '../../../libraries/bootstrap/scss/bootstrap';
@@ -17,6 +15,7 @@
 @import 'libraries/_Libraries';
 @import 'libraries/_Bootstrap';
 @import 'libraries/_FullCalendar';
+@import '../../../libraries/sass-material-colors/sass/_sass-material-colors-classes.scss';
 //-------- layout --------//
 @import 'layout/_Base';
 @import 'layout/_Header';
