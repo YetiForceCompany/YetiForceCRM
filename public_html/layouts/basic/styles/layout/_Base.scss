@@ -1,6 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-.contentsDiv,.centerPanel {
+.contentsDiv, .centerPanel {
 	@extend .mx-2;
 }
 
@@ -14,12 +14,14 @@
 	border-top: 3px solid #404952;
 }
 
-@mixin sidebarTransition() {
-	-webkit-transition: left ease 0.2s 0.5s, width ease 0.2s 0.5s;
-	transition: left ease 0.2s 0.5s, width ease 0.2s 0.5s;
+.c-menu--animation {
+	.basePanel,
+	.bodyHeader {
+		@include u-transition((left ease 0.2s 0.5s));
+	}
 }
 
-.baseContainer {
+.o-base-container {
 	.basePanel {
 		position: relative;
 		margin: 0 0 0 230px;
@@ -39,7 +41,7 @@
 			margin-left: 50px;
 		}
 
-		.bodyHeader{
+		.bodyHeader {
 			left: 50px;
 		}
 
@@ -61,7 +63,7 @@
 }
 
 @media only screen and (max-width: 768px) {
-	.baseContainer {
+	.o-base-container {
 		.basePanel {
 			margin: 0 !important;
 		}

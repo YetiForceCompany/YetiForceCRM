@@ -31,7 +31,7 @@ $.Class("Vtiger_Header_Js", {
 	contentContainer: false,
 	quickCreateCallBacks: [],
 	init: function () {
-		this.setContentsContainer('.baseContainer');
+		this.setContentsContainer('.js-base-container');
 	},
 	setContentsContainer: function (element) {
 		if (element instanceof $) {

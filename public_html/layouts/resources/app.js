@@ -1243,9 +1243,10 @@ app = {
 	registerPinEvent: function () {
 		const self = this;
 		let pinButton = self.sidebar.find('.js-menu-pin');
-		let baseContainer = self.sidebar.closest('.baseContainer');
+		let baseContainer = self.sidebar.closest('.js-base-container');
 		pinButton.on('click', () => {
 			let hideMenu = 0;
+			baseContainer.removeClass('c-menu--animation');
 			if (pinButton.attr('data-show') === '0') {
 				hideMenu = 'on';
 				pinButton.removeClass('u-opacity-muted');
@@ -1268,6 +1269,7 @@ app = {
 					pinButton.attr('data-show', hideMenu);
 				}
 			});
+			setTimeout(() => {baseContainer.addClass('c-menu--animation');}, 300);
 		});
 	},
 	sidebarKeyboard: function (e) {
@@ -1324,7 +1326,7 @@ app = {
 		return $(window).height() * percantage / 100;
 	},
 	setCalendarHeight() {
-		const container = $('.baseContainer');
+		const container = $('.js-base-container');
 		const paddingTop = 10;
 		if ($(window).width() > 993) {
 			let calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
