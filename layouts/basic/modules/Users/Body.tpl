@@ -6,7 +6,7 @@
 	{/if}
 	{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}
 	<div class="container-fluid container-fluid-main">
-		<div class="baseContainer{if $LEFTPANELHIDE} leftPanelOpen{/if} {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
+		<div class="o-base-container js-base-container c-menu--animation {if $LEFTPANELHIDE} leftPanelOpen{/if} {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}" data-js="container | class: c-menu--animation">
 			{if $VIEW != 'Login'}
 				{if !empty($CHILD_LINKS)}
 					<span class="caret"></span>

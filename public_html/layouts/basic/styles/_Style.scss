@@ -2595,7 +2595,7 @@ span[name=existingImages] img {
 	margin: 0 !important;
 }
 
-html, body, .baseContainer {
+html, body, .o-base-container {
 	height: 100%;
 }
 
@@ -2971,7 +2971,7 @@ html, body, .baseContainer {
 }
 
 @media only screen and (max-width: 1200px) {
-	.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel {
+	.o-base-container:not(.leftPanelOpen) .leftPanel:hover + .basePanel {
 		width: calc(100% - 180px);
 		-webkit-transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
 		transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;

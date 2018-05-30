@@ -268,10 +268,10 @@ i {
 .breadcrumbsLinks a, .breadCrumbs {
 	color: #1976d2;
 }
-.baseContainer .leftPanel a {
+.o-base-container .leftPanel a {
 	color: #00897B;
 }
-.baseContainer .leftPanel {
+.o-base-container .leftPanel {
 	bottom: 18px;
 	background: #fff;
 }
@@ -387,7 +387,7 @@ div.datepicker th {
 	font-size: 14px;
 	font-weight: 700;
 }
-.baseContainer .leftPanel:after {
+.o-base-container .leftPanel:after {
 	background: #fff;
 	bottom: 18px;
 }
@@ -427,10 +427,10 @@ label {
 .labelConstainer {
 	width: 150px;
 }
-.baseContainer .leftPanel .menuContainer a.hasIcon {
+.o-base-container .leftPanel .menuContainer a.hasIcon {
 	padding: 3px 13px;
 }
-.baseContainer .leftPanel .menuContainer a {
+.o-base-container .leftPanel .menuContainer a {
 	font-size: 14px;
 	font-weight: 500;
 }
@@ -451,7 +451,7 @@ label {
 .iconContainer {
 	min-width: 34px;
 }
-.baseContainer .leftPanel .menuContainer a {
+.o-base-container .leftPanel .menuContainer a {
 	padding: 6px 15px 6px 35px;
 }
 .hovernav .menuLabel .labelConstainer {
@@ -705,7 +705,7 @@ div#calendarview.fc.fc-ltr {
 .dashboard_notebookWidget_view .pull-right .btn {
 	margin-bottom: 8px;
 }
-.nav li:hover > .slimScrollDiv > .subMenu, .baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader {
+.nav li:hover > .slimScrollDiv > .subMenu, .o-base-container:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader {
 	left: 200px;
 }
 .leftPanel .nav .subMenu li, .leftPanel .nav .subMenu:after {
@@ -720,24 +720,24 @@ div#calendarview.fc.fc-ltr {
 .iconsInFooter span {
 	font-size: 14px;
 }
-.baseContainer .leftPanel, .baseContainer .leftPanel:after {
+.o-base-container .leftPanel, .o-base-container .leftPanel:after {
 	width: 200px !important;
 }
-.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader + .basePanel, .baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .bodyHeader + .basePanel {
+.o-base-container:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader + .basePanel, .o-base-container:not(.leftPanelOpen) .leftPanel.stillOpen + .bodyHeader + .basePanel {
 	left: 150px;
 }
-.baseContainer .basePanel {
+.o-base-container .basePanel {
 	-webkit-transition: left ease-in-out 0s, width ease-in-out 0.1s;
 	transition: left ease-in-out 0s, width ease-in-out 0.1s;
 	transition-delay: 0s;
 }
-.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader, .baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader + .basePanel,
-.baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .bodyHeader + .basePanel {
+.o-base-container:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader, .o-base-container:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader + .basePanel,
+.o-base-container:not(.leftPanelOpen) .leftPanel.stillOpen + .bodyHeader + .basePanel {
 	-webkit-transition: left ease-in-out 0s 0.1s, z-index 0s 0.1s;
 	transition: left ease-in-out 0s 0.1s, z-index 0s 0.1s;
 }
-.bodyHeader.open, .footerContainer.open, .baseContainer .leftPanel .tm-sidebar-nav:not(.uk-open) .uk-dropdown,
-.baseContainer .leftPanel .tm-sidebar-nav:not(.uk-open) .uk-dropdown:before {
+.bodyHeader.open, .footerContainer.open, .o-base-container .leftPanel .tm-sidebar-nav:not(.uk-open) .uk-dropdown,
+.o-base-container .leftPanel .tm-sidebar-nav:not(.uk-open) .uk-dropdown:before {
 	-webkit-transition: left ease-in-out 0s;
 	transition: left ease-in-out 0s;
 }
