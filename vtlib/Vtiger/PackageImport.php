@@ -312,7 +312,7 @@ class PackageImport extends PackageExport
 			!empty($this->_modulexml->dependencies) &&
 			!empty($this->_modulexml->dependencies->vtiger_version)) {
 			$moduleVersion = (string) $this->_modulexml->dependencies->vtiger_version;
-			if (\App\Version::check($moduleVersion) === true) {
+			if (\App\Version::check($moduleVersion) >= 0) {
 				$moduleVersionFound = true;
 			} else {
 				$_errorText = \App\Language::translate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
