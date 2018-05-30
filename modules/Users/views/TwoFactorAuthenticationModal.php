@@ -9,8 +9,6 @@
  */
 class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 {
-	use \App\Controller\ExposeMethod;
-
 	/**
 	 * {@inheritdoc}
 	 */
@@ -39,13 +37,13 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 	{
 		$moduleName = $request->getModule();
 		$authMethod = new Users_Totp_Authmethod(\App\User::getCurrentUserRealId());
-		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD', \App\User::getCurrentUserRealId());
 		$viewer->assign('SECRET', $authMethod->createSecret());
 		$viewer->assign('QR_CODE_HTML', $authMethod->createQrCodeForUser());
 		$viewer->assign('LOCK_EXIT', $this->lockExit);
+		$viewer->assign('SHOW_OFF', $this->showOff());
 		$viewer->view('TwoFactorAuthenticationModal.tpl', $moduleName);
 	}
 
@@ -75,5 +73,18 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Users.resources.TwoFactorAuthenticationModal'
 		]));
+	}
+
+	/**
+	 * Check if the user can disable 2FA.
+	 *
+	 * @return bool
+	 */
+	private function showOff()
+	{
+		if (AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OPTIONAL') {
+			return !empty(\App\User::getUserModel(\App\User::getCurrentUserRealId())->getDetail('authy_secret_totp'));
+		}
+		return false;
 	}
 }

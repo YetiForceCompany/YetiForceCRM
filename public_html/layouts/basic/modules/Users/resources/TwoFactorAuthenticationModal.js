@@ -4,7 +4,7 @@ $.Class("Base_TwoFactorAuthenticationModal_JS", {}, {
 	 * Function to handle sending the AJAX form
 	 * @param data
 	 */
-	registerSubmitFrom: (data) => {
+	registerSubmitFrom(data){
 		let thisInstance = this;
 		data.find('button[name=saveButton]').prop("disabled", true);
 		data.find('input[name=user_code]').on('keyup', (e) => {
@@ -14,6 +14,18 @@ $.Class("Base_TwoFactorAuthenticationModal_JS", {}, {
 		});
 		data.find('input[name=user_code]').on('change', (e) => {
 			data.find('button[name=saveButton]').prop("disabled", $(e.currentTarget).val().length === 0);
+		});
+		data.find('input[name=turn_off_2fa]').on('change', (e)=>{
+			if($(e.currentTarget).prop("checked") ){
+				data.find('.js-qr-code').addClass('hide');
+				data.find('input[name=mode]').val('off');
+				data.find('button[name=saveButton]').prop("disabled", false);
+			}else{
+				data.find('.js-qr-code').removeClass('hide');
+				data.find('input[name=mode]').val('secret');
+				data.find('button[name=saveButton]').prop("disabled", true);
+				data.find('input[name=user_code]').val('');
+			}
 		});
 		let form = data.find('form');
 		form.on('submit', (e) => {
@@ -41,7 +53,7 @@ $.Class("Base_TwoFactorAuthenticationModal_JS", {}, {
 	 * Register base events
 	 * @param {jQuery} modalContainer
 	 */
-	registerEvents: function (modalContainer) {
+	registerEvents(modalContainer){
 		this.registerSubmitFrom(modalContainer);
 	}
 });

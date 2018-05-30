@@ -336,7 +336,8 @@
     "LBL_2FA_SECRET": "Tajny kod",
     "LBL_2FA_TOTP_QR_CODE": "Kod jednorazowy",
     "LBL_AUTHY_SECRET_TOTP_SUCCESS": "Autentykacja dwusk\u0142adnikowa zosta\u0142a pomy\u015blnie w\u0142\u0105czona.",
-    "LBL_2FA_WRONG_CODE": "Niepoprawny kod"
+    "LBL_2FA_WRONG_CODE": "Niepoprawny kod",
+    "LBL_2FA_OFF": "Wy\u0142\u0105cz autentykacj\u0119 dwu etapow\u0105."
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Separator dziesi\u0119tny i grupowania nie mog\u0105 by\u0107 takie same",
