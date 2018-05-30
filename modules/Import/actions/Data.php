@@ -574,9 +574,12 @@ class Import_Data_Action extends \App\Controller\Action
 		$defaultCharset = \AppConfig::main('default_charset', 'UTF-8');
 		$fieldName = $fieldInstance->getFieldName();
 		$fieldValue = trim($fieldValue);
-
-		if (empty($fieldValue) && isset($defaultFieldValues[$fieldName])) {
-			$fieldValue = $defaultFieldValues[$fieldName];
+		if (empty($fieldValue)) {
+			if (isset($defaultFieldValues[$fieldName])) {
+				$fieldValue = $defaultFieldValues[$fieldName];
+			} else {
+				return $fieldValue;
+			}
 		}
 		if (!isset($this->allPicklistValues[$fieldName])) {
 			$this->allPicklistValues[$fieldName] = array_keys($fieldInstance->getPicklistValues());
@@ -591,7 +594,8 @@ class Import_Data_Action extends \App\Controller\Action
 				$fieldObject = \vtlib\Field::getInstance($fieldName, Vtiger_Module_Model::getInstance($this->module));
 				$fieldObject->setPicklistValues([$fieldValue]);
 				unset($this->allPicklistValues[$fieldName]);
-				\App\Cache::delete('getPickListValues', $fieldName);
+				\App\Cache::delete('getValuesName', $fieldName);
+				\App\Cache::delete('getPickListFieldValuesRows', $fieldName);
 			}
 		} else {
 			$fieldValue = $picklistDetails[$picklistValueInLowerCase];
