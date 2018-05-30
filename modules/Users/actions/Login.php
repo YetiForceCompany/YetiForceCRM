@@ -74,7 +74,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	public function checkTotp(\App\Request $request)
 	{
-		$userCode = $request->getInteger('user_code');
+		$userCode = $request->getByType('user_code', 'Digital');
 		$userId = \App\Session::get('totp_user_id');
 		$userModel = \App\User::getUserModel($userId);
 		$secret = $userModel->getDetail('authy_secret_totp');
