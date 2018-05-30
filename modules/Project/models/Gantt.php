@@ -396,11 +396,7 @@ class Project_Gantt_Model
 		if ($this->picklistsValues) {
 			return $this->picklistsValues;
 		}
-		$picklists = [
-			'Project' => [],
-			'ProjectMilestone' => [],
-			'ProjectTask' => []
-		];
+		$picklists = ['Project' => [], 'ProjectMilestone' => [], 'ProjectTask' => []];
 		foreach (App\Fields\Picklist::getModulesByName('Project') as $name) {
 			$picklists['Project'][$name] = [];
 			$values = array_column(array_values(App\Fields\Picklist::getValues($name)), 'picklistValue');
@@ -443,20 +439,7 @@ class Project_Gantt_Model
 		}
 		$projects = [];
 		$queryGenerator = new App\QueryGenerator('Project');
-		$queryGenerator->setFields([
-			'id',
-			'projectid',
-			'parentid',
-			'projectname',
-			'projectpriority',
-			'description',
-			'project_no',
-			'projectstatus',
-			'startdate',
-			'actualenddate',
-			'targetenddate',
-			'assigned_user_id'
-		]);
+		$queryGenerator->setFields(['id', 'projectid', 'parentid', 'projectname', 'projectpriority', 'description', 'project_no', 'projectstatus', 'startdate', 'actualenddate', 'targetenddate', 'assigned_user_id']);
 		if ($id !== [0]) {
 			// empty id means that we want all projects
 			$queryGenerator->addNativeCondition([
