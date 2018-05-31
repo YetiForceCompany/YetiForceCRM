@@ -56,16 +56,16 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			$langData = \App\Language::getFromFile($moduleName, $lang);
 			if ($langData) {
 				$langTab[$lang] = $langData;
-				$keysPhp += isset($langData['php']) ? array_keys($langData['php']) : [];
-				$keysJs += isset($langData['js']) ? array_keys($langData['js']) : [];
+				$keysPhp += $langData['php'] ?? [];
+				$keysJs += $langData['js'] ?? [];
 			}
 		}
-		foreach ($keysPhp as $key) {
+		foreach (array_keys($keysPhp) as $key) {
 			foreach ($langs as $language) {
 				$respPhp[$key][$language] = isset($langTab[$language]['php'][$key]) ? \App\Purifier::encodeHtml($langTab[$language]['php'][$key]) : null;
 			}
 		}
-		foreach ($keysJs as $key) {
+		foreach (array_keys($keysJs) as $key) {
 			foreach ($langs as $language) {
 				$respJs[$key][$language] = isset($langTab[$language]['js'][$key]) ? \App\Purifier::encodeHtml($langTab[$language]['js'][$key]) : null;
 			}
@@ -291,7 +291,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			foreach ($dataLang as $key => $langs) {
 				foreach ($langs as $lang => $value) {
 					if ($lang == $langBase) {
-						++$i;
+						empty($langs[$langBase]) ?: ++$i;
 						continue;
 					}
 					if (!empty($langs[$langBase]) && ($value == $langs[$langBase] || empty($value))) {
