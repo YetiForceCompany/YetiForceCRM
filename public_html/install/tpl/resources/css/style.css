@@ -199,3 +199,6 @@ hr {
 	margin-right: 1rem !important;
 	font-size: 60px;
 }
+.table-responsive {
+	overflow-x: unset;
+}

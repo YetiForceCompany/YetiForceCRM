@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="main-container">
+	<main class="main-container">
 		<div class="inner-container">
 			<form class="" name="step5" method="post" action="Install.php">
 				<input type="hidden" name="mode" value="step5">
@@ -40,6 +40,7 @@
 				<div class="offset2 ">
 					<div class="table-responsive">
 						<table class="config-table input-table">
+							<caption class="sr-only">{\App\Language::translate('LBL_DATABASE_INFORMATION','Install')}</caption>
 							<thead>
 							<tr>
 								<th colspan="2">{\App\Language::translate('LBL_DATABASE_INFORMATION','Install')}</th>
@@ -71,6 +72,7 @@
 					</div>
 					<div class="table-responsive">
 						<table class="config-table input-table">
+							<caption class="sr-only">{\App\Language::translate('LBL_SYSTEM_INFORMATION','Install')}</caption>
 							<thead>
 							<tr>
 								<th colspan="2">{\App\Language::translate('LBL_SYSTEM_INFORMATION','Install')}</th>
@@ -90,6 +92,7 @@
 					</div>
 					<div class="table-responsive">
 						<table class="config-table input-table">
+							<caption class="sr-only">{\App\Language::translate('LBL_ADMIN_USER_INFORMATION','Install')}</caption>
 							<thead>
 							<tr>
 								<th colspan="2">{\App\Language::translate('LBL_ADMIN_USER_INFORMATION','Install')}</th>
@@ -125,11 +128,11 @@
 					</div>
 					<div class="form-buttom-nav fixed-bottom button-container p-1">
 						<div class="text-center">
-							<a class="btn c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="#"
+							<button class="btn c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0"
 									{if $DB_CONNECTION_INFO['flag'] eq true} disabled="disabled"{else} onclick="window.history.back()"{/if}>
 								<span class="fas fa-arrow-circle-left mr-1"></span>
 								{App\Language::translate('LBL_BACK', 'Install')}
-							</a>
+							</button>
 							{if $DB_CONNECTION_INFO['flag'] eq true}
 								<button type="submit" role="button" class="btn c-btn-block-xs-down btn-primary">
 									<span class="fas fa-arrow-circle-right mr-1"></span>
@@ -141,5 +144,5 @@
 				</div>
 			</form>
 		</div>
-	</div>
+	</main>
 {/strip}
