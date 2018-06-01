@@ -25,7 +25,7 @@ class ProductsTableLongVTwoLang extends Base
 	public function process()
 	{
 		$productsTable = new ProductsTableLongVersion($this->textParser);
-		$html = $productsTable->getTableHtml();
+		$html = $productsTable->getTableStyle($this->textParser->recordModel->getModule()->isInventory());
 		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->textParser->moduleName);
 		$fields = $inventoryField->getFields(true);
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();

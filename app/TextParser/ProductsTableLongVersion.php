@@ -24,7 +24,7 @@ class ProductsTableLongVersion extends Base
 	 */
 	public function process()
 	{
-		$html = $this->getTableHtml();
+		$html = $this->getTableStyle($this->textParser->recordModel->getModule()->isInventory());
 		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->textParser->moduleName);
 		$fields = $inventoryField->getFields(true);
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
@@ -108,10 +108,10 @@ class ProductsTableLongVersion extends Base
 		return $html;
 	}
 
-	public function getTableHtml()
+	public function getTableStyle($isInventory)
 	{
 		$html = '';
-		if (!$this->textParser->recordModel->getModule()->isInventory()) {
+		if (!$isInventory) {
 			return $html;
 		}
 		$html .= '<style>' .
