@@ -92,6 +92,7 @@
 												   data-trigger="focus"
 												   data-js="popover" data-placement="top"
 												   data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}">
+													<span class="sr-only">{App\Language::translate('LBL_SHOW_INVENTORY_ROW')}</span>
 													<span class="fas fa-info-circle"></span>
 												</a>
 											{/if}
@@ -130,6 +131,7 @@
 												   data-trigger="focus"
 												   data-js="popover" data-placement="top"
 												   data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}">
+													<span class="sr-only">{App\Language::translate('LBL_SHOW_INVENTORY_ROW')}</span>
 													<span class="fas fa-info-circle"></span>
 												</a>
 											{/if}
@@ -169,6 +171,7 @@
 													   data-trigger="focus"
 													   data-placement="right"
 													   data-content="{\App\Language::translateEncodeHtml($item.help, 'Settings::ConfReport')}">
+														<span class="sr-only">{App\Language::translate('LBL_SHOW_INVENTORY_ROW')}</span>
 														<span class="fas fa-info-circle"></span></a>
 												{/if}
 											</td>
