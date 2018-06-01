@@ -24,23 +24,12 @@ class ProductsTableLongVTwoLang extends Base
 	 */
 	public function process()
 	{
-		$talbeHtml = new ProductsTableLongVersion($this->textParser);
-		$html = $talbeHtml->getTableHtml();
+		$productsTable = new ProductsTableLongVersion($this->textParser);
+		$html = $productsTable->getTableHtml();
 		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->textParser->moduleName);
 		$fields = $inventoryField->getFields(true);
-		$currencyColumns = $inventoryField->getColumns();
-		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
-
-		if (in_array('currency', $currencyColumns)) {
-			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] !== null) {
-				$currency = $inventoryRows[0]['currency'];
-			} else {
-				$currency = $baseCurrency['id'];
-			}
-			$currencySymbolRate = \vtlib\Functions::getCurrencySymbolandRate($currency);
-			$currencySymbol = $currencySymbolRate['symbol'];
-		}
+		$currencySymbol = $productsTable->getSymbol($inventoryField, $inventoryRows);
 		if (count($fields[1]) != 0) {
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
 			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable">

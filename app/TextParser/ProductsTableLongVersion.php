@@ -27,19 +27,8 @@ class ProductsTableLongVersion extends Base
 		$html = $this->getTableHtml();
 		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->textParser->moduleName);
 		$fields = $inventoryField->getFields(true);
-		$currencyColumns = $inventoryField->getColumns();
-		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
-
-		if (in_array('currency', $currencyColumns)) {
-			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] !== null) {
-				$currency = $inventoryRows[0]['currency'];
-			} else {
-				$currency = $baseCurrency['id'];
-			}
-			$currencySymbolRate = \vtlib\Functions::getCurrencySymbolandRate($currency);
-			$currencySymbol = $currencySymbolRate['symbol'];
-		}
+		$currencySymbol = $this->getSymbol($inventoryField, $inventoryRows);
 		if (count($fields[1]) != 0) {
 			$fieldsTextAlignRight = ['Name', 'Value', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Tax', 'GrossPrice'];
 			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable">
@@ -137,5 +126,17 @@ class ProductsTableLongVersion extends Base
 			'.barcode {padding: 1.5mm;margin: 0;vertical-align: top;color: #000000}' .
 			'</style>';
 		return $html;
+	}
+
+	public function getSymbol($inventoryField, $inventoryRows)
+	{
+		if (in_array('currency', $inventoryField->getColumns())) {
+			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] !== null) {
+				$currency = $inventoryRows[0]['currency'];
+			} else {
+				$currency = \Vtiger_Util_Helper::getBaseCurrency()['id'];
+			}
+			return	\vtlib\Functions::getCurrencySymbolandRate($currency)['symbol'];
+		}
 	}
 }
