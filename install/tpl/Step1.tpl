@@ -10,12 +10,12 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<section class="main-container" role="main" aria-labelledby="section-title">
+	<main class="main-container">
 		<div class="inner-container">
 			<form class="" name="step1" method="post" action="Install.php">
 				<div class="row">
 					<div class="col-md-9">
-						<h2 id="section-title">{\App\Language::translate('LBL_SETUP_WIZARD_HEADER', 'Install')} {$YETIFORCE_VERSION}</h2>
+						<h2>{\App\Language::translate('LBL_SETUP_WIZARD_HEADER', 'Install')} {$YETIFORCE_VERSION}</h2>
 					</div>
 					<div class="col-md-3">
 						<label for="lang" class="sr-only">{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}</label>
@@ -71,5 +71,5 @@
 				</div>
 			</form>
 		</div>
-	</section>
+	</main>
 {/strip}
