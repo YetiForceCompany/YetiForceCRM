@@ -24,10 +24,7 @@ class ProductsTableLongVersion extends Base
 	 */
 	public function process()
 	{
-		$html = '';
-		if (!$this->textParser->recordModel->getModule()->isInventory()) {
-			return $html;
-		}
+		$html = $this->getTableHtml();
 		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->textParser->moduleName);
 		$fields = $inventoryField->getFields(true);
 		$currencyColumns = $inventoryField->getColumns();
@@ -43,17 +40,6 @@ class ProductsTableLongVersion extends Base
 			$currencySymbolRate = \vtlib\Functions::getCurrencySymbolandRate($currency);
 			$currencySymbol = $currencySymbolRate['symbol'];
 		}
-		$html .= '<style>' .
-			'.productTable{color:#000; font-size:10px; width:100%}' .
-			'.productTable th {text-transform: capitalize;font-weight:normal}' .
-			'.productTable .tHeader {background:#ddd, text-transform: capitalize !important;}' .
-			'.productTable tbody tr:nth-child(odd){background:#eee}' .
-			'.productTable tr td{border-bottom: 1px solid #ddd; padding:5px;text-align:center; }' .
-			'.colapseBorder {border-collapse: collapse;}' .
-			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
-			'.productTable .summaryContainer{background:#ddd;padding:5px}' .
-			'.barcode {padding: 1.5mm;margin: 0;vertical-align: top;color: #000000}' .
-			'</style>';
 		if (count($fields[1]) != 0) {
 			$fieldsTextAlignRight = ['Name', 'Value', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Tax', 'GrossPrice'];
 			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable">
@@ -130,6 +116,26 @@ class ProductsTableLongVersion extends Base
 					</tfoot>
 				</table>';
 		}
+		return $html;
+	}
+
+	public function getTableHtml()
+	{
+		$html = '';
+		if (!$this->textParser->recordModel->getModule()->isInventory()) {
+			return $html;
+		}
+		$html .= '<style>' .
+			'.productTable{color:#000; font-size:10px; width:100%}' .
+			'.productTable th {text-transform: capitalize;font-weight:normal}' .
+			'.productTable .tHeader {background:#ddd, text-transform: capitalize !important;}' .
+			'.productTable tbody tr:nth-child(odd){background:#eee}' .
+			'.productTable tr td{border-bottom: 1px solid #ddd; padding:5px;text-align:center; }' .
+			'.colapseBorder {border-collapse: collapse;}' .
+			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
+			'.productTable .summaryContainer{background:#ddd;padding:5px}' .
+			'.barcode {padding: 1.5mm;margin: 0;vertical-align: top;color: #000000}' .
+			'</style>';
 		return $html;
 	}
 }
