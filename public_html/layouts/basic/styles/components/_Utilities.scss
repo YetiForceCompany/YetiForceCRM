@@ -37,7 +37,11 @@
 		}
 	}
 }
-
+.u-text-ellipsis--no-hover {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .u-text-underline {
 	text-decoration: underline;
 }
