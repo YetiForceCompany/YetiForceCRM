@@ -1278,6 +1278,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 			'of': widgetContentsContainer
 		});
 	},
+	registerTooltipsAndPopovers() {
+		$('[data-toggle="tooltip"]', this.getContainer()).tooltip();
+		$('[data-toggle="popover"]', this.getContainer()).popover();
+	},
 	//Place holdet can be extended by child classes and can use this to handle the post load
 	postLoadWidget: function postLoadWidget() {
 		if (!this.isEmptyData()) {
@@ -1294,6 +1298,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerChangeSorting();
 		this.registerLoadMore();
 		this.registerHeaderButtons();
+		this.registerTooltipsAndPopovers();
 		this.loadScrollbar();
 	},
 	postRefreshWidget: function postRefreshWidget() {
