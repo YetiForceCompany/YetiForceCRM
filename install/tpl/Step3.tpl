@@ -32,8 +32,9 @@
 				<div class="row">
 					<div class="col-lg-6 table-responsive">
 						<table class="config-table input-table">
-							<caption
-									class="sr-only">{\App\Language::translate('LBL_DATABASE_INFORMATION', 'Install')}</caption>
+							<caption class="sr-only">
+								{\App\Language::translate('LBL_DATABASE_INFORMATION', 'Install')}
+							</caption>
 							<thead>
 							<tr>
 								<th colspan="2">{\App\Language::translate('LBL_DATABASE_INFORMATION', 'Install')}</th>
@@ -41,8 +42,8 @@
 							</thead>
 							<tbody>
 							<tr>
-								<td><label for="db-type">{\App\Language::translate('LBL_DATABASE_TYPE', 'Install')}<span
-												class="no">*</span></label>
+								<td>
+									<label for="db-type">{\App\Language::translate('LBL_DATABASE_TYPE', 'Install')}<span class="no">*</span></label>
 								</td>
 								<td>{\App\Language::translate('MySQL', 'Install')}<input id="db-type" type="hidden"
 																						 value="mysql"
@@ -234,7 +235,8 @@
 						</div>
 						<div class="form-buttom-nav fixed-bottom button-container p-1">
 							<div class="text-center">
-								<a class="btn c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php" role="button">
+								<a class="btn c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php"
+								   role="button">
 									<span class="fas fa-arrow-circle-left mr-1"></span>
 									{App\Language::translate('LBL_BACK', 'Install')}
 								</a>
