@@ -30,36 +30,44 @@
 					<ul class="text-center list-inline">
 						<li class="yetiforceDetailsLink list-inline-item">
 							<a rel="noreferrer" target="_blank" href="https://yetiforce.com">
-								<span class="fas fa-link" title="yetiforce.com"></span>
+								<span class="fas fa-link"></span>
+								<span class="sr-only">yetiforce.com</span>
 							</a>
 						</li>
 						<li class="yetiforceDetailsLink list-inline-item">
 							<a rel="noreferrer" target="_blank" href="https://www.linkedin.com/groups/8177576">
-								<span class="fab fa-linkedin" title="LinkendIn"></span>
+								<span class="fab fa-linkedin"></span>
+								<span class="sr-only">Linkedin</span>
 							</a>
 						</li>
 						<li class="yetiforceDetailsLink list-inline-item">
 							<a rel="noreferrer" target="_blank" href="https://twitter.com/YetiForceEN">
-								<span class="fab fa-twitter-square" title="Twitter"></span>
+								<span class="fab fa-twitter-square"></span>
+								<span class="sr-only">Twitter</span>
 							</a>
 						</li>
 						<li class="yetiforceDetailsLink list-inline-item">
 							<a rel="noreferrer" target="_blank" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
-								<span class="fab fa-facebook-square" title="Facebook"></span></a>
+								<span class="fab fa-facebook-square"></span>
+								<span class="sr-only">Facebook</span>
+							</a>
 						</li>
 						<li class="yetiforceDetailsLink list-inline-item">
 							<a rel="noreferrer" target="_blank" href="https://github.com/YetiForceCompany/YetiForceCRM">
-								<span class="fab fa-github-square" title="Github"></span>
+								<span class="fab fa-github-square"></span>
+								<span class="sr-only">Github</span>
 							</a>
 						</li>
 						<li class="yetiforceDetailsLink list-inline-item">
 							<a rel="noreferrer" target="_blank" href="https://github.com/YetiForceCompany/YetiForceCRM/issues">
-								<span class="fas fa-bug" title="Issues"></span>
+								<span class="fas fa-bug"></span>
+								<span class="sr-only">Issues</span>
 							</a>
 						</li>
 						<li class="yetiforceDetailsLink list-inline-item">
 							<a rel="noreferrer" href="https://yetiforce.shop/">
-								<span class="fas fa-shopping-cart" title="Shop"></span>
+								<span class="fas fa-shopping-cart"></span>
+								<span class="sr-only">Shop</span>
 							</a>
 						</li>
 					</ul>
