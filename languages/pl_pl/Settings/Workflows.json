@@ -232,7 +232,9 @@
     "Notify Account On New comment added to ticket": "Powiadom kontrahenta o nowym komentarzu do zg\u0142oszenia z portalu",
     "LBL_OWNER_REKORD": "W\u0142a\u015bciciel rekordu",
     "LBL_SMTP": "SMTP",
-    "LBL_CHECK_EMAIL_OPTOUT": "Sprawdzaj zgode na kontakt mailowy odbiorc\u00f3w"
+    "LBL_CHECK_EMAIL_OPTOUT": "Sprawdzaj zgode na kontakt mailowy odbiorc\u00f3w",
+    "LBL_SUM_VALUE_INVOICE_FIELD": "Suma warto\u015bci faktur z pola",
+    "LBL_UPDATE_INVOICE_FIELD": "Aktualizuj sum\u0119 warto\u015bci faktur"
   },
   "js": {
     "JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE": "Te same pola zaznaczono wi\u0119cej ni\u017c jedej raz",
