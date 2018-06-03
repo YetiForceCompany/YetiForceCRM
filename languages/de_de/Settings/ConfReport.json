@@ -129,6 +129,6 @@
     "LBL_AUTO_DETECT_LINE_ENDINGS_HELP_TEXT": "Es wird empfohlen die Codepr\u00fcfung zu aktivieren falls Dateien importiert werden."
   },
   "js": {
-    "JS_SPEED_TEST_START": "Performance wird gemessen ..."
+    "JS_SPEED_TEST_START": "Performance wird ermittelt ..."
   }
 }
