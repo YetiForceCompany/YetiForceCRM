@@ -640,12 +640,10 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$row = (new App\Db\Query())->from('vtiger_ossmails_logs')->orderBy(['id' => SORT_DESC])->one();
 		if ($row && (int) $row['status'] === 1) {
 			$config = self::getConfig('cron');
-			$time = strtotime($row['start_time']) + ($config['time'] * 60);
-			if (strtotime('now') > $time) {
+			if (!empty($config['time']) && strtotime('now') > strtotime($row['start_time']) + ($config['time'] * 60)) {
 				$return = $row['start_time'];
 			}
 		}
-
 		return $return;
 	}
 
