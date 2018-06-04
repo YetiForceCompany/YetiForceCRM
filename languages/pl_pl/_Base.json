@@ -1280,6 +1280,8 @@
     "LBL_FULLTEXT_WORD": "S\u0142owo",
     "LBL_ADVANCED_SEARCH": "Wyszukiwanie zaawansowane",
     "LBL_MERGING": "\u0141\u0105czenie rekord\u00f3w",
+    "LBL_PRINT": "Drukuj",
+    "LBL_IMAGE_DOWNLOAD": "Pobierz obraz",
     "_Base": "System",
     "LBL_SHOP_YETIFORCE": "Sklep"
   },
