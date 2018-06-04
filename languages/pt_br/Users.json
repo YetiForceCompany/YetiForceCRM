@@ -328,7 +328,13 @@
     "LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM": "You cannot change the password, the user uses authorization on an external system",
     "FL_VIEW_DATE_FORMAT": "Preview date format",
     "PLL_FULL": "Full date and time",
-    "PLL_ELAPSED": "Time elapsed"
+    "PLL_ELAPSED": "Time elapsed",
+    "LBL_AUTHENTICATION_CODE": "Authentication code",
+    "LBL_TWO_FACTOR_AUTHENTICATION": "Two factor authentication",
+    "LBL_2FA_SECRET": "Secret code",
+    "LBL_2FA_TOTP_QR_CODE": "Single-use code",
+    "LBL_AUTHY_SECRET_TOTP_SUCCESS": "Two factor authentication was succesfully enabled.",
+    "LBL_2FA_WRONG_CODE": "Incorrect code"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "O separador de casas decimais e separador de milhar n\u00e3o podem ser os mesmos",
