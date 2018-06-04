@@ -1278,6 +1278,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 			'of': widgetContentsContainer
 		});
 	},
+	registerWaterfallSelects() {
+		App.Fields.Picklist.registerWaterfallSelect($('.js-waterfall-select', this.getContainer()));
+	},
 	//Place holdet can be extended by child classes and can use this to handle the post load
 	postLoadWidget: function postLoadWidget() {
 		if (!this.isEmptyData()) {
@@ -1286,6 +1289,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			this.positionNoDataMsg();
 		}
 		this.registerSectionClick();
+		this.registerWaterfallSelects();
 		this.registerFilter();
 		this.registerFilterChangeEvent();
 		this.restrictContentDrag();

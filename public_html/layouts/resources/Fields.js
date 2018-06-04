@@ -776,6 +776,9 @@ App.Fields = {
 				$(this)[0].selectize.destroy();
 			});
 		},
+		registerWaterfallSelect(container) {
+			return new WaterfallSelect(container);
+		},
 	},
 	MultiImage: {
 		currentFileUploads: 0,
