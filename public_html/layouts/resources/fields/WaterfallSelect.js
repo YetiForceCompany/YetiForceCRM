@@ -19,7 +19,13 @@ class WaterfallSelect {
 	 * @param {Object} data
 	 */
 	constructor(element) {
+		if (typeof element === 'undefined' || !element) {
+			return false;
+		}
 		let elements = $(element).toArray();
+		if (elements.length === 0) {
+			return false;s
+		}
 		if (elements.length > 1) {
 			return elements.map((element) => {
 				return new WaterfallSelect(element);
