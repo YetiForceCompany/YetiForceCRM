@@ -12,19 +12,6 @@ class Settings_TwoFactorAuthentication_SaveAjax_Action extends Settings_Vtiger_B
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUserModel = \App\User::getCurrentUserModel();
-		if ($currentUserModel->isAdmin()) {
-			return true;
-		} else {
-			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
-		}
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function process(\App\Request $request)
 	{
 		$methods = $request->getByType('methods', 'Alnum');

@@ -9,7 +9,6 @@
 		<div class="contents">
 			<div class="alert alert-info">
 				<h5 class="alert-heading">{\App\Language::translate('LBL_2FA_CONF', $QUALIFIED_MODULE)}</h5>
-				<p><strong>TOTP</strong> - {\App\Language::translate('LBL_TOTP',$QUALIFIED_MODULE)}</p>
 				<p><strong>{\App\Language::translate('LBL_TOTP_AUTHY_MODE',$QUALIFIED_MODULE)}</strong> - {\App\Language::translate('LBL_TOTP_AUTHY_MODE_DESC',$QUALIFIED_MODULE)}</p>
 				<p><strong>{\App\Language::translate('LBL_TOTP_USER_AUTHY_EXCEPTIONS',$QUALIFIED_MODULE)}</strong> - {\App\Language::translate('LBL_TOTP_USER_AUTHY_EXCEPTIONS_DESC',$QUALIFIED_MODULE)}</p>
 				<p><strong>{\App\Language::translate('LBL_TOTP_NUMBER_OF_WRONG_ATTEMPTS',$QUALIFIED_MODULE)}</strong> - {\App\Language::translate('LBL_TOTP_NUMBER_OF_WRONG_ATTEMPTS_DESC',$QUALIFIED_MODULE)}</p>
@@ -44,14 +43,10 @@
 				<div class="form-group row">
 					<label for="number-wrong-attempts" class="col-12 col-lg-2 col-form-label">{\App\Language::translate('LBL_TOTP_NUMBER_OF_WRONG_ATTEMPTS', $QUALIFIED_MODULE)}</label>
 					<div class="col-12 col-lg-4">
-						<input type="number" name="number_wrong_attempts"
-							   value="{$USER_AUTHY_TOTP_NUMBER_OF_WRONG_ATTEMPTS}" id="number-wrong-attempts">
+						<input type="text" name="number_wrong_attempts"
+							   value="{$USER_AUTHY_TOTP_NUMBER_OF_WRONG_ATTEMPTS}" id="number-wrong-attempts"
+							   data-validation-engine="validate[custom[integer]]">
 					</div>
-				</div>
-				<div class="formActionsPanel">
-					<button type="submit" class="btn btn-success"><span
-								class="fas fa-check"></span><strong class="m-1">{\App\Language::translate('LBL_SAVE')}</strong>
-					</button>
 				</div>
 			</form>
 		</div>

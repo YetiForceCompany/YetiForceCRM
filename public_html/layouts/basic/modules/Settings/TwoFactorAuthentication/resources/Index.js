@@ -19,7 +19,7 @@ jQuery.Class('Settings_TwoFactorAuthentication_Index_Js', {}, {
 	 */
 	registerForm(){
 		let container = this.getContainer();
-		container.on('submit', (event) => {
+		container.on('change', (event) => {
 			event.preventDefault();
 			container.validationEngine(app.validationEngineOptions);
 			if (container.validationEngine('validate')) {
