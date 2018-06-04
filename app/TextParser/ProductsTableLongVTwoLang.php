@@ -24,6 +24,7 @@ class ProductsTableLongVTwoLang extends Base
 	 */
 	public function process()
 	{
+		$moduleName = $this->textParser->moduleName;
 		$productsTable = new ProductsTableLongVersion($this->textParser);
 		$html = $productsTable->getTableStyle($this->textParser->recordModel->getModule()->isInventory());
 		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->textParser->moduleName);
@@ -38,73 +39,21 @@ class ProductsTableLongVTwoLang extends Base
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible() && ($field->get('columnname') !== 'subunit')) {
 					if ($field->getName() === 'Quantity' || $field->getName() === 'Value') {
-						$html .= '<th style="width: 8%;" class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '/ ' . \App\Language::translate($field->get('label'), $this->textParser->moduleName, 'en_us') . '</th>';
+						$html .= '<th style="width: 8%;" class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $moduleName) . '/ ' . \App\Language::translate($field->get('label'), $moduleName, 'en_us') . '</th>';
 					} elseif ($field->getName() === 'Name') {
-						$html .= '<th style="width:' . $field->get('colspan') . '%;" class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '/ ' . \App\Language::translate($field->get('label'), $this->textParser->moduleName, 'en_us') . '</th>';
+						$html .= '<th style="width:' . $field->get('colspan') . '%;" class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $moduleName) . '/ ' . \App\Language::translate($field->get('label'), $moduleName, 'en_us') . '</th>';
 					} else {
-						$html .= '<th style="width: 13%;" class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '/ ' . \App\Language::translate($field->get('label'), $this->textParser->moduleName, 'en_us') . '</th>';
+						$html .= '<th style="width: 13%;" class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $moduleName) . '/ ' . \App\Language::translate($field->get('label'), $moduleName, 'en_us') . '</th>';
 					}
 				}
 			}
 			$html .= '</tr>
 				</thead>
 				<tbody>';
-			foreach ($inventoryRows as $key => &$inventoryRow) {
-				$html .= '<tr>';
-				foreach ($fields[1] as $field) {
-					if (!$field->isVisible() || ($field->get('columnname') === 'subunit')) {
-						continue;
-					}
-					if ($field->getName() == 'ItemNumber') {
-						$html .= '<td><strong>' . $inventoryRow['seq'] . '</strong></td>';
-					} elseif ($field->get('columnname') == 'ean') {
-						$code = $inventoryRow[$field->get('columnname')];
-						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
-					} elseif ($field->isVisible()) {
-						$itemValue = $inventoryRow[$field->get('columnname')];
-						$html .= '<td class="' . (in_array($field->getName(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
-						switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
-							case 'DetailViewName.tpl':
-								$html .= '<strong>' . $field->getDisplayValue($itemValue, true) . '</strong>';
-								foreach ($fields[2] as $commentKey => $value) {
-									$COMMENT_FIELD = $fields[2][$commentKey];
-									$html .= '<br />' . $COMMENT_FIELD->getDisplayValue($inventoryRow[$COMMENT_FIELD->get('columnname')]);
-								}
-								break;
-							case 'DetailViewBase.tpl':
-								if ($field->getName() === 'Quantity' || $field->getName() === 'Value') {
-									$html .= $field->getDisplayValue($itemValue);
-								} else {
-									$html .= $field->getDisplayValue($itemValue) . ' ' . $currencySymbol;
-								}
-								break;
-						}
-						$html .= '</td>';
-					}
-				}
-				$html .= '</tr>';
-			}
-			$html .= '</tbody><tfoot><tr>';
-			foreach ($fields[1] as $field) {
-				if ($field->isVisible() && ($field->get('columnname') !== 'subunit')) {
-					$html .= '<td class="textAlignRight ';
-					if ($field->isSummary()) {
-						$html .= 'summaryContainer';
-					}
-					$html .= '">';
-					if ($field->isSummary()) {
-						$sum = 0;
-						foreach ($inventoryRows as $key => &$inventoryRow) {
-							$sum += $inventoryRow[$field->get('columnname')];
-						}
-						$html .= \CurrencyField::convertToUserFormat($sum, null, true) . ' ' . $currencySymbol;
-					}
-					$html .= '</td>';
-				}
-			}
-			$html .= '</tr>
-					</tfoot>
-				</table>';
+			$html = $productsTable->getTableBody($inventoryRows, $fields, $fieldsTextAlignRight, $moduleName, $html, $currencySymbol);
+			$html .=  '</tbody><tfoot><tr>';
+			$html = $productsTable->getTableFoot($inventoryRows, $fields, $html, $currencySymbol);
+			$html .=  '</tr></tfoot></table>';
 		}
 		return $html;
 	}
