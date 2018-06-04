@@ -224,6 +224,19 @@ class Vtiger_Util_Helper
 	}
 
 	/**
+	 * Function to get all skins.
+	 *
+	 * @return array
+	 */
+	public static function getAllSkins()
+	{
+		return [
+			'twilight' => '#404952',
+			//'modern' => '#0d9605'
+		];
+	}
+
+	/**
 	 * Function checks whether the user has been deleted.
 	 *
 	 * @param int $userid
