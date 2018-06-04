@@ -27,7 +27,6 @@ class WaterfallSelect {
 		}
 		this.elementMaster = $(element);
 		this.slaveSelector = this.elementMaster.data('slave');
-		// if select has slave elements
 		if (this.slaveSelector) {
 			this.elementSlave = $(this.elementMaster.data('slave'));
 			this.data = this.elementMaster.data('data');
