@@ -89,6 +89,7 @@ class Users_Login_View extends \App\Controller\View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('IS_BLOCKED_IP', Settings_BruteForce_Module_Model::getCleanInstance()->isBlockedIp());
+		$viewer->assign('MESSAGE', \App\Session::get('authy_message'));
 		$viewer->view('Login2faTotp.tpl', 'Users');
 	}
 

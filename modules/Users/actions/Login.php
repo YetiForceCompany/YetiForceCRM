@@ -83,8 +83,22 @@ class Users_Login_Action extends \App\Controller\Action
 			\App\Session::set('authenticated_user_id', $userId);
 			\App\Session::delete('totp_user_id');
 			$this->redirectUser();
+		} else {
+			\App\Session::set('authy_message', \App\Language::translate('LBL_2FA_WRONG_CODE', 'Users'));
+			$authyIncorrectAttempts = \App\Session::get('authy_incorrect_attempts');
+			$authyIncorrectAttempts++;
+			if ($authyIncorrectAttempts > 10) {
+				if (AppConfig::main('session_regenerate_id')) {
+					\App\Session::regenerateId(true); // to overcome session id reuse.
+				}
+				\App\Session::destroy();
+				header('Location: index.php?module=Users&view=Login');
+				return false;
+			}
+			\App\Session::set('authy_incorrect_attempts', $authyIncorrectAttempts);
+			header('Location: index.php?module=Users&view=Login');
+			return false;
 		}
-		//TODO - Wrong code
 	}
 
 	/**
@@ -172,6 +186,10 @@ class Users_Login_Action extends \App\Controller\Action
 			} else {
 				\App\Session::set('authy_method', 'TOTP');
 				\App\Session::set('totp_user_id', $this->userRecordModel->getId());
+				if (\App\Session::has('authy_message')) {
+					\App\Session::delete('authy_message');
+				}
+				\App\Session::set('authy_incorrect_attempts', 0);
 			}
 		} else {
 			\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());

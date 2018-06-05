@@ -65,7 +65,6 @@
     "LBL_MY_PREFERENCES": "Moje ustawienia",
     "LBL_NEW_PASSWORD": "Nowe has\u0142o",
     "LBL_OLD_PASSWORD": "Aktualne has\u0142o",
-    "LBL_2FA_USER_CODE": "Kod u\u017cytkownika",
     "LBL_OPERATING_CURRENCY": "Waluty bazowej nie mo\u017cna p\u00f3\u017aniej modyfikowa\u0107. Wybierz walut\u0119 operacyjn\u0105",
     "LBL_PHONE": "Telefon",
     "LBL_PROFILE_TO_BE_DELETED": "Profil do usuni\u0119cia",
@@ -337,7 +336,8 @@
     "LBL_2FA_TOTP_QR_CODE": "Kod jednorazowy",
     "LBL_AUTHY_SECRET_TOTP_SUCCESS": "Autentykacja dwusk\u0142adnikowa zosta\u0142a pomy\u015blnie w\u0142\u0105czona.",
     "LBL_2FA_WRONG_CODE": "Niepoprawny kod",
-    "LBL_2FA_OFF": "Wy\u0142\u0105cz autentykacj\u0119 dwu etapow\u0105."
+    "LBL_2FA_OFF": "Wy\u0142\u0105cz autentykacj\u0119 dwu etapow\u0105.",
+    "LBL_2FA_USER_CODE": "Kod u\u017cytkownika"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Separator dziesi\u0119tny i grupowania nie mog\u0105 by\u0107 takie same",
