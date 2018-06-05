@@ -338,7 +338,6 @@ class Vtiger_DetailView_Model extends \App\Base
 	 */
 	public function issetRelationsInModule($relations, $recordModel, $relatedLinks)
 	{
-		var_dump($recordModel);
 		if (isset($relations[\App\Module::getModuleId('OutsourcedProducts')]) ||
 			isset($relations[\App\Module::getModuleId('Products')]) ||
 			isset($relations[\App\Module::getModuleId('Services')]) ||
