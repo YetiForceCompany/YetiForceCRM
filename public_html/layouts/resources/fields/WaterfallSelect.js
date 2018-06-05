@@ -13,7 +13,7 @@ class WaterfallSelect {
 	 * Constructor
 	 *
 	 * We can give multiple elements as container
-	 * data-slave should be an #id of child element which options/values will change on master element change event
+	 * data-slave should be an #id of child element which options/values will change when master element change event occurs
 	 *
 	 * @param {String|jQuery|HTMLElement} element
 	 * @param {Object} data
@@ -24,7 +24,7 @@ class WaterfallSelect {
 		}
 		let elements = $(element).toArray();
 		if (elements.length === 0) {
-			return false;s
+			return false;
 		}
 		if (elements.length > 1) {
 			return elements.map((element) => {
@@ -35,7 +35,9 @@ class WaterfallSelect {
 		this.slaveSelector = this.elementMaster.data('slave');
 		if (this.slaveSelector) {
 			this.elementSlave = $(this.elementMaster.data('slave'));
-			this.data = this.elementMaster.data('data');
+			this.data = this.elementMaster.data('data').sort((a, b) => {
+				return a.text.localeCompare(b.text);
+			});
 			this.elementMaster.html(this.renderOptions(this.data));
 			this.elementMaster.on('change', this.masterChange.bind(this));
 		}
@@ -71,6 +73,9 @@ class WaterfallSelect {
 				}
 			}
 		}
+		options.sort((a, b) => {
+			return a.text.localeCompare(b.text);
+		});
 		return options;
 	}
 
