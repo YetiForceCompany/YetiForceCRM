@@ -224,6 +224,8 @@
 }
 
 .globalSearchInput {
+	min-width: $w-header-search;
+
 	.btn {
 		width: 40px;
 
@@ -251,7 +253,7 @@
 		-webkit-transition: right ease-in-out 0.35s;
 		transition: right ease-in-out 0.35s;
 
-		@media( max-width: 767px ) {
+		@media(max-width: 767px) {
 			width: 100%;
 		}
 	}
@@ -274,6 +276,7 @@
 		vertical-align: top;
 	}
 }
+
 //mobile
 @media(max-width: 782px) {
 	.actionMenu {
