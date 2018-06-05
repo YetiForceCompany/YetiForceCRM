@@ -87,7 +87,7 @@ class Users_Login_Action extends \App\Controller\Action
 			\App\Session::set('authy_message', \App\Language::translate('LBL_2FA_WRONG_CODE', 'Users'));
 			$authyIncorrectAttempts = \App\Session::get('authy_incorrect_attempts');
 			$authyIncorrectAttempts++;
-			if ($authyIncorrectAttempts > 10) {
+			if ($authyIncorrectAttempts > AppConfig::security('USER_AUTHY_TOTP_NUMBER_OF_WRONG_ATTEMPTS', 10)) {
 				if (AppConfig::main('session_regenerate_id')) {
 					\App\Session::regenerateId(true); // to overcome session id reuse.
 				}
