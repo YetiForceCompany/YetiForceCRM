@@ -66,22 +66,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		];
 		if (AppConfig::module($moduleName, 'SHOW_SUMMARY_PRODUCTS_SERVICES')) {
 			$relations = \Vtiger_Relation_Model::getAllRelations($parentModuleModel, false);
-			if (isset($relations[\App\Module::getModuleId('OutsourcedProducts')]) ||
-				isset($relations[\App\Module::getModuleId('Products')]) ||
-				isset($relations[\App\Module::getModuleId('Services')]) ||
-				isset($relations[\App\Module::getModuleId('OSSOutsourcedServices')]) ||
-				isset($relations[\App\Module::getModuleId('Assets')]) ||
-				isset($relations[\App\Module::getModuleId('OSSSoldServices')])) {
-				$relatedLinks[] = [
-					'linktype' => 'DETAILVIEWTAB',
-					'linklabel' => 'LBL_RECORD_SUMMARY_PRODUCTS_SERVICES',
-					'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRelatedProductsServices&requestMode=summary',
-					'linkicon' => '',
-					'linkKey' => 'LBL_RECORD_SUMMARY',
-					'related' => 'ProductsAndServices',
-					'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT'),
-				];
-			}
+			$relatedLinks = $this->issetRelationsInModule($relations, $recordModel, $relatedLinks);
 		}
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		if ($parentModuleModel->isCommentEnabled() && $modCommentsModel->isPermitted('DetailView')) {

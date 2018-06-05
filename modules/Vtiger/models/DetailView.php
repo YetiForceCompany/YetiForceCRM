@@ -328,6 +328,37 @@ class Vtiger_DetailView_Model extends \App\Base
 	}
 
 	/**
+	 * The function checks if there is a relation in the module.
+	 *
+	 * @param array               $relations
+	 * @param Vtiger_Record_Model $recordModel
+	 * @param array               $relatedLinks
+	 *
+	 * @return array
+	 */
+	public function issetRelationsInModule($relations, $recordModel, $relatedLinks)
+	{
+		var_dump($recordModel);
+		if (isset($relations[\App\Module::getModuleId('OutsourcedProducts')]) ||
+			isset($relations[\App\Module::getModuleId('Products')]) ||
+			isset($relations[\App\Module::getModuleId('Services')]) ||
+			isset($relations[\App\Module::getModuleId('OSSOutsourcedServices')]) ||
+			isset($relations[\App\Module::getModuleId('Assets')]) ||
+			isset($relations[\App\Module::getModuleId('OSSSoldServices')])) {
+			$relatedLinks[] = [
+				'linktype' => 'DETAILVIEWTAB',
+				'linklabel' => 'LBL_RECORD_SUMMARY_PRODUCTS_SERVICES',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRelatedProductsServices&requestMode=summary',
+				'linkicon' => '',
+				'linkKey' => 'LBL_RECORD_SUMMARY',
+				'related' => 'ProductsAndServices',
+				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT'),
+			];
+		}
+		return $relatedLinks;
+	}
+
+	/**
 	 * @param type $viewType
 	 *
 	 * @return type
