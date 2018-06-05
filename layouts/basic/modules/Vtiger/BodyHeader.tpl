@@ -215,7 +215,7 @@
 												{/if}
 												<div class="col-md-4">
 													<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)">
-														<span class="modCT_{$NAME} userIcon-{$NAME}" title="{\App\Language::translate($singularLabel,$NAME)}"></span>
+														<span class="modCT_{$NAME} userIcon-{$NAME} mr-1" title="{\App\Language::translate($singularLabel,$NAME)}"></span>
 														<span>{\App\Language::translate($singularLabel,$NAME)}</span>
 													</a>
 												</div>
