@@ -93,7 +93,7 @@ Vtiger_Base_Validator_Js("Vtiger_Phone_Validator_Js", {}, {
 					phoneNumber: fieldValue,
 					phoneCountry: phoneCountryList.val(),
 				}
-			}).then(function (data) {
+			}).done(function (data) {
 				if (data.result.isValidNumber == false) {
 					thisInstance.setError(data.result.message);
 					result = false;
