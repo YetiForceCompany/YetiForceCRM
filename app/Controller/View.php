@@ -519,7 +519,6 @@ abstract class View extends Base
 				$filePath = $minFilePath;
 			}
 			$filePath = "{$prefix}{$layoutPath}/{$filePath}";
-			var_dump($filePath);
 			\App\Cache::save('ConvertCssStyles', $cssFileName, $filePath, \App\Cache::LONG);
 			$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
 		}
