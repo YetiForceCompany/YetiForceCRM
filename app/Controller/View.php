@@ -222,29 +222,29 @@ abstract class View extends Base
 	public function getHeaderCss(\App\Request $request)
 	{
 		return $this->checkAndConvertCssStyles([
-				'~layouts/resources/icons/userIcons.css',
-				'~layouts/resources/icons/adminIcons.css',
-				'~layouts/resources/icons/additionalIcons.css',
-				'~libraries/chosen-js/chosen.css',
-				'~libraries/bootstrap-chosen/bootstrap-chosen.css',
-				'~libraries/jquery-ui-dist/jquery-ui.css',
-				'~libraries/selectize/dist/css/selectize.bootstrap3.css',
-				'~libraries/select2/dist/css/select2.css',
-				'~libraries/simplebar/dist/simplebar.css',
-				'~libraries/perfect-scrollbar/css/perfect-scrollbar.css',
-				'~libraries/jQuery-Validation-Engine/css/validationEngine.jquery.css',
-				'~libraries/bootstrap-tabdrop/css/tabdrop.css',
-				'~libraries/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
-				'~libraries/bootstrap-daterangepicker/daterangepicker.css',
-				'~libraries/footable/css/footable.core.css',
-				'~libraries/clockpicker/dist/bootstrap-clockpicker.css',
-				'~libraries/animate.css/animate.css',
-				'~layouts/resources/colors/calendar.css',
-				'~layouts/resources/colors/owners.css',
-				'~layouts/resources/colors/modules.css',
-				'~layouts/resources/colors/picklists.css',
-				'~layouts/resources/styleTemplate.css',
-				'~' . \Vtiger_Theme::getBaseStylePath(),
+			'~layouts/resources/icons/userIcons.css',
+			'~layouts/resources/icons/adminIcons.css',
+			'~layouts/resources/icons/additionalIcons.css',
+			'~libraries/chosen-js/chosen.css',
+			'~libraries/bootstrap-chosen/bootstrap-chosen.css',
+			'~libraries/jquery-ui-dist/jquery-ui.css',
+			'~libraries/selectize/dist/css/selectize.bootstrap3.css',
+			'~libraries/select2/dist/css/select2.css',
+			'~libraries/simplebar/dist/simplebar.css',
+			'~libraries/perfect-scrollbar/css/perfect-scrollbar.css',
+			'~libraries/jQuery-Validation-Engine/css/validationEngine.jquery.css',
+			'~libraries/bootstrap-tabdrop/css/tabdrop.css',
+			'~libraries/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
+			'~libraries/bootstrap-daterangepicker/daterangepicker.css',
+			'~libraries/footable/css/footable.core.css',
+			'~libraries/clockpicker/dist/bootstrap-clockpicker.css',
+			'~libraries/animate.css/animate.css',
+			'~layouts/resources/colors/calendar.css',
+			'~layouts/resources/colors/owners.css',
+			'~layouts/resources/colors/modules.css',
+			'~layouts/resources/colors/picklists.css',
+			'~layouts/resources/styleTemplate.css',
+			'~' . \Vtiger_Theme::getBaseStylePath(),
 		]);
 	}
 
@@ -258,11 +258,11 @@ abstract class View extends Base
 	public function getHeaderScripts(\App\Request $request)
 	{
 		return $this->checkAndConvertJsScripts([
-				'libraries.jquery.dist.jquery',
-				'~libraries/@fortawesome/fontawesome/index.js',
-				'~libraries/@fortawesome/fontawesome-free-regular/index.js',
-				'~libraries/@fortawesome/fontawesome-free-solid/index.js',
-				'~libraries/@fortawesome/fontawesome-free-brands/index.js',
+			'libraries.jquery.dist.jquery',
+			'~libraries/@fortawesome/fontawesome/index.js',
+			'~libraries/@fortawesome/fontawesome-free-regular/index.js',
+			'~libraries/@fortawesome/fontawesome-free-solid/index.js',
+			'~libraries/@fortawesome/fontawesome-free-brands/index.js',
 		]);
 	}
 
@@ -474,31 +474,54 @@ abstract class View extends Base
 				} else {
 					$cssFile = $cssFileName;
 				}
-				// Checking if file exists in selected layout
-				$isFileExists = false;
-				$layoutName = \App\Layout::getActiveLayout() ? \App\Layout::getActiveLayout() : \Vtiger_Viewer::getDefaultLayoutName();
-				$layoutPath = 'custom/layouts/' . $layoutName;
-				$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
-				if (!($isFileExists = is_file($fallBackFilePath))) {
-					$layoutPath = 'layouts/' . $layoutName;
-					$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
-					$isFileExists = is_file($fallBackFilePath);
-				}
-				if ($isFileExists) {
-					$cssScriptModel->set('base', $fallBackFilePath);
-					if (empty($preLayoutPath)) {
-						$filePath = str_replace('.', '/', $cssFile) . '.css';
-					}
-					$minFilePath = str_replace('.css', '.min.css', $filePath);
-					if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
-						$filePath = $minFilePath;
-					}
-					$filePath = "{$prefix}{$layoutPath}/{$filePath}";
-					\App\Cache::save('ConvertCssStyles', $cssFileName, $filePath, \App\Cache::LONG);
-					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
-					continue;
-				}
+				$cssStyleInstances = $this->issetFileInLayout('active', $preLayoutPath, $cssFile, $fileExtension, $cssScriptModel, $prefix, $cssFileName, $cssStyleInstances);
+				$cssStyleInstances = $this->issetFileInLayout('default', $preLayoutPath, $cssFile, $fileExtension, $cssScriptModel, $prefix, $cssFileName, $cssStyleInstances);
 			}
+		}
+		return $cssStyleInstances;
+	}
+
+	/**
+	 * The function checks if the file exists in the layout.
+	 *
+	 * @param string                 $activeOrDefault
+	 * @param string                 $preLayoutPath
+	 * @param string                 $cssFile
+	 * @param string                 $fileExtension
+	 * @param Vtiger_CssScript_Model $cssScriptModel
+	 * @param string                 $prefix
+	 * @param array                  $cssStyleInstances
+	 *
+	 * @return array
+	 */
+	public function issetFileInLayout($activeOrDefault, $preLayoutPath, $cssFile, $fileExtension, $cssScriptModel, $prefix, $cssFileName, $cssStyleInstances)
+	{
+		$isFileExists = false;
+		if ($activeOrDefault === 'active') {
+			$layout = \App\Layout::getActiveLayout();
+		} else {
+			$layout = \Vtiger_Viewer::getDefaultLayoutName();
+		}
+		$layoutPath = 'custom/layouts/' . $layout;
+		$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
+		if (!($isFileExists = is_file($fallBackFilePath))) {
+			$layoutPath = 'layouts/' . $layout;
+			$fallBackFilePath = \Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
+			$isFileExists = is_file($fallBackFilePath);
+		}
+		if ($isFileExists) {
+			$cssScriptModel->set('base', $fallBackFilePath);
+			if (empty($preLayoutPath)) {
+				$filePath = str_replace('.', '/', $cssFile) . '.css';
+			}
+			$minFilePath = str_replace('.css', '.min.css', $filePath);
+			if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+				$filePath = $minFilePath;
+			}
+			$filePath = "{$prefix}{$layoutPath}/{$filePath}";
+			var_dump($filePath);
+			\App\Cache::save('ConvertCssStyles', $cssFileName, $filePath, \App\Cache::LONG);
+			$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
 		}
 		return $cssStyleInstances;
 	}
