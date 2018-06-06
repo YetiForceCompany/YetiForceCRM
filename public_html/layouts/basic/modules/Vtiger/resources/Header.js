@@ -536,7 +536,7 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideActionMenu();
 			block.toggleClass("toggled");
 			thisInstance.hideReminderNotification();
-			thisInstance.hideMobileMenu();
+			app.closeSidebar();
 			thisInstance.hideSearchMenu();
 		});
 	},
@@ -552,7 +552,7 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideActionMenu();
 			block.toggleClass("toggled");
 			thisInstance.hideReminderNotice();
-			thisInstance.hideMobileMenu();
+			app.closeSidebar();
 			thisInstance.hideSearchMenu();
 		});
 	},
@@ -565,28 +565,28 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideReminderNotification();
 			$('.mobileLeftPanel ').toggleClass('mobileMenuOn');
 		});
-		$('.actionMenuBtn').on('click', function () {
+		$('.js-quick-action-btn').on('click', function () {
 			thisInstance.hideSearchMenu();
-			thisInstance.hideMobileMenu();
+			app.closeSidebar();
 			thisInstance.hideReminderNotice();
 			thisInstance.hideReminderNotification();
 			$('.actionMenu').toggleClass('actionMenuOn');
 			if ($(this).hasClass('active')) {
 				$(this).removeClass('active');
-				$('.actionMenuBtn .headerButton').attr('aria-expanded', 'false');
-				$('.actionMenu .headerButton').popover();
+				$(this).attr('aria-expanded', 'false');
+				$(this).popover();
 			} else {
 				$(this).addClass('active');
-				$('.actionMenuBtn .headerButton').attr('aria-expanded', 'true');
-				$('.actionMenu .headerButton').popover('disable');
+				$(this).attr('aria-expanded', 'true');
+				$(this).popover('disable');
 			}
 			$('.quickCreateModules').on('click', function () {
 				thisInstance.hideActionMenu();
 			});
 		});
-		$('.searchMenuBtn').on('click', function () {
+		$('.tpl-BodyHeader').on('click', '.searchMenuBtn', function () {
 			thisInstance.hideActionMenu();
-			thisInstance.hideMobileMenu();
+			app.closeSidebar();
 			thisInstance.hideReminderNotice();
 			thisInstance.hideReminderNotification();
 			$('.searchMenu').toggleClass('toogleSearchMenu');

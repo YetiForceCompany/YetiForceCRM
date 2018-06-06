@@ -1196,7 +1196,7 @@ app = {
 		self.sidebarBtn = $('.js-sidebar-btn').first();
 		self.sidebar = $('.js-sidebar').first();
 		self.sidebarBtn.on('click', self.toggleSidebar.bind(self));
-		$('a[href],[tabindex],input,select,textarea,button,object').on('focus', (e) => {
+		$('a[href]:not(.c-header__btn),[tabindex],input,select,textarea,button').on('focus', (e) => {
 			if (self.sidebarBtn[0] == e.target) return;
 			if (self.sidebar.find(':focus').length) {
 				self.openSidebar();

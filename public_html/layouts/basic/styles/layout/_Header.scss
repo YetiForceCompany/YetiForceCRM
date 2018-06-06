@@ -2,7 +2,6 @@
 
 .c-header {
 	background-color: $y-navbar-background;
-	height: $headerHeight;
 	top: 0;
 	right: 0;
 	z-index: 1031;
@@ -18,7 +17,7 @@
 		position: relative;
 	}
 
-	.headerButton {
+	.c-header__btn {
 		@extend .py-0;
 
 		padding-left: 0.3rem;
@@ -28,20 +27,18 @@
 	}
 
 	.o-navbar__left {
-		.quickAction .headerButton {
+		.c-header__btn {
 			@extend .mr-2;
 		}
 	}
 
 	.o-navbar__right {
-		.headerButton {
+		.c-header__btn {
 			@extend .ml-2;
 		}
 	}
 
 	.headerLinksMails {
-		height: fit-content;
-
 		> .btn + .dropdown-toggle {
 			padding-top: 7px;
 			padding-bottom: 7px;
@@ -267,7 +264,7 @@
 
 //navbar action menu
 .actionMenu {
-	.actionMenuBtn {
+	.c-header__btn--mobile {
 		display: none;
 	}
 
@@ -280,7 +277,7 @@
 //mobile
 @media(max-width: 782px) {
 	.actionMenu {
-		.actionMenuBtn {
+		.c-header__btn--mobile {
 			display: block;
 		}
 
@@ -300,7 +297,7 @@
 			text-align: center;
 			overflow: auto;
 
-			.headerButton {
+			.c-header__btn {
 				display: block;
 				margin: 0 0 5px !important;
 
@@ -353,6 +350,22 @@
 	}
 }
 
-.c-menu__container.js-expand +  {
+@include media-breakpoint-down(xs) {
+	.c-menu__container.js-expand + .c-header {
+		&,
+		.o-navbar__left,
+		.o-navbar__right {
+			flex-direction: column;
+		}
 
+		* {
+			margin-left: 0 !important;
+			margin-right: 0 !important;
+			width: 100%;
+		}
+
+		.c-header__btn {
+			margin-bottom: 0.25rem;
+		}
+	}
 }
