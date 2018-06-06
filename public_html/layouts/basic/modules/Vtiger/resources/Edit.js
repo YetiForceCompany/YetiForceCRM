@@ -162,6 +162,7 @@ $.Class("Vtiger_Edit_Js", {
 			};
 			this.getRecordDetails(params).then(function (data) {
 				var response = params.data = data['result']['data'];
+				app.event.trigger("Vtiger_Edit_Js.setReferenceFieldValue", params, formElement);
 				$.each(mappingRelatedField, function (key, value) {
 					if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
 						var mapFieldElement = formElement.find('[name="' + key + '"]');
