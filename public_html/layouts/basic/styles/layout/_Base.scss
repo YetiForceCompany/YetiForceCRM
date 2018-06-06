@@ -38,8 +38,8 @@
 			left: 50px;
 		}
 
-		.c-menu--container.js-expand + .bodyHeader,
-		.c-menu--container:hover + .bodyHeader {
+		.c-menu__container.js-expand + .bodyHeader,
+		.c-menu__container:hover + .bodyHeader {
 			left: 230px;
 
 			+ .basePanel {
@@ -65,7 +65,7 @@
 			left: 0 !important;
 		}
 
-		.c-menu--container.js-expand + .bodyHeader {
+		.c-menu__container.js-expand + .bodyHeader {
 			left: 230px !important;
 
 			+ .basePanel {
