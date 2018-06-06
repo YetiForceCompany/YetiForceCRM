@@ -338,6 +338,10 @@ class PackageImport extends PackageExport
 			$validzip = false;
 			$this->_errorText = \App\Language::translate('LBL_ERROR_NO_VALID_PREFIX', 'Settings:ModuleManager');
 		}
+		if ($manifestxml_found && !empty($this->_modulexml->type) && in_array(strtolower($this->_modulexml->type), ['entity', 'inventory', 'extension']) && $modulename && \Settings_ModuleManager_Module_Model::checkModuleName($modulename)) {
+			$validzip = false;
+			$this->_errorText = \App\Language::translate('LBL_INVALID_MODULE_NAME', 'Settings:ModuleManager');
+		}
 		if ($validzip) {
 			if (!empty($this->_modulexml->license)) {
 				if (!empty($this->_modulexml->license->inline)) {

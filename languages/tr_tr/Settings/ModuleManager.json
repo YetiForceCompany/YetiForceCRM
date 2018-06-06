@@ -84,6 +84,7 @@
     "JS_CLICK_HERE": "Click here",
     "JS_ON": "On",
     "JS_REMOVED_MODULE": "Removed module",
-    "JS_SPECIAL_CHARACTERS_NOT_ALLOWED": "Special characters like & < > ' \" : , are not allowed"
+    "JS_SPECIAL_CHARACTERS_NOT_ALLOWED": "Special characters like & < > ' \" : , are not allowed",
+    "JS_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings"
   }
 }
