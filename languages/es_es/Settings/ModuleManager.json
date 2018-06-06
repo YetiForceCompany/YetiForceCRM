@@ -84,6 +84,7 @@
     "JS_CLICK_HERE": "Haga clic aqu\u00ed",
     "JS_ON": "On",
     "JS_REMOVED_MODULE": "Eliminar m\u00f3dulo",
-    "JS_SPECIAL_CHARACTERS_NOT_ALLOWED": "Los caracteres especiales como & < > ' \" : , no est\u00e1n permitidos"
+    "JS_SPECIAL_CHARACTERS_NOT_ALLOWED": "Los caracteres especiales como & < > ' \" : , no est\u00e1n permitidos",
+    "JS_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings"
   }
 }

@@ -84,6 +84,7 @@
     "JS_IMPORT_SUCCESSFULL": "Installation r\u00e9ussie",
     "JS_FOR_INSTALLATION": "pour l'installation",
     "JS_CLICK_HERE": "Cliquer ici",
-    "JS_REMOVED_MODULE": "Module supprim\u00e9"
+    "JS_REMOVED_MODULE": "Module supprim\u00e9",
+    "JS_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings"
   }
 }

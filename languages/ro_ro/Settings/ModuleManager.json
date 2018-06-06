@@ -84,6 +84,7 @@
     "JS_CLICK_HERE": "Click aici",
     "JS_ON": "Pornit",
     "JS_REMOVED_MODULE": "Modul eliminat",
-    "JS_SPECIAL_CHARACTERS_NOT_ALLOWED": "Caractere speciale precum & < > ' \" : , nu sunt permise"
+    "JS_SPECIAL_CHARACTERS_NOT_ALLOWED": "Caractere speciale precum & < > ' \" : , nu sunt permise",
+    "JS_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings"
   }
 }

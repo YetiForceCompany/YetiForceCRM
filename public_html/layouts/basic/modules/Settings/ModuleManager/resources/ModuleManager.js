@@ -8,6 +8,15 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 jQuery.Class('Settings_Module_Manager_Js', {
+	validateModuleName: function (field, rules, i, options) {
+		let error = Settings_Module_Manager_Js.validateField(field, rules, i, options);
+		if (error === true) {
+			if (field.val().indexOf('Settings') !== -1 ) {
+				error = app.vtranslate('JS_MODULE_NAME_CONTAINS_SETTINGS');
+			}
+		}
+		return error;
+	},
 	validateField: function (field, rules, i, options) {
 		var specialChars = /[&\<\>\:\'\"\,]/;
 		if (specialChars.test(field.val())) {
