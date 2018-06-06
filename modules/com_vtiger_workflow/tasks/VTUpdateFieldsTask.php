@@ -22,10 +22,12 @@ class VTUpdateFieldsTask extends VTTask
 	/**
 	 * Execute task.
 	 *
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param Vtiger_Record_Model $rawRecordModel
 	 */
-	public function doTask($recordModel)
+	public function doTask($rawRecordModel)
 	{
+		$recordModel = clone $rawRecordModel;
+		$recordModel->clearChanges();
 		$moduleModel = $recordModel->getModule();
 		$moduleFields = $moduleModel->getFields();
 		$fieldValueMapping = [];
