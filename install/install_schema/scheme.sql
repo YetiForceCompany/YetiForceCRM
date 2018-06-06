@@ -9102,7 +9102,7 @@ CREATE TABLE `vtiger_userscf` (
 CREATE TABLE `vtiger_vendor` (
   `vendorid` int(10) NOT NULL DEFAULT 0,
   `vendor_no` varchar(100) NOT NULL,
-  `vendorname` varchar(100) DEFAULT NULL,
+  `vendorname` varchar(255) DEFAULT NULL,
   `phone` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,
