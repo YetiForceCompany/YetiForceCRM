@@ -1494,7 +1494,11 @@ class Vtiger_Record_Model extends \App\Base
 				$stateId = 2;
 				break;
 		}
-		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['deleted' => $stateId, 'modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $this->getId()])->execute();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$dbCommand->update('vtiger_crmentity', ['deleted' => $stateId, 'modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $this->getId()])->execute();
+		if ($state !== 'Active') {
+			$dbCommand->delete('u_yf_crmentity_search_label', ['crmid' => $this->getId()])->execute();
+		}
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($this);
 		$eventHandler->setModuleName($this->getModuleName());
