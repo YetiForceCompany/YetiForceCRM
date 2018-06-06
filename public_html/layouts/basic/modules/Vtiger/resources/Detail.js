@@ -523,7 +523,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		return this.detailViewForm;
 	},
 	getRecordId: function () {
-		return app.getRecordId()
+		return app.getRecordId();
 	},
 	getRelatedModuleName: function () {
 		if (jQuery('.relatedModuleName', this.getContentHolder()).length == 1) {
@@ -2518,8 +2518,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerSetReadRecord(detailViewContainer);
 		this.registerEventForPicklistDependencySetup(this.getForm());
 		this.getForm().validationEngine(app.validationEngineOptionsForRecord);
-		this.loadWidgets();
 		this.loadWidgetsEvents();
+		this.loadWidgets();
 		this.registerBasicEvents();
 		this.registerEventForTotalRecordsCount();
 	}
