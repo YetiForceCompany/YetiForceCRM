@@ -6,6 +6,11 @@
 		<input type="hidden" name="action" value="TwoFactorAuthentication"/>
 		<input type="hidden" name="mode" value="secret"/>
 		<input type="hidden" name="secret" value="{$SECRET}"/>
+		{if $IS_INIT}
+			<div class="modal-body alert-info">
+				{\App\Language::translate('LBL_2FA_SECRET_ALREADY_SET', $MODULE_NAME)}
+			</div>
+		{/if}
 		{if $SHOW_OFF }
 			<div class="modal-body">
 				<label for="turn-off-2fa">{\App\Language::translate('LBL_2FA_OFF', $MODULE_NAME)}</label>

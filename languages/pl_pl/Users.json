@@ -338,7 +338,8 @@
     "LBL_2FA_WRONG_CODE": "Niepoprawny kod",
     "LBL_2FA_OFF": "Wy\u0142\u0105cz autentykacj\u0119 dwu etapow\u0105.",
     "LBL_2FA_USER_CODE": "Kod u\u017cytkownika",
-    "LBL_2FA_DESCRIPTION": "Ten krok potwierdza, \u017ce na pewno Ty pr\u00f3bujesz si\u0119 zalogowa\u0107."
+    "LBL_2FA_DESCRIPTION": "Ten krok potwierdza, \u017ce na pewno Ty pr\u00f3bujesz si\u0119 zalogowa\u0107.",
+    "LBL_2FA_SECRET_ALREADY_SET": "Sekretny kod jest ju\u017c wygenerowany, ale mo\u017cesz go zmieni\u0107."
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Separator dziesi\u0119tny i grupowania nie mog\u0105 by\u0107 takie same",

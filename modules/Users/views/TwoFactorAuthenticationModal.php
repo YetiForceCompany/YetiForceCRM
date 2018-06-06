@@ -35,6 +35,7 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 	 */
 	public function process(\App\Request $request)
 	{
+		$userModel = \App\User::getUserModel(\App\User::getCurrentUserRealId());
 		$moduleName = $request->getModule();
 		$authMethod = new Users_Totp_Authmethod(\App\User::getCurrentUserRealId());
 		$viewer = $this->getViewer($request);
@@ -44,6 +45,7 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 		$viewer->assign('QR_CODE_HTML', $authMethod->createQrCodeForUser());
 		$viewer->assign('LOCK_EXIT', $this->lockExit);
 		$viewer->assign('SHOW_OFF', $this->showOff());
+		$viewer->assign('IS_INIT', !empty($userModel->getDetail('authy_secret_totp')));
 		$viewer->view('TwoFactorAuthenticationModal.tpl', $moduleName);
 	}
 

@@ -157,7 +157,7 @@ class Users_Totp_Authmethod
 				return $userModel->getDetail('authy_methods') === 'PLL_AUTHY_TOTP';
 				break;
 			case 'TOTP_OBLIGATORY':
-				if (in_array(\App\User::getCurrentUserRealId(), AppConfig::security('USER_AUTHY_TOTP_EXCEPTIONS'))) {
+				if (in_array(\App\User::getCurrentUserRealId(), AppConfig::security('USER_AUTHY_TOTP_EXCEPTIONS', []))) {
 					return false;
 				}
 				return true;
