@@ -66,6 +66,9 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 			$userRecordModel->set('authy_secret_totp', $secret);
 			$userRecordModel->set('authy_methods', 'PLL_AUTHY_TOTP');
 			$userRecordModel->save();
+			if (\App\Session::has('authy_totp_init')) {
+				\App\Session::delete('authy_totp_init');
+			}
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([
