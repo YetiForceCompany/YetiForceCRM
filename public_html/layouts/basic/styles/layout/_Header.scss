@@ -39,6 +39,9 @@
 	}
 
 	.headerLinksMails {
+		height: fit-content;
+		width: fit-content;
+
 		> .btn + .dropdown-toggle {
 			padding-top: 7px;
 			padding-bottom: 7px;
@@ -52,7 +55,7 @@
 		.btn {
 			@extend .m-0;
 			@extend .px-2;
-
+			height: $menu-items-right-height;
 			font-size: $font-size-sm;
 		}
 	}
@@ -235,8 +238,8 @@
 }
 
 //navbar search mobile
-.searchMenu {
-	.o-search-menu__container {
+.searchMenu, .c-quick-menu--mail {
+	.o-search-menu__container, .c-quick-menu__container {
 		position: fixed;
 		left: auto;
 		right: -100%;
@@ -256,8 +259,8 @@
 	}
 }
 
-.searchMenu.toogleSearchMenu {
-	.o-search-menu__container {
+.searchMenu.toogleSearchMenu .c-quick-menu--mail.toogleSearchMenu{
+	.o-search-menu__container, .c-quick-menu__container {
 		right: 0;
 	}
 }

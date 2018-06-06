@@ -592,10 +592,10 @@ $.Class("Vtiger_Header_Js", {
 			$('.searchMenu').toggleClass('toogleSearchMenu');
 			if ($(this).hasClass('active')) {
 				$(this).removeClass('active');
-				$('.searchMenuBtn .headerButton').attr('aria-expanded', 'false');
+				$('.searchMenuBtn .c-header__btn').attr('aria-expanded', 'false');
 			} else {
 				$(this).addClass('active');
-				$('.searchMenuBtn .headerButton').attr('aria-expanded', 'true');
+				$('.searchMenuBtn .c-header__btn').attr('aria-expanded', 'true');
 			}
 		});
 	},

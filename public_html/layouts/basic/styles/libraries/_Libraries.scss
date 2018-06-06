@@ -68,11 +68,15 @@ header {
 		width: calc(100% - #{$iconButtonWidth});
 	}
 
-	.headerLinksMails .select2-selection:hover {
-		background: $dark !important;
+	.headerLinksMails .select2-selection {
+		height: $menu-items-right-height;
 
-		.select2-selection__rendered {
-			color: $white !important;
+		&:hover {
+			background: $dark !important;
+
+			.select2-selection__rendered {
+				color: $white !important;
+			}
 		}
 	}
 }
@@ -90,6 +94,7 @@ header {
 		width: 100% !important;
 	}
 }
+
 //theme selection
 .select2-selection__rendered.u-hover-bold {
 	padding: 6px !important;
@@ -128,6 +133,7 @@ header {
 	@extend .w-25;
 	@extend .mr-sm-2;
 }
+
 //-------- leaflet --------//
 .leaflet-popup-content {
 	width: 62px;
@@ -197,6 +203,7 @@ header {
 		}
 	}
 }
+
 //-------- jQuery UI --------//
 .ui-autocomplete {
 	padding: 0 !important;
