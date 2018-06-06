@@ -18,11 +18,15 @@ app = {
 	childFrame: false,
 	event: new function () {
 		this.el = $({});
+		this.list = [];
 		this.trigger = function () {
 			this.el.trigger(arguments[0], Array.prototype.slice.call(arguments, 1));
 		}
 		this.on = function () {
-			this.el.on.apply(this.el, arguments);
+			if(typeof this.list[arguments[0]] === 'undefined'){
+				this.el.on.apply(this.el, arguments);
+				this.list[arguments[0]] = true;
+			}
 		}
 		this.one = function () {
 			this.el.one.apply(this.el, arguments);
