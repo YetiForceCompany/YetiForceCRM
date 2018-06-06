@@ -180,6 +180,9 @@ Vtiger_Base_Validator_Js("Vtiger_PositiveNumber_Validator_Js", {
 		} else {
 			maximumLength = this.getElement().data('maximumlength');
 		}
+		if (!maximumLength) {
+			return true;
+		}
 		let ranges = maximumLength.split(',');
 		if (ranges.length === 2) {
 			if (fieldValue > parseFloat(ranges[1]) || fieldValue < parseFloat(ranges[0])) {
@@ -871,6 +874,9 @@ Vtiger_Base_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
 			maximumLength = this.getElement().data().fieldinfo.maximumlength;
 		} else {
 			maximumLength = this.getElement().data('maximumlength');
+		}
+		if (!maximumLength) {
+			return true;
 		}
 		if (maximumLength && strippedValue > parseFloat(maximumLength)) {
 			errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');

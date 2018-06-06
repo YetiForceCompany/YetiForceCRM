@@ -279,7 +279,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 		});
 	},
 	reloadContent: function () {
-		$('.massEditTabs li .active').trigger('click');
+		$('.js-tabs li .active').trigger('click');
 	},
 	resisterSaveKeys: function (modal) {
 		var thisInstance = this;
@@ -323,7 +323,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 	},
 	registerTabEvents: function () {
 		var thisInstance = this;
-		$('.massEditTabs li').on('click', function () {
+		$('.js-tabs li').on('click', function () {
 			thisInstance.loadContent($(this).data('mode'), false, $(this).data('params'));
 		});
 	},
