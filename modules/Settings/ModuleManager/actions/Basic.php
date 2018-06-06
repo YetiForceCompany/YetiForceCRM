@@ -51,6 +51,8 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 		$module = vtlib\Module::getInstance($moduleName);
 		if ($module) {
 			$result = ['success' => false, 'text' => \App\Language::translate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName)];
+		} elseif (strpos($moduleName, 'Settings') !== false) {
+			$result = ['success' => false, 'text' => \App\Language::translate('LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS', $qualifiedModuleName)];
 		} elseif (Settings_ModuleManager_Module_Model::checkModuleName($moduleName)) {
 			$result = ['success' => false, 'text' => \App\Language::translate('LBL_INVALID_MODULE_NAME', $qualifiedModuleName)];
 		} else {

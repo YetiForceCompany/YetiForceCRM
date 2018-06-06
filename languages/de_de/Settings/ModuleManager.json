@@ -73,7 +73,8 @@
     "LBL_LIBRARY_NO_DOWNLOAD": "Nicht heruntergeladen",
     "LBL_LIBRARY_NEEDS_UPDATING": "Update erforderlich",
     "LBL_NO_PERMISSION_TO_DIR": "Keine Berechtigung f\u00fcr die Verzeichnisse",
-    "LBL_ERROR_NO_VALID_PREFIX": "Umg\u00fcltiges Sprachpr\u00e4fix"
+    "LBL_ERROR_NO_VALID_PREFIX": "Umg\u00fcltiges Sprachpr\u00e4fix",
+    "LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings"
   },
   "js": {
     "JS_UPDATED_MODULE": "Update Erfolgreich",
@@ -84,7 +85,6 @@
     "JS_CLICK_HERE": "Hier klicken",
     "JS_ON": "Ein",
     "JS_REMOVED_MODULE": "Gel\u00f6schtes Modul",
-    "JS_SPECIAL_CHARACTERS_NOT_ALLOWED": "Sonderzeichen wie & < > ' \" : , sind nicht erlaubt",
-    "JS_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings"
+    "JS_SPECIAL_CHARACTERS_NOT_ALLOWED": "Sonderzeichen wie & < > ' \" : , sind nicht erlaubt"
   }
 }

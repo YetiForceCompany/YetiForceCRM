@@ -14,7 +14,7 @@
 						<div class="form-group row">
 							<label class="col-sm-4 col-form-label text-right"><span class="text-danger">*</span>{\App\Language::translate('LBL_ENTER_MODULE_NAME', $QUALIFIED_MODULE)}</label>
 							<div class="col-sm-6 controls">
-								<input type="text" class="module_name form-control" data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateModuleName]]" name="module_name" placeholder="HelpDesk" required="true" >
+								<input type="text" class="module_name form-control" data-validation-engine="validate[required]" name="module_name" placeholder="HelpDesk" required="true" >
 							</div>
 						</div>
 						<div class="form-group row">
