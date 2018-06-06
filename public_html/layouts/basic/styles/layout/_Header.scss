@@ -1,6 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-.bodyHeader {
+.c-header {
 	background-color: $y-navbar-background;
 	height: $headerHeight;
 	top: 0;
@@ -351,4 +351,8 @@
 	.breadcrumb-item.active {
 		color: darken($breadcrumb-active-color, 10%);
 	}
+}
+
+.c-menu__container.js-expand +  {
+
 }

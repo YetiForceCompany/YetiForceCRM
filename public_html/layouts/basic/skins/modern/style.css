@@ -228,7 +228,7 @@ i {
 .headerLink .dropdown-toggle {
 	color: #fff !important;
 }
-.bodyHeader {
+.c-header {
 	background-color: #1976D2;
 	-webkit-transition: left ease-in-out .1s, z-index 0s .1s;
 	transition: left ease-in-out 0s, z-index 0s .1s;
@@ -705,7 +705,7 @@ div#calendarview.fc.fc-ltr {
 .dashboard_notebookWidget_view .pull-right .btn {
 	margin-bottom: 8px;
 }
-.nav li:hover > .slimScrollDiv > .subMenu, .o-base-container:not(.leftPanelOpen) .c-menu__container:hover + .bodyHeader {
+.nav li:hover > .slimScrollDiv > .subMenu, .o-base-container:not(.leftPanelOpen) .c-menu__container:hover + .c-header {
 	left: 200px;
 }
 .c-menu__container .nav .subMenu li, .c-menu__container .nav .subMenu:after {
@@ -723,7 +723,7 @@ div#calendarview.fc.fc-ltr {
 .o-base-container .c-menu__container, .o-base-container .c-menu__container:after {
 	width: 200px !important;
 }
-.o-base-container:not(.leftPanelOpen) .c-menu__container:hover + .bodyHeader + .basePanel, .o-base-container:not(.leftPanelOpen) .c-menu__container.stillOpen + .bodyHeader + .basePanel {
+.o-base-container:not(.leftPanelOpen) .c-menu__container:hover + .c-header + .basePanel, .o-base-container:not(.leftPanelOpen) .c-menu__container.stillOpen + .c-header + .basePanel {
 	left: 150px;
 }
 .o-base-container .basePanel {
@@ -731,12 +731,12 @@ div#calendarview.fc.fc-ltr {
 	transition: left ease-in-out 0s, width ease-in-out 0.1s;
 	transition-delay: 0s;
 }
-.o-base-container:not(.leftPanelOpen) .c-menu__container:hover + .bodyHeader, .o-base-container:not(.leftPanelOpen) .c-menu__container:hover + .bodyHeader + .basePanel,
-.o-base-container:not(.leftPanelOpen) .c-menu__container.stillOpen + .bodyHeader + .basePanel {
+.o-base-container:not(.leftPanelOpen) .c-menu__container:hover + .c-header, .o-base-container:not(.leftPanelOpen) .c-menu__container:hover + .c-header + .basePanel,
+.o-base-container:not(.leftPanelOpen) .c-menu__container.stillOpen + .c-header + .basePanel {
 	-webkit-transition: left ease-in-out 0s 0.1s, z-index 0s 0.1s;
 	transition: left ease-in-out 0s 0.1s, z-index 0s 0.1s;
 }
-.bodyHeader.open, .footerContainer.open, .o-base-container .c-menu__container .tm-sidebar-nav:not(.uk-open) .uk-dropdown,
+.c-header.open, .footerContainer.open, .o-base-container .c-menu__container .tm-sidebar-nav:not(.uk-open) .uk-dropdown,
 .o-base-container .c-menu__container .tm-sidebar-nav:not(.uk-open) .uk-dropdown:before {
 	-webkit-transition: left ease-in-out 0s;
 	transition: left ease-in-out 0s;
@@ -814,7 +814,7 @@ input[type=checkbox]:checked {
 		left: 150px;
 		width: calc(100% - 150px);
 	}
-	.bodyHeader.menuOpen {
+	.c-header.menuOpen {
 		left: 200px;
 	}
 	.breadcrumbsLinks {

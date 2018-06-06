@@ -170,7 +170,7 @@
 
 	&--animation {
 		.basePanel,
-		.bodyHeader {
+		.c-header {
 			@include u-transition((left ease 0.2s 0.5s));
 		}
 	}
