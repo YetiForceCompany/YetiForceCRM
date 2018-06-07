@@ -126,7 +126,7 @@ var AppConnector = {
 				fullUrl = 'index.php?' + fullUrl;
 			}
 			if (history.pushState && fullUrl !== '') {
-				window.history.replaceState("text", "Title", fullUrl);
+				window.history.pushState(fullUrl, "Title", fullUrl);
 			}
 		}
 		return aDeferred.promise();

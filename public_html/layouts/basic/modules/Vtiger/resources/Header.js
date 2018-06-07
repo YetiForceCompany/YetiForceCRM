@@ -845,11 +845,12 @@ $.Class("Vtiger_Header_Js", {
 		thisInstance.registerChat();
 	}
 });
-
 $(document).ready(function () {
-	$(window).on('popstate', function (event) {
+	window.addEventListener('popstate', (event) => {
 		if (event.state) {
-			window.location.href = event.state.url;
+			window.location.href = event.state;
+		} else {
+			window.location.href = window.location.href;
 		}
 	});
 	Vtiger_Header_Js.getInstance().registerEvents();
