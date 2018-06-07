@@ -67,9 +67,11 @@ class WaterfallSelect {
 		for (let value of values) {
 			for (let item of this.data) {
 				if (item.value === value) {
-					item.children.forEach((child) => {
-						options.push(child);
-					});
+					if(typeof item.children !== 'undefined') {
+						item.children.forEach((child) => {
+							options.push(child);
+						});
+					}
 				}
 			}
 		}
