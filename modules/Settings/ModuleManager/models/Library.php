@@ -133,6 +133,7 @@ class Settings_ModuleManager_Library_Model
 			}
 		}
 		if (file_exists($path) && filesize($path) > 0) {
+			\vtlib\Functions::recurseDelete($lib['dir']);
 			$zip = \App\Zip::openFile($path, ['checkFiles' => false]);
 			$zip->unzip([$compressedName => $lib['dir']]);
 			unlink($path);
@@ -148,8 +149,6 @@ class Settings_ModuleManager_Library_Model
 	 */
 	public static function update($name)
 	{
-		$lib = static::$libraries[$name];
-		\vtlib\Functions::recurseDelete($lib['dir']);
 		static::download($name);
 	}
 }
