@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="row conditionRow marginBottom10px align-items-center">
+	<div class="row js-conditions-row marginBottom10px align-items-center" data-js="container | clone">
 		<div class="col-md-4">
 			<select class="{if empty($NOCHOSEN)}chzn-select{/if} form-control" name="columnname" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 				<option value="none"></option>

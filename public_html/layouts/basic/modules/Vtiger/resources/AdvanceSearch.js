@@ -142,7 +142,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 					//By default one condition exits , only if you have multiple label fields you have add one more condition
 					anyConditionContainer.find('.addCondition').find('button').trigger('click');
 				}
-				var conditionRow = anyConditionContainer.find('.conditionList').find('.conditionRow:last');
+				var conditionRow = anyConditionContainer.find('.conditionList').find('.js-conditions-row:last');
 				var fieldSelectElemnt = conditionRow.find('select[name="columnname"]');
 				fieldSelectElemnt.find('option[data-field-name="' + labelFieldName + '"]').attr('selected', 'selected');
 				fieldSelectElemnt.trigger('change').trigger('chosen:updated');

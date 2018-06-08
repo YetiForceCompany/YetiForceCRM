@@ -24,7 +24,7 @@
 		{assign var=RELATED_MODULE_MODEL value=Vtiger_Module_Model::getInstance($TASK_OBJECT->entity_type)}
 		{assign var=FIELD_VALUE_MAPPING value=\App\Json::decode($TASK_OBJECT->field_value_mapping)}
 		{foreach from=$FIELD_VALUE_MAPPING item=FIELD_MAP}
-			<div class="row conditionRow padding-bottom1per">
+			<div class="row js-conditions-row padding-bottom1per" data-js="container | clone">
 				<div class="col-md-4">
 					{assign var=SELECTED_FIELD_MODEL value=$RELATED_MODULE_MODEL->getField($FIELD_MAP['fieldname'])}
 					<select name="fieldname" class="select2 form-control" {if $SELECTED_FIELD_MODEL->isMandatory() && !$MAPPING_PANEL} disabled="" {/if} >
@@ -73,7 +73,7 @@
 				{if in_array($SOURCE_MODULE, $MANDATORY_FIELD_MODEL->getReferenceList())}
 					{continue}
 				{/if}
-				<div class="row conditionRow padding-bottom1per">
+				<div class="row js-conditions-container padding-bottom1per" data-js="container | clone">
 					<span class="col-md-4">
 						<select name="fieldname" class="select2 form-control" disabled="">
 							<option value="none"></option>
