@@ -137,7 +137,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		return this.checkDuplicateFieldsSelected();
 	},
 	checkDuplicateFieldsSelected: function () {
-		var selectedFieldNames = $('#save_fieldvaluemapping').find('.conditionRow').find('[name="fieldname"]');
+		var selectedFieldNames = $('#save_fieldvaluemapping').find('.js-conditions-row').find('[name="fieldname"]');
 		var result = true;
 		var failureMessage = app.vtranslate('JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE');
 		$.each(selectedFieldNames, function (i, ele) {
@@ -199,7 +199,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		}
 
 		var values = [];
-		var conditions = $('.conditionRow', conditionsContainer);
+		var conditions = $('.js-conditions-row', conditionsContainer);
 		conditions.each(function (i, conditionDomElement) {
 			var rowElement = $(conditionDomElement);
 			var fieldSelectElement = $('[name="fieldname"]', rowElement);
@@ -432,7 +432,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	},
 	registerDeleteConditionEvent: function () {
 		$('#saveTask').on('click', '.deleteCondition', function (e) {
-			$(e.currentTarget).closest('.conditionRow').remove();
+			$(e.currentTarget).closest('.js-conditions-row').remove();
 		})
 	},
 	/**
@@ -443,7 +443,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		$('#saveTask').on('change', 'select[name="fieldname"]', function (e) {
 			var selectedElement = $(e.currentTarget);
 			if (selectedElement.val() != 'none') {
-				var conditionRow = selectedElement.closest('.conditionRow');
+				var conditionRow = selectedElement.closest('.js-conditions-row');
 				var moduleNameElement = conditionRow.find('[name="modulename"]');
 				if (moduleNameElement.length > 0) {
 					var selectedOptionFieldInfo = selectedElement.find('option:selected').data('fieldinfo');
@@ -485,7 +485,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	},
 	loadFieldSpecificUi: function (fieldSelect) {
 		var selectedOption = fieldSelect.find('option:selected');
-		var row = fieldSelect.closest('div.conditionRow');
+		var row = fieldSelect.closest('div.js-conditions-row');
 		var fieldUiHolder = row.find('.fieldUiHolder');
 		var fieldInfo = selectedOption.data('fieldinfo');
 		var fieldValueMapping = this.getFieldValueMapping();

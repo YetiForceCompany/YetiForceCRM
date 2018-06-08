@@ -146,7 +146,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 				valueType = 'rawtext';
 			}
 			var conditionsContainer = fieldValueElement.closest('.js-conditions-container');
-			var conditionRow = fieldValueElement.closest('.conditionRow');
+			var conditionRow = fieldValueElement.closest('.js-conditions-row');
 
 			var clonedPopupUi = conditionsContainer.find('.popupUi').clone(true, true).removeClass('popupUi').addClass('clonedPopupUi')
 			clonedPopupUi.find('select').addClass('chzn-select');

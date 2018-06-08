@@ -2,7 +2,7 @@
 {strip}
 <div class="tpl-Settings-Workflows-Tasks-VTUpdateInvoiceFields js-conditions-container" id="save_fieldvaluemapping"
 	 data-js="container">
-	<div class="row js-add-basic-field-container conditionRow w-100 mb-2" data-js="clone">
+	<div class="row js-add-basic-field-container js-conditions-row w-100 mb-2" data-js="clone | container">
 		<div class="col-md-3 align-self-md-center"><strong>{\App\Language::translate('LBL_SUM_VALUE_INVOICE_FIELD',$QUALIFIED_MODULE)}</strong></div>
 		<div class="col-md-4">
 			<select name="source_fieldname" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}"
@@ -27,7 +27,7 @@
 			</select>
 		</div>
 	</div>
-	<div class="row js-add-basic-field-container conditionRow w-100" data-js="clone">
+	<div class="row js-add-basic-field-container js-conditions-row w-100" data-js="clone | container">
 		<div class="col-md-3 align-self-md-center"><strong>{\App\Language::translate('LBL_SET_FIELD_VALUES',$QUALIFIED_MODULE)}</strong></div>
 		<div class="col-md-4">
 			<select name="target_fieldname" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}"
