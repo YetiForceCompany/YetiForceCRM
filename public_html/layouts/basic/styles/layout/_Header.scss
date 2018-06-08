@@ -32,12 +32,6 @@
 		}
 	}
 
-	.o-navbar__right {
-		.c-header__btn {
-			@extend .ml-2;
-		}
-	}
-
 	.headerLinksMails {
 		height: fit-content;
 		width: fit-content;
@@ -258,7 +252,6 @@
 		}
 	}
 }
-
 .searchMenu.toogleSearchMenu {
 	.o-search-menu__container {
 		right: 0;

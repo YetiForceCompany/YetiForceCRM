@@ -16,22 +16,7 @@ function registerUserList() {
 	if (selectUsers.data('select2')) {
 		selectUsers.select2('destroy');
 	} else {
-		selectUsers.on('change', function () {
-			var params = {
-				'module': 'OSSMail',
-				'action': "SetUser",
-				'user': $(this).val(),
-			};
-			AppConnector.request(params).then(
-				function (response) {
-					if (app.getModuleName() == 'OSSMail') {
-						location.reload();
-					} else {
-						window.location.href = "index.php?module=OSSMail&view=Index";
-					}
-				}
-			);
-		});
+		selectUsers.on('change', handleChangeUserEvent);
 	}
 	App.Fields.Picklist.showSelect2ElementView(selectUsers, {
 		templateResult: function (state) {
@@ -62,6 +47,24 @@ function registerUserList() {
 		e.stopPropagation();
 		selectUsers.trigger('change');
 	});
+	$('.js-mail-list').on('click', '.js-mail-link', handleChangeUserEvent);
+}
+
+function handleChangeUserEvent () {
+	var params = {
+		'module': 'OSSMail',
+		'action': "SetUser",
+		'user': $(this).val()
+	};
+	AppConnector.request(params).then(
+		function (response) {
+			if (app.getModuleName() == 'OSSMail') {
+				location.reload();
+			} else {
+				window.location.href = "index.php?module=OSSMail&view=Index";
+			}
+		}
+	);
 }
 
 function startCheckMails() {
