@@ -155,7 +155,7 @@
 									</div>
 								</a>
 							{elseif $CONFIG['showMailAccounts']=='true'}
-								<div class="d-none d-md-block">
+								<div class="d-none d-xxl-block">
 									<select class="form-control"
 											title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
 										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
@@ -166,9 +166,9 @@
 										{/foreach}
 									</select>
 								</div>
-								<div class="o-action-menu__item d-md-none">
+								<div class="o-action-menu__item d-xxl-none">
 									<div class="dropdown">
-										<a class="c-header__btn btn btn-light btn dropdownMenu"
+										<a class="c-header__btn btn btn-outline-dark border-0 dropdownMenu"
 										   id="showMailList" data-toggle="dropdown"
 										   data-boundary="window" href="#" role="button">
 										<span class="fas fa-inbox fa-fw"
@@ -191,7 +191,7 @@
 				{/if}
 			{/if}
 			{if $PARENT_MODULE === 'Settings'}
-				<div class="mr-4">
+				<div class="mr-xxl-4">
 					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
 					   href="https://yetiforce.shop"
 					   data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP',$QUALIFIED_MODULE)}"
