@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 .c-header {
-	background-color: $y-navbar-background;
+	background-color: $bg-navbar;
 	top: 0;
 	right: 0;
 	z-index: 1031;
@@ -23,7 +23,7 @@
 		padding-left: 0.3rem;
 		padding-right: 0.3rem;
 		font-size: 17px;
-		line-height: $menuItemsHeight;
+		line-height: $h-menu-items;
 	}
 
 	.o-navbar__left {
@@ -40,7 +40,7 @@
 			right: 0;
 		}
 		.c-header__btn {
-			height: $menu-items-right-height;
+			height: $h-menu-right-items;
 		}
 	}
 }
@@ -59,10 +59,10 @@
 	visibility: hidden;
 	position: fixed;
 	right: -380px;
-	top: $headerHeight;
+	top: $h-header;
 	z-index: 1035;
 	width: 380px;
-	height: $mainViewportHeight;
+	height: $h-main-viewport;
 	overflow-y: auto;
 	background: rgba(0, 0, 0, 0.4);
 	border-left: 1px solid #797979;
@@ -106,9 +106,9 @@
 
 .modalRightSiteBar {
 	margin: 0;
-	height: $mainViewportHeight;
+	height: $h-main-viewport;
 	right: 0;
-	top: $headerHeight;
+	top: $h-header;
 	position: fixed !important;
 	z-index: 1070;
 	overflow: hidden;
@@ -230,8 +230,8 @@
 		top: 50px;
 		width: 100%;
 		width: calc(100% - 50px);
-		color: $y-navbar-font-color;
-		background-color: lighten($y-navbar-background, 5%);
+		color: $color-navbar;
+		background-color: lighten($bg-navbar, 5%);
 		z-index: 2000;
 		padding: 30px;
 		-webkit-transition: right ease-in-out 0.35s;
@@ -274,8 +274,8 @@
 			top: 50px;
 			max-height: calc(100vh - 50px);
 			width: 100%;
-			color: $y-navbar-font-color;
-			background-color: lighten($y-navbar-background, 5%);
+			color: $color-navbar;
+			background-color: lighten($bg-navbar, 5%);
 			z-index: 2000;
 			padding: 30px;
 			-webkit-transition: right ease-in-out 0.35s;

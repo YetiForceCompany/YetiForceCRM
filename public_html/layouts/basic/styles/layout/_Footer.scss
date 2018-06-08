@@ -2,9 +2,10 @@
 
 .footerContainer {
 	background: $dark;
-	height: $footerHeight;
+	height: $h-footer;
 	color: $white;
-	font-size: $fontSmall;
+	font-size: $font-size-small;
+
 
 	a {
 		color: inherit;
