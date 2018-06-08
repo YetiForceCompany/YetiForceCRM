@@ -68,7 +68,7 @@ header {
 		width: calc(100% - #{$iconButtonWidth});
 	}
 
-	.headerLinksMails .select2-selection {
+	.c-header__btn__container .select2-selection {
 		height: $menu-items-right-height;
 
 		&:hover {

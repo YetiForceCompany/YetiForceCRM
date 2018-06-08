@@ -138,7 +138,7 @@
 					{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
 					{if count($AUTOLOGINUSERS) > 0}
 						{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
-						<div class="headerLinksMails bg-white rounded" id="OSSMailBoxInfo"
+						<div class="c-header__btn__container bg-white rounded js-header__btn--mail"
 							 {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true"
 							 data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
 							{if count($AUTOLOGINUSERS) eq 1}
@@ -166,24 +166,23 @@
 										{/foreach}
 									</select>
 								</div>
-								<div class="o-action-menu__item d-xxl-none">
-									<div class="dropdown">
-										<a class="c-header__btn btn btn-outline-dark border-0 dropdownMenu"
-										   id="showMailList" data-toggle="dropdown"
-										   data-boundary="window" href="#" role="button">
+								<div class="o-action-menu__item d-xxl-none dropdown">
+									<a class="c-header__btn btn btn-outline-dark border-0 dropdown-toggle"
+									   id="show-mail-list" data-toggle="dropdown"
+									   data-boundary="window" href="#" role="button" aria-haspopup="true"
+									   aria-expanded="false">
 										<span class="fas fa-inbox fa-fw"
 											  title="{\App\Language::translate('LBL_EMAIL')}"></span>
-										</a>
-										<ul class="dropdown-menu js-mail-list" aria-labelledby="showMailList" role="list"
-											 data-js="click">
-											{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
-												<li value="{$KEY}" data-id="{$KEY}" data-nomail=""
-												   class="dropdown-item noMails js-mail-link" data-js="click">
-													{$ITEM.username}
-												</li>
-											{/foreach}
-										</ul>
-									</div>
+									</a>
+									<ul class="dropdown-menu js-mail-list" aria-labelledby="show-mail-list" role="list"
+										data-js="click">
+										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
+											<li value="{$KEY}" data-id="{$KEY}" data-nomail=""
+												class="dropdown-item noMails js-mail-link" data-js="click">
+												{$ITEM.username}
+											</li>
+										{/foreach}
+									</ul>
 								</div>
 							{/if}
 						</div>

@@ -1,18 +1,18 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery(function () {
-	if ($('#OSSMailBoxInfo').data('numberunreademails') != undefined) {
+	if ($('.js-header__btn--mail').data('numberunreademails') != undefined) {
 		window.stopScanMails = false;
 		if (getUrlVars()['view'] != 'Popup') {
 			startCheckMails();
 		}
 	}
-	if ($('#OSSMailBoxInfo select').length > 0) {
+	if ($('.js-header__btn--mail select').length > 0) {
 		registerUserList();
 	}
 });
 
 function registerUserList() {
-	var selectUsers = $('#OSSMailBoxInfo select');
+	var selectUsers = $('.js-header__btn--mail select');
 	if (selectUsers.data('select2')) {
 		selectUsers.select2('destroy');
 	} else {
@@ -69,8 +69,8 @@ function handleChangeUserEvent () {
 
 function startCheckMails() {
 	var users = [];
-	var timeCheckingMails = $('#OSSMailBoxInfo').data('interval');
-	$("#OSSMailBoxInfo .noMails").each(function (index) {
+	var timeCheckingMails = $('.js-header__btn--mail').data('interval');
+	$(".js-header__btn--mail .noMails").each(function (index) {
 		users.push($(this).data('id'));
 	});
 	if (users.length > 0) {
@@ -96,7 +96,7 @@ function checkMails(users) {
 		function (response) {
 			if (response.success && response.success.error != true && response.result.error != true) {
 				var result = response.result;
-				$("#OSSMailBoxInfo .noMails").each(function (index) {
+				$(".js-header__btn--mail .noMails").each(function (index) {
 					var element = jQuery(this);
 					var id = element.data('id');
 					if (jQuery.inArray(id, result)) {

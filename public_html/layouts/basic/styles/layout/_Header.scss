@@ -32,25 +32,15 @@
 		}
 	}
 
-	.headerLinksMails {
+	.c-header__btn__container {
 		height: fit-content;
 		width: fit-content;
-
-		> .btn + .dropdown-toggle {
-			padding-top: 7px;
-			padding-bottom: 7px;
-		}
-
 		.dropdown-menu {
 			left: auto;
 			right: 0;
 		}
-
-		.btn {
-			@extend .m-0;
-			@extend .px-2;
+		.c-header__btn {
 			height: $menu-items-right-height;
-			font-size: $font-size-sm;
 		}
 	}
 }
@@ -360,7 +350,8 @@
 			width: 100%;
 		}
 
-		.c-header__btn {
+		.c-header__btn:not(.c-header__btn--mobile),
+		.c-header__btn__container {
 			margin-bottom: 0.25rem;
 		}
 	}
