@@ -230,7 +230,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 			if (valueType == '') {
 				valueType = 'rawtext';
 			}
-			var conditionsContainer = fieldValueElement.closest('.conditionsContainer');
+			var conditionsContainer = fieldValueElement.closest('.js-conditions-container');
 			var conditionRow = fieldValueElement.closest('.conditionRow');
 
 			var clonedPopupUi = conditionsContainer.find('.popupUi').clone(true, true).removeClass('popupUi').addClass('clonedPopupUi');
