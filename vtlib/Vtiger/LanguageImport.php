@@ -74,8 +74,8 @@ class LanguageImport extends LanguageExport
 		\App\Log::trace("Importing $label [$prefix] ... STARTED", __METHOD__);
 
 		$zip = \App\Zip::openFile($zipfile, ['onlyExtensions' => ['json']]);
-		$languages = 'languages' . DIRECTORY_SEPARATOR . $prefix;
-		$custom = 'custom' . DIRECTORY_SEPARATOR . $languages;
+		$languages = 'languages/' . $prefix;
+		$custom = 'custom/' . $languages;
 		$zip->unzip([
 			$custom => $custom,
 			$languages => $languages,

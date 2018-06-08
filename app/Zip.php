@@ -3,8 +3,8 @@
  * A file archive, compressed with Zip.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App;
@@ -88,56 +88,44 @@ class Zip extends \ZipArchive
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return string[] Unpacked files
+	 * @return string[]|string Unpacked files
 	 */
 	public function unzip($toDir)
 	{
-		$fileList = [];
-		if (is_array($toDir)) {
-			foreach ($toDir as $dirname => $target) {
-				for ($i = 0; $i < $this->numFiles; ++$i) {
-					$path = $this->getNameIndex($i);
-					if (strpos($path, $dirname . DIRECTORY_SEPARATOR) !== 0 || ($this->checkFiles && $this->checkFile($path))) {
-						continue;
-					}
-					// Determine output filename (removing the $source prefix)
-					$file = $target . DIRECTORY_SEPARATOR . substr($path, strlen($dirname) + 1);
-					// Create the directories if necessary
-					$dir = dirname($file);
-					if (!is_dir($dir)) {
-						mkdir($dir, 0755, true);
-					}
-					$fileList[] = $path;
-					if (!$this->isDir($path)) {
-						// Read from Zip and write to disk
-						$fpr = $this->getStream($path);
-						$fpw = fopen($file, 'w');
-						while ($data = fread($fpr, 1024)) {
-							fwrite($fpw, $data);
-						}
-						fclose($fpr);
-						fclose($fpw);
-					}
-				}
-			}
-		} else {
-			if (!is_dir($toDir)) {
-				throw new \App\Exceptions\AppException('Directory not found, and unable to create it');
-			}
-			if (!is_writable($toDir)) {
-				throw new \App\Exceptions\AppException('No permissions to create files');
-			}
+		if (\is_string($toDir)) {
+			$toDir = [$toDir];
+		}
+		$files =  $created = [];
+		foreach ($toDir as $dir => $target) {
 			for ($i = 0; $i < $this->numFiles; ++$i) {
-				$path = $this->getNameIndex($i);
-				if ($this->checkFiles && $this->checkFile($path)) {
+				$zipPath = $this->getNameIndex($i);
+				$path = \str_replace('\\', '/', $zipPath);
+				if ((!\is_numeric($dir) && strpos($path, $dir . '/') !== 0) || ($this->checkFiles && $this->checkFile($zipPath))) {
 					continue;
 				}
-				$fileList[] = $path;
+				$files[] = $zipPath;
+				$file = $target . '/' . (\is_numeric($dir) ? $path : substr($path, strlen($dir) + 1));
+				$fileDir = dirname($file);
+				if (!isset($created[$fileDir])) {
+					if (!is_dir($fileDir)) {
+						mkdir($fileDir, 0755, true);
+					}
+					$created[$fileDir] = true;
+				}
+				if (!$this->isDir($path)) {
+					// Read from Zip and write to disk
+					$fpr = $this->getStream($zipPath);
+					$fpw = fopen($file, 'w');
+					while ($data = fread($fpr, 1024)) {
+						fwrite($fpw, $data);
+					}
+					fclose($fpr);
+					fclose($fpw);
+				}
 			}
-			$this->extractTo($toDir, $fileList);
 		}
 		$this->close();
-		return $fileList;
+		return $files;
 	}
 
 	/**
@@ -166,11 +154,11 @@ class Zip extends \ZipArchive
 			}
 			$stat = $this->statName($path);
 			$fileInstance = \App\Fields\File::loadFromInfo([
-					'content' => $this->getFromName($path),
-					'path' => $this->getLocalPath($path),
-					'name' => basename($path),
-					'size' => $stat['size'],
-					'validateAllCodeInjection' => true,
+				'content' => $this->getFromName($path),
+				'path' => $this->getLocalPath($path),
+				'name' => basename($path),
+				'size' => $stat['size'],
+				'validateAllCodeInjection' => true,
 			]);
 			if (!$fileInstance->validate()) {
 				return true;
@@ -257,8 +245,10 @@ class Zip extends \ZipArchive
 
 	/**
 	 * Push out the file content for download.
+	 *
+	 * @param string $name
 	 */
-	public function download()
+	public function download(string $name)
 	{
 		$fileName = $this->filename;
 		$this->close();
@@ -266,7 +256,7 @@ class Zip extends \ZipArchive
 		header('Pragma: no-cache');
 		header('Expires: 0');
 		header('Content-Type: application/zip');
-		header('Content-Disposition: attachment; filename="' . $fileName . '";');
+		header('Content-Disposition: attachment; filename="' . $name . '.zip";');
 		header('Accept-Ranges: bytes');
 		header('Content-Length: ' . filesize($fileName));
 		echo readfile($fileName);

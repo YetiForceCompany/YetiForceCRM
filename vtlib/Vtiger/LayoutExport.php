@@ -68,7 +68,7 @@ class LayoutExport extends Package
 		// Copy module directory
 		$zip->addDirectory('layouts/' . $layoutName);
 		if ($directDownload) {
-			$zip->download();
+			$zip->download($layoutName);
 		} else {
 			$zip->close();
 			if ($todir) {

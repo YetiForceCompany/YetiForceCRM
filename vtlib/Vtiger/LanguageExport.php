@@ -69,7 +69,7 @@ class LanguageExport extends Package
 			}
 		}
 		if ($directDownload) {
-			$zip->download();
+			$zip->download($languageCode);
 		} else {
 			$zip->close();
 			if ($todir) {
