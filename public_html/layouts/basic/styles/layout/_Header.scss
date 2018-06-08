@@ -1,8 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-.bodyHeader {
+.c-header {
 	background-color: $y-navbar-background;
-	height: $headerHeight;
 	top: 0;
 	right: 0;
 	z-index: 1031;
@@ -18,7 +17,7 @@
 		position: relative;
 	}
 
-	.headerButton {
+	.c-header__btn {
 		@extend .py-0;
 
 		padding-left: 0.3rem;
@@ -28,19 +27,20 @@
 	}
 
 	.o-navbar__left {
-		.quickAction .headerButton {
+		.c-header__btn {
 			@extend .mr-2;
 		}
 	}
 
 	.o-navbar__right {
-		.headerButton {
+		.c-header__btn {
 			@extend .ml-2;
 		}
 	}
 
 	.headerLinksMails {
 		height: fit-content;
+		width: fit-content;
 
 		> .btn + .dropdown-toggle {
 			padding-top: 7px;
@@ -55,7 +55,7 @@
 		.btn {
 			@extend .m-0;
 			@extend .px-2;
-
+			height: $menu-items-right-height;
 			font-size: $font-size-sm;
 		}
 	}
@@ -224,6 +224,8 @@
 }
 
 .globalSearchInput {
+	min-width: $w-header-search;
+
 	.btn {
 		width: 40px;
 
@@ -251,7 +253,7 @@
 		-webkit-transition: right ease-in-out 0.35s;
 		transition: right ease-in-out 0.35s;
 
-		@media( max-width: 767px ) {
+		@media(max-width: 767px) {
 			width: 100%;
 		}
 	}
@@ -265,7 +267,7 @@
 
 //navbar action menu
 .actionMenu {
-	.actionMenuBtn {
+	.c-header__btn--mobile {
 		display: none;
 	}
 
@@ -274,10 +276,11 @@
 		vertical-align: top;
 	}
 }
+
 //mobile
 @media(max-width: 782px) {
 	.actionMenu {
-		.actionMenuBtn {
+		.c-header__btn--mobile {
 			display: block;
 		}
 
@@ -297,7 +300,7 @@
 			text-align: center;
 			overflow: auto;
 
-			.headerButton {
+			.c-header__btn {
 				display: block;
 				margin: 0 0 5px !important;
 
@@ -347,5 +350,25 @@
 
 	.breadcrumb-item.active {
 		color: darken($breadcrumb-active-color, 10%);
+	}
+}
+
+@include media-breakpoint-down(xs) {
+	.c-menu__container.js-expand + .c-header {
+		&,
+		.o-navbar__left,
+		.o-navbar__right {
+			flex-direction: column;
+		}
+
+		* {
+			margin-left: 0 !important;
+			margin-right: 0 !important;
+			width: 100%;
+		}
+
+		.c-header__btn {
+			margin-bottom: 0.25rem;
+		}
 	}
 }

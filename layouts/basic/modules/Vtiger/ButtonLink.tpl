@@ -11,7 +11,7 @@
 		{assign var="BTN_MODULE" value=$LINK->getRelatedModuleName($MODULE)}
 	{if $LINK->get('linkhref')}<a role="button"{else}<button type="button"{/if}{/strip} {strip}
 					{if !$LINK->isActive()} disabled {/if}{/strip} {strip}
-						class="btn {if $LINK->getClassName() neq ''}{if $LINK->getClassName()|strrpos:"btn-" === false}btn-light {/if}{$LINK->getClassName()}{else}btn-light{/if} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} js-popover-tooltip{/if} {if $LINK->get('modalView')}showModal{/if} {$MODULE}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)}" data-js="popover"
+						class="btn mr-1 {if $LINK->getClassName() neq ''}{if $LINK->getClassName()|strrpos:"btn-" === false}btn-light {/if}{$LINK->getClassName()}{else}btn-light{/if} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} js-popover-tooltip{/if} {if $LINK->get('modalView')}showModal{/if} {$MODULE}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)}" data-js="popover"
 						{if $LINK->get('linkdata') neq '' && is_array($LINK->get('linkdata'))}
 							{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
 								{/strip} {strip}
@@ -57,10 +57,10 @@
 														{/if}
 														>
 														{if $LINK->get('linkicon') neq ''}
-															<span class="{$LINK->get('linkicon')}" {if $LABEL neq 'LBL_ADD_RECORD'} title="{\App\Language::translate($LABEL, $BTN_MODULE)}" {/if}></span>
+															<span class="{$LINK->get('linkicon')} {if $LINK->get('linkimg') neq '' || $LINK->get('linkicon') neq ''}mr-1{/if}" {if $LABEL neq 'LBL_ADD_RECORD'} title="{\App\Language::translate($LABEL, $BTN_MODULE)}" {/if}></span>
 														{/if}
 														{if $LABEL neq '' && $LINK->get('showLabel') == 1}
-															{if $LINK->get('linkimg') neq '' || $LINK->get('linkicon') neq ''}&nbsp;&nbsp;{/if}
+
 															{\App\Language::translate($LABEL, $BTN_MODULE)}
 														{else}
 														{/if}

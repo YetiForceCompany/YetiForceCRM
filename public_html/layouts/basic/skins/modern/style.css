@@ -3,13 +3,13 @@
 	background: #189849;
 	bottom: 18px;
 }
-.c-menu--container .ps-scrollbar-y-rail {
+.c-menu__container .ps-scrollbar-y-rail {
 	display: none !important;
 }
 .userInfoFooter .mainBody {
 	bottom: 35px;
 }
-.userInfoFooter .c-menu--container {
+.userInfoFooter .c-menu__container {
 	bottom: 35px;
 }
 .fc-unthemed .fc-today {
@@ -216,19 +216,19 @@ i {
 	-webkit-box-shadow: 0 2px 3px #909090;
 	-o-box-shadow: 0 2px 3px #909090;
 }
-.c-menu--container .ps-scrollbar-y-rail {
+.c-menu__container .ps-scrollbar-y-rail {
 	display: none !important;
 }
 .footerContainer {
 	height: 18px;
 }
-.userInfoFooter .c-menu--container {
+.userInfoFooter .c-menu__container {
 	bottom: 50px;
 }
 .headerLink .dropdown-toggle {
 	color: #fff !important;
 }
-.bodyHeader {
+.c-header {
 	background-color: #1976D2;
 	-webkit-transition: left ease-in-out .1s, z-index 0s .1s;
 	transition: left ease-in-out 0s, z-index 0s .1s;
@@ -268,10 +268,10 @@ i {
 .breadcrumbsLinks a, .breadCrumbs {
 	color: #1976d2;
 }
-.o-base-container .c-menu--container a {
+.o-base-container .c-menu__container a {
 	color: #00897B;
 }
-.o-base-container .c-menu--container {
+.o-base-container .c-menu__container {
 	bottom: 18px;
 	background: #fff;
 }
@@ -387,7 +387,7 @@ div.datepicker th {
 	font-size: 14px;
 	font-weight: 700;
 }
-.o-base-container .c-menu--container:after {
+.o-base-container .c-menu__container:after {
 	background: #fff;
 	bottom: 18px;
 }
@@ -427,10 +427,10 @@ label {
 .labelConstainer {
 	width: 150px;
 }
-.o-base-container .c-menu--container .c-menu__body a.hasIcon {
+.o-base-container .c-menu__container .c-menu__body a.hasIcon {
 	padding: 3px 13px;
 }
-.o-base-container .c-menu--container .c-menu__body a {
+.o-base-container .c-menu__container .c-menu__body a {
 	font-size: 14px;
 	font-weight: 500;
 }
@@ -451,13 +451,13 @@ label {
 .iconContainer {
 	min-width: 34px;
 }
-.o-base-container .c-menu--container .c-menu__body a {
+.o-base-container .c-menu__container .c-menu__body a {
 	padding: 6px 15px 6px 35px;
 }
 .hovernav .menuLabel .labelConstainer {
 	width: 175px;
 }
-.c-menu--container .c-menu__body .modulesList .menuIcon,
+.c-menu__container .c-menu__body .modulesList .menuIcon,
 .ui-draggable-menuShortcut .menuIcon {
 	padding-right: 16px;
 }
@@ -705,13 +705,13 @@ div#calendarview.fc.fc-ltr {
 .dashboard_notebookWidget_view .pull-right .btn {
 	margin-bottom: 8px;
 }
-.nav li:hover > .slimScrollDiv > .subMenu, .o-base-container:not(.leftPanelOpen) .c-menu--container:hover + .bodyHeader {
+.nav li:hover > .slimScrollDiv > .subMenu, .o-base-container:not(.leftPanelOpen) .c-menu__container:hover + .c-header {
 	left: 200px;
 }
-.c-menu--container .nav .subMenu li, .c-menu--container .nav .subMenu:after {
+.c-menu__container .nav .subMenu li, .c-menu__container .nav .subMenu:after {
 	width: 250px;
 }
-.c-menu--container .nav .subMenu:after {
+.c-menu__container .nav .subMenu:after {
 	bottom: 18px;
 }
 .iconsInFooter {
@@ -720,10 +720,10 @@ div#calendarview.fc.fc-ltr {
 .iconsInFooter span {
 	font-size: 14px;
 }
-.o-base-container .c-menu--container, .o-base-container .c-menu--container:after {
+.o-base-container .c-menu__container, .o-base-container .c-menu__container:after {
 	width: 200px !important;
 }
-.o-base-container:not(.leftPanelOpen) .c-menu--container:hover + .bodyHeader + .basePanel, .o-base-container:not(.leftPanelOpen) .c-menu--container.stillOpen + .bodyHeader + .basePanel {
+.o-base-container:not(.leftPanelOpen) .c-menu__container:hover + .c-header + .basePanel, .o-base-container:not(.leftPanelOpen) .c-menu__container.stillOpen + .c-header + .basePanel {
 	left: 150px;
 }
 .o-base-container .basePanel {
@@ -731,13 +731,13 @@ div#calendarview.fc.fc-ltr {
 	transition: left ease-in-out 0s, width ease-in-out 0.1s;
 	transition-delay: 0s;
 }
-.o-base-container:not(.leftPanelOpen) .c-menu--container:hover + .bodyHeader, .o-base-container:not(.leftPanelOpen) .c-menu--container:hover + .bodyHeader + .basePanel,
-.o-base-container:not(.leftPanelOpen) .c-menu--container.stillOpen + .bodyHeader + .basePanel {
+.o-base-container:not(.leftPanelOpen) .c-menu__container:hover + .c-header, .o-base-container:not(.leftPanelOpen) .c-menu__container:hover + .c-header + .basePanel,
+.o-base-container:not(.leftPanelOpen) .c-menu__container.stillOpen + .c-header + .basePanel {
 	-webkit-transition: left ease-in-out 0s 0.1s, z-index 0s 0.1s;
 	transition: left ease-in-out 0s 0.1s, z-index 0s 0.1s;
 }
-.bodyHeader.open, .footerContainer.open, .o-base-container .c-menu--container .tm-sidebar-nav:not(.uk-open) .uk-dropdown,
-.o-base-container .c-menu--container .tm-sidebar-nav:not(.uk-open) .uk-dropdown:before {
+.c-header.open, .footerContainer.open, .o-base-container .c-menu__container .tm-sidebar-nav:not(.uk-open) .uk-dropdown,
+.o-base-container .c-menu__container .tm-sidebar-nav:not(.uk-open) .uk-dropdown:before {
 	-webkit-transition: left ease-in-out 0s;
 	transition: left ease-in-out 0s;
 }
@@ -814,7 +814,7 @@ input[type=checkbox]:checked {
 		left: 150px;
 		width: calc(100% - 150px);
 	}
-	.bodyHeader.menuOpen {
+	.c-header.menuOpen {
 		left: 200px;
 	}
 	.breadcrumbsLinks {

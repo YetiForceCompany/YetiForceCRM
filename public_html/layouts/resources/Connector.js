@@ -112,7 +112,7 @@ var AppConnector = {
 		};
 		params.error = function (jqXHR, textStatus, errorThrown, yyyy, uuu) {
 			let action = jqXHR.getResponseHeader('yf-action');
-			if(action === 'logout') {
+			if (action === 'logout') {
 				window.location.href = 'index.php';
 			}
 			app.errorLog(jqXHR, textStatus, errorThrown);
@@ -126,7 +126,11 @@ var AppConnector = {
 				fullUrl = 'index.php?' + fullUrl;
 			}
 			if (history.pushState && fullUrl !== '') {
-				window.history.replaceState("text", "Title", fullUrl);
+				const currentHref = window.location.href;
+				if (!history.state) {
+					history.replaceState(currentHref, "title 1", currentHref);
+				}
+				history.pushState(fullUrl, "title 2", fullUrl);
 			}
 		}
 		return aDeferred.promise();

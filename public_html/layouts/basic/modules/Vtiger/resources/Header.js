@@ -536,7 +536,7 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideActionMenu();
 			block.toggleClass("toggled");
 			thisInstance.hideReminderNotification();
-			thisInstance.hideMobileMenu();
+			app.closeSidebar();
 			thisInstance.hideSearchMenu();
 		});
 	},
@@ -552,7 +552,7 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideActionMenu();
 			block.toggleClass("toggled");
 			thisInstance.hideReminderNotice();
-			thisInstance.hideMobileMenu();
+			app.closeSidebar();
 			thisInstance.hideSearchMenu();
 		});
 	},
@@ -565,20 +565,20 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideReminderNotification();
 			$('.mobileLeftPanel ').toggleClass('mobileMenuOn');
 		});
-		$('.actionMenuBtn').on('click', function () {
+		$('.js-quick-action-btn').on('click', function () {
 			thisInstance.hideSearchMenu();
-			thisInstance.hideMobileMenu();
+			app.closeSidebar();
 			thisInstance.hideReminderNotice();
 			thisInstance.hideReminderNotification();
 			$('.actionMenu').toggleClass('actionMenuOn');
 			if ($(this).hasClass('active')) {
 				$(this).removeClass('active');
-				$('.actionMenuBtn .headerButton').attr('aria-expanded', 'false');
-				$('.actionMenu .headerButton').popover();
+				$(this).attr('aria-expanded', 'false');
+				$(this).popover();
 			} else {
 				$(this).addClass('active');
-				$('.actionMenuBtn .headerButton').attr('aria-expanded', 'true');
-				$('.actionMenu .headerButton').popover('disable');
+				$(this).attr('aria-expanded', 'true');
+				$(this).popover('disable');
 			}
 			$('.quickCreateModules').on('click', function () {
 				thisInstance.hideActionMenu();
@@ -586,16 +586,16 @@ $.Class("Vtiger_Header_Js", {
 		});
 		$('.searchMenuBtn').on('click', function () {
 			thisInstance.hideActionMenu();
-			thisInstance.hideMobileMenu();
+			app.closeSidebar();
 			thisInstance.hideReminderNotice();
 			thisInstance.hideReminderNotification();
 			$('.searchMenu').toggleClass('toogleSearchMenu');
 			if ($(this).hasClass('active')) {
 				$(this).removeClass('active');
-				$('.searchMenuBtn .headerButton').attr('aria-expanded', 'false');
+				$('.searchMenuBtn .c-header__btn').attr('aria-expanded', 'false');
 			} else {
 				$(this).addClass('active');
-				$('.searchMenuBtn .headerButton').attr('aria-expanded', 'true');
+				$('.searchMenuBtn .c-header__btn').attr('aria-expanded', 'true');
 			}
 		});
 	},
@@ -845,11 +845,10 @@ $.Class("Vtiger_Header_Js", {
 		thisInstance.registerChat();
 	}
 });
-
 $(document).ready(function () {
-	$(window).on('popstate', function (event) {
+	window.addEventListener('popstate', (event) => {
 		if (event.state) {
-			window.location.href = event.state.url;
+			window.location.href = event.state;
 		}
 	});
 	Vtiger_Header_Js.getInstance().registerEvents();

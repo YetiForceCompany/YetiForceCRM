@@ -858,7 +858,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.rotatedText = container.find('.u-rotate-90');
 		this.infoUser = $('.infoUser');
 		this.footerH = $('.js-footer').outerHeight() + (this.infoUser.length ? this.infoUser.outerHeight() : 0);
-		this.headerH = $('.bodyHeader').outerHeight();
+		this.headerH = $('.js-header').outerHeight();
 	},
 	getDefaultSplitSizes: function () {
 		let thWidth = ((this.listColumnFirstWidth + this.listColumnSecondWidth + 82) / this.windowW) * 100;
@@ -885,7 +885,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		let fixedElements = container.find('.js-fixed-scroll');
 		if (!mainBody.length) {
 			mainBody = $(top.document).find('.mainBody');
-			this.headerH = $(top.document).find('.bodyHeader').outerHeight();
+			this.headerH = $(top.document).find('.js-header').outerHeight();
 			let iframe = $(top.document).find('.js-detail-preview');
 			listOffsetTop = this.list.offset().top + iframe.offset().top - this.headerH + 1;
 			mainViewPortHeightCss = {height: mainBody.height()};

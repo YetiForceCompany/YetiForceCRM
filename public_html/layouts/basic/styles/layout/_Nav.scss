@@ -1,6 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-menu {
-	&--container {
+	&__container {
 		position: fixed;
 		left: 0;
 		top: 0;
@@ -170,8 +170,8 @@
 
 	&--animation {
 		.basePanel,
-		.bodyHeader {
-			@include u-transition((left ease 0.2s 0.5s));
+		.c-header {
+			@include u-transition((left ease-in-out 0.35s));
 		}
 	}
 }
