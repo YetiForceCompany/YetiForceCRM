@@ -727,7 +727,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	private static function getNewestPhpVersion(string $version)
 	{
-		if (!class_exists('Requests')) {
+		if (!class_exists('Requests') || !\App\RequestUtil::isNetConnection()) {
 			return false;
 		}
 		$resonse = Requests::get('http://php.net/releases/index.php?json&max=10&version=' . $version[0]);

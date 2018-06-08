@@ -621,7 +621,7 @@ class Language
 		$dataReader = (new Db\Query())->from('vtiger_language')->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$all[$row['prefix']] = $row;
-			if ((int)$row['active'] === 1) {
+			if ((int) $row['active'] === 1) {
 				$actives[$row['prefix']] = $row;
 			}
 			Cache::save('getLangInfo', $row['prefix'], $row);

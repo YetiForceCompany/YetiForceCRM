@@ -685,6 +685,9 @@ class File
 	 */
 	public static function saveFromUrl($url, $params = [])
 	{
+		if (!\AppConfig::performance('ACCESS_TO_INTERNET')) {
+			return false;
+		}
 		$fileInstance = static::loadFromUrl($url);
 		if (empty($url) || !$fileInstance) {
 			Log::error('Invalid url: ' . $url, __CLASS__);
