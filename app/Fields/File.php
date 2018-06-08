@@ -209,7 +209,6 @@ class File
 			return false;
 		}
 		if (!\App\RequestUtil::isNetConnection()) {
-			Log::error('No internet connection', __CLASS__);
 			return false;
 		}
 		try {
@@ -685,12 +684,8 @@ class File
 	 */
 	public static function saveFromUrl($url, $params = [])
 	{
-		if (!\AppConfig::performance('ACCESS_TO_INTERNET')) {
-			return false;
-		}
 		$fileInstance = static::loadFromUrl($url);
 		if (empty($url) || !$fileInstance) {
-			Log::error('Invalid url: ' . $url, __CLASS__);
 			return false;
 		}
 		if ($fileInstance->validate() && ($id = static::saveFromContent($fileInstance, $params))) {

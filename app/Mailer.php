@@ -142,7 +142,6 @@ class Mailer
 		}
 		if (!$params['smtp_id']) {
 			Log::warning('No SMTP configuration', 'Mailer');
-
 			return false;
 		}
 		if (empty($params['owner'])) {
