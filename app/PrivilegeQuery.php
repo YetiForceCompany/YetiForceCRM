@@ -11,6 +11,16 @@ namespace App;
  */
 class PrivilegeQuery
 {
+	/**
+	 * Function to get access conditions.
+	 *
+	 * @param \App\Db\Query $query
+	 * @param string        $moduleName
+	 * @param bool|User     $userId
+	 * @param bool|null     $relatedRecord
+	 *
+	 * @return string
+	 */
 	public static function getAccessConditions($moduleName, $userId = false, $relatedRecord = false)
 	{
 		if (!$userId) {
@@ -69,12 +79,20 @@ class PrivilegeQuery
 		return '';
 	}
 
+	/**
+	 * Function to get conditions.
+	 *
+	 * @param \App\Db\Query $query
+	 * @param string        $moduleName
+	 * @param bool|User     $user
+	 * @param bool|null     $relatedRecord
+	 */
 	public static function getConditions(\App\Db\Query $query, $moduleName, $user = false, $relatedRecord = false)
 	{
 		if ($user && $user instanceof User) {
 			$userId = $user->getId();
 		} elseif (!$user) {
-			$userId = \App\User::getCurrentUserId();
+			$userId = User::getCurrentUserId();
 		}
 		$userModel = \Users_Privileges_Model::getInstanceById($userId);
 		if ($relatedRecord !== false && \AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
