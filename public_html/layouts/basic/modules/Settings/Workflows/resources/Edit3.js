@@ -423,7 +423,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	},
 	registerAddFieldEvent: function () {
 		$('#addFieldBtn').on('click', function (e) {
-			var newAddFieldContainer = $('.basicAddFieldContainer').clone(true, true).removeClass('basicAddFieldContainer d-none').addClass('conditionRow');
+			var newAddFieldContainer = $('.js-add-basic-field-container').clone(true, true).removeClass('js-add-basic-field-container d-none').addClass('conditionRow');
 			$('select', newAddFieldContainer).addClass('select2');
 			$('#save_fieldvaluemapping').append(newAddFieldContainer);
 			//change in to chosen elements

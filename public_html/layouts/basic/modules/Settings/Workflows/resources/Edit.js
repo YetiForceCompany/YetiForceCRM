@@ -145,7 +145,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			if (valueType == '') {
 				valueType = 'rawtext';
 			}
-			var conditionsContainer = fieldValueElement.closest('.conditionsContainer');
+			var conditionsContainer = fieldValueElement.closest('.js-conditions-container');
 			var conditionRow = fieldValueElement.closest('.conditionRow');
 
 			var clonedPopupUi = conditionsContainer.find('.popupUi').clone(true, true).removeClass('popupUi').addClass('clonedPopupUi')

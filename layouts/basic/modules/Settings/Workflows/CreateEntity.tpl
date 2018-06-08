@@ -16,7 +16,7 @@
 {/if}
 <input type="hidden" id="fieldValueMapping" name="field_value_mapping" value='{$TASK_OBJECT->field_value_mapping}' />
 <input type="hidden" value="{if $TASK_ID}{$TASK_OBJECT->reference_field}{else}{$REFERENCE_FIELD_NAME}{/if}" name='reference_field' id='reference_field' />
-<div class="conditionsContainer" id="save_fieldvaluemapping">
+<div class="js-conditions-container" id="save_fieldvaluemapping" data-js="container">
 	{if $RELATED_MODULE_MODEL_NAME neq ''}
 		<div>
 			<button type="button" class="btn btn-light" id="addFieldBtn">{\App\Language::translate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
@@ -106,7 +106,7 @@
 	{/if}
 </div><br />
 {if $RELATED_MODULE_MODEL}
-	<div class="row basicAddFieldContainer padding-bottom1per d-none">
+	<div class="row js-add-basic-field-container padding-bottom1per d-none">
 		<div class="col-md-4">
 			{assign var=RELATED_MODULE_MODEL_NAME value=$RELATED_MODULE_MODEL->get('name')}
 			<select name="fieldname" class="form-control">
