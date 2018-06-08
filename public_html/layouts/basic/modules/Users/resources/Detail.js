@@ -114,6 +114,50 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 			}
 		);
 	},
+	/**
+	 * Function to handle sending the AJAX form
+	 * @param data
+	 */
+	submitFromTwoFactorAuthentication: (data) =>{
+		let form = data.find('form');
+		form.on('submit', (e) => {
+			let progress = $.progressIndicator({'blockInfo': {'enabled': true}});
+			AppConnector.request(form.serializeFormData())
+				.then((respons) => {
+					if (respons.result.success) {
+						app.hideModalWindow();
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate(respons.result.message),
+							type: 'success',
+							animation: 'show'
+						});
+					} else {
+						let wrongCode = form.find('.js-wrong-code');
+						if (wrongCode.hasClass('hide')) {
+							wrongCode.removeClass('hide');
+						}
+					}
+					progress.progressIndicator({'mode': 'hide'});
+				}
+			);
+			e.preventDefault();
+		});
+	},
+	/**
+	 * 2FA - Modal window for generating QR codes
+	 */
+	triggerTwoFactorAuthentication: () => {
+		AppConnector.request({
+			module: app.getModuleName(),
+			view: "TwoFactorAuthenticationModal"
+		}).then((data) => {
+				app.showModalWindow(data, (data) => {
+					Users_Detail_Js.submitFromTwoFactorAuthentication(data);
+				});
+			}
+		);
+	},
+
 	triggerChangeAccessKey: function (url) {
 		var title = app.vtranslate('JS_NEW_ACCESS_KEY_REQUESTED');
 		var message = app.vtranslate('JS_CHANGE_ACCESS_KEY_CONFIRMATION');
