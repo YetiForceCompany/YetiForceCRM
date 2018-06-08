@@ -29,18 +29,10 @@ class TableCurrencySummary extends Base
 		}
 		$html = '';
 		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->textParser->moduleName);
-		$fields = $inventoryField->getFields(true);
 		$columns = $inventoryField->getColumns();
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
-		if (in_array('currency', $columns)) {
-			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] !== null) {
-				$currency = $inventoryRows[0]['currency'];
-			} else {
-				$currency = $baseCurrency['id'];
-			}
-			$currencySymbolRate = \vtlib\Functions::getCurrencySymbolandRate($currency);
-		}
+		$currencySymbolRate = $this->getSymbolRate($inventoryRows, $baseCurrency, $columns);
 		$html .= '<style>' .
 			'.productTable{color:#000; font-size:10px}' .
 			'.productTable th {text-transform: capitalize;font-weight:normal}' .
@@ -50,18 +42,17 @@ class TableCurrencySummary extends Base
 			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
 			'.productTable .summaryContainer{background:#ddd;}' .
 			'</style>';
-		if (count($fields[0]) != 0) {
+		if (count($inventoryField->getFields(true)[0]) != 0) {
 			$taxes = 0;
 			foreach ($inventoryRows as $key => &$inventoryRow) {
 				$taxes = $inventoryField->getTaxParam($inventoryRow['taxparam'], $inventoryRow['net'], $taxes);
 			}
 			if (in_array('tax', $columns) && in_array('taxmode', $columns)) {
-				if (in_array('currency', $columns) && $baseCurrency['id'] != $currency) {
-					$RATE = $baseCurrency['conversion_rate'] / $currencySymbolRate['rate'];
+				if (in_array('currency', $columns) && $baseCurrency['id'] != $currencySymbolRate['currency']) {
+					$RATE = $baseCurrency['conversion_rate'] / $currencySymbolRate['symbolRate']['rate'];
 					$html .= '<table class="productTable colapseBorder">
 								<thead>
 									<tr>
-
 										<th colspan="2" class="tBorder noBottomBorder tHeader">
 											<strong>' . \App\Language::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName) . '</strong>
 										</th>
@@ -70,7 +61,6 @@ class TableCurrencySummary extends Base
 								<tbody>';
 					foreach ($taxes as $key => &$tax) {
 						$currencyAmount += $tax;
-
 						$html .= '<tr>
 									<td class="textAlignRight tBorder" width="70px">' . $key . '%</td>
 									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
@@ -86,5 +76,17 @@ class TableCurrencySummary extends Base
 			}
 		}
 		return $html;
+	}
+
+	public function getSymbolRate($inventoryRows, $baseCurrency, $columns)
+	{
+		if (in_array('currency', $columns)) {
+			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] !== null) {
+				$currency = $inventoryRows[0]['currency'];
+			} else {
+				$currency = $baseCurrency['id'];
+			}
+			return ['symbolRate' => \vtlib\Functions::getCurrencySymbolandRate($currency), 'currency' => $currency];
+		}
 	}
 }
