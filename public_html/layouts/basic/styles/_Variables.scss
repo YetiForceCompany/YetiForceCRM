@@ -9,7 +9,14 @@ $secondary: #5e666c;
 $blue: #337ab7;
 $indigo-dark: material-color('indigo', '600');
 $pagination-color: $link-color;
-
+$grid-breakpoints: (
+		xs: 0,
+		sm: 576px,
+		md: 768px,
+		lg: 992px,
+		xl: 1200px,
+		xxl:1300px
+);
 //-------- sizes --------//
 $iconButtonWidth: 42px;
 
