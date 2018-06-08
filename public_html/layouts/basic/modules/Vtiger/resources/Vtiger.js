@@ -610,9 +610,8 @@ var Vtiger_Index_Js = {
 	/**
 	 * Modal window support from 2FA authentication
 	 * @author    Arkadiusz Adach <a.adach@yetiforce.com>
-	 * @param timer
 	 */
-	registerTwoFactorAuthenticationModalModal: function () {
+	registerTwoFactorAuthenticationModalModal() {
 		if (app.getMainParams('authy_totp_init')) {
 			let params = {
 				backdrop: 'static',
