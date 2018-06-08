@@ -35,6 +35,16 @@ class Settings_Inventory_Record_Model extends \App\Base
 		return $this->get('status');
 	}
 
+	/**
+	 * Is default tax value for group.
+	 *
+	 * @return int
+	 */
+	public function getDefault()
+	{
+		return $this->get('default');
+	}
+
 	public function setType($type)
 	{
 		$this->type = $type;
@@ -77,13 +87,20 @@ class Settings_Inventory_Record_Model extends \App\Base
 		$tablename = self::getTableNameFromType($this->getType());
 		$id = $this->getId();
 		if (!empty($id) && $tablename) {
+			$updateRows = [
+				'name' => $this->getName(),
+				'value' => $this->get('value'),
+				'status' => $this->get('status')
+			];
+			if ($this->getType() === 'Taxes') {
+				if ($this->get('default')) {
+					$this->disableDefaultsTax();
+				}
+				$updateRows['default'] = $this->get('default');
+			}
 			\App\Db::getInstance()->createCommand()
-				->update($tablename, [
-					'name' => $this->getName(),
-					'value' => $this->get('value'),
-					'status' => $this->get('status'),
-					], ['id' => $id])
-					->execute();
+				->update($tablename, $updateRows, ['id' => $id])
+				->execute();
 		} else {
 			$id = $this->add();
 		}
@@ -101,17 +118,40 @@ class Settings_Inventory_Record_Model extends \App\Base
 	{
 		$tableName = self::getTableNameFromType($this->getType());
 		if ($tableName) {
+			$insertData = [
+				'status' => $this->get('status'),
+				'value' => $this->get('value'),
+				'name' => $this->getName()
+			];
+
+			if ($this->getType() === 'Taxes') {
+				if ($this->get('default')) {
+					$this->disableDefaultsTax();
+				}
+				$insertData['default'] = $this->get('default');
+			}
 			$db = \App\Db::getInstance();
 			$db->createCommand()
-				->insert($tableName, [
-					'status' => $this->get('status'),
-					'value' => $this->get('value'),
-					'name' => $this->getName(),
-				])->execute();
-
+				->insert($tableName, $insertData)->execute();
 			return $db->getLastInsertID($tableName . '_id_seq');
 		}
 		throw new Error('Error occurred while adding value');
+	}
+
+	/**
+	 * Function used to remove all defaults tax settings.
+	 */
+	public function disableDefaultsTax()
+	{
+		$tablename = self::getTableNameFromType($this->getType());
+		if ($tablename) {
+			\App\Db::getInstance()->createCommand()
+				->update($tablename, [
+					'default' => 0
+				])
+				->execute();
+		}
+		$this->clearCache();
 	}
 
 	public function delete()

@@ -57,7 +57,9 @@
     "LBL_CRMACTIVITY_DAYS": "Metter \u00e0 jour les activit\u00e9s calendrier dans les modules li\u00e9s",
     "Activity State": "\u00c9tat d'activit\u00e9",
     "LBL_SEND_NOTIFICATIONS": "Envoyer des notifications",
-    "LBL_BATCH_METHODS": "Batch methods"
+    "LBL_BATCH_METHODS": "Batch methods",
+    "LBL_CLEAR_FILE_UPLOAD_TEMP": "Clear temporary files directory",
+    "LBL_SESSION_CLEANER": "Clear inactive sessions"
   },
   "js": {
     "Recommended frequency for Scheduled Import is 15 mins": "La fr\u00e9quence recommand\u00e9e pour les imports programm\u00e9s est de 15 mins",

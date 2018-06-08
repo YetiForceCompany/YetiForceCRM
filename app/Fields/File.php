@@ -208,6 +208,10 @@ class File
 			Log::error('No url: ' . $url, __CLASS__);
 			return false;
 		}
+		if (!\App\RequestUtil::isNetConnection()) {
+			Log::error('No internet connection', __CLASS__);
+			return false;
+		}
 		try {
 			$responsse = \Requests::get($url);
 			if ($responsse->status_code !== 200) {
@@ -325,6 +329,16 @@ class File
 	public function getPath()
 	{
 		return $this->path;
+	}
+
+	/**
+	 * Get directory path.
+	 *
+	 * @return string
+	 */
+	public function getDirectoryPath()
+	{
+		return pathinfo($this->getPath(), PATHINFO_DIRNAME);
 	}
 
 	/**
@@ -507,15 +521,16 @@ class File
 	/**
 	 * Generate file hash.
 	 *
-	 * @param bool $checkInAttachments
+	 * @param bool   $checkInAttachments
+	 * @param string $uploadFilePath
 	 *
 	 * @return string File hash sha256
 	 */
-	public function generateHash($checkInAttachments = false)
+	public function generateHash(bool $checkInAttachments = false, string $uploadFilePath = '')
 	{
 		if ($checkInAttachments) {
 			$hash = hash('sha1', $this->getContents()) . \App\Encryption::generatePassword(10);
-			if ((new \App\Db\Query())->from('u_#__file_upload_temp')->where(['key' => $hash])->exists()) {
+			if ((new \App\Db\Query())->from('u_#__file_upload_temp')->where(['key' => $hash])->exists() || ($uploadFilePath && file_exists($uploadFilePath . $hash))) {
 				$hash = $this->generateHash($checkInAttachments);
 			}
 			return $hash;
@@ -673,13 +688,11 @@ class File
 		$fileInstance = static::loadFromUrl($url);
 		if (empty($url) || !$fileInstance) {
 			Log::error('Invalid url: ' . $url, __CLASS__);
-
 			return false;
 		}
 		if ($fileInstance->validate() && ($id = static::saveFromContent($fileInstance, $params))) {
 			return $id;
 		}
-
 		return false;
 	}
 
@@ -967,7 +980,7 @@ class File
 					continue;
 				}
 				$uploadFilePath = static::initStorageFileDirectory($storageName);
-				$key = $file->generateHash(true);
+				$key = $file->generateHash(true, $uploadFilePath);
 				$db->createCommand()->insert('u_#__file_upload_temp', [
 					'name' => $file->getName(),
 					'type' => $file->getMimeType(),

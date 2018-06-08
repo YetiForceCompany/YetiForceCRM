@@ -312,7 +312,7 @@ class PackageImport extends PackageExport
 			!empty($this->_modulexml->dependencies) &&
 			!empty($this->_modulexml->dependencies->vtiger_version)) {
 			$moduleVersion = (string) $this->_modulexml->dependencies->vtiger_version;
-			if (\App\Version::check($moduleVersion) === true) {
+			if (\App\Version::check($moduleVersion) >= 0) {
 				$moduleVersionFound = true;
 			} else {
 				$_errorText = \App\Language::translate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
@@ -337,6 +337,10 @@ class PackageImport extends PackageExport
 		if ($this->isLanguageType() && $manifestxml_found && strpos($this->_modulexml->prefix, '/') !== false) {
 			$validzip = false;
 			$this->_errorText = \App\Language::translate('LBL_ERROR_NO_VALID_PREFIX', 'Settings:ModuleManager');
+		}
+		if ($manifestxml_found && !empty($this->_modulexml->type) && in_array(strtolower($this->_modulexml->type), ['entity', 'inventory', 'extension']) && $modulename && \Settings_ModuleManager_Module_Model::checkModuleName($modulename)) {
+			$validzip = false;
+			$this->_errorText = \App\Language::translate('LBL_INVALID_MODULE_NAME', 'Settings:ModuleManager');
 		}
 		if ($validzip) {
 			if (!empty($this->_modulexml->license)) {

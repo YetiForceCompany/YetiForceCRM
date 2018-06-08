@@ -12,24 +12,28 @@
 {strip}
 	<div class="tpl-Settings-Picklist-PicklistValueDetail">
 		{if $SELECTED_PICKLIST_FIELDMODEL}
-			<ul class="nav nav-tabs massEditTabs" role="tablist">
-				<li class="nav-item"><a class="nav-link active" id="allValuesLayout" href="#allValuesLayout"
+			<ul class="nav nav-tabs " role="tablist">
+				<li class="nav-item">
+					<a class="nav-link active"  href="#allValuesLayout"
 										data-toggle="tab" role="tab"
-										aria-controls="{\App\Language::translate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}"
+										aria-controls="{\App\Language::translate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}"{' '}
 										aria-selected="true">
-						<strong>{\App\Language::translate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}</strong></a></li>
+						<strong>{\App\Language::translate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}</strong>
+					</a>
+				</li>
 				{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
 					<li class="nav-item" id="assignedToRoleTab">
-					<a class="nav-link" id="assignedToRoleLayout" href="#AssignedToRoleLayout" data-toggle="tab"
+					<a class="nav-link"  href="#assignedToRoleLayout" data-toggle="tab"
 					   role="tab"
-					   aria-controls="{\App\Language::translate('LBL_VALUES_ASSIGNED_TO_A_ROLE',$QUALIFIED_MODULE)}"
+					   aria-controls="{\App\Language::translate('LBL_VALUES_ASSIGNED_TO_A_ROLE',$QUALIFIED_MODULE)}"{' '}
 					   aria-selected="false">
-						<strong>{\App\Language::translate('LBL_VALUES_ASSIGNED_TO_A_ROLE',$QUALIFIED_MODULE)}</strong></a>
-					</li>{/if}
+						<strong>{\App\Language::translate('LBL_VALUES_ASSIGNED_TO_A_ROLE',$QUALIFIED_MODULE)}</strong>
+					</a>
+					</li>
+				{/if}
 			</ul>
 			<div class="tab-content layoutContent py-3 themeTableColor overflowVisible">
-				<br/>
-				<div class="tab-pane fade show active" role="tabpanel" aria-labelledby="allValuesLayout">
+				<div class="tab-pane fade show active" role="tabpanel" id="allValuesLayout" >
 					<div class="row">
 						<div class="col-md-5 ml-0 u-text-ellipsis">
 							<table id="pickListValuesTable" class="table table-bordered">
@@ -40,14 +44,13 @@
 								</tr>
 								</thead>
 								<tbody>
-								<input type="hidden" id="dragImagePath"
-									   value="{\App\Layout::getImagePath('drag.png')}"/>
+								<input type="hidden" id="dragImagePath" value="{\App\Layout::getImagePath('drag.png')}"/>
 								{assign var=PICKLIST_VALUES value=$SELECTED_PICKLISTFIELD_ALL_VALUES}
 								{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$PICKLIST_VALUES}
 									<tr class="pickListValue" data-key-id="{$PICKLIST_KEY}"
 										data-key="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}">
-										<td class="u-text-ellipsis"><img class="alignMiddle"
-																		 src="{\App\Layout::getImagePath('drag.png')}"/>&nbsp;&nbsp;{\App\Language::translate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}
+										<td class="u-text-ellipsis">
+											<img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}"/>&nbsp;&nbsp;{\App\Language::translate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}
 										</td>
 									</tr>
 								{/foreach}
@@ -89,7 +92,7 @@
 					</div>
 				</div>
 				{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
-					<div class="tab-pane fade" role="tabpanel" aria-labelledby="assignedToRoleLayout">
+					<div class="tab-pane fade" role="tabpanel" id="assignedToRoleLayout" aria-labelledby="assignedToRoleLayout">
 						<div class="row">
 							<div class="col-md-2 textAlignRight">{\App\Language::translate('LBL_ROLE_NAME',$QUALIFIED_MODULE)}</div>
 							<div class="col-md-4">

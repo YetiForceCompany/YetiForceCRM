@@ -13,7 +13,7 @@
 				<input id="activityReminder" class="d-none noprint" type="hidden" value="{$ACTIVITY_REMINDER}">
 				{if !$MAIN_PRODUCT_WHITELABEL}
 				<footer class="noprint">
-					<div class="vtFooter">
+					<div class="vtFooter mb-5 pb-5 pb-sm-0">
 						<p>
 							{\App\Language::translate('LBL_FOOTER_CONTENT')}
 						</p>

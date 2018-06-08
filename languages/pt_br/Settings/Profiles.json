@@ -37,7 +37,6 @@
     "Export": "Exportar",
     "Merge": "Mesclar",
     "ConvertLead": "Converter Lead",
-    "DuplicatesHandling": "Manipular Duplicados",
     "ReceiveIncomingCalls": "Receber Chamadas",
     "MakeOutgoingCalls": "Realizar Chamadas",
     "Print": "Imprimir",
@@ -88,7 +87,8 @@
     "ActivityCancel": "Cancelar registros",
     "ActivityComplete": "Fechar registros",
     "ActivityPostponed": "Adiar registros",
-    "Emails": "Enviar emails [SMTP]"
+    "Emails": "Enviar emails [SMTP]",
+    "ModTracker": "Change history"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Perfil exclu\u00eddo com Sucesso"

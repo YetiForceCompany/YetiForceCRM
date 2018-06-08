@@ -162,6 +162,7 @@ $.Class("Vtiger_Edit_Js", {
 			};
 			this.getRecordDetails(params).then(function (data) {
 				var response = params.data = data['result']['data'];
+				app.event.trigger("EditView.SelectReference", params, formElement);
 				$.each(mappingRelatedField, function (key, value) {
 					if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
 						var mapFieldElement = formElement.find('[name="' + key + '"]');
@@ -1007,11 +1008,11 @@ $.Class("Vtiger_Edit_Js", {
 	loadEditorElement: function (noteContentElement) {
 		var customConfig = {};
 		if (noteContentElement.is(':visible')) {
-			if (noteContentElement.hasClass("js-editor__basic")) {
+			if (noteContentElement.hasClass("js-editor--basic")) {
 				customConfig.toolbar = 'Min';
 			}
-			if (noteContentElement.hasClass("js-editor__small")) {
-				customConfig.height = '5em';
+			if (noteContentElement.data('height')) {
+				customConfig.height = noteContentElement.data('height');
 			}
 			new App.Fields.Text.Editor(noteContentElement, customConfig);
 		}

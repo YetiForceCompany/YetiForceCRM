@@ -1,0 +1,13 @@
+{
+  "php": {
+    "Competition": "Competitie",
+    "SINGLE_Competition": "Competitor",
+    "LBL_COMPETITION_INFORMATION": "Informatii de baza",
+    "LBL_CUSTOM_INFORMATION": "Informatii sistem",
+    "LBL_DESCRIPTION_INFORMATION": "Detalii descriere",
+    "LBL_SUBJECT": "Nume",
+    "LBL_NUMBER": "Numar",
+    "LBL_CLOSED_TIME": "Timp inchis",
+    "LBL_VAT_ID": "Cod TVA"
+  }
+}

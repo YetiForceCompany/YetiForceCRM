@@ -24,8 +24,8 @@ class Inventory extends \Tests\Base
 		$type = 'Taxes';
 		$name = 'test';
 		$value = 3.14;
-		$status = 0;
-		static::$id = $this->save(0, $type, $name, $value, $status);
+		$status = $default = 0;
+		static::$id = $this->save(0, $type, $name, $value, $status, $default);
 		$this->assertNotNull(static::$id, 'Id is null');
 
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
@@ -34,6 +34,7 @@ class Inventory extends \Tests\Base
 		$this->assertSame($row['name'], $name);
 		$this->assertSame((float) $row['value'], $value);
 		$this->assertSame((int) $row['status'], $status);
+		$this->assertSame((int) $row['default'], $default);
 	}
 
 	/**
@@ -47,7 +48,7 @@ class Inventory extends \Tests\Base
 	 *
 	 * @return int
 	 */
-	private function save($id, $type, $name, $value, $status)
+	private function save($id, $type, $name, $value, $status, $default = false)
 	{
 		if (empty($id)) {
 			$recordModel = new \Settings_Inventory_Record_Model();
@@ -63,6 +64,9 @@ class Inventory extends \Tests\Base
 		$recordModel->set('name', $name);
 		$recordModel->set('value', $value);
 		$recordModel->set('status', $status);
+		if ($default !== false && $type === 'Taxes') {
+			$recordModel->set('default', $default);
+		}
 		$recordModel->setType($type);
 
 		return $recordModel->save();
@@ -76,8 +80,8 @@ class Inventory extends \Tests\Base
 		$type = 'Taxes';
 		$name = 'test edit';
 		$value = 1.16;
-		$status = 1;
-		$this->save(static::$id, $type, $name, $value, $status);
+		$status = $default = 1;
+		$this->save(static::$id, $type, $name, $value, $status, $default);
 
 		$tableName = \Settings_Inventory_Record_Model::getTableNameFromType($type);
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
@@ -85,6 +89,7 @@ class Inventory extends \Tests\Base
 		$this->assertSame($row['name'], $name);
 		$this->assertSame((float) $row['value'], $value);
 		$this->assertSame((int) $row['status'], $status);
+		$this->assertSame((int) $row['default'], $default);
 	}
 
 	/**

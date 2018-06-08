@@ -2252,7 +2252,6 @@ class Base4 extends \App\Db\Importers\Base
 					[45, 14, 7, 'getLeads', 9, 'Leads', 0, 'select', 0, 0, 0],
 					[46, 14, 6, 'getAccounts', 10, 'Accounts', 0, 'select', 0, 0, 0],
 					[49, 14, 14, 'getProducts', 13, 'Product Bundles', 0, 'add,select', 0, 0, 0],
-					[50, 14, 14, 'getParentProducts', 14, 'Parent Product', 0, '', 0, 0, 0],
 					[54, 13, 9, 'getActivities', 1, 'Activities', 0, 'ADD', 0, 0, 0],
 					[55, 13, 8, 'getAttachments', 4, 'Documents', 0, 'add,select', 0, 0, 0],
 					[58, 19, 14, 'getPricebookProducts', 2, 'Products', 0, 'select', 0, 0, 0],

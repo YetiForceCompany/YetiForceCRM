@@ -115,7 +115,33 @@ class RequestUtil
 			$browser->requestUri = ltrim(Request::_getServer('REQUEST_URI'), '/');
 			static::$browserCache = $browser;
 		}
-
 		return static::$browserCache;
+	}
+
+	/**
+	 * Net connection cache.
+	 *
+	 * @var
+	 */
+	private static $connectionCache;
+
+	/**
+	 * Check net connection.
+	 *
+	 * @return bool
+	 */
+	public static function isNetConnection()
+	{
+		if (isset(static::$connectionCache)) {
+			return static::$connectionCache;
+		}
+		$connected = fsockopen('www.google.com', 80, $errno, $errstr, 1);
+		if ($connected) {
+			static::$connectionCache = true;
+			fclose($connected);
+		} else {
+			static::$connectionCache = false;
+		}
+		return static::$connectionCache;
 	}
 }

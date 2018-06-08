@@ -37,14 +37,12 @@ class AppConfig
 
 			return $GLOBALS[$key];
 		} else {
-			require 'config/config.php';
+			require ROOT_DIRECTORY . '/config/config.php';
 			if (isset($$key)) {
 				self::$main[$key] = $$key;
-
 				return $$key;
 			}
 			App\Log::warning("Parameter does not exist: $key");
-
 			return $value;
 		}
 	}
@@ -103,7 +101,7 @@ class AppConfig
 			self::load('debug', $DEBUG_CONFIG);
 		}
 
-		return isset(self::$debug[$key]) ? self::$debug[$key] : false;
+		return isset(self::$debug[$key]) ? self::$debug[$key] : $defvalue;
 	}
 
 	public static function developer($key, $defvalue = false)
@@ -113,7 +111,7 @@ class AppConfig
 			self::load('developer', $DEVELOPER_CONFIG);
 		}
 
-		return isset(self::$developer[$key]) ? self::$developer[$key] : false;
+		return isset(self::$developer[$key]) ? self::$developer[$key] : $defvalue;
 	}
 
 	public static function security($key, $defvalue = false)
@@ -123,7 +121,7 @@ class AppConfig
 			self::load('security', $SECURITY_CONFIG);
 		}
 
-		return isset(self::$security[$key]) ? self::$security[$key] : false;
+		return isset(self::$security[$key]) ? self::$security[$key] : $defvalue;
 	}
 
 	public static function securityKeys($key, $defvalue = false)
@@ -133,7 +131,7 @@ class AppConfig
 			self::load('securityKeys', $SECURITY_KEYS_CONFIG);
 		}
 
-		return isset(self::$securityKeys[$key]) ? self::$securityKeys[$key] : false;
+		return isset(self::$securityKeys[$key]) ? self::$securityKeys[$key] : $defvalue;
 	}
 
 	public static function performance($key, $defvalue = false)
@@ -143,7 +141,7 @@ class AppConfig
 			self::load('performance', $PERFORMANCE_CONFIG);
 		}
 
-		return isset(self::$performance[$key]) ? self::$performance[$key] : false;
+		return isset(self::$performance[$key]) ? self::$performance[$key] : $defvalue;
 	}
 
 	public static function relation($key, $defvalue = false)
@@ -153,7 +151,7 @@ class AppConfig
 			self::load('relation', $RELATION_CONFIG);
 		}
 
-		return isset(self::$relation[$key]) ? self::$relation[$key] : false;
+		return isset(self::$relation[$key]) ? self::$relation[$key] : $defvalue;
 	}
 
 	public static function sounds()
@@ -201,9 +199,9 @@ class AppConfig
 if (!defined('ROOT_DIRECTORY')) {
 	define('ROOT_DIRECTORY', str_replace(DIRECTORY_SEPARATOR . 'include', '', __DIR__));
 }
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../config/api.php';
-require_once __DIR__ . '/../config/config.php';
+require_once ROOT_DIRECTORY . '/vendor/autoload.php';
+require_once ROOT_DIRECTORY . '/config/api.php';
+require_once ROOT_DIRECTORY . '/config/config.php';
 AppConfig::load('api', $API_CONFIG);
 session_save_path(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'session');
 if (!defined('IS_PUBLIC_DIR')) {

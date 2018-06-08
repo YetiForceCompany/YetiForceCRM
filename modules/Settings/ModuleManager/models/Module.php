@@ -23,9 +23,8 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	 * @var array Base module tools exceptions.
 	 */
 	public static $baseModuleToolsExceptions = [
-		'Documents' => ['notAllowed' => ['Import', 'DuplicatesHandling']],
-		'Calendar' => ['notAllowed' => ['DuplicatesHandling']],
-		'Faq' => ['notAllowed' => ['Import', 'Export', 'DuplicatesHandling']],
+		'Documents' => ['notAllowed' => ['Import']],
+		'Faq' => ['notAllowed' => ['Import', 'Export']],
 		'Events' => ['notAllowed' => 'all'],
 		'PBXManager' => ['notAllowed' => 'all'],
 		'OSSMailView' => ['notAllowed' => 'all'],
@@ -112,7 +111,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function checkModuleName($name)
 	{
-		return (bool) ($name === 'Settings' || preg_match('/[^A-Za-z]/i', $name));
+		return (bool) (strpos($name, 'Settings') !== false || preg_match('/[^A-Za-z]/i', $name));
 	}
 
 	/**

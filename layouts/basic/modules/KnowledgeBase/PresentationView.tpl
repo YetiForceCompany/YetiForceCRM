@@ -22,12 +22,10 @@
 				</div>
 			</div>
 			<a class="left carousel-control-prev text-secondary knowledgePresentationControl" href="#carouselPresentation" role="button" data-slide="prev">
-				<span class="fas fa-chevron-left" data-fa-transform="grow-20"></span>
-				<span class="sr-only">{\App\Language::translate('LBL_PREVIOUS',$MODULE_NAME)}</span>
+				<span class="fas fa-chevron-left" data-fa-transform="grow-20" title="{\App\Language::translate('LBL_PREVIOUS',$MODULE_NAME)}"></span>
 			</a>
 			<a class="right carousel-control-next text-secondary knowledgePresentationControl" href="#carouselPresentation" role="button" data-slide="next">
-				<span class="fas fa-chevron-right" data-fa-transform="grow-20"></span>
-				<span class="sr-only">{\App\Language::translate('LBL_NEXT',$MODULE_NAME)}</span>
+				<span class="fas fa-chevron-right" data-fa-transform="grow-20" title="{\App\Language::translate('LBL_NEXT',$MODULE_NAME)}"></span>
 			</a>
 		</div>
 	</div>

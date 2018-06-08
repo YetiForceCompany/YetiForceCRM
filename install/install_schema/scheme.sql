@@ -1,3 +1,4 @@
+
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
@@ -214,6 +215,7 @@ CREATE TABLE `a_yf_taxes_global` (
   `name` varchar(50) NOT NULL,
   `value` decimal(5,2) unsigned NOT NULL DEFAULT 0.00,
   `status` tinyint(1) NOT NULL DEFAULT 1,
+  `default` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -4062,6 +4064,16 @@ CREATE TABLE `vtiger_auditregister_type` (
   PRIMARY KEY (`auditregister_typeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_authy_methods` */
+
+CREATE TABLE `vtiger_authy_methods` (
+  `authy_methodsid` int(11) NOT NULL AUTO_INCREMENT,
+  `authy_methods` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`authy_methodsid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_blocks` */
 
 CREATE TABLE `vtiger_blocks` (
@@ -5185,7 +5197,7 @@ CREATE TABLE `vtiger_end_hour_seq` (
 
 CREATE TABLE `vtiger_entity_stats` (
   `crmid` int(10) NOT NULL,
-  `crmactivity` smallint(5) DEFAULT NULL,
+  `crmactivity` mediumint(8) DEFAULT NULL,
   PRIMARY KEY (`crmid`),
   CONSTRAINT `fk_1_vtiger_entity_stats` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -5397,7 +5409,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2764 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2766 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6005,7 +6017,7 @@ CREATE TABLE `vtiger_language` (
   `active` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `prefix` (`prefix`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_language_seq` */
 
@@ -8300,7 +8312,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 
@@ -9039,6 +9051,8 @@ CREATE TABLE `vtiger_users` (
   `confirm_password` varchar(200) DEFAULT NULL,
   `cal_color` varchar(25) DEFAULT NULL,
   `user_preferences` text DEFAULT NULL,
+  `authy_methods` varchar(50) DEFAULT NULL,
+  `authy_secret_totp` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),
@@ -9088,7 +9102,7 @@ CREATE TABLE `vtiger_userscf` (
 CREATE TABLE `vtiger_vendor` (
   `vendorid` int(10) NOT NULL DEFAULT 0,
   `vendor_no` varchar(100) NOT NULL,
-  `vendorname` varchar(100) DEFAULT NULL,
+  `vendorname` varchar(255) DEFAULT NULL,
   `phone` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,

@@ -1,0 +1,20 @@
+{
+  "php": {
+    "IGIN": "Note marfa emise",
+    "SINGLE_IGIN": "Nota marfa emisa",
+    "LBL_DESCRIPTION_BLOCK": "Descriere",
+    "LBL_ATTENTION_BLOCK": "Comentarii",
+    "FL_ACCEPTANCE_DATE": "Data acceptarii",
+    "FL_NUMBER": "Numar",
+    "FL_SUBJECT": "Subiect",
+    "FL_STORAGE": "Depozit",
+    "FL_STATUS": "Status",
+    "PLL_DRAFT": "Ciorna",
+    "PLL_IN_REALIZATION": "In realizare",
+    "PLL_OBJECTIONS": "Obiectii",
+    "PLL_FOR_APPROVAL": "Pentru aprobare",
+    "PLL_CANCELLED": "Anulat",
+    "PLL_ACCEPTED": "Acceptat",
+    "LBL_CHANGE_STATUS": "Schimba status"
+  }
+}

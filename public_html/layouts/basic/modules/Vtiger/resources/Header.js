@@ -31,7 +31,7 @@ $.Class("Vtiger_Header_Js", {
 	contentContainer: false,
 	quickCreateCallBacks: [],
 	init: function () {
-		this.setContentsContainer('.baseContainer');
+		this.setContentsContainer('.js-base-container');
 	},
 	setContentsContainer: function (element) {
 		if (element instanceof $) {
@@ -536,7 +536,7 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideActionMenu();
 			block.toggleClass("toggled");
 			thisInstance.hideReminderNotification();
-			thisInstance.hideMobileMenu();
+			app.closeSidebar();
 			thisInstance.hideSearchMenu();
 		});
 	},
@@ -552,7 +552,7 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideActionMenu();
 			block.toggleClass("toggled");
 			thisInstance.hideReminderNotice();
-			thisInstance.hideMobileMenu();
+			app.closeSidebar();
 			thisInstance.hideSearchMenu();
 		});
 	},
@@ -565,20 +565,20 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideReminderNotification();
 			$('.mobileLeftPanel ').toggleClass('mobileMenuOn');
 		});
-		$('.actionMenuBtn').on('click', function () {
+		$('.js-quick-action-btn').on('click', function () {
 			thisInstance.hideSearchMenu();
-			thisInstance.hideMobileMenu();
+			app.closeSidebar();
 			thisInstance.hideReminderNotice();
 			thisInstance.hideReminderNotification();
 			$('.actionMenu').toggleClass('actionMenuOn');
 			if ($(this).hasClass('active')) {
 				$(this).removeClass('active');
-				$('.actionMenuBtn .headerButton').attr('aria-expanded', 'false');
-				$('.actionMenu .headerButton').popover();
+				$(this).attr('aria-expanded', 'false');
+				$(this).popover();
 			} else {
 				$(this).addClass('active');
-				$('.actionMenuBtn .headerButton').attr('aria-expanded', 'true');
-				$('.actionMenu .headerButton').popover('disable');
+				$(this).attr('aria-expanded', 'true');
+				$(this).popover('disable');
 			}
 			$('.quickCreateModules').on('click', function () {
 				thisInstance.hideActionMenu();
@@ -586,16 +586,16 @@ $.Class("Vtiger_Header_Js", {
 		});
 		$('.searchMenuBtn').on('click', function () {
 			thisInstance.hideActionMenu();
-			thisInstance.hideMobileMenu();
+			app.closeSidebar();
 			thisInstance.hideReminderNotice();
 			thisInstance.hideReminderNotification();
 			$('.searchMenu').toggleClass('toogleSearchMenu');
 			if ($(this).hasClass('active')) {
 				$(this).removeClass('active');
-				$('.searchMenuBtn .headerButton').attr('aria-expanded', 'false');
+				$('.searchMenuBtn .c-header__btn').attr('aria-expanded', 'false');
 			} else {
 				$(this).addClass('active');
-				$('.searchMenuBtn .headerButton').attr('aria-expanded', 'true');
+				$('.searchMenuBtn .c-header__btn').attr('aria-expanded', 'true');
 			}
 		});
 	},
@@ -713,16 +713,81 @@ $.Class("Vtiger_Header_Js", {
 		elem.scrollTop(0);
 		elem.height(elem[0].scrollHeight - elem[0].clientHeight + elem.height());
 	},
+	registerChat: function () {
+		const self = this;
+		var modal = $('.chatModal');
+		if (modal.length === 0) {
+			return;
+		}
+		var modalBody = modal.find('.modal-body');
+		app.showNewScrollbar(modalBody, {wheelPropagation: true});
+		$('.headerLinkChat').on('click', function (e) {
+			e.stopPropagation();
+			var remindersNoticeContainer = $('.remindersNoticeContainer,.remindersNotificationContainer');
+			if (remindersNoticeContainer.hasClass('toggled')) {
+				remindersNoticeContainer.removeClass('toggled');
+			}
+			$('.actionMenu').removeClass('actionMenuOn');
+			$('.chatModal').modal({backdrop: false});
+		});
+		var modalDialog = modal.find('.modal-dialog');
+		this.registerChatLoadItems(modal.data('timer'));
+		modal.find('.addMsg').on('click', function (e) {
+			var message = modal.find('.message').val();
+			clearTimeout(self.chatTimer);
+			AppConnector.request({
+				dataType: 'html',
+				data: {
+					module: 'Chat',
+					action: 'Entries',
+					mode: 'add',
+					message: message,
+					cid: $('.chatModal .chatItem').last().data('cid')
+				}
+			}).then(function (html) {
+				$('.chatModal .modal-body').append(html);
+				self.registerChatLoadItems(modal.data('timer'));
+			});
+			modal.find('.message').val('');
+		});
+		app.animateModal(modal, 'slideInRight', 'slideOutRight');
+	},
+	registerChatLoadItems: function (timer) {
+		const self = this;
+		var icon = $('.chatModal .modal-title .fa-comments');
+		this.chatTimer = setTimeout(function () {
+			icon.css('color', '#00e413');
+			self.getChatItems();
+			self.registerChatLoadItems(timer);
+			icon.css('color', '#000');
+		}, timer);
+	},
+	getChatItems: function () {
+		const self = this;
+		AppConnector.request({
+			module: 'Chat',
+			view: 'Entries',
+			mode: 'get',
+			cid: $('.chatModal .chatItem').last().data('cid')
+		}).then(function (html) {
+			if (html) {
+				$('.chatModal .modal-body').append(html);
+			}
+		}, function (error, err) {
+			clearTimeout(self.chatTimer);
+		});
+	},
 	registerEvents: function () {
 		var thisInstance = this;
 		const container = thisInstance.getContentsContainer(),
-			menuContainer = container.find('.leftPanel .menuContainer'),
+			menuContainer = container.find('.js-menu--scroll'),
 			quickCreateModal = container.find('.quickCreateModules');
 		app.showNewLeftScrollbar(menuContainer, {suppressScrollX: true});
 		app.showNewScrollbar(menuContainer.find('.subMenu').last(), {suppressScrollX: true});
 		thisInstance.listenTextAreaChange();
 		thisInstance.registerFooTable(); //Enable footable
 		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));
+		$('.js-clear-history').on('click', () => {app.clearBrowsingHistory();});
 		$('.globalSearch').on('click', function () {
 			var currentTarget = $(this);
 			thisInstance.hideSearchMenu();
@@ -750,9 +815,6 @@ $.Class("Vtiger_Header_Js", {
 			}, 100);
 		});
 		thisInstance.basicSearch();
-		$('.bodyHeader .dropdownMenu').on("click", function (e) {
-			$(this).next('.dropdown-menu').toggle();
-		});
 		quickCreateModal.on("click", ".quickCreateModule", function (e, params) {
 			var moduleName = $(e.currentTarget).data('name');
 			quickCreateModal.modal('hide');
@@ -780,12 +842,13 @@ $.Class("Vtiger_Header_Js", {
 		}
 		thisInstance.registerReminderNotice();
 		thisInstance.registerReminderNotification();
-	},
+		thisInstance.registerChat();
+	}
 });
 $(document).ready(function () {
-	$(window).on('popstate', function (event) {
+	window.addEventListener('popstate', (event) => {
 		if (event.state) {
-			window.location.href = event.state.url;
+			window.location.href = event.state;
 		}
 	});
 	Vtiger_Header_Js.getInstance().registerEvents();

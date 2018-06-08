@@ -10,7 +10,6 @@
  */
 class Users_Boolean_UIType extends Vtiger_Boolean_UIType
 {
-
 	/**
 	 * {@inheritdoc}
 	 */

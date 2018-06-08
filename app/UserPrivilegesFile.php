@@ -124,7 +124,7 @@ class UserPrivilegesFile
 				$newBuf .= "\$Accounts_HelpDesk_share_write_permission=array('ROLE'=>" . Utils::varExport($accTktShareWriteer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accTktShareWriteer['GROUP']) . ");\n";
 				$sharingPrivileges['permission']['Accounts_HelpDesk'] = ['read' => $accTktShareReadPer, 'write' => $accTktShareWriteer];
 				$customModules = Module::getSharingModuleList(['Accounts', 'Contacts']);
-				foreach ($customModules as &$moduleName) {
+				foreach ($customModules as $moduleName) {
 					$modSharePermArray = PrivilegeUtil::getUserModuleSharingObjects($moduleName, $userid, $defOrgShare, $current_user_roles, $parent_roles, $current_user_groups);
 					$modShareReadPerm = $modSharePermArray['read'];
 					$modShareWritePerm = $modSharePermArray['write'];
@@ -143,6 +143,7 @@ class UserPrivilegesFile
 				fclose($handle);
 				//Populating Temp Tables
 				static::populateSharingtmptables($userid);
+				User::clearCache($userid);
 			}
 		}
 	}

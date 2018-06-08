@@ -55,18 +55,20 @@
 							<span class="fab fa-github-square fa-2x" title="Github"></span>
 						</a>
 					</li>
-					<li class="page-item">
-						<a class="page-link" href="https://yetiforce.shop" rel="noreferrer">
-							<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
-						</a>
-					</li>
 				</ul>
 				<div class="float-right p-1">
-					<a data-toggle="modal" data-target="#yetiforceDetails" href="#">
-						<img class="logoFooter"
-							 src="{App\Layout::getPublicUrl('layouts/resources/Logo/white_logo_yetiforce.png')}"
-							 alt="YetiForceCRM"/>
-					</a>
+					<ul class="pagination">
+						<li class="page-item">
+							<a class="page-link-right mr-2" href="https://yetiforce.shop" rel="noreferrer">
+								<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
+							</a>
+						</li>
+						<li class="page-item u-cursor-pointer">
+							<a data-toggle="modal" role="button" data-target="#yetiforceDetails">
+								<span class="fas fa-info-circle fa-2x" title="YetiForceCRM"></span>
+							</a>
+						</li>
+					</ul>
 				</div>
 				<div class="mx-auto w-75">
 					{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Config::$startTime, 3)}

@@ -73,7 +73,8 @@
     "LBL_LIBRARY_NO_DOWNLOAD": "Niepobrana",
     "LBL_LIBRARY_NEEDS_UPDATING": "Wymaga aktualizacji",
     "LBL_NO_PERMISSION_TO_DIR": "Brak uprawnie\u0144 do katalog\u00f3w",
-    "LBL_ERROR_NO_VALID_PREFIX": "Nieprawid\u0142owy prefix j\u0119zyka"
+    "LBL_ERROR_NO_VALID_PREFIX": "Nieprawid\u0142owy prefix j\u0119zyka",
+    "LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS": "Nazwa modu\u0142u nie mo\u017ce zawiera\u0107 s\u0142owa Settings"
   },
   "js": {
     "JS_UPDATED_MODULE": "Aktualizacja przebieg\u0142a pomy\u015blnie.",

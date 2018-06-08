@@ -1,8 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-.bodyHeader {
+.c-header {
 	background-color: $y-navbar-background;
-	height: $headerHeight;
 	top: 0;
 	right: 0;
 	z-index: 1031;
@@ -18,7 +17,7 @@
 		position: relative;
 	}
 
-	.headerButton {
+	.c-header__btn {
 		@extend .py-0;
 
 		padding-left: 0.3rem;
@@ -28,19 +27,20 @@
 	}
 
 	.o-navbar__left {
-		.quickAction .headerButton {
+		.c-header__btn {
 			@extend .mr-2;
 		}
 	}
 
 	.o-navbar__right {
-		.headerButton {
+		.c-header__btn {
 			@extend .ml-2;
 		}
 	}
 
 	.headerLinksMails {
 		height: fit-content;
+		width: fit-content;
 
 		> .btn + .dropdown-toggle {
 			padding-top: 7px;
@@ -55,7 +55,7 @@
 		.btn {
 			@extend .m-0;
 			@extend .px-2;
-
+			height: $menu-items-right-height;
 			font-size: $font-size-sm;
 		}
 	}
@@ -72,6 +72,7 @@
 
 .remindersNoticeContainer,
 .remindersNotificationContainer {
+	visibility: hidden;
 	position: fixed;
 	right: -380px;
 	top: $headerHeight;
@@ -87,6 +88,7 @@
 	max-width: 100%;
 
 	&.toggled {
+		visibility: visible;
 		right: 0;
 	}
 }
@@ -108,10 +110,6 @@
 	height: 20px;
 }
 
-.remindersNoticeContainer .panel, .remindersNotificationContainer .panel {
-	margin-bottom: 10px;
-}
-
 .remindersNoticeContainer {
 	.panel-body {
 		padding: 5px 10px 10px 10px;
@@ -119,6 +117,74 @@
 
 	.actionRow a.btn {
 		margin-right: 1%;
+	}
+}
+
+.modalRightSiteBar {
+	margin: 0;
+	height: $mainViewportHeight;
+	right: 0;
+	top: $headerHeight;
+	position: fixed !important;
+	z-index: 1070;
+	overflow: hidden;
+	width: -webkit-fill-available;
+
+	.modal-content {
+		height: 100%;
+	}
+
+	button.close {
+		position: absolute;
+		right: 10px;
+		z-index: 5;
+	}
+
+	.moduleIcon {
+		float: left;
+	}
+
+	.quickDetailWidget h4 {
+		background-color: $light;
+		padding: 4px 10px;
+	}
+
+	.listViewEntriesTable thead > tr > th {
+		padding: 2px;
+	}
+}
+
+.chatModal {
+
+	.modal-dialog {
+		@extend .col-12, .col-sm-8, .col-lg-3;
+	}
+	.modal-body {
+		padding: 5px 0;
+	}
+
+	.modal-footer {
+		background: #fff;
+	}
+
+	.chatItem {
+		border-bottom: 1px solid #ddd;
+		margin-bottom: 3px;
+		padding: 2px 8px 2px 8px;
+
+		&.active {
+			background: #f9f9f9;
+		}
+
+		.author {
+			padding-bottom: 3px;
+
+			span {
+				vertical-align: top;
+				margin-left: 6px;
+				font-weight: bold;
+			}
+		}
 	}
 }
 
@@ -158,6 +224,8 @@
 }
 
 .globalSearchInput {
+	min-width: $w-header-search;
+
 	.btn {
 		width: 40px;
 
@@ -185,7 +253,7 @@
 		-webkit-transition: right ease-in-out 0.35s;
 		transition: right ease-in-out 0.35s;
 
-		@media( max-width: 767px ) {
+		@media(max-width: 767px) {
 			width: 100%;
 		}
 	}
@@ -199,7 +267,7 @@
 
 //navbar action menu
 .actionMenu {
-	.actionMenuBtn {
+	.c-header__btn--mobile {
 		display: none;
 	}
 
@@ -208,10 +276,11 @@
 		vertical-align: top;
 	}
 }
+
 //mobile
 @media(max-width: 782px) {
 	.actionMenu {
-		.actionMenuBtn {
+		.c-header__btn--mobile {
 			display: block;
 		}
 
@@ -231,7 +300,7 @@
 			text-align: center;
 			overflow: auto;
 
-			.headerButton {
+			.c-header__btn {
 				display: block;
 				margin: 0 0 5px !important;
 
@@ -281,5 +350,25 @@
 
 	.breadcrumb-item.active {
 		color: darken($breadcrumb-active-color, 10%);
+	}
+}
+
+@include media-breakpoint-down(xs) {
+	.c-menu__container.js-expand + .c-header {
+		&,
+		.o-navbar__left,
+		.o-navbar__right {
+			flex-direction: column;
+		}
+
+		* {
+			margin-left: 0 !important;
+			margin-right: 0 !important;
+			width: 100%;
+		}
+
+		.c-header__btn {
+			margin-bottom: 0.25rem;
+		}
 	}
 }

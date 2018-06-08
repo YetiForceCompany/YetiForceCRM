@@ -169,7 +169,6 @@ class Log extends Logger
 			return $query->count('*', $db);
 		} else {
 			$query->orderBy(['id' => SORT_DESC]);
-
 			return $query->all($db);
 		}
 	}
@@ -193,7 +192,6 @@ class Log extends Logger
 			$content .= PHP_EOL;
 			++$i;
 		}
-
 		return $content;
 	}
 }

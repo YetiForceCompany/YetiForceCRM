@@ -37,7 +37,6 @@
     "Export": "Exportieren",
     "Merge": "Zusammenf\u00fchren",
     "ConvertLead": "Lead konvertieren",
-    "DuplicatesHandling": "Duplikatbearbeitung",
     "ReceiveIncomingCalls": "Eingehende Anrufe",
     "MakeOutgoingCalls": "Abgehende Anrufe",
     "Print": "Drucken",
@@ -87,7 +86,8 @@
     "ActivityCancel": "Datens\u00e4tze abbrechen",
     "ActivityComplete": "Datens\u00e4tze schlie\u00dfen",
     "ActivityPostponed": "Datens\u00e4tze verschieben",
-    "Emails": "E-Mails senden [SMTP]"
+    "Emails": "E-Mails senden [SMTP]",
+    "ModTracker": "Historie \u00e4ndern"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Profil erfolgreich gel\u00f6scht"

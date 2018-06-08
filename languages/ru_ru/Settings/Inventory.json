@@ -24,10 +24,10 @@
     "LBL_CANNOT_BE_COMBINED": "\u041d\u0435\u043b\u044c\u0437\u044f \u043a\u043e\u043c\u0431\u0438\u043d\u0438\u0440\u043e\u0432\u0430\u0442\u044c",
     "LBL_IN_TOTAL": "\u0412 \u0441\u0443\u043c\u043c\u0435",
     "LBL_CASCADE": "\u041a\u0430\u0441\u043a\u0430\u0434\u043d\u044b\u0439",
-    "LBL_GLOBAL": "\u0413\u043b\u043e\u0431\u0430\u043b\u044c\u043d\u044b\u0439",
-    "LBL_GROUP": "\u0413\u0440\u0443\u043f\u043f\u0430",
-    "LBL_INDIVIDUAL": "\u0418\u043d\u0434\u0438\u0432\u0438\u0434\u0443\u0430\u043b\u044c\u043d\u044b\u0439",
-    "LBL_REGIONAL": "\u0420\u0435\u0433\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0439",
+    "LBL_GLOBAL": "Tax from the list of available taxes",
+    "LBL_GROUP": "Tax from products/services list",
+    "LBL_INDIVIDUAL": "Custom tax",
+    "LBL_REGIONAL": "Account's tax",
     "LBL_ARE_ACTIVE": "\u0410\u043a\u0442\u0438\u0432\u043d\u044b\u0439?",
     "LBL_SUMMATION_TYPE": "\u0422\u0438\u043f \u0441\u0443\u043c\u043c\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f",
     "LBL_AVAILABLE_TAXS": "\u0414\u043e\u0441\u0442\u0443\u043f\u043d\u044b\u0435 \u043d\u0430\u043b\u043e\u0433\u0438",
@@ -39,7 +39,9 @@
     "LBL_VIEW_TAXES": "\u0411\u0430\u0437\u043e\u0432\u044b\u0439 \u043d\u0430\u043b\u043e\u0433",
     "LBL_VIEW_TAXCONFIGURATION": "\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430 \u043d\u0430\u043b\u043e\u0433\u0430",
     "LBL_VIEW_DISCOUNTCONFIGURATION": "\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430 \u0441\u043a\u0438\u0434\u043a\u0438",
-    "LBL_VIEW_DISCOUNTS": "\u0411\u0430\u0437\u043e\u0432\u0430\u044f \u0441\u043a\u0438\u0434\u043a\u0430"
+    "LBL_VIEW_DISCOUNTS": "\u0411\u0430\u0437\u043e\u0432\u0430\u044f \u0441\u043a\u0438\u0434\u043a\u0430",
+    "LBL_ALERT_TAX_CONFIG_TITLE": "Tax settings description:",
+    "LBL_ALERT_TAX_CONFIG_DESC": "Summation type:\r\nIn total:\r\n- Total value of all taxes calculated on the value of product/services.\r\n[Example]\r\nThere are two taxes selected: the first one 23%%, the second one 8%%. The system sums the value of both taxes from the oryginal net amount. \r\nIn the above example for the net value 100z\u0142, the gross amount will be (100z\u0142 * 1,31) = 131,00 z\u0142\r\n\r\nCascade:\r\n- Tax amount is calculated each time from the product/service value.\r\n[Example]\r\nTwo taxes are selected: the first one 23%%, the second one 8%%. The system calculates the value for the first tax and then the value of second tax is added. \r\nIn the above example for the net value of 100z\u0142, the gross amount will be (100z\u0142 * 1,23) * 1,08 = 132,84 z\u0142\r\n\r\nTax settings description:\r\nTax from the list of available taxes:\r\n- Specified in settings for Advanced Modules.\r\nTax from products/services list:\r\n- Specified individaully for products in the Products module.\r\nCustom tax:\r\n- Specified once for a selected record.\r\nAccount's tax:\r\n- Specified individually for a selected customer."
   },
   "js": {
     "JS_SAVE_CHANGES": "\u0418\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u044f \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u044b",

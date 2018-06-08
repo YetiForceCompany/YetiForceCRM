@@ -57,11 +57,9 @@
 						<div class="flexWrapper">
 							<a class="btn btn-light" role="button" data-trigger="listSearch" href="javascript:void(0);">
 								<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
-								<span class="sr-only">{\App\Language::translate('LBL_SEARCH')}</span>
 							</a>
 							<a class="btn btn-light float-right listRemoveBtn" role="button" href="index.php?view={$VIEW}&module={$MODULE}">
 								<span class="fas fa-times" title="{\App\Language::translate('LBL_CLEAR_SEARCH')}"></span>
-								<span class="sr-only">{\App\Language::translate('LBL_CLEAR_SEARCH')}</span>
 							</a>
 						</div>
 					</td>

@@ -37,7 +37,6 @@
     "Export": "Exportar",
     "Merge": "Unir",
     "ConvertLead": "Convertir Potencial",
-    "DuplicatesHandling": "Manejo de duplicados",
     "ReceiveIncomingCalls": "Recibir llamadas",
     "MakeOutgoingCalls": "Realizar llamadas",
     "Print": "Imprimir",
@@ -88,7 +87,8 @@
     "ActivityCancel": "Cancelar registros",
     "ActivityComplete": "Cerrar registros",
     "ActivityPostponed": "Aplazar registros",
-    "Emails": "Enviar correos [SMTP]"
+    "Emails": "Enviar correos [SMTP]",
+    "ModTracker": "Change history"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Perfil eliminado correctamente"

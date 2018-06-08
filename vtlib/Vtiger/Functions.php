@@ -81,6 +81,14 @@ class Functions
 				if (!\App\Cache::has('moduleTabByName', $row['name'])) {
 					\App\Cache::save('moduleTabByName', $row['name'], $row);
 				}
+				$row['tabid'] = (int) $row['tabid'];
+				$row['presence'] = (int) $row['presence'];
+				$row['tabsequence'] = (int) $row['tabsequence'];
+				$row['customized'] = (int) $row['customized'];
+				$row['ownedby'] = (int) $row['ownedby'];
+				$row['isentitytype'] = (int) $row['isentitytype'];
+				$row['coloractive'] = (int) $row['coloractive'];
+				$row['type'] = (int) $row['type'];
 				$moduleList[$row['tabid']] = $row;
 			}
 			\App\Cache::save('moduleTabs', 'all', $moduleList);
@@ -103,7 +111,6 @@ class Functions
 				unset($moduleList[$id]);
 			}
 		}
-
 		return $moduleList;
 	}
 

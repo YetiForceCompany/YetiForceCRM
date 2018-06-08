@@ -19,9 +19,9 @@
 }
 
 .u-text-ellipsis {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 
 	&:hover {
 		overflow: initial;
@@ -37,17 +37,25 @@
 		}
 	}
 }
-
+.u-text-ellipsis--no-hover {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .u-text-underline {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 
 .u-hover-bold:hover {
-  @extend .font-weight-bold;
+	@extend .font-weight-bold;
 }
 
 .u-word-break-all {
 	word-break: break-all !important;
+}
+
+.u-word-break {
+	word-break: break-word !important;
 }
 
 .u-font-size-95per {
@@ -57,8 +65,9 @@
 .u-font-size-100per {
 	font-size: 100% !important;
 }
+
 .u-font-size-44px {
-  font-size: 44px;
+	font-size: 44px;
 }
 //--- MARGIN ---//
 .u-ml-0 {
@@ -101,8 +110,8 @@
 }
 
 .u-p-x-0px {
-	padding-left: 0px !important;
-	padding-right: 0px !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
 }
 
 //--- WIDTH ---//
@@ -241,4 +250,8 @@
 
 .u-box-shadow {
 	@include u-box-shadow(3px 3px 14px 0 rgba(50, 50, 50, 0.75));
+}
+
+.u-opacity-muted {
+	opacity: 0.2;
 }
