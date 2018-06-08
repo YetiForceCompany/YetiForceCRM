@@ -6,9 +6,9 @@
 		top: 0;
 		bottom: 33px;
 		width: 230px;
-		color: $y-menu-font-color;
+		color: $color-menu;
 		z-index: 1030;
-		background: $y-menu-background;
+		background: $bg-menu;
 
 		.row {
 			padding: 0;
@@ -16,7 +16,7 @@
 		}
 
 		a {
-			color: $y-menu-font-color;
+			color: $color-menu;
 
 			&:hover {
 				text-decoration: none;
@@ -37,10 +37,10 @@
 			word-wrap: break-word;
 			font-size: 15px;
 			line-height: 1.2;
-			background: $y-menu-background;
+			background: $bg-menu;
 
 			&:hover, &:focus {
-				background: lighten($y-menu-background, 5%);
+				background: lighten($bg-menu, 5%);
 
 				.menuName {
 					white-space: normal;
@@ -48,7 +48,7 @@
 			}
 
 			&.active {
-				background: darken($y-menu-background, 10%);
+				background: darken($bg-menu, 10%);
 			}
 
 			&.hasIcon {
@@ -106,20 +106,20 @@
 
 		.tpl-menu-SubMenu,
 		.tpl-menu-Profile_submenu {
-			background: $y-menu-font-color;
-			color: $y-menu-background;
+			background: $color-menu;
+			color: $bg-menu;
 
 			a {
 				font-size: 14px;
-				color: $y-menu-background;
-				background: $y-menu-font-color;
+				color: $bg-menu;
+				background: $color-menu;
 
 				&:hover, &:focus {
-					background: lighten($y-menu-font-color, 5%);
+					background: lighten($color-menu, 5%);
 				}
 
 				&.active {
-					background: darken($y-menu-font-color, 5%);
+					background: darken($color-menu, 5%);
 				}
 
 				&.hasIcon {
@@ -134,11 +134,11 @@
 			}
 
 			button {
-				background: darken($y-menu-font-color, 10%);
+				background: darken($color-menu, 10%);
 
 				&:hover, &:focus {
-					color: $y-menu-font-color;
-					background: $y-menu-background;
+					color: $color-menu;
+					background: $bg-menu;
 				}
 
 				&.hasIcon {
@@ -178,7 +178,7 @@
 
 .related {
 	.nav-pills {
-		border-bottom: 3px solid $y-rtabs-border-color;
+		border-bottom: 3px solid $border-color-rtabs;
 
 		> .nav-item {
 			position: relative;
@@ -190,7 +190,7 @@
 		}
 
 		> .nav-item > .nav-link {
-			color: $y-rtabs-active-background;
+			color: $bg-rtabs-active;
 			font-weight: bold;
 
 			span {
@@ -212,8 +212,8 @@
 				font-weight: bold;
 				text-transform: capitalize;
 				padding: 0.5rem 1rem;
-				color: $y-rtabs-active-background;
-				background: $y-rtabs-background;
+				color: $bg-rtabs-active;
+				background: $bg-rtabs;
 
 				&:hover {
 					text-decoration: none;
@@ -222,18 +222,18 @@
 
 			&.show .dropdown-toggle,
 			&.active .dropdown-toggle {
-				background: $y-rtabs-active-background;
-				color: $y-rtabs-active-font-color;
+				background: $bg-rtabs-active;
+				color: $color-rtabs-active;
 			}
 		}
 
 		.active {
-			background: $y-rtabs-active-background;
-			color: $y-rtabs-active-font-color;
+			background: $bg-rtabs-active;
+			color: $color-rtabs-active;
 			border-radius: 0;
 
 			> .nav-link {
-				color: $y-rtabs-background;
+				color: $bg-rtabs;
 			}
 		}
 
@@ -276,11 +276,11 @@
 	}
 
 	&--gray {
-		background: $y-rtabs-background;
+		background: $bg-rtabs;
 	}
 
 	&--hover:hover {
-		background: darken($y-rtabs-background, 10%);
+		background: darken($bg-rtabs, 10%);
 	}
 }
 
