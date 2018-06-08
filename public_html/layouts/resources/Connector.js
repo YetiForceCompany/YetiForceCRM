@@ -126,8 +126,12 @@ var AppConnector = {
 				fullUrl = 'index.php?' + fullUrl;
 			}
 			if (history.pushState && fullUrl !== '') {
-				window.history.pushState(fullUrl, "Title", fullUrl);
-			}
+				const currentHref = window.location.href;
+				if (!history.state) {
+					history.replaceState(currentHref, "title 1", currentHref);
+				}
+				history.pushState(fullUrl, "title 2", fullUrl);
+		}
 		}
 		return aDeferred.promise();
 	},

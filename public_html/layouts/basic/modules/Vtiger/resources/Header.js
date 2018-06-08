@@ -849,8 +849,6 @@ $(document).ready(function () {
 	window.addEventListener('popstate', (event) => {
 		if (event.state) {
 			window.location.href = event.state;
-		} else {
-			window.location.href = window.location.href;
 		}
 	});
 	Vtiger_Header_Js.getInstance().registerEvents();
