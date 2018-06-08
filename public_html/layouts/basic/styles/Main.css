@@ -16,7 +16,7 @@
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
-@import url(../../../libraries/select2-bootstrap-theme/dist/select2-bootstrap.css);
+@import url(../../../libraries/select2-theme-bootstrap4/dist/select2-bootstrap.css);
 :root {
   --blue: #337ab7;
   --indigo: #6610f2;
@@ -9899,6 +9899,11 @@ border1px {
     -moz-box-shadow: 2px 2px 10px #ced4da;
     -webkit-box-shadow: 2px 2px 10px #ced4da;
     box-shadow: 2px 2px 10px #ced4da; }
+
+.u-text-ellipsis--no-hover {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; }
 
 .u-text-underline {
   text-decoration: underline; }

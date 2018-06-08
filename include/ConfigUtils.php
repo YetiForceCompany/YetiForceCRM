@@ -101,7 +101,7 @@ class AppConfig
 			self::load('debug', $DEBUG_CONFIG);
 		}
 
-		return isset(self::$debug[$key]) ? self::$debug[$key] : false;
+		return isset(self::$debug[$key]) ? self::$debug[$key] : $defvalue;
 	}
 
 	public static function developer($key, $defvalue = false)
@@ -111,7 +111,7 @@ class AppConfig
 			self::load('developer', $DEVELOPER_CONFIG);
 		}
 
-		return isset(self::$developer[$key]) ? self::$developer[$key] : false;
+		return isset(self::$developer[$key]) ? self::$developer[$key] : $defvalue;
 	}
 
 	public static function security($key, $defvalue = false)
@@ -121,7 +121,7 @@ class AppConfig
 			self::load('security', $SECURITY_CONFIG);
 		}
 
-		return isset(self::$security[$key]) ? self::$security[$key] : false;
+		return isset(self::$security[$key]) ? self::$security[$key] : $defvalue;
 	}
 
 	public static function securityKeys($key, $defvalue = false)
@@ -131,7 +131,7 @@ class AppConfig
 			self::load('securityKeys', $SECURITY_KEYS_CONFIG);
 		}
 
-		return isset(self::$securityKeys[$key]) ? self::$securityKeys[$key] : false;
+		return isset(self::$securityKeys[$key]) ? self::$securityKeys[$key] : $defvalue;
 	}
 
 	public static function performance($key, $defvalue = false)
@@ -141,7 +141,7 @@ class AppConfig
 			self::load('performance', $PERFORMANCE_CONFIG);
 		}
 
-		return isset(self::$performance[$key]) ? self::$performance[$key] : false;
+		return isset(self::$performance[$key]) ? self::$performance[$key] : $defvalue;
 	}
 
 	public static function relation($key, $defvalue = false)
@@ -151,7 +151,7 @@ class AppConfig
 			self::load('relation', $RELATION_CONFIG);
 		}
 
-		return isset(self::$relation[$key]) ? self::$relation[$key] : false;
+		return isset(self::$relation[$key]) ? self::$relation[$key] : $defvalue;
 	}
 
 	public static function sounds()

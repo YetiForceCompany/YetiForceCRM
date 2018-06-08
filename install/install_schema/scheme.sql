@@ -8312,7 +8312,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 
@@ -9102,7 +9102,7 @@ CREATE TABLE `vtiger_userscf` (
 CREATE TABLE `vtiger_vendor` (
   `vendorid` int(10) NOT NULL DEFAULT 0,
   `vendor_no` varchar(100) NOT NULL,
-  `vendorname` varchar(100) DEFAULT NULL,
+  `vendorname` varchar(255) DEFAULT NULL,
   `phone` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,

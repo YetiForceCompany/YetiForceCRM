@@ -81,14 +81,14 @@ class MultiImage {
 		if (typeof $.fn.animateCss === "undefined") {
 			$.fn.extend({
 				animateCss: function (animationName, callback) {
-					var animationEnd = (function (el) {
-						var animations = {
+					let animationEnd = (function (el) {
+						let animations = {
 							animation: 'animationend',
 							OAnimation: 'oAnimationEnd',
 							MozAnimation: 'mozAnimationEnd',
 							WebkitAnimation: 'webkitAnimationEnd',
 						};
-						for (var t in animations) {
+						for (let t in animations) {
 							if (el.style[t] !== undefined) {
 								return animations[t];
 							}
@@ -182,16 +182,17 @@ class MultiImage {
 	 * @param {Object} data
 	 */
 	uploadError(e, data) {
-		App.Fields.MultiImage.currentFileUploads--;
 		app.errorLog("File upload error.");
 		const {jqXHR, files} = data;
 		if (typeof jqXHR.responseJSON === "undefined" || jqXHR.responseJSON === null) {
+			App.Fields.MultiImage.currentFileUploads--;
 			return Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR"));
 		}
 		const response = jqXHR.responseJSON;
 		// first try to show error for concrete file
 		if (typeof response.result !== "undefined" && typeof response.result.attach !== "undefined" && Array.isArray(response.result.attach)) {
 			response.result.attach.forEach((fileAttach) => {
+				App.Fields.MultiImage.currentFileUploads--;
 				this.deleteFile(fileAttach.hash, false);
 				if (typeof fileAttach.error === 'string') {
 					Vtiger_Helper_Js.showPnotify(fileAttach.error + ` [${fileAttach.name}]`);
@@ -204,6 +205,7 @@ class MultiImage {
 		}
 		// else show default upload error
 		files.forEach((file) => {
+			App.Fields.MultiImage.currentFileUploads--;
 			this.deleteFile(file.hash, false);
 			Vtiger_Helper_Js.showPnotify(app.vtranslate("JS_FILE_UPLOAD_ERROR") + ` [${file.name}]`);
 		});
@@ -219,7 +221,6 @@ class MultiImage {
 	uploadSuccess(e, data) {
 		const {result} = data;
 		const attach = result.result.attach;
-		App.Fields.MultiImage.currentFileUploads--;
 		attach.forEach((fileAttach) => {
 			const hash = fileAttach.hash;
 			if (!hash) {
@@ -234,6 +235,7 @@ class MultiImage {
 			this.addFileInfoProperty(hash, 'name', fileAttach.name);
 			this.removePreviewPopover(hash);
 			this.addPreviewPopover(fileInfo.file, fileInfo.previewElement, fileInfo.imageSrc);
+			App.Fields.MultiImage.currentFileUploads--;
 		});
 		this.updateFormValues();
 	}
