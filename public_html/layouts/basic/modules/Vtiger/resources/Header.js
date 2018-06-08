@@ -584,7 +584,7 @@ $.Class("Vtiger_Header_Js", {
 				thisInstance.hideActionMenu();
 			});
 		});
-		$('.tpl-BodyHeader').on('click', '.searchMenuBtn', function () {
+		$('.searchMenuBtn').on('click', function () {
 			thisInstance.hideActionMenu();
 			app.closeSidebar();
 			thisInstance.hideReminderNotice();
