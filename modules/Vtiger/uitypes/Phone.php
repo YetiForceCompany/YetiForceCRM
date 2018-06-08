@@ -52,37 +52,28 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$extra = '';
-		if ($recordModel) {
-			$extra = $recordModel->getDisplayValue($this->getFieldModel()->getFieldName() . '_extra');
-			if ($extra) {
-				$extra = ' ' . $extra;
-			}
-		}
-		$rfc3966 = $international = \App\Purifier::encodeHtml($value);
-		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
-			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-			try {
-				$swissNumberProto = $phoneUtil->parse($value);
-				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
-				$rfc3966 = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::RFC3966);
-			} catch (\libphonenumber\NumberParseException $e) {
-			}
-		}
-		if ($rawText) {
-			return $international . $extra;
-		}
-		if (!\App\Integrations\Pbx::isActive()) {
-			return '<a href="' . $rfc3966 . '">' . $international . $extra . '</a>';
-		}
-
-		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '\',' . $record . ')"><span class="fas fa-phone" aria-hidden="true"></span> ' . $international . $extra . '</a>';
+		return $this->getDisplayPhoneValue($value, $record, $recordModel, $rawText);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
+	{
+		return $this->getDisplayPhoneValue($value, $record, $recordModel, $rawText);
+	}
+
+	/**
+	 * The function displays the contents of the phone.
+	 *
+	 * @param mixed                    $value
+	 * @param int|bool                 $record
+	 * @param Vtiger_Record_Model|bool $recordModel
+	 * @param bool                     $rawText
+	 *
+	 * @return string
+	 */
+	public function getDisplayPhoneValue($value, $record, $recordModel, $rawText)
 	{
 		$extra = '';
 		if ($recordModel) {

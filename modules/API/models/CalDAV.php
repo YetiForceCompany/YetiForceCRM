@@ -4,8 +4,8 @@
  * Api CalDAV Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class API_CalDAV_Model
 {
@@ -291,7 +291,7 @@ class API_CalDAV_Model
 			'lastoccurence' => $extraData['lastOccurence'],
 			'uid' => $extraData['uid'],
 			'crmid' => $record['crmid'],
-			], ['id' => $calendar['id']]
+		], ['id' => $calendar['id']]
 		)->execute();
 		$this->addChange($calendar['uri'], 2);
 		\App\Log::trace(__METHOD__ . ' | End');
@@ -368,64 +368,10 @@ class API_CalDAV_Model
 	public function recordCreate($cal)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Cal ID' . $cal['id']);
-
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
-		foreach ($vcalendar->getBaseComponents() as $component) {
-			$type = (string) $component->name;
-			if ($type === 'VTODO' || $type === 'VEVENT') {
-				$dates = $this->getEventDates($component);
-				$record = Vtiger_Record_Model::getCleanInstance('Calendar');
-				$record->set('assigned_user_id', $this->user->get('id'));
-				$record->set('subject', \App\Purifier::purify((string) $component->SUMMARY));
-				$record->set('location', \App\Purifier::purify((string) $component->LOCATION));
-				$record->set('description', \App\Purifier::purify((string) $component->DESCRIPTION));
-				$record->set('allday', $dates['allday']);
-				$record->set('date_start', $dates['date_start']);
-				$record->set('due_date', $dates['due_date']);
-				$record->set('time_start', $dates['time_start']);
-				$record->set('time_end', $dates['time_end']);
-				$record->set('activitystatus', $this->getStatusFromDav($component, $type));
-				if ($type === 'VTODO') {
-					$record->set('activitytype', 'Task');
-				} else {
-					$record->set('activitytype', 'Meeting');
-				}
-				$record->set('taskpriority', $this->getPriorityFromDav($component));
-				$record->set('visibility', $this->getVisibility($component));
-				$record->set('state', $this->getStateFromDav($component));
-
-				$exclusion = AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
-				if ($exclusion !== false) {
-					foreach ($exclusion as $key => $value) {
-						if ($record->get($key) == $value) {
-							\App\Log::info(__METHOD__ . ' | End exclusion');
-
-							return false;
-						}
-					}
-				}
-				if (AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') !== false) {
-					$record->set('visibility', AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV'));
-				}
-				$record->save();
-
-				$dbCommand = \App\Db::getInstance()->createCommand();
-				$dbCommand->update('dav_calendarobjects', [
-					'crmid' => $record->getId(),
-					], ['id' => $cal['id']]
-				)->execute();
-				$dbCommand->update('vtiger_crmentity', [
-					'modifiedtime' => date('Y-m-d H:i:s', $cal['lastmodified']),
-					], ['crmid' => $record->getId()]
-				)->execute();
-				if ($type === 'VEVENT') {
-					$this->recordSaveAttendee($record, $component);
-				}
-			}
-		}
-
+		$record = Vtiger_Record_Model::getCleanInstance('Calendar');
+		$this->seveRecord($vcalendar, $cal, $record);
 		\App\Log::trace(__METHOD__ . ' | End');
-
 		return true;
 	}
 
@@ -441,7 +387,20 @@ class API_CalDAV_Model
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Cal ID:' . $cal['id']);
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
+		$this->seveRecord($vcalendar, $cal, $record);
+		\App\Log::trace(__METHOD__ . ' | End');
+		return true;
+	}
 
+	/**
+	 * Record seve.
+	 *
+	 * @param array               $vcalendar
+	 * @param Vtiger_Record_Model $record
+	 * @param array               $cal
+	 */
+	public function seveRecord($vcalendar, $cal, $record)
+	{
 		foreach ($vcalendar->getBaseComponents() as $component) {
 			$type = (string) $component->name;
 			if ($type === 'VTODO' || $type === 'VEVENT') {
@@ -482,20 +441,17 @@ class API_CalDAV_Model
 				$dbCommand = \App\Db::getInstance()->createCommand();
 				$dbCommand->update('dav_calendarobjects', [
 					'crmid' => $record->getId(),
-					], ['id' => $cal['id']]
+				], ['id' => $cal['id']]
 				)->execute();
 				$dbCommand->update('vtiger_crmentity', [
 					'modifiedtime' => date('Y-m-d H:i:s', $cal['lastmodified']),
-					], ['crmid' => $record->getId()]
+				], ['crmid' => $record->getId()]
 				)->execute();
 				if ($type === 'VEVENT') {
 					$this->recordSaveAttendee($record, $component);
 				}
 			}
 		}
-		\App\Log::trace(__METHOD__ . ' | End');
-
-		return true;
 	}
 
 	/**
@@ -781,7 +737,7 @@ class API_CalDAV_Model
 	{
 		App\Db::getInstance()->createCommand()->update('vtiger_activity', [
 			'dav_status' => 0,
-			], ['activityid' => $this->record['crmid']]
+		], ['activityid' => $this->record['crmid']]
 		)->execute();
 	}
 
@@ -1018,7 +974,7 @@ class API_CalDAV_Model
 					$dbCommand->update('u_#__activity_invitation', [
 						'status' => $status,
 						'time' => $timeFormated,
-						], ['activityid' => $record->getId(), 'email' => $value]
+					], ['activityid' => $record->getId(), 'email' => $value]
 					)->execute();
 				}
 				unset($invities[$value]);
