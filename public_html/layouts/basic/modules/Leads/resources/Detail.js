@@ -133,7 +133,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 	checkingModuleSelection: function (element) {
 		var instance = this;
 		var module = jQuery(element).val();
-		var moduleBlock = jQuery(element).closest('.accordion-group').find('#' + module + '_FieldInfo');
+		var moduleBlock = jQuery(element).closest('.convertLeadModules').find('#' + module + '_FieldInfo');
 		if (jQuery(element).is(':checked')) {
 			instance.removeDisableAttr(moduleBlock);
 		} else {
@@ -153,14 +153,21 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 	registerConvertLeadEvents: function () {
 		var container = this.getConvertLeadContainer();
 		var instance = this;
-
 		//Trigger Event to change the icon while shown and hidden the accordion body
-		container.on('hidden.bs.collapse', '.accordion-body', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			currentTarget.closest('.convertLeadModules').find('[data-fa-i2svg]').removeClass('fa-chevron-up').addClass('fa-chevron-down');
-		}).on('shown.bs.collapse', '.accordion-body', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			currentTarget.closest('.convertLeadModules').find('[data-fa-i2svg]').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+		container
+			.on('hidden.bs.collapse', '.collapse ', function (e) {
+				$(e.currentTarget)
+					.closest('.convertLeadModules')
+					.find('[data-fa-i2svg]')
+					.removeClass('fa-chevron-up')
+					.addClass('fa-chevron-down');
+		})
+			.on('shown.bs.collapse', '.collapse ', function (e) {
+				$(e.currentTarget)
+					.closest('.convertLeadModules')
+					.find('[data-fa-i2svg]')
+					.removeClass('fa-chevron-down')
+					.addClass('fa-chevron-up');
 		});
 
 		//Trigger Event on click of Transfer related records modules
@@ -179,7 +186,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		container.on('click', '.convertLeadModuleSelection', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var currentModuleName = currentTarget.val();
-			var moduleBlock = currentTarget.closest('.accordion-group').find('#' + currentModuleName + '_FieldInfo');
+			var moduleBlock = currentTarget.closest('.convertLeadModules').find('#' + currentModuleName + '_FieldInfo');
 			var currentTransferModuleElement = jQuery('#transfer' + currentModuleName);
 			var otherTransferModuleElement = jQuery('input[name="transferModule"]').not(currentTransferModuleElement);
 			var otherTransferModuleValue = jQuery(otherTransferModuleElement).val();
