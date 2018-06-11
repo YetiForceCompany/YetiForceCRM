@@ -557,46 +557,55 @@ $.Class("Vtiger_Header_Js", {
 		});
 	},
 	registerMobileEvents: function () {
-		var thisInstance = this;
+		const self = this;
 		$('.rightHeaderBtnMenu').on('click', function () {
-			thisInstance.hideActionMenu();
-			thisInstance.hideSearchMenu();
-			thisInstance.hideReminderNotice();
-			thisInstance.hideReminderNotification();
+			self.hideActionMenu();
+			self.hideSearchMenu();
+			self.hideReminderNotice();
+			self.hideReminderNotification();
 			$('.mobileLeftPanel ').toggleClass('mobileMenuOn');
 		});
 		$('.js-quick-action-btn').on('click', function () {
-			thisInstance.hideSearchMenu();
+			let currentTarget = $(this);
 			app.closeSidebar();
-			thisInstance.hideReminderNotice();
-			thisInstance.hideReminderNotification();
+			self.hideSearchMenu();
+			self.hideReminderNotice();
+			self.hideReminderNotification();
 			$('.actionMenu').toggleClass('actionMenuOn');
-			if ($(this).hasClass('active')) {
-				$(this).removeClass('active');
-				$(this).attr('aria-expanded', 'false');
-				$(this).popover();
+			if (currentTarget.hasClass('active')) {
+				currentTarget.removeClass('active');
+				currentTarget.attr('aria-expanded', 'false');
+				currentTarget.popover();
 			} else {
-				$(this).addClass('active');
-				$(this).attr('aria-expanded', 'true');
-				$(this).popover('disable');
+				currentTarget.addClass('active');
+				currentTarget.attr('aria-expanded', 'true');
+				currentTarget.popover('disable');
 			}
 			$('.quickCreateModules').on('click', function () {
-				thisInstance.hideActionMenu();
+				self.hideActionMenu();
 			});
 		});
 		$('.searchMenuBtn').on('click', function () {
-			thisInstance.hideActionMenu();
+			let currentTarget = $(this);
 			app.closeSidebar();
-			thisInstance.hideReminderNotice();
-			thisInstance.hideReminderNotification();
+			self.hideActionMenu();
+			self.hideReminderNotice();
+			self.hideReminderNotification();
 			$('.searchMenu').toggleClass('toogleSearchMenu');
-			if ($(this).hasClass('active')) {
-				$(this).removeClass('active');
+			if (currentTarget.hasClass('active')) {
+				currentTarget.removeClass('active');
 				$('.searchMenuBtn .c-header__btn').attr('aria-expanded', 'false');
 			} else {
-				$(this).addClass('active');
+				currentTarget.addClass('active');
 				$('.searchMenuBtn .c-header__btn').attr('aria-expanded', 'true');
 			}
+		});
+		$('.js-header__btn--mail .dropdown').on('show.bs.dropdown', function () {
+			app.closeSidebar();
+			self.hideActionMenu();
+			self.hideReminderNotice();
+			self.hideReminderNotification();
+			self.hideSearchMenu();
 		});
 	},
 	hideMobileMenu: function () {

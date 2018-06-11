@@ -1,11 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<div class="row conditionsContainer" id="save_fieldvaluemapping">
-	<div class="row basicAddFieldContainer conditionRow padding-bottom1per w-100">
-		<div class="col-md-2"><strong>{\App\Language::translate('LBL_SUM_VALUE_INVOICE_FIELD',$QUALIFIED_MODULE)}</strong></div>
-		<span class="col-md-8">
+<div class="tpl-Settings-Workflows-Tasks-VTUpdateInvoiceFields js-conditions-container" id="save_fieldvaluemapping"
+	 data-js="container">
+	<div class="row js-add-basic-field-container js-conditions-row w-100 mb-2" data-js="clone | container">
+		<div class="col-md-3 align-self-md-center"><strong>{\App\Language::translate('LBL_SUM_VALUE_INVOICE_FIELD',$QUALIFIED_MODULE)}</strong></div>
+		<div class="col-md-4">
 			<select name="source_fieldname" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}"
-					class="form-control">
+					class="select2 form-control">
 				<option></option>
 				{foreach from=$MODULE_MODEL->getFieldsByType(['currency', 'boolean', 'double']) item=FIELD_MODEL}
 					{$FIELD_MODEL->getName()} - {$FIELD_MODEL->getFieldDataType()}
@@ -24,14 +25,13 @@
 					</option>
 				{/foreach}
 			</select>
-		</span>
+		</div>
 	</div>
-
-	<div class="row basicAddFieldContainer conditionRow padding-bottom1per w-100">
-		<div class="col-md-2"><strong>{\App\Language::translate('LBL_SET_FIELD_VALUES',$QUALIFIED_MODULE)}</strong></div>
-		<span class="col-md-8">
+	<div class="row js-add-basic-field-container js-conditions-row w-100" data-js="clone | container">
+		<div class="col-md-3 align-self-md-center"><strong>{\App\Language::translate('LBL_SET_FIELD_VALUES',$QUALIFIED_MODULE)}</strong></div>
+		<div class="col-md-4">
 			<select name="target_fieldname" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}"
-					class="form-control">
+					class="select2 form-control">
 				<option></option>
 				{foreach item=REFERENCE_FIELD from=$MODULE_MODEL->getFieldsByReference()}
 					{foreach from=$REFERENCE_FIELD->getReferenceList() item=RELATION_MODULE_NAME}
@@ -54,7 +54,7 @@
 					{/foreach}
 				{/foreach}
 			</select>
-		</span>
+		</div>
 	</div>
 </div>
 {/strip}

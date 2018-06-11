@@ -30,7 +30,7 @@ Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js', {}, {
 	 */
 	addNewCondition: function (conditionGroupElement) {
 		var basicElement = jQuery('.basic', conditionGroupElement);
-		var newRowElement = basicElement.find('.conditionRow').clone(true, true);
+		var newRowElement = basicElement.find('.js-conditions-row').clone(true, true);
 		jQuery('select', newRowElement).addClass('chzn-select');
 		var conditionList = jQuery('.conditionList', conditionGroupElement);
 		conditionList.append(newRowElement);
@@ -48,7 +48,7 @@ Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js', {}, {
 	 * @return : select element which will represent the condition element
 	 */
 	loadConditions: function (fieldSelect) {
-		var row = fieldSelect.closest('div.conditionRow');
+		var row = fieldSelect.closest('div.js-conditions-row');
 		var conditionSelectElement = row.find('select[name="comparator"]');
 		var conditionSelected = row.find('[name="comparatorValue"]').val();
 		var fieldSelected = fieldSelect.find('option:selected');
@@ -105,7 +105,7 @@ Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js', {}, {
 		conditionGroups.each(function (index, domElement) {
 			var groupElement = jQuery(domElement);
 
-			var conditions = jQuery('.conditionList .conditionRow', groupElement);
+			var conditions = jQuery('.conditionList .js-conditions-row', groupElement);
 			if (conditions.length <= 0) {
 				return true;
 			}

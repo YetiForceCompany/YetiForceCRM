@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 .c-header {
-	background-color: $y-navbar-background;
+	background-color: $bg-navbar;
 	top: 0;
 	right: 0;
 	z-index: 1031;
@@ -23,7 +23,7 @@
 		padding-left: 0.3rem;
 		padding-right: 0.3rem;
 		font-size: 17px;
-		line-height: $menuItemsHeight;
+		line-height: $h-menu-items;
 	}
 
 	.o-navbar__left {
@@ -32,31 +32,15 @@
 		}
 	}
 
-	.o-navbar__right {
-		.c-header__btn {
-			@extend .ml-2;
-		}
-	}
-
-	.headerLinksMails {
+	.c-header__btn__container {
 		height: fit-content;
 		width: fit-content;
-
-		> .btn + .dropdown-toggle {
-			padding-top: 7px;
-			padding-bottom: 7px;
-		}
-
 		.dropdown-menu {
 			left: auto;
 			right: 0;
 		}
-
-		.btn {
-			@extend .m-0;
-			@extend .px-2;
-			height: $menu-items-right-height;
-			font-size: $font-size-sm;
+		.c-header__btn {
+			height: $h-menu-right-items;
 		}
 	}
 }
@@ -75,10 +59,10 @@
 	visibility: hidden;
 	position: fixed;
 	right: -380px;
-	top: $headerHeight;
+	top: $h-header;
 	z-index: 1035;
 	width: 380px;
-	height: $mainViewportHeight;
+	height: $h-main-viewport;
 	overflow-y: auto;
 	background: rgba(0, 0, 0, 0.4);
 	border-left: 1px solid #797979;
@@ -122,9 +106,9 @@
 
 .modalRightSiteBar {
 	margin: 0;
-	height: $mainViewportHeight;
+	height: $h-main-viewport;
 	right: 0;
-	top: $headerHeight;
+	top: $h-header;
 	position: fixed !important;
 	z-index: 1070;
 	overflow: hidden;
@@ -246,8 +230,8 @@
 		top: 50px;
 		width: 100%;
 		width: calc(100% - 50px);
-		color: $y-navbar-font-color;
-		background-color: lighten($y-navbar-background, 5%);
+		color: $color-navbar;
+		background-color: lighten($bg-navbar, 5%);
 		z-index: 2000;
 		padding: 30px;
 		-webkit-transition: right ease-in-out 0.35s;
@@ -258,7 +242,6 @@
 		}
 	}
 }
-
 .searchMenu.toogleSearchMenu {
 	.o-search-menu__container {
 		right: 0;
@@ -291,8 +274,8 @@
 			top: 50px;
 			max-height: calc(100vh - 50px);
 			width: 100%;
-			color: $y-navbar-font-color;
-			background-color: lighten($y-navbar-background, 5%);
+			color: $color-navbar;
+			background-color: lighten($bg-navbar, 5%);
 			z-index: 2000;
 			padding: 30px;
 			-webkit-transition: right ease-in-out 0.35s;
@@ -367,7 +350,8 @@
 			width: 100%;
 		}
 
-		.c-header__btn {
+		.c-header__btn:not(.c-header__btn--mobile),
+		.c-header__btn__container {
 			margin-bottom: 0.25rem;
 		}
 	}

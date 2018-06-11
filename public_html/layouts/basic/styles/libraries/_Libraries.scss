@@ -61,15 +61,15 @@
 header {
 	.globalSearchInput .select2-selection.select2-selection--single {
 		font-size: $font-size-sm !important;
-		height: $menuItemsHeight !important;
+		height: $h-menu-items !important;
 	}
 
 	.select2WithButtonWidth {
-		width: calc(100% - #{$iconButtonWidth});
+		width: calc(100% - #{$w-icon-button});
 	}
 
-	.headerLinksMails .select2-selection {
-		height: $menu-items-right-height;
+	.c-header__btn__container .select2-selection {
+		height: $h-menu-right-items;
 
 		&:hover {
 			background: $dark !important;
