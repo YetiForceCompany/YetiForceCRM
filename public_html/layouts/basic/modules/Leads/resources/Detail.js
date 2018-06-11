@@ -155,14 +155,14 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		var instance = this;
 		//Trigger Event to change the icon while shown and hidden the accordion body
 		container
-			.on('hide.bs.collapse', '.collapse ', function (e) {
+			.on('hide.bs.collapse', '.js-collapse ', function (e) {
 				$(e.currentTarget)
 					.closest('.convertLeadModules')
 					.find('[data-fa-i2svg]')
 					.removeClass('fa-chevron-up')
 					.addClass('fa-chevron-down');
 		})
-			.on('show.bs.collapse', '.collapse ', function (e) {
+			.on('show.bs.collapse', '.js-collapse ', function (e) {
 				$(e.currentTarget)
 					.closest('.convertLeadModules')
 					.find('[data-fa-i2svg]')
@@ -232,7 +232,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 			var invalidFields = formElement.data('jqv').InvalidFields;
 			if (invalidFields.length > 0) {
 				var fieldElement = invalidFields[0];
-				var moduleBlock = jQuery(fieldElement).closest('div.accordion-body');
+				var moduleBlock = jQuery(fieldElement).closest('.js-collapse');
 				moduleBlock.collapse('show');
 				e.preventDefault();
 				return;
