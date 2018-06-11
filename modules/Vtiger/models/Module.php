@@ -817,7 +817,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (isset($this->entityInstance)) {
 			return $this->entityInstance;
 		}
-
 		return $this->entityInstance = CRMEntity::getInstance($this->getName());
 	}
 

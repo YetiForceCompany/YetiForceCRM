@@ -692,7 +692,6 @@ class QueryGenerator
 			}
 			$this->buildedQuery = $this->query;
 		}
-
 		return $this->buildedQuery;
 	}
 

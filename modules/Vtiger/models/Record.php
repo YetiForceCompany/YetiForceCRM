@@ -183,7 +183,6 @@ class Vtiger_Record_Model extends \App\Base
 	public function setModuleFromInstance($module)
 	{
 		$this->module = $module;
-
 		return $this;
 	}
 
@@ -197,7 +196,6 @@ class Vtiger_Record_Model extends \App\Base
 		if (empty($this->entity)) {
 			$this->entity = CRMEntity::getInstance($this->getModuleName());
 		}
-
 		return $this->entity;
 	}
 
@@ -211,7 +209,6 @@ class Vtiger_Record_Model extends \App\Base
 	public function setEntity($entity)
 	{
 		$this->entity = $entity;
-
 		return $this;
 	}
 
