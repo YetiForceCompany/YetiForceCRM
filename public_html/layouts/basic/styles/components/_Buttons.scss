@@ -5,6 +5,10 @@
 	@include button-variant(#ddd, #ddd);
 }
 
+.btn-white {
+	@include button-variant(#fff, #fff);
+}
+
 @include media-breakpoint-down(sm) {
 	.c-btn-block-sm-down {
 		width: 100% !important;
