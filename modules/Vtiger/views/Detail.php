@@ -678,6 +678,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$columns = $request->get('col');
 		$moduleName = $request->getModule();
 		$totalCount = $request->getInteger('totalCount');
+		if ($request->isEmpty('relatedView', true)) {
+			$relatedView = empty($_SESSION['relatedView'][$moduleName][$relatedModuleName]) ? 'List' : $_SESSION['relatedView'][$moduleName][$relatedModuleName];
+		} else {
+			$relatedView = $request->getByType('relatedView');
+			$_SESSION['relatedView'][$moduleName][$relatedModuleName] = $relatedView;
+		}
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
@@ -737,6 +743,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($request->has('fields')) {
 			$relationListView->setFields($request->getExploded('fields'));
 		}
+		if ($relatedView === 'ListPreview') {
+			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
+		}
 		$models = $relationListView->getEntries($pagingModel);
 		$header = $relationListView->getHeaders();
 		$links = $relationListView->getLinks();
@@ -761,6 +770,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_LIST_LINKS', $links);
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
+		$viewer->assign('RELATED_VIEW', $relatedView);
 		$viewer->assign('RELATION_FIELD', $relationField);
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
@@ -784,6 +794,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COLUMNS', $columns);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->privilegeToDelete());
+		$viewer->assign('INVENTORY_FIELDS', $relationModel->getRelationInventoryFields());
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
