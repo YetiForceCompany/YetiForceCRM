@@ -18,6 +18,7 @@ matrix:
 branches:
   only:
     - developer
+    - /^greenkeeper/.*$/
    
 services:
   - mysql
