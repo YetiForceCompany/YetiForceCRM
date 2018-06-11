@@ -14,9 +14,10 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 	 */
 	deleteRecord: function (deleteRecordActionUrl) {
 		var message = app.vtranslate('LBL_DELETE_USER_CONFIRMATION');
-		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(function (data) {
-				AppConnector.request(deleteRecordActionUrl).then(
-					function (data) {
+		Vtiger_Helper_Js.showConfirmationBox({'message': message})
+			.done(function (data) {
+				AppConnector.request(deleteRecordActionUrl)
+					.done(function (data) {
 						if (data) {
 							var callback = function (data) {
 								var params = app.validationEngineOptions;
@@ -35,10 +36,10 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 							});
 						}
 					});
-			},
-			function (error, err) {
-			}
-		);
+			})
+			.fail(function (error, err) {
+				console.error(error, err)
+			});
 	},
 	deleteUser: function (form) {
 		var listInstance = Vtiger_List_Js.getInstance();
@@ -57,8 +58,8 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 			'userid': userid,
 			'permanent': jQuery('[name="deleteUserPermanent"]:checked', form).val()
 		};
-		AppConnector.request(params).then(
-			function (data) {
+		AppConnector.request(params)
+			.done(function (data) {
 				if (data.success) {
 					app.hideModalWindow();
 					progressInstance.progressIndicator({
@@ -73,7 +74,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 					};
 					jQuery('#recordsCount').val('');
 					jQuery('#totalPageCount').text('');
-					listInstance.getListViewRecords(urlParams).then(function () {
+					listInstance.getListViewRecords(urlParams).done(function () {
 						listInstance.updatePagination();
 					});
 					params = {
@@ -83,8 +84,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 					};
 					Vtiger_Helper_Js.showPnotify(params);
 				}
-			}
-		);
+			});
 	},
 	/*
 	 *Function to delete a user permanently
@@ -94,10 +94,10 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		e.stopPropagation();
 		var message = app.vtranslate('LBL_DELETE_USER_PERMANENT_CONFIRMATION');
 		var deleteRecordActionUrl = 'index.php?module=' + app.getModuleName() + '&parent=' + app.getParentModuleName() + '&view=DeleteUser&mode=permanent&record=' + userId;
-		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-			function (data) {
-				AppConnector.request(deleteRecordActionUrl).then(
-					function (data) {
+		Vtiger_Helper_Js.showConfirmationBox({'message': message})
+			.done(function (data) {
+				AppConnector.request(deleteRecordActionUrl)
+					.done(function (data) {
 						if (data) {
 							var callback = function (data) {
 								var params = app.validationEngineOptions;
@@ -117,8 +117,8 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 											'mode': 'permanent'
 										};
 										app.hideModalWindow();
-										AppConnector.request(params).then(
-											function (response) {
+										AppConnector.request(params)
+											.done(function (response) {
 												if (response.success) {
 													progressInstance.progressIndicator({
 														'mode': 'hide'
@@ -131,8 +131,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 													Vtiger_Helper_Js.showPnotify(params);
 													jQuery('[data-id=' + userId + "]").hide();
 												}
-											}
-										);
+											});
 									}
 									return false;
 								};
@@ -145,8 +144,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 							});
 						}
 					});
-			}
-		);
+			});
 	},
 	/*
 	 *Function to restore Inactive User
@@ -156,32 +154,32 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		e.stopPropagation();
 		Vtiger_Helper_Js.showConfirmationBox({
 			'message': app.vtranslate('LBL_RESTORE_CONFIRMATION')
-		}).then(function () {
-			var progressInstance = jQuery.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
-				}
-			});
-			var params = {
-				'module': app.getModuleName(),
-				'action': "SaveAjax",
-				'userid': userId,
-				'mode': 'restoreUser'
-			};
-			AppConnector.request(params).then(
-				function (response) {
-					if (response.success) {
-						progressInstance.progressIndicator({
-							'mode': 'hide'
-						});
-						Vtiger_Helper_Js.showPnotify(response.result.message);
-						var url = response.result.listViewUrl;
-						window.location.href = url;
+		})
+			.done(function () {
+				var progressInstance = jQuery.progressIndicator({
+					'position': 'html',
+					'blockInfo': {
+						'enabled': true
 					}
-				}
-			);
-		});
+				});
+				var params = {
+					'module': app.getModuleName(),
+					'action': "SaveAjax",
+					'userid': userId,
+					'mode': 'restoreUser'
+				};
+				AppConnector.request(params)
+					.done(function (response) {
+						if (response.success) {
+							progressInstance.progressIndicator({
+								'mode': 'hide'
+							});
+							Vtiger_Helper_Js.showPnotify(response.result.message);
+							var url = response.result.listViewUrl;
+							window.location.href = url;
+						}
+					});
+			});
 	},
 	triggerExportAction: function () {
 		var url = window.location.href;
@@ -242,8 +240,8 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 				parent: app.getParentModuleName(),
 				search_params: jQuery('#usersFilter').val()
 			};
-			AppConnector.request(params).then(
-				function (data) {
+			AppConnector.request(params)
+				.done(function (data) {
 					progressInstance.progressIndicator({
 						'mode': 'hide'
 					});
@@ -254,8 +252,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 						listSearchInstance.registerEvents();
 					}
 					App.Fields.Picklist.showSelect2ElementView(jQuery('#listViewContents').find('select.select2'));
-				}
-			);
+				});
 		});
 	},
 	updatePaginationFilter: function () {
@@ -267,10 +264,11 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		params['view'] = 'Pagination';
 		params['mode'] = 'getPagination';
 		params['search_params'] = jQuery('#usersFilter').val();
-		AppConnector.request(params).then(function (data) {
-			jQuery('.paginationDiv').html(data);
-			thisInstance.registerPageNavigationEvents();
-		});
+		AppConnector.request(params)
+			.done(function (data) {
+				jQuery('.paginationDiv').html(data);
+				thisInstance.registerPageNavigationEvents();
+			});
 	},
 	updatePagination: function (pageNumber) {
 		pageNumber = typeof pageNumber !== "undefined" ? pageNumber : 1;
@@ -286,10 +284,11 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		params['operator'] = "s";
 		params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams());
 		params['noOfEntries'] = jQuery('#noOfEntries').val();
-		AppConnector.request(params).then(function (data) {
-			jQuery('.paginationDiv').html(data);
-			thisInstance.registerPageNavigationEvents();
-		});
+		AppConnector.request(params)
+			.done(function (data) {
+				jQuery('.paginationDiv').html(data);
+				thisInstance.registerPageNavigationEvents();
+			});
 	},
 	registerEvents: function () {
 		this._super();

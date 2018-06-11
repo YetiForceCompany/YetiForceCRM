@@ -118,22 +118,24 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				e.preventDefault();
 			}
-			thisInstance.verifyFormData().then(function (data) {
-				if (data.result.message) {
-					Vtiger_Helper_Js.showPnotify(data.result.message);
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					e.preventDefault();
-				}
-			}, function (data, error) {
+			thisInstance.verifyFormData()
+				.done(function (data) {
+					if (data.result.message) {
+						Vtiger_Helper_Js.showPnotify(data.result.message);
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						e.preventDefault();
+					}
+				})
+				.fail(function (data, error) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				e.preventDefault();
-			});
+				});
 		});
 	},
 	verifyFormData: function () {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
-		thisInstance.verifyData().then(function (data) {
+		thisInstance.verifyData().done(function (data) {
 			aDeferred.resolve(data);
 		}, function (data, error) {
 			aDeferred.reject();

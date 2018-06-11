@@ -53,57 +53,7 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 			'userid': userid,
 			'permanent': form.find('[name="deleteUserPermanent"]:checked').val()
 		};
-		AppConnector.request(params).then(
-			function (data) {
-				if (data.success) {
-					app.hideModalWindow();
-					Vtiger_Helper_Js.showPnotify(app.vtranslate(data.result.message));
-					var url = data.result.listViewUrl;
-					window.location.href = url;
-				}
-			}
-		);
-	},
-	triggerTransferOwner: function (transferOwnerUrl) {
-		var message = app.vtranslate('LBL_TRANSFEROWNER_CONFIRMATION');
-		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(function (data) {
-				AppConnector.request(transferOwnerUrl).then(
-					function (data) {
-						if (data) {
-							var callback = function (data) {
-								var params = app.validationEngineOptions;
-								params.onValidationComplete = function (form, valid) {
-									if (valid) {
-										Users_Detail_Js.transferOwner(form);
-									}
-									return false;
-								};
-								jQuery('#transferOwner').validationEngine(app.validationEngineOptions);
-							};
-							app.showModalWindow(data, function (data) {
-								if (typeof callback == 'function') {
-									callback(data);
-								}
-							});
-						}
-					});
-			},
-			function (error, err) {
-			}
-		);
-	},
-	transferOwner: function (form) {
-		var userid = form.find('[name="userid"]').val();
-		var transferUserId = form.find('[name="tranfer_owner_id"]').val();
-
-		var params = {
-			'module': app.getModuleName(),
-			'action': "SaveAjax",
-			'mode': 'transferOwner',
-			'transfer_user_id': transferUserId,
-			'userid': userid
-		};
-		AppConnector.request(params).then(
+		AppConnector.request(params).done(
 			function (data) {
 				if (data.success) {
 					app.hideModalWindow();
@@ -168,12 +118,11 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 		var thisInstance = this;
 		var lock = false;
 		var recordId = this.getRecordId();
-
 		var data = {};
 		if (typeof fieldDetailList !== "undefined") {
 			data = fieldDetailList;
 			if (data['field'] == 'email1') {
-				thisInstance.usersEditInstance.checkEmail(data['value']).then(
+				thisInstance.usersEditInstance.checkEmail(data['value']).done(
 					function (data) {
 					},
 					function (data, error) {
@@ -192,7 +141,7 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 			params.data = data;
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).then(
+			AppConnector.request(params).done(
 				function (reponseData) {
 					aDeferred.resolve(reponseData);
 				}
