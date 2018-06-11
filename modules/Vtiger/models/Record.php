@@ -1296,7 +1296,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linklabel' => 'BTN_WATCHING_RECORD',
 				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 				'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
-				'linkclass' => 'btn-sm ' . ($watching ? 'btn-info' : 'btn-white'),
+				'linkclass' => 'btn-sm ' . ($watching ? 'btn-info' : 'btn-default'),
 				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			];
 		}
@@ -1396,8 +1396,8 @@ class Vtiger_Record_Model extends \App\Base
 					'linklabel' => 'BTN_WATCHING_RECORD',
 					'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 					'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
-					'linkclass' => 'btn-sm ' . ($watching ? 'btn-info' : 'btn-white'),
-					'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-info', 'off' => 'btn-white', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
+					'linkclass' => 'btn-sm ' . ($watching ? 'btn-info' : 'btn-default'),
+					'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			]);
 		}
 		if ($relationModel->privilegeToDelete() && $this->privilegeToMoveToTrash()) {
