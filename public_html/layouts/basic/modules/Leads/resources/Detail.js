@@ -155,14 +155,14 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		var instance = this;
 		//Trigger Event to change the icon while shown and hidden the accordion body
 		container
-			.on('hidden.bs.collapse', '.collapse ', function (e) {
+			.on('hide.bs.collapse', '.collapse ', function (e) {
 				$(e.currentTarget)
 					.closest('.convertLeadModules')
 					.find('[data-fa-i2svg]')
 					.removeClass('fa-chevron-up')
 					.addClass('fa-chevron-down');
 		})
-			.on('shown.bs.collapse', '.collapse ', function (e) {
+			.on('show.bs.collapse', '.collapse ', function (e) {
 				$(e.currentTarget)
 					.closest('.convertLeadModules')
 					.find('[data-fa-i2svg]')
