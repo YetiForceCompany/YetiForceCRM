@@ -32,11 +32,11 @@
 						<input type="hidden" name="record" value="{$RECORD->getId()}" />
 						<input type="hidden" name="modules" value='' />
 						<input type="hidden" name="create_account" value="{if $CONVERSION_CONFIG['create_always'] eq 'true'}1{/if}" />
-						<div class="modal-body accordion" id="leadAccordion">
+						<div class="modal-body" id="leadAccordion">
 							{foreach item=MODULE_FIELD_MODEL key=MODULE_NAME from=$CONVERT_LEAD_FIELDS}
-								<div class="accordion-group convertLeadModules">
-									<div class="header accordion-heading">
-										<div data-parent="#leadAccordion" data-toggle="collapse" class="card-header py-0 accordion-toggle table-bordered moduleSelection" href="#{$MODULE_NAME}_FieldInfo">
+								<div class="convertLeadModules">
+										<div class="card-header py-0 table-bordered moduleSelection u-cursor-pointer" href="#{$MODULE_NAME}_FieldInfo"
+											 data-toggle="collapse" data-target="#{$MODULE_NAME}_FieldInfo" aria-expanded="false" aria-controls="{$MODULE_NAME}_FieldInfo">
 											<div class="form-control-plaintext checkbox">
 												<label>
 													<input id="{$MODULE_NAME}Module" class="convertLeadModuleSelection alignBottom{if $MODULE_NAME === 'Accounts'} d-none{/if}" data-module="{App\Language::translate($MODULE_NAME,$MODULE_NAME)}" value="{$MODULE_NAME}" type="checkbox" checked="" />
@@ -46,8 +46,9 @@
 												<span class="float-right mr-2"><i class="iconArrow fas {if $CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME === "Accounts"}fa-chevron-up {else}fa-chevron-down {/if}alignBottom"></i></span>
 											</div>
 										</div>
-									</div>
-									<div id="{$MODULE_NAME}_FieldInfo" class="{$MODULE_NAME}_FieldInfo accordion-body collapse fieldInfo{if $MODULE_NAME eq 'Accounts'} in{/if}">
+									<div id="{$MODULE_NAME}_FieldInfo" class="{$MODULE_NAME}_FieldInfo accordion-body collapse fieldInfo{if $MODULE_NAME eq 'Accounts'} in{/if}"
+										 aria-labelledby="{$MODULE_NAME}_FieldInfo" data-parent="#leadAccordion"
+									>
 										<table class="table table-bordered moduleBlock">
 											{foreach item=FIELD_MODEL from=$MODULE_FIELD_MODEL}
 												<tr>
