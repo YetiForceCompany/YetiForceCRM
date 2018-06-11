@@ -233,8 +233,9 @@
     "LBL_OWNER_REKORD": "W\u0142a\u015bciciel rekordu",
     "LBL_SMTP": "SMTP",
     "LBL_CHECK_EMAIL_OPTOUT": "Sprawdzaj zgode na kontakt mailowy odbiorc\u00f3w",
-    "LBL_SUM_VALUE_INVOICE_FIELD": "Suma warto\u015bci faktur z pola",
-    "LBL_UPDATE_INVOICE_FIELD": "Aktualizuj sum\u0119 warto\u015bci faktur"
+    "LBL_SUMFIELDFROMDEPENDENT_SOURCE": "Pole kt\u00f3re ma by\u0107 sumowane",
+    "LBL_SUMFIELDFROMDEPENDENT_TARGET": "Pole do kt\u00f3rego zapisa\u0107 sum\u0119",
+    "LBL_SUM_FIELD_FROM_DEPENDENT": "Sumowanie warto\u015bci z p\u00f3l modu\u0142u zale\u017cnego "
   },
   "js": {
     "JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE": "Te same pola zaznaczono wi\u0119cej ni\u017c jedej raz",
