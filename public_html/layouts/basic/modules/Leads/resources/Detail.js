@@ -298,7 +298,6 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 
 		AppConnector.request(data).done(
 			function (reponseData) {
-				console.log(reponseData);
 				aDeferred.resolve(reponseData);
 			}
 		);
