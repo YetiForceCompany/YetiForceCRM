@@ -12,14 +12,7 @@
 	{if $LINK->get('linkhref')}<a role="button"{else}
 	<button type="button"{/if}{/strip} {strip}
 		{if !$LINK->isActive()} disabled {/if}{/strip} {strip}
-		class="btn mr-1 {if $LINK->getClassName() neq ''}
-				{if $LINK->getClassName()|strrpos:"btn-" === false}btn-outline-dark {/if}
-				{$LINK->getClassName()}{else}btn-outline-dark
-			{/if}
-			{if $LABEL neq '' && $LINK->get('showLabel') != '1'} js-popover-tooltip{/if}
-			{if $LINK->get('modalView')} showModal {/if}
-			{$MODULE}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)}"
-		data-js="popover"
+		class="btn {if $LINK->getClassName() neq ''}{if $LINK->getClassName()|strrpos:"btn-" === false}btn-outline-dark {/if}{$LINK->getClassName()}{else}btn-outline-dark{/if} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} js-popover-tooltip{/if} {if $LINK->get('modalView')}showModal{/if} {$MODULE}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)}" data-js="popover"
 		{if $LINK->get('linkdata') neq '' && is_array($LINK->get('linkdata'))}
 		{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
 	{/strip} {strip}
