@@ -806,7 +806,7 @@ Vtiger_Base_Validator_Js('Vtiger_Currency_Validator_Js', {
 			this.setError(errorInfo);
 			return false;
 		}
-		const maximumLength = fieldData.fieldinfo.maximumlength;
+		const maximumLength = typeof fieldData.fieldinfo !== 'undefined' ? fieldData.fieldinfo.maximumlength : null;
 		if (maximumLength && strippedValue > parseFloat(maximumLength)) {
 			errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
 			this.setError(errorInfo);

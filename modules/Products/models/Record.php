@@ -224,6 +224,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	public function getPriceDetailsForProduct($productId, $unitPrice, $available = 'available', $itemType = 'Products')
 	{
 		\App\Log::trace('Entering into function getPriceDetailsForProduct(' . $productId . ')');
+		$fieldInfo = $this->getField('unit_price')->getFieldInfo();
 		if ($productId) {
 			$productCurrencyId = \App\Fields\Currency::getCurrencyByModule($productId, $itemType);
 			$productBaseConvRate = self::getBaseConversionRateForProduct($productId, 'edit', $itemType);
@@ -269,6 +270,9 @@ class Products_Record_Model extends Vtiger_Record_Model
 				$priceDetails[$i]['curvalue'] = CurrencyField::convertToUserFormat($curValue, null, true);
 				$priceDetails[$i]['conversionrate'] = $actualConversionRate;
 				$priceDetails[$i]['is_basecurrency'] = $isBaseCurrency;
+				$fieldInfo['name'] = $priceDetails[$i]['curname'];
+				$fieldInfo['currency_symbol'] = $priceDetails[$i]['currencysymbol'];
+				$priceDetails[$i]['fieldInfo'] = $fieldInfo;
 				++$i;
 			}
 			$dataReader->close();
@@ -303,6 +307,9 @@ class Products_Record_Model extends Vtiger_Record_Model
 						$isBaseCurrency = true;
 					}
 					$priceDetails[$i]['is_basecurrency'] = $isBaseCurrency;
+					$fieldInfo['name'] = $priceDetails[$i]['curname'];
+					$fieldInfo['currency_symbol'] = $priceDetails[$i]['currencysymbol'];
+					$priceDetails[$i]['fieldInfo'] = $fieldInfo;
 					++$i;
 				}
 				$dataReader->close();
