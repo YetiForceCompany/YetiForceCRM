@@ -1,8 +1,8 @@
 {strip}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{assign var=IS_INVENTORY value=($RELATED_VIEW === 'List' && $RELATED_MODULE->isInventory() && !empty($INVENTORY_FIELDS))}
-	<input type="hidden" class="relatedView" value="{$RELATED_VIEW}">
 	{if !$TYPE_VIEW || $TYPE_VIEW eq 'List'}
+		<input type="hidden" class="relatedView" value="{$RELATED_VIEW}">
 		<div class="listViewEntriesDiv  contents-bottomscroll relatedContents">
 			<table class="table c-detail-widget__table listViewEntriesTable">
 				<thead>
