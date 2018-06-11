@@ -24,7 +24,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		instance.convertLeadForm = false;
 		instance.convertLeadModules = false;
 		if (jQuery.isEmptyObject(Leads_Detail_Js.cache)) {
-			AppConnector.request(convertLeadUrl).then(
+			AppConnector.request(convertLeadUrl).done(
 				function (data) {
 					if (data) {
 						Leads_Detail_Js.cache = data;
@@ -296,8 +296,9 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 		data['module'] = app.getModuleName();
 		data['action'] = 'SaveAjax';
 
-		AppConnector.request(data).then(
+		AppConnector.request(data).done(
 			function (reponseData) {
+				console.log(reponseData);
 				aDeferred.resolve(reponseData);
 			}
 		);
