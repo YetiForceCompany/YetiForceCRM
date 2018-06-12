@@ -1280,7 +1280,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	/**
 	 * Print html content as image
-	 * @param element
+	 * @param {jQuery} element
 	 */
 	printHtml(element) {
 		let widget = element.closest('.dashboardWidget'),
@@ -1304,7 +1304,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	/**
 	 * Download html content as image
-	 * @param element
+	 * @param {jQuery} element
 	 */
 	downloadHtmlAsImage(element) {
 		let widget = element.closest('.dashboardWidget'),
