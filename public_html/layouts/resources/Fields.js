@@ -817,15 +817,10 @@ App.Fields = {
 			}
 			container.each(function () {
 				const masterSelect = $(this),
-					slaveSelector = masterSelect.data('slave'),
 					slaveSelect = $(masterSelect.data('slave')),
-					data = masterSelect.data('data'),
-					sort = masterSelect.data('sort');
-				if (!slaveSelector) {
-					return app.errorLog("data-slave property missing");
-				}
+					data = masterSelect.data('data');
 				if (!slaveSelect.length) {
-					return app.errorLog("Could not find slave select element");
+					return app.errorLog("Could not find slave select element (data-slave attribute)");
 				}
 				if (!data) {
 					return app.errorLog("Could not load data (data-data attribute)");
@@ -847,7 +842,7 @@ App.Fields = {
 							}
 						}
 					}
-					if (sort) {
+					if (masterSelect.data('sort')) {
 						children.sort((a, b) => {
 							return a.text.localeCompare(b.text);
 						});
