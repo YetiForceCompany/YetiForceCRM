@@ -8,7 +8,6 @@
  *************************************************************************************/
 
 Vtiger_Detail_Js("Project_Detail_Js", {}, {
-	detailViewRecentTicketsTabLabel: 'Trouble Tickets',
 	/**
 	 * Function to register event for create related record
 	 * in summary view widgets
@@ -31,6 +30,30 @@ Vtiger_Detail_Js("Project_Detail_Js", {}, {
 			}
 		);
 	},
+	/**
+	 * Load gantt component
+	 */
+	loadGantt(){
+		let ganttContainer = $('.c-gantt', this.detailViewContentHolder);
+		if (ganttContainer.length) {
+			let gantt = new Project_Gantt_Js(this.detailViewContentHolder);
+			gantt.registerEvents();
+		}
+	},
+	/**
+	 * Load gantt component when needed
+	 */
+	registerGantt() {
+		this.loadGantt();
+		app.event.on('DetailView.Tab.AfterLoad', (e, data, instance) => {
+			instance.detailViewContentHolder.ready(() => {
+				this.loadGantt();
+			})
+		});
+	},
+	/**
+	 * Register events
+	 */
 	registerEvents: function () {
 		var detailContentsHolder = this.getContentHolder();
 		var thisInstance = this;
@@ -39,5 +62,6 @@ Vtiger_Detail_Js("Project_Detail_Js", {}, {
 			var recentTicketsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentTicketsTabLabel);
 			recentTicketsTab.trigger('click');
 		});
+		this.registerGantt();
 	}
 });
