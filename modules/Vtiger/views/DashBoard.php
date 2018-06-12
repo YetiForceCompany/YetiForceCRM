@@ -150,6 +150,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			'modules.' . $moduleName . '.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',
 			'~libraries/fullcalendar/dist/fullcalendar.js',
+			'~layouts/resources/fields/WaterfallSelect.js',
 		];
 
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));

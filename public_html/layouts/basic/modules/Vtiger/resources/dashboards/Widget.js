@@ -1335,6 +1335,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			this.positionNoDataMsg();
 		}
 		this.registerSectionClick();
+		App.Fields.Picklist.registerWaterfallSelect($('.js-waterfall-select', this.getContainer()));
 		this.registerFilter();
 		this.registerFilterChangeEvent();
 		this.restrictContentDrag();
