@@ -144,13 +144,10 @@
 														<input type="hidden" name="module_import_type" value="{$MODULEIMPORT_TYPE}">
 														<input type="hidden" name="module_import_name" value="{$MODULEIMPORT_NAME}">
 														<input type="hidden" name="mode" value="importUserModuleStep3">
-														<span class="col-md-6 float-right">
+														<span class="text-right">
 															{\App\Language::translate('LBL_PROCEED_WITH_IMPORT', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-															<div class="float-right cancelLinkContainer">
-																<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_NO', $MODULE)}</a>
-															</div>
-															<button  class="btn btn-success" type="submit" name="saveButton"
-																	 {if $need_license_agreement eq 'true'} disabled {/if}><strong>{\App\Language::translate('LBL_YES')}</strong></button>
+															<button  class="btn btn-success mx-2" type="submit" name="saveButton"{if $need_license_agreement eq 'true'} disabled {/if}><strong>{\App\Language::translate('LBL_YES')}</strong></button>
+															<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_NO', $MODULE)}</a>
 														</span>
 													{/if}
 												</div>
