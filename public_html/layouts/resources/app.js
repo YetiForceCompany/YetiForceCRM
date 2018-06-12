@@ -1427,6 +1427,7 @@ app = {
 	 * @return {Promise} with base64 string image as argument
 	 */
 	htmlToImage(element, callback, options = {imageType: 'image/png', logging: false}) {
+		element = $(element).get(0); // make sure we have HTMLElement not jQuery because it will not work
 		return html2canvas(element, options).then((canvas) => {
 			const base64Image = canvas.toDataURL(options.imageType);
 			if (typeof callback === 'function') {
