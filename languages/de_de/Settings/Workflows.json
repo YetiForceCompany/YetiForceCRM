@@ -232,7 +232,10 @@
     "Notify Account On New comment added to ticket": "Benachrichtige Organisation bei einem neuen Kommentar, welche dem Ticket hinzugef\u00fcgt wurde",
     "LBL_OWNER_REKORD": "Datensatz Verantwortlicher",
     "LBL_SMTP": "SMTP",
-    "LBL_CHECK_EMAIL_OPTOUT": "Pr\u00fcfen ob Empf\u00e4nger den Empfang der E-Mail best\u00e4tigt hat"
+    "LBL_CHECK_EMAIL_OPTOUT": "Pr\u00fcfen ob Empf\u00e4nger den Empfang der E-Mail best\u00e4tigt hat",
+    "LBL_SUMFIELDFROMDEPENDENT_SOURCE": "Field to be summed",
+    "LBL_SUMFIELDFROMDEPENDENT_TARGET": "Field where summation will be saved",
+    "LBL_SUM_FIELD_FROM_DEPENDENT": "Sum filed values from related module fields"
   },
   "js": {
     "JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE": "Dieselben Felder mehr als einmal ausgew\u00e4hlt",
