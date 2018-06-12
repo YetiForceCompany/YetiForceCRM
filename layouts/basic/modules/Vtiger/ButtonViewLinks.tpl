@@ -28,40 +28,38 @@
 				{foreach item=LINK from=$LINKS}
 					{if $LINK_TYPE && $LINK_TYPE neq $LINK->getType()}
 						<li class="dropdown-divider"></li>
-						{/if}
-						{assign var="LINK_TYPE" value=$LINK->getType()}
-						{assign var="LINK_URL" value=$LINK->getUrl()}
+					{/if}
+					{assign var="LINK_TYPE" value=$LINK->getType()}
+					{assign var="LINK_URL" value=$LINK->getUrl()}
 					<a class="dropdown-item quickLinks {$LINK->getClassName()}"
-					   {if $LINK->get('linkdata') neq ''}
-						   {foreach from=$LINK->get('linkdata') key=NAME item=DATA}
-							   {/strip} {strip}
-									   data-{$NAME}="{$DATA}"
-									   {/foreach}
-										   {/if}
-											   {/strip} {strip}
-													   {if $LINK_URL && stripos($LINK_URL, 'javascript:') === false}
-														   href="{$LINK_URL}"
-													   {elseif $LINK_URL}
-														   href="#"
-														   onclick='{$LINK_URL|substr:strlen("javascript:")}'
-													   {else}
-														   href="#"
-													   {/if}
-												   {/strip} {strip}
-													   {if $LINK->get('dataUrl')}
-														   data-url="{$LINK->get('dataUrl')}"
-													   {/if}
-												   {/strip} {strip}
-													   {if $LINK->get('style')}
-														   style="{$LINK->get('style')}"
-													   {/if}>
-													   {if $LINK->get('linkicon') neq ''}
-														   <span class="{$LINK->get('linkicon')}"></span>&nbsp;&nbsp;
-													   {/if}
-													   {\App\Language::translate($LINK->getLabel(), $MODULE_NAME)}
-												   </a>
-												   {/foreach}
-												   </div>
-											   </div>
-											   {/if}
-												   {/strip}
+							{if $LINK->get('linkdata') neq ''}
+								{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
+									{' '}data-{$NAME}="{$DATA}"
+								{/foreach}
+							{/if}
+							{' '}
+							{if $LINK_URL && stripos($LINK_URL, 'javascript:') === false}
+								href="{$LINK_URL}"
+							{elseif $LINK_URL}
+								href="#"
+								onclick='{$LINK_URL|substr:strlen("javascript:")}'
+							{else}
+								href="#"
+							{/if}
+							{if $LINK->get('dataUrl')}
+								{' '}data-url="{$LINK->get('dataUrl')}"
+							{/if}
+							{if $LINK->get('style')}
+							{' '}style="{$LINK->get('style')}"
+							{/if}>
+						{if $LINK->get('linkicon') neq ''}
+							<span class="{$LINK->get('linkicon')}"></span>
+							&nbsp;&nbsp;
+						{/if}
+						{\App\Language::translate($LINK->getLabel(), $MODULE_NAME)}
+					</a>
+				{/foreach}
+			</div>
+		</div>
+	{/if}
+{/strip}
