@@ -78,10 +78,9 @@ $.Class("Project_Gantt_Js", {}, {
 			app.setMainParams('pageToJump', '1');
 			app.setMainParams('orderBy', selectOption.data('orderby'));
 			app.setMainParams('sortOrder', selectOption.data('sortorder'));
-			var urlParams = {
+			thisInstance.getGanttData({
 				"viewname": jQuery(this).val(),
-			};
-			thisInstance.getGanttData(urlParams).then(function (data) {
+			}).then(function (data) {
 				thisInstance.breadCrumbsFilter(selectOption.text());
 				thisInstance.reloadData(data.result);
 			});
