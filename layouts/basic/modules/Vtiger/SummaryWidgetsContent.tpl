@@ -41,7 +41,13 @@
 							{assign var=COUNT value=$COUNT+1}
 							{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 							<td class="text-center {$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap>
-								{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
+								{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
+									<a class="modCT_{$RELATED_MODULE_NAME}"  title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}" href="{$RELATED_RECORD->getDetailViewUrl()}">
+										{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
+									</a>
+								{else}
+									{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
+								{/if}
 							</td>
 						{/foreach}
 						{if $SHOW_CREATOR_DETAIL}
@@ -129,7 +135,13 @@
 											<td class="fieldValue  {$WIDTHTYPE}">
 												<div class="form-row">
 													<div class="value u-text-ellipsis col-10 pr-0">
-														{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
+														{if ($HEADER_FIELD->isNameField() eq true) && $RELATED_RECORD->isViewable()}
+															<a class="modCT_{$RELATED_MODULE_NAME}" title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}" href="{$RELATED_RECORD->getDetailViewUrl()}">
+																{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}
+															</a>
+														{else}
+															{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
+														{/if}
 													</div>
 												</div>
 											</td>
