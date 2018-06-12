@@ -232,7 +232,13 @@
     "Notify Contact On New comment added to ticket": "Notifier le contact sur un nouveau commentaire ajout\u00e9 au ticket",
     "Security risk has been detected - Brute Force": "Risque de s\u00e9curit\u00e9 a \u00e9t\u00e9 d\u00e9tect\u00e9 - Brute Force",
     "Backup has been made": "La sauvegarde a \u00e9t\u00e9 effectu\u00e9e",
-    "Notify Account On New comment added to ticket": "Notifier le compte sur un nouveau commentaire ajout\u00e9 au ticket"
+    "Notify Account On New comment added to ticket": "Notifier le compte sur un nouveau commentaire ajout\u00e9 au ticket",
+    "LBL_OWNER_REKORD": "Record Owner",
+    "LBL_SMTP": "SMTP",
+    "LBL_CHECK_EMAIL_OPTOUT": "Verify if recipient agreed to receive e-mails",
+    "LBL_SUMFIELDFROMDEPENDENT_SOURCE": "Field to be summed",
+    "LBL_SUMFIELDFROMDEPENDENT_TARGET": "Field where summation will be saved",
+    "LBL_SUM_FIELD_FROM_DEPENDENT": "Sum filed values from related module fields"
   },
   "js": {
     "JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE": "Le m\u00eame champ est s\u00e9lectionn\u00e9 \u00e0 multiples reprises",
