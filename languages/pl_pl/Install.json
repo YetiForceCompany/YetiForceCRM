@@ -97,7 +97,7 @@
     "LBL_MIGRATION_ERROR": "Wyst\u0105pi\u0142 b\u0142\u0105d przy pr\u00f3bie migracji",
     "LBL_ERROR_NO_CONFIG": "B\u0142\u0119dny adres lokalny systemu",
     "LBL_WRONG_USERNAME_OR_PASSWORD": "B\u0142\u0119dny login lub has\u0142o",
-    "LBL_DESCRIPTION_CONDITIONS": "<strong>Uwaga: <\/strong>W trakcie migracji zostan\u0105 bezpowrotnie utracone wszystkie dane zwi\u0105zane z modu\u0142ami: MailManager, EmailTemplates, Workflows. <br \/> Migracja jest ci\u0105gle w fazie test\u00f3w, wi\u0119c nale\u017cy wykona\u0107 wszelkie mo\u017cliwe kopie i zabazpieczenia w przypadku wyst\u0105pienia nieprzewidzianych zdarze\u0144.",
+    "LBL_DESCRIPTION_CONDITIONS": "<strong>Uwaga: <\/strong>W trakcie migracji zostan\u0105 bezpowrotnie utracone wszystkie dane zwi\u0105zane z modu\u0142ami: MailManager, EmailTemplates, Workflows. \r\n Migracja jest ci\u0105gle w fazie test\u00f3w, wi\u0119c nale\u017cy wykona\u0107 wszelkie mo\u017cliwe kopie i zabazpieczenia w przypadku wyst\u0105pienia nieprzewidzianych zdarze\u0144.",
     "LBL_MIGRATION_IN_PROGRESS": "Trwa proces migracji",
     "LBL_SETUP_WIZARD_HEADER": "Kreator instalacji systemu YetiForce"
   },

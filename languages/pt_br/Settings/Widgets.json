@@ -53,7 +53,7 @@
     "LBL_CONDITION": "Condi\u00e7\u00e3o",
     "LBL_CONDITION_INFO": "Selecionar condi\u00e7\u00f5es para registros visualizados",
     "LBL_SHOW_ALL_RECORDS": "Mostrar todos os registros",
-    "LBL_SHOW_ALL_RECORDS_INFO": "N\u00e3o - Permiss\u00f5es s\u00e3o levadas em conta <br \/> Sim - Procurar registros exclu\u00edndo permiss\u00f5es",
+    "LBL_SHOW_ALL_RECORDS_INFO": "N\u00e3o - Permiss\u00f5es s\u00e3o levadas em conta \r\n Sim - Procurar registros exclu\u00edndo permiss\u00f5es",
     "LBL_SHITCH_HEADER": "Interruptor no cabe\u00e7alho",
     "LBL_SHITCH_HEADER_INFO": "Interruptor pode ser achado no cabe\u00e7alho do widget.",
     "HistoryRelation": "Linha do Tempo",

@@ -6,7 +6,7 @@
     "LBL_ADD_RECORD": "Ajouter un enregistrement",
     "PickListDependency": "PickList D\u00e9pendance",
     "LBL_CONFIGURE_DEPENDENCY_HELP_1": "Seules les valeurs de liste de s\u00e9lection mapp\u00e9es du champ source seront affich\u00e9es ci-dessous (sauf pour la premi\u00e8re fois)",
-    "LBL_CONFIGURE_DEPENDENCY_HELP_2": "Si vous souhaitez voir ou modifier le mapping pour les autres valeurs de liste de s\u00e9lection du champ source, <br \/> vous pouvez ensuite s\u00e9lectionner les valeurs en cliquant sur le bouton <b>'S\u00e9lectionner les valeurs source'<\/b> sur le c\u00f4t\u00e9 droit",
+    "LBL_CONFIGURE_DEPENDENCY_HELP_2": "Si vous souhaitez voir ou modifier le mapping pour les autres valeurs de liste de s\u00e9lection du champ source, \r\n vous pouvez ensuite s\u00e9lectionner les valeurs en cliquant sur le bouton <b>'S\u00e9lectionner les valeurs source'<\/b> sur le c\u00f4t\u00e9 droit",
     "LBL_CONFIGURE_DEPENDENCY_HELP_3": "Les valeurs s\u00e9lectionn\u00e9es des valeurs du champ cible sont mises en surbrillance",
     "LBL_CONFIGURE_DEPENDENCY_INFO": "Cliquez sur la cellule correspondante pour modifier le mappage des valeurs de liste de s\u00e9lection du champ cible",
     "LBL_ERR_CYCLIC_DEPENDENCY": "Cette configuration de d\u00e9pendance n'est pas autoris\u00e9e car elle se termine par une d\u00e9pendance cyclique",

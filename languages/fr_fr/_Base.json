@@ -559,7 +559,7 @@
     "LBL_MAX_UPLOAD_SIZE": "Taille maximum de chargement est",
     "LBL_May": "Mai",
     "LBL_MERGE": "Fusionner",
-    "LBL_MERGE_RECORDS_DESCRIPTION": "L'enregistement initial sera conserv\u00e9 apr\u00e8s la fusion. Vous pouvez s\u00e9lectionner les colonnes \u00e0 conserver.<br \/>Les autres enregistrements seront effac\u00e9s mais les informations li\u00e9es seront conserv\u00e9es.",
+    "LBL_MERGE_RECORDS_DESCRIPTION": "L'enregistement initial sera conserv\u00e9 apr\u00e8s la fusion. Vous pouvez s\u00e9lectionner les colonnes \u00e0 conserver.\r\nLes autres enregistrements seront effac\u00e9s mais les informations li\u00e9es seront conserv\u00e9es.",
     "LBL_MERGE_RECORDS_IN": "Fusionner les enregistrements dans",
     "LBL_MERGE_SELECT": "S\u00e9lection pour la fusion",
     "LBL_MERGING_CRITERIA_SELECTION": "Crit\u00e8res de fusion",

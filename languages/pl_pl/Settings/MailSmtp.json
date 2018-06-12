@@ -30,6 +30,6 @@
     "LBL_CREATE_SMTP": "Utw\u00f3rz SMTP",
     "LBL_SMTP_DETAIL": "Szczeg\u00f3\u0142y SMTP",
     "LBL_INDIVIDUAL_DELIVERY_INFO": "Wiadomo\u015bci email b\u0119d\u0105 wysy\u0142ane oddzielnie do ka\u017cdego z odbiorc\u00f3w",
-    "LBL_OPTIONS_INFO": "Przyk\u0142adowe parametry dodatkowe(Json):<br \/> {<br \/>  &quot;ssl&quot;: {<br \/>    &quot;verify_peer&quot;:false,<br \/>    &quot;verify_peer_name&quot;:false,<br \/>    &quot;allow_self_signed&quot;:true<br \/>  }<br \/>}"
+    "LBL_OPTIONS_INFO": "Przyk\u0142adowe parametry dodatkowe(Json):\r\n {\r\n  &quot;ssl&quot;: {\r\n    &quot;verify_peer&quot;:false,\r\n    &quot;verify_peer_name&quot;:false,\r\n    &quot;allow_self_signed&quot;:true\r\n  }\r\n}"
   }
 }

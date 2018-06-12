@@ -370,7 +370,7 @@
     "LBL_MAX_UPLOAD_SIZE": "Dimensiunea maxima de incarcare este",
     "LBL_May": "Mai",
     "LBL_MERGE": "Imbina",
-    "LBL_MERGE_RECORDS_DESCRIPTION": "Inregistrarea primara va fi pastrata dupa imbinare. Puteti selecta coloana pentru a pastra valorile<br \/>Cealalta inregistrare va fi stearsa, dar informatiile asociate vor fi fuzionate.",
+    "LBL_MERGE_RECORDS_DESCRIPTION": "Inregistrarea primara va fi pastrata dupa imbinare. Puteti selecta coloana pentru a pastra valorile\r\nCealalta inregistrare va fi stearsa, dar informatiile asociate vor fi fuzionate.",
     "LBL_MERGE_RECORDS_IN": "Imbinati inregistrarile in",
     "LBL_MERGE_SELECT": "Selecteaza pentru imbinare",
     "LBL_MERGING_CRITERIA_SELECTION": "Selectare criteriu imbinare",

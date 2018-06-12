@@ -374,7 +374,7 @@
     "LBL_MAX_UPLOAD_SIZE": "Tamanho m\u00e1ximo de upload \u00e9",
     "LBL_May": "Mai",
     "LBL_MERGE": "Mesclar",
-    "LBL_MERGE_RECORDS_DESCRIPTION": "O registro original ser\u00e1 mantido ap\u00f3s mesclagem. Voc\u00ea pode selecionar a coluna para manter o valor.<br \/>O outro registro ser\u00e1 exclu\u00eddo, mas a informa\u00e7\u00e3o relacionada ser\u00e1 mesclada.",
+    "LBL_MERGE_RECORDS_DESCRIPTION": "O registro original ser\u00e1 mantido ap\u00f3s mesclagem. Voc\u00ea pode selecionar a coluna para manter o valor.\r\nO outro registro ser\u00e1 exclu\u00eddo, mas a informa\u00e7\u00e3o relacionada ser\u00e1 mesclada.",
     "LBL_MERGE_RECORDS_IN": "Mesclar Registros em",
     "LBL_MERGE_SELECT": "Select for merging",
     "LBL_MERGING_CRITERIA_SELECTION": "Selecione Crit\u00e9rios Mesclagem",

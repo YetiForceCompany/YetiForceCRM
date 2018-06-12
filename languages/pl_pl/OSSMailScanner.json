@@ -111,7 +111,7 @@
     "Manually stopped": "Przerwano r\u0119cznie",
     "stop_user": "Zatrzyma\u0142 skanowanie",
     "Email_Subject": "Powiadomienie: CRON wykonuje si\u0119 za d\u0142ugo",
-    "Email_Body": "Witaj<br \/><br \/>CRON wykonuje si\u0119 za d\u0142ugo, sprawd\u017a czy system pocztowy dzia\u0142a poprawnie.<br \/><br \/>Pozdrawia Admin",
+    "Email_Body": "Witaj\r\n\r\nCRON wykonuje si\u0119 za d\u0142ugo, sprawd\u017a czy system pocztowy dzia\u0142a poprawnie.\r\n\r\nPozdrawia Admin",
     "Email_FromName": "Skaner poczty",
     "JS_info_restart_ok": "Odblokowano crona",
     "permissions_all": "Widoczne dla wszystkich",

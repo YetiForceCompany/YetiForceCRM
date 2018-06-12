@@ -76,7 +76,7 @@
     "LBL_TREE_TEMPLATE": "Vorlage Baumstruktur",
     "Tree": "Baumstruktur",
     "CategoryMultipicklist": "Strukturfeld (Mehrfachauswahl)",
-    "LBL_FIELD_MASK_INFO": "Standard Maskendefinition <br \/>9: Numerisch<br \/>a: Alphabetisch<br \/>*: Alphanumerisch<br \/><br \/>Beispiel:<br \/>(99) 9999-9999<br \/>+48 999-999-999<br \/>aaa_999_aaa<br \/>dd\/mm\/yyyy",
+    "LBL_FIELD_MASK_INFO": "Standard Maskendefinition \r\n9: Numerisch\r\na: Alphabetisch\r\n*: Alphanumerisch\r\n\r\nBeispiel:\r\n(99) 9999-9999\r\n+48 999-999-999\r\naaa_999_aaa\r\ndd\/mm\/yyyy",
     "MultiReferenceValue": "Werte aus dem verk\u00fcpften Modul",
     "LBL_MULTI_REFERENCE_VALUE_MODULES": "verkn\u00fcpftes Modul",
     "LBL_MULTI_REFERENCE_VALUE_FIELDS": "verkn\u00fcpftes Feld",

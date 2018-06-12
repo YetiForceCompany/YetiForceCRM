@@ -53,7 +53,7 @@
     "LBL_SELECT_BUTTON_INFO": "Activer le boutton s\u00e9lection",
     "LBL_CONDITION_INFO": "S\u00e9lectionner une condition pour afficher les enregistrements",
     "LBL_SHOW_ALL_RECORDS": "Montrer tous les enregistrementrs",
-    "LBL_SHOW_ALL_RECORDS_INFO": "Non - Les droits d'acc\u00e8s sont pris en compte <br \/> Oui - Recherche parmi tous les enregistrements",
+    "LBL_SHOW_ALL_RECORDS_INFO": "Non - Les droits d'acc\u00e8s sont pris en compte \r\n Oui - Recherche parmi tous les enregistrements",
     "LBL_SHITCH_HEADER": "Basculer dans l'en-t\u00eate",
     "LBL_SHITCH_HEADER_INFO": "Basculer peut \u00eatre trouv\u00e9 dans l'en-t\u00eate du widget.",
     "HistoryRelation": "Chronologie",

@@ -71,7 +71,7 @@
     "LBL_IMPORT_FILE_COPY_FAILED": "Import a \u00e9chou\u00e9",
     "LBL_INVALID_FILE": "Fichier invalide",
     "LBL_NO_ROWS_FOUND": "Aucune ligne trouv\u00e9e",
-    "LBL_SCHEDULED_IMPORT_DETAILS": "Votre import est programm\u00e9 pour tourner dans 15 minutes. Vous recevrez un email apr\u00e8s la completion de l'import.  <br \/> <br \/>\t\t\t\t\t\t\t\t\t\tVeuillez vous assurer que la configuratin de votre serveur SMTP est correcte ainsi que votre adresse email.",
+    "LBL_SCHEDULED_IMPORT_DETAILS": "Votre import est programm\u00e9 pour tourner dans 15 minutes. Vous recevrez un email apr\u00e8s la completion de l'import.  \r\n \r\n\t\t\t\t\t\t\t\t\t\tVeuillez vous assurer que la configuratin de votre serveur SMTP est correcte ainsi que votre adresse email.",
     "LBL_DETAILS": "D\u00e9tails",
     "skipped": "Enregistrements non pris en compte",
     "failed": "Enregistrements \u00e9chou\u00e9s",

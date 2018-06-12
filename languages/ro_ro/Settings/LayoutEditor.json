@@ -76,7 +76,7 @@
     "LBL_TREE_TEMPLATE": "Arbore",
     "Tree": "Camp cu arbore",
     "CategoryMultipicklist": "Camp arbore (alegere multipla)",
-    "LBL_FIELD_MASK_INFO": "Defintii implicite de mascare <br \/>9: numeric<br \/>a: alphabetically<br \/>*: Alphanumeric<br \/><br \/>Example:<br \/>(99) 9999-9999<br \/>+48 999-999-999<br \/>aaa_999_aaa<br \/>dd\/mm\/yyyy",
+    "LBL_FIELD_MASK_INFO": "Defintii implicite de mascare \r\n9: numeric\r\na: alphabetically\r\n*: Alphanumeric\r\n\r\nExample:\r\n(99) 9999-9999\r\n+48 999-999-999\r\naaa_999_aaa\r\ndd\/mm\/yyyy",
     "MultiReferenceValue": "Valori din modulul asociat",
     "LBL_MULTI_REFERENCE_VALUE_MODULES": "Modul asociat",
     "LBL_MULTI_REFERENCE_VALUE_FIELDS": "Camp asociat",

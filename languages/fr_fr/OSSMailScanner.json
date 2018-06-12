@@ -33,7 +33,7 @@
     "Manually stopped": "Arr\u00eat\u00e9 manuellement",
     "stop_user": "L'analyse est arr\u00eat\u00e9e par",
     "Email_Subject": "Notification: CRON dur\u00e9e trop longue",
-    "Email_Body": "Bonjour <br \/> <br \/> CRON fonctionne trop longtemps, v\u00e9rifiez si le syst\u00e8me de messagerie fonctionne correctement. <br \/> <br \/> Cordialement, l'Administrateur",
+    "Email_Body": "Bonjour \r\n \r\n CRON fonctionne trop longtemps, v\u00e9rifiez si le syst\u00e8me de messagerie fonctionne correctement. \r\n \r\n Cordialement, l'Administrateur",
     "JS_info_restart_ok": "Cron d\u00e9bloqu\u00e9",
     "identities_name": "Nom de l'identit\u00e9",
     "identities_adress": "Adresse d'identit\u00e9",

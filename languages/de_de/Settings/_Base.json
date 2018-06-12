@@ -266,7 +266,7 @@
     "LBL_DEFAULT_LAYOUT": "Layout",
     "LBL_DEFAULT": "Standard",
     "LBL_TIMECONTROL_PROCESSES": "Zeiterfassungsprozesse",
-    "LBL_POPUP_TYPE": "Pop-up Fenstertyp f\u00fcr Datensatzliste.<br \/>1 - Normal, 2 - Erweiterte Suche",
+    "LBL_POPUP_TYPE": "Pop-up Fenstertyp f\u00fcr Datensatzliste.\r\n1 - Normal, 2 - Erweiterte Suche",
     "LBL_SHOWING_BREADCRUMBS": "Zeige Breadcrumbs Men\u00fc",
     "LBL_SHOW_RESPONSE_TIME": "Ein-\/Ausblenden der Seitenaufbauzeit",
     "LBL_TITLE_MAX_LENGTH": "Maximale L\u00e4nge von Zeichen f\u00fcr den Titel ",
