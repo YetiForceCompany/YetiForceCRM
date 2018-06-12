@@ -9,31 +9,38 @@ $secondary: #5e666c;
 $blue: #337ab7;
 $indigo-dark: material-color('indigo', '600');
 $pagination-color: $link-color;
-
+$grid-breakpoints: (
+		xs: 0,
+		sm: 576px,
+		md: 768px,
+		lg: 992px,
+		xl: 1200px,
+		xxl:1300px
+);
 //-------- sizes --------//
-$iconButtonWidth: 42px;
+$w-icon-button: 42px;
 
-$footerHeight: 33px;
-$inputHeight: 37px;
-$input-text-height: 24px;
-$menuItemsHeight: 32px;
-$btn-sm-height: 31px;
-$headerHeight: 50px;
-$mainViewportHeight: calc(100vh - #{$footerHeight + $headerHeight});
-$bs4-button-padding: 0.375rem 0.75rem;
+$h-footer: 33px;
+$h-input-text: 24px;
+$h-menu-items: 34px;
+$h-menu-right-items: 36px;
+$h-btn-sm: 31px;
+$h-header: 50px;
+$w-header-search: 500px;
+$h-main-viewport: calc(100vh - #{$h-footer + $h-header});
+$p-bs4-button: 0.375rem 0.75rem;
 
-$select2InputFont: 0.875rem;
-$fontSmall: 0.8rem;
+$font-size-small: 0.8rem;
 
 //-------- colors --------//
-$y-navbar-background: #4a5364;
-$y-navbar-font-color: #fff;
+$bg-navbar: #4a5364;
+$color-navbar: #fff;
 
-$y-menu-background: $y-navbar-background;
-$y-menu-font-color: #f8f9fa;
+$bg-menu: $bg-navbar;
+$color-menu: #f8f9fa;
 
 //-------- related tabs --------//
-$y-rtabs-background: #f1f1f1;
-$y-rtabs-active-background: #404952;
-$y-rtabs-border-color: $y-rtabs-active-background;
-$y-rtabs-active-font-color: #fff;
+$bg-rtabs: #f1f1f1;
+$bg-rtabs-active: #404952;
+$border-color-rtabs: $bg-rtabs-active;
+$color-rtabs-active: #fff;

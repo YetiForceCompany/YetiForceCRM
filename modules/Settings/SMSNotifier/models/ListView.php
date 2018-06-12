@@ -27,7 +27,7 @@ class Settings_SMSNotifier_ListView_Model extends Settings_Vtiger_ListView_Model
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkdata' => ['url' => $moduleModel->getCreateRecordUrl()],
 				'linkicon' => 'fas fa-plus',
-				'linkclass' => 'btn-success addRecord showModal',
+				'linkclass' => 'btn-light addRecord showModal',
 				'showLabel' => 1,
 				'modalView' => true,
 			];

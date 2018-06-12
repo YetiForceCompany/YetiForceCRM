@@ -111,7 +111,7 @@
     "Manually stopped": "Elle durduruldu",
     "stop_user": "Tarama durduruldu",
     "Email_Subject": "Bildirim: CRON \u00e7ok uzun s\u00fcr\u00fcyor",
-    "Email_Body": "Merhaba <br \/><br \/>CRON \u00e7ok uzun s\u00fcr\u00fcyor, posta sisteminin d\u00fczg\u00fcn \u00e7al\u0131\u015f\u0131p \u00e7al\u0131\u015fmad\u0131\u011f\u0131n\u0131 kontrol edin.<br \/><br \/>Greets Admin",
+    "Email_Body": "Merhaba \r\n\r\nCRON \u00e7ok uzun s\u00fcr\u00fcyor, posta sisteminin d\u00fczg\u00fcn \u00e7al\u0131\u015f\u0131p \u00e7al\u0131\u015fmad\u0131\u011f\u0131n\u0131 kontrol edin.\r\n\r\nGreets Admin",
     "Email_FromName": "Posta Taray\u0131c\u0131",
     "JS_info_restart_ok": "Cron kilidi a\u00e7\u0131ld\u0131",
     "permissions_all": "Herkese g\u00f6r\u00fcn\u00fcr",

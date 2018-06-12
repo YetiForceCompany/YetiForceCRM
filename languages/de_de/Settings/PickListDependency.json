@@ -6,7 +6,7 @@
     "LBL_ADD_RECORD": "Abh\u00e4ngigkeit hinzuf\u00fcgen",
     "PickListDependency": "Auswahllisten-Abh\u00e4ngigkeit",
     "LBL_CONFIGURE_DEPENDENCY_HELP_1": "Nur zugeordnete Auswahllistenwerte des Quellfeldes werden unten gezeigt (Ausnahme beim ersten Mal)",
-    "LBL_CONFIGURE_DEPENDENCY_HELP_2": "Wenn Sie die Zuordnung f\u00fcr die anderen Auswahllistenwerte des Quellfeldes sehen oder \u00e4ndern m\u00f6chten, <br \/> dann k\u00f6nnen Sie die Werte durch klicken auf die Schaltfl\u00e4che <b>'Quellwerte ausw\u00e4hlen'<\/b> w\u00e4hlen.",
+    "LBL_CONFIGURE_DEPENDENCY_HELP_2": "Wenn Sie die Zuordnung f\u00fcr die anderen Auswahllistenwerte des Quellfeldes sehen oder \u00e4ndern m\u00f6chten, \r\n dann k\u00f6nnen Sie die Werte durch klicken auf die Schaltfl\u00e4che <b>'Quellwerte ausw\u00e4hlen'<\/b> w\u00e4hlen.",
     "LBL_CONFIGURE_DEPENDENCY_HELP_3": "Ausgew\u00e4hlte Werte der Zielfeldwerte werden hervorgehoben",
     "LBL_CONFIGURE_DEPENDENCY_INFO": "Klicken Sie auf die jeweilige Zelle, um die Zuordnung der Auswahllistenwerte des Zielfeldes zu \u00e4ndern",
     "LBL_ERR_CYCLIC_DEPENDENCY": "Diese Abh\u00e4ngigkeitseinstellung ist nicht erlaubt, weil es in zyklischen Abh\u00e4ngigkeiten endet",

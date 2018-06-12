@@ -32,14 +32,14 @@
 	max-width: 600px;
 }
 
-//styles needed to overwrite default animation
-.modal.fade {
-	opacity: 1;
-}
+.c-modal--custom-animation {
+	&.modal.fade {
+		opacity: 1;
 
-.modal.fade .modal-dialog {
-	-webkit-transform: translate(0);
-	-moz-transform: translate(0);
-	transform: translate(0);
+		.modal-dialog {
+			-webkit-transform: translate(0);
+			-moz-transform: translate(0);
+			transform: translate(0);
+		}
+	}
 }
-//

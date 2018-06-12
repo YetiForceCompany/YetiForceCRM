@@ -152,6 +152,7 @@
     "LBL_SECURITY_MANAGEMENT": "Sicherheit",
     "LBL_MAIL_TOOLS": "Mailtools",
     "LBL_PASSWORD_CONF": "Passwortkonfiguration",
+    "LBL_2FA_CONF": "Two-factor authentication",
     "LBL_PASSWORD_DESCRIPTION": "Setze Komplexit\u00e4t des Passwortes f\u00fcr die Benutzer der Software",
     "LBL_LOGS_MANAGEMENT": "Protokolle",
     "LBL_ARRANGE_RELATED_TABS": "Zugeh\u00f6rige Registerkarten anordnen",
@@ -265,7 +266,7 @@
     "LBL_DEFAULT_LAYOUT": "Layout",
     "LBL_DEFAULT": "Standard",
     "LBL_TIMECONTROL_PROCESSES": "Zeiterfassungsprozesse",
-    "LBL_POPUP_TYPE": "Pop-up Fenstertyp f\u00fcr Datensatzliste.<br \/>1 - Normal, 2 - Erweiterte Suche",
+    "LBL_POPUP_TYPE": "Pop-up Fenstertyp f\u00fcr Datensatzliste.\r\n1 - Normal, 2 - Erweiterte Suche",
     "LBL_SHOWING_BREADCRUMBS": "Zeige Breadcrumbs Men\u00fc",
     "LBL_SHOW_RESPONSE_TIME": "Ein-\/Ausblenden der Seitenaufbauzeit",
     "LBL_TITLE_MAX_LENGTH": "Maximale L\u00e4nge von Zeichen f\u00fcr den Titel ",
@@ -355,7 +356,9 @@
     "LBL_MISSING_LICENSE_FILE": "Missing license file",
     "LBL_VTIGER_DESCRIPTION": "Approximately 30% of Vtiger's orginal code is left. The remaining code has been rewritten and expanded.",
     "LBL_SUGAR_DESCRIPTION": "Vtiger was based on Sugar CRM. Currently, only several Sugar files remain in YetiForce.",
-    "LBL_SHOP_YETIFORCE": "Shop"
+    "LBL_YETIFORCE_SHOP": "Store",
+    "LBL_YETIFORCE_ISSUES": "Free support",
+    "LBL_YETIFORCE_ASSISTANCE": "Paid support"
   },
   "js": {
     "JS_AUTHORIZATION_COMPLETE": "Zugriff erfolgreich",

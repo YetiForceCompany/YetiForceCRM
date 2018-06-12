@@ -1278,6 +1278,55 @@ jQuery.Class('Vtiger_Widget_Js', {
 			'of': widgetContentsContainer
 		});
 	},
+	/**
+	 * Print html content as image
+	 * @param {jQuery} element
+	 */
+	printHtml(element) {
+		let widget = element.closest('.dashboardWidget'),
+			title = widget.find('.dashboardTitle').prop('title'),
+			printContainer = widget.find('.js-print__container').get(0),
+			imgEl = $('<img style="width:100%">');
+		imgEl.get(0).onload = () => {
+			let width = $(printContainer).outerWidth();
+			let height = $(printContainer).outerHeight();
+			if (width < 600) {
+				width = 600;
+			}
+			if (height < 400) {
+				height = 400;
+			}
+			this.print(imgEl.get(0), title, width, height);
+		};
+		app.htmlToImage(printContainer, (imageBase64) => {
+			imgEl.get(0).src = imageBase64;
+		});
+	},
+	/**
+	 * Download html content as image
+	 * @param {jQuery} element
+	 */
+	downloadHtmlAsImage(element) {
+		let widget = element.closest('.dashboardWidget'),
+			title = widget.find('.dashboardTitle').prop('title');
+		app.htmlToImage(element.closest('.dashboardWidget').find('.js-print__container').get(0), (imageBase64) => {
+			let anchor = document.createElement('a');
+			anchor.setAttribute('href', imageBase64);
+			anchor.setAttribute('download', title + '.png');
+			anchor.click();
+		});
+	},
+	/**
+	 * register print image fields (html2canvas)
+	 */
+	registerPrintAndDownload() {
+		$('.js-print--download', this.getContainer()).on('click', (e) => {
+			this.downloadHtmlAsImage(e.target);
+		});
+		$('.js-print', this.getContainer()).on('click', (e) => {
+			this.printHtml(e.target);
+		});
+	},
 	//Place holdet can be extended by child classes and can use this to handle the post load
 	postLoadWidget: function postLoadWidget() {
 		if (!this.isEmptyData()) {
@@ -1294,6 +1343,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerChangeSorting();
 		this.registerLoadMore();
 		this.registerHeaderButtons();
+		this.registerPrintAndDownload();
 		this.loadScrollbar();
 	},
 	postRefreshWidget: function postRefreshWidget() {

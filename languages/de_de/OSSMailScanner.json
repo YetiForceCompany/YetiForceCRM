@@ -112,7 +112,7 @@
     "Manually stopped": "Manuell gestoppt",
     "stop_user": "Scanning gestoppt von",
     "Email_Subject": "Benachrichtigung: CRON l\u00e4uft zu lange",
-    "Email_Body": "Hallo<br \/><br \/>CRON l\u00e4uft zu lange. Bitte pr\u00fcfen, ob das E-Mail-System korrekt funktioniert.<br \/> <br \/> Viele Gr\u00fc\u00dfe Admin",
+    "Email_Body": "Hallo\r\n\r\nCRON l\u00e4uft zu lange. Bitte pr\u00fcfen, ob das E-Mail-System korrekt funktioniert.\r\n \r\n Viele Gr\u00fc\u00dfe Admin",
     "Email_FromName": "Mail Scanner",
     "JS_info_restart_ok": "CRON freigeschaltet",
     "permissions_all": "Sichtbar f\u00fcr alle",

@@ -13,7 +13,7 @@
 	{if !$USER_MODEL}
 		{assign var=USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
 	{/if}
-	<div class="conditionRow d-flex justify-content-between bg-light p-1 rounded mb-2 ">
+	<div class="js-conditions-row d-flex justify-content-between bg-light p-1 rounded mb-2 " data-js="container | clone">
 		<label class="sr-only">{\App\Language::translate('LBL_SELECT_FIELD',$MODULE)}</label>
 		<div class="w-25">
 		<select class="{if empty($NOCHOSEN)}select2{/if} form-control mr-sm-2" name="columnname" title="{\App\Language::translate('LBL_CHOOSE_FIELD')}">

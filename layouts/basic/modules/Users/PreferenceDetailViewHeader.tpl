@@ -38,7 +38,7 @@
 			</div>
 			<div class="mr-0 pl-1 col-md-7 py-3 mt-2">
 				<div class="row float-right detailViewButtoncontainer">
-					<div class="btn-toolbar float-right">
+					<div class="btn-toolbar btn-group float-right">
 						{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}
 							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic'}
 						{/foreach}

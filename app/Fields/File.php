@@ -208,8 +208,11 @@ class File
 			Log::error('No url: ' . $url, __CLASS__);
 			return false;
 		}
+		if (!\App\RequestUtil::isNetConnection()) {
+			return false;
+		}
 		try {
-			$responsse = \Requests::get($url, [], ['timeout' => 5, 'connect_timeout' => 5]);
+			$responsse = \Requests::get($url);
 			if ($responsse->status_code !== 200) {
 				Log::error('Error when downloading content: ' . $url . ' | Status code: ' . $responsse->status_code, __CLASS__);
 				return false;
@@ -683,14 +686,11 @@ class File
 	{
 		$fileInstance = static::loadFromUrl($url);
 		if (empty($url) || !$fileInstance) {
-			Log::error('Invalid url: ' . $url, __CLASS__);
-
 			return false;
 		}
 		if ($fileInstance->validate() && ($id = static::saveFromContent($fileInstance, $params))) {
 			return $id;
 		}
-
 		return false;
 	}
 

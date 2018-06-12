@@ -261,6 +261,31 @@ jQuery.Class("Vtiger_Detail_Js", {
 	init: function () {
 
 	},
+	loadWidgetsEvents: function () {
+		const thisInstance = this;
+		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance) {
+			if (relatedModuleName === 'Calendar') {
+				thisInstance.reloadWidgetActivitesStats(widgetContent.closest('.activityWidgetContainer'));
+			}
+			if (relatedModuleName === 'ModComments') {
+				thisInstance.registerCommentEventsInDetail(widgetContent.closest('.updatesWidgetContainer'));
+			}
+			if (widgetContent.find('[name="relatedModule"]').length) {
+				thisInstance.registerShowSummary(widgetContent);
+			}
+			if (relatedModuleName === 'Emails') {
+				Vtiger_Index_Js.registerMailButtons(widgetContent);
+				widgetContent.find('.showMailModal').on('click', function (e) {
+					let progressIndicatorElement = jQuery.progressIndicator();
+					app.showModalWindow("", $(e.currentTarget).data('url') + '&noloadlibs=1', function (data) {
+						Vtiger_Index_Js.registerMailButtons(data);
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					});
+				});
+			}
+			thisInstance.registerEmailEvents(widgetContent);
+		});
+	},
 	loadWidgets: function () {
 		var thisInstance = this;
 		var widgetList = jQuery('[class^="widgetContainer_"]');
@@ -498,7 +523,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		return this.detailViewForm;
 	},
 	getRecordId: function () {
-		return app.getRecordId()
+		return app.getRecordId();
 	},
 	getRelatedModuleName: function () {
 		if (jQuery('.relatedModuleName', this.getContentHolder()).length == 1) {
@@ -2346,19 +2371,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var recentDocumentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentDocumentsTabLabel);
 			recentDocumentsTab.trigger('click');
 		});
-		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance) {
-			if (relatedModuleName === 'Calendar') {
-				var container = widgetContent.closest('.activityWidgetContainer');
-				thisInstance.reloadWidgetActivitesStats(container);
-			}
-			if (relatedModuleName === 'ModComments') {
-				var container = widgetContent.closest('.updatesWidgetContainer');
-				thisInstance.registerCommentEventsInDetail(container);
-			}
-			if (widgetContent.find('[name="relatedModule"]').length) {
-				thisInstance.registerShowSummary(widgetContent);
-			}
-		});
 		detailContentsHolder.on('click', '.moreRecentActivities', function (e) {
 			var currentTarget = $(e.currentTarget);
 			currentTarget.prop('disabled', true);
@@ -2396,26 +2408,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
 			});
 		});
-		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance) {
-			thisInstance.registerEmailEvents(widgetContent);
-		});
 		thisInstance.registerEventForRelatedList();
 		thisInstance.registerBlockAnimationEvent();
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]'));
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="HistoryRelation"]'));
-		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance, widgetContainer) {
-			if (relatedModuleName == 'Emails') {
-				Vtiger_Index_Js.registerMailButtons(widgetContent);
-				widgetContent.find('.showMailModal').on('click', function (e) {
-					var progressIndicatorElement = jQuery.progressIndicator();
-					var url = $(e.currentTarget).data('url') + '&noloadlibs=1';
-					app.showModalWindow("", url, function (data) {
-						Vtiger_Index_Js.registerMailButtons(data);
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					});
-				});
-			}
-		});
 		detailContentsHolder.find('.js-switch--recentActivities').off().on('change', function (e) {
 			const currentTarget = jQuery(e.currentTarget),
 				tabElement = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel),
@@ -2503,11 +2499,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 
 	registerEvents: function () {
-		const thisInstance = this;
-		//thisInstance.triggerDisplayTypeEvent();
+		//this.triggerDisplayTypeEvent();
 		this.registerHelpInfo();
-		thisInstance.registerSendSmsSubmitEvent();
-		thisInstance.registerAjaxEditEvent();
+		this.registerSendSmsSubmitEvent();
+		this.registerAjaxEditEvent();
 		this.registerRelatedRowClickEvent();
 		this.registerBlockStatusCheckOnLoad();
 		this.registerEmailFieldClickEvent();
@@ -2521,9 +2516,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 			return;
 		}
 		this.registerSetReadRecord(detailViewContainer);
-		thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
-		thisInstance.getForm().validationEngine(app.validationEngineOptionsForRecord);
-		thisInstance.loadWidgets();
+		this.registerEventForPicklistDependencySetup(this.getForm());
+		this.getForm().validationEngine(app.validationEngineOptionsForRecord);
+		this.loadWidgetsEvents();
+		this.loadWidgets();
 		this.registerBasicEvents();
 		this.registerEventForTotalRecordsCount();
 	}

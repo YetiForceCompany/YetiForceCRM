@@ -137,7 +137,7 @@
 								{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
 									<div class="btn-group-sm d-flex justify-content-end ml-0 ml-md-2 c-btn-block-sm-down u-remove-dropdown-icon {if !$MODULE_ACTIVE}d-none{/if}" role="group">
 										<button class="btn dropdown-toggle btn-outline-secondary c-btn-block-sm-down" data-toggle="dropdown">
-											<strong><span class="fas fa-cog"></span></strong>&nbsp;<i class="caret"></i>
+											<strong><span class="fas fa-cog"></span></strong>
 										</button>
 										<div class="dropdown-menu float-right">
 											{foreach item=SETTINGS_LINK from=$SETTINGS_LINKS}

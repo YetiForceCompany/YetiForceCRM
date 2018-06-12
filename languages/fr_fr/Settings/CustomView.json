@@ -19,10 +19,10 @@
     "LBL_ADD_PERMISSIONS": "Ajouter permissions",
     "LBL_RECEIVE_PERMISSION": "Recevoir permissions",
     "LBL_SAVE_SEQUENCES": "S\u00e9quences sauvegard\u00e9es avec succ\u00e8s",
-    "LBL_EXISTS_PERMISSION_IN_CONFIG": "Conflit avec %s <br \/> Permission s\u00e9lectionn\u00e9e ne peuvent \u00eatre utiliser dans plus d'un filtre.",
+    "LBL_EXISTS_PERMISSION_IN_CONFIG": "Conflit avec %s \r\n Permission s\u00e9lectionn\u00e9e ne peuvent \u00eatre utiliser dans plus d'un filtre.",
     "LBL_SORTING": "Tri",
     "LBL_SORTING_SETTINGS": "Param\u00e8tres de tri",
-    "LBL_SORTING_SETTINGS_WORNING": "<strong>Attention!<strong><br \/>Le tri des enregistrements peut fortement augmenter le temps de chargement de la page.",
+    "LBL_SORTING_SETTINGS_WORNING": "<strong>Attention!<strong>\r\nLe tri des enregistrements peut fortement augmenter le temps de chargement de la page.",
     "LBL_SELECT_FIELD_TO_SORT_RECORDS": "S\u00e9lectionner un champ pour activer le tri",
     "LBL_SORT_ASCENDING_ORDER": "Tri par ordre croissant",
     "LBL_SORT_DESCENDING_ORDER": "Tri par ordre d\u00e9croissant"

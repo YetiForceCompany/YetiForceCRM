@@ -191,7 +191,7 @@ class PackageExport
 			$zip->addFile("config/modules/$module.php", "config/$module.php");
 		}
 		if ($directDownload) {
-			$zip->download();
+			$zip->download($module);
 		} else {
 			$zip->close();
 			if ($todir) {

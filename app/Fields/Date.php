@@ -3,8 +3,8 @@
  * Tools for datetime class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Fields;
@@ -53,7 +53,7 @@ class Date
 		if ($format) {
 			return static::$jsDateFormat[$format];
 		} else {
-			return static::$jsDateFormat[\App\User::getCurrentUserModel()->getDetail('date_format')];
+			return static::$jsDateFormat[\App\User::getCurrentUserModel()->getDetail('date_format')] ?? false;
 		}
 	}
 

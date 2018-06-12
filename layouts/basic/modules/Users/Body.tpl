@@ -11,7 +11,7 @@
 				{if !empty($CHILD_LINKS)}
 					<span class="caret"></span>
 				{/if}
-				<div class="js-sidebar c-menu--container noSpaces" data-js="class: .js-expand">
+				<div class="js-sidebar c-menu__container noSpaces" data-js="class: .js-expand">
 					{include file=\App\Layout::getTemplatePath('BodyLeft.tpl', $MODULE)}
 				</div>
 				{include file=\App\Layout::getTemplatePath('BodyHeader.tpl', $MODULE)}

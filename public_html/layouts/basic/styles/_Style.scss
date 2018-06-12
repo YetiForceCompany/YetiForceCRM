@@ -537,10 +537,6 @@ hr {
 	}
 }
 
-.detailViewToolbar .btn {
-	margin: 0 !important;
-}
-
 .detailViewTitle .btn-toolbar {
 	margin: 0;
 }
@@ -1794,11 +1790,6 @@ textarea.col-md-11 {
 	max-width: 220px;
 }
 
-.fieldInfo.in {
-	overflow: visible !important;
-	height: auto !important;
-}
-
 .moduleSelection {
 	border-radius: 2px 2px 0 0 !important;
 	border: 1px solid #ddd !important;
@@ -2971,7 +2962,7 @@ html, body, .o-base-container {
 }
 
 @media only screen and (max-width: 1200px) {
-	.o-base-container:not(.c-menu--open) .c-menu--container:hover + .basePanel {
+	.o-base-container:not(.c-menu--open) .c-menu__container:hover + .basePanel {
 		width: calc(100% - 180px);
 		-webkit-transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
 		transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
@@ -3914,11 +3905,6 @@ select.form-control {
 
 .tdUnderline {
 	text-decoration: underline;
-}
-
-#OSSMailBoxInfo {
-	position: relative;
-	z-index: 999;
 }
 
 .noSumarryWidgetEffect {

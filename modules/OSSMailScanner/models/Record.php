@@ -640,12 +640,10 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$row = (new App\Db\Query())->from('vtiger_ossmails_logs')->orderBy(['id' => SORT_DESC])->one();
 		if ($row && (int) $row['status'] === 1) {
 			$config = self::getConfig('cron');
-			$time = strtotime($row['start_time']) + ($config['time'] * 60);
-			if (strtotime('now') > $time) {
+			if (!empty($config['time']) && strtotime('now') > strtotime($row['start_time']) + ($config['time'] * 60)) {
 				$return = $row['start_time'];
 			}
 		}
-
 		return $return;
 	}
 
@@ -664,11 +662,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return bool|array
 	 */
-	public function getCronStatus()
+	public static function getCronStatus()
 	{
-		$return = (new \App\Db\Query())->from('vtiger_cron_task')->where(['status' => 2, 'name' => 'LBL_MAIL_SCANNER_ACTION'])->one();
-
-		return $return ? $return : false;
+		return (new \App\Db\Query())->from('vtiger_cron_task')->where(['status' => 2, 'name' => 'LBL_MAIL_SCANNER_ACTION'])->one();
 	}
 
 	/**
@@ -686,25 +682,23 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return timestamp
 	 */
-	public function checkCronStatus()
+	public static function checkCronStatus()
 	{
 		$return = false;
 		$row = self::getCronStatus();
 		if ($row) {
 			$config = self::getConfig('cron');
-			$time = $row['laststart'] + ($config['time'] * 60);
-			if (strtotime('now') > $time) {
+			if (!empty($config['time']) && strtotime('now') > $row['laststart'] + ($config['time'] * 60)) {
 				$return = $row['laststart'];
 			}
 		}
-
 		return $return;
 	}
 
 	/**
 	 * Verification cron.
 	 */
-	public function verificationCron()
+	public static function verificationCron()
 	{
 		$checkCronStatus = self::checkCronStatus();
 		if ($checkCronStatus !== false) {
@@ -713,12 +707,12 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$db->createCommand()->insert('vtiger_ossmailscanner_log_cron', ['laststart' => $checkCronStatus, 'status' => 0, 'created_time' => date('Y-m-d H:i:s')])->execute();
 				$config = self::getConfig('cron');
 				$mailStatus = \App\Mailer::addMail([
-						//'smtp_id' => 1,
 						'to' => $config['email'],
 						'subject' => App\Language::translate('Email_FromName', 'OSSMailScanner'),
 						'content' => App\Language::translate('Email_Body', 'OSSMailScanner'),
 				]);
 				$db->createCommand()->update('vtiger_ossmailscanner_log_cron', ['status' => $mailStatus], ['laststart' => $checkCronStatus])->execute();
+				$db->createCommand()->update('vtiger_ossmails_logs', ['status' => 2, 'stop_user' => 'verificationCron'], ['status' => 1])->execute();
 			}
 		}
 	}
@@ -726,12 +720,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Restart cron.
 	 */
-	public function runRestartCron()
+	public static function runRestartCron()
 	{
 		$db = App\Db::getInstance();
 		$userName = \App\User::getCurrentUserModel()->getDetail('user_name');
 		$db->createCommand()->update('vtiger_cron_task', ['status' => 1], ['name' => 'LBL_MAIL_SCANNER_ACTION'])->execute();
 		$db->createCommand()->update('vtiger_ossmails_logs', ['status' => 2, 'stop_user' => $userName, 'end_time' => date('Y-m-d H:i:s')], ['status' => 1])->execute();
+		self::verificationCron();
 	}
 
 	/**

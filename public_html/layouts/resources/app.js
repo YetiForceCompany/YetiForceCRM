@@ -1196,7 +1196,7 @@ app = {
 		self.sidebarBtn = $('.js-sidebar-btn').first();
 		self.sidebar = $('.js-sidebar').first();
 		self.sidebarBtn.on('click', self.toggleSidebar.bind(self));
-		$('a[href],[tabindex],input,select,textarea,button,object').on('focus', (e) => {
+		$('a[href]:not(.c-header__btn),[tabindex],input,select,textarea,button').on('focus', (e) => {
 			if (self.sidebarBtn[0] == e.target) return;
 			if (self.sidebar.find(':focus').length) {
 				self.openSidebar();
@@ -1269,7 +1269,9 @@ app = {
 					pinButton.attr('data-show', hideMenu);
 				}
 			});
-			setTimeout(() => {baseContainer.addClass('c-menu--animation');}, 300);
+			setTimeout(() => {
+				baseContainer.addClass('c-menu--animation');
+			}, 300);
 		});
 	},
 	sidebarKeyboard: function (e) {
@@ -1415,6 +1417,27 @@ app = {
 			});
 		});
 	},
+	/**
+	 * Convert html content to base64 image
+	 * This function can be used in promise chain or with callback if specified
+	 *
+	 * @param {HTMLElement} element
+	 * @param {function} callback with imageString argument which contains an image in base64 string format
+	 * @param {object} options see: https://html2canvas.hertzen.com/configuration , imageType is our custom option
+	 * @return {Promise} with base64 string image as argument
+	 */
+	htmlToImage(element, callback, options = {imageType: 'image/png', logging: false}) {
+		element = $(element).get(0); // make sure we have HTMLElement not jQuery because it will not work
+		const imageType = options.imageType;
+		delete options.imageType;
+		return html2canvas(element, options).then((canvas) => {
+			const base64Image = canvas.toDataURL(imageType);
+			if (typeof callback === 'function') {
+				callback(base64Image);
+			}
+			return base64Image;
+		});
+	}
 };
 $(document).ready(function () {
 	App.Fields.Picklist.changeSelectElementView();

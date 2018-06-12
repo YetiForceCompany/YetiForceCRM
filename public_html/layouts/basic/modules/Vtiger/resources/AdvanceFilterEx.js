@@ -43,7 +43,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 	 */
 	addNewCondition: function (conditionGroupElement) {
 		var basicElement = jQuery('.basic', conditionGroupElement);
-		var newRowElement = basicElement.find('.conditionRow').clone(true, true);
+		var newRowElement = basicElement.find('.js-conditions-row').clone(true, true);
 		jQuery('select', newRowElement).addClass('chzn-select');
 		var conditionList = jQuery('.conditionList', conditionGroupElement);
 		conditionList.append(newRowElement);
@@ -60,7 +60,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 	 * @return : select element which will represent the condition element
 	 */
 	loadConditions: function (fieldSelect) {
-		var row = fieldSelect.closest('div.conditionRow');
+		var row = fieldSelect.closest('div.js-conditions-row');
 		var conditionSelectElement = row.find('select[name="comparator"]');
 		var conditionSelected = conditionSelectElement.val();
 		var fieldSelected = fieldSelect.find('option:selected');
@@ -116,7 +116,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 		conditionGroups.each(function (index, domElement) {
 			var groupElement = jQuery(domElement);
 
-			var conditions = jQuery('.conditionList .conditionRow', groupElement);
+			var conditions = jQuery('.conditionList .js-conditions-row', groupElement);
 			if (conditions.length <= 0) {
 				return true;
 			}
@@ -230,8 +230,8 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 			if (valueType == '') {
 				valueType = 'rawtext';
 			}
-			var conditionsContainer = fieldValueElement.closest('.conditionsContainer');
-			var conditionRow = fieldValueElement.closest('.conditionRow');
+			var conditionsContainer = fieldValueElement.closest('.js-conditions-container');
+			var conditionRow = fieldValueElement.closest('.js-conditions-row');
 
 			var clonedPopupUi = conditionsContainer.find('.popupUi').clone(true, true).removeClass('popupUi').addClass('clonedPopupUi');
 			clonedPopupUi.find('select').addClass('chzn-select');

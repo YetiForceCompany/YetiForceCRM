@@ -111,7 +111,7 @@
     "Manually stopped": "Parado Manualmente",
     "stop_user": "Escaneamento parou pelo",
     "Email_Subject": "Notifica\u00e7\u00e3o: O CRON est\u00e1 sendo executado h\u00e1 bastante tempo",
-    "Email_Body": "Ol\u00e1<br \/><br \/>CRON est\u00e1 executando durante muito tempo, verifique se o sistema de e-mail est\u00e1 funcionando corretamente.<br \/><br \/>Administra\u00e7\u00e3o",
+    "Email_Body": "Ol\u00e1\r\n\r\nCRON est\u00e1 executando durante muito tempo, verifique se o sistema de e-mail est\u00e1 funcionando corretamente.\r\n\r\nAdministra\u00e7\u00e3o",
     "Email_FromName": "Mail Scanner",
     "JS_info_restart_ok": "O CRON foi desbloqueado",
     "permissions_all": "Vis\u00edvel para todos",

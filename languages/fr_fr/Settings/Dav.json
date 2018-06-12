@@ -24,7 +24,7 @@
     "Dav": "Cl\u00e9s DAV",
     "LBL_DUPLICATE_USER_SERVICES": "Une cl\u00e9 pour cette application existe d\u00e9j\u00e0.",
     "LBL_ALERT_DAV_CONFIG_TITLE": "Informations sur la configuration",
-    "LBL_ALERT_DAV_CONFIG_DESC": "Exemples de configuration de connexion de serveur DAV pour diff\u00e9rentes applications et syst\u00e8mes:<br \/><b>DAVdroid<\/b><br \/>Address: https:\/\/gitdeveloper.yetiforce.com\/api\/dav.php<br \/>Preventive authorization NO<br \/><b>Thunderbird CalDAV<\/b><br \/>Address: https:\/\/gitdeveloper.yetiforce.com\/api\/dav.php\/calendars\/demo\/YFCalendar\/<br \/><b>iOS<\/b><br \/>Address: http:\/\/gitdeveloper.yetiforce.com\/api\/dav.php\/principals\/demo\/ <br \/>For SSL connections: <br \/> http:\/\/gitdeveloper.yetiforce.com:443\/api\/dav.php\/principals\/demo\/"
+    "LBL_ALERT_DAV_CONFIG_DESC": "Exemples de configuration de connexion de serveur DAV pour diff\u00e9rentes applications et syst\u00e8mes:\r\n<b>DAVdroid<\/b>\r\nAddress: https:\/\/gitdeveloper.yetiforce.com\/api\/dav.php\r\nPreventive authorization NO\r\n<b>Thunderbird CalDAV<\/b>\r\nAddress: https:\/\/gitdeveloper.yetiforce.com\/api\/dav.php\/calendars\/demo\/YFCalendar\/\r\n<b>iOS<\/b>\r\nAddress: http:\/\/gitdeveloper.yetiforce.com\/api\/dav.php\/principals\/demo\/ \r\nFor SSL connections: \r\n http:\/\/gitdeveloper.yetiforce.com:443\/api\/dav.php\/principals\/demo\/"
   },
   "js": {
     "Adding a Key": "Ajouter cl\u00e9"

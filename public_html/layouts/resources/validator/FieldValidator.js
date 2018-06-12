@@ -93,7 +93,7 @@ Vtiger_Base_Validator_Js("Vtiger_Phone_Validator_Js", {}, {
 					phoneNumber: fieldValue,
 					phoneCountry: phoneCountryList.val(),
 				}
-			}).then(function (data) {
+			}).done(function (data) {
 				if (data.result.isValidNumber == false) {
 					thisInstance.setError(data.result.message);
 					result = false;
@@ -179,6 +179,9 @@ Vtiger_Base_Validator_Js("Vtiger_PositiveNumber_Validator_Js", {
 			maximumLength = this.getElement().data().fieldinfo.maximumlength;
 		} else {
 			maximumLength = this.getElement().data('maximumlength');
+		}
+		if (!maximumLength) {
+			return true;
 		}
 		let ranges = maximumLength.split(',');
 		if (ranges.length === 2) {
@@ -803,7 +806,7 @@ Vtiger_Base_Validator_Js('Vtiger_Currency_Validator_Js', {
 			this.setError(errorInfo);
 			return false;
 		}
-		const maximumLength = fieldData.fieldinfo.maximumlength;
+		const maximumLength = typeof fieldData.fieldinfo !== 'undefined' ? fieldData.fieldinfo.maximumlength : null;
 		if (maximumLength && strippedValue > parseFloat(maximumLength)) {
 			errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
 			this.setError(errorInfo);
@@ -871,6 +874,9 @@ Vtiger_Base_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
 			maximumLength = this.getElement().data().fieldinfo.maximumlength;
 		} else {
 			maximumLength = this.getElement().data('maximumlength');
+		}
+		if (!maximumLength) {
+			return true;
 		}
 		if (maximumLength && strippedValue > parseFloat(maximumLength)) {
 			errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');

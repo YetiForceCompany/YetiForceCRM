@@ -536,7 +536,7 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideActionMenu();
 			block.toggleClass("toggled");
 			thisInstance.hideReminderNotification();
-			thisInstance.hideMobileMenu();
+			app.closeSidebar();
 			thisInstance.hideSearchMenu();
 		});
 	},
@@ -552,51 +552,60 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideActionMenu();
 			block.toggleClass("toggled");
 			thisInstance.hideReminderNotice();
-			thisInstance.hideMobileMenu();
+			app.closeSidebar();
 			thisInstance.hideSearchMenu();
 		});
 	},
 	registerMobileEvents: function () {
-		var thisInstance = this;
+		const self = this;
 		$('.rightHeaderBtnMenu').on('click', function () {
-			thisInstance.hideActionMenu();
-			thisInstance.hideSearchMenu();
-			thisInstance.hideReminderNotice();
-			thisInstance.hideReminderNotification();
+			self.hideActionMenu();
+			self.hideSearchMenu();
+			self.hideReminderNotice();
+			self.hideReminderNotification();
 			$('.mobileLeftPanel ').toggleClass('mobileMenuOn');
 		});
-		$('.actionMenuBtn').on('click', function () {
-			thisInstance.hideSearchMenu();
-			thisInstance.hideMobileMenu();
-			thisInstance.hideReminderNotice();
-			thisInstance.hideReminderNotification();
+		$('.js-quick-action-btn').on('click', function () {
+			let currentTarget = $(this);
+			app.closeSidebar();
+			self.hideSearchMenu();
+			self.hideReminderNotice();
+			self.hideReminderNotification();
 			$('.actionMenu').toggleClass('actionMenuOn');
-			if ($(this).hasClass('active')) {
-				$(this).removeClass('active');
-				$('.actionMenuBtn .headerButton').attr('aria-expanded', 'false');
-				$('.actionMenu .headerButton').popover();
+			if (currentTarget.hasClass('active')) {
+				currentTarget.removeClass('active');
+				currentTarget.attr('aria-expanded', 'false');
+				currentTarget.popover();
 			} else {
-				$(this).addClass('active');
-				$('.actionMenuBtn .headerButton').attr('aria-expanded', 'true');
-				$('.actionMenu .headerButton').popover('disable');
+				currentTarget.addClass('active');
+				currentTarget.attr('aria-expanded', 'true');
+				currentTarget.popover('disable');
 			}
 			$('.quickCreateModules').on('click', function () {
-				thisInstance.hideActionMenu();
+				self.hideActionMenu();
 			});
 		});
 		$('.searchMenuBtn').on('click', function () {
-			thisInstance.hideActionMenu();
-			thisInstance.hideMobileMenu();
-			thisInstance.hideReminderNotice();
-			thisInstance.hideReminderNotification();
+			let currentTarget = $(this);
+			app.closeSidebar();
+			self.hideActionMenu();
+			self.hideReminderNotice();
+			self.hideReminderNotification();
 			$('.searchMenu').toggleClass('toogleSearchMenu');
-			if ($(this).hasClass('active')) {
-				$(this).removeClass('active');
-				$('.searchMenuBtn .headerButton').attr('aria-expanded', 'false');
+			if (currentTarget.hasClass('active')) {
+				currentTarget.removeClass('active');
+				$('.searchMenuBtn .c-header__btn').attr('aria-expanded', 'false');
 			} else {
-				$(this).addClass('active');
-				$('.searchMenuBtn .headerButton').attr('aria-expanded', 'true');
+				currentTarget.addClass('active');
+				$('.searchMenuBtn .c-header__btn').attr('aria-expanded', 'true');
 			}
+		});
+		$('.js-header__btn--mail .dropdown').on('show.bs.dropdown', function () {
+			app.closeSidebar();
+			self.hideActionMenu();
+			self.hideReminderNotice();
+			self.hideReminderNotification();
+			self.hideSearchMenu();
 		});
 	},
 	hideMobileMenu: function () {
@@ -845,11 +854,10 @@ $.Class("Vtiger_Header_Js", {
 		thisInstance.registerChat();
 	}
 });
-
 $(document).ready(function () {
-	$(window).on('popstate', function (event) {
+	window.addEventListener('popstate', (event) => {
 		if (event.state) {
-			window.location.href = event.state.url;
+			window.location.href = event.state;
 		}
 	});
 	Vtiger_Header_Js.getInstance().registerEvents();

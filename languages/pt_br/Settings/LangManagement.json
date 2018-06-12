@@ -48,7 +48,8 @@
 	"LBL_BASE_LANGUAGE": "Idioma Base",
 	"LBL_SHOW": "Mostrar",
 	"LBL_STATS_INFO": "Os valores estat\u00edsticos demonstrados determinam a porcentagem da propor\u00e7\u00e3o de r\u00f3tulos n\u00e3o traduzidos frente a todos os r\u00f3tulos existentes no arquivo de idiomas base.",
-	"LBL_UNTRANSLATED_LABELS": "R\u00f3tulos N\u00e3o Traduzidos"
+	"LBL_UNTRANSLATED_LABELS": "R\u00f3tulos N\u00e3o Traduzidos",
+	"LBL_IMPORT_LANG": "Import language"
   },
   "js": {
 	"Translations": "Tradu\u00e7\u00f5es",

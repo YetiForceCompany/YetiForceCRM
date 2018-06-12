@@ -1,7 +1,7 @@
 {
   "php": {
-    "FInvoice": "Invoices",
-    "SINGLE_FInvoice": "Invoice",
+    "FInvoice": "Sales invoices",
+    "SINGLE_FInvoice": "Sales invoice",
     "LBL_CUSTOM_INFORMATION": "System information",
     "LBL_INVOICE_ADDRESS": "Invoice address",
     "LBL_ADDRESS_DELIVERY_INFORMATION": "Delivery address",

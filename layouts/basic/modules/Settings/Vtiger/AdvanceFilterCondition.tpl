@@ -13,7 +13,7 @@
 	{if !$USER_MODEL}
 		{assign var=USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
 	{/if}
-	<div class="conditionRow form-row">
+	<div class="js-conditions-row form-row" data-js="container | clone">
 		<div class="col-md-4 conditionField">
 			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control m-0" name="columnname" title="{\App\Language::translate('LBL_CHOOSE_FIELD')}">
 				<option value="none">{\App\Language::translate('LBL_SELECT_FIELD',$MODULE)}</option>

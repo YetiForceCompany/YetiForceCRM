@@ -111,7 +111,7 @@
     "Manually stopped": "Manually stopped",
     "stop_user": "Scanning stopped by",
     "Email_Subject": "Notification: CRON runs too long",
-    "Email_Body": "Hello<br \/><br \/>CRON is running too long, check if mail system works correctly.<br \/><br \/>Greets Admin",
+    "Email_Body": "Hello\r\n\r\nCRON is running too long, check if mail system works correctly.\r\n\r\nGreets Admin",
     "Email_FromName": "YetiForce CRON",
     "JS_info_restart_ok": "Cron unlocked",
     "permissions_all": "Visible to all",

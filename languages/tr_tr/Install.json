@@ -96,7 +96,7 @@
     "LBL_MIGRATION_ERROR": "Veri ge\u00e7i\u015fi giri\u015fimi s\u0131ras\u0131nda hata olu\u015ftu",
     "LBL_ERROR_NO_CONFIG": "Yanl\u0131\u015f sistem yerel adresi",
     "LBL_WRONG_USERNAME_OR_PASSWORD": "Yanl\u0131\u015f oturum a\u00e7ma veya \u015fifre",
-    "LBL_DESCRIPTION_CONDITIONS": "<strong> Uyar\u0131! <\/ strong> Veri Ge\u00e7i\u015fi i\u015flemi s\u0131ras\u0131nda a\u015fa\u011f\u0131daki mod\u00fcller ile ilgili t\u00fcm verileri kaybedersiniz: MailManager, EmailTemplates, Workflows. <br \/> L\u00fctfen ta\u015f\u0131ma test a\u015famas\u0131nda oldu\u011funa dikkat edin, b\u00f6ylece olas\u0131 t\u00fcm yedek kopyalar\u0131 olu\u015fturun ve herhangi bir \u00f6ng\u00f6r\u00fclemeyen olay durumunda g\u00fcvenlik prosed\u00fcrlerini takip etmelisiniz.",
+    "LBL_DESCRIPTION_CONDITIONS": "<strong> Uyar\u0131! <\/ strong> Veri Ge\u00e7i\u015fi i\u015flemi s\u0131ras\u0131nda a\u015fa\u011f\u0131daki mod\u00fcller ile ilgili t\u00fcm verileri kaybedersiniz: MailManager, EmailTemplates, Workflows. \r\n L\u00fctfen ta\u015f\u0131ma test a\u015famas\u0131nda oldu\u011funa dikkat edin, b\u00f6ylece olas\u0131 t\u00fcm yedek kopyalar\u0131 olu\u015fturun ve herhangi bir \u00f6ng\u00f6r\u00fclemeyen olay durumunda g\u00fcvenlik prosed\u00fcrlerini takip etmelisiniz.",
     "LBL_MIGRATION_IN_PROGRESS": "Veri Ge\u00e7i\u015fi devam ediyor",
     "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard"
   },

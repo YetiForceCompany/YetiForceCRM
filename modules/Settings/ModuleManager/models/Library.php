@@ -108,13 +108,12 @@ class Settings_ModuleManager_Library_Model
 		$lib = static::$libraries[$name];
 		if (file_exists($lib['dir'] . 'version.php')) {
 			App\Log::info('Library has already been downloaded: ' . $name);
-
 			return false;
 		}
 		$path = static::TEMP_DIR . DIRECTORY_SEPARATOR . $lib['name'] . '.zip';
 		$mode = AppConfig::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : App\Version::get($lib['name']);
 		$compressedName = $lib['name'] . '-' . $mode;
-		if (!file_exists($path)) {
+		if (!file_exists($path) && \App\RequestUtil::isNetConnection()) {
 			stream_context_set_default([
 				'ssl' => [
 					'verify_peer' => true,
@@ -134,6 +133,7 @@ class Settings_ModuleManager_Library_Model
 			}
 		}
 		if (file_exists($path) && filesize($path) > 0) {
+			\vtlib\Functions::recurseDelete($lib['dir']);
 			$zip = \App\Zip::openFile($path, ['checkFiles' => false]);
 			$zip->unzip([$compressedName => $lib['dir']]);
 			unlink($path);
@@ -149,8 +149,6 @@ class Settings_ModuleManager_Library_Model
 	 */
 	public static function update($name)
 	{
-		$lib = static::$libraries[$name];
-		\vtlib\Functions::recurseDelete($lib['dir']);
 		static::download($name);
 	}
 }

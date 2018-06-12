@@ -1139,7 +1139,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		container.on('click', '.toggleVisibility', function (e) {
 			var element = $(e.currentTarget);
 			var row = thisInstance.getClosestRow(element);
-			if (element.data('status') == '0') {
+			if (element.data('status') === '0') {
 				thisInstance.showExpandedRow(row);
 			} else {
 				thisInstance.hideExpandedRow(row);

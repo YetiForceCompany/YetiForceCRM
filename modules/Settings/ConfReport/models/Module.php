@@ -385,20 +385,26 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['character_set_results']['current'] = $conf['character_set_results'];
 			$directiveValues['character_set_server']['current'] = $conf['character_set_server'];
 			$directiveValues['character_set_system']['current'] = $conf['character_set_system'];
-			if ($conf['character_set_database'] !== $directiveValues['character_set_database']['recommended']) {
+			if (strtolower($conf['character_set_database']) !== strtolower($directiveValues['character_set_database']['recommended'])) {
 				$directiveValues['character_set_database']['status'] = true;
 			}
-			if ($conf['character_set_server'] !== $directiveValues['character_set_server']['recommended']) {
+			if (strtolower($conf['character_set_server']) !== strtolower($directiveValues['character_set_server']['recommended'])) {
 				$directiveValues['character_set_server']['status'] = true;
 			}
-			if ($conf['character_set_client'] !== $directiveValues['character_set_client']['recommended']) {
+			if (strtolower($conf['character_set_client']) !== strtolower($directiveValues['character_set_client']['recommended'])) {
 				$directiveValues['character_set_client']['status'] = true;
 			}
-			if ($conf['character_set_connection'] !== $directiveValues['character_set_connection']['recommended']) {
+			if (strtolower($conf['character_set_connection']) !== strtolower($directiveValues['character_set_connection']['recommended'])) {
 				$directiveValues['character_set_connection']['status'] = true;
 			}
-			if ($conf['character_set_results'] !== $directiveValues['character_set_results']['recommended']) {
+			if (strtolower($conf['character_set_results']) !== strtolower($directiveValues['character_set_results']['recommended'])) {
 				$directiveValues['character_set_results']['status'] = true;
+			}
+			if (strtolower($conf['innodb_stats_on_metadata']) !== strtolower($directiveValues['innodb_stats_on_metadata']['recommended'])) {
+				$directiveValues['innodb_stats_on_metadata']['status'] = true;
+			}
+			if (strtolower($conf['innodb_file_per_table']) !== strtolower($directiveValues['innodb_file_per_table']['recommended'])) {
+				$directiveValues['innodb_file_per_table']['status'] = true;
 			}
 			if (isset($conf['tx_isolation'])) {
 				$directiveValues['tx_isolation'] = ['current' => $conf['tx_isolation'], 'recommended' => false];
@@ -721,7 +727,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	private static function getNewestPhpVersion(string $version)
 	{
-		if (!class_exists('Requests')) {
+		if (!class_exists('Requests') || !\App\RequestUtil::isNetConnection()) {
 			return false;
 		}
 		$resonse = Requests::get('http://php.net/releases/index.php?json&max=10&version=' . $version[0]);

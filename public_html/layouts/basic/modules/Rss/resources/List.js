@@ -21,7 +21,7 @@ Vtiger_List_Js("Rss_List_Js", {},
 		registerRssButtonClickEvent: function (container) {
 			var thisInstance = this;
 			container.on('click', '.rssAddButton', function (e) {
-				thisInstance.showRssModal('getRssAddForm').then(function (data) {
+				thisInstance.showRssModal('getRssAddForm').done(function (data) {
 					var callBackFunction = function (data) {
 						var params = app.validationEngineOptions;
 						var form = data.find('#rssAddForm');
@@ -37,13 +37,14 @@ Vtiger_List_Js("Rss_List_Js", {},
 				});
 			});
 			container.on('click', '.changeFeedSource', function (e) {
-				thisInstance.showRssModal('getRssWidget').then(function (data) {
+				thisInstance.showRssModal('getRssWidget').done(function (data) {
 					var callBackFunction = function (data) {
 						data.on('click', '.rssLink', function (e) {
 							var element = jQuery(e.currentTarget);
 							var id = element.data('id');
-							thisInstance.getRssFeeds(id).then(function () {
+							thisInstance.getRssFeeds(id).done(function () {
 								app.hideModalWindow();
+
 							});
 						});
 					};
@@ -67,7 +68,7 @@ Vtiger_List_Js("Rss_List_Js", {},
 				'view': 'ViewTypes',
 				'mode': mode
 			};
-			AppConnector.request(actionParams).then(
+			AppConnector.request(actionParams).done(
 				function (data) {
 					progressInstance.progressIndicator({'mode': 'hide'});
 					aDeferred.resolve(data);
@@ -96,7 +97,7 @@ Vtiger_List_Js("Rss_List_Js", {},
 				'action': 'Save',
 				'feedurl': data.feedurl
 			};
-			AppConnector.request(params).then(
+			AppConnector.request(params).done(
 				function (result) {
 					progressIndicatorElement.progressIndicator({
 						'mode': 'hide'
@@ -134,7 +135,7 @@ Vtiger_List_Js("Rss_List_Js", {},
 				'view': 'List',
 				'id': id
 			};
-			AppConnector.requestPjax(params).then(function (data) {
+			AppConnector.requestPjax(params).done(function (data) {
 				aDeferred.resolve(data);
 				container.find('#listViewContents').html(data);
 				thisInstance.setFeedContainerHeight(container);
@@ -188,7 +189,7 @@ Vtiger_List_Js("Rss_List_Js", {},
 				height: this.getDocumentHeight() / 2
 			});
 			frameElement.addClass('table-bordered');
-			this.getHtml(url).then(function (html) {
+			this.getHtml(url).done(function (html) {
 				progressIndicatorElement.progressIndicator({
 					'mode': 'hide'
 				});
@@ -213,7 +214,7 @@ Vtiger_List_Js("Rss_List_Js", {},
 				'action': 'GetHtml',
 				'url': url
 			};
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				aDeferred.resolve(data.result.html);
 			});
 
@@ -238,7 +239,7 @@ Vtiger_List_Js("Rss_List_Js", {},
 			var thisInstance = this;
 			var recordId = container.find('#recordId').val();
 			var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(
 				function (e) {
 					var module = app.getModuleName();
 					var postData = {
@@ -254,7 +255,7 @@ Vtiger_List_Js("Rss_List_Js", {},
 							'enabled': true
 						}
 					});
-					AppConnector.request(postData).then(
+					AppConnector.request(postData).done(
 						function (data) {
 							progressIndicatorElement.progressIndicator({
 								'mode': 'hide'
@@ -307,7 +308,7 @@ Vtiger_List_Js("Rss_List_Js", {},
 					'enabled': true
 				}
 			});
-			AppConnector.request(postData).then(
+			AppConnector.request(postData).done(
 				function (data) {
 					progressIndicatorElement.progressIndicator({
 						'mode': 'hide'

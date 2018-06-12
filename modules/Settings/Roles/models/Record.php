@@ -313,7 +313,9 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$this->set('parentrole', $parentRole->getParentRoleString() . '::' . $roleId);
 		}
 		$searchunpriv = $this->get('searchunpriv');
-		$searchunpriv = implode(',', empty($searchunpriv) ? [] : $searchunpriv);
+		if (is_array($searchunpriv)) {
+			$searchunpriv = implode(',', $searchunpriv);
+		}
 		$permissionsRelatedField = $this->get('permissionsrelatedfield');
 		$permissionsRelatedField = implode(',', empty($permissionsRelatedField) ? [] : $permissionsRelatedField);
 		$values = [
@@ -332,7 +334,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			'globalsearchadv' => (int) $this->get('globalsearchadv'),
 			'auto_assign' => (int) $this->get('auto_assign'),
 		];
-		if ($mode == 'edit') {
+		if ($mode === 'edit') {
 			$db->createCommand()->update('vtiger_role', $values, ['roleid' => $roleId])
 				->execute();
 		} else {

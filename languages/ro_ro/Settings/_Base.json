@@ -151,6 +151,7 @@
     "LBL_SECURITY_MANAGEMENT": "Securitate",
     "LBL_MAIL_TOOLS": "Unelte Email",
     "LBL_PASSWORD_CONF": "Parole - Configurare",
+    "LBL_2FA_CONF": "Two-factor authentication",
     "LBL_PASSWORD_DESCRIPTION": "Setati complexitatea parolei pentru utilizatorii software-ului",
     "LBL_LOGS_MANAGEMENT": "Jurnale",
     "LBL_ARRANGE_RELATED_TABS": "Aranjati filele legate",
@@ -353,7 +354,9 @@
     "LBL_MISSING_LICENSE_FILE": "Lipseste fisierul de licenta",
     "LBL_VTIGER_DESCRIPTION": "Aproximativ 30% din codul original al Vtiger a ramas. Codul ramas a fost rescris si extins.",
     "LBL_SUGAR_DESCRIPTION": "Vtiger a fost bazat pe Sugar CRM. In prezent, doar cateva fisiere Sugar au ramas in YetiForce.",
-    "LBL_SHOP_YETIFORCE": "Magazin"
+    "LBL_YETIFORCE_SHOP": "Magazin",
+    "LBL_YETIFORCE_ISSUES": "Free support",
+    "LBL_YETIFORCE_ASSISTANCE": "Paid support"
   },
   "js": {
     "JS_AUTHORIZATION_COMPLETE": "Autorizarea a avut succes",

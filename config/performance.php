@@ -87,4 +87,6 @@ $PERFORMANCE_CONFIG = [
 	'CHART_ADDITIONAL_FILTERS_LIMIT' => 6,
 	// Maximum number of merged records
 	'MAX_MERGE_RECORDS' => 4,
+	//Can CRM have access to the Internet?
+	'ACCESS_TO_INTERNET' => true,
 ];

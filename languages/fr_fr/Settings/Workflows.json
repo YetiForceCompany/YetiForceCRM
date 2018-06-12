@@ -206,7 +206,7 @@
     "LBL_SKIP_CURRENT_USER": "Ignorer l'utilisateur actuel",
     "LBL_SELECT_ACTION_TYPE": "S\u00e9lectionner le type de notification",
     "LBL_SELECT_RECIPIENTS": "Destinataires",
-    "LBL_MESSAGE_INFO": "Le texte du message est comaptible avec des variables, le nom des variables puevent \u00eatre identiques au nom des champs syst\u00e8mes ou des fonctions sp\u00e9ciales.<br \/><br \/>Exemples de variables pour les champs :<br \/><strong>$accountname$<\/strong> - Valeur du champ <br \/><strong>%accountname%<\/strong> - label du champ<br \/><br \/>Fonctions sp\u00e9ciales :",
+    "LBL_MESSAGE_INFO": "Le texte du message est comaptible avec des variables, le nom des variables puevent \u00eatre identiques au nom des champs syst\u00e8mes ou des fonctions sp\u00e9ciales.\r\n\r\nExemples de variables pour les champs :\r\n<strong>$accountname$<\/strong> - Valeur du champ \r\n<strong>%accountname%<\/strong> - label du champ\r\n\r\nFonctions sp\u00e9ciales :",
     "LBL_WATCHING_USERS": "Utilisateurs observant",
     "LBL_VALUE_FROM_FIELD": "Valeur du champ",
     "LBL_FIELDS_LABELS": "Label champ",
@@ -232,7 +232,13 @@
     "Notify Contact On New comment added to ticket": "Notifier le contact sur un nouveau commentaire ajout\u00e9 au ticket",
     "Security risk has been detected - Brute Force": "Risque de s\u00e9curit\u00e9 a \u00e9t\u00e9 d\u00e9tect\u00e9 - Brute Force",
     "Backup has been made": "La sauvegarde a \u00e9t\u00e9 effectu\u00e9e",
-    "Notify Account On New comment added to ticket": "Notifier le compte sur un nouveau commentaire ajout\u00e9 au ticket"
+    "Notify Account On New comment added to ticket": "Notifier le compte sur un nouveau commentaire ajout\u00e9 au ticket",
+    "LBL_OWNER_REKORD": "Record Owner",
+    "LBL_SMTP": "SMTP",
+    "LBL_CHECK_EMAIL_OPTOUT": "Verify if recipient agreed to receive e-mails",
+    "LBL_SUMFIELDFROMDEPENDENT_SOURCE": "Field to be summed",
+    "LBL_SUMFIELDFROMDEPENDENT_TARGET": "Field where summation will be saved",
+    "LBL_SUM_FIELD_FROM_DEPENDENT": "Sum filed values from related module fields"
   },
   "js": {
     "JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE": "Le m\u00eame champ est s\u00e9lectionn\u00e9 \u00e0 multiples reprises",

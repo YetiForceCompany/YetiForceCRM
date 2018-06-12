@@ -150,7 +150,7 @@ hr {
 	width: 33%;
 }
 .config-table tr td.no, p.no, span.no {
-	color: red;
+	color: #e00;
 	font-weight: bold;
 }
 .config-table tr td.yes, p.yes, span.yes {
@@ -198,4 +198,7 @@ hr {
 .yetiforceDetailsLink{
 	margin-right: 1rem !important;
 	font-size: 60px;
+}
+.table-responsive {
+	overflow-x: unset;
 }

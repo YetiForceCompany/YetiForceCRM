@@ -23,7 +23,7 @@ class Settings_AdvancedPermission_ListView_Model extends Settings_Vtiger_ListVie
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $moduleModel->getCreateRecordUrl(),
-				'linkicon' => '',
+				'linkicon' => 'btn-light',
 			];
 		}
 		$basicLinks[] = [
