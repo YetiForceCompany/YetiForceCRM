@@ -1296,10 +1296,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param element
 	 */
 	printHtml(element) {
-		let widget = $(element).closest('.dashboardWidget');
-		let title = widget.find('.dashboardTitle').prop('title');
-		let printContainer = widget.find('.js-print__container').get(0);
-		let imgEl = $('<img style="width:100%">');
+		let widget = element.closest('.dashboardWidget'),
+			title = widget.find('.dashboardTitle').prop('title'),
+			printContainer = widget.find('.js-print__container').get(0),
+			imgEl = $('<img style="width:100%">');
 		imgEl.get(0).onload = () => {
 			let width = $(printContainer).outerWidth();
 			let height = $(printContainer).outerHeight();
@@ -1320,8 +1320,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param element
 	 */
 	downloadHtmlAsImage(element) {
-		let widget = $(element).closest('.dashboardWidget');
-		let title = widget.find('.dashboardTitle').prop('title');
+		let widget = $(element).closest('.dashboardWidget'),
+			title = widget.find('.dashboardTitle').prop('title');
 		app.htmlToImage($(element).closest('.dashboardWidget').find('.js-print__container').get(0), (imageBase64) => {
 			let element = document.createElement('a');
 			element.setAttribute('href', imageBase64);
