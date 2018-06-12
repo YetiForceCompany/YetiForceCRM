@@ -1292,20 +1292,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		App.Fields.Picklist.registerWaterfallSelect($('.js-waterfall-select', this.getContainer()));
 	},
 	/**
-	 * Print image from html2canvas
-	 * @param element
-	 */
-	htmlToImage(element, callback) {
-		let printContainer = $(element).closest('.dashboardWidget').find('.js-print__container').get(0);
-		if (typeof printContainer !== 'undefined') {
-			html2canvas(printContainer, {
-				logging: false,
-			}).then((canvas) => {
-				callback(canvas.toDataURL('image/png'));
-			});
-		}
-	},
-	/**
 	 * Print html content as image
 	 * @param element
 	 */
@@ -1325,7 +1311,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 			this.print(imgEl.get(0), title, width, height);
 		};
-		this.htmlToImage(element, (imageBase64) => {
+		app.htmlToImage(element, (imageBase64) => {
 			imgEl.get(0).src = imageBase64;
 		});
 	},
@@ -1336,8 +1322,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	downloadHtmlAsImage(element) {
 		let widget = $(element).closest('.dashboardWidget');
 		let title = widget.find('.dashboardTitle').prop('title');
-		let printContainer = widget.find('.js-print__container').get(0);
-		this.htmlToImage(element, (imageBase64) => {
+		app.htmlToImage($(element).closest('.dashboardWidget').find('.js-print__container').get(0), (imageBase64) => {
 			let element = document.createElement('a');
 			element.setAttribute('href', imageBase64);
 			element.setAttribute('download', title + '.png');
@@ -1351,7 +1336,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		$('.js-print--download', this.getContainer()).on('click', (e) => {
 			this.downloadHtmlAsImage(e.target);
 		});
-		$('.js-print').on('click', (e) => {
+		$('.js-print', this.getContainer()).on('click', (e) => {
 			this.printHtml(e.target);
 		});
 	},
