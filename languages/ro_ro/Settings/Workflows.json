@@ -232,7 +232,10 @@
     "Notify Account On New comment added to ticket": "Notificati contul cu privire la noul comentariu adaugat la bilet",
     "LBL_OWNER_REKORD": "Proprietar inregistrare",
     "LBL_SMTP": "SMTP",
-    "LBL_CHECK_EMAIL_OPTOUT": "Verificati daca destinatarul este de acord sa primeasca email-uri"
+    "LBL_CHECK_EMAIL_OPTOUT": "Verificati daca destinatarul este de acord sa primeasca email-uri",
+    "LBL_SUMFIELDFROMDEPENDENT_SOURCE": "Field to be summed",
+    "LBL_SUMFIELDFROMDEPENDENT_TARGET": "Field where summation will be saved",
+    "LBL_SUM_FIELD_FROM_DEPENDENT": "Sum filed values from related module fields"
   },
   "js": {
     "JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE": "Aceleasi campuri selectate mai mult decat odata",
