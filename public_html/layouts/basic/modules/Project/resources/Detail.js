@@ -33,7 +33,7 @@ Vtiger_Detail_Js("Project_Detail_Js", {}, {
 	/**
 	 * Load gantt component
 	 */
-	loadGantt(){
+	loadGantt() {
 		let ganttContainer = $('.c-gantt', this.detailViewContentHolder);
 		if (ganttContainer.length) {
 			let gantt = new Project_Gantt_Js(this.detailViewContentHolder);
