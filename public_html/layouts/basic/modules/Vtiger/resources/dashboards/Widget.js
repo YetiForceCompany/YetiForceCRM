@@ -1278,6 +1278,83 @@ jQuery.Class('Vtiger_Widget_Js', {
 			'of': widgetContentsContainer
 		});
 	},
+	/**
+	 * Register tooltips and popovers inside widget
+	 */
+	registerTooltipsAndPopovers() {
+		$('[data-toggle="tooltip"]', this.getContainer()).tooltip();
+		$('[data-toggle="popover"]', this.getContainer()).popover();
+	},
+	/**
+	 * Register waterfall selects
+	 */
+	registerWaterfallSelects() {
+		App.Fields.Picklist.registerWaterfallSelect($('.js-waterfall-select', this.getContainer()));
+	},
+	/**
+	 * Print image from html2canvas
+	 * @param element
+	 */
+	htmlToImage(element, callback) {
+		let printContainer = $(element).closest('.dashboardWidget').find('.js-print__container').get(0);
+		if (typeof printContainer !== 'undefined') {
+			html2canvas(printContainer, {
+				logging: false,
+			}).then((canvas) => {
+				callback(canvas.toDataURL('image/png'));
+			});
+		}
+	},
+	/**
+	 * Print html content as image
+	 * @param element
+	 */
+	printHtml(element) {
+		let widget = $(element).closest('.dashboardWidget');
+		let title = widget.find('.dashboardTitle').prop('title');
+		let printContainer = widget.find('.js-print__container').get(0);
+		let imgEl = $('<img style="width:100%">');
+		imgEl.get(0).onload = () => {
+			let width = $(printContainer).outerWidth();
+			let height = $(printContainer).outerHeight();
+			if (width < 600) {
+				width = 600;
+			}
+			if (height < 400) {
+				height = 400;
+			}
+			this.print(imgEl.get(0), title, width, height);
+		};
+		this.htmlToImage(element, (imageBase64) => {
+			imgEl.get(0).src = imageBase64;
+		});
+	},
+	/**
+	 * Download html content as image
+	 * @param element
+	 */
+	downloadHtmlAsImage(element) {
+		let widget = $(element).closest('.dashboardWidget');
+		let title = widget.find('.dashboardTitle').prop('title');
+		let printContainer = widget.find('.js-print__container').get(0);
+		this.htmlToImage(element, (imageBase64) => {
+			let element = document.createElement('a');
+			element.setAttribute('href', imageBase64);
+			element.setAttribute('download', title + '.png');
+			element.click();
+		});
+	},
+	/**
+	 * register print image fields (html2canvas)
+	 */
+	registerPrintAndDownload() {
+		$('.js-print--download', this.getContainer()).on('click', (e) => {
+			this.downloadHtmlAsImage(e.target);
+		});
+		$('.js-print').on('click', (e) => {
+			this.printHtml(e.target);
+		});
+	},
 	//Place holdet can be extended by child classes and can use this to handle the post load
 	postLoadWidget: function postLoadWidget() {
 		if (!this.isEmptyData()) {
@@ -1286,6 +1363,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			this.positionNoDataMsg();
 		}
 		this.registerSectionClick();
+		this.registerWaterfallSelects();
 		this.registerFilter();
 		this.registerFilterChangeEvent();
 		this.restrictContentDrag();
@@ -1294,6 +1372,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerChangeSorting();
 		this.registerLoadMore();
 		this.registerHeaderButtons();
+		this.registerPrintAndDownload();
 		this.loadScrollbar();
 	},
 	postRefreshWidget: function postRefreshWidget() {
