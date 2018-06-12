@@ -71,5 +71,5 @@ $SECURITY_CONFIG = [
 	 * Exceptions list of users (int[])
 	 * TOTP - Time-based One-time Password.
 	 */
-	'USER_AUTHY_TOTP_EXCEPTIONS' => []
+	'USER_AUTHY_TOTP_EXCEPTIONS' => [],
 ];
