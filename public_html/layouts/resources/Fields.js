@@ -792,7 +792,7 @@ App.Fields = {
 		 * @param {Array} data {value,text,selected, children => data[]}
 		 * @returns {string}
 		 */
-		getOptions(data) {
+		generateOptionsFromData(data) {
 			let html = '';
 			for (let item of data) {
 				let selected = false;
@@ -847,9 +847,9 @@ App.Fields = {
 							return a.text.localeCompare(b.text);
 						});
 					}
-					slaveSelect.html(App.Fields.DependentSelect.getOptions(children));
+					slaveSelect.html(App.Fields.DependentSelect.generateOptionsFromData(children));
 				});
-				masterSelect.html(App.Fields.DependentSelect.getOptions(data));
+				masterSelect.html(App.Fields.DependentSelect.generateOptionsFromData(data));
 			});
 		}
 	}
