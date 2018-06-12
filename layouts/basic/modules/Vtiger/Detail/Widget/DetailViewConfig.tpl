@@ -1,16 +1,17 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="modal" tabindex="-1" role="dialog">
+	<div class="tpl-Detail-Widget-DetailViewConfig modal" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<form class="form-modalAddWidget">
-				<input type="hidden" name="wid" value="{$WID}" />
-				<input type="hidden" name="type" value="{$TYPE}" />
+					<input type="hidden" name="wid" value="{$WID}"/>
+					<input type="hidden" name="type" value="{$TYPE}"/>
 					<div class="modal-header">
 						<h5 id="massEditHeader"
 							class="modal-title">{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}
 						</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<button type="button" class="close" data-dismiss="modal"
+								aria-label="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">
 							<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">&times;</span>
 						</button>
 					</div>
@@ -32,7 +33,6 @@
 									<input name="label" class="form-control" type="text"
 										   value="{$WIDGETINFO['label']}"/>
 								</div>
-								<div class="clearfix"></div>
 							</div>
 						</div>
 					</div>
