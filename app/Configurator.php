@@ -16,7 +16,8 @@ class Configurator extends Base
 {
 	/** @var string[] Paths to files */
 	private static $paths = [
-		'securityKeys' => 'config/secret_keys.php'
+		'securityKeys' => 'config/secret_keys.php',
+		'security' => 'config/security.php'
 	];
 
 	/** @var string Type of configuration */
