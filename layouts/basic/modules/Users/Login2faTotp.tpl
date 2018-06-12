@@ -28,7 +28,7 @@
 								<div class="input-group form-group first-group">
 									<input name="user_code" type="text" id="user-code"
 										   class="form-control form-control-lg"
-										   placeholder="{\App\Language::translate('LBL_2FA_USER_CODE',$MODULE)}"
+										   placeholder="{\App\Language::translate('PLL_AUTHY_TOTP',$MODULE)}"
 										   required="" autocomplete="off"
 										   autofocus="" data-validation-engine="validate[custom[integer]]">
 									<div class="input-group-append">

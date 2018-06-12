@@ -33,7 +33,7 @@
 			</div>
 		</div>
 		<div class="modal-body">
-			<div class="alert alert-info alert-dismissible hide js-wrong-code" role="alert"
+			<div class="alert alert-danger alert-dismissible hide js-wrong-code" role="alert"
 				 data-js="container|css:display">
 				{\App\Language::translate('LBL_2FA_WRONG_CODE', $MODULE_NAME)}
 			</div>

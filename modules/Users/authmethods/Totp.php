@@ -51,10 +51,10 @@ class Users_Totp_Authmethod
 	public function getOtpAuthUrl($secret, $name, $issuer = null)
 	{
 		if (is_null($issuer)) {
-			$arr = parse_url($PORTAL_URL);
+			$arr = parse_url(AppConfig::main('site_URL'));
 			$issuer = $arr['host'] ?? '';
 		}
-		$url = "otpauth://totp/{$name}?secret={$secret}";
+		$url = "otpauth://totp/{$issuer}:{$name}?secret={$secret}";
 		if (!empty($issuer)) {
 			$url .= "&issuer={$issuer}";
 		}
@@ -71,9 +71,7 @@ class Users_Totp_Authmethod
 	 */
 	public function createSecret()
 	{
-		$googleAuthenticator = new PHPGangsta_GoogleAuthenticator();
-		$this->secret = $googleAuthenticator->createSecret();
-		return $this->secret;
+		return $this->secret = (new PHPGangsta_GoogleAuthenticator())->createSecret();
 	}
 
 	/**
@@ -89,7 +87,7 @@ class Users_Totp_Authmethod
 	private function createQrCode($otpAuthUrl, $type = 'HTML')
 	{
 		$qrCodeGenerator = new \Milon\Barcode\DNS2D();
-		$qrCodeGenerator->setStorPath(__DIR__ . '/cache/');
+		$qrCodeGenerator->setStorPath(__DIR__ . AppConfig::main('tmp_dir'));
 		switch ($type) {
 			case 'HTML':
 				return $qrCodeGenerator->getBarcodeHTML($otpAuthUrl, 'QRCODE');
@@ -140,30 +138,30 @@ class Users_Totp_Authmethod
 	 *
 	 * @return bool
 	 */
-	public static function isRequired($userId = null)
+	public static function isActive($userId = null)
 	{
 		if (\AppConfig::main('systemMode') === 'demo') {
-			return false;
+			$return = false;
 		}
 		switch (AppConfig::security('USER_AUTHY_MODE')) {
 			case 'TOTP_OFF':
-				return false;
+				$return = false;
 				break;
 			case 'TOTP_OPTIONAL':
 				if (empty($userId)) {
 					$userId = \App\User::getCurrentUserRealId();
 				}
 				$userModel = \App\User::getUserModel($userId);
-				return $userModel->getDetail('authy_methods') === 'PLL_AUTHY_TOTP';
+				$return = $userModel->getDetail('authy_methods') === 'PLL_AUTHY_TOTP';
 				break;
 			case 'TOTP_OBLIGATORY':
+				$return = true;
 				if (in_array(\App\User::getCurrentUserRealId(), AppConfig::security('USER_AUTHY_TOTP_EXCEPTIONS', []))) {
-					return false;
+					$return = false;
 				}
-				return true;
 				break;
 		}
-		return false;
+		return $return;
 	}
 
 	/**
@@ -173,12 +171,8 @@ class Users_Totp_Authmethod
 	 *
 	 * @return bool
 	 */
-	public static function isRequiredInit($userId = null)
+	public static function isActiveUser($userId = null)
 	{
-		if (static::isRequired($userId)) {
-			$userModel = \App\User::getUserModel($userId);
-			return empty($userModel->getDetail('authy_secret_totp'));
-		}
-		return false;
+		return !empty(\App\User::getUserModel($userId)->getDetail('authy_secret_totp'));
 	}
 }

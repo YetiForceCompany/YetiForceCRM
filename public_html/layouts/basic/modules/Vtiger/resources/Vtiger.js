@@ -602,22 +602,15 @@ var Vtiger_Index_Js = {
 			Vtiger_Helper_Js.showMessage({text: response.result});
 		});
 	},
-	registerUserPasswordChangeModal: function (timer) {
-		if (app.getMainParams('showUserPasswordChange')) {
+	registerAterloginEvents: function () {
+		if (typeof CONFIG.ShowUserPasswordChange !== 'undefined') {
 			app.showModalWindow(null, 'index.php?module=Users&view=PasswordModal&mode=change&record=' + CONFIG.userId);
 		}
-	},
-	/**
-	 * Modal window support from 2FA authentication
-	 * @author    Arkadiusz Adach <a.adach@yetiforce.com>
-	 */
-	registerTwoFactorAuthenticationModalModal() {
-		if (app.getMainParams('authy_totp_init')) {
-			let params = {
+		if (typeof CONFIG.ShowAuthy2faModal !== 'undefined') {
+			app.showModalWindow({
 				backdrop: 'static',
 				url: 'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' + CONFIG.userId
-			};
-			app.showModalWindow(params);
+			});
 		}
 	},
 	registerEvents: function () {
@@ -627,8 +620,7 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.registerTooltipEvents();
 		Vtiger_Index_Js.changeSkin();
 		Vtiger_Index_Js.registerResizeEvent();
-		Vtiger_Index_Js.registerUserPasswordChangeModal();
-		Vtiger_Index_Js.registerTwoFactorAuthenticationModalModal();
+		Vtiger_Index_Js.registerAterloginEvents();
 	},
 	registerPostAjaxEvents: function () {
 		Vtiger_Index_Js.registerTooltipEvents();

@@ -12,7 +12,7 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	use \App\Controller\ExposeMethod;
 
 	/**
-	 * Users_TwoFactorAuthentication_Action constructor.
+	 * Constructor.
 	 */
 	public function __construct()
 	{
@@ -26,14 +26,12 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$mode = $request->getMode();
 		if (AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OFF') {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if ($mode==='off' && AppConfig::security('USER_AUTHY_MODE') !== 'TOTP_OPTIONAL') {
+		if ($request->getMode() === 'off' && AppConfig::security('USER_AUTHY_MODE') !== 'TOTP_OPTIONAL') {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		return true;
 	}
 
 	/**
@@ -57,22 +55,20 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	 */
 	public function secret(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$secret = $request->getByType('secret', 'Alnum');
-		$userCode = $request->getByType('user_code', 'Digital');
-		$checkResult = Users_Totp_Authmethod::verifyCode($secret, $userCode);
+		$checkResult = Users_Totp_Authmethod::verifyCode($secret, $request->getByType('user_code', 'Digital'));
 		if ($checkResult) {
-			$userRecordModel = Users_Record_Model::getInstanceById(\App\User::getCurrentUserRealId(), $moduleName);
+			$userRecordModel = Users_Record_Model::getInstanceById(\App\User::getCurrentUserRealId(), 'Users');
 			$userRecordModel->set('authy_secret_totp', $secret);
 			$userRecordModel->set('authy_methods', 'PLL_AUTHY_TOTP');
 			$userRecordModel->save();
-			if (\App\Session::has('authy_totp_init')) {
-				\App\Session::delete('authy_totp_init');
+			if (\App\Session::has('ShowAuthy2faModal')) {
+				\App\Session::delete('ShowAuthy2faModal');
 			}
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'message'=> \App\Language::translate('LBL_AUTHY_SECRET_TOTP_SUCCESS', 'Users'),
+			'message' => \App\Language::translate('LBL_AUTHY_SECRET_TOTP_SUCCESS', 'Users'),
 			'success' => $checkResult
 		]);
 		$response->emit();
@@ -85,12 +81,9 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	 */
 	public function off(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$secret = \App\User::getUserModel(\App\User::getCurrentUserRealId())->getDetail('authy_secret_totp');
-		$userCode = $request->getInteger('user_code');
-		$checkResult = Users_Totp_Authmethod::verifyCode($secret, $userCode);
+		$checkResult = Users_Totp_Authmethod::verifyCode(\App\User::getUserModel(\App\User::getCurrentUserRealId())->getDetail('authy_secret_totp'), $request->getByType('user_code', 'Digital'));
 		if ($checkResult) {
-			$userRecordModel = Users_Record_Model::getInstanceById(\App\User::getCurrentUserRealId(), $moduleName);
+			$userRecordModel = Users_Record_Model::getInstanceById(\App\User::getCurrentUserRealId(), 'Users');
 			$userRecordModel->set('authy_secret_totp', '');
 			$userRecordModel->set('authy_methods', '');
 			$userRecordModel->save();
