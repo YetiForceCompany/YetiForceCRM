@@ -678,12 +678,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$columns = $request->get('col');
 		$moduleName = $request->getModule();
 		$totalCount = $request->getInteger('totalCount');
-		if ($request->isEmpty('relatedView', true)) {
-			$relatedView = empty($_SESSION['relatedView'][$moduleName][$relatedModuleName]) ? 'List' : $_SESSION['relatedView'][$moduleName][$relatedModuleName];
-		} else {
-			$relatedView = $request->getByType('relatedView');
-			$_SESSION['relatedView'][$moduleName][$relatedModuleName] = $relatedView;
-		}
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
@@ -743,9 +737,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($request->has('fields')) {
 			$relationListView->setFields($request->getExploded('fields'));
 		}
-		if ($relatedView === 'ListPreview') {
-			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
-		}
 		$models = $relationListView->getEntries($pagingModel);
 		$header = $relationListView->getHeaders();
 		$links = $relationListView->getLinks();
@@ -770,7 +761,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_LIST_LINKS', $links);
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
-		$viewer->assign('RELATED_VIEW', $relatedView);
 		$viewer->assign('RELATION_FIELD', $relationField);
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
