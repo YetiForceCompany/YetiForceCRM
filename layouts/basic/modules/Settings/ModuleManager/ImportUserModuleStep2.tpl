@@ -120,7 +120,7 @@
 													<br />
 													<div class="alert alert-danger" role="alert">{\App\Language::translate('LBL_DELETE_EXIST_DIRECTORY', $QUALIFIED_MODULE)}</div>
 												{/if}
-												<div class="modal-footer">
+												<div class="modal-footer text-right">
 													{if $MODULEIMPORT_EXISTS eq 'true' || $MODULEIMPORT_DIR_EXISTS eq 'true'}
 														<input type="hidden" name="view" value="List">
 														<button class="btn btn-success" class="crmbutton small delete"
@@ -133,10 +133,7 @@
 															<input type="hidden" name="module_import_type" value="{$MODULEIMPORT_TYPE}">
 															<input type="hidden" name="module_import_name" value="{$MODULEIMPORT_NAME}">
 															<input type="hidden" name="mode" value="importUserModuleStep3">
-
-															<input type="checkbox" class="float-right" onclick="this.form.mode.value = 'updateUserModuleStep3';
-																	this.form.submit();" >
-															<span class="float-right">I would like to update now.&nbsp;</span>
+															<button class="btn btn-danger" onclick="this.form.mode.value = 'updateUserModuleStep3';this.form.submit();">{\App\Language::translate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</button>
 														{/if}
 													{else}
 														<input type="hidden" name="view" value="ModuleImport">
