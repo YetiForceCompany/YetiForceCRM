@@ -33,8 +33,12 @@ class Project_Detail_View extends Vtiger_Detail_View
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
+		$moduleModel = Vtiger_Module_Model::getInstance('OSSTimeControl');
+		if ($moduleModel) {
+			$data = $moduleModel->getTimeUsers($recordId, $moduleName);
+		}
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('DATA', Vtiger_Module_Model::getInstance('OSSTimeControl')->getTimeUsers($recordId, $moduleName));
+		$viewer->assign('DATA', $data);
 		$viewer->view('charts/ShowTimeProjectUsers.tpl', $moduleName);
 	}
 
@@ -48,13 +52,10 @@ class Project_Detail_View extends Vtiger_Detail_View
 	 */
 	public function showGantt(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$gantt = new Project_Gantt_Model();
-		$data = $gantt->getById($recordId);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('DATA', $data);
+		$viewer->assign('DATA', (new Project_Gantt_Model())->getById($request->getInteger('record')));
 		$viewer->view('gantt/GanttContents.tpl', $moduleName);
 	}
 
