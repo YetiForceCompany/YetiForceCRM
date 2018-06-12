@@ -1312,7 +1312,9 @@
     "LBL_ADVANCED_SEARCH": "B\u00fasqueda Avanzada",
     "LBL_MERGING": "Merging records",
     "_Base": "System",
-    "LBL_SHOP_YETIFORCE": "Store"
+    "LBL_SHOP_YETIFORCE": "Store",
+    "LBL_PRINT": "Print",
+    "LBL_IMAGE_DOWNLOAD": "Download image"
   },
   "js": {
     "JS_VIEWNAME_ALERT": "Nombre del filtro demasiado largo",
