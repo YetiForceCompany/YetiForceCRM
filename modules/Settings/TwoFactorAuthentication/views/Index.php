@@ -13,15 +13,13 @@ class Settings_TwoFactorAuthentication_Index_View extends Settings_Vtiger_Index_
 	 */
 	public function process(\App\Request $request)
 	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
 		$userAuthyExceptions = AppConfig::security('USER_AUTHY_TOTP_EXCEPTIONS');
-		$viewer->assign('MODULE', $moduleName);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('AVAILABLE_METHODS', Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE);
 		$viewer->assign('USER_EXCEPTIONS', $userAuthyExceptions['TOTP'] ?? []);
 		$viewer->assign('USER_AUTHY_MODE', AppConfig::security('USER_AUTHY_MODE'));
 		$viewer->assign('USER_AUTHY_TOTP_NUMBER_OF_WRONG_ATTEMPTS', AppConfig::security('USER_AUTHY_TOTP_NUMBER_OF_WRONG_ATTEMPTS'));
-		$viewer->view('Index.tpl', $qualifiedModuleName);
+		$viewer->view('Index.tpl', $request->getModule(false));
 	}
 }
