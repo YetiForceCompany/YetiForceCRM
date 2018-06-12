@@ -21,7 +21,7 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 		if (!(jQuery.isEmptyObject(thisInstance.accountHierarchyResponseCache))) {
 			aDeferred.resolve(thisInstance.accountHierarchyResponseCache);
 		} else {
-			AppConnector.request(params).then(
+			AppConnector.request(params).done(
 				function (data) {
 					//store it in the cache, so that we dont do multiple request
 					thisInstance.accountHierarchyResponseCache = data;
@@ -31,8 +31,8 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 		}
 		return aDeferred.promise();
 	},
-	registerButtons: function (contaienr) {
-		contaienr.find('.toChangeBtn').on('click', function (e) {
+	registerButtons: function (container) {
+		container.find('.toChangeBtn').on('click', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var fieldname = currentTarget.data('fieldname');
 			var params = {
@@ -42,7 +42,7 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 				module: app.getModuleName(),
 				action: 'SaveAjax'
 			};
-			AppConnector.request(params).then(
+			AppConnector.request(params).done(
 				function (data) {
 					if (currentTarget.hasClass('btn-warning')) {
 						currentTarget.removeClass('btn-warning');
@@ -86,7 +86,7 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 				record: app.getRecordId(),
 				mode: 'getHierarchyCount',
 			};
-			AppConnector.request(params).then(function (response) {
+			AppConnector.request(params).done(function (response) {
 				if (response.success) {
 					$('.detailViewTitle .hierarchy .badge').html(response.result);
 				}
@@ -98,7 +98,7 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 		var hierarchyButton = $('.detailViewTitle');
 		var url = "index.php?module=Accounts&view=AccountHierarchy&record=" + app.getRecordId();
 		hierarchyButton.on('click', '.detailViewIcon, .recordLabelValue', function (e) {
-			thisInstance.getAccountHierarchyResponseData(url).then(function (data) {
+			thisInstance.getAccountHierarchyResponseData(url).done(function (data) {
 				thisInstance.displayAccountHierarchyResponseData(data);
 			});
 		});
