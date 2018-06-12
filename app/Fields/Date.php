@@ -51,9 +51,9 @@ class Date
 	public static function currentUserJSDateFormat($format = false)
 	{
 		if ($format) {
-			return static::$jsDateFormat[$format];
+			return static::$jsDateFormat[trim($format)];
 		} else {
-			return static::$jsDateFormat[\App\User::getCurrentUserModel()->getDetail('date_format')];
+			return static::$jsDateFormat[\App\User::getCurrentUserModel()->getDetail('date_format')] ?? false;
 		}
 	}
 

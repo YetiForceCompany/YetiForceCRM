@@ -562,7 +562,7 @@ abstract class View extends Base
 		'startHour' => $userModel->getDetail('start_hour'),
 		'endHour' => $userModel->getDetail('end_hour'),
 		'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
-		'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')],
+		'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')] ?? false,
 		'timeZone' => $userModel->getDetail('time_zone'),
 		'currencyId' => $userModel->getDetail('currency_id'),
 		'currencyName' => $userModel->getDetail('currency_name'),
