@@ -16,7 +16,7 @@ class Settings_TwoFactorAuthentication_Index_View extends Settings_Vtiger_Index_
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$userAuthyExceptions = AppConfig::security('USER_AUTHY_EXCEPTIONS');
+		$userAuthyExceptions = AppConfig::security('USER_AUTHY_TOTP_EXCEPTIONS');
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('AVAILABLE_METHODS', Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE);
 		$viewer->assign('USER_EXCEPTIONS', $userAuthyExceptions['TOTP'] ?? []);
