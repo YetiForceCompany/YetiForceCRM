@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="modal fade" tabindex="-1">
-		<div class="modal-dialog">
+	<div class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<form class="form-modalAddWidget">
 				<input type="hidden" name="wid" value="{$WID}" />
@@ -10,8 +10,8 @@
 						<h5 id="massEditHeader"
 							class="modal-title">{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}
 						</h5>
-						<button type="button" data-dismiss="modal" class="close"
-								title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">×
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
