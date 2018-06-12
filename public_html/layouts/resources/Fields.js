@@ -786,4 +786,76 @@ App.Fields = {
 			});
 		}
 	},
+	DependentSelect: {
+		/**
+		 * Get options for select from array of items (exclude children)
+		 * @param {Array} data {value,text,selected, children => data[]}
+		 * @returns {string}
+		 */
+		getOptions(data) {
+			let html = '';
+			for (let item of data) {
+				let selected = false;
+				if (typeof item.selected !== 'undefined' && item.selected) {
+					selected = true;
+				}
+				html += `<option value=${item.value}${selected ? ' selected' : ''}>${item.text}</option>`;
+			}
+			return html;
+		},
+		/**
+		 * Register dependent selects
+		 *
+		 * @param {jQuery} container with data- options:
+		 * data-slave: selector for slave element
+		 * data-data: array of options with children elements for slave select (see getOptions for data format)
+		 * data-sort: do we want to sort slave options by text when master has two items selected? if not - just append options to slave
+		 */
+		register(container) {
+			if (typeof container === 'undefined' || typeof container.length === 'undefined' || !container.length) {
+				return app.errorLog("Dependend select field container is missing.");
+			}
+			container.each(function () {
+				const masterSelect = $(this),
+					slaveSelector = masterSelect.data('slave'),
+					slaveSelect = $(masterSelect.data('slave')),
+					data = masterSelect.data('data'),
+					sort = masterSelect.data('sort');
+				if (!slaveSelector) {
+					return app.errorLog("data-slave property missing");
+				}
+				if (!slaveSelect.length) {
+					return app.errorLog("Could not find slave select element");
+				}
+				if (!data) {
+					return app.errorLog("Could not load data (data-data attribute)");
+				}
+				masterSelect.on('change', (e) => {
+					let values = $(e.target).val();
+					if (!Array.isArray(values)) {
+						values = [values];
+					}
+					let children = [];
+					for (let value of values) {
+						for (let item of data) {
+							if (item.value === value) {
+								if (typeof item.children !== 'undefined') {
+									item.children.forEach((child) => {
+										children.push(child);
+									});
+								}
+							}
+						}
+					}
+					if (sort) {
+						children.sort((a, b) => {
+							return a.text.localeCompare(b.text);
+						});
+					}
+					slaveSelect.html(App.Fields.DependentSelect.getOptions(children));
+				});
+				masterSelect.html(App.Fields.DependentSelect.getOptions(data));
+			});
+		}
+	}
 };
