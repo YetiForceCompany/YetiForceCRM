@@ -60,7 +60,6 @@ class Users_Login_View extends \App\Controller\View
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
-		$viewer->assign('CURRENT_VERSION', \App\Version::get());
 		$viewer->assign('LANGUAGE_SELECTION', AppConfig::main('langInLoginView'));
 		$viewer->assign('LAYOUT_SELECTION', AppConfig::main('layoutInLoginView'));
 		$viewer->assign('IS_BLOCKED_IP', Settings_BruteForce_Module_Model::getCleanInstance()->isBlockedIp());

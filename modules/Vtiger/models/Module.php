@@ -380,16 +380,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to get the url for the Find Duplicates action of the module.
-	 *
-	 * @return string - url
-	 */
-	public function getFindDuplicatesUrl()
-	{
-		return 'index.php?module=' . $this->getName() . '&view=FindDuplicates';
-	}
-
-	/**
 	 * Function to get the url to view Dashboard for the module.
 	 *
 	 * @return string - url
@@ -827,7 +817,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (isset($this->entityInstance)) {
 			return $this->entityInstance;
 		}
-
 		return $this->entityInstance = CRMEntity::getInstance($this->getName());
 	}
 

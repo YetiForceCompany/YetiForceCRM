@@ -22,7 +22,6 @@
 		</button>
 		{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
 			{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='editViewHeader'}
-			&nbsp;&nbsp;
 		{/foreach}
 	</div>
 </form>

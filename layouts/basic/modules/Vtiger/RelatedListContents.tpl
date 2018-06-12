@@ -45,9 +45,11 @@
 				<tr>
 					<td class="listViewSearchTd">
 						<div class="flexWrapper">
-								<a class="btn btn-light" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
+								<a class="btn btn-light" role="button" data-trigger="listSearch" href="javascript:void(0);">
+									<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
+								</a>
 							<button type="button" class="btn btn-light removeSearchConditions">
-									<span class="fas fa-times">
+								<span class="fas fa-times" title="{\App\Language::translate('LBL_CLEAR_SEARCH')}"></span>
 							</button>
 						</div>
 					</td>
@@ -92,6 +94,7 @@
 							{if $HEADER_FIELD->get('isEditable')}
 								<input name="{$RELATED_HEADERNAME}" class="form-control form-control-sm js-edit-{$RELATED_HEADERNAME} {$HEADER_FIELD->get('class')}"
 									   title="{App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE_NAME)}"
+									   data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($HEADER_FIELD->getFieldInfo()))}"
 									   value="{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}"
 									   data-js="change"
 								/>

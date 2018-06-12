@@ -1,0 +1,19 @@
+{
+  "php": {
+    "EmailTemplates": "Sabloane email",
+    "SINGLE_EmailTemplates": "Sablon email",
+    "LBL_CONTENT_MAIL": "Continut email",
+    "LBL_BASIC_DETAILS": "Informatii de baza",
+    "FL_NAME": "Nume",
+    "FL_TYPE": "Tip",
+    "FL_MODULE": "Modul",
+    "FL_SUBJECT": "Subiect",
+    "FL_CONTENT": "Continut",
+    "FL_SMTP_PRIORITY": "Prioritate SMTP",
+    "PLL_MODULE": "Modul",
+    "PLL_RECORD": "Inregistrare",
+    "PLL_MAIL": "Mesaj",
+    "PLL_LIST": "Lista",
+    "PLL_DEFAULT": "Companie implicita"
+  }
+}

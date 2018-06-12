@@ -1,0 +1,20 @@
+{
+  "php": {
+    "LBL_ADD_RECORD": "Adauga inregistrare",
+    "LBL_ADD_USERS_ROLES": "Adauga Utilizatori, Roluri...",
+    "LBL_DUPLICATES_EXIST": "Denumirea grupului exista deja",
+    "LBL_GROUP_MEMBERS": "Membrii grup",
+    "LBL_GROUP_NAME": "Denumire grup",
+    "LBL_ROLEANDSUBORDINATE": "Roluri si subordonate",
+    "LBL_TO_OTHER_GROUP": "Catre alt grup ",
+    "LBL_TRANSFORM_OWNERSHIP": "Transferati proprietatea",
+    "SINGLE_Groups": "Grup",
+    "Users": "Utilizatori",
+    "Name": "Denumire grup",
+    "Description": "Descriere"
+  },
+  "js": {
+    "JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP": "Selectati cel putin un membru pentru un grup",
+    "JS_RECORD_DELETED_SUCCESSFULLY": "Grup sters cu succes"
+  }
+}

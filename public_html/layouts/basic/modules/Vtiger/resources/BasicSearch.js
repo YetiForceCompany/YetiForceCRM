@@ -65,7 +65,11 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		if (typeof params === "undefined") {
 			params = {};
 		}
-		params.module = app.getModuleName();
+		if(params.searchModule){
+			params.module = params.searchModule;
+		}else if(!params.module){
+			params.module = app.getModuleName();
+		}
 		params.view = 'BasicAjax';
 		params.mode = 'showSearchResults';
 		params.limit = this.reduceNumberResults;

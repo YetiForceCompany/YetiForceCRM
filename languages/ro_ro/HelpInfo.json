@@ -1,0 +1,6 @@
+{
+  "php": {
+    "Announcements|FL_INTERVAL": "Frecventa memento-urilor in zile, daca un utilizator nu a revizuit modificarile. Daca campul ramane gol, mementoul nu va fi afisat din nou.",
+    "Accounts|Account Name": "Acest camp este destinat pentru numele companiei"
+  }
+}

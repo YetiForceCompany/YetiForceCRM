@@ -21,14 +21,14 @@
 			<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/jquery/dist/jquery.min.js')}"></script>
 		</head>
 		<body>
-			<div style="margin-top: 10px;" class="alert alert-danger shadow">
-				<div style="position: relative;" >
+			<div class="mt-3 alert alert-danger shadow">
+				<div class="position-relative">
 					<div>
 						<h2 class="alert-heading">{\App\Language::translate('LBL_ERROR')}</h2>
 						<p>{\App\Purifier::encodeHtml($MESSAGE)}</p>
 						<p class="Buttons">
-							<a class="btn btn-warning" href="javascript:window.history.back();">{\App\Language::translate('LBL_GO_BACK')}</a>
-							<a class="btn btn-info" href="index.php">{\App\Language::translate('LBL_MAIN_PAGE')}</a>
+							<a class="btn btn-warning" role="button" href="javascript:window.history.back();">{\App\Language::translate('LBL_GO_BACK')}</a>
+							<a class="btn btn-info" role="button" href="index.php">{\App\Language::translate('LBL_MAIN_PAGE')}</a>
 						</p>
 					</div>
 				</div>

@@ -159,7 +159,6 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 		var params = {
 			text: customParams.text,
 			type: customParams.type,
-			width: '30%',
 			delay: '3000'
 		};
 		Vtiger_Helper_Js.showPnotify(params);

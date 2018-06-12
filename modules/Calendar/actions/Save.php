@@ -95,8 +95,8 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 			$recordModel->set('activitytype', 'Task');
 			$recordModel->set('visibility', 'Private');
 		}
-		if ($request->has('saveAndClose')) {
-			$recordModel->set('activitystatus', $request->get('saveAndClose'));
+		if ($request->has('markAsCompleted')) {
+			$recordModel->set('activitystatus', $request->get('markAsCompleted'));
 		}
 		//Due to dependencies on the older code
 		if ($request->get('set_reminder') && $request->get('set_reminder') !== 'No') {

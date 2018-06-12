@@ -60,10 +60,14 @@ class VTJsonCondition
 			foreach ($expressionResults as $groupId => &$groupExprResultSet) {
 				$groupResult = true;
 				foreach ($groupExprResultSet as &$exprResult) {
-					$result = $exprResult['result'];
-					$logicalOperator = $exprResult['logicaloperator'];
+					if (isset($exprResult['result'])) {
+						$result = $exprResult['result'];
+					}
+					if (isset($exprResult['logicaloperator'])) {
+						$logicalOperator = $exprResult['logicaloperator'];
+					}
 					if (isset($result)) { // Condition to skip last condition
-						if (!empty($logicalOperator)) {
+						if (isset($logicalOperator)) {
 							switch ($logicalOperator) {
 								case 'and': $groupResult = ($groupResult && $result);
 									break;

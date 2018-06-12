@@ -1,0 +1,32 @@
+{
+  "php": {
+    "LBL_DAV_KEYS": "Aplicatii DAV",
+    "LBL_DAV_KEYS_DESCRIPTION": "Creati si administrati chei DAV",
+    "LBL_KEY": "Cheie",
+    "LBL_TOOLS": "Unelte",
+    "LBL_DELETE_KEY": "Stergeti cheie",
+    "LBL_ADD_KEY": "Adaugati cheie",
+    "LBL_DISPLAY_NAME": "Utilizator",
+    "LBL_EMAIL": "Email",
+    "LBL_LOGIN": "Logare",
+    "LBL_SELECT_USER": "Selectati utilizator:",
+    "LBL_ALERT_DAV_NO_ACTIVE_TITLE": "Aplicatia DAV nu este activa",
+    "LBL_ALERT_DAV_NO_ACTIVE_DESC": "Aplicatia DAV nu a fost activata inca, activati-o in config\/api.php",
+    "LBL_SUCCESS_SAVE_KEY": "Noua cheie a fost adaugata cu succes",
+    "LBL_ERROR_SAVE_KEY": "Eroare salvare cheie",
+    "LBL_SUCCESS_SAVE_CHANGES": "Modificari salvate",
+    "LBL_ACTIVE_USER": "Status utilizator",
+    "LBL_KEY_HAS_BEEN_REMOVED": "Cheia a fost stearsa",
+    "LBL_SELECT_TYPE": "Tip",
+    "LBL_COUNT_CARD": "Numarul de contacte",
+    "LBL_COUNT_CAL": "Numarul de evenimente",
+    "LBL_VIEW_KEYS": "Chei DAV",
+    "Dav": "Chei DAV",
+    "LBL_DUPLICATE_USER_SERVICES": "Cheia pentru aceasta aplicatie exista deja.",
+    "LBL_ALERT_DAV_CONFIG_TITLE": "Informatii despre configurare",
+    "LBL_ALERT_DAV_CONFIG_DESC": "Exemple de configurare a conexiunii serverului DAV, pentru diferite aplicatii si sisteme:\r\n<b>DAVdroid<\/b>\r\nAddress: %sdav.php\r\nPreventive authorization NO\r\n<b>Thunderbird CalDAV<\/b>\r\nAddress: https:\/\/gitdeveloper.yetiforce.com\/dav.php\/calendars\/demo\/YFCalendar\/\r\n<b>iOS<\/b>\r\nAddress: http:\/\/gitdeveloper.yetiforce.com\/dav.php\/principals\/demo\/ \r\nPentru conexiuni SSL: \r\n http:\/\/gitdeveloper.yetiforce.com:443\/dav.php\/principals\/demo\/"
+  },
+  "js": {
+    "Adding a Key": "Adaugati cheie"
+  }
+}

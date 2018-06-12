@@ -27,8 +27,8 @@ body {
 .logo {
 	padding: 15px 0;
 }
-.head {
-	padding-top: 30px;
+.logo img {
+	height: 50px;
 }
 .inner-container {
 	padding: 15px 2%;
@@ -150,7 +150,7 @@ hr {
 	width: 33%;
 }
 .config-table tr td.no, p.no, span.no {
-	color: red;
+	color: #e00;
 	font-weight: bold;
 }
 .config-table tr td.yes, p.yes, span.yes {
@@ -167,7 +167,6 @@ hr {
 	float: right;
 }
 .button-container .btn {
-	margin-left: 15px;
 	min-width: 100px;
 	font-weight: bold;
 }
@@ -195,4 +194,11 @@ hr {
 	box-shadow: 0 0 5px #ccc;
 	min-height: 50px;
 	padding: 0 15px;
+}
+.yetiforceDetailsLink{
+	margin-right: 1rem !important;
+	font-size: 60px;
+}
+.table-responsive {
+	overflow-x: unset;
 }

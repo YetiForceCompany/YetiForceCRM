@@ -303,8 +303,10 @@ var Settings_Index_Js = {
 		var shortages = [];
 		for (var i in modules) {
 			for (var k in modules[i]) {
-				if (data[k].length == 1)
+				if (data[k].length == 1) {
+					langStats += data[k][0];
 					continue;
+				}
 				var max = data[k][0];
 				langStats += max;
 				delete data[k][0];

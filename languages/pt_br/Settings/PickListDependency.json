@@ -4,7 +4,7 @@
 	"LBL_ADD_RECORD": "Adicionar Registro",
 	"PickListDependency": "Depend\u00eancia da Lista de Op\u00e7\u00f5es",
 	"LBL_CONFIGURE_DEPENDENCY_HELP_1": "Somente valores do campo Fonte, da Lista de Op\u00e7\u00f5es mapeada ser\u00e3o exibidos a seguir (exceto na primeira vez)",
-	"LBL_CONFIGURE_DEPENDENCY_HELP_2": "e voc\u00ea deseja ver ou alterar o mapeamento para outros valores da Lista de Op\u00e7\u00f5es do campo Fonte,<br \/> poder\u00e1 selecionar os valores clicando no bot\u00e3o <b>'Selecionar valores Fonte'<\/b> no lado direito",
+	"LBL_CONFIGURE_DEPENDENCY_HELP_2": "e voc\u00ea deseja ver ou alterar o mapeamento para outros valores da Lista de Op\u00e7\u00f5es do campo Fonte,\r\n poder\u00e1 selecionar os valores clicando no bot\u00e3o <b>'Selecionar valores Fonte'<\/b> no lado direito",
 	"LBL_CONFIGURE_DEPENDENCY_HELP_3": "Os valores selecionados do campo Alvo, s\u00e3o destacados como",
 	"LBL_CONFIGURE_DEPENDENCY_INFO": "Clique sobre a respectiva celula, para alterar o mapeamento de valores da Lista de Op\u00e7\u00f5es do campo alvo",
 	"LBL_ERR_CYCLIC_DEPENDENCY": "Esta configura\u00e7\u00e3o de depend\u00eancia n\u00e3o \u00e9 permitida, uma vez que acaba gerando uma depend\u00eancia c\u00edclica",

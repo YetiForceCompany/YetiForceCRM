@@ -8,9 +8,9 @@
     "LBL_CONFIG_REPORT_LINK": "Fehlende Library zeigen",
     "LBL_CONFIG_REPORT_DESC": "Der Server wurde nicht korrekt konfiguriert. Das System kann dadurch instabil sein und eingegeben Daten eventuell fehlerhaft. Mehr Informationen finden Sie in folgenden Artikel <a target=\"_blank\" rel=\"noreferrer\" href=\"https:\/\/yetiforce.com\/en\/knowledge-base\/documentation\/implementer-documentation\/item\/web-server-requirements\"><u>on server requirements at yetiforce.com<\/u><\/a>",
     "LBL_NEWSLETTER": "Newsletter",
-    "LBL_NEWSLETTER_DESC": "Anmelden f\u00fcr den kostenlosen YetiForce Newsletter. Werden Sie \u00fcber die aktuellen Systemfunktionen im CRM Bereich informiert. Wir senden Ihnen Informationen \u00fcber neue Versionen, Updates, Events, Neuentwicklungen, und vieles mehr.<br \/>Treten Sie unserer Community bei und bleiben Sie auf dem aktuellen Stand.<br \/>Eine Internetverbindung wird f\u00fcr die Anmeldung ben\u00f6tigt.",
+    "LBL_NEWSLETTER_DESC": "Anmelden f\u00fcr den kostenlosen YetiForce Newsletter. Werden Sie \u00fcber die aktuellen Systemfunktionen im CRM Bereich informiert. Wir senden Ihnen Informationen \u00fcber neue Versionen, Updates, Events, Neuentwicklungen, und vieles mehr.\r\nTreten Sie unserer Community bei und bleiben Sie auf dem aktuellen Stand.\r\nEine Internetverbindung wird f\u00fcr die Anmeldung ben\u00f6tigt.",
     "LBL_STATS": "Statistische Informationen senden",
-    "LBL_STATS_DESC": "Helfen Sie uns YetiForce und unsere Services zu verbessern indem Sie Anonyme Daten \u00fcber Ihr CRM System zukommen lassen. Die von uns gesammelten Daten enthalten folgendes: <ul><li>Die eindeutige CRM Instanznummer f\u00fcr den Newsletter<\/li><li>System Version<\/li><li>Sprache<\/li><li>Zeitzone<\/li><\/ul>Wir behandeln die Daten unter hohen Sicherheitsaspekten und versichern das diese ausschlie\u00dflich f\u00fcr statistische Zwecke verwendet werden.<br \/>Hilfen Sie uns und unserer Community.",
+    "LBL_STATS_DESC": "Helfen Sie uns YetiForce und unsere Services zu verbessern indem Sie Anonyme Daten \u00fcber Ihr CRM System zukommen lassen. Die von uns gesammelten Daten enthalten folgendes: <ul><li>Die eindeutige CRM Instanznummer f\u00fcr den Newsletter<\/li><li>System Version<\/li><li>Sprache<\/li><li>Zeitzone<\/li><\/ul>Wir behandeln die Daten unter hohen Sicherheitsaspekten und versichern das diese ausschlie\u00dflich f\u00fcr statistische Zwecke verwendet werden.\r\nHilfen Sie uns und unserer Community.",
     "LBL_SAVE_TO_NEWSLETTER": "F\u00fcr Newsletter anmelden",
     "LBL_REMIND_LATER": "Sp\u00e4ter erinnern",
     "LBL_DATA_SAVE_OK": "Daten korrekt gesichert",
@@ -24,6 +24,10 @@
     "LBL_MISSING_HTTPS": "Die Serververbindung ist nicht verschl\u00fcsselt. Wenn die Verbindung nicht durch eine HTTPS Verbindung gesichert ist, kann diese von anderen abgegriffen und ver\u00e4ndert werden. Die empfohlene Konfiguration kann unter dem \"Web server requirements\" Artikel in der Dokumentation gefunden werden.",
     "LBL_DISK_USAGE": "Verf\u00fcgbarer Speicherplatz",
     "LBL_DISK_FULL": "Systemstabilit\u00e4t gef\u00e4hrdet (%s of %s). Es ist kein Speicherplatz mehr frei. Laufwerkspfad: %s",
-    "SystemWarnings": "System Warnungen"
+    "SystemWarnings": "System Warnungen",
+    "BTN_CONFIGURE_ENCRYPTION": "Activate encryption",
+    "Security": "Security",
+    "LBL_MECHANISM_ENCRYPTION": "Encryption mechanism",
+    "LBL_CONFIGURE_ENCRYPTION_DESCRIPTION": "No encryption causes that sensitive data such as passwords to mailboxes and access keys are stored in a public form in the database."
   }
 }

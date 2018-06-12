@@ -329,7 +329,13 @@
     "LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM": "Nie mozna zmieni\u0107 has\u0142a, u\u017cytkownik u\u017cywa autoryzacji w systemie zewn\u0119trznym.",
     "FL_VIEW_DATE_FORMAT": "Format daty podgl\u0105du",
     "PLL_FULL": "Pe\u0142na data czas",
-    "PLL_ELAPSED": "Ile up\u0142yne\u0142o czasu"
+    "PLL_ELAPSED": "Ile up\u0142yne\u0142o czasu",
+    "LBL_AUTHENTICATION_CODE": "Kod weryfikacyjny",
+    "LBL_TWO_FACTOR_AUTHENTICATION": "Uwierzytelnianie dwusk\u0142adnikowe",
+    "LBL_2FA_SECRET": "Tajny kod",
+    "LBL_2FA_TOTP_QR_CODE": "Kod jednorazowy",
+    "LBL_AUTHY_SECRET_TOTP_SUCCESS": "Autentykacja dwusk\u0142adnikowa zosta\u0142a pomy\u015blnie w\u0142\u0105czona.",
+    "LBL_2FA_WRONG_CODE": "Niepoprawny kod"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Separator dziesi\u0119tny i grupowania nie mog\u0105 by\u0107 takie same",

@@ -1,0 +1,32 @@
+{
+  "php": {
+    "LBL_PAGE_NUMBER": "Mergi la pagina numarul",
+    "OSSMailScanner_manual": "Mail Scanner",
+    "OSSMailScanner": "Scaner Mail",
+    "Mail Scanner": "Scaner \u2013 Mail",
+    "LBL_VIEW_LOGS": "Protocol Mail",
+    "CRM Archive": "Arhiva CRM",
+    "CRM Archive Sent": "Arhiva CRM trimisa",
+    "Drafts": "Ciorne",
+    "INBOX": "INBOX",
+    "Junk": "JUNK",
+    "Sent": "SENT",
+    "ERR_INCORRECT_ACCESS_DATA": "Date acces incorecte",
+    "LBL_INFO_ABOUT_FOLDERS_TO_REMOVE": "Dosarele de mai jos vor fi sterse dupa salvare"
+  },
+  "js": {
+    "start_cron": "Cron inceput",
+    "end_cron_ok": "Sarcini CRON terminate cu succes",
+    "end_cron_error": "In timpul rularii CRON o eroare a aparut",
+    "JS_mail_error": "Adresa de e-mail este incorecta",
+    "JS_time_error": "Formatul datei este incorect",
+    "JS_StopCron": "Opriti manual CRON-ul",
+    "stop_user": "Utilizatorul care a oprit scanarea",
+    "Manually stopped": "Oprita manual",
+    "OK": "ok",
+    "In progress": "In progres",
+    "whether_remove_an_identity": "Eliminati o identitate?",
+    "removed_identity": "Identitate stearsa",
+    "LBL_LOADING_LIST_OF_FOLDERS": "Incarcare lista dosare in progres.\r\nAceasta dureaza cateva minute..."
+  }
+}

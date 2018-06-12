@@ -1,7 +1,7 @@
 {
   "php": {
-    "FInvoice": "Faktury",
-    "SINGLE_FInvoice": "Faktura",
+    "FInvoice": "Faktury sprzedażowe",
+    "SINGLE_FInvoice": "Faktura sprzedażowa",
     "LBL_CUSTOM_INFORMATION": "Informacje systemowe",
     "LBL_INVOICE_ADDRESS": "Adres do faktury",
     "LBL_ADDRESS_DELIVERY_INFORMATION": "Adres do dostawy",

@@ -40,7 +40,7 @@ class Settings_WebserviceUsers_ListView_Model extends Settings_Vtiger_ListView_M
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkdata' => ['url' => $moduleModel->getEditViewUrl()],
 				'linkicon' => 'fas fa-plus',
-				'linkclass' => 'btn-success addRecord',
+				'linkclass' => 'btn-light addRecord',
 				'showLabel' => 1,
 				'modalView' => true,
 			];

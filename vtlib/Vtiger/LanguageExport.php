@@ -62,9 +62,14 @@ class LanguageExport extends Package
 		// Add manifest file
 		$zip->addFile($this->__getManifestFilePath(), 'manifest.xml');
 		// Copy module directory
-		$zip->addDirectory("languages/$languageCode", 'modules');
+		foreach (['languages', 'custom' . DIRECTORY_SEPARATOR . 'languages'] as $dir) {
+			$path = $dir . DIRECTORY_SEPARATOR . $languageCode;
+			if (file_exists($path)) {
+				$zip->addDirectory($path);
+			}
+		}
 		if ($directDownload) {
-			$zip->download();
+			$zip->download($languageCode);
 		} else {
 			$zip->close();
 			if ($todir) {
@@ -76,29 +81,24 @@ class LanguageExport extends Package
 
 	/**
 	 * Export Language Handler.
+	 *
+	 * @param string $prefix
 	 */
 	private function generateLangMainfest($prefix)
 	{
-		$db = \PearDatabase::getInstance();
-		$sqlresult = $db->pquery('SELECT * FROM vtiger_language WHERE prefix = ?', [$prefix]);
-		$languageresultrow = $db->fetchArray($sqlresult);
-		$langname = \App\Purifier::decodeHtml($languageresultrow['name']);
-		$langlabel = \App\Purifier::decodeHtml($languageresultrow['label']);
+		$langInfo = \App\Language::getLangInfo($prefix);
 		$this->openNode('module');
 		$this->outputNode('language', 'type');
-		$this->outputNode($langname, 'name');
-		$this->outputNode($langlabel, 'label');
+		$this->outputNode(\App\Purifier::decodeHtml($langInfo['name']), 'name');
+		$this->outputNode(\App\Purifier::decodeHtml($langInfo['label']), 'label');
 		$this->outputNode($prefix, 'prefix');
 		$this->outputNode('language', 'type');
 		$this->outputNode(\AppConfig::main('default_charset'), 'encoding');
 		$this->outputNode('YetiForce - yetiforce.com', 'author');
 		$this->outputNode('YetiForce - yetiforce.com', 'license');
 		// Export dependency information
-		$minVersion = current(explode('.', \App\Version::get())) . '.*';
 		$this->openNode('dependencies');
-		if ($minVersion !== false) {
-			$this->outputNode($minVersion, 'vtiger_version');
-		}
+		$this->outputNode(\App\Version::get(), 'vtiger_version');
 		$this->closeNode('dependencies');
 		$this->closeNode('module');
 	}

@@ -50,7 +50,6 @@
     "Export": "Exporter",
     "Merge": "Fusionner",
     "ConvertLead": "Convertir prospect",
-    "DuplicatesHandling": "Gestion des doublons",
     "ReceiveIncomingCalls": "Recoit des appels entrants",
     "MakeOutgoingCalls": "Fait des appels sortants",
     "Print": "Imprimer",
@@ -88,7 +87,8 @@
     "Guest Profile for Test Users": "Profil invit\u00e9 pour utilisateurs de test",
     "ActivityCancel": "Annuler les enregistrements",
     "ActivityComplete": "Fermer les enregistrements",
-    "ActivityPostponed": "Report des enregistrements"
+    "ActivityPostponed": "Report des enregistrements",
+    "ModTracker": "Change history"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Profil supprim\u00e9 avec succ\u00e8s"

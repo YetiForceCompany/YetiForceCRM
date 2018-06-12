@@ -50,7 +50,8 @@
     "LBL_LANGUAGE": "J\u0119zyk",
     "LBL_SHOW": "Poka\u017c",
     "LBL_STATS_INFO": "Prezentowane warto\u015bci statystyczne okre\u015blaj\u0105 stosunek etykiet nieprzet\u0142umaczonych do wszystkich etykiet wyst\u0119puj\u0105cych w pliku(-ach) j\u0119zyka bazowego w procentach.",
-    "LBL_UNTRANSLATED_LABELS": "Nieprzet\u0142umaczone etykiety"
+    "LBL_UNTRANSLATED_LABELS": "Nieprzet\u0142umaczone etykiety",
+    "LBL_IMPORT_LANG": "Importuj j\u0119zyk"
   },
   "js": {
     "Translations": "T\u0142umaczenia",

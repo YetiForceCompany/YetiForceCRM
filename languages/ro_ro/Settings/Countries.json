@@ -1,0 +1,17 @@
+{
+  "php": {
+    "LBL_COUNTRY_NAME": "Denumire Tara",
+    "LBL_COUNTRY_SHORTNAME": "Cod Tara",
+    "LBL_COUNTRY_TOGGLE_STATUS": "Tara este valabila la nivel global in sistem?",
+    "LBL_COUNTRY_TOGGLE_ALL_STATUSES": "Activati sau dezactivati toate tarile",
+    "LBL_VISIBLE_IN_PHONE": "Tara este vizibila in campul de tip telefon?",
+    "LBL_VISIBLE_IN_COUNTRY": "Tara este vizibila in \"Tara\" camp adresa?",
+    "LBL_ROW_TO_TOP": "Mutati randul in partea de sus",
+    "LBL_ROW_TO_BOTTOM": "Mutati randul in partea de jos",
+    "LBL_COUNTRY_SETTINGS": "Setari Tara",
+    "LBL_COUNTRY_DESCRIPTION": "Configurati disponibilitatea tarilor in sistem"
+  },
+  "js": {
+    "JS_COUNTRY_SETTING": "Setari de Tara"
+  }
+}

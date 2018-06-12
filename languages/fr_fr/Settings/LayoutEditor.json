@@ -94,7 +94,7 @@
     "LBL_FIELD_TYPE1": "Suppl\u00e9mentaire (eg. vtiger_accountcf)",
     "LBL_TREE_TEMPLATE": "Arbre",
     "Tree": "Champ d'arbres",
-    "LBL_FIELD_MASK_INFO": "D\u00ebfinitions des masques de saisie par d\u00e9faut <br \/>9: Num\u00e9rique<br \/>a: Alphab\u00e9tique<br \/>*: Alphanum\u00e9rique<br \/><br \/>Exemple:<br \/>(99) 9999-9999<br \/>+48 999-999-999<br \/>aaa_999_aaa<br \/>dd\/mm\/yyyy",
+    "LBL_FIELD_MASK_INFO": "D\u00ebfinitions des masques de saisie par d\u00e9faut \r\n9: Num\u00e9rique\r\na: Alphab\u00e9tique\r\n*: Alphanum\u00e9rique\r\n\r\nExemple:\r\n(99) 9999-9999\r\n+48 999-999-999\r\naaa_999_aaa\r\ndd\/mm\/yyyy",
     "MultiReferenceValue": "Valeur du module li\u00e9",
     "LBL_MULTI_REFERENCE_VALUE_MODULES": "Module li\u00e9",
     "LBL_MULTI_REFERENCE_VALUE_FIELDS": "Champ li\u00e9",

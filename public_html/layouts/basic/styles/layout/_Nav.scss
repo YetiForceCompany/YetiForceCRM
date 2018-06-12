@@ -1,52 +1,33 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.c-menu {
+	&__container {
+		position: fixed;
+		left: 0;
+		top: 0;
+		bottom: 33px;
+		width: 230px;
+		color: $color-menu;
+		z-index: 1030;
+		background: $bg-menu;
 
-.leftPanel {
-	.userDetailsContainer {
-		height: 50px;
-		padding-right: 0;
-		padding-left: 0;
-		background-color: #406a95;
-	}
-
-	position: fixed;
-	left: 0;
-	top: 0;
-	bottom: 33px;
-	width: 230px;
-	color: $y-menu-font-color;
-	z-index: 1030;
-	background: $y-menu-background;
-
-	.menuContainer {
-		height: calc(100% - 50px);
-		width: 100%;
-		position: relative;
-	}
-
-	.menuContainer .modulesList .menuIcon {
-		padding-right: 18px;
-		font-size: 1.6em;
-		height: 100%;
-		min-width: 42px;
-	}
-
-	.row {
-		padding: 0;
-		margin: 0;
-	}
-
-	a {
-		color: $y-menu-font-color;
-
-		&:hover {
-			text-decoration: none;
-			cursor: pointer;
+		.row {
+			padding: 0;
+			margin: 0;
 		}
 
-		transition: background-color 0.2s ease;
+		a {
+			color: $color-menu;
+
+			&:hover {
+				text-decoration: none;
+				cursor: pointer;
+			}
+
+			transition: background-color 0.2s ease;
+		}
 	}
 
-	.tpl-Menu {
+	&__content {
 		a {
 			display: inline-flex;
 			width: 100%;
@@ -56,10 +37,10 @@
 			word-wrap: break-word;
 			font-size: 15px;
 			line-height: 1.2;
-			background: $y-menu-background;
+			background: $bg-menu;
 
 			&:hover, &:focus {
-				background: lighten($y-menu-background, 5%);
+				background: lighten($bg-menu, 5%);
 
 				.menuName {
 					white-space: normal;
@@ -67,7 +48,7 @@
 			}
 
 			&.active {
-				background: darken($y-menu-background, 10%);
+				background: darken($bg-menu, 10%);
 			}
 
 			&.hasIcon {
@@ -125,20 +106,20 @@
 
 		.tpl-menu-SubMenu,
 		.tpl-menu-Profile_submenu {
-			background: $y-menu-font-color;
-			color: $y-menu-background;
+			background: $color-menu;
+			color: $bg-menu;
 
 			a {
 				font-size: 14px;
-				color: $y-menu-background;
-				background: $y-menu-font-color;
+				color: $bg-menu;
+				background: $color-menu;
 
 				&:hover, &:focus {
-					background: lighten($y-menu-font-color, 5%);
+					background: lighten($color-menu, 5%);
 				}
 
 				&.active {
-					background: darken($y-menu-font-color, 5%);
+					background: darken($color-menu, 5%);
 				}
 
 				&.hasIcon {
@@ -153,11 +134,11 @@
 			}
 
 			button {
-				background: darken($y-menu-font-color, 10%);
+				background: darken($color-menu, 10%);
 
 				&:hover, &:focus {
-					color: $y-menu-font-color;
-					background: $y-menu-background;
+					color: $color-menu;
+					background: $bg-menu;
 				}
 
 				&.hasIcon {
@@ -166,11 +147,38 @@
 			}
 		}
 	}
+
+	&__body {
+		height: calc(100% - 50px);
+		width: 100%;
+		position: relative;
+
+		.modulesList .menuIcon {
+			padding-right: 18px;
+			font-size: 1.6em;
+			height: 100%;
+			min-width: 42px;
+		}
+	}
+
+	&__header {
+		height: 50px;
+		padding-right: 0;
+		padding-left: 0;
+		background-color: #406a95;
+	}
+
+	&--animation {
+		.basePanel,
+		.c-header {
+			@include u-transition((left ease-in-out 0.35s));
+		}
+	}
 }
 
 .related {
 	.nav-pills {
-		border-bottom: 3px solid $y-rtabs-border-color;
+		border-bottom: 3px solid $border-color-rtabs;
 
 		> .nav-item {
 			position: relative;
@@ -182,7 +190,7 @@
 		}
 
 		> .nav-item > .nav-link {
-			color: $y-rtabs-active-background;
+			color: $bg-rtabs-active;
 			font-weight: bold;
 
 			span {
@@ -204,8 +212,8 @@
 				font-weight: bold;
 				text-transform: capitalize;
 				padding: 0.5rem 1rem;
-				color: $y-rtabs-active-background;
-				background: $y-rtabs-background;
+				color: $bg-rtabs-active;
+				background: $bg-rtabs;
 
 				&:hover {
 					text-decoration: none;
@@ -214,18 +222,18 @@
 
 			&.show .dropdown-toggle,
 			&.active .dropdown-toggle {
-				background: $y-rtabs-active-background;
-				color: $y-rtabs-active-font-color;
+				background: $bg-rtabs-active;
+				color: $color-rtabs-active;
 			}
 		}
 
 		.active {
-			background: $y-rtabs-active-background;
-			color: $y-rtabs-active-font-color;
+			background: $bg-rtabs-active;
+			color: $color-rtabs-active;
 			border-radius: 0;
 
 			> .nav-link {
-				color: $y-rtabs-background;
+				color: $bg-rtabs;
 			}
 		}
 
@@ -268,11 +276,11 @@
 	}
 
 	&--gray {
-		background: $y-rtabs-background;
+		background: $bg-rtabs;
 	}
 
 	&--hover:hover {
-		background: darken($y-rtabs-background, 10%);
+		background: darken($bg-rtabs, 10%);
 	}
 }
 

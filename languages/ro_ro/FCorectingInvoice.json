@@ -1,0 +1,23 @@
+{
+  "php": {
+    "FCorectingInvoice": "Facturi Storno",
+    "SINGLE_FCorectingInvoice": "Factura Storno",
+    "LBL_CUSTOM_INFORMATION": "Informatii sistem",
+    "LBL_INVOICE_ADDRESS": "Adresa Facturare",
+    "LBL_ADDRESS_DELIVERY_INFORMATION": "Adresa Livrare",
+    "FL_SUBJECT": "Subiect",
+    "FL_PAYMENT_DATE": "Data scadentei",
+    "FL_SALE_DATE": "Data emiterii",
+    "FL_FORM_PAYMENT": "Metoda de plata",
+    "FL_BANK_ACCOUNT": "Cont IBAN",
+    "FL_NUMBER": "Numar Factura",
+    "FL_ACCOUNT": "Cont",
+    "FL_TOTAL": "Net",
+    "FL_GROSS": "Brut",
+    "FL_STATUS": "Status",
+    "PLL_TRANSFER": "transfer",
+    "PLL_CASH": "cash",
+    "LBL_YEAR": "An",
+    "FL_INVOICE": "Factura"
+  }
+}

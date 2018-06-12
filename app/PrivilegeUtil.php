@@ -704,18 +704,16 @@ class PrivilegeUtil
 			//Retreiving from vtiger_role to vtiger_role
 			foreach (static::getDatashare('role2role', $modTabId, $currentUserRoles) as $row) {
 				$shareRoleId = $row['share_roleid'];
-				$shareIdRoleMembers = [];
 				$shareIdRoles = [];
 				$shareIdRoles[] = $shareRoleId;
-				$shareIdRoleMembers['ROLE'] = $shareIdRoles;
-				$shareIdMembers[$row['shareid']] = $shareIdRoleMembers;
+				$shareIdMembers[$row['shareid']] = ['ROLE' => $shareIdRoles];
 				if ((int) $row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					}
-					if (!isset($role_write_per[$shareRoleId])) {
+					if (!isset($roleWritePer[$shareRoleId])) {
 						$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
 				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
@@ -732,21 +730,18 @@ class PrivilegeUtil
 				}
 			}
 			array_push($parRoleList, $currentUserRoles);
-			$rows = static::getDatashare('role2rs', $modTabId, $parRoleList);
-			foreach ($rows as $row) {
+			foreach (static::getDatashare('role2rs', $modTabId, $parRoleList) as $row) {
 				$shareRoleId = $row['share_roleid'];
-				$shareIdRoleMembers = [];
 				$shareIdRoles = [];
 				$shareIdRoles[] = $shareRoleId;
-				$shareIdRoleMembers['ROLE'] = $shareIdRoles;
-				$shareIdMembers[$row['shareid']] = $shareIdRoleMembers;
+				$shareIdMembers[$row['shareid']] = ['ROLE' => $shareIdRoles];
 				if ((int) $row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
 							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					}
-					if (!isset($role_write_per[$shareRoleId])) {
+					if (!isset($roleWritePer[$shareRoleId])) {
 						$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
 				} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
@@ -761,21 +756,18 @@ class PrivilegeUtil
 				$groupList = [0];
 			}
 			if ($groupList) {
-				$rows = static::getDatashare('role2group', $modTabId, $groupList);
-				foreach ($rows as $row) {
+				foreach (static::getDatashare('role2group', $modTabId, $groupList) as $row) {
 					$shareRoleId = $row['share_roleid'];
-					$shareIdRoleMembers = [];
 					$shareIdRoles = [];
 					$shareIdRoles[] = $shareRoleId;
-					$shareIdRoleMembers['ROLE'] = $shareIdRoles;
-					$shareIdMembers[$row['shareid']] = $shareIdRoleMembers;
+					$shareIdMembers[$row['shareid']] = ['ROLE' => $shareIdRoles];
 					if ((int) $row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
 								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 							}
 						}
-						if (!isset($role_write_per[$shareRoleId])) {
+						if (!isset($roleWritePer[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
@@ -787,21 +779,18 @@ class PrivilegeUtil
 			}
 			//Get roles from Role2Us
 			if (!empty($userid)) {
-				$rows = static::getDatashare('role2user', $modTabId, $userid);
-				foreach ($rows as $row) {
+				foreach (static::getDatashare('role2user', $modTabId, $userid) as $row) {
 					$shareRoleId = $row['share_roleid'];
-					$shareIdRoleMembers = [];
 					$shareIdRoles = [];
 					$shareIdRoles[] = $shareRoleId;
-					$shareIdRoleMembers['ROLE'] = $shareIdRoles;
-					$shareIdMembers[$row['shareid']] = $shareIdRoleMembers;
+					$shareIdMembers[$row['shareid']] = ['ROLE' => $shareIdRoles];
 					if ((int) $row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
 								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 							}
 						}
-						if (!isset($role_write_per[$shareRoleId])) {
+						if (!isset($roleWritePer[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
@@ -812,21 +801,17 @@ class PrivilegeUtil
 				}
 			}
 			//Retreiving from rs to vtiger_role
-			$rows = static::getDatashare('rs2role', $modTabId, $currentUserRoles);
-			foreach ($rows as $row) {
-				$shareRoleId = $row['share_roleid'];
+			foreach (static::getDatashare('rs2role', $modTabId, $currentUserRoles) as $row) {
 				$shareRoleIds = static::getRoleSubordinates($row['share_roleandsubid']);
-				$shareIdRoleMembers = [];
-				$shareIdRoles = [$row['share_roleandsubid']];
+				$shareRoleIds[] = $row['share_roleandsubid'];
 				foreach ($shareRoleIds as $shareRoleId) {
-					$shareIdRoles[] = $shareRoleId;
 					if ((int) $row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
 								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 							}
 						}
-						if (!isset($role_write_per[$shareRoleId])) {
+						if (!isset($roleWritePer[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
@@ -835,25 +820,20 @@ class PrivilegeUtil
 						}
 					}
 				}
-				$shareIdRoleMembers['ROLE'] = $shareIdRoles;
-				$shareIdMembers[$row['shareid']] = $shareIdRoleMembers;
+				$shareIdMembers[$row['shareid']] = ['ROLE' => $shareRoleIds];
 			}
 			//Retreiving from rs to rs
-			$rows = static::getDatashare('rs2rs', $modTabId, $parRoleList);
-			foreach ($rows as $row) {
-				$share_rsid = $row['share_roleandsubid'];
-				$shareRoleIds = static::getRoleSubordinates($share_rsid);
-				$shareIdRoleMembers = [];
-				$shareIdRoles = [$share_rsid];
+			foreach (static::getDatashare('rs2rs', $modTabId, $parRoleList) as $row) {
+				$shareRoleIds = static::getRoleSubordinates($row['share_roleandsubid']);
+				$shareRoleIds[] = $row['share_roleandsubid'];
 				foreach ($shareRoleIds as $shareRoleId) {
-					$shareIdRoles[] = $shareRoleId;
 					if ((int) $row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
 								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 							}
 						}
-						if (!isset($role_write_per[$shareRoleId])) {
+						if (!isset($roleWritePer[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
@@ -862,24 +842,20 @@ class PrivilegeUtil
 						}
 					}
 				}
-				$shareIdRoleMembers['ROLE'] = $shareIdRoles;
-				$shareIdMembers[$row['shareid']] = $shareIdRoleMembers;
+				$shareIdMembers[$row['shareid']] = ['ROLE' => $shareRoleIds];
 			}
 			//Get roles from Rs2Grp
-			$rows = static::getDatashare('rs2group', $modTabId, $groupList);
-			foreach ($rows as $row) {
-				$shareRoleIds = static::getRoleSubordinates($share_rsid);
-				$shareIdRoleMembers = [];
-				$shareIdRoles = [$share_rsid];
+			foreach (static::getDatashare('rs2group', $modTabId, $groupList) as $row) {
+				$shareRoleIds = static::getRoleSubordinates($row['share_roleandsubid']);
+				$shareRoleIds[] = $row['share_roleandsubid'];
 				foreach ($shareRoleIds as $shareRoleId) {
-					$shareIdRoles[] = $shareRoleId;
 					if ((int) $row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
 								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 							}
 						}
-						if (!isset($role_write_per[$shareRoleId])) {
+						if (!isset($roleWritePer[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
@@ -888,25 +864,20 @@ class PrivilegeUtil
 						}
 					}
 				}
-				$shareIdRoleMembers['ROLE'] = $shareIdRoles;
-				$shareIdMembers[$row['shareid']] = $shareIdRoleMembers;
+				$shareIdMembers[$row['shareid']] = ['ROLE' => $shareRoleIds];
 			}
 			//Get roles from Rs2Us
-			$rows = static::getDatashare('rs2user', $modTabId, $userid);
-			foreach ($rows as $row) {
-				$share_rsid = $row['share_roleandsubid'];
-				$shareRoleIds = static::getRoleSubordinates($share_rsid);
-				$shareIdRoleMembers = [];
-				$shareIdRoles = [$share_rsid];
+			foreach (static::getDatashare('rs2user', $modTabId, $userid) as $row) {
+				$shareRoleIds = static::getRoleSubordinates($row['share_roleandsubid']);
+				$shareRoleIds[] = $row['share_roleandsubid'];
 				foreach ($shareRoleIds as $shareRoleId) {
-					$shareIdRoles[] = $shareRoleId;
 					if ((int) $row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
 								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 							}
 						}
-						if (!isset($role_write_per[$shareRoleId])) {
+						if (!isset($roleWritePer[$shareRoleId])) {
 							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					} elseif ((int) $row['permission'] === 0 && $modDefOrgShare === 3) {
@@ -915,19 +886,16 @@ class PrivilegeUtil
 						}
 					}
 				}
-				$shareIdRoleMembers['ROLE'] = $shareIdRoles;
-				$shareIdMembers[$row['shareid']] = $shareIdRoleMembers;
+				$shareIdMembers[$row['shareid']] = ['ROLE' => $shareRoleIds];
 			}
 			$modShareReadPermission['ROLE'] = $roleReadPer;
 			$modShareWritePermission['ROLE'] = $roleWritePer;
 
 			//Retreiving from the grp2role sharing
-			$rows = static::getDatashare('group2role', $modTabId, $currentUserRoles);
-			foreach ($rows as $row) {
-				$shareGrpId = $row['share_groupid'];
-				$shareIdGrpMembers = [];
+			foreach (static::getDatashare('group2role', $modTabId, $currentUserRoles) as $row) {
+				$shareGrpId = (int) $row['share_groupid'];
 				$shareIdGrps = [];
-				$shareIdGrps[] = $shareGrpId;
+				$shareIdGrps[] =  $shareGrpId;
 				if ((int) $row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
@@ -969,15 +937,11 @@ class PrivilegeUtil
 						}
 					}
 				}
-				$shareIdGrpMembers['GROUP'] = $shareIdGrps;
-				$shareIdMembers[$row['shareid']] = $shareIdGrpMembers;
+				$shareIdMembers[$row['shareid']] = ['GROUP' => $shareIdGrps];
 			}
-
 			//Retreiving from the grp2rs sharing
-			$rows = static::getDatashare('group2rs', $modTabId, $parRoleList);
-			foreach ($rows as $row) {
-				$shareGrpId = $row['share_groupid'];
-				$shareIdGrpMembers = [];
+			foreach (static::getDatashare('group2rs', $modTabId, $parRoleList) as $row) {
+				$shareGrpId = (int) $row['share_groupid'];
 				$shareIdGrps = [];
 				$shareIdGrps[] = $shareGrpId;
 				if ((int) $row['permission'] === 1) {
@@ -1021,17 +985,13 @@ class PrivilegeUtil
 						}
 					}
 				}
-				$shareIdGrpMembers['GROUP'] = $shareIdGrps;
-				$shareIdMembers[$row['shareid']] = $shareIdGrpMembers;
+				$shareIdMembers[$row['shareid']] = ['GROUP' => $shareIdGrps];
 			}
-
 			//Retreiving from the grp2us sharing
-			$rows = static::getDatashare('group2user', $modTabId, $userid);
-			foreach ($rows as $row) {
-				$shareGrpId = $row['share_groupid'];
-				$shareIdGrpMembers = [];
+			foreach (static::getDatashare('group2user', $modTabId, $userid) as $row) {
+				$shareGrpId = (int) $row['share_groupid'];
 				$shareIdGrps = [];
-				$shareIdGrps[] = $shareGrpId;
+				$shareIdGrps[] =  $shareGrpId;
 				if ((int) $row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
@@ -1073,15 +1033,11 @@ class PrivilegeUtil
 						}
 					}
 				}
-				$shareIdGrpMembers['GROUP'] = $shareIdGrps;
-				$shareIdMembers[$row['shareid']] = $shareIdGrpMembers;
+				$shareIdMembers[$row['shareid']] = ['GROUP' => $shareIdGrps];
 			}
-
 			//Retreiving from the grp2grp sharing
-			$rows = static::getDatashare('group2group', $modTabId, $groupList);
-			foreach ($rows as $row) {
-				$shareGrpId = $row['share_groupid'];
-				$shareIdGrpMembers = [];
+			foreach (static::getDatashare('group2group', $modTabId, $groupList) as $row) {
+				$shareGrpId = (int) $row['share_groupid'];
 				$shareIdGrps = [];
 				$shareIdGrps[] = $shareGrpId;
 				if ((int) $row['permission'] === 1) {
@@ -1125,15 +1081,11 @@ class PrivilegeUtil
 						}
 					}
 				}
-				$shareIdGrpMembers['GROUP'] = $shareIdGrps;
-				$shareIdMembers[$row['shareid']] = $shareIdGrpMembers;
+				$shareIdMembers[$row['shareid']] = ['GROUP' => $shareIdGrps];
 			}
-
 			//Get roles from Us2Us
-			$rows = static::getDatashare('user2user', $modTabId, $userid);
-			foreach ($rows as $row) {
-				$shareUserId = $row['share_userid'];
-				$shareIdGrpMembers = [];
+			foreach (static::getDatashare('user2user', $modTabId, $userid) as $row) {
+				$shareUserId = (int) $row['share_userid'];
 				$shareIdUsers = [];
 				$shareIdUsers[] = $shareUserId;
 				if ((int) $row['permission'] === 1) {
@@ -1150,14 +1102,11 @@ class PrivilegeUtil
 						$grpReadPer[$shareUserId] = [$shareUserId];
 					}
 				}
-				$shareIdGrpMembers['GROUP'] = $shareIdUsers;
-				$shareIdMembers[$row['shareid']] = $shareIdGrpMembers;
+				$shareIdMembers[$row['shareid']] = ['GROUP' => $shareIdUsers];
 			}
 			//Get roles from Us2Grp
-			$rows = static::getDatashare('user2group', $modTabId, $groupList);
-			foreach ($rows as $row) {
-				$shareUserId = $row['share_userid'];
-				$shareIdGrpMembers = [];
+			foreach (static::getDatashare('user2group', $modTabId, $groupList) as $row) {
+				$shareUserId = (int) $row['share_userid'];
 				$shareIdUsers = [];
 				$shareIdUsers[] = $shareUserId;
 				if ((int) $row['permission'] === 1) {
@@ -1174,14 +1123,11 @@ class PrivilegeUtil
 						$grpReadPer[$shareUserId] = [$shareUserId];
 					}
 				}
-				$shareIdGrpMembers['GROUP'] = $shareIdUsers;
-				$shareIdMembers[$row['shareid']] = $shareIdGrpMembers;
+				$shareIdMembers[$row['shareid']] = ['GROUP' => $shareIdUsers];
 			}
 			//Get roles from Us2role
-			$rows = static::getDatashare('user2role', $modTabId, $currentUserRoles);
-			foreach ($rows as $row) {
-				$shareUserId = $row['share_userid'];
-				$shareIdGrpMembers = [];
+			foreach (static::getDatashare('user2role', $modTabId, $currentUserRoles) as $row) {
+				$shareUserId = (int) $row['share_userid'];
 				$shareIdUsers = [];
 				$shareIdUsers[] = $shareUserId;
 				if ((int) $row['permission'] === 1) {
@@ -1198,15 +1144,12 @@ class PrivilegeUtil
 						$grpReadPer[$shareUserId] = [$shareUserId];
 					}
 				}
-				$shareIdGrpMembers['GROUP'] = $shareIdUsers;
-				$shareIdMembers[$row['shareid']] = $shareIdGrpMembers;
-			}
 
+				$shareIdMembers[$row['shareid']] = ['GROUP' => $shareIdUsers];
+			}
 			//Get roles from Us2rs
-			$rows = static::getDatashare('user2rs', $modTabId, $parRoleList);
-			foreach ($rows as $row) {
-				$shareUserId = $row['share_userid'];
-				$shareIdGrpMembers = [];
+			foreach (static::getDatashare('user2rs', $modTabId, $parRoleList) as $row) {
+				$shareUserId = (int) $row['share_userid'];
 				$shareIdUsers = [];
 				$shareIdUsers[] = $shareUserId;
 				if ((int) $row['permission'] === 1) {
@@ -1223,13 +1166,11 @@ class PrivilegeUtil
 						$grpReadPer[$shareUserId] = [$shareUserId];
 					}
 				}
-				$shareIdGrpMembers['GROUP'] = $shareIdUsers;
-				$shareIdMembers[$row['shareid']] = $shareIdGrpMembers;
+				$shareIdMembers[$row['shareid']] = ['GROUP' => $shareIdUsers];
 			}
 			$modShareReadPermission['GROUP'] = $grpReadPer;
 			$modShareWritePermission['GROUP'] = $grpWritePer;
 		}
-
 		return [
 			'read' => $modShareReadPermission,
 			'write' => $modShareWritePermission,
@@ -1396,5 +1337,16 @@ class PrivilegeUtil
 			$dataReader->close();
 		}
 		Log::trace('Exiting deleteRelatedSharingRules method ...');
+	}
+
+	/**
+	 * Function for test to check privilege utils.
+	 *
+	 * @param int $recordId
+	 */
+	public static function testPrivileges($recordId)
+	{
+		static::getHelpDeskRelatedAccounts($recordId);
+		return true;
 	}
 }

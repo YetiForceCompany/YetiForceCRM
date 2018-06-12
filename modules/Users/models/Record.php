@@ -940,7 +940,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$auth = $this->getAuthDetail();
 		if ($auth['ldap']['active'] === 'true') {
-			$authMethod = new Users_Ldap_AuthMethod($this);
+			$authMethod = new Users_Ldap_Authmethod($this);
 
 			return $authMethod->process($auth['ldap'], $password);
 		}

@@ -74,7 +74,6 @@ Vtiger_Detail_Js("Documents_Detail_Js", {
 			title: app.vtranslate('JS_CHECK_FILE_INTEGRITY'),
 			text: customParams.text,
 			type: customParams.type,
-			width: '30%',
 			delay: '2000'
 		};
 		Vtiger_Helper_Js.showPnotify(params);

@@ -307,7 +307,13 @@
     "LBL_SWITCH_USER": "Switch user",
     "LBL_SWITCH_TO_YOURSELF": "Switch to yourself",
     "LBL_CHANGE_ACCESS_KEY": "Change Access Key",
-    "LBL_USER_EXISTS": "user already exists"
+    "LBL_USER_EXISTS": "user already exists",
+    "LBL_AUTHENTICATION_CODE": "Authentication code",
+    "LBL_TWO_FACTOR_AUTHENTICATION": "Two factor authentication",
+    "LBL_2FA_SECRET": "Secret code",
+    "LBL_2FA_TOTP_QR_CODE": "Single-use code",
+    "LBL_AUTHY_SECRET_TOTP_SUCCESS": "Two factor authentication was succesfully enabled.",
+    "LBL_2FA_WRONG_CODE": "Incorrect code"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Decimal separator and grouping separator can't be the same.",

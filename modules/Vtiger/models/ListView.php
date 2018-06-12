@@ -90,17 +90,19 @@ class Vtiger_ListView_Model extends \App\Base
 		$moduleModel = $this->getModule();
 		if (AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingModule')) {
 			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleModel->getName());
-			$class = 'btn-light';
+			$class = 'btn-outline-dark';
+			$iconclass = 'fa-eye-slash';
 			if ($watchdog->isWatchingModule()) {
-				$class = 'btn-info';
+				$class = 'btn-dark';
+				$iconclass = 'fa-eye';
 			}
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'BTN_WATCHING_MODULE',
 				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 				'linkclass' => $class,
-				'linkicon' => 'fas fa-eye',
-				'linkdata' => ['off' => 'btn-light', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
+				'linkicon' => 'fas ' . $iconclass,
+				'linkdata' => ['off' => 'btn-outline-dark', 'on' => 'btn-dark', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
 				'active' => !$watchdog->isLock()
 			];
 		}
@@ -324,7 +326,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $moduleModel->getCreateRecordUrl(),
-				'linkclass' => 'addButton modCT_' . $moduleModel->getName(),
+				'linkclass' => 'btn-light addButton modCT_' . $moduleModel->getName(),
 				'linkicon' => 'fas fa-plus',
 				'showLabel' => 1,
 				'linkhref' => true

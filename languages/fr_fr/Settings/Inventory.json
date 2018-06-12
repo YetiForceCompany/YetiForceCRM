@@ -24,10 +24,10 @@
     "LBL_TAXCONFIGURATION": "Configuration Taxe",
     "LBL_CANNOT_BE_COMBINED": "Ne peuvent pas \u00eatre combin\u00e9",
     "LBL_IN_TOTAL": "Total",
-    "LBL_GLOBAL": "Globale",
-    "LBL_GROUP": "Groupe",
-    "LBL_INDIVIDUAL": "Individuelle",
-    "LBL_REGIONAL": "R\u00e9gionale",
+    "LBL_GLOBAL": "Tax from the list of available taxes",
+    "LBL_GROUP": "Tax from products/services list",
+    "LBL_INDIVIDUAL": "Custom tax",
+    "LBL_REGIONAL": "Account's tax",
     "LBL_ARE_ACTIVE": "Active ?",
     "LBL_SUMMATION_TYPE": "Type de sommation",
     "LBL_AVAILABLE_TAXS": "Taxes disponibles",
@@ -39,7 +39,9 @@
     "LBL_VIEW_TAXES": "Base de taxes",
     "LBL_VIEW_TAXCONFIGURATION": "Configuration taxe",
     "LBL_VIEW_DISCOUNTCONFIGURATION": "Configuration remise",
-    "LBL_VIEW_DISCOUNTS": "Base de remise"
+    "LBL_VIEW_DISCOUNTS": "Base de remise",
+    "LBL_ALERT_TAX_CONFIG_TITLE": "Tax settings description:",
+    "LBL_ALERT_TAX_CONFIG_DESC": "Summation type:\r\nIn total:\r\n- Total value of all taxes calculated on the value of product/services.\r\n[Example]\r\nThere are two taxes selected: the first one 23%%, the second one 8%%. The system sums the value of both taxes from the oryginal net amount. \r\nIn the above example for the net value 100z\u0142, the gross amount will be (100z\u0142 * 1,31) = 131,00 z\u0142\r\n\r\nCascade:\r\n- Tax amount is calculated each time from the product/service value.\r\n[Example]\r\nTwo taxes are selected: the first one 23%%, the second one 8%%. The system calculates the value for the first tax and then the value of second tax is added. \r\nIn the above example for the net value of 100z\u0142, the gross amount will be (100z\u0142 * 1,23) * 1,08 = 132,84 z\u0142\r\n\r\nTax settings description:\r\nTax from the list of available taxes:\r\n- Specified in settings for Advanced Modules.\r\nTax from products/services list:\r\n- Specified individaully for products in the Products module.\r\nCustom tax:\r\n- Specified once for a selected record.\r\nAccount's tax:\r\n- Specified individually for a selected customer."
   },
   "js": {
     "JS_SAVE_CHANGES": "Changements sauvegard\u00e9s avec succ\u00e8s.",

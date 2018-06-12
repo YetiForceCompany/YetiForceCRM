@@ -123,14 +123,45 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			groupTax.addClass('d-none');
 			items.find('.changeTax').removeClass('d-none');
 			newRow.find('.changeTax').removeClass('d-none');
+			let parentRow = thisInstance.getInventoryItemsContainer();
+			let taxParam = {aggregationType: 'global'};
+
+			parentRow.find(thisInstance.rowClass).each(function () {
+				let thisItem = $(this);
+				taxParam['globalTax'] = app.parseNumberToShow(thisItem.find('.js-tax').attr('data-default-tax'));
+				thisInstance.setTaxParam(thisItem, taxParam);
+			});
 		} else {
+			thisInstance.setTax(items, 0);
+			thisInstance.setTaxParam(items, []);
+			thisInstance.setDefaultGlobalTax(row);
 			groupTax.removeClass('d-none');
 			items.find('.changeTax').addClass('d-none');
 			newRow.find('.changeTax').addClass('d-none');
 		}
-		thisInstance.setTax(items, 0);
-		thisInstance.setTaxParam(items, []);
 		thisInstance.rowsCalculations();
+	},
+	setDefaultGlobalTax: function (row) {
+		let thisInstance = this;
+		let parentRow = thisInstance.getInventoryItemsContainer();
+		let taxDefaultValue = thisInstance.getInventorySummaryTaxesContainer().find('.js-default-tax').data('tax-default-value');
+		let isGroupTax = thisInstance.isGroupTaxMode();
+		if(isGroupTax){
+			if(taxDefaultValue) {
+				let taxParam = {aggregationType: 'global'};
+				taxParam['globalTax'] = app.parseNumberToShow(taxDefaultValue);
+				taxParam['individualTax'] = '';
+				thisInstance.setTaxParam($('#blackIthemTable'), taxParam);
+				thisInstance.setTaxParam(parentRow, taxParam);
+				parentRow.closest('.inventoryItems').data('taxParam', JSON.stringify(taxParam));
+				parentRow.find(thisInstance.rowClass).each(function () {
+					thisInstance.quantityChangeActions($(this));
+				});
+			}
+		} else {
+			thisInstance.setTaxParam($('#blackIthemTable'), []);
+			parentRow.closest('.inventoryItems').data('taxParam', []);
+		}
 	},
 	getDiscountModeSelectElement: function (row) {
 		var items = this.getInventoryHeadContainer();
@@ -603,6 +634,10 @@ $.Class("Vtiger_Inventory_Js", {}, {
 				}
 			});
 		}
+		if(netPriceWithoutTax) {
+			let taxValue = (valuePrices - netPriceWithoutTax) / netPriceWithoutTax * 100;
+			modal.find('.js-tax-value').text(app.parseNumberToShow(taxValue));
+		}
 		modal.find('.valuePrices').text(app.parseNumberToShow(valuePrices));
 		modal.find('.valueTax').text(app.parseNumberToShow(valuePrices - netPriceWithoutTax));
 	},
@@ -721,6 +756,9 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			} else if (recordData['taxes']) {
 				taxParam = {aggregationType: recordData.taxes.type};
 				taxParam[recordData.taxes.type + 'Tax'] = recordData.taxes.value;
+			}
+			if(recordData['taxes']) {
+				parentRow.find('.js-tax').attr('data-default-tax', app.parseNumberToShow(recordData.taxes.value));
 			}
 			thisInstance.setTaxParam(parentRow, taxParam);
 			thisInstance.setTax(parentRow, 0);
@@ -1101,7 +1139,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		container.on('click', '.toggleVisibility', function (e) {
 			var element = $(e.currentTarget);
 			var row = thisInstance.getClosestRow(element);
-			if (element.data('status') == '0') {
+			if (element.data('status') === '0') {
 				thisInstance.showExpandedRow(row);
 			} else {
 				thisInstance.hideExpandedRow(row);
@@ -1424,6 +1462,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		this.registerClearReferenceSelection(container);
 		this.registerShowHideExpanded(container);
 		this.registerChangeCurrency(container);
+		this.setDefaultGlobalTax(container);
 	}
 });
 $(document).ready(function () {

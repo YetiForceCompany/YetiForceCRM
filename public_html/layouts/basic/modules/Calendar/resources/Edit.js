@@ -161,7 +161,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 				end = start;
 				endDateElement.val(moment(end).format(dateFormat));
 				App.Fields.Date.register(container);
-				thisInstance.setVisibilityBtnSaveAndClose(container);
 			}
 			var timeStartElement = startDateElement.closest('.fieldValue').find('[name="time_start"]');
 			timeStartElement.trigger('changeTime');
@@ -191,21 +190,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			}
 		});
 	},
-	setVisibilityBtnSaveAndClose: function (container) {
-		var secondDate = container.find('input[name="due_date"]');
-		var secondDateFormat = secondDate.data('date-format');
-		var secondDateValue = secondDate.val();
-		var secondTime = container.find('input[name="time_end"]');
-		var secondTimeValue = secondTime.val();
-		var secondDateTimeValue = secondDateValue + ' ' + secondTimeValue;
-		var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue, secondDateFormat);
-		var timeBetweenDates = secondDateInstance - new Date();
-		if (timeBetweenDates >= 0) {
-			container.find('.saveAndComplete').addClass('d-none');
-		} else {
-			container.find('.saveAndComplete').removeClass('d-none');
-		}
-	},
 	registerEndDateTimeChangeLogger: function (container) {
 		var thisInstance = this;
 		container.find('[name="time_end"]').on('change', function (e) {
@@ -225,7 +209,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			if (result != true) {
 				return;
 			}
-			thisInstance.setVisibilityBtnSaveAndClose(container);
 			jQuery('[name="userChangedEndDateTime"]').val('1');
 			dueDateElement.data('userChangedTime', true);
 		});
@@ -384,14 +367,14 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			}
 		});
 	},
-	registerSaveAndCloseBtn: function (container) {
-		this.setVisibilityBtnSaveAndClose(container);
-		container.find('.saveAndComplete').on('click', function () {
-			var invalidFields = container.data('jqv').InvalidFields;
-			if (invalidFields.length == 0) {
-				container.append('<input type=hidden name="saveAndClose" value="PLL_COMPLETED">');
+	registerMarkAsCompletedBtn: function (container) {
+		container.find('.js-btn--mark-as-completed').on('click', function () {
+			const self = $(this);
+			if (self.hasClass('active')) {
+				container.find('.js-completed').remove();
+			} else {
+				container.append('<input class="js-completed" type=hidden name="markAsCompleted" value="PLL_COMPLETED" data-js="remove">');
 			}
-			container.find('[type="submit"]').trigger('click');
 		});
 	},
 	registerBasicEvents: function (container) {
@@ -402,7 +385,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		this.registerActivityTypeChangeEvent(container);
 		this.registerEndDateTimeChangeLogger(container);
 		this.registerAutoFillHours(container);
-		this.registerSaveAndCloseBtn(container);
+		this.registerMarkAsCompletedBtn(container);
 	},
 	toggleTimesInputs: function (container) {
 		container.find(':checkbox').on('change', function () {

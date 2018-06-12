@@ -40,6 +40,8 @@
     "LBL_MBSTRING_LIBRARY": "Mbstring (f\u00fcr mPDF ben\u00f6tigt)",
     "LBL_EXIF_LIBRARY": "Exif (verbessert die Sicherheit bei hochgeladenen Dateien)",
     "LBL_ZIP_ARCHIVE": "ZIP",
+    "LBL_FILEINFO_LIBRARY": "FileInfo",
+    "LBL_LIBICONV_LIBRARY": "Libiconv",
     "LBL_SPACE": "Kapazit\u00e4t",
     "LBL_SPACE_TOTAL": "Total",
     "LBL_SPACE_FREE": "Frei",
@@ -47,6 +49,7 @@
     "LBL_WWW_VALUE": "www (apache)",
     "LBL_CLI_VALUE": "cron (CLI)",
     "LBL_PHPINI": "PHP Konfiguration",
+    "LBL_PHPINIS": "Additional PHP configuration",
     "LBL_LOG_FILE": "Protokollierung",
     "LBL_CRM_DIR": "CRM Lokales Verzeichnis",
     "LBL_SOAP_LIBRARY": "SOAP",
@@ -107,7 +110,7 @@
     "LBL_INNODB_LOCK_WAIT_TIMEOUT_HELP_TEXT": "How long (in seconds) InnoDB transaction waits for row lock. An error message will be displayed if the row is still locked after this time passes.",
     "LBL_WAIT_TIMEOUT_HELP_TEXT": "How long (in seconds) the server waits for activity during a non-interactive connection before it is closed.",
     "LBL_INTERACTIVE_TIMEOUT_HELP_TEXT": "How long (in seconds) the server waits for activity during an interactive connection before it is closed.",
-    "LBL_SQL_MODE_HELP_TEXT": "Different modes of working with the database. The modes affect SQL syntax and data validity verification. Must not contain STRICT_TRANS_TABLE and ONLY_FULL_GROUP_BY.",
+    "LBL_SQL_MODE_HELP_TEXT": "Different modes of working with the database. The modes affect SQL syntax and data validity verification. Must not contain STRICT_TRANS_TABLE and STRICT_ALL_TABLES. \r\nThe system is compatible with the following modes: ONLY_FULL_GROUP_BY, NO_ZERO_IN_DATE, NO_ZERO_DATE, ERROR_FOR_DIVISION_BY_ZERO, NO_AUTO_CREATE_USER, NO_ENGINE_SUBSTITUTION.",
     "LBL_MAX_ALLOWED_PACKET_HELP_TEXT": "Maximale Datengr\u00f6\u00dfe die verschickt werden darf.",
     "LBL_INNODB_FILE_PER_TABLE_HELP_TEXT": "Daten werden in der Datenbank in vielen Dateien gespeichert, wobei jede Tabelle ihre eigene Datei hat, entgegen dem alten Ansatz wo alle Daten in einer datei gespeichert werden. Diese Option ist ab MySQL 5.6.6 standardm\u00e4\u00dfig aktiviert.",
     "LBL_INNODB_STATS_ON_METADATA_HELP_TEXT": "Aktualisierung von Statistiken von InnoDB Tabellen f\u00fcr manche Abfragen, zum Beispiel SHOW TABLE STATUS. Deaktiverung dieser Option erh\u00f6ht die Effektivit\u00e4t f\u00fcr gro\u00dfe InnoDB Tabellen. Wir empfehlen die Deaktivierung dieser Option.",
@@ -126,6 +129,6 @@
     "LBL_AUTO_DETECT_LINE_ENDINGS_HELP_TEXT": "Es wird empfohlen die Codepr\u00fcfung zu aktivieren falls Dateien importiert werden."
   },
   "js": {
-    "JS_SPEED_TEST_START": "Performance wird gemessen ..."
+    "JS_SPEED_TEST_START": "Performance wird ermittelt ..."
   }
 }

@@ -183,7 +183,6 @@ class Vtiger_Record_Model extends \App\Base
 	public function setModuleFromInstance($module)
 	{
 		$this->module = $module;
-
 		return $this;
 	}
 
@@ -197,7 +196,6 @@ class Vtiger_Record_Model extends \App\Base
 		if (empty($this->entity)) {
 			$this->entity = CRMEntity::getInstance($this->getModuleName());
 		}
-
 		return $this->entity;
 	}
 
@@ -211,7 +209,6 @@ class Vtiger_Record_Model extends \App\Base
 	public function setEntity($entity)
 	{
 		$this->entity = $entity;
-
 		return $this;
 	}
 
@@ -624,7 +621,6 @@ class Vtiger_Record_Model extends \App\Base
 		$instance->isNew = true;
 		$instance->setData($focus->column_fields)->setEntity($focus);
 		\App\Cache::staticSave('RecordModelCleanInstance', $moduleName, clone $instance);
-
 		return $instance;
 	}
 
@@ -1300,8 +1296,8 @@ class Vtiger_Record_Model extends \App\Base
 				'linklabel' => 'BTN_WATCHING_RECORD',
 				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 				'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
-				'linkclass' => 'btn-sm ' . ($watching ? 'btn-info' : 'btn-default'),
-				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
+				'linkclass' => 'btn-sm ' . ($watching ? 'btn-dark' : 'btn-outline-dark'),
+				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-dark', 'off' => 'btn-outline-dark', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			];
 		}
 		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
@@ -1400,8 +1396,8 @@ class Vtiger_Record_Model extends \App\Base
 					'linklabel' => 'BTN_WATCHING_RECORD',
 					'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 					'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
-					'linkclass' => 'btn-sm ' . ($watching ? 'btn-info' : 'btn-default'),
-					'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
+					'linkclass' => 'btn-sm ' . ($watching ? 'btn-dark' : 'btn-outline-dark'),
+					'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-dark', 'off' => 'btn-outline-dark', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			]);
 		}
 		if ($relationModel->privilegeToDelete() && $this->privilegeToMoveToTrash()) {
@@ -1495,7 +1491,11 @@ class Vtiger_Record_Model extends \App\Base
 				$stateId = 2;
 				break;
 		}
-		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['deleted' => $stateId, 'modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $this->getId()])->execute();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$dbCommand->update('vtiger_crmentity', ['deleted' => $stateId, 'modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $this->getId()])->execute();
+		if ($state !== 'Active') {
+			$dbCommand->delete('u_#__crmentity_search_label', ['crmid' => $this->getId()])->execute();
+		}
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($this);
 		$eventHandler->setModuleName($this->getModuleName());

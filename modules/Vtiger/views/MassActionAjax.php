@@ -19,7 +19,6 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('showMassEditForm');
 		$this->exposeMethod('showAddCommentForm');
 		$this->exposeMethod('showSendSMSForm');
-		$this->exposeMethod('showDuplicatesSearchForm');
 		$this->exposeMethod('transferOwnership');
 	}
 
@@ -161,27 +160,6 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 			$viewer->assign('SEARCH_PARAMS', $searchParams);
 		}
 		echo $viewer->view('SendSMSForm.tpl', $moduleName, true);
-	}
-
-	/**
-	 * Function shows the duplicate search form.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermitted
-	 */
-	public function showDuplicatesSearchForm(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		if (!$moduleModel->isPermitted('DuplicatesHandling')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-		$fields = $moduleModel->getFields();
-		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('FIELDS', $fields);
-		$viewer->view('showDuplicateSearch.tpl', $moduleName);
 	}
 
 	/**

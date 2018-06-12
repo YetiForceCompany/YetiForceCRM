@@ -151,6 +151,7 @@
     "LBL_SECURITY_MANAGEMENT": "Seguridad",
     "LBL_MAIL_TOOLS": "Herramientas de correo",
     "LBL_PASSWORD_CONF": "Contrase\u00f1as \u2013 Configuraci\u00f3n",
+    "LBL_2FA_CONF": "Two-factor authentication",
     "LBL_PASSWORD_DESCRIPTION": "Establecer complejidades de la contrase\u00f1a para los usuarios del software",
     "LBL_LOGS_MANAGEMENT": "Registros",
     "LBL_ARRANGE_RELATED_TABS": "Organizar las pesta\u00f1as relacionadas",
@@ -353,7 +354,9 @@
     "LBL_MISSING_LICENSE_FILE": "Falta el archivo de licencia",
     "LBL_VTIGER_DESCRIPTION": "Aproximadamente queda el 30% del c\u00f3digo original de Vtiger. El c\u00f3digo restante ha sido reescrito y expandido.",
     "LBL_SUGAR_DESCRIPTION": "Vtiger estaba basado en Sugar CRM. Actualmente, solo quedan varios archivos Sugar en YetiForce.",
-    "LBL_SHOP_YETIFORCE": "Tienda"
+    "LBL_YETIFORCE_SHOP": "Tienda",
+    "LBL_YETIFORCE_ISSUES": "Free support",
+    "LBL_YETIFORCE_ASSISTANCE": "Paid support"
   },
   "js": {
     "JS_AUTHORIZATION_COMPLETE": "Autorizaci\u00f3n satisfactoria",

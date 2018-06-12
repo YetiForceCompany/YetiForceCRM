@@ -53,7 +53,7 @@
     "LBL_CONDITION": "Bedingung",
     "LBL_CONDITION_INFO": "Bedingung w\u00e4hlen um Datens\u00e4tze anzuzeigen",
     "LBL_SHOW_ALL_RECORDS": "Alle Datens\u00e4tze anzeigen",
-    "LBL_SHOW_ALL_RECORDS_INFO": "Nein - Berechtigungen beziehen sich auf den Benutzer <br \/> Ja - Suche nach Datens\u00e4tze ber\u00fccksichtigen keine Berechtigungen",
+    "LBL_SHOW_ALL_RECORDS_INFO": "Nein - Berechtigungen beziehen sich auf den Benutzer \r\n Ja - Suche nach Datens\u00e4tze ber\u00fccksichtigen keine Berechtigungen",
     "LBL_SHITCH_HEADER": "Schalter im Header",
     "LBL_SHITCH_HEADER_INFO": "Schalter befindet sich im Widget's Header.",
     "HistoryRelation": "Zeitlinie",

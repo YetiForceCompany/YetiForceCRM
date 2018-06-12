@@ -30,7 +30,7 @@
 				<div class="checkbox">
 					<input type="hidden" name="presence" value="1" />
 					<label>
-						<input type="checkbox" name="presence" {if $FIELD_MODEL->isViewable()} checked {/if} {strip} {/strip}
+						<input type="checkbox" name="presence" {if $FIELD_MODEL->isActiveField()} checked {/if} {strip} {/strip}
 							   {if $FIELD_MODEL->isActiveOptionDisabled()} readonly="readonly" class="optionDisabled"{/if} {if $IS_MANDATORY} readonly="readonly" {/if} value="{$FIELD_MODEL->get('presence')}" />&nbsp;
 						{App\Language::translate('LBL_ACTIVE', $QUALIFIED_MODULE)}
 					</label>

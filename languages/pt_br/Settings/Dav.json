@@ -24,7 +24,7 @@
     "Dav": "Chaves DAV",
     "LBL_DUPLICATE_USER_SERVICES": "A chave para esta aplica\u00e7\u00e3o j\u00e1 existe.",
     "LBL_ALERT_DAV_CONFIG_TITLE": "Informa\u00e7\u00e3o de Configura\u00e7\u00e3o",
-    "LBL_ALERT_DAV_CONFIG_DESC": "Examplos de configura\u00e7\u00e3o de conex\u00e3o de Servidor DAV para diferentes apps e sistemas:<br \/><b>DAVdroid<\/b><br \/>Endere\u00e7o: https:\/\/gitdeveloper.yetiforce.com\/dav.php<br \/>Autoriza\u00e7\u00e3o preventiva<br \/><b>CalDAV Thunderbird<\/b><br \/>Endere\u00e7o: https:\/\/gitdeveloper.yetiforce.com\/dav.php\/calendars\/demo\/YFCalendar\/<br \/><b>iOS<\/b><br \/>Endere\u00e7o: http:\/\/gitdeveloper.yetiforce.com\/dav.php\/principals\/demo\/ <br \/>Para conex\u00f5es SSL: <br \/> http:\/\/gitdeveloper.yetiforce.com:443\/dav.php\/principals\/demo\/"
+    "LBL_ALERT_DAV_CONFIG_DESC": "Examplos de configura\u00e7\u00e3o de conex\u00e3o de Servidor DAV para diferentes apps e sistemas:\r\n<b>DAVdroid<\/b>\r\nEndere\u00e7o: https:\/\/gitdeveloper.yetiforce.com\/dav.php\r\nAutoriza\u00e7\u00e3o preventiva\r\n<b>CalDAV Thunderbird<\/b>\r\nEndere\u00e7o: https:\/\/gitdeveloper.yetiforce.com\/dav.php\/calendars\/demo\/YFCalendar\/\r\n<b>iOS<\/b>\r\nEndere\u00e7o: http:\/\/gitdeveloper.yetiforce.com\/dav.php\/principals\/demo\/ \r\nPara conex\u00f5es SSL: \r\n http:\/\/gitdeveloper.yetiforce.com:443\/dav.php\/principals\/demo\/"
   },
   "js": {
     "Adding a Key": "Adicionar Chave"

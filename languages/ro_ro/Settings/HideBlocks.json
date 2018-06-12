@@ -1,0 +1,16 @@
+{
+  "php": {
+    "HideBlocks": "Ascunde blocuri",
+    "LBL_HIDEBLOCKS": "Campuri \u2013 Ascunde blocuri",
+    "LBL_HIDEBLOCKS_DESCRIPTION": "Gestionati care blocuri cu campuri pot fi ascunse",
+    "LBL_BLOCK_LABEL": "Bloc",
+    "LBL_MODULE": "Modul",
+    "LBL_ENABLED": "Activ",
+    "LBL_EDIT_BLOCK": "Editeaza",
+    "LBL_NEW_BLOCK": "Creaza",
+    "LBL_BLOCK": "Bloc",
+    "LBL_NEXT": "Urmatorul",
+    "LBL_VIEW": "Vezi",
+    "LBL_MANDATORY_FIELDS_EXIST": "Acest bloc nu poate fi ascuns deoarece contine campuri obligatorii."
+  }
+}

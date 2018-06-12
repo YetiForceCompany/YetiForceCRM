@@ -61,18 +61,22 @@
 header {
 	.globalSearchInput .select2-selection.select2-selection--single {
 		font-size: $font-size-sm !important;
-		height: $menuItemsHeight !important;
+		height: $h-menu-items !important;
 	}
 
 	.select2WithButtonWidth {
-		width: calc(100% - #{$iconButtonWidth});
+		width: calc(100% - #{$w-icon-button});
 	}
 
-	.headerLinksMails .select2-selection:hover {
-		background: $dark !important;
+	.c-header__btn__container .select2-selection {
+		height: $h-menu-right-items;
 
-		.select2-selection__rendered {
-			color: $white !important;
+		&:hover {
+			background: $dark !important;
+
+			.select2-selection__rendered {
+				color: $white !important;
+			}
 		}
 	}
 }
@@ -90,6 +94,7 @@ header {
 		width: 100% !important;
 	}
 }
+
 //theme selection
 .select2-selection__rendered.u-hover-bold {
 	padding: 6px !important;
@@ -128,6 +133,7 @@ header {
 	@extend .w-25;
 	@extend .mr-sm-2;
 }
+
 //-------- leaflet --------//
 .leaflet-popup-content {
 	width: 62px;
@@ -197,6 +203,7 @@ header {
 		}
 	}
 }
+
 //-------- jQuery UI --------//
 .ui-autocomplete {
 	padding: 0 !important;

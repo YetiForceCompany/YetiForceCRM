@@ -53,7 +53,7 @@
     "LBL_CONDITION": "Warunek",
     "LBL_CONDITION_INFO": "Wybierz warunek pokazywania rekord\u00f3w",
     "LBL_SHOW_ALL_RECORDS": "Poka\u017c wszystkie rekordy",
-    "LBL_SHOW_ALL_RECORDS_INFO": "Nie - Uwzgl\u0119dniane s\u0105 uprawnienia <br \/> Tak - Wyszukiwanie rekord\u00f3w z pomini\u0119ciem uprawnie\u0144",
+    "LBL_SHOW_ALL_RECORDS_INFO": "Nie - Uwzgl\u0119dniane s\u0105 uprawnienia \r\n Tak - Wyszukiwanie rekord\u00f3w z pomini\u0119ciem uprawnie\u0144",
     "LBL_SHITCH_HEADER": "Prze\u0142\u0105cznik w nag\u0142\u00f3wku",
     "LBL_SHITCH_HEADER_INFO": "Prze\u0142\u0105cznik (switch) umieszczony w nag\u0142\u00f3wku widgetu.",
     "HistoryRelation": "O\u015b czasu",

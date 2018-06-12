@@ -71,7 +71,7 @@
     "LBL_IMPORT_FILE_COPY_FAILED": "B\u0142\u0105d kopiowania pliku importu, zmie\u0144 uprawnienia.",
     "LBL_INVALID_FILE": "Niepoprawny plik",
     "LBL_NO_ROWS_FOUND": "Nie odnaleziono w pliku danych do importu",
-    "LBL_SCHEDULED_IMPORT_DETAILS": "Tw\u00f3j import zosta\u0142 zaplanowany i uruchomi si\u0119 w ci\u0105gu 15 minut. Otrzymasz wiadomo\u015b\u0107 mail po zako\u0144czeniu importu.  <br \/> <br \/>\n\t\t\t\t\t\t\t\t\t\tUpewnij si\u0119, \u017ce serwer poczty wychodz\u0105cej i adres mail jest skonfigurowany do otrzymywania powiadomie\u0144 mailowych",
+    "LBL_SCHEDULED_IMPORT_DETAILS": "Tw\u00f3j import zosta\u0142 zaplanowany i uruchomi si\u0119 w ci\u0105gu 15 minut. Otrzymasz wiadomo\u015b\u0107 mail po zako\u0144czeniu importu.  \r\n \r\n\n\t\t\t\t\t\t\t\t\t\tUpewnij si\u0119, \u017ce serwer poczty wychodz\u0105cej i adres mail jest skonfigurowany do otrzymywania powiadomie\u0144 mailowych",
     "LBL_DETAILS": "Szczeg\u00f3\u0142y",
     "skipped": "Pomini\u0119te rekordy",
     "failed": "Niepoprawne rekordy",

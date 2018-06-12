@@ -84,13 +84,6 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		$extra = '';
-		if ($recordModel) {
-			$extra = $recordModel->getDisplayValue($this->getFieldModel()->getFieldName() . '_extra');
-			if ($extra) {
-				$extra = ' ' . $extra;
-			}
-		}
 		$rfc3966 = $international = \App\Purifier::encodeHtml($value);
 		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
@@ -102,13 +95,12 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 			}
 		}
 		if ($rawText) {
-			return $international . $extra;
+			return $international;
 		}
 		if (!\App\Integrations\Pbx::isActive()) {
-			return '<a href="' . $rfc3966 . '">' . $international . $extra . '</a>';
+			return '<a href="' . $rfc3966 . '">' . $international . '</a>';
 		}
-
-		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '\',' . $record . ')"><span class="fas fa-phone" aria-hidden="true"></span> ' . $international . $extra . '</a>';
+		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '\',' . $record . ')"><span class="fas fa-phone" aria-hidden="true"></span> ' . $international . '</a>';
 	}
 
 	/**

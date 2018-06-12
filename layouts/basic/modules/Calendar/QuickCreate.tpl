@@ -31,7 +31,6 @@
 							{assign var="CALENDAR_MODULE_MODEL" value=$QUICK_CREATE_CONTENTS['Calendar']['moduleModel']}
 							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
 								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
-								&nbsp;&nbsp;
 							{/foreach}
 							{if $MODULE_NAME eq 'Calendar'}
 								{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateTaskRecordUrl()}
@@ -39,7 +38,7 @@
 								{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateEventRecordUrl()}
 							{/if}
 							<button class="btn btn-outline-secondary goToFullFormOne" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
-							<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
+							<button class="btn btn-success mr-1" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
 							<button class="cancelLink btn btn-danger" type="reset" aria-hidden="true" data-dismiss="modal"	type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
 						</div>
 					</div>
@@ -49,7 +48,6 @@
 					{if !empty($MAPPING_RELATED_FIELD)}
 						<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}' />
 					{/if}
-					<input type="hidden" name="module" value="{$MODULE}" />
 					<input type="hidden" name="action" value="SaveAjax" />
 					<input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
 					<input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
@@ -68,6 +66,7 @@
 						<div class="tab-content overflowVisible">
 							{foreach item=MODULE_DETAILS key=MODULE_NAME from=$QUICK_CREATE_CONTENTS}
 								<div class="{$MODULE_NAME}QuikcCreateContents_{$RAND_NUMBER} tab-pane {if $MODULE_NAME eq 'Events'} active show {/if}fade" role="tabpanel">
+									<input type="hidden" name="module" value="{$MODULE_NAME}"/>
 									<input type="hidden" name="mode" value="{if $MODULE_NAME eq 'Calendar'}calendar{else}events{/if}" />
 									{assign var="RECORD_STRUCTURE_MODEL" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['recordStructureModel']}
 									{assign var="RECORD_STRUCTURE" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['recordStructure']}
@@ -106,9 +105,16 @@
 												{/foreach}
 											</div>
 										</div>
-										<div class="float-right my-2">
-											<button class="btn btn-primary saveAndComplete" type="button">{\App\Language::translate('LBL_SAVE_AND_CLOSE', $MODULE)}</button>
-											<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
+										<div class="float-right d-flex my-2">
+											<div class="btn-group-toggle pr-1" data-toggle="buttons">
+												<label class="btn c-btn-checkbox c-btn-outline-done js-btn--mark-as-completed" data-js="click">
+													<strong>
+													<span class="far fa-square fa-lg mr-1 c-btn-checkbox--unchecked"></span>
+													<span class="far fa-check-square fa-lg mr-1 c-btn-checkbox--checked"></span>
+													<input type="checkbox" checked autocomplete="off">{\App\Language::translate('LBL_MARK_AS_HELD', $MODULE)}</strong>
+												</label>
+											</div>
+											<button class="btn btn-success" type="submit"><strong><span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
 										</div>
 										{if AppConfig::module($MODULE, 'SHOW_DAYS_QUICKCREATE')}
 											<div class="form-row px-0 mx-0 col-12 eventsTable"></div>

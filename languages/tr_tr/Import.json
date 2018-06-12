@@ -71,7 +71,7 @@
     "LBL_IMPORT_FILE_COPY_FAILED": "\u0130\u00e7e aktarma dosyas\u0131 kopyalanamad\u0131. \u0130zinleri de\u011fi\u015ftir ",
     "LBL_INVALID_FILE": "Ge\u00e7ersiz dosya",
     "LBL_NO_ROWS_FOUND": "Bulunan sat\u0131r yok",
-    "LBL_SCHEDULED_IMPORT_DETAILS": "\u0130\u00e7e aktarma i\u015flemi planland\u0131 ve 15 dakika i\u00e7inde ba\u015flayacak. \u0130\u00e7e aktarma i\u015flemi bittikten sonra bir e-posta alacaks\u0131n\u0131z. <br \/> <br \/>\nL\u00fctfen giden sunucunun ve e-posta adresinizin e-posta bildirimi alacak \u015fekilde yap\u0131land\u0131r\u0131ld\u0131\u011f\u0131ndan emin olun ",
+    "LBL_SCHEDULED_IMPORT_DETAILS": "\u0130\u00e7e aktarma i\u015flemi planland\u0131 ve 15 dakika i\u00e7inde ba\u015flayacak. \u0130\u00e7e aktarma i\u015flemi bittikten sonra bir e-posta alacaks\u0131n\u0131z. \r\n \r\n\nL\u00fctfen giden sunucunun ve e-posta adresinizin e-posta bildirimi alacak \u015fekilde yap\u0131land\u0131r\u0131ld\u0131\u011f\u0131ndan emin olun ",
     "LBL_DETAILS": "Ayr\u0131nt\u0131lar",
     "skipped": "Atlanan kay\u0131tlar",
     "failed": "Ba\u015far\u0131s\u0131z kay\u0131tlar",

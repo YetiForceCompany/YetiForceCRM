@@ -1,0 +1,21 @@
+{
+  "php": {
+    "ISTDN": "Note transferuri depozit expediate",
+    "SINGLE_ISTDN": "Nota transfer depozit expediata",
+    "LBL_DESCRIPTION_BLOCK": "Descriere",
+    "LBL_ATTENTION_BLOCK": "Comentarii",
+    "FL_ACCEPTANCE_DATE": "Data acceptarii",
+    "FL_ACCOUNT": "Cont",
+    "FL_NUMBER": "Numar",
+    "FL_SUBJECT": "Subiect",
+    "FL_STORAGE": "Depozit",
+    "FL_STATUS": "Status",
+    "PLL_DRAFT": "Ciorna",
+    "PLL_IN_REALIZATION": "In realizare",
+    "PLL_OBJECTIONS": "Obiections",
+    "PLL_FOR_APPROVAL": "Pentru aprobare",
+    "PLL_CANCELLED": "Anulat",
+    "PLL_ACCEPTED": "Acceptat",
+    "LBL_CHANGE_STATUS": "Schimba status"
+  }
+}

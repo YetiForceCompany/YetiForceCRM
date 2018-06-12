@@ -28,7 +28,6 @@ class Vtiger_Inventory_Model
 			$instance->initialize($moduleName);
 			Vtiger_Cache::set('Inventory', $moduleName, $instance);
 		}
-
 		return $instance;
 	}
 
@@ -60,7 +59,6 @@ class Vtiger_Inventory_Model
 			$config[$row['param']] = $value;
 		}
 		\App\Cache::save('Inventory', 'DiscountConfiguration', $config, \App\Cache::LONG);
-
 		return $config;
 	}
 
@@ -77,7 +75,6 @@ class Vtiger_Inventory_Model
 		$discounts = (new App\Db\Query())->from('a_#__discounts_global')->where(['status' => 0])
 			->createCommand(App\Db::getInstance('admin'))->queryAllByGroup(1);
 		\App\Cache::save('Inventory', 'Discounts', $discounts, \App\Cache::LONG);
-
 		return $discounts;
 	}
 
@@ -101,7 +98,6 @@ class Vtiger_Inventory_Model
 			$config[$row['param']] = $value;
 		}
 		\App\Cache::save('Inventory', 'TaxConfiguration', $config, \App\Cache::LONG);
-
 		return $config;
 	}
 
@@ -118,8 +114,23 @@ class Vtiger_Inventory_Model
 		$taxes = (new App\Db\Query())->from('a_#__taxes_global')->where(['status' => 0])
 			->createCommand(App\Db::getInstance('admin'))->queryAllByGroup(1);
 		\App\Cache::save('Inventory', 'Taxes', $taxes, \App\Cache::LONG);
-
 		return $taxes;
+	}
+
+	/**
+	 * Get default global tax .
+	 *
+	 * @return array tax list
+	 */
+	public static function getDefaultGlobalTax()
+	{
+		if (\App\Cache::has('Inventory', 'DefaultTax')) {
+			return \App\Cache::get('Inventory', 'DefaultTax');
+		}
+		$defaultTax = (new App\Db\Query())->from('a_#__taxes_global')->where(['status' => 0])->andWhere(['default' => 1])
+			->one();
+		\App\Cache::save('Inventory', 'DefaultTax', $defaultTax, \App\Cache::LONG);
+		return $defaultTax;
 	}
 
 	/**
@@ -140,7 +151,6 @@ class Vtiger_Inventory_Model
 			$discount = $accountRecordModel->get($discountField);
 			$name = $accountRecordModel->getName();
 		}
-
 		return ['discount' => $discount, 'name' => $name];
 	}
 
@@ -168,7 +178,6 @@ class Vtiger_Inventory_Model
 				$name = $accountRecordModel->getName();
 			}
 		}
-
 		return ['taxs' => $accountTaxs, 'name' => $name];
 	}
 
@@ -191,7 +200,6 @@ class Vtiger_Inventory_Model
 		if ($type) {
 			$this->createInventoryTables();
 		}
-
 		return $this;
 	}
 

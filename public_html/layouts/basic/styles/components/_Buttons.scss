@@ -1,0 +1,48 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+//additinal btn colors
+.btn-default {
+	@include button-variant(#ddd, #ddd);
+}
+
+@include media-breakpoint-down(sm) {
+	.c-btn-block-sm-down {
+		width: 100% !important;
+	}
+}
+
+@include media-breakpoint-down(md) {
+	.c-btn-block-md-down {
+		width: 100% !important;
+	}
+}
+
+@include media-breakpoint-down(xs) {
+	.c-btn-block-xs-down {
+		width: 100% !important;
+	}
+}
+
+.c-btn-checkbox {
+	.c-btn-checkbox--checked {
+		display: none;
+	}
+
+	&.active {
+		.c-btn-checkbox--unchecked {
+			display: none;
+		}
+
+		.c-btn-checkbox--checked {
+			display: inline-block;
+		}
+	}
+}
+
+.c-btn-outline-done {
+	@include button-outline-variant($indigo-dark);
+}
+
+.c-btn-done {
+	@include button-variant($indigo-dark, $indigo-dark);
+}

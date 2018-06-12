@@ -61,7 +61,7 @@ class RecordTransfer
 				$sourceFieldModel = $sourceRecord->getField($source);
 				$targetFieldModel = $recordModel->getField($target);
 				if ($sourceFieldModel && $sourceFieldModel->isViewEnabled() && $targetFieldModel && $targetFieldModel->isEditable()) {
-					$recordModel->set($target, $sourceRecord->get($source));
+					$recordModel->set($target, $sourceFieldModel->getUITypeModel()->getDuplicateValue($sourceRecord));
 				} else {
 					throw new Exceptions\FieldException('ERR_FIELD_NOT_FOUND');
 				}

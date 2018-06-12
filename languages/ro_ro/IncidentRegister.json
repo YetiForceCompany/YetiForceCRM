@@ -1,0 +1,33 @@
+{
+  "php": {
+    "IncidentRegister": "Registru incidente",
+    "SINGLE_IncidentRegister": "Registru incident",
+    "LBL_BASIC_INFORMATION": "Informatii de baza",
+    "FL_NAME": "Nume",
+    "FL_LOCATION_REGISTER": "Locatie registru",
+    "FL_DATASETREGISTER": "Registru set date",
+    "PLL_DRAFT": "Ciorna",
+    "PLL_WAITING_FOR_ACCEPTANCE": "Asteapta pentru acceptare",
+    "PLL_IN_REALIZATION": "In realizare",
+    "PLL_COMPLETED": "Complet",
+    "PLL_CANCELLED": "Anulat",
+    "FL_STATUS": "Status",
+    "FL_TYPE": "Tipe",
+    "PLL_INTERNAL": "Intern",
+    "PLL_EXTERNAL": "Extern",
+    "LBL_INCIDENT_DATES": "Datele incidentelor",
+    "FL_INCIDENT_DATE": "Data incidentului",
+    "FL_INCIDENT_DISCOVERY": "Incident discovery date",
+    "FL_INCIDENT_REPORT_DATE": " Incident report date",
+    "FL_INCIDENT_PUBLICATION_DATE": "Incident publication date",
+    "FL_PEOPLE_NUMBER": "Numarul persoanelor",
+    "LBL_BREACH_CIRCUMSTANCES": "Breach circumstances",
+    "FL_BREACH_CIRCUMSTANCES": "Breach circumstances",
+    "LBL_NATURE_OF_BREACH": "Nature of breach",
+    "FL_NATURE_OF_BREACH": "Nature of breach",
+    "LBL_POSSIBLE_CONSEQUENCES": "Possible consequences",
+    "FL_POSSIBLE_CONSEQUENCES": "Possible consequences",
+    "LBL_SECURITY_MEASURES": "Applied security measures",
+    "FL_SECURITY_MEASURES": "Applied security measures"
+  }
+}

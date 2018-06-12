@@ -1,7 +1,7 @@
 {
   "php": {
-    "FInvoice": "Faturalar",
-    "SINGLE_FInvoice": "Fatura",
+    "FInvoice": "Sales invoices",
+    "SINGLE_FInvoice": "Sales invoice",
     "LBL_CUSTOM_INFORMATION": "Sistem bilgisi",
     "LBL_INVOICE_ADDRESS": "Fatura adresi",
     "LBL_ADDRESS_DELIVERY_INFORMATION": "Teslimat adresi",

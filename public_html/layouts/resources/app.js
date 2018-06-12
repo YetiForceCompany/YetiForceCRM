@@ -202,6 +202,22 @@ app = {
 		}
 		return keyValueMap;
 	},
+	/**
+	 * Function animates bootstrap modal with animate.css
+	 * @params: jQuery object with class .modal,
+	 * @params: string with animation name,
+	 * @params: string with animation name,
+	 */
+	animateModal(modal, openAnimation, closeAnimation) {
+		modal.on('show.bs.modal', function (e) {
+			modal.removeClass(`animated ${closeAnimation}`);
+			modal.addClass(`animated ${openAnimation}`);
+		});
+		modal.on('hide.bs.modal', function (e) {
+			modal.removeClass(`animated ${openAnimation}`);
+			modal.addClass(`animated ${closeAnimation}`);
+		});
+	},
 	showModalData(data, container, paramsObject, cb, url, sendByAjaxCb) {
 		const thisInstance = this;
 		let params = {
@@ -905,35 +921,6 @@ app = {
 	getDecodedValue: function (value) {
 		return $('<div></div>').html(value).text();
 	},
-	updateRowHeight: function () {
-		var rowType = CONFIG.rowHeight;
-		if (rowType !== null) {
-			//Need to update the row height
-			var widthType = app.cacheGet('widthType', 'mediumWidthType');
-			var serverWidth = widthType;
-			switch (serverWidth) {
-				case 'narrowWidthType' :
-					serverWidth = 'narrow';
-					break;
-				case 'wideWidthType' :
-					serverWidth = 'wide';
-					break;
-				default :
-					serverWidth = 'medium';
-			}
-			var userid = CONFIG.userId;
-			var params = {
-				'module': 'Users',
-				'action': 'SaveAjax',
-				'record': userid,
-				'value': serverWidth,
-				'field': 'rowheight'
-			};
-			AppConnector.request(params).then(function () {
-				$(rowType).val(serverWidth);
-			});
-		}
-	},
 	getCookie: function (c_name) {
 		var c_value = document.cookie;
 		var c_start = c_value.indexOf(" " + c_name + "=");
@@ -1209,7 +1196,7 @@ app = {
 		self.sidebarBtn = $('.js-sidebar-btn').first();
 		self.sidebar = $('.js-sidebar').first();
 		self.sidebarBtn.on('click', self.toggleSidebar.bind(self));
-		$('a[href],[tabindex],input,select,textarea,button,object').on('focus', (e) => {
+		$('a[href]:not(.c-header__btn),[tabindex],input,select,textarea,button').on('focus', (e) => {
 			if (self.sidebarBtn[0] == e.target) return;
 			if (self.sidebar.find(':focus').length) {
 				self.openSidebar();
@@ -1218,7 +1205,7 @@ app = {
 			}
 		});
 		self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
-		self.sidebar.find('.js-menu').on('keydown', self.sidebarKeyboard.bind(self));
+		self.sidebar.find('.js-menu__content').on('keydown', self.sidebarKeyboard.bind(self));
 		self.sidebar.on('keydown', (e) => {
 			if (e.which == self.keyboard.ESCAPE) {
 				self.closeSidebar();
@@ -1234,6 +1221,8 @@ app = {
 				window.location = $(e.currentTarget).attr('href');
 			}
 		});
+
+		this.registerPinEvent();
 	},
 	openSidebar: function () {
 		this.sidebar.addClass('js-expand');
@@ -1248,8 +1237,42 @@ app = {
 			this.closeSidebar();
 		} else {
 			this.openSidebar();
-			this.sidebar.find('.js-menu :tabbable').first().focus();
+			this.sidebar.find('.js-menu__content :tabbable').first().focus();
 		}
+	},
+	registerPinEvent: function () {
+		const self = this;
+		let pinButton = self.sidebar.find('.js-menu--pin');
+		let baseContainer = self.sidebar.closest('.js-base-container');
+		pinButton.on('click', () => {
+			let hideMenu = 0;
+			baseContainer.removeClass('c-menu--animation');
+			if (pinButton.attr('data-show') === '0') {
+				hideMenu = 'on';
+				pinButton.removeClass('u-opacity-muted');
+				baseContainer.addClass('c-menu--open');
+				self.sidebar.off('mouseleave mouseenter');
+			} else {
+				pinButton.addClass('u-opacity-muted');
+				baseContainer.removeClass('c-menu--open');
+				self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
+				self.closeSidebar.bind(self);
+			}
+			AppConnector.request({
+				module: 'Users',
+				action: 'SaveAjax',
+				field: 'leftpanelhide',
+				record: CONFIG.userId,
+				value: hideMenu
+			}).then(function (responseData) {
+				if (responseData.success && responseData.result) {
+					pinButton.attr('data-show', hideMenu);
+				}
+			});
+			setTimeout(() => {
+				baseContainer.addClass('c-menu--animation');
+			}, 300);
+		});
 	},
 	sidebarKeyboard: function (e) {
 		let target = $(e.target);
@@ -1270,10 +1293,10 @@ app = {
 			target.click();
 			return false;
 		} else if (e.which == this.keyboard.UP) {
-			this.sidebar.find('.js-menu :tabbable').eq(parseInt(this.sidebar.find('.js-menu :tabbable').index(target)) - 1).focus();
+			this.sidebar.find('.js-menu__content :tabbable').eq(parseInt(this.sidebar.find('.js-menu__content :tabbable').index(target)) - 1).focus();
 			return false;
 		} else if (e.which == this.keyboard.DOWN) {
-			this.sidebar.find('.js-menu :tabbable').eq(parseInt(this.sidebar.find('.js-menu :tabbable').index(target)) + 1).focus();
+			this.sidebar.find('.js-menu__content :tabbable').eq(parseInt(this.sidebar.find('.js-menu__content :tabbable').index(target)) + 1).focus();
 			return false;
 		}
 	},
@@ -1305,7 +1328,7 @@ app = {
 		return $(window).height() * percantage / 100;
 	},
 	setCalendarHeight() {
-		const container = $('.baseContainer');
+		const container = $('.js-base-container');
 		const paddingTop = 10;
 		if ($(window).width() > 993) {
 			let calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
@@ -1324,7 +1347,7 @@ app = {
 			module: 'Home',
 			action: 'BrowsingHistory',
 		}).then(function (response) {
-			$('.historyList').remove();
+			$('.historyList').html(`<a class="item dropdown-item" href="#" role="listitem">${app.vtranslate('JS_NO_RECORDS')}</a>`);
 		});
 	},
 	showConfirmation: function (data, element) {
@@ -1394,6 +1417,27 @@ app = {
 			});
 		});
 	},
+	/**
+	 * Convert html content to base64 image
+	 * This function can be used in promise chain or with callback if specified
+	 *
+	 * @param {HTMLElement} element
+	 * @param {function} callback with imageString argument which contains an image in base64 string format
+	 * @param {object} options see: https://html2canvas.hertzen.com/configuration , imageType is our custom option
+	 * @return {Promise} with base64 string image as argument
+	 */
+	htmlToImage(element, callback, options = {imageType: 'image/png', logging: false}) {
+		element = $(element).get(0); // make sure we have HTMLElement not jQuery because it will not work
+		const imageType = options.imageType;
+		delete options.imageType;
+		return html2canvas(element, options).then((canvas) => {
+			const base64Image = canvas.toDataURL(imageType);
+			if (typeof callback === 'function') {
+				callback(base64Image);
+			}
+			return base64Image;
+		});
+	}
 };
 $(document).ready(function () {
 	App.Fields.Picklist.changeSelectElementView();
@@ -1403,8 +1447,6 @@ $(document).ready(function () {
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
-	//Updating row height
-	app.updateRowHeight();
 	String.prototype.toCamelCase = function () {
 		var value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()

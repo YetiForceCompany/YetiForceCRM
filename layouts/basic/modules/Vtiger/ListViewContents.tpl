@@ -52,8 +52,9 @@
 								{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
 								<div class="d-flex align-items-center">
 									<input class="searchInSubcategories mr-1" type="checkbox" id="searchInSubcategories{$LISTVIEW_HEADER_NAME}" title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" value="1" data-columnname="{$LISTVIEW_HEADER->getColumnName()}" {if !empty($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]['specialOption'])} checked {/if}>
-									<span class="js-popover-tooltip delay0 fas fa-info-circle" data-js="popover" data-placement="top" data-original-title="{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}"
+									<span class="js-popover-tooltip delay0" data-js="popover" data-placement="top" data-original-title="{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}"
 										  data-content="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
+										<span class="fas fa-info-circle"></span>
 									</span>
 								</div>
 							{/if}
@@ -66,13 +67,11 @@
 					<tr>
 						<td class="listViewSearchTd">
 							<div class="flexWrapper">
-								<a class="btn btn-light" data-trigger="listSearch" href="javascript:void(0);">
-									<span class="fas fa-search" aria-hidden="true"></span>
-									<span class="sr-only">{\App\Language::translate('LBL_SEARCH')}</span>
+								<a class="btn btn-light" role="button" data-trigger="listSearch" href="javascript:void(0);">
+									<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
 								</a>
-								<a class="btn btn-light float-right listRemoveBtn" href="index.php?view={$VIEW}&module={$MODULE}">
-									<span class="fas fa-times" aria-hidden="true"></span>
-									<span class="sr-only">{\App\Language::translate('LBL_RESET')}</span>
+								<a class="btn btn-light float-right listRemoveBtn" role="button" href="index.php?view={$VIEW}&module={$MODULE}">
+									<span class="fas fa-times" title="{\App\Language::translate('LBL_CLEAR_SEARCH')}"></span>
 								</a>
 							</div>
 						</td>
@@ -125,8 +124,7 @@
 						<td {if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}style="width:{$LISTVIEW_HEADER->get('maxwidthcolumn')}%"{/if} {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if !empty($LISTVIEW_HEADER->isCalculateField())}border{/if}" >
 							{if !empty($LISTVIEW_HEADER->isCalculateField())}
 								<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover" type="button" data-operator="sum" data-field="{$LISTVIEW_HEADER->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
-									<span class="fas fa-signal" aria-hidden="true"></span>
-									<span class="sr-only">{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}</span>
+									<span class="fas fa-signal" title="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}"></span>
 								</button>
 								<span class="calculateValue"></span>
 							{/if}

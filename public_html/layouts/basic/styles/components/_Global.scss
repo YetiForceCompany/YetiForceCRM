@@ -64,10 +64,10 @@
 }
 
 .c-badge--top-right {
-  position: absolute;
-  top: -5px;
-  right: 0;
-  z-index: 100;
+	position: absolute;
+	top: -5px;
+	right: 0;
+	z-index: 100;
 }
 
 .childrenMarginRight > * {
@@ -154,6 +154,7 @@
 
 	@include border-bottom-radius($offset-border-width);
 }
+
 // bootstrap carousel
 .c-carousel {
 	.c-carousel__prevnext-btn {
@@ -173,6 +174,7 @@
 		}
 	}
 }
+
 //action dropdowns
 .rightRecordActions,
 .leftRecordActions {
@@ -199,18 +201,4 @@
 			}
 		}
 	}
-}
-//additinal btn colors
-.btn-default {
-  @include button-variant(#ddd, #ddd);
-}
-@include media-breakpoint-down(sm) {
-  .c-btn-block-sm-down {
-	width: 100% !important;
-  }
-}
-@include media-breakpoint-down(md) {
-  .c-btn-block-md-down {
-	width: 100% !important;
-  }
 }

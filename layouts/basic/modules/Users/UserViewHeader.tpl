@@ -20,11 +20,9 @@
                 </div>
                 <div class="col-md-4 mt-2">
                     <div class="float-right detailViewButtoncontainer mb-2">
-						<div class="btn-toolbar float-right">		
+						<div class="btn-toolbar btn-group float-right">
 							{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}
-								<div class="mr-1">
 								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic'}
-								</div>
 							{/foreach}
 							{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
 								<span class="btn-group">

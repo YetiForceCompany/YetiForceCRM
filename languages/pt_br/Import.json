@@ -71,7 +71,7 @@
     "LBL_IMPORT_FILE_COPY_FAILED": "Importa\u00e7\u00e3o c\u00f3pia Arquivo falhou",
     "LBL_INVALID_FILE": "Arquivo Inv\u00e1lido",
     "LBL_NO_ROWS_FOUND": "Nenhuma linha foi encontrada",
-    "LBL_SCHEDULED_IMPORT_DETAILS": "Sua importa\u00e7\u00e3o est\u00e1 sendo agendada e iniciar\u00e1 dentro de 15 minutos. Voc\u00ea receber\u00e1 um email assim que a importa\u00e7\u00e3o estiver conclu\u00edda.<br \/> <br \/>\n\t \t\t\t\t\t\t\t\t\tPor gentileza, certifique-se de que o Servidor de Envio de Mensagens e seu endere\u00e7o de e-mail est\u00e3o devidamente configurados para receber a notifica\u00e7\u00e3o.",
+    "LBL_SCHEDULED_IMPORT_DETAILS": "Sua importa\u00e7\u00e3o est\u00e1 sendo agendada e iniciar\u00e1 dentro de 15 minutos. Voc\u00ea receber\u00e1 um email assim que a importa\u00e7\u00e3o estiver conclu\u00edda.\r\n \r\n\n\t \t\t\t\t\t\t\t\t\tPor gentileza, certifique-se de que o Servidor de Envio de Mensagens e seu endere\u00e7o de e-mail est\u00e3o devidamente configurados para receber a notifica\u00e7\u00e3o.",
     "LBL_DETAILS": "Detalhes",
     "skipped": "Registros Ignorados",
     "failed": "Registros Falhos",

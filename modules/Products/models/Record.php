@@ -206,17 +206,17 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		$isExists = (new \App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])->exists();
 		if ($isExists) {
-			$status =App\Db::getInstance()->createCommand()
+			$status = App\Db::getInstance()->createCommand()
 				->update('vtiger_pricebookproductrel', ['listprice' => $price], ['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])
 				->execute();
 		} else {
-			$status =App\Db::getInstance()->createCommand()
+			$status = App\Db::getInstance()->createCommand()
 				->insert('vtiger_pricebookproductrel', [
-					'pricebookid' => $relatedRecordId,
-					'productid' => $this->getId(),
-					'listprice' => $price,
-					'usedcurrency' => $currencyId,
-				])->execute();
+						'pricebookid' => $relatedRecordId,
+						'productid' => $this->getId(),
+						'listprice' => $price,
+						'usedcurrency' => $currencyId,
+					])->execute();
 		}
 		return $status;
 	}
@@ -224,6 +224,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	public function getPriceDetailsForProduct($productId, $unitPrice, $available = 'available', $itemType = 'Products')
 	{
 		\App\Log::trace('Entering into function getPriceDetailsForProduct(' . $productId . ')');
+		$fieldInfo = $this->getField('unit_price')->getFieldInfo();
 		if ($productId) {
 			$productCurrencyId = \App\Fields\Currency::getCurrencyByModule($productId, $itemType);
 			$productBaseConvRate = self::getBaseConversionRateForProduct($productId, 'edit', $itemType);
@@ -269,6 +270,9 @@ class Products_Record_Model extends Vtiger_Record_Model
 				$priceDetails[$i]['curvalue'] = CurrencyField::convertToUserFormat($curValue, null, true);
 				$priceDetails[$i]['conversionrate'] = $actualConversionRate;
 				$priceDetails[$i]['is_basecurrency'] = $isBaseCurrency;
+				$fieldInfo['name'] = $priceDetails[$i]['curname'];
+				$fieldInfo['currency_symbol'] = $priceDetails[$i]['currencysymbol'];
+				$priceDetails[$i]['fieldInfo'] = $fieldInfo;
 				++$i;
 			}
 			$dataReader->close();
@@ -303,6 +307,9 @@ class Products_Record_Model extends Vtiger_Record_Model
 						$isBaseCurrency = true;
 					}
 					$priceDetails[$i]['is_basecurrency'] = $isBaseCurrency;
+					$fieldInfo['name'] = $priceDetails[$i]['curname'];
+					$fieldInfo['currency_symbol'] = $priceDetails[$i]['currencysymbol'];
+					$priceDetails[$i]['fieldInfo'] = $fieldInfo;
 					++$i;
 				}
 				$dataReader->close();
@@ -365,7 +372,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		parent::saveToDb();
 		//Inserting into product_taxrel table
-		if (\App\Request::_get('ajxaction') != 'DETAIL_VIEW_BASIC' && \App\Request::_get('action') != 'MassSave' && \App\Request::_get('action') != 'ProcessDuplicates') {
+		if (\App\Request::_get('ajxaction') != 'DETAIL_VIEW_BASIC' && \App\Request::_get('action') != 'MassSave') {
 			$this->insertPriceInformation();
 		}
 		// Update unit price value in vtiger_productcurrencyrel
