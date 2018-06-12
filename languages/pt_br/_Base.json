@@ -1271,7 +1271,9 @@
     "LBL_MERGING": "Merging records",
     "_Base": "System",
     "LBL_SHOP_YETIFORCE": "Store",
-    "LBL_DUPLICATES": "duplicated"
+    "LBL_DUPLICATES": "duplicated",
+    "LBL_PRINT": "Print",
+    "LBL_IMAGE_DOWNLOAD": "Download image"
   },
   "js": {
     "JS_RECORDS_TRANSFERRED_SUCCESSFULLY": "A responsabilidade dos registros foi transferida com sucesso.",
