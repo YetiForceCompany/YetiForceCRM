@@ -204,8 +204,6 @@ class Project_Gantt_Model
 
 	/**
 	 * Sort all node types (task,milestones,projects) so each parent task is before its child (frontend lib needs this).
-	 *
-	 * @return array all node types as flat 1-dimensioned array
 	 */
 	private function collectChildrens()
 	{
@@ -344,15 +342,6 @@ class Project_Gantt_Model
 	}
 
 	/**
-	 * Calculate milestone start date from children tasks/milestones.
-	 */
-	private function calculateDates()
-	{
-		$this->findOutStartDates($this->rootNode);
-		$this->findOutEndDates($this->rootNode);
-	}
-
-	/**
 	 * Calculate task duration in days.
 	 */
 	private function calculateDurations()
@@ -371,9 +360,6 @@ class Project_Gantt_Model
 	 */
 	public function getStatusColors()
 	{
-		if (!empty($this->statusColors)) {
-			return $this->statusColors;
-		}
 		$configColors = \AppConfig::module('Project', 'defaultGanttColors');
 		if (!empty($configColors)) {
 			return $this->statusColors = $configColors;
@@ -388,14 +374,9 @@ class Project_Gantt_Model
 
 	/**
 	 * Collect all modules picklists names and values that we can use in filters.
-	 *
-	 * @return array
 	 */
 	public function getPicklistValues()
 	{
-		if ($this->picklistsValues) {
-			return $this->picklistsValues;
-		}
 		$picklists = ['Project' => [], 'ProjectMilestone' => [], 'ProjectTask' => []];
 		foreach (App\Fields\Picklist::getModulesByName('Project') as $name) {
 			$picklists['Project'][$name] = [];
@@ -419,7 +400,6 @@ class Project_Gantt_Model
 			}
 		}
 		$this->picklistsValues = $picklists;
-		return $picklists;
 	}
 
 	/**
@@ -508,6 +488,7 @@ class Project_Gantt_Model
 	public function getAllData($viewName = null)
 	{
 		$this->getStatusColors();
+		$this->getPicklistValues();
 		$projects = $this->getProject(0, $viewName);
 		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
@@ -517,7 +498,8 @@ class Project_Gantt_Model
 		$this->normalizeParents();
 		$this->collectChildrens();
 		$this->calculateLevels();
-		$this->calculateDates();
+		$this->findOutStartDates($this->rootNode);
+		$this->findOutEndDates($this->rootNode);
 		$this->calculateDurations();
 		$response = [
 			'statusColors' => $this->statusColors,
@@ -525,7 +507,7 @@ class Project_Gantt_Model
 			'canDelete' => false,
 			'cantWriteOnParent' => false,
 			'canAdd' => false,
-			'picklists' => $this->getPicklistValues(),
+			'picklists' => $this->picklistValues,
 			'statuses' => $this->getStatuses(),
 		];
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
@@ -545,6 +527,7 @@ class Project_Gantt_Model
 	public function getById($id)
 	{
 		$this->getStatusColors();
+		$this->getPicklistValues();
 		$projects = $this->getProject($id);
 		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
@@ -554,7 +537,8 @@ class Project_Gantt_Model
 		$this->normalizeParents();
 		$this->collectChildrens();
 		$this->calculateLevels();
-		$this->calculateDates();
+		$this->findOutStartDates($this->rootNode);
+		$this->findOutEndDates($this->rootNode);
 		$this->calculateDurations();
 		$response = [
 			'statusColors' => $this->statusColors,
@@ -562,7 +546,7 @@ class Project_Gantt_Model
 			'canDelete' => false,
 			'cantWriteOnParent' => false,
 			'canAdd' => false,
-			'picklists' => $this->getPicklistValues(),
+			'picklists' => $this->picklistValues,
 			'statuses' => $this->getStatuses(),
 		];
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
@@ -691,32 +675,31 @@ class Project_Gantt_Model
 		}
 		$data = [];
 		$closingStatuses = Settings_RealizationProcesses_Module_Model::getStatusNotModify();
-		$allStatuses = $this->getPicklistValues();
-		if (!empty($allStatuses['Project']['projectstatus'])) {
-			foreach ($allStatuses['Project']['projectstatus'] as $status) {
+		if (!empty($this->picklistsValues['Project']['projectstatus'])) {
+			foreach ($this->picklistsValues['Project']['projectstatus'] as $status) {
 				if (!empty($closingStatuses['Project']['status'])) {
 					$status['closing'] = in_array($status['value'], $closingStatuses['Project']['status']);
 				}
 				$data['Project'][] = $status;
 			}
 		}
-		if (!empty($allStatuses['ProjectMilestone']['projectmilestone_status'])) {
-			foreach ($allStatuses['ProjectMilestone']['projectmilestone_status'] as $status) {
+		if (!empty($this->picklistsValues['ProjectMilestone']['projectmilestone_status'])) {
+			foreach ($this->picklistsValues['ProjectMilestone']['projectmilestone_status'] as $status) {
 				if (!empty($closingStatuses['ProjectMilestone']['status'])) {
 					$status['closing'] = in_array($status['value'], $closingStatuses['ProjectMilestone']['status']);
 				}
 				$data['ProjectMilestone'][] = $status;
 			}
 		}
-		if (!empty($allStatuses['ProjectTask']['projecttaskstatus'])) {
-			foreach ($allStatuses['ProjectTask']['projecttaskstatus'] as $status) {
+		if (!empty($this->picklistsValues['ProjectTask']['projecttaskstatus'])) {
+			foreach ($this->picklistsValues['ProjectTask']['projecttaskstatus'] as $status) {
 				if (!empty($closingStatuses['ProjectTask']['status'])) {
 					$status['closing'] = in_array($status['value'], $closingStatuses['ProjectTask']['status']);
 				}
 				$data['ProjectTask'][] = $status;
 			}
 		}
-		unset($closingStatuses, $allStatuses);
+		unset($closingStatuses, $this->picklistsValues);
 		return $data;
 	}
 }

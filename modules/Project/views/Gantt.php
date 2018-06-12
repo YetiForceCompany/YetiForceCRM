@@ -19,9 +19,6 @@ class Project_Gantt_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAll($moduleName));
 		$this->viewName = App\CustomView::getInstance($moduleName)->getViewId();
-		if ($request->isEmpty('viewname') && App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
-			App\CustomView::setCurrentView($moduleName, $this->viewName);
-		}
 		$viewer->assign('VIEWID', $this->viewName);
 		$viewer->assign('MODULE_MODEL', Vtiger_Module_Model::getInstance($moduleName));
 		if ($display) {
@@ -40,19 +37,10 @@ class Project_Gantt_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function preProcessDisplay(\App\Request $request)
-	{
-		parent::preProcessDisplay($request);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function postProcess(\App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$viewer->view('EmptyPostProcess.tpl', $moduleName);
+		$viewer->view('EmptyPostProcess.tpl', $request->getModule());
 		parent::postProcess($request);
 	}
 
@@ -63,10 +51,8 @@ class Project_Gantt_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$gantt = new Project_Gantt_Model();
-		$data = $gantt->getAllData();
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('DATA', $data);
+		$viewer->assign('DATA', (new Project_Gantt_Model())->getAllData());
 		if ($request->has('view') && $request->getByType('view', 2) === 'Gantt') {
 			$viewer->view('gantt/GanttAll.tpl', $moduleName);
 		} else {

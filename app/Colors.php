@@ -128,9 +128,8 @@ class Colors
 	public static function getPicklists($moduleName)
 	{
 		$colors = [];
-		$fields = static::getPicklistFieldsByModule($moduleName);
-		foreach ($fields as $field) {
-			$colors[$field->getName()]=[];
+		foreach (static::getPicklistFieldsByModule($moduleName) as $field) {
+			$colors[$field->getName()] = [];
 			$values = Fields\Picklist::getValues($field->getName());
 			if ($values) {
 				$firstRow = reset($values);
@@ -140,7 +139,7 @@ class Colors
 							if (empty($item['color'])) {
 								$item['color'] = static::getRandomColor($moduleName . $item['picklistValue'], '#');
 							}
-							if (substr($item['color'], 0, 1)!=='#') {
+							if (substr($item['color'], 0, 1) !== '#') {
 								$item['color'] = '#' . $item['color'];
 							}
 							$colors[$field->getName()][$item['picklistValue']] = $item['color'];
