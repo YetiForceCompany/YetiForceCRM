@@ -1428,8 +1428,10 @@ app = {
 	 */
 	htmlToImage(element, callback, options = {imageType: 'image/png', logging: false}) {
 		element = $(element).get(0); // make sure we have HTMLElement not jQuery because it will not work
+		const imageType = options.imageType;
+		delete options.imageType;
 		return html2canvas(element, options).then((canvas) => {
-			const base64Image = canvas.toDataURL(options.imageType);
+			const base64Image = canvas.toDataURL(imageType);
 			if (typeof callback === 'function') {
 				callback(base64Image);
 			}

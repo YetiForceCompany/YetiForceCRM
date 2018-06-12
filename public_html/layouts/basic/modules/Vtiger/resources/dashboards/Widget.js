@@ -1279,19 +1279,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 	},
 	/**
-	 * Register tooltips and popovers inside widget
-	 */
-	registerTooltipsAndPopovers() {
-		$('[data-toggle="tooltip"]', this.getContainer()).tooltip();
-		$('[data-toggle="popover"]', this.getContainer()).popover();
-	},
-	/**
-	 * Register waterfall selects
-	 */
-	registerWaterfallSelects() {
-		App.Fields.Picklist.registerWaterfallSelect($('.js-waterfall-select', this.getContainer()));
-	},
-	/**
 	 * Print html content as image
 	 * @param element
 	 */
@@ -1311,7 +1298,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 			this.print(imgEl.get(0), title, width, height);
 		};
-		app.htmlToImage(element, (imageBase64) => {
+		app.htmlToImage(printContainer, (imageBase64) => {
 			imgEl.get(0).src = imageBase64;
 		});
 	},
@@ -1320,13 +1307,13 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param element
 	 */
 	downloadHtmlAsImage(element) {
-		let widget = $(element).closest('.dashboardWidget'),
+		let widget = element.closest('.dashboardWidget'),
 			title = widget.find('.dashboardTitle').prop('title');
-		app.htmlToImage($(element).closest('.dashboardWidget').find('.js-print__container').get(0), (imageBase64) => {
-			let element = document.createElement('a');
-			element.setAttribute('href', imageBase64);
-			element.setAttribute('download', title + '.png');
-			element.click();
+		app.htmlToImage(element.closest('.dashboardWidget').find('.js-print__container').get(0), (imageBase64) => {
+			let anchor = document.createElement('a');
+			anchor.setAttribute('href', imageBase64);
+			anchor.setAttribute('download', title + '.png');
+			anchor.click();
 		});
 	},
 	/**
@@ -1348,7 +1335,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 			this.positionNoDataMsg();
 		}
 		this.registerSectionClick();
-		this.registerWaterfallSelects();
 		this.registerFilter();
 		this.registerFilterChangeEvent();
 		this.restrictContentDrag();
