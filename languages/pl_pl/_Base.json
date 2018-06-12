@@ -1281,7 +1281,9 @@
     "LBL_ADVANCED_SEARCH": "Wyszukiwanie zaawansowane",
     "LBL_MERGING": "\u0141\u0105czenie rekord\u00f3w",
     "_Base": "System",
-    "LBL_SHOP_YETIFORCE": "Sklep"
+    "LBL_SHOP_YETIFORCE": "Sklep",
+    "LBL_PRINT": "Drukuj",
+    "LBL_IMAGE_DOWNLOAD": "Pobierz obraz"
   },
   "js": {
     "JS_SUMMARY": "Podsumowanie",

@@ -150,7 +150,6 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			'modules.' . $moduleName . '.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',
 			'~libraries/fullcalendar/dist/fullcalendar.js',
-			'~libraries/html2canvas/dist/html2canvas.js',
 		];
 
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
