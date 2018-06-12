@@ -40,9 +40,9 @@
 }
 
 .c-btn-outline-done {
-	@include button-outline-variant($indigo-dark);
+	@include button-outline-variant($color-indigo-dark);
 }
 
 .c-btn-done {
-	@include button-variant($indigo-dark, $indigo-dark);
+	@include button-variant($color-indigo-dark, $color-indigo-dark);
 }
