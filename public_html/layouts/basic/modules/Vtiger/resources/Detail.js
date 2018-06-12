@@ -284,6 +284,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 			thisInstance.registerEmailEvents(widgetContent);
+			thisInstance.registerBlockAnimationEvent();
 		});
 	},
 	loadWidgets: function () {
