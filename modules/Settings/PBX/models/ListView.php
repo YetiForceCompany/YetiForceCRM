@@ -24,7 +24,7 @@ class Settings_PBX_ListView_Model extends Settings_Vtiger_ListView_Model
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkdata' => ['url' => 'index.php?module=PBX&parent=Settings&view=EditModal'],
 				'linkicon' => 'fas fa-plus',
-				'linkclass' => 'btn-success addRecord',
+				'linkclass' => 'btn-light addRecord',
 				'showLabel' => 1,
 				'modalView' => true,
 			];

@@ -29,6 +29,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $this->getModule()->getCreateRecordUrl(),
 				'linkicon' => '',
+				'linkclass' => 'btn-light'
 			],
 		];
 		foreach ($basicLinks as $basicLink) {
