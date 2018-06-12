@@ -2,7 +2,7 @@
 {strip}
 	<div class="c-detail-widget js-detail-widget" data-js=”container”>
 		<div class="c-detail-widget__header js-detail-widget-header" data-js=”container|value">
-			<div class="col-xs-5">
+			<div class="col-sm-5">
 				<h5 class="mb-0 py-2">
 					{if $WIDGET['label'] eq ''}
 						{App\Language::translate('LBL_ACTIVITIES',$MODULE_NAME)}
