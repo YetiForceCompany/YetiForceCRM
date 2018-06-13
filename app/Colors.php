@@ -138,10 +138,8 @@ class Colors
 		$color = ltrim($color, "#\t ");
 		if (empty($color)) {
 			return static::getRandomColor($value, '#');
-		} else {
-			$color = '#' . $color;
 		}
-		return $color;
+		return '#' . $color;
 	}
 
 	/**
