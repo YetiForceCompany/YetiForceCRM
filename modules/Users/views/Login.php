@@ -11,18 +11,6 @@
 
 class Users_Login_View extends \App\Controller\View
 {
-	use \App\Controller\ExposeMethod;
-
-	/**
-	 * Constructor.
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('login');
-		$this->exposeMethod('checkTotp');
-	}
-
 	/**
 	 * {@inheritdoc}
 	 */
@@ -70,42 +58,8 @@ class Users_Login_View extends \App\Controller\View
 	 */
 	public function process(\App\Request $request)
 	{
-		if (\App\Session::get('authy_method') === 'TOTP') {
-			$this->checkTotp($request);
-		} else {
-			$this->login($request);
-		}
-	}
-
-	/**
-	 * Check if 2FA verification is necessary.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\IllegalValue
-	 */
-	public function checkTotp(\App\Request $request)
-	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
-		$viewer->assign('IS_BLOCKED_IP', Settings_BruteForce_Module_Model::getCleanInstance()->isBlockedIp());
-		$viewer->assign('MESSAGE', \App\Session::get('authy_message'));
-		$viewer->view('Login2faTotp.tpl', 'Users');
-	}
-
-	/**
-	 * User login to the system.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return bool
-	 */
-	public function login(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE', $request->getModule());
-		$viewer->assign('LANGUAGE_SELECTION', AppConfig::main('langInLoginView'));
-		$viewer->assign('LAYOUT_SELECTION', AppConfig::main('layoutInLoginView'));
 		$viewer->assign('IS_BLOCKED_IP', Settings_BruteForce_Module_Model::getCleanInstance()->isBlockedIp());
 		if (\App\Session::has('UserLoginMessage')) {
 			$viewer->assign('MESSAGE', \App\Session::get('UserLoginMessage'));
@@ -113,7 +67,13 @@ class Users_Login_View extends \App\Controller\View
 			\App\Session::delete('UserLoginMessage');
 			\App\Session::delete('UserLoginMessageType');
 		}
-		$viewer->view('Login.tpl', 'Users');
+		if (\App\Session::get('LoginAuthyMethod') === '2fa') {
+			$viewer->view('Login2faTotp.tpl', 'Users');
+		} else {
+			$viewer->assign('LANGUAGE_SELECTION', AppConfig::main('langInLoginView'));
+			$viewer->assign('LAYOUT_SELECTION', AppConfig::main('layoutInLoginView'));
+			$viewer->view('Login.tpl', 'Users');
+		}
 	}
 
 	/**
@@ -121,15 +81,9 @@ class Users_Login_View extends \App\Controller\View
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
-
-		$cssFileNames = [
-			'modules.Users.Login',
-		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-
-		return $headerCssInstances;
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
+			'modules.Users.Login'
+		]));
 	}
 
 	/**

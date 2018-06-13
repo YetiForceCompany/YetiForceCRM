@@ -14,4 +14,11 @@ label.btn.btn-outline-primary {
 
 .dropdown-item {
 	cursor: pointer;
+	border-top: 1px solid transparent;
+	border-bottom: 1px solid transparent;
+
+	&:hover {
+		border-top: 1px solid $color-grey-light;
+		border-bottom: 1px solid $color-grey-light;
+	}
 }

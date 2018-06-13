@@ -64,10 +64,6 @@ $SECURITY_CONFIG = [
 	 */
 	'USER_AUTHY_MODE' => 'TOTP_OPTIONAL',
 	/**
-	 * Number of incorrect attempts to enter the TOTP code.
-	 */
-	'USER_AUTHY_TOTP_NUMBER_OF_WRONG_ATTEMPTS' => 3,
-	/**
 	 * Exceptions list of users (int[])
 	 * TOTP - Time-based One-time Password.
 	 */

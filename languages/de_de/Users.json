@@ -340,7 +340,11 @@
     "LBL_2FA_SECRET": "Secret code",
     "LBL_2FA_TOTP_QR_CODE": "Single-use code",
     "LBL_AUTHY_SECRET_TOTP_SUCCESS": "Two factor authentication was succesfully enabled.",
-    "LBL_2FA_WRONG_CODE": "Incorrect code"
+    "LBL_2FA_WRONG_CODE": "Incorrect code",
+    "LBL_2FA_OFF": "Enable two-factor authentication",
+    "LBL_2FA_USER_CODE": "User's code",
+    "LBL_2FA_DESCRIPTION": "This step confirms that the person who is trying to log in is actually you",
+    "LBL_2FA_SECRET_ALREADY_SET": "Secred code has been already generated but you can change it"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Dezimaltrennzeichen und Zifferngruppierungs-Trennzeichen darf nicht gleich sein",

@@ -11,8 +11,6 @@
 
 class Users_Login_Action extends \App\Controller\Action
 {
-	use \App\Controller\ExposeMethod;
-
 	/**
 	 * Users record model.
 	 *
@@ -26,16 +24,6 @@ class Users_Login_Action extends \App\Controller\Action
 	 * @var \App\User
 	 */
 	private $userModel;
-
-	/**
-	 * Constructor.
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('login');
-		$this->exposeMethod('checkTotp');
-	}
 
 	/**
 	 * {@inheritdoc}
@@ -58,8 +46,15 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	public function process(\App\Request $request)
 	{
-		if (\App\Session::get('authy_method') === 'TOTP') {
-			$this->checkTotp($request);
+		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
+		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
+			$bfInstance->incAttempts();
+			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($request->getByType('username', 'Text')), 'Blocked IP');
+			header('Location: index.php?module=Users&view=Login');
+			return false;
+		}
+		if (\App\Session::get('LoginAuthyMethod') === '2fa') {
+			$this->check2fa($request);
 		} else {
 			$this->login($request);
 		}
@@ -72,32 +67,17 @@ class Users_Login_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function checkTotp(\App\Request $request)
+	public function check2fa(\App\Request $request)
 	{
-		$userCode = $request->getByType('user_code', 'Digital');
-		$userId = \App\Session::get('totp_user_id');
-		$userModel = \App\User::getUserModel($userId);
-		$secret = $userModel->getDetail('authy_secret_totp');
-		$checkResult = Users_Totp_Authmethod::verifyCode($secret, $userCode);
-		if ($checkResult) {
+		$userId = \App\Session::get('2faUserId');
+		if (Users_Totp_Authmethod::verifyCode(\App\User::getUserModel($userId)->getDetail('authy_secret_totp'), $request->getByType('user_code', 'Digital'))) {
 			\App\Session::set('authenticated_user_id', $userId);
-			\App\Session::delete('totp_user_id');
+			\App\Session::delete('2faUserId');
 			$this->redirectUser();
 		} else {
-			\App\Session::set('authy_message', \App\Language::translate('LBL_2FA_WRONG_CODE', 'Users'));
-			$authyIncorrectAttempts = \App\Session::get('authy_incorrect_attempts');
-			$authyIncorrectAttempts++;
-			if ($authyIncorrectAttempts > AppConfig::security('USER_AUTHY_TOTP_NUMBER_OF_WRONG_ATTEMPTS', 10)) {
-				if (AppConfig::main('session_regenerate_id')) {
-					\App\Session::regenerateId(true); // to overcome session id reuse.
-				}
-				\App\Session::destroy();
-				header('Location: index.php?module=Users&view=Login');
-				return false;
-			}
-			\App\Session::set('authy_incorrect_attempts', $authyIncorrectAttempts);
-			header('Location: index.php?module=Users&view=Login');
-			return false;
+			\App\Session::set('UserLoginMessage', \App\Language::translate('LBL_2FA_WRONG_CODE', 'Users'));
+			\App\Session::set('UserLoginMessageType', 'error');
+			$this->failedLogin($request);
 		}
 	}
 
@@ -124,17 +104,8 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	public function login(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$userName = $request->get('username');
+		$userName = $request->getByType('username', 'Text');
 		$password = $request->getRaw('password');
-		$moduleModel = Users_Module_Model::getInstance('Users');
-		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
-		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
-			$bfInstance->incAttempts();
-			$moduleModel->saveLoginHistory(strtolower($userName), 'Blocked IP');
-			header('Location: index.php?module=Users&view=Login');
-			return false;
-		}
 		if ($request->getMode('mode') === 'install') {
 			$this->cleanInstallationFiles();
 		}
@@ -142,31 +113,22 @@ class Users_Login_Action extends \App\Controller\Action
 		if (!empty($password) && $this->userRecordModel->doLogin($password)) {
 			$this->userModel = App\User::getUserModel($this->userRecordModel->getId());
 			if (\App\Session::get('UserAuthMethod') === 'PASSWORD' && $this->userRecordModel->verifyPasswordChange($this->userModel)) {
-				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_YOUR_PASSWORD_HAS_EXPIRED', $moduleName));
+				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_YOUR_PASSWORD_HAS_EXPIRED', 'Users'));
 				\App\Session::set('UserLoginMessageType', 'error');
 				header('Location: index.php');
 				return true;
 			}
 			$this->afterLogin($request);
-			$moduleModel->saveLoginHistory(strtolower($userName)); //Track the login History
-			if (Users_Totp_Authmethod::isRequired($this->userRecordModel->getId()) && !Users_Totp_Authmethod::isRequiredInit($this->userRecordModel->getId())) {
+			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($userName)); //Track the login History
+			if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId()) && Users_Totp_Authmethod::isActiveUser($this->userRecordModel->getId())) {
 				header('Location: index.php?module=Users&view=Login');
 			} else {
 				$this->redirectUser();
 			}
 			return true;
 		}
-		\App\Session::set('UserLoginMessage', App\Language::translate('LBL_INVALID_USER_OR_PASSWORD', $moduleName));
-		if ($bfInstance->isActive()) {
-			$bfInstance->updateBlockedIp();
-			if ($bfInstance->isBlockedIp()) {
-				$bfInstance->sendNotificationEmail();
-				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS', $moduleName));
-				\App\Session::set('UserLoginMessageType', 'error');
-			}
-		}
-		$moduleModel->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login'); //Track the login History
-		header('Location: index.php?module=Users&view=Login');
+		\App\Session::set('UserLoginMessage', App\Language::translate('LBL_INVALID_USER_OR_PASSWORD', 'Users'));
+		$this->failedLogin($request);
 	}
 
 	/**
@@ -179,17 +141,16 @@ class Users_Login_Action extends \App\Controller\Action
 		if (AppConfig::main('session_regenerate_id')) {
 			\App\Session::regenerateId(true); // to overcome session id reuse.
 		}
-		if (Users_Totp_Authmethod::isRequired($this->userRecordModel->getId())) {
-			if (Users_Totp_Authmethod::isRequiredInit($this->userRecordModel->getId())) {
-				\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
-				\App\Session::set('authy_totp_init', true);
-			} else {
-				\App\Session::set('authy_method', 'TOTP');
-				\App\Session::set('totp_user_id', $this->userRecordModel->getId());
-				if (\App\Session::has('authy_message')) {
-					\App\Session::delete('authy_message');
+		if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId())) {
+			if (Users_Totp_Authmethod::isActiveUser($this->userRecordModel->getId())) {
+				\App\Session::set('LoginAuthyMethod', '2fa');
+				\App\Session::set('2faUserId', $this->userRecordModel->getId());
+				if (\App\Session::has('UserLoginMessage')) {
+					\App\Session::delete('UserLoginMessage');
 				}
-				\App\Session::set('authy_incorrect_attempts', 0);
+			} else {
+				\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
+				\App\Session::set('ShowAuthy2faModal', true);
 			}
 		} else {
 			\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
@@ -227,5 +188,25 @@ class Users_Login_Action extends \App\Controller\Action
 		\vtlib\Functions::recurseDelete('.php_cs.dist');
 		\vtlib\Functions::recurseDelete('.scrutinizer.yml');
 		\vtlib\Functions::recurseDelete('.sensiolabs.yml');
+	}
+
+	/**
+	 * Failed login function.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function failedLogin(\App\Request $request)
+	{
+		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
+		if ($bfInstance->isActive()) {
+			$bfInstance->updateBlockedIp();
+			if ($bfInstance->isBlockedIp()) {
+				$bfInstance->sendNotificationEmail();
+				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS', 'Users'));
+				\App\Session::set('UserLoginMessageType', 'error');
+			}
+		}
+		Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
+		header('Location: index.php?module=Users&view=Login');
 	}
 }

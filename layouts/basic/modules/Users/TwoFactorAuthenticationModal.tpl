@@ -34,6 +34,7 @@
 				</label>
 				<input class="form-control ml-2" id="user_code" type="text" name="user_code" value=""/>
 			</div>
+		<div class="modal-body">
 			<div class="alert alert-danger alert-dismissible hide js-wrong-code" role="alert"
 				 data-js="container|css:display">
 				{\App\Language::translate('LBL_2FA_WRONG_CODE', $MODULE_NAME)}

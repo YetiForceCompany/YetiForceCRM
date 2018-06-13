@@ -19,7 +19,6 @@ class Settings_TwoFactorAuthentication_SaveAjax_Action extends Settings_Vtiger_B
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $methods, 406);
 		}
 		$config = new \App\Configurator('security');
-		$config->set('USER_AUTHY_TOTP_NUMBER_OF_WRONG_ATTEMPTS', $request->getInteger('number_wrong_attempts'));
 		$config->set('USER_AUTHY_MODE', $methods);
 		$config->set('USER_AUTHY_TOTP_EXCEPTIONS', $request->getArray('users', 'Integer'));
 		$config->save();

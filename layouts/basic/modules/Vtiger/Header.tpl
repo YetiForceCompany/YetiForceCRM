@@ -55,16 +55,6 @@
 				<input type="hidden" id="view" value="{$VIEW}" />
 				<input type="hidden" id="sounds" value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::sounds()))}" />
 				<input type="hidden" id="intervalForNotificationNumberCheck" value="{AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK')}" />
-				{if \App\Session::has('ShowUserPasswordChange')}
-					<input type="hidden" id="showUserPasswordChange" value="{\App\Session::get('ShowUserPasswordChange')}" />
-					{if \App\Session::get('ShowUserPasswordChange') == 1}
-						{\App\Session::delete('ShowUserPasswordChange')}
-					{/if}
-				{/if}
-				{if \App\Session::has('authy_totp_init')}
-					<input type="hidden" id="authy_totp_init"
-						   value="{\App\Session::get('authy_totp_init')}"/>
-				{/if}
 			</div>
 			<div id="page">
 				{if $SHOW_BODY_HEADER}
