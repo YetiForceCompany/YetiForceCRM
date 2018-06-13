@@ -888,11 +888,13 @@ app = {
 	 * Function returns the javascript controller based on the current view
 	 */
 	getPageController: function () {
-		var moduleName = app.getModuleName();
-		var view = app.getViewName()
-		var parentModule = app.getParentModuleName();
-
-		var moduleClassName = parentModule + "_" + moduleName + "_" + view + "_Js";
+		if(window.pageController){
+			return window.pageController;
+		}
+		const moduleName = app.getModuleName();
+		const view = app.getViewName()
+		const parentModule = app.getParentModuleName();
+		let moduleClassName = parentModule + "_" + moduleName + "_" + view + "_Js";
 		if (typeof window[moduleClassName] === "undefined") {
 			moduleClassName = parentModule + "_Vtiger_" + view + "_Js";
 		}
@@ -908,10 +910,10 @@ app = {
 		}
 		if (typeof window[moduleClassName] !== "undefined") {
 			if (typeof window[moduleClassName] === 'function') {
-				return new window[moduleClassName]();
+				return window.pageController = new window[moduleClassName]();
 			}
 			if (typeof window[moduleClassName] === 'object') {
-				return window[moduleClassName];
+				return window.pageController = window[moduleClassName];
 			}
 		}
 	},
@@ -1458,8 +1460,7 @@ $(document).ready(function () {
 	// Instantiate Page Controller
 	var pageController = app.getPageController();
 	if (pageController) {
-		window.pageController = pageController;
-		window.pageController.registerEvents();
+		pageController.registerEvents();
 	}
 });
 (function ($) {
