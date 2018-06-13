@@ -364,7 +364,7 @@ class Project_Gantt_Model
 	}
 
 	/**
-	 * Collect all modules picklists names and values that we can use in filters.
+	 * Collect all statuses.
 	 */
 	public function getStatuses()
 	{
@@ -483,6 +483,7 @@ class Project_Gantt_Model
 				$childrenIds[] = $row['id'];
 			}
 		}
+		$dataReader->close();
 		if (!empty($childrenIds)) {
 			$projects = array_merge($projects, $this->getProject($childrenIds, $viewName));
 		}
