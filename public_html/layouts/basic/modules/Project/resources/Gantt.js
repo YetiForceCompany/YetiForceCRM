@@ -313,7 +313,7 @@ class Gantt {
 	 */
 	loadProject() {
 		this.gantt = new GanttMaster(this.ganttTemplateFunctions);
-		this.gantt.resourceUrl = '/libraries/jQueryGantt/res/';
+		this.gantt.resourceUrl = '/libraries/jquery-gantt-editor/res/';
 		this.gantt.init(this.container);
 		this.allTasks = this.projectData.tasks;
 		if (this.allTasks.length > 0) {
