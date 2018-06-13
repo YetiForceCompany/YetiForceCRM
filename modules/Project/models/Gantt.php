@@ -377,70 +377,50 @@ class Project_Gantt_Model
 	 */
 	public function getPicklistValues()
 	{
-		$picklists = ['Project' => [], 'ProjectMilestone' => [], 'ProjectTask' => []];
+		$closingStatuses = Settings_RealizationProcesses_Module_Model::getStatusNotModify();
+		if (empty($closingStatuses['Project'])) {
+			$closingStatuses['Project'] = ['status' => []];
+		}
+		if (empty($closingStatuses['ProjectMilestone'])) {
+			$closingStatuses['ProjectMilestone'] = ['status' => []];
+		}
+		if (empty($closingStatuses['ProjectTask'])) {
+			$closingStatuses['ProjectTask'] = ['status' => []];
+		}
+		$this->picklistValues = ['Project' => [], 'ProjectMilestone' => [], 'ProjectTask' => []];
 		foreach (App\Fields\Picklist::getModulesByName('Project') as $name) {
-			$picklists['Project'][$name] = [];
+			$this->picklistValues['Project'][$name] = [];
 			$values = array_column(array_values(App\Fields\Picklist::getValues($name)), 'picklistValue');
 			foreach ($values as $index => $value) {
-				$picklists['Project'][$name][] = ['value' => $value, 'label' => App\Language::translate($value, 'Project')];
+				$this->picklistValues['Project'][$name][$index] = ['value' => $value, 'label' => App\Language::translate($value, 'Project')];
+				if ($name === 'projectstatus') {
+					$this->picklistValues['Project'][$name][$index]['closing'] = in_array($value, $closingStatuses['Project']['status']);
+					$this->statuses['Project'][] = $this->picklistValues['Project'][$name][$index];
+				}
 			}
 		}
 		foreach (App\Fields\Picklist::getModulesByName('ProjectMilestone') as $name) {
-			$picklists['ProjectMilestone'][$name] = [];
+			$this->picklistValues['ProjectMilestone'][$name] = [];
 			$values = array_column(array_values(App\Fields\Picklist::getValues($name)), 'picklistValue');
-			foreach ($values as $value) {
-				$picklists['ProjectMilestone'][$name][] = ['value' => $value, 'label' => App\Language::translate($value, 'ProjectMilestone')];
+			foreach ($values as $index => $value) {
+				$this->picklistValues['ProjectMilestone'][$name][$index] = ['value' => $value, 'label' => App\Language::translate($value, 'ProjectMilestone'), 'closing' => in_array($value, $closingStatuses['ProjectMilestone']['status'])];
+				if ($name === 'projectmilestone_status') {
+					$this->picklistValues['ProjectMilestone'][$name][$index]['closing'] = in_array($value, $closingStatuses['ProjectMilestone']['status']);
+					$this->statuses['ProjectMilestone'][] = $this->picklistValues['ProjectMilestone'][$name][$index];
+				}
 			}
 		}
 		foreach (App\Fields\Picklist::getModulesByName('ProjectTask') as $name) {
-			$picklists['ProjectTask'][$name] = [];
+			$this->picklistValues['ProjectTask'][$name] = [];
 			$values = array_column(array_values(App\Fields\Picklist::getValues($name)), 'picklistValue');
-			foreach ($values as $value) {
-				$picklists['ProjectTask'][$name][] = ['value' => $value, 'label' => App\Language::translate($value, 'ProjectTask')];
-			}
-		}
-		$this->picklistsValues = $picklists;
-	}
-
-	/**
-	 * Get statuses.
-	 *
-	 * @return array
-	 */
-	public function getStatuses()
-	{
-		if (!empty($this->statuses)) {
-			return $this->statuses;
-		}
-		$data = [];
-		$closingStatuses = Settings_RealizationProcesses_Module_Model::getStatusNotModify();
-		if (!empty($this->picklistsValues['Project']['projectstatus'])) {
-			foreach ($this->picklistsValues['Project']['projectstatus'] as $status) {
-				if (!empty($closingStatuses['Project']['status'])) {
-					$status['closing'] = in_array($status['value'], $closingStatuses['Project']['status']);
+			foreach ($values as $index => $value) {
+				$this->picklistValues['ProjectTask'][$name][$index] = ['value' => $value, 'label' => App\Language::translate($value, 'ProjectTask'), 'closing' => in_array($value, $closingStatuses['ProjectTask']['status'])];
+				if ($name === 'projecttaskstatus') {
+					$this->picklistValues['ProjectTask'][$name][$index]['closing'] = in_array($value, $closingStatuses['ProjectTask']['status']);
+					$this->statuses['ProjectTask'][] = $this->picklistValues['ProjectTask'][$name][$index];
 				}
-				$data['Project'][] = $status;
 			}
 		}
-		if (!empty($this->picklistsValues['ProjectMilestone']['projectmilestone_status'])) {
-			foreach ($this->picklistsValues['ProjectMilestone']['projectmilestone_status'] as $status) {
-				if (!empty($closingStatuses['ProjectMilestone']['status'])) {
-					$status['closing'] = in_array($status['value'], $closingStatuses['ProjectMilestone']['status']);
-				}
-				$data['ProjectMilestone'][] = $status;
-			}
-		}
-		if (!empty($this->picklistsValues['ProjectTask']['projecttaskstatus'])) {
-			foreach ($this->picklistsValues['ProjectTask']['projecttaskstatus'] as $status) {
-				if (!empty($closingStatuses['ProjectTask']['status'])) {
-					$status['closing'] = in_array($status['value'], $closingStatuses['ProjectTask']['status']);
-				}
-				$data['ProjectTask'][] = $status;
-			}
-		}
-		$this->statuses = $data;
-		unset($closingStatuses);
-		return $data;
 	}
 
 	/**
@@ -449,7 +429,6 @@ class Project_Gantt_Model
 	private function collectNecessaryData()
 	{
 		$this->getPicklistValues();
-		$this->getStatuses();
 		$this->getStatusColors();
 	}
 
@@ -565,7 +544,7 @@ class Project_Gantt_Model
 			'canDelete' => false,
 			'cantWriteOnParent' => false,
 			'canAdd' => false,
-			'picklists' => $this->picklistValues,
+			'picklists' => $this->statuses,
 			'statuses' => $this->statuses,
 		];
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
@@ -597,7 +576,7 @@ class Project_Gantt_Model
 			'canDelete' => false,
 			'cantWriteOnParent' => false,
 			'canAdd' => false,
-			'picklists' => $this->picklistValues,
+			'picklists' => $this->statuses,
 			'statuses' => $this->statuses,
 		];
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
