@@ -759,8 +759,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				title += recordLabel + " ";
 				recordLabelElement.find('[class="' + nameFieldName + '"]').text(recordLabel);
 			}
-			do
-				}
+		}
 		var salutatioField = recordLabelElement.find('.salutation');
 		if (salutatioField.length > 0) {
 			var salutatioValue = salutatioField.text();
