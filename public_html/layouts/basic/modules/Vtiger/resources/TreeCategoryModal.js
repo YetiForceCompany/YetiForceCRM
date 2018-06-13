@@ -146,7 +146,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 	},
 	saveRecordsEvent: function (params) {
 		const self = this;
-		AppConnector.request(params).then(function (res) {
+		AppConnector.request(params).done(function (res) {
 			self.windowParent.Vtiger_Detail_Js.getInstance().reloadTabContent();
 			app.hideModalWindow();
 		})
