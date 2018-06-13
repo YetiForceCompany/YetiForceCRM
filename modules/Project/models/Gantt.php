@@ -391,7 +391,6 @@ class Project_Gantt_Model
 			}
 		}
 		foreach (App\Fields\Picklist::getModulesByName('ProjectMilestone') as $name) {
-			$this->picklistValues['ProjectMilestone'][$name] = [];
 			$values = array_column(array_values(App\Fields\Picklist::getValues($name)), 'picklistValue');
 			foreach ($values as $value) {
 				if ($name === 'projectmilestone_status') {
@@ -400,7 +399,6 @@ class Project_Gantt_Model
 			}
 		}
 		foreach (App\Fields\Picklist::getModulesByName('ProjectTask') as $name) {
-			$this->picklistValues['ProjectTask'][$name] = [];
 			$values = array_column(array_values(App\Fields\Picklist::getValues($name)), 'picklistValue');
 			foreach ($values as $index => $value) {
 				if ($name === 'projecttaskstatus') {
