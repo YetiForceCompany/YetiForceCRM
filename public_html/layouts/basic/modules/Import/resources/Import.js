@@ -370,17 +370,14 @@ if (typeof (ImportJs) === "undefined") {
 					"mapid": mapId
 				};
 
-				AppConnector.request(postData).then(
-					function (data) {
-						jQuery('#savedMapsContainer').html(data);
-						status.hide();
-						var parent = jQuery("#saved_maps");
-						App.Fields.Picklist.changeSelectElementView(parent);
-					},
-					function (error, err) {
-
-					}
-				);
+				AppConnector.request(postData).done(function (data) {
+					jQuery('#savedMapsContainer').html(data);
+					status.hide();
+					var parent = jQuery("#saved_maps");
+					App.Fields.Picklist.changeSelectElementView(parent);
+				}).fail(function (error, err) {
+					console.error(error)
+				});
 			}
 		},
 		loadDefaultValueWidget: function (rowIdentifierId) {

@@ -160,7 +160,7 @@ $.Class("Vtiger_Edit_Js", {
 				source_module: popupReferenceModule,
 				record: id
 			};
-			this.getRecordDetails(params).then(function (data) {
+			this.getRecordDetails(params).done(function (data) {
 				var response = params.data = data['result']['data'];
 				app.event.trigger("EditView.SelectReference", params, formElement);
 				$.each(mappingRelatedField, function (key, value) {
@@ -248,7 +248,7 @@ $.Class("Vtiger_Edit_Js", {
 			fieldName: sourceFieldElement.attr('name'),
 			multiple: sourceFieldElement.data('multiple'),
 			value: sourceFieldElement.val()
-		}).then(function (requestData) {
+		}).done(function (requestData) {
 			app.showModalWindow(requestData, function (data) {
 				app.modalEvents[Window.lastModalId] = function (modal, instance) {
 					instance.setSelectEvent((responseData) => {
@@ -353,13 +353,11 @@ $.Class("Vtiger_Edit_Js", {
 			params.action = 'BasicAjax';
 		}
 
-		AppConnector.request(params).then(function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				aDeferred.reject();
-			}
-		)
+		AppConnector.request(params).done(function (data) {
+			aDeferred.resolve(data);
+		}).fail(function (error) {
+			aDeferred.reject();
+		});
 		return aDeferred.promise();
 	},
 	/**
@@ -390,7 +388,7 @@ $.Class("Vtiger_Edit_Js", {
 				params.search_value = searchValue;
 				//params.parent_id = app.getRecordId();
 				//params.parent_module = app.getModuleName();
-				thisInstance.searchModuleNames(params).then(function (data) {
+				thisInstance.searchModuleNames(params).done(function (data) {
 					var reponseDataList = [];
 					var serverDataFormat = data.result
 					if (serverDataFormat.length <= 0) {
@@ -496,17 +494,15 @@ $.Class("Vtiger_Edit_Js", {
 		if (app.getParentModuleName() == 'Settings') {
 			url += '&parent=Settings';
 		}
-		AppConnector.request(url).then(function (data) {
-				if (data['success']) {
-					aDeferred.resolve(data);
-				} else {
-					aDeferred.reject(data['message']);
-				}
-			},
-			function (error) {
-				aDeferred.reject();
+		AppConnector.request(url).done(function (data) {
+			if (data['success']) {
+				aDeferred.resolve(data);
+			} else {
+				aDeferred.reject(data['message']);
 			}
-		)
+		}).fail(function (error) {
+			aDeferred.reject();
+		});
 		return aDeferred.promise();
 	},
 	registerTimeFields: function (container) {
@@ -749,7 +745,7 @@ $.Class("Vtiger_Edit_Js", {
 		var sourceModule = data['source_module'];
 		var noAddress = true;
 		var errorMsg;
-		thisInstance.getRecordDetails(data).then(function (data) {
+		thisInstance.getRecordDetails(data).done(function (data) {
 			var response = data['result'];
 			thisInstance.addressFieldsData = response;
 			thisInstance.copyAddress(from, to, true, sourceModule);
@@ -813,11 +809,10 @@ $.Class("Vtiger_Edit_Js", {
 	},
 	copyAddressDetailsRef: function (data, container) {
 		var thisInstance = this;
-		thisInstance.getRecordDetails(data).then(function (data) {
+		thisInstance.getRecordDetails(data).done(function (data) {
 				var response = data['result'];
 				thisInstance.mapAddressDetails(response, container);
-			},
-			function (error, err) {
+			}).fail(function (error, err) {
 
 			});
 	},
@@ -1094,7 +1089,7 @@ $.Class("Vtiger_Edit_Js", {
 						mode: 'findAddress',
 						type: input.data('type'),
 						value: request.term
-					}).then(function (requestData) {
+					}).done(function (requestData) {
 						if (requestData.result === false) {
 							Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
 						} else if (requestData.result.length) {
@@ -1102,7 +1097,7 @@ $.Class("Vtiger_Edit_Js", {
 						} else {
 							response([{label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: ''}]);
 						}
-					}, function () {
+					}).fail( function () {
 						response([{label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: ''}]);
 					});
 				},

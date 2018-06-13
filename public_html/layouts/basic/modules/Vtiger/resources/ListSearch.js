@@ -159,7 +159,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		params['search_value'] = alphabet
 		params['operator'] = 's';
 
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			jQuery('.paginationDiv').html(data);
 			var instance = thisInstance.getInstanceView();
 			if (instance && instance != undefined && jQuery.isFunction(instance.registerPageNavigationEvents)) {
@@ -268,7 +268,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		if (instance) {
 			var funcName = instance.reloadFunctionName;
 			if (jQuery.isFunction(instance[funcName])) {
-				instance[funcName](params).then(function () {
+				instance[funcName](params).done(function () {
 					thisInstance.resetPagination();
 					thisInstance.executeFunctions(instance);
 				});

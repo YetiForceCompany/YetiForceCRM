@@ -98,22 +98,19 @@ jQuery.Class("Vtiger_PDF_Js", {
 				templates: selectedTemplates
 			};
 			params.dataType = 'json';
-			AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					if (data['success']) {
-						container.find('[name="validRecords"]').val(JSON.stringify(response.valid_records));
-						container.find('#recordsInfo').text(response.message);
-						setTimeout(function () {
-							document.progressLoader.progressIndicator({'mode': 'hide'})
-						}, 500);
-						thisInstance.validateSubmit(container);
-					}
-				},
-				function (data, err) {
-					app.errorLog(data, err);
+			AppConnector.request(params).done(function (data) {
+				var response = data['result'];
+				if (data['success']) {
+					container.find('[name="validRecords"]').val(JSON.stringify(response.valid_records));
+					container.find('#recordsInfo').text(response.message);
+					setTimeout(function () {
+						document.progressLoader.progressIndicator({'mode': 'hide'})
+					}, 500);
+					thisInstance.validateSubmit(container);
 				}
-			);
+			}).fail(function (data, err) {
+				app.errorLog(data, err);
+			});
 		});
 	},
 	countSelectedRecords: function (container) {
