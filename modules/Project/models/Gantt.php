@@ -345,25 +345,6 @@ class Project_Gantt_Model
 	}
 
 	/**
-	 * Collect all modules picklists colors to use in gantt bars.
-	 *
-	 * @return array
-	 */
-	public function getStatusColors()
-	{
-		$configColors = \AppConfig::module('Project', 'defaultGanttColors');
-		if (!empty($configColors)) {
-			return $this->statusColors = $configColors;
-		}
-		$this->statusColors = [
-			'Project' => \App\Colors::getPicklists('Project'),
-			'ProjectMilestone' => App\Colors::getPicklists('ProjectMilestone'),
-			'ProjectTask' => App\Colors::getPicklists('ProjectTask'),
-		];
-		return $this->statusColors;
-	}
-
-	/**
 	 * Collect all statuses.
 	 */
 	public function getStatuses()
@@ -378,24 +359,28 @@ class Project_Gantt_Model
 		if (empty($closingStatuses['ProjectTask'])) {
 			$closingStatuses['ProjectTask'] = ['status' => []];
 		}
-		foreach (array_column(array_values(App\Fields\Picklist::getValues('projectstatus')), 'picklistValue') as $value) {
-			$this->statuses['Project'][] = ['value' => $value, 'label' => App\Language::translate($value, 'Project'), 'closing' => in_array($value, $closingStatuses['Project']['status'])];
+		$colors = ['Project' => [], 'ProjectMilestone' => [], 'ProjectTask' => []];
+		$project = array_values(App\Fields\Picklist::getValues('projectstatus'));
+		foreach ($project as $value) {
+			$this->statuses['Project'][] = ['value' => $value['projectstatus'], 'label' => App\Language::translate($value['projectstatus'], 'Project'), 'closing' => in_array($value['projectstatus'], $closingStatuses['Project']['status'])];
+			$colors['Project']['projectstatus'][$value['projectstatus']] = \App\Colors::get($value['color'], $value['projectstatus']);
 		}
-		foreach (array_column(array_values(App\Fields\Picklist::getValues('projectmilestone_status')), 'picklistValue') as $value) {
-			$this->statuses['ProjectMilestone'][] = ['value' => $value, 'label' => App\Language::translate($value, 'ProjectMilestone'), 'closing' => in_array($value, $closingStatuses['ProjectMilestone']['status'])];
+		$projectMilestone = array_values(App\Fields\Picklist::getValues('projectmilestone_status'));
+		foreach ($projectMilestone as $value) {
+			$this->statuses['ProjectMilestone'][] = ['value' => $value['projectmilestone_status'], 'label' => App\Language::translate($value['projectmilestone_status'], 'ProjectMilestone'), 'closing' => in_array($value['projectmilestone_status'], $closingStatuses['ProjectMilestone']['status'])];
+			$colors['ProjectMilestone']['projectmilestone_status'][$value['projectmilestone_status']] = \App\Colors::get($value['color'], $value['projectmilestone_status']);
 		}
-		foreach (array_column(array_values(App\Fields\Picklist::getValues('projecttaskstatus')), 'picklistValue') as $value) {
-			$this->statuses['ProjectTask'][] = ['value' => $value, 'label' => App\Language::translate($value, 'ProjectTask'), 'closing' => in_array($value, $closingStatuses['ProjectTask']['status'])];
+		$projectTask = array_values(App\Fields\Picklist::getValues('projecttaskstatus'));
+		foreach ($projectTask as $value) {
+			$this->statuses['ProjectTask'][] = ['value' => $value['projecttaskstatus'], 'label' => App\Language::translate($value['projecttaskstatus'], 'ProjectTask'), 'closing' => in_array($value['projecttaskstatus'], $closingStatuses['ProjectTask']['status'])];
+			$colors['ProjectTask']['projecttaskstatus'][$value['projecttaskstatus']] = \App\Colors::get($value['color'], $value['projecttaskstatus']);
 		}
-	}
-
-	/**
-	 * Collect necessary data for tasks from other places.
-	 */
-	private function collectNecessaryData()
-	{
-		$this->getStatuses();
-		$this->getStatusColors();
+		$configColors = \AppConfig::module('Project', 'defaultGanttColors');
+		if (!empty($configColors)) {
+			$this->statusColors = $configColors;
+		} else {
+			$this->statusColors = $colors;
+		}
 	}
 
 	/**
@@ -498,7 +483,7 @@ class Project_Gantt_Model
 	 */
 	public function getAllData($viewName = null)
 	{
-		$this->collectNecessaryData();
+		$this->getStatuses();
 		$projects = $this->getProject(0, $viewName);
 		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
@@ -529,7 +514,7 @@ class Project_Gantt_Model
 	 */
 	public function getById($id)
 	{
-		$this->collectNecessaryData();
+		$this->getStatuses();
 		$projects = $this->getProject($id);
 		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
