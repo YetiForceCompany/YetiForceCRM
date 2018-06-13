@@ -28,29 +28,27 @@
 					{$QR_CODE_HTML}
 				</div>
 			</div>
-			<div class="col-sm-12 pt-3 pb-1 border-top form-inline">
+			<div class="col-sm-12 pt-3 border-top form-inline">
 				<label for="user_code">
 					{\App\Language::translate('LBL_AUTHENTICATION_CODE', $MODULE_NAME)}:
 				</label>
 				<input class="form-control ml-2" id="user_code" type="text" name="user_code" value=""/>
 			</div>
-		<div class="modal-body">
-			<div class="alert alert-danger alert-dismissible hide js-wrong-code" role="alert"
+			<div class="alert alert-danger alert-dismissible hide js-wrong-code mt-3 mb-0" role="alert"
 				 data-js="container|css:display">
 				{\App\Language::translate('LBL_2FA_WRONG_CODE', $MODULE_NAME)}
 			</div>
 			{if AppConfig::main('systemMode') === 'demo'}
-				<div class="alert alert-info alert-dismissible" role="alert">
-					<b>{\App\Language::translate('LBL_2FA_TOTP_INFO_IN_DEMO', $MODULE_NAME)}</b>
+				<div class="alert alert-info alert-dismissible show mt-3 mb-0" role="alert">
+					<strong>{\App\Language::translate('LBL_2FA_TOTP_INFO_IN_DEMO', $MODULE_NAME)}</strong>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 			{/if}
 		</div>
 		<div class="modal-footer">
-			{if AppConfig::main('systemMode') === 'demo'}
-				<div class="alert alert-info alert-dismissible" role="alert">
-					<b>{\App\Language::translate('LBL_2FA_TOTP_INFO_IN_DEMO', $MODULE_NAME)}</b>
-				</div>
-			{/if}
+
 			<button class="btn btn-success" type="submit" name="saveButton"
 					{if AppConfig::main('systemMode') === 'demo'}disabled{/if}>
 				<span class="fas fa-edit mr-1"></span><strong>{\App\Language::translate('BTN_SAVE', $MODULE_NAME)}</strong>
