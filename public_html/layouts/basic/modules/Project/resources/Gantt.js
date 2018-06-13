@@ -78,20 +78,20 @@ class Gantt {
 			render(obj) {
 				return `<div class="ganttButtonBar noprint">
 				<div class="buttons">
-					<button id="j-gantt__expand-all-btn" class="button textual icon " title="EXPAND_ALL"><span class="teamworkIcon">6</span></button>
-					<button id="j-gantt__collapse-all-btn" class="button textual icon " title="COLLAPSE_ALL"><span class="teamworkIcon">5</span></button>
+					<button id="js-gantt__expand-all-btn" class="button textual icon " title="EXPAND_ALL"><span class="teamworkIcon">6</span></button>
+					<button id="js-gantt__collapse-all-btn" class="button textual icon " title="COLLAPSE_ALL"><span class="teamworkIcon">5</span></button>
 					<span class="ganttButtonSeparator"></span>
-					<button id="j-gantt__zoom-out-btn" class="button textual icon " title="zoom out"><span class="teamworkIcon">)</span></button>
-					<button id="j-gantt__zoom-in-btn" class="button textual icon " title="zoom in"><span class="teamworkIcon">(</span></button>
+					<button id="js-gantt__zoom-out-btn" class="button textual icon " title="zoom out"><span class="teamworkIcon">)</span></button>
+					<button id="js-gantt__zoom-in-btn" class="button textual icon " title="zoom in"><span class="teamworkIcon">(</span></button>
 					<span class="ganttButtonSeparator"></span>
-					<button id="j-gantt__resize-0-btn" class="button textual icon"><span class="teamworkIcon">F</span>
+					<button id="js-gantt__resize-0-btn" class="button textual icon"><span class="teamworkIcon">F</span>
 					</button>
-					<button id="j-gantt__resize-50-btn" class="button textual icon"><span class="teamworkIcon">O</span>
+					<button id="js-gantt__resize-50-btn" class="button textual icon"><span class="teamworkIcon">O</span>
 					</button>
-					<button id="j-gantt__resize-100-btn" class="button textual icon"><span class="teamworkIcon">R</span>
+					<button id="js-gantt__resize-100-btn" class="button textual icon"><span class="teamworkIcon">R</span>
 					</button>
 					<span class="ganttButtonSeparator"></span>
-					<button id="j-gantt__front-filter" class="button textual icon"><span class="teamworkIcon">f</span></button>
+					<button id="js-gantt__front-filter" class="button textual icon"><span class="teamworkIcon">f</span></button>
 				</div>
 			</div>`;
 			}
@@ -363,10 +363,10 @@ class Gantt {
 		const self = this;
 		const box = bootbox.dialog({
 			show: 'false',
-			message: `<div class="j-gantt__filter-modal form" data-js="container">
+			message: `<div class="js-gantt__filter-modal form" data-js="container">
 				<div class="form-group">
 					<label>${app.vtranslate("JS_PROJECT_STATUSES", 'Project')}:</label>
-					<select class="select2 form-control" id="j-gantt__filter-project" multiple>
+					<select class="select2 form-control" id="js-gantt__filter-project" multiple>
 						${self.statuses.Project.map((status) => {
 				return `<option value="${status.value}" ${this.filter.status.Project.map(status => status.value).indexOf(status.value) >= 0 ? 'selected' : ''}>${status.label}</option>`;
 			})}
@@ -374,7 +374,7 @@ class Gantt {
 				</div>
 				<div class="form-group">
 				<label>${app.vtranslate("JS_MILESTONE_STATUSES", 'Project')}:</label>
-					<select class="select2 form-control" id="j-gantt__filter-milestone" multiple>
+					<select class="select2 form-control" id="js-gantt__filter-milestone" multiple>
 						${self.statuses.ProjectMilestone.map((status) => {
 				return `<option value="${status.value}" ${this.filter.status.ProjectMilestone.map(status => status.value).indexOf(status.value) >= 0 ? 'selected' : ''}>${status.label}</option>`;
 			})}
@@ -382,7 +382,7 @@ class Gantt {
 				</div>
 				<div class="form-group">
 				<label>${app.vtranslate("JS_TASK_STATUSES", 'Project')}:</label>
-					<select class="select2 form-control" id="j-gantt__filter-task" multiple>
+					<select class="select2 form-control" id="js-gantt__filter-task" multiple>
 						${self.statuses.ProjectTask.map((status) => {
 				return `<option value="${status.value}" ${this.filter.status.ProjectTask.map(status => status.value).indexOf(status.value) >= 0 ? 'selected' : ''}>${status.label}</option>`;
 			})}
@@ -397,13 +397,13 @@ class Gantt {
 					callback: function () {
 						self.saveFilter({
 							status: {
-								Project: $('#j-gantt__filter-project', this).val().map((status) => {
+								Project: $('#js-gantt__filter-project', this).val().map((status) => {
 									return self.getStatusFromValue(status, 'Project');
 								}),
-								ProjectMilestone: $('#j-gantt__filter-milestone', this).val().map((status) => {
+								ProjectMilestone: $('#js-gantt__filter-milestone', this).val().map((status) => {
 									return self.getStatusFromValue(status, 'ProjectMilestone');
 								}),
-								ProjectTask: $('#j-gantt__filter-task', this).val().map((status) => {
+								ProjectTask: $('#js-gantt__filter-task', this).val().map((status) => {
 									return self.getStatusFromValue(status, 'ProjectTask');
 								}),
 							}
@@ -428,48 +428,48 @@ class Gantt {
 	registerEvents() {
 		const container = this.container;
 		const self = this;
-		$('#j-gantt__expand-all-btn', container).on('click', function (e) {
+		$('#js-gantt__expand-all-btn', container).on('click', function (e) {
 			e.preventDefault();
 			container.trigger('expandAll.gantt');
 		});
-		$('#j-gantt__collapse-all-btn', container).on('click', function (e) {
+		$('#js-gantt__collapse-all-btn', container).on('click', function (e) {
 			e.preventDefault();
 			container.trigger('collapseAll.gantt');
 		});
-		$('#j-gantt__zoom-in-btn', container).on('click', function (e) {
+		$('#js-gantt__zoom-in-btn', container).on('click', function (e) {
 			e.preventDefault();
 			container.trigger('zoomPlus.gantt');
 		});
-		$('#j-gantt__zoom-out-btn', container).on('click', function (e) {
+		$('#js-gantt__zoom-out-btn', container).on('click', function (e) {
 			e.preventDefault();
 			container.trigger('zoomMinus.gantt');
 		});
-		$('#j-gantt__print-btn', container).on('click', function (e) {
+		$('#js-gantt__print-btn', container).on('click', function (e) {
 			e.preventDefault();
 			container.trigger('print.gantt');
 		});
-		$('#j-gantt__show-critical-path-btn', container).on('click', function (e) {
+		$('#js-gantt__show-critical-path-btn', container).on('click', function (e) {
 			e.preventDefault();
 			this.gantt.gantt.showCriticalPath = !gantt.gantt.showCriticalPath;
 			this.gantt.redraw();
 		}.bind(this));
-		$('#j-gantt__resize-0-btn', container).on('click', function (e) {
+		$('#js-gantt__resize-0-btn', container).on('click', function (e) {
 			e.preventDefault();
 			this.gantt.splitter.resize(.1);
 		}.bind(this));
-		$('#j-gantt__resize-50-btn', container).on('click', function (e) {
+		$('#js-gantt__resize-50-btn', container).on('click', function (e) {
 			e.preventDefault();
 			this.gantt.splitter.resize(50);
 		}.bind(this));
-		$('#j-gantt__resize-100-btn', container).on('click', function (e) {
+		$('#js-gantt__resize-100-btn', container).on('click', function (e) {
 			e.preventDefault();
 			this.gantt.splitter.resize(100);
 		}.bind(this));
-		$('#j-gantt__fullscreen-btn', container).on('click', function (e) {
+		$('#js-gantt__fullscreen-btn', container).on('click', function (e) {
 			e.preventDefault();
 			container.trigger('fullScreen.gantt');
 		}.bind(this));
-		$('#j-gantt__front-filter', container).on('click', function (e) {
+		$('#js-gantt__front-filter', container).on('click', function (e) {
 			e.preventDefault();
 			self.showFiltersModal();
 		});
