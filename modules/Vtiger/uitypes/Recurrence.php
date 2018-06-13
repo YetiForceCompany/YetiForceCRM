@@ -35,7 +35,7 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 			}
 		}
 		$allowedDayes = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
-		if (isset($result['BYDAY']) && (strpos($result['BYDAY'], ',') === false ? !in_array($result['BYDAY'], $allowedDayes) : array_diff(explode(',', $result['BYDAY']), $allowedDayes))) {
+		if (isset($result['BYDAY']) && (strpos($result['BYDAY'], ',') === false ? !(in_array($result['BYDAY'], $allowedDayes) || in_array(substr($result['BYDAY'], 1), $allowedDayes)) : array_diff(explode(',', $result['BYDAY']), $allowedDayes))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		if (isset($result['BYMONTHDAY'])) {
