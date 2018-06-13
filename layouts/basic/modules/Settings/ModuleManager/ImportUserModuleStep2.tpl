@@ -133,7 +133,7 @@
 															<input type="hidden" name="module_import_type" value="{$MODULEIMPORT_TYPE}">
 															<input type="hidden" name="module_import_name" value="{$MODULEIMPORT_NAME}">
 															<input type="hidden" name="mode" value="importUserModuleStep3">
-															<button class="btn btn-danger" onclick="this.form.mode.value = 'updateUserModuleStep3';this.form.submit();">{\App\Language::translate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</button>
+															<button class="btn btn-warning" onclick="this.form.mode.value = 'updateUserModuleStep3';this.form.submit();">{\App\Language::translate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</button>
 														{/if}
 													{else}
 														<input type="hidden" name="view" value="ModuleImport">
