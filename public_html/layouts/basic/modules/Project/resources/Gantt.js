@@ -78,20 +78,20 @@ class Gantt {
 			render(obj) {
 				return `<div class="ganttButtonBar noprint">
 				<div class="buttons">
-					<button id="js-gantt__expand-all-btn" class="button textual icon " title="EXPAND_ALL"><span class="teamworkIcon">6</span></button>
-					<button id="js-gantt__collapse-all-btn" class="button textual icon " title="COLLAPSE_ALL"><span class="teamworkIcon">5</span></button>
+					<button class="js-gantt__expand-all-btn button textual icon " title="EXPAND_ALL"><span class="teamworkIcon">6</span></button>
+					<button class="js-gantt__collapse-all-btn button textual icon " title="COLLAPSE_ALL"><span class="teamworkIcon">5</span></button>
 					<span class="ganttButtonSeparator"></span>
-					<button id="js-gantt__zoom-out-btn" class="button textual icon " title="zoom out"><span class="teamworkIcon">)</span></button>
-					<button id="js-gantt__zoom-in-btn" class="button textual icon " title="zoom in"><span class="teamworkIcon">(</span></button>
+					<button class="js-gantt__zoom-out-btn button textual icon " title="zoom out"><span class="teamworkIcon">)</span></button>
+					<button class="js-gantt__zoom-in-btn button textual icon " title="zoom in"><span class="teamworkIcon">(</span></button>
 					<span class="ganttButtonSeparator"></span>
-					<button id="js-gantt__resize-0-btn" class="button textual icon"><span class="teamworkIcon">F</span>
+					<button class="js-gantt__resize-0-btn button textual icon"><span class="teamworkIcon">F</span>
 					</button>
-					<button id="js-gantt__resize-50-btn" class="button textual icon"><span class="teamworkIcon">O</span>
+					<button class="js-gantt__resize-50-btn button textual icon"><span class="teamworkIcon">O</span>
 					</button>
-					<button id="js-gantt__resize-100-btn" class="button textual icon"><span class="teamworkIcon">R</span>
+					<button class="js-gantt__resize-100-btn button textual icon"><span class="teamworkIcon">R</span>
 					</button>
 					<span class="ganttButtonSeparator"></span>
-					<button id="js-gantt__front-filter" class="button textual icon"><span class="teamworkIcon">f</span></button>
+					<button class="js-gantt__front-filter button textual icon"><span class="teamworkIcon">f</span></button>
 				</div>
 			</div>`;
 			}
@@ -123,7 +123,7 @@ class Gantt {
 	   			<td class="gdfCell text-center">${obj.no}</td>
 				<td class="gdfCell indentCell" style="padding-left:${obj.level * 10 + 18}px;" title="${obj.name}" data-toggle="tooltip">
 					<div class="exp-controller" align="center"></div>
-					${obj.type === 'project' ? '<i class="fas fa-briefcase"></i>' : obj.type === 'milestone' ? '<i class="fas fa-folder"></i>' : '<i class="fas fa-file"></i>'}
+					${obj.type === 'project' ? '<span class="fas fa-briefcase"></span>' : obj.type === 'milestone' ? '<i class="fas fa-folder"></i>' : '<i class="fas fa-file"></i>'}
 					<input type="text" name="name" value="${obj.name}" placeholder="name" ${obj.canWrite ? 'canWrite' : 'disabled'}>
 				</td>
 				<td class="gdfCell"><input type="text" name="priority" class="text-center" autocomplete="off" value="${obj.priority_label ? obj.priority_label : ''}"></td>
@@ -389,7 +389,7 @@ class Gantt {
 					</select>
 				</div>
 			</div>`,
-			title: '<i class="fas fa-filter"></i> ' + app.vtranslate('JS_FILTER_BY_STATUSES', 'Project'),
+			title: '<span class="fas fa-filter"></span> ' + app.vtranslate('JS_FILTER_BY_STATUSES', 'Project'),
 			buttons: {
 				success: {
 					label: '<span class="fas fa-check mr-1"></span>' + app.vtranslate('JS_UPDATE_GANTT', 'Project'),
@@ -428,51 +428,51 @@ class Gantt {
 	registerEvents() {
 		const container = this.container;
 		const self = this;
-		$('#js-gantt__expand-all-btn', container).on('click', function (e) {
+		container.find('.js-gantt__expand-all-btn', container).on('click', function (e) {
 			e.preventDefault();
 			container.trigger('expandAll.gantt');
 		});
-		$('#js-gantt__collapse-all-btn', container).on('click', function (e) {
+		container.find('.js-gantt__collapse-all-btn', container).on('click', function (e) {
 			e.preventDefault();
 			container.trigger('collapseAll.gantt');
 		});
-		$('#js-gantt__zoom-in-btn', container).on('click', function (e) {
+		container.find('.js-gantt__zoom-in-btn', container).on('click', function (e) {
 			e.preventDefault();
 			container.trigger('zoomPlus.gantt');
 		});
-		$('#js-gantt__zoom-out-btn', container).on('click', function (e) {
+		container.find('.js-gantt__zoom-out-btn').on('click', function (e) {
 			e.preventDefault();
 			container.trigger('zoomMinus.gantt');
 		});
-		$('#js-gantt__print-btn', container).on('click', function (e) {
+		container.find('.js-gantt__print-btn').on('click', function (e) {
 			e.preventDefault();
 			container.trigger('print.gantt');
 		});
-		$('#js-gantt__show-critical-path-btn', container).on('click', function (e) {
+		container.find('.js-gantt__show-critical-path-btn').on('click', function (e) {
 			e.preventDefault();
 			this.gantt.gantt.showCriticalPath = !gantt.gantt.showCriticalPath;
 			this.gantt.redraw();
 		}.bind(this));
-		$('#js-gantt__resize-0-btn', container).on('click', function (e) {
+		container.find('.js-gantt__resize-0-btn').on('click', function (e) {
 			e.preventDefault();
 			this.gantt.splitter.resize(.1);
 		}.bind(this));
-		$('#js-gantt__resize-50-btn', container).on('click', function (e) {
+		container.find('.js-gantt__resize-50-btn').on('click', function (e) {
 			e.preventDefault();
 			this.gantt.splitter.resize(50);
 		}.bind(this));
-		$('#js-gantt__resize-100-btn', container).on('click', function (e) {
+		container.find('.js-gantt__resize-100-btn').on('click', function (e) {
 			e.preventDefault();
 			this.gantt.splitter.resize(100);
 		}.bind(this));
-		$('#js-gantt__fullscreen-btn', container).on('click', function (e) {
+		container.find('.js-gantt__fullscreen-btn').on('click', function (e) {
 			e.preventDefault();
 			container.trigger('fullScreen.gantt');
 		}.bind(this));
-		$('#js-gantt__front-filter', container).on('click', function (e) {
+		container.find('.js-gantt__front-filter').on('click', function (e) {
 			e.preventDefault();
 			self.showFiltersModal();
 		});
-		$('[data-toggle="tooltip"]').tooltip();
+		container.find('[data-toggle="tooltip"]').tooltip();
 	}
 }
