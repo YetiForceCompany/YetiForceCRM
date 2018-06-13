@@ -44,17 +44,7 @@
 						{/foreach}
 
 						{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
-							<span class="btn-group">
-									<button class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
-										<strong>{\App\Language::translate('LBL_MORE', $MODULE_NAME)}</strong>&nbsp;&nbsp;<i
-												class="caret"></i>
-									</button>
-									<ul class="dropdown-menu">
-										{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']}
-											{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic'}
-										{/foreach}
-									</ul>
-								</span>
+							{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') TEXT_HOLDER='LBL_MORE' LINKS=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']}
 						{/if}
 					</div>
 				</div>
