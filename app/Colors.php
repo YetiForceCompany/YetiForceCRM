@@ -123,6 +123,25 @@ class Colors
 	}
 
 	/**
+	 * Get normalized color or generate if empty.
+	 *
+	 * @param string $color
+	 * @param mixed  $value
+	 *
+	 * @return string
+	 */
+	public static function get($color, $value)
+	{
+		$color = ltrim($color, "#\t ");
+		if (empty($color)) {
+			$color = static::getRandomColor($value, '#');
+		} else {
+			$color = '#' . $color;
+		}
+		return $color;
+	}
+
+	/**
 	 * Get picklists colors.
 	 */
 	public static function getPicklists($moduleName)
@@ -135,15 +154,7 @@ class Colors
 				$firstRow = reset($values);
 				if (isset($firstRow['color'])) {
 					foreach ($values as $item) {
-						if (ltrim($item['color'], '# ')) {
-							if (empty($item['color'])) {
-								$item['color'] = static::getRandomColor($moduleName . $item['picklistValue'], '#');
-							}
-							if (substr($item['color'], 0, 1) !== '#') {
-								$item['color'] = '#' . $item['color'];
-							}
-							$colors[$field->getName()][$item['picklistValue']] = $item['color'];
-						}
+						$colors[$field->getName()][$item['picklistValue']] = static::get($item['color'], $item['picklistValue']);
 					}
 				} else {
 					foreach ($values as $item) {
