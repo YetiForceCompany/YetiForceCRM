@@ -80,9 +80,9 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		if (this.mainConatiner.find('input[data-operator]').length && this.mainConatiner.find('input[data-operator]').data('operator') != '') {
 			params.operator = this.mainConatiner.find('input[data-operator]').data('operator');
 		}
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			aDeferred.resolve(data);
-		}, function (error, err) {
+		}).fail(function (error, err) {
 			aDeferred.reject(error);
 		});
 		return aDeferred.promise();

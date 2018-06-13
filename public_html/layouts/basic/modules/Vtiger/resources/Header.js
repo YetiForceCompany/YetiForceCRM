@@ -63,7 +63,7 @@ $.Class("Vtiger_Header_Js", {
 			requestParams['data'] = params.data;
 			requestParams['url'] = url;
 		}
-		AppConnector.request(requestParams).then(function (data) {
+		AppConnector.request(requestParams).done(function (data) {
 			if ((!params.noCache) || (typeof (params.noCache) === "undefined")) {
 				Vtiger_Header_Js.quickCreateModuleCache[moduleName] = data;
 			}
@@ -86,7 +86,7 @@ $.Class("Vtiger_Header_Js", {
 	quickCreateSave: function (form) {
 		var aDeferred = $.Deferred();
 		var quickCreateSaveUrl = form.serializeFormData();
-		AppConnector.request(quickCreateSaveUrl).then(
+		AppConnector.request(quickCreateSaveUrl).done(
 			function (data) {
 				aDeferred.resolve(data);
 			},
@@ -127,7 +127,7 @@ $.Class("Vtiger_Header_Js", {
 						mode: 'mark',
 						record: aid,
 						type: $(this).data('type')
-					}).then(function (res) {
+					}).done(function (res) {
 						app.hideModalWindow(modal);
 						thisInstance.showAnnouncement();
 					})
@@ -217,7 +217,7 @@ $.Class("Vtiger_Header_Js", {
 				elementToBlock: container.find('.eventsTable')
 			}
 		});
-		AppConnector.request(params).then(function (events) {
+		AppConnector.request(params).done(function (events) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			container.find('.eventsTable').html(events);
 			thisInstance.registerHelpInfo(container);
@@ -316,7 +316,7 @@ $.Class("Vtiger_Header_Js", {
 					if (typeof (moduleInstance.quickCreateSave) === 'function') {
 						targetInstance = moduleInstance;
 					}
-					targetInstance.quickCreateSave(form).then(function (data) {
+					targetInstance.quickCreateSave(form).done(function (data) {
 						app.hideModalWindow();
 						var parentModule = app.getModuleName();
 						var viewname = app.getViewName();
@@ -439,7 +439,7 @@ $.Class("Vtiger_Header_Js", {
 					basicSearch.reduceNumberResults = app.getMainParams('gsAmountResponse');
 					basicSearch.returnHtml = false;
 					basicSearch.setMainContainer(this.element.closest('.globalSearchInput'));
-					basicSearch.search(request.term).then(function (data) {
+					basicSearch.search(request.term).done(function (data) {
 						var data = JSON.parse(data);
 						var serverDataFormat = data.result;
 						var reponseDataList = [];
@@ -479,7 +479,7 @@ $.Class("Vtiger_Header_Js", {
 		});
 		var basicSearch = new Vtiger_BasicSearch_Js();
 		basicSearch.setMainContainer(currentTarget.closest('.globalSearchInput'));
-		basicSearch.search(val).then(function (data) {
+		basicSearch.search(val).done(function (data) {
 			basicSearch.showSearchResults(data);
 			progress.progressIndicator({
 				'mode': 'hide'
@@ -516,7 +516,7 @@ $.Class("Vtiger_Header_Js", {
 			url += '&sourceRecord=' + app.getRecordId();
 		}
 		var progress = $.progressIndicator();
-		thisInstance.getQuickCreateForm(url, moduleName, params).then(function (data) {
+		thisInstance.getQuickCreateForm(url, moduleName, params).done(function (data) {
 			thisInstance.handleQuickCreateData(data, params);
 			app.registerEventForClockPicker();
 			progress.progressIndicator({
@@ -753,7 +753,7 @@ $.Class("Vtiger_Header_Js", {
 					message: message,
 					cid: $('.chatModal .chatItem').last().data('cid')
 				}
-			}).then(function (html) {
+			}).done(function (html) {
 				$('.chatModal .modal-body').append(html);
 				self.registerChatLoadItems(modal.data('timer'));
 			});
@@ -778,11 +778,11 @@ $.Class("Vtiger_Header_Js", {
 			view: 'Entries',
 			mode: 'get',
 			cid: $('.chatModal .chatItem').last().data('cid')
-		}).then(function (html) {
+		}).done(function (html) {
 			if (html) {
 				$('.chatModal .modal-body').append(html);
 			}
-		}, function (error, err) {
+		}).fail(function (error, err) {
 			clearTimeout(self.chatTimer);
 		});
 	},
@@ -802,7 +802,7 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideSearchMenu();
 			var advanceSearchInstance = new Vtiger_AdvanceSearch_Js();
 			advanceSearchInstance.setParentContainer(currentTarget.closest('.globalSearchInput'));
-			advanceSearchInstance.initiateSearch().then(function () {
+			advanceSearchInstance.initiateSearch().done(function () {
 				advanceSearchInstance.selectBasicSearchValue();
 			});
 		});

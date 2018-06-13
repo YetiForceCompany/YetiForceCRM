@@ -16,28 +16,27 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 	triggerDeleteUser: function (deleteUserUrl) {
 		var message = app.vtranslate('LBL_DELETE_USER_CONFIRMATION');
 		Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (data) {
-			AppConnector.request(deleteUserUrl).done(
-				function (data) {
-					if (data) {
-						var callback = function (data) {
-							var params = app.validationEngineOptions;
-							params.onValidationComplete = function (form, valid) {
-								if (valid) {
-									Users_Detail_Js.deleteUser(form);
-								}
-								return false;
-							};
-							jQuery('#deleteUser').validationEngine(app.validationEngineOptions);
-						};
-						app.showModalWindow(data, function (data) {
-							if (typeof callback == 'function') {
-								callback(data);
+			AppConnector.request(deleteUserUrl).done(function (data) {
+				if (data) {
+					var callback = function (data) {
+						var params = app.validationEngineOptions;
+						params.onValidationComplete = function (form, valid) {
+							if (valid) {
+								Users_Detail_Js.deleteUser(form);
 							}
-						});
-					}
-				});
+							return false;
+						};
+						jQuery('#deleteUser').validationEngine(app.validationEngineOptions);
+					};
+					app.showModalWindow(data, function (data) {
+						if (typeof callback == 'function') {
+							callback(data);
+						}
+					});
+				}
+			});
 		}).fail(function (error, err) {
-			console.error(error);
+				console.error(error);	
 		});
 	},
 	deleteUser: function (form) {
