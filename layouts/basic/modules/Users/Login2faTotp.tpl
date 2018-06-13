@@ -19,8 +19,9 @@
 								{$MESSAGE}
 							</div>
 							{/if}
-							<div class='mx-0 col-sm-10 alert alert-info'>
-								{\App\Language::translate('LBL_2FA_DESCRIPTION',$MODULE)}
+							<div class='mx-0 alert alert-info'>
+								<h4 class="alert-heading">{\App\Language::translate('LBL_2FA_TITLE',$MODULE)}</h4>
+								<p>{\App\Language::translate('LBL_2FA_DESCRIPTION',$MODULE)}</p>
 							</div>
 							<div class='mx-0 col-sm-10'>
 								<label for="user_code"
