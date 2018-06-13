@@ -49,23 +49,18 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 								'enabled': true
 							}
 						});
-						AppConnector.request(params).then(
-							function (data) {
-								progressIndicatorElement.progressIndicator({
-									'mode': 'hide'
+						AppConnector.request(params).done(function (data) {
+							progressIndicatorElement.progressIndicator({
+								'mode': 'hide'
+							});
+							listInstance.postMassDeleteRecords();
+							if (data.error) {
+								Vtiger_Helper_Js.showPnotify({
+									text: app.vtranslate(data.error.message),
+									title: app.vtranslate('JS_LBL_PERMISSION')
 								});
-								listInstance.postMassDeleteRecords();
-								if (data.error) {
-									Vtiger_Helper_Js.showPnotify({
-										text: app.vtranslate(data.error.message),
-										title: app.vtranslate('JS_LBL_PERMISSION')
-									});
-								}
-							},
-							function (error) {
-								console.log('Error: ' + error)
 							}
-						);
+						});
 					},
 					function (error, err) {
 						Vtiger_List_Js.clearList();

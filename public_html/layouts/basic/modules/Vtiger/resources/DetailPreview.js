@@ -73,9 +73,6 @@ $.Class("Vtiger_DetailPreview_Js", {}, {
 				parent.registerEvents();
 			}
 		}
-
-		console.log(moduleClassName);
-		console.log(parent);
 	},
 	/**
 	 * Registers DetailPreview events.
