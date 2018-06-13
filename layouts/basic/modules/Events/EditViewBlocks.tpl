@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<input type="hidden" id="extendModules" value="Calendar">
 	{include file=\App\Layout::getTemplatePath('EditViewBlocks.tpl', 'Vtiger')}
     <input type="hidden" name="userChangedEndDateTime" value="{$USER_CHANGED_END_DATE_TIME}" />
 	<div class="js-toggle-panel c-panel c-panel--edit row mx-1 mb-3" data-js="click" data-label="{$BLOCK_LABEL}">
