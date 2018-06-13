@@ -111,7 +111,6 @@ class PackageUpdate extends PackageImport
 				// Call module update function
 				$this->updateModule($moduleInstance);
 			}
-			unlink($zipfile);
 		}
 	}
 
