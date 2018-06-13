@@ -132,9 +132,12 @@ class Colors
 	 */
 	public static function get($color, $value)
 	{
+		if (empty($color)) {
+			return static::getRandomColor($value, '#');
+		}
 		$color = ltrim($color, "#\t ");
 		if (empty($color)) {
-			$color = static::getRandomColor($value, '#');
+			return static::getRandomColor($value, '#');
 		} else {
 			$color = '#' . $color;
 		}
