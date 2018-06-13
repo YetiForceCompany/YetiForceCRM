@@ -370,7 +370,7 @@ class Project_Gantt_Model
 	/**
 	 * Collect all modules picklists names and values that we can use in filters.
 	 */
-	public function getPicklistValues()
+	public function getStatuses()
 	{
 		$closingStatuses = Settings_RealizationProcesses_Module_Model::getStatusNotModify();
 		if (empty($closingStatuses['Project'])) {
@@ -413,7 +413,7 @@ class Project_Gantt_Model
 	 */
 	private function collectNecessaryData()
 	{
-		$this->getPicklistValues();
+		$this->getStatuses();
 		$this->getStatusColors();
 	}
 
