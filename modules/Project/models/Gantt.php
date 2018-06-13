@@ -403,6 +403,71 @@ class Project_Gantt_Model
 	}
 
 	/**
+	 * Get statuses.
+	 *
+	 * @return array
+	 */
+	public function getStatuses()
+	{
+		if (!empty($this->statuses)) {
+			return $this->statuses;
+		}
+		$data = [];
+		$closingStatuses = Settings_RealizationProcesses_Module_Model::getStatusNotModify();
+		if (!empty($this->picklistsValues['Project']['projectstatus'])) {
+			foreach ($this->picklistsValues['Project']['projectstatus'] as $status) {
+				if (!empty($closingStatuses['Project']['status'])) {
+					$status['closing'] = in_array($status['value'], $closingStatuses['Project']['status']);
+				}
+				$data['Project'][] = $status;
+			}
+		}
+		if (!empty($this->picklistsValues['ProjectMilestone']['projectmilestone_status'])) {
+			foreach ($this->picklistsValues['ProjectMilestone']['projectmilestone_status'] as $status) {
+				if (!empty($closingStatuses['ProjectMilestone']['status'])) {
+					$status['closing'] = in_array($status['value'], $closingStatuses['ProjectMilestone']['status']);
+				}
+				$data['ProjectMilestone'][] = $status;
+			}
+		}
+		if (!empty($this->picklistsValues['ProjectTask']['projecttaskstatus'])) {
+			foreach ($this->picklistsValues['ProjectTask']['projecttaskstatus'] as $status) {
+				if (!empty($closingStatuses['ProjectTask']['status'])) {
+					$status['closing'] = in_array($status['value'], $closingStatuses['ProjectTask']['status']);
+				}
+				$data['ProjectTask'][] = $status;
+			}
+		}
+		$this->statuses = $data;
+		unset($closingStatuses);
+		return $data;
+	}
+
+	/**
+	 * Collect necessary data for tasks from other places.
+	 */
+	private function collectNecessaryData()
+	{
+		$this->getPicklistValues();
+		$this->getStatuses();
+		$this->getStatusColors();
+	}
+
+	/**
+	 * Prepare tasks and gather some information.
+	 */
+	private function prepareRecords()
+	{
+		$this->addRootNode();
+		$this->normalizeParents();
+		$this->collectChildrens();
+		$this->calculateLevels();
+		$this->findOutStartDates($this->rootNode);
+		$this->findOutEndDates($this->rootNode);
+		$this->calculateDurations();
+	}
+
+	/**
 	 * Get project data.
 	 *
 	 * @param int|array $id project id
@@ -487,20 +552,13 @@ class Project_Gantt_Model
 	 */
 	public function getAllData($viewName = null)
 	{
-		$this->getStatusColors();
-		$this->getPicklistValues();
+		$this->collectNecessaryData();
 		$projects = $this->getProject(0, $viewName);
 		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
 		$tasks = $this->getGanttTasks($projectIds);
 		$this->tasks = array_merge($projects, $milestones, $tasks);
-		$this->addRootNode();
-		$this->normalizeParents();
-		$this->collectChildrens();
-		$this->calculateLevels();
-		$this->findOutStartDates($this->rootNode);
-		$this->findOutEndDates($this->rootNode);
-		$this->calculateDurations();
+		$this->prepareRecords();
 		$response = [
 			'statusColors' => $this->statusColors,
 			'canWrite' => false,
@@ -508,7 +566,7 @@ class Project_Gantt_Model
 			'cantWriteOnParent' => false,
 			'canAdd' => false,
 			'picklists' => $this->picklistValues,
-			'statuses' => $this->getStatuses(),
+			'statuses' => $this->statuses,
 		];
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
 			$response['tasks'] = $this->cleanup($this->flattenRecordTasks($this->tree['children']));
@@ -526,20 +584,13 @@ class Project_Gantt_Model
 	 */
 	public function getById($id)
 	{
-		$this->getStatusColors();
-		$this->getPicklistValues();
+		$this->collectNecessaryData();
 		$projects = $this->getProject($id);
 		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
 		$tasks = $this->getGanttTasks($projectIds);
 		$this->tasks = array_merge($projects, $milestones, $tasks);
-		$this->addRootNode();
-		$this->normalizeParents();
-		$this->collectChildrens();
-		$this->calculateLevels();
-		$this->findOutStartDates($this->rootNode);
-		$this->findOutEndDates($this->rootNode);
-		$this->calculateDurations();
+		$this->prepareRecords();
 		$response = [
 			'statusColors' => $this->statusColors,
 			'canWrite' => false,
@@ -547,7 +598,7 @@ class Project_Gantt_Model
 			'cantWriteOnParent' => false,
 			'canAdd' => false,
 			'picklists' => $this->picklistValues,
-			'statuses' => $this->getStatuses(),
+			'statuses' => $this->statuses,
 		];
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
 			$response['tasks'] = $this->cleanup($this->flattenRecordTasks($this->tree['children']));
@@ -661,45 +712,5 @@ class Project_Gantt_Model
 		$dataReader->close();
 		unset($dataReader, $queryGenerator, $taskTime, $endDate);
 		return $tasks;
-	}
-
-	/**
-	 * Get statuses.
-	 *
-	 * @return array
-	 */
-	public function getStatuses()
-	{
-		if (!empty($this->statuses)) {
-			return $this->statuses;
-		}
-		$data = [];
-		$closingStatuses = Settings_RealizationProcesses_Module_Model::getStatusNotModify();
-		if (!empty($this->picklistsValues['Project']['projectstatus'])) {
-			foreach ($this->picklistsValues['Project']['projectstatus'] as $status) {
-				if (!empty($closingStatuses['Project']['status'])) {
-					$status['closing'] = in_array($status['value'], $closingStatuses['Project']['status']);
-				}
-				$data['Project'][] = $status;
-			}
-		}
-		if (!empty($this->picklistsValues['ProjectMilestone']['projectmilestone_status'])) {
-			foreach ($this->picklistsValues['ProjectMilestone']['projectmilestone_status'] as $status) {
-				if (!empty($closingStatuses['ProjectMilestone']['status'])) {
-					$status['closing'] = in_array($status['value'], $closingStatuses['ProjectMilestone']['status']);
-				}
-				$data['ProjectMilestone'][] = $status;
-			}
-		}
-		if (!empty($this->picklistsValues['ProjectTask']['projecttaskstatus'])) {
-			foreach ($this->picklistsValues['ProjectTask']['projecttaskstatus'] as $status) {
-				if (!empty($closingStatuses['ProjectTask']['status'])) {
-					$status['closing'] = in_array($status['value'], $closingStatuses['ProjectTask']['status']);
-				}
-				$data['ProjectTask'][] = $status;
-			}
-		}
-		unset($closingStatuses, $this->picklistsValues);
-		return $data;
 	}
 }
