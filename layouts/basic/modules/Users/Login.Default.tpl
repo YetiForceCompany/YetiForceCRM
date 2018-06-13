@@ -40,7 +40,7 @@
 								{if $LANGUAGE_SELECTION}
 									{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
 									{assign var=DEFAULT_LANGUAGE value=AppConfig::main('default_language')}
-									<div class="input-group form-group mb-0 {if $LAYOUT_SELECTION}first-group {/if}">
+									<div class="input-group input-group-lg form-group mb-0 {if $LAYOUT_SELECTION}first-group {/if}">
 										<select class="form-control-lg form-control" title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE',$MODULE)}" name="loginLanguage">
 											{foreach item=VALUE key=KEY from=\App\Language::getAll()}
 												<option {if $KEY eq $DEFAULT_LANGUAGE} selected {/if}  value="{\App\Purifier::encodeHtml($KEY)}">{$VALUE}</option>
