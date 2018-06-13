@@ -40,7 +40,6 @@
 												   href={$DETAIL_VIEW_LINK->getUrl()}>{\App\Language::translate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
 											{/if}
 										{else}
-											{*{var_dump($DETAIL_VIEW_LINK)}*}
 											<a class="dropdown-item {$DETAIL_VIEW_LINK->getClassName()}"
 											   id="{$MODULE_NAME}_detailView_moreAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}"
 											   href="#"
