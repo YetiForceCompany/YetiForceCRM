@@ -535,23 +535,16 @@ app = {
 		var dotMode = '-';
 		if (dateFormat.indexOf("-") !== -1) {
 			dotMode = '-';
-		}
-		if (dateFormat.indexOf("-") !== -1) {
+		} else if (dateFormat.indexOf(".") !== -1) {
 			dotMode = '.';
-		}
-		if (dateFormat.indexOf("/") !== -1) {
+		} else if (dateFormat.indexOf("/") !== -1) {
 			dotMode = '/';
 		}
-
 		var dateFormatParts = dateFormat.split(dotMode);
+		var day = '', month = '', year = '';
 		var dateParts = dateString.split(dotMode);
-		var day = '';
-		var month = '';
-		var year = '';
-
 		for (i in dateFormatParts) {
 			var sectionDate = dateFormatParts[i];
-
 			switch (sectionDate) {
 				case 'dd':
 					day = dateParts[i];
@@ -566,7 +559,6 @@ app = {
 					break;
 			}
 		}
-
 		return year + '-' + month + '-' + day;
 	},
 	registerEventForDateFields: function (parentElement) {

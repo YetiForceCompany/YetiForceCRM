@@ -61,9 +61,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		var container = this.getForm();
 		var thisInstance = this;
 		container.find('.recurringType').on('change', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var recurringType = currentTarget.val();
-			thisInstance.changeRecurringTypesUIStyles(recurringType);
+			thisInstance.changeRecurringTypesUIStyles(jQuery(e.currentTarget).val());
 		});
 		container.find('.repeatUI [name="calendarEndType"]').on('change', function (e) {
 			var currentTarget = $(e.currentTarget);
