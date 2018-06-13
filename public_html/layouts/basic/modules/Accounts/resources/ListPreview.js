@@ -15,7 +15,7 @@ Vtiger_ListPreview_Js("Accounts_ListPreview_Js", {}, {
 					record: app.getRecordId(),
 					record: contents.find("#recordId").val(),
 					mode: 'getHierarchyCount',
-				}).then(function (response) {
+				}).done(function (response) {
 					if (response.success) {
 						contents.find(".detailViewTitle .hierarchy .badge").html(response.result);
 					}
