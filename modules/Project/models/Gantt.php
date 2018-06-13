@@ -25,11 +25,6 @@ class Project_Gantt_Model
 	private $tree = [];
 
 	/**
-	 * @var array associative array where key is task/milestone/project id and value is an array of all parent ids
-	 */
-	public $taskParents = [];
-
-	/**
 	 * @var array colors for statuses
 	 */
 	public $statusColors = [];
@@ -40,7 +35,7 @@ class Project_Gantt_Model
 	private $tasksById = [];
 
 	/**
-	 * @var statuses - with closing value
+	 * @var array statuses - with closing value
 	 */
 	private $statuses;
 
@@ -86,7 +81,6 @@ class Project_Gantt_Model
 				$parents[$task['id']] = [];
 			}
 		}
-		$this->taskParents = $parents;
 		return $parents;
 	}
 
@@ -100,6 +94,7 @@ class Project_Gantt_Model
 			$task['level'] = count($parents[$task['id']]);
 			$task['parents'] = $parents[$task['id']];
 		}
+		unset($task);
 		$hasChild = [];
 		foreach ($parents as $childId => $parentsId) {
 			foreach ($parentsId as $parentId) {
@@ -115,6 +110,7 @@ class Project_Gantt_Model
 				$task['hasChild'] = false;
 			}
 		}
+		unset($parents);
 	}
 
 	/**
@@ -382,29 +378,14 @@ class Project_Gantt_Model
 		if (empty($closingStatuses['ProjectTask'])) {
 			$closingStatuses['ProjectTask'] = ['status' => []];
 		}
-		foreach (App\Fields\Picklist::getModulesByName('Project') as $name) {
-			$values = array_column(array_values(App\Fields\Picklist::getValues($name)), 'picklistValue');
-			foreach ($values as $value) {
-				if ($name === 'projectstatus') {
-					$this->statuses['Project'][] = ['value' => $value, 'label' => App\Language::translate($value, 'Project'), 'closing' => in_array($value, $closingStatuses['Project']['status'])];
-				}
-			}
+		foreach (array_column(array_values(App\Fields\Picklist::getValues('projectstatus')), 'picklistValue') as $value) {
+			$this->statuses['Project'][] = ['value' => $value, 'label' => App\Language::translate($value, 'Project'), 'closing' => in_array($value, $closingStatuses['Project']['status'])];
 		}
-		foreach (App\Fields\Picklist::getModulesByName('ProjectMilestone') as $name) {
-			$values = array_column(array_values(App\Fields\Picklist::getValues($name)), 'picklistValue');
-			foreach ($values as $value) {
-				if ($name === 'projectmilestone_status') {
-					$this->statuses['ProjectMilestone'][] = ['value' => $value, 'label' => App\Language::translate($value, 'ProjectMilestone'), 'closing' => in_array($value, $closingStatuses['ProjectMilestone']['status'])];
-				}
-			}
+		foreach (array_column(array_values(App\Fields\Picklist::getValues('projectmilestone_status')), 'picklistValue') as $value) {
+			$this->statuses['ProjectMilestone'][] = ['value' => $value, 'label' => App\Language::translate($value, 'ProjectMilestone'), 'closing' => in_array($value, $closingStatuses['ProjectMilestone']['status'])];
 		}
-		foreach (App\Fields\Picklist::getModulesByName('ProjectTask') as $name) {
-			$values = array_column(array_values(App\Fields\Picklist::getValues($name)), 'picklistValue');
-			foreach ($values as $index => $value) {
-				if ($name === 'projecttaskstatus') {
-					$this->statuses['ProjectTask'][] = ['value' => $value, 'label' => App\Language::translate($value, 'ProjectTask'), 'closing' => in_array($value, $closingStatuses['ProjectTask']['status'])];
-				}
-			}
+		foreach (array_column(array_values(App\Fields\Picklist::getValues('projecttaskstatus')), 'picklistValue') as $value) {
+			$this->statuses['ProjectTask'][] = ['value' => $value, 'label' => App\Language::translate($value, 'ProjectTask'), 'closing' => in_array($value, $closingStatuses['ProjectTask']['status'])];
 		}
 	}
 
