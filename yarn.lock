@@ -283,11 +283,11 @@ inputmask@^4.0:
   version "0.0.0"
   resolved "https://github.com/YetiForceCompany/jQuery-Validation-Engine#2116548bf1d91cf5f33b725e3e759146f088679f"
 
-jquery-gantt-editor@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/jquery-gantt-editor/-/jquery-gantt-editor-1.0.1.tgz#051786150244238dea2e03c7c27048584062801e"
+jquery-gantt-editor@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/jquery-gantt-editor/-/jquery-gantt-editor-1.0.2.tgz#2748da4927dcda017676297ed84be7eac3e510c6"
   dependencies:
-    jquery "https://github.com/patryk/jquery.timers"
+    jquery-timers "https://github.com/patryk/jquery.timers"
     svg "https://github.com/kbwood/svg"
 
 jquery-hoverintent@^1.9.0:
@@ -316,6 +316,11 @@ jquery-slimscroll@^1.3.8:
   dependencies:
     jquery ">= 1.7"
 
+"jquery-timers@https://github.com/patryk/jquery.timers":
+  version "0.0.0"
+  uid "3d21ef5c71579cff5d71914458ee6717b7c31a1c"
+  resolved "https://github.com/patryk/jquery.timers#3d21ef5c71579cff5d71914458ee6717b7c31a1c"
+
 jquery-ui-dist@^1.12.1:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/jquery-ui-dist/-/jquery-ui-dist-1.12.1.tgz#5c0815d3cc6f90ff5faaf5b268a6e23b4ca904fa"
@@ -331,10 +336,6 @@ jquery.class.js@^1.0.0:
 "jquery@git+https://github.com/jquery/jquery.git#2.0.3":
   version "2.0.3"
   resolved "git+https://github.com/jquery/jquery.git#f852e631ba85af7da4ad7594785e122504e7b233"
-
-"jquery@https://github.com/patryk/jquery.timers":
-  version "0.0.0"
-  resolved "https://github.com/patryk/jquery.timers#3d21ef5c71579cff5d71914458ee6717b7c31a1c"
 
 jstorage@^0.4.8:
   version "0.4.8"
