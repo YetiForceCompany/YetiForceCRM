@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-Accounts-AccountHierarchy modelContainer modal fade" id="accountHierarchyContainer" tabindex="-1" role="dialog">
+	<div class="tpl-AccountHierarchy modelContainer modal fade" id="accountHierarchyContainer" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
