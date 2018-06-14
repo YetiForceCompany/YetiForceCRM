@@ -318,7 +318,6 @@ jquery-slimscroll@^1.3.8:
 
 "jquery-timers@https://github.com/patryk/jquery.timers":
   version "0.0.0"
-  uid "3d21ef5c71579cff5d71914458ee6717b7c31a1c"
   resolved "https://github.com/patryk/jquery.timers#3d21ef5c71579cff5d71914458ee6717b7c31a1c"
 
 jquery-ui-dist@^1.12.1:
