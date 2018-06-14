@@ -19,7 +19,7 @@ jQuery.Class('Settings_Notifications_List_Js', {}, {
 					id: id
 				};
 				var progress = jQuery.progressIndicator();
-				AppConnector.request(params).then(function (data) {
+				AppConnector.request(params).done(function (data) {
 					progress.progressIndicator({'mode': 'hide'});
 					app.hideModalWindow();
 					thisInstance.showTable();
@@ -50,7 +50,7 @@ jQuery.Class('Settings_Notifications_List_Js', {}, {
 			roleId: $('[name="roleMenu"]').val(),
 		};
 		var progress = jQuery.progressIndicator();
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			progress.progressIndicator({'mode': 'hide'});
 			container.html(data);
 			thisInstance.registerTableEvents(container);
@@ -72,23 +72,19 @@ jQuery.Class('Settings_Notifications_List_Js', {}, {
 			var removeButton = jQuery(e.currentTarget);
 			var currentTrElement = removeButton.closest('tr');
 			var message = app.vtranslate('JS_DELETE_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-				function (e) {
-					var params = {
-						module: app.getModuleName(),
-						parent: app.getParentModuleName(),
-						action: 'Delete',
-						id: currentTrElement.data('id')
-					};
-					var progress = jQuery.progressIndicator();
-					AppConnector.request(params).then(function (data) {
-						progress.progressIndicator({'mode': 'hide'});
-						thisInstance.showTable();
-					});
-				},
-				function (error, err) {
-				}
-			);
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+				var params = {
+					module: app.getModuleName(),
+					parent: app.getParentModuleName(),
+					action: 'Delete',
+					id: currentTrElement.data('id')
+				};
+				var progress = jQuery.progressIndicator();
+				AppConnector.request(params).done(function (data) {
+					progress.progressIndicator({'mode': 'hide'});
+					thisInstance.showTable();
+				});
+			});
 		});
 	},
 	registerEvents: function () {
