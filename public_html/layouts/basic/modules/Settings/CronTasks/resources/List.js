@@ -10,7 +10,7 @@
 
 Settings_Vtiger_List_Js("Settings_CronTasks_List_Js", {
 	triggerEditEvent: function (editUrl) {
-		AppConnector.request(editUrl).then(function (data) {
+		AppConnector.request(editUrl).done(function (data) {
 			app.showModalWindow(data);
 			jQuery('#cronJobSaveAjax').validationEngine(app.validationEngineOptions);
 			var listViewInstance = Settings_CronTasks_List_Js.getInstance();
@@ -32,7 +32,7 @@ Settings_Vtiger_List_Js("Settings_CronTasks_List_Js", {
 				'enabled': true
 			}
 		});
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			jQuery('#listViewContents').html(data);
 			thisInstance.registerSortableEvent();
 			progressIndicatorElement.progressIndicator({
@@ -65,7 +65,7 @@ Settings_Vtiger_List_Js("Settings_CronTasks_List_Js", {
 					jQuery('#frequency').val(frequencyValue);
 				}
 				var params = form.serializeFormData();
-				AppConnector.request(params).then(function (data) {
+				AppConnector.request(params).done(function (data) {
 					if (typeof data.result !== "undefined" && data.result[0] == true) {
 						app.hideModalWindow();
 						thisInstance.getListViewRecords();
@@ -103,7 +103,7 @@ Settings_Vtiger_List_Js("Settings_CronTasks_List_Js", {
 					parent: app.getParentModuleName(),
 					action: 'UpdateSequence'
 				}
-				AppConnector.request(params).then(function (data) {
+				AppConnector.request(params).done(function (data) {
 					thisInstance.getListViewRecords();
 				});
 			}
