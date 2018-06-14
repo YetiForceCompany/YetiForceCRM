@@ -118,7 +118,7 @@ Vtiger_List_Js("Campaigns_List_Js", {}, {
 			var relatedModuleName = jQuery('[name="relatedModuleName"]').val();
 			var recordId = app.getRecordId();
 			var tab_label = detailInstance.getSelectedTab().data('labelKey');
-			var postData = {
+			AppConnector.request({
 				"module": module,
 				"parent": parent,
 				"action": "DetailAjax",
@@ -127,17 +127,11 @@ Vtiger_List_Js("Campaigns_List_Js", {}, {
 				"relatedModule": relatedModuleName,
 				'record': recordId,
 				'tab_label': tab_label
-			};
-			AppConnector.request(postData).then(
-				function (data) {
-					jQuery("#recordsCount").val(data['result']['count']);
-					count = data['result']['count'];
-					aDeferred.resolve(count);
-				},
-				function (error, err) {
-
-				}
-			);
+			}).done(function (data) {
+				jQuery("#recordsCount").val(data['result']['count']);
+				count = data['result']['count'];
+				aDeferred.resolve(count);
+			});
 		}
 
 		return aDeferred.promise();

@@ -331,7 +331,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			dateStart: dateStart.val()
 		};
 		container.progressIndicator({});
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			container.progressIndicator({mode: 'hide'});
 			timeStart.val(data.result.time_start);
 			timeEnd.val(data.result.time_end);
@@ -464,7 +464,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 					action: 'Invitees',
 					mode: 'find',
 					value: request.term
-				}).then(function (result) {
+				}).done(function (result) {
 					var reponseDataList = result.result;
 					if (reponseDataList.length <= 0) {
 						reponseDataList.push({
@@ -491,7 +491,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 				});
 				if (recordExist) {
 					var inviteRow = inviteesContent.find('.d-none .inviteRow').clone(true, true);
-					Vtiger_Index_Js.getEmailFromRecord(selected.id, selected.module).then(function (email) {
+					Vtiger_Index_Js.getEmailFromRecord(selected.id, selected.module).done(function (email) {
 						inviteRow.data('crmid', selected.id);
 						inviteRow.data('email', email);
 						inviteRow.find('.inviteName').data('content', selected.fullLabel + email).text(selected.label);

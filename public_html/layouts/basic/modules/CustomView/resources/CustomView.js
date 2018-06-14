@@ -17,18 +17,13 @@ var Vtiger_CustomView_Js = {
 	selectedColumnsList: false,
 	loadFilterView: function (url) {
 		var progressIndicatorElement = $.progressIndicator();
-		AppConnector.request(url).then(
-			function (data) {
-				app.hideModalWindow();
-				var contents = $(".contentsDiv").html(data);
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				Vtiger_CustomView_Js.registerEvents();
-				Vtiger_CustomView_Js.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance($('.filterContainer', contents));
-			},
-			function (error, err) {
-
-			}
-		);
+		AppConnector.request(url).done(function (data) {
+			app.hideModalWindow();
+			var contents = $(".contentsDiv").html(data);
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			Vtiger_CustomView_Js.registerEvents();
+			Vtiger_CustomView_Js.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance($('.filterContainer', contents));
+		});
 	},
 	loadDateFilterValues: function () {
 		var selectedDateFilter = $('#standardDateFilter option:selected');
@@ -81,40 +76,32 @@ var Vtiger_CustomView_Js = {
 	saveFilter: function () {
 		var aDeferred = $.Deferred();
 		var formData = $("#CustomView").serializeFormData();
-		AppConnector.request(formData, true).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				aDeferred.reject(error);
-			}
-		);
+		AppConnector.request(formData, true).done(function (data) {
+			aDeferred.resolve(data);
+		}).fail(function (error) {
+			aDeferred.reject(error);
+		});
 		return aDeferred.promise();
 	},
 	saveAndViewFilter: function () {
-		Vtiger_CustomView_Js.saveFilter().then(
-			function (response) {
-				if (response.success) {
-					var url;
-					if (app.getParentModuleName() == 'Settings') {
-						url = 'index.php?module=CustomView&parent=Settings&view=Index&sourceModule=' + $('#sourceModule').val();
-					} else {
-						url = response['result']['listviewurl'];
-					}
-					window.location.href = url;
+		Vtiger_CustomView_Js.saveFilter().done(function (response) {
+			if (response.success) {
+				var url;
+				if (app.getParentModuleName() == 'Settings') {
+					url = 'index.php?module=CustomView&parent=Settings&view=Index&sourceModule=' + $('#sourceModule').val();
 				} else {
-					$.unblockUI();
-					var params = {
-						title: app.vtranslate('JS_DUPLICATE_RECORD'),
-						text: response.error['message']
-					};
-					Vtiger_Helper_Js.showPnotify(params);
+					url = response['result']['listviewurl'];
 				}
-			},
-			function (error) {
-
+				window.location.href = url;
+			} else {
+				$.unblockUI();
+				var params = {
+					title: app.vtranslate('JS_DUPLICATE_RECORD'),
+					text: response.error['message']
+				};
+				Vtiger_Helper_Js.showPnotify(params);
 			}
-		);
+		});
 	},
 	/**
 	 * Function which will register the select2 elements for columns selection
