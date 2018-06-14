@@ -18,7 +18,7 @@ Vtiger_Edit_Js('Settings_Vtiger_EditModal_Js', {}, {
 			e.preventDefault();
 			if (form.validationEngine('validate')) {
 				var formData = form.serializeFormData();
-				app.saveAjax('', formData, {record: container.find('[name="record"]').val()}).then(function (data) {
+				app.saveAjax('', formData, {record: container.find('[name="record"]').val()}).done(function (data) {
 					if (data.result) {
 						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_SUCCESS')});
 						var moduleClassName = "Settings_" + app.getModuleName() + "_List_Js";
@@ -26,7 +26,7 @@ Vtiger_Edit_Js('Settings_Vtiger_EditModal_Js', {}, {
 							moduleClassName = "Settings_Vtiger_List_Js";
 						}
 						var instance = new window[moduleClassName]();
-						instance.getListViewRecords().then(function () {
+						instance.getListViewRecords().done(function () {
 							instance.updatePagination();
 						});
 					} else {

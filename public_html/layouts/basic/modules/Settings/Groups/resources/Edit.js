@@ -39,20 +39,17 @@ Settings_Vtiger_Edit_Js('Settings_Groups_Edit_Js', {}, {
 					thisInstance.checkDuplicateName({
 						'groupname': formData.groupname,
 						'record': formData.record
-					}).then(
-						function (data) {
-							form.data('submit', 'true');
-							form.data('performCheck', 'true');
-							form.submit();
-						},
-						function (data, err) {
-							var params = {};
-							params['text'] = data['message'];
-							params['type'] = 'error';
-							Settings_Vtiger_Index_Js.showMessage(params);
-							return false;
-						}
-					);
+					}).done(function (data) {
+						form.data('submit', 'true');
+						form.data('performCheck', 'true');
+						form.submit();
+					}).fail(function (data, err) {
+						var params = {};
+						params['text'] = data['message'];
+						params['type'] = 'error';
+						Settings_Vtiger_Index_Js.showMessage(params);
+						return false;
+					});
 				} else {
 					//If validation fails, form should submit again
 					form.removeData('submit');
@@ -79,20 +76,17 @@ Settings_Vtiger_Edit_Js('Settings_Groups_Edit_Js', {}, {
 			'record': details.record
 		}
 
-		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				var result = response['success'];
-				if (result == true) {
-					aDeferred.reject(response);
-				} else {
-					aDeferred.resolve(response);
-				}
-			},
-			function (error, err) {
-				aDeferred.reject();
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			var result = response['success'];
+			if (result == true) {
+				aDeferred.reject(response);
+			} else {
+				aDeferred.resolve(response);
 			}
-		);
+		}).fail(function (error, err) {
+			aDeferred.reject(error, err);
+		});
 		return aDeferred.promise();
 	},
 
