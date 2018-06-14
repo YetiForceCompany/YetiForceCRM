@@ -10,21 +10,20 @@
 		</button>
 	</div>
 	<div class="modal-body">
-		<div class="table-responsive">
-			<table class="table table-sm dataTable">
-				<thead>
-					<tr>
-						{if $WATCHDOG || $SRC_RECORD_ID neq 0}
-							<th class="u-w-60px text-left"></th>
-						{/if}
-						<th class="text-center">{\App\Language::translate('LBL_FULL_USER_NAME', $MODULE_NAME)}</th>
-						<th class="text-center">{\App\Language::translate('LBL_VIEW_PRVILIGE', $MODULE_NAME)}</th>
-						<th class="text-center">{\App\Language::translate('LBL_CREATE_PRIVILIGE', $MODULE_NAME)}</th>
-						<th class="text-center">{\App\Language::translate('LBL_EDIT_PRIVILIGE', $MODULE_NAME)}</th>
-						<th class="text-center">{\App\Language::translate('LBL_DELETE_PRIVILIGE', $MODULE_NAME)}</th>
-					</tr>
-				</thead>
-				<tbody>
+		<table class="table-responsive table table-sm dataTable">
+			<thead>
+				<tr>
+					{if $WATCHDOG || $SRC_RECORD_ID neq 0}
+						<th class="u-w-60px text-left"></th>
+					{/if}
+					<th class="text-center">{\App\Language::translate('LBL_FULL_USER_NAME', $MODULE_NAME)}</th>
+					<th class="text-center">{\App\Language::translate('LBL_VIEW_PRVILIGE', $MODULE_NAME)}</th>
+					<th class="text-center">{\App\Language::translate('LBL_CREATE_PRIVILIGE', $MODULE_NAME)}</th>
+					<th class="text-center">{\App\Language::translate('LBL_EDIT_PRIVILIGE', $MODULE_NAME)}</th>
+					<th class="text-center">{\App\Language::translate('LBL_DELETE_PRIVILIGE', $MODULE_NAME)}</th>
+				</tr>
+			</thead>
+			<tbody>
 				{foreach key=USER_ID item=ITEM from=$USERS_PERMISSION}
 					<tr data-id="{$USER_ID}">
 						{if $WATCHDOG || $SRC_RECORD_ID neq 0}
@@ -85,9 +84,8 @@
 						{/foreach}
 					</tr>
 				{/foreach}
-				</tbody>
-			</table>
-		</div>
+			</tbody>
+		</table>
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-danger" type="reset" data-dismiss="modal">
