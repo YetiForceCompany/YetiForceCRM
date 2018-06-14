@@ -10,7 +10,7 @@ Vtiger_Detail_Js("HelpDesk_Detail_Js", {
 				Vtiger_Detail_Js.getInstance().saveFieldValues({
 					field: "parent_id",
 					value: responseData.id
-				}).then(function (response) {
+				}).done(function (response) {
 					location.reload();
 				});
 			});
@@ -25,7 +25,7 @@ Vtiger_Detail_Js("HelpDesk_Detail_Js", {
 				setRelatedFields: true,
 				field: "servicecontractsid",
 				value: element.data('id')
-			}).then(function (response) {
+			}).done(function (response) {
 				location.reload();
 			});
 		});

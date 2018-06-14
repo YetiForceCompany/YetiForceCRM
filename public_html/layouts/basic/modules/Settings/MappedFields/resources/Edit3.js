@@ -59,24 +59,20 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit3_Js", {}, {
 
 		var saveData = form.serializeFormData();
 		saveData['step'] = 3;
-		app.saveAjax('step1', saveData).then(function (data) {
-				if (data.success == true) {
-					Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY')});
-					AppConnector.request(formData).then(
-						function (data) {
-							form.hide();
-							progressIndicatorElement.progressIndicator({
-								'mode': 'hide'
-							})
-							aDeferred.resolve(data);
-						},
-						function (error, err) {
-							app.errorLog(error, err);
-						}
-					);
-				}
+		app.saveAjax('step1', saveData).done(function (data) {
+			if (data.success == true) {
+				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY')});
+				AppConnector.request(formData).done(function (data) {
+					form.hide();
+					progressIndicatorElement.progressIndicator({
+						'mode': 'hide'
+					})
+					aDeferred.resolve(data);
+				}).fail(function (error, err) {
+					app.errorLog(error, err);
+				});
 			}
-		);
+		});
 		return aDeferred.promise();
 	},
 	registerCancelStepClickEvent: function (form) {
