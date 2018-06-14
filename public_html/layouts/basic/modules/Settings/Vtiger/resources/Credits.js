@@ -48,7 +48,7 @@ jQuery.Class("Settings_Vtiger_Credits_Js", {}, {
 				view: 'LibraryMoreInfo',
 				type: $(this).attr('data-type'),
 				libraryName: $(this).attr('data-library-name')
-			}).then(function (response) {
+			}).done(function (response) {
 				app.showModalWindow(response)
 			});
 		});
@@ -64,7 +64,7 @@ jQuery.Class("Settings_Vtiger_Credits_Js", {}, {
 				parent: app.getParentModuleName(),
 				view: 'LibraryLicense',
 				license: $(this).attr('data-license'),
-			}).then(function (response) {
+			}).done(function (response) {
 				app.showModalWindow(response)
 			});
 		});

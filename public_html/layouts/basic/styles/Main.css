@@ -11504,6 +11504,9 @@ header .c-header__btn__container .select2-selection {
   .gridster .gs-w[data-sizex] {
     width: 100% !important;
     left: 0; } }
+.jstree-proton {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 label.btn.btn-outline-primary:not(.active) {
   background: #fff; }
@@ -11512,7 +11515,12 @@ label.btn.btn-outline-primary:not(.active) {
     background: #e9ecef; }
 
 .dropdown-item, .related .dropdown-menu .nav-link {
-  cursor: pointer; }
+  cursor: pointer;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent; }
+  .dropdown-item:hover, .related .dropdown-menu .nav-link:hover {
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .dashboardWidgetCalendar .fc-widget-content .fc-scroller.fc-day-grid-container {
