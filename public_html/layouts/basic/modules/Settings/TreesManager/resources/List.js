@@ -61,7 +61,7 @@ Settings_Vtiger_List_Js("Settings_TreesManager_List_Js", {
 	 */
 	loadContents: function (url) {
 		var aDeferred = jQuery.Deferred();
-		AppConnector.requestPjax(url).then(function (data) {
+		AppConnector.requestPjax(url).done(function (data) {
 			jQuery('.contentsDiv').html(data);
 			aDeferred.resolve(data);
 		}).fail(function (error, err) {

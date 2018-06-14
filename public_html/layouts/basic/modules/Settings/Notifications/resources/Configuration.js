@@ -13,18 +13,15 @@ jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 			params['parent'] = app.getParentModuleName();
 			params['view'] = app.getViewName();
 			params['srcModule'] = jQuery(e.currentTarget).val();
-			AppConnector.requestPjax(params).then(
-				function (data) {
-					progress.progressIndicator({'mode': 'hide'});
-					container.html(data);
-					App.Fields.Picklist.changeSelectElementView(container);
-					thisInstance.registerEvents();
-				},
-				function (textStatus, errorThrown) {
-					progress.progressIndicator({'mode': 'hide'});
-					app.errorLog(textStatus, errorThrown);
-				}
-			);
+			AppConnector.requestPjax(params).done(function (data) {
+				progress.progressIndicator({'mode': 'hide'});
+				container.html(data);
+				App.Fields.Picklist.changeSelectElementView(container);
+				thisInstance.registerEvents();
+			}).fail(function (textStatus, errorThrown) {
+				progress.progressIndicator({'mode': 'hide'});
+				app.errorLog(textStatus, errorThrown);
+			});
 		});
 	},
 	progress: function () {
@@ -49,7 +46,7 @@ jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 			if (mode === 'lock') {
 				params.lock = dataElement.data('lock') === 0 ? 1 : 0;
 			}
-			app.saveAjax(mode, null, params).then(function (data) {
+			app.saveAjax(mode, null, params).done(function (data) {
 				progress.progressIndicator({'mode': 'hide'});
 				thisInstance.refreshView();
 			});
@@ -74,7 +71,7 @@ jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 						e.preventDefault();
 						var progress = thisInstance.progress();
 						var params = form.serializeFormData();
-						app.saveAjax(params.mode, null, params).then(function (data) {
+						app.saveAjax(params.mode, null, params).done(function (data) {
 							progress.progressIndicator({'mode': 'hide'});
 							app.hideModalWindow();
 							if (reload) {
