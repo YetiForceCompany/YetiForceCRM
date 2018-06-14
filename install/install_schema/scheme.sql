@@ -1094,8 +1094,8 @@ CREATE TABLE `u_yf_activityregister` (
   `activity_type` text DEFAULT NULL,
   `parent_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`activityregisterid`),
-  KEY `u_yf_activityregister_activityregisterid_idx` (`activityregisterid`),
   KEY `u_yf_activityregister_datasetregisterid_idx` (`datasetregisterid`),
+  KEY `u_yf_activityregister_parent_id_idx` (`parent_id`),
   CONSTRAINT `fk_1_u_yf_activityregisteractivityregisterid` FOREIGN KEY (`activityregisterid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1405,7 +1405,7 @@ CREATE TABLE `u_yf_datasetregister` (
   `removed_from_register` date DEFAULT NULL,
   `parent_id` int(10) NOT NULL,
   PRIMARY KEY (`datasetregisterid`),
-  KEY `u_yf_datasetregister_datasetregisterid_idx` (`datasetregisterid`),
+  KEY `u_yf_datasetregister_parent_id_idx` (`parent_id`),
   CONSTRAINT `fk_1_u_yf_datasetregisterdatasetregisterid` FOREIGN KEY (`datasetregisterid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -9051,7 +9051,7 @@ CREATE TABLE `vtiger_users` (
   `confirm_password` varchar(200) DEFAULT NULL,
   `cal_color` varchar(25) DEFAULT NULL,
   `user_preferences` text DEFAULT NULL,
-  `authy_methods` varchar(50) DEFAULT NULL,
+  `authy_methods` varchar(255) DEFAULT NULL,
   `authy_secret_totp` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
