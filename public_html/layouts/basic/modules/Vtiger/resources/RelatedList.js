@@ -190,11 +190,11 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		AppConnector.request($.extend(completeParams, params)).done(function (responseData) {
 			var currentInstance = Vtiger_Detail_Js.getInstance();
 			currentInstance.loadWidgets();
+			progressInstance.progressIndicator({'mode': 'hide'});
 			if (activeTabsReference != 'ProductsAndServices') {
 				thisInstance.relatedTabsContainer.find('li').removeClass('active');
 				thisInstance.selectedRelatedTabElement.addClass('active');
 				thisInstance.content.html(responseData);
-				progressInstance.progressIndicator({'mode': 'hide'});
 				Vtiger_Helper_Js.showHorizontalTopScrollBar();
 				$('.pageNumbers', thisInstance.content).tooltip();
 				thisInstance.registerPostLoadEvents();
