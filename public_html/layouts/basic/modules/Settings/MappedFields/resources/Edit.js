@@ -90,7 +90,7 @@ Settings_Vtiger_Edit_Js("Settings_MappedFields_Edit_Js", {
 					specialValidation = thisInstance.currentInstance.isFormValidate();
 				}
 				if (form.validationEngine('validate') && specialValidation) {
-					thisInstance.currentInstance.submit().then(function (data) {
+					thisInstance.currentInstance.submit().done(function (data) {
 						if (data) {
 							thisInstance.getContainer().append(data);
 							var stepVal = thisInstance.getStepValue();
