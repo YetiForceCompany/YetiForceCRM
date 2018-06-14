@@ -1154,6 +1154,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			if ($row['activitytype'] == 'Task') {
 				unset($row['visibility']);
 			}
+			$row['selectedusers'] = [];
 			$dataReaderSecond = (new \App\Db\Query())->select(['inviteesid'])->from('u_#__activity_invitation')->where(['activityid' => $row['crmid']])
 				->createCommand()->query();
 			while ($invite = $dataReaderSecond->readColumn(0)) {
