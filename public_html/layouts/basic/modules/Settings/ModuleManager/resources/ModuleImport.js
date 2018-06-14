@@ -31,16 +31,13 @@ jQuery.Class('Settings_Module_Import_Js', {}, {
 			}
 		});
 
-		AppConnector.request(params).then(
-			function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.reject(error);
-			}
-		);
+		AppConnector.request(params).done(function (data) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.resolve(data);
+		}).fail(function (error) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.reject(error);
+		});
 		return aDeferred.promise();
 	},
 
@@ -74,7 +71,7 @@ jQuery.Class('Settings_Module_Import_Js', {}, {
 				'extensionName': extensionName
 			}
 
-			thisInstance.getImportModuleStepView(params).then(function (data) {
+			thisInstance.getImportModuleStepView(params).done(function (data) {
 				var detailContentsHolder = jQuery('.contentsDiv');
 				detailContentsHolder.html(data);
 				app.showScrollBar(jQuery('#extensionLicense'), {'height': 'auto'});
@@ -109,7 +106,7 @@ jQuery.Class('Settings_Module_Import_Js', {}, {
 				'fileName': fileName
 			}
 
-			thisInstance.getImportModuleStepView(params).then(function (step3Data) {
+			thisInstance.getImportModuleStepView(params).done(function (step3Data) {
 				var callBackFunction = function (data) {
 					var installationStatus = jQuery(data).find('[name="installationStatus"]').val();
 					if (installationStatus == "success") {
@@ -134,7 +131,7 @@ jQuery.Class('Settings_Module_Import_Js', {}, {
 
 		container.find('#declineExtension').on('click', function () {
 			var params = thisInstance.getImportModuleStep1Params();
-			thisInstance.getImportModuleStepView(params).then(function (data) {
+			thisInstance.getImportModuleStepView(params).done(function (data) {
 				var detailContentsHolder = jQuery('.contentsDiv');
 				detailContentsHolder.html(data);
 				thisInstance.registerEventForStep1();

@@ -57,20 +57,18 @@ jQuery.Class('Settings_Module_Manager_Js', {
 				params['action'] = 'Basic';
 				params['mode'] = 'createModule';
 				params['formData'] = formData;
-				AppConnector.request(params).then(
-					function (data) {
-						var result = data.result;
-						if (!result.success) {
-							var params = {
-								text: result.text,
-								type: 'error'
-							};
-							Vtiger_Helper_Js.showPnotify(params);
-						} else {
-							window.location.href = 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' + result.text;
-						}
+				AppConnector.request(params).done(function (data) {
+					var result = data.result;
+					if (!result.success) {
+						var params = {
+							text: result.text,
+							type: 'error'
+						};
+						Vtiger_Helper_Js.showPnotify(params);
+					} else {
+						window.location.href = 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' + result.text;
 					}
-				);
+				});
 				progress.progressIndicator({'mode': 'hide'});
 			}
 		});
