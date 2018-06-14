@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-PermissionInspector-UserListModal modal-header">
+	<div class="tpl-UserListModal modal-header">
 		<h5 class="modal-title">
 			<span class="fas fa-user-secret mr-1"></span>
 			{\App\Language::translate('LBL_INSPECTION_PERMISSION_HEADER', $MODULE_NAME)}
