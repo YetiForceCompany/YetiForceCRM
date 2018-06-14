@@ -49,7 +49,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit4_Js", {}, {
 		saveData.record = formData.record;
 		saveData.step = 4;
 		saveData = jQuery.extend({}, saveData);
-		app.saveAjax('step1', saveData).then(function (data) {
+		app.saveAjax('step1', saveData).done(function (data) {
 			if (data.success == true) {
 				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY')});
 
