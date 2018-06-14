@@ -90,13 +90,11 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 		params['view'] = 'Index';
 		params['parent'] = 'Settings';
 		params['source'] = $("input[name='tabid']").val();
-		AppConnector.request(params).then(
-			function (data) {
-				var container = jQuery('div.contentsDiv').html(data);
-				thisInstance.registerEvents(container);
-				Indicator.progressIndicator({'mode': 'hide'});
-			}
-		);
+		AppConnector.request(params).done(function (data) {
+			var container = jQuery('div.contentsDiv').html(data);
+			thisInstance.registerEvents(container);
+			Indicator.progressIndicator({'mode': 'hide'});
+		});
 	},
 	registerSaveEvent: function (mode, data) {
 		var resp = '';
@@ -114,20 +112,15 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 			params.async = true;
 		}
 		params.dataType = 'json';
-		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				var params = {
-					text: response['message'],
-					type: 'success'
-				};
-				Vtiger_Helper_Js.showPnotify(params);
-				resp = response['success'];
-			},
-			function (data, err) {
-
-			}
-		);
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			var params = {
+				text: response['message'],
+				type: 'success'
+			};
+			Vtiger_Helper_Js.showPnotify(params);
+			resp = response['success'];
+		});
 	},
 	loadFilters: function (contener) {
 		var types = ['filter', 'checkbox', 'switchHeader'];
