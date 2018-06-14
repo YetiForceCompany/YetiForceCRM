@@ -227,8 +227,8 @@
 						   data-js="popover" data-toggle="modal" data-target="#quickCreateModules"
 						   data-placement="bottom" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}"
 						   href="#">
-							<span class="fas fa-plus fa-fw"
-								  title="{\App\Language::translate('LBL_QUICK_CREATE')}"></span>
+							<span class="fas fa-plus fa-fw" title="{\App\Language::translate('LBL_QUICK_CREATE')}"></span>
+							<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_QUICK_CREATE')}</span>
 						</a>
 						<div class="quickCreateModules modal fade" id="quickCreateModules" tabindex="-1" role="dialog"
 							 aria-labelledby="c-quick-create__title" aria-hidden="true">
@@ -290,9 +290,9 @@
 						<a class="c-header__btn ml-2 btn btn-light btn isBadge notificationsNotice js-popover-tooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
 						   role="button" data-js="popover"
 						   data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="#">
-							<span class="fas fa-bell fa-fw"
-								  title="{\App\Language::translate('LBL_NOTIFICATIONS')}"></span>
-							<span class="badge badge-dark d-none">0</span>
+							<span class="fas fa-bell fa-fw" title="{\App\Language::translate('LBL_NOTIFICATIONS')}"> </span>
+							<span class="badge badge-dark d-none mr-1">0</span>
+							<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_NOTIFICATIONS')}</span>
 						</a>
 					</div>
 				{/if}
@@ -301,6 +301,7 @@
 						<a class="c-header__btn ml-2 btn btn-light btn headerLinkChat js-popover-tooltip" role="button"
 						   data-js="popover" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
 							<span class="fas fa-comments fa-fw" title="{\App\Language::translate('LBL_CHAT')}"></span>
+							<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_CHAT')}</span>
 						</a>
 						<div class="chatModal modal fade row c-modal--custom-animation" tabindex="-1" role="dialog"
 							 aria-labelledby="c-chat-modal__title"
@@ -337,7 +338,8 @@
 						   href="#">
 							<span class="fas fa-calendar fa-fw"
 								  title="{\App\Language::translate('LBL_REMINDER')}"></span>
-							<span class="badge badge-danger d-none">0</span>
+							<span class="badge badge-danger d-none mr-1">0</span>
+							<span class="c-header__label--sm-down">{\App\Language::translate('LBL_REMINDER')}</span>
 						</a>
 					</div>
 				{/if}
@@ -347,8 +349,8 @@
 							<a class="c-header__btn ml-2 btn btn-light btn js-popover-tooltip dropdownMenu"
 							   id="showHistoryBtn" data-js="popover" data-toggle="dropdown" data-boundary="window"
 							   data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#" role="button">
-								<span class="fas fa-history fa-fw"
-									  title="{\App\Language::translate('LBL_PAGES_HISTORY')}"></span>
+								<span class="fas fa-history fa-fw" title="{\App\Language::translate('LBL_PAGES_HISTORY')}"></span>
+								<span class="c-header__label--sm-down">{\App\Language::translate('LBL_PAGES_HISTORY')}</span>
 							</a>
 							{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
 						</div>
@@ -376,6 +378,7 @@
 									{/if}>
 								{if $ICON}
 									<span class="{$ICON}" title="{\App\Language::translate($TITLE,$MODULE)}"></span>
+									<span class="c-header__label--sm-down">{\App\Language::translate($TITLE,$MODULE)}</span>
 								{/if}
 								{if $ICON_PATH}
 									<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}"
