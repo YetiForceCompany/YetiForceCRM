@@ -191,7 +191,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			var currentInstance = Vtiger_Detail_Js.getInstance();
 			currentInstance.loadWidgets();
 			progressInstance.progressIndicator({'mode': 'hide'});
-			if (activeTabsReference != 'ProductsAndServices') {
+			if (activeTabsReference !== 'ProductsAndServices') {
 				thisInstance.relatedTabsContainer.find('li').removeClass('active');
 				thisInstance.selectedRelatedTabElement.addClass('active');
 				thisInstance.content.html(responseData);
@@ -205,6 +205,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			aDeferred.resolve(responseData);
 		}).fail(function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);
+			progressInstance.progressIndicator({'mode': 'hide'});
 		});
 		return aDeferred.promise();
 	},
