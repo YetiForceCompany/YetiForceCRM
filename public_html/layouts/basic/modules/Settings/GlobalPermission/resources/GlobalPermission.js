@@ -11,18 +11,14 @@ var Settings_GlobalPermission_Js = {
 			globalactionid: target.data('globalactionid'),
 			checked: target.prop('checked')
 		}
-		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				var params = {
-					text: response['message'],
-					type: 'success',
-				};
-				Vtiger_Helper_Js.showPnotify(params);
-			},
-			function (error, err) {
-			}
-		);
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			var params = {
+				text: response['message'],
+				type: 'success',
+			};
+			Vtiger_Helper_Js.showPnotify(params);
+		});
 	},
 	registerEvents: function () {
 		jQuery('.js-save').on('change', Settings_GlobalPermission_Js.savePermissions);

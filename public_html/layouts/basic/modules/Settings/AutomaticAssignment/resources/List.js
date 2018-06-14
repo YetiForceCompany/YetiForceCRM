@@ -54,7 +54,7 @@ Settings_Vtiger_List_Js('Settings_AutomaticAssignment_List_Js', {
 			});
 			var element = jQuery(e.currentTarget);
 			var getFieldsUrl = url + '&tabid=' + element.val();
-			AppConnector.request(getFieldsUrl).then(function (fields) {
+			AppConnector.request(getFieldsUrl).done(function (fields) {
 					data.find('.fieldList').html(fields);
 					App.Fields.Picklist.showSelect2ElementView(data.find('.fieldList select'));
 					submitButton.removeClass('d-none');
@@ -68,15 +68,15 @@ Settings_Vtiger_List_Js('Settings_AutomaticAssignment_List_Js', {
 		form.on('submit', function (e) {
 			e.preventDefault();
 			var params = form.serializeFormData();
-			app.saveAjax('save', params).then(function (respons) {
-				var id = respons.result;
+			app.saveAjax('save', params).done(function (response) {
+				var id = response.result;
 				if (id) {
 					var url = form.attr('action');
 					url = url + '&record=' + id;
 					window.location.href = url;
 				}
 			});
-		})
+		});
 	},
 	registerEvents: function () {
 		var thisInstance = this;
