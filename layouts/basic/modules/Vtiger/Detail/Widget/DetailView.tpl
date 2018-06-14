@@ -13,7 +13,7 @@
 			</div>
 		</div>
 		<hr class="widgetHr">
-		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
+		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['type']}">
 			<div class="c-detail-widget__content js-detail-widget-content" data-js=”container|value”>
 			</div>
 		</div>
