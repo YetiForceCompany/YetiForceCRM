@@ -24,11 +24,9 @@ Vtiger_Detail_Js("Project_Detail_Js", {}, {
 		summaryParams['view'] = "Detail";
 		summaryParams['mode'] = "showModuleSummaryView";
 		summaryParams['record'] = jQuery('#recordId').val();
-		AppConnector.request(summaryParams).then(
-			function (data) {
-				jQuery('.js-widget-general-info').html(data);
-			}
-		);
+		AppConnector.request(summaryParams).done(function (data) {
+			jQuery('.js-widget-general-info').html(data);
+		});
 	},
 	/**
 	 * Load gantt component
