@@ -63,7 +63,7 @@ var Settings_Roles_Js = {
 				parent_roleid: parent_roleid
 			}
 
-			AppConnector.request(params).then(function (res) {
+			AppConnector.request(params).done(function (res) {
 				if (!res.success) {
 					alert(app.vtranslate('JS_FAILED_TO_SAVE'));
 					window.location.reload();
@@ -177,25 +177,22 @@ var Settings_Roles_Js = {
 					thisInstance.checkDuplicateName({
 						'rolename': formData.rolename,
 						'record': formData.record
-					}).then(
-						function (data) {
-							form.data('submit', 'true');
-							form.data('performCheck', 'true');
-							form.submit();
-							jQuery.progressIndicator({
-								'blockInfo': {
-									'enabled': true
-								}
-							});
-						},
-						function (data, err) {
-							var params = {};
-							params['text'] = data['message'];
-							params['type'] = 'error';
-							Settings_Vtiger_Index_Js.showMessage(params);
-							return false;
-						}
-					);
+					}).done(function (data) {
+						form.data('submit', 'true');
+						form.data('performCheck', 'true');
+						form.submit();
+						jQuery.progressIndicator({
+							'blockInfo': {
+								'enabled': true
+							}
+						});
+					}).fail(function (data, err) {
+						var params = {};
+						params['text'] = data['message'];
+						params['type'] = 'error';
+						Settings_Vtiger_Index_Js.showMessage(params);
+						return false;
+					});
 				} else {
 					//If validation fails, form should submit again
 					form.removeData('submit');
@@ -223,8 +220,7 @@ var Settings_Roles_Js = {
 			'record': details.record
 		}
 
-		AppConnector.request(params).then(
-			function (data) {
+		AppConnector.request(params).done(function (data) {
 				var response = data['result'];
 				var result = response['success'];
 				if (result == true) {
@@ -232,11 +228,9 @@ var Settings_Roles_Js = {
 				} else {
 					aDeferred.resolve(response);
 				}
-			},
-			function (error, err) {
-				aDeferred.reject();
-			}
-		);
+			}).fail(function (error, err) {
+				aDeferred.reject(error, err);
+			});
 		return aDeferred.promise();
 	},
 

@@ -12,7 +12,7 @@ jQuery.Class('Settings_Users_Auth_Js', {}, {
 			} else {
 				params['val'] = target.val();
 			}
-			app.saveAjax('updateConfig', params).then(function (data) {
+			app.saveAjax('updateConfig', params).done(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 			});
 		});

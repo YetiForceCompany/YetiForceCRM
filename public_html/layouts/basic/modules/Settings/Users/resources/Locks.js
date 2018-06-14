@@ -39,7 +39,7 @@ jQuery.Class('Settings_Users_Locks_Js', {}, {
 					locks: $(this).find('.js-locks').val()
 				});
 			});
-			app.saveAjax('saveLocks', data).then(function (data) {
+			app.saveAjax('saveLocks', data).done(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 			});
 		});

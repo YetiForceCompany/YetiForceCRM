@@ -13,16 +13,13 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 				action: 'SaveAjax',
 				mode: 'acceptanceRecord',
 				id: id
-			}).then(
-				function (data) {
-					progressIndicator.progressIndicator({'mode': 'hide'});
-					Settings_Vtiger_Index_Js.showMessage({text: data.result.message});
-					$(elem).remove()
-				},
-				function (error) {
-					progressIndicator.progressIndicator({'mode': 'hide'});
-				}
-			);
+			}).done(function (data) {
+				progressIndicator.progressIndicator({'mode': 'hide'});
+				Settings_Vtiger_Index_Js.showMessage({text: data.result.message});
+				$(elem).remove()
+			}).fail(function (error) {
+				progressIndicator.progressIndicator({'mode': 'hide'});
+			});
 		});
 	},
 	massDeleteAction: function () {
@@ -34,38 +31,35 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 				var excludedIds = listInstance.readExcludedIds(true);
 				var cvId = listInstance.getCurrentCvId();
 				var message = app.vtranslate('LBL_MASS_DELETE_CONFIRMATION');
-				Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-					function (e) {
-						var params = {};
-						params['module'] = app.getModuleName();
-						params['parent'] = app.getParentModuleName();
-						params['action'] = 'MassDelete';
-						params['selected_ids'] = selectedIds;
-						var deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
-						var progressIndicatorElement = jQuery.progressIndicator({
-							'message': deleteMessage,
-							'position': 'html',
-							'blockInfo': {
-								'enabled': true
-							}
+				Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+					var params = {};
+					params['module'] = app.getModuleName();
+					params['parent'] = app.getParentModuleName();
+					params['action'] = 'MassDelete';
+					params['selected_ids'] = selectedIds;
+					var deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
+					var progressIndicatorElement = jQuery.progressIndicator({
+						'message': deleteMessage,
+						'position': 'html',
+						'blockInfo': {
+							'enabled': true
+						}
+					});
+					AppConnector.request(params).done(function (data) {
+						progressIndicatorElement.progressIndicator({
+							'mode': 'hide'
 						});
-						AppConnector.request(params).done(function (data) {
-							progressIndicatorElement.progressIndicator({
-								'mode': 'hide'
+						listInstance.postMassDeleteRecords();
+						if (data.error) {
+							Vtiger_Helper_Js.showPnotify({
+								text: app.vtranslate(data.error.message),
+								title: app.vtranslate('JS_LBL_PERMISSION')
 							});
-							listInstance.postMassDeleteRecords();
-							if (data.error) {
-								Vtiger_Helper_Js.showPnotify({
-									text: app.vtranslate(data.error.message),
-									title: app.vtranslate('JS_LBL_PERMISSION')
-								});
-							}
-						});
-					},
-					function (error, err) {
-						Vtiger_List_Js.clearList();
-					})
-
+						}
+					});
+				}).fail(function (error, err) {
+					Vtiger_List_Js.clearList();
+				});
 			} else {
 				listInstance.noRecordSelectedAlert();
 			}
@@ -87,11 +81,9 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 			}
 			//Make total number of pages as empty
 			jQuery('#totalPageCount').text("");
-			thisInstance.getListViewRecords(params).then(
-				function (data) {
-					thisInstance.updatePagination();
-				}
-			);
+			thisInstance.getListViewRecords(params).done(function (data) {
+				thisInstance.updatePagination();
+			});
 		});
 	},
 	getParams: function () {
@@ -121,20 +113,16 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 			if (e.keyCode == 13) {
 				var params = thisInstance.getParams();
 				jQuery('#totalPageCount').text("");
-				thisInstance.getListViewRecords(params).then(
-					function (data) {
-						thisInstance.updatePagination();
-					}
-				);
+				thisInstance.getListViewRecords(params).done(function (data) {
+					thisInstance.updatePagination();
+				});
 			}
 		});
 		listViewContainer.find('[data-trigger="listSearch"]').on('click', function (e) {
 			var params = thisInstance.getParams();
-			thisInstance.getListViewRecords(params).then(
-				function (data) {
-					thisInstance.updatePagination();
-				}
-			);
+			thisInstance.getListViewRecords(params).done(function (data) {
+				thisInstance.updatePagination();
+			});
 		});
 	},
 	registerListViewSelect: function () {
@@ -143,11 +131,9 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 			var listViewContainer = this.getListViewContainer();
 			listViewContainer.on('change', '.listViewEntriesTable select', function (e) {
 				var params = thisInstance.getParams();
-				thisInstance.getListViewRecords(params).then(
-					function (data) {
-						thisInstance.updatePagination();
-					}
-				);
+				thisInstance.getListViewRecords(params).done(function (data) {
+					thisInstance.updatePagination();
+				});
 			});
 		}
 	},
