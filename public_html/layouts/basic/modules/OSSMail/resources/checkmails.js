@@ -50,21 +50,19 @@ function registerUserList() {
 	$('.js-mail-list').on('click', '.js-mail-link', handleChangeUserEvent);
 }
 
-function handleChangeUserEvent () {
+function handleChangeUserEvent() {
 	var params = {
 		'module': 'OSSMail',
 		'action': "SetUser",
 		'user': $(this).val()
 	};
-	AppConnector.request(params).then(
-		function (response) {
-			if (app.getModuleName() == 'OSSMail') {
-				location.reload();
-			} else {
-				window.location.href = "index.php?module=OSSMail&view=Index";
-			}
+	AppConnector.request(params).done(function (response) {
+		if (app.getModuleName() == 'OSSMail') {
+			location.reload();
+		} else {
+			window.location.href = "index.php?module=OSSMail&view=Index";
 		}
-	);
+	});
 }
 
 function startCheckMails() {
@@ -92,38 +90,35 @@ function checkMails(users) {
 		'users': users,
 	};
 	var reloadSelect = false;
-	AppConnector.request(params).then(
-		function (response) {
-			if (response.success && response.success.error != true && response.result.error != true) {
-				var result = response.result;
-				$(".js-header__btn--mail .noMails").each(function (index) {
-					var element = jQuery(this);
-					var id = element.data('id');
-					if (jQuery.inArray(id, result)) {
-						var num = result[id];
-						if (element.is('option')) {
-							element.data('nomail', num);
-							reloadSelect = true;
-						} else {
-							var text = '';
-							if (num > 0) {
-								text = '(' + num + ')';
-							}
-							element.text(text);
+	AppConnector.request(params).done(function (response) {
+		if (response.success && response.success.error != true && response.result.error != true) {
+			var result = response.result;
+			$(".js-header__btn--mail .noMails").each(function (index) {
+				var element = jQuery(this);
+				var id = element.data('id');
+				if (jQuery.inArray(id, result)) {
+					var num = result[id];
+					if (element.is('option')) {
+						element.data('nomail', num);
+						reloadSelect = true;
+					} else {
+						var text = '';
+						if (num > 0) {
+							text = '(' + num + ')';
 						}
+						element.text(text);
 					}
-				});
-				if (reloadSelect) {
-					registerUserList();
 				}
-			} else {
-				window.stopScanMails = true;
+			});
+			if (reloadSelect) {
+				registerUserList();
 			}
-		},
-		function (data, err) {
+		} else {
 			window.stopScanMails = true;
 		}
-	);
+	}).fail(function () {
+		window.stopScanMails = true;
+	});
 }
 
 function getUrlVars() {

@@ -34,38 +34,35 @@ Vtiger_List_Js("Documents_List_Js", {
 				"data": postData
 			};
 			var progressIndicatorElement = jQuery.progressIndicator();
-			AppConnector.request(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					var callBackFunction = function (data) {
-
-						listInstance.moveDocuments().then(function (data) {
-							if (data) {
-								var result = data.result;
-								if (result.success) {
-									app.hideModalWindow();
-									Vtiger_Helper_Js.showPnotify({
-										title: app.vtranslate('JS_MOVE_DOCUMENTS'),
-										text: result.message,
-										delay: '2000',
-										type: 'success'
-									});
-									var urlParams = listInstance.getDefaultParams();
-									listInstance.getListViewRecords(urlParams);
-								} else {
-									Vtiger_Helper_Js.showPnotify({
-										title: app.vtranslate('JS_OPERATION_DENIED'),
-										text: result.message,
-										delay: '2000',
-										type: 'error'
-									});
-								}
+			AppConnector.request(params).done(function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				var callBackFunction = function (data) {
+					listInstance.moveDocuments().done(function (data) {
+						if (data) {
+							var result = data.result;
+							if (result.success) {
+								app.hideModalWindow();
+								Vtiger_Helper_Js.showPnotify({
+									title: app.vtranslate('JS_MOVE_DOCUMENTS'),
+									text: result.message,
+									delay: '2000',
+									type: 'success'
+								});
+								var urlParams = listInstance.getDefaultParams();
+								listInstance.getListViewRecords(urlParams);
+							} else {
+								Vtiger_Helper_Js.showPnotify({
+									title: app.vtranslate('JS_OPERATION_DENIED'),
+									text: result.message,
+									delay: '2000',
+									type: 'error'
+								});
 							}
-						});
-					};
-					app.showModalWindow(data, callBackFunction);
-				}
-			);
+						}
+					});
+				};
+				app.showModalWindow(data, callBackFunction);
+			});
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}
@@ -110,7 +107,7 @@ Vtiger_List_Js("Documents_List_Js", {
 								action: 'Folder',
 								folderid: folderId
 							};
-							AppConnector.request(params).then(function (data) {
+							AppConnector.request(params).done(function (data) {
 								if (data.success) {
 									currentOptionElement.remove();
 									thisInstance.getFilterSelectElement().trigger('change');

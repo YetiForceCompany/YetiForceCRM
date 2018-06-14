@@ -34,11 +34,11 @@ $.Class("Project_Gantt_Js", {}, {
 		});
 		let defaultParams = this.getDefaultParams();
 		urlParams = $.extend(defaultParams, urlParams);
-		AppConnector.request(urlParams).then(function (data) {
+		AppConnector.request(urlParams).done(function (data) {
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			aDeferred.resolve(data);
 			app.notifyPostAjaxReady();
-		}, function (textStatus, errorThrown) {
+		}).fail(function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);
 		});
 		return aDeferred.promise();
@@ -80,7 +80,7 @@ $.Class("Project_Gantt_Js", {}, {
 			app.setMainParams('sortOrder', selectOption.data('sortorder'));
 			thisInstance.getGanttData({
 				"viewname": jQuery(this).val(),
-			}).then(function (data) {
+			}).done(function (data) {
 				thisInstance.reloadData(data.result);
 			});
 			event.stopPropagation();

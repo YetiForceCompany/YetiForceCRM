@@ -3,23 +3,21 @@
 Vtiger_Detail_Js("OSSEmployees_Detail_Js", {
 	employeeHierarchyResponseCache: {},
 	triggerEmployeeHierarchy: function (HierarchyUrl) {
-		OSSEmployees_Detail_Js.getEmployeeHierarchyResponseData(HierarchyUrl).then(
-			function (data) {
-				app.showModalWindow(data);
-			}
-		);
+		OSSEmployees_Detail_Js.getEmployeeHierarchyResponseData(HierarchyUrl).done(function (data) {
+			app.showModalWindow(data);
+		});
 	},
 	getEmployeeHierarchyResponseData: function (params) {
 		var aDeferred = jQuery.Deferred();
 		if (!(jQuery.isEmptyObject(OSSEmployees_Detail_Js.employeeHierarchyResponseCache))) {
 			aDeferred.resolve(OSSEmployees_Detail_Js.employeeHierarchyResponseCache);
 		} else {
-			AppConnector.request(params).then(
-				function (data) {
-					OSSEmployees_Detail_Js.employeeHierarchyResponseCache = data;
-					aDeferred.resolve(OSSEmployees_Detail_Js.employeeHierarchyResponseCache);
-				}
-			);
+			AppConnector.request(params).done(function (data) {
+				OSSEmployees_Detail_Js.employeeHierarchyResponseCache = data;
+				aDeferred.resolve(OSSEmployees_Detail_Js.employeeHierarchyResponseCache);
+			}).fail(function (textStatus, errorThrown) {
+				aDeferred.reject(textStatus, errorThrown);
+			});
 		}
 		return aDeferred.promise();
 	}
