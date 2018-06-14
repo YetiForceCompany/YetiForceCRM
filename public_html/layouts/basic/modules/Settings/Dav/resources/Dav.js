@@ -62,25 +62,22 @@ jQuery.Class('Settings_Dav_Keys_Js', {}, {
 		}
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				var params = {
-					text: response['message'],
-				};
-				if (response.success == true) {
-					params.type = 'success'
-				} else {
-					params.type = 'error'
-				}
-				Vtiger_Helper_Js.showPnotify(params);
-				if (reload == true && response.success == true) {
-					window.location.reload();
-				}
-			},
-			function (data, err) {
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			var params = {
+				text: response['message'],
+			};
+			if (response.success == true) {
+				params.type = 'success'
+			} else {
+				params.type = 'error'
 			}
-		);
+			Vtiger_Helper_Js.showPnotify(params);
+			if (reload == true && response.success == true) {
+				window.location.reload();
+			}
+		}).fail(function (data, err) {
+		});
 	},
 	registerEvents: function (e) {
 		var thisInstance = this;

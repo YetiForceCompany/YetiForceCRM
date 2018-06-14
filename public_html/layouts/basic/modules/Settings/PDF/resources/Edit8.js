@@ -48,23 +48,20 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 		var saveData = form.serializeFormData();
 		saveData['action'] = 'Save';
 		saveData['step'] = 8;
-		AppConnector.request(saveData).then(
-			function (data) {
-				if (data.success == true) {
-					Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
+		AppConnector.request(saveData).done(function (data) {
+			if (data.success == true) {
+				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
 
-					setTimeout(function () {
-						window.location.href = "index.php?module=PDF&parent=Settings&page=1&view=List";
-						progressIndicatorElement.progressIndicator({
-							'mode': 'hide'
-						});
-					}, 1000);
-				}
-			},
-			function (error, err) {
-				app.errorLog(error, err);
+				setTimeout(function () {
+					window.location.href = "index.php?module=PDF&parent=Settings&page=1&view=List";
+					progressIndicatorElement.progressIndicator({
+						'mode': 'hide'
+					});
+				}, 1000);
 			}
-		);
+		}).fail(function (error, err) {
+			app.errorLog(error, err);
+		});
 		return aDeferred.promise();
 	},
 	registerCancelStepClickEvent: function (form) {
@@ -138,19 +135,16 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 				id: form.find('[name="record"]').val()
 			};
 			params.dataType = 'json';
-			AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					if (response) {
-						form.find('#watermark').html('');
-						form.find('[name="watermark_image"]').val('');
-						form.find('#deleteWM').addClass('d-none');
-					}
-				},
-				function (data, err) {
-					app.errorLog(data, err);
+			AppConnector.request(params).done(function (data) {
+				var response = data['result'];
+				if (response) {
+					form.find('#watermark').html('');
+					form.find('[name="watermark_image"]').val('');
+					form.find('#deleteWM').addClass('d-none');
 				}
-			);
+			}).fail(function (data, err) {
+				app.errorLog(data, err);
+			});
 		});
 	},
 	registerEvents: function () {

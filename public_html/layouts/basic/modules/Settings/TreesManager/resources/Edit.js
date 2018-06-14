@@ -91,7 +91,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 							action: function (data) {
 								var instanceTree = $.jstree.reference(data.reference);
 								var node = instanceTree.get_node(data.reference);
-								Settings_Vtiger_Index_Js.selectIcon().then(function (data) {
+								Settings_Vtiger_Index_Js.selectIcon().done(function (data) {
 									if (data['name'] == '-') {
 										thisInstance.jstreeInstance.jstree(true).set_icon(node.id, false);
 									} else {
@@ -118,7 +118,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 									}
 								});
 								if (status) {
-									thisInstance.deleteItemEvent(id, inst).then(function (e) {
+									thisInstance.deleteItemEvent(id, inst).done(function (e) {
 										if (e.length > 0) {
 											$.each(id, function (index, value) {
 												inst.delete_node(value);
