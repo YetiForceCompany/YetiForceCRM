@@ -160,7 +160,7 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 		params['view'] = 'Index';
 		params['mode'] = 'getPanel';
 		params['type'] = app.getMainParams('fieldType');
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			var elements = thisInstance.getContainer().find('.js-panels-container').append(data);
 			App.Fields.Picklist.changeSelectElementView(elements.find('.chzn-select'));
 			app.hideModalWindow();
@@ -219,8 +219,8 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 				type: app.getMainParams('fieldType')
 			};
 			var message = app.vtranslate('JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(function (e) {
-				app.saveAjax('removePanel', data).then(function () {
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+				app.saveAjax('removePanel', data).done(function () {
 					panel.fadeOut(300, function () {
 						$(this).remove();
 					});

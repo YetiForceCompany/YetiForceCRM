@@ -153,18 +153,15 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 		params['mode'] = 'move';
 		params['updatedFields'] = thisInstance.updatedBlockFieldsList;
 
-		AppConnector.request(params).then(
-			function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				//window.location.reload();
-				var params = {};
-				params['text'] = app.vtranslate('JS_FIELD_SEQUENCE_UPDATED');
-				Settings_Vtiger_Index_Js.showMessage(params);
-			},
-			function (error) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			}
-		);
+		AppConnector.request(params).done(function (data) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			//window.location.reload();
+			var params = {};
+			params['text'] = app.vtranslate('JS_FIELD_SEQUENCE_UPDATED');
+			Settings_Vtiger_Index_Js.showMessage(params);
+		}).fail(function (error) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+		});
 	},
 
 	/**
@@ -197,12 +194,10 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 		container.on('change', '[name="quickCreateEditorModules"]', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var selectedModule = currentTarget.val();
-			thisInstance.getModuleQuickCreateEditor(selectedModule).then(
-				function (data) {
-					contentsDiv.html(data);
-					thisInstance.registerEvents();
-				}
-			);
+			thisInstance.getModuleQuickCreateEditor(selectedModule).done(function (data) {
+				contentsDiv.html(data);
+				thisInstance.registerEvents();
+			});
 		});
 
 	},
@@ -225,16 +220,13 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 		params['view'] = 'Index';
 		params['sourceModule'] = selectedModule;
 
-		AppConnector.requestPjax(params).then(
-			function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.reject();
-			}
-		);
+		AppConnector.requestPjax(params).done(function (data) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.resolve(data);
+		}).fail(function (error) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.reject();
+		});
 		return aDeferred.promise();
 	},
 

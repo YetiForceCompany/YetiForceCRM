@@ -14,7 +14,7 @@ jQuery.Class('Settings_RealizationProcesses_Js', {}, {
 				status: status,
 				moduleId: jQuery(this).data('moduleid'),
 				mode: 'save'
-			}).then(function (data) {
+			}).done(function (data) {
 				var response = data['result'];
 				if (response['success']) {
 					var params = {
@@ -29,8 +29,7 @@ jQuery.Class('Settings_RealizationProcesses_Js', {}, {
 					};
 					Vtiger_Helper_Js.showPnotify(params);
 				}
-			}
-			);
+			});
 		});
 	},
 

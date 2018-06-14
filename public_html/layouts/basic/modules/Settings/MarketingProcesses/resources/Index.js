@@ -17,7 +17,7 @@ jQuery.Class("Settings_MarketingProcesses_Index_Js", {}, {
 				type: target.data('type'),
 				param: target.attr('name'),
 				value: val
-			}).then(function (data) {
+			}).done(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 			});
 		});
