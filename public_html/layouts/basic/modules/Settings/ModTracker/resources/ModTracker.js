@@ -15,18 +15,15 @@ jQuery.Class('Settings_ModTracker_List_Js', {}, {
 			params['mode'] = 'changeActiveStatus';
 			params['id'] = tr.data('id');
 			params['status'] = currentTarget.prop('checked');
-			AppConnector.request(params).then(
-				function (data) {
-					var params = {};
-					params['text'] = data.result.message;
-					Settings_Vtiger_Index_Js.showMessage(params);
-				},
-				function (error) {
-					var params = {};
-					params['text'] = error;
-					Settings_Vtiger_Index_Js.showMessage(params);
-				}
-			);
+			AppConnector.request(params).done(function (data) {
+				var params = {};
+				params['text'] = data.result.message;
+				Settings_Vtiger_Index_Js.showMessage(params);
+			}).fail(function (error) {
+				var params = {};
+				params['text'] = error;
+				Settings_Vtiger_Index_Js.showMessage(params);
+			});
 		});
 	},
 

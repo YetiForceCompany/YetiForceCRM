@@ -47,7 +47,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 						user: data.find('.modal-body').data('user'),
 						folders: folder
 					}
-					AppConnector.request(params).then(function (data) {
+					AppConnector.request(params).done(function (data) {
 						var response = data['result'];
 						if (response['success']) {
 							var params = {
@@ -231,26 +231,21 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 			'userid': userid,
 			'vale': vale
 		}
-		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				if (response['success']) {
-					var params = {
-						text: response['data'],
-						type: 'info',
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-				} else {
-					var params = {
-						text: response['data'],
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-				}
-			},
-			function (data, err) {
-
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			if (response['success']) {
+				var params = {
+					text: response['data'],
+					type: 'info',
+				};
+				Vtiger_Helper_Js.showPnotify(params);
+			} else {
+				var params = {
+					text: response['data'],
+				};
+				Vtiger_Helper_Js.showPnotify(params);
 			}
-		);
+		});
 	},
 	saveCRMuser: function (userid, value) {
 		var params = {
@@ -259,26 +254,21 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 			'userid': userid,
 			'value': value
 		}
-		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				if (response['success']) {
-					var params = {
-						text: response['data'],
-						type: 'info',
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-				} else {
-					var params = {
-						text: response['data'],
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-				}
-			},
-			function (data, err) {
-
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			if (response['success']) {
+				var params = {
+					text: response['data'],
+					type: 'info',
+				};
+				Vtiger_Helper_Js.showPnotify(params);
+			} else {
+				var params = {
+					text: response['data'],
+				};
+				Vtiger_Helper_Js.showPnotify(params);
 			}
-		);
+		});
 	},
 	isEmpty: function (val) {
 		if (!!val) {
@@ -293,26 +283,21 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 			'action': "SaveEmailSearchList",
 			'vale': vale
 		}
-		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				if (response['success']) {
-					var params = {
-						text: response['data'],
-						type: 'info',
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-				} else {
-					var params = {
-						text: response['data'],
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-				}
-			},
-			function (data, err) {
-
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			if (response['success']) {
+				var params = {
+					text: response['data'],
+					type: 'info',
+				};
+				Vtiger_Helper_Js.showPnotify(params);
+			} else {
+				var params = {
+					text: response['data'],
+				};
+				Vtiger_Helper_Js.showPnotify(params);
 			}
-		);
+		});
 	},
 	domainValidateToExceptions: function (src) {
 		var regex = /^@([a-zA-Z0-9.-]+\.)+[a-zA-Z0-9.-]{2,63}$/;
@@ -334,25 +319,20 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 			'name': name,
 			'value': value
 		}
-		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				if (response['success']) {
-					var params = {
-						text: response['data'],
-						type: 'info',
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-				} else {
-					var params = {
-						text: response['data'],
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-				}
-			},
-			function (data, err) {
-
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			if (response['success']) {
+				var params = {
+					text: response['data'],
+					type: 'info',
+				};
+				Vtiger_Helper_Js.showPnotify(params);
+			} else {
+				var params = {
+					text: response['data'],
+				};
+				Vtiger_Helper_Js.showPnotify(params);
 			}
-		);
+		});
 	}
 });
