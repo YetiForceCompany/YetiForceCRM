@@ -68,12 +68,12 @@ $.Class("Base_RecordsList_JS", {}, {
 				elementToBlock: body
 			}
 		});
-		AppConnector.request($.extend(this.getParams(), params)).then((responseData) => {
+		AppConnector.request($.extend(this.getParams(), params)).done((responseData) => {
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			body.html($(responseData).html());
 			this.registerBasicEvents();
 			aDeferred.resolve(responseData);
-		}, function (textStatus, errorThrown) {
+		}).fail(function (textStatus, errorThrown) {
 			aDeferred.reject(textStatus, errorThrown);
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
 		});
@@ -106,7 +106,7 @@ $.Class("Base_RecordsList_JS", {}, {
 		if (countNumberRecords) {
 			params['showTotalCount'] = true;
 		}
-		AppConnector.request(params).then((responseData) => {
+		AppConnector.request(params).done((responseData) => {
 			this.container.find('.js-pagination-container').html(responseData);
 			let totalCount = this.container.find('.js-pagination-list').data('totalCount')
 			if (totalCount) {
@@ -128,7 +128,7 @@ $.Class("Base_RecordsList_JS", {}, {
 				let pageNumber = thisInstance.container.find('.js-page-number');
 				let nextPageNumber = parseInt(parseFloat(pageNumber.val())) + 1;
 				pageNumber.val(nextPageNumber)
-				thisInstance.loadRecordList().then(function () {
+				thisInstance.loadRecordList().done(function () {
 					thisInstance.updatePagination();
 				});
 			}
@@ -138,7 +138,7 @@ $.Class("Base_RecordsList_JS", {}, {
 			if (pageNumber.val() > 1) {
 				let nextPageNumber = parseInt(parseFloat(pageNumber.val())) - 1;
 				pageNumber.val(nextPageNumber)
-				thisInstance.loadRecordList().then(function () {
+				thisInstance.loadRecordList().done(function () {
 					thisInstance.updatePagination();
 				});
 			}
@@ -148,7 +148,7 @@ $.Class("Base_RecordsList_JS", {}, {
 				return;
 			}
 			thisInstance.container.find('.js-page-number').val($(this).data("id"));
-			thisInstance.loadRecordList().then(function () {
+			thisInstance.loadRecordList().done(function () {
 				thisInstance.updatePagination();
 			});
 		});
@@ -189,7 +189,7 @@ $.Class("Base_RecordsList_JS", {}, {
 						return;
 					}
 					pageNumber.val(newPageNumber);
-					thisInstance.loadRecordList().then(function () {
+					thisInstance.loadRecordList().done(function () {
 						thisInstance.updatePagination();
 					});
 				}
@@ -271,7 +271,7 @@ $.Class("Base_RecordsList_JS", {}, {
 			thisInstance.container.find('.js-related-parent-id').val(this.value);
 			thisInstance.container.find('.js-total-count').val('');
 			thisInstance.container.find('.js-page-number').val(1);
-			thisInstance.loadRecordList().then(function () {
+			thisInstance.loadRecordList().done(function () {
 				thisInstance.updatePagination();
 			});
 		});

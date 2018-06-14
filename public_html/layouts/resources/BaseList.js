@@ -31,15 +31,11 @@ var Vtiger_BaseList_Js = {
 		if (typeof params.page === "undefined") {
 			params.page = Vtiger_BaseList_Js.getCurrentPageNum();
 		}
-
-		AppConnector.request(params).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
-			}
-		);
+		AppConnector.request(params).done(function (data) {
+			aDeferred.resolve(data);
+		}).fail(function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
 		return aDeferred.promise();
 	},
 	getCurrentPageNum: function () {

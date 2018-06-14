@@ -30,7 +30,7 @@ $.Class("Base_TwoFactorAuthenticationModal_JS", {}, {
 		let form = data.find('form');
 		form.on('submit', (e) => {
 			let progress = $.progressIndicator({blockInfo: {'enabled': true}});
-			AppConnector.request(form.serializeFormData()).then((respons) => {
+			AppConnector.request(form.serializeFormData()).done((respons) => {
 				if (respons.result.success) {
 					app.hideModalWindow();
 					Vtiger_Helper_Js.showPnotify({

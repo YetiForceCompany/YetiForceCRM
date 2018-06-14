@@ -14,7 +14,7 @@ $.Class("Base_MergeRecords_JS", {}, {
 		this.container.find('[type="submit"]').on('click', (e) => {
 			e.preventDefault;
 			const progressIndicatorElement = $.progressIndicator({position: 'html', blockInfo: {enabled: true}});
-			AppConnector.request(this.container.find('form').serializeFormData()).then(function (data) {
+			AppConnector.request(this.container.find('form').serializeFormData()).done(function (data) {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
 				if (data.result === false) {
 					Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_ERROR')});
@@ -23,8 +23,7 @@ $.Class("Base_MergeRecords_JS", {}, {
 				const listInstance = new Vtiger_List_Js();
 				listInstance.getListViewRecords();
 				Vtiger_List_Js.clearList();
-			}
-			);
+			});
 		});
 	},
 	/**
