@@ -106,6 +106,17 @@ app = {
 		}
 		element.popover('hide');
 	},
+	/**
+	 * Function to hide popovers after click, esepcially on mobiles
+	 * @params jQuery object on which popover was triggered
+	 */
+	hidePopoversAfterClick(popoverParent) {
+		popoverParent.on('click', (e) => {
+			setTimeout(() => {
+				popoverParent.popover('hide');
+			}, 100);
+		});
+	},
 	showPopoverElementView: function (selectElement, params) {
 		if (typeof params === "undefined") {
 			params = {
@@ -151,6 +162,7 @@ app = {
 				}
 			});
 		});
+		app.hidePopoversAfterClick(selectElement);
 		return selectElement;
 	},
 	/**
