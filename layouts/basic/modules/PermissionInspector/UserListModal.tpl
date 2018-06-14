@@ -1,29 +1,30 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="modal-header">
+	<div class="tpl-PermissionInspector-UserListModal modal-header">
 		<h5 class="modal-title">
 			<span class="fas fa-user-secret mr-1"></span>
 			{\App\Language::translate('LBL_INSPECTION_PERMISSION_HEADER', $MODULE_NAME)}
 		</h5>
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-        </button>
+		<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+			<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
+		</button>
 	</div>
 	<div class="modal-body">
-		<table class="table table-sm dataTable">
-			<thead>
-				<tr>
-					{if $WATCHDOG || $SRC_RECORD_ID neq 0}
-						<th style="width:60px" class="text-left" ></th>
+		<div class="table-responsive">
+			<table class="table table-sm dataTable">
+				<thead>
+					<tr>
+						{if $WATCHDOG || $SRC_RECORD_ID neq 0}
+							<th class="u-w-60px text-left"></th>
 						{/if}
-					<th class="text-center">{\App\Language::translate('LBL_FULL_USER_NAME', $MODULE_NAME)}</th>
-					<th class="text-center">{\App\Language::translate('LBL_VIEW_PRVILIGE', $MODULE_NAME)}</th>
-					<th class="text-center">{\App\Language::translate('LBL_CREATE_PRIVILIGE', $MODULE_NAME)}</th>
-					<th class="text-center">{\App\Language::translate('LBL_EDIT_PRIVILIGE', $MODULE_NAME)}</th>
-					<th class="text-center">{\App\Language::translate('LBL_DELETE_PRIVILIGE', $MODULE_NAME)}</th>
-				</tr>
-			</thead>
-			<tbody>
+						<th class="text-center">{\App\Language::translate('LBL_FULL_USER_NAME', $MODULE_NAME)}</th>
+						<th class="text-center">{\App\Language::translate('LBL_VIEW_PRVILIGE', $MODULE_NAME)}</th>
+						<th class="text-center">{\App\Language::translate('LBL_CREATE_PRIVILIGE', $MODULE_NAME)}</th>
+						<th class="text-center">{\App\Language::translate('LBL_EDIT_PRIVILIGE', $MODULE_NAME)}</th>
+						<th class="text-center">{\App\Language::translate('LBL_DELETE_PRIVILIGE', $MODULE_NAME)}</th>
+					</tr>
+				</thead>
+				<tbody>
 				{foreach key=USER_ID item=ITEM from=$USERS_PERMISSION}
 					<tr data-id="{$USER_ID}">
 						{if $WATCHDOG || $SRC_RECORD_ID neq 0}
@@ -48,10 +49,14 @@
 									{/if}
 								{/if}
 								{if !empty($UNREVIEWED_CHANGES[$USER_ID]['a'])}
-										<span class="badge bgDanger ml-1" title="{\App\Language::translate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}">{$UNREVIEWED_CHANGES[$USER_ID]['a']}</span>
+									<span class="badge bgDanger ml-1" title="{\App\Language::translate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}">
+										{$UNREVIEWED_CHANGES[$USER_ID]['a']}
+									</span>
 								{/if}
 								{if !empty($UNREVIEWED_CHANGES[$USER_ID]['m'])}
-										<span class="badge bgBlue mail ml-1" title="{\App\Language::translate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}">{$UNREVIEWED_CHANGES[$USER_ID]['m']}</span>
+									<span class="badge bgBlue mail ml-1" title="{\App\Language::translate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}">
+										{$UNREVIEWED_CHANGES[$USER_ID]['m']}
+									</span>
 								{/if}
 							</th>
 						{/if}
@@ -65,7 +70,9 @@
 								{assign var=ACCESSLOG value=\App\Language::translate($ACTION['accessLog'], $MODULE_NAME)}
 							{/if}
 							<td class="text-center {$ACTION['text']}">
-								<span class="u-cursor-pointer js-popover-tooltip" data-js="popover" {if $ACTION['profiles']}title="{\App\Language::translate('LBL_PROFILES', $MODULE_NAME)} {$ACTION['profiles']}"{/if} data-content="{$ACCESSLOG}" data-placement="top">
+								<span class="u-cursor-pointer js-popover-tooltip" data-js="popover"
+									  {if $ACTION['profiles']}title="{\App\Language::translate('LBL_PROFILES', $MODULE_NAME)} {$ACTION['profiles']}"{/if}
+									  data-content="{$ACCESSLOG}" data-placement="top">
 									{if $ACTION['isPermitted']}
 										<span class="fas fa-check text-success" aria-hidden="true"></span>
 										<span class="d-none" aria-hidden="true">1</span>
@@ -78,8 +85,9 @@
 						{/foreach}
 					</tr>
 				{/foreach}
-			</tbody>
-		</table>
+				</tbody>
+			</table>
+		</div>
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-danger" type="reset" data-dismiss="modal">
