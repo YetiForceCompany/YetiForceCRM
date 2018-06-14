@@ -24,7 +24,7 @@ Vtiger_Edit_Js('Settings_WebserviceUsers_Edit_Js', {}, {
 			if (form.validationEngine('validate')) {
 				var formData = form.serializeFormData();
 				var param = {typeApi: container.find('#typeApi').val(), record: container.find('#record').val()};
-				app.saveAjax('', formData, param).then(function (data) {
+				app.saveAjax('', formData, param).done(function (data) {
 					if (data.result) {
 						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_SUCCESS')});
 						listInstance = Settings_WebserviceUsers_List_Js.getInstance();
