@@ -49,7 +49,7 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 			name: target.attr('name'),
 			value: target.val(),
 		};
-		app.saveAjax('updateField', {}, params).then(function (data) {
+		app.saveAjax('updateField', {}, params).done(function (data) {
 			thisInstance.getContainer().find('.js-module-filter').trigger('change');
 		});
 	},
@@ -69,7 +69,7 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 		});
 		app.saveAjax('delete', {}, {
 			cvid: closestTrElement.data('cvid'),
-		}).then(function () {
+		}).done(function () {
 			thisInstance.getContainer().find('.js-module-filter').trigger('change');
 		});
 	},
@@ -113,7 +113,7 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 			var cvId = $(row).data('cvid');
 			sequences.push(cvId);
 		});
-		app.saveAjax('upadteSequences', sequences).then(function (data) {
+		app.saveAjax('upadteSequences', sequences).done(function (data) {
 			if (data.success) {
 				Vtiger_Helper_Js.showPnotify({text: data.result.message, type: 'success'});
 			}
@@ -138,13 +138,13 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 			parent: app.getParentModuleName(),
 			sourceModule: $(e.currentTarget).val()
 		}
-		AppConnector.requestPjax(params).then(function (data) {
+		AppConnector.requestPjax(params).done(function (data) {
 			var contents = thisInstance.getContents().html(data);
 			thisInstance.makeFilterListSortable(contents);
 			thisInstance.getContainer().find('.js-create-filter').data('editurl', contents.find('#js-add-filter-url').val());
 			progress.progressIndicator({mode: 'hide'});
 			aDeferred.resolve(data);
-		}, function (error) {
+		}).fail(function (error) {
 			aDeferred.reject();
 		});
 		return aDeferred.promise();

@@ -13,7 +13,7 @@ jQuery.Class("Settings_SalesProcesses_Index_Js", {}, {
 			} else {
 				params['val'] = target.val() != null ? target.val() : '';
 			}
-			app.saveAjax('updateConfig', params).then(function (data) {
+			app.saveAjax('updateConfig', params).done(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 				if (target.attr('type') == 'checkbox') {
 					if (params['val']) {
@@ -22,7 +22,6 @@ jQuery.Class("Settings_SalesProcesses_Index_Js", {}, {
 						target.parent().removeClass('btn-success').addClass('btn-light').find('[data-fa-i2svg]').removeClass('fa-check-square').addClass('fa-square');
 					}
 				}
-
 			});
 		});
 	},

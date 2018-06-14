@@ -45,7 +45,7 @@ jQuery.Class("Settings_CustomView_Sorting_Js", {}, {
 			name: 'sort',
 			value: data.defaultOrderBy ? data.defaultOrderBy + ',' + data.sortOrder : ''
 		};
-		app.saveAjax('updateField', {}, params).then(function (data) {
+		app.saveAjax('updateField', {}, params).done(function (data) {
 			app.hideModalWindow();
 			if (data.success) {
 				Vtiger_Helper_Js.showPnotify({text: data.result.message, type: 'success'});
