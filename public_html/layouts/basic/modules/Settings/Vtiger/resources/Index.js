@@ -91,7 +91,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 					'enabled': true
 				}
 			});
-			AppConnector.request(actionUrl).then(function (data) {
+			AppConnector.request(actionUrl).done(function (data) {
 				if (data.result.SUCCESS == 'OK') {
 					closestBlock.remove();
 					thisInstance.registerSettingShortCutAlignmentEvent();
@@ -123,7 +123,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 				'enabled': true
 			}
 		});
-		AppConnector.request(url).then(function (data) {
+		AppConnector.request(url).done(function (data) {
 			if (data.result.SUCCESS == 'OK') {
 				var params = {
 					'fieldid': id,
@@ -132,7 +132,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 					'parent': 'Settings',
 					'view': 'IndexAjax'
 				}
-				AppConnector.request(params).then(function (data) {
+				AppConnector.request(params).done(function (data) {
 					var shortCutsMainContainer = $('#settingsShortCutsContainer');
 					var existingDivBlock = $('#settingsShortCutsContainer div.row:last');
 					var count = $('#settingsShortCutsContainer div.row:last').children("div").length;
@@ -231,7 +231,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 			'view': 'IndexAjax'
 		}
 
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			$('#settingsShortCutsContainer').html(data);
 		});
 	},
@@ -255,7 +255,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 					title: title.val(),
 					body: body
 				};
-				AppConnector.request(params).then(function (data) {
+				AppConnector.request(params).done(function (data) {
 					app.hideModalWindow();
 					thisInstance.reloadContent();
 					if (data.result.success == true) {
@@ -296,29 +296,27 @@ $.Class("Settings_Vtiger_Index_Js", {
 					token: $('[name="token"]').val()
 				};
 				container.progressIndicator({});
-				AppConnector.request(params).then(function (data) {
-						container.progressIndicator({mode: 'hide'});
-						if (data.result.success == false) {
-							var errorDiv = container.find('.errorMsg');
-							errorDiv.removeClass('d-none');
-							errorDiv.html(app.vtranslate('JS_ERROR_KEY'));
-						} else {
-							app.hideModalWindow();
-							thisInstance.reloadContent();
-							var params = {
-								title: app.vtranslate('JS_LBL_PERMISSION'),
-								text: app.vtranslate('JS_AUTHORIZATION_COMPLETE'),
-								type: 'success',
-							};
-							Vtiger_Helper_Js.showMessage(params);
-						}
-					},
-					function (error, err) {
-						container.progressIndicator({mode: 'hide'});
+				AppConnector.request(params).done(function (data) {
+					container.progressIndicator({mode: 'hide'});
+					if (data.result.success == false) {
+						var errorDiv = container.find('.errorMsg');
+						errorDiv.removeClass('d-none');
+						errorDiv.html(app.vtranslate('JS_ERROR_KEY'));
+					} else {
 						app.hideModalWindow();
-					});
+						thisInstance.reloadContent();
+						var params = {
+							title: app.vtranslate('JS_LBL_PERMISSION'),
+							text: app.vtranslate('JS_AUTHORIZATION_COMPLETE'),
+							type: 'success',
+						};
+						Vtiger_Helper_Js.showMessage(params);
+					}
+				}).fail(function (error, err) {
+					container.progressIndicator({mode: 'hide'});
+					app.hideModalWindow();
+				});
 			}
-
 		});
 	},
 	registerTabEvents: function () {
@@ -356,7 +354,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 				view: 'AddIssue'
 			};
 			container.progressIndicator({});
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				container.progressIndicator({mode: 'hide'});
 				app.showModalWindow(data, function () {
 					thisInstance.loadEditorElement();
@@ -394,13 +392,13 @@ $.Class("Settings_Vtiger_Index_Js", {
 								mode: 'update',
 								id: btn.closest('.warning').data('id'),
 								params: params,
-							}).then(function (data) {
+							}).done(function (data) {
 								if (data.result.result) {
 									Vtiger_Helper_Js.showMessage({text: data.result.message, type: 'success'});
 								} else {
 									Vtiger_Helper_Js.showMessage({text: data.result.message, type: 'error'});
 								}
-							})
+							});
 						}
 					}
 					if (btn.hasClass('cancel')) {
@@ -504,13 +502,13 @@ $.Class("Settings_Vtiger_Index_Js", {
 			mode: 'getWarningsList',
 			active: active,
 			folder: selected
-		}).then(function (data) {
+		}).done(function (data) {
 			container.html(data);
 			thisInstance.registerWarningsList(container);
 			progressIndicator.progressIndicator({mode: 'hide'});
-		}, function (error) {
+		}).fail(function (error) {
 			progressIndicator.progressIndicator({mode: 'hide'});
-		})
+		});
 	},
 	registerWarningsList: function (container) {
 		var thisInstance = this;
@@ -532,11 +530,9 @@ $.Class("Settings_Vtiger_Index_Js", {
 				mode: 'update',
 				id: data.id,
 				params: data.status,
-			}).then(function (data) {
+			}).done(function (data) {
 				thisInstance.getWarningsList(container);
-			}, function (error) {
-
-			})
+			});
 		});
 	},
 	getSelectedFolders: function () {
@@ -576,7 +572,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 				'elementToBlock': container
 			}
 		});
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			container.html(data);
 			if (mode == 'index') {
