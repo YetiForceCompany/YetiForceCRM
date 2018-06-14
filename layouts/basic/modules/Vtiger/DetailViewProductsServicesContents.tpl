@@ -29,11 +29,11 @@
 					<div class="c-detail-widget__content">
 						<table class="table mb-0 mt-1 border-0">
 							<thead>
-							<tr>
-								<th class="py-0 border-0">
-									<h6 class="py-1 my-0">{\App\Language::translate('Products',$MODULE_NAME)}</h6>
-								</th>
-							</tr>
+								<tr>
+									<th class="py-0 border-0">
+										<h6 class="py-1 my-0">{\App\Language::translate('Products',$MODULE_NAME)}</h6>
+									</th>
+								</tr>
 							</thead>
 						</table>
 					</div>
@@ -46,11 +46,11 @@
 						<div class="c-detail-widget__content">
 							<table class="table mb-0 mt-1 border-0">
 								<thead>
-								<tr>
-									<th class="py-0 border-0">
-										<h6 class="py-1 my-0">{\App\Language::translate('LBL_CATEGORIES',$MODULE_NAME)}</h6>
-									</th>
-								</tr>
+									<tr>
+										<th class="py-0 border-0">
+											<h6 class="py-1 my-0">{\App\Language::translate('LBL_CATEGORIES',$MODULE_NAME)}</h6>
+										</th>
+									</tr>
 								</thead>
 							</table>
 						</div>
@@ -92,11 +92,11 @@
 					<div class="c-detail-widget__content">
 						<table class="table mb-0 mt-1 border-0">
 							<thead>
-							<tr>
-								<th class="py-0 border-0">
-									<h6 class="py-1 my-0">{\App\Language::translate('Products',$MODULE_NAME)}</h6>
-								</th>
-							</tr>
+								<tr>
+									<th class="py-0 border-0">
+										<h6 class="py-1 my-0">{\App\Language::translate('Products',$MODULE_NAME)}</h6>
+									</th>
+								</tr>
 							</thead>
 						</table>
 					</div>
@@ -109,11 +109,11 @@
 						<div class="c-detail-widget__content">
 							<table class="table mb-0 mt-1 border-0">
 								<thead>
-								<tr>
-									<th class="py-0 border-0">
-										<h6 class="py-1 my-0">{\App\Language::translate('LBL_CATEGORIES',$MODULE_NAME)}</h6>
-									</th>
-								</tr>
+									<tr>
+										<th class="py-0 border-0">
+											<h6 class="py-1 my-0">{\App\Language::translate('LBL_CATEGORIES',$MODULE_NAME)}</h6>
+										</th>
+									</tr>
 								</thead>
 							</table>
 						</div>
@@ -185,11 +185,11 @@
 					<div class="c-detail-widget__content">
 						<table class="table mb-0 mt-1 border-0">
 							<thead>
-							<tr>
-								<th class="py-0 border-0">
-									<h6 class="py-1 my-0">{\App\Language::translate('Services',$MODULE_NAME)}</h6>
-								</th>
-							</tr>
+								<tr>
+									<th class="py-0 border-0">
+										<h6 class="py-1 my-0">{\App\Language::translate('Services',$MODULE_NAME)}</h6>
+									</th>
+								</tr>
 							</thead>
 						</table>
 					</div>
@@ -202,11 +202,11 @@
 						<div class="c-detail-widget__content">
 							<table class="table mb-0 mt-1 border-0">
 								<thead>
-								<tr>
-									<th class="py-0 border-0">
-										<h6 class="py-1 my-0">{\App\Language::translate('LBL_CATEGORIES',$MODULE_NAME)}</h6>
-									</th>
-								</tr>
+									<tr>
+										<th class="py-0 border-0">
+											<h6 class="py-1 my-0">{\App\Language::translate('LBL_CATEGORIES',$MODULE_NAME)}</h6>
+										</th>
+									</tr>
 								</thead>
 							</table>
 						</div>
@@ -249,11 +249,11 @@
 					<div class="c-detail-widget__content">
 						<table class="table mb-0 mt-1 border-0">
 							<thead>
-							<tr>
-								<th class="py-0 border-0">
-									<h6 class="py-1 my-0">{\App\Language::translate('Services',$MODULE_NAME)}</h6>
-								</th>
-							</tr>
+								<tr>
+									<th class="py-0 border-0">
+										<h6 class="py-1 my-0">{\App\Language::translate('Services',$MODULE_NAME)}</h6>
+									</th>
+								</tr>
 							</thead>
 						</table>
 					</div>
@@ -266,11 +266,11 @@
 						<div class="c-detail-widget__content">
 							<table class="table mb-0 mt-1 border-0">
 								<thead>
-								<tr>
-									<th class="py-0 border-0">
-										<h6 class="py-1 my-0">{\App\Language::translate('LBL_CATEGORIES',$MODULE_NAME)}</h6>
-									</th>
-								</tr>
+									<tr>
+										<th class="py-0 border-0">
+											<h6 class="py-1 my-0">{\App\Language::translate('LBL_CATEGORIES',$MODULE_NAME)}</h6>
+										</th>
+									</tr>
 								</thead>
 							</table>
 						</div>
