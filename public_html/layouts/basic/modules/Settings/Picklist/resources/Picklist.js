@@ -32,7 +32,7 @@ var Settings_Picklist_Js = {
 					'enabled': true
 				}
 			});
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				jQuery('#modulePickListContainer').html(data);
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				App.Fields.Picklist.changeSelectElementView(jQuery('#modulePickListContainer'));
@@ -58,13 +58,13 @@ var Settings_Picklist_Js = {
 					'enabled': true
 				}
 			});
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				jQuery('#modulePickListValuesContainer').html(data);
 				App.Fields.Picklist.showSelect2ElementView(jQuery('#rolesList'));
 				Settings_Picklist_Js.registerItemActions();
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			})
-		})
+			});
+		});
 	},
 
 	registerAddItemEvent: function () {
@@ -105,7 +105,7 @@ var Settings_Picklist_Js = {
 				mode: 'showAssignValueToRoleView',
 				pickListFieldId: jQuery('#modulePickList').val()
 			}
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				app.showModalWindow(data);
 				jQuery('[name="addItemForm"]', jQuery(data)).validationEngine();
 				Settings_Picklist_Js.registerAssignValueToRoleSaveEvent(jQuery(data));
@@ -145,7 +145,7 @@ var Settings_Picklist_Js = {
 				form.find('[name="saveButton"]').attr('disabled', "disabled");
 			}
 			var params = jQuery(e.currentTarget).serializeFormData();
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				if (typeof data.result !== "undefined") {
 					app.hideModalWindow();
 					Settings_Vtiger_Index_Js.showMessage({
@@ -203,7 +203,7 @@ var Settings_Picklist_Js = {
 				picklistName: jQuery('[name="picklistName"]').val(),
 				rolesSelected: jQuery('#rolesList').val()
 			}
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				if (typeof data.result !== "undefined") {
 					jQuery(e.currentTarget).attr('disabled', 'disabled');
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
@@ -257,7 +257,7 @@ var Settings_Picklist_Js = {
 					pickListFieldId: jQuery('#modulePickList').val(),
 					fieldValue: selectedListItem.closest('tr').data('key')
 				}
-				AppConnector.request(params).then(function (data) {
+				AppConnector.request(params).done(function (data) {
 					app.showModalWindow(data);
 					var form = jQuery('#renameItemForm');
 					thisInstance.registerScrollForNonEditablePicklistValues(form);
@@ -353,7 +353,7 @@ var Settings_Picklist_Js = {
 				pickListFieldId: jQuery('#modulePickList').val(),
 				sourceModule: jQuery('input[name="source_module"]').val()
 			}
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				jQuery('#pickListValeByRoleContainer').html(data);
 				Settings_Picklist_Js.registerenableOrDisableListSaveEvent();
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
@@ -374,7 +374,7 @@ var Settings_Picklist_Js = {
 				var params = jQuery(e.currentTarget).serializeFormData();
 				var newValue = params.newValue;
 				params.newValue = jQuery.trim(newValue);
-				AppConnector.request(params).then(function (data) {
+				AppConnector.request(params).done(function (data) {
 					data = data.result;
 					if (data) {
 						var newValue = jQuery.trim(jQuery('[name="newValue"]', container).val());
@@ -424,7 +424,7 @@ var Settings_Picklist_Js = {
 				if (invalidFields.length == 0) {
 					form.find('[name="saveButton"]').attr('disabled', "disabled");
 				}
-				AppConnector.request(params).then(function (data) {
+				AppConnector.request(params).done(function (data) {
 					if (typeof data.result !== "undefined") {
 						app.hideModalWindow();
 						var encodedOldValue = oldValue.replace(/"/g, '\\"');
@@ -454,7 +454,7 @@ var Settings_Picklist_Js = {
 
 	showDeleteItemForm: function (params) {
 		var thisInstance = this;
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			app.showModalWindow(data, function (data) {
 				if (typeof callBackFunction == 'function') {
 					callBackFunction(data);
@@ -487,7 +487,7 @@ var Settings_Picklist_Js = {
 					}
 					var deleteValues = jQuery('[name="delete_value[]"]').val();
 					var params = form.serializeFormData();
-					AppConnector.request(params).then(function (data) {
+					AppConnector.request(params).done(function (data) {
 						if (typeof data.result !== "undefined") {
 							app.hideModalWindow();
 							//delete the item in the hidden picklist values array
@@ -572,7 +572,7 @@ var Settings_Picklist_Js = {
 				picklistValues: pickListValuesSequenceArray,
 				picklistName: jQuery('[name="picklistName"]').val()
 			}
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				if (typeof data.result !== "undefined") {
 					jQuery('#saveSequence').attr('disabled', 'disabled');
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
