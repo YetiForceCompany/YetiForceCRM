@@ -26,7 +26,7 @@
 					</tr>
 				</thead>
 				{foreach item=RECORD from=$RELATED_RECORDS}
-					<tr class="listViewEntries"> 
+					<tr class="listViewEntries">
 						{foreach item=HEADER key=NAME from=$RELATED_HEADERS}
 							<td class="{$WIDTHTYPE} text-center" nowrap>{$RECORD[$NAME]}</td>
 						{/foreach}
@@ -40,7 +40,7 @@
 									<a class="js-popover-tooltip" data-js="popover" data-placement="top" data-content="{$RECORD['rel_comment']}">
 										{App\TextParser::textTruncate($RECORD['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'))}
 									</a>
-								{else}	
+								{else}
 									{$RECORD['rel_comment']}
 								{/if}&nbsp;&nbsp;
 								<span class="actionImages">
@@ -53,6 +53,10 @@
 					</tr>
 				{/foreach}
 			</table>
+		</div>
+	{else}
+		<div class="summaryWidgetContainer noCommentsMsgContainer">
+			<p class="textAlignCenter">{\App\Language::translate('LBL_NO_RECORDS_FOUND',$MODULE_NAME)}</p>
 		</div>
 	{/if}
 {/strip}
