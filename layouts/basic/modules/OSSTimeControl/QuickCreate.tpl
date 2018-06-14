@@ -5,7 +5,7 @@
 	{/foreach}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="modelContainer modal fade" tabindex="-1" role="dialog">
-		<div class="tpl-OSSTimeControl-QuickCreate modal-dialog modal-full" role="document">
+		<div class="tpl-QuickCreate modal-dialog modal-full" role="document">
 			<div class="modal-content">
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
 					<div class="modal-header d-flex justify-content-between pb-1">
