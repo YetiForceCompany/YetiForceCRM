@@ -11,9 +11,9 @@ var Settings_Index_Js = {
 	replacement: function (e) {
 		var target = $(e.currentTarget);
 		if (parseInt(target.val())) {
-			target.val(0).html('<span class="fas fa-power-off u-mr-5px"></span>' +app.vtranslate('JS_TURN_ON'));
+			target.val(0).html('<span class="fas fa-power-off u-mr-5px"></span>' + app.vtranslate('JS_TURN_ON'));
 		} else {
-			target.val(1).html('<span class="fas fa-power-off u-mr-5px"></span>' +app.vtranslate('JS_TURN_OFF'));
+			target.val(1).html('<span class="fas fa-power-off u-mr-5px"></span>' + app.vtranslate('JS_TURN_OFF'));
 		}
 		target.toggleClass("btn-success btn-danger");
 		Settings_Index_Js.save(e);
@@ -63,22 +63,18 @@ var Settings_Index_Js = {
 		}
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				var params = {
-					text: response['message'],
-					type: 'success'
-				};
-				Vtiger_Helper_Js.showPnotify(params);
-				resp = response['success'];
-				progress.progressIndicator({'mode': 'hide'});
-			},
-			function (data, err) {
-				app.errorLog(data, err);
-				progress.progressIndicator({'mode': 'hide'});
-			}
-		);
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			var params = {
+				text: response['message'],
+				type: 'success'
+			};
+			Vtiger_Helper_Js.showPnotify(params);
+			resp = response['success'];
+			progress.progressIndicator({'mode': 'hide'});
+		}).fail(function (data, err) {
+			progress.progressIndicator({'mode': 'hide'});
+		});
 	},
 	/**
 	 * Function to regiser the event to make the modules sortable
@@ -146,17 +142,14 @@ var Settings_Index_Js = {
 		params['mode'] = 'saveSequenceNumber';
 		params['updatedFields'] = thisInstance.updatedBlockFieldsList;
 
-		AppConnector.request(params).then(
-			function (data) {
+		AppConnector.request(params).done(function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				var params = {};
 				params['text'] = app.vtranslate('JS_MODULES_SEQUENCE_UPDATED');
 				Settings_Vtiger_Index_Js.showMessage(params);
-			},
-			function (error) {
+			}).fail(function (error) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			}
-		);
+			});
 	},
 	/**
 	 * Function to create the list of updated modules and their sequences
