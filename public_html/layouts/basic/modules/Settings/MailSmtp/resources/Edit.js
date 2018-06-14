@@ -8,7 +8,7 @@ Settings_Vtiger_Edit_Js('Settings_MailSmtp_Edit_Js', {}, {
 				var progressIndicatorElement = jQuery.progressIndicator({
 					blockInfo: {'enabled': true}
 				});
-				app.saveAjax('updateSmtp', paramsForm).then(function (respons) {
+				app.saveAjax('updateSmtp', paramsForm).done(function (respons) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					if (true == respons.result.success) {
 						window.location.href = respons.result.url;
