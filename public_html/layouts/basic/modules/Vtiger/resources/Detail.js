@@ -1600,7 +1600,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var idList = [];
 		idList.push(data.result._recordId);
 		this.addRelationBetweenRecords(referenceModuleName, idList).done(function (data) {
-			thisInstance.loadWidget(summaryWidgetContainer.find('.widgetContentBlock'));
+			thisInstance.loadWidget(summaryWidgetContainer.find('[class^="widgetContainer_"]'));
 		});
 	},
 	registerChangeEventForModulesList: function () {
