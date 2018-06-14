@@ -1214,7 +1214,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var recordsCountBtn = thisInstance.getContainer().find('.recordCount');
 		recordsCountBtn.on('click', function () {
 			var url = recordsCountBtn.data('url');
-			AppConnector.request(url).then(function (response) {
+			AppConnector.request(url).done(function (response) {
 				recordsCountBtn.find('.count').html(response.result.totalCount);
 				recordsCountBtn.find('[data-fa-i2svg]').addClass('d-none')
 					.attr('aria-hidden', true);
@@ -1433,7 +1433,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			var currentElement = $(e.currentTarget);
 			var dashboardWidgetHeader = currentElement.closest('.dashboardWidgetHeader');
 			var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
-			thisInstance.setUrlSwitch(currentElement).then(function (data) {
+			thisInstance.setUrlSwitch(currentElement).done(function (data) {
 				if (data) {
 					drefresh.click();
 				}
@@ -1531,7 +1531,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (this.paramCache && (additionalWidgetFilters.length || widgetFilters.length)) {
 			thisInstance.setFilterToCache(params.url, params.data);
 		}
-		AppConnector.request(params).then((data) => {
+		AppConnector.request(params).done((data) => {
 			data = $(data);
 			let footer = data.filter('.widgetFooterContent');
 			refreshContainer.progressIndicator({
@@ -1547,7 +1547,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				})
 			}
 			contentContainer.html(data).trigger(YetiForce_Widget_Js.widgetPostRefereshEvent);
-		}, () => {
+		}).fail(() => {
 			refreshContainer.progressIndicator({
 				'mode': 'hide'
 			});
@@ -1683,7 +1683,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				url += '&sortorder=' + parent.find('.changeRecordSort').data('sort');
 			}
 			contentContainer.progressIndicator();
-			AppConnector.request(url).then(function (data) {
+			AppConnector.request(url).done(function (data) {
 				contentContainer.progressIndicator({
 					'mode': 'hide'
 				});
@@ -2231,7 +2231,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			};
 			thisInstance.setFilterToCache(url, paramCache);
 		}
-		AppConnector.request(params).then(function (events) {
+		AppConnector.request(params).done(function (events) {
 			var height = (thisInstance.getCalendarView().find('.fc-bg :first').height() - thisInstance.getCalendarView().find('.fc-day-number').height()) - 10;
 			var width = (thisInstance.getCalendarView().find('.fc-day-number').width() / 2) - 10;
 			for (var i in events.result) {
@@ -2593,13 +2593,13 @@ YetiForce_Widget_Js('YetiForce_History_Widget_Js', {}, {
 			params.data['page'] = loadMoreHandler.data('nextpage');
 			var refreshContainer = parent.find('.dashboardWidgetContent');
 			refreshContainer.progressIndicator();
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				refreshContainer.progressIndicator({
 					'mode': 'hide'
 				});
 				loadMoreHandler.replaceWith(data);
 				thisInstance.registerLoadMore();
-			}, function () {
+			}).fail(function () {
 				refreshContainer.progressIndicator({
 					'mode': 'hide'
 				});
@@ -2653,7 +2653,7 @@ YetiForce_Widget_Js('YetiForce_Notebook_Widget_Js', {}, {
 		var params = url + '&content=true&mode=save&contents=' + encodeURIComponent(textarea.val());
 		var refreshContainer = this.container.find('.dashboardWidgetContent');
 		refreshContainer.progressIndicator();
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			refreshContainer.progressIndicator({
 				'mode': 'hide'
 			});

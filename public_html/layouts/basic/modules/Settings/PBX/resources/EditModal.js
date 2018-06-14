@@ -11,7 +11,7 @@ Settings_Vtiger_EditModal_Js('Settings_PBX_EditModal_Js', {}, {
 					view: 'EditModal',
 					type: this.value,
 					connectorConfig: true
-				}).then(function (html) {
+				}).done(function (html) {
 					container.find('.editModalContent').html($(html).find('.editModalContent').html());
 				});
 			} else {

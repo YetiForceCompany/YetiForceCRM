@@ -146,8 +146,8 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		let parentRow = thisInstance.getInventoryItemsContainer();
 		let taxDefaultValue = thisInstance.getInventorySummaryTaxesContainer().find('.js-default-tax').data('tax-default-value');
 		let isGroupTax = thisInstance.isGroupTaxMode();
-		if(isGroupTax){
-			if(taxDefaultValue) {
+		if (isGroupTax) {
+			if (taxDefaultValue) {
 				let taxParam = {aggregationType: 'global'};
 				taxParam['globalTax'] = app.parseNumberToShow(taxDefaultValue);
 				taxParam['individualTax'] = '';
@@ -534,11 +534,11 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	},
 	calculateDiscount: function (row, modal) {
 		var netPriceBeforeDiscount = app.parseNumberToFloat(modal.find('.valueTotalPrice').text()),
-				valuePrices = netPriceBeforeDiscount,
-				globalDiscount = 0,
-				groupDiscount = 0,
-				individualDiscount = 0,
-				valueDiscount = 0;
+			valuePrices = netPriceBeforeDiscount,
+			globalDiscount = 0,
+			groupDiscount = 0,
+			individualDiscount = 0,
+			valueDiscount = 0;
 
 		var discountsType = modal.find('.discountsType').val();
 
@@ -588,11 +588,11 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	},
 	calculateTax: function (row, modal) {
 		var netPriceWithoutTax = app.parseNumberToFloat(modal.find('.valueNetPrice').text()),
-				valuePrices = netPriceWithoutTax,
-				globalTax = 0,
-				groupTax = 0,
-				regionalTax = 0,
-				individualTax = 0;
+			valuePrices = netPriceWithoutTax,
+			globalTax = 0,
+			groupTax = 0,
+			regionalTax = 0,
+			individualTax = 0;
 
 		var taxType = modal.find('.taxsType').val();
 		if (taxType == '0' || taxType == '1') {
@@ -634,7 +634,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 				}
 			});
 		}
-		if(netPriceWithoutTax) {
+		if (netPriceWithoutTax) {
 			let taxValue = (valuePrices - netPriceWithoutTax) / netPriceWithoutTax * 100;
 			modal.find('.js-tax-value').text(app.parseNumberToShow(taxValue));
 		}
@@ -678,7 +678,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 					action: 'ProductListPrice',
 					record: responseData.id,
 					src_record: $('.sourceField', rowName).val(),
-				}).then(function (data) {
+				}).done(function (data) {
 					if (data.result) {
 						thisInstance.setUnitPrice(lineItemRow, data.result);
 						thisInstance.quantityChangeActions(lineItemRow);
@@ -710,22 +710,19 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		if (indicator) {
 			var progressInstace = $.progressIndicator();
 		}
-		AppConnector.request(subProrductParams).then(
-				function (data) {
-					var responseData = data.result;
-					thisInstance.subProductsCashe[recordId] = responseData;
-					thisInstance.addSubProducts(parentRow, responseData);
-					if (progressInstace) {
-						progressInstace.hide();
-					}
-				},
-				function (error, err) {
-					if (progressInstace) {
-						progressInstace.hide();
-					}
-					console.error(error, err);
-				}
-		);
+		AppConnector.request(subProrductParams).done(function (data) {
+			var responseData = data.result;
+			thisInstance.subProductsCashe[recordId] = responseData;
+			thisInstance.addSubProducts(parentRow, responseData);
+			if (progressInstace) {
+				progressInstace.hide();
+			}
+		}).fail(function (error, err) {
+			if (progressInstace) {
+				progressInstace.hide();
+			}
+			console.error(error, err);
+		});
 	},
 	removeSubProducts: function (parentRow) {
 		var subProductsContainer = $('.subProductsContainer ul', parentRow);
@@ -757,7 +754,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 				taxParam = {aggregationType: recordData.taxes.type};
 				taxParam[recordData.taxes.type + 'Tax'] = recordData.taxes.value;
 			}
-			if(recordData['taxes']) {
+			if (recordData['taxes']) {
 				parentRow.find('.js-tax').attr('data-default-tax', app.parseNumberToShow(recordData.taxes.value));
 			}
 			thisInstance.setTaxParam(parentRow, taxParam);
@@ -980,19 +977,17 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		params.async = false;
 		params.dataType = 'json';
 		var progressInstace = $.progressIndicator();
-		AppConnector.request(params).then(
-				function (data) {
-					progressInstace.hide();
-					if (data.result.status == false) {
-						app.showModalWindow(data.result.html, function (data) {
-						});
-						response = false;
-					}
-				},
-				function (error, err) {
-					progressInstace.hide();
-					console.error(error, err);
-				}
+		AppConnector.request(params).done(function (data) {
+			progressInstace.hide();
+			if (data.result.status == false) {
+				app.showModalWindow(data.result.html, function (data) {
+				});
+				response = false;
+			}
+		}).fail(function (error, err) {
+				progressInstace.hide();
+				console.error(error, err);
+			}
 		);
 		return response;
 	},
@@ -1247,19 +1242,16 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			}
 
 			var progressInstace = $.progressIndicator();
-			AppConnector.request(params).then(
-					function (data) {
-						app.showModalWindow(data, function (data) {
-							thisInstance.initDiscountsParameters(parentRow, $(data));
-							thisInstance.registerChangeDiscountModal(data, parentRow, params);
-						});
-						progressInstace.hide();
-					},
-					function (error, err) {
-						progressInstace.hide();
-						console.error(error, err);
-					}
-			);
+			AppConnector.request(params).done(function (data) {
+				app.showModalWindow(data, function (data) {
+					thisInstance.initDiscountsParameters(parentRow, $(data));
+					thisInstance.registerChangeDiscountModal(data, parentRow, params);
+				});
+				progressInstace.hide();
+			}).fail(function (error, err) {
+				progressInstace.hide();
+				console.error(error, err);
+			});
 		});
 	},
 	registerChangeDiscountModal: function (modal, parentRow, params) {
@@ -1332,19 +1324,16 @@ $.Class("Vtiger_Inventory_Js", {}, {
 				params.recordModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
 			}
 			var progressInstace = $.progressIndicator();
-			AppConnector.request(params).then(
-					function (data) {
-						app.showModalWindow(data, function (data) {
-							thisInstance.initTaxParameters(parentRow, $(data));
-							thisInstance.registerChangeTaxModal(data, parentRow, params);
-						});
-						progressInstace.hide();
-					},
-					function (error, err) {
-						progressInstace.hide();
-						console.error(error, err);
-					}
-			);
+			AppConnector.request(params).done(function (data) {
+				app.showModalWindow(data, function (data) {
+					thisInstance.initTaxParameters(parentRow, $(data));
+					thisInstance.registerChangeTaxModal(data, parentRow, params);
+				});
+				progressInstace.hide();
+			}).fail(function (error, err) {
+				progressInstace.hide();
+				console.error(error, err);
+			});
 		});
 	},
 	lockCurrencyChange: false,
@@ -1415,7 +1404,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			if (thisInstance.getCurrency()) {
 				dataUrl += "&currency_id=" + thisInstance.getCurrency();
 			}
-			AppConnector.request(dataUrl).then(function (data) {
+			AppConnector.request(dataUrl).done(function (data) {
 				for (var id in data) {
 					if (typeof data[id] == "object") {
 						var recordData = data[id];

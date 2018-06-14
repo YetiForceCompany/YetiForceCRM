@@ -65,9 +65,9 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		if (typeof params === "undefined") {
 			params = {};
 		}
-		if(params.searchModule){
+		if(params.searchModule && params.searchModule !== '-'){
 			params.module = params.searchModule;
-		}else if(!params.module){
+		}else{
 			params.module = app.getModuleName();
 		}
 		params.view = 'BasicAjax';
