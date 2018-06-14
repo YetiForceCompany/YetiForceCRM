@@ -17,7 +17,7 @@ jQuery.Class("Settings_Inventory_Config_Js", {}, {
 				'param': target.attr('name')
 			};
 			params['view'] = app.getViewName();
-			app.saveAjax('saveConfig', params).then(function (data) {
+			app.saveAjax('saveConfig', params).done(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: app.vtranslate('JS_SAVE_CHANGES')});
 				if (value) {
 					target.parent().removeClass('btn-light').addClass('btn-success').find('[data-fa-i2svg]').removeClass('fa-square').addClass('fa-check-square');
@@ -45,7 +45,7 @@ jQuery.Class("Settings_Inventory_Config_Js", {}, {
 				'param': target.attr('name')
 			};
 			params['view'] = app.getViewName();
-			app.saveAjax('saveConfig', params).then(function (data) {
+			app.saveAjax('saveConfig', params).done(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: app.vtranslate('JS_SAVE_CHANGES')});
 			});
 		});
