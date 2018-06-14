@@ -29,7 +29,7 @@ Vtiger_Edit_Js('Settings_SMSNotifier_Edit_Js', {}, {
 			e.preventDefault();
 			if (form.validationEngine('validate')) {
 				var formData = form.serializeFormData();
-				app.saveAjax('', [], formData).then(function (data) {
+				app.saveAjax('', [], formData).done(function (data) {
 					if (data.result) {
 						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_SUCCESS')});
 						var listInstance = Settings_Vtiger_List_Js.getInstance();
