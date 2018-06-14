@@ -37,30 +37,26 @@ jQuery.Class('Settings_Currency_Js', {
 		var currentTarget = jQuery(event.currentTarget);
 		var currentTrEle = currentTarget.closest('tr');
 		var instance = Settings_Currency_Js.currencyInstance;
-		instance.transformEdit(id).then(
-			function (data) {
-				var callBackFunction = function (data) {
-					var form = jQuery('#transformCurrency');
+		instance.transformEdit(id).done(function (data) {
+			var callBackFunction = function (data) {
+				var form = jQuery('#transformCurrency');
 
-					//register all select2 Elements
-					App.Fields.Picklist.showSelect2ElementView(form.find('select.select2'));
+				//register all select2 Elements
+				App.Fields.Picklist.showSelect2ElementView(form.find('select.select2'));
 
-					form.on('submit', function (e) {
-						e.preventDefault();
-						var transferCurrencyEle = form.find('select[name="transform_to_id"]');
-						instance.deleteCurrency(id, transferCurrencyEle, currentTrEle);
-					})
-				}
-
-				app.showModalWindow(data, function (data) {
-					if (typeof callBackFunction == 'function') {
-						callBackFunction(data);
-					}
-				}, {'width': '500px'});
-			}, function (error, err) {
-
+				form.on('submit', function (e) {
+					e.preventDefault();
+					var transferCurrencyEle = form.find('select[name="transform_to_id"]');
+					instance.deleteCurrency(id, transferCurrencyEle, currentTrEle);
+				})
 			}
-		);
+
+			app.showModalWindow(data, function (data) {
+				if (typeof callBackFunction == 'function') {
+					callBackFunction(data);
+				}
+			}, {'width': '500px'});
+		});
 	}
 
 }, {
@@ -91,48 +87,45 @@ jQuery.Class('Settings_Currency_Js', {
 		params['view'] = 'EditAjax';
 		params['record'] = id;
 
-		AppConnector.request(params).then(
-			function (data) {
-				var callBackFunction = function (data) {
-					var form = jQuery('#editCurrency');
-					var record = form.find('[name="record"]').val();
+		AppConnector.request(params).done(function (data) {
+			var callBackFunction = function (data) {
+				var form = jQuery('#editCurrency');
+				var record = form.find('[name="record"]').val();
 
-					//register all select2 Elements
-					App.Fields.Picklist.showSelect2ElementView(form.find('select.select2'));
-					var currencyStatus = form.find('[name="currency_status"]').is(':checked');
-					if (record != '' && currencyStatus) {
-						//While editing currency, register the status change event
-						thisInstance.registerCurrencyStatusChangeEvent(form);
-					}
-					//If we change the currency name, change the code and symbol for that currency
-					thisInstance.registerCurrencyNameChangeEvent(form);
-
-					var params = app.validationEngineOptions;
-					params.onValidationComplete = function (form, valid) {
-						if (valid) {
-							thisInstance.saveCurrencyDetails(form);
-							return valid;
-						}
-					}
-					form.validationEngine(params);
-
-					form.on('submit', function (e) {
-						e.preventDefault();
-					})
+				//register all select2 Elements
+				App.Fields.Picklist.showSelect2ElementView(form.find('select.select2'));
+				var currencyStatus = form.find('[name="currency_status"]').is(':checked');
+				if (record != '' && currencyStatus) {
+					//While editing currency, register the status change event
+					thisInstance.registerCurrencyStatusChangeEvent(form);
 				}
+				//If we change the currency name, change the code and symbol for that currency
+				thisInstance.registerCurrencyNameChangeEvent(form);
 
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				app.showModalWindow(data, function (data) {
-					if (typeof callBackFunction == 'function') {
-						callBackFunction(data);
+				var params = app.validationEngineOptions;
+				params.onValidationComplete = function (form, valid) {
+					if (valid) {
+						thisInstance.saveCurrencyDetails(form);
+						return valid;
 					}
-				}, {'width': '600px'});
-			},
-			function (error) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.reject(error);
+				}
+				form.validationEngine(params);
+
+				form.on('submit', function (e) {
+					e.preventDefault();
+				})
 			}
-		);
+
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			app.showModalWindow(data, function (data) {
+				if (typeof callBackFunction == 'function') {
+					callBackFunction(data);
+				}
+			}, {'width': '600px'});
+		}).fail(function (error) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.reject(error);
+		});
 		return aDeferred.promise();
 	},
 
@@ -182,21 +175,18 @@ jQuery.Class('Settings_Currency_Js', {
 		data['parent'] = app.getParentModuleName();
 		data['action'] = 'SaveAjax';
 
-		AppConnector.request(data).then(
-			function (data) {
-				if (data['success']) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					app.hideModalWindow();
-					var params = {};
-					params.text = app.vtranslate('JS_CURRENCY_DETAILS_SAVED');
-					Settings_Vtiger_Index_Js.showMessage(params);
-					thisInstance.loadListViewContents();
-				}
-			},
-			function (error) {
+		AppConnector.request(data).done(function (data) {
+			if (data['success']) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				app.hideModalWindow();
+				var params = {};
+				params.text = app.vtranslate('JS_CURRENCY_DETAILS_SAVED');
+				Settings_Vtiger_Index_Js.showMessage(params);
+				thisInstance.loadListViewContents();
 			}
-		);
+		}).fail(function (error) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+		});
 	},
 
 	/**
@@ -216,16 +206,14 @@ jQuery.Class('Settings_Currency_Js', {
 		params['parent'] = app.getParentModuleName();
 		params['view'] = 'List';
 
-		AppConnector.request(params).then(
-			function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				//replace the new list view contents
-				jQuery('#listViewContents').html(data);
-				//thisInstance.triggerDisplayTypeEvent();
-			}, function (error, err) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			}
-		);
+		AppConnector.request(params).done(function (data) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			//replace the new list view contents
+			jQuery('#listViewContents').html(data);
+			//thisInstance.triggerDisplayTypeEvent();
+		}).fail(function (error, err) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+		});
 	},
 
 	/**
@@ -240,12 +228,11 @@ jQuery.Class('Settings_Currency_Js', {
 		params['view'] = 'TransformEditAjax';
 		params['record'] = id;
 
-		AppConnector.request(params).then(
-			function (data) {
-				aDeferred.resolve(data);
-			}, function (error, err) {
-				aDeferred.reject();
-			});
+		AppConnector.request(params).done(function (data) {
+			aDeferred.resolve(data);
+		}).fail(function (error, err) {
+			aDeferred.reject(error, err);
+		});
 		return aDeferred.promise();
 	},
 
@@ -261,16 +248,13 @@ jQuery.Class('Settings_Currency_Js', {
 		params['record'] = id;
 		params['transform_to_id'] = transferCurrencyId;
 
-		AppConnector.request(params).then(
-			function (data) {
-				app.hideModalWindow();
-				var params = {};
-				params.text = app.vtranslate('JS_CURRENCY_DELETED_SUCCESSFULLY');
-				Settings_Vtiger_Index_Js.showMessage(params);
-				currentTrEle.fadeOut('slow').remove();
-			}, function (error, err) {
-
-			});
+		AppConnector.request(params).done(function (data) {
+			app.hideModalWindow();
+			var params = {};
+			params.text = app.vtranslate('JS_CURRENCY_DELETED_SUCCESSFULLY');
+			Settings_Vtiger_Index_Js.showMessage(params);
+			currentTrEle.fadeOut('slow').remove();
+		});
 	},
 
 	triggerDisplayTypeEvent: function () {
