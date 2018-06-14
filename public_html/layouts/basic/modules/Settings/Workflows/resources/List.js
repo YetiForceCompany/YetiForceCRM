@@ -21,58 +21,49 @@ Settings_Vtiger_List_Js("Settings_Workflows_List_Js", {
 		var changeButtonType = jQuery(e);
 		var container = jQuery(e).closest('tr');
 		var message = app.vtranslate('LBL_STATUS_CONFIRMATION');
-		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-			function (e) {
-				var module = app.getModuleName();
-				var postData = {
-					"module": module,
-					"action": "TaskAjax",
-					"mode": "changeStatusAllTasks",
-					"record": recordId,
-					"status": status,
-					"parent": app.getParentModuleName()
-				}
-				var deleteMessage = app.vtranslate('JS_TASKS_STATUS_GETTING_CHANGED');
-				var progressIndicatorElement = jQuery.progressIndicator({
-					'message': deleteMessage,
-					'position': 'html',
-					'blockInfo': {
-						'enabled': true
-					}
-				});
-				AppConnector.request(postData).then(
-					function (data) {
-						progressIndicatorElement.progressIndicator({
-							'mode': 'hide'
-						})
-						if (data.success) {
-							var count = data.result.count;
-							var element = container.find('[data-name="active_tasks"]');
-							changeButtonType.hide();
-							if (status) {
-								element.html('&nbsp;' + count);
-								changeButtonType.closest('td').find('.deactiveTasks').show();
-							} else {
-								element.html('&nbsp;0');
-								changeButtonType.closest('td').find('.activeTasks').show();
-							}
-
-						} else {
-							var params = {
-								text: app.vtranslate(data.error.message),
-								title: app.vtranslate('JS_LBL_PERMISSION')
-							}
-							Vtiger_Helper_Js.showPnotify(params);
-						}
-					},
-					function (error, err) {
-
-					}
-				);
-			},
-			function (error, err) {
+		Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+			var module = app.getModuleName();
+			var postData = {
+				"module": module,
+				"action": "TaskAjax",
+				"mode": "changeStatusAllTasks",
+				"record": recordId,
+				"status": status,
+				"parent": app.getParentModuleName()
 			}
-		);
+			var deleteMessage = app.vtranslate('JS_TASKS_STATUS_GETTING_CHANGED');
+			var progressIndicatorElement = jQuery.progressIndicator({
+				'message': deleteMessage,
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			AppConnector.request(postData).done(function (data) {
+				progressIndicatorElement.progressIndicator({
+					'mode': 'hide'
+				})
+				if (data.success) {
+					var count = data.result.count;
+					var element = container.find('[data-name="active_tasks"]');
+					changeButtonType.hide();
+					if (status) {
+						element.html('&nbsp;' + count);
+						changeButtonType.closest('td').find('.deactiveTasks').show();
+					} else {
+						element.html('&nbsp;0');
+						changeButtonType.closest('td').find('.activeTasks').show();
+					}
+
+				} else {
+					var params = {
+						text: app.vtranslate(data.error.message),
+						title: app.vtranslate('JS_LBL_PERMISSION')
+					}
+					Vtiger_Helper_Js.showPnotify(params);
+				}
+			});
+		});
 	},
 
 }, {
@@ -93,11 +84,9 @@ Settings_Vtiger_List_Js("Settings_Workflows_List_Js", {
 			jQuery('#recordsCount').val('');
 			//Make total number of pages as empty
 			jQuery('#totalPageCount').text("");
-			thisInstance.getListViewRecords(params).then(
-				function (data) {
-					thisInstance.updatePagination();
-				}
-			);
+			thisInstance.getListViewRecords(params).done(function (data) {
+				thisInstance.updatePagination();
+			});
 		});
 	},
 

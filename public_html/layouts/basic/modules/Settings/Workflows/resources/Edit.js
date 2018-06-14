@@ -99,7 +99,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 					var specialValidation = thisInstance.currentInstance.isFormValidate();
 				}
 				if (form.validationEngine('validate') && specialValidation) {
-					thisInstance.currentInstance.submit().then(function (data) {
+					thisInstance.currentInstance.submit().done(function (data) {
 						thisInstance.getContainer().append(data);
 						var stepVal = thisInstance.getStepValue();
 						var nextStepVal = parseInt(stepVal) + 1;
@@ -109,7 +109,6 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 						thisInstance.registerFormSubmitEvent(container);
 						thisInstance.currentInstance.registerEvents();
 					});
-
 				}
 				e.preventDefault();
 			})
