@@ -273,38 +273,32 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
 		try {
 			$request = Requests::get($requestUrl, [], ['timeout' => 1]);
-			$rqheaders = array_map(function ($value) {
-				return is_array($value) ? implode(',', $value) : $value;
+			$headers = array_map(function ($value) {
+				return is_array($value) ? strtolower(implode(',', $value)) : strtolower($value);
 			}, $request->headers->getAll());
 		} catch (\Exception $exc) {
-			$rqheaders = [];
-		}
-		if ($rqheaders) {
-			$headers = array_change_key_case($rqheaders, CASE_LOWER);
-			if (stripos($headers[0], '200') === false) {
-				$headers = [];
-			}
+			$headers = [];
 		}
 		if ($headers) {
-			$directiveValues['Header: X-Frame-Options']['status'] = strtolower($headers['x-frame-options']) !== 'sameorigin';
+			$directiveValues['Header: X-Frame-Options']['status'] = $headers['x-frame-options'] !== 'sameorigin';
 			$directiveValues['Header: X-Frame-Options']['current'] = $headers['x-frame-options'];
-			$directiveValues['Header: X-XSS-Protection']['status'] = strtolower($headers['x-xss-protection']) !== '1; mode=block';
+			$directiveValues['Header: X-XSS-Protection']['status'] = $headers['x-xss-protection'] !== '1; mode=block';
 			$directiveValues['Header: X-XSS-Protection']['current'] = $headers['x-xss-protection'];
-			$directiveValues['Header: X-Content-Type-Options']['status'] = strtolower($headers['x-content-type-options']) !== 'nosniff';
+			$directiveValues['Header: X-Content-Type-Options']['status'] = $headers['x-content-type-options'] !== 'nosniff';
 			$directiveValues['Header: X-Content-Type-Options']['current'] = $headers['x-content-type-options'];
 			$directiveValues['Header: X-Powered-By']['status'] = !empty($headers['x-powered-by']);
 			$directiveValues['Header: X-Powered-By']['current'] = $headers['x-powered-by'] ?? '';
-			$directiveValues['Header: X-Robots-Tag']['status'] = strtolower($headers['x-robots-tag']) !== 'none';
+			$directiveValues['Header: X-Robots-Tag']['status'] = $headers['x-robots-tag'] !== 'none';
 			$directiveValues['Header: X-Robots-Tag']['current'] = $headers['x-robots-tag'];
-			$directiveValues['Header: X-Permitted-Cross-Domain-Policies']['status'] = strtolower($headers['x-permitted-cross-domain-policies']) !== 'none';
+			$directiveValues['Header: X-Permitted-Cross-Domain-Policies']['status'] = $headers['x-permitted-cross-domain-policies'] !== 'none';
 			$directiveValues['Header: X-Permitted-Cross-Domain-Policies']['current'] = $headers['x-permitted-cross-domain-policies'];
 			$directiveValues['Header: Server']['status'] = !empty($headers['server']);
 			$directiveValues['Header: Server']['current'] = $headers['server'];
-			$directiveValues['Header: Referrer-Policy']['status'] = strtolower($headers['referrer-policy']) !== 'no-referrer';
+			$directiveValues['Header: Referrer-Policy']['status'] = $headers['referrer-policy'] !== 'no-referrer';
 			$directiveValues['Header: Referrer-Policy']['current'] = $headers['referrer-policy'];
-			$directiveValues['Header: Expect-CT']['status'] = strtolower($headers['expect-ct']) !== 'enforce; max-age=3600';
+			$directiveValues['Header: Expect-CT']['status'] = $headers['expect-ct'] !== 'enforce; max-age=3600';
 			$directiveValues['Header: Expect-CT']['current'] = $headers['expect-ct'];
-			$directiveValues['Header: Strict-Transport-Security']['status'] = strtolower($headers['strict-transport-security']) !== 'max-age=31536000; includesubdomains; preload';
+			$directiveValues['Header: Strict-Transport-Security']['status'] = $headers['strict-transport-security'] !== 'max-age=31536000; includesubdomains; preload';
 			$directiveValues['Header: Strict-Transport-Security']['current'] = $headers['strict-transport-security'];
 		}
 		if ($onlyError) {
