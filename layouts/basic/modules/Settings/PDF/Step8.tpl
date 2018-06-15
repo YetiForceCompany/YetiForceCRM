@@ -65,13 +65,12 @@
 						<input type="file" name="watermark_image_file" accept="images/*" class="form-control" data-validation-engine='validate[required]' id="watermark_image" />
 					</div>
 				</div>
-				<div class="form-group waterimage {if $PDF_MODEL->get('watermark_type') eq $WATERMARK_TEXT}d-none{/if}">
-					<label class="col-sm-3 col-form-label"></label>
-					<div class="col-sm-3 controls">
+				<div class="form-group waterimage form-row {if $PDF_MODEL->get('watermark_type') eq $WATERMARK_TEXT}d-none{/if}">
+					<div class="pl-4 col-sm-2 controls">
 						<button id="deleteWM" class="btn btn-danger {if $PDF_MODEL->get('watermark_image') eq ''}d-none{/if}">{\App\Language::translate('LBL_DELETE_WM', $QUALIFIED_MODULE)}</button>
 					</div>
-					<div class="col-sm-3 controls">
-						<button id="uploadWM" class="btn btn-success float-right">{\App\Language::translate('LBL_UPLOAD_WM', $QUALIFIED_MODULE)}</button>
+					<div class="col-sm-2 controls">
+						<button id="uploadWM" class="btn btn-success float-right d-flex justify-content-sm-start">{\App\Language::translate('LBL_UPLOAD_WM', $QUALIFIED_MODULE)}</button>
 					</div>
 				</div>
 			</div>
