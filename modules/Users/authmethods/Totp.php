@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * TOTP authentication method class.
  * TOTP - Time-based One-time Password.
@@ -8,12 +9,10 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
+use Sonata\GoogleAuthenticator\GoogleAuthenticator;
+
 class Users_Totp_Authmethod
 {
-	/**
-	 * Clock tolerance example 2 = 2*30sec.
-	 */
-	const CLOCK_TOLERANCE = 2;
 	/**
 	 *  User authentication mode possible values.
 	 */
@@ -58,9 +57,6 @@ class Users_Totp_Authmethod
 		if (!empty($issuer)) {
 			$url .= "&issuer={$issuer}";
 		}
-		//$period - OPTIONAL only if type is totp: The period parameter defines a period that a TOTP code will be valid for, in seconds. The default value is 30.
-		$period = 30 * static::CLOCK_TOLERANCE;
-		$url .= "&period={$period}";
 		return $url;
 	}
 
@@ -71,7 +67,7 @@ class Users_Totp_Authmethod
 	 */
 	public function createSecret()
 	{
-		return $this->secret = (new PHPGangsta_GoogleAuthenticator())->createSecret();
+		return $this->secret = (new GoogleAuthenticator())->generateSecret();
 	}
 
 	/**
@@ -128,7 +124,7 @@ class Users_Totp_Authmethod
 	 */
 	public static function verifyCode($secret, $userCode)
 	{
-		return (new PHPGangsta_GoogleAuthenticator())->verifyCode($secret, (string) $userCode, static::CLOCK_TOLERANCE);
+		return (new GoogleAuthenticator())->checkCode($secret, (string) $userCode);
 	}
 
 	/**
