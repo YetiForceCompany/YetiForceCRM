@@ -13430,10 +13430,14 @@ label.btn.btn-outline-primary:not(.active) {
 .actionMenu .o-action-menu__item {
   display: inline-block;
   vertical-align: top; }
+.actionMenu .c-header__label--sm-down {
+  display: none; }
 
-@media (max-width: 782px) {
+@media (max-width: 767.98px) {
   .actionMenu .c-header__btn--mobile {
     display: block; }
+  .actionMenu .c-header__label--sm-down {
+    display: inline-block !important; }
   .actionMenu .o-action-menu__container {
     position: fixed;
     left: auto;
