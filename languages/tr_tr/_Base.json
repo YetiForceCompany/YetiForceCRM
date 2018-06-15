@@ -71,6 +71,7 @@
     "Accounts": "Accounts",
     "Acquired": "Acquired",
     "Active": "Active",
+    "DetailView": "Detail view",
     "Activities": "Activities",
     "Add Comment": "Add comment",
     "Add Note": "Add document",
@@ -684,6 +685,7 @@
     "OSSSoldServices": "Services sold",
     "Sub Category": "Sub category",
     "Interested products": "Interested in products",
+    "LBL_CATEGORIES": "Categories",
     "Interested services": "Interested in services",
     "Recycle Bin": "Trash bin",
     "LBL_NO_RELATED_RECORDS_FOUND": "No records to display",
@@ -1283,7 +1285,8 @@
     "LBL_DUPLICATES": "duplicated",
     "LBL_SHOP_YETIFORCE": "Store",
     "LBL_PRINT": "Print",
-    "LBL_IMAGE_DOWNLOAD": "Download image"
+    "LBL_IMAGE_DOWNLOAD": "Download image",
+    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Number of merged records has been reduced to %d."
   },
   "js": {
     "JS_SUMMARY": "Summary",
