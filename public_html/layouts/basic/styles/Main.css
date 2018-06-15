@@ -13405,6 +13405,15 @@ label.btn.btn-outline-primary:not(.active) {
   .globalSearchInput .select2HeaderWidth {
     min-width: 150px; }
 
+@media (max-width: 1199.98px) {
+  .ui-menu.ui-widget {
+    top: 253px !important; } }
+@media (max-width: 991.98px) {
+  .ui-menu.ui-widget {
+    left: 45px !important; } }
+@media (max-width: 767.98px) {
+  .ui-menu.ui-widget {
+    left: -4px !important; } }
 .searchMenu .o-search-menu__container {
   position: fixed;
   left: auto;
