@@ -75,7 +75,7 @@ class Composer
 	 */
 	public static function clear()
 	{
-		$rootDir = \ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
+		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
 		foreach (new \DirectoryIterator($rootDir) as $level1) {
 			if ($level1->isDir() && !$level1->isDot()) {
 				foreach (new \DirectoryIterator($level1->getPathname()) as $level2) {
