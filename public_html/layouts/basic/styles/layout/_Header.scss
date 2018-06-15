@@ -221,6 +221,23 @@
 	}
 }
 
+@include media-breakpoint-down(lg) {
+  .ui-menu.ui-widget {
+	top: 253px !important;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .ui-menu.ui-widget {
+	left: 45px !important;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .ui-menu.ui-widget {
+	left: -4px !important;
+  }
+}
 //navbar search mobile
 .searchMenu {
 	.o-search-menu__container {
