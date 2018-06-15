@@ -207,7 +207,7 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 			var result = response['success'];
 			aDeferred.resolve(response);
 		}).fail(function (error, err) {
-			aDeferred.reject((error, err);
+			aDeferred.reject(error, err);
 		});
 		return aDeferred.promise();
 	},
