@@ -90,6 +90,7 @@
     "Accounts": "\u041a\u043e\u043d\u0442\u0440\u0430\u0433\u0435\u043d\u0442\u044b",
     "Acquired": "\u041f\u0440\u0438\u043e\u0431\u0440\u0435\u0442\u0435\u043d\u043d\u044b\u0439",
     "Active": "\u0410\u043a\u0442\u0438\u0432\u043d\u044b\u0439",
+    "DetailView": "Detail view",
     "Activities": "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u044f",
     "Add Comment": "\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439",
     "Add Note": "\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442",
@@ -703,6 +704,7 @@
     "OSSSoldServices": "\u041f\u0440\u043e\u0434\u0430\u0432\u0430\u0435\u043c\u044b\u0435 \u0423\u0441\u043b\u0443\u0433\u0438",
     "Sub Category": "\u041f\u043e\u0434\u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f",
     "Interested products": "\u0417\u0430\u0438\u043d\u0442\u0435\u0440\u0435\u0441\u043e\u0432\u0430\u043d\u044b \u0432 \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u0430\u0445",
+    "LBL_CATEGORIES": "Categories",
     "Interested services": "\u0417\u0430\u0438\u043d\u0442\u0435\u0440\u0435\u0441\u043e\u0432\u0430\u043d\u044b \u0432 \u0441\u0435\u0440\u0432\u0438\u0441\u0435",
     "Recycle Bin": "\u041a\u043e\u0440\u0437\u0438\u043d\u0430",
     "LBL_NO_RELATED_RECORDS_FOUND": "\u0417\u0430\u043f\u0438\u0441\u0438 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u044b",
@@ -1291,7 +1293,8 @@
     "LBL_SHOP_YETIFORCE": "Store",
     "LBL_DUPLICATES": "duplicated",
     "LBL_PRINT": "Print",
-    "LBL_IMAGE_DOWNLOAD": "Download image"
+    "LBL_IMAGE_DOWNLOAD": "Download image",
+    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Number of merged records has been reduced to %d."
   },
   "js": {
     "JS_SUMMARY": "\u041f\u043e\u0434\u0438\u0442\u043e\u0433",
