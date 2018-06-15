@@ -58,7 +58,7 @@
     "phpoffice/phpspreadsheet": "^1.0",
     "phpgangsta/googleauthenticator": "dev-master",
     "milon/barcode": "^5.3",
-    "ckeditor/ckeditor": "dev-full/stable",
+    "ckeditor/ckeditor": "^4.9.2",
     "yetiforce/csrf-magic": "^v1.0.8",
     "yetiforce/debugbar": "^1.13.1.1",
     "yetiforce/yii2": "^2.0.15.2",
