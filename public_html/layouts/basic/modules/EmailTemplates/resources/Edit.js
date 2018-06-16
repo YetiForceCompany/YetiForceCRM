@@ -14,10 +14,10 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 			view: 'VariablePanel',
 			type: 'mail',
 			selectedModule: form.find('[name="module_name"]').val()
-		}).then(function (response) {
+		}).done(function (response) {
 			panel.html(response);
 			thisInstance.afterLoadVariablePanel(panel);
-		}, function (data, err) {
+		}).fail(function () {
 			panel.progressIndicator({mode: 'hide'});
 		});
 	},

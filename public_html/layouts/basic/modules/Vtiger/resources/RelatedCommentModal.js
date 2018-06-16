@@ -23,12 +23,12 @@ jQuery.Class("Vtiger_RelatedCommentModal_Js", {
 				relid: container.find('.relatedRecord').val(),
 				relmodule: container.find('.relatedModuleName').val()
 			};
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				Vtiger_Helper_Js.showMessage({text: data.result});
 				app.hideModalWindow();
 				progressLoader.progressIndicator({mode: 'hide'});
 				self.windowParent.Vtiger_Detail_Js.getInstance().reloadTabContent();
-			}, function (error) {
+			}).fail(function (error) {
 				progressLoader.progressIndicator({mode: 'hide'});
 			});
 		});

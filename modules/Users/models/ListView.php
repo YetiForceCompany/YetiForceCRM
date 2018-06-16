@@ -53,11 +53,16 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public function getListViewMassActions($linkParams)
 	{
-		$links = parent::getListViewMassActions($linkParams);
+		$links = [];
 		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
 		$massActionLinks = [];
 		if ($linkParams['MODULE'] === 'Users' && $linkParams['ACTION'] === 'List' && $privilegesModel->isAdminUser()) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_EDIT',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=Users&view=MassActionAjax&mode=showMassEditForm");',
+				'linkicon' => 'fas fa-edit'
+			];
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'BTN_MASS_RESET_PASSWORD',
@@ -68,13 +73,6 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
-		$countLinks = count($links['LISTVIEWMASSACTION']);
-		for ($i = 0; $i < $countLinks; ++$i) {
-			if ($links['LISTVIEWMASSACTION'][$i]->linklabel === 'LBL_MASS_DELETE' || $links['LISTVIEWMASSACTION'][$i]->linklabel === 'LBL_TRANSFER_OWNERSHIP') {
-				unset($links['LISTVIEWMASSACTION'][$i]);
-			}
-		}
-
 		return $links;
 	}
 

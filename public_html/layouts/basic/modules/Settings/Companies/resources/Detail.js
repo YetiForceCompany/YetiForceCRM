@@ -11,7 +11,7 @@ jQuery.Class('Settings_Companies_Detail_Js', {}, {
 				parent: app.getParentModuleName(),
 				action: 'DeleteAjax',
 				record: $(e.currentTarget).data('recordId')
-			}).then(function (data) {
+			}).done(function (data) {
 				window.location.href = data.result;
 			});
 		});

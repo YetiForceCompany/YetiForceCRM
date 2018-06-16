@@ -23,23 +23,19 @@ $.Class('Settings_WebserviceApps_Index_Js', {}, {
 			var removeButton = jQuery(e.currentTarget);
 			var currentTrElement = removeButton.closest('tr');
 			var message = app.vtranslate('JS_DELETE_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-				function (e) {
-					var params = {
-						module: app.getModuleName(),
-						parent: app.getParentModuleName(),
-						action: 'Delete',
-						id: currentTrElement.data('id')
-					};
-					var progress = jQuery.progressIndicator();
-					AppConnector.request(params).then(function (data) {
-						progress.progressIndicator({'mode': 'hide'});
-						thisInstance.loadTable();
-					});
-				},
-				function (error, err) {
-				}
-			);
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+				var params = {
+					module: app.getModuleName(),
+					parent: app.getParentModuleName(),
+					action: 'Delete',
+					id: currentTrElement.data('id')
+				};
+				var progress = jQuery.progressIndicator();
+				AppConnector.request(params).done(function (data) {
+					progress.progressIndicator({'mode': 'hide'});
+					thisInstance.loadTable();
+				});
+			});
 		});
 	},
 	/**
@@ -53,7 +49,7 @@ $.Class('Settings_WebserviceApps_Index_Js', {}, {
 			view: 'Index',
 		};
 		var progress = jQuery.progressIndicator();
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			progress.progressIndicator({'mode': 'hide'});
 			$('.configContainer').html(data);
 			thisInstance.registerTableEvents();
@@ -74,7 +70,7 @@ $.Class('Settings_WebserviceApps_Index_Js', {}, {
 			params['record'] = id;
 		}
 		var progress = jQuery.progressIndicator();
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			progress.progressIndicator({'mode': 'hide'});
 			app.showModalWindow(data, function (container) {
 				const prevButton = container.find('.previewPassword');
@@ -111,7 +107,7 @@ $.Class('Settings_WebserviceApps_Index_Js', {}, {
 						if (id != '') {
 							params['id'] = id;
 						}
-						AppConnector.request(params).then(function (data) {
+						AppConnector.request(params).done(function (data) {
 							thisInstance.loadTable();
 							app.hideModalWindow();
 						});

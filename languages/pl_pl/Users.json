@@ -335,7 +335,14 @@
     "LBL_2FA_SECRET": "Tajny kod",
     "LBL_2FA_TOTP_QR_CODE": "Kod jednorazowy",
     "LBL_AUTHY_SECRET_TOTP_SUCCESS": "Autentykacja dwusk\u0142adnikowa zosta\u0142a pomy\u015blnie w\u0142\u0105czona.",
-    "LBL_2FA_WRONG_CODE": "Niepoprawny kod"
+    "LBL_2FA_WRONG_CODE": "Niepoprawny kod wprowad\u017a ponownie lub skontaktuj si\u0119 z administratorem",
+    "LBL_2FA_OFF": "Wy\u0142\u0105cz autentykacj\u0119 dwu etapow\u0105.",
+    "LBL_2FA_TITLE": "Weryfikacja dwuetapowa",
+    "LBL_2FA_DESCRIPTION": "Wprowad\u017a kod z aplikacji do generowania kod\u00f3w jednorazowych (np. Google Authenticator)",
+    "LBL_2FA_SECRET_ALREADY_SET": "Klucz prywatny (TOTP) jest ju\u017c wygenerowany, aby go zmieni\u0107 aktywuj ponownie nowy klucz.",
+    "FL_AUTHY_METHODS":"Metoda autentykacji 2FA",
+    "PLL_AUTHY_TOTP": "Kod jednorazowy (TOTP)",
+    "FL_AUTHY_SECRET_TOTP": "Klucz prywatny (TOTP)"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Separator dziesi\u0119tny i grupowania nie mog\u0105 by\u0107 takie same",

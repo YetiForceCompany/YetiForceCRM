@@ -33,7 +33,6 @@
 					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_MAIN_MARGIN', $QUALIFIED_MODULE)}
 					</label>
-					<div class="col-sm-6 row">
 						{if $PDF_MODEL->get('margin_chkbox') === 1}
 							{assign 'MARGIN_CHECKED' true}
 						{else}
@@ -42,28 +41,50 @@
 						<div class="col-sm-1">
 							<input type="checkbox" id="margin_chkbox" name="margin_chkbox" value="1" {if $MARGIN_CHECKED eq 'true'}checked="checked"{/if} />
 						</div>
-						<div class="col-sm-2">
-							<input type="text" class="form-control margin_inputs {if $MARGIN_CHECKED eq 'true'}d-none{/if}" name="margin_top" id="margin_top" value="{$PDF_MODEL->get('margin_top')}" placeholder="{\App\Language::translate('LBL_TOP', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_TOP_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
+					<div class="col-sm-6 row d-flex justify-content-center mx-auto">
+						<div class="col-md-6 col-lg-3 mb-2 margin_inputs {if $MARGIN_CHECKED eq 'true'}d-none{/if}">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="margin_top"><span class="fas fa-arrow-up" title="{\App\Language::translate('LBL_TOP', $QUALIFIED_MODULE)}"></span></span>
+								</div>
+								<input type="text" class="form-control" aria-describedby="margin_top" name="margin_top" id="margin_top" value="{$PDF_MODEL->get('margin_top')}" placeholder="{\App\Language::translate('LBL_TOP', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_TOP_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
+							</div>
 						</div>
-						<div class="col-sm-2">
-							<input type="text" class="form-control margin_inputs {if $MARGIN_CHECKED eq 'true'}d-none{/if}" name="margin_right" id="margin_right" value="{$PDF_MODEL->get('margin_right')}" placeholder="{\App\Language::translate('LBL_RIGHT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_RIGHT_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
+						<div class="col-md-6 col-lg-3 mb-2 margin_inputs {if $MARGIN_CHECKED eq 'true'}d-none{/if}">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="margin_right"><span class="fas fa-arrow-right" title="{\App\Language::translate('LBL_RIGHT', $QUALIFIED_MODULE)}"></span></span>
+								</div>
+								<input type="text" class="form-control" aria-describedby="margin_right" name="margin_right" id="margin_right" value="{$PDF_MODEL->get('margin_right')}" placeholder="{\App\Language::translate('LBL_RIGHT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_RIGHT_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
+							</div>
 						</div>
-						<div class="col-sm-2">
-							<input type="text" class="form-control margin_inputs {if $MARGIN_CHECKED eq 'true'}d-none{/if}" name="margin_bottom" id="margin_bottom" value="{$PDF_MODEL->get('margin_bottom')}" placeholder="{\App\Language::translate('LBL_BOTTOM', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_BOTTOM_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
+						<div class="col-md-6 col-lg-3 mb-2 margin_inputs {if $MARGIN_CHECKED eq 'true'}d-none{/if}">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="margin_bottom"><span class="fas fa-arrow-down" title="{\App\Language::translate('LBL_BOTTOM', $QUALIFIED_MODULE)}"></span></span>
+								</div>
+								<input type="text" class="form-control" aria-describedby="margin_bottom" name="margin_bottom" id="margin_bottom" value="{$PDF_MODEL->get('margin_bottom')}" placeholder="{\App\Language::translate('LBL_BOTTOM', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_BOTTOM_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
+							</div>
 						</div>
-						<div class="col-sm-2">
-							<input type="text" class="form-control margin_inputs {if $MARGIN_CHECKED eq 'true'}d-none{/if}" name="margin_left" id="margin_left" value="{$PDF_MODEL->get('margin_left')}" placeholder="{\App\Language::translate('LBL_LEFT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_LEFT_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
+						<div class="col-md-6 col-lg-3 mb-2 margin_inputs {if $MARGIN_CHECKED eq 'true'}d-none{/if}">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="margin_left"><span class="fas fa-arrow-left" title="{\App\Language::translate('LBL_LEFT', $QUALIFIED_MODULE)}"></span></span>
+								</div>
+								<input type="text" class="form-control" aria-describedby="margin_left" name="margin_left" id="margin_left" value="{$PDF_MODEL->get('margin_left')}" placeholder="{\App\Language::translate('LBL_LEFT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_LEFT_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="form-group">
-					<label class="col-sm-3 col-form-label">&nbsp;</label>
-					<div class="col-sm-9 row">
-						<div class="col-sm-offset-1 col-sm-2">
-							<input type="text" class="form-control margin_inputs {if $MARGIN_CHECKED eq 'true'}d-none{/if}" name="header_height" id="header_height" value="{$PDF_MODEL->get('header_height')}" placeholder="{\App\Language::translate('LBL_HEADER_HEIGHT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_HEADER_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
+				<div class="form-group margin_inputs {if $MARGIN_CHECKED eq 'true'}d-none{/if}">
+					<div class="col-sm-6 row d-flex justify-content-center mx-auto">
+						<div class="col-12  col-lg-6 mb-2">
+							<label class="col-12 col-form-label text-center u-text-ellipsis">{\App\Language::translate('LBL_HEADER_HEIGHT', $QUALIFIED_MODULE)}</label>
+							<input type="text" class="form-control" name="header_height" id="header_height" value="{$PDF_MODEL->get('header_height')}" placeholder="{\App\Language::translate('LBL_HEADER_HEIGHT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_HEADER_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
 						</div>
-						<div class="col-sm-2">
-							<input type="text" class="form-control margin_inputs {if $MARGIN_CHECKED eq 'true'}d-none{/if}" name="footer_height" id="footer_height" value="{$PDF_MODEL->get('footer_height')}" placeholder="{\App\Language::translate('LBL_FOOTER_HEIGHT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_FOOTER_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
+						<div class="col-md-12 col-lg-6 mb-2">
+							<label class="col-12 col-form-label text-center u-text-ellipsis">{\App\Language::translate('LBL_FOOTER_HEIGHT', $QUALIFIED_MODULE)}</label>
+							<input type="text" class="form-control" name="footer_height" id="footer_height" value="{$PDF_MODEL->get('footer_height')}" placeholder="{\App\Language::translate('LBL_FOOTER_HEIGHT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_FOOTER_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
 						</div>
 					</div>
 				</div>

@@ -1,7 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 Vtiger_Detail_Js("KnowledgeBase_Detail_Js", {
 	showPresentation: function () {
-		console.log(this);
 		let url = 'index.php?module=KnowledgeBase&view=FullScreen&record=' + app.getRecordId();
 		let features = "width=" + screen.width + ",height=" + screen.height + ",toolbar=0,location=0, directories=0, status=0,location=no,menubar=0";
 		let popup = window.open(url, '', features);

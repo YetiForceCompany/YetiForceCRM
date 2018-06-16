@@ -41,7 +41,7 @@ var Settings_Index_Js = {
 		if (document.showDiff == true) {
 			param.sd = 1;
 		}
-		AppConnector.request(param).then(function (data) {
+		AppConnector.request(param).done(function (data) {
 			jQuery(position).html(data);
 			Settings_Index_Js.initEditLang(position);
 			progress.progressIndicator({'mode': 'hide'});
@@ -254,22 +254,17 @@ var Settings_Index_Js = {
 		params.data = $.extend(params.data, data);
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).then(
-				function (data) {
-					response = data['result'];
-					var params = {
-						text: response['message'] ? response['message'] : app.vtranslate('JS_ERROR'),
-					};
-					if (response['success'] == true) {
-						params.type = 'info';
-					}
-					Vtiger_Helper_Js.showPnotify(params);
-					resp = response['success'];
-				},
-				function (data, err) {
-
-				}
-		);
+		AppConnector.request(params).done(function (data) {
+			response = data['result'];
+			var params = {
+				text: response['message'] ? response['message'] : app.vtranslate('JS_ERROR'),
+			};
+			if (response['success'] == true) {
+				params.type = 'info';
+			}
+			Vtiger_Helper_Js.showPnotify(params);
+			resp = response['success'];
+		});
 		return {resp: resp, params: params.data.params, result: response};
 	},
 	registerStats: function () {
@@ -284,16 +279,12 @@ var Settings_Index_Js = {
 				langBase: jQuery('[name="langs_basic"]').val(),
 				langs: langs
 			}
-			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (response['success'] && response['data'].length !== 0) {
-							thisInstance.showStats(response['data'], response['modules']);
-						}
-					},
-					function (data, err) {
-					}
-			);
+			AppConnector.request(params).done(function (data) {
+				var response = data['result'];
+				if (response['success'] && response['data'].length !== 0) {
+					thisInstance.showStats(response['data'], response['modules']);
+				}
+			});
 		})
 	},
 	showStats: function (data, modules) {
@@ -343,12 +334,12 @@ var Settings_Index_Js = {
 			var element = jQuery(e.currentTarget);
 			var row = element.closest('.moduleRow');
 			var url =
-					'index.php?module=' + app.getModuleName() +
-					'&parent=' + app.getParentModuleName() +
-					'&view=GetLabels' +
-					'&langBase=' + jQuery('[name="langs_basic"]').val() +
-					'&lang=' + element.data('lang') +
-					'&sourceModule=' + row.data('module');
+				'index.php?module=' + app.getModuleName() +
+				'&parent=' + app.getParentModuleName() +
+				'&view=GetLabels' +
+				'&langBase=' + jQuery('[name="langs_basic"]').val() +
+				'&lang=' + element.data('lang') +
+				'&sourceModule=' + row.data('module');
 			app.showModalWindow(null, url, function (data) {
 				progress.progressIndicator({'mode': 'hide'});
 				data.find('button:not(.close)').on('click', function (e) {
@@ -398,10 +389,10 @@ var Settings_Index_Js = {
 		instance.loadChart({
 			scales: {
 				xAxes: [{
-						ticks: {
-							minRotation: 0
-						}
-					}]
+					ticks: {
+						minRotation: 0
+					}
+				}]
 			}
 		});
 	},

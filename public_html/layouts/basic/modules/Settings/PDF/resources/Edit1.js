@@ -48,7 +48,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 		saveData['action'] = 'Save';
 		saveData['step'] = 1;
 		saveData['async'] = false;
-		AppConnector.request(saveData).then(function (data) {
+		AppConnector.request(saveData).done(function (data) {
 			data = JSON.parse(data);
 			if (data.success == true) {
 				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
@@ -59,17 +59,17 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 				}
 
 				formData['record'] = data.result.id;
-				AppConnector.request(formData).then(function (data) {
+				AppConnector.request(formData).done(function (data) {
 					form.hide();
 					progressIndicatorElement.progressIndicator({
 						'mode': 'hide'
 					})
 					aDeferred.resolve(data);
-				}, function (error, err) {
+				}).fail(function (error, err) {
 					app.errorLog(error, err);
 				});
 			}
-		}, function (error, err) {
+		}).fail(function (error, err) {
 			app.errorLog(error, err);
 		});
 

@@ -48,7 +48,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit1_Js", {}, {
 					'enabled': true
 				}
 			});
-			app.saveAjax('step1', saveData).then(function (data) {
+			app.saveAjax('step1', saveData).done(function (data) {
 				if (data.success == true) {
 					if (!data.result.id && data.result.message) {
 						Settings_Vtiger_Index_Js.showMessage({text: data.result.message, type: 'error'});

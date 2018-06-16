@@ -45,7 +45,7 @@ jQuery.Class('Settings_Users_SwitchUsers_Js', {}, {
 					});
 				}
 			});
-			app.saveAjax('saveSwitchUsers', data).then(function (data) {
+			app.saveAjax('saveSwitchUsers', data).done(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 			});
 		});

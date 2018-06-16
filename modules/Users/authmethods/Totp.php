@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * TOTP authentication method class.
  * TOTP - Time-based One-time Password.
@@ -8,12 +9,10 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
+use Sonata\GoogleAuthenticator\GoogleAuthenticator;
+
 class Users_Totp_Authmethod
 {
-	/**
-	 * Clock tolerance example 2 = 2*30sec.
-	 */
-	const CLOCK_TOLERANCE = 2;
 	/**
 	 *  User authentication mode possible values.
 	 */
@@ -51,16 +50,13 @@ class Users_Totp_Authmethod
 	public function getOtpAuthUrl($secret, $name, $issuer = null)
 	{
 		if (is_null($issuer)) {
-			$arr = parse_url($PORTAL_URL);
+			$arr = parse_url(AppConfig::main('site_URL'));
 			$issuer = $arr['host'] ?? '';
 		}
-		$url = "otpauth://totp/{$name}?secret={$secret}";
+		$url = "otpauth://totp/{$issuer}:{$name}?secret={$secret}";
 		if (!empty($issuer)) {
 			$url .= "&issuer={$issuer}";
 		}
-		//$period - OPTIONAL only if type is totp: The period parameter defines a period that a TOTP code will be valid for, in seconds. The default value is 30.
-		$period = 30 * static::CLOCK_TOLERANCE;
-		$url .= "&period={$period}";
 		return $url;
 	}
 
@@ -71,9 +67,7 @@ class Users_Totp_Authmethod
 	 */
 	public function createSecret()
 	{
-		$googleAuthenticator = new PHPGangsta_GoogleAuthenticator();
-		$this->secret = $googleAuthenticator->createSecret();
-		return $this->secret;
+		return $this->secret = (new GoogleAuthenticator())->generateSecret();
 	}
 
 	/**
@@ -89,7 +83,7 @@ class Users_Totp_Authmethod
 	private function createQrCode($otpAuthUrl, $type = 'HTML')
 	{
 		$qrCodeGenerator = new \Milon\Barcode\DNS2D();
-		$qrCodeGenerator->setStorPath(__DIR__ . '/cache/');
+		$qrCodeGenerator->setStorPath(__DIR__ . AppConfig::main('tmp_dir'));
 		switch ($type) {
 			case 'HTML':
 				return $qrCodeGenerator->getBarcodeHTML($otpAuthUrl, 'QRCODE');
@@ -130,6 +124,51 @@ class Users_Totp_Authmethod
 	 */
 	public static function verifyCode($secret, $userCode)
 	{
-		return (new PHPGangsta_GoogleAuthenticator())->verifyCode($secret, (string) $userCode, static::CLOCK_TOLERANCE);
+		return (new GoogleAuthenticator())->checkCode($secret, (string) $userCode);
+	}
+
+	/**
+	 * Determine whether 2FA is required.
+	 *
+	 * @param int|null $userId - if null then getCurrentUserRealId
+	 *
+	 * @return bool
+	 */
+	public static function isActive($userId = null)
+	{
+		if (\AppConfig::main('systemMode') === 'demo') {
+			$return = false;
+		}
+		switch (AppConfig::security('USER_AUTHY_MODE')) {
+			case 'TOTP_OFF':
+				$return = false;
+				break;
+			case 'TOTP_OPTIONAL':
+				if (empty($userId)) {
+					$userId = \App\User::getCurrentUserRealId();
+				}
+				$userModel = \App\User::getUserModel($userId);
+				$return = $userModel->getDetail('authy_methods') === 'PLL_AUTHY_TOTP';
+				break;
+			case 'TOTP_OBLIGATORY':
+				$return = true;
+				if (in_array(\App\User::getCurrentUserRealId(), AppConfig::security('USER_AUTHY_TOTP_EXCEPTIONS', []))) {
+					$return = false;
+				}
+				break;
+		}
+		return $return;
+	}
+
+	/**
+	 * Check if 2FA initiation is necessary.
+	 *
+	 * @param int|null $userId - if null then getCurrentUserRealId
+	 *
+	 * @return bool
+	 */
+	public static function isActiveUser($userId = null)
+	{
+		return !empty(\App\User::getUserModel($userId)->getDetail('authy_secret_totp'));
 	}
 }

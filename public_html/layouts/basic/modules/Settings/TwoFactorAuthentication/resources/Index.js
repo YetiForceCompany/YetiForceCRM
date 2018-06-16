@@ -29,7 +29,7 @@ jQuery.Class('Settings_TwoFactorAuthentication_Index_Js', {}, {
 						enabled: true
 					}
 				});
-				AppConnector.request(container.serializeFormData()).then((response) => {
+				AppConnector.request(container.serializeFormData()).done((response) => {
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
 					Vtiger_Helper_Js.showPnotify({
 						text: response.result.message,

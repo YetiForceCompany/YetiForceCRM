@@ -10,7 +10,7 @@ jQuery.Class("Settings_TimeControlProcesses_Index_Js", {}, {
 			params['value'] = value;
 			params['type'] = tab.data('type');
 			params['param'] = target.attr('name');
-			app.saveAjax('', params).then(function (data) {
+			app.saveAjax('', params).done(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 				if (value) {
 					target.parent().removeClass('btn-light').addClass('btn-success').find('[data-fa-i2svg]').removeClass('fa-square').addClass('fa-check-square');

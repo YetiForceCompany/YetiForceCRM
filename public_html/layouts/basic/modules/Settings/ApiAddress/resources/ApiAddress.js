@@ -21,7 +21,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).then(
+			AppConnector.request(params).done(
 				function (data) {
 					var response = data['result'];
 					var parametres = {
@@ -29,15 +29,13 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 						type: 'success'
 					};
 					Vtiger_Helper_Js.showPnotify(parametres);
-				},
-				function (data, err) {
-					var parametres = {
-						text: app.vtranslate('JS_ERROR'),
-						type: 'error'
-					};
-					Vtiger_Helper_Js.showPnotify(parametres);
-				}
-			);
+				}).fail(function (data, err) {
+				var parametres = {
+					text: app.vtranslate('JS_ERROR'),
+					type: 'error'
+				};
+				Vtiger_Helper_Js.showPnotify(parametres);
+			});
 		});
 		content.find('.save').on('click', function () {
 			var elements = {};
@@ -61,34 +59,31 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					if (response['success']) {
-						if (elements['key']) {
-							thisInstance.registerReload();
-						}
-						var parametry = {
-							text: response['message'],
-							type: 'success'
-						};
-						Vtiger_Helper_Js.showPnotify(parametry);
-					} else {
-						var parametry = {
-							text: response['message'],
-							type: 'error'
-						};
-						Vtiger_Helper_Js.showPnotify(parametry);
+			AppConnector.request(params).done(function (data) {
+				var response = data['result'];
+				if (response['success']) {
+					if (elements['key']) {
+						thisInstance.registerReload();
 					}
-				},
-				function (data, err) {
 					var parametry = {
-						text: app.vtranslate('JS_ERROR'),
+						text: response['message'],
+						type: 'success'
+					};
+					Vtiger_Helper_Js.showPnotify(parametry);
+				} else {
+					var parametry = {
+						text: response['message'],
 						type: 'error'
 					};
 					Vtiger_Helper_Js.showPnotify(parametry);
 				}
-			);
+			}).fail(function (data, err) {
+				var parametry = {
+					text: app.vtranslate('JS_ERROR'),
+					type: 'error'
+				};
+				Vtiger_Helper_Js.showPnotify(parametry);
+			});
 		});
 	},
 	registerRemoveConnection: function (content) {
@@ -103,32 +98,29 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					if (response['success']) {
-						thisInstance.registerReload();
-						var parametry = {
-							text: response['message'],
-							type: 'success'
-						};
-						Vtiger_Helper_Js.showPnotify(parametry);
-					} else {
-						var parametry = {
-							text: response['message'],
-							type: 'error'
-						};
-						Vtiger_Helper_Js.showPnotify(parametry);
-					}
-				},
-				function (data, err) {
+			AppConnector.request(params).done(function (data) {
+				var response = data['result'];
+				if (response['success']) {
+					thisInstance.registerReload();
 					var parametry = {
-						text: app.vtranslate('JS_ERROR'),
+						text: response['message'],
+						type: 'success'
+					};
+					Vtiger_Helper_Js.showPnotify(parametry);
+				} else {
+					var parametry = {
+						text: response['message'],
 						type: 'error'
 					};
 					Vtiger_Helper_Js.showPnotify(parametry);
 				}
-			);
+			}).fail(function (data, err) {
+				var parametry = {
+					text: app.vtranslate('JS_ERROR'),
+					type: 'error'
+				};
+				Vtiger_Helper_Js.showPnotify(parametry);
+			});
 		});
 	},
 	registerReload: function () {

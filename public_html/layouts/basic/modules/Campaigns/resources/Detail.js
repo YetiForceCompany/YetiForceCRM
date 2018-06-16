@@ -39,8 +39,7 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 					var callBack = urlAttributes.callback;
 					delete urlAttributes.callback;
 				}
-				thisInstance.loadContents(url, urlAttributes).then(
-					function (data) {
+				thisInstance.loadContents(url, urlAttributes).done(	function (data) {
 						thisInstance.deSelectAllrelatedTabs();
 						thisInstance.markTabAsSelected(tabElement);
 						Vtiger_Helper_Js.showHorizontalTopScrollBar();
@@ -61,11 +60,10 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 							thisInstance.loadWidgets();
 						}
 						thisInstance.registerBasicEvents();
-					},
-					function () {
-						element.progressIndicator({'mode': 'hide'});
 					}
-				);
+				).fail(function (error) {
+					element.progressIndicator({'mode': 'hide'});
+				});
 			}
 		});
 	},

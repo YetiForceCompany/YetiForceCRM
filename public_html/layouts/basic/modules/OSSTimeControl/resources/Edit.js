@@ -93,8 +93,7 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js", {}, {
 			params.data = {module: 'OSSTimeControl', action: 'GetTCInfo', id: sourceDesk, sourceModule: moduleName};
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).then(
-				function (data) {
+			AppConnector.request(params).done(function (data) {
 					var response = data['result'];
 					if (response['success']) {
 						var sourceD = response.sourceData;
@@ -126,15 +125,13 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js", {}, {
 						};
 						Vtiger_Helper_Js.showPnotify(params);
 					}
-				},
-				function (data, err) {
-					var parametry = {
-						text: app.vtranslate('JS_ERROR_CONNECTING'),
-						type: 'error'
-					};
-					Vtiger_Helper_Js.showPnotify(parametry);
 				}
-			);
+			).fail(function () {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_ERROR_CONNECTING'),
+					type: 'error'
+				});
+			});
 		}
 	},
 

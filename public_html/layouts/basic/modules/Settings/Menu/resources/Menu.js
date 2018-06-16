@@ -74,7 +74,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 			var progress = jQuery.progressIndicator();
 			var json = thisInstance.treeInstance.jstree("get_json");
 			var menus = thisInstance.getChildrenMenu(json, 0);
-			thisInstance.save('updateSequence', JSON.stringify(menus)).then(function (data) {
+			thisInstance.save('updateSequence', JSON.stringify(menus)).done(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 				thisInstance.loadContent();
 				progress.progressIndicator({'mode': 'hide'});
@@ -108,14 +108,11 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		params['parent'] = app.getParentModuleName();
 		params['view'] = app.getViewName();
 		params['roleid'] = selectedRole;
-		AppConnector.requestPjax(params).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				aDeferred.reject();
-			}
-		);
+		AppConnector.requestPjax(params).done(function (data) {
+			aDeferred.resolve(data);
+		}).fail(function (error) {
+			aDeferred.reject();
+		});
 		return aDeferred.promise();
 	},
 	registerAddMenu: function () {
@@ -137,14 +134,12 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		});
 		var thisInstance = this;
 		var contentsDiv = $('.contentsDiv');
-		thisInstance.getMenuData($('[name="roleMenu"]').val()).then(
-			function (data) {
-				contentsDiv.html(data);
-				App.Fields.Picklist.showSelect2ElementView(contentsDiv.find("[name='roleMenu']"));
-				thisInstance.registerEvents();
-				progress.progressIndicator({'mode': 'hide'});
-			}
-		);
+		thisInstance.getMenuData($('[name="roleMenu"]').val()).done(function (data) {
+			contentsDiv.html(data);
+			App.Fields.Picklist.showSelect2ElementView(contentsDiv.find("[name='roleMenu']"));
+			thisInstance.registerEvents();
+			progress.progressIndicator({'mode': 'hide'});
+		});
 	},
 	registerEditMenu: function (container) {
 		var thisInstance = this;
@@ -158,7 +153,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 			var errorExists = container.find('form').validationEngine('validate');
 			if (errorExists != false) {
 				var progress = jQuery.progressIndicator();
-				thisInstance.save('updateMenu', form).then(function (data) {
+				thisInstance.save('updateMenu', form).done(function (data) {
 					Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 					app.hideModalWindow();
 					thisInstance.loadContent();
@@ -185,7 +180,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		var iconSelect = container.find('#selectIconButton');
 		var icon = container.find('[name="icon"]');
 		iconSelect.on('click', function () {
-			$.when(Settings_Vtiger_Index_Js.selectIcon()).then(function (data) {
+			$.when(Settings_Vtiger_Index_Js.selectIcon()).done(function (data) {
 				icon.val(data['name']);
 			});
 		});
@@ -204,7 +199,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 			var errorExists = container.find('form').validationEngine('validate');
 			if (errorExists != false) {
 				var progress = jQuery.progressIndicator();
-				thisInstance.save('createMenu', form).then(function (data) {
+				thisInstance.save('createMenu', form).done(function (data) {
 					Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 					app.hideModalWindow();
 					thisInstance.loadContent();
@@ -225,19 +220,16 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		params['action'] = 'SaveAjax';
 		params['mode'] = mode;
 		params['mdata'] = data;
-		AppConnector.request(params).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				aDeferred.reject();
-			}
-		);
+		AppConnector.request(params).done(function (data) {
+			aDeferred.resolve(data);
+		}).fail(function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
 		return aDeferred.promise();
 	},
 	removeMenu: function (id, inst) {
 		var thisInstance = this;
-		thisInstance.save('removeMenu', id).then(function (data) {
+		thisInstance.save('removeMenu', id).done(function (data) {
 			Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 			inst.delete_node(id);
 			thisInstance.loadContent();
@@ -332,18 +324,15 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		params['mode'] = 'copyMenu';
 		params['fromRole'] = fromRole;
 		params['toRole'] = toRole;
-		AppConnector.request(params).then(
-			function (data) {
-				app.hideModalWindow();
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				thisInstance.loadContent();
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				aDeferred.reject(error);
-			}
-		);
+		AppConnector.request(params).done(function (data) {
+			app.hideModalWindow();
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			thisInstance.loadContent();
+			aDeferred.resolve(data);
+		}).fail(function (error) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.reject(error);
+		});
 		return aDeferred.promise();
 	},
 

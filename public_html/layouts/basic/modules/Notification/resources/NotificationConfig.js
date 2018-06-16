@@ -33,17 +33,13 @@ jQuery.Class("Notification_NotificationConfig_Js", {}, {
 				frequency: container.find('select[name="frequency"]').val()
 			};
 			var progress = jQuery.progressIndicator();
-			AppConnector.request(params).then(
-				function (data) {
-					progress.progressIndicator({'mode': 'hide'});
-					app.hideModalWindow();
-				},
-				function (textStatus, errorThrown) {
-					progress.progressIndicator({'mode': 'hide'});
-					app.hideModalWindow();
-					app.errorLog(textStatus, errorThrown);
-				}
-			);
+			AppConnector.request(params).done(function () {
+				progress.progressIndicator({'mode': 'hide'});
+				app.hideModalWindow();
+			}).fail(function () {
+				progress.progressIndicator({'mode': 'hide'});
+				app.hideModalWindow();
+			});
 		});
 		container.find('.selectAllModules').on('click', function (e) {
 			e.stopPropagation();

@@ -9,7 +9,6 @@
  */
 class Calendar_Calendar_Model extends App\Base
 {
-
 	public $moduleName = 'Calendar';
 	public $relationAcounts = [
 		'Contacts' => ['vtiger_contactdetails', 'contactid', 'parentid'],
@@ -229,9 +228,15 @@ class Calendar_Calendar_Model extends App\Base
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$endDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 
+			$item['allDay'] = $record['allday'] == 1 ? true : false;
 			$item['start_date'] = $record['date_start'];
-			$item['start'] = $startDateFormated . ' ' . $startTimeFormated;
-			$item['end'] = $endDateFormated . ' ' . $endTimeFormated;
+			if ($item['allDay']) {
+				$item['start'] = $startDateFormated;
+				$item['end'] = $endDateFormated;
+			} else {
+				$item['start'] = $startDateFormated . ' ' . $startTimeFormated;
+				$item['end'] = $endDateFormated . ' ' . $endTimeFormated;
+			}
 
 			// display date time values
 			$item['start_display'] = $startDateTimeDisplay;
@@ -239,7 +244,6 @@ class Calendar_Calendar_Model extends App\Base
 			$item['hour_start'] = $startTimeDisplay;
 			$hours = \App\Fields\Date::getDiff($item['start'], $item['end'], 'hours');
 			$item['hours'] = \App\Fields\Time::formatToHourText($hours, 'short');
-			$item['allDay'] = $record['allday'] == 1 ? true : false;
 			$item['className'] = ' ownerCBg_' . $record['smownerid'] . ' picklistCBr_Calendar_activitytype_' . $activitytype;
 			$return[] = $item;
 		}

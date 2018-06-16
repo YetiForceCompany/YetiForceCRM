@@ -1,5 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
+$.Class("Vtiger_DetailPreview_Js", {}, {
 	/**
 	 * Redirects to the clicked link from the iframe.
 	 */
@@ -55,10 +55,30 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 		});
 	},
 	/**
+	 * Register detail events
+	 */
+	registerDetailEvent: function () {
+		let moduleClassName = app.getModuleName() + "_Detail_Js", parent = false;
+		if (typeof window[moduleClassName] === "undefined") {
+			moduleClassName = "Vtiger_Detail_Js";
+		}
+		if (typeof window[moduleClassName] !== "undefined") {
+			if (typeof window[moduleClassName] === 'function') {
+				parent = new window[moduleClassName]();
+			}
+			if (typeof window[moduleClassName] === 'object') {
+				parent = window[moduleClassName];
+			}
+			if (parent) {
+				parent.registerEvents();
+			}
+		}
+	},
+	/**
 	 * Registers DetailPreview events.
 	 */
 	registerEvents: function () {
-		this._super();
+		this.registerDetailEvent();
 		this.registerLinkEvent();
 		this.registerSizeEvent();
 	}

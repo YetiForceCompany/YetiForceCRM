@@ -26,13 +26,34 @@
 						</div>
 						<hr class="widgetHr">
 					</div>
-
+					<div class="c-detail-widget__content">
+						<table class="table mb-0 mt-1 border-0">
+							<thead>
+								<tr>
+									<th class="py-0 border-0">
+										<h6 class="py-1 my-0">{\App\Language::translate('Products',$MODULE_NAME)}</h6>
+									</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
 					<div class="c-detail-widget__content js-detail-widget-content" data-js=”container|value”></div>
 				</div>
 				{if $RELATIONS[\App\Module::getModuleId('Products')]->isTreeRelation()}
 					<div class="widgetContainer_productsCategory"
 						 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Products&mode=showRelatedTree"
 						 data-name="LBL_RELATED_PRODUCTS">
+						<div class="c-detail-widget__content">
+							<table class="table mb-0 mt-1 border-0">
+								<thead>
+									<tr>
+										<th class="py-0 border-0">
+											<h6 class="py-1 my-0">{\App\Language::translate('LBL_CATEGORIES',$MODULE_NAME)}</h6>
+										</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
 						<div class="c-detail-widget__header js-detail-widget-header form-row"
 							 data-js="”container|value">
 							<input type="hidden" name="relatedModule" value="Products"/>
@@ -68,12 +89,34 @@
 						</div>
 						<hr class="widgetHr">
 					</div>
+					<div class="c-detail-widget__content">
+						<table class="table mb-0 mt-1 border-0">
+							<thead>
+								<tr>
+									<th class="py-0 border-0">
+										<h6 class="py-1 my-0">{\App\Language::translate('Products',$MODULE_NAME)}</h6>
+									</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
 					<div class="c-detail-widget__content js-detail-widget-content" data-js=”container|value”></div>
 				</div>
 				{if $RELATIONS[\App\Module::getModuleId('OutsourcedProducts')]->isTreeRelation()}
 					<div class="widgetContainer_productsCategory"
 						 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=OutsourcedProducts&mode=showRelatedTree"
 						 data-name="LBL_RELATED_OP">
+						<div class="c-detail-widget__content">
+							<table class="table mb-0 mt-1 border-0">
+								<thead>
+									<tr>
+										<th class="py-0 border-0">
+											<h6 class="py-1 my-0">{\App\Language::translate('LBL_CATEGORIES',$MODULE_NAME)}</h6>
+										</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
 						<div class="c-detail-widget__header js-detail-widget-header form-row"
 							 data-js="”container|value">
 							<input type="hidden" name="relatedModule" value="OutsourcedProducts"/>
@@ -110,6 +153,7 @@
 						</div>
 						<hr class="widgetHr">
 					</div>
+
 					<div class="c-detail-widget__content js-detail-widget-content" data-js=”container|value”></div>
 				</div>
 			</div>
@@ -138,12 +182,34 @@
 						</div>
 						<hr class="widgetHr">
 					</div>
+					<div class="c-detail-widget__content">
+						<table class="table mb-0 mt-1 border-0">
+							<thead>
+								<tr>
+									<th class="py-0 border-0">
+										<h6 class="py-1 my-0">{\App\Language::translate('Services',$MODULE_NAME)}</h6>
+									</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
 					<div class="c-detail-widget__content js-detail-widget-content" data-js=”container|value”></div>
 				</div>
 				{if $RELATIONS[\App\Module::getModuleId('Services')]->isTreeRelation()}
 					<div class="widgetContainer_productsCategory"
 						 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Services&mode=showRelatedTree"
 						 data-name="LBL_RELATED_SERVICES">
+						<div class="c-detail-widget__content">
+							<table class="table mb-0 mt-1 border-0">
+								<thead>
+									<tr>
+										<th class="py-0 border-0">
+											<h6 class="py-1 my-0">{\App\Language::translate('LBL_CATEGORIES',$MODULE_NAME)}</h6>
+										</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
 						<div class="c-detail-widget__header js-detail-widget-header form-row"
 							 data-js="”container|value">
 							<input type="hidden" name="relatedModule" value="Services"/>
@@ -180,12 +246,34 @@
 						</div>
 						<hr class="widgetHr">
 					</div>
+					<div class="c-detail-widget__content">
+						<table class="table mb-0 mt-1 border-0">
+							<thead>
+								<tr>
+									<th class="py-0 border-0">
+										<h6 class="py-1 my-0">{\App\Language::translate('Services',$MODULE_NAME)}</h6>
+									</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
 					<div class="c-detail-widget__content js-detail-widget-content" data-js=”container|value”></div>
 				</div>
 				{if $RELATIONS[\App\Module::getModuleId('OSSOutsourcedServices')]->isTreeRelation()}
 					<div class="widgetContainer_productsCategory"
 						 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=OSSOutsourcedServices&mode=showRelatedTree"
 						 data-name="LBL_RELATED_OSSOS">
+						<div class="c-detail-widget__content">
+							<table class="table mb-0 mt-1 border-0">
+								<thead>
+									<tr>
+										<th class="py-0 border-0">
+											<h6 class="py-1 my-0">{\App\Language::translate('LBL_CATEGORIES',$MODULE_NAME)}</h6>
+										</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
 						<div class="c-detail-widget__header js-detail-widget-header form-row"
 							 data-js="”container|value">
 							<input type="hidden" name="relatedModule" value="OSSOutsourcedServices"/>

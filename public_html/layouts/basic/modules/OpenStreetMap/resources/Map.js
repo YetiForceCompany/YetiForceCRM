@@ -159,7 +159,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					srcModule: app.getModuleName(),
 					cache: [moduleName],
 				};
-				AppConnector.request(params).then(function (response) {
+				AppConnector.request(params).done(function (response) {
 					thisInstance.setMarkersByResponse(response);
 				});
 			} else {
@@ -175,7 +175,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				recordIds: JSON.stringify(thisInstance.recordsIds),
 				srcModule: app.getModuleName()
 			};
-			AppConnector.request(params).then(function (response) {
+			AppConnector.request(params).done(function (response) {
 				Vtiger_Helper_Js.showMessage({
 					title: app.vtranslate('JS_LBL_PERMISSION'),
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
@@ -195,13 +195,12 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				mode: 'delete',
 				srcModule: moduleName
 			};
-			AppConnector.request(params).then(function (response) {
-				var params = {
+			AppConnector.request(params).done(function (response) {
+				Vtiger_Helper_Js.showMessage({
 					title: app.vtranslate('JS_LBL_PERMISSION'),
 					text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 					type: 'success',
-				};
-				Vtiger_Helper_Js.showMessage(params);
+				});
 				var countRecords = container.find('.countRecords' + moduleName);
 				countRecords.html('');
 				currentTarget.addClass('d-none');
@@ -218,13 +217,12 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				mode: 'addAllRecords',
 				srcModule: moduleName
 			};
-			AppConnector.request(params).then(function (response) {
-				var params = {
+			AppConnector.request(params).done(function (response) {
+				Vtiger_Helper_Js.showMessage({
 					title: app.vtranslate('JS_LBL_PERMISSION'),
 					text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 					type: 'success',
-				};
-				Vtiger_Helper_Js.showMessage(params);
+				});
 				container.find('.countRecords' + moduleName).html(response.result.count);
 				var moduleContainer = currentTarget.closest('.cacheModuleContainer');
 				moduleContainer.find('.showRecordsFromCache').prop('checked', true);
@@ -262,7 +260,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				mode: 'addRecord',
 				record: crmId,
 				srcModuleName: searchModule.val()
-			}).then(function (response) {
+			}).done(function (response) {
 				addButton.data('crmId', '');
 				if (response.result.length == 1) {
 					var marker = L.marker([response.result[0].lat, response.result[0].lon], {
@@ -324,7 +322,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					mode: 'showSearchResults',
 					value: searchValue.val(),
 					html: false,
-				}).then(function (responseAjax) {
+				}).done(function (responseAjax) {
 					responseAjax = JSON.parse(responseAjax);
 					var reponseDataList = responseAjax.result;
 					if (reponseDataList.length <= 0) {
@@ -370,7 +368,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				cache: thisInstance.getCacheParamsToRequest(),
 			};
 			$.extend(params, thisInstance.selectedParams);
-			AppConnector.request(params).then(function (response) {
+			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.setMarkersByResponse(response);
 			});
@@ -468,7 +466,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				params['radius'] = radiusValue;
 			}
 			$.extend(params, thisInstance.selectedParams);
-			AppConnector.request(params).then(function (response) {
+			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.setMarkersByResponse(response);
 			});
@@ -591,7 +589,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				cache: thisInstance.getCacheParamsToRequest(),
 			};
 			$.extend(params, thisInstance.selectedParams);
-			AppConnector.request(params).then(function (response) {
+			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.setMarkersByResponse(response);
 			});
@@ -625,7 +623,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					tlat: endElement.data('lat')
 				}
 			};
-			AppConnector.request(params).then(function (response) {
+			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
 				map.removeLayer(thisInstance.routeLayer);
 				var route = L.geoJson(response.result);
@@ -671,7 +669,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		};
 		$.extend(params, this.selectedParams);
 		thisInstance.registerBasicModal();
-		AppConnector.request(params).then(function (response) {
+		AppConnector.request(params).done(function (response) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			thisInstance.setMarkersByResponse(response);
 

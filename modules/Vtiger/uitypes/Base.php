@@ -72,7 +72,7 @@ class Vtiger_Base_UIType extends \App\Base
 		if ($isUserFormat) {
 			$value = \App\Purifier::decodeHtml($value);
 		}
-		if (!is_numeric($value) && (is_string($value) && $value !== strip_tags($value))) {
+		if (!is_numeric($value) && (is_string($value) && $value !== \App\Purifier::decodeHtml(\App\Purifier::purify($value)))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$maximumLength = $this->getFieldModel()->get('maximumlength');

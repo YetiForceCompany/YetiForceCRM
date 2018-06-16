@@ -272,22 +272,19 @@ var Settings_Profiles_Js = {
 					thisInstance.checkDuplicateName({
 						'profileName': formData.profilename,
 						'profileId': formData.record
-					}).then(
-						function (data) {
-							form.data('submit', 'true');
-							form.data('performCheck', 'true');
-							form.submit();
-						},
-						function (data, err) {
-							progressIndicatorInstance.progressIndicator({mode: 'hide'});
-							button.attr('disabled', false);
-							var params = {};
-							params['text'] = data['message'];
-							params['type'] = 'error';
-							Settings_Vtiger_Index_Js.showMessage(params);
-							return false;
-						}
-					);
+					}).done(function (data) {
+						form.data('submit', 'true');
+						form.data('performCheck', 'true');
+						form.submit();
+					}).fail(function (data, err) {
+						progressIndicatorInstance.progressIndicator({mode: 'hide'});
+						button.attr('disabled', false);
+						var params = {};
+						params['text'] = data['message'];
+						params['type'] = 'error';
+						Settings_Vtiger_Index_Js.showMessage(params);
+						return false;
+					});
 				} else {
 					progressIndicatorInstance.progressIndicator({mode: 'hide'});
 					button.attr('disabled', false);
@@ -319,20 +316,17 @@ var Settings_Profiles_Js = {
 			'record': recordId
 		}
 
-		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				var result = response['success'];
-				if (result == true) {
-					aDeferred.reject(response);
-				} else {
-					aDeferred.resolve(response);
-				}
-			},
-			function (error, err) {
-				aDeferred.reject();
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			var result = response['success'];
+			if (result == true) {
+				aDeferred.reject(response);
+			} else {
+				aDeferred.resolve(response);
 			}
-		);
+		}).fail(function (error, err) {
+			aDeferred.reject(error, err);
+		});
 		return aDeferred.promise();
 	},
 

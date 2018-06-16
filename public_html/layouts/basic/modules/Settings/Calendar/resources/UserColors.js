@@ -34,20 +34,16 @@ var Settings_UserColors_Js = {
 		}
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				var params = {
-					text: response['message'],
-					type: 'success'
-				};
-				app.hideModalWindow();
-				Vtiger_Helper_Js.showPnotify(params);
-				return response;
-			},
-			function (data, err) {
-			}
-		);
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			var params = {
+				text: response['message'],
+				type: 'success'
+			};
+			app.hideModalWindow();
+			Vtiger_Helper_Js.showPnotify(params);
+			return response;
+		});
 	},
 	registerSaveWorkingDays: function (content) {
 		content.find('.workignDaysField').on('change', function (e) {
@@ -60,7 +56,7 @@ var Settings_UserColors_Js = {
 			} else {
 				params['val'] = target.val();
 			}
-			app.saveAjax('updateNotWorkingDays', params).then(function (data) {
+			app.saveAjax('updateNotWorkingDays', params).done(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 			});
 		});

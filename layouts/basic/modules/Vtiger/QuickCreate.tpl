@@ -14,8 +14,8 @@
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-	<div class="modelContainer modal fade quickCreateContainer" tabindex="-1">
-		<div class="modal-dialog modal-lg modal-full">
+	<div class="tpl-QuickCreate modelContainer modal quickCreateContainer" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg modal-full" role="document">
 			<div class="modal-content">
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
 					<div class="modal-header d-flex justify-content-between pb-1">
@@ -34,7 +34,7 @@
 							{/foreach}
 							<button class="btn btn-outline-secondary goToFullFormOne" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
 							<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
-							<button class="cancelLink text-white btn btn-danger" aria-hidden="true" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
+							<button class="cancelLink text-white btn btn-danger ml-1" aria-hidden="true" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
 						</div>
 					</div>
 					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}

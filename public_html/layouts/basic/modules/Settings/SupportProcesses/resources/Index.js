@@ -17,7 +17,7 @@ jQuery.Class('Settings_SupportProcesses_Index_Js', {}, {
 			} else {
 				params['val'] = target.val() != null ? target.val() : '';
 			}
-			app.saveAjax('updateConfig', params).then(function (data) {
+			app.saveAjax('updateConfig', params).done(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 			});
 		});

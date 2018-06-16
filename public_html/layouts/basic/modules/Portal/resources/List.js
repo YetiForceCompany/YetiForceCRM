@@ -21,7 +21,7 @@ Vtiger_List_Js("Portal_List_Js", {
 	},
 
 	editBookmark: function (params) {
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			var callBackFunction = function (data) {
 				Portal_List_Js.saveBookmark();
 			};
@@ -47,7 +47,7 @@ Vtiger_List_Js("Portal_List_Js", {
 				Vtiger_Helper_Js.showPnotify(data);
 				return false;
 			}
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				if (data.success) {
 					var params = {
 						title: app.vtranslate('JS_MESSAGE'),
@@ -70,28 +70,27 @@ Vtiger_List_Js("Portal_List_Js", {
 			var selectedIds = listInstance.readSelectedIds(true);
 			var excludedIds = listInstance.readExcludedIds(true);
 			var message = app.vtranslate('LBL_MASS_DELETE_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-				function (e) {
-					var deleteURL = 'index.php?module=' + app.getModuleName() + '&action=MassDelete';
-					deleteURL += '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
-					var searchValue = listInstance.getAlphabetSearchValue();
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+				var deleteURL = 'index.php?module=' + app.getModuleName() + '&action=MassDelete';
+				deleteURL += '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
+				var searchValue = listInstance.getAlphabetSearchValue();
 
-					if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
-						deleteURL += '&search_value=' + searchValue;
+				if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
+					deleteURL += '&search_value=' + searchValue;
+				}
+				AppConnector.request(deleteURL).done(function (data) {
+					if (data.success) {
+						var params = {
+							title: app.vtranslate('JS_MESSAGE'),
+							text: data.result.message,
+							type: 'error'
+						};
+						Vtiger_Helper_Js.showPnotify(params);
+						var url = Portal_List_Js.getDefaultParams();
+						Portal_List_Js.loadListViewContent(url);
 					}
-					AppConnector.request(deleteURL).then(function (data) {
-						if (data.success) {
-							var params = {
-								title: app.vtranslate('JS_MESSAGE'),
-								text: data.result.message,
-								type: 'error'
-							};
-							Vtiger_Helper_Js.showPnotify(params);
-							var url = Portal_List_Js.getDefaultParams();
-							Portal_List_Js.loadListViewContent(url);
-						}
-					});
 				});
+			});
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}
@@ -104,7 +103,7 @@ Vtiger_List_Js("Portal_List_Js", {
 				'enabled': true
 			}
 		});
-		AppConnector.requestPjax(url).then(function (data) {
+		AppConnector.requestPjax(url).done(function (data) {
 			progressIndicatorElement.progressIndicator({
 				'mode': 'hide'
 			});
@@ -185,14 +184,14 @@ Vtiger_List_Js("Portal_List_Js", {
 			var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
 			Vtiger_Helper_Js.showConfirmationBox({
 				'message': message
-			}).then(function (e) {
+			}).done(function (e) {
 				var params = {
 					'module': app.getModuleName(),
 					'parent': app.getParentModuleName(),
 					'action': 'DeleteAjax',
 					'record': id
 				};
-				AppConnector.request(params).then(function (data) {
+				AppConnector.request(params).done(function (data) {
 					if (data.success) {
 						var params = {
 							title: app.vtranslate('JS_MESSAGE'),

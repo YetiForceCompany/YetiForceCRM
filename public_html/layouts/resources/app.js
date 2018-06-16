@@ -326,7 +326,7 @@ app = {
 		if (data) {
 			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
 		} else {
-			$.get(url).then(function (response) {
+			$.get(url).done(function (response) {
 				thisInstance.showModalData(response, container, paramsObject, cb, url, sendByAjaxCb);
 			});
 		}
@@ -399,7 +399,7 @@ app = {
 						blockInfo: {'enabled': true}
 					});
 					var formData = form.serializeFormData();
-					AppConnector.request(formData).then(function (responseData) {
+					AppConnector.request(formData).done(function (responseData) {
 						sendByAjaxCb(formData, responseData);
 						if (responseData.success && responseData.result) {
 							if (responseData.result.notify) {
@@ -411,6 +411,8 @@ app = {
 							}
 						}
 						app.hideModalWindow();
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					}).fail(function () {
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					});
 				}
@@ -535,23 +537,16 @@ app = {
 		var dotMode = '-';
 		if (dateFormat.indexOf("-") !== -1) {
 			dotMode = '-';
-		}
-		if (dateFormat.indexOf("-") !== -1) {
+		} else if (dateFormat.indexOf(".") !== -1) {
 			dotMode = '.';
-		}
-		if (dateFormat.indexOf("/") !== -1) {
+		} else if (dateFormat.indexOf("/") !== -1) {
 			dotMode = '/';
 		}
-
 		var dateFormatParts = dateFormat.split(dotMode);
+		var day = '', month = '', year = '';
 		var dateParts = dateString.split(dotMode);
-		var day = '';
-		var month = '';
-		var year = '';
-
 		for (i in dateFormatParts) {
 			var sectionDate = dateFormatParts[i];
-
 			switch (sectionDate) {
 				case 'dd':
 					day = dateParts[i];
@@ -566,7 +561,6 @@ app = {
 					break;
 			}
 		}
-
 		return year + '-' + month + '-' + day;
 	},
 	registerEventForDateFields: function (parentElement) {
@@ -888,11 +882,13 @@ app = {
 	 * Function returns the javascript controller based on the current view
 	 */
 	getPageController: function () {
-		var moduleName = app.getModuleName();
-		var view = app.getViewName()
-		var parentModule = app.getParentModuleName();
-
-		var moduleClassName = parentModule + "_" + moduleName + "_" + view + "_Js";
+		if (window.pageController) {
+			return window.pageController;
+		}
+		const moduleName = app.getModuleName();
+		const view = app.getViewName()
+		const parentModule = app.getParentModuleName();
+		let moduleClassName = parentModule + "_" + moduleName + "_" + view + "_Js";
 		if (typeof window[moduleClassName] === "undefined") {
 			moduleClassName = parentModule + "_Vtiger_" + view + "_Js";
 		}
@@ -908,10 +904,10 @@ app = {
 		}
 		if (typeof window[moduleClassName] !== "undefined") {
 			if (typeof window[moduleClassName] === 'function') {
-				return new window[moduleClassName]();
+				return window.pageController = new window[moduleClassName]();
 			}
 			if (typeof window[moduleClassName] === 'object') {
-				return window[moduleClassName];
+				return window.pageController = window[moduleClassName];
 			}
 		}
 	},
@@ -998,14 +994,11 @@ app = {
 				params[i] = addToParams[i];
 			}
 		}
-		AppConnector.request(params).then(
-			function (data) {
-				aDeferred.resolve(data);
-			},
-			function (error) {
-				aDeferred.reject();
-			}
-		);
+		AppConnector.request(params).done(function (data) {
+			aDeferred.resolve(data);
+		}).fail(function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
 		return aDeferred.promise();
 	},
 	getMainParams: function (param, json) {
@@ -1264,7 +1257,7 @@ app = {
 				field: 'leftpanelhide',
 				record: CONFIG.userId,
 				value: hideMenu
-			}).then(function (responseData) {
+			}).done(function (responseData) {
 				if (responseData.success && responseData.result) {
 					pinButton.attr('data-show', hideMenu);
 				}
@@ -1346,7 +1339,7 @@ app = {
 		AppConnector.request({
 			module: 'Home',
 			action: 'BrowsingHistory',
-		}).then(function (response) {
+		}).done(function (response) {
 			$('.historyList').html(`<a class="item dropdown-item" href="#" role="listitem">${app.vtranslate('JS_NO_RECORDS')}</a>`);
 		});
 	},
@@ -1367,13 +1360,13 @@ app = {
 				params.url = element.data('url');
 			}
 		}
-		Vtiger_Helper_Js.showConfirmationBox(params).then(function () {
+		Vtiger_Helper_Js.showConfirmationBox(params).done(function () {
 			if (params.type == 'href') {
-				AppConnector.request(params.url).then(function (data) {
+				AppConnector.request(params.url).done(function (data) {
 					window.location.href = data.result;
 				});
 			} else if (params.type == 'reloadTab') {
-				AppConnector.request(params.url).then(function (data) {
+				AppConnector.request(params.url).done(function (data) {
 					Vtiger_Detail_Js.getInstance().reloadTabContent();
 				});
 			}
@@ -1406,7 +1399,7 @@ app = {
 		if (!params.view) {
 			params.view = "RecordsList";
 		}
-		AppConnector.request(params).then(function (requestData) {
+		AppConnector.request(params).done(function (requestData) {
 			app.showModalWindow(requestData, function (data) {
 				if (typeof afterShowModal === 'function') {
 					afterShowModal(data);
@@ -1430,7 +1423,7 @@ app = {
 		element = $(element).get(0); // make sure we have HTMLElement not jQuery because it will not work
 		const imageType = options.imageType;
 		delete options.imageType;
-		return html2canvas(element, options).then((canvas) => {
+		return html2canvas(element, options).done((canvas) => {
 			const base64Image = canvas.toDataURL(imageType);
 			if (typeof callback === 'function') {
 				callback(base64Image);
@@ -1458,8 +1451,7 @@ $(document).ready(function () {
 	// Instantiate Page Controller
 	var pageController = app.getPageController();
 	if (pageController) {
-		window.pageController = pageController;
-		window.pageController.registerEvents();
+		pageController.registerEvents();
 	}
 });
 (function ($) {

@@ -65,9 +65,9 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		if (typeof params === "undefined") {
 			params = {};
 		}
-		if(params.searchModule){
+		if(params.searchModule && params.searchModule !== '-'){
 			params.module = params.searchModule;
-		}else if(!params.module){
+		}else{
 			params.module = app.getModuleName();
 		}
 		params.view = 'BasicAjax';
@@ -80,9 +80,9 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		if (this.mainConatiner.find('input[data-operator]').length && this.mainConatiner.find('input[data-operator]').data('operator') != '') {
 			params.operator = this.mainConatiner.find('input[data-operator]').data('operator');
 		}
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			aDeferred.resolve(data);
-		}, function (error, err) {
+		}).fail(function (error, err) {
 			aDeferred.reject(error);
 		});
 		return aDeferred.promise();

@@ -71,6 +71,7 @@
     "Accounts": "Conturi",
     "Acquired": "Dobandit",
     "Active": "Activ",
+    "DetailView": "Detail view",
     "Activities": "Activitati",
     "Add Comment": "Adauga comentariu",
     "Add Note": "Adauga document",
@@ -549,6 +550,7 @@
     "LBL_VIEW_SETTINGS": "Configurare software",
     "LBL_VIEW_EXPORT": "Exportati",
     "LBL_VIEW_IMPORT": "Importati",
+    "LBL_VIEW_GANTT": "Gantt",
     "LBL_VTIGER_CRM_HONEST_OPEN_SOURCE": "YetiForce CRM open source",
     "LBL_Wed": "Mie",
     "LBL_QUICK_ACCESS_MENU": "Meniu de acces rapid",
@@ -682,6 +684,7 @@
     "OSSSoldServices": "Servicii vandute",
     "Sub Category": "Subcategorie",
     "Interested products": "Interesat de produsele",
+    "LBL_CATEGORIES": "Categories",
     "Interested services": "Interesat de serviciile",
     "Recycle Bin": "Cos de gunoi",
     "LBL_NO_RELATED_RECORDS_FOUND": "Nu exista inregistrari de afisat",
@@ -1277,7 +1280,10 @@
     "LBL_MERGING": "Imbinare inregistrari",
     "BTN_PERMISSION_INSPECTOR": "Inspector permisiuni",
     "_Base": "Sistem",
-    "LBL_DUPLICATES": "duplicated"
+    "LBL_DUPLICATES": "duplicated",
+    "LBL_PRINT": "Print",
+    "LBL_IMAGE_DOWNLOAD": "Download image",
+    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Number of merged records has been reduced to %d."
   },
   "js": {
     "JS_SUMMARY": "Sumar",

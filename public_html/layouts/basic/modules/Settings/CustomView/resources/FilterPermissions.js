@@ -66,7 +66,7 @@ jQuery.Class("Settings_CustomView_FilterPermissions_Js", {}, {
 			operator: currentTarget.data('operator'),
 			type: container.find('#type').val()
 		};
-		app.saveAjax('setFilterPermissions', {}, params).then(function (data) {
+		app.saveAjax('setFilterPermissions', {}, params).done(function (data) {
 			if (data.success) {
 				if (data.result.success) {
 					thisInstance.move(currentTarget);

@@ -32,7 +32,7 @@
 		"bootstrap-chosen": "^1.4.2",
 		"bootstrap-colorpicker": "^2.5.2",
 		"bootstrap-datepicker": "^1.7.1",
-		"bootstrap-daterangepicker": "^2.1.30",
+		"bootstrap-daterangepicker": "^3.0.3",
 		"bootstrap-tabdrop": "https://github.com/jmschabdach/bootstrap-tabdrop",
 		"chart.js": "^2.7.2",
 		"chartjs-plugin-datalabels": "^0.3.0",
@@ -52,10 +52,10 @@
 		"gridster": "^0.5.6",
 		"html2canvas": "^1.0.0-alpha.12",
 		"html5shiv": "^3.7.3",
-		"inputmask": "^3.3.11",
+		"inputmask": "^4.0",
 		"jQuery-Validation-Engine": "https://github.com/YetiForceCompany/jQuery-Validation-Engine#master",
-		"jQueryGantt": "https://github.com/robicch/jQueryGantt#master",
 		"jquery": ">3.0.0",
+		"jquery-gantt-editor": "^1.0.2",
 		"jquery-hoverintent": "^1.9.0",
 		"jquery-lazy": "^1.7.7",
 		"jquery-outside-events": "^1.0.0",
@@ -87,5 +87,9 @@
 		"url": "https://github.com/YetiForceCompany/YetiForceCRM/issues"
 	},
 	"homepage": "https://github.com/YetiForceCompany/YetiForceCRM#readme",
-	"devDependencies": {}
+	"devDependencies": {
+		"gulp": "^3.9.1",
+		"gulp-clean-css": "^3.9.4",
+		"gulp-rename": "^1.3.0"
+	}
 }

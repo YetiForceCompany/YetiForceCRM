@@ -21,6 +21,22 @@ class Composer
 		'yetiforce/debugbar',
 		'ckeditor/ckeditor'
 	];
+	/**
+	 * List of redundant files.
+	 *
+	 * @var array
+	 */
+	public static $clearFiles = [
+		'.github',
+		'.git',
+		'.gitattributes',
+		'.gitignore',
+		'.styleci.yml',
+		'.travis.yml',
+		'samples',
+		'docs',
+		'bin'
+	];
 
 	/**
 	 * Post update and post install function.
@@ -47,6 +63,28 @@ class Composer
 							continue;
 						}
 						copy($item->getRealPath(), $rootDir . $item->getPathname());
+					}
+				}
+			}
+		}
+		static::clear();
+	}
+
+	/**
+	 * Delete redundant files.
+	 */
+	public static function clear()
+	{
+		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
+		foreach (new \DirectoryIterator($rootDir) as $level1) {
+			if ($level1->isDir() && !$level1->isDot()) {
+				foreach (new \DirectoryIterator($level1->getPathname()) as $level2) {
+					if ($level2->isDir() && !$level2->isDot()) {
+						foreach (new \DirectoryIterator($level2->getPathname()) as $level3) {
+							if (!$level3->isDot() && \in_array($level3->getFilename(), static::$clearFiles)) {
+								\vtlib\Functions::recurseDelete($level3->getPathname());
+							}
+						}
 					}
 				}
 			}

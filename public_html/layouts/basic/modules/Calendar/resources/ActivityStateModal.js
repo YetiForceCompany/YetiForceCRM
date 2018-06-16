@@ -22,7 +22,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 				params.noCache = true;
 				var subject = currentTarget.closest('.modalEditStatus').find('.modalSummaryValues .fieldVal').data('subject');
 				var headerInstance = Vtiger_Header_Js.getInstance();
-				headerInstance.getQuickCreateForm(url, moduleName, params).then(function (data) {
+				headerInstance.getQuickCreateForm(url, moduleName, params).done(function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					if (currentTarget.data('type') == '0' && typeof subject !== "undefined" && subject.length > 0) {
 						data = jQuery(data);
@@ -57,45 +57,43 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 				'enabled': true
 			}
 		});
-		AppConnector.request(params).then(
-			function (data) {
-				if (data.success) {
-					var viewName = app.getViewName();
-					if (viewName === 'Detail') {
-						var widget = jQuery('.activityWidgetContainer .widgetContentBlock');
-						var thisInstance = Vtiger_Detail_Js.getInstance();
-						if (widget.length) {
-							thisInstance.loadWidget(widget);
-						} else {
-							var recentActivitiesTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentActivitiesTabLabel);
-							if (recentActivitiesTab) {
-								recentActivitiesTab.trigger('click');
-							}
-							if (app.getModuleName() == 'Calendar') {
-								recentActivitiesTab = ((!thisInstance.getSelectedTab().length || thisInstance.getSelectedTab().data('linkKey') == thisInstance.detailViewDetailsTabLabel) ? thisInstance.getTabContainer().find('[data-link-key="' + thisInstance.detailViewDetailsTabLabel + '"]:not(.d-none)') : jQuery('<div></div>'));
-								jQuery('.showModal.closeCalendarRekord').addClass('d-none');
-								recentActivitiesTab.trigger('click');
-							}
+		AppConnector.request(params).done(function (data) {
+			if (data.success) {
+				var viewName = app.getViewName();
+				if (viewName === 'Detail') {
+					var widget = jQuery('.activityWidgetContainer .widgetContentBlock');
+					var thisInstance = Vtiger_Detail_Js.getInstance();
+					if (widget.length) {
+						thisInstance.loadWidget(widget);
+					} else {
+						var recentActivitiesTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentActivitiesTabLabel);
+						if (recentActivitiesTab) {
+							recentActivitiesTab.trigger('click');
+						}
+						if (app.getModuleName() == 'Calendar') {
+							recentActivitiesTab = ((!thisInstance.getSelectedTab().length || thisInstance.getSelectedTab().data('linkKey') == thisInstance.detailViewDetailsTabLabel) ? thisInstance.getTabContainer().find('[data-link-key="' + thisInstance.detailViewDetailsTabLabel + '"]:not(.d-none)') : jQuery('<div></div>'));
+							jQuery('.showModal.closeCalendarRekord').addClass('d-none');
+							recentActivitiesTab.trigger('click');
 						}
 					}
-					if (viewName == 'List') {
-						var listinstance = new Vtiger_List_Js();
-						listinstance.getListViewRecords();
-					}
-					if (viewName == 'DashBoard') {
-						(new Vtiger_DashBoard_Js()).getContainer().find('a[name="drefresh"]').trigger('click');
-					}
-					if (app.getModuleName() == 'Calendar' && viewName == 'Calendar') {
-						(Calendar_CalendarView_Js.getInstanceByView()).loadCalendarData();
-					}
-					//updates the Calendar Reminder popup's status
-					Vtiger_Index_Js.requestReminder();
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				} else {
-					return false;
 				}
+				if (viewName == 'List') {
+					var listinstance = new Vtiger_List_Js();
+					listinstance.getListViewRecords();
+				}
+				if (viewName == 'DashBoard') {
+					(new Vtiger_DashBoard_Js()).getContainer().find('a[name="drefresh"]').trigger('click');
+				}
+				if (app.getModuleName() == 'Calendar' && viewName == 'Calendar') {
+					(Calendar_CalendarView_Js.getInstanceByView()).loadCalendarData();
+				}
+				//updates the Calendar Reminder popup's status
+				Vtiger_Index_Js.requestReminder();
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			} else {
+				return false;
 			}
-		);
+		});
 	},
 	registerEvents: function () {
 		this.registerActivityState();

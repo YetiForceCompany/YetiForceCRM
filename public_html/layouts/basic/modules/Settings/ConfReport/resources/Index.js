@@ -16,15 +16,14 @@ jQuery.Class("Settings_ConfReport_Index_Js", {}, {
 				parent: 'Settings',
 				module: 'ConfReport',
 				view: 'Speed'
-			}).then(function (response) {
+			}).done(function (response) {
 				app.showModalWindow(response, function (data) {
 
 				});
 				progress.progressIndicator({mode: 'hide'});
-			}, function (data, err) {
+			}).fail(function (data, err) {
 				progress.progressIndicator({mode: 'hide'});
-			})
-
+			});
 		});
 	},
 	/**

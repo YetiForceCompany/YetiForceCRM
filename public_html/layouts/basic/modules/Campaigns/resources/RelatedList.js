@@ -52,7 +52,7 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 		var recordsFilter = relatedContainer.find('#recordsFilter');
 		filterSelectElement.on('click', function (e) {
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(function () {
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function () {
 				var cvId = recordsFilter.val();
 				var relatedModuleName = relatedContainer.find('.relatedModuleName').val();
 				var params = {
@@ -69,7 +69,7 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 						enabled: true
 					}
 				});
-				AppConnector.request(params).then(function (responseData) {
+				AppConnector.request(params).done(function (responseData) {
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
 					if (responseData != null) {
 						var message = app.vtranslate('JS_NO_RECORDS_RELATED_TO_THIS_FILTER');
@@ -81,7 +81,7 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 					} else {
 						Vtiger_Detail_Js.reloadRelatedList();
 					}
-				}, function (textStatus, errorThrown) {
+				}).fail(function () {
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
 				});
 			});
@@ -117,13 +117,13 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 				'mode': 'updateStatus'
 			};
 			element.progressIndicator();
-			AppConnector.request(params).then(function (responseData) {
+			AppConnector.request(params).done(function (responseData) {
 				if (responseData.result[0]) {
 					element.progressIndicator({'mode': 'hide'});
 					currentStatus.find('.statusValue').text(selectedStatusValue);
 					currentStatus.removeClass('open');
 				}
-			}, function (textStatus, errorThrown) {
+			}).fail(function () {
 				element.progressIndicator({mode: 'hide'});
 			});
 		});

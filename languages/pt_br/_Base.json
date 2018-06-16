@@ -74,6 +74,7 @@
     "Accounts": "Contas",
     "Acquired": "Adquirido",
     "Active": "Ativo",
+    "DetailView": "Detail view",
     "Activities": "Atividades",
     "Add Comment": "Adicionar Coment\u00e1rio",
     "Add Note": "Adicionar Documento",
@@ -552,6 +553,7 @@
     "LBL_VIEW_SETTINGS": "Configura\u00e7\u00e3o Software",
     "LBL_VIEW_EXPORT": "Exportar",
     "LBL_VIEW_IMPORT": "Importar",
+    "LBL_VIEW_GANTT": "Gantt",
     "LBL_VTIGER_CRM_HONEST_OPEN_SOURCE": "YetiForce CRM Open Source",
     "LBL_QUICK_ACCESS_MENU": "Quick access menu",
     "LBL_Wed": "Qua",
@@ -683,6 +685,7 @@
     "OSSSoldServices": "Servi\u00e7os vendidos",
     "Sub Category": "Sub Categoria",
     "Interested products": "Interessados em Produtos",
+    "LBL_CATEGORIES": "Categories",
     "Interested services": "Interessados em Servi\u00e7os",
     "Recycle Bin": "Lixeira",
     "LBL_NO_RELATED_RECORDS_FOUND": "Nenhum registro a ser exibido",
@@ -1271,7 +1274,10 @@
     "LBL_MERGING": "Merging records",
     "_Base": "System",
     "LBL_SHOP_YETIFORCE": "Store",
-    "LBL_DUPLICATES": "duplicated"
+    "LBL_DUPLICATES": "duplicated",
+    "LBL_PRINT": "Print",
+    "LBL_IMAGE_DOWNLOAD": "Download image",
+    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Number of merged records has been reduced to %d."
   },
   "js": {
     "JS_RECORDS_TRANSFERRED_SUCCESSFULLY": "A responsabilidade dos registros foi transferida com sucesso.",

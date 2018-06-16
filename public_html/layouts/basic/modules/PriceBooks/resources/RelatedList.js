@@ -16,7 +16,7 @@ Vtiger_RelatedList_Js("PriceBooks_RelatedList_Js", {}, {
 					src_record: thisInstance.parentRecordId,
 					related_module: thisInstance.moduleName,
 					price: element.val()
-				}).then(function (responseData) {
+				}).done(function (responseData) {
 					if (responseData.result) {
 						Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_SAVE_NOTIFY_OK'), type: 'success'});
 					}

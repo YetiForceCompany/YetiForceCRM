@@ -337,6 +337,11 @@ class Purifier
 						$value = $input;
 					}
 					break;
+				case 'Digital': // Digital - eg. 000523
+					if (($input = filter_var($input, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[0-9]+$/']])) !== false) {
+						$value = $input;
+					}
+					break;
 				case 'Color': // colors
 					$value = preg_match('/^(#[0-9a-fA-F]{6})$/', $input) ? $input : false;
 					break;

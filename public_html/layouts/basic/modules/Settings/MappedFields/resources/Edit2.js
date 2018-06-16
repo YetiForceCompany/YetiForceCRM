@@ -41,7 +41,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 		var formData = form.serializeFormData();
 		var saveData = this.getData(formData);
 		saveData.record = formData.record;
-		this.validationMappingFields().then(function (data) {
+		this.validationMappingFields().done(function (data) {
 			if (data) {
 				var progressIndicatorElement = jQuery.progressIndicator({
 					'position': 'html',
@@ -49,7 +49,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 						'enabled': true
 					}
 				});
-				app.saveAjax('step2', saveData).then(function (data) {
+				app.saveAjax('step2', saveData).done(function (data) {
 					if (data.success == true) {
 						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY')});
 						var mfRecordElement = jQuery('[name="record"]', form);
@@ -58,18 +58,15 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 							formData['record'] = data.result.id;
 						}
 						formData['record'] = data.result.id;
-						AppConnector.request(formData).then(
-							function (data) {
-								form.hide();
-								progressIndicatorElement.progressIndicator({
-									'mode': 'hide'
-								})
-								aDeferred.resolve(data);
-							},
-							function (error, err) {
-								app.errorLog(error, err);
-							}
-						);
+						AppConnector.request(formData).done(function (data) {
+							form.hide();
+							progressIndicatorElement.progressIndicator({
+								'mode': 'hide'
+							})
+							aDeferred.resolve(data);
+						}).fail(function (error, err) {
+							app.errorLog(error, err);
+						});
 					}
 				});
 			} else {

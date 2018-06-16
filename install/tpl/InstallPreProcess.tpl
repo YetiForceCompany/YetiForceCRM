@@ -65,7 +65,7 @@
 							</a>
 						</li>
 						<li class="yetiforceDetailsLink list-inline-item">
-							<a rel="noreferrer" href="https://yetiforce.shop/">
+							<a rel="noreferrer" target="_blank" href="https://yetiforce.shop/">
 								<span class="fas fa-shopping-cart"></span>
 								<span class="sr-only">Shop</span>
 							</a>

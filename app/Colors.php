@@ -123,6 +123,26 @@ class Colors
 	}
 
 	/**
+	 * Get normalized color or generate if empty.
+	 *
+	 * @param string $color
+	 * @param mixed  $value
+	 *
+	 * @return string
+	 */
+	public static function get($color, $value)
+	{
+		if (empty($color)) {
+			return static::getRandomColor($value, '#');
+		}
+		$color = ltrim($color, "#\t ");
+		if (empty($color)) {
+			return static::getRandomColor($value, '#');
+		}
+		return '#' . $color;
+	}
+
+	/**
 	 * Sanitize value for use in css class name.
 	 *
 	 * @param string $value

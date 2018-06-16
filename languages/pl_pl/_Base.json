@@ -7,6 +7,7 @@
     "Accounts": "Kontrahenci",
     "Acquired": "Nabyty",
     "Active": "Aktywny",
+    "DetailView": "Widok Szczegółowy",
     "Activities": "Kalendarz",
     "Add Comment": "Dodaj komentarz",
     "Add Note": "Dodaj dokument",
@@ -490,6 +491,7 @@
     "LBL_VIEW_SETTINGS": "Konfiguracja systemu",
     "LBL_VIEW_EXPORT": "Eksport",
     "LBL_VIEW_IMPORT": "Import",
+    "LBL_VIEW_GANTT": "Gantt",
     "LBL_VTIGER_CRM_HONEST_OPEN_SOURCE": "YetiForce CRM Open Source",
     "LBL_QUICK_ACCESS_MENU": "Menu szybkiego dost\u0119pu",
     "LBL_Wed": "\u015aro",
@@ -646,6 +648,7 @@
     "OSSSoldServices": "Us\u0142ugi sprzedane",
     "Sub Category": "Podkategoria",
     "Interested products": "Zainteresowany produktami",
+    "LBL_CATEGORIES":"Kategorie",
     "Interested services": "Zainteresowany us\u0142ugami",
     "LBL_NO_RELATED_RECORDS_FOUND": "Nie znaleziono \u017cadnych rekord\u00f3w",
     "LBL_RECORD_DETAILS": "Szczeg\u00f3\u0142y",
@@ -1283,7 +1286,8 @@
     "_Base": "System",
     "LBL_SHOP_YETIFORCE": "Sklep",
     "LBL_PRINT": "Drukuj",
-    "LBL_IMAGE_DOWNLOAD": "Pobierz obraz"
+    "LBL_IMAGE_DOWNLOAD": "Pobierz obraz",
+    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO":"Liczba scalanych rekord\u00F3w zosta\u0142a zredukowana do %d."
   },
   "js": {
     "JS_SUMMARY": "Podsumowanie",

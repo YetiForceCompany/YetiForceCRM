@@ -70,20 +70,15 @@ function showPassword(record) {
 			'record': record
 		};
 
-		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				if (response['success']) {
-					var el = document.getElementById("OSSPasswords_editView_fieldName_password");
-					el.value = response['password'];
-					el.onchange();
-					$('#copy-button').removeClass('d-none').show();
-				}
-			},
-			function (data, err) {
-
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			if (response['success']) {
+				var el = document.getElementById("OSSPasswords_editView_fieldName_password");
+				el.value = response['password'];
+				el.onchange();
+				$('#copy-button').removeClass('d-none').show();
 			}
-		);
+		});
 
 		// validate password
 		passwordStrength('', '');
@@ -110,19 +105,14 @@ function showDetailsPassword(record) {
 			'record': record
 		};
 
-		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				if (response['success']) {
-					var el = document.getElementById("detailPassword");
-					el.innerHTML = response['password'];
-					$('#copy-button').removeClass('d-none').show();
-				}
-			},
-			function (data, err) {
-
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			if (response['success']) {
+				var el = document.getElementById("detailPassword");
+				el.innerHTML = response['password'];
+				$('#copy-button').removeClass('d-none').show();
 			}
-		);
+		});
 
 		// change buttons label
 		$('#show-btn').html('<span class="fas fa-eye-slash u-mr-5px"></span>' + hidePassText);
@@ -142,22 +132,15 @@ function showPasswordQuickEdit(record) {
 		'action': "GetPass",
 		'record': record
 	};
-
-	AppConnector.request(params).then(
-		function (data) {
-			var response = data['result'];
-			if (response['success']) {
-				var el = document.getElementById("detailPassword");
-				el.innerHTML = response['password'];
-				$("input[name='password']").val(response['password']);
-				$('#copy-button').removeClass('d-none').show();
-			}
-		},
-		function (data, err) {
-
+	AppConnector.request(params).done(function (data) {
+		var response = data['result'];
+		if (response['success']) {
+			var el = document.getElementById("detailPassword");
+			el.innerHTML = response['password'];
+			$("input[name='password']").val(response['password']);
+			$('#copy-button').removeClass('d-none').show();
 		}
-	);
-
+	});
 	// change buttons label
 	$('#show-btn').text(hidePassText);
 }

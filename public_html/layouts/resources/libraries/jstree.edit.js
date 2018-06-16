@@ -48,12 +48,12 @@
 						Vtiger_Header_Js.getInstance().quickCreateModule(module, QuickCreateParams);
 					} else {
 						app.hideModalWindow();
-						Vtiger_Helper_Js.showConfirmationBox({message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE')}).then(function (e) {
+						Vtiger_Helper_Js.showConfirmationBox({message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE')}).done(function (e) {
 							AppConnector.request({
 								module: module,
 								action: 'DeleteAjax',
 								record: obj.original.record_id
-							}).then(function (res) {
+							}).done(function (res) {
 								$('.showModal[data-module="OutsourcedProducts"]').trigger('click');
 								Vtiger_Detail_Js.getInstance().loadWidgets();
 							});

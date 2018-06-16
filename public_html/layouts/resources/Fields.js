@@ -786,4 +786,76 @@ App.Fields = {
 			});
 		}
 	},
+	DependentSelect: {
+		/**
+		 * Get options for select from array of items (exclude children)
+		 * @param {Array} data {value,text,selected, children => data[]}
+		 * @returns {string}
+		 */
+		generateOptionsFromData(data) {
+			let html = '';
+			for (let item of data) {
+				let selected = false;
+				if (typeof item.selected !== 'undefined' && item.selected) {
+					selected = true;
+				}
+				html += `<option value=${item.value}${selected ? ' selected' : ''}>${item.text}</option>`;
+			}
+			return html;
+		},
+		/**
+		 * Register dependent selects
+		 *
+		 * @param {jQuery} container with data- options:
+		 * data-slave: selector for slave element
+		 * data-data: array of options with children elements for slave select (see getOptions for data format)
+		 * data-sort: do we want to sort slave options by text when master has two items selected? if not - just append options to slave
+		 */
+		register(container) {
+			if (typeof container === 'undefined' || typeof container.length === 'undefined' || !container.length) {
+				return app.errorLog("Dependend select field container is missing.");
+			}
+			container.each(function () {
+				const masterSelect = $(this),
+					slaveSelect = $(masterSelect.data('slave')),
+					data = masterSelect.data('data');
+				if (!slaveSelect.length) {
+					return app.errorLog("Could not find slave select element (data-slave attribute)");
+				}
+				if (!data) {
+					return app.errorLog("Could not load data (data-data attribute)");
+				}
+				masterSelect.on('change', (e) => {
+					let values = $(e.target).val();
+					if (!Array.isArray(values)) {
+						values = [values];
+					}
+					let children = [];
+					for (let value of values) {
+						for (let item of data) {
+							if (item.value === value) {
+								if (typeof item.children !== 'undefined') {
+									item.children.forEach((child) => {
+										children.push(child);
+									});
+								}
+							}
+						}
+					}
+					if (masterSelect.data('sort')) {
+						children.sort((a, b) => {
+							return a.text.localeCompare(b.text);
+						});
+					}
+					slaveSelect.html(App.Fields.DependentSelect.generateOptionsFromData(children));
+				});
+				masterSelect.html(App.Fields.DependentSelect.generateOptionsFromData(data));
+			});
+		}
+	},
+	Gantt:{
+		register(container, data){
+			return new GanttField(container, data);
+		}
+	}
 };

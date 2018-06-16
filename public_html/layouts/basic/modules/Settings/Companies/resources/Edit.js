@@ -16,7 +16,7 @@ Settings_Vtiger_Edit_Js('Settings_Companies_Edit_Js', {}, {
 				var progressIndicatorElement = jQuery.progressIndicator({
 					blockInfo: {'enabled': true}
 				});
-				AppConnector.request(params).then(function (data) {
+				AppConnector.request(params).done(function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					if (true == data.result.success) {
 						window.location.href = data.result.url

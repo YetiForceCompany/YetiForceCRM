@@ -58,12 +58,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				url: 'index.php?parent=Settings&module=' + app.getModuleName() + '&view=DashboardType',
 				sendByAjaxCb: function () {
 					var contentsDiv = $('.contentsDiv');
-					thisInstance.getModuleLayoutEditor('Home').then(
-							function (data) {
-								contentsDiv.html(data);
-								thisInstance.registerEvents();
-							}
-					);
+					thisInstance.getModuleLayoutEditor('Home').done(function (data) {
+						contentsDiv.html(data);
+						thisInstance.registerEvents();
+					});
 				},
 			};
 			app.showModalWindow(data);
@@ -75,12 +73,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			var currentTarget = $(e.currentTarget);
 			var dashboardId = currentTarget.data('id');
 			var contentsDiv = $('.contentsDiv');
-			thisInstance.getModuleLayoutEditor('Home', dashboardId).then(
-					function (data) {
-						contentsDiv.html(data);
-						thisInstance.registerEvents();
-					}
-			);
+			thisInstance.getModuleLayoutEditor('Home', dashboardId).done(function (data) {
+				contentsDiv.html(data);
+				thisInstance.registerEvents();
+			});
 		});
 	},
 	registerDashboardAction: function () {
@@ -92,12 +88,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				url: 'index.php?parent=Settings&module=' + app.getModuleName() + '&view=DashboardType&dashboardId=' + currentTarget.closest('li').data('id'),
 				sendByAjaxCb: function () {
 					var contentsDiv = $('.contentsDiv');
-					thisInstance.getModuleLayoutEditor('Home', currentTarget.closest('li').data('id')).then(
-							function (data) {
-								contentsDiv.html(data);
-								thisInstance.registerEvents();
-							}
-					);
+					thisInstance.getModuleLayoutEditor('Home', currentTarget.closest('li').data('id')).done(function (data) {
+						contentsDiv.html(data);
+						thisInstance.registerEvents();
+					});
 				},
 			};
 			app.showModalWindow(data);
@@ -112,14 +106,12 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				mode: 'delete',
 				dashboardId: currentTarget.closest('li').data('id')
 			};
-			AppConnector.request(params).then(function () {
+			AppConnector.request(params).done(function () {
 				var contentsDiv = $('.contentsDiv');
-				thisInstance.getModuleLayoutEditor('Home', 1).then(
-						function (data) {
-							contentsDiv.html(data);
-							thisInstance.registerEvents();
-						}
-				);
+				thisInstance.getModuleLayoutEditor('Home', 1).done(function (data) {
+					contentsDiv.html(data);
+					thisInstance.registerEvents();
+				});
 			});
 		});
 	},
@@ -152,23 +144,21 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 						var paramsBlock = [];
 						paramsBlock['authorized'] = block.val();
 						paramsBlock['label'] = block.find(':selected').text();
-						thisInstance.save(paramsForm, 'save').then(
-								function (data) {
-									var params = {};
-									var response = data.result;
-									if (response['success']) {
-										paramsBlock['id'] = response['id'];
-										thisInstance.displayNewCustomBlock(paramsBlock);
-										app.hideModalWindow();
-										params['text'] = app.vtranslate('JS_BLOCK_ADDED');
-									} else {
-										params['text'] = response['message'];
-										params['type'] = 'error';
-									}
-									Settings_Vtiger_Index_Js.showMessage(params);
-									window.location.reload();
-								}
-						);
+						thisInstance.save(paramsForm, 'save').done(function (data) {
+							var params = {};
+							var response = data.result;
+							if (response['success']) {
+								paramsBlock['id'] = response['id'];
+								thisInstance.displayNewCustomBlock(paramsBlock);
+								app.hideModalWindow();
+								params['text'] = app.vtranslate('JS_BLOCK_ADDED');
+							} else {
+								params['text'] = response['message'];
+								params['type'] = 'error';
+							}
+							Settings_Vtiger_Index_Js.showMessage(params);
+							window.location.reload();
+						});
 					}
 					e.preventDefault();
 				})
@@ -199,16 +189,13 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		params['action'] = 'SaveAjax';
 		params['mode'] = mode;
 
-		AppConnector.request(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.reject(error);
-				}
-		);
+		AppConnector.request(params).done(function (data) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.resolve(data);
+		}).fail(function (error) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.reject(error);
+		});
 		return aDeferred.promise();
 	},
 	displayNewCustomBlock: function (result) {
@@ -318,29 +305,27 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 								e.preventDefault();
 								return false;
 							}
-							thisInstance.save(paramsForm, 'save').then(
-									function (data) {
-										var result = data['result'];
-										var params = {};
-										if (data['success']) {
-											app.hideModalWindow();
-											paramsForm['id'] = result['id']
-											paramsForm['status'] = result['status']
-											params['text'] = app.vtranslate('JS_WIDGET_ADDED');
-											Settings_Vtiger_Index_Js.showMessage(params);
-											thisInstance.showCustomField(paramsForm);
-										} else {
-											var message = data['error']['message'];
-											if (data['error']['code'] != 513) {
-												var errorField = form.find('[name="fieldName"]');
-											} else {
-												var errorField = form.find('[name="fieldLabel"]');
-											}
-											errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
-											saveButton.removeAttr('disabled');
-										}
+							thisInstance.save(paramsForm, 'save').done(function (data) {
+								var result = data['result'];
+								var params = {};
+								if (data['success']) {
+									app.hideModalWindow();
+									paramsForm['id'] = result['id']
+									paramsForm['status'] = result['status']
+									params['text'] = app.vtranslate('JS_WIDGET_ADDED');
+									Settings_Vtiger_Index_Js.showMessage(params);
+									thisInstance.showCustomField(paramsForm);
+								} else {
+									var message = data['error']['message'];
+									if (data['error']['code'] != 513) {
+										var errorField = form.find('[name="fieldName"]');
+									} else {
+										var errorField = form.find('[name="fieldLabel"]');
 									}
-							);
+									errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+									saveButton.removeAttr('disabled');
+								}
+							});
 						} else {
 							var result = app.vtranslate('JS_FIELD_EMPTY');
 							widgets.prev('div').validationEngine('showPrompt', result, 'error', 'topLeft', true);
@@ -506,11 +491,11 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 
 			//added for drop down position change
 			var offset = currentTarget.offset(),
-					height = currentTarget.outerHeight(),
-					dropHeight = dropDown.outerHeight(),
-					viewportBottom = $(window).scrollTop() + document.documentElement.clientHeight,
-					dropTop = offset.top + height,
-					enoughRoomBelow = dropTop + dropHeight <= viewportBottom;
+				height = currentTarget.outerHeight(),
+				dropHeight = dropDown.outerHeight(),
+				viewportBottom = $(window).scrollTop() + document.documentElement.clientHeight,
+				dropTop = offset.top + height,
+				enoughRoomBelow = dropTop + dropHeight <= viewportBottom;
 			if (!enoughRoomBelow) {
 				dropDown.addClass('bottom-up');
 			} else {
@@ -620,11 +605,11 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 						})
 						var paramsForm = form.serializeFormData();
 						paramsForm.data = JSON.stringify({channels: channels});
-						thisInstance.save(paramsForm, 'save').then(
-								function (data) {
-									paramsForm.label = paramsForm.title;
-									thisInstance.saveAfterInfo(data, paramsForm)
-								}
+						thisInstance.save(paramsForm, 'save').done(
+							function (data) {
+								paramsForm.label = paramsForm.title;
+								thisInstance.saveAfterInfo(data, paramsForm)
+							}
 						);
 					}
 					e.preventDefault();
@@ -686,7 +671,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					view: 'ChartFilter',
 					step: 'step2',
 					selectedModule: moduleNameSelect2.val()
-				}).then(function (step2Response) {
+				}).done(function (step2Response) {
 					step1.after(step2Response);
 					wizardContainer.find('#widgetStep').val(2);
 					var step2 = wizardContainer.find('.step2');
@@ -706,7 +691,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 							selectedModule: moduleNameSelect2.val(),
 							filterid: filterid.val(),
 							valueType: valueTypeSelect.val()
-						}).then(function (step3Response) {
+						}).done(function (step3Response) {
 							step2.last().after(step3Response);
 							wizardContainer.find('#widgetStep').val(3);
 							var step3 = wizardContainer.find('.step3');
@@ -726,7 +711,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 									filterid: filterid.val(),
 									groupField: groupField.val(),
 									chartType: chartType.val()
-								}).then(function (step4Response) {
+								}).done(function (step4Response) {
 									step3.last().after(step4Response);
 									wizardContainer.find('#widgetStep').val(4);
 									var step4 = wizardContainer.find('.step4');
@@ -776,28 +761,26 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			paramsForm['owners_all'] = ["mine", "all", "users", "groups"];
 			paramsForm['default_owner'] = 'mine';
 
-			thisInstance.save(paramsForm, 'save').then(
-					function (data) {
-						var result = data['result'];
-						var params = {};
-						if (data['success']) {
-							app.hideModalWindow();
-							paramsForm['id'] = result['id'];
-							paramsForm['status'] = result['status'];
-							params['text'] = app.vtranslate('JS_WIDGET_ADDED');
-							Settings_Vtiger_Index_Js.showMessage(params);
-							thisInstance.showCustomField(paramsForm);
-						} else {
-							var message = data['error']['message'];
-							if (data['error']['code'] != 513) {
-								var errorField = form.find('[name="fieldName"]');
-							} else {
-								var errorField = form.find('[name="fieldLabel"]');
-							}
-							errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
-						}
+			thisInstance.save(paramsForm, 'save').done(function (data) {
+				var result = data['result'];
+				var params = {};
+				if (data['success']) {
+					app.hideModalWindow();
+					paramsForm['id'] = result['id'];
+					paramsForm['status'] = result['status'];
+					params['text'] = app.vtranslate('JS_WIDGET_ADDED');
+					Settings_Vtiger_Index_Js.showMessage(params);
+					thisInstance.showCustomField(paramsForm);
+				} else {
+					var message = data['error']['message'];
+					if (data['error']['code'] != 513) {
+						var errorField = form.find('[name="fieldName"]');
+					} else {
+						var errorField = form.find('[name="fieldLabel"]');
 					}
-			);
+					errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+				}
+			});
 		}
 	},
 	addNoteBookWidget: function (element, url) {
@@ -828,18 +811,17 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 						'width': 4,
 						'height': 3
 					}
-					AppConnector.request(noteBookParams).then(
-							function (data) {
-								if (data.result.success) {
-									var widgetId = data.result.widgetId;
-									app.hideModalWindow();
-									noteBookParams['id'] = widgetId;
-									noteBookParams['label'] = notePadName;
-									params['text'] = app.vtranslate('JS_WIDGET_ADDED');
-									Settings_Vtiger_Index_Js.showMessage(params);
-									thisInstance.showCustomField(noteBookParams);
-								}
-							})
+					AppConnector.request(noteBookParams).done(function (data) {
+						if (data.result.success) {
+							var widgetId = data.result.widgetId;
+							app.hideModalWindow();
+							noteBookParams['id'] = widgetId;
+							noteBookParams['label'] = notePadName;
+							params['text'] = app.vtranslate('JS_WIDGET_ADDED');
+							Settings_Vtiger_Index_Js.showMessage(params);
+							thisInstance.showCustomField(noteBookParams);
+						}
+					})
 				}
 				return false;
 			}
@@ -891,12 +873,12 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					view: 'MiniListWizard',
 					step: 'step2',
 					selectedModule: moduleNameSelect2.val()
-				}).then(function (res) {
+				}).done(function (res) {
 					filteridSelectDOM.empty().html(res).trigger('change');
 					filteridSelect2.closest('tr').show();
 					fieldsSelectDOM.closest('tr').hide();
 					filterFieldsSelectDOM.closest('tr').hide();
-				})
+				});
 			});
 			filteridSelect2.on('change', function () {
 				if (!filteridSelect2.val())
@@ -910,7 +892,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					step: 'step3',
 					selectedModule: moduleNameSelect2.val(),
 					filterid: filteridSelect2.val()
-				}).then(function (res) {
+				}).done(function (res) {
 					var res = jQuery(res);
 					fieldsSelectDOM.empty().html(res.find('select[name="fields"]').html()).trigger('change');
 					filterFieldsSelectDOM.empty().html(res.find('select[name="filter_fields"]').html()).trigger('change');
@@ -961,7 +943,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					owners_all: ["mine", "all", "users", "groups"],
 					default_owner: 'mine'
 				};
-				thisInstance.save(paramsForm, 'save').then(function (data) {
+				thisInstance.save(paramsForm, 'save').done(function (data) {
 					var result = data['result'];
 					var params = {};
 					if (data['success']) {
@@ -999,27 +981,18 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			paramsForm['action'] = 'removeWidget';
 			paramsForm['id'] = fieldId;
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-					function (e) {
-						thisInstance.save(paramsForm, 'delete').then(
-								function (data) {
-									var field = currentTarget.closest('div.editFieldsWidget');
-									var blockId = field.data('block-id');
-									field.parent().fadeOut('slow').remove();
-									var block = jQuery('#block_' + blockId);
-									thisInstance.reArrangeBlockFields(block);
-									var params = {};
-									params['text'] = app.vtranslate('JS_CUSTOM_FIELD_DELETED');
-									Settings_Vtiger_Index_Js.showMessage(params);
-								}, function (error, err) {
-
-						}
-						);
-					},
-					function (error, err) {
-
-					}
-			);
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+				thisInstance.save(paramsForm, 'delete').done(function (data) {
+					var field = currentTarget.closest('div.editFieldsWidget');
+					var blockId = field.data('block-id');
+					field.parent().fadeOut('slow').remove();
+					var block = jQuery('#block_' + blockId);
+					thisInstance.reArrangeBlockFields(block);
+					var params = {};
+					params['text'] = app.vtranslate('JS_CUSTOM_FIELD_DELETED');
+					Settings_Vtiger_Index_Js.showMessage(params);
+				});
+			});
 		});
 	},
 	/**
@@ -1053,23 +1026,14 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			paramsFrom['blockid'] = blockId;
 			paramsFrom['action'] = 'removeBlock';
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-					function (e) {
-						thisInstance.save(paramsFrom, 'delete').then(
-								function (data) {
-									thisInstance.removeDeletedBlock(blockId, 'delete');
-									var params = {};
-									params['text'] = app.vtranslate('JS_CUSTOM_BLOCK_DELETED');
-									Settings_Vtiger_Index_Js.showMessage(params);
-								}, function (error, err) {
-
-						}
-						);
-					},
-					function (error, err) {
-
-					}
-			);
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+				thisInstance.save(paramsFrom, 'delete').done(function (data) {
+					thisInstance.removeDeletedBlock(blockId, 'delete');
+					var params = {};
+					params['text'] = app.vtranslate('JS_CUSTOM_BLOCK_DELETED');
+					Settings_Vtiger_Index_Js.showMessage(params);
+				});
+			});
 		});
 	},
 	/**
@@ -1093,12 +1057,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		container.on('change', '[name="widgetsManagementEditorModules"]', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var selectedModule = currentTarget.val();
-			thisInstance.getModuleLayoutEditor(selectedModule, thisInstance.getCurrentDashboardId()).then(
-					function (data) {
-						contentsDiv.html(data);
-						thisInstance.registerEvents();
-					}
-			);
+			thisInstance.getModuleLayoutEditor(selectedModule, thisInstance.getCurrentDashboardId()).done(function (data) {
+				contentsDiv.html(data);
+				thisInstance.registerEvents();
+			});
 		});
 
 	},
@@ -1121,16 +1083,13 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		params['view'] = 'Configuration';
 		params['sourceModule'] = selectedModule;
 		params['dashboardId'] = selectedDashboard;
-		AppConnector.requestPjax(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.reject();
-				}
-		);
+		AppConnector.requestPjax(params).done(function (data) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.resolve(data);
+		}).fail(function (error) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			aDeferred.reject();
+		});
 		return aDeferred.promise();
 	},
 	/**

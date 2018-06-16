@@ -11,6 +11,7 @@
     "BlueDart": "BlueDart",
     "Contacts": "Contacts",
     "Description": "Description",
+    "DetailView": "Detail view",
     "DHL": "DHL",
     "Documents": "Documents",
     "Emails": "Emails",
@@ -719,6 +720,7 @@
     "LBL_VIEW_SETTINGS": "Configuration logicielle",
     "LBL_VIEW_EXPORT": "Exporter",
     "LBL_VIEW_IMPORT": "Importer",
+    "LBL_VIEW_GANTT": "Gantt",
     "LBL_VTIGER_CRM_HONEST_OPEN_SOURCE": "YetiForce CRM Open Source",
     "LBL_QUICK_ACCESS_MENU": "Quick access menu",
     "LBL_Wed": "Mer",
@@ -841,6 +843,7 @@
     "OSSSoldServices": "Services vendus",
     "Sub Category": "Sous cat\u00e9gorie",
     "Interested products": "Int\u00e9ress\u00e9 par les produits",
+    "LBL_CATEGORIES": "Categories",
     "Interested services": "Int\u00e9ress\u00e9 par les services",
     "Recycle Bin": "Corbeille",
     "LBL_NO_RELATED_RECORDS_FOUND": "Aucun enregistrement \u00e0 afficher",
@@ -1308,7 +1311,10 @@
     "LBL_NOVEMDECILLIONSS": "d\u00e9cillions",
     "LBL_DELETE_RECORD": "Supprimer enregistrement",
     "LBL_SHOP_YETIFORCE": "Store",
-    "LBL_DUPLICATES": "duplicated"
+    "LBL_DUPLICATES": "duplicated",
+    "LBL_PRINT": "Print",
+    "LBL_IMAGE_DOWNLOAD": "Download image",
+    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Number of merged records has been reduced to %d."
   },
   "js": {
     "AM": "AM",

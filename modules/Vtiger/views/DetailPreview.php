@@ -4,8 +4,8 @@
  * Detail preview view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_DetailPreview_View extends Vtiger_Detail_View
 {
@@ -65,12 +65,13 @@ class Vtiger_DetailPreview_View extends Vtiger_Detail_View
 		unset($scripts['modules.Vtiger.resources.DetailPreview']);
 
 		return array_merge($scripts, $this->checkAndConvertJsScripts([
-				'~libraries/split.js/split.js',
-				'~libraries/css-element-queries/src/ResizeSensor.js',
-				'~libraries/css-element-queries/src/ElementQueries.js',
-				'modules.Vtiger.resources.Detail',
-				'modules.Vtiger.resources.DetailPreview',
-				"modules.$moduleName.resources.DetailPreview",
+			'~libraries/split.js/split.js',
+			'~libraries/css-element-queries/src/ResizeSensor.js',
+			'~libraries/css-element-queries/src/ElementQueries.js',
+			'modules.Vtiger.resources.Detail',
+			"modules.$moduleName.resources.Detail",
+			'modules.Vtiger.resources.DetailPreview',
+			"modules.$moduleName.resources.DetailPreview",
 		]));
 	}
 }

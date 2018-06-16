@@ -20,15 +20,14 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 					record: id
 				};
 				params.async = false;
-				AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (response['success']) {
-							var el = document.getElementById("OSSPasswords_editView_fieldName_password");
-							el.value = response['password'];
-							el.onchange();
-						}
-					});
+				AppConnector.request(params).done(function (data) {
+					var response = data['result'];
+					if (response['success']) {
+						var el = document.getElementById("OSSPasswords_editView_fieldName_password");
+						el.value = response['password'];
+						el.onchange();
+					}
+				});
 				// validate password
 				passwordStrength('', '');
 			}
@@ -43,7 +42,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 			if (typeof thisInstance.passwordError === 'undefined' || thisInstance.passwordError) {
 				e.preventDefault();
 			}
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				if (data.result.success === false) {
 					var params = {
 						text: data.result.message,

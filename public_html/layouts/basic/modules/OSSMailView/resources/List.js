@@ -11,7 +11,7 @@ Vtiger_List_Js("OSSMailView_List_Js", {
 			params.data = {module: 'OSSMailView', action: 'BindMails'};
 			$.extend(params.data, Vtiger_List_Js.getSelectedRecordsParams());
 			params.async = false;
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				Vtiger_Helper_Js.showPnotify({
 					text: data.result,
 					delay: '4000',
@@ -58,15 +58,13 @@ Vtiger_List_Js("OSSMailView_List_Js", {
 				"dataType": "html",
 				"data": {}
 			};
-			AppConnector.request(actionParams).then(
-				function (data) {
-					if (data) {
-						app.showModalWindow(data, function (data) {
-							thisInstance.triggerChangeTypeForm();
-						});
-					}
+			AppConnector.request(actionParams).done(function (data) {
+				if (data) {
+					app.showModalWindow(data, function (data) {
+						thisInstance.triggerChangeTypeForm();
+					});
 				}
-			);
+			});
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}

@@ -27,7 +27,7 @@
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h4 class="alert-heading">{\App\Language::translate('LBL_TOO_SMALL_UPLOAD_LIMIT', $QUALIFIED_MODULE)}</h4>
 				<p>{\App\Language::translate('LBL_TOO_SMALL_UPLOAD_LIMIT_DESC', $QUALIFIED_MODULE, vtlib\Functions::showBytes($MAXUPLOADSIZE))}</p>
-			</div>	
+			</div>
 		{/if}
 		<div class="contents">
 			<div>
@@ -44,7 +44,7 @@
 									<tr>
 										<td class="fieldLabel alignMiddle">{\App\Language::translate('LBL_IMPORT_MODULE_FROM_FILE', $QUALIFIED_MODULE)}</td>
 										<td class="fieldValue">
-											<input type="file" name="moduleZip" id="moduleZip" size="80px" 
+											<input type="file" name="moduleZip" id="moduleZip" size="80px"
 												   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 												   data-validator={\App\Json::encode([['name'=>'UploadModuleZip']])}
 												   />
@@ -58,7 +58,7 @@
 						<button class="btn btn-success" type="submit" name="saveButton"><strong><span
 										class="fas fa-upload u-mr-5px"></span>{\App\Language::translate('LBL_IMPORT', $QUALIFIED_MODULE)}</strong></button>
 						<div class="float-right cancelLinkContainer">
-							<a class="cancelLink btn btn-warning" href="index.php?module=ModuleManager&parent=Settings&view=List"><span
+							<a class="btn btn-warning" href="index.php?module=ModuleManager&parent=Settings&view=List"><span
 										class="fa fa-times u-mr-5px"></span><strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</strong></a>
 						</div>
 					</div>

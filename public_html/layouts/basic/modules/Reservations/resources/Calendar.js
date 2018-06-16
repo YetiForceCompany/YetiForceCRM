@@ -194,7 +194,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 				user: user,
 				types: types
 			};
-			AppConnector.request(params).then(function (events) {
+			AppConnector.request(params).done(function (events) {
 				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
 				progressInstance.hide();
 			});
@@ -215,22 +215,21 @@ jQuery.Class("Reservations_Calendar_Js", {
 			start: start,
 			delta: delta._data
 		};
-		AppConnector.request(params).then(function (response) {
-				if (!response['result']) {
-					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
-					revertFunc();
-				}
-				progressInstance.hide();
-			},
-			function (error) {
-				progressInstance.hide();
+		AppConnector.request(params).done(function (response) {
+			if (!response['result']) {
 				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 				revertFunc();
-			});
+			}
+			progressInstance.hide();
+		}).fail(function () {
+			progressInstance.hide();
+			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
+			revertFunc();
+		});
 	},
 	selectDay: function (date) {
 		var thisInstance = this;
-		thisInstance.getCalendarCreateView().then(function (data) {
+		thisInstance.getCalendarCreateView().done(function (data) {
 			if (data.length <= 0) {
 				return;
 			}
@@ -314,16 +313,13 @@ jQuery.Class("Reservations_Calendar_Js", {
 			return aDeferred.promise();
 		}
 		var progressInstance = jQuery.progressIndicator();
-		this.loadCalendarCreateView().then(
-			function (data) {
-				progressInstance.hide();
-				thisInstance.calendarCreateView = data;
-				aDeferred.resolve(data.clone(true, true));
-			},
-			function () {
-				progressInstance.hide();
-			}
-		);
+		this.loadCalendarCreateView().done(function (data) {
+			progressInstance.hide();
+			thisInstance.calendarCreateView = data;
+			aDeferred.resolve(data.clone(true, true));
+		}).fail(function () {
+			progressInstance.hide();
+		});
 		return aDeferred.promise();
 	},
 	registerRefreshEvent: function () {
@@ -338,14 +334,11 @@ jQuery.Class("Reservations_Calendar_Js", {
 		var moduleName = app.getModuleName();
 		var url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
 		var headerInstance = Vtiger_Header_Js.getInstance();
-		headerInstance.getQuickCreateForm(url, moduleName).then(
-			function (data) {
-				aDeferred.resolve(jQuery(data));
-			},
-			function () {
-				aDeferred.reject();
-			}
-		);
+		headerInstance.getQuickCreateForm(url, moduleName).done(function (data) {
+			aDeferred.resolve(jQuery(data));
+		}).fail(function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
 		return aDeferred.promise();
 	},
 	getCalendarView: function () {

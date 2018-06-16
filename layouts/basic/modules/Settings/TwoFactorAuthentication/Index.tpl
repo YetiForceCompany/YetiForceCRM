@@ -40,14 +40,6 @@
 						</select>
 					</div>
 				</div>
-				<div class="form-group row">
-					<label for="number-wrong-attempts" class="col-12 col-lg-2 col-form-label">{\App\Language::translate('LBL_TOTP_NUMBER_OF_WRONG_ATTEMPTS', $QUALIFIED_MODULE)}</label>
-					<div class="col-12 col-lg-4">
-						<input type="text" name="number_wrong_attempts"
-							   value="{$USER_AUTHY_TOTP_NUMBER_OF_WRONG_ATTEMPTS}" id="number-wrong-attempts"
-							   data-validation-engine="validate[custom[integer]]">
-					</div>
-				</div>
 			</form>
 		</div>
 	</div>

@@ -20,19 +20,14 @@ var Settings_Password_Js = {
 			type: type,
 			vale: vale
 		}
-		AppConnector.request(params).then(
-			function (data) {
-				var response = data['result'];
-				var params = {
-					text: response,
-					type: 'info',
-				};
-				Vtiger_Helper_Js.showPnotify(params);
-			},
-			function (data, err) {
-
-			}
-		);
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			var params = {
+				text: response,
+				type: 'info',
+			};
+			Vtiger_Helper_Js.showPnotify(params);
+		});
 	},
 	registerEvents: function () {
 		Settings_Password_Js.loadAction();

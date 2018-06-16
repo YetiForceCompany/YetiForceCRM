@@ -112,6 +112,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				thisInstance.updateEvent(event, delta, revertFunc);
 			},
 			eventRender: function (event, element) {
+				if(event.vis === ''){
+					var valueEventVis = '';
+				}else{
+					var valueEventVis = app.vtranslate('JS_' + event.vis);
+				}
 				app.showPopoverElementView(element.find('.fc-content'), {
 					title: event.title + '<a href="index.php?module=' + event.module + '&view=Edit&record=' + event.id + '" class="float-right"><span class="fas fa-edit"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
 					container: 'body',
@@ -129,7 +134,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
 					(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
 					(event.state ? '<div><span class="far fa-star"></span> <label>' + app.vtranslate('JS_STATE') + '</label>: ' + app.vtranslate(event.state) + '</div>' : '') +
-					'<div><span class="fas fa-eye"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>: ' + app.vtranslate('JS_' + event.vis) + '</div>' +
+					'<div><span class="fas fa-eye"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>: ' + valueEventVis + '</div>' +
 					(event.smownerid ? '<div><span class="fas fa-user"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 				});
 			},
@@ -255,7 +260,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				types: types,
 				filters: filters
 			};
-			AppConnector.request(params).then(function (events) {
+			AppConnector.request(params).done(function (events) {
 				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
 				progressInstance.progressIndicator({mode: 'hide'});
 			});
@@ -276,18 +281,17 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			delta: delta._data,
 			allDay: event.allDay
 		};
-		AppConnector.request(params).then(function (response) {
-				progressInstance.progressIndicator({mode: 'hide'});
-				if (!response['result']) {
-					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
-					revertFunc();
-				}
-			},
-			function (error) {
-				progressInstance.progressIndicator({mode: 'hide'});
+		AppConnector.request(params).done(function (response) {
+			progressInstance.progressIndicator({mode: 'hide'});
+			if (!response['result']) {
 				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 				revertFunc();
-			});
+			}
+		}).fail(function (error) {
+			progressInstance.progressIndicator({mode: 'hide'});
+			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
+			revertFunc();
+		});
 	},
 	selectDays: function (startDate, endDate) {
 		var thisInstance = this;
@@ -305,7 +309,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		if (end_hour == '') {
 			end_hour = '00';
 		}
-		this.getCalendarCreateView().then(function (data) {
+		this.getCalendarCreateView().done(function (data) {
 			if (data.length <= 0) {
 				return;
 			}
@@ -399,16 +403,14 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			return aDeferred.promise();
 		}
 		var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
-		this.loadCalendarCreateView().then(
-			function (data) {
-				progressInstance.progressIndicator({mode: 'hide'});
-				thisInstance.calendarCreateView = data;
-				aDeferred.resolve(data.clone(true, true));
-			},
-			function () {
-				progressInstance.progressIndicator({mode: 'hide'});
-			}
-		);
+		this.loadCalendarCreateView().done(function (data) {
+			progressInstance.progressIndicator({mode: 'hide'});
+			thisInstance.calendarCreateView = data;
+			aDeferred.resolve(data.clone(true, true));
+		}).fail(function (error) {
+			progressInstance.progressIndicator({mode: 'hide'});
+			console.error(error);
+		});
 		return aDeferred.promise();
 	},
 	loadCalendarCreateView: function () {
@@ -416,14 +418,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var moduleName = app.getModuleName();
 		var url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
 		var headerInstance = Vtiger_Header_Js.getInstance();
-		headerInstance.getQuickCreateForm(url, moduleName).then(
-			function (data) {
-				aDeferred.resolve(jQuery(data));
-			},
-			function () {
-				aDeferred.reject();
-			}
-		);
+		headerInstance.getQuickCreateForm(url, moduleName).done(function (data) {
+			aDeferred.resolve(jQuery(data));
+		}).fail(function () {
+			aDeferred.reject();
+		});
 		return aDeferred.promise();
 	},
 	getCalendarView: function () {
@@ -467,7 +466,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	registerAddButton: function () {
 		var thisInstance = this;
 		jQuery('.calendarViewContainer .widget_header .addButton').on('click', function (e) {
-			thisInstance.getCalendarCreateView().then(function (data) {
+			thisInstance.getCalendarCreateView().done(function (data) {
 				var headerInstance = new Vtiger_Header_Js();
 				headerInstance.handleQuickCreateData(data, {
 					callbackFunction: function (data) {
@@ -489,7 +488,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					</label>
 				</div>`;
 	},
-	createAddSwitch () {
+	createAddSwitch() {
 		const calendarview = this.getCalendarView();
 		let switchHistory, switchAllDays;
 		if (app.getMainParams('showType') == 'current' && app.moduleCacheGet('defaultShowType') != 'history') {

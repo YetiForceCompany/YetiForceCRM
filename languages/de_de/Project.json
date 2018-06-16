@@ -51,5 +51,33 @@
     "completed": "Fertiggestellt",
     "delivered": "Ausgeliefert",
     "archived": "Archiviert"
+  },
+  "js": {
+    "JS_NO.": "No.",
+    "JS_DURATION_SHORT": "Time",
+    "JS_FILTER_BY_STATUSES":"Status filters",
+    "JS_UPDATE_GANTT":"Update view",
+    "JS_PROJECT_STATUSES":"Project statuses",
+    "JS_MILESTONE_STATUSES": "Milestone statuses",
+    "JS_TASK_STATUSES": "Task statuses",
+    "JS_ASSIGNED":"Assigned To",
+    "JS_GANTT_ERROR_LOADING_DATA_TASK_REMOVED": "Error when loading data - the item has been removed",
+    "JS_INVALID_DATE_FORMAT": "Invalid date format",
+    "JS_GANTT_SEMESTER_SHORT": "Sem.",
+    "JS_GANTT_SEMESTER": "Semester",
+    "JS_GANTT_QUARTER_SHORT": "Qtr",
+    "JS_GANTT_QUARTER": "Quarter",
+    "JS_GANTT_WEEK": "Week",
+    "JS_GANTT_WEEK_SHORT": "wk",
+    "JS_YES": "Yes",
+    "JS_NO": "No",
+    "JS_INVALID_DATA": "Invalid data for field",
+    "JS_ERROR_ON_FIELD": "Invalid value in field",
+    "JS_OUT_OF_BOUDARIES": "Value out of range for field:",
+    "JS_WEEK_SHORT": "wk",
+    "JS_PROCEED": "Do you want to proceed?",
+    "JS_PREV": "Previous",
+    "JS_NEXT": "Next",
+    "JS_HINT_SKIP": "I understand, close this notification"
   }
 }

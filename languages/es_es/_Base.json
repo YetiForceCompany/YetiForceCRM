@@ -5,6 +5,7 @@
     "LBL_CONTACT_INFORMATIONS": "Informaci\u00f3n de contacto",
     "LBL_NO_UNREAD_NOTIFICATIONS": "No hay Notificaciones",
     "LBL_SEND_MESSAGE": "Enviar mensaje",
+    "DetailView": "Detail view",
     "BTN_SUBMIT": "Subir imagenes",
     "LBL_ADD_FILES": "A\u00f1adir im\u00e1genes",
     "LBL_SHARE_WITH": "Compartir con los m\u00f3dulos",
@@ -582,6 +583,7 @@
     "LBL_VIEW_SETTINGS": "Configuraci\u00f3n del software",
     "LBL_VIEW_EXPORT": "Exportar",
     "LBL_VIEW_IMPORT": "Importar",
+    "LBL_VIEW_GANTT": "Gantt",
     "LBL_VTIGER_CRM_HONEST_OPEN_SOURCE": "CRM de c\u00f3digo abierto YetiForce",
     "LBL_QUICK_ACCESS_MENU": "Quick access menu",
     "LBL_Wed": "Mi\u00e9",
@@ -716,6 +718,7 @@
     "OSSSoldServices": "Servicios vendidos",
     "Sub Category": "Subcategor\u00eda",
     "Interested products": "Interesado en productos",
+    "LBL_CATEGORIES": "Categories",
     "Interested services": "Interesado en servicios",
     "Recycle Bin": "Papelera de reciclaje",
     "LBL_NO_RELATED_RECORDS_FOUND": "No hay registros para mostrar",
@@ -1312,7 +1315,10 @@
     "LBL_ADVANCED_SEARCH": "B\u00fasqueda Avanzada",
     "LBL_MERGING": "Merging records",
     "_Base": "System",
-    "LBL_SHOP_YETIFORCE": "Store"
+    "LBL_SHOP_YETIFORCE": "Store",
+    "LBL_PRINT": "Print",
+    "LBL_IMAGE_DOWNLOAD": "Download image",
+    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Number of merged records has been reduced to %d."
   },
   "js": {
     "JS_VIEWNAME_ALERT": "Nombre del filtro demasiado largo",

@@ -17,7 +17,6 @@
 		<table class="table table-bordered table-sm listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
-					<th width="1%" class="{$WIDTHTYPE}"></th>
 						{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<th width="{$WIDTH}%" nowrap {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
@@ -29,9 +28,8 @@
 			</thead>
 			<tbody>
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
-					<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" 
+					<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"
 						{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}>
-						<td width="1%" nowrap class="{$WIDTHTYPE}"></td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 							{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}

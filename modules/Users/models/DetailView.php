@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Users_DetailView_Model extends Vtiger_DetailView_Model
@@ -13,16 +14,17 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 	/**
 	 * Function to get the detail view links (links and widgets).
 	 *
-	 * @param <array> $linkParams - parameters which will be used to calicaulate the params
+	 * @param array $linkParams - parameters which will be used to calicaulate the params
 	 *
-	 * @return <array> - array of link models in the format as below
-	 *                 array('linktype'=>list of link models);
+	 * @return array - array of link models in the format as below
+	 *               array('linktype'=>list of link models);
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
+		$linkModelList['DETAIL_VIEW_BASIC'] = [];
 
 		if (($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') === $recordId) && $recordModel->get('status') === 'Active') {
 			$recordModel = $this->getRecord();
@@ -89,7 +91,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 			foreach ($detailViewActionLinks as $detailViewLink) {
 				$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 			}
-			return $linkModelList;
 		}
+		return $linkModelList;
 	}
 }
