@@ -27,6 +27,8 @@
     "SystemWarnings": "Ostrze\u017cenia systemowe",
     "BTN_CONFIGURE_ENCRYPTION": "Aktywuj szyfrowanie",
     "Security": "Bezpiecze\u0144stwo",
+    "LBL_VULNERABILITIES_IN_DEPENDENCIES": "Podatno\u015bci w bibliotekach",
+    "LBL_VULNERABILITIES_IN_DEPENDENCIES_DESC": "Wykryto podatno\u015bci w bibliotekach zalecamy szybk\u0105 ich aktualizacj\u0119.\r\nPodatno\u015bci:",
     "LBL_MECHANISM_ENCRYPTION": "Mechanizm szyfrowania",
     "LBL_CONFIGURE_ENCRYPTION_DESCRIPTION": "Brak szyfrowania powoduje \u017ce dane wra\u017cliwe takie jak has\u0142a do poczty, klucze dost\u0119powe s\u0105 przechowywanie w formie jawnej w bazie danych."
   }
