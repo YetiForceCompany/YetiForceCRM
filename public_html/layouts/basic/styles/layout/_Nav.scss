@@ -171,7 +171,13 @@
 	&--animation {
 		.basePanel,
 		.c-header {
-			@include u-transition((left ease-in-out 0.35s));
+			@include media-breakpoint-up(md) {
+				@include u-transition((left 0.35s ease-in-out 0.35s));
+			}
+
+			@include media-breakpoint-down(md) {
+				@include u-transition((left ease-in-out 0.35s));
+			}
 		}
 	}
 }
