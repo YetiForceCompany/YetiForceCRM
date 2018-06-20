@@ -27,7 +27,7 @@
 		}
 	}
 
-	&__content {
+	&__item {
 		a {
 			display: inline-flex;
 			width: 100%;
@@ -41,8 +41,10 @@
 
 			&:hover, &:focus {
 				background: lighten($bg-menu, 5%);
+			}
 
-				.menuName {
+			&:focus {
+				.c-menu__item__text {
 					white-space: normal;
 				}
 			}
@@ -55,7 +57,7 @@
 				padding: 8px 30px 8px 12px;
 			}
 
-			.menuName {
+			.c-menu__item__text {
 				padding: 2px 0;
 				position: relative;
 				word-wrap: break-word;
@@ -91,15 +93,19 @@
 
 			}
 
-			&.collapsed .toggler {
+			&.collapsed {
 				.fa-minus-circle {
 					display: none;
 				}
 			}
 
-			&:not(.collapsed) .toggler {
+			&:not(.collapsed) {
 				.fa-plus-circle {
 					display: none;
+				}
+
+				.c-menu__item__text {
+					white-space: normal;
 				}
 			}
 		}
@@ -299,3 +305,4 @@
 		display: none;
 	}
 }
+
