@@ -42,8 +42,8 @@
 											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
 												{if $RECORD_LINK->getLabel() eq 'LBL_DELETE_RECORD'}
-													<button type="button" class="btn btn-sm btn-danger">
-													<span class="{$RECORD_LINK->getIcon()} alignMiddle templateDelete" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+													<button type="button" class="btn btn-sm btn-danger templateDelete">
+													<span class="{$RECORD_LINK->getIcon()}" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 													</button>
 												{elseif $RECORD_LINK->getLabel() eq 'LBL_EXPORT_RECORD'}
 													<a href="{$RECORD_LINK_URL}" class="btn btn-primary btn-sm"><span class="{$RECORD_LINK->getIcon()} alignMiddle"></span></a>
