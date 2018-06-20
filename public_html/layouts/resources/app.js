@@ -106,6 +106,31 @@ app = {
 		}
 		element.popover('hide');
 	},
+	hidePopoversAfterClick (popoverParent) {
+		popoverParent.on('click', (e) => {
+			setTimeout(() => {
+				popoverParent.popover('hide');
+			}, 100);
+		});
+	},
+	registerPopoverManualTrigger (element) {
+		element.hoverIntent({
+			timeout: 150,
+			over: function () {
+				const self = this;
+				$(this).popover("show");
+				$(".popover").on("mouseleave", function () {
+					$(self).popover('hide');
+				});
+			},
+			out: function () {
+				if (!$(".popover:hover").length) {
+					$(this).popover('hide');
+				}
+			}
+		});
+		app.hidePopoversAfterClick(element);
+	},
 	showPopoverElementView: function (selectElement, params) {
 		if (typeof params === "undefined") {
 			params = {
@@ -135,21 +160,9 @@ app = {
 				sparams = $.extend(sparams, data);
 			}
 			element.popover(sparams);
-			element.hoverIntent({
-				timeout: 150,
-				over: function () {
-					const self = this;
-					$(this).popover("show");
-					$(".popover").on("mouseleave", function () {
-						$(self).popover('hide');
-					});
-				},
-				out: function () {
-					if (!$(".popover:hover").length) {
-						$(this).popover('hide');
-					}
-				}
-			});
+			if (sparams.trigger === 'manual') {
+				app.registerPopoverManualTrigger(element);
+			}
 		});
 		return selectElement;
 	},
@@ -322,6 +335,9 @@ app = {
 			if (backdrop.length > 0) {
 				$('body').addClass('modal-open');
 			}
+		});
+		container.one('show.bs.modal', function () {
+			console.log('show');
 		});
 		if (data) {
 			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
