@@ -258,9 +258,6 @@ app = {
 		};
 		const modalContainer = container.find('.modal:first');
 		modalContainer.one('shown.bs.modal', function () {
-			if ($('.modal-backdrop').length > 1) {
-				$('.modal-backdrop:not(:first)').remove();
-			}
 			cb(modalContainer);
 			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'));
 			App.Fields.Picklist.showSelectizeElementView(modalContainer.find('select.selectize'));
