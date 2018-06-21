@@ -1,5 +1,13 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
+.mainBody {
+	position: absolute;
+	top: $h-header;
+	bottom: $h-footer;
+	width: 100%;
+	overflow-x: hidden;
+}
+
 .contentsDiv, .centerPanel {
 	@extend .mx-2;
 }
