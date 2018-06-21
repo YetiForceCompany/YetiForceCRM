@@ -333,9 +333,6 @@ app = {
 				$('body').addClass('modal-open');
 			}
 		});
-		container.one('show.bs.modal', function () {
-			console.log('show');
-		});
 		if (data) {
 			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
 		} else {
