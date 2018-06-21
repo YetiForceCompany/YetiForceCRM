@@ -52,7 +52,7 @@
 				{/if}
 		>
 			{if $LINK->get('linkicon') neq ''}
-				<span class="{$LINK->get('linkicon')} {if $LINK->get('linkimg') neq '' || $LINK->get('linkicon') neq ''}mr-1{/if}" {if $LABEL neq 'LBL_ADD_RECORD'} title="{\App\Language::translate($LABEL, $BTN_MODULE)}" {/if}></span>
+				<span class="{$LINK->get('linkicon')}" {if $LABEL neq 'LBL_ADD_RECORD'} title="{\App\Language::translate($LABEL, $BTN_MODULE)}" {/if}></span>
 			{/if}
 			{if $LABEL neq '' && $LINK->get('showLabel') == 1}
 
