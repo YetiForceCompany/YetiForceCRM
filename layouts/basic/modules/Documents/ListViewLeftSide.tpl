@@ -4,7 +4,7 @@
 		<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" />
 	</div>
 	{assign var=IMAGE_CLASS value=Documents_Record_Model::getFileIconByFileType($LISTVIEW_ENTRY->get('filetype'))}
-	<span class="{$IMAGE_CLASS} fa-lg middle {if $IMAGE_CLASS eq 'userIcon-Documents'}back4RightMargin{/if}"></span>
+	<span class="{$IMAGE_CLASS} fa-lg middle {if $IMAGE_CLASS eq 'userIcon-Documents'}back4RightMargin ml-1{/if}"></span>
 	{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordListViewLinksLeftSide()}
 	{if count($LINKS) > 0}
 		{assign var=ONLY_ONE value=count($LINKS) eq 1}
