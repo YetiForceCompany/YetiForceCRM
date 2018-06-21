@@ -1,4 +1,4 @@
 @function calculate-rem($size) {
-	$remSize: $size / 16px;
-	@return #{$remSize}rem;
+	$rem-size: $size / 16px;
+	@return #{$rem-size}rem;
 }
