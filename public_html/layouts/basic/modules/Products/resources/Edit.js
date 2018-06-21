@@ -75,6 +75,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	 */
 	registerEventForEnableBaseCurrency: function () {
 		var container = this.getMoreCurrenciesContainer();
+		var currencyLabel = $('.js-currency');
 		var thisInstance = this;
 		$(container).on('change', '.baseCurrency', function (e) {
 			var elem = thisInstance.getCurrentElem(e);
@@ -83,6 +84,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 				var convertedPrice = $('.convertedPrice', parentElem).val();
 				thisInstance.baseCurrencyName = parentElem.data('currencyId');
 				thisInstance.baseCurrency = convertedPrice;
+				currencyLabel.text(parentElem.data('currency-symbol'));
 			}
 		});
 		return this;
