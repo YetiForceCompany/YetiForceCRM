@@ -9927,13 +9927,6 @@ html, body, .o-base-container {
 .marginLeft15 {
   margin-left: 15px; }
 
-.mainBody {
-  position: absolute;
-  top: 50px;
-  bottom: 33px;
-  width: 100%;
-  overflow-x: hidden; }
-
 .userInfoFooter .mainBody {
   bottom: 50px; }
 
@@ -11135,7 +11128,7 @@ border1px {
   height: 600px !important; }
 
 .u-h-input-text {
-  height: 24px; }
+  height: 1.5rem; }
 
 .u-white-space-nowrap {
   white-space: nowrap !important; }
@@ -11427,12 +11420,11 @@ border1px {
   width: 100%; }
 
 header .globalSearchInput .select2-selection.select2-selection--single {
-  font-size: 0.875rem !important;
-  height: 34px !important; }
+  height: 2.125rem !important; }
 header .select2WithButtonWidth {
-  width: calc(100% - 42px); }
+  width: calc(100% - 2.625rem); }
 header .c-header__btn__container .select2-selection {
-  height: 36px; }
+  height: 2.25rem; }
   header .c-header__btn__container .select2-selection:hover {
     background: #343a40 !important; }
     header .c-header__btn__container .select2-selection:hover .select2-selection__rendered {
@@ -13224,6 +13216,13 @@ label.btn.btn-outline-primary:not(.active) {
   background-color: #11171a; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.mainBody {
+  position: absolute;
+  top: 3.125rem;
+  bottom: 2.0625rem;
+  width: 100%;
+  overflow-x: hidden; }
+
 .massEditTable th + th, .massEditTable td + td, .massEditTable th + td, .massEditTable td + th {
   border-left: 0; }
 
@@ -13280,7 +13279,7 @@ label.btn.btn-outline-primary:not(.active) {
     padding-left: 0.3rem;
     padding-right: 0.3rem;
     font-size: 17px;
-    line-height: 34px; }
+    line-height: 2.125rem; }
   .c-header .c-header__btn__container {
     height: fit-content;
     width: fit-content; }
@@ -13288,7 +13287,7 @@ label.btn.btn-outline-primary:not(.active) {
       left: auto;
       right: 0; }
     .c-header .c-header__btn__container .c-header__btn {
-      height: 36px; }
+      height: 2.25rem; }
 
 .widget_header {
   background: #f8f9fa; }
@@ -13302,10 +13301,10 @@ label.btn.btn-outline-primary:not(.active) {
   visibility: hidden;
   position: fixed;
   right: -380px;
-  top: 50px;
+  top: 3.125rem;
   z-index: 1035;
   width: 380px;
-  height: calc(100vh - 83px);
+  height: calc(100vh - 2.0625rem3.125rem);
   overflow-y: auto;
   background: rgba(0, 0, 0, 0.4);
   border-left: 1px solid #797979;
@@ -13337,9 +13336,9 @@ label.btn.btn-outline-primary:not(.active) {
 
 .modalRightSiteBar {
   margin: 0;
-  height: calc(100vh - 83px);
+  height: calc(100vh - 2.0625rem3.125rem);
   right: 0;
-  top: 50px;
+  top: 3.125rem;
   position: fixed !important;
   z-index: 1070;
   overflow: hidden;
@@ -13521,7 +13520,7 @@ label.btn.btn-outline-primary:not(.active) {
     .c-menu__container a:hover {
       text-decoration: none;
       cursor: pointer; }
-.c-menu__content a {
+.c-menu__item a {
   display: inline-flex;
   width: 100%;
   border-radius: 0;
@@ -13532,15 +13531,15 @@ label.btn.btn-outline-primary:not(.active) {
   line-height: 1.2;
   background: #4a5364;
   position: relative; }
-  .c-menu__content a:hover, .c-menu__content a:focus {
+  .c-menu__item a:hover, .c-menu__item a:focus {
     background: #555f73; }
-    .c-menu__content a:hover .menuName, .c-menu__content a:focus .menuName {
-      white-space: normal; }
-  .c-menu__content a.active {
+  .c-menu__item a:focus .c-menu__item__text {
+    white-space: normal; }
+  .c-menu__item a.active {
     background: #343b47; }
-  .c-menu__content a.hasIcon {
+  .c-menu__item a.hasIcon {
     padding: 8px 30px 8px 12px; }
-  .c-menu__content a .menuName {
+  .c-menu__item a .c-menu__item__text {
     padding: 2px 0;
     position: relative;
     word-wrap: break-word;
@@ -13548,59 +13547,61 @@ label.btn.btn-outline-primary:not(.active) {
     overflow: hidden;
     text-overflow: ellipsis;
     text-rendering: optimizeLegibility; }
-  .c-menu__content a.hasIcon img {
+  .c-menu__item a.hasIcon img {
     height: 20px; }
-  .c-menu__content a .glyphicon, .c-menu__content a .fa, .c-menu__content a.hasIcon img {
+  .c-menu__item a .glyphicon, .c-menu__item a .fa, .c-menu__item a.hasIcon img {
     margin-right: 12px;
     font-size: 20px;
     padding-right: 7px;
     padding-left: 3px; }
-  .c-menu__content a .fa {
+  .c-menu__item a .fa {
     position: relative;
     top: 2px; }
-  .c-menu__content a .toggler {
+  .c-menu__item a .toggler {
     position: absolute;
     right: 12px;
     font-size: 10px;
     line-height: 24px; }
-  .c-menu__content a.collapsed .toggler .fa-minus-circle {
+  .c-menu__item a.collapsed .fa-minus-circle {
     display: none; }
-  .c-menu__content a:not(.collapsed) .toggler .fa-plus-circle {
+  .c-menu__item a:not(.collapsed) .fa-plus-circle {
     display: none; }
-.c-menu__content .tpl-menu-SubMenu,
-.c-menu__content .tpl-menu-Profile_submenu {
+  .c-menu__item a:not(.collapsed) .c-menu__item__text {
+    white-space: normal; }
+.c-menu__item .tpl-menu-SubMenu,
+.c-menu__item .tpl-menu-Profile_submenu {
   background: #f8f9fa;
   color: #4a5364; }
-  .c-menu__content .tpl-menu-SubMenu a,
-  .c-menu__content .tpl-menu-Profile_submenu a {
+  .c-menu__item .tpl-menu-SubMenu a,
+  .c-menu__item .tpl-menu-Profile_submenu a {
     font-size: 14px;
     color: #4a5364;
     background: #f8f9fa; }
-    .c-menu__content .tpl-menu-SubMenu a:hover, .c-menu__content .tpl-menu-SubMenu a:focus,
-    .c-menu__content .tpl-menu-Profile_submenu a:hover,
-    .c-menu__content .tpl-menu-Profile_submenu a:focus {
+    .c-menu__item .tpl-menu-SubMenu a:hover, .c-menu__item .tpl-menu-SubMenu a:focus,
+    .c-menu__item .tpl-menu-Profile_submenu a:hover,
+    .c-menu__item .tpl-menu-Profile_submenu a:focus {
       background: white; }
-    .c-menu__content .tpl-menu-SubMenu a.active,
-    .c-menu__content .tpl-menu-Profile_submenu a.active {
+    .c-menu__item .tpl-menu-SubMenu a.active,
+    .c-menu__item .tpl-menu-Profile_submenu a.active {
       background: #e9ecef; }
-    .c-menu__content .tpl-menu-SubMenu a.hasIcon,
-    .c-menu__content .tpl-menu-Profile_submenu a.hasIcon {
+    .c-menu__item .tpl-menu-SubMenu a.hasIcon,
+    .c-menu__item .tpl-menu-Profile_submenu a.hasIcon {
       padding: 6px 12px; }
-  .c-menu__content .tpl-menu-SubMenu .menuLabel > a,
-  .c-menu__content .tpl-menu-Profile_submenu .menuLabel > a {
+  .c-menu__item .tpl-menu-SubMenu .menuLabel > a,
+  .c-menu__item .tpl-menu-Profile_submenu .menuLabel > a {
     font-weight: 600;
     text-transform: uppercase;
     padding: 6px 12px; }
-  .c-menu__content .tpl-menu-SubMenu button,
-  .c-menu__content .tpl-menu-Profile_submenu button {
+  .c-menu__item .tpl-menu-SubMenu button,
+  .c-menu__item .tpl-menu-Profile_submenu button {
     background: #dae0e5; }
-    .c-menu__content .tpl-menu-SubMenu button:hover, .c-menu__content .tpl-menu-SubMenu button:focus,
-    .c-menu__content .tpl-menu-Profile_submenu button:hover,
-    .c-menu__content .tpl-menu-Profile_submenu button:focus {
+    .c-menu__item .tpl-menu-SubMenu button:hover, .c-menu__item .tpl-menu-SubMenu button:focus,
+    .c-menu__item .tpl-menu-Profile_submenu button:hover,
+    .c-menu__item .tpl-menu-Profile_submenu button:focus {
       color: #f8f9fa;
       background: #4a5364; }
-    .c-menu__content .tpl-menu-SubMenu button.hasIcon,
-    .c-menu__content .tpl-menu-Profile_submenu button.hasIcon {
+    .c-menu__item .tpl-menu-SubMenu button.hasIcon,
+    .c-menu__item .tpl-menu-Profile_submenu button.hasIcon {
       padding: 6px 12px; }
 .c-menu__body {
   height: calc(100% - 50px);
@@ -13616,13 +13617,22 @@ label.btn.btn-outline-primary:not(.active) {
   padding-right: 0;
   padding-left: 0;
   background-color: #406a95; }
-.c-menu--animation .basePanel,
-.c-menu--animation .c-header {
-  -webkit-transition: left ease-in-out 0.35s;
-  -moz-transition: left ease-in-out 0.35s;
-  -ms-transition: left ease-in-out 0.35s;
-  -o-transition: left ease-in-out 0.35s;
-  transition: left ease-in-out 0.35s; }
+@media (min-width: 768px) {
+  .c-menu--animation .basePanel,
+  .c-menu--animation .c-header {
+    -webkit-transition: left 0.35s ease-in-out 0.35s;
+    -moz-transition: left 0.35s ease-in-out 0.35s;
+    -ms-transition: left 0.35s ease-in-out 0.35s;
+    -o-transition: left 0.35s ease-in-out 0.35s;
+    transition: left 0.35s ease-in-out 0.35s; } }
+@media (max-width: 991.98px) {
+  .c-menu--animation .basePanel,
+  .c-menu--animation .c-header {
+    -webkit-transition: left ease-in-out 0.35s;
+    -moz-transition: left ease-in-out 0.35s;
+    -ms-transition: left ease-in-out 0.35s;
+    -o-transition: left ease-in-out 0.35s;
+    transition: left ease-in-out 0.35s; } }
 
 .related .nav-pills {
   border-bottom: 3px solid #404952; }
@@ -13690,7 +13700,7 @@ label.btn.btn-outline-primary:not(.active) {
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .footerContainer {
   background: #343a40;
-  height: 33px;
+  height: 2.0625rem;
   color: #fff;
   font-size: 0.8rem; }
   .footerContainer a {
@@ -14044,7 +14054,7 @@ label.btn.btn-outline-primary:not(.active) {
   height: 0;
   overflow: hidden; }
 .singleComment:hover .commentActionsContainer .commentActions {
-  height: 31px; }
+  height: 1.9375rem; }
 
 .quickDetailContent .singleComment:hover .commentActionsContainer .commentActions {
   height: 0; }
