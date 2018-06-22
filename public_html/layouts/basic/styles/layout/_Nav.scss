@@ -28,7 +28,7 @@
 	}
 	@include media-breakpoint-down(sm) {
 	  &__container {
-		bottom: $h-menu-bottom;
+		bottom: $h-footer-mobile;
 	  }
 	}
 
