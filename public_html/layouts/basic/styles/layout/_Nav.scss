@@ -26,6 +26,11 @@
 			transition: background-color 0.2s ease;
 		}
 	}
+	@include media-breakpoint-down(sm) {
+	  &__container {
+		bottom: $h-menu-bottom;
+	  }
+	}
 
 	&__item {
 		a {
@@ -164,11 +169,6 @@
 			font-size: 1.6em;
 			height: 100%;
 			min-width: 42px;
-		}
-	}
-	@include media-breakpoint-down(sm) {
-		&__body {
-		  height: calc(100% - 34px) !important;
 		}
 	}
 	&__header {
