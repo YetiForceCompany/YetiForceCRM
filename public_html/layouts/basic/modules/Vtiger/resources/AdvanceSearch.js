@@ -339,7 +339,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 			var currentElement = $(e.currentTarget);
 			currentElement.addClass('d-none');
 			var actionsContainer = currentElement.closest('.actions');
-			$('input[name="viewname"]', actionsContainer).removeClass('zeroOpacity').focus();
+			$('.js-name-filter', actionsContainer).removeClass('d-none').focus();
 			$('#advanceSave').removeClass('d-none');
 		});
 
