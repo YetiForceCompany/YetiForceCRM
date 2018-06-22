@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div class="tpl-AdvanceSearch modal" tabindex="-1" role="dialog" id="advanceSearchContainer">
+    <div class="tpl-AdvanceSearch modal fade" tabindex="-1" role="dialog" id="advanceSearchContainer">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -22,7 +22,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="form-group form-row">
-						<label for="searchModuleList" class="col-md-12 col-lg-2 pl-2 col-form-label d-flex justify-content-sm-start">
+						<label for="searchModuleList" class="col-md-12 col-lg-2 pl-2 col-form-label d-flex justify-content-start">
 							<strong class="float-right">{\App\Language::translate('LBL_SEARCH_IN',$MODULE)}</strong>
 						</label>
 						<div class="col-md-12 col-lg-10">
