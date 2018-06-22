@@ -16,12 +16,14 @@
 		{assign var=modulesCount value=count($searchRecords)}
 		{assign var="totalCount" value=$totalCount+$modulesCount}
 	{/foreach}
-	<div class="globalSearchResults modal fade">
-		<div class="modal-dialog">
+	<div class="tpl-UnifiedSearchResults globalSearchResults modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header padding1per">
-					<div class="row no-margin">
-						<span class="col-md-6"><strong>{\App\Language::translate('LBL_SEARCH_RESULTS',$MODULE)}&nbsp;({$totalCount})</strong></span>
+					<div class="form-row w-100 m-0">
+						<span class="col-md-6">
+							<strong><span class="fas fa-search fa-fw"></span> {\App\Language::translate('LBL_SEARCH_RESULTS',$MODULE)}&nbsp;({$totalCount})</strong>
+						</span>
 						{if $IS_ADVANCE_SEARCH }
 							<span class="col-md-5">
 								<span class="float-right">
