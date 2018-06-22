@@ -131,8 +131,8 @@
 			<input type="text" class="form-control" readonly="" name="fieldValue" value="" />
 			<input type="hidden" name="valuetype" value="rawtext" />
 		</div>
-		<div class="u-cursor-pointer btn span">
-			<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
-		</div>
+		<button class="btn btn-danger deleteCondition">
+			<span class="fas fa-trash-alt"></span>
+		</button>
 	</div>
 {/if}
