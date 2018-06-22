@@ -528,7 +528,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi, params)
 		} else if (fieldSpecificUi.is('select')) {
 			if (fieldSpecificUi.hasClass('chzn-select')) {
-				App.Fields.Picklist.changeSelectElementView(fieldSpecificUi)
+				App.Fields.Picklist.showChoosenElementView(fieldSpecificUi);
 			} else {
 				App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi);
 			}
