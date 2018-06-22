@@ -268,6 +268,7 @@ app = {
 				height: '5em',
 				toolbar: 'Min'
 			});
+			app.showNewScrollbar(modalContainer.find('.modal-body'));
 		});
 		$('body').append(container);
 		modalContainer.modal(params);
