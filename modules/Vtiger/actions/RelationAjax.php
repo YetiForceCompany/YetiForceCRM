@@ -134,7 +134,6 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$relatedModule = \App\Module::getModuleName($relatedModule);
 		}
 		$relatedRecordIdList = $request->get('related_record_list');
-
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
