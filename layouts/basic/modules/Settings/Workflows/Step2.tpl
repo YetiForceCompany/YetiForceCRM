@@ -51,7 +51,7 @@
 					{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}
 				</strong>
 			</button>
-			<button class="btn btn-success" type="submit">
+			<button class="btn btn-success mr-1" type="submit">
 				<strong>
 					<span class="fas fa-caret-right mr-1"></span>
 					{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}
