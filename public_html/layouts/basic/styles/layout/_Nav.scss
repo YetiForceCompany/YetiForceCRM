@@ -166,7 +166,11 @@
 			min-width: 42px;
 		}
 	}
-
+	@include media-breakpoint-down(sm) {
+		&__body {
+		  height: calc(100% - 34px) !important;
+		}
+	}
 	&__header {
 		height: 50px;
 		padding-right: 0;
