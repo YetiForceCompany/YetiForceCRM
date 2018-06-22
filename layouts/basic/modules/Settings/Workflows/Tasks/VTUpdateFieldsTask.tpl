@@ -65,8 +65,8 @@
 			<input type="text" class="form-control" readonly="" name="fieldValue" value="" />
 			<input type="hidden" name="valuetype" class="form-control" value="rawtext" />
 		</span>
-		<p class="cursorPointer form-control-plaintext w-auto">
-			<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
-		</p>
+		<button class="btn btn-danger deleteCondition" type="button">
+			<span class="fas fa-trash-alt"></span>
+		</button>
 	</div>
 {/strip}
