@@ -43,7 +43,7 @@
 		"clockpicker": "^0.0.7",
 		"css-element-queries": "^1.0.2",
 		"datatables.net": "^1.10.16",
-		"datatables.net-bs4": "^1.10.16",
+		"datatables.net-bs4": "^1.10.19",
 		"device-uuid": "^1.0.4",
 		"dompurify": "^1.0.3",
 		"fontawesome-web": "^5.0.2",
