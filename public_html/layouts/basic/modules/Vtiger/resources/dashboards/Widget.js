@@ -82,7 +82,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		scales: {
 			formatAxesLabels: function formatAxesLabels(value, index, values) {
 				if (String(value).length > 0 && !isNaN(Number(value))) {
-					return app.parseNumberToShow(value);
+					return app.parseNumberToShow(value).replace(CONFIG.currencyDecimalSeparator, app.getDecodedValue(CONFIG.currencyDecimalSeparator));
 				}
 				return value;
 			},
