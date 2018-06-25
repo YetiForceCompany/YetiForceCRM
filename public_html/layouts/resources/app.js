@@ -702,6 +702,31 @@ app = {
 
 		return new PerfectScrollbar(element[0], options);
 	},
+	showNewScrollbarAllSides: function (element) {
+		if (typeof element === "undefined" || !element.length)
+			return;
+		let scrollbarTopLeftInit = new PerfectScrollbar(element[0], {wheelPropagation: true});
+		let scrollbarTopElement = element.find('.ps__rail-x').first();
+		scrollbarTopElement.css({
+			top: 0,
+			bottom: 'auto'
+		});
+		scrollbarTopElement.find('.ps__thumb-x').css({
+			top: 2,
+			bottom: 'auto'
+		});
+		let scrollbarLeftElement = element.children('.ps__rail-y').first();
+		scrollbarLeftElement.css({
+			left: 0,
+			right: 'auto'
+		});
+		scrollbarLeftElement.find('.ps__thumb-y').css({
+			left: 2,
+			right: 'auto'
+		});
+		let scrollbarBottomRightInit = new PerfectScrollbar(element[0], {wheelPropagation: true});
+		return [scrollbarTopLeftInit, scrollbarBottomRightInit];
+	},
 	showNewBottomTopScrollbar: function (element) {
 		if (typeof element === "undefined" || !element.length)
 			return;
