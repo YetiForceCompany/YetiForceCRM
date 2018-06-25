@@ -2410,7 +2410,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			});
 		});
 		thisInstance.registerEventForRelatedList();
-		if (selectedTabElement.data('reference') === 'Details') {
+		if (selectedTabElement.data('reference') === 'Details' || app.getModuleName() === 'Users') {
 			thisInstance.registerBlockAnimationEvent();
 		}
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]'));
