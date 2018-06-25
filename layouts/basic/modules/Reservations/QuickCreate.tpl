@@ -51,7 +51,7 @@
 					<div class="quickCreateContent">
 						<div class="modal-body m-0">
 							<div class="massEditTable border-0 px-1 mx-auto m-0">
-								<div class="px-0 form-row align-items-start mx-auto">
+								<div class="px-0 m-0 form-row d-flex justify-content-center">
 									{assign var=COUNTER value=0}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 									{if in_array($FIELD_NAME, ['time_start','time_end'])}{continue}{/if}
@@ -60,16 +60,16 @@
 									{assign var="refrenceListCount" value=count($refrenceList)}
 									{if $COUNTER eq 2}
 								</div>
-								<div class="col-12 form-row align-items-start px-0 m-auto">
+								<div class="ol-md-6 py-2 form-row d-flex justify-content-center px-0 m-0">
 									{assign var=COUNTER value=1}
 									{else}
 									{assign var=COUNTER value=$COUNTER+1}
 									{/if}
 									<div class="col-md-6 py-2 form-row align-items-center {$WIDTHTYPE} ">
-										<div class="fieldLabel col-sm-3 pl-0">
+										<div class="fieldLabel col-lg-12 col-xl-5 pl-0">
 											{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 											{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-											<label class="text-right muted small font-weight-bold float-sm-left float-sm-right float-lg-right">
+											<label class="text-right muted small font-weight-bold float-lg-left float-xl-right">
 												{if $FIELD_MODEL->isMandatory() eq true}
 													<span class="redColor">*</span>
 												{/if}
@@ -84,7 +84,7 @@
 												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 											</label>
 										</div>
-										<div class="fieldValue col-sm-9">
+										<div class="fieldValue col-lg-12 col-xl-7 px-0 px-sm-1">
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE)}
 										</div>
 									</div>
