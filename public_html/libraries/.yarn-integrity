@@ -3,7 +3,9 @@
   "modulesFolders": [
     "public_html\\libraries"
   ],
-  "flags": [],
+  "flags": [
+    "production"
+  ],
   "linkedModules": [],
   "topLevelPatterns": [
     "@fortawesome/fontawesome-free-brands@^5.0.9",
@@ -29,8 +31,8 @@
     "clipboard@>=2.0.0",
     "clockpicker@^0.0.7",
     "css-element-queries@^1.0.2",
-    "datatables.net-bs4@^1.10.16",
-    "datatables.net@^1.10.16",
+    "datatables.net-bs4@^1.10.19",
+    "datatables.net@^1.10.19",
     "device-uuid@^1.0.4",
     "dompurify@^1.0.3",
     "fontawesome-web@^5.0.2",
@@ -149,9 +151,9 @@
     "css-element-queries@^1.0.2": "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.0.2.tgz#a32edfee4a5023688ef4d45f402077306d51d44c",
     "css-line-break@1.0.1": "https://registry.yarnpkg.com/css-line-break/-/css-line-break-1.0.1.tgz#19f2063a33e95fb2831b86446c0b80c188af450a",
     "csv-parse@^2.0.0": "https://registry.yarnpkg.com/csv-parse/-/csv-parse-2.5.0.tgz#65748997ecc3719c594622db1b9ea0e2eb7d56bb",
-    "datatables.net-bs4@^1.10.16": "https://registry.yarnpkg.com/datatables.net-bs4/-/datatables.net-bs4-1.10.18.tgz#cd44031efb0af62b7b63c41647ffc45baacda436",
-    "datatables.net@1.10.18": "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.10.18.tgz#b6f045aa533101bcd33714e5338da8f905d3ef09",
-    "datatables.net@^1.10.16": "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.10.18.tgz#b6f045aa533101bcd33714e5338da8f905d3ef09",
+    "datatables.net-bs4@^1.10.19": "https://registry.yarnpkg.com/datatables.net-bs4/-/datatables.net-bs4-1.10.19.tgz#0608dff22008cf3c7b8a68b1bc702ed255b404fb",
+    "datatables.net@1.10.19": "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.10.19.tgz#97a1ed41c85e62d61040603481b59790a172dd1f",
+    "datatables.net@^1.10.19": "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.10.19.tgz#97a1ed41c85e62d61040603481b59790a172dd1f",
     "dateformat@^2.0.0": "https://registry.yarnpkg.com/dateformat/-/dateformat-2.2.0.tgz#4065e2013cf9fb916ddfd82efb506ad4c6769062",
     "debug@^2.2.0": "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f",
     "debug@^2.3.3": "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f",
@@ -263,7 +265,7 @@
     "isobject@^2.0.0": "https://registry.yarnpkg.com/isobject/-/isobject-2.1.0.tgz#f065561096a3f1da2ef46272f815c840d87e0c89",
     "isobject@^3.0.0": "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df",
     "isobject@^3.0.1": "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df",
-    "jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master": "https://github.com/YetiForceCompany/jQuery-Validation-Engine#5712e4f0eac26fdcd58d62fbcb6b9901904da09c",
+    "jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master": "https://github.com/YetiForceCompany/jQuery-Validation-Engine#c186c171d2eb1d344844f8c2bf92f25cd73a6fb5",
     "jquery-gantt-editor@^1.0.2": "https://registry.yarnpkg.com/jquery-gantt-editor/-/jquery-gantt-editor-1.0.2.tgz#2748da4927dcda017676297ed84be7eac3e510c6",
     "jquery-hoverintent@^1.9.0": "https://registry.yarnpkg.com/jquery-hoverintent/-/jquery-hoverintent-1.9.0.tgz#4d92c1ae07b71b9f0d9721b9b412d672abd387c8",
     "jquery-lazy@^1.7.7": "https://registry.yarnpkg.com/jquery-lazy/-/jquery-lazy-1.7.9.tgz#5a7c8691664b6ec4c53220298ace28c9f2927ffd",
