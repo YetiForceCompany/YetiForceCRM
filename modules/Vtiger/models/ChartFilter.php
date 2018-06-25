@@ -1144,6 +1144,16 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
+	 * Get value type of the chart.
+	 *
+	 * @return string
+	 */
+	public function getValueType()
+	{
+		return $this->valueType;
+	}
+
+	/**
 	 * Convert collected sectors to data (funnel chart).
 	 *
 	 * @return array

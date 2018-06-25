@@ -58,6 +58,20 @@ jQuery.Class('Vtiger_Widget_Js', {
 		return false;
 	},
 	/**
+	 * Get widget data
+	 * @returns {*}
+	 */
+	getWidgetData() {
+		if (typeof this.widgetData !== 'undefined') {
+			return this.widgetData;
+		}
+		let widgetDataEl = this.getContainer().find('.widgetData');
+		if (widgetDataEl.length) {
+			return this.widgetData = JSON.parse(widgetDataEl.val());
+		}
+		return false;
+	},
+	/**
 	 * Predefined functions that will replace options function type
 	 * @type {Object}
 	 */
@@ -82,6 +96,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 				return meta.hidden !== true;
 			},
 			formatter: function datalabelsFormatter(value, context) {
+				if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
+					let val = app.parseNumberToShow(value);
+					return val.substr(0, val.indexOf(CONFIG.currencyDecimalSeparator));
+				}
 				if (
 					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== "undefined" &&
 					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== "undefined"
@@ -90,7 +108,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
 				}
 				if (String(value).length > 0 && isNaN(Number(value))) {
-					return app.parseNumberToShow(value);
+					return app.parseNumberToShow(value).replace(CONFIG.currencyDecimalSeparator, app.getDecodedValue(CONFIG.currencyDecimalSeparator));
 				}
 				return value;
 			}
@@ -106,7 +124,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}
 				// if there is no formatted data so try to format it
 				if (String(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]).length > 0 && !isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
-					return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+					if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
+						let val = app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+						return val.substr(0, val.indexOf(CONFIG.currencyDecimalSeparator));
+					}
+					return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]).replace(CONFIG.currencyDecimalSeparator, app.getDecodedValue(CONFIG.currencyDecimalSeparator));
 				}
 				// return raw data at idex
 				return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
@@ -119,7 +141,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}
 				// if there is no formatted title so try to format it
 				if (String(data.labels[tooltipItem.index]).length > 0 && !isNaN(Number(data.labels[tooltipItem.index]))) {
-					return app.parseNumberToShow(data.labels[tooltipItem.index]);
+					if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
+						let val = app.parseNumberToShow(data.labels[tooltipItem.index]);
+						return val.substr(0, val.indexOf(CONFIG.currencyDecimalSeparator));
+					}
+					return app.parseNumberToShow(data.labels[tooltipItem.index]).replace(CONFIG.currencyDecimalSeparator, app.getDecodedValue(CONFIG.currencyDecimalSeparator));
 				}
 				// return label at index
 				return data.labels[tooltipItem.index];
@@ -1720,6 +1746,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (typeof this.chartData === "undefined" || typeof this.getChartContainer() === "undefined") {
 			return false;
 		}
+		this.getWidgetData();// load widget data for label formatters
 		const type = this.getType();
 		let data = this.generateData();
 		data.datasets = this.loadDatasetOptions(data);
@@ -1827,12 +1854,22 @@ jQuery.Class('Vtiger_Widget_Js', {
 				dataset.data.forEach((dataItem, index) => {
 					let defaultLabel = data.labels[index];
 					if (String(defaultLabel).length > 0 && !isNaN(Number(defaultLabel))) {
-						defaultLabel = app.parseNumberToShow(defaultLabel);
+						if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
+							let val = app.parseNumberToShow(defaultLabel);
+							defaultLabel = val.substr(0, val.indexOf(CONFIG.currencyDecimalSeparator));
+						}else {
+							defaultLabel = app.parseNumberToShow(defaultLabel).replace(CONFIG.currencyDecimalSeparator, app.getDecodedValue(CONFIG.currencyDecimalSeparator));
+						}
 					}
 					if (typeof dataset.label !== "undefined") {
 						let label = dataset.label;
 						if (String(label).length > 0 && !isNaN(Number(label))) {
-							label = app.parseNumberToShow(label);
+							if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
+								let val = app.parseNumberToShow(label);
+								label = val.substr(0, val.indexOf(CONFIG.currencyDecimalSeparator));
+							}else {
+								label = app.parseNumberToShow(label).replace(CONFIG.currencyDecimalSeparator,app.getDecodedValue(CONFIG.currencyDecimalSeparator));
+							}
 						}
 						defaultLabel += ' (' + label + ')';
 					}
@@ -1856,7 +1893,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 				dataset.data.forEach((dataItem, index) => {
 					let dataFormatted = dataItem;
 					if (String(dataItem).length > 0 && !isNaN(Number(dataItem))) {
-						dataFormatted = app.parseNumberToShow(dataItem);
+						if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
+							let val = app.parseNumberToShow(dataItem);
+							dataFormatted = val.substr(0, val.indexOf(CONFIG.currencyDecimalSeparator));
+						}else {
+							dataFormatted = app.parseNumberToShow(dataItem).replace(CONFIG.currencyDecimalSeparator, app.getDecodedValue(CONFIG.currencyDecimalSeparator));
+						}
 					}
 					dataset.dataFormatted.push(dataFormatted);
 				});
