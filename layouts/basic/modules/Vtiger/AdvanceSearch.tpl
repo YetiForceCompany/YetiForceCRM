@@ -45,8 +45,8 @@
 						</form>
 					</div>
 				</div>
-				<div class="actions modal-footer d-flex justify-content-md-center justify-content-lg-end">
-					<div class="form-row w-100 d-flex justify-content-md-center justify-content-lg-end">
+				<div class="actions modal-footer d-flex justify-content-center justify-content-lg-end">
+					<div class="form-row w-100 d-flex justify-content-center justify-content-lg-end">
 						{if $SAVE_FILTER_PERMITTED}
 							<div class="col-md-6 col-lg-2 mb-1 mb-md-2 mb-lg-0 pl-0 pr-0 pr-lg-0 pr-md-1 d-none js-name-filter" data-js="class: .js-name-filter">
 								<input class="form-control" type="text" title="{\App\Language::translate('LBL_FILTER_NAME')}" value="" name="viewname" placeholder="{\App\Language::translate('LBL_FILTER_NAME')}"/>
