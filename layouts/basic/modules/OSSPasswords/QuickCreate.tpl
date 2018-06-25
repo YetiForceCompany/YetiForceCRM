@@ -7,38 +7,37 @@
 	<input type="hidden" id="allowedLetters" value="{$allowChars}"/>
 	<input type="hidden" id="maxChars" value="{$passLengthMax}"/>
 	<input type="hidden" id="minChars" value="{$passLengthMin}"/>
-	<div class="tpl-QuickCreate modelContainer modal" tabindex="-1" role="dialog">
+	<div class="tpl-QuickCreate modelContainer modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-full" role="document">
 			<div class="modal-content">
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
-					<div class="modal-header d-flex justify-content-between pb-1">
-						<div>
-							<h5 class="modal-title">
-								<span class="fas fa-plus mr-1"></span>
-								{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:
-								<span class="userIcon-{$MODULE} mx-1"></span>
-								<p class="textTransform">
-									<strong>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong>
-								</p>
+					<div class="modal-header col-12 m-0 align-items-center form-row d-flex justify-content-between pb-1">
+						<div class="col-xl-6 col-12">
+							<h5 class="modal-title form-row text-center text-xl-left mb-2 mb-xl-0">
+								<span class="col-12">
+									<span class="fas fa-plus mr-1"></span>
+									<strong class="mr-1">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:</strong>
+									<strong class="text-uppercase u-text-ellipsis"><span class="userIcon-{$MODULE} mx-1"></span>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong>
+								</span>
 							</h5>
 						</div>
-						<div>
+						<div class="col-xl-6 col-12 text-center text-xl-right">
 							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
 								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
 							{/foreach}
 							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
-							<button class="btn btn-outline-secondary mr-1" id="goToFullForm"
+							<button class="btn btn-outline-secondary mr-0 mr-md-1 mb-2 mb-md-0 col-12 col-md-4 u-text-ellipsis" id="goToFullForm"
 									data-edit-view-url="{$EDIT_VIEW_URL}" type="button">
 								<strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong>
 							</button>
-							<button class="btn btn-success js-generatePass mr-1" name="save" type="button">
+							<button class="btn btn-success js-generatePass mr-0 mr-md-1 mb-2 mb-md-0 col-12 col-md-4 u-text-ellipsis" name="save" type="button">
 								<strong>{\App\Language::translate('Generate Password', $RELATEDMODULE)}</strong>
 							</button>
-							<button class="btn btn-success" type="submit"
+							<button class="btn btn-success col-12 col-md-1 mb-2 mb-md-0" type="submit"
 									title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span
 											class="fas fa-check"></span></strong>
 							</button>
-							<button class="cancelLink btn btn-danger ml-1" aria-hidden="true" data-dismiss="modal"
+							<button class="cancelLink btn btn-danger col-12 col-md-1 ml-0 ml-md-1" aria-hidden="true" data-dismiss="modal"
 									type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span
 										class="fas fa-times"></span>
 							</button>
