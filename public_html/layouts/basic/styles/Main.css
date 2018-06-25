@@ -13223,6 +13223,9 @@ label.btn.btn-outline-primary:not(.active) {
   width: 100%;
   overflow-x: hidden; }
 
+@media (max-width: 767.98px) {
+  .mainBody {
+    bottom: 1.0625rem; } }
 .massEditTable th + th, .massEditTable td + td, .massEditTable th + td, .massEditTable td + th {
   border-left: 0; }
 
@@ -13304,7 +13307,7 @@ label.btn.btn-outline-primary:not(.active) {
   top: 3.125rem;
   z-index: 1035;
   width: 380px;
-  height: calc(100vh - 2.0625rem3.125rem);
+  height: calc(100vh - (2.0625rem + 3.125rem));
   overflow-y: auto;
   background: rgba(0, 0, 0, 0.4);
   border-left: 1px solid #797979;
@@ -13336,7 +13339,7 @@ label.btn.btn-outline-primary:not(.active) {
 
 .modalRightSiteBar {
   margin: 0;
-  height: calc(100vh - 2.0625rem3.125rem);
+  height: calc(100vh - (2.0625rem + 3.125rem));
   right: 0;
   top: 3.125rem;
   position: fixed !important;
@@ -13520,6 +13523,9 @@ label.btn.btn-outline-primary:not(.active) {
     .c-menu__container a:hover {
       text-decoration: none;
       cursor: pointer; }
+@media (max-width: 767.98px) {
+  .c-menu__container {
+    bottom: 1.0625rem; } }
 .c-menu__item a {
   display: inline-flex;
   width: 100%;
@@ -13669,7 +13675,8 @@ label.btn.btn-outline-primary:not(.active) {
     color: #fff;
     border-radius: 0; }
     .related .nav-pills .active > .nav-link {
-      color: #f1f1f1; }
+      color: #f1f1f1;
+      background: #404952; }
   .related .nav-pills .dropdown-menu {
     min-width: 300px;
     z-index: 1025; }
