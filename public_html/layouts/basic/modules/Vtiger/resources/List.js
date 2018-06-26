@@ -289,6 +289,10 @@ jQuery.Class("Vtiger_List_Js", {
 							//listInstance.triggerDisplayTypeEvent();
 						}
 					}, css)
+					//register inactive fields for massedit modal
+					if ($('#massEditContainer').length) {
+						listInstance.inactiveFieldsValidation($('#massEditContainer').find('form'));
+					}
 				}
 			}).fail(function (error, err) {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
@@ -317,7 +321,6 @@ jQuery.Class("Vtiger_List_Js", {
 			var massEditForm = container.find('#massEdit');
 			massEditForm.validationEngine(app.validationEngineOptions);
 			var listInstance = Vtiger_List_Js.getInstance();
-			listInstance.inactiveFieldsValidation(massEditForm);
 			listInstance.registerEventForTabClick(massEditForm);
 			var editInstance = Vtiger_Edit_Js.getInstance();
 			editInstance.registerBasicEvents(massEditForm);
