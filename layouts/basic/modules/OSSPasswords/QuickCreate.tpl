@@ -69,8 +69,8 @@
 									{else}
 									{assign var=COUNTER value=$COUNTER+1}
 									{/if}
-									<div class="col-md-6 py-2 form-row d-flex justify-content-center px-0 m-0 {$WIDTHTYPE}">
-										<div class="fieldLabel col-lg-12 col-xl-5 pl-0">
+									<div class="col-md-6 py-2 form-row align-items-center px-0 m-0 {$WIDTHTYPE}">
+										<div class="fieldLabel col-lg-12 col-xl-3 pl-0">
 											{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 											{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 											<label class="text-right muted small font-weight-bold float-lg-left float-xl-right">
@@ -81,13 +81,14 @@
 													<a href="#" class="js-help-info float-right" title=""
 													   data-placement="top"
 													   data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}"
-													   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'><span
-																class="fas fa-info-circle"></span></a>
+													   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'>
+														<span class="fas fa-info-circle"></span>
+													</a>
 												{/if}
 												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 											</label>
 										</div>
-										<div class="fieldValue col-lg-12 col-xl-7 px-0 px-sm-1">
+										<div class="fieldValue col-lg-12 col-xl-9 px-0 px-sm-1 align-items-center">
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE)}
 										</div>
 									</div>
