@@ -8,10 +8,9 @@
 			<input type="hidden" class="step" value="8" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
 			<input type="hidden" name="watermark_image" value="{$PDF_MODEL->get('watermark_image')}" />
-
 			<div class="padding1per stepBorder">
 				<label>
-					<strong>{\App\Language::translate('LBL_STEP_N',$QUALIFIED_MODULE, 8)}: {\App\Language::translate('LBL_WATERMARK_DETAILS',$QUALIFIED_MODULE)}</strong>
+					<strong>{\App\Language::translate('LBL_STEP_N',$QUALIFIED_MODULE, 8)|replace:'%d':'8'}: {\App\Language::translate('LBL_WATERMARK_DETAILS',$QUALIFIED_MODULE)}</strong>
 				</label>
 				<br />
 				<div class="form-group">
