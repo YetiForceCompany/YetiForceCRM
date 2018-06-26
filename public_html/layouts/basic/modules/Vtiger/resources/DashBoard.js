@@ -405,7 +405,6 @@ $.Class("Vtiger_DashBoard_Js", {
 					if (Array.isArray(selectedFiltersId)) {
 						selectedFiltersId = selectedFiltersId.join(',');
 					}
-					const selectedFilterLabel = form.find('.filterId').find(':selected').text();
 					const selectedFieldLabel = form.find('.groupField').find(':selected').text();
 					const data = {
 						module: selectedModule,
@@ -418,18 +417,25 @@ $.Class("Vtiger_DashBoard_Js", {
 							data[element.attr('name')] = element.val();
 						}
 					});
-					thisInstance.saveChartFilterWidget(data, element, selectedModuleLabel, selectedFiltersId, selectedFilterLabel, selectedFieldLabel, form);
+					thisInstance.saveChartFilterWidget(data, element, selectedModuleLabel, selectedFiltersId, '', selectedFieldLabel, form);
 				});
 			});
 		});
 	},
 	saveChartFilterWidget: function (data, element, moduleNameLabel, filtersId, filterLabel, groupFieldName, form) {
 		const thisInstance = this;
+		let label = moduleNameLabel;
+		if (typeof filterLabel !== 'undefined' && filterLabel !== null && filterLabel !== '') {
+			label += ' - ' + filterLabel;
+		}
+		if (typeof groupFieldName !== 'undefined' && groupFieldName !== null && groupFieldName !== '') {
+			label += ' - ' + groupFieldName;
+		}
 		const paramsForm = {
 			data: JSON.stringify(data),
 			blockid: element.data('block-id'),
 			linkid: element.data('linkid'),
-			label: moduleNameLabel + ' - ' + filterLabel + ' - ' + groupFieldName,
+			label: label,
 			name: 'ChartFilter',
 			title: form.find('[name="widgetTitle"]').val(),
 			filterid: filtersId,
