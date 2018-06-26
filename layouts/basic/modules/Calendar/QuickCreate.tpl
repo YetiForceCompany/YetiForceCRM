@@ -10,24 +10,26 @@
 ********************************************************************************/
 -->*}
 {strip}
-    {foreach key=index item=jsModel from=$SCRIPTS}
+	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
-    {/foreach}
+	{/foreach}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-    <div class="modelContainer modal fade" tabindex="-1">
-		<div class="modal-dialog modal-full mx-auto">
-            <div class="modal-content">
-				<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
-					<div class="modal-header d-flex justify-content-between pb-1">
-						<div>
-							<h5 class="modal-title">
-								<span class="fas fa-plus mr-1"></span>
-								{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:
-								<span class="userIcon-{$MODULE} mx-1"></span>
-								<p class="textTransform"><strong>{\App\Language::translate('LBL_EVENT_OR_TASK', $MODULE)}</strong></p>
+	<div class="tpl-QuickCreate modelContainer modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-full mx-auto" role="document">
+			<div class="modal-content">
+				<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post"
+					  action="index.php">
+					<div class="modal-header col-12 m-0 align-items-center form-row d-flex justify-content-between pb-1">
+						<div class="col-xl-6 col-12">
+							<h5 class="modal-title form-row text-center text-xl-left mb-2 mb-xl-0">
+								<span class="col-12">
+									<span class="fas fa-plus mr-1"></span>
+									<strong class="mr-1">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:</strong>
+									<strong class="text-uppercase"><span class="userIcon-{$MODULE} mx-1"></span>{\App\Language::translate('LBL_EVENT_OR_TASK', $MODULE)}</strong>
+								</span>
 							</h5>
 						</div>
-						<div>
+						<div class="col-xl-6 col-12 text-center text-xl-right">
 							{assign var="CALENDAR_MODULE_MODEL" value=$QUICK_CREATE_CONTENTS['Calendar']['moduleModel']}
 							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
 								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
@@ -37,9 +39,15 @@
 							{else}
 								{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateEventRecordUrl()}
 							{/if}
-							<button class="btn btn-outline-secondary goToFullFormOne" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
-							<button class="btn btn-success mr-1" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
-							<button class="cancelLink btn btn-danger" type="reset" aria-hidden="true" data-dismiss="modal"	type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
+							<button class="btn btn-outline-secondary mr-0 mr-md-1 mb-2 mb-md-0 col-12 col-md-4 u-text-ellipsis" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button">
+								<strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong>
+							</button>
+							<button class="btn btn-success col-12 col-md-1 mb-2 mb-md-0" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}">
+								<strong><span class="fas fa-check"></span></strong>
+							</button>
+							<button class="cancelLink btn btn-danger col-12 col-md-1 ml-0 ml-md-1" type="reset" aria-hidden="true" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}">
+								<span class="fas fa-times"></span>
+							</button>
 						</div>
 					</div>
 					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
