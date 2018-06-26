@@ -353,7 +353,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		var contents = jQuery('#layoutDashBoards');
 		var relatedBlock = contents.find('.block_' + result['blockid']);
 		var fieldCopy = contents.find('.newCustomFieldCopy').clone(true, true);
-		var fieldContainer = fieldCopy.find('div:first-child');
+		var fieldContainer = fieldCopy.find('.js-custom-field');
 		fieldContainer.attr('data-field-id', result['id']).attr('data-block-id', result['blockid']).attr('data-linkid', result['linkid']);
 		fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
 		if (result['title']) {
