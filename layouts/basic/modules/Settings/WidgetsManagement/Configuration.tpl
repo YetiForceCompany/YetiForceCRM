@@ -329,7 +329,7 @@
 								</a>
 								<div class="basicFieldOperations d-none float-right" style="width: 375px;">
 									<form class="form-horizontal fieldDetailsForm" method="POST">
-										<div class="modal-header contentsBackground">
+										<div class="modal-header">
 										</div>
 										<div class="clearfix">
 											<div class="row">
@@ -350,7 +350,7 @@
 											</div>
 											<div class="row p-2">
 												<div class="col-md-3 text-center">
-													<select class="width col-md-1 float-left form-control" name="width" >
+													<select class="form-control" name="width">
 														{foreach from=$SIZE.width item=item}
 															<option value="{$item}">{$item}</option>
 														{/foreach}
@@ -362,7 +362,7 @@
 											</div>
 											<div class="row p-2">
 												<div class="col-md-3 text-center">
-													<select class="height col-md-1 float-left form-control" name="height">
+													<select class="form-control" name="height">
 														{foreach from=$SIZE.height item=item}
 															<option value="{$item}" >{$item}</option>
 														{/foreach}
@@ -374,7 +374,7 @@
 											</div>
 											<div class="row limit p-2">
 												<div class="col-md-3 text-center" >
-													<input type="text" name="limit" class="col-md-1 form-control" value="10" >
+													<input type="text" name="limit" class="form-control" value="10" >
 												</div>
 												<label class="col-md-9 form-control-plaintext float-left" >
 													&nbsp;{\App\Language::translate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}&nbsp;
@@ -421,8 +421,8 @@
 										</div>
 										<div class="modal-footer">
 											<span class="float-right">
-												<div class="float-right"><button class='cancel btn btn-warning' type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button></div>
-												<button class="btn btn-success saveFieldDetails" data-field-id="" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+												<div class="float-right"><button class='cancel btn btn-danger' type="reset"><strong><span class="fas fa-times mr-1"></span> {\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</strong></button></div>
+												<button class="btn btn-success saveFieldDetails" data-field-id="" type="submit"><strong><span class="fas fa-check mr-1"></span> {\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 											</span>
 										</div>
 									</form>

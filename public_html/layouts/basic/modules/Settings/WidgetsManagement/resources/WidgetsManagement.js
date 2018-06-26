@@ -354,7 +354,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		var relatedBlock = contents.find('.block_' + result['blockid']);
 		var fieldCopy = contents.find('.newCustomFieldCopy').clone(true, true);
 		var fieldContainer = fieldCopy.find('.js-custom-field');
-		fieldContainer.attr('data-field-id', result['id']).attr('data-block-id', result['blockid']).attr('data-linkid', result['linkid']);
+		fieldContainer.addClass('opacity editFieldsWidget').attr('data-field-id', result['id']).attr('data-block-id', result['blockid']).attr('data-linkid', result['linkid']);
 		fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
 		if (result['title']) {
 			fieldContainer.find('.fieldLabel').html(result['title']);
@@ -385,10 +385,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	 * Function to set the field info for edit field actions
 	 */
 	setFieldDetails: function (result, form) {
-		var thisInstance = this;
-		//add field label to the field details
-		form.find('.modal-header').html(jQuery('<strong>' + result['label'] + '</strong><div class="pull-right"><a href="javascript:void(0)" class="cancel">X</a></div>'));
-
+		form.find('.modal-header').html($('<h5 class="modal-title">' + result['label'] + '</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'));
 		if (result['isdefault']) {
 			form.find('[name="isdefault"]').filter(':checkbox').attr('checked', true);
 		}
@@ -420,9 +417,11 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			}
 		}
 	},
-	registerEditFieldDetailsClick: function () {
-		var thisInstance = this;
-		contents = jQuery('#layoutDashBoards');
+	registerEditFieldDetailsClick: function (contents = null) {
+		const thisInstance = this;
+		if(!contents) {
+			contents = jQuery('#layoutDashBoards');
+		}
 		contents.find('.editFieldDetails').on('click', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var fieldRow = currentTarget.closest('div.editFieldsWidget');
@@ -508,7 +507,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			}
 			thisInstance.addClickOutSideEvent(dropDown, callbackFunction);
 
-			jQuery('.cancel').on('click', function () {
+			jQuery('.cancel,.close').on('click', function () {
 				callbackFunction();
 			});
 		});
