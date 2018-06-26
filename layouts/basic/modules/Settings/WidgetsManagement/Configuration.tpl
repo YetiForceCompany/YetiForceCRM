@@ -327,7 +327,7 @@
 								<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
 									<span class="fas fa-edit alignMiddle" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
-								<div class="basicFieldOperations d-none float-right" style="width: 375px;">
+								<div class="basicFieldOperations d-none" style="width: 375px;">
 									<form class="form-horizontal fieldDetailsForm" method="POST">
 										<div class="modal-header">
 										</div>

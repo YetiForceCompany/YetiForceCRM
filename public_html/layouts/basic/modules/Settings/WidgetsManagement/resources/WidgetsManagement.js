@@ -425,13 +425,13 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		contents.find('.editFieldDetails').on('click', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var fieldRow = currentTarget.closest('div.editFieldsWidget');
-			fieldRow.removeClass('opacity');
 			var basicDropDown = fieldRow.find('.basicFieldOperations');
 			var dropDownContainer = currentTarget.closest('.btn-group');
 			dropDownContainer.find('.dropdown-menu').remove();
-			var dropDown = basicDropDown.clone().removeClass('basicFieldOperations d-none').addClass('dropdown-menu');
+			var dropDown = basicDropDown.clone().removeClass('basicFieldOperations d-none').addClass('dropdown-menu p-0');
 			dropDownContainer.append(dropDown);
 			var dropDownMenu = dropDownContainer.find('.dropdown-menu');
+			dropDownContainer.dropdown('dispose').dropdown('toggle');
 			var params = app.getvalidationEngineOptions(true);
 			params.binded = false;
 			params.onValidationComplete = function (form, valid) {
@@ -487,29 +487,11 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					e.preventDefault();
 				}
 			});
-
-			//added for drop down position change
-			var offset = currentTarget.offset(),
-				height = currentTarget.outerHeight(),
-				dropHeight = dropDown.outerHeight(),
-				viewportBottom = $(window).scrollTop() + document.documentElement.clientHeight,
-				dropTop = offset.top + height,
-				enoughRoomBelow = dropTop + dropHeight <= viewportBottom;
-			if (!enoughRoomBelow) {
-				dropDown.addClass('bottom-up');
-			} else {
-				dropDown.removeClass('bottom-up');
-			}
-
-			var callbackFunction = function () {
-				fieldRow.addClass('opacity');
+			const callbackFunction = function () {
 				dropDown.remove();
-			}
+			};
 			thisInstance.addClickOutSideEvent(dropDown, callbackFunction);
-
-			jQuery('.cancel,.close').on('click', function () {
-				callbackFunction();
-			});
+			jQuery('.cancel,.close').on('click', callbackFunction);
 		});
 	},
 	/**
@@ -1124,3 +1106,4 @@ jQuery(document).ready(function () {
 	var instance = new Settings_WidgetsManagement_Js();
 	instance.registerEvents();
 })
+
