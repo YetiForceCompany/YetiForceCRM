@@ -86,7 +86,7 @@
 									{assign var="MODULE_MODEL" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['moduleModel']}
 									<div class="quickCreateContent">
 										<div class="massEditTable border-0 px-1 mx-auto m-0">
-											<div class="px-0 m-0 form-row d-flex justify-content-center">
+											<div class="px-0 m-0 form-row d-flex justify-content-center align-items-center">
 												{assign var=COUNTER value=0}
 												{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 												{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
