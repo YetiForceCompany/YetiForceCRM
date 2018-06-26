@@ -35,7 +35,7 @@
 	{assign var=DATE_FIELD value=$DATE_FIELD->set('fieldvalue',$DATE_TIME_COMPONENTS[0])}
 
 	<div class="tpl-Edit-Field-DateTime form-row">
-		<div class="col-12 col-sm-6 col-md-5 mb-3">
+		<div class="col-12 col-sm-6 col-md-5 mb-3 mb-sm-0">
 			{include file=\App\Layout::getTemplatePath('Edit/Field/Date.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$DATE_FIELD}
 		</div >
 		<div class="col-12 col-sm-6 col-md-7">
