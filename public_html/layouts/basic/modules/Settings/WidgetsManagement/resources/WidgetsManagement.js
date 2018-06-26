@@ -423,33 +423,33 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			contents = jQuery('#layoutDashBoards');
 		}
 		contents.find('.editFieldDetails').on('click', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var fieldRow = currentTarget.closest('div.editFieldsWidget');
+			const currentTarget = $(e.currentTarget);
+			const fieldRow = currentTarget.closest('div.editFieldsWidget');
 			fieldRow.removeClass('opacity');
-			var basicDropDown = fieldRow.find('.basicFieldOperations');
-			var dropDownContainer = currentTarget.closest('.btn-group');
+			const basicDropDown = fieldRow.find('.basicFieldOperations');
+			const dropDownContainer = currentTarget.closest('.btn-group');
 			dropDownContainer.find('.dropdown-menu').remove();
-			var dropDown = basicDropDown.clone().removeClass('basicFieldOperations d-none').addClass('dropdown-menu p-0');
+			const dropDown = basicDropDown.clone().removeClass('basicFieldOperations d-none').addClass('dropdown-menu p-0');
 			dropDownContainer.append(dropDown);
-			var dropDownMenu = dropDownContainer.find('.dropdown-menu');
+			const dropDownMenu = dropDownContainer.find('.dropdown-menu');
 			dropDownContainer.dropdown('dispose').dropdown('toggle');
-			var params = app.getvalidationEngineOptions(true);
+			const params = app.getvalidationEngineOptions(true);
 			params.binded = false;
 			params.onValidationComplete = function (form, valid) {
 				if (valid) {
-					if (form == undefined) {
+					if (form === undefined) {
 						return true;
 					}
-					var paramsForm = form.serializeFormData();
+					let paramsForm = form.serializeFormData();
 					if (form.find('[name="isdefault"]').prop("checked"))
 						paramsForm['isdefault'] = 1;
 					if (form.find('[name="cache"]').prop("checked"))
 						paramsForm['cache'] = 1;
-					var id = form.find('.saveFieldDetails').data('field-id');
+					let id = form.find('.saveFieldDetails').data('field-id');
 					paramsForm['action'] = 'saveDetails';
 					paramsForm['id'] = id;
 					if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === "undefined") {
-						var params = {};
+						let params = {};
 						params['type'] = 'error';
 						params['text'] = app.vtranslate('JS_FILTERS_AVAILABLE') + ': ' + app.vtranslate('JS_FIELD_EMPTY');
 						Settings_Vtiger_Index_Js.showMessage(params);
@@ -463,27 +463,23 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			};
 			dropDownMenu.find('form').validationEngine(params);
 			//handled registration of selectize for select element
-			var selectElements = basicDropDown.find('select[name="owners_all"]');
+			let selectElements = basicDropDown.find('select[name="owners_all"]');
 			if (selectElements.length > 0) {
-				var users = dropDownMenu.find('select[name="owners_all"]');
-				App.Fields.Picklist.showSelectizeElementView(users);
+				App.Fields.Picklist.showSelectizeElementView(dropDownMenu.find('select[name="owners_all"]'));
 			}
 			selectElements = basicDropDown.find('select[name="default_date"]');
 			if (selectElements.length > 0) {
-				var users = dropDownMenu.find('select[name="default_date"]');
-				App.Fields.Picklist.showSelect2ElementView(users);
+				App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="default_date"]'));
 			}
-
 			thisInstance.avoidDropDownClick(dropDownContainer);
-
 			dropDownMenu.on('change', ':checkbox', function (e) {
-				var currentTarget = jQuery(e.currentTarget);
-				if (currentTarget.attr('readonly') == 'readonly') {
-					var status = jQuery(e.currentTarget).is(':checked');
+				let currentTarget = jQuery(e.currentTarget);
+				if (currentTarget.attr('readonly') === 'readonly') {
+					let status = jQuery(e.currentTarget).is(':checked');
 					if (!status) {
-						jQuery(e.currentTarget).attr('checked', 'checked')
+						$(e.currentTarget).attr('checked', 'checked')
 					} else {
-						jQuery(e.currentTarget).removeAttr('checked');
+						$(e.currentTarget).removeAttr('checked');
 					}
 					e.preventDefault();
 				}
@@ -493,7 +489,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				dropDown.remove();
 			};
 			thisInstance.addClickOutSideEvent(dropDown, callbackFunction);
-			jQuery('.cancel,.close').on('click', callbackFunction);
+			$('.cancel,.close').on('click', callbackFunction);
 		});
 	},
 	/**
