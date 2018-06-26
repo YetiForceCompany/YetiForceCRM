@@ -353,7 +353,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		var contents = jQuery('#layoutDashBoards');
 		var relatedBlock = contents.find('.block_' + result['blockid']);
 		var fieldCopy = contents.find('.newCustomFieldCopy').clone(true, true);
-		var fieldContainer = fieldCopy.find('div.marginLeftZero.border1px');
+		var fieldContainer = fieldCopy.find('div:first-child');
 		fieldContainer.addClass('opacity editFieldsWidget').attr('data-field-id', result['id']).attr('data-block-id', result['blockid']).attr('data-linkid', result['linkid']);
 		fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
 		if (result['title']) {
@@ -670,18 +670,18 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					module: 'Home',
 					view: 'ChartFilter',
 					step: 'step2',
+					chartType: chartType.val(),
 					selectedModule: moduleNameSelect2.val()
 				}).done(function (step2Response) {
 					step1.after(step2Response);
 					wizardContainer.find('#widgetStep').val(2);
-					var step2 = wizardContainer.find('.step2');
-					App.Fields.Picklist.showSelect2ElementView(step2.find('select'));
+					const step2 = wizardContainer.find('.step2');
 					footer.hide();
-					var filterid = step2.find('.filterId');
-					var valueTypeSelect = step2.find('.valueType');
-					step2.find('.filterId, .valueType').on('change', function () {
-						if (!filterid.val() || !valueTypeSelect.val())
-							return;
+					const filtersIdElement = step2.find('.filtersId');
+					const valueTypeElement = step2.find('.valueType');
+					App.Fields.Picklist.showSelect2ElementView(filtersIdElement);
+					App.Fields.Picklist.showSelect2ElementView(valueTypeElement);
+					step2.find('.filtersId, .valueType').on('change', function () {
 						wizardContainer.find('.step3').remove();
 						wizardContainer.find('.step4').remove();
 						AppConnector.request({
@@ -689,8 +689,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 							view: 'ChartFilter',
 							step: 'step3',
 							selectedModule: moduleNameSelect2.val(),
-							filterid: filterid.val(),
-							valueType: valueTypeSelect.val()
+							chartType: chartType.val(),
+							filtersId: filtersIdElement.val(),
+							valueType: valueTypeElement.val(),
 						}).done(function (step3Response) {
 							step2.last().after(step3Response);
 							wizardContainer.find('#widgetStep').val(3);
@@ -708,7 +709,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 									view: 'ChartFilter',
 									step: 'step4',
 									selectedModule: moduleNameSelect2.val(),
-									filterid: filterid.val(),
+									filtersId: filtersIdElement.val(),
 									groupField: groupField.val(),
 									chartType: chartType.val()
 								}).done(function (step4Response) {
@@ -720,14 +721,13 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 							});
 						});
 					});
-				})
+				});
 			});
 			form.on('submit', function (e) {
 				e.preventDefault();
 				const selectedModule = moduleNameSelect2.val();
 				const selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-				const selectedFilterId = form.find('.filterId').val();
-				const selectedFilterLabel = form.find('.filterId').find(':selected').text();
+				const selectedFilterId = form.find('.filtersId').val();
 				const selectedFieldLabel = form.find('.groupField').find(':selected').text();
 				const data = {
 					module: selectedModule,
@@ -740,17 +740,23 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 						data[element.attr('name')] = element.val();
 					}
 				});
-				finializeAddChart(selectedModuleLabel, selectedFilterId, selectedFilterLabel, selectedFieldLabel, data, form);
+				finializeAddChart(selectedModuleLabel, selectedFilterId, null, selectedFieldLabel, data, form);
 			});
 		});
 
 		function finializeAddChart(moduleNameLabel, filterid, filterLabel, fieldLabel, data, form) {
-			var paramsForm = {};
+			let paramsForm = {};
 			paramsForm['data'] = JSON.stringify(data);
 			paramsForm['action'] = 'addWidget';
 			paramsForm['blockid'] = element.data('block-id');
 			paramsForm['linkid'] = element.data('linkid');
-			paramsForm['label'] = moduleNameLabel + ' - ' + filterLabel + ' - ' + fieldLabel;
+			paramsForm['label'] = moduleNameLabel;
+			if (typeof filterLabel !== 'undefined' && filterLabel !== null && filterLabel !== '') {
+				paramsForm['label'] += ' - ' + filterLabel;
+			}
+			if(typeof fieldLabel!=='undefined' && fieldLabel!==null && fieldLabel!==''){
+				paramsForm['label']+= ' - ' + fieldLabel;
+			}
 			paramsForm['name'] = 'ChartFilter';
 			paramsForm['filterid'] = filterid;
 			paramsForm['title'] = form.find('[name="widgetTitle"]').val();
