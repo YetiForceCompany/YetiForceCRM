@@ -425,6 +425,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		contents.find('.editFieldDetails').on('click', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var fieldRow = currentTarget.closest('div.editFieldsWidget');
+			fieldRow.removeClass('opacity');
 			var basicDropDown = fieldRow.find('.basicFieldOperations');
 			var dropDownContainer = currentTarget.closest('.btn-group');
 			dropDownContainer.find('.dropdown-menu').remove();
@@ -488,6 +489,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				}
 			});
 			const callbackFunction = function () {
+				fieldRow.addClass('opacity');
 				dropDown.remove();
 			};
 			thisInstance.addClickOutSideEvent(dropDown, callbackFunction);
