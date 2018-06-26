@@ -364,7 +364,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filterid||' . $data['filterid'], 406);
 			}
 			// if filters total length will be longer than database column
-			if (strlen($data['filterid']) > \AppConfig::performance('CHART_MULTI_FILTER_STR_LEN')) {
+			if (strlen(implode(',', $filters)) > \AppConfig::performance('CHART_MULTI_FILTER_STR_LEN')) {
 				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filterid||' . $data['filterid'], 406);
 			}
 		}
