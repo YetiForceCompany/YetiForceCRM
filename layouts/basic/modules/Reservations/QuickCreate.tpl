@@ -60,16 +60,16 @@
 									{assign var="refrenceListCount" value=count($refrenceList)}
 									{if $COUNTER eq 2}
 								</div>
-								<div class="ol-md-6 py-2 form-row d-flex justify-content-center px-0 m-0">
+								<div class="col-12 form-row d-flex justify-content-center px-0 m-0">
 									{assign var=COUNTER value=1}
 									{else}
 									{assign var=COUNTER value=$COUNTER+1}
 									{/if}
 									<div class="col-md-6 py-2 form-row align-items-center {$WIDTHTYPE} ">
-										<div class="fieldLabel col-lg-12 col-xl-3 pl-0">
+										<div class="fieldLabel col-lg-12 col-xl-3 pl-0 text-lg-left text-xl-right u-text-ellipsis">
 											{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 											{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-											<label class="text-right muted small font-weight-bold float-lg-left float-xl-right">
+											<label class="muted small font-weight-bold">
 												{if $FIELD_MODEL->isMandatory() eq true}
 													<span class="redColor">*</span>
 												{/if}
