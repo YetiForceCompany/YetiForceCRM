@@ -1,7 +1,7 @@
 {
   "php": {
-    "FInvoice": "Sales invoices",
-    "SINGLE_FInvoice": "Sales invoice",
+    "FInvoice": "Facturi fiscale",
+    "SINGLE_FInvoice": "Factura fiscala",
     "LBL_CUSTOM_INFORMATION": "Informatii sistem",
     "LBL_INVOICE_ADDRESS": "Adresa facturare",
     "LBL_ADDRESS_DELIVERY_INFORMATION": "Adresa Livrare",
