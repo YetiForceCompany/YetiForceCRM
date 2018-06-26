@@ -100,10 +100,10 @@
 												{assign var=COUNTER value=$COUNTER+1}
 												{/if}
 												<div class="col-md-6 py-2 form-row  px-0 m-0 {$WIDTHTYPE}">
-													<div class="fieldLabel col-lg-12 col-xl-3 pl-0">
+													<div class="col-lg-12 col-xl-3 pl-0 text-lg-left text-xl-right u-text-ellipsis">
 														{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 														{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-														<label class="text-right muted small font-weight-bold float-lg-left float-xl-right">
+														<label class="muted small font-weight-bold px-2">
 															{if $FIELD_MODEL->isMandatory() eq true}
 																<span class="redColor">*</span>
 															{/if}
