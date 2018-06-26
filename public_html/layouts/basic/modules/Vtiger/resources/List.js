@@ -856,7 +856,6 @@ jQuery.Class("Vtiger_List_Js", {
 		var form = field.closest('form');
 		var invalidFields = form.data('jqv').InvalidFields;
 		var fields = [field.get(0)];
-
 		var validationVal = field.attr('data-validation-engine');
 		field.attr('data-invalid-validation-engine', validationVal ? validationVal : 'validate[]');
 		field.removeAttr('data-validation-engine');
@@ -875,6 +874,8 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	activeFieldValidation: function (field) {
 		var validationVal = field.attr('data-invalid-validation-engine');
+		if (typeof validationVal === 'undefined')
+			return;
 		field.attr('data-validation-engine', validationVal ? validationVal : 'validate[]');
 		field.removeAttr('data-invalid-validation-engine');
 	},
@@ -904,24 +905,32 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 		})
 		massEditContainer.find('form').on('submit', function (e) {
-			e.preventDefault();
 			var form = jQuery(e.currentTarget);
-			if (!form.find('input[id^="selectRow"]:checked').length) {
-				Vtiger_Helper_Js.showPnotify(app.vtranslate('NONE_OF_THE_FIELD_VALUES_ARE_CHANGED_IN_MASS_EDIT'));
-				return;
+			if (typeof form.data('submit') !== "undefined") {
+				return false;
 			}
-			var invalidFields = form.data('jqv').InvalidFields;
-			if (invalidFields.length == 0) {
-				form.find('[name="saveButton"]').prop('disabled', true);
-			} else {
-				return;
-			}
+			if (form.validationEngine('validate')) {
+				e.preventDefault();
+				if (!form.find('input[id^="selectRow"]:checked').length) {
+					Vtiger_Helper_Js.showPnotify(app.vtranslate('NONE_OF_THE_FIELD_VALUES_ARE_CHANGED_IN_MASS_EDIT'));
+					return;
+				}
+				var invalidFields = form.data('jqv').InvalidFields;
+				if (invalidFields.length == 0) {
+					form.find('[name="saveButton"]').prop('disabled', true);
+				} else {
+					return;
+				}
 			thisInstance.massActionSave(form, true).done(function (data) {
 				thisInstance.getListViewRecords();
 				Vtiger_List_Js.clearList();
 			}).fail(function (error, err) {
 				app.errorLog(error, err);
 			});
+			} else {
+				form.removeData('submit');
+				app.formAlignmentAfterValidation(form);
+			}
 		});
 	},
 	/*
