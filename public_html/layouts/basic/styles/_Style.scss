@@ -1402,13 +1402,6 @@ td.fieldValue {
 		position: absolute;
 	}
 
-	.editFieldsWidget .dropdown-menu {
-		z-index: 1000003;
-		padding: 0;
-		left: -315px;
-		position: absolute;
-	}
-
 	.editFields {
 		.dropdown-menu .modal-header {
 			border-width: 0;
@@ -3029,7 +3022,7 @@ html, body, .o-base-container {
 }
 
 @media only screen and (max-width: 992px) {
-  
+
   .listViewActionsDiv .btn-toolbar, .editViewContainer .btn-toolbar, .widget_header .btn-toolbar {
 	margin-bottom: 5px;
   }
