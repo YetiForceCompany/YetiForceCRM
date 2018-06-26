@@ -1,6 +1,6 @@
 ﻿{strip}
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-<div class="" id="widgetsManagementEditorContainer">
+<div class="tpl-Settings-WidgetsManagement-Configuration" id="widgetsManagementEditorContainer">
 	<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
 	<div class="widget_header row align-items-lg-center">
 		<div class="col-md-9">
@@ -318,12 +318,12 @@
 				</div>
 
 				<li class="newCustomFieldCopy d-none col-md-12">
-					<div class="ml-0 border1px" data-field-id="" data-linkid="" data-sequence="">
-						<div class="row p-2 d-flex justify-content-between">
-							<div style="word-wrap: break-word;">
+					<div class="ml-0 border1px" data-field-id="" data-linkid="" data-sequence="" data-js="container">
+						<div class="row p-2 d-flex justify-content-between js-custom-field" data-js="container">
+							<div class="u-word-break">
 								<span class="fieldLabel ml-3"></span>
 							</div>
-							<span class="btn-group float-right mr-3 actions">
+							<span class="btn-group mr-3 actions">
 								<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
 									<span class="fas fa-edit alignMiddle" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
