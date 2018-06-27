@@ -167,6 +167,13 @@ app = {
 		return selectElement;
 	},
 	/**
+	 * Show bootstrap 4 tooltips
+	 * @param {jQuery} element
+	 */
+	showTooltipElementView(element){
+		element.tooltip();
+	},
+	/**
 	 * Function to check the maximum selection size of multiselect and update the results
 	 * @params <object> multiSelectElement
 	 * @params <object> select2 params
@@ -1460,6 +1467,7 @@ app = {
 $(document).ready(function () {
 	App.Fields.Picklist.changeSelectElementView();
 	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
+	app.showTooltipElementView($('body').find('.js-tooltip'));
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
