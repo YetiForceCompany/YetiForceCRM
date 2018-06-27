@@ -1283,7 +1283,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param {jQuery} element
 	 */
 	printHtml(element) {
-		let widget = element.closest('.dashboardWidget'),
+		let widget = $(element.closest('.dashboardWidget')),
 			title = widget.find('.dashboardTitle').prop('title'),
 			printContainer = widget.find('.js-print__container').get(0),
 			imgEl = $('<img style="width:100%">');
@@ -1296,7 +1296,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			if (height < 400) {
 				height = 400;
 			}
-			this.print(imgEl.get(0), title, width, height);
+			this.printImage(imgEl.get(0), title, width, height);
 		};
 		app.htmlToImage(printContainer, (imageBase64) => {
 			imgEl.get(0).src = imageBase64;
@@ -1386,6 +1386,19 @@ jQuery.Class('Vtiger_Widget_Js', {
 		image.src = base64Image;
 		return image;
 	},
+	printImage(imgEl, title, width, height) {
+		const print = window.open('', 'PRINT', 'height=' + height + ',width=' + width);
+		print.document.write('<html><head><title>' + title + '</title>');
+		print.document.write('</head><body >');
+		print.document.write($('<div>').append(imgEl).html());
+		print.document.write('</body></html>');
+		print.document.close(); // necessary for IE >= 10
+		print.focus(); // necessary for IE >= 10
+		setTimeout(function () {
+			print.print();
+			print.close();
+		}, 1000);
+	},
 	registerHeaderButtons: function registerHeaderButtons() {
 		const container = this.getContainer();
 		const header = container.find('.dashboardWidgetHeader');
@@ -1393,17 +1406,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		const printWidget = header.find('.printWidget');
 		printWidget.on('click', (e) => {
 			const imgEl = this.getChartImage();
-			const print = window.open('', 'PRINT', 'height=400,width=600');
-			print.document.write('<html><head><title>' + header.find('.dashboardTitle').text() + '</title>');
-			print.document.write('</head><body >');
-			print.document.write($('<div>').append(imgEl).html());
-			print.document.write('</body></html>');
-			print.document.close(); // necessary for IE >= 10
-			print.focus(); // necessary for IE >= 10
-			setTimeout(function () {
-				print.print();
-				print.close();
-			}, 1000);
+			this.printImage(imgEl, header.find('.dashboardTitle').text(), 600, 400);
 		});
 		downloadWidget.on('click', (e) => {
 			const imgEl = $(this.getChartImage());
