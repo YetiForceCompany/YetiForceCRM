@@ -1307,9 +1307,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param {jQuery} element
 	 */
 	downloadHtmlAsImage(element) {
-		let widget = element.closest('.dashboardWidget'),
+		let widget = $(element.closest('.dashboardWidget')),
 			title = widget.find('.dashboardTitle').prop('title');
-		app.htmlToImage(element.closest('.dashboardWidget').find('.js-print__container').get(0), (imageBase64) => {
+		app.htmlToImage(widget.find('.js-print__container').get(0), (imageBase64) => {
 			let anchor = document.createElement('a');
 			anchor.setAttribute('href', imageBase64);
 			anchor.setAttribute('download', title + '.png');
