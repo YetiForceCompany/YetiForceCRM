@@ -140,6 +140,7 @@ app = {
 				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 			};
 		}
+
 		params.container = 'body';
 		params.delay = {"show": 300, "hide": 100};
 		var sparams;
@@ -160,7 +161,8 @@ app = {
 				sparams = $.extend(sparams, data);
 			}
 			element.popover(sparams);
-			if (sparams.trigger === 'manual') {
+			console.log(sparams.trigger);
+			if (sparams.trigger === 'manual' || typeof sparams.trigger === 'undefined') {
 				app.registerPopoverManualTrigger(element);
 			}
 		});
