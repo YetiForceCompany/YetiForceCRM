@@ -1339,7 +1339,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerFilterChangeEvent();
 		this.restrictContentDrag();
 		app.showPopoverElementView(this.getContainer().find('.js-popover-tooltip'));
-		app.showTooltipElementView(this.getContainer().find('.js-tooltip'));
 		this.registerWidgetSwitch();
 		this.registerChangeSorting();
 		this.registerLoadMore();
