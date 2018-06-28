@@ -3,7 +3,7 @@
 	<div class="dashboardWidgetHeader">
 		<div class="row">
 			<div class="col-md-6">
-				<h5 class="dashboardTitle h6 u-text-ellipsis--no-hover js-tooltip" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}" data-placement="right" data-toggle="tooltip" data-js="tooltip">
+				<h5 class="dashboardTitle h6 u-text-ellipsis--no-hover js-popover-tooltip" data-content="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}" data-placement="right" data-toggle="tooltip" data-js="tooltip">
 					<strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></h5>
 			</div>
 			<div class="col-md-6">
