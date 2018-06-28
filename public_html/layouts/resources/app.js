@@ -161,7 +161,6 @@ app = {
 				sparams = $.extend(sparams, data);
 			}
 			element.popover(sparams);
-			console.log(sparams.trigger);
 			if (sparams.trigger === 'manual' || typeof sparams.trigger === 'undefined') {
 				app.registerPopoverManualTrigger(element);
 			}
