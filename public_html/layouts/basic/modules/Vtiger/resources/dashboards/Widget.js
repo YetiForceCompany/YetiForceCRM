@@ -1283,7 +1283,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param {jQuery} element
 	 */
 	printHtml(element) {
-		let widget = $(element.closest('.dashboardWidget')),
+		let widget = element.closest('.dashboardWidget'),
 			title = widget.find('.dashboardTitle').prop('title'),
 			printContainer = widget.find('.js-print__container').get(0),
 			imgEl = $('<img style="width:100%">');
@@ -1307,7 +1307,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param {jQuery} element
 	 */
 	downloadHtmlAsImage(element) {
-		let widget = $(element.closest('.dashboardWidget')),
+		let widget = element.closest('.dashboardWidget'),
 			title = widget.find('.dashboardTitle').prop('title');
 		app.htmlToImage(widget.find('.js-print__container').get(0), (imageBase64) => {
 			let anchor = document.createElement('a');
@@ -1321,10 +1321,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 */
 	registerPrintAndDownload() {
 		$('.js-print--download', this.getContainer()).on('click', (e) => {
-			this.downloadHtmlAsImage(e.target);
+			this.downloadHtmlAsImage($(e.target));
 		});
 		$('.js-print', this.getContainer()).on('click', (e) => {
-			this.printHtml(e.target);
+			this.printHtml($(e.target));
 		});
 	},
 	//Place holdet can be extended by child classes and can use this to handle the post load
