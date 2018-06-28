@@ -269,8 +269,8 @@ app = {
 				toolbar: 'Min'
 			});
 		});
-		modalContainer.modal(params);
 		$('body').append(container);
+		modalContainer.modal(params);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 		thisInstance.showPopoverElementView(modalContainer.find('.js-popover-tooltip'));
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
