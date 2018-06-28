@@ -16,11 +16,12 @@
 		return;
 	}
 	$.jstree.defaults.category = {
-		checkClass: ' fa-check-square',
-		uncheckClass: ' fa-square'
+		checkClass: ' far fa-check-square',
+		uncheckClass: ' far fa-square',
+		undeterminedClass: ' fas fa-minus-square',
 	};
 	var _i = document.createElement('I');
-	_i.className = 'jstree-category far';
+	_i.className = 'jstree-category';
 	_i.setAttribute('role', 'presentation');
 	$.jstree.plugins.category = function (options, parent) {
 		this.bind = function () {
@@ -158,35 +159,96 @@
 			}
 		};
 
-		this.checkNode = function (obj, e) {
-			if (!obj.category.checked) {
-				var dom = this.get_node(obj, true);
+		this.areAllChildrenWithStates = function (obj, states) {
+			let len = obj.children_d.length;
+			for (let i = 0; i < len; i++) {
+				let child = this.get_node(obj.children_d[i]);
+				if (typeof child.category.checked === 'undefined') {
+					child.category.checked = false;
+				}
+				if (states.indexOf(child.category.checked) === -1) {
+					return false;
+				}
+			}
+			return true;
+		};
+
+		this.checkNode = function (obj, e, traversing = false) {
+			let dom = this.get_node(obj, true);
+			this._data.category.selected.push(obj.id);
+			let cascade = this.settings.checkbox.cascade;
+			if (cascade.indexOf('down') !== -1 && !traversing) {
+				if (this.is_closed(obj)) {
+					this.open_node(obj);
+				}
+				obj.children.forEach((child) => {
+					this.checkNode(this.get_node(child), e);
+				});
+			}
+			if (this.areAllChildrenWithStates(obj, [true])) {
 				obj.category.checked = true;
-				this._data.category.selected.push(obj.id);
-				if (dom && dom.length) {
-					dom.children('.jstree-anchor').find('.jstree-category').addClass(options.checkClass).removeClass(options.uncheckClass);
-					this.trigger('changed', {
-						action: 'select_node',
-						node: obj,
-						selected: this._data.core.selected,
-						event: e
-					});
+			} else {
+				obj.category.checked = null;
+			}
+			if (dom && dom.length) {
+				let item = dom.children('.jstree-anchor').find('.jstree-category');
+				item.removeClass(options.uncheckClass).removeClass(options.undeterminedClass);
+				if (obj.category.checked === true) {
+					item.addClass(options.checkClass);
+				} else if (obj.category.checked === null) {
+					item.addClass(options.undeterminedClass);
+				}
+				this.trigger('changed', {
+					action: 'select_node',
+					node: obj,
+					selected: this._data.core.selected,
+					event: e
+				});
+			}
+			if (cascade.indexOf('up') !== -1) {
+				if (obj.parent !== $.jstree.root) {
+					let parent = this.get_node(obj.parent);
+					this.checkNode(parent, e, 'up');
 				}
 			}
 		};
-		this.uncheckNode = function (obj, e) {
-			if (obj.category.checked) {
-				var dom = this.get_node(obj, true);
+
+		this.uncheckNode = function (obj, e, traversing = false) {
+			let cascade = this.settings.checkbox.cascade;
+			if (cascade.indexOf('down') !== -1 && !traversing) {
+				if (this.is_closed(obj)) {
+					this.open_node(obj);
+				}
+				obj.children_d.forEach((childId) => {
+					this.uncheckNode(this.get_node(childId), e, traversing);
+				});
+			}
+			if (this.areAllChildrenWithStates(obj, [false])) {
 				obj.category.checked = false;
-				this._data.category.selected = $.vakata.array_remove_item(this._data.category.selected, obj.id);
-				if (dom && dom.length) {
-					dom.children('.jstree-anchor').find('.jstree-category').removeClass(options.checkClass).addClass(options.uncheckClass);
-					this.trigger('changed', {
-						action: 'deselect_node',
-						node: obj,
-						selected: this._data.core.selected,
-						event: e
-					});
+			} else {
+				obj.category.checked = null;
+			}
+			let dom = this.get_node(obj, true);
+			this._data.category.selected = $.vakata.array_remove_item(this._data.category.selected, obj.id);
+			if (dom && dom.length) {
+				let item = dom.children('.jstree-anchor').find('.jstree-category');
+				item.removeClass(options.checkClass).removeClass(options.undeterminedClass);
+				if (obj.category.checked === false) {
+					item.addClass(options.uncheckClass);
+				} else if (obj.category.checked === null) {
+					item.addClass(options.undeterminedClass);
+				}
+				this.trigger('changed', {
+					action: 'deselect_node',
+					node: obj,
+					selected: this._data.core.selected,
+					event: e
+				});
+			}
+			if (cascade.indexOf('up') !== -1) {
+				if (obj.parent !== $.jstree.root) {
+					let parent = this.get_node(obj.parent);
+					this.uncheckNode(parent, e, 'up');
 				}
 			}
 		};

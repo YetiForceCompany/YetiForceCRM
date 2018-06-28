@@ -3,7 +3,6 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 	modalContainer: false,
 	treeInstance: false,
 	treeData: false,
-	windowParent: app.getWindowParent(),
 	getModalContainer: function () {
 		if (this.modalContainer == false) {
 			this.modalContainer = jQuery('#modalTreeCategoryModal');
@@ -33,7 +32,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 			if (thisInstance.getRelationType() == '1') {
 				plugins.push("edit");
 			}
-			thisInstance.treeInstance.jstree({
+			let params = {
 				core: {
 					data: thisInstance.getRecords(),
 					themes: {
@@ -41,8 +40,13 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 						responsive: true
 					}
 				},
+				checkbox: {
+					three_state: false,
+				},
 				plugins: plugins
-			});
+			};
+			params = $.extend(true, params, this.tree.data('params'));
+			thisInstance.treeInstance.jstree(params);
 		}
 	},
 	isActiveCategory: function () {
@@ -108,14 +112,14 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 				});
 			}
 			var params = {
-				module: thisInstance.windowParent.app.getModuleName(),
+				module: app.getModuleName(),
 				action: 'RelationAjax',
 				mode: 'updateRelation',
 				recordsToAdd: recordsToAdd,
 				recordsToRemove: recordsToRemove,
 				categoryToAdd: categoryToAdd,
 				categoryToRemove: categoryToRemove,
-				src_record: thisInstance.windowParent.app.getRecordId(),
+				src_record: app.getRecordId(),
 				related_module: container.find('#relatedModule').val(),
 			};
 			if (recordsToAdd.length > 4) {
@@ -145,9 +149,8 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 		});
 	},
 	saveRecordsEvent: function (params) {
-		const self = this;
-		AppConnector.request(params).done(function (res) {
-			self.windowParent.Vtiger_Detail_Js.getInstance().reloadTabContent();
+		AppConnector.request(params).then(function (res) {
+			Vtiger_Detail_Js.getInstance().reloadTabContent();
 			app.hideModalWindow();
 		})
 	},
