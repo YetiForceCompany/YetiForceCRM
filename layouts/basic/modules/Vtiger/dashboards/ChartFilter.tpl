@@ -177,7 +177,6 @@
 			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_ADDITIONAL_FILTERS','Home')}</td>
 			<td class="fieldValue">
 				<select class="form-control saveParam" name="additionalFiltersFields" size="2" multiple data-maximum-selection-length="{\AppConfig::performance('CHART_ADDITIONAL_FILTERS_LIMIT')}">
-					<option value="-">{\App\Language::translate('--None--')}</option>
 					{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
 						<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
 							{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
