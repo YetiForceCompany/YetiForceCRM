@@ -18,7 +18,7 @@
 		</div>
 		{assign var=MAXUPLOADSIZE value=vtlib\Functions::getMaxUploadSize()}
 		{if $MAXUPLOADSIZE < 5242880}
-			<div class="alert alert-block alert-danger fade in" role="alert">
+			<div class="alert alert-block alert-danger fade show" role="alert">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h4 class="alert-heading">{\App\Language::translate('LBL_TOO_SMALL_UPLOAD_LIMIT', $QUALIFIED_MODULE)}</h4>
 				<p>{\App\Language::translate('LBL_TOO_SMALL_UPLOAD_LIMIT_DESC', $QUALIFIED_MODULE, vtlib\Functions::showBytes($MAXUPLOADSIZE))}</p>
