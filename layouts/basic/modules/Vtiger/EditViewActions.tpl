@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="formActionsPanel">
+	<div class="formActionsPanel {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-form-action-panel {/if}">
 		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 		<button class="btn btn-success u-mr-5px" type="submit">
 			<span class="fas fa-check u-mr-5px"></span>

@@ -19,19 +19,17 @@
 </div>
 </div>
 {if $SHOW_FOOTER}
-	<div class="clearfix"></div>
-	<input id="activityReminder" class="d-none noprint" type="hidden" value="{$ACTIVITY_REMINDER}" />
-	{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
-		<div class="infoUser">
-			{$USER_MODEL->getName()}&nbsp;(
-			{$USER_MODEL->get('email1')}&nbsp;
-			{if !empty({$USER_MODEL->get('phone_crm_extension')})}
-				,&nbsp; {$USER_MODEL->get('phone_crm_extension')}
-				{/if}
-				)
-			</div>
-		{/if}
-		<footer class="footerContainer fixed-bottom js-footer" data-js="height">
+	<input class="d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}" />
+		<footer class="c-footer fixed-bottom js-footer {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active {/if}" data-js="height">
+			{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
+				<div class="js-footer__user-info c-footer__user-info">
+					<span class="mr-1"> {$USER_MODEL->getName()}</span>(
+					<span>{$USER_MODEL->get('email1')}</span>
+					{if !empty($USER_MODEL->get('phone_crm_extension'))}
+						,<span class="ml-1">{$USER_MODEL->get('phone_crm_extension')}</span>
+					{/if})
+				</div>
+			{/if}
 			<div class="container-fluid px-1">
 				<ul class="float-left pagination border-0">
 					<li class="page-item">
@@ -56,15 +54,15 @@
 						</a>
 					</li>
 				</ul>
-				<div class="float-right p-1">
+				<div class="float-right p-0">
 					<ul class="pagination">
 						<li class="page-item">
-							<a class="page-link-right mr-2" href="https://yetiforce.shop" rel="noreferrer">
+							<a class="page-link mr-2" href="https://yetiforce.shop" rel="noreferrer">
 								<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
 							</a>
 						</li>
 						<li class="page-item u-cursor-pointer">
-							<a data-toggle="modal" role="button" data-target="#yetiforceDetails">
+							<a class="page-link" data-toggle="modal" role="button" data-target="#yetiforceDetails">
 								<span class="fas fa-info-circle fa-2x" title="YetiForceCRM"></span>
 							</a>
 						</li>
