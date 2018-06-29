@@ -106,14 +106,14 @@ app = {
 		}
 		element.popover('hide');
 	},
-	hidePopoversAfterClick (popoverParent) {
+	hidePopoversAfterClick(popoverParent) {
 		popoverParent.on('click', (e) => {
 			setTimeout(() => {
 				popoverParent.popover('hide');
 			}, 100);
 		});
 	},
-	registerPopoverManualTrigger (element) {
+	registerPopoverManualTrigger(element) {
 		element.hoverIntent({
 			timeout: 150,
 			over: function () {
@@ -131,36 +131,72 @@ app = {
 		});
 		app.hidePopoversAfterClick(element);
 	},
-	showPopoverElementView: function (selectElement, params) {
-		if (typeof params === "undefined") {
-			params = {
-				trigger: 'manual',
-				placement: 'auto',
-				html: true,
-				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
-			};
+	isEllipsisActive(element) {
+		let clone = element
+			.clone()
+			.attr('style', 'width:auto;visibility:hidden;overflow:visible;display:inline !important') // we cannot use css because of !important
+			.appendTo('body');
+		if (clone.width() > element.width()) {
+			clone.remove();
+			return true;
 		}
-		params.container = 'body';
-		params.delay = {"show": 300, "hide": 100};
-		var sparams;
-		selectElement.each(function (index, domElement) {
-			sparams = params;
-			var element = $(domElement);
-			if (element.data('placement')) {
-				sparams.placement = element.data('placement');
-			}
+		clone.remove();
+		return false;
+	},
+	showPopoverEllipsisView(elements, params) {
+		let currentParams = $.extend(true, {
+			trigger: 'manual',
+			placement: 'auto',
+			html: true,
+			template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+			container: 'body',
+			delay: {"show": 300, "hide": 100},
+		}, params);
+		elements.each(function (index, domElement) {
+			let element = $(domElement);
+			let elementParams = $.extend(true, currentParams, element.data());
 			if (element.data('class')) {
-				sparams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+				elementParams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 			}
 			if (element.hasClass('delay0')) {
-				sparams.delay = {show: 0, hide: 0}
+				elementParams.delay = {show: 0, hide: 0}
 			}
-			var data = element.data();
-			if (data != null) {
-				sparams = $.extend(sparams, data);
+			element.popover(elementParams);
+			element.hoverIntent({
+				timeout: 150,
+				over() {
+					if (app.isEllipsisActive($(this))) {
+						console.log('truncated', this);
+						$(this).popover('show');
+					}
+				},
+				out() {
+					$(this).popover('hide');
+				}
+			});
+		});
+		return elements;
+	},
+	showPopoverElementView: function (selectElement, params = {}) {
+		let currentParams = $.extend(true, {
+			trigger: 'manual',
+			placement: 'auto',
+			html: true,
+			template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+			container: 'body',
+			delay: {"show": 300, "hide": 100},
+		}, params);
+		selectElement.each(function (index, domElement) {
+			let element = $(domElement);
+			let elementParams = $.extend(true, currentParams, element.data());
+			if (element.data('class')) {
+				elementParams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 			}
-			element.popover(sparams);
-			if (sparams.trigger === 'manual') {
+			if (element.hasClass('delay0')) {
+				elementParams.delay = {show: 0, hide: 0}
+			}
+			element.popover(elementParams);
+			if (elementParams.trigger === 'manual' || typeof elementParams.trigger === 'undefined') {
 				app.registerPopoverManualTrigger(element);
 			}
 		});
@@ -1460,6 +1496,7 @@ app = {
 $(document).ready(function () {
 	App.Fields.Picklist.changeSelectElementView();
 	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
+	app.showPopoverEllipsisView($('body').find('.js-popover-tooltip--ellipsis'));
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
