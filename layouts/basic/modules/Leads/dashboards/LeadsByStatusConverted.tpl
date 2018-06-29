@@ -21,7 +21,9 @@
 	{/foreach}
 	<div class="row">
 		<div class="col-md-8">
-			<h5 class="dashboardTitle h6" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></h5>
+			<h5 class="dashboardTitle h6" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}">
+				<strong class="d-block js-popover-tooltip--ellipsis" data-content="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}" data-toggle="popover" data-js="tooltip">&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong>
+			</h5>
 		</div>
 		<div class="col-md-4">
 			<div class="box float-right">
@@ -33,7 +35,7 @@
 	<div class="row" >
 		<div class="col-sm-6">
 			<div class="input-group input-group-sm">
-				<div class=" input-group-prepend">	
+				<div class=" input-group-prepend">
 					<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">
 						<span class="fas fa-calendar-alt" title="{\App\Language::translate('Created Time', $MODULE_NAME)} &nbsp; {\App\Language::translate('LBL_BETWEEN', $MODULE_NAME)}"></span>
 					</span>

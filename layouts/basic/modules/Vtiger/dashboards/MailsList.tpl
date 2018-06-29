@@ -9,7 +9,9 @@
 		{/foreach}
 		<div class="row">
 			<div class="col-md-8">
-				<h5 class="dashboardTitle pb-2 h6" title="{\App\Language::translate($WIDGET->getTitle(), 'OSSMail')}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(),'OSSMail')}</strong></h5>
+				<h5 class="dashboardTitle pb-2 h6" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), 'OSSMail'))}">
+					<strong class="d-block js-popover-tooltip--ellipsis" data-content="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), ))}" data-toggle="popover" data-js="tooltip">&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong>
+				</h5>
 			</div>
 			<div class="col-md-4">
 				<div class="box float-right">
@@ -30,7 +32,7 @@
 							<span class="fas fa-envelope"></span>
 						</span>
 					</div>
-					<div class="select2Wrapper">			
+					<div class="select2Wrapper">
 						<select class="mailUserList form-control select2" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="mailUserList" title="{\App\Language::translate('LBL_MAIL_USERS_LIST')}" name="type">
 							{if count($ACCOUNTSLIST) eq 0}
 								<option value="-">{\App\Language::translate('--None--', $MODULE_NAME)}</option>
