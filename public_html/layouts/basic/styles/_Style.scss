@@ -3340,10 +3340,6 @@ html, body, .o-base-container {
 		margin-top: 5px;
 	}
 
-	.infoUser {
-		bottom: 17px !important;
-	}
-
 	.iconsInFooter {
 		span {
 			font-size: 10px !important;
@@ -3932,17 +3928,6 @@ select.form-control {
 	right: 0;
 }
 
-.infoUser {
-	padding: 0 5px;
-	position: fixed;
-	height: 17px;
-	color: #fff;
-	width: 100%;
-	bottom: 33px;
-	z-index: 1030;
-	left: 0;
-}
-
 #convertLeadForm table {
 	table-layout: fixed;
 	word-wrap: break-word;
@@ -4228,6 +4213,9 @@ border1px {
 	}
 }
 
+.c-form-action-panel{
+  bottom: 54px;
+}
 .verticalScroll {
 	position: absolute;
 	left: 0;
@@ -4238,7 +4226,7 @@ border1px {
 	padding-left: 10px;
 }
 
-@media only screen and (max-width: 768px) {
+@include media-breakpoint-down(sm) {
 	.formActionsPanel {
 		bottom: 17px;
 		width: 100%;
@@ -4247,6 +4235,10 @@ border1px {
 	.verticalScroll {
 		height: calc(100vh - 112px);
 	}
+  .c-form-action-panel {
+	bottom: 31px;
+  }
+
 }
 
 .popover.activities {
