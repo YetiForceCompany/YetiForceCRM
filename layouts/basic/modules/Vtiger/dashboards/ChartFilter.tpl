@@ -21,7 +21,7 @@
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_WIDGET_NAME','Home')}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_WIDGET_NAME','Home')}</td>
 										<td class="fieldValue">
 											<input type="text" class="form-control" name="widgetTitle" value="">
 										</td>
