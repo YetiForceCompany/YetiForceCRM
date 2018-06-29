@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-ImportUserModuleStep1" id="importModules">
+	<div class="tpl-Settings-ModuleManager-ImportUserModuleStep1" id="importModules">
 		<div class="widget_header row mb-2">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
