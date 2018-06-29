@@ -7,7 +7,7 @@
 	<input type="hidden" id="allowedLetters" value="{$allowChars}"/>
 	<input type="hidden" id="maxChars" value="{$passLengthMax}"/>
 	<input type="hidden" id="minChars" value="{$passLengthMin}"/>
-	<div class="tpl-QuickCreate modelContainer modal fade" tabindex="-1" role="dialog">
+	<div class="tpl-QuickCreate modelContainer modal" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-full" role="document">
 			<div class="modal-content">
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
