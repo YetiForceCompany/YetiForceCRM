@@ -39,9 +39,9 @@
 		</div>
 		<div class="mb-3">
 			<span class="btn-toolbar">
-				<button class="btn sourceValues btn-light" type="button">
+				<button class="btn sourceValues btn-light mr-2" type="button">
 					<strong>{\App\Language::translate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}</strong>
-				</button>&nbsp;&nbsp;
+				</button>
 				<button class="btn unmarkAll btn-light" type="button">
 					<strong>{\App\Language::translate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}</strong>
 				</button>
@@ -143,7 +143,7 @@
 																	   data-source-value="{\App\Purifier::encodeHtml($SOURCE_VALUE)}"
 																	   value="{\App\Purifier::encodeHtml($SOURCE_VALUE)}"
 															{if empty($MAPPED_VALUES) || in_array($SOURCE_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))} checked {/if}/>
-													&nbsp;{\App\Language::translate($SOURCE_VALUE, $SELECTED_MODULE)}
+													{\App\Language::translate($SOURCE_VALUE, $SELECTED_MODULE)}
 												</label>
 											</div>
 										</div>
@@ -159,7 +159,7 @@
 		</div>
 		<div class="p-3">
 			<div class="btn-toolbar  float-right">
-				<button class="btn btn-success" type="submit"><span
+				<button class="btn btn-success mr-2" type="submit"><span
 							class="fa fa-check u-mr-5px"></span><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong>
 				</button>
 				<button type="button" class="cancelLink cancelDependency btn btn-warning text-white"
