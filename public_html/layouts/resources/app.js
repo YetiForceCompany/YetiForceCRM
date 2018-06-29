@@ -154,6 +154,9 @@ app = {
 		}, params);
 		elements.each(function (index, domElement) {
 			let element = $(domElement);
+			if(!app.isEllipsisActive(element)){
+				return;
+			}
 			let elementParams = $.extend(true, currentParams, element.data());
 			if (element.data('class')) {
 				elementParams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
@@ -162,16 +165,11 @@ app = {
 				elementParams.delay = {show: 0, hide: 0}
 			}
 			element.popover(elementParams);
-			element.hoverIntent({
-				timeout: 150,
-				over() {
-					if (app.isEllipsisActive($(this))) {
-						$(this).popover('show');
-					}
-				},
-				out() {
-					$(this).popover('hide');
-				}
+			element.on("mouseenter", function(){
+				$(this).popover('show');
+			});
+			element.on("mouseleave", function () {
+				$(this).popover('hide');
 			});
 		});
 		return elements;
