@@ -166,7 +166,6 @@ app = {
 				timeout: 150,
 				over() {
 					if (app.isEllipsisActive($(this))) {
-						console.log('truncated', this);
 						$(this).popover('show');
 					}
 				},
