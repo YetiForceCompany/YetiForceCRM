@@ -143,43 +143,24 @@ app = {
 		clone.remove();
 		return false;
 	},
-	showPopoverEllipsisView(elements, params) {
-		let currentParams = $.extend(true, {
-			trigger: 'hover',
-			placement: 'auto',
-			html: true,
-			template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
-			container: 'body',
-			delay: {"show": 300, "hide": 100},
-		}, params);
-		elements.each(function (index, domElement) {
-			let element = $(domElement);
-			if(!app.isEllipsisActive(element)){
-				return;
-			}
-			let elementParams = $.extend(true, currentParams, element.data());
-			if (element.data('class')) {
-				elementParams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
-			}
-			if (element.hasClass('delay0')) {
-				elementParams.delay = {show: 0, hide: 0}
-			}
-			element.popover(elementParams);
-		});
-		return elements;
-	},
 	showPopoverElementView: function (selectElement, params = {}) {
-		let currentParams = $.extend(true, {
+		let defaultParams = {
 			trigger: 'manual',
 			placement: 'auto',
 			html: true,
 			template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
 			container: 'body',
 			delay: {"show": 300, "hide": 100},
-		}, params);
+		};
 		selectElement.each(function (index, domElement) {
 			let element = $(domElement);
-			let elementParams = $.extend(true, currentParams, element.data());
+			if(element.data('ellipsis')){
+				defaultParams.trigger='hover';
+				if(!app.isEllipsisActive(element)){
+					return;
+				}
+			}
+			let elementParams = $.extend(true, defaultParams, params, element.data());
 			if (element.data('class')) {
 				elementParams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 			}
@@ -1487,7 +1468,6 @@ app = {
 $(document).ready(function () {
 	App.Fields.Picklist.changeSelectElementView();
 	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
-	app.showPopoverEllipsisView($('body').find('.js-popover-tooltip--ellipsis'));
 	app.registerSticky();
 	app.registerMoreContent($('body').find('button.moreBtn'));
 	app.registerModal();
