@@ -14,14 +14,10 @@
 	{assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 	{assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 	<div class="dashboardWidgetHeader">
-		<div class="row">
-			<div class="col-md-6">
-				<h5 class="dashboardTitle h6" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}">
-					<strong class="d-block js-popover-tooltip--ellipsis" data-content="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}" data-toggle="popover" data-js="tooltip">&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong>
-				</h5>
-			</div>
-			<div class="col-md-6">
-				<div class="box float-right">
+		<div class="row no-gutters justify-content-between">
+			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-6"}
+			<div class="col-md-auto order-1 order-md-2 text-center text-md-left">
+				<div>
 					{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
 						<a class="btn btn-sm btn-light" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
 								return false;" aria-label="{\App\Language::translate('LBL_ADD_RECORD')}" href="#" role="button">
