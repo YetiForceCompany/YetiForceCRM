@@ -2289,7 +2289,9 @@ span[name=existingImages] img {
 }
 
 .widgetHr {
-	margin-top: 0;
+	margin-top: 7px;
+  	border: none;
+  	border-top: 1px solid #ddd;
 }
 
 #groupsDetailContainer strong {
@@ -3029,7 +3031,7 @@ html, body, .o-base-container {
 }
 
 @media only screen and (max-width: 992px) {
-  
+
   .listViewActionsDiv .btn-toolbar, .editViewContainer .btn-toolbar, .widget_header .btn-toolbar {
 	margin-bottom: 5px;
   }
