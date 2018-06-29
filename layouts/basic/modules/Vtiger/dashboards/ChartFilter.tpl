@@ -134,7 +134,7 @@
 				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_DIVIDING_FIELD','Home')}</td>
 				<td class="fieldValue">
 					<select class="form-control saveParam" name="dividingField" size="2" >
-						<option>{\App\Language::translate('--None--')}</option>
+						<option value="0">{\App\Language::translate('--None--')}</option>
 						{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
 							<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
 								{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
