@@ -145,7 +145,7 @@ app = {
 	},
 	showPopoverEllipsisView(elements, params) {
 		let currentParams = $.extend(true, {
-			trigger: 'manual',
+			trigger: 'hover',
 			placement: 'auto',
 			html: true,
 			template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
@@ -165,12 +165,6 @@ app = {
 				elementParams.delay = {show: 0, hide: 0}
 			}
 			element.popover(elementParams);
-			element.on("mouseenter", function(){
-				$(this).popover('show');
-			});
-			element.on("mouseleave", function () {
-				$(this).popover('hide');
-			});
 		});
 		return elements;
 	},
