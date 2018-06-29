@@ -7,14 +7,10 @@
 		{foreach key=index item=jsModel from=$SCRIPTS}
 			<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 		{/foreach}
-		<div class="row">
-			<div class="col-md-8">
-				<h5 class="dashboardTitle pb-2 h6" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), 'OSSMail'))}">
-					<strong class="d-block js-popover-tooltip--ellipsis" data-content="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), ))}" data-toggle="popover" data-js="tooltip">&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong>
-				</h5>
-			</div>
-			<div class="col-md-4">
-				<div class="box float-right">
+		<div class="row no-gutters justify-content-between">
+			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
+			<div class="ol-md-auto order-1 order-md-2 text-center text-md-left">
+				<div>
 					{if !$WIDGET->isDefault()}
 						<a name="dclose" class="btn btn-sm btn-light widget" data-url="{$WIDGET->getDeleteUrl()}">
 							<span class="fas fa-times" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}" alt="{\App\Language::translate('LBL_CLOSE')}"></span>

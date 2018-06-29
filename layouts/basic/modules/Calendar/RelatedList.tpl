@@ -32,12 +32,12 @@
 									{if $RELATEDLIST_VIEW->get('linkicon') neq ''}
 										{assign var=BTN_ICON value=$RELATEDLIST_VIEW->get('linkicon')}
 									{/if}
-								{/if} 
+								{/if}
 							{/foreach}
 							<button class="btn btn-light dropdown-toggle relatedViewBtn" data-toggle="dropdown">
 								{if $BTN_ICON}
 									<span class="{$BTN_ICON}"></span>
-								{else}	
+								{else}
 									<span class="fas fa-list"></span>
 								{/if}
 								&nbsp;

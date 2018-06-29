@@ -85,12 +85,8 @@
 	<table width="100%" cellspacing="0" cellpadding="0">
 		<tbody>
 			<tr>
-				<td class="col-md-8">
-					<h5 class="dashboardTitle h6" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}">
-						<strong class="d-block js-popover-tooltip--ellipsis" data-content="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}" data-toggle="popover" data-js="tooltip">&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong>
-					</h5>
-				</td>
-				<td class="col-md-2">
+				{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-10"}
+				<td class="col-md-auto order-1 order-md-2 text-center text-md-left">
 					<div>
 						<select class="widgetFilter owner" name="owner" style='width:70px;margin-bottom:0px'>
 							<option value="{$CURRENTUSER->getId()}" >{\App\Language::translate('LBL_MINE')}</option>
