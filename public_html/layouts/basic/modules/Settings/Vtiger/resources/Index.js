@@ -78,7 +78,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 	registerDeleteShortCutEvent: function (shortCutBlock) {
 		var thisInstance = this;
 		if (typeof shortCutBlock === "undefined") {
-			var shortCutBlock = $('div#settingsShortCutsContainer')
+			shortCutBlock = $('div#settingsShortCutsContainer')
 		}
 		shortCutBlock.on('click', '.unpin', function (e) {
 			var actionEle = $(e.currentTarget);
