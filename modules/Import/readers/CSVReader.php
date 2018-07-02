@@ -71,21 +71,26 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 			$isInventory = true;
 		}
 		$rowData = $headers = $standardData = $inventoryData = [];
-		if ($hasHeader) {
-			foreach ($this->data[0] as $key => $value) {
-				if (!empty($isInventory) && strpos($value, 'Inventory::') === 0) {
-					$value = substr($value, 11);
-					$inventoryHeaders[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
+		foreach ($this->data as $currentRow => $data) {
+			if ($currentRow === 0 || ($currentRow === 1 && $hasHeader)) {
+				if ($hasHeader && $currentRow === 0) {
+					foreach ($data as $key => $value) {
+						if (!empty($isInventory) && strpos($value, 'Inventory::') === 0) {
+							$value = substr($value, 11);
+							$inventoryHeaders[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
+						} else {
+							$headers[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
+						}
+					}
 				} else {
-					$headers[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
-				}
-			}
-		} else {
-			foreach ($this->data[0] as $key => $value) {
-				if (!empty($isInventory) && isset($inventoryHeaders[$key])) {
-					$inventoryData[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
-				} else {
-					$standardData[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
+					foreach ($data as $key => $value) {
+						if (!empty($isInventory) && isset($inventoryHeaders[$key])) {
+							$inventoryData[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
+						} else {
+							$standardData[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
+						}
+					}
+					break;
 				}
 			}
 		}
@@ -100,7 +105,6 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 		} else {
 			$rowData = $standardData;
 		}
-
 		return $rowData;
 	}
 
