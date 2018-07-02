@@ -30,7 +30,8 @@ class SumFieldFromDependent extends VTTask
 	public function doTask($recordModel)
 	{
 		list($referenceField, $moduleName, $fieldName) = explode('::', $this->targetField);
-		$targetFieldModel = \Vtiger_Module_Model::getInstance($moduleName)->getFieldByName($fieldName);
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		$targetFieldModel = $moduleModel->getFieldByName($fieldName);
 		$relationFieldModel = $recordModel->getModule()->getFieldByName($referenceField);
 		$relationFieldValue = $recordModel->get($referenceField);
 		if (!empty($relationFieldValue)) {
@@ -40,7 +41,7 @@ class SumFieldFromDependent extends VTTask
 			$query->where([$relationFieldModel->getTableName() . '.' . $relationFieldModel->getColumnName() => $relationFieldValue, 'vtiger_crmentity.deleted' => 0]);
 			$sourceFieldModel = $recordModel->getModule()->getFieldByName($this->sourceField);
 			$columnSumValue = $query->sum($sourceFieldModel->getTableName() . '.' . $sourceFieldModel->getColumnName());
-			\App\Db::getInstance()->createCommand()->update($targetFieldModel->getTableName(), [$targetFieldModel->getColumnName() => $columnSumValue], [$relationFieldModel->getColumnName() => $relationFieldValue])->execute();
+			\App\Db::getInstance()->createCommand()->update($targetFieldModel->getTableName(), [$targetFieldModel->getColumnName() => $columnSumValue], [$moduleModel->getEntityInstance()->tab_name_index[$targetFieldModel->getTableName()] => $relationFieldValue])->execute();
 		}
 	}
 }
