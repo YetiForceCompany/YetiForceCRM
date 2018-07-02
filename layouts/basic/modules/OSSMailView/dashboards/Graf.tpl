@@ -85,8 +85,10 @@
 	<table width="100%" cellspacing="0" cellpadding="0">
 		<tbody>
 			<tr>
-				{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-10"}
-				<td class="d-inline-flex">
+				<td class="col-md-8">
+					<h5 class="dashboardTitle h6" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}"><b>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</b></h5>
+				</td>
+				<td class="col-md-2">
 					<div>
 						<select class="widgetFilter owner" name="owner" style='width:70px;margin-bottom:0px'>
 							<option value="{$CURRENTUSER->getId()}" >{\App\Language::translate('LBL_MINE')}</option>
