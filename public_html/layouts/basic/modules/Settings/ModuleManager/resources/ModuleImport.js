@@ -84,7 +84,7 @@ jQuery.Class('Settings_Module_Import_Js', {}, {
 	 * Function to register event related to Import extrension Modules in step2
 	 */
 	registerEventsForImportModuleStep2: function (container) {
-		var container = jQuery(container);
+		container = jQuery(container);
 		var thisInstance = this;
 
 		container.find('#installExtension').on('click', function () {

@@ -33,7 +33,7 @@ var Settings_Index_Js = {
 		var tabId = target.data('tabid');
 		var closestTrElement = target.closest('tr');
 		jQuery('.elementLabels' + tabId).addClass('d-none');
-		var e = jQuery('.elementEdit' + tabId).removeClass('d-none');
+		e = jQuery('.elementEdit' + tabId).removeClass('d-none');
 		Settings_Index_Js.registerSelectElement(e.find('select'));
 	},
 	save: function (e) {
