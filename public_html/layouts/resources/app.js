@@ -155,7 +155,7 @@ app = {
 		selectElement.each(function (index, domElement) {
 			let element = $(domElement);
 			if(element.data('ellipsis')){
-				defaultParams.trigger='hover';
+				defaultParams.trigger='hover focus';
 				if(!app.isEllipsisActive(element)){
 					return;
 				}
