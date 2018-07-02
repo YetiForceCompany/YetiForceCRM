@@ -27,14 +27,6 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 	public function __construct(\App\Request $request, \App\User $user)
 	{
 		parent::__construct($request, $user);
-		$this->parseFile();
-	}
-
-	/**
-	 * Parse CSV using CsvParser.
-	 */
-	private function parseFile()
-	{
 		$this->data = \KzykHys\CsvParser\CsvParser::fromFile($this->getFilePath(), [
 			'encoding' => $this->request->get('file_encoding'),
 			'delimiter' => $this->request->get('delimiter'),
