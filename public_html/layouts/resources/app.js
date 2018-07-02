@@ -134,8 +134,9 @@ app = {
 	isEllipsisActive(element) {
 		let clone = element
 			.clone()
-			.attr('style', 'width:auto;text-overflow:unset;visibility:hidden;overflow:visible;display:inline-block !important') // we cannot use css because of !important
+			.addClass('u-text-ellipsis--not-active')
 			.appendTo('body');
+		console.log(element,clone.width(),element.width())
 		if (clone.width() > element.width()) {
 			clone.remove();
 			return true;
