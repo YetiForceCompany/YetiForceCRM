@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-EditViewActions c-form__action-panel {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-form__action-panel-mobile {/if}">
+	<div class="tpl-EditViewActions c-form__action-panel">
 		<button class="btn btn-success js-generatePass mr-1" name="save" type="button">
 			<span class="fas fa-key mr-1"></span>
 			<strong class="d-none d-md-inline-block">{\App\Language::translate($GENERATEPASS, $MODULE)}</strong>

@@ -67,7 +67,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="c-form__action-panel {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-form__action-panel-mobile {/if}">
+				<div class="c-form__action-panel">
 					<button type="submit" class="btn btn-xs btn-success">
 						<span class="fas fa-check"></span><strong>{App\Language::translate('LBL_SAVE')}</strong>
 					</button>
