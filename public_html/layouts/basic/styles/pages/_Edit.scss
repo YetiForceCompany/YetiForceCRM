@@ -15,8 +15,13 @@
   }
 }
 
-.c-form__action-panel-mobile {
-  bottom: 54px;
+.user-info--active {
+  .c-form__action-panel {
+	bottom: $h-footer-user-info;
+  }
+  .verticalScroll {
+	height: calc(100vh - 150px);
+  }
 }
 
 .verticalScroll {
@@ -31,15 +36,20 @@
 
 @include media-breakpoint-down(sm) {
   .c-form__action-panel {
-	bottom: 17px;
+	bottom: $h-footer-mobile;
 	width: 100%;
   }
 
   .verticalScroll {
 	height: calc(100vh - 112px);
   }
-  .c-form__action-panel-mobile {
-	bottom: 31px;
+  .user-info--active {
+	.verticalScroll {
+	  height: calc(100vh - 31px);
+	}
+	.c-form__action-panel {
+	  bottom: $h-footer;
+	}
   }
 
 }

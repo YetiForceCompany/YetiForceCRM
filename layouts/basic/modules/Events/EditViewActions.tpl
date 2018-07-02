@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-EditViewActions c-form__action-panel {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-form__action-panel-mobile {/if} d-flex justify-content-center">
+	<div class="tpl-EditViewActions c-form__action-panel d-flex justify-content-center">
 		<div class="btn-group-toggle mr-1" data-toggle="buttons">
 			<label class="btn c-btn-checkbox c-btn-outline-done js-btn--mark-as-completed" data-js="click">
 				<strong>
