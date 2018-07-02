@@ -275,7 +275,7 @@ jQuery.Class("Vtiger_List_Js", {
 			if (typeof css === "undefined") {
 				css = {};
 			}
-			var css = jQuery.extend({'text-align': 'left'}, css);
+			css = jQuery.extend({'text-align': 'left'}, css);
 			AppConnector.request(actionParams).done(function (data) {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
 				if (data) {
