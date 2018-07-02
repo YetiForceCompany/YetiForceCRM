@@ -86,7 +86,7 @@
 		<tbody>
 			<tr>
 				{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-10"}
-				<td class="col-md-auto order-1 order-md-2 text-center text-md-left">
+				<td class="d-inline-flex">
 					<div>
 						<select class="widgetFilter owner" name="owner" style='width:70px;margin-bottom:0px'>
 							<option value="{$CURRENTUSER->getId()}" >{\App\Language::translate('LBL_MINE')}</option>

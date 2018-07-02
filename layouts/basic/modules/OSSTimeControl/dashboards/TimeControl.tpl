@@ -47,9 +47,9 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
-	<div class="row no-gutters justify-content-between">
+	<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-10"}
-		<div class="col-md-auto order-1 order-md-2 text-center text-md-left">
+		<div class="d-inline-flex">
 			{if \App\Privilege::isPermitted('OSSTimeControl', 'CreateView')}
 				<a class="btn btn-sm btn-light" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSTimeControl'); return false;">
 					<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>

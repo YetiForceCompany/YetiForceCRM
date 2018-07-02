@@ -1,8 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="dashboardWidgetHeader">
-	<div class="row no-gutters justify-content-between">
+	<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
-		<div class="ol-md-auto order-1 order-md-2 text-center text-md-left">
+		<div class="d-inline-flex">
 			{if \App\Privilege::isPermitted($MODULE_NAME, 'CreateView')}
 				<a class="btn btn-light btn-sm" role="button" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('{$MODULE_NAME}'); return false;">
 					<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>

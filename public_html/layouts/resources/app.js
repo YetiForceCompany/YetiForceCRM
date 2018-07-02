@@ -134,8 +134,9 @@ app = {
 	isEllipsisActive(element) {
 		let clone = element
 			.clone()
-			.attr('style', 'width:auto;visibility:hidden;overflow:visible;display:inline !important') // we cannot use css because of !important
+			.attr('style', 'width:auto;text-overflow:unset;visibility:hidden;overflow:visible;display:inline-block !important') // we cannot use css because of !important
 			.appendTo('body');
+		console.log(clone.innerWidth(), element.innerWidth());
 		if (clone.width() > element.width()) {
 			clone.remove();
 			return true;

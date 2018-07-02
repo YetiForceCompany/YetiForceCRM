@@ -2289,7 +2289,7 @@ span[name=existingImages] img {
 }
 
 .widgetHr {
-	margin-top: 7px;
+	margin-top: calculate-rem(7px);
   	border: none;
   	border-top: 1px solid #ddd;
 }

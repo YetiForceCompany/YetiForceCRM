@@ -1,9 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="dashboardWidgetHeader">
-		<div class="row no-gutters justify-content-between">
-			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-8"}
-			<div class="col-md-auto order-1 order-md-2 text-center text-md-left">
+		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
+			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-6"}
+			<div class="d-inline-flex">
 				<button class="btn btn-sm btn-light downloadWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}" title="{\App\Language::translate('LBL_WIDGET_DOWNLOAD','Home')}">
 					<span class="far fa-arrow-alt-circle-down"></span>
 				</button>&nbsp;
