@@ -20,7 +20,7 @@
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
 	{assign var=WIDGET_WIDTH value=$WIDGET->getWidth()}
-	<div class="row no-gutters justify-content-between">
+	<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 	</div>

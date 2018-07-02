@@ -7,16 +7,14 @@
 		{foreach key=index item=jsModel from=$SCRIPTS}
 			<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 		{/foreach}
-		<div class="row no-gutters justify-content-between">
+		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
-			<div class="ol-md-auto order-1 order-md-2 text-center text-md-left">
-				<div>
-					{if !$WIDGET->isDefault()}
-						<a name="dclose" class="btn btn-sm btn-light widget" data-url="{$WIDGET->getDeleteUrl()}">
-							<span class="fas fa-times" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}" alt="{\App\Language::translate('LBL_CLOSE')}"></span>
-						</a>
-					{/if}
-				</div>
+			<div class="d-inline-flex">
+				{if !$WIDGET->isDefault()}
+					<a name="dclose" class="btn btn-sm btn-light widget" data-url="{$WIDGET->getDeleteUrl()}">
+						<span class="fas fa-times" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}" alt="{\App\Language::translate('LBL_CLOSE')}"></span>
+					</a>
+				{/if}
 			</div>
 		</div>
 		<hr class="widgetHr" />
