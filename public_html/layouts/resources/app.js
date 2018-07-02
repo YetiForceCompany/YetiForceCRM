@@ -136,7 +136,6 @@ app = {
 			.clone()
 			.addClass('u-text-ellipsis--not-active')
 			.appendTo('body');
-		console.log(element,clone.width(),element.width())
 		if (clone.width() > element.width()) {
 			clone.remove();
 			return true;
