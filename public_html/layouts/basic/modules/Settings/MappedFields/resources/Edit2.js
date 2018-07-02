@@ -178,7 +178,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 					options.append(element);
 				}
 			})
-			delete fieldsBasedOnType;
+			fieldsBasedOnType = false;
 
 			container.find('.selectedFieldDataType').html(selectedOption.data('type-name') ? selectedOption.data('type-name') : '');
 			fieldsSelectElement.html(options.children());
