@@ -4164,7 +4164,7 @@ select {
 	margin-left: 10px;
 }
 
-border1px {
+.border1px {
 	border: 1px solid #ddd;
 }
 
@@ -4176,51 +4176,6 @@ border1px {
 
 [class*="picklistLb_"] {
 	border-radius: 7px;
-}
-
-.formActionsPanel {
-	position: fixed;
-	bottom: 33px;
-	height: 48px;
-	width: calc(100% - 50px);
-	background: $light;
-	margin-left: -10px;
-	text-align: center;
-	border-top: 1px solid #ddd;
-	z-index: 5;
-	padding: 5px;
-
-	.btn-group {
-		margin-right: 3px;
-	}
-}
-
-.c-form-action-panel{
-  bottom: 54px;
-}
-.verticalScroll {
-	position: absolute;
-	left: 0;
-	height: calc(100vh - 128px);
-	width: 100%;
-	overflow-x: hidden;
-	padding-right: 10px;
-	padding-left: 10px;
-}
-
-@include media-breakpoint-down(sm) {
-	.formActionsPanel {
-		bottom: 17px;
-		width: 100%;
-	}
-
-	.verticalScroll {
-		height: calc(100vh - 112px);
-	}
-  .c-form-action-panel {
-	bottom: 31px;
-  }
-
 }
 
 .popover.activities {
