@@ -37,11 +37,19 @@
 		}
 	}
 }
-.u-text-ellipsis--no-hover, .js-popover-tooltip[data-ellipsis="true"] {
+.u-text-ellipsis--no-hover, .js-popover-tooltip[data-ellipsis]{
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.u-text-ellipsis--not-active{
+  width: auto !important;
+  text-overflow: unset !important;
+  visibility: hidden !important;
+  overflow: visible !important;
+  display: inline-block !important
+}
+
 .u-text-underline {
 	text-decoration: underline;
 }
