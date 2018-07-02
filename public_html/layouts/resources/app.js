@@ -136,7 +136,6 @@ app = {
 			.clone()
 			.attr('style', 'width:auto;text-overflow:unset;visibility:hidden;overflow:visible;display:inline-block !important') // we cannot use css because of !important
 			.appendTo('body');
-		console.log(clone.innerWidth(), element.innerWidth());
 		if (clone.width() > element.width()) {
 			clone.remove();
 			return true;
