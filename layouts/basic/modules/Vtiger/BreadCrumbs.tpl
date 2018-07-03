@@ -35,6 +35,12 @@
 						<span class="fas fa-info-circle"></span>
 					</div>
 				{/if}
+			{if  $QUALIFIED_MODULE eq 'Settings:PDF'}
+				<div class="js-popover-tooltip ml-2" data-js="popover"
+					 data-content="{\App\Language::translate('LBL_PDF_DESCRIPTION', $QUALIFIED_MODULE)}">
+					<span class="fas fa-info-circle"></span>
+				</div>
+			{/if}
 			</ol>
 		{/if}
 	{/if}
