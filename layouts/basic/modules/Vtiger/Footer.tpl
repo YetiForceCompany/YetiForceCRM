@@ -19,7 +19,7 @@
 </div>
 </div>
 {if $SHOW_FOOTER}
-	<input class="d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}" />
+	<input class="tpl-Footer d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}" />
 		<footer class="c-footer fixed-bottom js-footer {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active {/if}" data-js="height">
 			{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
 				<div class="js-footer__user-info c-footer__user-info">
@@ -98,9 +98,9 @@
 									aria-hidden="true">&times;</span></button>
 					</div>
 					<div class="modal-body">
-						<p class="text-center"><img
+						<p class="text-center"><img class="u-h-120px"
 									src="{App\Layout::getPublicUrl('layouts/resources/Logo/blue_yetiforce_logo.png')}"
-									title="YetiForceCRM" alt="YetiForceCRM" style="height: 120px;"/></p>
+									title="YetiForceCRM" alt="YetiForceCRM"/></p>
 						<p>Copyright © YetiForce.com All rights reserved.</p>
 						<p>The Program is provided AS IS, without warranty. Licensed under <a
 									href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt"
@@ -149,8 +149,9 @@
 						</ul>
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-warning" type="reset" data-dismiss="modal"><span
-									class="fa fa-times u-mr-5px"></span><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
+						<button class="btn btn-danger" type="reset" data-dismiss="modal">
+							<span class="fa fa-times u-mr-5px"></span>
+							<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 						</button>
 					</div>
 				</div>
