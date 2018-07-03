@@ -607,6 +607,7 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	postLoadListViewRecordsEvents: function (container) {
 		const self = this;
+		self.registerListScroll(container);
 		App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 		App.Fields.Picklist.changeSelectElementView(container);
 		app.showPopoverElementView(container.find('.js-popover-tooltip'));
