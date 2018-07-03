@@ -338,6 +338,7 @@ App.Fields = {
 				this.setElement(element);
 				const instance = this.getEditorInstanceFromName();
 				let config = {
+					language: CONFIG.langKey,
 					allowedContent: true,
 					removeButtons: '',
 					scayt_autoStartup: false,
