@@ -853,6 +853,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.list = container.find('.js-list-preview');
 		this.preview = container.find('.js-detail-preview');
 		this.rotatedText = container.find('.u-rotate-90');
+		this.footerH = $('.js-footer').outerHeight();
 		this.headerH = $('.js-header').outerHeight();
 	},
 	getDefaultSplitSizes: function () {
