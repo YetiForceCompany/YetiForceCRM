@@ -119,6 +119,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		this.sideBlockRight = this.sideBlocks.last();
 		this.list = container.find('.js-list-preview');
 		this.rotatedText = container.find('.u-rotate-90');
+		this.footerH = $('.js-footer').outerHeight();
 		this.headerH = $('.js-header').outerHeight();
 	},
 	getDefaultSplitSizes: function () {
