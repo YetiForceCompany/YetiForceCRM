@@ -826,6 +826,9 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	writeSelectedIds: function (selectedIds) {
 		var cvId = this.getCurrentCvId();
+		if(!Array.isArray(selectedIds)){
+			selectedIds = [selectedIds];
+		}
 		jQuery('#selectedIds').data(cvId + 'Selectedids', selectedIds);
 	},
 	writeExcludedIds: function (excludedIds) {
