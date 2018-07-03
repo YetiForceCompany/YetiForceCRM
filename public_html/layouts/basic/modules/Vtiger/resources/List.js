@@ -606,26 +606,26 @@ jQuery.Class("Vtiger_List_Js", {
 		return aDeferred.promise();
 	},
 	postLoadListViewRecordsEvents: function (container) {
-		var thisInstance = this;
+		const self = this;
 		App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'));
 		App.Fields.Picklist.changeSelectElementView(container);
 		app.showPopoverElementView(container.find('.js-popover-tooltip'));
-		thisInstance.registerListViewSpecialOption();
-		var searchInstance = thisInstance.getListSearchInstance();
+		self.registerListViewSpecialOption();
+		var searchInstance = self.getListSearchInstance();
 		if (searchInstance !== false) {
 			searchInstance.registerBasicEvents();
 		}
 		Vtiger_Index_Js.registerMailButtons(container);
-		//thisInstance.triggerDisplayTypeEvent();
+		//self.triggerDisplayTypeEvent();
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
-		var selectedIds = thisInstance.readSelectedIds();
+		var selectedIds = self.readSelectedIds();
 		if (selectedIds != '') {
 			if (selectedIds == 'all') {
 				$('.listViewEntriesCheckBox').each(function (index, element) {
 					$(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 				});
 				$('#deSelectAllMsgDiv').show();
-				var excludedIds = thisInstance.readExcludedIds();
+				var excludedIds = self.readExcludedIds();
 				if (excludedIds != '') {
 					$('#listViewEntriesMainCheckBox').prop('checked', false);
 					$('.listViewEntriesCheckBox').each(function (index, element) {
@@ -641,10 +641,10 @@ jQuery.Class("Vtiger_List_Js", {
 					}
 				});
 			}
-			thisInstance.checkSelectAll();
+			self.checkSelectAll();
 		}
-		thisInstance.registerUnreviewedCountEvent();
-		thisInstance.registerLastRelationsEvent();
+		self.registerUnreviewedCountEvent();
+		self.registerLastRelationsEvent();
 	},
 	/**
 	 * Function to calculate number of pages
@@ -1956,6 +1956,7 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 	},
 	registerListScroll: function (container) {
+		console.log(container);
 		if (CONFIG.view !== 'ListPreview') {
 			container.height($(window).height() - (container.offset().top + $('.js-footer').height()));
 			app.showNewScrollbarAllSides(container);
