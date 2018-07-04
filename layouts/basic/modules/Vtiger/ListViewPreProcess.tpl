@@ -13,18 +13,23 @@
 	{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
 	<div class="bodyContents">
 		<div class="mainContainer">
-			<div class="contentsDiv">
-				<div class="widget_header row align-items-center mb-2">
-					<div class="col-sm-6 col-12">
-						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-					</div>
-					<div class="col-sm-6 col-12">
-						<div class="float-right btn-toolbar btn-group">
-							{foreach item=LINK from=$HEADER_LINKS['LIST_VIEW_HEADER']}
-								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewHeader'}
-							{/foreach}
-						</div>
+			<div class="widget_header mb-2 d-flex justify-content-between px-2">
+				<div class="">
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				</div>
+				<a class="btn btn-light c-header__btn mx-2 d-sm-none" href="#" data-js="click" role="button"
+				   aria-expanded="false" aria-controls="o-view-actions__container">
+							<span class="fas fa-ellipsis-h fa-fw"
+								  title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
+				</a>
+				<div class="d-none d-sm-block">
+					<div id="o-view-actions__container" class="float-right btn-toolbar btn-group">
+						{foreach item=LINK from=$HEADER_LINKS['LIST_VIEW_HEADER']}
+							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewHeader' MODE='responsive' BREAKPOINT='sm'}
+						{/foreach}
 					</div>
 				</div>
+			</div>
+			<div class="contentsDiv">
 				{include file=\App\Layout::getTemplatePath('ListViewHeader.tpl', $MODULE)}
 			{/strip}
