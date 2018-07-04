@@ -788,7 +788,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$oldLocales = explode(';', setlocale(LC_ALL, '0'));
 		foreach ($oldLocales as $locale) {
 			$parts = explode('=', $locale);
-			if ($parts[0]==='LC_CTYPE') {
+			if ($parts[0] === 'LC_CTYPE') {
 				$oldLocale = $parts[1];
 			}
 		}
