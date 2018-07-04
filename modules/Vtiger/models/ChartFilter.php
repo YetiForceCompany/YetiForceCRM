@@ -785,7 +785,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 		unset($group, $values);
 		$groupCalculate = $this->groupFieldModel->isCalculateField();
-		setlocale(LC_ALL, 'pl_PL'); // set locale for string comparision
+		$oldLocale = Locale::getDefault();
+		setlocale(LC_COLLATE, App\Language::getLanguage()); // set locale for string comparision
 		foreach ($this->data as &$dividing) {
 			if ($groupCalculate) {
 				ksort($dividing, SORT_NUMERIC);
@@ -796,6 +797,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				ksort($group);
 			}
 		}
+		setlocale(LC_COLLATE, $oldLocale);
 	}
 
 	/**
