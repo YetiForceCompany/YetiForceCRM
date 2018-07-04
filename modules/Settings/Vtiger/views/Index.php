@@ -249,7 +249,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 			'~vendor/ckeditor/ckeditor/adapters/jquery.js',
 			'~libraries/jstree/dist/jstree.js',
 			'~libraries/datatables.net/js/jquery.dataTables.js',
-			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
+			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
 			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
 			'modules.Settings.Vtiger.resources.Vtiger',
