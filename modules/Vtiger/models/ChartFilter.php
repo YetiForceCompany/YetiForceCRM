@@ -792,7 +792,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				ksort($dividing, SORT_LOCALE_STRING);
 			}
 			foreach ($dividing as &$group) {
-				ksort($group, SORT_NUMERIC);
+				ksort($group);
 			}
 		}
 	}
