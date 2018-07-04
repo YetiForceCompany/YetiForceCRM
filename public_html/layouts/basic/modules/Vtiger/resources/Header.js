@@ -390,7 +390,7 @@ $.Class("Vtiger_Header_Js", {
 	},
 	basicSearch: function () {
 		var thisInstance = this;
-		$('.globalSearchValue').on('keypress', function (e) {
+		$('.js-global-search__value').on('keypress', function (e) {
 			var currentTarget = $(e.currentTarget)
 			if (e.which == 13) {
 				thisInstance.hideSearchMenu();
@@ -399,8 +399,8 @@ $.Class("Vtiger_Header_Js", {
 		});
 		$('.js-global-search-operator').on('click', function (e) {
 			var currentTarget = $(e.target);
-			var block = currentTarget.closest('.globalSearchInput');
-			block.find('.globalSearchValue').data('operator', currentTarget.data('operator'));
+			var block = currentTarget.closest('.js-global-search__input');
+			block.find('.js-global-search__value').data('operator', currentTarget.data('operator'));
 			block.find('.js-global-search-operator .dropdown-item').removeClass('active');
 			currentTarget.closest('.dropdown-item').addClass('active');
 		});
@@ -432,13 +432,13 @@ $.Class("Vtiger_Header_Js", {
 						.appendTo(ul);
 				},
 			});
-			$('.globalSearchValue').gsAutocomplete({
+			$('.js-global-search__value').gsAutocomplete({
 				minLength: app.getMainParams('gsMinLength'),
 				source: function (request, response) {
 					var basicSearch = new Vtiger_BasicSearch_Js();
 					basicSearch.reduceNumberResults = app.getMainParams('gsAmountResponse');
 					basicSearch.returnHtml = false;
-					basicSearch.setMainContainer(this.element.closest('.globalSearchInput'));
+					basicSearch.setMainContainer(this.element.closest('.js-global-search__input'));
 					basicSearch.search(request.term).done(function (data) {
 						var data = JSON.parse(data);
 						var serverDataFormat = data.result;
@@ -459,7 +459,7 @@ $.Class("Vtiger_Header_Js", {
 					return false;
 				},
 				close: function (event, ui) {
-					//$('.globalSearchValue').val('');
+					//$('.js-global-search__value').val('');
 				}
 			});
 		}
@@ -478,7 +478,7 @@ $.Class("Vtiger_Header_Js", {
 			}
 		});
 		var basicSearch = new Vtiger_BasicSearch_Js();
-		basicSearch.setMainContainer(currentTarget.closest('.globalSearchInput'));
+		basicSearch.setMainContainer(currentTarget.closest('.js-global-search__input'));
 		basicSearch.search(val).done(function (data) {
 			basicSearch.showSearchResults(data);
 			progress.progressIndicator({
@@ -801,13 +801,13 @@ $.Class("Vtiger_Header_Js", {
 			var currentTarget = $(this);
 			thisInstance.hideSearchMenu();
 			var advanceSearchInstance = new Vtiger_AdvanceSearch_Js();
-			advanceSearchInstance.setParentContainer(currentTarget.closest('.globalSearchInput'));
+			advanceSearchInstance.setParentContainer(currentTarget.closest('.js-global-search__input'));
 			advanceSearchInstance.initiateSearch().done(function () {
 				advanceSearchInstance.selectBasicSearchValue();
 			});
 		});
 		$('.searchIcon').on('click', function (e) {
-			var currentTarget = $(this).closest('.globalSearchInput').find('.globalSearchValue');
+			var currentTarget = $(this).closest('.js-global-search__input').find('.js-global-search__value');
 			var pressEvent = $.Event("keypress");
 			pressEvent.which = 13;
 			currentTarget.trigger(pressEvent);
@@ -818,7 +818,7 @@ $.Class("Vtiger_Header_Js", {
 		//this.registerCalendarButtonClickEvent();
 		//After selecting the global search module, focus the input element to type
 		$('.basicSearchModulesList').on('change', function () {
-			var value = $(this).closest('.globalSearchInput').find('.globalSearchValue')
+			var value = $(this).closest('.js-global-search__input').find('.js-global-search__value')
 			setTimeout(function () {
 				value.focus();
 			}, 100);

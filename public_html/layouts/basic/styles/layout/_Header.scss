@@ -180,14 +180,14 @@
 //navbar search
 .navbar {
 	//search input
-	.globalSearchValue {
+	.o-global-search__value {
 		border-top: none;
 		border-bottom: none;
 	}
 }
 
-.searchMenu.globalSearchInput,
-.navbar .globalSearchInput {
+.searchMenu.o-global-search__input,
+.navbar .o-global-search__input {
 	.select2-selection {
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
@@ -207,7 +207,7 @@
 	width: 35px;
 }
 
-.globalSearchInput {
+.o-global-search__input--desktop {
 	min-width: $w-header-search;
 
 	.btn {

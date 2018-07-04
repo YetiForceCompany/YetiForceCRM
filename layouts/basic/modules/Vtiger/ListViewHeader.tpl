@@ -14,7 +14,7 @@
 	<div class="listViewTopMenuDiv noprint mb-2">
 		<div class="listViewActionsDiv row">
 			<div class="col-12 d-inline-flex flex-wrap">
-				<div class="c-list__buttons d-flex flex-wrap flex-sm-nowrap">
+				<div class="c-list__buttons d-flex flex-wrap flex-sm-nowrap u-w-sm-down-100">
 					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='buttonTextHolder mr-sm-1 mb-1 mb-sm-0 c-btn-block-sm-down'}
 					{assign var=LINKS value=[]}
 					{if $LISTVIEW_MASSACTIONS}
