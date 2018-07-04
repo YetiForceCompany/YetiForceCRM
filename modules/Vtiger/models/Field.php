@@ -422,10 +422,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getUITypeModel()
 	{
-		if (!$this->get('uitypeModel')) {
-			$this->set('uitypeModel', Vtiger_Base_UIType::getInstanceFromField($this));
-		}
-		return $this->get('uitypeModel');
+		return Vtiger_Base_UIType::getInstanceFromField($this);
 	}
 
 	public function isRoleBased()
