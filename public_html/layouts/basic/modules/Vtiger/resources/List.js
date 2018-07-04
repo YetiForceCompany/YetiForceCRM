@@ -480,8 +480,7 @@ jQuery.Class("Vtiger_List_Js", {
 					}).fail(function (error, err) {
 					app.errorLog(error, err);
 				});
-			})
-			fail(function (error, err) {
+			}).fail(function (error, err) {
 				Vtiger_List_Js.clearList();
 			});
 		} else {
