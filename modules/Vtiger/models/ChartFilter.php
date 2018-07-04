@@ -788,7 +788,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$oldLocale = Locale::getDefault();
 		setlocale(LC_ALL, App\Language::getLanguage()); // set locale for string comparision
 		ksort($this->data, SORT_LOCALE_STRING);
-		foreach ($this->data as $key => &$dividing) {
+		foreach ($this->data as &$dividing) {
 			if ($groupCalculate) {
 				ksort($dividing, SORT_NUMERIC);
 			} else {
