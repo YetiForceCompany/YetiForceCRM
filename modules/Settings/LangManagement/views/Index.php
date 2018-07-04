@@ -39,7 +39,7 @@ class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 		$jsFileNames = [
 			"modules.Settings.$moduleName.resources.LangManagement",
 			'~libraries/datatables.net/js/jquery.dataTables.js',
-			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
+			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
 			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
 			'modules.Vtiger.resources.dashboards.Widget',
