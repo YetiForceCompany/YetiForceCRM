@@ -6,8 +6,10 @@
 }
 
 @include media-breakpoint-down(sm) {
-	.c-btn-block-sm-down {
+	.c-btn-block-sm-down,
+	.c-btn-block-sm-down .btn {
 		width: 100% !important;
+
 	}
 }
 
