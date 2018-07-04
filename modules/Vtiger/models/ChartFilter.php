@@ -797,7 +797,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				ksort($group);
 			}
 		}
-		setlocale(LC_COLLATE, $oldLocale);
+		setlocale(LC_ALL, $oldLocale);
 	}
 
 	/**
