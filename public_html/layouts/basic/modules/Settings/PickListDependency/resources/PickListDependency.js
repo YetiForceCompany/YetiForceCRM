@@ -214,21 +214,19 @@ jQuery.Class('Settings_PickListDependency_Js', {
 	 */
 	addNewDependencyPickList: function (sourceModule, sourceFieldValue, targetFieldValue) {
 		var thisInstance = this;
+		var dependencyGraph = $('#dependencyGraph');
 		thisInstance.updatedSourceValues = [];
-		var params = {};
-		params['mode'] = 'getDependencyGraph';
-		params['module'] = app.getModuleName();
-		params['parent'] = app.getParentModuleName();
-		params['view'] = 'IndexAjax';
-		params['sourceModule'] = sourceModule;
-		params['sourcefield'] = sourceFieldValue;
-		params['targetfield'] = targetFieldValue;
-		AppConnector.request(params).done(function (data) {
-			var dependencyGraph = jQuery('#dependencyGraph');
+		AppConnector.request({
+			mode: 'getDependencyGraph',
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			view: 'IndexAjax',
+			sourceModule: sourceModule,
+			sourcefield: sourceFieldValue,
+			targetfield: targetFieldValue
+		}).done(function (data) {
 			dependencyGraph.html(data).css({'padding': '10px', 'border': '1px solid #ddd', 'background': '#fff'});
-
-			var element = dependencyGraph.find('.dependencyMapping');
-			app.showHorizontalScrollBar(element);
+			app.showHorizontalScrollBar(dependencyGraph.find('.dependencyMapping'));
 			thisInstance.registerDependencyGraphEvents();
 		});
 	},

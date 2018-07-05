@@ -26,6 +26,11 @@
 			transition: background-color 0.2s ease;
 		}
 	}
+	@include media-breakpoint-down(sm) {
+	  &__container {
+		bottom: $h-footer-mobile;
+	  }
+	}
 
 	&__item {
 		a {
@@ -166,7 +171,6 @@
 			min-width: 42px;
 		}
 	}
-
 	&__header {
 		height: 50px;
 		padding-right: 0;
@@ -246,6 +250,7 @@
 
 			> .nav-link {
 				color: $bg-rtabs;
+			  	background: $bg-rtabs-active;
 			}
 		}
 

@@ -102,6 +102,7 @@
 				</select>
 			</td>
 		</tr>
+		{if $VALUE_TYPE!=='count'}
 		<tr class="step3">
 			<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_FIELD','Home')}</td>
 			<td class="fieldValue">
@@ -118,6 +119,7 @@
 				</select>
 			</td>
 		</tr>
+		{/if}
 	{elseif $WIZARD_STEP eq 'step4'}
 		{if $CHART_TYPE == 'Funnel'  && in_array($GROUP_FIELD_MODEL->getFieldDataType(),['currency', 'double', 'percentage', 'integer'])}
 			<tr class="step4">

@@ -38,5 +38,9 @@
     "LBL_DELETED": "Inregistrare stearsa",
     "LBL_ACTIVE": "Inregistrare restaurata",
     "LBL_ARCHIVED": "Inregistrare arhivata"
+    "LBL_TRANSFER_EDIT": "record was changed in the transfer process",
+    "LBL_TRANSFER_DELETE": "record was deleted in the transfer process",
+    "LBL_TRANSFER_UNLINK": "relation was deleted in the transfer process",
+    "LBL_TRANSFER_LINK": "relation was added in the transfer process"
   }
 }

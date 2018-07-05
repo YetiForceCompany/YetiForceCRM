@@ -14,6 +14,9 @@ class Cron extends \Tests\Base
 	 */
 	public function test()
 	{
+		if (App\Version::compare(PHP_VERSION, '7.1.x')) {
+			unlink('app/SystemWarnings/Security/Dependencies.php');
+		}
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_cron_task', [
 				'status' => 0,

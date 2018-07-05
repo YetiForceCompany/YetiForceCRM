@@ -133,17 +133,15 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		if (is_numeric($relatedModule)) {
 			$relatedModule = \App\Module::getModuleName($relatedModule);
 		}
-		$relatedRecordIdList = $request->get('related_record_list');
-
+		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-		if (!is_array($relatedRecordIdList)) {
-			$relatedRecordIdList = [$relatedRecordIdList];
-		}
-		foreach ($relatedRecordIdList as $relatedRecordId) {
+		foreach ($request->getArray('related_record_list', 'Integer') as $relatedRecordId) {
 			if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {
-				$relationModel->addRelation($sourceRecordId, (int) $relatedRecordId);
+				$relationModel->addRelation($sourceRecordId, $relatedRecordId);
 			}
 		}
 		$response = new Vtiger_Response();

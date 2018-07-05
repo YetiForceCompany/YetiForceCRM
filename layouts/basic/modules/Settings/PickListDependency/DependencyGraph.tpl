@@ -11,32 +11,42 @@
 -->*}
 {strip}
 	<div class="tpl-Settings-PickListDependency-DependencyGraph">
-		<div class="accordion pt-3">
-		<span><i class="fas fa-info-circle alignMiddle"></i>&nbsp;{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_INFO', $QUALIFIED_MODULE)}
-			&nbsp;&nbsp;</span>
-			<a class="u-cursor-pointer accordion-heading accordion-toggle" data-toggle="collapse"
-			   data-target="#dependencyHelp">{\App\Language::translate('LBL_MORE', $QUALIFIED_MODULE)}..</a>
-			<div id="dependencyHelp" class="accordion-body collapse">
-				<ul><br/>
-					<li>{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_HELP_1', $QUALIFIED_MODULE)}</li>
-					<br/>
-					<li>{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_HELP_2', $QUALIFIED_MODULE)}</li>
-					<br/>
-					<li>{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_HELP_3', $QUALIFIED_MODULE)}&nbsp;
-						<span class="selectedCell p-1">{\App\Language::translate('Selected Values', $QUALIFIED_MODULE)}</span>
-					</li>
-				</ul>
+		<div id="accordion" class="my-3">
+			<div class="card border-light">
+				<div class="card-header bg-transparent border-light" id="headingOne">
+					<span class="mr-2">
+						<span class="fas fa-info-circle align-middle mr-3"></span>
+						{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_INFO', $QUALIFIED_MODULE)}
+					</span>
+					<h5 class="mb-0">
+						<span class="btn btn-link px-0" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+							{\App\Language::translate('LBL_MORE', $QUALIFIED_MODULE)}..
+						</span>
+					</h5>
+				</div>
+				<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+					<div class="card-body" id="dependencyHelp">
+						<ul>
+							<li>{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_HELP_1', $QUALIFIED_MODULE)}</li>
+							<li class="my-3">{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_HELP_2', $QUALIFIED_MODULE)|unescape:"html"}</li>
+							<li>{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_HELP_3', $QUALIFIED_MODULE)}
+								<span class="selectedCell p-1"> {\App\Language::translate('Selected Values', $QUALIFIED_MODULE)} </span>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="">
-        <span class="btn-toolbar">
-            <button class="btn sourceValues btn-light"
-					type="button"><strong>{\App\Language::translate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-			<button class="btn unmarkAll btn-light"
-					type="button"><strong>{\App\Language::translate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}</strong></button>
-        </span>
+		<div class="mb-3">
+			<span class="btn-toolbar">
+				<button class="btn sourceValues btn-light mr-2" type="button">
+					<strong>{\App\Language::translate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}</strong>
+				</button>
+				<button class="btn unmarkAll btn-light" type="button">
+					<strong>{\App\Language::translate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}</strong>
+				</button>
+			</span>
 		</div>
-		<br/>
 		{assign var=SELECTED_MODULE value=$RECORD_MODEL->get('sourceModule')}
 		{assign var=SOURCE_FIELD value=$RECORD_MODEL->get('sourcefield')}
 		{assign var=MAPPED_SOURCE_PICKLIST_VALUES value=[]}
@@ -71,12 +81,13 @@
 			<div class="col-md-10 col-sm-10 col-10 px-0 ml-0 dependencyMapping">
 				<table class="table-bordered table-sm themeTableColor pickListDependencyTable">
 					<thead>
-					<tr class="blockHeader">
-						{foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
-							<th data-source-value="{\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}" style="
-									{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))}display: none;{/if}">
-								{\App\Language::translate($SOURCE_PICKLIST_VALUE, $SELECTED_MODULE)}</th>
-						{/foreach}</tr>
+						<tr class="blockHeader">
+							{foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
+								<th data-source-value="{\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}" style="
+										{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))}display: none;{/if}">
+									{\App\Language::translate($SOURCE_PICKLIST_VALUE, $SELECTED_MODULE)}</th>
+							{/foreach}
+						</tr>
 					</thead>
 					<tbody>
 					{foreach key=TARGET_INDEX item=TARGET_VALUE from=$TARGET_PICKLIST_VALUES name=targetValuesLoop}
@@ -132,7 +143,7 @@
 																	   data-source-value="{\App\Purifier::encodeHtml($SOURCE_VALUE)}"
 																	   value="{\App\Purifier::encodeHtml($SOURCE_VALUE)}"
 															{if empty($MAPPED_VALUES) || in_array($SOURCE_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))} checked {/if}/>
-													&nbsp;{\App\Language::translate($SOURCE_VALUE, $SELECTED_MODULE)}
+													{\App\Language::translate($SOURCE_VALUE, $SELECTED_MODULE)}
 												</label>
 											</div>
 										</div>
@@ -148,7 +159,7 @@
 		</div>
 		<div class="p-3">
 			<div class="btn-toolbar  float-right">
-				<button class="btn btn-success" type="submit"><span
+				<button class="btn btn-success mr-2" type="submit"><span
 							class="fa fa-check u-mr-5px"></span><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong>
 				</button>
 				<button type="button" class="cancelLink cancelDependency btn btn-warning text-white"
