@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-EditView">
+	<div class="tpl-Settings-PickListDependency-EditView">
 		<div class="widget_header form-row mb-5">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
