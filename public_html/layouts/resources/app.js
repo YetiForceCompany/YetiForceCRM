@@ -1075,7 +1075,7 @@ app = {
 		$('#' + param).val(value);
 	},
 	parseNumberToShow(val, numberOfDecimal = CONFIG.noOfCurrencyDecimals) {
-		if (val == undefined) {
+		if (val === undefined) {
 			val = 0;
 		}
 		let groupSeparator = CONFIG.currencyGroupingSeparator;
