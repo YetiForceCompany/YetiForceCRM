@@ -33,14 +33,14 @@
     "Secondary": "Secundar",
     "Higher": "Ridicat",
     "LBL_Member_Of": "Membru al",
-    "LBL_SHOW_EMPLOYEES_HIERARCHY": "Employee hierarchy",
-    "Recruiting": "Recruiting",
+    "LBL_SHOW_EMPLOYEES_HIERARCHY": "Ierarhie angajat",
+    "Recruiting": "Recrutare",
     "Employee": "Angajat",
     "Inactive": "Inactiv",
-    "Average daily working time": "Average daily working time",
-    "LBL_USER_EXISTS": "Employee already exists",
-    "FL_POSITION": "Position",
-    "FL_SECONDARY_PHONE": "Secondary phone",
+    "Average daily working time": "Timpul mediu zilnic de lucru",
+    "LBL_USER_EXISTS": "Angajatul exista deja",
+    "FL_POSITION": "Pozitia",
+    "FL_SECONDARY_PHONE": "Telefon secundar",
     "FL_RBH": "RBH"
   }
 }
