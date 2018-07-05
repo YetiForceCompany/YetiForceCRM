@@ -8,6 +8,12 @@
 	overflow-x: hidden;
 }
 
+@include media-breakpoint-down(sm) {
+  .mainBody {
+	bottom: $h-footer-mobile;
+  }
+}
+
 .contentsDiv, .centerPanel {
 	@extend .mx-2;
 }

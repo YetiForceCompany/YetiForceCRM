@@ -106,14 +106,14 @@ app = {
 		}
 		element.popover('hide');
 	},
-	hidePopoversAfterClick (popoverParent) {
+	hidePopoversAfterClick(popoverParent) {
 		popoverParent.on('click', (e) => {
 			setTimeout(() => {
 				popoverParent.popover('hide');
 			}, 100);
 		});
 	},
-	registerPopoverManualTrigger (element) {
+	registerPopoverManualTrigger(element) {
 		element.hoverIntent({
 			timeout: 150,
 			over: function () {
@@ -140,6 +140,7 @@ app = {
 				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 			};
 		}
+
 		params.container = 'body';
 		params.delay = {"show": 300, "hide": 100};
 		var sparams;
@@ -160,7 +161,7 @@ app = {
 				sparams = $.extend(sparams, data);
 			}
 			element.popover(sparams);
-			if (sparams.trigger === 'manual') {
+			if (sparams.trigger === 'manual' || typeof sparams.trigger === 'undefined') {
 				app.registerPopoverManualTrigger(element);
 			}
 		});
@@ -268,8 +269,8 @@ app = {
 				toolbar: 'Min'
 			});
 		});
-		modalContainer.modal(params);
 		$('body').append(container);
+		modalContainer.modal(params);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 		thisInstance.showPopoverElementView(modalContainer.find('.js-popover-tooltip'));
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
@@ -370,22 +371,33 @@ app = {
 		}
 		modalContainer.one('hidden.bs.modal', callback);
 	},
-	registerModalController: function () {
-		let modalContainer = $('#' + Window.lastModalId + ' .js-modal-data');
+	registerModalController: function (modalId, modalContainer, cb) {
+		if(modalId === undefined){
+			modalId = Window.lastModalId;
+		}
+		if (modalContainer === undefined) {
+			modalContainer = $('#' + modalId + ' .js-modal-data');
+		}
 		let modalClass = modalContainer.data('module') + '_' + modalContainer.data('view') + '_JS';
 		if (typeof window[modalClass] !== "undefined") {
 			let instance = new window[modalClass]();
+			if (typeof cb === 'function') {
+				cb(modalContainer, instance);
+			}
 			instance.registerEvents(modalContainer);
-			if (app.modalEvents[Window.lastModalId]) {
-				app.modalEvents[Window.lastModalId](modalContainer, instance);
+			if (modalId && app.modalEvents[modalId]) {
+				app.modalEvents[modalId](modalContainer, instance);
 			}
 		}
 		modalClass = 'Base_' + modalContainer.data('view') + '_JS';
 		if (typeof window[modalClass] !== "undefined") {
 			let instance = new window[modalClass]();
+			if (typeof cb === 'function') {
+				cb(modalContainer, instance);
+			}
 			instance.registerEvents(modalContainer);
-			if (app.modalEvents[Window.lastModalId]) {
-				app.modalEvents[Window.lastModalId](modalContainer, instance);
+			if (modalId && app.modalEvents[modalId]) {
+				app.modalEvents[modalId](modalContainer, instance);
 			}
 		}
 	},
@@ -1214,8 +1226,8 @@ app = {
 		self.sidebarBtn = $('.js-sidebar-btn').first();
 		self.sidebar = $('.js-sidebar').first();
 		self.sidebarBtn.on('click', self.toggleSidebar.bind(self));
-		$('a[href]:not(.c-header__btn),[tabindex],input,select,textarea,button').on('focus', (e) => {
-			if (self.sidebarBtn[0] == e.target) return;
+		$(`a.nav-link,[tabindex],input,select,textarea,button`).on('focus', (e) => {
+			if (self.sidebarBtn[0] == e.target || self.sidebar.find(e.target).length) return;
 			if (self.sidebar.find(':focus').length) {
 				self.openSidebar();
 			} else if (self.sidebar.hasClass('js-expand')) {
@@ -1424,16 +1436,28 @@ app = {
 		if (!params.view) {
 			params.view = "RecordsList";
 		}
-		AppConnector.request(params).done(function (requestData) {
-			app.showModalWindow(requestData, function (data) {
-				if (typeof afterShowModal === 'function') {
-					afterShowModal(data);
-				}
-				if (typeof cb === 'function') {
-					app.modalEvents[Window.lastModalId] = cb;
-				}
-			});
+		this.showRecordsListModal(params).done(function (modal) {
+			if (typeof afterShowModal === 'function') {
+				afterShowModal(modal);
+			}
+			app.registerModalController(false, modal, cb);
 		});
+	},
+	/**
+	 * Show records list modal
+	 * @param {object} params
+	 * @returns {Promise}
+	 */
+	showRecordsListModal: function (params) {
+		const aDeferred = $.Deferred();
+		AppConnector.request(params).done(function (requestData) {
+			app.showModalWindow(requestData, function (modal) {
+				aDeferred.resolve(modal);
+			});
+		}).fail(function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
+		return aDeferred.promise();
 	},
 	/**
 	 * Convert html content to base64 image

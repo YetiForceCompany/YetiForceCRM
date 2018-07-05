@@ -49,6 +49,11 @@ https://github.com/YetiForceCompany/YetiForceIncompleteLanguages
 
 YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow to easily migrate from Vtiger to YetiForce.
 
+Testing Supported By<br/>
+<a href="http://browserstack.com">
+<img width="160" src="http://foundation.zurb.com/sites/docs/assets/img/logos/browser-stack.svg" alt="BrowserStack"/>
+</a>
+
 ### Gallery: https://public.yetiforce.com/gallery
 
 ![](https://public.yetiforce.com/img/main/1_Home_page.png)

@@ -229,6 +229,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 	},
 	selectDay: function (date) {
 		var thisInstance = this;
+
 		thisInstance.getCalendarCreateView().done(function (data) {
 			if (data.length <= 0) {
 				return;
@@ -280,7 +281,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 		});
 	},
 	addCalendarEvent: function (calendarDetails, dateFormat) {
-		if ($.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0) {
+		if ($("#calendarUserList").val().length && $.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0) {
 			return;
 		}
 		if ($.inArray(calendarDetails.type.value, $("#timecontrolTypes").val()) < 0) {

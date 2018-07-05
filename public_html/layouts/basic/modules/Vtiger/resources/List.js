@@ -480,8 +480,7 @@ jQuery.Class("Vtiger_List_Js", {
 					}).fail(function (error, err) {
 					app.errorLog(error, err);
 				});
-			})
-			fail(function (error, err) {
+			}).fail(function (error, err) {
 				Vtiger_List_Js.clearList();
 			});
 		} else {
@@ -826,6 +825,9 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	writeSelectedIds: function (selectedIds) {
 		var cvId = this.getCurrentCvId();
+		if (!Array.isArray(selectedIds)) {
+			selectedIds = [selectedIds];
+		}
 		jQuery('#selectedIds').data(cvId + 'Selectedids', selectedIds);
 	},
 	writeExcludedIds: function (excludedIds) {
@@ -1652,6 +1654,7 @@ jQuery.Class("Vtiger_List_Js", {
 							Vtiger_Helper_Js.showMessage(data.result.notify);
 						}
 						thisInstance.getListViewRecords();
+						thisInstance.writeSelectedIds([]);
 					}).fail(function (error, err) {
 						progressIndicatorElement.progressIndicator({mode: 'hide'});
 					});

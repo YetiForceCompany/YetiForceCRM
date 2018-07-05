@@ -35,7 +35,11 @@
     "LBL_UPDATED": " a mis \u00e0 jour",
     "LBL_ADDED": "a ajout\u00e9",
     "LBL_REMOVED": "retir\u00e9",
-    "LBL_CONVERTED_FROM_LEAD": "Converti depuis un prospect"
+    "LBL_CONVERTED_FROM_LEAD": "Converti depuis un prospect",
+    "LBL_TRANSFER_EDIT": "record was changed in the transfer process",
+    "LBL_TRANSFER_DELETE": "record was deleted in the transfer process",
+    "LBL_TRANSFER_UNLINK": "relation was deleted in the transfer process",
+    "LBL_TRANSFER_LINK": "relation was added in the transfer process"
   },
   "js": []
 }
