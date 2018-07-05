@@ -376,7 +376,7 @@ app = {
 		modalContainer.one('hidden.bs.modal', callback);
 	},
 	registerModalController: function (modalId, modalContainer, cb) {
-		if(modalId === undefined){
+		if (modalId === undefined) {
 			modalId = Window.lastModalId;
 		}
 		if (modalContainer === undefined) {
@@ -1074,31 +1074,27 @@ app = {
 		app.cacheParams[param] = value;
 		$('#' + param).val(value);
 	},
-	parseNumberToShow: function (val) {
-		if (val == undefined) {
+	parseNumberToShow(val, numberOfDecimal = CONFIG.noOfCurrencyDecimals) {
+		if (val === undefined) {
 			val = 0;
 		}
-		var numberOfDecimal = parseInt(CONFIG.noOfCurrencyDecimals);
-		var decimalSeparator = CONFIG.currencyDecimalSeparator;
-		var groupSeparator = CONFIG.currencyGroupingSeparator;
-		var groupingPattern = app.getMainParams('currencyGroupingPattern');
+		let groupSeparator = CONFIG.currencyGroupingSeparator;
+		let groupingPattern = app.getMainParams('currencyGroupingPattern');
 		val = parseFloat(val).toFixed(numberOfDecimal);
-		var a = val.toString().split('.');
-		var integer = a[0];
-		var decimal = a[1];
-
-		if (groupingPattern == '123,456,789') {
+		let a = val.toString().split('.');
+		let integer = a[0];
+		let decimal = a[1];
+		if (groupingPattern === '123,456,789') {
 			integer = integer.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator);
-		} else if (groupingPattern == '123456,789') {
-			var t = integer.slice(-3);
-			var o = integer.slice(0, -3);
-			integer = o + groupSeparator + t;
-		} else if (groupingPattern == '12,34,56,789') {
-			var t = integer.slice(-3);
-			var o = integer.slice(0, -3);
-			integer = o.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + t;
+		} else if (groupingPattern === '123456,789') {
+			integer = integer.slice(0, -3) + groupSeparator + integer.slice(-3);
+		} else if (groupingPattern === '12,34,56,789') {
+			integer = integer.slice(0, -3).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + integer.slice(-3);
 		}
-		return integer + decimalSeparator + decimal;
+		if (numberOfDecimal) {
+			return integer + CONFIG.currencyDecimalSeparator + decimal;
+		}
+		return integer;
 	},
 	parseNumberToFloat: function (val) {
 		var numberOfDecimal = parseInt(CONFIG.noOfCurrencyDecimals);
