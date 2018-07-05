@@ -1078,7 +1078,6 @@ app = {
 		if (val == undefined) {
 			val = 0;
 		}
-		let decimalSeparator = CONFIG.currencyDecimalSeparator;
 		let groupSeparator = CONFIG.currencyGroupingSeparator;
 		let groupingPattern = app.getMainParams('currencyGroupingPattern');
 		val = parseFloat(val).toFixed(numberOfDecimal);
@@ -1093,7 +1092,7 @@ app = {
 			integer = integer.slice(0, -3).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + integer.slice(-3);
 		}
 		if (numberOfDecimal) {
-			return integer + decimalSeparator + decimal;
+			return integer + CONFIG.currencyDecimalSeparator + decimal;
 		}
 		return integer;
 	},
