@@ -40,4 +40,34 @@ class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$response->setResult((bool) $status);
 		$response->emit();
 	}
+
+	public function addRelation(\App\Request $request)
+	{
+		$sourceModule = $request->getModule();
+		$sourceRecordId = $request->getInteger('src_record');
+		$relatedModule = $request->getByType('related_module', 2);
+		if (is_numeric($relatedModule)) {
+			$relatedModule = \App\Module::getModuleName($relatedModule);
+		}
+		$relatedRecordIdList = $request->get('related_record_list');
+		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
+		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
+		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+		$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId);
+		if (!is_array($relatedRecordIdList)) {
+			$relatedRecordIdList = [$relatedRecordIdList];
+		}
+		foreach ($relatedRecordIdList as $relatedRecordId) {
+			if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {
+				$relationModel->addRelation($sourceRecordId, (int)$relatedRecordId);
+				if ($relatedModule === 'PriceBooks') {
+					$relatedRecordModel = Vtiger_Record_Model::getInstanceById($relatedRecordId);
+					$sourceRecordModel->updateListPrice($relatedRecordId, $relatedRecordModel->get('unit_price'), $relatedRecordModel->get('currency_id'));
+				}
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
+	}
 }
