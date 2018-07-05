@@ -33,7 +33,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 			if (thisInstance.getRelationType() == '1') {
 				plugins.push("edit");
 			}
-			thisInstance.treeInstance.jstree({
+			thisInstance.treeInstance.jstree($.extend(true, {
 				core: {
 					data: thisInstance.getRecords(),
 					themes: {
@@ -41,8 +41,11 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 						responsive: true
 					}
 				},
+				checkbox: {
+					three_state: false,
+				},
 				plugins: plugins
-			});
+			}, this.tree.data('params')));
 		}
 	},
 	isActiveCategory: function () {

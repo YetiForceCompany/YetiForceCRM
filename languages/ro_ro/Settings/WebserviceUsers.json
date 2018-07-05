@@ -15,16 +15,16 @@
     "FL_USER": "Utilizator",
     "BTN_SAVE": "Salveaza",
     "BTN_CLOSE": "Anuleaza",
-    "PLL_USER_PERMISSIONS": "Permissions based on user",
-    "PLL_ACCOUNTS_RELATED_RECORDS": "All records of account assigned directly to contact",
-    "PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY": "All related records of account assigned directly to contact and accounts lower in hierarchy",
-    "PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY": "All related records of account assigned directly to contact and accounts from hierarchy",
+    "PLL_USER_PERMISSIONS": "Permisiuni bazate pe utilizator",
+    "PLL_ACCOUNTS_RELATED_RECORDS": "Toate inregistrarile contactului alocate direct la contact",
+    "PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY": "Toate inregistrarile legate de cont atribuite direct contactului si conturilor inferioare in ierarhie",
+    "PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY": "Toate inregistrarile legate de cont atribuite direct contactului si conturilor din ierarhie",
     "PLL_ACTIVE": "Activ",
     "PLL_INACTIVE": "Inactiv",
     "LBL_CREATE_RECORD": "Creaza"
   },
   "js": {
-    "JS_DELETE_CONFIRMATION": "Are you sure you want to remove the key?",
-    "JS_SAVE_SUCCESS": "Changes saved"
+    "JS_DELETE_CONFIRMATION": "Sigur doriti sa stergeti aceasta cheie?",
+    "JS_SAVE_SUCCESS": "Schimbari salvate"
   }
 }

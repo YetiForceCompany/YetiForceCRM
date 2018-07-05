@@ -32,7 +32,6 @@ jQuery.Class('Settings_PickListDependency_Js', {
 				var form = jQuery('#pickListDependencyForm');
 				form.find('select[name="sourceModule"],select[name="sourceField"],select[name="targetField"]').prop("disabled", true);
 				var element = form.find('.dependencyMapping');
-				app.showHorizontalScrollBar(element);
 				instance.registerDependencyGraphEvents();
 				instance.registerSubmitEvent();
 			}
@@ -214,21 +213,18 @@ jQuery.Class('Settings_PickListDependency_Js', {
 	 */
 	addNewDependencyPickList: function (sourceModule, sourceFieldValue, targetFieldValue) {
 		var thisInstance = this;
+		var dependencyGraph = $('#dependencyGraph');
 		thisInstance.updatedSourceValues = [];
-		var params = {};
-		params['mode'] = 'getDependencyGraph';
-		params['module'] = app.getModuleName();
-		params['parent'] = app.getParentModuleName();
-		params['view'] = 'IndexAjax';
-		params['sourceModule'] = sourceModule;
-		params['sourcefield'] = sourceFieldValue;
-		params['targetfield'] = targetFieldValue;
-		AppConnector.request(params).done(function (data) {
-			var dependencyGraph = jQuery('#dependencyGraph');
+		AppConnector.request({
+			mode: 'getDependencyGraph',
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			view: 'IndexAjax',
+			sourceModule: sourceModule,
+			sourcefield: sourceFieldValue,
+			targetfield: targetFieldValue
+		}).done(function (data) {
 			dependencyGraph.html(data).css({'padding': '10px', 'border': '1px solid #ddd', 'background': '#fff'});
-
-			var element = dependencyGraph.find('.dependencyMapping');
-			app.showHorizontalScrollBar(element);
 			thisInstance.registerDependencyGraphEvents();
 		});
 	},
@@ -324,9 +320,9 @@ jQuery.Class('Settings_PickListDependency_Js', {
 				thisInstance.updatedSourceValues.push(sourceValue);
 			}
 			if (currentTarget.hasClass('selectedCell')) {
-				currentTarget.addClass('unselectedCell').removeClass('selectedCell').find('[data-fa-i2svg]').remove();
+				currentTarget.addClass('unselectedCell').removeClass('selectedCell');
 			} else {
-				currentTarget.addClass('selectedCell').removeClass('unselectedCell').prepend('<i class="fas fa-check float-left"></i>');
+				currentTarget.addClass('selectedCell').removeClass('unselectedCell');
 			}
 		});
 	},
@@ -340,7 +336,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 				if (jQuery.inArray(sourceValue, thisInstance.updatedSourceValues) == -1) {
 					thisInstance.updatedSourceValues.push(sourceValue);
 				}
-				currentTarget.addClass('unselectedCell').removeClass('selectedCell').find('[data-fa-i2svg]').remove();
+				currentTarget.addClass('unselectedCell').removeClass('selectedCell');
 			});
 		});
 	},
@@ -432,7 +428,6 @@ jQuery.Class('Settings_PickListDependency_Js', {
 				mappingCells.show();
 			}
 		}
-		dependencyGraph.find('.dependencyMapping').mCustomScrollbar("update");
 	},
 	/**
 	 * This function will save the picklist dependency details
@@ -545,7 +540,6 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var form = jQuery('#pickListDependencyForm');
 		if (form.length > 0) {
 			var element = form.find('.dependencyMapping');
-			app.showHorizontalScrollBar(element);
 			if (form.find('.editDependency').val() == "true") {
 				form.find('select[name="sourceModule"],select[name="sourceField"],select[name="targetField"]').prop("disabled", true);
 				thisInstance.registerDependencyGraphEvents();

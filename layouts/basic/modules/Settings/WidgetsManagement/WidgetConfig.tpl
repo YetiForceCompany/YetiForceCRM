@@ -12,7 +12,7 @@
 					<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
 						<span class="fas fa-edit alignMiddle" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 					</a>
-					<div class="basicFieldOperations d-none float-right" style="width : 375px;">
+					<div class="basicFieldOperations d-none" style="width : 375px;">
 						<form class="form-horizontal fieldDetailsForm" method="POST">
 							<input type="hidden" name="type" class="" value="{$WIDGET_MODEL->get('linklabel')}">
 							<div class="modal-header">
@@ -25,7 +25,7 @@
 								<div class="row">
 									<div class="col-md-3 text-center checkboxForm">
 										<input type="checkbox" name="isdefault" class="" {if $WIDGET_MODEL->get('isdefault') eq 1} checked {/if}>
-									</div>	
+									</div>
 									<label class="col-md-9 form-control-plaintext float-left" >
 										&nbsp;&nbsp;{\App\Language::translate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}&nbsp;
 									</label>
@@ -33,7 +33,7 @@
 								<div class="row">
 									<div class="col-md-3 text-center checkboxForm">
 										<input type="checkbox" name="cache" class="" {if $WIDGET_MODEL->get('cache') eq 1} checked {/if}>
-									</div>	
+									</div>
 									<label class="col-md-9 form-control-plaintext float-left" >
 										&nbsp;&nbsp;{\App\Language::translate('LBL_CACHE_WIDGET', $QUALIFIED_MODULE)}&nbsp;
 									</label>
@@ -46,7 +46,7 @@
 												<option value="{$item}" {if $WIDGET_SIZE.width eq $item} selected {/if}>{$item}</option>
 											{/foreach}
 										</select>
-									</div>	
+									</div>
 									<label  class="col-md-9 mt-1 float-left" >
 										&nbsp;{\App\Language::translate('LBL_WIDTH', $QUALIFIED_MODULE)}&nbsp;
 									</label>
@@ -61,7 +61,7 @@
 									</div>
 									<label class="col-md-9 mt-1 float-left" >
 										&nbsp;{\App\Language::translate('LBL_HEIGHT', $QUALIFIED_MODULE)}&nbsp;
-									</label>	
+									</label>
 								</div>
 								{if in_array($WIDGET_MODEL->get('linklabel'), $TITLE_OF_LIMIT) }
 									<div class="row p-2">
@@ -95,7 +95,7 @@
 									<div class="row p-2">
 										<div class="col-md-3 text-center checkboxForm">
 											<input type="checkbox" name="showUsers" class="" {if $WIDGET_INFO['showUsers'] eq 1} checked {/if}>
-										</div>	
+										</div>
 										<label class="col-md-9 form-control-plaintext float-left" >
 											&nbsp;&nbsp;{\App\Language::translate('LBL_SHOW_USERS', $QUALIFIED_MODULE)}
 										</label>
@@ -135,7 +135,7 @@
 										<label class="col-md-3 form-control-plaintext" >
 											{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 										</label>
-									</div>	
+									</div>
 								</div>
 							{/if}
 							{if in_array($WIDGET_MODEL->get('linklabel'), $WIDGETS_WITH_FILTER_DATE)}
@@ -149,7 +149,7 @@
 												<option value="{$DATE_VALUE}" {if $DATE_VALUE eq $WIDGET_MODEL->get('date')} selected {/if}>{\App\Language::translate($DATE_TEXT, $QUALIFIED_MODULE)}</option>
 											{/foreach}
 										</select>
-									</div>	
+									</div>
 								</div>
 							{/if}
 							<div class="modal-footer">

@@ -17,17 +17,17 @@
     "PLL_EXTERNAL": "Extern",
     "LBL_INCIDENT_DATES": "Datele incidentelor",
     "FL_INCIDENT_DATE": "Data incidentului",
-    "FL_INCIDENT_DISCOVERY": "Incident discovery date",
-    "FL_INCIDENT_REPORT_DATE": " Incident report date",
-    "FL_INCIDENT_PUBLICATION_DATE": "Incident publication date",
+    "FL_INCIDENT_DISCOVERY": "Data descoperire incident",
+    "FL_INCIDENT_REPORT_DATE": " Data raport incident",
+    "FL_INCIDENT_PUBLICATION_DATE": "Data publicare incident",
     "FL_PEOPLE_NUMBER": "Numarul persoanelor",
-    "LBL_BREACH_CIRCUMSTANCES": "Breach circumstances",
-    "FL_BREACH_CIRCUMSTANCES": "Breach circumstances",
-    "LBL_NATURE_OF_BREACH": "Nature of breach",
-    "FL_NATURE_OF_BREACH": "Nature of breach",
-    "LBL_POSSIBLE_CONSEQUENCES": "Possible consequences",
-    "FL_POSSIBLE_CONSEQUENCES": "Possible consequences",
-    "LBL_SECURITY_MEASURES": "Applied security measures",
-    "FL_SECURITY_MEASURES": "Applied security measures"
+    "LBL_BREACH_CIRCUMSTANCES": "Circumstantele de incalcare",
+    "FL_BREACH_CIRCUMSTANCES": "Circumstantele de incalcare",
+    "LBL_NATURE_OF_BREACH": "Natura incalcarii",
+    "FL_NATURE_OF_BREACH": "Natura incalcarii",
+    "LBL_POSSIBLE_CONSEQUENCES": "Consecinte posibile",
+    "FL_POSSIBLE_CONSEQUENCES": "Consecinte posibile",
+    "LBL_SECURITY_MEASURES": "Masuri de securitate aplicate",
+    "FL_SECURITY_MEASURES": "Masuri de securitate aplicate"
   }
 }

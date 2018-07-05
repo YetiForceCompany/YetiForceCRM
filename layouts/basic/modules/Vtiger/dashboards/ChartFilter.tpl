@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-dashboards-ChartFilter -->
 	{if $WIZARD_STEP eq 'step1'}
 		<div id="minilistWizardContainer" class='modelContainer modal fade' tabindex="-1">
 			<div class="modal-dialog modal-lg">
@@ -15,9 +16,9 @@
 					</div>
 					<form class="form-horizontal validateForm" method="post" action="javascript:;">
 						<div class="modal-body">
-							<input type="hidden" name="module" value="{$MODULE}" />
-							<input type="hidden" name="action" value="MassSave" />
-							<input type="hidden" id="widgetStep" value="" />
+							<input type="hidden" name="module" value="{$MODULE}"/>
+							<input type="hidden" name="action" value="MassSave"/>
+							<input type="hidden" id="widgetStep" value=""/>
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
@@ -27,30 +28,34 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_SELECT_CHART','Home')}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
+                      <span class="redColor">*</span>{\App\Language::translate('LBL_SELECT_CHART','Home')}
+                    </td>
 										<td class="fieldValue">
 											<div class="input-group">
 												<select class="form-control select2" name="chartType">
 													{foreach from=$CHART_TYPES item=TYPE key=VALUE}
 														<option value="{$VALUE}">{\App\Language::translate($TYPE, $MODULE)}</option>
-													{/foreach}
-												</select>
-											</div>
-										</td>
-									</tr>
-									<tr class="step1">
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_SELECT_MODULE')}</td>
-										<td class="fieldValue">
-											<select class="form-control" name="module">
-												<option></option>
-												{foreach from=$MODULES item=MODULE_MODEL key=MODULE_NAME}
-													<option value="{$MODULE_MODEL['name']}">{\App\Language::translate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
 												{/foreach}
 											</select>
-										</td>
-									</tr>
-									<tr class="step2"></tr>
-									<tr class="step3"></tr>
+										</div>
+									</td>
+								</tr>
+								<tr class="step1">
+									<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span
+												class="redColor">*</span>{\App\Language::translate('LBL_SELECT_MODULE')}
+									</td>
+									<td class="fieldValue">
+										<select class="form-control" name="module">
+											<option></option>
+											{foreach from=$MODULES item=MODULE_MODEL key=MODULE_NAME}
+												<option value="{$MODULE_MODEL['name']}">{\App\Language::translate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
+											{/foreach}
+										</select>
+									</td>
+								</tr>
+								<tr class="step2"></tr>
+								<tr class="step3"></tr>
 								</tbody>
 							</table>
 						</div>
@@ -61,19 +66,25 @@
 		</div>
 	{elseif $WIZARD_STEP eq 'step2'}
 		<tr class="step2">
-			<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_TYPE', 'Home')}</td>
+			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
+				<span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_TYPE', 'Home')}</td>
 			<td class="fieldValue">
 				<select class="form-control valueType saveParam" name="valueType" size="2">
 					<option value="count">{\App\Language::translate('LBL_NUMBER_OF_RECORDS','Home')}</option>
-					<option value="sum">{\App\Language::translate('LBL_SUM','Home')}</option>
-					<option value="avg">{\App\Language::translate('LBL_AVG','Home')}</option>
+					{if $IS_NUMERAL_VALUE}
+						<option value="sum">{\App\Language::translate('LBL_SUM','Home')}</option>
+						<option value="avg">{\App\Language::translate('LBL_AVG','Home')}</option>
+					{/if}
 				</select>
 			</td>
 		</tr>
 		<tr class="step2">
-			<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_FILTER')}</td>
+			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
+				<span class="redColor">*</span>{\App\Language::translate('LBL_FILTER')}</td>
 			<td class="fieldValue">
-				<select class="form-control filtersId" {if $CHART_TYPE!=='Funnel'}name="filtersId" multiple{else}name="filtersId[]"{/if} data-maximum-selection-length="{\AppConfig::performance('CHART_MULTI_FILTER_LIMIT')}">
+				<select class="form-control filtersId" {if $CHART_TYPE!=='Funnel'}name="filtersId"
+						multiple{else}name="filtersId[]"{/if}
+						data-maximum-selection-length="{\AppConfig::performance('CHART_MULTI_FILTER_LIMIT')}">
 					<option></option>
 					{foreach from=$ALLFILTERS item=FILTERS key=FILTERGROUP}
 						<optgroup label="{\App\Language::translate($FILTERGROUP,$SELECTED_MODULE)}">
@@ -89,13 +100,15 @@
 		</tr>
 	{elseif $WIZARD_STEP eq 'step3'}
 		<tr class="step3">
-			<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_GROUP_FIELD','Home')}</td>
+			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
+				<span class="redColor">*</span>{\App\Language::translate('LBL_GROUP_FIELD','Home')}</td>
 			<td class="fieldValue">
-				<select class="form-control groupField" name="groupField" size="2" >
+				<select class="form-control groupField" name="groupField" size="2">
 					{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
 						<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
 							{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
-								<option value="{$FIELD_NAME}" data-field-type="{$FIELD->getFieldDataType()}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+								<option value="{$FIELD_NAME}"
+										data-field-type="{$FIELD->getFieldDataType()}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
 							{/foreach}
 						</optgroup>
 					{/foreach}
@@ -104,7 +117,9 @@
 		</tr>
 		{if $VALUE_TYPE!=='count'}
 		<tr class="step3">
-			<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_FIELD','Home')}</td>
+			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
+        <span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_FIELD','Home')}
+      </td>
 			<td class="fieldValue">
 				<select class="form-control saveParam valueField" name="valueField" size="2" data-validation-engine="validate[ required]">
 					{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
@@ -123,7 +138,8 @@
 	{elseif $WIZARD_STEP eq 'step4'}
 		{if $CHART_TYPE == 'Funnel'  && in_array($GROUP_FIELD_MODEL->getFieldDataType(),['currency', 'double', 'percentage', 'integer'])}
 			<tr class="step4">
-				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_GROUP_VALUES','Home')}</td>
+				<td class="fieldLabel alignMiddle textAlignCenter"
+					nowrap>{\App\Language::translate('LBL_GROUP_VALUES','Home')}</td>
 				<td class="fieldValue">
 					<select class="form-control select tags saveParam" multiple name="sectorField" size="2"></select>
 				</td>
@@ -131,10 +147,11 @@
 		{/if}
 		{if in_array($CHART_TYPE,['Bar','Line','Pie','Axis','LinePlain','Donut','Horizontal']) && count($FILTERS)<=1}
 			<tr class="step4">
-				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_DIVIDING_FIELD','Home')}</td>
+				<td class="fieldLabel alignMiddle textAlignCenter"
+					nowrap>{\App\Language::translate('LBL_DIVIDING_FIELD','Home')}</td>
 				<td class="fieldValue">
-					<select class="form-control saveParam" name="dividingField" size="2" >
-						<option>{\App\Language::translate('--None--')}</option>
+					<select class="form-control saveParam" name="dividingField" size="2">
+						<option value="0">{\App\Language::translate('--None--')}</option>
 						{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
 							<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
 								{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
@@ -151,7 +168,8 @@
 					{\App\Language::translate('LBL_COLORS_FROM_DIVIDING_FIELD','Home')}
 				</td>
 				<td class="fieldValue">
-					<input type="checkbox" class="form-control saveParam" name="colorsFromDividingField" value="1" checked>
+					<input type="checkbox" class="form-control saveParam" name="colorsFromDividingField" value="1"
+						   checked>
 				</td>
 			</tr>
 		{/if}
@@ -167,17 +185,19 @@
 		{/if}
 		{if count($FILTERS)>1}
 			<tr class="step4">
-				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_CHART_COLORS_FROM_FILTER','Home')}</td>
+				<td class="fieldLabel alignMiddle textAlignCenter"
+					nowrap>{\App\Language::translate('LBL_CHART_COLORS_FROM_FILTER','Home')}</td>
 				<td class="fieldValue">
 					<input type="checkbox" class="form-control saveParam" name="colorsFromFilter" value="1" checked>
 				</td>
 			</tr>
 		{/if}
 		<tr class="step4">
-			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_ADDITIONAL_FILTERS','Home')}</td>
+			<td class="fieldLabel alignMiddle textAlignCenter"
+				nowrap>{\App\Language::translate('LBL_ADDITIONAL_FILTERS','Home')}</td>
 			<td class="fieldValue">
-				<select class="form-control saveParam" name="additionalFiltersFields" size="2" multiple data-maximum-selection-length="{\AppConfig::performance('CHART_ADDITIONAL_FILTERS_LIMIT')}">
-					<option value="-">{\App\Language::translate('--None--')}</option>
+				<select class="form-control saveParam" name="additionalFiltersFields" size="2" multiple
+						data-maximum-selection-length="{\AppConfig::performance('CHART_ADDITIONAL_FILTERS_LIMIT')}">
 					{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
 						<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
 							{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
@@ -190,4 +210,5 @@
 			</td>
 		</tr>
 	{/if}
+	<!-- /tpl-dashboards-ChartFilter -->
 {/strip}
