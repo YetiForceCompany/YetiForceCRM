@@ -33,7 +33,7 @@ $.Class("Base_TreeModal_JS", {}, {
 			plugins.push('checkbox');
 		}
 		plugins.push('search');
-		let params = {
+		this.tree.jstree($.extend(true, {
 			core: {
 				data: JSON.parse(this.container.find('.js-tree-value').val()),
 				themes: {
@@ -45,9 +45,7 @@ $.Class("Base_TreeModal_JS", {}, {
 				three_state: false,
 			},
 			plugins: plugins
-		};
-		params = $.extend(true, params, this.tree.data('params'));
-		this.tree.jstree(params)
+		}, this.tree.data('params')))
 	},
 	/**
 	 * Register select events
