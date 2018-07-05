@@ -33,7 +33,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 			if (thisInstance.getRelationType() == '1') {
 				plugins.push("edit");
 			}
-			let params = {
+			thisInstance.treeInstance.jstree($.extend(true, {
 				core: {
 					data: thisInstance.getRecords(),
 					themes: {
@@ -45,9 +45,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 					three_state: false,
 				},
 				plugins: plugins
-			};
-			params = $.extend(true, params, this.tree.data('params'));
-			thisInstance.treeInstance.jstree(params);
+			}, this.tree.data('params')));
 		}
 	},
 	isActiveCategory: function () {
