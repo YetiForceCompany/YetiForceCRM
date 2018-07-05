@@ -11,7 +11,7 @@
 			<input type="hidden" name="module_name" value="{$PDF_MODEL->get('module_name')}" />
 			<div class="padding1per stepBorder">
 				<label>
-					<strong>{\App\Language::translate('LBL_STEP_N',$QUALIFIED_MODULE, 3)|replace:'%d':'3'}: {\App\Language::translate('LBL_HEADER_DETAILS',$QUALIFIED_MODULE)}</strong>
+					<strong>{\App\Language::translateArgs('LBL_STEP_N',$QUALIFIED_MODULE, 3)}: {\App\Language::translate('LBL_HEADER_DETAILS',$QUALIFIED_MODULE)}</strong>
 				</label>
 				<br />
 				<div class="row">
