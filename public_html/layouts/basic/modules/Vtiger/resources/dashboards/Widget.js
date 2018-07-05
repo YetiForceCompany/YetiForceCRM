@@ -82,7 +82,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		scales: {
 			formatAxesLabels: function formatAxesLabels(value, index, values) {
 				if (String(value).length > 0 && !isNaN(Number(value))) {
-					return app.parseNumberToShow(value).replace(CONFIG.currencyDecimalSeparator, app.getDecodedValue(CONFIG.currencyDecimalSeparator));
+					return app.parseNumberToShow(value);
 				}
 				return value;
 			},
@@ -97,8 +97,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			},
 			formatter: function datalabelsFormatter(value, context) {
 				if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
-					let val = app.parseNumberToShow(value);
-					return val.substr(0, val.indexOf(CONFIG.currencyDecimalSeparator));
+					return app.parseNumberToShow(value, 0);
 				}
 				if (
 					typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== "undefined" &&
@@ -108,7 +107,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 					return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
 				}
 				if (String(value).length > 0 && isNaN(Number(value))) {
-					return app.parseNumberToShow(value).replace(CONFIG.currencyDecimalSeparator, app.getDecodedValue(CONFIG.currencyDecimalSeparator));
+					return app.parseNumberToShow(value);
 				}
 				return value;
 			}
@@ -125,10 +124,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 				// if there is no formatted data so try to format it
 				if (String(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]).length > 0 && !isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]))) {
 					if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
-						let val = app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
-						return val.substr(0, val.indexOf(CONFIG.currencyDecimalSeparator));
+						return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index], 0);
 					}
-					return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]).replace(CONFIG.currencyDecimalSeparator, app.getDecodedValue(CONFIG.currencyDecimalSeparator));
+					return app.parseNumberToShow(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
 				}
 				// return raw data at idex
 				return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
@@ -142,10 +140,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 				// if there is no formatted title so try to format it
 				if (String(data.labels[tooltipItem.index]).length > 0 && !isNaN(Number(data.labels[tooltipItem.index]))) {
 					if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
-						let val = app.parseNumberToShow(data.labels[tooltipItem.index]);
-						return val.substr(0, val.indexOf(CONFIG.currencyDecimalSeparator));
+						return app.parseNumberToShow(data.labels[tooltipItem.index], 0);
 					}
-					return app.parseNumberToShow(data.labels[tooltipItem.index]).replace(CONFIG.currencyDecimalSeparator, app.getDecodedValue(CONFIG.currencyDecimalSeparator));
+					return app.parseNumberToShow(data.labels[tooltipItem.index]);
 				}
 				// return label at index
 				return data.labels[tooltipItem.index];
@@ -1855,20 +1852,18 @@ jQuery.Class('Vtiger_Widget_Js', {
 					let defaultLabel = data.labels[index];
 					if (String(defaultLabel).length > 0 && !isNaN(Number(defaultLabel))) {
 						if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
-							let val = app.parseNumberToShow(defaultLabel);
-							defaultLabel = val.substr(0, val.indexOf(CONFIG.currencyDecimalSeparator));
-						}else {
-							defaultLabel = app.parseNumberToShow(defaultLabel).replace(CONFIG.currencyDecimalSeparator, app.getDecodedValue(CONFIG.currencyDecimalSeparator));
+							defaultLabel = app.parseNumberToShow(defaultLabel, 0);
+						} else {
+							defaultLabel = app.parseNumberToShow(defaultLabel);
 						}
 					}
 					if (typeof dataset.label !== "undefined") {
 						let label = dataset.label;
 						if (String(label).length > 0 && !isNaN(Number(label))) {
 							if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
-								let val = app.parseNumberToShow(label);
-								label = val.substr(0, val.indexOf(CONFIG.currencyDecimalSeparator));
-							}else {
-								label = app.parseNumberToShow(label).replace(CONFIG.currencyDecimalSeparator,app.getDecodedValue(CONFIG.currencyDecimalSeparator));
+								label = app.parseNumberToShow(label, 0);
+							} else {
+								label = app.parseNumberToShow(label);
 							}
 						}
 						defaultLabel += ' (' + label + ')';
@@ -1894,10 +1889,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 					let dataFormatted = dataItem;
 					if (String(dataItem).length > 0 && !isNaN(Number(dataItem))) {
 						if (typeof this.widgetData !== 'undefined' && typeof this.widgetData.valueType !== 'undefined' && this.widgetData.valueType === 'count') {
-							let val = app.parseNumberToShow(dataItem);
-							dataFormatted = val.substr(0, val.indexOf(CONFIG.currencyDecimalSeparator));
-						}else {
-							dataFormatted = app.parseNumberToShow(dataItem).replace(CONFIG.currencyDecimalSeparator, app.getDecodedValue(CONFIG.currencyDecimalSeparator));
+							dataFormatted = app.parseNumberToShow(dataItem, 0);
+						} else {
+							dataFormatted = app.parseNumberToShow(dataItem);
 						}
 					}
 					dataset.dataFormatted.push(dataFormatted);
