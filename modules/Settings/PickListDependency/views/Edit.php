@@ -66,8 +66,7 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('NON_MAPPED_SOURCE_VALUES', $nonMappedSourceValues);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
 		$viewer->assign('RECORD_MODEL', $recordModel);
-
-		return $viewer->view('DependencyGraph.tpl', $qualifiedName, true);
+		$viewer->view('DependencyGraph.tpl', $qualifiedName);
 	}
 
 	/**

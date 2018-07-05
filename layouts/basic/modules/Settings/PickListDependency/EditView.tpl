@@ -84,7 +84,7 @@
 						<strong>{\App\Language::translate('LBL_ERR_CYCLIC_DEPENDENCY', $QUALIFIED_MODULE)}</strong>
 					</div>
 				</div>
-				<div id="dependencyGraph my-3">
+				<div id="dependencyGraph" class="my-3">
 					{if $DEPENDENCY_GRAPH}
 						{include file=\App\Layout::getTemplatePath('DependencyGraph.tpl', $QUALIFIED_MODULE)}
 					{/if}
