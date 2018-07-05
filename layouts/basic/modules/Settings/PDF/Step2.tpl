@@ -11,7 +11,7 @@
 
 			<div class="padding1per stepBorder">
 				<label>
-					<strong>{\App\Language::translate('LBL_STEP_N',$QUALIFIED_MODULE, 2)|replace:'%d':'2'}: {\App\Language::translate('LBL_DOCUMENT_SETTINGS_DETAILS',$QUALIFIED_MODULE)}</strong>
+					<strong>{\App\Language::translateArgs('LBL_STEP_N',$QUALIFIED_MODULE, 2)}: {\App\Language::translate('LBL_DOCUMENT_SETTINGS_DETAILS',$QUALIFIED_MODULE)}</strong>
 				</label>
 				<br />
 				<div class="form-group">
