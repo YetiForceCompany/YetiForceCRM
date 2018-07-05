@@ -58,8 +58,8 @@
 		<input type="hidden" class="allSourceValues"
 			   value='{\App\Purifier::encodeHtml(\App\Json::encode($SOURCE_PICKLIST_VALUES))}'/>
 		<div class="row depandencyTable m-0">
-			<div class="col-md-2 col-sm-2 col-2 pr-0">
-				<table class="table-sm themeTableColor" width="100%">
+			<div class="col-md-2 col-sm-2 col-2 pr-0 table-responsive">
+				<table class="table table-sm themeTableColor" width="100%">
 					<thead>
 					<tr class="blockHeader">
 						<th>{$RECORD_MODEL->getSourceFieldLabel()}</th>
@@ -78,8 +78,8 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="col-md-10 col-sm-10 col-10 px-0 ml-0 dependencyMapping">
-				<table class="table-bordered table-sm themeTableColor pickListDependencyTable">
+			<div class="col-md-10 col-sm-10 col-10 px-0 ml-0 dependencyMapping table-responsive">
+				<table class="table-bordered table-sm table themeTableColor pickListDependencyTable">
 					<thead>
 						<tr class="blockHeader">
 							{foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
@@ -105,9 +105,6 @@
 									data-target-value='{\App\Purifier::encodeHtml($TARGET_VALUE)}'
 									class="{if $IS_SELECTED}selectedCell {else}unselectedCell {/if} targetValue picklistValueMapping u-cursor-pointer"
 									{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))}style="display: none;" {/if}>
-									{if $IS_SELECTED}
-										<i class="fas fa-check float-left"></i>
-									{/if}
 									{\App\Language::translate($TARGET_VALUE, $SELECTED_MODULE)}
 								</td>
 							{/foreach}
