@@ -47,8 +47,8 @@ class Calendar_QuickCreateEvents_View extends Vtiger_IndexAjax_View
 		$record = Calendar_Calendar_Model::getCleanInstance();
 		$record->set('user', $request->getInteger('user'));
 		$record->set('time', 'current');
-		$record->set('start', reset($dates) . ' 00:00:00');
-		$record->set('end', end($dates) . ' 23:59:59');
+		$record->set('start', \App\Fields\Date::formatToDisplay(reset($dates)) . ' 00:00:00');
+		$record->set('end', \App\Fields\Date::formatToDisplay(end($dates)) . ' 23:59:59');
 		$events = $record->getEntity();
 		$records = [];
 		foreach ($events as $event) {

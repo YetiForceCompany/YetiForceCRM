@@ -219,7 +219,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	{
 		$cbrecord = $this->getId();
 		if (!empty($cbrecord)) {
-			$cbdate = \App\Fields\Date::formatToDb($this->get('date_start'));
+			$cbdate = $this->get('date_start');
 			$cbtime = $this->get('time_start');
 			$reminderid = (new \App\Db\Query())->select(['reminderid'])->from('vtiger_activity_reminder_popup')
 				->where(['recordid' => $cbrecord])
