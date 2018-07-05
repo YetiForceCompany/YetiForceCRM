@@ -13,7 +13,7 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<form class="form-horizontal" method="post" action="javascript:;">
+					<form class="form-horizontal validateForm" method="post" action="javascript:;">
 						<div class="modal-body">
 							<input type="hidden" name="module" value="{$MODULE}" />
 							<input type="hidden" name="action" value="MassSave" />
@@ -106,7 +106,7 @@
 		<tr class="step3">
 			<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_FIELD','Home')}</td>
 			<td class="fieldValue">
-				<select class="form-control saveParam valueField" name="valueField" size="2" >
+				<select class="form-control saveParam valueField" name="valueField" size="2" data-validation-engine="validate[ required]">
 					{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
 						<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
 							{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
