@@ -14,29 +14,28 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<form class="form-horizontal" method="post" action="javascript:;">
+					<form class="form-horizontal validateForm" method="post" action="javascript:;">
 						<div class="modal-body">
 							<input type="hidden" name="module" value="{$MODULE}"/>
 							<input type="hidden" name="action" value="MassSave"/>
 							<input type="hidden" id="widgetStep" value=""/>
 							<table class="table table-bordered">
 								<tbody>
-								<tr>
-									<td class="fieldLabel alignMiddle textAlignCenter"
-										nowrap>{\App\Language::translate('LBL_WIDGET_NAME','Home')}</td>
-									<td class="fieldValue">
-										<input type="text" class="form-control" name="widgetTitle" value="">
-									</td>
-								</tr>
-								<tr>
-									<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span
-												class="redColor">*</span>{\App\Language::translate('LBL_SELECT_CHART','Home')}
-									</td>
-									<td class="fieldValue">
-										<div class="input-group">
-											<select class="form-control select2" name="chartType">
-												{foreach from=$CHART_TYPES item=TYPE key=VALUE}
-													<option value="{$VALUE}">{\App\Language::translate($TYPE, $MODULE)}</option>
+									<tr>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_WIDGET_NAME','Home')}</td>
+										<td class="fieldValue">
+											<input type="text" class="form-control" name="widgetTitle" value="">
+										</td>
+									</tr>
+									<tr>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
+                      <span class="redColor">*</span>{\App\Language::translate('LBL_SELECT_CHART','Home')}
+                    </td>
+										<td class="fieldValue">
+											<div class="input-group">
+												<select class="form-control select2" name="chartType">
+													{foreach from=$CHART_TYPES item=TYPE key=VALUE}
+														<option value="{$VALUE}">{\App\Language::translate($TYPE, $MODULE)}</option>
 												{/foreach}
 											</select>
 										</div>
@@ -117,24 +116,24 @@
 			</td>
 		</tr>
 		{if $VALUE_TYPE!=='count'}
-			<tr class="step3">
-				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
-					<span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_FIELD','Home')}</td>
-				<td class="fieldValue">
-					<select class="form-control saveParam valueField" name="valueField" size="2">
-						{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
-							<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
-								{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
-									{if in_array($FIELD->getFieldDataType(),['currency', 'double', 'percentage', 'integer'])}
-										<option value="{$FIELD_NAME}"
-												data-field-type="{$FIELD->getFieldDataType()}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
-									{/if}
-								{/foreach}
-							</optgroup>
-						{/foreach}
-					</select>
-				</td>
-			</tr>
+		<tr class="step3">
+			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
+        <span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_FIELD','Home')}
+      </td>
+			<td class="fieldValue">
+				<select class="form-control saveParam valueField" name="valueField" size="2" data-validation-engine="validate[ required]">
+					{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
+						<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
+							{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
+								{if in_array($FIELD->getFieldDataType(),['currency', 'double', 'percentage', 'integer'])}
+									<option value="{$FIELD_NAME}" data-field-type="{$FIELD->getFieldDataType()}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+								{/if}
+							{/foreach}
+						</optgroup>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
 		{/if}
 	{elseif $WIZARD_STEP eq 'step4'}
 		{if $CHART_TYPE == 'Funnel'  && in_array($GROUP_FIELD_MODEL->getFieldDataType(),['currency', 'double', 'percentage', 'integer'])}

@@ -391,6 +391,7 @@ $.Class("Vtiger_DashBoard_Js", {
 										wizardContainer.find('#widgetStep').val(4);
 										var step4 = wizardContainer.find('.step4');
 										App.Fields.Picklist.showSelect2ElementView(step4.find('select'));
+										app.registerModalEvents(wizardContainer);
 									});
 								});
 							});
@@ -399,25 +400,34 @@ $.Class("Vtiger_DashBoard_Js", {
 				});
 				form.on('submit', function (e) {
 					e.preventDefault();
-					const selectedModule = moduleNameSelect2.val();
-					const selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-					let selectedFiltersId = form.find('.filtersId').val();
-					if (Array.isArray(selectedFiltersId)) {
-						selectedFiltersId = selectedFiltersId.join(',');
+					let save = true;
+					e.preventDefault();
+					if (form.data('jqv').InvalidFields.length > 0) {
+						app.formAlignmentAfterValidation(form);
+						save = false;
 					}
-					const selectedFieldLabel = form.find('.groupField').find(':selected').text();
-					const data = {
-						module: selectedModule,
-						groupField: form.find('.groupField').val(),
-						chartType: chartType.val(),
-					};
-					form.find('.saveParam').each(function (index, element) {
-						element = $(element);
-						if (!(element.is('input') && element.prop('type') === 'checkbox' && !element.prop('checked'))) {
-							data[element.attr('name')] = element.val();
+					if (save) {
+						const selectedModule = moduleNameSelect2.val();
+						const selectedModuleLabel = moduleNameSelect2.find(':selected').text();
+						let selectedFiltersId = form.find('.filtersId').val();
+						if (Array.isArray(selectedFiltersId)) {
+							selectedFiltersId = selectedFiltersId.join(',');
 						}
-					});
-					thisInstance.saveChartFilterWidget(data, element, selectedModuleLabel, selectedFiltersId, '', selectedFieldLabel, form);
+						const selectedFilterLabel = form.find('.filterId').find(':selected').text();
+						const selectedFieldLabel = form.find('.groupField').find(':selected').text();
+						const data = {
+							module: selectedModule,
+							groupField: form.find('.groupField').val(),
+							chartType: chartType.val(),
+						};
+						form.find('.saveParam').each(function (index, element) {
+							element = $(element);
+							if (!(element.is('input') && element.prop('type') === 'checkbox' && !element.prop('checked'))) {
+								data[element.attr('name')] = element.val();
+							}
+						});
+						thisInstance.saveChartFilterWidget(data, element, selectedModuleLabel, selectedFiltersId, '', selectedFieldLabel, form);
+					}
 				});
 			});
 		});
