@@ -36,9 +36,7 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 			$viewer->assign('ADDITIONAL_FILTER_FIELD_VALUE', $additionalFilterFieldsValues);
 			$chartFilterWidgetModel->set('additionalFiltersFieldsSearch', $additionalFilterFieldsValues);
 		}
-		$chartData = $chartFilterWidgetModel->getChartData();
-		$chartData['valueType'] = $chartFilterWidgetModel->getValueType();
-		$viewer->assign('CHART_DATA', $chartData);
+		$viewer->assign('CHART_DATA', $chartFilterWidgetModel->getChartData());
 		if ($owners = $chartFilterWidgetModel->getRowsOwners()) {
 			$viewer->assign('CHART_OWNERS', $owners);
 		}

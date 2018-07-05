@@ -470,6 +470,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if ($this->isSingleColored()) {
 			$this->buildSingleColors($chartData);
 		}
+		$chartData['valueType'] = $this->getValueType();
 		return $chartData;
 	}
 
