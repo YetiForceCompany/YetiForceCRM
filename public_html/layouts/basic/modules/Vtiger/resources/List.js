@@ -1957,7 +1957,6 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 	},
 	registerListScroll: function (container) {
-		console.log(container);
 		if (CONFIG.view !== 'ListPreview') {
 			container.height($(window).height() - (container.offset().top + $('.js-footer').height()));
 			app.showNewScrollbarAllSides(container);
