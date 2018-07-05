@@ -787,20 +787,6 @@ app = {
 			options.height = element.css('height');
 		return element.slimScroll(options);
 	},
-	showHorizontalScrollBar: function (element, options) {
-		if (typeof options === "undefined")
-			options = {};
-		var params = {
-			horizontalScroll: true,
-			theme: "dark-thick",
-			advanced: {
-				autoExpandHorizontalScroll: true
-			}
-		}
-		if (typeof options !== "undefined")
-			var params = $.extend(params, options);
-		return element.mCustomScrollbar(params);
-	},
 	/**
 	 * Function returns translated string
 	 */
