@@ -470,7 +470,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if ($this->isSingleColored()) {
 			$this->buildSingleColors($chartData);
 		}
-		$chartData['valueType'] = $this->getValueType();
+		$chartData['valueType'] = $this->valueType;
 		return $chartData;
 	}
 
@@ -1142,16 +1142,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	protected function getValue($valueType, $groupValue, $dividingValue)
 	{
 		return isset($this->data[$dividingValue][$groupValue][$valueType]) ? $this->data[$dividingValue][$groupValue][$valueType] : 0;
-	}
-
-	/**
-	 * Get value type of the chart.
-	 *
-	 * @return string
-	 */
-	public function getValueType()
-	{
-		return $this->valueType;
 	}
 
 	/**
