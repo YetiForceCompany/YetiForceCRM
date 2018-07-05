@@ -43,7 +43,8 @@
 				<button class="btn sourceValues btn-light mr-2" type="button">
 					<strong>
 						<span class="fas fa-hand-point-up mr-1"></span>
-						{\App\Language::translate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}</strong>
+						{\App\Language::translate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}
+					</strong>
 				</button>
 				<button class="btn unmarkAll btn-light" type="button">
 					<strong>
@@ -78,7 +79,7 @@
 					{foreach item=TARGET_VALUE from=$TARGET_PICKLIST_VALUES name=targetValuesLoop}
 						{if $smarty.foreach.targetValuesLoop.index eq 0}
 							<tr>
-								<td class="text-center h3">
+								<td class="text-center h5">
 									{$RECORD_MODEL->getTargetFieldLabel()}
 								</td>
 							</tr>
