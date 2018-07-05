@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class="tpl-Settings-PickListDependency-EditView">
-		<div class="widget_header form-row mb-5">
+		<div class="widget_header row mb-3">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
@@ -24,7 +24,7 @@
 					<input type="hidden" name="sourceField" value="{$RECORD_MODEL->get('sourcefield')}"/>
 					<input type="hidden" name="targetField" value="{$RECORD_MODEL->get('targetfield')}"/>
 				{/if}
-				<div class="col-md-4 d-flex">
+				<div class="col-md-4 d-flex mb-2 mb-md-0">
 					<label class="muted u-text-small-bold u-white-space-nowrap mr-2 my-auto">{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
 					<div class="w-100">
 						<select name="sourceModule"
@@ -43,7 +43,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="col-md-4 d-flex">
+				<div class="col-md-4 d-flex mb-2 mb-md-0">
 					<label class="muted u-text-small-bold u-white-space-nowrap mr-2 my-auto">{\App\Language::translate('LBL_SOURCE_FIELD', $QUALIFIED_MODULE)}</label>
 					<div class="w-100">
 						<select id="sourceField" name="sourceField" class="select2 form-control"
@@ -56,7 +56,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="col-md-4 d-flex">
+				<div class="col-md-4 d-flex mb-2 mb-md-0">
 					<label class="muted u-text-small-bold u-white-space-nowrap mr-2 my-auto">{\App\Language::translate('LBL_TARGET_FIELD', $QUALIFIED_MODULE)}</label>
 					<div class="w-100">
 						<select id="targetField" name="targetField" class="select2 form-control"
@@ -74,7 +74,7 @@
 						<strong>{\App\Language::translate('LBL_ERR_CYCLIC_DEPENDENCY', $QUALIFIED_MODULE)}</strong>
 					</div>
 				</div>
-				<div id="dependencyGraph" class="my-3">
+				<div id="dependencyGraph" class="my-3 w-100">
 					{if $DEPENDENCY_GRAPH}
 						{include file=\App\Layout::getTemplatePath('DependencyGraph.tpl', $QUALIFIED_MODULE)}
 					{/if}
