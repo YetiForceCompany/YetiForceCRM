@@ -581,6 +581,7 @@ App.Fields = {
 					url: selectElement.data('ajaxUrl'),
 					dataType: 'json',
 					delay: 250,
+					method: 'POST',
 					data: function (params) {
 						return {
 							value: params.term, // search term
