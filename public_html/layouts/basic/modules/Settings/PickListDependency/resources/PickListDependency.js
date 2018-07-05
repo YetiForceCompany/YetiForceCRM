@@ -428,7 +428,6 @@ jQuery.Class('Settings_PickListDependency_Js', {
 				mappingCells.show();
 			}
 		}
-		//dependencyGraph.find('.dependencyMapping').mCustomScrollbar("update");
 	},
 	/**
 	 * This function will save the picklist dependency details
