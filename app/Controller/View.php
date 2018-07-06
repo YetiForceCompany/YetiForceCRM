@@ -570,7 +570,7 @@ abstract class View extends Base
 					 'currencyCode' => $userModel->getDetail('currency_code'),
 					 'currencySymbol' => $userModel->getDetail('currency_symbol'),
 					 'currencyGroupingPattern' => $userModel->getDetail('currency_grouping_pattern'),
-					 'currencyDecimalSeparator' => $userModel->getDetail('currency_decimal_separator'),
+					 'currencyDecimalSeparator' => \App\purifier::decodeHtml($userModel->getDetail('currency_decimal_separator')),
 					 'currencyGroupingSeparator' => $userModel->getDetail('currency_grouping_separator'),
 					 'currencySymbolPlacement' => $userModel->getDetail('currency_symbol_placement'),
 					 'noOfCurrencyDecimals' => (int) $userModel->getDetail('no_of_currency_decimals'),
