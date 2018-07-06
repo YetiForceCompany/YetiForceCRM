@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <div class="tpl-GeneralInfoContent  c-detail-widget__content">
-	<div class="table-responsive">
+	<div class="table-responsive-sm">
 		<table class="c-detail-widget__table">
 			<tbody>
 				{foreach item=FIELD_MODEL key=FIELD_NAME from=$SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS']}
