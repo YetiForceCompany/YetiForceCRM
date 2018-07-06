@@ -52,4 +52,25 @@ class Version
 
 		return version_compare($version, static::$versions[$type], $condition);
 	}
+
+	/**
+	 * Compares two version number strings.
+	 *
+	 * @param string $v1
+	 * @param string $v2
+	 * @param string $operator
+	 *
+	 * @return mixed
+	 */
+	public static function compare($v1, $v2, $operator = '==')
+	{
+		if (substr($v2, -1) === 'x') {
+			$ev2=\explode('.', $v2);
+			\array_pop($ev2);
+			$lv2 = \count($ev2);
+			$v2 = \implode('.', $ev2);
+			$v1 = \implode('.', array_slice(\explode('.', $v1), 0, $lv2));
+		}
+		return version_compare($v1, $v2, $operator);
+	}
 }

@@ -513,7 +513,7 @@ class TextParser
 		if (!isset($this->recordModel) || ($isPermitted && !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record))) {
 			return '';
 		}
-		list($key, $params) = explode('|', $params, 2);
+		list($key, $params) = array_pad(explode('|', $params, 2), 2, false);
 		if ($this->recordModel->has($key)) {
 			$fieldModel = $this->recordModel->getModule()->getField($key);
 			if (!$fieldModel || !$this->useValue($fieldModel, $this->moduleName)) {
@@ -904,23 +904,27 @@ class TextParser
 	/**
 	 * Get last comments.
 	 *
-	 * @param int|bool $limit
+	 * @param mixed $params
 	 *
 	 * @return string
 	 */
-	protected function getComments($limit = false)
+	protected function getComments($params = false)
 	{
-		$query = (new \App\Db\Query())->select(['commentcontent'])->from('vtiger_modcomments')->where(['related_to' => $this->record])->orderBy(['modcommentsid' => SORT_DESC]);
+		list($limit, $showAuthor) = array_pad(explode('|', $params, 2), 2, false);
+		$query = (new \App\Db\Query())->select(['commentcontent', 'userid'])->from('vtiger_modcomments')->where(['related_to' => $this->record])->orderBy(['modcommentsid' => SORT_DESC]);
 		if ($limit) {
 			$query->limit($limit);
 		}
 		$commentsList = '';
-		foreach ($query->column() as $comment) {
-			if ($comment != '') {
-				$commentsList .= '<br /><br />' . nl2br($comment);
+		foreach ($query->all() as $comment) {
+			if ($comment['commentcontent'] != '') {
+				$commentsList .= '<br /><br />';
+				if ($showAuthor === 'true') {
+					$commentsList .= Purifier::encodeHtml(\App\Fields\Owner::getUserLabel($comment['userid'])) . ': ';
+				}
+				$commentsList .= nl2br($comment['commentcontent']);
 			}
 		}
-
 		return ltrim($commentsList, '<br /><br />');
 	}
 

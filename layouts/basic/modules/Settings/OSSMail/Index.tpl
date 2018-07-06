@@ -68,7 +68,7 @@
 					{/foreach}
 
 				</div>
-				<div class="formActionsPanel">
+				<div class="c-form__action-panel">
 					<button class="btn btn-success saveButton" type="submit" title=""><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
 				</div>
 		</div>

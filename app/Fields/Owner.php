@@ -632,7 +632,6 @@ class Owner
 			self::$userLabelCache[$uid] = $user['fullName'];
 			self::$ownerLabelCache[$uid] = $user['fullName'];
 		}
-
 		return isset($users[$id]) ? $users[$id]['fullName'] : false;
 	}
 

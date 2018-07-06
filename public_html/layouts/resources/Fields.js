@@ -338,6 +338,7 @@ App.Fields = {
 				this.setElement(element);
 				const instance = this.getEditorInstanceFromName();
 				let config = {
+					language: CONFIG.langKey,
 					allowedContent: true,
 					removeButtons: '',
 					scayt_autoStartup: false,
@@ -581,6 +582,7 @@ App.Fields = {
 					url: selectElement.data('ajaxUrl'),
 					dataType: 'json',
 					delay: 250,
+					method: 'POST',
 					data: function (params) {
 						return {
 							value: params.term, // search term

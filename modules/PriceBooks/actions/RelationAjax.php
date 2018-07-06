@@ -50,18 +50,17 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
-		$relatedModule = $request->getByType('related_module');
+		$relatedModule = $request->getByType('related_module', 2);
 		if (is_numeric($relatedModule)) {
 			$relatedModule = \App\Module::getModuleName($relatedModule);
 		}
-		$relatedRecordIdList = $request->getArray('related_record_list', 'Integer');
 		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-		foreach ($relatedRecordIdList as $relatedRecordId) {
+		foreach ($request->getArray('related_record_list', 'Integer') as $relatedRecordId) {
 			if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {
 				$relationModel->addRelation($sourceRecordId, $relatedRecordId);
 			}

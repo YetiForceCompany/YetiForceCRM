@@ -88,7 +88,7 @@
 			{/if}
 			<li class="page-item text-muted">
 				<a class="page-link pageNumbersText">
-					<span class="js-popover-tooltip d-block d-sm-none" tabindex="0" data-trigger="focus click hover"
+					<span class="js-popover-tooltip d-block d-sm-none" tabindex="0" data-trigger="focus"
 						  data-js="popover" data-placement="top"
 						  data-content="{$PAGING_MODEL->getRecordStartRange()} {\App\Language::translate('LBL_TO_LC')} {$PAGING_MODEL->getRecordEndRange()}
 					{if $LISTVIEW_COUNT} ({$LISTVIEW_COUNT}){/if}">

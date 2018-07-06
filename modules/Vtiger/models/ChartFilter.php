@@ -470,6 +470,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if ($this->isSingleColored()) {
 			$this->buildSingleColors($chartData);
 		}
+		$chartData['valueType'] = $this->valueType;
 		return $chartData;
 	}
 
@@ -732,6 +733,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition([$searchParams]);
 			$queryGenerator->parseAdvFilter($transformedSearchParams);
 		}
+
 		$query = $queryGenerator->createQuery();
 		// we want colors from picklists if available
 		$query = $this->addPicklistsToQuery($query);
@@ -782,8 +784,14 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			}
 		}
 		unset($group, $values);
+		$groupCalculate = $this->groupFieldModel->isCalculateField();
+		ksort($this->data, SORT_LOCALE_STRING);
 		foreach ($this->data as &$dividing) {
-			ksort($dividing);
+			if ($groupCalculate) {
+				ksort($dividing, SORT_NUMERIC);
+			} else {
+				ksort($dividing, SORT_LOCALE_STRING);
+			}
 			foreach ($dividing as &$group) {
 				ksort($group);
 			}

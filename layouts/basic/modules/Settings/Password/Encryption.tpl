@@ -67,8 +67,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="formActionsPanel">
-					<button type="submit" class="btn btn-xs btn-success"><span class="fas fa-check"></span>&nbsp;&nbsp;<strong>{App\Language::translate('LBL_SAVE')}</strong></button>
+				<div class="c-form__action-panel">
+					<button type="submit" class="btn btn-xs btn-success">
+						<span class="fas fa-check"></span><strong>{App\Language::translate('LBL_SAVE')}</strong>
+					</button>
 				</div>
 			</form>
 		</div>

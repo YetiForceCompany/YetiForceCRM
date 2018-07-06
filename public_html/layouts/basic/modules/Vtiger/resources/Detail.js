@@ -1573,7 +1573,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
 		if (selectedTabElement == undefined) {
-			var selectedTabElement = thisInstance.getSelectedTab();
+			selectedTabElement = thisInstance.getSelectedTab();
 		}
 		var relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModule);
 		relatedController.addRelations(relatedModuleRecordId).done(function (data) {

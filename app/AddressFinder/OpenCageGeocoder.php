@@ -42,7 +42,7 @@ class OpenCageGeocoder extends Base
 					'key' => $config['opencage_data']['key'],
 					'q' => $value,
 					'pretty' => 1,
-					'language' => \App\Language::getLanguageInIetf(),
+					'language' => \App\Language::getLanguageTag(),
 					'limit' => $config['global']['result_num']
 			]);
 			if (!$response->success) {

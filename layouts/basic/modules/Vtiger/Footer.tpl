@@ -19,19 +19,17 @@
 </div>
 </div>
 {if $SHOW_FOOTER}
-	<div class="clearfix"></div>
-	<input id="activityReminder" class="d-none noprint" type="hidden" value="{$ACTIVITY_REMINDER}" />
-	{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
-		<div class="infoUser">
-			{$USER_MODEL->getName()}&nbsp;(
-			{$USER_MODEL->get('email1')}&nbsp;
-			{if !empty({$USER_MODEL->get('phone_crm_extension')})}
-				,&nbsp; {$USER_MODEL->get('phone_crm_extension')}
-				{/if}
-				)
-			</div>
-		{/if}
-		<footer class="footerContainer fixed-bottom js-footer" data-js="height">
+	<input class="tpl-Footer d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}" />
+		<footer class="c-footer fixed-bottom js-footer {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active {/if}" data-js="height">
+			{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
+				<div class="js-footer__user-info c-footer__user-info">
+					<span class="mr-1"> {$USER_MODEL->getName()}</span>(
+					<span>{$USER_MODEL->get('email1')}</span>
+					{if !empty($USER_MODEL->get('phone_crm_extension'))}
+						,<span class="ml-1">{$USER_MODEL->get('phone_crm_extension')}</span>
+					{/if})
+				</div>
+			{/if}
 			<div class="container-fluid px-1">
 				<ul class="float-left pagination border-0">
 					<li class="page-item">
@@ -56,15 +54,15 @@
 						</a>
 					</li>
 				</ul>
-				<div class="float-right p-1">
+				<div class="float-right p-0">
 					<ul class="pagination">
 						<li class="page-item">
-							<a class="page-link-right mr-2" href="https://yetiforce.shop" rel="noreferrer">
+							<a class="page-link mr-2" href="https://yetiforce.shop" rel="noreferrer">
 								<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
 							</a>
 						</li>
 						<li class="page-item u-cursor-pointer">
-							<a data-toggle="modal" role="button" data-target="#yetiforceDetails">
+							<a class="page-link" data-toggle="modal" role="button" data-target="#yetiforceDetails">
 								<span class="fas fa-info-circle fa-2x" title="YetiForceCRM"></span>
 							</a>
 						</li>
@@ -76,7 +74,7 @@
 						{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 						{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
 						{assign var=FOOTOSP value= '<em><a class="u-text-underline" href="index.php?module=Vtiger&view=Credits&parent=Settings">open source project</a></em>'}
-						<p class="text-center">
+						<p class="text-center text-center {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}u-p-05per{/if}">
 							<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
 								<br/>{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger',$FOOTOSP)}</span>
 							<span class="d-inline d-sm-none text-center">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', $FOOTVRM ,$FOOTOSP)}</span>
@@ -100,9 +98,9 @@
 									aria-hidden="true">&times;</span></button>
 					</div>
 					<div class="modal-body">
-						<p class="text-center"><img
+						<p class="text-center"><img class="u-h-120px"
 									src="{App\Layout::getPublicUrl('layouts/resources/Logo/blue_yetiforce_logo.png')}"
-									title="YetiForceCRM" alt="YetiForceCRM" style="height: 120px;"/></p>
+									title="YetiForceCRM" alt="YetiForceCRM"/></p>
 						<p>Copyright © YetiForce.com All rights reserved.</p>
 						<p>The Program is provided AS IS, without warranty. Licensed under <a
 									href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt"
@@ -151,8 +149,9 @@
 						</ul>
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-warning" type="reset" data-dismiss="modal"><span
-									class="fa fa-times u-mr-5px"></span><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
+						<button class="btn btn-danger" type="reset" data-dismiss="modal">
+							<span class="fa fa-times u-mr-5px"></span>
+							<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 						</button>
 					</div>
 				</div>

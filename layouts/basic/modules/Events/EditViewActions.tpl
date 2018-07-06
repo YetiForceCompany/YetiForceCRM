@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="formActionsPanel d-flex justify-content-center">
+	<div class="tpl-EditViewActions c-form__action-panel d-flex justify-content-center">
 		<div class="btn-group-toggle mr-1" data-toggle="buttons">
 			<label class="btn c-btn-checkbox c-btn-outline-done js-btn--mark-as-completed" data-js="click">
 				<strong>

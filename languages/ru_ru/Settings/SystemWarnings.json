@@ -27,6 +27,8 @@
     "SystemWarnings": "\u0421\u0438\u0441\u0442\u0435\u043c\u043d\u044b\u0435 \u043f\u0440\u0435\u0434\u0443\u043f\u0440\u0435\u0436\u0434\u0435\u043d\u0438\u044f",
     "BTN_CONFIGURE_ENCRYPTION": "Activate encryption",
     "Security": "Security",
+    "LBL_VULNERABILITIES_IN_DEPENDENCIES": "Vulnerabilities in libraries",
+    "LBL_VULNERABILITIES_IN_DEPENDENCIES_DESC": "Vulnerabilities in libraries were detected, it is recommended to update them quickly. \r\n Vulnerabilities:",
     "LBL_MECHANISM_ENCRYPTION": "Encryption mechanism",
     "LBL_CONFIGURE_ENCRYPTION_DESCRIPTION": "No encryption causes that sensitive data such as passwords to mailboxes and access keys are stored in a public form in the database."
   }

@@ -38,7 +38,6 @@
 yarn-error.log
 /node_modules/
 /public_html/libraries/*
-!/public_html/libraries/js/
 
 # IDEs and editors
 /.buildpath
