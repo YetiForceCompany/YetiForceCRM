@@ -698,7 +698,7 @@ class Language
 	{
 		$original = explode(';', setlocale(LC_ALL, 0));
 		$defaultCharset = strtolower(\AppConfig::main('default_charset'));
-		setlocale(LC_ALL, static::getLanguageTag('_') . '.' . $defaultCharset, \AppConfig::main('default_language') . '.' . $defaultCharset, 'en_US.' . $defaultCharset);
+		setlocale(LC_ALL, static::getLanguageTag('_') . '.' . $defaultCharset, \AppConfig::main('default_language') . '.' . $defaultCharset, 'en_US.' . $defaultCharset, 'en_US.utf8');
 		foreach ($original as $localeSetting) {
 			if (strpos($localeSetting, '=') !== false) {
 				list($category, $locale) = explode('=', $localeSetting);
