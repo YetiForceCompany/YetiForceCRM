@@ -50,13 +50,15 @@
 }
 
 .c-btn-link {
-	&--responsive {
-		width: 100%;
-
-		.btn {
+	@include media-breakpoint-down(sm) {
+		&--responsive {
 			width: 100%;
-		}
+			margin-bottom: 0.25rem !important;
 
-		@extend .mb-1;
+			.btn {
+				width: 100%;
+				border-radius: 0.25rem !important;
+			}
+		}
 	}
 }

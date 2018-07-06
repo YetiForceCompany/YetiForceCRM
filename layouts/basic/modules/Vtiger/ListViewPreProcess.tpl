@@ -18,7 +18,7 @@
 				<div class="o-breadcrumb__container">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				</div>
-				<a class="btn btn-outline-dark d-sm-none my-auto o-breadcrumb__actions-btn js-breadcrumb__actions-btn" href="#" data-js="click" role="button"
+				<a class="btn btn-outline-dark d-md-none my-auto o-breadcrumb__actions-btn js-breadcrumb__actions-btn" href="#" data-js="click" role="button"
 				   aria-expanded="false" aria-controls="o-view-actions__container">
 							<span class="fas fa-ellipsis-h fa-fw"
 								  title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
@@ -26,7 +26,7 @@
 				<div class="my-auto o-breadcrumb__actions js-breadcrumb__actions">
 					<div id="o-view-actions__container" class="float-right btn-toolbar btn-group">
 						{foreach item=LINK from=$HEADER_LINKS['LIST_VIEW_HEADER']}
-							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewHeader' BREAKPOINT='sm' CLASS='c-btn-link--responsive'}
+							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewHeader' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
 						{/foreach}
 					</div>
 				</div>

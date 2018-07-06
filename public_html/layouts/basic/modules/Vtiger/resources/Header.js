@@ -525,7 +525,7 @@ $.Class("Vtiger_Header_Js", {
 		});
 	},
 	registerReminderNotice: function () {
-		var thisInstance = this;
+		var self = this;
 		$('#page').before(`<div class="remindersNoticeContainer" tabindex="-1" role="dialog" aria-label="${app.vtranslate('JS_REMINDER')}" aria-hidden="true"></div>`);
 		var block = $('.remindersNoticeContainer');
 		var remindersNotice = $('.remindersNotice');
@@ -533,15 +533,16 @@ $.Class("Vtiger_Header_Js", {
 			if (!remindersNotice.hasClass('autoRefreshing')) {
 				Vtiger_Index_Js.requestReminder();
 			}
-			thisInstance.hideActionMenu();
+			self.hideActionMenu();
+			self.hideBreadcrumbActionMenu()
 			block.toggleClass("toggled");
-			thisInstance.hideReminderNotification();
+			self.hideReminderNotification();
 			app.closeSidebar();
-			thisInstance.hideSearchMenu();
+			self.hideSearchMenu();
 		});
 	},
 	registerReminderNotification: function () {
-		var thisInstance = this;
+		var self = this;
 		$('#page').before('<div class="remindersNotificationContainer" tabindex="-1" role="dialog"></div>');
 		var block = $('.remindersNotificationContainer');
 		var remindersNotice = $('.notificationsNotice');
@@ -549,11 +550,12 @@ $.Class("Vtiger_Header_Js", {
 			if (!remindersNotice.hasClass('autoRefreshing')) {
 				Vtiger_Index_Js.getNotificationsForReminder();
 			}
-			thisInstance.hideActionMenu();
+			self.hideActionMenu();
+			self.hideBreadcrumbActionMenu();
 			block.toggleClass("toggled");
-			thisInstance.hideReminderNotice();
+			self.hideReminderNotice();
 			app.closeSidebar();
-			thisInstance.hideSearchMenu();
+			self.hideSearchMenu();
 		});
 	},
 	toggleBreadcrumActions(container) {
@@ -570,6 +572,7 @@ $.Class("Vtiger_Header_Js", {
 			container = this.getContentsContainer();
 		$('.rightHeaderBtnMenu').on('click', function () {
 			self.hideActionMenu();
+			self.hideBreadcrumbActionMenu();
 			self.hideSearchMenu();
 			self.hideReminderNotice();
 			self.hideReminderNotification();
@@ -578,6 +581,7 @@ $.Class("Vtiger_Header_Js", {
 		$('.js-quick-action-btn').on('click', function () {
 			let currentTarget = $(this);
 			app.closeSidebar();
+			self.hideBreadcrumbActionMenu();
 			self.hideSearchMenu();
 			self.hideReminderNotice();
 			self.hideReminderNotification();
@@ -599,6 +603,7 @@ $.Class("Vtiger_Header_Js", {
 			let currentTarget = $(this);
 			app.closeSidebar();
 			self.hideActionMenu();
+			self.hideBreadcrumbActionMenu();
 			self.hideReminderNotice();
 			self.hideReminderNotification();
 			$('.searchMenu').toggleClass('toogleSearchMenu');
@@ -613,6 +618,7 @@ $.Class("Vtiger_Header_Js", {
 		$('.js-header__btn--mail .dropdown').on('show.bs.dropdown', function () {
 			app.closeSidebar();
 			self.hideActionMenu();
+			self.hideBreadcrumbActionMenu();
 			self.hideReminderNotice();
 			self.hideReminderNotification();
 			self.hideSearchMenu();
@@ -628,7 +634,7 @@ $.Class("Vtiger_Header_Js", {
 	hideActionMenu: function () {
 		$('.actionMenu').removeClass('actionMenuOn');
 	},
-	hideBreadCrumbActionMenu: function () {
+	hideBreadcrumbActionMenu: function () {
 		$('.js-breadcrumb__actions').removeClass('is-active');
 	},
 	hideReminderNotice: function () {
