@@ -71,7 +71,7 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 				});
 				AppConnector.request(params).done(function (responseData) {
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
-					if (responseData != null) {
+					if (responseData.result === false) {
 						var message = app.vtranslate('JS_NO_RECORDS_RELATED_TO_THIS_FILTER');
 						var params = {
 							text: message,
