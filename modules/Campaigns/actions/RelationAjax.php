@@ -46,6 +46,7 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$viewId = $request->getByType('viewId', 2);
+		$response = new Vtiger_Response();
 		if ($viewId) {
 			$sourceModuleModel = Vtiger_Module_Model::getInstance($request->getModule());
 			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
@@ -59,16 +60,20 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 				}
 				$dataReader->close();
 				if (empty($relatedRecordIdsList)) {
-					$response = new Vtiger_Response();
-					$response->setResult([false]);
-					$response->emit();
+					$response->setResult(false);
 				} else {
 					foreach ($relatedRecordIdsList as $relatedRecordId) {
 						$relationModel->addRelation($sourceRecordId, $relatedRecordId);
 					}
+					$response->setResult(true);
 				}
+			} else {
+				$response->setResult(false);
 			}
+		} else {
+			$response->setResult(false);
 		}
+		$response->emit();
 	}
 
 	/**
