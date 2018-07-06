@@ -24,7 +24,6 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('WIZARD_STEP', $request->getByType('step', 2));
 
-
 		switch ($request->get('step')) {
 			case 'step1':
 				$modules = vtlib\Functions::getAllModules(true, false, 0);
