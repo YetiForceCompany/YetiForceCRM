@@ -456,6 +456,10 @@ class QueryGenerator
 	 */
 	public function setSearchFieldsForDuplicates($fieldName, $ignoreEmptyValue = true)
 	{
+		$field = $this->getModuleField($fieldName);
+		if ($field && !isset($this->tablesList[$field->getTableName()])) {
+			$this->tablesList[$field->getTableName()] = $field->getTableName();
+		}
 		$this->searchFieldsForDuplicates[$fieldName] = $ignoreEmptyValue;
 	}
 

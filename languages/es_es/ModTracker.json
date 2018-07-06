@@ -37,6 +37,10 @@
     "LBL_CONVERTED_FROM_LEAD": "Convertido desde Potencial",
     "LBL_DELETED": "elimin\u00f3",
     "LBL_ACTIVE": "restaur\u00f3",
-    "LBL_ARCHIVED": "archiv\u00f3"
+    "LBL_ARCHIVED": "archiv\u00f3",
+    "LBL_TRANSFER_EDIT": "record was changed in the transfer process",
+    "LBL_TRANSFER_DELETE": "record was deleted in the transfer process",
+    "LBL_TRANSFER_UNLINK": "relation was deleted in the transfer process",
+    "LBL_TRANSFER_LINK": "relation was added in the transfer process"
   }
 }

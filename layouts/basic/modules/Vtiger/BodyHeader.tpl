@@ -230,7 +230,7 @@
 							<span class="fas fa-plus fa-fw" title="{\App\Language::translate('LBL_QUICK_CREATE')}"></span>
 							<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_QUICK_CREATE')}</span>
 						</a>
-						<div class="quickCreateModules modal fade" id="quickCreateModules" tabindex="-1" role="dialog"
+						<div class="quickCreateModules modal" id="quickCreateModules" tabindex="-1" role="dialog"
 							 aria-labelledby="c-quick-create__title" aria-hidden="true">
 							<div class="modal-dialog modal-lg" role="document">
 								<div class="modal-content">

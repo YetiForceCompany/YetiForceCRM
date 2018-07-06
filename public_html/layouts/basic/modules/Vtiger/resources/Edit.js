@@ -264,22 +264,20 @@ $.Class("Vtiger_Edit_Js", {
 	 * @params - container <jQuery> - element in which auto complete fields needs to be searched
 	 */
 	registerTreeAutoCompleteFields: function (container) {
-		var thisInstance = this;
 		container.find('input.treeAutoComplete').autocomplete({
 			'delay': '600',
 			'minLength': '3',
 			'source': function (request, response) {
 				//element will be array of dom elements
 				//here this refers to auto complete instance
-				var inputElement = $(this.element[0]);
-				var searchValue = request.term;
-				var parentElem = inputElement.closest('.fieldValue');
-				var sourceFieldElement = $('input[class="sourceField"]', parentElem);
-				var fieldInfo = sourceFieldElement.data('fieldinfo');
-				var allValues = fieldInfo.picklistvalues;
-				var reponseDataList = [];
-				for (var id in allValues) {
-					var name = allValues[id][0];
+				let inputElement = $(this.element[0]);
+				let searchValue = request.term.toLowerCase();
+				let parentElem = inputElement.closest('.fieldValue');
+				let sourceFieldElement = $('input[class="sourceField"]', parentElem);
+				let fieldInfo = sourceFieldElement.data('fieldinfo');
+				let allValues = fieldInfo.picklistvalues;
+				let reponseDataList = [];
+				for (let id in allValues) {
 					if (allValues[id].toLowerCase().indexOf(searchValue) >= 0) {
 						reponseDataList.push({label: allValues[id], value: id, id: id});
 					}

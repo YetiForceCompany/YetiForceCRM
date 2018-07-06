@@ -10,7 +10,6 @@
 	{foreach item=MODEL from=$MODAL_SCRIPTS}
 		<script type="{$MODEL->getType()}" src="{$MODEL->getSrc()}"></script>
 	{/foreach}
-	<script type="text/javascript">app.registerModalController();</script>
 	<div class="modal-header">
 		<div class="form-row col-12 p-0">
 			<div class="col-12">

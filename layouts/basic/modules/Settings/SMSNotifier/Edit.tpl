@@ -3,20 +3,23 @@
 	<form class="tpl-Settings-SMSNotifier-Edit form-horizontal validateForm" id="editForm">
 		<input type="hidden" id="record" name="record" value="{$RECORD_MODEL->getId()}">
 		<div class="modal-header">
-			{if !$RECORD_MODEL->getId()}
-				<h3 class="modal-title"><span class="fa fa-plus u-mr-5px mt-2"></span>{\App\Language::translate("LBL_ADD_CONFIGURATION", $QUALIFIED_MODULE)}</h3>
-			{else}
-				<h3 class="modal-title"><span class="fa fa-edit u-mr-5px mt-2"></span>{\App\Language::translate("LBL_EDIT_RECORD", $QUALIFIED_MODULE)}</h3>
-			{/if}
-			<h3 class="modal-title">{\App\Language::translate($TITLE, $QUALIFIED_MODULE)}</h3>
-			<button class="btn btn-warning float-right" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
+			<h5 class="modal-title u-text-ellipsis">
+				{if !$RECORD_MODEL->getId()}
+					<span class="fa fa-plus u-mr-5px mt-2"></span>{\App\Language::translate("LBL_ADD_CONFIGURATION", $QUALIFIED_MODULE)}
+				{else}
+					<span class="fa fa-edit u-mr-5px mt-2"></span>{\App\Language::translate("LBL_EDIT_RECORD", $QUALIFIED_MODULE)}
+				{/if}
+			</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+				<span aria-hidden="true">&times;</span>
+			</button>
 		</div>
 		<div class="modal-body text-center">
 			<div class="fieldsContainer">
 				{foreach from=$RECORD_MODEL->getEditFields() item=LABEL key=FIELD_NAME name=fields}
 					{assign var="FIELD_MODEL" value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME)->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
 					<div class="form-group form-row">
-						<label class="col-form-label col-md-4 u-text-small-bold text-right">
+						<label class="col-form-label col-md-4 u-text-small-bold text-left text-md-right">
 							{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}
 							{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
 						</label>

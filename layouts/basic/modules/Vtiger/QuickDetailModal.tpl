@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="modal-body col-md-12">
+	<div class="tpl-QuickDetailModal modal-body col-md-12 js-show-scroll" data-js="perfectscrollbar">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<div class="quickDetailContent">
 			<div class="row">

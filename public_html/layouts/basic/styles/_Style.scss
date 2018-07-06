@@ -688,10 +688,6 @@ hr {
 	}
 }
 
-.table {
-	background: #fff;
-}
-
 .table-bordered {
 	border-radius: 1px;
 	margin-bottom: 0;
@@ -1402,13 +1398,6 @@ td.fieldValue {
 		position: absolute;
 	}
 
-	.editFieldsWidget .dropdown-menu {
-		z-index: 1000003;
-		padding: 0;
-		left: -315px;
-		position: absolute;
-	}
-
 	.editFields {
 		.dropdown-menu .modal-header {
 			border-width: 0;
@@ -1462,13 +1451,6 @@ td.fieldValue {
 }
 
 #dependencyGraph {
-	.tableHeading {
-		text-align: center;
-		padding-top: 30px;
-		font-size: 1.2em;
-		font-weight: bold;
-	}
-
 	.depandencyTable {
 		border: 1px solid #ddd;
 		background: #f3f3f4;
@@ -3029,7 +3011,7 @@ html, body, .o-base-container {
 }
 
 @media only screen and (max-width: 992px) {
-  
+
   .listViewActionsDiv .btn-toolbar, .editViewContainer .btn-toolbar, .widget_header .btn-toolbar {
 	margin-bottom: 5px;
   }
