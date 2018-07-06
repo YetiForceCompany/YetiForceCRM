@@ -94,7 +94,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linkurl' => 'javascript:Vtiger_Detail_Js.showWorkflowTriggerView(this)',
 					'linkicon' => 'fas fa-plus-circle',
 					'linkhint' => 'BTN_WORKFLOW_TRIGGER',
-					'linkclass' => 'btn-warning',
+					'linkclass' => 'btn-outline-warning',
 				];
 			}
 		}

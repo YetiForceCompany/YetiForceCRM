@@ -33,7 +33,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => 'LBL_CHANGE_PASSWORD',
 				'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $recordId],
-				'linkclass' => 'btn-info showModal',
+				'linkclass' => 'btn-outline-info showModal',
 				'linkicon' => 'fas fa-key',
 				'showLabel' => true,
 			];
@@ -42,7 +42,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => 'BTN_RESET_PASSWORD',
 					'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=reset&record=' . $recordId],
-					'linkclass' => 'btn-info showModal',
+					'linkclass' => 'btn-outline-info showModal',
 					'linkicon' => 'fas fa-redo-alt',
 					'showLabel' => true,
 				];
@@ -51,7 +51,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $linkParams['VIEW'] === 'PreferenceDetail' ? $recordModel->getPreferenceEditViewUrl() : $recordModel->getEditViewUrl(),
-				'linkclass' => 'btn-success',
+				'linkclass' => 'btn-outline-success',
 				'linkicon' => 'fas fa-edit',
 				'showLabel' => true,
 			];
@@ -60,7 +60,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Users_Detail_Js.triggerDeleteUser("' . $recordModel->getDeleteUrl() . '")',
 				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn-danger text-white',
+				'linkclass' => 'btn-outline-danger',
 				'showLabel' => true,
 			];
 			foreach ($detailViewLinks as $detailViewLink) {
