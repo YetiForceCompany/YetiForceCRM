@@ -26,7 +26,8 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		$hashValue = is_array($value) ? implode('|', $value) : $value;
+		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
 		if (!is_array($value)) {
@@ -37,7 +38,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $id, 406);
 			}
 		}
-		$this->validate[$value] = true;
+		$this->validate[$hashValue] = true;
 	}
 
 	/**

@@ -27,11 +27,12 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		$hashValue = is_array($value) ? implode('|', $value) : $value;
+		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
 		if (!is_array($value)) {
-			settype($value, 'array');
+			$value = (array) $value;
 		}
 		$rangeValues = null;
 		$maximumLength = $this->getFieldModel()->get('maximumlength');
@@ -46,7 +47,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $shownerid, 406);
 			}
 		}
-		$this->validate[$value] = true;
+		$this->validate[$hashValue] = true;
 	}
 
 	/**
