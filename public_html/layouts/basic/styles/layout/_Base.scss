@@ -9,9 +9,9 @@
 }
 
 @include media-breakpoint-down(sm) {
-  .mainBody {
-	bottom: $h-footer-mobile;
-  }
+	.mainBody {
+		bottom: $h-footer-mobile;
+	}
 }
 
 .contentsDiv, .centerPanel {
