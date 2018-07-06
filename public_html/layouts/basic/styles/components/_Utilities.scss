@@ -159,6 +159,11 @@
 	min-width: 650px !important;
 }
 
+@include media-breakpoint-down(sm) {
+	.u-w-sm-down-100 {
+		width: 100%;
+	}
+}
 //--- HEIGHT ---//
 .u-h-600px {
 	height: 600px !important;

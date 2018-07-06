@@ -5818,7 +5818,7 @@ button.bg-dark:focus {
 .o-btn-container {
   padding-left: 0 !important; }
 
-.p-1, .select2-container--bootstrap4 ul.select2-selection__rendered li.select2-selection__choice, .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .globalSearchInput .btn, .c-footer .page-link {
+.p-1, .select2-container--bootstrap4 ul.select2-selection__rendered li.select2-selection__choice, .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .o-global-search__input--desktop .btn, .c-footer .page-link {
   padding: 0.25rem !important; }
 
 .pt-1, .c-panel--edit .c-panel__body--edit,
@@ -8062,9 +8062,6 @@ a.text-dark:hover, a.text-dark:focus {
     margin-top: 2px;
     float: none !important; } }
 @media only screen and (min-width: 320px) and (max-width: 640px) {
-  .goToFullFormOne {
-    width: 165px !important; }
-
   .pullRight {
     width: 100%; } }
 @media only screen and (min-width: 320px) and (max-width: 480px) {
@@ -10127,12 +10124,6 @@ html, body, .o-base-container {
   * {
     zoom: 1 !important; } }
 @media only screen and (max-width: 992px) {
-  .listViewActionsDiv .btn-toolbar, .editViewContainer .btn-toolbar, .widget_header .btn-toolbar {
-    margin-bottom: 5px; }
-
-  .listViewActionsDiv .pull-right {
-    float: left !important; }
-
   .textAlignRight {
     text-align: left; }
 
@@ -11080,6 +11071,9 @@ select[readonly], select[disabled] {
 .u-min-w-650px {
   min-width: 650px !important; }
 
+@media (max-width: 767.98px) {
+  .u-w-sm-down-100 {
+    width: 100%; } }
 .u-h-600px {
   height: 600px !important; }
 
@@ -11299,7 +11293,8 @@ select[readonly], select[disabled] {
       box-shadow: 0 0 0 0.2rem rgba(221, 221, 221, 0.5); }
 
 @media (max-width: 767.98px) {
-  .c-btn-block-sm-down {
+  .c-btn-block-sm-down,
+  .c-btn-block-sm-down .btn {
     width: 100% !important; } }
 @media (max-width: 991.98px) {
   .c-btn-block-md-down {
@@ -11356,6 +11351,14 @@ select[readonly], select[disabled] {
     .c-btn-done:not(:disabled):not(.disabled):active:focus, .c-btn-done:not(:disabled):not(.disabled).active:focus, .show > .c-btn-done.dropdown-toggle:focus {
       box-shadow: 0 0 0 0.2rem rgba(57, 73, 171, 0.5); }
 
+@media (max-width: 767.98px) {
+  .c-btn-link--responsive {
+    width: 100%;
+    margin-bottom: 0.25rem !important; }
+    .c-btn-link--responsive .btn {
+      width: 100%;
+      border-radius: 0.25rem !important; } }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .select2-selection {
   padding-top: 0.2rem; }
@@ -11378,7 +11381,7 @@ select[readonly], select[disabled] {
 .select2Wrapper {
   width: 100%; }
 
-header .globalSearchInput .select2-selection.select2-selection--single {
+header .o-global-search__input .select2-selection.select2-selection--single {
   height: 2.125rem !important; }
 header .select2WithButtonWidth {
   width: calc(100% - 2.625rem); }
@@ -13180,7 +13183,7 @@ label.btn.btn-outline-primary:not(.active) {
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .mainBody {
   position: absolute;
-  top: 3.125rem;
+  top: 3.25rem;
   bottom: 1.9375rem;
   width: 100%;
   overflow-x: hidden; }
@@ -13243,7 +13246,7 @@ label.btn.btn-outline-primary:not(.active) {
   .c-header .c-header__btn {
     padding-left: 0.3rem;
     padding-right: 0.3rem;
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 2.125rem; }
   .c-header .c-header__btn__container {
     height: fit-content;
@@ -13266,10 +13269,10 @@ label.btn.btn-outline-primary:not(.active) {
   visibility: hidden;
   position: fixed;
   right: -380px;
-  top: 3.125rem;
+  top: 3.25rem;
   z-index: 1035;
   width: 380px;
-  height: calc(100vh - (1.9375rem + 3.125rem));
+  height: calc(100vh - (1.9375rem + 3.25rem));
   overflow-y: auto;
   background: rgba(0, 0, 0, 0.4);
   border-left: 1px solid #797979;
@@ -13301,9 +13304,9 @@ label.btn.btn-outline-primary:not(.active) {
 
 .modalRightSiteBar {
   margin: 0;
-  height: calc(100vh - (1.9375rem + 3.125rem));
+  height: calc(100vh - (1.9375rem + 3.25rem));
   right: 0;
-  top: 3.125rem;
+  top: 3.25rem;
   position: fixed !important;
   z-index: 1070;
   overflow: hidden;
@@ -13343,12 +13346,12 @@ label.btn.btn-outline-primary:not(.active) {
   left: auto;
   right: 9px; }
 
-.navbar .globalSearchValue {
+.navbar .o-global-search__value {
   border-top: none;
   border-bottom: none; }
 
-.searchMenu.globalSearchInput .select2-selection,
-.navbar .globalSearchInput .select2-selection {
+.searchMenu.o-global-search__input .select2-selection,
+.navbar .o-global-search__input .select2-selection {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0; }
 
@@ -13362,11 +13365,11 @@ label.btn.btn-outline-primary:not(.active) {
 .basicSearchModulesList {
   width: 35px; }
 
-.globalSearchInput {
+.o-global-search__input--desktop {
   min-width: 500px; }
-  .globalSearchInput .btn {
+  .o-global-search__input--desktop .btn {
     width: 40px; }
-  .globalSearchInput .select2HeaderWidth {
+  .o-global-search__input--desktop .select2HeaderWidth {
     min-width: 150px; }
 
 @media (max-width: 1199.98px) {
@@ -13466,6 +13469,28 @@ label.btn.btn-outline-primary:not(.active) {
   .c-menu__container.js-expand + .c-header .c-header__btn:not(.c-header__btn--mobile),
   .c-menu__container.js-expand + .c-header .c-header__btn__container {
     margin-bottom: 0.25rem; } }
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+@media (max-width: 767.98px) {
+  .o-breadcrumb__actions-btn {
+    font-size: 1.0625rem;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem; }
+  .o-breadcrumb__actions {
+    position: fixed;
+    left: auto;
+    right: -100%;
+    max-height: calc(100vh - 50px);
+    width: 100%;
+    color: #fff;
+    background-color: #e9ecef;
+    z-index: 2000;
+    padding: 30px;
+    -webkit-transition: right ease-in-out 0.35s;
+    transition: right ease-in-out 0.35s;
+    text-align: center;
+    overflow: auto; }
+    .o-breadcrumb__actions.is-active {
+      right: 0; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .user-info--active .c-menu__container {
   bottom: 3.4375rem; }

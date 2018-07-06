@@ -122,7 +122,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 		if (parent == false) {
 			return false;
 		}
-		var value = parent.find('.globalSearchValue').val();
+		var value = parent.find('.js-global-search__value').val();
 		if (value.length > 0) {
 			var form = this.getFilterForm();
 			var labelFieldList = this.getNameFields();

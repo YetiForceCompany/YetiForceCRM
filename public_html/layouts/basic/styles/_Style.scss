@@ -53,10 +53,6 @@
 }
 
 @media only screen and (min-width: 320px) and (max-width: 640px) {
-	.goToFullFormOne {
-		width: 165px !important;
-	}
-
 	.pullRight {
 		width: 100%;
 	}
@@ -3013,14 +3009,6 @@ html, body, .o-base-container {
 }
 
 @media only screen and (max-width: 992px) {
-
-  .listViewActionsDiv .btn-toolbar, .editViewContainer .btn-toolbar, .widget_header .btn-toolbar {
-	margin-bottom: 5px;
-  }
-
-	.listViewActionsDiv .pull-right {
-		float: left !important;
-	}
 
 	.textAlignRight {
 		text-align: left;
