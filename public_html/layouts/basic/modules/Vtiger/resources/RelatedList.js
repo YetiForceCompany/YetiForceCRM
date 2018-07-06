@@ -668,7 +668,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	registerPreviewEvent: function () {
 		var thisInstance = this;
 		var contentHeight = this.content.find('.js-detail-preview,.js-list-preview');
-		contentHeight.height(app.getScreenHeight() - (this.content.offset().top + $('.footerContainer').height()));
+		contentHeight.height(app.getScreenHeight() - (this.content.offset().top + $('.js-footer').height()));
 		this.content.find('.listPreviewframe').on('load', function () {
 			if (thisInstance.frameProgress) {
 				thisInstance.frameProgress.progressIndicator({mode: 'hide'});
@@ -853,8 +853,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.list = container.find('.js-list-preview');
 		this.preview = container.find('.js-detail-preview');
 		this.rotatedText = container.find('.u-rotate-90');
-		this.infoUser = $('.infoUser');
-		this.footerH = $('.js-footer').outerHeight() + (this.infoUser.length ? this.infoUser.outerHeight() : 0);
+		this.footerH = $('.js-footer').outerHeight();
 		this.headerH = $('.js-header').outerHeight();
 	},
 	getDefaultSplitSizes: function () {

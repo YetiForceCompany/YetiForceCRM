@@ -17,6 +17,7 @@ abstract class Base
 	public function __construct()
 	{
 		self::setHeaders();
+		\App\Language::initLocale();
 	}
 
 	/**

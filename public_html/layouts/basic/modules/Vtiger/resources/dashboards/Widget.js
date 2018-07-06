@@ -2338,6 +2338,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		this.loadCalendarData(true);
 		this.registerChangeView();
 		this.registerFilterChangeEvent();
+		app.showPopoverElementView(this.getContainer().find('.js-popover-tooltip'));
 	},
 	refreshWidget: function () {
 		var thisInstance = this;
@@ -2653,6 +2654,7 @@ YetiForce_Widget_Js('YetiForce_MiniList_Widget_Js', {}, {
 		this.restrictContentDrag();
 		this.registerFilterChangeEvent();
 		this.registerRecordsCount();
+		app.showPopoverElementView(this.getContainer().find('.js-popover-tooltip'));
 	},
 	postRefreshWidget: function () {
 		this.registerRecordsCount();

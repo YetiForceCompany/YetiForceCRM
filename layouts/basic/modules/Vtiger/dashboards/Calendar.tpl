@@ -5,21 +5,15 @@
 	{assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 	<div class="tpl-dashboards-Calendar">
 		<div class="dashboardWidgetHeader">
-			<div class="row">
-				<div class="col-sm-8">
-					<h5 class="dashboardTitle h6"
-						 title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}">
-						<strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(),$MODULE_NAME)}</strong></h5>
-				</div>
-				<div class="col-sm-4">
-					<div class="box float-right">
-						{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
-							<a class="btn btn-light btn-sm" role="button" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar'); return false;">
-								<span class='fas fa-plus' title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
-							</a>
-						{/if}
-						{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
-					</div>
+			<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
+				{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
+				<div class="d-inline-flex">
+					{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
+						<a class="btn btn-light btn-sm" role="button" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar'); return false;">
+							<span class='fas fa-plus' title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
+						</a>
+					{/if}
+					{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 				</div>
 			</div>
 			<hr class="widgetHr"/>

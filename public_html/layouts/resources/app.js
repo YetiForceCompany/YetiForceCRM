@@ -131,37 +131,44 @@ let app = {
 		});
 		app.hidePopoversAfterClick(element);
 	},
-	showPopoverElementView: function (selectElement, params) {
-		if (typeof params === "undefined") {
-			params = {
-				trigger: 'manual',
-				placement: 'auto',
-				html: true,
-				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
-			};
+	isEllipsisActive(element) {
+		let clone = element
+			.clone()
+			.addClass('u-text-ellipsis--not-active')
+			.appendTo('body');
+		if (clone.width() > element.width()) {
+			clone.remove();
+			return true;
 		}
-
-		params.container = 'body';
-		params.delay = {"show": 300, "hide": 100};
-		var sparams;
+		clone.remove();
+		return false;
+	},
+	showPopoverElementView: function (selectElement, params = {}) {
+		let defaultParams = {
+			trigger: 'manual',
+			placement: 'auto',
+			html: true,
+			template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+			container: 'body',
+			delay: {"show": 300, "hide": 100},
+		};
 		selectElement.each(function (index, domElement) {
-			sparams = params;
-			var element = $(domElement);
-			if (element.data('placement')) {
-				sparams.placement = element.data('placement');
+			let element = $(domElement);
+			if (element.data('ellipsis')) {
+				defaultParams.trigger = 'hover focus';
+				if (!app.isEllipsisActive(element)) {
+					return;
+				}
 			}
+			let elementParams = $.extend(true, defaultParams, params, element.data());
 			if (element.data('class')) {
-				sparams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+				elementParams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 			}
 			if (element.hasClass('delay0')) {
-				sparams.delay = {show: 0, hide: 0}
+				elementParams.delay = {show: 0, hide: 0}
 			}
-			var data = element.data();
-			if (data != null) {
-				sparams = $.extend(sparams, data);
-			}
-			element.popover(sparams);
-			if (sparams.trigger === 'manual' || typeof sparams.trigger === 'undefined') {
+			element.popover(elementParams);
+			if (elementParams.trigger === 'manual' || typeof elementParams.trigger === 'undefined') {
 				app.registerPopoverManualTrigger(element);
 			}
 		});
