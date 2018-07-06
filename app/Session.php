@@ -6,8 +6,8 @@ namespace App;
  * Session class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Session
 {
@@ -42,9 +42,8 @@ class Session
 	public static function get($key)
 	{
 		if (empty(static::$pool)) {
-			return $_SESSION[$key];
+			return $_SESSION[$key] ?? null;
 		}
-
 		return static::$pool->get($key);
 	}
 
@@ -60,7 +59,6 @@ class Session
 		if (empty(static::$pool)) {
 			return isset($_SESSION[$key]);
 		}
-
 		return static::$pool->has($key);
 	}
 
@@ -77,7 +75,6 @@ class Session
 		if (empty(static::$pool)) {
 			return $_SESSION[$key] = $value;
 		}
-
 		return static::$pool->set($key, $value);
 	}
 

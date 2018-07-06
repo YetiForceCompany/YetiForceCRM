@@ -32,7 +32,8 @@ $.Class("Base_TreeModal_JS", {}, {
 			plugins.push('category');
 			plugins.push('checkbox');
 		}
-		this.tree.jstree({
+		plugins.push('search');
+		this.tree.jstree($.extend(true, {
 			core: {
 				data: JSON.parse(this.container.find('.js-tree-value').val()),
 				themes: {
@@ -40,15 +41,18 @@ $.Class("Base_TreeModal_JS", {}, {
 					responsive: true
 				}
 			},
+			checkbox: {
+				three_state: false,
+			},
 			plugins: plugins
-		})
+		}, this.tree.data('params')))
 	},
 	/**
 	 * Register select events
 	 */
 	registerSelectEvent: function () {
 		if (this.multiple) {
-			this.container.find('[name="saveButton"]').on('click',  () => {
+			this.container.find('[name="saveButton"]').on('click', () => {
 				let id = [], name = [];
 				$.each(this.tree.jstree("getCategory", true), function (index, value) {
 					id.push('T' + value.id);
@@ -64,6 +68,22 @@ $.Class("Base_TreeModal_JS", {}, {
 			});
 		}
 	},
+	registerSearchEvent: function () {
+		var thisInstance = this;
+		var valueSearch = $('#valueSearchTree');
+		var btnSearch = $('#btnSearchTree');
+		valueSearch.on('keypress', function (e) {
+			if (e.which == 13) {
+				thisInstance.searchingInTree(valueSearch.val());
+			}
+		});
+		btnSearch.on('click', function () {
+			thisInstance.searchingInTree(valueSearch.val());
+		});
+	},
+	searchingInTree: function (text) {
+		this.tree.jstree(true).search(text);
+	},
 	/**
 	 * Register base events
 	 * @param {jQuery} modalContainer
@@ -73,6 +93,7 @@ $.Class("Base_TreeModal_JS", {}, {
 		this.tree = this.container.find('.js-tree-contents');
 		this.multiple = this.container.find('.js-multiple').val() == 1 ? true : false;
 		this.generateTree();
+		this.registerSearchEvent();
 		this.registerSelectEvent();
 	}
 });

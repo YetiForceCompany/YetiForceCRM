@@ -23,7 +23,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if (empty(parse_url($value)['scheme'])) {
@@ -39,7 +39,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**

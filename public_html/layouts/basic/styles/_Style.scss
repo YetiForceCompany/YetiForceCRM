@@ -688,10 +688,6 @@ hr {
 	}
 }
 
-.table {
-	background: #fff;
-}
-
 .table-bordered {
 	border-radius: 1px;
 	margin-bottom: 0;
@@ -1402,13 +1398,6 @@ td.fieldValue {
 		position: absolute;
 	}
 
-	.editFieldsWidget .dropdown-menu {
-		z-index: 1000003;
-		padding: 0;
-		left: -315px;
-		position: absolute;
-	}
-
 	.editFields {
 		.dropdown-menu .modal-header {
 			border-width: 0;
@@ -1462,13 +1451,6 @@ td.fieldValue {
 }
 
 #dependencyGraph {
-	.tableHeading {
-		text-align: center;
-		padding-top: 30px;
-		font-size: 1.2em;
-		font-weight: bold;
-	}
-
 	.depandencyTable {
 		border: 1px solid #ddd;
 		background: #f3f3f4;
@@ -2289,7 +2271,9 @@ span[name=existingImages] img {
 }
 
 .widgetHr {
-	margin-top: 0;
+	margin-top: calculate-rem(7px);
+  	border: none;
+  	border-top: 1px solid #ddd;
 }
 
 #groupsDetailContainer strong {
@@ -3332,10 +3316,6 @@ html, body, .o-base-container {
 		margin-top: 5px;
 	}
 
-	.infoUser {
-		bottom: 17px !important;
-	}
-
 	.iconsInFooter {
 		span {
 			font-size: 10px !important;
@@ -3924,17 +3904,6 @@ select.form-control {
 	right: 0;
 }
 
-.infoUser {
-	padding: 0 5px;
-	position: fixed;
-	height: 17px;
-	color: #fff;
-	width: 100%;
-	bottom: 33px;
-	z-index: 1030;
-	left: 0;
-}
-
 #convertLeadForm table {
 	table-layout: fixed;
 	word-wrap: break-word;
@@ -4189,7 +4158,7 @@ select {
 	margin-left: 10px;
 }
 
-border1px {
+.border1px {
 	border: 1px solid #ddd;
 }
 
@@ -4201,44 +4170,6 @@ border1px {
 
 [class*="picklistLb_"] {
 	border-radius: 7px;
-}
-
-.formActionsPanel {
-	position: fixed;
-	bottom: 33px;
-	height: 48px;
-	width: calc(100% - 50px);
-	background: $light;
-	margin-left: -10px;
-	text-align: center;
-	border-top: 1px solid #ddd;
-	z-index: 5;
-	padding: 5px;
-
-	.btn-group {
-		margin-right: 3px;
-	}
-}
-
-.verticalScroll {
-	position: absolute;
-	left: 0;
-	height: calc(100vh - 128px);
-	width: 100%;
-	overflow-x: hidden;
-	padding-right: 10px;
-	padding-left: 10px;
-}
-
-@media only screen and (max-width: 768px) {
-	.formActionsPanel {
-		bottom: 17px;
-		width: 100%;
-	}
-
-	.verticalScroll {
-		height: calc(100vh - 112px);
-	}
 }
 
 .popover.activities {

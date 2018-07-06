@@ -13,7 +13,7 @@ jQuery.Class("Vtiger_Base_Validator_Js", {
 	 *@param accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
-	invokeValidation: function (field, rules, i, options) {
+	invokeValidation: function (field, rules, k, options) {
 		//If validation engine already maked the field as error 
 		// we dont want to proceed
 		if (typeof options !== "undefined") {

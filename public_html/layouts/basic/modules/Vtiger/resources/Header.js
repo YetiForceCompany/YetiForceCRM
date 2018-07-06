@@ -698,7 +698,7 @@ $.Class("Vtiger_Header_Js", {
 		});
 	},
 	hideSiteBar: function (container, toogleButton) {
-		var key, toogleButton, siteBarRight, content, buttonImage;
+		var key, siteBarRight, content, buttonImage;
 		siteBarRight = toogleButton.closest('.siteBarRight');
 		content = container.find('.rowContent');
 		buttonImage = toogleButton.find('[data-fa-i2svg]');
@@ -709,7 +709,7 @@ $.Class("Vtiger_Header_Js", {
 		toogleButton.addClass('hideToggleSiteBarRightButton');
 	},
 	showSiteBar: function (container, toogleButton) {
-		var key, toogleButton, siteBarRight, content, buttonImage;
+		var key, siteBarRight, content, buttonImage;
 		siteBarRight = toogleButton.closest('.siteBarRight');
 		content = container.find('.rowContent');
 		buttonImage = toogleButton.find('[data-fa-i2svg]');

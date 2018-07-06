@@ -76,22 +76,9 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit4_Js", {}, {
 			window.history.back();
 		});
 	},
-	/**
-	 * Registers updated version of CkEditor on textarea fields
-	 * spellcheck disabled
-	 */
-	registerNewEditor: function () {
-		CKEDITOR.replace('body_content', {
-				disableNativeSpellChecker: true,
-				scayt_autoStartup: false,
-				removePlugins: 'scayt'
-			}
-		);
-	},
 	registerEvents: function () {
-		var container = this.getContainer();
-
-		var opts = app.validationEngineOptions;
+		let container = this.getContainer(),
+			opts = app.validationEngineOptions;
 		// to prevent the page reload after the validation has completed
 		opts['onValidationComplete'] = function (form, valid) {
 			//returns the valid status
@@ -100,7 +87,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit4_Js", {}, {
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
 		App.Fields.Picklist.showSelect2ElementView(container.find('select'));
+		new App.Fields.Text.Editor('.js-editor', {toolbar: 'Full'});
 		this.registerCancelStepClickEvent(container);
-		this.registerNewEditor();
 	}
 });

@@ -21,6 +21,7 @@
 				{if $LABEL neq '' && $LINK->get('showLabel') != 1}{' '}
 					data-placement="{if $BUTTON_VIEW|strrpos:'listView'!==false}top{else}bottom{/if}"{' '}
 					data-content="{\App\Language::translate($LABEL, $BTN_MODULE)}"
+					data-target="focus hover"
 				{/if}
 				{if $LINK->get('linkhref')}
 					{' '}href="{$LINK_URL}"

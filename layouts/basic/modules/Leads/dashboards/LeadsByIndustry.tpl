@@ -20,15 +20,9 @@
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
 	{assign var=WIDGET_WIDTH value=$WIDGET->getWidth()}
-	<div class="row">
-		<div class="col-md-8">
-			<h5 class="dashboardTitle h6" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(),$MODULE_NAME)}</strong></h5>
-		</div>
-		<div class="col-md-4">
-			<div class="box float-right">
-				{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
-			</div>
-		</div>
+	<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
+		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
+		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 	</div>
 	<hr class="widgetHr" />
 	<div class="row" >

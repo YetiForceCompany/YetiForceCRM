@@ -19,7 +19,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		$arrayDateTime = explode(' ', $value, 2);
@@ -30,7 +30,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 			parent::validate($arrayDateTime[0], $isUserFormat);
 			(new Vtiger_Time_UIType())->validate($arrayDateTime[1], $isUserFormat); //Time
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**

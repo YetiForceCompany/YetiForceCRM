@@ -12,6 +12,28 @@
 class Import_CSVReader_Reader extends Import_FileReader_Reader
 {
 	/**
+	 * Parsed file data.
+	 *
+	 * @var array
+	 */
+	private $data;
+
+	/**
+	 * Import_CSVReader_Reader constructor.
+	 *
+	 * @param \App\Request $request
+	 * @param \App\User    $user
+	 */
+	public function __construct(\App\Request $request, \App\User $user)
+	{
+		parent::__construct($request, $user);
+		$this->data = \KzykHys\CsvParser\CsvParser::fromFile($this->getFilePath(), [
+			'encoding' => $this->request->get('file_encoding'),
+			'delimiter' => $this->request->get('delimiter'),
+		])->parse();
+	}
+
+	/**
 	 * Creates a table using one table's values as keys, and the other's as values.
 	 *
 	 * @param array $keys
@@ -45,14 +67,11 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 	public function getFirstRowData($hasHeader = true)
 	{
 		$defaultCharset = \AppConfig::main('default_charset', 'UTF-8');
-		$fileHandler = $this->getFileHandler();
 		if ($this->moduleModel->isInventory()) {
 			$isInventory = true;
 		}
-
 		$rowData = $headers = $standardData = $inventoryData = [];
-		$currentRow = 0;
-		while ($data = fgetcsv($fileHandler, 0, $this->request->get('delimiter'))) {
+		foreach ($this->data as $currentRow => $data) {
 			if ($currentRow === 0 || ($currentRow === 1 && $hasHeader)) {
 				if ($hasHeader && $currentRow === 0) {
 					foreach ($data as $key => $value) {
@@ -74,7 +93,6 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 					break;
 				}
 			}
-			++$currentRow;
 		}
 
 		if ($hasHeader) {
@@ -87,8 +105,6 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 		} else {
 			$rowData = $standardData;
 		}
-		unset($fileHandler);
-
 		return $rowData;
 	}
 
@@ -119,19 +135,15 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 	public function read()
 	{
 		$defaultCharset = AppConfig::main('default_charset');
-		$fileHandler = $this->getFileHandler();
 		$this->createTable();
-
 		$fieldMapping = $this->request->get('field_mapping');
 		$inventoryFieldMapping = $this->request->get('inventory_field_mapping');
 		if ($this->moduleModel->isInventory()) {
 			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleModel->getName());
 			$inventoryFields = $inventoryFieldModel->getFields();
 		}
-		$i = -1;
 		$skip = $importId = $skipData = false;
-		while ($data = fgetcsv($fileHandler, 0, $this->request->get('delimiter'))) {
-			++$i;
+		foreach ($this->data as $i => $data) {
 			if ($this->request->get('has_header') && $i === 0) {
 				foreach ($data as $index => $fullName) {
 					if ($this->moduleModel->isInventory() && strpos($fullName, 'Inventory::') === 0) {
@@ -185,6 +197,5 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 				}
 			}
 		}
-		unset($fileHandler);
 	}
 }

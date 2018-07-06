@@ -17,6 +17,11 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $fieldType;
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
+	/**
+	 * @var Vtiger_Base_UIType Vtiger_Base_UIType or UI Type specific model instance
+	 */
+	protected $uitypeModel;
+
 	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess', 'referenceExtend'];
 
 	const REFERENCE_TYPE = 'reference';
@@ -422,10 +427,10 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getUITypeModel()
 	{
-		if (!$this->get('uitypeModel')) {
-			$this->set('uitypeModel', Vtiger_Base_UIType::getInstanceFromField($this));
+		if (isset($this->uitypeModel)) {
+			return $this->uitypeModel;
 		}
-		return $this->get('uitypeModel');
+		return $this->uitypeModel = Vtiger_Base_UIType::getInstanceFromField($this);
 	}
 
 	public function isRoleBased()
@@ -1169,7 +1174,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
 			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
 			'fieldparams' => $this->get('fieldparams'),
-			], ['fieldid' => $this->get('id')])->execute();
+		], ['fieldid' => $this->get('id')])->execute();
 		if ($this->isMandatory()) {
 			$db->createCommand()->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $this->getBlockId()])->execute();
 		}

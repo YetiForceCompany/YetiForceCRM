@@ -7,8 +7,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-App = {};
-app = {
+let App = {};
+let app = {
 	/**
 	 * variable stores client side language strings
 	 */
@@ -106,14 +106,14 @@ app = {
 		}
 		element.popover('hide');
 	},
-	hidePopoversAfterClick (popoverParent) {
+	hidePopoversAfterClick(popoverParent) {
 		popoverParent.on('click', (e) => {
 			setTimeout(() => {
 				popoverParent.popover('hide');
 			}, 100);
 		});
 	},
-	registerPopoverManualTrigger (element) {
+	registerPopoverManualTrigger(element) {
 		element.hoverIntent({
 			timeout: 150,
 			over: function () {
@@ -131,36 +131,44 @@ app = {
 		});
 		app.hidePopoversAfterClick(element);
 	},
-	showPopoverElementView: function (selectElement, params) {
-		if (typeof params === "undefined") {
-			params = {
-				trigger: 'manual',
-				placement: 'auto',
-				html: true,
-				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
-			};
+	isEllipsisActive(element) {
+		let clone = element
+			.clone()
+			.addClass('u-text-ellipsis--not-active')
+			.appendTo('body');
+		if (clone.width() > element.width()) {
+			clone.remove();
+			return true;
 		}
-		params.container = 'body';
-		params.delay = {"show": 300, "hide": 100};
-		var sparams;
+		clone.remove();
+		return false;
+	},
+	showPopoverElementView: function (selectElement, params = {}) {
+		let defaultParams = {
+			trigger: 'manual',
+			placement: 'auto',
+			html: true,
+			template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+			container: 'body',
+			delay: {"show": 300, "hide": 100},
+		};
 		selectElement.each(function (index, domElement) {
-			sparams = params;
-			var element = $(domElement);
-			if (element.data('placement')) {
-				sparams.placement = element.data('placement');
+			let element = $(domElement);
+			if (element.data('ellipsis')) {
+				defaultParams.trigger = 'hover focus';
+				if (!app.isEllipsisActive(element)) {
+					return;
+				}
 			}
+			let elementParams = $.extend(true, defaultParams, params, element.data());
 			if (element.data('class')) {
-				sparams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+				elementParams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 			}
 			if (element.hasClass('delay0')) {
-				sparams.delay = {show: 0, hide: 0}
+				elementParams.delay = {show: 0, hide: 0}
 			}
-			var data = element.data();
-			if (data != null) {
-				sparams = $.extend(sparams, data);
-			}
-			element.popover(sparams);
-			if (sparams.trigger === 'manual') {
+			element.popover(elementParams);
+			if (elementParams.trigger === 'manual' || typeof elementParams.trigger === 'undefined') {
 				app.registerPopoverManualTrigger(element);
 			}
 		});
@@ -267,9 +275,13 @@ app = {
 				height: '5em',
 				toolbar: 'Min'
 			});
+			let modalScroll = modalContainer.find('.js-show-scroll');
+			if (modalScroll.length) {
+				app.showNewScrollbar(modalScroll);
+			}
 		});
-		modalContainer.modal(params);
 		$('body').append(container);
+		modalContainer.modal(params);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 		thisInstance.showPopoverElementView(modalContainer.find('.js-popover-tooltip'));
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
@@ -370,22 +382,33 @@ app = {
 		}
 		modalContainer.one('hidden.bs.modal', callback);
 	},
-	registerModalController: function () {
-		let modalContainer = $('#' + Window.lastModalId + ' .js-modal-data');
+	registerModalController: function (modalId, modalContainer, cb) {
+		if (modalId === undefined) {
+			modalId = Window.lastModalId;
+		}
+		if (modalContainer === undefined) {
+			modalContainer = $('#' + modalId + ' .js-modal-data');
+		}
 		let modalClass = modalContainer.data('module') + '_' + modalContainer.data('view') + '_JS';
 		if (typeof window[modalClass] !== "undefined") {
 			let instance = new window[modalClass]();
+			if (typeof cb === 'function') {
+				cb(modalContainer, instance);
+			}
 			instance.registerEvents(modalContainer);
-			if (app.modalEvents[Window.lastModalId]) {
-				app.modalEvents[Window.lastModalId](modalContainer, instance);
+			if (modalId && app.modalEvents[modalId]) {
+				app.modalEvents[modalId](modalContainer, instance);
 			}
 		}
 		modalClass = 'Base_' + modalContainer.data('view') + '_JS';
 		if (typeof window[modalClass] !== "undefined") {
 			let instance = new window[modalClass]();
+			if (typeof cb === 'function') {
+				cb(modalContainer, instance);
+			}
 			instance.registerEvents(modalContainer);
-			if (app.modalEvents[Window.lastModalId]) {
-				app.modalEvents[Window.lastModalId](modalContainer, instance);
+			if (modalId && app.modalEvents[modalId]) {
+				app.modalEvents[modalId](modalContainer, instance);
 			}
 		}
 	},
@@ -701,6 +724,31 @@ app = {
 
 		return new PerfectScrollbar(element[0], options);
 	},
+	showNewScrollbarAllSides: function (element) {
+		if (typeof element === "undefined" || !element.length)
+			return;
+		let scrollbarTopLeftInit = new PerfectScrollbar(element[0], {wheelPropagation: true});
+		let scrollbarTopElement = element.find('.ps__rail-x').first();
+		scrollbarTopElement.css({
+			top: 0,
+			bottom: 'auto'
+		});
+		scrollbarTopElement.find('.ps__thumb-x').css({
+			top: 2,
+			bottom: 'auto'
+		});
+		let scrollbarLeftElement = element.children('.ps__rail-y').first();
+		scrollbarLeftElement.css({
+			left: 0,
+			right: 'auto'
+		});
+		scrollbarLeftElement.find('.ps__thumb-y').css({
+			left: 2,
+			right: 'auto'
+		});
+		let scrollbarBottomRightInit = new PerfectScrollbar(element[0], {wheelPropagation: true});
+		return [scrollbarTopLeftInit, scrollbarBottomRightInit];
+	},
 	showNewBottomTopScrollbar: function (element) {
 		if (typeof element === "undefined" || !element.length)
 			return;
@@ -745,20 +793,6 @@ app = {
 		if (typeof options.height === "undefined")
 			options.height = element.css('height');
 		return element.slimScroll(options);
-	},
-	showHorizontalScrollBar: function (element, options) {
-		if (typeof options === "undefined")
-			options = {};
-		var params = {
-			horizontalScroll: true,
-			theme: "dark-thick",
-			advanced: {
-				autoExpandHorizontalScroll: true
-			}
-		}
-		if (typeof options !== "undefined")
-			var params = $.extend(params, options);
-		return element.mCustomScrollbar(params);
 	},
 	/**
 	 * Function returns translated string
@@ -1033,31 +1067,27 @@ app = {
 		app.cacheParams[param] = value;
 		$('#' + param).val(value);
 	},
-	parseNumberToShow: function (val) {
-		if (val == undefined) {
+	parseNumberToShow(val, numberOfDecimal = CONFIG.noOfCurrencyDecimals) {
+		if (val === undefined) {
 			val = 0;
 		}
-		var numberOfDecimal = parseInt(CONFIG.noOfCurrencyDecimals);
-		var decimalSeparator = CONFIG.currencyDecimalSeparator;
-		var groupSeparator = CONFIG.currencyGroupingSeparator;
-		var groupingPattern = app.getMainParams('currencyGroupingPattern');
+		let groupSeparator = CONFIG.currencyGroupingSeparator;
+		let groupingPattern = app.getMainParams('currencyGroupingPattern');
 		val = parseFloat(val).toFixed(numberOfDecimal);
-		var a = val.toString().split('.');
-		var integer = a[0];
-		var decimal = a[1];
-
-		if (groupingPattern == '123,456,789') {
+		let a = val.toString().split('.');
+		let integer = a[0];
+		let decimal = a[1];
+		if (groupingPattern === '123,456,789') {
 			integer = integer.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator);
-		} else if (groupingPattern == '123456,789') {
-			var t = integer.slice(-3);
-			var o = integer.slice(0, -3);
-			integer = o + groupSeparator + t;
-		} else if (groupingPattern == '12,34,56,789') {
-			var t = integer.slice(-3);
-			var o = integer.slice(0, -3);
-			integer = o.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + t;
+		} else if (groupingPattern === '123456,789') {
+			integer = integer.slice(0, -3) + groupSeparator + integer.slice(-3);
+		} else if (groupingPattern === '12,34,56,789') {
+			integer = integer.slice(0, -3).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + groupSeparator) + groupSeparator + integer.slice(-3);
 		}
-		return integer + decimalSeparator + decimal;
+		if (numberOfDecimal) {
+			return integer + CONFIG.currencyDecimalSeparator + decimal;
+		}
+		return integer;
 	},
 	parseNumberToFloat: function (val) {
 		var numberOfDecimal = parseInt(CONFIG.noOfCurrencyDecimals);
@@ -1214,8 +1244,8 @@ app = {
 		self.sidebarBtn = $('.js-sidebar-btn').first();
 		self.sidebar = $('.js-sidebar').first();
 		self.sidebarBtn.on('click', self.toggleSidebar.bind(self));
-		$('a[href]:not(.c-header__btn),[tabindex],input,select,textarea,button').on('focus', (e) => {
-			if (self.sidebarBtn[0] == e.target) return;
+		$(`a.nav-link,[tabindex],input,select,textarea,button`).on('focus', (e) => {
+			if (self.sidebarBtn[0] == e.target || self.sidebar.find(e.target).length) return;
 			if (self.sidebar.find(':focus').length) {
 				self.openSidebar();
 			} else if (self.sidebar.hasClass('js-expand')) {
@@ -1424,16 +1454,28 @@ app = {
 		if (!params.view) {
 			params.view = "RecordsList";
 		}
-		AppConnector.request(params).done(function (requestData) {
-			app.showModalWindow(requestData, function (data) {
-				if (typeof afterShowModal === 'function') {
-					afterShowModal(data);
-				}
-				if (typeof cb === 'function') {
-					app.modalEvents[Window.lastModalId] = cb;
-				}
-			});
+		this.showRecordsListModal(params).done(function (modal) {
+			if (typeof afterShowModal === 'function') {
+				afterShowModal(modal);
+			}
+			app.registerModalController(false, modal, cb);
 		});
+	},
+	/**
+	 * Show records list modal
+	 * @param {object} params
+	 * @returns {Promise}
+	 */
+	showRecordsListModal: function (params) {
+		const aDeferred = $.Deferred();
+		AppConnector.request(params).done(function (requestData) {
+			app.showModalWindow(requestData, function (modal) {
+				aDeferred.resolve(modal);
+			});
+		}).fail(function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
+		return aDeferred.promise();
 	},
 	/**
 	 * Convert html content to base64 image
@@ -1448,7 +1490,7 @@ app = {
 		element = $(element).get(0); // make sure we have HTMLElement not jQuery because it will not work
 		const imageType = options.imageType;
 		delete options.imageType;
-		return html2canvas(element, options).done((canvas) => {
+		return html2canvas(element, options).then((canvas) => {
 			const base64Image = canvas.toDataURL(imageType);
 			if (typeof callback === 'function') {
 				callback(base64Image);

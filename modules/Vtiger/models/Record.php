@@ -1261,15 +1261,17 @@ class Vtiger_Record_Model extends \App\Base
 	public function getRecordListViewLinksLeftSide()
 	{
 		$links = $recordLinks = [];
-		if ($this->isViewable() && $this->getModule()->isSummaryViewSupported()) {
-			$recordLinks[] = [
-				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-				'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
-				'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
-				'linkicon' => 'far fa-caret-square-right',
-				'linkclass' => 'btn-sm btn-default',
-				'modalView' => true,
-			];
+		if ($this->isViewable()) {
+			if ($this->getModule()->isSummaryViewSupported()) {
+				$recordLinks[] = [
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
+					'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
+					'linkicon' => 'far fa-caret-square-right',
+					'linkclass' => 'btn-sm btn-default',
+					'modalView' => true,
+				];
+			}
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',

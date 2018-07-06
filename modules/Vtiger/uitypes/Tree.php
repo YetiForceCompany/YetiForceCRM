@@ -14,7 +14,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if (substr($value, 0, 1) !== 'T' || !is_numeric(substr($value, 1))) {
@@ -24,7 +24,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**

@@ -1,6 +1,6 @@
 ﻿{strip}
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-<div class="" id="widgetsManagementEditorContainer">
+<div class="tpl-Settings-WidgetsManagement-Configuration" id="widgetsManagementEditorContainer">
 	<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
 	<div class="widget_header row align-items-lg-center">
 		<div class="col-md-9">
@@ -21,7 +21,7 @@
 		{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
 			<li class="nav-item" data-id="{$DASHBOARD['dashboard_id']}">
 				<a class="nav-link{if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']} active{/if}" data-toggle="tab">
-					<strong>{\App\Language::translate($DASHBOARD['name'])}</strong>					
+					<strong>{\App\Language::translate($DASHBOARD['name'])}</strong>
 					<button class="btn btn-primary btn-sm ml-2 editDashboard"><span class="fas fa-edit"></span></button>
 					{if $DASHBOARD['system'] neq 1}
 						<button class="btn btn-danger btn-sm ml-2 deleteDashboard"><span class="fas fa-trash-alt"></span></button>
@@ -123,7 +123,7 @@
 						</div>
 					{/foreach}
 				</div>
-				{* copy elements hide *}	
+				{* copy elements hide *}
 				<div class="modal addBlockDashBoardModal fade">
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content">
@@ -257,7 +257,7 @@
 										</div>
 										<div class="col-sm-3 col-form-label" style="width:135px">
 											{\App\Language::translate('LBL_HEIGHT', $QUALIFIED_MODULE)}
-										</div>	
+										</div>
 										<div class="col-sm-2">
 											<select class="height form-control float-left" name="height"  >
 												{foreach from=$SIZE.height item=item}
@@ -284,8 +284,8 @@
 													<option value="{$OWNER_ID}">{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 												{/foreach}
 											</select>
-										</div>	
-									</div>	
+										</div>
+									</div>
 									<div class="form-group widgetFilter d-none">
 										<div class="col-sm-3 col-form-label">
 											{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
@@ -296,7 +296,7 @@
 													<option value="{$OWNER_ID}" selected>{\App\Language::translate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 												{/foreach}
 											</select>
-										</div>	
+										</div>
 									</div>
 									<div class="form-group widgetFilterDate d-none">
 										<div class="col-sm-3 col-form-label">
@@ -308,7 +308,7 @@
 													<option value="{$DATE_VALUE}">{\App\Language::translate($DATE_TEXT, $QUALIFIED_MODULE)}</option>
 												{/foreach}
 											</select>
-										</div>	
+										</div>
 									</div>
 								</div>
 								{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
@@ -318,24 +318,24 @@
 				</div>
 
 				<li class="newCustomFieldCopy d-none col-md-12">
-					<div class="ml-0 border1px" data-field-id="" data-linkid="" data-sequence="">
-						<div class="row p-2">
-							<div class="float-left" style="word-wrap: break-word;">
+					<div class="ml-0 border1px" data-field-id="" data-linkid="" data-sequence="" data-js="container">
+						<div class="row p-2 d-flex justify-content-between js-custom-field" data-js="container">
+							<div class="u-word-break">
 								<span class="fieldLabel ml-3"></span>
 							</div>
-							<span class="btn-group float-right mr-3 actions">
+							<span class="btn-group mr-3 actions">
 								<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
 									<span class="fas fa-edit alignMiddle" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
-								<div class="basicFieldOperations d-none float-right" style="width: 375px;">
+								<div class="basicFieldOperations d-none" style="width: 375px;">
 									<form class="form-horizontal fieldDetailsForm" method="POST">
-										<div class="modal-header contentsBackground">
+										<div class="modal-header">
 										</div>
 										<div class="clearfix">
 											<div class="row">
 												<div class="col-md-3 text-center checkboxForm">
 													<input type="checkbox" name="isdefault" >
-												</div>	
+												</div>
 												<label class="col-md-9 form-control-plaintext float-left" >
 													&nbsp;&nbsp;{\App\Language::translate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}
 												</label>
@@ -343,26 +343,26 @@
 											<div class="row">
 												<div class="col-md-3 text-center checkboxForm">
 													<input type="checkbox" name="cache" >
-												</div>	
+												</div>
 												<label class="col-md-9 form-control-plaintext float-left" >
 													&nbsp;&nbsp;{\App\Language::translate('LBL_CACHE_WIDGET', $QUALIFIED_MODULE)}
 												</label>
 											</div>
 											<div class="row p-2">
 												<div class="col-md-3 text-center">
-													<select class="width col-md-1 float-left form-control" name="width" >
+													<select class="form-control" name="width">
 														{foreach from=$SIZE.width item=item}
 															<option value="{$item}">{$item}</option>
 														{/foreach}
 													</select>
-												</div>	
+												</div>
 												<label  class="col-md-9 form-control-plaintext float-left" >
 													&nbsp;{\App\Language::translate('LBL_WIDTH', $QUALIFIED_MODULE)}&nbsp;
 												</label>
 											</div>
 											<div class="row p-2">
 												<div class="col-md-3 text-center">
-													<select class="height col-md-1 float-left form-control" name="height">
+													<select class="form-control" name="height">
 														{foreach from=$SIZE.height item=item}
 															<option value="{$item}" >{$item}</option>
 														{/foreach}
@@ -370,11 +370,11 @@
 												</div>
 												<label class="col-md-9 form-control-plaintext float-left" >
 													&nbsp;{\App\Language::translate('LBL_HEIGHT', $QUALIFIED_MODULE)}&nbsp;
-												</label>	
+												</label>
 											</div>
 											<div class="row limit p-2">
 												<div class="col-md-3 text-center" >
-													<input type="text" name="limit" class="col-md-1 form-control" value="10" >
+													<input type="text" name="limit" class="form-control" value="10" >
 												</div>
 												<label class="col-md-9 form-control-plaintext float-left" >
 													&nbsp;{\App\Language::translate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}&nbsp;
@@ -393,7 +393,7 @@
 												<label class="col-md-6 form-control-plaintext float-left" >
 													{\App\Language::translate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
 												</label>
-											</div>	
+											</div>
 											<div class="row p-2">
 												<div class="col-md-8">
 													<select class="widgetFilter form-control" multiple="true" name="owners_all" placeholder="{\App\Language::translate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
@@ -405,7 +405,7 @@
 												<label class="col-md-3 form-control-plaintext float-left" >
 													{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 												</label>
-											</div>	
+											</div>
 											<div class="form-group d-none">
 												<div class="col-sm-3 col-form-label">
 													{\App\Language::translate('LBL_DEFAULT_DATE', $QUALIFIED_MODULE)}
@@ -416,13 +416,13 @@
 															<option value="{$DATE_VALUE}">{\App\Language::translate($DATE_TEXT, $QUALIFIED_MODULE)}</option>
 														{/foreach}
 													</select>
-												</div>	
+												</div>
 											</div>
 										</div>
 										<div class="modal-footer">
 											<span class="float-right">
-												<div class="float-right"><button class='cancel btn btn-warning' type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button></div>
-												<button class="btn btn-success saveFieldDetails" data-field-id="" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+												<div class="float-right"><button class='cancel btn btn-danger' type="reset"><strong><span class="fas fa-times mr-1"></span> {\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</strong></button></div>
+												<button class="btn btn-success saveFieldDetails" data-field-id="" type="submit"><strong><span class="fas fa-check mr-1"></span> {\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 											</span>
 										</div>
 									</form>
