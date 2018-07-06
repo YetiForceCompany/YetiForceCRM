@@ -19,10 +19,9 @@
 
 	.c-header__btn {
 		@extend .py-0;
-
 		padding-left: 0.3rem;
 		padding-right: 0.3rem;
-		font-size: 17px;
+		font-size: $font-size-header-button;
 		line-height: $h-menu-items;
 	}
 
