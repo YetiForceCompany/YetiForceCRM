@@ -28,6 +28,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
+		$rawValue = $value;
 		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
@@ -36,10 +37,10 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		}
 		$timeFormat = 'H:i:s';
 		$d = DateTime::createFromFormat($timeFormat, $value);
-		if (!($d && $d->format($timeFormat) === $value)) {
+		if (!$d || $d->format($timeFormat) !== $value) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate[$value] = true;
+		$this->validate[$rawValue] = true;
 	}
 
 	/**
