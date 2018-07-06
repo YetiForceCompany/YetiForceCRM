@@ -302,7 +302,7 @@ $.Class("Vtiger_Header_Js", {
 				} else {
 					//Once the form is submiting add data attribute to that form element
 					form.data('submit', 'true');
-					$.progressIndicator({'mode':'hide'});
+					$.progressIndicator({'mode': 'hide'});
 				}
 
 				var recordPreSaveEvent = $.Event(Vtiger_Edit_Js.recordPreSave);
@@ -556,8 +556,18 @@ $.Class("Vtiger_Header_Js", {
 			thisInstance.hideSearchMenu();
 		});
 	},
+	toggleBreadcrumActions(container) {
+		let breadcrumb = container.find('.js-breadcrumb'),
+			actionBtn = breadcrumb.find('.js-breadcrumb__actions-btn'),
+			cssActionsTop = {top: breadcrumb.offset().top + breadcrumb.height()};
+			breadcrumb.find('.o-breadcrumb__actions').css(cssActionsTop);
+		actionBtn.on('click', () => {
+			breadcrumb.find('.o-breadcrumb__actions').toggleClass('is-active');
+		});
+	},
 	registerMobileEvents: function () {
-		const self = this;
+		const self = this,
+			container = this.getContentsContainer();
 		$('.rightHeaderBtnMenu').on('click', function () {
 			self.hideActionMenu();
 			self.hideSearchMenu();
@@ -607,6 +617,7 @@ $.Class("Vtiger_Header_Js", {
 			self.hideReminderNotification();
 			self.hideSearchMenu();
 		});
+		this.toggleBreadcrumActions(container);
 	},
 	hideMobileMenu: function () {
 		$('.mobileLeftPanel ').removeClass('mobileMenuOn');
@@ -616,6 +627,9 @@ $.Class("Vtiger_Header_Js", {
 	},
 	hideActionMenu: function () {
 		$('.actionMenu').removeClass('actionMenuOn');
+	},
+	hideBreadCrumbActionMenu: function () {
+		$('.js-breadcrumb__actions').removeClass('is-active');
 	},
 	hideReminderNotice: function () {
 		$('.remindersNoticeContainer').removeClass('toggled');
@@ -796,7 +810,9 @@ $.Class("Vtiger_Header_Js", {
 		thisInstance.listenTextAreaChange();
 		thisInstance.registerFooTable(); //Enable footable
 		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));
-		$('.js-clear-history').on('click', () => {app.clearBrowsingHistory();});
+		$('.js-clear-history').on('click', () => {
+			app.clearBrowsingHistory();
+		});
 		$('.globalSearch').on('click', function () {
 			var currentTarget = $(this);
 			thisInstance.hideSearchMenu();

@@ -48,3 +48,15 @@
 .c-btn-done {
 	@include button-variant($color-indigo-dark, $color-indigo-dark);
 }
+
+.c-btn-link {
+	&--responsive {
+		width: 100%;
+
+		.btn {
+			width: 100%;
+		}
+
+		@extend .mb-1;
+	}
+}
