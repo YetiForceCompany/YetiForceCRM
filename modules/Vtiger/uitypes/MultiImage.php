@@ -35,7 +35,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if (!$isUserFormat && is_string($value)) {
@@ -69,7 +69,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_FILE_WRONG_IMAGE||' . $this->getFieldModel()->getFieldName() . '||' . \App\Json::encode($value), 406);
 			}
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**

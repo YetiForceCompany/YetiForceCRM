@@ -28,7 +28,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if (is_string($value)) {
@@ -44,7 +44,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**

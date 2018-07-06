@@ -15,14 +15,14 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		$res = Settings_Password_Record_Model::checkPassword($value);
 		if ($res !== false) {
 			throw new \App\Exceptions\Security($res, 406);
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**

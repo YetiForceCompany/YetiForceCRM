@@ -20,7 +20,7 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if (!is_numeric($value)) {
@@ -32,7 +32,7 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . (isset($rangeValues[1]) ? $rangeValues[0] : 0) . ' < ' . $value . ' < ' . ($rangeValues[1] ?? $rangeValues[0]), 406);
 			}
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**

@@ -26,7 +26,7 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if (!is_numeric($value)) {
@@ -46,7 +46,7 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 				}
 			}
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
