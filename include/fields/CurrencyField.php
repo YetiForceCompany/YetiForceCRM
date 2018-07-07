@@ -422,7 +422,6 @@ class CurrencyField
 		if ($skipConversion === false) {
 			$value = self::convertToDollar($value, $this->conversionRate);
 		}
-
 		return $value;
 	}
 
@@ -441,7 +440,6 @@ class CurrencyField
 			return 0;
 		}
 		$self = new self($value);
-
 		return $self->getDBInsertedValue($user, $skipConversion);
 	}
 

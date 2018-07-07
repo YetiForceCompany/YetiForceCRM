@@ -49,3 +49,4 @@ yarn-error.log
 *.sublime-workspace
 .babelrc
 build.js
+gulpfile.js
