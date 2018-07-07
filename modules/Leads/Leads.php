@@ -128,7 +128,6 @@ class Leads extends CRMEntity
 		if ($secModule === false) {
 			return $relTables;
 		}
-
 		return $relTables[$secModule];
 	}
 

@@ -102,7 +102,6 @@ class Vtiger_Record_Model extends \App\Base
 		if (empty($displayName)) {
 			return $this->getDisplayName();
 		}
-
 		return \App\Purifier::encodeHtml($displayName);
 	}
 
@@ -118,7 +117,6 @@ class Vtiger_Record_Model extends \App\Base
 		if (!$key) {
 			return $this->changes;
 		}
-
 		return isset($this->changes[$key]) ? $this->changes[$key] : false;
 	}
 
@@ -145,7 +143,6 @@ class Vtiger_Record_Model extends \App\Base
 			$watchdog = Vtiger_Watchdog_Model::getInstanceById($this->getId(), $this->getModuleName());
 			$this->isWatchingRecord = (bool) $watchdog->isWatchingRecord();
 		}
-
 		return $this->isWatchingRecord;
 	}
 
@@ -355,7 +352,6 @@ class Vtiger_Record_Model extends \App\Base
 		if ($fieldModelByColumn) {
 			return $fieldModelByColumn->getDisplayValue($this->get($fieldName), $record, $this, $rawText, $length);
 		}
-
 		return false;
 	}
 
@@ -414,7 +410,6 @@ class Vtiger_Record_Model extends \App\Base
 			$fieldValue = $this->getDisplayValue($fieldName);
 			$displayableValues[$fieldName] = ($fieldValue) ? $fieldValue : $value;
 		}
-
 		return $displayableValues;
 	}
 
@@ -531,7 +526,6 @@ class Vtiger_Record_Model extends \App\Base
 				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $uitypeModel->convertToSave($value, $this);
 			}
 		}
-
 		return $forSave;
 	}
 
@@ -714,7 +708,6 @@ class Vtiger_Record_Model extends \App\Base
 			$recordInstance = new $modelClassName();
 			$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 		}
-
 		return $matchingRecords;
 	}
 
@@ -723,7 +716,6 @@ class Vtiger_Record_Model extends \App\Base
 		if (!isset($this->privileges['isViewable'])) {
 			$this->privileges['isViewable'] = \App\Privilege::isPermitted($this->getModuleName(), 'DetailView', $this->getId());
 		}
-
 		return $this->privileges['isViewable'];
 	}
 
@@ -732,7 +724,6 @@ class Vtiger_Record_Model extends \App\Base
 		if (!isset($this->privileges['isCreateable'])) {
 			$this->privileges['isCreateable'] = $this->getModule()->isPermitted('CreateView');
 		}
-
 		return $this->privileges['isCreateable'];
 	}
 
@@ -746,7 +737,6 @@ class Vtiger_Record_Model extends \App\Base
 			$checkLockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $this);
 			$this->privileges['isEditable'] = $isPermitted && $this->checkLockFields() && $checkLockEdit === false;
 		}
-
 		return $this->privileges['isEditable'];
 	}
 
@@ -760,7 +750,6 @@ class Vtiger_Record_Model extends \App\Base
 		if ($this->getModule()->isInventory()) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -808,7 +797,6 @@ class Vtiger_Record_Model extends \App\Base
 			}
 			$this->privileges['isNoLockByField'] = $isNoLock;
 		}
-
 		return $this->privileges['isNoLockByField'];
 	}
 
@@ -822,7 +810,6 @@ class Vtiger_Record_Model extends \App\Base
 		if (!isset($this->privileges['Deleted'])) {
 			$this->privileges['Deleted'] = \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId());
 		}
-
 		return $this->privileges['Deleted'];
 	}
 
@@ -836,7 +823,6 @@ class Vtiger_Record_Model extends \App\Base
 		if (!isset($this->privileges['MoveToTrash'])) {
 			$this->privileges['MoveToTrash'] = \App\Record::getState($this->getId()) !== 'Trash' && \App\Privilege::isPermitted($this->getModuleName(), 'MoveToTrash', $this->getId());
 		}
-
 		return $this->privileges['MoveToTrash'];
 	}
 
@@ -850,7 +836,6 @@ class Vtiger_Record_Model extends \App\Base
 		if (!isset($this->privileges['Archive'])) {
 			$this->privileges['Archive'] = \App\Record::getState($this->getId()) !== 'Archived' && \App\Privilege::isPermitted($this->getModuleName(), 'ArchiveRecord', $this->getId());
 		}
-
 		return $this->privileges['Archive'];
 	}
 
@@ -864,7 +849,6 @@ class Vtiger_Record_Model extends \App\Base
 		if (!isset($this->privileges['Activate'])) {
 			$this->privileges['Activate'] = \App\Record::getState($this->getId()) !== 'Active' && \App\Privilege::isPermitted($this->getModuleName(), 'ActiveRecord', $this->getId());
 		}
-
 		return $this->privileges['Activate'];
 	}
 
@@ -906,7 +890,6 @@ class Vtiger_Record_Model extends \App\Base
 			$result = $db->pquery('SELECT description FROM vtiger_crmentity WHERE crmid = ?', [$this->getId()]);
 			$description = $db->queryResult($result, 0, 'description');
 		}
-
 		return $description;
 	}
 
@@ -926,7 +909,6 @@ class Vtiger_Record_Model extends \App\Base
 				$focus->transferRelatedRecords($moduleName, $recordIds, $this->getId());
 			}
 		}
-
 		return true;
 	}
 
@@ -959,7 +941,6 @@ class Vtiger_Record_Model extends \App\Base
 		foreach ($summaryBlocks as $key => $block) {
 			ksort($summaryBlocks[$key]);
 		}
-
 		return $summaryBlocks;
 	}
 
@@ -1102,7 +1083,6 @@ class Vtiger_Record_Model extends \App\Base
 				$defaultData[$key] = $lastItem[$key] ?? null;
 			}
 		}
-
 		return $defaultData;
 	}
 
@@ -1249,7 +1229,6 @@ class Vtiger_Record_Model extends \App\Base
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -1349,7 +1328,6 @@ class Vtiger_Record_Model extends \App\Base
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -1410,7 +1388,6 @@ class Vtiger_Record_Model extends \App\Base
 					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 			]);
 		}
-
 		return $links;
 	}
 
@@ -1442,7 +1419,6 @@ class Vtiger_Record_Model extends \App\Base
 				return $autoAssignRecord ? true : false;
 			}
 		}
-
 		return false;
 	}
 
@@ -1461,7 +1437,6 @@ class Vtiger_Record_Model extends \App\Base
 			$value = \vtlib\Functions::getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $idName, $this->getId());
 			$this->set($fieldModel->getName(), $value);
 		}
-
 		return $this->get($fieldName);
 	}
 
@@ -1520,7 +1495,6 @@ class Vtiger_Record_Model extends \App\Base
 		if (!empty($stateColors[$state])) {
 			$colors['leftBorder'] = $stateColors[$state];
 		}
-
 		return $colors;
 	}
 

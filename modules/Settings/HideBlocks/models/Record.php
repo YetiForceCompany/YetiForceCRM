@@ -93,7 +93,6 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -173,7 +172,6 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 			return $recordModel;
 		}
-
 		return false;
 	}
 
@@ -217,7 +215,6 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				break;
 		}
-
 		return $fieldValue;
 	}
 
@@ -229,7 +226,6 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 		if (!empty($tabid)) {
 			return Vtiger_Module_Model::getInstance($tabid);
 		}
-
 		return false;
 	}
 }

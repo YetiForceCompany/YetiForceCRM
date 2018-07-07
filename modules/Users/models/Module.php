@@ -144,7 +144,6 @@ class Users_Module_Model extends Vtiger_Module_Model
 		if ($userId) {
 			$query->andWhere(['<>', 'id', $userId]);
 		}
-
 		return $query->exists();
 	}
 
@@ -172,7 +171,6 @@ class Users_Module_Model extends Vtiger_Module_Model
 		if (in_array(strtolower($userName), $blacklist)) {
 			return \App\Language::translate('LBL_FORBIDDEN_USERNAMES', 'Users');
 		}
-
 		return false;
 	}
 
@@ -207,7 +205,6 @@ class Users_Module_Model extends Vtiger_Module_Model
 				return $users;
 			}
 		}
-
 		return [];
 	}
 
@@ -227,7 +224,6 @@ class Users_Module_Model extends Vtiger_Module_Model
 		foreach (App\Field::getFieldsPermissions($this->getId(), false) as $field) {
 			$editFields[] = $field['fieldname'];
 		}
-
 		return $editFields;
 	}
 }

@@ -29,7 +29,6 @@ class OSSTimeControl_Field_Model extends Vtiger_Field_Model
 				return DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
 			}
 		}
-
 		return parent::getEditViewDisplayValue($value, $recordModel);
 	}
 
@@ -63,7 +62,6 @@ class OSSTimeControl_Field_Model extends Vtiger_Field_Model
 			default: $validator = parent::getValidator();
 				break;
 		}
-
 		return $validator;
 	}
 }

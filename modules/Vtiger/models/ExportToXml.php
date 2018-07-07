@@ -108,7 +108,6 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 					break;
 			}
 		}
-
 		return html_entity_decode($value);
 	}
 
@@ -212,7 +211,6 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		if ($fieldModel && $fieldModel->getFieldDataType() === 'text') {
 			return true;
 		}
-
 		return false;
 	}
 

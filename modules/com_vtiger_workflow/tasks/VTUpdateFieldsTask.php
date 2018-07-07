@@ -99,7 +99,6 @@ class VTUpdateFieldsTask extends VTTask
 				\App\Request::_set($cur_valuename, $fieldValue);
 			}
 		}
-
 		return $fieldValue;
 	}
 }

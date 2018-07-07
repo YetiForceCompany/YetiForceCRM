@@ -79,7 +79,6 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -172,7 +171,6 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		if (file_exists($watermarkImage)) {
 			return unlink($watermarkImage);
 		}
-
 		return false;
 	}
 
@@ -226,7 +224,6 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 			case 'margin_chkbox':
 				$value = $value ? 'LBL_YES' : 'LBL_NO';
 		}
-
 		return $value;
 	}
 }

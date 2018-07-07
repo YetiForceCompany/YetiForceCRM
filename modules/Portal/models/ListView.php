@@ -50,7 +50,6 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 			$record['id'] = $recordId;
 			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $dataReader[$index++]);
 		}
-
 		return $listViewRecordModels;
 	}
 
@@ -63,7 +62,6 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 		if (!empty($searchValue)) {
 			$query->where(['like', 'portalname', $searchValue]);
 		}
-
 		return $query;
 	}
 

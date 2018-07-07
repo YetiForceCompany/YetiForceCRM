@@ -31,7 +31,6 @@ class Vtiger_DetailRecordStructure_Model extends Vtiger_RecordStructure_Model
 				];
 			}
 		}
-
 		return $fieldsInHeader;
 	}
 

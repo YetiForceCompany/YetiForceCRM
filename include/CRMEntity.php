@@ -366,7 +366,6 @@ class CRMEntity
 				\App\Log::error('Updating Missing Sequence Number FAILED! REASON: Field table and module table mismatching.');
 			}
 		}
-
 		return $returninfo;
 	}
 
@@ -586,7 +585,6 @@ class CRMEntity
 		} elseif ($tableName == 'vtiger_entity_stats' || $tableName == 'u_yf_openstreetmap') {
 			return 'LEFT JOIN';
 		}
-
 		return 'INNER JOIN';
 	}
 
@@ -605,7 +603,6 @@ class CRMEntity
 				$query .= " UNION $moduleAccessQuery";
 			}
 		}
-
 		return $query;
 	}
 
@@ -629,7 +626,6 @@ class CRMEntity
 			$query .= ' UNION (SELECT groupid FROM vtiger_groups where' .
 				' groupid in (' . implode(',', $userGroups) . '))';
 		}
-
 		return $query;
 	}
 
@@ -656,7 +652,6 @@ class CRMEntity
 				'vtiger_tmp_read_group_sharing_per.sharedgroupid FROM ' .
 				"vtiger_tmp_read_group_sharing_per WHERE userid=$userId && tabid=$tabId)";
 		}
-
 		return $query;
 	}
 
@@ -676,7 +671,6 @@ class CRMEntity
 			\VtlibUtils::vtlibSetupModulevars($this->moduleName, $this);
 			$query = str_ireplace(' WHERE ', " WHERE $this->table_name.$this->table_index > 0  AND ", $query);
 		}
-
 		return $query;
 	}
 
@@ -702,7 +696,6 @@ class CRMEntity
 		if ($secModule === false) {
 			return $relTables;
 		}
-
 		return $relTables[$secModule];
 	}
 
@@ -731,7 +724,6 @@ class CRMEntity
 		if (isset($this->lockFields)) {
 			return $this->lockFields;
 		}
-
 		return false;
 	}
 

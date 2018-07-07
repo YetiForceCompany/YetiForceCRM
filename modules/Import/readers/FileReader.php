@@ -51,7 +51,6 @@ class Import_FileReader_Reader
 		if ($this->request->get('has_header') == 'on' || $this->request->get('has_header') == 1 || $this->request->get('has_header') === true) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -82,7 +81,6 @@ class Import_FileReader_Reader
 
 			return false;
 		}
-
 		return $fileHandler;
 	}
 
@@ -93,7 +91,6 @@ class Import_FileReader_Reader
 		} else {
 			$value = iconv($fromCharset, $toCharset, $value);
 		}
-
 		return $value;
 	}
 

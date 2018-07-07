@@ -112,7 +112,6 @@ class BaseAction
 		if ($this->session && !$this->session->isEmpty('language')) {
 			$language = $this->session->get('language');
 		}
-
 		return $language;
 	}
 
@@ -158,7 +157,6 @@ class BaseAction
 				}
 			}
 		}
-
 		return \App\Record::getParentRecord($this->getUserCrmId());
 	}
 }

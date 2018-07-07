@@ -45,7 +45,6 @@ class ModTracker_Relation_Model extends Vtiger_Record_Model
 
 			return $recordInstance;
 		}
-
 		return false;
 	}
 

@@ -87,7 +87,6 @@ class Vtiger_Action_Model extends \App\Base
 		if ($query->count()) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -141,7 +140,6 @@ class Vtiger_Action_Model extends \App\Base
 				}
 			}
 		}
-
 		return null;
 	}
 
@@ -164,7 +162,6 @@ class Vtiger_Action_Model extends \App\Base
 		if ($row) {
 			return self::getInstanceFromRow($db->getRow($row));
 		}
-
 		return null;
 	}
 
@@ -194,7 +191,6 @@ class Vtiger_Action_Model extends \App\Base
 		foreach ($rows as &$row) {
 			$actionModels[$row['actionname']] = self::getInstanceFromRow($row);
 		}
-
 		return $actionModels;
 	}
 

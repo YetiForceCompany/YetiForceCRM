@@ -18,7 +18,6 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-
 		return \App\Purifier::decodeHtml($value);
 	}
 
@@ -95,7 +94,6 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 				$displayValue[] = "<a href=\"$detailViewUrl\">$ownerName</a>";
 			}
 		}
-
 		return implode(', ', $displayValue);
 	}
 
@@ -152,7 +150,6 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 				$shownerName = "<a href='" . $shownerData[$key]['link'] . "'>$shownerName</a>";
 			}
 		}
-
 		return implode(', ', $display);
 	}
 

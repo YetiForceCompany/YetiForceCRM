@@ -38,7 +38,6 @@ class Vtiger_Cache
 		if ($key && self::$cacheEnable) {
 			return $self->connector->get($ns, $key);
 		}
-
 		return false;
 	}
 
@@ -63,7 +62,6 @@ class Vtiger_Cache
 		if (isset(self::$_user_list[$currentUser][$module])) {
 			return self::$_user_list[$currentUser][$module];
 		}
-
 		return false;
 	}
 
@@ -81,7 +79,6 @@ class Vtiger_Cache
 		if (isset(self::$_group_list[$currentUser][$module])) {
 			return self::$_group_list[$currentUser][$module];
 		}
-
 		return false;
 	}
 
@@ -99,7 +96,6 @@ class Vtiger_Cache
 		if (isset(self::$_picklist_details[$module][$field])) {
 			return self::$_picklist_details[$module][$field];
 		}
-
 		return false;
 	}
 
@@ -117,7 +113,6 @@ class Vtiger_Cache
 		if (isset(self::$_module_ownedby[$module])) {
 			return self::$_module_ownedby[$module];
 		}
-
 		return false;
 	}
 
@@ -135,7 +130,6 @@ class Vtiger_Cache
 		if (isset(self::$_field_instance[$moduleId][$field])) {
 			return self::$_field_instance[$moduleId][$field];
 		}
-
 		return false;
 	}
 
@@ -168,7 +162,6 @@ class Vtiger_Cache
 		if (isset(self::$_module_name[$moduleId])) {
 			return self::$_module_name[$moduleId];
 		}
-
 		return false;
 	}
 
@@ -186,7 +179,6 @@ class Vtiger_Cache
 		if (isset(self::$_user_id[$userName])) {
 			return self::$_user_id[$userName];
 		}
-
 		return false;
 	}
 
@@ -204,7 +196,6 @@ class Vtiger_Cache
 		if (isset(self::$_table_exists[$tableName])) {
 			return self::$_table_exists[$tableName];
 		}
-
 		return false;
 	}
 
@@ -222,7 +213,6 @@ class Vtiger_Cache
 		if (isset(self::$_picklist_id[$moduleName][$fieldName])) {
 			return self::$_picklist_id[$moduleName][$fieldName];
 		}
-
 		return false;
 	}
 
@@ -240,7 +230,6 @@ class Vtiger_Cache
 		if (isset(self::$_group_id[$groupName])) {
 			return self::$_group_id[$groupName];
 		}
-
 		return false;
 	}
 
@@ -258,7 +247,6 @@ class Vtiger_Cache
 		if (isset(self::$_block_fields[$module][$block])) {
 			return self::$_block_fields[$module][$block];
 		}
-
 		return false;
 	}
 
@@ -276,7 +264,6 @@ class Vtiger_Cache
 		if (isset(self::$_name_fields[$module])) {
 			return self::$_name_fields[$module];
 		}
-
 		return false;
 	}
 
@@ -292,7 +279,6 @@ class Vtiger_Cache
 		if (self::$cacheEnable) {
 			return $this->connector->get('purify', $key);
 		}
-
 		return false;
 	}
 
@@ -310,7 +296,6 @@ class Vtiger_Cache
 		if (isset(self::$_owners_names_list[$id])) {
 			return self::$_owners_names_list[$id];
 		}
-
 		return false;
 	}
 
@@ -335,7 +320,6 @@ class Vtiger_Cache
 		if (isset(self::$_owners_db_names_list[$id])) {
 			return self::$_owners_db_names_list[$id];
 		}
-
 		return false;
 	}
 

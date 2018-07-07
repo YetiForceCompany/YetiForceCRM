@@ -29,7 +29,6 @@ class Calendar_Datetime_UIType extends Vtiger_Datetime_UIType
 		if (!empty($component[1])) {
 			return true;
 		}
-
 		return false;
 	}
 }

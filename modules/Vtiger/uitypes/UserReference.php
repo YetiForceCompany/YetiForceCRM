@@ -40,7 +40,6 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 		if ($value) {
 			return \App\Fields\Owner::getLabel($value);
 		}
-
 		return '';
 	}
 
@@ -56,7 +55,6 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 
 			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . $displayValue . '</a>';
 		}
-
 		return $displayValue;
 	}
 

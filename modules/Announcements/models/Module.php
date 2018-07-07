@@ -73,7 +73,6 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		if (empty($this->announcements)) {
 			$this->loadAnnouncements();
 		}
-
 		return $this->announcements;
 	}
 
@@ -138,7 +137,6 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		} else {
 			$users = $userModel->getRoleBasedSubordinateUsers();
 		}
-
 		return $users;
 	}
 

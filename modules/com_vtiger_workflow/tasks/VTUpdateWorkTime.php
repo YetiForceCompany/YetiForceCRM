@@ -68,7 +68,6 @@ class VTUpdateWorkTime extends VTTask
 
 			$this->contents = \App\Json::encode($delta);
 		}
-
 		return $this->contents;
 	}
 }

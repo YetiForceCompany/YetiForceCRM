@@ -94,7 +94,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$recordModel->set($fieldName, 'on');
 			$recordModel->set('is_owner', 1);
 		}
-
 		return $recordModel;
 	}
 

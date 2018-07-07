@@ -22,7 +22,6 @@ class Users_Boolean_UIType extends Vtiger_Boolean_UIType
 				return 'off';
 			}
 		}
-
 		return parent::getDBValue($value, $recordModel);
 	}
 

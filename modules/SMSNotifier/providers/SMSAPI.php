@@ -88,7 +88,6 @@ class SMSNotifier_SMSAPI_Provider extends SMSNotifier_Basic_Provider
 		foreach ($fields as &$field) {
 			$field = Settings_Vtiger_Field_Model::init($moduleName, $field);
 		}
-
 		return $fields;
 	}
 }

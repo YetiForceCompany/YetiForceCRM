@@ -85,7 +85,6 @@ class Email
 		foreach ($rows as &$row) {
 			$row['label'] = $labels[$row['crmid']];
 		}
-
 		return $rows;
 	}
 

@@ -47,7 +47,6 @@ class EventHandler
 				}
 			}
 		}
-
 		return $handlers;
 	}
 
@@ -75,7 +74,6 @@ class EventHandler
 				}
 			}
 		}
-
 		return $handlers;
 	}
 
@@ -274,7 +272,6 @@ class EventHandler
 				}
 			}
 		}
-
 		return $handlers;
 	}
 

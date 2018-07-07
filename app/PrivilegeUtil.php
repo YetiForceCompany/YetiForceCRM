@@ -1228,7 +1228,6 @@ class PrivilegeUtil
 		} else {
 			Log::warning('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
 		}
-
 		return $groups;
 	}
 

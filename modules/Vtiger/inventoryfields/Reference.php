@@ -37,7 +37,6 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if (\App\Record::getState($value) !== 'Active') {
 			$name = '<s>' . $name . '</s>';
 		}
-
 		return "<a class='modCT_$moduleName showReferenceTooltip' href='index.php?module=$moduleName&view=Detail&record=$value' title='" . App\Language::translateSingularModuleName($moduleName) . "'>$name</a>";
 	}
 
@@ -53,7 +52,6 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($value)) {
 			return '';
 		}
-
 		return \App\Record::getLabel($value);
 	}
 
@@ -71,7 +69,6 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 
 			return $metadata['setype'];
 		}
-
 		return '';
 	}
 

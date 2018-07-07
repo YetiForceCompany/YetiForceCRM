@@ -102,7 +102,6 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -121,7 +120,6 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 			default:
 				break;
 		}
-
 		return $this->get($name);
 	}
 
@@ -254,7 +252,6 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 			default:
 				break;
 		}
-
 		return Settings_Vtiger_Field_Model::init($moduleName, $params);
 	}
 
@@ -283,7 +280,6 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 			$result = $db->createCommand()->delete($table, [$index => $recordId])->execute();
 			$this->clearCache($recordId);
 		}
-
 		return !empty($result);
 	}
 

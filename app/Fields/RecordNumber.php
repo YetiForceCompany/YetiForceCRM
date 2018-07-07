@@ -28,7 +28,6 @@ class RecordNumber
 		if ($exist) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -157,7 +156,6 @@ class RecordNumber
 		if ($cache) {
 			self::$numberCache[$tabId] = $number;
 		}
-
 		return $number;
 	}
 }

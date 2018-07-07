@@ -47,7 +47,6 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 		} elseif ($value === 0 || $value === '0' || strtolower($value) === 'off' || strtolower($value) === 'no' || false === $value) {
 			return App\Language::translate('LBL_NO', $this->getFieldModel()->getModuleName());
 		}
-
 		return \App\Purifier::encodeHtml($value);
 	}
 

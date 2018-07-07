@@ -15,7 +15,6 @@ class OSSSoldServices_Field_Model extends Vtiger_Field_Model
 		if ($edit && $this->getName() === 'ssservicesstatus') {
 			$edit = false;
 		}
-
 		return $edit;
 	}
 }

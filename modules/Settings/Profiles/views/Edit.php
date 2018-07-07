@@ -20,7 +20,6 @@ class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
 		} else {
 			$title = \App\Language::translate('LBL_VIEW_EDIT', $moduleName);
 		}
-
 		return $title;
 	}
 

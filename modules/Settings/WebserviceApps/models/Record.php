@@ -63,7 +63,6 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 		if ($data) {
 			$model->setData($data);
 		}
-
 		return $model;
 	}
 

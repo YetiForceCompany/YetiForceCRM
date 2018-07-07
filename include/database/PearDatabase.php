@@ -87,7 +87,6 @@ class PearDatabase
 		} else {
 			self::$dbCache = $db;
 		}
-
 		return $db;
 	}
 
@@ -233,7 +232,6 @@ class PearDatabase
 
 			return $result;
 		}
-
 		return false;
 	}
 
@@ -310,7 +308,6 @@ class PearDatabase
 			\App\Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage(), $dieOnError, $query);
 		}
-
 		return $this->stmt;
 	}
 
@@ -342,7 +339,6 @@ class PearDatabase
 			\App\Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage(), $dieOnError, $query, $params);
 		}
-
 		return $this->stmt;
 	}
 
@@ -383,7 +379,6 @@ class PearDatabase
 			\App\Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage());
 		}
-
 		return $this->stmt;
 	}
 
@@ -443,7 +438,6 @@ class PearDatabase
 		} else {
 			$this->pquery(sprintf('DELETE FROM %s %s', $table, $where), $params);
 		}
-
 		return $this->stmt->rowCount();
 	}
 
@@ -491,7 +485,6 @@ class PearDatabase
 		if (!isset($result->tmp[$row]) || !isset($result->tmp[$row][$col])) {
 			return null;
 		}
-
 		return $result->tmp[$row][$col];
 	}
 
@@ -521,7 +514,6 @@ class PearDatabase
 		if (!isset($result->tmp)) {
 			$result->tmp = $result->fetchAll(PDO::FETCH_ASSOC);
 		}
-
 		return $result->tmp[$row];
 	}
 
@@ -546,7 +538,6 @@ class PearDatabase
 				array_push($output, $value);
 			}
 		}
-
 		return $output;
 	}
 
@@ -557,7 +548,6 @@ class PearDatabase
 		foreach ($stmt as $col) {
 			$columns[] = $col->Field;
 		}
-
 		return $columns;
 	}
 
@@ -594,7 +584,6 @@ class PearDatabase
 			$column->type = $type;
 			$columns[strtoupper($column->name)] = $column;
 		}
-
 		return $columns;
 	}
 
@@ -620,7 +609,6 @@ class PearDatabase
 		if ($this->getRowCount($result) > $rowNum) {
 			$row = $this->rawQueryResultRowData($result, $rowNum);
 		}
-
 		return $row;
 	}
 
@@ -650,7 +638,6 @@ class PearDatabase
 			$result = $this->query("SELECT MAX($column ) AS max FROM " . $this->quote($seqname, false));
 			$id = ((int) $this->getSingleValue($result)) + 1;
 		}
-
 		return $id;
 	}
 
@@ -690,7 +677,6 @@ class PearDatabase
 		if ($strip_quotes === true) {
 			return trim($datetime, "'");
 		}
-
 		return $datetime;
 	}
 
@@ -716,7 +702,6 @@ class PearDatabase
 			$column->max_length = $meta['len'];
 			array_push($fieldArray, $column);
 		}
-
 		return $fieldArray;
 	}
 
@@ -730,7 +715,6 @@ class PearDatabase
 			$meta = $result->getColumnMeta($columnIndex);
 			array_push($fieldArray, $meta['name']);
 		}
-
 		return $fieldArray;
 	}
 
@@ -754,7 +738,6 @@ class PearDatabase
 			}
 			$concat .= $column . ',';
 		}
-
 		return rtrim($concat, ',') . ')';
 	}
 
@@ -772,7 +755,6 @@ class PearDatabase
 		foreach ($array as $key => $val) {
 			$l .= ($l ? ',' : '') . $this->quote($val);
 		}
-
 		return ' ( ' . $l . ' ) ';
 	}
 
@@ -916,7 +898,6 @@ class PearDatabase
 				$val = array_shift($val);
 			}
 		}
-
 		return '=\'' . $val . '\'';
 	}
 }

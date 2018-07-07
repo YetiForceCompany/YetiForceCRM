@@ -23,7 +23,6 @@ class Events_Field_Model extends Calendar_Field_Model
 
 			return $this->$propertyName;
 		}
-
 		return null;
 	}
 
@@ -41,7 +40,6 @@ class Events_Field_Model extends Calendar_Field_Model
 				return $endDate . ' ' . $endTime;
 			}
 		}
-
 		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 }

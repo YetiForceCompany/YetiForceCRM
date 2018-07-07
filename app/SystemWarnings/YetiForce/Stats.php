@@ -68,7 +68,6 @@ class Stats extends \App\SystemWarnings\Template
 		} catch (\Exception $exc) {
 			\App\Log::warning($exc->getMessage());
 		}
-
 		return ['result' => $result, 'message' => $message];
 	}
 }

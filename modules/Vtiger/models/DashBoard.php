@@ -107,7 +107,6 @@ class Vtiger_DashBoard_Model extends \App\Base
 				unset($widgets[$index]);
 			}
 		}
-
 		return $widgets;
 	}
 
@@ -126,7 +125,6 @@ class Vtiger_DashBoard_Model extends \App\Base
 		if ($linkLabel == 'Overdue Activities' || $linkLabel == 'Upcoming Activities') {
 			$module = 'Calendar';
 		}
-
 		return $module;
 	}
 
@@ -236,7 +234,6 @@ class Vtiger_DashBoard_Model extends \App\Base
 			unset($modules[$tabId]);
 			$modules = array_merge([$tabId => $moduleName], $modules);
 		}
-
 		return $modules;
 	}
 }

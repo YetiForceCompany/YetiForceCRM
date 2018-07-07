@@ -167,7 +167,6 @@ class QueryGenerator
 				}
 			}
 		}
-
 		return $headerFields;
 	}
 
@@ -237,7 +236,6 @@ class QueryGenerator
 		} else {
 			$this->fields[] = $fields;
 		}
-
 		return $this;
 	}
 
@@ -444,7 +442,6 @@ class QueryGenerator
 		} else {
 			$this->group[] = $groups;
 		}
-
 		return $this;
 	}
 
@@ -486,7 +483,6 @@ class QueryGenerator
 				$this->ownerFields[] = $fieldName;
 			}
 		}
-
 		return $this->fieldsModel = $moduleFields;
 	}
 
@@ -503,7 +499,6 @@ class QueryGenerator
 		if (isset($this->fieldsModel[$fieldName])) {
 			return $this->fieldsModel[$fieldName];
 		}
-
 		return false;
 	}
 
@@ -578,7 +573,6 @@ class QueryGenerator
 				}
 			}
 		}
-
 		return $value;
 	}
 
@@ -848,7 +842,6 @@ class QueryGenerator
 		if (isset($this->entityModel->tab_name_index['vtiger_crmentity'])) {
 			return ['vtiger_crmentity'];
 		}
-
 		return [];
 	}
 
@@ -887,7 +880,6 @@ class QueryGenerator
 				$condition = [];
 				break;
 		}
-
 		return $condition;
 	}
 
@@ -1179,7 +1171,6 @@ class QueryGenerator
 			$advFilterConditionFormat[$glueOrder[$groupIterator]] = $groupColumnsInfo;
 			++$groupIterator;
 		}
-
 		return $advFilterConditionFormat;
 	}
 }

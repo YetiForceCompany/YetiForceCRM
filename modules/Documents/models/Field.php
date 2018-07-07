@@ -26,7 +26,6 @@ class Documents_Field_Model extends Vtiger_Field_Model
 
 			return $value;
 		}
-
 		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 }

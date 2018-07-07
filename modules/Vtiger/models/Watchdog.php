@@ -109,7 +109,6 @@ class Vtiger_Watchdog_Model extends \App\Base
 		if (empty($moduleId)) {
 			$moduleId = $this->get('moduleId');
 		}
-
 		return isset(static::$cache[$moduleId][$userId]) ? (bool) static::$cache[$moduleId][$userId] : false;
 	}
 
@@ -302,7 +301,6 @@ class Vtiger_Watchdog_Model extends \App\Base
 		if (is_array($exceptions)) {
 			$exceptions = implode(',', $exceptions);
 		}
-
 		return \App\Db::getInstance()
 			->createCommand()
 			->update('u_#__watchdog_module', ['exceptions' => $exceptions], ['member' => $member, 'module' => $this->get('moduleId')])
@@ -374,7 +372,6 @@ class Vtiger_Watchdog_Model extends \App\Base
 				}
 			}
 		}
-
 		return $users;
 	}
 
@@ -414,7 +411,6 @@ class Vtiger_Watchdog_Model extends \App\Base
 		} else {
 			$members = $query->column();
 		}
-
 		return $members;
 	}
 
@@ -488,7 +484,6 @@ class Vtiger_Watchdog_Model extends \App\Base
 			$usersKey = array_keys(static::$cache[$tabid]);
 			$users = array_combine($usersKey, $usersKey);
 		}
-
 		return $users;
 	}
 

@@ -84,7 +84,6 @@ class Picklist
 				unset($values[$key]);
 			}
 		}
-
 		return $values;
 	}
 
@@ -141,7 +140,6 @@ class Picklist
 		if (isset($pickListIds[$fieldName])) {
 			return $pickListIds[$fieldName];
 		}
-
 		return $fieldName . 'id';
 	}
 
@@ -319,7 +317,6 @@ class Picklist
 			}
 			$colors[$id] = $color;
 		}
-
 		return $colors;
 	}
 }

@@ -13,7 +13,6 @@ class Assets_Field_Model extends Vtiger_Field_Model
 		if ($edit && $this->getName() === 'assetstatus') {
 			$edit = false;
 		}
-
 		return $edit;
 	}
 }

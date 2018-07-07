@@ -39,7 +39,6 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 		} elseif ($db->numRows($result) == 0) {
 			return $db->queryResult($result, 0, '');
 		}
-
 		return false;
 	}
 
@@ -75,7 +74,6 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 		if (!file_put_contents($file, implode("\r\n", $res), LOCK_EX)) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -125,7 +123,6 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 		if ($onlyStars) {
 			return ['error' => true, 'message' => \App\Language::translate('LBL_ONLY_STARS', 'OSSPasswords')];
 		}
-
 		return ['error' => false, 'message' => ''];
 	}
 }

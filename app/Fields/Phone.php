@@ -37,7 +37,6 @@ class Phone
 		} catch (\libphonenumber\NumberParseException $e) {
 			\App\Log::info($e->getMessage(), __CLASS__);
 		}
-
 		return false;
 	}
 

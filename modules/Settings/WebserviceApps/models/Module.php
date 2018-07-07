@@ -30,7 +30,6 @@ class Settings_WebserviceApps_Module_Model extends Settings_Vtiger_Module_Model
 		if (!empty($type)) {
 			$query->andWhere(['type' => $type]);
 		}
-
 		return $query->createCommand(\App\Db::getInstance('webservice'))->queryAllByGroup(1);
 	}
 }

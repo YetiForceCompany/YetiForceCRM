@@ -541,7 +541,6 @@ class API_CardDAV_Model
 		if (!empty($adr2)) {
 			$vcard->add('ADR', $adr2, ['type' => 'HOME']);
 		}
-
 		return $vcard;
 	}
 

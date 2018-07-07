@@ -98,7 +98,6 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 				$accessibleFields[$fieldObject->getBlockName()][$fieldName] = $fieldObject;
 			}
 		}
-
 		return $accessibleFields;
 	}
 
@@ -114,7 +113,6 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 		if (in_array($fieldName, ['value', 'active'])) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -137,7 +135,6 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 			}
 			$this->listFieldModels = $fieldObjects;
 		}
-
 		return $this->listFieldModels;
 	}
 
@@ -179,7 +176,6 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 				return $autoAssignRecordModel;
 			}
 		}
-
 		return false;
 	}
 

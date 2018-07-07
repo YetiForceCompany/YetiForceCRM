@@ -35,7 +35,6 @@ class Vtiger_RelatedCommentModal_Model extends \App\Base
 		if ($result = $dataReader->readColumn(0)) {
 			return $result;
 		}
-
 		return '';
 	}
 
@@ -58,7 +57,6 @@ class Vtiger_RelatedCommentModal_Model extends \App\Base
 		if (empty($relationTable)) {
 			$relationTable = ['vtiger_crmentityrel' => ['crmid', 'relcrmid'], $instance->table_name => $instance->table_index];
 		}
-
 		return $relationTable;
 	}
 

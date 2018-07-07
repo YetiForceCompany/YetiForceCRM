@@ -28,7 +28,6 @@ class Settings_AutomaticAssignment_ListView_Model extends Settings_Vtiger_ListVi
 				'showLabel' => '1',
 			];
 		}
-
 		return $basicLinks;
 	}
 
@@ -45,7 +44,6 @@ class Settings_AutomaticAssignment_ListView_Model extends Settings_Vtiger_ListVi
 		if ($tabId) {
 			$query->where(['tabid' => $tabId]);
 		}
-
 		return $query;
 	}
 }

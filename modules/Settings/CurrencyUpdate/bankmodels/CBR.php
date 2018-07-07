@@ -43,7 +43,6 @@ class Settings_CurrencyUpdate_CBR_BankModel extends Settings_CurrencyUpdate_Abst
 				$supportedCurrencies[$currencyName] = $currencyCode;
 			}
 		}
-
 		return $supportedCurrencies;
 	}
 

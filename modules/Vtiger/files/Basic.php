@@ -65,7 +65,6 @@ abstract class Vtiger_Basic_File
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		}
-
 		return true;
 	}
 

@@ -299,7 +299,6 @@ class File
 		if (empty($this->mimeShortType)) {
 			$this->mimeShortType = explode('/', $this->getMimeType());
 		}
-
 		return $this->mimeShortType[$type];
 	}
 
@@ -566,7 +565,6 @@ class File
 		if ($badExtensionFound) {
 			$newFileName .= '.txt';
 		}
-
 		return $newFileName;
 	}
 
@@ -594,7 +592,6 @@ class File
 		} elseif (is_writable(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload')) {
 			static::$tmpPath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR;
 		}
-
 		return static::$tmpPath;
 	}
 
@@ -631,7 +628,6 @@ class File
 		} else {
 			$mimeType = 'application/octet-stream';
 		}
-
 		return $mimeType;
 	}
 
@@ -670,7 +666,6 @@ class File
 		if ($fileInstance->validate() && ($id = static::saveFromContent($fileInstance, $params))) {
 			return $id;
 		}
-
 		return false;
 	}
 
@@ -724,7 +719,6 @@ class File
 		if (isset($record->ext['attachmentsId'])) {
 			return array_merge(['crmid' => $record->getId()], $record->ext);
 		}
-
 		return false;
 	}
 
@@ -874,7 +868,6 @@ class File
 				return true;
 			}
 		}
-
 		return false;
 	}
 

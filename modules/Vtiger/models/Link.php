@@ -119,7 +119,6 @@ class Vtiger_Link_Model extends vtlib\Link
 		if (empty($linkIcon)) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -134,7 +133,6 @@ class Vtiger_Link_Model extends vtlib\Link
 		if (!$this->isIconExists()) {
 			return false;
 		}
-
 		return Vtiger_Theme::getImagePath($this->getIcon());
 	}
 
@@ -213,7 +211,6 @@ class Vtiger_Link_Model extends vtlib\Link
 		if (strpos($url, 'index') === 0) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -331,7 +328,6 @@ class Vtiger_Link_Model extends vtlib\Link
 				$linkModel->$property = $value;
 			}
 		}
-
 		return $linkModel;
 	}
 
@@ -369,7 +365,6 @@ class Vtiger_Link_Model extends vtlib\Link
 				$linkModel->linkurl = $filePath2;
 			}
 		}
-
 		return $linkModel;
 	}
 
@@ -398,7 +393,6 @@ class Vtiger_Link_Model extends vtlib\Link
 				}
 			}
 		}
-
 		return $linkModels;
 	}
 
@@ -418,7 +412,6 @@ class Vtiger_Link_Model extends vtlib\Link
 		} else {
 			$relatedModuleName = $this->relatedModuleName;
 		}
-
 		return $relatedModuleName;
 	}
 }

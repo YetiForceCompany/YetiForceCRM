@@ -118,7 +118,6 @@ class Rss_List_View extends Vtiger_Index_View
 			$fieldModel->module = $module;
 			$fieldModelsList[$fieldName] = $fieldModel;
 		}
-
 		return $fieldModelsList;
 	}
 }

@@ -39,7 +39,6 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		if (!$exists) {
 			$id = $this->add($mail);
 		}
-
 		return $id;
 	}
 

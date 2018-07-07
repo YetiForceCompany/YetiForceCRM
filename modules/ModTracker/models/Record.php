@@ -96,7 +96,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 
 			return $row['id'];
 		}
-
 		return false;
 	}
 
@@ -121,7 +120,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 
 			return App\Db::getInstance()->createCommand()->update('vtiger_modtracker_basic', ['last_reviewed_users' => $value], ['id' => $row['id']])->execute();
 		}
-
 		return false;
 	}
 
@@ -138,7 +136,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		if ($lastReviewedUsers !== false) {
 			return strpos($lastReviewedUsers, "#$userId#") === false;
 		}
-
 		return true;
 	}
 
@@ -180,7 +177,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$unreviewed[$crmId]['a'] = $all;
 			$unreviewed[$crmId]['m'] = $mails;
 		}
-
 		return $unreviewed;
 	}
 
@@ -194,7 +190,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		if (empty($this->parent)) {
 			return Vtiger_Module_Model::getInstance($this->getModuleName());
 		}
-
 		return $this->getParent()->getModule();
 	}
 
@@ -228,7 +223,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		if ($moduleName === 'Events') {
 			$moduleName = 'Calendar';
 		}
-
 		return "index.php?module=$moduleName&$action&record=" . $this->get('crmid');
 	}
 
@@ -248,7 +242,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		if ($status == $callerStatus) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -342,7 +335,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		if (empty($reviewed)) {
 			return false;
 		}
-
 		return strpos($reviewed, "#$userId#") !== false;
 	}
 
@@ -403,7 +395,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			}
 			$dataReader->close();
 		}
-
 		return $fieldInstances;
 	}
 
@@ -419,7 +410,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$relationInstance = new ModTracker_Relation_Model();
 			$relationInstance->setData($row)->setParent($this);
 		}
-
 		return $relationInstance;
 	}
 
@@ -444,7 +434,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			default:
 				break;
 		}
-
 		return $where;
 	}
 
@@ -526,7 +515,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 				$type['type'] = 'OSSMailView';
 			}
 		}
-
 		return $data;
 	}
 }

@@ -70,7 +70,6 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				$respJs[$key][$language] = isset($langTab[$language]['js'][$key]) ? \App\Purifier::encodeHtml($langTab[$language]['js'][$key]) : null;
 			}
 		}
-
 		return ['php' => $respPhp, 'js' => $respJs, 'langs' => $langs];
 	}
 
@@ -189,7 +188,6 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		if ($b != '' && stristr($b, $a) !== false) {
 			$resp = true;
 		}
-
 		return $resp;
 	}
 
@@ -276,7 +274,6 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
-
 		return $data;
 	}
 
@@ -308,7 +305,6 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		if ($byModule === false) {
 			array_unshift($differences, $i);
 		}
-
 		return $differences;
 	}
 }

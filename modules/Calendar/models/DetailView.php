@@ -43,7 +43,6 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				'badgeClass' => 'bgDanger',
 			];
 		}
-
 		return $relatedLinks;
 	}
 
@@ -116,7 +115,6 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY'),
 			]);
 		}
-
 		return $linkModelList;
 	}
 }

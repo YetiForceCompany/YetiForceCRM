@@ -31,7 +31,6 @@ class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 		foreach ($moduleModel->getFieldsByType(['picklist']) as $fieldName => $fieldModel) {
 			$values[$fieldName] = \App\Language::translate($fieldModel->get('label'), $moduleName);
 		}
-
 		return $values;
 	}
 
@@ -56,7 +55,6 @@ class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 				];
 			}
 		}
-
 		return $values;
 	}
 }

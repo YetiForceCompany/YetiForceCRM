@@ -76,7 +76,6 @@ class Tree
 			}
 			$values[$row['tree']] = $parentName . \App\Language::translate($row['name'], $moduleName);
 		}
-
 		return $values;
 	}
 
@@ -120,7 +119,6 @@ class Tree
 				$value['icon'] = '<span class="treeImageIcon ' . $row['icon'] . '"></span>';
 			}
 		}
-
 		return $value;
 	}
 

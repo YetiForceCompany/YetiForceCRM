@@ -35,7 +35,6 @@ class EmailParser extends TextParser
 
 			return ($permissionFieldModel && $permissionFieldModel->isActiveField() && $this->recordModel->has($checkFieldName)) ? (bool) $this->recordModel->get($checkFieldName) : true;
 		}
-
 		return true;
 	}
 
@@ -61,7 +60,6 @@ class EmailParser extends TextParser
 				$emails[] = $content;
 			}
 		}
-
 		return $emails;
 	}
 }

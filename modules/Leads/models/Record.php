@@ -73,7 +73,6 @@ class Leads_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-
 		return $accountsFields;
 	}
 
@@ -119,7 +118,6 @@ class Leads_Record_Model extends Vtiger_Record_Model
 			$dataReader->close();
 			$this->set('mappingFields', $mappingFields);
 		}
-
 		return $mappingFields[$moduleName][$fieldName];
 	}
 
@@ -135,7 +133,6 @@ class Leads_Record_Model extends Vtiger_Record_Model
 		if (!empty($accountFields)) {
 			$convertFields['Accounts'] = $accountFields;
 		}
-
 		return $convertFields;
 	}
 

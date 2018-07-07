@@ -69,7 +69,6 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		if (!$this->module) {
 			$this->module = Settings_Vtiger_Module_Model::getInstance('Settings:PBX');
 		}
-
 		return $this->module;
 	}
 
@@ -100,7 +99,6 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 			case 'default':
 				return $this->get($name) ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
 		}
-
 		return $this->get($name);
 	}
 
@@ -142,7 +140,6 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -198,7 +195,6 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 			$db = App\Db::getInstance();
 			$result = $db->createCommand()->delete('s_#__pbx', ['pbxid' => $recordId])->execute();
 		}
-
 		return !empty($result);
 	}
 
@@ -229,7 +225,6 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			$fieldModels[$name] = $fieldModel;
 		}
-
 		return $fieldModels;
 	}
 
@@ -251,7 +246,6 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 				$fieldModels[$name] = $fieldModel;
 			}
 		}
-
 		return $fieldModels;
 	}
 
@@ -279,7 +273,6 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 				$this->set('pbxid', $db->getLastInsertID('s_#__pbx_pbxid_seq'));
 			}
 		}
-
 		return $seccess;
 	}
 

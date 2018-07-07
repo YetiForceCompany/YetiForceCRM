@@ -28,7 +28,6 @@ class Vtiger_JavaScript extends Vtiger_Viewer
 		if (file_exists($completeFilePath)) {
 			return $filePath;
 		}
-
 		return false;
 	}
 

@@ -21,7 +21,6 @@ class Accounts_FInvoice_HeaderField
 				'badge' => DateTimeField::convertToUserFormat($row['date']),
 			];
 		}
-
 		return false;
 	}
 }

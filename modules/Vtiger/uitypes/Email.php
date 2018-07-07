@@ -58,7 +58,6 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 				}
 			}
 		}
-
 		return \App\Purifier::encodeHtml($value);
 	}
 
@@ -86,7 +85,6 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 				}
 			}
 		}
-
 		return \App\Purifier::encodeHtml($value);
 	}
 

@@ -80,7 +80,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		if ($this->has('colspan')) {
 			return $this->get('colspan');
 		}
-
 		return $this->colSpan;
 	}
 
@@ -113,7 +112,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		if (is_file($filename)) {
 			return $tpl;
 		}
-
 		return $view . 'Base' . '.tpl';
 	}
 
@@ -147,7 +145,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		if ($this->has('columnname')) {
 			return $this->get('columnname');
 		}
-
 		return $this->columnName;
 	}
 
@@ -171,7 +168,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		if ($this->has('defaultvalue')) {
 			return $this->get('defaultvalue');
 		}
-
 		return $this->defaultValue;
 	}
 
@@ -221,7 +217,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		if ($value == '') {
 			return $this->get('defaultvalue');
 		}
-
 		return $value;
 	}
 
@@ -240,7 +235,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		if ((int) $this->get('displaytype') == 5) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -254,7 +248,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		if (!in_array((int) $this->get('displaytype'), [0, 10])) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -268,7 +261,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		if (empty($this->columnName) || $this->columnName == '-') {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -283,7 +275,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		foreach ($modules as $module) {
 			$modulesNames[] = ['module' => $module->getName(), 'name' => $module->getName(), 'id' => $module->getName()];
 		}
-
 		return $modulesNames;
 	}
 
@@ -295,7 +286,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 				$sum += $row[$this->get('columnname')];
 			}
 		}
-
 		return $sum;
 	}
 
@@ -314,7 +304,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 				return $mapDetail;
 			}
 		}
-
 		return false;
 	}
 

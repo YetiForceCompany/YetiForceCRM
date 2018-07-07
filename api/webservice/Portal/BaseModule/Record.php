@@ -123,7 +123,6 @@ class Record extends \Api\Core\BaseAction
 			$resposne['rawData'] = $rawData;
 			$resposne['rawInventory'] = $rawInventory;
 		}
-
 		return $resposne;
 	}
 

@@ -74,7 +74,6 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				return ['mailViewId' => $mailId];
 			}
 		}
-
 		return false;
 	}
 

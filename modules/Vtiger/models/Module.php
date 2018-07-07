@@ -170,7 +170,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		} else {
 			$enabled = false;
 		}
-
 		return $enabled;
 	}
 
@@ -193,7 +192,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 				Vtiger_Cache::set('module', $moduleObject->name, $instance);
 			}
 		}
-
 		return $instance;
 	}
 
@@ -212,7 +210,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$moduleModel->$properName = $propertyValue;
 		}
-
 		return $moduleModel;
 	}
 
@@ -315,7 +312,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (!empty($viewName)) {
 			return $viewName;
 		}
-
 		return 'List';
 	}
 
@@ -438,7 +434,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 			$this->blocks = $blocksList;
 		}
-
 		return $this->blocks;
 	}
 
@@ -462,7 +457,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 		}
-
 		return $this->fields;
 	}
 
@@ -477,7 +471,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		foreach ($this->getFields() as &$field) {
 			$fieldList[$field->getBlockName()][$field->getName()] = $field;
 		}
-
 		return $fieldList;
 	}
 
@@ -507,7 +500,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 				return $field;
 			}
 		}
-
 		return null;
 	}
 
@@ -580,7 +572,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 				$fieldList[$field->getName()] = $field;
 			}
 		}
-
 		return $fieldList;
 	}
 
@@ -595,7 +586,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		foreach ($this->getFields() as &$field) {
 			$fieldList[$field->get('label')] = $field;
 		}
-
 		return $fieldList;
 	}
 
@@ -611,7 +601,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		foreach ($fields as &$field) {
 			$fieldList[$field->getId()] = $field;
 		}
-
 		return $fieldList;
 	}
 
@@ -628,7 +617,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 				$fieldList[$field->getName()] = $field;
 			}
 		}
-
 		return $fieldList;
 	}
 
@@ -650,7 +638,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		foreach (App\Field::getFieldsPermissions($tabId, false) as $field) {
 			$editFields[] = $field['fieldname'];
 		}
-
 		return array_diff($editFields, ['closedtime', 'shownerid', 'smcreatorid', 'modifiedtime', 'modifiedby']);
 	}
 
@@ -670,7 +657,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 			$this->summaryFields = $summaryFields;
 		}
-
 		return $this->summaryFields;
 	}
 
@@ -698,7 +684,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		foreach ($quickSequenceTemp as $key => $value) {
 			$quickCreateSortedList[$key] = $quickCreateFieldList[$key];
 		}
-
 		return $quickCreateSortedList;
 	}
 
@@ -712,7 +697,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (empty($this->relations)) {
 			$this->relations = Vtiger_Relation_Model::getAllRelations($this);
 		}
-
 		return $this->relations;
 	}
 
@@ -728,7 +712,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		foreach ($entityInfo['fieldnameArr'] as $columnName) {
 			$fieldsName[] = $this->getFieldByColumn($columnName)->getFieldName();
 		}
-
 		return $fieldsName;
 	}
 
@@ -747,7 +730,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if ($this->isEntityModule()) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -770,7 +752,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 				->where(['uitype' => 4, 'tabid' => $this->getId()])
 				->exists();
 		}
-
 		return false;
 	}
 
@@ -803,7 +784,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 		}
-
 		return $moduleModels;
 	}
 
@@ -834,7 +814,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 			Vtiger_Cache::set('vtiger', 'EntityModules', $moduleModels);
 		}
-
 		return $moduleModels;
 	}
 
@@ -894,7 +873,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 				$searchableModules[$moduleName] = $moduleModel;
 			}
 		}
-
 		return $searchableModules;
 	}
 
@@ -913,7 +891,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$instance->label = $moduleData['tabname'];
 			$modulesModelsList[] = $instance;
 		}
-
 		return $modulesModelsList;
 	}
 
@@ -965,7 +942,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 					'linkicon' => '',
 			]);
 		}
-
 		return $links;
 	}
 
@@ -1057,7 +1033,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 			return $history;
 		}
-
 		return false;
 	}
 
@@ -1172,7 +1147,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
-
 		return $activities;
 	}
 
@@ -1327,7 +1301,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 				$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 			}
 		}
-
 		return $matchingRecords;
 	}
 
@@ -1352,7 +1325,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (empty($focus->mandatory_fields)) {
 			return [];
 		}
-
 		return $focus->mandatory_fields;
 	}
 
@@ -1372,7 +1344,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 		}
-
 		return $mandatoryFields;
 	}
 
@@ -1538,7 +1509,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 				$data[$relationField] = $recordModel->getId();
 			}
 		}
-
 		return $data;
 	}
 }

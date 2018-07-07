@@ -77,7 +77,6 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 		if ($sourceModule) {
 			$query->where(['tabid' => $sourceModule]);
 		}
-
 		return $query->count('*', $db);
 	}
 }

@@ -21,7 +21,6 @@ class IdField extends StringField
 		if ($this->fullColumnName) {
 			return $this->fullColumnName;
 		}
-
 		return $this->fullColumnName = $this->queryGenerator->getColumnName('id');
 	}
 

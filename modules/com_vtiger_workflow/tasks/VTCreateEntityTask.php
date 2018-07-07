@@ -160,7 +160,6 @@ class VTCreateEntityTask extends VTTask
 			}
 			$recordModel->set($fieldName, $fieldValue);
 		}
-
 		return $recordModel;
 	}
 

@@ -134,7 +134,6 @@ class Date
 			}
 			$value = implode('-', [$y, $m, $d]);
 		}
-
 		return (new \DateTimeField($value))->getDBInsertDateValue();
 	}
 
@@ -252,7 +251,6 @@ class Date
 
 				return $seconds;
 		}
-
 		return $interval->format($format);
 	}
 

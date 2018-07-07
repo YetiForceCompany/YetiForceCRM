@@ -123,7 +123,6 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 		if (!empty($this->menu) && $this->get('name') !== 'LBL_SHOP_YETIFORCE') {
 			$url .= '&block=' . $this->getMenu()->getId() . '&fieldid=' . $this->getId();
 		}
-
 		return $url;
 	}
 
@@ -224,7 +223,6 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 
 			return $menuItem;
 		}
-
 		return false;
 	}
 
@@ -253,7 +251,6 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 
 			return $menuItem;
 		}
-
 		return false;
 	}
 

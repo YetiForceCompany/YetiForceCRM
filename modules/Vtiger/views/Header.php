@@ -36,7 +36,6 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 		if (strpos($filename, 'modules') === 0) {
 			$filename = $filename;
 		}
-
 		return file_exists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . $filename);
 	}
 
@@ -108,7 +107,6 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 				$headerLinkInstances[] = Vtiger_Link_Model::getInstanceFromLinkObject($headerLink);
 			}
 		}
-
 		return $headerLinkInstances;
 	}
 
@@ -133,7 +131,6 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 				}
 			}
 		}
-
 		return $headerScriptInstances;
 	}
 
@@ -159,7 +156,6 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 				}
 			}
 		}
-
 		return $headerCssInstances;
 	}
 }

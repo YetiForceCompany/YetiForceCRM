@@ -50,7 +50,6 @@ class Controller
 		if (isset(static::$instance)) {
 			return static::$instance;
 		}
-
 		return static::$instance = new self();
 	}
 
@@ -75,7 +74,6 @@ class Controller
 		if (empty($this->request->get('action'))) {
 			throw new Core\Exception('No action', 404);
 		}
-
 		return true;
 	}
 

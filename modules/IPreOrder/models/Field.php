@@ -15,7 +15,6 @@ class IPreOrder_Field_Model extends Vtiger_Field_Model
 		if ($edit && $this->getName() === 'ipreorder_status') {
 			$edit = false;
 		}
-
 		return $edit;
 	}
 }

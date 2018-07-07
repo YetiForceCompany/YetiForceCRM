@@ -24,7 +24,6 @@ class ModComments_CommentsModel
 		if (!isset(self::$ownerNamesCache[$authorid])) {
 			self::$ownerNamesCache[$authorid] = \App\Fields\Owner::getLabel($authorid);
 		}
-
 		return self::$ownerNamesCache[$authorid];
 	}
 

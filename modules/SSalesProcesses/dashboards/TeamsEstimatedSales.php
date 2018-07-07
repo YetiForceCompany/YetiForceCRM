@@ -23,7 +23,6 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 		if (isset($owner)) {
 			$listSearchParams[0][] = ['assigned_user_id', 'e', $owner];
 		}
-
 		return '&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
@@ -47,7 +46,6 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 				$data[$key] = [0, $values[1], ''];
 			}
 		}
-
 		return [array_values($data), array_values($previousData)];
 	}
 

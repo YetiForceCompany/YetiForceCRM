@@ -454,7 +454,6 @@ class CurrencyField
 		if ($id) {
 			return $id;
 		}
-
 		return null;
 	}
 
@@ -463,7 +462,6 @@ class CurrencyField
 		if ($conversionRate == 0) {
 			return 0;
 		}
-
 		return $amount / $conversionRate;
 	}
 

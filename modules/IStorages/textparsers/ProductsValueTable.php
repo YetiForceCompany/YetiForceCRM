@@ -90,7 +90,6 @@ class IStorages_ProductsValueTable_Textparser extends \App\TextParser\Base
 							<td style="background:#eee;"><b>' . $totalValueFormatted . '<b></td>
 						</tr></tbody></table>';
 		}
-
 		return $html;
 	}
 }

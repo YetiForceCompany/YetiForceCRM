@@ -35,7 +35,6 @@ class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 		if (is_int($length)) {
 			$namesOfCompany = \App\TextParser::textTruncate($namesOfCompany, $length);
 		}
-
 		return \App\Purifier::encodeHtml($namesOfCompany);
 	}
 

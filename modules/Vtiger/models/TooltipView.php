@@ -27,7 +27,6 @@ class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model
 		if (empty($this->fields)) {
 			$this->fields = $this->module->getMandatoryFieldModels();
 		}
-
 		return $this;
 	}
 
@@ -52,7 +51,6 @@ class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model
 				}
 			}
 		}
-
 		return $this->structuredValues;
 	}
 

@@ -76,7 +76,6 @@ class Products_SummaryWidget_Model
 			$count += (int) $relationListView->getRelatedEntriesCount();
 			$modules[$moduleName] = $count;
 		}
-
 		return $modules;
 	}
 }

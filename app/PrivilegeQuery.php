@@ -65,7 +65,6 @@ class PrivilegeQuery
 		if (!empty($query)) {
 			return ' AND (' . implode(' OR ', $query) . ')';
 		}
-
 		return '';
 	}
 

@@ -49,7 +49,6 @@ class Notification_Notifications_TextParser extends \App\TextParser\Base
 		if (empty($html)) {
 			$html = \App\Language::translate('LBL_NO_NOTIFICATIONS', 'Notification');
 		}
-
 		return $html;
 	}
 }

@@ -79,7 +79,6 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 				$notifyNewRates = true;
 			}
 		}
-
 		return $notifyNewRates;
 	}
 
@@ -334,7 +333,6 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 				}
 			}
 		}
-
 		return $exchange = round($exchange, 5);
 	}
 

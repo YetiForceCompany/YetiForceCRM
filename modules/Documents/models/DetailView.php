@@ -56,7 +56,6 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 				$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 			}
 		}
-
 		return $linkModelList;
 	}
 

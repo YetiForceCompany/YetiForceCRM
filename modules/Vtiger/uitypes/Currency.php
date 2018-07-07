@@ -66,7 +66,6 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 
 			return \App\Purifier::encodeHtml($value);
 		}
-
 		return 0;
 	}
 
@@ -80,7 +79,6 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 
 			return $this->getDisplayValue($value);
 		}
-
 		return \App\Purifier::encodeHtml($value);
 	}
 
@@ -107,7 +105,6 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 			$currencyModal->initialize();
 			$currencySymbol = $currencyModal->currencySymbol;
 		}
-
 		return CurrencyField::appendCurrencySymbol($value, $currencySymbol);
 	}
 

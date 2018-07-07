@@ -325,7 +325,6 @@ class Vtiger_DetailView_Model extends \App\Base
 				];
 			}
 		}
-
 		return $relatedLinks;
 	}
 
@@ -348,7 +347,6 @@ class Vtiger_DetailView_Model extends \App\Base
 				]);
 			}
 		}
-
 		return $relatedLinks;
 	}
 
@@ -409,7 +407,6 @@ class Vtiger_DetailView_Model extends \App\Base
 				$moduleLinks['SIDEBARWIDGET'][] = $link;
 			}
 		}
-
 		return $moduleLinks;
 	}
 

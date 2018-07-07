@@ -39,7 +39,6 @@ class PBXManager_DetailView_Model extends Vtiger_DetailView_Model
 				$linkModelList['DETAILVIEWWIDGET'][] = $widgetLinkModel;
 			}
 		}
-
 		return $linkModelList;
 	}
 }

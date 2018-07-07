@@ -98,7 +98,6 @@ class VTJsonCondition
 				}
 			}
 		}
-
 		return $finalResult;
 	}
 

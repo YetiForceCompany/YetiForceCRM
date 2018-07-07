@@ -96,7 +96,6 @@ class Activity extends CRMEntity
 		if ($tableName == 'vtiger_activity_reminder') {
 			return 'LEFT JOIN';
 		}
-
 		return parent::getJoinClause($tableName);
 	}
 

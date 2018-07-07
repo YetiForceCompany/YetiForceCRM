@@ -31,7 +31,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		if ($key === 'uid' || $key === 'content') {
 			return App\Purifier::decodeHtml($value);
 		}
-
 		return $value;
 	}
 
@@ -41,7 +40,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		if ($widgets[$module]) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -154,7 +152,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-
 		return trim($return, ',');
 	}
 
@@ -195,7 +192,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-
 		return $returnEmail;
 	}
 
@@ -341,7 +337,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		} else {
 			(new OSSMailView_Relation_Model())->addRelation($mailId, $newCrmId);
 		}
-
 		return \App\Language::translate('Add relationship', 'OSSMail');
 	}
 

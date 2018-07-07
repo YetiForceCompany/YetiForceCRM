@@ -161,7 +161,6 @@ class Vtiger_AdvancedFilter_Helper
 				}
 			}
 		}
-
 		return $wfCondition;
 	}
 
@@ -173,7 +172,6 @@ class Vtiger_AdvancedFilter_Helper
 			$comparatorInfo['label'] = \App\Language::translate($comparatorInfo['label'], $moduleName);
 			$dateFilters[$comparatorKey] = $comparatorInfo;
 		}
-
 		return $dateFilters;
 	}
 

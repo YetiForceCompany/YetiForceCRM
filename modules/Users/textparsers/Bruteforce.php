@@ -34,7 +34,6 @@ class Users_Bruteforce_Textparser extends \App\TextParser\Base
 		foreach ($attemptsLogin as $data) {
 			$html .= "<tr><td>{$data['user_name']}</td><td>{$this->displayIpAddress($data['user_ip'])}</td><td>{$data['login_time']}</td><td>{$data['browser']}</td></tr>";
 		}
-
 		return $html . '</table>';
 	}
 

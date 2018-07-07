@@ -304,7 +304,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$text .= iconv($charset, 'UTF-8', $row->text);
 			}
 		}
-
 		return $text;
 	}
 
@@ -328,7 +327,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$return .= self::decodeText($row->personal) . ' - ' . $row->mailbox . '@' . $row->host;
 			}
 		}
-
 		return $return;
 	}
 
@@ -456,7 +454,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-
 		return $mail;
 	}
 
@@ -496,7 +493,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				'attachment' => convert_uudecode($filebody),
 			];
 		}
-
 		return ['attachments' => $attachments, 'text' => $input];
 	}
 
@@ -532,7 +528,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$string = iconv(strtoupper($encoding), $charset, urldecode($data));
 			}
 		}
-
 		return $string;
 	}
 
@@ -558,7 +553,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$folders[$name] = self::convertCharacterEncoding($name, 'UTF-8', 'UTF7-IMAP');
 			}
 		}
-
 		return $folders;
 	}
 
@@ -578,7 +572,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		} else {
 			$value = iconv($toCharset, $fromCharset, $value);
 		}
-
 		return $value;
 	}
 
@@ -593,7 +586,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if (substr($site_URL, -1) != '/') {
 			$site_URL = $site_URL . '/';
 		}
-
 		return $site_URL;
 	}
 
@@ -621,7 +613,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			}
 			imap_close($imap);
 		}
-
 		return $mails;
 	}
 
@@ -643,7 +634,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				return $result;
 			}
 		}
-
 		return false;
 	}
 }

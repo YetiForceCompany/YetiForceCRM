@@ -100,7 +100,6 @@ class AppConfig
 			require_once 'config/debug.php';
 			self::load('debug', $DEBUG_CONFIG);
 		}
-
 		return isset(self::$debug[$key]) ? self::$debug[$key] : $defvalue;
 	}
 
@@ -110,7 +109,6 @@ class AppConfig
 			require_once 'config/developer.php';
 			self::load('developer', $DEVELOPER_CONFIG);
 		}
-
 		return isset(self::$developer[$key]) ? self::$developer[$key] : $defvalue;
 	}
 
@@ -120,7 +118,6 @@ class AppConfig
 			require_once 'config/security.php';
 			self::load('security', $SECURITY_CONFIG);
 		}
-
 		return isset(self::$security[$key]) ? self::$security[$key] : $defvalue;
 	}
 
@@ -130,7 +127,6 @@ class AppConfig
 			require_once 'config/secret_keys.php';
 			self::load('securityKeys', $SECURITY_KEYS_CONFIG);
 		}
-
 		return isset(self::$securityKeys[$key]) ? self::$securityKeys[$key] : $defvalue;
 	}
 
@@ -140,7 +136,6 @@ class AppConfig
 			require_once 'config/performance.php';
 			self::load('performance', $PERFORMANCE_CONFIG);
 		}
-
 		return isset(self::$performance[$key]) ? self::$performance[$key] : $defvalue;
 	}
 
@@ -150,7 +145,6 @@ class AppConfig
 			require_once 'config/relation.php';
 			self::load('relation', $RELATION_CONFIG);
 		}
-
 		return isset(self::$relation[$key]) ? self::$relation[$key] : $defvalue;
 	}
 
@@ -174,7 +168,6 @@ class AppConfig
 			require_once 'config/search.php';
 			self::load('search', $CONFIG);
 		}
-
 		return self::$search[$key];
 	}
 

@@ -38,7 +38,6 @@ class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 		foreach ($relatedLinks as $relatedLink) {
 			$linkModelList[$relatedLink->getType()][] = $relatedLink;
 		}
-
 		return $linkModelList;
 	}
 }

@@ -131,7 +131,6 @@ class Settings_Vtiger_Icons_Model
 		foreach (self::$user as $icon) {
 			$icons[$icon] = 'userIcon-' . $icon;
 		}
-
 		return $icons;
 	}
 
@@ -141,7 +140,6 @@ class Settings_Vtiger_Icons_Model
 		foreach (self::$admin as $icon) {
 			$icons[$icon] = 'adminIcon-' . $icon;
 		}
-
 		return $icons;
 	}
 
@@ -151,7 +149,6 @@ class Settings_Vtiger_Icons_Model
 		foreach (self::$additional as $icon) {
 			$icons[$icon] = 'AdditionalIcon-' . $icon;
 		}
-
 		return $icons;
 	}
 
@@ -161,7 +158,6 @@ class Settings_Vtiger_Icons_Model
 		foreach (self::$fontAwesome as $icon) {
 			$icons[$icon] = $icon;
 		}
-
 		return $icons;
 	}
 
@@ -185,7 +181,6 @@ class Settings_Vtiger_Icons_Model
 				}
 			}
 		}
-
 		return $images;
 	}
 

@@ -223,7 +223,6 @@ class Module extends ModuleBasic
 			$instance = new self();
 			$instance->initialize($data);
 		}
-
 		return $instance;
 	}
 

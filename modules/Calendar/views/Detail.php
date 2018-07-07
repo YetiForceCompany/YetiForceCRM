@@ -55,7 +55,6 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 		if ($moduleName === 'Events') {
 			$viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());
 		}
-
 		return parent::showModuleDetailView($request);
 	}
 

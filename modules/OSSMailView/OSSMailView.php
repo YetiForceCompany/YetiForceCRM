@@ -104,7 +104,6 @@ class OSSMailView extends CRMEntity
 		if ($key == 'owner') {
 			return \App\Fields\Owner::getLabel($value);
 		}
-
 		return parent::transformExportValue($key, $value);
 	}
 

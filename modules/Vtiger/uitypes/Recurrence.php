@@ -122,7 +122,6 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 			}
 			$result['freqLabel'] = $labelFreq;
 		}
-
 		return $result;
 	}
 
@@ -146,7 +145,6 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 				$text .= App\Language::translate('LBL_UNTIL', $moduleName) . ': ' . $info['UNTIL'];
 			}
 		}
-
 		return $text;
 	}
 

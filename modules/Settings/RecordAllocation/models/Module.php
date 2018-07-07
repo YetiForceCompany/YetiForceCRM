@@ -61,7 +61,6 @@ class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Mode
 			require $file;
 			self::$data[$type] = $map ?? [];
 		}
-
 		return self::$data[$type];
 	}
 

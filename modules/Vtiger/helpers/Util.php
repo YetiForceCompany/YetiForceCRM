@@ -220,7 +220,6 @@ class Vtiger_Util_Helper
 		if ($userModel->get('hour_format') == '12') {
 			$time = Vtiger_Time_UIType::getTimeValueInAMorPM($time);
 		}
-
 		return $time;
 	}
 

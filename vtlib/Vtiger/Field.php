@@ -170,7 +170,6 @@ class Field extends FieldBasic
 			$db->createCommand()->insert('vtiger_fieldmodulerel', ['fieldid' => $this->id, 'module' => $this->getModuleName(), 'relmodule' => $relmodule])->execute();
 			\App\Log::trace("Setting $this->name relation with $checkRes ... DONE", __METHOD__);
 		}
-
 		return true;
 	}
 
@@ -186,7 +185,6 @@ class Field extends FieldBasic
 			$db->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $this->id, 'module' => $this->getModuleName(), 'relmodule' => $relmodule])->execute();
 			\App\Log::trace("Unsetting $this->name relation with $relmodule ... DONE", __METHOD__);
 		}
-
 		return true;
 	}
 
@@ -210,7 +208,6 @@ class Field extends FieldBasic
 			$instance = new self();
 			$instance->initialize($data, $moduleId);
 		}
-
 		return $instance;
 	}
 
@@ -270,7 +267,6 @@ class Field extends FieldBasic
 			$instance->initialize($row, $moduleId);
 			$instances[] = $instance;
 		}
-
 		return $instances;
 	}
 

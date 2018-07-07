@@ -27,7 +27,6 @@ class SSalesProcesses_Field_Model extends Vtiger_Field_Model
 			default: $validator = parent::getValidator();
 				break;
 		}
-
 		return $validator;
 	}
 }

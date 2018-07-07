@@ -37,7 +37,6 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 				->innerJoin('vtiger_vendorcontactrel', 'vtiger_vendorcontactrel.contactid = vtiger_contactdetails.contactid')
 				->andWhere(['vtiger_vendorcontactrel.vendorid' => $parentId]);
 		}
-
 		return parent::getSearchRecordsQuery($parentId, $parentModule);
 	}
 

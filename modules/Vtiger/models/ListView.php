@@ -136,7 +136,6 @@ class Vtiger_ListView_Model extends \App\Base
 		foreach ($headerLinks as $headerLink) {
 			$links['LIST_VIEW_HEADER'][] = Vtiger_Link_Model::getInstanceFromValues($headerLink);
 		}
-
 		return $links;
 	}
 
@@ -210,7 +209,6 @@ class Vtiger_ListView_Model extends \App\Base
 				];
 			}
 		}
-
 		return $advancedLinks;
 	}
 
@@ -307,7 +305,6 @@ class Vtiger_ListView_Model extends \App\Base
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
-
 		return $links;
 	}
 
@@ -346,7 +343,6 @@ class Vtiger_ListView_Model extends \App\Base
 				];
 			}
 		}
-
 		return $basicLinks;
 	}
 
@@ -380,7 +376,6 @@ class Vtiger_ListView_Model extends \App\Base
 		foreach ($advancedLinks as $advancedLink) {
 			$links['LISTVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($advancedLink);
 		}
-
 		return $links;
 	}
 

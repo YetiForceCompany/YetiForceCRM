@@ -75,7 +75,6 @@ class Settings_ModuleManager_Library_Model
 			$lib['status'] = $status;
 			$libs[$name] = $lib;
 		}
-
 		return $libs;
 	}
 

@@ -40,7 +40,6 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		if (count($data) > 0 && $data[0]['taxmode'] == 0) {
 			return 'hide';
 		}
-
 		return '';
 	}
 

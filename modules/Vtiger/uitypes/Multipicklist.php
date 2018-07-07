@@ -19,7 +19,6 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		if (is_array($value)) {
 			$value = implode(' |##| ', $value);
 		}
-
 		return \App\Purifier::decodeHtml($value);
 	}
 
@@ -67,7 +66,6 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		if (is_int($length)) {
 			$value = \App\TextParser::textTruncate($value, $length);
 		}
-
 		return \App\Purifier::encodeHtml($value);
 	}
 

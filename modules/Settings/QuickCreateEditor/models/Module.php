@@ -32,7 +32,6 @@ class Settings_QuickCreateEditor_Module_Model extends Vtiger_Module_Model
 				\App\Cache::delete('AllFieldForModule', $fieldInfo['tabid']);
 			}
 		}
-
 		return $result;
 	}
 }

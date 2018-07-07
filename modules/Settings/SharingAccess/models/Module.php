@@ -113,7 +113,6 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 			$instance->set('permission', $row['permission']);
 			$instance->set('editstatus', $row['editstatus']);
 		}
-
 		return $instance;
 	}
 

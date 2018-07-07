@@ -32,7 +32,6 @@ class Settings_SMSNotifier_ListView_Model extends Settings_Vtiger_ListView_Model
 				'modalView' => true,
 			];
 		}
-
 		return $basicLinks;
 	}
 }

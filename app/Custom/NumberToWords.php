@@ -167,7 +167,6 @@ class NumberToWords
 				}
 			}
 		}
-
 		return self::clear($return);
 	}
 
@@ -235,7 +234,6 @@ class NumberToWords
 		if (($units > 1 && $units < 5) & !($rest > 10 && $rest < 20)) {
 			$txt = $inflections[1];
 		}
-
 		return $txt;
 	}
 
@@ -275,7 +273,6 @@ class NumberToWords
 		if ($units > 0 && $dozens != 1) {
 			$return .= self::$words[1][$units] . ' ';
 		}
-
 		return $return;
 	}
 }

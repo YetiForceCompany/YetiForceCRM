@@ -267,7 +267,6 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				$content .= $this->createParentList($child);
 			}
 		}
-
 		return $content;
 	}
 
@@ -285,7 +284,6 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				$content .= $this->createFilterList($child);
 			}
 		}
-
 		return $content;
 	}
 
@@ -322,7 +320,6 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				++$counter;
 			}
 		}
-
 		return $menu;
 	}
 

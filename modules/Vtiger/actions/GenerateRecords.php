@@ -30,7 +30,6 @@ class Vtiger_GenerateRecords_Action extends \App\Controller\Action
 				return true;
 			}
 		}
-
 		return false;
 	}
 

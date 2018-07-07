@@ -53,7 +53,6 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 			}
 			$combine[$keyData] = $values[$key];
 		}
-
 		return $combine;
 	}
 
@@ -125,7 +124,6 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 		} elseif ($noOfHeaders < $noOfFirstRowData) {
 			$values = array_slice($values, 0, count($keys), true);
 		}
-
 		return $values;
 	}
 

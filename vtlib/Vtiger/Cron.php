@@ -305,7 +305,6 @@ class Cron
 		if (time() > ($time + $maxExecutionTime)) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -363,7 +362,6 @@ class Cron
 		while ($row = $dataReader->read()) {
 			$instances[] = new self($row);
 		}
-
 		return $instances;
 	}
 
@@ -387,7 +385,6 @@ class Cron
 				$instance = new self($data);
 			}
 		}
-
 		return $instance;
 	}
 
@@ -410,7 +407,6 @@ class Cron
 				$instance = new self($data);
 			}
 		}
-
 		return $instance;
 	}
 
@@ -428,7 +424,6 @@ class Cron
 		while ($row = $dataReader->read()) {
 			$instances[] = new self($row);
 		}
-
 		return $instances;
 	}
 

@@ -109,7 +109,6 @@ class CustomView
 			$dateFilters[$filterType]['startdate'] = $dateValues[0];
 			$dateFilters[$filterType]['enddate'] = $dateValues[1];
 		}
-
 		return $dateFilters;
 	}
 
@@ -126,7 +125,6 @@ class CustomView
 		if (!empty($_SESSION['lvs'][$moduleName][$viewId]['start'])) {
 			return $_SESSION['lvs'][$moduleName][$viewId]['start'];
 		}
-
 		return 1;
 	}
 
@@ -270,7 +268,6 @@ class CustomView
 		if ($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -603,7 +600,6 @@ class CustomView
 			}
 			$advFilterVal = implode(',', $val);
 		}
-
 		return [
 			'columnname' => html_entity_decode($relCriteriaRow['columnname'], ENT_QUOTES, \AppConfig::main('default_charset')),
 			'comparator' => $comparator,
@@ -752,7 +748,6 @@ class CustomView
 				$permission = false;
 			}
 		}
-
 		return $permission;
 	}
 

@@ -173,7 +173,6 @@ class Importer
 				}
 				break;
 		}
-
 		return $options;
 	}
 
@@ -197,7 +196,6 @@ class Importer
 				$columns[$column] = $customType;
 			}
 		}
-
 		return $columns;
 	}
 
@@ -226,7 +224,6 @@ class Importer
 				}
 			}
 		}
-
 		return $indexes;
 	}
 
@@ -632,7 +629,6 @@ class Importer
 		if (($baseColumn->allowNull !== (is_null($targetColumn->isNotNull))) || ($baseColumn->defaultValue !== $targetColumn->default) || ($baseColumn->unsigned !== $targetColumn->isUnsigned)) {
 			return true;
 		}
-
 		return false;
 	}
 

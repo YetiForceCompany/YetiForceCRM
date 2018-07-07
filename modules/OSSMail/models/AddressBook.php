@@ -62,7 +62,6 @@ class OSSMail_AddressBook_Model
 		if (file_exists(self::LAST_RECORD_CACHE)) {
 			return require self::LAST_RECORD_CACHE;
 		}
-
 		return false;
 	}
 

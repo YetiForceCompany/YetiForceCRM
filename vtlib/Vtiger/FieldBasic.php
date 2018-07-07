@@ -103,7 +103,6 @@ class FieldBasic
 		if ($maxSeq) {
 			return $maxSeq + 1;
 		}
-
 		return 0;
 	}
 
@@ -118,7 +117,6 @@ class FieldBasic
 		if ($maxSeq) {
 			return $maxSeq + 1;
 		}
-
 		return 0;
 	}
 
@@ -257,7 +255,6 @@ class FieldBasic
 		if (!empty($this->block)) {
 			return $this->block->module->id;
 		}
-
 		return false;
 	}
 
@@ -269,7 +266,6 @@ class FieldBasic
 		if ($this->tabid) {
 			return \App\Module::getModuleName($this->tabid);
 		}
-
 		return $this->block->module->name;
 	}
 
@@ -293,7 +289,6 @@ class FieldBasic
 		} else {
 			$this->__create($blockInstance);
 		}
-
 		return $this->id;
 	}
 
@@ -355,7 +350,6 @@ class FieldBasic
 		if ($this->block) {
 			return $this->block->label;
 		}
-
 		return '';
 	}
 }

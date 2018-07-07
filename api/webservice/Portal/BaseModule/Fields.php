@@ -49,7 +49,6 @@ class Fields extends \Api\Core\BaseAction
 			}
 			$fields[$field->getId()] = $fieldInfo;
 		}
-
 		return ['fields' => $fields, 'blocks' => $blocks];
 	}
 }

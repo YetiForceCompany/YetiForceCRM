@@ -46,7 +46,6 @@ class PrivilegeFile
 		if (static::$usersFileCache === false) {
 			static::$usersFileCache = require static::$usersFile;
 		}
-
 		return static::$usersFileCache[$type] ?? false;
 	}
 

@@ -17,7 +17,6 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-
 		return \App\Purifier::decodeHtml($value);
 	}
 
@@ -102,7 +101,6 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 		foreach ($limits as $key => $limit) {
 			$limits[$key] = $limit['value'] . ' - ' . $limit['name'];
 		}
-
 		return $limits;
 	}
 

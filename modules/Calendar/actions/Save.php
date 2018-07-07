@@ -51,7 +51,6 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
 			$relationModel->addRelation($parentRecordId, $relatedRecordId);
 		}
-
 		return $recordModel;
 	}
 

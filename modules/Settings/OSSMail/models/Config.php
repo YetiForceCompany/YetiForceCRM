@@ -39,7 +39,6 @@ class Settings_OSSMail_Config_Model extends App\Base
 				$instance->set($key, $value);
 			}
 		}
-
 		return $instance;
 	}
 

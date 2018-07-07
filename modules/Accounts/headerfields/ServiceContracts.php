@@ -23,7 +23,6 @@ class Accounts_ServiceContracts_HeaderField
 				'action' => 'Vtiger_Detail_Js.getInstance().getTabContainer().find(\'[data-reference="ServiceContracts"]:not(.hide)\').trigger("click");',
 			];
 		}
-
 		return false;
 	}
 }

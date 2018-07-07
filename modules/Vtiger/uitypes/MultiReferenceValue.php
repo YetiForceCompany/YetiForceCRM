@@ -23,7 +23,6 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		if (is_int($length)) {
 			$value = \App\TextParser::textTruncate($value, $length);
 		}
-
 		return \App\Purifier::encodeHtml($value);
 	}
 
@@ -45,7 +44,6 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		} else {
 			return $this->getDisplayValue($value, $record, $recordModel, $rawText, $field->get('maxlengthtext'));
 		}
-
 		return \App\Purifier::encodeHtml(\App\TextParser::textTruncate($values, $field->get('maxlengthtext')));
 	}
 
@@ -168,7 +166,6 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		if ($params['filterField'] === '-' || ($params['filterField'] !== '-' && $recordModel->get($params['filterField']) === $params['filterValue'])) {
 			$relatedValue = $recordModel->get($fieldInfo['fieldname']);
 		}
-
 		return ['currentValue' => $currentValue, 'relatedValue' => $relatedValue];
 	}
 
@@ -245,7 +242,6 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$value = explode(self::COMMA, trim($value, self::COMMA));
 			$values = array_merge($values, $value);
 		}
-
 		return array_unique($values);
 	}
 

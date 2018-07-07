@@ -39,7 +39,6 @@ class ProductsTableDescription extends Base
 			}
 			$html .= $inventoryRow['comment1'];
 		}
-
 		return $html;
 	}
 }

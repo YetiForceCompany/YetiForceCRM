@@ -58,7 +58,6 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 		if ($row) {
 			$self->setData($row);
 		}
-
 		return $self;
 	}
 }

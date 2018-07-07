@@ -96,7 +96,6 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 			$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 			$this->listViewModel->set('search_params', $transformedSearchParams);
 		}
-
 		return $this->listViewModel->getListViewCount();
 	}
 }

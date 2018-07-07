@@ -40,7 +40,6 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		foreach ($advancedLinks as $advancedLink) {
 			$links['LISTVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($advancedLink);
 		}
-
 		return $links;
 	}
 
@@ -123,7 +122,6 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 			}
 			$headerFieldModels[$fieldName] = $fieldsModel;
 		}
-
 		return $headerFieldModels;
 	}
 
@@ -133,7 +131,6 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		if (is_array($searchParams) && count($searchParams[0]['columns']) < 1) {
 			$this->set('search_params', []);
 		}
-
 		return parent::getListViewCount();
 	}
 
@@ -162,7 +159,6 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-upload',
 			];
 		}
-
 		return $advancedLinks;
 	}
 }

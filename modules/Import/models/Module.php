@@ -97,7 +97,6 @@ class Import_Module_Model extends Vtiger_Module_Model
 		foreach ($supportedFileTypes as $fileType) {
 			$description[] = '.' . strtoupper($fileType);
 		}
-
 		return implode(', ', $description);
 	}
 
@@ -151,7 +150,6 @@ class Import_Module_Model extends Vtiger_Module_Model
 				}
 			}
 		}
-
 		return $output;
 	}
 
@@ -171,7 +169,6 @@ class Import_Module_Model extends Vtiger_Module_Model
 
 			return new $modelClassName($request, $user);
 		}
-
 		return null;
 	}
 
@@ -196,7 +193,6 @@ class Import_Module_Model extends Vtiger_Module_Model
 				}
 			}
 		}
-
 		return $this->fields;
 	}
 
@@ -234,7 +230,6 @@ class Import_Module_Model extends Vtiger_Module_Model
 		if ($this->importModuleModel) {
 			return $this->importModuleModel;
 		}
-
 		return $this->importModuleModel = Vtiger_Module_Model::getInstance($this->getImportModule());
 	}
 
@@ -255,7 +250,6 @@ class Import_Module_Model extends Vtiger_Module_Model
 		} else {
 			$tableName .= $user->id;
 		}
-
 		return $tableName;
 	}
 
@@ -284,7 +278,6 @@ class Import_Module_Model extends Vtiger_Module_Model
 		if (vtlib\Utils::checkTable($tableName)) {
 			return (new \App\Db\Query())->from($tableName)->where(['temp_status' => Import_Data_Action::IMPORT_RECORD_NONE])->exists();
 		}
-
 		return false;
 	}
 

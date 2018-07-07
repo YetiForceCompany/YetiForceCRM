@@ -38,7 +38,6 @@ class VTExpressionParser
 			$token = $this->tokens->nextToken();
 			$this->tokenQueue[] = $token;
 		}
-
 		return $this->tokenQueue[$n - 1];
 	}
 
@@ -113,7 +112,6 @@ class VTExpressionParser
 			$ifFalse = $this->expression();
 			$this->consumeSymbol('end');
 		}
-
 		return new VTExpressionTreeNode([new VTExpressionSymbol('if'), $cond, $ifTrue, $ifFalse]);
 	}
 

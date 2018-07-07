@@ -106,7 +106,6 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -232,7 +231,6 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 				$val = [];
 			}
 		}
-
 		return $val;
 	}
 
@@ -365,7 +363,6 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 
 			return $instance;
 		}
-
 		return null;
 	}
 

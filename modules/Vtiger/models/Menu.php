@@ -29,7 +29,6 @@ class Vtiger_Menu_Model
 		if (count($menus) == 0) {
 			require 'user_privileges/menu_0.php';
 		}
-
 		return $menus;
 	}
 
@@ -150,7 +149,6 @@ class Vtiger_Menu_Model
 				}
 			}
 		}
-
 		return $breadcrumbs;
 	}
 
@@ -165,7 +163,6 @@ class Vtiger_Menu_Model
 				$return = self::getParentMenu($parentList, $parentList[$parent]['parent'], $module, $return);
 			}
 		}
-
 		return $return;
 	}
 
@@ -183,7 +180,6 @@ class Vtiger_Menu_Model
 		if ($params['parent']) {
 			return $params['parent'] . ':' . $params['module'];
 		}
-
 		return $params['module'];
 	}
 
@@ -220,7 +216,6 @@ class Vtiger_Menu_Model
 		if (isset($menu['type']) && $menu['type'] == 'Module') {
 			return '<span class="menuIcon userIcon-' . $menu['mod'] . '" aria-hidden="true"></span>';
 		}
-
 		return '';
 	}
 }

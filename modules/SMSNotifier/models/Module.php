@@ -44,7 +44,6 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 		if ($actionName === 'EditView') {
 			return false;
 		}
-
 		return \App\Privilege::isPermitted($this->getName(), $actionName);
 	}
 
@@ -90,7 +89,6 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 				return new $className();
 			}
 		}
-
 		return false;
 	}
 
@@ -107,7 +105,6 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 				$providers[] = self::getProviderInstance($item->getBasename('.php'));
 			}
 		}
-
 		return $providers;
 	}
 

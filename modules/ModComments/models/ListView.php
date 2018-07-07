@@ -35,7 +35,6 @@ class ModComments_ListView_Model extends Vtiger_ListView_Model
 			];
 			$links['LISTVIEWSETTING'][] = Vtiger_Link_Model::getInstanceFromValues($settingsLink);
 		}
-
 		return $links;
 	}
 

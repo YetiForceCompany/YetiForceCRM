@@ -90,7 +90,6 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 				break;
 			}
 		}
-
 		return $return;
 	}
 
@@ -128,7 +127,6 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 			}
 			unset($this->filelist[$name]);
 		}
-
 		return $return;
 	}
 

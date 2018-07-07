@@ -18,7 +18,6 @@ class Vtiger_ReferenceProcess_UIType extends Vtiger_ReferenceLink_UIType
 		if (!empty($modules)) {
 			return array_keys($modules);
 		}
-
 		return [];
 	}
 }

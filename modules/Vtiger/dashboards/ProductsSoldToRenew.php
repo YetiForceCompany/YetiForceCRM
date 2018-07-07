@@ -48,7 +48,6 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 			$data['orderby'] = 'dateinservice';
 			$data['sortorder'] = 'asc';
 		}
-
 		return $this->data = $data;
 	}
 
@@ -67,7 +66,6 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 		if (!$this->targetModuleModel) {
 			$this->targetModuleModel = Vtiger_Module_Model::getInstance($this->getTargetModule());
 		}
-
 		return $this->targetModuleModel;
 	}
 
@@ -77,7 +75,6 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 		if ($this->widgetModel->get('limit')) {
 			$limit = $this->widgetModel->get('limit');
 		}
-
 		return $limit;
 	}
 
@@ -118,7 +115,6 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 			}
 			$this->listviewHeaders = $headerFieldModels;
 		}
-
 		return $this->listviewHeaders;
 	}
 
@@ -146,7 +142,6 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 			}
 			$dataReader->close();
 		}
-
 		return $this->listviewRecords;
 	}
 

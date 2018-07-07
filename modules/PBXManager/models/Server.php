@@ -38,7 +38,6 @@ class PBXManager_Server_Model extends \App\Base
 
 			return $serverModel;
 		}
-
 		return $serverModel;
 	}
 

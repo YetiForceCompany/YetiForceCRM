@@ -37,7 +37,6 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($viewLinks);
 		}
-
 		return $linkModelList;
 	}
 
@@ -72,7 +71,6 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 				'related' => 'Gantt',
 			];
 		}
-
 		return $relatedLinks;
 	}
 }

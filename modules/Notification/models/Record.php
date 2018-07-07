@@ -29,7 +29,6 @@ class Notification_Record_Model extends Vtiger_Record_Model
 			$textParser = \App\TextParser::getInstance();
 			$textParser->setContent($value)->parseTranslations();
 		}
-
 		return nl2br($textParser->getContent());
 	}
 
@@ -56,7 +55,6 @@ class Notification_Record_Model extends Vtiger_Record_Model
 			$field = $this->getModule()->getFieldByColumn($columnName);
 			$labelName[] = $this->getDisplayValue($field->getName(), $this->getId(), $this);
 		}
-
 		return trim(implode(' ', $labelName));
 	}
 
@@ -138,7 +136,6 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		if (!empty($userid)) {
 			return \App\Fields\Owner::getLabel($userid);
 		}
-
 		return '';
 	}
 
@@ -221,7 +218,6 @@ class Notification_Record_Model extends Vtiger_Record_Model
 				];
 				break;
 		}
-
 		return $icon;
 	}
 
@@ -246,7 +242,6 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 }

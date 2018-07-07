@@ -144,7 +144,6 @@ class VTCreateEventTask extends VTTask
 		} else {
 			$hours = ((int) $arr[1]) % 12 + 12;
 		}
-
 		return str_pad($hours, 2, '0', STR_PAD_LEFT) . ':' . str_pad($arr[2], 2, '0', STR_PAD_LEFT);
 	}
 

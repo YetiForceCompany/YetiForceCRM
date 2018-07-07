@@ -250,7 +250,6 @@ class Base
 		if ($scale !== null) {
 			$length[] = $scale;
 		}
-
 		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_DECIMAL, $length);
 	}
 
@@ -359,7 +358,6 @@ class Base
 		if ($scale !== null) {
 			$length[] = $scale;
 		}
-
 		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_MONEY, $length);
 	}
 }
