@@ -18,11 +18,11 @@
 	{if $FIELD_NAME eq 'defaulteventstatus'}
 		{assign var=EVENT_MODULE value=Vtiger_Module_Model::getInstance('Events')}
 		{assign var=EVENTSTATUS_FIELD_MODEL value=$EVENT_MODULE->getField('activitystatus')}
-		{assign var=PICKLIST_VALUES value=$EVENTSTATUS_FIELD_MODEL->getPicklistValues()} 
+		{assign var=PICKLIST_VALUES value=$EVENTSTATUS_FIELD_MODEL->getPicklistValues()}
 	{else if $FIELD_NAME eq 'defaultactivitytype'}
 		{assign var=EVENT_MODULE value=Vtiger_Module_Model::getInstance('Events')}
 		{assign var=ACTIVITYTYPE_FIELD_MODEL value=$EVENT_MODULE->getField('activitytype')}
-		{assign var=PICKLIST_VALUES value=$ACTIVITYTYPE_FIELD_MODEL->getPicklistValues()} 
+		{assign var=PICKLIST_VALUES value=$ACTIVITYTYPE_FIELD_MODEL->getPicklistValues()}
 	{/if}
 		<select class="tpl-Edit-Field-Picklist select2 form-control" name="{$FIELD_NAME}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} data-selected-value='{$FIELD_VALUE}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
 			{if $FIELD_MODEL->isEmptyPicklistOptionAllowed()}<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>{/if}
@@ -31,7 +31,7 @@
 				{assign var=OPTION_VALUE value=\App\Purifier::encodeHtml($PICKLIST_NAME)}
 				{if $PICKLIST_NAME eq ' ' and ($FIELD_NAME eq 'currency_decimal_separator' || $FIELD_NAME eq 'currency_grouping_separator')}
 					{assign var=PICKLIST_VALUE value=\App\Language::translate('LBL_SPACE', 'Users')}
-					{assign var=OPTION_VALUE value='&nbsp;'}
+					{assign var=OPTION_VALUE value=' '}
 					<option value="{$OPTION_VALUE}" {if $FIELD_VALUE eq $OPTION_VALUE} selected {/if}>{$PICKLIST_VALUE}</option>
 				{elseif $FIELD_NAME eq 'currency_decimal_separator' || $FIELD_NAME eq 'currency_grouping_separator'}
 					<option value="{$OPTION_VALUE}" {if $FIELD_VALUE eq $OPTION_VALUE} selected {/if}>{$PICKLIST_VALUE}</option>
