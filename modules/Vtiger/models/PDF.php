@@ -116,7 +116,6 @@ class Vtiger_PDF_Model extends \App\Base
 		if (is_array($this->recordId)) {
 			return reset($this->recordId);
 		}
-
 		return $this->recordId;
 	}
 
@@ -195,7 +194,6 @@ class Vtiger_PDF_Model extends \App\Base
 				unset($templates[$id]);
 			}
 		}
-
 		return $templates;
 	}
 
@@ -215,7 +213,6 @@ class Vtiger_PDF_Model extends \App\Base
 				unset($templates[$id]);
 			}
 		}
-
 		return $templates;
 	}
 
@@ -238,7 +235,6 @@ class Vtiger_PDF_Model extends \App\Base
 			$pdf->setData($row);
 			$templates[] = $pdf;
 		}
-
 		return $templates;
 	}
 
@@ -287,7 +283,6 @@ class Vtiger_PDF_Model extends \App\Base
 				}
 			}
 		}
-
 		return false;
 	}
 
@@ -316,7 +311,6 @@ class Vtiger_PDF_Model extends \App\Base
 		if (in_array($this->viewToPicklistValue[$view], $visibility)) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -379,7 +373,6 @@ class Vtiger_PDF_Model extends \App\Base
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -425,7 +418,6 @@ class Vtiger_PDF_Model extends \App\Base
 
 			$parameters['keywords'] = implode(', ', $companyDetails);
 		}
-
 		return $parameters;
 	}
 

@@ -36,7 +36,6 @@ class Events_Save_Action extends Calendar_Save_Action
 			$recurringEvents->setData($data);
 			$recurringEvents->save();
 		}
-
 		return $recordModel;
 	}
 
@@ -53,7 +52,6 @@ class Events_Save_Action extends Calendar_Save_Action
 		if (!$request->isEmpty('typeSaving') && $request->getInteger('typeSaving') === Events_RecuringEvents_Model::UPDATE_THIS_EVENT) {
 			$recordModel->set('recurrence', $recordModel->getPreviousValue('recurrence'));
 		}
-
 		return $recordModel;
 	}
 }

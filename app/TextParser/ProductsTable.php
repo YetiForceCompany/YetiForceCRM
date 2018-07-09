@@ -216,7 +216,6 @@ class ProductsTable extends Base
 			}
 			$html .= '</td></tr></table>';
 		}
-
 		return $html;
 	}
 }

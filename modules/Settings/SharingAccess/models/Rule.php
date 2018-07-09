@@ -135,7 +135,6 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 		if ($idComponents && count($idComponents) > 0) {
 			return $idComponents[0];
 		}
-
 		return false;
 	}
 
@@ -191,7 +190,6 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 				$this->rule_details['permission'] = $row['permission'];
 			}
 		}
-
 		return $this->rule_details;
 	}
 
@@ -202,7 +200,6 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 
 			return $ruleComponents['source_member'];
 		}
-
 		return false;
 	}
 
@@ -213,7 +210,6 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 
 			return $ruleComponents['target_member'];
 		}
-
 		return false;
 	}
 
@@ -224,7 +220,6 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 
 			return $ruleComponents['permission'];
 		}
-
 		return false;
 	}
 
@@ -235,7 +230,6 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 
 			return $permission == self::READ_ONLY_PERMISSION;
 		}
-
 		return false;
 	}
 
@@ -246,7 +240,6 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 
 			return $permission == self::READ_WRITE_PERMISSION;
 		}
-
 		return false;
 	}
 
@@ -348,7 +341,6 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -430,7 +422,6 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 
 			return $ruleModel->setData($result)->setModuleFromInstance($moduleModel);
 		}
-
 		return false;
 	}
 

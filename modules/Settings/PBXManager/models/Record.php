@@ -45,7 +45,6 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 
 			return $serverModel;
 		}
-
 		return $serverModel;
 	}
 
@@ -62,7 +61,6 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 
 			return $recordModel;
 		}
-
 		return false;
 	}
 

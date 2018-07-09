@@ -99,7 +99,6 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 				->select(['vtiger_seproductsrel.crmid'])
 				->from('vtiger_seproductsrel')->innerJoin('vtiger_crmentity', 'vtiger_seproductsrel.crmid = vtiger_crmentity.crmid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_seproductsrel.setype' => $this->getModule()->get('name'), 'vtiger_seproductsrel.productid' => $subProductId])->exists();
 		}
-
 		return $flag;
 	}
 
@@ -114,7 +113,6 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		if ($this->get('subProductsPopup')) {
 			$this->addSubProductsQuery($query);
 		}
-
 		return $query->count();
 	}
 }

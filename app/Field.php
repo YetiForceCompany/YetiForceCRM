@@ -64,7 +64,6 @@ class Field
 				unset($fields[$key]);
 			}
 		}
-
 		return $fields;
 	}
 
@@ -118,7 +117,6 @@ class Field
 		} else {
 			static::$fieldPermissionCacheWrite[$tabId][$fieldMix] = false;
 		}
-
 		return false;
 	}
 
@@ -166,7 +164,6 @@ class Field
 		} else {
 			static::$columnPermissionCacheWrite[$tabId][$columnName] = false;
 		}
-
 		return false;
 	}
 
@@ -237,7 +234,6 @@ class Field
 				return $rfields;
 			}
 		}
-
 		return $fields;
 	}
 
@@ -260,7 +256,6 @@ class Field
 				->where(['relation_id' => $relationId])->column();
 			Cache::save('getFieldsFromRelation', $relationId, $fields, Cache::LONG);
 		}
-
 		return $fields;
 	}
 
@@ -287,7 +282,6 @@ class Field
 				Cache::save('FieldInfoById', $fieldInfo['fieldid'], $fieldInfo, Cache::LONG);
 			}
 		}
-
 		return $fieldInfo;
 	}
 

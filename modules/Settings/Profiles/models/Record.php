@@ -142,7 +142,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			$this->global_permissions = $globalPermissions;
 		}
-
 		return $this->global_permissions;
 	}
 
@@ -158,7 +157,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		if ($viewAllPermission == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -175,7 +173,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$editAllPermission == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -194,7 +191,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		if (isset($modulePermissions['is_permitted']) && $moduleAccessPermission == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -230,7 +226,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		if (isset($moduleActionPermissions[$actionId]) && $moduleActionPermission == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -250,7 +245,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		if ($fieldModel->isViewEnabled() && $fieldAccessPermission == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -271,7 +265,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		if ($fieldModel->isWritable() && $fieldAccessPermission == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE && $fieldReadOnlyPermission == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -308,7 +301,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		if (!$fieldModel->isEditable() || $fieldModel->isMandatory() || in_array($fieldModel->get('uitype'), self::$fieldLockedUiTypes)) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -380,7 +372,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			$this->profile_tab_permissions = $profile2TabPermissions;
 		}
-
 		return $this->profile_tab_permissions;
 	}
 
@@ -410,7 +401,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			$this->profile_tab_field_permissions[$tabId] = $profile2TabFieldPermissions;
 		}
-
 		return $this->profile_tab_field_permissions[$tabId];
 	}
 
@@ -435,7 +425,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			$this->profile_action_permissions = $profile2ActionPermissions;
 		}
-
 		return $this->profile_action_permissions;
 	}
 
@@ -460,7 +449,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			$this->profile_utility_permissions = $profile2UtilityPermissions;
 		}
-
 		return $this->profile_utility_permissions;
 	}
 
@@ -516,7 +504,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			$this->module_permissions = $allModules;
 		}
-
 		return $this->module_permissions;
 	}
 
@@ -837,7 +824,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -936,7 +922,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 			return $profile;
 		}
-
 		return null;
 	}
 
@@ -997,7 +982,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		if ($profileId) {
 			$query->andWhere(['vtiger_role2profile.profileid' => $profileId]);
 		}
-
 		return $query->column();
 	}
 }

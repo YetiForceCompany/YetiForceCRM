@@ -32,7 +32,6 @@ class PBXManager_Detail_View extends Vtiger_Detail_View
 		if ($recordModel->get('callstatus') !== 'completed') {
 			$recordModel->set('recordingurl', '');
 		}
-
 		return parent::preProcess($request, true);
 	}
 }

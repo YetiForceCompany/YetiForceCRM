@@ -179,7 +179,6 @@ class ModuleBasic
 		} else {
 			$this->__create();
 		}
-
 		return $this->id;
 	}
 
@@ -446,7 +445,6 @@ class ModuleBasic
 		} else {
 			$fields = Field::getAllForModule($this);
 		}
-
 		return $fields;
 	}
 

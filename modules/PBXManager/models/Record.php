@@ -51,7 +51,6 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		if (count($recordIds)) {
 			$this->updateCallStatus($recordIds);
 		}
-
 		return $recordModels;
 	}
 
@@ -86,7 +85,6 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 			$fieldValue = $details[$fieldName];
 			$recordModel->set($fieldName, $fieldValue);
 		}
-
 		return $recordModel->save();
 	}
 
@@ -123,7 +121,6 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		if ($rowData) {
 			$record->setData($rowData);
 		}
-
 		return $record;
 	}
 
@@ -134,7 +131,6 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		if ($rowData) {
 			$record->setData($rowData);
 		}
-
 		return $record;
 	}
 
@@ -276,7 +272,6 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-
 		return $query;
 	}
 
@@ -294,7 +289,6 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 				$numbers[$userId] = $number;
 			}
 		}
-
 		return $numbers;
 	}
 }

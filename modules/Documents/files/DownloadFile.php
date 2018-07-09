@@ -24,7 +24,6 @@ class Documents_DownloadFile_File extends Vtiger_Basic_File
 		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-
 		return true;
 	}
 

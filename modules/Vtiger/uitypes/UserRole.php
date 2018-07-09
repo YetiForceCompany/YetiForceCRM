@@ -37,7 +37,6 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 
 			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . \App\Purifier::encodeHtml($displayValue) . '</a>';
 		}
-
 		return $displayValue;
 	}
 
@@ -53,7 +52,6 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 		foreach ($roleModels as $roleId => $roleModel) {
 			$roles[$roleId] = \App\Language::translate($roleModel->getName(), $this->getFieldModel()->getModuleName());
 		}
-
 		return $roles;
 	}
 

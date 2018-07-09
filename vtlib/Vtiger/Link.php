@@ -57,7 +57,6 @@ class Link
 		if (!empty($this->tabid)) {
 			return \App\Module::getModuleName($this->tabid);
 		}
-
 		return false;
 	}
 
@@ -274,7 +273,6 @@ class Link
 				$instances[$instance->linktype] = $instance;
 			}
 		}
-
 		return $instances;
 	}
 
@@ -292,7 +290,6 @@ class Link
 			$instance->initialize($row);
 			$links[] = $instance;
 		}
-
 		return $links;
 	}
 

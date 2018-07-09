@@ -52,7 +52,6 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model
 			];
 			$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
-
 		return $linkModelList;
 	}
 }

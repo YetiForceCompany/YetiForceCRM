@@ -104,7 +104,6 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 				$supportedModuleModels[$tabId] = $moduleModel;
 			}
 		}
-
 		return $supportedModuleModels;
 	}
 
@@ -211,7 +210,6 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 			$fieldInstane = Settings_MappedFields_Field_Model::fromArray($data);
 			$models[$fieldName] = $fieldInstane;
 		}
-
 		return $models;
 	}
 
@@ -356,7 +354,6 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			list($id, $message) = $this->importDataFromXML($fileInstance->getPath());
 		}
-
 		return ['id' => $id, 'message' => \App\Language::translate($message, $qualifiedModuleName)];
 	}
 
@@ -409,7 +406,6 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$message = 'LBL_NO_PERMISSION_TO_IMPORT';
 		}
-
 		return [$id, $message];
 	}
 }

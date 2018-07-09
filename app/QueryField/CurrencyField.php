@@ -25,7 +25,6 @@ class CurrencyField extends IntegerField
 		} elseif ($uiType === 71) {
 			$value = \CurrencyField::convertToDBFormat($value);
 		}
-
 		return $value;
 	}
 }

@@ -5,6 +5,7 @@
 			bottom: $h-footer-user-info;
 		}
 	}
+
 	@include media-breakpoint-down(sm) {
 		.c-menu {
 			&__container {
@@ -41,6 +42,7 @@
 			transition: background-color 0.2s ease;
 		}
 	}
+
 	@include media-breakpoint-down(sm) {
 		&__container {
 			bottom: $h-footer-mobile;
@@ -186,6 +188,7 @@
 			min-width: 42px;
 		}
 	}
+
 	&__header {
 		height: $h-header-logo;
 		padding-right: 0;

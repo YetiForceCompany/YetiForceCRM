@@ -102,7 +102,6 @@ class Accounts extends CRMEntity
 		if ($secModule === false) {
 			return $relTables;
 		}
-
 		return $relTables[$secModule];
 	}
 
@@ -396,7 +395,6 @@ class Accounts extends CRMEntity
 		if (empty($entityIds)) {
 			$entityIds = [];
 		}
-
 		return $entityIds;
 	}
 }

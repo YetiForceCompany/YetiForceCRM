@@ -423,7 +423,6 @@ abstract class View extends Base
 				}
 			}
 		}
-
 		return $jsScriptInstances;
 	}
 
@@ -523,7 +522,6 @@ abstract class View extends Base
 				}
 			}
 		}
-
 		return $cssStyleInstances;
 	}
 

@@ -84,7 +84,6 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 		if (in_array('WebDav', $type)) {
 			$this->createUserDirectory($userID);
 		}
-
 		return $key;
 	}
 

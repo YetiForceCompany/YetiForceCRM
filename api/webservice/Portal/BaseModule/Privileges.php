@@ -36,7 +36,6 @@ class Privileges extends \Api\Core\BaseAction
 				}
 			}
 		}
-
 		return ['standardActions' => $privileges];
 	}
 }

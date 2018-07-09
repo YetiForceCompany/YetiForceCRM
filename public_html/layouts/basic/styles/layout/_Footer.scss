@@ -52,7 +52,7 @@
 }
 
 .c-footer--user-info-active {
-  height: $h-footer-user-info !important;
+	height: $h-footer-user-info !important;
 }
 
 @include media-breakpoint-down(sm) {
@@ -65,11 +65,13 @@
 		}
 
 	}
-  .c-footer--user-info-active {
-	height: $h-footer-user-info-mobile !important;
-	font-size: 0.6em;
-  }
-  .c-footer__user-info{
-	height: 17px;
-  }
+
+	.c-footer--user-info-active {
+		height: $h-footer-user-info-mobile !important;
+		font-size: 0.6em;
+	}
+
+	.c-footer__user-info{
+		height: 17px;
+	}
 }

@@ -184,7 +184,6 @@ class WebDavDirectory extends WebDavNode implements DAV\ICollection, DAV\IQuota,
 			$file->localPath = $row['path'];
 			$nodes[] = $file;
 		}
-
 		return $nodes;
 	}
 

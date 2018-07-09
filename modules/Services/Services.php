@@ -151,7 +151,6 @@ class Services extends CRMEntity
 		if ($secmodule === false) {
 			return $relTables;
 		}
-
 		return $relTables[$secmodule];
 	}
 

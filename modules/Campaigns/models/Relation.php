@@ -66,7 +66,6 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 				$relationField = current($relationFieldArray);
 			}
 		}
-
 		return $relationField;
 	}
 

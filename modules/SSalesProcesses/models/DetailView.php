@@ -34,7 +34,6 @@ class SSalesProcesses_DetailView_Model extends Vtiger_DetailView_Model
 				];
 			}
 		}
-
 		return $relatedLinks;
 	}
 }

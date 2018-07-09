@@ -35,7 +35,6 @@ class PrivilegeUpdater
 
 			return static::$globalSearchPermissionsCache[$userId][$moduleName] = $return;
 		}
-
 		return static::$globalSearchPermissionsCache[$userId][$moduleName];
 	}
 
@@ -58,7 +57,6 @@ class PrivilegeUpdater
 				static::$globalSearchUsersCache[$row['userid']] = explode(',', $row['searchunpriv']);
 			}
 		}
-
 		return static::$globalSearchUsersCache;
 	}
 

@@ -66,7 +66,6 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 				$displayvalue[] = '<a href=' . $detailViewUrl . '>' . \App\Fields\Owner::getLabel($row) . '</a>&nbsp;';
 			}
 		}
-
 		return implode(',', $displayvalue);
 	}
 

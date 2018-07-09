@@ -54,7 +54,6 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 				}
 				break;
 		}
-
 		return array_unique($relatedIds);
 	}
 
@@ -100,7 +99,6 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 			$instance->set('module', $module);
 			Vtiger_Cache::set('transferOwnership', $module, $instance);
 		}
-
 		return $instance;
 	}
 
@@ -121,7 +119,6 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 				}
 			}
 		}
-
 		return $relatedModules;
 	}
 
@@ -140,7 +137,6 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 				];
 			}
 		}
-
 		return $relatedModules;
 	}
 
@@ -156,7 +152,6 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 				}
 			}
 		}
-
 		return false;
 	}
 }

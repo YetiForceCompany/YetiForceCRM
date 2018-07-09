@@ -34,7 +34,6 @@ class IntegerField extends BaseField
 		if (!$conditionFound) {
 			return parent::operatorE();
 		}
-
 		return $condition;
 	}
 

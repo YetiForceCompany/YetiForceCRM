@@ -164,7 +164,6 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 				$this->task_type = Settings_Workflows_TaskType_Model::getInstanceFromClassName($taskClass);
 			}
 		}
-
 		return $this->task_type;
 	}
 
@@ -186,7 +185,6 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 				$taskModels[$task->id] = self::getInstanceFromTaskObject($task, $workflowModel, $tm);
 			}
 		}
-
 		return $taskModels;
 	}
 
@@ -205,7 +203,6 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 		if ($workflowModel === null) {
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($task->workflowId);
 		}
-
 		return self::getInstanceFromTaskObject($task, $workflowModel, $tm);
 	}
 

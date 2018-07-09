@@ -81,7 +81,6 @@ class Cron_Notification
 		while ($timestampEndDate <= $currentTime && ($nextEndDateTime = $timestampEndDate + ($frequency * 60)) <= $currentTime) {
 			$timestampEndDate = $nextEndDateTime;
 		}
-
 		return date('Y-m-d H:i:s', $timestampEndDate);
 	}
 

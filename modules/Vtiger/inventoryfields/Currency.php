@@ -43,7 +43,6 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 				$return[$currency['id']] = vtlib\Functions::getConversionRateInfo($currency['id']);
 			}
 		}
-
 		return $return;
 	}
 

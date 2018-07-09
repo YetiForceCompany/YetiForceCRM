@@ -69,7 +69,6 @@ class VTWorkflowUtils
 		while ($row = $dataReader->read()) {
 			$modules[] = $row['name'];
 		}
-
 		return $modules;
 	}
 }

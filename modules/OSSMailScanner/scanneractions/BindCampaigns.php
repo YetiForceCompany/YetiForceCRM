@@ -59,7 +59,6 @@ class OSSMailScanner_BindCampaigns_ScannerAction extends OSSMailScanner_PrefixSc
 				}
 			}
 		}
-
 		return $campaignIds;
 	}
 }

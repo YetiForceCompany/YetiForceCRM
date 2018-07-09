@@ -121,7 +121,6 @@ class VTFieldExpressionEvaluater
 				return date('H:i:s', $timeDiff);
 			}
 		}
-
 		return strtotime($time_operand1) - strtotime($time_operand2);
 	}
 

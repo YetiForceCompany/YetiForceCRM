@@ -69,7 +69,6 @@ class RecordSearch
 			case 'searchLabel': return $this->getSearchLabelQuery();
 			case 'label': return $this->getLabelQuery();
 		}
-
 		return false;
 	}
 
@@ -125,7 +124,6 @@ class RecordSearch
 				$query->andWhere('MATCH(csl.searchlabel) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue]);
 				break;
 		}
-
 		return $query->andWhere($where);
 	}
 
@@ -162,7 +160,6 @@ class RecordSearch
 		if ($this->checkPermissions) {
 			$where[] = ['like', 'vtiger_crmentity.users', ",$this->userId,"];
 		}
-
 		return $query->andWhere($where);
 	}
 }

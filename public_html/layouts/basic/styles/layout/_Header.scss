@@ -19,6 +19,7 @@
 
 	.c-header__btn {
 		@extend .py-0;
+
 		padding-left: 0.3rem;
 		padding-right: 0.3rem;
 		font-size: $font-size-header-button;
@@ -34,10 +35,12 @@
 	.c-header__btn__container {
 		height: fit-content;
 		width: fit-content;
+
 		.dropdown-menu {
 			left: auto;
 			right: 0;
 		}
+
 		.c-header__btn {
 			height: $h-menu-right-items;
 		}
@@ -138,10 +141,10 @@
 }
 
 .chatModal {
-
 	.modal-dialog {
 		@extend .col-12, .col-sm-8, .col-lg-3;
 	}
+
 	.modal-body {
 		padding: 5px 0;
 	}
@@ -221,21 +224,21 @@
 }
 
 @include media-breakpoint-down(lg) {
-  .ui-menu.ui-widget {
-	top: 253px !important;
-  }
+	.ui-menu.ui-widget {
+		top: 253px !important;
+	}
 }
 
 @include media-breakpoint-down(md) {
-  .ui-menu.ui-widget {
-	left: 45px !important;
-  }
+	.ui-menu.ui-widget {
+		left: 45px !important;
+	}
 }
 
 @include media-breakpoint-down(sm) {
-  .ui-menu.ui-widget {
-	left: -4px !important;
-  }
+	.ui-menu.ui-widget {
+		left: -4px !important;
+	}
 }
 //navbar search mobile
 .searchMenu {
@@ -258,6 +261,7 @@
 		}
 	}
 }
+
 .searchMenu.toogleSearchMenu {
 	.o-search-menu__container {
 		right: 0;
@@ -274,9 +278,10 @@
 		display: inline-block;
 		vertical-align: top;
 	}
-  	.c-header__label--sm-down {
+
+	.c-header__label--sm-down {
 		display: none;
-  	}
+	}
 }
 
 //mobile
@@ -285,9 +290,11 @@
 		.c-header__btn--mobile {
 			display: block;
 		}
-	  .c-header__label--sm-down {
-		display: inline-block !important;
-	  }
+
+		.c-header__label--sm-down {
+			display: inline-block !important;
+		}
+
 		.o-action-menu__container {
 			position: fixed;
 			left: auto;

@@ -162,7 +162,6 @@ class VTWorkflowManager
 		if ($referenceTime) {
 			$query->andWhere(['or', ['nexttrigger_time' => null], ['<=', 'nexttrigger_time', $referenceTime]]);
 		}
-
 		return $this->getWorkflowsForResult($query->all());
 	}
 
@@ -212,7 +211,6 @@ class VTWorkflowManager
 				}
 			}
 		}
-
 		return $this->getWorkflowsForResult($rows);
 	}
 
@@ -235,7 +233,6 @@ class VTWorkflowManager
 
 			$workflows[] = $workflow;
 		}
-
 		return $workflows;
 	}
 

@@ -379,7 +379,6 @@ class Import_Data_Action extends \App\Controller\Action
 				}
 			}
 		}
-
 		return $value;
 	}
 
@@ -406,7 +405,6 @@ class Import_Data_Action extends \App\Controller\Action
 				$value = \App\Record::getCrmIdByLabel($referenceModuleName, $entityLabel);
 			}
 		}
-
 		return $getArray ? [$referenceModuleName, $value] : $value;
 	}
 
@@ -434,7 +432,6 @@ class Import_Data_Action extends \App\Controller\Action
 		if (empty($ownerId)) {
 			$ownerId = $this->user->getId();
 		}
-
 		return $ownerId;
 	}
 
@@ -464,7 +461,6 @@ class Import_Data_Action extends \App\Controller\Action
 				}
 			}
 		}
-
 		return $values;
 	}
 
@@ -556,7 +552,6 @@ class Import_Data_Action extends \App\Controller\Action
 				}
 			}
 		}
-
 		return $entityId;
 	}
 
@@ -600,7 +595,6 @@ class Import_Data_Action extends \App\Controller\Action
 		} else {
 			$fieldValue = $picklistDetails[$picklistValueInLowerCase];
 		}
-
 		return $fieldValue;
 	}
 
@@ -629,7 +623,6 @@ class Import_Data_Action extends \App\Controller\Action
 				}
 			}
 		}
-
 		return $fieldValue;
 	}
 
@@ -705,7 +698,6 @@ class Import_Data_Action extends \App\Controller\Action
 				}
 			}
 		}
-
 		return $fieldData;
 	}
 
@@ -741,7 +733,6 @@ class Import_Data_Action extends \App\Controller\Action
 				\App\Record::updateLabel($moduleName, $recordModel->getId());
 			}
 		}
-
 		return $recordId;
 	}
 
@@ -824,7 +815,6 @@ class Import_Data_Action extends \App\Controller\Action
 		foreach ($importQueue as $importId => $importInfo) {
 			$scheduledImports[$importId] = new self($importInfo, \App\User::getUserModel($importInfo['user_id']));
 		}
-
 		return $scheduledImports;
 	}
 
@@ -864,7 +854,6 @@ class Import_Data_Action extends \App\Controller\Action
 			}
 			$dataReader->close();
 		}
-
 		return $importRecords;
 	}
 
@@ -892,7 +881,6 @@ class Import_Data_Action extends \App\Controller\Action
 			case 'none': $temp_status = self::IMPORT_RECORD_NONE;
 				break;
 		}
-
 		return $temp_status;
 	}
 
@@ -922,7 +910,6 @@ class Import_Data_Action extends \App\Controller\Action
 		if (!empty($ID)) {
 			return ['id' => $ID, 'status' => self::IMPORT_RECORD_CREATED];
 		}
-
 		return null;
 	}
 
@@ -971,7 +958,6 @@ class Import_Data_Action extends \App\Controller\Action
 				$inventoryModel->set($name . $i, $value);
 			}
 		}
-
 		return $inventoryModel;
 	}
 }

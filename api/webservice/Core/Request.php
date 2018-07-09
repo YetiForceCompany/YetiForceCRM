@@ -23,7 +23,6 @@ class Request extends \App\Request
 		if (!static::$request) {
 			static::$request = new self($request ? $request : $_REQUEST);
 		}
-
 		return static::$request;
 	}
 

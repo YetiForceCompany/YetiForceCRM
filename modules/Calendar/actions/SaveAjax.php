@@ -162,7 +162,6 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$recordModel->set('duration_hours', (int) $hours);
 			$recordModel->set('duration_minutes', round($minutes, 0));
 		}
-
 		return $recordModel;
 	}
 }

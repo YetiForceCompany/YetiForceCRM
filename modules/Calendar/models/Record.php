@@ -24,7 +24,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			$fieldName = $relationModel->getRelationField()->getFieldName();
 			Vtiger_Cache::set('NameRelatedField', $refModuleName . '-Calendar', $fieldName);
 		}
-
 		return $fieldName;
 	}
 
@@ -68,7 +67,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		if (empty($name)) {
 			$name = parent::getName();
 		}
-
 		return $name;
 	}
 
@@ -96,7 +94,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		if ($activityType == 'Task') {
 			return 'Calendar';
 		}
-
 		return 'Events';
 	}
 
@@ -320,7 +317,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		if ($icon == 'Task') {
 			$icon = 'Tasks';
 		}
-
 		return $icon . '.png';
 	}
 
@@ -387,7 +383,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -418,7 +413,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 				]);
 			}
 		}
-
 		return $links;
 	}
 }

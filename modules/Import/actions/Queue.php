@@ -97,7 +97,6 @@ class Import_Queue_Action extends \App\Controller\Action
 				return static::getImportInfoFromResult($rowData);
 			}
 		}
-
 		return null;
 	}
 
@@ -115,7 +114,6 @@ class Import_Queue_Action extends \App\Controller\Action
 		if ($rowData) {
 			return self::getImportInfoFromResult($rowData);
 		}
-
 		return null;
 	}
 
@@ -127,7 +125,6 @@ class Import_Queue_Action extends \App\Controller\Action
 				return self::getImportInfoFromResult($rowData);
 			}
 		}
-
 		return null;
 	}
 

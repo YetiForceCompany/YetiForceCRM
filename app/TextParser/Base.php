@@ -51,7 +51,6 @@ class Base
 		if (isset($this->textParser->type) && $this->textParser->type !== $this->type) {
 			return false;
 		}
-
 		return true;
 	}
 }

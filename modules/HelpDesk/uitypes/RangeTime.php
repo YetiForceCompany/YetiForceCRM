@@ -23,7 +23,6 @@ class HelpDesk_RangeTime_UIType extends Vtiger_RangeTime_UIType
 		if (empty($mode)) {
 			$mode = 'short';
 		}
-
 		return \App\Purifier::encodeHtml($result[$mode]);
 	}
 }

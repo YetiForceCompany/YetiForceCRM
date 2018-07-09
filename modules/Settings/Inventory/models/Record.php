@@ -199,7 +199,6 @@ class Settings_Inventory_Record_Model extends \App\Base
 		if ($row !== false) {
 			$recordModel->setData($row)->setType($type);
 		}
-
 		return $recordModel;
 	}
 
@@ -219,7 +218,6 @@ class Settings_Inventory_Record_Model extends \App\Base
 		if (!empty($excludedIds)) {
 			$query->andWhere(['NOT IN', 'id', $excludedIds]);
 		}
-
 		return ($query->count() > 0) ? true : false;
 	}
 }

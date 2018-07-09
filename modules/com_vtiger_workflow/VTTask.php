@@ -76,7 +76,6 @@ abstract class VTTask
 		if ($this->getContents($recordModel)) {
 			return true;
 		}
-
 		return false;
 	}
 

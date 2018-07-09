@@ -69,7 +69,6 @@ class PackageExport
 			// Set the module xml filename to be written for exporting.
 			$this->_export_modulexml_filename = 'manifest-' . time() . '.xml';
 		}
-
 		return "$this->_export_tmpdir/$this->_export_modulexml_filename";
 	}
 

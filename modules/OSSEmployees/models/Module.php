@@ -52,7 +52,6 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model
 			$result[$key] = $colors[$i];
 			++$i;
 		}
-
 		return $result;
 	}
 }

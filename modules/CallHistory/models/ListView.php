@@ -37,7 +37,6 @@ class CallHistory_ListView_Model extends Vtiger_ListView_Model
 				unset($advancedLinks[$key]);
 			}
 		}
-
 		return $advancedLinks;
 	}
 }

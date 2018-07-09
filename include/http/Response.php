@@ -154,7 +154,6 @@ class Vtiger_Response
 			$response['success'] = true;
 			$response['result'] = $this->result;
 		}
-
 		return $response;
 	}
 

@@ -71,7 +71,6 @@ class Settings_MappedFields_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -90,7 +89,6 @@ class Settings_MappedFields_Record_Model extends Settings_Vtiger_Record_Model
 				$value = $value ? 'active' : 'inactive';
 				break;
 		}
-
 		return $value;
 	}
 }

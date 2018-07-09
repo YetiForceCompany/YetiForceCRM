@@ -207,7 +207,6 @@ class DateTimeRange
 				$dateValue[0] = '';
 				$dateValue[1] = '';
 		}
-
 		return $dateValue;
 	}
 
@@ -225,7 +224,6 @@ class DateTimeRange
 		} elseif (is_string($dateObject)) {
 			$dateObject = new DateTime($dateObject);
 		}
-
 		return [$dateObject->format('Y-01-01'), $dateObject->format('Y-12-31')];
 	}
 
@@ -298,7 +296,6 @@ class DateTimeRange
 			$quarter[0] = $dateObject->format('Y-10-01');
 			$quarter[1] = $dateObject->format('Y-12-31');
 		}
-
 		return $quarter;
 	}
 
@@ -334,7 +331,6 @@ class DateTimeRange
 			$quarter[0] = $dateObject->format('Y-07-01');
 			$quarter[1] = $dateObject->format('Y-09-30');
 		}
-
 		return $quarter;
 	}
 
@@ -370,7 +366,6 @@ class DateTimeRange
 			$quarter[0] = $dateObject->format('Y-01-01');
 			$quarter[1] = $dateObject->format('Y-03-31');
 		}
-
 		return $quarter;
 	}
 }

@@ -35,7 +35,6 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 		foreach ($data as $key => $value) {
 			$instance->set($key, $value);
 		}
-
 		return $instance;
 	}
 

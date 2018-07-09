@@ -95,7 +95,6 @@ class Settings_Workflows_TaskType_Model extends \App\Base
 		foreach ($taskTypes as $taskTypeObject) {
 			$taskTypeModels[] = self::getInstanceFromTaskTypeObject($taskTypeObject);
 		}
-
 		return $taskTypeModels;
 	}
 

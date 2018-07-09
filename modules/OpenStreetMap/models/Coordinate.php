@@ -179,7 +179,6 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 				'lon' => $coordinatesDetails['lon'],
 			];
 		}
-
 		return $coordinates;
 	}
 
@@ -205,7 +204,6 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 				$html .= \App\Purifier::encodeHtml($value) . '<br />';
 			}
 		}
-
 		return $html;
 	}
 
@@ -424,7 +422,6 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 
 			return $this->readCoordinatesByRecords($records);
 		}
-
 		return [];
 	}
 
@@ -549,7 +546,6 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 				$coordinates[$moduleName] = $this->readCoordinatesByRecords($records);
 			}
 		}
-
 		return $coordinates;
 	}
 

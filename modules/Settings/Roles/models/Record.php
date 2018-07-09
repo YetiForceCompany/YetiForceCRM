@@ -82,7 +82,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				$this->parent = null;
 			}
 		}
-
 		return $this->parent;
 	}
 
@@ -110,7 +109,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$dataReader->close();
 			$this->children = $roles;
 		}
-
 		return $this->children;
 	}
 
@@ -141,7 +139,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$dataReader->close();
 			$this->children = $roles;
 		}
-
 		return $this->children;
 	}
 
@@ -195,7 +192,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		if ($row && (int) $row['directly_related_to_role'] === 1) {
 			return $row['profileid'];
 		}
-
 		return false;
 	}
 
@@ -239,7 +235,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		if (!isset($this->profiles)) {
 			$this->profiles = Settings_Profiles_Record_Model::getAllByRole($this->getId());
 		}
-
 		return $this->profiles;
 	}
 
@@ -445,7 +440,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 			}
 		}
-
 		return $links;
 	}
 
@@ -497,7 +491,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 			return $instance;
 		}
-
 		return $instance;
 	}
 
@@ -515,7 +508,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 			return $instance;
 		}
-
 		return null;
 	}
 
@@ -537,7 +529,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 			return $instance;
 		}
-
 		return null;
 	}
 
@@ -566,7 +557,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($userIds as $userId) {
 			$usersList[$userId] = Users_Record_Model::getInstanceById($userId, 'Users');
 		}
-
 		return $usersList;
 	}
 }

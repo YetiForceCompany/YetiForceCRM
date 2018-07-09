@@ -103,7 +103,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['suhosin.post.max_vars'] = ['recommended' => '5000', 'fn' => 'validateGreater'];
 			$directiveValues['suhosin.post.max_value_length'] = ['recommended' => '1500000', 'fn' => 'validateGreater'];
 		}
-
 		return $directiveValues;
 	}
 
@@ -117,7 +116,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			}
 			static::$library[$k]['status'] = $status ? 'LBL_YES' : 'LBL_NO';
 		}
-
 		return static::$library;
 	}
 
@@ -157,7 +155,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
-
 		return $conf;
 	}
 
@@ -637,7 +634,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (!$isCli && strtolower($row['current']) !== 'on') {
 			$row['incorrect'] = true;
 		}
-
 		return $row;
 	}
 
@@ -653,7 +649,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if ((int) $row['current'] !== (int) $row['recommended']) {
 			$row['incorrect'] = true;
 		}
-
 		return $row;
 	}
 
@@ -677,7 +672,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (version_compare($row['current'], str_replace('x', 0, $row['recommended']), '<')) {
 			$row['incorrect'] = true;
 		}
-
 		return $row;
 	}
 
@@ -696,7 +690,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$row['current'] = \App\Language::translate('LBL_INVALID_TIME_ZONE', 'Settings::ConfReport') . $row['current'];
 			$row['incorrect'] = true;
 		}
-
 		return $row;
 	}
 
@@ -739,7 +732,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				return $ver;
 			}
 		}
-
 		return false;
 	}
 

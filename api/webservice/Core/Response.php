@@ -22,7 +22,6 @@ class Response
 		if (!static::$instance) {
 			static::$instance = new self();
 		}
-
 		return static::$instance;
 	}
 

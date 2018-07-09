@@ -20,7 +20,6 @@ class Settings_LoginHistory_ListAjax_Action extends Settings_Vtiger_ListAjax_Act
 			$listViewModel->set('search_key', $searchField);
 			$listViewModel->set('search_value', $value);
 		}
-
 		return $listViewModel->getListViewCount();
 	}
 }

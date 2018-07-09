@@ -16,7 +16,6 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 		if (in_array(strtolower($this->module->name), $actionNotSupportedModules)) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -42,7 +41,6 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 				return false;
 			}
 		}
-
 		return true;
 	}
 
@@ -95,7 +93,6 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$blockModel->$properName = $propertyValue;
 		}
-
 		return $blockModel;
 	}
 
@@ -116,7 +113,6 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 				$blockModelList[] = self::getInstanceFromBlockObject($blockObject);
 			}
 		}
-
 		return $blockModelList;
 	}
 
@@ -129,7 +125,6 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 				$activeFields[$fieldName] = $fieldModel;
 			}
 		}
-
 		return $activeFields;
 	}
 }

@@ -54,7 +54,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 		foreach ($subProducts as $productId) {
 			$subProductList[] = Vtiger_Record_Model::getInstanceById($productId, 'Products');
 		}
-
 		return $subProductList;
 	}
 
@@ -191,7 +190,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 			$recordInstance = new $modelClassName();
 			$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 		}
-
 		return $matchingRecords;
 	}
 

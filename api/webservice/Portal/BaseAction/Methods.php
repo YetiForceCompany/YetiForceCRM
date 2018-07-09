@@ -42,7 +42,6 @@ class Methods extends \Api\Core\BaseAction
 				unset($instance);
 			}
 		}
-
 		return $methods;
 	}
 }

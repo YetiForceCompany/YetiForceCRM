@@ -40,7 +40,6 @@ class SystemWarnings
 			}
 			++$i;
 		}
-
 		return $folders;
 	}
 
@@ -119,7 +118,6 @@ class SystemWarnings
 				}
 			}
 		}
-
 		return $i;
 	}
 }

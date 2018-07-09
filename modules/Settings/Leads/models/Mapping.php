@@ -118,7 +118,6 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 
 			$this->mapping = $finalMapping;
 		}
-
 		return $this->mapping;
 	}
 

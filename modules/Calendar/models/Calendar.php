@@ -27,7 +27,6 @@ class Calendar_Calendar_Model extends App\Base
 		if (isset($labels[$key])) {
 			return $labels[$key];
 		}
-
 		return '';
 	}
 
@@ -247,7 +246,6 @@ class Calendar_Calendar_Model extends App\Base
 			$item['className'] = ' ownerCBg_' . $record['smownerid'] . ' picklistCBr_Calendar_activitytype_' . $activitytype;
 			$return[] = $item;
 		}
-
 		return $return;
 	}
 

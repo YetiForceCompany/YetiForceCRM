@@ -190,7 +190,6 @@ class WebservicesConvertLead
 
 			$entity = static::vtwsValidateConvertLeadEntityMandatoryValues($entity, $targetModuleModel);
 		}
-
 		return $entity;
 	}
 
@@ -214,7 +213,6 @@ class WebservicesConvertLead
 				}
 			}
 		}
-
 		return $entity;
 	}
 
@@ -235,7 +233,6 @@ class WebservicesConvertLead
 		} catch (Exception $e) {
 			return false;
 		}
-
 		return true;
 	}
 

@@ -96,7 +96,6 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		if ($excludedIds && is_array($excludedIds)) {
 			$queryGenerator->addCondition('id', $excludedIds, 'n');
 		}
-
 		return $queryGenerator;
 	}
 

@@ -43,7 +43,6 @@ class VTExpressionsManager
 		if (isset(self::$cache[$key])) {
 			return self::$cache[$key];
 		}
-
 		return false;
 	}
 
@@ -69,7 +68,6 @@ class VTExpressionsManager
 		foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
 			$arr[$fieldName] = $fieldModel->getFieldLabel();
 		}
-
 		return $arr;
 	}
 

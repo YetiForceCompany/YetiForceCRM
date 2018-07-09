@@ -29,7 +29,6 @@ class Vtiger_Paging_Model extends \App\Base
 		if (empty($currentPage)) {
 			$currentPage = self::DEFAULT_PAGE;
 		}
-
 		return $currentPage;
 	}
 
@@ -44,7 +43,6 @@ class Vtiger_Paging_Model extends \App\Base
 		if (empty($currentPage)) {
 			$currentPage = self::DEFAULT_PAGE;
 		}
-
 		return $currentPage + 1;
 	}
 
@@ -64,7 +62,6 @@ class Vtiger_Paging_Model extends \App\Base
 		} elseif ($pageLimit === 0) {
 			$pageLimit = self::PAGE_MAX_LIMIT;
 		}
-
 		return (int) $pageLimit;
 	}
 
@@ -88,7 +85,6 @@ class Vtiger_Paging_Model extends \App\Base
 
 			return $rangeInfo['start'];
 		}
-
 		return $this->getPageLimit() * ((int) $this->getCurrentPage() - 1);
 	}
 
@@ -104,7 +100,6 @@ class Vtiger_Paging_Model extends \App\Base
 
 			return $rangeInfo['end'];
 		}
-
 		return $this->getPageLimit() * ((int) $this->getCurrentPage() - 1) + (int) $this->get('noOfEntries');
 	}
 
@@ -130,7 +125,6 @@ class Vtiger_Paging_Model extends \App\Base
 		if ($this->has('prevPageExists')) {
 			return $this->get('prevPageExists');
 		}
-
 		return true;
 	}
 
@@ -147,7 +141,6 @@ class Vtiger_Paging_Model extends \App\Base
 		if ($this->has('noOfEntries')) {
 			return $this->get('noOfEntries') == $this->getPageLimit();
 		}
-
 		return true;
 	}
 
@@ -186,7 +179,6 @@ class Vtiger_Paging_Model extends \App\Base
 			}
 			$this->set('nextPageExists', false);
 		}
-
 		return $this;
 	}
 
@@ -207,7 +199,6 @@ class Vtiger_Paging_Model extends \App\Base
 		if ($pageCount == 0) {
 			$pageCount = 1;
 		}
-
 		return $pageCount;
 	}
 
@@ -228,7 +219,6 @@ class Vtiger_Paging_Model extends \App\Base
 		if ($startPaginFrom <= 0 || 1 == $pageNumber) {
 			$startPaginFrom = 1;
 		}
-
 		return $startPaginFrom;
 	}
 }

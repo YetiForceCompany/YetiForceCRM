@@ -23,7 +23,6 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		if (empty($id)) {
 			return $this->get('id');
 		}
-
 		return $this->get('modcommentsid');
 	}
 
@@ -79,7 +78,6 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		if (empty($forSave['vtiger_modcomments']['userid'])) {
 			$forSave['vtiger_modcomments']['userid'] = App\User::getCurrentUserId();
 		}
-
 		return $forSave;
 	}
 
@@ -94,7 +92,6 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		if (!empty($recordId)) {
 			return Vtiger_Record_Model::getInstanceById($recordId, 'ModComments');
 		}
-
 		return false;
 	}
 
@@ -109,7 +106,6 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		if (!empty($parentRecordId)) {
 			return Vtiger_Record_Model::getInstanceById($parentRecordId);
 		}
-
 		return false;
 	}
 
@@ -133,7 +129,6 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 				return $commentedByModel;
 			}
 		}
-
 		return false;
 	}
 
@@ -260,7 +255,6 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 			$recordInstances[] = $recordInstance;
 		}
-
 		return $recordInstances;
 	}
 
@@ -303,7 +297,6 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 					'showLabel' => true,
 			]);
 		}
-
 		return $links;
 	}
 }

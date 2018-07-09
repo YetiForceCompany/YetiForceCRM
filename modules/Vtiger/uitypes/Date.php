@@ -19,7 +19,6 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		if (!empty($value)) {
 			return self::getDBInsertedValue($value);
 		}
-
 		return '';
 	}
 
@@ -94,7 +93,6 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		} else {
 			$value = DateTimeField::convertToUserFormat($value);
 		}
-
 		return \App\Purifier::encodeHtml($value);
 	}
 

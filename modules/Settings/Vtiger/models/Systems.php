@@ -63,7 +63,6 @@ class Settings_Vtiger_Systems_Model extends \App\Base
 			$rowData = $db->queryResultRowData($result, 0);
 			$instance->setData($rowData);
 		}
-
 		return $instance;
 	}
 }

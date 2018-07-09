@@ -118,7 +118,6 @@ class Vendors extends CRMEntity
 		if ($secModule === false) {
 			return $relTables;
 		}
-
 		return $relTables[$secModule];
 	}
 

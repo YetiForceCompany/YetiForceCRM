@@ -42,7 +42,6 @@ trait ExposeMethod
 		if (in_array($name, $this->exposedMethods)) {
 			return true;
 		}
-
 		return false;
 	}
 

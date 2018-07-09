@@ -35,7 +35,6 @@ class Project_ListView_Model extends Vtiger_ListView_Model
 		foreach ($quickLinks as $quickLink) {
 			$links['LISTVIEWQUICK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}
-
 		return $links;
 	}
 }

@@ -330,7 +330,6 @@ class Privilege
 		} else {
 			return true;
 		}
-
 		return false;
 	}
 

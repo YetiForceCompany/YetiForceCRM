@@ -37,7 +37,6 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 		if ($idComponents && count($idComponents) > 0) {
 			return $idComponents[0];
 		}
-
 		return false;
 	}
 
@@ -47,7 +46,6 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 		if ($idComponents && count($idComponents) > 1) {
 			return $idComponents[1];
 		}
-
 		return false;
 	}
 
@@ -129,7 +127,6 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 				return (new self())->set('id', $qualifiedId)->set('name', $row['rolename']);
 			}
 		}
-
 		return false;
 	}
 
@@ -166,7 +163,6 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 			$rule = new self();
 			$rules[self::RULE_MEMBER_TYPE_USERS][$qualifiedId] = $rule->set('id', $qualifiedId)->set('name', $userModel->getDisplayName());
 		}
-
 		return $rules;
 	}
 }

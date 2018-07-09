@@ -63,7 +63,6 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 		} else {
 			$recordModel = parent::getRecordModelFromRequest($request);
 		}
-
 		return $recordModel;
 	}
 
@@ -102,7 +101,6 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 				}
 			}
 		}
-
 		return $recordModel;
 	}
 }

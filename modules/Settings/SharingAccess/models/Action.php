@@ -54,7 +54,6 @@ class Settings_SharingAccess_Action_Model extends \App\Base
 		if ($result) {
 			return (new self())->setData($result);
 		}
-
 		return null;
 	}
 

@@ -156,7 +156,6 @@ class IStorages_ProductsTableHierarchy_Textparser extends \App\TextParser\Base
 			}
 			$html .= '</tbody></table></div>';
 		}
-
 		return $html;
 	}
 }

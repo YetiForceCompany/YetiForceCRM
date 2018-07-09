@@ -136,7 +136,6 @@ class BaseField
 		if ($this->related) {
 			$tableName .= $this->related['sourceField'];
 		}
-
 		return $this->tableName = $tableName;
 	}
 
@@ -150,7 +149,6 @@ class BaseField
 		if ($this->fullColumnName) {
 			return $this->fullColumnName;
 		}
-
 		return $this->fullColumnName = $this->getTableName() . '.' . $this->fieldModel->getColumnName();
 	}
 
@@ -219,7 +217,6 @@ class BaseField
 		if (strpos($this->getValue(), '_') !== false) {
 			return ['like', $this->getColumnName(), "%{$this->getValue()}%", false];
 		}
-
 		return $this->operatorC();
 	}
 

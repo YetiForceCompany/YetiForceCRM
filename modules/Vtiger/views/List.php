@@ -48,7 +48,6 @@ class Vtiger_List_View extends Vtiger_Index_View
 				$title .= ' [' . App\Language::translate('LBL_FILTER', $moduleName) . ': ' . App\Language::translate($customView->get('viewname'), $moduleName) . ']';
 			}
 		}
-
 		return $title;
 	}
 
@@ -63,7 +62,6 @@ class Vtiger_List_View extends Vtiger_Index_View
 					. ': ' . \App\Language::translate($customView->get('viewname'), $moduleName) . ']</div>';
 			}
 		}
-
 		return $title;
 	}
 

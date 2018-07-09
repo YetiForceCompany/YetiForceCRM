@@ -229,7 +229,6 @@ class Vtiger_MappedFields_Model extends \App\Base
 				}
 			}
 		}
-
 		return false;
 	}
 

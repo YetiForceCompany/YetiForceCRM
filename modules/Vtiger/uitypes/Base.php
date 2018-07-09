@@ -34,7 +34,6 @@ class Vtiger_Base_UIType extends \App\Base
 		if (is_null($value)) {
 			return '';
 		}
-
 		return \App\Purifier::decodeHtml($value);
 	}
 

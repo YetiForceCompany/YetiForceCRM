@@ -19,7 +19,6 @@ class Vtiger_CountRecords_Widget extends Vtiger_Basic_Widget
 				$url .= '&relatedModules[]=' . $module;
 			}
 		}
-
 		return $url;
 	}
 
@@ -49,7 +48,6 @@ class Vtiger_CountRecords_Widget extends Vtiger_Basic_Widget
 			}
 			$countRecords[$relatedModuleName] = (int) $relationListView->getRelatedEntriesCount();
 		}
-
 		return $countRecords;
 	}
 }

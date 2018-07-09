@@ -136,7 +136,6 @@ class VTTaskManager
 		if (!empty($taskType)) {
 			require_once "tasks/$taskType.php";
 		}
-
 		return unserialize($str);
 	}
 
@@ -169,7 +168,6 @@ class VTTaskManager
 			}
 			$tasks[] = unserialize($row['task']);
 		}
-
 		return $tasks;
 	}
 

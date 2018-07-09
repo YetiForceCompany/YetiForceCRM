@@ -82,7 +82,6 @@ class IStorages_ProductsControlTable_Textparser extends \App\TextParser\Base
 			}
 			$html .= '</tbody></table>';
 		}
-
 		return $html;
 	}
 }

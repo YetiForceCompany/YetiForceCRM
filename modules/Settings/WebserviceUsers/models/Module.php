@@ -71,7 +71,6 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 			}
 			$this->listFieldModels = $fieldObjects;
 		}
-
 		return $this->listFieldModels;
 	}
 

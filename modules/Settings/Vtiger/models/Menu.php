@@ -164,7 +164,6 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 		if ($rowData) {
 			return self::getInstanceFromArray($rowData);
 		}
-
 		return false;
 	}
 

@@ -59,7 +59,6 @@ class CallHistory_Module_Model extends Vtiger_Module_Model
 				'linkicon' => $editWorkflowsImagePath,
 			];
 		}
-
 		return $settingsLinks;
 	}
 

@@ -45,7 +45,6 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 		if (empty($recordsInventoryData)) {
 			unset($recordData['LBL_INVENTORY_FIELDS']);
 		}
-
 		return $recordData;
 	}
 
@@ -54,7 +53,6 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 		if ($this->filePath) {
 			return $this->filePath;
 		}
-
 		return parent::getFilePath();
 	}
 
@@ -146,7 +144,6 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 			}
 			$combine[$key[$i]] = $value[$i];
 		}
-
 		return $combine;
 	}
 
@@ -172,7 +169,6 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 		if ($keyType == 'label') {
 			$recordData = $this->arrayCombine($labels, $recordData);
 		}
-
 		return [$recordData, $recordInventoryData];
 	}
 
@@ -206,7 +202,6 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 				$recordInventoryData = $this->inventoryData['data'];
 				break;
 		}
-
 		return $recordInventoryData;
 	}
 
@@ -249,7 +244,6 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 				$lineProd = '';
 			}
 		}
-
 		return $recordData;
 	}
 }

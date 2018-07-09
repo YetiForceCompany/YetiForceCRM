@@ -114,7 +114,6 @@ class Vtiger_ShortURL_Helper
 			$self->handler_function = $row['handler_function'];
 			$self->handler_data = App\Json::decode(App\Purifier::decodeHtml($row['handler_data']), true);
 		}
-
 		return $self;
 	}
 
@@ -131,7 +130,6 @@ class Vtiger_ShortURL_Helper
 		} else {
 			$valid = false;
 		}
-
 		return $valid;
 	}
 

@@ -58,7 +58,6 @@ class Settings_Menu_Module_Model
 		if ($key === false) {
 			return $this->types;
 		}
-
 		return $this->types[$key];
 	}
 
@@ -95,7 +94,6 @@ class Settings_Menu_Module_Model
 			default: $name = $row['label'];
 				break;
 		}
-
 		return $name;
 	}
 
@@ -115,7 +113,6 @@ class Settings_Menu_Module_Model
 			default: $url = null;
 				break;
 		}
-
 		return $url;
 	}
 
@@ -170,7 +167,6 @@ class Settings_Menu_Module_Model
 				}
 			}
 		}
-
 		return $filters;
 	}
 }

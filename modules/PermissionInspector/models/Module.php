@@ -24,7 +24,6 @@ class PermissionInspector_Module_Model extends Vtiger_Module_Model
 				'watchdog' => $this->getWatchdog($userId),
 			];
 		}
-
 		return $list;
 	}
 
@@ -57,7 +56,6 @@ class PermissionInspector_Module_Model extends Vtiger_Module_Model
 				'profiles' => implode(',', $profileNames),
 			]);
 		}
-
 		return $permissions;
 	}
 
@@ -80,7 +78,6 @@ class PermissionInspector_Module_Model extends Vtiger_Module_Model
 				$privileges['param'] = \App\Language::translate(\App\Fields\Owner::getLabel($metadata['smownerid']));
 				break;
 		}
-
 		return $privileges;
 	}
 
@@ -103,7 +100,6 @@ class PermissionInspector_Module_Model extends Vtiger_Module_Model
 			$watchdog->remove('isWatchingModule');
 			$active = $watchdog->isWatchingRecord();
 		}
-
 		return ['active' => $active];
 	}
 }

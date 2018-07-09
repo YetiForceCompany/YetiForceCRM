@@ -17,7 +17,6 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-
 		return \App\Purifier::decodeHtml($value);
 	}
 
@@ -52,7 +51,6 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 			$values = explode(',', $value);
 			$display = array_intersect_key($taxes, array_flip($values));
 		}
-
 		return \App\Purifier::encodeHtml(implode(', ', $display));
 	}
 
@@ -71,7 +69,6 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 				}
 			}
 		}
-
 		return $display;
 	}
 
@@ -86,7 +83,6 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 				$display[$tax] = $taxs[$tax];
 			}
 		}
-
 		return $display;
 	}
 
@@ -101,7 +97,6 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 		foreach ($taxes as $key => $tax) {
 			$taxes[$key] = $tax['name'] . ' - ' . $tax['value'] . '%';
 		}
-
 		return $taxes;
 	}
 

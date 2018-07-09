@@ -65,7 +65,6 @@ class TreesManager extends \Tests\Base
 				$cnt += static::countItems($item['children']);
 			}
 		}
-
 		return $cnt;
 	}
 

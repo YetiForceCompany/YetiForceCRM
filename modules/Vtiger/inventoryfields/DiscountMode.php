@@ -30,7 +30,6 @@ class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 		if ($value === '') {
 			return '';
 		}
-
 		return 'LBL_' . strtoupper($this->values[$value]);
 	}
 

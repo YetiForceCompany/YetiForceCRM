@@ -54,7 +54,6 @@ class Vtiger_BrowsingHistory_Helper
 				$value['date'] = DateTimeField::convertToUserFormat($userDate);
 			}
 		}
-
 		return $results;
 	}
 

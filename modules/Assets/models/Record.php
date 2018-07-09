@@ -53,7 +53,6 @@ class Assets_Record_Model extends Vtiger_Record_Model
 		if ($methodExist) {
 			return $classFunction['class']::$classFunction['method']($this, 'PLL_WAITING_FOR_RENEWAL', $renewalTime);
 		}
-
 		return 'PLL_WAITING_FOR_RENEWAL';
 	}
 }

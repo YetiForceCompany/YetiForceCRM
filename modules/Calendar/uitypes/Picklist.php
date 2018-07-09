@@ -22,7 +22,6 @@ class Calendar_Picklist_UIType extends Vtiger_Picklist_UIType
 		} elseif ($fieldName == 'activitytype') {
 			return 'List/Field/ActivityPicklist.tpl';
 		}
-
 		return parent::getListSearchTemplateName();
 	}
 }

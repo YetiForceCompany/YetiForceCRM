@@ -71,7 +71,6 @@ class Events_RecuringEvents_Model extends \App\Base
 				$instance->typeSaving = self::UPDATE_THIS_EVENT;
 			}
 		}
-
 		return $instance;
 	}
 
@@ -315,7 +314,6 @@ class Events_RecuringEvents_Model extends \App\Base
 				'endTime' => $date->getEnd()->format('H:i:s'),
 			];
 		}
-
 		return $dates;
 	}
 

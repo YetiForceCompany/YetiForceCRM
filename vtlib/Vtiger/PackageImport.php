@@ -53,7 +53,6 @@ class PackageImport extends PackageExport
 		if (!empty($this->_modulexml) && !empty($this->_modulexml->type)) {
 			return $this->_modulexml->type;
 		}
-
 		return false;
 	}
 
@@ -77,7 +76,6 @@ class PackageImport extends PackageExport
 
 			return $packageType;
 		}
-
 		return '';
 	}
 
@@ -152,7 +150,6 @@ class PackageImport extends PackageExport
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -174,7 +171,6 @@ class PackageImport extends PackageExport
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -193,7 +189,6 @@ class PackageImport extends PackageExport
 				return false;
 			}
 		}
-
 		return (bool) $this->_modulexml->modulebundle;
 	}
 
@@ -225,7 +220,6 @@ class PackageImport extends PackageExport
 		foreach ($this->_modulexml->parameters->parameter as $parameter) {
 			$parameters[] = $parameter;
 		}
-
 		return $parameters;
 	}
 
@@ -434,7 +428,6 @@ class PackageImport extends PackageExport
 				'languages' => 'languages',
 			]);
 		}
-
 		return $module;
 	}
 
@@ -911,7 +904,6 @@ class PackageImport extends PackageExport
 		if ($relModuleInstance) {
 			$moduleInstance->setRelatedList($relModuleInstance, "$label", $actions, "$relatedlistnode->function");
 		}
-
 		return $relModuleInstance;
 	}
 
@@ -929,7 +921,6 @@ class PackageImport extends PackageExport
 		if ($inRelModuleInstance) {
 			$inRelModuleInstance->setRelatedList($moduleInstance, "$label", $actions, "$inRelatedListNode->function");
 		}
-
 		return $inRelModuleInstance;
 	}
 

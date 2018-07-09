@@ -43,7 +43,6 @@ class Settings_CurrencyUpdate_NBR_BankModel extends Settings_CurrencyUpdate_Abst
 			$currencyCode = (string) $currency['currency'];
 			$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode)] = $currencyCode;
 		}
-
 		return $supportedCurrencies;
 	}
 

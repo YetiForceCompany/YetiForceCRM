@@ -72,7 +72,6 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 				}
 			}
 		}
-
 		return $count;
 	}
 
@@ -128,7 +127,6 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 		if ($excluded) {
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId" => $excluded]);
 		}
-
 		return $queryGenerator->createQuery();
 	}
 }

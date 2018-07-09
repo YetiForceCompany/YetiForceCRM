@@ -20,7 +20,6 @@ class Functions
 		} else {
 			$currencyInfo = self::getAllCurrency();
 		}
-
 		return $currencyInfo[$currencyid];
 	}
 
@@ -52,7 +51,6 @@ class Functions
 		if ($show_symbol) {
 			return sprintf('%s : %s', \App\Language::translate($currencyInfo['currency_name'], 'Currency'), $currencyInfo['currency_symbol']);
 		}
-
 		return $currencyInfo['currency_name'];
 	}
 
@@ -144,7 +142,6 @@ class Functions
 		if ($name && \App\Cache::has('moduleTabByName', $name)) {
 			return \App\Cache::get('moduleTabByName', $name);
 		}
-
 		return $id ? \App\Cache::get('moduleTabById', $id) : null;
 	}
 
@@ -172,7 +169,6 @@ class Functions
 			}
 			$data['colums'] = implode(',', $colums);
 		}
-
 		return $data;
 	}
 
@@ -256,7 +252,6 @@ class Functions
 		if ($returnByColumn) {
 			return \App\Cache::get('getModuleFieldInfosByColumn', $module);
 		}
-
 		return \App\Cache::get($cacheName, $module);
 	}
 
@@ -278,7 +273,6 @@ class Functions
 				$field = null;
 			}
 		}
-
 		return $field ? $field['fieldid'] : false;
 	}
 
@@ -290,7 +284,6 @@ class Functions
 			$fld_value = rtrim($value, '0');
 			$value = rtrim($fld_value, '.');
 		}
-
 		return $value;
 	}
 
@@ -303,7 +296,6 @@ class Functions
 		if ($encode && is_string($string)) {
 			$string = addslashes(str_replace(array_values($popup_toHtml), array_keys($popup_toHtml), $string));
 		}
-
 		return $string;
 	}
 
@@ -409,7 +401,6 @@ class Functions
 		if (isset($new_field_details[$field])) {
 			$type_of_data = $new_field_details[$field];
 		}
-
 		return $type_of_data;
 	}
 
@@ -443,7 +434,6 @@ class Functions
 			$short[] = $minutes . \App\Language::translate('LBL_M');
 			$full[] = $minutes == 1 ? $minutes . \App\Language::translate('LBL_MINUTE') : $minutes . \App\Language::translate('LBL_MINUTES');
 		}
-
 		return [
 			'short' => implode(' ', $short),
 			'full' => implode(' ', $full),
@@ -484,7 +474,6 @@ class Functions
 		} else {
 			$array = explode(',', $values);
 		}
-
 		return $array;
 	}
 
@@ -540,7 +529,6 @@ class Functions
 		} else {
 			$content = nl2br($content);
 		}
-
 		return $content;
 	}
 
@@ -624,7 +612,6 @@ class Functions
 					break;
 			}
 		}
-
 		return (float) $bytes;
 	}
 
@@ -646,7 +633,6 @@ class Functions
 			$unit = 'B';
 			$str = sprintf('%d ', $bytes) . $unit;
 		}
-
 		return $str;
 	}
 
@@ -659,7 +645,6 @@ class Functions
 		if ($maxPostSize && $maxPostSize < $maxFileSize) {
 			$maxFileSize = $maxPostSize;
 		}
-
 		return $maxFileSize;
 	}
 
@@ -673,7 +658,6 @@ class Functions
 				$return = \AppConfig::developer('MINIMIZE_CSS');
 				break;
 		}
-
 		return $return;
 	}
 
@@ -683,7 +667,6 @@ class Functions
 		foreach (explode(' ', $name) as $word) {
 			$initial .= strtoupper($word[0]);
 		}
-
 		return $initial;
 	}
 
@@ -707,7 +690,6 @@ class Functions
 				return $currency;
 			}
 		}
-
 		return false;
 	}
 
@@ -730,7 +712,6 @@ class Functions
 		} else {
 			$lastWorkingDay = date('Y-m-d', $date);
 		}
-
 		return $lastWorkingDay;
 	}
 
@@ -846,7 +827,6 @@ class Functions
 			$info['value'] = $value == 0 ? 1.0 : round($value, 5);
 			$info['conversion'] = $value == 0 ? 1.0 : round(1 / $value, 5);
 		}
-
 		return $info;
 	}
 
@@ -875,7 +855,6 @@ class Functions
 				$difference[$key] = $value;
 			}
 		}
-
 		return $difference;
 	}
 }

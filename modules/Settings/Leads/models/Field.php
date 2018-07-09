@@ -33,7 +33,6 @@ class Settings_Leads_Field_Model extends Vtiger_Field_Model
 					break;
 			}
 		}
-
 		return $fieldDataType;
 	}
 
@@ -64,7 +63,6 @@ class Settings_Leads_Field_Model extends Vtiger_Field_Model
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$fieldModel->$properName = $propertyValue;
 		}
-
 		return $fieldModel;
 	}
 }

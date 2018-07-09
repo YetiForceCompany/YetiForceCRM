@@ -232,7 +232,6 @@ class Colors
 				$fieldList[$moduleField->get('name')] = $moduleField;
 			}
 		}
-
 		return $fieldList;
 	}
 
@@ -299,7 +298,6 @@ class Colors
 				'active' => $module['coloractive'],
 			];
 		}
-
 		return $modules;
 	}
 

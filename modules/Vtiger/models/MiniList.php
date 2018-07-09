@@ -60,7 +60,6 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		if (!in_array('id', $fields)) {
 			$fields[] = 'id';
 		}
-
 		return $fields;
 	}
 
@@ -69,7 +68,6 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		if (!$this->targetModuleModel) {
 			$this->targetModuleModel = Vtiger_Module_Model::getInstance($this->getTargetModule());
 		}
-
 		return $this->targetModuleModel;
 	}
 
@@ -96,7 +94,6 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 			return $prefix . \App\Language::translate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
 		}
-
 		return $title;
 	}
 
@@ -110,7 +107,6 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			}
 			$this->listviewHeaders = $headerFieldModels;
 		}
-
 		return $this->listviewHeaders;
 	}
 
@@ -159,7 +155,6 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 				$this->listviewRecords[$row['id']] = $this->getTargetModuleModel()->getRecordFromArray($row);
 			}
 		}
-
 		return $this->listviewRecords;
 	}
 
@@ -188,7 +183,6 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		if ($searcParams) {
 			return $url .= '&search_params=[' . json_encode($searcParams) . ']';
 		}
-
 		return $url;
 	}
 
@@ -217,7 +211,6 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		if ($searcParams) {
 			return $url .= '&search_params=[' . json_encode($searcParams) . ']';
 		}
-
 		return $url;
 	}
 }

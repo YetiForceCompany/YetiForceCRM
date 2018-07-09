@@ -293,7 +293,6 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 				}
 			}
 		}
-
 		return false;
 	}
 

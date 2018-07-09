@@ -61,7 +61,6 @@ class Settings_Mail_Module_Model extends Settings_Vtiger_Module_Model
 			}
 			++$counter;
 		}
-
 		return $path;
 	}
 }

@@ -210,7 +210,6 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 				'icon' => 'fas fa-file',
 			];
 		}
-
 		return $tree;
 	}
 }

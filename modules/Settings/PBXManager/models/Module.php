@@ -64,7 +64,6 @@ class Settings_PBXManager_Module_Model extends Settings_Vtiger_Module_Model
 				$moduleName = $parentModule . ':' . $moduleName;
 			}
 		}
-
 		return $moduleName;
 	}
 

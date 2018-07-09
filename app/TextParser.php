@@ -953,7 +953,6 @@ class TextParser
 		if (isset($this->params[$params])) {
 			return $this->params[$params];
 		}
-
 		return '';
 	}
 
@@ -990,7 +989,6 @@ class TextParser
 		if ($instance->isActive()) {
 			return $instance->process();
 		}
-
 		return '';
 	}
 
@@ -1066,7 +1064,6 @@ class TextParser
 				}
 			}
 		}
-
 		return $variables;
 	}
 
@@ -1176,7 +1173,6 @@ class TextParser
 				$variables["$(custom : $fileName)$"] = Language::translate($instance->name, 'Other.TextParser');
 			}
 		}
-
 		return $variables;
 	}
 
@@ -1201,7 +1197,6 @@ class TextParser
 				}
 			}
 		}
-
 		return $variables;
 	}
 
@@ -1221,7 +1216,6 @@ class TextParser
 				'label' => Language::translate($relation->get('label'), $relation->get('relatedModuleName')),
 			];
 		}
-
 		return $variables;
 	}
 
@@ -1239,7 +1233,6 @@ class TextParser
 				'label' => Language::translate($module['name'], $module['name']),
 			];
 		}
-
 		return $variables;
 	}
 

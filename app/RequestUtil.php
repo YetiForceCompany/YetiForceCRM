@@ -39,7 +39,6 @@ class RequestUtil
 		if (!empty($remoteIp)) {
 			$address .= '(' . implode(',', $remoteIp) . ')';
 		}
-
 		return empty($address) ? '' : $address;
 	}
 

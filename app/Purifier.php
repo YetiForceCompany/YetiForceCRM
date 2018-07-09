@@ -360,7 +360,6 @@ class Purifier
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $input, 406);
 			}
 		}
-
 		return $value;
 	}
 

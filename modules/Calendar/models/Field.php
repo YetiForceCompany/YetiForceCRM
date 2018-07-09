@@ -36,7 +36,6 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 			default: $validator = parent::getValidator();
 				break;
 		}
-
 		return $validator;
 	}
 
@@ -125,7 +124,6 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		if ($this->getFieldName() == 'visibility') {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -163,7 +161,6 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 				}
 			}
 		}
-
 		return $this->fieldInfo;
 	}
 }

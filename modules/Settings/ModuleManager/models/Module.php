@@ -53,7 +53,6 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 				}
 			}
 		}
-
 		return $exceptions;
 	}
 
@@ -138,7 +137,6 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 			$nonVisibleModules = self::getNonVisibleModulesList();
 			$query->where(['and', ['presence' => 0], ['NOT IN', 'name', $nonVisibleModules]]);
 		}
-
 		return $query->count();
 	}
 

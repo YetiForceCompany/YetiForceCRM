@@ -37,7 +37,6 @@ class DigestAuth
 		if (strtolower(substr($auth, 0, 6)) !== 'basic ') {
 			return null;
 		}
-
 		return explode(':', base64_decode(substr($auth, 6)), 2);
 	}
 

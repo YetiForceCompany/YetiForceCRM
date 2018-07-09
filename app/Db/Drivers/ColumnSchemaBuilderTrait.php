@@ -83,7 +83,6 @@ trait ColumnSchemaBuilderTrait
 			default:
 				$format = '{type}{length}{notnull}{unique}{default}{check}{comment}{append}{pos}';
 		}
-
 		return $this->buildCompleteString($format);
 	}
 

@@ -30,7 +30,6 @@ class Module
 				$modules[$value['name']] = \App\Language::translate($value['name'], $value['name']);
 			}
 		}
-
 		return static::$permittedModules = $modules;
 	}
 
@@ -46,7 +45,6 @@ class Module
 		if (isset(static::$permittedModules)) {
 			return isset(static::$permittedModules[$moduleName]);
 		}
-
 		return \App\Privilege::isPermitted($moduleName);
 	}
 }

@@ -25,7 +25,6 @@ class PBXManager_PBXManager_Callbacks
 		if ($vtigersecretkey == $request->get('vtigersignature')) {
 			return true;
 		}
-
 		return false;
 	}
 

@@ -26,7 +26,6 @@ class Vtiger_Block_Model extends vtlib\Block
 				$this->fields[$field->get('name')] = $field;
 			}
 		}
-
 		return $this->fields;
 	}
 
@@ -56,7 +55,6 @@ class Vtiger_Block_Model extends vtlib\Block
 		if (property_exists($this, $propertyName)) {
 			$this->$propertyName = $value;
 		}
-
 		return $this;
 	}
 
@@ -118,7 +116,6 @@ class Vtiger_Block_Model extends vtlib\Block
 		if ($this->get('display_status') == '0') {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -144,7 +141,6 @@ class Vtiger_Block_Model extends vtlib\Block
 				}
 			}
 		}
-
 		return $inActiveFields;
 	}
 
@@ -170,7 +166,6 @@ class Vtiger_Block_Model extends vtlib\Block
 				$blockModelList[] = self::getInstanceFromBlockObject($blockObject);
 			}
 		}
-
 		return $blockModelList;
 	}
 
@@ -197,7 +192,6 @@ class Vtiger_Block_Model extends vtlib\Block
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$blockModel->$properName = $propertyValue;
 		}
-
 		return $blockModel;
 	}
 

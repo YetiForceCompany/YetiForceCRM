@@ -235,7 +235,6 @@ class ServiceContracts extends CRMEntity
 				$usedUnits = $ticketData['days'] * $workingHoursPerDay;
 			}
 		}
-
 		return $usedUnits;
 	}
 

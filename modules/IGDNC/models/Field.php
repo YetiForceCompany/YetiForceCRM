@@ -15,7 +15,6 @@ class IGDNC_Field_Model extends Vtiger_Field_Model
 		if ($edit && $this->getName() === 'igdnc_status') {
 			$edit = false;
 		}
-
 		return $edit;
 	}
 }

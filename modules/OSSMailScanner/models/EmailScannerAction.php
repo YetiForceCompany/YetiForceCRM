@@ -36,7 +36,6 @@ class OSSMailScanner_EmailScannerAction_Model
 				}
 			}
 		}
-
 		return $returnIds;
 	}
 }

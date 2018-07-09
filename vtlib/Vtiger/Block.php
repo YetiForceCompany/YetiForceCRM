@@ -124,7 +124,6 @@ class Block
 		} else {
 			$this->__create($moduleInstance);
 		}
-
 		return $this->id;
 	}
 
@@ -187,7 +186,6 @@ class Block
 			$instance = new self();
 			$instance->initialize($data, $tabId);
 		}
-
 		return $instance;
 	}
 
@@ -215,7 +213,6 @@ class Block
 			$instance->initialize($row, $moduleInstance->id);
 			$instances[] = $instance;
 		}
-
 		return $instances;
 	}
 

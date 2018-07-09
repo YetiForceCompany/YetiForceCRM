@@ -42,7 +42,6 @@ class MultipicklistField extends BaseField
 				return [$tempString . $this->separator . $element[0]];
 			}
 		}
-
 		return $result;
 	}
 
@@ -60,7 +59,6 @@ class MultipicklistField extends BaseField
 				$valueArray[$key] = ltrim($value, $this->separator);
 			}
 		}
-
 		return $valueArray;
 	}
 
@@ -91,7 +89,6 @@ class MultipicklistField extends BaseField
 				], false,
 			]);
 		}
-
 		return $condition;
 	}
 
@@ -112,7 +109,6 @@ class MultipicklistField extends BaseField
 					], false,
 			]]);
 		}
-
 		return $condition;
 	}
 }

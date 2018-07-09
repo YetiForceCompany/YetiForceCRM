@@ -29,7 +29,6 @@ class CountryField extends BaseField
 		foreach ($values as $value) {
 			$condition[] = [$this->getColumnName() => $value];
 		}
-
 		return $condition;
 	}
 }

@@ -19,7 +19,6 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 		if ($value === '') {
 			return 0;
 		}
-
 		return CurrencyField::convertToDBFormat($value);
 	}
 
@@ -38,7 +37,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$maximumLength = $this->getFieldModel()->get('maximumlength');
+		$maximumLength = (float) $this->getFieldModel()->get('maximumlength') +1;
 		if ($maximumLength && ($value > $maximumLength || $value < -$maximumLength)) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}

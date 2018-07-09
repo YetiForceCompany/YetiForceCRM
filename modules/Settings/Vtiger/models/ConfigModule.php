@@ -24,7 +24,6 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 		if (!$this->completeData) {
 			$this->completeData = file_get_contents($this->fileName);
 		}
-
 		return $this->completeData;
 	}
 
@@ -98,7 +97,6 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			}
 			$this->setData($data);
 		}
-
 		return $this->getData();
 	}
 
@@ -121,7 +119,6 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 		} elseif ($fieldName === 'defaultLayout') {
 			return \App\Layout::getAllLayouts();
 		}
-
 		return ['true', 'false'];
 	}
 
@@ -173,7 +170,6 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			fwrite($filePointer, $fileContent);
 			fclose($filePointer);
 		}
-
 		return $validationInfo;
 	}
 
@@ -200,7 +196,6 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 		if (array_diff(array_keys($updatedFields), array_keys($this->getEditableFields()))) {
 			return false;
 		}
-
 		return true;
 	}
 

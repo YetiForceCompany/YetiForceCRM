@@ -45,7 +45,6 @@ class Settings_WebserviceUsers_ListView_Model extends Settings_Vtiger_ListView_M
 				'modalView' => true,
 			];
 		}
-
 		return $basicLinks;
 	}
 }

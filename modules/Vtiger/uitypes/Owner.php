@@ -79,7 +79,6 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 		if (isset($detailViewUrl)) {
 			return "<a href='" . $detailViewUrl . "'>$ownerName</a>";
 		}
-
 		return $ownerName;
 	}
 
@@ -117,7 +116,6 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 		if ($roleModel->get('changeowner')) {
 			return true;
 		}
-
 		return false;
 	}
 

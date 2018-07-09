@@ -146,7 +146,6 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 		if ($excluded) {
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId" => $excluded]);
 		}
-
 		return $queryGenerator->createQuery();
 	}
 }

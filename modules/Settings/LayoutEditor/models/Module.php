@@ -61,7 +61,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			}
 			$this->fieldsModule = $fieldList;
 		}
-
 		return $this->fieldsModule;
 	}
 
@@ -97,7 +96,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			}
 			$this->blocks = $blocksList;
 		}
-
 		return $this->blocks;
 	}
 
@@ -150,7 +148,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			}
 			$fieldTypesInfo[$fieldType] = $details;
 		}
-
 		return $fieldTypesInfo;
 	}
 
@@ -423,7 +420,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$type = $importerType->text();
 				break;
 		}
-
 		return [
 			'uitype' => $uitype,
 			'typeofdata' => $uichekdata,
@@ -440,7 +436,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if (strpos($name, ' ') !== false) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -482,7 +477,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$exceptions[] = $columnName;
 			}
 		}
-
 		return in_array($fieldName, $exceptions);
 	}
 
@@ -493,7 +487,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if (empty(self::$supportedModules)) {
 			self::$supportedModules = self::getEntityModulesList();
 		}
-
 		return self::$supportedModules;
 	}
 
@@ -505,7 +498,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$selfInstance->$properName = $propertyValue;
 		}
-
 		return $selfInstance;
 	}
 
@@ -532,7 +524,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if (!array_key_exists('Calendar', $modulesList)) {
 			unset($modulesList['Events']);
 		}
-
 		return $modulesList;
 	}
 
@@ -547,7 +538,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if (in_array($moduleName, ['Calendar', 'Events'])) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -562,7 +552,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if (in_array($moduleName, ['Calendar', 'Events'])) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -587,7 +576,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				return false;
 			}
 		}
-
 		return true;
 	}
 
@@ -609,7 +597,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				array_splice($this->relations, $contactsIndex, 1);
 			}
 		}
-
 		return $this->relations;
 	}
 

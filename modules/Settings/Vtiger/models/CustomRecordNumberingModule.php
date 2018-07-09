@@ -20,7 +20,6 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 		if (!isset($this->focus)) {
 			$this->focus = CRMEntity::getInstance($this->getName());
 		}
-
 		return $this->focus;
 	}
 
@@ -38,7 +37,6 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 		if ($tabId) {
 			$moduleModel->id = $tabId;
 		}
-
 		return $moduleModel;
 	}
 
@@ -77,7 +75,6 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 				->where(['tabid' => $tabId, 'prefix' => $prefix, 'postfix' => $postfix])
 				->scalar();
 		}
-
 		return $success;
 	}
 

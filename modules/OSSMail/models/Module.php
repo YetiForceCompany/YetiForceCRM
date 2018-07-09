@@ -53,7 +53,6 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if ($type) {
 			$url .= '&type=' . $type;
 		}
-
 		return $url;
 	}
 
@@ -123,7 +122,6 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if (!$request->isEmpty('emails')) {
 			$return['bcc'] = implode(',', $request->get('emails'));
 		}
-
 		return $return;
 	}
 
@@ -142,7 +140,6 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$config['popup'] = $config['target'] == '_blank' ? true : false;
 			self::$composeParam = $config;
 		}
-
 		return self::$composeParam;
 	}
 
@@ -179,7 +176,6 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				}
 			}
 		}
-
 		return $url;
 	}
 

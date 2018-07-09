@@ -49,7 +49,6 @@ class Vtiger_StringTemplate
 		if (isset($this->tplvars[$key])) {
 			$value = $this->tplvars[$key];
 		}
-
 		return $value;
 	}
 
@@ -106,7 +105,6 @@ class Vtiger_StringTemplate
 				}
 			}
 		}
-
 		return $instring;
 	}
 

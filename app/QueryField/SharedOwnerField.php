@@ -31,7 +31,6 @@ class SharedOwnerField extends BaseField
 		foreach ($values as $value) {
 			$condition[] = ['u_#__crmentity_showners.userid' => $value];
 		}
-
 		return $condition;
 	}
 
@@ -54,7 +53,6 @@ class SharedOwnerField extends BaseField
 		foreach ($values as $value) {
 			$condition[] = ['<>', 'u_#__crmentity_showners.userid', $value];
 		}
-
 		return $condition;
 	}
 
@@ -92,7 +90,6 @@ class SharedOwnerField extends BaseField
 		foreach ($values as $value) {
 			$condition[] = ['u_#__crmentity_showners.userid' => $value];
 		}
-
 		return $condition;
 	}
 

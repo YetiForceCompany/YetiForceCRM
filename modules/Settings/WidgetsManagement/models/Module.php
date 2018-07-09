@@ -91,7 +91,6 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				break;
 			}
 		}
-
 		return $dashboardId;
 	}
 

@@ -116,7 +116,6 @@ class Install_ConfigFileUtils_Model
 		if ($templateHandle && $includeHandle) {
 			return true;
 		}
-
 		return false;
 	}
 }

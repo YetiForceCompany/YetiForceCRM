@@ -27,7 +27,6 @@ class Vtiger_ReferenceLink_UIType extends Vtiger_Reference_UIType
 		if (AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			return 'List/Field/Reference.tpl';
 		}
-
 		return Vtiger_Base_UIType::getListSearchTemplateName();
 	}
 

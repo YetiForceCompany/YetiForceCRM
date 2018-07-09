@@ -94,7 +94,6 @@ class CronReviewed
 		} else {
 			$this->recordList = $this->get('selected_ids');
 		}
-
 		return $this->recordList;
 	}
 
