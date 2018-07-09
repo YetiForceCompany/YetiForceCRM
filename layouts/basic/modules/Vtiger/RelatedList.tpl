@@ -23,7 +23,7 @@
 		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
 		<input type="hidden" class="relatedView" value="{$RELATED_VIEW}">
 		<div class="relatedHeader my-1">
-			<div class=" d-inline-flex flex-wrap w-100 justify-content-between">
+			<div class="d-inline-flex flex-wrap w-100 justify-content-between">
                 <div class="u-w-sm-down-100 d-flex flex-wrap flex-sm-nowrap mb-1 mb-md-0">
 					{if $RELATED_LIST_LINKS['RELATEDLIST_VIEWS']|@count gt 0}
 						<div class="btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0">
