@@ -559,6 +559,9 @@ $.Class("Vtiger_Header_Js", {
 		});
 	},
 	toggleBreadcrumActions(container) {
+		if (!container.find('.js-breadcrumb').length) {
+			return;
+		}
 		let breadcrumb = container.find('.js-breadcrumb'),
 			actionBtn = breadcrumb.find('.js-breadcrumb__actions-btn'),
 			cssActionsTop = {top: breadcrumb.offset().top + breadcrumb.height()};

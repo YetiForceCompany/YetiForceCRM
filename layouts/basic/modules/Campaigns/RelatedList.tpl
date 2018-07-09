@@ -175,10 +175,10 @@
 			{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 			<div class="relatedContents">
 					{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-					<table class="table table-bordered listViewEntriesTable {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if}">
+					<table class="table tableBorderHeadBody listViewEntriesTable {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if}">
 						<thead>
 							<tr class="listViewHeaders">
-								<th width="4%">
+								<th>
 									<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox" />
 								</th>
 								{if $IS_FAVORITES}
@@ -196,17 +196,19 @@
 										{/if}
 									</th>
 								{/foreach}
-								<th nowrap colspan="2">
-									<a href="javascript:void(0);" class="noSorting">{\App\Language::translate('Status', $RELATED_MODULE->get('name'))}</a>
-								</th>
 							</tr>
 						</thead>
 						{if $RELATED_MODULE->isQuickSearchEnabled()}
 							<tr>
-								<td>
-									<a class="btn btn-light" role="button" data-trigger="listSearch" href="javascript:void(0);">
-										<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
-									</a>
+								<td class="listViewSearchTd">
+									<div class="flexWrapper">
+										<a class="btn btn-light" role="button" data-trigger="listSearch" href="javascript:void(0);">
+											<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
+										</a>
+										<button type="button" class="btn btn-light removeSearchConditions">
+											<span class="fas fa-times" title="{\App\Language::translate('LBL_CLEAR_SEARCH')}"></span>
+										</button>
+									</div>
 								</td>
 								{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 									<td>
@@ -220,18 +222,44 @@
 FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE_MODEL=$RELATED_MODULE}
 									</td>
 								{/foreach}
-								<td>
-									<button type="button" class="btn btn-light removeSearchConditions">
-										<span class="fas fa-times">{\App\Language::translate('LBL_CLEAR_SEARCH')}</span>
-									</button>
-								</td>
 							</tr>
 						{/if}
 						{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 							{assign var="RECORD_COLORS" value=$RELATED_RECORD->getListViewColor()}
 							<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}' data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'>
-								<td width="4%" class="{$WIDTHTYPE}" {if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
+								<td class="medium noWrap leftRecordActions {$WIDTHTYPE}" {if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
 									<input type="checkbox" value="{$RELATED_RECORD->getId()}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox" />
+									<div class="actions">
+										<div class="actions">
+											<div class="dropright u-remove-dropdown-icon">
+												<button class="btn btn-sm btn-light toolsAction dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													<span class="fas fa-wrench" title="{\App\Language::translate('LBL_ACTIONS')}"></span>
+												</button>
+												<div class="dropdown-menu" aria-label="{\App\Language::translate('LBL_ACTIONS')}">
+													<div class="c-btn-link btn-group mr-1">
+														<a role="button" class="btn btn-sm btn-default" href="{$RELATED_RECORD->getFullDetailViewUrl()}">
+															<span class="fas fa-th-list align-middle" title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}"></span>
+														</a>
+													</div>
+													{if $IS_EDITABLE}
+													<div class="c-btn-link btn-group mr-1">
+														<a role="button" class="btn btn-sm btn-default" href='{$RELATED_RECORD->getEditViewUrl()}'>
+															<span class="fas fa-edit align-middle" title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
+														</a>
+													</div>
+													{/if}
+													{if $IS_DELETABLE}
+													<div class="c-btn-link btn-group">
+														<button type="button" class="relationDelete btn btn-sm btn-danger entityStateBtn">
+															<span class="fas fa-trash-alt align-middle" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
+														</button>
+													</div>
+													{/if}
+												</div>
+											</div>
+
+										</div>
+									</div>
 								</td>
 								{if $IS_FAVORITES}
 									<td class="{$WIDTHTYPE} text-center text-center font-larger">
@@ -255,40 +283,6 @@ FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE
 										{/if}
 									</td>
 								{/foreach}
-								<td nowrap class="{$WIDTHTYPE}">
-									<!--
-									<span class="currentStatus btn-group">
-										<span class="statusValue dropdown-toggle" data-toggle="dropdown">{\App\Language::translate($RELATED_RECORD->get('status'),$MODULE)}</span>
-										<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="icon-arrow-down align-middle editRelatedStatus"></span>
-										<ul class="dropdown-menu float-right" style="left: -2px; position: relative;">
-									{foreach key=STATUS_ID item=STATUS from=$STATUS_VALUES}
-										<li id="{$STATUS_ID}" data-status="{\App\Language::translate($STATUS, $MODULE)}">
-											<a>{\App\Language::translate($STATUS, $MODULE)}</a>
-										</li>
-									{/foreach}
-								</ul>
-							</span>
-									-->
-								</td>
-								<td nowrap class="{$WIDTHTYPE}">
-									<div class="float-right actions">
-										<span class="actionImages">
-											<a href="{$RELATED_RECORD->getFullDetailViewUrl()}">
-												<span class="fas fa-th-list align-middle" title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}"></span>
-											</a>&nbsp;
-												{if $IS_EDITABLE}
-												<a href='{$RELATED_RECORD->getEditViewUrl()}'>
-													<span class="fas fa-edit align-middle" title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
-												</a>
-												{/if}
-												{if $IS_DELETABLE}
-												<a class="relationDelete">
-													<span class="fas fa-trash-alt align-middle" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
-												</a>
-												{/if}
-										</span>
-									</div>
-								</td>
 							</tr>
 						{/foreach}
 					</table>

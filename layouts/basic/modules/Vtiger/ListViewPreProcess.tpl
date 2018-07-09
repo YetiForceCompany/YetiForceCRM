@@ -23,8 +23,8 @@
 							<span class="fas fa-ellipsis-h fa-fw"
 								  title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 				</a>
-				<div class="my-auto o-breadcrumb__actions js-breadcrumb__actions">
-					<div id="o-view-actions__container" class="float-right btn-toolbar btn-group">
+				<div class="my-auto o-breadcrumb__actions js-breadcrumb__actions" id="o-view-actions__container">
+					<div class="float-right btn-toolbar btn-group">
 						{foreach item=LINK from=$HEADER_LINKS['LIST_VIEW_HEADER']}
 							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewHeader' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
 						{/foreach}

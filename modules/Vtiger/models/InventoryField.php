@@ -10,7 +10,7 @@
  */
 class Vtiger_InventoryField_Model extends App\Base
 {
-	protected $fields = false;
+	protected $fields = [];
 	protected $columns = false;
 	protected $jsonFields = ['discountparam', 'taxparam', 'currencyparam'];
 

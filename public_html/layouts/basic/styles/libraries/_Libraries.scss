@@ -254,3 +254,9 @@ ul.ui-autocomplete {
 .jstree-proton{
 	font-family: $font-family-base !important;
 }
+
+//-------- perfectscrollbar --------//
+
+.leftPanel .ps-scrollbar-y-rail {
+	display: none !important;
+}
