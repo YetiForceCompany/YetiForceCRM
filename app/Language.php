@@ -703,10 +703,10 @@ class Language
 			if (strpos($localeSetting, '=') !== false) {
 				list($category, $locale) = explode('=', $localeSetting);
 			} else {
-				$category = LC_ALL;
+				$category = 'LC_ALL';
 				$locale = $localeSetting;
 			}
-			if ($category && $category !== 'LC_COLLATE' && $category !== 'LC_CTYPE') {
+			if ($category !== 'LC_COLLATE' && $category !== 'LC_CTYPE') {
 				setlocale(constant($category), $locale);
 			}
 		}
