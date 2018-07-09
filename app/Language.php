@@ -707,7 +707,9 @@ class Language
 				$locale = $localeSetting;
 			}
 			if ($category !== 'LC_COLLATE' && $category !== 'LC_CTYPE') {
-				setlocale(constant($category), $locale);
+				if ($category) {
+					setlocale(constant($category), $locale);
+				}
 			}
 		}
 	}
