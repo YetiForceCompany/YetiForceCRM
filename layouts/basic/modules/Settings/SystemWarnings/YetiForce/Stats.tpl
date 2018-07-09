@@ -13,7 +13,7 @@
 					<input type="checkbox" checked disabled>
 				</div>
 			</div>
-			<input type="text" name="company_name" class="form-control" data-validation-engine="validate[required]" placeholder="{App\Language::translate('LBL_NAME','Settings:Companies')}" value="{$COMPANY->get('name')}">
+			<input type="text" name="company_name" class="form-control" data-validation-engine="validate[required,funcCall[companyName]]" placeholder="{App\Language::translate('LBL_NAME','Settings:Companies')}" value="{$COMPANY->get('name')}">
 		</div><br />
 		<div class="input-group flex-nowrap">
 			<div class="input-group-prepend">
