@@ -259,9 +259,9 @@ FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE
 													{/if}
 													{if $IS_DELETABLE}
 													<div class="c-btn-link btn-group">
-														<a role="button" class="relationDelete btn btn-sm btn-danger entityStateBtn">
+														<button type="button" class="relationDelete btn btn-sm btn-danger entityStateBtn">
 															<span class="fas fa-trash-alt align-middle" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
-														</a>
+														</button>
 													</div>
 													{/if}
 												</div>
