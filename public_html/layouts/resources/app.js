@@ -7,8 +7,9 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-var App = {};
-var app = {
+var App = {},
+	AppConnector,
+	app = {
 	/**
 	 * variable stores client side language strings
 	 */
