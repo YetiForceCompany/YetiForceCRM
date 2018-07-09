@@ -7,7 +7,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-var AppConnector = {
+AppConnector = {
 
 	/**
 	 * Sends a pjax request (push state +ajax)
