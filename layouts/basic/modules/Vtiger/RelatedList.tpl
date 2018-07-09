@@ -153,9 +153,7 @@
 			</div>
 		{else}
 			<div class="relatedContents">
-				<div>
 					{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
-				</div>
 			</div>
 		{/if}
 	</div>

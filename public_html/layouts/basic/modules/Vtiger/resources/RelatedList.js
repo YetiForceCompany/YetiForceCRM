@@ -195,7 +195,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				thisInstance.relatedTabsContainer.find('li').removeClass('active');
 				thisInstance.selectedRelatedTabElement.addClass('active');
 				thisInstance.content.html(responseData);
-				Vtiger_Helper_Js.showHorizontalTopScrollBar();
 				$('.pageNumbers', thisInstance.content).tooltip();
 				thisInstance.registerPostLoadEvents();
 				if (thisInstance.listSearchInstance) {
@@ -815,18 +814,19 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		var thisInstance = this;
 		app.showPopoverElementView(this.content.find('.js-popover-tooltip'));
 		this.registerRowsEvent();
+		this.registerListScroll();
 		if (this.relatedView === 'ListPreview') {
 			this.registerPreviewEvent();
+			if (!this.content.find('.gutter').length) {
+				if (!this.content.find('.js-list-preview').length)
+					return;
+				this.getDomParams(this.content);
+				this.toggleSplit(this.content);
+				this.registerListPreviewEvents(this.content);
+			}
 		}
 		this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
 		app.event.trigger("RelatedList.AfterLoad", thisInstance);
-		if (!this.content.find('.gutter').length) {
-			if (!this.content.find('.js-list-preview').length)
-				return;
-			this.getDomParams(this.content);
-			this.toggleSplit(this.content);
-			this.registerListPreviewEvents(this.content);
-		}
 	},
 	getSecondColMinWidth: function (container) {
 		let maxWidth, thisWidth;
@@ -1093,6 +1093,12 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			}
 		});
 	},
+	registerListScroll: function () {
+		let container = $('.listViewEntriesDiv');
+		if (this.relatedView !== 'ListPreview') {
+			app.showNewScrollbarAllSides(container);
+		}
+	},
 	registerRelatedEvents: function () {
 		var relatedContainer = this.getRelatedContainer();
 		this.registerUnreviewedCountEvent();
@@ -1101,5 +1107,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.registerListEvents();
 		this.registerPostLoadEvents();
 		this.registerSummationEvent();
+		this.registerListScroll();
 	},
 })
