@@ -34,6 +34,7 @@ before_script:
   
 script:
 - cd tests
+- php setup/environment.php
 - /usr/local/bin/phpunit --debug --verbose
     
 after_script:
