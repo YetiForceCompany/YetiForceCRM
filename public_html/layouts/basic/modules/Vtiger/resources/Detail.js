@@ -284,7 +284,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 			thisInstance.registerEmailEvents(widgetContent);
 			if (relatedModuleName === 'DetailView') {
-				thisInstance.registerBlockAnimationEvent();
 				thisInstance.registerBlockStatusCheckOnLoad();
 			}
 		});
@@ -2410,9 +2409,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			});
 		});
 		thisInstance.registerEventForRelatedList();
-		if (selectedTabElement.data('reference') !== 'Summary') {
-			thisInstance.registerBlockAnimationEvent();
-		}
+		thisInstance.registerBlockAnimationEvent();
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]'));
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="HistoryRelation"]'));
 		detailContentsHolder.find('.js-switch--recentActivities').off().on('change', function (e) {
