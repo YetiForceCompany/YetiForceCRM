@@ -59,8 +59,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var listPreview = container.find('.js-detail-preview');
 		var mainBody = container.closest('.mainBody');
 		var commActHeight = $('.commonActionsContainer').height();
-		app.showNewBottomTopScrollbar(container.find('.js-list-preview--scroll'));
-		app.showNewLeftScrollbar(this.list);
+		app.showNewScrollbarTopBottom(container.find('.js-list-preview--scroll'));
+		app.showNewScrollbarLeft(this.list);
 		$(window).on('resize', () => {
 			if (mainBody.scrollTop() >= (this.list.offset().top + commActHeight)) {
 				container.find('.gutter').css('left', listPreview.offset().left - 8);
