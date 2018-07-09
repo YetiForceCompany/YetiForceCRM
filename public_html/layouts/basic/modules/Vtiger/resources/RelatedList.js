@@ -871,8 +871,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	registerListPreviewEvents: function (container) {
 		var listPreview = container.find('.js-detail-preview');
 		var mainBody = container.closest('.mainBody');
-		app.showNewBottomTopScrollbar(container.find('.js-list-preview--scroll'));
-		app.showNewLeftScrollbar(this.list);
+		app.showNewScrollbarTopBottom(container.find('.js-list-preview--scroll'));
+		app.showNewScrollbarLeft(this.list);
 		let listOffsetTop = this.list.offset().top - this.headerH;
 		let initialH = this.sideBlocks.height();
 		let mainViewPortHeightCss = {height: mainBody.height()};
@@ -1096,7 +1096,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	registerListScroll: function () {
 		let container = $('.listViewEntriesDiv');
 		if (this.relatedView !== 'ListPreview') {
-			app.showNewScrollbarAllSides(container);
+			app.showNewScrollbarTopBottomRight(container);
 		}
 	},
 	registerRelatedEvents: function () {
@@ -1107,6 +1107,5 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.registerListEvents();
 		this.registerPostLoadEvents();
 		this.registerSummationEvent();
-		this.registerListScroll();
 	},
 })
