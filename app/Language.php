@@ -706,10 +706,8 @@ class Language
 				$category = LC_ALL;
 				$locale = $localeSetting;
 			}
-			if ($category !== 'LC_COLLATE' && $category !== 'LC_CTYPE') {
-				if ($category) {
-					setlocale(constant($category), $locale);
-				}
+			if ($category && $category !== 'LC_COLLATE' && $category !== 'LC_CTYPE') {
+				setlocale(constant($category), $locale);
 			}
 		}
 	}
