@@ -236,8 +236,39 @@ FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE
 						{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 							{assign var="RECORD_COLORS" value=$RELATED_RECORD->getListViewColor()}
 							<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}' data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'>
-								<td width="4%" class="{$WIDTHTYPE}" {if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
+								<td class="medium noWrap leftRecordActions {$WIDTHTYPE}" {if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
 									<input type="checkbox" value="{$RELATED_RECORD->getId()}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox" />
+									<div class="actions">
+										<div class="actions">
+											<div class="dropright u-remove-dropdown-icon">
+												<button class="btn btn-sm btn-light toolsAction dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													<span class="fas fa-wrench" title="{\App\Language::translate('LBL_ACTIONS')}"></span>
+												</button>
+												<div class="dropdown-menu" aria-label="{\App\Language::translate('LBL_ACTIONS')}">
+													<div class="c-btn-link btn-group mr-1">
+														<a role="button" class="btn btn-sm btn-default" href="{$RELATED_RECORD->getFullDetailViewUrl()}">
+															<span class="fas fa-th-list align-middle" title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}"></span>
+														</a>
+													</div>
+													{if $IS_EDITABLE}
+													<div class="c-btn-link btn-group mr-1">
+														<a role="button" class="btn btn-sm btn-default" href='{$RELATED_RECORD->getEditViewUrl()}'>
+															<span class="fas fa-edit align-middle" title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
+														</a>
+													</div>
+													{/if}
+													{if $IS_DELETABLE}
+													<div class="c-btn-link btn-group">
+														<a role="button" class="relationDelete btn btn-sm btn-danger entityStateBtn">
+															<span class="fas fa-trash-alt align-middle" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
+														</a>
+													</div>
+													{/if}
+												</div>
+											</div>
+
+										</div>
+									</div>
 								</td>
 								{if $IS_FAVORITES}
 									<td class="{$WIDTHTYPE} text-center text-center font-larger">
@@ -275,25 +306,6 @@ FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE
 								</ul>
 							</span>
 									-->
-								</td>
-								<td nowrap class="{$WIDTHTYPE}">
-									<div class="float-right actions">
-										<span class="actionImages">
-											<a href="{$RELATED_RECORD->getFullDetailViewUrl()}">
-												<span class="fas fa-th-list align-middle" title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}"></span>
-											</a>&nbsp;
-												{if $IS_EDITABLE}
-												<a href='{$RELATED_RECORD->getEditViewUrl()}'>
-													<span class="fas fa-edit align-middle" title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
-												</a>
-												{/if}
-												{if $IS_DELETABLE}
-												<a class="relationDelete">
-													<span class="fas fa-trash-alt align-middle" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
-												</a>
-												{/if}
-										</span>
-									</div>
 								</td>
 							</tr>
 						{/foreach}
