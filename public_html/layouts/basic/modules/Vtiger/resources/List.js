@@ -927,12 +927,12 @@ jQuery.Class("Vtiger_List_Js", {
 				} else {
 					return;
 				}
-			thisInstance.massActionSave(form, true).done(function (data) {
-				thisInstance.getListViewRecords();
-				Vtiger_List_Js.clearList();
-			}).fail(function (error, err) {
-				app.errorLog(error, err);
-			});
+				thisInstance.massActionSave(form, true).done(function (data) {
+					thisInstance.getListViewRecords();
+					Vtiger_List_Js.clearList();
+				}).fail(function (error, err) {
+					app.errorLog(error, err);
+				});
 			} else {
 				form.removeData('submit');
 				app.formAlignmentAfterValidation(form);
@@ -1973,8 +1973,15 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	registerListScroll: function (container) {
 		if (CONFIG.view !== 'ListPreview') {
-			container.height($(window).height() - (container.offset().top + $('.js-footer').height()));
-			app.showNewScrollbarAllSides(container);
+			const containerH = container.height(),
+				containerOffsetTop = container.offset().top,
+				footerH = $('.js-footer').height(),
+				windowH = $(window).height();
+			//if list is bigger than window fit its height to it
+			if ((containerH + containerOffsetTop + footerH) > windowH) {
+				container.height(windowH - (containerOffsetTop + footerH));
+			}
+			app.showNewScrollbarTopBottomRight(container);
 		}
 	},
 	registerMassActionsBtnEvents: function () {

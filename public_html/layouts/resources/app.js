@@ -7,8 +7,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-let App = {};
-let app = {
+var App = {};
+var app = {
 	/**
 	 * variable stores client side language strings
 	 */
@@ -724,7 +724,7 @@ let app = {
 
 		return new PerfectScrollbar(element[0], options);
 	},
-	showNewScrollbarAllSides: function (element) {
+	showNewScrollbarTopBottomRight: function (element) {
 		if (typeof element === "undefined" || !element.length)
 			return;
 		let scrollbarTopLeftInit = new PerfectScrollbar(element[0], {wheelPropagation: true});
@@ -737,19 +737,10 @@ let app = {
 			top: 2,
 			bottom: 'auto'
 		});
-		let scrollbarLeftElement = element.children('.ps__rail-y').first();
-		scrollbarLeftElement.css({
-			left: 0,
-			right: 'auto'
-		});
-		scrollbarLeftElement.find('.ps__thumb-y').css({
-			left: 2,
-			right: 'auto'
-		});
 		let scrollbarBottomRightInit = new PerfectScrollbar(element[0], {wheelPropagation: true});
 		return [scrollbarTopLeftInit, scrollbarBottomRightInit];
 	},
-	showNewBottomTopScrollbar: function (element) {
+	showNewScrollbarTopBottom: function (element) {
 		if (typeof element === "undefined" || !element.length)
 			return;
 		var scrollbarTopInit = new PerfectScrollbar(element[0], {
@@ -770,7 +761,7 @@ let app = {
 			bottom: 'auto'
 		});
 	},
-	showNewLeftScrollbar: function (element, options) {
+	showNewScrollbarLeft: function (element, options) {
 		if (typeof element === "undefined" || !element.length)
 			return;
 		if (typeof options === "undefined")

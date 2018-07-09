@@ -195,7 +195,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				thisInstance.relatedTabsContainer.find('li').removeClass('active');
 				thisInstance.selectedRelatedTabElement.addClass('active');
 				thisInstance.content.html(responseData);
-				Vtiger_Helper_Js.showHorizontalTopScrollBar();
 				$('.pageNumbers', thisInstance.content).tooltip();
 				thisInstance.registerPostLoadEvents();
 				if (thisInstance.listSearchInstance) {
@@ -815,18 +814,19 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		var thisInstance = this;
 		app.showPopoverElementView(this.content.find('.js-popover-tooltip'));
 		this.registerRowsEvent();
+		this.registerListScroll();
 		if (this.relatedView === 'ListPreview') {
 			this.registerPreviewEvent();
+			if (!this.content.find('.gutter').length) {
+				if (!this.content.find('.js-list-preview').length)
+					return;
+				this.getDomParams(this.content);
+				this.toggleSplit(this.content);
+				this.registerListPreviewEvents(this.content);
+			}
 		}
 		this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
 		app.event.trigger("RelatedList.AfterLoad", thisInstance);
-		if (!this.content.find('.gutter').length) {
-			if (!this.content.find('.js-list-preview').length)
-				return;
-			this.getDomParams(this.content);
-			this.toggleSplit(this.content);
-			this.registerListPreviewEvents(this.content);
-		}
 	},
 	getSecondColMinWidth: function (container) {
 		let maxWidth, thisWidth;
@@ -871,8 +871,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	registerListPreviewEvents: function (container) {
 		var listPreview = container.find('.js-detail-preview');
 		var mainBody = container.closest('.mainBody');
-		app.showNewBottomTopScrollbar(container.find('.js-list-preview--scroll'));
-		app.showNewLeftScrollbar(this.list);
+		app.showNewScrollbarTopBottom(container.find('.js-list-preview--scroll'));
+		app.showNewScrollbarLeft(this.list);
 		let listOffsetTop = this.list.offset().top - this.headerH;
 		let initialH = this.sideBlocks.height();
 		let mainViewPortHeightCss = {height: mainBody.height()};
@@ -1092,6 +1092,12 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				}
 			}
 		});
+	},
+	registerListScroll: function () {
+		let container = $('.listViewEntriesDiv');
+		if (this.relatedView !== 'ListPreview') {
+			app.showNewScrollbarTopBottomRight(container);
+		}
 	},
 	registerRelatedEvents: function () {
 		var relatedContainer = this.getRelatedContainer();
