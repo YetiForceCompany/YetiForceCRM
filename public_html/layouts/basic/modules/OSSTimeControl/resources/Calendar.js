@@ -71,7 +71,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		var explodedTime = defaultFirstHour.split(':');
 		defaultFirstHour = explodedTime['0'];
 
-		thisInstance.getCalendarView().fullCalendar({
+		let options = {
 			header: {
 				left: 'month,' + weekView + ',' + dayView,
 				center: 'title today',
@@ -147,7 +147,9 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			},
 			allDayText: app.vtranslate('JS_ALL_DAY'),
 			eventLimitText: app.vtranslate('JS_MORE')
-		});
+		};
+		thisInstance.getCalendarView().fullCalendar('destroy');
+		thisInstance.getCalendarView().fullCalendar(options);
 	},
 	registerRefreshEvent: function () {
 		var thisInstance = this;
@@ -300,18 +302,16 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		if ($.inArray(calendarDetails.timecontrol_type.value, types) < 0 && types.length > 0) {
 			return;
 		}
-		var calendar = this.getCalendarView();
-		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value);
-		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
-		let formatDate = CONFIG.dateFormat.toUpperCase();
-		var eventObject = {
+		const calendar = this.getCalendarView();
+		const eventObject = {
 			id: calendarDetails._recordId,
 			title: calendarDetails.name.display_value,
-			start: startDate.format(formatDate),
-			end: endDate.format(formatDate),
+			start: calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value).format(),
+			end: calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value).format(),
+			start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
+			end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
 			url: 'index.php?module=OSSTimeControl&view=Detail&record=' + calendarDetails._recordId,
-			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBg_OSSTimeControl_timecontrol_type_' + calendarDetails.timecontrol_type.value,
-			title: calendarDetails.name.display_value,
+			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_OSSTimeControl_timecontrol_type_' + calendarDetails.timecontrol_type.value,
 			totalTime: calendarDetails.sum_time.display_value,
 			number: calendarDetails.osstimecontrol_no.display_value,
 			type: calendarDetails.timecontrol_type.display_value,
