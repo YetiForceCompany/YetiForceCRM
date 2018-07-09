@@ -7,8 +7,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-let App = {};
-let app = {
+var App = {};
+var app = {
 	/**
 	 * variable stores client side language strings
 	 */
