@@ -106,7 +106,7 @@ class RequestUtil
 			}
 			$sp = strtolower(Request::_getServer('SERVER_PROTOCOL'));
 			$protocol = substr($sp, 0, strpos($sp, '/')) . (($browser->https) ? 's' : '');
-			$port = (int) $_SERVER['SERVER_PORT'];
+			$port = (int) $_SERVER['SERVER_PORT']?? 0;
 			$port = ((!$browser->https && $port === 80) || ($browser->https && $port === 443)) ? '' : ':' . $port;
 			$host = Request::_getServer('HTTP_X_FORWARDED_HOST', Request::_getServer('HTTP_HOST', ''));
 			$host = $host ?? Request::_getServer('SERVER_NAME') . $port;
