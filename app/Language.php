@@ -706,7 +706,7 @@ class Language
 				$category = 'LC_ALL';
 				$locale = $localeSetting;
 			}
-			if ($category !== 'LC_COLLATE' && $category !== 'LC_CTYPE') {
+			if ($category !== 'LC_COLLATE' && $category !== 'LC_CTYPE' && $category !== 'LC_PAPER') {
 				setlocale(constant($category), $locale);
 			}
 		}

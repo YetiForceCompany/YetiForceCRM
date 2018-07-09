@@ -89,4 +89,6 @@ $PERFORMANCE_CONFIG = [
 	'MAX_MERGE_RECORDS' => 4,
 	//Can CRM have access to the Internet?
 	'ACCESS_TO_INTERNET' => true,
+	//Change the locale for sort the data
+	'CHANGE_LOCALE' => true,
 ];

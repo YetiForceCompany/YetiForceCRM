@@ -17,7 +17,9 @@ abstract class Base
 	public function __construct()
 	{
 		self::setHeaders();
-		\App\Language::initLocale();
+		if (\AppConfig::performance('CHANGE_LOCALE')) {
+			\App\Language::initLocale();
+		}
 	}
 
 	/**
