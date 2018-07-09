@@ -172,14 +172,8 @@
 			<div id="deSelectAllMsgDiv" class="alert-block msgDiv">
 				<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 			</div>
-			<div class="contents-topscroll">
-				<div class="topscroll-div">
-					&nbsp;
-				</div>
-			</div>
 			{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
-			<div class="relatedContents contents-bottomscroll">
-				<div class="bottomscroll-div">
+			<div class="relatedContents">
 					{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 					<table class="table table-bordered listViewEntriesTable {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if}">
 						<thead>
@@ -298,7 +292,6 @@ FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE
 							</tr>
 						{/foreach}
 					</table>
-				</div>
 			</div>
 		</div>
 	{else}
