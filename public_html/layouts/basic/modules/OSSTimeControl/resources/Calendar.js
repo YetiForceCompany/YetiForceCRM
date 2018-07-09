@@ -31,8 +31,8 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 	calendarView: false,
 	calendarCreateView: false,
 	registerCalendar: function () {
-		var thisInstance = this;
-		var eventLimit = jQuery('#eventLimit').val();
+		const thisInstance = this;
+		let eventLimit = jQuery('#eventLimit').val();
 		if (eventLimit == 'true') {
 			eventLimit = true;
 		} else if (eventLimit == 'false') {
@@ -40,11 +40,11 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		} else {
 			eventLimit = parseInt(eventLimit) + 1;
 		}
-		var weekView = jQuery('#weekView').val();
-		var dayView = jQuery('#dayView').val();
+		const weekView = jQuery('#weekView').val();
+		const dayView = jQuery('#dayView').val();
 
 		//User preferred default view
-		var userDefaultActivityView = jQuery('#activity_view').val();
+		let userDefaultActivityView = jQuery('#activity_view').val();
 		if (userDefaultActivityView == 'Today') {
 			userDefaultActivityView = dayView;
 		} else if (userDefaultActivityView == 'This Week') {
@@ -54,8 +54,8 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		}
 
 		//Default time format
-		var userDefaultTimeFormat = jQuery('#time_format').val();
-		var popoverTimeFormat;
+		let userDefaultTimeFormat = jQuery('#time_format').val();
+		let popoverTimeFormat;
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H:mm';
 			popoverTimeFormat = 'HH:mm';
@@ -65,13 +65,13 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		}
 
 		//Default first day of the week
-		var convertedFirstDay = CONFIG.firstDayOfWeekNo;
+		const convertedFirstDay = CONFIG.firstDayOfWeekNo;
 		//Default first hour of the day
-		var defaultFirstHour = jQuery('#start_hour').val();
-		var explodedTime = defaultFirstHour.split(':');
+		let defaultFirstHour = jQuery('#start_hour').val();
+		const explodedTime = defaultFirstHour.split(':');
 		defaultFirstHour = explodedTime['0'];
-
-		let options = {
+		thisInstance.getCalendarView().fullCalendar('destroy');
+		thisInstance.getCalendarView().fullCalendar({
 			header: {
 				left: 'month,' + weekView + ',' + dayView,
 				center: 'title today',
@@ -147,9 +147,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			},
 			allDayText: app.vtranslate('JS_ALL_DAY'),
 			eventLimitText: app.vtranslate('JS_MORE')
-		};
-		thisInstance.getCalendarView().fullCalendar('destroy');
-		thisInstance.getCalendarView().fullCalendar(options);
+		});
 	},
 	registerRefreshEvent: function () {
 		var thisInstance = this;
