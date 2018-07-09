@@ -13,8 +13,9 @@ define('ROOT_DIRECTORY', getcwd());
 if (!class_exists('Vtiger_WebUI')) {
 	require_once 'include/main/WebUI.php';
 }
-echo 'locale: ' . setlocale(LC_ALL, 0) . PHP_EOL . PHP_EOL;
-echo '$_SERVER:' . print_r($_SERVER) . PHP_EOL;
+$log = '';
+$log .= 'locale: ' . setlocale(LC_ALL, 0) . PHP_EOL . PHP_EOL;
+$log .= '$_SERVER:' . print_r($_SERVER, true) . PHP_EOL;
 $error = $ok = $info = $files = [];
 foreach (Settings_ConfReport_Module_Model::getStabilityConf() as $key => $value) {
 	if (empty($value['incorrect'])) {
@@ -48,5 +49,6 @@ foreach (\Settings_ConfReport_Module_Model::getLibrary() as $key => $value) {
 		$libs[$key] = $value['name'];
 	}
 }
-echo 'ConfReport:' . print_r(['errors' => $error, 'ok' => $ok, 'files' => $files, 'libs' => $libs]) . PHP_EOL . PHP_EOL;
-echo 'ini_get_all:' . print_r(ini_get_all()) . PHP_EOL . PHP_EOL;
+$log .= 'ConfReport:' . print_r(['errors' => $error, 'ok' => $ok, 'files' => $files, 'libs' => $libs], true) . PHP_EOL . PHP_EOL;
+$log .= 'ini_get_all:' . print_r(ini_get_all(), true) . PHP_EOL . PHP_EOL;
+file_put_contents('cache/logs/environment.log', $log);
