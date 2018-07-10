@@ -139,10 +139,6 @@ abstract class View extends Base
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$pageTitle = $this->getPageTitle($request);
-		$userRecordModel = \Users_Record_Model::getCurrentUserModel();
-		if ((int) \App\User::getUserModel($userRecordModel->getId())->getDetail('force_password_change') === 1) {
-			\App\Session::set('ShowUserPasswordChange', 2);
-		}
 		$this->loadJsConfig($request);
 		if (\AppConfig::performance('BROWSING_HISTORY_WORKING')) {
 			\Vtiger_BrowsingHistory_Helper::saveHistory($pageTitle);
@@ -158,7 +154,7 @@ abstract class View extends Base
 		$viewer->assign('HTMLLANG', \App\Language::getShortLanguageName());
 		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 		$viewer->assign('SHOW_BREAD_CRUMBS', $this->showBreadCrumbLine());
-		$viewer->assign('USER_MODEL', $userRecordModel);
+		$viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('MODULE_NAME', $moduleName);
