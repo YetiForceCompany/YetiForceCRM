@@ -19,16 +19,14 @@
 		<div class="contents form-row">
 			<div class="col-md-12">
 				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-				<div class="mb-2">
-					<button type="button" class="btn btn-success addInventory addButton" data-url="{$RECORD_MODEL->getCreateUrl()}" data-type="0"><i class="fas fa-plus"></i>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</strong></button>
-				</div>
+				<button type="button" class="btn btn-success addInventory my-2" data-url="{$RECORD_MODEL->getCreateUrl()}" data-type="0"><i class="fas fa-plus"></i>&nbsp;{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</button>
 				<table class="table tableRWD table-bordered inventoryTable themeTableColor">
 					<thead>
 						<tr class="blockHeader">
-							<th class="themeTextColor textAlignCenter {$WIDTHTYPE}"><strong>{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</strong></th>
-							<th class="themeTextColor textAlignCenter {$WIDTHTYPE}"><strong>{\App\Language::translate('LBL_VALUE', $QUALIFIED_MODULE)}</strong></th>
-							<th class="themeTextColor textAlignCenter {$WIDTHTYPE}"><strong>{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</strong></th>
-							<th class="themeTextColor textAlignCenter {$WIDTHTYPE}"><strong>{\App\Language::translate('LBL_DEFAULT', $QUALIFIED_MODULE)}</strong></th>
+							<th class="themeTextColor textAlignCenter {$WIDTHTYPE}">{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</th>
+							<th class="themeTextColor textAlignCenter {$WIDTHTYPE}">{\App\Language::translate('LBL_VALUE', $QUALIFIED_MODULE)}</th>
+							<th class="themeTextColor textAlignCenter {$WIDTHTYPE}">{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</th>
+							<th class="themeTextColor textAlignCenter {$WIDTHTYPE}">{\App\Language::translate('LBL_DEFAULT', $QUALIFIED_MODULE)}</th>
 						</tr>
 					</thead>
 					<tbody>
