@@ -494,11 +494,7 @@ class CurrencyField
 				 */
 				$value = rtrim($value, '0');
 			}
-			if ($user->getDetail('currency_decimal_separator') === '&nbsp;') {
-				$decimalSeparator = ' ';
-			} else {
-				$decimalSeparator = $user->getDetail('currency_decimal_separator');
-			}
+			$decimalSeparator = $user->getDetail('currency_decimal_separator');
 			$fieldValue = explode(App\Purifier::decodeHtml($decimalSeparator), $value);
 			if (strlen($fieldValue[1]) <= 1) {
 				if (strlen($fieldValue[1]) == 1) {
