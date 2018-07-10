@@ -955,11 +955,11 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function verifyPasswordChange(App\User $userModel)
 	{
+		$passConfig = \Settings_Password_Record_Model::getUserPassConfig();
+		$time = (int) $passConfig['change_time'];
 		if ((int) $userModel->getDetail('force_password_change') === 1) {
 			\App\Session::set('ShowUserPasswordChange', 2);
 		}
-		$passConfig = \Settings_Password_Record_Model::getUserPassConfig();
-		$time = (int) $passConfig['change_time'];
 		if ($time === 0) {
 			return false;
 		}
