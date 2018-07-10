@@ -14,6 +14,15 @@ var App = {},
 	 * variable stores client side language strings
 	 */
 	languageString: [],
+	breakpoints: {
+		xs: 0,
+		sm: 576,
+		md: 768,
+		lg: 992,
+		xl: 1200,
+		xxl: 1300,
+		xxxl: 1700
+	},
 	cacheParams: [],
 	modalEvents: [],
 	childFrame: false,
@@ -723,7 +732,7 @@ var App = {},
 		if (typeof options === "undefined")
 			options = {};
 
-		return new PerfectScrollbar(element[0], options);
+		return new PerfectScrollbar(element[0], {wheelPropagation: true});
 	},
 	showNewScrollbarTopBottomRight: function (element) {
 		if (typeof element === "undefined" || !element.length)

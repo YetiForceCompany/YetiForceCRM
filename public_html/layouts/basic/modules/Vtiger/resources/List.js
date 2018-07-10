@@ -1977,11 +1977,13 @@ jQuery.Class("Vtiger_List_Js", {
 				containerOffsetTop = container.offset().top,
 				footerH = $('.js-footer').height(),
 				windowH = $(window).height();
-			//if list is bigger than window fit its height to it
-			if ((containerH + containerOffsetTop + footerH) > windowH) {
-				container.height(windowH - (containerOffsetTop + footerH));
+			if ($(window).width() > app.breakpoints.sm) {
+				//if list is bigger than window fit its height to it
+				if ((containerH + containerOffsetTop + footerH) > windowH) {
+					container.height(windowH - (containerOffsetTop + footerH));
+				}
+				app.showNewScrollbarTopBottomRight(container);
 			}
-			app.showNewScrollbarTopBottomRight(container);
 		}
 	},
 	registerMassActionsBtnEvents: function () {
