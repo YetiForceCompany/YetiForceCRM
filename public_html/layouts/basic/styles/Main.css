@@ -13806,7 +13806,7 @@ label.btn.btn-outline-primary:not(.active) {
   .c-footer a {
     color: inherit; }
   .c-footer p {
-    font-size: 0.9em; }
+    font-size: 0.85em; }
   .c-footer .page-item:last-child .page-link, .c-footer .page-item:first-child .page-link {
     border-radius: initial; }
   .c-footer .page-link {
@@ -13815,7 +13815,8 @@ label.btn.btn-outline-primary:not(.active) {
     padding: 0.4rem 0.3rem;
     border: none; }
     .c-footer .page-link:hover {
-      background: #fff; }
+      background: #fff;
+      color: #343a40; }
 
 .c-footer__user-info {
   padding: 0 5px;
@@ -13882,7 +13883,11 @@ label.btn.btn-outline-primary:not(.active) {
 @media (min-width: 992px) {
   .modal-dialog.c-modal--fit-lg {
     width: fit-content; } }
-
+@media (max-width: 575.98px) {
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding: 0.5rem !important; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv .gridster {
   padding: 0; }
