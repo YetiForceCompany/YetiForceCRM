@@ -5783,7 +5783,7 @@ button.bg-dark:focus {
 .mx-5 {
   margin-left: 3rem !important; }
 
-.p-0, .select2-selection[aria-labelledby^="select2-theme"], .dataTables_wrapper, .dataTables_wrapper .col-sm-12, .dataTables_wrapper .c-panel__label, .dataTables_wrapper .row, .daterangepicker.show-calendar {
+.p-0, .select2-selection[aria-labelledby^="select2-theme"], .daterangepicker.show-calendar {
   padding: 0 !important; }
 
 .pt-0,
@@ -11515,9 +11515,6 @@ header .c-header__btn__container .select2-selection {
 .filterActionImgs {
   margin-top: 3px; }
 
-.dataTables_wrapper table.dataTable {
-  margin: 0 !important; }
-
 .daterangepicker .ranges li {
   margin-bottom: 0.45rem; }
 
@@ -13881,6 +13878,10 @@ label.btn.btn-outline-primary:not(.active) {
     -webkit-transform: translate(0);
     -moz-transform: translate(0);
     transform: translate(0); }
+
+@media (min-width: 992px) {
+  .modal-dialog.c-modal--fit-lg {
+    width: fit-content; } }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .contentsDiv .gridster {
