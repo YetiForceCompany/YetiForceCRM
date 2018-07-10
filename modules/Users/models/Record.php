@@ -960,15 +960,15 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if ($time === 0) {
 			return false;
 		}
+		if ((int) $userModel->getDetail('force_password_change') === 1) {
+			\App\Session::set('ShowUserPasswordChange', 2);
+		}
 		if (strtotime("-$time day") > strtotime($userModel->getDetail('date_password_change'))) {
 			$time += (int) $passConfig['lock_time'];
 			if (strtotime("-$time day") > strtotime($userModel->getDetail('date_password_change'))) {
 				return true;
 			}
 			\App\Session::set('ShowUserPasswordChange', 1);
-		}
-		if ((int) $userModel->getDetail('force_password_change') === 1) {
-			\App\Session::set('ShowUserPasswordChange', 2);
 		}
 		return false;
 	}
