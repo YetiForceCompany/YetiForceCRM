@@ -588,15 +588,12 @@ abstract class View extends Base
 		}
 		if (\App\Session::has('ShowAuthy2faModal')) {
 			\App\Config::setJsEnv('ShowAuthy2faModal', \App\Session::get('ShowAuthy2faModal'));
-			if (AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OPTIONAL') {
+			if (\AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OPTIONAL') {
 				\App\Session::delete('ShowAuthy2faModal');
 			}
 		}
-		if (\App\Session::has('ShowUserPasswordChange')) {
-			\App\Config::setJsEnv('ShowUserPasswordChange', \App\Session::get('ShowUserPasswordChange'));
-			if ((int) \App\Session::get('ShowUserPasswordChange') === 1) {
-				\App\Session::delete('ShowUserPasswordChange');
-			}
+		if ((int) $userModel->getDetail('force_password_change') === 1) {
+			\App\Config::setJsEnv('ShowUserPasswordChange', 1);
 		}
 	}
 }

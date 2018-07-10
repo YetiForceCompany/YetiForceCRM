@@ -4,8 +4,8 @@
  * Reset password action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Users_Password_Action extends \App\Controller\Action
 {
@@ -104,7 +104,6 @@ class Users_Password_Action extends \App\Controller\Action
 			try {
 				$userRecordModel->save();
 				$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', 'Users')]]);
-				\App\Session::delete('ShowUserPasswordChange');
 			} catch (\App\Exceptions\SaveRecord $exc) {
 				$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translateSingleMod($exc->getMessage(), 'Other.Exceptions'), 'type' => 'error']]);
 			} catch (\App\Exceptions\Security $exc) {
