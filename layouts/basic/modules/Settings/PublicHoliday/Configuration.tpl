@@ -10,33 +10,16 @@
 		<div class="contents tabbable">
 			<div class="tab-content themeTableColor overflowVisible">
 				<div class="tab-pane active" id="layoutDashBoards">
-					<div class="btn-toolbar my-2">
-						<button type="button" class="btn btn-success addDateWindow font-weight-bold"><span class="fas fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
-					</div>
+					<button type="button" class="btn btn-success addDateWindow my-2"><span class="fas fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
 					<div id="moduleBlocks">
-						<div class="editFieldsTable block_1 mb-3 border">
-							<div class="form-row m-0">
-								<table class="table table-bordered layoutBlockHeader">
-									<tr>
-										<td>
-											<div  class="form-row">
-											<div class="col-12 col-sm-6 col-md-6 px-0">
-												<h4 class="mb-0">{\App\Language::translate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</h4>
-											</div>
-											<div class="float-right col-12 col-sm-6 col-md-6 px-0">
-												<div class="float-right align-items-center form-row">
-													<div class="col-3 px-0">
-														<strong>{\App\Language::translate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}:</strong>
-													</div>
-													<div class="col-9 col-xs-pull-1">
-														<input type="text" class="dateRangeField dateFilter mb-0 form-control" data-date-format="{$USER_MODEL->get('date_format')}" data-calendar-type="range" value="{$DATE}" />
-													</div>
-												</div>
-											</div>
-											</div>
-										</td>
-									</tr>
-								</table>
+						<div class="editFieldsTable block_1 mb-3">
+							<div  class="form-row my-2">
+								<div class="col-12 col-sm-12 col-md-8 col-lg-9 col-xl-9 col-xxl-10">
+									<h4>{\App\Language::translate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}</h4>
+								</div>
+								<div class="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-3 col-xxl-2">
+									<input type="text" class="dateRangeField dateFilter form-control js-popover-tooltip text-center" data-date-format="{$USER_MODEL->get('date_format')}" data-calendar-type="range" value="{$DATE}" data-content="{\App\Language::translate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}" />
+								</div>
 							</div>
 							<table class="table tableRWD table-bordered ">
 								<thead class='text-capitalize text-center'>
