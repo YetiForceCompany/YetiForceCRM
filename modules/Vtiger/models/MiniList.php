@@ -139,9 +139,8 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			}
 			$targetModuleName = $this->getTargetModule();
 			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);
-			$filterId = $this->widgetModel->get('filterid');
-			$filterModel = CustomView_Record_Model::getInstanceById($filterId);
-			if (!empty($filterModel->get('sort'))) {
+			$filterModel = CustomView_Record_Model::getInstanceById($this->widgetModel->get('filterid'));
+			if ($filterModel && !empty($filterModel->get('sort'))) {
 				list($orderby, $sort) = explode(',', $filterModel->get('sort'));
 				$this->queryGenerator->setOrder($orderby, $sort);
 			} elseif ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {

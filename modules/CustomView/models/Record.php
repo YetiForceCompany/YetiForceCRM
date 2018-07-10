@@ -921,7 +921,6 @@ class CustomView_Record_Model extends \App\Base
 		}
 		if ($row) {
 			$customView = new self();
-
 			return $customView->setData($row)->setModule($row['entitytype']);
 		}
 		return null;
