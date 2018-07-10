@@ -24,9 +24,9 @@
 	</ul>
 	<div class="tab-content">
 		<div id="Configuration" class="tab-pane fade in active show">
-			<div class="form-row">
-				<div class="col-md-4">
-					<table class="table table-bordered table-sm u-word-break-all">
+			<div class="row">
+				<div class="col-lg-12 col-xl-6">
+					<table class="table table-bordered table-sm u-word-break-all mb-2">
 						<thead>
 						<tr class="blockHeader">
 							<th colspan="1" class="mediumWidthType">
@@ -66,8 +66,7 @@
 						{/foreach}
 						</tbody>
 					</table>
-					<br/>
-					<table class="table table-bordered table-sm u-word-break-all">
+					<table class="table table-bordered table-sm u-word-break-all mb-2">
 						<thead>
 						<tr class="blockHeader">
 							<th colspan="3" class="mediumWidthType">
@@ -109,8 +108,8 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="col-md-4">
-					<table class="table table-bordered table-sm u-word-break-all">
+				<div class="col-lg-12 col-xl-6">
+					<table class="table table-bordered table-sm u-word-break-all mb-2">
 						<thead>
 						<tr class="blockHeader">
 							<th colspan="3" class="mediumWidthType">
@@ -154,8 +153,7 @@
 						{/foreach}
 						</tbody>
 					</table>
-					<br/>
-					<table class="table table-bordered table-sm u-word-break-all">
+					<table class="table table-bordered table-sm u-word-break-all mb-2">
 						<thead>
 						<tr class="blockHeader">
 							<th colspan="3" class="mediumWidthType">
@@ -196,9 +194,48 @@
 						{/foreach}
 						</tbody>
 					</table>
-				</div>
-				<div class="col-md-4">
-					<table class="table table-bordered table-sm">
+					<table class="table table-bordered table-sm u-word-break-all mb-2">
+						<thead>
+						<tr class="blockHeader">
+							<th colspan="2" class="mediumWidthType">
+								{App\Language::translate('LBL_DENY_PUBLIC_DIR_TITLE', $MODULE)}
+							</th>
+						</tr>
+						<tr class="blockHeader">
+							<th colspan="1" class="mediumWidthType">
+								<span>{App\Language::translate('LBL_PUBLIC_DIR', $MODULE)}</span>
+							</th>
+							<th colspan="1" class="mediumWidthType">
+								<span>{App\Language::translate('LBL_DENY_PUBLIC_DIR_STATUS', $MODULE)}</span>
+							</th>
+						</tr>
+						</thead>
+						<tbody>
+						{foreach from=Settings_ConfReport_Module_Model::getDenyPublicDirState() key=key item=item}
+							<tr {if $item.status}class="table-danger"{/if}>
+								<td>
+									<label class="u-text-small-bold">{$key}</label>
+									{if isset($item.help) && $item.status}<a href="#"
+																			 class="js-popover-tooltip float-right"
+																			 data-js="popover" data-trigger="focus"
+																			 data-placement="right"
+																			 data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}">
+											<span class="fas fa-info-circle"></span></a>{/if}
+								</td>
+								<td>
+									<label class="u-text-small-bold">
+										{if $item.status}
+											{App\Language::translate('LBL_NO', $MODULE)}
+										{else}
+											{App\Language::translate('LBL_YES', $MODULE)}
+										{/if}
+									</label>
+								</td>
+							</tr>
+						{/foreach}
+						</tbody>
+					</table>
+					<table class="table table-bordered table-sm mb-2">
 						<thead>
 						<tr class="blockHeader">
 							<th colspan="4" class="mediumWidthType">
@@ -254,53 +291,11 @@
 						{/foreach}
 						</tbody>
 					</table>
-					<br>
-					<table class="table table-bordered table-sm u-word-break-all">
-						<thead>
-						<tr class="blockHeader">
-							<th colspan="2" class="mediumWidthType">
-								{App\Language::translate('LBL_DENY_PUBLIC_DIR_TITLE', $MODULE)}
-							</th>
-						</tr>
-						<tr class="blockHeader">
-							<th colspan="1" class="mediumWidthType">
-								<span>{App\Language::translate('LBL_PUBLIC_DIR', $MODULE)}</span>
-							</th>
-							<th colspan="1" class="mediumWidthType">
-								<span>{App\Language::translate('LBL_DENY_PUBLIC_DIR_STATUS', $MODULE)}</span>
-							</th>
-						</tr>
-						</thead>
-						<tbody>
-						{foreach from=Settings_ConfReport_Module_Model::getDenyPublicDirState() key=key item=item}
-							<tr {if $item.status}class="table-danger"{/if}>
-								<td>
-									<label class="u-text-small-bold">{$key}</label>
-									{if isset($item.help) && $item.status}<a href="#"
-																			 class="js-popover-tooltip float-right"
-																			 data-js="popover" data-trigger="focus"
-																			 data-placement="right"
-																			 data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}">
-											<span class="fas fa-info-circle"></span></a>{/if}
-								</td>
-								<td>
-									<label class="u-text-small-bold">
-										{if $item.status}
-											{App\Language::translate('LBL_NO', $MODULE)}
-										{else}
-											{App\Language::translate('LBL_YES', $MODULE)}
-										{/if}
-									</label>
-								</td>
-							</tr>
-						{/foreach}
-						</tbody>
-					</table>
 				</div>
 			</div>
 		</div>
 		<div id="Permissions" class="tab-pane fade">
-			<table class="table table-bordered table-sm u-word-break-all">
+			<table class="table table-bordered table-sm u-word-break-all mb-2">
 				<thead>
 				<tr class="blockHeader">
 					<th colspan="1" class="mediumWidthType">
