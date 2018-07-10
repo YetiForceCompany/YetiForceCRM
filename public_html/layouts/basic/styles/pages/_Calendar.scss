@@ -5,9 +5,11 @@
 		margin-right: -20px;
 		margin-left: -25px;
 	}
-
-	&.js-sitebar--active {
-		@extend .w-75, .pr-3;
+	@media(min-width: 992px) {
+		&.js-sitebar--active {
+			width: 75% !important;
+			padding-right: 1rem !important;
+		}
 	}
 }
 
@@ -15,7 +17,7 @@
 	@extend .pt-2;
 }
 
-@media(min-width: 993px) {
+@media(min-width: 992px) {
 	.Calendar_Calendar .mainBody {
 		overflow: hidden;
 	}

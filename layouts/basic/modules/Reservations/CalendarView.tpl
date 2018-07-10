@@ -10,14 +10,6 @@
 	<input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
 	<input type="hidden" id="dayView" value="{$DAY_VIEW}" />
 	<div class="calendarViewContainer rowContent">
-		<div class="widget_header d-flex align-items-center">
-			<div class="px-2">
-				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
-			</div>
-			<div class="px-2 mr-auto">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-			</div>
-		</div>
 		<div class="o-calendar-container">
 			<p class="m-0"><!-- Divider --></p>
 			<div id="calendarview"></div>

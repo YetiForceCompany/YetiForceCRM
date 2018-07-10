@@ -22,6 +22,11 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 		$viewer->view('CalendarView.tpl', $request->getModule());
 	}
 
+	protected function preProcessTplName(\App\Request $request)
+	{
+		return 'CalendarViewPreProcess.tpl';
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
