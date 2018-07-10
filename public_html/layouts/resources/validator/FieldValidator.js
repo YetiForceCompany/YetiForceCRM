@@ -235,7 +235,7 @@ Vtiger_Integer_Validator_Js("Vtiger_Double_Validator_Js", {
 	}
 });
 
-Vtiger_Double_Validator_Js("Vtiger_PositiveNumber_Validator_Js", {
+Vtiger_Base_Validator_Js("Vtiger_PositiveNumber_Validator_Js", {
 	/**
 	 *Function which invokes field validation
 	 *@param accepts field element as parameter
@@ -421,7 +421,7 @@ Vtiger_Email_Validator_Js("Vtiger_MultiEmails_Validator_Js", {
 
 });
 
-Vtiger_PositiveNumber_Validator_Js("Vtiger_GreaterThanZero_Validator_Js", {
+Vtiger_Double_Validator_Js("Vtiger_GreaterThanZero_Validator_Js", {
 	/**
 	 *Function which invokes field validation
 	 *@param accepts field element as parameter
@@ -450,7 +450,7 @@ Vtiger_PositiveNumber_Validator_Js("Vtiger_GreaterThanZero_Validator_Js", {
 			return response;
 		} else {
 			var fieldValue = this.getFieldValue();
-			if (fieldValue == 0) {
+			if (fieldValue <= 0) {
 				var errorInfo = app.vtranslate('JS_VALUE_SHOULD_BE_GREATER_THAN_ZERO');
 				this.setError(errorInfo);
 				return false;
