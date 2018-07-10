@@ -249,6 +249,12 @@
 	overflow: auto !important;
 }
 
+@include media-breakpoint-down(xs) {
+	.u-overflow-scroll-xs-down {
+		overflow: scroll !important;
+	}
+}
+
 .u-remove-dropdown-icon {
 	.dropdown-toggle::after {
 		display: none;

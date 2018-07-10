@@ -29,7 +29,7 @@
 	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
 		<strong><a id="deSelectAllMsg" href="#">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 	</div>
-	<div class="listViewEntriesDiv">
+	<div class="listViewEntriesDiv u-overflow-scroll-xs-down">
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 		<div class="listViewLoadingImageBlock d-none modal noprint" id="loadingListViewModal">
