@@ -22,6 +22,11 @@ class Reservations_Calendar_View extends Vtiger_Index_View
 		}
 	}
 
+	protected function preProcessTplName(\App\Request $request)
+	{
+		return 'CalendarViewPreProcess.tpl';
+	}
+
 	public function postProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
