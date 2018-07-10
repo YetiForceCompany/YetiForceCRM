@@ -83,9 +83,13 @@
 							<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
 						</p>
 					{else}
-						<p class="text-center">Copyright &copy; YetiForce.com All rights reserved.
+						<p class="text-center">
+							<span class="d-none d-sm-inline">
+								Copyright &copy; YetiForce.com All rights reserved.
 							[{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}
-							s.]<br/>{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', 'open source project')}
+								s.]<br/>{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', 'open source project')}
+							</span>
+							<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
 						</p>
 					{/if}
 				</div>
