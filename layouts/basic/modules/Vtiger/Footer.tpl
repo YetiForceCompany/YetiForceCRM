@@ -10,23 +10,24 @@
 ********************************************************************************/
 -->*}
 {strip}
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-{if $SHOW_FOOTER}
-	<input class="tpl-Footer d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}" />
-		<footer class="c-footer fixed-bottom js-footer {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active {/if}" data-js="height">
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	{if $SHOW_FOOTER}
+		<input class="tpl-Footer d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}"/>
+		<footer class="c-footer fixed-bottom js-footer {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active {/if}"
+				data-js="height">
 			{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
 				<div class="js-footer__user-info c-footer__user-info">
 					<span class="mr-1"> {$USER_MODEL->getName()}</span>(
 					<span>{$USER_MODEL->get('email1')}</span>
 					{if !empty($USER_MODEL->get('phone_crm_extension'))}
-						,<span class="ml-1">{$USER_MODEL->get('phone_crm_extension')}</span>
+					,<span class="ml-1">{$USER_MODEL->get('phone_crm_extension')}</span>
 					{/if})
 				</div>
 			{/if}
@@ -62,7 +63,8 @@
 							</a>
 						</li>
 						<li class="page-item u-cursor-pointer">
-							<a class="page-link" data-toggle="modal" href="#" role="button" data-target="#yetiforceDetails">
+							<a class="page-link" data-toggle="modal" href="#" role="button"
+							   data-target="#yetiforceDetails">
 								<span class="fas fa-info-circle fa-2x" title="YetiForceCRM"></span>
 							</a>
 						</li>
@@ -100,36 +102,39 @@
 					</div>
 					<div class="modal-body">
 						<p class="text-center"><img class="u-h-120px"
-									src="{App\Layout::getPublicUrl('layouts/resources/Logo/blue_yetiforce_logo.png')}"
-									title="YetiForceCRM" alt="YetiForceCRM"/></p>
+													src="{App\Layout::getPublicUrl('layouts/resources/Logo/blue_yetiforce_logo.png')}"
+													title="YetiForceCRM" alt="YetiForceCRM"/></p>
 						<p>Copyright © YetiForce.com All rights reserved.</p>
 						<p>The Program is provided AS IS, without warranty. Licensed under <a
 									href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt"
 									target="_blank"><strong>YetiForce Public License 3.0</strong></a>.</p>
 						<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br/><br/>
 						</p>
-						<p><span class="badge badge-secondary">License:</span> <a
-									href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt"
-									target="_blank"><strong>YetiForce Public License 3.0</strong></a></p>
-						<p><span class="badge badge-primary">WWW:</span> <a href="https://yetiforce.com" target="_blank"
-																			rel="noreferrer"><strong>https://yetiforce.com</strong></a>
-						</p>
-						<p><span class="badge badge-success">Code:</span> <a
-									href="https://github.com/YetiForceCompany/YetiForceCRM" target="_blank"
-									rel="noreferrer"><strong>https://github.com/YetiForceCompany/YetiForceCRM</strong></a>
-						</p>
-						<p><span class="badge badge-info">Documentation:</span> <a
-									href="https://yetiforce.com/en/knowledge-base/documentation" target="_blank"
-									rel="noreferrer"><strong>https://yetiforce.com/en/documentation.html</strong></a>
-						</p>
-						<p><span class="badge badge-warning">Issues:</span> <a
-									href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank"
-									rel="noreferrer"><strong>https://github.com/YetiForceCompany/YetiForceCRM/issues</strong></a>
-						</p>
-						<p><span class="badge badge-primary">Shop:</span> <a
-									href="https://yetiforce.shop/" target="_blank"
-									rel="noreferrer"><strong>https://yetiforce.shop/</strong></a>
-						</p>
+						<div class="u-word-break">
+							<p><span class="badge badge-secondary">License:</span> <a
+										href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt"
+										target="_blank"><strong>YetiForce Public License 3.0</strong></a></p>
+							<p><span class="badge badge-primary">WWW:</span> <a href="https://yetiforce.com"
+																				target="_blank"
+																				rel="noreferrer"><strong>https://yetiforce.com</strong></a>
+							</p>
+							<p><span class="badge badge-success">Code:</span> <a
+										href="https://github.com/YetiForceCompany/YetiForceCRM" target="_blank"
+										rel="noreferrer"><strong>https://github.com/YetiForceCompany/YetiForceCRM</strong></a>
+							</p>
+							<p><span class="badge badge-info">Documentation:</span> <a
+										href="https://yetiforce.com/en/knowledge-base/documentation" target="_blank"
+										rel="noreferrer"><strong>https://yetiforce.com/en/documentation.html</strong></a>
+							</p>
+							<p><span class="badge badge-warning">Issues:</span> <a
+										href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank"
+										rel="noreferrer"><strong>https://github.com/YetiForceCompany/YetiForceCRM/issues</strong></a>
+							</p>
+							<p><span class="badge badge-primary">Shop:</span> <a
+										href="https://yetiforce.shop/" target="_blank"
+										rel="noreferrer"><strong>https://yetiforce.shop/</strong></a>
+							</p>
+						</div>
 						<ul class="text-center list-inline">
 							<li class="yetiforceDetailsLink list-inline-item">
 								<a rel="noreferrer" href="https://www.linkedin.com/groups/8177576"><span
