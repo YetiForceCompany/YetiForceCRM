@@ -56,7 +56,20 @@
 				</div>
 				<div class="col-md-6 controls">
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-12">
+							<ul class="list-inline groupMembersColors mb-1 d-flex flex-nowrap flex-column flex-sm-row">
+								<li class="Users text-center px-4 m-0 list-inline-item w-100">
+									<strong>{\App\Language::translate('LBL_USERS', $QUALIFIED_MODULE)}</strong></li>
+								<li class="Groups text-center px-4 m-0 list-inline-item w-100">
+									<strong>{\App\Language::translate('LBL_GROUPS', $QUALIFIED_MODULE)}</strong></li>
+								<li class="Roles text-center px-4 m-0 list-inline-item w-100">
+									<strong>{\App\Language::translate('LBL_ROLES', $QUALIFIED_MODULE)}</strong></li>
+								<li class="RoleAndSubordinates text-center px-4 m-0 list-inline-item u-white-space-nowrap w-100">
+									<strong>{\App\Language::translate('LBL_ROLEANDSUBORDINATE', $QUALIFIED_MODULE)}</strong>
+								</li>
+							</ul>
+						</div>
+						<div class="col-12">
 							{assign var="GROUP_MEMBERS" value=$RECORD_MODEL->getMembers()}
 							<select id="memberList" class="members form-control select2 groupMembersColors" multiple="true" name="members[]" data-placeholder="{\App\Language::translate('LBL_ADD_USERS_ROLES', $QUALIFIED_MODULE)}" data-validation-engine="validate[required]">
 								{foreach from=$MEMBER_GROUPS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
@@ -69,16 +82,6 @@
 									</optgroup>
 								{/foreach}
 							</select>
-						</div>
-						<div class="col-md-2">
-							<span class="row float-right  groupMembersColors">
-								<ul class="liStyleNone">
-									<li class="Users text-center px-4"><strong>{\App\Language::translate('LBL_USERS', $QUALIFIED_MODULE)}</strong></li>
-									<li class="Groups text-center px-4"><strong>{\App\Language::translate('LBL_GROUPS', $QUALIFIED_MODULE)}</strong></li>
-									<li class="Roles text-center px-4"><strong>{\App\Language::translate('LBL_ROLES', $QUALIFIED_MODULE)}</strong></li>
-									<li class="RoleAndSubordinates text-center px-4"><strong>{\App\Language::translate('LBL_ROLEANDSUBORDINATE', $QUALIFIED_MODULE)}</strong></li>
-								</ul>
-							</span>
 						</div>
 					</div>
 				</div>
