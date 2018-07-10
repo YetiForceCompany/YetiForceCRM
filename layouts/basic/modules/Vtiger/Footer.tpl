@@ -62,7 +62,7 @@
 							</a>
 						</li>
 						<li class="page-item u-cursor-pointer">
-							<a class="page-link" data-toggle="modal" role="button" data-target="#yetiforceDetails">
+							<a class="page-link" data-toggle="modal" href="#" role="button" data-target="#yetiforceDetails">
 								<span class="fas fa-info-circle fa-2x" title="YetiForceCRM"></span>
 							</a>
 						</li>
