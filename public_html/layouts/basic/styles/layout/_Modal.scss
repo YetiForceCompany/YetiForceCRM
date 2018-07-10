@@ -43,3 +43,8 @@
 		}
 	}
 }
+.modal-dialog.c-modal--fit-lg {
+	@include media-breakpoint-up(lg) {
+		width: fit-content;
+	}
+}
