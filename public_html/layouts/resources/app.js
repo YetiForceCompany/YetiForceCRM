@@ -732,7 +732,7 @@ var App = {},
 		if (typeof options === "undefined")
 			options = {};
 
-		return new PerfectScrollbar(element[0], {wheelPropagation: true});
+		return new PerfectScrollbar(element[0], options);
 	},
 	showNewScrollbarTopBottomRight: function (element) {
 		if (typeof element === "undefined" || !element.length)
