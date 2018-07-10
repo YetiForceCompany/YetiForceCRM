@@ -30,7 +30,7 @@
 					{/if})
 				</div>
 			{/if}
-			<div class="container-fluid px-1">
+			<div class="container-fluid px-0 px-md-1">
 				<ul class="float-left pagination border-0">
 					<li class="page-item">
 						<a class="page-link" href="https://www.linkedin.com/groups/8177576" rel="noreferrer">
@@ -57,7 +57,7 @@
 				<div class="float-right p-0">
 					<ul class="pagination">
 						<li class="page-item">
-							<a class="page-link mr-2" href="https://yetiforce.shop" rel="noreferrer">
+							<a class="page-link mr-md-1" href="https://yetiforce.shop" rel="noreferrer">
 								<span class="fas fa-shopping-cart fa-2x" title="yetiforce.shop"></span>
 							</a>
 						</li>
@@ -76,8 +76,9 @@
 						{assign var=FOOTOSP value= '<em><a class="u-text-underline" href="index.php?module=Vtiger&view=Credits&parent=Settings">open source project</a></em>'}
 						<p class="text-center text-center {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}u-p-05per{/if}">
 							<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
-								<br/>{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger',$FOOTOSP)}</span>
-							<span class="d-inline d-sm-none text-center">{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger', $FOOTVRM ,$FOOTOSP)}</span>
+								<br/>{\App\Language::translateArgs('LBL_FOOTER_CONTENT', 'Vtiger',$FOOTOSP)}
+							</span>
+							<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
 						</p>
 					{else}
 						<p class="text-center">Copyright &copy; YetiForce.com All rights reserved.
