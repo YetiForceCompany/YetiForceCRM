@@ -239,3 +239,7 @@
 .fc-event {
 	color: #353c44 !important;
 }
+
+.fc-view-container {
+	@extend .mb-0;
+}
