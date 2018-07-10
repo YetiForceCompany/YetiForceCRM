@@ -13,7 +13,7 @@ class PermissionInspector_UserListModal_View extends Vtiger_BasicModal_View
 	 */
 	public function getSize(\App\Request $request)
 	{
-		return 'modal-lg';
+		return 'modal-lg c-modal--fit-lg';
 	}
 
 	/**
