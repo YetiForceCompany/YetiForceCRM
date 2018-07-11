@@ -2043,7 +2043,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var text = $(this).val();
 			if (text) {
 				detailContentsHolder.find('.commentDetails').addClass('d-none');
-				var contains = detailContentsHolder.find(".commentRelatedTitle:contains(" + text + ")");
+				var contains = detailContentsHolder.find(".js-comment-search__value:contains(" + text + ")");
 				contains.each(function (e) {
 					$(this).closest('.commentDetails').removeClass('d-none');
 				});

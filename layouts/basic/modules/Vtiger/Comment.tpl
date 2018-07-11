@@ -42,10 +42,10 @@
 							{assign var=RELATED_MODULE value=\App\Record::getType($RELATED_TO)}
 							<a href="index.php?module={$RELATED_MODULE}&view=Detail&record={$RELATED_TO}">
 								<strong>{\App\Language::translate($RELATED_MODULE,$RELATED_MODULE)}:&nbsp;&nbsp;</strong>
-								<strong class="commentRelatedTitle">{$COMMENT->getDisplayValue('related_to')}</strong>
+								<strong class="js-comment-search__value" data-js="contains">{$COMMENT->getDisplayValue('related_to')}</strong>
 							</a>
 						{/if}
-						<div class="commentInfoContent ">
+						<div class="commentInfoContent js-comment-search__value" data-js="contains">
 							{$COMMENT->getDisplayValue('commentcontent')}
 						</div>
 					</div>
