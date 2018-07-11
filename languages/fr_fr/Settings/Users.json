@@ -18,7 +18,6 @@
     "LBL_PRIORITY": "Priorit\u00e9",
     "LBL_ACTIVE_LDAP_AUTH": "Autorisation avec LDAP",
     "LBL_LDAP_SERVER": "Adresse du serveur",
-    "LBL_LDAP_USERS": "Login automatique actif pour les utilisateurs",
     "LBL_SAVE_CONFIG": "Configuration a \u00e9t\u00e9 sauvegard\u00e9e",
     "LBL_LDAP_DOMAIN": "Domaine (ajout\u00e9 automatiquement au login)",
     "LBL_VIEW_AUTH": "Autorisation",

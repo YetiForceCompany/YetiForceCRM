@@ -34,20 +34,13 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getConfig($type)
 	{
-		$query = (new App\Db\Query())->from('yetiforce_auth')->where(['type' => $type]);
+		$query = (new \App\Db\Query())->from('yetiforce_auth')->where(['type' => $type]);
 		$config = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$param = $row['param'];
-			$value = $row['value'];
-			if ($param == 'users') {
-				$config[$param] = $value == '' ? [] : explode(',', $value);
-			} else {
-				$config[$param] = $value;
-			}
+			$config[$row['param']] = $row['value'];
 		}
 		$dataReader->close();
-
 		return $config;
 	}
 

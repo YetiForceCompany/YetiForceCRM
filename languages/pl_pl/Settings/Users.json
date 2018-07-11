@@ -10,7 +10,6 @@
     "LBL_ACTIVE_LDAP_AUTH": "Autoryzacja za pomoc\u0105 LDAP",
     "LBL_LDAP_SERVER": "Adres serwera",
     "LBL_LDAP_PORT": "Port",
-    "LBL_LDAP_USERS": "Autologowanie aktywne dla u\u017cytkownik\u00f3w",
     "LBL_SAVE_CONFIG": "Zapisano konfiguracj\u0119",
     "LBL_LDAP_DOMAIN": "Domena (automatycznie dodawana do loginu)",
     "LBL_VIEW_AUTH": "Autoryzacja",

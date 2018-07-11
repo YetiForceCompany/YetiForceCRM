@@ -18,7 +18,6 @@
     "LBL_ACTIVE_LDAP_AUTH": "Autorizare cu LDAP",
     "LBL_LDAP_SERVER": "Adresa serverului",
     "LBL_LDAP_PORT": "Port",
-    "LBL_LDAP_USERS": "Autentificare automata activata pentru utilizatorii",
     "LBL_SAVE_CONFIG": "Configuratia a fost salvata",
     "LBL_LDAP_DOMAIN": "Domeniu (adaugat automat la autentificare)",
     "LBL_VIEW_AUTH": "Autorizare",
