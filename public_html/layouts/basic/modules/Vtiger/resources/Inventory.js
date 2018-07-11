@@ -1079,7 +1079,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			newRow = newRow.find('tr').appendTo(items.find('tbody'));
 
 			newRow.find('.rowName input[name="popupReferenceModule"]').val(module).data('field', field);
-			newRow.find('select').each(function (index, select) {
+			newRow.find('.colPicklistField select').each(function (index, select) {
 				select = $(select);
 				select.find('option').each(function (index, option) {
 					option = $(option);
@@ -1087,8 +1087,8 @@ $.Class("Vtiger_Inventory_Js", {}, {
 						option.remove();
 					}
 				});
-				App.Fields.Picklist.showSelect2ElementView(select);
 			});
+			App.Fields.Picklist.showSelect2ElementView(newRow.find('select'));
 			thisInstance.initItem(newRow);
 			Vtiger_Edit_Js.getInstance().registerAutoCompleteFields(newRow);
 			app.showPopoverElementView(newRow.find('.js-popover-tooltip'));
