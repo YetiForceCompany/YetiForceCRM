@@ -11,15 +11,11 @@
 		</ul>
 		<div class="tab-content">
 			<div class="editViewContainer tab-pane active" id="general_configuration">
-				<table class="table tableRWD table-bordered table-sm themeTableColor userTable">
+				<table class="table tableRWD table-bordered table-sm themeTableColor userTable my-2">
 					<thead>
 						<tr class="blockHeader" >
-							<th class="mediumWidthType">
-								<span>{\App\Language::translate('LBL_INFO', $QUALIFIED_MODULE)}</span>
-							</th>
-							<th class="mediumWidthType">
-								<span>{\App\Language::translate('LBL_TYPE', $QUALIFIED_MODULE)}</span>
-							</th>
+							<th class="mediumWidthType">{\App\Language::translate('LBL_INFO', $QUALIFIED_MODULE)}</th>
+							<th class="mediumWidthType">{\App\Language::translate('LBL_TYPE', $QUALIFIED_MODULE)}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -35,7 +31,7 @@
 						</tr>
 					</tbody>
 				</table>
-			</div>	
+			</div>
 		</div>
 	</div>
 {/strip}

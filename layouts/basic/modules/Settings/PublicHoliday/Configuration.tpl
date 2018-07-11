@@ -14,20 +14,23 @@
 					<div id="moduleBlocks">
 						<div class="editFieldsTable block_1 mb-3">
 							<div  class="form-row my-2">
-								<div class="col-12 col-sm-12 col-md-8 col-lg-9 col-xl-9 col-xxl-10">
+								<div class="col-12 col-sm-12 col-md-7">
 									<h4>{\App\Language::translate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}</h4>
 								</div>
-								<div class="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-3 col-xxl-2">
-									<input type="text" class="dateRangeField dateFilter form-control js-popover-tooltip text-center" data-date-format="{$USER_MODEL->get('date_format')}" data-calendar-type="range" value="{$DATE}" data-content="{\App\Language::translate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}" />
+								<div class="col-12 col-sm-12 col-md-5">
+									<div class="d-flex justify-content-end">
+										<label class="d-block align-self-center w-50 text-left text-md-right mb-0 mr-2 font-weight-bold">{\App\Language::translate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}:</label>
+										<input type="text" class="d-block dateRangeField dateFilter form-control text-center" data-date-format="{$USER_MODEL->get('date_format')}" data-calendar-type="range" value="{$DATE}" />
+									</div>
 								</div>
 							</div>
 							<table class="table tableRWD table-bordered ">
 								<thead class='text-capitalize text-center'>
 									<tr>
-										<th><span>{\App\Language::translate('LBL_DATE', $QUALIFIED_MODULE)}</span></th>
-										<th><span>{\App\Language::translate('LBL_DAY', $QUALIFIED_MODULE)}</span></th>
-										<th><span>{\App\Language::translate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</span></th>
-										<th><span>{\App\Language::translate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</span></th>
+										<th>{\App\Language::translate('LBL_DATE', $QUALIFIED_MODULE)}</th>
+										<th>{\App\Language::translate('LBL_DAY', $QUALIFIED_MODULE)}</th>
+										<th>{\App\Language::translate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</th>
+										<th>{\App\Language::translate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</th>
 										<th></th>
 									</tr>
 								</thead>
