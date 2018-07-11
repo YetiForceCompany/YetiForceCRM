@@ -2,15 +2,15 @@
 
 <div class="tpl-Settings-ConfReport-Index">
 	<div class="widget_header row">
-		<div class="col-10">
+		<div class="col-12 col-md-8 col-sm-7">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
-		<div class="col-2 align-items-center d-flex justify-content-end">
+		<div class="col-12 col-md-4 col-sm-5 align-items-center d-sm-flex justify-content-end text-center text-sm-right">
 			{*<button class="btn btn-primary testSpeed float-right">*}
 			{*<span class="fab fa-cloudscale"></span>*}
 			{*{App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}*}
 			{*</button>*}
-			<button id="download-image" class="btn btn-outline-dark float-right"><span class="fas fa-download"></span> {\App\Language::translate('LBL_DOWNLOAD_CONFIG', $MODULE)}</button>
+			<button id="download-image" class="btn btn-outline-dark"><span class="fas fa-download"></span> {\App\Language::translate('LBL_DOWNLOAD_CONFIG', $MODULE)}</button>
 		</div>
 	</div>
 	<div class="badge badge-info my-2">
@@ -51,7 +51,7 @@
 						<tbody class="small u-word-break-all">
 						{foreach from=$STABILITY_CONF key=key item=item}
 							<tr {if $item['incorrect']}class="table-danger"{/if}>
-								<td class="text-nowrap bg-light">
+								<td class="bg-light">
 									{$key}
 									{if isset($item['help']) && $item['incorrect']}
 										<a href="#"
@@ -99,7 +99,7 @@
 						<tbody class="small u-word-break-all">
 						{foreach from=Settings_ConfReport_Module_Model::getLibrary() key=key item=item}
 							<tr {if $item.status == 'LBL_NO'}class="table-danger"{/if}>
-								<td class="text-nowrap bg-light">
+								<td class="bg-light">
 									{App\Language::translate($key,$MODULE)}
 									{if isset($item.help) && $item.status}<a href="#"
 																			 class="js-popover-tooltip float-right"
@@ -144,7 +144,7 @@
 						<tbody class="small u-word-break-all">
 						{foreach from=$SYSTEM_INFO key=key item=item}
 							<tr>
-								<td class="text-nowrap bg-light">
+								<td class="bg-light">
 									{App\Language::translate($key, $MODULE)}
 								</td>
 								{if is_array($item)}
@@ -187,7 +187,7 @@
 						<tbody class="small u-word-break-all">
 						{foreach from=$SECURITY_CONF key=key item=item}
 							<tr {if $item.status}class="table-danger"{/if}>
-								<td class="text-nowrap bg-light">
+								<td class="bg-light">
 									{$key}
 									{if isset($item.help) && $item.status}
 										<a href="#"
@@ -228,7 +228,7 @@
 						<tbody class="small u-word-break-all">
 						{foreach from=Settings_ConfReport_Module_Model::getDenyPublicDirState() key=key item=item}
 							<tr {if $item.status}class="table-danger"{/if}>
-								<td class="text-nowrap bg-light">
+								<td class="bg-light">
 									{$key}
 									{if isset($item.help) && $item.status}<a href="#"
 																			 class="js-popover-tooltip float-right"
@@ -270,7 +270,7 @@
 						<tbody class="small u-word-break-all">
 						{foreach from=$DB_CONF key=key item=item}
 							<tr {if $item['status']}class="table-danger"{/if}>
-								<td class="text-nowrap bg-light">
+								<td class="bg-light">
 									{App\Language::translate($key, $MODULE)}
 									{if isset($item.help) && $item.status}<a href="#"
 																			 class="js-popover-tooltip float-right"
@@ -310,7 +310,7 @@
 				<tbody class="small">
 				{foreach from=Settings_ConfReport_Module_Model::getPermissionsFiles() key=key item=item}
 					<tr {if $item.permission eq 'FailedPermission'}class="table-danger"{/if}>
-						<td class="text-nowrap bg-light">{App\Language::translate($key, $MODULE)}</td>
+						<td class="bg-light">{App\Language::translate($key, $MODULE)}</td>
 						<td>{App\Language::translate($item.path, $MODULE)}
 						</td>
 						<td>
