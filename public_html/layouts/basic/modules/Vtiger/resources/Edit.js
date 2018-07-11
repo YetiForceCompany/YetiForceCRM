@@ -323,7 +323,7 @@ $.Class("Vtiger_Edit_Js", {
 			this.showRecordsList(e);
 		});
 		let moduleList = container.find('.referenceModulesList');
-		App.Fields.Picklist.showSelect2ElementView(moduleList);
+		App.Fields.Picklist.showSelect2ElementView(container.find('.referenceModulesList:visible'));
 		moduleList.on('change', (e) => {
 			let element = $(e.currentTarget);
 			let parentElem = element.closest('.fieldValue');
