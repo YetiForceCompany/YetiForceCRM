@@ -49,7 +49,9 @@
 			<div class="col-md-4 px-4"><span>{\App\Language::translate('LBL_EXTENSION_TYPE', $MODULE)}</span></div>
 			<div class="col-md-6">
 				<select name="extension" class="select2"  title="{\App\Language::translate('LBL_EXTENSION_TYPE', $MODULE)}">
-					<option value="xml">XML</option>
+					{foreach from=Import_ZipReader_Reader::getAllowedExtension() item=EXTENSION_NAME key=EXTENSION_VALUE}
+						<option value="{$EXTENSION_VALUE}">{$EXTENSION_NAME}</option>
+					{/foreach}
 				</select>
 			</div>
 		</div>
