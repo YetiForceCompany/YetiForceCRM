@@ -128,7 +128,7 @@ $.Class("Vtiger_Header_Js", {
 						record: aid,
 						type: $(this).data('type')
 					}).done(function (res) {
-						app.hideModalWindow(modal);
+						app.hideModalWindow();
 						thisInstance.showAnnouncement();
 					})
 				});
