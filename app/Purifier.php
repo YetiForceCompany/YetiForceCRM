@@ -292,7 +292,7 @@ class Purifier
 			switch ($type) {
 				case 'Standard': // only word
 				case 1:
-					$value = preg_match('/^[_a-zA-Z]+$/', $input) ? $input : false;
+					$value = preg_match('/^[\-_a-zA-Z]+$/', $input) ? $input : false;
 					break;
 				case 'Alnum': // word and int
 				case 2:
