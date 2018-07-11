@@ -13,7 +13,7 @@
 					<button type="button" class="btn btn-success addDateWindow my-2"><span class="fas fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
 					<div id="moduleBlocks">
 						<div class="editFieldsTable block_1 mb-3">
-							<div  class="form-row my-2">
+							<div  class="row no-gutters border border-bottom-0 bg-light p-2">
 								<div class="col-12 col-sm-12 col-md-7">
 									<h4>{\App\Language::translate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}</h4>
 								</div>
