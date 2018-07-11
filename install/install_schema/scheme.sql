@@ -1,3 +1,8 @@
+/*
+SQLyog Community
+MySQL - 10.2.13-MariaDB : Database - yetiforce
+*********************************************************************
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -5418,7 +5423,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2766 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2767 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6414,6 +6419,16 @@ CREATE TABLE `vtiger_locationregister_status` (
   `sortorderid` smallint(6) DEFAULT 0,
   PRIMARY KEY (`locationregister_statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_login_method` */
+
+CREATE TABLE `vtiger_login_method` (
+  `login_methodid` int(11) NOT NULL AUTO_INCREMENT,
+  `login_method` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`login_methodid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_loginhistory` */
 
@@ -9062,6 +9077,7 @@ CREATE TABLE `vtiger_users` (
   `user_preferences` text DEFAULT NULL,
   `authy_methods` varchar(255) DEFAULT NULL,
   `authy_secret_totp` varchar(255) DEFAULT NULL,
+  `login_method` varchar(50) DEFAULT 'PLL_PASSWORD',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),
