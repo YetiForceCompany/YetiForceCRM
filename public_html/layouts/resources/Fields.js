@@ -664,7 +664,32 @@ App.Fields = {
 					select.data('unselecting', true);
 				});
 			})
+			this.registerSelect2Sortable();
 			return selectElement;
+		},
+		/**
+		 * Register select2 drag and drop sorting
+		 * @param {jQuery} select2 element
+		 */
+		registerSelect2Sortable(select = $('.select2[sortable]')) {
+			if (!select.length) return;
+			select.each(function () {
+				let currentSelect = $(this);
+				let ul = currentSelect.next('.select2-container').first('ul.select2-selection__rendered');
+				ul.sortable({
+					placeholder: 'ui-state-highlight',
+					forcePlaceholderSize: true,
+					items: 'li:not(.select2-search__field)',
+					tolerance: 'pointer',
+					stop: function () {
+						$(ul.find('.select2-selection__choice').get().reverse()).each(function () {
+							let id = $(this).data('select2-id');
+							let option = currentSelect.find('option[value="' + id + '"]')[0];
+							currentSelect.prepend(option);
+						});
+					}
+				});
+			})
 		},
 		/**
 		 * Replace select with choosen
@@ -855,8 +880,8 @@ App.Fields = {
 			});
 		}
 	},
-	Gantt:{
-		register(container, data){
+	Gantt: {
+		register(container, data) {
 			return new GanttField(container, data);
 		}
 	}
