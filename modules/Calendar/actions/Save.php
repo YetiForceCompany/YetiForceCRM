@@ -10,23 +10,6 @@
 
 class Calendar_Save_Action extends Vtiger_Save_Action
 {
-	public function process(\App\Request $request)
-	{
-		$recordModel = $this->saveRecord($request);
-		$loadUrl = $recordModel->getDetailViewUrl();
-
-		if ($request->getBoolean('relationOperation')) {
-			$parentModuleName = $request->getByType('sourceModule', 2);
-			$parentRecordId = $request->getInteger('sourceRecord');
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
-			$loadUrl = $parentRecordModel->getDetailViewUrl();
-		} elseif ($request->getBoolean('returnToList')) {
-			$moduleModel = $recordModel->getModule();
-			$loadUrl = $moduleModel->getListViewUrl();
-		}
-		header("Location: $loadUrl");
-	}
-
 	/**
 	 * Function to save record.
 	 *
