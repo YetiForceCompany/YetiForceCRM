@@ -1,15 +1,14 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="customViewList">
-		<div class="widget_header row">
+		<div class="widget_header row pb-2 mb-2">
 			<div class="col-md-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{App\Language::translate('LBL_'|cat:$MODULE|upper|cat:'_DESCRIPTION', $QUALIFIED_MODULE)}
-			</div>		
+			</div>
 		</div>
-		<hr>
 		<div class="panel panel-default">
-			<div class="panel-heading">
+			<div class="panel-heading mb-2">
 				<div class="row">
 					<div class="col-md-4 col-sm-4 col-6">
 						<select class="chzn-select js-module-filter" data-js="change" name="moduleFilter">
@@ -26,7 +25,7 @@
 
 				</div>
 			</div>
-			<div class="panel-body padding5">
+			<div class="panel-body">
 				<div class="indexContents">
 					{include file=\App\Layout::getTemplatePath('IndexContents.tpl', $QUALIFIED_MODULE)}
 				</div>
