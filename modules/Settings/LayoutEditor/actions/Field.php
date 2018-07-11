@@ -60,6 +60,9 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 					case 'mandatory':
 						$fieldInstance->updateTypeofDataFromMandatory($request->getByType($field, 'Standard'));
 						break;
+					case 'header_field':
+						$fieldInstance->set($field, $request->getByType($field, 'Text'));
+						break;
 					default:
 						$fieldInstance->set($field, $request->getInteger($field));
 						break;
