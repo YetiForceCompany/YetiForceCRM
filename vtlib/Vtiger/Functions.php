@@ -176,6 +176,18 @@ class Functions
 	protected static $crmRecordIdMetadataCache = [];
 
 	/**
+	 * Clear cache meta data for records.
+	 *
+	 * @param int $id
+	 */
+	public static function clearCacheMetaDataRecord($id)
+	{
+		if (isset(static::$crmRecordIdMetadataCache[$id])) {
+			unset(static::$crmRecordIdMetadataCache[$id]);
+		}
+	}
+
+	/**
 	 * Function gets record metadata.
 	 *
 	 * @param int|array $mixedid

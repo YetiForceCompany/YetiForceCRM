@@ -1176,6 +1176,7 @@ class Vtiger_Record_Model extends \App\Base
 			}
 		}
 		Users_Privileges_Model::clearLockEditCache($this->getModuleName() . $this->getId());
+		\vtlib\Functions::clearCacheMetaDataRecord($this->getId());
 	}
 
 	/**

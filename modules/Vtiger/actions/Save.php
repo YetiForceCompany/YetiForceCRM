@@ -67,7 +67,12 @@ class Vtiger_Save_Action extends \App\Controller\Action
 		} elseif ($request->getBoolean('returnToList')) {
 			$loadUrl = $recordModel->getModule()->getListViewUrl();
 		} else {
-			$loadUrl = $recordModel->getDetailViewUrl();
+			$recordModel->clearPrivilegesCache();
+			if ($recordModel->isViewable()) {
+				$loadUrl = $recordModel->getDetailViewUrl();
+			} else {
+				$loadUrl = $recordModel->getModule()->getDefaultUrl();
+			}
 		}
 		header("Location: $loadUrl");
 	}
