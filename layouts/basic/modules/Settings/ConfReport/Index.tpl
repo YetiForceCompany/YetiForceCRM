@@ -10,7 +10,7 @@
 			{*<span class="fab fa-cloudscale"></span>*}
 			{*{App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}*}
 			{*</button>*}
-			<button id="download-image" class="btn btn-outline-dark float-right"><span class="fas fa-file-image"></span> {\App\Language::translate('LBL_IMAGE_DOWNLOAD')}</button>
+			<button id="download-image" class="btn btn-outline-dark float-right"><span class="fas fa-download"></span> {\App\Language::translate('LBL_DOWNLOAD_CONFIG', $MODULE)}</button>
 		</div>
 	</div>
 	<div class="badge badge-info my-2">
