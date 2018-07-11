@@ -1,8 +1,3 @@
-/*
-SQLyog Community
-MySQL - 10.2.13-MariaDB : Database - yetiforce
-*********************************************************************
-*/
 
 /*!40101 SET NAMES utf8 */;
 
