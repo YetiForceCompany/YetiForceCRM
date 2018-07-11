@@ -63,9 +63,5 @@ $SECURITY_CONFIG = [
 	 * TOTP_OBLIGATORY - It is obligatory.
 	 */
 	'USER_AUTHY_MODE' => 'TOTP_OPTIONAL',
-	/**
-	 * Exceptions list of users (int[])
-	 * TOTP - Time-based One-time Password.
-	 */
-	'USER_AUTHY_TOTP_EXCEPTIONS' => [],
+
 ];

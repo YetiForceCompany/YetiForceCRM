@@ -152,9 +152,6 @@ class Users_Totp_Authmethod
 				break;
 			case 'TOTP_OBLIGATORY':
 				$return = true;
-				if (in_array(\App\User::getCurrentUserRealId(), AppConfig::security('USER_AUTHY_TOTP_EXCEPTIONS', []))) {
-					$return = false;
-				}
 				break;
 		}
 		return $return;

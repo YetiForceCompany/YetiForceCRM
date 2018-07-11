@@ -30,16 +30,6 @@
 						</select>
 					</div>
 				</div>
-				<div class="form-group row">
-					<label for="users" class="col-12 col-lg-2 col-form-label">{\App\Language::translate('LBL_TOTP_USER_AUTHY_EXCEPTIONS', $QUALIFIED_MODULE)}</label>
-					<div class="col-12 col-lg-4">
-						<select multiple="" name="users" class="select2 form-control" id="users">
-							{foreach key=KEY item=USER from=\App\Fields\Owner::getAllUsers()}
-								<option value="{$USER['id']}" {if in_array($USER['id'], $USER_EXCEPTIONS)} selected {/if}>{$USER['fullName']}</option>
-							{/foreach}
-						</select>
-					</div>
-				</div>
 			</form>
 		</div>
 	</div>
