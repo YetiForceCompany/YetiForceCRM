@@ -18,13 +18,13 @@
 			<div class="clearfix"></div>
 		</div>
 		<div class="contents tabbable table-responsive">
-			<table class="table customTableRWD table-bordered table-sm listViewEntriesTable my-2" id="modulesEntity">
+			<table class="table table-responsive table-bordered table-sm listViewEntriesTable my-2" id="modulesEntity">
 				<thead>
 					<tr class="blockHeader">
 						<th class="noWrap">{\App\Language::translate('Module',$QUALIFIED_MODULE)}</th>
-						<th data-hide='phone' class="noWrap">{\App\Language::translate('LabelFields',$QUALIFIED_MODULE)}</th>
-						<th data-hide='phone' class="noWrap">{\App\Language::translate('SearchFields',$QUALIFIED_MODULE)}</th>
-						<th data-hide='tablet' colspan="3" class="noWrap">{\App\Language::translate('Tools',$QUALIFIED_MODULE)}</th>
+						<th data-hide="phone">{\App\Language::translate('LabelFields',$QUALIFIED_MODULE)}</th>
+						<th data-hide="phone">{\App\Language::translate('SearchFields',$QUALIFIED_MODULE)}</th>
+						<th data-hide="tablet" colspan="3">{\App\Language::translate('Tools',$QUALIFIED_MODULE)}</th>
 					</tr>
 				</thead>
 				<tbody>
