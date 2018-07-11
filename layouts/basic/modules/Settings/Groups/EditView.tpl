@@ -17,7 +17,7 @@
 				<div class="col-12 d-flex">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					{if isset($SELECTED_PAGE)}
-						<a class="js-popover-tooltip pt-2 ml-1" role="button" data-js="popover"
+						<a class="js-popover-tooltip my-auto ml-1 ml-lg-2" role="button" data-js="popover"
 						   data-content="{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}"
 						   href="#" data-trigger="focus hover">
 							<span class="fas fa-info-circle"></span>
