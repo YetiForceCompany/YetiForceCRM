@@ -95,7 +95,7 @@ class Zip extends \ZipArchive
 		if (\is_string($toDir)) {
 			$toDir = [$toDir];
 		}
-		$files =  $created = [];
+		$files = $created = [];
 		foreach ($toDir as $dir => $target) {
 			for ($i = 0; $i < $this->numFiles; ++$i) {
 				$zipPath = $this->getNameIndex($i);
@@ -141,7 +141,8 @@ class Zip extends \ZipArchive
 		if ($matches) {
 			return true;
 		}
-		if (stripos($path, '../') === 0 || stripos($path, '..\\') === 0) {
+		$tmpPath = \App\Fields\File::getTmpPath();
+		if (strpos(realpath($tmpPath), realpath($tmpPath . str_replace(basename($path), '', $path))) !== 0) {
 			return true;
 		}
 		if (!$this->isDir($path)) {

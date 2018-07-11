@@ -435,7 +435,7 @@ class File
 		if ($this->validateAllCodeInjection || in_array($this->getShortMimeType(0), self::$phpInjection)) {
 			// Check for php code injection
 			$content = $this->getContents();
-			if (preg_match('/(<\?php?(.*?))/s', $content) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/s', $content) === 1 || stripos($content, '<?=') !== false || stripos($content, '<%=') !== false || stripos($content, '<? ') !== false || stripos($content, '<% ') !== false) {
+			if (preg_match('/(<\?php?(.*?))/si', $content) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/si', $content) === 1 || stripos($content, '<?=') !== false || stripos($content, '<%=') !== false || stripos($content, '<? ') !== false || stripos($content, '<% ') !== false) {
 				throw new \Exception('ERR_FILE_PHP_CODE_INJECTION');
 			}
 			if (function_exists('exif_read_data') && ($this->mimeType === 'image/jpeg' || $this->mimeType === 'image/tiff') && in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])) {
