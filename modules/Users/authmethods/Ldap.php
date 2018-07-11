@@ -57,13 +57,11 @@ class Users_Ldap_Authmethod
 				\App\Log::error('LDAP authentication: LDAP bind failed. |' . ldap_errno($ds) . '|' . ldap_error($ds), 'UserAuthentication');
 			}
 			\App\Session::set('UserAuthType', 'LDAP');
-
 			return $bind;
 		} else {
 			\App\Log::trace($this->userRecordModel->get('user_name') . ' user does not belong to the LDAP', 'UserAuthentication');
 		}
 		\App\Log::trace('End LDAP authentication', 'UserAuthentication');
-
 		return null;
 	}
 }

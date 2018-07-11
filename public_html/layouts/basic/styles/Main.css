@@ -10856,6 +10856,9 @@ select.form-control {
   border-radius: 0 4px 4px 0; }
 .remindersContent .panel-body .btn.actionIcon {
   margin-top: -5px; }
+.remindersContent .tpl-remiders-bottom-buttons {
+  position: fixed;
+  bottom: 40px; }
 
 .dashboardWidgetContent {
   position: relative; }
