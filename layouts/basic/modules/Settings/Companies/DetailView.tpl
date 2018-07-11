@@ -14,8 +14,7 @@
 		</div>
 		<div class="col-md-2 mt-2">
 			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info float-right ml-2">
-				<span class="fas fa-edit mr-1"></span>
-				<strong>{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</strong>
+				<span class="fas fa-edit"></span> {App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}
 			</a>
 			{if $RECORD_MODEL->get('default') eq 0}
 				<button type="button" class="btn btn-danger float-right js-remove" data-js="click" data-record-id="{$RECORD_MODEL->getId()}">
