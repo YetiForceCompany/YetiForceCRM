@@ -1281,7 +1281,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if ($this->extraData === null) {
 			throw new App\Exceptions\AppException('Invalid data');
 		}
-		$this->additionalFiltersFieldsNames = empty($this->extraData['additionalFiltersFields']) ? [] : $this->extraData['additionalFiltersFields'];
+		$this->additionalFiltersFieldsNames = empty($this->extraData['additionalFiltersFields']) ? [] : (array) $this->extraData['additionalFiltersFields'];
 		$this->setChartHeaders();
 		$this->chartType = $this->extraData['chartType'];
 		$this->groupName = !empty($this->extraData['groupField']) ? $this->extraData['groupField'] : null;
