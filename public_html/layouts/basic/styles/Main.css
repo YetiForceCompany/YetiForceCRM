@@ -5631,7 +5631,7 @@ button.bg-dark:focus {
 .w-50 {
   width: 50% !important; }
 
-.w-75, .calendarViewContainer.js-sitebar--active {
+.w-75 {
   width: 75% !important; }
 
 .w-100, .collectiveGroupMembers {
@@ -5673,7 +5673,7 @@ button.bg-dark:focus {
 .gridster > ul li.dashboardWidget .dashboardWidgetContent .row {
   margin-right: 0 !important; }
 
-.mb-0, .daterangepicker .left, .daterangepicker .right, .daterangepicker .ranges li:last-child, .c-detail-widget__table, .c-detail-widget p, .listViewTopMenuDiv .listViewActionsDiv .paginationDiv .pagination,
+.mb-0, .daterangepicker .left, .daterangepicker .right, .daterangepicker .ranges li:last-child, .fc-view-container, .c-detail-widget__table, .c-detail-widget p, .listViewTopMenuDiv .listViewActionsDiv .paginationDiv .pagination,
 .my-0 {
   margin-bottom: 0 !important; }
 
@@ -5879,7 +5879,7 @@ button.bg-dark:focus {
 .py-3 {
   padding-top: 1rem !important; }
 
-.pr-3, .calendarViewContainer.js-sitebar--active,
+.pr-3,
 .px-3 {
   padding-right: 1rem !important; }
 
@@ -8499,10 +8499,7 @@ hr {
     margin-bottom: 0; }
 
 .table-bordered {
-  border-radius: 1px;
-  margin-bottom: 0; }
-  .table-bordered th {
-    border-top: 1px solid #fff !important; }
+  border-radius: 1px; }
 
 .table th, .c-detail-widget__table th {
   background-color: #f5f5f5;
@@ -10193,9 +10190,6 @@ html, body, .o-base-container {
   .bodyContents {
     margin: 0 !important; }
 
-  #centerPanel {
-    width: 100% !important; }
-
   .col-md-3#headerLinks {
     padding: 5px 5px 0; }
 
@@ -11125,6 +11119,9 @@ select[readonly], select[disabled] {
 .u-overflow-auto {
   overflow: auto !important; }
 
+@media (max-width: 575.98px) {
+  .u-overflow-scroll-xs-down {
+    overflow: scroll !important; } }
 .u-remove-dropdown-icon .dropdown-toggle::after, .c-header .dropdown-toggle::after {
   display: none; }
 
@@ -11492,9 +11489,6 @@ header .c-header__btn__container .select2-selection {
 .select2-selection__rendered.u-hover-bold {
   padding: 6px !important;
   border-radius: 0.25rem; }
-
-.select2-search__field {
-  width: 100% !important; }
 
 .customFilterMainSpan {
   width: 100%;
@@ -14040,8 +14034,12 @@ label.btn.btn-outline-primary:not(.active) {
 .calendarViewContainer .widget_header {
   margin-right: -20px;
   margin-left: -25px; }
+@media (min-width: 992px) {
+  .calendarViewContainer.js-sitebar--active {
+    width: 75% !important;
+    padding-right: 1rem !important; } }
 
-@media (min-width: 993px) {
+@media (min-width: 992px) {
   .Calendar_Calendar .mainBody {
     overflow: hidden; } }
 .hideToggleSiteBarRightButton {
@@ -14066,6 +14064,20 @@ label.btn.btn-outline-primary:not(.active) {
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease; }
 
+@media (min-width: 1080px) {
+  .js-calendar-switch-container {
+    margin-right: 0.75em;
+    float: right; } }
+@media (max-width: 1080px) {
+  .js-calendar-switch-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; }
+    .js-calendar-switch-container .btn-group {
+      margin-left: 0 !important;
+      margin-bottom: 0.5rem; }
+    .js-calendar-switch-container .btn-group:last-child {
+      margin-left: 0.5rem !important; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .detailViewTable .fieldLabel.medium, .detailViewTable .fieldValue.medium {
   padding: 10px;
