@@ -62,18 +62,6 @@
 								<input class="configField form-control" title="{\App\Language::translate('LBL_LDAP_PORT', $QUALIFIED_MODULE)}" type="text" name="port" data-type="ldap" value="{$CONFIG['port']}">
 							</div>
 						</div>
-						<div class="form-row pt-3">
-							<div class="col-md-12 col-lg-3">
-								<label class="u-text-small-bold" for="showMailIcon">{\App\Language::translate('LBL_LDAP_USERS', $QUALIFIED_MODULE)}:</label>
-							</div>
-							<div class="col-md-12 col-lg-8">
-								<select multiple="" name="users" class="select2 configField form-control" data-type="ldap" style="width: 100%;">
-									{foreach key=KEY item=USER from=App\Fields\Owner::getAllUsers()}
-										<option value="{$USER['id']}" {if in_array($USER['id'], $CONFIG['users'])} selected {/if}>{$USER['fullName']}</option>
-									{/foreach}
-								</select>
-							</div>
-						</div>
 					</div>
 				</div>	
 			</div>
