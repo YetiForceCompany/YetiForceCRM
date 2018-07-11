@@ -45,7 +45,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 					three_state: false,
 				},
 				plugins: plugins
-			}, this.tree.data('params')));
+			}, thisInstance.treeInstance.data('params')));
 		}
 	},
 	isActiveCategory: function () {
