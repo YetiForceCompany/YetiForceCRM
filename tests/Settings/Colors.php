@@ -87,6 +87,24 @@ class Colors extends \Tests\Base
 	}
 
 	/**
+	 * Testing color generation.
+	 */
+	public function testGetRandomColor()
+	{
+		$this->assertNotEmpty(\App\Colors::getRandomColor(), 'Generated color should be not empty');
+	}
+
+	/**
+	 * Testing color normalization.
+	 */
+	public function testGetColor()
+	{
+		$this->assertNotEmpty(\App\Colors::get('', ''), 'Normalized empty color should be random generated');
+		$this->assertNotEmpty(\App\Colors::get('', 'fs$gdftd'), 'Normalized empty color with value should be random generated');
+		$this->assertSame(\App\Colors::get('A0B584', ''), '#A0B584', 'Color without # prefix should be normalized');
+	}
+
+	/**
 	 * Reset to default values.
 	 */
 	public function testResetToDefault()
