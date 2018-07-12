@@ -664,14 +664,17 @@ App.Fields = {
 					select.data('unselecting', true);
 				});
 			})
+			if (params.sortable === true) {
+				this.registerSelect2Sortable(selectElement, params.sortableCb);
+			}
 			return selectElement;
 		},
 		/**
 		 * Register select2 drag and drop sorting
 		 * @param {jQuery} select2 element
+		 * @param {function} callback function
 		 */
 		registerSelect2Sortable(select = $('.select2.js-select2--sortable'), cb = () =>{}) {
-			if (!select.length) return;
 			select.each(function () {
 				let currentSelect = $(this);
 				let ul = currentSelect.next('.select2-container').first('ul.select2-selection__rendered');

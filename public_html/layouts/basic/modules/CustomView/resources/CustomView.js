@@ -103,16 +103,6 @@ var Vtiger_CustomView_Js = {
 			}
 		});
 	},
-	/**
-	 * Function which will register the select2 elements for columns selection
-	 */
-	registerSelect2ElementForColumnsSelection: function () {
-		let selectElement = Vtiger_CustomView_Js.getColumnSelectElement(),
-		select2 = App.Fields.Picklist.showSelect2ElementView(selectElement);
-
-		App.Fields.Picklist.registerSelect2Sortable($('.js-select2--sortable'));
-		return select2;
-	},
 	registerIconEvents: function () {
 		var container = this.getContentsContainer();
 		container.on('change', '.iconPreferences input', function (e) {
@@ -160,8 +150,7 @@ var Vtiger_CustomView_Js = {
 		new App.Fields.Text.Editor(this.getContentsContainer().find('.js-editor'));
 		this.registerBlockToggleEvent();
 		this.registerColorEvent();
-		var select2Element = Vtiger_CustomView_Js.registerSelect2ElementForColumnsSelection();
-		var contentsContainer = Vtiger_CustomView_Js.getContentsContainer();
+		let select2Element = App.Fields.Picklist.showSelect2ElementView(Vtiger_CustomView_Js.getColumnSelectElement(), {sortable: true});
 		$('.stndrdFilterDateSelect').datepicker();
 		$('.chzn-select').chosen();
 		$("#standardDateFilter").on('change', function () {
@@ -218,7 +207,7 @@ var Vtiger_CustomView_Js = {
 				//handled advanced filters saved values.
 				var advfilterlist = Vtiger_CustomView_Js.advanceFilterInstance.getValues();
 				$('#advfilterlist').val(JSON.stringify(advfilterlist));
-				$('input[name="columnslist"]', contentsContainer).val(JSON.stringify(Vtiger_CustomView_Js.getSelectedColumns()));
+				$('input[name="columnslist"]', Vtiger_CustomView_Js.getContentsContainer()).val(JSON.stringify(Vtiger_CustomView_Js.getSelectedColumns()));
 				Vtiger_CustomView_Js.saveAndViewFilter();
 				return false;
 			} else {
