@@ -142,7 +142,8 @@ class Users_Totp_Authmethod
 		if (empty($userId)) {
 			$userId = \App\User::getCurrentUserRealId();
 		}
-		if(\App\User::getUserModel($userId)->getDetail('login_method') !== 'PLL_PASSWORD_2FA' ){
+		$userModel = \App\User::getUserModel($userId);
+		if($userModel->getDetail('login_method') !== 'PLL_PASSWORD_2FA' ){
 			return false;
 		}
 		switch (AppConfig::security('USER_AUTHY_MODE')) {
@@ -150,7 +151,7 @@ class Users_Totp_Authmethod
 				return false;
 				break;
 			case 'TOTP_OPTIONAL':
-				return \App\User::getUserModel($userId)->getDetail('authy_methods') === 'PLL_AUTHY_TOTP';
+				return $userModel->getDetail('authy_methods') === 'PLL_AUTHY_TOTP';
 				break;
 			case 'TOTP_OBLIGATORY':
 				return true;
