@@ -17,7 +17,7 @@ class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser()) {
+		if (!$currentUserModel->isAdminUser() || $currentUserModel->getId() === $request->getInteger('userid')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
