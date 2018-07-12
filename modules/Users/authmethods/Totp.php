@@ -143,7 +143,7 @@ class Users_Totp_Authmethod
 			$userId = \App\User::getCurrentUserRealId();
 		}
 		$userModel = \App\User::getUserModel($userId);
-		if($userModel->getDetail('login_method') !== 'PLL_PASSWORD_2FA' ){
+		if ($userModel->getDetail('login_method') !== 'PLL_PASSWORD_2FA') {
 			return false;
 		}
 		switch (AppConfig::security('USER_AUTHY_MODE')) {

@@ -48,7 +48,7 @@ class Vtiger_InventoryField_Model extends App\Base
 	 * @param bool  $returnInBlock Should the result be divided into blocks
 	 * @param array $ids
 	 *
-	 * @return array Inventory data
+	 * @return Vtiger_Basic_InventoryField[] Inventory data
 	 */
 	public function getFields($returnInBlock = false, $ids = [], $viewType = false)
 	{

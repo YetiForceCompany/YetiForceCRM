@@ -19,7 +19,7 @@ class Vtiger_ItemNumber_InventoryField extends Vtiger_Basic_InventoryField
 	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
 	{
 		$column = $this->getColumnName();
-		if (empty($column) || $column === '-' || !$request->has($column)) {
+		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
 			return false;
 		}
 		$insertData[$column] = $request->getInteger($column);

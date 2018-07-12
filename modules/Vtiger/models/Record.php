@@ -1106,7 +1106,6 @@ class Vtiger_Record_Model extends \App\Base
 			$this->inventoryData = self::getInventoryDataById($record, $module);
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
-
 		return $this->inventoryData;
 	}
 
@@ -1120,9 +1119,13 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public static function getInventoryDataById($id, $moduleName)
 	{
-		$table = Vtiger_InventoryField_Model::getInstance($moduleName)->getTableName('data');
-
-		return (new \App\Db\Query())->from($table)->where(['id' => $id])->orderBy(['seq' => SORT_ASC])->all();
+		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$fields = $inventory->getFields();
+		$query = (new \App\Db\Query())->from($inventory->getTableName())->where(['id' => $id]);
+		if (isset($fields['seq'])) {
+			$query->orderBy(['seq' => SORT_ASC]);
+		}
+		return $query->all();
 	}
 
 	/**
@@ -1146,7 +1149,7 @@ class Vtiger_Record_Model extends \App\Base
 				if (!$request->has('name') && !$request->has('name' . $i)) {
 					continue;
 				}
-				$insertData = ['seq' => $request->getInteger('seq' . $i)];
+				$insertData = [];
 				foreach ($fields as $field) {
 					$field->getValueFromRequest($insertData, $request, $i);
 				}
@@ -1345,48 +1348,48 @@ class Vtiger_Record_Model extends \App\Base
 			if ($this->getModule()->isSummaryViewSupported()) {
 				$defaultViewName = $viewModel->getParentRecordModel()->getModule()->getDefaultViewName();
 				$links['LBL_SHOW_QUICK_DETAILS'] = Vtiger_Link_Model::getInstanceFromValues([
-						'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
-						'linkhref' => $defaultViewName === 'ListPreview' ? false : true,
-						'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
-						'linkicon' => 'far fa-caret-square-right',
-						'linkclass' => 'btn-sm btn-default',
-						'modalView' => true,
+					'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
+					'linkhref' => $defaultViewName === 'ListPreview' ? false : true,
+					'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
+					'linkicon' => 'far fa-caret-square-right',
+					'linkclass' => 'btn-sm btn-default',
+					'modalView' => true,
 				]);
 			}
 			$links['LBL_SHOW_COMPLETE_DETAILS'] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
-					'linkurl' => $this->getFullDetailViewUrl(),
-					'linkhref' => true,
-					'linkicon' => 'fas fa-th-list',
-					'linkclass' => 'btn-sm btn-default',
+				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
+				'linkurl' => $this->getFullDetailViewUrl(),
+				'linkhref' => true,
+				'linkicon' => 'fas fa-th-list',
+				'linkclass' => 'btn-sm btn-default',
 			]);
 		}
 		$relationModel = $viewModel->getRelationModel();
 		if ($relationModel->isEditable() && $this->isEditable()) {
 			$links['LBL_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'LBL_EDIT',
-					'linkhref' => true,
-					'linkurl' => $this->getEditViewUrl(),
-					'linkicon' => 'fas fa-edit',
-					'linkclass' => 'btn-sm btn-default',
+				'linklabel' => 'LBL_EDIT',
+				'linkhref' => true,
+				'linkurl' => $this->getEditViewUrl(),
+				'linkicon' => 'fas fa-edit',
+				'linkclass' => 'btn-sm btn-default',
 			]);
 		}
 		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
 			$watching = (int) ($this->isWatchingRecord());
 			$links['BTN_WATCHING_RECORD'] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'BTN_WATCHING_RECORD',
-					'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
-					'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
-					'linkclass' => 'btn-sm ' . ($watching ? 'btn-dark' : 'btn-outline-dark'),
-					'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-dark', 'off' => 'btn-outline-dark', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
+				'linklabel' => 'BTN_WATCHING_RECORD',
+				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
+				'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
+				'linkclass' => 'btn-sm ' . ($watching ? 'btn-dark' : 'btn-outline-dark'),
+				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-dark', 'off' => 'btn-outline-dark', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			]);
 		}
 		if ($relationModel->privilegeToDelete() && $this->privilegeToMoveToTrash()) {
 			$links['LBL_DELETE'] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'LBL_DELETE',
-					'linkicon' => 'fas fa-trash-alt',
-					'linkclass' => 'btn-sm btn-default relationDelete entityStateBtn',
-					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
+				'linklabel' => 'LBL_DELETE',
+				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn-sm btn-default relationDelete entityStateBtn',
+				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 			]);
 		}
 		return $links;

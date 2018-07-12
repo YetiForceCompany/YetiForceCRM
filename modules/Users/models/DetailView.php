@@ -78,7 +78,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => 'fas fa-edit',
 				'showLabel' => true,
 			];
-			if (\App\User::getUserModel($recordModel->getRealId())->getDetail('login_method') === 'PLL_PASSWORD_2FA' && AppConfig::security('USER_AUTHY_MODE') !== 'TOTP_OFF' ) {
+			if (\App\User::getUserModel($recordModel->getRealId())->getDetail('login_method') === 'PLL_PASSWORD_2FA' && AppConfig::security('USER_AUTHY_MODE') !== 'TOTP_OFF') {
 				$detailViewActionLinks[] = [
 					'linktype' => 'DETAIL_VIEW_BASIC',
 					'linklabel' => 'LBL_2FA_TOTP_QR_CODE',
