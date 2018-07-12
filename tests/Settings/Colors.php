@@ -32,11 +32,11 @@ class Colors extends \Tests\Base
 			\unlink(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/picklists.css');
 		}
 		\App\Colors::generate();
-		$this->assertFileExists(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/calendar.css');
-		$this->assertFileExists(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css');
-		$this->assertFileExists(ROOT_DIRECTORY . '/user_privileges/owners_colors.php');
-		$this->assertFileExists(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/modules.css');
-		$this->assertFileExists(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/picklists.css');
+		$this->assertFileExists(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/calendar.css', 'File "/public_html/layouts/resources/colors/calendar.css" not exists');
+		$this->assertFileExists(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css', 'File "/public_html/layouts/resources/colors/owners.css" not exists');
+		$this->assertFileExists(ROOT_DIRECTORY . '/user_privileges/owners_colors.php', 'File "/user_privileges/owners_colors.php" not exists');
+		$this->assertFileExists(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/modules.css', 'File "/public_html/layouts/resources/colors/modules.css" not exists');
+		$this->assertFileExists(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/picklists.css', 'File "/public_html/layouts/resources/colors/picklists.css" not exists');
 	}
 
 	/**
@@ -45,7 +45,7 @@ class Colors extends \Tests\Base
 	public function testUpdateUserColor()
 	{
 		\App\Colors::updateUserColor(\App\User::getActiveAdminId(), '#A0B584');
-		$this->assertSame((new\App\Db\Query())->select(['cal_color'])->from('vtiger_users')->where(['id' => \App\User::getActiveAdminId()])->scalar(), '#A0B584');
+		$this->assertSame((new\App\Db\Query())->select(['cal_color'])->from('vtiger_users')->where(['id' => \App\User::getActiveAdminId()])->scalar(), '#A0B584', 'Returned user color is different from provided');
 	}
 
 	/**
@@ -55,7 +55,7 @@ class Colors extends \Tests\Base
 	{
 		$groupId = (new\App\Db\Query())->select(['groupid'])->from('vtiger_groups')->scalar();
 		\App\Colors::updateGroupColor($groupId, '#A0B584');
-		$this->assertSame((new\App\Db\Query())->select(['color'])->from('vtiger_groups')->where(['groupid' => $groupId])->scalar(), '#A0B584');
+		$this->assertSame((new\App\Db\Query())->select(['color'])->from('vtiger_groups')->where(['groupid' => $groupId])->scalar(), '#A0B584', 'Returned group color is different from provided');
 	}
 
 	/**
@@ -65,7 +65,7 @@ class Colors extends \Tests\Base
 	{
 		$moduleId = \App\Module::getModuleId('Leads');
 		\App\Colors::updateModuleColor($moduleId, '#A0B584');
-		$this->assertSame((new\App\Db\Query())->select(['color'])->from('vtiger_tab')->where(['tabid' => $moduleId])->scalar(), 'A0B584');
+		$this->assertSame((new\App\Db\Query())->select(['color'])->from('vtiger_tab')->where(['tabid' => $moduleId])->scalar(), 'A0B584', 'Returned module color is different from provided');
 	}
 
 	/**
@@ -75,7 +75,7 @@ class Colors extends \Tests\Base
 	{
 		$moduleId = \App\Module::getModuleId('Leads');
 		\App\Colors::activeModuleColor($moduleId, 'true', '#A0B584');
-		$this->assertSame((new\App\Db\Query())->select(['coloractive'])->from('vtiger_tab')->where(['tabid' => $moduleId])->scalar(), 1);
+		$this->assertSame((new\App\Db\Query())->select(['coloractive'])->from('vtiger_tab')->where(['tabid' => $moduleId])->scalar(), 1, 'Returned module color state is different from provided');
 	}
 
 	/**
@@ -83,7 +83,7 @@ class Colors extends \Tests\Base
 	 */
 	public function testGetAllFilterColors()
 	{
-		$this->assertTrue(!empty(\App\Colors::getAllFilterColors()));
+		$this->assertNotEmpty(\App\Colors::getAllFilterColors(), 'Filter colors should be not empty');
 	}
 
 	/**
@@ -95,7 +95,7 @@ class Colors extends \Tests\Base
 		\App\Colors::updateUserColor(\App\User::getActiveAdminId(), '#E6FAD8');
 		\App\Colors::updateGroupColor((new\App\Db\Query())->select(['groupid'])->from('vtiger_groups')->scalar(), '#E6FAD8');
 		\App\Colors::activeModuleColor($moduleId, 'false', '#A0B584');
-		$this->assertSame((new\App\Db\Query())->select(['coloractive'])->from('vtiger_tab')->where(['tabid' => $moduleId])->scalar(), 0);
+		$this->assertSame((new\App\Db\Query())->select(['coloractive'])->from('vtiger_tab')->where(['tabid' => $moduleId])->scalar(), 0, 'Returned module color state is different from provided');
 		\App\Colors::updateModuleColor($moduleId, '');
 	}
 }

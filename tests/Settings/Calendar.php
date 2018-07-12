@@ -21,11 +21,11 @@ class Calendar extends \Tests\Base
 		$found = false;
 		foreach ($result as $row) {
 			if ($row['name'] === 'update_event') {
-				$this->assertSame((int) $row['value'], 1);
+				$this->assertSame((int) $row['value'], 1, 'Calendar config value is different than provided');
 				$found = true;
 			}
 		}
-		$this->assertTrue($found);
+		$this->assertTrue($found, 'Calendar config option not found');
 	}
 
 	/**
@@ -36,7 +36,7 @@ class Calendar extends \Tests\Base
 		$referenceData = ['1', '3'];
 		\Settings_Calendar_Module_Model::updateNotWorkingDays(['val' => $referenceData]);
 		$result = \Settings_Calendar_Module_Model::getNotWorkingDays();
-		$this->assertSame($result, $referenceData);
+		$this->assertSame($result, $referenceData, 'Not working days differs from provided');
 	}
 
 	/**
@@ -45,7 +45,7 @@ class Calendar extends \Tests\Base
 	public function testGetPicklistValue()
 	{
 		\App\Db::getInstance()->createCommand()->insert('vtiger_activitytype', ['activitytype'=>'UnitTestCalendar', 'presence'=>1, 'picklist_valueid'=>99999, 'sortorderid' => 99, 'color'=>'A0B584'])->execute();
-		$this->assertTrue((count(\Settings_Calendar_Module_Model::getPicklistValue()) > 0));
+		$this->assertGreaterThan(0, (count(\Settings_Calendar_Module_Model::getPicklistValue())), 'Calendar activity type picklist is empty');
 	}
 
 	/**
@@ -59,15 +59,15 @@ class Calendar extends \Tests\Base
 		$found = false;
 		foreach ($result as $row) {
 			if ($row['name'] === 'update_event') {
-				$this->assertSame((int) $row['value'], 0);
+				$this->assertSame((int) $row['value'], 0, 'Calendar config value is different than provided');
 				$found = true;
 			}
 		}
-		$this->assertTrue($found);
+		$this->assertTrue($found, 'Calendar config option not found');
 
 		$referenceNotWorkingDays = [];
 		\Settings_Calendar_Module_Model::updateNotWorkingDays(['val' => $referenceNotWorkingDays]);
 		$result = \Settings_Calendar_Module_Model::getNotWorkingDays();
-		$this->assertSame($result, $referenceNotWorkingDays);
+		$this->assertSame($result, $referenceNotWorkingDays, 'Not working days should be empty');
 	}
 }
