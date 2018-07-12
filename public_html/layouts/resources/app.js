@@ -278,7 +278,6 @@ var App = {},
 		modalContainer.one('shown.bs.modal', function () {
 			cb(modalContainer);
 			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'));
-			App.Fields.Picklist.showSelectizeElementView(modalContainer.find('select.selectize'));
 			App.Fields.Picklist.showChoosenElementView(modalContainer.find('select.chzn-select'));
 			App.Fields.Date.register(modalContainer);
 			new App.Fields.Text.Editor(modalContainer.find('.js-editor'), {

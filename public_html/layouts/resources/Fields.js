@@ -780,33 +780,6 @@ App.Fields = {
 			}
 			return selectElement.css('display', 'block').removeClass("chzn-done").data("chosen", null).next().remove();
 		},
-
-		/**
-		 * Function which will show the selectize element for select boxes . This will use selectize library
-		 */
-		showSelectizeElementView: function (selectElement, params) {
-			if (typeof params === "undefined") {
-				params = {plugins: ['remove_button']};
-			}
-			selectElement.selectize(params);
-			return selectElement;
-		},
-		/**
-		 * Function to destroy the selectize element
-		 */
-		destroySelectizeElement: function (parent) {
-			if (typeof parent === "undefined") {
-				parent = $('body');
-			}
-			let selectElements = $('.selectized', parent);
-			//parent itself is the element
-			if (parent.is('select.selectized')) {
-				selectElements = parent;
-			}
-			selectElements.each(function () {
-				$(this)[0].selectize.destroy();
-			});
-		},
 	},
 	MultiImage: {
 		currentFileUploads: 0,
