@@ -12,8 +12,8 @@
 				{if $FIELD_NAME eq 'password' }
 					value="{if $RECORD->getId() neq ''}{str_repeat('*', 10)}{/if}"
 					{if $VIEW eq 'Edit' || $VIEW eq 'QuickCreateAjax'}
-						onkeyup="passwordStrength('', '{$VALIDATE_STRINGS}')"
-						onchange="passwordStrength('', '{$VALIDATE_STRINGS}')"
+						onkeyup="PasswordHelper.passwordStrength('', '{$VALIDATE_STRINGS}')"
+						onchange="PasswordHelper.passwordStrength('', '{$VALIDATE_STRINGS}')"
 					{/if}
 				{else}
 					value="{$FIELD_VALUE}"
@@ -27,7 +27,7 @@
 		{if $FIELD_NAME eq 'password' && ($VIEW eq 'Edit'  || $VIEW eq 'QuickCreateAjax')}
 			<div class="input-group-append">
 				{if $RECORD->getId() neq ''}
-					<button class="btn btn-warning btn-md" onclick="showPassword('{$RECORD->getId()}'); return false;"
+					<button class="btn btn-warning btn-md" onclick="PasswordHelper.showPassword('{$RECORD->getId()}'); return false;"
 							id="show-btn">
 						{\App\Language::translate('LBL_ShowPassword', $MODULE)}
 					</button>
