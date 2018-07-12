@@ -69,6 +69,27 @@ class Colors extends \Tests\Base
 	}
 
 	/**
+	 * Testing update picklist value color.
+	 */
+	public function testUpdatePicklistValueColor()
+	{
+		$picklistValueId = (new\App\Db\Query())->select(['activitytypeid'])->from('vtiger_activitytype')->where(['activitytype'=>'Call'])->scalar();
+		\App\Colors::updatePicklistValueColor((new\App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId('Calendar'), 'fieldname' => 'activitytype'])->scalar(), $picklistValueId, '#A0B584');
+		$this->assertSame((new\App\Db\Query())->select(['color'])->from('vtiger_activitytype')->where(['activitytypeid' => $picklistValueId])->scalar(), 'A0B584', 'Returned picklist value color is different from provided');
+
+		\App\Colors::updatePicklistValueColor((new\App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId('Calendar'), 'fieldname' => 'activitytype'])->scalar(), $picklistValueId, '#80B584');
+		$this->assertSame((new\App\Db\Query())->select(['color'])->from('vtiger_activitytype')->where(['activitytypeid' => $picklistValueId])->scalar(), '80B584', 'Returned picklist value color is different from default');
+	}
+
+	/**
+	 * Testing picklist fields by module getter.
+	 */
+	public function testGetPicklistFieldsByModule()
+	{
+		$this->assertGreaterThan(0, (count(\App\Colors::getPicklistFieldsByModule(\App\Module::getModuleId('Leads')))), 'Leads should contain picklists');
+	}
+
+	/**
 	 * Testing activate module color.
 	 */
 	public function testActiveModuleColor()
