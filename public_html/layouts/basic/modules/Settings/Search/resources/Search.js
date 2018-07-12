@@ -188,28 +188,6 @@ var Settings_Index_Js = {
 			thisInstance.updateModulesSequence();
 		});
 	},
-	registerSelectElement: function (element) {
-		var value = element.val();
-		if (!element.hasClass('selectized')) {
-			element.selectize({
-				plugins: ['drag_drop', 'remove_button'],
-				onChange: function (value) {
-					if (value.length > 1) {
-						jQuery(this.$control[0]).find('.remove').removeClass('d-none');
-					} else {
-						jQuery(this.$control[0]).find('.remove').addClass('d-none');
-					}
-				},
-				onInitialize: function () {
-					if (this.items.length > 1) {
-						jQuery(this.$control[0]).find('.remove').removeClass('d-none');
-					} else {
-						jQuery(this.$control[0]).find('.remove').addClass('d-none');
-					}
-				},
-			})
-		}
-	},
 	registerEvents: function () {
 		Settings_Index_Js.initEvants();
 		this.makeFieldsListSortable();
