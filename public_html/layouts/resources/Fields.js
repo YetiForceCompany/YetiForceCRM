@@ -676,8 +676,6 @@ App.Fields = {
 				let currentSelect = $(this);
 				let ul = currentSelect.next('.select2-container').first('ul.select2-selection__rendered');
 				ul.sortable({
-					placeholder: 'ui-state-highlight',
-					forcePlaceholderSize: true,
 					items: 'li:not(.select2-search__field)',
 					tolerance: 'pointer',
 					stop: function () {
