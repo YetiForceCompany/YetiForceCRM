@@ -46,7 +46,7 @@
 							</label>
 						</div>
 						<div class="fieldValue  border-top border-left col-sm-6  {$WIDTHTYPE}"
-							 id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} {assign var=COUNTER value=$COUNTER+1} {/if} {if $FIELD_MODEL->getName() eq 'password'}onclick="showPasswordQuickEdit('{$smarty.get.record}');" {/if}>
+							 id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} {assign var=COUNTER value=$COUNTER+1} {/if} {if $FIELD_MODEL->getName() eq 'password'}onclick="PasswordHelper.showPasswordQuickEdit('{$smarty.get.record}');" {/if}>
 											<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}"
 												  {if $FIELD_MODEL->getName() eq 'password'}id="detailPassword" {/if}>
 												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
@@ -88,7 +88,7 @@
 						title="{\App\Language::translate('LBL_CopyToClipboardTitle', $MODULE_NAME)}"><span
 							class="fas fa-copy"></span> {\App\Language::translate('LBL_CopyToClipboard', $MODULE_NAME)}
 				</button>&nbsp;&nbsp;
-				<button class="btn btn-warning" onclick="showDetailsPassword('{$smarty.get.record}');return false;"
+				<button class="btn btn-warning" onclick="PasswordHelper.showDetailsPassword('{$smarty.get.record}');return false;"
 						id="show-btn"><span class="fas fa-eye u-mr-5px"></span>{\App\Language::translate('LBL_ShowPassword', $MODULE_NAME)}</button>
 			</div>
 			<div class="clearfix"></div>

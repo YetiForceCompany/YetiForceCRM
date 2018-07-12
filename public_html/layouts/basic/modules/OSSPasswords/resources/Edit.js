@@ -29,7 +29,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 					}
 				});
 				// validate password
-				passwordStrength('', '');
+				PasswordHelper.passwordStrength('', '');
 			}
 			password = form.find('[name="password"]').val();
 			params = {};

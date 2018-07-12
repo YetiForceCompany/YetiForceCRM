@@ -11,6 +11,7 @@
 var App = {},
 	AppConnector,
 	Vtiger_CustomView_Js,
+	PasswordHelper,
 	app = {
 	/**
 	 * variable stores client side language strings
