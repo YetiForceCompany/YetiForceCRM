@@ -30,11 +30,10 @@ var Settings_Index_Js = {
 	},
 	editLabels: function (e) {
 		let tabId = $(e.currentTarget).data('tabid'),
-			select = $('.elementEdit' + tabId).removeClass('d-none').find('.select2');
+			select = $('.elementEdit' + tabId).removeClass('d-none').find('.js-select2-sortable');
 
 		$('.elementLabels' + tabId).addClass('d-none');
 		App.Fields.Picklist.showSelect2ElementView(select, {
-			sortable: true,
 			sortableCb: (currentSelect) => {
 				Settings_Index_Js.registerSaveEvent('save', {
 					name: currentSelect.attr('name'),

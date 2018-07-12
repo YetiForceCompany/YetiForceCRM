@@ -472,6 +472,7 @@ App.Fields = {
 		 * Function which will show the select2 element for select boxes . This will use select2 library
 		 */
 		showSelect2ElementView: function (selectElement, params) {
+			let self = this;
 			selectElement = $(selectElement);
 			if (typeof params === "undefined") {
 				params = {};
@@ -663,10 +664,12 @@ App.Fields = {
 					}).on("select2:unselect", function (e) {
 					select.data('unselecting', true);
 				});
+
+				if (select.hasClass('js-select2-sortable')) {
+					self.registerSelect2Sortable(select, params.sortableCb);
+				}
 			})
-			if (params.sortable === true) {
-				this.registerSelect2Sortable(selectElement, params.sortableCb);
-			}
+
 			return selectElement;
 		},
 		/**
@@ -674,26 +677,23 @@ App.Fields = {
 		 * @param {jQuery} select2 element
 		 * @param {function} callback function
 		 */
-		registerSelect2Sortable(select = $('.select2.js-select2--sortable'), cb = () =>{}) {
-			select.each(function () {
-				let currentSelect = $(this);
-				let ul = currentSelect.next('.select2-container').first('ul.select2-selection__rendered');
-				ul.sortable({
-					items: 'li:not(.select2-search__field)',
-					tolerance: 'pointer',
-					stop: function () {
-						$(ul.find('.select2-selection__choice').get().reverse()).each(function () {
-							let optionTitle = $(this).attr('title');
-							currentSelect.find('option').each(function() {
-								if ($(this).text() === optionTitle) {
-									currentSelect.prepend($(this));
-								}
-							});
+		registerSelect2Sortable(select, cb = () =>{}) {
+			let ul = select.next('.select2-container').first('ul.select2-selection__rendered');
+			ul.sortable({
+				items: 'li:not(.select2-search__field)',
+				tolerance: 'pointer',
+				stop: function () {
+					$(ul.find('.select2-selection__choice').get().reverse()).each(function () {
+						let optionTitle = $(this).attr('title');
+						select.find('option').each(function() {
+							if ($(this).text() === optionTitle) {
+								select.prepend($(this));
+							}
 						});
-						cb(currentSelect);
-					}
-				});
-			})
+					});
+					cb(select);
+				}
+			});
 		},
 		/**
 		 * Replace select with choosen
