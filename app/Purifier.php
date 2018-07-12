@@ -299,6 +299,9 @@ class Purifier
 					$value = preg_match('/^[[:alnum:]_]+$/', $input) ? $input : false;
 					break;
 				case 'DateInUserFormat': // date in user format
+					if (!$input) {
+						return '';
+					}
 					list($y, $m, $d) = Fields\Date::explode($input, User::getCurrentUserModel()->getDetail('date_format'));
 					if (checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
 						$value = $input;
