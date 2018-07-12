@@ -181,6 +181,41 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 					});
 			});
 	},
+	/*
+	 *Function to off 2FA
+	 *@param userId, event
+	 */
+	off2FA: function (userId, e) {
+		let url = window.location.href;
+		e.stopPropagation();
+		Vtiger_Helper_Js.showConfirmationBox({
+			'message': app.vtranslate('JS_2FA_OFF_CONFIRMATION')
+		})
+		.done(function () {
+			let progressInstance = jQuery.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			let params = {
+				'module': "Users",
+				'action': "TwoFactorAuthentication",
+				'userid': userId,
+				'mode': 'off'
+			};
+			AppConnector.request(params)
+				.done(function (response) {
+					if (response.success) {
+						progressInstance.progressIndicator({
+							'mode': 'hide'
+						});
+						Vtiger_Helper_Js.showPnotify(response.result.message);
+						window.location.href = url;
+					}
+				});
+		});
+	},
 	triggerExportAction: function () {
 		var url = window.location.href;
 		var siteUrl = url.split('?');

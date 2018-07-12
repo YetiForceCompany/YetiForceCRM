@@ -89,6 +89,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		$fields = $queryGenerator->getFields();
 		$fields[] = 'id';
 		$fields[] = 'imagename';
+		$fields[] = 'authy_secret_totp';
 		$queryGenerator->setFields($fields);
 		$searchParams = $this->get('search_params');
 		if (empty($searchParams)) {
