@@ -37,6 +37,7 @@ class Cron_Notification
 			$endDate = $this->getEndDate($currentTime, $timestampEndDate, $row['frequency']);
 			if (\App\Privilege::isPermitted(self::MODULE_NAME, 'ReceivingMailNotifications', false, $row['userid']) && $this->existNotifications($row['userid'], $row['last_execution'], $endDate)) {
 				\App\Mailer::sendFromTemplate([
+					'moduleName' => 'Notification',
 					'template' => 'SendNotificationsViaMail',
 					'to' => \App\User::getUserModel($row['userid'])->getDetail('email1'),
 					'startDate' => $row['last_execution'],

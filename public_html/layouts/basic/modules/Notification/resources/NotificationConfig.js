@@ -25,7 +25,7 @@ jQuery.Class("Notification_NotificationConfig_Js", {}, {
 				sendNoticeModules.push(value);
 			});
 			var params = {
-				module: app.getModuleName(),
+				module: 'Notification',
 				action: 'Notification',
 				mode: 'saveWatchingModules',
 				selctedModules: selectedModules,
