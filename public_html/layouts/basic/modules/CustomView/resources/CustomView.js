@@ -7,7 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-var Vtiger_CustomView_Js = {
+Vtiger_CustomView_Js = {
 	contentsCotainer: false,
 	columnListSelect2Element: false,
 	advanceFilterInstance: false,

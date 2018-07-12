@@ -7,8 +7,10 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+//Globals initialization
 var App = {},
 	AppConnector,
+	Vtiger_CustomView_Js,
 	app = {
 	/**
 	 * variable stores client side language strings
