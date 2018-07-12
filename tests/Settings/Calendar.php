@@ -39,13 +39,12 @@ class Calendar extends \Tests\Base
 		$this->assertSame($result, $referenceData);
 	}
 
-
 	/**
-	 * Testing getPicklistValue method
+	 * Testing getPicklistValue method.
 	 */
 	public function testGetPicklistValue()
 	{
-		\App\Db::getInstance()->createCommand()->insert('vtiger_activitytype', ['activitytype'=>'UnitTestCalendar','presence'=>1,'picklist_valueid'=>99999,'sortorderid' => 99,'color'=>'A0B584'])->execute();
+		\App\Db::getInstance()->createCommand()->insert('vtiger_activitytype', ['activitytype'=>'UnitTestCalendar', 'presence'=>1, 'picklist_valueid'=>99999, 'sortorderid' => 99, 'color'=>'A0B584'])->execute();
 		$this->assertTrue((count(\Settings_Calendar_Module_Model::getPicklistValue()) > 0));
 	}
 
