@@ -343,7 +343,10 @@
     "FL_AUTHY_METHODS":"Metoda autentykacji 2FA",
     "FL_LOGIN_METHOD": "Metoda uwierzytelniania",
     "PLL_AUTHY_TOTP": "Kod jednorazowy (TOTP)",
-    "FL_AUTHY_SECRET_TOTP": "Klucz prywatny (TOTP)"
+    "FL_AUTHY_SECRET_TOTP": "Klucz prywatny (TOTP)",
+    "PLL_PASSWORD": "Has\u0142o",
+    "PLL_LDAP": "LDAP",
+    "PLL_PASSWORD_2FA": "Has\u0142o + 2FA"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Separator dziesi\u0119tny i grupowania nie mog\u0105 by\u0107 takie same",
