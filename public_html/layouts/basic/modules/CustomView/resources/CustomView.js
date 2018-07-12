@@ -76,6 +76,7 @@ var Vtiger_CustomView_Js = {
 	saveFilter: function () {
 		var aDeferred = $.Deferred();
 		var formData = $("#CustomView").serializeFormData();
+		console.log(formData);
 		AppConnector.request(formData, true).done(function (data) {
 			aDeferred.resolve(data);
 		}).fail(function (error) {
@@ -107,11 +108,11 @@ var Vtiger_CustomView_Js = {
 	 * Function which will register the select2 elements for columns selection
 	 */
 	registerSelect2ElementForColumnsSelection: function () {
-		var selectElement = Vtiger_CustomView_Js.getColumnSelectElement();
-		return App.Fields.Picklist.changeSelectElementView(selectElement, 'selectize', {
-			plugins: ['drag_drop', 'remove_button'],
-			maxItems: 12
-		});
+		let selectElement = Vtiger_CustomView_Js.getColumnSelectElement(),
+		select2 = App.Fields.Picklist.showSelect2ElementView(selectElement);
+
+		App.Fields.Picklist.registerSelect2Sortable($('.js-select2--sortable'));
+		return select2;
 	},
 	registerIconEvents: function () {
 		var container = this.getContentsContainer();
@@ -160,17 +161,10 @@ var Vtiger_CustomView_Js = {
 		new App.Fields.Text.Editor(this.getContentsContainer().find('.js-editor'));
 		this.registerBlockToggleEvent();
 		this.registerColorEvent();
-		var select2Element = Vtiger_CustomView_Js.columnListSelect2Element = Vtiger_CustomView_Js.registerSelect2ElementForColumnsSelection();
+		var select2Element = Vtiger_CustomView_Js.registerSelect2ElementForColumnsSelection();
 		var contentsContainer = Vtiger_CustomView_Js.getContentsContainer();
 		$('.stndrdFilterDateSelect').datepicker();
 		$('.chzn-select').chosen();
-
-		var selectizeInstance = select2Element[0].selectize;
-		var columnsList = JSON.parse($('input[name="columnslist"]').val());
-		selectizeInstance.clear();
-		for (var i in columnsList) {
-			selectizeInstance.addItem(columnsList[i]);
-		}
 		$("#standardDateFilter").on('change', function () {
 			Vtiger_CustomView_Js.loadDateFilterValues();
 		});
