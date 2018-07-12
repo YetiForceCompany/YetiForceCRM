@@ -18,10 +18,12 @@ $.Class("Base_TwoFactorAuthenticationModal_JS", {}, {
 		data.find('input[name=turn_off_2fa]').on('change', (e) => {
 			if ($(e.currentTarget).prop("checked")) {
 				data.find('.js-qr-code').addClass('hide');
+				data.find('.js-user-code').addClass('hide');
 				data.find('input[name=mode]').val('off');
 				data.find('button[name=saveButton]').prop("disabled", false);
 			} else {
 				data.find('.js-qr-code').removeClass('hide');
+				data.find('.js-user-code').removeClass('hide');
 				data.find('input[name=mode]').val('secret');
 				data.find('button[name=saveButton]').prop("disabled", true);
 				data.find('input[name=user_code]').val('');

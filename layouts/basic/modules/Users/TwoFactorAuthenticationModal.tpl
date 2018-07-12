@@ -28,7 +28,7 @@
 					{$QR_CODE_HTML}
 				</div>
 			</div>
-			<div class="col-sm-12 pt-3 border-top form-inline">
+			<div class="col-sm-12 pt-3 border-top form-inline js-user-code" data-js="container|css:display">
 				<label for="user_code">
 					{\App\Language::translate('LBL_AUTHENTICATION_CODE', $MODULE_NAME)}:
 				</label>
