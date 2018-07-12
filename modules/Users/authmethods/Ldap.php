@@ -37,8 +37,7 @@ class Users_Ldap_Authmethod
 	public function process($auth, $password)
 	{
 		\App\Log::trace('Start LDAP authentication', 'UserAuthentication');
-		$users = explode(',', $auth['users']);
-		if (!empty($password) && in_array($this->userRecordModel->getId(), $users)) {
+		if (!empty($password) && $this->userRecordModel->get('login_method')==='PLL_LDAP') {
 			$port = $auth['port'] == '' ? 389 : $auth['port'];
 			$ds = ldap_connect($auth['server'], $port);
 			if (!$ds) {

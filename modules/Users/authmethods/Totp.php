@@ -137,24 +137,26 @@ class Users_Totp_Authmethod
 	public static function isActive($userId = null)
 	{
 		if (\AppConfig::main('systemMode') === 'demo') {
-			$return = false;
+			return false;
+		}
+		if (empty($userId)) {
+			$userId = \App\User::getCurrentUserRealId();
+		}
+		if(\App\User::getUserModel($userId)->getDetail('login_method') !== 'PLL_PASSWORD_2FA' ){
+			return false;
 		}
 		switch (AppConfig::security('USER_AUTHY_MODE')) {
 			case 'TOTP_OFF':
-				$return = false;
+				return false;
 				break;
 			case 'TOTP_OPTIONAL':
-				if (empty($userId)) {
-					$userId = \App\User::getCurrentUserRealId();
-				}
-				$userModel = \App\User::getUserModel($userId);
-				$return = $userModel->getDetail('authy_methods') === 'PLL_AUTHY_TOTP';
+				return \App\User::getUserModel($userId)->getDetail('authy_methods') === 'PLL_AUTHY_TOTP';
 				break;
 			case 'TOTP_OBLIGATORY':
-				$return = true;
+				return true;
 				break;
 		}
-		return $return;
+		return false;
 	}
 
 	/**
@@ -164,8 +166,11 @@ class Users_Totp_Authmethod
 	 *
 	 * @return bool
 	 */
-	public static function isActiveUser($userId = null)
+	public static function mustInit($userId = null)
 	{
-		return !empty(\App\User::getUserModel($userId)->getDetail('authy_secret_totp'));
+		if (empty($userId)) {
+			$userId = \App\User::getCurrentUserRealId();
+		}
+		return empty(\App\User::getUserModel($userId)->getDetail('authy_secret_totp'));
 	}
 }
