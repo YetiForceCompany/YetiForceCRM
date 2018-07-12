@@ -76,7 +76,6 @@ var Vtiger_CustomView_Js = {
 	saveFilter: function () {
 		var aDeferred = $.Deferred();
 		var formData = $("#CustomView").serializeFormData();
-		console.log(formData);
 		AppConnector.request(formData, true).done(function (data) {
 			aDeferred.resolve(data);
 		}).fail(function (error) {
