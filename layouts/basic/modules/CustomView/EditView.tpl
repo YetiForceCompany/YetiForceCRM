@@ -77,7 +77,7 @@
 						<div class="columnsSelectDiv col-md-12">
 							{assign var=MANDATORY_FIELDS value=[]}
 							<div class="">
-								<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="columnsSelect form-control select2 js-select2--sortable" id="viewColumnsSelect">
+								<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="columnsSelect form-control select2" id="viewColumnsSelect">
 									{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 										<optgroup label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}'>
 											{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
