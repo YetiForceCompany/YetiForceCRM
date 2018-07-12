@@ -159,6 +159,17 @@ class Users_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function isEditableReadOnly()
+	{
+		if ($this->getColumnName()==='login_method' && !\App\User::getCurrentUserModel()->isAdmin()) {
+			return true;
+		}
+		return parent::isEditableReadOnly();
+	}
+
+	/**
 	 * Function which will check if empty piclist option should be given.
 	 *
 	 * @return bool
