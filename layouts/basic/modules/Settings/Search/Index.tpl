@@ -47,7 +47,7 @@
 									{/foreach}
 								</div>
 								<div class="d-none elementEdit{$KEY}">
-									<select multiple class="form-control fieldname" name="fieldname" data-tabid="{$KEY}">
+									<select multiple class="form-control fieldname select2 js-select2--sortable" name="fieldname" data-tabid="{$KEY}">
 										{foreach from=$FIELDS item=fieldTab}
 											<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>
 												{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
@@ -65,7 +65,7 @@
 									{/foreach}
 								</div>
 								<div class="d-none elementEdit{$KEY}">
-									<select multiple class="form-control searchcolumn" name="searchcolumn" data-tabid="{$KEY}">
+									<select multiple class="form-control searchcolumn select2 js-select2--sortable" name="searchcolumn" data-tabid="{$KEY}">
 										{foreach from=$FIELDS item=fieldTab }
 											<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>
 												{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
