@@ -9070,7 +9070,7 @@ CREATE TABLE `vtiger_users` (
   `confirm_password` varchar(200) DEFAULT NULL,
   `cal_color` varchar(25) DEFAULT NULL,
   `user_preferences` text DEFAULT NULL,
-  `authy_methods` varchar(255) DEFAULT NULL,
+  `authy_methods` varchar(255) DEFAULT 'PLL_AUTHY_TOTP',
   `authy_secret_totp` varchar(255) DEFAULT NULL,
   `login_method` varchar(50) DEFAULT 'PLL_PASSWORD',
   PRIMARY KEY (`id`),
