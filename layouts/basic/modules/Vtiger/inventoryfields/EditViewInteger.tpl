@@ -4,9 +4,9 @@
 	{assign var="INPUT_TYPE" value='text'}
 	{if $FIELD->get('displaytype') == 10}
 		{assign var="INPUT_TYPE" value='hidden'}
-		<span class="{$FIELD->getColumnName()}Text valueText">
+		<span class="{$FIELD->getColumnName()}Text integerText">
 			{$FIELD->getDisplayValue($VALUE)}
 		</span>
 	{/if}
-	<input name="{$FIELD->getColumnName()}{$ROW_NO}" type="{$INPUT_TYPE}" class="form-control {$FIELD->getColumnName()} valueVal" data-validation-engine="validate[custom[integer],maxSize[{$FIELD->getRangeValues()}]]" value="{$FIELD->getEditValue($VALUE)}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
+	<input name="{$FIELD->getColumnName()}{$ROW_NO}" type="{$INPUT_TYPE}" class="form-control {$FIELD->getColumnName()} integerVal" data-validation-engine="validate[custom[integer],maxSize[{$FIELD->getRangeValues()}]]" value="{$FIELD->getEditValue($VALUE)}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
 {/strip}
