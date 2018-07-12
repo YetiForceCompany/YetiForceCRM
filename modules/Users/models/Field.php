@@ -152,10 +152,24 @@ class Users_Field_Model extends Vtiger_Field_Model
 		if (($this->get('uitype') === 115 && (!\App\User::getCurrentUserModel()->isAdmin() || \App\User::getCurrentUserId() === $this->get('rocordId')))) {
 			return false;
 		}
+		if ($this->getColumnName() === 'authy_secret_totp') {
+			return $this->get('rocordId') === \App\User::getCurrentUserId();
+		}
 		if (!$this->get('editable')) {
 			$this->set('editable', parent::isEditable());
 		}
 		return $this->get('editable');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isViewable()
+	{
+		if ($this->getColumnName() === 'authy_secret_totp') {
+			return $this->get('rocordId') === \App\User::getCurrentUserId();
+		}
+		return parent::isViewable();
 	}
 
 	/**
