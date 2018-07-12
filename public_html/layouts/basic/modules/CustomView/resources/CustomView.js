@@ -150,7 +150,7 @@ var Vtiger_CustomView_Js = {
 		new App.Fields.Text.Editor(this.getContentsContainer().find('.js-editor'));
 		this.registerBlockToggleEvent();
 		this.registerColorEvent();
-		let select2Element = App.Fields.Picklist.showSelect2ElementView(Vtiger_CustomView_Js.getColumnSelectElement(), {sortable: true});
+		let select2Element = App.Fields.Picklist.showSelect2ElementView(Vtiger_CustomView_Js.getColumnSelectElement());
 		$('.stndrdFilterDateSelect').datepicker();
 		$('.chzn-select').chosen();
 		$("#standardDateFilter").on('change', function () {
