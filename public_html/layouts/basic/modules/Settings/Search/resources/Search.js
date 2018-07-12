@@ -29,12 +29,17 @@ var Settings_Index_Js = {
 		});
 	},
 	editLabels: function (e) {
-		var target = $(e.currentTarget);
-		var tabId = target.data('tabid');
-		var closestTrElement = target.closest('tr');
-		jQuery('.elementLabels' + tabId).addClass('d-none');
-		e = jQuery('.elementEdit' + tabId).removeClass('d-none');
-		Settings_Index_Js.registerSelectElement(e.find('select'));
+		let tabId = $(e.currentTarget).data('tabid'),
+			select = $('.elementEdit' + tabId).removeClass('d-none').find('.select2');
+		$('.elementLabels' + tabId).addClass('d-none');
+		App.Fields.Picklist.showSelect2ElementView(select);
+		App.Fields.Picklist.registerSelect2Sortable($('.js-select2--sortable'), (currentSelect) => {
+			Settings_Index_Js.registerSaveEvent('save', {
+				name: currentSelect.attr('name'),
+				value: currentSelect.val(),
+				tabid: currentSelect.data('tabid'),
+			});
+		});
 	},
 	save: function (e) {
 		var target = $(e.currentTarget);
@@ -143,13 +148,13 @@ var Settings_Index_Js = {
 		params['updatedFields'] = thisInstance.updatedBlockFieldsList;
 
 		AppConnector.request(params).done(function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				var params = {};
-				params['text'] = app.vtranslate('JS_MODULES_SEQUENCE_UPDATED');
-				Settings_Vtiger_Index_Js.showMessage(params);
-			}).fail(function (error) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			});
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			var params = {};
+			params['text'] = app.vtranslate('JS_MODULES_SEQUENCE_UPDATED');
+			Settings_Vtiger_Index_Js.showMessage(params);
+		}).fail(function (error) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+		});
 	},
 	/**
 	 * Function to create the list of updated modules and their sequences

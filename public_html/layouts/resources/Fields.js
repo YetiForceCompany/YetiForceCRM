@@ -664,14 +664,13 @@ App.Fields = {
 					select.data('unselecting', true);
 				});
 			})
-			this.registerSelect2Sortable();
 			return selectElement;
 		},
 		/**
 		 * Register select2 drag and drop sorting
 		 * @param {jQuery} select2 element
 		 */
-		registerSelect2Sortable(select = $('.select2[sortable]')) {
+		registerSelect2Sortable(select = $('.select2.js-select2--sortable'), cb = () =>{}) {
 			if (!select.length) return;
 			select.each(function () {
 				let currentSelect = $(this);
@@ -683,10 +682,14 @@ App.Fields = {
 					tolerance: 'pointer',
 					stop: function () {
 						$(ul.find('.select2-selection__choice').get().reverse()).each(function () {
-							let id = $(this).data('select2-id');
-							let option = currentSelect.find('option[value="' + id + '"]')[0];
-							currentSelect.prepend(option);
+							let optionTitle = $(this).attr('title');
+							currentSelect.find('option').each(function() {
+								if ($(this).text() === optionTitle) {
+									currentSelect.prepend($(this));
+								}
+							});
 						});
+						cb(currentSelect);
 					}
 				});
 			})
