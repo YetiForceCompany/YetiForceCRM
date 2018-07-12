@@ -260,6 +260,8 @@ class FieldBasic
 
 	/**
 	 * Get module name to which this field instance is associated.
+	 *
+	 * @return bool|string
 	 */
 	public function getModuleName()
 	{
@@ -271,6 +273,8 @@ class FieldBasic
 
 	/**
 	 * Get module instance to which this field instance is associated.
+	 *
+	 * @return mixed
 	 */
 	public function getModuleInstance()
 	{

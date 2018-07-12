@@ -227,6 +227,13 @@ class Picklist
 	}
 
 	/**
+	 * Picklist dependency fields.
+	 *
+	 * @var array
+	 */
+	public static $picklistDependencyFields = [];
+
+	/**
 	 * Function to get picklist dependency data source.
 	 *
 	 * @param string $module
@@ -241,10 +248,13 @@ class Picklist
 		$query = (new \App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => \App\Module::getModuleId($module)]);
 		$dataReader = $query->createCommand()->query();
 		$picklistDependencyDatasource = [];
+		static::$picklistDependencyFields[$module] = [];
 		while ($row = $dataReader->read()) {
 			$pickArray = [];
 			$sourceField = $row['sourcefield'];
 			$targetField = $row['targetfield'];
+			static::$picklistDependencyFields[$module][$sourceField] = true;
+			static::$picklistDependencyFields[$module][$targetField] = true;
 			$sourceValue = \App\Purifier::decodeHtml($row['sourcevalue']);
 			$targetValues = \App\Purifier::decodeHtml($row['targetvalues']);
 			$unserializedTargetValues = \App\Json::decode(html_entity_decode($targetValues));
@@ -252,11 +262,10 @@ class Picklist
 			$unserializedCriteria = \App\Json::decode(html_entity_decode($criteria));
 
 			if (!empty($unserializedCriteria) && $unserializedCriteria['fieldname'] !== null) {
-				$conditionValue = [
+				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField][] = [
 					'condition' => [$unserializedCriteria['fieldname'] => $unserializedCriteria['fieldvalues']],
 					'values' => $unserializedTargetValues,
 				];
-				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField][] = $conditionValue;
 			} else {
 				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField] = $unserializedTargetValues;
 			}
@@ -268,7 +277,6 @@ class Picklist
 			}
 		}
 		\App\Cache::save('getPicklistDependencyDatasource', $module, $picklistDependencyDatasource);
-
 		return $picklistDependencyDatasource;
 	}
 

@@ -48,4 +48,16 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	{
 		return 'Edit/Field/Picklist.tpl';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isAjaxEditable()
+	{
+		$moduleName = $this->getFieldModel()->getModuleName();
+		if (!isset(\App\Fields\Picklist::$picklistDependencyFields[$moduleName])) {
+			\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
+		}
+		return !isset(\App\Fields\Picklist::$picklistDependencyFields[$moduleName][$this->getFieldModel()->getFieldName()]);
+	}
 }
