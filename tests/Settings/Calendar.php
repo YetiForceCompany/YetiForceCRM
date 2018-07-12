@@ -45,6 +45,7 @@ class Calendar extends \Tests\Base
 	public function testGetPicklistValue()
 	{
 		\App\Db::getInstance()->createCommand()->insert('vtiger_activitytype', ['activitytype'=>'UnitTestCalendar', 'presence'=>1, 'picklist_valueid'=>99999, 'sortorderid' => 99, 'color'=>'A0B584'])->execute();
+		\App\Cache::clear();
 		$this->assertGreaterThan(0, (count(\Settings_Calendar_Module_Model::getPicklistValue())), 'Calendar activity type picklist is empty');
 	}
 
@@ -54,6 +55,7 @@ class Calendar extends \Tests\Base
 	public function testResetToDefault()
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_activitytype', ['activitytype' => 'UnitTestCalendar'])->execute();
+		\App\Cache::clear();
 		\Settings_Calendar_Module_Model::updateCalendarConfig(['color' => 0, 'id' => 'update_event']);
 		$result = \Settings_Calendar_Module_Model::getCalendarConfig('reminder');
 		$found = false;
