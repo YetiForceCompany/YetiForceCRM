@@ -80,6 +80,6 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit4_Js", {}, {
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
 		this.registerCancelStepClickEvent(container);
-		App.Fields.Picklist.showSelectizeElementView(container.find('.selectize'));
+		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
 	}
 });

@@ -462,10 +462,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				return false;
 			};
 			dropDownMenu.find('form').validationEngine(params);
-			//handled registration of selectize for select element
 			let selectElements = basicDropDown.find('select[name="owners_all"]');
 			if (selectElements.length > 0) {
-				App.Fields.Picklist.showSelectizeElementView(dropDownMenu.find('select[name="owners_all"]'));
+				App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="owners_all"]'));
 			}
 			selectElements = basicDropDown.find('select[name="default_date"]');
 			if (selectElements.length > 0) {
@@ -507,7 +506,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		var fieldRow = submitButtton.closest('.editFieldsWidget');
 		fieldRow.addClass('opacity');
 		var dropDownMenu = form.closest('.dropdown-menu');
-		App.Fields.Picklist.destroySelectizeElement(form)
 		form.find('select').each(function () {
 			var selectedvalue = jQuery(this).val();
 			jQuery(this).find('option').removeAttr('selected');

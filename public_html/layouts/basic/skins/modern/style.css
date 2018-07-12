@@ -619,9 +619,6 @@ button.selectAllBtn.btn.btn-default {
 .widget_header {
 	background: #E3F2FD;
 }
-.selectize-control.multi .selectize-input > div {
-	border: 1px solid rgb(204, 204, 204);
-}
 .pageNumber.active.disabled a {
 	background-color: #4078c0;
 	border-color: #4078c0;

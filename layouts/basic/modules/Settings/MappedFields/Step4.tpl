@@ -21,7 +21,7 @@
 								{\App\Language::translate('LBL_GROUP_MEMBERS', 'Settings:Groups')}
 							</label>
 							<div class="col-md-8">
-								<select class="selectize form-control" multiple="true" id="permissions" name="permissions[]" data-placeholder="{\App\Language::translate('LBL_ADD_USERS_ROLES', 'Settings:Groups')}">
+								<select class="select2 form-control" multiple="true" id="permissions" name="permissions[]" data-placeholder="{\App\Language::translate('LBL_ADD_USERS_ROLES', 'Settings:Groups')}">
 									{assign 'TEMPLATE_MEMBERS' explode(',',$MAPPEDFIELDS_MODULE_MODEL->get('permissions'))}
 									{foreach from=Settings_Groups_Member_Model::getAll(false) key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 										<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
