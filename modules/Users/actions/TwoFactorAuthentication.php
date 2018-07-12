@@ -81,7 +81,8 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	 */
 	public function off(\App\Request $request)
 	{
-		$userRecordModel = Users_Record_Model::getInstanceById(\App\User::getCurrentUserRealId(), 'Users');
+		$userId = $request->getInteger('userid', \App\User::getCurrentUserRealId());
+		$userRecordModel = Users_Record_Model::getInstanceById($userId, 'Users');
 		$userRecordModel->set('authy_secret_totp', '');
 		$userRecordModel->set('authy_methods', '');
 		$userRecordModel->save();
