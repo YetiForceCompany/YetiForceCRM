@@ -7,6 +7,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
+
 jQuery.Class('Settings_Module_Manager_Js', {
 	validateField: function (field, rules, i, options) {
 		var specialChars = /[&\<\>\:\'\"\,]/;

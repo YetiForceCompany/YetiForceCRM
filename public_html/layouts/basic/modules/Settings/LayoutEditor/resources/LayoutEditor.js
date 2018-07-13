@@ -7,6 +7,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
+
 $.Class('Settings_LayoutEditor_Js', {}, {
 	updatedBlockSequence: {},
 	reactiveFieldsList: [],

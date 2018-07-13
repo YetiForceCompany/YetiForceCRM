@@ -6,6 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
 Settings_Vtiger_Index_Js("Settings_PBXManager_Index_Js", {}, {
 
