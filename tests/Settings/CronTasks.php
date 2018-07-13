@@ -47,7 +47,7 @@ class CronTasks extends \Tests\Base
 		foreach (['frequency', 'status', 'name', 'duration']as $fieldName) {
 			$this->AssertNotEmpty($recordModel->getDisplayValue($fieldName), 'Field ' . $fieldName . ' returned empty value');
 		}
-		$this->AssertInternalType('int', $recordModel->getTimeDiff());
-		$this->AssertNotEmpty($recordModel->getDuration());
+		$this->AssertInternalType('int', $recordModel->getTimeDiff(), 'Returned time difference should be integer');
+		$this->AssertNotEmpty($recordModel->getDuration(), 'Returned duration should be not empty');
 	}
 }
