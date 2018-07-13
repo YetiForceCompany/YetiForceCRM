@@ -443,13 +443,9 @@ App.Fields = {
 			}
 			if (typeof view === "undefined") {
 				const select2Elements = $('select.select2', parent).toArray();
-				const selectizeElements = $('select.selectize', parent).toArray();
 				const choosenElements = $('.chzn-select', parent).toArray();
 				select2Elements.forEach((elem) => {
 					this.changeSelectElementView($(elem), 'select2', viewParams);
-				});
-				selectizeElements.forEach((elem) => {
-					this.changeSelectElementView($(elem), 'selectize', viewParams);
 				});
 				choosenElements.forEach((elem) => {
 					this.changeSelectElementView($(elem), 'choosen', viewParams);
@@ -461,8 +457,6 @@ App.Fields = {
 				switch (view) {
 					case 'select2':
 						return App.Fields.Picklist.showSelect2ElementView(parent, viewParams);
-					case 'selectize':
-						return App.Fields.Picklist.showSelectizeElementView(parent, viewParams);
 					case 'choosen':
 						return App.Fields.Picklist.showChoosenElementView(parent, viewParams);
 				}
