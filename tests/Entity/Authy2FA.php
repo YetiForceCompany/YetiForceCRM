@@ -12,13 +12,66 @@ namespace Tests\Settings;
 class Authy2FA extends \Tests\Base
 {
 	/**
+	 * @var \yii\db\Transaction
+	 */
+	private static $transaction;
+	/**
+	 * @var string
+	 */
+	private static $userAuthyMode;
+	/**
+	 * @var int
+	 */
+	private static $userId;
+
+	public static function setUpBeforeClass()
+	{
+		static::$userAuthyMode = \AppConfig::security('USER_AUTHY_MODE');
+		static::$transaction = \App\Db::getInstance()->beginTransaction();
+	}
+
+	/**
 	 * Test method "verifyCode".
 	 */
-	public function test2FAverifyCode()
+	public function testVerifyCode()
 	{
 		$auth = new \Google\Authenticator\GoogleAuthenticator();
 		$secret = $auth->generateSecret();
 		$this->assertFalse(\Users_Totp_Authmethod::verifyCode($secret, '123000'), 'The "verifyCode" method does not work');
 		$this->assertTrue(\Users_Totp_Authmethod::verifyCode($secret, $auth->getCode($secret)), 'The "verifyCode" method does not work');
+	}
+
+	public function testUser()
+	{
+		static::$userId = \App\User::getUserIdByName('demo');
+		$this->assertInternalType('int', static::$userId, 'No user demo');
+		\App\User::setCurrentUserId(static::$userId);
+		$this->assertSame(\App\User::getCurrentUserId(), static::$userId);
+		$userRecordModel = \Users_Record_Model::getInstanceById(static::$userId, 'Users');
+		$userRecordModel->set('authy_secret_totp', '');
+		$userRecordModel->set('authy_methods', '');
+		$userRecordModel->save();
+		$row = (new \App\Db\Query())
+			->select(['authy_secret_totp', 'authy_methods'])
+			->from('vtiger_users')
+			->where(['id' => static::$userId])
+			->one();
+		$this->assertNotFalse($row, 'No record id: ' . static::$userId);
+		$this->assertEmpty($row['authy_secret_totp']);
+		$this->assertEmpty($row['authy_methods']);
+	}
+
+	public function testConfig()
+	{
+		\AppConfig::set('security', 'USER_AUTHY_MODE', 'TOTP_OFF');
+		$this->assertSame(\AppConfig::security('USER_AUTHY_MODE'), 'TOTP_OFF', 'Problem with saving the configuration');
+		$this->assertFalse(\Users_Totp_Authmethod::isActive());
+	}
+
+	public static function tearDownAfterClass()
+	{
+		static::$transaction->rollBack();
+		\AppConfig::set('security', 'USER_AUTHY_MODE', static::$userAuthyMode);
+		\App\Cache::clear();
 	}
 }
