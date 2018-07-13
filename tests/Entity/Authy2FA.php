@@ -23,11 +23,19 @@ class Authy2FA extends \Tests\Base
 	 * @var int
 	 */
 	private static $userId;
+	/**
+	 * @var string
+	 */
+	private static $systemMode;
 
+	/**
+	 * Setting of tests.
+	 */
 	public static function setUpBeforeClass()
 	{
 		static::$userAuthyMode = \AppConfig::security('USER_AUTHY_MODE');
 		static::$transaction = \App\Db::getInstance()->beginTransaction();
+		static::$systemMode = \AppConfig::main('systemMode');
 	}
 
 	/**
@@ -41,6 +49,9 @@ class Authy2FA extends \Tests\Base
 		$this->assertTrue(\Users_Totp_Authmethod::verifyCode($secret, $auth->getCode($secret)), 'The "verifyCode" method does not work');
 	}
 
+	/**
+	 * Test user for 2FA.
+	 */
 	public function testUser()
 	{
 		static::$userId = \App\User::getUserIdByName('demo');
@@ -61,17 +72,28 @@ class Authy2FA extends \Tests\Base
 		$this->assertEmpty($row['authy_methods']);
 	}
 
+	/**
+	 * Test config for 2FA.
+	 */
 	public function testConfig()
 	{
 		\AppConfig::set('security', 'USER_AUTHY_MODE', 'TOTP_OFF');
 		$this->assertSame(\AppConfig::security('USER_AUTHY_MODE'), 'TOTP_OFF', 'Problem with saving the configuration');
 		$this->assertFalse(\Users_Totp_Authmethod::isActive());
+		\AppConfig::set('security', 'USER_AUTHY_MODE', 'TOTP_OBLIGATORY');
+		\AppConfig::set('main', 'systemMode', 'demo');
+		$this->assertFalse(\Users_Totp_Authmethod::isActive());
+		\AppConfig::set('main', 'systemMode', 'prod');
 	}
 
+	/**
+	 * Cleaning after tests.
+	 */
 	public static function tearDownAfterClass()
 	{
 		static::$transaction->rollBack();
 		\AppConfig::set('security', 'USER_AUTHY_MODE', static::$userAuthyMode);
+		\AppConfig::set('main', 'systemMode', static::$systemMode);
 		\App\Cache::clear();
 	}
 }
