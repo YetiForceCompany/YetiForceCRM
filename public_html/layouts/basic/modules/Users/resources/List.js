@@ -185,13 +185,12 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 	 *Function to off 2FA
 	 *@param userId, event
 	 */
-	off2FA: function (userId, e) {
+	triggerOff2FA: function (userId, e) {
 		let url = window.location.href;
 		e.stopPropagation();
 		Vtiger_Helper_Js.showConfirmationBox({
 			'message': app.vtranslate('JS_2FA_OFF_CONFIRMATION')
-		})
-		.done( () => {
+		}).done( () => {
 			let progressInstance = jQuery.progressIndicator({
 				'position': 'html',
 				'blockInfo': {
@@ -214,6 +213,50 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 			});
 		});
 	},
+	/*
+	 *Function to mass off 2FA
+	 */
+	triggerMassOff2FA: function(){
+		let url = window.location.href;
+		let listInstance = Settings_Vtiger_List_Js.getInstance();
+		let validationResult = listInstance.checkListRecordSelected();
+		if (validationResult != true) {
+			Vtiger_Helper_Js.showConfirmationBox({
+				'message': app.vtranslate('JS_2FA_OFF_CONFIRMATION')
+			}).done(() => {
+				var progressIndicatorElement = jQuery.progressIndicator({
+					'message': app.vtranslate('JS_2FA_OFF_IN_PROGRESS'),
+					'position': 'html',
+					'blockInfo': {
+						'enabled': true
+					}
+				});
+				AppConnector.request({
+					'module': "Users",
+					'action': "TwoFactorAuthentication",
+					'selected_ids': listInstance.readSelectedIds(true),
+					'excluded_ids': listInstance.readExcludedIds(true),
+					'mode': 'massOff'
+				}).done((data) => {
+					progressIndicatorElement.progressIndicator({
+						'mode': 'hide'
+					});
+					if (data.error) {
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate(data.error.message),
+							title: app.vtranslate('JS_LBL_PERMISSION')
+						});
+					}
+					window.location.href = url;
+				});
+			}).fail(function (error, err) {
+				Vtiger_List_Js.clearList();
+			});
+		} else {
+			listInstance.noRecordSelectedAlert();
+		}
+	},
+
 	triggerExportAction: function () {
 		var url = window.location.href;
 		var siteUrl = url.split('?');

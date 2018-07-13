@@ -19,6 +19,7 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 		parent::__construct();
 		$this->exposeMethod('secert');
 		$this->exposeMethod('off');
+		$this->exposeMethod('massOff');
 	}
 
 	/**
@@ -29,7 +30,11 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 		if (AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OFF') {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if ($request->getMode() === 'off' && AppConfig::security('USER_AUTHY_MODE') !== 'TOTP_OPTIONAL') {
+		$mode = $request->getMode();
+		if ($mode === 'off' && AppConfig::security('USER_AUTHY_MODE') !== 'TOTP_OPTIONAL') {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		if ($mode === 'massOff' && !\App\User::getCurrentUserModel()->isAdmin()) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
@@ -86,6 +91,30 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 		$userRecordModel->set('authy_secret_totp', '');
 		$userRecordModel->set('authy_methods', '');
 		$userRecordModel->save();
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'message' => \App\Language::translate('LBL_AUTHY_SECRET_TOTP_SUCCESS', 'Users'),
+			'success' => true
+		]);
+		$response->emit();
+	}
+
+	/**
+	 * Mass turning off the 2FA.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function massOff(\App\Request $request)
+	{
+		$recordsList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
+		foreach ($recordsList as $userId) {
+			$userRecordModel = Users_Record_Model::getInstanceById($userId, 'Users');
+			if ($userRecordModel->get('authy_methods')==='PLL_AUTHY_TOTP' && !empty($userRecordModel->get('authy_secret_totp'))) {
+				$userRecordModel->set('authy_secret_totp', '');
+				$userRecordModel->set('authy_methods', '');
+				$userRecordModel->save();
+			}
+		}
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'message' => \App\Language::translate('LBL_AUTHY_SECRET_TOTP_SUCCESS', 'Users'),
