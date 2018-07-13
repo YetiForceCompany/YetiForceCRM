@@ -32,4 +32,13 @@ class Cron extends \Tests\Base
 		file_put_contents('tests/records.log', $c, FILE_APPEND);
 		$this->assertFalse((new \App\Db\Query())->from('vtiger_cron_task')->where(['status' => 2])->exists());
 	}
+
+	/**
+	 * Testing last cron start getter.
+	 */
+	public function testGetLastCronStart()
+	{
+		$module = \Settings_CronTasks_Module_Model::getInstance('Settings:CronTasks');
+		$this->assertNotSame(0, $module->getLastCronStart(), 'Last cron start is 0');
+	}
 }
