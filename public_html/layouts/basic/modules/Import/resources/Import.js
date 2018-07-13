@@ -7,12 +7,13 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
+'use strict';
 
 if (typeof (ImportJs) === "undefined") {
 	/*
 	 * Namespaced javascript class for Import
 	 */
-	ImportJs = {
+	var ImportJs = {
 		toogleMergeConfiguration: function () {
 			var mergeChecked = jQuery('#auto_merge').is(':checked');
 			var duplicateMergeConfiguration = jQuery('#duplicates_merge_configuration');
