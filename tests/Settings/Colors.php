@@ -104,6 +104,7 @@ class Colors extends \Tests\Base
 		$moduleId = \App\Module::getModuleId('Leads');
 		\App\Colors::activeModuleColor($moduleId, 'true', '#A0B584');
 		$this->assertSame((new\App\Db\Query())->select(['coloractive'])->from('vtiger_tab')->where(['tabid' => $moduleId])->scalar(), 1, 'Returned module color state is different from provided');
+		$this->assertNotEmpty(\App\Colors::activeModuleColor($moduleId, 'true', ''), 'Returned module color should be random generated if provided empty string');
 	}
 
 	/**
@@ -112,6 +113,7 @@ class Colors extends \Tests\Base
 	public function testGetAllFilterColors()
 	{
 		$this->assertNotEmpty(\App\Colors::getAllFilterColors(), 'Filter colors should be not empty');
+		$this->assertNotEmpty(\App\Colors::getAllFilterColors(), 'Filter colors(cached) should be not empty');
 	}
 
 	/**
@@ -129,7 +131,38 @@ class Colors extends \Tests\Base
 	{
 		$this->assertNotEmpty(\App\Colors::get('', ''), 'Normalized empty color should be random generated');
 		$this->assertNotEmpty(\App\Colors::get('', 'fs$gdftd'), 'Normalized empty color with value should be random generated');
+		$this->assertNotEmpty(\App\Colors::get('#', ''), 'Normalized empty color(#only) should be random generated');
+		$this->assertNotEmpty(\App\Colors::get('#', 'fs$gdftd'), 'Normalized empty color(#only) with value should be random generated');
 		$this->assertSame(\App\Colors::get('A0B584', ''), '#A0B584', 'Color without # prefix should be normalized');
+	}
+
+	/**
+	 * Testing creation picklist color column.
+	 */
+	public function testAddPicklistColorColumn()
+	{
+		$moduleId = \App\Module::getModuleId('ServiceContracts');
+		$fieldId = (new\App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid' => $moduleId,'fieldname'=>'contract_priority'])->scalar();
+		$db = \App\Db::getInstance();
+		$tableSchema = $db->getSchema()->getTableSchema('vtiger_contract_priority', true);
+		$this->assertNotEmpty($tableSchema,'Table vtiger_contract_priority not exists');
+		if($tableSchema) {
+			$column = $tableSchema->getColumn((string)'color');
+			$this -> assertEmpty($column, 'column color in vtiger_contract_priority should not exists');
+			if (is_null($column)) {
+				\App\Colors::addPicklistColorColumn($fieldId);
+				\App\Cache::clear();
+				$tableSchema = $db->getSchema()->getTableSchema('vtiger_contract_priority', true);
+				$column = $tableSchema->getColumn((string)'color');
+				$this->assertNotEmpty($column, 'Column color should exist on vtiger_contract_priority');
+				if ($column) {
+					$db->createCommand()->dropColumn('vtiger_contract_priority','color')->execute();
+					$tableSchema = $db->getSchema()->getTableSchema('vtiger_contract_priority', true);
+					$column = $tableSchema->getColumn((string)'color');
+					$this->assertEmpty($column, 'Column color should be removed from vtiger_contract_priority');
+				}
+			}
+		}
 	}
 
 	/**
