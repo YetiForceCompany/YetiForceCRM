@@ -11577,6 +11577,9 @@ header .c-header__btn__container .select2-selection {
 .leftPanel .ps-scrollbar-y-rail {
   display: none !important; }
 
+.svg-inline--fa {
+  vertical-align: -0.125em !important; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 label.btn.btn-outline-primary:not(.active) {
   background: #fff; }
