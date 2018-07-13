@@ -1,5 +1,9 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+var PasswordHelper;
 PasswordHelper = {
+	init() {
+		return this;
+	},
 // Function to generate new password
 	passwordStrength(password, translations) {
 		if (password == '')
@@ -142,3 +146,6 @@ PasswordHelper = {
 		$('#show-btn').text(hidePassText);
 	}
 }
+$(document).ready(function () {
+	PasswordHelper.init();
+});

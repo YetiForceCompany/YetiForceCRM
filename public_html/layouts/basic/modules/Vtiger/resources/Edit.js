@@ -974,7 +974,7 @@ $.Class("Vtiger_Edit_Js", {
 		sourcePickListElements.trigger('change');
 	},
 	registerLeavePageWithoutSubmit: function (form) {
-		InitialFormData = form.serialize();
+		let InitialFormData = form.serialize();
 		window.onbeforeunload = function (e) {
 			if (InitialFormData != form.serialize() && form.data('submit') != "true") {
 				return app.vtranslate("JS_CHANGES_WILL_BE_LOST");

@@ -7,7 +7,11 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+var Vtiger_CustomView_Js;
 Vtiger_CustomView_Js = {
+	init() {
+		return this;
+	},
 	contentsCotainer: false,
 	columnListSelect2Element: false,
 	advanceFilterInstance: false,
@@ -235,3 +239,6 @@ Vtiger_CustomView_Js = {
 		$('#CustomView').validationEngine(app.validationEngineOptions);
 	}
 };
+$(document).ready(function () {
+	Vtiger_CustomView_Js.init();
+})
