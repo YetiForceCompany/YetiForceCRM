@@ -191,29 +191,27 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		Vtiger_Helper_Js.showConfirmationBox({
 			'message': app.vtranslate('JS_2FA_OFF_CONFIRMATION')
 		})
-		.done(function () {
+		.done( () => {
 			let progressInstance = jQuery.progressIndicator({
 				'position': 'html',
 				'blockInfo': {
 					'enabled': true
 				}
 			});
-			let params = {
-				'module': "Users",
-				'action': "TwoFactorAuthentication",
-				'userid': userId,
-				'mode': 'off'
-			};
-			AppConnector.request(params)
-				.done(function (response) {
-					if (response.success) {
-						progressInstance.progressIndicator({
-							'mode': 'hide'
-						});
-						Vtiger_Helper_Js.showPnotify(response.result.message);
-						window.location.href = url;
-					}
-				});
+			AppConnector.request({
+					'module': "Users",
+					'action': "TwoFactorAuthentication",
+					'userid': userId,
+					'mode': 'off'
+			}).done( (response) => {
+				if (response.success) {
+					progressInstance.progressIndicator({
+						'mode': 'hide'
+					});
+					Vtiger_Helper_Js.showPnotify(response.result.message);
+					window.location.href = url;
+				}
+			});
 		});
 	},
 	triggerExportAction: function () {
