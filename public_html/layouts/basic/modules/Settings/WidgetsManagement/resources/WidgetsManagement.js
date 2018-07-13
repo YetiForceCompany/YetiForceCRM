@@ -287,7 +287,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 							saveButton.attr('disabled', 'disabled');
 							var field = form.find('[name="widgets"]');
 
-							paramsForm = form.serializeFormData();
+							let paramsForm = form.serializeFormData();
 							paramsForm['action'] = 'addWidget';
 							paramsForm['blockid'] = blockId;
 							paramsForm['linkid'] = field.val();
