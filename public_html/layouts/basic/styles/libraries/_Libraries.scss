@@ -246,3 +246,10 @@ ul.ui-autocomplete {
 .leftPanel .ps-scrollbar-y-rail {
 	display: none !important;
 }
+
+//-------- font awesome --------//
+
+// overwrite bootstrap _reboot.scss
+.svg-inline--fa {
+	vertical-align: -0.125em !important;
+}
