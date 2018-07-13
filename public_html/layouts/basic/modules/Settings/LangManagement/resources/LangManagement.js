@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 var Settings_Index_Js = {
 	initEvants: function () {
 		$('.LangManagement .add_lang').on('click', Settings_Index_Js.ShowLangMondal);

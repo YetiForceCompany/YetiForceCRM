@@ -7,6 +7,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
+
 Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 	instance: {}
 

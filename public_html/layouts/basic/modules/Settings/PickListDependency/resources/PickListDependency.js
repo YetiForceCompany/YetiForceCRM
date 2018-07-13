@@ -6,6 +6,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
+
 jQuery.Class('Settings_PickListDependency_Js', {
 	//holds the picklist dependency instance
 	pickListDependencyInstance: false,
