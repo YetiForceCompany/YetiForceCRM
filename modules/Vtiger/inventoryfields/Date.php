@@ -13,6 +13,7 @@ class Vtiger_Date_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultLabel = 'LBL_DATE';
 	protected $columnName = 'date';
 	protected $dbType = \yii\db\Schema::TYPE_DATE;
+	protected $onlyOne = false;
 
 	/**
 	 * {@inheritdoc}
