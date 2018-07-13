@@ -123,7 +123,8 @@
     "LBL_PUBLIC_DIR": "Cale director",
     "LBL_DENY_PUBLIC_DIR_STATUS": "Accesul este interzis?",
     "LBL_DENY_PUBLIC_DIR_HELP_TEXT": "Se recomanda sa refuzati accesul la acest director. In prezent, directorul este accesibil publicului, iar continutul sau nu este protejat.",
-    "LBL_AUTO_DETECT_LINE_ENDINGS_HELP_TEXT": "Se recomanda activarea verificarilor de codare la importul fisierelor."
+    "LBL_AUTO_DETECT_LINE_ENDINGS_HELP_TEXT": "Se recomanda activarea verificarilor de codare la importul fisierelor.",
+    "LBL_DOWNLOAD_CONFIG": "Download configuration"
   },
   "js": {
     "JS_SPEED_TEST_START": "Verificare viteza..."
