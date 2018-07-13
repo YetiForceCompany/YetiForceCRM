@@ -10,31 +10,32 @@
 ************************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-DashBoardContents gridster">
-		<ul>
-			{assign var=COLUMNS value=2}
-			{assign var=ROW value=1}
-			{assign var=COLCOUNT value=1}
-			{assign var=SPECIAL_WIDTGETS value=['ChartFilter', 'MiniList', 'Notebook', 'Rss']}
-			{foreach from=$WIDGETS item=WIDGET name=count}
-				{if $WIDGET->get('active') eq 0}
-					{continue}
-				{/if}
-				{assign var=WIDGETDOMID value=$WIDGET->get('linkid')}
-				{if in_array($WIDGET->getName(), $SPECIAL_WIDTGETS)}
-					{assign var=WIDGETDOMID value=$WIDGET->get('linkid')|cat:'-':$WIDGET->get('widgetid')}
-				{/if}
-				<li id="{$WIDGETDOMID}" {if $smarty.foreach.count.index % $COLUMNS == 0 and $smarty.foreach.count.index != 0} data-row="{$WIDGET->getPositionRow($ROW)}" {else} data-row="{$WIDGET->getPositionRow($ROW)}" {/if}
+	<div class="tpl-DashBoardContents grid-stack">
+		{assign var=COLUMNS value=2}
+		{assign var=ROW value=1}
+		{assign var=COLCOUNT value=1}
+		{assign var=SPECIAL_WIDTGETS value=['ChartFilter', 'MiniList', 'Notebook', 'Rss']}
+		{foreach from=$WIDGETS item=WIDGET name=count}
+			{if $WIDGET->get('active') eq 0}
+				{continue}
+			{/if}
+			{assign var=WIDGETDOMID value=$WIDGET->get('linkid')}
+			{if in_array($WIDGET->getName(), $SPECIAL_WIDTGETS)}
+				{assign var=WIDGETDOMID value=$WIDGET->get('linkid')|cat:'-':$WIDGET->get('widgetid')}
+			{/if}
+			<div class="grid-stack-item" data-gs-x="{$WIDGET->getPositionCol($COLCOUNT)}"
+				 data-gs-y="{$WIDGET->getPositionCol($COLCOUNT)}" data-gs-width="{$WIDGET->getWidth()}"
+				 data-gs-height="{$WIDGET->getHeight()}">
+				<div id="{$WIDGETDOMID}" {if $smarty.foreach.count.index % $COLUMNS == 0 and $smarty.foreach.count.index != 0} {/if}
 						{assign var=ROW value=$ROW+1}
 						{assign var=COLCOUNT value=($smarty.foreach.count.index % $COLUMNS)+1}
-					data-col="{$WIDGET->getPositionCol($COLCOUNT)}" data-sizex="{$WIDGET->getWidth()}"
-					data-sizey="{$WIDGET->getHeight()}"
-					class="dashboardWidget dashboardWidget_{$smarty.foreach.count.index}" data-url="{$WIDGET->getUrl()}"
-					data-mode="open" data-name="{$WIDGET->getName()}" data-cache="{$WIDGET->get('cache')}"
-					data-loader="widgetLoader">
-				</li>
-			{/foreach}
-		</ul>
+					 class="grid-stack-item-content dashboardWidget dashboardWidget_{$smarty.foreach.count.index}"
+					 data-url="{$WIDGET->getUrl()}"
+					 data-mode="open" data-name="{$WIDGET->getName()}" data-cache="{$WIDGET->get('cache')}"
+					 data-loader="widgetLoader">
+				</div>
+			</div>
+		{/foreach}
 		<input type="hidden" id=row value="{$ROW}"/>
 		<input type="hidden" id=col value="{$COLCOUNT}"/>
 	</div>

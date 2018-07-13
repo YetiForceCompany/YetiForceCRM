@@ -49,7 +49,8 @@ $.Class("Vtiger_DashBoard_Js", {
 	},
 	getContainer: function () {
 		if (this.noCache == true || this.container == false) {
-			this.container = $('.gridster ul');
+
+			this.container = $('.grid-stack');
 		}
 		return this.container;
 	},
@@ -79,7 +80,10 @@ $.Class("Vtiger_DashBoard_Js", {
 				}
 			}
 		};
-		Vtiger_DashBoard_Js.gridster = this.getContainer().gridster(options).data('gridster');
+		console.log('gridstac');
+		Vtiger_DashBoard_Js.gridster = this.getContainer().gridstack({
+			float: true
+		}).data('gridster');
 		// load widgets after gridster initialization to prevent too early lazy loading - visible viewport changes
 		this.loadWidgets();
 		// recalculate positions with scrollbars
@@ -87,8 +91,8 @@ $.Class("Vtiger_DashBoard_Js", {
 			const parentWidth = thisInstance.getContainer().parent().width();
 			this.getContainer().css('width', parentWidth + 'px');
 			options.widget_base_dimensions = [((parentWidth / 12) - 14), 100];
-			Vtiger_DashBoard_Js.gridster.options = $.extend(true, Vtiger_DashBoard_Js.gridster.options, options);
-			Vtiger_DashBoard_Js.gridster.generate_grid_and_stylesheet();
+			//Vtiger_DashBoard_Js.gridster.options = $.extend(true, Vtiger_DashBoard_Js.gridster.options, options);
+			//Vtiger_DashBoard_Js.gridster.generate_grid_and_stylesheet();
 		}
 	},
 	savePositions: function (widgets) {
@@ -126,6 +130,7 @@ $.Class("Vtiger_DashBoard_Js", {
 		var urlParams = widgetContainer.data('url');
 		var mode = widgetContainer.data('mode');
 		widgetContainer.progressIndicator();
+		console.log(mode);
 		if (mode === 'open') {
 			var name = widgetContainer.data('name');
 			var cache = widgetContainer.data('cache');

@@ -140,7 +140,9 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = [
-			'~libraries/gridster/dist/jquery.gridster.js',
+			'~libraries/lodash/lodash.js',
+			'~libraries/gridstack/dist/gridstack.js',
+			'~libraries/gridstack/dist/gridstack.jQueryUI.js',
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/hammerjs/hammer.js',
 			'~libraries/chartjs-plugin-funnel/dist/chart.funnel.js',
@@ -165,7 +167,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCss = [
-			'~libraries/gridster/dist/jquery.gridster.css',
+			'~libraries/gridstack/dist/gridstack.css',
 			'~libraries/fullcalendar/dist/fullcalendar.css',
 		];
 
