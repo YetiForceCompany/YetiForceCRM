@@ -1360,14 +1360,10 @@ jQuery.Class("Vtiger_List_Js", {
 	/*
 	 * function to register the click event event for create filter
 	 */
-	registerCreateFilterClickEvent: function (event) {
-		var thisInstance = this;
+	createFilterClickEvent: function (event) {
 		//to close the dropdown
-		thisInstance.getFilterSelectElement().data('select2').close();
-		var currentElement = jQuery(event.currentTarget);
-		var liElement = currentElement.find('#createFilter');
-		var createUrl = liElement.data('createurl');
-		Vtiger_CustomView_Js.loadFilterView(createUrl);
+		this.getFilterSelectElement().data('select2').close();
+		Vtiger_CustomView_Js.loadFilterView($(event.currentTarget).find('#createFilter').data('createurl'));
 	},
 	/*
 	 * Function to register the click event for duplicate filter
@@ -1794,7 +1790,7 @@ jQuery.Class("Vtiger_List_Js", {
 
 			var select2Instance = filterSelectElement.data('select2');
 			jQuery('.filterActionsDiv').appendTo(select2Instance.$dropdown.find('.select2-dropdown:last')).removeClass('d-none').on('click', function (e) {
-				thisInstance.registerCreateFilterClickEvent(e);
+				thisInstance.createFilterClickEvent(e);
 			});
 		}
 	},
