@@ -6,7 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-
+'use strict';
 
 jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 	//stores the module that need to be searched

@@ -6,6 +6,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
+
 jQuery.Class("Vtiger_Menu_Js", {
 	registerMenu: function () {
 		var largeNav = jQuery('#largeNavDiv nav').width();

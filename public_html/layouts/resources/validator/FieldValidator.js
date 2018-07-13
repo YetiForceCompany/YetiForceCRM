@@ -7,6 +7,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce Sp. z o.o.
  *************************************************************************************/
+'use strict';
+
 Vtiger_Base_Validator_Js("Vtiger_Email_Validator_Js", {
 	/**
 	 *Function which invokes field validation

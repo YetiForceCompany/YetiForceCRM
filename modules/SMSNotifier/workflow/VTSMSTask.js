@@ -6,6 +6,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
+'use strict';
+
 function SMSTask($) {
 	var map = fn.map;
 	var dict = fn.dict;

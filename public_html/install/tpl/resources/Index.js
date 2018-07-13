@@ -7,6 +7,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
+'use strict';
+
 jQuery.Class('Install_Index_Js', {
 	fieldsCached : ['db_hostname','db_username','db_name', 	'create_db',
 		'db_root_username',	'currency_name','firstname','lastname',	'admin_email',
