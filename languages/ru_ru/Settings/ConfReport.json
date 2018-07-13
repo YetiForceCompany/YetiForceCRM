@@ -146,7 +146,8 @@
     "LBL_PUBLIC_DIR": "Directory path",
     "LBL_DENY_PUBLIC_DIR_STATUS": "Is access denied?",
     "LBL_DENY_PUBLIC_DIR_HELP_TEXT": "It is recommended to deny access to this directory. Currently, the directory is publicly accessible and its content is not protected.",
-    "LBL_AUTO_DETECT_LINE_ENDINGS_HELP_TEXT": "It is recommended to enable coding checks when importing files."
+    "LBL_AUTO_DETECT_LINE_ENDINGS_HELP_TEXT": "It is recommended to enable coding checks when importing files.",
+    "LBL_DOWNLOAD_CONFIG": "Download configuration"
   },
   "js": {
     "JS_SPEED_TEST_START": "\u041f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u043c \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u044c..."
