@@ -76,14 +76,15 @@ $.Class("Vtiger_DashBoard_Js", {
 			max_size_x: 12,
 			draggable: {
 				'stop': function () {
-					thisInstance.savePositions($('.dashboardWidget'));
+					thisInstance.savePositions($('.grid-stack-item'));
 				}
 			}
 		};
 		console.log('gridstac');
-		Vtiger_DashBoard_Js.gridster = this.getContainer().gridstack({
-			float: true
-		}).data('gridster');
+		Vtiger_DashBoard_Js.gridster = this.getContainer().gridstack().data('gridster');
+		$('.grid-stack').on('dragstop', function (event, ui) {
+			thisInstance.savePositions($('.grid-stack-item'));
+		});
 		// load widgets after gridster initialization to prevent too early lazy loading - visible viewport changes
 		this.loadWidgets();
 		// recalculate positions with scrollbars
@@ -96,6 +97,7 @@ $.Class("Vtiger_DashBoard_Js", {
 		}
 	},
 	savePositions: function (widgets) {
+		console.log(widgets);
 		var widgetRowColPositions = {};
 		for (var index = 0, len = widgets.length; index < len; ++index) {
 			var widget = $(widgets[index]);
@@ -130,7 +132,6 @@ $.Class("Vtiger_DashBoard_Js", {
 		var urlParams = widgetContainer.data('url');
 		var mode = widgetContainer.data('mode');
 		widgetContainer.progressIndicator();
-		console.log(mode);
 		if (mode === 'open') {
 			var name = widgetContainer.data('name');
 			var cache = widgetContainer.data('cache');
