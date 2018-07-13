@@ -7,6 +7,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
+
 jQuery.Class("Vtiger_List_Js", {
 	listInstance: false,
 	getRelatedModulesContainer: false,
