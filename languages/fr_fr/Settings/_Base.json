@@ -227,7 +227,7 @@
     "LBL_SECURITY_MANAGEMENT": "S\u00e9curit\u00e9",
     "LBL_MAIL_TOOLS": "Outils Mail",
     "LBL_PASSWORD_CONF": "Configuration - Mots de passe",
-    "LBL_2FA_CONF": "Two-factor authentication",
+    "LBL_2FA_CONF": "Multi-factor authentication",
     "LBL_PASSWORD_DESCRIPTION": "Param\u00e8trer la complexit\u00e9 du mot de passe des utilisateurs",
     "LBL_ARRANGE_RELATED_TABS": "Ordonner les onglets li\u00e9s",
     "LangManagement": "Editeur de langue",
