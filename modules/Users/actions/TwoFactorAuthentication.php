@@ -109,7 +109,7 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 		$recordsList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		foreach ($recordsList as $userId) {
 			$userRecordModel = Users_Record_Model::getInstanceById($userId, 'Users');
-			if ($userRecordModel->get('authy_methods')==='PLL_AUTHY_TOTP' && !empty($userRecordModel->get('authy_secret_totp'))) {
+			if ($userRecordModel->get('authy_methods') === 'PLL_AUTHY_TOTP' && !empty($userRecordModel->get('authy_secret_totp'))) {
 				$userRecordModel->set('authy_secret_totp', '');
 				$userRecordModel->set('authy_methods', '');
 				$userRecordModel->save();
