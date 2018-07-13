@@ -151,7 +151,7 @@
     "LBL_SECURITY_MANAGEMENT": "Security",
     "LBL_MAIL_TOOLS": "Mail tools",
     "LBL_PASSWORD_CONF": "Passwords - Configuration",
-    "LBL_2FA_CONF": "Two-factor authentication",
+    "LBL_2FA_CONF": "Multi-factor authentication",
     "LBL_PASSWORD_DESCRIPTION": "Set complexities of the password for users of the software",
     "LBL_LOGS_MANAGEMENT": "Logs",
     "LBL_ARRANGE_RELATED_TABS": "Arrange related tabs",
