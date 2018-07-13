@@ -151,7 +151,7 @@
     "LBL_SECURITY_MANAGEMENT": "Seguran\u00e7a",
     "LBL_MAIL_TOOLS": "Ferramentas de Correio",
     "LBL_PASSWORD_CONF": "Senhas - Configura\u00e7\u00e3o",
-    "LBL_2FA_CONF": "Two-factor authentication",
+    "LBL_2FA_CONF": "Multi-factor authentication",
     "LBL_PASSWORD_DESCRIPTION": "Defina a complexidade da senha para os Usu\u00e1rios do software",
     "LBL_LOGS_MANAGEMENT": "Logs",
     "LBL_ARRANGE_RELATED_TABS": "Organizar Abas Relacionadas",
