@@ -346,7 +346,8 @@
     "FL_AUTHY_SECRET_TOTP": "Klucz prywatny (TOTP)",
     "PLL_PASSWORD": "Has\u0142o",
     "PLL_LDAP": "LDAP",
-    "PLL_PASSWORD_2FA": "Has\u0142o + 2FA"
+    "PLL_PASSWORD_2FA": "Has\u0142o + 2FA",
+    "BTN_MASS_OFF_2FA": "Masowe wy\u0142\u0105czanie 2FA"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Separator dziesi\u0119tny i grupowania nie mog\u0105 by\u0107 takie same",
@@ -354,6 +355,7 @@
     "JS_REENTER_PASSWORDS": "Wpisz has\u0142a ponownie. Nowe has\u0142o i potwierdzenie has\u0142a nie s\u0105 identyczne.",
     "JS_NEW_ACCESS_KEY_REQUESTED": "Wprowad\u017a nowy klucz dost\u0119pu",
     "JS_CHANGE_ACCESS_KEY_CONFIRMATION": "Za\u017c\u0105dano nowego klucza dost\u0119powego. Z nowego przepisu klucz dost\u0119pu, trzeba zast\u0105pi\u0107 stary klucz dost\u0119pu z now\u0105 we wszystkich zainstalowanych rozszerze\u0144. chcesz kontynuowa\u0107?",
-    "JS_2FA_OFF_CONFIRMATION": "Czy na pewno wy\u0142\u0105czy uwierzytelnianie dwuetapowe dla u\u017cytkownika?"
+    "JS_2FA_OFF_CONFIRMATION": "Czy na pewno wy\u0142\u0105czy uwierzytelnianie dwuetapowe dla u\u017cytkownika?",
+    "JS_2FA_OFF_IN_PROGRESS": "Trwa wy\u0142\u0105czanie uwierzytelnienia dwu etapowego"
   }
 }

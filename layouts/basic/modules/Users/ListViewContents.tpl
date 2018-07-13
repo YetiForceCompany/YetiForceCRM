@@ -123,7 +123,7 @@
 											<span class="sr-only">{\App\Language::translate('LBL_DUPLICATE', $MODULE)}</span>
 										</a>&nbsp;
 										{if !empty($LISTVIEW_ENTRY->get('authy_secret_totp')) }
-											<a onclick="Settings_Users_List_Js.off2FA({$LISTVIEW_ENTRY->getId()}, event);">
+											<a onclick="Settings_Users_List_Js.triggerOff2FA({$LISTVIEW_ENTRY->getId()}, event);">
 												<span class="fas fa-rocket align-middle"
 													  title="{\App\Language::translate('LBL_2FA_OFF', $MODULE)}"></span>
 												<span class="sr-only">{\App\Language::translate('LBL_2FA_OFF', $MODULE)}</span>
