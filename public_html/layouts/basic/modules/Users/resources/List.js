@@ -182,38 +182,6 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 			});
 	},
 	/*
-	 *Function to off 2FA
-	 *@param userId, event
-	 */
-	triggerOff2FA: function (userId, e) {
-		let url = window.location.href;
-		e.stopPropagation();
-		Vtiger_Helper_Js.showConfirmationBox({
-			'message': app.vtranslate('JS_2FA_OFF_CONFIRMATION')
-		}).done( () => {
-			let progressInstance = jQuery.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
-				}
-			});
-			AppConnector.request({
-					'module': "Users",
-					'action': "TwoFactorAuthentication",
-					'userid': userId,
-					'mode': 'off'
-			}).done( (response) => {
-				if (response.success) {
-					progressInstance.progressIndicator({
-						'mode': 'hide'
-					});
-					Vtiger_Helper_Js.showPnotify(response.result.message);
-					window.location.href = url;
-				}
-			});
-		});
-	},
-	/*
 	 *Function to mass off 2FA
 	 */
 	triggerMassOff2FA: function(){
