@@ -35,6 +35,11 @@ class Credits
 		'microplugin' => 'Apache-2.0',
 		'@fortawesome/fontawesome-free-regular' => 'MIT',
 		'@fortawesome/fontawesome-free-solid' => 'MIT',
+		'@fortawesome/fontawesome-free-brands' => 'MIT',
+		'fontawesome-web' => 'MIT',
+		'svg' => 'MIT',
+		'jquery-timers' => 'WTFPL',
+		'bootstrap-tabdrop' => 'Apache-2.0',
 	];
 	/**
 	 * Information about forks CRM.
@@ -175,6 +180,7 @@ class Credits
 			if (file_exists($packageFile)) {
 				$packageFileContent = \App\Json::decode(file_get_contents($packageFile), true);
 				$license = $packageFileContent['license'] ?? $packageFileContent['licenses'];
+
 				if ($license) {
 					if (is_array($license)) {
 						if (is_array($license[0]) && isset($license[0]['type'])) {
@@ -204,6 +210,11 @@ class Credits
 						$returnLicense = static::$licenses[$libraryName];
 						$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
 					}
+				}
+			} else {
+				if (isset(static::$licenses[$libraryName])) {
+					$returnLicense = static::$licenses[$libraryName];
+					$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
 				}
 			}
 		}
