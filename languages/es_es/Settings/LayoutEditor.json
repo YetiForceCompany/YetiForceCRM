@@ -164,6 +164,11 @@
     "LBL_EDIT_VIEW": "Crear y Editar",
     "LBL_DETAIL_VIEW": "Vista de detalle y vista de resumen",
     "LBL_QUICK_CREATE_VIEW": "Creaci\u00f3n r\u00e1pida",
+    "LBL_INTEGER": "Integer",
+    "LBL_INTEGER_DESC": "",
+    "LBL_BOOLEAN": "Checkbox",
+    "LBL_BOOLEAN_DESC": "",
+    "LBL_DATE": "Date",
     "Image": "\"img_\" - Imagen",
     "DateTime": "\"datetime_\" - fecha y hora"
   },
