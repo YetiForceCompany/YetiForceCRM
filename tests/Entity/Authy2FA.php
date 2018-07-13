@@ -29,6 +29,7 @@ class Authy2FA extends \Tests\Base
 	private static $systemMode;
 
 	/**
+	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
 	public static function setUpBeforeClass()
@@ -87,6 +88,7 @@ class Authy2FA extends \Tests\Base
 	}
 
 	/**
+	 * @codeCoverageIgnore
 	 * Cleaning after tests.
 	 */
 	public static function tearDownAfterClass()
