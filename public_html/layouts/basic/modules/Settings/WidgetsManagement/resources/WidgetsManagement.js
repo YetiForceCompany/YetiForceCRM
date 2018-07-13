@@ -32,10 +32,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	 * Function to create the array of block roles list
 	 */
 	getAuthorization: function () {
-		var thisInstance = this;
-		var authorization = [];
-		continer = jQuery('#moduleBlocks');
-		continer.find('.editFieldsTable').each(function () {
+		let thisInstance = this,
+			authorization = [],
+			container = jQuery('#moduleBlocks');
+		container.find('.editFieldsTable').each(function () {
 			authorization.push(jQuery(this).data('code'));
 		});
 		return authorization;
@@ -419,7 +419,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	},
 	registerEditFieldDetailsClick: function (contents = null) {
 		const thisInstance = this;
-		if(!contents) {
+		if (!contents) {
 			contents = jQuery('#layoutDashBoards');
 		}
 		contents.find('.editFieldDetails').on('click', function (e) {
@@ -731,8 +731,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			if (typeof filterLabel !== 'undefined' && filterLabel !== null && filterLabel !== '') {
 				paramsForm['label'] += ' - ' + filterLabel;
 			}
-			if(typeof fieldLabel!=='undefined' && fieldLabel!==null && fieldLabel!==''){
-				paramsForm['label']+= ' - ' + fieldLabel;
+			if (typeof fieldLabel !== 'undefined' && fieldLabel !== null && fieldLabel !== '') {
+				paramsForm['label'] += ' - ' + fieldLabel;
 			}
 			paramsForm['name'] = 'ChartFilter';
 			paramsForm['filterid'] = filterid;
