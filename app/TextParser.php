@@ -768,6 +768,7 @@ class TextParser
 		}
 		if ($columns) {
 			$listView->getQueryGenerator()->setFields(explode(',', $columns));
+			$listView->getQueryGenerator()->setField('id');
 		}
 		if ($conditions) {
 			$transformedSearchParams = $listView->getQueryGenerator()->parseBaseSearchParamsToCondition(Json::decode($conditions));
@@ -788,7 +789,7 @@ class TextParser
 			}
 			$rows .= '</tr>';
 		}
-		return empty($rows) ? '' : "<table><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
+		return empty($rows) ? '' : "<table class=\"recordsList\"><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
 	}
 
 	/**
