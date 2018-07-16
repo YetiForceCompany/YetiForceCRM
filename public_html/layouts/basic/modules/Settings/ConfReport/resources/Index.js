@@ -6,7 +6,7 @@ jQuery.Class("Settings_ConfReport_Index_Js", {}, {
 	 * Shows or hides block informing about supported currencies by presently chosen bank
 	 */
 	registerTestButton: function (container) {
-		container.find('.testSpeed').on('click', function () {
+		container.find('.js-test-speed').on('click', function () {
 			var progress = jQuery.progressIndicator({
 				message: app.vtranslate('JS_SPEED_TEST_START'),
 				position: 'html',
@@ -19,9 +19,7 @@ jQuery.Class("Settings_ConfReport_Index_Js", {}, {
 				module: 'ConfReport',
 				view: 'Speed'
 			}).done(function (response) {
-				app.showModalWindow(response, function (data) {
-
-				});
+				app.showModalWindow(response);
 				progress.progressIndicator({mode: 'hide'});
 			}).fail(function (data, err) {
 				progress.progressIndicator({mode: 'hide'});

@@ -6,11 +6,12 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 		<div class="col-12 col-md-4 col-sm-5 align-items-center d-sm-flex justify-content-end text-center text-sm-right">
-			{*<button class="btn btn-primary testSpeed float-right">*}
-			{*<span class="fab fa-cloudscale"></span>*}
-			{*{App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}*}
-			{*</button>*}
-			<button id="download-image" class="btn btn-outline-dark"><span class="fas fa-download"></span> {\App\Language::translate('LBL_DOWNLOAD_CONFIG', $MODULE)}</button>
+			<button class="btn btn-primary js-test-speed float-right mr-lg-1" data-js="click">
+				<span class="fas fa-stopwatch mr-lg-1"></span>{App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}
+			</button>
+			<button id="download-image" class="btn btn-outline-dark"><span
+						class="fas fa-download"></span> {\App\Language::translate('LBL_DOWNLOAD_CONFIG', $MODULE)}
+			</button>
 		</div>
 	</div>
 	<div class="badge badge-info my-2">
@@ -18,9 +19,11 @@
 	</div>
 	<ul class="nav nav-tabs">
 		<li class="nav-item">
-			<a class="nav-link active" data-toggle="tab" href="#Configuration">{App\Language::translate('LBL_YETIFORCE_ENGINE', $MODULE)}</a>
+			<a class="nav-link active" data-toggle="tab"
+			   href="#Configuration">{App\Language::translate('LBL_YETIFORCE_ENGINE', $MODULE)}</a>
 		</li>
-		<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Permissions">{App\Language::translate('LBL_FILES_PERMISSIONS', $MODULE)}</a></li>
+		<li class="nav-item"><a class="nav-link" data-toggle="tab"
+								href="#Permissions">{App\Language::translate('LBL_FILES_PERMISSIONS', $MODULE)}</a></li>
 	</ul>
 	<div class="tab-content">
 		<div id="Configuration" class="tab-pane fade in active show">

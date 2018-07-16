@@ -449,6 +449,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$cliConf = static::getPhpIniConfCron();
 		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		$params = [
+			'LBL_CRM_VERSION' => \App\Version::get(),
+			'LBL_CRM_DATE' => \App\Version::get('patchVersion'),
 			'LBL_OPERATING_SYSTEM' => \AppConfig::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
 			'LBL_SERVER_SOFTWARE' => $_SERVER['SERVER_SOFTWARE']??'-',
 			'LBL_TMP_DIR' => App\Fields\File::getTmpPath(),
@@ -550,25 +552,39 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (!is_dir($dir)) {
 			mkdir($dir, 0755);
 		}
-		$i = 5000;
-		$p = time();
-		$writeS = microtime(true);
-		for ($index = 0; $index < $i; ++$index) {
-			file_put_contents("{$dir}{$p}{$index}.php", '<?php return [];');
+		$testStartTime = microtime(true);
+		$ram = $cpu =  $filesWrite = 0;
+		while ((microtime(true) - $testStartTime) < 1) {
+			file_put_contents("{$dir}{$testStartTime}{$filesWrite}.txt", $testStartTime);
+			$filesWrite++;
 		}
-		$writeE = microtime(true);
 		$iterator = new \DirectoryIterator($dir);
 		$readS = microtime(true);
 		foreach ($iterator as $item) {
-			if (!$item->isDot() && !$item->isDir()) {
-				include $item->getPathname();
+			if ($item->isFile()) {
+				file_get_contents($item->getPathname());
 			}
 		}
-		$readE = microtime(true);
-		$read = $i / ($readE - $readS);
-		$write = $i / ($writeE - $writeS);
+		$filesRead = $filesWrite / (microtime(true) - $readS);
+		$testStartTime = microtime(true);
+		while ((microtime(true) - $testStartTime) < 1) {
+			sha1($cpu);
+			$cpu++;
+		}
+		$testStartTime = microtime(true);
+		$test = [];
+		while ((microtime(true) - $testStartTime) < 1) {
+			$test[] = [[[$ram]]];
+			unset($test);
+			$ram++;
+		}
 		\vtlib\Functions::recurseDelete('cache/speed');
-		return ['FilesRead' => number_format($read, 0, '', ' '), 'FilesWrite' => number_format($write, 0, '', ' ')];
+		return [
+			'FilesRead' => (int) $filesRead,
+			'FilesWrite' => $filesWrite,
+			'CPU' => $cpu,
+			'RAM' => $ram
+		];
 	}
 
 	/**

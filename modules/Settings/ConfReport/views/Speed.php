@@ -4,17 +4,22 @@
  * Speed test view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Settings_ConfReport_Speed_View extends Vtiger_BasicModal_View
+class Settings_ConfReport_Speed_View extends \App\Controller\Modal
 {
 	/**
-	 * Function to check permission.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedForAdmin
+	 * {@inheritdoc}
+	 */
+	public $successBtn = false;
+	/**
+	 * {@inheritdoc}
+	 */
+	public $modalIcon = 'fas fa-stopwatch';
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -23,6 +28,9 @@ class Settings_ConfReport_Speed_View extends Vtiger_BasicModal_View
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$qualifiedModule = $request->getModule(false);
@@ -30,5 +38,13 @@ class Settings_ConfReport_Speed_View extends Vtiger_BasicModal_View
 		$viewer->assign('TESTS', Settings_ConfReport_Module_Model::testSpeed());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->view('Speed.tpl', $qualifiedModule);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPageTitle(\App\Request $request)
+	{
+		return \App\Language::translate('LBL_SERVER_SPEED_TEST', $request->getModule(false));
 	}
 }
