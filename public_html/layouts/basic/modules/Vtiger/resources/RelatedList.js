@@ -198,6 +198,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				thisInstance.content.html(responseData);
 				$('.pageNumbers', thisInstance.content).tooltip();
 				thisInstance.registerPostLoadEvents();
+				thisInstance.registerListEvents();
 				if (thisInstance.listSearchInstance) {
 					thisInstance.listSearchInstance.registerBasicEvents();
 				}
@@ -728,7 +729,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.content.on('click', '.relatedListHeaderValues', function (e) {
 			thisInstance.sortHandler($(this));
 		});
-		this.content.on('click', 'a.favorites', function (e) {
+		this.content.find('a.favorites').on('click', function (e) {
 			var progressInstance = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
@@ -765,7 +766,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			}
 			thisInstance.addRelatedRecord(element);
 		});
-		this.content.on('click', 'button.selectRelation', function (e) {
+		this.content.find('button.selectRelation').on('click', function (e) {
 			let restrictionsField = $(this).data('rf');
 			let params = {};
 			if (restrictionsField && Object.keys(restrictionsField).length > 0) {
@@ -776,7 +777,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			}
 			thisInstance.showSelectRelation(params);
 		});
-		this.content.on('click', 'button.relationDelete', function (e) {
+		this.content.find('button.relationDelete').on('click', function (e) {
 			e.stopImmediatePropagation();
 			var element = $(this);
 			Vtiger_Helper_Js.showConfirmationBox({message: app.vtranslate('JS_DELETE_CONFIRMATION')}).done(function (e) {
@@ -801,10 +802,10 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				});
 			});
 		});
-		this.content.on('change', '.js-switch--calendar', function (e) {
+		this.content.find('.js-switch--calendar').on('change', function (e) {
 			thisInstance.loadRelatedList();
 		});
-		this.content.on('click', '.relatedViewGroup a', function (e) {
+		this.content.find('.relatedViewGroup a').on('click', function (e) {
 			var element = $(this);
 			thisInstance.relatedView = element.data('view');
 			relatedContent.find('.pagination').data('totalCount', 0);
