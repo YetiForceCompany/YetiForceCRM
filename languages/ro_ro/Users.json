@@ -343,13 +343,16 @@
     "PLL_PASSWORD": "Password",
     "PLL_LDAP": "LDAP",
     "PLL_PASSWORD_2FA": "Password + 2FA",
-    "BTN_MASS_OFF_2FA": "Mass disable 2FA"
+    "BTN_MASS_OFF_2FA": "Mass disable 2FA",
+    "LBL_2FA_TOTP_INFO_IN_DEMO": "In demo mode, 2FA is for preview only."
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Separatorul de zecimale si separatorul de grupuri nu poate fi acelasi.",
     "JS_ENTER_CONFIRMATION_PASSWORD": "Va rugam introduceti confirmarea parolei dvs.",
     "JS_REENTER_PASSWORDS": "Va rugam reintroduceti parolele. Valorile din \\\"Noua parola\\\" si \\\"Confirmarea parolei\\\" nu se potrivesc.",
     "JS_NEW_ACCESS_KEY_REQUESTED": "Introduceti o noua cheie de acces",
-    "JS_CHANGE_ACCESS_KEY_CONFIRMATION": "O noua cheie de acces a fost solicitata. Vechea cheie de acces trebuie inlocuita cu una noua in toate extensiile instalate. Sigur doriti sa continuati?"
+    "JS_CHANGE_ACCESS_KEY_CONFIRMATION": "O noua cheie de acces a fost solicitata. Vechea cheie de acces trebuie inlocuita cu una noua in toate extensiile instalate. Sigur doriti sa continuati?",
+    "JS_2FA_OFF_CONFIRMATION": "Are you sure you want to disable two-factor authentication for this user?",
+    "JS_2FA_OFF_IN_PROGRESS": "Disabling two-factor authentication in progress"
   }
 }
