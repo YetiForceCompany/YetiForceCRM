@@ -858,15 +858,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * Function to register Event for Sorting
 	 */
 	registerEventForRelatedList: function () {
-		const thisInstance = this;
-		let detailContentsHolder = this.getContentHolder();
-		const relatedModuleName = thisInstance.getRelatedModuleName();
+		var thisInstance = this;
+		var detailContentsHolder = this.getContentHolder();
+		var relatedModuleName = thisInstance.getRelatedModuleName();
 		if (relatedModuleName) {
-			Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), relatedModuleName).setRelatedContainer(detailContentsHolder);
+			var relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), relatedModuleName);
+			relatedController.setRelatedContainer(detailContentsHolder);
+			relatedController.registerRelatedEvents();
 		}
 		detailContentsHolder.find('.detailViewBlockLink').each(function (n, block) {
 			block = $(block);
-			const blockContent = block.find('.blockContent');
+			var blockContent = block.find('.blockContent');
 			if (blockContent.is(':visible')) {
 				AppConnector.request({
 					type: 'GET',
@@ -874,16 +876,16 @@ jQuery.Class("Vtiger_Detail_Js", {
 					data: block.data('url')
 				}).done(function (response) {
 					blockContent.html(response);
-					const relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), block.data('reference'));
+					var relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), block.data('reference'));
 					relatedController.setRelatedContainer(blockContent);
 					relatedController.registerRelatedEvents();
 				});
 			}
 		});
 		detailContentsHolder.find('.detailViewBlockLink .blockHeader').on('click', function () {
-			const block = $(this).closest('.js-toggle-panel');
-			const blockContent = block.find('.blockContent');
-			const isEmpty = blockContent.is(':empty');
+			var block = $(this).closest('.js-toggle-panel');
+			var blockContent = block.find('.blockContent');
+			var isEmpty = blockContent.is(':empty');
 			if (!blockContent.is(':visible')) {
 				blockContent.progressIndicator();
 				AppConnector.request({
@@ -892,7 +894,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					data: block.data('url')
 				}).done(function (response) {
 					blockContent.html(response);
-					const relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), block.data('reference'));
+					var relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), block.data('reference'));
 					relatedController.setRelatedContainer(blockContent);
 					if (isEmpty) {
 						relatedController.registerRelatedEvents();
