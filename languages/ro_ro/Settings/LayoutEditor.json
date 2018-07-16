@@ -168,6 +168,9 @@
     "LBL_BOOLEAN": "Checkbox",
     "LBL_BOOLEAN_DESC": "",
     "LBL_DATE": "Date",
+    "LBL_DATE_DESC": "",
+    "LBL_PICKLIST": "Picklist",
+    "LBL_PICKLIST_DESC": "",
     "Image": "Fisier imagine",
     "MultiImage": "Fisiere multi imagine",
     "DateTime": "Fisier data si ora"
