@@ -207,7 +207,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 					}
 					return datasets;
 				};
-				const data = chart.data;
 				let datasetsMeta = getDatasetsMeta(chart);
 				let datasets = chart.data.datasets;
 				for (let i = 0, len = datasets.length; i < len; i++) {
@@ -240,7 +239,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 							const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
 							const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
 							const barHeight = dataItem.height();
-							if (dataItem._view.width < labelWidth || barHeight < labelHeight) {
+							let threshold = 10;
+							if (typeof chart.config.options.verticalBarLabelsThreshold !== 'undefined') {
+								threshold = chart.config.options.verticalBarLabelsThreshold;
+							}
+							if (dataItem._view.width + threshold < labelWidth || barHeight + threshold < labelHeight) {
 								dataItem.$datalabels._model = null;
 							} else {
 								dataItem.$datalabels._model = model;
@@ -268,7 +271,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 					}
 					return datasets;
 				};
-				const data = chart.data;
 				let datasetsMeta = getDatasetsMeta(chart);
 				let datasets = chart.data.datasets;
 				for (let i = 0, len = datasets.length; i < len; i++) {
@@ -301,7 +303,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 							const labelWidth = model.size.width + model.padding.width + model.borderWidth * 2;
 							const labelHeight = model.size.height + model.padding.height + model.borderWidth * 2;
 							const barWidth = dataItem.width;
-							if (dataItem._view.height < labelHeight || barWidth < labelWidth) {
+							let threshold = 10;
+							if (typeof chart.config.options.horizontalBarLabelsThreshold !== 'undefined') {
+								threshold = chart.config.options.horizontalBarLabelsThreshold;
+							}
+							if (dataItem._view.height + threshold < labelHeight || barWidth + threshold < labelWidth) {
 								dataItem.$datalabels._model = null;
 							} else {
 								dataItem.$datalabels._model = model;
