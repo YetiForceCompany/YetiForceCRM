@@ -1632,6 +1632,7 @@
     "JS_INVALID_FILE_TYPE": "Tip fisier invalid",
     "JS_AVAILABLE_FILE_TYPES": "Tipuri fisiere disponibile",
     "JS_FILE_LIMIT": "Numarul maxim de fisiere a fost depasit",
-    "JS_WAIT_FOR_FILE_UPLOAD": "Asteptati ca fisierele sa fie incarcate"
+    "JS_WAIT_FOR_FILE_UPLOAD": "Asteptati ca fisierele sa fie incarcate",
+    "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Change company name. The name of YetiForce company is reserved."
   }
 }
