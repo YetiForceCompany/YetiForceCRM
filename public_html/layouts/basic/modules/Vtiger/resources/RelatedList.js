@@ -757,8 +757,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				}
 			});
 		});
-		this.content.on('click', '[name="addButton"]', function (e) {
-			var element = $(this);
+		this.content.find('[name="addButton"]').on('click', function (e) {
+			const element = $(this);
 			if (element.hasClass('quickCreateSupported') != true) {
 				window.location.href = element.data('url');
 				return;
@@ -1101,6 +1101,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		}
 	},
 	registerRelatedEvents: function () {
+		//debugger
 		var relatedContainer = this.getRelatedContainer();
 		this.registerUnreviewedCountEvent();
 		this.registerChangeEntityStateEvent();
