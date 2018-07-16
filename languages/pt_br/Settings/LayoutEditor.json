@@ -166,6 +166,9 @@
     	"LBL_BOOLEAN": "Checkbox",
     	"LBL_BOOLEAN_DESC": "",
     	"LBL_DATE": "Date",
+	"LBL_DATE_DESC": "",
+    	"LBL_PICKLIST": "Picklist",
+    	"LBL_PICKLIST_DESC": "",
 	"Image": "Image file",
     	"MultiImage": "Multi image files",
     	"DateTime": "Date and time file"
