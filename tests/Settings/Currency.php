@@ -65,18 +65,9 @@ class Currency extends \Tests\Base
 	public function testListViewModel()
 	{
 		$model = \Settings_Currency_ListView_Model::getInstance();
-		$this->assertInstanceOf('App\Db\Query', $model->getBasicListQuery(), 'Query object expected.');
-	}
-
-	/**
-	 * Testing Module model functions.
-	 */
-	public function testModuleModel()
-	{
-		$model = \Settings_Currency_Module_Model::getInstance('Settings:Currency');
-		$this->assertFalse($model->isPagingSupported(), 'Expected paging supported flag is false');
-		$this->assertNotEmpty($model->getCreateRecordUrl(), 'Expected create record url is not empty');
-		$this->assertNotEmpty($model->getBaseTable(), 'Expected base table is not empty');
+		$basicListQuery = $model->getBasicListQuery();
+		$this->assertInstanceOf('App\Db\Query', $basicListQuery, 'Query object expected.');
+		$this->assertNotEmpty($basicListQuery->createCommand()->execute(), 'Query execute should return any result');
 	}
 
 	/**
@@ -87,7 +78,6 @@ class Currency extends \Tests\Base
 		$recordModel = \Settings_Currency_Record_Model::getInstance(static::$id);
 		$this->assertNotNull($recordModel, 'Expected recordModel is not empty');
 		$this->assertNotEmpty($recordModel->getName(), 'Expected name is not empty');
-		$this->assertNotEmpty($recordModel->getName(), 'Expected name is not empty');
 		$this->assertFalse($recordModel->isBaseCurrency(), 'Expected that record is not base currency');
 		$this->assertInternalType('array', $recordModel->getRecordLinks(), 'Expected that record links is always array type');
 		$this->assertSame($recordModel->getDeleteStatus(), 0, 'Expected that delete status of record is 0');
@@ -95,8 +85,17 @@ class Currency extends \Tests\Base
 		$allRecords = \Settings_Currency_Record_Model::getAll();
 		$this->assertInternalType('array', $allRecords, 'Expected that all records result is always array type');
 		$this->assertNotEmpty($allRecords, 'Expected that all records result is not empty');
+		$testRecord = array_pop($allRecords);
+		if ($testRecord) {
+			$this->assertInstanceOf('Settings_Currency_Record_Model', $testRecord, 'Instance type mismatch');
+		}
 		$allNonmappedRecords = \Settings_Currency_Record_Model::getAllNonMapped();
 		$this->assertInternalType('array', $allNonmappedRecords, 'Expected that all non mapped records result is always array type');
+		$this->assertNotEmpty($allNonmappedRecords, 'Expected that all non mapped records result is not empty');
+		$testNonmappedRecord = array_pop($allNonmappedRecords);
+		if ($testNonmappedRecord) {
+			$this->assertInstanceOf('Settings_Currency_Record_Model', $testNonmappedRecord, 'Instance type mismatch');
+		}
 	}
 
 	/**
