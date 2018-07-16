@@ -58,7 +58,25 @@ class ConfReport extends \Tests\Base
 	/**
 	 * Testing system performance.
 	 */
-	public function testSpeed() {
-		$this -> assertNotEmpty(\Settings_ConfReport_Module_Model::testSpeed());
+	public function testSpeed()
+	{
+		$this->assertNotEmpty(\Settings_ConfReport_Module_Model::testSpeed());
+	}
+
+	/**
+	 * Testing getDenyPublicDirState method.
+	 */
+	public function testGetDenyPublicDirState()
+	{
+		$this->assertNotEmpty(\Settings_ConfReport_Module_Model::getDenyPublicDirState(), 'getDenyPublicDirState data should be not empty');
+		$this->assertTrue(is_array(\Settings_ConfReport_Module_Model::getDenyPublicDirState()), 'getDenyPublicDirState returned data type should be array even if empty');
+	}
+
+	/**
+	 * Testing getPermissionsFiles method.
+	 */
+	public function getPermissionsFiles()
+	{
+		$this->assertTrue(is_array(\Settings_ConfReport_Module_Model::getPermissionsFiles(false)), 'getPermissionsFiles returned data type should be array even if empty');
 	}
 }
