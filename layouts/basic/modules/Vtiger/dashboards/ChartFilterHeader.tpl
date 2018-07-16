@@ -35,8 +35,7 @@
 			{/if}
 			{if $COUNTER % 2 === 0}<div class="row">{/if}
 				<div class="col-md-6">
-					{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME)
-					FIELD_MODEL=$FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
+					{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE=$WIDGET_DATA['module']}
 				</div>
 			{if $COUNTER % 2 !==0 || $COUNTER===count($ADDITIONAL_FILTERS_FIELDS)-1}</div>{/if}
 		{/foreach}
