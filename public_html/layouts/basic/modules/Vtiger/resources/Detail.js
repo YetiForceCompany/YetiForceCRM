@@ -1186,10 +1186,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 
 
-			var QuickCreateParams = {};
+			let QuickCreateParams = {};
 			QuickCreateParams['callbackPostShown'] = preQuickCreateSave;
 			QuickCreateParams['callbackFunction'] = callbackFunction;
-			QuickCreateParams['data'] = {...customParams};
+			QuickCreateParams['data'] = Object.assign({},customParams);
 			QuickCreateParams['noCache'] = false;
 			Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, QuickCreateParams);
 		});
