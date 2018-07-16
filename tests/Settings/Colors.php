@@ -141,8 +141,6 @@ class Colors extends \Tests\Base
 	 */
 	public function testAddPicklistColorColumn()
 	{
-		$moduleId = \App\Module::getModuleId('ServiceContracts');
-		$fieldId = (new\App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid' => $moduleId,'fieldname'=>'contract_priority'])->scalar();
 		$db = \App\Db::getInstance();
 		$tableSchema = $db->getSchema()->getTableSchema('vtiger_contract_priority', true);
 		$this->assertNotEmpty($tableSchema,'Table vtiger_contract_priority not exists');
@@ -150,7 +148,7 @@ class Colors extends \Tests\Base
 			$column = $tableSchema->getColumn((string)'color');
 			$this -> assertEmpty($column, 'column color in vtiger_contract_priority should not exists');
 			if (is_null($column)) {
-				\App\Colors::addPicklistColorColumn($fieldId);
+				\App\Colors::addPicklistColorColumn((new\App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId('ServiceContracts'), 'fieldname' => 'contract_priority'])->scalar());
 				\App\Cache::clear();
 				$tableSchema = $db->getSchema()->getTableSchema('vtiger_contract_priority', true);
 				$column = $tableSchema->getColumn((string)'color');
