@@ -59,7 +59,6 @@ class ModComments extends ModCommentsCore
 
 			return new ModComments_DetailViewBlockCommentWidget();
 		}
-
 		return false;
 	}
 

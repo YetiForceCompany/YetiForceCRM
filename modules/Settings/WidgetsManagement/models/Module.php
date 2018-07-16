@@ -91,7 +91,6 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				break;
 			}
 		}
-
 		return $dashboardId;
 	}
 
@@ -354,18 +353,18 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		if ($data['isdefault'] != 1 || $data['isdefault'] != '1') {
 			$data['isdefault'] = 0;
 		}
-		if (!empty($data['filtersId'])) {
-			if (is_string($data['filtersId'])) {
-				$filters = explode(',', $data['filtersId']);
-			} elseif (is_array($data['filtersId'])) {
-				$filters = $data['filtersId'];
+		if (!empty($data['filterid'])) {
+			if (is_string($data['filterid'])) {
+				$filters = explode(',', $data['filterid']);
+			} elseif (is_array($data['filterid'])) {
+				$filters = $data['filterid'];
 			}
 			if (count($filters) > \AppConfig::performance('CHART_MULTI_FILTER_LIMIT')) {
-				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filtersId||' . $data['filtersId'], 406);
+				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filterid||' . $data['filterid'], 406);
 			}
 			// if filters total length will be longer than database column
-			if (strlen($data['filtersId']) > \AppConfig::performance('CHART_MULTI_FILTER_STR_LEN')) {
-				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filtersId||' . $data['filtersId'], 406);
+			if (strlen(implode(',', $filters)) > \AppConfig::performance('CHART_MULTI_FILTER_STR_LEN')) {
+				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filterid||' . $data['filterid'], 406);
 			}
 		}
 		$data['data'] = App\Json::decode(\App\Purifier::decodeHtml($data['data']));
@@ -384,7 +383,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$db->createCommand()->insert('vtiger_module_dashboard', [
 			'linkid' => $data['linkid'],
 			'blockid' => $data['blockid'],
-			'filterid' => $data['filtersId'],
+			'filterid' => $data['filterid'],
 			'title' => $data['title'],
 			'data' => $data['data'],
 			'size' => $size,
@@ -402,7 +401,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			}
 			$db->createCommand()->insert('vtiger_module_dashboard_widgets', [
 				'linkid' => $data['linkid'], 'userid' => \App\User::getCurrentUserId(), 'templateid' => $templateId,
-				'filterid' => $data['filtersId'],
+				'filterid' => $data['filterid'],
 				'title' => $data['title'],
 				'data' => $data['data'],
 				'size' => $size, 'limit' => $data['limit'] ?? null,

@@ -37,7 +37,6 @@ class DateField extends BaseField
 				}
 			}
 		}
-
 		return $orderBy;
 	}
 
@@ -97,7 +96,6 @@ class DateField extends BaseField
 		} else {
 			$date = \DateTimeRange::getDateRangeByType($this->operator);
 		}
-
 		return $date;
 	}
 

@@ -22,3 +22,27 @@ label.btn.btn-outline-primary {
 		border-bottom: 1px solid $color-grey-light;
 	}
 }
+//fixes overflow for validation alerts
+.modal-body {
+	overflow-y: initial !important;
+}
+//btn-group with flex-column on mobile styles correction
+@include media-breakpoint-down(xs) {
+	.btn-group.flex-column {
+		& > .btn {
+			margin-left: 0 !important;
+		}
+
+		& > .btn:first-child {
+			-webkit-border-radius: 0.25rem 0.25rem 0 0 !important;
+			-moz-border-radius: 0.25rem 0.25rem 0 0 !important;
+			border-radius: 0.25rem 0.25rem 0 0 !important;
+		}
+
+		& > .btn:last-child {
+			-webkit-border-radius: 0 0 0.25rem 0.25rem !important;
+			-moz-border-radius: 0 0 0.25rem 0.25rem !important;
+			border-radius: 0 0 0.25rem 0.25rem !important;
+		}
+	}
+}

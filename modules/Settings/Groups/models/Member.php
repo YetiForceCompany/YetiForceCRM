@@ -39,7 +39,6 @@ class Settings_Groups_Member_Model extends \App\Base
 		if ($idComponents && count($idComponents) > 0) {
 			return $idComponents[0];
 		}
-
 		return false;
 	}
 
@@ -49,7 +48,6 @@ class Settings_Groups_Member_Model extends \App\Base
 		if ($idComponents && count($idComponents) > 1) {
 			return $idComponents[1];
 		}
-
 		return false;
 	}
 
@@ -148,7 +146,6 @@ class Settings_Groups_Member_Model extends \App\Base
 			}
 			$dataReader->close();
 		}
-
 		return $members;
 	}
 
@@ -190,7 +187,6 @@ class Settings_Groups_Member_Model extends \App\Base
 			$members[self::MEMBER_TYPE_ROLES] = self::getAllByTypeForGroup($groupModel, self::MEMBER_TYPE_ROLES);
 			$members[self::MEMBER_TYPE_ROLE_AND_SUBORDINATES] = self::getAllByTypeForGroup($groupModel, self::MEMBER_TYPE_ROLE_AND_SUBORDINATES);
 		}
-
 		return $members;
 	}
 
@@ -227,7 +223,6 @@ class Settings_Groups_Member_Model extends \App\Base
 			$member = new self();
 			$members[self::MEMBER_TYPE_ROLE_AND_SUBORDINATES][$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $roleModel->getName());
 		}
-
 		return $members;
 	}
 }

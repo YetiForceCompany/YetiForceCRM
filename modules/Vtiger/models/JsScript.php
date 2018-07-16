@@ -26,7 +26,6 @@ class Vtiger_JsScript_Model extends \App\Base
 		if (empty($type)) {
 			$type = self::DEFAULT_TYPE;
 		}
-
 		return $type;
 	}
 
@@ -44,7 +43,6 @@ class Vtiger_JsScript_Model extends \App\Base
 		if ($this->has('base') && $fs = @filemtime($this->get('base'))) {
 			$src = $src . '?s=' . $fs;
 		}
-
 		return $src;
 	}
 
@@ -62,7 +60,6 @@ class Vtiger_JsScript_Model extends \App\Base
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$linkModel->$properName = $propertyValue;
 		}
-
 		return $linkModel->setData($objectProperties);
 	}
 }

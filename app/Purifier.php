@@ -292,13 +292,16 @@ class Purifier
 			switch ($type) {
 				case 'Standard': // only word
 				case 1:
-					$value = preg_match('/^[_a-zA-Z]+$/', $input) ? $input : false;
+					$value = preg_match('/^[\-_a-zA-Z]+$/', $input) ? $input : false;
 					break;
 				case 'Alnum': // word and int
 				case 2:
 					$value = preg_match('/^[[:alnum:]_]+$/', $input) ? $input : false;
 					break;
 				case 'DateInUserFormat': // date in user format
+					if (!$input) {
+						return '';
+					}
 					list($y, $m, $d) = Fields\Date::explode($input, User::getCurrentUserModel()->getDetail('date_format'));
 					if (checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
 						$value = $input;
@@ -360,7 +363,6 @@ class Purifier
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $input, 406);
 			}
 		}
-
 		return $value;
 	}
 

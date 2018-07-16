@@ -14,6 +14,9 @@ class Cron extends \Tests\Base
 	 */
 	public function test()
 	{
+		if (App\Version::compare(PHP_VERSION, '7.1.x')) {
+			unlink('app/SystemWarnings/Security/Dependencies.php');
+		}
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_cron_task', [
 				'status' => 0,
@@ -28,5 +31,14 @@ class Cron extends \Tests\Base
 		}
 		file_put_contents('tests/records.log', $c, FILE_APPEND);
 		$this->assertFalse((new \App\Db\Query())->from('vtiger_cron_task')->where(['status' => 2])->exists());
+	}
+
+	/**
+	 * Testing last cron start getter.
+	 */
+	public function testGetLastCronStart()
+	{
+		$module = \Settings_CronTasks_Module_Model::getInstance('Settings:CronTasks');
+		$this->assertNotSame(0, $module->getLastCronStart(), 'Last cron start is 0');
 	}
 }

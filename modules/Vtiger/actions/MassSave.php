@@ -70,7 +70,6 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 			}
 			$recordModels[$recordId] = $recordModel;
 		}
-
 		return $recordModels;
 	}
 }

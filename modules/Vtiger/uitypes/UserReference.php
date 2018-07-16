@@ -16,7 +16,7 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if (!is_numeric($value) || !\App\User::isExists($value)) {
@@ -29,7 +29,7 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
@@ -40,7 +40,6 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 		if ($value) {
 			return \App\Fields\Owner::getLabel($value);
 		}
-
 		return '';
 	}
 
@@ -56,7 +55,6 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 
 			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . $displayValue . '</a>';
 		}
-
 		return $displayValue;
 	}
 

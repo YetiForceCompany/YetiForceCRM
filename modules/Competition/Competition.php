@@ -233,7 +233,6 @@ class Competition extends Vtiger_CRMEntity
 		if ($secModule === false) {
 			return $relTables;
 		}
-
 		return $relTables[$secModule];
 	}
 

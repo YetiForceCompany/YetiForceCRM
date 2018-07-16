@@ -221,7 +221,6 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
 		}
-
 		return $listViewModel->getListViewCount();
 	}
 

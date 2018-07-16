@@ -46,7 +46,6 @@ class PrivilegeFile
 		if (static::$usersFileCache === false) {
 			static::$usersFileCache = require static::$usersFile;
 		}
-
 		return static::$usersFileCache[$type] ?? false;
 	}
 
@@ -62,14 +61,14 @@ class PrivilegeFile
 		$userInstance = \CRMEntity::getInstance('Users');
 		$userInstance->retrieveEntityInfo($userId, 'Users');
 		$userInstance->column_fields['is_admin'] = $userInstance->is_admin === 'on';
+		$exclusionEncodeHtml = ['currency_symbol', 'date_format', 'currency_id', 'currency_decimal_separator', 'currency_grouping_separator'];
 		foreach ($userInstance->column_fields as $field => $value) {
-			if ($field !== 'currency_symbol') {
+			if (!\in_array($field, $exclusionEncodeHtml)) {
 				$userInstance->column_fields[$field] = is_numeric($value) ? $value : \App\Purifier::encodeHtml($value);
 			}
 		}
-		$entityData = Module::getEntityInfo('Users');
 		$displayName = '';
-		foreach ($entityData['fieldnameArr'] as $field) {
+		foreach (Module::getEntityInfo('Users')['fieldnameArr'] as $field) {
 			$displayName .= ' ' . $userInstance->column_fields[$field];
 		}
 		$userRoleInfo = PrivilegeUtil::getRoleDetail($userInstance->column_fields['roleid']);

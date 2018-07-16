@@ -27,7 +27,6 @@ class CallHistory_DetailView_Model extends Vtiger_DetailView_Model
 				$linkModelList['DETAIL_VIEW_BASIC'][] = $linkModel;
 			}
 		}
-
 		return $linkModelList;
 	}
 }

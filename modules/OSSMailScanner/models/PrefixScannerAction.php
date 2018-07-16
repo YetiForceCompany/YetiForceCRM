@@ -50,7 +50,6 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 		if (!$this->prefix) {
 			return false;
 		}
-
 		return $this->add();
 	}
 
@@ -84,7 +83,6 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 				$returnIds[] = $crmId;
 			}
 		}
-
 		return $returnIds;
 	}
 }

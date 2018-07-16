@@ -19,7 +19,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		$arrayDateTime = explode(' ', $value, 2);
@@ -30,7 +30,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 			parent::validate($arrayDateTime[0], $isUserFormat);
 			(new Vtiger_Time_UIType())->validate($arrayDateTime[1], $isUserFormat); //Time
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
@@ -77,7 +77,6 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 			case 80:
 				return $rawText ? \App\Fields\DateTime::formatToViewDate($value) : '<span title="' . App\Fields\DateTime::formatToDisplay($value) . '">' . \App\Fields\DateTime::formatToViewDate($value) . '</span>';
 		}
-
 		return \App\TextParser::textTruncate($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->getFieldModel()->get('maxlengthtext'));
 	}
 

@@ -47,26 +47,22 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
-	<div class="row">
-		<div class="col-md-8">
-			<h5 class="dashboardTitle h6" title="{App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(),$MODULE_NAME)}</strong></h5>
-		</div>
-		<div class="col-md-4">
-			<div class="box float-right">
-				{if \App\Privilege::isPermitted('OSSTimeControl', 'CreateView')}
-					<a class="btn btn-sm btn-light" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSTimeControl'); return false;">
-						<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
-					</a>
-				{/if}
-				<a class="btn btn-sm btn-light" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
-					<span class="fas fa-sync-alt" title="{\App\Language::translate('LBL_REFRESH')}"></span>
+	<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
+		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-10"}
+		<div class="d-inline-flex">
+			{if \App\Privilege::isPermitted('OSSTimeControl', 'CreateView')}
+				<a class="btn btn-sm btn-light" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSTimeControl'); return false;">
+					<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 				</a>
-				{if !$WIDGET->isDefault()}
-					<a class="btn btn-sm btn-light" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
-						<span class="fas fa-times" title="{\App\Language::translate('LBL_CLOSE')}"></span>
-					</a>
-				{/if}
-			</div>
+			{/if}
+			<a class="btn btn-sm btn-light" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
+				<span class="fas fa-sync-alt" title="{\App\Language::translate('LBL_REFRESH')}"></span>
+			</a>
+			{if !$WIDGET->isDefault()}
+				<a class="btn btn-sm btn-light" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
+					<span class="fas fa-times" title="{\App\Language::translate('LBL_CLOSE')}"></span>
+				</a>
+			{/if}
 		</div>
 	</div>
 	<hr class="widgetHr" />

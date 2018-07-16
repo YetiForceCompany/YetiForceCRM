@@ -27,7 +27,6 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 		if (!empty($reminder_time[2])) {
 			$reminder_value = $reminder_value . ' ' . $reminder_time[2] . ' ' . \App\Language::translate('LBL_MINUTES');
 		}
-
 		return $reminder_value;
 	}
 

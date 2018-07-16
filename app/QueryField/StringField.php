@@ -27,7 +27,6 @@ class StringField extends BaseField
 
 			return $condition;
 		}
-
 		return ['like', $this->getColumnName(), $this->getValue() . '%', false];
 	}
 

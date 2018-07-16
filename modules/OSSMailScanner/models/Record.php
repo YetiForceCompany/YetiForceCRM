@@ -76,7 +76,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-
 		return $return;
 	}
 
@@ -213,7 +212,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			case 'All': $return = 4;
 				break;
 		}
-
 		return $return;
 	}
 
@@ -233,7 +231,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				return $row['uid'];
 			}
 		}
-
 		return 0;
 	}
 
@@ -378,7 +375,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-
 		return $countEmails;
 	}
 
@@ -481,7 +477,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		} elseif (count($tab2) != 0) {
 			$return = $tab2;
 		}
-
 		return $return;
 	}
 
@@ -566,7 +561,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			case 2: $return = 'Manually stopped';
 				break;
 		}
-
 		return $return;
 	}
 
@@ -769,7 +763,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		if ($this->group) {
 			return $this->group;
 		}
-
 		return $this->group = (new \App\Db\Query())->select(['groupid', 'groupname'])->from('vtiger_groups')->all();
 	}
 
@@ -810,7 +803,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$handler->process($mail);
 			}
 		}
-
 		return true;
 	}
 

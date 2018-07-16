@@ -29,7 +29,6 @@ class Vtiger_EmailList_Widget extends Vtiger_Basic_Widget
 			$this->Config['url'] = $this->getUrl();
 			$widget = $this->Config;
 		}
-
 		return $widget;
 	}
 }

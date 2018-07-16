@@ -36,7 +36,6 @@ class Import_Map_Model extends \App\Base
 				$map[$key] = $value;
 			}
 		}
-
 		return new self($map);
 	}
 

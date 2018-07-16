@@ -59,8 +59,7 @@
 }
 
 header {
-	.globalSearchInput .select2-selection.select2-selection--single {
-		font-size: $font-size-sm !important;
+	.o-global-search__input .select2-selection.select2-selection--single {
 		height: $h-menu-items !important;
 	}
 
@@ -113,7 +112,7 @@ header {
 	@extend .p-0;
 }
 
-.select2-search__field {
+.select2-search__field, .select2-search.select2-search--inline {
 	width: 100% !important;
 }
 
@@ -157,20 +156,6 @@ header {
 
 .filterActionImgs {
 	margin-top: 3px;
-}
-
-//-------- dataTable --------//
-
-.dataTables_wrapper {
-	@extend .p-0;
-
-	.col-sm-12, .row {
-		@extend .p-0;
-	}
-
-	table.dataTable {
-		margin: 0 !important;
-	}
 }
 
 //-------- daterangepicker --------//
@@ -253,5 +238,18 @@ ul.ui-autocomplete {
 //-------- js-tree --------//
 
 .jstree-proton{
-  	font-family: $font-family-base !important;
+	font-family: $font-family-base !important;
+}
+
+//-------- perfectscrollbar --------//
+
+.leftPanel .ps-scrollbar-y-rail {
+	display: none !important;
+}
+
+//-------- font awesome --------//
+
+// overwrite bootstrap _reboot.scss
+.svg-inline--fa {
+	vertical-align: -0.125em !important;
 }

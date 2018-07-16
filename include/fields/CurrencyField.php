@@ -422,7 +422,6 @@ class CurrencyField
 		if ($skipConversion === false) {
 			$value = self::convertToDollar($value, $this->conversionRate);
 		}
-
 		return $value;
 	}
 
@@ -441,7 +440,6 @@ class CurrencyField
 			return 0;
 		}
 		$self = new self($value);
-
 		return $self->getDBInsertedValue($user, $skipConversion);
 	}
 
@@ -456,7 +454,6 @@ class CurrencyField
 		if ($id) {
 			return $id;
 		}
-
 		return null;
 	}
 
@@ -465,7 +462,6 @@ class CurrencyField
 		if ($conversionRate == 0) {
 			return 0;
 		}
-
 		return $amount / $conversionRate;
 	}
 
@@ -498,11 +494,7 @@ class CurrencyField
 				 */
 				$value = rtrim($value, '0');
 			}
-			if ($user->getDetail('currency_decimal_separator') === '&nbsp;') {
-				$decimalSeparator = ' ';
-			} else {
-				$decimalSeparator = $user->getDetail('currency_decimal_separator');
-			}
+			$decimalSeparator = $user->getDetail('currency_decimal_separator');
 			$fieldValue = explode(App\Purifier::decodeHtml($decimalSeparator), $value);
 			if (strlen($fieldValue[1]) <= 1) {
 				if (strlen($fieldValue[1]) == 1) {

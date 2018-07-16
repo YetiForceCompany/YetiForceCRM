@@ -88,7 +88,6 @@ class RecordsList extends \Api\Core\BaseAction
 				}
 			}
 		}
-
 		return $queryGenerator;
 	}
 

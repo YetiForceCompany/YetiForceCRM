@@ -42,7 +42,6 @@ class OSSMailScanner_BindHelpDesk_ScannerAction extends OSSMailScanner_PrefixSca
 				}
 			}
 		}
-
 		return $ids;
 	}
 }

@@ -84,7 +84,6 @@ abstract class Template
 				$status = 'Bład';
 				break;
 		}
-
 		return $status;
 	}
 
@@ -128,7 +127,6 @@ abstract class Template
 		if ($toArray && strpos($this->folder, '\\') !== false) {
 			$this->folder = explode('\\', $this->folder);
 		}
-
 		return $this->folder;
 	}
 

@@ -7,6 +7,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
+
 $.Class('Settings_LayoutEditor_Js', {}, {
 	updatedBlockSequence: {},
 	reactiveFieldsList: [],
@@ -95,23 +97,14 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 * Function to register all the relatedList Events
 	 */
 	registerRelatedListEvents: function () {
-		var thisInstance = this;
-		var relatedList = $('#relatedTabOrder');
-		var container = relatedList.find('.relatedTabModulesList');
-		var ulEle = container.find('ul.relatedModulesList');
-		var select2Element = App.Fields.Picklist.showSelectizeElementView(container.find('.select2_container'), {
-			plugins: ['drag_drop', 'remove_button'],
-			onInitialize: function () {
-				var s = this, children = this.revertSettings.$children;
-				if (children.first().is('optgroup')) {
-					children = children.find('option');
-				}
-				children.each(function () {
-					var data = $(this).data();
-					$.extend(s.options[this.value], data);
-				});
-			}
-		});
+		let thisInstance = this,
+		relatedList = $('#relatedTabOrder'),
+		container = relatedList.find('.relatedTabModulesList'),
+		ulEle = container.find('ul.relatedModulesList'),
+		select2Element = App.Fields.Picklist.showSelect2ElementView(container.find('.select2_container'), {sortable: true, sortableCb: (currentTarget) => {
+			let relatedModule = currentTarget.closest('.relatedModule'),
+			selectedFields = thisInstance.updateSelectedFields(currentTarget);
+		}});
 		relatedList.on('click', '.inActiveRelationModule', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
@@ -131,12 +124,6 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			var relatedModule = currentTarget.closest('.relatedModule');
 			thisInstance.removeRelation(relatedModule);
 		})
-		var relatedColumnsList = container.find('.relatedColumnsList');
-		relatedColumnsList.on('change', function (e) {
-			var currentTarget = $(e.currentTarget);
-			var relatedModule = currentTarget.closest('.relatedModule');
-			var selectedFields = thisInstance.updateSelectedFields(currentTarget);
-		});
 		relatedList.on('click', '.addToFavorites', function (e) {
 			var currentTarget = $(e.currentTarget);
 			thisInstance.changeStateFavorites(currentTarget);
@@ -191,7 +178,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		target.find(':selected').each(function (e) {
 			selectedFields.push({
 				id: $(this).val(),
-				name: target[0].selectize.options[$(this).val()].fieldName
+				name: $(this).data('field-name')
 			});
 		})
 		return selectedFields;

@@ -19,7 +19,6 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			$value = 0;
 		}
-
 		return (int) $value;
 	}
 
@@ -28,7 +27,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if (!is_numeric($value)) {
@@ -41,7 +40,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
@@ -61,7 +60,6 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		} elseif (!empty($referenceModuleList) && in_array('Users', $referenceModuleList)) {
 			return Vtiger_Module_Model::getInstance('Users');
 		}
-
 		return null;
 	}
 
@@ -104,7 +102,6 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
 			return \App\Fields\Owner::getLabel($value);
 		}
-
 		return \App\Record::getLabel($value);
 	}
 
@@ -121,7 +118,6 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if (AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			return 'List/Field/Reference.tpl';
 		}
-
 		return parent::getListSearchTemplateName();
 	}
 

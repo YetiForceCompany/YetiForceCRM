@@ -26,7 +26,6 @@ class Vtiger_Cache_Connector
 		if (is_array($key)) {
 			$key = implode('-', $key);
 		}
-
 		return $ns . '-' . $key;
 	}
 
@@ -56,7 +55,6 @@ class Vtiger_Cache_Connector
 		if ($singleton === null) {
 			$singleton = new self();
 		}
-
 		return $singleton;
 	}
 }

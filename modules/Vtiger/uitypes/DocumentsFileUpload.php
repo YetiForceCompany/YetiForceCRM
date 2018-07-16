@@ -48,7 +48,6 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 				}
 			}
 		}
-
 		return $value;
 	}
 
@@ -65,7 +64,6 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 
 			return '';
 		}
-
 		return App\Purifier::decodeHtml($value);
 	}
 }

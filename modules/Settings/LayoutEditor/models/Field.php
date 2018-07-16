@@ -138,7 +138,6 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		if (in_array($this->get('uitype'), $mandatoryRestrictedUitypes)) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -152,7 +151,6 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		if ($this->get('presence') == 0 || $this->get('uitype') == 306 || $this->isMandatoryOptionDisabled()) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -217,7 +215,6 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		if (in_array($moduleName, ['Calendar', 'Events'])) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -237,7 +234,6 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$fieldModel->$properName = $propertyValue;
 		}
-
 		return $fieldModel;
 	}
 

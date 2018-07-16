@@ -31,7 +31,7 @@ before_script:
 - sudo chmod -R 777 tests/setup/
 - ./tests/setup/before_script.sh
 - ./tests/setup/apache.sh
-  
+
 script:
 - cd tests
 - /usr/local/bin/phpunit --debug --verbose

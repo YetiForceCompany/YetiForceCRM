@@ -29,7 +29,6 @@ class DateTime
 		if ($value === 'now') {
 			$value = null;
 		}
-
 		return (new \DateTimeField($value))->getDisplayDateTimeValue();
 	}
 
@@ -76,7 +75,6 @@ class DateTime
 
 			return (new \DateTimeField($valueList[0] . ' ' . $dbTimeValue))->getDBInsertDateTimeValue();
 		}
-
 		return (new \DateTimeField($value))->getDBInsertDateTimeValue();
 	}
 
@@ -97,7 +95,6 @@ class DateTime
 			case 'PLL_FULL_AND_DAY':
 				return '<span title="' . \Vtiger_Util_Helper::formatDateDiffInStrings($dateTime) . '">' . static::formatToDay($dateTime) . '</span>';
 		}
-
 		return '-';
 	}
 
@@ -156,7 +153,6 @@ class DateTime
 			}
 			static::$databaseTimeZone = $defaultTimeZone;
 		}
-
 		return static::$databaseTimeZone;
 	}
 }

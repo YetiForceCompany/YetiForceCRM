@@ -134,7 +134,6 @@ class Debuger
 		} elseif (is_string($ips) && RequestUtil::getRemoteIP(true) === $ips) {
 			return true;
 		}
-
 		return false;
 	}
 

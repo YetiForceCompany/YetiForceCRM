@@ -1,12 +1,12 @@
 {
   "php": {
     "LBL_ADD_TEMPLATE": "Adauga mapare",
-    "LBL_IMPORT_TEMPLATE": "Import template",
+    "LBL_IMPORT_TEMPLATE": "Importa sablon",
     "LBL_MAPPEDFIELDS": "Mapare",
     "LBL_MAPPEDFIELDS_DESCRIPTION": " ",
     "LBL_EXPORT_RECORD": "Exporta",
     "LBL_MODULE": "Modul",
-    "LBL_REL_MODULE": "Related module",
+    "LBL_REL_MODULE": "Modul asociat",
     "LBL_STATUS": "Status",
     "active": "Activ",
     "inactive": "Inactiv",

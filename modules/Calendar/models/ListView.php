@@ -37,7 +37,6 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'showLabel' => 1,
 			];
 		}
-
 		return $basicLinks;
 	}
 
@@ -70,7 +69,6 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-upload',
 			];
 		}
-
 		return $advancedLinks;
 	}
 
@@ -138,7 +136,6 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
-
 		return $links;
 	}
 

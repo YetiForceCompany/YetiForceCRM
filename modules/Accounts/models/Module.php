@@ -54,7 +54,6 @@ class Accounts_Module_Model extends Vtiger_Module_Model
 		if (!empty($parentId) && !empty($parentModule)) {
 			unset($matchingRecords[$relatedModule][$parentId]);
 		}
-
 		return $matchingRecords;
 	}
 }

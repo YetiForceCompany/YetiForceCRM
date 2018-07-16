@@ -30,7 +30,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if ($isUserFormat) {
@@ -44,7 +44,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 		if ($maximumLength && ($value > $maximumLength || $value < -$maximumLength)) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
@@ -66,7 +66,6 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 
 			return \App\Purifier::encodeHtml($value);
 		}
-
 		return 0;
 	}
 
@@ -80,7 +79,6 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 
 			return $this->getDisplayValue($value);
 		}
-
 		return \App\Purifier::encodeHtml($value);
 	}
 
@@ -107,7 +105,6 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 			$currencyModal->initialize();
 			$currencySymbol = $currencyModal->currencySymbol;
 		}
-
 		return CurrencyField::appendCurrencySymbol($value, $currencySymbol);
 	}
 

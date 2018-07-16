@@ -96,7 +96,6 @@ class Vtiger_Viewer extends SmartyBC
 		if (!empty(self::$currentLayout)) {
 			return self::$currentLayout;
 		}
-
 		return self::getDefaultLayoutName();
 	}
 
@@ -208,7 +207,6 @@ class Vtiger_Viewer extends SmartyBC
 
 			return true;
 		}
-
 		return false;
 	}
 

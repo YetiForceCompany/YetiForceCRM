@@ -111,7 +111,6 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		foreach ($yearsData as $year => $data) {
 			$chartData['datasets'][] = $data;
 		}
-
 		return $chartData;
 	}
 }

@@ -6,10 +6,10 @@ namespace App;
  * Language basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Adrian Koń <a.kon@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Adrian Koń <a.kon@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Language
 {
@@ -120,13 +120,13 @@ class Language
 	 *
 	 * @return string
 	 */
-	public static function getLanguageInIetf()
+	public static function getLanguageTag($separator = '-')
 	{
 		$lang = \explode('_', static::getLanguage());
 		if (isset($lang[1])) {
 			$lang[1] = \strtoupper($lang[1]);
 		}
-		return \implode('-', $lang);
+		return \implode($separator, $lang);
 	}
 
 	/**
@@ -386,11 +386,11 @@ class Language
 			return ($count > 1) ? '_1' : '_0';
 		}
 		if (in_array($lang, [
-				'af', 'an', 'anp', 'as', 'ast', 'az', 'bg', 'bn', 'brx', 'ca', 'da', 'de', 'doi', 'dz', 'el', 'en', 'eo', 'es', 'et', 'eu', 'ff', 'fi', 'fo', 'fur', 'fy',
-				'gl', 'gu', 'ha', 'he', 'hi', 'hne', 'hu', 'hy', 'ia', 'it', 'kk', 'kl', 'kn', 'ku', 'ky', 'lb', 'mai', 'mk', 'ml', 'mn', 'mni', 'mr', 'nah', 'nap',
-				'nb', 'ne', 'nl', 'nn', 'nso', 'or', 'pa', 'pap', 'pms', 'ps', 'pt', 'rm', 'rw', 'sat', 'sco', 'sd', 'se', 'si', 'so', 'son', 'sq', 'sv', 'sw',
-				'ta', 'te', 'tk', 'ur', 'yo',
-			])) {
+			'af', 'an', 'anp', 'as', 'ast', 'az', 'bg', 'bn', 'brx', 'ca', 'da', 'de', 'doi', 'dz', 'el', 'en', 'eo', 'es', 'et', 'eu', 'ff', 'fi', 'fo', 'fur', 'fy',
+			'gl', 'gu', 'ha', 'he', 'hi', 'hne', 'hu', 'hy', 'ia', 'it', 'kk', 'kl', 'kn', 'ku', 'ky', 'lb', 'mai', 'mk', 'ml', 'mn', 'mni', 'mr', 'nah', 'nap',
+			'nb', 'ne', 'nl', 'nn', 'nso', 'or', 'pa', 'pap', 'pms', 'ps', 'pt', 'rm', 'rw', 'sat', 'sco', 'sd', 'se', 'si', 'so', 'son', 'sq', 'sv', 'sw',
+			'ta', 'te', 'tk', 'ur', 'yo',
+		])) {
 			return ($count !== 1) ? '_1' : '_0';
 		}
 		switch ($lang) {
@@ -689,5 +689,26 @@ class Language
 			throw new Exceptions\AppException('ERR_CREATE_FILE_FAILURE');
 		}
 		Cache::delete('LanguageFiles', $language . str_replace('__', DIRECTORY_SEPARATOR, $fileName));
+	}
+
+	/**
+	 * Set locale information.
+	 */
+	public static function initLocale()
+	{
+		$original = explode(';', setlocale(LC_ALL, 0));
+		$defaultCharset = strtolower(\AppConfig::main('default_charset'));
+		setlocale(LC_ALL, static::getLanguageTag('_') . '.' . $defaultCharset, \AppConfig::main('default_language') . '.' . $defaultCharset, 'en_US.' . $defaultCharset, 'en_US.utf8');
+		foreach ($original as $localeSetting) {
+			if (strpos($localeSetting, '=') !== false) {
+				list($category, $locale) = explode('=', $localeSetting);
+			} else {
+				$category = 'LC_ALL';
+				$locale = $localeSetting;
+			}
+			if ($category !== 'LC_COLLATE' && $category !== 'LC_CTYPE' && defined($category)) {
+				setlocale(constant($category), $locale);
+			}
+		}
 	}
 }

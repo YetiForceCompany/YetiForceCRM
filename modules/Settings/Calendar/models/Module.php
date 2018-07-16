@@ -26,7 +26,6 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 		if ($type == 'colors') {
 			$calendarConfig = array_merge($calendarConfig, self::getPicklistValue());
 		}
-
 		return $calendarConfig;
 	}
 
@@ -59,7 +58,6 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 		if (isset($row['value'])) {
 			$return = explode(';', $row['value']);
 		}
-
 		return $return;
 	}
 
@@ -91,7 +89,6 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 					'field' => $picklistName, ]);
 			}
 		}
-
 		return $calendarConfig;
 	}
 }

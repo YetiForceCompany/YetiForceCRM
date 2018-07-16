@@ -73,7 +73,6 @@ class Hierarchy extends \Api\Core\BaseAction
 				'name' => \App\Record::getLabel($parentCrmId),
 			];
 		}
-
 		return $this->records;
 	}
 

@@ -23,7 +23,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if (!is_numeric($value)) {
@@ -36,7 +36,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
@@ -79,7 +79,6 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 		if (isset($detailViewUrl)) {
 			return "<a href='" . $detailViewUrl . "'>$ownerName</a>";
 		}
-
 		return $ownerName;
 	}
 
@@ -117,7 +116,6 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 		if ($roleModel->get('changeowner')) {
 			return true;
 		}
-
 		return false;
 	}
 

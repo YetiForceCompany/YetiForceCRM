@@ -76,7 +76,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$this->setLogin();
 			}
 		}
-
 		return $user;
 	}
 

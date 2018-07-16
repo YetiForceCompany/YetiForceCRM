@@ -4,7 +4,7 @@
 		<div class="form-group row">
 			<label for="langs_list" class="col-form-label col-md-1" >{\App\Language::translate('Language',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
-				<select multiple="multiple" class="form-control" id="langs_list">
+				<select multiple="multiple" class="form-control select2" id="langs_list">
 					{foreach from=$LANGS item=LABEL key=PREFIX}
 						<option value="{$PREFIX}" {if in_array($PREFIX,$SELECTED_LANGS)}selected{/if}>{$LABEL}</option>
 					{/foreach}
@@ -12,7 +12,7 @@
 			</div>
 			<label class="col-md-1 col-form-label">{\App\Language::translate('Module',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
-				<select class="form-control mods_list" id="mods_list">
+				<select class="form-control mods_list select2" id="mods_list">
 					<optgroup label="{\App\Language::translate('Modules',$QUALIFIED_MODULE)}">
 						{foreach from=$MODS['mods'] item=MOD key=ID}
 							<option value="{$ID}" {if $ID == $SELECTED_MODE}selected{/if}>{\App\Language::translate($MOD,$MOD)}</option>

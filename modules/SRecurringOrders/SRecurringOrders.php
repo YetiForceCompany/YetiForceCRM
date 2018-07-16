@@ -105,7 +105,6 @@ class SRecurringOrders extends Vtiger_CRMEntity
 		if ($tableName == 'vtiger_recurring_info') {
 			return 'LEFT JOIN';
 		}
-
 		return parent::getJoinClause($tableName);
 	}
 }

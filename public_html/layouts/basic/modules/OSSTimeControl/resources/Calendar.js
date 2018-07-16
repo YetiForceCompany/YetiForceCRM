@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class("OSSTimeControl_Calendar_Js", {
 	registerUserListWidget: function () {
 		var widgetContainer = $('.widgetContainer');
@@ -31,8 +33,8 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 	calendarView: false,
 	calendarCreateView: false,
 	registerCalendar: function () {
-		var thisInstance = this;
-		var eventLimit = jQuery('#eventLimit').val();
+		const thisInstance = this;
+		let eventLimit = jQuery('#eventLimit').val();
 		if (eventLimit == 'true') {
 			eventLimit = true;
 		} else if (eventLimit == 'false') {
@@ -40,11 +42,11 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		} else {
 			eventLimit = parseInt(eventLimit) + 1;
 		}
-		var weekView = jQuery('#weekView').val();
-		var dayView = jQuery('#dayView').val();
+		const weekView = jQuery('#weekView').val();
+		const dayView = jQuery('#dayView').val();
 
 		//User preferred default view
-		var userDefaultActivityView = jQuery('#activity_view').val();
+		let userDefaultActivityView = jQuery('#activity_view').val();
 		if (userDefaultActivityView == 'Today') {
 			userDefaultActivityView = dayView;
 		} else if (userDefaultActivityView == 'This Week') {
@@ -54,8 +56,8 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		}
 
 		//Default time format
-		var userDefaultTimeFormat = jQuery('#time_format').val();
-		var popoverTimeFormat;
+		let userDefaultTimeFormat = jQuery('#time_format').val();
+		let popoverTimeFormat;
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H:mm';
 			popoverTimeFormat = 'HH:mm';
@@ -65,12 +67,12 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		}
 
 		//Default first day of the week
-		var convertedFirstDay = CONFIG.firstDayOfWeekNo;
+		const convertedFirstDay = CONFIG.firstDayOfWeekNo;
 		//Default first hour of the day
-		var defaultFirstHour = jQuery('#start_hour').val();
-		var explodedTime = defaultFirstHour.split(':');
+		let defaultFirstHour = jQuery('#start_hour').val();
+		const explodedTime = defaultFirstHour.split(':');
 		defaultFirstHour = explodedTime['0'];
-
+		thisInstance.getCalendarView().fullCalendar('destroy');
 		thisInstance.getCalendarView().fullCalendar({
 			header: {
 				left: 'month,' + weekView + ',' + dayView,
@@ -300,18 +302,16 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		if ($.inArray(calendarDetails.timecontrol_type.value, types) < 0 && types.length > 0) {
 			return;
 		}
-		var calendar = this.getCalendarView();
-		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value);
-		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
-		let formatDate = CONFIG.dateFormat.toUpperCase();
-		var eventObject = {
+		const calendar = this.getCalendarView();
+		const eventObject = {
 			id: calendarDetails._recordId,
 			title: calendarDetails.name.display_value,
-			start: startDate.format(formatDate),
-			end: endDate.format(formatDate),
+			start: calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value).format(),
+			end: calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value).format(),
+			start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
+			end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
 			url: 'index.php?module=OSSTimeControl&view=Detail&record=' + calendarDetails._recordId,
-			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBg_OSSTimeControl_timecontrol_type_' + calendarDetails.timecontrol_type.value,
-			title: calendarDetails.name.display_value,
+			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_OSSTimeControl_timecontrol_type_' + calendarDetails.timecontrol_type.value,
 			totalTime: calendarDetails.sum_time.display_value,
 			number: calendarDetails.osstimecontrol_no.display_value,
 			type: calendarDetails.timecontrol_type.display_value,

@@ -29,7 +29,6 @@ class IStorages_RelationListView_Model extends Vtiger_RelationListView_Model
 			$qtyInStock->set('fromOutsideList', true);
 			$headerFields['qtyproductinstock'] = $qtyInStock;
 		}
-
 		return $headerFields;
 	}
 }

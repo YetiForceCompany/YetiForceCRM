@@ -44,7 +44,6 @@ class Owner
 			$instance->currentUser = $currentUser;
 			\Vtiger_Cache::set('App\Fields\Owner', $cacheKey, $instance);
 		}
-
 		return $instance;
 	}
 
@@ -83,7 +82,6 @@ class Owner
 				return strstr(strtolower($name), $this->searchValue);
 			});
 		}
-
 		return $accessibleGroups;
 	}
 
@@ -174,7 +172,6 @@ class Owner
 				}
 			}
 		}
-
 		return $result;
 	}
 
@@ -400,7 +397,6 @@ class Owner
 				$groups = $this->getAccessibleGroups('');
 			}
 		}
-
 		return $groups;
 	}
 
@@ -424,7 +420,6 @@ class Owner
 				$users = $this->getAccessibleUsers('');
 			}
 		}
-
 		return $users;
 	}
 
@@ -470,7 +465,6 @@ class Owner
 				}
 			}
 		}
-
 		return ['users' => $users, 'group' => $groups];
 	}
 
@@ -509,7 +503,6 @@ class Owner
 			}
 			self::$usersIdsCache[$status] = array_keys($rows);
 		}
-
 		return self::$usersIdsCache[$status];
 	}
 
@@ -554,7 +547,6 @@ class Owner
 				$result[$id] = null;
 			}
 		}
-
 		return $multiMode ? $result : array_shift($result);
 	}
 
@@ -578,7 +570,6 @@ class Owner
 			self::$groupLabelCache[$id] = self::$ownerLabelCache[$id] = $label;
 			self::$groupIdCache[$label] = $id;
 		}
-
 		return $label;
 	}
 
@@ -600,7 +591,6 @@ class Owner
 		if (isset($groups[$name])) {
 			$id = self::$groupIdCache[$name] = $groups[$name];
 		}
-
 		return $id;
 	}
 
@@ -632,7 +622,6 @@ class Owner
 			self::$userLabelCache[$uid] = $user['fullName'];
 			self::$ownerLabelCache[$uid] = $user['fullName'];
 		}
-
 		return isset($users[$id]) ? $users[$id]['fullName'] : false;
 	}
 

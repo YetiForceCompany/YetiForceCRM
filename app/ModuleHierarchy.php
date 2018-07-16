@@ -42,7 +42,6 @@ class ModuleHierarchy
 		if (isset(static::$hierarchy['modulesMap1M'][$moduleName])) {
 			return static::$hierarchy['modulesMap1M'][$moduleName];
 		}
-
 		return [];
 	}
 
@@ -51,7 +50,6 @@ class ModuleHierarchy
 		if (isset(static::$hierarchy['modulesMapMMBase'])) {
 			return static::$hierarchy['modulesMapMMBase'];
 		}
-
 		return false;
 	}
 
@@ -60,7 +58,6 @@ class ModuleHierarchy
 		if (isset(static::$hierarchy['modulesMapMMCustom'][$moduleName])) {
 			return static::$hierarchy['modulesMapMMCustom'][$moduleName];
 		}
-
 		return false;
 	}
 
@@ -69,7 +66,6 @@ class ModuleHierarchy
 		if (isset(static::$modulesByLevels[$level])) {
 			return static::$modulesByLevels[$level];
 		}
-
 		return [];
 	}
 
@@ -92,7 +88,6 @@ class ModuleHierarchy
 			case 65: $level = 3;
 				break;
 		}
-
 		return static::getModulesByLevel($level);
 	}
 
@@ -106,7 +101,6 @@ class ModuleHierarchy
 				}
 			}
 		}
-
 		return $modules;
 	}
 
@@ -153,7 +147,6 @@ class ModuleHierarchy
 		if (isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName])) {
 			return static::$hierarchy['modulesMapRelatedFields'][$moduleName];
 		}
-
 		return [];
 	}
 
@@ -169,7 +162,6 @@ class ModuleHierarchy
 			case 3: $return = 65;
 				break;
 		}
-
 		return $return;
 	}
 
@@ -206,7 +198,6 @@ class ModuleHierarchy
 				}
 				break;
 		}
-
 		return $modules;
 	}
 
@@ -260,7 +251,6 @@ class ModuleHierarchy
 				$records = array_merge($records, $recordsLevel1);
 			}
 		}
-
 		return array_unique($records);
 	}
 

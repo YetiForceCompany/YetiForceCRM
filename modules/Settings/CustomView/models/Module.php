@@ -71,7 +71,6 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		} elseif ($action == 'remove') {
 			\App\Db::getInstance()->createCommand()->delete('vtiger_user_module_preferences', ['userid' => $user, 'tabid' => $tabid, 'default_cvid' => $cvId])->execute();
 		}
-
 		return false;
 	}
 
@@ -88,7 +87,6 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 				->delete('u_#__featured_filter', ['user' => $user, 'cvid' => $cvId])
 				->execute();
 		}
-
 		return false;
 	}
 

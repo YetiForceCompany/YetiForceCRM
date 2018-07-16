@@ -56,7 +56,6 @@ class WorkFlowScheduler
 				$queryGenerator->addCondition('activitytype', 'Task', 'n');
 			}
 		}
-
 		return $queryGenerator->createQuery();
 	}
 

@@ -44,7 +44,6 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 				$data[$label] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $default_charset);
 			}
 		}
-
 		return $data;
 	}
 

@@ -104,7 +104,6 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 		if ($sourceModule) {
 			$query->where(['module_name' => $sourceModule]);
 		}
-
 		return $query->count();
 	}
 }

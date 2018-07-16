@@ -42,7 +42,6 @@ class ReferenceField extends BaseField
 			$relatedTableName[$moduleName] = $formattedName;
 			$this->queryGenerator->addJoin(['LEFT JOIN', $entityFieldInfo['tablename'] . ' ' . $referenceTable, $this->getColumnName() . " = $referenceTable.{$entityFieldInfo['entityidfield']}"]);
 		}
-
 		return $relatedTableName;
 	}
 
@@ -63,7 +62,6 @@ class ReferenceField extends BaseField
 			}
 			return $condition;
 		}
-
 		return parent::operatorA();
 	}
 
@@ -78,7 +76,6 @@ class ReferenceField extends BaseField
 		foreach ($this->getRelatedTableName() as $formattedName) {
 			$condition[] = ['=', $formattedName, $this->getValue()];
 		}
-
 		return $condition;
 	}
 
@@ -93,7 +90,6 @@ class ReferenceField extends BaseField
 		foreach ($this->getRelatedTableName() as $formattedName) {
 			$condition[] = ['<>', $formattedName, $this->getValue()];
 		}
-
 		return $condition;
 	}
 
@@ -108,7 +104,6 @@ class ReferenceField extends BaseField
 		foreach ($this->getRelatedTableName() as $formattedName) {
 			$condition[] = ['like', $formattedName, $this->getValue() . '%', false];
 		}
-
 		return $condition;
 	}
 
@@ -123,7 +118,6 @@ class ReferenceField extends BaseField
 		foreach ($this->getRelatedTableName() as $formattedName) {
 			$condition[] = ['like', $formattedName, '%' . $this->getValue(), false];
 		}
-
 		return $condition;
 	}
 
@@ -138,7 +132,6 @@ class ReferenceField extends BaseField
 		foreach ($this->getRelatedTableName() as $formattedName) {
 			$condition[] = ['like', $formattedName, $this->getValue()];
 		}
-
 		return $condition;
 	}
 
@@ -153,7 +146,6 @@ class ReferenceField extends BaseField
 		foreach ($this->getRelatedTableName() as $formattedName) {
 			$condition[] = ['not like', $formattedName, $this->getValue()];
 		}
-
 		return $condition;
 	}
 
@@ -202,7 +194,6 @@ class ReferenceField extends BaseField
 				$condition[(string) $formattedName] = SORT_ASC;
 			}
 		}
-
 		return $condition;
 	}
 }

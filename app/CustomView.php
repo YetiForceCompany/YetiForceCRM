@@ -109,7 +109,6 @@ class CustomView
 			$dateFilters[$filterType]['startdate'] = $dateValues[0];
 			$dateFilters[$filterType]['enddate'] = $dateValues[1];
 		}
-
 		return $dateFilters;
 	}
 
@@ -126,7 +125,6 @@ class CustomView
 		if (!empty($_SESSION['lvs'][$moduleName][$viewId]['start'])) {
 			return $_SESSION['lvs'][$moduleName][$viewId]['start'];
 		}
-
 		return 1;
 	}
 
@@ -270,7 +268,6 @@ class CustomView
 		if ($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -603,7 +600,6 @@ class CustomView
 			}
 			$advFilterVal = implode(',', $val);
 		}
-
 		return [
 			'columnname' => html_entity_decode($relCriteriaRow['columnname'], ENT_QUOTES, \AppConfig::main('default_charset')),
 			'comparator' => $comparator,
@@ -752,7 +748,6 @@ class CustomView
 				$permission = false;
 			}
 		}
-
 		return $permission;
 	}
 
@@ -830,18 +825,29 @@ class CustomView
 		$query = (new Db\Query())->from('vtiger_customview');
 		if (is_numeric($mixed)) {
 			$info = $query->where(['cvid' => $mixed])->one();
+			$info['cvid'] = (int) $info['cvid'];
+			$info['setdefault'] = (int) $info['setdefault'];
+			$info['setmetrics'] = (int) $info['setmetrics'];
+			$info['status'] = (int) $info['status'];
+			$info['privileges'] = (int) $info['privileges'];
+			$info['featured'] = (int) $info['featured'];
+			$info['presence'] = (int) $info['presence'];
+			$info['sequence'] = (int) $info['sequence'];
+			$info['userid'] = (int) $info['userid'];
 		} else {
 			$info = $query->where(['entitytype' => $mixed])->all();
+			foreach ($info as &$item) {
+				$item['cvid'] = (int) $item['cvid'];
+				$item['setdefault'] = (int) $item['setdefault'];
+				$item['setmetrics'] = (int) $item['setmetrics'];
+				$item['status'] = (int) $item['status'];
+				$item['privileges'] = (int) $item['privileges'];
+				$item['featured'] = (int) $item['featured'];
+				$item['presence'] = (int) $item['presence'];
+				$item['sequence'] = (int) $item['sequence'];
+				$item['userid'] = (int) $item['userid'];
+			}
 		}
-		$info['cvid'] = (int) $info['cvid'];
-		$info['setdefault'] = (int) $info['setdefault'];
-		$info['setmetrics'] = (int) $info['setmetrics'];
-		$info['status'] = (int) $info['status'];
-		$info['privileges'] = (int) $info['privileges'];
-		$info['featured'] = (int) $info['featured'];
-		$info['presence'] = (int) $info['presence'];
-		$info['sequence'] = (int) $info['sequence'];
-		$info['userid'] = (int) $info['userid'];
 		Cache::save('CustomViewInfo', $mixed, $info);
 		return $info;
 	}

@@ -4,7 +4,7 @@
 		<div class="form-group form-row">
 			<label for="langs_list" class="col-form-label col-md-2" >{\App\Language::translate('LBL_BASE_LANGUAGE',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
-				<select class="form-control selectize" name="langs_basic">
+				<select class="form-control select2" name="langs_basic">
 					{foreach from=$LANGS item=LABEL key=PREFIX}
 						<option value="{$PREFIX}">{$LABEL}</option>
 					{/foreach}
@@ -12,7 +12,7 @@
 			</div>
 			<label class="col-md-2 col-form-label">{\App\Language::translate('LBL_LANGUAGE',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
-				<select multiple="multiple" class="form-control selectize" name="langs" placeholder="{\App\Language::translate('LBL_SELECT_SOME_OPTIONS',$QUALIFIED_MODULE)}" >
+				<select multiple="multiple" class="form-control select2" name="langs" placeholder="{\App\Language::translate('LBL_SELECT_SOME_OPTIONS',$QUALIFIED_MODULE)}" >
 					{foreach from=$LANGS item=LABEL key=PREFIX}
 						<option value="{$PREFIX}">{$LABEL}</option>
 					{/foreach}

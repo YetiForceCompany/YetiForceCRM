@@ -13,7 +13,7 @@
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-	<div class="tpl-Settings-TreesMangager-ListViewContents listViewEntriesDiv u-overflow-auto">
+	<div class="tpl-Settings-TreesMangager-ListViewContents listViewEntriesDiv u-overflow-scroll-xs-down u-overflow-auto">
 		<span class="listViewLoadingImageBlock d-none modal" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
@@ -23,7 +23,6 @@
 		<table class="table table-bordered table-sm listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
-					<th width="1%" class="{$WIDTHTYPE}"></th>
 						{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<th width="{$WIDTH}%" nowrap {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
@@ -35,16 +34,8 @@
 			</thead>
 			<tbody>
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
-					<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"
-						{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}
-						>
-						<td width="1%" nowrap class="{$WIDTHTYPE}">
-							{if $MODULE eq 'CronTasks'}
-								<img src="{\App\Layout::getImagePath('drag.png')}" class="alignTop" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
-							{/if}
-						</td>
+					<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" {if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 							{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
 							<td class="listViewEntryValue {$WIDTHTYPE}"  width="{$WIDTH}%" nowrap>

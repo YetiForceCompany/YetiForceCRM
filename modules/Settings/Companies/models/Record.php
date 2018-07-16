@@ -69,7 +69,6 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			$instance = new self();
 			$instance->setData($row);
 		}
-
 		return $instance;
 	}
 
@@ -117,10 +116,9 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			case 'logo_main':
 			case 'logo_mail':
 				$src = \App\Fields\File::getImageBaseData($this->getLogoPath($value));
-				$value = "<img src='$src' class='alignMiddle'/>";
+				$value = "<img src='$src' class='img-thumbnail'/>";
 				break;
 		}
-
 		return $value;
 	}
 
@@ -138,7 +136,6 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 		} else {
 			$value = \App\Language::translate('LBL_YES');
 		}
-
 		return $value;
 	}
 
@@ -183,7 +180,6 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -206,7 +202,6 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				return $logoPath . $name;
 			}
 		}
-
 		return '';
 	}
 
@@ -238,7 +233,6 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 		if ($request->get('record')) {
 			$query->andWhere(['<>', 'id', $request->get('record')]);
 		}
-
 		return $query->exists($db);
 	}
 
@@ -278,7 +272,6 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				}
 			}
 		}
-
 		return $logoDetails;
 	}
 }

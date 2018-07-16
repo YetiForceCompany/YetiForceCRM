@@ -36,7 +36,6 @@ class Products_TreeView_Model extends Vtiger_TreeView_Model
 				'icon' => 'fas fa-file',
 			];
 		}
-
 		return $tree;
 	}
 

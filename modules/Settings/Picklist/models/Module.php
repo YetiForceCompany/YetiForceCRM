@@ -16,7 +16,6 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		if (empty($fieldName) || !preg_match('/^[_a-zA-Z0-9]+$/', $fieldName)) {
 			throw new \App\Exceptions\AppException('Incorrect picklist name');
 		}
-
 		return 'vtiger_' . $fieldName;
 	}
 
@@ -37,7 +36,6 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				$fields[$fieldName] = $field;
 			}
 		}
-
 		return $fields;
 	}
 
@@ -138,7 +136,6 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			]);
 			$eventHandler->trigger('PicklistAfterRename');
 		}
-
 		return !empty($result);
 	}
 
@@ -297,7 +294,6 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		if ($moduleObject) {
 			$instance = self::getInstanceFromModuleObject($moduleObject);
 		}
-
 		return $instance;
 	}
 
@@ -315,7 +311,6 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$moduleModel->$properName = $propertyValue;
 		}
-
 		return $moduleModel;
 	}
 

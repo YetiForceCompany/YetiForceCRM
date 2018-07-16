@@ -37,7 +37,6 @@ class PriceBooks_Save_Action extends Vtiger_Save_Action
 				$recordModel->updateListPrice($parentRecordId, $parentRecordModel->get('unit_price'));
 			}
 		}
-
 		return $recordModel;
 	}
 }

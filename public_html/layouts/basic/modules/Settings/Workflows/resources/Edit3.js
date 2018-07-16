@@ -7,6 +7,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
+
 Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	step3Container: false,
 	advanceFilterInstance: false,
@@ -422,7 +424,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	},
 	registerAddFieldEvent: function () {
 		$('#addFieldBtn').on('click', function (e) {
-			var newAddFieldContainer = $('.js-add-basic-field-container').clone(true, true).removeClass('js-add-basic-field-container d-none').addClass('conditionRow');
+			var newAddFieldContainer = $('.js-add-basic-field-container').clone(true, true).removeClass('js-add-basic-field-container d-none').addClass('js-conditions-row');
 			$('select', newAddFieldContainer).addClass('select2');
 			$('#save_fieldvaluemapping').append(newAddFieldContainer);
 			//change in to chosen elements
@@ -528,7 +530,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi, params)
 		} else if (fieldSpecificUi.is('select')) {
 			if (fieldSpecificUi.hasClass('chzn-select')) {
-				App.Fields.Picklist.changeSelectElementView(fieldSpecificUi)
+				App.Fields.Picklist.showChoosenElementView(fieldSpecificUi);
 			} else {
 				App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi);
 			}

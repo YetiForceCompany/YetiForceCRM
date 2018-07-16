@@ -23,7 +23,6 @@ class Vtiger_Widget_Model extends \App\Base
 		if (empty($width)) {
 			$this->set('width', '4');
 		}
-
 		return $this->get('width');
 	}
 
@@ -37,7 +36,6 @@ class Vtiger_Widget_Model extends \App\Base
 		if (empty($height)) {
 			$this->set('height', '1');
 		}
-
 		return $this->get('height');
 	}
 
@@ -51,7 +49,6 @@ class Vtiger_Widget_Model extends \App\Base
 			}
 			return (int) ($position['col']);
 		}
-
 		return $default;
 	}
 
@@ -65,7 +62,6 @@ class Vtiger_Widget_Model extends \App\Base
 			}
 			return (int) ($position['row']);
 		}
-
 		return $default;
 	}
 
@@ -92,7 +88,6 @@ class Vtiger_Widget_Model extends \App\Base
 		if (empty($title)) {
 			$title = $this->get('linklabel');
 		}
-
 		return $title;
 	}
 
@@ -106,7 +101,6 @@ class Vtiger_Widget_Model extends \App\Base
 			$widgetName = $matches[1];
 			$this->set('name', $widgetName);
 		}
-
 		return $widgetName;
 	}
 
@@ -135,7 +129,6 @@ class Vtiger_Widget_Model extends \App\Base
 		if ($row) {
 			$self->setData($row);
 		}
-
 		return $self;
 	}
 
@@ -189,7 +182,6 @@ class Vtiger_Widget_Model extends \App\Base
 			}
 			$self->setData($row);
 		}
-
 		return $self;
 	}
 
@@ -236,7 +228,6 @@ class Vtiger_Widget_Model extends \App\Base
 		if ($widgetid) {
 			$url .= '&widgetid=' . $widgetid;
 		}
-
 		return $url;
 	}
 
@@ -250,7 +241,6 @@ class Vtiger_Widget_Model extends \App\Base
 		if ($this->get('isdefault') == 1) {
 			return true;
 		}
-
 		return false;
 	}
 

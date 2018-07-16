@@ -48,7 +48,6 @@ class Currency
 		if ($row) {
 			$currencyId = $row;
 		}
-
 		return $currencyId;
 	}
 }

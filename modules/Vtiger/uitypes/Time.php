@@ -19,7 +19,6 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		if ($this->getFieldModel()->get('uitype') === 14) {
 			return self::getDBTimeFromUserValue($value);
 		}
-
 		return \App\Purifier::decodeHtml($value);
 	}
 
@@ -28,7 +27,8 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		$rawValue = $value;
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if ($isUserFormat) {
@@ -36,10 +36,10 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		}
 		$timeFormat = 'H:i:s';
 		$d = DateTime::createFromFormat($timeFormat, $value);
-		if (!($d && $d->format($timeFormat) === $value)) {
+		if (!$d || $d->format($timeFormat) !== $value) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$this->validate[$rawValue] = true;
 	}
 
 	/**
@@ -51,7 +51,6 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		if (App\User::getCurrentUserModel()->getDetail('hour_format') === '12') {
 			return self::getTimeValueInAMorPM($value);
 		}
-
 		return $value;
 	}
 

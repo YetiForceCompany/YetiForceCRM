@@ -125,7 +125,6 @@ class KnowledgeBase_Tree_Model extends \App\Base
 				'icon' => 'fas fa-file',
 			];
 		}
-
 		return $tree;
 	}
 

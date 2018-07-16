@@ -151,7 +151,6 @@ class Services extends CRMEntity
 		if ($secmodule === false) {
 			return $relTables;
 		}
-
 		return $relTables[$secmodule];
 	}
 
@@ -212,6 +211,31 @@ class Services extends CRMEntity
 				['and', ['relcrmid' => $id], ['module' => $returnModules], ['crmid' => $entityIds]],
 				['and', ['crmid' => $id], ['relmodule' => $returnModules], ['relcrmid' => $entityIds]],
 			])->execute();
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function saveRelatedModule($module, $crmid, $withModule, $withCrmIds, $relatedName = false)
+	{
+		if (!is_array($withCrmIds)) {
+			$withCrmIds = [$withCrmIds];
+		}
+		foreach ($withCrmIds as $withCrmId) {
+			if ($withModule === 'PriceBooks') {
+				if ((new App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $withCrmId, 'productid' => $crmid])->exists()) {
+					continue;
+				}
+				App\Db::getInstance()->createCommand()->insert('vtiger_pricebookproductrel', [
+					'pricebookid' => $withCrmId,
+					'productid' => $crmid,
+					'listprice' => 0,
+					'usedcurrency' => Vtiger_Record_Model::getInstanceById($withCrmId, $withModule)->get('currency_id')
+				])->execute();
+			} else {
+				parent::saveRelatedModule($module, $crmid, $withModule, $withCrmId, $relatedName);
+			}
 		}
 	}
 }

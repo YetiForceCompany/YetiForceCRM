@@ -72,7 +72,6 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
-
 		return $links;
 	}
 
@@ -89,7 +88,6 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 			$this->set('orderby', 'modifiedtime');
 			$this->set('sortorder', 'DESC');
 		}
-
 		return parent::getListViewEntries($pagingModel);
 	}
 }

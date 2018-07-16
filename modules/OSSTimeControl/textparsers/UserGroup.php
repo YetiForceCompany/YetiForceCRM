@@ -9,7 +9,6 @@
  */
 class OSSTimeControl_UserGroup_Textparser extends \App\TextParser\Base
 {
-
 	/** @var string Class name */
 	public $name = 'LBL_TIME_CONTROL_USER_GROUP';
 
@@ -64,7 +63,6 @@ class OSSTimeControl_UserGroup_Textparser extends \App\TextParser\Base
 				'role' => \App\Language::translate($this->getRoleName($recordModel->get('assigned_user_id')), $this->textParser->moduleName),
 			];
 		}
-
 		return $users;
 	}
 

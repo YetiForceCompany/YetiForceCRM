@@ -3,7 +3,7 @@
 	{assign var=IS_INVENTORY value=($RELATED_MODULE->isInventory() && !empty($INVENTORY_FIELDS))}
 	{if !$TYPE_VIEW || $TYPE_VIEW eq 'List'}
 		<input type="hidden" class="relatedView" value="List">
-		<div class="listViewEntriesDiv  contents-bottomscroll relatedContents">
+		<div class="listViewEntriesDiv u-overflow-scroll-xs-down  contents-bottomscroll relatedContents">
 			<table class="table c-detail-widget__table listViewEntriesTable">
 				<thead>
 				<tr class="text-center">
@@ -129,7 +129,7 @@
 			</table>
 		</div>
 	{elseif $TYPE_VIEW eq 'Summary'}
-		<div class="listViewEntriesDiv contents-bottomscroll relatedContents">
+		<div class="listViewEntriesDiv u-overflow-scroll-xs-down contents-bottomscroll relatedContents">
 			<div class="carousel slide" data-interval="false" data-ride="carousel">
 				<div class="carousel-inner" role="listbox">
 					{foreach item=RELATED_RECORD from=$RELATED_RECORDS name=recordlist}
@@ -190,7 +190,7 @@
 			</div>
 		</div>
 	{else}
-		<div class="listViewEntriesDiv contents-bottomscroll relatedContents">
+		<div class="listViewEntriesDiv u-overflow-scroll-xs-down contents-bottomscroll relatedContents">
 			<table class="table c-detail-widget__table listViewEntriesTable">
 				<thead>
 				<tr class="text-center">

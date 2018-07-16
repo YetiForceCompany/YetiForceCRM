@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 	step2Container: false,
 	advanceFilterInstance: false,
@@ -178,7 +180,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 					options.append(element);
 				}
 			})
-			delete fieldsBasedOnType;
+			fieldsBasedOnType = false;
 
 			container.find('.selectedFieldDataType').html(selectedOption.data('type-name') ? selectedOption.data('type-name') : '');
 			fieldsSelectElement.html(options.children());

@@ -146,7 +146,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			default:
 				break;
 		}
-
 		return null;
 	}
 
@@ -223,7 +222,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		if ($recordId) {
 			$result = $db->createCommand()->delete($this->getTable(), ['id' => $recordId])->execute();
 		}
-
 		return !empty($result);
 	}
 
@@ -272,7 +270,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			default:
 				break;
 		}
-
 		return $value;
 	}
 
@@ -340,7 +337,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			default:
 				break;
 		}
-
 		return $value;
 	}
 
@@ -369,7 +365,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				}
 			}
 		}
-
 		return $conditionResult;
 	}
 
@@ -430,7 +425,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -502,7 +496,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			default:
 				break;
 		}
-
 		return $this->get($name);
 	}
 
@@ -543,7 +536,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			}
 			$users = $this->filterUsers(array_unique($users));
 		}
-
 		return $users;
 	}
 
@@ -562,7 +554,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				unset($users[$key]);
 			}
 		}
-
 		return $users;
 	}
 
@@ -596,7 +587,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				break;
 			}
 		}
-
 		return !$result;
 	}
 
@@ -627,7 +617,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		if (\App\Fields\Owner::getType($owner) === 'Users') {
 			return \App\User::isExists($owner) ? $owner : 0;
 		}
-
 		return Settings_Groups_Record_Model::getInstance($owner) ? $owner : 0;
 	}
 
@@ -686,7 +675,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			}
 			$dataReader->close();
 		}
-
 		return $this->availableUsers;
 	}
 
@@ -702,7 +690,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		if (in_array($name, ['conditions', 'assign', 'value', 'roleid'])) {
 			return false;
 		}
-
 		return true;
 	}
 }

@@ -3,7 +3,7 @@
 	{assign var="MODULESENTITY" value=Settings_Search_Module_Model::getModulesEntity(false, true)}
 	{assign var="FIELDS_MODULES" value=Settings_Search_Module_Model::getFieldFromModule()}
 	<div class="tpl-Settings-Search-Index SearchFieldsEdit">
-		<div class="widget_header row">
+		<div class="widget_header row pb-2">
 			<div class="col-md-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{\App\Language::translate('LBL_Module_desc', $QUALIFIED_MODULE)}
@@ -18,13 +18,13 @@
 			<div class="clearfix"></div>
 		</div>
 		<div class="contents tabbable table-responsive">
-			<table class="table customTableRWD table-bordered table-sm listViewEntriesTable" id="modulesEntity">
+			<table class="table table-responsive table-bordered table-sm listViewEntriesTable my-2" id="modulesEntity">
 				<thead>
 					<tr class="blockHeader">
-						<th class="noWrap"><strong>{\App\Language::translate('Module',$QUALIFIED_MODULE)}</strong></th>
-						<th data-hide='phone' class="noWrap"><strong>{\App\Language::translate('LabelFields',$QUALIFIED_MODULE)}</strong></th>
-						<th data-hide='phone' class="noWrap"><strong>{\App\Language::translate('SearchFields',$QUALIFIED_MODULE)}</strong></th>
-						<th data-hide='tablet' colspan="3" class="noWrap"><strong>{\App\Language::translate('Tools',$QUALIFIED_MODULE)}</strong></th>
+						<th class="noWrap">{\App\Language::translate('Module',$QUALIFIED_MODULE)}</th>
+						<th data-hide="phone">{\App\Language::translate('LabelFields',$QUALIFIED_MODULE)}</th>
+						<th data-hide="phone">{\App\Language::translate('SearchFields',$QUALIFIED_MODULE)}</th>
+						<th data-hide="tablet" colspan="3">{\App\Language::translate('Tools',$QUALIFIED_MODULE)}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -47,7 +47,7 @@
 									{/foreach}
 								</div>
 								<div class="d-none elementEdit{$KEY}">
-									<select multiple class="form-control fieldname" name="fieldname" data-tabid="{$KEY}">
+									<select multiple class="form-control fieldname js-select2-sortable" data-js="sortable" name="fieldname" data-tabid="{$KEY}">
 										{foreach from=$FIELDS item=fieldTab}
 											<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>
 												{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
@@ -65,7 +65,8 @@
 									{/foreach}
 								</div>
 								<div class="d-none elementEdit{$KEY}">
-									<select multiple class="form-control searchcolumn" name="searchcolumn" data-tabid="{$KEY}">
+									<select multiple class="form-control searchcolumn js-select2-sortable"
+											data-js="sortable" name="searchcolumn" data-tabid="{$KEY}">
 										{foreach from=$FIELDS item=fieldTab }
 											<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>
 												{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}

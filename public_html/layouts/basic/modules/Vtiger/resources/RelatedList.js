@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 jQuery.Class("Vtiger_RelatedList_Js", {
 	getInstance: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
@@ -195,7 +196,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				thisInstance.relatedTabsContainer.find('li').removeClass('active');
 				thisInstance.selectedRelatedTabElement.addClass('active');
 				thisInstance.content.html(responseData);
-				Vtiger_Helper_Js.showHorizontalTopScrollBar();
 				$('.pageNumbers', thisInstance.content).tooltip();
 				thisInstance.registerPostLoadEvents();
 				if (thisInstance.listSearchInstance) {
@@ -668,7 +668,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	registerPreviewEvent: function () {
 		var thisInstance = this;
 		var contentHeight = this.content.find('.js-detail-preview,.js-list-preview');
-		contentHeight.height(app.getScreenHeight() - (this.content.offset().top + $('.footerContainer').height()));
+		contentHeight.height(app.getScreenHeight() - (this.content.offset().top + $('.js-footer').height()));
 		this.content.find('.listPreviewframe').on('load', function () {
 			if (thisInstance.frameProgress) {
 				thisInstance.frameProgress.progressIndicator({mode: 'hide'});
@@ -815,18 +815,19 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		var thisInstance = this;
 		app.showPopoverElementView(this.content.find('.js-popover-tooltip'));
 		this.registerRowsEvent();
+		this.registerListScroll();
 		if (this.relatedView === 'ListPreview') {
 			this.registerPreviewEvent();
+			if (!this.content.find('.gutter').length) {
+				if (!this.content.find('.js-list-preview').length)
+					return;
+				this.getDomParams(this.content);
+				this.toggleSplit(this.content);
+				this.registerListPreviewEvents(this.content);
+			}
 		}
 		this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
 		app.event.trigger("RelatedList.AfterLoad", thisInstance);
-		if (!this.content.find('.gutter').length) {
-			if (!this.content.find('.js-list-preview').length)
-				return;
-			this.getDomParams(this.content);
-			this.toggleSplit(this.content);
-			this.registerListPreviewEvents(this.content);
-		}
 	},
 	getSecondColMinWidth: function (container) {
 		let maxWidth, thisWidth;
@@ -853,8 +854,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.list = container.find('.js-list-preview');
 		this.preview = container.find('.js-detail-preview');
 		this.rotatedText = container.find('.u-rotate-90');
-		this.infoUser = $('.infoUser');
-		this.footerH = $('.js-footer').outerHeight() + (this.infoUser.length ? this.infoUser.outerHeight() : 0);
+		this.footerH = $('.js-footer').outerHeight();
 		this.headerH = $('.js-header').outerHeight();
 	},
 	getDefaultSplitSizes: function () {
@@ -872,8 +872,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	registerListPreviewEvents: function (container) {
 		var listPreview = container.find('.js-detail-preview');
 		var mainBody = container.closest('.mainBody');
-		app.showNewBottomTopScrollbar(container.find('.js-list-preview--scroll'));
-		app.showNewLeftScrollbar(this.list);
+		app.showNewScrollbarTopBottom(container.find('.js-list-preview--scroll'));
+		app.showNewScrollbarLeft(this.list);
 		let listOffsetTop = this.list.offset().top - this.headerH;
 		let initialH = this.sideBlocks.height();
 		let mainViewPortHeightCss = {height: mainBody.height()};
@@ -1093,6 +1093,12 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				}
 			}
 		});
+	},
+	registerListScroll: function () {
+		let container = $('.listViewEntriesDiv');
+		if (this.relatedView !== 'ListPreview') {
+			app.showNewScrollbarTopBottomRight(container);
+		}
 	},
 	registerRelatedEvents: function () {
 		var relatedContainer = this.getRelatedContainer();

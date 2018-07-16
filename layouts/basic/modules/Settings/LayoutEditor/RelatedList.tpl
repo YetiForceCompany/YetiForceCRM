@@ -105,7 +105,7 @@
 											<div class="form-group row">
 												<label class="col-sm-2 col-form-label text-right">{\App\Language::translate('LBL_STANDARD_FIELDS',$QUALIFIED_MODULE)}:</label>
 												<div class="col-sm-10">
-													<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="form-control select2_container columnsSelect relatedColumnsList">
+													<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="form-control select2_container js-select2-sortable columnsSelect relatedColumnsList" data-js="sortable">
 														<optgroup label=''>
 															{foreach item=SELECTED_FIELD from=$SELECTED_FIELDS}
 																{assign var=FIELD_INSTANCE value=$RELATED_MODULE_MODEL->getField($SELECTED_FIELD)}
@@ -137,7 +137,7 @@
 												<div class="form-group row">
 													<label class="col-sm-2 col-form-label text-right">{\App\Language::translate('LBL_ADVANCED_BLOCK_FIELDS',$QUALIFIED_MODULE)}:</label>
 													<div class="col-sm-10">
-														<select data-placeholder="{\App\Language::translate('LBL_ADD_ADVANCED_BLOCK_FIELDS', $QUALIFIED_MODULE)}" multiple class="select2_container relatedColumnsList" data-type="inventory">
+														<select data-placeholder="{\App\Language::translate('LBL_ADD_ADVANCED_BLOCK_FIELDS', $QUALIFIED_MODULE)}" multiple class="select2_container js-select2-sortable relatedColumnsList" data-js="sortable" data-type="inventory">
 															{foreach item=NAME key=SELECTED_FIELD from=$SELECTED_INVENTORY_FIELDS}
 																{assign var=FIELD_INSTANCE value=$INVENTORY_FIELDS[$SELECTED_FIELD]}
 																{if $FIELD_INSTANCE}

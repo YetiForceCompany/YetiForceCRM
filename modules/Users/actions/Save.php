@@ -48,7 +48,6 @@ class Users_Save_Action extends Vtiger_Save_Action
 			$recordModel->set('user_password', $request->getRaw('user_password', null));
 			$recordModel->set('confirm_password', '');
 		}
-
 		return $recordModel;
 	}
 

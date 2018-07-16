@@ -47,7 +47,6 @@ class Query extends \yii\db\Query
 		if ($db === null) {
 			$db = \App\Db::getInstance();
 		}
-
 		return \Yii::createObject([
 				'class' => \yii\db\BatchQueryResult::className(),
 				'query' => $this,
@@ -73,7 +72,6 @@ class Query extends \yii\db\Query
 		if ($db === null) {
 			$db = \App\Db::getInstance();
 		}
-
 		return \Yii::createObject([
 				'class' => \yii\db\BatchQueryResult::className(),
 				'query' => $this,

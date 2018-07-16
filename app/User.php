@@ -72,7 +72,6 @@ class User
 		if (!static::$currentUserId) {
 			static::$currentUserId = (int) \App\Session::get('authenticated_user_id');
 		}
-
 		return static::$currentUserCache = static::getUserModel(static::$currentUserId);
 	}
 
@@ -95,7 +94,6 @@ class User
 			$userModel->privileges = $privileges;
 			static::$userModelCache[$userId] = $userModel;
 		}
-
 		return $userModel;
 	}
 
@@ -268,7 +266,6 @@ class User
 		if (!empty($this->privileges['roleInstance'])) {
 			return $this->privileges['roleInstance'];
 		}
-
 		return $this->privileges['roleInstance'] = \Settings_Roles_Record_Model::getInstanceById($this->getRole());
 	}
 

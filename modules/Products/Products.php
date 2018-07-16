@@ -125,7 +125,6 @@ class Products extends CRMEntity
 		if ($secmodule === false) {
 			return $relTables;
 		}
-
 		return $relTables[$secmodule];
 	}
 
@@ -150,7 +149,17 @@ class Products extends CRMEntity
 			$withCrmIds = [$withCrmIds];
 		}
 		foreach ($withCrmIds as $withCrmId) {
-			if (in_array($withModule, ['Leads', 'Accounts', 'Contacts', 'Products'])) {
+			if ($withModule === 'PriceBooks') {
+				if ((new App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $withCrmId, 'productid' => $crmid])->exists()) {
+					continue;
+				}
+				App\Db::getInstance()->createCommand()->insert('vtiger_pricebookproductrel', [
+					'pricebookid' => $withCrmId,
+					'productid' => $crmid,
+					'listprice' => 0,
+					'usedcurrency' => Vtiger_Record_Model::getInstanceById($withCrmId, $withModule)->get('currency_id')
+				])->execute();
+			} elseif (in_array($withModule, ['Leads', 'Accounts', 'Contacts', 'Products'])) {
 				if ($withModule === 'Products') {
 					if ((new App\Db\Query())->from('vtiger_seproductsrel')->where(['productid' => $withCrmId])->exists()) {
 						continue;

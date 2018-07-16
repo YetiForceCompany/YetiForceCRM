@@ -6,8 +6,9 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
-var AppConnector = {
+AppConnector = {
 
 	/**
 	 * Sends a pjax request (push state +ajax)

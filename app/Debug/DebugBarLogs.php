@@ -48,7 +48,6 @@ class DebugBarLogs implements DataCollectorInterface, MessagesAggregateInterface
 		if ($this->dataFormater === null) {
 			$this->dataFormater = DataCollector::getDefaultDataFormatter();
 		}
-
 		return $this->dataFormater;
 	}
 

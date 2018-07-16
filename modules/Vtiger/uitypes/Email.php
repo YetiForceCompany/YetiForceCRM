@@ -21,7 +21,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if (!filter_var($value, FILTER_VALIDATE_EMAIL) || $value !== filter_var($value, FILTER_SANITIZE_EMAIL)) {
@@ -31,7 +31,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
@@ -58,7 +58,6 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 				}
 			}
 		}
-
 		return \App\Purifier::encodeHtml($value);
 	}
 
@@ -86,7 +85,6 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 				}
 			}
 		}
-
 		return \App\Purifier::encodeHtml($value);
 	}
 

@@ -7,6 +7,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
+
 jQuery.Class('Settings_Module_Manager_Js', {
 	validateField: function (field, rules, i, options) {
 		var specialChars = /[&\<\>\:\'\"\,]/;
@@ -188,7 +190,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 		var container = jQuery('#moduleManagerContents');
 		container.find('.createModule').on('click', thisInstance.createModule);
 		var scrollbar = container.find('.js-scrollbar');
-		app.showNewBottomTopScrollbar(scrollbar);
+		app.showNewScrollbarTopBottom(scrollbar);
 		thisInstance.deleteModule(container);
 		//register click event for check box to update the module status
 		container.on('click', '[name="moduleStatus"]', function (e) {

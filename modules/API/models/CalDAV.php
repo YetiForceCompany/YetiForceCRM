@@ -542,7 +542,6 @@ class API_CalDAV_Model
 			$timeStart = $currentUser->getDetail('start_hour') . ':00';
 			$timeEnd = $currentUser->getDetail('end_hour') . ':00';
 		}
-
 		return ['allday' => $allday, 'date_start' => $dateStart, 'due_date' => $dueDate, 'time_start' => $timeStart, 'time_end' => $timeEnd];
 	}
 
@@ -578,7 +577,6 @@ class API_CalDAV_Model
 					break;
 			}
 		}
-
 		return $state;
 	}
 
@@ -600,7 +598,6 @@ class API_CalDAV_Model
 				$state = 'TRANSPARENT';
 				break;
 		}
-
 		return $state;
 	}
 
@@ -624,7 +621,6 @@ class API_CalDAV_Model
 					break;
 			}
 		}
-
 		return $visibility;
 	}
 
@@ -647,7 +643,6 @@ class API_CalDAV_Model
 		if ($value && isset($values[$value])) {
 			$return = $values[$value];
 		}
-
 		return $return;
 	}
 
@@ -670,7 +665,6 @@ class API_CalDAV_Model
 		if ($value && isset($values[$value])) {
 			$return = $values[$value];
 		}
-
 		return $return;
 	}
 
@@ -709,7 +703,6 @@ class API_CalDAV_Model
 		if ($value && isset($values[$value])) {
 			$return = $values[$value];
 		}
-
 		return $return;
 	}
 
@@ -746,7 +739,6 @@ class API_CalDAV_Model
 		if ($value && isset($values[$value])) {
 			$return = $values[$value];
 		}
-
 		return $return;
 	}
 
@@ -806,7 +798,6 @@ class API_CalDAV_Model
 		if ($cal['smownerid'] != $this->user->get('id') && (!array_key_exists($cal['smownerid'], $accessibleGroups)) && $visibility != 'Public') {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -971,7 +962,6 @@ class API_CalDAV_Model
 		if (array_key_exists($tz->getName(), $microsoftExchangeMap)) {
 			$vt->add('X-MICROSOFT-CDO-TZID', $microsoftExchangeMap[$tz->getName()]);
 		}
-
 		return $vt;
 	}
 
@@ -1116,7 +1106,6 @@ class API_CalDAV_Model
 		if (isset($statuses[$value])) {
 			$status = $statuses[$value];
 		}
-
 		return $status;
 	}
 }

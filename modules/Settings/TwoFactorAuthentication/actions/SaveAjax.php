@@ -20,7 +20,6 @@ class Settings_TwoFactorAuthentication_SaveAjax_Action extends Settings_Vtiger_B
 		}
 		$config = new \App\Configurator('security');
 		$config->set('USER_AUTHY_MODE', $methods);
-		$config->set('USER_AUTHY_TOTP_EXCEPTIONS', $request->getArray('users', 'Integer'));
 		$config->save();
 		$response = new Vtiger_Response();
 		$response->setResult([

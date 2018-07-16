@@ -25,7 +25,6 @@ class Users_Field_Model extends Vtiger_Field_Model
 		if (($currentUserModel->isAdminUser() === false && $this->get('uitype') == 98) || $this->get('uitype') == 156) {
 			return true;
 		}
-
 		return parent::isReadOnly();
 	}
 
@@ -42,7 +41,6 @@ class Users_Field_Model extends Vtiger_Field_Model
 		if ($this->get('uitype') === 106 && !AppConfig::module('Users', 'USER_NAME_IS_EDITABLE')) {
 			return false;
 		}
-
 		return parent::isViewEnabled();
 	}
 
@@ -81,7 +79,9 @@ class Users_Field_Model extends Vtiger_Field_Model
 			$this->get('uitype') === 106 || $this->get('uitype') === 98 || $this->get('uitype') === 101 || 'date_format' === $this->getFieldName() || 'email1' === $this->getFieldName()) {
 			return false;
 		}
-
+		if ($this->getFieldName() === 'login_method') {
+			return \App\User::getCurrentUserModel()->isAdmin();
+		}
 		return parent::isAjaxEditable();
 	}
 
@@ -104,7 +104,6 @@ class Users_Field_Model extends Vtiger_Field_Model
 
 			return $fieldPickListValues;
 		}
-
 		return parent::getPicklistValues($skipCheckingRole);
 	}
 
@@ -124,10 +123,9 @@ class Users_Field_Model extends Vtiger_Field_Model
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$fieldName = $this->getFieldName();
-		if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($value == '&nbsp;')) {
+		if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($value === ' ')) {
 			return \App\Language::translate('LBL_SPACE', 'Users');
 		}
-
 		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 
@@ -144,7 +142,6 @@ class Users_Field_Model extends Vtiger_Field_Model
 			$roleName = $roleModel->getName();
 			$roles[$roleName] = $roleId;
 		}
-
 		return $roles;
 	}
 
@@ -158,11 +155,35 @@ class Users_Field_Model extends Vtiger_Field_Model
 		if (($this->get('uitype') === 115 && (!\App\User::getCurrentUserModel()->isAdmin() || \App\User::getCurrentUserId() === $this->get('rocordId')))) {
 			return false;
 		}
+		if ($this->getColumnName() === 'authy_secret_totp') {
+			return $this->get('rocordId') === \App\User::getCurrentUserId();
+		}
 		if (!$this->get('editable')) {
 			$this->set('editable', parent::isEditable());
 		}
-
 		return $this->get('editable');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isViewable()
+	{
+		if ($this->getColumnName() === 'authy_secret_totp') {
+			return $this->get('rocordId') === \App\User::getCurrentUserId();
+		}
+		return parent::isViewable();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isEditableReadOnly()
+	{
+		if ($this->getColumnName()==='login_method' && !\App\User::getCurrentUserModel()->isAdmin()) {
+			return true;
+		}
+		return parent::isEditableReadOnly();
 	}
 
 	/**
@@ -175,7 +196,6 @@ class Users_Field_Model extends Vtiger_Field_Model
 		if ($this->getFieldName() === 'reminder_interval') {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -187,7 +207,6 @@ class Users_Field_Model extends Vtiger_Field_Model
 		if ($this->getFieldName() === 'is_admin' && \App\User::getCurrentUserModel()->isAdmin()) {
 			return true;
 		}
-
 		return parent::isWritable();
 	}
 }

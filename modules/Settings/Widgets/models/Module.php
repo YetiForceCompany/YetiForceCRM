@@ -54,7 +54,6 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				unset($modules[$id]);
 			}
 		}
-
 		return $modules;
 	}
 
@@ -94,7 +93,6 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
-
 		return $folderFiles;
 	}
 
@@ -148,7 +146,6 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				$tabid[] = $value['related_tabid'];
 			}
 		}
-
 		return $filetrs;
 	}
 
@@ -177,7 +174,6 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				$tabid[] = $value['related_tabid'];
 			}
 		}
-
 		return $checkboxs;
 	}
 
@@ -389,7 +385,6 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		foreach ($linkList as &$link) {
 			$buttons[] = Vtiger_Link_Model::getInstanceFromValues($link);
 		}
-
 		return $buttons;
 	}
 }

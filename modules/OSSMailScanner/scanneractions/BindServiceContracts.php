@@ -48,7 +48,6 @@ class OSSMailScanner_BindServiceContracts_ScannerAction
 				}
 			}
 		}
-
 		return $returnIds;
 	}
 }

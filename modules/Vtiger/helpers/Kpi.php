@@ -35,7 +35,6 @@ class Vtiger_Kpi_Helper
 		for ($i = 0; $i < $countResult; ++$i) {
 			$list[$adb->queryResultRaw($result, $i, 'id')] = $adb->queryResultRaw($result, $i, 'name');
 		}
-
 		return $list;
 	}
 
@@ -58,7 +57,6 @@ class Vtiger_Kpi_Helper
 		if ($this->type == '' || !method_exists('Vtiger_Kpi_Helper', $type)) {
 			return;
 		}
-
 		return $this->$type();
 	}
 

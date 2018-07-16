@@ -160,7 +160,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		if ($wf->defaultworkflow == 1) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -258,7 +257,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -354,7 +352,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				array_push($examinedIdList, $workFlowId);
 			}
 		}
-
 		return count($examinedIdList);
 	}
 
@@ -380,7 +377,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				array_push($examinedIdList, $workFlowId);
 			}
 		}
-
 		return count($examinedIdList);
 	}
 
@@ -395,7 +391,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		if ($wf->filtersavedinnew == '6') {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -443,7 +438,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				}
 			}
 		}
-
 		return false;
 	}
 
@@ -542,7 +536,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				}
 			}
 		}
-
 		return false;
 	}
 

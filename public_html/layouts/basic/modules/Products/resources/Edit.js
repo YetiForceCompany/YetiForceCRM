@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	baseCurrency: '',
@@ -74,15 +75,17 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	 * Function to register event for enabling base currency on radio button clicked
 	 */
 	registerEventForEnableBaseCurrency: function () {
-		var container = this.getMoreCurrenciesContainer();
-		var thisInstance = this;
+		let container = this.getMoreCurrenciesContainer();
+		let currencyLabel = $('.js-currency');
+		let thisInstance = this;
 		$(container).on('change', '.baseCurrency', function (e) {
-			var elem = thisInstance.getCurrentElem(e);
-			var parentElem = elem.closest('tr');
+			let elem = thisInstance.getCurrentElem(e);
+			let parentElem = elem.closest('tr');
 			if (elem.is(':checked')) {
-				var convertedPrice = $('.convertedPrice', parentElem).val();
+				let convertedPrice = $('.convertedPrice', parentElem).val();
 				thisInstance.baseCurrencyName = parentElem.data('currencyId');
 				thisInstance.baseCurrency = convertedPrice;
+				currencyLabel.text(parentElem.data('currency-symbol'));
 			}
 		});
 		return this;
@@ -300,8 +303,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 				e.preventDefault();
 				thisInstance.getMoreCurrenciesUI().done(function () {
 					thisInstance.preSaveConfigOfForm(form);
-					InitialFormData = form.serialize();
-					form.submit();
+					form.serialize().submit();
 				});
 			} else if (multiCurrencyContent.length > 0) {
 				thisInstance.preSaveConfigOfForm(form);

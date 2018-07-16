@@ -59,7 +59,6 @@ class Vtiger_Theme extends Vtiger_Viewer
 		if (file_exists($completeFallBackThemePath)) {
 			return $basePath . $fallbackPath;
 		}
-
 		return false;
 	}
 
@@ -104,7 +103,6 @@ class Vtiger_Theme extends Vtiger_Viewer
 				return $basePath . $fallbackPath;
 			}
 		}
-
 		return false;
 	}
 
@@ -146,7 +144,6 @@ class Vtiger_Theme extends Vtiger_Viewer
 		if (file_exists($completeFallBackThemePath)) {
 			return $fallBackThemePath;
 		}
-
 		return false;
 	}
 

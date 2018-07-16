@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Settings_Vtiger_List_Js("Settings_MappedFields_List_Js", {}, {
 	getListContainer: function () {
 		return jQuery('#listViewContainer');
@@ -98,7 +100,7 @@ Settings_Vtiger_List_Js("Settings_MappedFields_List_Js", {}, {
 		var formData = new FormData(form[0]);
 		if (typeof file !== "undefined") {
 			formData.append("imported_xml", file);
-			delete file;
+			file = false;
 		}
 		if (formData) {
 			var params = {

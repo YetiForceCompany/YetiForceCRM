@@ -29,7 +29,6 @@ class Vtiger_CssScript_Model extends \App\Base
 		if (empty($rel)) {
 			$rel = self::DEFAULT_REL;
 		}
-
 		return $rel;
 	}
 
@@ -44,7 +43,6 @@ class Vtiger_CssScript_Model extends \App\Base
 		if (empty($media)) {
 			$media = self::DEFAULT_MEDIA;
 		}
-
 		return $media;
 	}
 
@@ -59,7 +57,6 @@ class Vtiger_CssScript_Model extends \App\Base
 		if (empty($type)) {
 			$type = self::DEFAULT_TYPE;
 		}
-
 		return $type;
 	}
 
@@ -77,7 +74,6 @@ class Vtiger_CssScript_Model extends \App\Base
 		if ($this->has('base') && $fs = @filemtime($this->get('base'))) {
 			$href = $href . '?s=' . $fs;
 		}
-
 		return $href;
 	}
 
@@ -95,7 +91,6 @@ class Vtiger_CssScript_Model extends \App\Base
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$linkModel->$properName = $propertyValue;
 		}
-
 		return $linkModel->setData($objectProperties);
 	}
 }

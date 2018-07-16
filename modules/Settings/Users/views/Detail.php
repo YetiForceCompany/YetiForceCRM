@@ -109,7 +109,6 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 		if ($recordModel->get('status') != 'Active') {
 			return false;
 		}
-
 		return $recordModel->isEditable();
 	}
 }

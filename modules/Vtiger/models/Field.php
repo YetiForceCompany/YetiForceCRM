@@ -17,6 +17,11 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $fieldType;
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
+	/**
+	 * @var Vtiger_Base_UIType Vtiger_Base_UIType or UI Type specific model instance
+	 */
+	protected $uitypeModel;
+
 	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess', 'referenceExtend'];
 
 	const REFERENCE_TYPE = 'reference';
@@ -41,7 +46,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (property_exists($this, $propertyName)) {
 			return $this->$propertyName;
 		}
-
 		return null;
 	}
 
@@ -155,7 +159,6 @@ class Vtiger_Field_Model extends vtlib\Field
 			}
 			$this->module = Vtiger_Module_Model::getInstanceFromModuleObject($moduleObj);
 		}
-
 		return $this->module;
 	}
 
@@ -398,7 +401,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (in_array($this->getFieldName(), $moduleModel->getNameFields())) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -422,10 +424,10 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getUITypeModel()
 	{
-		if (!$this->get('uitypeModel')) {
-			$this->set('uitypeModel', Vtiger_Base_UIType::getInstanceFromField($this));
+		if (isset($this->uitypeModel)) {
+			return $this->uitypeModel;
 		}
-		return $this->get('uitypeModel');
+		return $this->uitypeModel = Vtiger_Base_UIType::getInstanceFromField($this);
 	}
 
 	public function isRoleBased()
@@ -473,7 +475,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		} elseif (method_exists($this->getUITypeModel(), 'getPicklistValues')) {
 			return $this->getUITypeModel()->getPicklistValues();
 		}
-
 		return null;
 	}
 
@@ -492,7 +493,6 @@ class Vtiger_Field_Model extends vtlib\Field
 				'label' => App\Language::translate($module['name'], $module['name']),
 			];
 		}
-
 		return $modules;
 	}
 
@@ -538,7 +538,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		} else {
 			$fieldType = \vtlib\Functions::transformFieldTypeOfData($this->get('table'), $this->get('column'), $fieldType);
 		}
-
 		return $this->fieldType = $fieldType;
 	}
 
@@ -552,7 +551,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($this->getDisplayType() === 4 || in_array($this->get('presence'), [1, 3])) {
 			return false;
 		}
-
 		return $this->getPermissions();
 	}
 
@@ -589,7 +587,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (!$this->isViewable() || $this->getDisplayType() === 3 || $this->getDisplayType() === 5) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -607,7 +604,6 @@ class Vtiger_Field_Model extends vtlib\Field
 			$this->isReadOnly() === true) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -622,7 +618,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (!$this->isWritable() || ($displayType !== 1 && $displayType !== 10) || $this->isReadOnly() === true || $this->get('uitype') === 4) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -637,7 +632,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (!$this->isEditable() || in_array($this->get('uitype'), $ajaxRestrictedFields) || !$this->getUITypeModel()->isAjaxEditable() || (int) $this->get('displaytype') === 10) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -651,7 +645,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ((int) $this->get('displaytype') === 10) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -688,7 +681,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($this->getFieldDataType() === 'reference' && empty($this->getReferenceList())) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -715,7 +707,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$fieldModel->$properName = $propertyValue;
 		}
-
 		return $fieldModel;
 	}
 
@@ -939,7 +930,6 @@ class Vtiger_Field_Model extends vtlib\Field
 
 			Vtiger_Cache::set('ModuleFields', $moduleModel->id, $fieldModelList);
 		}
-
 		return $fieldModelList;
 	}
 
@@ -967,7 +957,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($fieldObject) {
 			return self::getInstanceFromFieldObject($fieldObject);
 		}
-
 		return false;
 	}
 
@@ -1070,7 +1059,6 @@ class Vtiger_Field_Model extends vtlib\Field
 				array_push($validator, $funcName);
 				break;
 		}
-
 		return $validator;
 	}
 
@@ -1132,7 +1120,6 @@ class Vtiger_Field_Model extends vtlib\Field
 
 			return $textParser->getContent();
 		}
-
 		return $this->defaultvalue;
 	}
 
@@ -1169,7 +1156,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
 			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
 			'fieldparams' => $this->get('fieldparams'),
-			], ['fieldid' => $this->get('id')])->execute();
+		], ['fieldid' => $this->get('id')])->execute();
 		if ($this->isMandatory()) {
 			$db->createCommand()->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $this->getBlockId()])->execute();
 		}
@@ -1228,7 +1215,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (method_exists($this->getUITypeModel(), 'isEmptyPicklistOptionAllowed')) {
 			return $this->getUITypeModel()->isEmptyPicklistOptionAllowed();
 		}
-
 		return true;
 	}
 
@@ -1282,7 +1268,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (empty($recordValue) && !$defaultValue) {
 			$this->set('fieldvalue', $defaultValue);
 		}
-
 		return $this;
 	}
 
@@ -1308,7 +1293,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($this->get('fromOutsideList')) {
 			return false;
 		}
-
 		return $this->getUITypeModel()->isActiveSearchView();
 	}
 
@@ -1337,7 +1321,6 @@ class Vtiger_Field_Model extends vtlib\Field
 
 			return $string;
 		}
-
 		return $data;
 	}
 

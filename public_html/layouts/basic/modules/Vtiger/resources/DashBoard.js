@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
+'use strict';
 
 $.Class("Vtiger_DashBoard_Js", {
 	gridster: false,
@@ -391,6 +392,7 @@ $.Class("Vtiger_DashBoard_Js", {
 										wizardContainer.find('#widgetStep').val(4);
 										var step4 = wizardContainer.find('.step4');
 										App.Fields.Picklist.showSelect2ElementView(step4.find('select'));
+										app.registerModalEvents(wizardContainer);
 									});
 								});
 							});
@@ -399,40 +401,55 @@ $.Class("Vtiger_DashBoard_Js", {
 				});
 				form.on('submit', function (e) {
 					e.preventDefault();
-					const selectedModule = moduleNameSelect2.val();
-					const selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-					let selectedFiltersId = form.find('.filtersId').val();
-					if (Array.isArray(selectedFiltersId)) {
-						selectedFiltersId = selectedFiltersId.join(',');
+					let save = true;
+					e.preventDefault();
+					if (form.data('jqv').InvalidFields.length > 0) {
+						app.formAlignmentAfterValidation(form);
+						save = false;
 					}
-					const selectedFilterLabel = form.find('.filterId').find(':selected').text();
-					const selectedFieldLabel = form.find('.groupField').find(':selected').text();
-					const data = {
-						module: selectedModule,
-						groupField: form.find('.groupField').val(),
-						chartType: chartType.val(),
-					};
-					form.find('.saveParam').each(function (index, element) {
-						element = $(element);
-						if (!(element.is('input') && element.prop('type') === 'checkbox' && !element.prop('checked'))) {
-							data[element.attr('name')] = element.val();
+					if (save) {
+						const selectedModule = moduleNameSelect2.val();
+						const selectedModuleLabel = moduleNameSelect2.find(':selected').text();
+						let selectedFiltersId = form.find('.filtersId').val();
+						if (Array.isArray(selectedFiltersId)) {
+							selectedFiltersId = selectedFiltersId.join(',');
 						}
-					});
-					thisInstance.saveChartFilterWidget(data, element, selectedModuleLabel, selectedFiltersId, selectedFilterLabel, selectedFieldLabel, form);
+						const selectedFilterLabel = form.find('.filterId').find(':selected').text();
+						const selectedFieldLabel = form.find('.groupField').find(':selected').text();
+						const data = {
+							module: selectedModule,
+							groupField: form.find('.groupField').val(),
+							chartType: chartType.val(),
+						};
+						form.find('.saveParam').each(function (index, element) {
+							element = $(element);
+							if (!(element.is('input') && element.prop('type') === 'checkbox' && !element.prop('checked'))) {
+								data[element.attr('name')] = element.val();
+							}
+						});
+						thisInstance.saveChartFilterWidget(data, element, selectedModuleLabel, selectedFiltersId, '', selectedFieldLabel, form);
+					}
 				});
 			});
 		});
 	},
 	saveChartFilterWidget: function (data, element, moduleNameLabel, filtersId, filterLabel, groupFieldName, form) {
 		const thisInstance = this;
+		let label = moduleNameLabel;
+		if (typeof filterLabel !== 'undefined' && filterLabel !== null && filterLabel !== '') {
+			label += ' - ' + filterLabel;
+		}
+		if (typeof groupFieldName !== 'undefined' && groupFieldName !== null && groupFieldName !== '') {
+			label += ' - ' + groupFieldName;
+		}
 		const paramsForm = {
 			data: JSON.stringify(data),
 			blockid: element.data('block-id'),
 			linkid: element.data('linkid'),
-			label: moduleNameLabel + ' - ' + filterLabel + ' - ' + groupFieldName,
+			label: label,
 			name: 'ChartFilter',
 			title: form.find('[name="widgetTitle"]').val(),
-			filtersId: filtersId,
+			filterid: filtersId,
 			isdefault: 0,
 			height: 4,
 			width: 4,
@@ -579,7 +596,7 @@ $.Class("Vtiger_DashBoard_Js", {
 			label: moduleNameLabel + ' - ' + filterLabel,
 			title: form.find('[name="widgetTitle"]').val(),
 			name: 'Mini List',
-			filtersId: filterid,
+			filterid: filterid,
 			isdefault: 0,
 			height: 4,
 			width: 4,

@@ -6,13 +6,13 @@ namespace App;
  * Privilege Util basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class PrivilegeUtil
 {
 	/** Function to get parent record owner
-	 * @param $tabid -- tabid :: Type integer
+	 * @param $tabid    -- tabid :: Type integer
 	 * @param $parModId -- parent module id :: Type integer
 	 * @param $recordId -- record id :: Type integer
 	 * @returns $parentRecOwner -- parentRecOwner:: Type integer
@@ -589,7 +589,7 @@ class PrivilegeUtil
 		$allActions = static::getStandardPermissions($profileid);
 		$utilityActions = static::getUtilityPermissions($profileid);
 		foreach ($utilityActions as $tabid => $utilityAction) {
-			$actionTabs = $allActions[$tabid];
+			$actionTabs = $allActions[$tabid] ?? [];
 			foreach ($utilityAction as $utilityId => $utilityPermission) {
 				$actionTabs[$utilityId] = (int) $utilityPermission;
 			}
@@ -700,7 +700,7 @@ class PrivilegeUtil
 		$shareIdMembers = [];
 		//If Sharing of leads is Private
 		if ($modDefOrgShare === 3 || $modDefOrgShare === 0) {
-			$roleWritePer = $roleWritePer  = $grpReadPer = $grpWritePer = $roleReadPer = [];
+			$roleWritePer = $roleWritePer = $grpReadPer = $grpWritePer = $roleReadPer = [];
 			//Retreiving from vtiger_role to vtiger_role
 			foreach (static::getDatashare('role2role', $modTabId, $currentUserRoles) as $row) {
 				$shareRoleId = $row['share_roleid'];
@@ -895,7 +895,7 @@ class PrivilegeUtil
 			foreach (static::getDatashare('group2role', $modTabId, $currentUserRoles) as $row) {
 				$shareGrpId = (int) $row['share_groupid'];
 				$shareIdGrps = [];
-				$shareIdGrps[] =  $shareGrpId;
+				$shareIdGrps[] = $shareGrpId;
 				if ((int) $row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
@@ -991,7 +991,7 @@ class PrivilegeUtil
 			foreach (static::getDatashare('group2user', $modTabId, $userid) as $row) {
 				$shareGrpId = (int) $row['share_groupid'];
 				$shareIdGrps = [];
-				$shareIdGrps[] =  $shareGrpId;
+				$shareIdGrps[] = $shareGrpId;
 				if ((int) $row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
@@ -1228,7 +1228,6 @@ class PrivilegeUtil
 		} else {
 			Log::warning('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
 		}
-
 		return $groups;
 	}
 

@@ -230,7 +230,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($request->getByType('requestMode', 1) === 'full') {
 			return $this->showModuleDetailView($request);
 		}
-
 		return $this->showModuleBasicView($request);
 	}
 

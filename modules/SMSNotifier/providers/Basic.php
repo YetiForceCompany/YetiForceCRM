@@ -135,7 +135,6 @@ abstract class SMSNotifier_Basic_Provider
 		foreach ($keys as $key) {
 			$params[$key] = $this->get($key);
 		}
-
 		return $patch . http_build_query($params);
 	}
 

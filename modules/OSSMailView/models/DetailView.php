@@ -99,7 +99,6 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 				break;
 			}
 		}
-
 		return $linkModelList;
 	}
 }

@@ -68,7 +68,6 @@ class Settings_Workflows_Field_Model extends Vtiger_Field_Model
 			$commentField->set('label', $fieldLabel);
 			$commentFieldModelsList[$fieldName] = $commentField;
 		}
-
 		return $commentFieldModelsList;
 	}
 }

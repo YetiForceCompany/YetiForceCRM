@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Settings_PDF_Edit_Js("Settings_PDF_Edit5_Js", {}, {
 	step5Container: false,
 	advanceFilterInstance: false,
@@ -77,22 +79,8 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit5_Js", {}, {
 			window.history.back();
 		});
 	},
-	/**
-	 * Registers updated version of CkEditor on textarea fields
-	 * spellcheck disabled
-	 */
-	registerNewEditor: function () {
-		CKEDITOR.replace('footer_content', {
-				disableNativeSpellChecker: true,
-				scayt_autoStartup: false,
-				removePlugins: 'scayt'
-			}
-		);
-	},
 	registerEvents: function () {
-		var container = this.getContainer();
-
-		var opts = app.validationEngineOptions;
+		let container = this.getContainer(), opts = app.validationEngineOptions;
 		// to prevent the page reload after the validation has completed
 		opts['onValidationComplete'] = function (form, valid) {
 			//returns the valid status
@@ -101,7 +89,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit5_Js", {}, {
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
 		App.Fields.Picklist.showSelect2ElementView(container.find('select'));
+		new App.Fields.Text.Editor('.js-editor', {toolbar: 'Full'});
 		this.registerCancelStepClickEvent(container);
-		this.registerNewEditor();
 	}
 });

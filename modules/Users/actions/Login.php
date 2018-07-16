@@ -73,6 +73,7 @@ class Users_Login_Action extends \App\Controller\Action
 		if (Users_Totp_Authmethod::verifyCode(\App\User::getUserModel($userId)->getDetail('authy_secret_totp'), $request->getByType('user_code', 'Digital'))) {
 			\App\Session::set('authenticated_user_id', $userId);
 			\App\Session::delete('2faUserId');
+			\App\Session::delete('LoginAuthyMethod');
 			$this->redirectUser();
 		} else {
 			\App\Session::set('UserLoginMessage', \App\Language::translate('LBL_2FA_WRONG_CODE', 'Users'));
@@ -120,7 +121,7 @@ class Users_Login_Action extends \App\Controller\Action
 			}
 			$this->afterLogin($request);
 			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($userName)); //Track the login History
-			if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId()) && Users_Totp_Authmethod::isActiveUser($this->userRecordModel->getId())) {
+			if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId()) && !Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
 				header('Location: index.php?module=Users&view=Login');
 			} else {
 				$this->redirectUser();
@@ -142,15 +143,15 @@ class Users_Login_Action extends \App\Controller\Action
 			\App\Session::regenerateId(true); // to overcome session id reuse.
 		}
 		if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId())) {
-			if (Users_Totp_Authmethod::isActiveUser($this->userRecordModel->getId())) {
+			if (Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
+				\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
+				\App\Session::set('ShowAuthy2faModal', true);
+			} else {
 				\App\Session::set('LoginAuthyMethod', '2fa');
 				\App\Session::set('2faUserId', $this->userRecordModel->getId());
 				if (\App\Session::has('UserLoginMessage')) {
 					\App\Session::delete('UserLoginMessage');
 				}
-			} else {
-				\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
-				\App\Session::set('ShowAuthy2faModal', true);
 			}
 		} else {
 			\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());

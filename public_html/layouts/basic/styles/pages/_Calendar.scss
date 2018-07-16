@@ -6,8 +6,11 @@
 		margin-left: -25px;
 	}
 
-	&.js-sitebar--active {
-		@extend .w-75, .pr-3;
+	@media(min-width: 992px) {
+		&.js-sitebar--active {
+			width: 75% !important;
+			padding-right: 1rem !important;
+		}
 	}
 }
 
@@ -15,7 +18,7 @@
 	@extend .pt-2;
 }
 
-@media(min-width: 993px) {
+@media(min-width: 992px) {
 	.Calendar_Calendar .mainBody {
 		overflow: hidden;
 	}
@@ -69,4 +72,29 @@
 	-moz-transition: all 0.5s ease;
 	-o-transition: all 0.5s ease;
 	transition: all 0.5s ease;
+}
+
+//fullcalendar toolbar breakpoint
+@media(min-width: 1080px) {
+	.js-calendar-switch-container {
+		margin-right: 0.75em;
+		float: right;
+	}
+}
+
+@media(max-width: 1080px) {
+	.js-calendar-switch-container {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+
+		.btn-group {
+			margin-left: 0 !important;
+			margin-bottom: 0.5rem;
+		}
+
+		.btn-group:last-child {
+			margin-left: 0.5rem !important;
+		}
+	}
 }

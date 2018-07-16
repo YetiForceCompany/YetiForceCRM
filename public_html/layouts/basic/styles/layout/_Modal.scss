@@ -43,3 +43,18 @@
 		}
 	}
 }
+
+@include media-breakpoint-up(lg) {
+	.modal-dialog.c-modal--fit-lg {
+		width: fit-content;
+
+	}
+}
+
+@include media-breakpoint-down(xs) {
+	.modal-header,
+	.modal-body,
+	.modal-footer {
+		padding: 0.5rem !important;
+	}
+}

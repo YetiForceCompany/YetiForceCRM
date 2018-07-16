@@ -302,7 +302,6 @@ class Home_Module_Model extends Vtiger_Module_Model
 
 			return $history;
 		}
-
 		return false;
 	}
 }

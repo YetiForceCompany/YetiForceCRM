@@ -39,7 +39,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
@@ -63,7 +63,6 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 		if (is_int($length)) {
 			$value = \App\TextParser::textTruncate($value, $length);
 		}
-
 		return \App\Purifier::encodeHtml($value);
 	}
 

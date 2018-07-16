@@ -44,7 +44,6 @@ class Vtiger_Loader
 			$file = str_replace('.', DIRECTORY_SEPARATOR, $qualifiedName) . '.' . $fileExtension;
 			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $prefix . $file;
 		}
-
 		return $file;
 	}
 
@@ -77,7 +76,6 @@ class Vtiger_Loader
 		if ($success) {
 			self::$includeCache[$qualifiedName] = $file;
 		}
-
 		return $success;
 	}
 
@@ -170,7 +168,6 @@ class Vtiger_Loader
 			\App\Log::error("Error Vtiger_Loader::getComponentClassName($componentType, $componentName, $moduleName): Handler not found");
 			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 		}
-
 		return false;
 	}
 
@@ -201,7 +198,6 @@ class Vtiger_Loader
 				}
 			}
 		}
-
 		return false;
 	}
 }

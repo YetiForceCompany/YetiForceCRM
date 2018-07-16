@@ -22,7 +22,6 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
 			$value = str_replace(' ', '', $value);
 		}
-
 		return \App\Purifier::decodeHtml($value);
 	}
 
@@ -31,7 +30,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
@@ -41,7 +40,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 			} catch (\libphonenumber\NumberParseException $e) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
-			$this->validate = true;
+			$this->validate[$value] = true;
 		} else {
 			parent::validate($value, $isUserFormat);
 		}
@@ -75,7 +74,6 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		if (!\App\Integrations\Pbx::isActive()) {
 			return '<a href="' . $rfc3966 . '">' . $international . $extra . '</a>';
 		}
-
 		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '\',' . $record . ')"><span class="fas fa-phone" aria-hidden="true"></span> ' . $international . $extra . '</a>';
 	}
 

@@ -112,7 +112,6 @@ class Filter
 		} else {
 			$this->__create($moduleInstance);
 		}
-
 		return $this->id;
 	}
 
@@ -252,7 +251,6 @@ class Filter
 				$comparator = 'h';
 			}
 		}
-
 		return $comparator;
 	}
 
@@ -276,7 +274,6 @@ class Filter
 			$instance = new self();
 			$instance->initialize($result, $module);
 		}
-
 		return $instance;
 	}
 
@@ -298,7 +295,6 @@ class Filter
 			$instance->initialize($row, $moduleInstance->id);
 			$instances[] = $instance;
 		}
-
 		return $instances;
 	}
 

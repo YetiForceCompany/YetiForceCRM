@@ -37,8 +37,7 @@ class Users_Ldap_Authmethod
 	public function process($auth, $password)
 	{
 		\App\Log::trace('Start LDAP authentication', 'UserAuthentication');
-		$users = explode(',', $auth['users']);
-		if (!empty($password) && in_array($this->userRecordModel->getId(), $users)) {
+		if (!empty($password) && $this->userRecordModel->get('login_method') === 'PLL_LDAP') {
 			$port = $auth['port'] == '' ? 389 : $auth['port'];
 			$ds = ldap_connect($auth['server'], $port);
 			if (!$ds) {
@@ -57,13 +56,11 @@ class Users_Ldap_Authmethod
 				\App\Log::error('LDAP authentication: LDAP bind failed. |' . ldap_errno($ds) . '|' . ldap_error($ds), 'UserAuthentication');
 			}
 			\App\Session::set('UserAuthType', 'LDAP');
-
 			return $bind;
 		} else {
 			\App\Log::trace($this->userRecordModel->get('user_name') . ' user does not belong to the LDAP', 'UserAuthentication');
 		}
 		\App\Log::trace('End LDAP authentication', 'UserAuthentication');
-
 		return null;
 	}
 }

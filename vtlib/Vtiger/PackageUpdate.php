@@ -60,7 +60,6 @@ class PackageUpdate extends PackageImport
 				$this->__parseManifestFile($zip);
 			}
 		}
-
 		return $module;
 	}
 
@@ -359,7 +358,6 @@ class PackageUpdate extends PackageImport
 			}
 			$fieldInstance->setRelatedModules($relatedmodules);
 		}
-
 		return $fieldInstance;
 	}
 
@@ -471,7 +469,6 @@ class PackageUpdate extends PackageImport
 			$moduleInstance->unsetRelatedList($relModuleInstance, "$label", "$relatedlistnode->function");
 			$moduleInstance->setRelatedList($relModuleInstance, "$label", $actions, "$relatedlistnode->function");
 		}
-
 		return $relModuleInstance;
 	}
 
@@ -490,7 +487,6 @@ class PackageUpdate extends PackageImport
 			$inRelModuleInstance->unsetRelatedList($moduleInstance, "$label", "$inRelatedListNode->function");
 			$inRelModuleInstance->setRelatedList($moduleInstance, "$label", $actions, "$inRelatedListNode->function");
 		}
-
 		return $inRelModuleInstance;
 	}
 

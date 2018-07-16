@@ -26,7 +26,6 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 		if ($fields) {
 			$url .= '&fields=' . implode(',', $fields);
 		}
-
 		return $url;
 	}
 
@@ -91,7 +90,6 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 			}
 			$widget = $this->Config;
 		}
-
 		return $widget;
 	}
 

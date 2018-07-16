@@ -86,7 +86,6 @@ class OSSTimeControl_Calendar_Action extends \App\Controller\Action
 		if ($delta['minutes'] != 0) {
 			$date = $date->modify('+' . $delta['minutes'] . ' minutes');
 		}
-
 		return ['date' => $date->format('Y-m-d'), 'time' => $date->format('H:i:s')];
 	}
 }

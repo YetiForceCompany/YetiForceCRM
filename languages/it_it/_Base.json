@@ -330,6 +330,7 @@
     "LBL_HELP": "Help",
     "LBL_HOME": "My home page",
     "LBL_H": "h",
+    "LBL_S": "s",
     "LBL_D": "d",
     "LBL_HOUR": "hour",
     "LBL_HOURS": "hours",
@@ -1617,6 +1618,7 @@
     "JS_AVAILABLE_FILE_TYPES": "Available file types",
     "JS_FILE_LIMIT": "Maximum number of files was exceeded",
     "JS_WAIT_FOR_FILE_UPLOAD": "Wait for files to be uploaded",
-	"JS_ERROR_MAX_VALUE": "Entered value is out of allowed range"
+	"JS_ERROR_MAX_VALUE": "Entered value is out of allowed range",
+    "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Change company name. The name of YetiForce company is reserved."
   }
 }

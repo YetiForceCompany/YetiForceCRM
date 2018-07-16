@@ -77,7 +77,7 @@
 						<div class="columnsSelectDiv col-md-12">
 							{assign var=MANDATORY_FIELDS value=[]}
 							<div class="">
-								<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="columnsSelect form-control" id="viewColumnsSelect">
+								<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="columnsSelect form-control js-select2-sortable" id="viewColumnsSelect">
 									{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 										<optgroup label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}'>
 											{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
@@ -155,7 +155,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="filterActions pt-2">
+		<div class="filterActions py-2">
 			<button class="cancelLink float-right btn btn-danger" type="reset" onClick="window.location.reload()"><span
 						class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 			<button class="btn btn-success float-right mr-1" id="customViewSubmit" type="submit"><strong><span

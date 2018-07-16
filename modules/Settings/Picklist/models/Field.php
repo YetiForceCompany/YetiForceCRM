@@ -22,7 +22,6 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		if ((!in_array($this->get('displaytype'), [1, 10]) && $this->getName() !== 'salutationtype') || !in_array($this->get('presence'), [0, 2]) || in_array($this->getName(), $nonEditablePickListValues) || ($this->getFieldDataType() !== 'picklist' && $this->getFieldDataType() !== 'multipicklist') || $this->getModuleName() === 'Users') {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -88,7 +87,6 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		if ($fieldObject) {
 			return self::getInstanceFromFieldObject($fieldObject);
 		}
-
 		return false;
 	}
 
@@ -106,7 +104,6 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$fieldModel->$properName = $propertyValue;
 		}
-
 		return $fieldModel;
 	}
 

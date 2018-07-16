@@ -65,16 +65,12 @@ class Notification_Notification_Action extends \App\Controller\Action
 
 	public function saveWatchingModules(\App\Request $request)
 	{
-		$selectedModules = $request->get('selctedModules');
+		$selectedModules = $request->getArray('selctedModules', 2);
 		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
 		Vtiger_Watchdog_Model::setSchedulerByUser($request->get('sendNotifications'), $request->get('frequency'));
-		if (!empty($selectedModules)) {
-			foreach ($selectedModules as $moduleId) {
-				$watchdogModel = Vtiger_Watchdog_Model::getInstance((int) $moduleId);
-				$watchdogModel->changeModuleState(1);
-			}
-		} else {
-			$selectedModules = [];
+		foreach ($selectedModules as $moduleId) {
+			$watchdogModel = Vtiger_Watchdog_Model::getInstance((int) $moduleId);
+			$watchdogModel->changeModuleState(1);
 		}
 		foreach ($watchingModules as $moduleId) {
 			if (!in_array($moduleId, $selectedModules)) {

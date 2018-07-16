@@ -53,7 +53,6 @@ class Vtiger_Basic_Filter
 			}
 			++$i;
 		}
-
 		return [$i, $j, $advft_criteria];
 	}
 }

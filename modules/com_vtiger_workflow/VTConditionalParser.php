@@ -34,7 +34,6 @@ class VTConditionalParser
 			}
 			$tokens[] = [$tokenType, $tokenVal];
 		}
-
 		return $tokens;
 	}
 

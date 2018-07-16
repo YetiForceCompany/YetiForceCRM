@@ -9,15 +9,22 @@
 		<form class="js-form" data-js="validationEngine">
 			<table>
 				<tr>
-					<td><label class="col-form-label">{\App\Language::translate('Widget list limit', 'OSSMailView')}</label></td>
-					<td><input id="tab_email_view_widget_limit" class="form-control validate[custom[integer]]" value="{$WIDGET_CFG['email_list']['widget_limit']}" /></td>
+					<td>
+						<label class="col-form-label">{\App\Language::translate('Widget list limit', 'OSSMailView')}</label>
+					</td>
+					<td><input id="tab_email_view_widget_limit" class="form-control validate[custom[integer]]"
+							   value="{$WIDGET_CFG['email_list']['widget_limit']}"/></td>
 				</tr>
 				<tr>
-					<td><label class="col-form-label">{\App\Language::translate('List open email', 'OSSMailView')}</label>&nbsp;</td>
+					<td>
+						<label class="col-form-label">{\App\Language::translate('List open email', 'OSSMailView')}</label>&nbsp;
+					</td>
 					<td>
 						<select id="tab_email_view_open_window" class="form-control">
-							<option value="_self" {if $WIDGET_CFG['email_list']['target'] eq '_self'}selected{/if}>{\App\Language::translate('_self', 'OSSMailView')}</option>
-							<option value="_blank" {if $WIDGET_CFG['email_list']['target'] eq '_blank'}selected{/if}>{\App\Language::translate('_blank', 'OSSMailView')}</option>
+							<option value="_self"
+									{if $WIDGET_CFG['email_list']['target'] eq '_self'}selected{/if}>{\App\Language::translate('_self', 'OSSMailView')}</option>
+							<option value="_blank"
+									{if $WIDGET_CFG['email_list']['target'] eq '_blank'}selected{/if}>{\App\Language::translate('_blank', 'OSSMailView')}</option>
 						</select>
 					</td>
 				</tr>
@@ -38,26 +45,21 @@
 					'value': value
 				}
 				if ($(".js-form").validationEngine('validate')) {
-					AppConnector.request(params).then(
-							function (data) {
-								var response = data['result'];
-								if (response['success']) {
-									var params = {
-										text: response['data'],
-										type: 'info',
-									};
-									Vtiger_Helper_Js.showPnotify(params);
-								} else {
-									var params = {
-										text: response['data'],
-									};
-									Vtiger_Helper_Js.showPnotify(params);
-								}
-							},
-							function (data, err) {
-
-							}
-					);
+					AppConnector.request(params).done(function (data) {
+						var response = data['result'];
+						if (response['success']) {
+							var params = {
+								text: response['data'],
+								type: 'info',
+							};
+							Vtiger_Helper_Js.showPnotify(params);
+						} else {
+							var params = {
+								text: response['data'],
+							};
+							Vtiger_Helper_Js.showPnotify(params);
+						}
+					});
 				}
 			}
 			jQuery('#tab_email_view_widget_limit').on('blur', function () {

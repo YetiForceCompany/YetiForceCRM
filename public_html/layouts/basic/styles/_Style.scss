@@ -53,10 +53,6 @@
 }
 
 @media only screen and (min-width: 320px) and (max-width: 640px) {
-	.goToFullFormOne {
-		width: 165px !important;
-	}
-
 	.pullRight {
 		width: 100%;
 	}
@@ -688,17 +684,8 @@ hr {
 	}
 }
 
-.table {
-	background: #fff;
-}
-
 .table-bordered {
 	border-radius: 1px;
-	margin-bottom: 0;
-
-	th {
-		border-top: 1px solid #fff !important;
-	}
 }
 
 .table th {
@@ -1402,13 +1389,6 @@ td.fieldValue {
 		position: absolute;
 	}
 
-	.editFieldsWidget .dropdown-menu {
-		z-index: 1000003;
-		padding: 0;
-		left: -315px;
-		position: absolute;
-	}
-
 	.editFields {
 		.dropdown-menu .modal-header {
 			border-width: 0;
@@ -1462,13 +1442,6 @@ td.fieldValue {
 }
 
 #dependencyGraph {
-	.tableHeading {
-		text-align: center;
-		padding-top: 30px;
-		font-size: 1.2em;
-		font-weight: bold;
-	}
-
 	.depandencyTable {
 		border: 1px solid #ddd;
 		background: #f3f3f4;
@@ -2289,7 +2262,9 @@ span[name=existingImages] img {
 }
 
 .widgetHr {
-	margin-top: 0;
+	margin-top: calculate-rem(7px);
+	border: none;
+	border-top: 1px solid #ddd;
 }
 
 #groupsDetailContainer strong {
@@ -2727,14 +2702,6 @@ html, body, .o-base-container {
 	margin-left: 15px;
 }
 
-.mainBody {
-	position: absolute;
-	top: 50px;
-	bottom: 33px;
-	width: 100%;
-	overflow-x: hidden;
-}
-
 .userInfoFooter .mainBody {
 	bottom: 50px;
 }
@@ -3037,15 +3004,6 @@ html, body, .o-base-container {
 }
 
 @media only screen and (max-width: 992px) {
-  
-  .listViewActionsDiv .btn-toolbar, .editViewContainer .btn-toolbar, .widget_header .btn-toolbar {
-	margin-bottom: 5px;
-  }
-
-	.listViewActionsDiv .pull-right {
-		float: left !important;
-	}
-
 	.textAlignRight {
 		text-align: left;
 	}
@@ -3136,10 +3094,6 @@ html, body, .o-base-container {
 
 	.bodyContents {
 		margin: 0 !important;
-	}
-
-	#centerPanel {
-		width: 100% !important;
 	}
 
 	.col-md-3#headerLinks {
@@ -3346,10 +3300,6 @@ html, body, .o-base-container {
 	.relatedContainer .paginationDiv.pull-right {
 		float: left !important;
 		margin-top: 5px;
-	}
-
-	.infoUser {
-		bottom: 17px !important;
 	}
 
 	.iconsInFooter {
@@ -3940,17 +3890,6 @@ select.form-control {
 	right: 0;
 }
 
-.infoUser {
-	padding: 0 5px;
-	position: fixed;
-	height: 17px;
-	color: #fff;
-	width: 100%;
-	bottom: 33px;
-	z-index: 1030;
-	left: 0;
-}
-
 #convertLeadForm table {
 	table-layout: fixed;
 	word-wrap: break-word;
@@ -4097,6 +4036,12 @@ select.form-control {
 	.panel-body .btn.actionIcon {
 		margin-top: -5px;
 	}
+
+	.tpl-remiders-bottom-buttons {
+		position: fixed;
+		bottom: 40px;
+	}
+
 }
 
 .dashboardWidgetContent {
@@ -4143,10 +4088,6 @@ select.form-control {
 			min-width: 30px;
 		}
 	}
-}
-
-.detailViewActionsBtn .btn-group {
-	margin-left: 15px;
 }
 
 .dropdownEntityState ul li {
@@ -4205,7 +4146,7 @@ select {
 	margin-left: 10px;
 }
 
-border1px {
+.border1px {
 	border: 1px solid #ddd;
 }
 
@@ -4217,44 +4158,6 @@ border1px {
 
 [class*="picklistLb_"] {
 	border-radius: 7px;
-}
-
-.formActionsPanel {
-	position: fixed;
-	bottom: 33px;
-	height: 48px;
-	width: calc(100% - 50px);
-	background: $light;
-	margin-left: -10px;
-	text-align: center;
-	border-top: 1px solid #ddd;
-	z-index: 5;
-	padding: 5px;
-
-	.btn-group {
-		margin-right: 3px;
-	}
-}
-
-.verticalScroll {
-	position: absolute;
-	left: 0;
-	height: calc(100vh - 128px);
-	width: 100%;
-	overflow-x: hidden;
-	padding-right: 10px;
-	padding-left: 10px;
-}
-
-@media only screen and (max-width: 768px) {
-	.formActionsPanel {
-		bottom: 17px;
-		width: 100%;
-	}
-
-	.verticalScroll {
-		height: calc(100vh - 112px);
-	}
 }
 
 .popover.activities {

@@ -95,7 +95,6 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		if (!isset($this->members)) {
 			$this->members = Settings_Groups_Member_Model::getAllByGroup($this);
 		}
-
 		return $this->members;
 	}
 
@@ -123,7 +122,6 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			$dataReader->close();
 			$this->modules = $modules;
 		}
-
 		return $this->modules;
 	}
 
@@ -307,7 +305,6 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 				}
 			}
 		}
-
 		return $userIdsList;
 	}
 
@@ -375,7 +372,6 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -418,7 +414,6 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 			return $role;
 		}
-
 		return null;
 	}
 
@@ -443,7 +438,6 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 
 			return $role;
 		}
-
 		return null;
 	}
 

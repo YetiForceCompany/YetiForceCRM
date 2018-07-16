@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class("Notification_NotificationConfig_Js", {}, {
 	registerEventForModal: function (container) {
 		var thisInstance = this;
@@ -25,7 +27,7 @@ jQuery.Class("Notification_NotificationConfig_Js", {}, {
 				sendNoticeModules.push(value);
 			});
 			var params = {
-				module: app.getModuleName(),
+				module: 'Notification',
 				action: 'Notification',
 				mode: 'saveWatchingModules',
 				selctedModules: selectedModules,

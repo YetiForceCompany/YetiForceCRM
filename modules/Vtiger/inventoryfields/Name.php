@@ -38,7 +38,6 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 		if (\App\Record::getState($value) !== 'Active') {
 			$name = '<s>' . $name . '</s>';
 		}
-
 		return "<a class='modCT_$moduleName showReferenceTooltip' href='index.php?module=$moduleName&view=Detail&record=$value' title='" . App\Language::translateSingularModuleName($moduleName) . "'>$name</a>";
 	}
 

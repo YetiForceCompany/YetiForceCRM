@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	widgetWithFilterUsers: [],
@@ -32,10 +33,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	 * Function to create the array of block roles list
 	 */
 	getAuthorization: function () {
-		var thisInstance = this;
-		var authorization = [];
-		continer = jQuery('#moduleBlocks');
-		continer.find('.editFieldsTable').each(function () {
+		let thisInstance = this,
+			authorization = [],
+			container = jQuery('#moduleBlocks');
+		container.find('.editFieldsTable').each(function () {
 			authorization.push(jQuery(this).data('code'));
 		});
 		return authorization;
@@ -353,7 +354,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		var contents = jQuery('#layoutDashBoards');
 		var relatedBlock = contents.find('.block_' + result['blockid']);
 		var fieldCopy = contents.find('.newCustomFieldCopy').clone(true, true);
-		var fieldContainer = fieldCopy.find('div.marginLeftZero.border1px');
+		var fieldContainer = fieldCopy.find('.js-custom-field');
 		fieldContainer.addClass('opacity editFieldsWidget').attr('data-field-id', result['id']).attr('data-block-id', result['blockid']).attr('data-linkid', result['linkid']);
 		fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
 		if (result['title']) {
@@ -385,10 +386,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	 * Function to set the field info for edit field actions
 	 */
 	setFieldDetails: function (result, form) {
-		var thisInstance = this;
-		//add field label to the field details
-		form.find('.modal-header').html(jQuery('<strong>' + result['label'] + '</strong><div class="pull-right"><a href="javascript:void(0)" class="cancel">X</a></div>'));
-
+		form.find('.modal-header').html($('<h5 class="modal-title">' + result['label'] + '</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'));
 		if (result['isdefault']) {
 			form.find('[name="isdefault"]').filter(':checkbox').attr('checked', true);
 		}
@@ -420,36 +418,39 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			}
 		}
 	},
-	registerEditFieldDetailsClick: function () {
-		var thisInstance = this;
-		contents = jQuery('#layoutDashBoards');
+	registerEditFieldDetailsClick: function (contents = null) {
+		const thisInstance = this;
+		if (!contents) {
+			contents = jQuery('#layoutDashBoards');
+		}
 		contents.find('.editFieldDetails').on('click', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var fieldRow = currentTarget.closest('div.editFieldsWidget');
+			const currentTarget = $(e.currentTarget);
+			const fieldRow = currentTarget.closest('div.editFieldsWidget');
 			fieldRow.removeClass('opacity');
-			var basicDropDown = fieldRow.find('.basicFieldOperations');
-			var dropDownContainer = currentTarget.closest('.btn-group');
+			const basicDropDown = fieldRow.find('.basicFieldOperations');
+			const dropDownContainer = currentTarget.closest('.btn-group');
 			dropDownContainer.find('.dropdown-menu').remove();
-			var dropDown = basicDropDown.clone().removeClass('basicFieldOperations d-none').addClass('dropdown-menu');
+			const dropDown = basicDropDown.clone().removeClass('basicFieldOperations d-none').addClass('dropdown-menu p-0');
 			dropDownContainer.append(dropDown);
-			var dropDownMenu = dropDownContainer.find('.dropdown-menu');
-			var params = app.getvalidationEngineOptions(true);
+			const dropDownMenu = dropDownContainer.find('.dropdown-menu');
+			dropDownContainer.dropdown('dispose').dropdown('toggle');
+			const params = app.getvalidationEngineOptions(true);
 			params.binded = false;
 			params.onValidationComplete = function (form, valid) {
 				if (valid) {
-					if (form == undefined) {
+					if (form === undefined) {
 						return true;
 					}
-					var paramsForm = form.serializeFormData();
+					let paramsForm = form.serializeFormData();
 					if (form.find('[name="isdefault"]').prop("checked"))
 						paramsForm['isdefault'] = 1;
 					if (form.find('[name="cache"]').prop("checked"))
 						paramsForm['cache'] = 1;
-					var id = form.find('.saveFieldDetails').data('field-id');
+					let id = form.find('.saveFieldDetails').data('field-id');
 					paramsForm['action'] = 'saveDetails';
 					paramsForm['id'] = id;
 					if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === "undefined") {
-						var params = {};
+						let params = {};
 						params['type'] = 'error';
 						params['text'] = app.vtranslate('JS_FILTERS_AVAILABLE') + ': ' + app.vtranslate('JS_FIELD_EMPTY');
 						Settings_Vtiger_Index_Js.showMessage(params);
@@ -462,55 +463,33 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				return false;
 			};
 			dropDownMenu.find('form').validationEngine(params);
-			//handled registration of selectize for select element
-			var selectElements = basicDropDown.find('select[name="owners_all"]');
+			let selectElements = basicDropDown.find('select[name="owners_all"]');
 			if (selectElements.length > 0) {
-				var users = dropDownMenu.find('select[name="owners_all"]');
-				App.Fields.Picklist.showSelectizeElementView(users);
+				App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="owners_all"]'));
 			}
 			selectElements = basicDropDown.find('select[name="default_date"]');
 			if (selectElements.length > 0) {
-				var users = dropDownMenu.find('select[name="default_date"]');
-				App.Fields.Picklist.showSelect2ElementView(users);
+				App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="default_date"]'));
 			}
-
 			thisInstance.avoidDropDownClick(dropDownContainer);
-
 			dropDownMenu.on('change', ':checkbox', function (e) {
-				var currentTarget = jQuery(e.currentTarget);
-				if (currentTarget.attr('readonly') == 'readonly') {
-					var status = jQuery(e.currentTarget).is(':checked');
+				let currentTarget = jQuery(e.currentTarget);
+				if (currentTarget.attr('readonly') === 'readonly') {
+					let status = jQuery(e.currentTarget).is(':checked');
 					if (!status) {
-						jQuery(e.currentTarget).attr('checked', 'checked')
+						$(e.currentTarget).attr('checked', 'checked')
 					} else {
-						jQuery(e.currentTarget).removeAttr('checked');
+						$(e.currentTarget).removeAttr('checked');
 					}
 					e.preventDefault();
 				}
 			});
-
-			//added for drop down position change
-			var offset = currentTarget.offset(),
-				height = currentTarget.outerHeight(),
-				dropHeight = dropDown.outerHeight(),
-				viewportBottom = $(window).scrollTop() + document.documentElement.clientHeight,
-				dropTop = offset.top + height,
-				enoughRoomBelow = dropTop + dropHeight <= viewportBottom;
-			if (!enoughRoomBelow) {
-				dropDown.addClass('bottom-up');
-			} else {
-				dropDown.removeClass('bottom-up');
-			}
-
-			var callbackFunction = function () {
+			const callbackFunction = function () {
 				fieldRow.addClass('opacity');
 				dropDown.remove();
-			}
+			};
 			thisInstance.addClickOutSideEvent(dropDown, callbackFunction);
-
-			jQuery('.cancel').on('click', function () {
-				callbackFunction();
-			});
+			$('.cancel,.close').on('click', callbackFunction);
 		});
 	},
 	/**
@@ -528,7 +507,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		var fieldRow = submitButtton.closest('.editFieldsWidget');
 		fieldRow.addClass('opacity');
 		var dropDownMenu = form.closest('.dropdown-menu');
-		App.Fields.Picklist.destroySelectizeElement(form)
 		form.find('select').each(function () {
 			var selectedvalue = jQuery(this).val();
 			jQuery(this).find('option').removeAttr('selected');
@@ -670,18 +648,18 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					module: 'Home',
 					view: 'ChartFilter',
 					step: 'step2',
+					chartType: chartType.val(),
 					selectedModule: moduleNameSelect2.val()
 				}).done(function (step2Response) {
 					step1.after(step2Response);
 					wizardContainer.find('#widgetStep').val(2);
-					var step2 = wizardContainer.find('.step2');
-					App.Fields.Picklist.showSelect2ElementView(step2.find('select'));
+					const step2 = wizardContainer.find('.step2');
 					footer.hide();
-					var filterid = step2.find('.filterId');
-					var valueTypeSelect = step2.find('.valueType');
-					step2.find('.filterId, .valueType').on('change', function () {
-						if (!filterid.val() || !valueTypeSelect.val())
-							return;
+					const filtersIdElement = step2.find('.filtersId');
+					const valueTypeElement = step2.find('.valueType');
+					App.Fields.Picklist.showSelect2ElementView(filtersIdElement);
+					App.Fields.Picklist.showSelect2ElementView(valueTypeElement);
+					step2.find('.filtersId, .valueType').on('change', function () {
 						wizardContainer.find('.step3').remove();
 						wizardContainer.find('.step4').remove();
 						AppConnector.request({
@@ -689,8 +667,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 							view: 'ChartFilter',
 							step: 'step3',
 							selectedModule: moduleNameSelect2.val(),
-							filterid: filterid.val(),
-							valueType: valueTypeSelect.val()
+							chartType: chartType.val(),
+							filtersId: filtersIdElement.val(),
+							valueType: valueTypeElement.val(),
 						}).done(function (step3Response) {
 							step2.last().after(step3Response);
 							wizardContainer.find('#widgetStep').val(3);
@@ -708,7 +687,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 									view: 'ChartFilter',
 									step: 'step4',
 									selectedModule: moduleNameSelect2.val(),
-									filterid: filterid.val(),
+									filtersId: filtersIdElement.val(),
 									groupField: groupField.val(),
 									chartType: chartType.val()
 								}).done(function (step4Response) {
@@ -720,14 +699,13 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 							});
 						});
 					});
-				})
+				});
 			});
 			form.on('submit', function (e) {
 				e.preventDefault();
 				const selectedModule = moduleNameSelect2.val();
 				const selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-				const selectedFilterId = form.find('.filterId').val();
-				const selectedFilterLabel = form.find('.filterId').find(':selected').text();
+				const selectedFilterId = form.find('.filtersId').val();
 				const selectedFieldLabel = form.find('.groupField').find(':selected').text();
 				const data = {
 					module: selectedModule,
@@ -740,17 +718,23 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 						data[element.attr('name')] = element.val();
 					}
 				});
-				finializeAddChart(selectedModuleLabel, selectedFilterId, selectedFilterLabel, selectedFieldLabel, data, form);
+				finializeAddChart(selectedModuleLabel, selectedFilterId, null, selectedFieldLabel, data, form);
 			});
 		});
 
 		function finializeAddChart(moduleNameLabel, filterid, filterLabel, fieldLabel, data, form) {
-			var paramsForm = {};
+			let paramsForm = {};
 			paramsForm['data'] = JSON.stringify(data);
 			paramsForm['action'] = 'addWidget';
 			paramsForm['blockid'] = element.data('block-id');
 			paramsForm['linkid'] = element.data('linkid');
-			paramsForm['label'] = moduleNameLabel + ' - ' + filterLabel + ' - ' + fieldLabel;
+			paramsForm['label'] = moduleNameLabel;
+			if (typeof filterLabel !== 'undefined' && filterLabel !== null && filterLabel !== '') {
+				paramsForm['label'] += ' - ' + filterLabel;
+			}
+			if (typeof fieldLabel !== 'undefined' && fieldLabel !== null && fieldLabel !== '') {
+				paramsForm['label'] += ' - ' + fieldLabel;
+			}
 			paramsForm['name'] = 'ChartFilter';
 			paramsForm['filterid'] = filterid;
 			paramsForm['title'] = form.find('[name="widgetTitle"]').val();
@@ -1119,3 +1103,4 @@ jQuery(document).ready(function () {
 	var instance = new Settings_WidgetsManagement_Js();
 	instance.registerEvents();
 })
+

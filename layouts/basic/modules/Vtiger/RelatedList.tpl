@@ -23,10 +23,10 @@
 		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
 		<input type="hidden" class="relatedView" value="{$RELATED_VIEW}">
 		<div class="relatedHeader my-1">
-			<div class="row">
-                <div class="col-md-6 col-sm-6 col-12">
+			<div class="d-inline-flex flex-wrap w-100 justify-content-between">
+                <div class="u-w-sm-down-100 d-flex flex-wrap flex-sm-nowrap mb-1 mb-md-0">
 					{if $RELATED_LIST_LINKS['RELATEDLIST_VIEWS']|@count gt 0}
-						<div class="btn-group pr-2 relatedViewGroup">
+						<div class="btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0">
 							{assign var=TEXT_HOLDER value=''}
 							{foreach item=RELATEDLIST_VIEW from=$RELATED_LIST_LINKS['RELATEDLIST_VIEWS']}
 								{if $RELATED_VIEW == $RELATEDLIST_VIEW->get('view')}
@@ -38,20 +38,18 @@
 							{/foreach}
 							<button class="btn btn-light dropdown-toggle relatedViewBtn" data-toggle="dropdown">
 								{if $BTN_ICON}
-									<span class="{$BTN_ICON}"></span>
+									<span class="{$BTN_ICON} mr-1"></span>
 								{else}	
-									<span class="fas fa-list"></span>
+									<span class="fas fa-list mr-1"></span>
 								{/if}
-								&nbsp;
 								<span class="textHolder">{\App\Language::translate($TEXT_HOLDER, $MODULE_NAME)}</span>
-								&nbsp;<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu">
 								{foreach item=RELATEDLIST_VIEW from=$RELATED_LIST_LINKS['RELATEDLIST_VIEWS']}
 									<li>
 										<a class="dropdown-item" href="#" data-view="{$RELATEDLIST_VIEW->get('view')}">
 											{if $RELATEDLIST_VIEW->get('linkicon') neq ''}
-												<span class="{$RELATEDLIST_VIEW->get('linkicon')}"></span>&nbsp;&nbsp;
+												<span class="{$RELATEDLIST_VIEW->get('linkicon')} mr-1"></span>
 											{/if}
 											{\App\Language::translate($RELATEDLIST_VIEW->getLabel(), $MODULE_NAME)}
 										</a>
@@ -62,7 +60,7 @@
 					{/if}
 					{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
 						{if {\App\Privilege::isPermitted($RELATED_MODULE_NAME, 'CreateView')} }
-							<div class="btn-group pr-2">
+							<div class="btn-group mr-md-1 c-btn-block-sm-down">
 								{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
 								<button type="button" class="btn btn-light addButton
 										{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modCT_{$RELATED_MODULE_NAME} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
@@ -74,19 +72,20 @@
 											onclick='{$RELATED_LINK->getUrl()|substr:strlen("javascript:")};'
 										{/if}
 										{if $IS_SELECT_BUTTON neq true && stripos($RELATED_LINK->getUrl(), 'javascript:') !== 0}name="addButton"{/if}>
-									{if $IS_SELECT_BUTTON eq false}<span class="fas fa-plus"></span>{/if}
-									{if $IS_SELECT_BUTTON eq true}<span class="fas fa-search"></span>{/if}
-									&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong>
+									{if $IS_SELECT_BUTTON eq false}<span class="fas fa-plus mr-1"></span>{/if}
+									{if $IS_SELECT_BUTTON eq true}<span class="fas fa-search mr-1"></span>{/if}
+									{$RELATED_LINK->getLabel()}
 								</button>
 							</div>
 						{/if}
 					{/foreach}
-					&nbsp;
 				</div>
-				<div class="col-md-6 col-sm-6 col-12">
-					<div class="float-right">
+				<div class="d-flex flex-wrap u-w-sm-down-100 justify-content-between justify-content-md-end">
+					<div class="paginationDiv">
+						{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE) VIEWNAME='related'}
+					</div>
 						{if $VIEW_MODEL}
-							<div class="float-right pl-1">
+							<div class="ml-1">
 								{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 								<input type="hidden" class="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}">
 								<div class="dropdown dropdownEntityState u-remove-dropdown-icon">
@@ -118,10 +117,6 @@
 								</div>
 							</div>
 						{/if}
-					</div>
-					<div class="paginationDiv float-right">
-						{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE) VIEWNAME='related'}
-					</div>
 				</div>
 			</div>
 		</div>
@@ -153,9 +148,7 @@
 			</div>
 		{else}
 			<div class="relatedContents">
-				<div>
 					{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
-				</div>
 			</div>
 		{/if}
 	</div>

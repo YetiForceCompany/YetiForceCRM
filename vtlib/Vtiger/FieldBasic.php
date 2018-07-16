@@ -103,7 +103,6 @@ class FieldBasic
 		if ($maxSeq) {
 			return $maxSeq + 1;
 		}
-
 		return 0;
 	}
 
@@ -118,7 +117,6 @@ class FieldBasic
 		if ($maxSeq) {
 			return $maxSeq + 1;
 		}
-
 		return 0;
 	}
 
@@ -257,24 +255,26 @@ class FieldBasic
 		if (!empty($this->block)) {
 			return $this->block->module->id;
 		}
-
 		return false;
 	}
 
 	/**
 	 * Get module name to which this field instance is associated.
+	 *
+	 * @return bool|string
 	 */
 	public function getModuleName()
 	{
 		if ($this->tabid) {
 			return \App\Module::getModuleName($this->tabid);
 		}
-
 		return $this->block->module->name;
 	}
 
 	/**
 	 * Get module instance to which this field instance is associated.
+	 *
+	 * @return mixed
 	 */
 	public function getModuleInstance()
 	{
@@ -293,7 +293,6 @@ class FieldBasic
 		} else {
 			$this->__create($blockInstance);
 		}
-
 		return $this->id;
 	}
 
@@ -355,7 +354,6 @@ class FieldBasic
 		if ($this->block) {
 			return $this->block->label;
 		}
-
 		return '';
 	}
 }

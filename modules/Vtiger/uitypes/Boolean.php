@@ -28,13 +28,13 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if (!in_array($value, [0, 1, '1', '0', 'on'])) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
@@ -47,7 +47,6 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 		} elseif ($value === 0 || $value === '0' || strtolower($value) === 'off' || strtolower($value) === 'no' || false === $value) {
 			return App\Language::translate('LBL_NO', $this->getFieldModel()->getModuleName());
 		}
-
 		return \App\Purifier::encodeHtml($value);
 	}
 

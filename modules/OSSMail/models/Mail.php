@@ -103,7 +103,6 @@ class OSSMail_Mail_Model extends \App\Base
 		if ($action && isset($this->actionResult[$action])) {
 			return $this->actionResult[$action];
 		}
-
 		return $this->actionResult;
 	}
 
@@ -167,7 +166,6 @@ class OSSMail_Mail_Model extends \App\Base
 				}
 			}
 		}
-
 		return ['users' => $return, 'notFound' => $notFound];
 	}
 
@@ -182,7 +180,6 @@ class OSSMail_Mail_Model extends \App\Base
 		if ($account['crm_user_id']) {
 			return $account['crm_user_id'];
 		}
-
 		return \App\User::getCurrentUserId();
 	}
 
@@ -217,7 +214,6 @@ class OSSMail_Mail_Model extends \App\Base
 		} else {
 			$query = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['uid' => $this->get('message_id'), 'rc_user' => $this->getAccountOwner()])->limit(1);
 		}
-
 		return $this->mailCrmId = $query->scalar();
 	}
 
@@ -254,7 +250,6 @@ class OSSMail_Mail_Model extends \App\Base
 				$return .= $row->mailbox . '@' . $row->host;
 			}
 		}
-
 		return $return;
 	}
 

@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="formActionsPanel">
+	<div class="tpl-EditViewActions c-form__action-panel">
 		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 		<button class="btn btn-success u-mr-5px" type="submit">
 			<span class="fas fa-check u-mr-5px"></span>

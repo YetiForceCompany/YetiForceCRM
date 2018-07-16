@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 var Settings_Index_Js = {
 	updatedBlockFieldsList: [],
 	initEvants: function () {
@@ -29,12 +31,19 @@ var Settings_Index_Js = {
 		});
 	},
 	editLabels: function (e) {
-		var target = $(e.currentTarget);
-		var tabId = target.data('tabid');
-		var closestTrElement = target.closest('tr');
-		jQuery('.elementLabels' + tabId).addClass('d-none');
-		var e = jQuery('.elementEdit' + tabId).removeClass('d-none');
-		Settings_Index_Js.registerSelectElement(e.find('select'));
+		let tabId = $(e.currentTarget).data('tabid'),
+			select = $('.elementEdit' + tabId).removeClass('d-none').find('.js-select2-sortable');
+
+		$('.elementLabels' + tabId).addClass('d-none');
+		App.Fields.Picklist.showSelect2ElementView(select, {
+			sortableCb: (currentSelect) => {
+				Settings_Index_Js.registerSaveEvent('save', {
+					name: currentSelect.attr('name'),
+					value: currentSelect.val(),
+					tabid: currentSelect.data('tabid'),
+				});
+			}
+		});
 	},
 	save: function (e) {
 		var target = $(e.currentTarget);
@@ -143,13 +152,13 @@ var Settings_Index_Js = {
 		params['updatedFields'] = thisInstance.updatedBlockFieldsList;
 
 		AppConnector.request(params).done(function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				var params = {};
-				params['text'] = app.vtranslate('JS_MODULES_SEQUENCE_UPDATED');
-				Settings_Vtiger_Index_Js.showMessage(params);
-			}).fail(function (error) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			});
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			var params = {};
+			params['text'] = app.vtranslate('JS_MODULES_SEQUENCE_UPDATED');
+			Settings_Vtiger_Index_Js.showMessage(params);
+		}).fail(function (error) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+		});
 	},
 	/**
 	 * Function to create the list of updated modules and their sequences
@@ -179,28 +188,6 @@ var Settings_Index_Js = {
 			thisInstance.createUpdatedSequenceModulesList();
 			thisInstance.updateModulesSequence();
 		});
-	},
-	registerSelectElement: function (element) {
-		var value = element.val();
-		if (!element.hasClass('selectized')) {
-			element.selectize({
-				plugins: ['drag_drop', 'remove_button'],
-				onChange: function (value) {
-					if (value.length > 1) {
-						jQuery(this.$control[0]).find('.remove').removeClass('d-none');
-					} else {
-						jQuery(this.$control[0]).find('.remove').addClass('d-none');
-					}
-				},
-				onInitialize: function () {
-					if (this.items.length > 1) {
-						jQuery(this.$control[0]).find('.remove').removeClass('d-none');
-					} else {
-						jQuery(this.$control[0]).find('.remove').addClass('d-none');
-					}
-				},
-			})
-		}
 	},
 	registerEvents: function () {
 		Settings_Index_Js.initEvants();

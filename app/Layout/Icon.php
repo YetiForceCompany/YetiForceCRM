@@ -59,7 +59,6 @@ class Icon
 		if (empty($fileIcon)) {
 			$fileIcon = 'userIcon-Documents';
 		}
-
 		return $fileIcon;
 	}
 }

@@ -81,6 +81,7 @@ class Users extends CRMEntity
 		'User Name' => ['vtiger_users' => 'user_name'],
 		'Status' => ['vtiger_users' => 'status'],
 		'Admin' => ['vtiger_users' => 'is_admin'],
+		'Login Method' => ['vtiger_users' => 'login_method'],
 		'FL_FORCE_PASSWORD_CHANGE' => ['vtiger_users' => 'force_password_change'],
 		'FL_DATE_PASSWORD_CHANGE' => ['vtiger_users' => 'date_password_change'],
 	];
@@ -91,6 +92,7 @@ class Users extends CRMEntity
 		'User Name' => 'user_name',
 		'Status' => 'status',
 		'Admin' => 'is_admin',
+		'Login Method' => 'login_method',
 		'FL_FORCE_PASSWORD_CHANGE' => 'force_password_change',
 		'FL_DATE_PASSWORD_CHANGE' => 'date_password_change',
 	];

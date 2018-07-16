@@ -24,7 +24,6 @@ abstract class Settings_Vtiger_Record_Model extends App\Base
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 

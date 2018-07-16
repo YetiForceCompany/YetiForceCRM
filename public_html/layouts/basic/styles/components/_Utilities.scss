@@ -37,11 +37,21 @@
 		}
 	}
 }
-.u-text-ellipsis--no-hover {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+.u-text-ellipsis--no-hover, .js-popover-tooltip[data-ellipsis]{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
+
+.u-text-ellipsis--not-active{
+	width: auto !important;
+	text-overflow: unset !important;
+	visibility: hidden !important;
+	overflow: visible !important;
+	display: inline-block !important
+}
+
 .u-text-underline {
 	text-decoration: underline;
 }
@@ -109,6 +119,12 @@
 	padding: 1%;
 }
 
+@include media-breakpoint-down(sm) {
+	.u-p-05per {
+		padding: 0.5%;
+	}
+}
+
 .u-p-x-0px {
 	padding-left: 0 !important;
 	padding-right: 0 !important;
@@ -145,6 +161,11 @@
 	min-width: 650px !important;
 }
 
+@include media-breakpoint-down(sm) {
+	.u-w-sm-down-100 {
+		width: 100%;
+	}
+}
 //--- HEIGHT ---//
 .u-h-600px {
 	height: 600px !important;
@@ -152,6 +173,10 @@
 
 .u-h-input-text {
 	height: $h-input-text;
+}
+
+.u-h-120px{
+	height: $h-modal-logo;
 }
 
 //--- WHITE SPACE ---//
@@ -222,6 +247,12 @@
 
 .u-overflow-auto {
 	overflow: auto !important;
+}
+
+@include media-breakpoint-down(xs) {
+	.u-overflow-scroll-xs-down {
+		overflow: scroll !important;
+	}
 }
 
 .u-remove-dropdown-icon {

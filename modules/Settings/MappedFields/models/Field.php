@@ -21,7 +21,6 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 		if (!$this->get('uitype')) {
 			$this->uitype = parent::getUIType();
 		}
-
 		return $this->uitype;
 	}
 
@@ -40,7 +39,6 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 		if ($this->fieldDataType == 'salutation') {
 			$this->fieldDataType = 'string';
 		}
-
 		return $this->fieldDataType;
 	}
 
@@ -54,7 +52,6 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 		if ($this->get('name') === 'id') {
 			return 'SELF';
 		}
-
 		return parent::getFieldType();
 	}
 
@@ -79,7 +76,6 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 		foreach ($row as $name => $value) {
 			$instance->set($name, $value);
 		}
-
 		return $instance;
 	}
 
@@ -123,7 +119,6 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 		if (!$this->mandatory) {
 			$this->mandatory = parent::isMandatory();
 		}
-
 		return $this->mandatory;
 	}
 
@@ -195,7 +190,6 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 				$fieldModel->$properName = $propertyValue;
 			}
 		}
-
 		return $fieldModel;
 	}
 }

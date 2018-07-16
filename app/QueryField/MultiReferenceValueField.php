@@ -17,7 +17,6 @@ class MultiReferenceValueField extends BaseField
 		foreach ($valueArray as $key => $value) {
 			$valueArray[$key] = '|#|' . $value . '|#|';
 		}
-
 		return$valueArray;
 	}
 
@@ -58,7 +57,6 @@ class MultiReferenceValueField extends BaseField
 				], false,
 			]);
 		}
-
 		return $condition;
 	}
 }

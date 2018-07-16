@@ -126,7 +126,6 @@ class ModTracker
 				App\Cache::save('isTrackingEnabledForModule', $row['tabid'], false, App\Cache::LONG);
 			}
 		}
-
 		return $modules;
 	}
 
@@ -209,7 +208,6 @@ class ModTracker
 				return false;
 			}
 		}
-
 		return true;
 	}
 
@@ -239,7 +237,6 @@ class ModTracker
 		if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
 			return true;
 		}
-
 		return false;
 	}
 

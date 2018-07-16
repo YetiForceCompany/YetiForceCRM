@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Vtiger_Edit_Js('Settings_SMSNotifier_Edit_Js', {}, {
 	getForm: function () {
 		if (this.formElement == false) {
@@ -21,7 +23,7 @@ Vtiger_Edit_Js('Settings_SMSNotifier_Edit_Js', {}, {
 		var thisInstance = this;
 		var container = this.getForm();
 		App.Fields.Picklist.destroyChosenElement(container);
-		container.find('select').removeClass('chzn-select');
+		container.find('select').removeClass('select2');
 		App.Fields.Picklist.showSelect2ElementView(container.find('form select'));
 		this.registerBasicEvents(container);
 		var form = container.find('form');

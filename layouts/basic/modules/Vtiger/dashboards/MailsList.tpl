@@ -7,18 +7,14 @@
 		{foreach key=index item=jsModel from=$SCRIPTS}
 			<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 		{/foreach}
-		<div class="row">
-			<div class="col-md-8">
-				<h5 class="dashboardTitle pb-2 h6" title="{\App\Language::translate($WIDGET->getTitle(), 'OSSMail')}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(),'OSSMail')}</strong></h5>
-			</div>
-			<div class="col-md-4">
-				<div class="box float-right">
-					{if !$WIDGET->isDefault()}
-						<a name="dclose" class="btn btn-sm btn-light widget" data-url="{$WIDGET->getDeleteUrl()}">
-							<span class="fas fa-times" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}" alt="{\App\Language::translate('LBL_CLOSE')}"></span>
-						</a>
-					{/if}
-				</div>
+		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
+			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
+			<div class="d-inline-flex">
+				{if !$WIDGET->isDefault()}
+					<a name="dclose" class="btn btn-sm btn-light widget" data-url="{$WIDGET->getDeleteUrl()}">
+						<span class="fas fa-times" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}" alt="{\App\Language::translate('LBL_CLOSE')}"></span>
+					</a>
+				{/if}
 			</div>
 		</div>
 		<hr class="widgetHr" />
@@ -30,7 +26,7 @@
 							<span class="fas fa-envelope"></span>
 						</span>
 					</div>
-					<div class="select2Wrapper">			
+					<div class="select2Wrapper">
 						<select class="mailUserList form-control select2" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="mailUserList" title="{\App\Language::translate('LBL_MAIL_USERS_LIST')}" name="type">
 							{if count($ACCOUNTSLIST) eq 0}
 								<option value="-">{\App\Language::translate('--None--', $MODULE_NAME)}</option>

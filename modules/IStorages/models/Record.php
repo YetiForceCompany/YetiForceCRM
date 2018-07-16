@@ -29,7 +29,6 @@ class IStorages_Record_Model extends Vtiger_Record_Model
 				$hierarchy['entries'][$storageId][0] = $dashes[0] . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $name[2] . '</a>';
 			}
 		}
-
 		return $hierarchy;
 	}
 
@@ -42,7 +41,6 @@ class IStorages_Record_Model extends Vtiger_Record_Model
 		if ($fieldName === 'qtyinstock') {
 			return $this->get($fieldName);
 		}
-
 		return parent::getDisplayValue($fieldName, $record, $rawText, $length);
 	}
 }

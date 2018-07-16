@@ -21,7 +21,6 @@ class Basic extends AbstractAuth
 			$this->requireLogin($realm);
 			throw new \Api\Core\Exception('Wrong Credentials', 401);
 		}
-
 		return true;
 	}
 
@@ -41,7 +40,6 @@ class Basic extends AbstractAuth
 
 			return $status;
 		}
-
 		return false;
 	}
 }

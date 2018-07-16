@@ -17,7 +17,6 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-
 		return \App\Purifier::decodeHtml($value);
 	}
 
@@ -26,7 +25,8 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		$hashValue = is_array($value) ? implode('|', $value) : $value;
+		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
 		if (!is_numeric($value)) {
@@ -46,7 +46,7 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 				}
 			}
 		}
-		$this->validate = true;
+		$this->validate[$hashValue] = true;
 	}
 
 	/**
@@ -101,7 +101,6 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 		foreach ($limits as $key => $limit) {
 			$limits[$key] = $limit['value'] . ' - ' . $limit['name'];
 		}
-
 		return $limits;
 	}
 

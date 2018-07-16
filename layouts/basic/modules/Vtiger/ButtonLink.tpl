@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="btn-group {if $BUTTON_VIEW|strrpos:'listView' !== false && $USER_MODEL->get('rowheight') eq 'narrow'}btn-group-sm{/if}">
+	<div class="tpl-ButtonLink c-btn-link btn-group {if $BUTTON_VIEW|strrpos:'listView' !== false && $USER_MODEL->get('rowheight') eq 'narrow'}btn-group-sm{/if}{if isset($CLASS)} {$CLASS}{/if}">
 		{assign var="LABEL" value=$LINK->getLabel()}
 		{assign var="ACTION_NAME" value=$LABEL}
 		{if $LINK->get('linkhint') neq ''}
@@ -21,6 +21,7 @@
 				{if $LABEL neq '' && $LINK->get('showLabel') != 1}{' '}
 					data-placement="{if $BUTTON_VIEW|strrpos:'listView'!==false}top{else}bottom{/if}"{' '}
 					data-content="{\App\Language::translate($LABEL, $BTN_MODULE)}"
+					data-target="focus hover"
 				{/if}
 				{if $LINK->get('linkhref')}
 					{' '}href="{$LINK_URL}"
@@ -52,10 +53,12 @@
 				{/if}
 		>
 			{if $LINK->get('linkicon') neq ''}
-				<span class="{$LINK->get('linkicon')} {if $LINK->get('linkimg') neq '' || $LINK->get('linkicon') neq ''}mr-1{/if}" {if $LABEL neq 'LBL_ADD_RECORD'} title="{\App\Language::translate($LABEL, $BTN_MODULE)}" {/if}></span>
+				<span class="{$LINK->get('linkicon')} {if $LINK->get('linkimg') neq '' || $LINK->get('linkicon') neq '' && $LINK->get('showLabel') neq null}mr-1{/if}" {if $LABEL neq 'LBL_ADD_RECORD'} title="{\App\Language::translate($LABEL, $BTN_MODULE)}" {/if}></span>
+			{/if}
+			{if $LABEL neq '' && $CLASS == 'c-btn-link--responsive'}
+				<span class="d-{$BREAKPOINT}-none ml-1">{\App\Language::translate($LABEL, $BTN_MODULE)}</span>
 			{/if}
 			{if $LABEL neq '' && $LINK->get('showLabel') == 1}
-
 				{\App\Language::translate($LABEL, $BTN_MODULE)}
 			{else}
 			{/if}

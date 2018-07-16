@@ -57,7 +57,6 @@ class Vtiger_Relation_Model extends \App\Base
 		if (empty($this->parentModule)) {
 			$this->parentModule = Vtiger_Module_Model::getInstance($this->get('tabid'));
 		}
-
 		return $this->parentModule;
 	}
 
@@ -85,7 +84,6 @@ class Vtiger_Relation_Model extends \App\Base
 		if (!$this->relatedModule) {
 			$this->relatedModule = Vtiger_Module_Model::getInstance($this->get('related_tabid'));
 		}
-
 		return $this->relatedModule;
 	}
 
@@ -100,7 +98,6 @@ class Vtiger_Relation_Model extends \App\Base
 		if (!empty($relationModuleName)) {
 			return $relationModuleName;
 		}
-
 		return $this->getRelationModuleModel()->getName();
 	}
 
@@ -166,7 +163,6 @@ class Vtiger_Relation_Model extends \App\Base
 		if ($this->get('creator_detail') === 0 || $this->getRelationType() !== self::RELATION_M2M) {
 			return false;
 		}
-
 		return (bool) $this->get('creator_detail');
 	}
 
@@ -180,7 +176,6 @@ class Vtiger_Relation_Model extends \App\Base
 		if ($this->get('relation_comment') === 0 || $this->getRelationType() !== self::RELATION_M2M) {
 			return false;
 		}
-
 		return (bool) $this->get('relation_comment');
 	}
 
@@ -194,7 +189,6 @@ class Vtiger_Relation_Model extends \App\Base
 		if (!$this->has('query_generator')) {
 			$this->set('query_generator', new \App\QueryGenerator($this->getRelationModuleName()));
 		}
-
 		return $this->get('query_generator');
 	}
 
@@ -212,7 +206,6 @@ class Vtiger_Relation_Model extends \App\Base
 				$this->set('relationType', self::RELATION_M2M);
 			}
 		}
-
 		return $this->get('relationType');
 	}
 
@@ -281,7 +274,6 @@ class Vtiger_Relation_Model extends \App\Base
 
 			return $relationModel;
 		}
-
 		return false;
 	}
 
@@ -584,7 +576,6 @@ class Vtiger_Relation_Model extends \App\Base
 		if ($this->get('modulename') == 'Calendar') {
 			$url .= '&time=current';
 		}
-
 		return $url;
 	}
 
@@ -821,7 +812,6 @@ class Vtiger_Relation_Model extends \App\Base
 				$template[] = $field->getFieldParams();
 			}
 		}
-
 		return (new \App\Db\Query())
 			->select(['ttd.*', 'rel.crmid', 'rel.rel_created_time', 'rel.rel_created_user', 'rel.rel_comment'])
 			->from('vtiger_trees_templates_data ttd')
@@ -853,7 +843,6 @@ class Vtiger_Relation_Model extends \App\Base
 				}
 			}
 		}
-
 		return false;
 	}
 
@@ -904,7 +893,6 @@ class Vtiger_Relation_Model extends \App\Base
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->set('relatedModuleName', $row['modulename']);
 			$relationModels[$row['related_tabid']] = $relationModel;
 		}
-
 		return $relationModels;
 	}
 
@@ -947,7 +935,6 @@ class Vtiger_Relation_Model extends \App\Base
 				}
 			}
 		}
-
 		return $fields;
 	}
 
@@ -966,7 +953,6 @@ class Vtiger_Relation_Model extends \App\Base
 			$value = $fieldModel->getEditViewDisplayValue($recordModel->get($fieldMap[1]), $recordModel);
 			$fields = ['key' => $fieldMap[0], 'name' => strip_tags($value)];
 		}
-
 		return $fields;
 	}
 
@@ -1072,7 +1058,6 @@ class Vtiger_Relation_Model extends \App\Base
 				}
 			}
 		}
-
 		return $fields;
 	}
 
@@ -1089,7 +1074,6 @@ class Vtiger_Relation_Model extends \App\Base
 			$baseColumn = 'crmid';
 			$relColumn = 'relcrmid';
 		}
-
 		return ['table' => $tableName, 'module' => $temp[0], 'base' => $baseColumn, 'rel' => $relColumn];
 	}
 
@@ -1116,7 +1100,6 @@ class Vtiger_Relation_Model extends \App\Base
 					'userid' => App\User::getCurrentUserId(),
 				])->execute();
 		}
-
 		return $result;
 	}
 

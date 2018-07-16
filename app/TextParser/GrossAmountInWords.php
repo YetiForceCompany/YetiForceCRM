@@ -33,7 +33,6 @@ class GrossAmountInWords extends Base
 				$gross += $inventoryRow['gross'];
 			}
 		}
-
 		return \App\Custom\NumberToWords::process($gross);
 	}
 }

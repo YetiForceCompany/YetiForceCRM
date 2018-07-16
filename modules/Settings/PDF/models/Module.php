@@ -111,7 +111,6 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 				$supportedModuleModels[$tabId] = $moduleModel;
 			}
 		}
-
 		return $supportedModuleModels;
 	}
 

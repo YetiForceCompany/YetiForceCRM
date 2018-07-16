@@ -45,8 +45,6 @@
 
 .listViewTopMenuDiv {
 	.listViewActionsDiv {
-		margin-bottom: -($spacer * 0.5) !important;
-
 		> [class*="col"] > * {
 			@extend .mb-2;
 		}

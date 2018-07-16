@@ -174,7 +174,6 @@ class Vtiger_Export_Model extends \App\Base
 				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
 		}
-
 		return $query;
 	}
 
@@ -309,7 +308,6 @@ class Vtiger_Export_Model extends \App\Base
 				array_push($new_arr, $value);
 			}
 		}
-
 		return $arr;
 	}
 
@@ -359,7 +357,6 @@ class Vtiger_Export_Model extends \App\Base
 				$inventoryEntries['inv_' . $customColumnName] = $valueParam;
 			}
 		}
-
 		return $inventoryEntries;
 	}
 

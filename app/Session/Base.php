@@ -29,6 +29,9 @@ class Base extends \SessionHandler
 	 */
 	public function __construct($name = 'YTSID', $cookie = [])
 	{
+		if (session_status() === PHP_SESSION_ACTIVE) {
+			return;
+		}
 		$cookie += [
 			'lifetime' => 0,
 			'path' => ini_get('session.cookie_path'),

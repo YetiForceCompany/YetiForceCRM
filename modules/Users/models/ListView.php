@@ -40,7 +40,6 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		foreach ($advancedLinks as $advancedLink) {
 			$links['LISTVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($advancedLink);
 		}
-
 		return $links;
 	}
 
@@ -69,6 +68,14 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'index.php?module=Users&view=PasswordModal&mode=massReset',
 				'linkicon' => 'fas fa-redo-alt',
 			];
+			if (AppConfig::security('USER_AUTHY_MODE') !== 'TOTP_OFF') {
+				$massActionLinks[] = [
+					'linktype' => 'LISTVIEWMASSACTION',
+					'linklabel' => 'BTN_MASS_OFF_2FA',
+					'linkurl' => 'javascript:Settings_Users_List_Js.triggerMassOff2FA()',
+					'linkicon' => 'fas fa-key',
+				];
+			}
 		}
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
@@ -90,6 +97,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		$fields = $queryGenerator->getFields();
 		$fields[] = 'id';
 		$fields[] = 'imagename';
+		$fields[] = 'authy_secret_totp';
 		$queryGenerator->setFields($fields);
 		$searchParams = $this->get('search_params');
 		if (empty($searchParams)) {
@@ -123,7 +131,6 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 			}
 			$headerFieldModels[$fieldName] = $fieldsModel;
 		}
-
 		return $headerFieldModels;
 	}
 
@@ -133,7 +140,6 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		if (is_array($searchParams) && count($searchParams[0]['columns']) < 1) {
 			$this->set('search_params', []);
 		}
-
 		return parent::getListViewCount();
 	}
 
@@ -162,7 +168,6 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-upload',
 			];
 		}
-
 		return $advancedLinks;
 	}
 }

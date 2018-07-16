@@ -204,7 +204,6 @@ class CustomView_Record_Model extends \App\Base
 		if (!$cvId) {
 			return false;
 		}
-
 		return (new App\Db\Query())->from('u_#__featured_filter')
 			->where(['cvid' => $cvId, 'user' => 'Users:' . Users_Record_Model::getCurrentUserModel()->getId()])
 			->exists($db);
@@ -244,7 +243,6 @@ class CustomView_Record_Model extends \App\Base
 		if ($this->isMine() || $this->isOthers()) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -314,7 +312,6 @@ class CustomView_Record_Model extends \App\Base
 				}
 			}
 		}
-
 		return $queryGenerator;
 	}
 
@@ -606,7 +603,6 @@ class CustomView_Record_Model extends \App\Base
 		if (!$cvId) {
 			return [];
 		}
-
 		return (new App\Db\Query())->select('vtiger_cvcolumnlist.columnindex, vtiger_cvcolumnlist.columnname')
 			->from('vtiger_cvcolumnlist')
 			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
@@ -648,7 +644,6 @@ class CustomView_Record_Model extends \App\Base
 				$stdFilterList['enddate'] = $endDateTime->getDisplayDate();
 			}
 		}
-
 		return $stdFilterList;
 	}
 
@@ -738,7 +733,6 @@ class CustomView_Record_Model extends \App\Base
 		if (!empty($advFtCriteria[$i - 1]['condition'])) {
 			$advFtCriteria[$i - 1]['condition'] = '';
 		}
-
 		return $advFtCriteria;
 	}
 
@@ -927,10 +921,8 @@ class CustomView_Record_Model extends \App\Base
 		}
 		if ($row) {
 			$customView = new self();
-
 			return $customView->setData($row)->setModule($row['entitytype']);
 		}
-
 		return null;
 	}
 
@@ -1003,7 +995,6 @@ class CustomView_Record_Model extends \App\Base
 		if ($cvid) {
 			$query->andWhere(['<>', 'cvid', $cvid]);
 		}
-
 		return $query->exists();
 	}
 
@@ -1097,7 +1088,6 @@ class CustomView_Record_Model extends \App\Base
 		if (!$viewId) {
 			$viewId = App\CustomView::getInstance($module)->getViewId();
 		}
-
 		return self::getInstanceById($viewId);
 	}
 
@@ -1117,7 +1107,6 @@ class CustomView_Record_Model extends \App\Base
 			default:
 				break;
 		}
-
 		return $return;
 	}
 }

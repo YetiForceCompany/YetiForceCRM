@@ -117,7 +117,6 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 				}
 			}
 		}
-
 		return [$sumProduct, $sumProductInStorage];
 	}
 

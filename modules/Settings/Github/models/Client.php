@@ -119,7 +119,6 @@ class Settings_Github_Client_Model
 		if ((empty($this->username) || empty($this->clientToken))) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -139,7 +138,6 @@ class Settings_Github_Client_Model
 			$instance->setToken(App\Encryption::getInstance()->decrypt($row['token']));
 			$instance->setUsername($row['username']);
 		}
-
 		return $instance;
 	}
 
@@ -170,7 +168,6 @@ class Settings_Github_Client_Model
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -210,7 +207,6 @@ class Settings_Github_Client_Model
 		if ($code != $status) {
 			return false;
 		}
-
 		return App\Json::decode($content->body, App\Json::TYPE_OBJECT);
 	}
 }

@@ -6,8 +6,10 @@
 }
 
 @include media-breakpoint-down(sm) {
-	.c-btn-block-sm-down {
+	.c-btn-block-sm-down,
+	.c-btn-block-sm-down .btn {
 		width: 100% !important;
+
 	}
 }
 
@@ -45,4 +47,19 @@
 
 .c-btn-done {
 	@include button-variant($color-indigo-dark, $color-indigo-dark);
+}
+
+.c-btn-link {
+	@include media-breakpoint-down(sm) {
+		&--responsive {
+			width: 100%;
+			margin-bottom: 0.25rem !important;
+
+			.btn {
+				width: 100%;
+				border-radius: 0.25rem !important;
+				white-space: normal;
+			}
+		}
+	}
 }

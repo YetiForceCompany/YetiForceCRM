@@ -20,7 +20,7 @@
 		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit' />
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount' />
 		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
-		<div class="relatedHeader calendarRelatedHeader">
+		<div class="relatedHeader calendarRelatedHeader mb-1">
 			<div class="row">
 				<div class="col-sm-6 col-md-6">
 					{if $RELATED_LIST_LINKS['RELATEDLIST_VIEWS']|@count gt 0}
@@ -32,12 +32,12 @@
 									{if $RELATEDLIST_VIEW->get('linkicon') neq ''}
 										{assign var=BTN_ICON value=$RELATEDLIST_VIEW->get('linkicon')}
 									{/if}
-								{/if} 
+								{/if}
 							{/foreach}
 							<button class="btn btn-light dropdown-toggle relatedViewBtn" data-toggle="dropdown">
 								{if $BTN_ICON}
 									<span class="{$BTN_ICON}"></span>
-								{else}	
+								{else}
 									<span class="fas fa-list"></span>
 								{/if}
 								&nbsp;
@@ -140,11 +140,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="contents-topscroll">
-			<div class="topscroll-div">
-				&nbsp;
-			</div>
-		</div>
 		{if $RELATED_VIEW === 'ListPreview'}
 			<div class="relatedContents">
 				<div class="d-flex">
@@ -172,10 +167,8 @@
 				</div>
 			</div>
 		{else}
-			<div class="relatedContents contents-bottomscroll">
-				<div class="bottomscroll-div">
+			<div class="relatedContents">
 					{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
-				</div>
 			</div>
 		{/if}
 	</div>

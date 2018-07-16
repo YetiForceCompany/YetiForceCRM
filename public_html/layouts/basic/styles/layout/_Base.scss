@@ -1,5 +1,19 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
+.mainBody {
+	position: absolute;
+	top: $h-header;
+	bottom: $h-footer;
+	width: 100%;
+	overflow-x: hidden;
+}
+
+@include media-breakpoint-down(sm) {
+	.mainBody {
+		bottom: $h-footer-mobile;
+	}
+}
+
 .contentsDiv, .centerPanel {
 	@extend .mx-2;
 }
@@ -49,7 +63,7 @@
 	}
 }
 
-.c-header.open, .footerContainer.open {
+.c-header.open, .c-footer.open {
 	left: 210px;
 	-webkit-transition: left ease-in-out 0.3s;
 	transition: left ease-in-out 0.3s;

@@ -103,7 +103,6 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				break;
 		}
-
 		return $value;
 	}
 
@@ -128,7 +127,6 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 				}
 			}
 		}
-
 		return rtrim($value, ', ');
 	}
 
@@ -171,7 +169,6 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($recordLinks as &$recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -191,7 +188,6 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 			$instance = new self();
 			$instance->setData($row);
 		}
-
 		return $instance;
 	}
 }

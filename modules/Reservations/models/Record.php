@@ -15,7 +15,6 @@ class Reservations_Record_Model extends Vtiger_Record_Model
 		if ($ID == 0 || $ID == '') {
 			return false;
 		}
-
 		return true;
 	}
 

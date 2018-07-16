@@ -1,4 +1,4 @@
-.infoUser {
+.c-footer__user-info {
 	border-top: 1px solid rgb(18, 173, 78);
 	background: #189849;
 	bottom: 18px;
@@ -619,9 +619,6 @@ button.selectAllBtn.btn.btn-default {
 .widget_header {
 	background: #E3F2FD;
 }
-.selectize-control.multi .selectize-input > div {
-	border: 1px solid rgb(204, 204, 204);
-}
 .pageNumber.active.disabled a {
 	background-color: #4078c0;
 	border-color: #4078c0;
@@ -631,12 +628,12 @@ button.selectAllBtn.btn.btn-default {
 	background: #4CAF50;
 	color: #fff;
 }
-.globalSearchInput .btn, .globalSearchInput .chosen-single, input.form-control.globalSearchValue.ui-autocomplete-input, .modal-header .chosen-single {
+.o-global-search__input .btn, .o-global-search__input .chosen-single, input.form-control.o-global-search__value.ui-autocomplete-input, .modal-header .chosen-single {
 	border-color: #fff;
 	box-shadow: none;
 	text-transform: uppercase;
 }
-.globalSearchInput .chosen-container-single .chosen-single span {
+.o-global-search__input .chosen-container-single .chosen-single span {
 	min-width: 120px;
 	font-weight: 700;
 	line-height: 32px;
@@ -647,7 +644,7 @@ button.selectAllBtn.btn.btn-default {
 .dashboardWidgetHeader hr.widgetHr {
 	margin-bottom: 6px;
 }
-.globalSearchInput {
+.o-global-search__input {
 	width: 480px;
 }
 .modal-full {
@@ -656,7 +653,7 @@ button.selectAllBtn.btn.btn-default {
 .mainBody {
 	bottom: 18px;
 }
-.globalSearchInput .chosen-single {
+.o-global-search__input .chosen-single {
 	border-radius: 4px 0 0 4px;
 }
 .quickCreateContent .massEditTable {
@@ -841,7 +838,7 @@ input[type=checkbox]:checked {
 		-o-transition: all .2s ease;
 		transition: all .2s ease;
 	}
-	input.form-control.globalSearchValue.ui-autocomplete-input {
+	input.form-control.o-global-search__value.ui-autocomplete-input {
 		border-left: 1px solid #bbdefb;
 	}
 }
@@ -857,7 +854,7 @@ input[type=checkbox]:checked {
 	.toogleSearchMenu {
 		left: calc(100% - 650px);
 	}
-	input.form-control.globalSearchValue.ui-autocomplete-input {
+	input.form-control.o-global-search__value.ui-autocomplete-input {
 		border: 1px solid #CFD8DC;
 	}
 }

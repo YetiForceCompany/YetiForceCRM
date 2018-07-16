@@ -17,7 +17,6 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-
 		return \App\Purifier::decodeHtml($value);
 	}
 
@@ -26,7 +25,8 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		$hashValue = is_array($value) ? implode('|', $value) : $value;
+		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
 		if (!is_array($value)) {
@@ -37,7 +37,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $id, 406);
 			}
 		}
-		$this->validate = true;
+		$this->validate[$hashValue] = true;
 	}
 
 	/**
@@ -51,7 +51,6 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 			$values = explode(',', $value);
 			$display = array_intersect_key($taxes, array_flip($values));
 		}
-
 		return \App\Purifier::encodeHtml(implode(', ', $display));
 	}
 
@@ -70,7 +69,6 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 				}
 			}
 		}
-
 		return $display;
 	}
 
@@ -85,7 +83,6 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 				$display[$tax] = $taxs[$tax];
 			}
 		}
-
 		return $display;
 	}
 
@@ -100,7 +97,6 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 		foreach ($taxes as $key => $tax) {
 			$taxes[$key] = $tax['name'] . ' - ' . $tax['value'] . '%';
 		}
-
 		return $taxes;
 	}
 

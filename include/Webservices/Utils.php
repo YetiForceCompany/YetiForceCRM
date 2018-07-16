@@ -54,7 +54,6 @@ class WebservicesUtils
 		while ($attachmentId = $adb->getSingleValue($result)) {
 			$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $relatedId, 'attachmentsid' => $attachmentId])->execute();
 		}
-
 		return true;
 	}
 
@@ -153,7 +152,6 @@ class WebservicesUtils
 				return $field;
 			}
 		}
-
 		return null;
 	}
 
@@ -177,7 +175,6 @@ class WebservicesUtils
 		if (!empty($contactId)) {
 			$db->createCommand()->update('vtiger_activity', ['link' => $contactId], ['link' => $leadId])->execute();
 		}
-
 		return true;
 	}
 
@@ -199,7 +196,6 @@ class WebservicesUtils
 		if ($rowCount == 0) {
 			return false;
 		}
-
 		return true;
 	}
 

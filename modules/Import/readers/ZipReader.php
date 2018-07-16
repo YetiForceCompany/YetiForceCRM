@@ -25,14 +25,28 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 		if (!empty($instance)) {
 			$this->setInstanceProperties($instance);
 			$this->request = $request;
-
 			return;
 		}
 		$this->moduleName = $request->getModule();
 		$this->extension = $request->getByType('extension');
+		$allowedExtension = static::getAllowedExtension();
+		if (!isset($allowedExtension[$this->extension])) {
+			\App\Log::error('purifyByType: ' . $this->extension, 'IllegalValue');
+			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $this->extension, 406);
+		}
 		parent::__construct($request, $user);
 		$this->initialize($request, $user);
 		Vtiger_Cache::set('ZipReader', $this->moduleName . $user->getId(), $this);
+	}
+
+	/**
+	 * Returns allowed extension files in zip package.
+	 *
+	 * @return string[]
+	 */
+	public static function getAllowedExtension()
+	{
+		return ['xml' => 'XML'];
 	}
 
 	public function setInstanceProperties($instance)
@@ -90,7 +104,6 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 				break;
 			}
 		}
-
 		return $return;
 	}
 
@@ -128,7 +141,6 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 			}
 			unset($this->filelist[$name]);
 		}
-
 		return $return;
 	}
 

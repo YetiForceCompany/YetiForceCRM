@@ -229,7 +229,6 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			}
 			++$noOfRecords;
 		}
-
 		return [$noOfRecords, $noOfRecordsDeleted];
 	}
 

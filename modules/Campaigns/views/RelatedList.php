@@ -19,7 +19,6 @@ class Campaigns_RelatedList_View extends Vtiger_RelatedList_View
 			$viewer->assign('SELECTED_IDS', $request->get('selectedIds'));
 			$viewer->assign('EXCLUDED_IDS', $request->get('excludedIds'));
 		}
-
 		return parent::process($request);
 	}
 }

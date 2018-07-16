@@ -14,7 +14,7 @@
 			</div>
 
 			{if AppConfig::performance('GLOBAL_SEARCH')}
-				<div class="globalSearchInput input-group input-group-sm d-none d-xl-flex">
+				<div class="js-global-search__input o-global-search__input o-global-search__input--desktop input-group input-group-sm d-none d-xl-flex" data-js="container">
 					<div class="input-group-prepend select2HeaderWidth">
 						<select class="select2 basicSearchModulesList form-control"
 								title="{\App\Language::translate('LBL_SEARCH_MODULE')}" data-dropdown-auto-width="true">
@@ -29,10 +29,11 @@
 							{/foreach}
 						</select>
 					</div>
-					<input type="text" class="form-control form-control-sm globalSearchValue"
+					<input type="text" class="form-control form-control-sm js-global-search__value o-global-search__value"
 						   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
 						   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
-						   data-operator="{AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR')}"/>
+						   data-operator="{AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR')}"
+						   data-js="keypress | value | autocomplete"/>
 					<div class="input-group-append bg-white rounded-right">
 						<button class="btn btn-outline-dark border-0 searchIcon" type="button">
 							<span class="fas fa-search fa-fw" title="{\App\Language::translate('LBL_SEARCH')}"></span>
@@ -110,10 +111,11 @@
 								</button>
 							</div>
 						</div>
-						<div class="input-group mb-3">
-							<input type="text" class="form-control globalSearchValue"
+						<div class="input-group mb-3 js-global-search__input o-global-search__input" data-js="container">
+							<input type="text" class="form-control js-global-search__value o-global-search__value"
 								   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
-								   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"/>
+								   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
+								   data-js="keypress | value | autocomplete"/>
 							<div class="input-group-append">
 								<button class="btn btn-light searchIcon" type="button">
 									<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
@@ -230,7 +232,7 @@
 							<span class="fas fa-plus fa-fw" title="{\App\Language::translate('LBL_QUICK_CREATE')}"></span>
 							<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_QUICK_CREATE')}</span>
 						</a>
-						<div class="quickCreateModules modal fade" id="quickCreateModules" tabindex="-1" role="dialog"
+						<div class="quickCreateModules modal" id="quickCreateModules" tabindex="-1" role="dialog"
 							 aria-labelledby="c-quick-create__title" aria-hidden="true">
 							<div class="modal-dialog modal-lg" role="document">
 								<div class="modal-content">

@@ -29,7 +29,6 @@ class Settings_PBX_ListView_Model extends Settings_Vtiger_ListView_Model
 				'modalView' => true,
 			];
 		}
-
 		return $basicLinks;
 	}
 }

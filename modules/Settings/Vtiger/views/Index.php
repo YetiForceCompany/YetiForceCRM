@@ -250,11 +250,13 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 			'~libraries/jstree/dist/jstree.js',
 			'~libraries/datatables.net/js/jquery.dataTables.js',
 			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
+			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
+			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
 			'modules.Settings.Vtiger.resources.Vtiger',
 			'modules.Settings.Vtiger.resources.Edit',
 			"modules.Settings.$moduleName.resources.$moduleName",
 			'modules.Settings.Vtiger.resources.Index',
-			"modules.Settings.$moduleName.resources.Index",
+			"modules.Settings.$moduleName.resources.Index"
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -271,6 +273,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$cssFileNames = [
 			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
 			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
+			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css'
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 
@@ -290,7 +293,6 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 				}
 			}
 		}
-
 		return false;
 	}
 

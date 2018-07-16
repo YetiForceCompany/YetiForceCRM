@@ -15,7 +15,6 @@ class IIDN_Field_Model extends Vtiger_Field_Model
 		if ($edit && $this->getName() === 'iidn_status') {
 			$edit = false;
 		}
-
 		return $edit;
 	}
 }

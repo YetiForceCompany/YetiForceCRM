@@ -137,7 +137,6 @@ class VTTaskType
 				continue;
 			}
 		}
-
 		return $taskTypeInstances;
 	}
 

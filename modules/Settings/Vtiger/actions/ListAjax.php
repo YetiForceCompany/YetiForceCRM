@@ -48,7 +48,6 @@ class Settings_Vtiger_ListAjax_Action extends Settings_Vtiger_Basic_Action
 		if (!empty($sourceModule)) {
 			$listViewModel->set('sourceModule', $sourceModule);
 		}
-
 		return $listViewModel->getListViewCount();
 	}
 

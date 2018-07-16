@@ -7,6 +7,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
+
 jQuery.Class("Vtiger_Detail_Js", {
 	detailInstance: false,
 	getInstance: function () {
@@ -284,7 +286,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 			thisInstance.registerEmailEvents(widgetContent);
 			if (relatedModuleName === 'DetailView') {
-				thisInstance.registerBlockAnimationEvent();
 				thisInstance.registerBlockStatusCheckOnLoad();
 			}
 		});
@@ -1185,10 +1186,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 
 
-			var QuickCreateParams = {};
+			let QuickCreateParams = {};
 			QuickCreateParams['callbackPostShown'] = preQuickCreateSave;
 			QuickCreateParams['callbackFunction'] = callbackFunction;
-			QuickCreateParams['data'] = {...customParams};
+			QuickCreateParams['data'] = Object.assign({},customParams);
 			QuickCreateParams['noCache'] = false;
 			Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, QuickCreateParams);
 		});
@@ -1573,7 +1574,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
 		if (selectedTabElement == undefined) {
-			var selectedTabElement = thisInstance.getSelectedTab();
+			selectedTabElement = thisInstance.getSelectedTab();
 		}
 		var relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModule);
 		relatedController.addRelations(relatedModuleRecordId).done(function (data) {
@@ -2044,7 +2045,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var text = $(this).val();
 			if (text) {
 				detailContentsHolder.find('.commentDetails').addClass('d-none');
-				var contains = detailContentsHolder.find(".commentRelatedTitle:contains(" + text + ")");
+				var contains = detailContentsHolder.find(".js-comment-search__value:contains(" + text + ")");
 				contains.each(function (e) {
 					$(this).closest('.commentDetails').removeClass('d-none');
 				});
@@ -2410,9 +2411,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			});
 		});
 		thisInstance.registerEventForRelatedList();
-		if (selectedTabElement.data('reference') === 'Details') {
-			thisInstance.registerBlockAnimationEvent();
-		}
+		thisInstance.registerBlockAnimationEvent();
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]'));
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="HistoryRelation"]'));
 		detailContentsHolder.find('.js-switch--recentActivities').off().on('change', function (e) {

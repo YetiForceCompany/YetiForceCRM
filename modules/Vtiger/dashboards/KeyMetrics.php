@@ -39,7 +39,6 @@ class Vtiger_KeyMetrics_Dashboard extends Vtiger_IndexAjax_View
 			$queryGenerator->initForCustomViewById($metriclist['id']);
 			$metriclist['count'] = $queryGenerator->createQuery()->count();
 		}
-
 		return $metriclists;
 	}
 

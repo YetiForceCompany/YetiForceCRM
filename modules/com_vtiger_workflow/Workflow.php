@@ -339,7 +339,6 @@ class Workflow
 		} else {
 			$nextTime = date('Y-m-d H:i:s', $todayScheduledTime);
 		}
-
 		return $nextTime;
 	}
 
@@ -400,7 +399,6 @@ class Workflow
 				}
 			}
 		}
-
 		return $nextTime;
 	}
 
@@ -450,7 +448,6 @@ class Workflow
 				}
 			}
 		}
-
 		return $nextTime;
 	}
 
@@ -478,7 +475,6 @@ class Workflow
 			}
 			$nextTime = date('Y-m-d H:i:s', strtotime($scheduledWeekDayOfMonth . ' ' . $monthInFullText . ' ' . $yearFullNumberic . ' ' . $scheduledTime));
 		}
-
 		return $nextTime;
 	}
 
@@ -519,7 +515,6 @@ class Workflow
 				$nextTime = date('Y:m:d H:i:s', strtotime($nextTriggerDay . ' ' . $scheduledTime . '+1 year'));
 			}
 		}
-
 		return $nextTime;
 	}
 }

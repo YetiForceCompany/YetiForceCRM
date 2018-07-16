@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Vtiger_List_Js("OSSMailView_List_Js", {
 	bindMails: function (url) {
 		var listInstance = Vtiger_List_Js.getInstance();

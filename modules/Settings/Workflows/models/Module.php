@@ -137,7 +137,6 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 				$supportedModuleModels[$tabId] = $moduleModel;
 			}
 		}
-
 		return $supportedModuleModels;
 	}
 
@@ -183,7 +182,6 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 			}
 			$this->listFieldModels = $fieldObjects;
 		}
-
 		return $this->listFieldModels;
 	}
 
@@ -228,7 +226,6 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 				$dbCommand->update('com_vtiger_workflowtasks_seq', ['id' => $taskId])->execute();
 			}
 		}
-
 		return $messages;
 	}
 

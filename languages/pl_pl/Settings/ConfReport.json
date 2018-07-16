@@ -127,7 +127,8 @@
     "LBL_PUBLIC_DIR": "\u015acie\u017cka do katalogu",
     "LBL_DENY_PUBLIC_DIR_STATUS": "Czy zablokowany dost\u0119p?",
     "LBL_DENY_PUBLIC_DIR_HELP_TEXT": "Zalecamy zabroni\u0107 dost\u0119p do tego katalogu. Obecnie katalog jest dost\u0119pny publicznie i zawarto\u015b\u0107 jego nie jest chroniona.",
-    "LBL_AUTO_DETECT_LINE_ENDINGS_HELP_TEXT": "Zalecamy w\u0142\u0105czenie sprawdzania kodowania podczas importu plik\u00f3w"
+    "LBL_AUTO_DETECT_LINE_ENDINGS_HELP_TEXT": "Zalecamy w\u0142\u0105czenie sprawdzania kodowania podczas importu plik\u00f3w",
+    "LBL_DOWNLOAD_CONFIG": "Pobierz konfiguracj\u0119"
   },
   "js": {
     "JS_SPEED_TEST_START": "Trwa sprawdzanie szybko\u015bci..."

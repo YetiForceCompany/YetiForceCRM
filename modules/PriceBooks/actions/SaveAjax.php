@@ -30,7 +30,6 @@ class PriceBooks_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				$recordModel->updateListPrice($parentRecordId, $parentRecordModel->get('unit_price'));
 			}
 		}
-
 		return $recordModel;
 	}
 }

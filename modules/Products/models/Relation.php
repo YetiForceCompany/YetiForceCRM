@@ -46,7 +46,6 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 
 			return true;
 		}
-
 		return false;
 	}
 

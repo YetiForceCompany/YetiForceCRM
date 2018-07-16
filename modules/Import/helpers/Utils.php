@@ -40,7 +40,6 @@ class Import_Utils_Helper
 		foreach ($supportedFileTypes as $fileType) {
 			$description[] = '.' . strtoupper($fileType);
 		}
-
 		return implode(', ', $description);
 	}
 
@@ -132,7 +131,6 @@ class Import_Utils_Helper
 		if (array_key_exists($assignToUserId, $assignableGroupsList)) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -192,7 +190,6 @@ class Import_Utils_Helper
 
 			return false;
 		}
-
 		return true;
 	}
 

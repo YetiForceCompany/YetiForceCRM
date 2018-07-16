@@ -66,7 +66,6 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 		} else {
 			$response->setResult(false);
 		}
-
 		return $response;
 	}
 

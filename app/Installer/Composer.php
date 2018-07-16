@@ -82,7 +82,7 @@ class Composer
 					if ($level2->isDir() && !$level2->isDot()) {
 						foreach (new \DirectoryIterator($level2->getPathname()) as $level3) {
 							if (!$level3->isDot() && \in_array($level3->getFilename(), static::$clearFiles)) {
-								\vtlib\Functions::recurseDelete($level3->getPathname());
+								\vtlib\Functions::recurseDelete($level3->getPathname(), true);
 							}
 						}
 					}

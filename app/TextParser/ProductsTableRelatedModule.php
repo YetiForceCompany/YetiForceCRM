@@ -112,7 +112,6 @@ class ProductsTableRelatedModule extends Base
 			}
 			$html .= '</tr></tfoot></table>';
 		}
-
 		return $html;
 	}
 }

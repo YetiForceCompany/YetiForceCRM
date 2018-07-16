@@ -3205,16 +3205,25 @@ CREATE TABLE `u_yf_srecurringorders_address` (
 CREATE TABLE `u_yf_srecurringorders_inventory` (
   `id` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
-  `name` int(10) NOT NULL DEFAULT 0,
-  `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
+  `name` int(10) DEFAULT 0,
+  `qty` decimal(25,3) DEFAULT 0.000,
   `discount` decimal(28,8) DEFAULT 0.00000000,
   `discountparam` varchar(255) DEFAULT NULL,
   `marginp` decimal(28,8) DEFAULT 0.00000000,
   `margin` decimal(28,8) DEFAULT 0.00000000,
-  `tax` decimal(28,8) NOT NULL DEFAULT 0.00000000,
-  `taxparam` varchar(255) NOT NULL,
+  `tax` decimal(28,8) DEFAULT 0.00000000,
+  `taxparam` varchar(255) DEFAULT NULL,
   `comment1` text DEFAULT NULL,
-  `qtyparam` tinyint(1) DEFAULT 0,
+  `price` decimal(28,8) DEFAULT 0.00000000,
+  `total` decimal(28,8) DEFAULT 0.00000000,
+  `net` decimal(28,8) DEFAULT 0.00000000,
+  `purchase` decimal(28,8) DEFAULT 0.00000000,
+  `gross` decimal(28,8) DEFAULT 0.00000000,
+  `discountmode` smallint(1) DEFAULT 0,
+  `taxmode` smallint(1) DEFAULT 0,
+  `currency` int(11) DEFAULT NULL,
+  `currencyparam` varchar(1024) DEFAULT NULL,
+  `qtyparam` smallint(1) DEFAULT 0,
   `unit` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
@@ -3236,7 +3245,7 @@ CREATE TABLE `u_yf_srecurringorders_invfield` (
   `params` text DEFAULT NULL,
   `colspan` tinyint(1) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_srecurringorders_invmap` */
 
@@ -3414,25 +3423,25 @@ CREATE TABLE `u_yf_ssingleorders_address` (
 CREATE TABLE `u_yf_ssingleorders_inventory` (
   `id` int(10) DEFAULT NULL,
   `seq` int(10) DEFAULT NULL,
-  `name` int(10) NOT NULL DEFAULT 0,
-  `qty` decimal(25,3) NOT NULL DEFAULT 0.000,
+  `name` int(10) DEFAULT 0,
+  `qty` decimal(25,3) DEFAULT 0.000,
   `discount` decimal(28,8) DEFAULT 0.00000000,
   `discountparam` varchar(255) DEFAULT NULL,
   `marginp` decimal(28,8) DEFAULT 0.00000000,
   `margin` decimal(28,8) DEFAULT 0.00000000,
-  `tax` decimal(28,8) NOT NULL DEFAULT 0.00000000,
-  `taxparam` varchar(255) NOT NULL,
+  `tax` decimal(28,8) DEFAULT 0.00000000,
+  `taxparam` varchar(255) DEFAULT NULL,
   `comment1` text DEFAULT NULL,
-  `price` decimal(28,8) NOT NULL DEFAULT 0.00000000,
-  `total` decimal(28,8) NOT NULL DEFAULT 0.00000000,
-  `net` decimal(28,8) NOT NULL DEFAULT 0.00000000,
-  `purchase` decimal(28,8) NOT NULL DEFAULT 0.00000000,
-  `gross` decimal(28,8) NOT NULL DEFAULT 0.00000000,
-  `discountmode` tinyint(1) NOT NULL DEFAULT 0,
-  `taxmode` tinyint(1) NOT NULL DEFAULT 0,
-  `currency` int(10) DEFAULT NULL,
+  `price` decimal(28,8) DEFAULT 0.00000000,
+  `total` decimal(28,8) DEFAULT 0.00000000,
+  `net` decimal(28,8) DEFAULT 0.00000000,
+  `purchase` decimal(28,8) DEFAULT 0.00000000,
+  `gross` decimal(28,8) DEFAULT 0.00000000,
+  `discountmode` smallint(1) DEFAULT 0,
+  `taxmode` smallint(1) DEFAULT 0,
+  `currency` int(11) DEFAULT NULL,
   `currencyparam` varchar(1024) DEFAULT NULL,
-  `qtyparam` tinyint(1) DEFAULT 0,
+  `qtyparam` smallint(1) DEFAULT 0,
   `unit` varchar(255) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT NULL,
   KEY `id` (`id`),
@@ -4072,7 +4081,7 @@ CREATE TABLE `vtiger_authy_methods` (
   `presence` tinyint(1) DEFAULT 1,
   `sortorderid` smallint(6) DEFAULT 0,
   PRIMARY KEY (`authy_methodsid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks` */
 
@@ -5409,7 +5418,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2766 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2767 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6405,6 +6414,16 @@ CREATE TABLE `vtiger_locationregister_status` (
   `sortorderid` smallint(6) DEFAULT 0,
   PRIMARY KEY (`locationregister_statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_login_method` */
+
+CREATE TABLE `vtiger_login_method` (
+  `login_methodid` int(11) NOT NULL AUTO_INCREMENT,
+  `login_method` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`login_methodid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_loginhistory` */
 
@@ -9053,6 +9072,7 @@ CREATE TABLE `vtiger_users` (
   `user_preferences` text DEFAULT NULL,
   `authy_methods` varchar(255) DEFAULT NULL,
   `authy_secret_totp` varchar(255) DEFAULT NULL,
+  `login_method` varchar(50) DEFAULT 'PLL_PASSWORD',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),

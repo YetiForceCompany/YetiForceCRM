@@ -7,7 +7,13 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-var Vtiger_CustomView_Js = {
+'use strict';
+
+var Vtiger_CustomView_Js;
+Vtiger_CustomView_Js = {
+	init() {
+		return this;
+	},
 	contentsCotainer: false,
 	columnListSelect2Element: false,
 	advanceFilterInstance: false,
@@ -103,16 +109,6 @@ var Vtiger_CustomView_Js = {
 			}
 		});
 	},
-	/**
-	 * Function which will register the select2 elements for columns selection
-	 */
-	registerSelect2ElementForColumnsSelection: function () {
-		var selectElement = Vtiger_CustomView_Js.getColumnSelectElement();
-		return App.Fields.Picklist.changeSelectElementView(selectElement, 'selectize', {
-			plugins: ['drag_drop', 'remove_button'],
-			maxItems: 12
-		});
-	},
 	registerIconEvents: function () {
 		var container = this.getContentsContainer();
 		container.on('change', '.iconPreferences input', function (e) {
@@ -160,17 +156,9 @@ var Vtiger_CustomView_Js = {
 		new App.Fields.Text.Editor(this.getContentsContainer().find('.js-editor'));
 		this.registerBlockToggleEvent();
 		this.registerColorEvent();
-		var select2Element = Vtiger_CustomView_Js.columnListSelect2Element = Vtiger_CustomView_Js.registerSelect2ElementForColumnsSelection();
-		var contentsContainer = Vtiger_CustomView_Js.getContentsContainer();
+		let select2Element = App.Fields.Picklist.showSelect2ElementView(Vtiger_CustomView_Js.getColumnSelectElement());
 		$('.stndrdFilterDateSelect').datepicker();
 		$('.chzn-select').chosen();
-
-		var selectizeInstance = select2Element[0].selectize;
-		var columnsList = JSON.parse($('input[name="columnslist"]').val());
-		selectizeInstance.clear();
-		for (var i in columnsList) {
-			selectizeInstance.addItem(columnsList[i]);
-		}
 		$("#standardDateFilter").on('change', function () {
 			Vtiger_CustomView_Js.loadDateFilterValues();
 		});
@@ -225,7 +213,7 @@ var Vtiger_CustomView_Js = {
 				//handled advanced filters saved values.
 				var advfilterlist = Vtiger_CustomView_Js.advanceFilterInstance.getValues();
 				$('#advfilterlist').val(JSON.stringify(advfilterlist));
-				$('input[name="columnslist"]', contentsContainer).val(JSON.stringify(Vtiger_CustomView_Js.getSelectedColumns()));
+				$('input[name="columnslist"]', Vtiger_CustomView_Js.getContentsContainer()).val(JSON.stringify(Vtiger_CustomView_Js.getSelectedColumns()));
 				Vtiger_CustomView_Js.saveAndViewFilter();
 				return false;
 			} else {
@@ -235,3 +223,6 @@ var Vtiger_CustomView_Js = {
 		$('#CustomView').validationEngine(app.validationEngineOptions);
 	}
 };
+$(document).ready(function () {
+	Vtiger_CustomView_Js.init();
+})

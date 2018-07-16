@@ -149,7 +149,6 @@ class Contacts extends CRMEntity
 		if ($secModule === false) {
 			return $relTables;
 		}
-
 		return $relTables[$secModule];
 	}
 

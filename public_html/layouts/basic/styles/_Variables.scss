@@ -9,27 +9,33 @@ $secondary: #5e666c;
 $blue: #337ab7;
 $pagination-color: $link-color;
 $grid-breakpoints: (
-		xs: 0,
-		sm: 576px,
-		md: 768px,
-		lg: 992px,
-		xl: 1200px,
-		xxl:1300px
+	xs: 0,
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px,
+	xxl:1300px
 );
 //-------- sizes --------//
-$w-icon-button: 42px;
+$w-icon-button: calculate-rem(42px);
 
-$h-footer: 33px;
-$h-input-text: 24px;
-$h-menu-items: 34px;
-$h-menu-right-items: 36px;
-$h-btn-sm: 31px;
-$h-header: 50px;
+$h-footer: calculate-rem(31px);
+$h-footer-mobile: calculate-rem(18px);
+$h-footer-user-info: calculate-rem(55px);
+$h-footer-user-info-mobile: calculate-rem(32px);
+$h-input-text: calculate-rem(24px);
+$h-menu-items: calculate-rem(34px);
+$h-menu-right-items: calculate-rem(36px);
+$h-modal-logo: calculate-rem(120px);
+$h-btn-sm: calculate-rem(31px);
+$h-header: calculate-rem(52px);
+$h-header-logo: calculate-rem(52px);
 $w-header-search: 500px;
-$h-main-viewport: calc(100vh - #{$h-footer + $h-header});
+$h-main-viewport: calc(100vh - (#{$h-footer} + #{$h-header}));
 $p-bs4-button: 0.375rem 0.75rem;
 
 $font-size-small: 0.8rem;
+$font-size-header-button: calculate-rem(17px);
 
 //-------- colors --------//
 $bg-navbar: #4a5364;

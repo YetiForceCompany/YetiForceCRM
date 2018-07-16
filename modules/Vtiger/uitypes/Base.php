@@ -14,9 +14,9 @@ class Vtiger_Base_UIType extends \App\Base
 	/**
 	 * Verify the value.
 	 *
-	 * @var bool
+	 * @var mixed[]
 	 */
-	protected $validate = false;
+	protected $validate = [];
 
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value.
@@ -34,7 +34,6 @@ class Vtiger_Base_UIType extends \App\Base
 		if (is_null($value)) {
 			return '';
 		}
-
 		return \App\Purifier::decodeHtml($value);
 	}
 
@@ -66,7 +65,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if ($isUserFormat) {
@@ -79,7 +78,7 @@ class Vtiger_Base_UIType extends \App\Base
 		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**

@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class("Settings_Inventory_Index_Js", {}, {
 	//Stored history of Name and duplicate check result
@@ -207,7 +208,7 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 			var result = response['success'];
 			aDeferred.resolve(response);
 		}).fail(function (error, err) {
-			aDeferred.reject((error, err);
+			aDeferred.reject(error, err);
 		});
 		return aDeferred.promise();
 	},

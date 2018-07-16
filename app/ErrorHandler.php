@@ -97,7 +97,6 @@ class ErrorHandler
 				$levels[] = $name;
 			}
 		}
-
 		return $levels;
 	}
 }

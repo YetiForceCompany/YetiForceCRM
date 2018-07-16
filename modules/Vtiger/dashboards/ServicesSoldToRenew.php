@@ -15,7 +15,6 @@ class Vtiger_ServicesSoldToRenew_Dashboard extends Vtiger_ProductsSoldToRenew_Da
 			$data['orderby'] = 'dateinservice';
 			$data['sortorder'] = 'asc';
 		}
-
 		return $this->data = $data;
 	}
 

@@ -97,7 +97,6 @@ class XCache
 				return false;
 			}
 		}
-
 		return true;
 	}
 }

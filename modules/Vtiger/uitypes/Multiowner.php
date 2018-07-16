@@ -19,7 +19,8 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		$hashValue = is_array($value) ? implode('|', $value) : $value;
+		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
 		if (!is_array($value)) {
@@ -30,7 +31,7 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 		}
-		$this->validate = true;
+		$this->validate[$hashValue] = true;
 	}
 
 	/**
@@ -65,7 +66,6 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 				$displayvalue[] = '<a href=' . $detailViewUrl . '>' . \App\Fields\Owner::getLabel($row) . '</a>&nbsp;';
 			}
 		}
-
 		return implode(',', $displayvalue);
 	}
 

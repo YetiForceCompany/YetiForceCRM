@@ -54,7 +54,6 @@ class Record
 				$result[$id] = null;
 			}
 		}
-
 		return $multiMode ? $result : array_shift($result);
 	}
 
@@ -182,7 +181,6 @@ class Record
 				$entityDisplay[$row['id']] = trim(implode(' ', $labelName));
 			}
 		}
-
 		return $entityDisplay;
 	}
 
@@ -310,7 +308,6 @@ class Record
 			case 2:
 				return 'Archived';
 		}
-
 		return null;
 	}
 

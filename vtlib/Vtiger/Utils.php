@@ -41,7 +41,6 @@ class Utils
 				$strvalue .= $suffix;
 			}
 		}
-
 		return $strvalue;
 	}
 
@@ -75,7 +74,6 @@ class Utils
 
 			return false;
 		}
-
 		return true;
 	}
 
@@ -111,7 +109,6 @@ class Utils
 
 			return false;
 		}
-
 		return true;
 	}
 
@@ -218,7 +215,6 @@ class Utils
 		if (preg_match('/(CREATE TABLE)/', strtoupper($sql))) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -232,7 +228,6 @@ class Utils
 		if (preg_match('/(DROP TABLE)|(DROP COLUMN)|(DELETE FROM)/', strtoupper($sql))) {
 			return true;
 		}
-
 		return false;
 	}
 }

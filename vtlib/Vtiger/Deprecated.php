@@ -49,7 +49,6 @@ class Deprecated
 				return implode(' ', $accessibleFieldNames);
 			}
 		}
-
 		return '';
 	}
 
@@ -131,7 +130,6 @@ class Deprecated
 		if (stripos($realfilepath, $rootdirpath) !== 0) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -314,7 +312,6 @@ class Deprecated
 		if (!in_array($homeTabid, $permittedModules)) {
 			$permittedModules[] = $homeTabid;
 		}
-
 		return $permittedModules;
 	}
 }

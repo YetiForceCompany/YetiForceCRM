@@ -45,7 +45,6 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		if ($tableSchema) {
 			return $tableSchema->getColumnNames();
 		}
-
 		return false;
 	}
 

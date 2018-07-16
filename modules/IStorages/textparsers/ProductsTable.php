@@ -96,7 +96,6 @@ class IStorages_ProductsTable_Textparser extends \App\TextParser\Base
 			}
 			$html .= '</tbody></table>';
 		}
-
 		return $html;
 	}
 }

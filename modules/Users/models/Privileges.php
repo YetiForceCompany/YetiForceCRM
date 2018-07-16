@@ -26,7 +26,6 @@ class Users_Privileges_Model extends Users_Record_Model
 		foreach ($entityData['fieldnameArr'] as $fieldname) {
 			$colums[] = $this->get($fieldname);
 		}
-
 		return implode(' ', $colums);
 	}
 
@@ -84,7 +83,6 @@ class Users_Privileges_Model extends Users_Record_Model
 		if ($actionId == Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT) {
 			return $this->hasGlobalWritePermission();
 		}
-
 		return false;
 	}
 

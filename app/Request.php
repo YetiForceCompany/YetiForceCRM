@@ -125,7 +125,6 @@ class Request
 		if ($value) {
 			$value = Purifier::purify($value);
 		}
-
 		return $this->purifiedValuesByGet[$key] = $value;
 	}
 
@@ -254,7 +253,6 @@ class Request
 
 			return $this->purifiedValuesByExploded[$key] = $value;
 		}
-
 		return $value;
 	}
 
@@ -289,7 +287,6 @@ class Request
 		if ($value) {
 			$value = \App\Purifier::purifyHtml($value);
 		}
-
 		return $this->purifiedValuesByHtml[$key] = $value;
 	}
 
@@ -326,7 +323,6 @@ class Request
 		foreach ($this->rawValues as $key => $value) {
 			$this->get($key);
 		}
-
 		return $this->purifiedValuesByGet;
 	}
 
@@ -353,7 +349,6 @@ class Request
 		if (isset($this->rawValues[$key])) {
 			return $this->rawValues[$key];
 		}
-
 		return $defaultValue;
 	}
 
@@ -381,7 +376,6 @@ class Request
 				$value = Purifier::purify($value);
 			}
 		}
-
 		return $this->headers = $headers;
 	}
 
@@ -397,7 +391,6 @@ class Request
 		if (!isset($this->headers)) {
 			$this->getHeaders();
 		}
-
 		return isset($this->headers[$key]) ? $this->headers[$key] : null;
 	}
 
@@ -420,7 +413,6 @@ class Request
 				throw new \App\Exceptions\AppException('Unexpected Header');
 			}
 		}
-
 		return $method;
 	}
 
@@ -454,7 +446,6 @@ class Request
 				$moduleName = "$parentModule:$moduleName";
 			}
 		}
-
 		return $moduleName;
 	}
 
@@ -557,7 +548,6 @@ class Request
 		} elseif (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -609,7 +599,6 @@ class Request
 		if (!static::$request) {
 			static::$request = new self($request ? $request : $_REQUEST);
 		}
-
 		return static::$request;
 	}
 

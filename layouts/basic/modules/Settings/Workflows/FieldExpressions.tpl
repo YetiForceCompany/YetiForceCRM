@@ -14,8 +14,8 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
+					<h5 class="modal-title">{\App\Language::translate('LBL_SET_VALUE',$QUALIFIED_MODULE)}</h5>
 					<button type="button" class="close" aria-hidden="true" data-close-modal="modal">×</button>
-					<h3 class="modal-title">{\App\Language::translate('LBL_SET_VALUE',$QUALIFIED_MODULE)}</h3>
 				</div>
 				<div class="modal-body">
 					<div class="row">
@@ -85,8 +85,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success" type="button" name="saveButton"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
-					<button class="btn btn-warning cancelLink" type="button" data-close-modal="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+					<button class="btn btn-success mr-1" type="button" name="saveButton"><strong><span class="fa fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
+					<button class="btn btn-danger cancelLink" type="button" data-close-modal="modal"><strong><span class="fa fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
 				</div>
 			</div>
 		</div>

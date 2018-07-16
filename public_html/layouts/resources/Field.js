@@ -7,6 +7,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
+
 jQuery.Class("Vtiger_Field_Js", {
 	/**
 	 * Function to get Instance of the class based on moduleName

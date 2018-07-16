@@ -28,7 +28,6 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 			$dataReader->close();
 			\App\Cache::save('UserPasswordgConfig', '', $detail);
 		}
-
 		return $type ? $detail[$type] : $detail;
 	}
 
@@ -76,7 +75,6 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 		if ($conf['special'] == 'true' && !preg_match('~[!"#$%&\'()*+,-./:;<=>?@[\]^_{|}]~', $pass)) {
 			return \App\Language::translate('Password should contain special characters', $moduleName);
 		}
-
 		return false;
 	}
 

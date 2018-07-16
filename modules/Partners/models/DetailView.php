@@ -15,7 +15,6 @@ class Partners_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => '',
 			];
 		}
-
 		return $relatedLinks;
 	}
 }

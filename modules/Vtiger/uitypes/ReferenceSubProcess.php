@@ -18,7 +18,6 @@ class Vtiger_ReferenceSubProcess_UIType extends Vtiger_ReferenceLink_UIType
 		if (!empty($modules)) {
 			return array_keys($modules);
 		}
-
 		return [];
 	}
 
@@ -28,7 +27,6 @@ class Vtiger_ReferenceSubProcess_UIType extends Vtiger_ReferenceLink_UIType
 		if (isset($modules[$module]['parentModule'])) {
 			return $modules[$module]['parentModule'];
 		}
-
 		return '';
 	}
 

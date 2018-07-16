@@ -10,7 +10,7 @@
  */
 class Vtiger_InventoryField_Model extends App\Base
 {
-	protected $fields = false;
+	protected $fields = [];
 	protected $columns = false;
 	protected $jsonFields = ['discountparam', 'taxparam', 'currencyparam'];
 
@@ -48,7 +48,7 @@ class Vtiger_InventoryField_Model extends App\Base
 	 * @param bool  $returnInBlock Should the result be divided into blocks
 	 * @param array $ids
 	 *
-	 * @return array Inventory data
+	 * @return Vtiger_Basic_InventoryField[] Inventory data
 	 */
 	public function getFields($returnInBlock = false, $ids = [], $viewType = false)
 	{
@@ -93,7 +93,6 @@ class Vtiger_InventoryField_Model extends App\Base
 				$fields[2] = [];
 			}
 		}
-
 		return $fields;
 	}
 
@@ -112,7 +111,6 @@ class Vtiger_InventoryField_Model extends App\Base
 				return false;
 			}
 		}
-
 		return true;
 	}
 
@@ -233,7 +231,6 @@ class Vtiger_InventoryField_Model extends App\Base
 			$params['modules'] = [$params['modules']];
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
-
 		return $params;
 	}
 
@@ -253,7 +250,6 @@ class Vtiger_InventoryField_Model extends App\Base
 			$instance->set('module', $moduleName);
 			Vtiger_Cache::set('inventoryField', $moduleName, $instance);
 		}
-
 		return $instance;
 	}
 
@@ -273,7 +269,6 @@ class Vtiger_InventoryField_Model extends App\Base
 			$instance->set('module', $moduleName);
 			Vtiger_Cache::set('inventoryFieldType', $moduleName . $type, $instance);
 		}
-
 		return $instance;
 	}
 
@@ -292,7 +287,6 @@ class Vtiger_InventoryField_Model extends App\Base
 				$fields[] = $row;
 			}
 		}
-
 		return $fields;
 	}
 
@@ -323,7 +317,6 @@ class Vtiger_InventoryField_Model extends App\Base
 				$return[$precent] += $net * ($precent / 100);
 			}
 		}
-
 		return $return;
 	}
 
@@ -351,7 +344,6 @@ class Vtiger_InventoryField_Model extends App\Base
 				}
 			}
 		}
-
 		return $relationField;
 	}
 
@@ -487,7 +479,6 @@ class Vtiger_InventoryField_Model extends App\Base
 		if (!empty($updates)) {
 			$return = \App\Db::getInstance()->createCommand()->update($this->getTableName('fields'), $updates, ['id' => $param['id']])->execute();
 		}
-
 		return $return;
 	}
 
@@ -531,7 +522,6 @@ class Vtiger_InventoryField_Model extends App\Base
 
 			return $result;
 		}
-
 		return false;
 	}
 
@@ -559,7 +549,6 @@ class Vtiger_InventoryField_Model extends App\Base
 				$summaryFields[$field->get('columnname')] = $field->get('columnname');
 			}
 		}
-
 		return $summaryFields;
 	}
 
@@ -615,7 +604,6 @@ class Vtiger_InventoryField_Model extends App\Base
 			$html .= $field->getDisplayValue($data['name']);
 			$html .= '</li>';
 		}
-
 		return $html . '</ul>';
 	}
 
@@ -640,7 +628,6 @@ class Vtiger_InventoryField_Model extends App\Base
 				}
 			}
 		}
-
 		return $values;
 	}
 
@@ -661,7 +648,6 @@ class Vtiger_InventoryField_Model extends App\Base
 				return $module;
 			}
 		}
-
 		return false;
 	}
 }

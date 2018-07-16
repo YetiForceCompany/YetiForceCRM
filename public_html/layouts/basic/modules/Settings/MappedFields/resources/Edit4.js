@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit4_Js", {}, {
 	step4Container: false,
 	advanceFilterInstance: false,
@@ -80,6 +82,6 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit4_Js", {}, {
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
 		this.registerCancelStepClickEvent(container);
-		App.Fields.Picklist.showSelectizeElementView(container.find('.selectize'));
+		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
 	}
 });

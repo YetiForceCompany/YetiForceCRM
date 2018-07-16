@@ -20,7 +20,6 @@ class VTCacheUtils
 		if (isset(self::$_blocklabel_cache[$id])) {
 			return self::$_blocklabel_cache[$id];
 		}
-
 		return false;
 	}
 
@@ -85,7 +84,6 @@ class VTCacheUtils
 				}
 			}
 		}
-
 		return $modulefields;
 	}
 }

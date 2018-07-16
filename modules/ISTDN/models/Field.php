@@ -15,7 +15,6 @@ class ISTDN_Field_Model extends Vtiger_Field_Model
 		if ($edit && $this->getName() === 'istdn_status') {
 			$edit = false;
 		}
-
 		return $edit;
 	}
 }

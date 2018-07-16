@@ -23,7 +23,6 @@ class Settings_Vtiger_Module_Model extends \App\Base
 		if ($includeParentIfExists) {
 			return $this->getParentName() . ':' . $this->name;
 		}
-
 		return $this->name;
 	}
 
@@ -59,7 +58,6 @@ class Settings_Vtiger_Module_Model extends \App\Base
 			}
 			$this->listFieldModels = $fieldObjects;
 		}
-
 		return $this->listFieldModels;
 	}
 
@@ -111,7 +109,6 @@ class Settings_Vtiger_Module_Model extends \App\Base
 		if ($menu) {
 			$menuModel = Settings_Vtiger_Menu_Model::getInstance($menu);
 		}
-
 		return Settings_Vtiger_MenuItem_Model::getAll($menuModel);
 	}
 
@@ -205,7 +202,6 @@ class Settings_Vtiger_Module_Model extends \App\Base
 				];
 			}
 		}
-
 		return $menu;
 	}
 

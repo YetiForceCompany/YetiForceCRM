@@ -6,6 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
 Vtiger_List_Js("Documents_List_Js", {
 	massMove: function (url) {
@@ -85,10 +86,12 @@ Vtiger_List_Js("Documents_List_Js", {
 	},
 	registerDeleteFilterClickEvent: function () {
 		var thisInstance = this;
+
 		var listViewFilterBlock = this.getFilterBlock();
+		console.log(listViewFilterBlock.find('li [data-fa-i2svg].deleteFilter'));
 		if (listViewFilterBlock != false) {
 			//used mouseup event to stop the propagation of customfilter select change event.
-			listViewFilterBlock.on('mouseup', 'li span.deleteFilter', function (event) {
+			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].deleteFilter', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');

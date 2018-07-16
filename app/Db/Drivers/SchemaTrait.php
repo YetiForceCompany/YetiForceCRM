@@ -128,7 +128,6 @@ trait SchemaTrait
 		if (!isset($this->_tableNames[$schema]) || $refresh) {
 			$this->_tableNames[$schema] = $this->findTableNames($schema);
 		}
-
 		return $this->_tableNames[$schema];
 	}
 

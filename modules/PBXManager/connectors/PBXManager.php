@@ -129,7 +129,6 @@ class PBXManager_PBXManager_Connector
 				$params['GateWay'] = $this->getGatewayName();
 				break;
 		}
-
 		return $params;
 	}
 
@@ -371,7 +370,6 @@ class PBXManager_PBXManager_Connector
 		if ($response === 'Error' || $response === '' || $response === null || $response === 'Authentication Failure') {
 			return false;
 		}
-
 		return true;
 	}
 }

@@ -7,13 +7,13 @@
 			<thead>
 				<tr class="blockHeader">
 					<th></th>
-					<th><strong>{\App\Language::translate('ViewName',$QUALIFIED_MODULE)}</strong></th>
-					<th><strong>{\App\Language::translate('SetDefault',$QUALIFIED_MODULE)}</strong></th>
-					<th><strong>{\App\Language::translate('Privileges',$QUALIFIED_MODULE)}</strong></th>
-					<th><strong>{\App\Language::translate('LBL_FEATURED_LABELS',$QUALIFIED_MODULE)}</strong></th>
-					<th><strong>{\App\Language::translate('LBL_SORTING',$QUALIFIED_MODULE)}</strong></th>
-					<th><strong>{\App\Language::translate('LBL_CREATED_BY',$QUALIFIED_MODULE)}</strong></th>
-					<th><strong>{\App\Language::translate('Actions',$QUALIFIED_MODULE)}</strong></th>
+					<th>{\App\Language::translate('ViewName',$QUALIFIED_MODULE)}</th>
+					<th>{\App\Language::translate('SetDefault',$QUALIFIED_MODULE)}</th>
+					<th>{\App\Language::translate('Privileges',$QUALIFIED_MODULE)}</th>
+					<th>{\App\Language::translate('LBL_FEATURED_LABELS',$QUALIFIED_MODULE)}</th>
+					<th>{\App\Language::translate('LBL_SORTING',$QUALIFIED_MODULE)}</th>
+					<th>{\App\Language::translate('LBL_CREATED_BY',$QUALIFIED_MODULE)}</th>
+					<th>{\App\Language::translate('Actions',$QUALIFIED_MODULE)}</th>
 				</tr>
 			</thead>
 			<tbody>

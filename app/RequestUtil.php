@@ -6,8 +6,8 @@ namespace App;
  * Request Utils basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class RequestUtil
 {
@@ -39,7 +39,6 @@ class RequestUtil
 		if (!empty($remoteIp)) {
 			$address .= '(' . implode(',', $remoteIp) . ')';
 		}
-
 		return empty($address) ? '' : $address;
 	}
 
@@ -107,7 +106,7 @@ class RequestUtil
 			}
 			$sp = strtolower(Request::_getServer('SERVER_PROTOCOL'));
 			$protocol = substr($sp, 0, strpos($sp, '/')) . (($browser->https) ? 's' : '');
-			$port = (int) $_SERVER['SERVER_PORT'];
+			$port = isset($_SERVER['SERVER_PORT']) ? (int) $_SERVER['SERVER_PORT'] : 0;
 			$port = ((!$browser->https && $port === 80) || ($browser->https && $port === 443)) ? '' : ':' . $port;
 			$host = Request::_getServer('HTTP_X_FORWARDED_HOST', Request::_getServer('HTTP_HOST', ''));
 			$host = $host ?? Request::_getServer('SERVER_NAME') . $port;

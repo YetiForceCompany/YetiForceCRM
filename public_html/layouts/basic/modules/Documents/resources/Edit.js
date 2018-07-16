@@ -6,6 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
 Vtiger_Edit_Js("Documents_Edit_Js", {}, {
 
@@ -125,7 +126,7 @@ Vtiger_Edit_Js("Documents_Edit_Js", {}, {
 		var fileLocationTypeElement = form.find('[name="filelocationtype"]');
 		if (typeof file !== "undefined" && thisInstance.isFileLocationInternalType(fileLocationTypeElement)) {
 			formData.append("filename", file);
-			delete file;
+			file = false;
 		}
 		if (formData) {
 			var params = {

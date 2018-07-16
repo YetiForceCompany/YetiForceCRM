@@ -225,10 +225,10 @@ abstract class View extends Base
 			'~layouts/resources/icons/userIcons.css',
 			'~layouts/resources/icons/adminIcons.css',
 			'~layouts/resources/icons/additionalIcons.css',
+			'~libraries/fontawesome-web/css/fontawesome-all.css',
 			'~libraries/chosen-js/chosen.css',
 			'~libraries/bootstrap-chosen/bootstrap-chosen.css',
 			'~libraries/jquery-ui-dist/jquery-ui.css',
-			'~libraries/selectize/dist/css/selectize.bootstrap3.css',
 			'~libraries/select2/dist/css/select2.css',
 			'~libraries/simplebar/dist/simplebar.css',
 			'~libraries/perfect-scrollbar/css/perfect-scrollbar.css',
@@ -296,7 +296,6 @@ abstract class View extends Base
 			'~libraries/bootbox/bootbox.js',
 			'~libraries/microplugin/src/microplugin.js',
 			'~libraries/sifter/sifter.js',
-			'~libraries/selectize/dist/js/selectize.js',
 			'~libraries/jQuery-Validation-Engine/js/jquery.validationEngine.js',
 			'~libraries/moment/min/moment.min.js',
 			'~libraries/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
@@ -422,7 +421,6 @@ abstract class View extends Base
 				}
 			}
 		}
-
 		return $jsScriptInstances;
 	}
 
@@ -522,7 +520,6 @@ abstract class View extends Base
 				}
 			}
 		}
-
 		return $cssStyleInstances;
 	}
 
@@ -589,6 +586,9 @@ abstract class View extends Base
 		}
 		if (\App\Session::has('ShowAuthy2faModal')) {
 			\App\Config::setJsEnv('ShowAuthy2faModal', \App\Session::get('ShowAuthy2faModal'));
+			if (AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OPTIONAL') {
+				\App\Session::delete('ShowAuthy2faModal');
+			}
 		}
 		if (\App\Session::has('ShowUserPasswordChange')) {
 			\App\Config::setJsEnv('ShowUserPasswordChange', \App\Session::get('ShowUserPasswordChange'));

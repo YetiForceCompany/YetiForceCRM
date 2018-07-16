@@ -41,7 +41,6 @@ class Notification_ListView_Model extends Vtiger_ListView_Model
 		foreach ($headerLinks as $headerLink) {
 			$links['LIST_VIEW_HEADER'][] = Vtiger_Link_Model::getInstanceFromValues($headerLink);
 		}
-
 		return $links;
 	}
 }

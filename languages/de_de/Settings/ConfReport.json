@@ -126,7 +126,8 @@
     "LBL_PUBLIC_DIR": "Verzeichnispfad",
     "LBL_DENY_PUBLIC_DIR_STATUS": "Zugriff verboten?",
     "LBL_DENY_PUBLIC_DIR_HELP_TEXT": "Es ist erforderlich den Zugriff auf dieses Verzeichnis zu unterbinden. Das Verzeichnis ist \u00f6ffentlich zug\u00e4nglich und sein Inhalt ist sonst nicht gesch\u00fctzt.",
-    "LBL_AUTO_DETECT_LINE_ENDINGS_HELP_TEXT": "Es wird empfohlen die Codepr\u00fcfung zu aktivieren falls Dateien importiert werden."
+    "LBL_AUTO_DETECT_LINE_ENDINGS_HELP_TEXT": "Es wird empfohlen die Codepr\u00fcfung zu aktivieren falls Dateien importiert werden.",
+    "LBL_DOWNLOAD_CONFIG": "Download configuration"
   },
   "js": {
     "JS_SPEED_TEST_START": "Performance wird ermittelt ..."

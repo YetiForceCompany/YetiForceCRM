@@ -24,7 +24,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			$fieldName = $relationModel->getRelationField()->getFieldName();
 			Vtiger_Cache::set('NameRelatedField', $refModuleName . '-Calendar', $fieldName);
 		}
-
 		return $fieldName;
 	}
 
@@ -68,7 +67,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		if (empty($name)) {
 			$name = parent::getName();
 		}
-
 		return $name;
 	}
 
@@ -96,7 +94,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		if ($activityType == 'Task') {
 			return 'Calendar';
 		}
-
 		return 'Events';
 	}
 
@@ -219,7 +216,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	{
 		$cbrecord = $this->getId();
 		if (!empty($cbrecord)) {
-			$cbdate = \App\Fields\Date::formatToDb($this->get('date_start'));
+			$cbdate = $this->get('date_start');
 			$cbtime = $this->get('time_start');
 			$reminderid = (new \App\Db\Query())->select(['reminderid'])->from('vtiger_activity_reminder_popup')
 				->where(['recordid' => $cbrecord])
@@ -320,7 +317,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		if ($icon == 'Task') {
 			$icon = 'Tasks';
 		}
-
 		return $icon . '.png';
 	}
 
@@ -387,7 +383,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -418,7 +413,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 				]);
 			}
 		}
-
 		return $links;
 	}
 }

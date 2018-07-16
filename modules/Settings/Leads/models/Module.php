@@ -28,7 +28,6 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 			}
 			$this->fields = $fieldModelsList;
 		}
-
 		return $this->fields;
 	}
 
@@ -60,7 +59,6 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 			}
 			$dataReader->close();
 		}
-
 		return $this->supportedFieldIdsList;
 	}
 
@@ -90,7 +88,6 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$moduleModel->$properName = $propertyValue;
 		}
-
 		return $moduleModel;
 	}
 }

@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div id="advanceSearchContainer" class="modal fade" tabindex="-1" role="dialog">
+    <div class="tpl-AdvanceSearch modal fade" tabindex="-1" role="dialog" id="advanceSearchContainer">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -21,11 +21,11 @@
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
 				</div>
 				<div class="modal-body">
-					<div class="form-group row">
-						<label for="searchModuleList" class="col-sm-2 col-form-label">
+					<div class="form-group form-row">
+						<label for="searchModuleList" class="col-md-12 col-lg-2 pl-2 col-form-label d-flex justify-content-start">
 							<strong class="float-right">{\App\Language::translate('LBL_SEARCH_IN',$MODULE)}</strong>
 						</label>
-						<div class="col-sm-10">
+						<div class="col-md-12 col-lg-10">
 							<select class="select2 form-control" id="searchModuleList" title="{\App\Language::translate('LBL_SELECT_MODULE')}" data-placeholder="{\App\Language::translate('LBL_SELECT_MODULE')}">
 								<option></option>
 								{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
@@ -45,22 +45,34 @@
 						</form>
 					</div>
 				</div>
-				<div class="actions modal-footer">
-					{if $SAVE_FILTER_PERMITTED}
-						<div class="col-3 ">
-							<input class="zeroOpacity form-control" type="text" title="{\App\Language::translate('LBL_FILTER_NAME')}" value="" name="viewname" placeholder="{\App\Language::translate('LBL_FILTER_NAME')}" />
-						</div>
-						{if \App\Privilege::isPermitted($SOURCE_MODULE, 'CreateCustomFilter')}
-							<button class="btn btn-success" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave">
-								<span class="fas fa-check mr-1"></span><strong>{\App\Language::translate('LBL_SAVE_AS_FILTER', $MODULE)}</strong>
+				<div class="actions modal-footer d-flex justify-content-center justify-content-lg-end">
+					<div class="form-row w-100 d-flex justify-content-center justify-content-lg-end">
+						{if $SAVE_FILTER_PERMITTED}
+							<div class="col-md-6 col-lg-2 mb-1 mb-md-2 mb-lg-0 pl-0 pr-0 pr-lg-0 pr-md-1 d-none js-name-filter" data-js="class: .js-name-filter">
+								<input class="form-control" type="text" title="{\App\Language::translate('LBL_FILTER_NAME')}" value="" name="viewname" placeholder="{\App\Language::translate('LBL_FILTER_NAME')}"/>
+							</div>
+							{if \App\Privilege::isPermitted($SOURCE_MODULE, 'CreateCustomFilter')}
+								<button class="btn btn-success u-text-ellipsis col-lg-5 mb-1 mb-md-2 mb-lg-0" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave">
+									<span class="fas fa-check mr-1"></span><strong>{\App\Language::translate('LBL_SAVE_AS_FILTER', $MODULE)}</strong>
+								</button>
+							{/if}
+						<div class="d-none ml-lg-2 mb-1 mb-md-2 mb-lg-0 pr-0 pl-0 pl-lg-0 pl-md-1 col-md-6 col-lg-2" id="advanceSave">
+							<button class="btn btn-success col-12" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} >
+								<span class="fas fa-check mr-1"></span><strong>{\App\Language::translate('LBL_SAVE_FILTER', $MODULE)}</strong>
 							</button>
+						</div>
 						{/if}
-						<button class="btn d-none btn-success" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave">
-							<span class="fas fa-check mr-1"></span><strong>{\App\Language::translate('LBL_SAVE_FILTER', $MODULE)}</strong>
-						</button>
-					{/if}
-					<button class="btn btn-info" id="advanceSearchButton" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if}  type="submit"><span class="fas fa-search mr-1"></span><strong>{\App\Language::translate('LBL_SEARCH', $MODULE)}</strong></button>
-					<button class="cancelLink btn btn-danger" role="button" id="advanceSearchCancel" data-dismiss="modal"><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+						<div class="ml-lg-2 pl-0 pr-0 pr-lg-0 pr-md-1 col-md-6 col-lg-2 mb-1 mb-md-0">
+							<button class="btn btn-info col-12" id="advanceSearchButton" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} type="submit">
+								<span class="fas fa-search mr-1"></span><strong>{\App\Language::translate('LBL_SEARCH', $MODULE)}</strong>
+							</button>
+						</div>
+						<div class="ml-lg-2 pr-0 pl-0 pl-lg-0 pl-md-1 col-md-6 col-lg-2">
+							<button class="cancelLink btn btn-danger col-12" role="button" id="advanceSearchCancel" data-dismiss="modal">
+								<span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

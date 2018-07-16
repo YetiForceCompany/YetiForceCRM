@@ -1,0 +1,58 @@
+.c-form__action-panel {
+	position: fixed;
+	bottom: 33px;
+	height: 48px;
+	width: calc(100% - 50px);
+	background: $light;
+	margin-left: -10px;
+	text-align: center;
+	border-top: 1px solid #ddd;
+	z-index: 5;
+	padding: 5px;
+
+	.btn-group {
+		margin-right: 3px;
+	}
+}
+
+.user-info--active {
+	.c-form__action-panel {
+		bottom: $h-footer-user-info;
+	}
+
+	.verticalScroll {
+		height: calc(100vh - 150px);
+	}
+}
+
+.verticalScroll {
+	position: absolute;
+	left: 0;
+	height: calc(100vh - 128px);
+	width: 100%;
+	overflow-x: hidden;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+@include media-breakpoint-down(sm) {
+	.c-form__action-panel {
+		bottom: $h-footer-mobile;
+		width: 100%;
+	}
+
+	.verticalScroll {
+		height: calc(100vh - 112px);
+	}
+
+	.user-info--active {
+		.verticalScroll {
+			height: calc(100vh - 31px);
+		}
+
+		.c-form__action-panel {
+			bottom: $h-footer;
+		}
+	}
+
+}

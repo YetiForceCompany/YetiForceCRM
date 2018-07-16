@@ -6,6 +6,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
+
 jQuery.Class('Settings_Module_Import_Js', {}, {
 	/**
 	 * Function to get import module step1 params
@@ -84,7 +86,7 @@ jQuery.Class('Settings_Module_Import_Js', {}, {
 	 * Function to register event related to Import extrension Modules in step2
 	 */
 	registerEventsForImportModuleStep2: function (container) {
-		var container = jQuery(container);
+		container = jQuery(container);
 		var thisInstance = this;
 
 		container.find('#installExtension').on('click', function () {

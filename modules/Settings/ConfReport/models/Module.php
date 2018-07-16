@@ -103,7 +103,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['suhosin.post.max_vars'] = ['recommended' => '5000', 'fn' => 'validateGreater'];
 			$directiveValues['suhosin.post.max_value_length'] = ['recommended' => '1500000', 'fn' => 'validateGreater'];
 		}
-
 		return $directiveValues;
 	}
 
@@ -117,7 +116,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			}
 			static::$library[$k]['status'] = $status ? 'LBL_YES' : 'LBL_NO';
 		}
-
 		return static::$library;
 	}
 
@@ -157,7 +155,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
-
 		return $conf;
 	}
 
@@ -235,7 +232,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['public_html']['status'] = true;
 			$directiveValues['public_html']['current'] = static::getFlag(false);
 		}
-		if (strpos($_SERVER['SERVER_SOFTWARE'], 'nginx') === false) {
+		if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'nginx') === false) {
 			if (!isset($_SERVER['HTACCESS_TEST'])) {
 				$directiveValues['.htaccess']['status'] = true;
 				$directiveValues['.htaccess']['current'] = 'Off';
@@ -270,36 +267,38 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'verify_peer_name' => false,
 			],
 		]);
-		$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
-		try {
-			$request = Requests::get($requestUrl, [], ['timeout' => 1]);
-			$headers = array_map(function ($value) {
-				return is_array($value) ? strtolower(implode(',', $value)) : strtolower($value);
-			}, $request->headers->getAll());
-		} catch (\Exception $exc) {
-			$headers = [];
-		}
-		if ($headers) {
-			$directiveValues['Header: X-Frame-Options']['status'] = $headers['x-frame-options'] !== 'sameorigin';
-			$directiveValues['Header: X-Frame-Options']['current'] = $headers['x-frame-options'];
-			$directiveValues['Header: X-XSS-Protection']['status'] = $headers['x-xss-protection'] !== '1; mode=block';
-			$directiveValues['Header: X-XSS-Protection']['current'] = $headers['x-xss-protection'];
-			$directiveValues['Header: X-Content-Type-Options']['status'] = $headers['x-content-type-options'] !== 'nosniff';
-			$directiveValues['Header: X-Content-Type-Options']['current'] = $headers['x-content-type-options'];
-			$directiveValues['Header: X-Powered-By']['status'] = !empty($headers['x-powered-by']);
-			$directiveValues['Header: X-Powered-By']['current'] = $headers['x-powered-by'] ?? '';
-			$directiveValues['Header: X-Robots-Tag']['status'] = $headers['x-robots-tag'] !== 'none';
-			$directiveValues['Header: X-Robots-Tag']['current'] = $headers['x-robots-tag'];
-			$directiveValues['Header: X-Permitted-Cross-Domain-Policies']['status'] = $headers['x-permitted-cross-domain-policies'] !== 'none';
-			$directiveValues['Header: X-Permitted-Cross-Domain-Policies']['current'] = $headers['x-permitted-cross-domain-policies'];
-			$directiveValues['Header: Server']['status'] = !empty($headers['server']);
-			$directiveValues['Header: Server']['current'] = $headers['server'];
-			$directiveValues['Header: Referrer-Policy']['status'] = $headers['referrer-policy'] !== 'no-referrer';
-			$directiveValues['Header: Referrer-Policy']['current'] = $headers['referrer-policy'];
-			$directiveValues['Header: Expect-CT']['status'] = $headers['expect-ct'] !== 'enforce; max-age=3600';
-			$directiveValues['Header: Expect-CT']['current'] = $headers['expect-ct'];
-			$directiveValues['Header: Strict-Transport-Security']['status'] = $headers['strict-transport-security'] !== 'max-age=31536000; includesubdomains; preload';
-			$directiveValues['Header: Strict-Transport-Security']['current'] = $headers['strict-transport-security'];
+		if (isset($_SERVER['HTTP_HOST'])) {
+			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
+			try {
+				$request = Requests::get($requestUrl, [], ['timeout' => 1]);
+				$headers = array_map(function ($value) {
+					return is_array($value) ? strtolower(implode(',', $value)) : strtolower($value);
+				}, $request->headers->getAll());
+			} catch (\Exception $exc) {
+				$headers = [];
+			}
+			if ($headers) {
+				$directiveValues['Header: X-Frame-Options']['status'] = $headers['x-frame-options'] !== 'sameorigin';
+				$directiveValues['Header: X-Frame-Options']['current'] = $headers['x-frame-options'];
+				$directiveValues['Header: X-XSS-Protection']['status'] = $headers['x-xss-protection'] !== '1; mode=block';
+				$directiveValues['Header: X-XSS-Protection']['current'] = $headers['x-xss-protection'];
+				$directiveValues['Header: X-Content-Type-Options']['status'] = $headers['x-content-type-options'] !== 'nosniff';
+				$directiveValues['Header: X-Content-Type-Options']['current'] = $headers['x-content-type-options'];
+				$directiveValues['Header: X-Powered-By']['status'] = !empty($headers['x-powered-by']);
+				$directiveValues['Header: X-Powered-By']['current'] = $headers['x-powered-by'] ?? '';
+				$directiveValues['Header: X-Robots-Tag']['status'] = $headers['x-robots-tag'] !== 'none';
+				$directiveValues['Header: X-Robots-Tag']['current'] = $headers['x-robots-tag'];
+				$directiveValues['Header: X-Permitted-Cross-Domain-Policies']['status'] = $headers['x-permitted-cross-domain-policies'] !== 'none';
+				$directiveValues['Header: X-Permitted-Cross-Domain-Policies']['current'] = $headers['x-permitted-cross-domain-policies'];
+				$directiveValues['Header: Server']['status'] = !empty($headers['server']);
+				$directiveValues['Header: Server']['current'] = $headers['server'];
+				$directiveValues['Header: Referrer-Policy']['status'] = $headers['referrer-policy'] !== 'no-referrer';
+				$directiveValues['Header: Referrer-Policy']['current'] = $headers['referrer-policy'];
+				$directiveValues['Header: Expect-CT']['status'] = $headers['expect-ct'] !== 'enforce; max-age=3600';
+				$directiveValues['Header: Expect-CT']['current'] = $headers['expect-ct'];
+				$directiveValues['Header: Strict-Transport-Security']['status'] = $headers['strict-transport-security'] !== 'max-age=31536000; includesubdomains; preload';
+				$directiveValues['Header: Strict-Transport-Security']['current'] = $headers['strict-transport-security'];
+			}
 		}
 		if ($onlyError) {
 			foreach ($directiveValues as $key => $value) {
@@ -451,7 +450,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		$params = [
 			'LBL_OPERATING_SYSTEM' => \AppConfig::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
-			'LBL_SERVER_SOFTWARE' => $_SERVER['SERVER_SOFTWARE'],
+			'LBL_SERVER_SOFTWARE' => $_SERVER['SERVER_SOFTWARE']??'-',
 			'LBL_TMP_DIR' => App\Fields\File::getTmpPath(),
 			'LBL_CRM_DIR' => ROOT_DIRECTORY,
 			'LBL_PHP_SAPI' => ['www' => $ini['SAPI'], 'cli' => $cliConf ? $cliConf['SAPI'] : ''],
@@ -637,7 +636,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (!$isCli && strtolower($row['current']) !== 'on') {
 			$row['incorrect'] = true;
 		}
-
 		return $row;
 	}
 
@@ -653,7 +651,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if ((int) $row['current'] !== (int) $row['recommended']) {
 			$row['incorrect'] = true;
 		}
-
 		return $row;
 	}
 
@@ -677,7 +674,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (version_compare($row['current'], str_replace('x', 0, $row['recommended']), '<')) {
 			$row['incorrect'] = true;
 		}
-
 		return $row;
 	}
 
@@ -696,7 +692,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$row['current'] = \App\Language::translate('LBL_INVALID_TIME_ZONE', 'Settings::ConfReport') . $row['current'];
 			$row['incorrect'] = true;
 		}
-
 		return $row;
 	}
 
@@ -739,7 +734,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				return $ver;
 			}
 		}
-
 		return false;
 	}
 

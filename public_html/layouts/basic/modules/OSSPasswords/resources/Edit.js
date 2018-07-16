@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 	/**
 	 * Function to register recordpresave event
@@ -29,7 +31,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js", {}, {
 					}
 				});
 				// validate password
-				passwordStrength('', '');
+				PasswordHelper.passwordStrength('', '');
 			}
 			password = form.find('[name="password"]').val();
 			params = {};

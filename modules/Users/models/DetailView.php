@@ -33,7 +33,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => 'LBL_CHANGE_PASSWORD',
 				'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $recordId],
-				'linkclass' => 'btn-info showModal',
+				'linkclass' => 'btn-outline-info showModal',
 				'linkicon' => 'fas fa-key',
 				'showLabel' => true,
 			];
@@ -42,7 +42,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => 'BTN_RESET_PASSWORD',
 					'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=reset&record=' . $recordId],
-					'linkclass' => 'btn-info showModal',
+					'linkclass' => 'btn-outline-info showModal',
 					'linkicon' => 'fas fa-redo-alt',
 					'showLabel' => true,
 				];
@@ -51,26 +51,26 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $linkParams['VIEW'] === 'PreferenceDetail' ? $recordModel->getPreferenceEditViewUrl() : $recordModel->getEditViewUrl(),
-				'linkclass' => 'btn-success',
+				'linkclass' => 'btn-outline-success',
 				'linkicon' => 'fas fa-edit',
 				'showLabel' => true,
 			];
-			$detailViewLinks[] = [
-				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
-				'linklabel' => 'LBL_DELETE',
-				'linkurl' => 'javascript:Users_Detail_Js.triggerDeleteUser("' . $recordModel->getDeleteUrl() . '")',
-				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn-danger text-white',
-				'showLabel' => true,
-			];
+			if ($currentUserModel->getId() !== $recordId) {
+				$detailViewLinks[] = [
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+					'linklabel' => 'LBL_DELETE',
+					'linkurl' => 'javascript:Users_Detail_Js.triggerDeleteUser("' . $recordModel->getDeleteUrl() . '")',
+					'linkicon' => 'fas fa-trash-alt',
+					'linkclass' => 'btn-outline-danger',
+					'showLabel' => true,
+				];
+			}
 			foreach ($detailViewLinks as $detailViewLink) {
 				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 				$detailViewLink['linktype'] = 'DETAILVIEWPREFERENCE';
 				$linkModelList['DETAILVIEWPREFERENCE'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 			}
 			$detailViewActionLinks = [];
-			if ($currentUserModel->isAdminUser() && $currentUserModel->get('id') != $recordId) {
-			}
 			$detailViewActionLinks[] = [
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_CHANGE_ACCESS_KEY',
@@ -78,7 +78,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => 'fas fa-edit',
 				'showLabel' => true,
 			];
-			if (AppConfig::security('USER_AUTHY_MODE') !== 'TOTP_OFF') {
+			if (\App\User::getUserModel($recordModel->getRealId())->getDetail('login_method') === 'PLL_PASSWORD_2FA' && AppConfig::security('USER_AUTHY_MODE') !== 'TOTP_OFF') {
 				$detailViewActionLinks[] = [
 					'linktype' => 'DETAIL_VIEW_BASIC',
 					'linklabel' => 'LBL_2FA_TOTP_QR_CODE',

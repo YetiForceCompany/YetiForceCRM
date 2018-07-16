@@ -20,7 +20,6 @@ class Project_RelationListView_Model extends Vtiger_RelationListView_Model
 				$createViewUrl .= '&parent_id=' . $this->getParentRecordModel()->get('linktoaccountscontacts');
 			}
 		}
-
 		return $createViewUrl;
 	}
 }

@@ -39,7 +39,6 @@ class VTWorkflowApplication
 		if ($id !== null) {
 			$idPart = "&workflow_id=$id";
 		}
-
 		return "index.php?module={$this->name}&action=editworkflow$idPart&return_url=" . urlencode($this->returnUrl());
 	}
 
@@ -55,7 +54,6 @@ class VTWorkflowApplication
 		if ($id !== null) {
 			$idPart = "&task_id=$id";
 		}
-
 		return "index.php?module={$this->name}&action=edittask$idPart&return_url=" . urlencode($this->returnUrl());
 	}
 

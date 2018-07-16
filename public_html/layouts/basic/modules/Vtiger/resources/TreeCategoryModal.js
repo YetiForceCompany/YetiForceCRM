@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 	modalContainer: false,
 	treeInstance: false,
@@ -33,7 +35,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 			if (thisInstance.getRelationType() == '1') {
 				plugins.push("edit");
 			}
-			thisInstance.treeInstance.jstree({
+			thisInstance.treeInstance.jstree($.extend(true, {
 				core: {
 					data: thisInstance.getRecords(),
 					themes: {
@@ -41,8 +43,11 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 						responsive: true
 					}
 				},
+				checkbox: {
+					three_state: false,
+				},
 				plugins: plugins
-			});
+			}, thisInstance.treeInstance.data('params')));
 		}
 	},
 	isActiveCategory: function () {

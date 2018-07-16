@@ -9,14 +9,13 @@
  */
 class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 {
-
 	/**
 	 * Edit fields.
 	 *
 	 * @var string[]
 	 */
 	private $editFields = ['Portal' => [
-			'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password_t' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER',],
+			'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password_t' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', ],
 	];
 
 	/**
@@ -49,7 +48,6 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		if (!$this->module) {
 			$this->module = Settings_Vtiger_Module_Model::getInstance('Settings:WebserviceUsers');
 		}
-
 		return $this->module;
 	}
 
@@ -125,7 +123,6 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			default:
 				break;
 		}
-
 		return Settings_Vtiger_Field_Model::init($moduleName, $params);
 	}
 
@@ -200,7 +197,6 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		} else {
 			$seccess = $db->createCommand()->update($table, $data, [$index => $this->getId()])->execute();
 		}
-
 		return $seccess;
 	}
 
@@ -228,7 +224,6 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			default:
 				break;
 		}
-
 		return $value;
 	}
 
@@ -261,7 +256,6 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			default:
 				break;
 		}
-
 		return $this->get($name);
 	}
 
@@ -300,7 +294,6 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -322,7 +315,6 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		if ($value) {
 			return $data[$value];
 		}
-
 		return $data;
 	}
 
@@ -340,7 +332,6 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			$index = $this->getModule()->getTableIndex();
 			$result = $db->createCommand()->delete($table, [$index => $recordId])->execute();
 		}
-
 		return !empty($result);
 	}
 }

@@ -28,7 +28,7 @@ Join our [LinkedIn group](https://www.linkedin.com/groups/8177576) and connect w
 
 Follow us on [Twitter](https://twitter.com/YetiForceEN) or like on [FaceBook](https://www.facebook.com/YetiForce-CRM-158646854306054/?ref=aymt_homepage_panel) to get real-time info about new articles and functionalities. 
 
-Visit our [online store](https://shop.yetiforce.com/en/) with commercial modules and support packages.
+Visit our [online store](https://yetiforce.shop/) with commercial modules and support packages.
 
 ## Where else can you find YetiForce?
 - [Sourceforge](https://sourceforge.net/projects/yetiforce/)
@@ -48,6 +48,11 @@ https://github.com/YetiForceCompany/YetiForceScripts
 https://github.com/YetiForceCompany/YetiForceIncompleteLanguages
 
 YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow to easily migrate from Vtiger to YetiForce.
+
+Testing Supported By<br/>
+<a href="http://browserstack.com">
+<img width="160" src="http://foundation.zurb.com/sites/docs/assets/img/logos/browser-stack.svg" alt="BrowserStack"/>
+</a>
 
 ### Gallery: https://public.yetiforce.com/gallery
 

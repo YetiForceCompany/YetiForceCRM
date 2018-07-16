@@ -40,7 +40,6 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		if ($step !== false) {
 			$mode = '&mode=step' . $step;
 		}
-
 		return '?module=AdvancedPermission&parent=Settings&view=Edit&record=' . $this->getId() . $mode;
 	}
 
@@ -73,7 +72,6 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 			$instance = new self();
 			$instance->setData($row);
 		}
-
 		return $instance;
 	}
 
@@ -165,7 +163,6 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 				}
 				break;
 		}
-
 		return $value;
 	}
 
@@ -211,7 +208,6 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -234,7 +230,6 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		foreach ($users as $id => &$user) {
 			$user = \App\Fields\Owner::getUserLabel($id);
 		}
-
 		return $users;
 	}
 }

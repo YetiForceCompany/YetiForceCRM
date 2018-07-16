@@ -46,7 +46,6 @@ class Leads_Module_Model extends Vtiger_Module_Model
 			$response[$i][0] = $row['count'];
 			$response[$i][1] = $row['time'];
 		}
-
 		return $response;
 	}
 
@@ -66,7 +65,6 @@ class Leads_Module_Model extends Vtiger_Module_Model
 				->where(['leadid' => $recordIdsList])
 				->createCommand()->queryAllByGroup(0);
 		}
-
 		return $convertedInfo;
 	}
 

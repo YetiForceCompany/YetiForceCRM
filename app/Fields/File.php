@@ -299,7 +299,6 @@ class File
 		if (empty($this->mimeShortType)) {
 			$this->mimeShortType = explode('/', $this->getMimeType());
 		}
-
 		return $this->mimeShortType[$type];
 	}
 
@@ -436,7 +435,7 @@ class File
 		if ($this->validateAllCodeInjection || in_array($this->getShortMimeType(0), self::$phpInjection)) {
 			// Check for php code injection
 			$content = $this->getContents();
-			if (preg_match('/(<\?php?(.*?))/s', $content) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/s', $content) === 1 || stripos($content, '<?=') !== false || stripos($content, '<%=') !== false || stripos($content, '<? ') !== false || stripos($content, '<% ') !== false) {
+			if (preg_match('/(<\?php?(.*?))/si', $content) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/si', $content) === 1 || stripos($content, '<?=') !== false || stripos($content, '<%=') !== false || stripos($content, '<? ') !== false || stripos($content, '<% ') !== false) {
 				throw new \Exception('ERR_FILE_PHP_CODE_INJECTION');
 			}
 			if (function_exists('exif_read_data') && ($this->mimeType === 'image/jpeg' || $this->mimeType === 'image/tiff') && in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])) {
@@ -566,7 +565,6 @@ class File
 		if ($badExtensionFound) {
 			$newFileName .= '.txt';
 		}
-
 		return $newFileName;
 	}
 
@@ -594,7 +592,6 @@ class File
 		} elseif (is_writable(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload')) {
 			static::$tmpPath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR;
 		}
-
 		return static::$tmpPath;
 	}
 
@@ -631,7 +628,6 @@ class File
 		} else {
 			$mimeType = 'application/octet-stream';
 		}
-
 		return $mimeType;
 	}
 
@@ -670,7 +666,6 @@ class File
 		if ($fileInstance->validate() && ($id = static::saveFromContent($fileInstance, $params))) {
 			return $id;
 		}
-
 		return false;
 	}
 
@@ -724,7 +719,6 @@ class File
 		if (isset($record->ext['attachmentsId'])) {
 			return array_merge(['crmid' => $record->getId()], $record->ext);
 		}
-
 		return false;
 	}
 
@@ -874,7 +868,6 @@ class File
 				return true;
 			}
 		}
-
 		return false;
 	}
 

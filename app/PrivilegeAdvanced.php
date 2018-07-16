@@ -93,7 +93,6 @@ class PrivilegeAdvanced
 				Log::trace("Check advanced permissions test FALSE , id: $id");
 			}
 		}
-
 		return false;
 	}
 }

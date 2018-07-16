@@ -4,7 +4,7 @@
  * User list modal class.
  *
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class PermissionInspector_UserListModal_View extends Vtiger_BasicModal_View
 {
@@ -13,7 +13,7 @@ class PermissionInspector_UserListModal_View extends Vtiger_BasicModal_View
 	 */
 	public function getSize(\App\Request $request)
 	{
-		return 'modal-lg';
+		return 'modal-lg c-modal--fit-lg';
 	}
 
 	/**
@@ -63,8 +63,10 @@ class PermissionInspector_UserListModal_View extends Vtiger_BasicModal_View
 	public function getModalScripts(\App\Request $request)
 	{
 		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
-				'~libraries/datatables.net/js/jquery.dataTables.js',
-				'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
+			'~libraries/datatables.net/js/jquery.dataTables.js',
+			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
+			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
+			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js'
 		]));
 	}
 
@@ -74,7 +76,8 @@ class PermissionInspector_UserListModal_View extends Vtiger_BasicModal_View
 	public function getModalCss(\App\Request $request)
 	{
 		return array_merge(parent::getModalCss($request), $this->checkAndConvertCssStyles([
-				'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
+			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
+			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css'
 		]));
 	}
 }

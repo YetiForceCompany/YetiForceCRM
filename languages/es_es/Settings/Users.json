@@ -18,7 +18,6 @@
     "LBL_ACTIVE_LDAP_AUTH": "Autorizaci\u00f3n con LDAP",
     "LBL_LDAP_SERVER": "Direcci\u00f3n del servidor",
     "LBL_LDAP_PORT": "Puerto",
-    "LBL_LDAP_USERS": "Inicio de sesi\u00f3n autom\u00e1tico activo para los usuarios",
     "LBL_SAVE_CONFIG": "La configuraci\u00f3n se ha guardado",
     "LBL_LDAP_DOMAIN": "Dominio (agregado autom\u00e1ticamente al inicio de sesi\u00f3n)",
     "LBL_VIEW_AUTH": "Autorizaci\u00f3n",

@@ -84,7 +84,6 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 				->update('vtiger_entityname', ['turn_off' => $params['value']], ['tabid' => $tabId])
 				->execute();
 		}
-
 		return true;
 	}
 

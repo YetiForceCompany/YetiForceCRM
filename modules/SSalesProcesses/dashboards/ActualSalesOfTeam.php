@@ -26,7 +26,6 @@ class SSalesProcesses_ActualSalesOfTeam_Dashboard extends SSalesProcesses_TeamsE
 		if (isset($row['assigned_user_id'])) {
 			$listSearchParams[0][] = ['assigned_user_id', 'e', $row['assigned_user_id']];
 		}
-
 		return '&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 

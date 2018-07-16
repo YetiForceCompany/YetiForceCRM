@@ -29,7 +29,6 @@ class Vtiger_Activities_Widget extends Vtiger_Basic_Widget
 			$this->Config['tpl'] = 'Activities.tpl';
 			$widget = $this->Config;
 		}
-
 		return $widget;
 	}
 }

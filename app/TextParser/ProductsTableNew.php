@@ -109,7 +109,6 @@ class ProductsTableNew extends Base
 					</tfoot>
 				</table>';
 		}
-
 		return $html;
 	}
 }

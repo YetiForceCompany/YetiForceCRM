@@ -33,7 +33,6 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
 				$relatedLinks['LISTVIEWBASIC'][] = $emailLink;
 			}
 		}
-
 		return $relatedLinks;
 	}
 }

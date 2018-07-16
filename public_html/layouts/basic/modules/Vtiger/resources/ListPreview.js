@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	frameProgress: false,
 	/**
@@ -59,8 +61,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var listPreview = container.find('.js-detail-preview');
 		var mainBody = container.closest('.mainBody');
 		var commActHeight = $('.commonActionsContainer').height();
-		app.showNewBottomTopScrollbar(container.find('.js-list-preview--scroll'));
-		app.showNewLeftScrollbar(this.list);
+		app.showNewScrollbarTopBottom(container.find('.js-list-preview--scroll'));
+		app.showNewScrollbarLeft(this.list);
 		$(window).on('resize', () => {
 			if (mainBody.scrollTop() >= (this.list.offset().top + commActHeight)) {
 				container.find('.gutter').css('left', listPreview.offset().left - 8);
@@ -119,8 +121,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		this.sideBlockRight = this.sideBlocks.last();
 		this.list = container.find('.js-list-preview');
 		this.rotatedText = container.find('.u-rotate-90');
-		this.infoUser = $('.infoUser');
-		this.footerH = $('.js-footer').outerHeight() + (this.infoUser.length ? this.infoUser.outerHeight() : 0);
+		this.footerH = $('.js-footer').outerHeight();
 		this.headerH = $('.js-header').outerHeight();
 	},
 	getDefaultSplitSizes: function () {

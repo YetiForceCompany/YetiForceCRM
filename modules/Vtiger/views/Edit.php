@@ -61,7 +61,6 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		} else {
 			$pageTitle = App\Language::translate('LBL_VIEW_CREATE', $moduleName);
 		}
-
 		return $pageTitle;
 	}
 
@@ -177,7 +176,6 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 			$scriptInstances = $this->checkAndConvertJsScripts($fileNames);
 			$parentScript = array_merge($parentScript, $scriptInstances);
 		}
-
 		return $parentScript;
 	}
 }

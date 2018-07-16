@@ -38,7 +38,6 @@ class Pbx extends \App\Base
 				$connectors[$fileName] = $instance;
 			}
 		}
-
 		return $connectors;
 	}
 
@@ -60,7 +59,6 @@ class Pbx extends \App\Base
 		} else {
 			return static::$connectors[$className] = new $className();
 		}
-
 		return false;
 	}
 
@@ -75,7 +73,6 @@ class Pbx extends \App\Base
 		if (empty($phone)) {
 			return false;
 		}
-
 		return (new \App\Db\Query())->from('s_#__pbx')->where(['default' => 1])->exists();
 	}
 
