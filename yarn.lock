@@ -214,9 +214,9 @@ device-uuid@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/device-uuid/-/device-uuid-1.0.4.tgz#f6973e58f19b92a237aeca7b16a395ae7195a883"
 
-dompurify@^1.0.3:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-1.0.5.tgz#844ebcbf8465c8cb724291e63dbaf90ad525551c"
+dompurify@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-1.0.6.tgz#1600725187f22fe26f4afac80bf33c42ad76fe51"
 
 fontawesome-web@^5.0.2:
   version "5.0.2"
