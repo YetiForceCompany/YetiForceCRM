@@ -60,6 +60,46 @@ class Currency extends \Tests\Base
 	}
 
 	/**
+	 * Testing ListView model functions.
+	 */
+	public function testListViewModel()
+	{
+		$model = \Settings_Currency_ListView_Model::getInstance();
+		$this->assertInstanceOf('App\Db\Query', $model->getBasicListQuery(), 'Query object expected.');
+	}
+
+	/**
+	 * Testing Module model functions.
+	 */
+	public function testModuleModel()
+	{
+		$model = \Settings_Currency_Module_Model::getInstance('Settings:Currency');
+		$this->assertFalse($model->isPagingSupported(), 'Expected paging supported flag is false');
+		$this->assertNotEmpty($model->getCreateRecordUrl(), 'Expected create record url is not empty');
+		$this->assertNotEmpty($model->getBaseTable(), 'Expected base table is not empty');
+	}
+
+	/**
+	 * Testing Record model functions.
+	 */
+	public function testRecordModel()
+	{
+		$recordModel = \Settings_Currency_Record_Model::getInstance(static::$id);
+		$this->assertNotNull($recordModel, 'Expected recordModel is not empty');
+		$this->assertNotEmpty($recordModel->getName(), 'Expected name is not empty');
+		$this->assertNotEmpty($recordModel->getName(), 'Expected name is not empty');
+		$this->assertFalse($recordModel->isBaseCurrency(), 'Expected that record is not base currency');
+		$this->assertInternalType('array', $recordModel->getRecordLinks(), 'Expected that record links is always array type');
+		$this->assertSame($recordModel->getDeleteStatus(), 0, 'Expected that delete status of record is 0');
+		$this->assertNotNull(\Settings_Currency_Record_Model::getInstance($recordModel->getName()), 'Expected record model instance.');
+		$allRecords = \Settings_Currency_Record_Model::getAll();
+		$this->assertInternalType('array', $allRecords, 'Expected that all records result is always array type');
+		$this->assertNotEmpty($allRecords, 'Expected that all records result is not empty');
+		$allNonmappedRecords = \Settings_Currency_Record_Model::getAllNonMapped();
+		$this->assertInternalType('array', $allNonmappedRecords, 'Expected that all non mapped records result is always array type');
+	}
+
+	/**
 	 * Testing deletet currency creation.
 	 */
 	public function testDeletetCurrency()
