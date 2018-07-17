@@ -39,7 +39,6 @@ class CustomView extends \Tests\Base
 			$moduleModel->setDefaultUsersFilterView($moduleId, $recordModel['cvid'], \App\User::getActiveAdminId(), 'add');
 			$moduleModel->setDefaultUsersFilterView($moduleId, $recordModel['cvid'], \App\User::getActiveAdminId(), 'remove');
 			$this->assertEmpty($moduleModel->getFilterPermissionsView($recordModel['cvid'], 'default'), 'Custom view permissions list(default) should be emptied');
-
 			$this->assertInternalType('array', $moduleModel->getFilterPermissionsView($recordModel['cvid'], 'featured'), 'Custom view permissions list(featured) should be array type');
 			$this->assertEmpty($moduleModel->getFilterPermissionsView($recordModel['cvid'], 'featured'), 'Custom view permissions list(featured) should be empty');
 			$moduleModel->setFeaturedFilterView($recordModel['cvid'], \App\User::getActiveAdminId(), 'add');
@@ -47,11 +46,9 @@ class CustomView extends \Tests\Base
 			$moduleModel->setFeaturedFilterView($recordModel['cvid'], \App\User::getActiveAdminId(), 'remove');
 			$this->assertEmpty($moduleModel->getFilterPermissionsView($recordModel['cvid'], 'featured'), 'Custom view permissions list(featured) should be empty');
 		}
-
 		$supportedModules = \Settings_CustomView_Module_Model::getSupportedModules();
 		$this->assertNotEmpty($supportedModules, 'System should have any custom view supported modules');
 		$this->assertSame($supportedModules[\App\Module::getModuleId('Leads')], 'Leads', 'Module mapping mismatch');
-
 		$this->assertSame('module=CustomView&view=EditAjax&source_module=Leads&record=115', $moduleModel->getUrlToEdit('Leads', 115), 'Generated edit url mismatch');
 		$this->assertSame('index.php?module=CustomView&view=EditAjax&source_module=Leads', $moduleModel->getCreateFilterUrl('Leads'), 'Generated create filter url mismatch');
 		$this->assertSame('index.php?module=CustomView&parent=Settings&view=FilterPermissions&type=default&sourceModule=Leads&cvid=115&isDefault=1', $moduleModel->getUrlDefaultUsers('Leads', 115, 1), 'Generated default users url mismatch');
