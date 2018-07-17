@@ -66,7 +66,7 @@ class TextParser extends \Tests\Base
 	/**
 	 * Testing clean instance based field placeholder replacement.
 	 */
-	public function testCIBasicFieldPlaceholder()
+	public function testCIBasicFieldPlaceholderReplacement()
 	{
 		\App\User::setCurrentUserId(1);
 		$text = '+ $(employee : last_name)$ +';
@@ -79,7 +79,7 @@ class TextParser extends \Tests\Base
 	/**
 	 * Testing RecordModel based instance field placeholder replacement.
 	 */
-	public function testRMIBasicFieldPlaceholder()
+	public function testRMIBasicFieldPlaceholderReplacement()
 	{
 		\App\User::setCurrentUserId(1);
 		$text = '+ $(employee : last_name)$ +';
@@ -87,5 +87,15 @@ class TextParser extends \Tests\Base
 			->setContent($text)
 			->parse()
 			->getContent(), 'By default employee last name should be empty');
+	}
+
+	public function testCITranslate()
+	{
+		$this->assertSame('+' . \App\Language::translate('LBL_SECONDS') . '==' . \App\Language::translate('LBL_COPY_BILLING_ADDRESS', 'Accounts') . '+', static::$testInstanceClean->setContent('+$(translate : LBL_SECONDS)$==$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$+')->parse()->getContent(), 'Translations should be equal');
+	}
+
+	public function testRMITranslate()
+	{
+		$this->assertSame('+' . \App\Language::translate('LBL_SECONDS') . '==' . \App\Language::translate('LBL_COPY_BILLING_ADDRESS', 'Accounts') . '+', static::$testInstanceRecord->setContent('+$(translate : LBL_SECONDS)$==$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$+')->parse()->getContent(), 'Translations should be equal');
 	}
 }
