@@ -14,7 +14,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 		var progressIndicatorElement = jQuery.progressIndicator({'position': 'html'});
 		app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mode=createStep2&type=" + type + "&tabId=" + tabId, function (wizardContainer) {
 			app.showPopoverElementView(wizardContainer.find('.js-help-info'));
-			if (type == 'RelatedModule') {
+			if (type === 'RelatedModule') {
 				thisInstance.loadFilters(wizardContainer);
 				thisInstance.relatedModuleFields(wizardContainer);
 				wizardContainer.find("select[name='relatedmodule']").on('change', function () {
@@ -152,29 +152,35 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 		}
 	},
 	relatedModuleFields: function (container) {
-		var relatedModule = container.find("select[name='relatedmodule']").val();
-		var relatedfields = container.find("select[name='relatedfields']");
-		relatedfields.find('optgroup').each(function (index, optgroup) {
-			optgroup = $(optgroup);
-			if (relatedModule != optgroup.data('module')) {
-				optgroup.addClass("d-none");
-				optgroup.attr("disabled", "disabled");
-			} else {
-				optgroup.removeClass('d-none');
-				optgroup.removeAttr("disabled");
-			}
-			optgroup.find('option').each(function (index, option) {
-				option = $(option);
-				if (relatedModule != option.data('module')) {
-					option.addClass("d-none");
-					option.attr("disabled", "disabled");
+		const relatedModule = parseInt(container.find("select[name='relatedmodule']").val());
+		const relatedfields = container.find("select[name='relatedfields']");
+		if (relatedfields.hasClass("select2-hidden-accessible")) {
+			// Select2 has been initialized
+			relatedfields.select2('close');
+			relatedfields.val(null);
+			relatedfields.trigger('change');
+			relatedfields.find('optgroup').each(function (index, optgroup) {
+				optgroup = $(optgroup);
+				if (relatedModule !== optgroup.data('module')) {
+					optgroup.addClass("d-none");
+					optgroup.prop("disabled", "disabled");
 				} else {
-					option.removeClass('d-none');
-					option.removeAttr("disabled");
+					optgroup.removeClass('d-none');
+					optgroup.prop("disabled", false);
 				}
+				optgroup.find('option').each(function (index, option) {
+					option = $(option);
+					if (relatedModule !== option.data('module')) {
+						option.addClass("d-none");
+						option.prop("disabled", "disabled");
+					} else {
+						option.removeClass('d-none');
+						option.prop('disabled', false);
+					}
+				});
 			});
-		});
-		relatedfields.trigger('chosen:updated');
+			relatedfields.trigger('change:select2');
+		}
 	},
 
 	changeRelatedModule: function (e) {
