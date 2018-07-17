@@ -897,7 +897,7 @@ class TextParser
 				}
 				break;
 			default:
-				return $fieldModel->getTextParserDisplayValue($value, $recordModel, $params);
+				return $fieldModel->getUITypeModel()->getTextParserDisplayValue($value, $recordModel, $params);
 		}
 		return $value;
 	}
