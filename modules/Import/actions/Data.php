@@ -613,14 +613,19 @@ class Import_Data_Action extends \App\Controller\Action
 		if (empty($fieldValue) && isset($defaultFieldValues[$fieldName])) {
 			$fieldValue = $defaultFieldValues[$fieldName];
 		} elseif (!empty($fieldValue)) {
-			$value = trim($fieldValue);
+			$values = explode(' |##| ', trim($fieldValue));
 			$fieldValue = '';
 			$trees = \App\Fields\Tree::getValuesById((int) $fieldInstance->getFieldParams());
 			foreach ($trees as $tree) {
-				if ($tree['name'] === $value) {
-					$fieldValue = $tree['tree'];
-					break;
+				foreach ($values as $value) {
+					if ($tree['name'] === $value) {
+						$fieldValue .= $tree['tree'] . ',';
+						break;
+					}
 				}
+			}
+			if ($fieldValue) {
+				$fieldValue = ',' . $fieldValue;
 			}
 		}
 		return $fieldValue;
