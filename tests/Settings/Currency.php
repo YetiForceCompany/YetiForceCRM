@@ -88,6 +88,14 @@ class Currency extends \Tests\Base
 		$testRecord = array_pop($allRecords);
 		if ($testRecord) {
 			$this->assertInstanceOf('Settings_Currency_Record_Model', $testRecord, 'Instance type mismatch');
+			$this->assertTrue($testRecord->has('id'), 'Instance should contain field `id`');
+			$this->assertTrue($testRecord->has('currency_name'), 'Instance should contain field `currency_name`');
+			$this->assertTrue($testRecord->has('currency_code'), 'Instance should contain field `currency_code`');
+			$this->assertTrue($testRecord->has('currency_symbol'), 'Instance should contain field `currency_symbol`');
+			$this->assertTrue($testRecord->has('conversion_rate'), 'Instance should contain field `conversion_rate`');
+			$this->assertTrue($testRecord->has('currency_status'), 'Instance should contain field `currency_status`');
+			$this->assertTrue($testRecord->has('defaultid'), 'Instance should contain field `defaultid`');
+			$this->assertTrue($testRecord->has('deleted'), 'Instance should contain field `deleted`');
 		}
 		$allNonmappedRecords = \Settings_Currency_Record_Model::getAllNonMapped();
 		$this->assertInternalType('array', $allNonmappedRecords, 'Expected that all non mapped records result is always array type');
@@ -95,6 +103,10 @@ class Currency extends \Tests\Base
 		$testNonmappedRecord = array_pop($allNonmappedRecords);
 		if ($testNonmappedRecord) {
 			$this->assertInstanceOf('Settings_Currency_Record_Model', $testNonmappedRecord, 'Instance type mismatch');
+			$this->assertTrue($testNonmappedRecord->has('currencyid'), 'Instance should contain field `currencyid`');
+			$this->assertTrue($testNonmappedRecord->has('currency_name'), 'Instance should contain field `currency_name`');
+			$this->assertTrue($testNonmappedRecord->has('currency_code'), 'Instance should contain field `currency_code`');
+			$this->assertTrue($testNonmappedRecord->has('currency_symbol'), 'Instance should contain field `currency_symbol`');
 		}
 	}
 
