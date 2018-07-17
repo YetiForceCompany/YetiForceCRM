@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Import-ImportError -->
 	<div class='widget_header row '>
 		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
@@ -54,7 +55,7 @@
 				<td align="right">
 					{if $CUSTOM_ACTIONS neq ''}
 						{foreach key=_LABEL item=_ACTION from=$CUSTOM_ACTIONS}
-							<button name="{$_LABEL}" onclick="{$_ACTION}" class="create btn btn-danger"><strong>{\App\Language::translate('$_LABEL', $MODULE)}</strong></button>
+							<button name="{$_LABEL}" onclick="{$_ACTION}" class="create btn btn-danger u-mr-5px"><strong>{\App\Language::translate($_LABEL, $MODULE)}</strong></button>
 								{/foreach}
 							{/if}
 					<button name="goback" onclick="window.history.back()" class="edit btn btn-success"><strong>{\App\Language::translate('LBL_GO_BACK', $MODULE)}</strong></button>
@@ -62,4 +63,5 @@
 			</tr>
 		</table>
 	</div>
+	<!-- /tpl-Import-ImportError -->
 {/strip}
