@@ -460,6 +460,9 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'LBL_PHPINI' => ['www' => $ini['INI_FILE'], 'cli' => $cliConf ? $cliConf['INI_FILE'] : ''],
 			'LBL_SPACE' => App\Language::translateSingleMod('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . \vtlib\Functions::showBytes(disk_free_space($dir)) . ', ' . App\Language::translateSingleMod('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . \vtlib\Functions::showBytes(disk_total_space($dir) - disk_free_space($dir)),
 		];
+		if (function_exists('locale_get_default')) {
+			$params['LBL_LOCALE'] = print_r(locale_get_default(), true);
+		}
 		if (!empty($ini['INI_FILES']) || !empty($cliConf['INI_FILES'])) {
 			$params['LBL_PHPINIS'] = ['www' => nl2br($ini['INI_FILES']), 'cli' => $cliConf ? nl2br($cliConf['INI_FILES']) : ''];
 		}
