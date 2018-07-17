@@ -826,9 +826,9 @@ class Import_Data_Action extends \App\Controller\Action
 	/**
 	 *  Function to get Record details of import.
 	 *
-	 *  @parms \App\User $user Current Users
-	 * 	@parms string $forModule Imported module
-	 *  @returns array Import Records with the list of skipped records and failed records
+	 * @parms \App\User $user Current Users
+	 * @parms string $forModule Imported module
+	 * @returns array Import Records with the list of skipped records and failed records
 	 */
 	public static function getImportDetails(\App\User $user, $forModule)
 	{
@@ -873,17 +873,23 @@ class Import_Data_Action extends \App\Controller\Action
 	{
 		$temp_status = '';
 		switch ($value) {
-			case 'created': $temp_status = self::IMPORT_RECORD_CREATED;
+			case 'created':
+				$temp_status = self::IMPORT_RECORD_CREATED;
 				break;
-			case 'skipped': $temp_status = self::IMPORT_RECORD_SKIPPED;
+			case 'skipped':
+				$temp_status = self::IMPORT_RECORD_SKIPPED;
 				break;
-			case 'updated': $temp_status = self::IMPORT_RECORD_UPDATED;
+			case 'updated':
+				$temp_status = self::IMPORT_RECORD_UPDATED;
 				break;
-			case 'merged': $temp_status = self::IMPORT_RECORD_MERGED;
+			case 'merged':
+				$temp_status = self::IMPORT_RECORD_MERGED;
 				break;
-			case 'failed': $temp_status = self::IMPORT_RECORD_FAILED;
+			case 'failed':
+				$temp_status = self::IMPORT_RECORD_FAILED;
 				break;
-			case 'none': $temp_status = self::IMPORT_RECORD_NONE;
+			case 'none':
+				$temp_status = self::IMPORT_RECORD_NONE;
 				break;
 		}
 		return $temp_status;
