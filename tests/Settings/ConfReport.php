@@ -17,7 +17,7 @@ class ConfReport extends \Tests\Base
 	public function testDbConf()
 	{
 		$this->assertNotEmpty(\Settings_ConfReport_Module_Model::getDbConf(), 'Database configuration report should be not empty');
-		$this->assertTrue(is_array(\Settings_ConfReport_Module_Model::getDbConf(true)), 'Database configuration report should be array even if empty');
+		$this->assertInternalType('array', \Settings_ConfReport_Module_Model::getDbConf(true), 'Database configuration report should be array even if empty');
 	}
 
 	/**
@@ -27,8 +27,8 @@ class ConfReport extends \Tests\Base
 	{
 		$this->assertNotEmpty(\Settings_ConfReport_Module_Model::getSecurityConf(), 'Security configuration (normal mode, show all) report should be not empty');
 		$this->assertNotEmpty(\Settings_ConfReport_Module_Model::getSecurityConf(true), 'Security configuration (install mode, show all) report should be not empty');
-		$this->assertTrue(is_array(\Settings_ConfReport_Module_Model::getSecurityConf(false, true)), 'Security configuration (normal mode, show errors) report should be array even if empty');
-		$this->assertTrue(is_array(\Settings_ConfReport_Module_Model::getSecurityConf(true, true)), 'Security configuration (install mode, show errors) report should be array even if empty');
+		$this->assertInternalType('array', \Settings_ConfReport_Module_Model::getSecurityConf(false, true), 'Security configuration (normal mode, show errors) report should be array even if empty');
+		$this->assertInternalType('array', \Settings_ConfReport_Module_Model::getSecurityConf(true, true), 'Security configuration (install mode, show errors) report should be array even if empty');
 	}
 
 	/**
@@ -46,13 +46,13 @@ class ConfReport extends \Tests\Base
 	{
 		$this->assertNotEmpty(\Settings_ConfReport_Module_Model::getStabilityConf(false, false, true), 'System stability configuration(normal mode, show all) report should be not empty');
 		$this->assertNotEmpty(\Settings_ConfReport_Module_Model::getStabilityConf(true, false, true), 'System stability configuration(install mode, show all) report should be not empty');
-		$this->assertTrue(is_array(\Settings_ConfReport_Module_Model::getStabilityConf(false, true, true)), 'System stability configuration(normal mode, show errors) report should be not empty');
-		$this->assertTrue(is_array(\Settings_ConfReport_Module_Model::getStabilityConf(true, true, true)), 'System stability configuration(install mode, show errors) report should be not empty');
+		$this->assertInternalType('array', \Settings_ConfReport_Module_Model::getStabilityConf(false, true, true), 'System stability configuration(normal mode, show errors) report should be not empty');
+		$this->assertInternalType('array', \Settings_ConfReport_Module_Model::getStabilityConf(true, true, true), 'System stability configuration(install mode, show errors) report should be not empty');
 
 		$this->assertNotEmpty(\Settings_ConfReport_Module_Model::getStabilityConf(false, false, true), 'System stability configuration(normal mode, show all, cli) report should be not empty');
 		$this->assertNotEmpty(\Settings_ConfReport_Module_Model::getStabilityConf(true, false, true), 'System stability configuration(install mode, show all, cli) report should be not empty');
-		$this->assertTrue(is_array(\Settings_ConfReport_Module_Model::getStabilityConf(false, true, true)), 'System stability configuration(normal mode, show errors, cli) report should be not empty');
-		$this->assertTrue(is_array(\Settings_ConfReport_Module_Model::getStabilityConf(true, true, true)), 'System stability configuration(install mode, show errors, cli) report should be not empty');
+		$this->assertInternalType('array', \Settings_ConfReport_Module_Model::getStabilityConf(false, true, true), 'System stability configuration(normal mode, show errors, cli) report should be not empty');
+		$this->assertInternalType('array', \Settings_ConfReport_Module_Model::getStabilityConf(true, true, true), 'System stability configuration(install mode, show errors, cli) report should be not empty');
 	}
 
 	/**
@@ -69,14 +69,15 @@ class ConfReport extends \Tests\Base
 	public function testGetDenyPublicDirState()
 	{
 		$this->assertNotEmpty(\Settings_ConfReport_Module_Model::getDenyPublicDirState(), 'getDenyPublicDirState data should be not empty');
-		$this->assertTrue(is_array(\Settings_ConfReport_Module_Model::getDenyPublicDirState()), 'getDenyPublicDirState returned data type should be array even if empty');
+		$this->assertInternalType('array', \Settings_ConfReport_Module_Model::getDenyPublicDirState(), 'getDenyPublicDirState returned data type should be array even if empty');
 	}
 
 	/**
 	 * Testing getPermissionsFiles method.
 	 */
-	public function getPermissionsFiles()
+	public function testGetPermissionsFiles()
 	{
-		$this->assertTrue(is_array(\Settings_ConfReport_Module_Model::getPermissionsFiles(false)), 'getPermissionsFiles returned data type should be array even if empty');
+		$this->assertInternalType('array', \Settings_ConfReport_Module_Model::getPermissionsFiles(false), 'getPermissionsFiles(show all) returned data type should be array even if empty');
+		$this->assertInternalType('array', \Settings_ConfReport_Module_Model::getPermissionsFiles(true), 'getPermissionsFiles(show errors only) returned data type should be array even if empty');
 	}
 }
