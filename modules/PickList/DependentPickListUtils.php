@@ -110,6 +110,8 @@ class Vtiger_DependencyPicklist
 				])->execute();
 			}
 		}
+		\App\Cache::delete('picklistDependencyFields', $module);
+		\App\Cache::delete('getPicklistDependencyDatasource', $module);
 	}
 
 	public static function deletePickListDependencies($module, $sourceField, $targetField)
@@ -119,6 +121,8 @@ class Vtiger_DependencyPicklist
 			'sourcefield' => $sourceField,
 			'targetfield' => $targetField,
 		])->execute();
+		\App\Cache::delete('picklistDependencyFields', $module);
+		\App\Cache::delete('getPicklistDependencyDatasource', $module);
 	}
 
 	public static function getPickListDependency($module, $sourceField, $targetField)
