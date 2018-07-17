@@ -69,6 +69,8 @@
     "LBL_CPU": "Procesor",
     "LBL_RAM": "Pami\u0119\u0107 RAM",
     "LBL_PER_SECOND": "/s",
+    "LBL_CRM_VERSION": "Wersja systemu",
+    "LBL_CRM_DATE": "Data publikacji wersji",
     "LBL_LIB_NAME": "Nazwa biblioteki",
     "LBL_VULNERABILITY_NAME": "Nazwa podatno\u015bci",
     "LBL_VULNERABILITY_URL": "Adres",
