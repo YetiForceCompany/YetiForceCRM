@@ -346,9 +346,9 @@ leaflet.markercluster@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/leaflet.markercluster/-/leaflet.markercluster-1.3.0.tgz#58eb0654e90bd3274a660390ab0bc734212b204d"
 
-leaflet@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.3.1.tgz#86f336d2fb0e2d0ff446677049a5dc34cf0ea60e"
+leaflet@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.3.2.tgz#0e3b62ad2dbfcccc7d530a2c512949f56522a12d"
 
 moment@^2.10.2, moment@^2.20.1, moment@^2.21.0, moment@^2.9.0:
   version "2.22.2"
