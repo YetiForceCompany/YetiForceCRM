@@ -27,15 +27,15 @@ class CustomView extends \Tests\Base
 			$this->assertInternalType('array', $moduleModel->getFilterPermissionsView($recordModel['cvid'], 'default'), 'Custom view permissions list(default) should be array type');
 			$this->assertEmpty($moduleModel->getFilterPermissionsView($recordModel['cvid'], 'default'), 'Custom view permissions list(default) should be empty');
 			$moduleModel->setDefaultUsersFilterView($moduleId, $recordModel['cvid'], \App\User::getActiveAdminId(), 'add');
-			$filterPermissionsView = $moduleModel->getFilterPermissionsView($recordModel['cvid'], 'default');
-			$this->assertNotEmpty($filterPermissionsView, 'Custom view permissions list(default) should be not empty');
-			$filterPermissionsFound = false;
-			foreach ($filterPermissionsView as $key=>$val) {
+			$filterPermsView = $moduleModel->getFilterPermissionsView($recordModel['cvid'], 'default');
+			$this->assertNotEmpty($filterPermsView, 'Custom view permissions list(default) should be not empty');
+			$filterPermsFound = false;
+			foreach ($filterPermsView as $val) {
 				if (\in_array(\App\User::getActiveAdminId(), $val)) {
-					$filterPermissionsFound = true;
+					$filterPermsFound = true;
 				}
 			}
-			$this->assertTrue($filterPermissionsFound, 'Created default users filter view entry not found');
+			$this->assertTrue($filterPermsFound, 'Created default users filter view entry not found');
 			$moduleModel->setDefaultUsersFilterView($moduleId, $recordModel['cvid'], \App\User::getActiveAdminId(), 'add');
 			$moduleModel->setDefaultUsersFilterView($moduleId, $recordModel['cvid'], \App\User::getActiveAdminId(), 'remove');
 			$this->assertEmpty($moduleModel->getFilterPermissionsView($recordModel['cvid'], 'default'), 'Custom view permissions list(default) should be emptied');
