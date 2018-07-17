@@ -19,7 +19,24 @@ class TextParser extends \Tests\Base
 	 * Test record module.
 	 */
 	private static $testRecordModule;
+	/**
+	 * Test record instance.
+	 */
+	private static $testInstanceRecord;
+	/**
+	 * Test clean instance.
+	 */
+	private static $testInstanceClean;
+	/**
+	 * Test clean instance with module.
+	 */
+	private static $testInstanceCleanModule;
 
+	/**
+	 * Create test records in database and set id/module variables.
+	 *
+	 * @throws \Exception
+	 */
 	private function populateTestRecords()
 	{
 		static::$testRecordModule = 'Leads';
@@ -37,8 +54,38 @@ class TextParser extends \Tests\Base
 		if (!static::$testRecordId || !static::$testRecordModule) {
 			$this->populateTestRecords();
 		}
-		$this->assertInstanceOf('\App\TextParser', \App\TextParser::getInstance(), 'Expected clean instance without module of \App\TextParser');
-		$this->assertInstanceOf('\App\TextParser', \App\TextParser::getInstance('Leads'), 'Expected clean instance with module Leads of \App\TextParser');
+		static::$testInstanceClean = \App\TextParser::getInstance();
+		$this->assertInstanceOf('\App\TextParser', static::$testInstanceClean, 'Expected clean instance without module of \App\TextParser');
+		static::$testInstanceCleanModule = \App\TextParser::getInstance('Leads');
+		$this->assertInstanceOf('\App\TextParser', static::$testInstanceCleanModule, 'Expected clean instance with module Leads of \App\TextParser');
 		$this->assertInstanceOf('\App\TextParser', \App\TextParser::getInstanceById(static::$testRecordId, static::$testRecordModule), 'Expected instance from lead id and module string of \App\TextParser');
+		static::$testInstanceRecord = \App\TextParser::getInstanceByModel(\Vtiger_Record_Model::getInstanceById(static::$testRecordId, static::$testRecordModule));
+		$this->assertInstanceOf('\App\TextParser', static::$testInstanceRecord, 'Expected instance from record model of \App\TextParser');
+	}
+
+	/**
+	 * Testing clean instance based field placeholder replacement.
+	 */
+	public function testCIBasicFieldPlaceholder()
+	{
+		\App\User::setCurrentUserId(1);
+		$text = '+ $(employee : last_name)$ +';
+		$this->assertSame('+  +', static::$testInstanceClean
+			->setContent($text)
+			->parse()
+			->getContent(), 'By default employee last name should be empty');
+	}
+
+	/**
+	 * Testing RecordModel based instance field placeholder replacement.
+	 */
+	public function testRMIBasicFieldPlaceholder()
+	{
+		\App\User::setCurrentUserId(1);
+		$text = '+ $(employee : last_name)$ +';
+		$this->assertSame('+  +', static::$testInstanceRecord
+			->setContent($text)
+			->parse()
+			->getContent(), 'By default employee last name should be empty');
 	}
 }
