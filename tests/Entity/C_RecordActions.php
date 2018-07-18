@@ -26,14 +26,13 @@ class C_RecordActions extends \Tests\Base
 	{
 		if (static::$record) {
 			return static::$record;
-		} else {
-			$record = \Vtiger_Record_Model::getCleanInstance('Accounts');
-			$record->set('accountname', 'YetiForce Sp. z o.o.');
-			$record->set('legal_form', 'PLL_GENERAL_PARTNERSHIP');
-			$record->save();
-			static::$record = $record;
-			return $record;
 		}
+		$record = \Vtiger_Record_Model::getCleanInstance('Accounts');
+		$record->set('accountname', 'YetiForce Sp. z o.o.');
+		$record->set('legal_form', 'PLL_GENERAL_PARTNERSHIP');
+		$record->save();
+		static::$record = $record;
+		return $record;
 	}
 
 	/**
@@ -49,13 +48,13 @@ class C_RecordActions extends \Tests\Base
 	 */
 	public function testPermission()
 	{
-		$this->assertTrue(static::createAccountRecord()->isEditable());
-		$this->assertTrue(static::createAccountRecord()->isCreateable());
-		$this->assertTrue(static::createAccountRecord()->isViewable());
-		$this->assertFalse(static::createAccountRecord()->privilegeToActivate());
-		$this->assertTrue(static::createAccountRecord()->privilegeToArchive());
-		$this->assertTrue(static::createAccountRecord()->privilegeToMoveToTrash());
-		$this->assertTrue(static::createAccountRecord()->privilegeToDelete());
+		$this->assertTrue(static::$record->isEditable());
+		$this->assertTrue(static::$record->isCreateable());
+		$this->assertTrue(static::$record->isViewable());
+		$this->assertFalse(static::$record->privilegeToActivate());
+		$this->assertTrue(static::$record->privilegeToArchive());
+		$this->assertTrue(static::$record->privilegeToMoveToTrash());
+		$this->assertTrue(static::$record->privilegeToDelete());
 	}
 
 	/**
@@ -63,7 +62,7 @@ class C_RecordActions extends \Tests\Base
 	 */
 	public function testCheckLockFields()
 	{
-		$this->assertTrue(static::createAccountRecord()->checkLockFields());
+		$this->assertTrue(static::$record->checkLockFields());
 	}
 
 	/**
@@ -71,8 +70,8 @@ class C_RecordActions extends \Tests\Base
 	 */
 	public function testEditRecord()
 	{
-		static::createAccountRecord()->set('accounttype', 'Customer');
-		static::createAccountRecord()->save();
+		static::$record->set('accounttype', 'Customer');
+		static::$record->save();
 		$this->assertTrue((new \App\Db\Query())->from('vtiger_account')->where(['account_type' => 'Customer'])->exists());
 	}
 
@@ -81,7 +80,7 @@ class C_RecordActions extends \Tests\Base
 	 */
 	public function testGetDisplayName()
 	{
-		$this->assertTrue(static::createAccountRecord()->getDisplayName() === 'YetiForce Sp. z o.o.');
+		$this->assertTrue(static::$record->getDisplayName() === 'YetiForce Sp. z o.o.');
 	}
 
 	/**
@@ -90,10 +89,10 @@ class C_RecordActions extends \Tests\Base
 	public function testStateRecord()
 	{
 		static::$record->changeState('Trash');
-		$this->assertSame(1, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => static::createAccountRecord()->getId()])->scalar());
+		$this->assertSame(1, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => static::$record->getId()])->scalar());
 		static::$record->changeState('Active');
-		$this->assertSame(0, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => static::createAccountRecord()->getId()])->scalar());
+		$this->assertSame(0, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => static::$record->getId()])->scalar());
 		static::$record->changeState('Archived');
-		$this->assertSame(2, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => static::createAccountRecord()->getId()])->scalar());
+		$this->assertSame(2, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => static::$record->getId()])->scalar());
 	}
 }

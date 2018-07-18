@@ -32,20 +32,19 @@ class A_User extends \Tests\Base
 	{
 		if (static::$record) {
 			return static::$record;
-		} else {
-			$user = \Vtiger_Record_Model::getCleanInstance('Users');
-			$user->set('user_name', 'demo');
-			$user->set('email1', 'demo@yetiforce.com');
-			$user->set('first_name', 'Demo');
-			$user->set('last_name', 'YetiForce');
-			$user->set('user_password', 'demo');
-			$user->set('confirm_password', 'demo');
-			$user->set('roleid', 'H2');
-			$user->set('is_admin', 'on');
-			$user->save();
-			static::$record = $user;
-			return $user;
 		}
+		$user = \Vtiger_Record_Model::getCleanInstance('Users');
+		$user->set('user_name', 'demo');
+		$user->set('email1', 'demo@yetiforce.com');
+		$user->set('first_name', 'Demo');
+		$user->set('last_name', 'YetiForce');
+		$user->set('user_password', 'demo');
+		$user->set('confirm_password', 'demo');
+		$user->set('roleid', 'H2');
+		$user->set('is_admin', 'on');
+		$user->save();
+		static::$record = $user;
+		return $user;
 	}
 
 	/**
