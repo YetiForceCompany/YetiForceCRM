@@ -6,11 +6,14 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 		<div class="col-12 col-md-4 col-sm-5 align-items-center d-sm-flex justify-content-end text-center text-sm-right">
+			<button class="btn btn-info js-check-php float-right mr-lg-1" data-js="click">
+				<span class="fab fa-php mr-lg-1"></span>{App\Language::translate('BTN_CHECK_LATEST_VERSION',$QUALIFIED_MODULE)}
+			</button>
 			<button class="btn btn-primary js-test-speed float-right mr-lg-1" data-js="click">
 				<span class="fas fa-stopwatch mr-lg-1"></span>{App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}
 			</button>
-			<button id="download-image" class="btn btn-outline-dark"><span
-						class="fas fa-download"></span> {\App\Language::translate('LBL_DOWNLOAD_CONFIG', $MODULE)}
+			<button id="download-image" class="btn btn-outline-dark">
+				<span class="fas fa-download"></span> {\App\Language::translate('LBL_DOWNLOAD_CONFIG', $MODULE)}
 			</button>
 		</div>
 	</div>

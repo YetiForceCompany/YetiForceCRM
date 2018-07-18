@@ -5,7 +5,7 @@ jQuery.Class("Settings_ConfReport_Index_Js", {}, {
 	/*
 	 * Shows or hides block informing about supported currencies by presently chosen bank
 	 */
-	registerTestButton: function (container) {
+	registerButtons: function (container) {
 		container.find('.js-test-speed').on('click', function () {
 			var progress = jQuery.progressIndicator({
 				message: app.vtranslate('JS_SPEED_TEST_START'),
@@ -25,15 +25,24 @@ jQuery.Class("Settings_ConfReport_Index_Js", {}, {
 				progress.progressIndicator({mode: 'hide'});
 			});
 		});
-	},
+		container.find('.js-check-php').on('click', function () {
+			AppConnector.request({
+				parent: 'Settings',
+				module: 'ConfReport',
+				action: 'Check'
+			}).done(function (response) {
+				if(response.success){
+					Vtiger_Helper_Js.showPnotify({
+						title: response.result.title,
+						text: response.result.text,
+						type: 'info'
+					});
+				}
 
-	/**
-	 * Download image of the whole config page
-	 * @param {jQuery} container
-	 */
-	registerImageDownload(container){
-		container.find('#download-image').on('click',(e)=>{
-			app.htmlToImage(container).then((img)=>{
+			});
+		});
+		container.find('#download-image').on('click', (e) => {
+			app.htmlToImage(container).then((img) => {
 				$(`<a href="${img}" download="yetiforce_settings.png"></a>`).get(0).click();
 			});
 		});
@@ -42,8 +51,7 @@ jQuery.Class("Settings_ConfReport_Index_Js", {}, {
 	 * Register events
 	 */
 	registerEvents: function () {
-		var container = $('.contentsDiv');
-		this.registerTestButton(container);
-		this.registerImageDownload(container);
+		let container = $('.contentsDiv');
+		this.registerButtons(container);
 	}
 });

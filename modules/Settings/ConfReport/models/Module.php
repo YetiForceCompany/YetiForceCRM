@@ -74,7 +74,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	private static function getStabilitIniConf()
 	{
 		$directiveValues = [
-			'PHP' => ['recommended' => '7.1.x, 7.1.x, 7.2.x (dev)', 'help' => 'LBL_PHP_HELP_TEXT', 'fn' => 'validatePhp', 'max' => '7.1'],
+			'PHP' => ['recommended' => '7.1.x, 7.2.x (dev)', 'help' => 'LBL_PHP_HELP_TEXT', 'fn' => 'validatePhp'],
 			'error_reporting' => ['recommended' => 'E_ALL & ~E_NOTICE', 'help' => 'LBL_ERROR_REPORTING_HELP_TEXT', 'fn' => 'validateErrorReporting'],
 			'output_buffering' => ['recommended' => 'On', 'help' => 'LBL_OUTPUT_BUFFERING_HELP_TEXT', 'fn' => 'validateOnOffInt'],
 			'max_execution_time' => ['recommended' => '600', 'help' => 'LBL_MAX_EXECUTION_TIME_HELP_TEXT', 'fn' => 'validateGreater'],
@@ -452,7 +452,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'LBL_CRM_VERSION' => \App\Version::get(),
 			'LBL_CRM_DATE' => \App\Version::get('patchVersion'),
 			'LBL_OPERATING_SYSTEM' => \AppConfig::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
-			'LBL_SERVER_SOFTWARE' => $_SERVER['SERVER_SOFTWARE']??'-',
+			'LBL_SERVER_SOFTWARE' => $_SERVER['SERVER_SOFTWARE'] ?? '-',
 			'LBL_TMP_DIR' => App\Fields\File::getTmpPath(),
 			'LBL_CRM_DIR' => ROOT_DIRECTORY,
 			'LBL_PHP_SAPI' => ['www' => $ini['SAPI'], 'cli' => $cliConf ? $cliConf['SAPI'] : ''],
@@ -556,7 +556,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			mkdir($dir, 0755);
 		}
 		$testStartTime = microtime(true);
-		$ram = $cpu =  $filesWrite = 0;
+		$ram = $cpu = $filesWrite = 0;
 		while ((microtime(true) - $testStartTime) < 1) {
 			file_put_contents("{$dir}{$testStartTime}{$filesWrite}.txt", $testStartTime);
 			$filesWrite++;
@@ -686,14 +686,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function validatePhp($row, $isCli)
 	{
-		try {
-			$newest = static::getNewestPhpVersion($row['max']);
-		} catch (Exception $exc) {
-			$newest = false;
-		}
-		if ($newest) {
-			$row['recommended'] = $newest;
-		}
 		if (version_compare($row['current'], str_replace('x', 0, $row['recommended']), '<')) {
 			$row['incorrect'] = true;
 		}
@@ -740,24 +732,26 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Get actual version of PHP.
 	 *
-	 * @param string $version eg. "5.6", "7.1"
-	 *
-	 * @return string eg. 7.1.12
+	 * @return string[]
 	 */
-	private static function getNewestPhpVersion(string $version)
+	public static function getNewestPhpVersion()
 	{
 		if (!class_exists('Requests') || !\App\RequestUtil::isNetConnection()) {
 			return false;
 		}
-		$resonse = Requests::get('http://php.net/releases/index.php?json&max=10&version=' . $version[0], [], ['timeout' => 1]);
+		$resonse = Requests::get('http://php.net/releases/index.php?json&max=7&version=7', [], ['timeout' => 1]);
 		$data = array_keys((array) \App\Json::decode($resonse->body));
 		natsort($data);
-		foreach (array_reverse($data) as $ver) {
-			if (strpos($ver, $version) === 0) {
-				return $ver;
+		$ver = [];
+		foreach (array_reverse($data) as $row) {
+			$t = explode('.', $row);
+			array_pop($t);
+			$short = implode('.', $t);
+			if (!isset($ver[$short]) && version_compare($short, '7.0', '>') && version_compare($short, '7.3', '<')) {
+				$ver[$short] = $row;
 			}
 		}
-		return false;
+		return $ver;
 	}
 
 	/**
