@@ -6,14 +6,44 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 class Settings_Currency_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
+
+	use \App\Controller\ExposeMethod;
+
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('setDefault');
+		$this->exposeMethod('save');
+	}
+
+	/**
+	 * Set default currency
+	 * @param \App\Request $request
+	 */
+	public function setDefault(\App\Request $request)
+	{
+		$recordModel = Settings_Currency_Record_Model::getInstance($request->getInteger('record'));
+		$recordModel->set('defaultid', -11);
+		$recordModel->save();
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
+	}
+
+	/**
+	 * Save currency
+	 * @param \App\Request $request
+	 * @throws Exception
+	 */
+	public function save(\App\Request $request)
 	{
 		if ($request->isEmpty('record')) {
 			//get instance from currency name, Aleady deleted and adding again same currency case

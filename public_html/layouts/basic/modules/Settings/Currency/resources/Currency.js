@@ -32,6 +32,23 @@ jQuery.Class('Settings_Currency_Js', {
 	},
 
 	/**
+	 * This function used to trigger default currency
+	 * @param {object} event
+	 * @param {int} id
+	 */
+	triggerDefault: function (event, id) {
+		event.stopPropagation();
+		Vtiger_Helper_Js.showConfirmationBox({message: app.vtranslate('JS_CURRENCY_DEFAULT_CONFIRMED')}).done(function (data) {
+			var progressIndicatorElement = jQuery.progressIndicator({position: 'html', blockInfo: {enabled: true}});
+			app.saveAjax('setDefault', null, {record: id}).done(function (data) {
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
+				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_CURRENCY_DETAILS_SAVED')});
+				Settings_Currency_Js.currencyInstance.loadListViewContents();
+			});
+		});
+	},
+
+	/**
 	 * This function used to trigger Delete Currency
 	 */
 	triggerDelete: function (event, id) {
@@ -176,6 +193,7 @@ jQuery.Class('Settings_Currency_Js', {
 		data['module'] = app.getModuleName();
 		data['parent'] = app.getParentModuleName();
 		data['action'] = 'SaveAjax';
+		data['mode'] = 'save';
 
 		AppConnector.request(data).done(function (data) {
 			if (data['success']) {
