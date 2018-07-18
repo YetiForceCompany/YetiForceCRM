@@ -223,9 +223,27 @@ $.Class("Vtiger_Edit_Js", {
 		}
 	},
 	treePopupRegisterEvent: function (container) {
-		var thisInstance = this;
 		container.on("click", '.js-tree-modal', function (e) {
-			thisInstance.openTreeModal($(e.target));
+			let element = $(e.target);
+			let parentElem = element.closest('.fieldValue');
+			let sourceFieldElement = $('input[class="sourceField"]', parentElem);
+			let fieldDisplayElement = $('input[name="' + sourceFieldElement.attr('name') + '_display"]', parentElem);
+			AppConnector.request({
+				module: $('input[name="module"]', element.closest('form')).val(),
+				view: 'TreeModal',
+				template: sourceFieldElement.data('treetemplate'),
+				fieldName: sourceFieldElement.attr('name'),
+				multiple: sourceFieldElement.data('multiple'),
+				value: sourceFieldElement.val()
+			}).done(function (requestData) {
+				app.modalEvents['treeModal'] = function (modal, instance) {
+					instance.setSelectEvent((responseData) => {
+						sourceFieldElement.val(responseData.id);
+						fieldDisplayElement.val(responseData.name).attr('readonly', true);
+					});
+				};
+				app.showModalWindow(requestData, {modalId: 'treeModal'});
+			});
 		});
 	},
 	/**
@@ -238,28 +256,6 @@ $.Class("Vtiger_Edit_Js", {
 			thisInstance.clearFieldValue($(e.currentTarget));
 			e.preventDefault();
 		})
-	},
-	openTreeModal: function (element) {
-		let parentElem = element.closest('.fieldValue');
-		let sourceFieldElement = $('input[class="sourceField"]', parentElem);
-		let fieldDisplayElement = $('input[name="' + sourceFieldElement.attr('name') + '_display"]', parentElem);
-		AppConnector.request({
-			module: $('input[name="module"]', element.closest('form')).val(),
-			view: 'TreeModal',
-			template: sourceFieldElement.data('treetemplate'),
-			fieldName: sourceFieldElement.attr('name'),
-			multiple: sourceFieldElement.data('multiple'),
-			value: sourceFieldElement.val()
-		}).done(function (requestData) {
-			app.showModalWindow(requestData, function (data) {
-				app.modalEvents[Window.lastModalId] = function (modal, instance) {
-					instance.setSelectEvent((responseData) => {
-						sourceFieldElement.val(responseData.id);
-						fieldDisplayElement.val(responseData.name).attr('readonly', true);
-					});
-				};
-			});
-		});
 	},
 	/**
 	 * Function which will handle the reference auto complete event registrations
@@ -810,11 +806,11 @@ $.Class("Vtiger_Edit_Js", {
 	copyAddressDetailsRef: function (data, container) {
 		var thisInstance = this;
 		thisInstance.getRecordDetails(data).done(function (data) {
-				var response = data['result'];
-				thisInstance.mapAddressDetails(response, container);
-			}).fail(function (error, err) {
+			var response = data['result'];
+			thisInstance.mapAddressDetails(response, container);
+		}).fail(function (error, err) {
 
-			});
+		});
 	},
 	mapAddressDetails: function (result, container) {
 		for (var key in result) {
@@ -1097,7 +1093,7 @@ $.Class("Vtiger_Edit_Js", {
 						} else {
 							response([{label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: ''}]);
 						}
-					}).fail( function () {
+					}).fail(function () {
 						response([{label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: ''}]);
 					});
 				},

@@ -339,6 +339,9 @@ var App = {},
 				var sendByAjaxCb = function () {
 				}
 			}
+			if (paramsObject !== undefined && paramsObject.modalId !== undefined) {
+				Window.lastModalId = paramsObject.modalId;
+			}
 			// prevent duplicate hash generation
 			let container = $('#' + Window.lastModalId);
 			if (container.length) {

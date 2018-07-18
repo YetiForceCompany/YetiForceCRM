@@ -71,15 +71,14 @@ $.Class("Base_TreeModal_JS", {}, {
 		}
 	},
 	registerSearchEvent: function () {
-		var thisInstance = this;
-		var valueSearch = $('#valueSearchTree');
-		var btnSearch = $('#btnSearchTree');
+		const thisInstance = this;
+		let valueSearch = this.container.find('#valueSearchTree');
 		valueSearch.on('keypress', function (e) {
 			if (e.which == 13) {
 				thisInstance.searchingInTree(valueSearch.val());
 			}
 		});
-		btnSearch.on('click', function () {
+		this.container.find('#btnSearchTree').on('click', function () {
 			thisInstance.searchingInTree(valueSearch.val());
 		});
 	},
