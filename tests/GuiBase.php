@@ -9,6 +9,8 @@
 
 namespace tests;
 
+use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 
 abstract class GuiBase extends \PHPUnit\Framework\TestCase
