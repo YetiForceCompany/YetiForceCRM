@@ -771,10 +771,10 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			let currencyId = thisInstance.getCurrency();
 			if (currencyId && typeof unitPriceValues[currencyId] !== "undefined") {
 				unitPrice = unitPriceValues[currencyId];
-			} else if(recordData.price !== undefined){
+			} else if (recordData.price !== undefined) {
 				unitPrice = recordData.price;
 			}
-			if(unitPrice){
+			if (unitPrice) {
 				thisInstance.setUnitPrice(parentRow, app.parseNumberToFloat(unitPrice));
 			}
 			if (unitPriceValuesJson !== undefined) {
@@ -1436,7 +1436,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		thisInstance.rowsCalculations();
 		thisInstance.updateRowSequence();
 		App.Fields.Picklist.showSelect2ElementView(container.find('.selectInv'));
-		App.Fields.Date.register(container,true,{},'dateFieldInv');
+		App.Fields.Date.register(container, true, {}, 'dateFieldInv');
 	},
 	/**
 	 * Function which will register all the events
