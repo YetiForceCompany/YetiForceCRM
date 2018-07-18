@@ -582,11 +582,15 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$ram++;
 		}
 		\vtlib\Functions::recurseDelete('cache/speed');
+		$dbs = microtime(true);
+		$conf = \App\Db::getInstance()->createCommand('SELECT BENCHMARK(1000000,1+1);')->execute();
+		$dbe = microtime(true);
 		return [
 			'FilesRead' => (int) $filesRead,
 			'FilesWrite' => $filesWrite,
 			'CPU' => $cpu,
-			'RAM' => $ram
+			'RAM' => $ram,
+			'DB' => (int) (1000000 / ($dbe - $dbs))
 		];
 	}
 

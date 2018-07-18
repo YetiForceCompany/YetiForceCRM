@@ -68,6 +68,7 @@
     "LBL_WRITE_TEST": "Zapis plik\u00f3w",
     "LBL_CPU": "Procesor",
     "LBL_RAM": "Pami\u0119\u0107 RAM",
+    "LBL_DB": "Baza danych",
     "LBL_PER_SECOND": "/s",
     "LBL_CRM_VERSION": "Wersja systemu",
     "LBL_CRM_DATE": "Data publikacji wersji",
