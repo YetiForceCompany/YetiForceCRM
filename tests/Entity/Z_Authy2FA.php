@@ -7,9 +7,9 @@
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
-namespace Tests\Settings;
+namespace Tests\Entity;
 
-class Authy2FA extends \Tests\Base
+class Z_Authy2FA extends \Tests\Base
 {
 	/**
 	 * @var \yii\db\Transaction

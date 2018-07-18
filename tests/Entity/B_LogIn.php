@@ -7,7 +7,10 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class LogIn extends \Tests\Base
+
+namespace Tests\Entity;
+
+class B_LogIn extends \Tests\Base
 {
 	/**
 	 * Testing login page display.
