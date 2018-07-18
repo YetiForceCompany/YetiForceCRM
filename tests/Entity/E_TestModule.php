@@ -7,10 +7,12 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
+namespace Tests\Entity;
+
 /**
  * @codeCoverageIgnore
  */
-class TestModule extends \Tests\Base
+class E_TestModule extends \Tests\Base
 {
 	/**
 	 * Testing the installation of the sample data module.

@@ -7,14 +7,17 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Permissions extends \Tests\Base
+
+namespace Tests\Entity;
+
+class H_Permissions extends \Tests\Base
 {
 	/**
 	 * Testing record permissions.
 	 */
 	public function testIsPermitted()
 	{
-		$this->assertTrue(\App\Privilege::isPermitted('Accounts', 'DetailView', ACCOUNT_ID));
+		$this->assertTrue(\App\Privilege::isPermitted('Accounts', 'DetailView', \Tests\Entity\C_RecordActions::createAccountRecord()->getId()));
 	}
 
 	/**
