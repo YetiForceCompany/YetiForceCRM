@@ -16,7 +16,6 @@ class Install extends \Tests\Base
 	{
 		require_once 'install/models/InitSchema.php';
 
-		$_SESSION['config_file_info']['currency_name'] = 'Poland, Zlotych';
 		$_SESSION['config_file_info']['currency_code'] = 'PLN';
 		$_SESSION['config_file_info']['currency_symbol'] = 'zł';
 
