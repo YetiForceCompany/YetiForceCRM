@@ -17,11 +17,11 @@ class F_Library extends \Tests\Base
 	 */
 	public function testLibraryVersion()
 	{
-		Settings_ModuleManager_Library_Model::downloadAll();
+		\Settings_ModuleManager_Library_Model::downloadAll();
 		$libs = \Settings_ModuleManager_Library_Model::getAll();
 		foreach ($libs as $name => $lib) {
 			$appVersion = \App\Version::get($lib['name']);
-			$this->assertTrue(file_exists($lib['dir'] . 'version.php'), 'File does not exist: ' . $lib['dir'] . 'version.php');
+			$this->assertFileExists($lib['dir'] . 'version.php', 'File does not exist: ' . $lib['dir'] . 'version.php');
 
 			$libVersions = require $lib['dir'] . 'version.php';
 			$libVersion = $libVersions['version'];
