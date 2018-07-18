@@ -11,7 +11,6 @@
 
 class Settings_Currency_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
-
 	use \App\Controller\ExposeMethod;
 
 	/**
@@ -25,7 +24,8 @@ class Settings_Currency_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	}
 
 	/**
-	 * Set default currency
+	 * Set default currency.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function setDefault(\App\Request $request)
@@ -39,8 +39,10 @@ class Settings_Currency_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	}
 
 	/**
-	 * Save currency
+	 * Save currency.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws Exception
 	 */
 	public function save(\App\Request $request)

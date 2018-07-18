@@ -145,7 +145,7 @@ $.Class("Vtiger_Edit_Js", {
 		container.find('.clearReferenceSelection').trigger('click');
 
 		fieldElement.val(id)
-		fieldDisplayElement.val(selectedName).attr('readonly', true);
+		fieldDisplayElement.val(app.decodeHTML(selectedName)).attr('readonly', true);
 		fieldElement.trigger(Vtiger_Edit_Js.referenceSelectionEvent, {
 			source_module: popupReferenceModule,
 			record: id,
@@ -513,10 +513,10 @@ $.Class("Vtiger_Edit_Js", {
 	referenceCreateHandler: function (container) {
 		var thisInstance = this;
 		var postQuickCreateSave = function (data) {
-			var params = {};
-			params.name = data.result._recordLabel;
-			params.id = data.result._recordId;
-			thisInstance.setReferenceFieldValue(container, params);
+			thisInstance.setReferenceFieldValue(container, {
+				name: data.result._recordLabel,
+				id: data.result._recordId
+			});
 		}
 		var params = {callbackFunction: postQuickCreateSave};
 		if (app.getViewName() === 'Edit' && !app.getRecordId()) {

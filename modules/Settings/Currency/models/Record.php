@@ -11,9 +11,9 @@
 
 class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 {
-
 	/**
-	 * Changes value
+	 * Changes value.
+	 *
 	 * @var array
 	 */
 	protected $changes = [];
