@@ -13,34 +13,18 @@ namespace Tests\Entity;
 class B_LogIn extends \Tests\Base
 {
 	/**
-	 * Testing login page display.
-	 */
-	public function testLoginPage()
-	{
-		if (!IS_WINDOWS) {
-			ob_start();
-			(new Vtiger_WebUI())->process(App\Request::init());
-			$content = ob_get_contents();
-			$this->assertTrue(strpos($content, 'input name="username"') !== false);
-			$this->assertTrue(strpos($content, 'input name="password"') !== false);
-			file_put_contents('tests/LoginPage.txt', $content);
-			ob_end_clean();
-		}
-	}
-
-	/**
 	 * Test logging into the system.
 	 */
 	public function testLoginInToCrm()
 	{
 		$userName = 'demo';
-		$userRecordModel = Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
+		$userRecordModel = \Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
 		if ($userRecordModel->doLogin($userName)) {
-			App\Session::set('authenticated_user_id', TESTS_USER_ID);
-			App\Session::set('app_unique_key', AppConfig::main('application_unique_key'));
-			App\Session::set('user_name', $userName);
-			App\Session::set('full_user_name', \App\Fields\Owner::getUserLabel(TESTS_USER_ID));
-			$this->assertInternalType('int', TESTS_USER_ID);
+			\App\Session::set('authenticated_user_id', \Tests\Entity\A_User::createUsersRecord()->getId());
+			\App\Session::set('app_unique_key', \AppConfig::main('application_unique_key'));
+			\App\Session::set('user_name', $userName);
+			\App\Session::set('full_user_name', \App\Fields\Owner::getUserLabel(\Tests\Entity\A_User::createUsersRecord()->getId()));
+			$this->assertInternalType('int', \Tests\Entity\A_User::createUsersRecord()->getId());
 		}
 	}
 
@@ -52,7 +36,7 @@ class B_LogIn extends \Tests\Base
 		$userName = 'Demo';
 		$userRecordModel = \Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
 		$this->assertTrue($userRecordModel->doLogin('demo'));
-		$this->assertTrue(App\User::getUserModel($userRecordModel->getId())->getDetail('user_name') !== $userName);
+		$this->assertTrue(\App\User::getUserModel($userRecordModel->getId())->getDetail('user_name') !== $userName);
 	}
 
 	/**
@@ -60,12 +44,12 @@ class B_LogIn extends \Tests\Base
 	 */
 	public function testUserVerifyData()
 	{
-		$this->assertTrue(Users_Module_Model::checkMailExist('demo@yetiforce.com'));
-		$this->assertFalse(Users_Module_Model::checkMailExist('demo@yetiforce.com', TESTS_USER_ID));
-		$this->assertFalse(Users_Module_Model::checkMailExist('xxx@yetiforce.com'));
-		$this->assertSame(Users_Module_Model::checkUserName('demo'), \App\Language::translate('LBL_USER_NAME_EXISTS', 'Users'));
-		$this->assertSame(Users_Module_Model::checkUserName('demo', TESTS_USER_ID), \App\Language::translate('LBL_USER_NAME_HAS_ALREADY_BEEN_USED', 'Users'));
-		$this->assertSame(Users_Module_Model::checkUserName('test', 1), \App\Language::translate('LBL_FORBIDDEN_USERNAMES', 'Users'));
+		$this->assertTrue(\Users_Module_Model::checkMailExist('demo@yetiforce.com'));
+		$this->assertFalse(\Users_Module_Model::checkMailExist('demo@yetiforce.com', \Tests\Entity\A_User::createUsersRecord()->getId()));
+		$this->assertFalse(\Users_Module_Model::checkMailExist('xxx@yetiforce.com'));
+		$this->assertSame(\Users_Module_Model::checkUserName('demo'), \App\Language::translate('LBL_USER_NAME_EXISTS', 'Users'));
+		$this->assertSame(\Users_Module_Model::checkUserName('demo', \Tests\Entity\A_User::createUsersRecord()->getId()), \App\Language::translate('LBL_USER_NAME_HAS_ALREADY_BEEN_USED', 'Users'));
+		$this->assertSame(\Users_Module_Model::checkUserName('test', 1), \App\Language::translate('LBL_FORBIDDEN_USERNAMES', 'Users'));
 	}
 
 	/**
@@ -73,7 +57,7 @@ class B_LogIn extends \Tests\Base
 	 */
 	public function testBruteForce()
 	{
-		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
+		$bfInstance = \Settings_BruteForce_Module_Model::getCleanInstance();
 		$this->assertFalse($bfInstance->isBlockedIp());
 		$bfInstance->updateBlockedIp();
 	}
