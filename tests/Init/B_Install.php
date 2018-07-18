@@ -7,7 +7,10 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Install extends \Tests\Base
+
+namespace Tests\Init;
+
+class B_Install extends \Tests\Base
 {
 	/**
 	 * Testing database installation from SQL file.
@@ -20,7 +23,7 @@ class Install extends \Tests\Base
 		$_SESSION['config_file_info']['currency_code'] = 'PLN';
 		$_SESSION['config_file_info']['currency_symbol'] = 'zł';
 
-		$initSchema = new Install_InitSchema_Model();
+		$initSchema = new \Install_InitSchema_Model();
 		$initSchema->initialize();
 
 		$db = \App\Db::getInstance();
@@ -36,9 +39,9 @@ class Install extends \Tests\Base
 	 */
 	public function testDownloadLibrary()
 	{
-		Settings_ModuleManager_Library_Model::downloadAll();
-		foreach (Settings_ModuleManager_Library_Model::$libraries as $name => $lib) {
-			$this->assertTrue(file_exists($lib['dir'] . 'version.php'));
+		\Settings_ModuleManager_Library_Model::downloadAll();
+		foreach (\Settings_ModuleManager_Library_Model::$libraries as $name => $lib) {
+			$this->assertTrue(\file_exists($lib['dir'] . 'version.php'));
 		}
 	}
 }

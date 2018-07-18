@@ -7,7 +7,10 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class LanguageFiles extends \Tests\Base
+
+namespace Tests\Init;
+
+class A_LanguageFiles extends \Tests\Base
 {
 	/**
 	 * Testing language files.
@@ -16,7 +19,7 @@ class LanguageFiles extends \Tests\Base
 	{
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isFile()) {
-				$this->assertNotEmpty(json_decode(file_get_contents($item->getPathname()), true), 'File: ' . $item->getPathname());
+				$this->assertNotEmpty(\json_decode(\file_get_contents($item->getPathname()), true), 'File: ' . $item->getPathname());
 			}
 		}
 	}
