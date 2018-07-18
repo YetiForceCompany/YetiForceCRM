@@ -41,7 +41,7 @@ class B_Install extends \Tests\Base
 	{
 		\Settings_ModuleManager_Library_Model::downloadAll();
 		foreach (\Settings_ModuleManager_Library_Model::$libraries as $name => $lib) {
-			$this->assertTrue(\file_exists($lib['dir'] . 'version.php'));
+			$this->assertFileExists($lib['dir'] . 'version.php');
 		}
 	}
 }
