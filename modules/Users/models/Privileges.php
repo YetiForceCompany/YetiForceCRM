@@ -116,6 +116,9 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		$actionId = $action->getId();
 		$profileTabsPermissions = $this->get('profile_action_permission');
+		if ((is_numeric($mixed) && 3 === $mixed) || 'Home' === $mixed) {
+			$mixed = 1;
+		}
 		$moduleModel = Vtiger_Module_Model::getInstance($mixed);
 
 		return $moduleModel->isActive() && (($this->isAdminUser() || $profileTabsPermissions[$moduleModel->getId()][$actionId] === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE));
