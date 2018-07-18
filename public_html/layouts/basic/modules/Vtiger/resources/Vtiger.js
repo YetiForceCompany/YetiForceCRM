@@ -453,13 +453,12 @@ var Vtiger_Index_Js = {
 			lastPopovers.push(el.popover('show'));
 			registerToolTipDestroy();
 		}
-
 		function hideAllTooltipViews() {
-			while (lastPopover = lastPopovers.pop()) {
-				lastPopover.popover('hide');
-			}
+			$.each(lastPopovers, function (index, element) {
+				element.popover('hide');
+			});
+			lastPopovers = [];
 		}
-
 		function hidePop() {
 			$(".popover").on("mouseleave", function () {
 				hideAllTooltipViews();
