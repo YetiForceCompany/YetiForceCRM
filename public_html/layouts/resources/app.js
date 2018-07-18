@@ -1105,6 +1105,10 @@ var App = {},
 		return parseFloat(val);
 	},
 	errorLog: function (error, err, errorThrown) {
+		if (!CONFIG.debug) {
+			return;
+		}
+		console.warn("%cYetiForce debug mode!!!", "color: red; font-family: sans-serif; font-size: 1.5em; font-weight: bolder; text-shadow: #000 1px 1px;");
 		if (typeof error === 'object' && error.responseText) {
 			error = error.responseText;
 		}

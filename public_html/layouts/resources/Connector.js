@@ -111,12 +111,21 @@ AppConnector = {
 			}
 			aDeferred.resolve(data);
 		};
-		params.error = function (jqXHR, textStatus, errorThrown, yyyy, uuu) {
+		params.error = function (jqXHR, textStatus, errorThrown) {
 			let action = jqXHR.getResponseHeader('yf-action');
 			if (action === 'logout') {
 				window.location.href = 'index.php';
 			}
-			app.errorLog(jqXHR, textStatus, errorThrown);
+			if(CONFIG.debug){
+				if (jqXHR.status === 406) {
+					let sep = "-".repeat(150);
+					console.warn("%cYetiForce debug mode!!!", "color: red; font-family: sans-serif; font-size: 1.5em; font-weight: bolder; text-shadow: #000 1px 1px;");
+					console.error('Error: ' + errorThrown, '\n' + sep + '\nTrace:\n' + sep + '\n' + jqXHR.responseJSON.error.trace, '\n' + sep + '\nParams:\n' + sep + '\n' + JSON.stringify(params, null, '\t'));
+				} else {
+					app.errorLog(jqXHR, textStatus, errorThrown);
+				}
+			}
+
 			aDeferred.reject(textStatus, errorThrown);
 		};
 		jQuery.ajax(params);
