@@ -293,4 +293,13 @@ class BaseField
 	{
 		$this->queryGenerator->setSearchFieldsForDuplicates($this->getField()->getName(), $this->getValue());
 	}
+
+	/**
+	 * Invoked when object is cloning.
+	 */
+	public function __clone()
+	{
+		$this->fullColumnName = null;
+		$this->tableName = null;
+	}
 }
