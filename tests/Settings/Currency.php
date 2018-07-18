@@ -29,6 +29,7 @@ class Currency extends \Tests\Base
 		$this->assertNotNull(static::$id, 'Id is null');
 
 		$row = (new \App\Db\Query())->from('vtiger_currency_info')->where(['id' => static::$id])->one();
+		$this->logs = $row;
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertSame($row['currency_name'], 'Bahrain');
 		$this->assertSame((float) $row['conversion_rate'], 1.65);
@@ -51,6 +52,7 @@ class Currency extends \Tests\Base
 		static::$id = $recordModel->save();
 
 		$row = (new \App\Db\Query())->from('vtiger_currency_info')->where(['id' => static::$id])->one();
+		$this->logs = $row;
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertSame($row['currency_name'], 'Argentina');
 		$this->assertSame((float) $row['conversion_rate'], 0.65);
@@ -87,6 +89,7 @@ class Currency extends \Tests\Base
 		$this->assertNotEmpty($allRecords, 'Expected that all records result is not empty');
 		$testRecord = array_pop($allRecords);
 		if ($testRecord) {
+			$this->logs = $testRecord;
 			$this->assertInstanceOf('Settings_Currency_Record_Model', $testRecord, 'Instance type mismatch');
 			$this->assertTrue($testRecord->has('id'), 'Instance should contain field `id`');
 			$this->assertTrue($testRecord->has('currency_name'), 'Instance should contain field `currency_name`');
@@ -102,6 +105,7 @@ class Currency extends \Tests\Base
 		$this->assertNotEmpty($allNonmappedRecords, 'Expected that all non mapped records result is not empty');
 		$testNonmappedRecord = array_pop($allNonmappedRecords);
 		if ($testNonmappedRecord) {
+			$this->logs = $testNonmappedRecord;
 			$this->assertInstanceOf('Settings_Currency_Record_Model', $testNonmappedRecord, 'Instance type mismatch');
 			$this->assertTrue($testNonmappedRecord->has('currencyid'), 'Instance should contain field `currencyid`');
 			$this->assertTrue($testNonmappedRecord->has('currency_name'), 'Instance should contain field `currency_name`');
