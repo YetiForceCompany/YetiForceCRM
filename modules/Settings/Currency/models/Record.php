@@ -6,11 +6,18 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 {
+
+	/**
+	 * Changes value
+	 * @var array
+	 */
+	protected $changes = [];
+
 	/**
 	 * Return currency id.
 	 *
@@ -48,27 +55,34 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getRecordLinks()
 	{
+		$links = $recordLinks = [];
 		if ($this->isBaseCurrency()) {
 			//NO Edit and delete link for base currency
 			return [];
+		} else {
+			$recordLinks[] = [
+				'linkurl' => "javascript:Settings_Currency_Js.triggerDefault(event, '" . $this->getId() . "')",
+				'linklabel' => 'LBL_SET_AS_DEFAULT',
+				'linkclass' => 'btn-warning btn-sm',
+				'linkicon' => 'fas fa-redo-alt',
+			];
 		}
-		$editLink = [
+		$recordLinks[] = [
 			'linkurl' => "javascript:Settings_Currency_Js.triggerEdit(event, '" . $this->getId() . "')",
 			'linklabel' => 'LBL_EDIT',
 			'linkclass' => 'btn-info btn-sm',
 			'linkicon' => 'fas fa-edit',
 		];
-		$editLinkInstance = Vtiger_Link_Model::getInstanceFromValues($editLink);
-
-		$deleteLink = [
+		$recordLinks[] = [
 			'linkurl' => "javascript:Settings_Currency_Js.triggerDelete(event,'" . $this->getId() . "')",
 			'linklabel' => 'LBL_DELETE',
 			'linkclass' => 'btn-sm btn-danger',
 			'linkicon' => 'fas fa-trash-alt',
 		];
-		$deleteLinkInstance = Vtiger_Link_Model::getInstanceFromValues($deleteLink);
-
-		return [$editLinkInstance, $deleteLinkInstance];
+		foreach ($recordLinks as $recordLink) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+		}
+		return $links;
 	}
 
 	/**
@@ -83,6 +97,19 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		//by default non deleted
 		return 0;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function set($key, $value)
+	{
+		if ($this->getId() && $this->value[$key] != $value) {
+			$this->changes[$key] = $this->get($key);
+		}
+		$this->value[$key] = $value;
+
+		return $this;
 	}
 
 	/**
@@ -101,9 +128,13 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 				'currency_code' => $this->get('currency_code'),
 				'currency_status' => $this->get('currency_status'),
 				'currency_symbol' => $this->get('currency_symbol'),
-				'conversion_rate' => $this->get('conversion_rate'),
+				'conversion_rate' => $this->isBaseCurrency() ? 1 : $this->get('conversion_rate'),
+				'defaultid' => $this->get('defaultid'),
 				'deleted' => $this->getDeleteStatus(),
 				], ['id' => $id])->execute();
+			if (isset($this->changes['defaultid'])) {
+				$db->createCommand()->update($tableName, ['defaultid' => 0], ['and', ['defaultid' => -11], ['not', ['id' => $id]]])->execute();
+			}
 		} else {
 			$db->createCommand()
 				->insert($tableName, [
@@ -128,6 +159,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	public static function clearCache()
 	{
 		\App\Cache::delete('Currency', 'List');
+		\App\Cache::delete('AllCurrency', 'All');
 	}
 
 	/**

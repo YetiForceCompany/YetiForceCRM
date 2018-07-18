@@ -146,10 +146,12 @@
     "Zambia, Kwacha": "Zambia, Kwacha",
     "Zimbabwe Dollars": "Zimbabwe Dollars",
     "Active": "Aktywny",
-    "Inactive": "Nieaktywny"
+    "Inactive": "Nieaktywny",
+    "LBL_SET_AS_DEFAULT": "Ustaw jako domy\u015blny"
   },
   "js": {
     "JS_CURRENCY_DELETED_SUCCESSFULLY": "Usuni\u0119to walut\u0119 poprawnie",
-    "JS_CURRENCY_DETAILS_SAVED": "Szczeg\u00f3\u0142y waluty zapisano"
+    "JS_CURRENCY_DETAILS_SAVED": "Szczeg\u00f3\u0142y waluty zapisano",
+    "JS_CURRENCY_DEFAULT_CONFIRMED": "Uwaga! Ta operacja zmieni domy\u015bln\u0105 walut\u0119 w wielu miejscach w systemie. Uprzednio wystawione dokumenty finansowe mog\u0105 wymaga\u0107 przewalutowania. Dokonaj r\u0119cznego przewalutowania je\u015bli dokumenty te zosta\u0142y wystawione produkcyjnie. Wymagane b\u0119dzie przeliczenie kursu dla pozosta\u0142ych walut."
   }
 }
