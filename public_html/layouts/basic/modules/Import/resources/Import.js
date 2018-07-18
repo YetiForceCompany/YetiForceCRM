@@ -129,8 +129,8 @@ if (typeof (ImportJs) === "undefined") {
 			return true;
 		},
 		validateMergeCriteria: function () {
-			$mergeChecked = jQuery('#auto_merge').is(':checked');
-			if ($mergeChecked) {
+			var mergeChecked = jQuery('#auto_merge').is(':checked');
+			if (mergeChecked) {
 				var selectedOptions = jQuery('#selected_merge_fields option');
 				if (selectedOptions.length == 0) {
 					var errorMessage = app.vtranslate('JS_PLEASE_SELECT_ONE_FIELD_FOR_MERGE');
