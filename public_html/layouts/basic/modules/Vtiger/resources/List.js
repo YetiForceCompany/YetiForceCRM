@@ -2029,7 +2029,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerFeaturedElementsEvent();
 		this.registerUnreviewedCountEvent();
 		this.registerLastRelationsEvent();
-
+		app.showPopoverElementView(listViewContainer.find('.js-popover-tooltip'));
 		Vtiger_Index_Js.registerMailButtons(listViewContainer);
 	},
 	registerListViewSpecialOption: function () {
