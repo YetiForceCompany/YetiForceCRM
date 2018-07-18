@@ -152,6 +152,6 @@
   "js": {
     "JS_CURRENCY_DELETED_SUCCESSFULLY": "Currency deleted successfully.",
     "JS_CURRENCY_DETAILS_SAVED": "Currency details saved.",
-    "JS_CURRENCY_DETAILS_SAVED": "Warning! This operation will change the currency in many places in the system. Financial documents issued prior to this change might require currency conversion. Please perform manual currency conversion if these documents have been issued in their production versions. Calculating exchange rates for the remaining currencies will be required."
+    "JS_CURRENCY_DEFAULT_CONFIRMED": "Warning! This operation will change the currency in many places in the system. Financial documents issued prior to this change might require currency conversion. Please perform manual currency conversion if these documents have been issued in their production versions. Calculating exchange rates for the remaining currencies will be required."
   }
 }
