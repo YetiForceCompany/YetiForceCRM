@@ -18,7 +18,7 @@ App.Fields = {
 		 * @param {boolean} registerForAddon
 		 * @param {object} customParams
 		 */
-		register(parentElement, registerForAddon, customParams) {
+		register(parentElement, registerForAddon, customParams,clasName = 'dateField') {
 			if (typeof parentElement === "undefined") {
 				parentElement = $('body');
 			} else {
@@ -27,7 +27,7 @@ App.Fields = {
 			if (typeof registerForAddon === "undefined") {
 				registerForAddon = true;
 			}
-			let elements = $('.dateField', parentElement);
+			let elements = $('.'+ clasName, parentElement);
 			if (parentElement.hasClass('dateField')) {
 				elements = parentElement;
 			}
