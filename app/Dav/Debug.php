@@ -14,6 +14,8 @@ class Debug extends DAV\ServerPlugin
 	 * @var DAV\Server
 	 */
 	protected $server;
+	protected $response;
+	protected $request;
 
 	const DEBUG_FILE = 'cache/logs/davDebug.log';
 	const EXCEPTION_FILE = 'cache/logs/davException.log';
@@ -29,6 +31,7 @@ class Debug extends DAV\ServerPlugin
 		$server->on('beforeMethod', [$this, 'beforeMethod']);
 		$server->on('exception', [$this, 'exception']);
 		$server->on('afterResponse', [$this, 'afterResponse']);
+		$this->server->setLogger((new Logger()));
 	}
 
 	/**
@@ -57,8 +60,8 @@ class Debug extends DAV\ServerPlugin
 		} else {
 			$content = $request->__toString();
 		}
+		$this->request = $content;
 		file_put_contents(self::DEBUG_FILE, $content . PHP_EOL, FILE_APPEND);
-
 		return true;
 	}
 
@@ -77,9 +80,9 @@ class Debug extends DAV\ServerPlugin
 		if (in_array($content, ['text/html', 'application/xml'])) {
 			$content = $response->__toString();
 		}
+		$this->response = $content;
 		file_put_contents(self::DEBUG_FILE, '============ ' . date('Y-m-d H:i:s') . ' ====== Response ======'
 			. PHP_EOL . $content . PHP_EOL, FILE_APPEND);
-
 		return true;
 	}
 
@@ -99,9 +102,10 @@ class Debug extends DAV\ServerPlugin
 		$error .= 'line: ' . $e->getLine() . PHP_EOL;
 		$error .= 'code: ' . $e->getCode() . PHP_EOL;
 		$error .= 'stacktrace: ' . PHP_EOL . $e->getTraceAsString() . PHP_EOL;
+		$error .= 'request: ' . PHP_EOL . $this->request . PHP_EOL;
+		$error .= 'response: ' . PHP_EOL . $this->response . PHP_EOL;
 		file_put_contents(self::EXCEPTION_FILE, '============ ' . date('Y-m-d H:i:s') . ' ====== Error exception ======'
 			. PHP_EOL . $error . PHP_EOL, FILE_APPEND);
-
 		return true;
 	}
 
