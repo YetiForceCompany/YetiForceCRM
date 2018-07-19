@@ -304,7 +304,7 @@ class API_CalDAV_Model
 	 */
 	public function davDelete($calendar)
 	{
-		\App\Log::trace(__METHOD__ . ' | Start Calendar ID:' . $card['id']);
+		\App\Log::trace(__METHOD__ . ' | Start Calendar ID:' . $calendar['id']);
 		$this->addChange($calendar['uri'], 3);
 		\App\Db::getInstance()->createCommand()->delete('dav_calendarobjects', ['id' => $calendar['id']])->execute();
 		\App\Log::trace(__METHOD__ . ' | End');
@@ -508,6 +508,7 @@ class API_CalDAV_Model
 	public function getEventDates(Sabre\VObject\Component $component)
 	{
 		$allday = 0;
+		$endHasTime = $startHasTime = false;
 		$endField = $this->getEndFieldName($component->name);
 		// Start
 		if (isset($component->DTSTART)) {
@@ -696,6 +697,7 @@ class API_CalDAV_Model
 				'COMPLETED' => 'PLL_COMPLETED',
 			];
 		}
+		$value = false;
 		if (isset($component->STATUS)) {
 			$value = strtoupper(\App\Purifier::purify($component->STATUS->getValue()));
 		}

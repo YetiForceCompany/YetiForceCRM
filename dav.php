@@ -27,7 +27,7 @@ if ($enableCalDAV) {
 	$nodes[] = new Sabre\CalDAV\CalendarRoot($principalBackend, $calendarBackend);
 }
 if ($enableCardDAV) {
-	$carddavBackend = new App\Dav\CardDavBackendPdoCardDAV_Backend_PDO($pdo);
+	$carddavBackend = new App\Dav\CardDavBackendPdo($pdo);
 	$nodes[] = new Sabre\CardDAV\AddressBookRoot($principalBackend, $carddavBackend);
 }
 if ($enableWebDAV) {

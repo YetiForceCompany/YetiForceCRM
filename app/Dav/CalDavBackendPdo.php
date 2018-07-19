@@ -65,11 +65,13 @@ class CalDavBackendPdo extends CalDAV\Backend\PDO
 	 *
 	 * The object uri is only the basename, or filename and not a full path.
 	 *
-	 * @param string $calendarId
+	 * @param mixed  $calendarId
 	 * @param string $objectUri
 	 */
 	public function deleteCalendarObject($calendarId, $objectUri)
 	{
+		list($calendarId) = $calendarId;
+
 		$stmt = $this->pdo->prepare(sprintf('UPDATE vtiger_crmentity SET deleted = ? WHERE crmid IN (SELECT crmid FROM %s WHERE calendarid = ? && uri = ?);', $this->calendarObjectTableName));
 		$stmt->execute([1, $calendarId, $objectUri]);
 

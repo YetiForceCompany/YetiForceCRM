@@ -1593,16 +1593,16 @@
         },
         {
             "name": "sonata-project/google-authenticator",
-            "version": "2.1.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/GoogleAuthenticator.git",
-                "reference": "5fdc50960503ff5a04326e6e9536b5efa66c7dca"
+                "reference": "feda53899b26af24e3db2fe7a3e5f053ca483762"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/GoogleAuthenticator/zipball/5fdc50960503ff5a04326e6e9536b5efa66c7dca",
-                "reference": "5fdc50960503ff5a04326e6e9536b5efa66c7dca",
+                "url": "https://api.github.com/repos/sonata-project/GoogleAuthenticator/zipball/feda53899b26af24e3db2fe7a3e5f053ca483762",
+                "reference": "feda53899b26af24e3db2fe7a3e5f053ca483762",
                 "shasum": ""
             },
             "require": {
@@ -1646,7 +1646,7 @@
             "keywords": [
                 "google authenticator"
             ],
-            "time": "2018-04-09T12:37:24+00:00"
+            "time": "2018-07-18T22:08:02+00:00"
         },
         {
             "name": "symfony/console",
