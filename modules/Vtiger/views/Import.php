@@ -277,7 +277,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 				Import_Utils_Helper::showImportLockedError($lockInfo);
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			} else {
-				$mode = $request->getMode();
+				$mode = $request->isEmpty('mode') ? '' : $request->getMode();
 				if ($mode === 'continueImport' && $user->getId() === $lockedBy) {
 					$importController = new Import_Main_View($request, $user);
 					$importController->triggerImport(true);

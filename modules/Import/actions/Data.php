@@ -423,8 +423,8 @@ class Import_Data_Action extends \App\Controller\Action
 		if (empty($ownerId)) {
 			$ownerId = \App\Fields\Owner::getGroupId($fieldValue);
 		}
-		if (empty($ownerId) && isset($defaultFieldValues[$fieldName])) {
-			$ownerId = $defaultFieldValues[$fieldName];
+		if (empty($ownerId) && isset($defaultFieldValues[$fieldInstance->getFieldName()])) {
+			$ownerId = $defaultFieldValues[$fieldInstance->getFieldName()];
 		}
 		if (!empty($ownerId) && \App\Fields\Owner::getType($ownerId) === 'Users' && !array_key_exists($ownerId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->getId())->getAccessibleUsers('', 'owner'))) {
 			$ownerId = '';
