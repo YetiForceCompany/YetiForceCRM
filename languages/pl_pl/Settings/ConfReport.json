@@ -60,6 +60,7 @@
     "LBL_CRON_PHPINI": "Cron - Konfiguracja PHP",
     "LBL_CRON_LOG_FILE": "Cron - Logi b\u0142ed\u00f3w",
     "LBL_ENVIRONMENTAL_INFORMATION": "Informacje o \u015brodowisku",
+    "LBL_PERFORMANCE_VERIFICATION": "Weryfikacja wydajno\u015bci",
     "LBL_CRON_PHP_SAPI": "Cron - Server API",
     "LBL_OPERATING_SYSTEM": "System operacyjny",
     "LBL_LATEST_PHP_TITLE": "php.net",

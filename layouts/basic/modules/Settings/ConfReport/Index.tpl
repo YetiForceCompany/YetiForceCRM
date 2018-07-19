@@ -169,6 +169,53 @@
 						{/foreach}
 						</tbody>
 					</table>
+					<table class="table table-bordered table-sm my-2">
+						<thead>
+						<tr>
+							<th colspan="4" scope="col">
+								{App\Language::translate('LBL_PERFORMANCE_VERIFICATION', $MODULE)}
+							</th>
+						</tr>
+						<tr>
+							<th colspan="1" class="w-25" scope="col">
+								{App\Language::translate('LBL_PARAMETER', $MODULE)}
+							</th>
+							<th colspan="1" scope="col">
+								{App\Language::translate('LBL_RECOMMENDED', $MODULE)}
+							</th>
+							<th colspan="1" scope="col">
+								{App\Language::translate('LBL_WWW_VALUE', $MODULE)}
+							</th>
+							<th colspan="1" scope="col">
+								{App\Language::translate('LBL_CLI_VALUE', $MODULE)}
+							</th>
+						</tr>
+						</thead>
+						<tbody class="small u-word-break-all">
+						{foreach from=$PERFORMANCE_INFO key=key item=item}
+							<tr {if $item['incorrect']}class="table-danger"{/if}>
+								<td class="bg-light">
+									{App\Language::translate($key, $MODULE)}
+								</td>
+								<td>
+									{App\Language::translate($item['recommended'], $MODULE)}
+								</td>
+								{if is_array($item)}
+									<td>
+										{App\Language::translate($item['www'], $MODULE)}
+									</td>
+									<td>
+										{App\Language::translate($item['cli'], $MODULE)}
+									</td>
+								{else}
+									<td colspan="2">
+										{$item}
+									</td>
+								{/if}
+							</tr>
+						{/foreach}
+						</tbody>
+					</table>
 				</div>
 				<div class="col-lg-12 col-xl-6">
 					<table class="table table-bordered table-sm my-2">

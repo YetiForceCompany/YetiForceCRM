@@ -18,6 +18,7 @@ class Settings_ConfReport_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('SECURITY_CONF', Settings_ConfReport_Module_Model::getSecurityConf());
 		$viewer->assign('SYSTEM_INFO', Settings_ConfReport_Module_Model::getSystemInfo());
 		$viewer->assign('STABILITY_CONF', Settings_ConfReport_Module_Model::getStabilityConf(false, false, true));
+		$viewer->assign('PERFORMANCE_INFO', Settings_ConfReport_Module_Model::getPerformanceInfo());
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}

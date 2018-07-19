@@ -523,6 +523,13 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				$values[$key] = $iniAll[$key]['local_value'];
 			}
 		}
+		foreach (static::getPerformanceIniConf() as $key => $value) {
+			if (isset($iniAll[$key])) {
+				$values[$key] = $iniAll[$key]['local_value'];
+			} elseif (isset($value['fn'])) {
+				$values[$key] = call_user_func([self, $value['fn']], $value);
+			}
+		}
 		$values['PHP'] = PHP_VERSION;
 		$values['SAPI'] = PHP_SAPI;
 		$values['INI_FILE'] = php_ini_loaded_file();
@@ -534,14 +541,14 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Get php.ini configuration from CLI.
 	 *
-	 * @return bool|array
+	 * @return array
 	 */
 	public static function getPhpIniConfCron()
 	{
 		if (file_exists('user_privileges/cron.php')) {
 			return include 'user_privileges/cron.php';
 		}
-		return false;
+		return [];
 	}
 
 	/**
@@ -765,6 +772,60 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		if ($val == 'On' || $val == 1 || stripos($val, 'On') !== false) {
 			return 'On';
+		}
+		return 'Off';
+	}
+
+	public static function getPerformanceIniConf()
+	{
+		$directiveValues = [
+			'Xdebug' => ['fn' => 'checkExtension', 'extension' => 'xdebug'],
+			'OPcache' => ['fn' => 'checOpcache'],
+		];
+		if (extension_loaded('suhosin')) {
+			$directiveValues['suhosin.session.encrypt'] = ['recommended' => 'Off', 'fn' => 'validateOnOff']; //Roundcube
+			$directiveValues['suhosin.request.max_vars'] = ['recommended' => '5000', 'fn' => 'validateGreater'];
+			$directiveValues['suhosin.post.max_vars'] = ['recommended' => '5000', 'fn' => 'validateGreater'];
+			$directiveValues['suhosin.post.max_value_length'] = ['recommended' => '1500000', 'fn' => 'validateGreater'];
+		}
+		return $directiveValues;
+	}
+
+	public static function getPerformanceInfo()
+	{
+		$ini = static::getPhpIniConf();
+		$cliConf = static::getPhpIniConfCron();
+		print_r($ini);
+		$directiveValues = [
+			'Xdebug' => [
+				'www' => $ini['Xdebug'],
+				'cli' => $cliConf['Xdebug'] ?? '',
+				'recommended' => 'Off',
+				'incorrect' => ($ini['Xdebug'] !== 'Off') || (isset($cliConf['Xdebug']) && $cliConf['Xdebug'] !== 'Off')
+			],
+			'OPcache' => [
+				'www' => $ini['OPcache'],
+				'cli' => $cliConf['OPcache'] ?? '',
+				'recommended' => 'On',
+				'incorrect' => ($ini['OPcache'] !== 'On') || (isset($cliConf['OPcache']) && $cliConf['Xdebug'] !== 'On')
+			]
+		];
+		return $directiveValues;
+	}
+
+	private static function checkExtension($row)
+	{
+		return extension_loaded($row['extension']) ? 'On' : 'Off';
+	}
+
+	private static function checOpcache($row)
+	{
+		if (function_exists('opcache_get_configuration')) {
+			if (PHP_SAPI === 'cli') {
+				return static::getFlag(ini_get('opcache.enable_cli'));
+			} else {
+				return static::getFlag(ini_get('opcache.enable'));
+			}
 		}
 		return 'Off';
 	}
