@@ -50,6 +50,16 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if (!defined('RCUBE_INSTALL_PATH')) {
 			define('RCUBE_INSTALL_PATH', realpath(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'OSSMail' . DIRECTORY_SEPARATOR . 'roundcube'));
 		}
+		if (!defined('RCMAIL_VERSION') && file_exists(RCUBE_INSTALL_PATH . '/program/include/iniset.php')) {
+			// read rcube version from iniset
+			$iniset = @file_get_contents(RCUBE_INSTALL_PATH . '/program/include/iniset.php');
+			if (preg_match('/define\(.RCMAIL_VERSION.,\s*.([0-9.]+[a-z-]*)?/', $iniset, $m)) {
+				$rcubeVersion = str_replace('-git', '.999', $m[1]);
+				define('RCMAIL_VERSION', $rcubeVersion);
+			} else {
+				throw new \Exception("Unable to find a Roundcube installation in $rootdir");
+			}
+		}
 		include 'public_html/modules/OSSMail/roundcube/config/defaults.inc.php';
 		include 'config/modules/OSSMail.php';
 
