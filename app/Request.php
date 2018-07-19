@@ -310,7 +310,7 @@ class Request
 	 */
 	public function getMode()
 	{
-		return $this->get('mode') !== '' ? $this->getByType('mode', 2) : '';
+		return $this->getRaw('mode') !== '' ? $this->getByType('mode', 2) : '';
 	}
 
 	/**
