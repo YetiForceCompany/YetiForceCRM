@@ -37,7 +37,9 @@ class File extends Base
 				}
 			}
 		}
-		session_id($oldSessionId);
+		if (session_id() !== $oldSessionId && !headers_sent()) {
+			session_id($oldSessionId);
+		}
 		$_SESSION = $oldSessionData;
 	}
 }
