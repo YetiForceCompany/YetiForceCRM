@@ -527,7 +527,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			if (isset($iniAll[$key])) {
 				$values[$key] = $iniAll[$key]['local_value'];
 			} elseif (isset($value['fn'])) {
-				$values[$key] = call_user_func(['\Settings_ConfReport_Module_Model', $value['fn']], $value);
+        $values[$key] = call_user_func([__CLASS__, $value['fn']], $value);
 			}
 		}
 		$values['PHP'] = PHP_VERSION;
@@ -795,7 +795,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$ini = static::getPhpIniConf();
 		$cliConf = static::getPhpIniConfCron();
-		print_r($ini);
 		$directiveValues = [
 			'Xdebug' => [
 				'www' => $ini['Xdebug'],

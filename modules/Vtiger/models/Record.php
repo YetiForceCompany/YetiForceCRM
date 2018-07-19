@@ -64,7 +64,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function set($key, $value)
 	{
-		if (!$this->isNew && !in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) && $this->value[$key] != $value) {
+		if (!$this->isNew && !in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) && (isset($this->value[$key]) && $this->value[$key] != $value)) {
 			$this->changes[$key] = $this->get($key);
 		}
 		$this->value[$key] = $value;
@@ -613,7 +613,10 @@ class Vtiger_Record_Model extends \App\Base
 		$instance = new $modelClassName();
 		$instance->setModuleFromInstance($module);
 		$instance->isNew = true;
-		$instance->setData($focus->column_fields)->setEntity($focus);
+		if (isset($focus->column_fields)) {
+			$instance->setData($focus->column_fields);
+		}
+		$instance->setEntity($focus);
 		\App\Cache::staticSave('RecordModelCleanInstance', $moduleName, clone $instance);
 		return $instance;
 	}
