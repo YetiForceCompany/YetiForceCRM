@@ -46,7 +46,7 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 		$combine = $dup = [];
 		foreach ($keys as $key => $keyData) {
 			if (isset($combine[$keyData])) {
-				if (!$dup[$keyData]) {
+				if (!isset($dup[$keyData])) {
 					$dup[$keyData] = 1;
 				}
 				$keyData = $keyData . '(' . ++$dup[$keyData] . ')';

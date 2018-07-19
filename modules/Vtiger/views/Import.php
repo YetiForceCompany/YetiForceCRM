@@ -50,16 +50,16 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	 */
 	public function process(\App\Request $request)
 	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
+		if ($request->isEmpty('mode')) {
+			$this->checkImportStatus($request);
+			$this->importBasicStep($request);
+		} else {
+			$mode = $request->getMode();
 			// Added to check the status of import
 			if ($mode === 'continueImport' || $mode === 'uploadAndParse' || $mode === 'importBasicStep') {
 				$this->checkImportStatus($request);
 			}
 			$this->invokeExposedMethod($mode, $request);
-		} else {
-			$this->checkImportStatus($request);
-			$this->importBasicStep($request);
 		}
 	}
 
@@ -268,7 +268,6 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$user = \App\User::getCurrentUserModel();
-		$mode = $request->getMode();
 		// Check if import on the module is locked
 		$lockInfo = Import_Lock_Action::isLockedForModule($moduleName);
 		if ($lockInfo) {
@@ -277,6 +276,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 				Import_Utils_Helper::showImportLockedError($lockInfo);
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			} else {
+				$mode = $request->getMode();
 				if ($mode === 'continueImport' && $user->getId() === $lockedBy) {
 					$importController = new Import_Main_View($request, $user);
 					$importController->triggerImport(true);
