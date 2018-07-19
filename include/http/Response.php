@@ -167,7 +167,7 @@ class Vtiger_Response
 			if (!$contentTypeSent && stripos($header, 'content-type') === 0) {
 				$contentTypeSent = true;
 			}
-			header($header);
+			header(str_ireplace(["\r\n", "\r", "\n"], [' ', ' ', ' '], $header));
 		}
 
 		// Set right charset (UTF-8) to avoid IE complaining about c00ce56e error
