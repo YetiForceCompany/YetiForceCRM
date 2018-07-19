@@ -795,7 +795,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$ini = static::getPhpIniConf();
 		$cliConf = static::getPhpIniConfCron();
-		print_r($ini);
 		$directiveValues = [
 			'Xdebug' => [
 				'www' => $ini['Xdebug'],
