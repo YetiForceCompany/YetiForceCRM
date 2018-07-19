@@ -233,11 +233,11 @@ class ModuleBasic
 	{
 		$this->basetable = $basetable;
 		$this->basetableid = $basetableid;
-
+		$db = \App\Db::getInstance();
 		// Initialize tablename and index column names
 		$lcasemodname = strtolower($this->name);
 		if (!$this->basetable) {
-			$this->basetable = "vtiger_$lcasemodname";
+			$this->basetable = 'u_' . $db->getConfig('base')['tablePrefix'] . $lcasemodname;
 		}
 		if (!$this->basetableid) {
 			$this->basetableid = $lcasemodname . 'id';

@@ -211,7 +211,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			if (isset($focus->customFieldTable)) {
 				$tableName = $focus->customFieldTable[0];
 			} else {
-				$tableName = 'vtiger_' . strtolower($moduleName) . 'cf';
+				$tableName = $focus->table_name . 'cf';
 			}
 		}
 		if ($fieldType === 'Tree' || $fieldType === 'CategoryMultipicklist') {
