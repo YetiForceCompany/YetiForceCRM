@@ -10,5 +10,5 @@
 ********************************************************************************/
 -->*}
 
-<button class="btn btn-success" name="ok"
-		onclick="location.href = 'index.php?module={$FOR_MODULE}&view=Import'"><strong>{\App\Language::translate('LBL_OK_BUTTON_LABEL', $MODULE)}</strong></button>
+<button class="btn btn-success btn-sm" name="ok"
+		onclick="location.href = 'index.php?module={$FOR_MODULE}&view=Import'"><span class="font-weight-bold">{\App\Language::translate('LBL_OK_BUTTON_LABEL', $MODULE)}</span></strong></button>
