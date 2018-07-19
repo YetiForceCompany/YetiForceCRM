@@ -51,8 +51,9 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	public function process(\App\Request $request)
 	{
 		if ($request->isEmpty('mode')) {
-			$this->checkImportStatus($request);
-			$this->importBasicStep($request);
+			if (!$this->checkImportStatus($request)) {
+				$this->importBasicStep($request);
+			}
 		} else {
 			$mode = $request->getMode();
 			// Added to check the status of import
@@ -288,19 +289,20 @@ class Vtiger_Import_View extends Vtiger_Index_View
 					}
 					Import_Main_View::showImportStatus($importInfo, $lockOwner);
 				}
-				return;
+				return true;
 			}
 		}
 		if (Import_Module_Model::isUserImportBlocked($user)) {
 			$importInfo = Import_Queue_Action::getUserCurrentImportInfo($user);
 			if ($importInfo !== null) {
 				Import_Main_View::showImportStatus($importInfo, $user);
-				return;
+				return true;
 			} else {
 				Import_Utils_Helper::showImportTableBlockedError($moduleName);
-				return;
+				return true;
 			}
 		}
 		Import_Module_Model::clearUserImportInfo($user);
+		return false;
 	}
 }

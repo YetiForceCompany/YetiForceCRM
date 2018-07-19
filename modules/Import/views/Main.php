@@ -130,17 +130,12 @@ class Import_Main_View extends \App\Controller\View
 
 	public static function showResult($importInfo, $importStatusCount)
 	{
-		$moduleName = $importInfo['module'];
-		$ownerId = $importInfo['user_id'];
-
 		$viewer = new Vtiger_Viewer();
-		$viewer->assign('FOR_MODULE', $moduleName);
+		$viewer->assign('FOR_MODULE', $importInfo['module']);
 		$viewer->assign('MODULE', 'Import');
-		$viewer->assign('OWNER_ID', $ownerId);
+		$viewer->assign('OWNER_ID', $importInfo['user_id']);
 		$viewer->assign('IMPORT_RESULT', $importStatusCount);
-		$viewer->assign('TYPE', $importInfo['type']);
 		$viewer->assign('MERGE_ENABLED', $importInfo['merge_type']);
-
 		$viewer->view('ImportResult.tpl', 'Import');
 	}
 
