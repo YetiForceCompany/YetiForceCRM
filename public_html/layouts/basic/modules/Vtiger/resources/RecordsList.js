@@ -240,7 +240,7 @@ $.Class("Base_RecordsList_JS", {}, {
 		});
 		thisInstance.container.on('click', '.js-selected-rows', function (e) {
 			let selected = {};
-			thisInstance.container.find('table .js-select-checkbox').each(function (index, element) {
+			thisInstance.container.find('table tr.js-select-row .js-select-checkbox').each(function (index, element) {
 				element = $(element)
 				if (!element.is(":checked")) {
 					return true;
