@@ -16,10 +16,6 @@ class TextParser extends \Tests\Base
 	 */
 	private static $record;
 	/**
-	 * Test record module.
-	 */
-	private static $testRecordModule;
-	/**
 	 * Test record instance.
 	 */
 	private static $testInstanceRecord;
@@ -50,9 +46,12 @@ class TextParser extends \Tests\Base
 	{
 		static::$testInstanceClean = \App\TextParser::getInstance();
 		$this->assertInstanceOf('\App\TextParser', static::$testInstanceClean, 'Expected clean instance without module of \App\TextParser');
+
 		static::$testInstanceCleanModule = \App\TextParser::getInstance('Leads');
 		$this->assertInstanceOf('\App\TextParser', static::$testInstanceCleanModule, 'Expected clean instance with module Leads of \App\TextParser');
+
 		$this->assertInstanceOf('\App\TextParser', \App\TextParser::getInstanceById(static::createLeadRecord()->getId(), 'Leads'), 'Expected instance from lead id and module string of \App\TextParser');
+
 		static::$testInstanceRecord = \App\TextParser::getInstanceByModel(static::createLeadRecord());
 		$this->assertInstanceOf('\App\TextParser', static::$testInstanceRecord, 'Expected instance from record model of \App\TextParser');
 	}
