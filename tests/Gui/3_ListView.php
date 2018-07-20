@@ -25,5 +25,6 @@ class Gui_ListView extends \Tests\GuiBase
 			$this->assertSame($module['name'], $this->driver->findElement(WebDriverBy::id('module'))->getAttribute('value'));
 			$this->assertSame('List', $this->driver->findElement(WebDriverBy::id('view'))->getAttribute('value'));
 		}
+		$this->assertInstanceOf('\Facebook\WebDriver\Remote\RemoteWebDriver', $this->driver->close(), 'Window close should return WebDriver object');
 	}
 }
