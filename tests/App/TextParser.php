@@ -57,6 +57,13 @@ class TextParser extends \Tests\Base
 	}
 
 	/**
+	 * Tests empty content condition.
+	 */
+	public function testEmptyContent()
+	{
+	}
+
+	/**
 	 * Tests general placeholders replacement.
 	 */
 	public function testGeneralPlaceholders()
