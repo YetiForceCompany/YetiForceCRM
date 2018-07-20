@@ -587,7 +587,7 @@ abstract class View extends Base
 		}
 		if (\App\Session::has('ShowAuthy2faModal')) {
 			\App\Config::setJsEnv('ShowAuthy2faModal', \App\Session::get('ShowAuthy2faModal'));
-			if (AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OPTIONAL') {
+			if (\AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OPTIONAL') {
 				\App\Session::delete('ShowAuthy2faModal');
 			}
 		}

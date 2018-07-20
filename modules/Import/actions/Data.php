@@ -794,12 +794,14 @@ class Import_Data_Action extends \App\Controller\Action
 			if (!$importDataController->initializeImport()) {
 				continue;
 			}
+			App\User::setCurrentUserId($importDataController->user->getId());
 			$importDataController->importData();
 			$importStatusCount = $importDataController->getImportStatusCount();
 			$emailSubject = 'Yetiforce - Scheduled Data Import Report for ' . $importDataController->module;
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('FOR_MODULE', $importDataController->module);
 			$viewer->assign('IMPORT_RESULT', $importStatusCount);
+			$viewer->assign('MODULE', 'Import');
 			$importResult = $viewer->view('Import_Result_Details.tpl', 'Import', true);
 			$importResult = str_replace('align="center"', '', $importResult);
 			$emailData = 'Yetiforce has completed import. <br /><br />' . $importResult . '<br /><br />' .
