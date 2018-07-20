@@ -61,6 +61,21 @@ class TextParser extends \Tests\Base
 	 */
 	public function testEmptyContent()
 	{
+		$this->assertSame('', static::$testInstanceClean
+			->setContent('')
+			->parse()
+			->getContent(), 'Clean instance: empty content should return empty result');
+	}
+
+	/**
+	 * Tests empty content condition.
+	 */
+	public function testUnregisteredPlaceholderFunction()
+	{
+		$this->assertSame('+  +', static::$testInstanceClean
+			->setContent('+ $(notExist : CurrentTime)$ +')
+			->parse()
+			->getContent(), 'Clean instance: unregistered function placeholder should return empty string');
 	}
 
 	/**
@@ -85,6 +100,21 @@ class TextParser extends \Tests\Base
 			->setContent('+ $(general : UserTimeZone)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : UserTimeZone)$ should return user timezone');
+
+		$this->assertSame('+ ' . \AppConfig::main('site_URL') . ' +', static::$testInstanceClean
+			->setContent('+ $(general : SiteUrl)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(general : SiteUrl)$ should return site url');
+
+		$this->assertSame('+ ' . \AppConfig::main('PORTAL_URL') . ' +', static::$testInstanceClean
+			->setContent('+ $(general : PortalUrl)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(general : PortalUrl)$ should return portal url');
+
+		$this->assertSame('+ Kopiuj adres korespondencji, sekund +', static::$testInstanceClean
+			->setContent('+ $(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$, $(translate : LBL_SECONDS)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$, $(translate : LBL_SECONDS)$ should return translated string');
 	}
 
 	/**
