@@ -49,10 +49,6 @@ class Debug extends DAV\ServerPlugin
 			$content = $request->getMethod() . ' ' . $request->getUrl() . ' HTTP/' . $request->getHTTPVersion() . "\r\n";
 			foreach ($request->getHeaders() as $key => $value) {
 				foreach ($value as $v) {
-					if ($key === 'Authorization') {
-						list($v) = explode(' ', $v, 2);
-						$v .= ' REDACTED';
-					}
 					$content .= $key . ': ' . $v . "\r\n";
 				}
 			}
