@@ -20,7 +20,6 @@ class Install_ConfigFileUtils_Model
 	private $siteUrl;
 	private $cacheDir;
 	private $vtCharset = 'UTF-8';
-	private $currencyName;
 	private $default_language;
 	private $timezone;
 
