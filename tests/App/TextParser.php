@@ -56,6 +56,33 @@ class TextParser extends \Tests\Base
 		$this->assertInstanceOf('\App\TextParser', static::$testInstanceRecord, 'Expected instance from record model of \App\TextParser');
 	}
 
+	/**
+	 * Tests general placeholders replacement.
+	 */
+	public function testGeneralPlaceholders()
+	{
+		$this->assertSame('+ ' . \date('Y-m-d') . ' +', static::$testInstanceClean
+			->setContent('+ $(general : CurrentDate)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(general : CurrentDate)$ should return current date');
+		$this->assertSame('+ ' . \date('H:i:s') . ' +', static::$testInstanceClean
+			->setContent('+ $(general : CurrentTime)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(general : CurrentTime)$ should return current time');
+		$this->assertSame('+ ' . \AppConfig::main('default_timezone') . ' +', static::$testInstanceClean
+			->setContent('+ $(general : BaseTimeZone)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(general : BaseTimeZone)$ should return system timezone');
+		$user = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$this->assertSame('+ ' . ($user->time_zone ? $user->time_zone : \AppConfig::main('default_timezone')) . ' +', static::$testInstanceClean
+			->setContent('+ $(general : UserTimeZone)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(general : UserTimeZone)$ should return user timezone');
+	}
+
+	/**
+	 * Tests date placeholders replacement.
+	 */
 	public function testDatePlaceholders()
 	{
 		$this->assertSame('+ ' . \date('Y-m-d') . ' +', static::$testInstanceClean
