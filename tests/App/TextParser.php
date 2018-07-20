@@ -56,6 +56,49 @@ class TextParser extends \Tests\Base
 		$this->assertInstanceOf('\App\TextParser', static::$testInstanceRecord, 'Expected instance from record model of \App\TextParser');
 	}
 
+	public function testDatePlaceholders()
+	{
+		$this->assertSame('+ ' . \date('Y-m-d') . ' +', static::$testInstanceClean
+			->setContent('+ $(date : now)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(date : now)$ should return current date');
+
+		$this->assertSame('+ ' . \date('Y-m-d', \strtotime('+1 day')) . ' +', static::$testInstanceClean
+			->setContent('+ $(date : tomorrow)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(date : tomorrow)$ should return tommorow date');
+
+		$this->assertSame('+ ' . \date('Y-m-d', \strtotime('-1 day')) . ' +', static::$testInstanceClean
+			->setContent('+ $(date : yesterday)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(date : yesterday)$ should return yesterday date');
+
+		$this->assertSame('+ ' . \date('Y-m-d', \strtotime('monday this week')) . ' +', static::$testInstanceClean
+			->setContent('+ $(date : monday this week)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(date : monday this week)$ should return this week monday date');
+
+		$this->assertSame('+ ' . \date('Y-m-d', \strtotime('monday next week')) . ' +', static::$testInstanceClean
+			->setContent('+ $(date : monday next week)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(date : monday next week)$ should return next week monday date');
+
+		$this->assertSame('+ ' . \date('Y-m-d', \strtotime('first day of this month')) . ' +', static::$testInstanceClean
+			->setContent('+ $(date : first day of this month)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(date : first day of this month)$ should return this month first day date');
+
+		$this->assertSame('+ ' . \date('Y-m-d', \strtotime('last day of this month')) . ' +', static::$testInstanceClean
+			->setContent('+ $(date : last day of this month)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(date : last day of this month)$ should return this month last day date');
+
+		$this->assertSame('+ ' . \date('Y-m-d', \strtotime('first day of next month')) . ' +', static::$testInstanceClean
+			->setContent('+ $(date : first day of next month)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(date : first day of next month)$ should return next month first day date');
+	}
+
 	/**
 	 * Testing basic field placeholder replacement.
 	 */
