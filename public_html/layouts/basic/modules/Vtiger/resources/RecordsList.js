@@ -257,7 +257,9 @@ $.Class("Base_RecordsList_JS", {}, {
 						});
 					});
 				} else {
-					selected[data.id] = data.name;
+					if(data.id !== undefined && data.name !== undefined) {
+						selected[data.id] = data.name;
+					}
 				}
 			});
 			if (Object.keys(selected).length <= 0) {
