@@ -738,7 +738,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		}
 	},
 	mapResultsToFields: function (referenceModule, parentRow, responseData) {
-		var validationEngine, unitPrice, taxParam = [];
+		let validationEngine, unitPrice, taxParam = [];
 		var thisInstance = this;
 		var isGroupTax = thisInstance.isGroupTaxMode();
 		for (var id in responseData) {
@@ -768,16 +768,18 @@ $.Class("Vtiger_Inventory_Js", {}, {
 					parentRow.find('.' + field + 'Text').text(recordData['autoFields'][field + 'Text']);
 				}
 			}
-
-			var currencyId = thisInstance.getCurrency();
-			if (typeof unitPriceValues[currencyId] !== "undefined") {
+			let currencyId = thisInstance.getCurrency();
+			if (currencyId && typeof unitPriceValues[currencyId] !== "undefined") {
 				unitPrice = unitPriceValues[currencyId];
-			} else {
+			} else if (recordData.price !== undefined) {
 				unitPrice = recordData.price;
 			}
-			thisInstance.setUnitPrice(parentRow, app.parseNumberToFloat(unitPrice));
-
-			$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
+			if (unitPrice) {
+				thisInstance.setUnitPrice(parentRow, app.parseNumberToFloat(unitPrice));
+			}
+			if (unitPriceValuesJson !== undefined) {
+				$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
+			}
 			var commentElement = $('textarea.commentTextarea', parentRow.next());
 			var editorInstance = CKEDITOR.instances[commentElement.attr('id')];
 			if (editorInstance) {
@@ -1069,13 +1071,10 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		var thisInstance = this;
 		var items = this.getInventoryItemsContainer();
 		container.find('.btn-toolbar .addItem').on('click', function (e, data) {
-			var table = container.find('#blackIthemTable');
 			var newRow = thisInstance.getBasicRow();
 			var sequenceNumber = thisInstance.getNextLineItemRowNumber();
 			var module = $(e.currentTarget).data('module');
 			var field = $(e.currentTarget).data('field');
-			var wysiwyg = $(e.currentTarget).data('wysiwyg');
-
 			var replaced = newRow.html().replace(/_NUM_/g, sequenceNumber);
 			newRow.html(replaced);
 			newRow = newRow.find('tr').appendTo(items.find('tbody'));
@@ -1090,7 +1089,6 @@ $.Class("Vtiger_Inventory_Js", {}, {
 					}
 				});
 			});
-			App.Fields.Picklist.showSelect2ElementView(newRow.find('select'));
 			thisInstance.initItem(newRow);
 			Vtiger_Edit_Js.getInstance().registerAutoCompleteFields(newRow);
 			app.showPopoverElementView(newRow.find('.js-popover-tooltip'));
@@ -1426,7 +1424,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		});
 	},
 	initItem: function (container) {
-		var thisInstance = this;
+		let thisInstance = this;
 		if (typeof container === "undefined") {
 			container = thisInstance.getInventoryItemsContainer();
 		}
@@ -1437,6 +1435,8 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		thisInstance.checkDeleteIcon();
 		thisInstance.rowsCalculations();
 		thisInstance.updateRowSequence();
+		App.Fields.Picklist.showSelect2ElementView(container.find('.selectInv'));
+		App.Fields.Date.register(container, true, {}, 'dateFieldInv');
 	},
 	/**
 	 * Function which will register all the events

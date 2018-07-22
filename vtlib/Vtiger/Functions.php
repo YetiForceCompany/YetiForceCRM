@@ -511,7 +511,7 @@ class Functions
 				$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 			}
 			if (is_object($e)) {
-				$response->setHeader('HTTP/1.1 ' . $e->getCode() . ' ' . $e->getMessage());
+				$response->setHeader('HTTP/1.1 ' . $e->getCode() . ' ' . str_ireplace(["\r\n", "\r", "\n"], [' ', ' ', ' '], $e->getMessage()));
 				$response->setError($e->getCode(), $e->getMessage(), $trace);
 			} else {
 				$response->setError('error', $message, $trace);

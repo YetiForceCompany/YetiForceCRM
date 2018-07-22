@@ -9,5 +9,6 @@ coverage:
       app:
         target: 11%
         paths: "!tests/"
+    patch: off
 ignore:
  - tests/copy/.*

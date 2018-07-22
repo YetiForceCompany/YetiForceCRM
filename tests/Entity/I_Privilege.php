@@ -7,7 +7,10 @@
  * @license   YetiForce Public License 3.0 (licenses / LicenseEN . txt or yetiforce . com)
  * @author    Arkadiusz Dudek < a . dudek@yetiforce . com >
  */
-class Privilege extends \Tests\Base
+
+namespace Tests\Entity;
+
+class I_Privilege extends \Tests\Base
 {
 	/**
 	 * Testing Privilege Utils.

@@ -162,7 +162,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 				$fieldModel = Vtiger_Field_Model::getInstance($field['field'], $moduleModel);
 				$fieldValue = $recordModel->get($field['field']);
 				if (!empty($fieldValue)) {
-					$autoFields[$field['tofield']] = $fieldValue;
+					$autoFields[$field['tofield']] = $fieldModel->getEditViewDisplayValue($fieldValue, $recordModel, true);
 					$autoFields[$field['tofield'] . 'Text'] = $fieldModel->getDisplayValue($fieldValue, $recordId, $recordModel, true);
 				}
 			}

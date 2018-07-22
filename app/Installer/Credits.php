@@ -110,7 +110,8 @@ class Credits
 				foreach ($yarnFile['lockfileEntries'] as $nameWithVersion => $page) {
 					$isPrefix = strpos($nameWithVersion, '@') === 0;
 					$name = $isPrefix ? '@' : '';
-					$name .= array_shift(explode('@', $isPrefix ? ltrim($nameWithVersion, '@') : $nameWithVersion));
+					$tempName = explode('@', $isPrefix ? ltrim($nameWithVersion, '@') : $nameWithVersion);
+					$name .= array_shift($tempName);
 					$libraries[$name] = self::getLibraryValues($name, $libraryDir);
 					if (empty($libraries[$name]['homepage'])) {
 						$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/$name";
@@ -179,8 +180,7 @@ class Credits
 			$packageFile = $dir . $libraryName . DIRECTORY_SEPARATOR . $file;
 			if (file_exists($packageFile)) {
 				$packageFileContent = \App\Json::decode(file_get_contents($packageFile), true);
-				$license = $packageFileContent['license'] ?? $packageFileContent['licenses'];
-
+				$license = $packageFileContent['license'] ?? '';
 				if ($license) {
 					if (is_array($license)) {
 						if (is_array($license[0]) && isset($license[0]['type'])) {

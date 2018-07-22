@@ -581,12 +581,13 @@ abstract class View extends Base
 					 'intervalForNotificationNumberCheck' => \AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
 					 'fieldsReferencesDependent' => \AppConfig::security('FIELDS_REFERENCES_DEPENDENT'),
 					 'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
+					 'debug' => (bool) \AppConfig::debug('JS_DEBUG'),
 				 ] as $key => $value) {
 			\App\Config::setJsEnv($key, $value);
 		}
 		if (\App\Session::has('ShowAuthy2faModal')) {
 			\App\Config::setJsEnv('ShowAuthy2faModal', \App\Session::get('ShowAuthy2faModal'));
-			if (AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OPTIONAL') {
+			if (\AppConfig::security('USER_AUTHY_MODE') === 'TOTP_OPTIONAL') {
 				\App\Session::delete('ShowAuthy2faModal');
 			}
 		}

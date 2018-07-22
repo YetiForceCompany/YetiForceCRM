@@ -8654,7 +8654,7 @@ td.fieldValue input, td.fieldValue .input-group {
     -moz-box-shadow: 1px 1px 3px #ddd;
     box-shadow: 1px 1px 3px #ddd;
     border-radius: 2px;
-    background: #fff;
+    background: #f8f9fa;
     margin-bottom: 10px;
     padding: 10px 10px;
     -webkit-box-sizing: border-box;
@@ -11069,6 +11069,12 @@ select[readonly], select[disabled] {
   padding-left: 0 !important;
   padding-right: 0 !important; }
 
+.u-w-10per {
+  width: 10%; }
+
+.u-w-30per {
+  width: 30%; }
+
 .u-w-37per {
   width: 37% !important; }
 
@@ -11088,6 +11094,9 @@ select[readonly], select[disabled] {
 
 .u-w-85px {
   width: 85px; }
+
+.u-w-90per {
+  width: 90%; }
 
 .u-min-w-650px {
   min-width: 650px !important; }

@@ -7,15 +7,18 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Cron extends \Tests\Base
+
+namespace Tests\Entity;
+
+class G_Cron extends \Tests\Base
 {
 	/**
 	 * Cron testing.
 	 */
 	public function test()
 	{
-		if (App\Version::compare(PHP_VERSION, '7.1.x')) {
-			unlink('app/SystemWarnings/Security/Dependencies.php');
+		if (\App\Version::compare(PHP_VERSION, '7.1.x')) {
+			\unlink('app/SystemWarnings/Security/Dependencies.php');
 		}
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_cron_task', [
@@ -29,7 +32,7 @@ class Cron extends \Tests\Base
 		foreach ($rows as $value) {
 			$c .= "{$value['modue']} = {$value['rows']}" . PHP_EOL;
 		}
-		file_put_contents('tests/records.log', $c, FILE_APPEND);
+		\file_put_contents('tests/records.log', $c, FILE_APPEND);
 		$this->assertFalse((new \App\Db\Query())->from('vtiger_cron_task')->where(['status' => 2])->exists());
 	}
 

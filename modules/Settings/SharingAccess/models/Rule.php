@@ -361,11 +361,7 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 			$targetType = $relationTypeComponents[1];
 
 			$tableColumnInfo = self::$dataShareTableColArr[$sourceType][$targetType];
-			$tableName = $tableColumnInfo['table'];
-			$sourceColumnName = $tableColumnInfo['source_id'];
-			$targetColumnName = $tableColumnInfo['target_id'];
-
-			$db->createCommand()->delete($tableName, ['shareid' => $ruleId])->execute();
+			$db->createCommand()->delete($tableColumnInfo['table'], ['shareid' => $ruleId])->execute();
 		}
 
 		$sourceId = $this->get('source_id');

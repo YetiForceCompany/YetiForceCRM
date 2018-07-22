@@ -3,7 +3,7 @@
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
 	<div class="tpl-Edit-Field-Date input-group date">
 		<input name="{$FIELD->getColumnName()}{$ROW_NO}" type="text" value="{$FIELD->getEditValue($VALUE)}"
-			   class="form-control {$FIELD->getColumnName()} dateVal {if $FIELD->get('displaytype') != 10}dateField{/if}"
+			   class="form-control {$FIELD->getColumnName()} dateVal {if $FIELD->get('displaytype') != 10}dateFieldInv{/if}"
 			   {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}
 		/>
 		<div class=" input-group-append">

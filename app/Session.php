@@ -21,15 +21,17 @@ class Session
 	 */
 	public static function init()
 	{
+		if (\session_status() === PHP_SESSION_ACTIVE) {
+			return;
+		}
+
 		$driver = \AppConfig::performance('SESSION_DRIVER');
 		if ($driver) {
 			$className = '\App\Session\\' . $driver;
 			static::$pool = new $className();
-			session_set_save_handler(static::$pool, true);
+			\session_set_save_handler(static::$pool, true);
 		}
-		if (session_status() !== PHP_SESSION_ACTIVE) {
-			session_start();
-		}
+		\session_start();
 	}
 
 	/**
@@ -103,7 +105,7 @@ class Session
 	public static function regenerateId($deleteOldSession = false)
 	{
 		if (empty(static::$pool)) {
-			session_regenerate_id($deleteOldSession);
+			\session_regenerate_id($deleteOldSession);
 		}
 		static::$pool->regenerateId($deleteOldSession);
 	}
@@ -115,7 +117,7 @@ class Session
 	 */
 	public static function destroy()
 	{
-		session_destroy();
+		\session_destroy();
 	}
 
 	/**

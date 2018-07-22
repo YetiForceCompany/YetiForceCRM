@@ -50,16 +50,17 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	 */
 	public function process(\App\Request $request)
 	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
+		if ($request->isEmpty('mode')) {
+			if (!$this->checkImportStatus($request)) {
+				$this->importBasicStep($request);
+			}
+		} else {
+			$mode = $request->getMode();
 			// Added to check the status of import
 			if ($mode === 'continueImport' || $mode === 'uploadAndParse' || $mode === 'importBasicStep') {
 				$this->checkImportStatus($request);
 			}
 			$this->invokeExposedMethod($mode, $request);
-		} else {
-			$this->checkImportStatus($request);
-			$this->importBasicStep($request);
 		}
 	}
 
@@ -268,7 +269,6 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$user = \App\User::getCurrentUserModel();
-		$mode = $request->getMode();
 		// Check if import on the module is locked
 		$lockInfo = Import_Lock_Action::isLockedForModule($moduleName);
 		if ($lockInfo) {
@@ -277,6 +277,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 				Import_Utils_Helper::showImportLockedError($lockInfo);
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			} else {
+				$mode = $request->isEmpty('mode') ? '' : $request->getMode();
 				if ($mode === 'continueImport' && $user->getId() === $lockedBy) {
 					$importController = new Import_Main_View($request, $user);
 					$importController->triggerImport(true);
@@ -288,19 +289,20 @@ class Vtiger_Import_View extends Vtiger_Index_View
 					}
 					Import_Main_View::showImportStatus($importInfo, $lockOwner);
 				}
-				return;
+				return true;
 			}
 		}
 		if (Import_Module_Model::isUserImportBlocked($user)) {
 			$importInfo = Import_Queue_Action::getUserCurrentImportInfo($user);
 			if ($importInfo !== null) {
 				Import_Main_View::showImportStatus($importInfo, $user);
-				return;
+				return true;
 			} else {
 				Import_Utils_Helper::showImportTableBlockedError($moduleName);
-				return;
+				return true;
 			}
 		}
 		Import_Module_Model::clearUserImportInfo($user);
+		return false;
 	}
 }

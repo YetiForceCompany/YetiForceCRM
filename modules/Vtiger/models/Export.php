@@ -4,8 +4,8 @@
  * Export Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Export_Model extends \App\Base
 {
@@ -300,7 +300,16 @@ class Vtiger_Export_Model extends \App\Base
 					$value = '';
 				}
 			} elseif (in_array($uitype, [302, 309])) {
-				$value = $fieldInfo->getDisplayValue($value);
+				$parts = explode(',', trim($value, ', '));
+				$values = \App\Fields\Tree::getValuesById((int) $fieldInfo->getFieldParams());
+				foreach ($parts as &$part) {
+					foreach ($values as $id => $treeRow) {
+						if ($part === $id) {
+							$part = $treeRow['name'];
+						}
+					}
+				}
+				$value = implode(' |##| ', $parts);
 			}
 			if ($moduleName === 'Documents' && $fieldname === 'description') {
 				$value = strip_tags($value);

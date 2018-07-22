@@ -423,8 +423,8 @@ class Import_Data_Action extends \App\Controller\Action
 		if (empty($ownerId)) {
 			$ownerId = \App\Fields\Owner::getGroupId($fieldValue);
 		}
-		if (empty($ownerId) && isset($defaultFieldValues[$fieldName])) {
-			$ownerId = $defaultFieldValues[$fieldName];
+		if (empty($ownerId) && isset($defaultFieldValues[$fieldInstance->getFieldName()])) {
+			$ownerId = $defaultFieldValues[$fieldInstance->getFieldName()];
 		}
 		if (!empty($ownerId) && \App\Fields\Owner::getType($ownerId) === 'Users' && !array_key_exists($ownerId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->getId())->getAccessibleUsers('', 'owner'))) {
 			$ownerId = '';
@@ -613,14 +613,19 @@ class Import_Data_Action extends \App\Controller\Action
 		if (empty($fieldValue) && isset($defaultFieldValues[$fieldName])) {
 			$fieldValue = $defaultFieldValues[$fieldName];
 		} elseif (!empty($fieldValue)) {
-			$value = trim($fieldValue);
+			$values = explode(' |##| ', trim($fieldValue));
 			$fieldValue = '';
 			$trees = \App\Fields\Tree::getValuesById((int) $fieldInstance->getFieldParams());
 			foreach ($trees as $tree) {
-				if ($tree['name'] === $value) {
-					$fieldValue = $tree['tree'];
-					break;
+				foreach ($values as $value) {
+					if ($tree['name'] === $value) {
+						$fieldValue .= $tree['tree'] . ',';
+						break;
+					}
 				}
+			}
+			if ($fieldValue) {
+				$fieldValue = ',' . $fieldValue;
 			}
 		}
 		return $fieldValue;
@@ -789,12 +794,14 @@ class Import_Data_Action extends \App\Controller\Action
 			if (!$importDataController->initializeImport()) {
 				continue;
 			}
+			App\User::setCurrentUserId($importDataController->user->getId());
 			$importDataController->importData();
 			$importStatusCount = $importDataController->getImportStatusCount();
 			$emailSubject = 'Yetiforce - Scheduled Data Import Report for ' . $importDataController->module;
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('FOR_MODULE', $importDataController->module);
 			$viewer->assign('IMPORT_RESULT', $importStatusCount);
+			$viewer->assign('MODULE', 'Import');
 			$importResult = $viewer->view('Import_Result_Details.tpl', 'Import', true);
 			$importResult = str_replace('align="center"', '', $importResult);
 			$emailData = 'Yetiforce has completed import. <br /><br />' . $importResult . '<br /><br />' .
@@ -821,9 +828,9 @@ class Import_Data_Action extends \App\Controller\Action
 	/**
 	 *  Function to get Record details of import.
 	 *
-	 *  @parms \App\User $user Current Users
-	 * 	@parms string $forModule Imported module
-	 *  @returns array Import Records with the list of skipped records and failed records
+	 * @parms \App\User $user Current Users
+	 * @parms string $forModule Imported module
+	 * @returns array Import Records with the list of skipped records and failed records
 	 */
 	public static function getImportDetails(\App\User $user, $forModule)
 	{
@@ -868,17 +875,23 @@ class Import_Data_Action extends \App\Controller\Action
 	{
 		$temp_status = '';
 		switch ($value) {
-			case 'created': $temp_status = self::IMPORT_RECORD_CREATED;
+			case 'created':
+				$temp_status = self::IMPORT_RECORD_CREATED;
 				break;
-			case 'skipped': $temp_status = self::IMPORT_RECORD_SKIPPED;
+			case 'skipped':
+				$temp_status = self::IMPORT_RECORD_SKIPPED;
 				break;
-			case 'updated': $temp_status = self::IMPORT_RECORD_UPDATED;
+			case 'updated':
+				$temp_status = self::IMPORT_RECORD_UPDATED;
 				break;
-			case 'merged': $temp_status = self::IMPORT_RECORD_MERGED;
+			case 'merged':
+				$temp_status = self::IMPORT_RECORD_MERGED;
 				break;
-			case 'failed': $temp_status = self::IMPORT_RECORD_FAILED;
+			case 'failed':
+				$temp_status = self::IMPORT_RECORD_FAILED;
 				break;
-			case 'none': $temp_status = self::IMPORT_RECORD_NONE;
+			case 'none':
+				$temp_status = self::IMPORT_RECORD_NONE;
 				break;
 		}
 		return $temp_status;

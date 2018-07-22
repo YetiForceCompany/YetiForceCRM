@@ -7,7 +7,10 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Mail extends \Tests\Base
+
+namespace Tests\Entity;
+
+class D_Mail extends \Tests\Base
 {
 	/**
 	 * Load configuration.
