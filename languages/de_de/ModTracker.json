@@ -6,7 +6,7 @@
     "LBL_AT_DELETE": "L\u00f6schen",
     "LBL_AT_TRASH": "in den Papierkorb verschieben",
     "LBL_AT_CREATE": "Erzeugen",
-    "LBL_AT_ACTIVE": "Activate record",
+    "LBL_AT_ACTIVE": "Datensatz aktiveren",
     "LBL_AT_ARCHIVED": "Archive",
     "LBL_AT_LINK": "Verkn\u00fcpfen",
     "LBL_AT_UNLINK": "Verkn\u00fcpfung aufheben",
@@ -16,7 +16,7 @@
     "LBL_AT_DELETE_P": "gel\u00f6scht",
     "LBL_AT_TRASH_P": "In Papierkorb verschoben",
     "LBL_AT_CREATE_P": "erzeugt",
-    "LBL_AT_ACTIVE_P": "Activated record",
+    "LBL_AT_ACTIVE_P": "AKtivierter Datensatz",
     "LBL_AT_ARCHIVED_P": "Archived",
     "LBL_AT_LINK_P": "verk\u00fcpft",
     "LBL_AT_UNLINK_P": "nicht verkn\u00fcpft",
@@ -38,9 +38,9 @@
     "LBL_DELETED": "gel\u00f6schter Datensatz",
     "LBL_ACTIVE": "wiederhergestellter Datensatz",
     "LBL_ARCHIVED": "archivierter Datensatz",
-    "LBL_TRANSFER_EDIT": "record was changed in the transfer process",
-    "LBL_TRANSFER_DELETE": "record was deleted in the transfer process",
-    "LBL_TRANSFER_UNLINK": "relation was deleted in the transfer process",
-    "LBL_TRANSFER_LINK": "relation was added in the transfer process"
+    "LBL_TRANSFER_EDIT": "Datensatz wurde beim \u00dcbertragungsprozess ge\u00e4ndert",
+    "LBL_TRANSFER_DELETE": "Datensatz wurde beim \u00dcbertragungsprozess gel\u00f6scht",
+    "LBL_TRANSFER_UNLINK": "Beziehung wurde beim \u00dcbertragungsprozess gel\u00f6scht",
+    "LBL_TRANSFER_LINK": "Beziehung wurde beim \u00dcbertragungsprozess hinzugef\u00fcgt"
   }
 }
