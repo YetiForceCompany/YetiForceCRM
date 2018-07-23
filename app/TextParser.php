@@ -497,6 +497,11 @@ class TextParser
 				return \AppConfig::main('PORTAL_URL');
 			case 'BaseTimeZone':
 				return Fields\DateTime::getTimeZone();
+			case 'UserTimeZone':
+				if (!\is_object($user = \Users_Privileges_Model::getCurrentUserPrivilegesModel())) {
+					return '';
+				}
+				return $user->get('time_zone');
 		}
 		return $key;
 	}
