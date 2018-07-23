@@ -123,7 +123,7 @@ class Project_Gantt_Model
 	 */
 	private function calculateDuration($startDateStr, $endDateStr)
 	{
-		return (int) (new DateTime($startDateStr))->diff(new DateTime($endDateStr))->format('%d');
+		return (int) (new DateTime($startDateStr))->diff(new DateTime($endDateStr), true)->format('%a');
 	}
 
 	/**
