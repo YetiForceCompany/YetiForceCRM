@@ -75,9 +75,6 @@
     "LBL_DETAILS": "Szczeg\u00f3\u0142y",
     "skipped": "Pomini\u0119te rekordy",
     "failed": "Niepoprawne rekordy",
-    "LBL_SELECT_FILE": "Wybierz plik do zaimportowania",
-    "LBL_CRON_COMPLETED_IMPORT": "Zako\u0144czono import rekord\u00f3w",
-    "LBL_CRON_EMAIL_SUBJECT": "Yetiforce - Zaplanowany raport importowania danych dla modu\u0142u %s",
-    "LBL_CRON_EMAIL_FOOTER": "Przejd\u017a do odpowiedniego modu\u0142u by sprawdzi\u0107 rezultat importu oraz poprawno\u015b\u0107 danych"
+    "LBL_SELECT_FILE": "Wybierz plik do zaimportowania"
   }
 }
