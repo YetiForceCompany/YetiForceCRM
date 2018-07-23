@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<form id="pdfExportModal" action="index.php?module={$MODULE_NAME}&action=PDF&mode=generate" target="_blank" method="POST">
+	<form id="pdfExportModal" class="tpl-Vtiger-ExportPDF" action="index.php?module={$MODULE_NAME}&action=PDF&mode=generate" target="_blank" method="POST">
 		<div class="modal-header">
 			<h5 class="modal-title"><span class="fas fa-file-excel mr-1"></span>{\App\Language::translate('LBL_GENERATE_PDF_FILE', $MODULE_NAME)}</h5>
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -22,11 +22,11 @@
 				<div class="card-body">
 					{foreach from=$TEMPLATES item=TEMPLATE}
 						<div class="form-group row">
-							<label class="col-sm-6 col-form-label text-right pt-0" for="pdfTpl{$TEMPLATE->getId()}">
-								{$TEMPLATE->get('primary_name')}<br />
-								<span class="secondaryName">{$TEMPLATE->get('secondary_name')}</span>
+							<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
+								{$TEMPLATE->get('primary_name')} &nbsp;
+								[<span class="secondaryName">{$TEMPLATE->get('secondary_name')}</span>]
 							</label>
-							<div class="col-sm-6">
+							<div class="col-sm-1">
 								<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
 							</div>
 						</div>
