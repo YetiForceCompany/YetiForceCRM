@@ -85,11 +85,11 @@ class TextParser extends \Tests\Base
 	 */
 	public function testGeneralPlaceholders()
 	{
-		$this->assertSame('+ ' . \date('Y-m-d') . ' +', static::$testInstanceClean
+		$this->assertSame('+ ' . (new \DateTimeField(null))->getDisplayDate() . ' +', static::$testInstanceClean
 			->setContent('+ $(general : CurrentDate)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : CurrentDate)$ should return current date');
-		$this->assertSame('+ ' . \date('H:i:s') . ' +', static::$testInstanceClean
+		$this->assertSame('+ ' . \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(\date('H:i:s')) . ' +', static::$testInstanceClean
 			->setContent('+ $(general : CurrentTime)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : CurrentTime)$ should return current time');
