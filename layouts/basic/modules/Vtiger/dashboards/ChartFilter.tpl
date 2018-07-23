@@ -14,7 +14,7 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<form class="form-horizontal validateForm" method="post" action="javascript:;">
+					<form class="form-horizontal validateForm u-word-break-all" method="post" action="javascript:;">
 						<div class="modal-body">
 							<input type="hidden" name="module" value="{$MODULE}"/>
 							<input type="hidden" name="action" value="MassSave"/>
@@ -28,9 +28,9 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
-                      <span class="redColor">*</span>{\App\Language::translate('LBL_SELECT_CHART','Home')}
-                    </td>
+										<td class="fieldLabel alignMiddle textAlignCenter">
+											<span class="redColor">*</span>{\App\Language::translate('LBL_SELECT_CHART','Home')}
+										</td>
 										<td class="fieldValue">
 											<div class="input-group">
 												<select class="form-control select2" name="chartType">
@@ -66,8 +66,7 @@
 		</div>
 	{elseif $WIZARD_STEP eq 'step2'}
 		<tr class="step2">
-			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
-				<span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_TYPE', 'Home')}</td>
+			<td class="fieldLabel alignMiddle textAlignCenter"><span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_TYPE', 'Home')}</td>
 			<td class="fieldValue">
 				<select class="form-control valueType saveParam" name="valueType" size="2">
 					<option value="count">{\App\Language::translate('LBL_NUMBER_OF_RECORDS','Home')}</option>
@@ -79,8 +78,7 @@
 			</td>
 		</tr>
 		<tr class="step2">
-			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
-				<span class="redColor">*</span>{\App\Language::translate('LBL_FILTER')}</td>
+			<td class="fieldLabel alignMiddle textAlignCenter"><span class="redColor">*</span>{\App\Language::translate('LBL_FILTER')}</td>
 			<td class="fieldValue">
 				<select class="form-control filtersId" {if $CHART_TYPE!=='Funnel'}name="filtersId"
 						multiple{else}name="filtersId[]"{/if}
@@ -100,8 +98,7 @@
 		</tr>
 	{elseif $WIZARD_STEP eq 'step3'}
 		<tr class="step3">
-			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
-				<span class="redColor">*</span>{\App\Language::translate('LBL_GROUP_FIELD','Home')}</td>
+			<td class="fieldLabel alignMiddle textAlignCenter"><span class="redColor">*</span>{\App\Language::translate('LBL_GROUP_FIELD','Home')}</td>
 			<td class="fieldValue">
 				<select class="form-control groupField" name="groupField" size="2">
 					{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
@@ -117,9 +114,7 @@
 		</tr>
 		{if $VALUE_TYPE!=='count'}
 		<tr class="step3">
-			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
-        <span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_FIELD','Home')}
-      </td>
+			<td class="fieldLabel alignMiddle textAlignCenter"><span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_FIELD','Home')}</td>
 			<td class="fieldValue">
 				<select class="form-control saveParam valueField" name="valueField" size="2" data-validation-engine="validate[ required]">
 					{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
@@ -138,8 +133,7 @@
 	{elseif $WIZARD_STEP eq 'step4'}
 		{if $CHART_TYPE == 'Funnel'  && in_array($GROUP_FIELD_MODEL->getFieldDataType(),['currency', 'double', 'percentage', 'integer'])}
 			<tr class="step4">
-				<td class="fieldLabel alignMiddle textAlignCenter"
-					nowrap>{\App\Language::translate('LBL_GROUP_VALUES','Home')}</td>
+				<td class="fieldLabel alignMiddle textAlignCenter">{\App\Language::translate('LBL_GROUP_VALUES','Home')}</td>
 				<td class="fieldValue">
 					<select class="form-control select tags saveParam" multiple name="sectorField" size="2"></select>
 				</td>
@@ -147,8 +141,7 @@
 		{/if}
 		{if in_array($CHART_TYPE,['Bar','Line','Pie','Axis','LinePlain','Donut','Horizontal']) && count($FILTERS)<=1}
 			<tr class="step4">
-				<td class="fieldLabel alignMiddle textAlignCenter"
-					nowrap>{\App\Language::translate('LBL_DIVIDING_FIELD','Home')}</td>
+				<td class="fieldLabel alignMiddle textAlignCenter">{\App\Language::translate('LBL_DIVIDING_FIELD','Home')}</td>
 				<td class="fieldValue">
 					<select class="form-control saveParam" name="dividingField" size="2">
 						<option value="0">{\App\Language::translate('--None--')}</option>
@@ -164,7 +157,7 @@
 				</td>
 			</tr>
 			<tr class="step4">
-				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
+				<td class="fieldLabel alignMiddle textAlignCenter">
 					{\App\Language::translate('LBL_COLORS_FROM_DIVIDING_FIELD','Home')}
 				</td>
 				<td class="fieldValue">
@@ -175,7 +168,7 @@
 		{/if}
 		{if in_array($CHART_TYPE,['Bar','Horizontal','Line','LinePlain'])}
 			<tr class="step4">
-				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>
+				<td class="fieldLabel alignMiddle textAlignCenter">
 					{\App\Language::translate('LBL_CHART_STACKED','Home')}
 				</td>
 				<td class="fieldValue">
@@ -185,16 +178,14 @@
 		{/if}
 		{if count($FILTERS)>1}
 			<tr class="step4">
-				<td class="fieldLabel alignMiddle textAlignCenter"
-					nowrap>{\App\Language::translate('LBL_CHART_COLORS_FROM_FILTER','Home')}</td>
+				<td class="fieldLabel alignMiddle textAlignCenter">{\App\Language::translate('LBL_CHART_COLORS_FROM_FILTER','Home')}</td>
 				<td class="fieldValue">
 					<input type="checkbox" class="form-control saveParam" name="colorsFromFilter" value="1" checked>
 				</td>
 			</tr>
 		{/if}
 		<tr class="step4">
-			<td class="fieldLabel alignMiddle textAlignCenter"
-				nowrap>{\App\Language::translate('LBL_ADDITIONAL_FILTERS','Home')}</td>
+			<td class="fieldLabel alignMiddle textAlignCenter">{\App\Language::translate('LBL_ADDITIONAL_FILTERS','Home')}</td>
 			<td class="fieldValue">
 				<select class="form-control saveParam" name="additionalFiltersFields" size="2" multiple data-maximum-selection-length="{\AppConfig::performance('CHART_ADDITIONAL_FILTERS_LIMIT')}">
 					{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
