@@ -139,12 +139,11 @@
 				</td>
 			</tr>
 		{/if}
-		{if in_array($CHART_TYPE,['Bar','Line','Pie','Axis','LinePlain','Donut','Horizontal']) && count($FILTERS)<=1}
+		{if in_array($CHART_TYPE,['Bar','Line','Pie','LinePlain','Donut','Horizontal']) && count($FILTERS)<=1}
 			<tr class="step4">
 				<td class="fieldLabel alignMiddle textAlignCenter">{\App\Language::translate('LBL_DIVIDING_FIELD','Home')}</td>
 				<td class="fieldValue">
-					<select class="form-control saveParam" name="dividingField" size="2">
-						<option value="0">{\App\Language::translate('--None--')}</option>
+					<select class="form-control saveParam" name="dividingField" size="2" data-allow-clear="true">
 						{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
 							<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
 								{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
