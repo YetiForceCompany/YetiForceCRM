@@ -185,7 +185,7 @@
 					this.checkNode(this.get_node(child), e);
 				});
 			}
-			if (this.areAllChildrenWithStates(obj, [true]) || typeof this.settings.checkbox.cascade === 'undefined' || !this.settings.checkbox.cacade) {
+			if (this.areAllChildrenWithStates(obj, [true]) || typeof this.settings.checkbox.cascade === 'undefined' || !this.settings.checkbox.cascade) {
 				obj.category.checked = true;
 			} else {
 				obj.category.checked = null;
