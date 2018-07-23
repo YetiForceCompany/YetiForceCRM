@@ -16,27 +16,30 @@ class Vtiger_Widget_Model extends \App\Base
 {
 	public function getWidth()
 	{
-		$size = \App\Json::decode(html_entity_decode($this->get('size')));
-		$width = $size['width'];
-		$this->set('width', $width);
-
-		if (empty($width)) {
-			$this->set('width', '4');
+		$defaultSize = 1;
+		$size = $this->get('size');
+		if ($size) {
+			$size = \App\Json::decode(App\Purifier::decodeHtml($size));
+			if (isset($size[App\Session::get('fingerprint')])) {
+				return (int)$size[App\Session::get('fingerprint')]['width'];
+			}
+			return (int)($size['width']);
 		}
-		return $this->get('width');
+		return $defaultSize;
 	}
 
 	public function getHeight()
 	{
-		//Special case for History widget
-		$size = \App\Json::decode(html_entity_decode($this->get('size')));
-		$height = $size['height'];
-		$this->set('height', $height);
-
-		if (empty($height)) {
-			$this->set('height', '1');
+		$defaultSize = 1;
+		$size = $this->get('size');
+		if ($size) {
+			$size = \App\Json::decode(App\Purifier::decodeHtml($size));
+			if (isset($size[App\Session::get('fingerprint')])) {
+				return (int)$size[App\Session::get('fingerprint')]['height'];
+			}
+			return (int)($size['height']);
 		}
-		return $this->get('height');
+		return $defaultSize;
 	}
 
 	public function getPositionCol($default = 0)
@@ -145,6 +148,21 @@ class Vtiger_Widget_Model extends \App\Base
 		$currentPosition = App\Json::decode((new \App\Db\Query())->select(['position'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar());
 		$currentPosition[App\Session::get('fingerprint')] = App\Json::decode($position);
 		\App\Db::getInstance()->createCommand()->update('vtiger_module_dashboard_widgets', ['position' => App\Json::encode($currentPosition)], $where)->execute();
+	}
+
+	public static function updateWidgetSize($size, $linkId, $widgetId, $userId)
+	{
+		if (!$linkId && !$widgetId) {
+			return;
+		}
+		if ($linkId) {
+			$where = ['userid' => $userId, 'linkid' => $linkId];
+		} elseif ($widgetId) {
+			$where = ['userid' => $userId, 'id' => $widgetId];
+		}
+		$currentSize = App\Json::decode((new \App\Db\Query())->select(['size'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar());
+		$currentSize[App\Session::get('fingerprint')] = App\Json::decode($size);
+		\App\Db::getInstance()->createCommand()->update('vtiger_module_dashboard_widgets', ['size' => App\Json::encode($currentSize)], $where)->execute();
 	}
 
 	/**
