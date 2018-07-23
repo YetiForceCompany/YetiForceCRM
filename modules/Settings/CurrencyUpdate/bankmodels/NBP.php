@@ -160,7 +160,7 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 			}
 		}
 		for ($i = 0; $i <= $num; ++$i) {
-			if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
+			if (!isset($xmlObj->pozycja[$i]) && $xmlObj->pozycja[$i]->nazwa_waluty) {
 				continue;
 			}
 			$currency = (string) $xmlObj->pozycja[$i]->kod_waluty;

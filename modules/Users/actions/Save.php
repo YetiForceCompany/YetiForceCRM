@@ -56,10 +56,12 @@ class Users_Save_Action extends Vtiger_Save_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$result = \App\Fields\File::transform($_FILES, true);
-		$_FILES = $result['imagename'];
-		if (!empty($_FILES[0]['name'])) {
-			$request->set('imagename', $_FILES[0]['name']);
+		if ($_FILES) {
+			$result = \App\Fields\File::transform($_FILES, true);
+			$_FILES = $result['imagename'];
+			if (!empty($_FILES[0]['name'])) {
+				$request->set('imagename', $_FILES[0]['name']);
+			}
 		}
 		$moduleName = $request->getModule();
 		$message = '';
