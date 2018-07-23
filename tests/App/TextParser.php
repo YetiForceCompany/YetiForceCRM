@@ -207,7 +207,14 @@ class TextParser extends \Tests\Base
 	 */
 	public function testBasicFieldPlaceholderReplacement()
 	{
-		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
+		if (!(new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => \App\User::getCurrentUserId()])
+			->limit(1)->exists()) {
+		} else {
+			$tmpUser = \App\User::getCurrentUserId();
+			\App\User::setCurrentUserId((new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['not in', 'id', (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees'])
+				->column()])
+				->limit(1)->scalar());
+		}
 		$text = '+ $(employee : last_name)$ +';
 		$this->assertSame('+  +', static::$testInstanceClean
 			->setContent($text)
@@ -217,6 +224,9 @@ class TextParser extends \Tests\Base
 			->setContent($text)
 			->parse()
 			->getContent(), 'Record instance: By default employee last name should be empty');
+		if (isset($tmpUser)) {
+			\App\User::setCurrentUserId($tmpUser);
+		}
 	}
 
 	/**
