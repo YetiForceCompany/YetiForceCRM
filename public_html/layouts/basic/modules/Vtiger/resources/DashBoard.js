@@ -67,7 +67,10 @@ $.Class("Vtiger_DashBoard_Js", {
 	},
 	registerGridster: function () {
 		const thisInstance = this;
-		Vtiger_DashBoard_Js.gridster = this.getContainer().gridstack({verticalMargin: '0.5rem'}).data('gridster');
+		Vtiger_DashBoard_Js.gridster = this.getContainer().gridstack({
+			verticalMargin: '0.5rem',
+			alwaysShowResizeHandle: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+		}).data('gridster');
 		$('.grid-stack').on('change', function (event, ui) {
 			thisInstance.savePositions($('.grid-stack-item'));
 		});
@@ -142,6 +145,7 @@ $.Class("Vtiger_DashBoard_Js", {
 				const widgetContent = widgetContainer.find('.dashboardWidgetContent');
 				widgetContent.css('max-height', adjustedHeight + 'px');
 				app.showNewScrollbar(widgetContent, {wheelPropagation: true});
+				//app.showNewScrollbar(widgetContainer, {wheelPropagation: true, suppressScrollX: true});
 			});
 		}
 	},
