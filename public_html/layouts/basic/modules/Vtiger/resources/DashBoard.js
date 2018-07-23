@@ -69,6 +69,7 @@ $.Class("Vtiger_DashBoard_Js", {
 		const thisInstance = this;
 		Vtiger_DashBoard_Js.gridster = this.getContainer().gridstack().data('gridster');
 		$('.grid-stack').on('change', function (event, ui) {
+			console.log('change');
 			thisInstance.savePositions($('.grid-stack-item'));
 		});
 		// load widgets after gridster initialization to prevent too early lazy loading - visible viewport changes
@@ -80,20 +81,28 @@ $.Class("Vtiger_DashBoard_Js", {
 		}
 	},
 	savePositions: function (widgets) {
-		var widgetRowColPositions = {};
+		var widgetRowColPositions = {},
+			widgetSizes = {};
 		for (var index = 0, len = widgets.length; index < len; ++index) {
 			var widget = $(widgets[index]);
 			widgetRowColPositions[widget.find('.grid-stack-item-content').attr('id')] = JSON.stringify({
 				row: widget.attr('data-gs-y'),
 				col: widget.attr('data-gs-x')
 			});
+			widgetSizes[widget.find('.grid-stack-item-content').attr('id')] = JSON.stringify({
+				width: widget.attr('data-gs-width'),
+				height: widget.attr('data-gs-height')
+			});
 		}
+		console.log(widgetRowColPositions);
 		this.updateLazyWidget();
 		AppConnector.request({
 			module: app.getModuleName(),
 			action: 'SaveWidgetPositions',
-			'positionsmap': widgetRowColPositions
+			'position': widgetRowColPositions,
+			'size': widgetSizes
 		});
+		console.log(widgetSizes);
 	},
 	updateLazyWidget() {
 		const scrollTop = $('.mainBody').scrollTop();
