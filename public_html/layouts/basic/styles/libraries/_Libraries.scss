@@ -253,3 +253,14 @@ ul.ui-autocomplete {
 .svg-inline--fa {
 	vertical-align: -0.125em !important;
 }
+
+//-------- gridstack --------//
+
+.tpl-DashBoardContents {
+	margin: 0 calculate-rem(4px);
+}
+
+.grid-stack > .grid-stack-item > .grid-stack-item-content {
+		left: 0.25rem !important;
+		right: 0.25rem !important;
+}
