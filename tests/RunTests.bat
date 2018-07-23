@@ -45,7 +45,7 @@ pause
 exit
 
 :App
-C:\wamp\bin\php\php7.2.3\php.exe C:\www\phpunit.phar --configuration="C:\www\YetiForceCRM\tests\phpunit.xml" --debug --stderr --verbose --testsuite App
+C:\wamp\bin\php\php7.2.3\php.exe C:\www\phpunit.phar --configuration="C:\www\YetiForceCRM\tests\phpunit.xml" --debug --stderr --verbose --testsuite Apps
 echo.
 pause
 exit
