@@ -499,9 +499,9 @@ class TextParser
 				return Fields\DateTime::getTimeZone();
 			case 'UserTimeZone':
 				if (!\is_object($user = \App\User::getCurrentUserModel())) {
-					return '';
+					return \AppConfig::main('default_timezone');
 				}
-				return $user->get('time_zone');
+				return $user->getDetail('time_zone') ? $user->getDetail('time_zone') : \AppConfig::main('default_timezone');
 		}
 		return $key;
 	}
