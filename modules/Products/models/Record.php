@@ -210,11 +210,11 @@ class Products_Record_Model extends Vtiger_Record_Model
 		} else {
 			$status = App\Db::getInstance()->createCommand()
 				->insert('vtiger_pricebookproductrel', [
-						'pricebookid' => $relatedRecordId,
-						'productid' => $this->getId(),
-						'listprice' => $price,
-						'usedcurrency' => $currencyId,
-					])->execute();
+					'pricebookid' => $relatedRecordId,
+					'productid' => $this->getId(),
+					'listprice' => $price,
+					'usedcurrency' => $currencyId,
+				])->execute();
 		}
 		return $status;
 	}
@@ -396,7 +396,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
 		$db = \App\Db::getInstance();
-		$productBaseConvRate = self::getBaseConversionRateForProduct($this->getId(), $this->mode);
+		$productBaseConvRate = self::getBaseConversionRateForProduct($this->getId(), $this->isNew() ? 'new' : 'edit');
 		$currencySet = false;
 		$currencyDetails = vtlib\Functions::getAllCurrency(true);
 		if (!$this->isNew()) {

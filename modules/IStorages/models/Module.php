@@ -41,7 +41,7 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 	public static function setQtyInStock($moduleName, $data, $storageId, $action)
 	{
 		$db = App\Db::getInstance();
-		$productRecords = [];
+		$qtyInStock = $productRecords = [];
 		foreach ($data as $product) {
 			if ($product['qtyparam'] == '1') {
 				// If product was added with diffrent units (pcs not packs)
@@ -55,6 +55,9 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 				$productQty = round($productQty, 3, PHP_ROUND_HALF_UP);
 			} else {
 				$productQty = $product['qty'];
+			}
+			if (!isset($qtyInStock[$product['name']])) {
+				$qtyInStock[$product['name']] = 0;
 			}
 			$qtyInStock[$product['name']] += $productQty;
 		}

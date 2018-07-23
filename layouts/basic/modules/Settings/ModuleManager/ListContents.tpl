@@ -65,18 +65,18 @@
 							<td>
 								{if $LIBRARY['status'] == 1}
 									<span class="badge badge-success bigLabel">
-										{\App\Language::translate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<span class="far fa-check-circle"></span>
+										{\App\Language::translate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}
+										<span class="far fa-check-circle ml-1"></span>
 									</span>
 								{elseif $LIBRARY['status'] == 2}
 									<span class="badge badge-warning bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_NEEDS_UPDATING', $QUALIFIED_MODULE)}
-										<span class="fas fa-info-circle"></span>
+										<span class="fas fa-info-circle ml-1"></span>
 									</span>
 								{else}
 									<span class="badge badge-danger bigLabel">
-										{\App\Language::translate('LBL_LIBRARY_NO_DOWNLOAD', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<span class="fas fa-ban"></span>
+										{\App\Language::translate('LBL_LIBRARY_NO_DOWNLOAD', $QUALIFIED_MODULE)}
+										<span class="fas fa-ban ml-1"></span>
 									</span>
 								{/if}
 							</td>
