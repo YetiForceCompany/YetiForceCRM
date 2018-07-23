@@ -75,6 +75,9 @@
     "Skip": "\u00dcberspringen",
     "Overwrite": "\u00dcberschreiben",
     "Merge": "Zusammenf\u00fchren",
-    "LBL_SELECT_FILE": "Importdatei w\u00e4hlen"
+    "LBL_SELECT_FILE": "Importdatei w\u00e4hlen",
+    "LBL_CRON_COMPLETED_IMPORT": "End the import of records",
+    "LBL_CRON_EMAIL_SUBJECT": "Yetiforce - Scheduled Data Import Report for %s",
+    "LBL_CRON_EMAIL_FOOTER": "Navigate to respective module, to check import result and/or data integrity"
   }
 }
