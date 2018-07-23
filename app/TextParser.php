@@ -1262,7 +1262,7 @@ class TextParser
 	 *
 	 * @param string $text
 	 *
-	 * @return bool
+	 * @return false|int
 	 */
 	public static function isVaribleToParse($text)
 	{

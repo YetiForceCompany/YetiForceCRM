@@ -78,6 +78,14 @@ class TextParser extends \Tests\Base
 	}
 
 	/**
+	 * Tests static methods.
+	 */
+	public function testStaticMethods()
+	{
+		$this->assertSame(1, \App\TextParser::isVaribleToParse('$(TestGroup : TestVar)$'), 'Clean instance: string should be parseable');
+	}
+
+	/**
 	 * Tests empty content condition.
 	 */
 	public function testUnregisteredPlaceholderFunction()
@@ -111,6 +119,13 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent(), 'Clean instance: $(general : UserTimeZone)$ should return user timezone');
 
+		\App\User::setCurrentUserId(0);
+		$this->assertSame('+ ' . \AppConfig::main('default_timezone') . ' +', static::$testInstanceClean
+			->setContent('+ $(general : UserTimeZone)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(general : UserTimeZone)$ when current user not set/exist should return default timezone');
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
+
 		$this->assertSame('+ ' . \AppConfig::main('site_URL') . ' +', static::$testInstanceClean
 			->setContent('+ $(general : SiteUrl)$ +')
 			->parse()
@@ -120,6 +135,11 @@ class TextParser extends \Tests\Base
 			->setContent('+ $(general : PortalUrl)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : PortalUrl)$ should return portal url');
+
+		$this->assertSame('+ PlaceholderNotExist +', static::$testInstanceClean
+			->setContent('+ $(general : PlaceholderNotExist)$ +')
+			->parse()
+			->getContent(), 'Clean instance: $(general : PlaceholderNotExist)$ should return placeholder var name');
 
 		$this->assertSame('+ Kopiuj adres korespondencji, sekund +', static::$testInstanceClean
 			->setContent('+ $(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$, $(translate : LBL_SECONDS)$ +')
