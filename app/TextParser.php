@@ -400,6 +400,9 @@ class TextParser
 	 */
 	protected function translate($params)
 	{
+		if ($this->withoutTranslations) {
+			return "$(translate : $params)$";
+		}
 		if (strpos($params, '|') === false) {
 			return Language::translate($params);
 		}
@@ -548,11 +551,11 @@ class TextParser
 					}
 					$oldValue = $this->getDisplayValueByField($fieldModel, $oldValue);
 					$currentValue = $this->getDisplayValueByField($fieldModel);
-					if ($this->withoutTranslations !== true) {
+					if ($this->withoutTranslations) {
+						$value .= "\$(translate : $this->moduleName|{$fieldModel->getFieldLabel()})\$ \$(translate : LBL_FROM)\$ $oldValue \$(translate : LBL_TO)\$ " . $currentValue . ($this->isHtml ? '<br />' : PHP_EOL);
+					} else {
 						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ' ';
 						$value .= Language::translate('LBL_FROM') . " $oldValue " . Language::translate('LBL_TO') . " $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
-					} else {
-						$value .= "\$(translate : $this->moduleName|{$fieldModel->getFieldLabel()})\$ \$(translate : LBL_FROM)\$ $oldValue \$(translate : LBL_TO)\$ " . $currentValue . ($this->isHtml ? '<br />' : PHP_EOL);
 					}
 				}
 				return $value;
@@ -568,10 +571,10 @@ class TextParser
 						continue;
 					}
 					$currentValue = $this->getDisplayValueByField($fieldModel);
-					if ($this->withoutTranslations !== true) {
-						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
-					} else {
+					if ($this->withoutTranslations) {
 						$value .= "\$(translate : $this->moduleName|{$fieldModel->getFieldLabel()})\$: $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
+					} else {
+						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
 					}
 				}
 				return $value;
@@ -720,7 +723,11 @@ class TextParser
 		$fields = $relationListView->getHeaders();
 		foreach ($fields as $fieldModel) {
 			if ($fieldModel->isViewable()) {
-				$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $reletedModuleName) . '</th>';
+				if ($this->withoutTranslations) {
+					$headers .= "<th>$(translate : {$fieldModel->getFieldLabel()}|$reletedModuleName)$</th>";
+				} else {
+					$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $reletedModuleName) . '</th>';
+				}
 			}
 		}
 		foreach ($relationListView->getEntries($pagingModel) as $reletedRecordModel) {
@@ -777,7 +784,11 @@ class TextParser
 		$rows = $headers = '';
 		$fields = $listView->getListViewHeaders();
 		foreach ($fields as $fieldModel) {
-			$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
+			if ($this->withoutTranslations) {
+				$headers .= "<th>$(translate : {$fieldModel->getFieldLabel()}|$moduleName)$</th>";
+			} else {
+				$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
+			}
 		}
 		foreach ($listView->getListViewEntries($pagingModel) as $reletedRecordModel) {
 			$rows .= '<tr>';
@@ -819,10 +830,10 @@ class TextParser
 		if ($value === '') {
 			return '';
 		}
-		if ($this->withoutTranslations !== true) {
-			return $fieldModel->getUITypeModel()->getTextParserDisplayValue($value, $recordModel, $params);
+		if ($this->withoutTranslations) {
+			return $this->getDisplayValueByType($value, $recordModel, $fieldModel, $params);
 		}
-		return $this->getDisplayValueByType($value, $recordModel, $fieldModel, $params);
+		return $fieldModel->getUITypeModel()->getTextParserDisplayValue($value, $recordModel, $params);
 	}
 
 	/**
