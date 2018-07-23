@@ -1,29 +1,20 @@
 <?php
 
 /**
- * Inventory UnitPrice Field Class.
+ * Inventory Double Field Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_UnitPrice_InventoryField extends Vtiger_Basic_InventoryField
+class Vtiger_Double_InventoryField extends Vtiger_Basic_InventoryField
 {
-	protected $name = 'UnitPrice';
-	protected $defaultLabel = 'LBL_UNIT_PRICE';
-	protected $defaultValue = 0;
-	protected $columnName = 'price';
-	protected $dbType = 'decimal(28,8) DEFAULT 0';
-	protected $summationValue = false;
+	protected $name = 'Double';
+	protected $defaultLabel = 'LBL_DOUBLE';
+	protected $columnName = 'double';
+	protected $dbType = [\yii\db\Schema::TYPE_DECIMAL, '28,8'];
+	protected $onlyOne = false;
 	protected $maximumLength = '99999999999999999999';
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getDisplayValue($value, $rawText = false)
-	{
-		return CurrencyField::convertToUserFormat($value, null, true);
-	}
 
 	/**
 	 * {@inheritdoc}
@@ -47,5 +38,13 @@ class Vtiger_UnitPrice_InventoryField extends Vtiger_Basic_InventoryField
 		if ($this->maximumLength < $value || -$this->maximumLength > $value) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($value, $rawText = false)
+	{
+		return CurrencyField::convertToUserFormat($value, null, true);
 	}
 }

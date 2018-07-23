@@ -8,5 +8,5 @@
 			{$FIELD->getDisplayValue($VALUE)}
 		</span>
 	{/if}
-	<input name="{$FIELD->getColumnName()}{$ROW_NO}" type="{$INPUT_TYPE}" class="form-control {$FIELD->getColumnName()} integerVal" data-validation-engine="validate[custom[integer],maxSize[{$FIELD->getRangeValues()}]]" value="{$FIELD->getEditValue($VALUE)}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
+	<input name="{$FIELD->getColumnName()}{$ROW_NO}" type="{$INPUT_TYPE}" class="form-control {$FIELD->getColumnName()} integerVal" data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation],maxSize[{$FIELD->getRangeValues()}]]" value="{$FIELD->getEditValue($VALUE)}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
 {/strip}
