@@ -8,7 +8,9 @@
     "LBL_EDIT_RECORD": "Edycja centrali telefonicznej",
     "LBL_URL": "Adres serwera",
     "LBL_USERNAME": "Login",
-    "LBL_PASSWORD": "Has\u0142o"
+    "LBL_PASSWORD": "Has\u0142o",
+    "LBL_SECRET_KEY": "Klucz",
+    "LBL_OUTBOUND_CONTEXT": "Kontekst wyj\u015bcia"
   },
   "js": {
     "JS_SAVE_SUCCESS": "Zapisano zmiany"
