@@ -8,7 +8,9 @@
     "LBL_EDIT_RECORD": "Modificati un telefon de schimb",
     "LBL_URL": "Adresa server",
     "LBL_USERNAME": "Utilizator",
-    "LBL_PASSWORD": "Parola"
+    "LBL_PASSWORD": "Parola",
+    "LBL_SECRET_KEY": "Secret Key",
+    "LBL_OUTBOUND_CONTEXT": "Outbound context"
   },
   "js": {
     "JS_SAVE_SUCCESS": "Modificari salvate"
