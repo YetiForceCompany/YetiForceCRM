@@ -234,6 +234,11 @@ class TextParser extends \Tests\Base
 	public function testTranslate()
 	{
 		$this->assertSame(
+			'+$(general : CurrentDate)$ | ' . \App\Language::translate('LBL_SECONDS') . '==' . \App\Language::translate('LBL_COPY_BILLING_ADDRESS', 'Accounts') . '+',
+			static::$testInstanceClean->setContent('+$(general : CurrentDate)$ | $(translate : LBL_SECONDS)$==$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$+')->parseTranslations()->getContent(),
+			'Clean instance: Only translations should be replaced');
+
+		$this->assertSame(
 			'+' . \App\Language::translate('LBL_SECONDS') . '==' . \App\Language::translate('LBL_COPY_BILLING_ADDRESS', 'Accounts') . '+',
 			static::$testInstanceClean->setContent('+$(translate : LBL_SECONDS)$==$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$+')->parse()->getContent(),
 			'Clean instance: Translations should be equal');
@@ -256,6 +261,34 @@ class TextParser extends \Tests\Base
 			static::$testInstanceRecord->setContent('+$(translate : LBL_SECONDS)$==$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$+')->parse()->getContent(),
 			'Record instance: Translations should be equal');
 		static::$testInstanceRecord->withoutTranslations(false);
+	}
+
+	/**
+	 * Tests general variables array.
+	 */
+	public function testGetGeneralVariable()
+	{
+		$arr = static::$testInstanceCleanModule->getGeneralVariable();
+		$this->assertInternalType('array', $arr, 'Expected array type');
+		$this->assertNotEmpty($arr, 'Expected any general variables data');
+		foreach ($arr as $groupName => $group) {
+			$this->assertInternalType('array', $group, 'Expected array type from group: ' . $groupName);
+			$this->assertNotEmpty($group, 'Expected any data in group: ' . $groupName);
+			if (!empty($group)) {
+				foreach ($group as $placeholder=>$translation) {
+					if (!\strpos($placeholder, ', ')) {
+						$this->assertSame(1, \App\TextParser::isVaribleToParse($placeholder), 'Option: ' . $translation . ', value: ' . $placeholder . ' should be parseable in group: ' . $groupName);
+					} else {
+						$placeholders = \explode(', ', $placeholder);
+						$this->assertInternalType('array', $placeholders, 'Expected array type  in group: ' . $groupName);
+						$this->assertNotEmpty($placeholders, 'Expected any group data in group: ' . $groupName);
+						foreach ($placeholders as $item) {
+							$this->assertSame(1, \App\TextParser::isVaribleToParse($item), 'Option: ' . $translation . ', value: ' . $item . ' should be parseable in group: ' . $groupName);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/**
