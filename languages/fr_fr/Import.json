@@ -75,10 +75,7 @@
     "LBL_DETAILS": "D\u00e9tails",
     "skipped": "Enregistrements non pris en compte",
     "failed": "Enregistrements \u00e9chou\u00e9s",
-    "LBL_SELECT_FILE": "Choississez le fichier \u00e0 importer",
-    "LBL_CRON_COMPLETED_IMPORT": "End the import of records",
-    "LBL_CRON_EMAIL_SUBJECT": "Yetiforce - Scheduled Data Import Report for %s",
-    "LBL_CRON_EMAIL_FOOTER": "Navigate to respective module, to check import result and/or data integrity"
+    "LBL_SELECT_FILE": "Choississez le fichier \u00e0 importer"
   },
   "js": []
 }

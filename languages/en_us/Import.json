@@ -75,9 +75,6 @@
     "LBL_DETAILS": "Details",
     "skipped": "Skipped records",
     "failed": "Failed records",
-    "LBL_SELECT_FILE": "Select file to import",
-    "LBL_CRON_COMPLETED_IMPORT": "End the import of records",
-    "LBL_CRON_EMAIL_SUBJECT": "Yetiforce - Scheduled Data Import Report for %s",
-    "LBL_CRON_EMAIL_FOOTER": "Navigate to respective module, to check import result and/or data integrity"
+    "LBL_SELECT_FILE": "Select file to import"
   }
 }

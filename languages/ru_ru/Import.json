@@ -76,10 +76,7 @@
     "Skip": "\u041f\u0440\u043e\u043f\u0443\u0441\u0442\u0438\u0442\u044c",
     "UTF-8": "UTF-8",
     "csv": "CSV",
-    "LBL_SELECT_FILE": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u0430\u0439\u043b \u0434\u043b\u044f \u0418\u043c\u043f\u043e\u0440\u0442\u0430",
-    "LBL_CRON_COMPLETED_IMPORT": "End the import of records",
-    "LBL_CRON_EMAIL_SUBJECT": "Yetiforce - Scheduled Data Import Report for %s",
-    "LBL_CRON_EMAIL_FOOTER": "Navigate to respective module, to check import result and/or data integrity"
+    "LBL_SELECT_FILE": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u0430\u0439\u043b \u0434\u043b\u044f \u0418\u043c\u043f\u043e\u0440\u0442\u0430"
   },
   "js": []
 }
