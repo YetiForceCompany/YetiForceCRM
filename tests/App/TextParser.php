@@ -106,7 +106,7 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent(), 'Clean instance: $(general : BaseTimeZone)$ should return system timezone');
 		$user = \App\User::getCurrentUserModel();
-		$this->assertSame('+ ' . ($user->time_zone ? $user->time_zone : \AppConfig::main('default_timezone')) . ' +', static::$testInstanceClean
+		$this->assertSame('+ ' . ($user->getDetail('time_zone') ? $user->getDetail('time_zone') : \AppConfig::main('default_timezone')) . ' +', static::$testInstanceClean
 			->setContent('+ $(general : UserTimeZone)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : UserTimeZone)$ should return user timezone');
