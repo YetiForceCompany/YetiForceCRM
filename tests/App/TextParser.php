@@ -29,7 +29,9 @@ class TextParser extends \Tests\Base
 	private static $testInstanceCleanModule;
 
 	/**
-	 * Creating account module record for tests.
+	 * Creating leads module record for tests.
+	 *
+	 * @return \Vtiger_Record_Model
 	 */
 	public static function createLeadRecord()
 	{
