@@ -79,20 +79,20 @@ class Gantt {
 			render(obj) {
 				return `<div class="ganttButtonBar noprint">
 				<div class="buttons">
-					<button class="js-gantt__expand-all-btn button textual icon " title="EXPAND_ALL"><span class="teamworkIcon">6</span></button>
-					<button class="js-gantt__collapse-all-btn button textual icon " title="COLLAPSE_ALL"><span class="teamworkIcon">5</span></button>
+					<button class="js-gantt__expand-all-btn button textual icon " title="${app.vtranslate('JS_GANTT_EXPAND_ALL','Project')}"><span class="teamworkIcon">6</span></button>
+					<button class="js-gantt__collapse-all-btn button textual icon " title="${app.vtranslate('JS_GANTT_COLLAPSE_ALL', 'Project')}"><span class="teamworkIcon">5</span></button>
 					<span class="ganttButtonSeparator"></span>
-					<button class="js-gantt__zoom-out-btn button textual icon " title="zoom out"><span class="teamworkIcon">)</span></button>
-					<button class="js-gantt__zoom-in-btn button textual icon " title="zoom in"><span class="teamworkIcon">(</span></button>
+					<button class="js-gantt__zoom-out-btn button textual icon " title="${app.vtranslate('JS_GANTT_ZOOM_OUT', 'Project')}"><span class="teamworkIcon">)</span></button>
+					<button class="js-gantt__zoom-in-btn button textual icon " title="${app.vtranslate('JS_GANTT_ZOOM_IN', 'Project')}"><span class="teamworkIcon">(</span></button>
 					<span class="ganttButtonSeparator"></span>
-					<button class="js-gantt__resize-0-btn button textual icon"><span class="teamworkIcon">F</span>
+					<button class="js-gantt__resize-0-btn button textual icon" title="${app.vtranslate('JS_GANTT_RESIZE_0', 'Project')}"><span class="teamworkIcon">F</span>
 					</button>
-					<button class="js-gantt__resize-50-btn button textual icon"><span class="teamworkIcon">O</span>
+					<button class="js-gantt__resize-50-btn button textual icon" title="${app.vtranslate('JS_GANTT_RESIZE_50', 'Project')}"><span class="teamworkIcon">O</span>
 					</button>
-					<button class="js-gantt__resize-100-btn button textual icon"><span class="teamworkIcon">R</span>
+					<button class="js-gantt__resize-100-btn button textual icon" title="${app.vtranslate('JS_GANTT_RESIZE_100', 'Project')}"><span class="teamworkIcon">R</span>
 					</button>
 					<span class="ganttButtonSeparator"></span>
-					<button class="js-gantt__front-filter button textual icon"><span class="teamworkIcon">f</span></button>
+					<button class="js-gantt__front-filter button textual icon" title="${app.vtranslate('JS_GANTT_FILTER', 'Project')}"><span class="teamworkIcon">f</span></button>
 				</div>
 			</div>`;
 			}

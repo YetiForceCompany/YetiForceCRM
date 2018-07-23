@@ -78,6 +78,14 @@
     "JS_PROCEED": "Kontynuowa\u0107?",
     "JS_PREV": "Poprzedni",
     "JS_NEXT": "Nast\u0119pny",
-    "JS_HINT_SKIP": "Rozumiem, zamknij to powiadomienie"
+    "JS_HINT_SKIP": "Rozumiem, zamknij to powiadomienie",
+    "JS_GANTT_EXPAND_ALL": "Rozwni\u0144 wszystko",
+    "JS_GANTT_COLLAPSE_ALL": "Zwi\u0144 wszystko",
+    "JS_GANTT_ZOOM_OUT": "Pomniejsz",
+    "JS_GANTT_ZOOM_IN": "Powi\u0119ksz",
+    "JS_GANTT_RESIZE_0": "Poka\u017C tylko wykres",
+    "JS_GANTT_RESIZE_50": "Widok 50 na 50 (legenda / wykres)",
+    "JS_GANTT_RESIZE_100": "Poka\u017C tylko legend\u0119",
+    "JS_GANTT_FILTER": "Filtry"
   }
 }
