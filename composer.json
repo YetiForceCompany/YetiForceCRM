@@ -66,6 +66,7 @@
     "yetiforce/icalendar": "^1.0.1"
   },
   "require-dev": {
+    "facebook/webdriver": "^1.6.0",
     "phpunit/phpunit": "7.*"
   },
   "archive": {

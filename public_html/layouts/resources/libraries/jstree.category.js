@@ -185,7 +185,7 @@
 					this.checkNode(this.get_node(child), e);
 				});
 			}
-			if (this.areAllChildrenWithStates(obj, [true])) {
+			if (this.areAllChildrenWithStates(obj, [true]) || typeof this.settings.checkbox.cascade === 'undefined' || !this.settings.checkbox.cacade) {
 				obj.category.checked = true;
 			} else {
 				obj.category.checked = null;
@@ -223,7 +223,7 @@
 					this.uncheckNode(this.get_node(childId), e, traversing);
 				});
 			}
-			if (this.areAllChildrenWithStates(obj, [false])) {
+			if (this.areAllChildrenWithStates(obj, [false]) || typeof this.settings.checkbox.cascade === 'undefined' || !this.settings.checkbox.cascade) {
 				obj.category.checked = false;
 			} else {
 				obj.category.checked = null;

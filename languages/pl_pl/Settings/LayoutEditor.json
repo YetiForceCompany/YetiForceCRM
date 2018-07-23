@@ -169,6 +169,8 @@
     "LBL_BOOLEAN_DESC": "",
     "LBL_DATE": "Data",
     "LBL_DATE_DESC": "",
+    "LBL_PICKLIST": "Lista wyboru",
+    "LBL_PICKLIST_DESC": "",
     "Image": "Plik graficzny",
     "MultiImage": "Pliki graficzne (wiele)",
     "DateTime": "Pole daty i czasu"

@@ -7,8 +7,8 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 return [
-    // Number of recent chat entries
-    'ROWS_LIMIT' => 20,
-    // What time to update the news, number of seconds
-    'REFRESH_TIME' => 4,
+	// Number of recent chat entries
+	'ROWS_LIMIT' => 20,
+	// What time to update the news, number of seconds
+	'REFRESH_TIME' => 4,
 ];

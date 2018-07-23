@@ -1348,4 +1348,72 @@ class PrivilegeUtil
 		static::getHelpDeskRelatedAccounts($recordId);
 		return true;
 	}
+
+	/**
+	 * Recalculate sharing rules by user id.
+	 *
+	 * @param int $id
+	 */
+	public static function recalculateSharingRulesByUser($id)
+	{
+		$userModel = \App\User::getUserModel($id);
+		$roles = explode('::', $userModel->getParentRolesSeq());
+		$groups = $userModel->getGroups();
+		$sharing = [];
+		foreach (\Settings_SharingAccess_Rule_Model::$dataShareTableColArr['ROLE'] as $key => $item) {
+			$row = (new \App\Db\Query())->select([$item['target_id']])->from($item['table'])->where([$item['source_id'] => $roles])->column();
+			if ($row) {
+				if (!isset($sharing[$key])) {
+					$sharing[$key] = [];
+				}
+				$sharing[$key] = array_merge($sharing[$key], $row);
+			}
+		}
+		foreach (\Settings_SharingAccess_Rule_Model::$dataShareTableColArr['RS'] as $key => $item) {
+			$row = (new \App\Db\Query())->select([$item['target_id']])->from($item['table'])->where([$item['source_id'] => $roles])->column();
+			if ($row) {
+				if (!isset($sharing[$key])) {
+					$sharing[$key] = [];
+				}
+				$sharing[$key] = array_merge($sharing[$key], $row);
+			}
+		}
+		if ($groups) {
+			foreach (\Settings_SharingAccess_Rule_Model::$dataShareTableColArr['GRP'] as $key => $item) {
+				$row = (new \App\Db\Query())->select([$item['target_id']])->from($item['table'])->where([$item['source_id'] => $groups])->column();
+				if ($row) {
+					if (!isset($sharing[$key])) {
+						$sharing[$key] = [];
+					}
+					$sharing[$key] = array_merge($sharing[$key], $row);
+				}
+			}
+		}
+		$users = [[]];
+		foreach ($sharing as $type => $item) {
+			switch ($type) {
+				case 'US':
+					$users[] = array_unique($item);
+					break;
+				case 'GRP':
+					foreach ($item as $grpId) {
+						$users[] = static::getUsersByGroup($grpId);
+					}
+					break;
+				case 'ROLE':
+					foreach ($item as $roleId) {
+						$users[] = static::getUsersByRole($roleId);
+					}
+					break;
+				case 'RS':
+					foreach ($item as $roleId) {
+						$users[] = static::getUsersByRoleAndSubordinate($roleId);
+					}
+					break;
+			}
+		}
+		foreach (array_unique(array_merge(...$users)) as $userId) {
+			UserPrivilegesFile::createUserSharingPrivilegesfile($userId);
+		}
+	}
 }

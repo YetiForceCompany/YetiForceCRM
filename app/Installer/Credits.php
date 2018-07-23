@@ -35,6 +35,11 @@ class Credits
 		'microplugin' => 'Apache-2.0',
 		'@fortawesome/fontawesome-free-regular' => 'MIT',
 		'@fortawesome/fontawesome-free-solid' => 'MIT',
+		'@fortawesome/fontawesome-free-brands' => 'MIT',
+		'fontawesome-web' => 'MIT',
+		'svg' => 'MIT',
+		'jquery-timers' => 'WTFPL',
+		'bootstrap-tabdrop' => 'Apache-2.0',
 	];
 	/**
 	 * Information about forks CRM.
@@ -105,7 +110,8 @@ class Credits
 				foreach ($yarnFile['lockfileEntries'] as $nameWithVersion => $page) {
 					$isPrefix = strpos($nameWithVersion, '@') === 0;
 					$name = $isPrefix ? '@' : '';
-					$name .= array_shift(explode('@', $isPrefix ? ltrim($nameWithVersion, '@') : $nameWithVersion));
+					$tempName = explode('@', $isPrefix ? ltrim($nameWithVersion, '@') : $nameWithVersion);
+					$name .= array_shift($tempName);
 					$libraries[$name] = self::getLibraryValues($name, $libraryDir);
 					if (empty($libraries[$name]['homepage'])) {
 						$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/$name";
@@ -174,7 +180,7 @@ class Credits
 			$packageFile = $dir . $libraryName . DIRECTORY_SEPARATOR . $file;
 			if (file_exists($packageFile)) {
 				$packageFileContent = \App\Json::decode(file_get_contents($packageFile), true);
-				$license = $packageFileContent['license'] ?? $packageFileContent['licenses'];
+				$license = $packageFileContent['license'] ?? '';
 				if ($license) {
 					if (is_array($license)) {
 						if (is_array($license[0]) && isset($license[0]['type'])) {
@@ -204,6 +210,11 @@ class Credits
 						$returnLicense = static::$licenses[$libraryName];
 						$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
 					}
+				}
+			} else {
+				if (isset(static::$licenses[$libraryName])) {
+					$returnLicense = static::$licenses[$libraryName];
+					$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
 				}
 			}
 		}

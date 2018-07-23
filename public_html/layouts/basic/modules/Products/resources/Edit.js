@@ -303,7 +303,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 				e.preventDefault();
 				thisInstance.getMoreCurrenciesUI().done(function () {
 					thisInstance.preSaveConfigOfForm(form);
-					form.serialize().submit();
+					form.submit();
 				});
 			} else if (multiCurrencyContent.length > 0) {
 				thisInstance.preSaveConfigOfForm(form);

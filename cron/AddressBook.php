@@ -26,7 +26,7 @@ $rows = (new App\Db\Query())->select(['module_name', 'task'])->from('com_vtiger_
 	->indexBy('module_name')->all();
 $workflows = [];
 foreach ($processOrder as $processModule) {
-	if ($rows[$processModule]) {
+	if (isset($rows[$processModule])) {
 		$workflows[] = $rows[$processModule];
 		unset($rows[$processModule]);
 	}

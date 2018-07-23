@@ -243,6 +243,7 @@ class Picklist
 	public static function getPicklistDependencyDatasource($module)
 	{
 		if (\App\Cache::has('getPicklistDependencyDatasource', $module)) {
+			static::$picklistDependencyFields[$module] = \App\Cache::get('picklistDependencyFields', $module);
 			return \App\Cache::get('getPicklistDependencyDatasource', $module);
 		}
 		$query = (new \App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => \App\Module::getModuleId($module)]);
@@ -276,6 +277,7 @@ class Picklist
 				$picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField] = $pickArray;
 			}
 		}
+		\App\Cache::save('picklistDependencyFields', $module, static::$picklistDependencyFields[$module]);
 		\App\Cache::save('getPicklistDependencyDatasource', $module, $picklistDependencyDatasource);
 		return $picklistDependencyDatasource;
 	}

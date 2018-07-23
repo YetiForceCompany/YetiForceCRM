@@ -48,5 +48,3 @@ yarn-error.log
 .settings/
 *.sublime-workspace
 .babelrc
-build.js
-gulpfile.js

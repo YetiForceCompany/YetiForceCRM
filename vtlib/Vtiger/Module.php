@@ -192,7 +192,8 @@ class Module extends ModuleBasic
 						'<entityfieldlabel>' => $entityField->label,
 						'<entitycolumn>' => $entityField->column,
 						'<entityfieldname>' => $entityField->name,
-						'_ModuleName_' => $this->name,
+						 '_ModuleName_' => $this->name,
+						'<_baseTableName_>' => 'u_' . (\App\Db::getInstance()->getConfig('base')['tablePrefix']) . strtolower($this->name),
 					];
 					foreach ($replacevars as $key => $value) {
 						$fileContent = str_replace($key, addslashes($value), $fileContent);

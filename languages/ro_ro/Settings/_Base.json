@@ -151,7 +151,7 @@
     "LBL_SECURITY_MANAGEMENT": "Securitate",
     "LBL_MAIL_TOOLS": "Unelte Email",
     "LBL_PASSWORD_CONF": "Parole - Configurare",
-    "LBL_2FA_CONF": "Two-factor authentication",
+    "LBL_2FA_CONF": "Multi-factor authentication",
     "LBL_PASSWORD_DESCRIPTION": "Setati complexitatea parolei pentru utilizatorii software-ului",
     "LBL_LOGS_MANAGEMENT": "Jurnale",
     "LBL_ARRANGE_RELATED_TABS": "Aranjati filele legate",

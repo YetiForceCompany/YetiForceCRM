@@ -21,14 +21,11 @@ class Install_InitSchema_Model
 		$this->db = \App\Db::getInstance();
 		$this->initializeDatabase($this->sql_directory, ['scheme', 'data']);
 		$this->setDefaultUsersAccess();
-		$currencyName = $_SESSION['config_file_info']['currency_name'];
-		$currencyCode = $_SESSION['config_file_info']['currency_code'];
-		$currencySymbol = $_SESSION['config_file_info']['currency_symbol'];
 		$this->db->createCommand()
 			->update('vtiger_currency_info', [
-				'currency_name' => $currencyName,
-				'currency_code' => $currencyCode,
-				'currency_symbol' => $currencySymbol
+				'currency_name' => $_SESSION['config_file_info']['currency_name'],
+				'currency_code' => $_SESSION['config_file_info']['currency_code'],
+				'currency_symbol' => $_SESSION['config_file_info']['currency_symbol']
 			])->execute();
 		$this->db->createCommand()
 			->update('vtiger_version', [

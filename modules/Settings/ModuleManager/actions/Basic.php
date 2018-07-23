@@ -47,7 +47,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 	public function checkModuleName(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleName = $request->get('moduleName');
+		$moduleName = ucfirst($request->get('moduleName'));
 		$module = vtlib\Module::getInstance($moduleName);
 		if ($module) {
 			$result = ['success' => false, 'text' => \App\Language::translate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName)];

@@ -339,18 +339,22 @@
     "LBL_2FA_DESCRIPTION": "This step confirms that the person who is trying to log in is actually you",
     "LBL_2FA_SECRET_ALREADY_SET": "Private key (TOTP) has been already generated, in order to change it, activate a new key.",
     "FL_AUTHY_METHODS":"2FA authentication method",
+    "FL_LOGIN_METHOD": "Authentication method",
     "PLL_AUTHY_TOTP": "Single-use code (TOTP)",
     "FL_AUTHY_SECRET_TOTP": "Private key (TOTP)",
     "PLL_PASSWORD": "Password",
     "PLL_LDAP": "LDAP",
     "PLL_PASSWORD_2FA": "Password + 2FA",
-    "BTN_MASS_OFF_2FA": "Mass disable 2FA"
+    "BTN_MASS_OFF_2FA": "Mass disable 2FA",
+    "LBL_2FA_TOTP_INFO_IN_DEMO": "In demo mode, 2FA is for preview only."
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "O separador de casas decimais e separador de milhar n\u00e3o podem ser os mesmos",
     "JS_ENTER_CONFIRMATION_PASSWORD": "Por favor, digite confirma\u00e7\u00e3o da senha.",
     "JS_REENTER_PASSWORDS": "Por favor, redigite suas senhas.  Os valores da \\\"nova senha\\\" e \\\"senha de confirma\u00e7\u00e3o\\\" n\u00e3o combinam.",
     "JS_NEW_ACCESS_KEY_REQUESTED": "Enter new access key",
-    "JS_CHANGE_ACCESS_KEY_CONFIRMATION": "New access key was requested. Old access key must be replaced with a new one in all installed extensions. Do you want to continue?"
+    "JS_CHANGE_ACCESS_KEY_CONFIRMATION": "New access key was requested. Old access key must be replaced with a new one in all installed extensions. Do you want to continue?",
+    "JS_2FA_OFF_CONFIRMATION": "Are you sure you want to disable two-factor authentication for this user?",
+    "JS_2FA_OFF_IN_PROGRESS": "Disabling two-factor authentication in progress"
   }
 }

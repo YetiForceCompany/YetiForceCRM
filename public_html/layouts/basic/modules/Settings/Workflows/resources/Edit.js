@@ -139,6 +139,9 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			container = thisInstance.getContainer();
 		}
 		container.on('click', '.getPopupUi', function (e) {
+			if(container.find('[name="execution_condition"]').val() == 6){
+				return false;
+			}
 			var fieldValueElement = jQuery(e.currentTarget);
 			var fieldValue = fieldValueElement.val();
 			var fieldUiHolder = fieldValueElement.closest('.fieldUiHolder');

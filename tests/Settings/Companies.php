@@ -136,6 +136,18 @@ class Companies extends \Tests\Base
 	{
 		$recordModel = Settings_Companies_Record_Model::getInstance(static::$id);
 		$recordModel->delete();
-		$this->assertFalse((new \App\Db\Query())->from('s_#__companies')->where(['id' => static::$id])->exists());
+		$this->assertFalse((new \App\Db\Query())->from('s_#__companies')->where(['id' => static::$id])->exists(), 'Company should not exists');
+	}
+
+	/**
+	 * Testing module model methods.
+	 */
+	public function testModuleModelFunctions()
+	{
+		$columns = Settings_Companies_Module_Model::getColumnNames();
+		$this->assertNotFalse($columns, 'Columns should be not false');
+		$this->assertNotEmpty($columns, 'Columns should be not empty');
+		$this->assertNotEmpty(Settings_Companies_Module_Model::getIndustryList(), 'Industry list should be not empty');
+		$this->assertNotEmpty(Settings_Companies_Module_Model::getAllCompanies(), 'Companies list should be not empty');
 	}
 }

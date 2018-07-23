@@ -63,5 +63,4 @@ $SECURITY_CONFIG = [
 	 * TOTP_OBLIGATORY - It is obligatory.
 	 */
 	'USER_AUTHY_MODE' => 'TOTP_OPTIONAL',
-
 ];

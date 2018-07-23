@@ -7,12 +7,45 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class User extends \Tests\Base
+
+namespace Tests\Entity;
+
+class A_User extends \Tests\Base
 {
 	/**
 	 * User id.
 	 */
 	private static $id;
+	/**
+	 * Demo user record model cache.
+	 *
+	 * @var \Users_Record_Model
+	 */
+	private static $record;
+
+	/**
+	 * Create/return users module record model with demo user.
+	 *
+	 * @return \Users_Record_Model
+	 */
+	public static function createUsersRecord()
+	{
+		if (static::$record) {
+			return static::$record;
+		}
+		$user = \Vtiger_Record_Model::getCleanInstance('Users');
+		$user->set('user_name', 'demo');
+		$user->set('email1', 'demo@yetiforce.com');
+		$user->set('first_name', 'Demo');
+		$user->set('last_name', 'YetiForce');
+		$user->set('user_password', 'demo');
+		$user->set('confirm_password', 'demo');
+		$user->set('roleid', 'H2');
+		$user->set('is_admin', 'on');
+		$user->save();
+		static::$record = $user;
+		return $user;
+	}
 
 	/**
 	 * Testing user creation.
@@ -26,19 +59,8 @@ class User extends \Tests\Base
 		$db->createCommand()->update('vtiger_password', ['val' => 'false'], ['type' => 'numbers'])->execute();
 		$db->createCommand()->update('vtiger_password', ['val' => 'false'], ['type' => 'special'])->execute();
 
-		$user = Vtiger_Record_Model::getCleanInstance('Users');
-		$user->set('user_name', 'demo');
-		$user->set('email1', 'demo@yetiforce.com');
-		$user->set('first_name', 'Demo');
-		$user->set('last_name', 'YetiForce');
-		$user->set('user_password', 'demo');
-		$user->set('confirm_password', 'demo');
-		$user->set('roleid', 'H2');
-		$user->set('is_admin', 'on');
-		$user->save();
-		define('TESTS_USER_ID', $user->getId());
-		App\User::setCurrentUserId(TESTS_USER_ID);
-		$this->assertInternalType('int', TESTS_USER_ID);
+		\App\User::setCurrentUserId(static::createUsersRecord()->getId());
+		$this->assertInternalType('int', static::createUsersRecord()->getId());
 	}
 
 	/**
@@ -46,7 +68,7 @@ class User extends \Tests\Base
 	 */
 	public function testAddUser()
 	{
-		$user = Vtiger_Record_Model::getCleanInstance('Users');
+		$user = \Vtiger_Record_Model::getCleanInstance('Users');
 		$user->set('user_name', 'testuser');
 		$user->set('email1', 'testuser@yetiforce.com');
 		$user->set('first_name', 'Test');
@@ -63,7 +85,7 @@ class User extends \Tests\Base
 		$this->assertSame($row['email1'], 'testuser@yetiforce.com');
 		$this->assertSame($row['first_name'], 'Test');
 		$this->assertSame($row['last_name'], 'YetiForce');
-		$this->assertSame((new App\Db\Query())->select('roleid')->from('vtiger_user2role')->where(['userid' => static::$id])->scalar(), 'H2');
+		$this->assertSame((new \App\Db\Query())->select('roleid')->from('vtiger_user2role')->where(['userid' => static::$id])->scalar(), 'H2');
 	}
 
 	/**
@@ -71,7 +93,7 @@ class User extends \Tests\Base
 	 */
 	public function testEditUser()
 	{
-		$user = Vtiger_Record_Model::getInstanceById(static::$id, 'Users');
+		$user = \Vtiger_Record_Model::getInstanceById(static::$id, 'Users');
 		$this->assertNotFalse($user, 'No user');
 		$user->set('user_name', 'testuseredit');
 		$user->set('first_name', 'Test edit');
@@ -85,7 +107,7 @@ class User extends \Tests\Base
 		$this->assertSame($row['email1'], 'testuser-edit@yetiforce.com');
 		$this->assertSame($row['first_name'], 'Test edit');
 		$this->assertSame($row['last_name'], 'YetiForce edit');
-		$this->assertSame((new App\Db\Query())->select('roleid')->from('vtiger_user2role')->where(['userid' => static::$id])->scalar(), 'H1');
+		$this->assertSame((new \App\Db\Query())->select('roleid')->from('vtiger_user2role')->where(['userid' => static::$id])->scalar(), 'H1');
 	}
 
 	/**
@@ -93,10 +115,10 @@ class User extends \Tests\Base
 	 */
 	public function testDeleteUser()
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \Users_Record_Model::getCurrentUserModel();
 		$this->assertNotFalse($currentUserModel, 'No current user');
-		Users_Record_Model::deleteUserPermanently(static::$id, $currentUserModel->getId());
-		$this->assertFalse((new App\Db\Query())->from('vtiger_users')->where(['id' => static::$id])->exists(), 'The record was not removed from the database ID: ' . static::$id);
+		\Users_Record_Model::deleteUserPermanently(static::$id, $currentUserModel->getId());
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_users')->where(['id' => static::$id])->exists(), 'The record was not removed from the database ID: ' . static::$id);
 	}
 
 	/**
@@ -105,7 +127,7 @@ class User extends \Tests\Base
 	public function testLocksUser()
 	{
 		$param = [['user' => 'H6', 'locks' => ['copy', 'paste']]];
-		$moduleModel = Settings_Users_Module_Model::getInstance();
+		$moduleModel = \Settings_Users_Module_Model::getInstance();
 		$this->assertNotNull($moduleModel, 'Object is null');
 		$moduleModel->saveLocks($param);
 
@@ -113,8 +135,8 @@ class User extends \Tests\Base
 		$locks = $moduleModel->getLocks();
 		$locksRaw = ['H6' => ['copy', 'paste']];
 
-		$this->assertCount(0, array_diff_assoc($locksRaw, $locks), 'Unexpected value in lock array');
-		$this->assertCount(0, array_diff_assoc($locksRaw['H6'], $locks['H6']), 'Unexpected value in lock array');
+		$this->assertCount(0, \array_diff_assoc($locksRaw, $locks), 'Unexpected value in lock array');
+		$this->assertCount(0, \array_diff_assoc($locksRaw['H6'], $locks['H6']), 'Unexpected value in lock array');
 	}
 
 	/**
@@ -123,7 +145,7 @@ class User extends \Tests\Base
 	public function testDelteLocksUser()
 	{
 		$param = '';
-		$moduleModel = Settings_Users_Module_Model::getInstance();
+		$moduleModel = \Settings_Users_Module_Model::getInstance();
 		$this->assertNotNull($moduleModel, 'Object is null');
 		$moduleModel->saveLocks($param);
 

@@ -20,7 +20,6 @@ class Install_ConfigFileUtils_Model
 	private $siteUrl;
 	private $cacheDir;
 	private $vtCharset = 'UTF-8';
-	private $currencyName;
 	private $default_language;
 	private $timezone;
 
@@ -43,9 +42,6 @@ class Install_ConfigFileUtils_Model
 		}
 		if (isset($configFileParameters['site_URL'])) {
 			$this->siteUrl = $configFileParameters['site_URL'];
-		}
-		if (isset($configFileParameters['currency_name'])) {
-			$this->currencyName = $configFileParameters['currency_name'];
 		}
 		if (isset($configFileParameters['vt_charset'])) {
 			$this->vtCharset = $configFileParameters['vt_charset'];
@@ -96,9 +92,6 @@ class Install_ConfigFileUtils_Model
 
 					// replace charset variable
 					$buffer = str_replace('_VT_CHARSET_', $this->vtCharset, $buffer);
-
-					// replace master currency variable
-					$buffer = str_replace('_MASTER_CURRENCY_', $this->currencyName, $buffer);
 
 					// replace the application unique key variable
 					$buffer = str_replace('_VT_APP_UNIQKEY_', sha1(time() + rand(1, 9999999)), $buffer);

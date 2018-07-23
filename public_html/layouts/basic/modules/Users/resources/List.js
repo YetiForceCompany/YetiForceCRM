@@ -189,11 +189,11 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		let url = window.location.href;
 		let listInstance = Settings_Vtiger_List_Js.getInstance();
 		let validationResult = listInstance.checkListRecordSelected();
-		if (validationResult != true) {
+		if (validationResult !== true) {
 			Vtiger_Helper_Js.showConfirmationBox({
 				'message': app.vtranslate('JS_2FA_OFF_CONFIRMATION')
 			}).done(() => {
-				var progressIndicatorElement = jQuery.progressIndicator({
+				let progressIndicatorElement = jQuery.progressIndicator({
 					'message': app.vtranslate('JS_2FA_OFF_IN_PROGRESS'),
 					'position': 'html',
 					'blockInfo': {

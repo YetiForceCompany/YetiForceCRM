@@ -151,7 +151,7 @@
     "LBL_SECURITY_MANAGEMENT": "Seguridad",
     "LBL_MAIL_TOOLS": "Herramientas de correo",
     "LBL_PASSWORD_CONF": "Contrase\u00f1as \u2013 Configuraci\u00f3n",
-    "LBL_2FA_CONF": "Two-factor authentication",
+    "LBL_2FA_CONF": "Multi-factor authentication",
     "LBL_PASSWORD_DESCRIPTION": "Establecer complejidades de la contrase\u00f1a para los usuarios del software",
     "LBL_LOGS_MANAGEMENT": "Registros",
     "LBL_ARRANGE_RELATED_TABS": "Organizar las pesta\u00f1as relacionadas",

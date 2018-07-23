@@ -35,7 +35,7 @@
 							<div class="table-responsive">
 								<table class="table table-bordered" id="mappingToGenerate">
 									<tbody>
-										<tr class="blockHeader">
+										<tr class="listViewHeaders">
 											<th class="sourceModuleName"><b>{\App\Language::translate('SINGLE_'|cat:$SEL_MODULE_MODEL->getName(), $SEL_MODULE_MODEL->getName())}</b></th>
 											<th><b>{\App\Language::translate('LBL_FIELDS_TYPE', $QUALIFIED_MODULE)}</b></th>
 											<th class="targetModuleName"><b>{\App\Language::translate('SINGLE_'|cat:$REL_MODULE_MODEL->getName(), $REL_MODULE_MODEL->getName())}</b></th>

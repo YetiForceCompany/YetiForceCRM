@@ -101,9 +101,6 @@ $default_theme = 'softed';
 // no default_user_name default value
 $default_user_name = '';
 
-//Master currency name
-$currency_name = '_MASTER_CURRENCY_';
-
 // default charset
 // default charset default value = 'UTF-8' or 'ISO-8859-1'
 $default_charset = '_VT_CHARSET_';

@@ -7,7 +7,10 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class RecordActions extends \Tests\Base
+
+namespace Tests\Entity;
+
+class C_RecordActions extends \Tests\Base
 {
 	/**
 	 * Temporary record object.
@@ -17,18 +20,27 @@ class RecordActions extends \Tests\Base
 	protected static $record;
 
 	/**
-	 * Testing the record creation.
+	 * Creating account module record for tests.
 	 */
-	public function testCreateRecord()
+	public static function createAccountRecord()
 	{
-		$record = Vtiger_Record_Model::getCleanInstance('Accounts');
+		if (static::$record) {
+			return static::$record;
+		}
+		$record = \Vtiger_Record_Model::getCleanInstance('Accounts');
 		$record->set('accountname', 'YetiForce Sp. z o.o.');
-		$record->set('assigned_user_id', TESTS_USER_ID);
 		$record->set('legal_form', 'PLL_GENERAL_PARTNERSHIP');
 		$record->save();
-		$this->assertInternalType('int', $record->getId());
 		static::$record = $record;
-		define('ACCOUNT_ID', $record->getId());
+		return $record;
+	}
+
+	/**
+	 * Testing the record creation.
+	 */
+	public static function testCreateRecord()
+	{
+		static::assertInternalType('int', static::createAccountRecord()->getId());
 	}
 
 	/**
@@ -58,9 +70,8 @@ class RecordActions extends \Tests\Base
 	 */
 	public function testEditRecord()
 	{
-		$record = static::$record;
-		$record->set('accounttype', 'Customer');
-		$record->save();
+		static::$record->set('accounttype', 'Customer');
+		static::$record->save();
 		$this->assertTrue((new \App\Db\Query())->from('vtiger_account')->where(['account_type' => 'Customer'])->exists());
 	}
 
@@ -78,10 +89,10 @@ class RecordActions extends \Tests\Base
 	public function testStateRecord()
 	{
 		static::$record->changeState('Trash');
-		$this->assertSame(1, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => ACCOUNT_ID])->scalar());
+		$this->assertSame(1, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => static::$record->getId()])->scalar());
 		static::$record->changeState('Active');
-		$this->assertSame(0, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => ACCOUNT_ID])->scalar());
+		$this->assertSame(0, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => static::$record->getId()])->scalar());
 		static::$record->changeState('Archived');
-		$this->assertSame(2, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => ACCOUNT_ID])->scalar());
+		$this->assertSame(2, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => static::$record->getId()])->scalar());
 	}
 }

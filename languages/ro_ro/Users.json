@@ -338,18 +338,22 @@
     "LBL_2FA_DESCRIPTION": "Acest pas confirma faptul ca persoana care incearca sa se conecteze este de fapt tu",
     "LBL_2FA_SECRET_ALREADY_SET": "Cheia privata (TOTP) a fost deja generata, pentru ao schimba, activati o noua cheie.",
     "FL_AUTHY_METHODS": "Metoda autentificare 2FA",
+    "FL_LOGIN_METHOD": "Authentication method",
     "PLL_AUTHY_TOTP": "Cod cu o singura utilizare (TOTP)",
     "FL_AUTHY_SECRET_TOTP": "Cheie privata (TOTP)",
     "PLL_PASSWORD": "Password",
     "PLL_LDAP": "LDAP",
     "PLL_PASSWORD_2FA": "Password + 2FA",
-    "BTN_MASS_OFF_2FA": "Mass disable 2FA"
+    "BTN_MASS_OFF_2FA": "Mass disable 2FA",
+    "LBL_2FA_TOTP_INFO_IN_DEMO": "In demo mode, 2FA is for preview only."
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Separatorul de zecimale si separatorul de grupuri nu poate fi acelasi.",
     "JS_ENTER_CONFIRMATION_PASSWORD": "Va rugam introduceti confirmarea parolei dvs.",
     "JS_REENTER_PASSWORDS": "Va rugam reintroduceti parolele. Valorile din \\\"Noua parola\\\" si \\\"Confirmarea parolei\\\" nu se potrivesc.",
     "JS_NEW_ACCESS_KEY_REQUESTED": "Introduceti o noua cheie de acces",
-    "JS_CHANGE_ACCESS_KEY_CONFIRMATION": "O noua cheie de acces a fost solicitata. Vechea cheie de acces trebuie inlocuita cu una noua in toate extensiile instalate. Sigur doriti sa continuati?"
+    "JS_CHANGE_ACCESS_KEY_CONFIRMATION": "O noua cheie de acces a fost solicitata. Vechea cheie de acces trebuie inlocuita cu una noua in toate extensiile instalate. Sigur doriti sa continuati?",
+    "JS_2FA_OFF_CONFIRMATION": "Are you sure you want to disable two-factor authentication for this user?",
+    "JS_2FA_OFF_IN_PROGRESS": "Disabling two-factor authentication in progress"
   }
 }

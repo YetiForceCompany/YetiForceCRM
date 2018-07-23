@@ -1037,12 +1037,13 @@ class QueryGenerator
 	{
 		$relatedModule = $relatedInfo['relatedModule'];
 		if (isset($this->relatedQueryFields[$relatedModule][$field->getName()])) {
-			return $this->relatedQueryFields[$relatedModule][$field->getName()];
+			$queryField = clone $this->relatedQueryFields[$relatedModule][$field->getName()];
+			$queryField->setRelated($relatedInfo);
+			return $queryField;
 		}
 		if ($field->getName() === 'id') {
 			$queryField = new QueryField\IdField($this, '');
 			$queryField->setRelated($relatedInfo);
-
 			return $this->relatedQueryFields[$relatedModule][$field->getName()] = $queryField;
 		}
 		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
@@ -1052,7 +1053,6 @@ class QueryGenerator
 		}
 		$queryField = new $className($this, $field);
 		$queryField->setRelated($relatedInfo);
-
 		return $this->relatedQueryFields[$relatedModule][$field->getName()] = $queryField;
 	}
 

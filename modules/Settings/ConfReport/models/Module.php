@@ -74,7 +74,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	private static function getStabilitIniConf()
 	{
 		$directiveValues = [
-			'PHP' => ['recommended' => '7.1.x, 7.1.x, 7.2.x (dev)', 'help' => 'LBL_PHP_HELP_TEXT', 'fn' => 'validatePhp', 'max' => '7.1'],
+			'PHP' => ['recommended' => '7.1.x, 7.2.x (dev)', 'help' => 'LBL_PHP_HELP_TEXT', 'fn' => 'validatePhp'],
 			'error_reporting' => ['recommended' => 'E_ALL & ~E_NOTICE', 'help' => 'LBL_ERROR_REPORTING_HELP_TEXT', 'fn' => 'validateErrorReporting'],
 			'output_buffering' => ['recommended' => 'On', 'help' => 'LBL_OUTPUT_BUFFERING_HELP_TEXT', 'fn' => 'validateOnOffInt'],
 			'max_execution_time' => ['recommended' => '600', 'help' => 'LBL_MAX_EXECUTION_TIME_HELP_TEXT', 'fn' => 'validateGreater'],
@@ -449,8 +449,10 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$cliConf = static::getPhpIniConfCron();
 		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		$params = [
+			'LBL_CRM_VERSION' => \App\Version::get(),
+			'LBL_CRM_DATE' => \App\Version::get('patchVersion'),
 			'LBL_OPERATING_SYSTEM' => \AppConfig::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
-			'LBL_SERVER_SOFTWARE' => $_SERVER['SERVER_SOFTWARE']??'-',
+			'LBL_SERVER_SOFTWARE' => $_SERVER['SERVER_SOFTWARE'] ?? '-',
 			'LBL_TMP_DIR' => App\Fields\File::getTmpPath(),
 			'LBL_CRM_DIR' => ROOT_DIRECTORY,
 			'LBL_PHP_SAPI' => ['www' => $ini['SAPI'], 'cli' => $cliConf ? $cliConf['SAPI'] : ''],
@@ -458,6 +460,9 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'LBL_PHPINI' => ['www' => $ini['INI_FILE'], 'cli' => $cliConf ? $cliConf['INI_FILE'] : ''],
 			'LBL_SPACE' => App\Language::translateSingleMod('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . \vtlib\Functions::showBytes(disk_free_space($dir)) . ', ' . App\Language::translateSingleMod('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . \vtlib\Functions::showBytes(disk_total_space($dir) - disk_free_space($dir)),
 		];
+		if (function_exists('locale_get_default')) {
+			$params['LBL_LOCALE'] = print_r(locale_get_default(), true);
+		}
 		if (!empty($ini['INI_FILES']) || !empty($cliConf['INI_FILES'])) {
 			$params['LBL_PHPINIS'] = ['www' => nl2br($ini['INI_FILES']), 'cli' => $cliConf ? nl2br($cliConf['INI_FILES']) : ''];
 		}
@@ -518,6 +523,13 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				$values[$key] = $iniAll[$key]['local_value'];
 			}
 		}
+		foreach (static::getPerformanceIniConf() as $key => $value) {
+			if (isset($iniAll[$key])) {
+				$values[$key] = $iniAll[$key]['local_value'];
+			} elseif (isset($value['fn'])) {
+				$values[$key] = call_user_func([__CLASS__, $value['fn']], $value);
+			}
+		}
 		$values['PHP'] = PHP_VERSION;
 		$values['SAPI'] = PHP_SAPI;
 		$values['INI_FILE'] = php_ini_loaded_file();
@@ -529,14 +541,14 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Get php.ini configuration from CLI.
 	 *
-	 * @return bool|array
+	 * @return array
 	 */
 	public static function getPhpIniConfCron()
 	{
 		if (file_exists('user_privileges/cron.php')) {
 			return include 'user_privileges/cron.php';
 		}
-		return false;
+		return [];
 	}
 
 	/**
@@ -550,25 +562,43 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (!is_dir($dir)) {
 			mkdir($dir, 0755);
 		}
-		$i = 5000;
-		$p = time();
-		$writeS = microtime(true);
-		for ($index = 0; $index < $i; ++$index) {
-			file_put_contents("{$dir}{$p}{$index}.php", '<?php return [];');
+		$testStartTime = microtime(true);
+		$ram = $cpu = $filesWrite = 0;
+		while ((microtime(true) - $testStartTime) < 1) {
+			file_put_contents("{$dir}{$testStartTime}{$filesWrite}.txt", $testStartTime);
+			$filesWrite++;
 		}
-		$writeE = microtime(true);
 		$iterator = new \DirectoryIterator($dir);
 		$readS = microtime(true);
 		foreach ($iterator as $item) {
-			if (!$item->isDot() && !$item->isDir()) {
-				include $item->getPathname();
+			if ($item->isFile()) {
+				file_get_contents($item->getPathname());
 			}
 		}
-		$readE = microtime(true);
-		$read = $i / ($readE - $readS);
-		$write = $i / ($writeE - $writeS);
+		$filesRead = $filesWrite / (microtime(true) - $readS);
+		$testStartTime = microtime(true);
+		while ((microtime(true) - $testStartTime) < 1) {
+			sha1($cpu);
+			$cpu++;
+		}
+		$testStartTime = microtime(true);
+		$test = [];
+		while ((microtime(true) - $testStartTime) < 1) {
+			$test[] = [[[$ram]]];
+			unset($test);
+			$ram++;
+		}
 		\vtlib\Functions::recurseDelete('cache/speed');
-		return ['FilesRead' => number_format($read, 0, '', ' '), 'FilesWrite' => number_format($write, 0, '', ' ')];
+		$dbs = microtime(true);
+		$conf = \App\Db::getInstance()->createCommand('SELECT BENCHMARK(1000000,1+1);')->execute();
+		$dbe = microtime(true);
+		return [
+			'FilesRead' => (int) $filesRead,
+			'FilesWrite' => $filesWrite,
+			'CPU' => $cpu,
+			'RAM' => $ram,
+			'DB' => (int) (1000000 / ($dbe - $dbs))
+		];
 	}
 
 	/**
@@ -663,14 +693,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function validatePhp($row, $isCli)
 	{
-		try {
-			$newest = static::getNewestPhpVersion($row['max']);
-		} catch (Exception $exc) {
-			$newest = false;
-		}
-		if ($newest) {
-			$row['recommended'] = $newest;
-		}
 		if (version_compare($row['current'], str_replace('x', 0, $row['recommended']), '<')) {
 			$row['incorrect'] = true;
 		}
@@ -717,24 +739,26 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Get actual version of PHP.
 	 *
-	 * @param string $version eg. "5.6", "7.1"
-	 *
-	 * @return string eg. 7.1.12
+	 * @return string[]
 	 */
-	private static function getNewestPhpVersion(string $version)
+	public static function getNewestPhpVersion()
 	{
 		if (!class_exists('Requests') || !\App\RequestUtil::isNetConnection()) {
 			return false;
 		}
-		$resonse = Requests::get('http://php.net/releases/index.php?json&max=10&version=' . $version[0], [], ['timeout' => 1]);
+		$resonse = Requests::get('http://php.net/releases/index.php?json&max=7&version=7', [], ['timeout' => 1]);
 		$data = array_keys((array) \App\Json::decode($resonse->body));
 		natsort($data);
-		foreach (array_reverse($data) as $ver) {
-			if (strpos($ver, $version) === 0) {
-				return $ver;
+		$ver = [];
+		foreach (array_reverse($data) as $row) {
+			$t = explode('.', $row);
+			array_pop($t);
+			$short = implode('.', $t);
+			if (!isset($ver[$short]) && version_compare($short, '7.0', '>') && version_compare($short, '7.3', '<')) {
+				$ver[$short] = $row;
 			}
 		}
-		return false;
+		return $ver;
 	}
 
 	/**
@@ -748,6 +772,59 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		if ($val == 'On' || $val == 1 || stripos($val, 'On') !== false) {
 			return 'On';
+		}
+		return 'Off';
+	}
+
+	public static function getPerformanceIniConf()
+	{
+		$directiveValues = [
+			'Xdebug' => ['fn' => 'checkExtension', 'extension' => 'xdebug'],
+			'OPcache' => ['fn' => 'checOpcache'],
+		];
+		if (extension_loaded('suhosin')) {
+			$directiveValues['suhosin.session.encrypt'] = ['recommended' => 'Off', 'fn' => 'validateOnOff']; //Roundcube
+			$directiveValues['suhosin.request.max_vars'] = ['recommended' => '5000', 'fn' => 'validateGreater'];
+			$directiveValues['suhosin.post.max_vars'] = ['recommended' => '5000', 'fn' => 'validateGreater'];
+			$directiveValues['suhosin.post.max_value_length'] = ['recommended' => '1500000', 'fn' => 'validateGreater'];
+		}
+		return $directiveValues;
+	}
+
+	public static function getPerformanceInfo()
+	{
+		$ini = static::getPhpIniConf();
+		$cliConf = static::getPhpIniConfCron();
+		$directiveValues = [
+			'Xdebug' => [
+				'www' => $ini['Xdebug'],
+				'cli' => $cliConf['Xdebug'] ?? '',
+				'recommended' => 'Off',
+				'incorrect' => ($ini['Xdebug'] !== 'Off') || (isset($cliConf['Xdebug']) && $cliConf['Xdebug'] !== 'Off')
+			],
+			'OPcache' => [
+				'www' => $ini['OPcache'],
+				'cli' => $cliConf['OPcache'] ?? '',
+				'recommended' => 'On',
+				'incorrect' => ($ini['OPcache'] !== 'On') || (isset($cliConf['OPcache']) && $cliConf['Xdebug'] !== 'On')
+			]
+		];
+		return $directiveValues;
+	}
+
+	private static function checkExtension($row)
+	{
+		return extension_loaded($row['extension']) ? 'On' : 'Off';
+	}
+
+	private static function checOpcache($row)
+	{
+		if (function_exists('opcache_get_configuration')) {
+			if (PHP_SAPI === 'cli') {
+				return static::getFlag(ini_get('opcache.enable_cli'));
+			} else {
+				return static::getFlag(ini_get('opcache.enable'));
+			}
 		}
 		return 'Off';
 	}
