@@ -21,20 +21,24 @@ class E_TestModule extends \Tests\Base
 	{
 		$testModule = 'TestModule.zip';
 		try {
-			$url = 'https://tests.yetiforce.com/' . $_SERVER['YETI_KEY'];
-			if (\App\RequestUtil::isNetConnection() && \strpos(\get_headers($url)[0], '200') !== false) {
-				\copy($url, $testModule);
-				(new \vtlib\Package())->import($testModule);
-				$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestData'])->exists());
-				$db = \App\Db::getInstance();
-				$db->createCommand()
-					->update('vtiger_cron_task', [
+			$urlWeb = 'https://tests.yetiforce.com/' . $_SERVER['YETI_KEY'];
+			if (\file_exists('./public_html/_private/TestData.zip')) {
+				$urlFile = './public_html/_private/TestData.zip';
+			} elseif (\App\RequestUtil::isNetConnection() && \strpos(\get_headers($urlWeb)[0], '200') !== false) {
+				$urlFile = $urlWeb;
+			} else {
+				$this->assertTrue(true);
+				return;
+			}
+			\copy($urlFile, $testModule);
+			(new \vtlib\Package())->import($testModule);
+			$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestData'])->exists());
+			$db = \App\Db::getInstance();
+			$db->createCommand()
+				->update('vtiger_cron_task', [
 						'sequence' => 0,
 					], ['name' => 'TestData'])
 					->execute();
-			} else {
-				$this->assertTrue(true);
-			}
 		} catch (\Exception $exc) {
 		}
 	}
