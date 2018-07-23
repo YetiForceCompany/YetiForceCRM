@@ -786,6 +786,9 @@ class Import_Data_Action extends \App\Controller\Action
 		return $statusCount;
 	}
 
+	/**
+	 * Function run scheduled import and send email.
+	 */
 	public static function runScheduledImport()
 	{
 		$scheduledImports = self::getScheduledImport();
@@ -797,19 +800,17 @@ class Import_Data_Action extends \App\Controller\Action
 			App\User::setCurrentUserId($importDataController->user->getId());
 			$importDataController->importData();
 			$importStatusCount = $importDataController->getImportStatusCount();
-			$emailSubject = 'Yetiforce - Scheduled Data Import Report for ' . $importDataController->module;
-			$viewer = new Vtiger_Viewer();
-			$viewer->assign('FOR_MODULE', $importDataController->module);
-			$viewer->assign('IMPORT_RESULT', $importStatusCount);
-			$viewer->assign('MODULE', 'Import');
-			$importResult = $viewer->view('Import_Result_Details.tpl', 'Import', true);
-			$importResult = str_replace('align="center"', '', $importResult);
-			$emailData = 'Yetiforce has completed import. <br /><br />' . $importResult . '<br /><br />' .
-				'Navigate to respective module, to check import result and/or data integrity';
-			\App\Mailer::addMail([
+			\App\Mailer::sendFromTemplate([
 				'to' => [$importDataController->user->getDetail('email1') => $importDataController->user->getName()],
-				'subject' => $emailSubject,
-				'content' => $emailData,
+				'title' => sprintf(App\Language::translate('LBL_CRON_EMAIL_SUBJECT', 'Import'), App\Language::translate($importDataController->module, $importDataController->module)),
+				'template' => 'ImportCron',
+				'imported' => $importStatusCount['IMPORTED'],
+				'total' => $importStatusCount['TOTAL'],
+				'created' => $importStatusCount['CREATED'],
+				'updated' => $importStatusCount['UPDATED'],
+				'merged' => $importStatusCount['MERGED'],
+				'skipped' => $importStatusCount['SKIPPED'],
+				'failed' => $importStatusCount['FAILED'],
 			]);
 			$importDataController->finishImport();
 		}
