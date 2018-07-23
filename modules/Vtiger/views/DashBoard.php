@@ -141,6 +141,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$jsFileNames = [
 			'~libraries/lodash/lodash.js',
+			'~libraries/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js',
 			'~libraries/gridstack/dist/gridstack.js',
 			'~libraries/gridstack/dist/gridstack.jQueryUI.js',
 			'~libraries/chart.js/dist/Chart.js',
