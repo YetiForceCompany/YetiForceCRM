@@ -802,7 +802,6 @@ class Import_Data_Action extends \App\Controller\Action
 			$importStatusCount = $importDataController->getImportStatusCount();
 			\App\Mailer::sendFromTemplate([
 				'to' => [$importDataController->user->getDetail('email1') => $importDataController->user->getName()],
-				'title' => sprintf(App\Language::translate('LBL_CRON_EMAIL_SUBJECT', 'Import'), App\Language::translate($importDataController->module, $importDataController->module)),
 				'template' => 'ImportCron',
 				'imported' => $importStatusCount['IMPORTED'],
 				'total' => $importStatusCount['TOTAL'],
@@ -811,6 +810,7 @@ class Import_Data_Action extends \App\Controller\Action
 				'merged' => $importStatusCount['MERGED'],
 				'skipped' => $importStatusCount['SKIPPED'],
 				'failed' => $importStatusCount['FAILED'],
+				'module' => App\Language::translate($importDataController->module, $importDataController->module)
 			]);
 			$importDataController->finishImport();
 		}

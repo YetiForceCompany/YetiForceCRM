@@ -75,9 +75,6 @@
     "LBL_DETAILS": "Ayr\u0131nt\u0131lar",
     "skipped": "Atlanan kay\u0131tlar",
     "failed": "Ba\u015far\u0131s\u0131z kay\u0131tlar",
-    "LBL_SELECT_FILE": "Al\u0131nacak dosyay\u0131 se\u00e7in",
-    "LBL_CRON_COMPLETED_IMPORT": "End the import of records",
-    "LBL_CRON_EMAIL_SUBJECT": "Yetiforce - Scheduled Data Import Report for %s",
-    "LBL_CRON_EMAIL_FOOTER": "Navigate to respective module, to check import result and/or data integrity"
+    "LBL_SELECT_FILE": "Al\u0131nacak dosyay\u0131 se\u00e7in"
   }
 }
