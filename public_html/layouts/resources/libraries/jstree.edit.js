@@ -16,8 +16,8 @@
 		return;
 	}
 	$.jstree.defaults.edit = {
-		createClass: ' fa-plus-circle',
-		deleteClass: ' fa-times-circle'
+		createClass: ' fas fa-plus-circle',
+		deleteClass: ' fas fa-times-circle'
 	};
 	var _i = document.createElement('I');
 	_i.className = 'jstree-edit [data-fa-i2svg] noAction ';
@@ -28,7 +28,7 @@
 			this.element.on('select_node.jstree', $.proxy(function (obj, data) {
 				var modal = $(data.event.currentTarget).closest('#treePopupContainer');
 				var module = modal.find('#relatedModule').val();
-				if (data.event.target.className.indexOf("jstree-edit") !== -1) {
+				if ($(data.event.target).hasClass("jstree-edit")) {
 					var obj = data.node;
 					if (obj.original.type == 'category') {
 						app.hideModalWindow();
