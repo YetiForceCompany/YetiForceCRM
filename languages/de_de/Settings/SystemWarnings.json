@@ -17,7 +17,7 @@
     "LBL_DATA_SAVE_FAIL": "Es ist ein Fehler beim Sichern aufgetreten, bitte pr\u00fcfen Sie die Protokolle",
     "BTN_SET_IGNORE": "Ignorieren",
     "BTN_REMOVE_IGNORE": "Entfernen von Ignorieren",
-    "LBL_MISSING_LIBRARY": "Fehlende Bibliothek erkannt. Einige Funktionen wurden deaktiviert. Um sie zu aktivieren bitte die Bibliothek herunterladen. Wenn der CRM keine Internetverbindung hat, k\u00f6nnen Sie die Dateien herunterladen oder kopieren Sie sie in Ordner %s .",
+    "LBL_MISSING_LIBRARY": "Fehlende Bibliothek erkannt. Einige Funktionen wurden deaktiviert. Um sie zu aktivieren bitte die Bibliothek herunterladen. Wenn der CRM keine Internetverbindung hat, k\u00f6nnen Sie die Dateien herunterladen oder kopieren Sie sie in Ordner %s",
     "BTN_DOWNLOAD_LIBRARY": "Download Library",
     "LBL_SERVER_HTTPS": "HTTPS Encryption",
     "BTN_CONFIGURE_HTTPS": "Empfohlene Konfiguration",
@@ -25,11 +25,11 @@
     "LBL_DISK_USAGE": "Verf\u00fcgbarer Speicherplatz",
     "LBL_DISK_FULL": "Systemstabilit\u00e4t gef\u00e4hrdet (%s of %s). Es ist kein Speicherplatz mehr frei. Laufwerkspfad: %s",
     "SystemWarnings": "System Warnungen",
-    "BTN_CONFIGURE_ENCRYPTION": "Activate encryption",
-    "Security": "Security",
-    "LBL_VULNERABILITIES_IN_DEPENDENCIES": "Vulnerabilities in libraries",
-    "LBL_VULNERABILITIES_IN_DEPENDENCIES_DESC": "Vulnerabilities in libraries were detected, it is recommended to update them quickly. \r\n Vulnerabilities:",
-    "LBL_MECHANISM_ENCRYPTION": "Encryption mechanism",
-    "LBL_CONFIGURE_ENCRYPTION_DESCRIPTION": "No encryption causes that sensitive data such as passwords to mailboxes and access keys are stored in a public form in the database."
+    "BTN_CONFIGURE_ENCRYPTION": "Verschl\u00fcsselung aktivieren",
+    "Security": "Sicherheit",
+    "LBL_VULNERABILITIES_IN_DEPENDENCIES": "Schwachstellen in Bibliotheken",
+    "LBL_VULNERABILITIES_IN_DEPENDENCIES_DESC": "Schwachstellen in Bibliotheken wurden entdeckt, es ist erforderlich diese schnellstm\u00f6glichst zu aktualisieren:",
+    "LBL_MECHANISM_ENCRYPTION": "Verschl\u00fcsselungs Mechanismus",
+    "LBL_CONFIGURE_ENCRYPTION_DESCRIPTION": "Keine Verschl\u00fcsselung bedeutet, dass sensible Daten wie Passw\u00f6rter oder Zugangsschl\u00fcssel, lesbar in der Datenbank gesichert werden."
   }
 }
