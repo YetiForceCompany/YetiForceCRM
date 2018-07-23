@@ -78,6 +78,26 @@ class TextParser extends \Tests\Base
 	}
 
 	/**
+	 * Tests base variables list.
+	 */
+	public function testGetBaseListVariable()
+	{
+		foreach (static::$testInstanceClean->getBaseListVariable() as $option) {
+			$this->assertSame(1, \App\TextParser::isVaribleToParse($option['key']), 'Option: ' . $option['label'] . ', value: ' . $option['key'] . ' should be parseable');
+		}
+	}
+
+	/**
+	 * Tests related module variables list.
+	 */
+	public function testGetRelatedListVariable()
+	{
+		foreach (static::$testInstanceCleanModule->getRelatedListVariable() as $option) {
+			$this->assertSame(1, \App\TextParser::isVaribleToParse($option['key']), 'Option: ' . $option['label'] . ', value: ' . $option['key'] . ' should be parseable');
+		}
+	}
+
+	/**
 	 * Tests static methods.
 	 */
 	public function testStaticMethods()
