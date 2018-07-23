@@ -10,7 +10,7 @@
 'use strict';
 
 $.Class("Vtiger_DashBoard_Js", {
-	gridster: false,
+	gridstack: false,
 	//static property which will store the instance of dashboard
 	currentInstance: false,
 	addWidget: function (element, url) {
@@ -22,12 +22,12 @@ $.Class("Vtiger_DashBoard_Js", {
 		if ($('ul.widgetsList li').length < 1) {
 			$('ul.widgetsList').prev('button').css('visibility', 'hidden');
 		}
-		var widgetContainer = $('<li class="new dashboardWidget" id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open"></li>');
-		widgetContainer.data('url', url);
+		var widgetContainer = $('<div><div id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open" class="grid-stack-item-content dashboardWidget new"></div></div>');
+		widgetContainer.find('.dashboardWidget').data('url', url);
 		var width = element.data('width');
 		var height = element.data('height');
-		Vtiger_DashBoard_Js.gridster.add_widget(widgetContainer, width, height);
-		Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer);
+		Vtiger_DashBoard_Js.gridstack.addWidget(widgetContainer,0, 0, width, height);
+		Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer.find('.grid-stack-item-content'));
 	},
 	restrictContentDrag: function (container) {
 		container.on('mousedown.draggable', function (e) {
@@ -65,16 +65,16 @@ $.Class("Vtiger_DashBoard_Js", {
 		}
 		return this.instancesCache[id];
 	},
-	registerGridster: function () {
+	registerGridstack: function () {
 		const thisInstance = this;
-		Vtiger_DashBoard_Js.gridster = this.getContainer().gridstack({
+		Vtiger_DashBoard_Js.gridstack = this.getContainer().gridstack({
 			verticalMargin: '0.5rem',
 			alwaysShowResizeHandle: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
-		}).data('gridster');
+		}).data('gridstack');
 		$('.grid-stack').on('change', function (event, ui) {
 			thisInstance.savePositions($('.grid-stack-item'));
 		});
-		// load widgets after gridster initialization to prevent too early lazy loading - visible viewport changes
+		// load widgets after gridstack initialization to prevent too early lazy loading - visible viewport changes
 		this.loadWidgets();
 		// recalculate positions with scrollbars
 		if (this.getContainer().width() !== this.getContainer().parent().width()) {
@@ -100,8 +100,8 @@ $.Class("Vtiger_DashBoard_Js", {
 		AppConnector.request({
 			module: app.getModuleName(),
 			action: 'SaveWidgetPositions',
-			'position': widgetRowColPositions,
-			'size': widgetSizes
+			position: widgetRowColPositions,
+			size: widgetSizes
 		});
 	},
 	updateLazyWidget() {
@@ -145,13 +145,8 @@ $.Class("Vtiger_DashBoard_Js", {
 				const widgetContent = widgetContainer.find('.dashboardWidgetContent');
 				widgetContent.css('max-height', adjustedHeight + 'px');
 				app.showNewScrollbar(widgetContent, {wheelPropagation: true});
-				//app.showNewScrollbar(widgetContainer, {wheelPropagation: true, suppressScrollX: true});
 			});
 		}
-	},
-	gridsterStop: function () {
-		var gridster = Vtiger_DashBoard_Js.gridster;
-
 	},
 	registerRefreshWidget: function () {
 		var thisInstance = this;
@@ -165,9 +160,9 @@ $.Class("Vtiger_DashBoard_Js", {
 	},
 	removeWidget: function () {
 		const thisInstance = this;
-		this.getContainer().on('click', 'li a[name="dclose"]', function (e) {
+		this.getContainer().on('click', '.grid-stack-item a[name="dclose"]', function (e) {
 			var element = $(e.currentTarget);
-			var listItem = $(element).parents('li');
+			var listItem = $(element).parents('.grid-stack-item');
 			var width = listItem.attr('data-sizex');
 			var height = listItem.attr('data-sizey');
 
@@ -185,7 +180,7 @@ $.Class("Vtiger_DashBoard_Js", {
 							parent.remove();
 						});
 						if ($.inArray(widgetName, nonReversableWidgets) == -1) {
-							Vtiger_DashBoard_Js.gridster.remove_widget(element.closest('li'));
+							Vtiger_DashBoard_Js.gridstack.removeWidget(element.closest('.grid-stack-item'));
 							$('.widgetsList').prev('button').css('visibility', 'visible');
 							var data = '<li class="d-flex flex-row-reverse align-items-center">';
 							if (response.result.deleteFromList) {
@@ -704,11 +699,10 @@ $.Class("Vtiger_DashBoard_Js", {
 		});
 	},
 	registerEvents: function () {
-		this.registerGridster();
+		this.registerGridstack();
 		this.registerRefreshWidget();
 		this.removeWidget();
 		this.registerDatePickerHideInitiater();
-		this.gridsterStop();
 		this.registerShowMailBody();
 		this.registerChangeMailUser();
 		this.registerMiniListWidget();

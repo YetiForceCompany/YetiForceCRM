@@ -150,6 +150,14 @@ class Vtiger_Widget_Model extends \App\Base
 		\App\Db::getInstance()->createCommand()->update('vtiger_module_dashboard_widgets', ['position' => App\Json::encode($currentPosition)], $where)->execute();
 	}
 
+	/**
+	 * Update widget size
+	 *
+	 * @param string $size
+	 * @param int $linkId
+	 * @param int $widgetId
+	 * @param int $userId
+	 */
 	public static function updateWidgetSize($size, $linkId, $widgetId, $userId)
 	{
 		if (!$linkId && !$widgetId) {
