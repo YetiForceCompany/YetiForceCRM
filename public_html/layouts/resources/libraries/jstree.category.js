@@ -177,18 +177,22 @@
 			let dom = this.get_node(obj, true);
 			this._data.category.selected.push(obj.id);
 			let cascade = this.settings.checkbox.cascade;
-			if (cascade.indexOf('down') !== -1 && !traversing) {
-				if (this.is_closed(obj)) {
-					this.open_node(obj);
+			if (typeof cascade !== 'undefined' && cascade) {
+				if (cascade.indexOf('down') !== -1 && !traversing) {
+					if (this.is_closed(obj)) {
+						this.open_node(obj);
+					}
+					obj.children.forEach((child) => {
+						this.checkNode(this.get_node(child), e);
+					});
 				}
-				obj.children.forEach((child) => {
-					this.checkNode(this.get_node(child), e);
-				});
-			}
-			if (this.areAllChildrenWithStates(obj, [true]) || typeof this.settings.checkbox.cascade === 'undefined' || !this.settings.checkbox.cascade) {
-				obj.category.checked = true;
+				if (this.areAllChildrenWithStates(obj, [true])) {
+					obj.category.checked = true;
+				} else {
+					obj.category.checked = null;
+				}
 			} else {
-				obj.category.checked = null;
+				obj.category.checked = true;
 			}
 			if (dom && dom.length) {
 				let item = dom.children('.jstree-anchor').find('.jstree-category');
@@ -205,28 +209,34 @@
 					event: e
 				});
 			}
-			if (cascade.indexOf('up') !== -1) {
-				if (obj.parent !== $.jstree.root) {
-					let parent = this.get_node(obj.parent);
-					this.checkNode(parent, e, 'up');
+			if (typeof cascade !== 'undefined' && cascade) {
+				if (cascade.indexOf('up') !== -1) {
+					if (obj.parent !== $.jstree.root) {
+						let parent = this.get_node(obj.parent);
+						this.checkNode(parent, e, 'up');
+					}
 				}
 			}
 		};
 
 		this.uncheckNode = function (obj, e, traversing = false) {
 			let cascade = this.settings.checkbox.cascade;
-			if (cascade.indexOf('down') !== -1 && !traversing) {
-				if (this.is_closed(obj)) {
-					this.open_node(obj);
+			if (typeof cascade !== 'undefined' && cascade) {
+				if (cascade.indexOf('down') !== -1 && !traversing) {
+					if (this.is_closed(obj)) {
+						this.open_node(obj);
+					}
+					obj.children_d.forEach((childId) => {
+						this.uncheckNode(this.get_node(childId), e, traversing);
+					});
 				}
-				obj.children_d.forEach((childId) => {
-					this.uncheckNode(this.get_node(childId), e, traversing);
-				});
-			}
-			if (this.areAllChildrenWithStates(obj, [false]) || typeof this.settings.checkbox.cascade === 'undefined' || !this.settings.checkbox.cascade) {
-				obj.category.checked = false;
+				if (this.areAllChildrenWithStates(obj, [false])) {
+					obj.category.checked = false;
+				} else {
+					obj.category.checked = null;
+				}
 			} else {
-				obj.category.checked = null;
+				obj.category.checked = false;
 			}
 			let dom = this.get_node(obj, true);
 			this._data.category.selected = $.vakata.array_remove_item(this._data.category.selected, obj.id);
@@ -245,10 +255,12 @@
 					event: e
 				});
 			}
-			if (cascade.indexOf('up') !== -1) {
-				if (obj.parent !== $.jstree.root) {
-					let parent = this.get_node(obj.parent);
-					this.uncheckNode(parent, e, 'up');
+			if (typeof cascade !== 'undefined' && cascade) {
+				if (cascade.indexOf('up') !== -1) {
+					if (obj.parent !== $.jstree.root) {
+						let parent = this.get_node(obj.parent);
+						this.uncheckNode(parent, e, 'up');
+					}
 				}
 			}
 		};
