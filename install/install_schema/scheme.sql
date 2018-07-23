@@ -6677,7 +6677,7 @@ CREATE TABLE `vtiger_module_dashboard_widgets` (
   `filterid` varchar(100) DEFAULT NULL,
   `title` varchar(100) DEFAULT NULL,
   `data` text DEFAULT NULL,
-  `size` varchar(50) DEFAULT NULL,
+  `size` text DEFAULT NULL,
   `limit` tinyint(2) DEFAULT NULL,
   `position` text DEFAULT NULL,
   `isdefault` tinyint(1) DEFAULT 0,
