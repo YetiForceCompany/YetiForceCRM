@@ -501,7 +501,7 @@ class TextParser
 			case 'BaseTimeZone':
 				return Fields\DateTime::getTimeZone();
 			case 'UserTimeZone':
-				if (!\is_object($user = \Users_Privileges_Model::getCurrentUserPrivilegesModel())) {
+				if (!\is_object($user = \App\User::getCurrentUserModel())) {
 					return '';
 				}
 				return $user->get('time_zone');
