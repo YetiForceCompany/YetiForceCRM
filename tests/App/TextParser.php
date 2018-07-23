@@ -13,18 +13,26 @@ class TextParser extends \Tests\Base
 {
 	/**
 	 * Test record cache.
+	 *
+	 * @var \Vtiger_Record_Model
 	 */
 	private static $record;
 	/**
 	 * Test record instance.
+	 *
+	 * @var \App\TextParser
 	 */
 	private static $testInstanceRecord;
 	/**
 	 * Test clean instance.
+	 *
+	 * @var \App\TextParser
 	 */
 	private static $testInstanceClean;
 	/**
 	 * Test clean instance with module.
+	 *
+	 * @var \App\TextParser
 	 */
 	private static $testInstanceCleanModule;
 
@@ -97,7 +105,7 @@ class TextParser extends \Tests\Base
 			->setContent('+ $(general : BaseTimeZone)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : BaseTimeZone)$ should return system timezone');
-		$user = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$user = \App\User::getCurrentUserModel();
 		$this->assertSame('+ ' . ($user->time_zone ? $user->time_zone : \AppConfig::main('default_timezone')) . ' +', static::$testInstanceClean
 			->setContent('+ $(general : UserTimeZone)$ +')
 			->parse()
