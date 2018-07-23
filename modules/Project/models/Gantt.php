@@ -459,7 +459,8 @@ class Project_Gantt_Model
 			}
 			$project['end_date'] = $row['actualenddate'];
 			if (empty($project['end_date']) && !empty($row['targetenddate'])) {
-				$project['end_date'] = $row['targetenddate'];
+				$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');
+				$project['end_date'] = date('Y-m-d', $endDate);
 				$project['end'] = strtotime($project['end_date']) * 1000;
 			}
 			$this->tasksById[$row['id']] = $project;
@@ -576,7 +577,7 @@ class Project_Gantt_Model
 				'color' => $row['projectmilestone_status'] ? $this->statusColors['ProjectMilestone']['projectmilestone_status'][$row['projectmilestone_status']] : App\Colors::getRandomColor('projectmilestone_status_' . $row['id']),
 			];
 			if ($row['projectmilestonedate']) {
-				$endDate = strtotime($row['projectmilestonedate']);
+				$endDate = strtotime(date('Y-m-d', strtotime($row['projectmilestonedate'])) . ' +1 days');
 				$milestone['end'] = $endDate * 1000;
 				$milestone['end_date'] = date('Y-m-d', $endDate);
 			}
@@ -619,7 +620,7 @@ class Project_Gantt_Model
 				'normalized_status' => $row['projecttaskstatus'],
 				'status_label' => App\Language::translate($row['projecttaskstatus'], 'ProjectTask'),
 				'color' => $row['projecttaskstatus'] ? $this->statusColors['ProjectTask']['projecttaskstatus'][$row['projecttaskstatus']] : App\Colors::getRandomColor('projecttaskstatus_' . $row['id']),
-				'start_date' => date('d-m-Y', strtotime($row['startdate'])),
+				'start_date' => date('Y-m-d', strtotime($row['startdate'])),
 				'start' => strtotime($row['startdate']) * 1000,
 				'assigned_user_id' => $row['assigned_user_id'],
 				'assigned_user_name' => \App\Fields\Owner::getUserLabel($row['assigned_user_id']),
@@ -632,7 +633,7 @@ class Project_Gantt_Model
 				$task['parent'] = $row['projectmilestoneid'] ? $row['projectmilestoneid'] : $row['projectid'];
 			}
 			$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');
-			$task['end_date'] = date('d-m-Y', $endDate);
+			$task['end_date'] = date('Y-m-d', $endDate);
 			$task['end'] = $endDate * 1000;
 			$task['duration'] = $this->calculateDuration($task['start_date'], $task['end_date']);
 			$taskTime += $row['estimated_work_time'];
