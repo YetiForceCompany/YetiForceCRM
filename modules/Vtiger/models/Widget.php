@@ -16,7 +16,7 @@ class Vtiger_Widget_Model extends \App\Base
 {
 	public function getWidth()
 	{
-		$defaultSize = 1;
+		$defaultSize = 4;
 		$size = $this->get('size');
 		if ($size) {
 			$size = \App\Json::decode(App\Purifier::decodeHtml($size));
@@ -30,7 +30,7 @@ class Vtiger_Widget_Model extends \App\Base
 
 	public function getHeight()
 	{
-		$defaultSize = 1;
+		$defaultSize = 4;
 		$size = $this->get('size');
 		if ($size) {
 			$size = \App\Json::decode(App\Purifier::decodeHtml($size));

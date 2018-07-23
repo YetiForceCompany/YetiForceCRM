@@ -10,7 +10,8 @@
 ************************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-DashBoardContents grid-stack">
+	<div class="tpl-DashBoardContents">
+		<div class="grid-stack">
 			{assign var=COLUMNS value=3}
 			{assign var=ROW value=0}
 			{assign var=COLCOUNT value=0}
@@ -25,16 +26,16 @@
 				{/if}
 				{if $smarty.foreach.count.index > 2}
 					{assign var=ROW value=4}
-					{elseif $smarty.foreach.count.index > 5}
+				{elseif $smarty.foreach.count.index > 5}
 					{assign var=ROW value=8}
-					{elseif $smarty.foreach.count.index > 8}
+				{elseif $smarty.foreach.count.index > 8}
 					{assign var=ROW value=12}
 				{/if}
 				{if $smarty.foreach.count.index == 1 || $smarty.foreach.count.index == 4|| $smarty.foreach.count.index == 7}
 					{assign var=COLCOUNT value=4}
-					{elseif $smarty.foreach.count.index == 2 || $smarty.foreach.count.index == 5|| $smarty.foreach.count.index == 8}
+				{elseif $smarty.foreach.count.index == 2 || $smarty.foreach.count.index == 5|| $smarty.foreach.count.index == 8}
 					{assign var=COLCOUNT value=8}
-					{elseif $smarty.foreach.count.index % 3 == 0}
+				{elseif $smarty.foreach.count.index % 3 == 0}
 					{assign var=COLCOUNT value=0}
 				{/if}
 				<div class="grid-stack-item"
@@ -43,14 +44,16 @@
 					 data-gs-height="{$WIDGET->getHeight()}">
 					<div id="{$WIDGETDOMID}" {if $smarty.foreach.count.index % $COLUMNS == 0 and $smarty.foreach.count.index != 0} {/if}
 
-						class="grid-stack-item-content dashboardWidget dashboardWidget_{$smarty.foreach.count.index}" data-url="{$WIDGET->getUrl()}"
-						data-mode="open" data-name="{$WIDGET->getName()}" data-cache="{$WIDGET->get('cache')}"
-						data-loader="widgetLoader">
+						 class="grid-stack-item-content dashboardWidget dashboardWidget_{$smarty.foreach.count.index}"
+						 data-url="{$WIDGET->getUrl()}"
+						 data-mode="open" data-name="{$WIDGET->getName()}" data-cache="{$WIDGET->get('cache')}"
+						 data-loader="widgetLoader">
 					</div>
 				</div>
 			{/foreach}
-		<input type="hidden" id=row value="{$ROW}"/>
-		<input type="hidden" id=col value="{$COLCOUNT}"/>
+			<input type="hidden" id=row value="{$ROW}"/>
+			<input type="hidden" id=col value="{$COLCOUNT}"/>
+		</div>
 	</div>
 	</div> {*dashboardViewContainer closing tag*}
 {/strip}

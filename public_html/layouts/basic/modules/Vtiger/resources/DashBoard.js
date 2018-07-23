@@ -67,9 +67,8 @@ $.Class("Vtiger_DashBoard_Js", {
 	},
 	registerGridster: function () {
 		const thisInstance = this;
-		Vtiger_DashBoard_Js.gridster = this.getContainer().gridstack().data('gridster');
+		Vtiger_DashBoard_Js.gridster = this.getContainer().gridstack({verticalMargin: '0.5rem'}).data('gridster');
 		$('.grid-stack').on('change', function (event, ui) {
-			console.log('change');
 			thisInstance.savePositions($('.grid-stack-item'));
 		});
 		// load widgets after gridster initialization to prevent too early lazy loading - visible viewport changes
@@ -94,7 +93,6 @@ $.Class("Vtiger_DashBoard_Js", {
 				height: widget.attr('data-gs-height')
 			});
 		}
-		console.log(widgetRowColPositions);
 		this.updateLazyWidget();
 		AppConnector.request({
 			module: app.getModuleName(),
@@ -102,7 +100,6 @@ $.Class("Vtiger_DashBoard_Js", {
 			'position': widgetRowColPositions,
 			'size': widgetSizes
 		});
-		console.log(widgetSizes);
 	},
 	updateLazyWidget() {
 		const scrollTop = $('.mainBody').scrollTop();
