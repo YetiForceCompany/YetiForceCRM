@@ -346,7 +346,7 @@ class TextParser extends \Tests\Base
 	 */
 	public function testGetGeneralVariable()
 	{
-		$arr = static::$testInstanceCleanModule->getGeneralVariable();
+		$arr = \App\TextParser::getInstance('IStorages')->getGeneralVariable();
 		$this->assertInternalType('array', $arr, 'Expected array type');
 		$this->assertNotEmpty($arr, 'Expected any general variables data');
 		foreach ($arr as $groupName => $group) {
