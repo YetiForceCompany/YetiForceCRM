@@ -1266,7 +1266,7 @@ class TextParser
 	 */
 	public static function isVaribleToParse($text)
 	{
-		return preg_match('/^\$\((\w+) : ([,"\+\-\[\]\&\w\s\|]+)\)\$$/', $text);
+		return preg_match('/^\$\((\w+) : ([,."\+\-\[\]\&\w\s\|]+)\)\$$/', $text);
 	}
 
 	/**

@@ -264,6 +264,34 @@ class TextParser extends \Tests\Base
 	}
 
 	/**
+	 * Tests source variables array.
+	 */
+	public function testGetSourceVariable()
+	{
+		$fieldsArr = ['assigned_user_id'];
+		$arr = \App\TextParser::getInstance('Campaigns')->setSourceRecord(\Tests\Entity\C_RecordActions::createLeadRecord()->getId())->getSourceVariable();
+		$this->assertInternalType('array', $arr, 'Expected array type');
+		$this->assertNotEmpty($arr, 'Expected any related variables data');
+		foreach ($arr as $key => $content) {
+			$this->assertInternalType('array', $content, 'Expected array type');
+			$this->assertNotEmpty($content, 'Expected any related variables data');
+			foreach ($content as $group => $data) {
+				$this->assertInternalType('array', $data, 'Expected array type');
+				$this->assertNotEmpty($data, 'Expected any related variables data');
+				if (isset($data['var_value'])) {
+					$this->assertSame(1, \App\TextParser::isVaribleToParse($data['var_value']), 'Option: ' . $data['label'] . ', value: ' . $data['var_value'] . ' should be parseable in group: ' . $group);
+					$this->assertSame(1, \App\TextParser::isVaribleToParse($data['var_label']), 'Option: ' . $data['label'] . ', value: ' . $data['var_label'] . ' should be parseable in group: ' . $group);
+				} else {
+					foreach ($data as $element) {
+						$this->assertSame(1, \App\TextParser::isVaribleToParse($element['var_value']), 'Option: ' . $element['label'] . ', value: ' . $element['var_value'] . ' should be parseable in group: ' . $group);
+						$this->assertSame(1, \App\TextParser::isVaribleToParse($element['var_label']), 'Option: ' . $element['label'] . ', value: ' . $element['var_label'] . ' should be parseable in group: ' . $group);
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * Tests related variables array.
 	 */
 	public function testGetRelatedVariable()
@@ -272,18 +300,18 @@ class TextParser extends \Tests\Base
 		$arr = static::$testInstanceCleanModule->getRelatedVariable();
 		$this->assertInternalType('array', $arr, 'Expected array type');
 		$this->assertNotEmpty($arr, 'Expected any related variables data');
-		foreach ($arr as $key=>$content) {
+		foreach ($arr as $key => $content) {
 			if (!is_array($content) || \in_array($content, $fieldsArr)) {
 				continue;
 			}
 			$this->assertInternalType('array', $content, 'Expected array type');
 			$this->assertNotEmpty($content, 'Expected any related variables data');
-			foreach ($content as $group=>$data) {
+			foreach ($content as $group => $data) {
 				$this->assertInternalType('array', $data, 'Expected array type');
 				$this->assertNotEmpty($data, 'Expected any related variables data');
 				foreach ($data as $element) {
 					$this->assertSame(1, \App\TextParser::isVaribleToParse($element['var_value']), 'Option: ' . $element['label'] . ', value: ' . $element['var_value'] . ' should be parseable in group: ' . $group);
-					//$this->assertSame(1, \App\TextParser::isVaribleToParse($element['var_label']), 'Option: ' . $element['label'] . ', value: ' . $element['var_label'] . ' should be parseable in group: ' . $group);
+					$this->assertSame(1, \App\TextParser::isVaribleToParse($element['var_label']), 'Option: ' . $element['label'] . ', value: ' . $element['var_label'] . ' should be parseable in group: ' . $group);
 				}
 			}
 		}
