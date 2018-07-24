@@ -19,6 +19,6 @@
 	{/if}
 	{assign var="TIME_FORMAT" value=$USER_MODEL->get('hour_format')}
 	<div class="tpl-List-Field-Time picklistSearchField">
-		<input type="text" data-format="{$TIME_FORMAT}" class="form-control clockPicker listSearchContributor" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" value="{$FIELD_VALUE}" name="{$FIELD_MODEL->getFieldName()}" data-fieldinfo='{$FIELD_INFO}' />
+		<input type="text" data-format="{$TIME_FORMAT}" class="form-control clockPicker listSearchContributor" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" value="{$FIELD_VALUE}" name="{$FIELD_MODEL->getFieldName()}" data-fieldinfo='{$FIELD_INFO}' autocomplete="off"/>
 	</div>
 {/strip}
