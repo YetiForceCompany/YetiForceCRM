@@ -272,8 +272,8 @@ inputmask@^4.0:
   resolved "https://github.com/YetiForceCompany/jQuery-Validation-Engine#c186c171d2eb1d344844f8c2bf92f25cd73a6fb5"
 
 jquery-gantt-editor@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/jquery-gantt-editor/-/jquery-gantt-editor-1.0.2.tgz#2748da4927dcda017676297ed84be7eac3e510c6"
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/jquery-gantt-editor/-/jquery-gantt-editor-1.0.3.tgz#5c326c96e01dce9ff38572533abc5e67eaf57f8c"
   dependencies:
     jquery-timers "https://github.com/patryk/jquery.timers"
     svg "https://github.com/kbwood/svg"
