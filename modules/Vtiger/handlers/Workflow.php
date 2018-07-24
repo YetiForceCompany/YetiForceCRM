@@ -67,7 +67,7 @@ class Vtiger_Workflow_Handler
 					$doEvaluate = false;
 					break;
 				case VTWorkflowManager::$ON_DELETE:
-					$doEvaluate = false;
+					$doEvaluate = true;
 					break;
 				case VTWorkflowManager::$TRIGGER:
 					$doEvaluate = false;
