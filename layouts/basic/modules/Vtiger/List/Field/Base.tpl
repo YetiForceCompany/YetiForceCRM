@@ -36,7 +36,7 @@
 				</div>
 			</div>
 		{else}
-			<input type="text" name="{$FIELD_MODEL->getName()}" class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}/>
+			<input type="text" name="{$FIELD_MODEL->getName()}" class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if} autocomplete="off"/>
 		{/if}
     </div>
 {/strip}
