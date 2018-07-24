@@ -501,10 +501,8 @@ class TextParser
 			case 'BaseTimeZone':
 				return Fields\DateTime::getTimeZone();
 			case 'UserTimeZone':
-				if (!\is_object($user = \App\User::getCurrentUserModel())) {
-					return \AppConfig::main('default_timezone');
-				}
-				return $user->getDetail('time_zone') ? $user->getDetail('time_zone') : \AppConfig::main('default_timezone');
+				$userModel = \App\User::getCurrentUserModel();
+				return ($userModel && $userModel->getDetail('time_zone')) ? $userModel->getDetail('time_zone') : \AppConfig::main('default_timezone');
 		}
 		return $key;
 	}
@@ -1266,7 +1264,7 @@ class TextParser
 	 */
 	public static function isVaribleToParse($text)
 	{
-		return preg_match('/^\$\((\w+) : ([,."\+\-\[\]\&\w\s\|]+)\)\$$/', $text);
+		return preg_match('/^\$\((\w+) : ([,"\+\-\[\]\&\w\s\|]+)\)\$$/', $text);
 	}
 
 	/**
