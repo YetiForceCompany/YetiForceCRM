@@ -307,10 +307,28 @@ class TextParser extends \Tests\Base
 			->setContent($text)
 			->parse()
 			->getContent(), 'Clean instance: Employee name should be same as in db');
+		$this->assertSame('+ ' . \Vtiger_Record_Model::getInstanceById($employeeId, 'OSSEmployees')->get('name') . ' +', \App\TextParser::getInstance()
+			->setContent($text)
+			->parse()
+			->getContent(), 'Clean instance: Employee name should be same as in db(cached)');
 
 		if (isset($tmpUser)) {
 			\App\User::setCurrentUserId($tmpUser);
 		}
+	}
+
+	/**
+	 * Testing records list placeholders replacement.
+	 */
+	public function testRecordsListPlaceholdersReplacement()
+	{
+		$text = '$(recordsList : Leads|lead_no,lastname,phone,description||5)$';
+		$result = \App\TextParser::getInstance()
+			->setContent($text)
+			->parse()
+			->getContent();
+		$this->assertNotEmpty($result, 'recordsList should return not empty string');
+		$this->assertNotFalse(strpos($result, 'recordsList'), 'Record list should contain html class recordsList');
 	}
 
 	/**
