@@ -261,10 +261,53 @@ class TextParser extends \Tests\Base
 			->setContent($text)
 			->parse()
 			->getContent(), 'Clean instance: By default employee last name should be empty');
+		$this->assertSame('+  +', static::$parserClean
+			->setContent($text)
+			->parse()
+			->getContent(), 'Clean instance: By default employee last name should be empty(cached)');
 		$this->assertSame('+  +', static::$parserRecord
 			->setContent($text)
 			->parse()
 			->getContent(), 'Record instance: By default employee last name should be empty');
+		if (isset($tmpUser)) {
+			\App\User::setCurrentUserId($tmpUser);
+		}
+		\App\Cache::clear();
+	}
+
+	/**
+	 * Testing Employee placeholders.
+	 */
+	public function testEmployeePlaceholders()
+	{
+		$employeeId = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => \App\User::getCurrentUserId()])
+			->limit(1)->scalar();
+		if (!$employeeId) {
+			$tmpUser = \App\User::getCurrentUserId();
+			$employeeUser = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['in', 'id', (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees'])
+				->column()])
+				->limit(1)->scalar();
+			if (!$employeeUser) {
+				$employeeModel = \Vtiger_Record_Model::getCleanInstance('OSSEmployees');
+				$employeeModel->set('smownerid', $tmpUser);
+				$employeeModel->set('name', 'Test employee');
+				$employeeModel->save();
+				$employeeId = $employeeModel->getId();
+			}
+			if ($employeeUser && $employeeUser !== $tmpUser) {
+				\App\User::setCurrentUserId($employeeUser);
+			} else {
+				unset($tmpUser);
+			}
+
+			\App\Cache::clear();
+		}
+		$text = '+ $(employee : name)$ +';
+		$this->assertSame('+ ' . \Vtiger_Record_Model::getInstanceById($employeeId, 'OSSEmployees')->get('name') . ' +', \App\TextParser::getInstance()
+			->setContent($text)
+			->parse()
+			->getContent(), 'Clean instance: Employee name should be same as in db');
+
 		if (isset($tmpUser)) {
 			\App\User::setCurrentUserId($tmpUser);
 		}
