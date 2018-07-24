@@ -35,7 +35,7 @@ class SharingAccess extends \Tests\Base
 
 		static::$shareId = $ruleModel->get('shareid');
 		static::$relationType = $ruleModel->get('relationtype');
-		$relationTypeComponents = explode('::', static::$relationType);
+		$relationTypeComponents = \explode('::', static::$relationType);
 		$sourceType = $relationTypeComponents[0];
 		$targetType = $relationTypeComponents[1];
 
@@ -117,7 +117,7 @@ class SharingAccess extends \Tests\Base
 
 		$this->assertFalse((new \App\Db\Query())->from($tableName)->where(['shareid' => static::$shareId])->exists(), 'Record id ' . static::$shareId . ' from table ' . $tableName . ' should not exist');
 
-		$relationTypeComponents = explode('::', $ruleModel->get('relationtype'));
+		$relationTypeComponents = \explode('::', $ruleModel->get('relationtype'));
 		$sourceType = $relationTypeComponents[0];
 		$targetType = $relationTypeComponents[1];
 		$tableColumnInfo = \Settings_SharingAccess_Rule_Model::$dataShareTableColArr[$sourceType][$targetType];
