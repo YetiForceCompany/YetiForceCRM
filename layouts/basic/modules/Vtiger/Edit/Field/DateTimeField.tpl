@@ -11,7 +11,7 @@
 			   data-date-format="{$dateFormat}" type="text"
 			   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}
-			   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}/>
+			   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} autocomplete="off"/>
 		<span class="input-group-text u-cursor-pointer">
 			<span class="fas fa-clock"></span>	&nbsp; <span class="far fa-calendar-alt"></span>
 		</span>
