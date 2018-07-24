@@ -40,6 +40,11 @@ class Project_Gantt_Model
 	private $statuses;
 
 	/**
+	 * @var array - without closing value - for JS filter
+	 */
+	private $activeStatuses;
+
+	/**
 	 * Get parent nodes id as associative array [taskId]=>[parentId1,parentId2,...].
 	 *
 	 * @param string|int $parentId
@@ -362,17 +367,26 @@ class Project_Gantt_Model
 		$colors = ['Project' => [], 'ProjectMilestone' => [], 'ProjectTask' => []];
 		$project = array_values(App\Fields\Picklist::getValues('projectstatus'));
 		foreach ($project as $value) {
-			$this->statuses['Project'][] = ['value' => $value['projectstatus'], 'label' => App\Language::translate($value['projectstatus'], 'Project'), 'closing' => in_array($value['projectstatus'], $closingStatuses['Project']['status'])];
+			$this->statuses['Project'][] = $status = ['value' => $value['projectstatus'], 'label' => App\Language::translate($value['projectstatus'], 'Project'), 'closing' => in_array($value['projectstatus'], $closingStatuses['Project']['status'])];
+			if (!$status['closing']) {
+				$this->activeStatuses['Project'][] = $status;
+			}
 			$colors['Project']['projectstatus'][$value['projectstatus']] = \App\Colors::get($value['color'], $value['projectstatus']);
 		}
 		$projectMilestone = array_values(App\Fields\Picklist::getValues('projectmilestone_status'));
 		foreach ($projectMilestone as $value) {
-			$this->statuses['ProjectMilestone'][] = ['value' => $value['projectmilestone_status'], 'label' => App\Language::translate($value['projectmilestone_status'], 'ProjectMilestone'), 'closing' => in_array($value['projectmilestone_status'], $closingStatuses['ProjectMilestone']['status'])];
+			$this->statuses['ProjectMilestone'][] = $status = ['value' => $value['projectmilestone_status'], 'label' => App\Language::translate($value['projectmilestone_status'], 'ProjectMilestone'), 'closing' => in_array($value['projectmilestone_status'], $closingStatuses['ProjectMilestone']['status'])];
+			if (!$status['closing']) {
+				$this->activeStatuses['ProjectMilestone'][] = $status;
+			}
 			$colors['ProjectMilestone']['projectmilestone_status'][$value['projectmilestone_status']] = \App\Colors::get($value['color'], $value['projectmilestone_status']);
 		}
 		$projectTask = array_values(App\Fields\Picklist::getValues('projecttaskstatus'));
 		foreach ($projectTask as $value) {
-			$this->statuses['ProjectTask'][] = ['value' => $value['projecttaskstatus'], 'label' => App\Language::translate($value['projecttaskstatus'], 'ProjectTask'), 'closing' => in_array($value['projecttaskstatus'], $closingStatuses['ProjectTask']['status'])];
+			$this->statuses['ProjectTask'][] = $status = ['value' => $value['projecttaskstatus'], 'label' => App\Language::translate($value['projecttaskstatus'], 'ProjectTask'), 'closing' => in_array($value['projecttaskstatus'], $closingStatuses['ProjectTask']['status'])];
+			if (!$status['closing']) {
+				$this->activeStatuses['ProjectTask'][] = $status;
+			}
 			$colors['ProjectTask']['projecttaskstatus'][$value['projecttaskstatus']] = \App\Colors::get($value['color'], $value['projecttaskstatus']);
 		}
 		$configColors = \AppConfig::module('Project', 'defaultGanttColors');
@@ -498,6 +512,7 @@ class Project_Gantt_Model
 			'cantWriteOnParent' => false,
 			'canAdd' => false,
 			'statuses' => $this->statuses,
+			'activeStatuses' => $this->activeStatuses
 		];
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
 			$response['tasks'] = $this->cleanup($this->flattenRecordTasks($this->tree['children']));
@@ -529,6 +544,7 @@ class Project_Gantt_Model
 			'cantWriteOnParent' => false,
 			'canAdd' => false,
 			'statuses' => $this->statuses,
+			'activeStatuses' => $this->activeStatuses
 		];
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
 			$response['tasks'] = $this->cleanup($this->flattenRecordTasks($this->tree['children']));

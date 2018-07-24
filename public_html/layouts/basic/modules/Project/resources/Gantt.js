@@ -302,19 +302,7 @@ class Gantt {
 	loadProject(projectData) {
 		this.projectData = projectData;
 		this.statuses = this.projectData.statuses;
-		this.filter = {
-			status: {
-				'Project': this.statuses.Project.filter((status) => {
-					return !status.closing;
-				}).map(status => Object.assign(status)),
-				'ProjectMilestone': this.statuses.ProjectMilestone.filter((status) => {
-					return !status.closing;
-				}).map(status => Object.assign(status)),
-				'ProjectTask': this.statuses.ProjectTask.filter((status) => {
-					return !status.closing;
-				}).map(status => Object.assign(status)),
-			},
-		};
+		this.filter = {status: this.projectData.activeStatuses};
 		this.gantt = new GanttMaster(this.ganttTemplateFunctions);
 		this.gantt.resourceUrl = '/libraries/jquery-gantt-editor/res/';
 		this.gantt.init(this.container);
