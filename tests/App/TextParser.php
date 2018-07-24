@@ -229,6 +229,47 @@ class TextParser extends \Tests\Base
 	}
 
 	/**
+	 * Testing record vars placeholders replacement.
+	 */
+	public function testRecordPlaceholdersReplacement()
+	{
+		$text = '+ $(record : CrmDetailViewURL)$ +';
+		$this->assertSame('+ ' . \AppConfig::main('site_URL') . 'index.php?module=Leads&view=Detail&record=' . \Tests\Entity\C_RecordActions::createLeadRecord()->getId() . ' +', static::$testInstanceRecord->setContent($text)
+			->parse()
+			->getContent(), 'Expected url is different');
+
+		$text = '+ $(record : PortalDetailViewURL)$ +';
+		$this->assertSame('+ ' . \AppConfig::main('PORTAL_URL') . '/index.php?module=Leads&action=index&id=' . \Tests\Entity\C_RecordActions::createLeadRecord()->getId() . ' +', static::$testInstanceRecord->setContent($text)
+			->parse()
+			->getContent(), 'Expected url is different');
+
+		$text = '+ $(record : ModuleName)$ +';
+		$this->assertSame('+ Leads +', static::$testInstanceRecord->setContent($text)
+			->parse()
+			->getContent(), 'Expected module name is different');
+
+		$text = '+ $(record : RecordId)$ +';
+		$this->assertSame('+ ' . \Tests\Entity\C_RecordActions::createLeadRecord()->getId() . ' +', static::$testInstanceRecord->setContent($text)
+			->parse()
+			->getContent(), 'Expected record id is different');
+
+		$text = '+ $(record : RecordLabel)$ +';
+		$this->assertSame('+ ' . \Tests\Entity\C_RecordActions::createLeadRecord()->getName() . ' +', static::$testInstanceRecord->setContent($text)
+			->parse()
+			->getContent(), 'Expected record label is different');
+
+		$text = '+ $(record : ChangesListChanges)$ +';
+		$this->assertSame('+  +', static::$testInstanceRecord->setContent($text)
+			->parse()
+			->getContent(), 'Test record changes list should be empty');
+
+		$text = '+ $(record : ChangesListValues)$ +';
+		$this->assertSame('+  +', static::$testInstanceRecord->setContent($text)
+			->parse()
+			->getContent(), 'Test record changes list values should be empty');
+	}
+
+	/**
 	 * Testing basic translate function.
 	 */
 	public function testTranslate()
