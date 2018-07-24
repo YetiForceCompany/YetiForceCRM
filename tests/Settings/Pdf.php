@@ -8,6 +8,9 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
+
+namespace Tests\Settings;
+
 class Pdf extends \Tests\Base
 {
 	/**
@@ -23,7 +26,7 @@ class Pdf extends \Tests\Base
 	/**
 	 * Temporary model.
 	 *
-	 * @var Settings_PDF_Record_Model
+	 * @var \Settings_PDF_Record_Model
 	 */
 	private static $pdfModel;
 
@@ -32,7 +35,7 @@ class Pdf extends \Tests\Base
 	 */
 	public function testCreateTemplate()
 	{
-		$pdfModel = Settings_PDF_Record_Model::getCleanInstance(self::MODULE_NAME);
+		$pdfModel = \Settings_PDF_Record_Model::getCleanInstance(self::MODULE_NAME);
 		$pdfModel->set('module_name', self::MODULE_NAME);
 		$pdfModel->set('status', 1);
 		$pdfModel->set('primary_name', 'test');
@@ -57,11 +60,11 @@ class Pdf extends \Tests\Base
 		$pdfModel->set('watermark_angle', 0);
 		$pdfModel->set('watermark_image', '');
 		$pdfModel->set('template_members', '');
-		Settings_PDF_Record_Model::save($pdfModel, 'import');
+		\Settings_PDF_Record_Model::save($pdfModel, 'import');
 		$this->assertSame((int) (new \App\Db\Query())->select(['pdfid'])
 			->from('a_#__pdf')
 			->where(['module_name' => self::MODULE_NAME, 'filename' => self::FILE_NAME, 'primary_name' => 'test'])
-			->scalar(App\Db::getInstance('admin')), (int) $pdfModel->get('pdfid'), 'Not created template');
+			->scalar(\App\Db::getInstance('admin')), (int) $pdfModel->get('pdfid'), 'Not created template');
 		self::$pdfModel = $pdfModel;
 	}
 
@@ -71,7 +74,7 @@ class Pdf extends \Tests\Base
 	public function testGenerate()
 	{
 		$pathToFile = 'cache/pdf/' . self::FILE_NAME;
-		Vtiger_PDF_Model::exportToPdf(\Tests\Entity\C_RecordActions::createAccountRecord()->getId(), self::MODULE_NAME, self::$pdfModel->get('pdfid'), $pathToFile, 'F');
+		\Vtiger_PDF_Model::exportToPdf(\Tests\Entity\C_RecordActions::createAccountRecord()->getId(), self::MODULE_NAME, self::$pdfModel->get('pdfid'), $pathToFile, 'F');
 		$this->assertFileExists($pathToFile);
 	}
 
@@ -80,14 +83,14 @@ class Pdf extends \Tests\Base
 	 */
 	public function testRemoveTemplate()
 	{
-		Settings_PDF_Record_Model::delete(self::$pdfModel);
+		\Settings_PDF_Record_Model::delete(self::$pdfModel);
 		$this->assertFalse((new \App\Db\Query())->select(['pdfid'])
 			->from('a_#__pdf')
 			->where(['module_name' => self::MODULE_NAME, 'filename' => self::FILE_NAME, 'primary_name' => 'test'])
-			->exists(App\Db::getInstance('admin')), 'Not removed template');
+			->exists(\App\Db::getInstance('admin')), 'Not removed template');
 		$pathToFile = 'cache/pdf/' . self::FILE_NAME;
-		if (file_exists($pathToFile)) {
-			unlink($pathToFile);
+		if (\file_exists($pathToFile)) {
+			\unlink($pathToFile);
 		}
 	}
 }
