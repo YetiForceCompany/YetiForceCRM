@@ -7,6 +7,9 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
  */
+
+namespace Tests\Settings;
+
 class Currency extends \Tests\Base
 {
 	/**
@@ -19,7 +22,7 @@ class Currency extends \Tests\Base
 	 */
 	public function testAddCurrency()
 	{
-		$recordModel = new Settings_Currency_Record_Model();
+		$recordModel = new \Settings_Currency_Record_Model();
 		$recordModel->set('currency_name', 'Bahrain');
 		$recordModel->set('conversion_rate', 1.65);
 		$recordModel->set('currency_status', 'Active');
@@ -43,7 +46,7 @@ class Currency extends \Tests\Base
 	 */
 	public function testEditCurrency()
 	{
-		$recordModel = Settings_Currency_Record_Model::getInstance(static::$id);
+		$recordModel = \Settings_Currency_Record_Model::getInstance(static::$id);
 		$recordModel->set('currency_name', 'Argentina');
 		$recordModel->set('conversion_rate', 0.65);
 		$recordModel->set('currency_status', 'No');
@@ -68,7 +71,7 @@ class Currency extends \Tests\Base
 	{
 		$model = \Settings_Currency_ListView_Model::getInstance();
 		$basicListQuery = $model->getBasicListQuery();
-		$this->assertInstanceOf('App\Db\Query', $basicListQuery, 'Query object expected.');
+		$this->assertInstanceOf('\App\Db\Query', $basicListQuery, 'Query object expected.');
 		$this->assertNotEmpty($basicListQuery->createCommand()->execute(), 'Query execute should return any result');
 	}
 
@@ -87,7 +90,7 @@ class Currency extends \Tests\Base
 		$allRecords = \Settings_Currency_Record_Model::getAll();
 		$this->assertInternalType('array', $allRecords, 'Expected that all records result is always array type');
 		$this->assertNotEmpty($allRecords, 'Expected that all records result is not empty');
-		$testRecord = array_pop($allRecords);
+		$testRecord = \array_pop($allRecords);
 		if ($testRecord) {
 			$this->logs = $testRecord;
 			$this->assertInstanceOf('Settings_Currency_Record_Model', $testRecord, 'Instance type mismatch');
@@ -103,7 +106,7 @@ class Currency extends \Tests\Base
 		$allNonmappedRecords = \Settings_Currency_Record_Model::getAllNonMapped();
 		$this->assertInternalType('array', $allNonmappedRecords, 'Expected that all non mapped records result is always array type');
 		$this->assertNotEmpty($allNonmappedRecords, 'Expected that all non mapped records result is not empty');
-		$testNonmappedRecord = array_pop($allNonmappedRecords);
+		$testNonmappedRecord = \array_pop($allNonmappedRecords);
 		if ($testNonmappedRecord) {
 			$this->logs = $testNonmappedRecord;
 			$this->assertInstanceOf('Settings_Currency_Record_Model', $testNonmappedRecord, 'Instance type mismatch');
@@ -119,7 +122,7 @@ class Currency extends \Tests\Base
 	 */
 	public function testDeletetCurrency()
 	{
-		Settings_Currency_Module_Model::delete(static::$id);
+		\Settings_Currency_Module_Model::delete(static::$id);
 		$this->assertTrue((new \App\Db\Query())->from('vtiger_currency_info')->where(['and', ['id' => static::$id, 'deleted' => 1]])->exists());
 		$this->assertTrue((new \App\Db\Query())->from('vtiger_currency_info')->where(['and', ['currency_name' => 'Argentina', 'deleted' => 1]])->exists());
 	}

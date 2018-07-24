@@ -15,19 +15,19 @@ class C_RecordActions extends \Tests\Base
 	/**
 	 * Temporary record object.
 	 *
-	 * @var Vtiger_Record_Model
+	 * @var \Vtiger_Record_Model
 	 */
 	protected static $recordAccounts;
 	/**
 	 * Temporary record object.
 	 *
-	 * @var Vtiger_Record_Model
+	 * @var \Vtiger_Record_Model
 	 */
 	protected static $recordCampaigns;
 	/**
 	 * Temporary Leads record object.
 	 *
-	 * @var Vtiger_Record_Model
+	 * @var \Vtiger_Record_Model
 	 */
 	protected static $recordLeads;
 	/**
