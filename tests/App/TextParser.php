@@ -322,7 +322,7 @@ class TextParser extends \Tests\Base
 	 */
 	public function testRecordsListPlaceholdersReplacement()
 	{
-		$text = '$(recordsList : Leads|lead_no,lastname,phone,description||5)$';
+		$text = '$(recordsList : Leads|lead_no,lastname,phone,description||all|5)$';
 		$result = \App\TextParser::getInstance()
 			->setContent($text)
 			->parse()
