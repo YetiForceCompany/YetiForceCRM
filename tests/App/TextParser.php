@@ -267,6 +267,21 @@ class TextParser extends \Tests\Base
 		$this->assertSame('+  +', static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'Test record changes list values should be empty');
+
+		\Tests\Entity\C_RecordActions::createLeadRecord()->set('lastname', 'test');
+		\Tests\Entity\C_RecordActions::createLeadRecord()->save();
+		\Tests\Entity\C_RecordActions::createLeadRecord()->set('lastname', 'testing');
+		\Tests\Entity\C_RecordActions::createLeadRecord()->save();
+
+		$text = '+ $(record : ChangesListChanges)$ +';
+		$this->assertNotFalse(strpos(static::$parserRecord->setContent($text)
+			->parse()
+			->getContent(), 'test'), 'Test record changes list should should contain lastname info');
+
+		//$text = '+ $(record : ChangesListValues)$ +';
+		//$this->assertSame('+ testing +', static::$parserRecord->setContent($text)
+		//	->parse()
+		//	->getContent(), 'Test record changes list values should be not empty');
 	}
 
 	/**
