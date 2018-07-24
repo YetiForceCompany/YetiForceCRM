@@ -264,11 +264,32 @@ class TextParser extends \Tests\Base
 	}
 
 	/**
+	 * Tests record variables array.
+	 */
+	public function testGetRecordVariable()
+	{
+		$arr = static::$testInstanceCleanModule->getRecordVariable();
+		$this->assertInternalType('array', $arr, 'Expected array type');
+		$this->assertNotEmpty($arr, 'Expected any related variables data');
+		foreach ($arr as $group => $data) {
+			$this->assertInternalType('array', $data, 'Expected array type');
+			$this->assertNotEmpty($data, 'Expected any related variables data');
+			foreach ($data as $key => $element) {
+				$this->assertSame(1, \App\TextParser::isVaribleToParse($element['var_value']), 'Option: ' . $element['label'] . ', value: ' . $element['var_value'] . ' should be parseable in group: ' . $group);
+				$this->assertSame(1, \App\TextParser::isVaribleToParse($element['var_label']), 'Option: ' . $element['label'] . ', value: ' . $element['var_label'] . ' should be parseable in group: ' . $group);
+			}
+		}
+		$arr = static::$testInstanceCleanModule->getRecordVariable();
+		$this->assertInternalType('array', $arr, 'Expected (cached) array type');
+		$this->assertNotEmpty($arr, 'Expected any (cached) related variables data');
+	}
+
+	/**
 	 * Tests source variables array.
 	 */
 	public function testGetSourceVariable()
 	{
-		$fieldsArr = ['assigned_user_id'];
+		$this->assertFalse(\App\TextParser::getInstance('Leads')->setSourceRecord(\Tests\Entity\C_RecordActions::createLeadRecord()->getId())->getSourceVariable(), 'TextParser::getSourceVariable() should return false for Leads module');
 		$arr = \App\TextParser::getInstance('Campaigns')->setSourceRecord(\Tests\Entity\C_RecordActions::createLeadRecord()->getId())->getSourceVariable();
 		$this->assertInternalType('array', $arr, 'Expected array type');
 		$this->assertNotEmpty($arr, 'Expected any related variables data');
@@ -315,6 +336,9 @@ class TextParser extends \Tests\Base
 				}
 			}
 		}
+		$arr = static::$testInstanceCleanModule->getRelatedVariable();
+		$this->assertInternalType('array', $arr, 'Expected (cached) array type');
+		$this->assertNotEmpty($arr, 'Expected any (cached) related variables data');
 	}
 
 	/**
