@@ -7,6 +7,9 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
  */
+
+namespace Tests\Settings;
+
 class Companies extends \Tests\Base
 {
 	/**
@@ -19,7 +22,7 @@ class Companies extends \Tests\Base
 	 */
 	public function testAddCompanies()
 	{
-		$recordModel = new Settings_Companies_Record_Model();
+		$recordModel = new \Settings_Companies_Record_Model();
 		$recordModel->set('name', 'Name');
 		$recordModel->set('short_name', 'Short name');
 		$recordModel->set('default', 1);
@@ -77,7 +80,7 @@ class Companies extends \Tests\Base
 	 */
 	public function testEditCompanies()
 	{
-		$recordModel = Settings_Companies_Record_Model::getInstance(static::$id);
+		$recordModel = \Settings_Companies_Record_Model::getInstance(static::$id);
 		$recordModel->set('name', 'Company');
 		$recordModel->set('short_name', 'Short company');
 		$recordModel->set('default', 0);
@@ -134,7 +137,7 @@ class Companies extends \Tests\Base
 	 */
 	public function testDeleteCompanies()
 	{
-		$recordModel = Settings_Companies_Record_Model::getInstance(static::$id);
+		$recordModel = \Settings_Companies_Record_Model::getInstance(static::$id);
 		$recordModel->delete();
 		$this->assertFalse((new \App\Db\Query())->from('s_#__companies')->where(['id' => static::$id])->exists(), 'Company should not exists');
 	}
@@ -144,10 +147,10 @@ class Companies extends \Tests\Base
 	 */
 	public function testModuleModelFunctions()
 	{
-		$columns = Settings_Companies_Module_Model::getColumnNames();
+		$columns = \Settings_Companies_Module_Model::getColumnNames();
 		$this->assertNotFalse($columns, 'Columns should be not false');
 		$this->assertNotEmpty($columns, 'Columns should be not empty');
-		$this->assertNotEmpty(Settings_Companies_Module_Model::getIndustryList(), 'Industry list should be not empty');
-		$this->assertNotEmpty(Settings_Companies_Module_Model::getAllCompanies(), 'Companies list should be not empty');
+		$this->assertNotEmpty(\Settings_Companies_Module_Model::getIndustryList(), 'Industry list should be not empty');
+		$this->assertNotEmpty(\Settings_Companies_Module_Model::getAllCompanies(), 'Companies list should be not empty');
 	}
 }
