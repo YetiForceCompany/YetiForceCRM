@@ -13,7 +13,7 @@ class Gantt {
 		this.container = $(container);
 		this.registerLanguage();
 		this.registerTemplates();
-		if(typeof projectData !== 'undefined'){
+		if (typeof projectData !== 'undefined') {
 			this.loadProject(projectData);
 		}
 	}
@@ -329,9 +329,9 @@ class Gantt {
 	 * Load project from ajax request
 	 * @param {object} params - request params such as module/action and projectId
 	 */
-	loadProjectFromAjax(params){
+	loadProjectFromAjax(params) {
 		const progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
-		AppConnector.request(params).done((response)=>{
+		AppConnector.request(params).done((response) => {
 			this.loadProject(response.result);
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
