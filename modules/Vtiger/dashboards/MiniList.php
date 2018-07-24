@@ -36,6 +36,7 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 		if ($searchParams) {
 			$minilistWidgetModel->setSearchParams($searchParams);
 		}
+		$filterField = false;
 		if ($widget->get('data')) {
 			$widgetParams = $widget->get('data');
 			if (isset($widgetParams['filterFields'])) {
