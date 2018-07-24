@@ -11,4 +11,13 @@ namespace App\QueryField;
  */
 class DoubleField extends IntegerField
 {
+	/**
+	 * Get value.
+	 *
+	 * @return float
+	 */
+	public function getValue()
+	{
+		return \CurrencyField::convertToDBFormat($this->value);
+	}
 }
