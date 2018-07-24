@@ -241,11 +241,13 @@ good-listener@^1.2.2:
   dependencies:
     delegate "^3.1.2"
 
-gridster@^0.5.6:
-  version "0.5.6"
-  resolved "https://registry.yarnpkg.com/gridster/-/gridster-0.5.6.tgz#4024713aabd559093a72e9b713f1e41f9bded76f"
+gridstack@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-0.4.0.tgz#9b1fbf5bccb73cc41f26cd1dc45b248ef5b4f37d"
   dependencies:
-    jquery "git+https://github.com/jquery/jquery.git#2.0.3"
+    jquery "^3.1.0"
+    jquery-ui "^1.12.0"
+    lodash "^4.17.10"
 
 hammerjs@^2.0.8:
   version "2.0.8"
@@ -310,17 +312,21 @@ jquery-ui-dist@^1.12.1:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/jquery-ui-dist/-/jquery-ui-dist-1.12.1.tgz#5c0815d3cc6f90ff5faaf5b268a6e23b4ca904fa"
 
+jquery-ui-touch-punch@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/jquery-ui-touch-punch/-/jquery-ui-touch-punch-0.2.3.tgz#eed82242733ba243f46b3e87c1841b308191da68"
+
+jquery-ui@^1.12.0:
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/jquery-ui/-/jquery-ui-1.12.1.tgz#bcb4045c8dd0539c134bc1488cdd3e768a7a9e51"
+
 jquery.class.js@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/jquery.class.js/-/jquery.class.js-1.0.0.tgz#43616c36d76eff36caf2139ddacda621aa24ed30"
 
-"jquery@2 - 3", jquery@>3.0.0, "jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1:
+"jquery@2 - 3", jquery@>3.0.0, "jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1, jquery@^3.1.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
-
-"jquery@git+https://github.com/jquery/jquery.git#2.0.3":
-  version "2.0.3"
-  resolved "git+https://github.com/jquery/jquery.git#f852e631ba85af7da4ad7594785e122504e7b233"
 
 jstorage@^0.4.8:
   version "0.4.8"
@@ -349,6 +355,10 @@ leaflet.markercluster@^1.3.0:
 leaflet@^1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.3.3.tgz#5c8f2fd50e4a41ead93ab850dcd9e058811da9b9"
+
+lodash@^4.17.10:
+  version "4.17.10"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
 
 moment@^2.10.2, moment@^2.20.1, moment@^2.21.0, moment@^2.9.0:
   version "2.22.2"
