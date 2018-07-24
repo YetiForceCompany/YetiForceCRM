@@ -53,11 +53,15 @@ $.Class("Project_Gantt_Js", {}, {
 		let html = container.html();
 		container.remove();
 		container = $(parent).append(html);
+		this.gantt = new Gantt(container);
+		const projectId = parent.find('input[name="projectId"]').val();
 		if (!ganttData) {
-			let ganttDataStr = parent.find('#ganttData').val();
-			ganttData = JSON.parse(ganttDataStr, true);
+			this.gantt.loadProjectFromAjax({
+				module: 'Project',
+				action: 'GanttData',
+				projectId: projectId
+			});
 		}
-		this.gantt = new Gantt(container, ganttData);
 	},
 	/**
 	 * reload gantt with new data
