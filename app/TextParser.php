@@ -336,6 +336,18 @@ class TextParser
 	}
 
 	/**
+	 * Function checks if its TextParser type.
+	 *
+	 * @param string $text
+	 *
+	 * @return false|int
+	 */
+	public static function isVaribleToParse($text)
+	{
+		return preg_match('/^\$\((\w+) : ([,"\+\%\.\-\[\]\&\w\s\|]+)\)\$$/', $text);
+	}
+
+	/**
 	 * Text parse function.
 	 *
 	 * @return $this
@@ -360,6 +372,24 @@ class TextParser
 	}
 
 	/**
+	 * Text parse function.
+	 *
+	 * @return $this
+	 */
+	public function parseTranslations()
+	{
+		if (isset($this->language)) {
+			Language::setTemporaryLanguage($this->language);
+		}
+		$this->content = preg_replace_callback('/\$\(translate : ([,"\+\%\.\-\[\]\&\w\s\|]+)\)\$/u', function ($matches) {
+			list(, $params) = $matches;
+			return $this->translate($params);
+		}, $this->content);
+		Language::clearTemporaryLanguage();
+		return $this;
+	}
+
+	/**
 	 * Function parse date.
 	 *
 	 * @param string $param
@@ -370,25 +400,6 @@ class TextParser
 	{
 		$timestamp = strtotime($param);
 		return $timestamp ? date('Y-m-d', $timestamp) : '';
-	}
-
-	/**
-	 * Text parse function.
-	 *
-	 * @return $this
-	 */
-	public function parseTranslations()
-	{
-		if (isset($this->language)) {
-			Language::setTemporaryLanguage($this->language);
-		}
-		$this->content = preg_replace_callback('/\$\(translate : ([\.\&\w\s\|]+)\)\$/', function ($matches) {
-			list(, $params) = $matches;
-
-			return $this->translate($params);
-		}, $this->content);
-		Language::clearTemporaryLanguage();
-		return $this;
 	}
 
 	/**
@@ -1255,18 +1266,6 @@ class TextParser
 			];
 		}
 		return $variables;
-	}
-
-	/**
-	 * Function checks if its TextParser type.
-	 *
-	 * @param string $text
-	 *
-	 * @return false|int
-	 */
-	public static function isVaribleToParse($text)
-	{
-		return preg_match('/^\$\((\w+) : ([,"\+\-\[\]\&\w\s\|]+)\)\$$/', $text);
 	}
 
 	/**
