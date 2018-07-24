@@ -327,7 +327,7 @@ class Gantt {
 
 	/**
 	 * Load project from ajax request
-	 * @param params
+	 * @param {object} params - request params such as module/action and projectId
 	 */
 	loadProjectFromAjax(params){
 		const progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
