@@ -59,6 +59,48 @@ class TextParser extends \Tests\Base
 	}
 
 	/**
+	 * Testing organization placeholders replacement.
+	 */
+	public function testOrganizationPlaceholders()
+	{
+		$this->assertSame('+ ' . \App\Company::getInstanceById(false)->get('name') . ' +', static::$parserClean
+			->setContent('+ $(organization : name)$ +')
+			->parse()
+			->getContent(), 'Organization name should match to reference');
+		$OrganizationId = (new \App\Db\Query())->select(['id'])->from('s_#__companies')->where(['default' => 1])->scalar();
+		$this->assertNotEmpty($OrganizationId, 'Default organization should exists');
+		$this->assertSame('+ ' . \App\Company::getInstanceById($OrganizationId)->get('name') . ' +', static::$parserClean
+			->setContent('+ $(organization : name|' . $OrganizationId . ')$ +')
+			->parse()
+			->getContent(), 'Organization id: ' . $OrganizationId . ', field name should match to reference');
+
+		$this->assertNotFalse(strpos(static::$parserClean
+			->setContent('+ $(organization : mailLogo)$ +')
+			->parse()
+			->getContent(), 'organizationLogo'), 'Organization mail logo should contain html class organizationLogo');
+
+		$this->assertNotFalse(strpos(static::$parserClean
+			->setContent('+ $(organization : loginLogo)$ +')
+			->parse()
+			->getContent(), 'organizationLogo'), 'Organization login logo should contain html class organizationLogo');
+
+		$this->assertSame('+ ' . \App\Company::$logoPath . \App\Company::getInstanceById(false)->get('logo_login') . ' +', static::$parserClean
+			->setContent('+ $(organization : logo_login)$ +')
+			->parse()
+			->getContent(), 'Organization logo_login should match to reference');
+
+		$this->assertSame('+ ' . \App\Company::$logoPath . \App\Company::getInstanceById(false)->get('logo_main') . ' +', static::$parserClean
+			->setContent('+ $(organization : logo_main)$ +')
+			->parse()
+			->getContent(), 'Organization logo_main should match to reference');
+
+		$this->assertSame('+ ' . \App\Company::$logoPath . \App\Company::getInstanceById(false)->get('logo_mail') . ' +', static::$parserClean
+			->setContent('+ $(organization : logo_mail)$ +')
+			->parse()
+			->getContent(), 'Organization logo_mail should match to reference');
+	}
+
+	/**
 	 * Tests base variables list.
 	 */
 	public function testGetBaseListVariable()
