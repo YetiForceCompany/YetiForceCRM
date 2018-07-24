@@ -55,7 +55,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('DATA', (new Project_Gantt_Model())->getById($request->getInteger('record')));
+		$viewer->assign('PROJECTID', $request->getInteger('record'));
 		$viewer->view('gantt/GanttContents.tpl', $moduleName);
 	}
 
