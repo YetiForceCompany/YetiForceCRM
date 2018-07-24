@@ -21,9 +21,9 @@ class Vtiger_Widget_Model extends \App\Base
 		if ($size) {
 			$size = \App\Json::decode(App\Purifier::decodeHtml($size));
 			if (isset($size[App\Session::get('fingerprint')])) {
-				return (int)$size[App\Session::get('fingerprint')]['width'];
+				return (int) $size[App\Session::get('fingerprint')]['width'];
 			}
-			return (int)($size['width']);
+			return (int) ($size['width']);
 		}
 		return $defaultSize;
 	}
@@ -35,9 +35,9 @@ class Vtiger_Widget_Model extends \App\Base
 		if ($size) {
 			$size = \App\Json::decode(App\Purifier::decodeHtml($size));
 			if (isset($size[App\Session::get('fingerprint')])) {
-				return (int)$size[App\Session::get('fingerprint')]['height'];
+				return (int) $size[App\Session::get('fingerprint')]['height'];
 			}
-			return (int)($size['height']);
+			return (int) ($size['height']);
 		}
 		return $defaultSize;
 	}
@@ -151,12 +151,12 @@ class Vtiger_Widget_Model extends \App\Base
 	}
 
 	/**
-	 * Update widget size
+	 * Update widget size.
 	 *
 	 * @param string $size
-	 * @param int $linkId
-	 * @param int $widgetId
-	 * @param int $userId
+	 * @param int    $linkId
+	 * @param int    $widgetId
+	 * @param int    $userId
 	 */
 	public static function updateWidgetSize($size, $linkId, $widgetId, $userId)
 	{

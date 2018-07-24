@@ -1437,6 +1437,8 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		thisInstance.updateRowSequence();
 		App.Fields.Picklist.showSelect2ElementView(container.find('.selectInv'));
 		App.Fields.Date.register(container, true, {}, 'dateFieldInv');
+		container.validationEngine('detach');
+		container.validationEngine(app.validationEngineOptions);
 	},
 	/**
 	 * Function which will register all the events

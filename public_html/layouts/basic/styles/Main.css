@@ -370,7 +370,7 @@ small,
 .u-text-small-bold,
 .c-tab--small,
 .detailViewInfo .dropdown.tabdrop,
-.gridster > ul li.dashboardWidget .dashboardWidgetContent,
+.grid-stack .dashboardWidget .dashboardWidgetContent,
 .c-side-block {
   font-size: 80%;
   font-weight: 400; }
@@ -5697,7 +5697,7 @@ button.bg-dark:focus {
 
 .mr-0,
 .mx-0,
-.gridster > ul li.dashboardWidget .dashboardWidgetContent .row {
+.grid-stack .dashboardWidget .dashboardWidgetContent .row {
   margin-right: 0 !important; }
 
 .mb-0, .daterangepicker .left, .daterangepicker .right, .daterangepicker .ranges li:last-child, .fc-view-container, .c-detail-widget__table, .c-detail-widget p, .listViewTopMenuDiv .listViewActionsDiv .paginationDiv .pagination,
@@ -5706,7 +5706,7 @@ button.bg-dark:focus {
 
 .ml-0,
 .mx-0,
-.gridster > ul li.dashboardWidget .dashboardWidgetContent .row {
+.grid-stack .dashboardWidget .dashboardWidgetContent .row {
   margin-left: 0 !important; }
 
 .m-1, .c-detail-widget {
@@ -11589,6 +11589,17 @@ header .c-header__btn__container .select2-selection {
 .svg-inline--fa {
   vertical-align: -0.125em !important; }
 
+.tpl-DashBoardContents {
+  margin: 0 0.25rem; }
+
+.grid-stack > .grid-stack-item > .grid-stack-item-content {
+  left: 0.25rem !important;
+  right: 0.25rem !important; }
+
+@media (max-width: 575.98px) {
+  .ui-draggable-handle {
+    -ms-touch-action: manipulation !important;
+    touch-action: manipulation !important; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 label.btn.btn-outline-primary:not(.active) {
   background: #fff; }
@@ -13951,86 +13962,78 @@ label.btn.btn-outline-primary:not(.active) {
 .dashboard_notebookWidget_view .row {
   margin-bottom: 5px; }
 
-.gridster {
-  margin-left: 0;
+.grid-stack {
   width: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  word-wrap: break-word; }
-  .gridster > ul {
-    width: auto;
-    display: block;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    min-height: 460px;
-    list-style: none;
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-    margin-top: 0 !important; }
-    .gridster > ul li.dashboardWidget {
-      background: #fff;
-      border-radius: 1px;
+  word-wrap: break-word;
+  display: block;
+  min-height: 460px;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  margin-top: 0 !important; }
+  .grid-stack .dashboardWidget {
+    background: #fff;
+    border-radius: 1px;
+    border: 1px solid #ddd;
+    -webkit-box-shadow: 0 0 3px -1px #ddd;
+    -moz-box-shadow: 0 0 3px -1px #ddd;
+    box-shadow: 0 0 3px -1px #ddd; }
+    .grid-stack .dashboardWidget .dashboardWidgetHeader {
+      background-color: #f8f9fa;
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
+      border-color: #f3f3f4 #f3f3f4 #cbcbcf;
+      text-shadow: 0 1px #fff;
+      border-top: 1px solid #fff;
+      border-bottom: 1px solid #ddd;
+      color: #444;
+      cursor: move;
+      padding: 7px 5px; }
+      .grid-stack .dashboardWidget .dashboardWidgetHeader table {
+        height: 28px; }
+    .grid-stack .dashboardWidget .widgetFooterContent .row:first-child {
+      position: relative;
+      background-color: #f5f5f5;
+      padding-top: 3px;
+      padding-bottom: 2px; }
+    .grid-stack .dashboardWidget .dashboardWidgetHeader .dashboardTitle {
+      text-align: left;
+      padding-left: 10px; }
+    .grid-stack .dashboardWidget .dashboardWidgetHeader .widgeticons {
+      opacity: 0.5;
+      padding-right: 6px; }
+    .grid-stack .dashboardWidget .dashboardWidgetHeader .box {
+      position: relative;
+      top: -2px; }
+    .grid-stack .dashboardWidget .filterContainer {
+      position: absolute;
       border: 1px solid #ddd;
-      -webkit-box-shadow: 0 0 3px -1px #ddd;
-      -moz-box-shadow: 0 0 3px -1px #ddd;
-      box-shadow: 0 0 3px -1px #ddd; }
-      .gridster > ul li.dashboardWidget .dashboardWidgetHeader {
-        background-color: #f8f9fa;
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
-        border-color: #f3f3f4 #f3f3f4 #cbcbcf;
-        text-shadow: 0 1px #fff;
-        border-top: 1px solid #fff;
-        border-bottom: 1px solid #ddd;
-        color: #444;
-        cursor: move;
-        padding: 7px 5px; }
-        .gridster > ul li.dashboardWidget .dashboardWidgetHeader table {
-          height: 28px; }
-      .gridster > ul li.dashboardWidget .widgetFooterContent .row:first-child {
-        position: relative;
-        background-color: #f5f5f5;
-        padding-top: 3px;
-        padding-bottom: 2px; }
-      .gridster > ul li.dashboardWidget .dashboardWidgetHeader .dashboardTitle {
-        text-align: left;
-        padding-left: 10px; }
-      .gridster > ul li.dashboardWidget .dashboardWidgetHeader .widgeticons {
-        opacity: 0.5;
-        padding-right: 6px; }
-      .gridster > ul li.dashboardWidget .dashboardWidgetHeader .box {
-        position: relative;
-        top: -2px; }
-      .gridster > ul li.dashboardWidget .filterContainer {
-        position: absolute;
-        border: 1px solid #ddd;
-        background: #fff;
-        margin-left: -7px;
-        margin-right: 3px;
-        margin-top: 4px;
-        padding: 8px 0;
-        border-radius: 0 0 5px 5px;
-        box-shadow: 0 5px 8px -5px #888; }
-        .gridster > ul li.dashboardWidget .filterContainer div span {
-          margin-top: 6px; }
-        .gridster > ul li.dashboardWidget .filterContainer .col-md-5 {
-          margin-top: 3px; }
-      .gridster > ul li.dashboardWidget .dashboardWidgetContent:not(.dashboardWidgetCalendar) {
-        padding: 5px;
-        line-height: 20px; }
-      .gridster > ul li.dashboardWidget .dashboardWidgetContent .dashboard_notebookWidget_viewarea {
-        height: 200px; }
-      .gridster > ul li.dashboardWidget .widgeticons {
-        min-width: 50px;
-        height: 30px;
-        margin-right: 30px; }
-        .gridster > ul li.dashboardWidget .widgeticons a {
-          cursor: pointer;
-          text-decoration: none; }
-    .gridster > ul .widgetChartContainer {
-      height: 100% !important; }
+      background: #fff;
+      margin-left: -7px;
+      margin-right: 3px;
+      margin-top: 4px;
+      padding: 8px 0;
+      border-radius: 0 0 5px 5px;
+      box-shadow: 0 5px 8px -5px #888; }
+      .grid-stack .dashboardWidget .filterContainer div span {
+        margin-top: 6px; }
+      .grid-stack .dashboardWidget .filterContainer .col-md-5 {
+        margin-top: 3px; }
+    .grid-stack .dashboardWidget .dashboardWidgetContent:not(.dashboardWidgetCalendar) {
+      padding: 5px;
+      line-height: 20px; }
+    .grid-stack .dashboardWidget .dashboardWidgetContent .dashboard_notebookWidget_viewarea {
+      height: 200px; }
+    .grid-stack .dashboardWidget .widgeticons {
+      min-width: 50px;
+      height: 30px;
+      margin-right: 30px; }
+      .grid-stack .dashboardWidget .widgeticons a {
+        cursor: pointer;
+        text-decoration: none; }
+  .grid-stack .widgetChartContainer {
+    height: 100% !important; }
 
 .NotificationsItem .userImage {
   width: 22px; }
@@ -14075,6 +14078,9 @@ label.btn.btn-outline-primary:not(.active) {
     height: calc(100vh - 31px); }
   .user-info--active .c-form__action-panel {
     bottom: 1.9375rem; } }
+.inventoryItems .fieldValue {
+  position: relative; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .calendarViewContainer .widget_header {
   margin-right: -20px;

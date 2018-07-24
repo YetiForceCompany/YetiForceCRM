@@ -30,7 +30,7 @@ class Vtiger_SaveWidgetPositions_Action extends Vtiger_IndexAjax_View
 			foreach ($sizesMap as $id => $size) {
 				list($linkid, $widgetid) = explode('-', $id);
 				if ($widgetid) {
-					Vtiger_Widget_Model::updateWidgetSize($size, null, (int)$widgetid, $currentUser->getId());
+					Vtiger_Widget_Model::updateWidgetSize($size, null, (int) $widgetid, $currentUser->getId());
 				} else {
 					Vtiger_Widget_Model::updateWidgetSize($size, (int) $linkid, null, $currentUser->getId());
 				}
