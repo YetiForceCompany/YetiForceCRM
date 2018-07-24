@@ -752,16 +752,16 @@ $.Class("Vtiger_Edit_Js", {
 	 * @param strings which accepts value as either odd or even
 	 */
 	copyAddress: function (fromLabel, toLabel, relatedRecord, sourceModule) {
-		var status = false;
-		var thisInstance = this;
-		var formElement = this.getForm();
-		var addressMapping = this.addressFieldsMapping;
-		var BlockIds = this.addressFieldsMappingBlockID;
+		let status = false;
+		let thisInstance = this;
+		let formElement = this.getForm();
+		let addressMapping = this.addressFieldsMapping;
+		let BlockIds = this.addressFieldsMappingBlockID;
 
-		from = BlockIds[fromLabel];
+		let from = BlockIds[fromLabel];
 		if (relatedRecord === false || sourceModule === false)
 			from = BlockIds[fromLabel];
-		to = BlockIds[toLabel];
+		let to = BlockIds[toLabel];
 		for (var key in addressMapping) {
 			var nameElementFrom = addressMapping[key] + from;
 			var nameElementTo = addressMapping[key] + to;
