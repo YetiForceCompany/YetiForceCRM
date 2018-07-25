@@ -133,11 +133,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			var callBackFunction = function (data) {
 				//register all select2 Elements
 				App.Fields.Picklist.changeSelectElementView(data.find('select'));
-
 				var form = data.find('.addBlockDashBoardForm');
-				var params = app.validationEngineOptions;
 				var block = form.find('[name="authorized"]');
-				form.validationEngine(params);
+				form.validationEngine(app.validationEngineOptions);
 				form.on('submit', function (e) {
 					if (form.validationEngine('validate')) {
 						var paramsForm = form.serializeFormData();
@@ -279,66 +277,66 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				var form = data.find('.createCustomFieldForm');
 				form.attr('id', 'createFieldForm');
 				var widgets = form.find('[name="widgets"]');
-				var params = app.validationEngineOptions;
-				params.onValidationComplete = function (form, valid) {
-					if (valid) {
-						if (widgets.val()) {
-							var saveButton = form.find(':submit');
-							saveButton.attr('disabled', 'disabled');
-							var field = form.find('[name="widgets"]');
+				form.validationEngine($.extend(true, {
+					onValidationComplete: function (form, valid) {
+						if (valid) {
+							if (widgets.val()) {
+								var saveButton = form.find(':submit');
+								saveButton.attr('disabled', 'disabled');
+								var field = form.find('[name="widgets"]');
 
-							let paramsForm = form.serializeFormData();
-							paramsForm['action'] = 'addWidget';
-							paramsForm['blockid'] = blockId;
-							paramsForm['linkid'] = field.val();
-							paramsForm['label'] = field.find(':selected').text();
-							paramsForm['name'] = field.find(':selected').data('name');
-							paramsForm['height'] = form.find('[name="height"]').val();
-							paramsForm['width'] = form.find('[name="width"]').val();
-							if (form.find('[name="isdefault"]').prop("checked"))
-								paramsForm['isdefault'] = 1;
-							if (form.find('[name="cache"]').prop("checked"))
-								paramsForm['cache'] = 1;
-							if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === "undefined") {
-								var result = app.vtranslate('JS_FIELD_EMPTY');
-								form.find('select[name="owners_all"]').prev('div').validationEngine('showPrompt', result, 'error', 'bottomLeft', true);
-								saveButton.removeAttr('disabled');
-								e.preventDefault();
-								return false;
-							}
-							thisInstance.save(paramsForm, 'save').done(function (data) {
-								var result = data['result'];
-								var params = {};
-								if (data['success']) {
-									app.hideModalWindow();
-									paramsForm['id'] = result['id']
-									paramsForm['status'] = result['status']
-									params['text'] = app.vtranslate('JS_WIDGET_ADDED');
-									Settings_Vtiger_Index_Js.showMessage(params);
-									thisInstance.showCustomField(paramsForm);
-								} else {
-									var message = data['error']['message'];
-									if (data['error']['code'] != 513) {
-										var errorField = form.find('[name="fieldName"]');
-									} else {
-										var errorField = form.find('[name="fieldLabel"]');
-									}
-									errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+								let paramsForm = form.serializeFormData();
+								paramsForm['action'] = 'addWidget';
+								paramsForm['blockid'] = blockId;
+								paramsForm['linkid'] = field.val();
+								paramsForm['label'] = field.find(':selected').text();
+								paramsForm['name'] = field.find(':selected').data('name');
+								paramsForm['height'] = form.find('[name="height"]').val();
+								paramsForm['width'] = form.find('[name="width"]').val();
+								if (form.find('[name="isdefault"]').prop("checked"))
+									paramsForm['isdefault'] = 1;
+								if (form.find('[name="cache"]').prop("checked"))
+									paramsForm['cache'] = 1;
+								if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === "undefined") {
+									var result = app.vtranslate('JS_FIELD_EMPTY');
+									form.find('select[name="owners_all"]').prev('div').validationEngine('showPrompt', result, 'error', 'bottomLeft', true);
 									saveButton.removeAttr('disabled');
+									e.preventDefault();
+									return false;
 								}
-							});
-						} else {
-							var result = app.vtranslate('JS_FIELD_EMPTY');
-							widgets.prev('div').validationEngine('showPrompt', result, 'error', 'topLeft', true);
-							e.preventDefault();
-							return;
+								thisInstance.save(paramsForm, 'save').done(function (data) {
+									var result = data['result'];
+									var params = {};
+									if (data['success']) {
+										app.hideModalWindow();
+										paramsForm['id'] = result['id']
+										paramsForm['status'] = result['status']
+										params['text'] = app.vtranslate('JS_WIDGET_ADDED');
+										Settings_Vtiger_Index_Js.showMessage(params);
+										thisInstance.showCustomField(paramsForm);
+									} else {
+										var message = data['error']['message'];
+										if (data['error']['code'] != 513) {
+											var errorField = form.find('[name="fieldName"]');
+										} else {
+											var errorField = form.find('[name="fieldLabel"]');
+										}
+										errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+										saveButton.removeAttr('disabled');
+									}
+								});
+							} else {
+								var result = app.vtranslate('JS_FIELD_EMPTY');
+								widgets.prev('div').validationEngine('showPrompt', result, 'error', 'topLeft', true);
+								e.preventDefault();
+								return;
+							}
 						}
+						//To prevent form submit
+						return false;
 					}
-					//To prevent form submit
-					return false;
-				}
-				form.validationEngine(params);
-			}
+				}, app.validationEngineOptions));
+			};
 			app.showModalWindow(addFieldContainer, function (data) {
 				if (typeof callBackFunction == 'function') {
 					callBackFunction(data);
@@ -434,35 +432,35 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			dropDownContainer.append(dropDown);
 			const dropDownMenu = dropDownContainer.find('.dropdown-menu');
 			dropDownContainer.dropdown('dispose').dropdown('toggle');
-			const params = app.getvalidationEngineOptions(true);
-			params.binded = false;
-			params.onValidationComplete = function (form, valid) {
-				if (valid) {
-					if (form === undefined) {
-						return true;
+			dropDownMenu.find('form').validationEngine($.extend(true, {
+				binded: false,
+				onValidationComplete: function (form, valid) {
+					if (valid) {
+						if (form === undefined) {
+							return true;
+						}
+						let paramsForm = form.serializeFormData();
+						if (form.find('[name="isdefault"]').prop("checked"))
+							paramsForm['isdefault'] = 1;
+						if (form.find('[name="cache"]').prop("checked"))
+							paramsForm['cache'] = 1;
+						let id = form.find('.saveFieldDetails').data('field-id');
+						paramsForm['action'] = 'saveDetails';
+						paramsForm['id'] = id;
+						if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === "undefined") {
+							let params = {};
+							params['type'] = 'error';
+							params['text'] = app.vtranslate('JS_FILTERS_AVAILABLE') + ': ' + app.vtranslate('JS_FIELD_EMPTY');
+							Settings_Vtiger_Index_Js.showMessage(params);
+							e.preventDefault();
+							return false;
+						}
+						thisInstance.save(paramsForm, 'save');
+						thisInstance.registerSaveFieldDetailsEvent(form);
 					}
-					let paramsForm = form.serializeFormData();
-					if (form.find('[name="isdefault"]').prop("checked"))
-						paramsForm['isdefault'] = 1;
-					if (form.find('[name="cache"]').prop("checked"))
-						paramsForm['cache'] = 1;
-					let id = form.find('.saveFieldDetails').data('field-id');
-					paramsForm['action'] = 'saveDetails';
-					paramsForm['id'] = id;
-					if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === "undefined") {
-						let params = {};
-						params['type'] = 'error';
-						params['text'] = app.vtranslate('JS_FILTERS_AVAILABLE') + ': ' + app.vtranslate('JS_FIELD_EMPTY');
-						Settings_Vtiger_Index_Js.showMessage(params);
-						e.preventDefault();
-						return false;
-					}
-					thisInstance.save(paramsForm, 'save');
-					thisInstance.registerSaveFieldDetailsEvent(form);
+					return false;
 				}
-				return false;
-			};
-			dropDownMenu.find('form').validationEngine(params);
+			}, app.getvalidationEngineOptions(true)));
 			let selectElements = basicDropDown.find('select[name="owners_all"]');
 			if (selectElements.length > 0) {
 				App.Fields.Picklist.showSelect2ElementView(dropDownMenu.find('select[name="owners_all"]'));
@@ -770,46 +768,44 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	addNoteBookWidget: function (element, url) {
 		var thisInstance = this;
 		element = jQuery(element);
-
 		app.showModalWindow(null, "index.php?module=Home&view=AddNotePad", function (wizardContainer) {
 			var form = jQuery('form', wizardContainer);
-			var params = app.validationEngineOptions;
-			params.onValidationComplete = function (form, valid) {
-				if (valid) {
-					//To prevent multiple click on save
-					jQuery("[name='saveButton']", wizardContainer).attr('disabled', 'disabled');
-					var notePadName = form.find('[name="notePadName"]').val();
-					var notePadContent = form.find('[name="notePadContent"]').val();
-					var isDefault = 0;
-					var linkId = element.data('linkid');
-					var blockId = element.data('block-id');
-					var noteBookParams = {
-						'module': jQuery('#selectedModuleName').val(),
-						'action': 'NoteBook',
-						'mode': 'noteBookCreate',
-						'notePadName': notePadName,
-						'notePadContent': notePadContent,
-						'blockid': blockId,
-						'linkId': linkId,
-						'isdefault': isDefault,
-						'width': 4,
-						'height': 3
-					}
-					AppConnector.request(noteBookParams).done(function (data) {
-						if (data.result.success) {
-							var widgetId = data.result.widgetId;
-							app.hideModalWindow();
-							noteBookParams['id'] = widgetId;
-							noteBookParams['label'] = notePadName;
-							params['text'] = app.vtranslate('JS_WIDGET_ADDED');
-							Settings_Vtiger_Index_Js.showMessage(params);
-							thisInstance.showCustomField(noteBookParams);
+			form.validationEngine($.extend(true, {
+				onValidationComplete: function (form, valid) {
+					if (valid) {
+						//To prevent multiple click on save
+						jQuery("[name='saveButton']", wizardContainer).attr('disabled', 'disabled');
+						var notePadName = form.find('[name="notePadName"]').val();
+						var notePadContent = form.find('[name="notePadContent"]').val();
+						var isDefault = 0;
+						var linkId = element.data('linkid');
+						var blockId = element.data('block-id');
+						var noteBookParams = {
+							'module': jQuery('#selectedModuleName').val(),
+							'action': 'NoteBook',
+							'mode': 'noteBookCreate',
+							'notePadName': notePadName,
+							'notePadContent': notePadContent,
+							'blockid': blockId,
+							'linkId': linkId,
+							'isdefault': isDefault,
+							'width': 4,
+							'height': 3
 						}
-					})
+						AppConnector.request(noteBookParams).done(function (data) {
+							if (data.result.success) {
+								var widgetId = data.result.widgetId;
+								app.hideModalWindow();
+								noteBookParams['id'] = widgetId;
+								noteBookParams['label'] = notePadName;
+								Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_WIDGET_ADDED')});
+								thisInstance.showCustomField(noteBookParams);
+							}
+						})
+					}
+					return false;
 				}
-				return false;
-			}
-			form.validationEngine(params);
+			}, app.validationEngineOptions));
 		});
 	},
 	addMiniListWidget: function (element, url) {
