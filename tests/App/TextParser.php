@@ -411,6 +411,11 @@ class TextParser extends \Tests\Base
 	 */
 	public function testRecordPlaceholdersReplacement()
 	{
+		$text = '+ $(record : NotExists)$ +';
+		$this->assertSame('+  +', static::$parserClean->setContent($text)
+			->parse()
+			->getContent(), 'Expected empty string');
+
 		$text = '+ $(record : CrmDetailViewURL)$ +';
 		$this->assertSame('+ ' . \AppConfig::main('site_URL') . 'index.php?module=Leads&view=Detail&record=' . \Tests\Entity\C_RecordActions::createLeadRecord()->getId() . ' +', static::$parserRecord->setContent($text)
 			->parse()
@@ -473,6 +478,12 @@ class TextParser extends \Tests\Base
 		$this->assertNotFalse(strpos(static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'test'), 'Test record changes list should should contain vat_id info');
+		static::$parserRecord->withoutTranslations(true);
+		$text = '+ $(record : ChangesListChanges)$ +';
+		$this->assertNotFalse(strpos(static::$parserRecord->setContent($text)
+			->parse()
+			->getContent(), 'test'), 'Test record changes list should should contain vat_id info');
+		static::$parserRecord->withoutTranslations(false);
 		$text = '+ $(record : ChangesListValues)$ +';
 		$this->assertNotFalse(strpos(static::$parserRecord->setContent($text)
 			->parse()
@@ -481,7 +492,7 @@ class TextParser extends \Tests\Base
 		$this->assertSame('+ ' . \Tests\Entity\C_RecordActions::createLeadRecord()->get('company') . ' +', static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'Test record company should be same as in db');
-		$text = '+ $(record : Comments)$ +';
+		$text = '+ $(record : Comments 5)$ +';
 		$this->assertSame('+  +', static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'Test record comments list should be empty');
