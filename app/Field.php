@@ -269,6 +269,7 @@ class Field
 	 */
 	public static function getFieldInfo($mixed, $module = false)
 	{
+		$fieldInfo = false;
 		if (is_numeric($mixed)) {
 			if (Cache::has('FieldInfoById', $mixed)) {
 				return Cache::get('FieldInfoById', $mixed);
