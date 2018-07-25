@@ -361,6 +361,16 @@ class TextParser extends \Tests\Base
 			->setContent($text)
 			->parse()
 			->getContent(), 'custom function with not existent parser should return empty string');
+		$text = '+ $(custom : TableTaxSummary)$ +';
+		$this->assertSame('+  +', \App\TextParser::getInstance()
+			->setContent($text)
+			->parse()
+			->getContent(), 'custom function with TableTaxSummary parser should return empty string');
+//		$text = '+ $(custom : TableHierarchy|IStorages)$ +';
+//		$this->assertSame('+  +', \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createLeadRecord())
+//			->setContent($text)
+//			->parse()
+//			->getContent(), 'custom function with TableHierarchy Leads module parser should return empty string');
 		$text = '+ $(custom : NotExists|Leads)$ +';
 		$this->assertSame('+  +', \App\TextParser::getInstance()
 			->setContent($text)
