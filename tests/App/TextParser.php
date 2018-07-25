@@ -64,17 +64,17 @@ class TextParser extends \Tests\Base
 	public function testOrganizationPlaceholders()
 	{
 		$defaultCompanyModel = \App\Company::getInstanceById(false);
-		$OrganizationId = (new \App\Db\Query())->select(['id'])->from('s_#__companies')->where(['default' => 1])->scalar();
-		$this->assertNotEmpty($OrganizationId, 'Default organization should exists');
+		$organizationId = (new \App\Db\Query())->select(['id'])->from('s_#__companies')->where(['default' => 1])->scalar();
+		$this->assertNotEmpty($organizationId, 'Default organization should exists');
 		$this->assertSame('+ ' . $defaultCompanyModel->get('name') . ' +', static::$parserClean
 			->setContent('+ $(organization : name)$ +')
 			->parse()
 			->getContent(), 'Organization name should match to reference');
 
-		$this->assertSame('+ ' . \App\Company::getInstanceById($OrganizationId)->get('name') . ' +', static::$parserClean
-			->setContent('+ $(organization : name|' . $OrganizationId . ')$ +')
+		$this->assertSame('+ ' . \App\Company::getInstanceById($organizationId)->get('name') . ' +', static::$parserClean
+			->setContent('+ $(organization : name|' . $organizationId . ')$ +')
 			->parse()
-			->getContent(), 'Organization id: ' . $OrganizationId . ', field name should match to reference');
+			->getContent(), 'Organization id: ' . $organizationId . ', field name should match to reference');
 
 		$this->assertNotFalse(strpos(static::$parserClean
 			->setContent('+ $(organization : mailLogo)$ +')
