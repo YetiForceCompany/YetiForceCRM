@@ -151,7 +151,7 @@ $.Class("Vtiger_DashBoard_Js", {
 		var thisInstance = this;
 		this.getContainer().on('click', 'a[name="drefresh"]', function (e) {
 			var element = $(e.currentTarget);
-			var parent = element.closest('li');
+			var parent = element.closest('.dashboardWidget');
 			var widgetInstnace = thisInstance.getWidgetInstance(parent);
 			widgetInstnace.refreshWidget();
 			return;
@@ -275,7 +275,7 @@ $.Class("Vtiger_DashBoard_Js", {
 
 		container.on('change', '#mailUserList', function (e) {
 			var element = $(e.currentTarget);
-			var parent = element.closest('li');
+			var parent = element.closest('.dashboardWidget');
 			var contentContainer = parent.find('.dashboardWidgetContent');
 			var optionSelected = $("option:selected", this);
 			var url = parent.data('url') + '&user=' + optionSelected.val();
@@ -691,7 +691,7 @@ $.Class("Vtiger_DashBoard_Js", {
 					type: 'success',
 				};
 				Vtiger_Helper_Js.showMessage(params);
-				var parent = currentTarget.closest('li');
+				var parent = currentTarget.closest('.dashboardWidget');
 				$(parent).remove();
 				thisInstance.updateLazyWidget();
 			});

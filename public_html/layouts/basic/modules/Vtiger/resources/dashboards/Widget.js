@@ -1507,7 +1507,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		let url = element.data('url');
 		let contentContainer = parent.find('.dashboardWidgetContent');
 		let params = url;
-
 		let widgetFilters = parent.find('.widgetFilter');
 		if (widgetFilters.length > 0) {
 			params = {};
