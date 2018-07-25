@@ -676,5 +676,10 @@ class TextParser extends \Tests\Base
 	public function testRelatedRecord()
 	{
 		$this->assertNotSame('+  +', '+ ' . static::$parserRecord->setContent('+$(relatedRecord : assigned_user_id|user_name|Users)$+')->parse()->getContent() . ' +', 'Lead creator email should be not empty');
+		$comment = \Vtiger_Record_Model::getCleanInstance('ModComments');
+		$comment->set('commentcontent', 'TestComment');
+		$comment->set('related_to', \Tests\Entity\C_RecordActions::createLeadRecord()->getId());
+		$comment->save();
+		$this->assertNotSame('+  +', '+ ' . \App\TextParser::getInstanceById($comment->getId(), 'ModComments')->setContent('+ $(relatedRecord : related_to|company)$ +')->parse()->getContent() . ' +', 'Lead creator email should be not empty');
 	}
 }
