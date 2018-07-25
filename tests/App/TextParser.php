@@ -245,6 +245,26 @@ class TextParser extends \Tests\Base
 	}
 
 	/**
+	 * Testing params functions.
+	 */
+	public function testParamsPlaceholderReplacement()
+	{
+		static::$parserClean->setParams(['test_var'=>'test']);
+		$text = '+ $(params : test_var)$ +';
+		$this->assertSame('+ test +', static::$parserClean
+			->setContent($text)
+			->parse()
+			->getContent(), 'Clean instance: Test params placeholder should return value test');
+		$text = '+ $(params : test_var_not_exist)$ +';
+		$this->assertSame('+  +', static::$parserClean
+			->setContent($text)
+			->parse()
+			->getContent(), 'Clean instance: Test param not exist, placeholder should return empty value');
+		$this->assertSame('test', static::$parserClean->getParam('test_var'), 'Clean instance: getParam should return value test');
+		$this->assertFalse(static::$parserClean->getParam('test_var_not_exist'), 'Clean instance: key not exist, getParam should return false');
+	}
+
+	/**
 	 * Testing basic field placeholder replacement.
 	 */
 	public function testBasicFieldPlaceholderReplacement()
