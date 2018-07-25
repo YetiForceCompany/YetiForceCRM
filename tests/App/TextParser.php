@@ -358,6 +358,26 @@ class TextParser extends \Tests\Base
 	}
 
 	/**
+	 * Testing related records list placeholders replacement.
+	 */
+	public function testRelatedRecordsListPlaceholdersReplacement()
+	{
+		$text = '$(relatedRecordsList : Accounts|lead_no,lastname,phone,description|[[["company","a","Test"]]]|All|5)$';
+		$result = \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createLeadRecord())
+			->setContent($text)
+			->parse()
+			->getContent();
+		$this->assertEmpty($result, 'relatedRecordsList should return empty string if no related records found');
+		//$this->assertNotFalse(strpos($result, 'recordsList'), 'Related records list should contain html class recordsList');
+		$text = '$(relatedRecordsList : Leads|lead_no,lastname,phone,description|[[["company","a","Test"]]]|NotExist|5)$';
+		$result = \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createLeadRecord())->withoutTranslations(true)
+			->setContent($text)
+			->parse()
+			->getContent();
+		$this->assertEmpty($result, 'relatedRecordsList should return empty string if no related records found(CustomView not exists)');
+	}
+
+	/**
 	 * Testing custom placeholders.
 	 */
 	public function testCustomPlaceholders()
