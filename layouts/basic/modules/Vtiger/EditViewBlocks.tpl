@@ -46,8 +46,12 @@
 				<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}"/>
 			{/if}
 			{foreach from=$RECORD->getModule()->getFieldsByDisplayType(9) item=FIELD key=FIELD_NAME}
-				<input type="hidden" name="{$FIELD_NAME}"
-					   value="{\App\Purifier::encodeHtml($RECORD->get($FIELD_NAME))}"/>
+				{if $FIELD->getFieldDataType() === 'date'}
+					<input type="hidden" name="{$FIELD_NAME}"
+					   value="{DateTimeField::convertToUserFormat(\App\Purifier::encodeHtml($RECORD->get($FIELD_NAME)))}"/>
+				{else}
+					<input type="hidden" name="{$FIELD_NAME}" value="{\App\Purifier::encodeHtml($RECORD->get($FIELD_NAME))}"/>
+				{/if}
 			{/foreach}
 			<div class='widget_header row mb-3'>
 				<div class="col-md-8">
