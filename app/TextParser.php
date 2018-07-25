@@ -1005,13 +1005,13 @@ class TextParser
 			$handlerClass = \Vtiger_Loader::getComponentClassName('TextParser', $parserName, $moduleName, false);
 			if (!$handlerClass) {
 				Log::error("Not found custom class: $parserName|{$moduleName}");
+				return '';
 			}
 			$instance = new $handlerClass($this, $params);
 		} else {
 			$className = "\App\TextParser\\$parserName";
 			if (!class_exists($className)) {
 				Log::error("Not found custom class $parserName");
-
 				return '';
 			}
 			$instance = new $className($this, $aparams);
@@ -1058,7 +1058,6 @@ class TextParser
 			}
 		}
 		static::$recordVariable[$cacheKey] = $variables;
-
 		return $variables;
 	}
 
