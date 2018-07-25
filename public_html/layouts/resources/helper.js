@@ -7,7 +7,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-'use strict';
 
 $.Class("Vtiger_Helper_Js", {
 	checkServerConfigResponseCache: '',

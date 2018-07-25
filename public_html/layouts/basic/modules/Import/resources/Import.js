@@ -7,7 +7,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-'use strict';
 
 if (typeof (ImportJs) === "undefined") {
 	/*

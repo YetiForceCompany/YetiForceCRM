@@ -6,7 +6,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-'use strict';
 
 Vtiger_List_Js("Settings_Vtiger_List_Js", {
 	triggerDelete: function (event, url) {

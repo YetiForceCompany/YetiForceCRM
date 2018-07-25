@@ -7,7 +7,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-'use strict';
 
 Vtiger_List_Js("Rss_List_Js", {},
 	{

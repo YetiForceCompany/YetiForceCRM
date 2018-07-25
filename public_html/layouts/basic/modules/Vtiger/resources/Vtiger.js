@@ -7,7 +7,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-'use strict';
 
 var Vtiger_Index_Js = {
 	showLocation: function (element) {

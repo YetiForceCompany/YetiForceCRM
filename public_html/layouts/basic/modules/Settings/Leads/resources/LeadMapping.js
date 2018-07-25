@@ -7,7 +7,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-'use strict';
 
 jQuery.Class("Settings_LeadMapping_Js", {
 

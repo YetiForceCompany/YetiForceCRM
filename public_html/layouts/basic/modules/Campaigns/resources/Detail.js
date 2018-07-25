@@ -7,7 +7,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-'use strict';
 
 Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 	/**

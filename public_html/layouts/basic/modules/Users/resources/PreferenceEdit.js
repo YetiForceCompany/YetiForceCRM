@@ -6,6 +6,5 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-'use strict';
 
 Users_Edit_Js("Users_PreferenceEdit_Js", {}, {});

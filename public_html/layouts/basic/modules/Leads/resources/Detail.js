@@ -7,7 +7,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-'use strict';
 
 Vtiger_Detail_Js("Leads_Detail_Js", {
 	//cache will store the convert lead data(Model)

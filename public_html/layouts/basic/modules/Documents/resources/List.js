@@ -6,7 +6,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-'use strict';
 
 Vtiger_List_Js("Documents_List_Js", {
 	massMove: function (url) {

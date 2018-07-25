@@ -6,7 +6,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-'use strict';
 
 jQuery.Class("Calendar_CalendarView_Js", {
 	currentInstance: false,

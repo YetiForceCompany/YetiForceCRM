@@ -6,7 +6,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-'use strict';
 
 Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 	validationSupportedFieldConditionMap: {

@@ -7,7 +7,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-'use strict';
 
 jQuery.Class("Vtiger_RelatedList_Js", {
 	getInstance: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
