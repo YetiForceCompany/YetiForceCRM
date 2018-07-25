@@ -445,6 +445,17 @@ class TextParser extends \Tests\Base
 		$this->assertNotSame('+  +', static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'Test record changes list values should be not empty');
+		static::$parserRecord->withoutTranslations(true);
+		$text = '+ $(record : ChangesListChanges)$ +';
+		$this->assertSame('+  +', static::$parserRecord->setContent($text)
+			->parse()
+			->getContent(), 'Test record changes list should be empty(withoutTranslations)');
+
+		$text = '+ $(record : ChangesListValues)$ +';
+		$this->assertNotSame('+  +', static::$parserRecord->setContent($text)
+			->parse()
+			->getContent(), 'Test record changes list values should be not empty(withoutTranslations)');
+		static::$parserRecord->withoutTranslations(false);
 		$this->assertNotFalse(\strpos(static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'TestLead sp. z o.o.'), 'Test record changes list values should contain "TestLead sp. z o.o."');
@@ -466,6 +477,18 @@ class TextParser extends \Tests\Base
 		$this->assertNotFalse(strpos(static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'testing'), 'Test record changes list values should be not empty');
+		$text = '+ $(record : company)$ +';
+		$this->assertSame('+ ' . \Tests\Entity\C_RecordActions::createLeadRecord()->get('company') . ' +', static::$parserRecord->setContent($text)
+			->parse()
+			->getContent(), 'Test record company should be same as in db');
+		$text = '+ $(record : Comments)$ +';
+		$this->assertSame('+  +', static::$parserRecord->setContent($text)
+			->parse()
+			->getContent(), 'Test record comments list should be empty');
+		$text = '+ $(record : FieldNotExists)$ +';
+		$this->assertSame('+  +', static::$parserRecord->setContent($text)
+			->parse()
+			->getContent(), 'Test function record when field not exists should return empty string');
 	}
 
 	/**
