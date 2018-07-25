@@ -63,12 +63,14 @@ class TextParser extends \Tests\Base
 	 */
 	public function testOrganizationPlaceholders()
 	{
-		$this->assertSame('+ ' . \App\Company::getInstanceById(false)->get('name') . ' +', static::$parserClean
+		$defaultCompanyModel = \App\Company::getInstanceById(false);
+		$OrganizationId = (new \App\Db\Query())->select(['id'])->from('s_#__companies')->where(['default' => 1])->scalar();
+		$this->assertNotEmpty($OrganizationId, 'Default organization should exists');
+		$this->assertSame('+ ' . $defaultCompanyModel->get('name') . ' +', static::$parserClean
 			->setContent('+ $(organization : name)$ +')
 			->parse()
 			->getContent(), 'Organization name should match to reference');
-		$OrganizationId = (new \App\Db\Query())->select(['id'])->from('s_#__companies')->where(['default' => 1])->scalar();
-		$this->assertNotEmpty($OrganizationId, 'Default organization should exists');
+
 		$this->assertSame('+ ' . \App\Company::getInstanceById($OrganizationId)->get('name') . ' +', static::$parserClean
 			->setContent('+ $(organization : name|' . $OrganizationId . ')$ +')
 			->parse()
@@ -84,17 +86,17 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent(), 'organizationLogo'), 'Organization login logo should contain html class organizationLogo');
 
-		$this->assertSame('+ ' . \App\Company::$logoPath . \App\Company::getInstanceById(false)->get('logo_login') . ' +', static::$parserClean
+		$this->assertSame('+ ' . \App\Company::$logoPath . $defaultCompanyModel->get('logo_login') . ' +', static::$parserClean
 			->setContent('+ $(organization : logo_login)$ +')
 			->parse()
 			->getContent(), 'Organization logo_login should match to reference');
 
-		$this->assertSame('+ ' . \App\Company::$logoPath . \App\Company::getInstanceById(false)->get('logo_main') . ' +', static::$parserClean
+		$this->assertSame('+ ' . \App\Company::$logoPath . $defaultCompanyModel->get('logo_main') . ' +', static::$parserClean
 			->setContent('+ $(organization : logo_main)$ +')
 			->parse()
 			->getContent(), 'Organization logo_main should match to reference');
 
-		$this->assertSame('+ ' . \App\Company::$logoPath . \App\Company::getInstanceById(false)->get('logo_mail') . ' +', static::$parserClean
+		$this->assertSame('+ ' . \App\Company::$logoPath . $defaultCompanyModel->get('logo_mail') . ' +', static::$parserClean
 			->setContent('+ $(organization : logo_mail)$ +')
 			->parse()
 			->getContent(), 'Organization logo_mail should match to reference');
@@ -342,13 +344,14 @@ class TextParser extends \Tests\Base
 	 */
 	public function testRecordsListPlaceholdersReplacement()
 	{
-		$text = '$(recordsList : Leads|lead_no,lastname,phone,description|[[["company","a","Test"]]]|All|5)$';
+		$text = '$(recordsList : Leads|lead_no,company,email,description|[[["company","a","Test"]]]|All|5)$';
 		$result = \App\TextParser::getInstance()
 			->setContent($text)
 			->parse()
 			->getContent();
 		$this->assertNotEmpty($result, 'recordsList should return not empty string');
 		$this->assertNotFalse(strpos($result, 'recordsList'), 'Record list should contain html class recordsList');
+		$this->assertSame(4, \substr_count($result, '<th>'), 'Columns count should be equal to provided list');
 		$text = '$(recordsList : Leads|lead_no,lastname,phone,description|[[["company","a","Test"]]]|NotExist|5)$';
 		$result = \App\TextParser::getInstance()->withoutTranslations(true)
 			->setContent($text)
@@ -368,7 +371,6 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent();
 		$this->assertEmpty($result, 'relatedRecordsList should return empty string if no related records found');
-		//$this->assertNotFalse(strpos($result, 'recordsList'), 'Related records list should contain html class recordsList');
 		$text = '$(relatedRecordsList : Leads|lead_no,lastname,phone,description|[[["company","a","Test"]]]|NotExist|5)$';
 		$result = \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createLeadRecord())->withoutTranslations(true)
 			->setContent($text)
@@ -444,10 +446,11 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent(), 'Test record changes list values should be empty');
 
-		\Tests\Entity\C_RecordActions::createLeadRecord()->set('lastname', 'test');
-		\Tests\Entity\C_RecordActions::createLeadRecord()->save();
-		\Tests\Entity\C_RecordActions::createLeadRecord()->set('lastname', 'testing');
-		\Tests\Entity\C_RecordActions::createLeadRecord()->save();
+		$changesModel = \Tests\Entity\C_RecordActions::createLeadRecord();
+		$changesModel->set('lastname', 'test');
+		$changesModel->save();
+		$changesModel->set('lastname', 'testing');
+		$changesModel->save();
 
 		$text = '+ $(record : ChangesListChanges)$ +';
 		$this->assertNotFalse(strpos(static::$parserRecord->setContent($text)
