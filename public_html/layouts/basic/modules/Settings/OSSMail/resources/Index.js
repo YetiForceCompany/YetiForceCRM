@@ -23,7 +23,7 @@ jQuery.Class("Settings_OSSMail_Index_Js", {}, {
 	 * Register the field with hosts
 	 */
 	registerDefaultHost: function () {
-		App.Fields.Picklist.showSelectizeElementView(this.getContainer().find('[name="default_host"]'), {
+		App.Fields.Picklist.showSelect2ElementView(this.getContainer().find('[name="default_host"]'), {
 			delimiter: ',',
 			persist: false,
 			create: function (input) {
