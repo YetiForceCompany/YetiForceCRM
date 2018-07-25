@@ -558,6 +558,7 @@ class TextParser
 			case 'RecordLabel':
 				return $this->recordModel->getName();
 			case 'ChangesListChanges':
+				$value = '';
 				foreach ($this->recordModel->getPreviousValue() as $fieldName => $oldValue) {
 					$fieldModel = $this->recordModel->getModule()->getField($fieldName);
 					if (!$fieldModel) {
@@ -574,6 +575,7 @@ class TextParser
 				}
 				return $value;
 			case 'ChangesListValues':
+				$value = '';
 				$changes = $this->recordModel->getPreviousValue();
 				if (empty($changes)) {
 					$changes = array_filter($this->recordModel->getData());
@@ -581,7 +583,7 @@ class TextParser
 				}
 				foreach ($changes as $fieldName => $oldValue) {
 					$fieldModel = $this->recordModel->getModule()->getField($fieldName);
-					if (!$fieldModel || $oldValue !== '') {
+					if (!$fieldModel) {
 						continue;
 					}
 					$currentValue = $this->getDisplayValueByField($fieldModel);
