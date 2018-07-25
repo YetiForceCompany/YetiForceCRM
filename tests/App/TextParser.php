@@ -342,13 +342,30 @@ class TextParser extends \Tests\Base
 	 */
 	public function testRecordsListPlaceholdersReplacement()
 	{
-		$text = '$(recordsList : Leads|lead_no,lastname,phone,description||all|5)$';
+		$text = '$(recordsList : Leads|lead_no,lastname,phone,description|[[["company","a","Test"]]]|All|5)$';
 		$result = \App\TextParser::getInstance()
 			->setContent($text)
 			->parse()
 			->getContent();
 		$this->assertNotEmpty($result, 'recordsList should return not empty string');
 		$this->assertNotFalse(strpos($result, 'recordsList'), 'Record list should contain html class recordsList');
+	}
+
+	/**
+	 * Testing custom placeholders.
+	 */
+	public function testCustomPlaceholders()
+	{
+		$text = '+ $(custom : NotExists)$ +';
+		$this->assertSame('+  +', \App\TextParser::getInstance()
+			->setContent($text)
+			->parse()
+			->getContent(), 'custom function with not existent parser should return empty string');
+		$text = '+ $(custom : NotExists|Leads)$ +';
+		$this->assertSame('+  +', \App\TextParser::getInstance()
+			->setContent($text)
+			->parse()
+			->getContent(), 'custom function with not existent Leads module parser should return empty string');
 	}
 
 	/**
