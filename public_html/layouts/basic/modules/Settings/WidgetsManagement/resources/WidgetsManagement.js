@@ -135,7 +135,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				App.Fields.Picklist.changeSelectElementView(data.find('select'));
 
 				var form = data.find('.addBlockDashBoardForm');
-				var params = app.validationEngineOptions;
+				var params = $.extend(true, {}, app.validationEngineOptions);
 				var block = form.find('[name="authorized"]');
 				form.validationEngine(params);
 				form.on('submit', function (e) {
@@ -279,7 +279,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				var form = data.find('.createCustomFieldForm');
 				form.attr('id', 'createFieldForm');
 				var widgets = form.find('[name="widgets"]');
-				var params = app.validationEngineOptions;
+				var params = $.extend(true, {}, app.validationEngineOptions);
 				params.onValidationComplete = function (form, valid) {
 					if (valid) {
 						if (widgets.val()) {
@@ -773,7 +773,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 
 		app.showModalWindow(null, "index.php?module=Home&view=AddNotePad", function (wizardContainer) {
 			var form = jQuery('form', wizardContainer);
-			var params = app.validationEngineOptions;
+			var params = $.extend(true, {}, app.validationEngineOptions);
 			params.onValidationComplete = function (form, valid) {
 				if (valid) {
 					//To prevent multiple click on save
