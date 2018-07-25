@@ -492,7 +492,7 @@ class TextParser extends \Tests\Base
 		$this->assertSame('+ ' . \Tests\Entity\C_RecordActions::createLeadRecord()->get('company') . ' +', static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'Test record company should be same as in db');
-		$text = '+ $(record : Comments 5)$ +';
+		$text = '+ $(record : Comments 5 true)$ +';
 		$comment = \Vtiger_Record_Model::getCleanInstance('ModComments');
 		$comment->set('commentcontent', 'TestComment');
 		$comment->set('related_to', \Tests\Entity\C_RecordActions::createLeadRecord()->getId());
