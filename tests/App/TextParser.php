@@ -349,6 +349,12 @@ class TextParser extends \Tests\Base
 			->getContent();
 		$this->assertNotEmpty($result, 'recordsList should return not empty string');
 		$this->assertNotFalse(strpos($result, 'recordsList'), 'Record list should contain html class recordsList');
+		$text = '$(recordsList : Leads|lead_no,lastname,phone,description|[[["company","a","Test"]]]|NotExist|5)$';
+		$result = \App\TextParser::getInstance()->withoutTranslations(true)
+			->setContent($text)
+			->parse()
+			->getContent();
+		$this->assertNotEmpty($result, 'recordsList should return not empty string(CustomView not exists)');
 	}
 
 	/**
