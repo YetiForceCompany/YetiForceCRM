@@ -272,16 +272,19 @@ class CRMEntity
 
 	public function deleteRelatedDependent($crmid, $withModule, $withCrmid)
 	{
-		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.tablename', 'vtiger_field.columnname', 'vtiger_tab.name'])
+		$dataReader = (new \App\Db\Query())->select(['vtiger_field.fieldname'])
 			->from('vtiger_field')
 			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
 			->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $this->moduleName, 'relmodule' => $withModule])])
 			->createCommand()->query();
+		$recordModel = \Vtiger_Record_Model::getInstanceById($crmid, $this->moduleName);
 		while ($row = $dataReader->read()) {
-			App\Db::getInstance()->createCommand()
-				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $withCrmid, self::getInstance($row['name'])->table_index => $crmid])->execute();
+			if ((int) $recordModel->get($row['fieldname']) === (int) $withCrmid) {
+				$recordModel->set($row['fieldname'], 0);
+			}
 		}
 		$dataReader->close();
+		$recordModel->save();
 	}
 
 	/**

@@ -200,7 +200,7 @@ class Deprecated
 			if (!$currentUserPrivilegesModel->isPermitted($destinationModule, 'Delete', $destinationRecordId)) {
 				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 			}
-			$focus->trash($destinationModule, $destinationRecordId);
+			\Vtiger_Record_Model::getInstanceById($destinationRecordId, $destinationModule)->delete();
 		}
 		\App\Log::trace('Exiting deleteEntity method ...');
 	}
