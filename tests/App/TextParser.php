@@ -682,6 +682,8 @@ class TextParser extends \Tests\Base
 	 */
 	public function testRelatedRecord()
 	{
+		$this->assertNotSame('+  +', '+ ' . \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createContactRecord())->setContent('+$(relatedRecord : parent_id|accountname|Accounts)$+')->parse()->getContent() . ' +', 'Account name should be not empty');
+		$this->assertNotSame('+  +', '+ ' . \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createContactRecord())->setContent('+$(relatedRecord : parent_id|accountname)$+')->parse()->getContent() . ' +', 'Account name should be not empty(without module)');
 		$this->assertNotSame('+  +', '+ ' . static::$parserRecord->setContent('+$(relatedRecord : assigned_user_id|user_name|Users)$+')->parse()->getContent() . ' +', 'Lead creator user_name should be not empty');
 		$comment = \Vtiger_Record_Model::getCleanInstance('ModComments');
 		$comment->set('commentcontent', 'TestComment');
