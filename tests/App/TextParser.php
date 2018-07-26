@@ -370,7 +370,7 @@ class TextParser extends \Tests\Base
 			->getContent();
 		$this->assertEmpty($result, 'relatedRecordsList should return empty string if no related records found(CustomView not exists)');
 		$contactModel = \Tests\Entity\C_RecordActions::createContactRecord();
-		$text = '$(relatedRecordsList : Contacts|firstname,decision_maker,createdtime,contactstatus,verification|[[["firstname","a","Test"]]]||5)$';
+		$text = '$(relatedRecordsList : Contacts|firstname,decision_maker,createdtime,contactstatus,verification|[[["firstname","a","Test"]]]|All|5)$';
 		$result = \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createAccountRecord())->withoutTranslations(true)
 			->setContent($text)
 			->parse()
@@ -675,7 +675,7 @@ class TextParser extends \Tests\Base
 	 */
 	public function testRelatedRecord()
 	{
-		$this->assertNotSame('+  +', '+ ' . static::$parserRecord->setContent('+$(relatedRecord : assigned_user_id|user_name|Users)$+')->parse()->getContent() . ' +', 'Lead creator email should be not empty');
+		$this->assertNotSame('+  +', '+ ' . static::$parserRecord->setContent('+$(relatedRecord : assigned_user_id|user_name|Users)$+')->parse()->getContent() . ' +', 'Lead creator user_name should be not empty');
 		$comment = \Vtiger_Record_Model::getCleanInstance('ModComments');
 		$comment->set('commentcontent', 'TestComment');
 		$comment->set('related_to', \Tests\Entity\C_RecordActions::createLeadRecord()->getId());
