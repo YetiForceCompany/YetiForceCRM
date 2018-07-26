@@ -271,13 +271,10 @@ class TextParser extends \Tests\Base
 	 */
 	public function testBasicField()
 	{
-		if ((new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => \App\User::getCurrentUserId()])
-			->limit(1)->exists()) {
-			$tmpUser = \App\User::getCurrentUserId();
-			\App\User::setCurrentUserId((new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['not in', 'id', (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees'])
-				->column()])
-				->limit(1)->scalar());
-		}
+		$tmpUser = \App\User::getCurrentUserId();
+		\App\User::setCurrentUserId((new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['not in', 'id', (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees'])
+			->column()])
+			->limit(1)->scalar());
 		$text = '+ $(employee : last_name)$ +';
 		$this->assertSame('+  +', static::$parserClean
 			->setContent($text)
@@ -291,9 +288,7 @@ class TextParser extends \Tests\Base
 			->setContent($text)
 			->parse()
 			->getContent(), 'Record instance: By default employee last name should be empty');
-		if (isset($tmpUser)) {
-			\App\User::setCurrentUserId($tmpUser);
-		}
+		\App\User::setCurrentUserId($tmpUser);
 		\App\Cache::clear();
 	}
 
@@ -302,10 +297,10 @@ class TextParser extends \Tests\Base
 	 */
 	public function testEmployee()
 	{
+		$tmpUser = \App\User::getCurrentUserId();
 		$employeeId = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => \App\User::getCurrentUserId()])
 			->limit(1)->scalar();
 		if (!$employeeId) {
-			$tmpUser = \App\User::getCurrentUserId();
 			$employeeUser = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['in', 'id', (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees'])
 				->column()])
 				->limit(1)->scalar();
@@ -316,7 +311,7 @@ class TextParser extends \Tests\Base
 				$employeeModel->save();
 				$employeeId = $employeeModel->getId();
 			}
-			if ($employeeUser && $employeeUser !== $tmpUser) {
+			if ($employeeUser) {
 				\App\User::setCurrentUserId($employeeUser);
 			} else {
 				unset($tmpUser);
@@ -334,9 +329,7 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent(), 'Clean instance: Employee name should be same as in db(cached)');
 
-		if (isset($tmpUser)) {
-			\App\User::setCurrentUserId($tmpUser);
-		}
+		\App\User::setCurrentUserId($tmpUser);
 	}
 
 	/**
