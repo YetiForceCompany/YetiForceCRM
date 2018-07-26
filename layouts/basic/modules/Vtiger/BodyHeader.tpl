@@ -305,7 +305,7 @@
 							<span class="fas fa-comments fa-fw" title="{\App\Language::translate('LBL_CHAT')}"></span>
 							<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_CHAT')}</span>
 						</a>
-						<div class="chatModal modal fade row c-modal--custom-animation" tabindex="-1" role="dialog"
+						<div class="chatModal modal fade c-modal--custom-animation" tabindex="-1" role="dialog"
 							 aria-labelledby="c-chat-modal__title"
 							 data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
 							<div class="modal-dialog modalRightSiteBar" role="document">

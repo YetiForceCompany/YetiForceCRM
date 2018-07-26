@@ -139,10 +139,12 @@
 		padding: 2px;
 	}
 }
-
 .chatModal {
+	@extend .col-12, .col-sm-8, .col-lg-3;
+	left: auto;
+
 	.modal-dialog {
-		@extend .col-12, .col-sm-8, .col-lg-3;
+	  height: 100%;
 	}
 
 	.modal-body {
