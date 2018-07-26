@@ -1254,21 +1254,22 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 	},
 	loadScrollbar: function loadScrollbar() {
-		const container = this.getChartContainer(false);
+		const container = $(this.getChartContainer(false));
 		if (typeof container === "undefined") { // if there is no data
 			return false;
 		}
-		const widget = $(container.closest('.dashboardWidget'));
+		const widget = container.closest('.dashboardWidget');
 		const content = widget.find('.dashboardWidgetContent');
 		const footer = widget.find('.dashboardWidgetFooter');
-		const header = widget.find('.dashboardWidgetHeader');
-		const headerHeight = header.outerHeight();
-		let adjustedHeight = widget.height() - headerHeight;
-		if (footer.length)
+		let adjustedHeight = widget.innerHeight() - widget.find('.dashboardWidgetHeader').outerHeight();
+		if (footer.length) {
 			adjustedHeight -= footer.outerHeight();
-		if (!content.length)
+		}
+		if (!content.length) {
 			return;
+		}
 		content.css('height', adjustedHeight + 'px');
+		content.css('max-height',adjustedHeight+'px');
 		if (typeof this.scrollbar !== 'undefined') {
 			this.scrollbar.update();
 		}else {
