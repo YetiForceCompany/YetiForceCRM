@@ -606,14 +606,10 @@ class TextParser extends \Tests\Base
 	 */
 	public function testGetRelatedVariable()
 	{
-		$fieldsArr = ['assigned_user_id'];
 		$arr = static::$parserCleanModule->getRelatedVariable();
 		$this->assertInternalType('array', $arr, 'Expected array type');
 		$this->assertNotEmpty($arr, 'Expected any related variables data');
 		foreach ($arr as $key => $content) {
-			if (!is_array($content) || \in_array($content, $fieldsArr)) {
-				continue;
-			}
 			$this->assertInternalType('array', $content, 'Expected array type');
 			$this->assertNotEmpty($content, 'Expected any related variables data');
 			foreach ($content as $group => $data) {
