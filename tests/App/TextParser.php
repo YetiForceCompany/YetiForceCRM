@@ -310,11 +310,10 @@ class TextParser extends \Tests\Base
 				$employeeModel->set('name', 'Test employee');
 				$employeeModel->save();
 				$employeeId = $employeeModel->getId();
-			}
-			if ($employeeUser) {
-				\App\User::setCurrentUserId($employeeUser);
 			} else {
-				unset($tmpUser);
+				\App\User::setCurrentUserId($employeeUser);
+				$employeeId = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => \App\User::getCurrentUserId()])
+					->limit(1)->scalar();
 			}
 
 			\App\Cache::clear();
@@ -370,6 +369,13 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent();
 		$this->assertEmpty($result, 'relatedRecordsList should return empty string if no related records found(CustomView not exists)');
+		\Tests\Entity\C_RecordActions::createContactRecord();
+		$text = '$(relatedRecordsList : Contacts|firstname,decision_maker,createdtime|[[["firstname","a","Test"]]]||5)$';
+		$result = \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createAccountRecord())->withoutTranslations(true)
+			->setContent($text)
+			->parse()
+			->getContent();
+		$this->assertNotEmpty($result, 'relatedRecordsList should return not empty string if related records found');
 	}
 
 	/**
@@ -382,16 +388,16 @@ class TextParser extends \Tests\Base
 			->setContent($text)
 			->parse()
 			->getContent(), 'custom function with not existent parser should return empty string');
+		$text = '+ $(custom : NotExists|NotExists)$ +';
+		$this->assertSame('+  +', \App\TextParser::getInstance()
+			->setContent($text)
+			->parse()
+			->getContent(), 'custom function with not existent parser should return empty string');
 		$text = '+ $(custom : TableTaxSummary)$ +';
 		$this->assertSame('+  +', \App\TextParser::getInstance()
 			->setContent($text)
 			->parse()
 			->getContent(), 'custom function with TableTaxSummary parser should return empty string');
-//		$text = '+ $(custom : TableHierarchy|IStorages)$ +';
-//		$this->assertSame('+  +', \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createLeadRecord())
-//			->setContent($text)
-//			->parse()
-//			->getContent(), 'custom function with TableHierarchy Leads module parser should return empty string');
 		$text = '+ $(custom : NotExists|Leads)$ +';
 		$this->assertSame('+  +', \App\TextParser::getInstance()
 			->setContent($text)

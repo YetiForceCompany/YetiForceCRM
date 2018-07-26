@@ -25,6 +25,12 @@ class C_RecordActions extends \Tests\Base
 	 */
 	protected static $recordCampaigns;
 	/**
+	 * Temporary Contacts record object.
+	 *
+	 * @var \Vtiger_Record_Model
+	 */
+	protected static $recordContacts;
+	/**
 	 * Temporary Leads record object.
 	 *
 	 * @var \Vtiger_Record_Model
@@ -85,6 +91,26 @@ class C_RecordActions extends \Tests\Base
 		$recordModel->set('assigned_user_id', \App\User::getCurrentUserId());
 		$recordModel->save();
 		return static::$recordLeads = $recordModel;
+	}
+
+	/**
+	 * Creating contacts module record for tests.
+	 *
+	 * @return \Vtiger_Record_Model
+	 */
+	public static function createContactRecord()
+	{
+		if (static::$recordContacts) {
+			return static::$recordContacts;
+		}
+		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
+		$recordModel->set('salutation', 'Mr.');
+		$recordModel->set('firstname', 'Test');
+		$recordModel->set('lastname', 'Testowy');
+		$recordModel->set('parent_id', static::createAccountRecord()->getId());
+		$recordModel->set('assigned_user_id', \App\User::getCurrentUserId());
+		$recordModel->save();
+		return static::$recordContacts = $recordModel;
 	}
 
 	/**
