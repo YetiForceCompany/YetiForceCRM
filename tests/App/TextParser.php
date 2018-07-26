@@ -310,11 +310,10 @@ class TextParser extends \Tests\Base
 				$employeeModel->set('name', 'Test employee');
 				$employeeModel->save();
 				$employeeId = $employeeModel->getId();
-			} else {
-				\App\User::setCurrentUserId($employeeUser);
-				$employeeId = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => \App\User::getCurrentUserId()])
-					->limit(1)->scalar();
 			}
+			$employeeUser ? \App\User::setCurrentUserId($employeeUser) : '';
+			$employeeId = $employeeId ? $employeeId : (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => \App\User::getCurrentUserId()])
+				->limit(1)->scalar();
 
 			\App\Cache::clear();
 		}
@@ -371,6 +370,14 @@ class TextParser extends \Tests\Base
 		$this->assertEmpty($result, 'relatedRecordsList should return empty string if no related records found(CustomView not exists)');
 		$contactModel = \Tests\Entity\C_RecordActions::createContactRecord();
 		$text = '$(relatedRecordsList : Contacts|firstname,decision_maker,createdtime,contactstatus,verification|[[["firstname","a","Test"]]]|All|5)$';
+		$result = \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createAccountRecord())->withoutTranslations(true)
+			->setContent($text)
+			->parse()
+			->getContent();
+		$this->assertNotEmpty($result, 'relatedRecordsList should return not empty string if related records found');
+		$this->assertNotFalse(\strpos($result, $contactModel->get('firstname')), 'relatedRecordsList should contain test record row');
+
+		$text = '$(relatedRecordsList : Contacts|firstname,decision_maker,createdtime,contactstatus,verification|[[["firstname","a","Test"]]]|NotExists|5)$';
 		$result = \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createAccountRecord())->withoutTranslations(true)
 			->setContent($text)
 			->parse()
@@ -492,7 +499,7 @@ class TextParser extends \Tests\Base
 		$this->assertSame('+ ' . \Tests\Entity\C_RecordActions::createLeadRecord()->get('company') . ' +', static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'Test record company should be same as in db');
-		$text = '+ $(record : Comments 5 true)$ +';
+		$text = '+ $(record : Comments 5|true)$ +';
 		$comment = \Vtiger_Record_Model::getCleanInstance('ModComments');
 		$comment->set('commentcontent', 'TestComment');
 		$comment->set('related_to', \Tests\Entity\C_RecordActions::createLeadRecord()->getId());
