@@ -64,6 +64,46 @@ class Purifier extends \Tests\Base
 		$this->assertNotSame([$textBad, $textBad], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample text should be purified(array)');
 	}
 
+	public function testPurifyByTypeDateUserFormat()
+	{
+		$userModel = \Users_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
+		$currFormat = $userModel->get('date_format');
+		$userModel->set('date_format', 'yyyy.mm.dd');
+		$userModel->save();
+		$text = date('Y.m.d');
+		$textExpected = date('Y.m.d');
+		$textBad = date('Y-m-d');
+		$textBadExpected = '';
+		$type = 'DateInUserFormat';
+		$this->assertSame('', \App\Purifier::purifyByType('', $type), 'Sample empty date should be unchanged');
+		$this->assertSame($textExpected, \App\Purifier::purifyByType($text, $type), 'Sample date should be unchanged');
+		$this->assertSame([$textExpected, $textExpected], \App\Purifier::purifyByType([$text, $text], $type), 'Sample date range should be unchanged(array)');
+		$this->expectException(\App\Exceptions\IllegalValue::class);
+		$this->assertSame($textBadExpected, \App\Purifier::purifyByType($textBad, $type), 'Sample date range should be purified');
+		$this->assertSame([$textBadExpected, $textBadExpected], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample date range should be purified(array)');
+		$userModel->set('date_format', $currFormat);
+		$userModel->save();
+	}
+
+	public function testPurifyByTypeDateRange()
+	{
+		$userModel = \Users_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
+		$currFormat = $userModel->get('date_format');
+		$userModel->set('date_format', 'yyyy.mm.dd');
+		$userModel->save();
+		$text = date('Y.m.d') . ',' . date('Y.m.d', \strtotime('+1 day'));
+		$textExpected = [date('Y-m-d'), date('Y-m-d', \strtotime('+1 day'))];
+		$textBad = '201X-07.26,2018.07-27';
+		$textBadExpected = [];
+		$type = 'DateRangeUserFormat';
+		$this->assertSame($textExpected, \App\Purifier::purifyByType($text, $type), 'Sample date range should be unchanged');
+		$this->assertSame([$textExpected, $textExpected], \App\Purifier::purifyByType([$text, $text], $type), 'Sample date range should be unchanged(array)');
+		$this->assertSame($textBadExpected, \App\Purifier::purifyByType($textBad, $type), 'Sample date range should be purified');
+		$this->assertSame([$textBadExpected, $textBadExpected], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample date range should be purified(array)');
+		$userModel->set('date_format', $currFormat);
+		$userModel->save();
+	}
+
 	public function testPurifyByTypeDate()
 	{
 		$text = date('Y-m-d');
@@ -86,6 +126,30 @@ class Purifier extends \Tests\Base
 		$this->expectException(\App\Exceptions\IllegalValue::class);
 		$this->assertNotSame($textBad, \App\Purifier::purifyByType($textBad, $type), 'Sample text should be purified');
 		$this->assertNotSame([$textBad, $textBad], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample text should be purified(array)');
+	}
+
+	public function testPurifyByTypeInt()
+	{
+		$text = 1234;
+		$textBad = '1234X';
+		$type = 'Integer';
+		$this->assertSame($text, \App\Purifier::purifyByType($text, $type), 'Sample integer should be unchanged');
+		$this->assertSame([$text, $text], \App\Purifier::purifyByType([$text, $text], $type), 'Sample integer should be unchanged(array)');
+		$this->expectException(\App\Exceptions\IllegalValue::class);
+		$this->assertNotSame($textBad, \App\Purifier::purifyByType($textBad, $type), 'Sample integer should be purified');
+		$this->assertNotSame([$textBad, $textBad], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample integer should be purified(array)');
+	}
+
+	public function testPurifyByTypeYear()
+	{
+		$text = date('Y');
+		$textBad = '201X';
+		$type = 'Year';
+		$this->assertSame($text, \App\Purifier::purifyByType($text, $type), 'Sample year should be unchanged');
+		$this->assertSame([$text, $text], \App\Purifier::purifyByType([$text, $text], $type), 'Sample year should be unchanged(array)');
+		$this->expectException(\App\Exceptions\IllegalValue::class);
+		$this->assertNotSame($textBad, \App\Purifier::purifyByType($textBad, $type), 'Sample year should be purified');
+		$this->assertNotSame([$textBad, $textBad], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample year should be purified(array)');
 	}
 
 	public function testPurifyByTypeText()
