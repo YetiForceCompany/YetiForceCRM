@@ -61,6 +61,7 @@ class Purifier extends \Tests\Base
 	{
 		$textBad = 'Test-text-string-for-purifier%$54#T$#BR';
 		$type = 'Standard';
+		$this->expectException(\App\Exceptions\IllegalValue::class);
 		$this->assertNotSame([$textBad, $textBad], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample text should be purified(array)');
 	}
 
