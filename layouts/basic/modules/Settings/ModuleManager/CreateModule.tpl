@@ -14,7 +14,7 @@
 						<div class="form-group row">
 							<label class="col-sm-4 col-form-label text-right"><span class="text-danger">*</span>{\App\Language::translate('LBL_ENTER_MODULE_NAME', $QUALIFIED_MODULE)}</label>
 							<div class="col-sm-6 controls">
-								<input type="text" class="module_name form-control" data-validation-engine="validate[required]" name="module_name" placeholder="HelpDesk" required="true" >
+								<input type="text" class="module_name form-control" data-validation-engine="validate[required]" name="module_name" placeholder="HelpDesk" required="true">
 							</div>
 						</div>
 						<div class="form-group row">
@@ -26,13 +26,13 @@
 						<div class="form-group row">
 							<label class="col-sm-4 col-form-label text-right"><span class="text-danger">*</span>{\App\Language::translate('LBL_ENTITY_FIELDNAME', $QUALIFIED_MODULE)}</label>
 							<div class="col-sm-6 controls">
-								<input type="text" class="entityfieldname form-control" data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]" name="entityfieldname" placeholder="title" required="true">
+								<input type="text" class="entityfieldname form-control" data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]" name="entityfieldname" placeholder="{\App\Language::translate('LBL_SAMPLE_FIELD_NAME', $QUALIFIED_MODULE)}" required="true">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-sm-4 col-form-label text-right"><span class="text-danger">*</span>{\App\Language::translate('LBL_ENTITY_FIELDLABEL', $QUALIFIED_MODULE)}</label>
 							<div class="col-sm-6 controls">
-								<input type="text" class="entityfieldlabel form-control" data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]"name="entityfieldlabel" placeholder="Title" required="true">
+								<input type="text" class="entityfieldlabel form-control" data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]"name="entityfieldlabel" placeholder="{\App\Language::translate('LBL_SAMPLE_LABEL', $QUALIFIED_MODULE)}" required="true">
 							</div>
 						</div>
 						<div class="form-group row">
