@@ -107,6 +107,8 @@ class C_RecordActions extends \Tests\Base
 		$recordModel->set('salutation', 'Mr.');
 		$recordModel->set('firstname', 'Test');
 		$recordModel->set('lastname', 'Testowy');
+		$recordModel->set('contactstatus', 'Active');
+		$recordModel->set('verification', 'Address details');
 		$recordModel->set('parent_id', static::createAccountRecord()->getId());
 		$recordModel->set('assigned_user_id', \App\User::getCurrentUserId());
 		$recordModel->save();
