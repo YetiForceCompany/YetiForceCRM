@@ -47,7 +47,7 @@
 			{/if}
 			{foreach from=$RECORD->getModule()->getFieldsByDisplayType(9) item=FIELD key=FIELD_NAME}
 				<input type="hidden" name="{$FIELD_NAME}"
-					   value="{\App\Purifier::encodeHtml($RECORD->get($FIELD_NAME))}"/>
+					   value="{$FIELD->getEditViewDisplayValue($RECORD->get($FIELD_NAME),$RECORD)}"/>
 			{/foreach}
 			<div class='widget_header row mb-3'>
 				<div class="col-md-8">
