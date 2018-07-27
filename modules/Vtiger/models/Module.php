@@ -939,7 +939,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 					'linktype' => 'SIDEBARLINK',
 					'linklabel' => $treeViewModel->getName(),
 					'linkurl' => $treeViewModel->getTreeViewUrl(),
-					'linkicon' => '',
+					'linkicon' => 'fas fa-tree',
 			]);
 		}
 		return $links;

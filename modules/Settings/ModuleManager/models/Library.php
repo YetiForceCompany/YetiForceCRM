@@ -103,12 +103,7 @@ class Settings_ModuleManager_Library_Model
 			App\Log::warning('Library does not exist: ' . $name);
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-
 		$lib = static::$libraries[$name];
-		if (file_exists($lib['dir'] . 'version.php')) {
-			App\Log::info('Library has already been downloaded: ' . $name);
-			return false;
-		}
 		$path = static::TEMP_DIR . DIRECTORY_SEPARATOR . $lib['name'] . '.zip';
 		$mode = AppConfig::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : App\Version::get($lib['name']);
 		$compressedName = $lib['name'] . '-' . $mode;
