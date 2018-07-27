@@ -63,10 +63,9 @@ if (typeof (ImportJs) === "undefined") {
 				return false;
 			return true;
 		},
-		registerImportClickEvent: function () {
-			jQuery('#importButton').removeAttr('disabled').on('click', function (e) {
-				var result = ImportJs.sanitizeAndSubmit();
-				return result;
+		registerImportClickEvent() {
+			$('#importButton').removeAttr('disabled').on('click', function (e) {
+				return ImportJs.sanitizeAndSubmit();
 			});
 		},
 		validateFilePath: function () {
