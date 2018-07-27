@@ -178,6 +178,12 @@
 		width: 100%;
 	}
 }
+
+@include media-breakpoint-down(xs) {
+	.u-w-xs-down-100 {
+		width: 100%;
+	}
+}
 //--- HEIGHT ---//
 .u-h-600px {
 	height: 600px !important;
@@ -270,6 +276,14 @@
 .u-remove-dropdown-icon {
 	.dropdown-toggle::after {
 		display: none;
+	}
+}
+
+@include media-breakpoint-down(lg) {
+	.u-remove-dropdown-icon-down-lg {
+		.dropdown-toggle::after {
+			display: none;
+		}
 	}
 }
 
