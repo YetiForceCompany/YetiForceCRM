@@ -22,6 +22,10 @@ class Purifier extends \Tests\Base
 			['Alnum', 'NotSame', 'Test_text_alnum_4_purifier%$54#T$#BR-', 'Test_text_alnum_4_purifier%$54#T$#BR-', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
 			[2, 'Same', 'Test_text_alnum_4_purifier', 'Test_text_alnum_4_purifier', 'Sample text should be unchanged', false],
 			[2, 'NotSame', 'Test_text_alnum_4_purifier%$54#T$#BR-', 'Test_text_alnum_4_purifier%$54#T$#BR-', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
+			['DateInUserFormat', 'Same', date('Y-m-d'), date('Y-m-d'), 'Sample text should be unchanged', false],
+			['DateInUserFormat', 'NotSame', date('Y.m.d'), date('Y.m.d'), 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
+			['DateRangeUserFormat', 'Same', [date('Y-m-d'), date('Y-m-d', \strtotime('+1 day'))], date('Y-m-d') . ',' . date('Y-m-d', \strtotime('+1 day')), 'Sample text should be unchanged', false],
+			['DateRangeUserFormat', 'NotSame', date('Y.m.d') . ',' . date('Y.m.d', \strtotime('+1 day')), date('Y.m.d') . ',' . date('Y.m.d', \strtotime('+1 day')), 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
 			['Date', 'Same', date('Y-m-d'), date('Y-m-d'), 'Sample text should be unchanged', false],
 			['Date', 'NotSame', '201X-07-26', '201X-07-26', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
 			['Bool', 'Same', true, true, 'Sample text should be unchanged', false],
@@ -66,9 +70,7 @@ class Purifier extends \Tests\Base
 		$this->assertSame('Test text string for purifier', \App\Purifier::purify('Test text string for purifier'), 'Sample text should be unchanged');
 		$this->assertSame('Test text string for purifier', \App\Purifier::purify('Test text string for purifier'), 'Sample text should be unchanged(cached)');
 		$this->assertSame(['Test text string for purifier', 'Test text string for purifier'], \App\Purifier::purify(['Test text string for purifier', 'Test text string for purifier']), 'Sample text should be unchanged(array)');
-		//\App\Purifier::$collectErrors = true;
 		$this->assertSame('Test text string for purifier', \App\Purifier::purifyHtml('Test text string for purifier'), 'Sample text should be unchanged');
-		//\App\Purifier::$collectErrors = false;
 		$this->assertNull(\App\Purifier::purifyHtmlEventAttributes('Test text string for purifier'), 'Sample text should be unchanged');
 	}
 
@@ -78,76 +80,17 @@ class Purifier extends \Tests\Base
 	 * @param string|false $textBad
 	 * @dataProvider dataProviderByType
 	 */
-	public function testPurifyByType($type, $assertion, $expected, $text, $message, $exception)
+	public function testPurifyByType($type, $assertion, $expected='NOT_SET', $text, $message, $exception)
 	{
 		$assertion = 'assert' . $assertion;
 		if ($exception) {
 			$this->expectException($exception);
 		}
-		if ($expected) {
+		if ($expected !== 'NOT_SET') {
 			$this->$assertion($expected, \App\Purifier::purifyByType($text, $type), $message);
 		} else {
 			$this->$assertion(\App\Purifier::purifyByType($text, $type), $message);
 		}
-	}
-
-	/**
-	 * Testing purify by type: date in user format.
-	 */
-	public function testPurifyByTypeDateUserFormat()
-	{
-		$userModel = \Users_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
-		$currFormat = $userModel->get('date_format');
-		$userModel->set('date_format', 'yyyy.mm.dd');
-		$userModel->save();
-		$text = date('Y.m.d');
-		$textExpected = date('Y.m.d');
-		$textBad = date('Y-m-d');
-		$textBadExpected = '';
-		$type = 'DateInUserFormat';
-		$this->assertSame('', \App\Purifier::purifyByType('', $type), 'Sample empty date should be unchanged');
-		$this->assertSame($textExpected, \App\Purifier::purifyByType($text, $type), 'Sample date should be unchanged');
-		$this->assertSame([$textExpected, $textExpected], \App\Purifier::purifyByType([$text, $text], $type), 'Sample date range should be unchanged(array)');
-		$this->expectException(\App\Exceptions\IllegalValue::class);
-		$this->assertSame($textBadExpected, \App\Purifier::purifyByType($textBad, $type), 'Sample date range should be purified') && $userModel->set('date_format', $currFormat) && $userModel->save();
-	}
-
-	/**
-	 * Testing purify by type: date in user format.
-	 */
-	public function testPurifyByTypeDateUserFormatBad()
-	{
-		$userModel = \Users_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
-		$currFormat = $userModel->get('date_format');
-		$userModel->set('date_format', 'yyyy.mm.dd');
-		$userModel->save();
-		$textBad = date('Y-m-d');
-		$textBadExpected = '';
-		$type = 'DateInUserFormat';
-		$this->expectException(\App\Exceptions\IllegalValue::class);
-		$this->assertSame([$textBadExpected, $textBadExpected], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample date range should be purified(array)') && $userModel->set('date_format', $currFormat) && $userModel->save();
-	}
-
-	/**
-	 * Testing purify by type: date range user format.
-	 */
-	public function testPurifyByTypeDateRange()
-	{
-		$userModel = \Users_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
-		$currFormat = $userModel->get('date_format');
-		$userModel->set('date_format', 'yyyy.mm.dd');
-		$userModel->save();
-		$text = date('Y.m.d') . ',' . date('Y.m.d', \strtotime('+1 day'));
-		$textExpected = [date('Y-m-d'), date('Y-m-d', \strtotime('+1 day'))];
-		$textBad = '201X-07.26,2018.07-27';
-		$textBadExpected = [];
-		$type = 'DateRangeUserFormat';
-		$this->assertSame($textExpected, \App\Purifier::purifyByType($text, $type), 'Sample date range should be unchanged');
-		$this->assertSame([$textExpected, $textExpected], \App\Purifier::purifyByType([$text, $text], $type), 'Sample date range should be unchanged(array)');
-		$this->assertSame($textBadExpected, \App\Purifier::purifyByType($textBad, $type), 'Sample date range should be purified');
-		$this->assertSame([$textBadExpected, $textBadExpected], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample date range should be purified(array)');
-		$userModel->set('date_format', $currFormat);
-		$userModel->save();
 	}
 
 	/**
