@@ -10,27 +10,42 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="popupEntriesDiv textAlignCenter">
-		<h3>{\App\Language::translate($TYPE, $MODULE)}</h3>
+	<div class="tpl-ImportDetail modelContainer modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg modal-full" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">{\App\Language::translate($TYPE, $MODULE)}</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="listViewContentDiv" id="listViewContents">
+						<div class="listViewEntriesDiv u-overflow-scroll-xs-down">
+							<table class="table table-bordered listViewEntriesTable">
+								<thead>
+								<tr class="listViewHeaders">
+									{assign var=LISTVIEW_HEADERS value=$IMPORT_RECORDS['headers']}
+									{assign var=IMPORT_RESULT_DATA value=$IMPORT_RECORDS[$TYPE]}
+									{foreach item=LISTVIEW_HEADER_NAME from=$LISTVIEW_HEADERS}
+										<th>{\App\Language::translate($LISTVIEW_HEADER_NAME, $FOR_MODULE)}</th>
+									{/foreach}
+								</tr>
+								</thead>
+								{foreach item=RECORD from=$IMPORT_RESULT_DATA}
+									<tr class="listViewEntries">
+										{foreach key=FIELD_NAME item=LABEL from=$LISTVIEW_HEADERS}
+											{if $RECORD->getField($FIELD_NAME)->isViewable()}
+												<td>{$RECORD->getListViewDisplayValue($FIELD_NAME)}</td>
+											{/if}
+										{/foreach}
+									</tr>
+								{/foreach}
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<table class="table table-bordered listViewEntriesTable">
-		<thead>
-			<tr class="listViewHeaders">
-				{assign var=LISTVIEW_HEADERS value=$IMPORT_RECORDS['headers']}
-				{assign var=IMPORT_RESULT_DATA value=$IMPORT_RECORDS[$TYPE]}
-				{foreach item=LISTVIEW_HEADER_NAME from=$LISTVIEW_HEADERS}
-					<th>{\App\Language::translate($LISTVIEW_HEADER_NAME, $FOR_MODULE)}</th>
-					{/foreach}
-			</tr>
-		</thead>
-		{foreach item=RECORD from=$IMPORT_RESULT_DATA}
-			<tr class="listViewEntries">
-				{foreach key=FIELD_NAME item=LABEL from=$LISTVIEW_HEADERS}
-					{if $RECORD->getField($FIELD_NAME)->isViewable()}
-						<td>{$RECORD->getListViewDisplayValue($FIELD_NAME)}</td>
-					{/if}
-				{/foreach}
-			</tr>
-		{/foreach}
-	</table>
 {/strip}
