@@ -57,4 +57,15 @@ class EmailParser extends \Tests\Base
 			->parse()
 			->getContent(), 'Clean instance: empty content should return empty result');
 	}
+
+	/**
+	 * Testing get content function.
+	 */
+	public function testGetContent()
+	{
+		$this->assertSame(['test0@yetiforce.com', 'test1@yetiforce.com'=>'Test One ', 'test2@yetiforce.com'], static::$parserClean
+			->setContent('test0@yetiforce.com,Test One &lt;test1@yetiforce.com&gt;,test2@yetiforce.com,-,')
+			->parse()
+			->getContent(true), 'Clean instance: content should be equal');
+	}
 }
