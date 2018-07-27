@@ -327,6 +327,32 @@ class Base3 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'vtiger_incidentregister_status' => [
+				'columns' => [
+					'incidentregister_statusid' => $this->primaryKey(),
+					'incidentregister_status' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->defaultValue(1),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_incidentregister_type' => [
+				'columns' => [
+					'incidentregister_typeid' => $this->primaryKey(),
+					'incidentregister_type' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->defaultValue(1),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'vtiger_industry' => [
 				'columns' => [
 					'industryid' => $this->primaryKey(10),
@@ -768,6 +794,14 @@ class Base3 extends \App\Db\Importers\Base
 					'cocument_no' => $this->stringType(100)->defaultValue(''),
 					'no_internal' => $this->stringType(100)->defaultValue(''),
 					'lin_dimensions' => $this->stringType()->defaultValue(''),
+					'custom_sender' => $this->stringType(),
+					'lin_type' => $this->stringType(),
+					'cash_amount_on_delivery' => $this->decimal('25,8'),
+					'date_of_receipt' => $this->date(),
+					'outgoing_correspondence' => $this->integer(10),
+				],
+				'index' => [
+					['vtiger_lettersin_outgoing_correspondence_idx', 'outgoing_correspondence'],
 				],
 				'primaryKeys' => [
 					['lettersin_pk', 'lettersinid']
@@ -778,6 +812,8 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_lettersincf' => [
 				'columns' => [
 					'lettersinid' => $this->integer(10)->notNull(),
+					'internal_notes' => $this->text(),
+					'public_notes' => $this->text(),
 				],
 				'primaryKeys' => [
 					['lettersincf_pk', 'lettersinid']
@@ -801,6 +837,10 @@ class Base3 extends \App\Db\Importers\Base
 					'cocument_no' => $this->stringType(100)->defaultValue(''),
 					'no_internal' => $this->stringType(100)->defaultValue(''),
 					'lout_dimensions' => $this->stringType()->defaultValue(''),
+					'incoming_correspondence' => $this->integer(10),
+				],
+				'index' => [
+					['vtiger_lettersout_incoming_correspondence_idx', 'incoming_correspondence'],
 				],
 				'primaryKeys' => [
 					['lettersout_pk', 'lettersoutid']
@@ -849,6 +889,19 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_lin_status_seq' => [
 				'columns' => [
 					'id' => $this->integer(10)->notNull(),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_lin_type' => [
+				'columns' => [
+					'lin_typeid' => $this->primaryKey(),
+					'lin_type' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -907,6 +960,32 @@ class Base3 extends \App\Db\Importers\Base
 					['linklabel', 'linklabel'],
 					['linkid', ['linkid', 'tabid', 'linktype', 'linklabel']],
 					['linktype', 'linktype'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_locationregister_status' => [
+				'columns' => [
+					'locationregister_statusid' => $this->primaryKey(),
+					'locationregister_status' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->defaultValue(1),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_login_method' => [
+				'columns' => [
+					'login_methodid' => $this->primaryKey(),
+					'login_method' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1051,7 +1130,7 @@ class Base3 extends \App\Db\Importers\Base
 					'commentcontent' => $this->text(),
 					'related_to' => $this->integer(10),
 					'parent_comments' => $this->integer(10),
-					'customer' => $this->stringType(100),
+					'customer' => $this->integer(),
 					'userid' => $this->integer(10),
 					'reasontoedit' => $this->stringType(100),
 				],
@@ -1207,9 +1286,9 @@ class Base3 extends \App\Db\Importers\Base
 					'filterid' => $this->stringType(100),
 					'title' => $this->stringType(100),
 					'data' => $this->text(),
-					'size' => $this->stringType(50),
+					'size' => $this->text(),
 					'limit' => $this->smallInteger(2),
-					'position' => $this->stringType(50),
+					'position' => $this->text(),
 					'isdefault' => $this->smallInteger(1)->defaultValue(0),
 					'active' => $this->smallInteger(1)->defaultValue(0),
 					'owners' => $this->stringType(100),
@@ -1230,6 +1309,19 @@ class Base3 extends \App\Db\Importers\Base
 					['vtiger_module_dashboard_widgets_linkid_idx', 'linkid'],
 					['vtiger_module_dashboard_widgets_dashboardid_idx', 'dashboardid'],
 					['vtiger_module_dashboard_widgets_module_idx', 'module'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_mulcomp_status' => [
+				'columns' => [
+					'mulcomp_statusid' => $this->primaryKey(),
+					'mulcomp_status' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1658,9 +1750,14 @@ class Base3 extends \App\Db\Importers\Base
 					'password' => $this->stringType(200)->notNull(),
 					'link_adres' => $this->stringType(),
 					'linkto' => $this->integer(10),
+					'linkextend' => $this->integer(10),
 				],
 				'columns_mysql' => [
 					'password' => $this->varbinary(200)->notNull(),
+				],
+				'index' => [
+					['linkto', 'linkto'],
+					['linkextend', 'linkextend'],
 				],
 				'primaryKeys' => [
 					['osspasswords_pk', 'osspasswordsid']
@@ -1746,6 +1843,7 @@ class Base3 extends \App\Db\Importers\Base
 					'process' => $this->integer(10),
 					'link' => $this->integer(10),
 					'subprocess' => $this->integer(10),
+					'linkextend' => $this->integer(10),
 				],
 				'index' => [
 					['on_update_cascade', 'deleted'],
@@ -1754,6 +1852,7 @@ class Base3 extends \App\Db\Importers\Base
 					['subprocess', 'subprocess'],
 					['link', 'link'],
 					['process', 'process'],
+					['linkextend', 'linkextend'],
 				],
 				'primaryKeys' => [
 					['osstimecontrol_pk', 'osstimecontrolid']
@@ -1816,7 +1915,7 @@ class Base3 extends \App\Db\Importers\Base
 					'oproductstatus' => $this->stringType(),
 					'pscategory' => $this->stringType()->defaultValue(''),
 					'wherebought' => $this->stringType()->defaultValue(''),
-					'prodcount' => $this->stringType()->defaultValue(''),
+					'prodcount' => $this->integer(),
 					'parent_id' => $this->integer(10),
 					'ssalesprocessesid' => $this->integer(10),
 				],
@@ -1967,7 +2066,7 @@ class Base3 extends \App\Db\Importers\Base
 					'sourceuuid' => $this->stringType(100),
 					'gateway' => $this->stringType(20),
 					'customer' => $this->integer(10),
-					'user' => $this->stringType(100),
+					'user' => $this->smallInteger(),
 					'customernumber' => $this->stringType(100),
 					'customertype' => $this->stringType(100),
 					'customernumber_extra' => $this->stringType(100),
@@ -2357,14 +2456,17 @@ class Base3 extends \App\Db\Importers\Base
 					'projectmilestonename' => $this->stringType(),
 					'projectmilestone_no' => $this->stringType(100),
 					'projectmilestonedate' => $this->stringType(),
+					'projectmilestone_status' => $this->stringType()->defaultValue(''),
 					'projectid' => $this->integer(10),
 					'projectmilestonetype' => $this->stringType(100),
 					'projectmilestone_priority' => $this->stringType(),
 					'projectmilestone_progress' => $this->stringType(10),
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
+					'parentid' => $this->integer(10),
 				],
 				'index' => [
 					['projectid', 'projectid'],
+					['vtiger_projectmilestone_parentid_idx', 'parentid'],
 				],
 				'primaryKeys' => [
 					['projectmilestone_pk', 'projectmilestoneid']
@@ -2386,6 +2488,20 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_projectmilestone_priority_seq' => [
 				'columns' => [
 					'id' => $this->integer(10)->notNull(),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_projectmilestone_status' => [
+				'columns' => [
+					'projectmilestone_statusid' => $this->primaryKey(),
+					'projectmilestone_status' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'picklist_valueid' => $this->integer(10)->defaultValue(0),
+					'sortorderid' => $this->smallInteger(5)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => $this->tinyInteger(1)->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

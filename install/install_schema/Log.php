@@ -24,10 +24,10 @@ class Log extends \App\Db\Importers\Base
 					'status' => $this->smallInteger(1)->unsigned()->notNull(),
 					'userid' => $this->integer(),
 					'date' => $this->date(),
-					'message' => $this->text()
+					'message' => $this->text(),
 				],
 				'columns_mysql' => [
-					'status' => $this->tinyInteger(1)->unsigned()->notNull()
+					'status' => $this->tinyInteger(1)->unsigned()->notNull(),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -43,8 +43,8 @@ class Log extends \App\Db\Importers\Base
 					'duration' => $this->decimal('7,3')->notNull(),
 				],
 				'index' => [
-						['id', 'id'],
-						['category', 'category'],
+					['id', 'id'],
+					['category', 'category'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -73,7 +73,7 @@ class Log extends \App\Db\Importers\Base
 					'field' => $this->stringType()->notNull(),
 				],
 				'index' => [
-						['id', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -88,9 +88,9 @@ class Log extends \App\Db\Importers\Base
 					'group' => $this->integer(10),
 				],
 				'index' => [
-						['id', 'id'],
-						['type', 'type'],
-						['group', 'group'],
+					['id', 'id'],
+					['type', 'type'],
+					['group', 'group'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -108,8 +108,8 @@ class Log extends \App\Db\Importers\Base
 					'agent' => $this->stringType()->notNull(),
 				],
 				'index' => [
-						['baseid', 'baseid'],
-						['destid', 'destid'],
+					['baseid', 'baseid'],
+					['destid', 'destid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -121,8 +121,8 @@ class Log extends \App\Db\Importers\Base
 					'date' => $this->dateTime(),
 				],
 				'index' => [
-						['user_id', 'user_id'],
-						['user_name', 'user_name'],
+					['user_id', 'user_id'],
+					['user_name', 'user_name'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -134,7 +134,7 @@ class Log extends \App\Db\Importers\Base
 					'date' => $this->dateTime()->notNull(),
 				],
 				'index' => [
-						['user_id', ['user_id', 'pass']],
+					['user_id', ['user_id', 'pass']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

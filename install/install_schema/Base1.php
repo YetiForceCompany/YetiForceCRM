@@ -195,6 +195,40 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
 			],
+			'dav_calendarinstances' => [
+				'columns' => [
+					'id' => $this->primaryKey(10)->unsigned(),
+					'calendarid' => $this->integer(10)->unsigned()->notNull(),
+					'principaluri' => $this->stringType(100),
+					'access' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'displayname' => $this->stringType(100),
+					'uri' => $this->stringType(200),
+					'description' => $this->text(),
+					'calendarorder' => $this->integer()->unsigned()->notNull()->defaultValue(0),
+					'calendarcolor' => $this->stringType(10),
+					'timezone' => $this->text(),
+					'transparent' => $this->smallInteger(1)->notNull()->defaultValue(0),
+					'share_href' => $this->stringType(100),
+					'share_displayname' => $this->stringType(100),
+					'share_invitestatus' => $this->smallInteger(1)->notNull()->defaultValue(2),
+				],
+				'columns_mysql' => [
+					'principaluri' => $this->varbinary(100),
+					'access' => $this->tinyInteger(1)->notNull()->defaultValue(1),
+					'uri' => $this->varbinary(200),
+					'calendarcolor' => $this->varbinary(10),
+					'transparent' => $this->tinyInteger(1)->notNull()->defaultValue(0),
+					'share_href' => $this->varbinary(100),
+					'share_invitestatus' => $this->tinyInteger(1)->notNull()->defaultValue(2),
+				],
+				'index' => [
+					['principaluri', ['principaluri', 'uri'], true],
+					['calendarid', ['calendarid', 'principaluri'], true],
+					['calendarid_2', ['calendarid', 'share_href'], true],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8mb4'
+			],
 			'dav_calendarobjects' => [
 				'columns' => [
 					'id' => $this->primaryKey(10)->unsigned(),
@@ -225,29 +259,14 @@ class Base1 extends \App\Db\Importers\Base
 			'dav_calendars' => [
 				'columns' => [
 					'id' => $this->primaryKey(10)->unsigned(),
-					'principaluri' => $this->stringType(100),
-					'displayname' => $this->stringType(100),
-					'uri' => $this->stringType(200),
 					'synctoken' => $this->integer(10)->unsigned()->notNull()->defaultValue(1),
-					'description' => $this->text(),
-					'calendarorder' => $this->integer(10)->unsigned()->notNull()->defaultValue(0),
-					'calendarcolor' => $this->stringType(10),
-					'timezone' => $this->text(),
 					'components' => $this->stringType(21),
-					'transparent' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'principaluri' => $this->varbinary(100),
-					'uri' => $this->varbinary(200),
-					'calendarcolor' => $this->varbinary(10),
 					'components' => $this->varbinary(21),
-					'transparent' => $this->tinyInteger(1)->notNull()->defaultValue(0),
-				],
-				'index' => [
-					['principaluri', ['principaluri', 'uri'], true],
 				],
 				'engine' => 'InnoDB',
-				'charset' => 'utf8mb4'
+				'charset' => 'utf8'
 			],
 			'dav_calendarsubscriptions' => [
 				'columns' => [
@@ -659,6 +678,38 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__activityregister' => [
+				'columns' => [
+					'activityregisterid' => $this->integer(10)->notNull(),
+					'subject' => $this->stringType(),
+					'number' => $this->stringType(32),
+					'activityregister_status' => $this->stringType()->defaultValue(''),
+					'datasetregisterid' => $this->integer()->unsigned()->defaultValue(0),
+					'start_date' => $this->date(),
+					'end_date' => $this->date(),
+					'activity_type' => $this->text(),
+					'parent_id' => $this->integer(10),
+				],
+				'index' => [
+					['u_yf_activityregister_datasetregisterid_idx', 'datasetregisterid'],
+					['u_yf_activityregister_parent_id_idx', 'parent_id'],
+				],
+				'primaryKeys' => [
+					['activityregister_pk', 'activityregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__activityregistercf' => [
+				'columns' => [
+					'activityregisterid' => $this->integer(10)->notNull(),
+				],
+				'primaryKeys' => [
+					['activityregistercf_pk', 'activityregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__announcement' => [
 				'columns' => [
 					'announcementid' => $this->integer(10)->notNull(),
@@ -704,6 +755,36 @@ class Base1 extends \App\Db\Importers\Base
 				],
 				'primaryKeys' => [
 					['announcementcf_pk', 'announcementid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__auditregister' => [
+				'columns' => [
+					'auditregisterid' => $this->integer(10)->notNull(),
+					'name' => $this->stringType(),
+					'number' => $this->stringType(32),
+					'locationregisterid' => $this->integer()->unsigned()->defaultValue(0),
+					'datasetregisterid' => $this->integer()->unsigned()->defaultValue(0),
+					'auditregister_status' => $this->stringType()->defaultValue(''),
+					'auditregister_type' => $this->stringType()->defaultValue(''),
+				],
+				'index' => [
+					['u_yf_auditregister_locationregisterid_idx', 'locationregisterid'],
+					['u_yf_auditregister_datasetregisterid_idx', 'datasetregisterid'],
+				],
+				'primaryKeys' => [
+					['auditregister_pk', 'auditregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__auditregistercf' => [
+				'columns' => [
+					'auditregisterid' => $this->integer(10)->notNull(),
+				],
+				'primaryKeys' => [
+					['auditregistercf_pk', 'auditregisterid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -899,6 +980,10 @@ class Base1 extends \App\Db\Importers\Base
 					'crmid' => $this->integer(10)->unsigned()->notNull(),
 					'label' => $this->stringType(),
 				],
+				'index' => [
+					['crmentity_label', 'label'],
+					['crmentity_label_fulltext', 'label'],
+				],
 				'primaryKeys' => [
 					['crmentity_label_pk', 'crmid']
 				],
@@ -939,8 +1024,8 @@ class Base1 extends \App\Db\Importers\Base
 					'userid' => $this->text(),
 				],
 				'index' => [
-					['searchlabel', 'searchlabel'],
-					['searchlabel_2', ['searchlabel', 'setype']],
+					['crmentity_searchlabel_setype', ['searchlabel', 'setype']],
+					['crmentity_searchlabel_fulltext', 'searchlabel'],
 				],
 				'primaryKeys' => [
 					['crmentity_search_label_pk', 'crmid']
@@ -970,6 +1055,47 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__datasetregister' => [
+				'columns' => [
+					'datasetregisterid' => $this->integer(10)->notNull(),
+					'subject' => $this->stringType(),
+					'number' => $this->stringType(32),
+					'datasetregister_status' => $this->stringType()->defaultValue(''),
+					'legal_basis' => $this->text(),
+					'scope_data' => $this->text(),
+					'registered_dpo' => $this->smallInteger(1)->defaultValue(0),
+					'data_submitted' => $this->smallInteger(1)->defaultValue(0),
+					'internal_register' => $this->smallInteger(1)->defaultValue(0),
+					'data_set_shared' => $this->smallInteger(1)->defaultValue(0),
+					'added_to_register' => $this->date(),
+					'removed_from_register' => $this->date(),
+					'parent_id' => $this->integer(10)->notNull(),
+				],
+				'columns_mysql' => [
+					'registered_dpo' => $this->tinyInteger(1)->defaultValue(0),
+					'data_submitted' => $this->tinyInteger(1)->defaultValue(0),
+					'internal_register' => $this->tinyInteger(1)->defaultValue(0),
+					'data_set_shared' => $this->tinyInteger(1)->defaultValue(0),
+				],
+				'index' => [
+					['u_yf_datasetregister_parent_id_idx', 'parent_id'],
+				],
+				'primaryKeys' => [
+					['datasetregister_pk', 'datasetregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__datasetregistercf' => [
+				'columns' => [
+					'datasetregisterid' => $this->integer(10)->notNull(),
+				],
+				'primaryKeys' => [
+					['datasetregistercf_pk', 'datasetregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__documents_emailtemplates' => [
 				'columns' => [
 					'crmid' => $this->integer(10),
@@ -992,10 +1118,7 @@ class Base1 extends \App\Db\Importers\Base
 					'subject' => $this->stringType(),
 					'content' => $this->text(),
 					'sys_name' => $this->stringType(50),
-					'email_template_priority' => $this->smallInteger(1)->defaultValue(1),
-				],
-				'columns_mysql' => [
-					'email_template_priority' => $this->tinyInteger(1)->defaultValue(1),
+					'email_template_priority' => $this->stringType(1)->defaultValue(1),
 				],
 				'index' => [
 					['sys_name', 'sys_name'],
@@ -1087,17 +1210,6 @@ class Base1 extends \App\Db\Importers\Base
 					'buildingnumbera' => $this->stringType(50),
 					'localnumbera' => $this->stringType(50),
 					'poboxa' => $this->stringType(50),
-					'addresslevel1c' => $this->stringType(),
-					'addresslevel2c' => $this->stringType(),
-					'addresslevel3c' => $this->stringType(),
-					'addresslevel4c' => $this->stringType(),
-					'addresslevel5c' => $this->stringType(),
-					'addresslevel6c' => $this->stringType(),
-					'addresslevel7c' => $this->stringType(),
-					'addresslevel8c' => $this->stringType(),
-					'buildingnumberc' => $this->stringType(),
-					'localnumberc' => $this->stringType(),
-					'poboxc' => $this->stringType(),
 				],
 				'primaryKeys' => [
 					['fcorectinginvoice_address_pk', 'fcorectinginvoiceaddressid']
@@ -1199,6 +1311,28 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__file_upload_temp' => [
+				'columns' => [
+					'id' => $this->primaryKey(10)->unsigned(),
+					'name' => $this->stringType()->notNull(),
+					'type' => $this->stringType(100),
+					'path' => $this->text()->notNull(),
+					'status' => $this->smallInteger(1)->defaultValue(0),
+					'fieldname' => $this->stringType(50),
+					'crmid' => $this->integer(10),
+					'createdtime' => $this->dateTime(),
+					'key' => $this->stringType(100),
+				],
+				'columns_mysql' => [
+					'status' => $this->tinyInteger(1)->defaultValue(0),
+				],
+				'index' => [
+					['key', 'key', true],
+					['crmid', 'crmid'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__finvoice' => [
 				'columns' => [
 					'finvoiceid' => $this->integer(10)->notNull(),
@@ -1238,17 +1372,6 @@ class Base1 extends \App\Db\Importers\Base
 					'buildingnumbera' => $this->stringType(50),
 					'localnumbera' => $this->stringType(50),
 					'poboxa' => $this->stringType(50),
-					'addresslevel1c' => $this->stringType(),
-					'addresslevel2c' => $this->stringType(),
-					'addresslevel3c' => $this->stringType(),
-					'addresslevel4c' => $this->stringType(),
-					'addresslevel5c' => $this->stringType(),
-					'addresslevel6c' => $this->stringType(),
-					'addresslevel7c' => $this->stringType(),
-					'addresslevel8c' => $this->stringType(),
-					'buildingnumberc' => $this->stringType(),
-					'localnumberc' => $this->stringType(),
-					'poboxc' => $this->stringType(),
 				],
 				'primaryKeys' => [
 					['finvoice_address_pk', 'finvoiceaddressid']
@@ -1369,17 +1492,6 @@ class Base1 extends \App\Db\Importers\Base
 					'buildingnumbera' => $this->stringType(50),
 					'localnumbera' => $this->stringType(50),
 					'poboxa' => $this->stringType(50),
-					'addresslevel1c' => $this->stringType(),
-					'addresslevel2c' => $this->stringType(),
-					'addresslevel3c' => $this->stringType(),
-					'addresslevel4c' => $this->stringType(),
-					'addresslevel5c' => $this->stringType(),
-					'addresslevel6c' => $this->stringType(),
-					'addresslevel7c' => $this->stringType(),
-					'addresslevel8c' => $this->stringType(),
-					'buildingnumberc' => $this->stringType(),
-					'localnumberc' => $this->stringType(),
-					'poboxc' => $this->stringType(),
 				],
 				'primaryKeys' => [
 					['finvoicecost_address_pk', 'finvoicecostaddressid']
@@ -1480,17 +1592,6 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__finvoiceproforma_address' => [
 				'columns' => [
 					'finvoiceproformaaddressid' => $this->integer(10)->notNull(),
-					'addresslevel1a' => $this->stringType(),
-					'addresslevel2a' => $this->stringType(),
-					'addresslevel3a' => $this->stringType(),
-					'addresslevel4a' => $this->stringType(),
-					'addresslevel5a' => $this->stringType(),
-					'addresslevel6a' => $this->stringType(),
-					'addresslevel7a' => $this->stringType(),
-					'addresslevel8a' => $this->stringType(),
-					'buildingnumbera' => $this->stringType(50),
-					'localnumbera' => $this->stringType(50),
-					'poboxa' => $this->stringType(50),
 					'addresslevel1c' => $this->stringType(),
 					'addresslevel2c' => $this->stringType(),
 					'addresslevel3c' => $this->stringType(),
@@ -2129,6 +2230,45 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__incidentregister' => [
+				'columns' => [
+					'incidentregisterid' => $this->integer(10)->notNull(),
+					'name' => $this->stringType(),
+					'number' => $this->stringType(32),
+					'locationregisterid' => $this->integer()->unsigned()->defaultValue(0),
+					'datasetregisterid' => $this->integer()->unsigned()->defaultValue(0),
+					'incidentregister_status' => $this->stringType()->defaultValue(''),
+					'incidentregister_type' => $this->stringType()->defaultValue(''),
+					'incident_date' => $this->date(),
+					'discovery_date' => $this->date(),
+					'incident_report_date' => $this->date(),
+					'incident_publication_date' => $this->date(),
+					'peoplne_number' => $this->integer(9)->defaultValue(0),
+					'breach_circumstances' => $this->text(),
+					'breach_nature' => $this->text(),
+					'possible_consequences' => $this->text(),
+					'security_measures' => $this->text(),
+				],
+				'index' => [
+					['u_yf_incidentregister_locationregisterid_idx', 'locationregisterid'],
+					['u_yf_incidentregister_datasetregisterid_idx', 'datasetregisterid'],
+				],
+				'primaryKeys' => [
+					['incidentregister_pk', 'incidentregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__incidentregistercf' => [
+				'columns' => [
+					'incidentregisterid' => $this->integer(10)->notNull(),
+				],
+				'primaryKeys' => [
+					['incidentregistercf_pk', 'incidentregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__ipreorder' => [
 				'columns' => [
 					'ipreorderid' => $this->integer(10)->notNull(),
@@ -2516,6 +2656,45 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__locationregister' => [
+				'columns' => [
+					'locationregisterid' => $this->integer(10)->notNull(),
+					'name' => $this->stringType(),
+					'number' => $this->stringType(32),
+					'parent_id' => $this->integer()->unsigned()->defaultValue(0),
+					'locationregister_status' => $this->stringType()->defaultValue(''),
+					'security_type' => $this->text(),
+					'building_number' => $this->stringType(10)->defaultValue(''),
+					'street' => $this->stringType()->defaultValue(''),
+					'district' => $this->stringType()->defaultValue(''),
+					'township' => $this->stringType()->defaultValue(''),
+					'state' => $this->stringType()->defaultValue(''),
+					'pobox' => $this->stringType(100)->defaultValue(''),
+					'local_number' => $this->stringType(20)->defaultValue(''),
+					'post_code' => $this->stringType(20)->defaultValue(''),
+					'city' => $this->stringType(150)->defaultValue(''),
+					'county' => $this->stringType(150)->defaultValue(''),
+					'country' => $this->stringType(150)->defaultValue(''),
+				],
+				'index' => [
+					['u_yf_locationregister_parent_id_idx', 'parent_id'],
+				],
+				'primaryKeys' => [
+					['locationregister_pk', 'locationregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__locationregistercf' => [
+				'columns' => [
+					'locationregisterid' => $this->integer(10)->notNull(),
+				],
+				'primaryKeys' => [
+					['locationregistercf_pk', 'locationregisterid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__mail_address_book' => [
 				'columns' => [
 					'id' => $this->integer(10)->notNull(),
@@ -2557,6 +2736,57 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__multicompany' => [
+				'columns' => [
+					'multicompanyid' => $this->integer()->notNull(),
+					'company_name' => $this->stringType(),
+					'parent_id' => $this->integer(10),
+					'number' => $this->stringType(32),
+					'mulcomp_status' => $this->stringType(),
+					'email1' => $this->stringType(100),
+					'email2' => $this->stringType(100),
+					'phone' => $this->stringType(30),
+					'phone_extra' => $this->stringType(100),
+					'mobile' => $this->stringType(30),
+					'mobile_extra' => $this->stringType(100),
+					'fax' => $this->stringType(30),
+					'fax_extra' => $this->stringType(100),
+					'vat' => $this->stringType(),
+					'companyid1' => $this->stringType(),
+					'companyid2' => $this->stringType(),
+					'buildingnumbera' => $this->stringType(50),
+					'localnumbera' => $this->stringType(50),
+					'addresslevel8a' => $this->stringType(),
+					'addresslevel7a' => $this->stringType(),
+					'addresslevel6a' => $this->stringType(),
+					'addresslevel5a' => $this->stringType(),
+					'addresslevel4a' => $this->stringType(),
+					'addresslevel3a' => $this->stringType(),
+					'addresslevel2a' => $this->stringType(),
+					'addresslevel1a' => $this->stringType(),
+					'poboxa' => $this->stringType(50),
+				],
+				'index' => [
+					['multicompany_parent_id_idx', 'parent_id'],
+				],
+				'primaryKeys' => [
+					['multicompany_pk', 'multicompanyid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__multicompanycf' => [
+				'columns' => [
+					'multicompanyid' => $this->integer()->notNull(),
+					'public_notes' => $this->text(),
+					'internal_notes' => $this->text(),
+				],
+				'primaryKeys' => [
+					['multicompanycf_pk', 'multicompanyid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__notification' => [
 				'columns' => [
 					'notificationid' => $this->integer(10)->notNull(),
@@ -2567,11 +2797,13 @@ class Base1 extends \App\Db\Importers\Base
 					'link' => $this->integer(10),
 					'process' => $this->integer(10),
 					'subprocess' => $this->integer(10),
+					'linkextend' => $this->integer(10),
 				],
 				'index' => [
 					['link', 'link'],
 					['process', 'process'],
 					['subprocess', 'subprocess'],
+					['linkextend', 'linkextend'],
 				],
 				'primaryKeys' => [
 					['notification_pk', 'notificationid']
@@ -2928,27 +3160,16 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'squotesaddressid' => $this->integer(10)->notNull(),
 					'addresslevel1a' => $this->stringType(),
-					'addresslevel1c' => $this->stringType(),
 					'addresslevel2a' => $this->stringType(),
-					'addresslevel2c' => $this->stringType(),
 					'addresslevel3a' => $this->stringType(),
-					'addresslevel3c' => $this->stringType(),
 					'addresslevel4a' => $this->stringType(),
-					'addresslevel4c' => $this->stringType(),
 					'addresslevel5a' => $this->stringType(),
-					'addresslevel5c' => $this->stringType(),
 					'addresslevel6a' => $this->stringType(),
-					'addresslevel6c' => $this->stringType(),
 					'addresslevel7a' => $this->stringType(),
-					'addresslevel7c' => $this->stringType(),
 					'addresslevel8a' => $this->stringType(),
-					'addresslevel8c' => $this->stringType(),
 					'buildingnumbera' => $this->stringType(100),
 					'localnumbera' => $this->stringType(100),
-					'buildingnumberc' => $this->stringType(100),
-					'localnumberc' => $this->stringType(100),
 					'poboxa' => $this->stringType(50),
-					'poboxc' => $this->stringType(50),
 				],
 				'primaryKeys' => [
 					['squotes_address_pk', 'squotesaddressid']
@@ -3070,27 +3291,16 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'srecurringordersaddressid' => $this->integer(10)->notNull(),
 					'addresslevel1a' => $this->stringType(),
-					'addresslevel1c' => $this->stringType(),
 					'addresslevel2a' => $this->stringType(),
-					'addresslevel2c' => $this->stringType(),
 					'addresslevel3a' => $this->stringType(),
-					'addresslevel3c' => $this->stringType(),
 					'addresslevel4a' => $this->stringType(),
-					'addresslevel4c' => $this->stringType(),
 					'addresslevel5a' => $this->stringType(),
-					'addresslevel5c' => $this->stringType(),
 					'addresslevel6a' => $this->stringType(),
-					'addresslevel6c' => $this->stringType(),
 					'addresslevel7a' => $this->stringType(),
-					'addresslevel7c' => $this->stringType(),
 					'addresslevel8a' => $this->stringType(),
-					'addresslevel8c' => $this->stringType(),
 					'buildingnumbera' => $this->stringType(100),
 					'localnumbera' => $this->stringType(100),
-					'buildingnumberc' => $this->stringType(100),
-					'localnumberc' => $this->stringType(100),
 					'poboxa' => $this->stringType(50),
-					'poboxc' => $this->stringType(50),
 				],
 				'primaryKeys' => [
 					['srecurringorders_address_pk', 'srecurringordersaddressid']
@@ -3102,21 +3312,27 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer(10),
 					'seq' => $this->integer(10),
-					'name' => $this->integer(10)->notNull()->defaultValue(0),
-					'qty' => $this->decimal('25,3')->notNull()->defaultValue(0),
+					'name' => $this->integer(10)->defaultValue(0),
+					'qty' => $this->decimal('25,3')->defaultValue(0),
 					'discount' => $this->decimal('28,8')->defaultValue(0),
 					'discountparam' => $this->stringType(),
 					'marginp' => $this->decimal('28,8')->defaultValue(0),
 					'margin' => $this->decimal('28,8')->defaultValue(0),
-					'tax' => $this->decimal('28,8')->notNull()->defaultValue(0),
-					'taxparam' => $this->stringType()->notNull(),
+					'tax' => $this->decimal('28,8')->defaultValue(0),
+					'taxparam' => $this->stringType(),
 					'comment1' => $this->text(),
+					'price' => $this->decimal('28,8')->defaultValue(0),
+					'total' => $this->decimal('28,8')->defaultValue(0),
+					'net' => $this->decimal('28,8')->defaultValue(0),
+					'purchase' => $this->decimal('28,8')->defaultValue(0),
+					'gross' => $this->decimal('28,8')->defaultValue(0),
+					'discountmode' => $this->smallInteger(1)->defaultValue(0),
+					'taxmode' => $this->smallInteger(1)->defaultValue(0),
+					'currency' => $this->integer(),
+					'currencyparam' => $this->stringType(1024),
 					'qtyparam' => $this->smallInteger(1)->defaultValue(0),
 					'unit' => $this->stringType(),
 					'subunit' => $this->stringType(),
-				],
-				'columns_mysql' => [
-					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
 					['id', 'id'],
@@ -3338,27 +3554,16 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'ssingleordersaddressid' => $this->integer(10)->notNull(),
 					'addresslevel1a' => $this->stringType(),
-					'addresslevel1c' => $this->stringType(),
 					'addresslevel2a' => $this->stringType(),
-					'addresslevel2c' => $this->stringType(),
 					'addresslevel3a' => $this->stringType(),
-					'addresslevel3c' => $this->stringType(),
 					'addresslevel4a' => $this->stringType(),
-					'addresslevel4c' => $this->stringType(),
 					'addresslevel5a' => $this->stringType(),
-					'addresslevel5c' => $this->stringType(),
 					'addresslevel6a' => $this->stringType(),
-					'addresslevel6c' => $this->stringType(),
 					'addresslevel7a' => $this->stringType(),
-					'addresslevel7c' => $this->stringType(),
 					'addresslevel8a' => $this->stringType(),
-					'addresslevel8c' => $this->stringType(),
 					'buildingnumbera' => $this->stringType(100),
 					'localnumbera' => $this->stringType(100),
-					'buildingnumberc' => $this->stringType(100),
-					'localnumberc' => $this->stringType(100),
 					'poboxa' => $this->stringType(50),
-					'poboxc' => $this->stringType(50),
 				],
 				'primaryKeys' => [
 					['ssingleorders_address_pk', 'ssingleordersaddressid']
@@ -3370,32 +3575,27 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer(10),
 					'seq' => $this->integer(10),
-					'name' => $this->integer(10)->notNull()->defaultValue(0),
-					'qty' => $this->decimal('25,3')->notNull()->defaultValue(0),
+					'name' => $this->integer(10)->defaultValue(0),
+					'qty' => $this->decimal('25,3')->defaultValue(0),
 					'discount' => $this->decimal('28,8')->defaultValue(0),
 					'discountparam' => $this->stringType(),
 					'marginp' => $this->decimal('28,8')->defaultValue(0),
 					'margin' => $this->decimal('28,8')->defaultValue(0),
-					'tax' => $this->decimal('28,8')->notNull()->defaultValue(0),
-					'taxparam' => $this->stringType()->notNull(),
+					'tax' => $this->decimal('28,8')->defaultValue(0),
+					'taxparam' => $this->stringType(),
 					'comment1' => $this->text(),
-					'price' => $this->decimal('28,8')->notNull()->defaultValue(0),
-					'total' => $this->decimal('28,8')->notNull()->defaultValue(0),
-					'net' => $this->decimal('28,8')->notNull()->defaultValue(0),
-					'purchase' => $this->decimal('28,8')->notNull()->defaultValue(0),
-					'gross' => $this->decimal('28,8')->notNull()->defaultValue(0),
-					'discountmode' => $this->smallInteger(1)->notNull()->defaultValue(0),
-					'taxmode' => $this->smallInteger(1)->notNull()->defaultValue(0),
-					'currency' => $this->integer(10),
+					'price' => $this->decimal('28,8')->defaultValue(0),
+					'total' => $this->decimal('28,8')->defaultValue(0),
+					'net' => $this->decimal('28,8')->defaultValue(0),
+					'purchase' => $this->decimal('28,8')->defaultValue(0),
+					'gross' => $this->decimal('28,8')->defaultValue(0),
+					'discountmode' => $this->smallInteger(1)->defaultValue(0),
+					'taxmode' => $this->smallInteger(1)->defaultValue(0),
+					'currency' => $this->integer(),
 					'currencyparam' => $this->stringType(1024),
 					'qtyparam' => $this->smallInteger(1)->defaultValue(0),
 					'unit' => $this->stringType(),
 					'subunit' => $this->stringType(),
-				],
-				'columns_mysql' => [
-					'discountmode' => $this->tinyInteger(1)->notNull()->defaultValue(0),
-					'taxmode' => $this->tinyInteger(1)->notNull()->defaultValue(0),
-					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
 					['id', 'id'],
@@ -3621,9 +3821,13 @@ class Base1 extends \App\Db\Importers\Base
 			['roundcube_user_id_fk_searches', 'roundcube_searches', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
 			['roundcube_users_autologin_ibfk_1', 'roundcube_users_autologin', 'rcuser_id', 'roundcube_users', 'user_id', 'CASCADE', 'RESTRICT'],
 			['u_#__activity_invitation_ibfk_1', 'u_#__activity_invitation', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__activityregisteractivityregisterid', 'u_#__activityregister', 'activityregisterid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__activityregistercfactivityregisterid', 'u_#__activityregistercf', 'activityregisterid', 'u_#__activityregister', 'activityregisterid', 'CASCADE', 'RESTRICT'],
 			['fk_1_u_#__announcement', 'u_#__announcement', 'announcementid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['u_#__announcement_mark_ibfk_1', 'u_#__announcement_mark', 'announcementid', 'u_#__announcement', 'announcementid', 'CASCADE', 'RESTRICT'],
 			['fk_1_u_#__announcementcf', 'u_#__announcementcf', 'announcementid', 'u_#__announcement', 'announcementid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__auditregisterauditregisterid', 'u_#__auditregister', 'auditregisterid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__auditregistercfauditregisterid', 'u_#__auditregistercf', 'auditregisterid', 'u_#__auditregister', 'auditregisterid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_cfixedassetscfixedassetsid', 'u_#__cfixedassets', 'cfixedassetsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_cfixedassetscfcfixedassetsid', 'u_#__cfixedassetscf', 'cfixedassetsid', 'u_#__cfixedassets', 'cfixedassetsid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_cinternalticketscinternalticketsid', 'u_#__cinternaltickets', 'cinternalticketsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
@@ -3635,6 +3839,8 @@ class Base1 extends \App\Db\Importers\Base
 			['fk_1_u_#__competitioncf', 'u_#__competitioncf', 'competitionid', 'u_#__competition', 'competitionid', 'CASCADE', 'RESTRICT'],
 			['u_#__crmentity_last_changes_ibfk_1', 'u_#__crmentity_last_changes', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_u_#__crmentity_showners', 'u_#__crmentity_showners', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__datasetregisterdatasetregisterid', 'u_#__datasetregister', 'datasetregisterid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__datasetregistercfdatasetregisterid', 'u_#__datasetregistercf', 'datasetregisterid', 'u_#__datasetregister', 'datasetregisterid', 'CASCADE', 'RESTRICT'],
 			['fk_1_u_#__documents_emailtemplates', 'u_#__documents_emailtemplates', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_2_u_#__documents_emailtemplates', 'u_#__documents_emailtemplates', 'relcrmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_emailtemplatesemailtemplatesid', 'u_#__emailtemplates', 'emailtemplatesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
@@ -3675,6 +3881,8 @@ class Base1 extends \App\Db\Importers\Base
 			['u_#__iidn_ibfk_1', 'u_#__iidn', 'iidnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_u_#__iidn_inventory', 'u_#__iidn_inventory', 'id', 'u_#__iidn', 'iidnid', 'CASCADE', 'RESTRICT'],
 			['u_#__iidncf_ibfk_1', 'u_#__iidncf', 'iidnid', 'u_#__iidn', 'iidnid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__incidentregisterincidentregisterid', 'u_#__incidentregister', 'incidentregisterid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__incidentregistercfincidentregisterid', 'u_#__incidentregistercf', 'incidentregisterid', 'u_#__incidentregister', 'incidentregisterid', 'CASCADE', 'RESTRICT'],
 			['u_#__ipreorder_ibfk_1', 'u_#__ipreorder', 'ipreorderid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_u_#__ipreorder_inventory', 'u_#__ipreorder_inventory', 'id', 'u_#__ipreorder', 'ipreorderid', 'CASCADE', 'RESTRICT'],
 			['u_#__ipreordercf_ibfk_1', 'u_#__ipreordercf', 'ipreorderid', 'u_#__ipreorder', 'ipreorderid', 'CASCADE', 'RESTRICT'],
@@ -3693,7 +3901,11 @@ class Base1 extends \App\Db\Importers\Base
 			['u_#__istrncf_ibfk_1', 'u_#__istrncf', 'istrnid', 'u_#__istrn', 'istrnid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_knowledgebase', 'u_#__knowledgebase', 'knowledgebaseid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_knowledgebasecf', 'u_#__knowledgebasecf', 'knowledgebaseid', 'u_#__knowledgebase', 'knowledgebaseid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__locationregisterlocationregisterid', 'u_#__locationregister', 'locationregisterid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__locationregistercflocationregisterid', 'u_#__locationregistercf', 'locationregisterid', 'u_#__locationregister', 'locationregisterid', 'CASCADE', 'RESTRICT'],
 			['u_#__mail_address_book_ibfk_1', 'u_#__mail_address_book', 'id', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__multicompanymulticompanyid', 'u_#__multicompany', 'multicompanyid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__multicompanycfmulticompanyid', 'u_#__multicompanycf', 'multicompanyid', 'u_#__multicompany', 'multicompanyid', 'CASCADE', 'RESTRICT'],
 			['fk_1_notification', 'u_#__notification', 'notificationid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_u_#__partners', 'u_#__partners', 'partnersid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['u_#__partners_address_ibfk_1', 'u_#__partners_address', 'partneraddressid', 'u_#__partners', 'partnersid', 'CASCADE', 'RESTRICT'],
