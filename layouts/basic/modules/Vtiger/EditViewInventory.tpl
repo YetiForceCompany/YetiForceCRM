@@ -30,11 +30,11 @@
 			   value="{if $INVENTORY_ITEMS_NO}{$INVENTORY_ITEMS_NO}{else}1{/if}"/>
 		<input id="accountReferenceField" type="hidden" value="{$INVENTORY_FIELD->getReferenceField()}"/>
 		<input id="inventoryLimit" type="hidden" value="{$MAIN_PARAMS['limit']}"/>
-		<div class="table-responsive">
-			<table class="table table-bordered inventoryHeader blockContainer">
+		<div class="table-responsive mx-1">
+			<table class="table table-bordered inventoryHeader blockContainer mb-0">
 				<thead>
 				<tr data-rownumber="0" class="d-flex u-min-w-650px">
-					<th class="btn-toolbar col-3 d-flex justify-content-center mb-0">
+					<th class="btn-toolbar col-3 d-flex justify-content-center mb-0 border-bottom-0 p-2">
 						{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
 							{if \App\Module::isModuleActive($MAIN_MODULE)}
 								{assign var="CRMENTITY" value=CRMEntity::getInstance($MAIN_MODULE)}
@@ -50,7 +50,7 @@
 						{/foreach}
 					</th>
 					{foreach item=FIELD from=$FIELDS[0]}
-						<th {if !$FIELD->isEditable()}class="d-none"{/if} class="col-3" >
+						<th class="{if !$FIELD->isEditable()}d-none {/if}col-3 border-bottom-0">
 							<span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $MODULE)}</span>&nbsp;&nbsp;
 							{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 							{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE) ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
@@ -60,7 +60,7 @@
 				</thead>
 			</table>
 		</div>
-		<div class="table-responsive">
+		<div class="table-responsive mx-1">
 			<table class="table blockContainer inventoryItems" data-isoptional="{$IS_OPTIONAL_ITEMS}">
 				{if count($FIELDS[1]) neq 0}
 					<thead>

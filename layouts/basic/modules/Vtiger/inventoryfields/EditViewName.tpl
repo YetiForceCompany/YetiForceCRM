@@ -5,7 +5,7 @@
 			{assign var="FIELD_NAME" value={$FIELD->getColumnName()}|cat:$ROW_NO}
 			{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode(['mandatory'=>true]))}
 			{assign var="CRMEntity" value=CRMEntity::getInstance($REFERENCE_MODULE)}
-			<div class="input-group">
+			<div class="input-group input-group-sm">
 				<input name="popupReferenceModule" type="hidden" data-multi-reference="1"
 					   data-field="{$CRMEntity->table_index}" value="{$REFERENCE_MODULE}"/>
 				<input name="{$FIELD_NAME}" type="hidden" value="{$ITEM_VALUE}" title="{$ITEM_VALUE}"
@@ -23,7 +23,7 @@
 				</div>
 				<input id="{$FIELD_NAME}_display" name="{$FIELD_NAME}_display" type="text"
 					   title="{$FIELD->getEditValue($ITEM_VALUE)}"
-					   class="marginLeftZero form-control-sm form-control autoComplete recordLabel"
+					   class="marginLeftZero form-control autoComplete recordLabel"
 					   {if !empty($ITEM_VALUE)}readonly="true"{/if}
 					   value="{$FIELD->getEditValue($ITEM_VALUE)}"
 					   data-validation-engine="validate[{if !$IS_OPTIONAL_ITEMS && $FIELD->isMandatory()} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"

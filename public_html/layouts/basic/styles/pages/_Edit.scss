@@ -54,9 +54,31 @@
 			bottom: $h-footer;
 		}
 	}
-
 }
 
-.inventoryItems .fieldValue {
-	position: relative;
+.inventoryItems {
+	.fieldValue {
+		position: relative;
+	}
+
+	.input-group {
+		max-width: 100% !important;
+	}
+
+	.rowName .input-group {
+		max-width: 400px;
+	}
+
+	td, th {
+		border: 1px solid #ddd;
+	}
+
+	tfoot td.hideTd {
+		border: 0;
+		background: #fafafb;
+	}
+	//reboot correction for hidden list in table
+	.subProductsContainer ul {
+		margin-bottom: 0;
+	}
 }
