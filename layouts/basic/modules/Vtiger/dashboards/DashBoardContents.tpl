@@ -51,8 +51,8 @@
 					</div>
 				</div>
 			{/foreach}
-			<input type="hidden" id=row value="{$ROW}"/>
-			<input type="hidden" id=col value="{$COLCOUNT}"/>
+			<input type="hidden" id="row" value="{$ROW}"/>
+			<input type="hidden" id="col" value="{$COLCOUNT}"/>
 		</div>
 	</div>
 	</div> {*dashboardViewContainer closing tag*}
