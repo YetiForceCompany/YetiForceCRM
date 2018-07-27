@@ -134,9 +134,7 @@ class Purifier extends \Tests\Base
 		$this->assertSame([$textExpected, $textExpected], \App\Purifier::purifyByType([$text, $text], $type), 'Sample date range should be unchanged(array)');
 		$this->expectException(\App\Exceptions\IllegalValue::class);
 		$this->assertSame($textBadExpected, \App\Purifier::purifyByType($textBad, $type), 'Sample date range should be purified');
-		$this->assertSame([$textBadExpected, $textBadExpected], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample date range should be purified(array)');
-		$userModel->set('date_format', $currFormat);
-		$userModel->save();
+		$this->assertSame([$textBadExpected, $textBadExpected], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample date range should be purified(array)') && $userModel->set('date_format', $currFormat) && $userModel->save();
 	}
 
 	/**
@@ -189,7 +187,6 @@ class Purifier extends \Tests\Base
 		$this->assertSame([$text, $text], \App\Purifier::purifyByType([$text, $text], $type), 'Sample text should be unchanged(array)');
 		$this->expectException(\App\Exceptions\IllegalValue::class);
 		$this->assertNotSame($textBad, \App\Purifier::purifyByType($textBad, $type), 'Sample text should be purified');
-		$this->assertNotSame([$textBad, $textBad], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample text should be purified(array)');
 	}
 
 	/**
@@ -215,7 +212,6 @@ class Purifier extends \Tests\Base
 		$this->assertSame([$text, $text], \App\Purifier::purifyByType([$text, $text], $type), 'Sample text should be unchanged(array)');
 		$this->expectException(\App\Exceptions\IllegalValue::class);
 		$this->assertNotSame($textBad, \App\Purifier::purifyByType($textBad, $type), 'Sample text should be purified');
-		$this->assertNotSame([$textBad, $textBad], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample text should be purified(array)');
 	}
 
 	/**
@@ -241,7 +237,6 @@ class Purifier extends \Tests\Base
 		$this->assertSame([$text, $text], \App\Purifier::purifyByType([$text, $text], $type), 'Sample number in user format should be unchanged(array)');
 		$this->expectException(\App\Exceptions\IllegalValue::class);
 		$this->assertNotSame($textBad, \App\Purifier::purifyByType($textBad, $type), 'Sample number in user format should be purified');
-		$this->assertNotSame([$textBad, $textBad], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample number in user format should be purified(array)');
 	}
 
 	/**
@@ -267,7 +262,6 @@ class Purifier extends \Tests\Base
 		$this->assertSame([$text, $text], \App\Purifier::purifyByType([$text, $text], $type), 'Sample integer should be unchanged(array)');
 		$this->expectException(\App\Exceptions\IllegalValue::class);
 		$this->assertNotSame($textBad, \App\Purifier::purifyByType($textBad, $type), 'Sample integer should be purified');
-		$this->assertNotSame([$textBad, $textBad], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample integer should be purified(array)');
 	}
 
 	/**
@@ -293,7 +287,6 @@ class Purifier extends \Tests\Base
 		$this->assertSame([$text, $text], \App\Purifier::purifyByType([$text, $text], $type), 'Sample digital should be unchanged(array)');
 		$this->expectException(\App\Exceptions\IllegalValue::class);
 		$this->assertNotSame($textBad, \App\Purifier::purifyByType($textBad, $type), 'Sample digital should be purified');
-		$this->assertNotSame([$textBad, $textBad], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample digital should be purified(array)');
 	}
 
 	/**
@@ -330,7 +323,6 @@ class Purifier extends \Tests\Base
 		$this->assertSame([$text, $text], \App\Purifier::purifyByType([$text, $text], $type), 'Sample year should be unchanged(array)');
 		$this->expectException(\App\Exceptions\IllegalValue::class);
 		$this->assertNotSame($textBad, \App\Purifier::purifyByType($textBad, $type), 'Sample year should be purified');
-		$this->assertNotSame([$textBad, $textBad], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample year should be purified(array)');
 	}
 
 	/**
@@ -356,7 +348,6 @@ class Purifier extends \Tests\Base
 		$this->assertSame([$text, $text], \App\Purifier::purifyByType([$text, $text], $type), 'Sample text should be unchanged(array)');
 		$this->expectException(\App\Exceptions\IllegalValue::class);
 		$this->assertNotSame($textBad, \App\Purifier::purifyByType($textBad, $type), 'Sample text should be purified');
-		$this->assertNotSame([$textBad, $textBad], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample text should be purified(array)');
 	}
 
 	/**
@@ -382,7 +373,6 @@ class Purifier extends \Tests\Base
 		$this->assertSame([$text, $text], \App\Purifier::purifyByType([$text, $text], $type), 'Sample text should be unchanged(array)');
 		$this->expectException(\App\Exceptions\IllegalValue::class);
 		$this->assertNotSame($textBad, \App\Purifier::purifyByType($textBad, $type), 'Sample text should be purified');
-		$this->assertNotSame([$textBad, $textBad], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample text should be purified(array)');
 	}
 
 	/**
@@ -407,7 +397,6 @@ class Purifier extends \Tests\Base
   &lt;svg/onload=alert(1)onabort=alert(2)//
   <img src="1" onerror=alert(1)>
   ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//  <svg/onload=alert(1) onfocus=alert(2)//';
-		$type = 'Default';
 		$this->assertSame($text, \App\Purifier::purifyHtml($text), 'Sample text should be unchanged');
 		$this->expectException(\App\Exceptions\IllegalValue::class);
 		$this->assertNotSame($textBad, \App\Purifier::purifyHtml($textBad), 'Sample text should be purified');
