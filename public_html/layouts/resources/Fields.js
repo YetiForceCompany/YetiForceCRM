@@ -530,7 +530,7 @@ App.Fields = {
 				params.language.maximumSelected = formatSelectionExceeds;
 			}
 			if (typeof selectElement.attr('multiple') !== "undefined" && !params.placeholder) {
-				params.placeholder = app.vtranslate('JS_SELECT_SOME_OPTIONS');
+				params.placeholder = app.vtranslate('JS_SELECT_OR_WRITE_AND_PRESS_ENTER');
 			} else if (!params.placeholder) {
 				params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 			}

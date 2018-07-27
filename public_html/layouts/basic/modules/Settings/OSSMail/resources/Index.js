@@ -26,6 +26,7 @@ jQuery.Class("Settings_OSSMail_Index_Js", {}, {
 		App.Fields.Picklist.showSelect2ElementView(this.getContainer().find('[name="default_host"]'), {
 			delimiter: ',',
 			persist: false,
+			tags: true,
 			create: function (input) {
 				return {
 					value: input,
