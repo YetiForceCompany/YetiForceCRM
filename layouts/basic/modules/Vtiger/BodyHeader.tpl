@@ -146,12 +146,12 @@
 							{if count($AUTOLOGINUSERS) eq 1}
 								<a class="btn btn-outline-dark border-0" title="{$MAIN_MAIL.username}"
 								   href="index.php?module=OSSMail&view=Index">
-									<div class="d-none d-md-block">
+									<div class="d-none d-xxl-block">
 										{$ITEM.username}
 										<span class="mail_user_name">{$MAIN_MAIL.username}</span>
 										<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
 									</div>
-									<div class="d-md-none">
+									<div class="d-xxl-none">
 										<span class="fas fa-inbox fa-fw"
 											  title="{\App\Language::translate('LBL_EMAIL')}"></span>
 									</div>
