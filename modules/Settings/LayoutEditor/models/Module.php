@@ -168,10 +168,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$type = $params['fieldTypeList'];
 		$name = strtolower($params['fieldName']);
 		$fieldParams = '';
+		if ($this->checkFieldLableExists($label)) {
+			throw new Exception(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
+		}
 		if($type === 0) {
-			if ($this->checkFieldLableExists($label)) {
-				throw new Exception(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
-			}
 			if ($this->checkFieldNameCharacters($name)) {
 				throw new Exception(\App\Language::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
 			}
