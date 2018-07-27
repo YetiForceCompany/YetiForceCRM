@@ -417,11 +417,36 @@ if (typeof (ImportJs) === "undefined") {
 					}
 				});
 			});
+		},
+		openListInModal: function () {
+			$('.js-openListInModal').on('click', function () {
+				let moduleName = $(this).attr('data-moduleName'),
+					type = '',
+					forUser = $(this).attr('data-forUser'),
+					forModule = $(this).attr('data-forModule');
+				if ($(this).attr('data-type') !== '') {
+					type = '&type=' + $(this).attr('data-type');
+				}
+				app.showModalWindow(null, 'index.php?module=' + moduleName + '&view=List&mode=getImportDetails' + type + '&start=1&foruser=' + forUser + '&forModule=' + forModule, function (data) {
+					let container = data.find('.listViewEntriesDiv'),
+						containerH = container.height(),
+						containerOffsetTop = container.offset().top,
+						footerH = $('.js-footer').height(),
+						windowH = $(window).height();
+					if ($(window).width() > app.breakpoints.sm) {
+						if ((containerH + containerOffsetTop + footerH) > windowH) {
+							container.height(windowH - (containerOffsetTop + footerH));
+						}
+						app.showNewScrollbarTopBottomRight(container);
+					}
+				});
+			});
 		}
 	};
 
 	jQuery(document).ready(function () {
 		ImportJs.toogleMergeConfiguration();
+		ImportJs.openListInModal();
 		ImportJs.submitAction();
 		ImportJs.loadDefaultValueWidgetForMappedFields();
 		ImportJs.registerImportClickEvent();

@@ -32,9 +32,9 @@
 			<td class="pr-3 u-w-30per"><span
 						class="{if $IMPORT_RESULT['FAILED'] neq '0'} mr-2 {/if}">{$IMPORT_RESULT.SKIPPED}</span>
 				{if $IMPORT_RESULT['SKIPPED'] neq '0'}
-					<a class="u-cursor-pointer"
-					   onclick="return window.open('index.php?module={$MODULE}&view=List&mode=getImportDetails&type=skipped&start=1&foruser={$OWNER_ID}&forModule={$FOR_MODULE}', 'skipped', 'width=700,height=650,resizable=no,scrollbars=yes,top=150,left=200');">
-						{\App\Language::translate('LBL_DETAILS', $MODULE)}</a>
+					<a class="u-cursor-pointer js-openListInModal" data-js="openListInModal" data-moduleName="{$MODULE}"
+					   data-type="skipped" data-forUser="{$OWNER_ID}"
+					   data-forModule="{$FOR_MODULE}"> {\App\Language::translate('LBL_DETAILS', $MODULE)}</a>
 				{/if}
 			</td>
 		</tr>
@@ -46,11 +46,14 @@
 		<tr>
 			<td class="pl-3">{\App\Language::translate('LBL_TOTAL_RECORDS_FAILED', $MODULE)}</td>
 			<td>:</td>
-			<td class="pr-3 u-w-30per"><span
-						class="{if $IMPORT_RESULT['FAILED'] neq '0'} mr-2 {/if}">{$IMPORT_RESULT.FAILED} / {$IMPORT_RESULT.TOTAL}</span>
+			<td class="pr-3 u-w-30per">
+				<span class="{if $IMPORT_RESULT['FAILED'] neq '0'} mr-2 {/if}">
+					{$IMPORT_RESULT.FAILED}/ {$IMPORT_RESULT.TOTAL}
+				</span>
 				{if $IMPORT_RESULT['FAILED'] neq '0'}
-					<a class="u-cursor-pointer"
-					   onclick="return window.open('index.php?module={$MODULE}&view=List&mode=getImportDetails&type=failed&start=1&foruser={$OWNER_ID}&forModule={$FOR_MODULE}', 'failed', 'width=700,height=650,resizable=no,scrollbars=yes,top=150,left=200');">{\App\Language::translate('LBL_DETAILS', $MODULE)}</a>
+					<a class="u-cursor-pointer js-openListInModal" data-js="openListInModal" data-moduleName="{$MODULE}"
+					   data-type="failed" data-forUser="{$OWNER_ID}"
+					   data-forModule="{$FOR_MODULE}"> {\App\Language::translate('LBL_DETAILS', $MODULE)}</a>
 				{/if}
 			</td>
 		</tr>
