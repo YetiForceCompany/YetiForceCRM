@@ -80,9 +80,9 @@ class C_RecordActions extends \Tests\Base
 	 *
 	 * @return \Vtiger_Record_Model
 	 */
-	public static function createLeadRecord()
+	public static function createLeadRecord($fresh = false)
 	{
-		if (static::$recordLeads) {
+		if (static::$recordLeads && !$fresh) {
 			return static::$recordLeads;
 		}
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('Leads');
@@ -120,9 +120,9 @@ class C_RecordActions extends \Tests\Base
 	 *
 	 * @return \Vtiger_Record_Model
 	 */
-	public static function createCampaignRecord()
+	public static function createCampaignRecord($fresh = false)
 	{
-		if (static::$recordCampaigns) {
+		if (static::$recordCampaigns && !$fresh) {
 			return static::$recordCampaigns;
 		}
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('Campaigns');
@@ -134,9 +134,9 @@ class C_RecordActions extends \Tests\Base
 	/**
 	 * Creating account module record for tests.
 	 */
-	public static function createAccountRecord()
+	public static function createAccountRecord($fresh = false)
 	{
-		if (static::$recordAccounts) {
+		if (static::$recordAccounts && !$fresh) {
 			return static::$recordAccounts;
 		}
 		$record = \Vtiger_Record_Model::getCleanInstance('Accounts');
