@@ -64,7 +64,7 @@ if (typeof (ImportJs) === "undefined") {
 			return true;
 		},
 		registerImportClickEvent: function () {
-			jQuery('#importButton').on('click', function (e) {
+			jQuery('#importButton').removeAttr('disabled').on('click', function (e) {
 				var result = ImportJs.sanitizeAndSubmit();
 				return result;
 			});
