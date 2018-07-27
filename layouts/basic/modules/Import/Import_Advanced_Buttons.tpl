@@ -10,8 +10,7 @@
 ********************************************************************************/
 -->*}
 
-<button type="submit" name="import" id="importButton" class="crmButton big edit btn btn-success"
-		><strong>{\App\Language::translate('LBL_IMPORT_BUTTON_LABEL', $MODULE)}</strong></button>
+<button type="submit" name="import" id="importButton" class="crmButton big edit btn btn-success" disabled>{\App\Language::translate('LBL_IMPORT_BUTTON_LABEL', $MODULE)}</button>
 <button type="button" name="cancel" value="{\App\Language::translate('LBL_CANCEL', $MODULE)}" class="cursorPointer cancelLink btn btn-warning" onclick="window.history.back()">
 	{\App\Language::translate('LBL_CANCEL', $MODULE)}
 </button>
