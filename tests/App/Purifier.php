@@ -133,8 +133,7 @@ class Purifier extends \Tests\Base
 		$this->assertSame($textExpected, \App\Purifier::purifyByType($text, $type), 'Sample date should be unchanged');
 		$this->assertSame([$textExpected, $textExpected], \App\Purifier::purifyByType([$text, $text], $type), 'Sample date range should be unchanged(array)');
 		$this->expectException(\App\Exceptions\IllegalValue::class);
-		$this->assertSame($textBadExpected, \App\Purifier::purifyByType($textBad, $type), 'Sample date range should be purified');
-		$this->assertSame([$textBadExpected, $textBadExpected], \App\Purifier::purifyByType([$textBad, $textBad], $type), 'Sample date range should be purified(array)') && $userModel->set('date_format', $currFormat) && $userModel->save();
+		$this->assertSame($textBadExpected, \App\Purifier::purifyByType($textBad, $type), 'Sample date range should be purified') && $userModel->set('date_format', $currFormat) && $userModel->save();
 	}
 
 	/**
