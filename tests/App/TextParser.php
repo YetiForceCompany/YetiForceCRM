@@ -271,13 +271,10 @@ class TextParser extends \Tests\Base
 	 */
 	public function testBasicField()
 	{
-		if ((new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => \App\User::getCurrentUserId()])
-			->limit(1)->exists()) {
-			$tmpUser = \App\User::getCurrentUserId();
-			\App\User::setCurrentUserId((new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['not in', 'id', (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees'])
-				->column()])
-				->limit(1)->scalar());
-		}
+		$tmpUser = \App\User::getCurrentUserId();
+		\App\User::setCurrentUserId((new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['not in', 'id', (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees'])
+			->column()])
+			->limit(1)->scalar());
 		$text = '+ $(employee : last_name)$ +';
 		$this->assertSame('+  +', static::$parserClean
 			->setContent($text)
@@ -291,9 +288,7 @@ class TextParser extends \Tests\Base
 			->setContent($text)
 			->parse()
 			->getContent(), 'Record instance: By default employee last name should be empty');
-		if (isset($tmpUser)) {
-			\App\User::setCurrentUserId($tmpUser);
-		}
+		\App\User::setCurrentUserId($tmpUser);
 		\App\Cache::clear();
 	}
 
@@ -302,10 +297,10 @@ class TextParser extends \Tests\Base
 	 */
 	public function testEmployee()
 	{
+		$tmpUser = \App\User::getCurrentUserId();
 		$employeeId = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => \App\User::getCurrentUserId()])
 			->limit(1)->scalar();
 		if (!$employeeId) {
-			$tmpUser = \App\User::getCurrentUserId();
 			$employeeUser = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['in', 'id', (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees'])
 				->column()])
 				->limit(1)->scalar();
@@ -316,11 +311,9 @@ class TextParser extends \Tests\Base
 				$employeeModel->save();
 				$employeeId = $employeeModel->getId();
 			}
-			if ($employeeUser && $employeeUser !== $tmpUser) {
-				\App\User::setCurrentUserId($employeeUser);
-			} else {
-				unset($tmpUser);
-			}
+			$employeeUser ? \App\User::setCurrentUserId($employeeUser) : '';
+			$employeeId = $employeeId ? $employeeId : (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => \App\User::getCurrentUserId()])
+				->limit(1)->scalar();
 
 			\App\Cache::clear();
 		}
@@ -334,9 +327,7 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent(), 'Clean instance: Employee name should be same as in db(cached)');
 
-		if (isset($tmpUser)) {
-			\App\User::setCurrentUserId($tmpUser);
-		}
+		\App\User::setCurrentUserId($tmpUser);
 	}
 
 	/**
@@ -377,6 +368,22 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent();
 		$this->assertEmpty($result, 'relatedRecordsList should return empty string if no related records found(CustomView not exists)');
+		$contactModel = \Tests\Entity\C_RecordActions::createContactRecord();
+		$text = '$(relatedRecordsList : Contacts|firstname,decision_maker,createdtime,contactstatus,verification|[[["firstname","a","Test"]]]|All|5)$';
+		$result = \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createAccountRecord())->withoutTranslations(true)
+			->setContent($text)
+			->parse()
+			->getContent();
+		$this->assertNotEmpty($result, 'relatedRecordsList should return not empty string if related records found');
+		$this->assertNotFalse(\strpos($result, $contactModel->get('firstname')), 'relatedRecordsList should contain test record row');
+
+		$text = '$(relatedRecordsList : Contacts|firstname,decision_maker,createdtime,contactstatus,verification|[[["firstname","a","Test"]]]|NotExists|5)$';
+		$result = \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createAccountRecord())->withoutTranslations(true)
+			->setContent($text)
+			->parse()
+			->getContent();
+		$this->assertNotEmpty($result, 'relatedRecordsList should return not empty string if related records found');
+		$this->assertNotFalse(\strpos($result, $contactModel->get('firstname')), 'relatedRecordsList should contain test record row');
 	}
 
 	/**
@@ -389,16 +396,16 @@ class TextParser extends \Tests\Base
 			->setContent($text)
 			->parse()
 			->getContent(), 'custom function with not existent parser should return empty string');
+		$text = '+ $(custom : NotExists|NotExists)$ +';
+		$this->assertSame('+  +', \App\TextParser::getInstance()
+			->setContent($text)
+			->parse()
+			->getContent(), 'custom function with not existent parser should return empty string');
 		$text = '+ $(custom : TableTaxSummary)$ +';
 		$this->assertSame('+  +', \App\TextParser::getInstance()
 			->setContent($text)
 			->parse()
 			->getContent(), 'custom function with TableTaxSummary parser should return empty string');
-//		$text = '+ $(custom : TableHierarchy|IStorages)$ +';
-//		$this->assertSame('+  +', \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createLeadRecord())
-//			->setContent($text)
-//			->parse()
-//			->getContent(), 'custom function with TableHierarchy Leads module parser should return empty string');
 		$text = '+ $(custom : NotExists|Leads)$ +';
 		$this->assertSame('+  +', \App\TextParser::getInstance()
 			->setContent($text)
@@ -492,8 +499,12 @@ class TextParser extends \Tests\Base
 		$this->assertSame('+ ' . \Tests\Entity\C_RecordActions::createLeadRecord()->get('company') . ' +', static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'Test record company should be same as in db');
-		$text = '+ $(record : Comments 5)$ +';
-		$this->assertSame('+  +', static::$parserRecord->setContent($text)
+		$text = '+ $(record : Comments 5|true)$ +';
+		$comment = \Vtiger_Record_Model::getCleanInstance('ModComments');
+		$comment->set('commentcontent', 'TestComment');
+		$comment->set('related_to', \Tests\Entity\C_RecordActions::createLeadRecord()->getId());
+		$comment->save();
+		$this->assertSame('+ TestComment +', static::$parserRecord->setContent($text)
 			->parse()
 			->getContent(), 'Test record comments list should be empty');
 		$text = '+ $(record : FieldNotExists)$ +';
@@ -595,14 +606,10 @@ class TextParser extends \Tests\Base
 	 */
 	public function testGetRelatedVariable()
 	{
-		$fieldsArr = ['assigned_user_id'];
 		$arr = static::$parserCleanModule->getRelatedVariable();
 		$this->assertInternalType('array', $arr, 'Expected array type');
 		$this->assertNotEmpty($arr, 'Expected any related variables data');
 		foreach ($arr as $key => $content) {
-			if (!is_array($content) || \in_array($content, $fieldsArr)) {
-				continue;
-			}
 			$this->assertInternalType('array', $content, 'Expected array type');
 			$this->assertNotEmpty($content, 'Expected any related variables data');
 			foreach ($content as $group => $data) {
@@ -664,5 +671,20 @@ class TextParser extends \Tests\Base
 			'+autogenerated test lead for \App\TextParser tests+',
 			static::$parserRecord->setContent('+$(sourceRecord : description)$+')->setSourceRecord(\Tests\Entity\C_RecordActions::createLeadRecord()->getId())->parse()->getContent(),
 			'Record instance: Translations should be equal');
+	}
+
+	/**
+	 * Testing related record placeholders.
+	 */
+	public function testRelatedRecord()
+	{
+		$this->assertNotSame('+  +', '+ ' . \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createContactRecord())->setContent('+$(relatedRecord : parent_id|accountname|Accounts)$+')->parse()->getContent() . ' +', 'Account name should be not empty');
+		$this->assertNotSame('+  +', '+ ' . \App\TextParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createContactRecord())->setContent('+$(relatedRecord : parent_id|accountname)$+')->parse()->getContent() . ' +', 'Account name should be not empty(without module)');
+		$this->assertNotSame('+  +', '+ ' . static::$parserRecord->setContent('+$(relatedRecord : assigned_user_id|user_name|Users)$+')->parse()->getContent() . ' +', 'Lead creator user_name should be not empty');
+		$comment = \Vtiger_Record_Model::getCleanInstance('ModComments');
+		$comment->set('commentcontent', 'TestComment');
+		$comment->set('related_to', \Tests\Entity\C_RecordActions::createLeadRecord()->getId());
+		$comment->save();
+		$this->assertNotSame('+  +', '+ ' . \App\TextParser::getInstanceById($comment->getId(), 'ModComments')->setContent('+ $(relatedRecord : related_to|company)$ +')->parse()->getContent() . ' +', 'Lead creator email should be not empty');
 	}
 }

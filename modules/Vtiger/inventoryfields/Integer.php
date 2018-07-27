@@ -21,7 +21,7 @@ class Vtiger_Integer_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function validate($value, $columnName, $isUserFormat = false)
 	{
-		if ($value === '') {
+		if (empty($value)) {
 			return;
 		}
 		if (!is_numeric($value)) {
