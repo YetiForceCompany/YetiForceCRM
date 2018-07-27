@@ -1254,24 +1254,29 @@ jQuery.Class('Vtiger_Widget_Js', {
 		});
 	},
 	loadScrollbar: function loadScrollbar() {
-		const container = this.getChartContainer(false);
+		const container = $(this.getChartContainer(false));
 		if (typeof container === "undefined") { // if there is no data
 			return false;
 		}
-		const widget = $(container.closest('.dashboardWidget'));
+		const widget = container.closest('.dashboardWidget');
 		const content = widget.find('.dashboardWidgetContent');
 		const footer = widget.find('.dashboardWidgetFooter');
-		const header = widget.find('.dashboardWidgetHeader');
-		const headerHeight = header.outerHeight();
-		let adjustedHeight = widget.height() - headerHeight;
-		if (footer.length)
+		let adjustedHeight = widget.innerHeight() - widget.find('.dashboardWidgetHeader').outerHeight();
+		if (footer.length) {
 			adjustedHeight -= footer.outerHeight();
-		if (!content.length)
+		}
+		if (!content.length) {
 			return;
+		}
 		content.css('height', adjustedHeight + 'px');
-		app.showNewScrollbar(content, {
-			wheelPropagation: true
-		});
+		content.css('max-height',adjustedHeight+'px');
+		if (typeof this.scrollbar !== 'undefined') {
+			this.scrollbar.update();
+		}else {
+			this.scrollbar = app.showNewScrollbar(content, {
+				wheelPropagation: true
+			});
+		}
 	},
 	restrictContentDrag: function restrictContentDrag() {
 		this.getContainer().on('mousedown.draggable', function (e) {
@@ -1368,6 +1373,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerFilter();
 		this.registerFilterChangeEvent();
 		this.restrictContentDrag();
+		this.registerContentAutoResize();
 		app.showPopoverElementView(this.getContainer().find('.js-popover-tooltip'));
 		this.registerWidgetSwitch();
 		this.registerChangeSorting();
@@ -1744,6 +1750,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 	},
 	/**
+	 * Auto resize charts when widget was resized
+	 */
+	registerContentAutoResize() {
+		this.getContainer().closest('.grid-stack').on('gsresizestop', (event, elem) => {
+			this.loadScrollbar();
+		});
+	},
+	/**
 	 * Load and display chart into the view
 	 *
 	 * @return {Chart} chartInstance
@@ -1984,7 +1998,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @returns {object} chart options
 	 */
 	getBasicOptions: function getBasicOptions(chartData) {
-		return {};
+		return {
+			responsive: true,
+			maintainAspectRatio: false,
+		};
 	},
 	/**
 	 * Placeholder for individual chart type dataset options
