@@ -2501,25 +2501,6 @@ span[name=existingImages] img {
 	border-radius: 4px;
 }
 
-.inventoryItems {
-	.input-group {
-		max-width: 200px;
-	}
-
-	.rowName .input-group {
-		max-width: 400px;
-	}
-
-	td, th {
-		border: 1px solid #ddd;
-	}
-
-	tfoot td.hideTd {
-		border: 0;
-		background: #fafafb;
-	}
-}
-
 .inventorySummaryContainer {
 	.panel-body, .panel-footer {
 		padding: 0;
@@ -3557,13 +3538,6 @@ html, body, .o-base-container {
 	.eventsTable td {
 		padding-left: 0;
 		padding-right: 0;
-	}
-}
-
-.inventoryItems {
-	.colName {
-		width: 8% !important;
-		min-width: 420px !important;
 	}
 }
 
