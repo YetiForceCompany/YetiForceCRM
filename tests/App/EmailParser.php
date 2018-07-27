@@ -14,19 +14,19 @@ class EmailParser extends \Tests\Base
 	/**
 	 * Test record instance.
 	 *
-	 * @var \App\TextParser
+	 * @var \App\EmailParser
 	 */
 	private static $parserRecord;
 	/**
 	 * Test clean instance.
 	 *
-	 * @var \App\TextParser
+	 * @var \App\EmailParser
 	 */
 	private static $parserClean;
 	/**
 	 * Test clean instance with module.
 	 *
-	 * @var \App\TextParser
+	 * @var \App\EmailParser
 	 */
 	private static $parserCleanModule;
 
@@ -70,7 +70,7 @@ class EmailParser extends \Tests\Base
 	}
 
 	/**
-	 * Testing get content function.
+	 * Testing use value function.
 	 */
 	public function testUseValue()
 	{
@@ -90,6 +90,11 @@ class EmailParser extends \Tests\Base
 		\Tests\Entity\C_RecordActions::createLeadRecord()->save();
 		$this->assertSame(['test0@yetiforce.com', 'test1@yetiforce.com' => 'Test One ', 'test2@yetiforce.com', 'test3@yetiforce.com'], \App\EmailParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createLeadRecord())
 			->setContent('test0@yetiforce.com,Test One &lt;test1@yetiforce.com&gt;,test2@yetiforce.com,-,,$(record : email)$')
+			->parse()
+			->getContent(true), 'content should be equal');
+		$tmpInstance = \App\EmailParser::getInstanceByModel(\Tests\Entity\C_RecordActions::createLeadRecord());
+		$tmpInstance->emailoptout = false;
+		$this->assertSame(['test0@yetiforce.com', 'test1@yetiforce.com' => 'Test One ', 'test2@yetiforce.com', 'test3@yetiforce.com'], $tmpInstance->setContent('test0@yetiforce.com,Test One &lt;test1@yetiforce.com&gt;,test2@yetiforce.com,-,,$(record : email)$')
 			->parse()
 			->getContent(true), 'content should be equal');
 		\Tests\Entity\C_RecordActions::createLeadRecord(true);
