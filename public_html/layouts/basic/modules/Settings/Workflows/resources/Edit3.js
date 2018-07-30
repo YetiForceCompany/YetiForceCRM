@@ -76,13 +76,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				thisInstance.registerFillTaskFieldsEvent();
 				thisInstance.registerCheckSelectDateEvent();
 				app.showPopoverElementView($(data).find('.js-popover-tooltip'));
-				var contentHeight = parseInt(data.find('.modal-body').height());
-				var maxHeight = app.getScreenHeight(80);
-				if ((contentHeight) > maxHeight) {
-					app.showScrollBar(data.find('.modal-body'), {
-						'height': maxHeight + 'px'
-					});
-				}
 			});
 
 		});
