@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class("YetiForce_ListSearch_Js", {
 	getInstance: function (container, noEvents, reletedInstance, moduleName) {
@@ -178,7 +179,6 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			var fieldInfo = searchContributorElement.data('fieldinfo');
 			var fieldName = searchContributorElement.attr('name');
 			var searchValue = searchContributorElement.val();
-
 			if (typeof searchValue == "object") {
 				if (searchValue == null) {
 					searchValue = "";
@@ -234,7 +234,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 				});
 			}
 		}
-		return new Array(searchParams);
+		return [searchParams];
 	},
 	getInstanceByView: function () {
 		var viewName = this.viewName ? this.viewName : app.getViewName();
