@@ -7,6 +7,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js',{},{
 		const invoiceidInput = container.find('[name="finvoiceid"]');
 		const formContainer = container.closest('.recordEditView');
 		if(invoiceidInput.length){
+			const progressLoader = $.progressIndicator({'blockInfo': {'enabled': true}});
 			AppConnector.request({
 				module:'FCorectingInvoice',
 				mode:'get',
@@ -14,6 +15,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js',{},{
 				record:params.id
 			}).done((response)=>{
 				formContainer.find('#beforeInventory').html(response);
+				progressLoader.progressIndicator({mode:'hide'});
 			});
 		}
 	},
