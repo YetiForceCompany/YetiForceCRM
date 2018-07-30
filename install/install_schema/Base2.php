@@ -2557,19 +2557,6 @@ class Base2 extends \App\Db\Importers\Base
 						[3, 'PLL_PUBLISHED', 0, 699, 3],
 				]
 			],
-			'vtiger_apiaddress' => [
-				'columns' => ['id', 'name', 'val', 'type'],
-				'values' => [
-						[1, 'min_length', '3', 'global'],
-						[2, 'key', '', 'google_map_api'],
-						[3, 'nominatim', '0', 'google_map_api'],
-						[4, 'source', 'https://maps.googleapis.com/maps/api/geocode/json', 'google_map_api'],
-						[5, 'key', '', 'opencage_data'],
-						[6, 'source', 'https://api.opencagedata.com/geocode/v1/', 'opencage_data'],
-						[7, 'nominatim', '0', 'opencage_data'],
-						[8, 'result_num', '10', 'global'],
-				]
-			],
 			'vtiger_assets_renew' => [
 				'columns' => ['assets_renewid', 'assets_renew', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
