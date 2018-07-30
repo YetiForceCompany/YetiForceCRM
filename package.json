@@ -88,6 +88,6 @@
 	},
 	"homepage": "https://github.com/YetiForceCompany/YetiForceCRM#readme",
 	"scripts": {
-		"postinstall": "php -f c:\\www\\YetiForceCRM\\yarncleaner.php postinstall"
+		"postinstall": "php -f yarncleaner.php postinstall"
 	}
 }
