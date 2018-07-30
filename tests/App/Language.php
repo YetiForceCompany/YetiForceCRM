@@ -23,6 +23,7 @@ class Language extends \Tests\Base
 		$this->assertSame('Język Polski', \App\Language::getLanguageLabel('pl_pl'));
 		$this->assertSame('SINGLE_Leads', \App\Language::getSingularModuleName('Leads'));
 		$this->assertSame('Lead', \App\Language::translateSingularModuleName('Leads'));
+		$this->assertSame('TestKey', \App\Language::translateSingleMod('TransKey'));
 	}
 
 	/**
@@ -48,5 +49,13 @@ class Language extends \Tests\Base
 	public function testInitLocale()
 	{
 		$this->assertNull(\App\Language::initLocale());
+	}
+
+	/**
+	 * Testing get javascript strings.
+	 */
+	public function testGetJsStrings()
+	{
+		$this->assertNotEmpty(\App\Language::getJsStrings('Leads'));
 	}
 }
