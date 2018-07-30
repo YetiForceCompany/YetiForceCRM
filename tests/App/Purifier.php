@@ -11,6 +11,11 @@ namespace Tests\App;
 
 class Purifier extends \Tests\Base
 {
+	/**
+	 * Provide data for purifyByType test cases.
+	 *
+	 * @return array
+	 */
 	public function dataProviderByType()
 	{
 		//$type, $assertion, $expected, $text, $message, $exception
