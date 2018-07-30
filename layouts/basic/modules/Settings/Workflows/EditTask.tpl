@@ -82,7 +82,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="taskTypeUi well bg-light">
+							<div class="taskTypeUi well bg-light px-0 px-md-1 px-lg-3">
 								{include file="{$TASK_TEMPLATE_PATH}" }
 							</div>
 						</div>
