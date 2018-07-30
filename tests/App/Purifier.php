@@ -75,7 +75,7 @@ class Purifier extends \Tests\Base
 	}
 
 	/**
-	 * @param $type
+	 * @param string       $type
 	 * @param string|false $textOk
 	 * @param string|false $textBad
 	 * @dataProvider dataProviderByType
