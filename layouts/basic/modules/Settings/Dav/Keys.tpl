@@ -82,8 +82,8 @@
 							<h5 class="modal-title">
 								<span class="fas fa-plus fa-sm mr-2"></span>{\App\Language::translate('LBL_ADD_KEY', $QUALIFIED_MODULE)}
 							</h5>
-							<button type="button" class="btn btn-warning float-right" data-dismiss="modal"
-									aria-hidden="true">&times;
+							<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
 						<div class="modal-body">

@@ -5,9 +5,10 @@
 		<input type="hidden" id="member" name="member" value={$MEMBER} />
 		<input type="hidden" id="mode" name="mode" value="exceptions" />
 		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h5 class="modal-title">{\App\Language::translate('LBL_EXCEPTIONS', $QUALIFIED_MODULE)}</h3>
-			<div class="clearfix"></div>
+			<h5 class="modal-title">{\App\Language::translate('LBL_EXCEPTIONS', $QUALIFIED_MODULE)}</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+				<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
+			</button>
 		</div>
 		<div class="modal-body">
 			<div class="form-group">

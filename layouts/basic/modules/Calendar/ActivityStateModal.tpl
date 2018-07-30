@@ -40,9 +40,8 @@
 							</a>
 						{/if}
 					</div>
-					<button type="button" class="close ml-0" data-dismiss="modal"
-							title="{\App\Language::translate('LBL_CLOSE')}">
-						<span aria-hidden="true">&times;</span>
+					<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
 					</button>
 				</div>
 				{assign var=ACTIVITYPOSTPONED value=\App\Privilege::isPermitted('Calendar', 'ActivityPostponed', $ID)}
