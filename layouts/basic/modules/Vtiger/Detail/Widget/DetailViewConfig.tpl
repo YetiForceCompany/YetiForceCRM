@@ -7,11 +7,10 @@
 					<input type="hidden" name="wid" value="{$WID}"/>
 					<input type="hidden" name="type" value="{$TYPE}"/>
 					<div class="modal-header">
-						<h5 id="massEditHeader"
-							class="modal-title">{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}
+						<h5 id="massEditHeader" class="modal-title">
+							{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}
 						</h5>
-						<button type="button" class="close" data-dismiss="modal"
-								aria-label="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">
+						<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">
 							<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">&times;</span>
 						</button>
 					</div>

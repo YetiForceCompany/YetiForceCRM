@@ -14,9 +14,9 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 id="importRecordHeader" class="modal-title">{\App\Language::translate('LBL_IMPORT_RECORDS', $MODULE)}</h3>
-					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
-						<span aria-hidden="true">&times;</span>
+					<h5 id="importRecordHeader" class="modal-title">{\App\Language::translate('LBL_IMPORT_RECORDS', $MODULE)}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
 					</button>
 				</div>
 				<form method="POST" action="index.php" enctype="multipart/form-data" id="ical_import" name="ical_import">

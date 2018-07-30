@@ -15,7 +15,9 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">{\App\Language::translate('LBL_SET_VALUE',$QUALIFIED_MODULE)}</h5>
-					<button type="button" class="close" aria-hidden="true" data-close-modal="modal">×</button>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<div class="modal-body">
 					<div class="row">

@@ -10,7 +10,7 @@
 						<i class="fa-inverse fas fa-long-arrow-alt-down text-white"	data-fa-transform="shrink-6  left-4"></i>
 						<i class="fa-inverse fas fa-percent text-white" data-fa-transform="shrink-8  right-3"></i>
 					</span>
-					<span class="modal-title h5">{\App\Language::translate('LBL_SELECT_DISCOUNT', $MODULE)} {\App\Language::translate($SINGLE_MODULE, $MODULE)}</span>
+					<h5 class="modal-title">{\App\Language::translate('LBL_SELECT_DISCOUNT', $MODULE)} {\App\Language::translate($SINGLE_MODULE, $MODULE)}</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
 						<span aria-hidden="true">&times;</span>
 					</button>

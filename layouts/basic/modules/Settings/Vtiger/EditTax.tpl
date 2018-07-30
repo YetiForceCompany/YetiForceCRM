@@ -19,12 +19,14 @@
 		<div class="modal-dialog">
 			<div class="taxModalContainer modal-content">
 				<div class="modal-header">
-					<button class="close vtButton" data-dismiss="modal" aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">&times;</button>
 					{if $TAX_MODEL_EXISTS}
-						<h5 class="modal-title">{\App\Language::translate('LBL_EDIT_TAX', $QUALIFIED_MODULE)}</h3>
+						<h5 class="modal-title">{\App\Language::translate('LBL_EDIT_TAX', $QUALIFIED_MODULE)}</h5>
 					{else}
-						<h5 class="modal-title">{\App\Language::translate('LBL_ADD_NEW_TAX', $QUALIFIED_MODULE)}</h3>
+						<h5 class="modal-title">{\App\Language::translate('LBL_ADD_NEW_TAX', $QUALIFIED_MODULE)}</h5>
 					{/if}
+					<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
+					</button>
 				</div>
 				<form id="editTax" class="form-horizontal" method="POST">
 					<input type="hidden" name="taxid" value="{$TAX_ID}" />

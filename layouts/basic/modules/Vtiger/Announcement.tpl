@@ -8,7 +8,7 @@
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title">{$ANNOUNCEMENT->getDisplayValue('subject')}</h4>
+								<h5 class="modal-title">{$ANNOUNCEMENT->getDisplayValue('subject')}</h5>
 							</div>
 							<div class="modal-body">
 								{$ANNOUNCEMENT->getDisplayValue('description')}
