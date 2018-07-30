@@ -308,11 +308,11 @@
 						<div class="chatModal modal fade c-modal--custom-animation" tabindex="-1" role="dialog"
 							 aria-labelledby="c-chat-modal__title"
 							 data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
-							<div class="modal-dialog modalRightSiteBar" role="document">
+							<div class="modal-dialog modalRightSiteBar px-0" role="document">
 								<div class="modal-content rounded-0">
 									<div class="modal-header">
 										<h5 class="modal-title" id="c-chat-modal__title">
-											<span class="fas fa-comments fa-fw"></span>
+											<span class="fas fa-comments fa-fw mr-1"></span>
 											{\App\Language::translate('LBL_CHAT')}
 										</h5>
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
