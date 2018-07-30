@@ -311,15 +311,15 @@ var Settings_Picklist_Js = {
 	},
 
 	registerDeleteOptionEvent: function () {
-		var replaceValueElement = jQuery('#replaceValue');
+		let replaceValueElement = jQuery('#replaceValue');
 		jQuery('[name="delete_value[]"]').on("select2:unselect", function (e) {
-			var id = e.params.data.id;
-			var text = e.params.data.text;
+			let id = e.params.data.id;
+			let text = e.params.data.text;
 			replaceValueElement.append('<option value="' + id + '">' + text + '</option>');
 			replaceValueElement.trigger('chosen:updated');
 		});
 		jQuery('[name="delete_value[]"]').on("select2:select", function (e) {
-			var id = e.params.data.id;
+			let id = e.params.data.id;
 			jQuery('#replaceValue option[value="' + id + '"]').remove();
 			replaceValueElement.trigger('chosen:updated');
 		});
