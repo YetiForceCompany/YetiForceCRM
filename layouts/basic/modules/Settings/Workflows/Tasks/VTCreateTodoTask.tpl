@@ -127,7 +127,7 @@
 			<div class="col-md-4 mb-1 mb-md-0 row no-gutters pr-md-1">
 				<div class="col-2 pt-1">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
 				<div class="col-10">
-				<select class="chzn-select" name="direction_end" style="width: 100px">
+				<select class="chzn-select form-control" name="direction_end" style="width: 100px">
 					<option {if $TASK_OBJECT->direction_end eq 'after'}selected=""{/if}
 							value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
 					<option {if $TASK_OBJECT->direction_end eq 'before'}selected=""{/if}
