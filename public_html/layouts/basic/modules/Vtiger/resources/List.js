@@ -563,10 +563,10 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 		var listSearchInstance = this.getListSearchInstance();
 		if (listSearchInstance !== false) {
-			var searchValue = this.getListSearchInstance().getAlphabetSearchValue();
-			params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams(true));
+			var searchValue = listSearchInstance.getAlphabetSearchValue();
+			params.search_params = JSON.stringify(listSearchInstance.getListSearchParams(true));
 			if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
-				params['search_key'] = this.getListSearchInstance().getAlphabetSearchField();
+				params['search_key'] = listSearchInstance.getAlphabetSearchField();
 				params['search_value'] = searchValue;
 				params['operator'] = 's';
 			}
