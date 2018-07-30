@@ -78,6 +78,14 @@
     "JS_PROCEED": "Wollen Sie fortfahren?",
     "JS_PREV": "Vorher",
     "JS_NEXT": "Nachher",
-    "JS_HINT_SKIP": "Verstanden, diese Nachricht schlie\u00dfen"
+    "JS_HINT_SKIP": "Verstanden, diese Nachricht schlie\u00dfen",
+    "JS_GANTT_EXPAND_ALL": "Expand all",
+    "JS_GANTT_COLLAPSE_ALL": "Colapse all",
+    "JS_GANTT_ZOOM_OUT": "Zoom out",
+    "JS_GANTT_ZOOM_IN": "Zoom in",
+    "JS_GANTT_RESIZE_0": "Show only chart",
+    "JS_GANTT_RESIZE_50": "50/50 view (legend/chart)",
+    "JS_GANTT_RESIZE_100": "Show only legend",
+    "JS_GANTT_FILTER": "Filters"
   }
 }
