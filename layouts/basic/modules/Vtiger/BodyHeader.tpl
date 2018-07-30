@@ -133,7 +133,7 @@
 				</div>
 			{/if}
 		</div>
-		<div class="o-navbar__right ml-auto d-inline-flex">
+		<div class="o-navbar__right ml-auto d-inline-flex flex-sm-nowrap">
 			{if !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
 				{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
 				{if $CONFIG['showMailIcon']=='true' && App\Privilege::isPermitted('OSSMail')}
@@ -221,7 +221,7 @@
 				   data-js="click" role="button" aria-expanded="false" aria-controls="o-action-menu__container">
 					<span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 				</a>
-				<div class="o-action-menu__container" id="o-action-menu__container">
+				<div class="o-action-menu__container d-flex flex-sm-nowrap" id="o-action-menu__container">
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
 					<div class="o-action-menu__item commonActionsContainer">
