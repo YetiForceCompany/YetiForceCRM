@@ -11,6 +11,11 @@ namespace App\Installer;
  */
 class Yarn
 {
+	/**
+	 * List of files to be removed depending on the package.
+	 *
+	 * @var array
+	 */
 	public static $packageCleanMap = [
 		'jquery-gantt-editor' => ['cleanDirOther'=>true, 'toRemove'=>[
 			'gantt.html' => ['isDir' => false, 'name' => 'gantt.html'],
@@ -29,8 +34,16 @@ class Yarn
 			'jqPlotCssStyling.txt' => ['isDir' => false, 'name' => 'jqPlotCssStyling.txt'],
 			'jqPlotOptions.txt' => ['isDir' => false, 'name' => 'jqPlotOptions.txt'],
 		]],
+		'split.js' => ['cleanDirOther' => true, 'toRemove' => [
+			'logo.svg' => ['isDir' => false, 'name' => 'logo.svg'],
+		]],
 	];
 
+	/**
+	 * The list of files to remove common to all packages.
+	 *
+	 * @var array
+	 */
 	public static $packageCleanMapForOther = [
 		'src' => ['isDir'=>true, 'name'=>'src'],
 		'demo' => ['isDir' => true, 'name' =>'demo'],
@@ -48,12 +61,22 @@ class Yarn
 		'favicon.ico' => ['favicon.ico' => false, 'name' => 'favicon.ico'],
 	];
 
+	/**
+	 * List of files to be deleted recursively.
+	 *
+	 * @var array
+	 */
 	public static $packageCleanMapRecurse = [
 		'readme.md' => ['isDir' => false, 'name' => 'readme.md'],
-		'test.html' => ['isDir' => false, 'name' => 'test.html'],
 		'readme.txt' => ['isDir' => false, 'name' => 'readme.txt'],
+		'test.html' => ['isDir' => false, 'name' => 'test.html'],
 	];
 
+	/**
+	 * Call the method depending on the Yarn event.
+	 *
+	 * @param string $yarnEvent
+	 */
 	public static function runEvent($yarnEvent)
 	{
 		switch ($yarnEvent) {
@@ -64,11 +87,13 @@ class Yarn
 		throw new \TypeError("Unknown '$yarnEvent' yarn event");
 	}
 
+	/**
+	 * Cleaning packages.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
 	public static function clean()
 	{
-		$str = 'eventInstall: ' . date('Y-m-d H:i:s') . "\r\n";
-		file_put_contents('C:\\www\\YetiForceCRM\\test.txt', $str, FILE_APPEND);
-
 		$yarnPackage = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'package.json';
 		if (static::fileExists($yarnPackage)) {
 			$rootDir = realpath(ROOT_DIRECTORY) . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR;
@@ -91,6 +116,100 @@ class Yarn
 		}
 	}
 
+	/**
+	 * Clearing the folder for the package.
+	 *
+	 * @param string $path
+	 * @param string $packageName
+	 */
+	private static function cleanDir($path, $packageName)
+	{
+		$item = static::$packageCleanMap[$packageName];
+		static::cleanDirOther($path, $item['toRemove']);
+		if (!isset($item['cleanDirOther']) || $item['cleanDirOther']) {
+			static::cleanDirOther($path, static::$packageCleanMapForOther);
+		}
+	}
+
+	/**
+	 * Cleaning folder common to all.
+	 *
+	 * @param string $path
+	 * @param []     $packageMap
+	 */
+	private static function cleanDirOther($path, $packageMap)
+	{
+		foreach ($packageMap as $item) {
+			$fileName = $path . \DIRECTORY_SEPARATOR . $item['name'];
+			if (($realFileName = static::fileExists($fileName))!==false && \is_dir($realFileName) === $item['isDir']) {
+				\vtlib\Functions::recurseDelete($realFileName, true);
+			}
+		}
+	}
+
+	/**
+	 * Cleaning the recursive folder.
+	 *
+	 * @param string $path
+	 * @param []     $packageMap
+	 */
+	public static function cleanRecurse($path, $packageMap)
+	{
+		if (static::fileExists($path)) {
+			static::cleanDirOther($path, $packageMap);
+			foreach (new \DirectoryIterator($path) as $obj) {
+				if ($obj->isDir() && !$obj->isDot()) {
+					static::cleanRecurse($obj->getRealPath(), $packageMap);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Checking if the file exists with ignore case.
+	 *
+	 * @param string $fileName
+	 *
+	 * @return bool|string
+	 */
+	private static function fileExists($fileName)
+	{
+		if (file_exists($fileName)) {
+			return $fileName;
+		}
+		$lowerfile = strtolower($fileName);
+		foreach (glob(dirname($fileName) . '/*') as $file) {
+			if (strtolower($file) === $lowerfile) {
+				return $file;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Recursive calculation of the folder size.
+	 *
+	 * @param string $path
+	 *
+	 * @return int
+	 */
+	public static function getDirSize($path)
+	{
+		$size = 0;
+		if (\is_dir($path)) {
+			foreach (new \DirectoryIterator($path) as $dirObj) {
+				if ($dirObj->isDir() && !$dirObj->isDot()) {
+					$size += static::getDirSize($dirObj->getRealPath());
+				} else {
+					$size += \filesize($dirObj->getPathname());
+				}
+			}
+		} else {
+			$size = \filesize($path);
+		}
+		return $size;
+	}
+
 	public static function showDirYarn()
 	{
 		$yarnPackage = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'package.json';
@@ -108,13 +227,12 @@ class Yarn
 		}
 	}
 
-	public static function showDir($path, $tab='')
+	public static function showDir($path, $tab = '')
 	{
 		echo $tab . '\\' . \basename($path) . "\r\n";
 		if (static::fileExists($path)) {
 			foreach (new \DirectoryIterator($path) as $obj) {
 				if ($obj->isDir()) {
-					//echo $tab . "\t\\" . $obj . "\r\n";
 					if (!$obj->isDot()) {
 						static::showDir($obj->getRealPath(), $tab . "\t");
 					}
@@ -123,79 +241,5 @@ class Yarn
 				}
 			}
 		}
-	}
-
-	private static function cleanDir($path, $packageName)
-	{
-		echo "$packageName\r\n";
-		$item = static::$packageCleanMap[$packageName];
-		static::cleanDirOther($path, $item['toRemove']);
-
-		if (!isset($item['cleanDirOther']) || $item['cleanDirOther']) {
-			echo 'CALL: cleanDirOther' . "\r\n";
-			static::cleanDirOther($path, static::$packageCleanMapForOther);
-		}
-	}
-
-	private static function cleanDirOther($path, $packageMap)
-	{
-		foreach ($packageMap as $item) {
-			$fileName = $path . \DIRECTORY_SEPARATOR . $item['name'];
-			if (($realFileName = static::fileExists($fileName))!==false && \is_dir($realFileName) === $item['isDir']) {
-				if ($item['isDir']) {
-					echo "\t DEL: $fileName \r\n";
-					echo "\t\t" . \vtlib\Functions::showBytes(static::getDirSize($fileName)) . "\r\n";
-				} else {
-					echo "\t $item[name] -> $fileName \r\n";
-					echo "\t $item[name] -> $realFileName \r\n";
-					echo "\t\t" . \vtlib\Functions::showBytes(static::getDirSize($fileName)) . "\r\n";
-				}
-
-				\vtlib\Functions::recurseDelete($realFileName, true);
-			}
-		}
-	}
-
-	public static function cleanRecurse($path, $packageMap)
-	{
-		if (static::fileExists($path)) {
-			static::cleanDirOther($path, $packageMap);
-			foreach (new \DirectoryIterator($path) as $obj) {
-				if ($obj->isDir() && !$obj->isDot()) {
-					static::cleanRecurse($obj->getRealPath(), $packageMap);
-				}
-			}
-		}
-	}
-
-	private static function fileExists($fileName)
-	{
-		if (file_exists($fileName)) {
-			return $fileName;
-		}
-		$lowerfile = strtolower($fileName);
-		foreach (glob(dirname($fileName) . '/*') as $file) {
-			if (strtolower($file) === $lowerfile) {
-				return $file;
-			}
-		}
-		return false;
-	}
-
-	public static function getDirSize($path)
-	{
-		$size = 0;
-		if (\is_dir($path)) {
-			foreach (new \DirectoryIterator($path) as $dirObj) {
-				if ($dirObj->isDir() && !$dirObj->isDot()) {
-					$size += static::getDirSize($dirObj->getRealPath());
-				} else {
-					$size += \filesize($dirObj->getPathname());
-				}
-			}
-		} else {
-			\filesize($path);
-		}
-		return $size;
 	}
 }
