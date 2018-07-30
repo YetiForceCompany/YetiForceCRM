@@ -2,7 +2,7 @@
 {strip}
 	<div class="modal-header">
 		<div class="col-10">
-			<h3 class="modal-title">{\App\Language::translate('LBL_AUTOMATIC_ASSIGNMENT', $MODULE_NAME)}</h3>
+			<h5 class="modal-title">{\App\Language::translate('LBL_AUTOMATIC_ASSIGNMENT', $MODULE_NAME)}</h3>
 		</div>
 		<div class="float-right btn-group">
 			{if $RECORD->isEditable()}

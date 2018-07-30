@@ -1,9 +1,13 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header align-items-center">
-		<div class="fas fa-plus-circle mr-2"></div>
-		<div class="modal-title h5">{\App\Language::translate('LBL_GENERATE_RECORD_FOR_MODULE', $BASE_MODULE_NAME)}</div>
-		<button class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
+		<h5 class="modal-title">
+			<span class="fas fa-plus-circle mr-2"></span>
+			{\App\Language::translate('LBL_GENERATE_RECORD_FOR_MODULE', $BASE_MODULE_NAME)}
+		</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+			<span aria-hidden="true">&times;</span>
+		</button>
 	</div>
 	<div class="modal-body">
 		{if $VIEW eq 'List'}

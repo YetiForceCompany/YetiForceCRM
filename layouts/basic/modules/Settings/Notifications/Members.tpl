@@ -5,7 +5,7 @@
 		<input type="hidden" id="isToAdd" name="isToAdd" value={$IS_TO_ADD} />
 		<input type="hidden" id="mode" name="mode" value="addOrRemoveMembers" />
 		<div class="modal-header">
-			<h3 class="modal-title"><span class="fa fa-plus u-mr-5px mt-2"></span>{\App\Language::translate('LBL_ADD_MEMBERS', $QUALIFIED_MODULE)}</h3>
+			<h5 class="modal-title"><span class="fa fa-plus u-mr-5px mt-2"></span>{\App\Language::translate('LBL_ADD_MEMBERS', $QUALIFIED_MODULE)}</h3>
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			<div class="clearfix"></div>
 		</div>

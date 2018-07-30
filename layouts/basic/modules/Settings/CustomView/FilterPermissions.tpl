@@ -7,7 +7,7 @@
 	<input type="hidden" id="type" value="{$TYPE}" />
 	<div class="modal-header">
 		<div class="float-left">
-			<h3 class="modal-title">{\App\Language::translate('LBL_MANAGE_PERMISSIONS', $MODULE_NAME)}</h3>
+			<h5 class="modal-title">{\App\Language::translate('LBL_MANAGE_PERMISSIONS', $MODULE_NAME)}</h3>
 		</div>
 		<div class="clearfix"></div>
 	</div>

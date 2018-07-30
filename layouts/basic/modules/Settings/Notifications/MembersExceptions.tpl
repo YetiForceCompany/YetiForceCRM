@@ -6,7 +6,7 @@
 		<input type="hidden" id="mode" name="mode" value="exceptions" />
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3 class="modal-title">{\App\Language::translate('LBL_EXCEPTIONS', $QUALIFIED_MODULE)}</h3>
+			<h5 class="modal-title">{\App\Language::translate('LBL_EXCEPTIONS', $QUALIFIED_MODULE)}</h3>
 			<div class="clearfix"></div>
 		</div>
 		<div class="modal-body">

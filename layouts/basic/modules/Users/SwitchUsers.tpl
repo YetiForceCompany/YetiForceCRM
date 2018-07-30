@@ -5,7 +5,9 @@
 			<span class="fas fa-exchange-alt mr-1"></span>
 			{\App\Language::translate('LBL_SWITCH_USER', $MODULE_NAME)}
 		</h5>
-		<button class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
+		<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+			<span aria-hidden="true">&times;</span>
+		</button>
 	</div>
 	<form name="switchUsersForm" action="index.php" method="post">
 		<input type="hidden" name="module" value="{$MODULE_NAME}" />

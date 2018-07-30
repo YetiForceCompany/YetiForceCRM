@@ -15,7 +15,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
-					<h3 class="modal-title">{\App\Language::translate('LBL_SEND_SMS_TO_SELECTED_NUMBERS', $MODULE)}</h3>
+					<h5 class="modal-title">{\App\Language::translate('LBL_SEND_SMS_TO_SELECTED_NUMBERS', $MODULE)}</h3>
 				</div>
 				<form class="form-horizontal validateForm" id="massSave" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
