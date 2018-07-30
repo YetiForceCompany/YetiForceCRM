@@ -20,9 +20,9 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js',{},{
 
 	clearFieldValue(element){
 		this._super(element);
-		const invoiceidInput = element.closest('.referenceGroup').find('[name="finvoiceid"]');
+		const invoiceidInput = element.closest('.fieldValue').find('[name="finvoiceid"]');
 		if(invoiceidInput.length){
-			this.getContainer().find('#beforeInventory').html('');
+			element.closest('form').find('#beforeInventory').html('<div class="text-center">'+app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE')+'</div>');
 		}
 	}
 
