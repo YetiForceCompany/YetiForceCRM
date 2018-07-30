@@ -57,6 +57,7 @@ class Language extends \Tests\Base
 	public function testGetJsStrings()
 	{
 		$this->assertNotEmpty(\App\Language::getJsStrings('Leads'));
+		$this->assertNotEmpty(\App\Language::getJsStrings('Settings'));
 	}
 
 	/**
@@ -67,5 +68,16 @@ class Language extends \Tests\Base
 		$this->assertSame('', \App\Language::translate('', '_Base'));
 		$this->assertSame('TestString', \App\Language::translate('TestString', ['_Base']));
 		$this->assertSame('TestString', \App\Language::translate('TestString', \App\Module::getModuleId('Leads')));
+		$this->assertSame('Leads_2', \App\Language::translatePluralized('Leads', 'Leads', 5));
+		$this->assertSame('Leads_2', \App\Language::translatePluralized('Leads', 'Leads', 5));
+		$this->assertSame('Leady', \App\Language::translateEncodeHtml('Leads', 'Leads'));
+	}
+
+	/**
+	 * Testing get from file method.
+	 */
+	public function testGetFromFile()
+	{
+		$this->assertNotNull(\App\Language::getFromFile('Leads', 'pl_pl'));
 	}
 }
