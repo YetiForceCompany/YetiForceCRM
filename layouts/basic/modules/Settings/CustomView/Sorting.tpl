@@ -12,7 +12,7 @@
 		<input type="hidden" id="sortOrder" name="sortOrder" value="{$SORT_ORDER}" />
 		<div class="modal-header">
 			<div class="float-left">
-				<h3 class="modal-title">{\App\Language::translate('LBL_SORTING_SETTINGS', $MODULE_NAME)}</h3>
+				<h5 class="modal-title">{\App\Language::translate('LBL_SORTING_SETTINGS', $MODULE_NAME)}</h3>
 			</div>
 			<div class="clearfix"></div>
 		</div>

@@ -3,7 +3,7 @@
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title"><span class="fa fa-plus u-mr-5px"></span>{\App\Language::translate('LBL_CREATING_MENU', $QUALIFIED_MODULE)}</h4>
+				<h5 class="modal-title"><span class="fa fa-plus u-mr-5px"></span>{\App\Language::translate('LBL_CREATING_MENU', $QUALIFIED_MODULE)}</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>

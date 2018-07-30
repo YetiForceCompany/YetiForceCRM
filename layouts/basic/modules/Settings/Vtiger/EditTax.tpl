@@ -21,9 +21,9 @@
 				<div class="modal-header">
 					<button class="close vtButton" data-dismiss="modal" aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">&times;</button>
 					{if $TAX_MODEL_EXISTS}
-						<h3 class="modal-title">{\App\Language::translate('LBL_EDIT_TAX', $QUALIFIED_MODULE)}</h3>
+						<h5 class="modal-title">{\App\Language::translate('LBL_EDIT_TAX', $QUALIFIED_MODULE)}</h3>
 					{else}
-						<h3 class="modal-title">{\App\Language::translate('LBL_ADD_NEW_TAX', $QUALIFIED_MODULE)}</h3>
+						<h5 class="modal-title">{\App\Language::translate('LBL_ADD_NEW_TAX', $QUALIFIED_MODULE)}</h3>
 					{/if}
 				</div>
 				<form id="editTax" class="form-horizontal" method="POST">

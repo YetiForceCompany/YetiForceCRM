@@ -2,7 +2,7 @@
 {strip}
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3 class="modal-title">{\App\Language::translate('LBL_EDIT_FOLDER_ACCOUNT', $MODULE_NAME)} - {$ADDRESS_EMAIL}</h3>
+		<h5 class="modal-title">{\App\Language::translate('LBL_EDIT_FOLDER_ACCOUNT', $MODULE_NAME)} - {$ADDRESS_EMAIL}</h3>
 	</div>
 	<div class="modal-body col-md-12 tl-slide-content" data-user="{$RECORD}">
 		{if count($MISSING_FOLDERS) > 0}
