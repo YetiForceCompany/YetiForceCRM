@@ -23,7 +23,7 @@ class LibraryRoundcube extends \App\SystemWarnings\Template
 		if ($this->status === 0) {
 			$this->link = 'index.php?module=ModuleManager&parent=Settings&view=List';
 			$this->linkTitle = \App\Language::translate('BTN_DOWNLOAD_LIBRARY', 'Settings:SystemWarnings');
-			$this->description = \App\Language::translate('LBL_MISSING_LIBRARY', 'Settings:SystemWarnings');
+			$this->description = \App\Language::translateArgs('LBL_MISSING_LIBRARY', 'Settings:SystemWarnings', \Settings_ModuleManager_Library_Model::$libraries['roundcube']['dir']);
 		}
 	}
 }
