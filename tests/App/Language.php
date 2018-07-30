@@ -21,4 +21,21 @@ class Language extends \Tests\Base
 		$this->assertSame($currLang, \App\Language::getLanguage());
 		$this->assertSame(explode('_', $currLang), explode('-', strtolower(\App\Language::getLanguageTag())));
 	}
+
+	/**
+	 * Testing get all languages data.
+	 */
+	public function testGetAll()
+	{
+		$this->assertNotEmpty(\App\Language::getAll(true, true));
+		$this->assertNotEmpty(\App\Language::getAll(true, true));
+	}
+
+	/**
+	 * Testing get language info by prefix.
+	 */
+	public function testGetLangInfo()
+	{
+		$this->assertNotEmpty(\App\Language::getLangInfo('pl_pl'));
+	}
 }
