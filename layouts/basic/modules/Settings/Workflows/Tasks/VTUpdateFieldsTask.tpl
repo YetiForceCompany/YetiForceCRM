@@ -1,17 +1,15 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="row">
-		<div class="col-md-2"><strong>{\App\Language::translate('LBL_SET_FIELD_VALUES',$QUALIFIED_MODULE)}</strong></div>
+	<div class="d-flex px-1 px-md-2">
+		<strong class="align-self-center mr-2">{\App\Language::translate('LBL_SET_FIELD_VALUES',$QUALIFIED_MODULE)}</strong>
+		<button type="button" class="btn btn-outline-dark" id="addFieldBtn">{\App\Language::translate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
 	</div><br />
-	<div>
-		<button type="button" class="btn btn-outline-secondary" id="addFieldBtn">{\App\Language::translate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
-	</div><br />
-	<div class="row js-conditions-container" id="save_fieldvaluemapping" data-js="container">
+	<div class="row js-conditions-container no-gutters px-1" id="save_fieldvaluemapping" data-js="container">
 		{assign var=FIELD_VALUE_MAPPING value=\App\Json::decode($TASK_OBJECT->field_value_mapping)}
 		<input type="hidden" id="fieldValueMapping" name="field_value_mapping" value='{\App\Purifier::encodeHtml($TASK_OBJECT->field_value_mapping)}' />
 		{foreach from=$FIELD_VALUE_MAPPING item=FIELD_MAP}
-			<div class="row js-conditions-row padding-bottom1per" data-js="container | clone">
-				<span class="col-md-4">
+			<div class="row no-gutters col-12 col-xl-6 js-conditions-row padding-bottom1per px-md-1" data-js="container | clone">
+				<div class="col-md-5 mb-1 mb-md-0">
 					<select name="fieldname" class="chzn-select" style="min-width: 250px" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 						<option></option>
 						{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
@@ -29,20 +27,22 @@
 							</option>
 						{/foreach}
 					</select>
-				</span>
-				<span class="fieldUiHolder col-md-4 marginLeftZero">
+				</div>
+				<div class="fieldUiHolder col-10 col-md-5 px-md-2">
 					<input type="text" class="getPopupUi form-control" readonly="" name="fieldValue" value="{$FIELD_MAP['value']}" />
 					<input type="hidden" name="valuetype" value="{$FIELD_MAP['valuetype']}" />
-				</span>
-				<p class="cursorPointer form-control-plaintext">
-					<i class="alignMiddle deleteCondition fas fa-trash-alt"></i>
-				</p>
+				</div>
+				<div class="col-2">
+					<button class="btn btn-danger float-right float-xl-left" type="button">
+						<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
+					</button>
+				</div>
 			</div>
 		{/foreach}
 		{include file=\App\Layout::getTemplatePath('FieldExpressions.tpl', $QUALIFIED_MODULE)}
 	</div><br />
-	<div class="row js-add-basic-field-container d-none padding-bottom1per w-100">
-		<span class="col-md-4">
+	<div class="row no-gutters col-12 col-xl-6 js-add-basic-field-container d-none padding-bottom1per px-md-2">
+		<div class="col-md-5 mb-1 mb-md-0">
 			<select name="fieldname" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}" class="form-control">
 				<option></option>
 				{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
@@ -60,13 +60,15 @@
 					</option>
 				{/foreach}
 			</select>
-		</span>
-		<span class="fieldUiHolder col-md-4 marginLeftZero">
+		</div>
+		<div class="fieldUiHolder col-10 col-md-5 px-md-2">
 			<input type="text" class="form-control" readonly="" name="fieldValue" value="" />
 			<input type="hidden" name="valuetype" class="form-control" value="rawtext" />
-		</span>
-		<button class="btn btn-danger deleteCondition" type="button">
-			<span class="fas fa-trash-alt"></span>
-		</button>
+		</div>
+		<div class="col-2">
+			<button class="btn btn-danger float-right float-xl-left" type="button">
+				<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
+			</button>
+		</div>
 	</div>
 {/strip}
