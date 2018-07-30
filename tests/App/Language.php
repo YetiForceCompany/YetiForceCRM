@@ -79,5 +79,26 @@ class Language extends \Tests\Base
 	public function testGetFromFile()
 	{
 		$this->assertNotNull(\App\Language::getFromFile('Leads', 'pl_pl'));
+		$this->assertNotNull(\App\Language::getFromFile('Leads', 'pl_pl'));
+	}
+
+	/**
+	 * Testing load language file function.
+	 */
+	public function testLoadLanguageFile()
+	{
+		$this->assertNull(\App\Language::loadLanguageFile('pl_pl', 'Leads'));
+		$this->assertNull(\App\Language::loadLanguageFile('pl_pl', 'Leads'));
+	}
+
+	/**
+	 * Testing translation files modification method.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function testTranslationModify()
+	{
+		$this->assertNull(\App\Language::translationModify('pl_pl', 'Leads', 'PHP', 'FileTestString', 'file_test_string_content', false));
+		$this->assertNull(\App\Language::translationModify('pl_pl', 'Leads', 'PHP', 'FileTestString', 'file_test_string_content', true));
 	}
 }
