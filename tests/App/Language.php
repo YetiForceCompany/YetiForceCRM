@@ -23,7 +23,7 @@ class Language extends \Tests\Base
 		$this->assertSame('Język Polski', \App\Language::getLanguageLabel('pl_pl'));
 		$this->assertSame('SINGLE_Leads', \App\Language::getSingularModuleName('Leads'));
 		$this->assertSame('Lead', \App\Language::translateSingularModuleName('Leads'));
-		$this->assertSame('TestKey', \App\Language::translateSingleMod('TransKey'));
+		$this->assertSame('TestKey', \App\Language::translateSingleMod('TestKey'));
 	}
 
 	/**
@@ -57,5 +57,15 @@ class Language extends \Tests\Base
 	public function testGetJsStrings()
 	{
 		$this->assertNotEmpty(\App\Language::getJsStrings('Leads'));
+	}
+
+	/**
+	 * Testing translate method.
+	 */
+	public function testTranslate()
+	{
+		$this->assertSame('', \App\Language::translate('', '_Base'));
+		$this->assertSame('TestString', \App\Language::translate('TestString', ['_Base']));
+		$this->assertSame('TestString', \App\Language::translate('TestString', \App\Module::getModuleId('Leads')));
 	}
 }
