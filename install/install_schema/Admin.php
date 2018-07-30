@@ -303,29 +303,6 @@ class Admin extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'a_#__testdata_ids' => [
-				'columns' => [
-					'id' => $this->integer(19)->notNull(),
-				],
-				'primaryKeys' => [
-					['testdata_ids_pk', 'id']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'a_#__testdata_tasks' => [
-				'columns' => [
-					'module' => $this->stringType(30)->notNull(),
-					'limit' => $this->integer()->notNull()->defaultValue(0),
-					'language' => $this->stringType(5)->notNull(),
-					'done' => $this->integer()->notNull()->defaultValue(0),
-				],
-				'primaryKeys' => [
-					['testdata_tasks_pk', 'module']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			's_#__address_finder' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),

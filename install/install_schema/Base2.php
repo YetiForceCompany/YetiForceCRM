@@ -56,7 +56,6 @@ class Base2 extends \App\Db\Importers\Base
 					'phone_extra' => $this->stringType(100),
 					'fax_extra' => $this->stringType(100),
 					'otherphone_extra' => $this->stringType(100),
-					'ccccccc' => $this->decimal('38,4'),
 				],
 				'columns_mysql' => [
 					'active' => $this->tinyInteger(1)->defaultValue(0),
