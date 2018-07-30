@@ -16,10 +16,13 @@ class Language extends \Tests\Base
 	 */
 	public function testGetLanguage()
 	{
+		\App\Session::set('language', 'pl_pl');
 		$currLang = \App\Language::getLanguage();
-		\App\Session::set('language', $currLang);
 		$this->assertSame($currLang, \App\Language::getLanguage());
 		$this->assertSame(explode('_', $currLang), explode('-', strtolower(\App\Language::getLanguageTag())));
+		$this->assertSame('Język Polski', \App\Language::getLanguageLabel('pl_pl'));
+		$this->assertSame('SINGLE_Leads', \App\Language::getSingularModuleName('Leads'));
+		$this->assertSame('Lead', \App\Language::translateSingularModuleName('Leads'));
 	}
 
 	/**
@@ -37,5 +40,13 @@ class Language extends \Tests\Base
 	public function testGetLangInfo()
 	{
 		$this->assertNotEmpty(\App\Language::getLangInfo('pl_pl'));
+	}
+
+	/**
+	 * Testing init locale function.
+	 */
+	public function testInitLocale()
+	{
+		$this->assertNull(\App\Language::initLocale());
 	}
 }
