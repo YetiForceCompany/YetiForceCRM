@@ -37,14 +37,9 @@ class Contacts_Edit_View extends Vtiger_Edit_View
 		if ($this->record->isNew()) {
 			return parent::getPageTitle($request);
 		} else {
-			$qualifiedModuleName = $request->getModule(false);
-			$moduleNameArray = explode(':', $qualifiedModuleName);
-			$moduleName = end($moduleNameArray);
-			$prefix = '';
-			if ($moduleName !== 'Vtiger') {
-				$prefix = \App\Language::translate($moduleName, $qualifiedModuleName) . ' ';
-			}
-			return $prefix . \App\Language::translate('LBL_EDIT') . ' ' . $this->record->getDisplayName();
+			$moduleName = $request->getModule();
+			return \App\Language::translate($moduleName, $moduleName) . ' ' .
+				\App\Language::translate('LBL_EDIT') . ' ' . $this->record->getDisplayName();
 		}
 	}
 }
