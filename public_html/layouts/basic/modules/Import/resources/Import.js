@@ -420,12 +420,13 @@ if (typeof (ImportJs) === "undefined") {
 		},
 		openListInModal: function () {
 			$('.js-open-list-in-modal').on('click', function () {
-				let moduleName = $(this).attr('data-moduleName'),
+				let element = $(this),
+					moduleName = element.data('module-name'),
 					type = '',
-					forUser = $(this).attr('data-forUser'),
-					forModule = $(this).attr('data-forModule');
+					forUser = element.data('for-user'),
+					forModule = element.data('for-module');
 				if ($(this).attr('data-type') !== '') {
-					type = '&type=' + $(this).attr('data-type');
+					type = '&type=' + element.data('type');
 				}
 				app.showModalWindow(null, 'index.php?module=' + moduleName + '&view=List&mode=getImportDetails' + type + '&start=1&foruser=' + forUser + '&forModule=' + forModule, function (data) {
 					let container = data.find('.listViewEntriesDiv'),
