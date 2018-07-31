@@ -906,4 +906,20 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 		return $viewer->view('DetailViewMap.tpl', $moduleName, true);
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPageTitle(\App\Request $request)
+	{
+		$qualifiedModuleName = $request->getModule(false);
+		$moduleNameArray = explode(':', $qualifiedModuleName);
+		$moduleName = end($moduleNameArray);
+		$prefix = '';
+		if ($moduleName !== 'Vtiger') {
+			$prefix = \App\Language::translate($moduleName, $qualifiedModuleName) . ' ';
+		}
+
+		return $prefix . $this->record->getRecord()->getDisplayName();
+	}
 }
