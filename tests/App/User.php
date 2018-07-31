@@ -34,6 +34,8 @@ class User extends \Tests\Base
 	public function testGetSharingFile()
 	{
 		$this->assertNotNull(\App\User::getSharingFile(\App\User::getCurrentUserId()), 'Sharing file should be not null');
+		$this->assertNotNull(\App\User::getSharingFile(\App\User::getCurrentUserId()), 'Sharing file should be not null(cached)');
+		$this->assertNull(\App\User::getSharingFile(0), 'Sharing file should be null(User not exists)');
 	}
 
 	/**
@@ -69,9 +71,29 @@ class User extends \Tests\Base
 		$this->assertTrue(\App\User::getCurrentUserModel()->isActive(), 'Expected that current user is active');
 	}
 
+	/**
+	 * Testing function isExists.
+	 */
 	public function testIsExists()
 	{
 		$this->assertTrue(\App\User::isExists(\App\User::getCurrentUserId()), 'Expected that current user exists');
 		$this->assertTrue(\App\User::isExists(\App\User::getCurrentUserId()), 'Expected that current user exists(cached)');
+	}
+
+	/**
+	 * Testing function Get.
+	 */
+	public function testGet()
+	{
+		$this->assertSame(\App\User::getCurrentUserModel()->getRoleInstance(), \App\User::getCurrentUserModel()->get('roleInstance'), 'Role instance should be same');
+	}
+
+	/**
+	 * Testing function getUserIdByName.
+	 */
+	public function testGetUserIdByName()
+	{
+		$this->assertSame(\App\User::getCurrentUserId(), \App\User::getUserIdByName(\App\User::getCurrentUserModel()->getDetail('user_name')), 'User id should be same as reference');
+		$this->assertSame(\App\User::getCurrentUserId(), \App\User::getUserIdByName(\App\User::getCurrentUserModel()->getDetail('user_name')), 'User id should be same as reference(cached)');
 	}
 }
