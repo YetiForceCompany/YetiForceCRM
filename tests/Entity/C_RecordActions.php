@@ -156,7 +156,7 @@ class C_RecordActions extends \Tests\Base
 	/**
 	 * Testing the record creation.
 	 */
-	public static function testCreateRecord()
+	public function testCreateRecord()
 	{
 		static::assertInternalType('int', static::createAccountRecord()->getId());
 	}
