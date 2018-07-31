@@ -24,7 +24,9 @@ class Custom_NumberToWords extends \Tests\Base
 	public function int2wordProvider()
 	{
 		return [
+			['-150', 'minus sto pięćdziesiąt'],
 			['-1', 'minus jeden'],
+			['-0', 'zero'],
 			[0, 'zero'],
 			[1, 'jeden'],
 			[2, 'dwa'],
@@ -84,5 +86,16 @@ class Custom_NumberToWords extends \Tests\Base
 	public function testProcess($amount, $expected)
 	{
 		$this->assertSame($expected, \App\Custom\NumberToWords::process($amount), 'Expected amount ' . $amount . ' translates to ' . $expected);
+	}
+
+	/**
+	 * Testing process function with bad amount.
+	 *
+	 * @throws \Exception
+	 */
+	public function testProcessBadAmount()
+	{
+		$this->expectException(\Exception::class);
+		\App\Custom\NumberToWords::process('115$');
 	}
 }
