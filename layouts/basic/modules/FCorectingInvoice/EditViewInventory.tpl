@@ -6,7 +6,7 @@
 
 	<div class="card mb-3">
 		<div class="card-header">
-			<h5>{\App\Language::translate('LBL_BEFORE_CORRECTION','FCorectingInvoice')}</h5>
+			<h5><span class="menuIcon userIcon-FInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_BEFORE_CORRECTION','FCorectingInvoice')}</h5>
 		</div>
 		<div class="card-body" id="beforeInventory" data-js="container">
 			<div class="text-center">{\App\Language::translate('LBL_CHOOSE_INVOICE','FCorectingInvoice')}</div>
@@ -40,9 +40,11 @@
 		<input id="accountReferenceField" type="hidden" value="{$INVENTORY_FIELD->getReferenceField()}"/>
 		<input id="inventoryLimit" type="hidden" value="{$MAIN_PARAMS['limit']}"/>
 
-		<div class="card mb-3">
+		<div class="detailViewTable">
 			<div class="card-header">
-				<h5>{\App\Language::translate('LBL_AFTER_CORRECTION','FCorectingInvoice')}</h5>
+				<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
+				<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
+				<h5><span class="menuIcon userIcon-FCorectingInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_AFTER_CORRECTION','FCorectingInvoice')}</h5>
 			</div>
 			<div class="card-body" id="beforeInventory" data-js="container">
 				<div class="text-center mb-3"><a href class="btn btn-sm btn-primary" id="copyFromInvoice"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_FROM_INVOICE','FCorectingInvoice')}</a></div>
