@@ -1875,7 +1875,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var moreList = $('.related .nav .dropdown-menu');
 		var relationContainer = tabContainer;
 		if (!relationContainer || (typeof relationContainer.length === "undefined")) {
-			relationContainer = $('.related .nav > .relatedNav, .related .nav > .mainNav, .detailViewBlockLink');
+			relationContainer = $('.related .nav > .relatedNav, .related .nav > .mainNav, .detailViewBlockLink, .related .nav .dropdown-menu > .relatedNav');
 		}
 		relationContainer.each(function (n, item) {
 			item = $(item);

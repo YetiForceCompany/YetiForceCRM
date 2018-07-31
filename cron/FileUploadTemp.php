@@ -13,7 +13,7 @@ $query->andWhere(['<', 'createdtime', date('Y-m-d H:i:s', strtotime('-1 day'))])
 
 $dataReader = $query->createCommand()->query();
 while ($row = $dataReader->read()) {
-	$dbCommand->delete('u_#__attachments', ['id' => $row['id']])->execute();
+	$dbCommand->delete('u_#__file_upload_temp', ['id' => $row['id']])->execute();
 	$fileName = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $row['path'] . $row['key'];
 	if (file_exists($fileName)) {
 		chmod($fileName, 0755);

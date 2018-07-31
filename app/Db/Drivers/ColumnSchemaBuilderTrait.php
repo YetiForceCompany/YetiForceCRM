@@ -6,9 +6,9 @@ namespace App\Db\Drivers;
  * ColumnSchemaBuilder is the schema builder for MySQL databases.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 trait ColumnSchemaBuilderTrait
 {
@@ -111,5 +111,31 @@ trait ColumnSchemaBuilderTrait
 			'{append}' => $this->buildAppendString(),
 		];
 		return strtr($format, $placeholderValues);
+	}
+
+	/**
+	 * Get object var.
+	 *
+	 * @param string $type
+	 *
+	 * @return mixed|null
+	 */
+	public function get($type)
+	{
+		return $this->$type ?? null;
+	}
+
+	/**
+	 * Set object var.
+	 *
+	 * @param string $type
+	 * @param mixed  $value
+	 *
+	 * @return $this
+	 */
+	public function set($type, $value)
+	{
+		$this->$type = $value;
+		return $this;
 	}
 }
