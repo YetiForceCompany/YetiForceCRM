@@ -31,11 +31,52 @@ class Composer
 		'.git',
 		'.gitattributes',
 		'.gitignore',
+		'.editorconfig',
 		'.styleci.yml',
 		'.travis.yml',
-		'samples',
+		'mkdocs.yml',
+		'.php_cs.dist',
+		'phpunit.xml.dist',
+		'build.xml',
+		'changelog.phpexcel.md',
+		'changes.md',
+		'contributing.md',
+		'readme.md',
+		'SECURITY.md',
 		'docs',
-		'bin'
+		'demo',
+		'examples',
+		'news',
+		'phorum',
+		'readme',
+		'samples',
+		'todo',
+		'test',
+		'tests',
+		'whatsnew',
+		'wysiwyg',
+		'VERSION',
+		'composer_release_notes.txt',
+		'change_log.txt',
+		'cldr-version.txt',
+		'inheritance_release_notes.txt',
+		'new_features.txt',
+		'metadata-version.txt',
+		'smarty_2_bc_notes.txt',
+		'smarty_3.0_bc_notes.txt',
+		'smarty_3.1_notes.txt',
+		'test-settings.sample.php',
+		'test-settings.travis.php'
+	];
+
+	public static $clearFilesModule = [
+		'dg/rss-php' => [
+			'example-atom.php',
+			'example-rss.php'
+		],
+		'illuminate/support' => [
+			'Debug'
+		]
 	];
 
 	/**
@@ -62,7 +103,7 @@ class Composer
 						if (!is_writable($rootDir . $item->getPath())) {
 							continue;
 						}
-						copy($item->getRealPath(), $rootDir . $item->getPathname());
+						rename($item->getRealPath(), $rootDir . $item->getPathname());
 					}
 				}
 			}
@@ -76,13 +117,24 @@ class Composer
 	public static function clear()
 	{
 		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
+		$objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($rootDir), \RecursiveIteratorIterator::SELF_FIRST);
+		foreach ($objects as $name => $object) {
+			if ($object->getFilename() === '.' || $object->getFilename() === '..') {
+				continue;
+			}
+			if ((\in_array(strtolower($object->getFilename()), self::$clearFiles)) && (is_dir($object->getFilename() || file_exists($object->getFilename())))) {
+				\vtlib\Functions::recurseDelete($object->getPathname(), true, true);
+			}
+		}
 		foreach (new \DirectoryIterator($rootDir) as $level1) {
 			if ($level1->isDir() && !$level1->isDot()) {
 				foreach (new \DirectoryIterator($level1->getPathname()) as $level2) {
 					if ($level2->isDir() && !$level2->isDot()) {
 						foreach (new \DirectoryIterator($level2->getPathname()) as $level3) {
-							if (!$level3->isDot() && \in_array($level3->getFilename(), static::$clearFiles)) {
-								\vtlib\Functions::recurseDelete($level3->getPathname(), true);
+							if (isset(self::$clearFilesModule[$level1->getFileName() . '/' . $level2->getFilename()])) {
+								if (!$level3->isDot() && \in_array($level3->getFilename(), self::$clearFilesModule[$level1->getFileName() . '/' . $level2->getFilename()])) {
+									\vtlib\Functions::recurseDelete($level3->getPathname(), true);
+								}
 							}
 						}
 					}
