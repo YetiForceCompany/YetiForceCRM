@@ -919,7 +919,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($moduleName !== 'Vtiger') {
 			$prefix = \App\Language::translate($moduleName, $qualifiedModuleName) . ' ';
 		}
-
 		return $prefix . $this->record->getRecord()->getDisplayName();
 	}
 }
