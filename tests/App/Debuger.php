@@ -1,0 +1,37 @@
+<?php
+/**
+ * Debuger test class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Sławomir Kłos <s.klos@yetiforce.com>
+ */
+
+namespace Tests\App;
+
+class Debuger extends \Tests\Base
+{
+	/**
+	 * Testing initConsole function.
+	 */
+	public function testInitConsole()
+	{
+		$this->assertInstanceOf('\DebugBar\DebugBar', \App\Debuger::initConsole(), 'Expected debug bar object');
+	}
+
+	/**
+	 * Testing getJavascriptPath function.
+	 */
+	public function testGetJavascriptPath()
+	{
+		$this->assertSame('public_html/vendor/yetiforce/debugbar/src/DebugBar/Resources', \App\Debuger::getJavascriptPath(), 'Expected path different from provided');
+	}
+
+	/**
+	 * Testing getDebugBar function.
+	 */
+	public function testGetDebugBar()
+	{
+		$this->assertInstanceOf('\DebugBar\DebugBar', \App\Debuger::getDebugBar(), 'Expected debuger object');
+	}
+}
