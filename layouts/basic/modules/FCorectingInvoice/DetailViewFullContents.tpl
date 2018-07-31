@@ -21,7 +21,7 @@
 					<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
 					<h5><span class="menuIcon userIcon-FInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_BEFORE_CORRECTION','FCorectingInvoice')}</h5>
 				</div>
-				<div class="c-panel__body blockContent p-3" id="beforeInventory" data-js="container">
+				<div class="c-panel__body blockContent p-2" id="beforeInventory" data-js="container">
 					{include file=\App\Layout::getTemplatePath('DetailViewInventoryView.tpl', $MODULE_NAME) MODULE_NAME='FInvoice' RECORD=FInvoice_Record_Model::getInstanceById($RECORD->get('finvoiceid'))}
 				</div>
 			</div>
@@ -33,7 +33,7 @@
 					<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
 					<h5><span class="menuIcon userIcon-FCorectingInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_AFTER_CORRECTION','FCorectingInvoice')}</h5>
 				</div>
-				<div class="c-panel__body blockContent p-3" id="afterInventory" data-js="container">
+				<div class="c-panel__body blockContent p-2" id="afterInventory" data-js="container">
 					{include file=\App\Layout::getTemplatePath('DetailViewInventoryView.tpl', $MODULE_NAME) MODULE_NAME=$MODULE_NAME}
 				</div>
 			</div>
