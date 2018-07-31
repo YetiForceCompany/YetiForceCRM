@@ -10,8 +10,10 @@
 						<i class="fa-inverse fas fa-long-arrow-alt-up text-white" data-fa-transform="shrink-6  left-4"></i>
 						<i class="fa-inverse fas fa-percent text-white" data-fa-transform="shrink-8  right-3"></i>
 					</span>
-					<span class="modal-title h5">{\App\Language::translate('LBL_SELECT_TAX', $MODULE)} {\App\Language::translate($SINGLE_MODULE, $MODULE)}</span>
-					<button class="close" aria-hidden="true" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
+					<h5 class="modal-title">{\App\Language::translate('LBL_SELECT_TAX', $MODULE)} {\App\Language::translate($SINGLE_MODULE, $MODULE)}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<div class="modal-body">
 					<input type="hidden" class="taxsType" value="{$AGGREGATION_TYPE}" />

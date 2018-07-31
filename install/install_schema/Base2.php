@@ -56,7 +56,6 @@ class Base2 extends \App\Db\Importers\Base
 					'phone_extra' => $this->stringType(100),
 					'fax_extra' => $this->stringType(100),
 					'otherphone_extra' => $this->stringType(100),
-					'ccccccc' => $this->decimal('38,4'),
 				],
 				'columns_mysql' => [
 					'active' => $this->tinyInteger(1)->defaultValue(0),
@@ -2556,19 +2555,6 @@ class Base2 extends \App\Db\Importers\Base
 						[1, 'PLL_DRAFT', 1, 697, 1],
 						[2, 'PLL_FOR_ACCEPTANCE', 1, 698, 2],
 						[3, 'PLL_PUBLISHED', 0, 699, 3],
-				]
-			],
-			'vtiger_apiaddress' => [
-				'columns' => ['id', 'name', 'val', 'type'],
-				'values' => [
-						[1, 'min_length', '3', 'global'],
-						[2, 'key', '', 'google_map_api'],
-						[3, 'nominatim', '0', 'google_map_api'],
-						[4, 'source', 'https://maps.googleapis.com/maps/api/geocode/json', 'google_map_api'],
-						[5, 'key', '', 'opencage_data'],
-						[6, 'source', 'https://api.opencagedata.com/geocode/v1/', 'opencage_data'],
-						[7, 'nominatim', '0', 'opencage_data'],
-						[8, 'result_num', '10', 'global'],
 				]
 			],
 			'vtiger_assets_renew' => [

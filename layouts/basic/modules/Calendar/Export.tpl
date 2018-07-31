@@ -14,9 +14,9 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 id="exportCalendarHeader" class="modal-title">{\App\Language::translate('LBL_EXPORT_RECORDS', $MODULE)}</h3>
-					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
-						<span aria-hidden="true">&times;</span>
+					<h5 id="exportCalendarHeader" class="modal-title">{\App\Language::translate('LBL_EXPORT_RECORDS', $MODULE)}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
 					</button>
 				</div>
 				<form id="exportForm" class="form-horizontal" method="post" action="index.php">

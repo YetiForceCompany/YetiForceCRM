@@ -78,11 +78,13 @@ class C_RecordActions extends \Tests\Base
 	/**
 	 * Creating leads module record for tests.
 	 *
+	 * @var bool
+	 *
 	 * @return \Vtiger_Record_Model
 	 */
-	public static function createLeadRecord()
+	public static function createLeadRecord($cache = true)
 	{
-		if (static::$recordLeads) {
+		if (static::$recordLeads && $cache) {
 			return static::$recordLeads;
 		}
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('Leads');
@@ -118,11 +120,13 @@ class C_RecordActions extends \Tests\Base
 	/**
 	 * Creating leads module record for tests.
 	 *
+	 * @var bool
+	 *
 	 * @return \Vtiger_Record_Model
 	 */
-	public static function createCampaignRecord()
+	public static function createCampaignRecord($cache = true)
 	{
-		if (static::$recordCampaigns) {
+		if (static::$recordCampaigns && $cache) {
 			return static::$recordCampaigns;
 		}
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('Campaigns');
@@ -133,10 +137,12 @@ class C_RecordActions extends \Tests\Base
 
 	/**
 	 * Creating account module record for tests.
+	 *
+	 * @var bool
 	 */
-	public static function createAccountRecord()
+	public static function createAccountRecord($cache = true)
 	{
-		if (static::$recordAccounts) {
+		if (static::$recordAccounts && $cache) {
 			return static::$recordAccounts;
 		}
 		$record = \Vtiger_Record_Model::getCleanInstance('Accounts');

@@ -11,7 +11,9 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title">{\App\Language::translate('LBL_ALPHABETIC_FILTERING', $MODULE_NAME)}</h5>
-						<button class="btn btn-light close" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
+						<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
 					{assign var=COUNT_ALPHABETS value=count($ALPHABETS)}
 					<div class="modal-body p-1">

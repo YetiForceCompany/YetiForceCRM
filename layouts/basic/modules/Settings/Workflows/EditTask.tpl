@@ -27,7 +27,6 @@
 					<input type="hidden" name="for_workflow" value="{$WORKFLOW_ID}" />
 					<input type="hidden" name="task_id" value="{$TASK_ID}" />
 					<input type="hidden" name="taskType" id="taskType" value="{$TASK_TYPE_MODEL->get('tasktypename')}" />
-					<div id="scrollContainer">
 						<div class="modal-body tabbable">
 							<div class="form-row pb-3">
 								<div class="col-md-2">
@@ -83,12 +82,13 @@
 									</div>
 								</div>
 							</div>
-							<div class="taskTypeUi well bg-light">
+							<div class="taskTypeUi well bg-light px-0 px-md-1 px-lg-3">
 								{include file="{$TASK_TEMPLATE_PATH}" }
 							</div>
 						</div>
-					</div>
 					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
+
+			</div>
 				</form>
 			</div>
 		</div>
