@@ -3,13 +3,18 @@
 	<!-- tpl-FCorectingInvoice/EditViewInventory -->
 	{assign var="INVENTORY_FIELD" value=Vtiger_InventoryField_Model::getInstance($MODULE)}
 	{assign var="FIELDS" value=$INVENTORY_FIELD->getFields(true)}
-
-	<div class="card mb-3">
-		<div class="card-header">
-			<h5><span class="menuIcon userIcon-FInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_BEFORE_CORRECTION','FCorectingInvoice')}</h5>
-		</div>
-		<div class="card-body" id="beforeInventory" data-js="container">
-			<div class="text-center">{\App\Language::translate('LBL_CHOOSE_INVOICE','FCorectingInvoice')}</div>
+	<div class="detailViewTable">
+		<div class="js-toggle-panel c-panel">
+			<div class="blockHeader c-panel__header">
+				<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
+				<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
+				<h5>
+					<span class="menuIcon userIcon-FInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_BEFORE_CORRECTION','FCorectingInvoice')}
+				</h5>
+			</div>
+			<div class="c-panel__body blockContent p-2" id="beforeInventory" data-js="container">
+				{include file=\App\Layout::getTemplatePath('DetailViewInventoryView.tpl', $MODULE_NAME) MODULE_NAME='FInvoice' RECORD=FInvoice_Record_Model::getInstanceById($RECORD->get('finvoiceid'))}
+			</div>
 		</div>
 	</div>
 	{if count($FIELDS) neq 0}
@@ -39,93 +44,97 @@
 		<input name="inventoryItemsNo" id="inventoryItemsNo" type="hidden" value="{if $INVENTORY_ITEMS_NO}{$INVENTORY_ITEMS_NO}{else}1{/if}"/>
 		<input id="accountReferenceField" type="hidden" value="{$INVENTORY_FIELD->getReferenceField()}"/>
 		<input id="inventoryLimit" type="hidden" value="{$MAIN_PARAMS['limit']}"/>
-
 		<div class="detailViewTable">
-			<div class="card-header">
-				<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
-				<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
-				<h5><span class="menuIcon userIcon-FCorectingInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_AFTER_CORRECTION','FCorectingInvoice')}</h5>
-			</div>
-			<div class="card-body" id="beforeInventory" data-js="container">
-				<div class="text-center mb-3"><a href class="btn btn-sm btn-primary" id="copyFromInvoice"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_FROM_INVOICE','FCorectingInvoice')}</a></div>
-				<div class="table-responsive mx-1">
-					<table class="table table-bordered inventoryHeader blockContainer mb-0">
-						<thead>
-						<tr data-rownumber="0" class="d-flex u-min-w-650px">
-							<th class="btn-toolbar col-3 d-flex justify-content-center mb-0 border-bottom-0 p-2">
-								{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
-									{if \App\Module::isModuleActive($MAIN_MODULE)}
-										{assign var="CRMENTITY" value=CRMEntity::getInstance($MAIN_MODULE)}
-										<span class="btn-group-sm d-flex align-items-center justify-content-center ml-lg-2">
-												<button type="button" data-module="{$MAIN_MODULE}"
-														data-field="{$CRMENTITY->table_index}"
-														data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}"
-														class="btn btn-light addItem border mb-1 mb-lg-0">
-													<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD',$MODULE)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
-												</button>
-											</span>
-									{/if}
-								{/foreach}
-							</th>
-							{foreach item=FIELD from=$FIELDS[0]}
-								<th class="{if !$FIELD->isEditable()}d-none {/if}col-3 border-bottom-0">
-									<span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $MODULE)}</span>&nbsp;&nbsp;
-									{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
-									{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE) ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
-								</th>
-							{/foreach}
-						</tr>
-						</thead>
-					</table>
+			<div class="js-toggle-panel c-panel">
+				<div class="blockHeader c-panel__header">
+					<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
+					<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
+					<h5>
+						<span class="menuIcon userIcon-FInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_AFTER_CORRECTION','FCorectingInvoice')}
+					</h5>
 				</div>
-				<div class="table-responsive mx-1">
-					<table class="table blockContainer inventoryItems" data-isoptional="{$IS_OPTIONAL_ITEMS}">
-						{if count($FIELDS[1]) neq 0}
+				<div class="c-panel__body blockContent p-2" id="afterInventory" data-js="container">
+
+					<div class="text-center mb-3"><a href class="btn btn-sm btn-primary" id="copyFromInvoice"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_FROM_INVOICE','FCorectingInvoice')}</a></div>
+					<div class="table-responsive mx-1">
+						<table class="table table-bordered inventoryHeader blockContainer mb-0">
 							<thead>
-							<tr>
-								<th class="text-center u-w-1per-45px"></th>
-								{foreach item=FIELD from=$FIELDS[1]}
-									<th  class="col{$FIELD->getName()} {if !$FIELD->isEditable()} d-none{/if} text-center text-nowrap u-w-3per-150px">
-										{\App\Language::translate($FIELD->get('label'), $MODULE)}
+							<tr data-rownumber="0" class="d-flex u-min-w-650px">
+								<th class="btn-toolbar col-3 d-flex justify-content-center mb-0 border-bottom-0 p-2">
+									{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
+										{if \App\Module::isModuleActive($MAIN_MODULE)}
+											{assign var="CRMENTITY" value=CRMEntity::getInstance($MAIN_MODULE)}
+											<span class="btn-group-sm d-flex align-items-center justify-content-center ml-lg-2">
+													<button type="button" data-module="{$MAIN_MODULE}"
+															data-field="{$CRMENTITY->table_index}"
+															data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}"
+															class="btn btn-light addItem border mb-1 mb-lg-0">
+														<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD',$MODULE)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
+													</button>
+												</span>
+										{/if}
+									{/foreach}
+								</th>
+								{foreach item=FIELD from=$FIELDS[0]}
+									<th class="{if !$FIELD->isEditable()}d-none {/if}col-3 border-bottom-0">
+										<span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $MODULE)}</span>&nbsp;&nbsp;
+										{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
+										{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE) ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
 									</th>
 								{/foreach}
 							</tr>
 							</thead>
-						{/if}
-						<tbody>
-						{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
-							{assign var="ROW_NO" value=$KEY+1}
-							{include file=\App\Layout::getTemplatePath('EditViewInventoryItem.tpl', $MODULE)}
-							{foreachelse}
-							{if !$IS_OPTIONAL_ITEMS}
-								{assign var="ROW_NO" value=1}
-								{include file=\App\Layout::getTemplatePath('EditViewInventoryItem.tpl', $MODULE)}
+						</table>
+					</div>
+					<div class="table-responsive mx-1">
+						<table class="table blockContainer inventoryItems" data-isoptional="{$IS_OPTIONAL_ITEMS}">
+							{if count($FIELDS[1]) neq 0}
+								<thead>
+								<tr>
+									<th class="text-center u-w-1per-45px"></th>
+									{foreach item=FIELD from=$FIELDS[1]}
+										<th  class="col{$FIELD->getName()} {if !$FIELD->isEditable()} d-none{/if} text-center text-nowrap u-w-3per-150px">
+											{\App\Language::translate($FIELD->get('label'), $MODULE)}
+										</th>
+									{/foreach}
+								</tr>
+								</thead>
 							{/if}
-						{/foreach}
-						</tbody>
-						<tfoot>
-						<tr>
-							<td colspan="1" class="hideTd">&nbsp;&nbsp;</td>
-							{foreach item=FIELD from=$FIELDS[1]}
-								<td colspan="1" class="col{$FIELD->getName()}{if !$FIELD->isEditable()} d-none{/if} text-right
-										{if !$FIELD->isSummary()} hideTd{else} wisableTd{/if}"
-									data-sumfield="{lcfirst($FIELD->get('invtype'))}">
-									{if $FIELD->isSummary()}
-										{assign var="SUM" value=0}
-										{foreach key=KEY item=ITEM_VALUE from=$INVENTORY_ROWS}
-											{assign var="SUM" value=($SUM + $ITEM_VALUE[$FIELD->get('columnname')])}
-										{/foreach}
-										{CurrencyField::convertToUserFormat($SUM, null, true)}
-									{/if}
-									{if $FIELD->getName() == 'Name' && in_array("price",$COLUMNS)}
-										{\App\Language::translate('LBL_SUMMARY', $MODULE)}
-									{/if}
-								</td>
+							<tbody>
+							{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
+								{assign var="ROW_NO" value=$KEY+1}
+								{include file=\App\Layout::getTemplatePath('EditViewInventoryItem.tpl', $MODULE)}
+								{foreachelse}
+								{if !$IS_OPTIONAL_ITEMS}
+									{assign var="ROW_NO" value=1}
+									{include file=\App\Layout::getTemplatePath('EditViewInventoryItem.tpl', $MODULE)}
+								{/if}
 							{/foreach}
-						</tr>
-						</tfoot>
-					</table>
-				</div>
+							</tbody>
+							<tfoot>
+							<tr>
+								<td colspan="1" class="hideTd">&nbsp;&nbsp;</td>
+								{foreach item=FIELD from=$FIELDS[1]}
+									<td colspan="1" class="col{$FIELD->getName()}{if !$FIELD->isEditable()} d-none{/if} text-right
+											{if !$FIELD->isSummary()} hideTd{else} wisableTd{/if}"
+										data-sumfield="{lcfirst($FIELD->get('invtype'))}">
+										{if $FIELD->isSummary()}
+											{assign var="SUM" value=0}
+											{foreach key=KEY item=ITEM_VALUE from=$INVENTORY_ROWS}
+												{assign var="SUM" value=($SUM + $ITEM_VALUE[$FIELD->get('columnname')])}
+											{/foreach}
+											{CurrencyField::convertToUserFormat($SUM, null, true)}
+										{/if}
+										{if $FIELD->getName() == 'Name' && in_array("price",$COLUMNS)}
+											{\App\Language::translate('LBL_SUMMARY', $MODULE)}
+										{/if}
+									</td>
+								{/foreach}
+							</tr>
+							</tfoot>
+						</table>
+					</div>
+
 				{include file=\App\Layout::getTemplatePath('EditViewInventorySummary.tpl', $MODULE)}
 				{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
 				<table id="blackIthemTable" class="noValidate d-none">
