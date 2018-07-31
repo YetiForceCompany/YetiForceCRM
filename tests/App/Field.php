@@ -41,13 +41,18 @@ class Field extends \Tests\Base
 		$this->assertFalse(\App\Field::getColumnPermission($moduleId, 'NxColumn', false), 'Expected write perms(field not exists)');
 	}
 
-	public function relationsProvider()
+	/**
+	 * Relations modules ids provider.
+	 *
+	 * @return array
+	 */
+	public function relationModulesProvider()
 	{
 		return (new \App\Db\Query())->select(['tabid', 'related_tabid'])->from('vtiger_relatedlists')->all();
 	}
 
 	/**
-	 * @dataProvider relationsProvider
+	 * @dataProvider relationModulesProvider
 	 */
 	public function testGetRelatedFieldForModulePair($relatedId, $moduleId)
 	{
@@ -58,5 +63,26 @@ class Field extends \Tests\Base
 	public function testGetRelatedFieldForModuleAll()
 	{
 		$this->assertNotEmpty(\App\Field::getRelatedFieldForModule(), 'All relations list should be not empty');
+	}
+
+	/**
+	 * Relations ids provider.
+	 *
+	 * @return array
+	 */
+	public function relationsProvider()
+	{
+		return (new \App\Db\Query())->select(['relation_id'])->from('vtiger_relatedlists')->all();
+	}
+
+	/**
+	 * @dataProvider relationsProvider
+	 *
+	 * @param int $relationId
+	 */
+	public function testGetFieldsFromRelation($relationId)
+	{
+		$result = \App\Field::getFieldsFromRelation($relationId);
+		$this->assertInternalType('array', $result, 'Expected result type array for relation: ' . $relationId);
 	}
 }
