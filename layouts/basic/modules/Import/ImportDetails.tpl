@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-import-detail modal" tabindex="-1" role="dialog">
+	<div class="tpl-Import-ImportDetail modal" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-lg modal-full" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
