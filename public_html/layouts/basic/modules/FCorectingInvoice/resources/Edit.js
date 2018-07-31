@@ -2,7 +2,7 @@
 
 Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 
-	loadInvoiceData(container){
+	loadInvoiceData(container) {
 		const invoiceidInput = container.find('[name="finvoiceid"]');
 		const formContainer = container.closest('.recordEditView');
 		if (invoiceidInput.length && invoiceidInput.val()) {
@@ -59,7 +59,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 				const addBtn = form.find('.addItem').eq(0);
 				const recordsBefore = items.find(inventoryController.rowClass).length;
 				const oldCurrencyChangeAction = inventoryController.currencyChangeActions;
-				inventoryController.currencyChangeActions = function changeCurrencyActions(select, option){
+				inventoryController.currencyChangeActions = function changeCurrencyActions(select, option) {
 					this.currencyConvertValues(select, option);
 					select.data('oldValue', select.val());
 				};
@@ -73,16 +73,20 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 					addBtn.trigger('click', e);
 					const realIndex = recordsBefore + index + 1;
 					const rows = items.find(inventoryController.rowClass);
-					const rowElem = rows.eq(index+recordsBefore);
-					rowElem.find('input[name="name'+realIndex+'"]').val(row.name).trigger('change');
-					rowElem.find('input[name="name'+realIndex+'_display"]').val(row.info.name).attr('readonly', 'true').trigger('change');
+					const rowElem = rows.eq(index + recordsBefore);
+					rowElem.find('input[name="name' + realIndex + '"]').val(row.name).trigger('change');
+					rowElem.find('input[name="name' + realIndex + '_display"]').val(row.info.name).attr('readonly', 'true').trigger('change');
 					rowElem.find('.qty').val(row.qty).trigger('change');
 					rowElem.find('.unitText').text(row.info.autoFields.unitText).trigger('change');
-					rowElem.find('input[name="unit'+realIndex+'"]').val(row.info.autoFields.unit).trigger('change');
-					rowElem.parent().find('[numrowex='+realIndex+']').find('textarea').val(row.comment1).trigger('change');
-					inventoryController.setUnitPrice(rowElem,row.price);
-					inventoryController.setNetPrice(rowElem,row.net);
-					inventoryController.setGrossPrice(rowElem,row.gross);
+					rowElem.find('input[name="unit' + realIndex + '"]').val(row.info.autoFields.unit).trigger('change');
+					if (typeof row.info.autoFields.subunit !== 'undefined') {
+						rowElem.find('input[name="subunit' + realIndex + '"]').val(row.info.autoFields.subunit);
+						rowElem.find('.subunitText').text(row.info.autoFields.subunitText);
+					}
+					rowElem.parent().find('[numrowex=' + realIndex + ']').find('textarea').val(row.comment1).trigger('change');
+					inventoryController.setUnitPrice(rowElem, row.price);
+					inventoryController.setNetPrice(rowElem, row.net);
+					inventoryController.setGrossPrice(rowElem, row.gross);
 					inventoryController.setTotalPrice(rowElem, row.total);
 					inventoryController.setDiscountParam(rowElem, JSON.parse(row.discountparam));
 					inventoryController.setDiscount(rowElem, row.discount);
