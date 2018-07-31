@@ -46,6 +46,7 @@
 				<h5>{\App\Language::translate('LBL_AFTER_CORRECTION','FCorectingInvoice')}</h5>
 			</div>
 			<div class="card-body" id="beforeInventory" data-js="container">
+				<div class="text-center mb-3"><a href class="btn btn-sm btn-primary" id="copyFromInvoice"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_FROM_INVOICE','FCorectingInvoice')}</a></div>
 				<div class="table-responsive mx-1">
 					<table class="table table-bordered inventoryHeader blockContainer mb-0">
 						<thead>
