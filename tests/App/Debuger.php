@@ -34,4 +34,20 @@ class Debuger extends \Tests\Base
 	{
 		$this->assertInstanceOf('\DebugBar\DebugBar', \App\Debuger::getDebugBar(), 'Expected debuger object');
 	}
+
+	/**
+	 * Testing init function.
+	 */
+	public function testInit()
+	{
+		$this->assertNull(\App\Debuger::init(), 'Expected null value');
+	}
+
+	/**
+	 * Testing addLogs function.
+	 */
+	public function testAddLogs()
+	{
+		$this->assertNull(\App\Debuger::addLogs('UnitTests test message', 'info', []), 'Expected null');
+	}
 }
