@@ -903,7 +903,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('COORRDINATES', $coordinates);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-
 		return $viewer->view('DetailViewMap.tpl', $moduleName, true);
 	}
 
@@ -912,13 +911,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function getPageTitle(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
-		$moduleNameArray = explode(':', $qualifiedModuleName);
-		$moduleName = end($moduleNameArray);
-		$prefix = '';
-		if ($moduleName !== 'Vtiger') {
-			$prefix = \App\Language::translate($moduleName, $qualifiedModuleName) . ' ';
-		}
-		return $prefix . $this->record->getRecord()->getDisplayName();
+		$moduleName = $request->getModule();
+		return \App\Language::translate($moduleName, $moduleName) . ' ' . $this->record->getRecord()->getDisplayName();
 	}
 }
