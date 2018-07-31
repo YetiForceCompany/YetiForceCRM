@@ -19,20 +19,20 @@ class FCorectingInvoice_FInvoiceRecords_View extends Vtiger_IndexAjax_View
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Get FInvoice inventory view.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 *
+	 * @return \html
 	 */
 	public function get(\App\Request $request)
 	{
-		$moduleName = 'FInvoice';
 		$recordModel = FInvoice_Record_Model::getInstanceById($request->getInteger('record'));
-		$moduleModel = $recordModel->getModule();
 		$viewer = \Vtiger_Viewer::getInstance();
 		$viewer->assign('RECORD', $recordModel);
-		$viewer->assign('VIEW_MODEL', $recordModel);
-		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
+		$viewer->assign('MODULE_NAME', 'FInvoice');
 		return $viewer->view('DetailViewInventoryView.tpl');
 	}
 }
