@@ -33,8 +33,10 @@
 			<div class="modal-content">
 				<form>
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title">{\App\Language::translate('LBL_COPY_MENU', $QUALIFIED_MODULE)}</h4>
+						<h5 class="modal-title">{\App\Language::translate('LBL_COPY_MENU', $QUALIFIED_MODULE)}</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+							<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
+						</button>
 					</div>
 					<div class="modal-body">
 						<select id="roleList" class="form-control" name="roles" data-validation-engine="validate[required]">
@@ -57,8 +59,10 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3 class="modal-title">{\App\Language::translate('LBL_REMOVE_TITLE', $QUALIFIED_MODULE)}</h3>
+				<h5 class="modal-title">{\App\Language::translate('LBL_REMOVE_TITLE', $QUALIFIED_MODULE)}</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+					<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
+				</button>
 			</div>
 			<div class="modal-body">
 				<p>{\App\Language::translate('LBL_REMOVE_DESC', $QUALIFIED_MODULE)}</p>

@@ -11,9 +11,34 @@ chart.js/node_modules
 chart.js/samples
 chart.js/dist/Chart.bundle.js
 chart.js/dist/Chart.bundle.min.js
+
+#package
+split.js/logo.svg
+updated-jqplot/optionsTutorial.txt
+updated-jqplot/usage.txt
+updated-jqplot/jqPlotCssStyling.txt
+updated-jqplot/jqPlotOptions.txt
+leaflet.markercluster/ISSUE_TEMPLATE.md
+jQuery-Validation-Engine/releases.html
+jQuery-Validation-Engine/runDemo.bat
+jQuery-Validation-Engine/runDemo.sh
+jquery-gantt-editor/gantt.html
+
+
 # examples
 example
 examples
+demo
+demos
+sample
+samples
+example.html
+example.png
+demo.html
+test.html
+
+# source
+src
 
 # code coverage directories
 coverage
@@ -21,6 +46,13 @@ coverage
 
 # build scripts
 Makefile
+Gulpfile.js
+Gulpfile.min.js
+Gruntfile.js
+Gruntfile.min.js
+
+#backup
+*.bak
 
 # configs
 appveyor.yml
@@ -38,3 +70,20 @@ wercker.yml
 .documentup.json
 .yarn-metadata.json
 .travis.yml
+.idea
+
+# readme
+readme
+readme.md
+readme.md~
+readme.*.md
+readme.txt
+readme.markdown
+readme.hbs
+
+# other
+*.sh
+*.bat
+*.log
+*.gz
+cc-test-reporter

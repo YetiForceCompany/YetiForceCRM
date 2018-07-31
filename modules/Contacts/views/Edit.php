@@ -28,4 +28,18 @@ class Contacts_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('SALUTATION_FIELD_MODEL', $salutationFieldModel);
 		parent::process($request);
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPageTitle(\App\Request $request)
+	{
+		if ($this->record->isNew()) {
+			return parent::getPageTitle($request);
+		} else {
+			$moduleName = $request->getModule();
+			return \App\Language::translate($moduleName, $moduleName) . ' ' .
+				\App\Language::translate('LBL_EDIT') . ' ' . $this->record->getDisplayName();
+		}
+	}
 }

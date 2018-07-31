@@ -12,10 +12,10 @@
 {strip}
 	<div class="tpl-PriceBooks-ListPriceUpdate" id="listPriceUpdateContainer">
 		<div class="modal-header">
-			<button class="btn btn-warning float-right" data-dismiss="modal" class="float-right">
-				<span class="fas fa-times alignMiddle"></span>
+			<h5 class="modal-title">{\App\Language::translate('LBL_EDIT_LIST_PRICE', $MODULE)}</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
 			</button>
-			<h3 class="modal-title">{\App\Language::translate('LBL_EDIT_LIST_PRICE', $MODULE)}</h3>
 		</div>	
 		<form class="form-horizontal" id="listPriceUpdate" method="post" action="index.php">
 			<input type="hidden" name="module" value="{$MODULE}" />

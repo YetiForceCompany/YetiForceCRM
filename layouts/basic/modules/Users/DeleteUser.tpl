@@ -14,10 +14,11 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<h5 id="massEditHeader"
-						class="modal-title"><span class="fas fa-exchange-alt fa-fw"></span> {\App\Language::translate('LBL_TRANSFER_RECORDS_TO_USER', $MODULE)} {$MODULE}</h5>
-					<button type="button" class="close" data-dismiss="modal"
-							aria-label="{\App\Language::translate('LBL_CLOSE')}">
+					<h5 id="massEditHeader" class="modal-title">
+						<span class="fas fa-exchange-alt fa-fw"></span>
+						{\App\Language::translate('LBL_TRANSFER_RECORDS_TO_USER', $MODULE)} {$MODULE}
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
 						<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
 					</button>
 				</div>

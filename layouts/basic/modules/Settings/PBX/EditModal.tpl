@@ -23,7 +23,9 @@
 				{else}
 					<span class="fa fa-plus u-mr-5px mt-2"></span><h5 class="modal-title">{\App\Language::translate('LBL_CREATE_RECORD', $QUALIFIED_MODULE)}</h5>
 				{/if}
-				<button class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
+				<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<div class="modal-body">
 				<div class="formGroups">

@@ -11,21 +11,23 @@
 -->*}
 {strip}
 	<div class="row">
-		<div class="row padding-bottom1per">
-			<span class="col-md-2">{\App\Language::translate('LBL_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
-			<div class="col-md-8">
-				<input data-validation-engine='validate[required]' class="form-control" name="todo" type="text" value="{$TASK_OBJECT->todo}" />
+		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
+			<span class="col-md-3">{\App\Language::translate('LBL_TITLE',$QUALIFIED_MODULE)}<span
+						class="redColor">*</span></span>
+			<div class="col-md-9">
+				<input data-validation-engine='validate[required]' class="form-control" name="todo" type="text"
+					   value="{$TASK_OBJECT->todo}"/>
 			</div>
 		</div>
-		<div class="row padding-bottom1per">
-			<span class="col-md-2">{\App\Language::translate('LBL_DESCRIPTION',$QUALIFIED_MODULE)}</span>
-			<div class="col-md-8">
+		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
+			<span class="col-md-3">{\App\Language::translate('LBL_DESCRIPTION',$QUALIFIED_MODULE)}</span>
+			<div class="col-md-9">
 				<textarea class="form-control" name="description">{$TASK_OBJECT->description}</textarea>
 			</div>
 		</div>
-		<div class="row padding-bottom1per">
-			<span class="col-md-2">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</span>
-			<span class="col-md-5">
+		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
+			<span class="col-md-3">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-9">
 				{assign var=STATUS_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('activitystatus')->getPickListValues()}
 				<select name="status" class="chzn-select form-control">
 					<option value=""> - {\App\Language::translate('LBL_AUTOMATIC')} - </option>
@@ -35,9 +37,9 @@
 				</select>
 			</span>
 		</div>
-		<div class="row padding-bottom1per">
-			<span class="col-md-2">{\App\Language::translate('LBL_PRIORITY',$QUALIFIED_MODULE)}</span>
-			<span class="col-md-5">
+		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
+			<span class="col-md-3">{\App\Language::translate('LBL_PRIORITY',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-9">
 				{assign var=PRIORITY_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('taskpriority')->getPickListValues()}
 				<select name="priority" class="chzn-select form-control">
 					{foreach  from=$PRIORITY_PICKLIST_VALUES item=PRIORITY_PICKLIST_VALUE key=PRIORITY_PICKLIST_KEY}
@@ -46,9 +48,9 @@
 				</select>
 			</span>
 		</div>
-		<div class="row padding-bottom1per">
-			<span class="col-md-2">{\App\Language::translate('LBL_ASSIGNED_TO',$QUALIFIED_MODULE)}</span>
-			<span class="col-md-5">
+		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
+			<span class="col-md-3">{\App\Language::translate('LBL_ASSIGNED_TO',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-9">
 				<select name="assigned_user_id" class="chzn-select form-control">
 					<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
 					{foreach from=$ASSIGNED_TO key=LABEL item=ASSIGNED_USERS_LIST}
@@ -58,7 +60,7 @@
 							{/foreach}
 						</optgroup>
 					{/foreach}
-                    <optgroup label="{\App\Language::translate('LBL_SPECIAL_OPTIONS')}">
+					<optgroup label="{\App\Language::translate('LBL_SPECIAL_OPTIONS')}">
 						<option value="copyParentOwner" {if $TASK_OBJECT->assigned_user_id eq 'copyParentOwner'} selected="" {/if}>{\App\Language::translate('LBL_PARENT_OWNER')}</option>
 						<option value="currentUser" {if $TASK_OBJECT->assigned_user_id eq 'currentUser'} selected="" {/if}>{\App\Language::translate('LBL_CURRENT_USER',$QUALIFIED_MODULE)}</option>
 						<option value="triggerUser" {if $TASK_OBJECT->assigned_user_id eq 'triggerUser'} selected="" {/if}>{\App\Language::translate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)}</option>
@@ -66,9 +68,9 @@
 				</select>
 			</span>
 		</div>
-		<div class="row padding-bottom1per">
-			<span class="col-md-2">{\App\Language::translate('LBL_TIME',$QUALIFIED_MODULE)}</span>
-			<div class="col-md-2">
+		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
+			<span class="col-md-3">{\App\Language::translate('LBL_TIME',$QUALIFIED_MODULE)}</span>
+			<div class="col-md-9">
 				<div class="input-group time input-group-sm">
 					{if $TASK_OBJECT->time neq ''}
 						{assign var=TIME value=$TASK_OBJECT->time}
@@ -77,7 +79,7 @@
 						{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
 						{assign var=TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
 					{/if}
-					<input  type="text" class="clockPicker form-control" value="{$TIME}" name="time" />
+					<input type="text" class="clockPicker form-control" value="{$TIME}" name="time"/>
 					<div class="input-group-append">
 						<span class="input-group-text u-cursor-pointer js-clock__btn" data-js="click">
 							<span class="far fa-clock"></span>
@@ -86,71 +88,85 @@
 				</div>
 			</div>
 		</div>
-		<div class="row padding-bottom1per">
-			<span class="col-2">{\App\Language::translate('LBL_DAYS_START',$QUALIFIED_MODULE)}</span>
-			<div class="col-2">
-				<input class="form-control" type="text" name="days_start" value="{$TASK_OBJECT->days_start}">&nbsp;
+		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
+			<div class="col-md-3 mb-1 mb-md-0">{\App\Language::translate('LBL_DAYS_START',$QUALIFIED_MODULE)}</div>
+			<div class="col-md-2 mb-1 mb-md-0 pr-md-1">
+				<input class="form-control" type="text" name="days_start" value="{$TASK_OBJECT->days_start}">
 			</div>
-			<span class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
-			<div class="col-3 marginLeftZero">
-				<select class="chzn-select form-control" name="direction_start">
-					<option {if $TASK_OBJECT->direction_start eq 'after'}selected=""{/if} value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
-					<option {if $TASK_OBJECT->direction_start eq 'before'}selected=""{/if} value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
-				</select>
+			<div class="col-md-4 row no-gutters mb-1 mb-md-0 pr-md-1">
+				<div class="col-2 pt-1">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
+				<div class="col-10">
+					<select class="chzn-select form-control" name="direction_start">
+						<option {if $TASK_OBJECT->direction_start eq 'after'}selected=""{/if}
+								value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
+						<option {if $TASK_OBJECT->direction_start eq 'before'}selected=""{/if}
+								value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
+					</select>
+				</div>
 			</div>
-			<div class="col-4">
+			<div class="col-md-3">
 				<select class="chzn-select form-control" name="datefield_start">
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_FIELDS', $QUALIFIED_MODULE)}'>
 						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
-							<option {if $TASK_OBJECT->datefield_start eq $DATETIME_FIELD->get('name')}selected{/if} value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
+							<option {if $TASK_OBJECT->datefield_start eq $DATETIME_FIELD->get('name')}selected{/if}
+									value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
 						{/foreach}
 					</optgroup>
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_SERVER', $QUALIFIED_MODULE)}'>
-						<option {if $TASK_OBJECT->datefield_start eq 'wfRunTime'}selected{/if} value="wfRunTime">{\App\Language::translate('LBL_WORKFLOWS_RUN_TIME',$QUALIFIED_MODULE)}</option>
+						<option {if $TASK_OBJECT->datefield_start eq 'wfRunTime'}selected{/if}
+								value="wfRunTime">{\App\Language::translate('LBL_WORKFLOWS_RUN_TIME',$QUALIFIED_MODULE)}</option>
 					</optgroup>
 				</select>
 			</div>
 		</div>
-		<div class="row padding-bottom1per">
-			<span class="col-2">{\App\Language::translate('LBL_DAYS_END',$QUALIFIED_MODULE)}</span>
-			<span class="col-2">
-				<input class="form-control" type="text" name="days_end" value="{$TASK_OBJECT->days_end}">&nbsp;
-			</span>
-			<span class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
-			<span class="col-3 marginLeftZero">
-				<select class="chzn-select" name="direction_end" style="width: 100px">
-					<option {if $TASK_OBJECT->direction_end eq 'after'}selected=""{/if} value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
-					<option {if $TASK_OBJECT->direction_end eq 'before'}selected=""{/if} value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
+		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
+			<div class="col-md-3 mb-1 mb-md-0">{\App\Language::translate('LBL_DAYS_END',$QUALIFIED_MODULE)}</div>
+			<div class="col-md-2 mb-1 mb-md-0 pr-md-1">
+				<input class="form-control" type="text" name="days_end" value="{$TASK_OBJECT->days_end}">
+			</div>
+			<div class="col-md-4 mb-1 mb-md-0 row no-gutters pr-md-1">
+				<div class="col-2 pt-1">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
+				<div class="col-10">
+				<select class="chzn-select form-control" name="direction_end" style="width: 100px">
+					<option {if $TASK_OBJECT->direction_end eq 'after'}selected=""{/if}
+							value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
+					<option {if $TASK_OBJECT->direction_end eq 'before'}selected=""{/if}
+							value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 				</select>
-			</span>
-			<span class="col-4">
+				</div>
+			</div>
+			<div class="col-md-3">
 				<select class="chzn-select form-control" name="datefield_end">
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_FIELDS', $QUALIFIED_MODULE)}'>
 						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
-							<option {if $TASK_OBJECT->datefield_end eq $DATETIME_FIELD->get('name')}selected{/if} value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
+							<option {if $TASK_OBJECT->datefield_end eq $DATETIME_FIELD->get('name')}selected{/if}
+									value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
 						{/foreach}
 					</optgroup>
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_SERVER', $QUALIFIED_MODULE)}'>
-						<option {if $TASK_OBJECT->datefield_end eq 'wfRunTime'}selected{/if} value="wfRunTime">{\App\Language::translate('LBL_WORKFLOWS_RUN_TIME',$QUALIFIED_MODULE)}</option>
+						<option {if $TASK_OBJECT->datefield_end eq 'wfRunTime'}selected{/if}
+								value="wfRunTime">{\App\Language::translate('LBL_WORKFLOWS_RUN_TIME',$QUALIFIED_MODULE)}</option>
 					</optgroup>
 				</select>
-			</span>
-		</div>
-		<div class="row padding-bottom1per">
-			<span class="col-md-2">{\App\Language::translate('LBL_SEND_NOTIFICATION',$QUALIFIED_MODULE)}</span>
-			<div class="col-md-6">
-				<input type="checkbox" name="sendNotification" value="true" {if $TASK_OBJECT->sendNotification}checked{/if} />
 			</div>
 		</div>
-		<div class="row padding-bottom1per">
-			<span class="col-md-2">{\App\Language::translate('LBL_DO_NOT_DUPLICATE_RECORDS',$QUALIFIED_MODULE)}</span>
-			<div class="col-md-6">
-				<input type="checkbox" name="doNotDuplicate" value="true" {if $TASK_OBJECT->doNotDuplicate}checked{/if} />
+		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
+			<span class="col-md-8">{\App\Language::translate('LBL_SEND_NOTIFICATION',$QUALIFIED_MODULE)}</span>
+			<div class="col-md-4">
+				<input type="checkbox" name="sendNotification" value="true"
+					   {if $TASK_OBJECT->sendNotification}checked{/if} />
 			</div>
 		</div>
-		<div class="row padding-bottom1per">
-			<span class="col-md-2">{\App\Language::translate('LBL_DUPLICATE_STATUS',$QUALIFIED_MODULE)}</span>
-			<span class="col-md-5">
+		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
+			<span class="col-md-8">{\App\Language::translate('LBL_DO_NOT_DUPLICATE_RECORDS',$QUALIFIED_MODULE)}</span>
+			<div class="col-md-4">
+				<input type="checkbox" name="doNotDuplicate" value="true"
+					   {if $TASK_OBJECT->doNotDuplicate}checked{/if} />
+			</div>
+		</div>
+		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
+			<span class="col-md-5">{\App\Language::translate('LBL_DUPLICATE_STATUS',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-7">
 				<select multiple name="duplicateStatus" class="chzn-select form-control">
 					<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
 					{foreach from=App\Fields\Picklist::getValuesName('activitystatus') key=KEY item=ITEM}
@@ -159,9 +175,9 @@
 				</select>
 			</span>
 		</div>
-		<div class="row padding-bottom1per">
-			<span class="col-md-2">{\App\Language::translate('LBL_UPDATE_DATES_BASE_DATE_CHANGES',$QUALIFIED_MODULE)}</span>
-			<div class="col-md-6">
+		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
+			<span class="col-md-8">{\App\Language::translate('LBL_UPDATE_DATES_BASE_DATE_CHANGES',$QUALIFIED_MODULE)}</span>
+			<div class="col-md-4">
 				<input type="checkbox" name="updateDates" value="true" {if $TASK_OBJECT->updateDates}checked{/if} />
 			</div>
 		</div>

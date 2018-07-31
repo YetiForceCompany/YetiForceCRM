@@ -14,8 +14,10 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<span class="fas fa-edit mr-2 mt-2"></span>
-					<h5 class="modal-title">{\App\Language::translate($RECORD_MODEL->get('name'), $QUALIFIED_MODULE)}</h5>
+					<h5 class="modal-title">
+						<span class="fas fa-edit mr-2 mt-2"></span>
+						{\App\Language::translate($RECORD_MODEL->get('name'), $QUALIFIED_MODULE)}
+					</h5>
 					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 						<span aria-hidden="true">&times;</span>
 					</button>

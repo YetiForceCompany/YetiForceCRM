@@ -70,7 +70,9 @@
 								<div class="modal-header contentsBackground">
 									<span class="fa fa-plus mt-2 u-mr-5px"></span>
 									<h5 class="modal-title">{\App\Language::translate('LBL_ADD_NEW_HOLIDAY', $QUALIFIED_MODULE)}</h5>
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+										<span aria-hidden="true">&times;</span>
+									</button>
 								</div>
 								<form class="form-horizontal addDateWindowForm">
 									<input type="hidden" name="holidayId" value="" />

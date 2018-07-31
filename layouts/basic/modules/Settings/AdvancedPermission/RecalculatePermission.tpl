@@ -1,8 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="modal-header row no-margin">
-		<h4>{\App\Language::translate('LBL_RECALCULATE_PERMISSION_TITLE', $MODULE)}</h4>
-		<button class="btn btn-warning" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
+	<div class="modal-header">
+		<h5 class="modal-title">{\App\Language::translate('LBL_RECALCULATE_PERMISSION_TITLE', $MODULE)}</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+			<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
+		</button>
 	</div>
 	<form class="sendByAjax">
 		<input type="hidden" name="action" value="RecalculatePermission" />

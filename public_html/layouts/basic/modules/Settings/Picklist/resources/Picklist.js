@@ -311,28 +311,18 @@ var Settings_Picklist_Js = {
 	},
 
 	registerDeleteOptionEvent: function () {
-
-		function result(value) {
-			var replaceValueElement = jQuery('#replaceValue');
-			if (typeof value.added !== "undefined") {
-				var id = value.added.id;
-				jQuery('#replaceValue option[value="' + id + '"]').remove();
-				replaceValueElement.trigger('chosen:updated');
-			} else {
-				var id = value.removed.id;
-				var text = value.removed.text;
-				replaceValueElement.append('<option value="' + id + '">' + text + '</option>');
-				replaceValueElement.trigger('chosen:updated');
-			}
-		}
-
-		jQuery('[name="delete_value[]"]').on("change", function (e) {
-			result({
-				val: e.val,
-				added: e.added,
-				removed: e.removed
-			});
-		})
+		let replaceValueElement = jQuery('#replaceValue');
+		jQuery('[name="delete_value[]"]').on("select2:unselect", function (e) {
+			let id = e.params.data.id;
+			let text = e.params.data.text;
+			replaceValueElement.append('<option value="' + id + '">' + text + '</option>');
+			replaceValueElement.trigger('chosen:updated');
+		});
+		jQuery('[name="delete_value[]"]').on("select2:select", function (e) {
+			let id = e.params.data.id;
+			jQuery('#replaceValue option[value="' + id + '"]').remove();
+			replaceValueElement.trigger('chosen:updated');
+		});
 	},
 
 	registerChangeRoleEvent: function () {

@@ -4,8 +4,10 @@
 	{assign var=TEMPLETE_LIST value=App\Mail::getTempleteList($TEMPLATE_MODULE)}
 	{assign var=IS_EMAIL value=false}
 	<div class="modal-header align-items-center">
-		<div class="modal-title h5"><span class="fas fa-envelope mr-2"></span>{\App\Language::translate('LBL_MASS_SEND_EMAIL', $MODULE)}</div>
-		<button type="button" class="btn btn-warning btn-sm" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h5 class="modal-title"><span class="fas fa-envelope mr-2"></span>{\App\Language::translate('LBL_MASS_SEND_EMAIL', $MODULE)}</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+			<span aria-hidden="true">&times;</span>
+		</button>
 	</div>
 	<div class="modal-body">
 		<div class="alert alert-info" role="alert">

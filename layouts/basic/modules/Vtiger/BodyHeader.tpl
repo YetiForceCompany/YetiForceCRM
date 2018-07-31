@@ -133,7 +133,7 @@
 				</div>
 			{/if}
 		</div>
-		<div class="o-navbar__right ml-auto d-inline-flex">
+		<div class="o-navbar__right ml-auto d-inline-flex flex-sm-nowrap">
 			{if !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
 				{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
 				{if $CONFIG['showMailIcon']=='true' && App\Privilege::isPermitted('OSSMail')}
@@ -221,7 +221,7 @@
 				   data-js="click" role="button" aria-expanded="false" aria-controls="o-action-menu__container">
 					<span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 				</a>
-				<div class="o-action-menu__container" id="o-action-menu__container">
+				<div class="o-action-menu__container d-flex flex-sm-nowrap" id="o-action-menu__container">
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
 					<div class="o-action-menu__item commonActionsContainer">
@@ -308,11 +308,11 @@
 						<div class="chatModal modal fade c-modal--custom-animation" tabindex="-1" role="dialog"
 							 aria-labelledby="c-chat-modal__title"
 							 data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
-							<div class="modal-dialog modalRightSiteBar" role="document">
+							<div class="modal-dialog modalRightSiteBar px-0" role="document">
 								<div class="modal-content rounded-0">
 									<div class="modal-header">
 										<h5 class="modal-title" id="c-chat-modal__title">
-											<span class="fas fa-comments fa-fw"></span>
+											<span class="fas fa-comments fa-fw mr-1"></span>
 											{\App\Language::translate('LBL_CHAT')}
 										</h5>
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
