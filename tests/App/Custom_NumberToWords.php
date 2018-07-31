@@ -11,6 +11,9 @@ namespace Tests\App;
 
 class Custom_NumberToWords extends \Tests\Base
 {
+	/**
+	 * Testing initialize function.
+	 */
 	public function testInitialize()
 	{
 		$this->assertNull(\App\Custom\NumberToWords::initialize(), 'Expected null');
