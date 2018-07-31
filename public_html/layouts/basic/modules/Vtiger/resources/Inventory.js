@@ -1467,4 +1467,5 @@ $(document).ready(function () {
 		var inventoryController = new window[moduleClassName]();
 		inventoryController.registerEvents(Vtiger_Edit_Js.getInstance().getForm());
 	}
+	window.inventoryController = inventoryController;
 });
