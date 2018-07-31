@@ -97,6 +97,6 @@ class EmailParser extends \Tests\Base
 		$this->assertSame(['test0@yetiforce.com', 'test1@yetiforce.com' => 'Test One ', 'test2@yetiforce.com', 'test3@yetiforce.com'], $tmpInstance->setContent('test0@yetiforce.com,Test One &lt;test1@yetiforce.com&gt;,test2@yetiforce.com,-,,$(record : email)$')
 			->parse()
 			->getContent(true), 'content should be equal');
-		\Tests\Entity\C_RecordActions::createLeadRecord(true);
+		\Tests\Entity\C_RecordActions::createLeadRecord(false);
 	}
 }
