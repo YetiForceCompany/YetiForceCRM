@@ -64,6 +64,10 @@
 header {
 	.o-global-search__input .select2-selection.select2-selection--single {
 		height: $h-menu-items !important;
+
+		.select2-selection__rendered {
+			margin-top: calculate-rem(2px);
+		}
 	}
 
 	.select2WithButtonWidth {
@@ -71,7 +75,8 @@ header {
 	}
 
 	.c-header__btn__container .select2-selection {
-		height: $h-menu-right-items;
+		height: $h-menu-items;
+		font-size: 0.875rem;
 
 		&:hover {
 			background: $dark !important;
@@ -81,6 +86,10 @@ header {
 			}
 		}
 	}
+}
+
+#select2-mail-select-results {
+	font-size: 0.875rem;
 }
 
 .select2HeaderWidth {
