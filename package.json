@@ -86,5 +86,8 @@
 	"bugs": {
 		"url": "https://github.com/YetiForceCompany/YetiForceCRM/issues"
 	},
-	"homepage": "https://github.com/YetiForceCompany/YetiForceCRM#readme"
+	"homepage": "https://github.com/YetiForceCompany/YetiForceCRM#readme",
+	"scripts": {
+		"postinstall": "php -f yarncleaner.php postinstall"
+	}
 }
