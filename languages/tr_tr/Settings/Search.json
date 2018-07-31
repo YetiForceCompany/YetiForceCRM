@@ -6,7 +6,7 @@
     "LBL_Module_desc": "This panel allows for setting labels for uitype 10 fields and for search mechanisms. These mechanisms work independently \u2013 you can see many columns in a field while searching, but when you select a record, a name from a label will be loaded.",
     "Module": "Module",
     "Table": "Table",
-    "LabelFields": "Main colums for a module (including a label for uitype 10)",
+    "LabelFields": "Main columns for a module (including a label for uitype 10)",
     "SearchFields": "Columns for search mechanisms",
     "Tools": "Actions",
     "Update labels": "Update labels",
