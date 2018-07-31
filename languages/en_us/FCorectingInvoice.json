@@ -21,6 +21,13 @@
     "FL_INVOICE": "Invoice",
     "LBL_COMMENTS": "Comments",
     "FL_EXTERNAL_COMMENT": "External comment",
-    "FL_INTERNAL_COMMENT": "Internal comment"
+    "FL_INTERNAL_COMMENT": "Internal comment",
+    "LBL_BEFORE_CORRECTION": "Before correction",
+    "LBL_AFTER_CORRECTION": "After correction",
+    "LBL_CHOOSE_INVOICE": "Choose corrected invoice",
+    "LBL_COPY_FROM_INVOICE": "Copy from corrected invoice"
+  },
+  "js": {
+    "JS_FCORECTINGINVOICE_CHOOSE_INVOICE": "Choose corrected invoice"
   }
 }
