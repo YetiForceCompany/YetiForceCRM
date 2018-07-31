@@ -65,6 +65,11 @@ class Custom_NumberToWords extends \Tests\Base
 		$this->assertSame($expected, \App\Custom\NumberToWords::integerNumberToWords($int), 'Expeected int ' . $int . ' translates to ' . $expected);
 	}
 
+	/**
+	 * Provide test data for process function.
+	 *
+	 * @return array
+	 */
 	public function processProvider()
 	{
 		return [
