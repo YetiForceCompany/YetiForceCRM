@@ -29,7 +29,7 @@
 							{/foreach}
 						</select>
 					</div>
-					<input type="text" class="form-control form-control-sm js-global-search__value o-global-search__value"
+					<input type="text" class="form-control js-global-search__value o-global-search__value"
 						   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
 						   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
 						   data-operator="{AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR')}"
@@ -77,7 +77,7 @@
 						</button>
 					</div>
 				</div>
-				<div class="searchMenu d-xl-none">
+				<div class="form-control js-global-search__value o-global-search__value ui-autocomplete-input d-xl-none">
 					<div class="searchMenuBtn">
 						<div class="quickAction">
 							<a class="btn btn-light c-header__btn" href="#" role="button" aria-expanded="false"
