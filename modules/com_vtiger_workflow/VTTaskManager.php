@@ -35,16 +35,13 @@ class VTTaskManager
 
 			return $taskId;
 		} else {
-			$taskId = $db->getUniqueID('com_vtiger_workflowtasks');
-			$task->id = $taskId;
 			$db->createCommand()->insert('com_vtiger_workflowtasks', [
-				'task_id' => $taskId,
 				'workflow_id' => $task->workflowId,
 				'summary' => $task->summary,
 				'task' => serialize($task),
 			])->execute();
 
-			return $taskId;
+			return $db->getLastInsertID();
 		}
 	}
 
