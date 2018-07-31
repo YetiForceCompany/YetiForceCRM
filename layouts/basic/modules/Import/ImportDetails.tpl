@@ -10,11 +10,11 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-ImportDetail modelContainer modal" tabindex="-1" role="dialog">
+	<div class="tpl-import-detail modal" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-lg modal-full" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">{\App\Language::translate($TYPE, $MODULE)}</h4>
+					<h5 class="modal-title">{\App\Language::translate($TYPE, $MODULE)}</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>

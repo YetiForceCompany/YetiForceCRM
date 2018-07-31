@@ -419,7 +419,7 @@ if (typeof (ImportJs) === "undefined") {
 			});
 		},
 		openListInModal: function () {
-			$('.js-openListInModal').on('click', function () {
+			$('.js-open-list-in-modal').on('click', function () {
 				let moduleName = $(this).attr('data-moduleName'),
 					type = '',
 					forUser = $(this).attr('data-forUser'),
