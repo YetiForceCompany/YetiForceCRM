@@ -22,8 +22,8 @@
     "LBL_COMMENTS": "Komentarze",
     "FL_EXTERNAL_COMMENT": "Komentarz zewn\u0119trzny",
     "FL_INTERNAL_COMMENT": "Komentarz wewn\u0119trzny",
-    "LBL_BEFORE_CORRECTION": "Przed korekt\u0105",
-    "LBL_AFTER_CORRECTION": "Po korekcie",
+    "LBL_BEFORE_CORRECTION": "Dane przed korekt\u0105",
+    "LBL_AFTER_CORRECTION": "Dane po korekcie",
     "LBL_CHOOSE_INVOICE": "Wybierz faktur\u0119 korygowan\u0105",
     "LBL_COPY_FROM_INVOICE": "Kopiuj z faktury korygowanej"
   },
