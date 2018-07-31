@@ -1495,6 +1495,8 @@ CREATE TABLE `u_yf_fcorectinginvoice` (
   `sum_gross` decimal(16,5) DEFAULT NULL,
   `fcorectinginvoice_status` varchar(255) DEFAULT '',
   `finvoiceid` int(10) DEFAULT NULL,
+  `externalcomment` text DEFAULT NULL,
+  `internalcomment` text DEFAULT NULL,
   PRIMARY KEY (`fcorectinginvoiceid`),
   KEY `accountid` (`accountid`),
   KEY `finvoiceid` (`finvoiceid`),
@@ -9526,6 +9528,5 @@ CREATE TABLE `yetiforce_updates` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
