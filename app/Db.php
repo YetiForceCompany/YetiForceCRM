@@ -277,7 +277,6 @@ class Db extends \yii\db\Connection
 		if (Cache::has('getPrimaryKey', $tableName)) {
 			return Cache::get('getPrimaryKey', $tableName);
 		}
-		$tableName = $this->quoteTableName(str_replace('#__', $this->tablePrefix, $tableName));
 		$key = [];
 		switch ($this->getDriverName()) {
 			case 'mysql':
