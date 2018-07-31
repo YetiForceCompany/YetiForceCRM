@@ -1495,6 +1495,8 @@ CREATE TABLE `u_yf_fcorectinginvoice` (
   `sum_gross` decimal(16,5) DEFAULT NULL,
   `fcorectinginvoice_status` varchar(255) DEFAULT '',
   `finvoiceid` int(10) DEFAULT NULL,
+  `externalcomment` text DEFAULT NULL,
+  `internalcomment` text DEFAULT NULL,
   PRIMARY KEY (`fcorectinginvoiceid`),
   KEY `accountid` (`accountid`),
   KEY `finvoiceid` (`finvoiceid`),
