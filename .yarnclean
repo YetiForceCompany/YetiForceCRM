@@ -47,6 +47,9 @@ coverage
 # build scripts
 Makefile
 Gulpfile.js
+Gulpfile.min.js
+Gruntfile.js
+Gruntfile.min.js
 
 #backup
 *.bak
