@@ -995,11 +995,10 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		return response;
 	},
 	currencyChangeActions: function (select, option) {
-		var thisInstance = this;
-		if (option.data('baseCurrency') == 0) {
-			thisInstance.showCurrencyChangeModal(select, option);
+		if (option.data('baseCurrency') !== select.val()) {
+			this.showCurrencyChangeModal(select, option);
 		} else {
-			thisInstance.currencyConvertValues(select, option);
+			this.currencyConvertValues(select, option);
 			select.data('oldValue', select.val());
 		}
 	},

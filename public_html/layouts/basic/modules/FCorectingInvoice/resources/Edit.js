@@ -58,18 +58,28 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 				const items = inventoryController.getInventoryItemsContainer();
 				const addBtn = form.find('.addItem').eq(0);
 				const recordsBefore = items.find(inventoryController.rowClass).length;
-				console.log('recordsBefore',recordsBefore);
+				const oldCurrencyChangeAction = inventoryController.currencyChangeActions;
+				inventoryController.currencyChangeActions = function changeCurrencyActions(select, option){
+					this.currencyConvertValues(select, option);
+					select.data('oldValue', select.val());
+				};
+				const first = response.result[0];
+				form.find('[name="currencyparam"]').val(first.currencyparam);
+				form.find('[name="currency"]').val(first.currency).trigger('change');
+				form.find('[name="discountmode"]').val(first.discountmode).trigger('change');
+				form.find('[name="taxmode"]').val(first.taxmode).trigger('change');
+				inventoryController.currencyChangeActions = oldCurrencyChangeAction;
 				response.result.forEach((row, index) => {
 					addBtn.trigger('click', e);
 					const realIndex = recordsBefore + index + 1;
-					console.log(realIndex,row);
 					const rows = items.find(inventoryController.rowClass);
 					const rowElem = rows.eq(index+recordsBefore);
-					rowElem.find('input[name="name'+realIndex+'"]').val(row.name);
-					rowElem.find('input[name="name'+realIndex+'_display"]').val(row.info.name);
-					rowElem.find('.qty').val(row.qty);
-					rowElem.find('.unitText').text(row.info.autoFields.unitText);
-					rowElem.find('input[name="unit'+realIndex+'"]').val(row.info.autoFields.unit);
+					rowElem.find('input[name="name'+realIndex+'"]').val(row.name).trigger('change');
+					rowElem.find('input[name="name'+realIndex+'_display"]').val(row.info.name).attr('readonly', 'true').trigger('change');
+					rowElem.find('.qty').val(row.qty).trigger('change');
+					rowElem.find('.unitText').text(row.info.autoFields.unitText).trigger('change');
+					rowElem.find('input[name="unit'+realIndex+'"]').val(row.info.autoFields.unit).trigger('change');
+					rowElem.parent().find('[numrowex='+realIndex+']').find('textarea').val(row.comment1).trigger('change');
 					inventoryController.setUnitPrice(rowElem,row.price);
 					inventoryController.setNetPrice(rowElem,row.net);
 					inventoryController.setGrossPrice(rowElem,row.gross);
