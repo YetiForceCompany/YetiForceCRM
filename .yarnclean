@@ -35,6 +35,7 @@ samples
 example.html
 example.png
 demo.html
+test.html
 
 # source
 src
@@ -79,4 +80,5 @@ readme.hbs
 # other
 *.sh
 *.bat
+*.log
 cc-test-reporter
