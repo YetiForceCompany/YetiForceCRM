@@ -46,6 +46,7 @@ coverage
 
 # build scripts
 Makefile
+Gulpfile.js
 
 #backup
 *.bak
@@ -81,4 +82,5 @@ readme.hbs
 *.sh
 *.bat
 *.log
+*.gz
 cc-test-reporter
