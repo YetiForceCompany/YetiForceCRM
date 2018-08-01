@@ -42,3 +42,13 @@ App\Session::init();
 if (IS_WINDOWS) {
 	App\User::setCurrentUserId(1);
 }
+
+echo 'Installing test database ...' . PHP_EOL;
+require_once 'install/models/InitSchema.php';
+
+$_SESSION['config_file_info']['currency_name'] = 'Poland, Zlotych';
+$_SESSION['config_file_info']['currency_code'] = 'PLN';
+$_SESSION['config_file_info']['currency_symbol'] = 'zł';
+
+$initSchema = new \Install_InitSchema_Model();
+$initSchema->initialize();
