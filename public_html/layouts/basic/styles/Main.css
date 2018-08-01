@@ -5820,7 +5820,6 @@ button.bg-dark:focus {
 .pt-0,
 .py-0,
 .c-panel__body,
-.c-header .c-header__btn,
 .c-detail-widget__header,
 .c-detail-widget__content {
   padding-top: 0 !important; }
@@ -5836,7 +5835,6 @@ button.bg-dark:focus {
 .pb-0,
 .py-0,
 .c-panel__body,
-.c-header .c-header__btn,
 .c-detail-widget__header,
 .c-detail-widget__content {
   padding-bottom: 0 !important; }
@@ -11424,9 +11422,13 @@ input[type="radio"]:checked:before {
 .select2-selection {
   padding-top: 0.2rem; }
 
-.select2-container--bootstrap4 .select2-selection--single {
+.select2-selection--single {
   padding: 0.375rem 1.125rem 0.375rem 0.75rem; }
-.select2-container--bootstrap4 .select2-selection__rendered {
+  .input-group .select2-selection--single {
+    border-right: unset !important;
+    border-radius: 0.25rem 0 0 0.25rem !important; }
+
+.select2-selection__rendered {
   line-height: 1.5; }
 
 .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option {
@@ -11444,14 +11446,20 @@ input[type="radio"]:checked:before {
 
 header .o-global-search__input .select2-selection.select2-selection--single {
   height: 2.125rem !important; }
+  header .o-global-search__input .select2-selection.select2-selection--single .select2-selection__rendered {
+    margin-top: 0.125rem; }
 header .select2WithButtonWidth {
   width: calc(100% - 2.625rem); }
 header .c-header__btn__container .select2-selection {
-  height: 2.25rem; }
+  height: 2.125rem;
+  font-size: 0.875rem; }
   header .c-header__btn__container .select2-selection:hover {
     background: #343a40 !important; }
     header .c-header__btn__container .select2-selection:hover .select2-selection__rendered {
       color: #fff !important; }
+
+#select2-mail-select-results {
+  font-size: 0.875rem; }
 
 .select2HeaderWidth .select2-selection {
   height: 2.5rem !important; }
@@ -13269,7 +13277,7 @@ label.btn.btn-outline-primary:not(.active) {
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .mainBody {
   position: absolute;
-  top: 3.25rem;
+  top: 3.125rem;
   bottom: 1.9375rem;
   width: 100%;
   overflow-x: hidden; }
@@ -13330,18 +13338,15 @@ label.btn.btn-outline-primary:not(.active) {
   .c-header .rightHeader {
     position: relative; }
   .c-header .c-header__btn {
-    padding-left: 0.3rem;
-    padding-right: 0.3rem;
-    font-size: 1.0625rem;
-    line-height: 2.125rem; }
+    padding: 0.25rem 0.3rem; }
   .c-header .c-header__btn__container {
-    height: fit-content;
     width: fit-content; }
     .c-header .c-header__btn__container .dropdown-menu {
       left: auto;
       right: 0; }
-    .c-header .c-header__btn__container .c-header__btn {
-      height: 2.25rem; }
+    @media (min-width: 1300px) {
+      .c-header .c-header__btn__container .c-header__btn {
+        padding: 0.315rem 0.75rem; } }
 
 .widget_header {
   background: #f8f9fa; }
@@ -13355,10 +13360,10 @@ label.btn.btn-outline-primary:not(.active) {
   visibility: hidden;
   position: fixed;
   right: -380px;
-  top: 3.25rem;
+  top: 3.125rem;
   z-index: 1035;
   width: 380px;
-  height: calc(100vh - (1.9375rem + 3.25rem));
+  height: calc(100vh - (1.9375rem + 3.125rem));
   overflow-y: auto;
   background: rgba(0, 0, 0, 0.4);
   border-left: 1px solid #797979;
@@ -13390,9 +13395,9 @@ label.btn.btn-outline-primary:not(.active) {
 
 .modalRightSiteBar {
   margin: 0;
-  height: calc(100vh - (1.9375rem + 3.25rem));
+  height: calc(100vh - (1.9375rem + 3.125rem));
   right: 0;
-  top: 3.25rem;
+  top: 3.125rem;
   position: fixed !important;
   z-index: 1070;
   overflow: hidden;
@@ -13437,6 +13442,8 @@ label.btn.btn-outline-primary:not(.active) {
 .navbar .o-global-search__value {
   border-top: none;
   border-bottom: none; }
+  .navbar .o-global-search__value#global-search-__value {
+    height: 2.125rem; }
 
 .searchMenu.o-global-search__input .select2-selection,
 .navbar .o-global-search__input .select2-selection {
