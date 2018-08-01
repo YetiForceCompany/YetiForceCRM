@@ -118,13 +118,20 @@ class Composer
 	{
 		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
 		$objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($rootDir), \RecursiveIteratorIterator::SELF_FIRST);
+		$deleted = [];
 		foreach ($objects as $name => $object) {
 			if ($object->getFilename() === '.' || $object->getFilename() === '..') {
 				continue;
 			}
-			if ((\in_array(strtolower($object->getFilename()), self::$clearFiles)) && (is_dir($object->getFilename() || file_exists($object->getFilename())))) {
-				\vtlib\Functions::recurseDelete($object->getPathname(), true, true);
+			if ((\in_array(strtolower($object->getFilename()), self::$clearFiles)) && (is_dir($object->getPathname()) || file_exists($object->getPathname()))) {
+				$deleted[] = $object->getPathname();
 			}
+		}
+
+		array_unique($deleted);
+		arsort($deleted);
+		foreach($deleted as $delete){
+			\vtlib\Functions::recurseDelete($delete, true, true);
 		}
 		foreach (new \DirectoryIterator($rootDir) as $level1) {
 			if ($level1->isDir() && !$level1->isDot()) {
