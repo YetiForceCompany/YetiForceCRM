@@ -46,16 +46,17 @@
 		<input id="inventoryLimit" type="hidden" value="{$MAIN_PARAMS['limit']}"/>
 		<div class="detailViewTable">
 			<div class="js-toggle-panel c-panel">
-				<div class="blockHeader c-panel__header">
-					<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
-					<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
-					<h5>
-						<span class="menuIcon userIcon-FInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_AFTER_CORRECTION','FCorectingInvoice')}
-					</h5>
+				<div class="blockHeader c-panel__header d-flex justify-content-between">
+					<div class="d-inline-flex">
+						<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
+						<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
+						<h5>
+							<span class="menuIcon userIcon-FCorectingInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_AFTER_CORRECTION','FCorectingInvoice')}
+						</h5>
+					</div>
+					<a href class="btn btn-sm btn-primary mr-1" id="copyFromInvoice"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_FROM_INVOICE','FCorectingInvoice')}</a>
 				</div>
 				<div class="c-panel__body blockContent p-2" id="afterInventory" data-js="container">
-
-					<div class="text-center mb-3"><a href class="btn btn-sm btn-primary" id="copyFromInvoice"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_FROM_INVOICE','FCorectingInvoice')}</a></div>
 					<div class="table-responsive mx-1">
 						<table class="table table-bordered inventoryHeader blockContainer mb-0">
 							<thead>
