@@ -94,9 +94,6 @@ class Composer
 	];
 
 	public static $clearFilesModule = [
-		'ckeditor/ckeditor' => [
-			'lang'
-		],
 		'dg/rss-php' => [
 			'example-atom.php',
 			'example-rss.php'
@@ -139,7 +136,7 @@ class Composer
 			'resources'
 		],
 		'yetiforce/yii2' => [
-			'bin'
+			'yii'
 		],
 	];
 
