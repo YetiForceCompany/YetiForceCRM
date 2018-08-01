@@ -34,6 +34,7 @@ class FCorectingInvoice_GetProductsAndServices_Action extends Vtiger_BasicAjax_A
 		$data = $recordModel->getInventoryData();
 		foreach ($data as &$item) {
 			$item['info'] = (new Vtiger_Inventory_Action())->getRecordDetail($item['name'], $item['currency'], 'FInvoice', 'name')[$item['name']];
+			$item['moduleName'] = Vtiger_Record_Model::getInstanceById($item['name'])->getModuleName();
 		}
 		unset($item);
 		$response = new Vtiger_Response();
