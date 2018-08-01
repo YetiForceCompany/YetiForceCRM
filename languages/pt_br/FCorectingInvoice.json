@@ -18,6 +18,9 @@
     "PLL_TRANSFER": "Transfer\u00eancia",
     "PLL_CASH": "Dinheiro",
     "LBL_YEAR": "Ano",
-    "FL_INVOICE": "Fatura"
+    "FL_INVOICE": "Fatura",
+    "LBL_COMMENTS": "Comments",
+    "FL_EXTERNAL_COMMENT": "External comment",
+    "FL_INTERNAL_COMMENT": "Internal comment"
   }
 }
