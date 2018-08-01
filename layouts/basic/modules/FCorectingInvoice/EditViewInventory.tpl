@@ -6,14 +6,16 @@
 	<div class="detailViewTable">
 		<div class="js-toggle-panel c-panel">
 			<div class="blockHeader c-panel__header d-flex justify-content-between">
-				<div class="d-inline-flex mt-1">
-					<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
-					<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
-					<h5>
+				<div class="d-inline-flex">
+					<div class="m-2">
+						<span class="u-cursor-pointer js-block-toggle fas fa-angle-right" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
+						<span class="u-cursor-pointer js-block-toggle fas fa-angle-down" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
+					</div>
+					<h5 class="my-2">
 						<span class="menuIcon userIcon-FInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_BEFORE_CORRECTION','FCorectingInvoice')}
 					</h5>
 				</div>
-				<div class="d-inline-flex mr-2"><div class="js-popover-tooltip"  data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translate("LBL_INVOICE_INFO",'FCorectingInvoice')}"><span class="fas fa-info-circle"></span></div></div>
+				<div class="d-inline-flex mr-2 mt-2"><div class="js-popover-tooltip"  data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translate("LBL_INVOICE_INFO",'FCorectingInvoice')}"><span class="fas fa-info-circle"></span></div></div>
 			</div>
 			<div class="c-panel__body blockContent p-2" id="beforeInventory" data-js="container">
 				{if $RECORD->get('finvcoiceid')}
@@ -62,7 +64,7 @@
 						</h5>
 					</div>
 					<div class="d-inline-flex">
-						<div class="js-popover-tooltip mr-2 mt-1" data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translate("LBL_AFTER_INVOICE_INFO",'FCorectingInvoice')}"><span class="fas fa-info-circle"></span></div>
+						<div class="js-popover-tooltip mt-2 mr-2" data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translate("LBL_AFTER_INVOICE_INFO_EDIT",'FCorectingInvoice')}"><span class="fas fa-info-circle"></span></div>
 						<a href class="btn btn-sm btn-primary mr-1" id="copyFromInvoice"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_FROM_INVOICE','FCorectingInvoice')}</a>
 					</div>
 				</div>

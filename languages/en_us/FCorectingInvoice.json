@@ -27,7 +27,8 @@
     "LBL_CHOOSE_INVOICE": "Choose corrected invoice",
     "LBL_COPY_FROM_INVOICE": "Copy from corrected invoice",
     "LBL_INVOICE_INFO": "Positions from corrected invoice before any changes was made.",
-    "LBL_AFTER_INVOICE_INFO": "Positions from corrected invoice that should be changed due to incorrect data. Copy all items from the invoice and change the values as you need."
+    "LBL_AFTER_INVOICE_INFO": "What should the final invoice look like after correction.",
+    "LBL_AFTER_INVOICE_INFO_EDIT": "Positions from corrected invoice that should be changed due to incorrect data. Copy all items from the invoice and change the values as you need."
   },
   "js": {
     "JS_FCORECTINGINVOICE_CHOOSE_INVOICE": "Choose corrected invoice",
