@@ -291,7 +291,7 @@ class Import_Module_Model extends Vtiger_Module_Model
 		$db = \App\Db::getInstance();
 		$tables = [self::getInventoryDbTableName($user), self::getDbTableName($user)];
 		foreach ($tables as $table) {
-			if (!empty($db->getTableSchema($table))) {
+			if (!empty($db->getTableSchema($table, true))) {
 				$db->createCommand()->dropTable($table)->execute();
 			}
 		}
