@@ -28,6 +28,7 @@
     "LBL_COPY_FROM_INVOICE": "Copy from corrected invoice"
   },
   "js": {
-    "JS_FCORECTINGINVOICE_CHOOSE_INVOICE": "Choose corrected invoice"
+    "JS_FCORECTINGINVOICE_CHOOSE_INVOICE": "Choose corrected invoice",
+    "JS_FCORECTINGINVOICE_ITEM_MODULE_NOT_FOUND": "${module} module for position '${position}' was not activated for module Correcting invoices."
   }
 }
