@@ -96,28 +96,6 @@ class C_RecordActions extends \Tests\Base
 	}
 
 	/**
-	 * Creating contacts module record for tests.
-	 *
-	 * @return \Vtiger_Record_Model
-	 */
-	public static function createContactRecord()
-	{
-		if (static::$recordContacts) {
-			return static::$recordContacts;
-		}
-		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
-		$recordModel->set('salutation', 'Mr.');
-		$recordModel->set('firstname', 'Test');
-		$recordModel->set('lastname', 'Testowy');
-		$recordModel->set('contactstatus', 'Active');
-		$recordModel->set('verification', 'Address details');
-		$recordModel->set('parent_id', static::createAccountRecord()->getId());
-		$recordModel->set('assigned_user_id', \App\User::getCurrentUserId());
-		$recordModel->save();
-		return static::$recordContacts = $recordModel;
-	}
-
-	/**
 	 * Creating leads module record for tests.
 	 *
 	 * @var bool
