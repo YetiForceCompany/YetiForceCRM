@@ -36,17 +36,14 @@
 					</div>
 				</div>
 			</div>
-			<div class="mr-0 pl-1 col-md-7 py-3 mt-2">
-				<div class="row float-right detailViewButtoncontainer">
-					<div class="btn-toolbar btn-group float-right">
-						{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}
-							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic'}
-						{/foreach}
-
-						{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
-							{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') TEXT_HOLDER='LBL_MORE' LINKS=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']}
-						{/if}
-					</div>
+			<div class="mr-0 ml-2 pl-1 col-md-7 py-3 mt-2">
+				<div class="btn-group btn-toolbar mr-md-2 flex-md-nowrap float-right u-w-sm-down-100">
+					{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}
+						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic' CLASS='c-btn-link--responsive'}
+					{/foreach}
+					{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
+						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') TEXT_HOLDER='LBL_MORE' LINKS=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC'] CLASS='c-btn-link--responsive'}
+					{/if}
 				</div>
 			</div>
 		</div>

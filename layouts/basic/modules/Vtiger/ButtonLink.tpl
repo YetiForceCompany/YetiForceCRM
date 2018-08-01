@@ -57,8 +57,7 @@
 			{/if}
 			{if $LABEL neq '' && $CLASS == 'c-btn-link--responsive'}
 				<span class="d-{$BREAKPOINT}-none ml-1">{\App\Language::translate($LABEL, $BTN_MODULE)}</span>
-			{/if}
-			{if $LABEL neq '' && $LINK->get('showLabel') == 1}
+			{elseif $LABEL neq '' && $LINK->get('showLabel') == 1}
 				{\App\Language::translate($LABEL, $BTN_MODULE)}
 			{else}
 			{/if}
