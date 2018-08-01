@@ -20,7 +20,7 @@
 							<img class="pushDown" title="{$RECORD->getName()}" height="80" align="left" src="{$IMAGE.url}">
 							<br/>
 						{else}
-							<span class="pl-0 detailViewIcon userIcon-{$MODULE}"></span>
+							<span class="pl-0 o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
 						{/if}
 					</span>
 				</div>
