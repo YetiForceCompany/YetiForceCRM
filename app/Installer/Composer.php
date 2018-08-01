@@ -46,7 +46,6 @@ class Composer
 		'jquery.js',
 		'adapters',
 		'docs',
-		'docs',
 		'demo',
 		'examples',
 		'news',
