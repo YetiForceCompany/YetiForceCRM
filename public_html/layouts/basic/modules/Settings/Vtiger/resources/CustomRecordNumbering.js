@@ -6,6 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
 jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 
@@ -126,10 +127,7 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 			AppConnector.request(params).done(function (data) {
 				var successfullSaveMessage = app.vtranslate('JS_RECORD_NUMBERING_UPDATED_SUCCESSFULLY_FOR') + " " + sourceModuleLabel;
 				if (data.success == true) {
-					var params = {
-						text: successfullSaveMessage
-					};
-					Settings_Vtiger_Index_Js.showMessage(params);
+					Settings_Vtiger_Index_Js.showMessage({text: successfullSaveMessage});
 				} else {
 					Settings_Vtiger_Index_Js.showMessage(data.error.message);
 				}

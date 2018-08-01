@@ -338,4 +338,4 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 jQuery(document).ready(function () {
 	var instance = new Settings_PublicHoliday_Js();
 	instance.registerEvents();
-})
+});
