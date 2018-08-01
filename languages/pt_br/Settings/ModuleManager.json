@@ -73,7 +73,9 @@
 	"LBL_LIBRARY_NEEDS_UPDATING": "Atualiza\u00e7\u00e3o Necess\u00e1ria",
 	"LBL_NO_PERMISSION_TO_DIR": "Sem permiss\u00e3o para diret\u00f3rios",
 	"LBL_ERROR_NO_VALID_PREFIX": "Invalid language prefix",
-    "LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings"
+    	"LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings",
+	"LBL_SAMPLE_FIELD_NAME": "sample_name",
+    	"LBL_SAMPLE_LABEL": "Sample name"
   },
   "js": {
 	"JS_UPDATED_MODULE": "Atualizado com sucesso",
