@@ -73,7 +73,6 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 			}).done((response) => {
 				progressLoader.progressIndicator({mode: 'hide'});
 				const items = inventoryController.getInventoryItemsContainer();
-				const addBtn = form.find('.addItem').eq(0);
 				const recordsBefore = items.find(inventoryController.rowClass).length;
 				const oldCurrencyChangeAction = inventoryController.currencyChangeActions;
 				inventoryController.currencyChangeActions = function changeCurrencyActions(select, option) {
@@ -88,7 +87,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 				inventoryController.currencyChangeActions = oldCurrencyChangeAction;
 				response.result.forEach((row, index) => {
 					if (activeModules.indexOf(row.moduleName) !== -1) {
-						addBtn.trigger('click', e);
+						form.find('.addItem[data-module="' + row.moduleName + '"]').eq(0).trigger('click');
 						const realIndex = recordsBefore + index + 1;
 						const rows = items.find(inventoryController.rowClass);
 						const rowElem = rows.eq(index + recordsBefore);
@@ -110,10 +109,10 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 						inventoryController.setDiscount(rowElem, row.discount);
 						inventoryController.setTaxParam(rowElem, JSON.parse(row.taxparam));
 						inventoryController.setTax(rowElem, row.tax);
-					}else{
+					} else {
 						Vtiger_Helper_Js.showMessage({
 							type: 'error',
-							text: app.vtranslate('JS_FCORECTINGINVOICE_ITEM_MODULE_NOT_FOUND').replace('${module}',row.moduleName).replace('${position}', row.info.name)
+							text: app.vtranslate('JS_FCORECTINGINVOICE_ITEM_MODULE_NOT_FOUND').replace('${module}', row.moduleName).replace('${position}', row.info.name)
 						});
 					}
 				});
@@ -124,8 +123,8 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 	/**
 	 * prevent popovers to show/hide block
 	 */
-	registerPopoverClick(){
-		this.getForm().find('.js-popover-tooltip').on('click',(e)=>{
+	registerPopoverClick() {
+		this.getForm().find('.js-popover-tooltip').on('click', (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 		});
