@@ -52,16 +52,35 @@ jquery-outside-events/shared
 jQuery-Validation-Engine/less
 jstorage/debian
 jstree-bootstrap-theme/libs
+jstree-bootstrap-theme/.esformatter
 leaflet.awesome-markers/screenshots
 leaflet.markercluster/spec
 mousetrap/plugins
 perfect-scrollbar/types
 popper.js/index.d.ts
+popper.js/dist/esm
 respond.js/src
 respond.js/cross-domain
 select2-theme-bootstrap4/dist
 svg/svgBasic.html
 svg/lion.svg
+pnotify/lib
+pnotify/dist/es
+pnotify/dist/umd
+pnotify/dist/PNotifyBrightTheme.css
+hammerjs/.bowerrc
+hammerjs/.jscsrc
+html2canvas/dist/npm
+
+# removing unnecessary packages
+updated-jqplot
+css-line-break
+delegate
+good-listener
+select
+tiny-emitter
+jquery-ui
+jquery-ui-dist/external
 
 # examples
 example
@@ -177,7 +196,6 @@ jquery-lazy/src
 jquery-mousewheel/src
 jquery-outside-events/src
 jquery-slimscroll/src
-jquery-ui/src
 jquery-ui-dist/src
 jquery-ui-touch-punch/src
 jstorage/src
