@@ -56,7 +56,7 @@ class Field extends \Tests\Base
 	 */
 	public function testGetRelatedFieldForModulePair($relatedId, $moduleId)
 	{
-		$result = \App\Field::getRelatedFieldForModule(\App\Module::getModuleName($relatedId), \App\Module::getModuleName($moduleId));
+		$result = \App\Field::getRelatedFieldForModule(\App\Module::getModuleName($moduleId), \App\Module::getModuleName($relatedId));
 		$this->assertInternalType('array', $result, 'Relation list should be array type');
 	}
 
@@ -84,5 +84,24 @@ class Field extends \Tests\Base
 	{
 		$result = \App\Field::getFieldsFromRelation($relationId);
 		$this->assertInternalType('array', $result, 'Expected result type array for relation: ' . $relationId);
+	}
+
+	/**
+	 * Testing getFieldInfo.
+	 */
+	public function testGetFieldInfo()
+	{
+		$moduleId = \App\Module::getModuleId('Leads');
+		$fieldId = (new \App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid' => $moduleId, 'fieldname' => 'email'])->scalar();
+		$fieldInfo = \App\Field::getFieldInfo($fieldId);
+		$this->assertInternalType('array', $fieldInfo, 'Expected field info array');
+		$this->assertNotEmpty($fieldInfo, 'Field info should be not empty');
+		$this->assertSame($fieldId, $fieldInfo['fieldid'], 'Expected fieldid in fieldinfo same as reference');
+		$this->assertSame($moduleId, $fieldInfo['tabid'], 'Expected moduleid in fieldinfo same as reference');
+		$fieldInfoByName = \App\Field::getFieldInfo('email', $moduleId);
+		$this->assertInternalType('array', $fieldInfoByName, 'Expected field info array');
+		$this->assertNotEmpty($fieldInfoByName, 'Field info should be not empty');
+		$this->assertSame($fieldId, $fieldInfoByName['fieldid'], 'Expected fieldid in fieldinfo same as reference');
+		$this->assertSame($moduleId, $fieldInfoByName['tabid'], 'Expected moduleid in fieldinfo same as reference');
 	}
 }
