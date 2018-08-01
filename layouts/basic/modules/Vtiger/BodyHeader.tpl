@@ -29,13 +29,13 @@
 							{/foreach}
 						</select>
 					</div>
-					<input type="text" class="form-control form-control-sm js-global-search__value o-global-search__value"
+					<input type="text" class="form-control js-global-search__value o-global-search__value"
 						   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
 						   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
 						   data-operator="{AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR')}"
 						   data-js="keypress | value | autocomplete"/>
 					<div class="input-group-append bg-white rounded-right">
-						<button class="btn btn-outline-dark border-0 searchIcon" type="button">
+						<button class="btn btn-outline-dark border-0 h-100 searchIcon" type="button">
 							<span class="fas fa-search fa-fw" title="{\App\Language::translate('LBL_SEARCH')}"></span>
 						</button>
 						{if AppConfig::search('GLOBAL_SEARCH_OPERATOR_SELECT')}
@@ -71,13 +71,13 @@
 								</ul>
 							</div>
 						{/if}
-						<button class="btn btn-outline-dark border-0 globalSearch"
+						<button class="btn btn-outline-dark border-0 h-100 globalSearch"
 								title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
 							<span class="fa fa-th-large fa-fw"></span>
 						</button>
 					</div>
 				</div>
-				<div class="searchMenu d-xl-none">
+				<div class="form-control js-global-search__value o-global-search__value ui-autocomplete-input d-xl-none">
 					<div class="searchMenuBtn">
 						<div class="quickAction">
 							<a class="btn btn-light c-header__btn" href="#" role="button" aria-expanded="false"
@@ -133,7 +133,7 @@
 				</div>
 			{/if}
 		</div>
-		<div class="o-navbar__right ml-auto d-inline-flex">
+		<div class="o-navbar__right ml-auto d-inline-flex flex-sm-nowrap">
 			{if !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
 				{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
 				{if $CONFIG['showMailIcon']=='true' && App\Privilege::isPermitted('OSSMail')}
@@ -144,21 +144,21 @@
 							 {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true"
 							 data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
 							{if count($AUTOLOGINUSERS) eq 1}
-								<a class="btn btn-outline-dark border-0" title="{$MAIN_MAIL.username}"
+								<a class="c-header__btn btn btn-outline-dark border-0" title="{$MAIN_MAIL.username}"
 								   href="index.php?module=OSSMail&view=Index">
-									<div class="d-none d-md-block">
+									<div class="d-none d-xxl-block">
 										{$ITEM.username}
 										<span class="mail_user_name">{$MAIN_MAIL.username}</span>
 										<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
 									</div>
-									<div class="d-md-none">
+									<div class="d-xxl-none">
 										<span class="fas fa-inbox fa-fw"
 											  title="{\App\Language::translate('LBL_EMAIL')}"></span>
 									</div>
 								</a>
 							{elseif $CONFIG['showMailAccounts']=='true'}
 								<div class="d-none d-xxl-block">
-									<select class="form-control"
+									<select id="mail-select" class="form-control-sm"
 											title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
 										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
 											<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}"
@@ -221,7 +221,7 @@
 				   data-js="click" role="button" aria-expanded="false" aria-controls="o-action-menu__container">
 					<span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 				</a>
-				<div class="o-action-menu__container" id="o-action-menu__container">
+				<div class="o-action-menu__container d-flex flex-sm-nowrap" id="o-action-menu__container">
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
 					<div class="o-action-menu__item commonActionsContainer">
@@ -305,14 +305,14 @@
 							<span class="fas fa-comments fa-fw" title="{\App\Language::translate('LBL_CHAT')}"></span>
 							<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_CHAT')}</span>
 						</a>
-						<div class="chatModal modal fade row c-modal--custom-animation" tabindex="-1" role="dialog"
+						<div class="chatModal modal fade c-modal--custom-animation" tabindex="-1" role="dialog"
 							 aria-labelledby="c-chat-modal__title"
 							 data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
-							<div class="modal-dialog modalRightSiteBar" role="document">
+							<div class="modal-dialog modalRightSiteBar px-0" role="document">
 								<div class="modal-content rounded-0">
 									<div class="modal-header">
 										<h5 class="modal-title" id="c-chat-modal__title">
-											<span class="fas fa-comments fa-fw"></span>
+											<span class="fas fa-comments fa-fw mr-1"></span>
 											{\App\Language::translate('LBL_CHAT')}
 										</h5>
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">

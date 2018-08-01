@@ -6,6 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
 Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 	//It stores the Account Hierarchy response data

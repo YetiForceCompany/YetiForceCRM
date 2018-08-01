@@ -1,8 +1,8 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class("Settings_TimeControlProcesses_Index_Js", {}, {
 	registerChangeVal: function (content) {
-		var thisInstance = this;
 		content.find('input[type="checkbox"]').on('change', function (e) {
 			var target = $(e.currentTarget);
 			var tab = target.closest('.editViewContainer');

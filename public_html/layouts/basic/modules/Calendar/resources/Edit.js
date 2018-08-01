@@ -6,6 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
 Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 	isEvents: function () {

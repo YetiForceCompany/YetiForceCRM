@@ -29,9 +29,6 @@
 			parent.bind.call(this);
 			this._data.checkbox.uto = false;
 			this._data.checkbox.selected = [];
-			if (this.settings.checkbox.three_state) {
-				this.settings.checkbox.cascade = 'up+down+undetermined';
-			}
 			this.element
 				.on("init.jstree", $.proxy(function () {
 					this._data.checkbox.visible = this.settings.checkbox.visible;

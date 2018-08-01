@@ -40,8 +40,10 @@ class Vtiger_TimeLineModal_View extends Vtiger_BasicModal_View
 	{
 		parent::preProcess($request);
 		echo '<div class="modal-header">
-				<button class="close" data-dismiss="modal" title="' . \App\Language::translate('LBL_CLOSE') . '">x</button>
-				<h3 class="modal-title">' . \App\Language::translate('LBL_TIMELINE', $request->getModule()) . ' </h3>
+				<h5 class="modal-title">' . \App\Language::translate('LBL_TIMELINE', $request->getModule()) . ' </h5>
+				<button type="button" class="close" data-dismiss="modal" title="' . \App\Language::translate('LBL_CLOSE') . '">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<div class="modal-body">';
 	}

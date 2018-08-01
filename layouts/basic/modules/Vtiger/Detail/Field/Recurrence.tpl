@@ -15,13 +15,11 @@
 			<div class="modal-dialog modal-lg ">
 				<div class="modal-content">
 					<div class="modal-header row no-margin">
-						<div class="col-12 paddingLRZero">
-							<div class="col-8 paddingLRZero">
-								<h4>{App\Language::translate('LBL_TITLE_TYPE_DELETE', $MODULE)}</h4>
-							</div>
-							<div class="float-right">
-								<button class="btn btn-warning marginLeft10" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
-							</div>
+						<div class="col-12">
+							<h5 class="modal-title">{App\Language::translate('LBL_TITLE_TYPE_DELETE', $MODULE)}</h5>
+							<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+								<span aria-hidden="true">&times;</span>
+							</button>
 						</div>
 					</div>
 					<div class="modal-body row">

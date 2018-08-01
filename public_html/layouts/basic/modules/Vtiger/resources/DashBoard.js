@@ -7,9 +7,10 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
+'use strict';
 
 $.Class("Vtiger_DashBoard_Js", {
-	gridstack: false,
+	grid: false,
 	//static property which will store the instance of dashboard
 	currentInstance: false,
 	addWidget: function (element, url) {
@@ -25,7 +26,7 @@ $.Class("Vtiger_DashBoard_Js", {
 		widgetContainer.find('.dashboardWidget').data('url', url);
 		var width = element.data('width');
 		var height = element.data('height');
-		Vtiger_DashBoard_Js.gridstack.addWidget(widgetContainer,0, 0, width, height);
+		Vtiger_DashBoard_Js.grid.addWidget(widgetContainer,0, 0, width, height);
 		Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer.find('.grid-stack-item-content'));
 	},
 	restrictContentDrag: function (container) {
@@ -64,16 +65,16 @@ $.Class("Vtiger_DashBoard_Js", {
 		}
 		return this.instancesCache[id];
 	},
-	registerGridstack: function () {
+	registerGrid: function () {
 		const thisInstance = this;
-		Vtiger_DashBoard_Js.gridstack = this.getContainer().gridstack({
+		Vtiger_DashBoard_Js.grid = this.getContainer().gridstack({
 			verticalMargin: '0.5rem',
 			alwaysShowResizeHandle: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
 		}).data('gridstack');
 		$('.grid-stack').on('change', function (event, ui) {
 			thisInstance.savePositions($('.grid-stack-item'));
 		});
-		// load widgets after gridstack initialization to prevent too early lazy loading - visible viewport changes
+		// load widgets after grid initialization to prevent too early lazy loading - visible viewport changes
 		this.loadWidgets();
 		// recalculate positions with scrollbars
 		if (this.getContainer().width() !== this.getContainer().parent().width()) {
@@ -151,7 +152,7 @@ $.Class("Vtiger_DashBoard_Js", {
 		var thisInstance = this;
 		this.getContainer().on('click', 'a[name="drefresh"]', function (e) {
 			var element = $(e.currentTarget);
-			var parent = element.closest('li');
+			var parent = element.closest('.dashboardWidget');
 			var widgetInstnace = thisInstance.getWidgetInstance(parent);
 			widgetInstnace.refreshWidget();
 			return;
@@ -179,7 +180,7 @@ $.Class("Vtiger_DashBoard_Js", {
 							parent.remove();
 						});
 						if ($.inArray(widgetName, nonReversableWidgets) == -1) {
-							Vtiger_DashBoard_Js.gridstack.removeWidget(element.closest('.grid-stack-item'));
+							Vtiger_DashBoard_Js.grid.removeWidget(element.closest('.grid-stack-item'));
 							$('.widgetsList').prev('button').css('visibility', 'visible');
 							var data = '<li class="d-flex flex-row-reverse align-items-center">';
 							if (response.result.deleteFromList) {
@@ -275,7 +276,7 @@ $.Class("Vtiger_DashBoard_Js", {
 
 		container.on('change', '#mailUserList', function (e) {
 			var element = $(e.currentTarget);
-			var parent = element.closest('li');
+			var parent = element.closest('.dashboardWidget');
 			var contentContainer = parent.find('.dashboardWidgetContent');
 			var optionSelected = $("option:selected", this);
 			var url = parent.data('url') + '&user=' + optionSelected.val();
@@ -691,14 +692,14 @@ $.Class("Vtiger_DashBoard_Js", {
 					type: 'success',
 				};
 				Vtiger_Helper_Js.showMessage(params);
-				var parent = currentTarget.closest('li');
+				var parent = currentTarget.closest('.dashboardWidget');
 				$(parent).remove();
 				thisInstance.updateLazyWidget();
 			});
 		});
 	},
 	registerEvents: function () {
-		this.registerGridstack();
+		this.registerGrid();
 		this.registerRefreshWidget();
 		this.removeWidget();
 		this.registerDatePickerHideInitiater();

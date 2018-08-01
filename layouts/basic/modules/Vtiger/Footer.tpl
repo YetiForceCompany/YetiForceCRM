@@ -100,9 +100,11 @@
 					<div class="modal-header">
 						<h5 class="modal-title" id="myModalLabel">
 							YetiForceCRM {if $USER_MODEL->isAdminUser()}v{$YETIFORCE_VERSION}{/if} - The best open
-							system in the world</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-									aria-hidden="true">&times;</span></button>
+							system in the world
+						</h5>
+						<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
 					<div class="modal-body">
 						<p class="text-center"><img class="u-h-120px"

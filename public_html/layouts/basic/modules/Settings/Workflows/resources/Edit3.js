@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	step3Container: false,
@@ -76,13 +77,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				thisInstance.registerFillTaskFieldsEvent();
 				thisInstance.registerCheckSelectDateEvent();
 				app.showPopoverElementView($(data).find('.js-popover-tooltip'));
-				var contentHeight = parseInt(data.find('.modal-body').height());
-				var maxHeight = app.getScreenHeight(80);
-				if ((contentHeight) > maxHeight) {
-					app.showScrollBar(data.find('.modal-body'), {
-						'height': maxHeight + 'px'
-					});
-				}
 			});
 
 		});
@@ -433,7 +427,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	registerDeleteConditionEvent: function () {
 		$('#saveTask').on('click', '.deleteCondition', function (e) {
 			$(e.currentTarget).closest('.js-conditions-row').remove();
-		})
+		});
 	},
 	/**
 	 * Function which will register field change event

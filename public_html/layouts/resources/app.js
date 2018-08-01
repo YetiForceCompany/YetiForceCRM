@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 //Globals initialization
 var App = {},
@@ -397,6 +398,7 @@ var App = {},
 			modalContainer.one('hidden.bs.modal', callback);
 		},
 		registerModalController: function (modalId, modalContainer, cb) {
+			let windowParent = this.childFrame ? window.parent : window;
 			if (modalId === undefined) {
 				modalId = Window.lastModalId;
 			}
@@ -404,8 +406,8 @@ var App = {},
 				modalContainer = $('#' + modalId + ' .js-modal-data');
 			}
 			let modalClass = modalContainer.data('module') + '_' + modalContainer.data('view') + '_JS';
-			if (typeof window[modalClass] !== "undefined") {
-				let instance = new window[modalClass]();
+			if (typeof windowParent[modalClass] !== "undefined") {
+				let instance = new windowParent[modalClass]();
 				if (typeof cb === 'function') {
 					cb(modalContainer, instance);
 				}
@@ -415,8 +417,8 @@ var App = {},
 				}
 			}
 			modalClass = 'Base_' + modalContainer.data('view') + '_JS';
-			if (typeof window[modalClass] !== "undefined") {
-				let instance = new window[modalClass]();
+			if (typeof windowParent[modalClass] !== "undefined") {
+				let instance = new windowParent[modalClass]();
 				if (typeof cb === 'function') {
 					cb(modalContainer, instance);
 				}

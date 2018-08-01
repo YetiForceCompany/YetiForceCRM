@@ -1,6 +1,6 @@
 {
   "php": {
-    "LANGNAME": "Engleza",
+    "LANGNAME": "Rumunia",
     "ERR_DATABASE_CONNECTION_FAILED": "Imposibil de contectat la serverul de baze de date",
     "ERR_DB_NOT_FOUND": "Nu am gasit aceasta baza de date. Incercati sa modificati setarile bazei de date",
     "ERR_INVALID_MYSQL_PARAMETERS": "Conexiune mySQL invalida pentru parametrii specificati",

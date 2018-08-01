@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class("Settings_OSSMail_Index_Js", {}, {
 	/**
@@ -23,14 +24,16 @@ jQuery.Class("Settings_OSSMail_Index_Js", {}, {
 	 * Register the field with hosts
 	 */
 	registerDefaultHost: function () {
-		App.Fields.Picklist.showSelectizeElementView(this.getContainer().find('[name="default_host"]'), {
+		App.Fields.Picklist.showSelect2ElementView(this.getContainer().find('[name="default_host"]'), {
 			delimiter: ',',
 			persist: false,
+			tags: true,
+			placeholder : app.vtranslate('JS_SELECT_OR_WRITE_AND_PRESS_ENTER'),
 			create: function (input) {
 				return {
 					value: input,
 					text: input
-				}
+				};
 			}
 		});
 	},
@@ -47,15 +50,15 @@ jQuery.Class("Settings_OSSMail_Index_Js", {}, {
 			container.validationEngine(app.validationEngineOptions);
 			if (container.validationEngine('validate')) {
 				AppConnector.request(container.serializeFormData()).done(function (data) {
-					var response = data['result'];
+					var response = data['result'], params;
 					if (response['success']) {
-						var params = {
+						params = {
 							text: response['data'],
 							type: 'info',
 						};
 						Vtiger_Helper_Js.showPnotify(params);
 					} else {
-						var params = {
+						params = {
 							text: response['data'],
 						};
 						Vtiger_Helper_Js.showPnotify(params);

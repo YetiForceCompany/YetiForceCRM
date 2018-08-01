@@ -465,14 +465,14 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linklabel' => 'LBL_MASS_DELETE',
 				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=massDeleteRelation&src_record={$id}&relatedModule={$relatedModuleName}')",
 				'linkclass' => '',
-				'linkicon' => '',
+				'linkicon' => 'fas fa-eraser',
 		]);
 		$relatedLink['RELATEDLIST_MASSACTIONS_ADV'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'RELATEDLIST_MASSACTIONS_ADV',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
 				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=exportToExcel&src_record={$id}&relatedModule={$relatedModuleName}','sendByForm')",
 				'linkclass' => '',
-				'linkicon' => '',
+				'linkicon' => 'fas fa-file-excel',
 		]);
 
 		return $relatedLink;

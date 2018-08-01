@@ -33,7 +33,7 @@ class Admin extends \App\Db\Importers\Base
 					'priority' => $this->tinyInteger(1)->unsigned()->notNull(),
 				],
 				'index' => [
-						['tabid', 'tabid'],
+					['tabid', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -67,7 +67,7 @@ class Admin extends \App\Db\Importers\Base
 					'blocked' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-						['bf1_mixed', ['ip', 'time', 'blocked']],
+					['bf1_mixed', ['ip', 'time', 'blocked']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -77,7 +77,7 @@ class Admin extends \App\Db\Importers\Base
 					'id' => $this->integer(10)->notNull(),
 				],
 				'primaryKeys' => [
-						['bruteforce_users_pk', 'id']
+					['bruteforce_users_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -88,7 +88,7 @@ class Admin extends \App\Db\Importers\Base
 					'value' => $this->stringType()->notNull(),
 				],
 				'primaryKeys' => [
-						['discounts_config_pk', 'param']
+					['discounts_config_pk', 'param']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -125,7 +125,7 @@ class Admin extends \App\Db\Importers\Base
 					'status' => $this->tinyInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['status', 'status'],
+					['status', 'status'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -144,9 +144,9 @@ class Admin extends \App\Db\Importers\Base
 					'status' => $this->tinyInteger(1)->unsigned()->defaultValue(0),
 				],
 				'index' => [
-						['tabid', 'tabid'],
-						['reltabid', 'reltabid'],
-						['tabid_2', ['tabid', 'status']],
+					['tabid', 'tabid'],
+					['reltabid', 'reltabid'],
+					['tabid_2', ['tabid', 'status']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -161,7 +161,7 @@ class Admin extends \App\Db\Importers\Base
 					'default' => $this->stringType(),
 				],
 				'index' => [
-						['a_yf_mapped_fields_ibfk_1', 'mappedid'],
+					['a_yf_mapped_fields_ibfk_1', 'mappedid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -214,8 +214,36 @@ class Admin extends \App\Db\Importers\Base
 					'one_pdf' => $this->tinyInteger(1),
 				],
 				'index' => [
-						['module_name', ['module_name', 'status']],
-						['module_name_2', 'module_name'],
+					['module_name', ['module_name', 'status']],
+					['module_name_2', 'module_name'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'a_#__record_converter' => [
+				'columns' => [
+					'id' => $this->smallInteger(10)->notNull(),
+					'name' => $this->stringType(),
+					'status' => $this->smallInteger(1),
+					'source_module' => $this->smallInteger(5)->notNull(),
+					'destiny_module' => $this->stringType()->notNull(),
+					'field_merge' => $this->stringType(50),
+					'field_mappging' => $this->text(),
+					'inv_field_mapping' => $this->text(),
+					'redirect_to_edit' => $this->smallInteger(1),
+					'change_view' => $this->smallInteger(5),
+					'check_duplicate' => $this->smallInteger(1),
+				],
+				'columns_mysql' => [
+					'status' => $this->tinyInteger(1),
+					'redirect_to_edit' => $this->tinyInteger(1),
+					'check_duplicate' => $this->tinyInteger(1),
+				],
+				'index' => [
+					['a_yf_record_converter_fk_tab', 'source_module'],
+				],
+				'primaryKeys' => [
+					['record_converter_pk', ['id', 'source_module', 'destiny_module']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -230,7 +258,7 @@ class Admin extends \App\Db\Importers\Base
 					'sequence' => $this->tinyInteger(1),
 				],
 				'index' => [
-						['relation_id', 'relation_id'],
+					['relation_id', 'relation_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -255,7 +283,7 @@ class Admin extends \App\Db\Importers\Base
 					'value' => $this->stringType()->notNull(),
 				],
 				'primaryKeys' => [
-						['taxes_config_pk', 'param']
+					['taxes_config_pk', 'param']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -266,9 +294,45 @@ class Admin extends \App\Db\Importers\Base
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->decimal('5,2')->unsigned()->notNull()->defaultValue(0),
 					'status' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'default' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
 				'columns_mysql' => [
 					'status' => $this->tinyInteger(1)->notNull()->defaultValue(1),
+					'default' => $this->tinyInteger(1)->notNull()->defaultValue(0),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			's_#__address_finder' => [
+				'columns' => [
+					'id' => $this->primaryKey()->unsigned(),
+					'name' => $this->stringType(),
+					'level1' => $this->stringType(100),
+					'level2' => $this->stringType(100),
+					'level3' => $this->stringType(100),
+					'level4' => $this->stringType(100),
+					'level5' => $this->stringType(100),
+					'level6' => $this->stringType(100),
+					'level7' => $this->stringType(100),
+					'level8' => $this->stringType(100),
+					'source' => $this->stringType(10),
+				],
+				'index' => [
+					['source', 'source'],
+					['name', 'name'],
+				],
+				'engine' => 'MyISAM',
+				'charset' => 'utf8'
+			],
+			's_#__address_finder_config' => [
+				'columns' => [
+					'id' => $this->smallInteger(4)->unsigned()->notNull(),
+					'name' => $this->stringType(50)->notNull(),
+					'type' => $this->stringType(50)->notNull(),
+					'val' => $this->stringType()->notNull(),
+				],
+				'primaryKeys' => [
+					['address_finder_config_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -301,10 +365,10 @@ class Admin extends \App\Db\Importers\Base
 					'params' => $this->text()->notNull(),
 					'created_time' => $this->date()->notNull(),
 					'status' => $this->smallInteger(1)->unsigned()->notNull(),
-					'userid' => $this->integer()
+					'userid' => $this->integer(),
 				],
 				'columns_mysql' => [
-					'status' => $this->tinyInteger(1)->unsigned()->notNull()
+					'status' => $this->tinyInteger(1)->unsigned()->notNull(),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -365,7 +429,7 @@ class Admin extends \App\Db\Importers\Base
 					'priority' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'index' => [
-						['smtp_id', 'smtp_id'],
+					['smtp_id', 'smtp_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -376,7 +440,7 @@ class Admin extends \App\Db\Importers\Base
 					'crmid' => $this->integer(10)->unsigned()->notNull(),
 				],
 				'index' => [
-						['tabid', 'tabid'],
+					['tabid', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -428,7 +492,7 @@ class Admin extends \App\Db\Importers\Base
 					'type' => $this->tinyInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['source_module', ['source_module', 'dest_module']],
+					['source_module', ['source_module', 'dest_module']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -459,8 +523,8 @@ class Admin extends \App\Db\Importers\Base
 					'type' => $this->tinyInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['module', ['module', 'crmid', 'type'], true],
-						['crmid', 'crmid'],
+					['module', ['module', 'crmid', 'type'], true],
+					['crmid', 'crmid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -478,9 +542,10 @@ class Admin extends \App\Db\Importers\Base
 			],
 		];
 		$this->foreignKey = [
-				['fk_1_vtiger_bruteforce_users', 'a_#__bruteforce_users', 'id', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
-				['a_#__mapped_fields_ibfk_1', 'a_#__mapped_fields', 'mappedid', 'a_#__mapped_config', 'id', 'CASCADE', 'RESTRICT'],
-				['s_#__mail_queue_ibfk_1', 's_#__mail_queue', 'smtp_id', 's_#__mail_smtp', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_bruteforce_users', 'a_#__bruteforce_users', 'id', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
+			['a_#__mapped_fields_ibfk_1', 'a_#__mapped_fields', 'mappedid', 'a_#__mapped_config', 'id', 'CASCADE', 'RESTRICT'],
+			['a_#__record_converter_fk_tab', 'a_#__record_converter', 'source_module', 'vtiger_tab', 'tabid', 'RESTRICT', 'RESTRICT'],
+			['s_#__mail_queue_ibfk_1', 's_#__mail_queue', 'smtp_id', 's_#__mail_smtp', 'id', 'CASCADE', 'RESTRICT'],
 		];
 	}
 

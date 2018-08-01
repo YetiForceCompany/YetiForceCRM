@@ -6,8 +6,8 @@ namespace App;
  * Modules basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Module
 {
@@ -21,11 +21,20 @@ class Module
 	protected static $tabdataCache;
 
 	/**
-	 * Init tabdataCache.
+	 * Init tabdata from file.
 	 */
 	public static function init()
 	{
-		static::$tabdataCache = require 'user_privileges/tabdata.php';
+		static::$tabdataCache = require \ROOT_DIRECTORY . '/user_privileges/tabdata.php';
+		static::$tabdataCache['tabName'] = array_flip(static::$tabdataCache['tabId']);
+	}
+
+	/**
+	 * Init tabdata form db.
+	 */
+	public static function initFromDb()
+	{
+		static::$tabdataCache = static::getModuleMeta();
 		static::$tabdataCache['tabName'] = array_flip(static::$tabdataCache['tabId']);
 	}
 
@@ -222,19 +231,18 @@ class Module
 	}
 
 	/**
-	 * Function to create file about modules.
+	 * Get module meta data.
 	 *
-	 * @throws \App\Exceptions\NoPermitted
+	 * @return array
 	 */
-	public static function createModuleMetaFile()
+	public static function getModuleMeta()
 	{
 		$tabNames = $tabPresence = $tabOwned = [];
-		Cache::delete('moduleTabs', 'all');
 		$allModules = \vtlib\Functions::getAllModules(false, true);
 		foreach ($allModules as $moduleInfo) {
 			$tabNames[$moduleInfo['name']] = $tabId = (int) $moduleInfo['tabid'];
-			$tabPresence[$tabId] = (int) $moduleInfo['presence'];
-			$tabOwned[$tabId] = (int) $moduleInfo['ownedby'];
+			$tabPresence[$tabId] = $moduleInfo['presence'];
+			$tabOwned[$tabId] = $moduleInfo['ownedby'];
 		}
 		//Constructing the actionname=>actionid array
 		$actionAll = [];
@@ -246,22 +254,33 @@ class Module
 				$actionSecure[$actionid] = $actionname;
 			}
 		}
+		return [
+			'tabId' => $tabNames,
+			'tabPresence' => $tabPresence,
+			'tabOwnedby' => $tabOwned,
+			'actionId' => $actionAll,
+			'actionName' => $actionSecure,
+		];
+	}
+
+	/**
+	 * Func    tion to create file about modules.
+	 *
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public static function createModuleMetaFile()
+	{
+		Cache::delete('moduleTabs', 'all');
 		$filename = 'user_privileges/tabdata.php';
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {
 				if (!$handle = fopen($filename, 'w+')) {
 					throw new Exceptions\NoPermitted("Cannot open file ($filename)");
 				}
+				$moduleMeta = static::getModuleMeta();
 				$newbuf = "<?php\n";
-				$newbuf .= '$tab_seq_array=' . Utils::varExport($tabPresence) . ";\n";
-				$tabdata = [
-					'tabId' => $tabNames,
-					'tabPresence' => $tabPresence,
-					'tabOwnedby' => $tabOwned,
-					'actionId' => $actionAll,
-					'actionName' => $actionSecure,
-				];
-				$newbuf .= 'return ' . Utils::varExport($tabdata) . ";\n";
+				$newbuf .= '$tab_seq_array=' . Utils::varExport($moduleMeta['tabPresence']) . ";\n";
+				$newbuf .= 'return ' . Utils::varExport($moduleMeta) . ";\n";
 				fwrite($handle, $newbuf);
 				fclose($handle);
 			} else {

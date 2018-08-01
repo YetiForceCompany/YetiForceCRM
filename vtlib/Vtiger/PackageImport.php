@@ -64,13 +64,17 @@ class PackageImport extends PackageExport
 		if (!empty($this->_modulexml) && !empty($this->_modulexml->type)) {
 			$packageType = strtolower($this->_modulexml->type);
 			switch ($packageType) {
-				case 'extension': $packageType = 'LBL_EXTENSION_MODULE';
+				case 'extension':
+					$packageType = 'LBL_EXTENSION_MODULE';
 					break;
-				case 'entity': $packageType = 'LBL_BASE_MODULE';
+				case 'entity':
+					$packageType = 'LBL_BASE_MODULE';
 					break;
-				case 'inventory': $packageType = 'LBL_INVENTORY_MODULE';
+				case 'inventory':
+					$packageType = 'LBL_INVENTORY_MODULE';
 					break;
-				case 'language': $packageType = 'LBL_LANGUAGE_MODULE';
+				case 'language':
+					$packageType = 'LBL_LANGUAGE_MODULE';
 					break;
 			}
 
@@ -1003,6 +1007,7 @@ class PackageImport extends PackageExport
 			}
 		} else {
 			Functions::recurseCopy($dirName . '/files', '');
+			$result = true;
 		}
 		$db->createCommand()->insert('yetiforce_updates', [
 			'user' => \Users_Record_Model::getCurrentUserModel()->get('user_name'),
@@ -1016,8 +1021,9 @@ class PackageImport extends PackageExport
 			$db->createCommand()->update('vtiger_version', ['current_version' => $modulenode->to_version]);
 		}
 		Functions::recurseDelete($dirName);
-		Functions::recurseDelete('cache/templates_c');
-
+		register_shutdown_function(function () {
+			Functions::recurseDelete('cache/templates_c');
+		});
 		\App\Module::createModuleMetaFile();
 		\App\Cache::clear();
 		\App\Cache::clearOpcache();
@@ -1057,15 +1063,15 @@ class PackageImport extends PackageExport
 		$db = \PearDatabase::getInstance();
 
 		return $db->insert($inventoryFieldInstance->getTableName('fields'), [
-				'columnname' => $fieldNode->columnname,
-				'label' => $fieldNode->label,
-				'invtype' => $fieldNode->invtype,
-				'defaultvalue' => $fieldNode->defaultvalue,
-				'sequence' => $fieldNode->sequence,
-				'block' => $fieldNode->block,
-				'displaytype' => $fieldNode->displaytype,
-				'params' => $fieldNode->params,
-				'colspan' => $fieldNode->colspan,
+			'columnname' => $fieldNode->columnname,
+			'label' => $fieldNode->label,
+			'invtype' => $fieldNode->invtype,
+			'defaultvalue' => $fieldNode->defaultvalue,
+			'sequence' => $fieldNode->sequence,
+			'block' => $fieldNode->block,
+			'displaytype' => $fieldNode->displaytype,
+			'params' => $fieldNode->params,
+			'colspan' => $fieldNode->colspan,
 		]);
 	}
 }

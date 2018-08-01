@@ -74,7 +74,9 @@
     "LBL_LIBRARY_NO_DOWNLOAD": "Non t\u00e9l\u00e9charg\u00e9",
     "LBL_LIBRARY_NEEDS_UPDATING": "Mise \u00e0 jour requise",
     "LBL_NO_PERMISSION_TO_DIR": "Pas d'autorisation pour les r\u00e9pertoires",
-    "LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings"
+    "LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings",
+    "LBL_SAMPLE_FIELD_NAME": "sample_name",
+    "LBL_SAMPLE_LABEL": "Sample name"
   },
   "js": {
     "JS_ON": "On",

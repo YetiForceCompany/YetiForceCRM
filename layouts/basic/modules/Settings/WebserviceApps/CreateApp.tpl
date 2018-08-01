@@ -6,15 +6,14 @@
 			<input type="hidden" name="mappingRelatedField" value="{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}" />
 			<div class="modal-header">
 				{if $RECORD_MODEL}
-					<h5><span class="fas fa-edit fa-sm mr-1"></span>{\App\Language::translate('LBL_TITLE_EDIT', $QUALIFIED_MODULE)}</h5>
+					<h5 class="modal-title"><span class="fas fa-edit fa-sm mr-1"></span>{\App\Language::translate('LBL_TITLE_EDIT', $QUALIFIED_MODULE)}</h5>
 				{else}
-					<h5><span class="fas fa-plus fa-sm mr-1"></span>{\App\Language::translate('LBL_TITLE_ADDED', $QUALIFIED_MODULE)}</h5>
+					<h5 class="modal-title"><span class="fas fa-plus fa-sm mr-1"></span>{\App\Language::translate('LBL_TITLE_ADDED', $QUALIFIED_MODULE)}</h5>
 				{/if}
-				<div class="float-right">
-					<button class="btn btn-warning" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">
-						<span class="fas fa-times"></span>
-					</button>
-				</div>
+				<button type="button" class="close" data-dismiss="modal"
+						title="{\App\Language::translate('LBL_CLOSE')}">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<div class="modal-body form-row">
 				<div class="form-group form-row col-sm-12">

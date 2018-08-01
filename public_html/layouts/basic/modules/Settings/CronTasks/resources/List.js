@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce Sp. z o.o.
  *************************************************************************************/
+'use strict';
 
 Settings_Vtiger_List_Js("Settings_CronTasks_List_Js", {
 	triggerEditEvent: function (editUrl) {

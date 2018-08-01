@@ -6,6 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
 jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 	//stores the module that need to be searched
@@ -104,8 +105,6 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 	showSearchResults: function (data) {
 		var aDeferred = jQuery.Deferred();
 		var postLoad = function (data) {
-			var body = jQuery(data).find('.contents');
-			//app.showScrollBar(body,{'height':'600px','railVisible':'true'});
 			aDeferred.resolve(data);
 		};
 		var params = {};

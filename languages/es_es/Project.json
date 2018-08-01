@@ -80,6 +80,14 @@
     "JS_PROCEED": "Do you want to proceed?",
     "JS_PREV": "Previous",
     "JS_NEXT": "Next",
-    "JS_HINT_SKIP": "I understand, close this notification"
+    "JS_HINT_SKIP": "I understand, close this notification",
+    "JS_GANTT_EXPAND_ALL": "Expand all",
+    "JS_GANTT_COLLAPSE_ALL": "Colapse all",
+    "JS_GANTT_ZOOM_OUT": "Zoom out",
+    "JS_GANTT_ZOOM_IN": "Zoom in",
+    "JS_GANTT_RESIZE_0": "Show only chart",
+    "JS_GANTT_RESIZE_50": "50/50 view (legend/chart)",
+    "JS_GANTT_RESIZE_100": "Show only legend",
+    "JS_GANTT_FILTER": "Filters"
   }
 }

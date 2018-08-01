@@ -4,7 +4,7 @@
 	{assign var="FIELD_NAME" value={$FIELD->getColumnName()}|cat:$ROW_NO}
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode(['mandatory'=>true]))}
 	{assign var="REFERENCE_LIST_COUNT" value=count($REFERENCE_LIST)}
-	<div class="input-group referenceGroup" style="max-width: 250px;">
+	<div class="input-group input-group-sm referenceGroup">
 		{if $REFERENCE_LIST_COUNT eq 1}
 			{assign var="REFERENCED_MODULE_NAME" value=reset($REFERENCE_LIST)}
 			<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}"

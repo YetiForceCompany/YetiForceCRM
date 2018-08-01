@@ -6,6 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
 jQuery.Class("Calendar_CalendarView_Js", {
 	currentInstance: false,
@@ -468,7 +469,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		const thisInstance = this;
 		$('.calendarViewContainer').closest('.mainContainer').find('.addButton').on('click', function (e) {
 			thisInstance.getCalendarCreateView().done(function (data) {
-				const headerInstance = new Vtiger_Header_Js();s
+				const headerInstance = new Vtiger_Header_Js();
 				headerInstance.handleQuickCreateData(data, {
 					callbackFunction: function (data) {
 						thisInstance.addCalendarEvent(data.result);

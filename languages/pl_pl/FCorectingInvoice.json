@@ -18,6 +18,9 @@
     "PLL_TRANSFER": "przelew",
     "PLL_CASH": "got\u00f3wka",
     "LBL_YEAR": "Rok",
-    "FL_INVOICE": "Faktura"
+    "FL_INVOICE": "Faktura",
+    "LBL_COMMENTS": "Komentarze",
+    "FL_EXTERNAL_COMMENT": "Komentarz zewn\u0119trzny",
+    "FL_INTERNAL_COMMENT": "Komentarz wewn\u0119trzny"
   }
 }

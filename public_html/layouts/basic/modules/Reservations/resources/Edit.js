@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery(document).ready(function ($) {
 	// enable/disable confirm button
@@ -38,7 +39,7 @@ Vtiger_Edit_Js("Reservations_Edit_Js", {}, {
 	 */
 	registerRecordPreSaveEvent: function () {
 		var thisInstance = this;
-		form = this.getForm();
+		var form = this.getForm();
 
 		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
 			var sumeTime2 = thisInstance.differenceDays();
@@ -50,7 +51,6 @@ Vtiger_Edit_Js("Reservations_Edit_Js", {}, {
 				Vtiger_Helper_Js.showPnotify(parametry);
 				return false;
 			} else {
-				send = true;
 				form.submit();
 			}
 		});

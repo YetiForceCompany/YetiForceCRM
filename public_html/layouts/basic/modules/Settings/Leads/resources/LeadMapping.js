@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 jQuery.Class("Settings_LeadMapping_Js", {
 
@@ -143,7 +144,7 @@ jQuery.Class("Settings_LeadMapping_Js", {
 				text: app.vtranslate('JS_MAPPING_DELETED_SUCCESSFULLY')
 			}
 			Settings_Vtiger_Index_Js.showMessage(params);
-		})
+		});
 	},
 
 	/**
@@ -180,8 +181,9 @@ jQuery.Class("Settings_LeadMapping_Js", {
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					});
 				}
+				let notifyParams;
 				if (!data.result.status) {
-					var notifyParams = {
+					notifyParams = {
 						title: app.vtranslate('JS_INVALID_MAPPING'),
 						text: data.result,
 						type: 'error',
@@ -273,6 +275,6 @@ jQuery.Class("Settings_LeadMapping_Js", {
 			} else if (duplicateOption == false) {
 				selectElement.attr('selectedId', selectedOptionId);
 			}
-		})
+		});
 	}
 });

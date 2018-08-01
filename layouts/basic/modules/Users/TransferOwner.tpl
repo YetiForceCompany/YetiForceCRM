@@ -12,8 +12,10 @@
 {strip}
 	<div id="massEditContainer" class='modelContainer'>
 		<div class="modal-header contentsBackground">
-			<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
-			<h3 id="massEditHeader">{\App\Language::translate('Transfer Ownership to User', $MODULE)}</h3>
+			<h5 class="modal-title" id="massEditHeader">{\App\Language::translate('Transfer Ownership to User', $MODULE)}</h5>
+			<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+				<span aria-hidden="true">&times;</span>
+			</button>
 		</div>
 		<form class="form-horizontal" id="deleteUser" name="transferOwner" method="post" action="index.php">
 			<input type="hidden" name="module" value="{$MODULE}" />

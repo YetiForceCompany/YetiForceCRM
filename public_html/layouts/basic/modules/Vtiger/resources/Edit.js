@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 $.Class("Vtiger_Edit_Js", {
 	//Event that will triggered when reference field is selected
@@ -784,6 +785,7 @@ $.Class("Vtiger_Edit_Js", {
 			}
 		}
 		if (status == false) {
+			let errorMsg;
 			if (sourceModule == "Accounts") {
 				errorMsg = 'JS_SELECTED_ACCOUNT_DOES_NOT_HAVE_AN_ADDRESS';
 			} else if (sourceModule == "Contacts") {

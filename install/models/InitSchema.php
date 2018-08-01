@@ -95,6 +95,9 @@ class Install_InitSchema_Model
 	 */
 	public function setDefaultUsersAccess()
 	{
+		if (empty($_SESSION['config_file_info']['user_name'])) {
+			return false;
+		}
 		$this->db->createCommand()
 			->update('vtiger_users', [
 				'user_name' => $_SESSION['config_file_info']['user_name'],

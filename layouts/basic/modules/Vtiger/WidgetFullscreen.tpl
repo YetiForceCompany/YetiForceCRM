@@ -4,7 +4,7 @@
 		<button type="button" class="btn btn-warning btn-sm float-right" data-dismiss="modal" aria-hidden="true">
 			<span class="fas fa-times"></span>
 		</button>
-		<h4 class="modal-title">&nbsp;</h4>
+		<h5 class="modal-title">&nbsp;</h4>
 	</div>
 	<div class="modal-body">
 		<div class="col-md-12">

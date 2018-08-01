@@ -78,6 +78,14 @@
     "JS_PROCEED": "Wollen Sie fortfahren?",
     "JS_PREV": "Vorher",
     "JS_NEXT": "Nachher",
-    "JS_HINT_SKIP": "Verstanden, diese Nachricht schlie\u00dfen"
+    "JS_HINT_SKIP": "Verstanden, diese Nachricht schlie\u00dfen",
+    "JS_GANTT_EXPAND_ALL": "Alles aufklappen",
+    "JS_GANTT_COLLAPSE_ALL": "Alles zuklappen",
+    "JS_GANTT_ZOOM_OUT": "Zoom Out",
+    "JS_GANTT_ZOOM_IN": "Zoom In",
+    "JS_GANTT_RESIZE_0": "Nur Chart anzeigen",
+    "JS_GANTT_RESIZE_50": "50/50 Ansicht (Legende/Chart)",
+    "JS_GANTT_RESIZE_100": "Nur Legende anzeigen",
+    "JS_GANTT_FILTER": "Filter"
   }
 }

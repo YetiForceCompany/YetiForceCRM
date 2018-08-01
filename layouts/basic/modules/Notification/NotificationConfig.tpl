@@ -2,15 +2,11 @@
 {strip}
 	{assign var="CRON_ACTIVE" value=$CRON_INFO->getStatus()}
 	{assign var="IS_PERMITTED" value=\App\Privilege::isPermitted($MODULE, 'ReceivingMailNotifications')}
-	<div class="modal-header row no-margin">
-		<div class="col-12 paddingLRZero">
-			<div class="col-8 paddingLRZero">
-				<h4>{\App\Language::translate('LBL_WATCHING_MODULES', $MODULE)}</h4>
-			</div>
-			<div class="float-right">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
-			</div>
-		</div>
+	<div class="modal-header">
+		<h5 class="modal-title">{\App\Language::translate('LBL_WATCHING_MODULES', $MODULE)}</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+			<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
+		</button>
 	</div>
 	<div class="modal-body paddingBottomZero">
 		<form id="sortingCustomView">
