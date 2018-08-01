@@ -18,7 +18,10 @@
     "PLL_TRANSFER": "Virement",
     "PLL_CASH": "Cash",
     "LBL_YEAR": "Ann\u00e9e",
-    "FL_INVOICE": "Facture"
+    "FL_INVOICE": "Facture",
+    "LBL_COMMENTS": "Comments",
+    "FL_EXTERNAL_COMMENT": "External comment",
+    "FL_INTERNAL_COMMENT": "Internal comment"
   },
   "js": []
 }
