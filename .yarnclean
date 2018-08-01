@@ -53,6 +53,7 @@ jQuery-Validation-Engine/less
 jstorage/debian
 jstree-bootstrap-theme/libs
 jstree-bootstrap-theme/.esformatter
+jstree-bootstrap-theme/dist/libs
 leaflet.awesome-markers/screenshots
 leaflet.markercluster/spec
 mousetrap/plugins
