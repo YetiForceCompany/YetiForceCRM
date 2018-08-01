@@ -143,20 +143,20 @@
 						<div class="c-header__btn__container bg-white rounded js-header__btn--mail"
 							 {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true"
 							 data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
-							{*{if count($AUTOLOGINUSERS) eq 1}*}
-								{*<a class="c-header__btn btn btn-outline-dark border-0" title="{$MAIN_MAIL.username}"*}
-								   {*href="index.php?module=OSSMail&view=Index">*}
-									{*<div class="d-none d-xxl-block">*}
-										{*{$ITEM.username}*}
-										{*<span class="mail_user_name">{$MAIN_MAIL.username}</span>*}
-										{*<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>*}
-									{*</div>*}
-									{*<div class="d-xxl-none">*}
-										{*<span class="fas fa-inbox fa-fw"*}
-											  {*title="{\App\Language::translate('LBL_EMAIL')}"></span>*}
-									{*</div>*}
-								{*</a>*}
-							{*{elseif $CONFIG['showMailAccounts']=='true'}*}
+							{if count($AUTOLOGINUSERS) eq 1}
+								<a class="c-header__btn btn btn-outline-dark border-0" title="{$MAIN_MAIL.username}"
+								   href="index.php?module=OSSMail&view=Index">
+									<div class="d-none d-xxl-block">
+										{$ITEM.username}
+										<span class="mail_user_name">{$MAIN_MAIL.username}</span>
+										<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
+									</div>
+									<div class="d-xxl-none">
+										<span class="fas fa-inbox fa-fw"
+											  title="{\App\Language::translate('LBL_EMAIL')}"></span>
+									</div>
+								</a>
+							{elseif $CONFIG['showMailAccounts']=='true'}
 								<div class="d-none d-xxl-block">
 									<select id="mail-select" class="form-control-sm"
 											title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
@@ -186,7 +186,7 @@
 										{/foreach}
 									</ul>
 								</div>
-							{*{/if}*}
+							{/if}
 						</div>
 					{/if}
 				{/if}
