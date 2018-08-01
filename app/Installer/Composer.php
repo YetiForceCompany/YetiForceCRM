@@ -43,6 +43,8 @@ class Composer
 		'contributing.md',
 		'readme.md',
 		'SECURITY.md',
+		'jquery.js',
+		'adapters',
 		'docs',
 		'demo',
 		'examples',
@@ -86,6 +88,7 @@ class Composer
 	 */
 	public static function install(\Composer\Script\Event $event)
 	{
+		static::clear();
 		$event->getComposer();
 		if (isset($_SERVER['SENSIOLABS_EXECUTION_NAME'])) {
 			return true;
@@ -108,7 +111,6 @@ class Composer
 				}
 			}
 		}
-		static::clear();
 	}
 
 	/**
@@ -130,6 +132,7 @@ class Composer
 
 		array_unique($deleted);
 		arsort($deleted);
+		echo 'Cleaned files: ' . count($deleted) . PHP_EOL;
 		foreach($deleted as $delete){
 			\vtlib\Functions::recurseDelete($delete, true, true);
 		}
