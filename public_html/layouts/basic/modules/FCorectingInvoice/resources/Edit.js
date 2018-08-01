@@ -36,6 +36,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 		const thisInstance = this;
 		container.find('#copyFromInvoice').on('click', function (e) {
 			e.preventDefault();
+			e.stopPropagation();
 			const finvoiceidInput = $(this).closest('form').find('input[name="finvoiceid"]');
 			if (!finvoiceidInput.length) {
 				return false;
