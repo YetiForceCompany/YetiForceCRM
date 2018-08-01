@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	baseCurrency: '',

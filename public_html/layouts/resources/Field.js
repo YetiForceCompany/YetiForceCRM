@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 jQuery.Class("Vtiger_Field_Js", {
 	/**
@@ -112,7 +113,8 @@ jQuery.Class("Vtiger_Field_Js", {
 		var BasicUiTypeClassName = window["Vtiger_" + typeClassName + "_Field_Js"];
 		if (typeof moduleUiTypeClassName !== "undefined") {
 			return (new moduleUiTypeClassName()).setData(this.getData());
-		} else if (typeof BasicUiTypeClassName !== "undefined") {
+		}
+		if (typeof BasicUiTypeClassName !== "undefined") {
 			return (new BasicUiTypeClassName()).setData(this.getData());
 		}
 		return this;

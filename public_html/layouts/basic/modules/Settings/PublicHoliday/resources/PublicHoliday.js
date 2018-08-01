@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class('Settings_PublicHoliday_Js', {}, {
 
@@ -337,4 +338,4 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 jQuery(document).ready(function () {
 	var instance = new Settings_PublicHoliday_Js();
 	instance.registerEvents();
-})
+});

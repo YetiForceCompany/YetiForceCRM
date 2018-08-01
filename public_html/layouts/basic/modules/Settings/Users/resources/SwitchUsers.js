@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class('Settings_Users_SwitchUsers_Js', {}, {
 	registerAdd: function (content) {
@@ -35,7 +36,6 @@ jQuery.Class('Settings_Users_SwitchUsers_Js', {}, {
 		});
 	},
 	registerSave: function (content) {
-		var thisInstance = this;
 		content.find('.saveItems').on('click', function (e) {
 			var data = [];
 			content.find('.switchUsersTable tbody tr').each(function (index) {

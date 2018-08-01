@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 	container: false,
@@ -64,7 +65,7 @@ jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 					'&view=Members';
 				if (element.hasClass('wrapperExceptions')) {
 					url += '&mode=' + element.data('mode') + '&member=' + element.closest('tr').data('value');
-					reload = false
+					reload = false;
 				}
 				app.showModalWindow(null, url, function (data) {
 					var form = data.find('form');

@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 	//cache will store the search data

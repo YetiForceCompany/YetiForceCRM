@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 var Vtiger_CustomView_Js;
 Vtiger_CustomView_Js = {
