@@ -37,6 +37,7 @@ class Field extends \Tests\Base
 		$this->assertTrue(\App\Field::getColumnPermission('Leads', $fieldColumn, true), 'Expected read perms(string)');
 		$this->assertTrue(\App\Field::getColumnPermission($moduleId, $fieldColumn, true), 'Expected read perms(ids)');
 		$this->assertTrue(\App\Field::getColumnPermission($moduleId, $fieldColumn, false), 'Expected write perms(ids)');
+		$this->assertTrue(\App\Field::getColumnPermission($moduleId, $fieldColumn, false), 'Expected write perms(ids, cached)');
 		$this->assertFalse(\App\Field::getColumnPermission($moduleId, 'NxColumn', true), 'Expected no read perms(field not exists)');
 		$this->assertFalse(\App\Field::getColumnPermission($moduleId, 'NxColumn', false), 'Expected write perms(field not exists)');
 	}
@@ -84,6 +85,17 @@ class Field extends \Tests\Base
 	{
 		$result = \App\Field::getFieldsFromRelation($relationId);
 		$this->assertInternalType('array', $result, 'Expected result type array for relation: ' . $relationId);
+		$this->assertSame($result, \App\Field::getFieldsFromRelation($relationId), 'Relation fields from cache should be equal as reference for relation: ' . $relationId);
+	}
+
+	/**
+	 * Testing getFieldsFromRelation for empty relation id.
+	 */
+	public function testGetFieldsFromEmptyRelation()
+	{
+		$result = \App\Field::getFieldsFromRelation('');
+		$this->assertInternalType('array', $result, 'Expected result type array for empty relation');
+		$this->assertEmpty($result, 'Fields array from empty relation should be empty');
 	}
 
 	/**
@@ -98,6 +110,7 @@ class Field extends \Tests\Base
 		$this->assertNotEmpty($fieldInfo, 'Field info should be not empty');
 		$this->assertSame($fieldId, $fieldInfo['fieldid'], 'Expected fieldid in fieldinfo same as reference');
 		$this->assertSame($moduleId, $fieldInfo['tabid'], 'Expected moduleid in fieldinfo same as reference');
+		$this->assertSame($fieldInfo, \App\Field::getFieldInfo($fieldId), 'Field info from cache should be same as reference');
 		$fieldInfoByName = \App\Field::getFieldInfo('email', $moduleId);
 		$this->assertInternalType('array', $fieldInfoByName, 'Expected field info array');
 		$this->assertNotEmpty($fieldInfoByName, 'Field info should be not empty');
