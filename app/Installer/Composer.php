@@ -132,7 +132,7 @@ class Composer
 
 		array_unique($deleted);
 		arsort($deleted);
-		echo 'Cleaned files: ' . count($deleted)."\n";
+		echo 'Cleaned files: ' . count($deleted) . PHP_EOL;
 		foreach($deleted as $delete){
 			\vtlib\Functions::recurseDelete($delete, true, true);
 		}
