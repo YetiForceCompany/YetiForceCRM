@@ -31,54 +31,116 @@ class Composer
 		'.git',
 		'.gitattributes',
 		'.gitignore',
+		'.gitkeep',
 		'.editorconfig',
 		'.styleci.yml',
 		'.travis.yml',
 		'mkdocs.yml',
+		'.coveralls.yml',
+		'.scrutinizer.yml',
 		'.php_cs.dist',
-		'phpunit.xml.dist',
 		'build.xml',
+		'phpunit.xml.dist',
+		'phpunit.xml',
 		'changelog.phpexcel.md',
+		'changelog.md',
 		'changes.md',
 		'contributing.md',
 		'readme.md',
-		'SECURITY.md',
-		'jquery.js',
-		'adapters',
+		'security.md',
+		'upgrade.md',
 		'docs',
 		'demo',
 		'examples',
+		'extras',
+		'install',
+		'js-test',
+		'maintenance',
+		'migrations',
 		'news',
 		'phorum',
 		'readme',
+		'sample',
 		'samples',
 		'todo',
 		'test',
 		'tests',
 		'whatsnew',
 		'wysiwyg',
-		'VERSION',
+		'version',
+		'views',
+		'_translationstatus.txt',
 		'composer_release_notes.txt',
 		'change_log.txt',
 		'cldr-version.txt',
 		'inheritance_release_notes.txt',
-		'new_features.txt',
 		'metadata-version.txt',
+		'modx.txt',
+		'news.txt',
+		'new_features.txt',
+		'readme.txt',
 		'smarty_2_bc_notes.txt',
 		'smarty_3.0_bc_notes.txt',
 		'smarty_3.1_notes.txt',
+		'.sami.php',
+		'get_oauth_token.php',
 		'test-settings.sample.php',
-		'test-settings.travis.php'
+		'test-settings.travis.php',
+		'install.fr.utf8',
+		'jquery.min.js',
+		'release1-update.php',
+		'release2-tag.php',
+		'phpdoc.ini',
 	];
 
 	public static $clearFilesModule = [
+		'ckeditor/ckeditor' => [
+			'lang'
+		],
 		'dg/rss-php' => [
 			'example-atom.php',
 			'example-rss.php'
 		],
+		'ezyang/htmlpurifier' => [
+			'plugins'
+		],
 		'illuminate/support' => [
-			'Debug'
-		]
+			'debug'
+		],
+		'phpoffice/phpspreadsheet' => [
+			'bin'
+		],
+		'rmccue/request' => [
+			'bin'
+		],
+		'sabre/dav' => [
+			'bin'
+		],
+		'sabre/event' => [
+			'bin'
+		],
+		'sabre/http' => [
+			'bin'
+		],
+		'sabre/vobject' => [
+			'bin'
+		],
+		'sabre/xml' => [
+			'bin'
+		],
+		'sensiolabs/security-checker' => [
+			'security-checker',
+			'box.json',
+		],
+		'sonata-project/google-authenticator' => [
+			'makefile'
+		],
+		'symfony/console' => [
+			'resources'
+		],
+		'yetiforce/yii2' => [
+			'bin'
+		],
 	];
 
 	/**
@@ -129,12 +191,12 @@ class Composer
 				$deleted[] = $object->getPathname();
 			}
 		}
-
+		$deletedCount = 0;
 		array_unique($deleted);
 		arsort($deleted);
-		echo 'Cleaned files: ' . count($deleted) . PHP_EOL;
-		foreach($deleted as $delete){
-			\vtlib\Functions::recurseDelete($delete, true, true);
+		foreach ($deleted as $delete) {
+			\vtlib\Functions::recurseDelete($delete, true);
+			$deletedCount++;
 		}
 		foreach (new \DirectoryIterator($rootDir) as $level1) {
 			if ($level1->isDir() && !$level1->isDot()) {
@@ -142,8 +204,9 @@ class Composer
 					if ($level2->isDir() && !$level2->isDot()) {
 						foreach (new \DirectoryIterator($level2->getPathname()) as $level3) {
 							if (isset(self::$clearFilesModule[$level1->getFileName() . '/' . $level2->getFilename()])) {
-								if (!$level3->isDot() && \in_array($level3->getFilename(), self::$clearFilesModule[$level1->getFileName() . '/' . $level2->getFilename()])) {
+								if (!$level3->isDot() && \in_array(strtolower($level3->getFilename()), self::$clearFilesModule[$level1->getFileName() . '/' . $level2->getFilename()])) {
 									\vtlib\Functions::recurseDelete($level3->getPathname(), true);
+									$deletedCount++;
 								}
 							}
 						}
@@ -151,5 +214,6 @@ class Composer
 				}
 			}
 		}
+		echo "Cleaned files: $deletedCount" . PHP_EOL;
 	}
 }
