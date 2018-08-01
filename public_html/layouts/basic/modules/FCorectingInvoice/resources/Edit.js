@@ -2,6 +2,9 @@
 
 Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 
+	/**
+	 * Load correcting invoice data to before block
+	 */
 	loadInvoiceData() {
 		const form = this.getForm();
 		const invoiceidInput = form.find('[name="finvoiceid"]');
@@ -18,12 +21,19 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 			});
 		}
 	},
-
+	/**
+	 * setReferenceFieldValue override - action when correcting invoice is selected
+	 * @param container
+	 * @param params
+	 */
 	setReferenceFieldValue(container, params) {
 		this._super(container, params);
 		this.loadInvoiceData(container);
 	},
-
+	/**
+	 * clearFieldValue override - action when correcting invoice is cleared
+	 * @param element
+	 */
 	clearFieldValue(element) {
 		this._super(element);
 		const invoiceidInput = element.closest('.fieldValue').find('[name="finvoiceid"]');
@@ -31,7 +41,9 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 			element.closest('form').find('#beforeInventory').html('<div class="text-center">' + app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE') + '</div>');
 		}
 	},
-
+	/**
+	 * Action for copy from correcting invoice button - load data before positions to data after block
+	 */
 	registerCopyFromInvoice() {
 		const thisInstance = this;
 		const form = this.getForm();
@@ -109,21 +121,24 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 			});
 		});
 	},
-
+	/**
+	 * prevent popovers to show/hide block
+	 */
 	registerPopoverClick(){
 		this.getForm().find('.js-popover-tooltip').on('click',(e)=>{
 			e.preventDefault();
 			e.stopPropagation();
 		});
 	},
-
+	/**
+	 * registerEvents override
+	 */
 	registerEvents() {
 		this._super();
 		this.registerPopoverClick();
 		this.registerCopyFromInvoice();
 		this.loadInvoiceData();
 	}
-
 
 });
 
