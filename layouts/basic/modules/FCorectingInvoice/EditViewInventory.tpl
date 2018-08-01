@@ -6,7 +6,7 @@
 	<div class="detailViewTable">
 		<div class="js-toggle-panel c-panel">
 			<div class="blockHeader c-panel__header d-flex justify-content-between">
-				<div class="d-inline-flex">
+				<div class="d-inline-flex mt-1">
 					<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
 					<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
 					<h5>
@@ -54,7 +54,7 @@
 		<div class="detailViewTable">
 			<div class="js-toggle-panel c-panel">
 				<div class="blockHeader c-panel__header d-flex justify-content-between">
-					<div class="d-inline-flex">
+					<div class="d-inline-flex mt-1">
 						<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
 						<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
 						<h5>
@@ -67,7 +67,7 @@
 					</div>
 				</div>
 				<div class="c-panel__body blockContent p-2" id="afterInventory" data-js="container">
-					<div class="table-responsive mx-1">
+					<div class="table-responsive">
 						<table class="table table-bordered inventoryHeader blockContainer mb-0">
 							<thead>
 							<tr data-rownumber="0" class="d-flex u-min-w-650px">
@@ -97,14 +97,14 @@
 							</thead>
 						</table>
 					</div>
-					<div class="table-responsive mx-1">
+					<div class="table-responsive">
 						<table class="table blockContainer inventoryItems" data-isoptional="{$IS_OPTIONAL_ITEMS}">
 							{if count($FIELDS[1]) neq 0}
 								<thead>
 								<tr>
-									<th class="text-center u-w-1per-45px"></th>
+									<th class="text-center"></th>
 									{foreach item=FIELD from=$FIELDS[1]}
-										<th  class="col{$FIELD->getName()} {if !$FIELD->isEditable()} d-none{/if} text-center text-nowrap u-w-3per-150px">
+										<th  class="col{$FIELD->getName()} {if !$FIELD->isEditable()} d-none{/if} text-center text-nowrap">
 											{\App\Language::translate($FIELD->get('label'), $MODULE)}
 										</th>
 									{/foreach}
