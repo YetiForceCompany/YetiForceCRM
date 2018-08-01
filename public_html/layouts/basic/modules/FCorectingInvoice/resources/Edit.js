@@ -2,9 +2,9 @@
 
 Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 
-	loadInvoiceData(container) {
-		const invoiceidInput = container.find('[name="finvoiceid"]');
-		const formContainer = container.closest('.recordEditView');
+	loadInvoiceData() {
+		const form = this.getForm();
+		const invoiceidInput = form.find('[name="finvoiceid"]');
 		if (invoiceidInput.length && invoiceidInput.val()) {
 			const progressLoader = $.progressIndicator({'blockInfo': {'enabled': true}});
 			AppConnector.request({
@@ -13,7 +13,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 				view: 'FInvoiceRecords',
 				record: invoiceidInput.val()
 			}).done((response) => {
-				formContainer.find('#beforeInventory').html(response);
+				form.find('#beforeInventory').html(response);
 				progressLoader.progressIndicator({mode: 'hide'});
 			});
 		}
@@ -32,14 +32,14 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 		}
 	},
 
-	registerCopyFromInvoice(container) {
+	registerCopyFromInvoice() {
 		const thisInstance = this;
 		const form = this.getForm();
 		this.activeModules = activeModules = [];
 		form.find('.addItem').each((index, addBtn) => {
 			this.activeModules.push($(addBtn).data('module'));
 		});
-		container.find('#copyFromInvoice').on('click', function (e) {
+		form.find('#copyFromInvoice').on('click', function (e) {
 			e.preventDefault();
 			e.stopPropagation();
 			const finvoiceidInput = form.find('input[name="finvoiceid"]');
@@ -110,10 +110,18 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 		});
 	},
 
+	registerPopoverClick(){
+		this.getForm().find('.js-popover-tooltip').on('click',(e)=>{
+			e.preventDefault();
+			e.stopPropagation();
+		});
+	},
+
 	registerEvents() {
 		this._super();
-		this.registerCopyFromInvoice(this.getForm());
-		this.loadInvoiceData(this.getForm());
+		this.registerPopoverClick();
+		this.registerCopyFromInvoice();
+		this.loadInvoiceData();
 	}
 
 
