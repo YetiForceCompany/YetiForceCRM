@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	step3Container: false,
@@ -426,7 +427,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	registerDeleteConditionEvent: function () {
 		$('#saveTask').on('click', '.deleteCondition', function (e) {
 			$(e.currentTarget).closest('.js-conditions-row').remove();
-		})
+		});
 	},
 	/**
 	 * Function which will register field change event

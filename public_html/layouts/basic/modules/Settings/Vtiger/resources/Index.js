@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 $.Class("Settings_Vtiger_Index_Js", {
 	showMessage: function (customParams) {

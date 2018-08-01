@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 	container: false,
@@ -201,7 +202,7 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 					if (jQuery.inArray(id.toString(), userData[mode]) != -1) {
 						activeData.append(jQuery(this));
 					}
-				})
+				});
 			}
 			panel.find('.js-panel-body').removeClass('d-none').append(bodyContainer.removeClass('js-clear-tables d-none').addClass('js-active-panel'));
 			thisInstance.registerDataTables(bodyContainer);
@@ -225,7 +226,7 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 					panel.fadeOut(300, function () {
 						$(this).remove();
 					});
-				})
+				});
 			});
 		});
 		this.registerLoadData();
