@@ -226,7 +226,7 @@ class File
 			Log::error('Url does not contain content: ' . $url, __CLASS__);
 			return false;
 		}
-		return static::loadFromContent($content, basename($url), $param);
+		return static::loadFromContent($content, static::sanitizeFileNameFromUrl($url), $param);
 	}
 
 	/**
@@ -566,6 +566,19 @@ class File
 			$newFileName .= '.txt';
 		}
 		return $newFileName;
+	}
+
+	/**
+	 * Function to get base name of file.
+	 *
+	 * @param string $url
+	 *
+	 * @return string
+	 */
+	public static function sanitizeFileNameFromUrl($url)
+	{
+		$partsUrl = parse_url($url);
+		return static::sanitizeUploadFileName(basename($partsUrl['path']));
 	}
 
 	/**
