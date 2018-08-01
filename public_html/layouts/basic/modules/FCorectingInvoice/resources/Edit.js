@@ -34,10 +34,15 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 
 	registerCopyFromInvoice(container) {
 		const thisInstance = this;
+		const form = this.getForm();
+		this.activeModules = activeModules = [];
+		form.find('.addItem').each((index, addBtn) => {
+			this.activeModules.push($(addBtn).data('module'));
+		});
 		container.find('#copyFromInvoice').on('click', function (e) {
 			e.preventDefault();
 			e.stopPropagation();
-			const finvoiceidInput = $(this).closest('form').find('input[name="finvoiceid"]');
+			const finvoiceidInput = form.find('input[name="finvoiceid"]');
 			if (!finvoiceidInput.length) {
 				return false;
 			}
@@ -55,7 +60,6 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 				record: finvoiceid
 			}).done((response) => {
 				progressLoader.progressIndicator({mode: 'hide'});
-				const form = thisInstance.getForm();
 				const items = inventoryController.getInventoryItemsContainer();
 				const addBtn = form.find('.addItem').eq(0);
 				const recordsBefore = items.find(inventoryController.rowClass).length;
@@ -71,28 +75,35 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 				form.find('[name="taxmode"]').val(first.taxmode).trigger('change');
 				inventoryController.currencyChangeActions = oldCurrencyChangeAction;
 				response.result.forEach((row, index) => {
-					addBtn.trigger('click', e);
-					const realIndex = recordsBefore + index + 1;
-					const rows = items.find(inventoryController.rowClass);
-					const rowElem = rows.eq(index + recordsBefore);
-					rowElem.find('input[name="name' + realIndex + '"]').val(row.name).trigger('change');
-					rowElem.find('input[name="name' + realIndex + '_display"]').val(row.info.name).attr('readonly', 'true').trigger('change');
-					rowElem.find('.qty').val(row.qty).trigger('change');
-					rowElem.find('.unitText').text(row.info.autoFields.unitText).trigger('change');
-					rowElem.find('input[name="unit' + realIndex + '"]').val(row.info.autoFields.unit).trigger('change');
-					if (typeof row.info.autoFields.subunit !== 'undefined') {
-						rowElem.find('input[name="subunit' + realIndex + '"]').val(row.info.autoFields.subunit);
-						rowElem.find('.subunitText').text(row.info.autoFields.subunitText);
+					if (activeModules.indexOf(row.moduleName) !== -1) {
+						addBtn.trigger('click', e);
+						const realIndex = recordsBefore + index + 1;
+						const rows = items.find(inventoryController.rowClass);
+						const rowElem = rows.eq(index + recordsBefore);
+						rowElem.find('input[name="name' + realIndex + '"]').val(row.name).trigger('change');
+						rowElem.find('input[name="name' + realIndex + '_display"]').val(row.info.name).attr('readonly', 'true').trigger('change');
+						rowElem.find('.qty').val(row.qty).trigger('change');
+						rowElem.find('.unitText').text(row.info.autoFields.unitText).trigger('change');
+						rowElem.find('input[name="unit' + realIndex + '"]').val(row.info.autoFields.unit).trigger('change');
+						if (typeof row.info.autoFields.subunit !== 'undefined') {
+							rowElem.find('input[name="subunit' + realIndex + '"]').val(row.info.autoFields.subunit);
+							rowElem.find('.subunitText').text(row.info.autoFields.subunitText);
+						}
+						rowElem.parent().find('[numrowex=' + realIndex + ']').find('textarea').val(row.comment1).trigger('change');
+						inventoryController.setUnitPrice(rowElem, row.price);
+						inventoryController.setNetPrice(rowElem, row.net);
+						inventoryController.setGrossPrice(rowElem, row.gross);
+						inventoryController.setTotalPrice(rowElem, row.total);
+						inventoryController.setDiscountParam(rowElem, JSON.parse(row.discountparam));
+						inventoryController.setDiscount(rowElem, row.discount);
+						inventoryController.setTaxParam(rowElem, JSON.parse(row.taxparam));
+						inventoryController.setTax(rowElem, row.tax);
+					}else{
+						Vtiger_Helper_Js.showMessage({
+							type: 'error',
+							text: app.vtranslate('JS_FCORECTINGINVOICE_ITEM_MODULE_NOT_FOUND').replace('${module}',row.moduleName).replace('${position}', row.info.name)
+						});
 					}
-					rowElem.parent().find('[numrowex=' + realIndex + ']').find('textarea').val(row.comment1).trigger('change');
-					inventoryController.setUnitPrice(rowElem, row.price);
-					inventoryController.setNetPrice(rowElem, row.net);
-					inventoryController.setGrossPrice(rowElem, row.gross);
-					inventoryController.setTotalPrice(rowElem, row.total);
-					inventoryController.setDiscountParam(rowElem, JSON.parse(row.discountparam));
-					inventoryController.setDiscount(rowElem, row.discount);
-					inventoryController.setTaxParam(rowElem, JSON.parse(row.taxparam));
-					inventoryController.setTax(rowElem, row.tax);
 				});
 				inventoryController.summaryCalculations();
 			});
