@@ -5,12 +5,15 @@
 	{assign var="FIELDS" value=$INVENTORY_FIELD->getFields(true)}
 	<div class="detailViewTable">
 		<div class="js-toggle-panel c-panel">
-			<div class="blockHeader c-panel__header">
-				<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
-				<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
-				<h5>
-					<span class="menuIcon userIcon-FInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_BEFORE_CORRECTION','FCorectingInvoice')}
-				</h5>
+			<div class="blockHeader c-panel__header d-flex justify-content-between">
+				<div class="d-inline-flex">
+					<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
+					<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
+					<h5>
+						<span class="menuIcon userIcon-FInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_BEFORE_CORRECTION','FCorectingInvoice')}
+					</h5>
+				</div>
+				<div class="d-inline-flex mr-2"><div class="js-popover-tooltip"  data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translate("LBL_INVOICE_INFO",'FCorectingInvoice')}"><span class="fas fa-info-circle"></span></div></div>
 			</div>
 			<div class="c-panel__body blockContent p-2" id="beforeInventory" data-js="container">
 				{if $RECORD->get('finvcoiceid')}
@@ -58,7 +61,10 @@
 							<span class="menuIcon userIcon-FCorectingInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_AFTER_CORRECTION','FCorectingInvoice')}
 						</h5>
 					</div>
-					<a href class="btn btn-sm btn-primary mr-1" id="copyFromInvoice"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_FROM_INVOICE','FCorectingInvoice')}</a>
+					<div class="d-inline-flex">
+						<div class="js-popover-tooltip mr-2 mt-1" data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translate("LBL_AFTER_INVOICE_INFO",'FCorectingInvoice')}"><span class="fas fa-info-circle"></span></div>
+						<a href class="btn btn-sm btn-primary mr-1" id="copyFromInvoice"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_FROM_INVOICE','FCorectingInvoice')}</a>
+					</div>
 				</div>
 				<div class="c-panel__body blockContent p-2" id="afterInventory" data-js="container">
 					<div class="table-responsive mx-1">
