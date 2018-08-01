@@ -13,7 +13,11 @@
 				</h5>
 			</div>
 			<div class="c-panel__body blockContent p-2" id="beforeInventory" data-js="container">
-				{include file=\App\Layout::getTemplatePath('DetailViewInventoryView.tpl', $MODULE_NAME) MODULE_NAME='FInvoice' RECORD=FInvoice_Record_Model::getInstanceById($RECORD->get('finvoiceid'))}
+				{if $RECORD->get('finvcoiceid')}
+					{include file=\App\Layout::getTemplatePath('DetailViewInventoryView.tpl', $MODULE_NAME) MODULE_NAME='FInvoice' RECORD=FInvoice_Record_Model::getInstanceById($RECORD->get('finvoiceid'))}
+				{else}
+					<div class="text-center">{\App\Language::translate('LBL_CHOOSE_INVOICE','FCorectingInvoice')}</div>
+				{/if}
 			</div>
 		</div>
 	</div>
