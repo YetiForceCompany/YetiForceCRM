@@ -11,6 +11,9 @@ chart.js/node_modules
 chart.js/samples
 chart.js/dist/Chart.bundle.js
 chart.js/dist/Chart.bundle.min.js
+chart.js/scripts
+chart.js/src
+chart.js/.htmllintrc
 
 #package
 split.js/logo.svg
@@ -23,7 +26,62 @@ jQuery-Validation-Engine/releases.html
 jQuery-Validation-Engine/runDemo.bat
 jQuery-Validation-Engine/runDemo.sh
 jquery-gantt-editor/gantt.html
+footable/icomoon
+footable/js
+footable/less
+blueimp-file-upload/node_modules
+bootstrap-chosen/dist
+bootstrap-datepicker/js
+bootstrap-datepicker/less
+bootstrap-daterangepicker/website
+bootstrap-daterangepicker/drp.png
+chartjs-plugin-funnel/spec
+chartjs-plugin-funnel/config.jshintrc
+clockpicker/assets
+clockpicker/src
+clockpicker/jquery.html
+delegate/dist
+fontawesome-web/less
+fontawesome-web/scss
+good-listener/dist
+html2canvas/flow-typed
+jquery/external
+jquery-lazy/plugins
+jquery-outside-events/unit
+jquery-outside-events/shared
+jQuery-Validation-Engine/less
+jstorage/debian
+jstree-bootstrap-theme/libs
+jstree-bootstrap-theme/.esformatter
+jstree-bootstrap-theme/dist/libs
+leaflet.awesome-markers/screenshots
+leaflet.markercluster/spec
+mousetrap/plugins
+perfect-scrollbar/types
+popper.js/index.d.ts
+popper.js/dist/esm
+respond.js/src
+respond.js/cross-domain
+select2-theme-bootstrap4/dist
+svg/svgBasic.html
+svg/lion.svg
+pnotify/lib
+pnotify/dist/es
+pnotify/dist/umd
+pnotify/dist/PNotifyBrightTheme.css
+hammerjs/.bowerrc
+hammerjs/.jscsrc
+html2canvas/dist/npm
 
+# removing unnecessary packages
+updated-jqplot
+css-line-break
+delegate
+good-listener
+select
+tiny-emitter
+jquery-ui
+jquery-ui-dist/external
 
 # examples
 example
@@ -52,11 +110,6 @@ Gruntfile.min.js
 *.bak
 
 # configs
-appveyor.yml
-circle.yml
-codeship-services.yml
-codeship-steps.yml
-wercker.yml
 .tern-project
 .gitattributes
 .editorconfig
@@ -66,8 +119,8 @@ wercker.yml
 .flowconfig
 .documentup.json
 .yarn-metadata.json
-.travis.yml
 .idea
+*.yml
 
 # readme
 readme
@@ -78,12 +131,30 @@ readme.txt
 readme.markdown
 readme.hbs
 
+#changelog
+changelog.md
+changelog.txt
+changelog
+changes.txt
+
 # other
 *.sh
 *.bat
 *.log
 *.gz
 cc-test-reporter
+.csslintrc
+screenshot.jpg
+screenshot.pdn
+index.html
+favicon.ico
+build.txt
+MAINTAINING.md
+
+#source - manuall
+source
+build
+pnotify/src
 
 #source - automatically generated
 add/src
@@ -126,7 +197,6 @@ jquery-lazy/src
 jquery-mousewheel/src
 jquery-outside-events/src
 jquery-slimscroll/src
-jquery-ui/src
 jquery-ui-dist/src
 jquery-ui-touch-punch/src
 jstorage/src

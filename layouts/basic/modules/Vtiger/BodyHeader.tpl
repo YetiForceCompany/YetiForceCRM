@@ -29,7 +29,7 @@
 							{/foreach}
 						</select>
 					</div>
-					<input type="text" class="form-control js-global-search__value o-global-search__value"
+					<input id="global-search-__value" type="text" class="form-control js-global-search__value o-global-search__value"
 						   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
 						   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
 						   data-operator="{AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR')}"
@@ -77,7 +77,7 @@
 						</button>
 					</div>
 				</div>
-				<div class="form-control js-global-search__value o-global-search__value ui-autocomplete-input d-xl-none">
+				<div class="searchMenu d-xl-none">
 					<div class="searchMenuBtn">
 						<div class="quickAction">
 							<a class="btn btn-light c-header__btn" href="#" role="button" aria-expanded="false"
@@ -112,7 +112,7 @@
 							</div>
 						</div>
 						<div class="input-group mb-3 js-global-search__input o-global-search__input" data-js="container">
-							<input type="text" class="form-control js-global-search__value o-global-search__value"
+							<input id="global-search-__value--mobile type="text" class="form-control js-global-search__value o-global-search__value"
 								   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
 								   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
 								   data-js="keypress | value | autocomplete"/>
@@ -221,7 +221,7 @@
 				   data-js="click" role="button" aria-expanded="false" aria-controls="o-action-menu__container">
 					<span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 				</a>
-				<div class="o-action-menu__container d-flex flex-sm-nowrap" id="o-action-menu__container">
+				<div class="o-action-menu__container" id="o-action-menu__container">
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
 					<div class="o-action-menu__item commonActionsContainer">

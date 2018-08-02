@@ -14,7 +14,7 @@
 		<input type="hidden" id="conversion_available_status" value="{\App\Purifier::encodeHtml($CONVERSION_AVAILABLE_STATUS)}" />
 		<div class="col-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
-				<span class="detailViewIcon userIcon-{$MODULE}"></span>
+				<span class="o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
 			</div>
 			<div class="paddingLeft5px">
 				<h4 class="recordLabel u-text-ellipsis pushDown marginbottomZero" title="{$RECORD->getName()}">

@@ -66,7 +66,7 @@ Vtiger_Detail_Js("SSalesProcesses_Detail_Js", {}, {
 			view: 'Hierarchy',
 			record: app.getRecordId(),
 		};
-		hierarchyButton.on('click', '.detailViewIcon', function (e) {
+		hierarchyButton.on('click', '.js-detail__icon', function (e) {
 			thisInstance.getHierarchyResponseData(params).done(function (data) {
 				thisInstance.displayHierarchyResponseData(data);
 			});

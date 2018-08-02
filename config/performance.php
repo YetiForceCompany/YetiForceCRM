@@ -59,8 +59,6 @@ $PERFORMANCE_CONFIG = [
 	'CRON_MAX_ATACHMENTS_DELETE' => 1000,
 	// Time to execute batch methods [min].
 	'CRON_BATCH_METHODS_LIMIT' => 15,
-	// Time to execute batch methods [min].
-	'CRON_BATCH_METHODS_LIMIT' => 15,
 	// Parameter that allows to disable file overwriting. After
 	// enabling it the system will additionally check whether the file exists in the custom directory.
 	// Ex. custom/modules/Assets/Assets.php

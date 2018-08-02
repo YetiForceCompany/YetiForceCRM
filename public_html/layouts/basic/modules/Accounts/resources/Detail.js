@@ -98,7 +98,7 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 		var thisInstance = this;
 		var hierarchyButton = $('.detailViewTitle');
 		var url = "index.php?module=Accounts&view=AccountHierarchy&record=" + app.getRecordId();
-		hierarchyButton.on('click', '.detailViewIcon, .recordLabelValue', function (e) {
+		hierarchyButton.on('click', '.js-detail__icon, .recordLabelValue', function (e) {
 			thisInstance.getAccountHierarchyResponseData(url).done(function (data) {
 				thisInstance.displayAccountHierarchyResponseData(data);
 			});

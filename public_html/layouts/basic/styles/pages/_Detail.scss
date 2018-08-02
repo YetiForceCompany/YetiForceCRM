@@ -1,11 +1,19 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.detailViewTable {
-	.fieldRow {
-		@extend .border-top;
+
+.o-detail__icon {
+	font-size: calculate-rem(48px);
+	margin-right: calculate-rem(10px);
+
+	&.fa {
+		display: inline;
 	}
 }
 
 .detailViewTable {
+	.fieldRow {
+		@extend .border-top;
+	}
+
 	.fieldLabel.medium, .fieldValue.medium {
 		padding: 10px;
 		min-height: 40px;

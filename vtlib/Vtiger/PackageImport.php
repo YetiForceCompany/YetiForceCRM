@@ -541,6 +541,7 @@ class PackageImport extends PackageExport
 					}
 				}
 			} else {
+				Functions::recurseDelete('cache/updates');
 				$this->initImport($zipfile, $overwrite);
 				// Call module import function
 				$this->importModule();
@@ -1016,12 +1017,14 @@ class PackageImport extends PackageExport
 			'to_version' => $modulenode->to_version,
 			'result' => $result,
 			'time' => date('Y-m-d H:i:s'),
-		]);
+		])->execute();
 		if ($result) {
-			$db->createCommand()->update('vtiger_version', ['current_version' => $modulenode->to_version]);
+			$db->createCommand()->update('vtiger_version', ['current_version' => $modulenode->to_version])->execute();
 		}
 		Functions::recurseDelete($dirName);
 		register_shutdown_function(function () {
+			$viewer = \Vtiger_Viewer::getInstance();
+			$viewer->clearAllCache();
 			Functions::recurseDelete('cache/templates_c');
 		});
 		\App\Module::createModuleMetaFile();
