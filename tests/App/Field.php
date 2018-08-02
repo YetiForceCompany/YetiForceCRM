@@ -55,7 +55,7 @@ class Field extends \Tests\Base
 	}
 
 	/**
-	 * Testing getRelatedFieldForModule function with params.
+	 * Testing getRelatedFieldForModule function with params from vtiger_relatedlist table.
 	 *
 	 * @dataProvider relationModulesProvider
 	 */
@@ -67,6 +67,37 @@ class Field extends \Tests\Base
 		$this->assertInternalType('array', $result1, 'Relation list should be array type');
 		$result2 = \App\Field::getRelatedFieldForModule(\App\Module::getModuleName($moduleId), false);
 		$this->assertInternalType('array', $result2, 'Relation list should be array type');
+	}
+
+	/**
+	 * Relations modules ids provider.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return array
+	 */
+	public function relationSelectedModulesProvider()
+	{
+		return[
+			['FInvoice', 'FCorectingInvoice'],
+			['DataSetRegister', 'IncidentRegister'],
+			['DataSetRegister', 'AuditRegister'],
+			['LocationRegister', 'IncidentRegister'],
+			['LocationRegister', 'AuditRegister']
+		];
+	}
+
+	/**
+	 * Testing getRelatedFieldForModule function with params from vtiger_relatedlist table.
+	 *
+	 * @dataProvider relationSelectedModulesProvider
+	 */
+	public function testGetRelatedFieldForSpecificModulePairs($forModuleName, $moduleName)
+	{
+		$result = \App\Field::getRelatedFieldForModule($moduleName, $forModuleName);
+		$this->assertInternalType('array', $result, 'Relation list should be array type');
+		$this->assertNotEmpty($result, 'Relation data should be not empty');
+		$this->assertSame(\App\Module::getModuleId($moduleName), $result['tabid'], 'Expected tabid differs from reference');
 	}
 
 	/**
