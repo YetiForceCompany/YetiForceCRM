@@ -53,7 +53,6 @@ jQuery-Validation-Engine/less
 jstorage/debian
 jstree-bootstrap-theme/libs
 jstree-bootstrap-theme/.esformatter
-jstree-bootstrap-theme/dist/libs
 leaflet.awesome-markers/screenshots
 leaflet.markercluster/spec
 mousetrap/plugins
@@ -168,6 +167,8 @@ blueimp-load-image/src
 blueimp-tmpl/src
 bootbox/src
 bootstrap/src
+bootstrap/js
+bootstrap/dist/css
 bootstrap-colorpicker/src
 bootstrap-datepicker/src
 bootstrap-daterangepicker/src
@@ -191,6 +192,8 @@ hammerjs/src
 html2canvas/src
 html5shiv/src
 inputmask/src
+inputmask/dist/min
+inputmask/dist/inputmask
 jquery/src
 jquery-hoverintent/src
 jquery-lazy/src
@@ -203,10 +206,19 @@ jstorage/src
 jstree/src
 jstree-bootstrap-theme/src
 leaflet/src
+leaflet/dist/leaflet-src.js.map
+leaflet/dist/leaflet-src.esm.js.map
+leaflet/dist/leaflet-src.js
+leaflet/dist/leaflet-src.esm.js
 leaflet.awesome-markers/src
 leaflet.markercluster/src
 lodash/src
 moment/src
+moment/moment.js
+moment/locale
+moment/min/locales.js
+moment/min/moment-with-locales.js
+moment/min/moment-with-locales.min.js
 mousetrap/src
 perfect-scrollbar/src
 popper.js/src
