@@ -150,7 +150,6 @@ class Zip extends \ZipArchive
 			}
 			$fileList[] = $path;
 		}
-		\print_r($fileList);
 		$this->extractTo($toDir, $fileList);
 		return $fileList;
 	}
