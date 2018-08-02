@@ -1017,9 +1017,9 @@ class PackageImport extends PackageExport
 			'to_version' => $modulenode->to_version,
 			'result' => $result,
 			'time' => date('Y-m-d H:i:s'),
-		]);
+		])->execute();
 		if ($result) {
-			$db->createCommand()->update('vtiger_version', ['current_version' => $modulenode->to_version]);
+			$db->createCommand()->update('vtiger_version', ['current_version' => $modulenode->to_version])->execute();
 		}
 		Functions::recurseDelete($dirName);
 		register_shutdown_function(function () {
