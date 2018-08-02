@@ -166,8 +166,7 @@ class Vtiger_Loader
 
 		// Try to search in other predefined directories
 		foreach (static::$loaderDirs as $dir) {
-			$fallBackComponentFilePath = self::resolveNameToPath($dir . $moduleDir . '.' . $componentTypeDirectory . '.' . $componentName);
-			if (file_exists($fallBackComponentFilePath)) {
+			if (file_exists(self::resolveNameToPath($dir . $moduleDir . '.' . $componentTypeDirectory . '.' . $componentName))) {
 				return $moduleSpecificComponentClassName;
 			}
 		}
