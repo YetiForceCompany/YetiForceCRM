@@ -45,6 +45,8 @@ class Field extends \Tests\Base
 	/**
 	 * Relations modules ids provider.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return array
 	 */
 	public function relationModulesProvider()
@@ -53,6 +55,8 @@ class Field extends \Tests\Base
 	}
 
 	/**
+	 * Testing getRelatedFieldForModule function with params.
+	 *
 	 * @dataProvider relationModulesProvider
 	 */
 	public function testGetRelatedFieldForModulePair($relatedId, $moduleId)
@@ -61,6 +65,9 @@ class Field extends \Tests\Base
 		$this->assertInternalType('array', $result, 'Relation list should be array type');
 	}
 
+	/**
+	 * Testing getRelatedFieldForModule without params.
+	 */
 	public function testGetRelatedFieldForModuleAll()
 	{
 		$this->assertNotEmpty(\App\Field::getRelatedFieldForModule(), 'All relations list should be not empty');
@@ -68,6 +75,8 @@ class Field extends \Tests\Base
 
 	/**
 	 * Relations ids provider.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return array
 	 */
@@ -77,6 +86,8 @@ class Field extends \Tests\Base
 	}
 
 	/**
+	 * Testing getFieldsFromRelation.
+	 *
 	 * @dataProvider relationsProvider
 	 *
 	 * @param int $relationId
