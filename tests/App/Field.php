@@ -70,7 +70,7 @@ class Field extends \Tests\Base
 	}
 
 	/**
-	 * Relations modules ids provider.
+	 * Relations modules list provider.
 	 *
 	 * @codeCoverageIgnore
 	 *
