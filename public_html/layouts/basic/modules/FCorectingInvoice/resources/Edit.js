@@ -5,9 +5,12 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 	/**
 	 * Load correcting invoice data to before block
 	 */
-	loadInvoiceData() {
+	loadInvoiceData(container) {
+		const invoiceidInput = container.find('[name="finvoiceid"]');
+		if (invoiceidInput.length === 0) {
+			return false;
+		}
 		const form = this.getForm();
-		const invoiceidInput = form.find('[name="finvoiceid"]');
 		if (invoiceidInput.length && invoiceidInput.val()) {
 			const progressLoader = $.progressIndicator({'blockInfo': {'enabled': true}});
 			AppConnector.request({
