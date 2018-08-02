@@ -576,7 +576,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 					valuePrices = valuePrices * ((100 - groupDiscount) / 100);
 				} else if (panel.find('.individualDiscountType').length > 0) {
 					var value = app.parseNumberToFloat(panel.find('.individualDiscountValue').val());
-					if (panel.find('.individualDiscountType[name="individual"]:checked').val() == 'percentage') {
+					if (panel.find('.individualDiscountType[name="individualDiscountType"]:checked').val() == 'percentage') {
 						valuePrices = valuePrices * ((100 - value) / 100);
 					} else {
 						valuePrices = valuePrices - value;
