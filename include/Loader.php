@@ -164,6 +164,15 @@ class Vtiger_Loader
 			return $fallBackComponentClassName;
 		}
 
+		// Try to search in other predefined directories
+		foreach (static::$loaderDirs as $dir) {
+			$fallBackComponentFilePath = self::resolveNameToPath($dir . $moduleDir . '.' . $componentTypeDirectory . '.' . $componentName);
+			$fallBackComponentClassName = $moduleClassPath . '_' . $componentName . '_' . $componentType;
+			if (file_exists($fallBackComponentFilePath)) {
+				return $fallBackComponentClassName;
+			}
+		}
+
 		if ($throwException) {
 			\App\Log::error("Error Vtiger_Loader::getComponentClassName($componentType, $componentName, $moduleName): Handler not found");
 			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
