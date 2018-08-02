@@ -139,7 +139,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 		this._super();
 		this.registerPopoverClick();
 		this.registerCopyFromInvoice();
-		this.loadInvoiceData();
+		this.loadInvoiceData(this.getForm());
 	}
 
 });
