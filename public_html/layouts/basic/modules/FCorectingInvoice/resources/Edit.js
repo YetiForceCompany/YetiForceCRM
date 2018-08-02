@@ -45,7 +45,6 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 	 * Action for copy from correcting invoice button - load data before positions to data after block
 	 */
 	registerCopyFromInvoice() {
-		const thisInstance = this;
 		const form = this.getForm();
 		this.activeModules = activeModules = [];
 		form.find('.addItem').each((index, addBtn) => {
