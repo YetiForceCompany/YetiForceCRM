@@ -11238,6 +11238,9 @@ select[readonly], select[disabled] {
       .leftRecordActions .actions .dropdown-menu .btn-group {
         vertical-align: top; }
 
+@media (max-width: 575.98px) {
+  table td {
+    padding: 0.25rem !important; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
   color: #212529;
