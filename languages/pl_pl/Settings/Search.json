@@ -1,0 +1,27 @@
+{
+  "php": {
+    "Search Configuration": "Konfiguracja wyszukiwania",
+    "Search Setup": "Szukaj - konfiguracja",
+    "Search": "Dostosowanie wyszukiwania",
+    "LBL_Module_desc": "Panel pozwala na ustawienie etykiet dla p\u00f3l uitype 10 jak r\u00f3wnie\u017c dla mechanizm\u00f3w wyszukuj\u0105cych. Mechanizmy te dzia\u0142aj\u0105 niezale\u017cnie, oznacza to, \u017ce przy wyszukiwaniu mo\u017cemy w polu widzie\u0107 wiele kolumn, ale po wybraniu rekordu wczyta si\u0119 nazwa z etykiety.",
+    "Module": "Modu\u0142",
+    "Table": "Tablica",
+    "LabelFields": "G\u0142\u00f3wne kolumny dla modu\u0142u (w tym etykieta dla uitype 10)",
+    "SearchFields": "Kolumny dla mechanizm\u00f3w wyszukuj\u0105cych",
+    "Tools": "Akcje",
+    "Update labels": "Aktualizuj etykiety",
+    "LBL_SAVE_CHANGES_SEARCHING": "Zapisano zmiany.",
+    "LBL_SAVE_CHANGES_LABLE": "Zapisano zmiany dla konfiguracji, nale\u017cy wykona\u0107 aktualizacje dla modu\u0142u, aby zmiany by\u0142y widoczne w systemie.",
+    "Update has been completed": "Aktualizacja dla wybranego modu\u0142u zosta\u0142a wykonana poprawnie. Wprowadzone zmiany b\u0119d\u0105 realizowane przez CRON'a. Czas aktualizacji etykiet w systemie zale\u017cy od ilo\u015bci danych.",
+    "LBL_SAVE_MODULE_SEQUENCE": "Zapisz kolejno\u015b\u0107 modu\u0142\u00f3w",
+    "LBL_TURN_ON": "W\u0142\u0105cz",
+    "LBL_TURN_OFF": "Wy\u0142\u0105cz"
+  },
+  "js": {
+    "Saving changes": "Trwa aktualizacja w systemie...",
+    "Update labels": "Aktualizuj",
+    "JS_MODULES_SEQUENCE_UPDATED": "Kolejno\u015b\u0107 modu\u0142\u00f3w zosta\u0142a zaktualizowana",
+    "JS_TURN_ON": "W\u0142\u0105cz",
+    "JS_TURN_OFF": "Wy\u0142\u0105cz"
+  }
+}

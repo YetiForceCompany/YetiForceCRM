@@ -10,9 +10,8 @@
 
 class Calendar_Datetime_UIType extends Vtiger_Datetime_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{

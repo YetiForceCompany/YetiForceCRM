@@ -1,7 +1,9 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 var Settings_UserColors_Js = {
 	initEvants: function () {
-		$('.UserColors #update_event').click(Settings_UserColors_Js.updateEvent);
+		$('.UserColors #update_event').on('click', Settings_UserColors_Js.updateEvent);
 	},
 	updateEvent: function (e) {
 		var progress = $.progressIndicator({
@@ -15,7 +17,7 @@ var Settings_UserColors_Js = {
 		var value = 0;
 		if (target.prop('checked')) {
 			value = 1;
-		}			
+		}
 		var params = {};
 		params.color = value;
 		params.id = target.attr('id');
@@ -34,24 +36,19 @@ var Settings_UserColors_Js = {
 		}
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).then(
-				function (data) {
-					var response = data['result'];
-					var params = {
-						text: response['message'],
-						animation: 'show',
-						type: 'success'
-					};
-					app.hideModalWindow();
-					Vtiger_Helper_Js.showPnotify(params);
-					return response;
-				},
-				function (data, err) {
-				}
-		);
+		AppConnector.request(params).done(function (data) {
+			var response = data['result'];
+			var params = {
+				text: response['message'],
+				type: 'success'
+			};
+			app.hideModalWindow();
+			Vtiger_Helper_Js.showPnotify(params);
+			return response;
+		});
 	},
 	registerSaveWorkingDays: function (content) {
-		content.find('.workignDaysField').change(function (e) {
+		content.find('.workignDaysField').on('change', function (e) {
 			var target = $(e.currentTarget);
 			var params = {};
 			params['type'] = target.data('type');
@@ -61,7 +58,7 @@ var Settings_UserColors_Js = {
 			} else {
 				params['val'] = target.val();
 			}
-			app.saveAjax('updateNotWorkingDays', params).then(function (data) {
+			app.saveAjax('updateNotWorkingDays', params).done(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 			});
 		});

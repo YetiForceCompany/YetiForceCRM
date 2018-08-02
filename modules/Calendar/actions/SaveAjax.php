@@ -11,17 +11,14 @@
 
 class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
-
 	public function process(\App\Request $request)
 	{
-		$user = Users_Record_Model::getCurrentUserModel();
-		$allDay = $request->get('allday');
-		if ('on' === $allDay) {
-			$request->set('time_start', $user->get('start_hour'));
-			$request->set('time_end', $user->get('end_hour'));
+		$user = \App\User::getCurrentUserModel();
+		if ($request->getBoolean('allday')) {
+			$request->set('time_start', $user->getDetail('start_hour'));
+			$request->set('time_end', $user->getDetail('end_hour'));
 		}
 		$recordModel = $this->saveRecord($request);
-
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = [];
 		foreach ($fieldModelList as $fieldName => &$fieldModel) {
@@ -35,7 +32,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			}
 			$result[$fieldName] = [];
 			if ($fieldName === 'date_start') {
-				$timeStart = $recordModel->get('time_start');
+				$timeStart = Vtiger_Time_UIType::getTimeValueWithSeconds($recordModel->get('time_start'));
 				$dateTimeFieldInstance = new DateTimeField($fieldValue . ' ' . $timeStart);
 
 				$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
@@ -44,9 +41,9 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 				$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
 				$result[$fieldName]['value'] = $dataBaseDateFormatedString;
-				$result[$fieldName]['display_value'] = $fieldValue;
-			} else if ($fieldName === 'due_date') {
-				$timeEnd = $recordModel->get('time_end');
+				$result[$fieldName]['display_value'] = $dateComponent;
+			} elseif ($fieldName === 'due_date') {
+				$timeEnd = Vtiger_Time_UIType::getTimeValueWithSeconds($recordModel->get('time_end'));
 				$dateTimeFieldInstance = new DateTimeField($fieldValue . ' ' . $timeEnd);
 
 				$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
@@ -55,8 +52,8 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 				$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
 				$result[$fieldName]['value'] = $dataBaseDateFormatedString;
-				$result[$fieldName]['display_value'] = $fieldValue;
-			} else if ($fieldName === 'time_end') {
+				$result[$fieldName]['display_value'] = $dateComponent;
+			} elseif ($fieldName === 'time_end') {
 				$dueDate = $recordModel->get('due_date');
 				$dateTimeFieldInstance = new DateTimeField($dueDate . ' ' . $fieldValue);
 
@@ -69,7 +66,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 
 				$result[$fieldName]['value'] = $fieldValue;
 				$result[$fieldName]['display_value'] = $dateTimeComponents[1];
-			} else if ($fieldName === 'time_start') {
+			} elseif ($fieldName === 'time_start') {
 				$startDate = $recordModel->get('date_start');
 				$dateTimeFieldInstance = new DateTimeField($startDate . ' ' . $fieldValue);
 
@@ -85,7 +82,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			} elseif (is_array($recordModel->get($fieldName)) && $fieldModel->getFieldDataType() === 'sharedOwner') {
 				$recordFieldValue = \App\Purifier::encodeHtml(implode(',', $recordModel->get($fieldName)));
 				$result[$fieldName]['value'] = $result[$fieldName]['display_value'] = $fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId(), $recordModel);
-			} else if ('time_start' !== $fieldName && 'time_end' !== $fieldName && 'duration_hours' !== $fieldName) {
+			} elseif ('time_start' !== $fieldName && 'time_end' !== $fieldName && 'duration_hours' !== $fieldName) {
 				$result[$fieldName]['value'] = $fieldValue;
 				$result[$fieldName]['display_value'] = App\Purifier::decodeHtml($fieldModel->getDisplayValue($fieldValue, $recordModel->getId(), $recordModel));
 			} else {
@@ -103,8 +100,10 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	}
 
 	/**
-	 * Function to get the record model based on the request parameters
+	 * Function to get the record model based on the request parameters.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
 	public function getRecordModelFromRequest(\App\Request $request)
@@ -117,7 +116,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($request->get('time_start'));
 			$startDate = Vtiger_Date_UIType::getDBInsertedValue($request->get('date_start'));
 			if ($startTime) {
-				$startDateTime = App\Fields\DateTime::formatToDb($request->get('date_start') . " " . $startTime);
+				$startDateTime = App\Fields\DateTime::formatToDb($request->get('date_start') . ' ' . $startTime);
 				list($startDate, $startTime) = explode(' ', $startDateTime);
 			}
 			$recordModel->set('date_start', $startDate);
@@ -130,7 +129,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$endDate = Vtiger_Date_UIType::getDBInsertedValue($request->get('due_date'));
 			if ($endTime) {
 				$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($endTime);
-				$endDateTime = App\Fields\DateTime::formatToDb($request->get('due_date') . " " . $endTime);
+				$endDateTime = App\Fields\DateTime::formatToDb($request->get('due_date') . ' ' . $endTime);
 				list($endDate, $endTime) = explode(' ', $endDateTime);
 			}
 			$recordModel->set('time_end', $endTime);
@@ -149,8 +148,8 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$recordModel->set('activitytype', $activityType);
 			$recordModel->set('visibility', $visibility);
 		}
-		if ($request->has('saveAndClose')) {
-			$recordModel->set('activitystatus', $request->get('saveAndClose'));
+		if ($request->has('markAsCompleted')) {
+			$recordModel->set('activitystatus', $request->get('markAsCompleted'));
 		}
 		if ($endTime && $startTime) {
 			$time = (strtotime($endTime)) - (strtotime($startTime));

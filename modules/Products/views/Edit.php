@@ -9,11 +9,10 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class Products_Edit_View extends Vtiger_Edit_View
+class Products_Edit_View extends Vtiger_Edit_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -22,13 +21,11 @@ Class Products_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('BASE_CURRENCY_NAME', 'curname' . $baseCurrenctDetails['currencyid']);
 		$viewer->assign('BASE_CURRENCY_ID', $baseCurrenctDetails['currencyid']);
 		$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrenctDetails['symbol']);
-		$viewer->assign('IMAGE_DETAILS', $this->record->getImageDetails());
-
 		parent::process($request);
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDuplicate()
 	{
@@ -44,21 +41,5 @@ Class Products_Edit_View extends Vtiger_Edit_View
 				}
 			}
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getFooterScripts(\App\Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-
-		$jsFileNames = [
-			'libraries.jquery.multiplefileupload.jquery_MultiFile'
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
 	}
 }

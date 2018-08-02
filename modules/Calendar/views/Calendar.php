@@ -11,10 +11,11 @@
 
 class Calendar_Calendar_View extends Vtiger_Index_View
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -46,23 +47,27 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
-			'~libraries/fullcalendar/fullcalendar.js',
+			'~libraries/fullcalendar/dist/fullcalendar.js',
+			'~libraries/css-element-queries/src/ResizeSensor.js',
+			'~libraries/css-element-queries/src/ElementQueries.js',
 			'modules.Calendar.resources.CalendarView',
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 
-
 		$cssFileNames = [
-			'~libraries/fullcalendar/fullcalendar.min.css',
-			'~libraries/fullcalendar/fullcalendarCRM.css',
+			'~libraries/fullcalendar/dist/fullcalendar.css',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
@@ -80,12 +85,12 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		$viewer->assign('DAY_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
 		$viewer->assign('ACTIVITY_STATE_LABELS', \App\Json::encode([
 				'current' => Calendar_Module_Model::getComponentActivityStateLabel('current'),
-				'history' => Calendar_Module_Model::getComponentActivityStateLabel('history')
+				'history' => Calendar_Module_Model::getComponentActivityStateLabel('history'),
 		]));
 		$viewer->view('CalendarView.tpl', $request->getModule());
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Reservations calendar model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Reservations calendar model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Reservations_Calendar_Model extends \App\Base
 {
-
 	/**
-	 * Function to get records
+	 * Function to get records.
+	 *
 	 * @return array
 	 */
 	public function getEntity()
@@ -24,10 +24,10 @@ class Reservations_Calendar_Model extends \App\Base
 			->where(['vtiger_crmentity.deleted' => 0]);
 
 		if ($this->get('start') && $this->get('end')) {
-			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), $currentUser, false);
+			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), null, false);
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
 			$dbStartDate = $dbStartDateOject->format('Y-m-d');
-			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), $currentUser, false);
+			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), null, false);
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
 			$query->andWhere([
@@ -45,7 +45,7 @@ class Reservations_Calendar_Model extends \App\Base
 						['<', 'vtiger_reservations.date_start', $dbStartDate],
 						['>', 'vtiger_reservations.due_date', $dbEndDate],
 					],
-				]
+				],
 			]);
 		}
 		if ($this->get('types')) {
@@ -69,7 +69,7 @@ class Reservations_Calendar_Model extends \App\Base
 			$item['title'] = \App\Purifier::encodeHtml($record['title']);
 			$item['type'] = $fieldType->getDisplayValue($record['type']);
 			$item['status'] = \App\Purifier::encodeHtml($record['reservations_status']);
-			$item['totalTime'] = vtlib\Functions::decimalTimeFormat($record['sum_time'])['short'];
+			$item['totalTime'] = \App\Fields\Time::formatToHourText($record['sum_time'], 'short');
 			$item['smownerid'] = \App\Fields\Owner::getLabel($record['smownerid']);
 			if ($record['relatedida']) {
 				$item['company'] = \App\Record::getLabel($record['relatedida']);
@@ -98,11 +98,13 @@ class Reservations_Calendar_Model extends \App\Base
 			$item['className'] = ' ownerCBg_' . $record['smownerid'];
 			$result[] = $item;
 		}
+		$dataReader->close();
+
 		return $result;
 	}
 
 	/**
-	 * Static Function to get the instance of Vtiger Module Model for the given id or name
+	 * Static Function to get the instance of Vtiger Module Model for the given id or name.
 	 */
 	public static function getInstance()
 	{
@@ -110,6 +112,7 @@ class Reservations_Calendar_Model extends \App\Base
 		if ($instance === false) {
 			$instance = new self();
 			Vtiger_Cache::set('reservationsModels', 'Calendar', clone $instance);
+
 			return $instance;
 		} else {
 			return clone $instance;
@@ -117,14 +120,16 @@ class Reservations_Calendar_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get calendar types
+	 * Function to get calendar types.
+	 *
 	 * @return string[]
 	 */
 	public static function getCalendarTypes()
 	{
 		$templateId = Vtiger_Field_Model::getInstance('type', Vtiger_Module_Model::getInstance('Reservations'))->getFieldParams();
+
 		return (new App\Db\Query())->select(['tree', 'label'])->from('vtiger_trees_templates_data')
-				->where(['templateid' => $templateId])
-				->createCommand()->queryAllByGroup(0);
+			->where(['templateid' => $templateId])
+			->createCommand()->queryAllByGroup(0);
 	}
 }

@@ -1,16 +1,16 @@
 <?php
+
 namespace Api\Portal\BaseModule;
 
 /**
- * Records hierarchy action class
- * @package YetiForce.WebserviceAction
- * @copyright YetiForce Sp. z o.o.
+ * Records hierarchy action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Hierarchy extends \Api\Core\BaseAction
 {
-
 	/** @var string[] Allowed request methods */
 	public $allowedMethod = ['GET'];
 
@@ -20,7 +20,7 @@ class Hierarchy extends \Api\Core\BaseAction
 	/** @var string Module name */
 	public $moduleName;
 
-	/** @var boolean|int Search id in the hierarchy */
+	/** @var bool|int Search id in the hierarchy */
 	public $findId = false;
 	public $mainField;
 	public $childField;
@@ -28,9 +28,11 @@ class Hierarchy extends \Api\Core\BaseAction
 	public $recursion = [];
 
 	/**
-	 * Check permission to method
-	 * @return boolean
+	 * Check permission to method.
+	 *
 	 * @throws \Api\Core\Exception
+	 *
+	 * @return bool
 	 */
 	public function checkPermission()
 	{
@@ -39,11 +41,13 @@ class Hierarchy extends \Api\Core\BaseAction
 			throw new \Api\Core\Exception('Not available for this type of user', 405);
 		}
 		$this->moduleName = $this->controller->request->get('module');
+
 		return $return;
 	}
 
 	/**
-	 * Get method
+	 * Get method.
+	 *
 	 * @return array
 	 */
 	public function get()
@@ -66,25 +70,27 @@ class Hierarchy extends \Api\Core\BaseAction
 		if (!isset($this->records[$parentCrmId])) {
 			$this->records[$parentCrmId] = [
 				'id' => $parentCrmId,
-				'name' => \App\Record::getLabel($parentCrmId)
+				'name' => \App\Record::getLabel($parentCrmId),
 			];
 		}
 		return $this->records;
 	}
 
 	/**
-	 * Get records in hierarchy
+	 * Get records in hierarchy.
+	 *
 	 * @param \App\QueryGenerator $mainQueryGenerator
-	 * @param int $parentId
-	 * @param string $type
-	 * @return boolean
+	 * @param int                 $parentId
+	 * @param string              $type
+	 *
+	 * @return bool
 	 */
 	public function getRecords(\App\QueryGenerator $mainQueryGenerator, $parentId, $type = 'child')
 	{
 		if ($this->limit === 0 || isset($this->recursion[$parentId][$type])) {
 			return false;
 		}
-		$this->limit--;
+		--$this->limit;
 		$queryGenerator = clone $mainQueryGenerator;
 		if ($type === 'parent') {
 			$queryGenerator->addCondition('id', $parentId, 'e');
@@ -100,10 +106,11 @@ class Hierarchy extends \Api\Core\BaseAction
 			$this->records[$id] = [
 				'id' => $id,
 				'parent' => $row[$this->childField],
-				'name' => $row[$this->mainFieldName]
+				'name' => $row[$this->mainFieldName],
 			];
 			if ($this->findId && $this->findId === $id) {
 				$this->limit = 0;
+
 				return true;
 			}
 			if (!empty($row[$this->childField])) {
@@ -111,6 +118,7 @@ class Hierarchy extends \Api\Core\BaseAction
 					case 4:
 						$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], 'parent');
 						$this->getRecords(clone $mainQueryGenerator, $id, 'parent');
+						// no break
 					case 3:
 						$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], 'child');
 						$this->getRecords(clone $mainQueryGenerator, $id, 'child');

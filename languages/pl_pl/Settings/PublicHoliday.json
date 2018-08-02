@@ -1,0 +1,43 @@
+{
+  "php": {
+    "PublicHoliday": "Publiczne \u015bwi\u0119ta",
+    "LBL_PUBLIC_HOLIDAY": "Kalendarz - \u015bwi\u0119ta",
+    "LBL_PUBLIC_HOLIDAY_DESCRIPTION": " ",
+    "LBL_ADD_HOLIDAY": "Dodaj \u015bwi\u0119to",
+    "LBL_HOLIDAY_LIST": "Lista \u015bwi\u0105t",
+    "LBL_YEAR_FROM": "Od",
+    "LBL_YEAR_TO": "Do",
+    "LBL_EDIT": "Edytuj",
+    "LBL_DELETE": "Usu\u0144",
+    "JS_HOLIDAY_DELETE_OK": "Pomy\u015blnie usuni\u0119to dat\u0119",
+    "JS_HOLIDAY_DELETE_ERROR": "Nie uda\u0142o si\u0119 usun\u0105\u0107 daty",
+    "LBL_ADD_NEW_HOLIDAY": "Dodaj nowe \u015bwi\u0119to",
+    "LBL_DATE": "Data",
+    "LBL_DAY_NAME": "Nazwa \u015bwi\u0119ta",
+    "LBL_DAY_NAME_DESC": "Wprowad\u017a nazw\u0119 nowego \u015bwi\u0119ta",
+    "LBL_NEW_DATE_OK": "Pomy\u015blnie dodano nowe \u015bwi\u0119to",
+    "LBL_NEW_DATE_ERROR": "Nie uda\u0142o si\u0119 doda\u0107 \u015bwi\u0119ta",
+    "LBL_EDIT_DATE_OK": "Pomy\u015blnie zmodyfikowano \u015bwi\u0119to",
+    "LBL_EDIT_DATE_ERROR": "Nie uda\u0142o si\u0119 zmodyfikowa\u0107 \u015bwi\u0119ta",
+    "LBL_FILL_FORM_ERROR": "Nie wype\u0142niono wszystkich obowi\u0105zkowych p\u00f3l",
+    "Monday": "Poniedzia\u0142ek",
+    "Tuesday": "Wtorek",
+    "Wednesday": "\u015aroda",
+    "Thursday": "Czwartek",
+    "Friday": "Pi\u0105tek",
+    "Saturday": "Sobota",
+    "Sunday": "Niedziela",
+    "LBL_HOLIDAY_TYPE": "Typ \u015bwi\u0119ta",
+    "LBL_NATIONAL": "narodowe",
+    "LBL_ECCLESIASTICAL": "ko\u015bcielne",
+    "ecclesiastical": "ko\u015bcielne",
+    "national": "narodowe",
+    "LBL_VIEW_CONFIGURATION": "Publiczne \u015bwi\u0119ta",
+    "LBL_DATE_RANGE": "Zakres dat"
+  },
+  "js": {
+    "JS_ADD_NEW_HOLIDAY": "Dodaj nowe \u015bwi\u0119to",
+    "JS_EDIT_HOLIDAY": "Edytuj \u015bwi\u0119to",
+    "JS_FILL_FORM_ERROR": "Nie wype\u0142niono wszystkich obowi\u0105zkowych p\u00f3l"
+  }
+}

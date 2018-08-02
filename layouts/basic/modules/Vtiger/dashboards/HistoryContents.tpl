@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div style='padding:5px;'>
+	<div>
 		{if $HISTORIES neq false}
 			{foreach key=$index item=HISTORY from=$HISTORIES}
 				{assign var=MODELNAME value=get_class($HISTORY)}
@@ -29,26 +29,22 @@
 						{/if}
 					{/if}
 					{if $PROCEED}
-						<div class="row">
-							<div class='col-md-1'>
-								{if \App\Layout::getImagePath($MOD_NAME|cat:'.png')}
-									<img width='24px' src="{\App\Layout::getImagePath($MOD_NAME|cat:'.png')}" alt="{$TRANSLATED_MODULE_NAME}" title="{$TRANSLATED_MODULE_NAME}" />&nbsp;&nbsp;
-								{else}
-									<span class="glyphicon glyphicon-menu-hamburger icon-in-history-widget" title="{$TRANSLATED_MODULE_NAME}"></span>
-								{/if}
+						<div class="d-flex">
+							<div>
+								<span class="userIcon-{$MOD_NAME} fa-lg fa-fw" title="{$TRANSLATED_MODULE_NAME}"></span>
 							</div>
-							<div class="col-md-11">
-								<p class="pull-right muted" style="padding-right:5px;">
+							<div class="w-100 ml-1">
+								<p class="ml-1 float-right text-muted">
 									<small>{\App\Fields\DateTime::formatToViewDate("$TIME")}</small>
 								</p>
-									{assign var=DETAILVIEW_URL value=$PARENT->getDetailViewUrl()}
-									{if $HISTORY->isUpdate()}
-										{assign var=FIELDS value=$HISTORY->getFieldInstances()}
-									<div class="">
+								{assign var=DETAILVIEW_URL value=$PARENT->getDetailViewUrl()}
+								{if $HISTORY->isUpdate()}
+									{assign var=FIELDS value=$HISTORY->getFieldInstances()}
+									<div>
 										<div>
 											<strong>{$USER->getName()}&nbsp;</strong>
 											{\App\Language::translate('LBL_UPDATED','ModTracker')}&nbsp;
-											<a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' {/if}>
+											<a class="u-cursor-pointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' {/if}>
 												{$PARENT->getName()}
 											</a>
 										</div>
@@ -58,19 +54,19 @@
 													<div class='font-x-small'>
 														<span>{\App\Language::translate($FIELD->getName(), $FIELD->getModuleName())}</span>
 														{if $FIELD->get('prevalue') neq '' && $FIELD->get('postvalue') neq '' && !($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELD->get('postvalue') eq '0' || $FIELD->get('prevalue') eq '0'))}
-															&nbsp;{\App\Language::translate('LBL_FROM')}&nbsp; <strong>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(App\Purifier::decodeHtml($FIELD->get('prevalue'))))}</strong>
+															&nbsp;{\App\Language::translate('LBL_FROM')}&nbsp; <strong>{Vtiger_Util_Helper::toVtiger6SafeHTML(App\Purifier::decodeHtml($FIELD->getOldValue()))}</strong>
 														{else if $FIELD->get('postvalue') eq '' || ($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELD->get('postvalue') eq '0')}
-															&nbsp; <strong> {\App\Language::translate('LBL_DELETED','ModTracker')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(App\Purifier::decodeHtml($FIELD->get('prevalue'))))}</del> )
+															&nbsp; <strong> {\App\Language::translate('LBL_DELETED','ModTracker')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML(App\Purifier::decodeHtml($FIELD->getOldValue()))}</del> )
 														{else}
 															&nbsp;{\App\Language::translate('LBL_CHANGED')}
 														{/if}
 														{if $FIELD->get('postvalue') neq '' && !($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELD->get('postvalue') eq '0')}
-															&nbsp;{\App\Language::translate('LBL_TO')}&nbsp;<strong>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(App\Purifier::decodeHtml($FIELD->get('postvalue'))))}</strong>
+															&nbsp;{\App\Language::translate('LBL_TO')}&nbsp;<strong>{Vtiger_Util_Helper::toVtiger6SafeHTML(App\Purifier::decodeHtml($FIELD->getNewValue()))}</strong>
 														{/if}    
 													</div>
 												{/if}
 											{else}
-												<a class="btn btn-info btn-xs moreBtn" href="{$PARENT->getUpdatesUrl()}">{\App\Language::translate('LBL_MORE')}</a>
+												<a class="btn btn-info btn-sm moreBtn" href="{$PARENT->getUpdatesUrl()}">{\App\Language::translate('LBL_MORE')}</a>
 												{break}
 											{/if}
 										{/foreach}
@@ -79,32 +75,32 @@
 									{assign var=RELATION value=$HISTORY->getRelationInstance()}
 									{assign var=LINKED_RECORD_DETAIL_URL value=$RELATION->getLinkedRecord()->getDetailViewUrl()}
 									{assign var=PARENT_DETAIL_URL value=$RELATION->getParent()->getParent()->getDetailViewUrl()}
-									<div class='' style='margin-top:5px'>
+									<div>
 										<strong>{$USER->getName()}&nbsp;</strong>
 										{\App\Language::translate($HISTORY->getStatusLabel(), 'ModTracker')}&nbsp;
 										{if $RELATION->getLinkedRecord()->getModuleName() eq 'Calendar'}
 											{if \App\Privilege::isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId())}
-												<a class="cursorPointer" {if stripos($LINKED_RECORD_DETAIL_URL, 'javascript:')===0} onclick='{$LINKED_RECORD_DETAIL_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$LINKED_RECORD_DETAIL_URL}"' {/if}>
+												<a class="u-cursor-pointer" {if stripos($LINKED_RECORD_DETAIL_URL, 'javascript:')===0} onclick='{$LINKED_RECORD_DETAIL_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$LINKED_RECORD_DETAIL_URL}"' {/if}>
 													{$RELATION->getLinkedRecord()->getName()}
 												</a>
 											{else}
 												{\App\Language::translate($RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())}
 											{/if}
 										{else}
-											<a class="cursorPointer" {if stripos($LINKED_RECORD_DETAIL_URL, 'javascript:')===0} onclick='{$LINKED_RECORD_DETAIL_URL|substr:strlen("javascript:")}'
+											<a class="u-cursor-pointer" {if stripos($LINKED_RECORD_DETAIL_URL, 'javascript:')===0} onclick='{$LINKED_RECORD_DETAIL_URL|substr:strlen("javascript:")}'
 											{else} onclick='window.location.href = "{$LINKED_RECORD_DETAIL_URL}"' {/if}>
 											{\App\Language::translate($RELATION->getLinkedRecord()->getName(), $RELATION->getLinkedRecord()->getModuleName() )}
 										</a>
 									{/if}{\App\Language::translate('LBL_FOR')}
-									<a class="cursorPointer" {if stripos($PARENT_DETAIL_URL, 'javascript:')===0}
+									<a class="u-cursor-pointer" {if stripos($PARENT_DETAIL_URL, 'javascript:')===0}
 									   onclick='{$PARENT_DETAIL_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$PARENT_DETAIL_URL}"' {/if}>
 										{$RELATION->getParent()->getParent()->getName()}
 									</a>
 								</div>
 							{else}
-								<div style='margin-top:5px'>
+								<div>
 									<strong>{$USER->getName()}&nbsp;</strong>{\App\Language::translate($HISTORY->getStatusLabel(), 'ModTracker')}
-									<a class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' {/if}>
+									<a class="u-cursor-pointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' {/if}>
 										&nbsp;{$PARENT->getName()}
 									</a>
 								</div>
@@ -114,15 +110,15 @@
 				{/if}
 				{else if $MODELNAME == 'ModComments_Record_Model'}
 					{assign var=TRANSLATED_MODULE_NAME value = \App\Language::translate('SINGLE_ModComments' ,'ModComments')}
-					<div class="row">
-						<div class="col-md-1">
-							<img width='24px' src="{\App\Layout::getImagePath('ModComments.png')}" alt="{$TRANSLATED_MODULE_NAME}" title="{$TRANSLATED_MODULE_NAME}" />&nbsp;&nbsp;
+					<div class="d-flex">
+						<div>
+							<span class="fas fa-comments fa-lg fa-fw" title="{$TRANSLATED_MODULE_NAME}"></span>
 						</div>
-						<div class="col-md-11">
+						<div class="w-100 ml-1">
 							{assign var=COMMENT_TIME value=$HISTORY->getCommentedTime()}
-							<p class="pull-right muted" style="padding-right:5px;"><small title="{\App\Fields\DateTime::formatToDay("$COMMENT_TIME")}">{\App\Fields\DateTime::formatToViewDate("$COMMENT_TIME")}</small></p>
+							<p class="float-right text-muted"><small title="{\App\Fields\DateTime::formatToDay("$COMMENT_TIME")}">{\App\Fields\DateTime::formatToViewDate("$COMMENT_TIME")}</small></p>
 							<div>
-								<strong>{$HISTORY->getCommentedByModel()->getName()}</strong> {\App\Language::translate('LBL_COMMENTED')} {\App\Language::translate('LBL_ON')} <a class="textOverflowEllipsis" href="{$HISTORY->getParentRecordModel()->getDetailViewUrl()}">{$HISTORY->getParentRecordModel()->getName()}</a>
+								<strong>{$HISTORY->getCommentedByModel()->getName()}</strong> {\App\Language::translate('LBL_COMMENTED')} {\App\Language::translate('LBL_ON')} <a class="u-text-ellipsis" href="{$HISTORY->getParentRecordModel()->getDetailViewUrl()}">{$HISTORY->getParentRecordModel()->getName()}</a>
 							</div>
 							<div class='font-x-small'><span>"{nl2br($HISTORY->getDisplayValue('commentcontent'))}"</span></div>
 						</div>
@@ -130,11 +126,7 @@
 					{/if}
 						{/foreach}
 							{if $NEXTPAGE}
-								<div class="row">
-									<div class="col-md-12">
-										<button class="load-more btn btn-xs btn-info" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{\App\Language::translate('LBL_MORE')}</button>
-									</div>
-								</div>
+								<button class="load-more badge badge-info" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{\App\Language::translate('LBL_MORE')}</button>
 							{/if}
 							{else}
 								<span class="noDataMsg">

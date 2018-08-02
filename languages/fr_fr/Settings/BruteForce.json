@@ -1,0 +1,25 @@
+{
+  "php": {
+    "LBL_DATE": "Date",
+    "BruteForce": "Brute Force",
+    "LBL_VIEW_SHOW": "Brute Force",
+    "LBL_SENT_NOTIFICATIONS": "Envoyer des notifications",
+    "LBL_UNBLOCK": "D\u00e9bloquer",
+    "LBL_BROWSERS": "Navigateur",
+    "LBL_USERS": "Utilisateurs",
+    "LBL_IP": "Adresse IP",
+    "LBL_BLOCKED_IP": "Adresse IP bloqu\u00e9e",
+    "LBL_SETTINGS": "R\u00e9glages",
+    "LBL_TIME_LOCK": "Temps bloqu\u00e9 (minutes)",
+    "LBL_NUMBER_OF_ATTEMPTS": "Nombre de tentatives",
+    "LBL_SAVE_SUCCESS": "Les modifications ont \u00e9t\u00e9 sauvegard\u00e9es",
+    "LBL_UNBLOCK_FAIL": "L'adresse IP n'a pas \u00e9t\u00e9 d\u00e9bloqu\u00e9e",
+    "LBL_UNBLOCK_SUCCESS": "L'adresse IP a \u00e9t\u00e9 d\u00e9bloqu\u00e9e",
+    "LBL_BRUTEFORCE_DESCRIPTION": "Param\u00e8trer le nombre maximum de connexion \u00e9chou\u00e9e et le temps de banissement pour le blocage d'adresse IP.",
+    "LBL_USERS_FOR_NOTIFICATIONS": "Notifier les utilisateurs",
+    "LBL_BRUTEFORCE_ACTIVE": "Actif"
+  },
+  "js": {
+    "JS_COULD_NOT_FINNISH_REACTION": "Erreur. \u00c9chec de la sauvegarde."
+  }
+}

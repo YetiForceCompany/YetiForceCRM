@@ -25,7 +25,7 @@ var Vtiger_PBXManager_Js = {
 	 */
 	requestPBXgetCalls: function () {
 		var url = 'index.php?module=PBXManager&action=IncomingCallPoll&mode=searchIncomingCalls';
-		AppConnector.request(url).then(function (data) {
+		AppConnector.request(url).done(function (data) {
 			if (data.success && data.result) {
 				for (i = 0; i < data.result.length; i++) {
 					var record = data.result[i];
@@ -44,8 +44,8 @@ var Vtiger_PBXManager_Js = {
 	showPBXIncomingCallPopup: function (record) {
 		var params = {
 			title: app.vtranslate('JS_PBX_INCOMING_CALL'),
-			text: '<div class="row pbxcall" id="pbxcall_' + record.pbxmanagerid + '" callid=' + record.pbxmanagerid + ' style="color:black"><span class="col-md-12" id="caller" value="' + record.customernumber + '">' + app.vtranslate('JS_PBX_CALL_FROM') + ' : ' + record.customernumber + '</span><span class="hide col-md-12" id="contactsave_' + record.pbxmanagerid + '">\n\
-                        <span><input class="col-md-3" id="email_' + record.pbxmanagerid + '" type="text" placeholder="Enter Email-id"></input>&nbsp;&nbsp;&nbsp;<select class="input-small" id="module_' + record.pbxmanagerid + '" placeholder="Select"><option>Select</option></select><h5 class="alert-danger hide col-md-3" id="alert_msg">' + app.vtranslate('JS_PBX_FILL_ALL_FIELDS') + '</h5>\n\
+			text: '<div class="row pbxcall" id="pbxcall_' + record.pbxmanagerid + '" callid=' + record.pbxmanagerid + ' style="color:black"><span class="col-md-12" id="caller" value="' + record.customernumber + '">' + app.vtranslate('JS_PBX_CALL_FROM') + ' : ' + record.customernumber + '</span><span class="d-none col-md-12" id="contactsave_' + record.pbxmanagerid + '">\n\
+                        <span><input class="col-md-3" id="email_' + record.pbxmanagerid + '" type="text" placeholder="Enter Email-id"></input>&nbsp;&nbsp;&nbsp;<select class="input-small" id="module_' + record.pbxmanagerid + '" placeholder="Select"><option>Select</option></select><h5 class="alert-danger d-none col-md-3" id="alert_msg">' + app.vtranslate('JS_PBX_FILL_ALL_FIELDS') + '</h5>\n\
                         <button class="btn btn-success pull-right"  id="pbxcontactsave_' + record.pbxmanagerid + '" recordid="' + record.pbxmanagerid + '" type="submit">Save</button>\n\
                         </span></span><br /><span class="col-md-12" style="display:none" id="answeredby"><i class="icon-headphones"></i>&nbsp;<span id="answeredbyname"></span></span></div>',
 			width: '28%',
@@ -100,7 +100,7 @@ var Vtiger_PBXManager_Js = {
 
 		var number = jQuery('#caller', '#pbxcall_' + pbxmanagerid + '').attr("value");
 		var url = 'index.php?module=PBXManager&action=IncomingCallPoll&mode=createRecord&number=' + encodeURIComponent(number) + '&email=' + encodeURIComponent(email) + '&callid=' + record.sourceuuid + '&modulename=' + moduleName;
-		AppConnector.request(url).then(function (data) {
+		AppConnector.request(url).done(function (data) {
 			if (data.success && data.result) {
 				jQuery('#contactsave_' + pbxmanagerid + '').hide();
 			}
@@ -110,7 +110,7 @@ var Vtiger_PBXManager_Js = {
 		switch (record.callername) {
 			case null:
 				var url = 'index.php?module=PBXManager&action=IncomingCallPoll&mode=checkModuleViewPermission&view=EditView';
-				AppConnector.request(url).then(function (data) {
+				AppConnector.request(url).done(function (data) {
 					var responsedata = JSON.parse(data);
 					var showSaveOption = false;
 					var moduleList = responsedata.result.modules;
@@ -162,7 +162,7 @@ var Vtiger_PBXManager_Js = {
 		for (var i = 0; i < pbxcall.length; i++) {
 			callid = pbxcall[i].getAttribute('callid');
 			var url = 'index.php?module=PBXManager&action=IncomingCallPoll&mode=getCallStatus&callid=' + encodeURIComponent(callid) + '';
-			AppConnector.request(url).then(function (data) {
+			AppConnector.request(url).done(function (data) {
 				if (data.result) {
 					if (data.result != 'in-progress' && data.result != 'ringing') {
 						Vtiger_PBXManager_Js.removeCallPopup(callid);
@@ -196,7 +196,7 @@ var Vtiger_PBXManager_Js = {
 			'module': 'PBXManager',
 			'action': 'OutgoingCall'
 		};
-		AppConnector.request(params).then(function (data) {
+		AppConnector.request(params).done(function (data) {
 			if (data.result) {
 				params = {
 					'text': app.vtranslate('JS_PBX_OUTGOING_SUCCESS'),
@@ -218,7 +218,7 @@ var Vtiger_PBXManager_Js = {
 		var thisInstance = this;
 		//for polling
 		var url = 'index.php?module=PBXManager&action=IncomingCallPoll&mode=checkPermissionForPolling';
-		AppConnector.request(url).then(function (data) {
+		AppConnector.request(url).done(function (data) {
 			if (data.result) {
 				Vtiger_PBXManager_Js.registerPBXCall();
 				setInterval("Vtiger_PBXManager_Js.registerPBXCall()", 3000);

@@ -9,5 +9,4 @@
  * ********************************************************************************** */
 require_once 'VTWorkflowManager.php';
 require_once 'VTTaskManager.php';
-require_once 'VTWorkflowTemplateManager.php';
 require_once 'VTTaskQueue.php';

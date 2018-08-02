@@ -9,9 +9,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
+class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
 {
-
 	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -38,8 +37,8 @@ Class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$record = $request->get('record');
-		$fromRecord = $request->get('from_record');
+		$record = $request->getInteger('record');
+		$fromRecord = $request->getInteger('from_record');
 
 		if (!empty($record)) {
 			$recordModel = Settings_Profiles_Record_Model::getInstanceById($record);
@@ -62,12 +61,13 @@ Class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)
@@ -77,11 +77,12 @@ Class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
 
 		$jsFileNames = [
 			'modules.Settings.Vtiger.resources.Edit',
-			"modules.Settings.$moduleName.resources.Edit"
+			"modules.Settings.$moduleName.resources.Edit",
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 }

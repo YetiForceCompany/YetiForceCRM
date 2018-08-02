@@ -1,8 +1,8 @@
 <?php
 /**
- * Support of one-time processes to execute scripts whose execution time is very long
- * @package YetiForce.Cron
- * @copyright YetiForce Sp. z o.o.
+ * Support of one-time processes to execute scripts whose execution time is very long.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -25,5 +25,3 @@ if ($disable) {
 	\App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => 0], ['name' => 'LBL_BATCH_PROCESSES'])
 		->execute();
 }
-
-

@@ -10,7 +10,6 @@
 
 class Portal_EditAjax_View extends Vtiger_IndexAjax_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();

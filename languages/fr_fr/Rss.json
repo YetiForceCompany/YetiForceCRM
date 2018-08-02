@@ -1,0 +1,18 @@
+{
+  "php": {
+    "LBL_CHANGE_RSS_CHANNEL": "Changer le canal RSS",
+    "LBL_ADD_FEED_SOURCE": "Ajouter une source de flux",
+    "LBL_ENTER_FEED_SOURCE": "Saisir une source de flux",
+    "LBL_FEEDS_LIST_FROM": "Liste de flux de",
+    "LBL_FEED_SOURCE": "Source de flux",
+    "LBL_RSS_FEED_SOURCES": "Source de flux RSS",
+    "LBL_SENDER": "Exp\u00e9diteur",
+    "LBL_SET_AS_DEFAULT": "Choisir comme d\u00e9faut",
+    "SINGLE_Rss": "Flux RSS"
+  },
+  "js": {
+    "JS_INVALID_RSS_URL": "URL RSS invalide",
+    "JS_RSS_MADE_AS_DEFAULT": "RSS choisi comme d\u00e9faut",
+    "JS_RSS_SUCCESSFULLY_SAVED": "RSS sauvegard\u00e9 avec succ\u00e8s"
+  }
+}

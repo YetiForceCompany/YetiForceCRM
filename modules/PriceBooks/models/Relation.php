@@ -11,9 +11,9 @@
 
 class PriceBooks_Relation_Model extends Vtiger_Relation_Model
 {
-
 	/**
-	 * Function to add PriceBook-Products/Services Relation
+	 * Function to add PriceBook-Products/Services Relation.
+	 *
 	 * @param <Integer> $sourceRecordId
 	 * @param <Integer> $destinationRecordId
 	 * @param <Integer> $listPrice
@@ -21,14 +21,14 @@ class PriceBooks_Relation_Model extends Vtiger_Relation_Model
 	public function addListPrice($sourceRecordId, $destinationRecordId, $listPrice)
 	{
 		$sourceModuleName = $this->getParentModuleModel()->get('name');
-
 		$priceBookModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModuleName);
-		$priceBookModel->updateListPrice($destinationRecordId, $listPrice);
+		return $priceBookModel->updateListPrice($destinationRecordId, $listPrice);
 	}
 
 	/**
-	 * Function that deletes PriceBooks related records information
-	 * @param <Integer> $sourceRecordId - PriceBook Id
+	 * Function that deletes PriceBooks related records information.
+	 *
+	 * @param <Integer> $sourceRecordId  - PriceBook Id
 	 * @param <Integer> $relatedRecordId - Related Record Id
 	 */
 	public function deleteRelation($sourceRecordId, $relatedRecordId)
@@ -44,7 +44,7 @@ class PriceBooks_Relation_Model extends Vtiger_Relation_Model
 	}
 
 	/**
-	 * Get Pricebooks for products
+	 * Get Pricebooks for products.
 	 */
 	public function getPricebookProducts()
 	{
@@ -56,7 +56,7 @@ class PriceBooks_Relation_Model extends Vtiger_Relation_Model
 	}
 
 	/**
-	 * Get Pricebooks for services
+	 * Get Pricebooks for services.
 	 */
 	public function getPricebookServices()
 	{

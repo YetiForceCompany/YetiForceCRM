@@ -1,0 +1,16 @@
+{
+  "php": {
+    "HideBlocks": "Ocultar bloques",
+    "LBL_HIDEBLOCKS": "Campos \u2013 Ocultar bloques",
+    "LBL_HIDEBLOCKS_DESCRIPTION": "Administrar qu\u00e9 bloques con campos ocultar",
+    "LBL_BLOCK_LABEL": "Bloquear",
+    "LBL_MODULE": "M\u00f3dulo",
+    "LBL_ENABLED": "Activo",
+    "LBL_EDIT_BLOCK": "Editar",
+    "LBL_NEW_BLOCK": "Crear",
+    "LBL_BLOCK": "Bloquear",
+    "LBL_NEXT": "Siguiente",
+    "LBL_VIEW": "Ver",
+    "LBL_MANDATORY_FIELDS_EXIST": "Este bloque no se puede ocultar porque contiene campos obligatorios."
+  }
+}

@@ -13,26 +13,23 @@
  * with values set dynamically.
  *
  * @author Prasad
- * @package vtlib
  */
 class Vtiger_StringTemplate
 {
-
 	// Template variables set dynamically
 	public $tplvars = [];
 
 	/**
 	 * Identify variable with the following pattern
-	 * $VARIABLE_KEY$
+	 * $VARIABLE_KEY$.
 	 */
 	public $_lookfor = '/\$([^\$]+)\$/';
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	public function __construct()
 	{
-		
 	}
 
 	/**
@@ -57,7 +54,7 @@ class Vtiger_StringTemplate
 
 	/**
 	 * Clear all the assigned variable values.
-	 * (except the once in the given list)
+	 * (except the once in the given list).
 	 */
 	public function clear($exceptvars = false)
 	{
@@ -70,23 +67,25 @@ class Vtiger_StringTemplate
 		unset($this->tplvars);
 
 		$this->tplvars = [];
-		foreach ($restorevars as $key => $val)
+		foreach ($restorevars as $key => $val) {
 			$this->assign($key, $val);
+		}
 	}
 
 	/**
 	 * Merge the given file with variable values assigned.
+	 *
 	 * @param $instring input string template
 	 * @param $avoidLookup should be true if only verbatim file copy needs to be done
 	 * @returns merged contents
 	 */
 	public function merge($instring, $avoidLookup = false)
 	{
-		if (empty($instring))
+		if (empty($instring)) {
 			return $instring;
+		}
 
 		if (!$avoidLookup) {
-
 			/** Look for variables */
 			$matches = [];
 			preg_match_all($this->_lookfor, $instring, $matches);
@@ -110,8 +109,7 @@ class Vtiger_StringTemplate
 	}
 
 	/**
-	 * Clean up the input to be used as a regex
-	 * @access private
+	 * Clean up the input to be used as a regex.
 	 */
 	public function __formatAsRegex($value)
 	{
@@ -119,6 +117,7 @@ class Vtiger_StringTemplate
 		$value = preg_replace('/\//', '\\/', $value);
 		// If $ is not already escaped as \$ do it now
 		$value = preg_replace('/(?<!\\\)\$/', '\\\\$', $value);
+
 		return $value;
 	}
 }

@@ -1,0 +1,26 @@
+{
+  "php": {
+    "LBL_ADVANCED_PERMISSION": "Fortgeschrittene Berechtigungen",
+    "AdvancedPermission": "Fortgeschrittene Berechtigungen",
+    "LBL_ADVANCED_PERMISSION_DESCRIPTION": "Benutzerdefinerte Konfiguration. Erlaubt oder verweigert den Zugriff auf Datens\u00e4tze.",
+    "LBL_NAME": "Regel",
+    "LBL_MODULE": "Modul",
+    "LBL_ACTION": "Aktion",
+    "LBL_STATUS": "Status",
+    "LBL_ROLE": "Rolle",
+    "LBL_MEMBERS": "Mitglieder",
+    "LBL_PRIORITY": "Priorit\u00e4t",
+    "FL_ACTIVE": "Aktiv",
+    "FL_INACTIVE": "Inaktiv",
+    "FL_UNLOCK_RECORD": "Zugriff erlauben",
+    "FL_LOCK_RECORD": "Zugriff verweigern",
+    "LBL_SAVE_AND_CONDITIONS": "N\u00e4chster",
+    "ERR_INACTIVE_ALERT_TITLE": "Fortgeschrittene Berechtigungen sind deaktiviert",
+    "ERR_INACTIVE_ALERT_DESC": "Den Parameter  PERMITTED_BY_ADVANCED_PERMISSION in config\/security.php \u00e4ndern, um zu aktivieren.",
+    "LBL_RECALCULATE_PERMISSION_TITLE": "Berechtigung neu berechnen",
+    "LBL_RECALCULATE_PERMISSION_BTN": "Berechtigungen neu berechnen",
+    "LBL_RECALCULATE_CRON_INFO": "Neuberechnung der Berechtigungen ben\u00f6tigt einen CRON Job, bitte pr\u00fcfen Sie ob diese Aufgabe aktiv ist.",
+    "LBL_MODULES_LIST": "Modulliste",
+    "ERR_INACTIVE_CACHING_PERM_ALERT_DESC": "Spezielle Berechtigungen wurden deaktiviert, da diese gecachte Datensatzberechtigungen ben\u00f6tigen. Um diese Berechtigungen zu nutzen muss der entsprechende CRON Job aktiviert und die CACHING_PERMISSION_TO_RECORD [config\/security.php] Variable auf TRUE gesetzet werden."
+  }
+}

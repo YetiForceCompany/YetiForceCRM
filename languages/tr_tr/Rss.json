@@ -1,0 +1,18 @@
+{
+  "php": {
+    "LBL_ADD_FEED_SOURCE": "Besleme Kayna\u011f\u0131 Ekle",
+    "LBL_ENTER_FEED_SOURCE": "Besleme Kayna\u011f\u0131n\u0131 Girin",
+    "LBL_FEEDS_LIST_FROM": "Besleme listesinden",
+    "LBL_FEED_SOURCE": "Besleme Kayna\u011f\u0131",
+    "LBL_RSS_FEED_SOURCES": "Rss Besleme Kaynaklar\u0131",
+    "LBL_SENDER": "G\u00f6nderen",
+    "LBL_SET_AS_DEFAULT": "Varsay\u0131lan olarak ayarla",
+    "SINGLE_Rss": "Rss Beslemesi",
+    "LBL_CHANGE_RSS_CHANNEL": "RSS kanal\u0131n\u0131 de\u011fi\u015ftir"
+  },
+  "js": {
+    "JS_INVALID_RSS_URL": "Ge\u00e7ersiz Rss URL'si",
+    "JS_RSS_MADE_AS_DEFAULT": "Rss varsay\u0131lan olarak yap\u0131ld\u0131",
+    "JS_RSS_SUCCESSFULLY_SAVED": "Rss ba\u015far\u0131yla kaydedildi"
+  }
+}

@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Settings widgets SaveAjax action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Settings widgets SaveAjax action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -24,7 +23,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => 1,
-			'message' => \App\Language::translate('Saved changes', $request->getModule(false))
+			'message' => \App\Language::translate('Saved changes', $request->getModule(false)),
 		]);
 		$response->emit();
 	}
@@ -36,7 +35,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => 1,
-			'message' => \App\Language::translate('Removed widget', $request->getModule(false))
+			'message' => \App\Language::translate('Removed widget', $request->getModule(false)),
 		]);
 		$response->emit();
 	}
@@ -48,7 +47,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => 1,
-			'message' => \App\Language::translate('Update has been completed', $request->getModule(false))
+			'message' => \App\Language::translate('Update has been completed', $request->getModule(false)),
 		]);
 		$response->emit();
 	}

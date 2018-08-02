@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Settings OSSMailView index view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Settings OSSMailView index view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -16,7 +15,8 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 	}
 
 	/**
-	 * Pagination
+	 * Pagination.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getPagination(\App\Request $request)

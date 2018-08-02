@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	getInstance: function (container) {
@@ -16,11 +17,11 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		var moduleClassName3 = "Vtiger_AdvanceFilterEx_Js";
 		var moduleClassName4 = "Vtiger_AdvanceFilter_Js";
 		var instance;
-		if (typeof window[moduleClassName1] != 'undefined') {
+		if (typeof window[moduleClassName1] !== "undefined") {
 			instance = new window[moduleClassName1](container);
-		} else if (typeof window[moduleClassName2] != 'undefined') {
+		} else if (typeof window[moduleClassName2] !== "undefined") {
 			instance = new window[moduleClassName2](container);
-		} else if (typeof window[moduleClassName3] != 'undefined') {
+		} else if (typeof window[moduleClassName3] !== "undefined") {
 			instance = new window[moduleClassName3](container);
 		} else {
 			instance = new window[moduleClassName4](container);
@@ -44,7 +45,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	//used to eliminate mutiple times validation registrations
 	validationForControlsRegistered: false,
 	init: function (container) {
-		if (typeof container == 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('.filterContainer');
 		}
 
@@ -155,13 +156,12 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	 * @return : current instance
 	 */
 	addNewCondition: function (conditionGroupElement) {
-		var basicElement = jQuery('.basic', conditionGroupElement);
-		var newRowElement = basicElement.find('.conditionRow').clone(true, true);
-		jQuery('select', newRowElement).addClass('chzn-select');
-		var conditionList = jQuery('.conditionList', conditionGroupElement);
+		let basicElement = $('.basic', conditionGroupElement);
+		let newRowElement = basicElement.find('.js-conditions-row').clone(true, true);
+		let selectElement = newRowElement.find('select').addClass('select2');
+		let conditionList = $('.conditionList', conditionGroupElement);
 		conditionList.append(newRowElement);
-		//change in to chosen elements
-		app.changeSelectElementView(newRowElement);
+		App.Fields.Picklist.showSelect2ElementView(selectElement, {dropdownParent: conditionGroupElement});
 		return this;
 	},
 	/**
@@ -186,8 +186,9 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	 * @return : select element which will represent the condition element
 	 */
 	loadConditions: function (fieldSelect) {
-		var row = fieldSelect.closest('div.conditionRow');
+		var row = fieldSelect.closest('div.js-conditions-row');
 		var conditionSelectElement = row.find('select[name="comparator"]');
+		var group = row.find('[name="column_condition"]');
 		var conditionSelected = conditionSelectElement.val();
 		var fieldSelected = fieldSelect.find('option:selected');
 		var fieldSpecificType = this.getFieldSpecificType(fieldSelected);
@@ -195,11 +196,10 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		var fieldName = fieldSelected.data('field-name');
 		var fieldInfo = fieldSelected.data('fieldinfo');
 		//for none in field name
-		if (typeof conditionList == 'undefined') {
+		if (typeof conditionList === "undefined") {
 			conditionList = {};
 			conditionList['none'] = 'None';
 		}
-
 		var options = '';
 		for (var key in conditionList) {
 			if (jQuery.inArray(fieldInfo.type, ['rangeTime', 'image']) != -1 && jQuery.inArray(conditionList[key], ['y', 'ny']) == -1) {
@@ -218,6 +218,9 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 				continue;
 			}
 			if (jQuery.inArray(conditionList[key], ['bw', 'm', 'h']) != -1 && jQuery.inArray(fieldInfo.type, ['time']) != -1) {
+				continue;
+			}
+			if (conditionList[key] === 'd' && group.val() !== 'and') {
 				continue;
 			}
 			//IE Browser consider the prototype properties also, it should consider has own properties only.
@@ -242,8 +245,15 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	getFieldSpecificUi: function (fieldSelectElement) {
 		var selectedOption = fieldSelectElement.find('option:selected');
 		var fieldModel = this.fieldModelInstance;
-		if (fieldModel.getType().toLowerCase() == "boolean") {
-			var conditionRow = fieldSelectElement.closest('.conditionRow');
+		if (fieldModel.get('comparatorElementVal') === 'd') {
+			var html = '<div class="checkbox"><label><input type="checkbox" name="' + fieldModel.getName() + '" value="0" ';
+			if (fieldModel.getValue() === 1 || fieldModel.getValue() === '1') {
+				html += 'checked';
+			}
+			html += ' >' + app.vtranslate('JS_IGNORE_EMPTY_VALUES') + '</label></div>';
+			return jQuery(html);
+		} else if (fieldModel.getType().toLowerCase() == "boolean") {
+			var conditionRow = fieldSelectElement.closest('.js-conditions-row');
 			var selectedValue = conditionRow.find('[data-value="value"]').val();
 			var html = '<select class="chzn-select" name="' + fieldModel.getName() + '">';
 			html += '<option value="0"';
@@ -260,7 +270,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			html += '</select>';
 			return jQuery(html);
 		} else {
-			return  jQuery(fieldModel.getUiTypeSpecificHtml());
+			return jQuery(fieldModel.getUiTypeSpecificHtml());
 		}
 	},
 	/**
@@ -270,13 +280,13 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	 */
 	loadFieldSpecificUi: function (fieldSelect) {
 		var selectedOption = fieldSelect.find('option:selected');
-		var row = fieldSelect.closest('div.conditionRow');
+		var row = fieldSelect.closest('div.js-conditions-row');
 		var fieldUiHolder = row.find('.fieldUiHolder');
 		var conditionSelectElement = row.find('select[name="comparator"]');
 		var fieldInfo = selectedOption.data('fieldinfo');
 
 		var fieldType = 'string';
-		if (typeof fieldInfo != 'undefined') {
+		if (typeof fieldInfo !== "undefined") {
 			fieldType = fieldInfo.type;
 		}
 
@@ -307,7 +317,6 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			fieldSpecificUi.find('input[type="text"]').addClass('form-control');
 		} else {
 			fieldSpecificUi.filter('[name="' + fieldName + '"]').addClass('form-control');
-			fieldSpecificUi.find('[name="' + fieldName + '"]').addClass('row form');
 		}
 
 		fieldSpecificUi.filter('[name="' + fieldName + '"]').attr('data-value', 'value').removeAttr('data-validation-engine');
@@ -322,16 +331,16 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 
 		if (fieldSpecificUi.is('select')) {
 			if (fieldSpecificUi.hasClass('chzn-select')) {
-				app.changeSelectElementView(fieldSpecificUi);
+				App.Fields.Picklist.changeSelectElementView(fieldSpecificUi);
 			} else {
-				app.showSelect2ElementView(fieldSpecificUi);
+				App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi, {dropdownParent: row});
 			}
 		} else if (fieldSpecificUi.has('input.dateField').length > 0) {
-			app.registerEventForDatePickerFields(fieldSpecificUi);
+			App.Fields.Date.register(fieldSpecificUi);
 		} else if (fieldSpecificUi.has('input.dateRangeField').length > 0) {
-			app.registerDateRangePickerFields(fieldSpecificUi,{ranges: false});
-		} else if (fieldSpecificUi.has('input.timepicker-default').length > 0) {
-			app.registerEventForTimeFields(fieldSpecificUi);
+			App.Fields.Date.registerRange(fieldSpecificUi, {ranges: false});
+		} else if (fieldSpecificUi.has('input.clockPicker').length > 0) {
+			app.registerEventForClockPicker(fieldSpecificUi);
 		}
 		this.addValidationToFieldIfNeeded(fieldSelect);
 
@@ -367,7 +376,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	 */
 	addValidationToFieldIfNeeded: function (selectFieldElement) {
 		var selectedOption = selectFieldElement.find('option:selected');
-		var row = selectFieldElement.closest('div.conditionRow');
+		var row = selectFieldElement.closest('div.js-conditions-row');
 		var fieldSpecificElement = row.find('[data-value="value"]');
 		var validator = selectedOption.attr('data-validator');
 
@@ -377,7 +386,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			fieldSpecificElement.addClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
 					.attr('data-validation-engine', 'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
 					.attr('data-fieldinfo', JSON.stringify(selectedOption.data('fieldinfo')));
-			if (typeof validator != 'undefined') {
+			if (typeof validator !== "undefined") {
 				fieldSpecificElement.attr('data-validator', validator);
 			}
 		} else {
@@ -402,7 +411,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			return true;
 		}
 
-		var row = fieldSelect.closest('div.conditionRow');
+		var row = fieldSelect.closest('div.js-conditions-row');
 		var conditionSelectElement = row.find('select[name="comparator"]');
 		var selectedCondition = conditionSelectElement.find('option:selected');
 
@@ -431,7 +440,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		conditionGroups.each(function (index, domElement) {
 			var groupElement = jQuery(domElement);
 			values[index + 1] = {};
-			var conditions = jQuery('.conditionList .conditionRow', groupElement);
+			var conditions = jQuery('.conditionList .js-conditions-row', groupElement);
 			values[index + 1]['columns'] = {};
 			conditions.each(function (i, conditionDomElement) {
 				var rowElement = jQuery(conditionDomElement);
@@ -456,7 +465,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 								rowValues[field] = newValuesArr.join(',');
 							}
 						} else if (field == 'value' && valueSelectElement.is('input')) {
-							rowValues[field] = valueSelectElement.val();
+							rowValues[field] = valueSelectElement.attr('type') === 'checkbox' && valueSelectElement.prop('checked') ? 1 : valueSelectElement.val();
 						} else {
 							rowValues[field] = jQuery('[name="' + field + '"]', rowElement).val();
 						}
@@ -464,13 +473,15 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 				} else if ($.inArray(fieldType, ['picklist', 'multipicklist', 'modules', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1) {
 					for (var key in fieldList) {
 						var field = fieldList[key];
-						if (field == 'value' && valueSelectElement.is('input')) {
+						if (field == 'value' && valueSelectElement.attr('type') === 'checkbox') {
+							rowValues[field] = valueSelectElement.prop('checked') ? 1 : valueSelectElement.val();
+						} else if (field == 'value' && valueSelectElement.is('input')) {
 							var commaSeperatedValues = valueSelectElement.val();
 							var pickListValues = valueSelectElement.data('picklistvalues');
 							var valuesArr = commaSeperatedValues.split(',');
 							var newvaluesArr = [];
 							for (i = 0; i < valuesArr.length; i++) {
-								if (typeof pickListValues[valuesArr[i]] != 'undefined') {
+								if (typeof pickListValues[valuesArr[i]] !== "undefined") {
 									newvaluesArr.push(pickListValues[valuesArr[i]]);
 								} else {
 									newvaluesArr.push(valuesArr[i]);
@@ -494,7 +505,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 					for (var key in fieldList) {
 						var field = fieldList[key];
 						if (field == 'value') {
-							rowValues[field] = valueSelectElement.val();
+							rowValues[field] = valueSelectElement.attr('type') === 'checkbox' && valueSelectElement.prop('checked') ? 1 : valueSelectElement.val();
 						} else {
 							rowValues[field] = jQuery('[name="' + field + '"]', rowElement).val();
 						}
@@ -519,7 +530,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	 */
 	deleteConditionHandler: function (e) {
 		var element = jQuery(e.currentTarget);
-		var row = element.closest('.conditionRow');
+		var row = element.closest('.js-conditions-row');
 		row.remove();
 	},
 	/**
@@ -539,8 +550,8 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		var thisInstance = this;
 		filterContainer.on('change', 'select[name="columnname"]', function (e, data) {
 			var currentElement = jQuery(e.currentTarget);
-			if (typeof data == 'undefined' || data._intialize != true) {
-				var row = currentElement.closest('div.conditionRow');
+			if (typeof data === "undefined" || data._intialize != true) {
+				var row = currentElement.closest('div.js-conditions-row');
 				var conditionSelectElement = row.find('select[name="comparator"]');
 				conditionSelectElement.empty();
 			}
@@ -556,7 +567,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		var thisInstance = this;
 		filterContainer.on('change', 'select[name="comparator"]', function (e) {
 			var comparatorSelectElement = jQuery(e.currentTarget);
-			var row = comparatorSelectElement.closest('div.conditionRow');
+			var row = comparatorSelectElement.closest('div.js-conditions-row');
 			var fieldSelectElement = row.find('select[name="columnname"]');
 			var selectedOption = fieldSelectElement.find('option:selected');
 			//To handle the validation depending on condtion
@@ -594,7 +605,7 @@ Vtiger_Field_Js('AdvanceFilter_Field_Js', {}, {
 		var currentModule = app.getModuleName();
 
 		var type = this.getType();
-		if ($.inArray(type, ['picklist', 'userCreator', 'multipicklist', 'owner', 'userCreator' ,'modules', 'date', 'datetime', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1) {
+		if ($.inArray(type, ['picklist', 'userCreator', 'multipicklist', 'owner', 'userCreator', 'modules', 'date', 'datetime', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1) {
 			currentModule = 'AdvanceFilter';
 		}
 		return currentModule;
@@ -603,7 +614,7 @@ Vtiger_Field_Js('AdvanceFilter_Field_Js', {}, {
 
 Vtiger_Picklist_Field_Js('AdvanceFilter_Picklist_Field_Js', {}, {
 	getUi: function () {
-		var html = '<select class="select2 row" multiple name="' + this.getName() + '[]">';
+		var html = '<select class="select2" multiple name="' + this.getName() + '[]">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = app.htmlDecode(this.getValue());
 		var selectedOptionsArray = selectedOption.split(',');
@@ -621,35 +632,27 @@ Vtiger_Picklist_Field_Js('AdvanceFilter_Picklist_Field_Js', {}, {
 	}
 });
 
-AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Modules_Field_Js', {}, {
-});
+AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Modules_Field_Js', {}, {});
 
-AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Inventorylimit_Field_Js', {}, {
-});
+AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Inventorylimit_Field_Js', {}, {});
 
-AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Filelocationtype_Field_Js', {}, {
-});
+AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Filelocationtype_Field_Js', {}, {});
 
-Vtiger_Multipicklist_Field_Js('AdvanceFilter_Multipicklist_Field_Js', {}, {
-});
+Vtiger_Multipicklist_Field_Js('AdvanceFilter_Multipicklist_Field_Js', {}, {});
 
-Vtiger_Multipicklist_Field_Js('AdvanceFilter_Categorymultipicklist_Field_Js', {}, {
-});
+Vtiger_Multipicklist_Field_Js('AdvanceFilter_Categorymultipicklist_Field_Js', {}, {});
 
-AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Languages_Field_Js', {}, {
-});
+AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Languages_Field_Js', {}, {});
 
-AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Currencylist_Field_Js', {}, {
-});
+AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Currencylist_Field_Js', {}, {});
 
-AdvanceFilter_Multipicklist_Field_Js('AdvanceFilter_Taxes_Field_Js', {}, {
-});
+AdvanceFilter_Multipicklist_Field_Js('AdvanceFilter_Taxes_Field_Js', {}, {});
 
 Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 	getUi: function () {
 		var comparatorSelectedOptionVal = this.get('comparatorElementVal');
-		if ((comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal == 'n') || (this.getName() === 'shownerid' && jQuery.inArray(comparatorSelectedOptionVal, ['c','k']) != -1)) {
-			var html = '<select class="select2 row" multiple name="' + this.getName() + '[]">';
+		if ((comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal == 'n') || (this.getName() === 'shownerid' && jQuery.inArray(comparatorSelectedOptionVal, ['c', 'k']) != -1)) {
+			var html = '<select class="select2" multiple name="' + this.getName() + '[]">';
 			var pickListValues = this.getPickListValues();
 			var selectedOption = app.htmlDecode(this.getValue());
 			var selectedOptionsArray = selectedOption.split(',');
@@ -687,14 +690,11 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 	}
 });
 
-Vtiger_Multireferencevalue_Field_Js('AdvanceFilter_Multireferencevalue_Field_Js', {}, {
-});
+Vtiger_Multireferencevalue_Field_Js('AdvanceFilter_Multireferencevalue_Field_Js', {}, {});
 
-AdvanceFilter_Owner_Field_Js('AdvanceFilter_Sharedowner_Field_Js', {}, {
-});
+AdvanceFilter_Owner_Field_Js('AdvanceFilter_Sharedowner_Field_Js', {}, {});
 
-AdvanceFilter_Owner_Field_Js('AdvanceFilter_Usercreator_Field_Js', {}, {
-});
+AdvanceFilter_Owner_Field_Js('AdvanceFilter_Usercreator_Field_Js', {}, {});
 Vtiger_Date_Field_Js('AdvanceFilter_Date_Field_Js', {}, {
 	/**
 	 * Function to get the ui
@@ -757,5 +757,4 @@ Vtiger_Date_Field_Js('AdvanceFilter_Date_Field_Js', {}, {
 });
 
 
-AdvanceFilter_Date_Field_Js('AdvanceFilter_Datetime_Field_Js', {}, {
-});
+AdvanceFilter_Date_Field_Js('AdvanceFilter_Datetime_Field_Js', {}, {});

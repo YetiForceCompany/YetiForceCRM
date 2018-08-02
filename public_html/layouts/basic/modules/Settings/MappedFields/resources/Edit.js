@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Settings_Vtiger_Edit_Js("Settings_MappedFields_Edit_Js", {
 	instance: {}
 
@@ -48,7 +50,7 @@ Settings_Vtiger_Edit_Js("Settings_MappedFields_Edit_Js", {
 	 * Function to initiate the step 1 instance
 	 */
 	initiate: function (container) {
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('.mfTemplateContents');
 		}
 		if (container.is('.mfTemplateContents')) {
@@ -90,7 +92,7 @@ Settings_Vtiger_Edit_Js("Settings_MappedFields_Edit_Js", {
 					specialValidation = thisInstance.currentInstance.isFormValidate();
 				}
 				if (form.validationEngine('validate') && specialValidation) {
-					thisInstance.currentInstance.submit().then(function (data) {
+					thisInstance.currentInstance.submit().done(function (data) {
 						if (data) {
 							thisInstance.getContainer().append(data);
 							var stepVal = thisInstance.getStepValue();

@@ -1,0 +1,10 @@
+{
+  "php": {
+    "Payments": "Pagos",
+    "LBL_RIGHT_CLICK_COPY": "Haga clic derecho y copie"
+  },
+  "js": {
+    "JS_DELETED_SUCCESSFULLY": "Eliminado correctamente",
+    "JS_SAVED_SUCCESSFULLY": "Guardado correctamente"
+  }
+}

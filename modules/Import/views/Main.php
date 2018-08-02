@@ -9,9 +9,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Import_Main_View extends Vtiger_View_Controller
+class Import_Main_View extends \App\Controller\View
 {
-
 	public $request;
 	public $user;
 	public $numberOfRecords;
@@ -26,27 +25,35 @@ class Import_Main_View extends Vtiger_View_Controller
 
 	public function process(\App\Request $request)
 	{
-		return;
 	}
 
-	public function __construct($request, $user)
+	/**
+	 * Constructor.
+	 *
+	 * @param \App\Request $request
+	 * @param App\User     $user
+	 */
+	public function __construct(\App\Request $request, App\User $user)
 	{
 		$this->request = $request;
 		$this->user = $user;
 	}
 
-	public static function import($request, $user)
+	/**
+	 * Import data from file.
+	 *
+	 * @param \App\Request $request
+	 * @param App\User     $user
+	 */
+	public static function import(\App\Request $request, \App\User $user)
 	{
-		$importController = new Import_Main_View($request, $user);
-
+		$importController = new self($request, $user);
 		$importController->saveMap();
 		$fileReadStatus = $importController->copyFromFileToDB();
 		if ($fileReadStatus) {
 			$importController->queueDataImport();
 		}
-
 		$isImportScheduled = $importController->request->get('is_scheduled');
-
 		if ($isImportScheduled) {
 			$importInfo = Import_Queue_Action::getUserCurrentImportInfo($importController->user);
 			self::showScheduledStatus($importInfo);
@@ -59,7 +66,6 @@ class Import_Main_View extends Vtiger_View_Controller
 	{
 		$importInfo = Import_Queue_Action::getImportInfo($this->request->get('module'), $this->user);
 		$importDataController = new Import_Data_Action($importInfo, $this->user);
-
 		if (!$batchImport) {
 			if (!$importDataController->initializeImport()) {
 				Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
@@ -75,12 +81,14 @@ class Import_Main_View extends Vtiger_View_Controller
 	}
 
 	/**
-	 * Show import status
-	 * @param array $importInfo
-	 * @param Users_Record_Model $user
+	 * Show import status.
+	 *
+	 * @param array     $importInfo
+	 * @param \App\User $user
+	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public static function showImportStatus($importInfo, $user)
+	public static function showImportStatus($importInfo, \App\User $user)
 	{
 		if (empty($importInfo)) {
 			Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
@@ -122,17 +130,12 @@ class Import_Main_View extends Vtiger_View_Controller
 
 	public static function showResult($importInfo, $importStatusCount)
 	{
-		$moduleName = $importInfo['module'];
-		$ownerId = $importInfo['user_id'];
-
 		$viewer = new Vtiger_Viewer();
-		$viewer->assign('FOR_MODULE', $moduleName);
+		$viewer->assign('FOR_MODULE', $importInfo['module']);
 		$viewer->assign('MODULE', 'Import');
-		$viewer->assign('OWNER_ID', $ownerId);
+		$viewer->assign('OWNER_ID', $importInfo['user_id']);
 		$viewer->assign('IMPORT_RESULT', $importStatusCount);
-		$viewer->assign('TYPE', $importInfo['type']);
 		$viewer->assign('MERGE_ENABLED', $importInfo['merge_type']);
-
 		$viewer->view('ImportResult.tpl', 'Import');
 	}
 
@@ -179,7 +182,7 @@ class Import_Main_View extends Vtiger_View_Controller
 			$map['module'] = $this->request->get('module');
 			$map['has_header'] = ($hasHeader) ? 1 : 0;
 			$map['assigned_user_id'] = $this->user->id;
-			(new Import_Map_Model($map, $this->user))->save();
+			(new Import_Map_Model($map))->save();
 		}
 	}
 
@@ -190,10 +193,12 @@ class Import_Main_View extends Vtiger_View_Controller
 		$fileReader->deleteFile();
 		if ($fileReader->getStatus() === 'success') {
 			$this->numberOfRecords = $fileReader->getNumberOfRecordsRead();
+
 			return true;
 		} else {
 			Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_FILE_READ_FAILED', 'Import') . ' - ' .
 				\App\Language::translate($fileReader->getErrorMessage(), 'Import'));
+
 			return false;
 		}
 	}
@@ -210,7 +215,8 @@ class Import_Main_View extends Vtiger_View_Controller
 	}
 
 	/**
-	 * Delete map
+	 * Delete map.
+	 *
 	 * @param \App\Request $request
 	 */
 	public static function deleteMap(\App\Request $request)

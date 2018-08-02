@@ -1,23 +1,23 @@
 <?php
 
 /**
- * Record Model
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Record Model.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 {
-
 	/**
-	 * Length key
+	 * Length key.
 	 */
 	const KEY_LENGTH = 32;
 
 	/**
-	 * Function to get id
-	 * @return integer
+	 * Function to get id.
+	 *
+	 * @return int
 	 */
 	public function getId()
 	{
@@ -25,7 +25,8 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Return name server
+	 * Return name server.
+	 *
 	 * @return type
 	 */
 	public function getName()
@@ -34,7 +35,8 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Functtion to get instance without data 
+	 * Functtion to get instance without data.
+	 *
 	 * @return \self
 	 */
 	public static function getCleanInstance()
@@ -43,9 +45,11 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Static function to get model
-	 * @param integer $recordId
-	 * @return boolean|\self
+	 * Static function to get model.
+	 *
+	 * @param int $recordId
+	 *
+	 * @return bool|\self
 	 */
 	public static function getInstanceById($recordId)
 	{
@@ -63,7 +67,7 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Delete the record
+	 * Delete the record.
 	 */
 	public function delete()
 	{
@@ -73,7 +77,7 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Save record
+	 * Save record.
 	 */
 	public function save()
 	{
@@ -82,12 +86,12 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 			'status' => $this->get('status') ? 1 : 0,
 			'name' => $this->get('name'),
 			'acceptable_url' => $this->get('acceptable_url'),
-			'pass' => $this->get('pass'),
+			'pass' => App\Encryption::getInstance()->encrypt($this->get('pass')),
 			'accounts_id' => $this->get('accounts_id'),
 		];
 		if ($this->isEmpty('id')) {
 			$data['type'] = $this->get('type');
-			$data['api_key'] = \App\Encryption::generatePassword(self::KEY_LENGTH);
+			$data['api_key'] = App\Encryption::getInstance()->encrypt(\App\Encryption::generatePassword(self::KEY_LENGTH));
 			$db->createCommand()->insert('w_#__servers', $data)->execute();
 			$this->set('id', $db->getLastInsertID('w_#__servers_id_seq'));
 		} else {

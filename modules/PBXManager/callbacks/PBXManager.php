@@ -7,17 +7,18 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-chdir(dirname(__FILE__) . '/../../../');
+chdir(__DIR__ . '/../../../');
 include_once 'include/main/WebUI.php';
 
 class PBXManager_PBXManager_Callbacks
 {
-
 	/**
-	 * Validate request
-	 * @param string $vtigersecretkey
+	 * Validate request.
+	 *
+	 * @param string       $vtigersecretkey
 	 * @param \App\Request $request
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public function validateRequest($vtigersecretkey, \App\Request $request)
 	{

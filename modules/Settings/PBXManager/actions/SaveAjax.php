@@ -10,11 +10,9 @@
 
 class Settings_PBXManager_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
-
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser()) {
+		if (!\App\User::getCurrentUserModel()->isAdmin()) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}

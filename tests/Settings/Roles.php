@@ -1,23 +1,23 @@
 <?php
 /**
- * Roles test class
- * @package YetiForce.Test
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Arkadiusz Adach <a.adach@yetiforce.com>
+ * Roles test class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
+
 namespace Tests\Settings;
 
 class Roles extends \Tests\Base
 {
-
 	/**
-	 * Role id
+	 * Role id.
 	 */
 	private static $id;
 
 	/**
-	 * Testing role creation
+	 * Testing role creation.
 	 */
 	public function testAddRole()
 	{
@@ -45,23 +45,23 @@ class Roles extends \Tests\Base
 
 		$row = (new \App\Db\Query())->from('vtiger_role')->where(['roleid' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertEquals($row['rolename'], 'Test');
-		$this->assertEquals($row['changeowner'], 1);
-		$this->assertEquals($row['searchunpriv'], 'Contacts');
-		$this->assertEquals($row['parentrole'], 'H1::H2::' . static::$id);
-		$this->assertEquals($row['allowassignedrecordsto'], 1);
-		$this->assertEquals($row['clendarallorecords'], 1);
-		$this->assertEquals($row['listrelatedrecord'], 0);
-		$this->assertEquals($row['previewrelatedrecord'], 0);
-		$this->assertEquals($row['editrelatedrecord'], 1);
-		$this->assertEquals($row['permissionsrelatedfield'], 0);
-		$this->assertEquals($row['globalsearchadv'], 1);
-		$this->assertEquals($row['assignedmultiowner'], 1);
-		$this->assertEquals($row['auto_assign'], 1);
+		$this->assertSame($row['rolename'], 'Test');
+		$this->assertSame((string) $row['changeowner'], '1');
+		$this->assertSame($row['searchunpriv'], 'Contacts');
+		$this->assertSame($row['parentrole'], 'H1::H2::' . static::$id);
+		$this->assertSame((string) $row['allowassignedrecordsto'], '1');
+		$this->assertSame((string) $row['clendarallorecords'], '1');
+		$this->assertSame((string) $row['listrelatedrecord'], '0');
+		$this->assertSame((string) $row['previewrelatedrecord'], '0');
+		$this->assertSame((string) $row['editrelatedrecord'], '1');
+		$this->assertSame((string) $row['permissionsrelatedfield'], '0');
+		$this->assertSame((string) $row['globalsearchadv'], '1');
+		$this->assertSame((string) $row['assignedmultiowner'], '1');
+		$this->assertSame((string) $row['auto_assign'], '1');
 	}
 
 	/**
-	 * Testing move role
+	 * Testing move role.
 	 */
 	public function testMoveRole()
 	{
@@ -71,11 +71,11 @@ class Roles extends \Tests\Base
 		$recordModel->moveTo($parentRole);
 
 		$row = (new \App\Db\Query())->from('vtiger_role')->where(['roleid' => static::$id])->one();
-		$this->assertEquals($row['parentrole'], 'H1::' . static::$id);
+		$this->assertSame($row['parentrole'], 'H1::' . static::$id);
 	}
 
 	/**
-	 * Testing role edition
+	 * Testing role edition.
 	 */
 	public function testEditRole()
 	{
@@ -101,23 +101,23 @@ class Roles extends \Tests\Base
 		$row = (new \App\Db\Query())->from('vtiger_role')->where(['roleid' => static::$id])->one();
 
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertEquals($row['rolename'], 'Test edit');
-		$this->assertEquals($row['changeowner'], 0);
-		$this->assertEquals($row['searchunpriv'], 'Contacts,Accounts');
-		$this->assertEquals($row['parentrole'], 'H1::' . static::$id);
-		$this->assertEquals($row['allowassignedrecordsto'], 4);
-		$this->assertEquals($row['clendarallorecords'], 2);
-		$this->assertEquals($row['listrelatedrecord'], 1);
-		$this->assertEquals($row['previewrelatedrecord'], 1);
-		$this->assertEquals($row['editrelatedrecord'], 0);
-		$this->assertEquals($row['permissionsrelatedfield'], '0,1');
-		$this->assertEquals($row['globalsearchadv'], 0);
-		$this->assertEquals($row['assignedmultiowner'], 4);
-		$this->assertEquals($row['auto_assign'], 0);
+		$this->assertSame($row['rolename'], 'Test edit');
+		$this->assertSame((string) $row['changeowner'], '0');
+		$this->assertSame($row['searchunpriv'], 'Contacts,Accounts');
+		$this->assertSame($row['parentrole'], 'H1::' . static::$id);
+		$this->assertSame((string) $row['allowassignedrecordsto'], '4');
+		$this->assertSame((string) $row['clendarallorecords'], '2');
+		$this->assertSame((string) $row['listrelatedrecord'], '1');
+		$this->assertSame((string) $row['previewrelatedrecord'], '1');
+		$this->assertSame((string) $row['editrelatedrecord'], '0');
+		$this->assertSame($row['permissionsrelatedfield'], '0,1');
+		$this->assertSame((string) $row['globalsearchadv'], '0');
+		$this->assertSame((string) $row['assignedmultiowner'], '4');
+		$this->assertSame((string) $row['auto_assign'], '0');
 	}
 
 	/**
-	 * Testing role deletion
+	 * Testing role deletion.
 	 */
 	public function testDeleteRole()
 	{

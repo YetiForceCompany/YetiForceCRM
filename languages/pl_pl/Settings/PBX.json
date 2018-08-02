@@ -1,0 +1,18 @@
+{
+  "php": {
+    "LBL_NAME": "Nazwa",
+    "LBL_TYPE": "Typ",
+    "LBL_DEFAULT": "Domy\u015blna",
+    "LBL_ADD_RECORD": "Dodaj centrale",
+    "LBL_CREATE_RECORD": "Dodaj centrale telefoniczn\u0105",
+    "LBL_EDIT_RECORD": "Edycja centrali telefonicznej",
+    "LBL_URL": "Adres serwera",
+    "LBL_USERNAME": "Login",
+    "LBL_PASSWORD": "Has\u0142o",
+    "LBL_SECRET_KEY": "Klucz",
+    "LBL_OUTBOUND_CONTEXT": "Kontekst wyj\u015bcia"
+  },
+  "js": {
+    "JS_SAVE_SUCCESS": "Zapisano zmiany"
+  }
+}

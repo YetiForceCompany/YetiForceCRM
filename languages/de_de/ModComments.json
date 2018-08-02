@@ -1,0 +1,25 @@
+{
+  "php": {
+    "SINGLE_ModComments": "Kommentar",
+    "LBL_RECORDS_LIST": "Liste Kommentare",
+    "LBL_MODCOMMENTS_INFORMATION": "Kommentar",
+    "LBL_OTHER_INFORMATION": "Weitere Information",
+    "LBL_ADDING_COMMENT": "Komentar hinzuf\u00fcgen",
+    "LBL_WRITE_YOUR_COMMENT_HERE": "Kommentare hier eingeben",
+    "Comment": "Kommentar",
+    "Creator": "Ersteller",
+    "Customer": "Kunde",
+    "Related To Comments": "Bezogen auf",
+    "UserId": "BenutzerId",
+    "ReasonToEdit": "Grund der \u00c4nderung",
+    "LBL_ADDED_COMMENT_TO_TICKET": "Ein Kommentar dem Ticket hinzuf\u00fcgen",
+    "LBL_NEW_COMMENT_FOR_TICKET": "Es wurde eine Kommentar zum Ticket hinzugef\u00fcgt",
+    "LBL_NOTICE_WELCOME": "Willkommen",
+    "LBL_NOTICE_CREATED": "Erzeugt von",
+    "LBL_COMMENTS_0": "Aktueller Datensatz",
+    "LBL_COMMENTS_1": "Prozesse",
+    "LBL_COMMENTS_2": "Unterprozesse",
+    "LBL_COMMENTS_SEARCH": "Suche",
+    "LBL_ALL_RECORDS": "Related records"
+  }
+}

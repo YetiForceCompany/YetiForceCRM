@@ -1,0 +1,22 @@
+{
+  "php": {
+    "FL_PROVIDER": "Provider",
+    "FL_STATUS": "Status",
+    "FL_SMSAPI_FROM": "Nachrichtentyp",
+    "FL_API_KEY": "Api Schl\u00fcssel",
+    "PLL_INACTIVE": "Inaktiv",
+    "PLL_ACTIVE": "Aktiv",
+    "LBL_ADD_RECORD": "Neue Konfiguration",
+    "LBL_SMSNOTIFIER": "SMS Provider Konfiguration",
+    "LBL_SMSNOTIFIER_DESCRIPTION": " ",
+    "LBL_ADD_CONFIGURATION": "Neue Konfiguration",
+    "LBL_EDIT_CONFIGURATION": "Konfiguration editieren",
+    "BTN_SAVE": "Sichern",
+    "BTN_CLOSE": "Abrechen"
+  },
+  "js": {
+    "LBL_DELETE_CONFIRMATION": "Sind Sie sicher diese Konfiguration zu l\u00f6schen?",
+    "JS_RECORD_DELETED_SUCCESSFULLY": "Konfiguration erfolgreich gel\u00f6scht",
+    "JS_SAVE_SUCCESS": "Gesichert"
+  }
+}

@@ -1,16 +1,15 @@
 <?php
 
 /**
- * Abstract class for connection to bank currency exchange rates
- * @package YetiForce.PDF
- * @copyright YetiForce Sp. z o.o.
+ * Abstract class for connection to bank currency exchange rates.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 abstract class Vtiger_AbstractPDF_Pdf
 {
-
 	protected $pdf;
 	protected $library;
 	protected $templateId;
@@ -23,52 +22,52 @@ abstract class Vtiger_AbstractPDF_Pdf
 	protected $fileName;
 
 	/**
-	 * Returns pdf library object
+	 * Returns pdf library object.
 	 */
 	abstract public function pdf();
 
 	/**
-	 * Returns library name
+	 * Returns library name.
 	 */
 	abstract public function getLibraryName();
 
 	/**
-	 * Sets library name
+	 * Sets library name.
 	 */
 	abstract public function setLibraryName($name);
 
 	/**
-	 * Returns template id
+	 * Returns template id.
 	 */
 	abstract public function getTemplateId();
 
 	/**
-	 * Sets the template id
+	 * Sets the template id.
 	 */
 	abstract public function setTemplateId($id);
 
 	/**
-	 * Returns record id
+	 * Returns record id.
 	 */
 	abstract public function getRecordId();
 
 	/**
-	 * Sets the record id
+	 * Sets the record id.
 	 */
 	abstract public function setRecordId($id);
 
 	/**
-	 * Returns module name
+	 * Returns module name.
 	 */
 	abstract public function getModuleName();
 
 	/**
-	 * Sets module name
+	 * Sets module name.
 	 */
 	abstract public function setModuleName($name);
 
 	/**
-	 * Sets document margins
+	 * Sets document margins.
 	 */
 	public function setMargins($top, $right, $bottom, $left)
 	{
@@ -79,83 +78,84 @@ abstract class Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Set top margin
+	 * Set top margin.
 	 */
 	abstract public function setTopMargin($margin);
 
 	/**
-	 * Set bottom margin
+	 * Set bottom margin.
 	 */
 	abstract public function setBottomMargin($margin);
 
 	/**
-	 * Set left margin
+	 * Set left margin.
 	 */
 	abstract public function setLeftMargin($margin);
 
 	/**
-	 * Set right margin
+	 * Set right margin.
 	 */
 	abstract public function setRightMargin($margin);
 
 	/**
-	 * Set page size and orientation
+	 * Set page size and orientation.
 	 */
 	abstract public function setPageSize($format, $orientation);
 
 	/**
-	 * Parse and set options
+	 * Parse and set options.
 	 */
 	abstract public function parseParams(array $params);
 
 	// meta attributes
+
 	/**
-	 * Set Title of the document
+	 * Set Title of the document.
 	 */
 	abstract public function setTitle($title);
 
 	/**
-	 * Set Title of the document
+	 * Set Title of the document.
 	 */
 	abstract public function setAuthor($author);
 
 	/**
-	 * Set Title of the document
+	 * Set Title of the document.
 	 */
 	abstract public function setCreator($creator);
 
 	/**
-	 * Set Title of the document
+	 * Set Title of the document.
 	 */
 	abstract public function setSubject($subject);
 
 	/**
-	 * Set Title of the document
+	 * Set Title of the document.
 	 */
 	abstract public function setKeywords($keywords);
 
 	/**
-	 * Set header content
+	 * Set header content.
 	 */
 	abstract public function setHeader($name, $header);
 
 	/**
-	 * Set footer content
+	 * Set footer content.
 	 */
 	abstract public function setFooter($name, $footer);
 
 	/**
-	 * Load HTML content for exporting to PDF
+	 * Load HTML content for exporting to PDF.
 	 */
 	abstract public function loadHTML($html);
 
 	/**
-	 * Output content to PDF
+	 * Output content to PDF.
 	 */
 	abstract public function output();
 
 	/**
-	 * Get template language
+	 * Get template language.
 	 */
 	public function getLanguage()
 	{
@@ -163,7 +163,7 @@ abstract class Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Set template language
+	 * Set template language.
 	 */
 	public function setLanguage($language)
 	{
@@ -171,7 +171,7 @@ abstract class Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Get pdf filename
+	 * Get pdf filename.
 	 */
 	public function getFileName()
 	{
@@ -179,7 +179,7 @@ abstract class Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Set pdf filename
+	 * Set pdf filename.
 	 */
 	public function setFileName($fileName)
 	{
@@ -187,12 +187,13 @@ abstract class Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Export record to PDF file
-	 * @param int $recordId - id of a record
+	 * Export record to PDF file.
+	 *
+	 * @param int    $recordId   - id of a record
 	 * @param string $moduleName - name of records module
-	 * @param int $templateId - id of pdf template
-	 * @param string $filePath - path name for saving pdf file
-	 * @param string $saveFlag - save option flag
+	 * @param int    $templateId - id of pdf template
+	 * @param string $filePath   - path name for saving pdf file
+	 * @param string $saveFlag   - save option flag
 	 */
 	abstract public function export($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '');
 }

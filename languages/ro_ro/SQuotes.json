@@ -1,0 +1,31 @@
+{
+  "php": {
+    "SQuotes": "Oferte",
+    "SINGLE_SQuotes": "Oferta",
+    "LBL_SQUOTES_INFORMATION": "Informatii de baza",
+    "LBL_CUSTOM_INFORMATION": "Informatii Sistem",
+    "LBL_DESCRIPTION_INFORMATION": "Detalii descriere",
+    "LBL_STATISTICS": "Statistici",
+    "LBL_SUBJECT": "Subiect",
+    "LBL_NUMBER": "Numar",
+    "LBL_STATUS": "Status",
+    "LBL_CLOSED_TIME": "Timp inchidere",
+    "LBL_RESPONSE_TIME": "Timp raspuns",
+    "LBL_COMPANY_NAME": "Denumire companie",
+    "SINGLE_SSalesProcesses": "Oportunitate",
+    "FL_TOTAL_PRICE": "Total Net",
+    "FL_MARGINP": "Total marja procent",
+    "FL_MARGIN": "Total marja",
+    "FL_SUM_GROSS": "Valoare bruta",
+    "FL_SUM_DISCOUNT": "Valoare discount",
+    "FL_VALID_UNTIL": "Valid pana la",
+    "PLL_DRAFT": "Ciorna",
+    "PLL_IN_REALIZATION": "In realizare",
+    "PLL_FOR_VERIFICATION": "Pentru verificare",
+    "PLL_AWAITING_DECISION": "Asteapta decizie",
+    "PLL_NEGOTIATIONS": "Negocieri",
+    "PLL_CANCELLED": "Anulat",
+    "PLL_ACCEPTED": "Acceptat",
+    "LBL_CHANGE_STATUS": "Schimba status"
+  }
+}

@@ -1,21 +1,22 @@
 <?php
 /**
- * Edit View Class
- * @package YetiForce.Settings.Modal
- * @copyright YetiForce Sp. z o.o.
+ * Edit View Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
- * Edit View Class
+ * Edit View Class.
  */
 class Settings_SMSNotifier_Edit_View extends Settings_Vtiger_BasicModal_View
 {
-
 	/**
-	 * Check Permission
+	 * Check Permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
 	public function checkPermission(\App\Request $request)
@@ -32,7 +33,8 @@ class Settings_SMSNotifier_Edit_View extends Settings_Vtiger_BasicModal_View
 	}
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)

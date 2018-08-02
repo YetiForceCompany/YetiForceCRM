@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Create Key
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Create Key.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_View
 {
-
 	public function getSize(\App\Request $request)
 	{
 		return 'modal-lg';
@@ -48,6 +47,7 @@ class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_
 			"modules.Settings.$moduleName.resources.Edit",
 		];
 		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
+
 		return $scriptInstances;
 	}
 }

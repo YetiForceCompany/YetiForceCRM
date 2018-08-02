@@ -1,0 +1,12 @@
+{
+  "php": {
+    "ModTracker": "Historia zmian",
+    "LBL_MODTRACKER_SETTINGS": "Modu\u0142y - \u015bledzenie zmian",
+    "LBL_MODTRACKER_SETTINGS_DESCRIPTION": "Zarz\u0105dzanie histori\u0105 zmian w modu\u0142ach",
+    "LBL_MODULE": "Modu\u0142",
+    "LBL_ACTIVE": "\u015aledzenie zmian",
+    "LBL_TOOLS": "Narz\u0119dzia",
+    "LBL_TRACK_CHANGES_ENABLED": "W\u0142\u0105czono \u015bledzenie zmian",
+    "LBL_TRACK_CHANGES_DISABLE": "Wy\u0142\u0105czono \u015bledzenie zmian"
+  }
+}

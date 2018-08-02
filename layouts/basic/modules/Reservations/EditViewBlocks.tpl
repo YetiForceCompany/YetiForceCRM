@@ -23,6 +23,10 @@
 				<input type="hidden" name="record" id="recordId" value="{$RECORD_ID}" />
 				<input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
 				<input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
+				{if $MODE === 'duplicate'}
+					<input type="hidden" name="_isDuplicateRecord" value="true" />
+					<input type="hidden" name="_duplicateRecord" value="{\App\Request::_get('record')}" />
+				{/if}
 				{if $IS_RELATION_OPERATION }
 					<input type="hidden" name="sourceModule" value="{$SOURCE_MODULE}" />
 					<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
@@ -35,12 +39,6 @@
 					<div class="col-md-8">
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>
-					<div class="col-md-4">
-						<div class="pull-right">
-							<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
-							<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $MODULE)}</a>
-						</div>
-					</div>
 				</div>
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
 				{if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
@@ -48,21 +46,19 @@
 				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 				{if $BLOCKS_HIDE}
-					<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{$BLOCK_LABEL}">
-						<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+					<div class="c-panel c-panel--edit js-toggle-panel mx-1 my-3" data-js="click" data-label="{$BLOCK_LABEL}">
+						<div class="blockHeader c-panel__header align-items-center">
 							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
 								{assign var=APIADDRESFIELD value=TRUE}
 							{else}
 								{assign var=APIADDRESFIELD value=FALSE}
 							{/if}
-							<div class="iconCollapse">
-								<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-								<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-								<h4>{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
-							</div>
+								<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+								<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if ($IS_HIDDEN)}d-none{/if}" data-js="click" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+								<h5>{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h5>
 						</div>
-						<div class="col-xs-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">
-							<div class="col-xs-12 paddingLRZero">
+						<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}" data-js="display">
+							<div class="row">
 								{assign var=COUNTER value=0}
 								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 								{if in_array($FIELD_NAME, ['time_start','time_end'])}{continue}{/if}
@@ -73,19 +69,18 @@
 										{/if}
 									{/if}
 									{if $COUNTER eq 2}
-								</div><div class="col-xs-12 paddingLRZero">
+								</div>
+								<div class="row">
 									{assign var=COUNTER value=1}
 								{else}
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<div class="{if $FIELD_MODEL->getUIType() eq '300'}col-md-12 {else} col-md-6 col-xs-12{/if} fieldRow marginBottom5px">
-									<div class="col-xs-12 col-sm-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
-										<label class="muted pull-right-md pull-right-lg pull-left-sm pull-left-xs marginRight10px">
+								<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-sm-6{else}col-md-12 m-auto{/if} fieldRow row form-group align-items-center my-1">
+										<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">
 											{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
 											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 										</label>
-									</div>
-									<div class="col-xs-12 col-sm-9 fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
+									<div class="{$WIDTHTYPE} fieldValue {if $FIELD_MODEL->getUIType() neq "300"} col-lg-12 col-xl-9 {/if}  w-100" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
 										{if $FIELD_MODEL->getUIType() eq "300"}
 											<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}</label>
 										{/if}

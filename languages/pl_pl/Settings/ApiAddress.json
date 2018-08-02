@@ -1,0 +1,26 @@
+{
+  "php": {
+    "LBL_SAVE": "Zapisz",
+    "ApiAddress": "Wyszukiwarka adres\u00f3w",
+    "LBL_API_ADDRESS": "Mapy [Google & OSM]",
+    "LBL_API_ADDRESS_DESCRIPTION": "Modu\u0142 umo\u017cliwiaj\u0105cy wyszukiwanie\/podpowiadanie adresu podczas tworzenia i edycji danych w systemie.",
+    "LBL_USE_OPENCAGE_GEOCODER": "U\u017cyj OpenCage Geocoder",
+    "LBL_REMOVE_CONNECTION": "Usu\u0144 po\u0142\u0105czenie",
+    "LBL_ENTER_KEY_APPLICATION": "Wprowad\u017a klucz aplikacji",
+    "LBL_MIN_LOOKUP_LENGTH": "Minimalna liczba znak\u00f3w, kt\u00f3r\u0105 nale\u017cy wpisa\u0107 przed rozpocz\u0119ciem wyszukiwania",
+    "LBL_SAVE_NOTIFY_OK": "Zapisano zmiany.",
+    "LBL_CHOOSE_API": "Wybierz API",
+    "LBL_USE_GOOGLE_GEOCODER": "U\u017cyj Google Geocoding",
+    "google_map_api": "Google Geocoding",
+    "opencage_data": "OpenCage Geocoder",
+    "LBL_GLOBAL_CONFIG": "Globalna konfiguracja",
+    "LBL_SAVE_GLOBAL_SETTINGS": "Zapisz globaln\u0105 konfiguracj\u0119",
+    "LBL_NUMBER_SEARCH_RESULTS": "Ilo\u015b\u0107 wynik\u00f3w wyszukiwania"
+  },
+  "js": {
+    "Invalid API key": "Nieprawid\u0142owy klucz aplikacji",
+    "JS_ERROR": "B\u0142\u0105d",
+    "JS_LOADING_PLEASE_WAIT": "Trwa \u0142adowanie widoku, prosz\u0119 czeka\u0107",
+    "JS_WRONG_NUMBER": "Dozwolone znaki: cyfry wieksze od 1"
+  }
+}

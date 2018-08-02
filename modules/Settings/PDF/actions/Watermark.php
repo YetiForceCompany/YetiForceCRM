@@ -1,16 +1,15 @@
 <?php
 
 /**
- * Returns special functions for PDF Settings
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Returns special functions for PDF Settings.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 {
-
 	public function __construct()
 	{
 		$this->exposeMethod('delete');
@@ -44,7 +43,7 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 		}
 
 		// Check allowed upload file size
-		if ($uploadOk && $_FILES['watermark']['size'][0] > vglobal('upload_maxsize')) {
+		if ($uploadOk && $_FILES['watermark']['size'][0] > \AppConfig::main('upload_maxsize')) {
 			$uploadOk = 0;
 		}
 		// Check if $uploadOk is set to 0 by an error

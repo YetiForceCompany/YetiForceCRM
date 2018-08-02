@@ -13,9 +13,9 @@
 	{if !$USER_MODEL}
 		{assign var=USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
 	{/if}
-	<div class="conditionRow">
+	<div class="js-conditions-row form-row" data-js="container | clone">
 		<div class="col-md-4 conditionField">
-			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="columnname" title="{\App\Language::translate('LBL_CHOOSE_FIELD')}">
+			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control m-0" name="columnname" title="{\App\Language::translate('LBL_CHOOSE_FIELD')}">
 				<option value="none">{\App\Language::translate('LBL_SELECT_FIELD',$MODULE)}</option>
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 					<optgroup label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}'>
@@ -115,7 +115,7 @@
 					{assign var=ADVANCE_FILTER_OPTIONS value=array_merge($ADVANCE_FILTER_OPTIONS,$DATE_FILTER_CONDITIONS)}
 				{/if}
 			{/if}
-			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="comparator" title="{\App\Language::translate('LBL_COMAPARATOR_TYPE')}">
+			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control m-0" name="comparator" title="{\App\Language::translate('LBL_COMAPARATOR_TYPE')}">
 				<option value="none">{\App\Language::translate('LBL_NONE',$MODULE)}</option>
 				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
 					<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{\App\Language::translate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
@@ -125,14 +125,14 @@
 		<div class="col-md-4 fieldUiHolder">
 			<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control" type="text" value="{$CONDITION_INFO['value']|escape}" />
 		</div>
-		<span class="hide">
+		<span class="d-none">
 			{if empty($CONDITION)}
 				{assign var=CONDITION value="and"}
 			{/if}
 			<input type="hidden" name="column_condition" value="{$CONDITION}" />
 		</span>
 		<div  class="col-md-1 btn">
-			<span class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
+			<span class="deleteCondition fas fa-trash-alt alignMiddle" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
 		</div>
 	</div>
 {/strip}

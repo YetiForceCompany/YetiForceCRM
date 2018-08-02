@@ -10,7 +10,6 @@
 
 class ModComments_CommentsModel
 {
-
 	private $data;
 	public static $ownerNamesCache = [];
 
@@ -31,6 +30,7 @@ class ModComments_CommentsModel
 	public function timestamp()
 	{
 		$date = new DateTimeField($this->data['modifiedtime']);
+
 		return $date->getDisplayDateTimeValue();
 	}
 

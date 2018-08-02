@@ -10,47 +10,8 @@
 
 class Vtiger_IndexAjax_View extends Vtiger_Index_View
 {
-
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		return true;
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		return true;
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
-	/*
-	 * Function to show the recently modified or active records for the given module
-	 */
-
-	public function showActiveRecords(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$recentRecords = $moduleModel->getRecentRecords();
-
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('RECORDS', $recentRecords);
-
-		echo $viewer->view('RecordNamesList.tpl', $moduleName, true);
-	}
+	use \App\Controller\ExposeMethod,
+	 App\Controller\ClearProcess;
 
 	public function getRecordsListFromRequest(\App\Request $request)
 	{
@@ -78,6 +39,7 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 			if ($request->has('search_params')) {
 				$customViewModel->set('search_params', $request->get('search_params'));
 			}
+
 			return $customViewModel->getRecordIds($excludedIds);
 		}
 	}

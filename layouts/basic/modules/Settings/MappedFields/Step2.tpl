@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="mfTemplateContents">
+	<div class="tpl-Settings-MappedFields-Step2 mfTemplateContents">
 		<form name="editMFTemplate" action="index.php" method="post" id="mf_step2" class="form-horizontal">
 			<input type="hidden" name="module" value="MappedFields">
 			<input type="hidden" name="view" value="Edit">
@@ -9,25 +9,25 @@
 			<input type="hidden" class="step" value="2" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
 			{assign var="PARAMS" value=$MAPPEDFIELDS_MODULE_MODEL->get('params')}
-			<div class="col-md-12 paddingLRZero">
-				<div class="panel panel-default">
-					<div class="panel-heading">
+			<div class="col-md-12 px-0">
+				<div class="card">
+					<div class="card-header">
 						<label>
-							<strong>{\App\Language::translate('LBL_STEP_N',$QUALIFIED_MODULE, 2)}: {\App\Language::translate('LBL_MAPPING_SETTINGS_DETAILS',$QUALIFIED_MODULE)}</strong>
+							<strong>{\App\Language::translateArgs('LBL_STEP_N',$QUALIFIED_MODULE, 2)}: {\App\Language::translate('LBL_MAPPING_SETTINGS_DETAILS',$QUALIFIED_MODULE)}</strong>
 						</label>
 					</div>
-					<div class="panel-body">
+					<div class="card-body">
 						<div class="btn-toolbar">
-							<button id="addMapping" class="btn btn-default addButton marginBottom10px" type="button">
-								<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</strong>
+							<button id="addMapping" class="btn btn-light addButton mb-2" type="button">
+								<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</strong>
 							</button>
-							<div class="checkbox col-md-8">
-								<label>
-									<input type="checkbox" name="autofill" {if $PARAMS.autofill} checked {/if}>{\App\Language::translate('LBL_AUTOFILL',$QUALIFIED_MODULE)} &nbsp;
+							<div class="checkbox col-md-8 align-self-center">
+								<label class="mr-1">
+									<input class="mr-1" type="checkbox" name="autofill" {if $PARAMS.autofill} checked {/if}>{\App\Language::translate('LBL_AUTOFILL',$QUALIFIED_MODULE)}
 								</label>
-								<span class="popoverTooltip delay0"  data-placement="top"
+								<span class="js-popover-tooltip delay0" data-js="popover"  data-placement="top"
 									  data-content="{\App\Language::translate('LBL_AUTOFILL_INFO',$QUALIFIED_MODULE)}">
-									<span class="glyphicon glyphicon-info-sign"></span>
+									<span class="fas fa-info-circle"></span>
 								</span>
 							</div>
 						</div>
@@ -35,7 +35,7 @@
 							<div class="table-responsive">
 								<table class="table table-bordered" id="mappingToGenerate">
 									<tbody>
-										<tr class="blockHeader">
+										<tr class="listViewHeaders">
 											<th class="sourceModuleName"><b>{\App\Language::translate('SINGLE_'|cat:$SEL_MODULE_MODEL->getName(), $SEL_MODULE_MODEL->getName())}</b></th>
 											<th><b>{\App\Language::translate('LBL_FIELDS_TYPE', $QUALIFIED_MODULE)}</b></th>
 											<th class="targetModuleName"><b>{\App\Language::translate('SINGLE_'|cat:$REL_MODULE_MODEL->getName(), $REL_MODULE_MODEL->getName())}</b></th>
@@ -81,13 +81,13 @@
 													{/if}
 												</td>
 												<td class="textAlignCenter">
-													<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-default deleteMapping">
-														<i class="glyphicon glyphicon-trash"></i>
+													<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-danger deleteMapping">
+														<span class="fas fa-trash-alt"></span>
 													</button>
 												</td>
 											</tr>
 										{/foreach}
-										<tr class="hide newMapping listViewEntries">
+										<tr class="d-none newMapping listViewEntries">
 											<td>
 												<select class="sourceFields newSelect">
 													<option data-type="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
@@ -120,8 +120,8 @@
 											<td class="">
 											</td>
 											<td class="textAlignCenter">
-												<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-default deleteMapping">
-													<i class="glyphicon glyphicon-trash"></i>
+												<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-danger deleteMapping">
+													<span class="fas fa-trash-alt"></span>
 												</button>
 											</td>
 										</tr>
@@ -130,11 +130,24 @@
 							</div>
 						</div>
 					</div>
-					<div class="panel-footer clearfix">
-						<div class="btn-toolbar pull-right">
-							<button class="btn btn-danger backStep" type="button"><strong>{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>
-							<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
-							<button class="btn btn-warning cancelLink" type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+					<div class="card-footer clearfix">
+						<div class="btn-toolbar float-right">
+							<button class="btn btn-danger backStep mr-1" type="button">
+								<strong>
+									<span class="fas fa-caret-left mr-1"></span>
+									{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}
+								</strong>
+							</button>
+							<button class="btn btn-success" type="submit">
+								<strong>
+									<span class="fas fa-caret-right mr-1"></span>
+									{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}
+								</strong>
+							</button>
+							<button class="btn btn-warning cancelLink" type="reset">
+								<span class="fas fa-times mr-1"></span>
+								{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
+							</button>
 						</div>
 					</div>
 				</div>
@@ -144,7 +157,7 @@
 </form>
 </div>
 
-<div class="hide" id="defaultValuesElementsContainer">
+<div class="d-none" id="defaultValuesElementsContainer">
 	{foreach key=BLOCK_NAME item=FIELDS from=$REL_MODULE_MODEL->getFields()}
 		{foreach key=_FIELD_ID item=_FIELD_INFO from=$FIELDS}
 			{assign var="_FIELD_TYPE" value=$_FIELD_INFO->getFieldDataType()}

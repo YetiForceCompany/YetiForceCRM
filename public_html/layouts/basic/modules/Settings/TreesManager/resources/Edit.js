@@ -1,32 +1,34 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 	jstreeInstance: false,
 	jstreeLastID: 0,
 	registerEvents: function () {
-		var thisInstance = this;
-		var editContainer = $("#EditView");
+		const thisInstance = this,
+			editContainer = $("#EditView"),
+			jstreeInstance = thisInstance.createTree();
 		editContainer.validationEngine();
-		var jstreeInstance = thisInstance.createTree();
-		$('.addNewElementBtn').click(function (e) {
-			var newElement = $('input.addNewElement');
-			if (newElement.val() == '') {
-				var message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
+		$('.addNewElementBtn').on('click', function (e) {
+			const newElement = $('input.addNewElement'),
+				ref = jstreeInstance.jstree(true);
+			if (newElement.val() === '') {
+				const message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
 				newElement.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
 				return false;
 			}
-			thisInstance.jstreeLastID = thisInstance.jstreeLastID + 1;
-			var ref = jstreeInstance.jstree(true),
-					sel = ref.get_selected();
+			thisInstance.jstreeLastID += 1;
 			ref.create_node('#', {
 				id: thisInstance.jstreeLastID,
 				text: newElement.val(),
+				icon: false
 			}, 'last');
-			$('input.addNewElement').val('');
+			newElement.val('');
 		});
-		$('.saveTree').click(function (e) {
-			jstreeInstance.jstree('deselect_all', true)
-			var json = jstreeInstance.jstree("get_json");
-			var forSave = [];
+		$('.saveTree').on('click', function (e) {
+			jstreeInstance.jstree('deselect_all', true);
+			const json = jstreeInstance.jstree("get_json");
+			let forSave = [];
 			$.each(json, function (index, value) {
 				if (value.text == value.li_attr.text) {
 					value.text = value.li_attr.key;
@@ -36,7 +38,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 			$('#treeValues').val(JSON.stringify(forSave));
 			editContainer.submit();
 		});
-		$('.addNewElement').keydown(function (event) {
+		$('.addNewElement').on('keydown', function (event) {
 			if (event.keyCode == 13) {
 				$('.addNewElementBtn').trigger("click");
 				event.preventDefault();
@@ -82,7 +84,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 							label: app.vtranslate('JS_JSTREE_RENAME'),
 							action: function (data) {
 								var inst = $.jstree.reference(data.reference),
-										obj = inst.get_node(data.reference);
+									obj = inst.get_node(data.reference);
 								inst.edit(obj);
 							}
 						},
@@ -91,10 +93,10 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 							action: function (data) {
 								var instanceTree = $.jstree.reference(data.reference);
 								var node = instanceTree.get_node(data.reference);
-								Settings_Vtiger_Index_Js.selectIcon().then(function (data) {
+								Settings_Vtiger_Index_Js.selectIcon().done(function (data) {
 									if (data['name'] == '-') {
 										thisInstance.jstreeInstance.jstree(true).set_icon(node.id, false);
-									}else{
+									} else {
 										thisInstance.jstreeInstance.jstree(true).set_icon(node.id, data['name']);
 									}
 								});
@@ -110,12 +112,15 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 								$.each(id, function (index, value) {
 									var menu = inst.get_node(value);
 									if (menu.children.length > 0) {
-										Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_YOU_CANNOT_DELETE_PERENT_ITEM'), type: 'error'})
+										Settings_Vtiger_Index_Js.showMessage({
+											text: app.vtranslate('JS_YOU_CANNOT_DELETE_PERENT_ITEM'),
+											type: 'error'
+										})
 										status = false;
 									}
 								});
 								if (status) {
-									thisInstance.deleteItemEvent(id, inst).then(function (e) {
+									thisInstance.deleteItemEvent(id, inst).done(function (e) {
 										if (e.length > 0) {
 											$.each(id, function (index, value) {
 												inst.delete_node(value);
@@ -123,7 +128,8 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 										}
 									})
 								}
-							}},
+							}
+						},
 						ccp: {
 							label: app.vtranslate('JS_JSTREE_CCP'),
 							submenu: {
@@ -131,7 +137,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 									label: app.vtranslate('JS_JSTREE_CUT'),
 									"action": function (data) {
 										var inst = $.jstree.reference(data.reference),
-												obj = inst.get_node(data.reference);
+											obj = inst.get_node(data.reference);
 										if (inst.is_selected(obj)) {
 											inst.cut(inst.get_top_selected());
 										} else {
@@ -143,7 +149,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 									label: app.vtranslate('JS_JSTREE_PASTE'),
 									"action": function (data) {
 										var inst = $.jstree.reference(data.reference),
-												obj = inst.get_node(data.reference);
+											obj = inst.get_node(data.reference);
 										inst.paste(obj);
 									}
 								},
@@ -164,13 +170,16 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 			data = thisInstance.checkChildren(id, data);
 		});
 		if (data.length == 0) {
-			Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS'), type: 'error'})
+			Settings_Vtiger_Index_Js.showMessage({
+				text: app.vtranslate('JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS'),
+				type: 'error'
+			})
 			aDeferred.resolve();
 			return aDeferred.promise();
 		}
 		app.showModalWindow(null, "index.php?module=TreesManager&parent=Settings&view=ReplaceTreeItem", function (wizardContainer) {
-			var form = jQuery('form', wizardContainer);
-			jstreeInstanceReplace = wizardContainer.find('#treePopupContents');
+			let form = jQuery('form', wizardContainer),
+				jstreeInstanceReplace = wizardContainer.find('#treePopupContents');
 			jstreeInstanceReplace.jstree({
 				core: {
 					data: data,
@@ -179,10 +188,10 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 						responsive: true
 					},
 				},
-			}).bind("loaded.jstree", function (event, data) {
+			}).on("loaded.jstree", function (event, data) {
 				$(this).jstree("open_all");
 			});
-			form.submit(function (e) {
+			form.on('submit', function (e) {
 				var selected = jstreeInstanceReplace.jstree("get_selected");
 				var replaceIds = $('#replaceIds').val();
 				if (replaceIds == '') {

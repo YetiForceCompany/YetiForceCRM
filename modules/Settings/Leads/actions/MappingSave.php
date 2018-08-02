@@ -11,7 +11,6 @@
 
 class Settings_Leads_MappingSave_Action extends Settings_Vtiger_Index_Action
 {
-
 	public function process(\App\Request $request)
 	{
 		$mapping = $request->get('mapping');
@@ -29,11 +28,7 @@ class Settings_Leads_MappingSave_Action extends Settings_Vtiger_Index_Action
 			$result['status'] = false;
 		}
 		$response->setResult($result);
-		return $response->emit();
-	}
 
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
+		return $response->emit();
 	}
 }

@@ -9,7 +9,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="" id="ConfigEditorDetails">
+	<div class="tpl-Settings-Vtiger-ConfigEditorDetail" id="ConfigEditorDetails">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div class="widget_header row">
 			<div class="col-md-8">
@@ -17,14 +17,14 @@
 				{\App\Language::translate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 			<div class="col-md-4">
-				<div class="pull-right">
-					<button class="btn btn-success editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
+				<div class="float-right">
+					<button class="btn btn-success editButton mt-2" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"><span class="fa fa-edit u-mr-5px"></span><strong>{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
 				</div>
 			</div>
 		</div>
 		<hr>
 		<div class="contents">
-			<table class="table tableRWD table-bordered table-condensed themeTableColor">
+			<table class="table tableRWD table-bordered table-sm themeTableColor">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="2" class="{$WIDTHTYPE}">
@@ -38,25 +38,25 @@
 						<tr><td width="30%" class="{$WIDTHTYPE} textAlignRight"><label class="muted marginRight10px">{\App\Language::translate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label></td>
 							<td style="border-left: none;" class="{$WIDTHTYPE}">
 								<span>{if $FIELD_NAME == 'default_module'}
-										{\App\Language::translate($FIELD_DATA[$FIELD_NAME], $FIELD_DATA[$FIELD_NAME])}
+									{\App\Language::translate($FIELD_DATA[$FIELD_NAME], $FIELD_DATA[$FIELD_NAME])}
 									{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
 										{if \App\Language::translate($FIELD_DATA[$FIELD_NAME]) == 'true'}
 											{\App\Language::translate(LBL_YES)}
 										{else}
 											{\App\Language::translate(LBL_NO)}
 										{/if}
-									{elseif $FIELD_DETAILS['fieldType'] == 'picklist'}
-										{assign var=PICKLIST value=$MODEL->getPicklistValues($FIELD_NAME)}
-										{$PICKLIST[$FIELD_DATA[$FIELD_NAME]]}
-									{else}
-										{$FIELD_DATA[$FIELD_NAME]}
-									{/if}
-									{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{\App\Language::translate('LBL_MB', $QUALIFIED_MODULE)}{/if}</span>
-							</td>
-						</tr>
-					{/foreach}
-				</tbody>
-			</table>
-		</div>
-	</div>
-{/strip}
+										{elseif $FIELD_DETAILS['fieldType'] == 'picklist'}
+											{assign var=PICKLIST value=$MODEL->getPicklistValues($FIELD_NAME)}
+											{$PICKLIST[$FIELD_DATA[$FIELD_NAME]]}
+											{else}
+												{$FIELD_DATA[$FIELD_NAME]}
+												{/if}
+													{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{\App\Language::translate('LBL_MB', $QUALIFIED_MODULE)}{/if}</span>
+											</td>
+										</tr>
+										{/foreach}
+										</tbody>
+									</table>
+								</div>
+							</div>
+							{/strip}

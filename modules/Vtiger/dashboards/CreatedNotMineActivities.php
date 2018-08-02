@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Vtiger CreatedNotMineActivities dashboard class
- * @package YetiForce.Dashboard
- * @copyright YetiForce Sp. z o.o.
+ * Vtiger CreatedNotMineActivities dashboard class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
+class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -21,10 +20,11 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$data = $request->getAll();
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-		if (!$request->has('owner'))
+		if (!$request->has('owner')) {
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
-		else
+		} else {
 			$owner = $request->getByType('owner', 2);
+		}
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
@@ -40,8 +40,8 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 				'and',
 				['vtiger_activity.status' => $params['status']],
 				['vtiger_crmentity.smcreatorid' => $params['user']],
-				['not in', 'vtiger_crmentity.smownerid', $params['user']]
-			]
+				['not in', 'vtiger_crmentity.smownerid', $params['user']],
+			],
 		];
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);

@@ -1,0 +1,22 @@
+{
+  "php": {
+    "IGDN": "[WZ] Wydania na zewn\u0105trz",
+    "SINGLE_IGDN": "[WZ] Wydanie na zewn\u0105trz",
+    "LBL_DESCRIPTION_BLOCK": "Opis",
+    "LBL_ATTENTION_BLOCK": "Uwagi",
+    "FL_ACCEPTANCE_DATE": "Data wydania",
+    "FL_ACCOUNT": "Kontrahent",
+    "FL_SUBJECT": "Nazwa",
+    "FL_NUMBER": "Numer",
+    "FL_STORAGE": "Magazyn",
+    "FL_STATUS": "Status",
+    "FL_SSIGNLEORDERS": "Zam\u00f3wienie",
+    "PLL_DRAFT": "Wersja robocza",
+    "PLL_IN_REALIZATION": "W realizacji",
+    "PLL_OBJECTIONS": "Zastrze\u017cenia",
+    "PLL_FOR_APPROVAL": "Do akceptacji",
+    "PLL_CANCELLED": "Anulowane",
+    "PLL_ACCEPTED": "Zaakceptowano",
+    "LBL_CHANGE_STATUS": "Zmie\u0144 status"
+  }
+}

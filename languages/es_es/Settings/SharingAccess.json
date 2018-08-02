@@ -1,0 +1,38 @@
+{
+  "php": {
+    "Sharing Rules": "Reglas de uso compartido",
+    "SharingAccess": "Reglas de uso compartido",
+    "Accounts": "Empresas y Contactos",
+    "LBL_ADD_CUSTOM_RULE": "A\u00f1adir regla personalizada",
+    "LBL_ADD_CUSTOM_RULE_TO": "A\u00f1adir regla personalizada a",
+    "LBL_ADVANCED_SHARING_RULES": "Reglas avanzadas de uso compartido",
+    "LBL_APPLY_NEW_SHARING_RULES": "Aplicar nuevas reglas de uso compartido",
+    "LBL_CAN_ACCESSED_BY": "Se puede acceder por",
+    "LBL_CUSTOM_ACCESS_MESG": "No se definen reglas de acceso personalizado",
+    "LBL_MODULE": "M\u00f3dulo",
+    "LBL_PRIVILEGES": "Privilegios",
+    "LBL_READ": "Leer",
+    "LBL_READ_WRITE": "Leer y escribir",
+    "LBL_RULE_NO": "N\u00famero de la regla",
+    "LBL_SHARING_RULE": "Reglas de uso compartido",
+    "LBL_WITH_PERMISSIONS": "Con permisos",
+    "Read Only": "Solo lectura",
+    "Read Write": "Leer\/Escribir",
+    "SINGLE_Groups": "Grupo",
+    "Groups": "Grupos",
+    "SINGLE_RoleAndSubordinates": "Rol y subordinado",
+    "RoleAndSubordinates": "Roles y subordinados",
+    "SINGLE_Roles": "Rol",
+    "Roles": "Roles",
+    "Private": "Privado",
+    "Public: Read Only": "P\u00fablico: solo lectura",
+    "Public: Read, Create\/Edit, Delete": "P\u00fablico: leer, crear\/editar, eliminar",
+    "Public: Read, Create\/Edit": "P\u00fablico: leer, crear\/editar"
+  },
+  "js": {
+    "JS_CUSTOM_RULE_SAVED_SUCCESSFULLY": "Se ha guardado correctamente la regla de uso compartido personalizado",
+    "JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE": "Oportunidades, Incidencias, Presupuestos y Acceso a la factura se deben establecer en privado cuando el acceso a la cuenta est\u00e1 configurado como privado",
+    "JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY": "Nuevas reglas de uso compartido aplicadas correctamente",
+    "JS_SELECT_ANY_OTHER_ACCESSING_USER": "Seleccione cualquier otro usuario que pueda acceder"
+  }
+}

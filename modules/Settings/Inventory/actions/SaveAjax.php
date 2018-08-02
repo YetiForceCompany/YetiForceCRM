@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -20,9 +20,9 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
+
 			return;
 		}
 		$id = $request->get('id');
@@ -47,7 +47,7 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		try {
 			$id = $recordModel->save();
 			$recordModel = Settings_Inventory_Record_Model::getInstanceById($id, $type);
-			$response->setResult(array_merge(['_editurl' => $recordModel->getEditUrl(), 'row_type' => $currentUser->get('rowheight')], $recordModel->getData()));
+			$response->setResult(array_merge(['_editurl' => $recordModel->getEditUrl(), 'row_type' => \App\User::getCurrentUserModel()->getDetail('rowheight')], $recordModel->getData()));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
@@ -112,10 +112,5 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

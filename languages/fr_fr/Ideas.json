@@ -1,0 +1,16 @@
+{
+  "php": {
+    "Ideas": "Id\u00e9es",
+    "SINGLE_Ideas": "Id\u00e9e",
+    "LBL_IDEAS_INFORMATION": "D\u00e9tails de l'id\u00e9e",
+    "LBL_SUBJECT": "Sujet",
+    "LBL_STATUS": "Statut",
+    "Description": "Description",
+    "LBL_EXTENT_DESCRIPTION": "Description detaill\u00e9e",
+    "Attention": "Commentaires",
+    "LBL_NO": "N\u00b0",
+    "Draft": "Brouillon",
+    "Proposition": "Proposition"
+  },
+  "js": []
+}

@@ -1,0 +1,17 @@
+{
+  "php": {
+    "LBL_COUNTRY_NAME": "Nom Pays",
+    "LBL_COUNTRY_SHORTNAME": "Code Pays",
+    "LBL_COUNTRY_TOGGLE_STATUS": "Le pays est-il disponible globalement dans le syst\u00e8me ?",
+    "LBL_COUNTRY_TOGGLE_ALL_STATUSES": "Activer ou d\u00e9sactiver tous les pays",
+    "LBL_VISIBLE_IN_PHONE": "Le pays est-il visible dans le champ de type de t\u00e9l\u00e9phone?",
+    "LBL_VISIBLE_IN_COUNTRY": "Le pays est-il visible dans",
+    "LBL_ROW_TO_TOP": "D\u00e9placer la ligne vers le haut",
+    "LBL_ROW_TO_BOTTOM": "D\u00e9placer la ligne vers le bas",
+    "LBL_COUNTRY_SETTINGS": "Param\u00e8tres pays",
+    "LBL_COUNTRY_DESCRIPTION": "Configurer la disponibilit\u00e9 des pays dans le syst\u00e8me"
+  },
+  "js": {
+    "JS_COUNTRY_SETTING": "Param\u00e8tres pays"
+  }
+}

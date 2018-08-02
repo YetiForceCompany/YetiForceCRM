@@ -1,0 +1,16 @@
+{
+  "php": {
+    "LBL_OWNER_ALLOCATION": "Zust\u00e4ndigen zuweisen",
+    "LBL_OWNER_ALLOCATION_DESCRIPTION": " ",
+    "LBL_MULTIOWNER_ALLOCATION": "Mit Benutzer teilen",
+    "LBL_MULTIOWNER_ALLOCATION_DESCRIPTION": " ",
+    "LBL_SORTING_SETTINGS_WORNING": "Warnung!\r\n Diese Einstellungen gelten nur, wenn Sie dies in der Rollensicht aktiviert haben",
+    "LBL_ADD_PANEL_TO_MODULE": "Zuteilung zu diesem Modul erteilen",
+    "LBL_SELECT_MODULE": "Modul w\u00e4hlen",
+    "LBL_GO_TO_PANEL": "zur Sicht wechseln",
+    "LBL_USERS_AND_GROUPS": "Benutzer und Gruppen"
+  },
+  "js": {
+    "JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL": "Sind Sie sicher, dass Sie alle Zuteilungen zu diesem Modul entfernen m\u00f6chten?"
+  }
+}

@@ -10,6 +10,8 @@
 
 class Vtiger_ListAjax_View extends Vtiger_List_View
 {
+	use \App\Controller\ExposeMethod,
+	 App\Controller\ClearProcess;
 
 	public function __construct()
 	{
@@ -19,27 +21,9 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 		$this->exposeMethod('getPageCount');
 	}
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		return true;
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		return true;
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
-
 	/**
-	 * Function to get the page count for list
+	 * Function to get the page count for list.
+	 *
 	 * @return total number of pages
 	 */
 	public function getPageCount(\App\Request $request)
@@ -61,7 +45,8 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 	}
 
 	/**
-	 * Function returns the number of records for the current filter
+	 * Function returns the number of records for the current filter.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getRecordsCount(\App\Request $request)
@@ -82,7 +67,8 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 	}
 
 	/**
-	 * Function to get listView count
+	 * Function to get listView count.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getListViewCount(\App\Request $request)

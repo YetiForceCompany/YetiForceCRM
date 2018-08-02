@@ -1,0 +1,25 @@
+{
+  "php": {
+    "BruteForce": "Fuerza bruta",
+    "LBL_NUMBER_OF_ATTEMPTS": "N\u00famero de intentos",
+    "LBL_TIME_LOCK": "Bloqueo del tiempo (minutos)",
+    "LBL_SETTINGS": "Ajustes",
+    "LBL_BLOCKED_IP": "Direcci\u00f3n IP bloqueada",
+    "LBL_SAVE_SUCCESS": "Los cambios han sido guardados",
+    "LBL_UNBLOCK_FAIL": "La direcci\u00f3n IP no se ha desbloqueado",
+    "LBL_UNBLOCK_SUCCESS": "Se ha desbloqueado la direcci\u00f3n IP",
+    "LBL_BRUTEFORCE_DESCRIPTION": "Establezca el n\u00famero m\u00e1ximo de intentos fallidos de inicio de sesi\u00f3n y el l\u00edmite de tiempo para bloquear la IP.",
+    "LBL_IP": "Direcci\u00f3n IP",
+    "LBL_DATE": "Fecha",
+    "LBL_USERS": "Usuarios",
+    "LBL_BROWSERS": "Navegadores",
+    "LBL_UNBLOCK": "Desbloquear",
+    "LBL_USERS_FOR_NOTIFICATIONS": "Usuarios para notificaciones",
+    "LBL_BRUTEFORCE_ACTIVE": "Activo",
+    "LBL_VIEW_SHOW": "Fuerza bruta",
+    "LBL_SENT_NOTIFICATIONS": "Enviar notificaciones"
+  },
+  "js": {
+    "JS_COULD_NOT_FINNISH_REACTION": "Error al guardar."
+  }
+}

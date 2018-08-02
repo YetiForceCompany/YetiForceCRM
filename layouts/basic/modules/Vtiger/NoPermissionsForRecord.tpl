@@ -7,8 +7,8 @@
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<link rel="SHORTCUT ICON" href="{\App\Layout::getImagePath('favicon.ico')}">
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-			<link rel="stylesheet" href="{\App\Layout::getPublicUrl('libraries/bootstrap/css/bootstrap.css')}" type="text/css" media="screen">
-			<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/jquery/jquery.js')}"></script>
+			<link rel="stylesheet" href="{\App\Layout::getPublicUrl('libraries/bootstrap/dist/css/bootstrap.css')}" type="text/css" media="screen">
+			<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/jquery/dist/jquery.min.js')}"></script>
 		</head>
 		<body style="background: #ddecf0;">
 			<div class="container">
@@ -19,7 +19,7 @@
 					<h2 class="alert-heading">{\App\Language::translate('LBL_PERMISSION_DENIED')}</h2>
 					<p>{\App\Purifier::encodeHtml($MESSAGE)}</p>
 					<p class="Buttons">
-						<a class="btn btn-info" href="index.php">{\App\Language::translate('LBL_MAIN_PAGE')}</a>
+						<a class="btn btn-info" role="button" href="index.php">{\App\Language::translate('LBL_MAIN_PAGE')}</a>
 					</p>
 				</div>
 			</div>

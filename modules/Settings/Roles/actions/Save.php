@@ -11,9 +11,9 @@
 
 class Settings_Roles_Save_Action extends Settings_Vtiger_Basic_Action
 {
-
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -44,8 +44,9 @@ class Settings_Roles_Save_Action extends Settings_Vtiger_Basic_Action
 				->set('assignedmultiowner', $request->get('assignedmultiowner'))
 				->set('clendarallorecords', $request->get('clendarallorecords'))
 				->set('auto_assign', $request->get('auto_assign'));
-			if (!empty($allowassignedrecordsto))
-				$recordModel->set('allowassignedrecordsto', $allowassignedrecordsto); // set the value of assigned records to
+			if (!empty($allowassignedrecordsto)) {
+				$recordModel->set('allowassignedrecordsto', $allowassignedrecordsto);
+			} // set the value of assigned records to
 			if ($parentRole && !empty($roleName) && !empty($roleProfiles)) {
 				$recordModel->set('rolename', $roleName);
 				$recordModel->set('profileIds', $roleProfiles);
@@ -63,10 +64,5 @@ class Settings_Roles_Save_Action extends Settings_Vtiger_Basic_Action
 
 		$redirectUrl = $moduleModel->getDefaultUrl();
 		header("Location: $redirectUrl");
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

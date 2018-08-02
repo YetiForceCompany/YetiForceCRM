@@ -9,9 +9,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class Settings_PBXManager_Edit_View extends Settings_Vtiger_Index_View
+class Settings_PBXManager_Edit_View extends Settings_Vtiger_Index_View
 {
-
 	public function __construct()
 	{
 		$this->exposeMethod('showPopup');

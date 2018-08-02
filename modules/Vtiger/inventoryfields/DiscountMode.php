@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Inventory DiscountMode Field Class
- * @package YetiForce.Fields
- * @copyright YetiForce Sp. z o.o.
+ * Inventory DiscountMode Field Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 {
-
 	protected $name = 'DiscountMode';
 	protected $defaultLabel = 'LBL_DISCOUNT_MODE';
 	protected $defaultValue = '0';
@@ -17,13 +16,16 @@ class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 	protected $dbType = 'smallint(1) DEFAULT 0';
 	protected $values = [0 => 'group', 1 => 'individual'];
 	protected $blocks = [0];
+	protected $maximumLength = '-32768,32767';
 
 	/**
-	 * Getting value to display
+	 * Getting value to display.
+	 *
 	 * @param int $value
+	 *
 	 * @return string
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $rawText = false)
 	{
 		if ($value === '') {
 			return '';
@@ -32,7 +34,7 @@ class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
 	{
@@ -40,16 +42,22 @@ class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($column) || $column === '-' || !$request->has($column)) {
 			return false;
 		}
-		$insertData[$column] = $request->getInteger($column);
+		$value = $request->getInteger($column);
+		$this->validate($value, $column, true);
+		$insertData[$column] = $value;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $columnName, $isUserFormat = false)
 	{
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
+		}
+		$rangeValues = explode(',', $this->maximumLength);
+		if ($rangeValues[1] < $value || $rangeValues[0] > $value) {
+			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
 	}
 }

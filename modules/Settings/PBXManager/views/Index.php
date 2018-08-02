@@ -10,7 +10,6 @@
 
 class Settings_PBXManager_Index_View extends Settings_Vtiger_Index_View
 {
-
 	public function __construct()
 	{
 		$this->exposeMethod('gatewayInfo');

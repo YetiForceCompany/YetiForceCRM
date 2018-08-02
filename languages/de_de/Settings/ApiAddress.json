@@ -1,0 +1,26 @@
+{
+  "php": {
+    "LBL_SAVE": "Sichern",
+    "ApiAddress": "Adresssuche",
+    "LBL_API_ADDRESS": "Maps [Google & OSM]",
+    "LBL_API_ADDRESS_DESCRIPTION": "Module erlaubt w\u00e4hrend der Erstellung\/Bearbeitung von Daten, die Suche\/das Autovervollst\u00e4ndigen einer Adresse im System.",
+    "LBL_USE_OPENCAGE_GEOCODER": "Benutze OpenCage Geocoder",
+    "LBL_REMOVE_CONNECTION": "Verbindung entfernen",
+    "LBL_ENTER_KEY_APPLICATION": "Schl\u00fcssel Anwendung eingeben",
+    "LBL_MIN_LOOKUP_LENGTH": "Die minimale Anzahl von Zeichen, die ein Benutzer eingeben muss, bevor die Suche durchgef\u00fchrt wird.",
+    "LBL_SAVE_NOTIFY_OK": "\u00c4nderungen gespeichert",
+    "LBL_CHOOSE_API": "W\u00e4hle API",
+    "LBL_USE_GOOGLE_GEOCODER": "Nutze Google Geocoding",
+    "google_map_api": "Google Geocoding",
+    "opencage_data": "OpenCage Geocoder",
+    "LBL_GLOBAL_CONFIG": "Globale Konfiguration",
+    "LBL_SAVE_GLOBAL_SETTINGS": "Speichern Sie die globalen Einstellungen",
+    "LBL_NUMBER_SEARCH_RESULTS": "Anzahl der Suchergebnisse"
+  },
+  "js": {
+    "Invalid API key": "Fehlerhafter API Schl\u00fcssel",
+    "JS_ERROR": "Fehler",
+    "JS_LOADING_PLEASE_WAIT": "Wird geladen, bitte warten.",
+    "JS_WRONG_NUMBER": " Erlaubte Zeichen: Ziffern gr\u00f6\u00dfer als 1."
+  }
+}

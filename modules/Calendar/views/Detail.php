@@ -11,14 +11,13 @@
 
 class Calendar_Detail_View extends Vtiger_Detail_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if ($request->isEmpty('record')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$moduleName = $request->getModule();
 		if (Vtiger_Record_Model::getInstanceById($request->getInteger('record'))->getType() === 'Events') {
@@ -27,12 +26,12 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 		$request->set('module', $moduleName);
 		$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $request->getInteger('record'));
 		if (!$this->record->getRecord()->isViewable()) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
@@ -42,7 +41,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function showModuleDetailView(\App\Request $request)
 	{
@@ -60,7 +59,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function showModuleBasicView(\App\Request $request)
 	{

@@ -10,22 +10,21 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="col-md-12 paddingLRZero row">
-		<div class="col-xs-12 col-sm-12 col-md-8">
+	<div class="col-md-12 row">
+		<div class="col-12 col-sm-12 col-md-8">
 			<div>
-				<div class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
+				<div class="float-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 					<span class="moduleIcon">
-						{assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
-						{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
-							{if !empty($IMAGE_INFO.path)}
-								<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}" class="pushDown" alt="{$RECORD->getName()}" title="{$RECORD->getName()}" width="65" height="80" align="left"><br />
-							{/if}
-						{foreachelse}
-							<span class="detailViewIcon userIcon-{$MODULE}"></span>
-						{/foreach}
+						{assign var=IMAGE value=$RECORD->getImage()}
+						{if $IMAGE}
+							<img class="pushDown" title="{$RECORD->getName()}" height="80" align="left" src="{$IMAGE.url}">
+							<br/>
+						{else}
+							<span class="pl-0 o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
+						{/if}
 					</span>
 				</div>
-				<h4 class="recordLabel pushDown marginbottomZero textOverflowEllipsis" title="{$RECORD->getDisplayValue('salutationtype',$RECORD->getId(), true)}&nbsp;{$RECORD->getName()}">
+				<h4 class="recordLabel pushDown marginbottomZero u-text-ellipsis" title="{$RECORD->getDisplayValue('salutationtype',$RECORD->getId(), true)}&nbsp;{$RECORD->getName()}">
 					{if $RECORD->getDisplayValue('salutationtype')}
 						<span class="salutation">{$RECORD->getDisplayValue('salutationtype')}</span>&nbsp;
 					{/if}
@@ -34,7 +33,7 @@
 					{if $RECORD_STATE !== 'Active'}
 						&nbsp;&nbsp;
 						{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
-						<span class="label label-default" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
+						<span class="badge badge-secondary" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
 							{if \App\Record::getState($RECORD->getId()) === 'Trash'}
 								{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
 							{else}
@@ -57,6 +56,6 @@
 				</div>
 			</div>
 		</div>
-		{include file=\App\Layout::getTemplatePath('DetailViewHeaderFields.tpl', $MODULE_NAME)}
+		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME)}
 	</div>
 {/strip}

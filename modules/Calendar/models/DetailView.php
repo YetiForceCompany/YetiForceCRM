@@ -11,9 +11,9 @@
 
 class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 {
-
 	/**
-	 * Function to get the detail view related links
+	 * Function to get the detail view related links.
+	 *
 	 * @return <array> - list of links parameters
 	 */
 	public function getDetailViewRelatedLinks()
@@ -28,11 +28,11 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=full',
 			'linkicon' => '',
 			'linkKey' => 'LBL_RECORD_DETAILS',
-			'related' => 'Details'
+			'related' => 'Details',
 		];
 
 		$parentModuleModel = $this->getModule();
-		if ($parentModuleModel->isTrackingEnabled()) {
+		if ($parentModuleModel->isTrackingEnabled() && $parentModuleModel->isPermitted('ModTracker')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_UPDATES',
@@ -40,17 +40,19 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => '',
 				'related' => 'ModTracker',
 				'countRelated' => AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
-				'badgeClass' => 'bgDanger'
+				'badgeClass' => 'bgDanger',
 			];
 		}
 		return $relatedLinks;
 	}
 
 	/**
-	 * Function to get the detail view links (links and widgets)
+	 * Function to get the detail view links (links and widgets).
+	 *
 	 * @param <array> $linkParams - parameters which will be used to calicaulate the params
+	 *
 	 * @return <array> - array of link models in the format as below
-	 *                   array('linktype'=>list of link models);
+	 *                 array('linktype'=>list of link models);
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
@@ -67,8 +69,8 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				'linklabel' => 'LBL_SET_RECORD_STATUS',
 				'linkurl' => '#',
 				'linkdata' => ['url' => $recordModel->getActivityStateModalUrl()],
-				'linkicon' => 'glyphicon glyphicon-ok',
-				'linkclass' => 'showModal closeCalendarRekord'
+				'linkicon' => 'fas fa-check',
+				'linkclass' => 'showModal closeCalendarRekord',
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
@@ -78,7 +80,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				'linklabel' => 'LBL_SHOW_LOCATION',
 				'linkurl' => 'javascript:Vtiger_Index_Js.showLocation(this)',
 				'linkdata' => ['location' => $recordModel->getDisplayValue('location')],
-				'linkicon' => 'glyphicon glyphicon-map-marker',
+				'linkicon' => 'fas fa-map-marker-alt',
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
@@ -93,10 +95,10 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_MOVE_TO_TRASH',
 					'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId() . '")',
-					'linkicon' => 'glyphicon glyphicon-trash',
+					'linkicon' => 'fas fa-trash-alt',
 					'linkclass' => 'entityStateBtn',
 					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
-					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH')
+					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
 			]);
 		}
 		if ($recordModel->privilegeToDelete() && $recordModel->get('reapeat') === 1) {
@@ -109,8 +111,8 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
 					'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId() . '")',
-					'linkicon' => 'glyphicon glyphicon-erase',
-					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY')
+					'linkicon' => 'fas fa-eraser',
+					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY'),
 			]);
 		}
 		return $linkModelList;

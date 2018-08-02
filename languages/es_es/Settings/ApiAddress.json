@@ -1,0 +1,26 @@
+{
+  "php": {
+    "LBL_SAVE": "Guardar",
+    "ApiAddress": "B\u00fasqueda de direcciones",
+    "LBL_API_ADDRESS": "Mapas [Google y OSM]",
+    "LBL_API_ADDRESS_DESCRIPTION": "M\u00f3dulo que permite buscar\/autocompletar la direcci\u00f3n durante la creaci\u00f3n\/edici\u00f3n de datos dentro del sistema.",
+    "LBL_USE_OPENCAGE_GEOCODER": "Utilizar OpenCage Geocoder",
+    "LBL_REMOVE_CONNECTION": "Eliminar la conexi\u00f3n",
+    "LBL_ENTER_KEY_APPLICATION": "Introduzca la clave de aplicaci\u00f3n",
+    "LBL_MIN_LOOKUP_LENGTH": "El n\u00famero m\u00ednimo de caracteres que un usuario debe escribir antes de realizar una b\u00fasqueda",
+    "LBL_SAVE_NOTIFY_OK": "Cambios guardados.",
+    "LBL_CHOOSE_API": "Escoja la API",
+    "LBL_USE_GOOGLE_GEOCODER": "Utilizar Google Geocoding",
+    "google_map_api": "Google Geocoding",
+    "opencage_data": "OpenCage Geocoder",
+    "LBL_GLOBAL_CONFIG": "Configuraci\u00f3n global",
+    "LBL_SAVE_GLOBAL_SETTINGS": "Guardar la configuraci\u00f3n global",
+    "LBL_NUMBER_SEARCH_RESULTS": "N\u00famero de resultados de b\u00fasqueda"
+  },
+  "js": {
+    "Invalid API key": "Clave de API no v\u00e1lida",
+    "JS_ERROR": "Error",
+    "JS_LOADING_PLEASE_WAIT": "Cargando, por favor espere.",
+    "JS_WRONG_NUMBER": "Caracteres permitidos: d\u00edgitos superiores a 1."
+  }
+}

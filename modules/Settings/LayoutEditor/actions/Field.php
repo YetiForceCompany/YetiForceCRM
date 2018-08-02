@@ -6,12 +6,11 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce Sp. z o.o. 
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 {
-
 	public function __construct()
 	{
 		$this->exposeMethod('add');
@@ -36,7 +35,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 				'id' => $fieldModel->getId(),
 				'name' => $fieldModel->get('name'),
 				'blockid' => $blockId,
-				'customField' => $fieldModel->isCustomField()], $fieldInfo);
+				'customField' => $fieldModel->isCustomField(), ], $fieldInfo);
 			$response->setResult($responseData);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -45,7 +44,8 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	}
 
 	/**
-	 * Save field
+	 * Save field.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function save(\App\Request $request)
@@ -53,13 +53,20 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$fieldId = $request->get('fieldid');
 		$fieldInstance = Vtiger_Field_Model::getInstance($fieldId);
 		$uitypeModel = $fieldInstance->getUITypeModel();
-		$fields = ['presence', 'quickcreate', 'summaryfield', 'helpinfo', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn'];
-		foreach ($request->getAll() as $key => $value) {
-			if ($key == 'mandatory') {
-				$fieldInstance->updateTypeofDataFromMandatory($value);
-			}
-			if (in_array($key, $fields)) {
-				$fieldInstance->set($key, $value);
+		$fields = ['presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'mandatory'];
+		foreach ($fields as $field) {
+			if ($request->has($field)) {
+				switch ($field) {
+					case 'mandatory':
+						$fieldInstance->updateTypeofDataFromMandatory($request->getByType($field, 'Standard'));
+						break;
+					case 'header_field':
+						$fieldInstance->set($field, $request->isEmpty($field, true) ? 0 : $request->getByType($field, 'Standard'));
+						break;
+					default:
+						$fieldInstance->set($field, $request->getInteger($field));
+						break;
+				}
 			}
 		}
 		if ($request->has('fieldMask')) {
@@ -70,16 +77,17 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			$defaultValue = $request->get('fieldDefaultValue');
 			if ($fieldInstance->getFieldDataType() === 'date' && \App\TextParser::isVaribleToParse($defaultValue)) {
 				$fieldInstance->set('defaultvalue', $defaultValue);
-			} else {
+			} elseif ($defaultValue) {
 				$uitypeModel->validate($defaultValue, true);
-				$fieldInstance->set('defaultvalue', $uitypeModel->getDBValue($defaultValue));
+				$defaultValue = $uitypeModel->getDBValue($defaultValue);
 			}
+			$fieldInstance->set('defaultvalue', trim($defaultValue));
 			$fieldInstance->save();
 			$response->setResult([
 				'success' => true,
 				'presence' => $request->get('presence'),
 				'mandatory' => $fieldInstance->isMandatory(),
-				'label' => \App\Language::translate($fieldInstance->get('label'), $request->getByType('sourceModule', 2))]);
+				'label' => \App\Language::translate($fieldInstance->get('label'), $request->getByType('sourceModule', 2)), ]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		} catch (Error $e) {
@@ -97,6 +105,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		if (!$fieldInstance->isCustomField()) {
 			$response->setError('122', 'Cannot delete Non custom field');
 			$response->emit();
+
 			return;
 		}
 
@@ -156,10 +165,5 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		}
 		$response->setResult($picklistValues);
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

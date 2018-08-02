@@ -1,25 +1,25 @@
 <?php
 
 /**
- * Sen mail manually action model class
- * @package YetiForce.Settings.Action
- * @copyright YetiForce Sp. z o.o.
+ * Sen mail manually action model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class Settings_Mail_SendManuallyAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_Mail_SendManuallyAjax_Action extends Settings_Vtiger_Basic_Action
 {
-
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
 	{
-		$record = $request->get('id');
+		$record = $request->getInteger('id');
 		$db = \App\Db::getInstance('admin');
 		$row = (new \App\Db\Query())->from('s_#__mail_queue')
-				->where(['id' => $record])->one($db);
+			->where(['id' => $record])->one($db);
 		$status = \App\Mailer::sendByRowQueue($row);
 		if ($status) {
 			$db->createCommand()->delete('s_#__mail_queue', ['id' => $row['id']])->execute();
@@ -29,14 +29,5 @@ class Settings_Mail_SendManuallyAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_SEND_EMAIL_MANUALLY', $request->getModule(false))]);
 		$response->emit();
-	}
-
-	/**
-	 * Validate Request
-	 * @param \App\Request $request
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateReadAccess();
 	}
 }

@@ -1,9 +1,13 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class("Vtiger_RelatedCommentModal_Js", {
+	windowParent: app.getWindowParent(),
 	/*
 	 * Function to register the click event for generate button
 	 */
 	registerSubmitEvent: function (container) {
+		const self = this;
 		container.find('[name="saveButton"]').on('click', function (e) {
 			var progressLoader = jQuery.progressIndicator({
 				position: 'html',
@@ -13,20 +17,20 @@ jQuery.Class("Vtiger_RelatedCommentModal_Js", {
 			});
 			var comment = container.find('.comment').val();
 			var params = {
-				module: app.getModuleName(),
-				record: app.getRecordId(),
+				module: self.windowParent.app.getModuleName(),
+				record: self.windowParent.app.getRecordId(),
 				action: 'RelatedCommentModal',
 				mode: 'update',
 				comment: comment,
 				relid: container.find('.relatedRecord').val(),
 				relmodule: container.find('.relatedModuleName').val()
 			};
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				Vtiger_Helper_Js.showMessage({text: data.result});
 				app.hideModalWindow();
 				progressLoader.progressIndicator({mode: 'hide'});
-				Vtiger_Detail_Js.getInstance().reloadTabContent();
-			}, function (error) {
+				self.windowParent.Vtiger_Detail_Js.getInstance().reloadTabContent();
+			}).fail(function (error) {
 				progressLoader.progressIndicator({mode: 'hide'});
 			});
 		});

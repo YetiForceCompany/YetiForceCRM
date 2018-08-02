@@ -1,37 +1,39 @@
 <?php
 
 /**
- * Quick detail modal view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Quick detail modal view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 {
-
 	/**
-	 * Checking permissions
+	 * Checking permissions.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if ($request->isEmpty('record', true)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	public function getSize(\App\Request $request)
 	{
-		return 'modalRightSiteBar';
+		return 'modal-lg modalRightSiteBar';
 	}
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -66,7 +68,7 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 				} elseif ($widget['type'] === 'Summary') {
 					$request->set('isReadOnly', 'true');
 					$widgets[] = [
-						'content' => $detailView->showModuleSummaryView($request)
+						'content' => $detailView->showModuleSummaryView($request),
 					];
 				}
 			}

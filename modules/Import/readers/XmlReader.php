@@ -1,22 +1,27 @@
 <?php
 
 /**
- * XmlReader Class
- * @package YetiForce.Import
- * @copyright YetiForce Sp. z o.o.
+ * XmlReader Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Import_XmlReader_Reader extends Import_FileReader_Reader
 {
-
 	protected $moduleName;
 	protected $skipField = ['assigned_user_id', 'productid'];
 	protected $skipRecord = 0;
 	protected $importedRecords = 0;
 	protected $relatedInventoryField = [];
 
-	public function __construct($request, $user)
+	/**
+	 * Constructor.
+	 *
+	 * @param \App\Request $request
+	 * @param \App\User    $user
+	 */
+	public function __construct(\App\Request $request, \App\User $user)
 	{
 		$this->moduleName = $request->getModule();
 		parent::__construct($request, $user);
@@ -52,7 +57,7 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 	}
 
 	/**
-	 * Function creates tables for import in database
+	 * Function creates tables for import in database.
 	 */
 	public function createTable()
 	{
@@ -63,7 +68,7 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 	}
 
 	/**
-	 * Function reads data from file and adds to database
+	 * Function reads data from file and adds to database.
 	 */
 	public function read()
 	{
@@ -81,14 +86,17 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 		$mappedData = [];
 		$inventoryMappedData = [];
 		$allValuesEmpty = true;
+		$moduleModel = Vtiger_Module_Model::getInstance($this->moduleName);
+		$fields = $moduleModel->getFields();
 		foreach ($fieldMapping as $fieldName => $index) {
 			$fieldValue = $recordData[$index];
-			$mappedData[$fieldName] = $fieldValue;
 			if ($this->request->get('file_encoding') !== $defaultCharset) {
-				$mappedData[$fieldName] = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $defaultCharset);
+				$fieldValue = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $defaultCharset);
 			}
-			if (!empty($fieldValue))
+			$mappedData[$fieldName] = isset($fields[$fieldName]) && $fields[$fieldName]->getFieldDataType() === 'text' ? \App\Purifier::purifyHtml($fieldValue) : \App\Purifier::purify($fieldValue);
+			if (!empty($fieldValue)) {
 				$allValuesEmpty = false;
+			}
 		}
 		if ($inventoryFieldMapping && $recordsInventoryData) {
 			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
@@ -127,10 +135,11 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 		$combine = [];
 		$dup = [];
 		$countKey = count($key);
-		for ($i = 0; $i < $countKey; $i++) {
+		for ($i = 0; $i < $countKey; ++$i) {
 			if (array_key_exists($key[$i], $combine)) {
-				if (!$dup[$key[$i]])
+				if (!$dup[$key[$i]]) {
 					$dup[$key[$i]] = 1;
+				}
 				$key[$i] = $key[$i] . ' (' . ++$dup[$key[$i]] . ')';
 			}
 			$combine[$key[$i]] = $value[$i];
@@ -208,7 +217,7 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 				$info = $this->getFieldInfoByTagName($xmlToImport->localName);
 				if (0 == $recordNum) {
 					$firstElement = $xmlToImport->localName;
-					$recordNum++;
+					++$recordNum;
 				}
 				if ($info && 'product' != $info['type']) {
 					if ('reference' == $info['crmfieldtype']) {
@@ -216,7 +225,6 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 						$recordData[$recordNum][$info['refmoule']][] = $info;
 					} else {
 						if ('true' == $info['notrepeat']) {
-
 							if ('LineNumber' == $xmlToImport->localName) {
 								$lineProd = $xmlToImport->readString();
 							}
@@ -232,7 +240,7 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 			}
 
 			if (XMLReader::END_ELEMENT == $xmlToImport->nodeType && $xmlToImport->localName == $firstElement) {
-				$recordNum++;
+				++$recordNum;
 				$lineProd = '';
 			}
 		}

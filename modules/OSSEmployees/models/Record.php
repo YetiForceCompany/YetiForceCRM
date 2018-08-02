@@ -1,16 +1,16 @@
 <?php
 
 /**
- * OSSEmployees record model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * OSSEmployees record model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSEmployees_Record_Model extends Vtiger_Record_Model
 {
-
 	/**
-	 * Function returns the details of Employees Hierarchy
+	 * Function returns the details of Employees Hierarchy.
+	 *
 	 * @return <Array>
 	 */
 	public function getEmployeeHierarchy()
@@ -25,7 +25,7 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model
 
 				$recordModel = Vtiger_Record_Model::getCleanInstance('OSSEmployees');
 				$recordModel->setId($employeeId);
-				$hierarchy['entries'][$employeeId][0] = $dashes[0] . "<a href=" . $recordModel->getDetailViewUrl() . ">" . $name[2] . "</a>";
+				$hierarchy['entries'][$employeeId][0] = $dashes[0] . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $name[2] . '</a>';
 			}
 		}
 		return $hierarchy;

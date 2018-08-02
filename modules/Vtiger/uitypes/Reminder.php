@@ -11,9 +11,8 @@
 
 class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -28,12 +27,11 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 		if (!empty($reminder_time[2])) {
 			$reminder_value = $reminder_value . ' ' . $reminder_time[2] . ' ' . \App\Language::translate('LBL_MINUTES');
 		}
-
 		return $reminder_value;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
@@ -41,7 +39,8 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 			$rem_days = floor($value / (24 * 60));
 			$rem_hrs = floor(($value - $rem_days * 24 * 60) / 60);
 			$rem_min = ($value - ($rem_days * 24 * 60)) % 60;
-			$reminder_time = array($rem_days, $rem_hrs, $rem_min);
+			$reminder_time = [$rem_days, $rem_hrs, $rem_min];
+
 			return $reminder_time;
 		} else {
 			return '';
@@ -49,18 +48,18 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Reminder.tpl';
+		return 'Edit/Field/Reminder.tpl';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDetailViewTemplateName()
 	{
-		return 'uitypes/ReminderDetailView.tpl';
+		return 'Detail/Field/Reminder.tpl';
 	}
 }

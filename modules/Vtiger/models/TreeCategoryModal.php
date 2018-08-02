@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Basic TreeCategoryModal Model Class
- * @package YetiForce.TreeCategoryModal
- * @copyright YetiForce Sp. z o.o.
+ * Basic TreeCategoryModal Model Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_TreeCategoryModal_Model extends \App\Base
 {
-
 	public static $_cached_instance;
 
 	/**
-	 * Function to get the Module Name
+	 * Function to get the Module Name.
+	 *
 	 * @return string Module name
 	 */
 	public function getModuleName()
@@ -22,7 +22,8 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 	}
 
 	/**
-	 * Load tree ID
+	 * Load tree ID.
+	 *
 	 * @return type
 	 */
 	public function getTemplate()
@@ -31,7 +32,8 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 	}
 
 	/**
-	 * Load tree field info
+	 * Load tree field info.
+	 *
 	 * @return array
 	 */
 	public function getTreeField()
@@ -41,12 +43,15 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		}
 		$fieldTemp = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldlabel', 'fieldparams'])->from('vtiger_field')->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId($this->getModuleName())])->one();
 		$this->set('fieldTemp', $fieldTemp);
+
 		return $fieldTemp;
 	}
 
 	/**
-	 * Static Function to get the instance of Vtiger TreeView Model for the given Vtiger Module Model
+	 * Static Function to get the instance of Vtiger TreeView Model for the given Vtiger Module Model.
+	 *
 	 * @param string name of the module
+	 *
 	 * @return Vtiger_TreeView_Model instance
 	 */
 	public static function getInstance(Vtiger_Module_Model $moduleModel)
@@ -59,6 +64,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		$instance = new $modelClassName();
 		$instance->set('module', $moduleModel)->set('moduleName', $moduleName)->set('moduleName', $moduleName);
 		self::$_cached_instance[$moduleName] = $instance;
+
 		return self::$_cached_instance[$moduleName];
 	}
 
@@ -70,6 +76,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		$srcModuleModel = Vtiger_Module_Model::getInstance($this->get('srcModule'));
 		$relationModel = Vtiger_Relation_Model::getInstance($srcModuleModel, $this->get('module'));
 		$this->set('relationType', $relationModel->getRelationType());
+
 		return $this->get('relationType');
 	}
 
@@ -77,6 +84,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 	{
 		$srcModuleModel = Vtiger_Module_Model::getInstance($this->get('srcModule'));
 		$relationModel = Vtiger_Relation_Model::getInstance($srcModuleModel, $this->get('module'));
+
 		return $relationModel->privilegeToDelete();
 	}
 
@@ -86,18 +94,21 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 	}
 
 	/**
-	 * Load tree
-	 * @return String
+	 * Load tree.
+	 *
+	 * @return string
 	 */
 	private function getTreeList()
 	{
 		$trees = [];
-		$db = PearDatabase::getInstance();
 		$isDeletable = $this->isDeletable();
 		$lastId = 0;
-		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getTemplate()]);
+		$dataReader = (new App\Db\Query())
+			->from('vtiger_trees_templates_data')
+			->where(['templateid' => $this->getTemplate()])
+			->createCommand()->query();
 		$selected = $this->getSelectedTreeList();
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$treeID = (int) ltrim($row['tree'], 'T');
 			$pieces = explode('::', $row['parenttrre']);
 			end($pieces);
@@ -107,7 +118,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 				'type' => 'category',
 				'record_id' => $row['tree'],
 				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => \App\Language::translate($row['name'], $this->getModuleName())
+				'text' => \App\Language::translate($row['name'], $this->getModuleName()),
 			];
 			if (!empty($row['icon'])) {
 				$tree['icon'] = $row['icon'];
@@ -125,28 +136,29 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 			}
 		}
 		$this->lastIdinTree = $lastId;
+
 		return $trees;
 	}
 
+	/**
+	 * Function to get selected item in the tree.
+	 *
+	 * @return array
+	 */
 	private function getSelectedTreeList()
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT tree FROM u_yf_crmentity_rel_tree WHERE crmid = ? AND relmodule = ?', [$this->get('srcRecord'), $this->get('module')->getId()]);
-		return $db->getArrayColumn($result);
+		return (new App\Db\Query())->select(['tree'])->from('u_#__crmentity_rel_tree')
+			->where(['crmid' => $this->get('srcRecord'), 'relmodule' => $this->get('module')->getId()])
+			->column();
 	}
 
 	private function getSelectedRecords($onlyKeys = true)
 	{
-		$currentModule = vglobal('currentModule');
-		vglobal('currentModule', $this->get('srcModule'));
-
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($this->get('srcRecord'), $this->get('srcModule'));
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $this->getModuleName());
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 0);
 		$entries = $relationListView->getEntries($pagingModel);
-
-		vglobal('currentModule', $currentModule);
 		if ($onlyKeys) {
 			return array_keys($entries);
 		} else {
@@ -156,7 +168,6 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 
 	private function getAllRecords()
 	{
-
 		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($this->getModuleName(), $this->get('srcModule'));
 		if (!empty($this->get('srcModule'))) {
 			$listViewModel->set('src_module', $this->get('srcModule'));
@@ -182,7 +193,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		$fieldName = $this->getTreeField()['fieldname'];
 		$tree = [];
 		foreach ($listEntries as $item) {
-			$this->lastIdinTree++;
+			++$this->lastIdinTree;
 			$parent = (int) ltrim($item->get($fieldName), 'T');
 			$selected = in_array($item->getId(), $selectedRecords);
 			$state = ['selected' => $selected];
@@ -196,7 +207,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => $item->getName(),
 				'state' => $state,
-				'icon' => 'glyphicon glyphicon-file'
+				'icon' => 'fas fa-file',
 			];
 		}
 		return $tree;

@@ -8,12 +8,13 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Services_List_View extends Vtiger_List_View
+class Services_List_View extends Vtiger_List_View
 {
-
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)
@@ -30,6 +31,7 @@ Class Services_List_View extends Vtiger_List_View
 		$jsFileNames[] = $modulePopUpFile;
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 }

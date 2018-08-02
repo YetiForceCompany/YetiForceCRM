@@ -1,19 +1,21 @@
 <?php
 
 /**
- * Settings OSSMailView index view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Settings OSSMailView index view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Index_View
 {
-
+	/**
+	 * Process.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
-
 		\App\Log::trace(__METHOD__ . ' | Start');
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$sourceModule = $request->getByType('sourceModule', 2);
 		$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
 		$dashboardModules = $widgetsManagementModel->getSelectableDashboard();
@@ -54,7 +56,6 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$viewer->assign('DASHBOARD_AUTHORIZATION_BLOCKS', $bloks[$sourceModule]);
 		$viewer->assign('WIDGETS_AUTHORIZATION_INFO', $dashboardStored);
 		$viewer->assign('SPECIAL_WIDGETS', $specialWidgets);
-		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('WIDGETS', $widgets);
 		$viewer->assign('SIZE', $size);
 		$viewer->assign('DEFAULTVALUES', $defaultValues);

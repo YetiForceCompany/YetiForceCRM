@@ -1,19 +1,21 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class("Reservations_Calendar_Js", {
 	registerUserListWidget: function () {
 		var thisInstance = new Reservations_Calendar_Js();
 		var widgetContainer = $('.widgetContainer');
 		widgetContainer.hover(
-				function () {
-					$(this).css('overflow', 'visible');
-				}, function () {
-			$(this).css('overflow', 'hidden');
-		}
+			function () {
+				$(this).css('overflow', 'visible');
+			}, function () {
+				$(this).css('overflow', 'hidden');
+			}
 		);
 		this.registerColorField(widgetContainer.find('#calendarUserList'), 'userCol');
 		this.registerColorField(widgetContainer.find('#timecontrolTypes'), 'listCol');
 		widgetContainer.find('.select2').on('change', function () {
-			$(this).closest('.siteBarContent').find('.refreshHeader').removeClass('hide');
+			$(this).closest('.siteBarContent').find('.refreshHeader').removeClass('d-none');
 		});
 	},
 	registerColorField: function (field, fieldClass) {
@@ -26,12 +28,11 @@ jQuery.Class("Reservations_Calendar_Js", {
 			var element = '<div>' + selectedOptionTag.text() + '</div>';
 			return element;
 		};
-		app.changeSelectElementView(field, 'select2', params);
+		App.Fields.Picklist.changeSelectElementView(field, 'select2', params);
 	},
 }, {
 	calendarView: false,
 	calendarCreateView: false,
-	weekDaysArray: {Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6},
 	registerCalendar: function () {
 		var thisInstance = this;
 		var eventLimit = jQuery('#eventLimit').val();
@@ -67,8 +68,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 		}
 
 		//Default first day of the week
-		var defaultFirstDay = jQuery('#start_day').val();
-		var convertedFirstDay = thisInstance.weekDaysArray[defaultFirstDay];
+		var convertedFirstDay = CONFIG.firstDayOfWeekNo;
 
 		//Default first hour of the day
 		var defaultFirstHour = jQuery('#start_hour').val();
@@ -93,7 +93,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 			defaultTimedEventDuration: '01:00:00',
 			eventLimit: eventLimit,
 			allDaySlot: false,
-			height: 'auto',
+			height: app.setCalendarHeight(),
 			views: {
 				basic: {
 					eventLimit: false,
@@ -111,23 +111,19 @@ jQuery.Class("Reservations_Calendar_Js", {
 			},
 			eventRender: function (event, element) {
 				app.showPopoverElementView(element.find('.fc-content'), {
-					title: event.title + '<a href="index.php?module=Reservations&view=Edit&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></a>' + '<a href="index.php?module=Reservations&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
+					title: event.title + '<a href="index.php?module=Reservations&view=Edit&record=' + event.id + '" class="float-right"><span class="fas fa-edit"></span></a>' + '<a href="index.php?module=Reservations&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
 					container: 'body',
 					html: true,
-					placement: 'auto right',
-					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
-					content: '<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
-							'<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
-							'<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_TOTAL_TIME') + '</label>: ' + event.totalTime + '</div>' +
-							'<div><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_TYPE') + '</label>: ' + event.type + '</div>' +
-							(event.status ? '<div><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + app.vtranslate(event.status) + '</div>' : '') +
-							(event.company ? '<div><span class="userIcon-Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_COMPANY') + '</label>: ' + event.company + '</div>' : '') +
-							(event.process ? '<div><span class="userIcon-' + event.processType + '" aria-hidden="true"></span> <label>' + event.processLabel + '</label>: <a target="_blank" href="index.php?module=' + event.processType + '&view=Detail&record=' + event.processId + '">' + event.process + '</a></div>' : '') +
-							(event.smownerid ? '<div><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
-				});
-				element.find('.fc-content, .fc-info').click(function () {
-					var event = $(this).closest('.fc-event');
-					window.location.href = event.attr('href');
+					placement: 'auto',
+					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+					content: '<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
+					'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
+					'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_TOTAL_TIME') + '</label>: ' + event.totalTime + '</div>' +
+					'<div><span class="fas fa-question-circle"></span> <label>' + app.vtranslate('JS_TYPE') + '</label>: ' + event.type + '</div>' +
+					(event.status ? '<div><span class="far fa-star"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + app.vtranslate(event.status) + '</div>' : '') +
+					(event.company ? '<div><span class="userIcon-Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_COMPANY') + '</label>: ' + event.company + '</div>' : '') +
+					(event.process ? '<div><span class="userIcon-' + event.processType + '" aria-hidden="true"></span> <label>' + event.processLabel + '</label>: <a target="_blank" href="index.php?module=' + event.processType + '&view=Detail&record=' + event.processId + '">' + event.process + '</a></div>' : '') +
+					(event.smownerid ? '<div><span class="fas fa-user"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 				});
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
@@ -156,17 +152,17 @@ jQuery.Class("Reservations_Calendar_Js", {
 	},
 	registerButtonSelectAll: function () {
 		var selectBtn = $('.selectAllBtn');
-		selectBtn.click(function (e) {
+		selectBtn.on('click', function (e) {
 			var selectAllLabel = $(this).find('.selectAll');
 			var deselectAllLabel = $(this).find('.deselectAll');
-			if (selectAllLabel.hasClass('hide')) {
-				selectAllLabel.removeClass('hide');
-				deselectAllLabel.addClass('hide');
+			if (selectAllLabel.hasClass('d-none')) {
+				selectAllLabel.removeClass('d-none');
+				deselectAllLabel.addClass('d-none');
 				$(this).closest('.quickWidget').find('select option').prop("selected", false);
 			} else {
 				$(this).closest('.quickWidget').find('select option').prop("selected", true);
-				deselectAllLabel.removeClass('hide');
-				selectAllLabel.addClass('hide');
+				deselectAllLabel.removeClass('d-none');
+				selectAllLabel.addClass('d-none');
 			}
 			$(this).closest('.quickWidget').find('select').trigger("change");
 		});
@@ -180,7 +176,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 		var end_date = view.end.format();
 		var user;
 		if (jQuery('#calendarUserList').length == 0) {
-			user = jQuery('#current_user_id').val();
+			user = CONFIG.userId;
 		} else {
 			user = jQuery('#calendarUserList').val();
 		}
@@ -200,7 +196,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 				user: user,
 				types: types
 			};
-			AppConnector.request(params).then(function (events) {
+			AppConnector.request(params).done(function (events) {
 				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
 				progressInstance.hide();
 			});
@@ -221,22 +217,22 @@ jQuery.Class("Reservations_Calendar_Js", {
 			start: start,
 			delta: delta._data
 		};
-		AppConnector.request(params).then(function (response) {
+		AppConnector.request(params).done(function (response) {
 			if (!response['result']) {
 				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 				revertFunc();
 			}
 			progressInstance.hide();
-		},
-				function (error) {
-					progressInstance.hide();
-					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
-					revertFunc();
-				});
+		}).fail(function () {
+			progressInstance.hide();
+			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
+			revertFunc();
+		});
 	},
 	selectDay: function (date) {
 		var thisInstance = this;
-		thisInstance.getCalendarCreateView().then(function (data) {
+
+		thisInstance.getCalendarCreateView().done(function (data) {
 			if (data.length <= 0) {
 				return;
 			}
@@ -278,17 +274,19 @@ jQuery.Class("Reservations_Calendar_Js", {
 			data.find('[name="time_end"]').val(endTimeString);
 
 			var headerInstance = new Vtiger_Header_Js();
-			headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {
+			headerInstance.handleQuickCreateData(data, {
+				callbackFunction: function (data) {
 					thisInstance.addCalendarEvent(data.result, dateFormat);
-				}});
+				}
+			});
 			jQuery('.modal-body').css({'max-height': app.getScreenHeight(70) + 'px', 'overflow-y': 'auto'});
 		});
 	},
 	addCalendarEvent: function (calendarDetails, dateFormat) {
-		if($.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0){
+		if ($("#calendarUserList").val().length && $.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0) {
 			return;
 		}
-		if($.inArray(calendarDetails.type.value, $("#timecontrolTypes").val()) < 0){
+		if ($.inArray(calendarDetails.type.value, $("#timecontrolTypes").val()) < 0) {
 			return;
 		}
 		var calendar = this.getCalendarView();
@@ -297,8 +295,8 @@ jQuery.Class("Reservations_Calendar_Js", {
 		var eventObject = {
 			id: calendarDetails._recordId,
 			title: calendarDetails.title.display_value,
-			smownerid: calendarDetails.assigned_user_id?calendarDetails.assigned_user_id.display_value:calendarDetails.smownerid,
-			status: calendarDetails.reservations_status?calendarDetails.reservations_status.display_value:calendarDetails.status,
+			smownerid: calendarDetails.assigned_user_id ? calendarDetails.assigned_user_id.display_value : calendarDetails.smownerid,
+			status: calendarDetails.reservations_status ? calendarDetails.reservations_status.display_value : calendarDetails.status,
 			isPrivate: calendarDetails.isPrivate,
 			start: startDate.toString(),
 			end: endDate.toString(),
@@ -318,22 +316,19 @@ jQuery.Class("Reservations_Calendar_Js", {
 			return aDeferred.promise();
 		}
 		var progressInstance = jQuery.progressIndicator();
-		this.loadCalendarCreateView().then(
-				function (data) {
-					progressInstance.hide();
-					thisInstance.calendarCreateView = data;
-					aDeferred.resolve(data.clone(true, true));
-				},
-				function () {
-					progressInstance.hide();
-				}
-		);
+		this.loadCalendarCreateView().done(function (data) {
+			progressInstance.hide();
+			thisInstance.calendarCreateView = data;
+			aDeferred.resolve(data.clone(true, true));
+		}).fail(function () {
+			progressInstance.hide();
+		});
 		return aDeferred.promise();
 	},
 	registerRefreshEvent: function () {
 		var thisInstance = this;
-		$(".refreshCalendar").click(function () {
-			$(this).closest('.refreshHeader').addClass('hide');
+		$(".refreshCalendar").on('click', function () {
+			$(this).closest('.refreshHeader').addClass('d-none');
 			thisInstance.loadCalendarData();
 		});
 	},
@@ -342,14 +337,11 @@ jQuery.Class("Reservations_Calendar_Js", {
 		var moduleName = app.getModuleName();
 		var url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
 		var headerInstance = Vtiger_Header_Js.getInstance();
-		headerInstance.getQuickCreateForm(url, moduleName).then(
-				function (data) {
-					aDeferred.resolve(jQuery(data));
-				},
-				function () {
-					aDeferred.reject();
-				}
-		);
+		headerInstance.getQuickCreateForm(url, moduleName).done(function (data) {
+			aDeferred.resolve(jQuery(data));
+		}).fail(function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
 		return aDeferred.promise();
 	},
 	getCalendarView: function () {
@@ -360,16 +352,21 @@ jQuery.Class("Reservations_Calendar_Js", {
 	},
 	registerChangeView: function () {
 		var thisInstance = this;
-		thisInstance.getCalendarView().find("button.fc-button:not(.dropdown-toggle)").click(function () {
+		thisInstance.getCalendarView().find("button.fc-button:not(.dropdown-toggle)").on('click', function () {
 			thisInstance.loadCalendarData();
 		});
 	},
-	registerCalendarScroll: function () {
-		var calendarContainer = $('.bodyContents');
-		app.showScrollBar(calendarContainer, {
-			railVisible: true,
-			alwaysVisible: true,
-			position: 'left'
+	registerAddButton: function () {
+		const self = this;
+		$('.js-add').on('click', (e) => {
+			self.getCalendarCreateView().done((data) => {
+				const headerInstance = new Vtiger_Header_Js();
+				headerInstance.handleQuickCreateData(data, {
+					callbackFunction: (data) => {
+						self.addCalendarEvent(data.result);
+					}
+				});
+			});
 		});
 	},
 	registerEvents: function () {
@@ -378,6 +375,6 @@ jQuery.Class("Reservations_Calendar_Js", {
 		this.registerChangeView();
 		this.registerButtonSelectAll();
 		this.registerRefreshEvent();
-		this.registerCalendarScroll();
+		this.registerAddButton();
 	}
 });

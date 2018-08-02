@@ -1,9 +1,9 @@
 <?php
 
 /**
- * OSSPasswords record model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * OSSPasswords record model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSPasswords_Record_Model extends Vtiger_Record_Model
@@ -26,21 +26,22 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
                 FROM `vtiger_osspasswords`
                 WHERE `osspasswordsid` = ? LIMIT 1;";
 		} else {
-			$sql = "SELECT `password`
+			$sql = 'SELECT `password`
                 FROM `vtiger_osspasswords`
-                WHERE `osspasswordsid` = ? LIMIT 1;";
+                WHERE `osspasswordsid` = ? LIMIT 1;';
 		}
 
 		$params = [$recordId];
 		$result = $db->pquery($sql, $params, true);
 
-		if ($db->numRows($result) == 1)
+		if ($db->numRows($result) == 1) {
 			return $db->queryResult($result, 0, 'password');
-		else if ($db->numRows($result) == 0)
+		} elseif ($db->numRows($result) == 0) {
 			return $db->queryResult($result, 0, '');
-
+		}
 		return false;
 	}
+
 	/*
 	 * Funkcja zapisująca plik konfiguracyjny ini
 	 * @array - tablica z konfiguracją
@@ -64,16 +65,18 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 						$res[] = "$skey = $sval";
 					}
 				}
-			} else
+			} else {
 				$res[] = "$key = $val";
+			}
 		}
 
 		$res[] = ';?>';
-		if (!file_put_contents($file, implode("\r\n", $res), LOCK_EX))
+		if (!file_put_contents($file, implode("\r\n", $res), LOCK_EX)) {
 			return false;
-
+		}
 		return true;
 	}
+
 	/*
 	 * Zwraca dane konfiguracyjne haseł
 	 * @return array|boolean
@@ -83,6 +86,7 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 	{
 		return (new \App\Db\Query())->from('vtiger_passwords_config')->one();
 	}
+
 	/*
 	 * Sprawdza poprawność hasła - długość, czy nie jest puste i czy nie zawiera samych gwiazdek
 	 * @password - nowe hasło
@@ -102,22 +106,23 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 		$min = $config['pass_length_min'];
 		$max = $config['pass_length_max'];
 
-		if ($passLength < $min)
+		if ($passLength < $min) {
 			return ['error' => true, 'message' => \App\Language::translate('LBL_PASS_TOOSHORT', 'OSSPasswords')];
-		else if ($passLength > $max)
+		} elseif ($passLength > $max) {
 			return ['error' => true, 'message' => \App\Language::translate('LBL_PASS_TOOLONG', 'OSSPasswords')];
+		}
 
 		$onlyStars = true;
-		for ($i = 0; $i < $passLength; $i++) {
+		for ($i = 0; $i < $passLength; ++$i) {
 			if ($password[$i] != '*') {
 				$onlyStars = false;
 				break;
 			}
 		}
 
-		if ($onlyStars)
+		if ($onlyStars) {
 			return ['error' => true, 'message' => \App\Language::translate('LBL_ONLY_STARS', 'OSSPasswords')];
-
+		}
 		return ['error' => false, 'message' => ''];
 	}
 }

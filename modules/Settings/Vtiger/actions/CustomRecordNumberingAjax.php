@@ -10,6 +10,7 @@
 
 class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_Index_Action
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -20,8 +21,10 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	}
 
 	/**
-	 * The function checks permissions
+	 * The function checks permissions.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\AppException
 	 */
 	public function checkPermission(\App\Request $request)
@@ -35,17 +38,9 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 		}
 	}
 
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
-
 	/**
-	 * Function to get Module custom numbering data
+	 * Function to get Module custom numbering data.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getModuleCustomNumberingData(\App\Request $request)
@@ -60,7 +55,8 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	}
 
 	/**
-	 * Function save module custom numbering data
+	 * Function save module custom numbering data.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function saveModuleCustomNumberingData(\App\Request $request)
@@ -82,7 +78,8 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	}
 
 	/**
-	 * Function to update record with sequence number
+	 * Function to update record with sequence number.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function updateRecordsWithSequenceNumber(\App\Request $request)
@@ -95,10 +92,5 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

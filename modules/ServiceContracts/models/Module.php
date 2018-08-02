@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Service contracts module model Class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Service contracts module model Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class ServiceContracts_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Function to get list view query for popup window
+	 * Function to get list view query for popup window.
+	 *
 	 * @param Vtiger_ListView_Model $listviewModel
-	 * @param \App\QueryGenerator $queryGenerator
+	 * @param \App\QueryGenerator   $queryGenerator
 	 */
 	public function getQueryByRelatedField(Vtiger_ListView_Model $listviewModel, \App\QueryGenerator $queryGenerator)
 	{

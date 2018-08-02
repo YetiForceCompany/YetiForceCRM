@@ -1,15 +1,14 @@
 <?php
 
 /**
- * ExportToXml Model Class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * ExportToXml Model Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 {
-
 	protected $attrList = ['crmfield', 'crmfieldtype', 'partvalue', 'constvalue', 'refmoule', 'spec', 'refkeyfld', 'delimiter', 'testcondition'];
 	protected $product = false;
 	protected $tplName = '';
@@ -49,8 +48,10 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 	}
 
 	/**
-	 * Function returns data from advanced block
+	 * Function returns data from advanced block.
+	 *
 	 * @param array $recordData
+	 *
 	 * @return array
 	 */
 	public function getEntriesInventory($recordData)
@@ -63,6 +64,8 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		while ($inventoryRow = $dataReader->read()) {
 			$entries[] = $inventoryRow;
 		}
+		$dataReader->close();
+
 		return $entries;
 	}
 
@@ -111,10 +114,10 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 	public function outputFile($fileName)
 	{
 		header("Content-Disposition:attachment;filename=$fileName.xml");
-		header("Content-Type:text/csv;charset=UTF-8");
-		header("Expires: Mon, 31 Dec 2000 00:00:00 GMT");
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-		header("Cache-Control: post-check=0, pre-check=0", false);
+		header('Content-Type:text/csv;charset=UTF-8');
+		header('Expires: Mon, 31 Dec 2000 00:00:00 GMT');
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('Cache-Control: post-check=0, pre-check=0', false);
 
 		readfile($this->tmpXmlPath);
 		unlink($this->tmpXmlPath);
@@ -127,7 +130,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		$zip = new ZipArchive();
 		$zip->open($zipName, ZipArchive::CREATE);
 		$countXmlList = count($this->xmlList);
-		for ($i = 0; $i < $countXmlList; $i++) {
+		for ($i = 0; $i < $countXmlList; ++$i) {
 			$xmlFile = basename($this->xmlList[$i]);
 			$xmlFile = explode('_', $xmlFile);
 			array_shift($xmlFile);
@@ -137,10 +140,10 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		$zip->close();
 
 		header("Content-Disposition:attachment;filename=$fileName.zip");
-		header("Content-Type:application/zip");
-		header("Expires: Mon, 31 Dec 2000 00:00:00 GMT");
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-		header("Cache-Control: post-check=0, pre-check=0", false);
+		header('Content-Type:application/zip');
+		header('Expires: Mon, 31 Dec 2000 00:00:00 GMT');
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('Cache-Control: post-check=0, pre-check=0', false);
 		readfile($zipName);
 		unlink($zipName);
 		array_map('unlink', $this->xmlList);
@@ -213,6 +216,5 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 
 	public function createXmlFromTemplate($entries, $entriesInventory)
 	{
-		
 	}
 }

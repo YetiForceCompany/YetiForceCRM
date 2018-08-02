@@ -11,9 +11,8 @@
 
 class Users_DeleteUser_View extends Vtiger_Index_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -24,7 +23,7 @@ class Users_DeleteUser_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{

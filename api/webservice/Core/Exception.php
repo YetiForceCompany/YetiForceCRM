@@ -1,17 +1,17 @@
 <?php
+
 namespace Api\Core;
 
 /**
- * Web service exception class 
- * @package YetiForce.Webservice
- * @copyright YetiForce Sp. z o.o.
+ * Web service exception class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Exception extends \Exception
 {
-
-	public function __construct($message, $code = 200, Exception $previous = null)
+	public function __construct($message, $code = 200, self $previous = null)
 	{
 		if (!empty($previous)) {
 			parent::__construct($message, $code, $previous);
@@ -30,8 +30,8 @@ class Exception extends \Exception
 			'status' => 0,
 			'error' => [
 				'message' => $message,
-				'code' => $code
-			]
+				'code' => $code,
+			],
 		];
 		if (\AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
 			$body['error']['backtrace'] = \App\Debuger::getBacktrace();

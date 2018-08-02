@@ -1,0 +1,26 @@
+{
+  "php": {
+    "LBL_ADVANCED_PERMISSION": "Uprawnienia zaawansowane",
+    "AdvancedPermission": "Uprawnienia zaawansowane",
+    "LBL_ADVANCED_PERMISSION_DESCRIPTION": "Konfiguracja niestandardowcyh uprawnie\u0144, mo\u017cliwo\u015b\u0107 nadania lub odebrania uprawnie\u0144 do rekord\u00f3w",
+    "LBL_NAME": "Nazwa regu\u0142y",
+    "LBL_MODULE": "Modu\u0142",
+    "LBL_ACTION": "Akcja",
+    "LBL_STATUS": "Status",
+    "LBL_ROLE": "Rola",
+    "LBL_MEMBERS": "Cz\u0142onkowie",
+    "LBL_PRIORITY": "Priorytet",
+    "FL_ACTIVE": "Aktywna",
+    "FL_INACTIVE": "Nieaktywna",
+    "FL_UNLOCK_RECORD": "Nadaj dost\u0119p",
+    "FL_LOCK_RECORD": "Zablokuj dost\u0119p",
+    "LBL_SAVE_AND_CONDITIONS": "Dalej",
+    "ERR_INACTIVE_ALERT_TITLE": "Uprawnienia zawansowane s\u0105 wy\u0142\u0105czone",
+    "ERR_INACTIVE_ALERT_DESC": "Aby w\u0142\u0105czy\u0107 nale\u017cy zmieni\u0107 parametr PERMITTED_BY_ADVANCED_PERMISSION w pliku config\/security.php",
+    "LBL_RECALCULATE_PERMISSION_TITLE": "Przeliczanie uprawnie\u0144",
+    "LBL_RECALCULATE_PERMISSION_BTN": "Przelicz uprawnienia",
+    "LBL_RECALCULATE_CRON_INFO": "Przeliczenie uprawnie\u0144 wymaga aktywnego CRON'a, prosimy o sprawdzenie w ustawieniach czy zadanie jest aktywne.",
+    "LBL_MODULES_LIST": "Lista modu\u0142\u00f3w",
+    "ERR_INACTIVE_CACHING_PERM_ALERT_DESC": "Zaawansowane uprawienia zosta\u0142y wy\u0142\u0105czone poniewa\u017c wymagaj\u0105 w\u0142\u0105czenia cacheowania uprawnie\u0144 rekord\u00f3w. Aby uprawienia zacz\u0119\u0142y dzia\u0142a\u0107 nale\u017cy w\u0142\u0105czy\u0107 crona oraz zmienn\u0105 CACHING_PERMISSION_TO_RECORD [config\/security.php] ustawi\u0107 na true"
+  }
+}

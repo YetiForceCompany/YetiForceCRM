@@ -9,15 +9,15 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger JS Script Model Class
+ * Vtiger JS Script Model Class.
  */
 class Vtiger_JsScript_Model extends \App\Base
 {
-
 	const DEFAULT_TYPE = 'text/javascript';
 
 	/**
-	 * Function to get the type attribute value
+	 * Function to get the type attribute value.
+	 *
 	 * @return string
 	 */
 	public function getType()
@@ -30,7 +30,8 @@ class Vtiger_JsScript_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the src attribute value
+	 * Function to get the src attribute value.
+	 *
 	 * @return string
 	 */
 	public function getSrc()
@@ -46,8 +47,10 @@ class Vtiger_JsScript_Model extends \App\Base
 	}
 
 	/**
-	 * Static Function to get an instance of Vtiger JsScript Model from a given vtlib\Link object
+	 * Static Function to get an instance of Vtiger JsScript Model from a given vtlib\Link object.
+	 *
 	 * @param vtlib\Link $linkObj
+	 *
 	 * @return Vtiger_JsScript_Model instance
 	 */
 	public static function getInstanceFromLinkObject(vtlib\Link $linkObj)

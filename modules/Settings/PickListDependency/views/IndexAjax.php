@@ -10,6 +10,8 @@
 
 class Settings_PickListDependency_IndexAjax_View extends Settings_PickListDependency_Edit_View
 {
+	use \App\Controller\ExposeMethod,
+	 App\Controller\ClearProcess;
 
 	public function __construct()
 	{
@@ -17,23 +19,23 @@ class Settings_PickListDependency_IndexAjax_View extends Settings_PickListDepend
 		$this->exposeMethod('getDependencyGraph');
 	}
 
-	public function preProcess(\App\Request $request, $display = true)
+	public function getDependencyGraph(\App\Request $request)
 	{
-		return true;
-	}
+		$qualifiedName = $request->getModule(false);
+		$module = $request->getByType('sourceModule', 2);
+		$sourceField = $request->getByType('sourcefield', 2);
+		$targetField = $request->getByType('targetfield', 2);
+		$recordModel = Settings_PickListDependency_Record_Model::getInstance($module, $sourceField, $targetField);
+		$valueMapping = $recordModel->getPickListDependency();
+		$nonMappedSourceValues = $recordModel->getNonMappedSourcePickListValues();
 
-	public function postProcess(\App\Request $request)
-	{
-		return true;
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-
-		if ($mode) {
-			echo $this->invokeExposedMethod($mode, $request);
-			return;
-		}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('MAPPED_VALUES', $valueMapping);
+		$viewer->assign('SOURCE_PICKLIST_VALUES', $recordModel->getSourcePickListValues());
+		$viewer->assign('TARGET_PICKLIST_VALUES', $recordModel->getTargetPickListValues());
+		$viewer->assign('NON_MAPPED_SOURCE_VALUES', $nonMappedSourceValues);
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
+		$viewer->assign('RECORD_MODEL', $recordModel);
+		$viewer->view('DependencyGraph.tpl', $qualifiedName);
 	}
 }

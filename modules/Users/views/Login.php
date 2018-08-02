@@ -9,11 +9,10 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Users_Login_View extends Vtiger_View_Controller
+class Users_Login_View extends \App\Controller\View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function loginRequired()
 	{
@@ -21,7 +20,7 @@ class Users_Login_View extends Vtiger_View_Controller
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -29,7 +28,7 @@ class Users_Login_View extends Vtiger_View_Controller
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
@@ -48,23 +47,19 @@ class Users_Login_View extends Vtiger_View_Controller
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
-		
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
-		$viewer->assign('CURRENT_VERSION', \App\Version::get());
-		$viewer->assign('LANGUAGE_SELECTION', AppConfig::main('langInLoginView'));
-		$viewer->assign('LAYOUT_SELECTION', AppConfig::main('layoutInLoginView'));
 		$viewer->assign('IS_BLOCKED_IP', Settings_BruteForce_Module_Model::getCleanInstance()->isBlockedIp());
 		if (\App\Session::has('UserLoginMessage')) {
 			$viewer->assign('MESSAGE', \App\Session::get('UserLoginMessage'));
@@ -72,22 +67,32 @@ class Users_Login_View extends Vtiger_View_Controller
 			\App\Session::delete('UserLoginMessage');
 			\App\Session::delete('UserLoginMessageType');
 		}
-		$viewer->view('Login.tpl', 'Users');
+		if (\App\Session::get('LoginAuthyMethod') === '2fa') {
+			$viewer->view('Login2faTotp.tpl', 'Users');
+		} else {
+			$viewer->assign('LANGUAGE_SELECTION', AppConfig::main('langInLoginView'));
+			$viewer->assign('LAYOUT_SELECTION', AppConfig::main('layoutInLoginView'));
+			$viewer->view('Login.tpl', 'Users');
+		}
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
+			'modules.Users.Login'
+		]));
+	}
 
-		$cssFileNames = [
-			'skins.login',
-		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-
-		return $headerCssInstances;
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getHeaderScripts(\App\Request $request)
+	{
+		return array_merge(parent::getHeaderScripts($request), $this->checkAndConvertJsScripts([
+			'~libraries/device-uuid/lib/device-uuid.js'
+		]));
 	}
 }

@@ -1,0 +1,19 @@
+{
+  "php": {
+    "EmailTemplates": "Szablony mailowe",
+    "SINGLE_EmailTemplates": "Szablon mailowy",
+    "LBL_CONTENT_MAIL": "Tre\u015b\u0107 maila",
+    "LBL_BASIC_DETAILS": "Informacje og\u00f3lne",
+    "FL_NAME": "Nazwa",
+    "FL_TYPE": "Typ",
+    "FL_MODULE": "Modu\u0142",
+    "FL_SUBJECT": "Temat",
+    "FL_CONTENT": "Tre\u015b\u0107",
+    "FL_SMTP_PRIORITY": "Priorytet SMTP",
+    "PLL_MODULE": "Modu\u0142",
+    "PLL_RECORD": "Rekord",
+    "PLL_MAIL": "Wiadomo\u015b\u0107 mail",
+    "PLL_LIST": "Lista",
+    "PLL_DEFAULT": "Domy\u015blna firma"
+  }
+}

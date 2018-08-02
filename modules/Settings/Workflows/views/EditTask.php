@@ -11,7 +11,6 @@
 
 class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -94,14 +93,14 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 
 		$templateVariables = [
 			$individualTaxBlockValue => $individualTaxBlockLabel,
-			$groupTaxBlockValue => $groupTaxBlockLabel
+			$groupTaxBlockValue => $groupTaxBlockLabel,
 		];
 		$viewer->assign('TEMPLATE_VARIABLES', $templateVariables);
 		$viewer->assign('TASK_OBJECT', $taskObject);
 		$viewer->assign('FIELD_EXPRESSIONS', Settings_Workflows_Module_Model::getExpressions());
-		$userModel = Users_Record_Model::getCurrentUserModel();
-		$viewer->assign('dateFormat', $userModel->get('date_format'));
-		$viewer->assign('timeFormat', $userModel->get('hour_format'));
+		$userModel = \App\User::getCurrentUserModel();
+		$viewer->assign('dateFormat', $userModel->getDetail('date_format'));
+		$viewer->assign('timeFormat', $userModel->getDetail('hour_format'));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$emailFieldoptions = [];
@@ -123,7 +122,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$fromEmailFieldOptions = array_merge(['' => ['' => \App\Language::translate('Optional', $qualifiedModuleName)]], $emailFieldoptions);
 		$assignedToValues = [
 			\App\Language::translate('LBL_USERS') => \App\Fields\Owner::getInstance()->getAccessibleUsers(),
-			\App\Language::translate('LBL_GROUPS') => \App\Fields\Owner::getInstance()->getAccessibleGroups()
+			\App\Language::translate('LBL_GROUPS') => \App\Fields\Owner::getInstance()->getAccessibleGroups(),
 		];
 		$viewer->assign('TEXT_PARSER', $textParser);
 		$viewer->assign('ASSIGNED_TO', $assignedToValues);

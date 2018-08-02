@@ -1,0 +1,148 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.c-list-preview {
+	@include media-breakpoint-up(lg) {
+		float: left;
+		position: relative;
+		min-height: 600px;
+		padding-left: 0;
+		overflow: hidden;
+	}
+	&__content {
+		position: relative;
+		height: max-content;
+
+		#recordsList {
+			padding-left: 0;
+			padding-right: 0;
+			float: none;
+		}
+
+		.contents-topscroll {
+		}
+
+		.listViewSummation td {
+			padding: 0;
+		}
+	}
+
+	[class^="modCT"] {
+		pointer-events: none;
+	}
+}
+
+.c-detail-preview {
+	float: right;
+	position: relative;
+	min-height: 1px;
+}
+
+.listPreviewframe {
+	width: 100%;
+	height: 100%;
+	margin-bottom: 6px;
+}
+
+.gutter {
+	background-color: #4979aa;
+	background-repeat: no-repeat;
+	background-position: 50%;
+	position: relative;
+	z-index: 300;
+	border-right: 8px solid white;
+	border-left: 8px solid white;
+
+	&:active:before {
+		content: "";
+		position: fixed;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		background: transparent;
+	}
+
+	&:hover {
+		transition: 0.2s linear, height 0.2s ease-in-out;
+		-webkit-transition: 0.2s linear, height 0.2s ease-in-out;
+		border-right: 4px solid white;
+		border-left: 4px solid white;
+		border-radius: 30px;
+		background-repeat: repeat-x;
+	}
+
+	&.gutter-horizontal {
+		cursor: ew-resize;
+		background-image: url('../images/vertical.png');
+		float: left;
+	}
+
+	&.js-gutter-corr-left {
+		left: 7px;
+	}
+
+	&.js-gutter-corr-right {
+		right: 7px;
+	}
+}
+
+.mainBody .js-gutter-corr-left {
+	left: 0;
+}
+
+.mainBody .js-gutter-corr-right {
+	right: 0;
+}
+
+.c-side-block {
+	display: none;
+	cursor: pointer;
+	width: 20px;
+	position: absolute;
+	background: $light;
+	font-weight: bold;
+
+	@extend .small;
+
+	&--left {
+		left: -8px;
+	}
+
+	&--right {
+		right: -8px;
+		background: $primary;
+		color: #fff;
+	}
+}
+
+.relatedContents {
+	.c-side-block--left {
+		left: 7px;
+	}
+
+	.c-side-block--right {
+		right: 7px;
+	}
+}
+
+@include media-breakpoint-down(md) {
+	.c-detail-preview {
+		padding-left: 0;
+		padding-right: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	.c-list-preview {
+		overflow: scroll;
+		-webkit-overflow-scrolling: touch;
+		max-height: 200px;
+		padding-left: 0;
+		padding-right: 0;
+
+		&__content {
+			margin-right: 0;
+			margin-bottom: 10px;
+		}
+	}
+}

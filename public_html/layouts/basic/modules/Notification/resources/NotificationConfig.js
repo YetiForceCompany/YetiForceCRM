@@ -1,15 +1,16 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class("Notification_NotificationConfig_Js", {}, {
 	registerEventForModal: function (container) {
 		var thisInstance = this;
 		var table = app.registerDataTables(container.find('.modalDataTable'));
-		app.showBtnSwitch(container.find('.switchBtn'));
 		app.showPopoverElementView(container.find('.infoPopover'));
 		container.on('switchChange.bootstrapSwitch', '.sendNotificationsSwitch', function (e, state) {
 			if (state) {
-				container.find('.schedule').removeClass('hide');
+				container.find('.schedule').removeClass('d-none');
 			} else {
-				container.find('.schedule').addClass('hide');
+				container.find('.schedule').addClass('d-none');
 			}
 		});
 		container.find('[name="saveButton"]').on('click', function () {
@@ -26,7 +27,7 @@ jQuery.Class("Notification_NotificationConfig_Js", {}, {
 				sendNoticeModules.push(value);
 			});
 			var params = {
-				module: app.getModuleName(),
+				module: 'Notification',
 				action: 'Notification',
 				mode: 'saveWatchingModules',
 				selctedModules: selectedModules,
@@ -34,17 +35,13 @@ jQuery.Class("Notification_NotificationConfig_Js", {}, {
 				frequency: container.find('select[name="frequency"]').val()
 			};
 			var progress = jQuery.progressIndicator();
-			AppConnector.request(params).then(
-					function (data) {
-						progress.progressIndicator({'mode': 'hide'});
-						app.hideModalWindow();
-					},
-					function (textStatus, errorThrown) {
-						progress.progressIndicator({'mode': 'hide'});
-						app.hideModalWindow();
-						app.errorLog(textStatus, errorThrown);
-					}
-			);
+			AppConnector.request(params).done(function () {
+				progress.progressIndicator({'mode': 'hide'});
+				app.hideModalWindow();
+			}).fail(function () {
+				progress.progressIndicator({'mode': 'hide'});
+				app.hideModalWindow();
+			});
 		});
 		container.find('.selectAllModules').on('click', function (e) {
 			e.stopPropagation();

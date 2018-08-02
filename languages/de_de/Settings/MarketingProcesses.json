@@ -1,0 +1,21 @@
+{
+  "php": {
+    "LBL_CONVERSION": "\u00dcbertragen",
+    "LBL_CONVERSION_TO_ACCOUNT": "Zust\u00e4ndigkeit \u00fcbertragen",
+    "LBL_CONVERSION_TO_ACCOUNT_INFO": "Ist diese Option gew\u00e4hlt, so wird dem Benutzer die Zust\u00e4ndigkeit f\u00fcr die Organisation \u00fcbertragen, der diese aus einem Lead erzeugt",
+    "LBL_LEADS": "Leads",
+    "LBL_INFO": "Information",
+    "LBL_VALUES": "Werte",
+    "LBL_GROUPS_INFO": "Gruppen ohne Zust\u00e4ndigkeit",
+    "LBL_LEAD_STATUS": "Status welche die Leadbearbeitung beenden",
+    "LBL_LEAD_CONVERT_STATUS": "Status welche die Konvertierung vom Lead zur Organisation erlaubt",
+    "LBL_CURRENTUSER_STATUS": "\u00c4ndere die Zust\u00e4ndigkeit zu dem bearbeitenden Benutzer",
+    "LBL_CONVERT_LEAD_MERGE": "Verkn\u00fcpfe die Lead Daten beim konvertieren mit der Organisation",
+    "LBL_CONVERT_LEAD_MERGE_ALERT": "Diese Option erlaubt dem System automatisch konvertierte Datens\u00e4tze mit bestehenden zu verkn\u00fcpfen - eine neue Organisation wird nicht erzeugt, aber bestehende Datens\u00e4tze des Leads werden \u00fcbertragen",
+    "LBL_CONDITION": "Bedingung hinzuf\u00fcgen",
+    "MarketingProcesses": "Marketingprozesse"
+  },
+  "js": {
+    "JS_NO_CONDITIONS": "Mindestens eine Bedingung ist notwendig"
+  }
+}

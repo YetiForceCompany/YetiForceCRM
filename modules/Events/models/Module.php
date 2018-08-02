@@ -9,13 +9,13 @@
  * *********************************************************************************** */
 
 /**
- * Calendar Module Model Class
+ * Calendar Module Model Class.
  */
 class Events_Module_Model extends Calendar_Module_Model
 {
-
 	/**
-	 * Function to get the url for list view of the module
+	 * Function to get the url for list view of the module.
+	 *
 	 * @return string - url
 	 */
 	public function getListViewUrl()
@@ -24,12 +24,14 @@ class Events_Module_Model extends Calendar_Module_Model
 	}
 
 	/**
-	 * Function to retrieve name fields of a module
+	 * Function to retrieve name fields of a module.
+	 *
 	 * @return <array> - array which contains fields which together construct name fields
 	 */
 	public function getNameFields()
 	{
 		$entityInfo = App\Module::getEntityInfo('Calendar');
+
 		return $entityInfo['fieldnameArr'];
 	}
 }

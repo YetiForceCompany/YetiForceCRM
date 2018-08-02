@@ -1,14 +1,15 @@
 <?php
 
 /**
- * Record allocation
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Record allocation.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -32,6 +33,7 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
+
 			return;
 		}
 		$moduleName = $request->getModule();
@@ -71,11 +73,14 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
-			'~libraries/jquery/datatables/media/js/jquery.dataTables.min.js',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'
+			'~libraries/datatables.net/js/jquery.dataTables.js',
+			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
+			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
+			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js'
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 
@@ -83,8 +88,8 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'~libraries/jquery/datatables/media/css/jquery.dataTables_themeroller.css',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.css',
+			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
+			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css'
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

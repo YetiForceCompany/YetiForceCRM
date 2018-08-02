@@ -13,12 +13,12 @@
 {strip}
     <div class="" id="quickCreateEditorContainer">
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
-        <div class="widget_header row">
+        <div class="widget_header row align-items-center">
 			<div class="col-md-8">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 				{\App\Language::translate('LBL_QUICK_CREATE_EDITOR_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
-			<div class="pull-right col-md-4 h3">
+			<div class="float-right col-md-4 h3">
 				<select class="select2 form-control" name="quickCreateEditorModules">
 					{foreach key=mouleName item=moduleModel from=$SUPPORTED_MODULES}
 						{if $moduleModel->isPermitted('EditView')}
@@ -37,18 +37,14 @@
         </div>
         <div class="contents tabbable">
             <ul class="nav nav-tabs layoutTabs massEditTabs">
-                <li class="active"><a data-toggle="tab" href="#detailViewLayout"><strong>{\App\Language::translate('LBL_SEQUENCE', $QUALIFIED_MODULE)}</strong></a></li>
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#detailViewLayout"><strong>{\App\Language::translate('LBL_SEQUENCE', $QUALIFIED_MODULE)}</strong></a></li>
             </ul>
             <div class="tab-content layoutContent paddingNoTop20 themeTableColor overflowVisible">
                 <div class="tab-pane active" id="detailViewLayout">
-					<div class="btn-toolbar">
-						<span class="pull-right">
-							<button class="btn btn-success saveFieldSequence visibility"  type="button">
-								<strong>{\App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
-							</button>
-						</span>
-						<div class="clearfix">
-						</div>
+					<div class="btn-toolbar justify-content-end">
+						<button class="btn btn-success saveFieldSequence visibility mt-2 mb-2" type="button">
+							<span class="fa fa-check u-mr-5px"></span><strong>{\App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
+						</button>
 					</div>
                     <div id="moduleBlocks">
 						{foreach  key=MODULE item=RECORD_STRUCTURE from=$RECORDS_STRUCTURE }
@@ -71,14 +67,14 @@
                                                     <div class="opacity editFields marginLeftZero border1px"  data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
                                                         <div class="row padding1per">
                                                             {assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-                                                            <div class="col-sm-1 col-xs-2 col-md-2">&nbsp;
+                                                            <div class="col-sm-1 col-2 col-md-2">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
                                                                         <img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
                                                                     </a>
                                                                 {/if}
                                                             </div>
-                                                            <div class="col-sm-11 col-xs-10 col-md-10 marginLeftZero" style="word-wrap: break-word;">
+                                                            <div class="col-sm-11 col-10 col-md-10 marginLeftZero" style="word-wrap: break-word;">
                                                                 <span class="fieldLabel">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}&nbsp;
 																	{if $IS_MANDATORY}<span class="redColor">*</span>{/if}</span>
 															</div>
@@ -96,14 +92,14 @@
 													<div class="opacity editFields marginLeftZero border1px" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
 														<div class="row padding1per">
 															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-															<span class="col-sm-1 col-xs-2 col-md-2">&nbsp;
+															<span class="col-sm-1 col-2 col-md-2">&nbsp;
 																{if $FIELD_MODEL->isEditable()}
 																	<a>
 																		<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 																	</a>
 																{/if}
 															</span>
-															<div class="col-sm-11 col-xs-10 col-md-10 marginLeftZero" style="word-wrap: break-word;">
+															<div class="col-sm-11 col-10 col-md-10 marginLeftZero" style="word-wrap: break-word;">
 																<span class="fieldLabel">
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>

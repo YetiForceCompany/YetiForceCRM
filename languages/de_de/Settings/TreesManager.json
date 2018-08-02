@@ -1,0 +1,37 @@
+{
+  "php": {
+    "LBL_ADD_RECORD": "Hinzuf\u00fcgen",
+    "TreesManager": "Baumstruktur Verwaltung",
+    "LBL_TREES_MANAGER": "Felder \u2013 Baumstruktur",
+    "LBL_TREES_MANAGER_DESCRIPTION": "Verwalten von Vorlagen f\u00fcr Baumstrukturen",
+    "LBL_NO_RECORDS_FOUND": "Keine Vorlagen gefunden",
+    "LBL_EDIT_TEMPLATE_TREES": "Vorlagen \u00e4ndern",
+    "LBL_CREATING_TEMPLATE_TREES": "Vorlage hinzuf\u00fcgen",
+    "LBL_NAME": "Vorlagenname",
+    "LBL_MODULE": "Modul",
+    "LBL_ADD_ITEM_TREE": "Neuen Eintrag hinzuf\u00fcgen",
+    "LBL_ADD_TO_TREES": "Hinzuf\u00fcgen",
+    "LBL_SAVE": "Speichern",
+    "LBL_SELECT_REPLACE_TREE_ITEM": "\u00c4ndere Eintrag in Baumstruktur:",
+    "Category": "Kategorie",
+    "Reservations": "Einschr\u00e4nkungen",
+    "LBL_SHARE_WITH": "Teilen mit"
+  },
+  "js": {
+    "JS_TREE_DELETED_SUCCESSFULLY": "Vorlage erfolgreich gel\u00f6scht",
+    "JS_JSTREE_CREATE": "Hinzuf\u00fcgen",
+    "JS_JSTREE_RENAME": "Name \u00e4ndern",
+    "JS_JSTREE_REMOVE": "L\u00f6schen",
+    "JS_JSTREE_CCP": "Bearbeiten",
+    "JS_JSTREE_CUT": "Ausschneiden",
+    "JS_JSTREE_COPY": "Kopieren",
+    "JS_JSTREE_PASTE": "Hinzuf\u00fcgen",
+    "JS_JSTREE_CHANGE_ICON": "\u00c4ndere Icon",
+    "JS_FIELD_CAN_NOT_BE_EMPTY": "Feld darf nicht leer sein",
+    "JS_NO_ITEM_SELECTED": "Kein Eintrag gew\u00e4hlt",
+    "JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS": "Es k\u00f6nnen nicht alle Eintr\u00e4ge gel\u00f6scht werden",
+    "JS_YOU_CANNOT_DELETE_PERENT_ITEM": "Der Haupteintrag kann nicht gel\u00f6scht werden",
+    "JS_NEW_ITEM": "Neuer Knoten",
+    "JS_ONLY_ONE_ITEM_SELECTED": "Es kann nur ein Eintrag gew\u00e4hlt werden."
+  }
+}

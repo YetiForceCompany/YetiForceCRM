@@ -1,0 +1,13 @@
+{
+  "php": {
+    "LBL_TOTP_AUTHY_MODE": "Moduri autentificare",
+    "LBL_TOTP_OFF": "TOTP - OPRIT",
+    "LBL_TOTP_OPTIONAL": "TOTP - optional, definit de utilizator",
+    "LBL_TOTP_OBLIGATORY": "TOTP - obligatoriu, fiecare utilizator trebuie sa aiba aceasta optiune configurata",
+    "LBL_TOTP_NUMBER_OF_WRONG_ATTEMPTS": "Numar incercari esuate",
+    "LBL_2FA_CONF": "Multi-factor authentication",
+    "LBL_TOTP": "Algoritmul pentru o singura data bazata pe timp",
+    "LBL_TOTP_AUTHY_MODE_DESC": "Selecteaza moduri autentificare",
+    "LBL_TOTP_NUMBER_OF_WRONG_ATTEMPTS_DESC": "Numar maxim de incercari introducere cod esuate"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "php": {
+    "LBL_TYPE": "Type",
+    "LBL_NAME": "Nom",
+    "LBL_DEFAULT": "D\u00e9faut",
+    "LBL_ADD_RECORD": "Ajouter enregistrement",
+    "LBL_CREATE_RECORD": "Ajouter un central t\u00e9l\u00e9phonique",
+    "LBL_EDIT_RECORD": "Editer un central t\u00e9l\u00e9phonique",
+    "LBL_URL": "Adresse du serveur",
+    "LBL_USERNAME": "Nom d'utilisateur",
+    "LBL_PASSWORD": "Mot de passe",
+    "LBL_SECRET_KEY": "Secret Key",
+    "LBL_OUTBOUND_CONTEXT": "Outbound context"
+  },
+  "js": {
+    "JS_SAVE_SUCCESS": "Changements sauvgard\u00e9s"
+  }
+}

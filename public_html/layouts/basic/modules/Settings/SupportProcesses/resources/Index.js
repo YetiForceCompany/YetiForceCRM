@@ -1,10 +1,13 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
- 
-jQuery.Class('Settings_SupportProcesses_Index_Js', {
-}, {
-		registerChangeVal: function (content) {
-		var thisInstance = this;
-		content.find('.configField').change(function (e) {
+'use strict';
+
+jQuery.Class('Settings_SupportProcesses_Index_Js', {}, {
+	/**
+	 * Register change field value
+	 * @param {jQuery} content
+	 */
+	registerChangeVal: function (content) {
+		content.find('.js-config-field').on('change', function (e) {
 			var target = $(e.currentTarget);
 			var params = {};
 			params['type'] = target.data('type');
@@ -14,15 +17,14 @@ jQuery.Class('Settings_SupportProcesses_Index_Js', {
 			} else {
 				params['val'] = target.val() != null ? target.val() : '';
 			}
-			app.saveAjax('updateConfig', params).then(function (data) {
+			app.saveAjax('updateConfig', params).done(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 			});
 		});
 	},
-	registerEvents: function() {
+	registerEvents: function () {
 		var content = $('.supportProcessesContainer');
 		this.registerChangeVal(content);
 	}
-
 
 });

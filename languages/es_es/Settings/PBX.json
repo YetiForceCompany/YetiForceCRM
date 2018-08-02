@@ -1,0 +1,18 @@
+{
+  "php": {
+    "LBL_NAME": "Nombre",
+    "LBL_TYPE": "Tipo",
+    "LBL_DEFAULT": "Por defecto",
+    "LBL_ADD_RECORD": "A\u00f1adir registro",
+    "LBL_CREATE_RECORD": "Crear registro",
+    "LBL_EDIT_RECORD": "Editar registro",
+    "LBL_URL": "URL",
+    "LBL_USERNAME": "Usuario",
+    "LBL_PASSWORD": "Contrase\u00f1a",
+    "LBL_SECRET_KEY": "Secret Key",
+    "LBL_OUTBOUND_CONTEXT": "Contexto de salida"
+  },
+  "js": {
+    "JS_SAVE_SUCCESS": "Cambios guardados"
+  }
+}

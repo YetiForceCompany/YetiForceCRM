@@ -1,0 +1,36 @@
+{
+  "php": {
+    "LocationRegister": "Registro de ubicaci\u00f3n",
+    "SINGLE_LocationRegister": "Registro de ubicaci\u00f3n",
+    "LBL_BASIC_INFORMATION": "Informaci\u00f3n sobre el Registro de ubicaci\u00f3n",
+    "FL_NAME": "Nombre",
+    "FL_PARENT_LOCATION": "Ubicaci\u00f3n padre",
+    "PLL_DRAFT": "Borrador",
+    "PLL_WAITING_FOR_ACCEPTANCE": "A la espera de aceptaci\u00f3n",
+    "PLL_IN_REALIZATION": "En proceso",
+    "PLL_COMPLETED": "Completado",
+    "PLL_CANCELLED": "Cancelado",
+    "FL_STATUS": "Estado",
+    "PLL_ELECTRONIC": "Electr\u00f3nico",
+    "PLL_PHYSICAL": "F\u00edsico",
+    "FL_SECURITY_TYPE": "Tipo de seguridad",
+    "LBL_ADDRESS": "Direcci\u00f3n",
+    "FL_BUILDING_NUMBER": "N\u00famero",
+    "FL_DISTRICT": "Barrio",
+    "FL_STREET": "Calle",
+    "FL_TOWNSHIP": "Municipio",
+    "FL_STATE": "Estado",
+    "FL_POBOX": "Apartado de correos",
+    "FL_LOCAL_NUMBER": "Piso",
+    "FL_POST_CODE": "C\u00f3digo postal",
+    "FL_CITY": "Ciudad",
+    "FL_COUNTY": "Isla",
+    "FL_COUNTRY": "Pa\u00eds",
+    "LBL_DESCRIPTION": "Descripti\u00f3n",
+    "FL_DESCRIPTION": "Descripti\u00f3n",
+    "FL_COMMENTS": "Comentarios",
+    "LBL_COMMENTS": "Comentarios"
+  },
+  "js": {
+  }
+}

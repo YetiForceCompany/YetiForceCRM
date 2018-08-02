@@ -10,9 +10,9 @@
 
 class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Function to get focus of this object
+	 * Function to get focus of this object.
+	 *
 	 * @return CRMEntity
 	 */
 	public function getFocus()
@@ -24,8 +24,10 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 	}
 
 	/**
-	 * Function to get Instance of this module
+	 * Function to get Instance of this module.
+	 *
 	 * @param string $moduleName
+	 *
 	 * @return Settings_Vtiger_CustomRecordNumberingModule_Model $moduleModel
 	 */
 	public static function getInstance($moduleName, $tabId = false)
@@ -39,7 +41,8 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 	}
 
 	/**
-	 * Function to ger Supported modules for Custom record numbering
+	 * Function to ger Supported modules for Custom record numbering.
+	 *
 	 * @return array list of supported modules Vtiger_Module_Model
 	 */
 	public static function getSupportedModules()
@@ -47,14 +50,16 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 		$subQuery = (new \App\Db\Query())->select('tabid')->from('vtiger_field')->where(['uitype' => 4])->distinct('tabid');
 		$dataReader = (new App\Db\Query())->select(['tabid', 'name'])->from('vtiger_tab')->where(['isentitytype' => 1, 'presence' => 0, 'tabid' => $subQuery])->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$modulesModels[$row['tabid']] = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($row['name'], $row['tabid']);
+			$modulesModels[$row['tabid']] = self::getInstance($row['name'], $row['tabid']);
 		}
+		$dataReader->close();
 
 		return $modulesModels;
 	}
 
 	/**
-	 * Function to set Module sequence
+	 * Function to set Module sequence.
+	 *
 	 * @return array result of success
 	 */
 	public function setModuleSequence()
@@ -74,7 +79,8 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 	}
 
 	/**
-	 * Function to update record sequences which are under this module
+	 * Function to update record sequences which are under this module.
+	 *
 	 * @return array result of success
 	 */
 	public function updateRecordsWithSequence()

@@ -1,0 +1,12 @@
+{
+  "php": {
+    "ModTracker": "\u00c4nderungshistorie",
+    "LBL_MODTRACKER_SETTINGS": "Module \u2013 \u00c4nderungen protokollieren \/ History",
+    "LBL_MODTRACKER_SETTINGS_DESCRIPTION": "Verwalten der \u00c4nderungshistorie in den Modulen",
+    "LBL_MODULE": "Module",
+    "LBL_ACTIVE": "\u00c4nderungen verfolgen",
+    "LBL_TOOLS": "Tools",
+    "LBL_TRACK_CHANGES_ENABLED": "\u00c4nderungen verfolgen aktiviert",
+    "LBL_TRACK_CHANGES_DISABLE": "\u00c4nderungen verfolgen deaktiviert"
+  }
+}

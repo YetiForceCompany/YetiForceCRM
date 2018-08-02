@@ -10,20 +10,20 @@
 	* Contributor(s): YetiForce.com
 	********************************************************************************/
 	-->*}
-	<div class="col-md-12 paddingLRZero row">
-		<div class="col-xs-12 col-sm-12 col-md-8">
+	<div class="col-md-12 pr-0 row">
+		<div class="col-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
-				<span class="detailViewIcon {$EXTENSION_ICON}"></span>
+				<span class="o-detail__icon js-detail__icon {$EXTENSION_ICON}"></span>
 			</div>
 
 			<div class="paddingLeft5px">
-				<h4 class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
+				<h4 class="recordLabel u-text-ellipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
 					<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
 					{if $RECORD_STATE !== 'Active'}
 						&nbsp;&nbsp;
 						{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
-						<span class="label label-default" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
+						<span class="badge badge-secondary" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
 							{if \App\Record::getState($RECORD->getId()) === 'Trash'}
 								{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
 							{else}
@@ -45,6 +45,6 @@
 				{/if}
 			</div>
 		</div>
-		{include file=\App\Layout::getTemplatePath('DetailViewHeaderFields.tpl', $MODULE_NAME)}
+		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME)}
 	</div>
 {/strip}

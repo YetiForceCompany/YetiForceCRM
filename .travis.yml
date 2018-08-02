@@ -5,9 +5,8 @@ dist: trusty
 language: php
 
 php:
-  - 7.2
   - 7.1
-  - 7.0
+  - 7.2
   - nightly
   
 matrix:
@@ -15,7 +14,6 @@ matrix:
   allow_failures:
     - php: hhvm
     - php: nightly
-    - php: 7.2
     
 branches:
   only:
@@ -30,14 +28,11 @@ mysql:
   encoding: utf8
   
 before_script:
-- sudo wget https://phar.phpunit.de/phpunit-6.2.phar
-- sudo chmod +x phpunit-6.2.phar
-- sudo mv phpunit-6.2.phar /usr/local/bin/phpunit
 - sudo chmod -R 777 tests/setup/
 - ./tests/setup/before_script.sh
 - ./tests/setup/apache.sh
 - ./tests/setup/selenium.sh
-  
+
 script:
 - cd tests
 - /usr/local/bin/phpunit --debug --verbose
@@ -57,15 +52,3 @@ after_script:
 - php ocular code-coverage:upload --format=php-clover coverage.xml
 - bash <(curl -s https://codecov.io/bash)
 - sudo ls -all ../screenshots
-- |
-    if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.1" ]]; then
-      zip -r coverageHtml.zip coverageHtml/ > /dev/null
-      sudo apt-get install ncftp > /dev/null
-      ncftpput -R -v -u $AFU -p $AFP $AFA / coverageHtml.zip > /dev/null
-      ncftpput -R -v -u $AFU -p $AFP $AFA / ../screenshots > /dev/null
-      ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/errors.log > /dev/null
-      ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/system.log > /dev/null
-      ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/phpError.log > /dev/null
-      ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/webserviceDebug.log > /dev/null
-      ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/webserviceErrors.log > /dev/null
-    fi

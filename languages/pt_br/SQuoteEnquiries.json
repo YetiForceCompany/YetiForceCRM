@@ -1,0 +1,22 @@
+{
+  "php": {
+    "SQuoteEnquiries": "Consultas de Vendas",
+    "SINGLE_SQuoteEnquiries": "Consulta de Venda",
+    "LBL_QUOTESENQUIRES_INFORMATION": "Informa\u00e7\u00f5es B\u00e1sicas",
+    "LBL_CUSTOM_INFORMATION": "Informa\u00e7\u00e3o do Sistema",
+    "LBL_DESCRIPTION_INFORMATION": "Descri\u00e7\u00e3o",
+    "LBL_STATISTICS": "Estat\u00edsticas",
+    "LBL_SUBJECT": "Assunto",
+    "LBL_NUMBER": "N\u00famero",
+    "LBL_STATUS": "Situa\u00e7\u00e3o",
+    "LBL_CLOSED_TIME": "Hora de Fechamento",
+    "LBL_RESPONSE_TIME": "Tempo de Resposta",
+    "SINGLE_SSalesProcesses": "Oportunidade",
+    "PLL_DRAFT": "Rascunho",
+    "PLL_IN_REALIZATION": "Em execu\u00e7\u00e3o",
+    "PLL_FOR_VERIFICATION": "Em Verifica\u00e7\u00e3o",
+    "PLL_CANCELLED": "Cancelada",
+    "PLL_COMPLETED": "Conclu\u00edda",
+    "LBL_CHANGE_STATUS": "Alterar Status"
+  }
+}

@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Action to get markers
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Action to get markers.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -40,46 +41,50 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 				if (!empty($tempLon)) {
 					$endLon = $ilon[$key];
 					$endLat = $ilat[$key];
-					$tracks [] = [
+					$tracks[] = [
 						'startLat' => $startLat,
 						'startLon' => $startLon,
 						'endLat' => $endLat,
-						'endLon' => $endLon
+						'endLon' => $endLon,
 					];
 					$startLat = $endLat;
 					$startLon = $endLon;
 				}
 			}
 		}
-		$tracks [] = [
+		$tracks[] = [
 			'startLat' => $startLat,
 			'startLon' => $startLon,
 			'endLat' => $tlat,
-			'endLon' => $tlon
+			'endLon' => $tlon,
 		];
-		$language = vglobal('default_language');
 		$coordinates = [];
 		$travel = 0;
 		$description = '';
 		$urlToRoute = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE');
-		foreach ($tracks as $track) {
-			$url = $urlToRoute . '?format=geojson&flat=' . $track['startLat'] . '&flon=' . $track['startLon'] . '&tlat=' . $track['endLat'] . '&tlon=' . $track['endLon'] . '&lang=' . $language . '&instructions=1';
-			$response = Requests::get($url);
-			$json = \App\Json::decode($response->body);
-			$coordinates = array_merge($coordinates, $json['coordinates']);
-			$description .= $json['properties']['description'];
-			$travel = $travel + $json['properties']['traveltime'];
-			$distance = $distance + $json['properties']['distance'];
+		try {
+			foreach ($tracks as $track) {
+				$url = $urlToRoute . '?format=geojson&flat=' . $track['startLat'] . '&flon=' . $track['startLon'] . '&tlat=' . $track['endLat'] . '&tlon=' . $track['endLon'] . '&lang=' . App\Language::getLanguage() . '&instructions=1';
+				$response = Requests::get($url);
+				$json = \App\Json::decode($response->body);
+				$coordinates = array_merge($coordinates, $json['coordinates']);
+				$description .= $json['properties']['description'];
+				$travel = $travel + $json['properties']['traveltime'];
+				$distance = $distance + $json['properties']['distance'];
+			}
+			$result = [
+				'type' => 'LineString',
+				'coordinates' => $coordinates,
+				'properties' => [
+					'description' => $description,
+					'traveltime' => $travel,
+					'distance' => $distance,
+				],
+			];
+		} catch (Exception $ex) {
+			\App\Log::warning($ex->getMessage());
+			$result = false;
 		}
-		$result = [
-			'type' => 'LineString',
-			'coordinates' => $coordinates,
-			'properties' => [
-				'description' => $description,
-				'traveltime' => $travel,
-				'distance' => $distance
-			]
-		];
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

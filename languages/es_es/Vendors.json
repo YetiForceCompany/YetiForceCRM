@@ -1,0 +1,34 @@
+{
+  "php": {
+    "LBL_EvaluationProductService": "Evaluaci\u00f3n del producto\/servicio",
+    "LBL_TO_LC": "a",
+    "LBL_EXPORT_TO_PDF": "Exportar a PDF",
+    "LBL_VENDOR_ADDRESS_INFORMATION": "Informaci\u00f3n sobre la direcci\u00f3n",
+    "LBL_VENDORS_ADD_TASK": "A\u00f1adir tarea",
+    "LBL_VENDORS_ADD_EVENT": "A\u00f1adir evento",
+    "300-Sales-Software": "300-Ventas-Software",
+    "301-Sales-Hardware": "301-Ventas-Hardware",
+    "302-Rental-Income": "302-Alquiler-Ingresos",
+    "303-Interest-Income": "303-Inter\u00e9s-Ingresos",
+    "304-Sales-Software-Support": "304-Ventas-Software-Soporte",
+    "305-Sales Other": "305-Otras ventas",
+    "306-Internet Sales": "306-Ventas por Internet",
+    "307-Service-Hardware Labor": "307-Servicio-Hardware Trabajo",
+    "308-Sales-Books": "308-Ventas-Libros",
+    "Email": "Correo",
+    "GL Account": "Cuenta GL",
+    "LBL_VENDOR_INFORMATION": "Detalles del proveedor",
+    "Phone": "Tel\u00e9fono",
+    "SINGLE_Vendors": "Proveedor",
+    "Vendor Name": "Nombre del proveedor",
+    "Vendor No": "ID",
+    "Vendors": "Proveedores",
+    "Website": "Sitio web",
+    "LBL_BUILDING_NUMBER": "N\u00famero",
+    "LBL_LOCAL_NUMBER": "Piso"
+  },
+  "js": {
+    "LBL_DELETE_CONFIRMATION": "La eliminaci\u00f3n de este Proveedor eliminar\u00e1 sus pedidos de compra relacionados. \u00bfEst\u00e1 seguro de que desea eliminar este proveedor?",
+    "LBL_MASS_DELETE_CONFIRMATION": "La eliminaci\u00f3n de estos proveedores eliminar\u00e1 las \u00f3rdenes de compra relacionadas. \u00bfEst\u00e1 seguro de que desea eliminar los registros seleccionados?"
+  }
+}

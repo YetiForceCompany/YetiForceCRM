@@ -1,0 +1,31 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+@include media-breakpoint-down(sm) {
+	.o-breadcrumb {
+		&__actions-btn {
+			font-size: $font-size-header-button;
+			padding-left: 0.4rem;
+			padding-right: 0.4rem;
+		}
+
+		&__actions {
+			position: fixed;
+			left: auto;
+			right: -100%;
+			max-height: calc(100vh - 50px);
+			width: 100%;
+			color: $color-navbar;
+			background-color: darken($gray-100, 2%);
+			z-index: 2000;
+			padding: 30px;
+			-webkit-transition: right ease-in-out 0.35s;
+			transition: right ease-in-out 0.35s;
+			text-align: center;
+			overflow: auto;
+
+			&.is-active {
+				right: 0;
+			}
+		}
+	}
+}

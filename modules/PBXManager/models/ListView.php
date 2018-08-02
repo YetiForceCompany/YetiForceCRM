@@ -9,13 +9,12 @@
  * *********************************************************************************** */
 
 /**
- * PBXManager ListView Model Class
+ * PBXManager ListView Model Class.
  */
 class PBXManager_ListView_Model extends Vtiger_ListView_Model
 {
-
 	/**
-	 * Overrided to remove add button
+	 * Overrided to remove add button.
 	 */
 	public function getBasicLinks()
 	{
@@ -23,7 +22,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 	}
 
 	/**
-	 * Overrided to remove Mass Edit Option
+	 * Overrided to remove Mass Edit Option.
 	 */
 	public function getListViewMassActions($linkParams)
 	{
@@ -37,7 +36,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-undo'
+				'linkicon' => 'fas fa-undo-alt',
 			];
 		}
 		if ($moduleModel->isPermitted('MassArchived')) {
@@ -47,7 +46,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-archive'
+				'linkicon' => 'fas fa-archive',
 			];
 		}
 		if ($moduleModel->isPermitted('MassTrash')) {
@@ -57,7 +56,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-trash'
+				'linkicon' => 'fas fa-trash-alt',
 			];
 		}
 		if ($moduleModel->isPermitted('MassDelete')) {
@@ -67,7 +66,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-erase'
+				'linkicon' => 'fas fa-eraser',
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {
@@ -77,7 +76,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 	}
 
 	/**
-	 * Overrided to add HTML content for callstatus irrespective of the filters
+	 * Overrided to add HTML content for callstatus irrespective of the filters.
 	 */
 	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
@@ -85,7 +84,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 		$queryGenerator->setField('direction');
 		$orderBy = $this->getForSql('orderby');
 		$sortOrder = $this->getForSql('sortorder');
-		if (empty($orderBy) && empty($sortOrder) && $this->getModule()->getName() != "Users") {
+		if (empty($orderBy) && empty($sortOrder) && $this->getModule()->getName() != 'Users') {
 			$this->set('orderby', 'modifiedtime');
 			$this->set('sortorder', 'DESC');
 		}

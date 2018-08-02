@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 	step2Container: false,
 	advanceFilterInstance: false,
@@ -26,7 +28,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 	 * Function  to intialize the reports step1
 	 */
 	initialize: function (container) {
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('#mf_step2');
 		}
 		if (container.is('#mf_step2')) {
@@ -41,7 +43,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 		var formData = form.serializeFormData();
 		var saveData = this.getData(formData);
 		saveData.record = formData.record;
-		this.validationMappingFields().then(function (data) {
+		this.validationMappingFields().done(function (data) {
 			if (data) {
 				var progressIndicatorElement = jQuery.progressIndicator({
 					'position': 'html',
@@ -49,7 +51,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 						'enabled': true
 					}
 				});
-				app.saveAjax('step2', saveData).then(function (data) {
+				app.saveAjax('step2', saveData).done(function (data) {
 					if (data.success == true) {
 						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY')});
 						var mfRecordElement = jQuery('[name="record"]', form);
@@ -58,18 +60,15 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 							formData['record'] = data.result.id;
 						}
 						formData['record'] = data.result.id;
-						AppConnector.request(formData).then(
-								function (data) {
-									form.hide();
-									progressIndicatorElement.progressIndicator({
-										'mode': 'hide'
-									})
-									aDeferred.resolve(data);
-								},
-								function (error, err) {
-									app.errorLog(error, err);
-								}
-						);
+						AppConnector.request(formData).done(function (data) {
+							form.hide();
+							progressIndicatorElement.progressIndicator({
+								'mode': 'hide'
+							})
+							aDeferred.resolve(data);
+						}).fail(function (error, err) {
+							app.errorLog(error, err);
+						});
 					}
 				});
 			} else {
@@ -114,10 +113,10 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 		};
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
-		app.showSelect2ElementView(container.find('.select2'));
+		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
 		this.registerCancelStepClickEvent(container);
 		this.registerEventsForEditView();
-		app.showPopoverElementView(container.find('.popoverTooltip'));
+		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 	},
 	/**
 	 * Function to register event for adding new convert to field mapping
@@ -126,27 +125,27 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 		var thisInstance = this;
 		jQuery('#addMapping').on('click', function (e) {
 			var mappingToGenerateTable = jQuery('#mappingToGenerate');
-			var lastSequenceNumber = mappingToGenerateTable.find('tr:not(.hide)[sequence-number]').last();
+			var lastSequenceNumber = mappingToGenerateTable.find('tr:not(.d-none)[sequence-number]').last();
 			var newSequenceNumber = thisInstance.getSequenceNumber(lastSequenceNumber) + 1;
 			var newMapping = jQuery('.newMapping').clone(true, true);
 			newMapping.attr('sequence-number', newSequenceNumber);
 			newMapping.find('select.sourceFields.newSelect').attr("name", 'mapping[' + newSequenceNumber + '][source]');
 			newMapping.find('select.targetFields.newSelect').attr("name", 'mapping[' + newSequenceNumber + '][target]');
 			newMapping.find('input.mappingType').attr("name", 'mapping[' + newSequenceNumber + '][type]');
-			newMapping.removeClass('hide newMapping');
+			newMapping.removeClass('d-none newMapping');
 			newMapping.appendTo(mappingToGenerateTable);
 			newMapping.find('.newSelect').removeClass('newSelect').addClass('select2');
 			var select2Elements = newMapping.find('.select2');
-			app.showSelect2ElementView(select2Elements);
+			App.Fields.Picklist.showSelect2ElementView(select2Elements);
 			jQuery('select.targetFields', newMapping).trigger('change', false);
 			thisInstance.loadDefaultValueWidgetForMappedFields(newMapping.find('.select2'));
 		})
 	},
 	getSequenceNumber: function (element) {
+		let sequenceNumber;
 		if (element.length) {
-			var sequenceNumber = element.attr('sequence-number');
-		}
-		else {
+			sequenceNumber = element.attr('sequence-number');
+		} else {
 			sequenceNumber = 0;
 		}
 		return parseInt(sequenceNumber);
@@ -175,16 +174,16 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 				} else if (element.is('optgroup') && element.find('[data-type="' + selectedDataType + '"]').length > 0) {
 					element.children().each(function (q, k) {
 						var option = jQuery(k);
-						if (option.data('type') != selectedDataType) {
+						if (option.data('type') !== selectedDataType) {
 							option.remove();
 						}
 					})
 					options.append(element);
 				}
 			})
-			delete fieldsBasedOnType;
+			fieldsBasedOnType = false;
 
-			container.find('.selectedFieldDataType').html(selectedOption.data('type-name')?selectedOption.data('type-name'):'');
+			container.find('.selectedFieldDataType').html(selectedOption.data('type-name') ? selectedOption.data('type-name') : '');
 			fieldsSelectElement.html(options.children());
 
 			fieldsSelectElement.trigger('change', false);
@@ -213,19 +212,20 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 		}
 		dafeultTd.children().remove();
 		var exist = jQuery('#mappingToGenerate').find('#' + id);
-		if (affectedRow.length == 0 || !element.val() || exist.length > 0)
+		if (affectedRow.length === 0 || !element.val() || exist.length > 0) {
 			return;
+		}
 		var seqNumber = thisInstance.getSequenceNumber(element.closest('tr'));
 		var copyOfDefaultValue = affectedRow.clone(true, true);
 		copyOfDefaultValue.prop('disabled', false).attr('name', 'mapping[' + seqNumber + '][default]');
 		if (copyOfDefaultValue.is(':checkbox') && defaultValue) {
 			copyOfDefaultValue.prop('checked', true);
 		} else if (defaultValue) {
-			defaultValue = typeof copyOfDefaultValue.attr('multiple') != 'undefined' ? defaultValue.split(',') : defaultValue;
+			defaultValue = typeof copyOfDefaultValue.attr('multiple') !== "undefined" ? defaultValue.split(',') : defaultValue;
 			copyOfDefaultValue.val(defaultValue);
 		}
 		copyOfDefaultValue.appendTo(dafeultTd);
-		app.showSelect2ElementView(dafeultTd.find('select'));
+		App.Fields.Picklist.showSelect2ElementView(dafeultTd.find('select'));
 	},
 	loadDefaultValueWidgetForMappedFields: function (fieldsList) {
 		var thisInstance = this;
@@ -235,7 +235,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 		fieldsList.on('change', function (e) {
 			var element = jQuery(e.currentTarget);
 			thisInstance.loadDefaultValueWidget(element);
-		})
+		});
 	},
 	/**
 	 * Function to register events for edit view of fields mapping
@@ -251,7 +251,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 	 */
 	validationMappingFields: function () {
 		var aDeferred = jQuery.Deferred();
-		var mappingTable = jQuery('#mappingToGenerate tr:not(.hide)');
+		var mappingTable = jQuery('#mappingToGenerate tr:not(.d-none)');
 
 		mappingTable.each(function (i, e) {
 			var breakSave = false;
@@ -275,7 +275,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 				aDeferred.resolve(false);
 				return false;
 			}
-		})
+		});
 		aDeferred.resolve(true);
 		return aDeferred.promise();
 	}

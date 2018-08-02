@@ -1,0 +1,31 @@
+{
+  "php": {
+    "SQuotes": "Angebote",
+    "SINGLE_SQuotes": "Angebot",
+    "LBL_SQUOTES_INFORMATION": "Informationen",
+    "LBL_CUSTOM_INFORMATION": "System Information",
+    "LBL_DESCRIPTION_INFORMATION": "Details",
+    "LBL_STATISTICS": "Statistik",
+    "LBL_SUBJECT": "Bezeichnung",
+    "LBL_NUMBER": "Nummer",
+    "LBL_STATUS": "Status",
+    "LBL_CLOSED_TIME": "Geschlossen am",
+    "LBL_RESPONSE_TIME": "Antwortzeit",
+    "LBL_COMPANY_NAME": "Firmenname",
+    "SINGLE_SSalesProcesses": "Verkaufschance",
+    "FL_TOTAL_PRICE": "Gesamt Netto",
+    "FL_MARGINP": "Gesamtmarge in Prozent",
+    "FL_MARGIN": "Gesamtmarge",
+    "FL_SUM_GROSS": "Bruttobetrag",
+    "FL_SUM_DISCOUNT": "Rabattbetrag",
+    "FL_VALID_UNTIL": "G\u00fcltig Bis",
+    "PLL_DRAFT": "Entwurf",
+    "PLL_IN_REALIZATION": "In Bearbeitung",
+    "PLL_FOR_VERIFICATION": "Zur Pr\u00fcfung",
+    "PLL_AWAITING_DECISION": "Warten auf Entscheidung",
+    "PLL_NEGOTIATIONS": "Verhandlungen",
+    "PLL_CANCELLED": "Abgelehnt",
+    "PLL_ACCEPTED": "Angenommen",
+    "LBL_CHANGE_STATUS": "Status \u00e4ndern"
+  }
+}

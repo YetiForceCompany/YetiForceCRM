@@ -10,26 +10,14 @@
 
 class HelpDesk_Detail_View extends Vtiger_Detail_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showRelatedRecords');
 		$this->exposeMethod('showCharts');
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getHeaderCss(\App\Request $request)
-	{
-		$cssFileNames = [
-			'~libraries/jquery/flot/jquery.flot.valuelabels.css',
-		];
-		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}
 
 	public function showCharts(\App\Request $request)

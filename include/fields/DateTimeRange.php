@@ -1,15 +1,25 @@
 <?php
 /**
- * Date time range class
- * @package YetiForce.Include
- * @copyright YetiForce Sp. z o.o.
+ * Date time range class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-require_once 'include/utils/utils.php';
+require_once 'include/database/PearDatabase.php';
+require_once 'include/utils/CommonUtils.php';
+require_once 'include/fields/DateTimeField.php';
+require_once 'include/fields/DateTimeRange.php';
+require_once 'include/fields/CurrencyField.php';
+require_once 'include/CRMEntity.php';
+include_once 'modules/Vtiger/CRMEntity.php';
+require_once 'include/runtime/Cache.php';
+require_once 'modules/Vtiger/helpers/Util.php';
+require_once 'modules/PickList/DependentPickListUtils.php';
+require_once 'modules/Users/Users.php';
+require_once 'include/Webservices/Utils.php';
 
 class DateTimeRange
 {
-
 	/** Function that converts string to dates
 	 * @param $type :: type string
 	 * @returns  $dateValue array in the following format
@@ -24,7 +34,7 @@ class DateTimeRange
 			$timeZone = $timezone = new DateTimeZone($currentUser->getDetail('time_zone'));
 			$dateObject = new DateTime();
 			$dateObject->setTimezone($timeZone);
-		} else if (is_string($dateObject)) {
+		} elseif (is_string($dateObject)) {
 			$dateObject = new DateTime($dateObject);
 		}
 		$thisMonth = $dateObject->format('m');
@@ -201,31 +211,34 @@ class DateTimeRange
 	}
 
 	/**
-	 * Function to get start and end date of present calendar year
+	 * Function to get start and end date of present calendar year.
+	 *
 	 * @param DateTime/String $dateObject - date object or string
+	 *
 	 * @return date range of present year
 	 */
 	public static function getPresentYearRange(&$dateObject = null)
 	{
 		if (!$dateObject) {
 			$dateObject = new DateTime();
-		} else if (is_string($dateObject)) {
+		} elseif (is_string($dateObject)) {
 			$dateObject = new DateTime($dateObject);
 		}
-
 		return [$dateObject->format('Y-01-01'), $dateObject->format('Y-12-31')];
 	}
 
 	/**
-	 * Function to get start and end date of next calendar year
+	 * Function to get start and end date of next calendar year.
+	 *
 	 * @param DateTime/String $dateObject - date object or string
+	 *
 	 * @return date range of next year
 	 */
 	public static function getNextYearRange(&$dateObject = null)
 	{
 		if (!$dateObject) {
 			$dateObject = new DateTime();
-		} else if (is_string($dateObject)) {
+		} elseif (is_string($dateObject)) {
 			$dateObject = new DateTime($dateObject);
 		}
 		$dateObject->modify('next year');
@@ -234,15 +247,17 @@ class DateTimeRange
 	}
 
 	/**
-	 * Function to get start and end date of past calendar year
+	 * Function to get start and end date of past calendar year.
+	 *
 	 * @param DateTime/String $dateObject - date object or string
+	 *
 	 * @return date range of past year
 	 */
 	public static function getPreviousYearRange(&$dateObject = null)
 	{
 		if (!$dateObject) {
 			$dateObject = new DateTime();
-		} else if (is_string($dateObject)) {
+		} elseif (is_string($dateObject)) {
 			$dateObject = new DateTime($dateObject);
 		}
 		$dateObject->modify('last year');
@@ -251,12 +266,14 @@ class DateTimeRange
 	}
 
 	/**
-	 * Function to get start and end date of present calendar quarter
-	 * @param int $month
+	 * Function to get start and end date of present calendar quarter.
+	 *
+	 * @param int      $month
 	 * @param DateTime $dateObject
+	 *
 	 * @return date range of present quarter
 	 */
-	public static function getPresentQuarterRange($month = null, &$dateObject = null)
+	public static function getPresentQuarterRange($month = 0, &$dateObject = null)
 	{
 		$quarter = [];
 		if (!$month) {
@@ -269,27 +286,28 @@ class DateTimeRange
 		if ($month <= 3) { // 1st Quarter - January - March
 			$quarter[0] = $dateObject->format('Y-01-01');
 			$quarter[1] = $dateObject->format('Y-03-31');
-		} else if ($month > 3 && $month <= 6) { // 2nd Quarter - April - June
+		} elseif ($month > 3 && $month <= 6) { // 2nd Quarter - April - June
 			$quarter[0] = $dateObject->format('Y-04-01');
 			$quarter[1] = $dateObject->format('Y-06-30');
-		} else if ($month > 6 && $month <= 9) { // 3rd Quarter - July - September
+		} elseif ($month > 6 && $month <= 9) { // 3rd Quarter - July - September
 			$quarter[0] = $dateObject->format('Y-07-01');
 			$quarter[1] = $dateObject->format('Y-09-30');
 		} else { // 4th Quarter - October - December
 			$quarter[0] = $dateObject->format('Y-10-01');
 			$quarter[1] = $dateObject->format('Y-12-31');
 		}
-
 		return $quarter;
 	}
 
 	/**
-	 * Function to get start and end date of previous calendar quarter
-	 * @param int $month
+	 * Function to get start and end date of previous calendar quarter.
+	 *
+	 * @param int      $month
 	 * @param DateTime $dateObject
+	 *
 	 * @return date range of present quarter
 	 */
-	public static function getPreviousQuarterRange($month = null, &$dateObject = null)
+	public static function getPreviousQuarterRange($month = 0, &$dateObject = null)
 	{
 		$quarter = [];
 		if (!$month) {
@@ -303,27 +321,28 @@ class DateTimeRange
 			$dateObject->modify('last year');
 			$quarter[0] = $dateObject->format('Y-10-01');
 			$quarter[1] = $dateObject->format('Y-12-31');
-		} else if ($month > 3 && $month <= 6) { // 2nd Quarter - April - June
+		} elseif ($month > 3 && $month <= 6) { // 2nd Quarter - April - June
 			$quarter[0] = $dateObject->format('Y-01-01');
 			$quarter[1] = $dateObject->format('Y-03-31');
-		} else if ($month > 6 && $month <= 9) { // 3rd Quarter - July - September
+		} elseif ($month > 6 && $month <= 9) { // 3rd Quarter - July - September
 			$quarter[0] = $dateObject->format('Y-04-01');
 			$quarter[1] = $dateObject->format('Y-06-30');
 		} else { // 4th Quarter - October - December
 			$quarter[0] = $dateObject->format('Y-07-01');
 			$quarter[1] = $dateObject->format('Y-09-30');
 		}
-
 		return $quarter;
 	}
 
 	/**
-	 * Function to get start and end date of next calendar quarter
-	 * @param int $month
+	 * Function to get start and end date of next calendar quarter.
+	 *
+	 * @param int      $month
 	 * @param DateTime $dateObject
+	 *
 	 * @return date range of present quarter
 	 */
-	public static function getNextQuarterRange($month = null, $dateObject = null)
+	public static function getNextQuarterRange($month = 0, $dateObject = null)
 	{
 		$quarter = [];
 		if (!$month) {
@@ -336,10 +355,10 @@ class DateTimeRange
 		if ($month <= 3) { // 1st Quarter - January - March
 			$quarter[0] = $dateObject->format('Y-04-01');
 			$quarter[1] = $dateObject->format('Y-06-30');
-		} else if ($month > 3 && $month <= 6) { // 2nd Quarter - April - June
+		} elseif ($month > 3 && $month <= 6) { // 2nd Quarter - April - June
 			$quarter[0] = $dateObject->format('Y-07-01');
 			$quarter[1] = $dateObject->format('Y-09-30');
-		} else if ($month > 6 && $month <= 9) { // 3rd Quarter - July - September
+		} elseif ($month > 6 && $month <= 9) { // 3rd Quarter - July - September
 			$quarter[0] = $dateObject->format('Y-10-01');
 			$quarter[1] = $dateObject->format('Y-12-31');
 		} else { // 4th Quarter - October - December
@@ -347,7 +366,6 @@ class DateTimeRange
 			$quarter[0] = $dateObject->format('Y-01-01');
 			$quarter[1] = $dateObject->format('Y-03-31');
 		}
-
 		return $quarter;
 	}
 }

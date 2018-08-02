@@ -1,13 +1,14 @@
 <?php
 
 /**
- * Reservations calendar action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Reservations calendar action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class Reservations_Calendar_Action extends Vtiger_Action_Controller
+class Reservations_Calendar_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -16,17 +17,11 @@ class Reservations_Calendar_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('updateEvent');
 	}
 
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-		}
-	}
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)

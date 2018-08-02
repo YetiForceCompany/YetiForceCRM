@@ -9,11 +9,10 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class CustomView_Approve_Action extends Vtiger_Action_Controller
+class CustomView_Approve_Action extends \App\Controller\Action
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -23,7 +22,7 @@ class CustomView_Approve_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -35,13 +34,5 @@ class CustomView_Approve_Action extends Vtiger_Action_Controller
 		}
 		$listViewUrl = $moduleModel->getListViewUrl();
 		header("Location: $listViewUrl");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

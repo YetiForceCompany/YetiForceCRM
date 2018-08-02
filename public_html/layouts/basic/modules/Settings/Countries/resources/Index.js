@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 $.Class("Settings_Countries_Index_Js", {}, {
 	registerSortableEvent: function () {
 		var thisInstance = this;
@@ -33,16 +35,15 @@ $.Class("Settings_Countries_Index_Js", {}, {
 				mode: 'updateStatus',
 				id: id,
 				status: status
-			}).then(function (data) {
+			}).done(function (data) {
 				if (data.success && data.result) {
 					element.data('status', status)
 					element.toggleClass('btn-success')
-							.toggleClass('btn-danger');
+						.toggleClass('btn-danger');
 					Vtiger_Helper_Js.showMessage({
 						title: app.vtranslate('JS_COUNTRY_SETTING'),
 						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 						type: 'success',
-						animation: 'show'
 					});
 				}
 			});
@@ -60,16 +61,15 @@ $.Class("Settings_Countries_Index_Js", {}, {
 				mode: 'updatePhone',
 				id: id,
 				phone: phone
-			}).then(function (data) {
+			}).done(function (data) {
 				if (data.success && data.result) {
 					element.data('phone', phone)
 					element.toggleClass('btn-success')
-							.toggleClass('btn-danger');
+						.toggleClass('btn-danger');
 					Vtiger_Helper_Js.showMessage({
 						title: app.vtranslate('JS_COUNTRY_SETTING'),
 						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 						type: 'success',
-						animation: 'show'
 					});
 				}
 			});
@@ -87,16 +87,15 @@ $.Class("Settings_Countries_Index_Js", {}, {
 				mode: 'updateUitype',
 				id: id,
 				uitype: uitype
-			}).then(function (data) {
+			}).done(function (data) {
 				if (data.success && data.result) {
 					element.data('uitype', uitype)
 					element.toggleClass('btn-success')
-							.toggleClass('btn-danger');
+						.toggleClass('btn-danger');
 					Vtiger_Helper_Js.showMessage({
 						title: app.vtranslate('JS_COUNTRY_SETTING'),
 						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 						type: 'success',
-						animation: 'show'
 					});
 				}
 			});
@@ -113,7 +112,7 @@ $.Class("Settings_Countries_Index_Js", {}, {
 				action: 'SaveAjax',
 				mode: 'updateAllStatuses',
 				status: status
-			}).then(function (data) {
+			}).done(function (data) {
 				if (data.success && data.result) {
 					var elements = content.find('.status');
 					if (status) {
@@ -127,7 +126,6 @@ $.Class("Settings_Countries_Index_Js", {}, {
 						title: app.vtranslate('JS_COUNTRY_SETTING'),
 						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 						type: 'success',
-						animation: 'show'
 					});
 				}
 				if (data.success) {
@@ -163,12 +161,11 @@ $.Class("Settings_Countries_Index_Js", {}, {
 			parent: app.getParentModuleName(),
 			action: 'SaveAjax',
 			mode: 'updateSequence'
-		}).then(function (data) {
+		}).done(function (data) {
 			Vtiger_Helper_Js.showMessage({
 				title: app.vtranslate('JS_COUNTRY_SETTING'),
 				text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 				type: 'success',
-				animation: 'show'
 			});
 		});
 	},

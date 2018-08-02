@@ -1,16 +1,15 @@
 <?php
 
 /**
- * Delete Action Class for PDF Settings
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Delete Action Class for PDF Settings.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PDF_DeleteAjax_Action extends Settings_Vtiger_Index_Action
 {
-
 	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('record');

@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	instance: {}
 
@@ -37,7 +39,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 		}
 	},
 	/*
-	 * Function to get the value of the step 
+	 * Function to get the value of the step
 	 * returns 1 or 2 or 3
 	 */
 	getStepValue: function () {
@@ -48,7 +50,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	 * Function to initiate the step 1 instance
 	 */
 	initiate: function (container) {
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('.pdfTemplateContents');
 		}
 		if (container.is('.pdfTemplateContents')) {
@@ -90,7 +92,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 					specialValidation = thisInstance.currentInstance.isFormValidate();
 				}
 				if (form.validationEngine('validate') && specialValidation) {
-					thisInstance.currentInstance.submit().then(function (data) {
+					thisInstance.currentInstance.submit().done(function (data) {
 						thisInstance.getContainer().prepend(data);
 						var stepVal = thisInstance.getStepValue();
 						var nextStepVal = parseInt(stepVal) + 1;
@@ -125,7 +127,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 		});
 	},
 	/*
-	 * Function to register the click event for back step 
+	 * Function to register the click event for back step
 	 */
 	registerBackStepClickEvent: function () {
 		var thisInstance = this;
@@ -137,26 +139,26 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	registerMetatagsClickEvent: function (form) {
 		var metaTagsStatus = form.find('#metatags_status');
 		if (metaTagsStatus.is(':checked')) {
-			form.find('.metatags').addClass('hide');
+			form.find('.metatags').addClass('d-none');
 		} else {
-			form.find('.metatags').removeClass('hide');
+			form.find('.metatags').removeClass('d-none');
 		}
 
 		metaTagsStatus.on('change', function () {
 			var status = jQuery(this).is(':checked');
 			if (status) {
-				jQuery('.metatags', form).addClass('hide');
+				jQuery('.metatags', form).addClass('d-none');
 			} else {
 				jQuery('#set_subject', form).val(jQuery('#secondary_name', form).val());
 				jQuery('#set_title', form).val(jQuery('#primary_name', form).val());
-				jQuery('.metatags', form).removeClass('hide');
+				jQuery('.metatags', form).removeClass('d-none');
 			}
 		});
 	},
 	registerEvents: function () {
 		var form = this.currentInstance.getContainer();
-		app.registerCopyClipboard();
 		this.registerFormSubmitEvent(form);
+		App.Fields.Text.registerCopyClipboard(form);
 		this.registerBackStepClickEvent();
 		this.registerCancelStepClickEvent(form);
 		this.registerMetatagsClickEvent(form);

@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Vtiger EmailList widget class
- * @package YetiForce.Widget
- * @copyright YetiForce Sp. z o.o.
+ * Vtiger EmailList widget class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_EmailList_Widget extends Vtiger_Basic_Widget
 {
-
 	public $dbParams = [];
 
 	public function getUrl()

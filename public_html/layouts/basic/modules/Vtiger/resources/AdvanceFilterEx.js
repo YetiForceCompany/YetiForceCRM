@@ -6,6 +6,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
+
 Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 	validationSupportedFieldConditionMap: {
 		'email': ['e', 'n'],
@@ -17,7 +19,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 	// comparators which do not have any field Specific UI.
 	comparatorsWithNoValueBoxMap: ['has changed', 'is empty', 'is not empty', 'is added'],
 	init: function (container) {
-		if (typeof container == 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('#advanceFilterContainer');
 		}
 
@@ -43,13 +45,13 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 	 */
 	addNewCondition: function (conditionGroupElement) {
 		var basicElement = jQuery('.basic', conditionGroupElement);
-		var newRowElement = basicElement.find('.conditionRow').clone(true, true);
+		var newRowElement = basicElement.find('.js-conditions-row').clone(true, true);
 		jQuery('select', newRowElement).addClass('chzn-select');
 		var conditionList = jQuery('.conditionList', conditionGroupElement);
 		conditionList.append(newRowElement);
 
 		//change in to chosen elements
-		app.changeSelectElementView(newRowElement);
+		App.Fields.Picklist.changeSelectElementView(newRowElement);
 		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected', 'selected').trigger('chosen:updated').trigger('change');
 		return this;
 	},
@@ -60,7 +62,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 	 * @return : select element which will represent the condition element
 	 */
 	loadConditions: function (fieldSelect) {
-		var row = fieldSelect.closest('div.conditionRow');
+		var row = fieldSelect.closest('div.js-conditions-row');
 		var conditionSelectElement = row.find('select[name="comparator"]');
 		var conditionSelected = conditionSelectElement.val();
 		var fieldSelected = fieldSelect.find('option:selected');
@@ -69,7 +71,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 		var fieldSpecificType = this.getFieldSpecificType(fieldSelected);
 		var conditionList = this.getConditionListFromType(fieldSpecificType);
 		//for none in field name
-		if (typeof conditionList == 'undefined') {
+		if (typeof conditionList === "undefined") {
 			conditionList = {};
 			conditionList['none'] = 'None';
 		}
@@ -116,7 +118,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 		conditionGroups.each(function (index, domElement) {
 			var groupElement = jQuery(domElement);
 
-			var conditions = jQuery('.conditionList .conditionRow', groupElement);
+			var conditions = jQuery('.conditionList .js-conditions-row', groupElement);
 			if (conditions.length <= 0) {
 				return true;
 			}
@@ -142,7 +144,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 							var valuesArr = commaSeperatedValues.split(',');
 							var newvaluesArr = [];
 							for (i = 0; i < valuesArr.length; i++) {
-								if (typeof pickListValues[valuesArr[i]] != 'undefined') {
+								if (typeof pickListValues[valuesArr[i]] !== "undefined") {
 									newvaluesArr.push(pickListValues[valuesArr[i]]);
 								} else {
 									newvaluesArr.push(valuesArr[i]);
@@ -219,7 +221,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 	},
 	getPopUp: function (container) {
 		var thisInstance = this;
-		if (typeof container == 'undefined') {
+		if (typeof container === "undefined") {
 			container = thisInstance.getFilterContainer();
 		}
 		container.on('click', '.getPopupUi', function (e) {
@@ -230,8 +232,8 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 			if (valueType == '') {
 				valueType = 'rawtext';
 			}
-			var conditionsContainer = fieldValueElement.closest('.conditionsContainer');
-			var conditionRow = fieldValueElement.closest('.conditionRow');
+			var conditionsContainer = fieldValueElement.closest('.js-conditions-container');
+			var conditionRow = fieldValueElement.closest('.js-conditions-row');
 
 			var clonedPopupUi = conditionsContainer.find('.popupUi').clone(true, true).removeClass('popupUi').addClass('clonedPopupUi');
 			clonedPopupUi.find('select').addClass('chzn-select');
@@ -253,7 +255,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 				} else {
 					value = '';
 				}
-				var clonedTimeElement = '<input type="text" class="timepicker-default fieldValue col-md-4 form-control" value="' + value + '" data-input="true" >';
+				var clonedTimeElement = '<input type="text" class="clockPicker fieldValue col-md-4 form-control" value="' + value + '" data-input="true" >';
 				clonedPopupUi.find('.fieldValueContainer').prepend(clonedTimeElement);
 			} else if (fieldValueElement.hasClass('boolean')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
@@ -265,7 +267,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 				var clonedBooleanElement = '<input type="checkbox" class="fieldValue col-md-4" value="' + value + '" data-input="true" >';
 				clonedPopupUi.find('.fieldValueContainer').prepend(clonedBooleanElement);
 
-				var fieldValue = clonedPopupUi.find('.fieldValueContainer input').val();
+				fieldValue = clonedPopupUi.find('.fieldValueContainer input').val();
 				if (value == 'true:boolean' || value == '') {
 					clonedPopupUi.find('.fieldValueContainer input').attr('checked', 'checked');
 				} else {
@@ -273,16 +275,16 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 				}
 			}
 			var callBackFunction = function (data) {
-				data.find('.clonedPopupUi').removeClass('hide');
+				data.find('.clonedPopupUi').removeClass('d-none');
 				var moduleNameElement = conditionRow.find('[name="modulename"]');
 				if (moduleNameElement.length > 0) {
 					var moduleName = moduleNameElement.val();
-					data.find('.useFieldElement').addClass('hide');
-					data.find('[name="' + moduleName + '"]').removeClass('hide');
+					data.find('.useFieldElement').addClass('d-none');
+					data.find('[name="' + moduleName + '"]').removeClass('d-none');
 				}
-				app.changeSelectElementView(data);
-				app.registerEventForDatePickerFields(data);
-				app.registerEventForTimeFields(data);
+				App.Fields.Picklist.changeSelectElementView(data);
+				App.Fields.Date.register(data);
+				app.registerEventForClockPicker(data);
 				thisInstance.postShowModalAction(data, valueType);
 				thisInstance.registerChangeFieldEvent(data);
 				thisInstance.registerSelectOptionEvent(data);
@@ -293,7 +295,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 					jQuery(this).closest('.modal').removeClass('in').css('display', 'none');
 				});
 			};
-			conditionsContainer.find('.clonedPopUp').html(clonedPopupUi);	
+			conditionsContainer.find('.clonedPopUp').html(clonedPopupUi);
 			jQuery('.clonedPopupUi').on('shown.bs.modal', function () {
 				if (typeof callBackFunction == 'function') {
 					callBackFunction(jQuery('.clonedPopupUi', conditionsContainer));
@@ -304,14 +306,14 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 	},
 	postShowModalAction: function (data, valueType) {
 		if (valueType == 'fieldname') {
-			jQuery('.useFieldContainer', data).removeClass('hide');
+			jQuery('.useFieldContainer', data).removeClass('d-none');
 			jQuery('.textType', data).val(valueType).trigger('chosen:updated');
 		} else if (valueType == 'expression') {
-			jQuery('.useFieldContainer', data).removeClass('hide');
-			jQuery('.useFunctionContainer', data).removeClass('hide');
+			jQuery('.useFieldContainer', data).removeClass('d-none');
+			jQuery('.useFunctionContainer', data).removeClass('d-none');
 			jQuery('.textType', data).val(valueType).trigger('chosen:updated');
 		}
-		jQuery('#' + valueType + '_help', data).removeClass('hide');
+		jQuery('#' + valueType + '_help', data).removeClass('d-none');
 		var uiType = jQuery('.textType', data).find('option:selected').data('ui');
 		jQuery('.fieldValue', data).hide();
 		jQuery('[data-' + uiType + ']', data).show();
@@ -325,17 +327,17 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 			jQuery('.fieldValue', data).hide();
 			jQuery('[data-' + uiType + ']', data).show();
 			if (valueType == 'fieldname') {
-				useFieldContainer.removeClass('hide');
-				useFunctionContainer.addClass('hide');
+				useFieldContainer.removeClass('d-none');
+				useFunctionContainer.addClass('d-none');
 			} else if (valueType == 'expression') {
-				useFieldContainer.removeClass('hide');
-				useFunctionContainer.removeClass('hide');
+				useFieldContainer.removeClass('d-none');
+				useFunctionContainer.removeClass('d-none');
 			} else {
-				useFieldContainer.addClass('hide');
-				useFunctionContainer.addClass('hide');
+				useFieldContainer.addClass('d-none');
+				useFunctionContainer.addClass('d-none');
 			}
-			jQuery('.helpmessagebox', data).addClass('hide');
-			jQuery('#' + valueType + '_help', data).removeClass('hide');
+			jQuery('.helpmessagebox', data).addClass('d-none');
+			jQuery('#' + valueType + '_help', data).removeClass('d-none');
 			data.find('.fieldValue').val('');
 		});
 	},
@@ -456,7 +458,7 @@ Vtiger_Date_Field_Js('AdvanceFilterEx_Date_Field_Js', {}, {
 			}
 		} else {
 			var html = '<input type="text" class="getPopupUi date form-control" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
-					'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 			var element = jQuery(html);
 			return this.addValidationToElement(element);
 		}
@@ -490,7 +492,7 @@ Vtiger_Date_Field_Js('AdvanceFilterEx_Datetime_Field_Js', {}, {
 			var element = jQuery(html);
 		} else {
 			var html = '<input type="text" class="getPopupUi date form-control" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
-					'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 			var element = jQuery(html);
 		}
 		return element;
@@ -510,7 +512,7 @@ Vtiger_Date_Field_Js('AdvanceFilterEx_Datetime_Field_Js', {}, {
 Vtiger_Currency_Field_Js('AdvanceFilterEx_Currency_Field_Js', {}, {
 	getUi: function () {
 		var html = '<input type="text" class="getPopupUi marginLeftZero form-control" name="' + this.getName() + '" value="' + this.getValue() + '"  />' +
-				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+			'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
 	}
@@ -524,7 +526,7 @@ Vtiger_Time_Field_Js('AdvanceFilterEx_Time_Field_Js', {}, {
 	 */
 	getUi: function () {
 		var html = '<input type="text" class="getPopupUi time form-control" name="' + this.getName() + '"  value="' + this.getValue() + '" />' +
-				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+			'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
 	}
@@ -537,7 +539,7 @@ Vtiger_Field_Js('Vtiger_Percentage_Field_Js', {}, {
 	 */
 	getUi: function () {
 		var html = '<input type="text" class="getPopupUi form-control" name="' + this.getName() + '" value="' + this.getValue() + '" />' +
-				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+			'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
 	}
@@ -550,7 +552,7 @@ Vtiger_Field_Js('Vtiger_Text_Field_Js', {}, {
 	 */
 	getUi: function () {
 		var html = '<input type="text" class="getPopupUi form-control" name="' + this.getName() + '" value="' + this.getValue() + '" />' +
-				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+			'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
 	}
@@ -563,7 +565,7 @@ Vtiger_Field_Js('Vtiger_Boolean_Field_Js', {}, {
 	 */
 	getUi: function () {
 		var html = '<input type="text" class="getPopupUi form-control boolean" name="' + this.getName() + '" value="' + this.getValue() + '" />' +
-				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+			'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
 	}
@@ -594,5 +596,4 @@ Vtiger_Owner_Field_Js('AdvanceFilterEx_Owner_Field_Js', {}, {
 	}
 });
 
-Vtiger_Picklist_Field_Js('AdvanceFilterEx_Picklist_Field_Js', {}, {
-});
+Vtiger_Picklist_Field_Js('AdvanceFilterEx_Picklist_Field_Js', {}, {});

@@ -10,7 +10,6 @@
 
 class Settings_Vtiger_Systems_Model extends \App\Base
 {
-
 	const TABLE_NAME = 'vtiger_systems';
 
 	public function getId()
@@ -21,6 +20,7 @@ class Settings_Vtiger_Systems_Model extends \App\Base
 	public function isSmtpAuthEnabled()
 	{
 		$smtp_auth_value = $this->get('smtp_auth');
+
 		return ($smtp_auth_value == 'on' || $smtp_auth_value == 1 || $smtp_auth_value == 'true') ? true : false;
 	}
 
@@ -43,6 +43,7 @@ class Settings_Vtiger_Systems_Model extends \App\Base
 			$params[] = $id;
 		}
 		$db->pquery($query, $params);
+
 		return $id;
 	}
 

@@ -10,7 +10,6 @@
 
 class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 {
-
 	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('record');
@@ -33,7 +32,7 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 		$workflowModel->set('execution_condition', $executionCondition);
 
 		if ($executionCondition == '6') {
-			$schtime = $request->get("schtime");
+			$schtime = $request->get('schtime');
 			if (!preg_match('/^[0-2]\d(:[0-5]\d){1,2}$/', $schtime) || substr($schtime, 0, 2) > 23) {  // invalid time format
 				$schtime = '00:00';
 			}
@@ -50,9 +49,9 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 
 			if ($workflowScheduleType == Workflow::$SCHEDULED_WEEKLY) {
 				$dayOfWeek = \App\Json::encode($request->get('schdayofweek'));
-			} else if ($workflowScheduleType == Workflow::$SCHEDULED_MONTHLY_BY_DATE) {
+			} elseif ($workflowScheduleType == Workflow::$SCHEDULED_MONTHLY_BY_DATE) {
 				$dayOfMonth = \App\Json::encode($request->get('schdayofmonth'));
-			} else if ($workflowScheduleType == Workflow::$SCHEDULED_ON_SPECIFIC_DATE) {
+			} elseif ($workflowScheduleType == Workflow::$SCHEDULED_ON_SPECIFIC_DATE) {
 				$date = $request->get('schdate');
 				$dateDBFormat = DateTimeField::convertToDBFormat($date);
 				$nextTriggerTime = $dateDBFormat . ' ' . $schtime;
@@ -63,7 +62,7 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 					$workflowModel->set('nexttrigger_time', date('Y-m-d H:i:s', strtotime('+10 year')));
 				}
 				$annualDates = \App\Json::encode([$dateDBFormat]);
-			} else if ($workflowScheduleType == Workflow::$SCHEDULED_ANNUALLY) {
+			} elseif ($workflowScheduleType == Workflow::$SCHEDULED_ANNUALLY) {
 				$annualDates = \App\Json::encode($request->get('schannualdates'));
 			}
 			$workflowModel->set('schdayofmonth', $dayOfMonth);
@@ -86,10 +85,5 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 
 		$response->setResult(['id' => $workflowModel->get('workflow_id')]);
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

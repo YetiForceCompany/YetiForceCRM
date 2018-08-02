@@ -1,0 +1,15 @@
+{
+  "php": {
+    "LBL_ADD_TO": "Adauga la",
+    "LBL_EDIT_LIST_PRICE": "Modifica lista pret",
+    "LBL_PRICEBOOK_INFORMATION": "Detalii Carte Preturi",
+    "LBL_UNIT_PRICE": "Pret Unitar",
+    "Price Book Name": "Denumire Carte Preturi",
+    "PriceBook No": "Numar Carte Preturi",
+    "PriceBooks": "Carti Preturi",
+    "SINGLE_PriceBooks": "Carte Preturi",
+    "yes": "Da",
+    "no": "Nu",
+    "Unit Price": "Pret Unitar"
+  }
+}

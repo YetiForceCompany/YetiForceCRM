@@ -1,0 +1,30 @@
+{
+  "php": {
+    "IStorages": "Almacenes",
+    "SINGLE_IStorages": "Almac\u00e9n",
+    "LBL_DESCRIPTION_BLOCK": "Descripci\u00f3n",
+    "LBL_ATTENTION_BLOCK": "Notas",
+    "FL_PARENT_STORAGE": "Almac\u00e9n padre",
+    "FL_SUBJECT": "Asunto",
+    "FL_STATUS": "Estado",
+    "FL_TYPE": "Tipo",
+    "FL_NUMBER": "ID",
+    "FL_QTY_IN_STOCK": "Cantidad de productos en Stock",
+    "PLL_ACTIVE": "Activo",
+    "PLL_INACTIVE": "Inactivo",
+    "PLL_INTERNAL": "Interno",
+    "PLL_EXTERNAL": "Externo",
+    "LBL_NOT_PARENT_STORAGE": "Tienes que rellenar el nombre de almacenamiento padre",
+    "LBL_SHOW_HIERARCHY": "Jerarqu\u00eda",
+    "LBL_PARENT_IS_CHILD": "El almacenamiento padre seleccionado no puede ser secundario al almacenamiento actual",
+    "LBL_PRODUCTS_CONTROL_TABLE": "Tabla de control de productos",
+    "LBL_PRODUCTS_TABLE": "Tabla con productos",
+    "LBL_PRODUCTS_TABLE_HIERARCHY": "Tabla con jerarqu\u00eda de productos",
+    "LBL_PRODUCTS_VALUE_TABLE": "Tabla con valor de productos",
+    "LBL_TABLE_HIERARCHY": "Tabla de jerarqu\u00eda",
+    "LBL_SECONDARY_STORAGES": "Almacenes secundarios",
+    "LBL_ROW_NUM": "Fila",
+    "LBL_STORAGE_OWNER": "Propietario",
+    "FL_POS": "TPV"
+  }
+}

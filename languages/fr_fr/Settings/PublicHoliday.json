@@ -1,0 +1,43 @@
+{
+  "php": {
+    "LBL_PUBLIC_HOLIDAY_DESCRIPTION": " ",
+    "LBL_DATE": "Date",
+    "LBL_NATIONAL": "national",
+    "national": "national",
+    "PublicHoliday": "Cong\u00e9s l\u00e9gaux",
+    "LBL_PUBLIC_HOLIDAY": "Calendrier - Cong\u00e9s",
+    "LBL_ADD_HOLIDAY": "Ajouter cong\u00e9",
+    "LBL_HOLIDAY_LIST": "Liste des cong\u00e9s l\u00e9gaux",
+    "LBL_YEAR_FROM": "De",
+    "LBL_YEAR_TO": "A",
+    "LBL_EDIT": "Editer",
+    "LBL_DELETE": "Supprimer",
+    "JS_HOLIDAY_DELETE_OK": "Cong\u00e9 l\u00e9gal supprim\u00e9 avec succ\u00e8s",
+    "JS_HOLIDAY_DELETE_ERROR": "Cong\u00e9 l\u00e9gal non supprim\u00e9",
+    "LBL_ADD_NEW_HOLIDAY": "Ajouter un nouveau cong\u00e9",
+    "LBL_DAY_NAME": "Nom du cong\u00e9 l\u00e9gal",
+    "LBL_DAY_NAME_DESC": "Saisir le nom du cong\u00e9 l\u00e9gal",
+    "LBL_NEW_DATE_OK": "Cong\u00e9 l\u00e9gal ajout\u00e9 avec succ\u00e8s",
+    "LBL_NEW_DATE_ERROR": "Cong\u00e9 l\u00e9gal non ajout\u00e9 ",
+    "LBL_EDIT_DATE_OK": "Cong\u00e9 l\u00e9gal modifi\u00e9 avec succ\u00e8s",
+    "LBL_EDIT_DATE_ERROR": "Cong\u00e9 l\u00e9gal non modifi\u00e9 ",
+    "LBL_FILL_FORM_ERROR": "Vous devez saisir tous les champs du formulaire",
+    "Monday": "Lundi",
+    "Tuesday": "Mardi",
+    "Wednesday": "Mercredi",
+    "Thursday": "Jeudi",
+    "Friday": "Vendredi",
+    "Saturday": "Samedi",
+    "Sunday": "Dimanche",
+    "LBL_HOLIDAY_TYPE": "Type de cong\u00e9",
+    "LBL_ECCLESIASTICAL": "religieux",
+    "ecclesiastical": "religieux",
+    "LBL_VIEW_CONFIGURATION": "Cong\u00e9s l\u00e9gaux",
+    "LBL_DATE_RANGE": "Intervalle"
+  },
+  "js": {
+    "JS_ADD_NEW_HOLIDAY": "Ajouter un nouveau cong\u00e9",
+    "JS_EDIT_HOLIDAY": "Editer cong\u00e9",
+    "JS_FILL_FORM_ERROR": "Vous devez saisir tous les champs du formulaire"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "php": {
+    "OSSOutsourcedServices": "Servi\u00e7os de Terceiros",
+    "SINGLE_OSSOutsourcedServices": "Servi\u00e7o de Terceiros",
+    "LBL_INFORMATION": "Informa\u00e7\u00e3o do Bloco",
+    "Assigned To": "Respons\u00e1vel",
+    "LBL_osservicesstatus": "Status",
+    "Individual Agreement": "Contrato individual",
+    "In service": "Em Servi\u00e7o",
+    "Finished support": "Suporte conclu\u00eddo",
+    "Product Name": "Nome do Servi\u00e7o",
+    "Sub Category": "Subcategoria",
+    "Category": "Categoria",
+    "Date Sold": "Data da venda",
+    "Date in Service": "Data t\u00e9rmino do suporte",
+    "Description": "Descri\u00e7\u00e3o",
+    "LBL_DESCRIPTION_INFORMATION": "Informa\u00e7\u00f5es Descritivas",
+    "LBL_CUSTOM_INFORMATION": "Informa\u00e7\u00e3o do Sistema",
+    "Where bought": "Onde comprou",
+    "Number": "N\u00famero",
+    "Save": "Salvar",
+    "Selling proposition": "Oportunidade",
+    "LBL_GENERATE_EXTENSION": "Gerar extens\u00e3o",
+    "Active": "Ativo",
+    "Inactive": "Inativo"
+  }
+}

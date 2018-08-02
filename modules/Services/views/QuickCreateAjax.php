@@ -11,10 +11,11 @@
 
 class Services_QuickCreateAjax_View extends Products_QuickCreateAjax_View
 {
-
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return Vtiger_JsScript_Model[]
 	 */
 	public function getFooterScripts(\App\Request $request)
@@ -24,6 +25,7 @@ class Services_QuickCreateAjax_View extends Products_QuickCreateAjax_View
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($jsScriptInstances, $headerScriptInstances);
+
 		return $headerScriptInstances;
 	}
 }

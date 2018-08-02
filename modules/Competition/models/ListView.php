@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Competition list view model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Competition list view model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Competition_ListView_Model extends Vtiger_ListView_Model
 {
-
 	/**
-	 * Function to get the list of Mass actions for the module
+	 * Function to get the list of Mass actions for the module.
+	 *
 	 * @param array $linkParams
+	 *
 	 * @return array - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
@@ -25,7 +26,7 @@ class Competition_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendEmail()',
-				'linkicon' => 'glyphicon glyphicon-envelope'
+				'linkicon' => 'fas fa-envelope',
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {

@@ -9,37 +9,41 @@
  * *********************************************************************************** */
 
 /**
- * Profiles Record Model Class
+ * Profiles Record Model Class.
  */
 class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 {
-
 	/**
-	 * Profile field inactive
+	 * Profile field inactive.
+	 *
 	 * @var int
 	 */
 	const PROFILE_FIELD_INACTIVE = 0;
 
 	/**
-	 * Profile field readonly
+	 * Profile field readonly.
+	 *
 	 * @var int
 	 */
 	const PROFILE_FIELD_READONLY = 1;
 
 	/**
-	 * Profile field readwrite
+	 * Profile field readwrite.
+	 *
 	 * @var int
 	 */
 	const PROFILE_FIELD_READWRITE = 2;
 
 	/**
-	 * Field locked UI types
+	 * Field locked UI types.
+	 *
 	 * @var array
 	 */
 	private static $fieldLockedUiTypes = ['70'];
 
 	/**
-	 * Function to get the Id
+	 * Function to get the Id.
+	 *
 	 * @return int Profile Id
 	 */
 	public function getId()
@@ -48,17 +52,20 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Id
+	 * Function to get the Id.
+	 *
 	 * @return int Profile Id
 	 */
 	protected function setId($id)
 	{
 		$this->set('profileid', $id);
+
 		return $this;
 	}
 
 	/**
-	 * Function to get the Profile Name
+	 * Function to get the Profile Name.
+	 *
 	 * @return string
 	 */
 	public function getName()
@@ -67,7 +74,8 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the description of the Profile
+	 * Function to get the description of the Profile.
+	 *
 	 * @return string
 	 */
 	public function getDescription()
@@ -76,7 +84,8 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Edit View Url for the Profile
+	 * Function to get the Edit View Url for the Profile.
+	 *
 	 * @return string
 	 */
 	public function getEditViewUrl()
@@ -85,7 +94,8 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Edit View Url for the Profile
+	 * Function to get the Edit View Url for the Profile.
+	 *
 	 * @return string
 	 */
 	public function getDuplicateViewUrl()
@@ -94,7 +104,8 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Detail Action Url for the Profile
+	 * Function to get the Detail Action Url for the Profile.
+	 *
 	 * @return string
 	 */
 	public function getDeleteAjaxUrl()
@@ -103,7 +114,8 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Delete Action Url for the current profile
+	 * Function to get the Delete Action Url for the current profile.
+	 *
 	 * @return string
 	 */
 	public function getDeleteActionUrl()
@@ -112,7 +124,8 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Return global permissions
+	 * Return global permissions.
+	 *
 	 * @return array
 	 */
 	public function getGlobalPermissions()
@@ -122,10 +135,10 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$globalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW] = $globalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT] = Settings_Profiles_Module_Model::GLOBAL_ACTION_DEFAULT_VALUE;
 			if ($this->getId()) {
 				$globalPermissions = (new App\Db\Query())
-						->select(['globalactionid', 'globalactionpermission'])
-						->from('vtiger_profile2globalpermissions')
-						->where(['profileid' => $this->getId()])
-						->createCommand()->queryAllByGroup(0);
+					->select(['globalactionid', 'globalactionpermission'])
+					->from('vtiger_profile2globalpermissions')
+					->where(['profileid' => $this->getId()])
+					->createCommand()->queryAllByGroup(0);
 			}
 			$this->global_permissions = $globalPermissions;
 		}
@@ -133,8 +146,9 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Check if has global read permission
-	 * @return boolean
+	 * Check if has global read permission.
+	 *
+	 * @return bool
 	 */
 	public function hasGlobalReadPermission()
 	{
@@ -147,8 +161,9 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Check if has global write permission
-	 * @return boolean
+	 * Check if has global write permission.
+	 *
+	 * @return bool
 	 */
 	public function hasGlobalWritePermission()
 	{
@@ -162,9 +177,11 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Check if has module permission
+	 * Check if has module permission.
+	 *
 	 * @param string $module
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public function hasModulePermission($module)
 	{
@@ -178,10 +195,12 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Check if has module action permission
-	 * @param string $module
+	 * Check if has module action permission.
+	 *
+	 * @param string              $module
 	 * @param Vtiger_Action_Model $action
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public function hasModuleActionPermission($module, $action)
 	{
@@ -211,10 +230,12 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Check if has module field permission
+	 * Check if has module field permission.
+	 *
 	 * @param string $module
-	 * @param int $field
-	 * @return boolean
+	 * @param int    $field
+	 *
+	 * @return bool
 	 */
 	public function hasModuleFieldPermission($module, $field)
 	{
@@ -228,10 +249,12 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Check if has module field write permission
+	 * Check if has module field write permission.
+	 *
 	 * @param string $module
-	 * @param int $field
-	 * @return boolean
+	 * @param int    $field
+	 *
+	 * @return bool
 	 */
 	public function hasModuleFieldWritePermission($module, $field)
 	{
@@ -246,9 +269,11 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Return module field permission value
+	 * Return module field permission value.
+	 *
 	 * @param string $module
-	 * @param int $field
+	 * @param int    $field
+	 *
 	 * @return int
 	 */
 	public function getModuleFieldPermissionValue($module, $field)
@@ -263,10 +288,12 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Check if module field is locked
+	 * Check if module field is locked.
+	 *
 	 * @param string $module
-	 * @param int $field
-	 * @return boolean
+	 * @param int    $field
+	 *
+	 * @return bool
 	 */
 	public function isModuleFieldLocked($module, $field)
 	{
@@ -278,8 +305,10 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Return profile tab model
+	 * Return profile tab model.
+	 *
 	 * @param Vtiger_Module_Model $module
+	 *
 	 * @return bool|array
 	 */
 	public function getProfileTabModel($module)
@@ -296,13 +325,16 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$allModulePermissions = $this->getModulePermissions();
 		$moduleModel = $allModulePermissions[$tabId];
+
 		return $moduleModel;
 	}
 
 	/**
-	 * Return profile tab field model
-	 * @param string $module
+	 * Return profile tab field model.
+	 *
+	 * @param string             $module
 	 * @param Vtiger_Field_Model $field
+	 *
 	 * @return bool|array
 	 */
 	public function getProfileTabFieldModel($module, $field)
@@ -319,11 +351,13 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			return false;
 		}
 		$moduleFields = $profileTabModel->getFields();
+
 		return $moduleFields[$field->getName()];
 	}
 
 	/**
-	 * Function to get permissions for modules
+	 * Function to get permissions for modules.
+	 *
 	 * @return array
 	 */
 	public function getProfileTabPermissions()
@@ -332,9 +366,9 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$profile2TabPermissions = [];
 			if ($this->getId()) {
 				$profile2TabPermissions = (new App\Db\Query())->select(['tabid', 'permissions'])
-						->from('vtiger_profile2tab')
-						->where(['profileid' => $this->getId()])
-						->createCommand()->queryAllByGroup(0);
+					->from('vtiger_profile2tab')
+					->where(['profileid' => $this->getId()])
+					->createCommand()->queryAllByGroup(0);
 			}
 			$this->profile_tab_permissions = $profile2TabPermissions;
 		}
@@ -342,8 +376,10 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Return profile tab field permissions
+	 * Return profile tab field permissions.
+	 *
 	 * @param int $tabId
+	 *
 	 * @return array
 	 */
 	public function getProfileTabFieldPermissions($tabId)
@@ -352,8 +388,8 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$profile2TabFieldPermissions = [];
 			if ($this->getId()) {
 				$dataReader = (new App\Db\Query())->from('vtiger_profile2field')
-						->where(['profileid' => $this->getId(), 'tabid' => $tabId])
-						->createCommand()->query();
+					->where(['profileid' => $this->getId(), 'tabid' => $tabId])
+					->createCommand()->query();
 				while ($row = $dataReader->read()) {
 					$fieldId = $row['fieldid'];
 					$visible = $row['visible'];
@@ -361,6 +397,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 					$profile2TabFieldPermissions[$fieldId]['visible'] = $visible;
 					$profile2TabFieldPermissions[$fieldId]['readonly'] = $readOnly;
 				}
+				$dataReader->close();
 			}
 			$this->profile_tab_field_permissions[$tabId] = $profile2TabFieldPermissions;
 		}
@@ -368,7 +405,8 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get permission for actions
+	 * Function to get permission for actions.
+	 *
 	 * @return array
 	 */
 	public function getProfileActionPermissions()
@@ -377,12 +415,13 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$profile2ActionPermissions = [];
 			if ($this->getId()) {
 				$dataReader = (new App\Db\Query())
-						->from('vtiger_profile2standardpermissions')
-						->where(['profileid' => $this->getId()])
-						->createCommand()->query();
+					->from('vtiger_profile2standardpermissions')
+					->where(['profileid' => $this->getId()])
+					->createCommand()->query();
 				while ($row = $dataReader->read()) {
 					$profile2ActionPermissions[$row['tabid']][$row['operation']] = $row['permissions'];
 				}
+				$dataReader->close();
 			}
 			$this->profile_action_permissions = $profile2ActionPermissions;
 		}
@@ -390,7 +429,8 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get permissions for utility actions
+	 * Function to get permissions for utility actions.
+	 *
 	 * @return array
 	 */
 	public function getProfileUtilityPermissions()
@@ -399,12 +439,13 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$profile2UtilityPermissions = [];
 			if ($this->getId()) {
 				$dataReader = (new App\Db\Query())
-						->from('vtiger_profile2utility')
-						->where(['profileid' => $this->getId()])
-						->createCommand()->query();
+					->from('vtiger_profile2utility')
+					->where(['profileid' => $this->getId()])
+					->createCommand()->query();
 				while ($row = $dataReader->read()) {
 					$profile2UtilityPermissions[$row['tabid']][$row['activityid']] = $row['permission'];
 				}
+				$dataReader->close();
 			}
 			$this->profile_utility_permissions = $profile2UtilityPermissions;
 		}
@@ -412,7 +453,8 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Return module permissions
+	 * Return module permissions.
+	 *
 	 * @return array
 	 */
 	public function getModulePermissions()
@@ -466,7 +508,8 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Delete record and optionally transfer assigments to other record
+	 * Delete record and optionally transfer assigments to other record.
+	 *
 	 * @param Settings_Profiles_Record_Model $transferToRecord
 	 */
 	public function delete($transferToRecord)
@@ -480,10 +523,10 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		$dbCommand->delete('vtiger_profile2utility', ['profileid' => $profileId])->execute();
 		$dbCommand->delete('vtiger_profile2field', ['profileid' => $profileId])->execute();
 		$dataReader = (new App\Db\Query())->select(['roleid', 'profilecount' => new yii\db\Expression('count(profileid)')])
-				->from('vtiger_role2profile')
-				->where(['roleid' => (new App\Db\Query())->select(['roleid'])->from('vtiger_role2profile')->where(['profileid' => $profileId])])
-				->groupBy('roleid')
-				->createCommand()->query();
+			->from('vtiger_role2profile')
+			->where(['roleid' => (new App\Db\Query())->select(['roleid'])->from('vtiger_role2profile')->where(['profileid' => $profileId])])
+			->groupBy('roleid')
+			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$roleId = $row['roleid'];
 			$profileCount = $row['profilecount'];
@@ -493,12 +536,14 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				$dbCommand->update('vtiger_role2profile', ['profileid' => $transferProfileId], ['roleid' => $roleId, 'profileid' => $profileId])->execute();
 			}
 		}
+		$dataReader->close();
 		$dbCommand->delete('vtiger_profile', ['profileid' => $profileId])->execute();
 		vtlib\Access::syncSharingAccess();
 	}
 
 	/**
-	 * Save record to database
+	 * Save record to database.
+	 *
 	 * @return int
 	 */
 	public function save()
@@ -522,7 +567,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$db->createCommand()->insert('vtiger_profile', [
 				'profilename' => $profileName,
 				'description' => $description,
-				'directly_related_to_role' => $isProfileDirectlyRelatedToRole
+				'directly_related_to_role' => $isProfileDirectlyRelatedToRole,
 			])->execute();
 			$profileId = $db->getLastInsertID('vtiger_profile_profileid_seq');
 			$this->setId($profileId);
@@ -530,19 +575,19 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$db->createCommand()->update('vtiger_profile', [
 				'profilename' => $profileName,
 				'description' => $description,
-				'directly_related_to_role' => $isProfileDirectlyRelatedToRole
+				'directly_related_to_role' => $isProfileDirectlyRelatedToRole,
 				], ['profileid' => $profileId])->execute();
 			$db->createCommand()->delete('vtiger_profile2globalpermissions', ['profileid' => $profileId])->execute();
 		}
 		$db->createCommand()->insert('vtiger_profile2globalpermissions', [
 			'profileid' => $profileId,
 			'globalactionid' => Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW,
-			'globalactionpermission' => $this->tranformInputPermissionValue($this->get('editall'))
+			'globalactionpermission' => $this->tranformInputPermissionValue($this->get('editall')),
 		])->execute();
 		$db->createCommand()->insert('vtiger_profile2globalpermissions', [
 			'profileid' => $profileId,
 			'globalactionid' => Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT,
-			'globalactionpermission' => $this->tranformInputPermissionValue($this->get('viewall'))
+			'globalactionpermission' => $this->tranformInputPermissionValue($this->get('viewall')),
 		])->execute();
 		$allModuleModules = Vtiger_Module_Model::getAll([0], Settings_Profiles_Module_Model::getNonVisibleModulesList());
 		$allModuleModules[$eventModule->getId()] = $eventModule;
@@ -565,11 +610,11 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 						$moduleFields = $moduleModel->getFields();
 						foreach ($moduleFields as $fieldModel) {
 							if ($fieldModel->isWritable()) {
-								$permissions['fields'][$fieldModel->getId()] = Settings_Profiles_Record_Model::PROFILE_FIELD_READWRITE;
+								$permissions['fields'][$fieldModel->getId()] = self::PROFILE_FIELD_READWRITE;
 							} elseif ($fieldModel->isViewEnabled()) {
-								$permissions['fields'][$fieldModel->getId()] = Settings_Profiles_Record_Model::PROFILE_FIELD_READONLY;
+								$permissions['fields'][$fieldModel->getId()] = self::PROFILE_FIELD_READONLY;
 							} else {
-								$permissions['fields'][$fieldModel->getId()] = Settings_Profiles_Record_Model::PROFILE_FIELD_INACTIVE;
+								$permissions['fields'][$fieldModel->getId()] = self::PROFILE_FIELD_INACTIVE;
 							}
 						}
 					}
@@ -579,13 +624,15 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		}
 
 		$this->recalculate();
+
 		return $profileId;
 	}
 
 	/**
-	 * Save module permissions to database
+	 * Save module permissions to database.
+	 *
 	 * @param Vtiger_Module_Model $moduleModel
-	 * @param array $permissions
+	 * @param array               $permissions
 	 */
 	protected function saveModulePermissions($moduleModel, $permissions)
 	{
@@ -595,15 +642,15 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		$tabId = $moduleModel->getId();
 		$profileUtilityPermissions = $this->getProfileUtilityPermissions();
 		$profileTabPermissionsBase = $this->getProfileTabPermissions();
-		$profileTabPermissions = isset($profileTabPermissionsBase[$tabId]) ? $profileTabPermissionsBase[$tabId] : false;
+		$profileTabPermissions = $profileTabPermissionsBase[$tabId] ?? false;
 		$profileActionPermissions = $this->getProfileActionPermissions();
-		$profileActionPermissions = isset($profileActionPermissions[$tabId]) ? $profileActionPermissions[$tabId] : false;
+		$profileActionPermissions = $profileActionPermissions[$tabId] ?? false;
 		$dbCommand->delete('vtiger_profile2tab', ['profileid' => $profileId, 'tabid' => $tabId])->execute();
 		$actionPermissions = [];
 		$actionEnabled = false;
 		if ($moduleModel->isEntityModule() || $moduleModel->isUtilityActionEnabled()) {
 			if (isset($permissions['actions']) || $moduleModel->isUtilityActionEnabled()) {
-				$actionPermissions = isset($permissions['actions']) ? $permissions['actions'] : [];
+				$actionPermissions = $permissions['actions'] ?? [];
 				$actionsIdsList = Vtiger_Action_Model::$standardActions;
 				//Dividing on actions
 				$utilityIdsList = [];
@@ -665,7 +712,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 						if (in_array($permission, Vtiger_Action_Model::$nonConfigurableActions)) {
 							$permission = 'on';
 						}
-						$dataToInsert [] = [$profileId, $tabId, $actionId, $this->tranformInputPermissionValue($permission)];
+						$dataToInsert[] = [$profileId, $tabId, $actionId, $this->tranformInputPermissionValue($permission)];
 					}
 					if ($actionsIdsList && ($moduleModel->isEntityModule())) {
 						$actionEnabled = true;
@@ -674,7 +721,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 					//Utility permissions
 					$dataToInsert = [];
 					foreach ($utilityIdsList as $actionId => $permission) {
-						$dataToInsert [] = [$profileId, $tabId, $actionId, $this->tranformInputPermissionValue($permission)];
+						$dataToInsert[] = [$profileId, $tabId, $actionId, $this->tranformInputPermissionValue($permission)];
 					}
 					if ($utilityIdsList) {
 						$actionEnabled = true;
@@ -698,16 +745,16 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		$dbCommand->insert('vtiger_profile2tab', [
 			'profileid' => $profileId,
 			'tabid' => $tabId,
-			'permissions' => $isModulePermitted
+			'permissions' => $isModulePermitted,
 		])->execute();
 		if (isset($permissions['fields'])) {
 			if (is_array($permissions['fields'])) {
 				foreach ($permissions['fields'] as $fieldId => $stateValue) {
 					$dbCommand->delete('vtiger_profile2field', ['profileid' => $profileId, 'tabid' => $tabId, 'fieldid' => $fieldId])->execute();
-					if ($stateValue == Settings_Profiles_Record_Model::PROFILE_FIELD_INACTIVE) {
+					if ($stateValue == self::PROFILE_FIELD_INACTIVE) {
 						$visible = Settings_Profiles_Module_Model::FIELD_INACTIVE;
 						$readOnly = Settings_Profiles_Module_Model::IS_PERMITTED_VALUE;
-					} elseif ($stateValue == Settings_Profiles_Record_Model::PROFILE_FIELD_READONLY) {
+					} elseif ($stateValue == self::PROFILE_FIELD_READONLY) {
 						$visible = Settings_Profiles_Module_Model::FIELD_ACTIVE;
 						$readOnly = Settings_Profiles_Module_Model::FIELD_READONLY;
 					} else {
@@ -719,7 +766,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 						'tabid' => $tabId,
 						'fieldid' => $fieldId,
 						'visible' => $visible,
-						'readonly' => $readOnly
+						'readonly' => $readOnly,
 					])->execute();
 				}
 			}
@@ -727,8 +774,10 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Transform input permission value
+	 * Transform input permission value.
+	 *
 	 * @param string $value
+	 *
 	 * @return int
 	 */
 	protected function tranformInputPermissionValue($value)
@@ -741,12 +790,12 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the list view actions for the record
+	 * Function to get the list view actions for the record.
+	 *
 	 * @return array - Associate array of Vtiger_Link_Model instances
 	 */
 	public function getRecordLinks()
 	{
-
 		$links = [];
 
 		$recordLinks = [
@@ -754,69 +803,80 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil'
+				'linkicon' => 'fas fa-edit',
+				'linkclass' => 'btn btn-primary btn-sm'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DUPLICATE_RECORD',
 				'linkurl' => $this->getDuplicateViewUrl(),
-				'linkicon' => 'icon-share'
+				'linkicon' => 'fas fa-clone',
+				'linkclass' => 'btn btn-primary btn-sm'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'" . $this->getDeleteActionUrl() . "')",
-				'linkicon' => 'glyphicon glyphicon-trash'
-			]
+				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn btn-danger btn-sm'
+			],
 		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
 	/**
-	 * Function to get all the profiles linked to the given role
+	 * Function to get all the profiles linked to the given role.
+	 *
 	 * @param string $roleId
+	 *
 	 * @return Settings_Profiles_Record_Model[] Array of Settings_Profiles_Record_Model instances
 	 */
 	public static function getAllByRole($roleId)
 	{
 		$dataReader = (new App\Db\Query())->select(['vtiger_profile.*'])
-				->from('vtiger_profile')
-				->innerJoin('vtiger_role2profile', 'vtiger_role2profile.profileid = vtiger_profile.profileid')
-				->where(['vtiger_role2profile.roleid' => $roleId])
-				->createCommand()->query();
+			->from('vtiger_profile')
+			->innerJoin('vtiger_role2profile', 'vtiger_role2profile.profileid = vtiger_profile.profileid')
+			->where(['vtiger_role2profile.roleid' => $roleId])
+			->createCommand()->query();
 		$profiles = [];
 		while ($row = $dataReader->read()) {
 			$profile = new self();
 			$profile->setData($row);
 			$profiles[$profile->getId()] = $profile;
 		}
+		$dataReader->close();
+
 		return $profiles;
 	}
 
 	/**
-	 * Function to get all the profiles
+	 * Function to get all the profiles.
+	 *
 	 * @return Settings_Profiles_Record_Model[] Array of Settings_Profiles_Record_Model instances
 	 */
 	public static function getAll()
 	{
 		$dataReader = (new App\Db\Query())->from('vtiger_profile')
-				->createCommand()->query();
+			->createCommand()->query();
 		$profiles = [];
 		while ($row = $dataReader->read()) {
 			$profile = new self();
 			$profile->setData($row);
 			$profiles[$profile->getId()] = $profile;
 		}
+		$dataReader->close();
+
 		return $profiles;
 	}
 
 	/**
-	 * Function to get the instance of Profile model, given profile id
-	 * @param Integer $profileId
+	 * Function to get the instance of Profile model, given profile id.
+	 *
+	 * @param int $profileId
+	 *
 	 * @return Settings_Profiles_Record_Model instance, if exists. Null otherwise
 	 */
 	public static function getInstanceById($profileId)
@@ -833,14 +893,17 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$profile->setData($row);
 		}
 		App\Cache::save('ProfilesRecordModelById', $profileId, $profile);
+
 		return $profile;
 	}
 
 	/**
-	 * Create instance by profile name
+	 * Create instance by profile name.
+	 *
 	 * @param string $profileName
-	 * @param bool $checkOnlyDirectlyRelated
-	 * @param array $excludedRecordId
+	 * @param bool   $checkOnlyDirectlyRelated
+	 * @param array  $excludedRecordId
+	 *
 	 * @return \self
 	 */
 	public static function getInstanceByName($profileName, $checkOnlyDirectlyRelated = false, $excludedRecordId = [])
@@ -856,13 +919,15 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		if ($row) {
 			$profile = new self();
 			$profile->setData($row);
+
 			return $profile;
 		}
 		return null;
 	}
 
 	/**
-	 * Function to get the Detail Url for the current group
+	 * Function to get the Detail Url for the current group.
+	 *
 	 * @return string
 	 */
 	public function getDetailViewUrl()
@@ -871,8 +936,9 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to check whether the profiles is directly related to role
-	 * @return Boolean
+	 * Function to check whether the profiles is directly related to role.
+	 *
+	 * @return bool
 	 */
 	public function isDirectlyRelated()
 	{
@@ -885,11 +951,11 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function recalculate the sharing rules
+	 * Function recalculate the sharing rules.
 	 */
 	public function recalculate()
 	{
-		$php_max_execution_time = vglobal('php_max_execution_time');
+		$php_max_execution_time = \AppConfig::main('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
 
 		$userIdsList = self::getUsersList($this->getId());
@@ -901,8 +967,10 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get Users list from this Profile
+	 * Function to get Users list from this Profile.
+	 *
 	 * @param int $profileId
+	 *
 	 * @return int[] list of user ids
 	 */
 	public static function getUsersList($profileId = false)

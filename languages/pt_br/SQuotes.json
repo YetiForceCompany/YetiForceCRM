@@ -1,0 +1,31 @@
+{
+  "php": {
+    "SQuotes": "Cota\u00e7\u00f5es",
+    "SINGLE_SQuotes": "Cota\u00e7\u00e3o",
+    "LBL_SQUOTES_INFORMATION": "Informa\u00e7\u00f5es b\u00e1sicas",
+    "LBL_CUSTOM_INFORMATION": "Informa\u00e7\u00e3o do Sistema",
+    "LBL_DESCRIPTION_INFORMATION": "Descri\u00e7\u00e3o",
+    "LBL_STATISTICS": "Estat\u00edsticas",
+    "LBL_SUBJECT": "Assunto",
+    "LBL_NUMBER": "N\u00famero",
+    "LBL_STATUS": "Status",
+    "LBL_CLOSED_TIME": "Hora Fechamento",
+    "LBL_RESPONSE_TIME": "Tempo de resposta",
+    "LBL_COMPANY_NAME": "Nome Empresa",
+    "SINGLE_SSalesProcesses": "Oportunidade",
+    "FL_TOTAL_PRICE": "Total L\u00edquido",
+    "FL_MARGINP": "Total percentual da margem",
+    "FL_MARGIN": "Margen total",
+    "FL_SUM_GROSS": "Valor bruto",
+    "FL_SUM_DISCOUNT": "Valor desconto",
+    "FL_VALID_UNTIL": "Valido ate",
+    "PLL_DRAFT": "Rascunho",
+    "PLL_IN_REALIZATION": "Em execu\u00e7ao",
+    "PLL_FOR_VERIFICATION": "Para verifica\u00e7ao",
+    "PLL_AWAITING_DECISION": "Aguardando decisao",
+    "PLL_NEGOTIATIONS": "Negocia\u00e7oes",
+    "PLL_CANCELLED": "Cancelado",
+    "PLL_ACCEPTED": "Aceito",
+    "LBL_CHANGE_STATUS": "Alterar Status"
+  }
+}

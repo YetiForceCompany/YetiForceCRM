@@ -1,0 +1,336 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.user-info--active {
+	.c-menu {
+		&__container {
+			bottom: $h-footer-user-info;
+		}
+	}
+
+	@include media-breakpoint-down(sm) {
+		.c-menu {
+			&__container {
+				bottom: $h-footer;
+			}
+		}
+	}
+}
+
+.c-menu {
+	&__container {
+		position: fixed;
+		left: 0;
+		top: 0;
+		bottom: $h-footer;
+		width: 230px;
+		color: $color-menu;
+		z-index: 1030;
+		background: $bg-menu;
+
+		.row {
+			padding: 0;
+			margin: 0;
+		}
+
+		a {
+			color: $color-menu;
+
+			&:hover {
+				text-decoration: none;
+				cursor: pointer;
+			}
+
+			transition: background-color 0.2s ease;
+		}
+	}
+
+	@include media-breakpoint-down(sm) {
+		&__container {
+			bottom: $h-footer-mobile;
+		}
+	}
+
+	&__item {
+		a {
+			display: inline-flex;
+			width: 100%;
+			border-radius: 0;
+			vertical-align: text-top;
+			padding: 8px 30px 8px 55px;
+			word-wrap: break-word;
+			font-size: 15px;
+			line-height: 1.2;
+			background: $bg-menu;
+
+			&:hover, &:focus {
+				background: lighten($bg-menu, 5%);
+			}
+
+			&:focus {
+				.c-menu__item__text {
+					white-space: normal;
+				}
+			}
+
+			&.active {
+				background: darken($bg-menu, 10%);
+			}
+
+			&.hasIcon {
+				padding: 8px 30px 8px 12px;
+			}
+
+			.c-menu__item__text {
+				padding: 2px 0;
+				position: relative;
+				word-wrap: break-word;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				text-rendering: optimizeLegibility;
+			}
+
+			&.hasIcon img {
+				height: 20px;
+			}
+
+			.glyphicon, .fa, &.hasIcon img {
+				margin-right: 12px;
+				font-size: 20px;
+				padding-right: 7px;
+				padding-left: 3px;
+			}
+
+			.fa {
+				position: relative;
+				top: 2px;
+			}
+
+			position: relative;
+
+			.toggler {
+				position: absolute;
+				right: 12px;
+				font-size: 10px;
+				line-height: 24px;
+
+			}
+
+			&.collapsed {
+				.fa-minus-circle {
+					display: none;
+				}
+			}
+
+			&:not(.collapsed) {
+				.fa-plus-circle {
+					display: none;
+				}
+
+				.c-menu__item__text {
+					white-space: normal;
+				}
+			}
+		}
+
+		.tpl-menu-SubMenu,
+		.tpl-menu-Profile_submenu {
+			background: $color-menu;
+			color: $bg-menu;
+
+			a {
+				font-size: 14px;
+				color: $bg-menu;
+				background: $color-menu;
+
+				&:hover, &:focus {
+					background: lighten($color-menu, 5%);
+				}
+
+				&.active {
+					background: darken($color-menu, 5%);
+				}
+
+				&.hasIcon {
+					padding: 6px 12px;
+				}
+			}
+
+			.menuLabel > a {
+				font-weight: 600;
+				text-transform: uppercase;
+				padding: 6px 12px;
+			}
+
+			button {
+				background: darken($color-menu, 10%);
+
+				&:hover, &:focus {
+					color: $color-menu;
+					background: $bg-menu;
+				}
+
+				&.hasIcon {
+					padding: 6px 12px;
+				}
+			}
+		}
+	}
+
+	&__body {
+		height: calc(100% - 50px);
+		width: 100%;
+		position: relative;
+
+		.modulesList .menuIcon {
+			padding-right: 18px;
+			font-size: 1.6em;
+			height: 100%;
+			min-width: 42px;
+		}
+	}
+
+	&__header {
+		height: $h-header-logo;
+		padding-right: 0;
+		padding-left: 0;
+		background-color: #406a95;
+	}
+
+	&--animation {
+		.basePanel,
+		.c-header {
+			@include media-breakpoint-up(md) {
+				@include u-transition((left 0.35s ease-in-out 0.35s));
+			}
+
+			@include media-breakpoint-down(md) {
+				@include u-transition((left ease-in-out 0.35s));
+			}
+		}
+	}
+}
+
+.related {
+	.nav-pills {
+		border-bottom: 3px solid $border-color-rtabs;
+
+		> .nav-item {
+			position: relative;
+			margin-right: 2px;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+
+		> .nav-item > .nav-link {
+			color: $bg-rtabs-active;
+			font-weight: bold;
+
+			span {
+				vertical-align: middle;
+			}
+
+			.iconModule {
+				position: relative;
+				top: -2px;
+				font-size: 17px;
+			}
+		}
+
+		.tabdrop {
+			width: auto !important;
+
+			.dropdown-toggle {
+				display: block;
+				font-weight: bold;
+				text-transform: capitalize;
+				padding: 0.5rem 1rem;
+				color: $bg-rtabs-active;
+				background: $bg-rtabs;
+
+				&:hover {
+					text-decoration: none;
+				}
+			}
+
+			.c-badge--top-right {
+				position:inherit;
+				margin-left:5px;
+			}
+
+			&.show .dropdown-toggle,
+			&.active .dropdown-toggle {
+				background: $bg-rtabs-active;
+				color: $color-rtabs-active;
+			}
+		}
+
+		.active {
+			background: $bg-rtabs-active;
+			color: $color-rtabs-active;
+			border-radius: 0;
+
+			> .nav-link {
+				color: $bg-rtabs;
+				background: $bg-rtabs-active;
+			}
+		}
+
+		.dropdown-menu {
+			min-width: 300px;
+			z-index: 1025;
+
+			.nav-item {
+				margin: 0;
+				float: none !important;
+				background: none;
+			}
+
+			.nav-link {
+				border-radius: 0;
+				font-weight: bold;
+			}
+		}
+	}
+}
+
+.related .dropdown-menu .nav-link {
+	@extend .dropdown-item;
+}
+
+@media only screen and (max-width: 768px) {
+	.dropdown-menu {
+		max-height: 500px;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+}
+
+.c-tab {
+	&--small {
+		display: flex;
+		align-items: center;
+
+		@extend .small;
+	}
+
+	&--gray {
+		background: $bg-rtabs;
+	}
+
+	&--hover:hover {
+		background: darken($bg-rtabs, 10%);
+	}
+}
+
+.detailViewInfo {
+	.dropdown.tabdrop {
+		@extend .c-tab--small;
+	}
+
+	.dropdown.tabdrop.hide {
+		display: none;
+	}
+}
+

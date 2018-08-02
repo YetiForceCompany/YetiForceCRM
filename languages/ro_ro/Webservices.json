@@ -1,0 +1,9 @@
+{
+  "php": {
+    "Webservices": "Servicii web",
+    "LBL_CHANGE_PASSWORD_FAILURE": "Schimbare parola esuata",
+    "LBL_DATABASE_QUERY_ERROR": "Eroare de baza de date in timpul efectuarii operatiei solicitate",
+    "LBL_INVALID_OLD_PASSWORD": "Valoare nevalida data pentru parola veche.",
+    "LBL_NEW_PASSWORD_MISMATCH": "Parola noua si confirmarea acesteia nu se potrivesc."
+  }
+}

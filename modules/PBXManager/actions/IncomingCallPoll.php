@@ -8,10 +8,22 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-include_once 'include/utils/utils.php';
+require_once 'include/database/PearDatabase.php';
+require_once 'include/utils/CommonUtils.php';
+require_once 'include/fields/DateTimeField.php';
+require_once 'include/fields/DateTimeRange.php';
+require_once 'include/fields/CurrencyField.php';
+require_once 'include/CRMEntity.php';
+include_once 'modules/Vtiger/CRMEntity.php';
+require_once 'include/runtime/Cache.php';
+require_once 'modules/Vtiger/helpers/Util.php';
+require_once 'modules/PickList/DependentPickListUtils.php';
+require_once 'modules/Users/Users.php';
+require_once 'include/Webservices/Utils.php';
 
-class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
+class PBXManager_IncomingCallPoll_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -22,18 +34,11 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('checkPermissionForPolling');
 	}
 
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode) && $this->isMethodExposed($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -111,7 +116,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'CreateView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		$name = explode("@", $request->get('email'));
+		$name = explode('@', $request->get('email'));
 		$element['lastname'] = $name[0];
 		$element['email'] = $request->get('email');
 		$element['phone'] = $request->get('number');
@@ -142,8 +147,9 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Updates the customer in phone call
-	 * @param int $id
+	 * Updates the customer in phone call.
+	 *
+	 * @param int          $id
 	 * @param \App\Request $request
 	 */
 	public function updateCustomerInPhoneCalls($id, \App\Request $request)
@@ -169,7 +175,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		$callPermission = \App\Privilege::isPermitted('PBXManager', 'ReceiveIncomingCalls');
 
 		$serverModel = PBXManager_Server_Model::getInstance();
-		$gateway = $serverModel->get("gateway");
+		$gateway = $serverModel->get('gateway');
 
 		$user = Users_Record_Model::getCurrentUserModel();
 		$userNumber = $user->phone_crm_extension;

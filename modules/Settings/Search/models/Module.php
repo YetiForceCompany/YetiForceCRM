@@ -1,23 +1,24 @@
 <?php
 
 /**
- * Settings search Module model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Settings search Module model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 {
-
 	/**
-	 * Get entity modules
-	 * @param integer $tabId
-	 * @param boolean $onlyActive
+	 * Get entity modules.
+	 *
+	 * @param int  $tabId
+	 * @param bool $onlyActive
+	 *
 	 * @return array
 	 */
 	public static function getModulesEntity($tabId = false, $onlyActive = false)
 	{
-		$query = (new \App\Db\Query);
+		$query = (new \App\Db\Query());
 		if ($onlyActive) {
 			$query->select(['vtiger_entityname.*'])->from('vtiger_entityname')->leftJoin('vtiger_tab', 'vtiger_entityname.tabid = vtiger_tab.tabid')
 				->where(['vtiger_tab.presence' => 0]);
@@ -34,11 +35,14 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$moduleEntity[$row['tabid']] = $row;
 		}
+		$dataReader->close();
+
 		return $moduleEntity;
 	}
 
 	/**
-	 * Get fields
+	 * Get fields.
+	 *
 	 * @return array
 	 */
 	public static function getFieldFromModule()
@@ -48,13 +52,17 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$fields[$row['tabid']][$row['columnname']] = $row;
 		}
+		$dataReader->close();
+
 		return $fields;
 	}
 
 	/**
-	 * Save parameters
+	 * Save parameters.
+	 *
 	 * @param array $params
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public static function save($params)
 	{
@@ -80,7 +88,8 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Update labels
+	 * Update labels.
+	 *
 	 * @param array $params
 	 */
 	public static function updateLabels($params)
@@ -93,7 +102,8 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Update sequence number
+	 * Update sequence number.
+	 *
 	 * @param array $modulesSequence
 	 */
 	public static function updateSequenceNumber($modulesSequence)

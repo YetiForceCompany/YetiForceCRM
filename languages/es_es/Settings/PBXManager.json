@@ -1,0 +1,18 @@
+{
+  "php": {
+    "LBL_SELECT_ONE": "Seleccionar",
+    "LBL_PBXMANAGER": "Registro de llamadas",
+    "LBL_PBXMANAGER_CONFIG": "Detalles del Servidor Asterisk",
+    "LBL_NOTE": "Nota:",
+    "LBL_INFO_WEBAPP_URL": "Configurar la URL de su aplicaci\u00f3n Asterisk en el formato",
+    "LBL_FORMAT_WEBAPP_URL": "(protocol):\/\/(asterisk_ip):(VtigerConnector_port)",
+    "LBL_FORMAT_INFO_WEBAPP_URL": "ex:http:\/\/0.0.0.0:5000",
+    "LBL_INFO_CONTEXT": "Contexto espec\u00edfico de YetiForce configurado en su servidor Asterisk (extensions.conf)",
+    "LBL_PBXMANAGER_INFO": "Configurar los detalles del servidor de Asterisk despu\u00e9s de instalar YetiForce Asterisk Connector en su servidor Asterisk",
+    "webappurl": "URL de la aplicaci\u00f3n de YetiForce Asterisk",
+    "vtigersecretkey": "Clave secreta de YetiForce",
+    "outboundcontext": "Contexto de salida",
+    "outboundtrunk": "Salida principal"
+  },
+  "js": []
+}

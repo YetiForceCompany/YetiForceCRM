@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Action to save dashboard
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Action to save dashboard.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Settings_WidgetsManagement_Dashboard_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_WidgetsManagement_Dashboard_Action extends Settings_Vtiger_Basic_Action
 {
-
 	public function __construct()
 	{
 		parent::__construct();

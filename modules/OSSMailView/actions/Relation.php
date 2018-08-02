@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Relation action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Relation action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSMailView_Relation_Action extends Vtiger_Action_Controller
+class OSSMailView_Relation_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
@@ -27,7 +28,7 @@ class OSSMailView_Relation_Action extends Vtiger_Action_Controller
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!\App\Privilege::isPermitted($request->getByType('moduleName'), 'DetailView', $request->getInteger('record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 

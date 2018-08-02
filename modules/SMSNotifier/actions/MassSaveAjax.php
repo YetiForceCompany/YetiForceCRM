@@ -11,10 +11,11 @@
 
 class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 {
-
 	/**
-	 * Check Permission
+	 * Check Permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -27,7 +28,8 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	}
 
 	/**
-	 * Function that saves SMS records
+	 * Function that saves SMS records.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -45,7 +47,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 			$numberSelected = false;
 			foreach ($phoneFieldList as $fieldName) {
 				if (!empty($row[$fieldName])) {
-					$toNumbers[] = preg_replace_callback('/[^\d]/s', function($m) {
+					$toNumbers[] = preg_replace_callback('/[^\d]/s', function ($m) {
 						return '';
 					}, $row[$fieldName]);
 					$numberSelected = true;
@@ -55,6 +57,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 				$recordIds[] = $row['id'];
 			}
 		}
+		$dataReader->close();
 		$toNumbers = array_unique($toNumbers);
 		$response = new Vtiger_Response();
 		if (!empty($toNumbers)) {
@@ -67,8 +70,10 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	}
 
 	/**
-	 * Function gets query of records list 
+	 * Function gets query of records list.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return \App\QueryGenerator
 	 */
 	public function getRecordsListQueryFromRequest(\App\Request $request)
@@ -83,6 +88,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
 				$queryGenerator = new \App\QueryGenerator($sourceModule);
 				$queryGenerator->addCondition('id', $selectedIds, 'e');
+
 				return $queryGenerator;
 			}
 		}
@@ -99,6 +105,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 			}
 
 			$customViewModel->set('search_params', $request->get('search_params'));
+
 			return $customViewModel->getRecordsListQuery($excludedIds, $module);
 		}
 	}

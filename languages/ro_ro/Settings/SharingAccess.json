@@ -1,0 +1,38 @@
+{
+  "php": {
+    "Sharing Rules": "Reguli distribuire",
+    "SharingAccess": "Reguli distribuire",
+    "Accounts": "Conturi si contacte",
+    "LBL_ADD_CUSTOM_RULE": "Adaugati regula personalizata",
+    "LBL_ADD_CUSTOM_RULE_TO": "Adaugati regula personalizata la",
+    "LBL_ADVANCED_SHARING_RULES": "Reguli de partajare avansate",
+    "LBL_APPLY_NEW_SHARING_RULES": "Aplicati noi reguli de partajare",
+    "LBL_CAN_ACCESSED_BY": "Poate fi accesat de",
+    "LBL_CUSTOM_ACCESS_MESG": "Nu au fost definite reguli de acces personalizate",
+    "LBL_MODULE": "Modul",
+    "LBL_PRIVILEGES": "Privilegii",
+    "LBL_READ": "Citeste",
+    "LBL_READ_WRITE": "Citeste si scrie",
+    "LBL_RULE_NO": "Numar regula",
+    "LBL_SHARING_RULE": "Reguli distribuire",
+    "LBL_WITH_PERMISSIONS": "Cu permisiuni",
+    "Read Only": "Doar citire",
+    "Read Write": "Citire\/Scriere",
+    "SINGLE_Groups": "Grup",
+    "Groups": "Grupuri",
+    "SINGLE_RoleAndSubordinates": "Rol si subordonata",
+    "RoleAndSubordinates": "Roluri si subordonate",
+    "SINGLE_Roles": "Rol",
+    "Roles": "Roluri",
+    "Private": "Privat",
+    "Public: Read Only": "Public: Doar citire",
+    "Public: Read, Create\/Edit, Delete": "Public: Citeste, Creaza\/Modifica, Sterge",
+    "Public: Read, Create\/Edit": "Public: Citeste, Creaza\/Modifica"
+  },
+  "js": {
+    "JS_CUSTOM_RULE_SAVED_SUCCESSFULLY": "Regulamentul de partajare personalizat a fost salvat cu succes",
+    "JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE": "Oportunitati, Bilete, Cotatii si accesul la factura trebuie sa fie setate la privat cand accesul la cont este setat la confidential",
+    "JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY": "Regulile de partajare noi au fost aplicate pe succes",
+    "JS_SELECT_ANY_OTHER_ACCESSING_USER": "Selectati orice utilizator care acceseaza"
+  }
+}

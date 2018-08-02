@@ -1,0 +1,22 @@
+{
+  "php": {
+    "SRequirementsCards": "Cerinte de vanzare",
+    "SINGLE_SRequirementsCards": "Cerinta de vanzare",
+    "LBL_SREQUIREMENTSCARDS_INFORMATION": "Informatii de baza",
+    "LBL_CUSTOM_INFORMATION": "Informatii Sistem",
+    "LBL_DESCRIPTION_INFORMATION": "Detalii descriere",
+    "LBL_STATISTICS": "Statistici",
+    "LBL_SUBJECT": "Subiect",
+    "LBL_NUMBER": "Numar",
+    "LBL_STATUS": "Status",
+    "LBL_CLOSED_TIME": "Timp inchidere",
+    "LBL_RESPONSE_TIME": "Timp raspuns",
+    "SINGLE_SSalesProcesses": "Oportunitate",
+    "PLL_DRAFT": "Ciorna",
+    "PLL_IN_REALIZATION": "In realizare",
+    "PLL_FOR_VERIFICATION": "Pentru verificare",
+    "PLL_CANCELLED": "Anulat",
+    "PLL_COMPLETED": "Completat",
+    "LBL_CHANGE_STATUS": "Schimba status"
+  }
+}

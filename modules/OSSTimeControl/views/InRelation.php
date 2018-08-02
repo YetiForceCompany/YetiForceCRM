@@ -1,16 +1,15 @@
 <?php
 
 /**
- * OSSTimeControl InRelation view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * OSSTimeControl InRelation view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -37,10 +36,10 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 		$sortOrder = $request->getForSql('sortorder');
 		if ($sortOrder === 'ASC') {
 			$nextSortOrder = 'DESC';
-			$sortImage = 'glyphicon glyphicon-chevron-down';
+			$sortImage = 'fas fa-chevron-down';
 		} else {
 			$nextSortOrder = 'ASC';
-			$sortImage = 'glyphicon glyphicon-chevron-up';
+			$sortImage = 'fas fa-chevron-up';
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
 			$relatedInstance = CRMEntity::getInstance($relatedModuleName);
@@ -135,6 +134,7 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		$viewer->assign('VIEW', $request->getByType('view'));
+
 		return $viewer->view('RelatedList.tpl', $moduleName, true);
 	}
 }

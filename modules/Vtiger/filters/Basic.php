@@ -2,7 +2,6 @@
 
 class Vtiger_Basic_Filter
 {
-
 	public $viewname = 'Basic';
 	protected $columnList = [];
 	protected $cvadvFilterAnd = [];
@@ -24,7 +23,7 @@ class Vtiger_Basic_Filter
 		return $this->cvstdFilter;
 	}
 
-	public function getAdvftCriteria($cv)
+	public function getAdvftCriteria(\CustomView $cv)
 	{
 		$columnindex = 0;
 		$advft_criteria = [];
@@ -37,10 +36,10 @@ class Vtiger_Basic_Filter
 				$criteria = $cv->getAdvftCriteria($cvadv);
 				$advft_criteria[$i]['columns'][$j] = $criteria;
 				$advft_criteria[$i]['condition'] = 'and';
-				$j++;
-				$columnindex++;
+				++$j;
+				++$columnindex;
 			}
-			$i++;
+			++$i;
 		}
 
 		if ($this->cvadvFilterOr) {
@@ -48,11 +47,11 @@ class Vtiger_Basic_Filter
 				$cvadv['columnindex'] = $columnindex;
 				$criteria = $cv->getAdvftCriteria($cvadv);
 				$advft_criteria[$i]['columns'][$j] = $criteria;
-				$advft_criteria[$i]['condition'] = NULL;
-				$j++;
-				$columnindex++;
+				$advft_criteria[$i]['condition'] = null;
+				++$j;
+				++$columnindex;
 			}
-			$i++;
+			++$i;
 		}
 		return [$i, $j, $advft_criteria];
 	}

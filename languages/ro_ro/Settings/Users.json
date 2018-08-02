@@ -1,0 +1,43 @@
+{
+  "php": {
+    "Users": "Utilizatori",
+    "USER_MAIL_EXIST": "Exista un utilizator cu aceasta adresa de email",
+    "LBL_GROUP_NAME": "Nume grup",
+    "LBL_PRIORITY": "Prioritate",
+    "LBL_PICKLISTS": "Liste de alegere",
+    "LBL_WARNING": "Atentie",
+    "LBL_SELECT_PICKLIST": "Selecteaza lista de alegere",
+    "LBL_PICKLIST_COLOR_COL_NOT_FOUND": "Functia de culoare nu a fost activata pentru aceasta lista de selectari",
+    "LBL_UPDATE_COLOR_COLUMN": "Activati",
+    "LBL_ITEM": "Valoare",
+    "LBL_MODULE": "Modul",
+    "LBL_LDAP_RECOMMENDED_INFO": "Nu recomandam selectarea utilizatorilor cu permisiuni de administrator pentru autorizarea LDAP. In cazul problemelor de autorizare trebuie sa existe un utilizator care poate sa se conecteze fara integrare LDAP.",
+    "LBL_AUTHORIZATION": "LDAP",
+    "LBL_AUTHORIZATION_DESCRIPTION": " ",
+    "LBL_LDAP_AUTH": "LDAP",
+    "LBL_ACTIVE_LDAP_AUTH": "Autorizare cu LDAP",
+    "LBL_LDAP_SERVER": "Adresa serverului",
+    "LBL_LDAP_PORT": "Port",
+    "LBL_SAVE_CONFIG": "Configuratia a fost salvata",
+    "LBL_LDAP_DOMAIN": "Domeniu (adaugat automat la autentificare)",
+    "LBL_VIEW_AUTH": "Autorizare",
+    "LBL_VIEW_COLORS": "Culoare",
+    "LBL_SWITCH_USERS": "Schimba utilizatori",
+    "LBL_SWITCH_USERS_DESCRIPTION": "Unelte care va permite schimbarea utilizatorilor in sistem.",
+    "LBL_SU_BASE_ACCESS": "Utilizator",
+    "LBL_SU_AVAILABLE_ACCESS": "Este permisa autentificarea",
+    "LBL_LOCKS": "Blocari",
+    "LBL_LOCKS_DESCRIPTION": "Unelte pentru a bloca actiunile din browser (copiere, taiere, etc)",
+    "LBL_LOCK_COPY": "Blocati copiere",
+    "LBL_LOCK_CUT": "Blocati taiere",
+    "LBL_LOCK_PASTE": "Blocati lipire",
+    "LBL_LOCK_RIGHT_MENU": "Blocati click drepata mouse",
+    "LBL_LOCK_SELECT_TEXT": "Blocati selectare",
+    "LBL_LOCK_DRAG": "Blocati tragere"
+  },
+  "js": {
+    "JS_PLEASE_SELECT_MODULE": "Te rog selecteaza modulul",
+    "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Separatorul de zecimale si cel de grupare nu pot fi la fel",
+    "Changed password successfully": "Parola schimbata cu succes"
+  }
+}

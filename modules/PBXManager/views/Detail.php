@@ -10,10 +10,9 @@
 
 class PBXManager_Detail_View extends Vtiger_Detail_View
 {
-
 	/**
 	 * Overrided to disable Ajax Edit option in Detail View of
-	 * PBXManager Record
+	 * PBXManager Record.
 	 */
 	public function isAjaxEnabled($recordModel)
 	{
@@ -21,7 +20,7 @@ class PBXManager_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
@@ -29,7 +28,7 @@ class PBXManager_Detail_View extends Vtiger_Detail_View
 			$this->record = Vtiger_DetailView_Model::getInstance($request->getModule(), $request->getInteger('record'));
 		}
 		$recordModel = $this->record->getRecord();
-		// To show recording link only if callstatus is 'completed' 
+		// To show recording link only if callstatus is 'completed'
 		if ($recordModel->get('callstatus') !== 'completed') {
 			$recordModel->set('recordingurl', '');
 		}

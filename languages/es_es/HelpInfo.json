@@ -1,0 +1,6 @@
+{
+  "php": {
+    "Announcements|FL_INTERVAL": "Frecuencia de los recordatorios en d\u00edas, si un usuario no revis\u00f3 los cambios. Si el campo permanece vac\u00edo, el recordatorio no se mostrar\u00e1 de nuevo.",
+    "Accounts|Account Name": "Este campo est\u00e1 destinado al nombre de la Empresa"
+  }
+}

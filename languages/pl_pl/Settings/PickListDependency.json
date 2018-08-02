@@ -1,0 +1,32 @@
+{
+  "php": {
+    "Selected Values": "Wybrano warto\u015bci",
+    "LBL_ADD_RECORD": "Dodaj zale\u017cno\u015b\u0107 mi\u0119dzy s\u0142ownikami",
+    "PickListDependency": "Zale\u017cno\u015bci s\u0142ownikowe",
+    "LBL_CONFIGURE_DEPENDENCY_HELP_1": "Tylko odwzorowane warto\u015bci dla s\u0142ownika \u017ar\u00f3d\u0142owego pojawi\u0105 si\u0119 poni\u017cej (z wyj\u0105tkiem pierwszego razu)",
+    "LBL_CONFIGURE_DEPENDENCY_HELP_2": "If you want to see or change the mapping for the other picklist values of Source field, \r\nthen you can select the values by clicking on <b>''<\/b> button on the right side",
+    "LBL_CONFIGURE_DEPENDENCY_HELP_3": "Wybrane warto\u015bci s\u0142ownika docelowego s\u0105 wyr\u00f3\u017cnione",
+    "LBL_CONFIGURE_DEPENDENCY_INFO": "Kliknij na odpowiedniej warto\u015bci s\u0142ownika \u017ar\u00f3d\u0142owego, aby zmieni\u0107 mapowanie do warto\u015bci s\u0142ownika docelowego",
+    "LBL_ERR_CYCLIC_DEPENDENCY": "Taka konfiguracja nie jest dozwolona poniewa\u017c tworzy zap\u0119tlanie si\u0119 zale\u017cno\u015bci.",
+    "LBL_PICKLIST_DEPENDENCY": "Zale\u017cno\u015bci mi\u0119dzy s\u0142ownikami",
+    "LBL_SELECT_FIELD": "Zaznacz pole",
+    "LBL_SELECT_MODULE": "Modu\u0142",
+    "LBL_SELECT_SOURCE_PICKLIST_VALUES": "Wybierz warto\u015bci ze s\u0142ownika \u017ar\u00f3d\u0142owego",
+    "LBL_SELECT_SOURCE_VALUES": "Wybierz warto\u015bci s\u0142ownika docelowego",
+    "LBL_SOURCE_FIELD": "Pole \u017cr\u00f3d\u0142owe",
+    "LBL_TARGET_FIELD": "Pole docelowe",
+    "LBL_UNMARK_ALL": "Odznacz wszystko",
+    "Module": "Modu\u0142",
+    "Source Field": "Pole \u017cr\u00f3d\u0142owe",
+    "Target Field": "Pole docelowe"
+  },
+  "js": {
+    "JS_DEPENDENCY_ATLEAST_ONE_VALUE": "Musisz zaznaczy\u0107 przynajmniej jedn\u0105 warto\u015b\u0107 dla ka\u017cdej z warto\u015bci s\u0142ownika \u017ar\u00f3d\u0142owego",
+    "JS_DEPENDENCY_DELETED_SUEESSFULLY": "Zale\u017cno\u015b\u0107 pomy\u015blnie usuni\u0119to",
+    "JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE": "Czy na pewno chcesz usun\u0105\u0107 t\u0105 zale\u017cno\u015b\u0107",
+    "JS_PICKLIST_DEPENDENCY_SAVED": "Zale\u017cno\u015b\u0107 zapisano poprawnie",
+    "JS_SELECT_SOME_VALUE": "Zaznacz jak\u0105\u015b warto\u015b\u0107",
+    "JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME": "S\u0142ownik \u017ar\u00f3d\u0142owy i docelowy nie mog\u0105 by\u0107 tym samym polem",
+    "JS_PICKLIST_DEPENDENCY_NO_SAVED": "Nie wprowadzono \u017cadnych zale\u017cno\u015bci. Nie dokonano zapisu."
+  }
+}

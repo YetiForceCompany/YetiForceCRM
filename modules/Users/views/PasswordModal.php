@@ -1,17 +1,18 @@
 <?php
 
 /**
- * Reset password modal view class
- * @package YetiForce.Modal
- * @copyright YetiForce Sp. z o.o.
+ * Reset password modal view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Users_PasswordModal_View extends Vtiger_BasicModal_View
 {
+	use \App\Controller\ExposeMethod;
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function __construct()
 	{
@@ -22,7 +23,7 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -44,19 +45,7 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
-
-	/**
-	 * Reset user password
+	 * Reset user password.
 	 */
 	public function reset(\App\Request $request)
 	{
@@ -73,7 +62,7 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 	}
 
 	/**
-	 * Change user password
+	 * Change user password.
 	 */
 	public function change(\App\Request $request)
 	{
@@ -109,7 +98,7 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 	}
 
 	/**
-	 * Mass reset user password
+	 * Mass reset user password.
 	 */
 	public function massReset(\App\Request $request)
 	{

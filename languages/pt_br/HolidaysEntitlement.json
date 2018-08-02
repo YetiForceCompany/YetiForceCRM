@@ -1,0 +1,12 @@
+{
+  "php": {
+    "HolidaysEntitlement": "Autoriza\u00e7\u00e3o de Ferias Anuais",
+    "SINGLE_HolidaysEntitlement": "Autoriza\u00e7\u00e3o de Ferias Anuais",
+    "LBL_HOLIDAYSENTITLEMENT_INFORMATION": "Informa\u00e7\u00e3o Personalizada",
+    "LBL_CUSTOM_INFORMATION": "Informa\u00e7\u00e3o do Sistema",
+    "LBL_YEAR": "Ano",
+    "LBL_DAYS": "N\u00famero de Feriados",
+    "LBL_EMPLOYEE": "Colaborador",
+    "LBL_NUMBER": "N\u00famero"
+  }
+}

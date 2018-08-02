@@ -1,28 +1,32 @@
 <?php
 /**
- * Base for action creating relations on the basis of prefix
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Base for action creating relations on the basis of prefix.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
- * Base for action creating relations on the basis of prefix
+ * Base for action creating relations on the basis of prefix.
  */
 abstract class OSSMailScanner_PrefixScannerAction_Model
 {
-
-	public $prefix, $moduleName, $mail, $tableName, $tableColumn;
+	public $prefix;
+	public $moduleName;
+	public $mail;
+	public $tableName;
+	public $tableColumn;
 
 	/**
-	 * Process
+	 * Process.
 	 */
-	public abstract function process(OSSMail_Mail_Model $mail);
+	abstract public function process(OSSMail_Mail_Model $mail);
 
 	/**
-	 * Find and bind
-	 * @return boolean|int
+	 * Find and bind.
+	 *
+	 * @return bool|int
 	 */
 	public function findAndBind()
 	{
@@ -38,6 +42,7 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 				$returnIds[] = $crmId;
 			}
 		}
+		$dataReader->close();
 		if (!empty($returnIds)) {
 			return $returnIds;
 		}
@@ -45,12 +50,12 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 		if (!$this->prefix) {
 			return false;
 		}
-
 		return $this->add();
 	}
 
 	/**
-	 * Add
+	 * Add.
+	 *
 	 * @return array
 	 */
 	protected function add()

@@ -1,0 +1,311 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.o-detail__icon {
+	font-size: calculate-rem(48px);
+	margin-right: calculate-rem(10px);
+
+	&.fa {
+		display: inline;
+	}
+}
+
+.detailViewTable {
+	.fieldRow {
+		@extend .border-top;
+	}
+
+	.fieldLabel.medium, .fieldValue.medium {
+		padding: 10px;
+		min-height: 40px;
+	}
+
+	.fieldLabel.narrow, .fieldValue.narrow {
+		padding: 5px;
+		min-height: 25px;
+	}
+
+	.fieldLabel.wide, .fieldValue.wide {
+		padding: 15px;
+		min-height: 50px;
+	}
+
+	.fieldsLabelValue:last-child::after {
+		content: "";
+		float: left;
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		border-right: 1px solid #ddd;
+	}
+}
+
+.timeline {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	&:before {
+		content: '';
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: 4px;
+		background: #ddd;
+		left: 13px;
+		margin: 0;
+		border-radius: 2px;
+	}
+
+	> li {
+		position: relative;
+		padding-bottom: 10px;
+
+		&:before {
+			content: " ";
+			display: table;
+		}
+
+		&:after {
+			content: " ";
+			display: table;
+			clear: both;
+		}
+
+		.timeline-item {
+			-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+			border-radius: 3px;
+			margin-top: 0;
+			background: #fbfbfb;
+			color: #444;
+			padding: 0;
+			position: relative;
+
+			> {
+				.imageContainer {
+					width: 30px;
+
+					> {
+						.userImage {
+							margin: 0 auto;
+							width: 30px;
+							height: 30px;
+							padding: 2px;
+							border: 2px solid #d2d6de;
+							font-size: 32px;
+						}
+
+						@include media-breakpoint-up(sm) {
+							.userImage {
+								width: 40px;
+								height: 40px;
+							}
+						}
+					}
+				}
+
+				.timeline-body {
+					padding-right: 10px;
+					padding-left: 0;
+					font-size: 0.7em;
+				}
+				@include media-breakpoint-up(sm) {
+					.imageContainer {
+						width: 40px;
+					}
+
+					.timeline-body {
+						padding-left: 44px;
+						font-size: 1em;
+					}
+				}
+			}
+		}
+	}
+}
+
+.PreferenceDetailViewHeader {
+	.detailViewButtoncontainer {
+		.btn {
+			@extend .mr-1;
+		}
+	}
+}
+
+.Comment {
+	.commentActionsDiv {
+		.btn {
+			@extend .btn-sm;
+		}
+	}
+}
+//--- Widgets ---
+.c-detail-widget {
+	@extend .card, .m-1;
+
+	&__header {
+		@extend .card-header;
+		@extend .py-0, .px-2, .border-bottom-0;
+
+		background: inherit;
+	}
+
+	&__content {
+		@extend .card-body, .px-2, .py-0;
+	}
+
+	&__table {
+		@extend .table, .mb-0;
+	}
+
+	p {
+		@extend .mb-0;
+	}
+}
+
+.c-table {
+	&__row--hover {
+		.c-table__action--hover {
+			opacity: 0;
+
+			/*for IE*/
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+			filter: alpha(opacity=0);
+		}
+
+		&:hover .c-table__action--hover {
+			opacity: 1;
+
+			/*for IE*/
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+			filter: alpha(opacity=100);
+		}
+	}
+}
+
+.summaryView {
+	border: 1px solid #eaeaea;
+	-webkit-box-shadow: 1px 1px 3px #ddd;
+	-moz-box-shadow: 1px 1px 3px #ddd;
+	box-shadow: 1px 1px 3px #ddd;
+	border-radius: 2px;
+	background: #fff;
+	margin-bottom: 10px;
+	padding: 25px 20px 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	word-wrap: break-word;
+
+	.c-detail-widget__table tr.summaryViewEntries:last-child {
+		.fieldValue, .fieldLabel {
+			border-bottom: 1px solid #ddd;
+		}
+	}
+
+	.summaryViewEntries {
+		.fieldLabel {
+			vertical-align: top;
+			padding: 5px 0 5px 5%;
+			border-top: 1px solid #ddd;
+			border-right: 1px solid #ddd;
+			width: 35%;
+		}
+
+		.fieldValue {
+			vertical-align: top;
+			padding: 5px 0 5px 5px;
+
+			/*ie fix from 5px 0 5px 5%*/
+			border-top: 1px solid #ddd;
+			width: 65%;
+		}
+	}
+
+	.toggleViewByMode {
+		margin: 8px 0;
+		padding-right: 0;
+
+		.changeDetailViewMode {
+			white-space: normal !important;
+		}
+	}
+}
+
+.summaryWidgetContainer {
+	border-radius: 2px;
+	-webkit-box-shadow: 1px 1px 3px #ddd;
+	-moz-box-shadow: 1px 1px 3px #ddd;
+	box-shadow: 1px 1px 3px #ddd;
+	border: 1px solid #eaeaea;
+	background: #fff;
+	margin-bottom: 10px;
+	padding: 15px;
+}
+
+.commentContainer .commentTitle {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	word-wrap: break-word;
+	margin-bottom: 10px;
+
+	textarea {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		word-wrap: break-word;
+	}
+}
+
+.recordDetails .squeezedWell {
+	padding: 3% 0%;
+	min-height: 105px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	word-wrap: break-word;
+}
+
+.recordEditView {
+	.contentHeader {
+		padding: 5px 0;
+	}
+
+	.table {
+		.fieldLabel, .fieldValue {
+			vertical-align: middle;
+		}
+
+		tbody tr:hover {
+			td, th {
+				background: #f7f7f9;
+			}
+		}
+	}
+}
+
+.singleComment {
+	.commentActionsContainer .commentActions {
+		@include u-transition(all 0.2s 0s ease);
+
+		height: 0;
+		overflow: hidden;
+	}
+
+	&:hover .commentActionsContainer .commentActions {
+		height: $h-btn-sm;
+	}
+}
+
+.quickDetailContent .singleComment:hover .commentActionsContainer .commentActions {
+	height: 0;
+}
+
+.tpl-Detail-HeaderFields {
+	a {
+		color: lighten($link-color, 30%);
+	}
+}

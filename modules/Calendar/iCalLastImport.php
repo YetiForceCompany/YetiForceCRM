@@ -9,31 +9,34 @@
  * *********************************************************************************** */
 
 /**
- * Class IcalLastImport
+ * Class IcalLastImport.
  */
 class IcalLastImport
 {
-
 	/**
-	 * Table name
+	 * Table name.
+	 *
 	 * @var string
 	 */
 	public $tableName = 'vtiger_ical_import';
 
 	/**
-	 * Fields
+	 * Fields.
+	 *
 	 * @var array
 	 */
 	public $fields = ['id', 'userid', 'entitytype', 'crmid'];
 
 	/**
-	 * Field data
+	 * Field data.
+	 *
 	 * @var array
 	 */
 	public $fieldData = [];
 
 	/**
-	 * Clear user records
+	 * Clear user records.
+	 *
 	 * @param int $userId
 	 */
 	public function clearRecords($userId)
@@ -44,7 +47,8 @@ class IcalLastImport
 	}
 
 	/**
-	 * Set fields
+	 * Set fields.
+	 *
 	 * @param array $data
 	 */
 	public function setFields($data)
@@ -57,39 +61,42 @@ class IcalLastImport
 	}
 
 	/**
-	 * Save
-	 * @return null
+	 * Save.
 	 */
 	public function save()
 	{
 		$adb = PearDatabase::getInstance();
 
-		if (count($this->fieldData) == 0)
+		if (count($this->fieldData) == 0) {
 			return;
+		}
 
 		if (!vtlib\Utils::checkTable($this->tableName)) {
 			vtlib\Utils::createTable(
-				$this->tableName, "(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				$this->tableName, '(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 					userid INT NOT NULL,
 					entitytype VARCHAR(200) NOT NULL,
-					crmid INT NOT NULL)", true);
+					crmid INT NOT NULL)', true);
 		}
 
 		$fieldNames = array_keys($this->fieldData);
 		$fieldValues = array_values($this->fieldData);
-		$adb->pquery('INSERT INTO ' . $this->tableName . '(' . implode(',', $fieldNames) . ') VALUES (' . generateQuestionMarks($fieldValues) . ')', [$fieldValues]);
+		$adb->pquery('INSERT INTO ' . $this->tableName . '(' . implode(',', $fieldNames) . ') VALUES (' . $adb->generateQuestionMarks($fieldValues) . ')', [$fieldValues]);
 	}
 
 	/**
-	 * Undo
+	 * Undo.
+	 *
 	 * @param string $moduleName
-	 * @param int $userId
+	 * @param int    $userId
+	 *
 	 * @return int|bool
 	 */
 	public function undo($moduleName, $userId)
 	{
 		if (vtlib\Utils::checkTable($this->tableName)) {
 			$selectResult = (new \App\Db\Query())->select(['crmid'])->from($this->tableName)->where(['userid' => $userId, 'entitytype' => $moduleName])->column();
+
 			return \App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['deleted' => 1], ['crmid' => $selectResult])->execute();
 		}
 	}

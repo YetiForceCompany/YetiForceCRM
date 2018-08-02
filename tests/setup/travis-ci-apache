@@ -2,7 +2,7 @@
   DocumentRoot %TRAVIS_BUILD_DIR%
 
   <Directory "%TRAVIS_BUILD_DIR%/">
-    Options FollowSymLinks MultiViews ExecCGI
+    Options Indexes FollowSymLinks ExecCGI
     AllowOverride All
     Require all granted
   </Directory>

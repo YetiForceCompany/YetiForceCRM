@@ -10,17 +10,18 @@
 
 class PBXManager_Server_Model extends \App\Base
 {
-
 	const TABLE_NAME = 'vtiger_pbxmanager_gateway';
 
 	public static function getCleanInstance()
 	{
-		return new self;
+		return new self();
 	}
 
 	/**
-	 * Static Function Server Record Model
+	 * Static Function Server Record Model.
+	 *
 	 * @params string gateway name
+	 *
 	 * @return PBXManager_Server_Model
 	 */
 	public static function getInstance()
@@ -34,6 +35,7 @@ class PBXManager_Server_Model extends \App\Base
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$serverModel->set($fieldName, $fieldValue);
 			}
+
 			return $serverModel;
 		}
 		return $serverModel;
@@ -48,14 +50,16 @@ class PBXManager_Server_Model extends \App\Base
 		Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = \App\Privilege::isPermitted('PBXManager', 'MakeOutgoingCalls');
 
-		$serverModel = PBXManager_Server_Model::getInstance();
+		$serverModel = self::getInstance();
 		$gateway = $serverModel->get('gateway');
 
 		if ($permission && $gateway) {
 			Vtiger_Cache::set('outgoingCall', 'PBXManager', 1);
+
 			return true;
 		} else {
 			Vtiger_Cache::set('outgoingCall', 'PBXManager', 0);
+
 			return false;
 		}
 	}
@@ -67,6 +71,6 @@ class PBXManager_Server_Model extends \App\Base
 
 	public function getConnector()
 	{
-		return new PBXManager_PBXManager_Connector;
+		return new PBXManager_PBXManager_Connector();
 	}
 }

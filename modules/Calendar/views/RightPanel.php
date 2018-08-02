@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Calendar right panel view model class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Calendar right panel view model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 {
-
 	public function __construct()
 	{
 		parent::__construct();

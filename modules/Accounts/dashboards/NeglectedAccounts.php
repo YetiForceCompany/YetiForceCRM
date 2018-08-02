@@ -1,22 +1,23 @@
 <?php
 
 /**
- * Wdiget to show neglected accounts
- * @package YetiForce.Dashboard
- * @copyright YetiForce Sp. z o.o.
+ * Wdiget to show neglected accounts.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 {
-
 	private $conditions = [];
 
 	/**
-	 * Function to get neglected accounts
-	 * @param string $moduleName
-	 * @param integer|array $user
+	 * Function to get neglected accounts.
+	 *
+	 * @param string              $moduleName
+	 * @param int|array           $user
 	 * @param Vtiger_Paging_Model $pagingModel
+	 *
 	 * @return array
 	 */
 	private function getAccounts($moduleName, $user, Vtiger_Paging_Model $pagingModel)
@@ -36,16 +37,23 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 			$row['userModel'] = Users_Privileges_Model::getInstanceById($row['assigned_user_id']);
 			$accounts[$row['id']] = $row;
 		}
+		$dataReader->close();
 		$this->conditions = [
 			'condition' => ['or', ['vtiger_entity_stats.crmactivity' => null], ['<', 'vtiger_entity_stats.crmactivity', 0]],
-			'join' => [['LEFT JOIN', 'vtiger_entity_stats', 'vtiger_entity_stats.crmid = vtiger_crmentity.crmid']]
+			'join' => [['LEFT JOIN', 'vtiger_entity_stats', 'vtiger_entity_stats.crmid = vtiger_crmentity.crmid']],
 		];
+
 		return $accounts;
 	}
 
+	/**
+	 * Process.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \App\User::getCurrentUserModel();
 		$moduleName = $request->getModule();
 		$linkId = $request->getInteger('linkid');
 		$user = $request->getByType('owner', 2);
@@ -71,7 +79,6 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACCOUNTS', $accounts);
 		$viewer->assign('OWNER', $user);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('PAGING_MODEL', $pagingModel);

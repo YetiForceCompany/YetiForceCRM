@@ -1,0 +1,38 @@
+{
+  "php": {
+    "LBL_AUTOMATICASSIGNMENT_DESCRIPTION": " ",
+    "FL_MODULE": "Module",
+    "LBL_ROLEID_INFO": "Situ\u00e9 dans l'un des deux modes: SYSTEM - utilis\u00e9 par des m\u00e9canismes tels que les t\u00e2ches de workflow ou gestionnaires; La coutume - pour r\u00e9gler le dossier manuellement par l'utilisateur.",
+    "LBL_CONDITIONS_INFO": "D\u00e9finissez les conditions pour les enregistrements de recherche. Pour weselekcjonowania un utilisateur de la liste des utilisateurs est compt\u00e9 le nombre d'enregistrements dans le module affect\u00e9 aux donn\u00e9es de l'utilisateur. L'utilisateur avec le plus petit nombre d'enregistrements est affect\u00e9 au dossier.",
+    "LBL_ASSIGN_INFO": "R\u00e9glez le propri\u00e9taire par d\u00e9faut de l'enregistrement. La r\u00e9f\u00e9rence ici est la valeur attribu\u00e9e \u00e0 l'enregistrement lorsque l'utilisateur NumberNotFound qui peut \u00eatre affect\u00e9",
+    "LBL_SMOWNERS_INFO": "De ci-dessous les utilisateurs s\u00e9lectionn\u00e9s, des groupes, a cr\u00e9\u00e9 une liste d'utilisateurs initialement attribuables \u00e0. Cette liste jet d'utilisateur cr\u00e9\u00e9 que lorsque les r\u00f4les wyselekcjonownych aucun utilisateur.",
+    "LBL_ROLES_INFO": "Avec des r\u00f4les suivants s\u00e9lectionn\u00e9s cr\u00e9e une liste d'utilisateurs qui sont initialement attribuables \u00e0.",
+    "LBL_VALUE_INFO": "Dans la case ci-dessous d\u00e9finit la valeur pour le module de champ s\u00e9lectionn\u00e9.",
+    "LBL_NOTE": "Informations !",
+    "LBL_SYSTEM": "Syst\u00e8me",
+    "LBL_DEACTIVATE_SYSTEM_MODE": "Eteindre le syst\u00e8me",
+    "LBL_SET_DEFAULT_USER": "D\u00e9finir l'utilisateur par d\u00e9faut",
+    "FL_MODE": "Mode de fonctionnement",
+    "FL_CONDITIONS": "Termes de recherche des documents",
+    "FL_ASSIGN": "Par d\u00e9faut",
+    "LBL_AUTOMATIC_ASSIGNMENT": "Affectation automatique des enregistrements",
+    "AutomaticAssignment": "Affectation automatique des enregistrements",
+    "FL_FIELD": "Nom du champ",
+    "FL_VALUE": "Valeur",
+    "FL_ROLES": "R\u00f4les",
+    "FL_SMOWNERS": "Propri\u00e9taire du dossier",
+    "FL_SHOWNERS": "Partager avec",
+    "LBL_CREATE_RECORD": "Cr\u00e9er un enregistrement",
+    "BTN_NEXT": "Suivant",
+    "BTN_CLOSE": "Fermer",
+    "BTN_ADD": "Ajouter",
+    "LBL_CHANGE_ROLE_TYPE": "Modifier le type de r\u00f4le",
+    "LBL_CHANGE_RECORD_STATE": "Changer l'\u00e9tat du dossier",
+    "BTN_SAVE": "Sauvegarder",
+    "LBL_INCLUDE_USERS_RECORD_LIMIT": "Inclure la limite d'enregistrement de l'utilisateur"
+  },
+  "js": {
+    "JS_STATE_CONFIRMATION": "Voulez-vous vraiment modifier l'\u00e9tat de l'enregistrement ?",
+    "JS_SAVE_SUCCESS": "Modifications enregistr\u00e9es avec succ\u00e8s"
+  }
+}

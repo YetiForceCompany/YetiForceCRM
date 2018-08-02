@@ -1,0 +1,29 @@
+{
+  "php": {
+    "PermissionInspector": "Inspektor uprawnie\u0144",
+    "LBL_INSPECTION_PERMISSION_HEADER": "Inspektor uprawnie\u0144",
+    "LBL_FULL_USER_NAME": "U\u017cytkownik",
+    "LBL_VIEW_PRVILIGE": "Przegl\u0105danie",
+    "LBL_CREATE_PRIVILIGE": "Tworzenie",
+    "LBL_EDIT_PRIVILIGE": "Edycja",
+    "LBL_DELETE_PRIVILIGE": "Usuwanie",
+    "LBL_PROFILES": "Profil:",
+    "SEC_MODULE_DONT_HAVE_SECURITY_RIGHT": "Modu\u0142\/akcja wykluczona z weryfikacji uprawnie\u0144",
+    "SEC_USER_IS_ADMIN": "U\u017cytkownik jest administratorem",
+    "SEC_NO_ACTION_MODULE_PERMISSIONS_YES": "Uprawnienia do modu\u0142u, u\u017cytkownik ma dost\u0119p do danych zawartych w tym module",
+    "SEC_MODULE_VIEW_ALL_PERMISSION": "Uprawnienia globalne do pogl\u0105du danych",
+    "SEC_MODULE_EDIT_ALL_PERMISSION": "Uprawnienia globalne do edycji danych",
+    "SEC_RECORID_IS_NULL": "Dost\u0119p og\u00f3lny do akcji w module",
+    "SEC_MODULE_RIGHTS_TO_ACTION": "Dost\u0119p na podstawie uprawnie\u0144 do akcji w tym module",
+    "SEC_RECORD_BY_SHARING_YES": "Dost\u0119p na podstawie zasad dost\u0119pu (Dost\u0119p do modu\u0142\u00f3w)",
+    "SEC_RECORD_OWNER_CURRENT_USER": "Dost\u0119p na podstawie w\u0142a\u015bciciela %s",
+    "SEC_RECORD_OWNER_CURRENT_GROUP": "Dost\u0119p na podstawie grupy %s",
+    "SEC_RECORD_OWNER_SUBORDINATE_USER": "Dost\u0119p na podstawie hierarchii firmy (role), u\u017cytkownik jest wy\u017cej w hierarchii ni\u017c w\u0142a\u015bciciel rekordu",
+    "SEC_RECORD_HIERARCHY_USER": "Dost\u0119p na podstawie hierarchii uprawnie\u0144",
+    "SEC_NO_ACTION_MODULE_PERMISSIONS_NO": "Brak uprawnie\u0144 do modu\u0142u, u\u017cytkownik nie ma dost\u0119pu do tego modu\u0142u",
+    "SEC_MODULE_PERMISSIONS_NO": "Brak uprawnie\u0144 do modu\u0142u, u\u017cytkownik nie ma dost\u0119pu do tego modu\u0142u",
+    "SEC_MODULE_NO_RIGHTS_TO_ACTION": "Brak uprawnie\u0144 do akcji w tym module",
+    "SEC_RECORD_BY_SHARING_NO": "Brak uprawnie\u0144 na podstawie zasad dost\u0119pu (Dost\u0119p do modu\u0142\u00f3w)",
+    "SEC_MODULE_NO_ACTION_TOOL": "Brak uprawnie\u0144 do akcji - Nie znaleziono akcji"
+  }
+}

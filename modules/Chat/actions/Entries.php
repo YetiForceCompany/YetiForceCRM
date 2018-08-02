@@ -1,18 +1,21 @@
 <?php
 
 /**
- * Chat Entries Action Class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Chat Entries Action Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Chat_Entries_Action extends Vtiger_Action_Controller
+class Chat_Entries_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
 
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -24,7 +27,7 @@ class Chat_Entries_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Constructor with a list of allowed methods 
+	 * Constructor with a list of allowed methods.
 	 */
 	public function __construct()
 	{
@@ -32,18 +35,9 @@ class Chat_Entries_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('add');
 	}
 
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-		throw new \App\Exceptions\AppException('ERR_NOT_ACCESSIBLE');
-	}
-
 	/**
-	 * Add entries function
+	 * Add entries function.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function add(\App\Request $request)

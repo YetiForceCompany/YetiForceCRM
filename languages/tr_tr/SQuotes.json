@@ -1,0 +1,31 @@
+{
+  "php": {
+    "SQuotes": "Al\u0131nt\u0131lar",
+    "SINGLE_SQuotes": "Al\u0131nt\u0131",
+    "LBL_SQUOTES_INFORMATION": "Temel bilgiler",
+    "LBL_CUSTOM_INFORMATION": "Sistem bilgisi",
+    "LBL_DESCRIPTION_INFORMATION": "A\u00e7\u0131klama ayr\u0131nt\u0131lar\u0131",
+    "LBL_STATISTICS": "\u0130statistik",
+    "LBL_SUBJECT": "Konu",
+    "LBL_NUMBER": "Numara",
+    "LBL_STATUS": "Durumu",
+    "LBL_CLOSED_TIME": "Kapan\u0131\u015f saati",
+    "LBL_RESPONSE_TIME": "Yan\u0131t S\u00fcresi",
+    "LBL_COMPANY_NAME": "\u015eirket Ad\u0131",
+    "SINGLE_SSalesProcesses": "F\u0131rsat",
+    "FL_TOTAL_PRICE": "Net toplam",
+    "FL_MARGINP": "Toplam marj y\u00fczdesi",
+    "FL_MARGIN": "Toplam marj",
+    "FL_SUM_GROSS": "Br\u00fct miktar",
+    "FL_SUM_DISCOUNT": "\u0130ndirim tutar\u0131",
+    "FL_VALID_UNTIL": "Kadar ge\u00e7erli",
+    "PLL_DRAFT": "Taslak",
+    "PLL_IN_REALIZATION": "Ger\u00e7ekle\u015fmede",
+    "PLL_FOR_VERIFICATION": "Do\u011frulama i\u00e7in",
+    "PLL_AWAITING_DECISION": "Karar\u0131 bekliyor",
+    "PLL_NEGOTIATIONS": "M\u00fczakereler",
+    "PLL_CANCELLED": "\u0130ptal edildi",
+    "PLL_ACCEPTED": "Kabul edildi",
+    "LBL_CHANGE_STATUS": "Durumu de\u011fi\u015ftir"
+  }
+}

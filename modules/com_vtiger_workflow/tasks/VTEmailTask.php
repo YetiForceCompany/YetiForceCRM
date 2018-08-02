@@ -7,11 +7,10 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
+require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
 class VTEmailTask extends VTTask
 {
-
 	// Sending email takes more time, this should be handled via queue all the time.
 	public $executeImmediately = true;
 
@@ -21,7 +20,8 @@ class VTEmailTask extends VTTask
 	}
 
 	/**
-	 * Execute task
+	 * Execute task.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
 	 */
 	public function doTask($recordModel)

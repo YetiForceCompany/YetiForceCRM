@@ -10,9 +10,8 @@
 
 class Services_Relation_Model extends Products_Relation_Model
 {
-
 	/**
-	 * Get services pricebooks
+	 * Get services pricebooks.
 	 */
 	public function getServicePricebooks()
 	{

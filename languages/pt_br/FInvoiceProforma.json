@@ -1,0 +1,20 @@
+{
+  "php": {
+    "FInvoiceProforma": "Faturas Proforma",
+    "SINGLE_FInvoiceProforma": "Fatura Proforma",
+    "LBL_CUSTOM_INFORMATION": "Informa\u00e7\u00e3o do Sistema",
+    "LBL_ADDRESS_DELIVERY_INFORMATION": "Endere\u00e7o de Entrega",
+    "FL_SUBJECT": "Assunto",
+    "FL_PAYMENT_DATE": "Data de Vencimento",
+    "FL_SALE_DATE": "Data da Venda",
+    "FL_FORM_PAYMENT": "Forma de pagamento",
+    "FL_STATUS": "Situa\u00e7\u00e3o",
+    "FL_BANK_ACCOUNT": "N\u00famero Conta Banc\u00e1ria",
+    "FL_NUMBER": "N\u00famero da Fatura",
+    "FL_ACCOUNT": "Conta",
+    "FL_TOTAL": "L\u00edquido",
+    "FL_GROSS": "Bruto",
+    "PLL_TRANSFER": "transfer\u00eancia",
+    "PLL_CASH": "dinheiro"
+  }
+}

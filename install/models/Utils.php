@@ -10,9 +10,9 @@
 
 class Install_Utils_Model
 {
-
 	/**
-	 * Function that provides default configuration based on installer setup
+	 * Function that provides default configuration based on installer setup.
+	 *
 	 * @return <Array>
 	 */
 	public static function getDefaultPreInstallParameters()
@@ -21,8 +21,9 @@ class Install_Utils_Model
 			'db_hostname' => 'localhost',
 			'db_username' => '',
 			'db_password' => '',
-			'db_name' => '',
+			'db_name' => 'yetiforce',
 			'admin_name' => 'admin' . rand(100, 999),
+			'admin_firstname' => 'Yeti',
 			'admin_lastname' => 'Administrator',
 			'admin_password' => '',
 			'admin_email' => '',
@@ -30,17 +31,20 @@ class Install_Utils_Model
 	}
 
 	/**
-	 * Returns list of currencies
+	 * Returns list of currencies.
+	 *
 	 * @return <Array>
 	 */
 	public static function getCurrencyList()
 	{
 		require_once 'install/models/Currencies.php';
+
 		return $currencies;
 	}
 
 	/**
-	 * Returns list of industry
+	 * Returns list of industry.
+	 *
 	 * @return array
 	 */
 	public static function getIndustryList()
@@ -49,7 +53,8 @@ class Install_Utils_Model
 	}
 
 	/**
-	 * Returns list of countries
+	 * Returns list of countries.
+	 *
 	 * @return array
 	 */
 	public static function getCountryList()
@@ -58,17 +63,20 @@ class Install_Utils_Model
 	}
 
 	/**
-	 * Function checks if its mysql type
+	 * Function checks if its mysql type.
+	 *
 	 * @param type $dbType
+	 *
 	 * @return type
 	 */
 	public static function isMySQL($dbType)
 	{
-		return (stripos($dbType, 'mysql') === 0);
+		return stripos($dbType, 'mysql') === 0;
 	}
 
 	/**
-	 * Function checks the database connection
+	 * Function checks the database connection.
+	 *
 	 * @param string $db_type
 	 * @param string $db_hostname
 	 * @param string $db_username
@@ -78,6 +86,7 @@ class Install_Utils_Model
 	 * @param string $create_utf8_db
 	 * @param string $root_user
 	 * @param string $root_password
+	 *
 	 * @return <Array>
 	 */
 	public static function checkDbConnection(\App\Request $request)
@@ -129,8 +138,9 @@ class Install_Utils_Model
 
 					$query = "CREATE DATABASE `$db_name`";
 					if ($create_utf8_db == 'true') {
-						if (self::isMySQL($db_type))
+						if (self::isMySQL($db_type)) {
 							$query .= ' DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci';
+						}
 						$db_utf8_support = true;
 					}
 					if ($conn->query($query)) {
@@ -164,11 +174,13 @@ class Install_Utils_Model
 			$error_msg = $db_name . ' -> ' . \App\Language::translate('ERR_DB_NOT_FOUND', 'Install');
 		} else {
 			$dbCheckResult['flag'] = true;
+
 			return $dbCheckResult;
 		}
 		$dbCheckResult['flag'] = false;
 		$dbCheckResult['error_msg'] = $error_msg;
 		$dbCheckResult['error_msg_info'] = $error_msg_info;
+
 		return $dbCheckResult;
 	}
 
@@ -179,7 +191,7 @@ class Install_Utils_Model
 		$langs = [];
 		foreach ($ffs as $ff) {
 			if ($ff != '.' && $ff != '..') {
-				if (file_exists($dir . $ff . '/Install.php')) {
+				if (file_exists($dir . $ff . '/Install.json')) {
 					$langs[$ff] = \App\Language::translate('LANGNAME', 'Install', $ff);
 				}
 			}

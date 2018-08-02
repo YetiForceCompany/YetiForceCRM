@@ -11,9 +11,8 @@
 
 class Home_DashBoard_View extends Vtiger_DashBoard_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
@@ -22,20 +21,5 @@ class Home_DashBoard_View extends Vtiger_DashBoard_View
 		$modulesWithWidget = Vtiger_DashBoard_Model::getModulesWithWidgets($request->getModule(), $this->getDashboardId($request));
 		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithWidget);
 		$this->preProcessDisplay($request);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getFooterScripts(\App\Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = [
-			'~libraries/jquery/boxslider/jqueryBxslider.js'
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
 	}
 }

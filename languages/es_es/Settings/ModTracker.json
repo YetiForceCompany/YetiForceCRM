@@ -1,0 +1,12 @@
+{
+  "php": {
+    "ModTracker": "Historial de cambios",
+    "LBL_MODTRACKER_SETTINGS": "M\u00f3dulos \u2013 Control de cambios \/ Historial",
+    "LBL_MODTRACKER_SETTINGS_DESCRIPTION": "Administrar el historial de cambios en los m\u00f3dulos",
+    "LBL_MODULE": "M\u00f3dulo",
+    "LBL_ACTIVE": "Control de cambios",
+    "LBL_TOOLS": "Herramientas",
+    "LBL_TRACK_CHANGES_ENABLED": "Control de cambios habilitado",
+    "LBL_TRACK_CHANGES_DISABLE": "Control de cambios inhabilitado"
+  }
+}

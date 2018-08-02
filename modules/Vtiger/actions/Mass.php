@@ -9,13 +9,14 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
+abstract class Vtiger_Mass_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Get query for records list from request
+	 * Get query for records list from request.
+	 *
 	 * @param \App\Request $request
-	 * @return \App\QueryGenerator|boolean
+	 *
+	 * @return \App\QueryGenerator|bool
 	 */
 	public static function getQuery(\App\Request $request)
 	{
@@ -34,6 +35,7 @@ abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 			$queryGenerator = new App\QueryGenerator($moduleName);
 			$queryGenerator->setFields(['id']);
 			$queryGenerator->addCondition('id', $selectedIds, 'e');
+
 			return $queryGenerator;
 		}
 		if (!$request->isEmpty('operator')) {
@@ -42,12 +44,15 @@ abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 			$customViewModel->set('search_value', $request->get('search_value'));
 		}
 		$customViewModel->set('search_params', $request->get('search_params'));
+
 		return $customViewModel->getRecordsListQuery($request->get('excluded_ids'), $moduleName);
 	}
 
 	/**
-	 * Get records list from request
+	 * Get records list from request.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return array
 	 */
 	public static function getRecordsListFromRequest(\App\Request $request)
@@ -57,14 +62,7 @@ abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 			return $selectedIds;
 		}
 		$queryGenerator = static::getQuery($request);
-		return $queryGenerator ? $queryGenerator->createQuery()->column() : [];
-	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
+		return $queryGenerator ? $queryGenerator->createQuery()->column() : [];
 	}
 }

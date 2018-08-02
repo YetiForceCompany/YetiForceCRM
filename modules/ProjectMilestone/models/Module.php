@@ -10,11 +10,11 @@
 
 class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Function to get list view query for popup window
+	 * Function to get list view query for popup window.
+	 *
 	 * @param Vtiger_ListView_Model $listviewModel
-	 * @param \App\QueryGenerator $queryGenerator
+	 * @param \App\QueryGenerator   $queryGenerator
 	 */
 	public function getQueryByRelatedField(Vtiger_ListView_Model $listviewModel, \App\QueryGenerator $queryGenerator)
 	{
@@ -44,6 +44,7 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 			$recordProgress = ($row['estimated_work_time'] * (int) $row['projecttaskprogress']) / 100;
 			$progressInHours += $recordProgress;
 		}
+		$dataReader->close();
 		if (!$estimatedWorkTime) {
 			return;
 		}

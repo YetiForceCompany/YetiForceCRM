@@ -1,0 +1,12 @@
+{
+  "php": {
+    "HolidaysEntitlement": "Vacaciones Anuales",
+    "SINGLE_HolidaysEntitlement": "Vacaciones Anuales",
+    "LBL_HOLIDAYSENTITLEMENT_INFORMATION": "Informaci\u00f3n de Vacaciones Anuales",
+    "LBL_CUSTOM_INFORMATION": "Informaci\u00f3n adicional",
+    "LBL_YEAR": "A\u00f1o",
+    "LBL_DAYS": "N\u00famero de d\u00edas de vacaciones",
+    "LBL_EMPLOYEE": "Empleado",
+    "LBL_NUMBER": "ID"
+  }
+}

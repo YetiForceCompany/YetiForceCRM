@@ -11,7 +11,6 @@
 
 class Import_VCardReader_Reader extends Import_FileReader_Reader
 {
-
 	protected $vCardPattern = '/BEGIN:VCARD.*?END:VCARD/si';
 	protected $skipLabels = ['BEGIN', 'END', 'VERSION'];
 	public static $fileContents = null;
@@ -49,7 +48,7 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 	}
 
 	/**
-	 * Function creates tables for import in database
+	 * Function creates tables for import in database.
 	 */
 	public function read()
 	{
@@ -88,11 +87,13 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 				if ($this->request->get('file_encoding') !== $defaultCharset) {
 					$mappedData[$fieldName] = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $defaultCharset);
 				}
-				if (!empty($fieldValue))
+				if (!empty($fieldValue)) {
 					$allValuesEmpty = false;
+				}
 			}
-			if ($allValuesEmpty)
+			if ($allValuesEmpty) {
 				continue;
+			}
 			$fieldNames = array_keys($mappedData);
 			$fieldValues = array_values($mappedData);
 			$this->addRecordToDB($fieldNames, $fieldValues);

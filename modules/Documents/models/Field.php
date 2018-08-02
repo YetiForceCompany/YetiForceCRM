@@ -10,9 +10,8 @@
 
 class Documents_Field_Model extends Vtiger_Field_Model
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -24,9 +23,9 @@ class Documents_Field_Model extends Vtiger_Field_Model
 			} else {
 				$value = ' --';
 			}
+
 			return $value;
 		}
-
 		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 }

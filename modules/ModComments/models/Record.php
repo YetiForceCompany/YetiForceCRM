@@ -10,17 +10,15 @@
  * *********************************************************************************** */
 
 /**
- * ModComments Record Model
+ * ModComments Record Model.
  */
 class ModComments_Record_Model extends Vtiger_Record_Model
 {
-
 	/**
-	 * Functions gets the comment id
+	 * Functions gets the comment id.
 	 */
 	public function getId()
 	{
-
 		$id = $this->get('modcommentsid');
 		if (empty($id)) {
 			return $this->get('id');
@@ -34,7 +32,8 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function returns url to get child comments
+	 * Function returns url to get child comments.
+	 *
 	 * @return string - url
 	 */
 	public function getChildCommentsUrl()
@@ -42,7 +41,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		return $this->getDetailViewUrl() . '&mode=showChildComments';
 	}
 
-	public function getImagePath()
+	public function getImage()
 	{
 		$commentor = $this->getCommentedByModel();
 		if ($commentor) {
@@ -50,25 +49,27 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$isMailConverterType = $this->get('from_mailconverter');
 			if (!empty($customer) && $isMailConverterType != 1) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($customer);
-				$imageDetails = $recordModel->getImageDetails();
+				$imageDetails = $recordModel->getImage();
 				if (!empty($imageDetails)) {
-					return $imageDetails[0]['path'] . '_' . $imageDetails[0]['name'];
-				} else
-					return '';
-			} else if ($isMailConverterType == 1) {
+					return $imageDetails;
+				} else {
+					return [];
+				}
+			} elseif ($isMailConverterType == 1) {
 				return \App\Layout::getImagePath('MailConverterComment.png');
 			} else {
-				$imagePath = $commentor->getImageDetails();
-				if (!empty($imagePath[0]['name'])) {
-					return $imagePath[0]['path'];
+				$imagePath = $commentor->getImage();
+				if (!empty($imagePath)) {
+					return $imagePath;
 				}
 			}
 		}
-		return false;
+		return [];
 	}
 
 	/**
-	 * Prepare value to save
+	 * Prepare value to save.
+	 *
 	 * @return array
 	 */
 	public function getValuesForSave()
@@ -81,33 +82,36 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function returns the parent Comment Model
+	 * Function returns the parent Comment Model.
+	 *
 	 * @return Vtiger_Record_Model
 	 */
 	public function getParentCommentModel()
 	{
 		$recordId = $this->get('parent_comments');
-		if (!empty($recordId))
+		if (!empty($recordId)) {
 			return Vtiger_Record_Model::getInstanceById($recordId, 'ModComments');
-
+		}
 		return false;
 	}
 
 	/**
-	 * Function returns the parent Record Model(Contacts, Accounts etc)
+	 * Function returns the parent Record Model(Contacts, Accounts etc).
+	 *
 	 * @return Vtiger_Record_Model
 	 */
 	public function getParentRecordModel()
 	{
 		$parentRecordId = $this->get('related_to');
-		if (!empty($parentRecordId))
+		if (!empty($parentRecordId)) {
 			return Vtiger_Record_Model::getInstanceById($parentRecordId);
-
+		}
 		return false;
 	}
 
 	/**
-	 * Function returns the commentor Model (Users Model)
+	 * Function returns the commentor Model (Users Model).
+	 *
 	 * @return Vtiger_Record_Model|false
 	 */
 	public function getCommentedByModel()
@@ -120,8 +124,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			if ($commentedBy) {
 				$commentedByModel = Vtiger_Record_Model::getInstanceById($commentedBy, 'Users');
 				if (empty($commentedByModel->entity->column_fields['user_name'])) {
-					$activeAdmin = Users::getActiveAdminUser();
-					$commentedByModel = Vtiger_Record_Model::getInstanceById($activeAdmin->id, 'Users');
+					$commentedByModel = Vtiger_Record_Model::getInstanceById(Users::getActiveAdminId(), 'Users');
 				}
 				return $commentedByModel;
 			}
@@ -130,61 +133,43 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function returns the commented time
+	 * Function returns the commented time.
+	 *
 	 * @return string
 	 */
 	public function getCommentedTime()
 	{
 		$commentTime = $this->get('createdtime');
+
 		return $commentTime;
 	}
 
 	/**
-	 * Function returns the commented time
+	 * Function returns the commented time.
+	 *
 	 * @return string
 	 */
 	public function getModifiedTime()
 	{
 		$commentTime = $this->get('modifiedtime');
+
 		return $commentTime;
 	}
 
 	/**
-	 * Function returns latest comments for parent record
-	 * @param int $parentRecordId - parent record for which latest comment need to retrieved
-	 * @param Vtiger_Paging_Model - paging model
-	 * @return ModComments_Record_Model if exits or null
+	 * Function returns all the parent comments model.
+	 *
+	 * @param int                 $parentId
+	 * @param int[]               $hierarchy
+	 * @param Vtiger_Paging_Model $pagingModel
+	 *
+	 * @return \ModComments_Record_Model[]
 	 */
-	public static function getRecentComments($parentRecordId, $pagingModel)
-	{
-		$recordInstances = [];
-		$queryGenerator = new \App\QueryGenerator('ModComments');
-		$queryGenerator->setFields(['id', 'parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'from_mailconverter']);
-		$queryGenerator->setSourceRecord($parentRecordId);
-		$queryGenerator->addNativeCondition(['related_to' => $parentRecordId]);
-		$query = $queryGenerator->createQuery()->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC]);
-		if ($pagingModel->get('limit') !== 0) {
-			$query->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
-		}
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$recordInstance = new self();
-			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
-			$recordInstances[] = $recordInstance;
-		}
-		return $recordInstances;
-	}
-
-	/**
-	 * Function returns all the parent comments model
-	 * @param <Integer> $parentId
-	 * @return ModComments_Record_Model(s)
-	 */
-	public static function getAllParentComments($parentId, $hierarchy = false)
+	public static function getAllParentComments($parentId, $hierarchy = false, $pagingModel = false)
 	{
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
-			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid']);
+			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', ]);
 		$queryGenerator->setSourceRecord($parentId);
 		if (empty($hierarchy) || (count($hierarchy) == 1 && reset($hierarchy) == 0)) {
 			$queryGenerator->addNativeCondition(['related_to' => $parentId]);
@@ -196,20 +181,25 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$queryGenerator->addNativeCondition(['related_to' => $recordIds]);
 		}
 		$queryGenerator->addNativeCondition(['parent_comments' => 0]);
-		$dataReader = $queryGenerator->createQuery()
-				->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC])
-				->createCommand()->query();
+		$query = $queryGenerator->createQuery()->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC]);
+		if ($pagingModel && $pagingModel->get('limit') !== 0) {
+			$query->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
+		}
+		$dataReader = $query->createCommand()->query();
 		$recordInstances = [];
 		while ($row = $dataReader->read()) {
 			$recordInstance = new self();
 			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 			$recordInstances[] = $recordInstance;
 		}
+		$dataReader->close();
+
 		return $recordInstances;
 	}
 
 	/**
-	 * Function returns all the child comment count
+	 * Function returns all the child comment count.
+	 *
 	 * @return <type>
 	 */
 	public function getChildCommentsCount()
@@ -219,11 +209,13 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$queryGenerator->setFields([]);
 		$queryGenerator->setSourceRecord($recordId);
 		$queryGenerator->addNativeCondition(['parent_comments' => $recordId, 'related_to' => $this->get('related_to')]);
+
 		return $queryGenerator->createQuery()->count();
 	}
 
 	/**
-	 * Function returns all the comment count
+	 * Function returns all the comment count.
+	 *
 	 * @return <int>
 	 */
 	public static function getCommentsCount($recordId)
@@ -235,27 +227,30 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$queryGenerator->setFields([]);
 		$queryGenerator->setSourceRecord($recordId);
 		$queryGenerator->addNativeCondition(['related_to' => $recordId]);
+
 		return $queryGenerator->createQuery()->count('modcommentsid');
 	}
 
 	/**
-	 * Returns child comments models for a comment
+	 * Returns child comments models for a comment.
+	 *
 	 * @return ModComment_Record_Model(s)
 	 */
 	public function getChildComments()
 	{
 		$parentCommentId = $this->getId();
-		if (empty($parentCommentId))
+		if (empty($parentCommentId)) {
 			return;
+		}
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
-			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid']);
+			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid', ]);
 		//Condition are directly added as query_generator transforms the
 		//reference field and searches their entity names
 		$queryGenerator->addNativeCondition(['parent_comments' => $parentCommentId, 'related_to' => $this->get('related_to')]);
-		$datareader = $queryGenerator->createQuery()->createCommand()->query();
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$recordInstances = [];
-		while ($row = $datareader->read()) {
+		while ($row = $dataReader->read()) {
 			$recordInstance = new self();
 			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 			$recordInstances[] = $recordInstance;
@@ -264,7 +259,8 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the list view actions for the comment
+	 * Function to get the list view actions for the comment.
+	 *
 	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
 	 */
 	public function getCommentLinks()
@@ -278,9 +274,9 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 					'linkurl' => 'javascript:app.showConfirmation({type: "reloadTab"},this)',
 					'linkdata' => [
 						'url' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived&sourceView=List&record=' . $this->getId(),
-						'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')
+						'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'),
 					],
-					'linkicon' => 'fa fa-archive',
+					'linkicon' => 'fas fa-archive',
 					'linkclass' => 'btn-xs entityStateBtn',
 					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
 					'showLabel' => true,
@@ -293,9 +289,9 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 					'linkurl' => 'javascript:app.showConfirmation({type: "reloadTab"},this)',
 					'linkdata' => [
 						'url' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&sourceView=List&record=' . $this->getId(),
-						'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')
+						'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC'),
 					],
-					'linkicon' => 'glyphicon glyphicon-trash',
+					'linkicon' => 'fas fa-trash-alt',
 					'linkclass' => 'btn-xs entityStateBtn',
 					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 					'showLabel' => true,

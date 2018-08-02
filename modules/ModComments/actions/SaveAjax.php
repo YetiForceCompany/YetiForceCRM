@@ -11,7 +11,6 @@
 
 class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
-
 	public function checkPermission(\App\Request $request)
 	{
 		//Do not allow ajax edit of existing comments

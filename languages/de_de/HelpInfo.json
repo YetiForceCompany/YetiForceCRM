@@ -1,0 +1,6 @@
+{
+  "php": {
+    "Announcements|FL_INTERVAL": "Frequenz der Erinnerungen in Tagen, falls ein Benutzer die \u00c4nderungen nicht anschaut. Ist das Feld leer, wird die Erinnerung nicht noch einmal angezeigt.",
+    "Accounts|Account Name": "Diese Feld ist f\u00fcr den Firmenname gedacht"
+  }
+}

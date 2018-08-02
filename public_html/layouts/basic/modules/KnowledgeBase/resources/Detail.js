@@ -1,5 +1,14 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-Vtiger_Detail_Js("KnowledgeBase_Detail_Js", {}, {
+'use strict';
+
+Vtiger_Detail_Js("KnowledgeBase_Detail_Js", {
+	showPresentation: function () {
+		let url = 'index.php?module=KnowledgeBase&view=FullScreen&record=' + app.getRecordId();
+		let features = "width=" + screen.width + ",height=" + screen.height + ",toolbar=0,location=0, directories=0, status=0,location=no,menubar=0";
+		let popup = window.open(url, '', features);
+		popup.moveTo(0, 0);
+	}
+}, {
 	/**
 	 * Sets all presentation slides height equal to the biggest one
 	 * @param string id Selector of carousel
@@ -17,10 +26,10 @@ Vtiger_Detail_Js("KnowledgeBase_Detail_Js", {}, {
 		$(id + ' .knowledgePresentationContent').each(function () {
 			$(this).css('height', highestSlideHeight + 'px');
 		});
-		
+
 		return true;
 	},
-	registerBasicEvents : function(){
+	registerBasicEvents: function () {
 		this._super();
 		var tab = this.getSelectedTab();
 		if (tab.data('reference') === 'Summary') {

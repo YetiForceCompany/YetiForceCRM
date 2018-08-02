@@ -1,0 +1,29 @@
+{
+  "php": {
+    "LBL_COLORS": "Kolory",
+    "LBL_COLOR": "Kolor",
+    "LBL_PICKLISTS": "S\u0142owniki",
+    "LBL_SELECT_PICKLIST": "Wybierz s\u0142ownik",
+    "LBL_REMOVE_COLOR": "Usu\u0144 kolor",
+    "LBL_GENERATE_COLOR": "Generuj kolor",
+    "LBL_UPDATE_COLOR": "Zmie\u0144 kolor",
+    "LBL_REMOVED_COLOR": "Kolor usuni\u0119ty",
+    "LBL_COLORS_DESCRIPTION": "",
+    "LBL_EDIT_COLOR": "Edycja koloru",
+    "LBL_SELECT_COLOR": "Wybierz kolor:",
+    "LBL_CALENDAR_COLORS": "Kolory kalendarza",
+    "LBL_CALENDAR_TYPE": "Typ wydarze\u0144",
+    "LBL_SAVE_COLOR": "Zapisano kolor",
+    "Call": "Telefon",
+    "Task": "Zadanie",
+    "Meeting": "Spotkanie",
+    "LBL_GROUPS_COLORS": "Kolory grup",
+    "LBL_USERS_COLORS": "Kolory u\u017cytkownik\u00f3w",
+    "LBL_PICKLIST_COLOR_COL_NOT_FOUND": "Funkcjonalno\u015b\u0107 kolor\u00f3w nie zosta\u0142a aktywowana dla tego s\u0142ownika",
+    "LBL_UPDATE_COLOR_COLUMN": "Aktywuj",
+    "LBL_WARNING": "Uwaga",
+    "LBL_ITEM": "Warto\u015b\u0107",
+    "LBL_MODULE": "Modu\u0142",
+    "LBL_GROUP_NAME": "Grupa"
+  }
+}

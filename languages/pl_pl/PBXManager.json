@@ -1,0 +1,25 @@
+{
+  "php": {
+    "LBL_PBXMANAGER_INFORMATION": "Wezwanie Szczeg\u00f3\u0142y",
+    "LBL_CUSTOM_INFORMATION": "Informacje dodatkowe",
+    "LBL_SERVER_CONFIGURATION": "Konfiguracja dostawcy",
+    "LBL_CALL_FROM": "Wezwanie Z",
+    "LBL_CALL_TO": "Wezwanie Do",
+    "LBL_HIDDEN": "(Ukryty)",
+    "Total Duration": "Czas (s)",
+    "Bill Duration": "Czas trwania (s)",
+    "Recording URL": "Nagranie",
+    "Start Time": "Czas rozpocz\u0119cia",
+    "Call Status": "Status po\u0142\u0105czenia",
+    "Customer Number": "Numer klienta",
+    "Customer": "Klient",
+    "User": "U\u017cytkownik",
+    "SINGLE_PBXManager": "Rekord po\u0142\u0105czenia",
+    "Gateway": "Brama",
+    "Customer Type": "Rodzaj klienta",
+    "Source UUID": "\u0179r\u00f3d\u0142o UUID",
+    "End Time": "Czas zako\u0144czenia",
+    "Direction": "Kierunek",
+    "Record Id": "Id rekordu"
+  }
+}

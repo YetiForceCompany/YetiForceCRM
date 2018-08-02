@@ -1,0 +1,22 @@
+{
+  "php": {
+    "CInternalTickets": "Tichete interne",
+    "SINGLE_CInternalTickets": "Tichet intern",
+    "LBL_ADDITIONAL_INFORMATION": "Informatii aditionale",
+    "LBL_BASIC_INFORMATION": "Informatii de baza",
+    "LBL_TICKET_RESOLUTION": "Solutie",
+    "LBL_ATTENTION_BLOCK": "Note",
+    "LBL_DESCRIPTION_BLOCK": "Descriere",
+    "FL_SUBJECT": "Subiect",
+    "FL_STATUS": "Status",
+    "FL_RESOLUTION": "Solutie",
+    "PLL_UNASSIGNED": "Neasignat",
+    "PLL_AWAITING_REALIZATION": "Asteapta realizare",
+    "PLL_FOR_PROCESSING": "Pentru realizare",
+    "PLL_IN_PROGRESSING": "In progres",
+    "PLL_SUBMITTED_COMMENTS": "Comentarii trimise",
+    "PLL_FOR_APPROVAL": "Pentru aprobare",
+    "PLL_CANCELLED": "Anulat",
+    "PLL_ACCEPTED": "Acceptat"
+  }
+}

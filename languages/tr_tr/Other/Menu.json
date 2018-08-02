@@ -1,0 +1,28 @@
+{
+  "php": {
+    "LBL_QUICK_CREATE_MODULE": "H\u0131zl\u0131 olu\u015ftur",
+    "LBL_SEPARATOR": "Ay\u0131r\u0131c\u0131",
+    "LBL_OTHER": "Di\u011fer",
+    "MEN_VIRTUAL_DESK": "Sanal masa",
+    "MEN_COMPANIES_CONTACTS": "\u015eirketler ve Ki\u015filer",
+    "MEN_SALES": "Sat\u0131\u015f",
+    "MEN_PROJECTS": "Ger\u00e7ekle\u015fme",
+    "MEN_MARKETING": "Pazarlama",
+    "MEN_SUPPORT": "Destek",
+    "MEN_ACCOUNTING": "Muhasebe",
+    "MEN_COMPANY": "\u015eirket",
+    "MEN_ORGANIZATION": "Organizasyon",
+    "MEN_DATABESES": "Veritabanlar\u0131",
+    "MEN_TEAMWORK": "Tak\u0131m \u00e7al\u0131\u015fmas\u0131",
+    "MEN_PRODUCTBASE": "\u00dcr\u00fcn veritaban\u0131",
+    "MEN_LISTS": "Listeler",
+    "MEN_SERVICESBASE": "Hizmet veritaban\u0131",
+    "MEN_SALE_PROCESSES": "Sat\u0131\u015f s\u00fcre\u00e7leri",
+    "Menu": "Men\u00fc",
+    "MEN_LOGISTICS": "Lojistik",
+    "LBL_CHANGE_LOGIN_PASSWORD": "Giri\u015f \u015fifresini de\u011fi\u015ftirme",
+    "LBL_CHANGE": "De\u011fi\u015fiklik",
+    "LBL_USER_PROFILE": "User profile",
+    "MEN_GDPR": "GDPR"
+  }
+}

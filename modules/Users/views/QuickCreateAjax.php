@@ -10,9 +10,8 @@
 
 class Users_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -23,7 +22,7 @@ class Users_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -54,17 +53,18 @@ class Users_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 
 		$jsFileNames = [
-			"modules.$moduleName.resources.Edit"
+			"modules.$moduleName.resources.Edit",
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+
 		return $jsScriptInstances;
 	}
 }

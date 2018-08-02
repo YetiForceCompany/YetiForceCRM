@@ -1,17 +1,20 @@
 <?php
 
 /**
- * Calendar action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Calendar action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 {
+	use \App\Controller\ExposeMethod;
 
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -21,7 +24,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if ($request->getMode() === 'updateEvent' && ($request->isEmpty('id', true) || !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('id')))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -30,14 +33,6 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		parent::__construct();
 		$this->exposeMethod('getEvents');
 		$this->exposeMethod('updateEvent');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-		}
 	}
 
 	public function getEvents(\App\Request $request)

@@ -10,5 +10,4 @@
 
 class HelpDesk_DashBoard_Model extends Vtiger_DashBoard_Model
 {
-	
 }

@@ -10,30 +10,46 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="row main-container">
+	<main class="main-container">
 		<div class="inner-container">
-			<h2>{\App\Language::translate('LBL_LICENSE', 'Install')}</h2>
-			<form class="form-horizontal" name="step2" method="post" action="Install.php">
-				<input type="hidden" name="mode" value="step3" />
-				<input type="hidden" name="lang" value="{$LANG}" />
+			<form class="" name="step2" method="post" action="Install.php">
+				<input type="hidden" name="mode" value="step3">
+				<input type="hidden" name="lang" value="{$LANG}">
 				<div class="row">
-					<div class="span12">
-						<div class="license">
-							<div class="lic-scroll">
-								{$LICENSE}
-							</div>
-						</div>
+					<div class="col-12 text-center">
+						<h2>{\App\Language::translate('LBL_LICENSE', 'Install')}</h2>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-12">
+						<p>
+							{\App\Language::translate('LBL_STEP2_DESCRIPTION_1','Install')}&nbsp;
+							<a target="_blank" rel="noreferrer"
+							   href="https://yetiforce.com/en/yetiforce/license" aria-label="{\App\Language::translate('LBL_LICENSE', 'Install')}">
+								<span class="fas fa-link"></span>							</a><br/><br/>
+							{\App\Language::translate('LBL_STEP2_DESCRIPTION_2','Install')}
+						</p>
 					</div>
 				</div>
 				<div class="row">
-					<div class="span12">
-						<div class="button-container">
-							<input name="back" type="button" class="btn btn-sm btn-default" value="{\App\Language::translate('LBL_DISAGREE', 'Install')}"/>
-							<input id="agree" type="submit" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_I_AGREE', 'Install')}"/>
-						</div>
+					<div class="col-12">
+						<p class="license">{$LICENSE}</p>
+					</div>
+				</div>
+				<div class="form-buttom-nav fixed-bottom button-container p-1">
+					<div class="text-center">
+						<a class="btn c-btn-block-xs-down btn-danger mb-1 mb-sm-0 mr-sm-1" href="Install.php" role="button">
+							<span class="fas fa-times-circle mr-1"></span>
+							{App\Language::translate('LBL_DISAGREE', 'Install')}
+						</a>
+						<button type="submit" class="btn c-btn-block-xs-down btn-primary">
+							<span class="fas fa-check mr-1"></span>
+							{App\Language::translate('LBL_I_AGREE', 'Install')}
+						</button>
 					</div>
 				</div>
 			</form>
 		</div>
-	</div>
+	</main>
 {/strip}

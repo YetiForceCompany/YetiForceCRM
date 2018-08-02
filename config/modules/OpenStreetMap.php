@@ -1,8 +1,8 @@
 <?php
 /**
- * OpenStreetMap module config
- * @package YetiForce.Config
- * @copyright YetiForce Sp. z o.o.
+ * OpenStreetMap module config.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
@@ -20,6 +20,6 @@ return [
 		'Partners' => ['subject', 'email'],
 		'Competition' => ['subject', 'email'],
 		'Vendors' => ['vendorname', 'email', 'website'],
-		'Contacts' => ['firstname', 'lastname', 'email', 'phone']
-	]
+		'Contacts' => ['firstname', 'lastname', 'email', 'phone'],
+	],
 ];

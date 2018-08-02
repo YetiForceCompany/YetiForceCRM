@@ -1,19 +1,21 @@
 <?php
+
 namespace Api\Core;
 
 /**
- * Web service request class 
- * @package YetiForce.Webservice
- * @copyright YetiForce Sp. z o.o.
+ * Web service request class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Request extends \App\Request
 {
-
 	/**
-	 * Static instance initialization
-	 * @param boolean|array $request
+	 * Static instance initialization.
+	 *
+	 * @param bool|array $request
+	 *
 	 * @return Request
 	 */
 	public static function init($request = false)
@@ -39,6 +41,7 @@ class Request extends \App\Request
 			return false;
 		}
 		$this->rawValues = array_merge($this->contentParse($content), $this->rawValues);
+
 		return $this;
 	}
 
@@ -54,6 +57,7 @@ class Request extends \App\Request
 		switch ($type) {
 			case 'form-data':
 				parse_str($content, $data);
+
 				return $data;
 			case 'json':
 			default:
@@ -63,12 +67,13 @@ class Request extends \App\Request
 
 	public function decryptData($data)
 	{
-		$privateKey = 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . vglobal('privateKey');
+		$privateKey = 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \AppConfig::api('PRIVATE_KEY');
 		if (!$privateKey = openssl_pkey_get_private($privateKey)) {
 			throw new \App\Exceptions\AppException('Private Key failed');
 		}
 		$privateKey = openssl_pkey_get_private($privateKey);
 		openssl_private_decrypt($data, $decrypted, $privateKey);
+
 		return $decrypted;
 	}
 }

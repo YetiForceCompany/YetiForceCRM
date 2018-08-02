@@ -1,21 +1,22 @@
 <?php
+
 namespace Api\Portal\BaseModule;
 
 /**
- * Get record list class
- * @package YetiForce.WebserviceAction
- * @copyright YetiForce Sp. z o.o.
+ * Get record list class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class RecordsList extends \Api\Core\BaseAction
 {
-
 	/** @var string[] Allowed request methods */
 	public $allowedMethod = ['GET'];
 
 	/**
-	 * Get method
+	 * Get method.
+	 *
 	 * @return array
 	 */
 	public function get()
@@ -35,10 +36,12 @@ class RecordsList extends \Api\Core\BaseAction
 			}
 			$records[$row['id']] = $record;
 		}
+		$dataReader->close();
 		foreach ($fieldsModel as $fieldName => &$fieldModel) {
 			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 		}
 		$rowsCount = count($records);
+
 		return [
 			'headers' => $headers,
 			'records' => $records,
@@ -48,9 +51,11 @@ class RecordsList extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Get query record list
-	 * @return \App\QueryGenerator
+	 * Get query record list.
+	 *
 	 * @throws \Api\Core\Exception
+	 *
+	 * @return \App\QueryGenerator
 	 */
 	public function getQuery()
 	{
@@ -87,8 +92,10 @@ class RecordsList extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Get query by parent record
+	 * Get query by parent record.
+	 *
 	 * @param \App\QueryGenerator $queryGenerator
+	 *
 	 * @throws \Api\Core\Exception
 	 */
 	public function getQueryByParentRecord(\App\QueryGenerator $queryGenerator)
@@ -115,7 +122,7 @@ class RecordsList extends \Api\Core\BaseAction
 						'relatedField' => $relatedField['fieldname'],
 						'value' => $parentId,
 						'operator' => 'e',
-						'conditionGroup' => true
+						'conditionGroup' => true,
 					]);
 					$foundField = true;
 				}

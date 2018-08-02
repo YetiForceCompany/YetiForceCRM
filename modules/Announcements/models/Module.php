@@ -1,27 +1,28 @@
 <?php
 /**
- * Announcements Module Model Class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Announcements Module Model Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
- * Class Announcements_Module_Model
+ * Class Announcements_Module_Model.
  */
 class Announcements_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Announcements
+	 * Announcements.
+	 *
 	 * @var array
 	 */
 	protected $announcements = [];
 
 	/**
-	 * Check active
-	 * @return boolean
+	 * Check active.
+	 *
+	 * @return bool
 	 */
 	public function checkActive()
 	{
@@ -29,11 +30,12 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 			return false;
 		}
 		$this->loadAnnouncements();
+
 		return !empty($this->announcements);
 	}
 
 	/**
-	 * Load announcements
+	 * Load announcements.
 	 */
 	public function loadAnnouncements()
 	{
@@ -58,10 +60,12 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 			$recordModel->setId($row['id']);
 			$this->announcements[] = $recordModel;
 		}
+		$dataReader->close();
 	}
 
 	/**
-	 * Get announcements
+	 * Get announcements.
+	 *
 	 * @return array
 	 */
 	public function getAnnouncements()
@@ -73,7 +77,8 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Set mark
+	 * Set mark.
+	 *
 	 * @param int $record
 	 * @param int $state
 	 */
@@ -81,29 +86,30 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	{
 		$db = \App\Db::getInstance();
 		$query = (new \App\Db\Query())
-				->from('u_#__announcement_mark')
-				->where(['announcementid' => $record, 'userid' => \App\User::getCurrentUserId()])->limit(1);
+			->from('u_#__announcement_mark')
+			->where(['announcementid' => $record, 'userid' => \App\User::getCurrentUserId()])->limit(1);
 		if ($query->scalar() === false) {
 			$db->createCommand()
 				->insert('u_#__announcement_mark', [
 					'announcementid' => $record,
 					'userid' => \App\User::getCurrentUserId(),
 					'date' => date('Y-m-d H:i:s'),
-					'status' => $state
+					'status' => $state,
 				])->execute();
 		} else {
 			$db->createCommand()
 				->update('u_#__announcement_mark', [
 					'date' => date('Y-m-d H:i:s'),
-					'status' => $state
+					'status' => $state,
 					], ['announcementid' => $record, 'userid' => \App\User::getCurrentUserId()])
-				->execute();
+					->execute();
 		}
 		$this->checkStatus($record);
 	}
 
 	/**
-	 * Check status
+	 * Check status.
+	 *
 	 * @param int $record
 	 */
 	public function checkStatus($record)
@@ -135,9 +141,11 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Get mark info
+	 * Get mark info.
+	 *
 	 * @param int $record
 	 * @param int $userId
+	 *
 	 * @return array
 	 */
 	public function getMarkInfo($record, $userId)

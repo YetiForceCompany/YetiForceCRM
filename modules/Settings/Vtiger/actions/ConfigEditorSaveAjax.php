@@ -10,7 +10,6 @@
 
 class Settings_Vtiger_ConfigEditorSaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
-
 	public function process(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
@@ -31,10 +30,5 @@ class Settings_Vtiger_ConfigEditorSaveAjax_Action extends Settings_Vtiger_Basic_
 			$response->setError(\App\Language::translate('LBL_FIELDS_INFO_IS_EMPTY', $qualifiedModuleName));
 		}
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

@@ -1,0 +1,12 @@
+{
+  "php": {
+    "QuickCreateEditor": "Schnellerfassungs-Editor",
+    "LBL_QUICK_CREATE_EDITOR": "Felder \u2013 Schnellerzeugen",
+    "LBL_QUICK_CREATE_EDITOR_DESCRIPTION": "Modul erm\u00f6glicht das Layout der Felder innerhalb im Schnellerfassungs-Fenster zu \u00e4ndern",
+    "LBL_SEQUENCE": "Feld Reihenfolge",
+    "LBL_SAVE_FIELD_SEQUENCE": "Feld Reihenfolge speichern"
+  },
+  "js": {
+    "JS_FIELD_SEQUENCE_UPDATED": "Feld Reihenfolge aktualisiert"
+  }
+}

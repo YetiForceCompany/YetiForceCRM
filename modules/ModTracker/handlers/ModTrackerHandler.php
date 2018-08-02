@@ -8,13 +8,13 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once dirname(__FILE__) . '/../ModTracker.php';
+require_once __DIR__ . '/../ModTracker.php';
 
 class ModTracker_ModTrackerHandler_Handler
 {
-
 	/**
-	 * EntityAfterSave function
+	 * EntityAfterSave function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityAfterSave(App\EventHandler $eventHandler)
@@ -29,6 +29,9 @@ class ModTracker_ModTrackerHandler_Handler
 			$status = ModTracker::$CREATED;
 			$watchdogTitle = 'LBL_CREATED';
 			$watchdogMessage = '$(record : ChangesListValues)$';
+		} elseif (isset($recordModel->ext['modificationType'], ModTracker::getAllActionsTypes()[$recordModel->ext['modificationType']])) {
+			$delta = $recordModel->getPreviousValue();
+			$status = $recordModel->ext['modificationType'];
 		} else {
 			$delta = $recordModel->getPreviousValue();
 			$status = ModTracker::$UPDATED;
@@ -79,7 +82,8 @@ class ModTracker_ModTrackerHandler_Handler
 	}
 
 	/**
-	 * EntityAfterLink handler function
+	 * EntityAfterLink handler function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityAfterLink(App\EventHandler $eventHandler)
@@ -99,7 +103,8 @@ class ModTracker_ModTrackerHandler_Handler
 	}
 
 	/**
-	 * EntityAfterUnLink handler function
+	 * EntityAfterUnLink handler function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityAfterUnLink(App\EventHandler $eventHandler)
@@ -119,7 +124,38 @@ class ModTracker_ModTrackerHandler_Handler
 	}
 
 	/**
-	 * DetailViewBefore handler function
+	 * EntityAfterTransferLink handler function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 *
+	 * @return bool
+	 */
+	public function entityAfterTransferLink(App\EventHandler $eventHandler)
+	{
+		$params = $eventHandler->getParams();
+		if (!ModTracker::isTrackingEnabledForModule($params['destinationModule'])) {
+			return false;
+		}
+		ModTracker::transferRelation($eventHandler->getModuleName(), $params['sourceRecordId'], $params['destinationModule'], $params['destinationRecordId'], ModTracker::$TRANSFER_LINK);
+	}
+
+	/**
+	 * @param App\EventHandler $eventHandler
+	 *
+	 * @return bool
+	 */
+	public function entityAfterTransferUnLink(App\EventHandler $eventHandler)
+	{
+		$params = $eventHandler->getParams();
+		if (!ModTracker::isTrackingEnabledForModule($params['destinationModule'])) {
+			return false;
+		}
+		ModTracker::transferRelation($eventHandler->getModuleName(), $params['sourceRecordId'], $params['destinationModule'], $params['destinationRecordId'], ModTracker::$TRANSFER_UNLINK);
+	}
+
+	/**
+	 * DetailViewBefore handler function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function detailViewBefore(App\EventHandler $eventHandler)
@@ -133,12 +169,13 @@ class ModTracker_ModTrackerHandler_Handler
 			'module' => $eventHandler->getModuleName(),
 			'whodid' => \App\User::getCurrentUserRealId(),
 			'changedon' => date('Y-m-d H:i:s'),
-			'status' => ModTracker::$DISPLAYED
+			'status' => ModTracker::$DISPLAYED,
 		])->execute();
 	}
 
 	/**
-	 * EntityChangeState handler function
+	 * EntityChangeState handler function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityChangeState(App\EventHandler $eventHandler)
@@ -149,16 +186,20 @@ class ModTracker_ModTrackerHandler_Handler
 		$recordModel = $eventHandler->getRecordModel();
 		$recordId = $recordModel->getId();
 		$status = 0;
-		switch ($recordModel->get('deleted')) {
-			case 'Active':
-				$status = ModTracker::$ACTIVE;
-				break;
-			case 'Trash':
-				$status = ModTracker::$TRASH;
-				break;
-			case 'Archived':
-				$status = ModTracker::$ARCHIVED;
-				break;
+		if (isset($recordModel->ext['modificationType'], ModTracker::getAllActionsTypes()[$recordModel->ext['modificationType']])) {
+			$status = $recordModel->ext['modificationType'];
+		} else {
+			switch ($recordModel->get('deleted')) {
+				case 'Active':
+					$status = ModTracker::$ACTIVE;
+					break;
+				case 'Trash':
+					$status = ModTracker::$TRASH;
+					break;
+				case 'Archived':
+					$status = ModTracker::$ARCHIVED;
+					break;
+			}
 		}
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_modtracker_basic', [
@@ -179,9 +220,11 @@ class ModTracker_ModTrackerHandler_Handler
 	}
 
 	/**
-	 * EntityBeforeDelete handler function
+	 * EntityBeforeDelete handler function.
+	 *
 	 * @param App\EventHandler $eventHandler
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public function entityBeforeDelete(App\EventHandler $eventHandler)
 	{
@@ -196,7 +239,7 @@ class ModTracker_ModTrackerHandler_Handler
 			'whodid' => \App\User::getCurrentUserRealId(),
 			'changedon' => date('Y-m-d H:i:s'),
 			'status' => ModTracker::$DELETED,
-			'last_reviewed_users' => '#' . \App\User::getCurrentUserRealId() . '#'
+			'last_reviewed_users' => '#' . \App\User::getCurrentUserRealId() . '#',
 		])->execute();
 		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
 		ModTracker_Record_Model::unsetReviewed($recordId, \App\User::getCurrentUserRealId(), $id);
@@ -208,9 +251,10 @@ class ModTracker_ModTrackerHandler_Handler
 	}
 
 	/**
-	 * Add notification in handler
+	 * Add notification in handler.
+	 *
 	 * @param string $moduleName
-	 * @param int $recordId
+	 * @param int    $recordId
 	 * @param string $watchdogTitle
 	 * @param string $watchdogMessage
 	 */

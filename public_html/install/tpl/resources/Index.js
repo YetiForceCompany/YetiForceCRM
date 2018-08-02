@@ -7,13 +7,14 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
+
 jQuery.Class('Install_Index_Js', {
 	fieldsCached : ['db_hostname','db_username','db_name', 	'create_db',
 		'db_root_username',	'currency_name','firstname','lastname',	'admin_email',
 		'dateformat','timezone'
 	],
 	checkUsername: function (field, rules, i, options) {
-		var logins = jQuery.parseJSON(jQuery('#not_allowed_logins').val());
+		var logins = JSON.parse(jQuery('#not_allowed_logins').val());
 		if (jQuery.inArray(field.val(), logins) !== -1) {
 			return app.vtranslate('LBL_INVALID_USERNAME_ERROR');
 		}
@@ -33,7 +34,6 @@ jQuery.Class('Install_Index_Js', {
 		jQuery('#recheck').on('click', function () {
 			window.location.reload();
 		});
-
 		jQuery('input[name="step4"]').on('click', function (e) {
 			var elements = jQuery('.no');
 			if (elements.length > 0) {
@@ -84,11 +84,11 @@ jQuery.Class('Install_Index_Js', {
 				if ('SELECT' == jQuery(formField).prop('tagName')) {
 					jQuery(formField).val(config[field]);
 					jQuery(formField).select2('destroy');
-					jQuery(formField).select2();
+					App.Fields.Picklist.showSelect2ElementView(jQuery(formField));
 				} else if ('INPUT' == jQuery(formField).prop('tagName') && 'checkbox' == jQuery(formField).attr('type')) {
 					if (true == config[field]) {
 						jQuery(formField).prop('checked', true);
-						jQuery('.config-table tr.hide').removeClass('hide');
+						jQuery('.config-table tr.d-none').removeClass('d-none');
 					}
 				} else {
 					jQuery(formField).val(config[field]);
@@ -100,11 +100,11 @@ jQuery.Class('Install_Index_Js', {
 			var userName = jQuery('#root_user');
 			var password = jQuery('#root_password');
 			if (jQuery(this).is(':checked')) {
-				userName.removeClass('hide');
-				password.removeClass('hide');
+				userName.removeClass('d-none');
+				password.removeClass('d-none');
 			} else {
-				userName.addClass('hide');
-				password.addClass('hide');
+				userName.addClass('d-none');
+				password.addClass('d-none');
 			}
 		});
 		function clearPasswordError() {
@@ -237,7 +237,7 @@ jQuery.Class('Install_Index_Js', {
 				alert(app.vtranslate('LBL_RESOLVE_ERROR'));
 				return false;
 			} else {
-				jQuery('#progressIndicator').removeClass('hide');
+				jQuery('#progressIndicator').removeClass('d-none');
 				jQuery('form[name="step5"]').submit().hide();
 			}
 		});
@@ -245,8 +245,8 @@ jQuery.Class('Install_Index_Js', {
 	registerEventForStep6: function () {
 		jQuery('input[name="step7"]').on('click', function () {
 			if ($('form[name="step6"]').validationEngine('validate')) {
-				jQuery('#progressIndicator').show().removeClass('hide');
-				jQuery('form[name="step6"]').submit().hide();
+				jQuery('#progressIndicator').show().removeClass('d-none');
+				jQuery('form[name="step6"]').submit().parent().hide();
 			}
 		});
 	},
@@ -279,7 +279,7 @@ jQuery.Class('Install_Index_Js', {
 		this.registerEventForStep5();
 		this.registerEventForStep6();
 		this.registerEventForMigration();
-		$('select[name="lang"]').change(this.changeLanguage);
+		$('select[name="lang"]').on('change', this.changeLanguage);
 	}
 });
 jQuery(document).ready(function () {

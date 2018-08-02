@@ -8,24 +8,11 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+
 namespace vtlib;
 
 class Functions
 {
-
-	public static function currentUserDisplayDateNew()
-	{
-		$current_user = vglobal('current_user');
-		$date = new \DateTimeField(null);
-		return $date->getDisplayDate($current_user);
-	}
-
-	// i18n
-	public static function getTranslatedString($str, $module = '')
-	{
-		return \Vtiger_Language_Handler::getTranslatedString($str, $module);
-	}
-
 	protected static function getCurrencyInfo($currencyid)
 	{
 		if (\App\Cache::has('AllCurrency', 'All')) {
@@ -51,6 +38,7 @@ class Functions
 					$currencies[$currencyId] = $currency;
 				}
 			}
+
 			return $currencies;
 		} else {
 			return $currencyInfo;
@@ -61,7 +49,7 @@ class Functions
 	{
 		$currencyInfo = self::getCurrencyInfo($currencyid);
 		if ($show_symbol) {
-			return sprintf("%s : %s", \App\Language::translate($currencyInfo['currency_name'], 'Currency'), $currencyInfo['currency_symbol']);
+			return sprintf('%s : %s', \App\Language::translate($currencyInfo['currency_name'], 'Currency'), $currencyInfo['currency_symbol']);
 		}
 		return $currencyInfo['currency_name'];
 	}
@@ -71,8 +59,9 @@ class Functions
 		$currencyInfo = self::getCurrencyInfo($currencyid);
 		$currencyRateSymbol = [
 			'rate' => $currencyInfo['conversion_rate'],
-			'symbol' => $currencyInfo['currency_symbol']
+			'symbol' => $currencyInfo['currency_symbol'],
 		];
+
 		return $currencyRateSymbol;
 	}
 
@@ -90,6 +79,14 @@ class Functions
 				if (!\App\Cache::has('moduleTabByName', $row['name'])) {
 					\App\Cache::save('moduleTabByName', $row['name'], $row);
 				}
+				$row['tabid'] = (int) $row['tabid'];
+				$row['presence'] = (int) $row['presence'];
+				$row['tabsequence'] = (int) $row['tabsequence'];
+				$row['customized'] = (int) $row['customized'];
+				$row['ownedby'] = (int) $row['ownedby'];
+				$row['isentitytype'] = (int) $row['isentitytype'];
+				$row['coloractive'] = (int) $row['coloractive'];
+				$row['type'] = (int) $row['type'];
 				$moduleList[$row['tabid']] = $row;
 			}
 			\App\Cache::save('moduleTabs', 'all', $moduleList);
@@ -119,9 +116,10 @@ class Functions
 	{
 		if (empty($mixed)) {
 			\App\Log::error(__METHOD__ . ' - Required parameter missing');
+
 			return false;
 		}
-		$id = $name = NULL;
+		$id = $name = null;
 		if (is_numeric($mixed)) {
 			$id = $mixed;
 			if (\App\Cache::has('moduleTabById', $mixed)) {
@@ -144,12 +142,14 @@ class Functions
 		if ($name && \App\Cache::has('moduleTabByName', $name)) {
 			return \App\Cache::get('moduleTabByName', $name);
 		}
-		return $id ? \App\Cache::get('moduleTabById', $id) : NULL;
+		return $id ? \App\Cache::get('moduleTabById', $id) : null;
 	}
 
 	/**
-	 * this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname)
+	 * this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname).
+	 *
 	 * @param string $mixed - the module name
+	 *
 	 * @return string $fieldsname - the entity field name for the module
 	 */
 	public static function getEntityModuleSQLColumnString($mixed)
@@ -160,7 +160,7 @@ class Functions
 			$data['tablename'] = $info['tablename'];
 			$fieldnames = $info['fieldname'];
 			if (strpos(',', $fieldnames) !== false) {
-				$fieldnames = sprintf("concat(%s)", implode(",' ',", $info['fieldnameArr']));
+				$fieldnames = sprintf('concat(%s)', implode(",' ',", $info['fieldnameArr']));
 			}
 			$data['fieldname'] = $fieldnames;
 			$colums = [];
@@ -176,8 +176,22 @@ class Functions
 	protected static $crmRecordIdMetadataCache = [];
 
 	/**
-	 * Function gets record metadata
+	 * Clear cache meta data for records.
+	 *
+	 * @param int $id
+	 */
+	public static function clearCacheMetaDataRecord($id)
+	{
+		if (isset(static::$crmRecordIdMetadataCache[$id])) {
+			unset(static::$crmRecordIdMetadataCache[$id]);
+		}
+	}
+
+	/**
+	 * Function gets record metadata.
+	 *
 	 * @param int|array $mixedid
+	 *
 	 * @return array
 	 */
 	public static function getCRMRecordMetadata($mixedid)
@@ -198,32 +212,34 @@ class Functions
 				->where(['in', 'crmid', $missing]);
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
+				$row['deleted'] = (int) $row['deleted'];
 				self::$crmRecordIdMetadataCache[$row['crmid']] = $row;
 			}
 		}
-
 		$result = [];
 		foreach ($ids as $id) {
 			if (isset(self::$crmRecordIdMetadataCache[$id])) {
 				$result[$id] = self::$crmRecordIdMetadataCache[$id];
 			} else {
-				$result[$id] = NULL;
+				$result[$id] = null;
 			}
 		}
-
 		return $multimode ? $result : array_shift($result);
 	}
 
 	public static function getCRMRecordLabel($id, $default = '')
 	{
 		$label = \App\Record::getLabel($id);
+
 		return empty($label) ? $default : $label;
 	}
 
 	/**
-	 * Function get module field infos
+	 * Function get module field infos.
+	 *
 	 * @param int|string $mixed
-	 * @param bool $returnByColumn
+	 * @param bool       $returnByColumn
+	 *
 	 * @return mixed[]
 	 */
 	public static function getModuleFieldInfos($module, $returnByColumn = false)
@@ -234,9 +250,9 @@ class Functions
 		$cacheName = 'getModuleFieldInfosByName';
 		if (!\App\Cache::has($cacheName, $module)) {
 			$dataReader = (new \App\Db\Query())
-					->from('vtiger_field')
-					->where(['tabid' => $module === 'Calendar' ? [9, 16] : \App\Module::getModuleId($module)])
-					->createCommand()->query();
+				->from('vtiger_field')
+				->where(['tabid' => $module === 'Calendar' ? [9, 16] : \App\Module::getModuleId($module)])
+				->createCommand()->query();
 			$fieldInfoByName = $fieldInfoByColumn = [];
 			while ($row = $dataReader->read()) {
 				$fieldInfoByName[$row['fieldname']] = $row;
@@ -252,10 +268,12 @@ class Functions
 	}
 
 	/**
-	 * Function to gets mudule field ID
+	 * Function to gets mudule field ID.
+	 *
 	 * @param string|int $moduleId
 	 * @param string|int $mixed
-	 * @param boolean $onlyactive
+	 * @param bool       $onlyactive
+	 *
 	 * @return int|bool
 	 */
 	public static function getModuleFieldId($moduleId, $mixed, $onlyactive = true)
@@ -264,7 +282,7 @@ class Functions
 
 		if ($field) {
 			if ($onlyactive && ($field['presence'] != '0' && $field['presence'] != '2')) {
-				$field = NULL;
+				$field = null;
 			}
 		}
 		return $field ? $field['fieldid'] : false;
@@ -295,9 +313,10 @@ class Functions
 
 	public static function br2nl($str)
 	{
-		$str = preg_replace("/(\r\n)/", "\\r\\n", $str);
-		$str = preg_replace("/'/", " ", $str);
-		$str = preg_replace("/\"/", " ", $str);
+		$str = preg_replace("/(\r\n)/", '\\r\\n', $str);
+		$str = preg_replace("/'/", ' ', $str);
+		$str = preg_replace('/"/', ' ', $str);
+
 		return $str;
 	}
 
@@ -397,63 +416,6 @@ class Functions
 		return $type_of_data;
 	}
 
-	public static function getActivityType($id)
-	{
-		$adb = \PearDatabase::getInstance();
-		$query = "select activitytype from vtiger_activity where activityid=?";
-		$res = $adb->pquery($query, [$id]);
-		$activity_type = $adb->queryResult($res, 0, "activitytype");
-		return $activity_type;
-	}
-
-	public static function mkCountQuery($query)
-	{
-		// Remove all the \n, \r and white spaces to keep the space between the words consistent.
-		// This is required for proper pattern matching for words like ' FROM ', 'ORDER BY', 'GROUP BY' as they depend on the spaces between the words.
-		$query = preg_replace("/[\n\r\s]+/", " ", $query);
-
-		//Strip of the current SELECT fields and replace them by "select count(*) as count"
-		// Space across FROM has to be retained here so that we do not have a clash with string "from" found in select clause
-		$query = sprintf('SELECT count(*) AS count %s', substr($query, stripos($query, ' FROM '), strlen($query)));
-
-		//Strip of any "GROUP BY" clause
-		if (stripos($query, 'GROUP BY') > 0)
-			$query = substr($query, 0, stripos($query, 'GROUP BY'));
-
-		//Strip of any "ORDER BY" clause
-		if (stripos($query, 'ORDER BY') > 0)
-			$query = substr($query, 0, stripos($query, 'ORDER BY'));
-
-		return $query;
-	}
-
-	/** Function to get unitprice for a given product id
-	 * @param $productid -- product id :: Type integer
-	 * @returns $up -- up :: Type string
-	 */
-	public static function getUnitPrice($productid, $module = 'Products')
-	{
-		$adb = \PearDatabase::getInstance();
-		if ($module == 'Services') {
-			$query = "select unit_price from vtiger_service where serviceid=?";
-		} else {
-			$query = "select unit_price from vtiger_products where productid=?";
-		}
-		$result = $adb->pquery($query, [$productid]);
-		$unitpice = $adb->queryResult($result, 0, 'unit_price');
-		return $unitpice;
-	}
-
-	public static function decimalTimeFormat($decTime)
-	{
-		$hour = floor($decTime);
-		$min = round(60 * ($decTime - $hour));
-		return [
-			'short' => $hour . \App\Language::translate('LBL_H') . ' ' . $min . \App\Language::translate('LBL_M'),
-			'full' => $hour . \App\Language::translate('LBL_HOURS') . ' ' . $min . \App\Language::translate('LBL_MINUTES'),
-		];
-	}
-
 	public static function getRangeTime($timeMinutesRange, $showEmptyValue = true)
 	{
 		$short = [];
@@ -484,7 +446,6 @@ class Functions
 			$short[] = $minutes . \App\Language::translate('LBL_M');
 			$full[] = $minutes == 1 ? $minutes . \App\Language::translate('LBL_MINUTE') : $minutes . \App\Language::translate('LBL_MINUTES');
 		}
-
 		return [
 			'short' => implode(' ', $short),
 			'full' => implode(' ', $full),
@@ -495,7 +456,7 @@ class Functions
 	 * myBcmod - get modulus (substitute for bcmod)
 	 * string my_bcmod ( string left_operand, int modulus )
 	 * left_operand can be really big, but be carefull with modulus :(
-	 * by Andrius Baranauskas and Laurynas Butkus :) Vilnius, Lithuania
+	 * by Andrius Baranauskas and Laurynas Butkus :) Vilnius, Lithuania.
 	 * */
 	public static function myBcmod($x, $y)
 	{
@@ -523,7 +484,7 @@ class Functions
 		if (strpos($values, ',') === false) {
 			$array[] = $values;
 		} else {
-			$array = explode(",", $values);
+			$array = explode(',', $values);
 		}
 		return $array;
 	}
@@ -550,7 +511,7 @@ class Functions
 				$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 			}
 			if (is_object($e)) {
-				$response->setHeader('HTTP/1.1 ' . $e->getCode() . ' ' . $e->getMessage());
+				$response->setHeader('HTTP/1.1 ' . $e->getCode() . ' ' . str_ireplace(["\r\n", "\r", "\n"], [' ', ' ', ' '], $e->getMessage()));
 				$response->setError($e->getCode(), $e->getMessage(), $trace);
 			} else {
 				$response->setError('error', $message, $trace);
@@ -564,7 +525,7 @@ class Functions
 		if ($die) {
 			trigger_error(print_r($message, true), E_USER_ERROR);
 			if (is_object($message)) {
-				throw new $message;
+				throw new $message();
 			} elseif (is_array($message)) {
 				throw new \Exception($message['message']);
 			} else {
@@ -584,21 +545,14 @@ class Functions
 	}
 
 	/**
-	 * Function to fetch the list of vtiger_groups from group vtiger_table
-	 * Takes no value as input
-	 * returns the query result set object
+	 * Function to delete files and dirs.
+	 *
+	 * @param string $src
+	 * @param bool   $outsideRoot
 	 */
-	public static function getGroupOptions()
+	public static function recurseDelete($src, $outsideRoot = false)
 	{
-		$adb = \PearDatabase::getInstance();
-		$sql = 'select groupname,groupid from vtiger_groups';
-		$result = $adb->pquery($sql, []);
-		return $result;
-	}
-
-	public static function recurseDelete($src)
-	{
-		$rootDir = strpos($src, ROOT_DIRECTORY) === 0 ? '' : ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+		$rootDir = ($outsideRoot || strpos($src, ROOT_DIRECTORY) === 0) ? '' : ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src)) {
 			return;
 		}
@@ -622,9 +576,11 @@ class Functions
 	}
 
 	/**
-	 * The function copies files
+	 * The function copies files.
+	 *
 	 * @param string $src
 	 * @param string $dest
+	 *
 	 * @return string
 	 */
 	public static function recurseCopy($src, $dest)
@@ -639,7 +595,7 @@ class Functions
 		$dest = $rootDir . $dest;
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isDir() && !file_exists($dest . $iterator->getSubPathName())) {
-				mkdir($dest . $iterator->getSubPathName());
+				mkdir($dest . $iterator->getSubPathName(), 0755);
 			} elseif (!$item->isDir()) {
 				copy($item->getRealPath(), $dest . $iterator->getSubPathName());
 			}
@@ -649,10 +605,10 @@ class Functions
 	public static function parseBytes($str)
 	{
 		if (is_numeric($str)) {
-			return floatval($str);
+			return (float) $str;
 		}
 		if (preg_match('/([0-9\.]+)\s*([a-z]*)/i', $str, $regs)) {
-			$bytes = floatval($regs[1]);
+			$bytes = (float) ($regs[1]);
 			switch (strtolower($regs[2])) {
 				case 'g':
 				case 'gb':
@@ -668,8 +624,7 @@ class Functions
 					break;
 			}
 		}
-
-		return floatval($bytes);
+		return (float) $bytes;
 	}
 
 	public static function showBytes($bytes, &$unit = null)
@@ -678,19 +633,18 @@ class Functions
 		if ($bytes >= 1073741824) {
 			$unit = 'GB';
 			$gb = $bytes / 1073741824;
-			$str = sprintf($gb >= 10 ? "%d " : "%.2f ", $gb) . $unit;
-		} else if ($bytes >= 1048576) {
+			$str = sprintf($gb >= 10 ? '%d ' : '%.2f ', $gb) . $unit;
+		} elseif ($bytes >= 1048576) {
 			$unit = 'MB';
 			$mb = $bytes / 1048576;
-			$str = sprintf($mb >= 10 ? "%d " : "%.2f ", $mb) . $unit;
-		} else if ($bytes >= 1024) {
+			$str = sprintf($mb >= 10 ? '%d ' : '%.2f ', $mb) . $unit;
+		} elseif ($bytes >= 1024) {
 			$unit = 'KB';
-			$str = sprintf("%d ", round($bytes / 1024)) . $unit;
+			$str = sprintf('%d ', round($bytes / 1024)) . $unit;
 		} else {
 			$unit = 'B';
 			$str = sprintf('%d ', $bytes) . $unit;
 		}
-
 		return $str;
 	}
 
@@ -722,8 +676,9 @@ class Functions
 	public static function getInitials($name)
 	{
 		$initial = '';
-		foreach (explode(' ', $name) as $word)
+		foreach (explode(' ', $name) as $word) {
 			$initial .= strtoupper($word[0]);
+		}
 		return $initial;
 	}
 
@@ -735,28 +690,8 @@ class Functions
 		$total = disk_total_space($dir);
 		$free = disk_free_space($dir);
 		$used = $total - $free;
-		return ['total' => $total, 'free' => $free, 'used' => $used];
-	}
 
-	public static function textLength($text, $length = false, $addDots = true)
-	{
-		if (!$length) {
-			$length = \AppConfig::main('listview_max_textlength');
-		}
-		if (function_exists('mb_strlen')) {
-			if (mb_strlen($text) > $length) {
-				$text = mb_substr($text, 0, $length, \AppConfig::main('default_charset'));
-				if ($addDots) {
-					$text .= '...';
-				}
-			}
-		} elseif (strlen($text) > $length) {
-			$text = substr($text, 0, $length);
-			if ($addDots) {
-				$text .= '...';
-			}
-		}
-		return $text;
+		return ['total' => $total, 'free' => $free, 'used' => $used];
 	}
 
 	public static function getDefaultCurrencyInfo()
@@ -769,6 +704,7 @@ class Functions
 		}
 		return false;
 	}
+
 	/*
 	 * Checks if given date is working day, if not returns last working day
 	 * @param <Date> $date
@@ -782,13 +718,12 @@ class Functions
 		}
 		$date = strtotime($date);
 		if (date('D', $date) == 'Sat') { // switch to friday the day before
-			$lastWorkingDay = date('Y-m-d', strtotime("-1 day", $date));
-		} else if (date('D', $date) == 'Sun') { // switch to friday two days before
-			$lastWorkingDay = date('Y-m-d', strtotime("-2 day", $date));
+			$lastWorkingDay = date('Y-m-d', strtotime('-1 day', $date));
+		} elseif (date('D', $date) == 'Sun') { // switch to friday two days before
+			$lastWorkingDay = date('Y-m-d', strtotime('-2 day', $date));
 		} else {
 			$lastWorkingDay = date('Y-m-d', $date);
 		}
-
 		return $lastWorkingDay;
 	}
 
@@ -861,7 +796,7 @@ class Functions
 			'Ä€' => 'A', 'ÄŚ' => 'C', 'Ä’' => 'E', 'Ä˘' => 'G', 'ÄŞ' => 'i', 'Ä¶' => 'k', 'Ä»' => 'L', 'Ĺ…' => 'N',
 			'Ĺ ' => 'S', 'ĹŞ' => 'u', 'Ĺ˝' => 'Z',
 			'Ä' => 'a', 'ÄŤ' => 'c', 'Ä“' => 'e', 'ÄŁ' => 'g', 'Ä«' => 'i', 'Ä·' => 'k', 'ÄĽ' => 'l', 'Ĺ†' => 'n',
-			'Ĺˇ' => 's', 'Ĺ«' => 'u', 'Ĺľ' => 'z'
+			'Ĺˇ' => 's', 'Ĺ«' => 'u', 'Ĺľ' => 'z',
 		];
 
 		// Transliterate characters to ASCII
@@ -870,8 +805,10 @@ class Functions
 		$str = preg_replace('/[^\p{L}\p{Nd}\.]+/u', $delimiter, $str);
 		// Remove delimiter from ends
 		$str = trim($str, $delimiter);
+
 		return $str;
 	}
+
 	/*
 	 * Function that returns conversion info from default system currency to chosen one
 	 * @param <Integer> $currencyId - id of currency for which we want to retrieve conversion rate to default currency
@@ -902,7 +839,6 @@ class Functions
 			$info['value'] = $value == 0 ? 1.0 : round($value, 5);
 			$info['conversion'] = $value == 0 ? 1.0 : round(1 / $value, 5);
 		}
-
 		return $info;
 	}
 
@@ -910,6 +846,7 @@ class Functions
 	{
 		$queryStr = parse_url(htmlspecialchars_decode($url), PHP_URL_QUERY);
 		parse_str($queryStr, $queryParams);
+
 		return $queryParams;
 	}
 
@@ -922,10 +859,11 @@ class Functions
 					$difference[$key] = $value;
 				} else {
 					$newDiff = self::arrayDiffAssocRecursive($value, $array2[$key]);
-					if (!empty($newDiff))
+					if (!empty($newDiff)) {
 						$difference[$key] = $newDiff;
+					}
 				}
-			} else if (!array_key_exists($key, $array2) || $array2[$key] !== $value) {
+			} elseif (!array_key_exists($key, $array2) || $array2[$key] !== $value) {
 				$difference[$key] = $value;
 			}
 		}

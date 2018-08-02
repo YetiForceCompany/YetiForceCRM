@@ -10,9 +10,9 @@
 
 class PBXManager_PBXManagerHandler_Handler
 {
-
 	/**
-	 * EntityAfterDelete handler function
+	 * EntityAfterDelete handler function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityAfterDelete(App\EventHandler $eventHandler)
@@ -21,7 +21,8 @@ class PBXManager_PBXManagerHandler_Handler
 	}
 
 	/**
-	 * EntityAfterSave function
+	 * EntityAfterSave function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityAfterSave(App\EventHandler $eventHandler)
@@ -31,7 +32,7 @@ class PBXManager_PBXManagerHandler_Handler
 			'crmid' => $recordModel->getId(),
 			'setype' => $eventHandler->getModuleName(),
 		];
-		$pbxRecordModel = new PBXManager_Record_Model;
+		$pbxRecordModel = new PBXManager_Record_Model();
 		$fields = $recordModel->getModule()->getFieldsByType('phone');
 		foreach ($fields as $fieldName => &$fieldModel) {
 			if (!$recordModel->isEmpty($fieldName)) {
@@ -42,7 +43,8 @@ class PBXManager_PBXManagerHandler_Handler
 	}
 
 	/**
-	 * EntityChangeState handler function
+	 * EntityChangeState handler function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityChangeState(App\EventHandler $eventHandler)
@@ -52,7 +54,7 @@ class PBXManager_PBXManagerHandler_Handler
 			'crmid' => $recordModel->getId(),
 			'setype' => $eventHandler->getModuleName(),
 		];
-		$pbxRecordModel = new PBXManager_Record_Model;
+		$pbxRecordModel = new PBXManager_Record_Model();
 		$fields = $recordModel->getModule()->getFieldsByType('phone');
 		foreach ($fields as $fieldName => &$fieldModel) {
 			if (!$recordModel->isEmpty($fieldName)) {

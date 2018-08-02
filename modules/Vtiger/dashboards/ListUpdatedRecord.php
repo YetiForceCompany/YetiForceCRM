@@ -13,7 +13,6 @@ Vtiger_Loader::includeOnce('modules.Vtiger.helpers.ListUpdatedRecord');
 
 class Vtiger_ListUpdatedRecord_Dashboard extends Vtiger_IndexAjax_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -30,7 +29,7 @@ class Vtiger_ListUpdatedRecord_Dashboard extends Vtiger_IndexAjax_View
 
 		$columnList = ['LBL_NAME' => 'label', 'LBL_MODULE_NAME' => 'setype', 'Last Modified By' => 'modifiedtime', 'LBL_OWNER' => 'smownerid'];
 
-		$recordList = ListUpdatedRecord::getListRecord(NULL, $columnList, $number);
+		$recordList = ListUpdatedRecord::getListRecord(null, $columnList, $number);
 
 		$viewer->assign('COLUMN_LIST', $columnList);
 		$viewer->assign('WIDGET', $widget);

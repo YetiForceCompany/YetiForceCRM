@@ -1,7 +1,8 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class("Settings_TimeControlProcesses_Index_Js", {}, {
 	registerChangeVal: function (content) {
-		var thisInstance = this;
 		content.find('input[type="checkbox"]').on('change', function (e) {
 			var target = $(e.currentTarget);
 			var tab = target.closest('.editViewContainer');
@@ -10,12 +11,12 @@ jQuery.Class("Settings_TimeControlProcesses_Index_Js", {}, {
 			params['value'] = value;
 			params['type'] = tab.data('type');
 			params['param'] = target.attr('name');
-			app.saveAjax('', params).then(function (data) {
+			app.saveAjax('', params).done(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 				if (value) {
-					target.parent().removeClass('btn-default').addClass('btn-success').find('.glyphicon').removeClass('glyphicon-unchecked').addClass('glyphicon-check');
+					target.parent().removeClass('btn-light').addClass('btn-success').find('[data-fa-i2svg]').removeClass('fa-square').addClass('fa-check-square');
 				} else {
-					target.parent().removeClass('btn-success').addClass('btn-default').find('.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+					target.parent().removeClass('btn-success').addClass('btn-light').find('[data-fa-i2svg]').removeClass('fa-check-square').addClass('fa-square');
 				}
 			});
 		});

@@ -11,7 +11,6 @@
 
 class Settings_Leads_MappingEdit_View extends Settings_Vtiger_Index_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
@@ -26,8 +25,10 @@ class Settings_Leads_MappingEdit_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)
@@ -36,11 +37,12 @@ class Settings_Leads_MappingEdit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = [
-			"modules.Settings.$moduleName.resources.LeadMapping"
+			"modules.Settings.$moduleName.resources.LeadMapping",
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 }

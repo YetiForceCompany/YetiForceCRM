@@ -10,50 +10,66 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="row main-container">
+	<main class="main-container">
 		<div class="inner-container">
-			<form class="form-horizontal" name="step1" method="post" action="Install.php">
+			<form class="" name="step1" method="post" action="Install.php">
 				<div class="row">
 					<div class="col-md-9">
-						<h4>{\App\Language::translate('LBL_WELCOME', 'Install')}</h4>
+						<h2>{\App\Language::translate('LBL_SETUP_WIZARD_HEADER', 'Install')} {$YETIFORCE_VERSION}</h2>
 					</div>
 					<div class="col-md-3">
-						<select name="lang" class="chzn-select" style="width: 250px;">
+						<label for="lang" class="sr-only">{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}</label>
+						<select name="lang" class="select2" id="lang" title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}" style="width: 250px;">
 							{foreach key=key item=item from=$LANGUAGES}
-								<option value="{$key}" {if $LANG eq $key}selected{/if}>{$item}</option>
+								<option value="{$key}" {if $LANG eq $key}selected{/if} tabindex="0">{$item}</option>
 							{/foreach}
 						</select>
 					</div>
 				</div>
 				<hr>
-				<div class="pull-right">
-					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates.html" target="_blank" rel="noreferrer">
-						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-					</a>
-				</div>
-				<input type="hidden" name="mode" value="step2" />
-				<div class="col-md-4 welcome-image">
-					<img src="../{\App\Layout::getPublicUrl('layouts/resources/Logo/logo_yetiforce.png')}" alt="Yetiforce Logo"/>
-				</div>
-				<div class="col-md-8">
-					<div class="welcome-div">
-						<h3>{\App\Language::translate('LBL_WELCOME_TO_VTIGER6_SETUP_WIZARD', 'Install')}</h3>
-						<p>{\App\Language::translate('LBL_VTIGER6_SETUP_WIZARD_DESCRIPTION','Install')}</p>
+				<input type="hidden" name="mode" value="step2">
+				<div class="row">
+					<div class="col-md-4 text-center py-5">
+						<img src="../{\App\Layout::getPublicUrl('layouts/resources/Logo/yetiforce_capterra.png')}"
+							 alt="Yetiforce Logo" class="w-100">
+					</div>
+					<div class="col-md-8">
+						<div class="welcome-div">
+							<div class="float-right">
+								<a class="helpBtn" target="_blank" rel="noreferrer"
+								   href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation" aria-label="{\App\Language::translate('LBL_IMPLEMENTER_DOCUMENTATION','Install')}">
+									<span class="fas fa-info-circle"></span>
+								</a>
+							</div>
+							<h3>{\App\Language::translate('LBL_SETUP_WIZARD_BODY', 'Install')}</h3>
+							<p>
+								{\App\Language::translate('LBL_SETUP_WIZARD_DESCRIPTION_1','Install')}&nbsp;
+								<a  target="_blank" rel="noreferrer" href="https://github.com/YetiForceCompany/YetiForceCRM/issues" aria-label="github">
+									<span class="fab fa-github-square fa-lg"></span>
+								</a>
+								<br /><br/>
+								{\App\Language::translate('LBL_SETUP_WIZARD_DESCRIPTION_2','Install')}
+								<a target="_blank" rel="noreferrer" href="https://yetiforce.shop" aria-label="{\App\Language::translate('LBL_SHOP_YETIFORCE')}">
+									<span class="fas fa-shopping-cart ml-1"></span>
+								</a>
+							</p>
+						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="button-container">
-						<a href="#" class="btn btn-sm btn-primary bt_install">
+				<div class="form-buttom-nav fixed-bottom button-container p-1">
+					<div class="text-center">
+						<button href="#" class="btn c-btn-block-xs-down btn-primary bt_install mr-sm-1 {if $IS_MIGRATE} mb-1 {/if} mb-sm-0" type="submit">
+							<span class="fas fa-arrow-circle-right mr-1"></span>
 							{\App\Language::translate('LBL_INSTALL_BUTTON','Install')}
-						</a>
+						</button>
 						{if $IS_MIGRATE}
-							<a style="" href="#" class="btn btn-sm btn-primary bt_migrate">
+							<button style="" href="#" class="btn c-btn-block-xs-down btn-primary bt_migrate">
 								{\App\Language::translate('LBL_MIGRATION','Install')}
-							</a>
+							</button>
 						{/if}
 					</div>
 				</div>
 			</form>
 		</div>
-	</div>
+	</main>
 {/strip}

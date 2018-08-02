@@ -1,0 +1,25 @@
+{
+  "php": {
+    "HTTP_ERROR": "O website que voc\u00ea est\u00e1 tentando abrir n\u00e3o \u00e9 seguro e pode n\u00e3o abrir. Se mesmo assim quiser visualizar a p\u00e1gina, ent\u00e3o poder\u00e1 clicar sobre o bloqueador de conte\u00fado na barra de endere\u00e7o e habilita-lo.",
+    "LBL_ADD_BOOKMARK": "Adicionar Favorito",
+    "LBL_ADD_NEW_BOOKMARK": "Adicionar Novo Favorito",
+    "LBL_BOOKMARK": "Favorito",
+    "LBL_BOOKMARK_NAME": "Nome Favorito",
+    "LBL_BOOKMARK_SAVED_SUCCESSFULLY": "Favorito Salvo com Sucesso",
+    "LBL_BOOKMARKS": "Favoritos",
+    "LBL_BOOKMARKS_DELETED_SUCCESSFULLY": "Favoritos apagados com sucesso",
+    "LBL_BOOKMARKS_LIST": "Lista de Favoritos",
+    "LBL_BOOKMARK_URL": "URL Favorito",
+    "LBL_CREATED_ON": "Criado em",
+    "LBL_EDIT_BOOKMARK": "Editar Favorito",
+    "LBL_ENTER_BOOKMARK_NAME": "Digite Nome Favorito",
+    "LBL_ENTER_URL": "Digitar URL (www.exemplo.com.br)",
+    "LBL_OUR_SITES_LIST": "Nossa Lista de Sites",
+    "LBL_RECORD_DELETED_SUCCESSFULLY": "Registro apagado com sucesso",
+    "Portal": "Nossos Sites",
+    "SINGLE_Portal": "Nosso Site"
+  },
+  "js": {
+    "JS_ENTER_MANDATORY_FIELD": "Por favor, digite todos os campos obrigat\u00f3rios"
+  }
+}

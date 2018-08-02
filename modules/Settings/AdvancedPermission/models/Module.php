@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Advanced permission module model class
- * @package YetiForce.Settings.Module
- * @copyright YetiForce Sp. z o.o.
+ * Advanced permission module model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_AdvancedPermission_Module_Model extends Settings_Vtiger_Module_Model
 {
-
 	public $baseTable = 'a_yf_adv_permission';
 	public $baseIndex = 'id';
 	public $listFields = ['name' => 'LBL_NAME', 'tabid' => 'LBL_MODULE', 'status' => 'LBL_STATUS', 'action' => 'LBL_ACTION', 'priority' => 'LBL_PRIORITY'];
@@ -19,7 +18,8 @@ class Settings_AdvancedPermission_Module_Model extends Settings_Vtiger_Module_Mo
 	public static $priority = [0 => 'Low', 1 => 'Medium', 2 => 'High'];
 
 	/**
-	 * Function to get the url for default view of the module
+	 * Function to get the url for default view of the module.
+	 *
 	 * @return string URL
 	 */
 	public function getDefaultUrl()
@@ -28,7 +28,8 @@ class Settings_AdvancedPermission_Module_Model extends Settings_Vtiger_Module_Mo
 	}
 
 	/**
-	 * Function to get the url for create view of the module
+	 * Function to get the url for create view of the module.
+	 *
 	 * @return string URL
 	 */
 	public function getCreateRecordUrl()

@@ -9,46 +9,41 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_Delete_Action extends Vtiger_Action_Controller
+class Vtiger_Delete_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Record model instance
+	 * Record model instance.
+	 *
 	 * @var Vtiger_Record_Model
 	 */
 	protected $record;
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if ($request->isEmpty('record', true)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		if (!$this->record->privilegeToDelete()) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
-		$listViewUrl = $this->record->getModule()->getListViewUrl();
 		$this->record->delete();
+		$response = new Vtiger_Response();
 		if ($request->getByType('sourceView') === 'List') {
-			$response = new Vtiger_Response();
 			$response->setResult(['notify' => ['type' => 'success', 'text' => \App\Language::translate('LBL_RECORD_HAS_BEEN_DELETED')]]);
-			$response->emit();
-		} elseif ($request->getBoolean('ajaxDelete')) {
-			$response = new Vtiger_Response();
-			$response->setResult($listViewUrl);
-			$response->emit();
 		} else {
-			header("Location: $listViewUrl");
+			$response->setResult($this->record->getModule()->getListViewUrl());
 		}
+		$response->emit();
 	}
 }

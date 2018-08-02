@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Settings colors index view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Settings colors index view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Sławomir Kłos <s.klos@yetiforce.com>
  */
 class Settings_Colors_Index_View extends Settings_Vtiger_Index_View
 {
-
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -28,29 +28,35 @@ class Settings_Colors_Index_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * Get header css
+	 * Get header css.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return array
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$cssFileNames = [
-			'~libraries/jquery/colorpicker/css/colorpicker.css'
+			'~libraries/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css',
 		];
+
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}
 
 	/**
-	 * Get footer scripts
+	 * Get footer scripts.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return array
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$jsFileNames = [
-			'modules.Settings.'.$request->getModule().'.resources.Colors',
-			'~libraries/jquery/colorpicker/js/colorpicker.js'
+			'modules.Settings.' . $request->getModule() . '.resources.Colors',
+			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
 		];
+
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 }

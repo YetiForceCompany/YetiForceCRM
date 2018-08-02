@@ -1,14 +1,13 @@
 <?php
 
 /**
- * OSSTimeControl record model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * OSSTimeControl record model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
+class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 {
-
 	const RECALCULATE_STATUS = 'Accepted';
 
 	public static $referenceFieldsToTime = ['link', 'process', 'subprocess'];

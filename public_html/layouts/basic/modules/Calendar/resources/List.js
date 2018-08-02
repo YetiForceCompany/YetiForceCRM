@@ -7,19 +7,19 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
+
 Vtiger_List_Js("Calendar_List_Js", {
 	triggerImportAction: function (importUrl) {
 		var progressIndicatorElement = jQuery.progressIndicator();
-		AppConnector.request(importUrl).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					if (data) {
-						app.showModalWindow(data, function (data) {
-							jQuery('#ical_import').validationEngine(app.validationEngineOptions);
-						});
-					}
-				}
-		);
+		AppConnector.request(importUrl).done(function (data) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			if (data) {
+				app.showModalWindow(data, function (data) {
+					jQuery('#ical_import').validationEngine(app.validationEngineOptions);
+				});
+			}
+		});
 	},
 	triggerExportAction: function (exportActionUrl) {
 		var progressIndicatorElement = jQuery.progressIndicator();
@@ -37,20 +37,18 @@ Vtiger_List_Js("Calendar_List_Js", {
 		if (listViewInstance.getListSearchInstance()) {
 			var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
 			exportActionUrl += "&search_params=" + JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+			if ((typeof searchValue !== "undefined") && (searchValue.length > 0)) {
 				exportActionUrl += '&search_key=' + listViewInstance.getListSearchInstance().getAlphabetSearchField();
 				exportActionUrl += '&search_value=' + searchValue;
 				exportActionUrl += '&operator=s';
 			}
 		}
-		AppConnector.request(exportActionUrl).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					if (data) {
-						app.showModalWindow(data, function (data) {
-						});
-					}
-				}
-		);
+		AppConnector.request(exportActionUrl).done(function (data) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			if (data) {
+				app.showModalWindow(data, function (data) {
+				});
+			}
+		});
 	}
 }, {});

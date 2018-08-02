@@ -11,7 +11,6 @@
 
 class PBXManager extends CRMEntity
 {
-
 	protected $incominglinkLabel = 'Incoming Calls';
 	protected $tabId = 0;
 	protected $headerScriptLinkType = 'HEADERSCRIPT';
@@ -24,9 +23,9 @@ class PBXManager extends CRMEntity
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_pbxmanager' => 'pbxmanagerid',
-		'vtiger_pbxmanagercf' => 'pbxmanagerid'];
+		'vtiger_pbxmanagercf' => 'pbxmanagerid', ];
 	public $list_fields = [
-		/* Format: Field Label => Array(tablename, columnname) */
+		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'Call Status' => ['vtiger_pbxmanager', 'callstatus'],
 		'Customer' => ['vtiger_pbxmanager', 'customer'],
@@ -35,7 +34,7 @@ class PBXManager extends CRMEntity
 		'Start Time' => ['vtiger_pbxmanager', 'starttime'],
 	];
 	public $list_fields_name = [
-		/* Format: Field Label => fieldname */
+		// Format: Field Label => fieldname
 		'Call Status' => 'callstatus',
 		'Customer' => 'customer',
 		'User' => 'user',
@@ -51,12 +50,12 @@ class PBXManager extends CRMEntity
 	public $list_link_field = 'customernumber';
 	// For Popup listview and UI type support
 	public $search_fields = [
-		/* Format: Field Label => Array(tablename, columnname) */
+		// Format: Field Label => Array(tablename, columnname)
 		// tablename should not have prefix 'vtiger_'
 		'Customer' => ['vtiger_pbxmanager', 'customer'],
 	];
 	public $search_fields_name = [
-		/* Format: Field Label => fieldname */
+		// Format: Field Label => fieldname
 		'Customer' => 'customer',
 	];
 	// For Popup window record selection
@@ -67,15 +66,16 @@ class PBXManager extends CRMEntity
 	public $def_detailview_recname = 'customernumber';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-//    public $mandatory_fields = Array('assigned_user_id');
+	//    public $mandatory_fields = Array('assigned_user_id');
 	public $column_fields = [];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 *
+	 * @param string Module name
+	 * @param string Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
 	public function moduleHandler($modulename, $event_type)
 	{
@@ -86,19 +86,19 @@ class PBXManager extends CRMEntity
 			$this->addActionMapping();
 			$this->setModuleRelatedDependencies();
 			$this->addUserExtensionField();
-		} else if ($event_type === 'module.disabled') {
+		} elseif ($event_type === 'module.disabled') {
 			$this->removeLinksForPBXManager();
 			App\EventHandler::setInActive('PBXManager_PBXManagerHandler_Handler');
 			$this->removeSettingsLinks();
 			$this->removeActionMapping();
 			$this->unsetModuleRelatedDependencies();
-		} else if ($event_type === 'module.enabled') {
+		} elseif ($event_type === 'module.enabled') {
 			$this->addLinksForPBXManager();
 			App\EventHandler::setActive('PBXManager_PBXManagerHandler_Handler');
 			$this->addSettingsLinks();
 			$this->addActionMapping();
 			$this->setModuleRelatedDependencies();
-		} else if ($event_type === 'module.preuninstall') {
+		} elseif ($event_type === 'module.preuninstall') {
 			$this->removeLinksForPBXManager();
 			App\EventHandler::deleteHandler('PBXManager_PBXManagerHandler_Handler');
 			$this->removeSettingsLinks();
@@ -108,15 +108,14 @@ class PBXManager extends CRMEntity
 	}
 
 	/**
-	 * To add a phone extension field in user preferences page
+	 * To add a phone extension field in user preferences page.
 	 */
 	public function addUserExtensionField()
 	{
-
 		$module = vtlib\Module::getInstance('Users');
 		if ($module) {
 			$module->initTables();
-			$blockInstance = vtlib\Block::getInstance('LBL_MORE_INFORMATION', $module);
+			$blockInstance = vtlib\Block::getInstance('LBL_MORE_INFORMATION', $module->id);
 			if ($blockInstance) {
 				$fieldInstance = new vtlib\Field();
 				$fieldInstance->name = 'phone_crm_extension';
@@ -130,7 +129,7 @@ class PBXManager extends CRMEntity
 	}
 
 	/**
-	 * To register phone lookup events
+	 * To register phone lookup events.
 	 */
 	public function registerLookupEvents()
 	{
@@ -143,64 +142,59 @@ class PBXManager extends CRMEntity
 	}
 
 	/**
-	 * To add PBXManager module in module($this->dependentModules) related lists
+	 * To add PBXManager module in module($this->dependentModules) related lists.
 	 */
 	public function setModuleRelatedDependencies()
 	{
-
 		$pbxmanager = vtlib\Module::getInstance('PBXManager');
 		foreach ($this->dependentModules as $module) {
 			$moduleInstance = vtlib\Module::getInstance($module);
-			$moduleInstance->setRelatedList($pbxmanager, "PBXManager", [], 'getDependentsList');
+			$moduleInstance->setRelatedList($pbxmanager, 'PBXManager', [], 'getDependentsList');
 		}
 		\App\Log::info('Successfully added Module Related lists');
 	}
 
 	/**
-	 * To remove PBXManager module from module($this->dependentModules) related lists
+	 * To remove PBXManager module from module($this->dependentModules) related lists.
 	 */
 	public function unsetModuleRelatedDependencies()
 	{
-
 		$pbxmanager = vtlib\Module::getInstance('PBXManager');
 		foreach ($this->dependentModules as $module) {
 			$moduleInstance = vtlib\Module::getInstance($module);
-			$moduleInstance->unsetRelatedList($pbxmanager, "PBXManager", 'getDependentsList');
+			$moduleInstance->unsetRelatedList($pbxmanager, 'PBXManager', 'getDependentsList');
 		}
 		\App\Log::info('Successfully removed Module Related lists');
 	}
 
 	/**
-	 * To add a link in vtiger_links which is to load our PBXManagerJS.js
+	 * To add a link in vtiger_links which is to load our PBXManagerJS.js.
 	 */
 	public function addLinksForPBXManager()
 	{
-
 		$handlerInfo = ['path' => 'modules/PBXManager/PBXManager.php',
 			'class' => 'PBXManager',
-			'method' => 'checkLinkPermission'];
+			'method' => 'checkLinkPermission', ];
 
 		vtlib\Link::addLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js', '', '', $handlerInfo);
 		\App\Log::info('Links added');
 	}
 
 	/**
-	 * To remove link for PBXManagerJS.js from vtiger_links
+	 * To remove link for PBXManagerJS.js from vtiger_links.
 	 */
 	public function removeLinksForPBXManager()
 	{
-
 		//Deleting Headerscripts links
 		vtlib\Link::deleteLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js');
 		\App\Log::info('Links Removed');
 	}
 
 	/**
-	 * To add Integration->PBXManager block in Settings page
+	 * To add Integration->PBXManager block in Settings page.
 	 */
 	public function addSettingsLinks()
 	{
-
 		$blockId = (new \App\Db\Query())->select(['blockid'])->from('vtiger_settings_blocks')->where(['label' => 'LBL_INTEGRATION'])->scalar();
 		// To add Block
 		if (!$blockId) {
@@ -209,20 +203,20 @@ class PBXManager extends CRMEntity
 			\App\Db::getInstance()->createCommand()->insert('vtiger_settings_blocks', [
 				'blockid' => $blockid,
 				'label' => 'LBL_INTEGRATION',
-				'sequence' => ++$sequence
+				'sequence' => ++$sequence,
 			])->execute();
 		}
 		Settings_Vtiger_Module_Model::addSettingsField('LBL_INTEGRATION', [
 			'name' => 'LBL_PBXMANAGER',
 			'iconpath' => 'adminIcon-pbx-manager',
 			'description' => 'LBL_PBXMANAGER_DESCRIPTION',
-			'linkto' => 'index.php?module=PBXManager&parent=Settings&view=Index'
+			'linkto' => 'index.php?module=PBXManager&parent=Settings&view=Index',
 		]);
 		\App\Log::info('Settings Block and Field added');
 	}
 
 	/**
-	 * To delete Integration->PBXManager block in Settings page
+	 * To delete Integration->PBXManager block in Settings page.
 	 */
 	public function removeSettingsLinks()
 	{
@@ -231,7 +225,7 @@ class PBXManager extends CRMEntity
 	}
 
 	/**
-	 * To enable(ReceiveIncomingCall & MakeOutgoingCall) tool in profile
+	 * To enable(ReceiveIncomingCall & MakeOutgoingCall) tool in profile.
 	 */
 	public function addActionMapping()
 	{
@@ -253,7 +247,7 @@ class PBXManager extends CRMEntity
 	}
 
 	/**
-	 * To remove(ReceiveIncomingCall & MakeOutgoingCall) tool from profile
+	 * To remove(ReceiveIncomingCall & MakeOutgoingCall) tool from profile.
 	 */
 	public function removeActionMapping()
 	{

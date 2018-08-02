@@ -1,17 +1,20 @@
 <?php
 
 /**
- * Calendar invitees action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Calendar invitees action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class Calendar_Invitees_Action extends Vtiger_Action_Controller
+class Calendar_Invitees_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
 
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -27,14 +30,6 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 	{
 		parent::__construct();
 		$this->exposeMethod('find');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if ($mode) {
-			$this->invokeExposedMethod($mode, $request);
-		}
 	}
 
 	public function find(\App\Request $request)
@@ -63,7 +58,7 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 					'module' => $row['setype'],
 					'category' => \App\Language::translate($row['setype'], $row['setype']),
 					'fullLabel' => \App\Language::translate($row['setype'], $row['setype']) . ': ' . $label,
-					'label' => $label
+					'label' => $label,
 				];
 			}
 		}

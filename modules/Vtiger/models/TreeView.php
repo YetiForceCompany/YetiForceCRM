@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Basic TreeView Model Class
- * @package YetiForce.TreeView
- * @copyright YetiForce Sp. z o.o.
+ * Basic TreeView Model Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_TreeView_Model extends \App\Base
 {
-
 	public static $_cached_instance;
 
 	/**
-	 * Function to get the Module Name
+	 * Function to get the Module Name.
+	 *
 	 * @return string Module name
 	 */
 	public function getModuleName()
@@ -22,8 +22,9 @@ class Vtiger_TreeView_Model extends \App\Base
 	}
 
 	/**
-	 * Active tree tab
-	 * @return boolean
+	 * Active tree tab.
+	 *
+	 * @return bool
 	 */
 	public function isActive()
 	{
@@ -31,7 +32,8 @@ class Vtiger_TreeView_Model extends \App\Base
 	}
 
 	/**
-	 * Load tree tab label
+	 * Load tree tab label.
+	 *
 	 * @return string
 	 */
 	public function getName()
@@ -40,7 +42,8 @@ class Vtiger_TreeView_Model extends \App\Base
 	}
 
 	/**
-	 * Load tree ID
+	 * Load tree ID.
+	 *
 	 * @return type
 	 */
 	public function getTemplate()
@@ -49,7 +52,8 @@ class Vtiger_TreeView_Model extends \App\Base
 	}
 
 	/**
-	 * Load tree field info
+	 * Load tree field info.
+	 *
 	 * @return array
 	 */
 	public function getTreeField()
@@ -65,12 +69,15 @@ class Vtiger_TreeView_Model extends \App\Base
 			throw new \App\Exceptions\AppException('ERR_TREE_NOT_FOUND');
 		}
 		$this->set('fieldTemp', $fieldTemp);
+
 		return $fieldTemp;
 	}
 
 	/**
-	 * Load filter parameters
+	 * Load filter parameters.
+	 *
 	 * @param array $branches selected tree branche
+	 *
 	 * @return array
 	 */
 	public function getSearchParams($branches)
@@ -84,11 +91,13 @@ class Vtiger_TreeView_Model extends \App\Base
 					'comparator' => 'c',
 					]]],
 		];
+
 		return $searchParams;
 	}
 
 	/**
-	 * Load records tree address
+	 * Load records tree address.
+	 *
 	 * @return string - url
 	 */
 	public function getTreeViewUrl()
@@ -97,8 +106,10 @@ class Vtiger_TreeView_Model extends \App\Base
 	}
 
 	/**
-	 * Static Function to get the instance of Vtiger TreeView Model for the given Vtiger Module Model
+	 * Static Function to get the instance of Vtiger TreeView Model for the given Vtiger Module Model.
+	 *
 	 * @param string name of the module
+	 *
 	 * @return Vtiger_TreeView_Model instance
 	 */
 	public static function getInstance($moduleModel)
@@ -110,20 +121,24 @@ class Vtiger_TreeView_Model extends \App\Base
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TreeView', $moduleName);
 		$instance = new $modelClassName();
 		self::$_cached_instance[$moduleName] = $instance->set('module', $moduleModel)->set('moduleName', $moduleName);
+
 		return self::$_cached_instance[$moduleName];
 	}
 
 	/**
-	 * Load tree
-	 * @return String
+	 * Load tree.
+	 *
+	 * @return string
 	 */
 	public function getTreeList()
 	{
 		$tree = [];
-		$db = PearDatabase::getInstance();
 		$lastId = 0;
-		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getTemplate()]);
-		while ($row = $db->getRow($result)) {
+		$dataReader = (new App\Db\Query())
+			->from('vtiger_trees_templates_data')
+			->where(['templateid' => $this->getTemplate()])
+			->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$treeID = (int) ltrim($row['tree'], 'T');
 			$pieces = explode('::', $row['parenttrre']);
 			end($pieces);
@@ -135,13 +150,14 @@ class Vtiger_TreeView_Model extends \App\Base
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => \App\Language::translate($row['name'], $this->getModuleName()),
 				'state' => ($row['state']) ? $row['state'] : '',
-				'icon' => $row['icon']
+				'icon' => $row['icon'],
 			];
 			if ($treeID > $lastId) {
 				$lastId = $treeID;
 			}
 		}
 		$this->lastTreeId = $lastId;
+
 		return $tree;
 	}
 }

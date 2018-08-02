@@ -1,17 +1,15 @@
 <?php
 
 /**
- * 
- * @package YetiForce.Handler
- * @copyright YetiForce Sp. z o.o.
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class ServiceContracts_ServiceContractsHandler_Handler
 {
-
 	/**
-	 * EntityAfterSave handler function
+	 * EntityAfterSave handler function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityAfterSave(App\EventHandler $eventHandler)
@@ -31,14 +29,14 @@ class ServiceContracts_ServiceContractsHandler_Handler
 						$op = '+';
 					}
 					$dataReader = (new App\Db\Query())
-							->select(['crmid'])
-							->from('vtiger_crmentityrel')
-							->where(['module' => 'ServiceContracts', 'relmodule' => 'HelpDesk', 'relcrmid' => $ticketId])
-							->union(
+						->select(['crmid'])
+						->from('vtiger_crmentityrel')
+						->where(['module' => 'ServiceContracts', 'relmodule' => 'HelpDesk', 'relcrmid' => $ticketId])
+						->union(
 								(new App\Db\Query())
-								->select(['relcrmid'])
-								->from('vtiger_crmentityrel')
-								->where(['relmodule' => 'ServiceContracts', 'module' => 'HelpDesk', 'crmid' => $ticketId])
+									->select(['relcrmid'])
+									->from('vtiger_crmentityrel')
+									->where(['relmodule' => 'ServiceContracts', 'module' => 'HelpDesk', 'crmid' => $ticketId])
 							)
 							->createCommand()->query();
 					while ($contractId = $dataReader->readColumn(0)) {
@@ -47,8 +45,9 @@ class ServiceContracts_ServiceContractsHandler_Handler
 						$scFocus->retrieveEntityInfo($contractId, 'ServiceContracts');
 
 						$prevUsedUnits = $scFocus->column_fields['used_units'];
-						if (empty($prevUsedUnits))
+						if (empty($prevUsedUnits)) {
 							$prevUsedUnits = 0;
+						}
 
 						$usedUnits = $scFocus->computeUsedUnits($recordModel->getData());
 						if ($op === '-') {
@@ -59,10 +58,11 @@ class ServiceContracts_ServiceContractsHandler_Handler
 						$scFocus->updateUsedUnits($totalUnits);
 						$scFocus->calculateProgress();
 					}
+					$dataReader->close();
 				}
 			}
 		}
-		// Update the Planned Duration, Actual Duration, End Date and Progress based on other field values.			
+		// Update the Planned Duration, Actual Duration, End Date and Progress based on other field values.
 		if ($moduleName === 'ServiceContracts') {
 			$recordModel = $eventHandler->getRecordModel();
 			$contractId = $recordModel->getId();

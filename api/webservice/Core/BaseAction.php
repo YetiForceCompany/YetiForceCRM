@@ -1,16 +1,16 @@
 <?php
+
 namespace Api\Core;
 
 /**
- * Base action class
- * @package YetiForce.WebserviceAction
- * @copyright YetiForce Sp. z o.o.
+ * Base action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class BaseAction
 {
-
 	/** @var array Permitted modules */
 	public $allowedMethod;
 
@@ -27,17 +27,26 @@ class BaseAction
 		}
 		$this->checkPermission();
 		$this->checkPermissionToModule();
-		/*
-		  $acceptableUrl = $this->controller->app['acceptable_url'];
-		  if ($acceptableUrl && rtrim($this->controller->app['acceptable_url'], '/') != rtrim($params['fromUrl'], '/')) {
-		  throw new \Api\Core\Exception('LBL_INVALID_SERVER_URL', 401);
-		  }
-		 */
+
 		return true;
 	}
 
 	/**
-	 * Check permission to module
+	 * Unfinished.
+	 *
+	 * @throws \Api\Core\Exception
+	 */
+	public function checkAction2()
+	{
+		$acceptableUrl = $this->controller->app['acceptable_url'];
+		if ($acceptableUrl && rtrim($this->controller->app['acceptable_url'], '/') != rtrim($params['fromUrl'], '/')) {
+			throw new \Api\Core\Exception('LBL_INVALID_SERVER_URL', 401);
+		}
+	}
+
+	/**
+	 * Check permission to module.
+	 *
 	 * @throws \Api\Core\Exception
 	 */
 	public function checkPermissionToModule()
@@ -48,9 +57,11 @@ class BaseAction
 	}
 
 	/**
-	 * Check permission to method
-	 * @return boolean
+	 * Check permission to method.
+	 *
 	 * @throws \Api\Core\Exception
+	 *
+	 * @return bool
 	 */
 	public function checkPermission()
 	{
@@ -71,26 +82,25 @@ class BaseAction
 		$this->session = new \App\Base();
 		$this->session->setData($row);
 		\App\User::setCurrentUserId($this->session->get('user_id'));
-		$currentUser = (new \Users())->retrieveCurrentUserInfoFromFile($this->session->get('user_id'));
-		vglobal('current_user', $currentUser);
 		$db->createCommand()
 			->update($sessionTable, ['changed' => date('Y-m-d H:i:s')], ['id' => $this->session->get('id')])
 			->execute();
 	}
 
 	/**
-	 * Pre process function
+	 * Pre process function.
 	 */
 	public function preProcess()
 	{
 		$language = $this->getLanguage();
 		if ($language) {
-			\App\Language::setLanguage($language);
+			\App\Language::setTemporaryLanguage($language);
 		}
 	}
 
 	/**
-	 * Get current language
+	 * Get current language.
+	 *
 	 * @return string
 	 */
 	public function getLanguage()
@@ -106,7 +116,8 @@ class BaseAction
 	}
 
 	/**
-	 * Get permission type
+	 * Get permission type.
+	 *
 	 * @return int
 	 */
 	public function getPermissionType()
@@ -115,7 +126,8 @@ class BaseAction
 	}
 
 	/**
-	 * Get crmid for portal user
+	 * Get crmid for portal user.
+	 *
 	 * @return int
 	 */
 	public function getUserCrmId()
@@ -124,7 +136,8 @@ class BaseAction
 	}
 
 	/**
-	 * Get parent record
+	 * Get parent record.
+	 *
 	 * @return int
 	 */
 	public function getParentCrmId()

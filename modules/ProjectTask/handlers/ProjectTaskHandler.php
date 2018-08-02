@@ -1,16 +1,16 @@
 <?php
 
 /**
- * ProjectTask ProjectTaskHandler handler class
- * @package YetiForce.Handler
- * @copyright YetiForce Sp. z o.o.
+ * ProjectTask ProjectTaskHandler handler class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class ProjectTask_ProjectTaskHandler_Handler
 {
-
 	/**
-	 * EntityAfterSave handler function
+	 * EntityAfterSave handler function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityAfterSave(App\EventHandler $eventHandler)
@@ -35,7 +35,8 @@ class ProjectTask_ProjectTaskHandler_Handler
 	}
 
 	/**
-	 * EntityAfterDelete handler function
+	 * EntityAfterDelete handler function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityAfterDelete(App\EventHandler $eventHandler)
@@ -44,7 +45,8 @@ class ProjectTask_ProjectTaskHandler_Handler
 	}
 
 	/**
-	 * EntityChangeState handler function
+	 * EntityChangeState handler function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityChangeState(App\EventHandler $eventHandler)

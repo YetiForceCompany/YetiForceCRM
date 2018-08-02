@@ -1,15 +1,12 @@
 <?php
 
 /**
- *
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-Class OSSMailView_Widget_View extends Vtiger_Edit_View
+class OSSMailView_Widget_View extends Vtiger_Edit_View
 {
-
 	public function checkPermission(\App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -23,13 +20,12 @@ Class OSSMailView_Widget_View extends Vtiger_Edit_View
 
 		$recordPermission = \App\Privilege::isPermitted($smodule, 'DetailView', $srecord);
 		if (!$recordPermission) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	public function preProcess(\App\Request $request, $display = true)
 	{
-		
 	}
 
 	public function process(\App\Request $request)

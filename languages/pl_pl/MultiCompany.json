@@ -1,0 +1,28 @@
+{
+  "php": {
+    "MultiCompany": "Oddzia\u0142y",
+    "SINGLE_MultiCompany": "Oddzia\u0142",
+    "LBL_BASIC_INFORMATION": "Informacje podstawowe o firmie",
+    "LBL_CONTACT_INFORMATION": "Informacje kontaktowe",
+    "LBL_REGISTRATION_INFORMATION": "Informacje rejestrowe",
+    "LBL_ADDRESS_INFORMATION": "Informacje adresowe",
+    "LBL_SYSTEM_INFORMATION": "Informacje systemowe",
+    "LBL_ADDITIONAL_INFORMATION": "Informacje dodatkowe",
+    "FL_COMPANY_NAME": "Nazwa firmy",
+    "FL_PARENT": "Oddzia\u0142 nadrz\u0119dny",
+    "FL_STATUS": "Status",
+    "FL_EMAIL_1": "Email podstawowy",
+    "FL_EMAIL_2": "Email dodatkowy",
+    "FL_PHONE": "Telefon podstawowy",
+    "FL_MOBILE": "Telefon dodatkowy",
+    "FL_FAX": "Faks",
+    "FL_VATID": "NIP",
+    "FL_COMPANY_ID1": "Regon",
+    "FL_COMPANY_ID2": "KRS",
+    "FL_INTERNAL_NOTES": "Uwagi wewn\u0119trzne",
+    "FL_PUBLIC_NOTES": "Uwagi publiczne",
+    "PLL_ACTIVE": "Aktywna",
+    "PLL_INACTIVE": "Nieaktywna",
+    "LBL_SHOW_HIERARCHY": "Hierarchia"
+  }
+}

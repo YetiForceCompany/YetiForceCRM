@@ -1,0 +1,12 @@
+{
+  "php": {
+    "QuickCreateEditor": "Editor de creaci\u00f3n r\u00e1pida",
+    "LBL_QUICK_CREATE_EDITOR": "Campos \u2013 Creaci\u00f3n r\u00e1pida",
+    "LBL_QUICK_CREATE_EDITOR_DESCRIPTION": "M\u00f3dulo que permite cambiar el dise\u00f1o de los campos dentro de la ventana de Creaci\u00f3n R\u00e1pida",
+    "LBL_SEQUENCE": "Secuencia de campo",
+    "LBL_SAVE_FIELD_SEQUENCE": "Guardar secuencia de campo"
+  },
+  "js": {
+    "JS_FIELD_SEQUENCE_UPDATED": "Secuencia de campo actualizada"
+  }
+}

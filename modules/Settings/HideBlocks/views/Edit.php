@@ -7,12 +7,16 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 
-Class Settings_HideBlocks_Edit_View extends Settings_Vtiger_Index_View
+class Settings_HideBlocks_Edit_View extends Settings_Vtiger_Index_View
 {
-
+	/**
+	 * Process.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$qualifiedModuleName = $request->getModule(false);
 		$mode = '';
 		$enabled = 0;
@@ -23,8 +27,9 @@ Class Settings_HideBlocks_Edit_View extends Settings_Vtiger_Index_View
 			$mode = 'edit';
 			$recordModel = Settings_HideBlocks_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
 			$enabled = $recordModel->get('enabled');
-			if ($recordModel->get('view') != '')
+			if ($recordModel->get('view') != '') {
 				$views = explode(',', $recordModel->get('view'));
+			}
 			$viewer->assign('BLOCK_ID', $recordModel->get('blockid'));
 		}
 
@@ -36,7 +41,6 @@ Class Settings_HideBlocks_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('BLOCKS', $moduleModel->getAllBlock());
 		$viewer->assign('VIEWS', $moduleModel->getViews());
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 }

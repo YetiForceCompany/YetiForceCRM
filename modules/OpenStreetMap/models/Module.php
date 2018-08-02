@@ -1,19 +1,20 @@
 <?php
 
 /**
- * Module Model
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Module Model.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Check if module is allowed
+	 * Check if module is allowed.
+	 *
 	 * @param string $moduleName
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public function isAllowModules($moduleName)
 	{
@@ -21,7 +22,8 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get allow modules with checking permissions
+	 * Function to get allow modules with checking permissions.
+	 *
 	 * @return array
 	 */
 	public function getAllowedModules()

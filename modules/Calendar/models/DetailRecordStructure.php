@@ -9,13 +9,13 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger Detail View Record Structure Model
+ * Vtiger Detail View Record Structure Model.
  */
 class Calendar_DetailRecordStructure_Model extends Vtiger_DetailRecordStructure_Model
 {
-
 	/**
-	 * Function to get the values in stuctured format
+	 * Function to get the values in stuctured format.
+	 *
 	 * @return <array> - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()
@@ -47,6 +47,7 @@ class Calendar_DetailRecordStructure_Model extends Vtiger_DetailRecordStructure_
 			}
 		}
 		$this->structuredValues = $values;
+
 		return $values;
 	}
 }

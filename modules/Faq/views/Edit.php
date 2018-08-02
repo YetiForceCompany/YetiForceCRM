@@ -11,9 +11,8 @@
 
 class Faq_Edit_View extends Vtiger_Edit_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{

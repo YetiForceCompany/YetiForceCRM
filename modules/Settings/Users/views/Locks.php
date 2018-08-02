@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Locks View Class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Locks View Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Users_Locks_View extends Settings_Vtiger_Index_View
 {
-
 	/**
-	 * Page title
+	 * Page title.
+	 *
 	 * @var type
 	 */
 	protected $pageTitle = 'LBL_LOCKS';
@@ -39,6 +39,7 @@ class Settings_Users_Locks_View extends Settings_Vtiger_Index_View
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 }

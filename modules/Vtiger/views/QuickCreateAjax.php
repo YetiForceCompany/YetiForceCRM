@@ -11,10 +11,11 @@
 
 class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -73,7 +74,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('MODE', 'edit');
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
-		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
+		$viewer->assign('MAX_UPLOAD_LIMIT', \AppConfig::main('upload_maxsize'));
 		echo $viewer->view('QuickCreate.tpl', $moduleName, true);
 	}
 
@@ -81,8 +82,9 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = [
-			"modules.$moduleName.resources.Edit"
+			"modules.$moduleName.resources.Edit",
 		];
+
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 

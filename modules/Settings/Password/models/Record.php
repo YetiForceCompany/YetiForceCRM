@@ -1,17 +1,18 @@
 <?php
 
 /**
- * Settings Password save model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Settings Password save model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Password_Record_Model extends Vtiger_Record_Model
 {
-
 	/**
-	 * Get user password configuration
+	 * Get user password configuration.
+	 *
 	 * @param string|bool $type
+	 *
 	 * @return array|string
 	 */
 	public static function getUserPassConfig($type = false)
@@ -24,6 +25,7 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 			while ($row = $dataReader->read()) {
 				$detail[$row['type']] = $row['val'];
 			}
+			$dataReader->close();
 			\App\Cache::save('UserPasswordgConfig', '', $detail);
 		}
 		return $type ? $detail[$type] : $detail;
@@ -56,10 +58,10 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 		$conf = self::getUserPassConfig();
 		$moduleName = 'Settings:Password';
 		if (strlen($pass) > $conf['max_length']) {
-			return \App\Language::translate('Maximum password length', $moduleName) . ' ' . $conf['max_length'] . ' ' . \App\Language::translate("characters", $moduleName);
+			return \App\Language::translate('Maximum password length', $moduleName) . ' ' . $conf['max_length'] . ' ' . \App\Language::translate('characters', $moduleName);
 		}
 		if (strlen($pass) < $conf['min_length']) {
-			return \App\Language::translate('Minimum password length', $moduleName) . ' ' . $conf['min_length'] . ' ' . \App\Language::translate("characters", $moduleName);
+			return \App\Language::translate('Minimum password length', $moduleName) . ' ' . $conf['min_length'] . ' ' . \App\Language::translate('characters', $moduleName);
 		}
 		if ($conf['numbers'] == 'true' && !preg_match('#[0-9]+#', $pass)) {
 			return \App\Language::translate('Password should contain numbers', $moduleName);
@@ -79,6 +81,17 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 	public static function getPasswordChangeDate()
 	{
 		$passConfig = static::getUserPassConfig();
+
 		return date('Y-m-d', strtotime("-{$passConfig['change_time']} day"));
+	}
+
+	/**
+	 * Checks if encrypt is active.
+	 *
+	 * @return bool
+	 */
+	public static function isRunEncrypt()
+	{
+		return (new \App\Db\Query())->from('s_#__batchmethod')->where(['method' => '\App\Encryption::recalculatePasswords'])->exists();
 	}
 }

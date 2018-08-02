@@ -10,7 +10,6 @@
 
 class Rss_List_View extends Vtiger_Index_View
 {
-
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
@@ -31,7 +30,7 @@ class Rss_List_View extends Vtiger_Index_View
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -39,9 +38,8 @@ class Rss_List_View extends Vtiger_Index_View
 		$viewer->view('ListViewPostProcess.tpl', $moduleName);
 		parent::postProcess($request);
 	}
-	/*
-	 * Function to initialize the required data in smarty to display the List View Contents
-	 */
+
+	// Function to initialize the required data in smarty to display the List View Contents
 
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
@@ -65,8 +63,10 @@ class Rss_List_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)
@@ -79,16 +79,17 @@ class Rss_List_View extends Vtiger_Index_View
 			"modules.$moduleName.resources.List",
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
-			'modules.Vtiger.resources.CkEditor'
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 
 	/**
-	 * Function to get the list view header
+	 * Function to get the list view header.
+	 *
 	 * @return <Array> - List of Vtiger_Field_Model instances
 	 */
 	public function getListViewRssHeaders($module)
@@ -107,7 +108,7 @@ class Rss_List_View extends Vtiger_Index_View
 				'label' => 'LBL_SENDER',
 				'typeofdata' => 'V~O',
 				'diplaytype' => '1',
-			]
+			],
 		];
 		foreach ($headerFields as $fieldName => $fieldDetails) {
 			$fieldModel = new Vtiger_Field_Model();

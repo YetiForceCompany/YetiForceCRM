@@ -8,15 +8,14 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * **************************************************************************** */
+
 namespace vtlib;
 
 /**
- * Provides API to work with vtiger CRM Module Blocks
- * @package vtlib
+ * Provides API to work with vtiger CRM Module Blocks.
  */
 class Block
 {
-
 	/** ID of this block instance */
 	public $id;
 
@@ -33,13 +32,15 @@ class Block
 	public $module;
 
 	/**
-	 * Basic table name
-	 * @var string 
+	 * Basic table name.
+	 *
+	 * @var string
 	 */
 	public static $baseTable = 'vtiger_blocks';
 
 	/**
-	 * Get next sequence value to use for this block instance
+	 * Get next sequence value to use for this block instance.
+	 *
 	 * @return int
 	 */
 	public function __getNextSequence()
@@ -48,23 +49,24 @@ class Block
 	}
 
 	/**
-	 * Initialize this block instance
+	 * Initialize this block instance.
+	 *
 	 * @param array Map of column name and value
-	 * @param \Module Module Instance of module to which this block is associated
+	 * @param mixed $module Mixed id or name of the module
 	 */
-	public function initialize($valuemap, $moduleInstance = false)
+	public function initialize($valuemap, $module = false)
 	{
-		$this->id = isset($valuemap['blockid']) ? $valuemap['blockid'] : null;
-		$this->label = isset($valuemap['blocklabel']) ? $valuemap['blocklabel'] : null;
-		$this->display_status = isset($valuemap['display_status']) ? $valuemap['display_status'] : null;
-		$this->sequence = isset($valuemap['sequence']) ? $valuemap['sequence'] : null;
-		$this->iscustom = isset($valuemap['iscustom']) ? $valuemap['iscustom'] : null;
-		$tabid = isset($valuemap['tabid']) ? $valuemap['tabid'] : null;
-		$this->module = $moduleInstance ? $moduleInstance : Module::getInstance($tabid);
+		$this->id = $valuemap['blockid'] ?? null;
+		$this->label = $valuemap['blocklabel'] ?? null;
+		$this->display_status = $valuemap['display_status'] ?? null;
+		$this->sequence = $valuemap['sequence'] ?? null;
+		$this->iscustom = $valuemap['iscustom'] ?? null;
+		$this->module = Module::getInstance($module ? $module : $valuemap['tabid']);
 	}
 
 	/**
-	 * Create vtiger CRM block
+	 * Create vtiger CRM block.
+	 *
 	 * @param \Module $moduleInstance
 	 */
 	public function __create($moduleInstance)
@@ -72,8 +74,9 @@ class Block
 		$db = \App\Db::getInstance();
 		$this->module = $moduleInstance;
 
-		if (!$this->sequence)
+		if (!$this->sequence) {
 			$this->sequence = $this->__getNextSequence();
+		}
 		if ($this->display_status != 0) {
 			$this->display_status = 1;
 		}
@@ -87,86 +90,85 @@ class Block
 			'edit_view' => $this->ineditview,
 			'detail_view' => $this->indetailview,
 			'display_status' => $this->display_status,
-			'iscustom' => $this->iscustom
+			'iscustom' => $this->iscustom,
 		])->execute();
 		$this->id = $db->getLastInsertID(self::$baseTable . '_blockid_seq');
-		self::log("Creating Block $this->label ... DONE");
-		self::log("Module language entry for $this->label ... CHECK");
+		\App\Log::trace("Creating Block $this->label ... DONE", __METHOD__);
+		\App\Log::trace("Module language entry for $this->label ... CHECK", __METHOD__);
 	}
 
 	public function __update()
 	{
-		self::log("Updating Block $this->label ... DONE");
+		\App\Log::trace("Updating Block $this->label ... DONE", __METHOD__);
 	}
 
 	/**
-	 * Delete this instance
+	 * Delete this instance.
 	 */
 	public function __delete()
 	{
-		self::log("Deleting Block $this->label ... ", false);
+		\App\Log::trace("Deleting Block $this->label ... ", __METHOD__);
 		\App\Db::getInstance()->createCommand()->delete(self::$baseTable, ['blockid' => $this->id])->execute();
-		self::log("DONE");
+		\App\Log::trace('DONE', __METHOD__);
 	}
 
 	/**
-	 * Save this block instance
+	 * Save this block instance.
+	 *
 	 * @param Module Instance of the module to which this block is associated
 	 */
 	public function save($moduleInstance = false)
 	{
-		if ($this->id)
+		if ($this->id) {
 			$this->__update();
-		else
+		} else {
 			$this->__create($moduleInstance);
+		}
 		return $this->id;
 	}
 
 	/**
-	 * Delete block instance
-	 * @param Boolean True to delete associated fields, False to avoid it
+	 * Delete block instance.
+	 *
+	 * @param bool True to delete associated fields, False to avoid it
 	 */
 	public function delete($recursive = true)
 	{
 		if ($recursive) {
 			$fields = Field::getAllForBlock($this);
-			foreach ($fields as $fieldInstance)
+			foreach ($fields as $fieldInstance) {
 				$fieldInstance->delete($recursive);
+			}
 		}
 		$this->__delete();
 	}
 
 	/**
-	 * Add field to this block
+	 * Add field to this block.
+	 *
 	 * @param FieldBasic $fieldInstance
+	 *
 	 * @return Reference to this block instance
 	 */
 	public function addField(FieldBasic $fieldInstance)
 	{
 		$fieldInstance->save($this);
+
 		return $this;
 	}
 
 	/**
-	 * Helper function to log messages
-	 * @param String Message to log
-	 * @param Boolean true appends linebreak, false to avoid it
-	 * @access private
-	 */
-	public static function log($message, $delim = true)
-	{
-		Utils::log($message, $delim);
-	}
-
-	/**
-	 * Get instance of block
+	 * Get instance of block.
+	 *
 	 * @param int|string block id or block label
-	 * @param \Module Module Instance of the module if block label is passed
+	 * @param mixed $module Mixed id or name of the module
+	 *
 	 * @return \self
 	 */
-	public static function getInstance($value, $moduleInstance = false)
+	public static function getInstance($value, $module = false)
 	{
-		$cacheName = $value . '|' . ($moduleInstance ? $moduleInstance->id : '');
+		$tabId = is_numeric($module) ? $module : \App\Module::getModuleId($module);
+		$cacheName = $value . '|' . $tabId;
 		if (\App\Cache::has('BlockInstance', $cacheName)) {
 			$data = \App\Cache::get('BlockInstance', $cacheName);
 		} else {
@@ -174,7 +176,7 @@ class Block
 			if (Utils::isNumber($value)) {
 				$query->where(['blockid' => $value]);
 			} else {
-				$query->where(['blocklabel' => $value, 'tabid' => $moduleInstance->id]);
+				$query->where(['blocklabel' => $value, 'tabid' => $tabId]);
 			}
 			$data = $query->one();
 			\App\Cache::save('BlockInstance', $cacheName, $data);
@@ -182,14 +184,16 @@ class Block
 		$instance = false;
 		if ($data) {
 			$instance = new self();
-			$instance->initialize($data, $moduleInstance);
+			$instance->initialize($data, $tabId);
 		}
 		return $instance;
 	}
 
 	/**
-	 * Get all block instances associated with the module
+	 * Get all block instances associated with the module.
+	 *
 	 * @param ModuleBasic $moduleInstance
+	 *
 	 * @return self
 	 */
 	public static function getAllForModule(ModuleBasic $moduleInstance)
@@ -206,16 +210,17 @@ class Block
 		$instances = false;
 		foreach ($blocks as $row) {
 			$instance = new self();
-			$instance->initialize($row, $moduleInstance);
+			$instance->initialize($row, $moduleInstance->id);
 			$instances[] = $instance;
 		}
 		return $instances;
 	}
 
 	/**
-	 * Delete all blocks associated with module
+	 * Delete all blocks associated with module.
+	 *
 	 * @param ModuleBasic $moduleInstance
-	 * @param boolean true to delete associated fields, false otherwise
+	 * @param bool true to delete associated fields, false otherwise
 	 */
 	public static function deleteForModule(ModuleBasic $moduleInstance, $recursive = true)
 	{
@@ -228,6 +233,6 @@ class Block
 		$query = (new \App\Db\Query())->select(['blockid'])->from(self::$baseTable)->where(['tabid' => $tabId]);
 		$db->createCommand()->delete('vtiger_blocks_hide', ['blockid' => $query])->execute();
 		$db->createCommand()->delete(self::$baseTable, ['tabid' => $tabId])->execute();
-		self::log("Deleting blocks for module ... DONE");
+		\App\Log::trace('Deleting blocks for module ... DONE', __METHOD__);
 	}
 }

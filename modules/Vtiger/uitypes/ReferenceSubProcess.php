@@ -1,17 +1,16 @@
 <?php
 
 /**
- * UIType ReferenceSubProcess Field Class
- * @package YetiForce.Fields
- * @copyright YetiForce Sp. z o.o.
+ * UIType ReferenceSubProcess Field Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_ReferenceSubProcess_UIType extends Vtiger_ReferenceLink_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getReferenceList()
 	{
@@ -32,10 +31,10 @@ class Vtiger_ReferenceSubProcess_UIType extends Vtiger_ReferenceLink_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/ReferenceSubProcess.tpl';
+		return 'Edit/Field/ReferenceSubProcess.tpl';
 	}
 }

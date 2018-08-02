@@ -10,13 +10,13 @@
 
 class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 {
-
 	public $fileName = 'config/config.inc.php';
 	public $completeData;
 	public $data;
 
 	/**
-	 * Function to read config file
+	 * Function to read config file.
+	 *
 	 * @return array The data of config file
 	 */
 	public function readFile()
@@ -28,37 +28,44 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get CompanyDetails Menu item
+	 * Function to get CompanyDetails Menu item.
+	 *
 	 * @return menu item Model
 	 */
 	public function getMenuItem()
 	{
 		$menuItem = Settings_Vtiger_MenuItem_Model::getInstance('LBL_CONFIG_EDITOR');
+
 		return $menuItem;
 	}
 
 	/**
-	 * Function to get Edit view Url
+	 * Function to get Edit view Url.
+	 *
 	 * @return string Url
 	 */
 	public function getEditViewUrl()
 	{
 		$menuItem = $this->getMenuItem();
+
 		return '?module=Vtiger&parent=Settings&view=ConfigEditorEdit&block=' . $menuItem->get('blockid') . '&fieldid=' . $menuItem->get('fieldid');
 	}
 
 	/**
-	 * Function to get Detail view Url
+	 * Function to get Detail view Url.
+	 *
 	 * @return string Url
 	 */
 	public function getDetailViewUrl()
 	{
 		$menuItem = $this->getMenuItem();
+
 		return '?module=Vtiger&parent=Settings&view=ConfigEditorDetail&block=' . $menuItem->get('blockid') . '&fieldid=' . $menuItem->get('fieldid');
 	}
 
 	/**
-	 * Function to get Viewable data of config details
+	 * Function to get Viewable data of config details.
+	 *
 	 * @return array
 	 */
 	public function getViewableData()
@@ -83,7 +90,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 							$fieldValue = round(number_format($fieldValue / 1048576, 2));
 						}
 
-						$data[$fieldName] = str_replace(";", '', str_replace("'", '', $fieldValue));
+						$data[$fieldName] = str_replace(';', '', str_replace("'", '', $fieldValue));
 						break;
 					}
 				}
@@ -94,8 +101,10 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get picklist values
+	 * Function to get picklist values.
+	 *
 	 * @param string $fieldName
+	 *
 	 * @return array list of module names
 	 */
 	public function getPicklistValues($fieldName)
@@ -105,15 +114,17 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			$restrictedModules = ['Integration', 'Dashboard'];
 			$query = (new \App\Db\Query())->select(['name', 'tablabel'])->from('vtiger_tab')->where(['presence' => $presence, 'isentitytype' => 1])->andWhere(['not in', 'name', $restrictedModules]);
 			$rows = $query->createCommand()->queryAllByGroup(0);
+
 			return array_merge(['Home' => 'Home'], $rows);
-		} else if ($fieldName === 'defaultLayout') {
+		} elseif ($fieldName === 'defaultLayout') {
 			return \App\Layout::getAllLayouts();
 		}
 		return ['true', 'false'];
 	}
 
 	/**
-	 * Function to get editable fields
+	 * Function to get editable fields.
+	 *
 	 * @return array list of field names
 	 */
 	public function getEditableFields()
@@ -136,7 +147,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to save the data
+	 * Function to save the data.
 	 */
 	public function save()
 	{
@@ -147,12 +158,12 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			foreach ($updatedFields as $fieldName => $fieldValue) {
 				if ($fieldName === 'upload_maxsize') {
 					$fieldValue = $fieldValue * 1048576; //(1024 * 1024)
-				} else if (in_array($fieldName, ['title_max_length', 'listview_max_textlength', 'listMaxEntriesMassEdit', 'list_max_entries_per_page', 'MINIMUM_CRON_FREQUENCY', 'href_max_length'])) {
+				} elseif (in_array($fieldName, ['title_max_length', 'listview_max_textlength', 'listMaxEntriesMassEdit', 'list_max_entries_per_page', 'MINIMUM_CRON_FREQUENCY', 'href_max_length'])) {
 					$fieldValue = (int) $fieldValue;
-				} else if (in_array($fieldName, ['layoutInLoginView', 'langInLoginView', 'backgroundClosingModal', 'breadcrumbs'])) {
+				} elseif (in_array($fieldName, ['layoutInLoginView', 'langInLoginView', 'backgroundClosingModal', 'breadcrumbs'])) {
 					$fieldValue = strcasecmp('true', (string) $fieldValue) === 0;
 				}
-				$replacement = sprintf("\$%s = %s;", $fieldName, \App\Utils::varExport($fieldValue));
+				$replacement = sprintf('$%s = %s;', $fieldName, \App\Utils::varExport($fieldValue));
 				$fileContent = preg_replace('/\$' . $fieldName . '[\s]+=([^;]+);/', $replacement, $fileContent);
 			}
 			$filePointer = fopen($this->fileName, 'w');
@@ -163,15 +174,17 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to validate the field values
+	 * Function to validate the field values.
+	 *
 	 * @param array $updatedFields
-	 * @return boolean|string True/Error message
+	 *
+	 * @return bool|string True/Error message
 	 */
 	public function validateFieldValues($updatedFields)
 	{
 		if (!in_array($updatedFields['default_module'], $this->getPicklistValues('default_module'))) {
 			return 'LBL_INVALID_MODULE';
-		} else if (!filter_var(ltrim($updatedFields['upload_maxsize'], '0'), FILTER_VALIDATE_INT) ||
+		} elseif (!filter_var(ltrim($updatedFields['upload_maxsize'], '0'), FILTER_VALIDATE_INT) ||
 			!filter_var(ltrim($updatedFields['list_max_entries_per_page'], '0'), FILTER_VALIDATE_INT) ||
 			!filter_var(ltrim($updatedFields['title_max_length'], '0'), FILTER_VALIDATE_INT) ||
 			!filter_var(ltrim($updatedFields['listMaxEntriesMassEdit'], '0'), FILTER_VALIDATE_INT) ||
@@ -187,13 +200,15 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get the instance of Config module model
+	 * Function to get the instance of Config module model.
+	 *
 	 * @return /self $moduleModel
 	 */
 	public static function getInstance($name = false)
 	{
 		$moduleModel = new self();
 		$moduleModel->getViewableData();
+
 		return $moduleModel;
 	}
 }

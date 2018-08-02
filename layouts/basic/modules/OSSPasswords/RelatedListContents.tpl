@@ -2,7 +2,7 @@
 {strip}
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-	<div class="listViewEntriesDiv contents-bottomscroll">
+	<div class="listViewEntriesDiv u-overflow-scroll-xs-down contents-bottomscroll">
 		<table class="table tableBorderHeadBody listViewEntriesTable {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if}">
 			<thead>
 				<tr class="listViewHeaders">
@@ -37,7 +37,9 @@
 				{if $RELATED_MODULE->isQuickSearchEnabled()}
 					<tr>
 						<td>
-							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+							<a class="btn btn-light" role="button" data-trigger="listSearch" href="javascript:void(0);">
+								<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
+							</a>
 						</td>
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							<td>
@@ -52,9 +54,9 @@
 							</td>
 						{/foreach}
 						<td>
-							<button type="button" class="btn btn-default removeSearchConditions">
-								<span class="glyphicon glyphicon-remove"></button>
-							</a>
+							<button type="button" class="btn btn-light removeSearchConditions">
+								<span class="fas fa-times" title="{\App\Language::translate('LBL_CLEAR_SEARCH')}"></span>
+							</button>
 						</td>
 					</tr>
 				{/if}
@@ -110,8 +112,8 @@
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						<td {if $HEADER_FIELD@last} colspan="2" {/if} class="noWrap {if !empty($HEADER_FIELD->isCalculateField())}border{/if}" >
 							{if !empty($HEADER_FIELD->isCalculateField())}
-								<button class="btn btn-xs btn-default popoverTooltip" type="button" data-operator="sum" data-field="{$HEADER_FIELD->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
-									<span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span>
+								<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover" type="button" data-operator="sum" data-field="{$HEADER_FIELD->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
+									<span class="fas fa-signal"></span>
 								</button>
 								<span class="calculateValue"></span>
 							{/if}

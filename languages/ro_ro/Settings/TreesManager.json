@@ -1,0 +1,37 @@
+{
+  "php": {
+    "LBL_ADD_RECORD": "Adauga",
+    "TreesManager": "Manager arbore",
+    "LBL_TREES_MANAGER": "Campuri \u2013 Dosare",
+    "LBL_TREES_MANAGER_DESCRIPTION": "Manager sablon arbore",
+    "LBL_NO_RECORDS_FOUND": "Nu exista sabloane arbore",
+    "LBL_EDIT_TEMPLATE_TREES": "Modifica sablon arbore",
+    "LBL_CREATING_TEMPLATE_TREES": "Creaza sablon arbore",
+    "LBL_NAME": "Denumire sablon",
+    "LBL_MODULE": "Modul",
+    "LBL_ADD_ITEM_TREE": "Adauga element nou",
+    "LBL_ADD_TO_TREES": "Adauga",
+    "LBL_SAVE": "Salveaza",
+    "LBL_SELECT_REPLACE_TREE_ITEM": "Modifica element arbore in:",
+    "Category": "Categorie",
+    "Reservations": "Rezervari",
+    "LBL_SHARE_WITH": "Partajeaza cu"
+  },
+  "js": {
+    "JS_TREE_DELETED_SUCCESSFULLY": "Sablon arbore sters cu succes",
+    "JS_JSTREE_CREATE": "Adauga",
+    "JS_JSTREE_RENAME": "Schimba nume",
+    "JS_JSTREE_REMOVE": "Sterge",
+    "JS_JSTREE_CCP": "Modifica",
+    "JS_JSTREE_CUT": "Taie",
+    "JS_JSTREE_COPY": "Copiaza",
+    "JS_JSTREE_PASTE": "Lipeste",
+    "JS_JSTREE_CHANGE_ICON": "Schimba pictograma",
+    "JS_FIELD_CAN_NOT_BE_EMPTY": "Campul nu poate fi gol",
+    "JS_NO_ITEM_SELECTED": "Nu a fost selectat niciun element",
+    "JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS": "Nu puteti sterge toate elementele",
+    "JS_YOU_CANNOT_DELETE_PERENT_ITEM": "Nu poti sterge elementul principal",
+    "JS_NEW_ITEM": "Nod nou",
+    "JS_ONLY_ONE_ITEM_SELECTED": "Doar un element poate fi selectat."
+  }
+}

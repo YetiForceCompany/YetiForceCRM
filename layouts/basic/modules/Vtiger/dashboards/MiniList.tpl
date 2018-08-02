@@ -11,16 +11,10 @@
 	{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 	{assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 	{assign var=CURRENTUSERID value=$USER_MODEL->getId()}
-	<div class="dashboardWidgetHeader">
-		<div class="row">
-			<div class="col-md-8">
-				<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
-			</div>
-			<div class="col-md-4">
-				<div class="box pull-right">
-					{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
-				</div>
-			</div>
+	<div class="tpl-dashboards-Minilist dashboardWidgetHeader">
+		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
+			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
+			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 		</div>
 		<hr class="widgetHr" />
 		<div class="row" >
@@ -31,7 +25,7 @@
 					</div>
 				{/if}
 			</div>
-			<div class="col-sm-6 pull-right">
+			<div class="col-sm-6">
 				{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 			</div>
 		</div>

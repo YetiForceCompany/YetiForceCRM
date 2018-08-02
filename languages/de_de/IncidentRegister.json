@@ -1,0 +1,33 @@
+{
+  "php": {
+    "IncidentRegister": "Vorfallsregister",
+    "SINGLE_IncidentRegister": "Vorfallsregister",
+    "LBL_BASIC_INFORMATION": "Grundinformationen",
+    "FL_NAME": "Name",
+    "FL_LOCATION_REGISTER": "Lokationsregister",
+    "FL_DATASETREGISTER": "Datensetregister",
+    "PLL_DRAFT": "Entwurf",
+    "PLL_WAITING_FOR_ACCEPTANCE": "Auf Abnahme warten",
+    "PLL_IN_REALIZATION": "In Umsetzung",
+    "PLL_COMPLETED": "Abgeschlossen",
+    "PLL_CANCELLED": "Abgebrochen",
+    "FL_STATUS": "Status",
+    "FL_TYPE": "Typ",
+    "PLL_INTERNAL": "Intern",
+    "PLL_EXTERNAL": "Extern",
+    "LBL_INCIDENT_DATES": "Vorfall Daten",
+    "FL_INCIDENT_DATE": "Vorfall Datum",
+    "FL_INCIDENT_DISCOVERY": "Vorfallsdatum",
+    "FL_INCIDENT_REPORT_DATE": " Vorfall Meldedatum",
+    "FL_INCIDENT_PUBLICATION_DATE": "Vorfall Ver\u00f6ffentlichungsdatum",
+    "FL_PEOPLE_NUMBER": "Anzahl Personen",
+    "LBL_BREACH_CIRCUMSTANCES": "Umst\u00e4nde der Datenschutzverletzung",
+    "FL_BREACH_CIRCUMSTANCES": "Umst\u00e4nde der Datenschutzverletzung",
+    "LBL_NATURE_OF_BREACH": "Ursache der Datenschutzverletzung",
+    "FL_NATURE_OF_BREACH": "Ursache der Datenschutzverletzung",
+    "LBL_POSSIBLE_CONSEQUENCES": "M\u00f6gliche Konsequenzen",
+    "FL_POSSIBLE_CONSEQUENCES": "M\u00f6gliche Konsequenzen",
+    "LBL_SECURITY_MEASURES": "Angewendete Sicherheitsma\u00dfnahmen",
+    "FL_SECURITY_MEASURES": "Angewendete Sicherheitsma\u00dfnahmen"
+  }
+}

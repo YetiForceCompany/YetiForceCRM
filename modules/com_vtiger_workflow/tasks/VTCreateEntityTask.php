@@ -8,11 +8,10 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
+require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
 class VTCreateEntityTask extends VTTask
 {
-
 	public $executeImmediately = true;
 
 	public function getFieldNames()
@@ -21,7 +20,8 @@ class VTCreateEntityTask extends VTTask
 	}
 
 	/**
-	 * Execute task
+	 * Execute task.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
 	 */
 	public function doTask($recordModel)
@@ -83,8 +83,9 @@ class VTCreateEntityTask extends VTTask
 			}
 			$newRecordModel->set($this->reference_field, $recordId);
 			// To handle cyclic process
+			$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 			$newRecordModel->save();
-			relateEntities($recordModel->getEntity(), $moduleName, $recordId, $entityType, $newRecordModel->getId());
+			vtlib\Deprecated::relateEntities($recordModel->getEntity(), $moduleName, $recordId, $entityType, $newRecordModel->getId());
 		} elseif ($entityType && $this->mappingPanel) {
 			$saveContinue = true;
 			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
@@ -184,6 +185,7 @@ class VTCreateEntityTask extends VTTask
 			}
 		}
 		$recordModel->setInventoryRawData(new App\Request($invDat, false));
+
 		return $recordModel;
 	}
 }

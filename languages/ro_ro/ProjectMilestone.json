@@ -1,0 +1,29 @@
+{
+  "php": {
+    "SINGLE_ProjectMilestone": "Etapa proiect",
+    "LBL_PROJECT_MILESTONE_INFORMATION": "Detalii Etapa proiect",
+    "LBL_PROJECTS_LIST": "Lista Proiecte",
+    "LBL_TASKS_LIST": "Lista Sarcini",
+    "LBL_MILESTONES_LIST": "Lista Etape",
+    "FL_PARENT_PROJECT_MILESTONE": "Etapa proiect principala",
+    "FL_STATUS": "Status",
+    "description": "Descriere",
+    "Related to": "Proiect",
+    "Project Milestone Name": "Denumire etapa proiect",
+    "Milestone Date": "Data Etapa",
+    "Project Milestone No": "Numar etapa proiect",
+    "LBL_PRIORITY": "Prioritate",
+    "LBL_PROGRESS": "Progres",
+    "PLL_INTERNAL": "Intern",
+    "PLL_EXTERNAL": "Extern",
+    "PLL_SHARED": "Distribuit",
+    "PLL_LOW": "Scazut",
+    "PLL_NORMAL": "Normal",
+    "PLL_HIGH": "Ridicat",
+    "PLL_IN_PROGRESS": "In Progres",
+    "PLL_OPEN": "Deschis",
+    "PLL_COMPLETED": "Completat",
+    "PLL_DEFERRED": "Amanat",
+    "PLL_CANCELLED": "Anulat"
+  }
+}

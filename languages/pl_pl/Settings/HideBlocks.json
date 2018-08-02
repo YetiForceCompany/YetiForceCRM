@@ -1,0 +1,16 @@
+{
+  "php": {
+    "HideBlocks": "Ukrywanie blok\u00f3w",
+    "LBL_HIDEBLOCKS": "Pola - ukrywanie blok\u00f3w",
+    "LBL_HIDEBLOCKS_DESCRIPTION": "Zarz\u0105dzanie ukrywaniem blok\u00f3w z polami",
+    "LBL_BLOCK_LABEL": "Blok",
+    "LBL_MODULE": "Modu\u0142",
+    "LBL_ENABLED": "Aktywny",
+    "LBL_EDIT_BLOCK": "Edycja",
+    "LBL_NEW_BLOCK": "Tworzenie",
+    "LBL_BLOCK": "Blok",
+    "LBL_NEXT": "Dalej",
+    "LBL_VIEW": "Widok",
+    "LBL_MANDATORY_FIELDS_EXIST": "Nie mo\u017cna ukry\u0107 tego bloku poniewa\u017c istniej\u0105 w nim pola obowi\u0105zkowe."
+  }
+}

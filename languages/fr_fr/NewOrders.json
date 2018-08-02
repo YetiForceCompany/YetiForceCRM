@@ -1,0 +1,9 @@
+{
+  "php": {
+    "NewOrders": "Nouvelles commandes",
+    "SINGLE_NewOrders": "Nouvelle commande",
+    "LBL_NEWORDERS_INFORMATION": "Information standard",
+    "LBL_SUBJECT": "Sujet",
+    "LBL_NUMBER": "Nombre"
+  }
+}

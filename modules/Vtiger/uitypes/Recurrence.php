@@ -11,13 +11,12 @@
 
 class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		$result = [];
@@ -36,7 +35,7 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 			}
 		}
 		$allowedDayes = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
-		if (isset($result['BYDAY']) && !in_array($result['BYDAY'], $allowedDayes)) {
+		if (isset($result['BYDAY']) && (strpos($result['BYDAY'], ',') === false ? !(in_array($result['BYDAY'], $allowedDayes) || in_array(substr($result['BYDAY'], 1), $allowedDayes)) : array_diff(explode(',', $result['BYDAY']), $allowedDayes))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		if (isset($result['BYMONTHDAY'])) {
@@ -55,29 +54,31 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Recurrence.tpl';
+		return 'Edit/Field/Recurrence.tpl';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDetailViewTemplateName()
 	{
-		return 'uitypes/RecurrenceDetailView.tpl';
+		return 'Detail/Field/Recurrence.tpl';
 	}
 
 	/**
-	 * Function to get the edit value in display view
-	 * @param mixed $value
+	 * Function to get the edit value in display view.
+	 *
+	 * @param mixed               $value
 	 * @param Vtiger_Record_Model $recordModel
+	 *
 	 * @return mixed
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
@@ -86,8 +87,10 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Parse recuring rule to array
+	 * Parse recuring rule to array.
+	 *
 	 * @param string $value
+	 *
 	 * @return array
 	 */
 	public static function getRecurringInfo($value)
@@ -123,20 +126,20 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$info = self::getRecurringInfo($value);
 		$text = '';
-		if (!$info) {
+		if ($info) {
 			$moduleName = 'Events';
 			$text = App\Language::translate('LBL_REPEATEVENT', $moduleName) . ' ' . $info['INTERVAL'] . ' '
-				. App\Language::translate($info['freqLabel'], $moduleName) . ' '
+				. App\Language::translate($info['freqLabel'], $moduleName) . ', '
 				. App\Language::translate('LBL_UNTIL', $moduleName) . ' ';
 			if (isset($info['COUNT'], $info['UNTIL'])) {
 				$text .= App\Language::translate('LBL_NEVER', $moduleName);
-			} else if (isset($info['COUNT'])) {
+			} elseif (isset($info['COUNT'])) {
 				$text .= App\Language::translate('LBL_COUNT', $moduleName) . ': ' . $info['COUNT'];
 			} else {
 				$text .= App\Language::translate('LBL_UNTIL', $moduleName) . ': ' . $info['UNTIL'];
@@ -148,5 +151,13 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 	public function isAjaxEditable()
 	{
 		return false;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return ['text'];
 	}
 }

@@ -10,9 +10,8 @@
 
 class ModComments_Detail_View extends Vtiger_Detail_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function isAjaxEnabled($recordModel)
 	{

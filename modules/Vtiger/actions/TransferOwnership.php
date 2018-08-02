@@ -1,17 +1,18 @@
 <?php
 
 /**
- * Vtiger TransferOwnership action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Vtiger TransferOwnership action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
+class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -69,6 +70,7 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 						unset($selectedIds[$key]);
 					}
 				}
+
 				return $selectedIds;
 			}
 		}
@@ -86,14 +88,10 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 				}
 
 				$customViewModel->set('search_params', $request->get('search_params'));
+
 				return $customViewModel->getRecordIds($excludedIds, $module, true);
 			}
 		}
 		return [];
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

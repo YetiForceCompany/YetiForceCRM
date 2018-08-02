@@ -9,11 +9,12 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class Calendar_Edit_View extends Vtiger_Edit_View
+class Calendar_Edit_View extends Vtiger_Edit_View
 {
+	use \App\Controller\ExposeMethod;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	public function __construct()
 	{
@@ -23,9 +24,9 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 	}
 
 	/**
-	 * Process request
+	 * Process request.
+	 *
 	 * @param \App\Request $request
-	 * @return null
 	 */
 	public function process(\App\Request $request)
 	{
@@ -36,6 +37,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		}
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
+
 			return;
 		}
 		$this->calendar($request, 'Calendar');
@@ -47,8 +49,8 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		$viewer = $this->getViewer($request);
 		if ($request->has('record') && $request->getBoolean('isDuplicate') === true) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-			$viewer->assign('MODE', '');
-		} else if ($request->has('record')) {
+			$viewer->assign('MODE', 'duplicate');
+		} elseif ($request->has('record')) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			$viewer->assign('MODE', 'edit');
 			$viewer->assign('RECORD_ID', $request->getInteger('record'));
@@ -75,7 +77,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		//if it is relation edit
 		$viewer->assign('IS_RELATION_OPERATION', $isRelationOperation);
 		if ($isRelationOperation) {
-			$sourceModule = $request->getByType('sourceModule',2);
+			$sourceModule = $request->getByType('sourceModule', 2);
 			$sourceRecord = $request->getInteger('sourceRecord');
 
 			$viewer->assign('SOURCE_MODULE', $sourceModule);
@@ -108,7 +110,8 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 	}
 
 	/**
-	 * Calendar
+	 * Calendar.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function calendar(\App\Request $request)

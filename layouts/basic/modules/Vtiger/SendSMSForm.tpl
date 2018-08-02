@@ -14,8 +14,10 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
-					<h3 class="modal-title">{\App\Language::translate('LBL_SEND_SMS_TO_SELECTED_NUMBERS', $MODULE)}</h3>
+					<h5 class="modal-title">{\App\Language::translate('LBL_SEND_SMS_TO_SELECTED_NUMBERS', $MODULE)}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
+					</button>
 				</div>
 				<form class="form-horizontal validateForm" id="massSave" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -30,10 +32,10 @@
 					<input type="hidden" name="search_params" value='{\App\Json::encode($SEARCH_PARAMS)}' />
 					<div class="modal-body">
 						<div class="alert alert-info" role="alert">
-							<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;&nbsp;
+							<span class="fas fa-info-circle"></span>&nbsp;&nbsp;
 							{\App\Language::translate('LBL_MASS_SEND_SMS_INFO', $MODULE)}
 						</div>
-						<div class="col-xs-12">
+						<div class="col-12">
 							<div class="form-group">
 								<span><strong>{\App\Language::translate('LBL_STEP_1',$MODULE)}</strong></span>
 								&nbsp;:&nbsp;
@@ -62,8 +64,8 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-success" type="submit" name="saveButton"><span class="glyphicon glyphicon-ok"></span>&nbsp;<strong>{\App\Language::translate('LBL_SEND', $MODULE)}</strong></button>
-						<button class="btn btn-warning" type="reset" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
+						<button class="btn btn-success" type="submit" name="saveButton"><span class="fas fa-check"></span>&nbsp;<strong>{\App\Language::translate('LBL_SEND', $MODULE)}</strong></button>
+						<button class="btn btn-warning" type="reset" data-dismiss="modal"><span class="fas fa-times"></span>&nbsp;<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
 					</div>
 				</form>
 			</div>

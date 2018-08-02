@@ -10,9 +10,9 @@
 
 class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_RecordStructure_Model
 {
-
 	/**
-	 * Function to get the values in stuctured format
+	 * Function to get the values in stuctured format.
+	 *
 	 * @return <array> - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()
@@ -66,8 +66,9 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 		foreach ($fields as $parentFieldName => $field) {
 			$type = $field->getFieldDataType();
 			$referenceModules = $field->getReferenceList();
-			if ($type == 'owner')
+			if ($type == 'owner') {
 				$referenceModules = ['Users'];
+			}
 			foreach ($referenceModules as $refModule) {
 				$moduleModel = Vtiger_Module_Model::getInstance($refModule);
 				$blockModelList = $moduleModel->getBlocks();
@@ -94,6 +95,7 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 			}
 		}
 		$this->structuredValues = $values;
+
 		return $values;
 	}
 }

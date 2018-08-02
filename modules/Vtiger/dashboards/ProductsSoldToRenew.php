@@ -1,16 +1,15 @@
 <?php
 
 /**
- * ProductsSoldToRenew Dashboard Class
- * @package YetiForce.Dashboard
- * @copyright YetiForce Sp. z o.o.
+ * ProductsSoldToRenew Dashboard Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 {
-
-	public function process(\App\Request $request, $widget = NULL)
+	public function process(\App\Request $request, $widget = null)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
@@ -99,7 +98,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 		if (!$this->queryGenerator) {
 			$this->queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 			$this->queryGenerator->setFields($this->getTargetFields());
-			$this->listviewHeaders = $this->listviewRecords = NULL;
+			$this->listviewHeaders = $this->listviewRecords = null;
 		}
 	}
 
@@ -116,7 +115,6 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 			}
 			$this->listviewHeaders = $headerFieldModels;
 		}
-
 		return $this->listviewHeaders;
 	}
 
@@ -127,7 +125,6 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 
 	public function getRecords($user)
 	{
-
 		$this->initListViewController();
 		if (!$this->listviewRecords) {
 			$this->queryGenerator->addNativeCondition($this->getConditions());
@@ -143,6 +140,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 			while ($row = $dataReader->read()) {
 				$this->listviewRecords[$row['id']] = $this->getTargetModuleModel()->getRecordFromArray($row);
 			}
+			$dataReader->close();
 		}
 		return $this->listviewRecords;
 	}

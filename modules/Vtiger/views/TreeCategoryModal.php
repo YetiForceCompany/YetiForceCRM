@@ -1,29 +1,30 @@
 <?php
 
 /**
- * Tree Category Modal Class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Tree Category Modal Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 {
-
 	public function checkPermission(\App\Request $request)
 	{
 		$recordId = $request->getInteger('src_record');
 		if (!$recordId) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!\App\Privilege::isPermitted($request->getByType('src_module', 2), 'DetailView', $recordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	/**
-	 * Function to get size modal window
+	 * Function to get size modal window.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return string
 	 */
 	public function getSize(\App\Request $request)
@@ -62,19 +63,20 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		$parentScriptInstances = parent::getModalScripts($request);
 
 		$scripts = [
-			'~libraries/jquery/jstree/jstree.js'
+			'~libraries/jstree/dist/jstree.js',
 		];
 		if (AppConfig::relation('SELECTABLE_CATEGORY')) {
-			$scripts[] = '~libraries/jquery/jstree/jstree.category.js';
-			$scripts[] = '~libraries/jquery/jstree/jstree.checkbox.js';
+			$scripts[] = '~layouts/resources/libraries/jstree.category.js';
+			$scripts[] = '~layouts/resources/libraries/jstree.checkbox.js';
 		}
 		if ($this->relationType == 1) {
-			$scripts[] = '~libraries/jquery/jstree/jstree.edit.js';
+			$scripts[] = '~layouts/resources/libraries/jstree.edit.js';
 		}
 		$scripts[] = 'modules.Vtiger.resources.TreeCategoryModal';
 
 		$modalInstances = $this->checkAndConvertJsScripts($scripts);
 		$scriptInstances = array_merge($modalInstances, $parentScriptInstances);
+
 		return $scriptInstances;
 	}
 
@@ -82,10 +84,11 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 	{
 		$parentCssInstances = parent::getModalCss($request);
 		$cssFileNames = [
-			'~libraries/jquery/jstree/themes/proton/style.css',
+			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
 		];
 		$modalInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$cssInstances = array_merge($modalInstances, $parentCssInstances);
+
 		return $cssInstances;
 	}
 }

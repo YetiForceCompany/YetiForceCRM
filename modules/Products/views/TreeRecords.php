@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Products TreeView View Class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Products TreeView View Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 {
-
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request);

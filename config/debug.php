@@ -1,13 +1,13 @@
 <?php
 /**
- * Debug config
- * @package YetiForce.Config
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * Debug config.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $DEBUG_CONFIG = [
 	/* +***************************************************************
-	 * 	Logger 
+	 * 	Logger
 	 * ************************************************************** */
 	// Enable saving logs to file. Values: false/true
 	'LOG_TO_FILE' => false,
@@ -16,7 +16,7 @@ $DEBUG_CONFIG = [
 	// Enable saving logs profiling.  Values: false/true
 	'LOG_TO_PROFILE' => false,
 	// Level of saved/displayed logs
-	// Values: false = All / 3 = error and warning / ['error', 'warning', 'info', 'trace', 'profile'], 
+	// Values: false = All / 3 = error and warning / ['error', 'warning', 'info', 'trace', 'profile'],
 	'LOG_LEVELS' => false,
 	// Level of saved/displayed tracerts. // Values: int
 	'LOG_TRACE_LEVEL' => 0,
@@ -36,6 +36,10 @@ $DEBUG_CONFIG = [
 	'SMARTY_ERROR_REPORTING' => E_ALL & ~E_NOTICE,
 	// / mogoi
 	/* +***************************************************************
+	 * 	JavaScript
+	 * ************************************************************** */
+	'JS_DEBUG' => true,
+	/* +***************************************************************
 	 * Configure a user-defined error handler function
 	 * ************************************************************** */
 	// Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true
@@ -48,13 +52,13 @@ $DEBUG_CONFIG = [
 	'EXCEPTION_ERROR_TO_FILE' => false,
 	// Display errors
 	'EXCEPTION_ERROR_TO_SHOW' => false,
-	// Set the error reporting level. The parameter is either an integer representing a bit field, or named constants.  
+	// Set the error reporting level. The parameter is either an integer representing a bit field, or named constants.
 	// https://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting
 	// All errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED
 	// Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR
 	'EXCEPTION_ERROR_LEVEL' => E_ALL & ~E_NOTICE,
 	/* +***************************************************************
-	 * 	API 
+	 * 	API
 	 * ************************************************************** */
 	// Sabre dav - This is a flag that allow or not showing file, line and code of the exception in the returned XML
 	'DAV_DEBUG_EXCEPTIONS' => false,

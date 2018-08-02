@@ -1,33 +1,33 @@
 <?php
 
 /**
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Index_View
 {
-
 	public function getView()
 	{
 		return 'DiscountConfiguration';
 	}
 
+	/**
+	 * Process.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
-
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$view = $this->getView();
 		$config = Settings_Inventory_Module_Model::getConfig($view);
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PAGE_LABELS', $this->getPageLabels($request));
 		$viewer->assign('VIEW', $view);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
-		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->assign('CONFIG', $config);
 		$viewer->view('Config.tpl', $qualifiedModule);
 		\App\Log::trace('End ' . __METHOD__);
@@ -40,6 +40,7 @@ class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Inde
 		$translations['title'] = 'LBL_' . strtoupper($view);
 		$translations['title_single'] = 'LBL_' . strtoupper($view) . '_SINGLE';
 		$translations['description'] = 'LBL_' . strtoupper($view) . '_DESCRIPTION';
+
 		return $translations;
 	}
 
@@ -52,6 +53,7 @@ class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Inde
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 }

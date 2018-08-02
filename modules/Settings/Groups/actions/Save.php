@@ -10,7 +10,6 @@
 
 class Settings_Groups_Save_Action extends Settings_Vtiger_Save_Action
 {
-
 	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('record');

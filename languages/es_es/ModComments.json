@@ -1,0 +1,25 @@
+{
+  "php": {
+    "SINGLE_ModComments": "Comentario",
+    "LBL_RECORDS_LIST": "Lista",
+    "LBL_MODCOMMENTS_INFORMATION": "Informaci\u00f3n sobre el Comentario",
+    "LBL_OTHER_INFORMATION": "Informaci\u00f3n adicional",
+    "LBL_ADDING_COMMENT": "A\u00f1adir comentario",
+    "LBL_WRITE_YOUR_COMMENT_HERE": "Introduzca comentarios aqu\u00ed",
+    "Comment": "Comentario",
+    "Creator": "Creado por",
+    "Related To Comments": "Relacionado con",
+    "UserId": "ID usuario",
+    "Customer": "Empresa",
+    "ReasonToEdit": "Motivo de la edici\u00f3n",
+    "LBL_ADDED_COMMENT_TO_TICKET": "Agreg\u00f3 un comentario a la incidencia",
+    "LBL_NEW_COMMENT_FOR_TICKET": "Un comentario fue a\u00f1adido a la incidencia",
+    "LBL_NOTICE_WELCOME": "Bienvenido a la plataforma",
+    "LBL_NOTICE_CREATED": "Fue creado por",
+    "LBL_COMMENTS_0": "Registro actual",
+    "LBL_COMMENTS_1": "Procesos",
+    "LBL_COMMENTS_2": "Subprocesos",
+    "LBL_COMMENTS_SEARCH": "Buscar",
+    "LBL_ALL_RECORDS": "Related records"
+  }
+}

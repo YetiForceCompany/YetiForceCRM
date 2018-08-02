@@ -11,7 +11,7 @@
  * dblib => dblib drivers on GNU/Linux (and maybe other OSes) hosts
  * cubrid => CUBRID
  * oci => Oracle driver
- * 
+ *
   'admin' => [
   'host' => '',
   'port' => '',
@@ -38,6 +38,7 @@
   ],
  */
 $dbconfig = AppConfig::main('dbconfig');
+
 return [
 	'base' => [
 		'dsn' => $dbconfig['db_type'] . ':host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';port=' . $dbconfig['db_port'],
@@ -47,6 +48,6 @@ return [
 		'password' => $dbconfig['db_password'],
 		'dbName' => $dbconfig['db_name'],
 		'tablePrefix' => 'yf_',
-		'charset' => 'utf8'
-	]
+		'charset' => 'utf8',
+	],
 ];

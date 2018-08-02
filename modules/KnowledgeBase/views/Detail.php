@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Detail View for KnowledgeBase
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Detail View for KnowledgeBase.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
 class KnowledgeBase_Detail_View extends Vtiger_Detail_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function __construct()
 	{
@@ -20,7 +19,8 @@ class KnowledgeBase_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * Shows preview
+	 * Shows preview.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function showPreview(\App\Request $request)

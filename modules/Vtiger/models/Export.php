@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Export Model Class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * Export Model Class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Export_Model extends \App\Base
 {
-
 	protected $moduleInstance;
 	protected $focus;
 	private $picklistValues;
@@ -31,6 +30,7 @@ class Vtiger_Export_Model extends \App\Base
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', $componentName, $moduleName);
 		$exportModel = new $modelClassName();
 		$exportModel->initialize($request);
+
 		return $exportModel;
 	}
 
@@ -46,7 +46,8 @@ class Vtiger_Export_Model extends \App\Base
 	}
 
 	/**
-	 * Function exports the data based on the mode
+	 * Function exports the data based on the mode.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function exportData(\App\Request $request)
@@ -114,12 +115,15 @@ class Vtiger_Export_Model extends \App\Base
 				$entries[] = $sanitizedRow;
 			}
 		}
+		$dataReader->close();
 		$this->output($request, $headers, $entries);
 	}
 
 	/**
-	 * Function that generates Export Query based on the mode
+	 * Function that generates Export Query based on the mode.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return string export query
 	 */
 	public function getExportQuery(\App\Request $request)
@@ -140,11 +144,10 @@ class Vtiger_Export_Model extends \App\Base
 		$query = $queryGenerator->createQuery();
 		$this->accessibleFields = $queryGenerator->getFields();
 		switch ($request->getMode()) {
-			case 'ExportAllData' :
+			case 'ExportAllData':
 				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
-
-			case 'ExportCurrentPage' :
+			case 'ExportCurrentPage':
 				$pagingModel = new Vtiger_Paging_Model();
 				$limit = $pagingModel->getPageLimit();
 				$currentPage = $request->getInteger('page');
@@ -157,8 +160,7 @@ class Vtiger_Export_Model extends \App\Base
 				}
 				$query->limit($limit)->offset($currentPageStart);
 				break;
-
-			case 'ExportSelectedRecords' :
+			case 'ExportSelectedRecords':
 				$idList = $this->recordsListFromRequest;
 				$baseTable = $this->moduleInstance->get('basetable');
 				$baseTableColumnId = $this->moduleInstance->get('basetableid');
@@ -176,8 +178,10 @@ class Vtiger_Export_Model extends \App\Base
 	}
 
 	/**
-	 * Function returns the export type - This can be extended to support different file exports
+	 * Function returns the export type - This can be extended to support different file exports.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return string
 	 */
 	public function getExportContentType(\App\Request $request)
@@ -189,10 +193,11 @@ class Vtiger_Export_Model extends \App\Base
 	}
 
 	/**
-	 * Function that create the exported file
+	 * Function that create the exported file.
+	 *
 	 * @param \App\Request $request
-	 * @param array $headers - output file header
-	 * @param array $entries - outfput file data
+	 * @param array        $headers - output file header
+	 * @param array        $entries - outfput file data
 	 */
 	public function output(\App\Request $request, $headers, $entries)
 	{
@@ -206,7 +211,7 @@ class Vtiger_Export_Model extends \App\Base
 		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		header('Cache-Control: post-check=0, pre-check=0', false);
 
-		# Start the ouput
+		// Start the ouput
 		$output = fopen('php://output', 'w');
 		fputcsv($output, $headers);
 		foreach ($entries as $row) {
@@ -217,7 +222,8 @@ class Vtiger_Export_Model extends \App\Base
 
 	/**
 	 * this function takes in an array of values for an user and sanitizes it for export
-	 * Requires modification after adding a new field type
+	 * Requires modification after adding a new field type.
+	 *
 	 * @param array $arr - the array of values
 	 */
 	public function sanitizeValues($arr)
@@ -244,7 +250,7 @@ class Vtiger_Export_Model extends \App\Base
 				unset($arr[$fieldName]);
 				continue;
 			}
-			$value = trim(App\Purifier::decodeHtml($value), "\"");
+			$value = trim(App\Purifier::decodeHtml($value), '"');
 			$uitype = $fieldInfo->get('uitype');
 			$fieldname = $fieldInfo->get('name');
 
@@ -269,7 +275,7 @@ class Vtiger_Export_Model extends \App\Base
 			} elseif ($uitype === 52 || $type === 'owner') {
 				$value = \App\Fields\Owner::getLabel($value);
 			} elseif ($uitype === 120) {
-				$uitypeInstance = new Vtiger_SharedOwner_UIType;
+				$uitypeInstance = new Vtiger_SharedOwner_UIType();
 				$values = [];
 				foreach ($uitypeInstance->getSharedOwners($recordId) as $owner) {
 					$values[] = \App\Fields\Owner::getLabel($owner);
@@ -293,8 +299,17 @@ class Vtiger_Export_Model extends \App\Base
 				} else {
 					$value = '';
 				}
-			} else if (in_array($uitype, [302, 309])) {
-				$value = $fieldInfo->getDisplayValue($value);
+			} elseif (in_array($uitype, [302, 309])) {
+				$parts = explode(',', trim($value, ', '));
+				$values = \App\Fields\Tree::getValuesById((int) $fieldInfo->getFieldParams());
+				foreach ($parts as &$part) {
+					foreach ($values as $id => $treeRow) {
+						if ($part === $id) {
+							$part = $treeRow['name'];
+						}
+					}
+				}
+				$value = implode(' |##| ', $parts);
 			}
 			if ($moduleName === 'Documents' && $fieldname === 'description') {
 				$value = strip_tags($value);

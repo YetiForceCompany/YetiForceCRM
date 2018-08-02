@@ -9,12 +9,13 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class PBXManager_OutgoingCall_Action extends Vtiger_Action_Controller
+class PBXManager_OutgoingCall_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)

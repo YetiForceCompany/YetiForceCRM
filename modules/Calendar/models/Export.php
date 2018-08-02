@@ -1,21 +1,22 @@
 <?php
 /**
- * Calendar export model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Calendar export model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-Vtiger_Loader::includeOnce('modules.Calendar.iCal.iCalendar_rfc2445');
-Vtiger_Loader::includeOnce('modules.Calendar.iCal.iCalendar_components');
-Vtiger_Loader::includeOnce('modules.Calendar.iCal.iCalendar_properties');
-Vtiger_Loader::includeOnce('modules.Calendar.iCal.iCalendar_parameters');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_rfc2445.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_components.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_properties.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_parameters.php');
 
 class Calendar_Export_Model extends Vtiger_Export_Model
 {
-
 	/**
-	 * Function that generates Export Query based on the mode
+	 * Function that generates Export Query based on the mode.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return string export query
 	 */
 	public function getExportQuery(\App\Request $request)
@@ -58,12 +59,15 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 		$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 		$fields = array_values($query->select);
 		$query->select($fields);
+
 		return $query;
 	}
 
 	/**
-	 * Function returns the export type - This can be extended to support different file exports
+	 * Function returns the export type - This can be extended to support different file exports.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return string
 	 */
 	public function getExportContentType(\App\Request $request)
@@ -72,7 +76,8 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	}
 
 	/**
-	 * Function exports the data based on the mode
+	 * Function exports the data based on the mode.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function exportData(\App\Request $request)
@@ -88,14 +93,15 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	}
 
 	/**
-	 * Function that create the exported file
-	 * @param \App\Request $request
-	 * @param array $dataReader
+	 * Function that create the exported file.
+	 *
+	 * @param \App\Request        $request
+	 * @param array               $dataReader
 	 * @param Vtiger_Module_Model $moduleModel
 	 */
 	public function outputData(\App\Request $request, $dataReader, $moduleModel, $fileName, $toFile = false)
 	{
-		$timeZone = new IcalendarTimezone;
+		$timeZone = new IcalendarTimezone();
 		$timeZoneId = explode('/', date_default_timezone_get());
 
 		if (!empty($timeZoneId[1])) {
@@ -113,7 +119,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 			$timeZone->addProperty('STANDARDC', date('I'));
 		}
 
-		$myiCal = new Icalendar;
+		$myiCal = new Icalendar();
 		$myiCal->addComponent($timeZone);
 
 		while ($row = $dataReader->read()) {
@@ -130,21 +136,21 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 						$priorityMap = ['High' => '1', 'Medium' => '2', 'Low' => '3'];
 						$priorityval = $eventFields[$fieldName];
 						$icalZeroPriority = 0;
-						if (array_key_exists($priorityval, $priorityMap))
+						if (array_key_exists($priorityval, $priorityMap)) {
 							$temp[$fieldName] = $priorityMap[$priorityval];
-						else
+						} else {
 							$temp[$fieldName] = $icalZeroPriority;
-					}
-					else {
+						}
+					} else {
 						$temp[$fieldName] = $eventFields[$fieldName];
 					}
 				}
 				$temp['id'] = $id;
 
-				$iCalTask = new IcalendarEvent;
+				$iCalTask = new IcalendarEvent();
 				$iCalTask->assignValues($temp);
 
-				$iCalAlarm = new IcalendarAlarm;
+				$iCalAlarm = new IcalendarAlarm();
 				$iCalAlarm->assignValues($temp);
 				$iCalTask->addComponent($iCalAlarm);
 			} else {
@@ -154,18 +160,21 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 						$priorityMap = ['High' => '1', 'Medium' => '2', 'Low' => '3'];
 						$priorityval = $eventFields[$fieldName];
 						$icalZeroPriority = 0;
-						if (array_key_exists($priorityval, $priorityMap))
+						if (array_key_exists($priorityval, $priorityMap)) {
 							$temp[$fieldName] = $priorityMap[$priorityval];
-						else
+						} else {
 							$temp[$fieldName] = $icalZeroPriority;
-					} else
+						}
+					} else {
 						$temp[$fieldName] = $eventFields[$fieldName];
+					}
 				}
-				$iCalTask = new IcalendarTodo;
+				$iCalTask = new IcalendarTodo();
 				$iCalTask->assignValues($temp);
 			}
 			$myiCal->addComponent($iCalTask);
 		}
+		$dataReader->close();
 		if ($toFile) {
 			return $myiCal->serialize();
 		} else {

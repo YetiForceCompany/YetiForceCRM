@@ -11,6 +11,8 @@
 
 class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 {
+	use \App\Controller\ExposeMethod,
+	 App\Controller\ClearProcess;
 
 	public function __construct()
 	{
@@ -28,40 +30,23 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		}
-		if (!$request->isEmpty('searchModule') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('searchModule', 2))) {
+		if (!$request->isEmpty('searchModule') && $request->getRaw('searchModule') !== '-' && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('searchModule', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		return true;
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		return true;
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-		}
-		return;
-	}
-
 	/**
-	 * Function to display the UI for advance search on any of the module
+	 * Function to display the UI for advance search on any of the module.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function showAdvancedSearch(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		if (!$request->isEmpty('searchModule')) {
+		if (!$request->isEmpty('searchModule') && $request->getRaw('searchModule') !== '-') {
 			$moduleName = $request->getByType('searchModule', 2);
 		} elseif (\App\Module::getModuleId($moduleName) === false || (!$request->isEmpty('parent', true) && $request->getByType('parent', 2) === 'Settings')) {
 			//See if it is an excluded module, If so search in home module
@@ -72,7 +57,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$saveFilterPermitted = false;
 		}
 		//See if it is an excluded module, If so search in home module
-		if (in_array($moduleName, ['Vtiger', 'Reports'])) {
+		if ($moduleName === 'Vtiger') {
 			$moduleName = 'Home';
 		}
 		$module = $request->getModule();
@@ -105,8 +90,10 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	}
 
 	/**
-	 * Function to display the Search Results
+	 * Function to display the Search Results.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function showSearchResults(\App\Request $request)
@@ -137,9 +124,9 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			if (!$request->isEmpty('limit', true) && $request->getBoolean('limit') !== false) {
 				$limit = $request->getInteger('limit');
 			}
-			$operator = (!$request->isEmpty('operator') ) ? $request->getByType('operator', 1) : false;
+			$operator = (!$request->isEmpty('operator')) ? $request->getByType('operator', 1) : false;
 			$searchModule = false;
-			if (!$request->isEmpty('searchModule', true)) {
+			if (!$request->isEmpty('searchModule', true) && $request->getRaw('searchModule') !== '-') {
 				$searchModule = $request->getByType('searchModule', 2);
 			}
 			$viewer->assign('SEARCH_KEY', $searchKey);
@@ -172,7 +159,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 					$label = $recordModel->getName();
 					$label .= ' (' . \App\Fields\Owner::getLabel($recordModel->get('smownerid')) . ')';
 					if (!$recordModel->get('permitted')) {
-						$label .= ' <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>';
+						$label .= ' <span class="fas fa-exclamation-circle" aria-hidden="true"></span>';
 					}
 					$recordsList[] = [
 						'id' => $recordID,
@@ -190,7 +177,8 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	}
 
 	/**
-	 * Perform phone call
+	 * Perform phone call.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function performPhoneCall(\App\Request $request)

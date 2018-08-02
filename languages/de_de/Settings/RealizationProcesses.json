@@ -1,0 +1,14 @@
+{
+  "php": {
+    "LBL_PROJECT_CONFIGURATION": "Projekt",
+    "LBL_INFO": "Information",
+    "LBL_TYPE": "Status",
+    "LBL_PROJECT": "Projekt",
+    "LBL_PROJECT_STATUS_INFO": "Status welche das Projekt als geschlossen kennzeichnet",
+    "LBL_PROJECTMILESTONE_STATUS_INFO": "Status welche den Meilenstein als geschlossen kennzeichnet",
+    "LBL_PROJECTTASK_STATUS_INFO": "Status welche die Aufgabe als geschlossen kennzeichnet",
+    "LBL_SAVE_CONFIG_OK": "\u00c4nderungen erfolgreich gesichert.",
+    "LBL_SAVE_CONFIG_ERROR": "Fehler beim sichern.",
+    "RealizationProcesses": "Umsetzungsprozesse"
+  }
+}

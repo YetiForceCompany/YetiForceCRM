@@ -9,9 +9,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Import_Data_Action extends Vtiger_Action_Controller
+class Import_Data_Action extends \App\Controller\Action
 {
-
 	public $id;
 	public $user;
 	public $module;
@@ -34,11 +33,12 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	const IMPORT_RECORD_FAILED = 5;
 
 	/**
-	 * Constructor
-	 * @param array $importInfo
-	 * @param Users_Record_Model $user
+	 * Constructor.
+	 *
+	 * @param array     $importInfo
+	 * @param \App\User $user
 	 */
-	public function __construct($importInfo, $user)
+	public function __construct($importInfo, \App\User $user)
 	{
 		$this->id = $importInfo['id'];
 		$this->module = $importInfo['module'];
@@ -50,7 +50,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -61,20 +61,20 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
-		return;
 	}
 
 	/**
-	 * Get default field values
+	 * Get default field values.
+	 *
 	 * @return array
 	 */
 	public function getDefaultFieldValues()
 	{
-		$key = $this->module . '_' . $this->user->id;
+		$key = $this->module . '_' . $this->user->getId();
 		if (\App\Cache::staticHas('DefaultFieldValues', $key)) {
 			return \App\Cache::staticGet('DefaultFieldValues', $key);
 		}
@@ -93,7 +93,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$mandatoryFieldName = $fieldInstance->getName();
 			if (empty($defaultValues[$mandatoryFieldName])) {
 				if ($fieldInstance->getFieldDataType() === 'owner') {
-					$defaultValues[$mandatoryFieldName] = $this->user->id;
+					$defaultValues[$mandatoryFieldName] = $this->user->getId();
 				} elseif (!in_array($fieldInstance->getFieldDataType(), ['datetime', 'date', 'time', 'reference'])) {
 					$defaultValues[$mandatoryFieldName] = '????';
 				}
@@ -103,26 +103,28 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$fieldDefaultValue = $fieldInstance->getDefaultFieldValue();
 			if (empty($defaultValues[$fieldName])) {
 				if ($fieldInstance->getUIType() === 52) {
-					$defaultValues[$fieldName] = $this->user->id;
+					$defaultValues[$fieldName] = $this->user->getId();
 				} elseif (!empty($fieldDefaultValue)) {
 					$defaultValues[$fieldName] = $fieldDefaultValue;
 				}
 			}
 		}
 		\App\Cache::staticSave('DefaultFieldValues', $key, $defaultValues);
+
 		return $defaultValues;
 	}
 
 	public function import()
 	{
-		if (!$this->initializeImport())
+		if (!$this->initializeImport()) {
 			return false;
+		}
 		$this->importData();
 		$this->finishImport();
 	}
 
 	/**
-	 * Import data
+	 * Import data.
 	 */
 	public function importData()
 	{
@@ -134,7 +136,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	{
 		$lockInfo = Import_Lock_Action::isLockedForModule($this->module);
 		if ($lockInfo) {
-			if ($lockInfo['userid'] != $this->user->id) {
+			if ($lockInfo['userid'] != $this->user->getId()) {
 				Import_Utils_Helper::showImportLockedError($lockInfo);
 				return false;
 			} else {
@@ -160,20 +162,22 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Update import status
-	 * @param int $entryId
+	 * Update import status.
+	 *
+	 * @param int   $entryId
 	 * @param array $entityInfo
 	 */
 	public function updateImportStatus($entryId, $entityInfo)
 	{
 		$tableName = Import_Module_Model::getDbTableName($this->user);
-		$entityId = isset($entityInfo['id']) ? $entityInfo['id'] : null;
+		$entityId = $entityInfo['id'] ?? null;
 		\App\Db::getInstance()->createCommand()->update($tableName, ['temp_status' => $entityInfo['status'], 'recordid' => $entityId], ['id' => $entryId])->execute();
 	}
 
 	/**
-	 * Import records
-	 * @return boolean
+	 * Import records.
+	 *
+	 * @return bool
 	 */
 	public function importRecords()
 	{
@@ -206,14 +210,14 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$entityInfo = null;
 			$fieldData = [];
 			foreach ($fieldMapping as $fieldName => $index) {
-				$fieldData[$fieldName] = $row[$fieldName];
+				$fieldData[$fieldName] = \App\Purifier::decodeHtml($row[$fieldName]);
 			}
 
 			$mergeType = $this->mergeType;
 			$createRecord = false;
 
 			if (!empty($mergeType) && $mergeType !== Import_Module_Model::AUTO_MERGE_NONE) {
-				$queryGenerator = new App\QueryGenerator($moduleName, $this->user->id);
+				$queryGenerator = new App\QueryGenerator($moduleName, $this->user->getId());
 				$queryGenerator->setFields(['id']);
 				$moduleFields = $queryGenerator->getModuleFields();
 				$mergeFields = $this->mergeFields;
@@ -294,6 +298,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$this->importedRecordInfo[$rowId] = $entityInfo;
 			$this->updateImportStatus($rowId, $entityInfo);
 		}
+		$dataReader->close();
+
 		return true;
 	}
 
@@ -331,6 +337,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			}
 		}
 		$this->currentInventoryRawData = [];
+
 		return $inventoryData;
 	}
 
@@ -376,9 +383,11 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Function transforms value for reference type field
+	 * Function transforms value for reference type field.
+	 *
 	 * @param \Vtiger_Field_Model $fieldInstance
-	 * @param string $fieldValue
+	 * @param string              $fieldValue
+	 *
 	 * @return mixed
 	 */
 	public function transformInventoryReference($value, $getArray = false)
@@ -387,7 +396,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		if (!empty($value)) {
 			if (strpos($value, '::::') > 0) {
 				$fieldValueDetails = explode('::::', $value);
-			} else if (strpos($value, ':::') > 0) {
+			} elseif (strpos($value, ':::') > 0) {
 				$fieldValueDetails = explode(':::', $value);
 			}
 			if (is_array($fieldValueDetails) && count($fieldValueDetails) > 1) {
@@ -400,9 +409,11 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Function transforms value for owner type field
+	 * Function transforms value for owner type field.
+	 *
 	 * @param \Vtiger_Field_Model $fieldInstance
-	 * @param string $fieldValue
+	 * @param string              $fieldValue
+	 *
 	 * @return int
 	 */
 	public function transformOwner($fieldInstance, $fieldValue)
@@ -412,21 +423,23 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		if (empty($ownerId)) {
 			$ownerId = \App\Fields\Owner::getGroupId($fieldValue);
 		}
-		if (empty($ownerId) && isset($defaultFieldValues[$fieldName])) {
-			$ownerId = $defaultFieldValues[$fieldName];
+		if (empty($ownerId) && isset($defaultFieldValues[$fieldInstance->getFieldName()])) {
+			$ownerId = $defaultFieldValues[$fieldInstance->getFieldName()];
 		}
-		if (!empty($ownerId) && \App\Fields\Owner::getType($ownerId) === 'Users' && !array_key_exists($ownerId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->id)->getAccessibleUsers('', 'owner'))) {
+		if (!empty($ownerId) && \App\Fields\Owner::getType($ownerId) === 'Users' && !array_key_exists($ownerId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->getId())->getAccessibleUsers('', 'owner'))) {
 			$ownerId = '';
 		}
 		if (empty($ownerId)) {
-			$ownerId = $this->user->id;
+			$ownerId = $this->user->getId();
 		}
 		return $ownerId;
 	}
 
 	/**
-	 * Function transforms value for sharedOwner type field
+	 * Function transforms value for sharedOwner type field.
+	 *
 	 * @param string $fieldValue
+	 *
 	 * @return array
 	 */
 	public function transformSharedOwner($fieldValue)
@@ -452,9 +465,11 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Function transforms value for multipicklist type field
+	 * Function transforms value for multipicklist type field.
+	 *
 	 * @param \Vtiger_Field_Model $fieldInstance
-	 * @param string $fieldValue
+	 * @param string              $fieldValue
+	 *
 	 * @return string
 	 */
 	public function transformMultipicklist($fieldInstance, $fieldValue)
@@ -471,13 +486,16 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$explodedValue[$key] = trim($value);
 		}
 		$implodeValue = implode(' |##| ', $explodedValue);
+
 		return $implodeValue;
 	}
 
 	/**
-	 * Function transforms value for reference type field
+	 * Function transforms value for reference type field.
+	 *
 	 * @param \Vtiger_Field_Model $fieldInstance
-	 * @param string $fieldValue
+	 * @param string              $fieldValue
+	 *
 	 * @return bool|int
 	 */
 	public function transformReference($fieldInstance, $fieldValue)
@@ -488,7 +506,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		if (!empty($fieldValue)) {
 			if (strpos($fieldValue, '::::') !== false) {
 				$fieldValueDetails = explode('::::', $fieldValue);
-			} else if (strpos($fieldValue, ':::') !== false) {
+			} elseif (strpos($fieldValue, ':::') !== false) {
 				$fieldValueDetails = explode(':::', $fieldValue);
 			}
 			if ($fieldValueDetails && count($fieldValueDetails) > 1) {
@@ -510,8 +528,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					$referenceModuleName = $referenceModule;
 					if ($referenceModule === 'Users') {
 						$referenceEntityId = \App\User::getUserIdByName(trim($entityLabel));
-						if (empty($referenceEntityId) || !array_key_exists($referenceEntityId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->id)->getAccessibleUsers('', 'owner'))) {
-							$referenceEntityId = $this->user->id;
+						if (empty($referenceEntityId) || !array_key_exists($referenceEntityId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->getId())->getAccessibleUsers('', 'owner'))) {
+							$referenceEntityId = $this->user->getId();
 						}
 					} elseif ($referenceModule === 'Currency') {
 						$referenceEntityId = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
@@ -538,9 +556,11 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Function transforms value for picklist type field
+	 * Function transforms value for picklist type field.
+	 *
 	 * @param \Vtiger_Field_Model $fieldInstance
-	 * @param string $fieldValue
+	 * @param string              $fieldValue
+	 *
 	 * @return string
 	 */
 	public function transformPicklist($fieldInstance, $fieldValue)
@@ -549,9 +569,12 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$defaultCharset = \AppConfig::main('default_charset', 'UTF-8');
 		$fieldName = $fieldInstance->getFieldName();
 		$fieldValue = trim($fieldValue);
-
-		if (empty($fieldValue) && isset($defaultFieldValues[$fieldName])) {
-			$fieldValue = $defaultFieldValues[$fieldName];
+		if (empty($fieldValue)) {
+			if (isset($defaultFieldValues[$fieldName])) {
+				$fieldValue = $defaultFieldValues[$fieldName];
+			} else {
+				return $fieldValue;
+			}
 		}
 		if (!isset($this->allPicklistValues[$fieldName])) {
 			$this->allPicklistValues[$fieldName] = array_keys($fieldInstance->getPicklistValues());
@@ -563,11 +586,11 @@ class Import_Data_Action extends Vtiger_Action_Controller
 
 		if (!in_array($picklistValueInLowerCase, $allPicklistValuesInLowerCase)) {
 			if (\AppConfig::module('Import', 'ADD_PICKLIST_VALUE')) {
-				$moduleObject = \vtlib\Module::getInstance($this->module);
-				$fieldObject = \vtlib\Field::getInstance($fieldName, $moduleObject);
+				$fieldObject = \vtlib\Field::getInstance($fieldName, Vtiger_Module_Model::getInstance($this->module));
 				$fieldObject->setPicklistValues([$fieldValue]);
 				unset($this->allPicklistValues[$fieldName]);
-				\App\Cache::delete('getPickListValues', $fieldName);
+				\App\Cache::delete('getValuesName', $fieldName);
+				\App\Cache::delete('getPickListFieldValuesRows', $fieldName);
 			}
 		} else {
 			$fieldValue = $picklistDetails[$picklistValueInLowerCase];
@@ -576,9 +599,11 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Function transforms value for tree type field
+	 * Function transforms value for tree type field.
+	 *
 	 * @param \Vtiger_Field_Model $fieldInstance
-	 * @param string $fieldValue
+	 * @param string              $fieldValue
+	 *
 	 * @return string
 	 */
 	public function transformTree($fieldInstance, $fieldValue)
@@ -587,25 +612,32 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$fieldName = $fieldInstance->getFieldName();
 		if (empty($fieldValue) && isset($defaultFieldValues[$fieldName])) {
 			$fieldValue = $defaultFieldValues[$fieldName];
-		} else if (!empty($fieldValue)) {
-			$value = trim($fieldValue);
+		} elseif (!empty($fieldValue)) {
+			$values = explode(' |##| ', trim($fieldValue));
 			$fieldValue = '';
 			$trees = \App\Fields\Tree::getValuesById((int) $fieldInstance->getFieldParams());
 			foreach ($trees as $tree) {
-				if ($tree['name'] === $value) {
-					$fieldValue = $tree['tree'];
-					break;
+				foreach ($values as $value) {
+					if ($tree['name'] === $value) {
+						$fieldValue .= $tree['tree'] . ',';
+						break;
+					}
 				}
+			}
+			if ($fieldValue) {
+				$fieldValue = ',' . $fieldValue;
 			}
 		}
 		return $fieldValue;
 	}
 
 	/**
-	 * Function parses data to import
+	 * Function parses data to import.
+	 *
 	 * @param array $fieldData
 	 * @param array $fillDefault
-	 * @param bool $checkMandatoryFieldValues
+	 * @param bool  $checkMandatoryFieldValues
+	 *
 	 * @return array
 	 */
 	public function transformForImport($fieldData, $fillDefault = true, $checkMandatoryFieldValues = true)
@@ -624,7 +656,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				$fieldData[$fieldName] = $this->transformReference($fieldInstance, $fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'picklist') {
 				$fieldData[$fieldName] = $this->transformPicklist($fieldInstance, $fieldValue);
-			} else if ($fieldInstance->getFieldDataType() === 'tree' || $fieldInstance->getFieldDataType() === 'categoryMultipicklist') {
+			} elseif ($fieldInstance->getFieldDataType() === 'tree' || $fieldInstance->getFieldDataType() === 'categoryMultipicklist') {
 				$fieldData[$fieldName] = $this->transformTree($fieldInstance, $fieldValue);
 			} else {
 				if ($fieldInstance->getFieldDataType() === 'datetime' && !empty($fieldValue)) {
@@ -632,10 +664,11 @@ class Import_Data_Action extends Vtiger_Action_Controller
 						$fieldValue = '';
 					}
 					$valuesList = explode(' ', $fieldValue);
-					if (count($valuesList) === 1)
+					if (count($valuesList) === 1) {
 						$fieldValue = '';
-					$fieldValue = getValidDBInsertDateTimeValue($fieldValue);
-					if (preg_match("/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2} ([0-1][0-9]|[2][0-3])([:][0-5][0-9]){1,2}$/", $fieldValue) == 0) {
+					}
+					$fieldValue = \App\Fields\DateTime::formatToDb($fieldValue, true);
+					if (preg_match('/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2} ([0-1][0-9]|[2][0-3])([:][0-5][0-9]){1,2}$/', $fieldValue) == 0) {
 						$fieldValue = '';
 					}
 					$fieldData[$fieldName] = $fieldValue;
@@ -644,8 +677,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					if ($fieldValue === null || $fieldValue === '0000-00-00') {
 						$fieldValue = '';
 					}
-					$fieldValue = getValidDBInsertDateValue($fieldValue);
-					if (preg_match("/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/", $fieldValue) == 0) {
+					$fieldValue = \App\Fields\Date::formatToDb($fieldValue, true);
+					if (preg_match('/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/', $fieldValue) == 0) {
 						$fieldValue = '';
 					}
 					$fieldData[$fieldName] = $fieldValue;
@@ -674,9 +707,11 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Function creates a record of the related module
+	 * Function creates a record of the related module.
+	 *
 	 * @param string $moduleName
 	 * @param string $entityLabel
+	 *
 	 * @return int
 	 */
 	public function createEntityRecord($moduleName, $entityLabel)
@@ -692,7 +727,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				$save = true;
 			}
 		}
-		$recordModel->set('assigned_user_id', $this->user->id);
+		$recordModel->set('assigned_user_id', $this->user->getId());
 		if ($save) {
 			if (!\AppConfig::module('Import', 'SAVE_BY_HANDLERS')) {
 				$recordModel->setHandlerExceptions(['disableHandlers' => true]);
@@ -707,13 +742,14 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Get import status count
+	 * Get import status count.
+	 *
 	 * @return int
 	 */
 	public function getImportStatusCount()
 	{
 		$statusCount = ['TOTAL' => 0, 'IMPORTED' => 0, 'FAILED' => 0, 'PENDING' => 0,
-			'CREATED' => 0, 'SKIPPED' => 0, 'UPDATED' => 0, 'MERGED' => 0];
+			'CREATED' => 0, 'SKIPPED' => 0, 'UPDATED' => 0, 'MERGED' => 0, ];
 		$tableName = Import_Module_Model::getDbTableName($this->user);
 		$query = (new \App\Db\Query())->select(['temp_status'])->from($tableName);
 		$dataReader = $query->createCommand()->query();
@@ -745,67 +781,59 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					break;
 			}
 		}
+		$dataReader->close();
+
 		return $statusCount;
 	}
 
+	/**
+	 * Function run scheduled import and send email.
+	 */
 	public static function runScheduledImport()
 	{
 		$scheduledImports = self::getScheduledImport();
 		foreach ($scheduledImports as $scheduledId => $importDataController) {
 			$importDataController->batchImport = false;
-
 			if (!$importDataController->initializeImport()) {
 				continue;
 			}
+			App\User::setCurrentUserId($importDataController->user->getId());
 			$importDataController->importData();
-
 			$importStatusCount = $importDataController->getImportStatusCount();
-
-			$emailSubject = 'Yetiforce- Scheduled Data Import Report for ' . $importDataController->module;
-			$viewer = new Vtiger_Viewer();
-			$viewer->assign('FOR_MODULE', $importDataController->module);
-			$viewer->assign('IMPORT_RESULT', $importStatusCount);
-			$importResult = $viewer->view('Import_Result_Details.tpl', 'Import', true);
-			$importResult = str_replace('align="center"', '', $importResult);
-			$emailData = 'Yetiforce has completed import. <br /><br />' . $importResult . '<br /><br />' .
-				'Navigate to respective module, to check import result and/or data integrity';
-
-			$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $importDataController->user->column_fields);
-			$userEmail = $importDataController->user->email1;
-			\App\Mailer::addMail([
-				//'smtp_id' => 1,
-				'to' => [$userEmail => $userName],
-				'subject' => $emailSubject,
-				'content' => $emailData,
+			\App\Mailer::sendFromTemplate([
+				'to' => [$importDataController->user->getDetail('email1') => $importDataController->user->getName()],
+				'template' => 'ImportCron',
+				'imported' => $importStatusCount['IMPORTED'],
+				'total' => $importStatusCount['TOTAL'],
+				'created' => $importStatusCount['CREATED'],
+				'updated' => $importStatusCount['UPDATED'],
+				'merged' => $importStatusCount['MERGED'],
+				'skipped' => $importStatusCount['SKIPPED'],
+				'failed' => $importStatusCount['FAILED'],
+				'module' => App\Language::translate($importDataController->module, $importDataController->module)
 			]);
-
 			$importDataController->finishImport();
 		}
 	}
 
 	public static function getScheduledImport()
 	{
-
 		$scheduledImports = [];
 		$importQueue = Import_Queue_Action::getAll(Import_Queue_Action::$IMPORT_STATUS_SCHEDULED);
 		foreach ($importQueue as $importId => $importInfo) {
-			$userId = $importInfo['user_id'];
-			$user = new Users();
-			$user->id = $userId;
-			$user->retrieveEntityInfo($userId, 'Users');
-
-			$scheduledImports[$importId] = new Import_Data_Action($importInfo, $user);
+			$scheduledImports[$importId] = new self($importInfo, \App\User::getUserModel($importInfo['user_id']));
 		}
 		return $scheduledImports;
 	}
 
 	/**
-	 *  Function to get Record details of import
-	 *  @parms User Record Model $user Current Users
-	 * 	@parms string $forModule Imported module
-	 *  @returns array Import Records with the list of skipped records and failed records
+	 *  Function to get Record details of import.
+	 *
+	 * @parms \App\User $user Current Users
+	 * @parms string $forModule Imported module
+	 * @returns array Import Records with the list of skipped records and failed records
 	 */
-	public static function getImportDetails($user, $forModule)
+	public static function getImportDetails(\App\User $user, $forModule)
 	{
 		$db = App\Db::getInstance();
 		$importRecords = [];
@@ -815,14 +843,14 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$dataReader = $query->createCommand()->query();
 		if ($dataReader->count()) {
 			$moduleModel = Vtiger_Module_Model::getInstance($forModule);
-			$columnNames = $db->getTableSchema($tableName)->getColumnNames();
+			$columnNames = $db->getTableSchema($tableName, true)->getColumnNames();
 			foreach ($columnNames as $key => $fieldName) {
 				if ($key > 2) {
 					$importRecords['headers'][$fieldName] = $moduleModel->getField($fieldName)->getFieldLabel();
 				}
 			}
 			while ($row = $dataReader->read()) {
-				$record = new \App\Base();
+				$record = \Vtiger_Record_Model::getCleanInstance($forModule);
 				foreach ($importRecords['headers'] as $columnName => $header) {
 					$record->set($columnName, $row[$columnName]);
 				}
@@ -832,39 +860,50 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					$importRecords['failed'][] = $record;
 				}
 			}
+			$dataReader->close();
 		}
 		return $importRecords;
 	}
 
 	/**
-	 * Get import record status
+	 * Get import record status.
+	 *
 	 * @param string $value
+	 *
 	 * @return int
 	 */
 	public function getImportRecordStatus($value)
 	{
 		$temp_status = '';
 		switch ($value) {
-			case 'created': $temp_status = self::IMPORT_RECORD_CREATED;
+			case 'created':
+				$temp_status = self::IMPORT_RECORD_CREATED;
 				break;
-			case 'skipped': $temp_status = self::IMPORT_RECORD_SKIPPED;
+			case 'skipped':
+				$temp_status = self::IMPORT_RECORD_SKIPPED;
 				break;
-			case 'updated': $temp_status = self::IMPORT_RECORD_UPDATED;
+			case 'updated':
+				$temp_status = self::IMPORT_RECORD_UPDATED;
 				break;
-			case 'merged' : $temp_status = self::IMPORT_RECORD_MERGED;
+			case 'merged':
+				$temp_status = self::IMPORT_RECORD_MERGED;
 				break;
-			case 'failed' : $temp_status = self::IMPORT_RECORD_FAILED;
+			case 'failed':
+				$temp_status = self::IMPORT_RECORD_FAILED;
 				break;
-			case 'none' : $temp_status = self::IMPORT_RECORD_NONE;
+			case 'none':
+				$temp_status = self::IMPORT_RECORD_NONE;
 				break;
 		}
 		return $temp_status;
 	}
 
 	/**
-	 * Create rekord
+	 * Create rekord.
+	 *
 	 * @param string $moduleName
-	 * @param array $fieldData
+	 * @param array  $fieldData
+	 *
 	 * @return null|array
 	 */
 	public function createRecordByModel($moduleName, $fieldData)
@@ -889,9 +928,10 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Update rekord
-	 * @param int $rekord
-	 * @param array $fieldData
+	 * Update rekord.
+	 *
+	 * @param int    $rekord
+	 * @param array  $fieldData
 	 * @param string $moduleName
 	 */
 	public function updateRecordByModel($rekord, $fieldData, $moduleName = false)
@@ -911,8 +951,10 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Function creates advanced block data object
+	 * Function creates advanced block data object.
+	 *
 	 * @param array $inventoryData
+	 *
 	 * @return \App\Base
 	 */
 	public function convertInventoryDataToObject($inventoryData = [])

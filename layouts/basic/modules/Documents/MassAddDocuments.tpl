@@ -1,8 +1,13 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
-		<button data-dismiss="modal" class="close" type="button" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
-		<h3 class="modal-title">{\App\Language::translate('LBL_MASS_ADD', $MODULE)}</h3>
+		<h5 class="modal-title">
+			<span class="fas fa-plus mr-1"></span>
+			{\App\Language::translate('LBL_MASS_ADD', $MODULE)}
+		</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+        </button>
 	</div>
 	<form class="form-horizontal" id="addDocuments" method="post" action="index.php" enctype="multipart/form-data">
 		<input type="hidden" name="module" value="{$MODULE}" />
@@ -11,16 +16,16 @@
 			<div class="col-md-12 uploadFileContainer">
 				<input type="file" name="file[]" multiple id="filesToUpload">
 			</div>
-			<div class="fileContainer hide">
+			<div class="fileContainer d-none">
 				<div class="fileItem">
 					<label>{\App\Language::translate('Title', $MODULE)}</label>
 					<div class="input-group">
 						<input type="text" name="nameFile[]" class="form-control">
-						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-file"></span></span>
+						<span class="input-group-addon"><span class="fas fa-file"></span></span>
 					</div>
 				</div>
 			</div>
 		</div>
-		{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
+		{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 	</form>
 {/strip}

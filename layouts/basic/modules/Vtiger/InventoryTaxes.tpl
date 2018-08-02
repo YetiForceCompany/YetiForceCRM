@@ -4,9 +4,16 @@
 	<div class="modelContainer modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground">
-					<button class="close" aria-hidden="true" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
-					<h3 class="modal-title">{\App\Language::translate('LBL_SELECT_TAX', $MODULE)} {\App\Language::translate($SINGLE_MODULE, $MODULE)}</h3>
+				<div class="modal-header contentsBackground align-items-center">
+					<span class="fa-layers fa-fw mr-2">
+						<i class="fas fa-circle" data-fa-transform="grow-6"></i>
+						<i class="fa-inverse fas fa-long-arrow-alt-up text-white" data-fa-transform="shrink-6  left-4"></i>
+						<i class="fa-inverse fas fa-percent text-white" data-fa-transform="shrink-8  right-3"></i>
+					</span>
+					<h5 class="modal-title">{\App\Language::translate('LBL_SELECT_TAX', $MODULE)} {\App\Language::translate($SINGLE_MODULE, $MODULE)}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<div class="modal-body">
 					<input type="hidden" class="taxsType" value="{$AGGREGATION_TYPE}" />
@@ -16,12 +23,16 @@
 					{/foreach}
 					<hr/>
 					<div class="row">
+						<div class="col-md-6">{\App\Language::translate('LBL_TAX_VALUE', $MODULE)}:</div>
+						<div class="col-md-6 text-right"><strong><span class="taxValue js-tax-value">0</span> %</strong></div>
+					</div>
+					<div class="row">
 						<div class="col-md-6">{\App\Language::translate('LBL_PRICE_BEFORE_TAX', $MODULE)}:</div>
 						<div class="col-md-6 text-right"><strong><span class="valueNetPrice">{CurrencyField::convertToUserFormat($TOTAL_PRICE, null, true)}</span> {$CURRENCY_SYMBOL}</strong></div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">{\App\Language::translate('LBL_TAX_IN_TOTAL', $MODULE)}:</div>
-						<div class="col-md-6 text-right"><strong><span class="valueTax">0</span> {$CURRENCY_SYMBOL}</strong></div>
+						<div class="col-md-6 text-right"><strong><span class="valueTax" data-js="text">0</span> {$CURRENCY_SYMBOL}</strong></div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">{\App\Language::translate('LBL_PRICE_AFTER_TAX', $MODULE)}:</div>
@@ -29,8 +40,18 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success saveTaxs" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
-					<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
+					<button class="btn btn-success saveTaxs" type="submit">
+						<strong>
+							<span class="fas fa-check mr-1"></span>
+							{\App\Language::translate('LBL_SAVE', $MODULE)}
+						</strong>
+					</button>
+					<button class="btn btn-danger" type="reset" data-dismiss="modal">
+						<strong>
+							<span class="fas fa-times mr-1"></span>
+							{\App\Language::translate('LBL_CANCEL', $MODULE)}
+						</strong>
+					</button>
 				</div>
 			</div>
 		</div>

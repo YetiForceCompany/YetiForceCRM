@@ -8,11 +8,10 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-include_once dirname(__FILE__) . '/cache/Connector.php';
+include_once __DIR__ . '/cache/Connector.php';
 
 class Vtiger_Cache
 {
-
 	private static $selfInstance = false;
 	public static $cacheEnable = true;
 	protected $connector;
@@ -28,6 +27,7 @@ class Vtiger_Cache
 			return self::$selfInstance;
 		} else {
 			self::$selfInstance = new self();
+
 			return self::$selfInstance;
 		}
 	}
@@ -309,6 +309,7 @@ class Vtiger_Cache
 	public function hasOwnerName($id)
 	{
 		$value = $this->getOwnerName($id);
+
 		return $value !== false;
 	}
 
@@ -332,6 +333,7 @@ class Vtiger_Cache
 	public function hasOwnerDbName($id)
 	{
 		$value = $this->getOwnerDbName($id);
+
 		return $value !== false;
 	}
 }

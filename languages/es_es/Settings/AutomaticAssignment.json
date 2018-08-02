@@ -1,0 +1,37 @@
+{
+  "php": {
+    "LBL_AUTOMATIC_ASSIGNMENT": "Asignar registros autom\u00e1ticamente",
+    "AutomaticAssignment": "Asignar registros autom\u00e1ticamente",
+    "LBL_AUTOMATICASSIGNMENT_DESCRIPTION": " ",
+    "FL_FIELD": "Nombre del campo",
+    "FL_MODULE": "M\u00f3dulo",
+    "FL_VALUE": "Valor",
+    "FL_ROLES": "Roles",
+    "FL_SMOWNERS": "Propietario del registro",
+    "FL_SHOWNERS": "Compartir con",
+    "FL_MODE": "Modo",
+    "FL_ASSIGN": "Asignar",
+    "FL_CONDITIONS": "Condiciones",
+    "LBL_CREATE_RECORD": "Crear registro",
+    "BTN_NEXT": "Siguiente",
+    "BTN_CLOSE": "Cerrar",
+    "BTN_ADD": "A\u00f1adir",
+    "LBL_CHANGE_ROLE_TYPE": "Cambiar tipo de rol",
+    "LBL_CHANGE_RECORD_STATE": "Cambiar el estado del registro",
+    "BTN_SAVE": "Guardar",
+    "LBL_INCLUDE_USERS_RECORD_LIMIT": "Incluir el l\u00edmite de registro del usuario",
+    "LBL_ROLEID_INFO": "Informaci\u00f3n del rol",
+    "LBL_VALUE_INFO": "Informaci\u00f3n del valor",
+    "LBL_ROLES_INFO": "Informaci\u00f3n de los roles",
+    "LBL_SMOWNERS_INFO": "Informaci\u00f3n del propietario del registro",
+    "LBL_ASSIGN_INFO": "Informaci\u00f3n del usuario asignado",
+    "LBL_CONDITIONS_INFO": "Informaci\u00f3n de las condiciones",
+    "LBL_DEACTIVATE_SYSTEM_MODE": "Desactivar el modo del sistema",
+    "LBL_SET_DEFAULT_USER": "Establecer usuario predeterminado",
+    "LBL_SYSTEM": "Sistema"
+  },
+  "js": {
+    "JS_STATE_CONFIRMATION": "\u00bfEst\u00e1 seguro de que desea cambiar el estado del registro?",
+    "JS_SAVE_SUCCESS": "Cambios guardados con \u00e9xito"
+  }
+}

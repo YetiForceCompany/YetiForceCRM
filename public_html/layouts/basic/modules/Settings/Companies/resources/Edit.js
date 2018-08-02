@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Settings_Vtiger_Edit_Js('Settings_Companies_Edit_Js', {}, {
 	registerSubmitForm: function () {
 		var form = this.getForm()
@@ -16,7 +18,7 @@ Settings_Vtiger_Edit_Js('Settings_Companies_Edit_Js', {}, {
 				var progressIndicatorElement = jQuery.progressIndicator({
 					blockInfo: {'enabled': true}
 				});
-				AppConnector.request(params).then(function (data) {
+				AppConnector.request(params).done(function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					if (true == data.result.success) {
 						window.location.href = data.result.url
@@ -33,7 +35,7 @@ Settings_Vtiger_Edit_Js('Settings_Companies_Edit_Js', {}, {
 		var form = this.getForm()
 		if (form.length) {
 			form.validationEngine(app.validationEngineOptions);
-			form.find(":input").inputmask();
+			form.find("[data-inputmask]").inputmask();
 		}
 		this.registerSubmitForm();
 	}

@@ -1,8 +1,11 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 	modalContainer: false,
 	treeInstance: false,
 	treeData: false,
+	windowParent: app.getWindowParent(),
 	getModalContainer: function () {
 		if (this.modalContainer == false) {
 			this.modalContainer = jQuery('#modalTreeCategoryModal');
@@ -10,7 +13,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 		return this.modalContainer;
 	},
 	getRecords: function (container) {
-		if (this.treeData == false && container != 'undefined') {
+		if (this.treeData == false && container !== "undefined") {
 			var treeValues = container.find('#treePopupValues').val();
 			this.treeData = JSON.parse(treeValues);
 		}
@@ -32,7 +35,7 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 			if (thisInstance.getRelationType() == '1') {
 				plugins.push("edit");
 			}
-			thisInstance.treeInstance.jstree({
+			thisInstance.treeInstance.jstree($.extend(true, {
 				core: {
 					data: thisInstance.getRecords(),
 					themes: {
@@ -40,8 +43,11 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 						responsive: true
 					}
 				},
+				checkbox: {
+					three_state: false,
+				},
 				plugins: plugins
-			});
+			}, thisInstance.treeInstance.data('params')));
 		}
 	},
 	isActiveCategory: function () {
@@ -57,12 +63,12 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 		var thisInstance = this;
 		var valueSearch = $('#valueSearchTree');
 		var btnSearch = $('#btnSearchTree');
-		valueSearch.keypress(function (e) {
+		valueSearch.on('keypress', function (e) {
 			if (e.which == 13) {
 				thisInstance.searching(valueSearch.val());
 			}
 		});
-		btnSearch.click(function () {
+		btnSearch.on('click', function () {
 			thisInstance.searching(valueSearch.val());
 		});
 	},
@@ -78,7 +84,8 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 			}
 		});
 		container.find('[name="saveButton"]').on('click', function (e) {
-			var rSelected = [], cSelected = [], recordsToAdd = [], recordsToRemove = [], categoryToAdd = [], categoryToRemove = []
+			var rSelected = [], cSelected = [], recordsToAdd = [], recordsToRemove = [], categoryToAdd = [],
+				categoryToRemove = []
 			var saveButton = $(this);
 			saveButton.attr('disabled', 'disabled');
 			$.each(thisInstance.treeInstance.jstree("get_selected", true), function (index, value) {
@@ -106,14 +113,14 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 				});
 			}
 			var params = {
-				module: app.getModuleName(),
+				module: thisInstance.windowParent.app.getModuleName(),
 				action: 'RelationAjax',
 				mode: 'updateRelation',
 				recordsToAdd: recordsToAdd,
 				recordsToRemove: recordsToRemove,
 				categoryToAdd: categoryToAdd,
 				categoryToRemove: categoryToRemove,
-				src_record: app.getRecordId(),
+				src_record: thisInstance.windowParent.app.getRecordId(),
 				related_module: container.find('#relatedModule').val(),
 			};
 			if (recordsToAdd.length > 4) {
@@ -143,8 +150,9 @@ jQuery.Class("Vtiger_TreeCategory_Js", {}, {
 		});
 	},
 	saveRecordsEvent: function (params) {
-		AppConnector.request(params).then(function (res) {
-			Vtiger_Detail_Js.getInstance().reloadTabContent();
+		const self = this;
+		AppConnector.request(params).done(function (res) {
+			self.windowParent.Vtiger_Detail_Js.getInstance().reloadTabContent();
 			app.hideModalWindow();
 		})
 	},

@@ -9,21 +9,22 @@
  * **************************************************************************** */
 
 /**
- * Class VTExpressionsManager
+ * Class VTExpressionsManager.
  */
 class VTExpressionsManager
 {
-
 	/**
-	 * Cache array
+	 * Cache array.
+	 *
 	 * @var array
 	 */
 	private static $cache = [];
 
 	/**
-	 * Add parameter to cache
+	 * Add parameter to cache.
+	 *
 	 * @param string $key
-	 * @param mixed $value
+	 * @param mixed  $value
 	 */
 	public static function addToCache($key, $value)
 	{
@@ -31,19 +32,22 @@ class VTExpressionsManager
 	}
 
 	/**
-	 * Get parameter from cache
+	 * Get parameter from cache.
+	 *
 	 * @param string $key
-	 * @return mixed|boolean
+	 *
+	 * @return mixed|bool
 	 */
 	public static function fromCache($key)
 	{
-		if (isset(self::$cache[$key]))
+		if (isset(self::$cache[$key])) {
 			return self::$cache[$key];
+		}
 		return false;
 	}
 
 	/**
-	 * Clear cache array
+	 * Clear cache array.
 	 */
 	public static function clearCache()
 	{
@@ -51,8 +55,10 @@ class VTExpressionsManager
 	}
 
 	/**
-	 * Get fields info
+	 * Get fields info.
+	 *
 	 * @param string $moduleName
+	 *
 	 * @return array
 	 */
 	public function fields($moduleName)
@@ -66,13 +72,14 @@ class VTExpressionsManager
 	}
 
 	/**
-	 * Get expression functions
+	 * Get expression functions.
+	 *
 	 * @return array
 	 */
 	public function expressionFunctions()
 	{
 		return ['concat' => 'concat(a,b)', 'time_diffdays(a,b)' => 'time_diffdays(a,b)', 'time_diffdays(a)' => 'time_diffdays(a)', 'time_diff(a,b)' => 'time_diff(a,b)', 'time_diff(a)' => 'time_diff(a)',
 			'add_days' => 'add_days(datefield, noofdays)', 'sub_days' => 'sub_days(datefield, noofdays)', 'add_time(timefield, minutes)' => 'add_time(timefield, minutes)', 'sub_time(timefield, minutes)' => 'sub_time(timefield, minutes)',
-			'today' => "get_date('today')", 'tomorrow' => "get_date('tomorrow')", 'yesterday' => "get_date('yesterday')"];
+			'today' => "get_date('today')", 'tomorrow' => "get_date('tomorrow')", 'yesterday' => "get_date('yesterday')", ];
 	}
 }

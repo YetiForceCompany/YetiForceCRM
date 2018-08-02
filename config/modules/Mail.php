@@ -1,12 +1,12 @@
 <?php
 /**
- * Mail module config
- * @package YetiForce.Config
- * @copyright YetiForce Sp. z o.o.
+ * Mail module config.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
-	// URL address characters limit for mailto links, 
+	// URL address characters limit for mailto links,
 	/*
 	  Recommended configuration
 	  Outlook = 2030

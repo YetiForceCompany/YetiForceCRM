@@ -9,9 +9,9 @@
  * *********************************************************************************** */
 
 require_once 'include/Webservices/Utils.php';
-require_once("include/Webservices/WebServiceError.php");
+require_once 'include/Webservices/WebServiceError.php';
 require_once 'include/utils/VtlibUtils.php';
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
+require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
 require_once 'modules/com_vtiger_workflow/include.php';
 require_once 'modules/com_vtiger_workflow/WorkFlowScheduler.php';
 

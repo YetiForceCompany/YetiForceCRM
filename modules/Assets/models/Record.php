@@ -1,16 +1,15 @@
 <?php
 
 /**
- * Record Class for Assets
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Record Class for Assets.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Assets_Record_Model extends Vtiger_Record_Model
 {
-
 	public function updateRenewal()
 	{
 		$value = $this->getRenewalValue();
@@ -48,6 +47,7 @@ class Assets_Record_Model extends Vtiger_Record_Model
 			if ($methodExist) {
 				return $classFunction['class']::$classFunction['method']($this, 'PLL_NOT_RENEWED_VERIFICATION');
 			}
+
 			return 'PLL_NOT_RENEWED_VERIFICATION';
 		}
 		if ($methodExist) {

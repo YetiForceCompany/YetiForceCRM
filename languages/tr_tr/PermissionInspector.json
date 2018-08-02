@@ -1,0 +1,29 @@
+{
+  "php": {
+    "PermissionInspector": "\u0130zin M\u00fcfetti\u015fi",
+    "LBL_INSPECTION_PERMISSION_HEADER": "\u0130zin M\u00fcfetti\u015fi",
+    "LBL_FULL_USER_NAME": "Kullan\u0131c\u0131",
+    "LBL_VIEW_PRVILIGE": "G\u00f6r\u00fcn\u00fcm",
+    "LBL_CREATE_PRIVILIGE": "Olu\u015fturmak",
+    "LBL_EDIT_PRIVILIGE": "D\u00fczenle",
+    "LBL_DELETE_PRIVILIGE": "Sil",
+    "LBL_PROFILES": "Profil:",
+    "SEC_MODULE_DONT_HAVE_SECURITY_RIGHT": "\u0130zinlerin do\u011frulamas\u0131ndan hari\u00e7 tutulan mod\u00fcl\/eylem",
+    "SEC_USER_IS_ADMIN": "Kullan\u0131c\u0131 Y\u00f6neticidir",
+    "SEC_NO_ACTION_MODULE_PERMISSIONS_YES": "Mod\u00fcl i\u00e7in izinler, Kullan\u0131c\u0131n\u0131n bu mod\u00fcl verilere eri\u015fimi vard\u0131r",
+    "SEC_MODULE_VIEW_ALL_PERMISSION": "Verileri g\u00f6r\u00fcnt\u00fclemek i\u00e7in genel izinler",
+    "SEC_MODULE_EDIT_ALL_PERMISSION": "Verileri d\u00fczenlemek i\u00e7in genel izinler",
+    "SEC_RECORID_IS_NULL": "Mod\u00fcl i\u00e7indeki eylemlere genel eri\u015fim",
+    "SEC_MODULE_RIGHTS_TO_ACTION": "Mod\u00fcldeki eylemleri ger\u00e7ekle\u015ftirmek i\u00e7in izinlere dayal\u0131 olarak eri\u015fim",
+    "SEC_RECORD_BY_SHARING_YES": "Eri\u015fim kurallar\u0131na g\u00f6re eri\u015fim (Mod\u00fcl eri\u015fimi)",
+    "SEC_RECORD_OWNER_CURRENT_USER": "%s kullan\u0131c\u0131s\u0131na dayanan eri\u015fim",
+    "SEC_RECORD_OWNER_CURRENT_GROUP": "%s grubuna dayal\u0131 eri\u015fim",
+    "SEC_RECORD_OWNER_SUBORDINATE_USER": "\u015eirketin hiyerar\u015fisine (roller) dayal\u0131 eri\u015fim, Kullan\u0131c\u0131 kay\u0131t sahibine g\u00f6re hiyerar\u015fide daha y\u00fcksektir",
+    "SEC_RECORD_HIERARCHY_USER": "\u0130zinlerin hiyerar\u015fisine dayal\u0131 eri\u015fim",
+    "SEC_NO_ACTION_MODULE_PERMISSIONS_NO": "Mod\u00fcl i\u00e7in izin yok, kullan\u0131c\u0131n\u0131n mod\u00fcle eri\u015fim izni yok",
+    "SEC_MODULE_PERMISSIONS_NO": "Mod\u00fcl i\u00e7in izin yok, kullan\u0131c\u0131n\u0131n mod\u00fcle eri\u015fim izni yok",
+    "SEC_MODULE_NO_RIGHTS_TO_ACTION": "Mod\u00fcldeki eylemleri ger\u00e7ekle\u015ftirmek i\u00e7in izin yok",
+    "SEC_RECORD_BY_SHARING_NO": "Eri\u015fim kurallar\u0131na dayal\u0131 izin yok (Mod\u00fcl eri\u015fimi)",
+    "SEC_MODULE_NO_ACTION_TOOL": "Eylem i\u00e7in izin yok - Eylem bulunamad\u0131"
+  }
+}

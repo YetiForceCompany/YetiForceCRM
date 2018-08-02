@@ -1,0 +1,14 @@
+{
+  "php": {
+    "Partners": "Ortaklar",
+    "SINGLE_Partners": "Ortak",
+    "LBL_PARTNERS_INFORMATION": "Temel bilgiler",
+    "LBL_CUSTOM_INFORMATION": "Sistem bilgisi",
+    "LBL_DESCRIPTION_INFORMATION": "A\u00e7\u0131klama ayr\u0131nt\u0131lar\u0131",
+    "LBL_SUBJECT": "Konu",
+    "LBL_NUMBER": "Numara",
+    "LBL_CLOSED_TIME": "Kapan\u0131\u015f saati",
+    "LBL_VAT_ID": "Vergi numaras\u0131",
+    "FL_CATEGORY": "Kategori"
+  }
+}

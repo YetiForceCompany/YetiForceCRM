@@ -14,13 +14,15 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">{App\Language::translate('LBL_CREATE_CUSTOM_FIELD', $QUALIFIED_MODULE)}</h3>
+					<h5 class="modal-title">{App\Language::translate('LBL_CREATE_CUSTOM_FIELD', $QUALIFIED_MODULE)}</h5>
+					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<form class="form-horizontal createCustomFieldForm"  method="POST">
 					<div class="modal-body">
-						<div class="form-group">
-							<div class="col-md-3 control-label">
+						<div class="form-group row align-items-center">
+							<div class="col-md-3 col-form-label text-right">
 								{App\Language::translate('LBL_SELECT_FIELD_TYPE', $QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-8 controls">
@@ -36,8 +38,8 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group">
-							<div class="col-md-3 control-label fieldLabelForm">
+						<div class="form-group row align-items-center">
+							<div class="col-md-3 col-form-label text-right fieldLabelForm">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}
 							</div>
@@ -46,8 +48,8 @@
 									   data-validator={\App\Json::encode([['name'=>'FieldLabel']])} />
 							</div>
 						</div>
-						<div class="form-group">
-							<div class="col-md-3 control-label fieldNameForm">
+						<div class="form-group row align-items-center">
+							<div class="col-md-3 col-form-label text-right fieldNameForm">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_FIELD_NAME', $QUALIFIED_MODULE)}
 							</div>
@@ -56,8 +58,8 @@
 									   data-validator={\App\Json::encode([['name'=>'fieldName']])} />
 							</div>
 						</div>
-						<div class="form-group">
-							<div class="col-md-3 control-label">
+						<div class="form-group row align-items-center">
+							<div class="col-md-3 col-form-label text-right">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}
 							</div>
@@ -68,8 +70,8 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group supportedType lengthsupported">
-							<div class="col-md-3 control-label">
+						<div class="form-group row align-items-center supportedType lengthsupported">
+							<div class="col-md-3 col-form-label text-right">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_LENGTH', $QUALIFIED_MODULE)}
 							</div>
@@ -77,8 +79,8 @@
 								<input type="text" name="fieldLength" value="" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" class="form-control" />
 							</div>
 						</div>
-						<div class="form-group supportedType decimalsupported hide">
-							<div class="col-md-3 control-label">
+						<div class="form-group row align-items-center supportedType decimalsupported d-none">
+							<div class="col-md-3 col-form-label text-right">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_DECIMALS', $QUALIFIED_MODULE)}
 							</div>
@@ -86,19 +88,19 @@
 								<input type="text" name="decimal" value="" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" class="form-control" />
 							</div>
 						</div>
-						<div class="form-group supportedType preDefinedValueExists hide">
-							<div class="col-md-3 control-label">
+						<div class="form-group row align-items-center supportedType preDefinedValueExists d-none">
+							<div class="col-md-3 col-form-label text-right">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_PICKLIST_VALUES', $QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-8 controls">
-								<select id="picklistUi" class="form-control" name="pickListValues" multiple="" tabindex="-1" aria-hidden="true" placeholder="{App\Language::translate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}" 
+								<select id="pickListValues" class="form-control" name="pickListValues" multiple="" tabindex="-1" aria-hidden="true" placeholder="{App\Language::translate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}"
 										data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={\App\Json::encode([['name'=>'PicklistFieldValues']])}>
 								</select>
 							</div>
 						</div>
-						<div class="form-group supportedType preDefinedModuleList hide">
-							<div class="col-md-3 control-label">
+						<div class="form-group row align-items-center supportedType preDefinedModuleList d-none">
+							<div class="col-md-3 col-form-label text-right">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_RELATION_VALUES', $QUALIFIED_MODULE)}
 							</div>
@@ -110,8 +112,8 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group supportedType preMultiReferenceValue hide">
-							<div class="col-md-3 control-label">
+						<div class="form-group row align-items-center supportedType preMultiReferenceValue d-none">
+							<div class="col-md-3 col-form-label text-right">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_MULTI_REFERENCE_VALUE_MODULES', $QUALIFIED_MODULE)}
 							</div>
@@ -123,8 +125,8 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group supportedType preMultiReferenceValue hide">
-							<div class="col-md-3 control-label">
+						<div class="form-group row align-items-center supportedType preMultiReferenceValue d-none">
+							<div class="col-md-3 col-form-label text-right">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_MULTI_REFERENCE_VALUE_FIELDS', $QUALIFIED_MODULE)}
 							</div>
@@ -146,8 +148,8 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group supportedType preMultiReferenceValue hide">
-							<div class="col-md-3 control-label">
+						<div class="form-group row align-items-center supportedType preMultiReferenceValue d-none">
+							<div class="col-md-3 col-form-label text-right">
 								{App\Language::translate('LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD', $QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-8 controls">
@@ -161,8 +163,8 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group supportedType preMultiReferenceValue hide">
-							<div class="col-md-3 control-label">
+						<div class="form-group row align-items-center supportedType preMultiReferenceValue d-none">
+							<div class="col-md-3 col-form-label text-right">
 								{App\Language::translate('LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE', $QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-8 controls">
@@ -170,8 +172,8 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group supportedType picklistOption hide">
-							<div class="col-md-3 control-label">
+						<div class="form-group row align-items-center supportedType picklistOption d-none">
+							<div class="col-md-3 col-form-label text-right">
 								&nbsp;
 							</div>
 							<div class="col-md-8 controls">
@@ -180,8 +182,8 @@
 								</label>
 							</div>
 						</div>
-						<div class="form-group supportedType preDefinedTreeList hide">
-							<div class="col-md-3 control-label">
+						<div class="form-group row align-items-center supportedType preDefinedTreeList d-none">
+							<div class="col-md-3 col-form-label text-right">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_TREE_TEMPLATE', $QUALIFIED_MODULE)}
 							</div>
@@ -196,7 +198,7 @@
 							</div>
 						</div>
 					</div>
-					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', 'Vtiger')}
+					{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 				</form>
 			</div>
 		</div>

@@ -1,0 +1,37 @@
+{
+  "php": {
+    "LBL_MODULE": "Module",
+    "Reservations": "Reservations",
+    "LBL_SHARE_WITH": "Partager avec",
+    "LBL_ADD_RECORD": "Ajouter",
+    "TreesManager": "Arbre de gestion",
+    "LBL_TREES_MANAGER": "Champs \u2013 Dossiers",
+    "LBL_TREES_MANAGER_DESCRIPTION": "Mod\u00e8le d'arbre de gestion",
+    "LBL_NO_RECORDS_FOUND": "Pas de mod\u00e8le",
+    "LBL_EDIT_TEMPLATE_TREES": "Editer le mod\u00e8le",
+    "LBL_CREATING_TEMPLATE_TREES": "Cr\u00e9er le mod\u00e8le",
+    "LBL_NAME": "Nom du mod\u00e8le",
+    "LBL_ADD_ITEM_TREE": "Ajouter un nouvel \u00e9l\u00e9ment",
+    "LBL_ADD_TO_TREES": "Ajouter",
+    "LBL_SAVE": "Sauvergarder",
+    "LBL_SELECT_REPLACE_TREE_ITEM": "Modifier \u00e9l\u00e9ment arbre vers :",
+    "Category": "Cat\u00e9gorie"
+  },
+  "js": {
+    "JS_TREE_DELETED_SUCCESSFULLY": "Mod\u00e8le supprim\u00e9 avec succ\u00e8s",
+    "JS_JSTREE_CREATE": "Ajouter",
+    "JS_JSTREE_RENAME": "Modifier nom",
+    "JS_JSTREE_REMOVE": "Supprimer",
+    "JS_JSTREE_CCP": "Editer",
+    "JS_JSTREE_CUT": "Couper",
+    "JS_JSTREE_COPY": "Copier",
+    "JS_JSTREE_PASTE": "Coller",
+    "JS_JSTREE_CHANGE_ICON": "Modifier ic\u00f4ne",
+    "JS_FIELD_CAN_NOT_BE_EMPTY": "Le champ ne peut \u00eatre vide",
+    "JS_NO_ITEM_SELECTED": "Aucun \u00e9l\u00e9ment s\u00e9lectionn\u00e9",
+    "JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS": "Vous ne pouvez pas supprimer tous les items",
+    "JS_YOU_CANNOT_DELETE_PERENT_ITEM": "Vous ne pouvez pas supprimer l'\u00e9l\u00e9ment parent",
+    "JS_NEW_ITEM": "Nouveau noeud",
+    "JS_ONLY_ONE_ITEM_SELECTED": "Seul un \u00e9l\u00e9ment peut \u00eatre s\u00e9lectionn\u00e9."
+  }
+}

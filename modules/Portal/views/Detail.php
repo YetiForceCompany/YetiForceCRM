@@ -10,7 +10,6 @@
 
 class Portal_Detail_View extends Vtiger_Index_View
 {
-
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
@@ -48,6 +47,7 @@ class Portal_Detail_View extends Vtiger_Index_View
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 }

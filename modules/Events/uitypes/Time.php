@@ -10,5 +10,4 @@
 
 class Events_Time_UIType extends Calendar_Time_UIType
 {
-	
 }

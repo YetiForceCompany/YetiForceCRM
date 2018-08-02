@@ -8,12 +8,13 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Vtiger_BasicAjax_Action extends Vtiger_Action_Controller
+class Vtiger_BasicAjax_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -35,7 +36,7 @@ class Vtiger_BasicAjax_Action extends Vtiger_Action_Controller
 					$result[] = [
 						'label' => App\Purifier::decodeHtml($recordModel->getSearchName()),
 						'value' => App\Purifier::decodeHtml($recordModel->getName()),
-						'id' => $recordModel->getId()
+						'id' => $recordModel->getId(),
 					];
 				}
 			}

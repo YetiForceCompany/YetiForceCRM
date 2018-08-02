@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Relation Model
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Relation Model.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Vendors_Relation_Model extends Vtiger_Relation_Model
 {
-
 	/**
-	 * Get products
+	 * Get products.
 	 */
 	public function getProducts()
 	{

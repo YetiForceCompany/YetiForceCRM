@@ -1,24 +1,15 @@
 <?php
 
 /**
- * Mail cction bar class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Mail cction bar class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSMail_MailActionBar_View extends Vtiger_Index_View
 {
-
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		
-	}
+	use App\Controller\ClearProcess;
 
 	public function process(\App\Request $request)
 	{
@@ -36,7 +27,7 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 		$record = $mailViewModel->checkMailExist($uid, $folder, $rcId);
 		if (!$record && !empty($account['actions'])) {
 			$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
-			$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $folder);
+			$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $folder);
 			$return = OSSMailScanner_Record_Model::executeActions($account, $mailModel->getMail($mbox, $uid), $folder, $params);
 			if (!empty($return['CreatedEmail'])) {
 				$record = $return['CreatedEmail']['mailViewId'];

@@ -1,0 +1,48 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+//Switch button
+label.btn.btn-outline-primary {
+	&:not(.active) {
+		background: $white;
+
+		&:hover {
+			color: $blue;
+			background: $gray-200;
+		}
+	}
+}
+
+.dropdown-item {
+	cursor: pointer;
+	border-top: 1px solid transparent;
+	border-bottom: 1px solid transparent;
+
+	&:hover {
+		border-top: 1px solid $color-grey-light;
+		border-bottom: 1px solid $color-grey-light;
+	}
+}
+//fixes overflow for validation alerts
+.modal-body {
+	overflow-y: initial !important;
+}
+//btn-group with flex-column on mobile styles correction
+@include media-breakpoint-down(xs) {
+	.btn-group.flex-column {
+		& > .btn {
+			margin-left: 0 !important;
+		}
+
+		& > .btn:first-child {
+			-webkit-border-radius: 0.25rem 0.25rem 0 0 !important;
+			-moz-border-radius: 0.25rem 0.25rem 0 0 !important;
+			border-radius: 0.25rem 0.25rem 0 0 !important;
+		}
+
+		& > .btn:last-child {
+			-webkit-border-radius: 0 0 0.25rem 0.25rem !important;
+			-moz-border-radius: 0 0 0.25rem 0.25rem !important;
+			border-radius: 0 0 0.25rem 0.25rem !important;
+		}
+	}
+}

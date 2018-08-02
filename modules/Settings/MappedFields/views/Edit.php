@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Edit View Class for MappedFields Settings
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Edit View Class for MappedFields Settings.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$step = strtolower($request->getMode());
@@ -98,6 +97,7 @@ class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 }

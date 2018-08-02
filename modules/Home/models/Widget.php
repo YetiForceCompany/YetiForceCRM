@@ -10,5 +10,4 @@
 
 class Home_Widget_Model extends \App\Base
 {
-	
 }

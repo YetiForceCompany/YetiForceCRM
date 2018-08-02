@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Settings_PDF_Edit_Js("Settings_PDF_Edit6_Js", {}, {
 	step6Container: false,
 	advanceFilterInstance: false,
@@ -25,7 +27,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit6_Js", {}, {
 	 * Function  to intialize the reports step1
 	 */
 	initialize: function (container) {
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('#pdf_step6');
 		}
 		if (container.is('#pdf_step6')) {
@@ -60,30 +62,24 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit6_Js", {}, {
 		var saveData = form.serializeFormData();
 		saveData['action'] = 'Save';
 		saveData['step'] = 6;
-		AppConnector.request(saveData).then(
-				function (data) {
-					data = JSON.parse(data);
-					if (data.success == true) {
-						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
+		AppConnector.request(saveData).done(function (data) {
+			data = JSON.parse(data);
+			if (data.success == true) {
+				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
 
-						AppConnector.request(formData).then(
-								function (data) {
-									form.hide();
-									progressIndicatorElement.progressIndicator({
-										'mode': 'hide'
-									})
-									aDeferred.resolve(data);
-								},
-								function (error, err) {
-									app.errorLog(error, err);
-								}
-						);
-					}
-				},
-				function (error, err) {
+				AppConnector.request(formData).done(function (data) {
+					form.hide();
+					progressIndicatorElement.progressIndicator({
+						'mode': 'hide'
+					});
+					aDeferred.resolve(data);
+				}).fail(function (error, err) {
 					app.errorLog(error, err);
-				}
-		);
+				});
+			}
+		}).fail(function (error, err) {
+			app.errorLog(error, err);
+		});
 		return aDeferred.promise();
 	},
 	registerCancelStepClickEvent: function (form) {
@@ -103,6 +99,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit6_Js", {}, {
 		container.validationEngine(opts);
 		this.registerCancelStepClickEvent(container);
 		this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(jQuery('#advanceFilterContainer', container));
-		app.changeSelectElementView(container);
+		App.Fields.Picklist.changeSelectElementView(container);
 	}
 });

@@ -1,0 +1,10 @@
+{
+  "php": {
+    "Payments": "Plati",
+    "LBL_RIGHT_CLICK_COPY": "Click dreapta si copiaza"
+  },
+  "js": {
+    "JS_DELETED_SUCCESSFULLY": "Sters cu succes",
+    "JS_SAVED_SUCCESSFULLY": "Salvat cu succes"
+  }
+}

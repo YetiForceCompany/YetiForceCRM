@@ -1,8 +1,8 @@
 <?php
 /**
- * Calender module config
- * @package YetiForce.Config
- * @copyright YetiForce Sp. z o.o.
+ * Calender module config.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
@@ -15,7 +15,7 @@ return [
 	// Show calendar timeline in day view
 	// false = basicDay, true = agendaDay
 	'SHOW_TIMELINE_DAY' => false, //  Boolean
-	// switch - Switch "To realize" and "History", 
+	// switch - Switch "To realize" and "History",
 	// list - filter list
 	'DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE' => 'list',
 	// Show the Event/To Do quick create window after changing the status
@@ -27,7 +27,7 @@ return [
 	// Button referring to the list view that includes filters
 	// true - show, false - hide;
 	'SHOW_LIST_BUTTON' => true, // Boolean
-	// Show companies and processes in quickcreate 
+	// Show companies and processes in quickcreate
 	'SHOW_COMPANIES_IN_QUICKCREATE' => false, // Boolean
 	// Exclude certain days-of-the-week from being displayed.
 	// The value is an array of day-of-week indices to hide. Each index is zero-base (Sunday=0) and ranges from 0-6.

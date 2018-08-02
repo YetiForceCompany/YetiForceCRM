@@ -1,0 +1,20 @@
+{
+  "php": {
+    "FInvoiceProforma": "Proforma Rechnungen",
+    "SINGLE_FInvoiceProforma": "Proforma Rechnung",
+    "LBL_CUSTOM_INFORMATION": "Systeminformationen",
+    "LBL_ADDRESS_DELIVERY_INFORMATION": "Lieferadresse",
+    "FL_SUBJECT": "Betreff",
+    "FL_PAYMENT_DATE": "Ausf\u00fchrungsdatum",
+    "FL_SALE_DATE": "Verkausdatum",
+    "FL_FORM_PAYMENT": "Zahlungsmethode",
+    "FL_STATUS": "Status",
+    "FL_BANK_ACCOUNT": "Kontonummer",
+    "FL_NUMBER": "Rechnungsnummer",
+    "FL_ACCOUNT": "Organisation",
+    "FL_TOTAL": "Gesamt",
+    "FL_GROSS": "Brutto",
+    "PLL_TRANSFER": "\u00dcberweisung",
+    "PLL_CASH": "Bargeld"
+  }
+}

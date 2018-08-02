@@ -1,0 +1,18 @@
+{
+  "php": {
+    "LBL_LOGIN": "Connexion",
+    "LBL_KEY": "Mot de passe",
+    "LBL_ADD_KEY": "Ajouter une cl\u00e9",
+    "LBL_TITLE_ADDED": "Cr\u00e9er une cl\u00e9",
+    "LBL_TITLE_EDIT": "Editer cl\u00e9",
+    "LBL_SYNCHRONIZE_PRODUCTS": "Synchroniser les produits",
+    "LBL_SYNCHRONIZE_ORDERS": "Synchroniser les commandes",
+    "LBL_POS": "POS",
+    "LBL_SERVER": "Application",
+    "LBL_POS_DESCRIPTION": "Merci de noter qeu ce module sera compl\u00e9tement op\u00e9rationnel en v.3.1"
+  },
+  "js": {
+    "JS_DELETE_CONFIRMATION": "Etes-vous s\u00fbr de vouloir supprimer cette cl\u00e9?",
+    "JS_THIS_USER_IS_EXIST": "Utilisateur s\u00e9lectionn\u00e9 a d\u00e9j\u00e0 une cl\u00e9."
+  }
+}

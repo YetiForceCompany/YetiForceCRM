@@ -1,30 +1,33 @@
 <?php
 
 /**
- * Mail action class
- * @package YetiForce.App
- * @copyright YetiForce Sp. z o.o.
+ * Mail action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_Mail_Action extends Vtiger_Action_Controller
+class Vtiger_Mail_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
 
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if (!$request->isEmpty('sourceRecord') && !\App\Privilege::isPermitted($request->getByType('sourceModule', 2), 'DetailView', $request->getInteger('sourceRecord'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	/**
-	 * Construct
+	 * Construct.
 	 */
 	public function __construct()
 	{
@@ -34,19 +37,8 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Process function
-	 * @param \App\Request $request
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-		}
-	}
-
-	/**
-	 * Check if smtps are active
+	 * Check if smtps are active.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function checkSmtp(\App\Request $request)
@@ -61,15 +53,16 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Send mails
+	 * Send mails.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function sendMails(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$field = $request->getByType('field');
+		$field = $request->getByType('field', 'Alnum');
 		$template = $request->getInteger('template');
-		$sourceModule = $request->getByType('sourceModule',2);
+		$sourceModule = $request->getByType('sourceModule', 'Alnum');
 		$sourceRecord = $request->getInteger('sourceRecord');
 		$result = false;
 		if (!empty($template) && !empty($field)) {
@@ -98,6 +91,7 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 					break;
 				}
 			}
+			$dataReader->close();
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
@@ -105,14 +99,16 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Get query instance
+	 * Get query instance.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return \App\Db\Query
 	 */
 	public function getQuery(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$sourceModule = $request->getByType('sourceModule',2);
+		$sourceModule = $request->getByType('sourceModule', 2);
 		if ($sourceModule) {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $sourceModule);
 			$listView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);

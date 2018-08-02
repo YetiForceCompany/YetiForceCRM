@@ -1,0 +1,25 @@
+{
+  "php": {
+    "LBL_SALES_PROCESSES": "Ventas",
+    "LBL_SALES_PROCESSES_DESCRIPTION": " ",
+    "LBL_LIMIT_PRODUCT_AND_SERVICE": "Limitar la selecci\u00f3n de productos\/servicios s\u00f3lo a los relacionados con la Oportunidad actualmente seleccionada. Se aplica a los m\u00f3dulos: Solicitudes de cotizaci\u00f3n, Requerimientos de ventas, C\u00e1lculos, Cotizaciones, \u00d3rdenes de Venta, \u00d3rdenes de Venta recurrentes.",
+    "LBL_PRODUCTS_AND_SERVICES_POPUP": "Desplegable de productos y servicios",
+    "LBL_UPDATE_SHARED_PERMISSIONS": "Actualiza los permisos de intercambio de producto\/servicio en la oportunidad cuando se crea la relaci\u00f3n entre oportunidad y producto\/servicio.",
+    "LBL_STATUSES_CLOSED_CALCULATION": "Estados que determinan que el c\u00e1lculo est\u00e1 cerrado",
+    "LBL_POTENTIALS": "Oportunidades",
+    "LBL_STATUSES_CLOSED_POTENTIAL": "Estados que determinan que la oportunidad est\u00e1 cerrada",
+    "LBL_ASSETS": "Productos vendidos",
+    "LBL_STATUSES_CLOSED_ASSETS": "Estados que determinan que el producto vendido est\u00e1 cerrado",
+    "LBL_CREATE_POTENTIALS": "Bloque\u00f3 la creaci\u00f3n de Oportunidades para Empresas en las que 'Asignado a' no es un usuario",
+    "SalesProcesses": "Procesos de ventas",
+    "LBL_SQUOTEENQUIRIES": "Consultas de ventas",
+    "LBL_SREQUIREMENTSCARD": "Requisitos de ventas",
+    "LBL_SCALCULATIONS": "C\u00e1lculos",
+    "LBL_SQUOTES": "Ofertas \/ Presupuestos",
+    "LBL_SSALESORDER": "\u00d3rdenes de Venta",
+    "LBL_STATUSES_CLOSED_SSALESORDER": "Estados que definen el cierre de un pedido",
+    "LBL_STATUSES_CLOSED_SQUOTEENQUIRIES": "Estados que definen el cierre de una consulta de cotizaci\u00f3n",
+    "LBL_STATUSES_CLOSED_SREQUIREMENTSCARD": "Estados que definen el cierre de los requisitos de ventas",
+    "LBL_STATUSES_CLOSED_SQUOTES": "Estados que definen el cierre de una cotizaci\u00f3n"
+  }
+}

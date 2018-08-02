@@ -1,0 +1,35 @@
+{
+  "php": {
+    "LBL_VIEW_EDIT2": "Ajouter des Conditions",
+    "LBL_NEW_TPL": "Ajouter un nouveau document",
+    "OSSDocumentControl": "Document de contr\u00f4le",
+    "LBL_MODULE_NAME": "Nom du Module",
+    "LBL_NO_PROJECT_TPL_ADDED": "Aucun nouveau document ajout\u00e9",
+    "TPL": "Documents",
+    "OSSProjectTemplates_manual": "Mod\u00e8les de Projet OSS",
+    "LBL_CREATING_TPL": "Cr\u00e9er un document",
+    "LBL_FILL_BASE_DATA": "Information standard",
+    "ADD_CONDITIONS": "Ajouter des conditions",
+    "LBL_CONDITION_ALL": "Toutes les conditions",
+    "LBL_CONDITION_ALL_DSC": "Toutes les conditions de cette section doivent \u00eatre remplies",
+    "LBL_CONDITION_OPTION": "N'importe quelles conditions",
+    "LBL_CONDITION_OPTION_DSC": "Au moins une des conditions de cette section doit \u00eatre remplie",
+    "FOLDER_LIST": "Liste des dossiers",
+    "DOC_NAME": "Nom des documents",
+    "DOC_REQUIRED": "Le document est requis",
+    "DOC_ORDER": "S\u00e9quence",
+    "NEXT": "Suivant",
+    "CANCEL": "Annuler",
+    "BACK": "Retour",
+    "LIST_DOCUMENTS": "Liste des documents",
+    "DOC_REQ": "Document requis",
+    "FOLDER": "Dossier",
+    "ADD_DOCUMENT": "Ajouter un document",
+    "ATTACHED": "Attach\u00e9",
+    "NOT_ALLOW_TO_SAVE": "Vous ne pouvez sauvegarder l'enregistrement car les documents requis ne sont pas attach\u00e9s",
+    "LIST_REQ_DOC": "Merci de joindre les documents suivants"
+  },
+  "js": {
+    "LBL_VIEW_EDIT2": "Ajouter des conditions"
+  }
+}

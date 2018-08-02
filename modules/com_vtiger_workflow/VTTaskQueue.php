@@ -10,18 +10,16 @@
 
 /**
  * Time based Queue of tasks ready for execution.
- *
  */
 class VTTaskQueue
 {
-
 	/**
 	 * Queue a task for execution.
 	 *
 	 * @param $taskId The id of the task to queue
-	 * @param $entityId The id of the crm entity the task is assiciated with.
+	 * @param $entityId The id of the crm entity the task is assiciated with
 	 * @param $when The time after which the task should be executed. This is
-	 *        an optional value with a default value of 0.
+	 *        an optional value with a default value of 0
 	 */
 	public function queueTask($taskId, $entityId, $when = 0, $taskContents = false)
 	{
@@ -29,8 +27,9 @@ class VTTaskQueue
 			'task_id' => $taskId,
 			'entity_id' => $entityId,
 			'do_after' => $when,
-			'task_contents' => $taskContents
+			'task_contents' => $taskContents,
 		])->execute();
+
 		return true;
 	}
 
@@ -52,6 +51,7 @@ class VTTaskQueue
 			$arr[] = [$row['task_id'], $row['entity_id'], $row['task_contents']];
 		}
 		\App\Db::getInstance()->createCommand()->delete('com_vtiger_workflowtask_queue', ['<', 'do_after', $time])->execute();
+
 		return $arr;
 	}
 }

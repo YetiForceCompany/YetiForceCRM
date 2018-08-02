@@ -1,23 +1,23 @@
 <?php
 
 /**
- * Save geographical coordinates Handler Class
- * @package YetiForce.Handler
- * @copyright YetiForce Sp. z o.o.
+ * Save geographical coordinates Handler Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class OpenStreetMap_OpenStreetMapHandler_Handler
 {
-
 	/**
-	 * EntityAfterSave handler function
+	 * EntityAfterSave handler function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
 		$fieldAddress = [
-			'addresslevel', 'buildingnumber', 'localnumber', 'pobox'
+			'addresslevel', 'buildingnumber', 'localnumber', 'pobox',
 		];
 		$typeAddressToUpdate = [];
 		$recordModel = $eventHandler->getRecordModel();
@@ -27,7 +27,7 @@ class OpenStreetMap_OpenStreetMapHandler_Handler
 				if ($recordModel->getPreviousValue($deltaField) !== $recordModel->get($deltaField)) {
 					foreach ($fieldAddress as &$field) {
 						if (strpos($deltaField, $field) !== false) {
-							$typeAddressToUpdate [] = substr($deltaField, -1);
+							$typeAddressToUpdate[] = substr($deltaField, -1);
 						}
 					}
 				}
@@ -45,7 +45,7 @@ class OpenStreetMap_OpenStreetMapHandler_Handler
 					App\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_record_updater', [
 						'crmid' => $recordModel->getId(),
 						'type' => $typeAddress,
-						'address' => \App\Json::encode($address)
+						'address' => \App\Json::encode($address),
 					])->execute();
 				} else {
 					App\Db::getInstance()->createCommand()

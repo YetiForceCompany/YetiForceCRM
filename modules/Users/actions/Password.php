@@ -1,17 +1,18 @@
 <?php
 
 /**
- * Reset password action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Reset password action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Users_Password_Action extends Vtiger_Action_Controller
+class Users_Password_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function __construct()
 	{
@@ -22,8 +23,10 @@ class Users_Password_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
@@ -49,19 +52,8 @@ class Users_Password_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
-
-	/**
-	 * Reset user password
+	 * Reset user password.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function reset(\App\Request $request)
@@ -69,6 +61,7 @@ class Users_Password_Action extends Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$password = \App\Encryption::generateUserPassword();
 		$userRecordModel = Users_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+		$userRecordModel->set('changeUserPassword', true);
 		$userRecordModel->set('user_password', $password);
 		$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
 		$userRecordModel->set('force_password_change', 0);
@@ -86,7 +79,8 @@ class Users_Password_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Change user password
+	 * Change user password.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function change(\App\Request $request)
@@ -103,7 +97,8 @@ class Users_Password_Action extends Vtiger_Action_Controller
 		} elseif (!$isOtherUser && !$userRecordModel->verifyPassword($request->getRaw('oldPassword'))) {
 			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_INCORRECT_OLD_PASSWORD', 'Users'), 'type' => 'error']]);
 		} else {
-			$userRecordModel->set('user_password', $request->getRaw('password'));
+			$userRecordModel->set('changeUserPassword', true);
+			$userRecordModel->set('user_password', $password);
 			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
 			$userRecordModel->set('force_password_change', $isOtherUser ? 1 : 0);
 			try {
@@ -120,7 +115,8 @@ class Users_Password_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Mass reset user password
+	 * Mass reset user password.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function massReset(\App\Request $request)
@@ -130,6 +126,7 @@ class Users_Password_Action extends Vtiger_Action_Controller
 		foreach ($recordsList as $userId) {
 			$password = \App\Encryption::generateUserPassword();
 			$userRecordModel = Users_Record_Model::getInstanceById($userId, $moduleName);
+			$userRecordModel->set('changeUserPassword', true);
 			$userRecordModel->set('user_password', $password);
 			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
 			$userRecordModel->set('force_password_change', 0);
@@ -145,5 +142,13 @@ class Users_Password_Action extends Vtiger_Action_Controller
 		$response = new Vtiger_Response();
 		$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USERS', 'Users')]]);
 		$response->emit();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validateRequest(\App\Request $request)
+	{
+		$request->validateWriteAccess();
 	}
 }

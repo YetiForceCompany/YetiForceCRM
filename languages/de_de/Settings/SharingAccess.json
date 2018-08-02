@@ -1,0 +1,38 @@
+{
+  "php": {
+    "Sharing Rules": "Freigaberegeln",
+    "SharingAccess": "Freigaberegeln",
+    "Accounts": "Organisationen & Kontakte",
+    "LBL_ADD_CUSTOM_RULE": "Erstelle benutzerdefinierte Regel",
+    "LBL_ADD_CUSTOM_RULE_TO": "Benutzerdefinierte Regel hinzuf\u00fcgen zu",
+    "LBL_ADVANCED_SHARING_RULES": "Erweiterte Freigabe-Regeln",
+    "LBL_APPLY_NEW_SHARING_RULES": "Neue Freigaberegeln anwenden",
+    "LBL_CAN_ACCESSED_BY": "Zugegriffen werden kann von",
+    "LBL_CUSTOM_ACCESS_MESG": "Keine benutzerdefinierten Zugriffsregeln definiert",
+    "LBL_MODULE": "Modul",
+    "LBL_PRIVILEGES": "Freigaben",
+    "LBL_READ": "Lesen",
+    "LBL_READ_WRITE": "Lesen und Schreiben",
+    "LBL_RULE_NO": "Regel Nr.",
+    "LBL_SHARING_RULE": "Freigaberegeln",
+    "LBL_WITH_PERMISSIONS": "Mit Berechtigungen",
+    "Read Only": "Lesen",
+    "Read Write": "Lesen\/Schreiben",
+    "SINGLE_Groups": "Gruppe",
+    "Groups": "Gruppen",
+    "SINGLE_RoleAndSubordinates": "Rolle und Untergeordnete",
+    "RoleAndSubordinates": "Rollen und Untergeordnete",
+    "SINGLE_Roles": "Rolle",
+    "Roles": "Rollen",
+    "Private": "Privat",
+    "Public: Read Only": "\u00d6ffentlich: Nur Lesen",
+    "Public: Read, Create\/Edit, Delete": "\u00d6ffentlich: Lesen, Erstellen \/ Bearbeiten, L\u00f6schen",
+    "Public: Read, Create\/Edit": "\u00d6ffentlich: Lesen, Erstellen \/ Bearbeiten"
+  },
+  "js": {
+    "JS_CUSTOM_RULE_SAVED_SUCCESSFULLY": "Individuelle Freigaberegel erfolgreich gespeichert",
+    "JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE": "Verkaufspotentiale-, Tickets-, Angebote-, Auftrags- und Rechnungszugriff muss Privat sein, wenn der Organisationszugriff Privat ist",
+    "JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY": "Neue Freigaberegeln erfolgreich angewendet",
+    "JS_SELECT_ANY_OTHER_ACCESSING_USER": "Einen anderen zugriffsberechtigten Benutzer w\u00e4hlen"
+  }
+}

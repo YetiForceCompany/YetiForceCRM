@@ -11,10 +11,11 @@
 
 class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -43,8 +44,10 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 	}
 
 	/**
-	 * Function to get the record model based on the request parameters
+	 * Function to get the record model based on the request parameters.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return Vtiger_Record_Model[] - List of Vtiger_Record_Model instances
 	 */
 	public function getRecordModelsFromRequest(\App\Request $request)

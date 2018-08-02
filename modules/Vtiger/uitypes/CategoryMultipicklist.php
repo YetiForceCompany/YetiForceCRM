@@ -1,9 +1,9 @@
 <?php
 
 /**
- * UIType Category multipicklist
- * @package YetiForce.UIType
- * @copyright YetiForce Sp. z o.o.
+ * UIType Category multipicklist.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  * @author Tomasz Kur <t.kur@yetiforce.com>
@@ -12,13 +12,13 @@
  */
 class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if ($value) {
+			$value = trim($value, ',');
 			$value = ",$value,";
 		} elseif (is_null($value)) {
 			$value = '';
@@ -27,7 +27,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
@@ -39,11 +39,11 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -61,8 +61,16 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 		}
 		$value = implode(', ', $names);
 		if (is_int($length)) {
-			$value = \vtlib\Functions::textLength($value, $length);
+			$value = \App\TextParser::textTruncate($value, $length);
 		}
 		return \App\Purifier::encodeHtml($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return ['text'];
 	}
 }

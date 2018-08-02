@@ -1,0 +1,38 @@
+{
+  "php": {
+    "LBL_AUTOMATIC_ASSIGNMENT": "Auto repartizare Inregistrari",
+    "AutomaticAssignment": "Auto repartizare Inregistrari",
+    "LBL_AUTOMATICASSIGNMENT_DESCRIPTION": " ",
+    "FL_FIELD": "Denumire camp",
+    "FL_MODULE": "Modul",
+    "FL_VALUE": "Valoare",
+    "FL_ROLES": "Roluri",
+    "FL_SMOWNERS": "Proprietar inregistrare",
+    "FL_SHOWNERS": "Distribuie cu",
+    "FL_ASSIGN": "Setari implicite",
+    "FL_CONDITIONS": "Conditii cautare inregistrare",
+    "FL_MODE": "Mod",
+    "LBL_CREATE_RECORD": "Creaza inregistrare",
+    "BTN_NEXT": "Urmatorul",
+    "BTN_CLOSE": "Inchide",
+    "BTN_ADD": "Adauga",
+    "LBL_CHANGE_ROLE_TYPE": "Modificati tip rol",
+    "LBL_CHANGE_RECORD_STATE": "Modificati stare inregistrare",
+    "BTN_SAVE": "Salveaza",
+    "LBL_INCLUDE_USERS_RECORD_LIMIT": "Include limita inregistrare utilizator",
+    "LBL_SET_DEFAULT_USER": "Seteaza utilizator implicit",
+    "LBL_DEACTIVATE_SYSTEM_MODE": "Dezactiveaza mod sistem",
+    "LBL_SYSTEM": "Sistem",
+    "LBL_NOTE": "Nota!",
+    "LBL_VALUE_INFO": "Urmatorul camp stabileste valoarea pentru campul modulului selectat.",
+    "LBL_ROLES_INFO": "Lista utilizatorilor pre-alocati este creata din rolurile de mai jos",
+    "LBL_SMOWNERS_INFO": "Lista utilizatorilor pre-alocati este creata de utilizatorii, grupurile de mai jos. Aceasta lista de utilizatori este creata numai daca nu exista utilizatori selectati din roluri.",
+    "LBL_ASSIGN_INFO": "Setati Atribuit la implicit. Valoarea setata aici va fi atribuita inregistrarii atunci cand utilizatorul, care a fost atribuit, nu poate fi gasit.",
+    "LBL_CONDITIONS_INFO": "Setati conditiile de cautare a inregistrarilor. Pentru a selecta un utilizator din lista de utilizatori disponibila, sistemul numara numarul de inregistrari atribuite utilizatorului in modul. Utilizatorul cu cel mai mic numar de inregistrari este atribuit inregistrarii.",
+    "LBL_ROLEID_INFO": "Setati unul dintre urmatoarele moduri: SYSTEM - utilizator prin mecanisme precum sarcini de lucru si manipulatoare de fluxuri de lucru; NON-SYSTEM \u2013  permite sa atribui manual o inregistrare de catre utilizator."
+  },
+  "js": {
+    "JS_STATE_CONFIRMATION": "Siguri doriti sa modificati starea inregistrarii?",
+    "JS_SAVE_SUCCESS": "Modificarile au fost salvate cu succes."
+  }
+}

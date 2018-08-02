@@ -1,0 +1,16 @@
+{
+  "php": {
+    "Updates": "Actualizari",
+    "LBL_YES": "Da",
+    "LBL_NO": "Nu",
+    "LBL_TIME": "Data",
+    "LBL_USER": "Utilizator",
+    "LBL_FROM_VERSION": "De la versiunea",
+    "LBL_TO_VERSION": "La versiunea",
+    "LBL_RESULT": "Status",
+    "LBL_UPDATES": "Actualizari",
+    "LBL_UPDATES_DESCRIPTION": "Istoric actualizari",
+    "LBL_IMPORT_UPDATE": "Incarcati actualizare",
+    "LBL_NAME_PACKAGES": "Denumire"
+  }
+}

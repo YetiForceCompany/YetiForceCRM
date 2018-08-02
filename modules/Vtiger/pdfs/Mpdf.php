@@ -1,25 +1,24 @@
 <?php
 /**
- * Class using mPDF as a PDF creator
- * @package YetiForce.PDF
- * @copyright YetiForce Sp. z o.o.
+ * Class using mPDF as a PDF creator.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-Vtiger_Loader::includeOnce('~/libraries/mPDF/mpdf.php');
+Vtiger_Loader::includeOnce('~/vendor/mPDF/mpdf.php');
 
 class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 {
-
 	const WATERMARK_TYPE_TEXT = 0;
 	const WATERMARK_TYPE_IMAGE = 1;
 
 	public $pageOrientation = ['PLL_PORTRAIT' => 'P', 'PLL_LANDSCAPE' => 'L'];
 
 	/**
-	 * Returns pdf library object
+	 * Returns pdf library object.
 	 */
 	public function pdf()
 	{
@@ -27,7 +26,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	public function __construct($mode = '', $format = 'A4', $defaultFontSize = 0, $defaultFont = '', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
 	{
@@ -36,7 +35,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Returns bank name
+	 * Returns bank name.
 	 */
 	public function getLibraryName()
 	{
@@ -44,7 +43,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Sets library name
+	 * Sets library name.
 	 */
 	public function setLibraryName($name)
 	{
@@ -52,7 +51,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Returns template id
+	 * Returns template id.
 	 */
 	public function getTemplateId()
 	{
@@ -60,7 +59,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Sets the template id
+	 * Sets the template id.
 	 */
 	public function setTemplateId($id)
 	{
@@ -68,7 +67,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Returns record id
+	 * Returns record id.
 	 */
 	public function getRecordId()
 	{
@@ -76,7 +75,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Sets the record id
+	 * Sets the record id.
 	 */
 	public function setRecordId($id)
 	{
@@ -84,7 +83,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Returns module name
+	 * Returns module name.
 	 */
 	public function getModuleName()
 	{
@@ -92,7 +91,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Sets module name
+	 * Sets module name.
 	 */
 	public function setModuleName($name)
 	{
@@ -100,7 +99,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Set top margin
+	 * Set top margin.
 	 */
 	public function setTopMargin($margin)
 	{
@@ -108,7 +107,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Set bottom margin
+	 * Set bottom margin.
 	 */
 	public function setBottomMargin($margin)
 	{
@@ -116,7 +115,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Set left margin
+	 * Set left margin.
 	 */
 	public function setLeftMargin($margin)
 	{
@@ -124,7 +123,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Set right margin
+	 * Set right margin.
 	 */
 	public function setRightMargin($margin)
 	{
@@ -132,8 +131,9 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Set page size and orientation
-	 * @param string $format - page format
+	 * Set page size and orientation.
+	 *
+	 * @param string $format      - page format
 	 * @param string $orientation - page orientation
 	 */
 	public function setPageSize($format, $orientation)
@@ -148,7 +148,8 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Parse and set options
+	 * Parse and set options.
+	 *
 	 * @param array $params - array of parameters
 	 */
 	public function parseParams(array $params)
@@ -162,47 +163,38 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 					}
 					$this->setPageSize($value, $pageOrientation);
 					break;
-
 				case 'margin-top':
 					if (is_numeric($value)) {
 						$this->setTopMargin($value);
 					}
 					break;
-
 				case 'margin-bottom':
 					if (is_numeric($value)) {
 						$this->setBottomMargin($value);
 					}
 					break;
-
 				case 'margin-left':
 					if (is_numeric($value)) {
 						$this->setLeftMargin($value);
 					}
 					break;
-
 				case 'margin-right':
 					if (is_numeric($value)) {
 						$this->setRightMargin($value);
 					}
 					break;
-
 				case 'title':
 					$this->setTitle($value);
 					break;
-
 				case 'author':
 					$this->setAuthor($value);
 					break;
-
 				case 'creator':
 					$this->setCreator($value);
 					break;
-
 				case 'subject':
 					$this->setSubject($value);
 					break;
-
 				case 'keywords':
 					$this->setKeywords($value);
 					break;
@@ -210,9 +202,10 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 		}
 	}
 
-// meta attributes
+	// meta attributes
+
 	/**
-	 * Set Title of the document
+	 * Set Title of the document.
 	 */
 	public function setTitle($title)
 	{
@@ -220,7 +213,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Set Title of the document
+	 * Set Title of the document.
 	 */
 	public function setAuthor($author)
 	{
@@ -228,7 +221,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Set Title of the document
+	 * Set Title of the document.
 	 */
 	public function setCreator($creator)
 	{
@@ -236,7 +229,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Set Title of the document
+	 * Set Title of the document.
 	 */
 	public function setSubject($subject)
 	{
@@ -244,7 +237,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Set Title of the document
+	 * Set Title of the document.
 	 */
 	public function setKeywords($keywords)
 	{
@@ -252,7 +245,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Set header content
+	 * Set header content.
 	 */
 	public function setHeader($name, $header)
 	{
@@ -261,7 +254,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Set footer content
+	 * Set footer content.
 	 */
 	public function setFooter($name, $footer)
 	{
@@ -275,7 +268,7 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Output content to PDF
+	 * Output content to PDF.
 	 */
 	public function output($fileName = '', $dest = '')
 	{
@@ -308,12 +301,13 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
-	 * Export record to PDF file
-	 * @param int $recordId - id of a record
+	 * Export record to PDF file.
+	 *
+	 * @param int    $recordId   - id of a record
 	 * @param string $moduleName - name of records module
-	 * @param int $templateId - id of pdf template
-	 * @param string $filePath - path name for saving pdf file
-	 * @param string $saveFlag - save option flag
+	 * @param int    $templateId - id of pdf template
+	 * @param string $filePath   - path name for saving pdf file
+	 * @param string $saveFlag   - save option flag
 	 */
 	public function export($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
@@ -334,19 +328,12 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 		$pdf->setWaterMark($template);
 		$pdf->setLanguage($template->get('language'));
 		$pdf->setFileName($template->get('filename'));
-
-		$origLanguage = vglobal('default_language');
-		vglobal('default_language', $template->get('language'));
-
+		App\Language::setTemporaryLanguage($template->get('language'));
 		$pdf->parseParams($template->getParameters());
 		$pdf->setHeader('Header', $template->getHeader());
 		$pdf->setFooter('Footer', $template->getFooter());
-		$html = $template->getBody();
-
-		$pdf->loadHTML($html);
-
-		vglobal('default_language', $origLanguage);
-
+		$pdf->loadHTML($template->getBody());
 		$pdf->output($filePath, $saveFlag);
+		App\Language::clearTemporaryLanguage();
 	}
 }

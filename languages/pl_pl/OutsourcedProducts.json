@@ -1,0 +1,28 @@
+{
+  "php": {
+    "OutsourcedProducts": "Produkty obce",
+    "SINGLE_OutsourcedProducts": "Produkt obcy",
+    "LBL_INFORMATION": "Produkty obce",
+    "Assigned To": "W\u0142a\u015bciciel rekordu",
+    "LBL_RODZAJUMOWY": "Rodzaj umowy",
+    "LBL_osservicesstatus": "Status",
+    "Individual Agreement": "Umowa indywidualna",
+    "In service": "W serwisie",
+    "Finished support": "Zako\u0144czone wsparcie",
+    "Product Name": "Nazwa produktu",
+    "Sub Category": "Podkategoria",
+    "Category": "Kategoria",
+    "Date Sold": "Data sprzeda\u017cy",
+    "Date in Service": "Czas zako\u0144czenia wsparcia",
+    "Description": "Opis",
+    "LBL_DESCRIPTION_INFORMATION": "Informacje opisowe",
+    "LBL_CUSTOM_INFORMATION": "Informacje systemowe",
+    "Where bought": "Gdzie kupi\u0142",
+    "Number": "Numer",
+    "Save": "Zapisz",
+    "Selling proposition": "Propozycja sprzeda\u017cy",
+    "LBL_GENERATE_EXTENSION": "Generuj przed\u0142u\u017cenie",
+    "Active": "Aktywny",
+    "Inactive": "Nieaktywny"
+  }
+}

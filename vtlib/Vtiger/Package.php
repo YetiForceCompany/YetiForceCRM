@@ -7,13 +7,12 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
+
 namespace vtlib;
 
 /**
  * Package Manager class for vtiger Modules.
- * @package vtlib
  */
 class Package extends PackageUpdate
 {
-	
 }

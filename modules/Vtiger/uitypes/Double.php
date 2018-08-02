@@ -11,9 +11,8 @@
 
 class Vtiger_Double_UIType extends Vtiger_Base_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
@@ -24,11 +23,11 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if ($isUserFormat) {
@@ -38,11 +37,15 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$maximumLength = (float) $this->getFieldModel()->get('maximumlength') +1;
+		if ($maximumLength && ($value > $maximumLength || $value < -$maximumLength)) {
+			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
+		$this->validate[$value] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -50,7 +53,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
@@ -58,10 +61,18 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Double.tpl';
+		return 'Edit/Field/Double.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return ['decimal'];
 	}
 }

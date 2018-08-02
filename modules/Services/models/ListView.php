@@ -10,5 +10,4 @@
 
 class Services_ListView_Model extends Products_ListView_Model
 {
-	
 }

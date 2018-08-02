@@ -1,0 +1,27 @@
+{
+  "php": {
+    "OSSOutsourcedServices": "D\u0131\u015f Kaynakl\u0131 Hizmetler",
+    "SINGLE_OSSOutsourcedServices": "D\u0131\u015f Kaynakl\u0131 Hizmet",
+    "LBL_INFORMATION": "Bilgi blo\u011fu",
+    "Assigned To": "Atand\u0131",
+    "LBL_osservicesstatus": "Durum",
+    "Individual Agreement": "Bireysel Anla\u015fma",
+    "In service": "Desteklenen",
+    "Finished support": "Destek sonland\u0131r\u0131ld\u0131",
+    "Product Name": "Hizmet ad\u0131",
+    "Sub Category": "Alt kategori",
+    "Category": "Kategori",
+    "Date Sold": "Sat\u0131\u015f tarihi",
+    "Date in Service": "Destek sonland\u0131rma tarihi",
+    "Description": "A\u00e7\u0131klama",
+    "LBL_DESCRIPTION_INFORMATION": "Tan\u0131mlay\u0131c\u0131 bilgi",
+    "LBL_CUSTOM_INFORMATION": "Sistem bilgisi",
+    "Where bought": "Nereden sat\u0131n al\u0131nd\u0131",
+    "Number": "Numara",
+    "Save": "Kay\u0131t et",
+    "Selling proposition": "F\u0131rsat",
+    "LBL_GENERATE_EXTENSION": "Uzant\u0131 \u00dcret",
+    "Active": "Aktif",
+    "Inactive": "Pasif"
+  }
+}

@@ -15,11 +15,11 @@
 					<td>
 						{\App\Language::translate($RECORD->getName(), $QUALIFIED_MODULE)}
 						{if $RECORD->get('presence') == 1}
-							<div class="pull-right actions">
-								<a class="edit cursorPointer" data-url="{$RECORD->getEditUrl()}">
-									<span class="glyphicon glyphicon-pencil alignBottom" title="Edycja"></span>
+							<div class="float-right actions">
+								<a class="edit u-cursor-pointer" data-url="{$RECORD->getEditUrl()}">
+									<span class="fas fa-edit alignBottom" title="Edycja"></span>
 								</a>
-								<a class="remove cursorPointer"><span title="" class="glyphicon glyphicon-trash alignBottom"></span>
+								<a class="remove u-cursor-pointer"><span title="" class="fas fa-trash-alt alignBottom"></span>
 								</a>
 							</div>
 						{/if}

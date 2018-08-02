@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Basic RelatedCommentModal Model Class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Basic RelatedCommentModal Model Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_RelatedCommentModal_Model extends \App\Base
 {
-
 	public static function getInstance($record, $moduleName, $relatedRecord, $relatedModuleName)
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'RelatedCommentModal', $moduleName);
@@ -22,6 +21,7 @@ class Vtiger_RelatedCommentModal_Model extends \App\Base
 			->set('moduleName', $moduleName)
 			->set('relatedRecord', $relatedRecord)
 			->set('relatedModuleName', $relatedModuleName);
+
 		return $instance;
 	}
 
@@ -42,9 +42,10 @@ class Vtiger_RelatedCommentModal_Model extends \App\Base
 	{
 		$relationTable = $this->getRelationTable();
 		$table = key($relationTable);
+
 		return (new \App\Db\Query())->select(['rel_comment'])
-				->from($table)
-				->where([$relationTable[$table][0] => $this->get('record'), $relationTable[$table][1] => $this->get('relatedRecord')]);
+			->from($table)
+			->where([$relationTable[$table][0] => $this->get('record'), $relationTable[$table][1] => $this->get('relatedRecord')]);
 	}
 
 	public function getRelationTable()
@@ -62,8 +63,8 @@ class Vtiger_RelatedCommentModal_Model extends \App\Base
 	public function getRelationTreeQuery()
 	{
 		return (new \App\Db\Query())->select(['rel_comment'])
-				->from('u_#__crmentity_rel_tree')
-				->where(['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => App\Module::getModuleId($this->get('relatedModuleName'))]);
+			->from('u_#__crmentity_rel_tree')
+			->where(['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => App\Module::getModuleId($this->get('relatedModuleName'))]);
 	}
 
 	public function isEditable()
@@ -76,14 +77,14 @@ class Vtiger_RelatedCommentModal_Model extends \App\Base
 		$db = App\Db::getInstance();
 		if (substr($this->get('relatedRecord'), 0, 1) === 'T') {
 			$db->createCommand()->update('u_#__crmentity_rel_tree', [
-				'rel_comment' => $comment
+				'rel_comment' => $comment,
 				], ['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => App\Module::getModuleId($this->get('relatedModuleName'))]
 			)->execute();
 		} else {
 			$relationTable = $this->getRelationTable();
 			$table = key($relationTable);
 			$db->createCommand()->update($table, [
-				'rel_comment' => $comment
+				'rel_comment' => $comment,
 				], [$relationTable[$table][0] => $this->get('record'), $relationTable[$table][1] => $this->get('relatedRecord')]
 			)->execute();
 		}

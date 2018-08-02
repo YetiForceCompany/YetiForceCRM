@@ -1,11 +1,13 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 	registerChangeApi: function (content) {
 		content.find('#change_api').on('change', function () {
 			var value = $(this).val();
-			content.find('.api_row').addClass('hide');
+			content.find('.api_row').addClass('d-none');
 			if (value) {
-				content.find('.' + value).removeClass('hide');
+				content.find('.' + value).removeClass('d-none');
 			}
 		});
 	},
@@ -21,7 +23,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).then(
+			AppConnector.request(params).done(
 				function (data) {
 					var response = data['result'];
 					var parametres = {
@@ -29,15 +31,13 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 						type: 'success'
 					};
 					Vtiger_Helper_Js.showPnotify(parametres);
-				},
-				function (data, err) {
-					var parametres = {
-						text: app.vtranslate('JS_ERROR'),
-						type: 'error'
-					};
-					Vtiger_Helper_Js.showPnotify(parametres);
-				}
-			);
+				}).fail(function (data, err) {
+				var parametres = {
+					text: app.vtranslate('JS_ERROR'),
+					type: 'error'
+				};
+				Vtiger_Helper_Js.showPnotify(parametres);
+			});
 		});
 		content.find('.save').on('click', function () {
 			var elements = {};
@@ -61,70 +61,68 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (response['success']) {
-							if (elements['key']) {
-								thisInstance.registerReload();
-							}
-							var parametry = {
-								text: response['message'],
-								type: 'success'
-							};
-							Vtiger_Helper_Js.showPnotify(parametry);
-						} else {
-							var parametry = {
-								text: response['message'],
-								type: 'error'
-							};
-							Vtiger_Helper_Js.showPnotify(parametry);
-						}
-					},
-					function (data, err) {
-						var parametry = {
-							text: app.vtranslate('JS_ERROR'),
-							type: 'error'
-						};
-						Vtiger_Helper_Js.showPnotify(parametry);
+			AppConnector.request(params).done(function (data) {
+				var response = data['result'];
+				if (response['success']) {
+					if (elements['key']) {
+						thisInstance.registerReload();
 					}
-			);
+					var parametry = {
+						text: response['message'],
+						type: 'success'
+					};
+					Vtiger_Helper_Js.showPnotify(parametry);
+				} else {
+					var parametry = {
+						text: response['message'],
+						type: 'error'
+					};
+					Vtiger_Helper_Js.showPnotify(parametry);
+				}
+			}).fail(function (data, err) {
+				var parametry = {
+					text: app.vtranslate('JS_ERROR'),
+					type: 'error'
+				};
+				Vtiger_Helper_Js.showPnotify(parametry);
+			});
 		});
 	},
 	registerRemoveConnection: function (content) {
 		var thisInstance = this;
 		content.find('.delete').on('click', function () {
-			var elements = {'key': '0', 'nominatim': '0', api_name: jQuery(this).closest('.apiContainer').find('.apiAdrress').data('api-name')};
+			var elements = {
+				'key': '0',
+				'nominatim': '0',
+				api_name: jQuery(this).closest('.apiContainer').find('.apiAdrress').data('api-name')
+			};
 			var params = {}
 			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (response['success']) {
-							thisInstance.registerReload();
-							var parametry = {
-								text: response['message'],
-								type: 'success'
-							};
-							Vtiger_Helper_Js.showPnotify(parametry);
-						} else {
-							var parametry = {
-								text: response['message'],
-								type: 'error'
-							};
-							Vtiger_Helper_Js.showPnotify(parametry);
-						}
-					},
-					function (data, err) {
-						var parametry = {
-							text: app.vtranslate('JS_ERROR'),
-							type: 'error'
-						};
-						Vtiger_Helper_Js.showPnotify(parametry);
-					}
-			);
+			AppConnector.request(params).done(function (data) {
+				var response = data['result'];
+				if (response['success']) {
+					thisInstance.registerReload();
+					var parametry = {
+						text: response['message'],
+						type: 'success'
+					};
+					Vtiger_Helper_Js.showPnotify(parametry);
+				} else {
+					var parametry = {
+						text: response['message'],
+						type: 'error'
+					};
+					Vtiger_Helper_Js.showPnotify(parametry);
+				}
+			}).fail(function (data, err) {
+				var parametry = {
+					text: app.vtranslate('JS_ERROR'),
+					type: 'error'
+				};
+				Vtiger_Helper_Js.showPnotify(parametry);
+			});
 		});
 	},
 	registerReload: function () {
@@ -139,7 +137,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 
 		jQuery.get("index.php?module=ApiAddress&parent=Settings&view=Configuration", function (data) {
 			jQuery('.contentsDiv').html(data);
-			app.showSelect2ElementView(jQuery('.contentsDiv').find('select.select2'));
+			App.Fields.Picklist.showSelect2ElementView(jQuery('.contentsDiv').find('select.select2'));
 			progress.progressIndicator({'mode': 'hide'});
 			thisInstance.registerEvents();
 		});
@@ -161,7 +159,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			}
 		}
 		return status;
-		
+
 	},
 	registerValidatemin_length: function (val) {
 		var filter = /^\d+$/;

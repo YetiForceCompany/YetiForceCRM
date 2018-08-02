@@ -10,7 +10,6 @@
 
 class Calendar_InRelation_View extends Vtiger_RelatedList_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -37,10 +36,10 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 		$sortOrder = $request->getForSql('sortorder');
 		if ($sortOrder === 'ASC') {
 			$nextSortOrder = 'DESC';
-			$sortImage = 'glyphicon glyphicon-chevron-down';
+			$sortImage = 'fas fa-chevron-down';
 		} else {
 			$nextSortOrder = 'ASC';
-			$sortImage = 'glyphicon glyphicon-chevron-up';
+			$sortImage = 'fas fa-chevron-up';
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
 			$relatedInstance = CRMEntity::getInstance($relatedModuleName);
@@ -131,6 +130,7 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		$viewer->assign('VIEW', $request->getByType('view'));
 		$viewer->assign('TIME', $time);
+
 		return $viewer->view('RelatedList.tpl', $relatedModuleName, true);
 	}
 }

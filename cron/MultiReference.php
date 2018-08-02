@@ -1,8 +1,8 @@
 <?php
 /**
- * Multi reference value cron
- * @package YetiForce.Cron
- * @copyright YetiForce Sp. z o.o.
+ * Multi reference value cron.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -30,7 +30,7 @@ foreach ($rows as &$multireference) {
 		unset($queryGenerator);
 		while ($id = $dataReader->readColumn(0)) {
 			foreach ($fields as &$field) {
-				$fieldModel = new Vtiger_Field_Model ();
+				$fieldModel = new Vtiger_Field_Model();
 				$fieldModel->initialize($field);
 				$UITypeModel = $fieldModel->getUITypeModel();
 				$UITypeModel->reloadValue($multireference['source_module'], $id);
@@ -39,16 +39,17 @@ foreach ($rows as &$multireference) {
 				$db->createCommand()->delete('s_#__multireference', [
 					'source_module' => $multireference['source_module'],
 					'dest_module' => $multireference['dest_module'],
-					'type' => 0
+					'type' => 0,
 				])->execute();
 			} else {
 				$db->createCommand()
 					->update('s_#__multireference', [
 						'lastid' => $id,
 						], ['source_module' => $multireference['source_module'], 'dest_module' => $multireference['dest_module'], 'type' => 0])
-					->execute();
+						->execute();
 			}
 		}
+		$dataReader->close();
 	} else {
 		if (\App\Record::isExists($multireference['lastid'], $multireference['source_module'])) {
 			if (in_array($multireference['lastid'], $executed)) {
@@ -67,7 +68,7 @@ foreach ($rows as &$multireference) {
 			'source_module' => $multireference['source_module'],
 			'dest_module' => $multireference['dest_module'],
 			'lastid' => $multireference['lastid'],
-			'type' => $multireference['type']
+			'type' => $multireference['type'],
 		])->execute();
 	}
 }

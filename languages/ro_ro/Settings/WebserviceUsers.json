@@ -1,0 +1,30 @@
+{
+  "php": {
+    "WebserviceUsers": "Servicii web - utilizatori",
+    "LBL_WEBSERVICE_USERS": "Servicii web - utilizatori",
+    "LBL_WEBSERVICE_USERS_DESCRIPTION": " ",
+    "FL_SERVER": "Server",
+    "FL_STATUS": "Status",
+    "FL_LOGIN": "Login",
+    "FL_PASSWORD": "Parola",
+    "FL_TYPE": "Tip",
+    "FL_LOGIN_TIME": "Login time",
+    "FL_LOGOUT_TIME": "Logout time",
+    "FL_LANGUAGE": "Language",
+    "FL_RECORD_NAME": "Record",
+    "FL_USER": "Utilizator",
+    "BTN_SAVE": "Salveaza",
+    "BTN_CLOSE": "Anuleaza",
+    "PLL_USER_PERMISSIONS": "Permisiuni bazate pe utilizator",
+    "PLL_ACCOUNTS_RELATED_RECORDS": "Toate inregistrarile contactului alocate direct la contact",
+    "PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY": "Toate inregistrarile legate de cont atribuite direct contactului si conturilor inferioare in ierarhie",
+    "PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY": "Toate inregistrarile legate de cont atribuite direct contactului si conturilor din ierarhie",
+    "PLL_ACTIVE": "Activ",
+    "PLL_INACTIVE": "Inactiv",
+    "LBL_CREATE_RECORD": "Creaza"
+  },
+  "js": {
+    "JS_DELETE_CONFIRMATION": "Sigur doriti sa stergeti aceasta cheie?",
+    "JS_SAVE_SUCCESS": "Schimbari salvate"
+  }
+}

@@ -4,9 +4,16 @@
 	<div class="modelContainer modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground">
-					<button class="close" aria-hidden="true" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
-					<h3 class="modal-title">{\App\Language::translate('LBL_SELECT_DISCOUNT', $MODULE)} {\App\Language::translate($SINGLE_MODULE, $MODULE)}</h3>
+				<div class="modal-header contentsBackground align-items-center">
+					<span class="fa-layers fa-fw mr-2">
+						<i class="fas fa-circle" data-fa-transform="grow-6"></i>
+						<i class="fa-inverse fas fa-long-arrow-alt-down text-white"	data-fa-transform="shrink-6  left-4"></i>
+						<i class="fa-inverse fas fa-percent text-white" data-fa-transform="shrink-8  right-3"></i>
+					</span>
+					<h5 class="modal-title">{\App\Language::translate('LBL_SELECT_DISCOUNT', $MODULE)} {\App\Language::translate($SINGLE_MODULE, $MODULE)}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<div class="modal-body">
 					<input type="hidden" class="discountsType" value="{$AGGREGATION_TYPE}" />
@@ -35,9 +42,19 @@
 				</div>
 				<div class="modal-footer">
 					{if count($GLOBAL_DISCOUNTS) > 0 || $GROUP_DISCOUNT != 0 || $DISCOUNT_TYPE == '0'}
-						<button class="btn btn-success saveDiscount" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
+						<button class="btn btn-success saveDiscount" type="submit">
+							<strong>
+								<span class="fas fa-check mr-1"></span>
+								{\App\Language::translate('LBL_SAVE', $MODULE)}
+							</strong>
+						</button>
 					{/if}
-					<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
+					<button class="btn btn-danger" type="reset" data-dismiss="modal">
+						<strong>
+							<span class="fas fa-times mr-1"></span>
+							{\App\Language::translate('LBL_CANCEL', $MODULE)}
+						</strong>
+					</button>
 				</div>
 			</div>
 		</div>

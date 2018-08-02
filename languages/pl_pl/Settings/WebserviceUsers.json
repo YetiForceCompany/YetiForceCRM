@@ -1,0 +1,30 @@
+{
+  "php": {
+    "WebserviceUsers": "Web service - u\u017cytkownicy",
+    "LBL_WEBSERVICE_USERS": "Web service - u\u017cytkownicy",
+    "LBL_WEBSERVICE_USERS_DESCRIPTION": " ",
+    "FL_SERVER": "Serwer",
+    "FL_STATUS": "Status",
+    "FL_LOGIN": "Login",
+    "FL_PASSWORD": "Has\u0142o",
+    "FL_TYPE": "Typ",
+    "FL_LOGIN_TIME": "Czas logowania",
+    "FL_LOGOUT_TIME": "Czas wylogowania",
+    "FL_LANGUAGE": "J\u0119zyk",
+    "FL_RECORD_NAME": "Rekord",
+    "FL_USER": "U\u017cytkownik",
+    "BTN_SAVE": "Zapisz",
+    "BTN_CLOSE": "Anuluj",
+    "PLL_USER_PERMISSIONS": "Uprawnienia na podstawie u\u017cytkownika",
+    "PLL_ACCOUNTS_RELATED_RECORDS": "Wszystkie powi\u0105zane rekordy kontrahenta przypisanego bezpo\u015brednio pod kontakt",
+    "PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY": "Wszystkie powi\u0105zane rekordy kontrahenta przypisanego bezpo\u015brednio pod kontakt oraz kontrahent\u00f3w ni\u017cej w hierarchii",
+    "PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY": "Wszystkie powi\u0105zane rekordy kontrahenta przypisanego bezpo\u015brednio pod kontakt i kontrahent\u00f3w z hierarchii",
+    "PLL_ACTIVE": "Aktywny",
+    "PLL_INACTIVE": "Nieaktywny",
+    "LBL_CREATE_RECORD": "Utw\u00f3rz"
+  },
+  "js": {
+    "JS_DELETE_CONFIRMATION": "Czy na pewno chcesz usun\u0105\u0107 klucz?",
+    "JS_SAVE_SUCCESS": "Pomy\u015blnie zapisano zmiany"
+  }
+}

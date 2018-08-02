@@ -1,0 +1,21 @@
+{
+  "php": {
+    "ISTDN": "Notas de Transf. de Estoque Expedido",
+    "SINGLE_ISTDN": "Nota de Transf. de Estoque Expedido",
+    "LBL_DESCRIPTION_BLOCK": "Descri\u00e7\u00e3o",
+    "LBL_ATTENTION_BLOCK": "Coment\u00e1rios",
+    "FL_ACCEPTANCE_DATE": "Data de aceita\u00e7\u00e3o",
+    "FL_ACCOUNT": "Conta",
+    "FL_NUMBER": "N\u00famero",
+    "FL_SUBJECT": "Assunto",
+    "FL_STORAGE": "Estoque",
+    "FL_STATUS": "Situa\u00e7\u00e3o",
+    "PLL_DRAFT": "Rasculo",
+    "PLL_IN_REALIZATION": "Em execu\u00e7\u00e3o",
+    "PLL_OBJECTIONS": "Obje\u00e7\u00f5es",
+    "PLL_FOR_APPROVAL": "Para aprova\u00e7\u00e3o",
+    "PLL_CANCELLED": "Cancelada",
+    "PLL_ACCEPTED": "Aceita",
+    "LBL_CHANGE_STATUS": "Alterar Status"
+  }
+}

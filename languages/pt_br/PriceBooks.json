@@ -1,0 +1,15 @@
+{
+  "php": {
+    "LBL_ADD_TO": "Adicionar para",
+    "LBL_EDIT_LIST_PRICE": "Editar Cat\u00e1logo de Pre\u00e7os",
+    "LBL_PRICEBOOK_INFORMATION": "Detalhes do Cat\u00e1logo de Pre\u00e7o",
+    "LBL_UNIT_PRICE": "Pre\u00e7o Unit\u00e1rio",
+    "Price Book Name": "Nome do Cat\u00e1logo de Pre\u00e7os",
+    "PriceBook No": "No. do Cat\u00e1logo de Pre\u00e7os",
+    "PriceBooks": "Cat\u00e1logos de Pre\u00e7os",
+    "SINGLE_PriceBooks": "Cat\u00e1logo de Pre\u00e7os",
+    "yes": "Sim",
+    "no": "N\u00e3o",
+    "Unit Price": "Pre\u00e7o Unit\u00e1rio"
+  }
+}

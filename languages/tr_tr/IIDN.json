@@ -1,0 +1,20 @@
+{
+  "php": {
+    "IIDN": "\u0130\u00e7 Teslimat Notlar\u0131",
+    "SINGLE_IIDN": "\u0130\u00e7 Teslimat Notu",
+    "LBL_DESCRIPTION_BLOCK": "A\u00e7\u0131klama",
+    "LBL_ATTENTION_BLOCK": "Yorum",
+    "FL_ACCEPTANCE_DATE": "Kabul tarihi",
+    "FL_NUMBER": "Numara",
+    "FL_SUBJECT": "Konu",
+    "FL_STORAGE": "Depolama",
+    "FL_STATUS": "Durum",
+    "PLL_DRAFT": "Taslak",
+    "PLL_IN_REALIZATION": "Ger\u00e7ekle\u015fmede",
+    "PLL_OBJECTIONS": "\u0130tirazlar",
+    "PLL_FOR_APPROVAL": "Onay i\u00e7in",
+    "PLL_CANCELLED": "\u0130ptal edildi",
+    "PLL_ACCEPTED": "Kabul edildi",
+    "LBL_CHANGE_STATUS": "Durumu de\u011fi\u015ftir"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "php": {
+    "LBL_SELECT_ONE": "Selecteaza",
+    "LBL_PBXMANAGER": "PBXManager",
+    "LBL_PBXMANAGER_CONFIG": "Detalii Server Asterisk",
+    "LBL_NOTE": "Nota:",
+    "LBL_INFO_WEBAPP_URL": "Configurati Asterisk App URL in formatul",
+    "LBL_FORMAT_WEBAPP_URL": "(protocol):\/\/(asterisk_ip):(VtigerConnector_port)",
+    "LBL_FORMAT_INFO_WEBAPP_URL": "ex:http:\/\/0.0.0.0:5000",
+    "LBL_INFO_CONTEXT": "Contextul YetiForce Specific configurat in serverul dumneavoastra Asterisk(extensions.conf)",
+    "LBL_PBXMANAGER_INFO": "Configurati detaliile serverului Asterisk dupa instalarea conectorului YetiForce Asterisk pe serverul Asterisk",
+    "webappurl": "URL App YetiForce Asterisk",
+    "vtigersecretkey": "Cheie secreta YetiForce",
+    "outboundcontext": "Contextul de iesire",
+    "outboundtrunk": "Tronsonul de iesire"
+  },
+  "js": []
+}

@@ -1,0 +1,25 @@
+{
+  "php": {
+    "BruteForce": "Brute Force",
+    "LBL_NUMBER_OF_ATTEMPTS": "Liczba pr\u00f3b",
+    "LBL_TIME_LOCK": "Czas blokady (minuty)",
+    "LBL_SETTINGS": "Ustawienia",
+    "LBL_BLOCKED_IP": "Zablokowane IP",
+    "LBL_SAVE_SUCCESS": "Poprawnie zapisano dane",
+    "LBL_UNBLOCK_FAIL": "Nie uda\u0142o si\u0119 odblokowa\u0107 adresu IP",
+    "LBL_UNBLOCK_SUCCESS": "Odblokowano adres IP",
+    "LBL_BRUTEFORCE_DESCRIPTION": "Ustaw po jakiej ilo\u015bci b\u0142\u0119dnych pr\u00f3b logowania i na jak d\u0142ugo numer IP ma zosta\u0107 zablokowany.",
+    "LBL_IP": "Adres IP",
+    "LBL_DATE": "Data",
+    "LBL_USERS": "Loginy",
+    "LBL_BROWSERS": "Przegl\u0105darki",
+    "LBL_UNBLOCK": "Odblokuj",
+    "LBL_USERS_FOR_NOTIFICATIONS": "U\u017cytkownicy dla powiadomie\u0144",
+    "LBL_BRUTEFORCE_ACTIVE": "Aktywny",
+    "LBL_VIEW_SHOW": "Brute Force",
+    "LBL_SENT_NOTIFICATIONS": "Wysy\u0142aj powiadomienia"
+  },
+  "js": {
+    "JS_COULD_NOT_FINNISH_REACTION": "B\u0142\u0105d. Nie uko\u0144czono zapisu."
+  }
+}

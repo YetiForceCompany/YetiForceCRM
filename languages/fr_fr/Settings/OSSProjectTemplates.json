@@ -1,0 +1,9 @@
+{
+  "php": {
+    "OSSProjectTemplates": "Mod\u00e8les de projet OSS"
+  },
+  "js": {
+    "JS_FILL_REQUIRED_FIELDS": "Saisir les champs obligatoires",
+    "JS_FIELD_INCORRECT": "Champ avec le nombre de jours est incorrect"
+  }
+}

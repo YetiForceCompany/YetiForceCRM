@@ -1,0 +1,18 @@
+{
+  "php": {
+    "LBL_RSS_FEED_SOURCES": "Rss \u0179r\u00f3d\u0142a RSS",
+    "LBL_ADD_FEED_SOURCE": "Dodaj Kana\u0142 \u0179r\u00f3d\u0142o",
+    "LBL_FEEDS_LIST_FROM": "Kana\u0142y listy Z",
+    "LBL_SET_AS_DEFAULT": "Ustaw jako domy\u015blny",
+    "LBL_SENDER": "nadajnik",
+    "LBL_FEED_SOURCE": "Kana\u0142 \u0179r\u00f3d\u0142o",
+    "LBL_ENTER_FEED_SOURCE": "Wprowad\u017a podawania \u017ar\u00f3d\u0142a",
+    "SINGLE_Rss": "Kana\u0142 RSS",
+    "LBL_CHANGE_RSS_CHANNEL": "Zmie\u0144 kana\u0142 RSS"
+  },
+  "js": {
+    "JS_RSS_SUCCESSFULLY_SAVED": "Rss pomy\u015blnie zapisano zmiany",
+    "JS_INVALID_RSS_URL": "Nieprawid\u0142owy RSS url",
+    "JS_RSS_MADE_AS_DEFAULT": "Rss Wykonane jako domy\u015blne"
+  }
+}

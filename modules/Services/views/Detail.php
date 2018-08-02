@@ -10,7 +10,6 @@
 
 class Services_Detail_View extends Products_Detail_View
 {
-
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
@@ -18,9 +17,7 @@ class Services_Detail_View extends Products_Detail_View
 		$modulePopUpFile = 'modules.' . $moduleName . '.resources.Edit';
 		$moduleDetailFile = 'modules.' . $moduleName . '.resources.Detail';
 		$moduleRelatedListFile = 'modules.' . $moduleName . '.resources.RelatedList';
-		unset($headerScriptInstances[$modulePopUpFile]);
-		unset($headerScriptInstances[$moduleDetailFile]);
-		unset($headerScriptInstances[$moduleRelatedListFile]);
+		unset($headerScriptInstances[$modulePopUpFile], $headerScriptInstances[$moduleDetailFile], $headerScriptInstances[$moduleRelatedListFile]);
 
 		$jsFileNames = [
 			'modules.Products.resources.Edit',
@@ -33,6 +30,7 @@ class Services_Detail_View extends Products_Detail_View
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 }

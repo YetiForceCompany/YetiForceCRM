@@ -1,20 +1,24 @@
 <?php
 
 /**
- * Settings TreesManager edit view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Settings TreesManager edit view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 {
-
+	/**
+	 * Process.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$sourceModuleId = '';
 		$access = 1;
 		if (!empty($record)) {
@@ -36,7 +40,6 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('ACCESS', $access);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('SOURCE_MODULE', $sourceModuleId);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 
@@ -46,12 +49,13 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = [
-			'libraries.jquery.jstree.jstree',
+			'~libraries/jstree/dist/jstree.js',
 			"modules.Settings.$moduleName.resources.Edit",
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 
@@ -59,9 +63,10 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'libraries.jquery.jstree.themes.proton.style',
+			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+
 		return array_merge($cssInstances, $headerCssInstances);
 	}
 }

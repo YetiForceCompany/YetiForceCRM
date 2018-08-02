@@ -3,19 +3,19 @@
 	<div class="listViewPageDiv" id="listViewContainer">
 		<div class="listViewTopMenuDiv">
 			<div class="widget_header row">
-				<div class="col-xs-12">
+				<div class="col-12">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 					{\App\Language::translate('LBL_MAPPEDFIELDS_DESCRIPTION', $QUALIFIED_MODULE)}
 				</div>
 			</div>
-			<div class="row">
+			<div class="row align-items-center my-1">
 				<div class="col-md-4 btn-toolbar">
-					<button class="btn btn-default addButton" id="addButton" data-url="{$MODULE_MODEL->getCreateRecordUrl()}">
-						<span class="glyphicon glyphicon-plus"></span>&nbsp;
+					<button class="btn btn-light addButton" id="addButton" data-url="{$MODULE_MODEL->getCreateRecordUrl()}">
+						<span class="fas fa-plus"></span>&nbsp;
 						<strong>{\App\Language::translate('LBL_ADD_TEMPLATE',$QUALIFIED_MODULE)}</strong>
 					</button>
-					<button class="btn btn-default importButton" id="importButton" data-url="{$MODULE_MODEL->getImportViewUrl()}" title="{\App\Language::translate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
-						<i class="glyphicon glyphicon-import"></i>
+					<button class="btn btn-light importButton" id="importButton" data-url="{$MODULE_MODEL->getImportViewUrl()}" title="{\App\Language::translate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
+						<i class="fas fa-download"></i>
 					</button>
 				</div>
 				<div class="col-md-4 btn-toolbar">
@@ -29,7 +29,7 @@
 						{/foreach}
 					</select>
 				</div>
-				<div class="col-md-4 btn-toolbar">
+				<div class="col-md-4 btn-toolbar justify-content-end">
 					{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 				</div>
 			</div>

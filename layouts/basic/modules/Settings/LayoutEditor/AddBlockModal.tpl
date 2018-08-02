@@ -10,17 +10,19 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="modal addBlockModal fade">
+	<div class="modal addBlockModal fade tpl-Settings-LayoutEditor-AddBlockModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3>{App\Language::translate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</h3>
+					<h5>{App\Language::translate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</h5>
+					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 				<form class="form-horizontal addCustomBlockForm">
 					<div class="modal-body">
 						<div class="form-group">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 col-form-label">
 								<span class="redColor">*</span>
 								<span>{App\Language::translate('LBL_BLOCK_NAME', $QUALIFIED_MODULE)}</span>
 							</div>
@@ -29,7 +31,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 col-form-label">
 								{App\Language::translate('LBL_ADD_AFTER', $QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-8 controls">
@@ -41,7 +43,7 @@
 							</div>
 						</div>
 					</div>
-					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', 'Vtiger')}
+					{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 				</form>
 			</div>
 		</div>

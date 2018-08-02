@@ -10,10 +10,9 @@
 
 class PBXManager_DetailView_Model extends Vtiger_DetailView_Model
 {
-
 	/**
 	 * Overrided to remove Edit button, Duplicate button
-	 * To remove related links
+	 * To remove related links.
 	 */
 	public function getDetailViewLinks($linkParams)
 	{

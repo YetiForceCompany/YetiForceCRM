@@ -11,7 +11,6 @@
 
 class Vtiger_Relation_Model extends \App\Base
 {
-
 	protected static $cachedInstances = [];
 	protected $parentModule = false;
 	protected $relatedModule = false;
@@ -25,7 +24,8 @@ class Vtiger_Relation_Model extends \App\Base
 	protected static $RELATIONS_O2M = ['getDependentsList'];
 
 	/**
-	 * Function returns the relation id
+	 * Function returns the relation id.
+	 *
 	 * @return int
 	 */
 	public function getId()
@@ -34,18 +34,22 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Function sets the relation's parent module model
+	 * Function sets the relation's parent module model.
+	 *
 	 * @param Vtiger_Module_Model $moduleModel
+	 *
 	 * @return Vtiger_Relation_Model
 	 */
 	public function setParentModuleModel($moduleModel)
 	{
 		$this->parentModule = $moduleModel;
+
 		return $this;
 	}
 
 	/**
-	 * Function that returns the relation's parent module model
+	 * Function that returns the relation's parent module model.
+	 *
 	 * @return Vtiger_Module_Model
 	 */
 	public function getParentModuleModel()
@@ -57,18 +61,22 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Set relation's parent module model
+	 * Set relation's parent module model.
+	 *
 	 * @param Vtiger_Module_Model $relationModel
+	 *
 	 * @return $this
 	 */
 	public function setRelationModuleModel($relationModel)
 	{
 		$this->relatedModule = $relationModel;
+
 		return $this;
 	}
 
 	/**
-	 * Function that returns the relation's related module model
+	 * Function that returns the relation's related module model.
+	 *
 	 * @return Vtiger_Module_Model
 	 */
 	public function getRelationModuleModel()
@@ -80,7 +88,8 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Get relation module name
+	 * Get relation module name.
+	 *
 	 * @return string
 	 */
 	public function getRelationModuleName()
@@ -93,7 +102,8 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Get actions
+	 * Get actions.
+	 *
 	 * @return string[]
 	 */
 	public function getActions()
@@ -107,13 +117,16 @@ class Vtiger_Relation_Model extends \App\Base
 		}
 		$actions = explode(',', strtolower($this->get('actions')));
 		$this->set('actions', $actions);
+
 		return $actions;
 	}
 
 	/**
-	 * Check if action is supported
+	 * Check if action is supported.
+	 *
 	 * @param string $actionName
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public function isActionSupported($actionName)
 	{
@@ -121,8 +134,9 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Is record selection action available
-	 * @return boolean
+	 * Is record selection action available.
+	 *
+	 * @return bool
 	 */
 	public function isSelectActionSupported()
 	{
@@ -130,8 +144,9 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Is record add action available
-	 * @return boolean
+	 * Is record add action available.
+	 *
+	 * @return bool
 	 */
 	public function isAddActionSupported()
 	{
@@ -139,21 +154,22 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Show user who created relation
-	 * @return boolean
+	 * Show user who created relation.
+	 *
+	 * @return bool
 	 */
 	public function showCreatorDetail()
 	{
 		if ($this->get('creator_detail') === 0 || $this->getRelationType() !== self::RELATION_M2M) {
 			return false;
 		}
-
 		return (bool) $this->get('creator_detail');
 	}
 
 	/**
-	 * Show comments in related module
-	 * @return boolean
+	 * Show comments in related module.
+	 *
+	 * @return bool
 	 */
 	public function showComment()
 	{
@@ -164,7 +180,8 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Get query generator instance
+	 * Get query generator instance.
+	 *
 	 * @return \App\QueryGenerator
 	 */
 	public function getQueryGenerator()
@@ -176,7 +193,8 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Get relation type
+	 * Get relation type.
+	 *
 	 * @return self::RELATION_O2M|self::RELATION_M2M
 	 */
 	public function getRelationType()
@@ -192,7 +210,8 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Get related view type
+	 * Get related view type.
+	 *
 	 * @return string[]
 	 */
 	public function getRelatedViewType()
@@ -201,9 +220,11 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Check related view type
+	 * Check related view type.
+	 *
 	 * @param string $type
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public function isRelatedViewType($type)
 	{
@@ -211,11 +232,13 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Get relation list model instance
+	 * Get relation list model instance.
+	 *
 	 * @param Vtiger_Module_Model $parentModuleModel
 	 * @param Vtiger_Module_Model $relatedModuleModel
-	 * @param string|boolean $label
-	 * @return \self|boolean
+	 * @param string|bool         $label
+	 *
+	 * @return \self|bool
 	 */
 	public static function getInstance($parentModuleModel, $relatedModuleModel, $label = false)
 	{
@@ -231,6 +254,7 @@ class Vtiger_Relation_Model extends \App\Base
 				$relationModel->setExceptionData();
 			}
 			self::$cachedInstances[$relKey] = $relationModel;
+
 			return $relationModel;
 		}
 		$query = (new \App\Db\Query())->select('vtiger_relatedlists.*, vtiger_tab.name as modulename')
@@ -247,15 +271,18 @@ class Vtiger_Relation_Model extends \App\Base
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
 			self::$cachedInstances[$relKey] = $relationModel;
+
 			return $relationModel;
 		}
 		return false;
 	}
 
 	/**
-	 * Get query form relation
-	 * @return \App\QueryGenerator
+	 * Get query form relation.
+	 *
 	 * @throws \App\Exceptions\NotAllowedMethod
+	 *
+	 * @return \App\QueryGenerator
 	 */
 	public function getQuery()
 	{
@@ -278,11 +305,13 @@ class Vtiger_Relation_Model extends \App\Base
 		$fields = array_keys($this->getQueryFields());
 		$fields[] = 'id';
 		$queryGenerator->setFields($fields);
+
 		return $queryGenerator;
 	}
 
 	/**
-	 * Get query fields
+	 * Get query fields.
+	 *
 	 * @return Vtiger_Field_Model[] with field name as key
 	 */
 	public function getQueryFields()
@@ -298,6 +327,7 @@ class Vtiger_Relation_Model extends \App\Base
 		}
 		if ($relatedListFields) {
 			$this->set('QueryFields', $relatedListFields);
+
 			return $relatedListFields;
 		}
 		$queryGenerator = $this->getQueryGenerator();
@@ -319,14 +349,17 @@ class Vtiger_Relation_Model extends \App\Base
 		}
 		if ($relatedListFields) {
 			$this->set('QueryFields', $relatedListFields);
+
 			return $relatedListFields;
 		}
 		$this->set('QueryFields', $relatedListFields);
+
 		return $relatedListFields;
 	}
 
 	/**
-	 * Function to get relation field for relation module and parent module
+	 * Function to get relation field for relation module and parent module.
+	 *
 	 * @return Vtiger_Field_Model
 	 */
 	public function getRelationField()
@@ -360,24 +393,25 @@ class Vtiger_Relation_Model extends \App\Base
 			}
 		}
 		$this->set('RelationField', $relationField ? $relationField : false);
+
 		return $relationField;
 	}
 
 	/**
-	 * Get dependents record list
+	 * Get dependents record list.
 	 */
 	public function getDependentsList()
 	{
 		$fieldModel = $this->getRelationField(true);
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->addNativeCondition([
-			$fieldModel->getTableName() . '.' . $fieldModel->getColumnName() => $this->get('parentRecord')->getId()
+			$fieldModel->getTableName() . '.' . $fieldModel->getColumnName() => $this->get('parentRecord')->getId(),
 		]);
 		$queryGenerator->addTableToQuery($fieldModel->getTableName());
 	}
 
 	/**
-	 * Get related record list
+	 * Get related record list.
 	 */
 	public function getRelatedList()
 	{
@@ -388,7 +422,7 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Get attachments
+	 * Get attachments.
 	 */
 	public function getAttachments()
 	{
@@ -401,7 +435,7 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Get Campaigns
+	 * Get Campaigns.
 	 */
 	public function getCampaigns()
 	{
@@ -411,7 +445,8 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Get Activities for related module
+	 * Get Activities for related module.
+	 *
 	 * @throws \App\Exceptions\AppException
 	 */
 	public function getActivities()
@@ -455,7 +490,7 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Get related emails
+	 * Get related emails.
 	 */
 	public function getEmails()
 	{
@@ -465,7 +500,7 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Get records for emails
+	 * Get records for emails.
 	 */
 	public function getRecordToMails()
 	{
@@ -475,19 +510,20 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Get many to many
+	 * Get many to many.
 	 */
 	public function getManyToMany()
 	{
 		$queryGenerator = $this->getQueryGenerator();
 		$relatedModuleName = $this->getRelationModuleName();
-		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($relatedModuleName, $this->getParentModuleModel()->getName());
+		$referenceInfo = self::getReferenceTableInfo($relatedModuleName, $this->getParentModuleModel()->getName());
 		$queryGenerator->addJoin(['INNER JOIN', $referenceInfo['table'], $referenceInfo['table'] . '.' . $referenceInfo['rel'] . ' = vtiger_crmentity.crmid']);
 		$queryGenerator->addNativeCondition([$referenceInfo['table'] . '.' . $referenceInfo['base'] => $this->get('parentRecord')->getId()]);
 	}
 
 	/**
-	 * Get relation inventory fields
+	 * Get relation inventory fields.
+	 *
 	 * @return Vtiger_Basic_InventoryField[]
 	 */
 	public function getRelationInventoryFields()
@@ -509,12 +545,14 @@ class Vtiger_Relation_Model extends \App\Base
 			}
 		}
 		$this->set('RelationInventoryFields', $fields);
+
 		return $fields;
 	}
 
 	/**
-	 * Function which will specify whether the relation is editable
-	 * @return boolean
+	 * Function which will specify whether the relation is editable.
+	 *
+	 * @return bool
 	 */
 	public function isEditable()
 	{
@@ -522,8 +560,9 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Function which will specify whether the relation is deletable
-	 * @return boolean
+	 * Function which will specify whether the relation is deletable.
+	 *
+	 * @return bool
 	 */
 	public function privilegeToDelete()
 	{
@@ -540,20 +579,141 @@ class Vtiger_Relation_Model extends \App\Base
 		return $url;
 	}
 
-	public function addRelation($sourceRecordId, $destinationRecordId)
+	/**
+	 * Add relation.
+	 *
+	 * @param int       $sourceRecordId
+	 * @param int|int[] $destinationRecordId
+	 * @param mixed     $params
+	 */
+	public function addRelation($sourceRecordId, $destinationRecordId, $params = false)
 	{
 		$sourceModule = $this->getParentModuleModel();
 		$sourceModuleName = $sourceModule->get('name');
 		$destinationModuleName = $this->getRelationModuleModel()->get('name');
 		$sourceModuleFocus = CRMEntity::getInstance($sourceModuleName);
-		relateEntities($sourceModuleFocus, $sourceModuleName, $sourceRecordId, $destinationModuleName, $destinationRecordId, $this->get('name'));
+		vtlib\Deprecated::relateEntities($sourceModuleFocus, $sourceModuleName, $sourceRecordId, $destinationModuleName, $destinationRecordId, $this->get('name'));
 	}
 
 	/**
-	 * Delete relation
+	 * Transfer.
+	 *
+	 * @param array $relationRecords
+	 */
+	public function transfer(array $relationRecords)
+	{
+		switch ($this->getRelationType()) {
+			case static::RELATION_M2M: $this->transferM2M($relationRecords);
+				break;
+			case static::RELATION_O2M: $this->transferO2M($relationRecords);
+				break;
+			default:
+				break;
+		}
+	}
+
+	/**
+	 * Transfer tree relation.
+	 *
+	 * @param array $relationRecords
+	 */
+	public function transferTree(array $relationRecords)
+	{
+		$recordId = $this->get('parentRecord')->getId();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		foreach ($relationRecords as $tree => $fromId) {
+			if ($dbCommand->update('u_#__crmentity_rel_tree', ['crmid' => $recordId], ['crmid' => $fromId, 'relmodule' => $this->getRelationModuleModel()->getId(), 'tree' => $tree])->execute()) {
+				$dbCommand->update('vtiger_crmentity', ['modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => [$fromId, $recordId]])->execute();
+			}
+		}
+	}
+
+	/**
+	 * Transfer O2M type realtion.
+	 *
+	 * @param array $relationRecords
+	 */
+	public function transferO2M(array $relationRecords)
+	{
+		$relationFieldModel = $this->getRelationField();
+		if ($relationFieldModel && $relationFieldModel->isEditable()) {
+			foreach ($relationRecords as $relId => $fromId) {
+				$relationRecordModel = \Vtiger_Record_Model::getInstanceById($relId);
+				if ($relationRecordModel->isEditable()) {
+					$relationRecordModel->set($relationFieldModel->getName(), $this->get('parentRecord')->getId());
+					$relationRecordModel->ext['modificationType'] = \ModTracker_Record_Model::TRANSFER_EDIT;
+					$relationRecordModel->save();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Transfer M2M type realtion.
+	 *
+	 * @param array $relationRecords
+	 */
+	public function transferM2M(array $relationRecords)
+	{
+		$eventHandler = new \App\EventHandler();
+		$eventHandler->setModuleName($this->getParentModuleModel()->getName());
+		$params = ['sourceRecordId' => $this->get('parentRecord')->getId(), 'destinationModule' => $this->getRelationModuleModel()->getName()];
+		$relationModel = \Vtiger_Relation_Model::getInstance($this->getRelationModuleModel(), $this->getParentModuleModel());
+
+		foreach ($relationRecords as $relId => $fromId) {
+			$params['destinationRecordId'] = $relId;
+			$params['fromRecordId'] = $fromId;
+			$eventHandler->setParams($params);
+			$eventHandler->trigger('EntityBeforeTransferUnLink');
+			if ($relationModel->transferDb($params)) {
+				\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', [
+					'modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()
+					], ['crmid' => $crmId])->execute();
+				$eventHandler->trigger('EntityAfterTransferLink');
+			}
+		}
+	}
+
+	/**
+	 * Update relation to db.
+	 *
+	 * @param array $params
+	 *
+	 * @return int
+	 */
+	public function transferDb(array $params)
+	{
+		return \App\Db::getInstance()->createCommand()->update('vtiger_crmentityrel', [
+				'crmid' => $params['sourceRecordId'], 'module' => $params['destinationModule']], ['relcrmid' => $params['fromRecordId'], 'relcrmid' => $params['destinationRecordId']
+			])->execute();
+	}
+
+	/**
+	 * Delete relation.
+	 *
+	 * @param int $relId
+	 */
+	public function transferDelete(int $relId)
+	{
+		$params = ['sourceRecordId' => $this->get('parentRecord')->getId(),
+			'sourceModule' => $this->getParentModuleModel()->getName(),
+			'destinationModule' => $this->getRelationModuleModel()->getName(),
+			'destinationRecordId' => $relId];
+		$eventHandler = new \App\EventHandler();
+		$eventHandler->setModuleName($this->getParentModuleModel()->getName());
+		$eventHandler->setParams($params);
+		$eventHandler->trigger('EntityBeforeTransferUnLink');
+		\CRMEntity::getInstance($this->getParentModuleModel()->getName())->unlinkRelationship($params['destinationRecordId'], $params['sourceModule'], $params['sourceRecordId'], $this->get('name'));
+		$eventHandler->trigger('EntityAfterTransferUnLink');
+	}
+
+	/**
+	 * Delete relation.
+	 *
 	 * @param int $sourceRecordId
 	 * @param int $relatedRecordId
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public function deleteRelation($sourceRecordId, $relatedRecordId)
 	{
@@ -585,14 +745,16 @@ class Vtiger_Relation_Model extends \App\Base
 			$query = \App\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['crmid' => $crmid, 'ossmailviewid' => $mailId]);
 			if ($query->execute()) {
 				$eventHandler->trigger('EntityAfterUnLink');
+
 				return true;
 			} else {
 				return false;
 			}
 		} else {
 			if ($destinationModuleName === 'ModComments') {
-				include_once('modules/ModTracker/ModTracker.php');
+				include_once 'modules/ModTracker/ModTracker.php';
 				ModTracker::unLinkRelation($sourceModuleName, $sourceRecordId, $destinationModuleName, $relatedRecordId);
+
 				return true;
 			}
 			$relationFieldModel = $this->getRelationField();
@@ -600,12 +762,19 @@ class Vtiger_Relation_Model extends \App\Base
 				return false;
 			}
 			$destinationModuleFocus = CRMEntity::getInstance($destinationModuleName);
-			DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
+			vtlib\Deprecated::deleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
+
 			return true;
 		}
 	}
 
-	public function addRelTree($crmid, $tree)
+	/**
+	 * Function to add tree type relation.
+	 *
+	 * @param int    $crmid
+	 * @param string $tree
+	 */
+	public function addRelationTree($crmid, $tree)
 	{
 		App\Db::getInstance()->createCommand()->insert('u_#__crmentity_rel_tree', [
 			'crmid' => $crmid,
@@ -613,25 +782,88 @@ class Vtiger_Relation_Model extends \App\Base
 			'module' => $this->getParentModuleModel()->getId(),
 			'relmodule' => $this->getRelationModuleModel()->getId(),
 			'rel_created_user' => App\User::getCurrentUserId(),
-			'rel_created_time' => date('Y-m-d H:i:s')
+			'rel_created_time' => date('Y-m-d H:i:s'),
 		])->execute();
 	}
 
-	public function deleteRelTree($crmid, $tree)
+	/**
+	 * Function to delete tree type relation.
+	 *
+	 * @param int    $crmid
+	 * @param string $tree
+	 */
+	public function deleteRelationTree($crmid, $tree)
 	{
 		App\Db::getInstance()->createCommand()
 			->delete('u_#__crmentity_rel_tree', ['crmid' => $crmid, 'tree' => $tree, 'module' => $this->getParentModuleModel()->getId(), 'relmodule' => $this->getRelationModuleModel()->getId()])
 			->execute();
 	}
 
-	public function isDirectRelation()
+	/**
+	 * Query tree category relation.
+	 *
+	 * @return \App\Db\Query
+	 */
+	public function getRelationTreeQuery()
 	{
-		return ($this->getRelationType() == self::RELATION_O2M);
+		$template = [];
+		foreach ($this->getRelationModuleModel()->getFieldsByType('tree') as $field) {
+			if ($field->isActiveField()) {
+				$template[] = $field->getFieldParams();
+			}
+		}
+		return (new \App\Db\Query())
+			->select(['ttd.*', 'rel.crmid', 'rel.rel_created_time', 'rel.rel_created_user', 'rel.rel_comment'])
+			->from('vtiger_trees_templates_data ttd')
+			->innerJoin('u_#__crmentity_rel_tree rel', 'rel.tree = ttd.tree')
+			->where(['ttd.templateid' => $template, 'rel.crmid' => $this->get('parentRecord')->getId(), 'rel.relmodule' => $this->getRelationModuleModel()->getId()]);
 	}
 
-	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true, $permissions = true)
+	/**
+	 * Tree category relation.
+	 *
+	 * @return array
+	 */
+	public function getRelationTree()
 	{
-		$cacheName = $parentModuleModel->getId() . $selected . $onlyActive;
+		return $this->getRelationTreeQuery()->all();
+	}
+
+	/**
+	 * Is the tree type relation available.
+	 *
+	 * @return bool
+	 */
+	public function isTreeRelation()
+	{
+		if (in_array($this->getRelationModuleModel()->getName(), ['OutsourcedProducts', 'Products', 'Services', 'OSSOutsourcedServices'])) {
+			foreach ($this->getRelationModuleModel()->getFieldsByType('tree') as $field) {
+				if ($field->isActiveField()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public function isDirectRelation()
+	{
+		return $this->getRelationType() == self::RELATION_O2M;
+	}
+
+	/**
+	 * Getting all relations.
+	 *
+	 * @param \Vtiger_Module_Model $parentModuleModel
+	 * @param bool                 $selected
+	 * @param bool                 $onlyActive
+	 * @param bool                 $permissions
+	 *
+	 * @return \Vtiger_Relation_Model[]
+	 */
+	public static function getAllRelations(\Vtiger_Module_Model $parentModuleModel, bool $selected = true, bool $onlyActive = true, bool $permissions = true)
+	{
+		$cacheName = "{$parentModuleModel->getId()}:$selected:$onlyActive";
 		if (\App\Cache::has('getAllRelations', $cacheName)) {
 			$relationList = \App\Cache::get('getAllRelations', $cacheName);
 		} else {
@@ -659,7 +891,7 @@ class Vtiger_Relation_Model extends \App\Base
 			}
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->set('relatedModuleName', $row['modulename']);
-			$relationModels[] = $relationModel;
+			$relationModels[$row['related_tabid']] = $relationModel;
 		}
 		return $relationModels;
 	}
@@ -725,8 +957,9 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Function to set presence relation
-	 * @param int $relationId
+	 * Function to set presence relation.
+	 *
+	 * @param int    $relationId
 	 * @param string $status
 	 */
 	public static function updateRelationPresence($relationId, $status)
@@ -735,25 +968,32 @@ class Vtiger_Relation_Model extends \App\Base
 		\App\Cache::clear();
 	}
 
+	/**
+	 * Removes relation between modules.
+	 *
+	 * @param int $relationId
+	 */
 	public static function removeRelationById($relationId)
 	{
-		$db = PearDatabase::getInstance();
 		if ($relationId) {
-			$db->delete('vtiger_relatedlists', 'relation_id = ?', [$relationId]);
-			$db->delete('vtiger_relatedlists_fields', 'relation_id = ?', [$relationId]);
-			$db->delete('a_yf_relatedlists_inv_fields', 'relation_id = ?', [$relationId]);
+			$dbCommand = App\Db::getInstance()->createCommand();
+			$dbCommand->delete('vtiger_relatedlists', ['relation_id' => $relationId])->execute();
+			$dbCommand->delete('vtiger_relatedlists_fields', ['relation_id' => $relationId])->execute();
+			App\Db::getInstance('admin')->createCommand()->delete('a_yf_relatedlists_inv_fields', ['relation_id' => $relationId])->execute();
 		}
 		\App\Cache::clear();
 	}
 
+	/**
+	 * Function to save sequence of relation.
+	 *
+	 * @param array $modules
+	 */
 	public static function updateRelationSequence($modules)
 	{
-		$db = PearDatabase::getInstance();
+		$dbCommand = App\Db::getInstance()->createCommand();
 		foreach ($modules as $module) {
-			$db->update('vtiger_relatedlists', [
-				'sequence' => (int) $module['index'] + 1
-				], 'relation_id = ?', [$module['relationId']]
-			);
+			$dbCommand->update('vtiger_relatedlists', ['sequence' => (int) $module['index'] + 1], ['relation_id' => $module['relationId']])->execute();
 		}
 		\App\Cache::clear();
 	}
@@ -768,7 +1008,7 @@ class Vtiger_Relation_Model extends \App\Base
 					'relation_id' => $relationId,
 					'fieldid' => $field['id'],
 					'fieldname' => $field['name'],
-					'sequence' => $key
+					'sequence' => $key,
 				])->execute();
 			}
 		}
@@ -784,7 +1024,7 @@ class Vtiger_Relation_Model extends \App\Base
 				$db->createCommand()->insert('a_#__relatedlists_inv_fields', [
 					'relation_id' => $relationId,
 					'fieldname' => $field,
-					'sequence' => $key
+					'sequence' => $key,
 				])->execute();
 			}
 		}
@@ -849,7 +1089,7 @@ class Vtiger_Relation_Model extends \App\Base
 					'module' => $moduleName,
 					'relcrmid' => $data['relcrmid'],
 					'relmodule' => $this->getRelationModuleName(),
-					'userid' => App\User::getCurrentUserId()
+					'userid' => App\User::getCurrentUserId(),
 				])->execute();
 		} elseif ('delete' === $action) {
 			$result = $db->createCommand()->delete('u_#__favorites', [
@@ -857,7 +1097,7 @@ class Vtiger_Relation_Model extends \App\Base
 					'module' => $moduleName,
 					'relcrmid' => $data['relcrmid'],
 					'relmodule' => $this->getRelationModuleName(),
-					'userid' => App\User::getCurrentUserId()
+					'userid' => App\User::getCurrentUserId(),
 				])->execute();
 		}
 		return $result;

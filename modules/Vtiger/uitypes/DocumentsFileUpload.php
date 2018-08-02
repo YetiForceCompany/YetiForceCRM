@@ -10,25 +10,24 @@
 
 class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/DocumentsFileUpload.tpl';
+		return 'Edit/Field/DocumentsFileUpload.tpl';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		return $this->getDisplayValue(\vtlib\Functions::textLength($value, $this->getFieldModel()->get('maxlengthtext')), $record, $recordModel, $rawText);
+		return $this->getDisplayValue(\App\TextParser::textTruncate($value, $this->getFieldModel()->get('maxlengthtext')), $record, $recordModel, $rawText);
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -39,7 +38,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 			if (!empty($value) && $fileStatus) {
 				if ($fileLocationType === 'I') {
 					$fileId = (new App\Db\Query())->select(['attachmentsid'])
-							->from('vtiger_seattachmentsrel')->where(['crmid' => $record])->scalar();
+						->from('vtiger_seattachmentsrel')->where(['crmid' => $record])->scalar();
 					if ($fileId) {
 						return '<a href="file.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
 							' title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
@@ -53,7 +52,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
@@ -62,6 +61,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 			if ($fileName) {
 				return App\Purifier::decodeHtml($fileName);
 			}
+
 			return '';
 		}
 		return App\Purifier::decodeHtml($value);

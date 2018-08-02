@@ -10,17 +10,16 @@
  * *********************************************************************************** */
 
 /**
- * Uitype: 80
+ * Uitype: 80.
  */
 class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		$arrayDateTime = explode(' ', $value, 2);
@@ -31,11 +30,27 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 			parent::validate($arrayDateTime[0], $isUserFormat);
 			(new Vtiger_Time_UIType())->validate($arrayDateTime[1], $isUserFormat); //Time
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		if (empty($value)) {
+			return '';
+		}
+		switch ($this->getFieldModel()->getUIType()) {
+			case 79:
+				return App\Fields\DateTime::formatToDb($value);
+			default:
+				return parent::getDBValue($value);
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -51,7 +66,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
@@ -62,24 +77,19 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 			case 80:
 				return $rawText ? \App\Fields\DateTime::formatToViewDate($value) : '<span title="' . App\Fields\DateTime::formatToDisplay($value) . '">' . \App\Fields\DateTime::formatToViewDate($value) . '</span>';
 		}
-		return \vtlib\Functions::textLength($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->getFieldModel()->get('maxlengthtext'));
+		return \App\TextParser::textTruncate($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->getFieldModel()->get('maxlengthtext'));
 	}
 
 	/**
-	 * Function to get the datetime value in user preferred hour format
-	 * @param <type> $dateTime
-	 * @return string date and time with hour format
-	 */
-	public static function getDateTimeValue($dateTime)
-	{
-		return App\Fields\DateTime::formatToDisplay($dateTime);
-	}
-
-	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/DateTime.tpl';
+		switch ($this->getFieldModel()->getUIType()) {
+			case 79:
+				return 'Edit/Field/DateTimeField.tpl';
+			default:
+				return 'Edit/Field/DateTime.tpl';
+		}
 	}
 }

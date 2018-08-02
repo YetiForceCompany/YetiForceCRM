@@ -1,0 +1,20 @@
+{
+  "php": {
+    "IIDN": "Notas de Entregas Internas",
+    "SINGLE_IIDN": "Nota de Entrega Interna",
+    "LBL_DESCRIPTION_BLOCK": "Descri\u00e7\u00e3o",
+    "LBL_ATTENTION_BLOCK": "Coment\u00e1rios",
+    "FL_ACCEPTANCE_DATE": "Data de Aceita\u00e7\u00e3o",
+    "FL_NUMBER": "N\u00famero",
+    "FL_SUBJECT": "Assunto",
+    "FL_STORAGE": "Estoque",
+    "FL_STATUS": "Situa\u00e7\u00e3o",
+    "PLL_DRAFT": "Rascunho",
+    "PLL_IN_REALIZATION": "Em execu\u00e7\u00e3o",
+    "PLL_OBJECTIONS": "Obje\u00e7\u00f5es",
+    "PLL_FOR_APPROVAL": "Em Aprova\u00e7\u00e3o",
+    "PLL_CANCELLED": "Cancelada",
+    "PLL_ACCEPTED": "Aceita",
+    "LBL_CHANGE_STATUS": "Alterar Situa\u00e7\u00e3o"
+  }
+}

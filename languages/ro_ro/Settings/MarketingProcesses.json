@@ -1,0 +1,21 @@
+{
+  "php": {
+    "LBL_CONVERSION": "Conversie",
+    "LBL_CONVERSION_TO_ACCOUNT": "Modifica Repartizat la",
+    "LBL_CONVERSION_TO_ACCOUNT_INFO": "Atunci cand aceasta optiune este bifata, un utilizator care converteste un Lead catre un Cont devine alocat acestuia.",
+    "LBL_LEADS": "Lead-uri",
+    "LBL_INFO": "Informatii",
+    "LBL_VALUES": "Valori",
+    "LBL_GROUPS_INFO": "Grupuri care nu au fost atribuite",
+    "LBL_LEAD_STATUS": "Statusurile care indica sfarsitul lucrului cu Lead-uri",
+    "LBL_LEAD_CONVERT_STATUS": "Statusuri care permit conversia din Lead in Cont",
+    "LBL_CURRENTUSER_STATUS": "Schimbati Repartizat la catre un utilizator care modifica inregistrarea",
+    "LBL_CONVERT_LEAD_MERGE": "Conectati cerintele de intalnire specificate in timpul conversiei de la Lead la Cont",
+    "LBL_CONVERT_LEAD_MERGE_ALERT": "Aceasta optiune permite sistemului sa conecteze automat conversia inregistrata cu un cont deja existent - noul cont nu va fi creat, in schimb, toate datele existente vor fi transferate din Lead",
+    "LBL_CONDITION": "Adauga conditie",
+    "MarketingProcesses": "Procese de Marketing"
+  },
+  "js": {
+    "JS_NO_CONDITIONS": "Cel putin o conditie este necesara"
+  }
+}

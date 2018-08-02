@@ -1,0 +1,18 @@
+{
+  "php": {
+    "LBL_SELECT_ONE": "Wybierz",
+    "LBL_PBXMANAGER": "PBXManager",
+    "LBL_PBXMANAGER_CONFIG": "Szczeg\u00f3\u0142y serwera Asterisk",
+    "LBL_NOTE": "Uwagi:",
+    "LBL_INFO_WEBAPP_URL": "Asterisk skonfigurowa\u0107 adres URL aplikacji w formacie",
+    "LBL_FORMAT_WEBAPP_URL": "(Protok\u00f3\u0142) :\/ \/ (asterisk_ip): (port)",
+    "LBL_FORMAT_INFO_WEBAPP_URL": "ex:http:\/\/0.0.0.0:5000",
+    "LBL_INFO_CONTEXT": "YetiForce specyficznym kontekstem skonfigurowany w Serwer Asterisk (extensions.conf)",
+    "LBL_PBXMANAGER_INFO": "Konfigurowanie Asterisk  Server  szczeg\u00f3\u0142y po Instalacja YetiForce gwiazdka z\u0142\u0105cze w serwera Asterisk",
+    "webappurl": " Asterisk App URL",
+    "vtigersecretkey": "YetiForce tajny klucz",
+    "outboundcontext": "Wychodz\u0105ce - kontekst",
+    "outboundtrunk": "Wychodz\u0105ce - Trunk"
+  },
+  "js": []
+}

@@ -11,9 +11,8 @@
 
 class Documents_Detail_View extends Vtiger_Detail_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function __construct()
 	{
@@ -22,7 +21,7 @@ class Documents_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
@@ -35,7 +34,7 @@ class Documents_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function isAjaxEnabled($recordModel)
 	{
@@ -43,7 +42,7 @@ class Documents_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function showModuleBasicView(\App\Request $request)
 	{
@@ -61,6 +60,7 @@ class Documents_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('LIMIT', 0);
 		$viewer->assign('DATA', $data);
+
 		return $viewer->view('DetailViewDocumentRelations.tpl', $moduleName, true);
 	}
 }

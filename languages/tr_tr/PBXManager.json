@@ -1,0 +1,25 @@
+{
+  "php": {
+    "LBL_PBXMANAGER_INFORMATION": "\u00c7a\u011fr\u0131 detaylar\u0131",
+    "LBL_CUSTOM_INFORMATION": "\u00d6zel bilgiler",
+    "LBL_SERVER_CONFIGURATION": "Sa\u011flay\u0131c\u0131 yap\u0131land\u0131rmas\u0131",
+    "LBL_CALL_FROM": "Gelen Arama",
+    "LBL_CALL_TO": "Yap\u0131lan Arama",
+    "LBL_HIDDEN": "(G\u0130ZL\u0130)",
+    "Total Duration": "S\u00fcre (sn)",
+    "Bill Duration": "Fatura s\u00fcresi (sn)",
+    "Recording URL": "Kay\u0131t",
+    "Start Time": "Ba\u015flama zaman\u0131",
+    "Call Status": "\u00c7a\u011fr\u0131 durumu",
+    "Customer Number": "M\u00fc\u015fteri numaras\u0131",
+    "Customer": "M\u00fc\u015fteri",
+    "User": "Kullan\u0131c\u0131",
+    "SINGLE_PBXManager": "Arama kayd\u0131",
+    "Direction": "Y\u00f6n",
+    "Gateway": "A\u011f",
+    "Customer type": "M\u00fc\u015fteri tipi",
+    "Source UUID": "Kaynak UUID",
+    "End Time": "Biti\u015f zaman\u0131",
+    "Record Id": "Kay\u0131t ID"
+  }
+}

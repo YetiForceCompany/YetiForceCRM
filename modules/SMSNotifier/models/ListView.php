@@ -11,7 +11,6 @@
 
 class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 {
-
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
@@ -22,7 +21,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
-				'linkicon' => 'glyphicon glyphicon-export'
+				'linkicon' => 'fas fa-upload',
 			];
 		}
 
@@ -35,23 +34,24 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
-					'linkicon' => 'glyphicon glyphicon-save-file',
-					'title' => \App\Language::translate('LBL_EXPORT_PDF')
+					'linkicon' => 'fas fa-file-excel',
+					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
 				];
 			}
 		}
 
 		$quickExportToExcelPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'QuickExportToExcel');
-		if ($quickExportToExcelPermission && !Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
+		if ($quickExportToExcelPermission) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
-				'linkicon' => 'glyphicon glyphicon-save-file',
+				'linkicon' => 'fas fa-file-excel',
 			];
 		}
 		return $advancedLinks;
 	}
+
 	/*
 	 * Function to get Basic links
 	 * @return array of Basic links
@@ -69,8 +69,8 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 				$basicLinks[] = [
 					'linktype' => 'LISTVIEWBASIC',
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
-					'linkicon' => 'glyphicon glyphicon-save-file',
-					'title' => \App\Language::translate('LBL_EXPORT_PDF')
+					'linkicon' => 'fas fa-file-excel',
+					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
 				];
 			}
 		}
@@ -78,8 +78,10 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 	}
 
 	/**
-	 * Function to get the list of Mass actions for the module
+	 * Function to get the list of Mass actions for the module.
+	 *
 	 * @param <Array> $linkParams
+	 *
 	 * @return <Array> - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
@@ -94,7 +96,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-undo'
+				'linkicon' => 'fas fa-undo-alt',
 			];
 		}
 		if ($moduleModel->isPermitted('MassArchived')) {
@@ -104,7 +106,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-archive'
+				'linkicon' => 'fas fa-archive',
 			];
 		}
 		if ($moduleModel->isPermitted('MassTrash')) {
@@ -114,7 +116,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-trash'
+				'linkicon' => 'fas fa-trash-alt',
 			];
 		}
 		if ($moduleModel->isPermitted('MassDelete')) {
@@ -124,7 +126,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-erase'
+				'linkicon' => 'fas fa-eraser',
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {

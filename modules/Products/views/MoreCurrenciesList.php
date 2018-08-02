@@ -10,10 +10,11 @@
 
 class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
@@ -27,7 +28,7 @@ class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View
 			$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName));
 		}
 		if (!$recordPermission || ($lockEdit && !$request->getBoolean('isDuplicate'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -41,14 +42,12 @@ class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$priceDetails = $recordModel->getPriceDetails();
-
 			foreach ($priceDetails as $key => $currencyDetails) {
 				if ($currencyDetails['curname'] === $currencyName) {
 					$baseCurrencyConversionRate = $currencyDetails['conversionrate'];
 					break;
 				}
 			}
-
 			foreach ($priceDetails as $key => $currencyDetails) {
 				if ($currencyDetails['curname'] === $currencyName) {
 					$currencyDetails['conversionrate'] = 1;
@@ -60,13 +59,10 @@ class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View
 				$priceDetails[$key] = $currencyDetails;
 			}
 		}
-
 		$viewer = $this->getViewer($request);
-
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('PRICE_DETAILS', $priceDetails);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
 		$viewer->view('MoreCurrenciesList.tpl', 'Products');
 	}
 }

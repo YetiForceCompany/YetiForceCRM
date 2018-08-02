@@ -8,15 +8,14 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+
 namespace vtlib;
 
 /**
- * Provides API to work with vtiger CRM Custom View (Filter)
- * @package vtlib
+ * Provides API to work with vtiger CRM Custom View (Filter).
  */
 class Filter
 {
-
 	/** ID of this filter instance */
 	public $id;
 	public $name;
@@ -32,21 +31,21 @@ class Filter
 	public $module;
 
 	/**
-	 * Initialize this filter instance
-	 * @param Module Instance of the module to which this filter is associated.
-	 * @access private
+	 * Initialize this filter instance.
+	 *
+	 * @param mixed $module Mixed id or name of the module
 	 */
-	public function initialize($valuemap, $moduleInstance = false)
+	public function initialize($valuemap, $module = false)
 	{
 		$this->id = $valuemap['cvid'];
 		$this->name = $valuemap['viewname'];
-		$this->module = $moduleInstance ? $moduleInstance : Module::getInstance($valuemap['tabid']);
+		$this->module = Module::getInstance($module ? $module : $valuemap['tabid']);
 	}
 
 	/**
-	 * Create this instance
+	 * Create this instance.
+	 *
 	 * @param Module Instance of the module to which this filter should be associated with
-	 * @access private
 	 */
 	public function __create($moduleInstance)
 	{
@@ -60,10 +59,12 @@ class Filter
 			$this->sequence = $sequence ? (int) $sequence + 1 : 0;
 		}
 		if (!isset($this->status)) {
-			if ($this->presence == 0)
-				$this->status = '0'; // Default
-			else
-				$this->status = '3'; // Public
+			if ($this->presence == 0) {
+				$this->status = '0';
+			} // Default
+			else {
+				$this->status = '3';
+			} // Public
 		}
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_customview', [
@@ -80,17 +81,16 @@ class Filter
 			'sort' => $this->sort,
 		])->execute();
 		$this->id = $db->getLastInsertID('vtiger_customview_cvid_seq');
-		self::log("Creating Filter $this->name ... DONE");
+		\App\Log::trace("Creating Filter $this->name ... DONE", __METHOD__);
 	}
 
 	public function __update()
 	{
-		self::log("Updating Filter $this->name ... DONE");
+		\App\Log::trace("Updating Filter $this->name ... DONE", __METHOD__);
 	}
 
 	/**
-	 * Delete this instance
-	 * @access private
+	 * Delete this instance.
 	 */
 	public function __delete()
 	{
@@ -101,21 +101,22 @@ class Filter
 	}
 
 	/**
-	 * Save this instance
+	 * Save this instance.
+	 *
 	 * @param Module Instance of the module to use
 	 */
 	public function save($moduleInstance = false)
 	{
-		if ($this->id)
+		if ($this->id) {
 			$this->__update();
-		else
+		} else {
 			$this->__create($moduleInstance);
+		}
 		return $this->id;
 	}
 
 	/**
-	 * Delete this instance
-	 * @access private
+	 * Delete this instance.
 	 */
 	public function delete()
 	{
@@ -124,22 +125,26 @@ class Filter
 
 	/**
 	 * Get the column value to use in custom view tables.
+	 *
 	 * @param FieldBasic $fieldInstance
+	 *
 	 * @return string
-	 * @access private
 	 */
 	public function __getColumnValue(FieldBasic $fieldInstance)
 	{
 		$tod = explode('~', $fieldInstance->typeofdata);
 		$displayinfo = $fieldInstance->getModuleName() . '_' . str_replace(' ', '_', $fieldInstance->label) . ':' . $tod[0];
 		$cvcolvalue = "$fieldInstance->table:$fieldInstance->column:$fieldInstance->name:$displayinfo";
+
 		return $cvcolvalue;
 	}
 
 	/**
-	 * Add the field to this filer instance
+	 * Add the field to this filer instance.
+	 *
 	 * @param FieldBasic $fieldInstance
-	 * @param int $index
+	 * @param int        $index
+	 *
 	 * @return $this
 	 */
 	public function addField(FieldBasic $fieldInstance, $index = 0)
@@ -150,25 +155,29 @@ class Filter
 		$db->createCommand()->insert('vtiger_cvcolumnlist', [
 			'cvid' => $this->id,
 			'columnindex' => $index,
-			'columnname' => $cvcolvalue
+			'columnname' => $cvcolvalue,
 		])->execute();
-		\App\Log::trace("Adding $fieldInstance->name to $this->name filter ... DONE");
+		\App\Log::trace("Adding $fieldInstance->name to $this->name filter ... DONE", __METHOD__);
+
 		return $this;
 	}
 
 	/**
-	 * Add rule to this filter instance
+	 * Add rule to this filter instance.
+	 *
 	 * @param FieldBasic $fieldInstance
-	 * @param String One of [EQUALS, NOT_EQUALS, STARTS_WITH, ENDS_WITH, CONTAINS, DOES_NOT_CONTAINS, LESS_THAN, 
+	 * @param string One of [EQUALS, NOT_EQUALS, STARTS_WITH, ENDS_WITH, CONTAINS, DOES_NOT_CONTAINS, LESS_THAN,
 	 *                       GREATER_THAN, LESS_OR_EQUAL, GREATER_OR_EQUAL]
-	 * @param String Value to use for comparision
-	 * @param Integer Index count to use
+	 * @param string Value to use for comparision
+	 * @param int Index count to use
+	 *
 	 * @return $this
 	 */
 	public function addRule(FieldBasic $fieldInstance, $comparator, $comparevalue, $index = 0, $group = 1, $condition = 'and')
 	{
-		if (empty($comparator))
+		if (empty($comparator)) {
 			return $this;
+		}
 
 		$comparator = self::translateComparator($comparator);
 		$cvcolvalue = $this->__getColumnValue($fieldInstance);
@@ -182,120 +191,116 @@ class Filter
 			'comparator' => $comparator,
 			'value' => $comparevalue,
 			'groupid' => $group,
-			'column_condition' => $condition
+			'column_condition' => $condition,
 		])->execute();
-		Utils::log('Adding Condition ' . self::translateComparator($comparator, true) . " on $fieldInstance->name of $this->name filter ... DONE");
+		\App\Log::trace('Adding Condition ' . self::translateComparator($comparator, true) . " on $fieldInstance->name of $this->name filter ... DONE", __METHOD__);
+
 		return $this;
 	}
 
 	/**
 	 * Translate comparator (condition) to long or short form.
-	 * @access private
 	 */
 	public static function translateComparator($value, $tolongform = false)
 	{
 		$comparator = false;
 		if ($tolongform) {
 			$comparator = strtolower($value);
-			if ($comparator == 'e')
+			if ($comparator == 'e') {
 				$comparator = 'EQUALS';
-			else if ($comparator == 'n')
+			} elseif ($comparator == 'n') {
 				$comparator = 'NOT_EQUALS';
-			else if ($comparator == 's')
+			} elseif ($comparator == 's') {
 				$comparator = 'STARTS_WITH';
-			else if ($comparator == 'ew')
+			} elseif ($comparator == 'ew') {
 				$comparator = 'ENDS_WITH';
-			else if ($comparator == 'c')
+			} elseif ($comparator == 'c') {
 				$comparator = 'CONTAINS';
-			else if ($comparator == 'k')
+			} elseif ($comparator == 'k') {
 				$comparator = 'DOES_NOT_CONTAINS';
-			else if ($comparator == 'l')
+			} elseif ($comparator == 'l') {
 				$comparator = 'LESS_THAN';
-			else if ($comparator == 'g')
+			} elseif ($comparator == 'g') {
 				$comparator = 'GREATER_THAN';
-			else if ($comparator == 'm')
+			} elseif ($comparator == 'm') {
 				$comparator = 'LESS_OR_EQUAL';
-			else if ($comparator == 'h')
+			} elseif ($comparator == 'h') {
 				$comparator = 'GREATER_OR_EQUAL';
+			}
 		} else {
 			$comparator = strtoupper($value);
-			if ($comparator == 'EQUALS')
+			if ($comparator == 'EQUALS') {
 				$comparator = 'e';
-			else if ($comparator == 'NOT_EQUALS')
+			} elseif ($comparator == 'NOT_EQUALS') {
 				$comparator = 'n';
-			else if ($comparator == 'STARTS_WITH')
+			} elseif ($comparator == 'STARTS_WITH') {
 				$comparator = 's';
-			else if ($comparator == 'ENDS_WITH')
+			} elseif ($comparator == 'ENDS_WITH') {
 				$comparator = 'ew';
-			else if ($comparator == 'CONTAINS')
+			} elseif ($comparator == 'CONTAINS') {
 				$comparator = 'c';
-			else if ($comparator == 'DOES_NOT_CONTAINS')
+			} elseif ($comparator == 'DOES_NOT_CONTAINS') {
 				$comparator = 'k';
-			else if ($comparator == 'LESS_THAN')
+			} elseif ($comparator == 'LESS_THAN') {
 				$comparator = 'l';
-			else if ($comparator == 'GREATER_THAN')
+			} elseif ($comparator == 'GREATER_THAN') {
 				$comparator = 'g';
-			else if ($comparator == 'LESS_OR_EQUAL')
+			} elseif ($comparator == 'LESS_OR_EQUAL') {
 				$comparator = 'm';
-			else if ($comparator == 'GREATER_OR_EQUAL')
+			} elseif ($comparator == 'GREATER_OR_EQUAL') {
 				$comparator = 'h';
+			}
 		}
 		return $comparator;
 	}
 
 	/**
-	 * Helper function to log messages
-	 * @param String Message to log
-	 * @param Boolean true appends linebreak, false to avoid it
-	 * @access private
-	 */
-	public static function log($message, $delim = true)
-	{
-		Utils::log($message, $delim);
-	}
-
-	/**
-	 * Get instance by filterid or filtername
+	 * Get instance by filterid or filtername.
+	 *
 	 * @param mixed filterid or filtername
-	 * @param Module Instance of the module to use when filtername is used
+	 * @param mixed $module Mixed id or name of the module
 	 */
-	public static function getInstance($value, $moduleInstance = false)
+	public static function getInstance($value, $module = false)
 	{
 		$instance = false;
+		$moduleName = is_numeric($module) ? \App\Module::getModuleName($module) : $module;
 		if (Utils::isNumber($value)) {
 			$query = (new \App\Db\Query())->from('vtiger_customview')->where(['cvid' => $value]);
 		} else {
-			$query = (new \App\Db\Query())->from('vtiger_customview')->where(['viewname' => $value, 'entitytype' => $moduleInstance->name]);
+			$query = (new \App\Db\Query())->from('vtiger_customview')->where(['viewname' => $value, 'entitytype' => $moduleName]);
 		}
 		$result = $query->one();
 		if ($result) {
 			$instance = new self();
-			$instance->initialize($result, $moduleInstance);
+			$instance->initialize($result, $module);
 		}
 		return $instance;
 	}
 
 	/**
-	 * Get all instances of filter for the module
+	 * Get all instances of filter for the module.
+	 *
 	 * @param ModuleBasic $moduleInstance
+	 *
 	 * @return self
 	 */
 	public static function getAllForModule(ModuleBasic $moduleInstance)
 	{
 		$instances = false;
 		$dataReader = (new \App\Db\Query())->from('vtiger_customview')
-				->where(['entitytype' => $moduleInstance->name])
-				->createCommand()->query();
+			->where(['entitytype' => $moduleInstance->name])
+			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$instance = new self();
-			$instance->initialize($row, $moduleInstance);
+			$instance->initialize($row, $moduleInstance->id);
 			$instances[] = $instance;
 		}
 		return $instances;
 	}
 
 	/**
-	 * Delete filter associated for module
+	 * Delete filter associated for module.
+	 *
 	 * @param ModuleBasic $moduleInstance
 	 */
 	public static function deleteForModule(ModuleBasic $moduleInstance)

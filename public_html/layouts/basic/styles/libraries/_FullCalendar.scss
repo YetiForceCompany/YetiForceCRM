@@ -1,0 +1,245 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.dashboardWidgetCalendar {
+	.fc-widget-content {
+		.fc-scroller.fc-day-grid-container {
+			height: 18.6rem !important;
+		}
+	}
+
+	.fc-day-grid {
+		.fc-row.fc-week {
+			min-height: 3.1rem !important;
+			height: 3.1rem !important;
+		}
+	}
+
+	.fc-head-container.fc-widget-header {
+		@extend .border-0;
+	}
+
+	.fc-body > tr > .fc-widget-content {
+		@extend .border-right-0;
+		@extend .border-left-0;
+	}
+}
+
+.fc-state-default .fc-button-effect {
+	top: 100% !important;
+}
+
+.fc-event-style1 {
+	background: #17309a;
+	border-color: #17309a;
+	font-weight: normal;
+	text-shadow: none;
+
+	.fc-event-skin {
+		background: #17309a;
+		border-color: #17309a;
+		font-weight: normal;
+		text-shadow: none;
+	}
+}
+
+.fc-event-style2 {
+	background: #3a87ad;
+	border-color: #3a87ad;
+	font-weight: normal;
+	text-shadow: none;
+
+	.fc-event-skin {
+		background: #3a87ad;
+		border-color: #3a87ad;
+		font-weight: normal;
+		text-shadow: none;
+	}
+}
+
+.fc-event-style3 {
+	background: #aa6705;
+	border-color: #aa6705;
+	font-weight: normal;
+	text-shadow: none;
+
+	.fc-event-skin {
+		background: #aa6705;
+		border-color: #aa6705;
+		font-weight: normal;
+		text-shadow: none;
+	}
+}
+
+.fc-event-style4 {
+	background: #953b39;
+	border-color: #953b39;
+	font-weight: normal;
+	text-shadow: none;
+
+	.fc-event-skin {
+		background: #953b39;
+		border-color: #953b39;
+		font-weight: normal;
+		text-shadow: none;
+	}
+}
+
+.fc-event-style5 {
+	background: #545252;
+	border-color: #545252;
+	font-weight: normal;
+	text-shadow: none;
+
+	.fc-event-skin {
+		background: #545252;
+		border-color: #545252;
+		font-weight: normal;
+		text-shadow: none;
+	}
+}
+
+.fc-event-style6 {
+	background: #87865d;
+	border-color: #87865d;
+	font-weight: normal;
+	text-shadow: none;
+
+	.fc-event-skin {
+		background: #87865d;
+		border-color: #87865d;
+		font-weight: normal;
+		text-shadow: none;
+	}
+}
+
+.fc-event-style7 {
+	background: #c71585;
+	border-color: #c71585;
+	font-weight: normal;
+	text-shadow: none;
+}
+
+.fc-event-style8 {
+	background: #006400;
+	border-color: #006400;
+	font-weight: normal;
+	text-shadow: none;
+
+	.fc-event-skin {
+		background: #006400;
+		border-color: #006400;
+		font-weight: normal;
+		text-shadow: none;
+	}
+}
+
+#calendarview th {
+	color: #000;
+}
+
+.fc-button {
+	display: inline-block;
+	padding: $p-bs4-button !important;
+	margin-bottom: 0;
+	font-weight: normal;
+	line-height: 1.5;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 4px;
+
+	&:active .fc-button-inner {
+		background: transparent;
+
+		.fc-button-content {
+			color: #fff;
+		}
+	}
+
+	&.fc-state-active .fc-button-inner .fc-button-content, &:active .fc-button-inner .fc-button-content {
+		color: #000 !important;
+		background: transparent;
+		background-image: none;
+	}
+}
+
+.fc-header-title h2 {
+	font-size: 15px;
+	line-height: 20px;
+}
+
+.fc-widget-header {
+	th {
+		padding: 4px 0 !important;
+	}
+
+	color: #666;
+	background: $light;
+	border-color: #ccc;
+}
+
+.fc-content {
+	background: #fff;
+	margin-left: 10px;
+}
+
+.fc-event-container .fc-event.fc-draggable {
+	margin: 0 0 2px 0;
+	border-radius: 0;
+}
+
+.fc-content {
+	.fc-title {
+		padding-left: 2px;
+	}
+
+	td:hover {
+		background: #f3f3f3;
+	}
+}
+
+.fc-state-default .fc-button-effect span {
+	background: none;
+}
+
+.fc button {
+	height: auto !important;
+}
+
+.fc-toolbar {
+	margin-bottom: 0 !important;
+}
+
+.fc-time-grid .fc-time-grid-event.fc-event {
+	min-height: 27px;
+	min-width: 100px;
+}
+
+.fc-time-grid-event.fc-short .fc-title {
+	font-size: 1em;
+}
+
+@media only screen and (max-width: 480px) {
+	.fc-toolbar {
+		.fc-left, .fc-right {
+			float: none !important;
+			display: inline-block;
+		}
+	}
+}
+
+.fc-event {
+	color: #353c44 !important;
+}
+
+.fc-view-container {
+	@extend .mb-0;
+}

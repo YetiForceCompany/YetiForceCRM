@@ -1,0 +1,16 @@
+{
+  "php": {
+    "LBL_OWNER_ALLOCATION": "Alocati proprietar",
+    "LBL_OWNER_ALLOCATION_DESCRIPTION": " ",
+    "LBL_MULTIOWNER_ALLOCATION": "Atribuiti utilizatori de partajare",
+    "LBL_MULTIOWNER_ALLOCATION_DESCRIPTION": " ",
+    "LBL_SORTING_SETTINGS_WORNING": "Atentie!\r\n Configuratia va functiona numai atunci cand o activati in panoul Roluri.",
+    "LBL_ADD_PANEL_TO_MODULE": "Adaugati alocare la modul",
+    "LBL_SELECT_MODULE": "Selectati modul",
+    "LBL_GO_TO_PANEL": "mergi la panou",
+    "LBL_USERS_AND_GROUPS": "Utilizatori si grupuri"
+  },
+  "js": {
+    "JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL": "Sunteti sigur ca doriti sa eliminati toate alocarile din acest modul?"
+  }
+}

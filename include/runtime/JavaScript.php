@@ -10,10 +10,11 @@
 
 class Vtiger_JavaScript extends Vtiger_Viewer
 {
-
 	/**
-	 * Function to get the path of a given style sheet or default style sheet
+	 * Function to get the path of a given style sheet or default style sheet.
+	 *
 	 * @param string $fileName
+	 *
 	 * @return <string / Boolean> - file path , false if not exists
 	 */
 	public static function getFilePath($fileName = '')
@@ -31,7 +32,8 @@ class Vtiger_JavaScript extends Vtiger_Viewer
 	}
 
 	/**
-	 * Function to get the Base Theme Path, until theme folder not selected theme folder
+	 * Function to get the Base Theme Path, until theme folder not selected theme folder.
+	 *
 	 * @return string - theme folder
 	 */
 	public static function getBaseJavaScriptPath()

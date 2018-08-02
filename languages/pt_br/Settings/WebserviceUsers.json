@@ -1,0 +1,30 @@
+{
+  "php": {
+	"WebserviceUsers": "Web service - Usu\u00e1rios",
+	"LBL_WEBSERVICE_USERS": "Web service - Usu\u00e1rios",
+	"LBL_WEBSERVICE_USERS_DESCRIPTION": " ",
+	"FL_SERVER": "Servidor",
+	"FL_STATUS": "Status",
+	"FL_LOGIN": "Login",
+	"FL_PASSWORD": "Senha",
+	"FL_TYPE": "Tipo",
+	"FL_LOGIN_TIME": "Tempo de Login",
+	"FL_LOGOUT_TIME": "Tempo de Logout",
+	"FL_LANGUAGE": "Idioma",
+	"FL_RECORD_NAME": "Registro",
+	"FL_USER": "Usu\u00e1rio",
+	"BTN_SAVE": "Salvar",
+	"BTN_CLOSE": "Cancelar",
+	"PLL_USER_PERMISSIONS": "Permiss\u00f5es baseadas em usu\u00e1rio",
+	"PLL_ACCOUNTS_RELATED_RECORDS": "Todos os registros de conta atribu\u00eddos diretamente ao contato",
+	"PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY": "Todos os registros de conta relacionados atribu\u00eddos diretamente ao contato e contas abaixo na hierarquia",
+	"PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY": "Todos os registros de conta relacionados atribu\u00eddos diretamente ao contato e contas da hierarquia",
+	"PLL_ACTIVE": "Ativo",
+	"PLL_INACTIVE": "Inativo",
+	"LBL_CREATE_RECORD": "Criar"
+  },
+  "js": {
+	"JS_DELETE_CONFIRMATION": "Voc\u00ea tem certeza que deseja remover esta chave?",
+	"JS_SAVE_SUCCESS": "Altera\u00e7\u00f5es salvas"
+  }
+}

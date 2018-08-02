@@ -11,10 +11,11 @@
 
 class Events_Save_Action extends Calendar_Save_Action
 {
-
 	/**
-	 * Function to save record
+	 * Function to save record.
+	 *
 	 * @param \App\Request $request - values of the record
+	 *
 	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
 	public function saveRecord(\App\Request $request)
@@ -28,7 +29,7 @@ class Events_Save_Action extends Calendar_Save_Action
 			if ($request->isEmpty('record')) {
 				App\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordModel->getId()], ['activityid' => $recordModel->getId()])->execute();
 				$data['followup'] = $recordModel->getId();
-			} else if (empty($data['followup'])) {
+			} elseif (empty($data['followup'])) {
 				$data['followup'] = $recordModel->getId();
 			}
 			$recurringEvents->setChanges($recordModel->getPreviousValue());
@@ -39,8 +40,10 @@ class Events_Save_Action extends Calendar_Save_Action
 	}
 
 	/**
-	 * Function to get the record model based on the request parameters
+	 * Function to get the record model based on the request parameters.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return Vtiger_Record_Model
 	 */
 	public function getRecordModelFromRequest(\App\Request $request)

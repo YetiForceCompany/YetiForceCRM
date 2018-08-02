@@ -1,0 +1,32 @@
+{
+  "php": {
+    "LBL_DAV_KEYS": "DAV Anwendungen",
+    "LBL_DAV_KEYS_DESCRIPTION": "Anlegen und Bearbeiten von DAV Schl\u00fcssel",
+    "LBL_KEY": "Schl\u00fcssel",
+    "LBL_TOOLS": "Tools",
+    "LBL_DELETE_KEY": "Schl\u00fcssel l\u00f6schen",
+    "LBL_ADD_KEY": "Schl\u00fcssel hinzuf\u00fcgen",
+    "LBL_DISPLAY_NAME": "Anwender",
+    "LBL_EMAIL": "E-Mail",
+    "LBL_LOGIN": "Login",
+    "LBL_SELECT_USER": "W\u00e4hle Benutzer:",
+    "LBL_ALERT_DAV_NO_ACTIVE_TITLE": "DAV Anwendung ist nicht aktiv",
+    "LBL_ALERT_DAV_NO_ACTIVE_DESC": "DAV Anwendung wurde noch nicht aktiviert, bitte in config\/api.php aktivieren",
+    "LBL_SUCCESS_SAVE_KEY": "Neuer Schl\u00fcssel wurde erfolgreich erzeugt",
+    "LBL_ERROR_SAVE_KEY": "Fehler beim Speichern des Schl\u00fcssels",
+    "LBL_SUCCESS_SAVE_CHANGES": "\u00c4nderungen wurden gesichert",
+    "LBL_ACTIVE_USER": "Benutzerstatus",
+    "LBL_KEY_HAS_BEEN_REMOVED": "Schl\u00fcssel wurde gel\u00f6scht",
+    "LBL_SELECT_TYPE": "Typ",
+    "LBL_COUNT_CARD": "Anzahl von Kontakten",
+    "LBL_COUNT_CAL": "Anzahl von Ereignissen",
+    "LBL_VIEW_KEYS": "DAV Schl\u00fcssel",
+    "Dav": "DAV Schl\u00fcssel",
+    "LBL_DUPLICATE_USER_SERVICES": "Schl\u00fcssel f\u00fcr diese Applikation existiert bereits.",
+    "LBL_ALERT_DAV_CONFIG_TITLE": "Konfigurationsinformationen",
+    "LBL_ALERT_DAV_CONFIG_DESC": "Konfigurationsbeispiele f\u00fcr DAV Serververbindungen f\u00fcr unterschiedliche Apps und Systeme:\r\n<b>DAVdroid<\/b>\r\nAddress: https:\/\/gitdeveloper.yetiforce.com\/dav.php\r\nPreventive authorization NO\r\n<b>Thunderbird CalDAV<\/b>\r\nAddress: https:\/\/gitdeveloper.yetiforce.com\/dav.php\/calendars\/demo\/YFCalendar\/\r\n<b>iOS<\/b>\r\nAddress: http:\/\/gitdeveloper.yetiforce.com\/dav.php\/principals\/demo\/\r\n F\u00fcr SSL Verbindung: \r\n http:\/\/gitdeveloper.yetiforce.com:443\/dav.php\/principals\/demo\/"
+  },
+  "js": {
+    "Adding a Key": "Schl\u00fcssel hinzuf\u00fcgen"
+  }
+}

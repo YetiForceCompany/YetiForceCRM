@@ -1,0 +1,26 @@
+{
+  "php": {
+    "Direction": "Direction",
+    "LBL_PBXMANAGER_INFORMATION": "D\u00e9tails des appels",
+    "LBL_CUSTOM_INFORMATION": "Information particuli\u00e8re",
+    "LBL_SERVER_CONFIGURATION": "Configuration fournisseur",
+    "LBL_CALL_FROM": "Appel de",
+    "LBL_CALL_TO": "Appel vers",
+    "LBL_HIDDEN": "(Cach\u00e9)",
+    "Total Duration": "Dur\u00e9e (sec)",
+    "Bill Duration": "Dur\u00e9e factur\u00e9e (sec)",
+    "Recording URL": "Enregistrement",
+    "Start Time": "Heure de d\u00e9but",
+    "Call Status": "Statut de l'appel",
+    "Customer Number": "N\u00b0 du client",
+    "Customer": "Client",
+    "User": "Utilisateur",
+    "SINGLE_PBXManager": "Liste des appels",
+    "Gateway": "Passerelle",
+    "Customer type": "Type de client",
+    "Source UUID": "UUID source",
+    "End Time": "Heure de fin",
+    "Record Id": "N\u00b0 ID de l'appel"
+  },
+  "js": []
+}

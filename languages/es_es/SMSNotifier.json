@@ -1,0 +1,28 @@
+{
+  "php": {
+    "providertype": "Proveedor",
+    "LBL_SMS_MAX_CHARACTERS_ALLOWED": "SMS m\u00e1ximo 160 caracteres permitidos",
+    "LBL_SEREVER_CONFIG": "Nueva configuraci\u00f3n",
+    "username": "Nombre de usuario",
+    "password": "Contrase\u00f1a",
+    "isactive": "Activo",
+    "SINGLE_SMSNotifier": "Notificador de SMS",
+    "Server configuration": "Configuraci\u00f3n del servidor",
+    "LBL_SEND_SMS_TO_SELECTED_NUMBERS": "Enviar SMS a los n\u00fameros seleccionados",
+    "LBL_STEP_1": "Paso 1",
+    "LBL_STEP_2": "Paso 2",
+    "LBL_SELECT_THE_PHONE_NUMBER_FIELDS_TO_SEND": "Seleccione los campos del n\u00famero de tel\u00e9fono para enviar",
+    "LBL_TYPE_THE_MESSAGE": "Escribe el mensaje",
+    "LBL_WRITE_YOUR_MESSAGE_HERE": "escriba su mensaje aqu\u00ed",
+    "LBL_ADD_MORE_FIELDS": "A\u00f1adir m\u00e1s campos",
+    "LBL_SERVER_CONFIG": "Configuraci\u00f3n del servidor",
+    "FL_STATUS": "Estado",
+    "PLL_UNDEFINED": "Indefinido",
+    "PLL_DELIVERED": "Enviado",
+    "PLL_FAILED": "Fall\u00eddo",
+    "LBL_MASS_SEND_SMS_INFO": "Todos los mensajes ser\u00e1n enviados mediante CRON",
+    "LBL_CHECK_STATUS": "Comprobar estado",
+    "message": "Mensaje",
+    "LBL_SMSNOTIFIER_INFORMATION": "Informaci\u00f3n sobre el SMS"
+  }
+}

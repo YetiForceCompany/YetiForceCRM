@@ -1,0 +1,33 @@
+{
+  "php": {
+    "SINGLE_ProjectTask": "Proje G\u00f6revi",
+    "Project Task": "Proje G\u00f6revleri",
+    "Start Date": "Ba\u015flang\u0131\u00e7 tarihi",
+    "Target End Date": "Hedef Biti\u015f Tarihi",
+    "End Date": "Biti\u015f tarihi",
+    "Related to": "\u0130le ilgili",
+    "Parent ID": "\u0130lgili g\u00f6rev",
+    "Project Task Number": "Proje G\u00f6rev Numaras\u0131",
+    "description": " A\u00e7\u0131klama",
+    "FL_TOTAL_TIME_H": "Toplam \u00e7al\u0131\u015fma s\u00fcresi",
+    "Project Task No": "Proje G\u00f6rev No",
+    "Project Task Name": "Proje G\u00f6rev Ad\u0131",
+    "LBL_ESTIMATED_WORK_TIME": "Tahmini \u00e7al\u0131\u015fma s\u00fcresi",
+    "Add Project Task": "Proje g\u00f6rev ekleme",
+    "LBL_PROJECT_TASK_INFORMATION": "Proje G\u00f6rev Ayr\u0131nt\u0131lar\u0131",
+    "LBL_PROJECTS_LIST": "Projeler Listesi",
+    "LBL_TASKS_LIST": "G\u00f6revler Listesi",
+    "LBL_MILESTONES_LIST": "Kilometre Ta\u015flar\u0131 Listesi",
+    "low": "d\u00fc\u015f\u00fck",
+    "normal": "normal",
+    "high": "y\u00fcksek",
+    "In Progress": "Devam etmekte",
+    "Open": "A\u00e7\u0131k",
+    "Completed": "Tamamland\u0131",
+    "Deferred": "Ertelenen",
+    "Cancelled": "\u0130ptal edildi",
+    "administrative": "\u0130\u00e7",
+    "operative": "D\u0131\u015f",
+    "other": "Payla\u015f\u0131lan"
+  }
+}

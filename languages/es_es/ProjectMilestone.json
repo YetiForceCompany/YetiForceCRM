@@ -1,0 +1,29 @@
+{
+  "php": {
+    "SINGLE_ProjectMilestone": "Hito del proyecto",
+    "LBL_PROJECT_MILESTONE_INFORMATION": "Informaci\u00f3n sobre el Hito",
+    "LBL_PROJECTS_LIST": "Lista de Proyectos",
+    "LBL_TASKS_LIST": "Lista de Tareas",
+    "LBL_MILESTONES_LIST": "Lista de Hitos",
+    "Description": "Descripci\u00f3n",
+    "Related to": "Proyecto",
+    "Project Milestone Name": "Nombre del Hito",
+    "Milestone Date": "Fecha Hito",
+    "Project Milestone No": "ID",
+    "FL_PARENT_PROJECT_MILESTONE": "Parent project milestone",
+    "FL_STATUS": "Status",
+    "LBL_PRIORITY": "Prioridad",
+    "LBL_PROGRESS": "Progreso",
+    "PLL_INTERNAL": "Interno",
+    "PLL_EXTERNAL": "Externo",
+    "PLL_SHARED": "Compartido",
+    "PLL_LOW": "Baja",
+    "PLL_NORMAL": "Normal",
+    "PLL_HIGH": "Alta",
+    "PLL_IN_PROGRESS": "In Progress",
+    "PLL_OPEN": "Open",
+    "PLL_COMPLETED": "Completed",
+    "PLL_DEFERRED": "Deferred",
+    "PLL_CANCELLED": "Cancelled"
+  }
+}

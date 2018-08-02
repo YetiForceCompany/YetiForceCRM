@@ -1,19 +1,18 @@
 <?php
 /**
- * Countries action class
- * @package YetiForce.Include
- * @license licenses/License.html
+ * Countries action class.
+ *
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Wojciech Bruggemann <w.bruggemann@yetiforce.com>
  */
 
 /**
- * Ajax save actions handler class
+ * Ajax save actions handler class.
  */
 class Settings_Countries_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
-
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 */
 	public function __construct()
 	{
@@ -26,16 +25,14 @@ class Settings_Countries_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	}
 
 	/**
-	 * Update all statuses
+	 * Update all statuses.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function updateAllStatuses(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
 		$status = (int) $request->getBoolean('status');
-
-		$moduleModel = Settings_Countries_Module_Model::getInstance($qualifiedModuleName);
-
+		$moduleModel = Settings_Countries_Module_Model::getInstance($request->getModule(false));
 		$response = new Vtiger_Response();
 		$result = $moduleModel->updateAllStatuses($status);
 		$response->setResult($result > 0);
@@ -43,18 +40,15 @@ class Settings_Countries_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	}
 
 	/**
-	 * Update sequence
+	 * Update sequence.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function updateSequence(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
-		$sequencesList = $request->getArray('sequencesList', 'Integer');
-
-		$moduleModel = Settings_Countries_Module_Model::getInstance($qualifiedModuleName);
-
+		$moduleModel = Settings_Countries_Module_Model::getInstance($request->getModule(false));
 		$response = new Vtiger_Response();
-		if ($sequencesList) {
+		if ($sequencesList = $request->getArray('sequencesList', 'Integer')) {
 			$moduleModel->updateSequence($sequencesList);
 			$response->setResult([true]);
 		} else {
@@ -65,43 +59,38 @@ class Settings_Countries_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	}
 
 	/**
-	 * Update status
+	 * Update status.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function updateStatus(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
-		$id = $request->getInteger('id');
 		$status = (int) $request->getBoolean('status');
-
-		$moduleModel = Settings_Countries_Module_Model::getInstance($qualifiedModuleName);
-
+		$moduleModel = Settings_Countries_Module_Model::getInstance($request->getModule(false));
 		$response = new Vtiger_Response();
-		$result = $moduleModel->updateStatus($id, $status);
+		$result = $moduleModel->updateStatus($request->getInteger('id'), $status);
 		$response->setResult($result > 0);
 		$response->emit();
 	}
 
 	/**
-	 * Update phone
+	 * Update phone.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function updatePhone(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
-		$id = $request->getInteger('id');
 		$phone = (int) $request->getBoolean('phone');
-
-		$moduleModel = Settings_Countries_Module_Model::getInstance($qualifiedModuleName);
-
+		$moduleModel = Settings_Countries_Module_Model::getInstance($request->getModule(false));
 		$response = new Vtiger_Response();
-		$result = $moduleModel->updatePhone($id, $phone);
+		$result = $moduleModel->updatePhone($request->getInteger('id'), $phone);
 		$response->setResult($result > 0);
 		$response->emit();
 	}
 
 	/**
-	 * Update uitype
+	 * Update uitype.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function updateUitype(\App\Request $request)

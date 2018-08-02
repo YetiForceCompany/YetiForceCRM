@@ -1,0 +1,25 @@
+{
+  "php": {
+    "LBL_SALES_PROCESSES": "Sprzeda\u017c",
+    "LBL_SALES_PROCESSES_DESCRIPTION": " ",
+    "LBL_LIMIT_PRODUCT_AND_SERVICE": "Ogranicz wyb\u00f3r produkt\u00f3w\/us\u0142ug tylko do powi\u0105zanych z aktualnie wybran\u0105 Szans\u0105 sprzeda\u017cy. Dotyczy modu\u0142\u00f3w: Zapytania ofertowe, Karty wymaga\u0144, Kalkulacje, Oferty, Zam\u00f3wienia, Zam\u00f3wienia okresowe.",
+    "LBL_PRODUCTS_AND_SERVICES_POPUP": "Wyb\u00f3r produkt\u00f3w i us\u0142ug",
+    "LBL_UPDATE_SHARED_PERMISSIONS": "Aktualizacja uprawnie\u0144 wsp\u00f3\u0142dzielonych w szansie sprzeda\u017cy z produktu\/us\u0142ugi, podczas powiazywania szansy sprzeda\u017cy z produktem\/us\u0142ug\u0105.",
+    "LBL_STATUSES_CLOSED_CALCULATION": "Statusy okre\u015blaj\u0105ce zamkni\u0119cie kalkulacji",
+    "LBL_POTENTIALS": "Szanse sprzeda\u017cy",
+    "LBL_STATUSES_CLOSED_POTENTIAL": "Statusy okre\u015blaj\u0105ce zamkni\u0119cie szansy sprzeda\u017cy",
+    "LBL_ASSETS": "Produkty sprzedane",
+    "LBL_STATUSES_CLOSED_ASSETS": "Statusy okre\u015blaj\u0105ce zamkni\u0119cie produktu sprzedanego",
+    "LBL_CREATE_POTENTIALS": "Blokowanie tworzenia Szansy sprzeda\u017cy dla nieprzypisanego kontrahenta",
+    "SalesProcesses": "Procesy sprzeda\u017cowe",
+    "LBL_SQUOTEENQUIRIES": "Zapytania ofertowe",
+    "LBL_SREQUIREMENTSCARD": "Karty wymaga\u0144",
+    "LBL_SCALCULATIONS": "Kalkulacje",
+    "LBL_SQUOTES": "Oferty",
+    "LBL_SSALESORDER": "Zam\u00f3wienia od klienta",
+    "LBL_STATUSES_CLOSED_SSALESORDER": "Statusy okre\u015blaj\u0105ce zamkni\u0119cie zam\u00f3wienia od klienta",
+    "LBL_STATUSES_CLOSED_SQUOTEENQUIRIES": "Statusy okre\u015blaj\u0105ce zamkni\u0119cie zapytania ofertowego",
+    "LBL_STATUSES_CLOSED_SREQUIREMENTSCARD": "Statusy okre\u015blaj\u0105ce zamkni\u0119cie karty wymaga\u0144",
+    "LBL_STATUSES_CLOSED_SQUOTES": "Statusy okre\u015blaj\u0105ce zamkni\u0119cie oferty"
+  }
+}

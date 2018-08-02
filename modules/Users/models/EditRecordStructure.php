@@ -11,9 +11,9 @@
 
 class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 {
-
 	/**
-	 * Function to get the values in stuctured format
+	 * Function to get the values in stuctured format.
+	 *
 	 * @return <array> - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()
@@ -33,6 +33,7 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 			if ($fieldModelList) {
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
+					$fieldModel->set('rocordId', $recordId);
 					if (empty($recordId) && ($fieldModel->get('uitype') == 99 || $fieldModel->get('uitype') == 106)) {
 						$fieldModel->set('editable', true);
 					}
@@ -46,7 +47,7 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 					}
 					if ($fieldName === 'is_owner') {
 						$fieldModel->set('editable', false);
-					} else if ($fieldName === 'reports_to_id' && !$currentUserModel->isAdminUser()) {
+					} elseif ($fieldName === 'reports_to_id' && !$currentUserModel->isAdminUser()) {
 						continue;
 					}
 					if ($fieldModel->isEditable() && $fieldName != 'is_owner') {
@@ -54,8 +55,9 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 						} else {
 							$defaultValue = $fieldModel->getDefaultFieldValue();
-							if ($fieldName === 'time_zone' && empty($defaultValue))
-								$defaultValue = vglobal('default_timezone');
+							if ($fieldName === 'time_zone' && empty($defaultValue)) {
+								$defaultValue = \AppConfig::main('default_timezone');
+							}
 							if ($defaultValue !== '' && !$recordId) {
 								$fieldModel->set('fieldvalue', $defaultValue);
 							}
@@ -64,7 +66,7 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 							$fieldModel->set('editable', true);
 							$fieldModel->set('fieldvalue', '');
 							$values[$blockLabel][$fieldName] = $fieldModel;
-						} else if ($fieldModel->get('uitype') != 99) {
+						} elseif ($fieldModel->get('uitype') != 99) {
 							$values[$blockLabel][$fieldName] = $fieldModel;
 						}
 					}
@@ -72,6 +74,7 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 			}
 		}
 		$this->structuredValues = $values;
+
 		return $values;
 	}
 }

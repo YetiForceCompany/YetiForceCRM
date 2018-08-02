@@ -1,0 +1,38 @@
+{
+  "php": {
+    "Sharing Rules": "Wsp\u00f3\u0142dzielone zasady dost\u0119pu",
+    "SharingAccess": "Wsp\u00f3\u0142dzielone zasady dost\u0119pu",
+    "Accounts": "Kontrahenci i Kontakty",
+    "LBL_ADD_CUSTOM_RULE": "Dodaj",
+    "LBL_ADD_CUSTOM_RULE_TO": "Dodaj przyk\u0142adow\u0105 rol\u0119 do",
+    "LBL_ADVANCED_SHARING_RULES": "Wi\u0119cej",
+    "LBL_APPLY_NEW_SHARING_RULES": "Akceptuj nowe zasady udost\u0119pniania",
+    "LBL_CAN_ACCESSED_BY": "Dzia\u0142 uprawniony (B\u0119dzie mie\u0107 dost\u0119p)",
+    "LBL_CUSTOM_ACCESS_MESG": "Nie zdefiniowano \u017cadnych dodatkowych zasad dost\u0119pu",
+    "LBL_MODULE": "Modu\u0142",
+    "LBL_PRIVILEGES": "Uprawnienia",
+    "LBL_READ": "Odczyt",
+    "LBL_READ_WRITE": "Odczyt i zapis",
+    "LBL_RULE_NO": "Numer roli",
+    "LBL_SHARING_RULE": "Wsp\u00f3\u0142dzielone zasady dost\u0119pu",
+    "LBL_WITH_PERMISSIONS": "Z uprawnieniami",
+    "Read Only": "Tylko odczyt",
+    "Read Write": "Odczyt\/Zapis",
+    "SINGLE_Groups": "Grupa",
+    "Groups": "Grupy",
+    "SINGLE_RoleAndSubordinates": "Rola i podrola",
+    "RoleAndSubordinates": "Role i podrole",
+    "SINGLE_Roles": "Rola",
+    "Roles": "Role",
+    "Private": "Prywatny",
+    "Public: Read Only": "Publiczny: Podgl\u0105d",
+    "Public: Read, Create\/Edit, Delete": "Publiczny: Podgl\u0105d, Tworzenie\/Edycja, Usuwanie",
+    "Public: Read, Create\/Edit": "Publiczny: Podgl\u0105d, Tworzenie\/Edycja"
+  },
+  "js": {
+    "JS_CUSTOM_RULE_SAVED_SUCCESSFULLY": "Nowe zasady dost\u0119pu zosta\u0142y zapisane",
+    "JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE": "Szanse sprzeda\u017cy, Zg\u0142oszenia, Oferty, Zam\u00f3wienia od klient\u00f3w oraz Faktury musz\u0105 zosta\u0107 zdefiniowane jako prywatne, je\u017celi ustawi\u0142e\u015b Kontrahent\u00f3w jako prywatnych.",
+    "JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY": "Nowe zasady udost\u0119pnianie zapisano poprawnie",
+    "JS_SELECT_ANY_OTHER_ACCESSING_USER": "Wybierz przynajmniej jednego u\u017cytkownika"
+  }
+}

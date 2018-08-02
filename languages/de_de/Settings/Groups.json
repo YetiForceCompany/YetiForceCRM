@@ -1,0 +1,20 @@
+{
+  "php": {
+    "Users": "Benutzer",
+    "LBL_ADD_RECORD": "Gruppe hinzuf\u00fcgen",
+    "LBL_ADD_USERS_ROLES": "Hinzuf\u00fcgen von Benutzern, Rollen, ...",
+    "LBL_DUPLICATES_EXIST": "Gruppen Name existiert bereits",
+    "LBL_GROUP_MEMBERS": "Gruppen Mitglieder",
+    "LBL_GROUP_NAME": "Gruppen Name",
+    "LBL_ROLEANDSUBORDINATE": "Rolle und Untergeordnete",
+    "LBL_TO_OTHER_GROUP": "An andere Gruppe ",
+    "LBL_TRANSFORM_OWNERSHIP": "Berechtigungen \u00fcbertragen",
+    "SINGLE_Groups": "Gruppe",
+    "Name": "Name",
+    "Description": "Beschreibung"
+  },
+  "js": {
+    "JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP": "Bitte w\u00e4hlen Sie mindestens ein Mitglied f\u00fcr eine Gruppe",
+    "JS_RECORD_DELETED_SUCCESSFULLY": "Gruppe erfolgreich gel\u00f6scht"
+  }
+}

@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Recurring Events Class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Recurring Events Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Events_RecuringEvents_Model extends \App\Base
 {
-
 	public $recordModel;
 	public $typeSaving;
 	public $isNew;
@@ -21,7 +20,8 @@ class Events_RecuringEvents_Model extends \App\Base
 	const UPDATE_FUTURE_EVENTS = 3;
 
 	/**
-	 * Function to get empty instance
+	 * Function to get empty instance.
+	 *
 	 * @return Events_RecuringEvents_Model
 	 */
 	public static function getInstance()
@@ -30,8 +30,9 @@ class Events_RecuringEvents_Model extends \App\Base
 	}
 
 	/**
-	 * Function to create new records in never ending events. Function uses only by cron
-	 * @param integer $recordId
+	 * Function to create new records in never ending events. Function uses only by cron.
+	 *
+	 * @param int $recordId
 	 */
 	public function updateNeverEndingEvents($recordId)
 	{
@@ -51,8 +52,10 @@ class Events_RecuringEvents_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get instance of class
+	 * Function to get instance of class.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return Events_RecuringEvents_Model
 	 */
 	public static function getInstanceFromRequest(\App\Request $request)
@@ -72,7 +75,8 @@ class Events_RecuringEvents_Model extends \App\Base
 	}
 
 	/**
-	 * Function to set data to record model
+	 * Function to set data to record model.
+	 *
 	 * @param array $values
 	 */
 	public function setData($values)
@@ -81,7 +85,8 @@ class Events_RecuringEvents_Model extends \App\Base
 	}
 
 	/**
-	 * Function to create new records
+	 * Function to create new records.
+	 *
 	 * @param array $dates
 	 */
 	public function createRecords($dates)
@@ -97,7 +102,8 @@ class Events_RecuringEvents_Model extends \App\Base
 	}
 
 	/**
-	 * Function to set changes which user modified
+	 * Function to set changes which user modified.
+	 *
 	 * @param type $values
 	 */
 	public function setChanges($values)
@@ -106,7 +112,8 @@ class Events_RecuringEvents_Model extends \App\Base
 	}
 
 	/**
-	 * Update ommited records, change recuring rule for each records
+	 * Update ommited records, change recuring rule for each records.
+	 *
 	 * @param type $records
 	 * @param type $dateStart
 	 */
@@ -122,8 +129,9 @@ class Events_RecuringEvents_Model extends \App\Base
 	}
 
 	/**
-	 * Function to edit record
-	 * @param int $recordId
+	 * Function to edit record.
+	 *
+	 * @param int   $recordId
 	 * @param array $dates
 	 */
 	public function updateRecord($recordId, $dates)
@@ -140,7 +148,7 @@ class Events_RecuringEvents_Model extends \App\Base
 	}
 
 	/**
-	 * Save records
+	 * Save records.
 	 */
 	public function save()
 	{
@@ -156,7 +164,7 @@ class Events_RecuringEvents_Model extends \App\Base
 						}
 						if ($recordId === $this->templateRecordId) {
 							unset($dates[$itemNumber]);
-							$itemNumber++;
+							++$itemNumber;
 							continue;
 						}
 						if (isset($dates[$itemNumber])) {
@@ -165,7 +173,7 @@ class Events_RecuringEvents_Model extends \App\Base
 						} else {
 							Vtiger_Record_Model::getInstanceById($recordId)->delete();
 						}
-						$itemNumber++;
+						++$itemNumber;
 					}
 					if ($dates) {
 						$this->createRecords($dates);
@@ -190,9 +198,9 @@ class Events_RecuringEvents_Model extends \App\Base
 							}
 						}
 						if ($skip) {
-							$omittedRecords [] = $recordId;
+							$omittedRecords[] = $recordId;
 							unset($dates[$itemNumber]);
-							$itemNumber++;
+							++$itemNumber;
 							continue;
 						}
 						if (isset($dates[$itemNumber])) {
@@ -201,7 +209,7 @@ class Events_RecuringEvents_Model extends \App\Base
 						} else {
 							Vtiger_Record_Model::getInstanceById($recordId)->delete();
 						}
-						$itemNumber++;
+						++$itemNumber;
 					}
 					if ($dates) {
 						$this->createRecords($dates);
@@ -218,7 +226,7 @@ class Events_RecuringEvents_Model extends \App\Base
 	}
 
 	/**
-	 * Function to remove records
+	 * Function to remove records.
 	 */
 	public function delete()
 	{
@@ -241,7 +249,7 @@ class Events_RecuringEvents_Model extends \App\Base
 						$skip = false;
 					}
 					if ($skip) {
-						$omittedRecords [] = $recordId;
+						$omittedRecords[] = $recordId;
 						continue;
 					}
 					Vtiger_Record_Model::getInstanceById($recordId)->changeState('Trash');
@@ -263,20 +271,24 @@ class Events_RecuringEvents_Model extends \App\Base
 	}
 
 	/**
-	 * Check if recurrence rule is never ending
+	 * Check if recurrence rule is never ending.
+	 *
 	 * @param type $recurrenceRule
+	 *
 	 * @return type
 	 */
 	public function isNeverEndingRule($recurrenceRule)
 	{
-		return (strpos($recurrenceRule, 'COUNT') === false && strpos($recurrenceRule, 'UNTIL') === false);
+		return strpos($recurrenceRule, 'COUNT') === false && strpos($recurrenceRule, 'UNTIL') === false;
 	}
 
 	/**
-	 * Function to get dates
+	 * Function to get dates.
+	 *
 	 * @param string $startDateTime
 	 * @param string $endDateTime
 	 * @param string $recurrenceRule
+	 *
 	 * @return array
 	 */
 	public function getDates($startDateTime, $endDateTime, $recurrenceRule = false)
@@ -295,42 +307,46 @@ class Events_RecuringEvents_Model extends \App\Base
 			if ($isNeverEnding && $date->getStart()->format('Y-m-d') > $endingDate) {
 				break;
 			}
-			$dates [] = [
+			$dates[] = [
 				'startDate' => $date->getStart()->format('Y-m-d'),
 				'startTime' => $date->getStart()->format('H:i:s'),
 				'endDate' => $date->getEnd()->format('Y-m-d'),
-				'endTime' => $date->getEnd()->format('H:i:s')
+				'endTime' => $date->getEnd()->format('H:i:s'),
 			];
 		}
 		return $dates;
 	}
 
 	/**
-	 * Function to get related records
-	 * @param integer $id
+	 * Function to get related records.
+	 *
+	 * @param int $id
+	 *
 	 * @return array
 	 */
 	public function getRecords($id)
 	{
 		return (new App\Db\Query())->from('vtiger_activity')
-				->where(['followup' => $id, 'deleted' => 0, 'reapeat' => 1])
-				->orderBy(['date_start' => SORT_ASC])
-				->indexBy('activityid')
-				->all();
+			->where(['followup' => $id, 'deleted' => 0, 'reapeat' => 1])
+			->orderBy(['date_start' => SORT_ASC])
+			->indexBy('activityid')
+			->all();
 	}
 
 	/**
-	 * Function to get the last record in series
-	 * @param integer $id
+	 * Function to get the last record in series.
+	 *
+	 * @param int $id
+	 *
 	 * @return array
 	 */
 	public function getLastRecord($id)
 	{
 		return (new App\Db\Query())->from('vtiger_activity')
-				->where(['followup' => $id, 'deleted' => 0, 'reapeat' => 1])
-				->orderBy(['date_start' => SORT_DESC])
-				->limit(1)
-				->indexBy('activityid')
-				->one();
+			->where(['followup' => $id, 'deleted' => 0, 'reapeat' => 1])
+			->orderBy(['date_start' => SORT_DESC])
+			->limit(1)
+			->indexBy('activityid')
+			->one();
 	}
 }

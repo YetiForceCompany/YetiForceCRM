@@ -1,0 +1,33 @@
+{
+  "php": {
+    "LBL_TO_LC": "zu",
+    "LBL_EXPORT_TO_PDF": "Als PDF exportieren",
+    "LBL_VENDOR_ADDRESS_INFORMATION": "Adressinformation",
+    "LBL_VENDORS_ADD_TASK": "Aufgabe hinzuf\u00fcgen",
+    "LBL_VENDORS_ADD_EVENT": "Ereignis hinzuf\u00fcgen",
+    "300-Sales-Software": "300-Verkauf Software",
+    "301-Sales-Hardware": "301-Verkauf Hardware",
+    "302-Rental-Income": "302-Einnahmen Vermietung",
+    "303-Interest-Income": "303-Einnahmen Zinsen",
+    "304-Sales-Software-Support": "304-Verkauf Software Support",
+    "305-Sales Other": "305-Sales Verkauf Sonstiges",
+    "306-Internet Sales": "306-Verkauf Internet",
+    "307-Service-Hardware Labor": "307-Serviceleistungen",
+    "308-Sales-Books": "308-Verkauf B\u00fccher",
+    "Email": "Prim\u00e4re Email",
+    "GL Account": "Sachkonto",
+    "LBL_VENDOR_INFORMATION": "Lieferanten Details",
+    "Phone": "Prim\u00e4re Telefonnummer",
+    "SINGLE_Vendors": "Lieferant",
+    "Vendor Name": "Lieferanten Name",
+    "Vendor No": "Lieferanten Nummer",
+    "Vendors": "Lieferanten",
+    "Website": "Webseite",
+    "LBL_BUILDING_NUMBER": "Hausnummer",
+    "LBL_LOCAL_NUMBER": "B\u00fcronummer"
+  },
+  "js": {
+    "LBL_DELETE_CONFIRMATION": "L\u00f6schen dieses Lieferanten, wird auch seine ihm zugeh\u00f6rigen Bestellungen entfernen. Sind Sie sicher, dass Sie diesen Lieferanten l\u00f6schen m\u00f6chten?",
+    "LBL_MASS_DELETE_CONFIRMATION": "L\u00f6schen dieser Lieferanten, wird auch die ihnen zugeh\u00f6rigen Bestellungen entfernen. Sind Sie sicher, dass Sie die ausgew\u00e4hlten Lieferanten l\u00f6schen m\u00f6chten?"
+  }
+}

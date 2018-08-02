@@ -1,20 +1,20 @@
 <?php
 /**
- * View to show events which they are visible under the form
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * View to show events which they are visible under the form.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
 /**
- * Class Calendar_QuickCreateEvents_View
+ * Class Calendar_QuickCreateEvents_View.
  */
 class Calendar_QuickCreateEvents_View extends Vtiger_IndexAjax_View
 {
-
 	/**
-	 * Main process
+	 * Main process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -30,7 +30,7 @@ class Calendar_QuickCreateEvents_View extends Vtiger_IndexAjax_View
 		while ($numberDaysToDisplay) {
 			$dateInstance->sub(new DateInterval('P1D'));
 			if (!in_array($dateInstance->format('w'), $hideDays)) {
-				$numberDaysToDisplay--;
+				--$numberDaysToDisplay;
 				$dates[$numberDaysToDisplay] = $dateInstance->format('Y-m-d');
 			}
 		}
@@ -39,7 +39,7 @@ class Calendar_QuickCreateEvents_View extends Vtiger_IndexAjax_View
 		while ($numberDaysToDisplay !== 6) {
 			$dateInstance->add(new DateInterval('P1D'));
 			if (!in_array($dateInstance->format('w'), $hideDays)) {
-				$numberDaysToDisplay++;
+				++$numberDaysToDisplay;
 				$dates[$numberDaysToDisplay] = $dateInstance->format('Y-m-d');
 			}
 		}
@@ -47,8 +47,8 @@ class Calendar_QuickCreateEvents_View extends Vtiger_IndexAjax_View
 		$record = Calendar_Calendar_Model::getCleanInstance();
 		$record->set('user', $request->getInteger('user'));
 		$record->set('time', 'current');
-		$record->set('start', reset($dates) . ' 00:00:00');
-		$record->set('end', end($dates) . ' 23:59:59');
+		$record->set('start', \App\Fields\Date::formatToDisplay(reset($dates)) . ' 00:00:00');
+		$record->set('end', \App\Fields\Date::formatToDisplay(end($dates)) . ' 23:59:59');
 		$events = $record->getEntity();
 		$records = [];
 		foreach ($events as $event) {

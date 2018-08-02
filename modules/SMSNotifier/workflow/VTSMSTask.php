@@ -11,7 +11,6 @@
 
 class VTSMSTask extends VTTask
 {
-
 	public $executeImmediately = true;
 
 	public function getFieldNames()
@@ -20,7 +19,8 @@ class VTSMSTask extends VTTask
 	}
 
 	/**
-	 * Execute task
+	 * Execute task.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
 	 */
 	public function doTask($recordModel)
@@ -32,7 +32,7 @@ class VTSMSTask extends VTTask
 			$recepients = explode(',', $recepient);
 			$toNumbers = [];
 			foreach ($recepients as $toNumber) {
-				$parseNumber = preg_replace_callback('/[^\d]/s', function($m) {
+				$parseNumber = preg_replace_callback('/[^\d]/s', function ($m) {
 					return '';
 				}, $toNumber);
 				if (!empty($parseNumber) && !in_array($parseNumber, $toNumbers)) {

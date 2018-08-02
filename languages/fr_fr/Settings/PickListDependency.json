@@ -1,0 +1,32 @@
+{
+  "php": {
+    "LBL_SELECT_MODULE": "Module",
+    "Module": "Module",
+    "Selected Values": "Valeurs s\u00e9lectionn\u00e9es",
+    "LBL_ADD_RECORD": "Ajouter un enregistrement",
+    "PickListDependency": "PickList D\u00e9pendance",
+    "LBL_CONFIGURE_DEPENDENCY_HELP_1": "Seules les valeurs de liste de s\u00e9lection mapp\u00e9es du champ source seront affich\u00e9es ci-dessous (sauf pour la premi\u00e8re fois)",
+    "LBL_CONFIGURE_DEPENDENCY_HELP_2": "Si vous souhaitez voir ou modifier le mapping pour les autres valeurs de liste de s\u00e9lection du champ source, \r\n vous pouvez ensuite s\u00e9lectionner les valeurs en cliquant sur le bouton <b>'S\u00e9lectionner les valeurs source'<\/b> sur le c\u00f4t\u00e9 droit",
+    "LBL_CONFIGURE_DEPENDENCY_HELP_3": "Les valeurs s\u00e9lectionn\u00e9es des valeurs du champ cible sont mises en surbrillance",
+    "LBL_CONFIGURE_DEPENDENCY_INFO": "Cliquez sur la cellule correspondante pour modifier le mappage des valeurs de liste de s\u00e9lection du champ cible",
+    "LBL_ERR_CYCLIC_DEPENDENCY": "Cette configuration de d\u00e9pendance n'est pas autoris\u00e9e car elle se termine par une d\u00e9pendance cyclique",
+    "LBL_PICKLIST_DEPENDENCY": "PickList D\u00e9pendance",
+    "LBL_SELECT_FIELD": "S\u00e9lectionnez le champ",
+    "LBL_SELECT_SOURCE_PICKLIST_VALUES": "S\u00e9lectionner les valeurs de liste de s\u00e9lection de source",
+    "LBL_SELECT_SOURCE_VALUES": "S\u00e9lectionnez les valeurs source",
+    "LBL_SOURCE_FIELD": "Champ Source",
+    "LBL_TARGET_FIELD": "Champ Destination",
+    "LBL_UNMARK_ALL": "Tout d\u00e9cocher",
+    "Source Field": "Champ Source",
+    "Target Field": "Champ Destination"
+  },
+  "js": {
+    "JS_DEPENDENCY_ATLEAST_ONE_VALUE": "Vous devez s\u00e9lectionner au moins une valeur pour",
+    "JS_DEPENDENCY_DELETED_SUEESSFULLY": "D\u00e9pendance supprim\u00e9e avec succ\u00e8s",
+    "JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE": "\u00cates-vous s\u00fbr de vouloir supprimer cette d\u00e9pendance de liste de s\u00e9lection?",
+    "JS_PICKLIST_DEPENDENCY_SAVED": "D\u00e9pendance de liste de s\u00e9lection enregistr\u00e9e",
+    "JS_SELECT_SOME_VALUE": "S\u00e9lectionnez une valeur",
+    "JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME": "Le champ Source et le champ Cible ne devraient pas \u00eatre identiques",
+    "JS_PICKLIST_DEPENDENCY_NO_SAVED": "Aucune d\u00e9pendance n'a \u00e9t\u00e9 entr\u00e9e. Aucun changement n'a \u00e9t\u00e9 enregistr\u00e9."
+  }
+}

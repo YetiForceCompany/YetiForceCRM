@@ -10,7 +10,6 @@
 
 class Vtiger_History_Dashboard extends Vtiger_IndexAjax_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);

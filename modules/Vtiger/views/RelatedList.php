@@ -11,19 +11,20 @@
 
 class Vtiger_RelatedList_View extends Vtiger_Index_View
 {
-
 	/**
-	 * Checking permissions
+	 * Checking permissions.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if ($request->isEmpty('record', true)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getByType('relatedModule', 2))) {
@@ -32,8 +33,10 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return type
 	 */
 	public function process(\App\Request $request)
@@ -61,10 +64,10 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$sortOrder = $request->getForSql('sortorder');
 		if ($sortOrder === 'ASC') {
 			$nextSortOrder = 'DESC';
-			$sortImage = 'glyphicon glyphicon-chevron-down';
+			$sortImage = 'fas fa-chevron-down';
 		} else {
 			$nextSortOrder = 'ASC';
-			$sortImage = 'glyphicon glyphicon-chevron-up';
+			$sortImage = 'fas fa-chevron-up';
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
 			$relatedInstance = CRMEntity::getInstance($relatedModuleName);
@@ -154,6 +157,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		$viewer->assign('VIEW', $request->getByType('view'));
+
 		return $viewer->view('RelatedList.tpl', $moduleName, true);
 	}
 }

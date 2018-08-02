@@ -1,0 +1,43 @@
+{
+  "php": {
+    "PublicHoliday": "Sarbatori publice",
+    "LBL_PUBLIC_HOLIDAY": "Calendar - Sarbatori",
+    "LBL_PUBLIC_HOLIDAY_DESCRIPTION": " ",
+    "LBL_ADD_HOLIDAY": "Adauga Sarbatoare",
+    "LBL_HOLIDAY_LIST": "Lista Sarbatori publice",
+    "LBL_YEAR_FROM": "De la",
+    "LBL_YEAR_TO": "Catre",
+    "LBL_EDIT": "Modifica",
+    "LBL_DELETE": "Sterge",
+    "JS_HOLIDAY_DELETE_OK": "Sarbatoare publica stearsa cu succes",
+    "JS_HOLIDAY_DELETE_ERROR": "Stergere Sarbatoare publice esuata",
+    "LBL_ADD_NEW_HOLIDAY": "Adaugati sarbatoare noua",
+    "LBL_DATE": "Data",
+    "LBL_DAY_NAME": "Denumirea sarbatorii publice",
+    "LBL_DAY_NAME_DESC": "Introduceti denumirea sarbatorii",
+    "LBL_NEW_DATE_OK": "Sarbatoare adaugata cu succes",
+    "LBL_NEW_DATE_ERROR": "Adaugare sarbatoare publica esuata",
+    "LBL_EDIT_DATE_OK": "Modificare sarbatoare publica cu succes",
+    "LBL_EDIT_DATE_ERROR": "Modificarea sarbatorii publice a esuat",
+    "LBL_FILL_FORM_ERROR": "Trebuie sa completati toate campurile din formular",
+    "Monday": "Luni",
+    "Tuesday": "Marti",
+    "Wednesday": "Miercuri",
+    "Thursday": "Joi",
+    "Friday": "Vineri",
+    "Saturday": "Sambata",
+    "Sunday": "Duminica",
+    "LBL_HOLIDAY_TYPE": "Tip sarbatoare",
+    "LBL_NATIONAL": "nationala",
+    "LBL_ECCLESIASTICAL": "bisericesc",
+    "ecclesiastical": "bisericesc",
+    "national": "nationala",
+    "LBL_VIEW_CONFIGURATION": "Sarbatori Publice",
+    "LBL_DATE_RANGE": "Gama"
+  },
+  "js": {
+    "JS_ADD_NEW_HOLIDAY": "Adaugati sarbatoare noua",
+    "JS_EDIT_HOLIDAY": "Modificati sarbatoare",
+    "JS_FILL_FORM_ERROR": "Trebuie sa completati toate campurile din formular"
+  }
+}

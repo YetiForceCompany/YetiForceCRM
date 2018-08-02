@@ -11,38 +11,38 @@
 
 class Vtiger_Theme_UIType extends Vtiger_Base_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		$allSkins = Vtiger_Theme::getAllSkins();
 		if (!isset($allSkins[$value])) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$this->validate[$value] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$allSkins = Vtiger_Theme::getAllSkins();
 		$skinColor = $allSkins[$value];
 		$value = ucfirst($value);
+
 		return "<div style='width:99%; background-color:$skinColor;' title='$value'>&nbsp;</div>";
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Theme.tpl';
+		return 'Edit/Field/Theme.tpl';
 	}
 }

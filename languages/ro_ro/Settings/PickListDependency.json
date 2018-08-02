@@ -1,0 +1,32 @@
+{
+  "php": {
+    "Selected Values": "Valori selectate",
+    "LBL_ADD_RECORD": "Adauga inregistrare",
+    "PickListDependency": "Dependenta Lista de alegere",
+    "LBL_CONFIGURE_DEPENDENCY_HELP_1": "Doar valorile listate in lista de distribuire a campului sursa vor fi afisate mai jos(cu exceptia primei perioada)",
+    "LBL_CONFIGURE_DEPENDENCY_HELP_2": "Daca doriti sa vedeti sau sa modificati maparea pentru celelalte valori ale listei de selectii din campul sursa, \r\napoi puteti selecta valorile facand click pe butonul <b>'Selectati valori Surse'<\/b> din partea dreapta",
+    "LBL_CONFIGURE_DEPENDENCY_HELP_3": "Valorile selectate ale valorilor campului tinta sunt evidentiate ca",
+    "LBL_CONFIGURE_DEPENDENCY_INFO": "Faceti click pe respectiva celula pentru a modifica maparea pentru valorile lista de alegere a campului tinta",
+    "LBL_ERR_CYCLIC_DEPENDENCY": "Aceasta configuratie a dependentei nu este permisa deoarece se termina intr-o anumita dependenta ciclica",
+    "LBL_PICKLIST_DEPENDENCY": "Dependenta lista de alegere",
+    "LBL_SELECT_FIELD": "Selectati camp",
+    "LBL_SELECT_MODULE": "Modul",
+    "LBL_SELECT_SOURCE_PICKLIST_VALUES": "Selectati sursa valorilor listei de alegere",
+    "LBL_SELECT_SOURCE_VALUES": "Selectati sursa valorilor",
+    "LBL_SOURCE_FIELD": "Camp sursa",
+    "LBL_TARGET_FIELD": "Camp tinta",
+    "LBL_UNMARK_ALL": "Anulati toate",
+    "Module": "Modul",
+    "Source Field": "Camp sursa",
+    "Target Field": "Camp tinta"
+  },
+  "js": {
+    "JS_DEPENDENCY_ATLEAST_ONE_VALUE": "Trebuie sa selectati cel putin o valoare pentru",
+    "JS_DEPENDENCY_DELETED_SUEESSFULLY": "Dependenta eliminata cu succes",
+    "JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE": "Sigur doriti sa stergeti aceasta dependenta de lista de selectii?",
+    "JS_PICKLIST_DEPENDENCY_SAVED": "Dependenta lista salvata",
+    "JS_SELECT_SOME_VALUE": "Selectati cateva valori",
+    "JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME": "Campul sursa si Campul tinta nu trebuie sa fie acelasi",
+    "JS_PICKLIST_DEPENDENCY_NO_SAVED": "Nu au fost introduse dependente. Nu au fost salvate modificari."
+  }
+}

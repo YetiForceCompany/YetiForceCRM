@@ -1,17 +1,18 @@
 <?php
 
 /**
- * OSSMailScanner getConfig action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * OSSMailScanner getConfig action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class OSSMailScanner_GetConfig_Action extends Vtiger_Action_Controller
+class OSSMailScanner_GetConfig_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Record Class for PDF Settings
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Record Class for PDF Settings.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -11,13 +11,13 @@
  */
 class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 {
-
 	protected $recordCache = [];
 	protected $fieldsCache = [];
 	protected $moduleRecordId;
 
 	/**
-	 * Function to get the id of the record
+	 * Function to get the id of the record.
+	 *
 	 * @return <Number> - Record Id
 	 */
 	public function getId()
@@ -43,16 +43,17 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 	public function setModule($moduleName)
 	{
 		$this->module = Vtiger_Module_Model::getInstance($moduleName);
+
 		return $this;
 	}
 
 	/**
-	 * Function to get the list view actions for the record
+	 * Function to get the list view actions for the record.
+	 *
 	 * @return <Array> - Associate array of Vtiger_Link_Model instances
 	 */
 	public function getRecordLinks()
 	{
-
 		$links = [];
 
 		$recordLinks = [
@@ -60,25 +61,24 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil'
+				'linkicon' => 'fas fa-edit',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EXPORT_RECORD',
 				'linkurl' => 'index.php?module=PDF&parent=Settings&action=ExportTemplate&id=' . $this->getId(),
-				'linkicon' => 'glyphicon glyphicon-export'
+				'linkicon' => 'fas fa-upload',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => '#',
-				'linkicon' => 'glyphicon glyphicon-trash'
-			]
+				'linkicon' => 'fas fa-trash-alt',
+			],
 		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -92,6 +92,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 			$data[$field] = '';
 		}
 		$pdf->setData($data);
+
 		return $pdf;
 	}
 
@@ -121,8 +122,8 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				$db->createCommand()
 					->update('a_#__pdf', $fields, ['pdfid' => $pdfModel->getId()])
 					->execute();
-				return $pdfModel->get('pdfid');
 
+				return $pdfModel->get('pdfid');
 			case 1:
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
 				if (!$pdfModel->getId()) {
@@ -141,8 +142,8 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					$db->createCommand()->update('a_#__pdf', $fields, ['pdfid' => $pdfModel->getId()])
 						->execute();
 				}
-				return $pdfModel->get('pdfid');
 
+				return $pdfModel->get('pdfid');
 			case 'import':
 				$allFields = Settings_PDF_Module_Model::$allFields;
 				$params = [];
@@ -155,6 +156,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				$db->createCommand()->insert('a_#__pdf', $params)->execute();
 				$pdfModel->set('pdfid', $db->getLastInsertID('a_#__pdf_pdfid_seq'));
+
 				return $pdfModel->get('pdfid');
 		}
 	}
@@ -175,12 +177,12 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 	public static function delete(Vtiger_PDF_Model $pdfModel)
 	{
 		return App\Db::getInstance('admin')->createCommand()
-				->delete('a_#__pdf', ['pdfid' => $pdfModel->getId()])
-				->execute();
+			->delete('a_#__pdf', ['pdfid' => $pdfModel->getId()])
+			->execute();
 	}
 
 	/**
-	 * Function transforms Advance filter to workflow conditions
+	 * Function transforms Advance filter to workflow conditions.
 	 */
 	public static function transformAdvanceFilterToWorkFlowFilter(Vtiger_PDF_Model &$pdfModel)
 	{
@@ -191,13 +193,13 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				$columns = $condition['columns'];
 				if ($index == '1' && empty($columns)) {
 					$wfCondition[] = ['fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
-						'joincondition' => '', 'groupid' => '0'];
+						'joincondition' => '', 'groupid' => '0', ];
 				}
 				if (!empty($columns) && is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
 							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
-							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid']];
+							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid'], ];
 					}
 				}
 			}
@@ -206,8 +208,10 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
+	 * Function to get the Display Value, for the current field type with given DB Insert Value.
+	 *
 	 * @param string $key
+	 *
 	 * @return string
 	 */
 	public function getDisplayValue($key)

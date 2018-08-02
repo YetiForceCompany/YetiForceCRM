@@ -10,17 +10,17 @@
  * *********************************************************************************** */
 
 /**
- * Class Vtiger_Multiowner_UIType
+ * Class Vtiger_Multiowner_UIType.
  */
 class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		$hashValue = is_array($value) ? implode('|', $value) : $value;
+		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
 		if (!is_array($value)) {
@@ -31,11 +31,11 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 		}
-		$this->validate = true;
+		$this->validate[$hashValue] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -63,15 +63,17 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 			if ($rawText) {
 				$displayvalue[] = \App\Fields\Owner::getLabel($row);
 			} else {
-				$displayvalue[] = "<a href=" . $detailViewUrl . ">" . \App\Fields\Owner::getLabel($row) . "</a>&nbsp;";
+				$displayvalue[] = '<a href=' . $detailViewUrl . '>' . \App\Fields\Owner::getLabel($row) . '</a>&nbsp;';
 			}
 		}
 		return implode(',', $displayvalue);
 	}
 
 	/**
-	 * Function to know owner is either User or Group
-	 * @param integer $id userId/GroupId
+	 * Function to know owner is either User or Group.
+	 *
+	 * @param int $id userId/GroupId
+	 *
 	 * @return string User/Group
 	 */
 	public static function getOwnerType($id)
@@ -80,10 +82,10 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/MultiOwner.tpl';
+		return 'Edit/Field/MultiOwner.tpl';
 	}
 }

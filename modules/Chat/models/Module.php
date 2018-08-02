@@ -1,23 +1,23 @@
 <?php
 
 /**
- * Chat module model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Chat module model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Chat_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Get chat entries
+	 * Get chat entries.
+	 *
 	 * @param int|bool $time
+	 *
 	 * @return array
 	 */
 	public function getEntries($id = false)
 	{
-
 		$query = (new \App\Db\Query())->from('u_#__chat_messages')->limit(AppConfig::module('Chat', 'ROWS_LIMIT'));
 		if ($id) {
 			$query->where(['>', 'id', $id]);
@@ -29,11 +29,12 @@ class Chat_Module_Model extends Vtiger_Module_Model
 			$row['time'] = \App\Fields\DateTime::formatToViewDate($row['created']);
 			$rows[] = $row;
 		}
+		$dataReader->close();
+
 		return $rows;
 	}
 
 	/**
-	 * 
 	 * @param string $message
 	 */
 	public static function add($message)
@@ -44,7 +45,7 @@ class Chat_Module_Model extends Vtiger_Module_Model
 				'userid' => $currentUser->getId(),
 				'created' => strtotime('now'),
 				'user_name' => $currentUser->getName(),
-				'messages' => $message
+				'messages' => $message,
 			])->execute();
 	}
 }

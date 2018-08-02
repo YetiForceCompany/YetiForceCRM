@@ -1,0 +1,19 @@
+{
+  "php": {
+    "EmailTemplates": "E-Mail Templates",
+    "SINGLE_EmailTemplates": "E-Mail Template",
+    "LBL_CONTENT_MAIL": "E-Mail Inhalt",
+    "LBL_BASIC_DETAILS": "Basic Information",
+    "FL_NAME": "Name",
+    "FL_TYPE": "Typ",
+    "FL_MODULE": "Modul",
+    "FL_SUBJECT": "Betreff",
+    "FL_CONTENT": "Inhalt",
+    "FL_SMTP_PRIORITY": "SMTP Priorit\u00e4t",
+    "PLL_MODULE": "Modul",
+    "PLL_RECORD": "Datensatz",
+    "PLL_MAIL": "Nachricht",
+    "PLL_LIST": "Liste",
+    "PLL_DEFAULT": "Firma (Standard)"
+  }
+}

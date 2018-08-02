@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Inventory Comment Field Class
- * @package YetiForce.Fields
- * @copyright YetiForce Sp. z o.o.
+ * Inventory Comment Field Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 {
-
 	protected $name = 'Comment';
 	protected $defaultLabel = 'LBL_COMMENT';
 	protected $colSpan = 0;
@@ -17,17 +16,19 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	protected $dbType = 'text';
 	protected $onlyOne = false;
 	protected $blocks = [2];
+	public $height = 50;
+	public $isVisible = false;
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $rawText = false)
 	{
 		return \App\Purifier::purifyHtml($value);
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
 	{
@@ -36,12 +37,12 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 			return false;
 		}
 		$value = $request->getForHtml($column . $i);
-		$this->validate($value, $column . $i, true);
+		$this->validate($value, $column, true);
 		$insertData[$column] = $value;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $columnName, $isUserFormat = false)
 	{

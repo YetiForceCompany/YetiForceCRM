@@ -1,0 +1,31 @@
+{
+  "php": {
+    "SQuotes": "Oferty",
+    "SINGLE_SQuotes": "Oferta",
+    "LBL_SQUOTES_INFORMATION": "Informacje podstawowe",
+    "LBL_CUSTOM_INFORMATION": "Informacje systemowe",
+    "LBL_DESCRIPTION_INFORMATION": "Informacje Opisowe",
+    "LBL_STATISTICS": "Statystyka",
+    "LBL_SUBJECT": "Temat",
+    "LBL_NUMBER": "Numer",
+    "LBL_CLOSED_TIME": "Czas zamkni\u0119cia",
+    "LBL_STATUS": "Status",
+    "LBL_RESPONSE_TIME": "Czas reakcji",
+    "LBL_COMPANY_NAME": "Nazwa firmy",
+    "SINGLE_SSalesProcesses": "Szansa sprzeda\u017cy",
+    "FL_TOTAL_PRICE": "Razem Netto",
+    "FL_MARGINP": "Suma mar\u017cy (%)",
+    "FL_MARGIN": "Suma mar\u017cy",
+    "FL_SUM_GROSS": "Suma brutto",
+    "FL_SUM_DISCOUNT": "Suma rabatu",
+    "FL_VALID_UNTIL": "Wa\u017cno\u015b\u0107 oferty",
+    "PLL_DRAFT": "Wersja robocza",
+    "PLL_IN_REALIZATION": " W realizacji",
+    "PLL_FOR_VERIFICATION": "Do weryfikacji",
+    "PLL_AWAITING_DECISION": "Oczekiwanie na decyzje",
+    "PLL_NEGOTIATIONS": "Negocjacje",
+    "PLL_CANCELLED": "Anulowana",
+    "PLL_ACCEPTED": "Zaakceptowana",
+    "LBL_CHANGE_STATUS": "Zmie\u0144 status"
+  }
+}

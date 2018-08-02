@@ -1,0 +1,29 @@
+{
+  "php": {
+    "SINGLE_ProjectMilestone": "Projekt Meilenstein",
+    "LBL_PROJECT_MILESTONE_INFORMATION": "Projekt Meilenstein Details",
+    "LBL_PROJECTS_LIST": "Liste Projekte",
+    "LBL_TASKS_LIST": "Liste Aufgaben",
+    "LBL_MILESTONES_LIST": "Liste Meilensteine",
+    "description": "Beschreibung",
+    "Related to": "Projekt",
+    "Project Milestone Name": "Projekt Meilenstein Name",
+    "Milestone Date": "Meilenstein Datum",
+    "Project Milestone No": "Projekt Meilenstein Nummer",
+    "FL_PARENT_PROJECT_MILESTONE": "\u00dcbergeordneter Meilenstein",
+    "FL_STATUS": "Status",
+    "LBL_PRIORITY": "Priorit\u00e4t",
+    "LBL_PROGRESS": "Fortschritt",
+    "PLL_INTERNAL": "Intern",
+    "PLL_EXTERNAL": "Extern",
+    "PLL_SHARED": "Geteilt",
+    "PLL_LOW": "niedrig",
+    "PLL_NORMAL": "normal",
+    "PLL_HIGH": "hoch",
+    "PLL_IN_PROGRESS": "In Bearbeitung",
+    "PLL_OPEN": "Offen",
+    "PLL_COMPLETED": "Abgeschlossen",
+    "PLL_DEFERRED": "Ausgesetzt",
+    "PLL_CANCELLED": "Gestoppt"
+  }
+}

@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Map Modal Class
- * @package YetiForce.ModalView
- * @copyright YetiForce Sp. z o.o.
+ * Map Modal Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -42,7 +43,7 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 			$fieldsToGroup = [];
 			foreach ($fields as $fieldModel) {
 				if ($fieldModel->getFieldDataType() === 'picklist') {
-					$fieldsToGroup [] = $fieldModel;
+					$fieldsToGroup[] = $fieldModel;
 				}
 			}
 			$cacheRecords[$request->getByType('srcModule')] = 0; // default values
@@ -64,22 +65,24 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 	public function getModalScripts(\App\Request $request)
 	{
 		$jsFileNames = [
-			'~libraries/leaflet/leaflet.js',
-			'~libraries/leaflet/plugins/markercluster/leaflet.markercluster.js',
-			'~libraries/leaflet/plugins/awesome-markers/leaflet.awesome-markers.js',
-			"modules.OpenStreetMap.resources.Map",
+			'~libraries/leaflet/dist/leaflet.js',
+			'~libraries/leaflet.markercluster/dist/leaflet.markercluster.js',
+			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
+			'modules.OpenStreetMap.resources.Map',
 		];
+
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
 	public function getModalCss(\App\Request $request)
 	{
 		$cssFileNames = [
-			'~libraries/leaflet/leaflet.css',
-			'~libraries/leaflet/plugins/markercluster/MarkerCluster.Default.css',
-			'~libraries/leaflet/plugins/markercluster/MarkerCluster.css',
-			'~libraries/leaflet/plugins/awesome-markers/leaflet.awesome-markers.css',
+			'~libraries/leaflet/dist/leaflet.css',
+			'~libraries/leaflet.markercluster/dist/MarkerCluster.Default.css',
+			'~libraries/leaflet.markercluster/dist/MarkerCluster.css',
+			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.css',
 		];
+
 		return $this->checkAndConvertCssStyles($cssFileNames);
 	}
 }

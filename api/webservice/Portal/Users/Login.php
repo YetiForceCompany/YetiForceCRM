@@ -1,21 +1,22 @@
 <?php
+
 namespace Api\Portal\Users;
 
 /**
- * Users Login action class
- * @package YetiForce.WebserviceAction
+ * Users Login action class.
+ *
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Login extends \Api\Core\BaseAction
 {
-
 	/** @var string[] Allowed request methods */
 	public $allowedMethod = ['POST'];
 
 	/**
-	 * Check permission to method
-	 * @return boolean
+	 * Check permission to method.
+	 *
+	 * @return bool
 	 */
 	public function checkPermission()
 	{
@@ -23,7 +24,8 @@ class Login extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Check permission to module
+	 * Check permission to module.
+	 *
 	 * @throws \Api\Core\Exception
 	 */
 	public function checkPermissionToModule()
@@ -32,25 +34,27 @@ class Login extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Post method
+	 * Post method.
+	 *
 	 * @return array
 	 */
 	public function post()
 	{
 		$db = \App\Db::getInstance('webservice');
 		$row = (new \App\Db\Query())
-				->from('w_#__portal_user')
-				->where(['user_name' => $this->controller->request->get('userName'), 'status' => 1])
-				->limit(1)->one($db);
+			->from('w_#__portal_user')
+			->where(['user_name' => $this->controller->request->get('userName'), 'status' => 1])
+			->limit(1)->one($db);
 		if (!$row) {
 			throw new \Api\Core\Exception('Invalid data access', 401);
 		}
-		if ($row['password_t'] !== $this->controller->request->get('password')) {
+		if (\App\Encryption::getInstance()->decrypt($row['password_t']) !== $this->controller->request->get('password')) {
 			throw new \Api\Core\Exception('Invalid user password', 401);
 		}
 		$db->createCommand()->update('w_#__portal_user', ['login_time' => date('Y-m-d H:i:s')], ['id' => $row['id']])->execute();
 		$row = $this->updateSession($row);
 		$userModel = \App\User::getUserModel($row['user_id']);
+
 		return [
 			'token' => $row['token'],
 			'name' => \App\Record::getLabel($row['crmid']),
@@ -73,20 +77,22 @@ class Login extends \Api\Core\BaseAction
 				'currency_decimal_separator' => $userModel->getDetail('currency_decimal_separator'),
 				'currency_grouping_separator' => $userModel->getDetail('currency_grouping_separator'),
 				'currency_symbol_placement' => $userModel->getDetail('currency_symbol_placement'),
-				'no_of_currency_decimals' => $userModel->getDetail('no_of_currency_decimals'),
+				'no_of_currency_decimals' => (int) $userModel->getDetail('no_of_currency_decimals'),
 				'truncate_trailing_zeros' => $userModel->getDetail('truncate_trailing_zeros'),
 				'end_hour' => $userModel->getDetail('end_hour'),
 				'currency_name' => $userModel->getDetail('currency_name'),
 				'currency_code' => $userModel->getDetail('currency_code'),
 				'currency_symbol' => $userModel->getDetail('currency_symbol'),
-				'conv_rate' => $userModel->getDetail('conv_rate')
-			]
+				'conv_rate' => $userModel->getDetail('conv_rate'),
+			],
 		];
 	}
 
 	/**
-	 * Update session
+	 * Update session.
+	 *
 	 * @param array $row
+	 *
 	 * @return array
 	 */
 	public function updateSession($row)
@@ -95,17 +101,18 @@ class Login extends \Api\Core\BaseAction
 		$token = md5(microtime(true) . mt_rand());
 		$params = $this->controller->request->getArray('params');
 		$language = !empty($params['language']) ? $params['language'] : (empty($row['language']) ? $this->getLanguage() : $row['language']);
-		$db->createCommand()->insert("w_#__portal_session", [
+		$db->createCommand()->insert('w_#__portal_session', [
 			'id' => $token,
 			'user_id' => $row['id'],
 			'created' => date('Y-m-d H:i:s'),
 			'changed' => date('Y-m-d H:i:s'),
 			'language' => $language,
-			'params' => \App\Json::encode($params)
+			'params' => \App\Json::encode($params),
 		])->execute();
 		$row['token'] = $token;
 		$row['language'] = $language;
-		$db->createCommand()->delete("w_#__portal_session", ['<', 'changed', date('Y-m-d H:i:s', strtotime('-1 day'))])->execute();
+		$db->createCommand()->delete('w_#__portal_session', ['<', 'changed', date('Y-m-d H:i:s', strtotime('-1 day'))])->execute();
+
 		return $row;
 	}
 }

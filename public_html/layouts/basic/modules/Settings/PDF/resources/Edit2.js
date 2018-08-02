@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 	step2Container: false,
 	advanceFilterInstance: false,
@@ -25,7 +27,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 	 * Function  to intialize the reports step1
 	 */
 	initialize: function (container) {
-		if (typeof container === 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('#pdf_step2');
 		}
 		if (container.is('#pdf_step2')) {
@@ -47,30 +49,25 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 		var saveData = form.serializeFormData();
 		saveData['action'] = 'Save';
 		saveData['step'] = 2;
-		AppConnector.request(saveData).then(
-				function (data) {
-					data = JSON.parse(data);
-					if (data.success == true) {
-						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
+		AppConnector.request(saveData).done(function (data) {
+				data = JSON.parse(data);
+				if (data.success == true) {
+					Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
 
-						AppConnector.request(formData).then(
-								function (data) {
-									form.hide();
-									progressIndicatorElement.progressIndicator({
-										'mode': 'hide'
-									})
-									aDeferred.resolve(data);
-								},
-								function (error, err) {
-									app.errorLog(error, err);
-								}
-						);
-					}
-				},
-				function (error, err) {
-					app.errorLog(error, err);
+					AppConnector.request(formData).done(function (data) {
+							form.hide();
+							progressIndicatorElement.progressIndicator({
+								'mode': 'hide'
+							})
+							aDeferred.resolve(data);
+						}).fail(function (error, err) {
+							app.errorLog(error, err);
+						}
+					);
 				}
-		);
+			}).fail(function (error, err) {
+				app.errorLog(error, err);
+			});
 		return aDeferred.promise();
 	},
 	registerCancelStepClickEvent: function (form) {
@@ -83,9 +80,9 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 			var status = jQuery(this).is(':checked');
 
 			if (status) {
-				container.find('.margin_inputs').addClass('hide');
+				container.find('.margin_inputs').addClass('d-none');
 			} else {
-				container.find('.margin_inputs').removeClass('hide');
+				container.find('.margin_inputs').removeClass('d-none');
 			}
 		});
 	},
@@ -100,9 +97,9 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 		};
 		opts['promptPosition'] = "topLeft";
 		container.validationEngine(opts);
-		app.showSelect2ElementView(container.find('.select2'));
+		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
 		this.registerCancelStepClickEvent(container);
 		this.registerMarginCheckboxClickEvent(container);
-		app.showPopoverElementView(container.find('.popoverTooltip'));
+		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 	}
 });

@@ -10,11 +10,10 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger ListView Model Class
+ * Vtiger ListView Model Class.
  */
 class Calendar_ListView_Model extends Vtiger_ListView_Model
 {
-
 	public function getBasicLinks()
 	{
 		$basicLinks = [];
@@ -26,7 +25,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_ADD_EVENT',
 				'linkurl' => $this->getModule()->getCreateEventRecordUrl(),
 				'linkclass' => 'modCT_' . $moduleModel->getName(),
-				'linkicon' => '',
+				'linkicon' => 'fas fa-plus',
 				'showLabel' => 1,
 			];
 			$basicLinks[] = [
@@ -34,12 +33,13 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_ADD_TASK',
 				'linkurl' => $this->getModule()->getCreateTaskRecordUrl(),
 				'linkclass' => 'modCT_' . $moduleModel->getName(),
-				'linkicon' => '',
+				'linkicon' => 'fas fa-plus',
 				'showLabel' => 1,
 			];
 		}
 		return $basicLinks;
 	}
+
 	/*
 	 * Function to give advance links of a module
 	 * 	@RETURN array of advanced links
@@ -56,7 +56,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_IMPORT',
 				'linkurl' => 'javascript:Calendar_List_Js.triggerImportAction("' . $moduleModel->getImportUrl() . '")',
-				'linkicon' => 'glyphicon glyphicon-import'
+				'linkicon' => 'fas fa-download',
 			];
 		}
 
@@ -66,15 +66,17 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
 				'linkurl' => 'javascript:Calendar_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
-				'linkicon' => 'glyphicon glyphicon-export'
+				'linkicon' => 'fas fa-upload',
 			];
 		}
 		return $advancedLinks;
 	}
 
 	/**
-	 * Function to get the list of Mass actions for the module
+	 * Function to get the list of Mass actions for the module.
+	 *
 	 * @param array $linkParams
+	 *
 	 * @return array - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
@@ -88,7 +90,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
-				'linkicon' => 'glyphicon glyphicon-user'
+				'linkicon' => 'fas fa-user',
 			];
 		}
 		if ($moduleModel->isPermitted('MassActive')) {
@@ -98,7 +100,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-undo'
+				'linkicon' => 'fas fa-undo-alt',
 			];
 		}
 		if ($moduleModel->isPermitted('MassArchived')) {
@@ -108,7 +110,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-archive'
+				'linkicon' => 'fas fa-archive',
 			];
 		}
 		if ($moduleModel->isPermitted('MassTrash')) {
@@ -118,7 +120,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-trash'
+				'linkicon' => 'fas fa-trash-alt',
 			];
 		}
 		if ($moduleModel->isPermitted('MassDelete')) {
@@ -128,20 +130,21 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-erase'
+				'linkicon' => 'fas fa-eraser',
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
-
 		return $links;
 	}
 
 	/**
-	 * Function to get the list view entries
+	 * Function to get the list view entries.
+	 *
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 *
+	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance
 	 */
 	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
@@ -149,6 +152,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 		$queryGenerator->setField(['visibility', 'assigned_user_id', 'activitystatus']);
 		$queryGenerator->setConcatColumn('date_start', "CONCAT(vtiger_activity.date_start, ' ', vtiger_activity.time_start)");
 		$queryGenerator->setConcatColumn('due_date', "CONCAT(vtiger_activity.due_date, ' ', vtiger_activity.time_end)");
+
 		return parent::getListViewEntries($pagingModel);
 	}
 }

@@ -1,0 +1,30 @@
+{
+  "php": {
+    "SINGLE_SVendorEnquiries": "Demande de fournisseur",
+    "SVendorEnquiries": "Demande de fournisseur",
+    "SQuoteEnquiries": "Demandes de devis",
+    "SINGLE_SQuoteEnquiries": "Demande de devis",
+    "LBL_QUOTESENQUIRES_INFORMATION": "Information",
+    "LBL_CUSTOM_INFORMATION": "Information syst\u00e8mes",
+    "LBL_DESCRIPTION_INFORMATION": "Description",
+    "LBL_STATISTICS": "Statistiques",
+    "LBL_SUBJECT": "Sujet",
+    "LBL_NUMBER": "Nombre",
+    "LBL_STATUS": "Statut",
+    "LBL_CLOSED_TIME": "Heure de fin",
+    "LBL_RESPONSE_TIME": "Temps de r\u00e9ponse",
+    "SINGLE_SSalesProcesses": "Opportunit\u00e9s",
+    "FL_TOTAL_PRICE": "Total HT",
+    "FL_MARGINP": "Pourcentage de marge totale",
+    "FL_MARGIN": "Marge totale",
+    "FL_VENDOR": "Vendeur",
+    "FL_SCALCULATIONS": "Calcul",
+    "PLL_DRAFT": "Brouillon",
+    "PLL_IN_REALIZATION": "En cours",
+    "PLL_FOR_VERIFICATION": "A v\u00e9rifier",
+    "PLL_CANCELLED": "Annul\u00e9",
+    "PLL_COMPLETED": "Termin\u00e9",
+    "LBL_CHANGE_STATUS": "Modifier le statut"
+  },
+  "js": []
+}

@@ -11,7 +11,6 @@
 
 class Calendar_Reminders_View extends Vtiger_IndexAjax_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);

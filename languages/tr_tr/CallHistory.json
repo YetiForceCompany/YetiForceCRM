@@ -1,0 +1,33 @@
+{
+  "php": {
+    "CallHistory": "Arama ge\u00e7mi\u015fi",
+    "SINGLE_CallHistory": "Arama ge\u00e7mi\u015fi",
+    "LBL_CALLHISTORY_INFORMATION": "Arama ge\u00e7mi\u015fi bilgileri",
+    "LBL_CUSTOM_INFORMATION": "Ek bilgi",
+    "LBL_PHONE_INFORMATION": "Telefon bilgileri",
+    "LBL_RELATED_INFORMATION": "\u0130lgili bilgiler",
+    "LBL_TYPE": "Tip",
+    "LBL_FROM_NUMBER": "FROM numara",
+    "LBL_TO_NUMBER": "Say\u0131ya git",
+    "LBL_LOCATION": "Yer",
+    "LBL_PHONE_CALL_ID": "Telefonda kimlik aramas\u0131",
+    "LBL_DURATION": "Arama s\u00fcresi",
+    "LBL_STATUS": "Durum",
+    "LBL_START_TIME": "\u00c7a\u011fr\u0131 ba\u015flat\u0131ld\u0131",
+    "LBL_END_TIME": "\u00c7a\u011fr\u0131 sona erdi",
+    "LBL_COUNTRY_CODE": "\u00dclke kodu",
+    "LBL_IMEI": "IMEI",
+    "LBL_IPADDRESS": "Kimlik adresi",
+    "LBL_SIMSERIAL": "SIM numaras\u0131",
+    "LBL_SUBSCRIBERID": "Abone numaras\u0131",
+    "LBL_DESTINATION": "Nereden \u00e7a\u011fr\u0131ld\u0131",
+    "LBL_SOURCE": "\u00c7a\u011fr\u0131 kayna\u011f\u0131",
+    "Record Id": "Kay\u0131t Kimli\u011fi",
+    "Outgoing missed": "Cevap Yok",
+    "Outgoing received": "Al\u0131nd\u0131",
+    "Incoming": "Gelen",
+    "Missed": "Cevaps\u0131z",
+    "Voicemail": "Sesli mesaj",
+    "Call history": "\u00c7a\u011fr\u0131 Ge\u00e7mi\u015fi"
+  }
+}

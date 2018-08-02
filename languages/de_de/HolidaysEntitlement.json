@@ -1,0 +1,14 @@
+{
+  "php": {
+    "HolidaysEntitlement": "Urlaubsanspruch",
+    "SINGLE_HolidaysEntitlement": "Urlaubsanspruch",
+    "LBL_ADD_RECORD": "Urlaubsanspruch hinzuf\u00fcgen",
+    "LBL_RECORDS_LIST": "Liste Urlaubsanspr\u00fcche",
+    "LBL_HOLIDAYSENTITLEMENT_INFORMATION": "Information",
+    "LBL_CUSTOM_INFORMATION": "Systeminformationen",
+    "LBL_YEAR": "Jahr",
+    "LBL_DAYS": "Anzahl der Urlaubstage",
+    "LBL_EMPLOYEE": "Mitarbeiter",
+    "LBL_NUMBER": "Nummer"
+  }
+}

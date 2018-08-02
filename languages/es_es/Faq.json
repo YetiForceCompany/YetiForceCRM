@@ -1,0 +1,19 @@
+{
+  "php": {
+    "Answer": "Respuesta",
+    "Comments": "Comentarios",
+    "Draft": "Borrador",
+    "Faq": "FAQ",
+    "Faq No": "ID",
+    "General": "General",
+    "LBL_COMMENT_INFORMATION": "Comentarios",
+    "LBL_FAQ_INFORMATION": "Informaci\u00f3n sobre el FAQ",
+    "LBL_RECORDS_LIST": "Lista",
+    "LBL_SOLUTION": "Soluci\u00f3n",
+    "Obsolete": "Obsoleta",
+    "Published": "Publicada",
+    "Reviewed": "Revisada",
+    "Question": "Pregunta",
+    "SINGLE_Faq": "FAQ"
+  }
+}

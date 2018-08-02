@@ -11,9 +11,8 @@
 
 class Users_List_View extends Settings_Vtiger_List_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -24,7 +23,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
@@ -35,11 +34,12 @@ class Users_List_View extends Settings_Vtiger_List_View
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -49,7 +49,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	}
 
 	/**
-	 * Function to initialize the required data in smarty to display the List View Contents
+	 * Function to initialize the required data in smarty to display the List View Contents.
 	 */
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
@@ -64,12 +64,12 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
-		if ($sortOrder == "ASC") {
-			$nextSortOrder = "DESC";
-			$sortImage = "glyphicon glyphicon-chevron-down";
+		if ($sortOrder == 'ASC') {
+			$nextSortOrder = 'DESC';
+			$sortImage = 'fas fa-chevron-down';
 		} else {
-			$nextSortOrder = "ASC";
-			$sortImage = "glyphicon glyphicon-chevron-up";
+			$nextSortOrder = 'ASC';
+			$sortImage = 'fas fa-chevron-up';
 		}
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
@@ -95,8 +95,9 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$this->listViewModel->set('operator', $operator);
 		}
 		$viewer->assign('OPERATOR', $operator);
-		if ('status' != $searchKey)
+		if ('status' != $searchKey) {
 			$viewer->assign('ALPHABET_VALUE', $searchValue);
+		}
 		if (!empty($searchKey) && !empty($searchValue)) {
 			$this->listViewModel->set('search_key', $searchKey);
 			$this->listViewModel->set('search_value', $searchValue);
@@ -168,7 +169,8 @@ class Users_List_View extends Settings_Vtiger_List_View
 	}
 
 	/**
-	 * Function returns the number of records for the current filter
+	 * Function returns the number of records for the current filter.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getRecordsCount(\App\Request $request)
@@ -189,7 +191,8 @@ class Users_List_View extends Settings_Vtiger_List_View
 	}
 
 	/**
-	 * Function to get listView count
+	 * Function to get listView count.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getListViewCount(\App\Request $request)
@@ -218,12 +221,12 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
 		}
-
 		return $listViewModel->getListViewCount();
 	}
 
 	/**
-	 * Function to get the page count for list
+	 * Function to get the page count for list.
+	 *
 	 * @return total number of pages
 	 */
 	public function getPageCount(\App\Request $request)

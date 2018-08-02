@@ -11,20 +11,22 @@
 -->*}
 {strip}
 	<div class="modal-header">
-		<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
-		<h3 class="modal-title">{\App\Language::translate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}</h3>
+		<h5 class="modal-title">{\App\Language::translate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}</h5>
+		<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+			<span aria-hidden="true">&times;</span>
+		</button>
 	</div>
 	<div class="recordNamesList">
 		<div class="row">
 			<div class="col-md-12">
-				<ul class="nav list-group">
+				<ul class="nav">
 					{foreach item=recordsModel from=$RSS_SOURCES}
-						<li>
-							<a href="#" class="rssLink" data-id={$recordsModel->getId()} data-url="{$recordsModel->get('rssurl')}" title="{App\Purifier::decodeHtml($recordsModel->getName())}">{App\Purifier::decodeHtml($recordsModel->getName())}</a>
+						<li class="nav-item">
+							<a href="#" class="nav-link rssLink" data-id={$recordsModel->getId()} data-url="{$recordsModel->get('rssurl')}" title="{App\Purifier::decodeHtml($recordsModel->getName())}">{App\Purifier::decodeHtml($recordsModel->getName())}</a>
 						</li>
 					{foreachelse}
-						<li class="text-center">{\App\Language::translate('LBL_NO_RECORDS', $MODULE)}</li>
-					{/foreach}
+						<li class="nav-item text-center">{\App\Language::translate('LBL_NO_RECORDS', $MODULE)}</li>
+						{/foreach}
 				</ul>
 			</div>
 		</div>

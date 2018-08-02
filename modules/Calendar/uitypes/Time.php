@@ -10,9 +10,8 @@
 
 class Calendar_Time_UIType extends Vtiger_Time_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
@@ -29,9 +28,11 @@ class Calendar_Time_UIType extends Vtiger_Time_UIType
 	}
 
 	/**
-	 * Function to get the calendar event call duration value in hour format
+	 * Function to get the calendar event call duration value in hour format.
+	 *
 	 * @param type $fieldName
 	 * @param type $value
+	 *
 	 * @return <Vtiger_Time_UIType> - getTimeValue
 	 */
 	public function getDisplayTimeDifferenceValue($fieldName, $value)
@@ -46,6 +47,7 @@ class Calendar_Time_UIType extends Vtiger_Time_UIType
 
 		$dateTimeField = new DateTimeField($date->format('Y-m-d H:i:s'));
 		$value = $dateTimeField->getDisplayTime();
+
 		return $value;
 	}
 }

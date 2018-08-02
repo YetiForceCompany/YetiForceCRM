@@ -10,7 +10,6 @@
 
 class Settings_Workflows_DeleteAjax_Action extends Settings_Vtiger_Index_Action
 {
-
 	public function process(\App\Request $request)
 	{
 		$qualifiedModule = $request->getModule(false);
@@ -25,10 +24,5 @@ class Settings_Workflows_DeleteAjax_Action extends Settings_Vtiger_Index_Action
 			$response->setResult(['success' => 'ok']);
 		}
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

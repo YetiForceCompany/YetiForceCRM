@@ -1,23 +1,22 @@
 <?php
 
 /**
- * OSSPasswords save action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * OSSPasswords save action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSPasswords_Save_Action extends Vtiger_Save_Action
 {
-
 	public function process(\App\Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
 		if ($request->getBoolean('relationOperation')) {
-			$parentModuleName = $request->getByType('sourceModule',2);
+			$parentModuleName = $request->getByType('sourceModule', 2);
 			$parentRecordId = $request->getInteger('sourceRecord');
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
-		} else if ($request->getBoolean('returnToList')) {
+		} elseif ($request->getBoolean('returnToList')) {
 			$loadUrl = $recordModel->getModule()->getListViewUrl();
 		} else {
 			$loadUrl = $recordModel->getDetailViewUrl();
@@ -26,8 +25,10 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 	}
 
 	/**
-	 * Function to save record
+	 * Function to save record.
+	 *
 	 * @param \App\Request $request - values of the record
+	 *
 	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
 	public function saveRecord(\App\Request $request)
@@ -50,7 +51,7 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 					$result = $adb->pquery($sql, [$recordModel->getId()], true);
 					$properPassword = $adb->queryResult($result, 0, 'pass');
 				} else {  // encryption mode is off
-					$sql = "SELECT `password` AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;";
+					$sql = 'SELECT `password` AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;';
 					$result = $adb->pquery($sql, [$recordModel->getId()], true);
 					$properPassword = $adb->queryResult($result, 0, 'pass');
 				}
@@ -60,13 +61,13 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 
 			// after save we check if encryption is active
 			if ($config) {
-				$sql = "UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(?,?) WHERE `osspasswordsid` = ?;";
+				$sql = 'UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(?,?) WHERE `osspasswordsid` = ?;';
 				$result = $adb->pquery($sql, [$properPassword, $config['key'], $recordModel->getId()], true);
 			}
 		} else {
 			$recordModel->save();
 			if ($config) { // when encryption is on
-				$sql = "UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(`password`, ?) WHERE `osspasswordsid` = ?;";
+				$sql = 'UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(`password`, ?) WHERE `osspasswordsid` = ?;';
 				$result = $adb->pquery($sql, [$config['key'], $recordModel->getId()], true);
 			}
 		}

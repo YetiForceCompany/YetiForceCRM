@@ -1,0 +1,17 @@
+{
+  "php": {
+    "LBL_COUNTRY_NAME": "Nombre del pa\u00eds",
+    "LBL_COUNTRY_SHORTNAME": "Abreviatura",
+    "LBL_COUNTRY_TOGGLE_STATUS": "Activado \/ Desactivado",
+    "LBL_COUNTRY_TOGGLE_ALL_STATUSES": "Activar o desactivar todos los pa\u00edses",
+    "LBL_VISIBLE_IN_PHONE": "Visible en Tel\u00e9fono",
+    "LBL_VISIBLE_IN_COUNTRY": "Visible en Pa\u00eds",
+    "LBL_ROW_TO_TOP": "Mover hacia arriba",
+    "LBL_ROW_TO_BOTTOM": "Mover hacia abajo",
+    "LBL_COUNTRY_SETTINGS": "Configuraci\u00f3n del pa\u00eds",
+    "LBL_COUNTRY_DESCRIPTION": "Configurando la disponibilidad de pa\u00edses en el sistema"
+  },
+  "js": {
+    "JS_COUNTRY_SETTING": "Configuraci\u00f3n del pa\u00eds"
+  }
+}

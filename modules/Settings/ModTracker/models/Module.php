@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Settings ModTracker module model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Settings ModTracker module model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_ModTracker_Module_Model extends Settings_Vtiger_Module_Model
 {
-
 	public function getModTrackerModules($active = false)
 	{
 		$restrictedModules = ['Integration', 'Dashboard', 'PBXManager'];
@@ -29,6 +28,8 @@ class Settings_ModTracker_Module_Model extends Settings_Vtiger_Module_Model
 				'active' => $row['visible'] == 1 ? true : false,
 			];
 		}
+		$dataReader->close();
+
 		return $modules;
 	}
 

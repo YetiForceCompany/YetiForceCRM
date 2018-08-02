@@ -1,0 +1,27 @@
+{
+  "php": {
+    "Search Configuration": "Suchkonfiguration",
+    "Search Setup": "Suche - Konfiguration",
+    "Search": "Suchkonfiguration",
+    "LBL_Module_desc": "In diesem Bereich k\u00f6nnen Sie Bezeichnungen f\u00fcr uitype 10 Felder und Suchmechanismen einstellen. Dieser Mechanismus arbeitet unabh\u00e4ngig - man kann w\u00e4hrend der Suche viele Spalten in einem Feld zu sehen, aber wenn Sie einen Datensatz ausw\u00e4hlen, wird ein Name aus einer Bezeichnung angezeigt.",
+    "Module": "Modul",
+    "Table": "Tabelle",
+    "LabelFields": "Hauptspalten eines Moduls (Einschlie\u00dflich der Beschriftung f\u00fcr uitype 10)",
+    "SearchFields": "Spalten f\u00fcr Suchmechanismen",
+    "Tools": "Aktionen",
+    "Update labels": "Aktualisiere Beschriftung",
+    "LBL_SAVE_CHANGES_SEARCHING": "\u00c4nderungen gespeichert.",
+    "LBL_SAVE_CHANGES_LABLE": "Die \u00c4nderungen in der Konfiguration wurden gespeichert. Sie m\u00fcssen dieses Modul aktualisieren, um die \u00c4nderungen innerhalb des Systems zu sehen.",
+    "Update has been completed": "Gew\u00e4hltes Modul erfolgreich aktualisiert. \u00c4nderungen wurden per CRON durchgef\u00fchrt. Laufzeit der Aktualisierung ist von der Anzahl der Datens\u00e4tzen abh\u00e4ngig.",
+    "LBL_SAVE_MODULE_SEQUENCE": "Modulreihenfolge speichern",
+    "LBL_TURN_ON": "Einschalten",
+    "LBL_TURN_OFF": "Ausschalten"
+  },
+  "js": {
+    "Saving changes": "Speichere \u00c4nderungen...",
+    "Update labels": "Aktualisiere Beschriftung",
+    "JS_MODULES_SEQUENCE_UPDATED": "Modulreihenfolge aktualisiert",
+    "JS_TURN_ON": "Einschalten",
+    "JS_TURN_OFF": "Ausschalten"
+  }
+}

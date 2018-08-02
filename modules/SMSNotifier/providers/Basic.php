@@ -1,44 +1,48 @@
 <?php
 /**
- * Basic class to sms provider
- * @package YetiForce.Provider
- * @copyright YetiForce Sp. z o.o.
+ * Basic class to sms provider.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
- * Basic class to sms provider
+ * Basic class to sms provider.
  */
 abstract class SMSNotifier_Basic_Provider
 {
-
 	/**
-	 * Provider name
-	 * @var string 
+	 * Provider name.
+	 *
+	 * @var string
 	 */
 	protected $name;
 
 	/**
-	 * Address URL
-	 * @var string 
+	 * Address URL.
+	 *
+	 * @var string
 	 */
 	protected $url;
 
 	/**
-	 * Variable name
-	 * @var string 
+	 * Variable name.
+	 *
+	 * @var string
 	 */
 	public $toName = 'to';
 
 	/**
-	 * Variable name
-	 * @var string 
+	 * Variable name.
+	 *
+	 * @var string
 	 */
 	public $messageName = 'message';
 
 	/**
-	 * Function to get provider name
+	 * Function to get provider name.
+	 *
 	 * @return string provider name
 	 */
 	public function getName()
@@ -47,7 +51,8 @@ abstract class SMSNotifier_Basic_Provider
 	}
 
 	/**
-	 * Function to get service URL
+	 * Function to get service URL.
+	 *
 	 * @return string
 	 */
 	public function getUrl()
@@ -56,20 +61,25 @@ abstract class SMSNotifier_Basic_Provider
 	}
 
 	/**
-	 * Set
+	 * Set.
+	 *
 	 * @param string $key
-	 * @param mixed $value
+	 * @param mixed  $value
+	 *
 	 * @return \self
 	 */
 	public function set($key, $value)
 	{
 		$this->$key = $value;
+
 		return $this;
 	}
 
 	/**
-	 * Get
+	 * Get.
+	 *
 	 * @param string $key
+	 *
 	 * @return mixed
 	 */
 	public function get($key)
@@ -78,19 +88,21 @@ abstract class SMSNotifier_Basic_Provider
 	}
 
 	/**
-	 * Headers
+	 * Headers.
+	 *
 	 * @return string[]
 	 */
 	public function getHeaders()
 	{
 		return [
 			'Content-Type' => 'application/json',
-			'Authorization' => 'Bearer ' . $this->getAuthorization()
+			'Authorization' => 'Bearer ' . $this->getAuthorization(),
 		];
 	}
 
 	/**
-	 * Authorization
+	 * Authorization.
+	 *
 	 * @return string
 	 */
 	public function getAuthorization()
@@ -99,7 +111,8 @@ abstract class SMSNotifier_Basic_Provider
 	}
 
 	/**
-	 * Required fields
+	 * Required fields.
+	 *
 	 * @return string[]
 	 */
 	public function getRequiredParams()
@@ -108,7 +121,8 @@ abstract class SMSNotifier_Basic_Provider
 	}
 
 	/**
-	 * Function to get full patch
+	 * Function to get full patch.
+	 *
 	 * @return string
 	 */
 	public function getPatch()
@@ -125,23 +139,30 @@ abstract class SMSNotifier_Basic_Provider
 	}
 
 	/**
-	 * Function to handle SMS Send operation
-	 * @param string $message
+	 * Function to handle SMS Send operation.
+	 *
+	 * @param string          $message
 	 * @param string|string[] $toNumbers
 	 */
 	public function send()
 	{
-		$request = Requests::post($this->getPatch(), $this->getHeaders());
+		try {
+			$request = Requests::post($this->getPatch(), $this->getHeaders());
+		} catch (Exception $e) {
+			\App\Log::warning($e->getMessage());
+			return false;
+		}
 		return $this->getResponse($request);
 	}
 
 	/**
-	 * Response
+	 * Response.
 	 */
 	abstract public function getResponse(Requests_Response $request);
 
 	/**
-	 * Fields to edit in settings
+	 * Fields to edit in settings.
+	 *
 	 * @return \Settings_Vtiger_Field_Model[]
 	 */
 	public function getSettingsEditFieldsModel()

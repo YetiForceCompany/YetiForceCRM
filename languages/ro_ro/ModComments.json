@@ -1,0 +1,25 @@
+{
+  "php": {
+    "SINGLE_ModComments": "Comentariu",
+    "LBL_RECORDS_LIST": "Lista comentarii",
+    "LBL_MODCOMMENTS_INFORMATION": "Comentarii",
+    "LBL_OTHER_INFORMATION": "Alte informatii",
+    "LBL_ADDING_COMMENT": "Adaugare comentariu",
+    "LBL_WRITE_YOUR_COMMENT_HERE": "Introdu Comentariul aici",
+    "Comment": "Comentariu",
+    "Creator": "Creator",
+    "Related To Comments": "Repartizat la",
+    "UserId": "UserId",
+    "Customer": "Client",
+    "ReasonToEdit": "Motivul editarii",
+    "LBL_ADDED_COMMENT_TO_TICKET": "Adauga un comentariu la tichet",
+    "LBL_NEW_COMMENT_FOR_TICKET": "Un comentariu a fost adaugat la tichet",
+    "LBL_NOTICE_WELCOME": "Bine ati venit pe platforma",
+    "LBL_NOTICE_CREATED": "A fost creat de",
+    "LBL_COMMENTS_0": "Inregistrarea curenta",
+    "LBL_COMMENTS_1": "Procesele",
+    "LBL_COMMENTS_2": "Subprocesele",
+    "LBL_COMMENTS_SEARCH": "Cauta",
+    "LBL_ALL_RECORDS": "Inregistrari relatate"
+  }
+}

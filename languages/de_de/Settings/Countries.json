@@ -1,0 +1,17 @@
+{
+  "php": {
+    "LBL_COUNTRY_NAME": "L\u00e4nderbezeichnung",
+    "LBL_COUNTRY_SHORTNAME": "L\u00e4nderschl\u00fcssel",
+    "LBL_COUNTRY_TOGGLE_STATUS": "Soll das Land global im System verf\u00fcgbar sein?",
+    "LBL_COUNTRY_TOGGLE_ALL_STATUSES": "(De)Aktiviere alle L\u00e4nder",
+    "LBL_VISIBLE_IN_PHONE": "Soll das Land bei der Telefonnummer ber\u00fccksichtigt werden?",
+    "LBL_VISIBLE_IN_COUNTRY": "Soll das Land im Adressfeld \"Land\" angezeigt werden?",
+    "LBL_ROW_TO_TOP": "Zeile ganz nach oben verschieben",
+    "LBL_ROW_TO_BOTTOM": "Zeile ganz nach unten verschieben",
+    "LBL_COUNTRY_SETTINGS": "L\u00e4ndereinstellungen",
+    "LBL_COUNTRY_DESCRIPTION": "Einstellung der L\u00e4nderverf\u00fcgbarkeit im System"
+  },
+  "js": {
+    "JS_COUNTRY_SETTING": "L\u00e4ndereinstellungen"
+  }
+}

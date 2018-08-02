@@ -9,43 +9,49 @@
  * *********************************************************************************** */
 
 /**
- * Events Record Model Class
+ * Events Record Model Class.
  */
 class Events_Record_Model extends Calendar_Record_Model
 {
-
 	/**
-	 * Function to get the Edit View url for the record
+	 * Function to get the Edit View url for the record.
+	 *
 	 * @return string - Record Edit View Url
 	 */
 	public function getEditViewUrl()
 	{
 		$module = $this->getModule();
+
 		return 'index.php?module=Calendar&view=' . $module->getEditViewName() . '&record=' . $this->getId();
 	}
 
 	/**
-	 * Function to get the Delete Action url for the record
+	 * Function to get the Delete Action url for the record.
+	 *
 	 * @return string - Record Delete Action Url
 	 */
 	public function getDeleteUrl()
 	{
 		$module = $this->getModule();
+
 		return 'index.php?module=Calendar&action=' . $module->getDeleteActionName() . '&record=' . $this->getId();
 	}
 
 	/**
-	 * Funtion to get Duplicate Record Url
+	 * Funtion to get Duplicate Record Url.
+	 *
 	 * @return string
 	 */
 	public function getDuplicateRecordUrl()
 	{
 		$module = $this->getModule();
+
 		return 'index.php?module=Calendar&view=' . $module->getEditViewName() . '&record=' . $this->getId() . '&isDuplicate=true';
 	}
 
 	/**
-	 * Get invities
+	 * Get invities.
+	 *
 	 * @return array
 	 */
 	public function getInvities()
@@ -54,18 +60,22 @@ class Events_Record_Model extends Calendar_Record_Model
 	}
 
 	/**
-	 * Get invition status
+	 * Get invition status.
+	 *
 	 * @param int $status
+	 *
 	 * @return string
 	 */
-	static public function getInvitionStatus($status = false)
+	public static function getInvitionStatus($status = false)
 	{
 		$statuses = [0 => 'LBL_NEEDS-ACTION', 1 => 'LBL_ACCEPTED', 2 => 'LBL_DECLINED'];
+
 		return $status !== false ? $statuses[$status] : $statuses;
 	}
 
 	/**
-	 * Get invite user mail data
+	 * Get invite user mail data.
+	 *
 	 * @return array
 	 */
 	public function getInviteUserMailData()
@@ -74,7 +84,8 @@ class Events_Record_Model extends Calendar_Record_Model
 	}
 
 	/**
-	 * Add relation
+	 * Add relation.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function addRelationOperation(\App\Request $request)

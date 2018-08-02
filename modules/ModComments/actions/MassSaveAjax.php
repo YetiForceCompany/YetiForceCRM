@@ -11,10 +11,11 @@
 
 class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
@@ -27,12 +28,13 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 		$sourceModule = $request->getByType('source_module', 2);
 		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		if (!$moduleModel->isCommentEnabled() || !$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'MassAddComment')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	/**
-	 * Main process
+	 * Main process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -49,13 +51,14 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 	}
 
 	/**
-	 * Function to get the record model based on the request parameters
+	 * Function to get the record model based on the request parameters.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
 	private function getRecordModelsFromRequest(\App\Request $request)
 	{
-
 		$moduleName = $request->getModule();
 		$recordIds = self::getRecordsListFromRequest($request);
 		$recordModels = [];

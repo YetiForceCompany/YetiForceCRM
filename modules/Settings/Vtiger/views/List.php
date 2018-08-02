@@ -11,12 +11,12 @@
 
 class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 {
-
 	protected $listViewEntries = false;
 	protected $listViewHeaders = false;
 
 	/**
-	 * List view model instance
+	 * List view model instance.
+	 *
 	 * @var Settings_Vtiger_ListView_Model
 	 */
 	public $listViewModel;
@@ -47,8 +47,9 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * Function to initialize the required data in smarty to display the List View Contents
-	 * @param \App\Request $request
+	 * Function to initialize the required data in smarty to display the List View Contents.
+	 *
+	 * @param \App\Request  $request
 	 * @param Vtiger_Viewer $viewer
 	 */
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
@@ -58,15 +59,15 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
 		$searchParams = $request->get('searchParams');
-		$searchKey = $request->get('search_key');
+		$searchKey = $request->isEmpty('search_key') ? false : $request->getByType('search_key', 2);
 		$searchValue = $request->get('search_value');
 
-		if ($sortOrder == "ASC") {
-			$nextSortOrder = "DESC";
-			$sortImage = "glyphicon glyphicon-chevron-down";
+		if ($sortOrder === 'ASC') {
+			$nextSortOrder = 'DESC';
+			$sortImage = 'fas fa-chevron-down';
 		} else {
-			$nextSortOrder = "ASC";
-			$sortImage = "glyphicon glyphicon-chevron-up";
+			$nextSortOrder = 'ASC';
+			$sortImage = 'fas fa-chevron-up';
 		}
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
@@ -140,8 +141,10 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)
@@ -155,11 +158,12 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 			"modules.Settings.$moduleName.resources.List",
 			"modules.Settings.Vtiger.resources.$moduleName",
 			'modules.Vtiger.resources.ListSearch',
-			"modules.$moduleName.resources.ListSearch"
+			"modules.$moduleName.resources.ListSearch",
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 }

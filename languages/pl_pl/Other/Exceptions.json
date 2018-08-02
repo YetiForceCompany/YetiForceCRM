@@ -1,0 +1,29 @@
+{
+  "php": {
+	"ERR_ILLEGAL_VALUE": "Niedozwolona warto\u015b\u0107",
+	"ERR_ILLEGAL_FIELD_VALUE": "Niedozwolona warto\u015b\u0107 w polu %s (%s)",
+	"ERR_VALUE_IS_TOO_LONG": "Warto\u015b\u0107 pola %s jest za d\u0142uga (%s)",
+	"ERR_TO_MANY_FILES": "Przekroczono limit ilo\u015Bci plik\u00F3w",
+	"ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO": "Warto\u015b\u0107 pola %s musi by\u0107 wi\u0119ksza od zera (%s)",
+	"ERR_NOT_ALLOWED_VALUE": "Wykryto niedozwolon\u0105 warto\u015b\u0107, prosimy o kontakt z administratorem",
+	"ERR_PASSWORD_HAS_ALREADY_BEEN_USED": "Takie has\u0142o by\u0142o ju\u017c kiedy\u015b u\u017cywane, system ze wzgl\u0119d\u00f3w bezpiecze\u0144stwa nie pozwala na u\u017cywanie takich samych hase\u0142.",
+	"ERR_USER_EXISTS": "U\u017cytkownik o takiej nazwie i roli ju\u017c istnieje (%s)",
+	"ERR_NOT_ACCESSIBLE": "Brak dost\u0119pu",
+	"ERR_NO_PERMISSIONS_FOR_THE_RECORD": "Pr\u00f3bujesz przegl\u0105da\u0107\/edytowa\u0107 rekord do kt\u00f3rego nie masz wystarczaj\u0105cych uprawnie\u0144. Je\u015bli powiniene\u015b mie\u0107 do niego dost\u0119p zg\u0142o\u015b problem administratorowi.",
+	"ERR_CONTENTS_VARIABLE_CANT_CALLED_FUNCTION": "Zawarto\u015b\u0107 zmiennej (%s) nie mo\u017ce by\u0107 wywo\u0142ana jako funkcja",
+	"ERR_DUPLICATES_VALUES_FOUND": "Znaleziono zduplikowane warto\u015bci %s",
+	"ERR_EXCEEDED_NUMBER_CHARACTERS": "Niedozwolona liczba znak\u00f3w",
+	"ERR_SPECIAL_CHARACTERS_NOT_ALLOWED": "Znaki specjalne takie jak %s s\u0105 niedozwolone",
+	"ERR_CREATE_FILE_FAILURE": "Nie uda\u0142o si\u0119 utworzy\u0107 pliku",
+	"ERR_FILE_WRONG_SIZE": "Niew\u0142a\u015bciwy rozmiar pliku",
+	"ERR_FILE_EMPTY_NAME": "Brak nazwy pliku",
+	"ERR_FILE_ERROR_REQUEST": "B\u0142\u0105d podczas przesy\u0142ania pliku: %s",
+	"ERR_FILE_ILLEGAL_FORMAT": "Niedozwolony format pliku",
+	"ERR_FILE_WRONG_IMAGE": "Niew\u0142a\u015bciwy plik graficzny",
+	"ERR_FILE_PHP_CODE_INJECTION": "Plik zawiera niebezpieczny kod PHP i zosta\u0142 odrzucony",
+	"ERR_FILE_XPACKET_CODE_INJECTION": "Plik zawiera niebezpieczny kod XPACKET i zosta\u0142 odrzucony",
+	"ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES": "Brak uprawnie\u0144 do tworzenia katalog\u00f3w",
+	"ERR_AUTO_LOGOUT": "Nast\u0105pi\u0142o automatyczne wylogowanie ze wzgl\u0119du na brak aktywno\u015bci",
+	"ERR_FIELD_NOT_FOUND": "Nie znaleziono pola"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "php": {
+    "FInvoiceProforma": "Fattura proforma",
+    "SINGLE_FInvoiceProforma": "Fattura proforma",
+    "LBL_CUSTOM_INFORMATION": "System information",
+    "LBL_ADDRESS_DELIVERY_INFORMATION": "Indirizzo spedizione",
+    "FL_SUBJECT": "Oggetto",
+    "FL_PAYMENT_DATE": "Data pagamento",
+    "FL_SALE_DATE": "Data vendita",
+    "FL_FORM_PAYMENT": "Metodo di pagamento",
+    "FL_STATUS": "Status",
+    "FL_BANK_ACCOUNT": "Bank account number",
+    "FL_NUMBER": "Invoice number",
+    "FL_ACCOUNT": "Azienda",
+    "FL_TOTAL": "Net",
+    "FL_GROSS": "Gross",
+    "PLL_TRANSFER": "transfer",
+    "PLL_CASH": "cash"
+  }
+}

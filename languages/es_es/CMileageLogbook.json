@@ -1,0 +1,17 @@
+{
+  "php": {
+    "CMileageLogbook": "Cuaderno de Kilometraje",
+    "SINGLE_CMileageLogbook": "Cuaderno de Kilometraje",
+    "LBL_ADDITIONAL_INFORMATION": "Informaci\u00f3n adicional",
+    "LBL_BASIC_INFORMATION": "Informaci\u00f3n sobre el Cuaderno de Kilometraje",
+    "LBL_DESCRIPTION_BLOCK": "Descripci\u00f3n",
+    "LBL_ATTENTION_BLOCK": "Notas",
+    "FL_SUBJECT": "Asunto",
+    "FL_STATUS": "Estado",
+    "FL_NUMBER_KILOMETERS": "N\u00famero de kil\u00f3metros",
+    "PLL_DRAFT": "Borrador",
+    "PLL_FOR_APPROVAL": "Por aprobar",
+    "PLL_ACCEPTED": "Aceptada",
+    "PLL_CANCELLED": "Cancelada"
+  }
+}

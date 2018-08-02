@@ -1,19 +1,17 @@
 <?php
 
 /**
- * List View Class for PDF Settings
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * List View Class for PDF Settings.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 {
-
 	public function process(\App\Request $request)
 	{
-
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
@@ -41,6 +39,7 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 							case 'header_content':
 							case 'footer_content':
 								$pdfModel->set($columnKey, App\Purifier::purifyHtml((string) $columnValue));
+								// no break
 							default:
 								$pdfModel->set($columnKey, App\Purifier::purify((string) $columnValue));
 						}
@@ -55,7 +54,7 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 						'path' => $imagePath,
 						'name' => 'watermark_image',
 						'size' => 1,
-						'validateAllCodeInjection' => true
+						'validateAllCodeInjection' => true,
 				]);
 				if (!$imageInstance->validate('image')) {
 					throw new \App\Exceptions\Security('ERR_ILLEGAL_WATERMARK_IMAGE');
@@ -82,6 +81,7 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
+
 		return $headerCssInstances;
 	}
 }

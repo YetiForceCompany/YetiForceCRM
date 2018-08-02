@@ -1,0 +1,36 @@
+{
+  "php": {
+    "LBL_ADD_RECORD": "A\u00f1adir",
+    "TreesManager": "Administrador del \u00e1rbol",
+    "LBL_TREES_MANAGER": "Campos \u2013 \u00c1rbol",
+    "LBL_TREES_MANAGER_DESCRIPTION": "Administrador de plantillas de \u00e1rbol",
+    "LBL_NO_RECORDS_FOUND": "No hay plantillas de \u00e1rbol",
+    "LBL_EDIT_TEMPLATE_TREES": "Editar plantilla de \u00e1rbol",
+    "LBL_CREATING_TEMPLATE_TREES": "Crear plantilla de \u00e1rbol",
+    "LBL_NAME": "Nombre de la plantilla",
+    "LBL_MODULE": "M\u00f3dulo",
+    "LBL_ADD_ITEM_TREE": "A\u00f1adir nuevo elemento",
+    "LBL_ADD_TO_TREES": "A\u00f1adir",
+    "LBL_SAVE": "Guardar",
+    "LBL_SELECT_REPLACE_TREE_ITEM": "Cambiar elemento de \u00e1rbol a:",
+    "Category": "Categor\u00eda",
+    "Reservations": "Reservas"
+  },
+  "js": {
+    "JS_TREE_DELETED_SUCCESSFULLY": "Plantilla de \u00e1rbol eliminada correctamente",
+    "JS_JSTREE_CREATE": "A\u00f1adir",
+    "JS_JSTREE_RENAME": "Cambiar el nombre",
+    "JS_JSTREE_REMOVE": "Eliminar",
+    "JS_JSTREE_CCP": "Editar",
+    "JS_JSTREE_CUT": "Cortar",
+    "JS_JSTREE_COPY": "Copiar",
+    "JS_JSTREE_PASTE": "Pegar",
+    "JS_JSTREE_CHANGE_ICON": "Cambiar icono",
+    "JS_FIELD_CAN_NOT_BE_EMPTY": "El campo no puede estar vac\u00edo",
+    "JS_NO_ITEM_SELECTED": "No se ha seleccionado ning\u00fan elemento",
+    "JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS": "No se pueden eliminar todos los elementos",
+    "JS_YOU_CANNOT_DELETE_PERENT_ITEM": "No se puede eliminar el elemento principal",
+    "JS_NEW_ITEM": "Nuevo nodo",
+    "JS_ONLY_ONE_ITEM_SELECTED": "S\u00f3lo se puede seleccionar un elemento."
+  }
+}

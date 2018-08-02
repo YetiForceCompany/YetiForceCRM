@@ -10,7 +10,6 @@
 
 class Project_RelationListView_Model extends Vtiger_RelationListView_Model
 {
-
 	public function getCreateViewUrl()
 	{
 		$createViewUrl = parent::getCreateViewUrl();
@@ -18,10 +17,9 @@ class Project_RelationListView_Model extends Vtiger_RelationListView_Model
 		$relationModuleModel = $this->getRelationModel()->getRelationModuleModel();
 		if ($relationModuleModel->getName() == 'HelpDesk') {
 			if ($relationModuleModel->getField('parent_id')->isViewable()) {
-				$createViewUrl .='&parent_id=' . $this->getParentRecordModel()->get('linktoaccountscontacts');
+				$createViewUrl .= '&parent_id=' . $this->getParentRecordModel()->get('linktoaccountscontacts');
 			}
 		}
-
 		return $createViewUrl;
 	}
 }

@@ -1,25 +1,29 @@
 <?php
 
 /**
- * Fields Action Class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Fields Action Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_Fields_Action extends Vtiger_Action_Controller
+class Vtiger_Fields_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
 
 	/**
-	 * Field model instance
+	 * Field model instance.
+	 *
 	 * @var Vtiger_Field_Model
 	 */
 	protected $fieldModel;
 
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -31,9 +35,11 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		$this->fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
-		if (!$this->fieldModel || !$this->fieldModel->isEditable()) {
-			throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_TO_FIELD');
+		if ($request->getMode() !== 'findAddress') {
+			$this->fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
+			if (!$this->fieldModel || !$this->fieldModel->isEditable()) {
+				throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_TO_FIELD');
+			}
 		}
 	}
 
@@ -44,20 +50,14 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('getReference');
 		$this->exposeMethod('getUserRole');
 		$this->exposeMethod('verifyPhoneNumber');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
+		$this->exposeMethod('findAddress');
 	}
 
 	/**
-	 * Get owners for ajax owners list
+	 * Get owners for ajax owners list.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function getOwners(\App\Request $request)
@@ -107,8 +107,10 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Search user roles
+	 * Search user roles.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function getUserRole(\App\Request $request)
@@ -134,8 +136,8 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function getReference(\App\Request $request)
@@ -155,7 +157,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 		}
 		$labels = \App\Record::getLabel($ids);
 		foreach ($modules as $moduleName => &$rows) {
-			$data[] = ['name' => Vtiger_Language_Handler::getTranslatedString($moduleName, $moduleName), 'type' => 'optgroup'];
+			$data[] = ['name' => App\Language::translateSingleMod($moduleName, $moduleName), 'type' => 'optgroup'];
 			foreach ($rows as $id) {
 				$data[] = ['id' => $id, 'name' => $labels[$id]];
 			}
@@ -165,8 +167,10 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Verify phone number
+	 * Verify phone number.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function verifyPhoneNumber(\App\Request $request)
@@ -190,6 +194,21 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 			$data['message'] = \App\Language::translate('LBL_INVALID_PHONE_NUMBER');
 		}
 		$response->setResult($data);
+		$response->emit();
+	}
+
+	/**
+	 * Find address.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function findAddress(\App\Request $request)
+	{
+		$instance = \App\AddressFinder::getInstance($request->getByType('type'));
+		$response = new Vtiger_Response();
+		if ($instance) {
+			$response->setResult($instance->find($request->getByType('value', 'Text')));
+		}
 		$response->emit();
 	}
 }

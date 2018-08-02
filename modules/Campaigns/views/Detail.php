@@ -10,9 +10,8 @@
 
 class Campaigns_Detail_View extends Vtiger_Detail_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function __construct()
 	{
@@ -21,8 +20,10 @@ class Campaigns_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * Shows quantity of records
+	 * Shows quantity of records.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return string
 	 */
 	public function showCountRecords(\App\Request $request)
@@ -39,11 +40,12 @@ class Campaigns_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('COUNT_RECORDS', $countRecords);
 		$viewer->assign('RELATED_MODULES', $relatedModulesNames);
+
 		return $viewer->view('CountRecordsContent.tpl', $moduleName, true);
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
@@ -59,6 +61,7 @@ class Campaigns_Detail_View extends Vtiger_Detail_View
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 }

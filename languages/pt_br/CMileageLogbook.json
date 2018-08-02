@@ -1,0 +1,17 @@
+{
+  "php": {
+    "CMileageLogbook": "Di\u00e1rios de Percurso",
+    "SINGLE_CMileageLogbook": "Di\u00e1rio de Percurso",
+    "LBL_ADDITIONAL_INFORMATION": "Informa\u00e7\u00f5es Adicionais",
+    "LBL_BASIC_INFORMATION": "Informa\u00e7\u00f5es B\u00e1sicas",
+    "LBL_DESCRIPTION_BLOCK": "Descri\u00e7\u00e3o",
+    "LBL_ATTENTION_BLOCK": "Observa\u00e7\u00f5es",
+    "FL_SUBJECT": "Assunto",
+    "FL_STATUS": "Situa\u00e7\u00e3o",
+    "FL_NUMBER_KILOMETERS": "Quantidade de Kilometros",
+    "PLL_DRAFT": "Rascunho",
+    "PLL_FOR_APPROVAL": "Para aprova\u00e7\u00e3o",
+    "PLL_ACCEPTED": "Aceito",
+    "PLL_CANCELLED": "Cancelado"
+  }
+}

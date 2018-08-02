@@ -24,7 +24,6 @@
 // Faq is used to store vtiger_faq information.
 class Faq extends CRMEntity
 {
-
 	public $table_name = 'vtiger_faq';
 	public $table_index = 'id';
 	//fix for Custom Field for FAQ
@@ -40,7 +39,7 @@ class Faq extends CRMEntity
 		'Category' => ['faq' => 'category'],
 		'Product Name' => ['faq' => 'product_id'],
 		'Created Time' => ['crmentity' => 'createdtime'],
-		'Modified Time' => ['crmentity' => 'modifiedtime']
+		'Modified Time' => ['crmentity' => 'modifiedtime'],
 	];
 	public $list_fields_name = [
 		'FAQ Id' => '',
@@ -48,7 +47,7 @@ class Faq extends CRMEntity
 		'Category' => 'faqcategories',
 		'Product Name' => 'product_id',
 		'Created Time' => 'createdtime',
-		'Modified Time' => 'modifiedtime'
+		'Modified Time' => 'modifiedtime',
 	];
 
 	/**
@@ -72,34 +71,6 @@ class Faq extends CRMEntity
 	public $def_basicsearch_col = 'question';
 
 	/*
-	 * Function to get the primary query part of a report
-	 * @param - $module Primary module name
-	 * @param ReportRunQueryPlanner $queryPlanner
-	 * returns the query string formed on fetching the related data for report for primary module
-	 */
-
-	public function generateReportsQuery($module, ReportRunQueryPlanner $queryPlanner)
-	{
-		$moduletable = $this->table_name;
-		$moduleindex = $this->table_index;
-
-		$query = "from $moduletable
-					inner join vtiger_crmentity on vtiger_crmentity.crmid=$moduletable.$moduleindex
-					left join vtiger_products as vtiger_products$module on vtiger_products$module.productid = vtiger_faq.product_id
-					left join vtiger_groups as vtiger_groups$module on vtiger_groups$module.groupid = vtiger_crmentity.smownerid
-					left join vtiger_users as vtiger_users$module on vtiger_users$module.id = vtiger_crmentity.smownerid
-					left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid
-					left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid
-                    left join vtiger_users as vtiger_lastModifiedBy" . $module . ' on vtiger_lastModifiedBy' . $module . '.id = vtiger_crmentity.modifiedby';
-		if ($queryPlanner->requireTable('u_yf_crmentity_showners')) {
-			$query .= ' LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid';
-		}
-		if ($queryPlanner->requireTable("vtiger_shOwners$module")) {
-			$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
-		}
-		return $query;
-	}
-	/*
 	 * Function to get the relation tables for related modules
 	 * @param - $secmodule secondary module name
 	 * returns the array with table names and fieldnames storing relations between module and this module
@@ -114,10 +85,5 @@ class Faq extends CRMEntity
 			return $relTables;
 		}
 		return $relTables[$secmodule];
-	}
-
-	public function clearSingletonSaveFields()
-	{
-		$this->column_fields['comments'] = '';
 	}
 }

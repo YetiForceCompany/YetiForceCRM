@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Countries index view class
- * @package YetiForce.Include
- * @license licenses/License.html
+ * Countries index view class.
+ *
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Wojciech Bruggemann <w.bruggemann@yetiforce.com>
  */
 class Settings_Countries_Index_View extends Settings_Vtiger_Index_View
 {
-
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)

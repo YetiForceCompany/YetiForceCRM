@@ -1,13 +1,14 @@
 <?php
 
 /**
- * Settings QuickCreateEditor index view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Settings QuickCreateEditor index view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -15,7 +16,8 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -29,7 +31,8 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * View
+	 * View.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function showFieldLayout(\App\Request $request)
@@ -45,8 +48,9 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 		}
 
 		$quickCreateContents = [];
-		if (in_array('Calendar', $sourceModule))
+		if (in_array('Calendar', $sourceModule)) {
 			$sourceModule = ['Calendar', 'Events'];
+		}
 
 		foreach ($sourceModule as $module) {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($module);
@@ -58,7 +62,6 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule[0]);
 		$viewer->assign('SUPPORTED_MODULES', $menuModelsList);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('RECORDS_STRUCTURE', $quickCreateContents);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 

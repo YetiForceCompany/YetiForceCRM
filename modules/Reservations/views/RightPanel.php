@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Reservations RightPanel view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Reservations RightPanel view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Reservations_RightPanel_View extends Vtiger_IndexAjax_View
 {
-
 	public function __construct()
 	{
 		parent::__construct();

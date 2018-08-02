@@ -1,32 +1,34 @@
 <?php
 
 /**
- * Send mail modal class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Send mail modal class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 {
-
 	public $fields = [];
 
 	/**
-	 * Checking permissions
+	 * Checking permissions.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if (!$request->isEmpty('sourceRecord') && !\App\Privilege::isPermitted($request->getByType('sourceModule', 2), 'DetailView', $request->getInteger('sourceRecord'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	/**
-	 * Pocess function
+	 * Pocess function.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -48,8 +50,10 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 	}
 
 	/**
-	 * Get records list from request
+	 * Get records list from request.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return int[]
 	 */
 	public function getRecordsListFromRequest(\App\Request $request)
@@ -72,8 +76,10 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 	}
 
 	/**
-	 * Get query instance
+	 * Get query instance.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return \App\Db\Query
 	 */
 	public function getQuery(\App\Request $request)

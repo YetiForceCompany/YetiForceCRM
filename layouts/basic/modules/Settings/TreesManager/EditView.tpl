@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class=" editViewContainer">
+	<div class="tpl-Settings-TreesManager-EditView editViewContainer">
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 			<input type="hidden" name="module" value="TreesManager" />
 			<input type="hidden" name="parent" value="Settings" />
@@ -11,12 +11,14 @@
 			<input type="hidden" name="tree" id="treeValues" value='{\App\Purifier::encodeHtml($TREE)}' />
 			<input type="hidden" name="replace" id="replaceIds" value="" />
 			<div class='widget_header row '>
-				<div class="col-xs-12">
+				<div class="col-12">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-					{if isset($SELECTED_PAGE)}
-						{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
-					{/if}
 				</div>
+			</div>
+			<div class="badge badge-info my-2">
+				{if isset($SELECTED_PAGE)}
+					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+				{/if}
 			</div>
 			<div class="row">
 				<label class="col-md-3"><strong><span class="redColor">*</span>{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}: </strong></label>
@@ -43,7 +45,7 @@
 						{/foreach}
 					</select>
 					{if !$ACCESS} 
-						<input type="text" class="fieldValue form-control hide" name="templatemodule" value="{$SOURCE_MODULE}" />
+						<input type="text" class="fieldValue form-control d-none" name="templatemodule" value="{$SOURCE_MODULE}" />
 					{/if}
 				</div>
 			</div>
@@ -68,31 +70,27 @@
 			</div>
 			<br />
 			<hr>
-			<div class="row">
+			<div class="row align-items-center">
 				<div class="col-md-3">
 					<label class=""><strong>{\App\Language::translate('LBL_ADD_ITEM_TREE', $QUALIFIED_MODULE)}</strong></label>
 				</div>
-				<div class="col-md-8">
-					<div class="col-xs-4 col-sm-4 col-md-3 paddingLRZero">
-						<input type="text" class="fieldValue col-md-4 addNewElement form-control">
-					</div>
-					<div class="col-xs-6 paddingLeft5px">
-						<a class="btn btn-default addNewElementBtn"><strong>{\App\Language::translate('LBL_ADD_TO_TREES', $QUALIFIED_MODULE)}</strong></a>
-					</div>
+				<div class="col-md-8 d-flex">
+					<input type="text" class="fieldValue col-md-4 addNewElement form-control">
+					<button class="btn btn-primary addNewElementBtn ml-1" type="button"><span class="fas fa-plus u-mr-5px"></span><strong>{\App\Language::translate('LBL_ADD_TO_TREES', $QUALIFIED_MODULE)}</strong></button>
 				</div>
 			</div>
-			<hr>
+			<hr class="mt-1">
 			<div class="modal-header contentsBackground" tabindex="-1">
 				<div id="treeContents"></div>
 			</div>
 			<br />
-			<div class="pull-right">
-				<button class="btn btn-success saveTree">
-					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
+			<div class="float-right">
+				<button class="btn btn-success saveTree mr-1">
+					<span class="fas fa-check mr-1"></span>
 					<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
-				</button>&nbsp;&nbsp;
-				<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">
-					<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;
+				</button>
+				<button class="cancelLink btn btn-danger" type="reset" onclick="javascript:window.history.back();">
+					<span class="fas fa-times"></span>&nbsp;&nbsp;
 					<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 				</button>
 			</div>

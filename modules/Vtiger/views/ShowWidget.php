@@ -11,7 +11,6 @@
 
 class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -23,14 +22,14 @@ class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View
 		if (!empty($componentName)) {
 			$className = Vtiger_Loader::getComponentClassName('Dashboard', $componentName, $moduleName);
 			if (!empty($className)) {
-				$widget = NULL;
+				$widget = null;
 				if (!empty($linkId)) {
 					$widget = new Vtiger_Widget_Model();
 					$widget->set('linkid', (int) $linkId);
 					$widget->set('userid', $currentUser->getId());
 					$widget->set('widgetid', (int) $id);
 					$widget->set('active', $request->get('active'));
-					$widget->set('filterid', $request->get('filterid', NULL));
+					$widget->set('filterid', $request->get('filterid', null));
 					if ($request->has('data')) {
 						$widget->set('data', $request->get('data'));
 					}
@@ -38,6 +37,7 @@ class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View
 				}
 				$classInstance = new $className();
 				$classInstance->process($request, $widget);
+
 				return;
 			}
 		}

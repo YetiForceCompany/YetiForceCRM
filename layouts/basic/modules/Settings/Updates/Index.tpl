@@ -10,22 +10,26 @@
 		vertical-align:middle !important; 
 	}	
 </style>
-<div class="">
+<div class="tpl-Settings-Updates-Index">
 	<div class="widget_header row">
 		<div class="col-md-7">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-			{if isset($SELECTED_PAGE)}
-				{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
-			{/if}
 		</div>
-		<div class="col-md-5">
-			<div class="pull-right">
-				<a class="btn btn-success addMenu" href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}"><strong>{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}</strong></a>
-			</div>
+		<div class="col-md-5 align-items-center d-flex justify-content-end">
+			<a class="btn btn-success btn-sm addMenu" role="button" href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}">
+				<span class="fa fa-plus u-mr-5px" title="{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}"></span>
+				<span class="sr-only">{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}</span>
+				<strong>{\App\Language::translate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}</strong>
+			</a>
 		</div>
 	</div>
-	<hr>
-	<table class="table tableRWD table-bordered table-condensed themeTableColor">
+	<div class="badge badge-info mb-1 mt-2">
+		{if isset($SELECTED_PAGE)}
+			<a> {\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}</a>
+		{/if}
+	</div>
+	<hr class="mt-1 mb-2">
+	<table class="table tableRWD table-bordered table-sm themeTableColor">
 		<thead>
 			<tr class="blockHeader">
 				<th colspan="1" class="mediumWidthType">

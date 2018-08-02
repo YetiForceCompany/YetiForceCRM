@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Action to upload file
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Action to upload file.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Krzysztof Gastołek <krzysztofgastolek@wars.pl>
  */
-class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
+class KnowledgeBase_ImageUploadAjax_Action extends \App\Controller\Action
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -24,7 +23,7 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -71,7 +70,7 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 						return false;
 					} else {
 						list($width, $height) = getimagesize($_FILES['upload']['tmp_name']);
-						if (isset($width) && isset($height)) {
+						if (isset($width, $height)) {
 							if ($width > $iConf['maxwidth'] || $height > $iConf['maxheight']) {
 								$response = '\\n ' . \App\Language::translate('LBL_WIDTH_HEIGHT', $moduleName) . ' = ' . $width . ' x ' . $height . ' \\n '
 									. \App\Language::translate('LBL_ALLOWED_WIDTH_HEIGHT', $moduleName) . ': ' . $iConf['maxwidth'] . ' x ' . $iConf['maxheight'];
@@ -150,13 +149,15 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Sets filename
-	 * @param string $dirPath directory path
-	 * @param string $fileName filename to check
+	 * Sets filename.
+	 *
+	 * @param string $dirPath   directory path
+	 * @param string $fileName  filename to check
 	 * @param string $extension extension
-	 * @param int $i index to rename
-	 * @param string $fileName filename
-	 * @param int $rename checks if file should be rename or overwrite 
+	 * @param int    $i         index to rename
+	 * @param string $fileName  filename
+	 * @param int    $rename    checks if file should be rename or overwrite
+	 *
 	 * @return string filename with extension
 	 */
 	public function setFileName($dirPath, $fileName, $extension, $i, $rename)
@@ -165,8 +166,9 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 			$ending = '_' . $i;
 			while (file_exists($dirPath . $fileName . $ending . $extension)) {
 				$ending = '_' . $i;
-				$i++;
+				++$i;
 			}
+
 			return $fileName . $ending . $extension;
 		} else {
 			return $fileName . $extension;

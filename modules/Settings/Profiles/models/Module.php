@@ -8,13 +8,10 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-/*
- * Settings Module Model Class
- */
+// Settings Module Model Class
 
 class Settings_Profiles_Module_Model extends Settings_Vtiger_Module_Model
 {
-
 	public $baseTable = 'vtiger_profile';
 	public $baseIndex = 'profileid';
 	public $listFields = ['profilename' => 'Name', 'description' => 'Description'];
@@ -32,7 +29,8 @@ class Settings_Profiles_Module_Model extends Settings_Vtiger_Module_Model
 	public $name = 'Profiles';
 
 	/**
-	 * Function to get the url for default view of the module
+	 * Function to get the url for default view of the module.
+	 *
 	 * @return string - url
 	 */
 	public function getDefaultUrl()
@@ -41,7 +39,8 @@ class Settings_Profiles_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get the url for create view of the module
+	 * Function to get the url for create view of the module.
+	 *
 	 * @return string - url
 	 */
 	public function getCreateRecordUrl()
@@ -50,7 +49,8 @@ class Settings_Profiles_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get non visible modules list
+	 * Function to get non visible modules list.
+	 *
 	 * @return <Array> list of modules
 	 */
 	public static function getNonVisibleModulesList()

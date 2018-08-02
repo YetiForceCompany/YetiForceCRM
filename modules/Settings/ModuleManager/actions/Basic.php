@@ -9,27 +9,17 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('updateModuleStatus');
-		$this->exposeMethod('importUserModuleStep3');
-		$this->exposeMethod('updateUserModuleStep3');
 		$this->exposeMethod('checkModuleName');
 		$this->exposeMethod('createModule');
 		$this->exposeMethod('deleteModule');
-	}
-
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	public function updateModuleStatus(\App\Request $request)
@@ -49,82 +39,20 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function importUserModuleStep3(\App\Request $request)
-	{
-		$importModuleName = $request->get('module_import_name');
-		$uploadFile = $request->get('module_import_file');
-		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
-		$uploadFileName = "$uploadDir/$uploadFile";
-		vtlib\Deprecated::checkFileAccess($uploadFileName);
-
-		$importType = $request->get('module_import_type');
-		if (strtolower($importType) == 'language') {
-			$package = new vtlib\Language();
-		} else if (strtolower($importType) == 'layout') {
-			$package = new vtlib\Layout();
-		} else {
-			$package = new vtlib\Package();
-		}
-
-		$package->import($uploadFileName);
-
-		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
-		unlink($uploadFileName);
-
-		$result = ['success' => true, 'importModuleName' => $importModuleName];
-		$response = new Vtiger_Response();
-		$response->setResult($result);
-		$response->emit();
-	}
-
-	public function updateUserModuleStep3(\App\Request $request)
-	{
-		$importModuleName = $request->get('module_import_name');
-		$uploadFile = $request->get('module_import_file');
-		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
-		$uploadFileName = "$uploadDir/$uploadFile";
-		vtlib\Deprecated::checkFileAccess($uploadFileName);
-
-		$importType = strtolower($request->get('module_import_type'));
-		if ($importType == 'language') {
-			$package = new vtlib\Language();
-		} else if ($importType == 'layout') {
-			$package = new vtlib\Layout();
-		} else {
-			$package = new vtlib\Package();
-		}
-
-		if ($importType == 'language' || $importType == 'layout') {
-			$package->import($uploadFileName);
-		} else {
-			$package->update(vtlib\Module::getInstance($importModuleName), $uploadFileName);
-		}
-
-		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
-		unlink($uploadFileName);
-
-		$result = ['success' => true, 'importModuleName' => $importModuleName];
-		$response = new Vtiger_Response();
-		$response->setResult($result);
-		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
-
 	/**
-	 * Action to check module name
+	 * Action to check module name.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function checkModuleName(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleName = $request->get('moduleName');
+		$moduleName = ucfirst($request->get('moduleName'));
 		$module = vtlib\Module::getInstance($moduleName);
 		if ($module) {
 			$result = ['success' => false, 'text' => \App\Language::translate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName)];
+		} elseif (strpos($moduleName, 'Settings') !== false) {
+			$result = ['success' => false, 'text' => \App\Language::translate('LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS', $qualifiedModuleName)];
 		} elseif (Settings_ModuleManager_Module_Model::checkModuleName($moduleName)) {
 			$result = ['success' => false, 'text' => \App\Language::translate('LBL_INVALID_MODULE_NAME', $qualifiedModuleName)];
 		} else {
@@ -136,7 +64,8 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 	}
 
 	/**
-	 * Action to create module
+	 * Action to create module.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function createModule(\App\Request $request)
@@ -186,7 +115,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$response->setResult([
 			'success' => true,
 			'color' => $color,
-			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false)),
 		]);
 		$response->emit();
 	}
@@ -198,7 +127,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$response->setResult([
 			'success' => true,
 			'color' => $color,
-			'message' => \App\Language::translate('LBL_REMOVED_COLOR', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_REMOVED_COLOR', $request->getModule(false)),
 		]);
 		$response->emit();
 	}
@@ -210,7 +139,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$response->setResult([
 			'success' => true,
 			'color' => $color,
-			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false)),
 		]);
 		$response->emit();
 	}

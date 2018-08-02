@@ -13,13 +13,6 @@
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
 
-// more than 8MB memory needed for graphics
-// memory limit default value = 64M
-AppConfig::iniSet('memory_limit', '512M');
-
-// lifetime of session
-AppConfig::iniSet('session.gc_maxlifetime', '21600');
-
 // show or hide calendar, world clock, calculator, chat and CKEditor
 // Do NOT remove the quotes if you set these to false!
 $CALENDAR_DISPLAY = 'true';
@@ -108,9 +101,6 @@ $default_theme = 'softed';
 // no default_user_name default value
 $default_user_name = '';
 
-//Master currency name
-$currency_name = '_MASTER_CURRENCY_';
-
 // default charset
 // default charset default value = 'UTF-8' or 'ISO-8859-1'
 $default_charset = '_VT_CHARSET_';
@@ -144,7 +134,7 @@ $php_max_execution_time = 0;
 // Set the default timezone as per your preference
 $default_timezone = '_TIMEZONE_';
 
-/** If timezone is configured, try to set it */
+// If timezone is configured, try to set it
 if (isset($default_timezone) && function_exists('date_default_timezone_set')) {
 	date_default_timezone_set($default_timezone);
 }

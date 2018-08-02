@@ -10,17 +10,17 @@
  * *********************************************************************************** */
 
 /**
- * CustomView Record Model Class
+ * CustomView Record Model Class.
  */
 class CustomView_Record_Model extends \App\Base
 {
-
 	protected $isFeatured = false;
 	protected $isDefault = false;
 	protected $sortOrderBy = false;
 
 	/**
-	 * Function to get the Id
+	 * Function to get the Id.
+	 *
 	 * @return <Number> Custom View Id
 	 */
 	public function getId()
@@ -29,7 +29,8 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the Owner Id
+	 * Function to get the Owner Id.
+	 *
 	 * @return <Number> Id of the User who created the Custom View
 	 */
 	public function getOwnerId()
@@ -38,7 +39,8 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the Owner Name
+	 * Function to get the Owner Name.
+	 *
 	 * @return string Custom View creator User Name
 	 */
 	public function getOwnerName()
@@ -47,7 +49,8 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the Module to which the record belongs
+	 * Function to get the Module to which the record belongs.
+	 *
 	 * @return Vtiger_Module_Model
 	 */
 	public function getModule()
@@ -56,40 +59,47 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to set the Module to which the record belongs
+	 * Function to set the Module to which the record belongs.
+	 *
 	 * @param string $moduleName
+	 *
 	 * @return Vtiger_Record_Model or Module Specific Record Model instance
 	 */
 	public function setModule($moduleName)
 	{
 		$this->module = Vtiger_Module_Model::getInstance($moduleName);
+
 		return $this;
 	}
 
 	/**
-	 * Function to set the Module to which the record belongs from the Module model instance
+	 * Function to set the Module to which the record belongs from the Module model instance.
+	 *
 	 * @param Vtiger_Module_Model $module
+	 *
 	 * @return Vtiger_Record_Model or Module Specific Record Model instance
 	 */
 	public function setModuleFromInstance($module)
 	{
 		$this->module = $module;
+
 		return $this;
 	}
 
 	/**
-	 * Function to check if the view is marked as default
-	 * @return boolean true/false
+	 * Function to check if the view is marked as default.
+	 *
+	 * @return bool true/false
 	 */
 	public function isDefault()
 	{
-
 		\App\Log::trace('Entering ' . __METHOD__ . ' method ...');
 		if ($this->isDefault === false) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$cvId = $this->getId();
 			if (!$cvId) {
 				$this->isDefault = false;
+
 				return false;
 			}
 			$this->isDefault = (new App\Db\Query())->from('vtiger_user_module_preferences')
@@ -97,6 +107,7 @@ class CustomView_Record_Model extends \App\Base
 				->exists();
 		}
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+
 		return $this->isDefault;
 	}
 
@@ -106,63 +117,69 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to check if the view is created by the current user or is default view
-	 * @return boolean true/false
+	 * Function to check if the view is created by the current user or is default view.
+	 *
+	 * @return bool true/false
 	 */
 	public function isMine()
 	{
 		$userPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		return ($this->get('status') == App\CustomView::CV_STATUS_DEFAULT || $this->get('userid') == $userPrivilegeModel->getId());
+
+		return $this->get('status') == App\CustomView::CV_STATUS_DEFAULT || $this->get('userid') == $userPrivilegeModel->getId();
 	}
 
 	/**
-	 * Function to check if the view is approved to be Public
-	 * @return boolean true/false
+	 * Function to check if the view is approved to be Public.
+	 *
+	 * @return bool true/false
 	 */
 	public function isPublic()
 	{
-		return (!$this->isMine() && $this->get('status') == App\CustomView::CV_STATUS_PUBLIC);
+		return !$this->isMine() && $this->get('status') == App\CustomView::CV_STATUS_PUBLIC;
 	}
 
 	/**
-	 * Function to check if the view is marked as Private
-	 * @return boolean true/false
+	 * Function to check if the view is marked as Private.
+	 *
+	 * @return bool true/false
 	 */
 	public function isPrivate()
 	{
-		return ($this->get('status') == App\CustomView::CV_STATUS_PRIVATE);
+		return $this->get('status') == App\CustomView::CV_STATUS_PRIVATE;
 	}
 
 	/**
-	 * Function to check if the view is requested to be Public and is awaiting for Approval
-	 * @return boolean true/false
+	 * Function to check if the view is requested to be Public and is awaiting for Approval.
+	 *
+	 * @return bool true/false
 	 */
 	public function isPending()
 	{
-		return (!$this->isMine() && $this->get('status') == App\CustomView::CV_STATUS_PENDING);
+		return !$this->isMine() && $this->get('status') == App\CustomView::CV_STATUS_PENDING;
 	}
 
 	/**
-	 * Function to check if the view is created by one of the users, who is below the current user in the role hierarchy
-	 * @return boolean true/false
+	 * Function to check if the view is created by one of the users, who is below the current user in the role hierarchy.
+	 *
+	 * @return bool true/false
 	 */
 	public function isOthers()
 	{
-		return (!$this->isMine() && $this->get('status') != App\CustomView::CV_STATUS_PUBLIC);
+		return !$this->isMine() && $this->get('status') != App\CustomView::CV_STATUS_PUBLIC;
 	}
 
 	/**
 	 * Function which checks if a view is set to Public by the user which may/may not be approved.
-	 * @return boolean true/false
+	 *
+	 * @return bool true/false
 	 */
 	public function isSetPublic()
 	{
-		return ($this->get('status') == App\CustomView::CV_STATUS_PUBLIC || $this->get('status') == App\CustomView::CV_STATUS_PENDING);
+		return $this->get('status') == App\CustomView::CV_STATUS_PUBLIC || $this->get('status') == App\CustomView::CV_STATUS_PENDING;
 	}
 
 	public function isFeatured($editView = false)
 	{
-
 		\App\Log::trace('Entering ' . __METHOD__ . ' method ...');
 		if ($this->isFeatured === false) {
 			if (empty($editView)) {
@@ -176,6 +193,7 @@ class CustomView_Record_Model extends \App\Base
 			}
 		}
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+
 		return $this->isFeatured;
 	}
 
@@ -183,34 +201,28 @@ class CustomView_Record_Model extends \App\Base
 	{
 		$db = App\Db::getInstance('admin');
 		$cvId = $this->getId();
-		if (!$cvId)
+		if (!$cvId) {
 			return false;
+		}
 		return (new App\Db\Query())->from('u_#__featured_filter')
-				->where(['cvid' => $cvId, 'user' => 'Users:' . Users_Record_Model::getCurrentUserModel()->getId()])
-				->exists($db);
+			->where(['cvid' => $cvId, 'user' => 'Users:' . Users_Record_Model::getCurrentUserModel()->getId()])
+			->exists($db);
 	}
 
 	public function checkPermissionToFeatured($editView = false)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \App\User::getCurrentUserModel();
 		$query = (new \App\Db\Query())->from('u_#__featured_filter');
-		if ($currentUser->isAdminUser()) {
-			$userGroups = $currentUser->getUserGroups($currentUser->getId());
-			$parentRoles = \App\PrivilegeUtil::getRoleDetail($currentUser->getRole());
-			$parentRoles = $parentRoles['parentrole'] ? $parentRoles['parentrole'] : [];
-		} else {
-			$parentRoles = $currentUser->getParentRoleSequence();
-			$userGroups = $currentUser->get('privileges')->get('groups');
-		}
 		$where = ['or', ['user' => 'Users:' . $currentUser->getId()], ['user' => 'Roles:' . $currentUser->getRole()]];
-		foreach ($userGroups as $groupId) {
-			$where [] = ['user' => "Groups:$groupId"];
+		foreach ($currentUser->getGroups() as $groupId) {
+			$where[] = ['user' => "Groups:$groupId"];
 		}
-		foreach (explode('::', $parentRoles) as $role) {
-			$where [] = ['user' => "RoleAndSubordinates:$role"];
+		foreach (explode('::', $currentUser->getParentRolesSeq()) as $role) {
+			$where[] = ['user' => "RoleAndSubordinates:$role"];
 		}
 		$query->where(['cvid' => $this->getId()]);
 		$query->andWhere($where);
+
 		return $query->exists();
 	}
 
@@ -219,11 +231,9 @@ class CustomView_Record_Model extends \App\Base
 		if ($this->get('privileges') == 0) {
 			return false;
 		}
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if ($currentUser->isAdminUser()) {
+		if (\App\User::getCurrentUserModel()->isAdmin()) {
 			return true;
 		}
-
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->get('name');
 		if (!\App\Privilege::isPermitted($moduleName, 'CreateCustomFilter')) {
@@ -242,21 +252,26 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function which provides the records for the current view
-	 * @param boolean $skipRecords - List of the RecordIds to be skipped
+	 * Function which provides the records for the current view.
+	 *
+	 * @param bool $skipRecords - List of the RecordIds to be skipped
+	 *
 	 * @return int[] List of RecordsIds
 	 */
 	public function getRecordIds($skipRecords = false, $module = false, $lockRecords = false)
 	{
 		$queryGenerator = $this->getRecordsListQuery($skipRecords, $module, $lockRecords);
+
 		return $queryGenerator->createQuery()->column();
 	}
 
 	/**
-	 * Create query
-	 * @param int[] $skipRecords
+	 * Create query.
+	 *
+	 * @param int[]  $skipRecords
 	 * @param string $module
-	 * @param bool $lockRecords
+	 * @param bool   $lockRecords
+	 *
 	 * @return \App\QueryGenerator
 	 */
 	public function getRecordsListQuery($skipRecords = false, $module = false, $lockRecords = false)
@@ -301,7 +316,7 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to save the custom view record
+	 * Function to save the custom view record.
 	 */
 	public function save()
 	{
@@ -309,7 +324,7 @@ class CustomView_Record_Model extends \App\Base
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 		$cvIdOrg = $cvId = $this->getId();
-		$setDefault = intval($this->get('setdefault'));
+		$setDefault = (int) ($this->get('setdefault'));
 		$status = $this->get('status');
 		$featured = $this->get('featured');
 
@@ -350,7 +365,7 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to delete the custom view record
+	 * Function to delete the custom view record.
 	 */
 	public function delete()
 	{
@@ -368,7 +383,7 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to delete the custom view record
+	 * Function to delete the custom view record.
 	 */
 	public function setDefaultFilter()
 	{
@@ -380,12 +395,12 @@ class CustomView_Record_Model extends \App\Base
 		$db->createCommand()->insert('vtiger_user_module_preferences', [
 			'userid' => $userId,
 			'tabid' => $tabId,
-			'default_cvid' => $this->getId()
+			'default_cvid' => $this->getId(),
 		])->execute();
 	}
 
 	/**
-	 * Set conditions for filter
+	 * Set conditions for filter.
 	 */
 	public function setConditionsForFilter()
 	{
@@ -401,7 +416,7 @@ class CustomView_Record_Model extends \App\Base
 					'columnname' => $stdFilterList['columnname'],
 					'stdfilter' => $stdFilterList['stdfilter'],
 					'startdate' => trim($stdFilterList['startdate'], "'"),
-					'enddate' => trim($stdFilterList['enddate'], "'")
+					'enddate' => trim($stdFilterList['enddate'], "'"),
 				])->execute();
 		}
 
@@ -412,7 +427,7 @@ class CustomView_Record_Model extends \App\Base
 					continue;
 				}
 				$groupColumns = $groupInfo['columns'];
-				$groupCondition = isset($groupInfo['condition']) ? $groupInfo['condition'] : false;
+				$groupCondition = $groupInfo['condition'] ?? false;
 
 				foreach ($groupColumns as $columnIndex => $columnCondition) {
 					if (empty($columnCondition)) {
@@ -444,11 +459,11 @@ class CustomView_Record_Model extends \App\Base
 							$advFitlerValue = CurrencyField::convertToDBFormat($advFitlerValue);
 						}
 					}
-					if (($fieldType === 'date' || ($fieldType === 'time' && $fieldName !== 'time_start' && $fieldName !== 'time_end') || ($fieldType === 'datetime')) && ($fieldType !== '' && $advFitlerValue !== '' )) {
+					if (($fieldType === 'date' || ($fieldType === 'time' && $fieldName !== 'time_start' && $fieldName !== 'time_end') || ($fieldType === 'datetime')) && ($fieldType !== '' && $advFitlerValue !== '')) {
 						$tempVal = explode(',', $advFitlerValue);
 						$val = [];
 						$countTempVal = count($tempVal);
-						for ($x = 0; $x < $countTempVal; $x++) {
+						for ($x = 0; $x < $countTempVal; ++$x) {
 							//if date and time given then we have to convert the date and
 							//leave the time as it is, if date only given then temp_time
 							//value will be empty
@@ -476,7 +491,7 @@ class CustomView_Record_Model extends \App\Base
 							'comparator' => $advFilterComparator,
 							'value' => $advFitlerValue,
 							'groupid' => $groupIndex,
-							'column_condition' => $advFilterColumnCondition
+							'column_condition' => $advFilterColumnCondition,
 						])->execute();
 
 					// Update the condition expression for the group to which the condition column belongs
@@ -495,7 +510,7 @@ class CustomView_Record_Model extends \App\Base
 						'groupid' => $groupIndex,
 						'cvid' => $cvId,
 						'group_condition' => $groupCondition,
-						'condition_expression' => $advFilterList[$groupIndex]['conditionexpression']
+						'condition_expression' => $advFilterList[$groupIndex]['conditionexpression'],
 					])->execute();
 			}
 		}
@@ -509,13 +524,13 @@ class CustomView_Record_Model extends \App\Base
 			$db->createCommand()->insert('vtiger_cvcolumnlist', [
 				'cvid' => $cvId,
 				'columnindex' => $index,
-				'columnname' => $columnName
+				'columnname' => $columnName,
 			])->execute();
 		}
 	}
 
 	/**
-	 * Function to add the custom view record in db
+	 * Function to add the custom view record in db.
 	 */
 	public function addCustomView()
 	{
@@ -532,7 +547,7 @@ class CustomView_Record_Model extends \App\Base
 			'sequence' => $seq,
 			'featured' => null,
 			'color' => $this->get('color'),
-			'description' => $this->get('description')
+			'description' => $this->get('description'),
 		])->execute();
 		$this->set('cvid', $db->getLastInsertID('vtiger_customview_cvid_seq'));
 		$this->setColumnlist();
@@ -540,18 +555,21 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Get next sequence
+	 * Get next sequence.
+	 *
 	 * @param string $moduleName
+	 *
 	 * @return int
 	 */
 	public function getNextSeq($moduleName)
 	{
 		$maxSequence = (new \App\Db\Query())->from('vtiger_customview')->where(['entitytype' => $moduleName])->max('sequence');
+
 		return (int) $maxSequence + 1;
 	}
 
 	/**
-	 * Function to update the custom view record in db
+	 * Function to update the custom view record in db.
 	 */
 	public function updateCustomView()
 	{
@@ -563,7 +581,7 @@ class CustomView_Record_Model extends \App\Base
 			'setmetrics' => $this->get('setmetrics'),
 			'status' => $this->get('status'),
 			'color' => $this->get('color'),
-			'description' => $this->get('description')
+			'description' => $this->get('description'),
 			], ['cvid' => $cvId]
 		)->execute();
 		$dbCommand->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();
@@ -575,7 +593,8 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the list of selected fields for the current custom view
+	 * Function to get the list of selected fields for the current custom view.
+	 *
 	 * @return array List of Field Column Names
 	 */
 	public function getSelectedFields()
@@ -585,14 +604,15 @@ class CustomView_Record_Model extends \App\Base
 			return [];
 		}
 		return (new App\Db\Query())->select('vtiger_cvcolumnlist.columnindex, vtiger_cvcolumnlist.columnname')
-				->from('vtiger_cvcolumnlist')
-				->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
-				->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
-				->createCommand()->queryAllByGroup();
+			->from('vtiger_cvcolumnlist')
+			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
+			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
+			->createCommand()->queryAllByGroup();
 	}
 
 	/**
-	 * Function to get the Standard filter condition for the current custom view
+	 * Function to get the Standard filter condition for the current custom view.
+	 *
 	 * @return array Standard filter condition
 	 */
 	public function getStandardCriteria()
@@ -628,7 +648,8 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the list of advanced filter conditions for the current custom view
+	 * Function to get the list of advanced filter conditions for the current custom view.
+	 *
 	 * @return array - All the advanced filter conditions for the custom view, grouped by the condition grouping
 	 */
 	public function getAdvancedCriteria()
@@ -649,11 +670,12 @@ class CustomView_Record_Model extends \App\Base
 			$groupId = $relCriteriaGroup['groupid'];
 			$groupCondition = $relCriteriaGroup['group_condition'];
 			$rows = (new App\Db\Query())->select(['vtiger_cvadvfilter.*'])->from('vtiger_customview')->innerJoin('vtiger_cvadvfilter', 'vtiger_customview.cvid = vtiger_cvadvfilter.cvid')->leftJoin('vtiger_cvadvfilter_grouping', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid')->where(['vtiger_customview.cvid' => $this->getId(), 'vtiger_cvadvfilter.groupid' => $groupId])
-					->andWhere(['and', new \yii\db\Expression('`vtiger_cvadvfilter`.`groupid` = `vtiger_cvadvfilter_grouping`.`groupid`')])
-					->orderBy('vtiger_cvadvfilter.columnindex')->all();
+				->andWhere(['and', new \yii\db\Expression('`vtiger_cvadvfilter`.`groupid` = `vtiger_cvadvfilter_grouping`.`groupid`')])
+				->orderBy('vtiger_cvadvfilter.columnindex')->all();
 
-			if (!$rows)
+			if (!$rows) {
 				continue;
+			}
 
 			foreach ($rows as $relCriteriaRow) {
 				$criteria = [];
@@ -665,9 +687,9 @@ class CustomView_Record_Model extends \App\Base
 					$tempVal = explode(',', $relCriteriaRow['value']);
 					$val = [];
 					$countTempVal = count($tempVal);
-					for ($x = 0; $x < $countTempVal; $x++) {
+					for ($x = 0; $x < $countTempVal; ++$x) {
 						if ($col[4] === 'D') {
-							/** while inserting in db for due_date it was taking date and time values also as it is
+							/* while inserting in db for due_date it was taking date and time values also as it is
 							 * date time field. We only need to take date from that value
 							 */
 							if ($col[0] === 'vtiger_activity' && $col[1] === 'due_date') {
@@ -699,22 +721,25 @@ class CustomView_Record_Model extends \App\Base
 				$groupId = $relCriteriaRow['groupid'];
 				$advFtCriteria[$groupId]['columns'][$j] = $criteria;
 				$advFtCriteria[$groupId]['condition'] = $groupCondition;
-				$j++;
+				++$j;
 			}
 			if (!empty($advFtCriteria[$groupId]['columns'][$j - 1]['column_condition'])) {
 				$advFtCriteria[$groupId]['columns'][$j - 1]['column_condition'] = '';
 			}
-			$i++;
+			++$i;
 		}
+		$dataReader->close();
 		// Clear the condition (and/or) for last group, if any.
-		if (!empty($advFtCriteria[$i - 1]['condition']))
+		if (!empty($advFtCriteria[$i - 1]['condition'])) {
 			$advFtCriteria[$i - 1]['condition'] = '';
+		}
 		return $advFtCriteria;
 	}
 
 	/**
-	 * Function returns approve url
-	 * @return String - approve url
+	 * Function returns approve url.
+	 *
+	 * @return string - approve url
 	 */
 	public function getCreateUrl()
 	{
@@ -722,8 +747,9 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function returns approve url
-	 * @return String - approve url
+	 * Function returns approve url.
+	 *
+	 * @return string - approve url
 	 */
 	public function getEditUrl()
 	{
@@ -731,8 +757,9 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function returns approve url
-	 * @return String - approve url
+	 * Function returns approve url.
+	 *
+	 * @return string - approve url
 	 */
 	public function getApproveUrl()
 	{
@@ -740,8 +767,9 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function returns deny url
-	 * @return String - deny url
+	 * Function returns deny url.
+	 *
+	 * @return string - deny url
 	 */
 	public function getDenyUrl()
 	{
@@ -749,8 +777,9 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function returns duplicate url
-	 * @return String - duplicate url
+	 * Function returns duplicate url.
+	 *
+	 * @return string - duplicate url
 	 */
 	public function getDuplicateUrl()
 	{
@@ -758,8 +787,9 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 *  Functions returns delete url
-	 * @return String - delete url
+	 *  Functions returns delete url.
+	 *
+	 * @return string - delete url
 	 */
 	public function getDeleteUrl()
 	{
@@ -767,7 +797,7 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to approve filter
+	 * Function to approve filter.
 	 */
 	public function approve()
 	{
@@ -777,7 +807,7 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function deny
+	 * Function deny.
 	 */
 	public function deny()
 	{
@@ -787,7 +817,8 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the advanced filter option names by Field type
+	 * Function to get the advanced filter option names by Field type.
+	 *
 	 * @return <Array>
 	 */
 	public static function getAdvancedFilterOpsByFieldType()
@@ -801,52 +832,54 @@ class CustomView_Record_Model extends \App\Base
 			'D' => ['e', 'n', 'bw', 'b', 'a'],
 			'DT' => ['e', 'n', 'bw', 'b', 'a'],
 			'NN' => ['e', 'n', 'l', 'g', 'm', 'h'],
-			'E' => ['e', 'n', 's', 'ew', 'c', 'k']
+			'E' => ['e', 'n', 's', 'ew', 'c', 'k'],
 		];
 	}
 
 	/**
-	 * Function to get all the accessible Custom Views, for a given module if specified
+	 * Function to get all the accessible Custom Views, for a given module if specified.
+	 *
 	 * @param string $moduleName
+	 *
 	 * @return <Array> - Array of Vtiger_CustomView_Record models
 	 */
 	public static function getAll($moduleName = '')
 	{
-
 		\App\Log::trace('Entering ' . __METHOD__ . " ($moduleName) method ...");
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUser = \App\User::getCurrentUserModel();
 		$cacheName = $moduleName . $currentUser->getId();
 		if (App\Cache::has('getAllFilters', $cacheName)) {
 			return App\Cache::get('getAllFilters', $cacheName);
 		}
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM vtiger_customview';
-		$params = [];
+		$query = (new App\Db\Query())->from('vtiger_customview');
 		if (!empty($moduleName)) {
-			$sql .= ' WHERE entitytype=?';
-			$params[] = $moduleName;
+			$query->where(['entitytype' => $moduleName]);
 		}
-		if (!$currentUser->isAdminUser()) {
-			$userParentRoleSeq = $currentUser->getParentRoleSequence();
-			$sql .= " AND ( vtiger_customview.userid = ? OR vtiger_customview.status = 0 OR vtiger_customview.status = 3
-							OR vtiger_customview.userid IN (
-								SELECT vtiger_user2role.userid FROM vtiger_user2role
-									INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid
-									INNER JOIN vtiger_role ON vtiger_role.roleid = vtiger_user2role.roleid
-								WHERE vtiger_role.parentrole LIKE '" . $userParentRoleSeq . "::%')
-						)";
-			$params[] = $currentUser->getId();
+		if (!$currentUser->isAdmin()) {
+			$userParentRoleSeq = $currentUser->getParentRolesSeq();
+			$query->andWhere([
+				'or',
+				['userid' => $currentUser->getId()],
+				['status' => 0],
+				['status' => 3],
+				['userid' => (new App\Db\Query())->select(['vtiger_user2role.userid'])
+					->from('vtiger_user2role')
+					->innerJoin('vtiger_users', 'vtiger_users.id = vtiger_user2role.userid')
+					->innerJoin('vtiger_role', 'vtiger_role.roleid = vtiger_user2role.roleid')
+					->where(['like', 'vtiger_role.parentrole', "{$userParentRoleSeq}::%", false]),
+				],
+			]);
 		}
-		$sql .= ' ORDER BY sequence ASC';
-		$result = $db->pquery($sql, $params);
+		$dataReader = $query->orderBy(['sequence' => SORT_ASC])->createCommand()->query();
 		$customViews = [];
-		while ($row = $db->fetchArray($result)) {
+		while ($row = $dataReader->read()) {
 			$customView = new self();
 			if (strlen(App\Purifier::decodeHtml($row['viewname'])) > 40) {
 				$row['viewname'] = substr(App\Purifier::decodeHtml($row['viewname']), 0, 36) . '...';
 			}
 			$customViews[$row['cvid']] = $customView->setData($row)->setModule($row['entitytype']);
 		}
+		$dataReader->close();
 
 		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'filters';
 		if ($moduleName && file_exists($filterDir)) {
@@ -867,12 +900,15 @@ class CustomView_Record_Model extends \App\Base
 		}
 		\App\Cache::save('getAllFilters', $cacheName, $customViews, \App\Cache::LONG);
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+
 		return $customViews;
 	}
 
 	/**
-	 * Function to get the instance of Custom View module, given custom view id
+	 * Function to get the instance of Custom View module, given custom view id.
+	 *
 	 * @param int $cvId
+	 *
 	 * @return CustomView_Record_Model instance, if exists. Null otherwise
 	 */
 	public static function getInstanceById($cvId)
@@ -891,35 +927,38 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get all the custom views, of a given module if specified, grouped by their status
+	 * Function to get all the custom views, of a given module if specified, grouped by their status.
+	 *
 	 * @param string $moduleName
+	 *
 	 * @return <Array> - Associative array of Status label to an array of Vtiger_CustomView_Record models
 	 */
 	public static function getAllByGroup($moduleName = '', $menuId = false)
 	{
 		$customViews = self::getAll($moduleName);
-		$filters = $groupedCustomViews = [];
-		$menuFilter = false;
+		$filters = array_keys($customViews);
+		$groupedCustomViews = [];
 		if ($menuId) {
 			$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
 			if (file_exists($roleMenu)) {
-				require($roleMenu);
+				require $roleMenu;
 			} else {
-				require('user_privileges/menu_0.php');
+				require 'user_privileges/menu_0.php';
 			}
 			if (count($menus) == 0) {
-				require('user_privileges/menu_0.php');
+				require 'user_privileges/menu_0.php';
 			}
 			if (array_key_exists($menuId, $filterList)) {
-				$filters = explode(',', $filterList[$menuId]['filters']);
-				$menuFilter = true;
+				$filtersMenu = explode(',', $filterList[$menuId]['filters']);
+				$filters = array_intersect($filtersMenu, $filters);
+				if (empty($filters)) {
+					$filters = [App\CustomView::getInstance($moduleName)->getDefaultCvId()];
+				}
 			}
 		}
-		foreach ($customViews as $index => $customView) {
-			if ($menuFilter && !in_array($customView->getId(), $filters)) {
-				continue;
-			}
+		foreach ($filters as $id) {
+			$customView = $customViews[$id];
 			if ($customView->isSystem()) {
 				$groupedCustomViews['System'][] = $customView;
 			} elseif ($customView->isMine()) {
@@ -934,7 +973,8 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get Clean instance of this record
+	 * Function to get Clean instance of this record.
+	 *
 	 * @return self
 	 */
 	public static function getCleanInstance()
@@ -943,8 +983,9 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to check duplicates from database
-	 * @return boolean
+	 * Function to check duplicates from database.
+	 *
+	 * @return bool
 	 */
 	public function checkDuplicate()
 	{
@@ -963,6 +1004,7 @@ class CustomView_Record_Model extends \App\Base
 	 * filter and other with ANY(OR) condition, this functions tranforms the older
 	 * filter with 'AND' condition between filters of a group and will be placed under
 	 * match ALL conditions group and the rest of it will be placed under match Any group.
+	 *
 	 * @return <Array>
 	 */
 	public function transformToNewAdvancedFilter()
@@ -987,7 +1029,7 @@ class CustomView_Record_Model extends \App\Base
 				} else {
 					$anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
 				}
-			} else if ($block == 'and' || $index == 1) {
+			} elseif ($block == 'and' || $index == 1) {
 				$allGroupColumns = array_merge($allGroupColumns, $group['columns']);
 			} else {
 				$anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
@@ -1002,6 +1044,7 @@ class CustomView_Record_Model extends \App\Base
 
 		return $transformedAdvancedCondition;
 	}
+
 	/*
 	 *  Function used to tranform the standard filter as like as advanced filter format
 	 * 	@returns array of tranformed standard filter
@@ -1025,6 +1068,7 @@ class CustomView_Record_Model extends \App\Base
 				$tranformedStandardFilter['columnname'] = $standardFilter['columnname'] . ':D';
 				$tranformedStandardFilter['value'] = $standardFilter['startdate'] . ',' . $standardFilter['enddate'];
 			}
+
 			return [$tranformedStandardFilter];
 		} else {
 			return false;
@@ -1032,8 +1076,10 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function gives default custom view for a module
+	 * Function gives default custom view for a module.
+	 *
 	 * @param string $module
+	 *
 	 * @return CustomView_Record_Model
 	 */
 	public static function getAllFilterByModule($module)
@@ -1056,9 +1102,8 @@ class CustomView_Record_Model extends \App\Base
 				$return = $return[0];
 				break;
 			case 'sortOrder':
-				$return = isset($return[1]) ? $return[1] : '';
+				$return = $return[1] ?? '';
 				break;
-
 			default:
 				break;
 		}

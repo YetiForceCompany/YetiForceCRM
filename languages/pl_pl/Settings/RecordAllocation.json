@@ -1,0 +1,16 @@
+{
+  "php": {
+    "LBL_OWNER_ALLOCATION": "Przydzia\u0142 w\u0142a\u015bciciela rekordu",
+    "LBL_OWNER_ALLOCATION_DESCRIPTION": " ",
+    "LBL_MULTIOWNER_ALLOCATION": "Przydzia\u0142 os\u00f3b wsp\u00f3\u0142dziel\u0105cych",
+    "LBL_MULTIOWNER_ALLOCATION_DESCRIPTION": " ",
+    "LBL_SORTING_SETTINGS_WORNING": "Uwaga!\nPoni\u017csza konfiguracja b\u0119dzie uwzgl\u0119dniana dopiero po w\u0142\u0105czeniu jej w panelu roli",
+    "LBL_ADD_PANEL_TO_MODULE": "Dodaj przydzia\u0142 dla modu\u0142u",
+    "LBL_SELECT_MODULE": "Wybierz modu\u0142",
+    "LBL_GO_TO_PANEL": "przejd\u017a do panelu",
+    "LBL_USERS_AND_GROUPS": "U\u017cytkownicy i grupy"
+  },
+  "js": {
+    "JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL": "Czy jeste\u015b pewien, \u017ce chcesz usun\u0105\u0107 wszystkie przydzia\u0142y dla danego modu\u0142u?"
+  }
+}

@@ -11,6 +11,7 @@
 
 class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -18,22 +19,14 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('showMassEditForm');
 		$this->exposeMethod('showAddCommentForm');
 		$this->exposeMethod('showSendSMSForm');
-		$this->exposeMethod('showDuplicatesSearchForm');
 		$this->exposeMethod('transferOwnership');
 	}
 
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
-
 	/**
-	 * Function returns the mass edit form
+	 * Function returns the mass edit form.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function showMassEditForm(\App\Request $request)
@@ -84,8 +77,10 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	}
 
 	/**
-	 * Function returns the Add Comment form
+	 * Function returns the Add Comment form.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function showAddCommentForm(\App\Request $request)
@@ -121,8 +116,10 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	}
 
 	/**
-	 * Function shows form that will lets you send SMS
+	 * Function shows form that will lets you send SMS.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function showSendSMSForm(\App\Request $request)
@@ -166,27 +163,10 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	}
 
 	/**
-	 * Function shows the duplicate search form
+	 * Rransfer record ownership.
+	 *
 	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermitted
-	 */
-	public function showDuplicatesSearchForm(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		if (!$moduleModel->isPermitted('DuplicatesHandling')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-		$fields = $moduleModel->getFields();
-		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('FIELDS', $fields);
-		$viewer->view('showDuplicateSearch.tpl', $moduleName);
-	}
-
-	/**
-	 * Rransfer record ownership
-	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function transferOwnership(\App\Request $request)

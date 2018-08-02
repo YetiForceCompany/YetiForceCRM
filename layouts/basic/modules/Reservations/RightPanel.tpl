@@ -3,8 +3,8 @@
 	{if !empty($ALL_ACTIVEGROUP_LIST) || !empty($ALL_ACTIVEUSER_LIST)}
 		<div class="calendarUserList">
 			<div class="row no-margin">
-				<div class="col-xs-12 marginTB10">
-					<select class="select2 col-xs-12" id="calendarUserList" multiple>
+				<div class="col-12 marginTB10">
+					<select class="select2 col-12" id="calendarUserList" multiple>
 						<optgroup label="{\App\Language::translate('LBL_USERS')}">
 							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 								<option class="ownerCBg_{$OWNER_ID} marginBottom5px" value="{$OWNER_ID}" {if $USER_MODEL->id eq $OWNER_ID} selected {/if}>{$OWNER_NAME}</option>
@@ -23,8 +23,8 @@
 	{if !empty($ALL_ACTIVETYPES_LIST)}
 		<div class="calendarTypeList">
 			<div class="row no-margin">
-				<div class="col-xs-12 marginTB10">
-					<select class="select2 form-control col-xs-12" id="timecontrolTypes" name="timecontrolTypes" multiple>
+				<div class="col-12 marginTB10">
+					<select class="select2 form-control col-12" id="timecontrolTypes" name="timecontrolTypes" multiple>
 						{foreach key=ITEM_ID item=ITEM from=$ALL_ACTIVETYPES_LIST}
 							<option class="picklistCBg_OSSTimeControl_timecontrol_type_{$ITEM} marginBottom5px" value="{$ITEM_ID}" selected>{\App\Language::translate($ITEM,$MODULE)}</option>
 						{/foreach}

@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Export to XML Class for MappedFields Settings
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Export to XML Class for MappedFields Settings.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_MappedFields_ExportTemplate_Action extends Settings_Vtiger_Index_Action
 {
-
 	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('id');
@@ -28,7 +27,6 @@ class Settings_MappedFields_ExportTemplate_Action extends Settings_Vtiger_Index_
 		$xmlTemplate = $xml->createElement('mf_template');
 		$xmlFields = $xml->createElement('fields');
 		$xmlField = $xml->createElement('field');
-
 
 		$cDataColumns = ['conditions', 'params'];
 		$changeNames = ['tabid', 'reltabid'];
@@ -63,6 +61,14 @@ class Settings_MappedFields_ExportTemplate_Action extends Settings_Vtiger_Index_
 		$xmlTemplate->appendChild($xmlFields);
 		$xmlTemplate->appendChild($xmlFields);
 		$xml->appendChild($xmlTemplate);
-		print $xml->saveXML();
+		echo $xml->saveXML();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validateRequest(\App\Request $request)
+	{
+		$request->validateReadAccess();
 	}
 }

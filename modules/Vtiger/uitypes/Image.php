@@ -8,22 +8,10 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Vtiger_Image_UIType extends Vtiger_Base_UIType
+class Vtiger_Image_UIType extends Vtiger_MultiImage_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/Image.tpl';
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getDetailViewTemplateName()
-	{
-		return 'uitypes/ImageDetailView.tpl';
-	}
+	public static $defaultLimit = 1;
 }

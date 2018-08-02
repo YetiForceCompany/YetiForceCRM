@@ -1,16 +1,15 @@
 <?php
 
 /**
- * Settings users auth view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Settings users auth view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Users_Auth_View extends Settings_Vtiger_Index_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -25,7 +24,7 @@ class Settings_Users_Auth_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
@@ -36,6 +35,7 @@ class Settings_Users_Auth_View extends Settings_Vtiger_Index_View
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 }

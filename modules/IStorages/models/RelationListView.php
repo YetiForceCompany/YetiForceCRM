@@ -1,20 +1,19 @@
 <?php
 
 /**
- * RelationListView Model Class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * RelationListView Model Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class IStorages_RelationListView_Model extends Vtiger_RelationListView_Model
 {
-
 	protected $addRelatedFieldToEntries = [
 		'Products' => ['qtyproductinstock' => 'qtyproductinstock'],
 		'Calendar' => ['visibility' => 'visibility'],
 		'PriceBooks' => ['unit_price' => 'unit_price', 'listprice' => 'listprice', 'currency_id' => 'currency_id'],
-		'Documents' => ['filelocationtype' => 'filelocationtype', 'filestatus' => 'filestatus']
+		'Documents' => ['filelocationtype' => 'filelocationtype', 'filestatus' => 'filestatus'],
 	];
 
 	public function getHeaders()

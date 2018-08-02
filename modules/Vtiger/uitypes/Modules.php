@@ -1,17 +1,16 @@
 <?php
 
 /**
- * UIType Modules Field Class
- * @package YetiForce.Fields
- * @copyright YetiForce Sp. z o.o.
+ * UIType Modules Field Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Modules_UIType extends Vtiger_Base_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -19,18 +18,18 @@ class Vtiger_Modules_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/ModulesFieldSearchView.tpl';
+		return 'List/Field/Modules.tpl';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Modules.tpl';
+		return 'Edit/Field/Modules.tpl';
 	}
 }

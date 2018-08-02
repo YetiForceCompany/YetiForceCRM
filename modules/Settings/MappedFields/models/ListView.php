@@ -1,20 +1,21 @@
 <?php
 
 /**
- * List View Model Class for MappedFields Settings
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * List View Model Class for MappedFields Settings.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Model
 {
-
 	/**
-	 * Function to get the list view entries
+	 * Function to get the list view entries.
+	 *
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 *
+	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance
 	 */
 	public function getListViewEntries($pagingModel)
 	{
@@ -25,7 +26,7 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 		}
 		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listFields = array_keys($module->listFields);
-		$listFields [] = $module->baseIndex;
+		$listFields[] = $module->baseIndex;
 		$query = (new \App\Db\Query())->select($listFields)
 			->from($module->baseTable);
 		$sourceModule = $this->get('sourceModule');
@@ -57,8 +58,11 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
+		$dataReader->close();
+
 		return $listViewRecordModels;
 	}
+
 	/*
 	 * Function which will get the list view count
 	 * @return - number of records

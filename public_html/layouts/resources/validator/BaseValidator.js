@@ -6,6 +6,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
+
 jQuery.Class("Vtiger_Base_Validator_Js", {
 	moduleName: false,
 	/**
@@ -13,10 +15,10 @@ jQuery.Class("Vtiger_Base_Validator_Js", {
 	 *@param accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
-	invokeValidation: function (field, rules, i, options) {
+	invokeValidation: function (field, rules, k, options) {
 		//If validation engine already maked the field as error 
 		// we dont want to proceed
-		if (typeof options != "undefined") {
+		if (typeof options !== "undefined") {
 			if (options.isError == true) {
 				return;
 			}
@@ -104,9 +106,9 @@ jQuery.Class("Vtiger_Base_Validator_Js", {
 		var validatorsOfType = '';
 		var className = Vtiger_Base_Validator_Js.getClassName(validatorName);
 		var fallBackClassName = Vtiger_Base_Validator_Js.getFallBackClassName(validatorName);
-		if (typeof window[className] != 'undefined') {
+		if (typeof window[className] !== "undefined") {
 			validatorsOfType = (window[className]);
-		} else if (typeof window[fallBackClassName] != 'undefined') {
+		} else if (typeof window[fallBackClassName] !== "undefined") {
 			validatorsOfType = (window[fallBackClassName]);
 		}
 		return validatorsOfType;

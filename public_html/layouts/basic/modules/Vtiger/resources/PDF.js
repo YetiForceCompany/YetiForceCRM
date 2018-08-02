@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 jQuery.Class("Vtiger_PDF_Js", {
 	validateSubmit: function (container) {
 		var templateIds = [];
@@ -98,22 +100,19 @@ jQuery.Class("Vtiger_PDF_Js", {
 				templates: selectedTemplates
 			};
 			params.dataType = 'json';
-			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (data['success']) {
-							container.find('[name="validRecords"]').val(JSON.stringify(response.valid_records));
-							container.find('#recordsInfo').text(response.message);
-							setTimeout(function () {
-								document.progressLoader.progressIndicator({'mode': 'hide'})
-							}, 500);
-							thisInstance.validateSubmit(container);
-						}
-					},
-					function (data, err) {
-						app.errorLog(data, err);
-					}
-			);
+			AppConnector.request(params).done(function (data) {
+				var response = data['result'];
+				if (data['success']) {
+					container.find('[name="validRecords"]').val(JSON.stringify(response.valid_records));
+					container.find('#recordsInfo').text(response.message);
+					setTimeout(function () {
+						document.progressLoader.progressIndicator({'mode': 'hide'})
+					}, 500);
+					thisInstance.validateSubmit(container);
+				}
+			}).fail(function (data, err) {
+				app.errorLog(data, err);
+			});
 		});
 	},
 	countSelectedRecords: function (container) {
@@ -134,7 +133,7 @@ jQuery.Class("Vtiger_PDF_Js", {
 			var selectedRecords = JSON.parse(container.find('#all_records').val());
 			var recordsInput = container.find('[name="selectedRecords"]');
 			var validInput = container.find('[name="validRecords"]');
-			container.find('div.modal-body').append('<p id="recordsInfo">'+ app.vtranslate('JS_RECORD_INFO'),+'</p>');
+			container.find('div.modal-body').append('<p id="recordsInfo">' + app.vtranslate('JS_RECORD_INFO'), +'</p>');
 			recordsInput.val(JSON.stringify(selectedRecords));
 			validInput.val(JSON.stringify(selectedRecords));
 			jQuery('#recordsInfo').text(selectedRecords.length + ' from ' + selectedRecords.length + ' are valid for chosen template.');

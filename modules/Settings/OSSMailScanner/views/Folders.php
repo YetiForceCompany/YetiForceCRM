@@ -1,19 +1,24 @@
 <?php
 
 /**
- * Mail scanner action creating mail
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Mail scanner action creating mail.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 {
-
+	/**
+	 * Check permission to view.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermittedForAdmin
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser() || !$request->has('record')) {
+		if (!\App\User::getCurrentUserModel()->isAdmin() || !$request->has('record')) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -23,11 +28,16 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 		return 'modal-lg';
 	}
 
+	/**
+	 * Process.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$mailDetail = OSSMail_Record_Model::getMailAccountDetail($record);
 		$mailModuleActive = \App\Module::getModuleId('OSSMail');
 		$folders = [];
@@ -40,7 +50,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 			$missingFolders = [];
 			foreach ($mailScannerFolders as &$folder) {
 				if (!isset($folders[$folder['folder']])) {
-					$missingFolders [] = $folder['folder'];
+					$missingFolders[] = $folder['folder'];
 				}
 				$selectedFolders[$folder['type']][] = $folder['folder'];
 			}

@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Basic Modal Class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Basic Modal Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 {
-
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
@@ -20,7 +19,7 @@ class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 		}
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		foreach ($this->getModalScripts($request) as $script) {
 			echo '<script type="' . $script->getType() . '" src="' . $script->getSrc() . '"></script>';
@@ -51,6 +50,7 @@ class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 		];
 
 		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
+
 		return $scriptInstances;
 	}
 
@@ -64,6 +64,7 @@ class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = $cssInstances;
+
 		return $headerCssInstances;
 	}
 }

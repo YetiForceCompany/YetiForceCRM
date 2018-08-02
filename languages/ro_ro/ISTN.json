@@ -1,0 +1,22 @@
+{
+  "php": {
+    "ISTN": "Note reintoarcere in depozit",
+    "SINGLE_ISTN": "Nota reintoarcere in depozit",
+    "LBL_DESCRIPTION_BLOCK": "Descriere",
+    "LBL_ATTENTION_BLOCK": "Comentarii",
+    "FL_ESTIMATED_DATE": "Data estimata",
+    "FL_NUMBER": "Numar",
+    "FL_SUBJECT": "Subiect",
+    "FL_STATUS": "Status",
+    "PLL_DRAFT": "Ciorna",
+    "PLL_IN_REALIZATION": "In realizare",
+    "PLL_OBJECTIONS": "Obiectii",
+    "PLL_FOR_APPROVAL": "Pentru aprobare",
+    "PLL_CANCELLED": "Anulat",
+    "PLL_ACCEPTED": "Acceptat",
+    "PLL_RECEIVED": "Primit",
+    "PLL_TRANSFER": "Transfer",
+    "PLL_DISPATCHED": "Expediat",
+    "FL_TYPE": "Tip"
+  }
+}

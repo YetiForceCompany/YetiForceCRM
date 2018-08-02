@@ -1,0 +1,29 @@
+{
+  "php": {
+    "PermissionInspector": "Inspector permisiuni",
+    "LBL_INSPECTION_PERMISSION_HEADER": "Inspector permisiuni",
+    "LBL_FULL_USER_NAME": "Utilizator",
+    "LBL_VIEW_PRVILIGE": "Vizualizare",
+    "LBL_CREATE_PRIVILIGE": "Creare",
+    "LBL_EDIT_PRIVILIGE": "Editeaza",
+    "LBL_DELETE_PRIVILIGE": "Sterge",
+    "LBL_PROFILES": "Profil:",
+    "SEC_MODULE_DONT_HAVE_SECURITY_RIGHT": "Actiune\/modul exclusa de la verificarea permisiunilor",
+    "SEC_USER_IS_ADMIN": "Utilizatorul este administrator",
+    "SEC_NO_ACTION_MODULE_PERMISSIONS_YES": "Permisiuni la modul, utilzatorul are acces la datele acestui modul",
+    "SEC_MODULE_VIEW_ALL_PERMISSION": "Permisiuni globale pentru vizualizare date",
+    "SEC_MODULE_EDIT_ALL_PERMISSION": "Permisiuni globale pentru modificare date",
+    "SEC_RECORID_IS_NULL": "Acces general la actiuni in modul",
+    "SEC_MODULE_RIGHTS_TO_ACTION": "Acces bazat pe permisiunile de a efectua actiuni in modul",
+    "SEC_RECORD_BY_SHARING_YES": "Acces bazat pe regulile de acces (Acces modul)",
+    "SEC_RECORD_OWNER_CURRENT_USER": "Acces bazat pe proprietar %s",
+    "SEC_RECORD_OWNER_CURRENT_GROUP": "Acces bazat pe grup %s",
+    "SEC_RECORD_OWNER_SUBORDINATE_USER": "Acces bazat pe ierarhia companiei (roluri), utilizatorul este intr-o ierarhie superioara proprietarului inregistrarii",
+    "SEC_RECORD_HIERARCHY_USER": "Acces bazat pe ierarhia permisiunii(lor)",
+    "SEC_NO_ACTION_MODULE_PERMISSIONS_NO": "Nu exista permisiuni pentru modul, utilizatorul nu are acces la modul",
+    "SEC_MODULE_PERMISSIONS_NO": "Nu exista permisiuni pentru modul, utilizatorul nu are acces la modul",
+    "SEC_MODULE_NO_RIGHTS_TO_ACTION": "Nu exista permisiuni pentru a efectua actiuni in modul",
+    "SEC_RECORD_BY_SHARING_NO": "Nu exista permisiuni bazate pe regulile de acces (Acces modul)",
+    "SEC_MODULE_NO_ACTION_TOOL": "Nu exista permisiuni pentru actiuni - Actiunea nu a fost gasita"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "php": {
+    "LBL_PBXMANAGER_INFORMATION": "Informaci\u00f3n sobre la llamada",
+    "LBL_CUSTOM_INFORMATION": "Informaci\u00f3n adicional",
+    "LBL_SERVER_CONFIGURATION": "Configuraci\u00f3n del proveedor",
+    "LBL_CALL_FROM": "Llamada de",
+    "LBL_CALL_TO": "Llamada a",
+    "LBL_HIDDEN": "(OCULTO)",
+    "Total Duration": "Duraci\u00f3n total (seg)",
+    "Bill Duration": "Duraci\u00f3n de la factura (seg)",
+    "Recording URL": "Grabaci\u00f3n",
+    "Start Time": "Hora inicio",
+    "Call Status": "Estado de la llamada",
+    "Customer Number": "N\u00famero de Empresa",
+    "Customer": "Empresa",
+    "User": "Usuario",
+    "SINGLE_PBXManager": "Registro de llamada",
+    "Direction": "Direcci\u00f3n",
+    "Gateway": "Puerta de enlace",
+    "Customer type": "Tipo de Empresa",
+    "Source UUID": "UUID de origen",
+    "End Time": "Hora fin",
+    "Record Id": "ID"
+  }
+}

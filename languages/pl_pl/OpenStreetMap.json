@@ -1,0 +1,22 @@
+{
+  "php": {
+    "OpenStreetMap": "OpenStreetMap",
+    "LBL_GROUP_BY": "Grupuj",
+    "LBL_GROUP_NEIGHBOURS": "Po\u0142\u0105cz najbli\u017csze elementy",
+    "LBL_NOT_FOUND_PLACE": "Nie odnaleziono miejsca",
+    "LBL_SEARCH_VALUE_DESCRIPTION": "Miasto, ulica, numer budynku ...",
+    "LBL_IN_RADIUS": "w promieniu [km]",
+    "LBL_CALCULATE_TRACK": "Wyznacz tras\u0119",
+    "LBL_START": "Start",
+    "LBL_END": "Koniec",
+    "LBL_CALCULATE_ROUTE_HEADER_BLOCK": "Wyznaczanie trasy",
+    "LBL_DISTANCE": "Dystans [km]",
+    "LBL_TRAVEL_TIME": "Czas podr\u00f3\u017cy [min]",
+    "LBL_INSTRUCTION": "Instrukcja",
+    "LBL_SEARCH_IN_RADIUS": "Wyszukaj w promieniu",
+    "LBL_COPY_TO_CLIPBOARD": "Kopiuj do schowka",
+    "LBL_CLIPBOARD": "Schowek",
+    "LBL_INDIRECT_POINT": "Punkt po\u015bredni",
+    "ERR_ADDRESS_NOT_FOUND": "Nie znaleziono adresu"
+  }
+}

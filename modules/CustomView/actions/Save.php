@@ -9,11 +9,10 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class CustomView_Save_Action extends Vtiger_Action_Controller
+class CustomView_Save_Action extends \App\Controller\Action
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -29,7 +28,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -50,8 +49,10 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Function to get the custom view model based on the request parameters
+	 * Function to get the custom view model based on the request parameters.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return CustomView_Record_Model or Module specific Record Model instance
 	 */
 	private function getCVModelFromRequest(\App\Request $request)
@@ -72,7 +73,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 			'status' => $request->getInteger('status', 0),
 			'featured' => $request->getInteger('featured', 0),
 			'color' => $request->get('color'),
-			'description' => $request->get('description')
+			'description' => $request->get('description'),
 		];
 		$selectedColumnsList = $request->get('columnslist');
 		if (empty($selectedColumnsList)) {
@@ -93,15 +94,6 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 		if (!empty($advFilterList)) {
 			$customViewData['advfilterlist'] = $advFilterList;
 		}
-
 		return $customViewModel->setData($customViewData);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

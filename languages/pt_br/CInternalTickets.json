@@ -1,0 +1,22 @@
+{
+  "php": {
+    "CInternalTickets": "Tickets Internos",
+    "SINGLE_CInternalTickets": "Ticket Interno",
+    "LBL_ADDITIONAL_INFORMATION": "Informa\u00e7\u00f5es Adicionais",
+    "LBL_BASIC_INFORMATION": "Informa\u00e7\u00f5es B\u00e1sicas",
+    "LBL_TICKET_RESOLUTION": "Solu\u00e7\u00f5es",
+    "LBL_ATTENTION_BLOCK": "Observa\u00e7\u00f5es",
+    "LBL_DESCRIPTION_BLOCK": "Descri\u00e7\u00e3o",
+    "FL_SUBJECT": "Assunto",
+    "FL_STATUS": "Situa\u00e7\u00e3o",
+    "FL_RESOLUTION": "Solu\u00e7\u00e3o",
+    "PLL_UNASSIGNED": "N\u00e3o Atrib\u00faido",
+    "PLL_AWAITING_REALIZATION": "Aguardando Realiza\u00e7\u00e3o",
+    "PLL_FOR_PROCESSING": "Para Realiza\u00e7\u00e3o",
+    "PLL_IN_PROGRESSING": "Em processamento",
+    "PLL_SUBMITTED_COMMENTS": "Coment\u00e1rios enviados",
+    "PLL_FOR_APPROVAL": "Para Aprova\u00e7\u00e3o",
+    "PLL_CANCELLED": "Cancelado",
+    "PLL_ACCEPTED": "Aceito"
+  }
+}

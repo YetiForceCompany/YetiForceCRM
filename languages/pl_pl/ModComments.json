@@ -1,0 +1,25 @@
+{
+  "php": {
+    "SINGLE_ModComments": "Komentarz",
+    "LBL_RECORDS_LIST": "Lista komentarzy",
+    "LBL_MODCOMMENTS_INFORMATION": "Komentarze",
+    "LBL_OTHER_INFORMATION": "Dodatkowe informacje",
+    "LBL_ADDING_COMMENT": "Dodano komentarz",
+    "LBL_WRITE_YOUR_COMMENT_HERE": "Wpisz komentarz tutaj",
+    "Comment": "Komentarz",
+    "Creator": "Kreator",
+    "Related To Comments": "Komentarz nadrz\u0119dny",
+    "ReasonToEdit": "Przyczyna edycji",
+    "UserId": "Id u\u017cytkownika",
+    "Customer": "Klient",
+    "LBL_ADDED_COMMENT_TO_TICKET": "Dodano komentarz do zg\u0142oszenia",
+    "LBL_NEW_COMMENT_FOR_TICKET": "Zosta\u0142 dodany komentarz do zg\u0142oszenia",
+    "LBL_NOTICE_WELCOME": "Witaj w platformie",
+    "LBL_NOTICE_CREATED": "zosta\u0142 utworzony przez",
+    "LBL_COMMENTS_0": "Bie\u017c\u0105cy rekord",
+    "LBL_COMMENTS_1": "Procesy",
+    "LBL_COMMENTS_2": "Podprocesy",
+    "LBL_COMMENTS_SEARCH": "Szukaj",
+    "LBL_ALL_RECORDS": "Powi\u0105zane rekordy"
+  }
+}

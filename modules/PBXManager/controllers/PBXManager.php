@@ -10,35 +10,35 @@
 
 class PBXManager_PBXManager_Controller
 {
-
 	public function getConnector()
 	{
-		return new PBXManager_PBXManager_Connector;
+		return new PBXManager_PBXManager_Connector();
 	}
 
 	/**
-	 * Function to process the request
+	 * Function to process the request.
+	 *
 	 * @param \App\Request $request
-	 * return response object
+	 *                              return response object
 	 */
 	public function process(\App\Request $request)
 	{
 		$mode = $request->get('callstatus');
 
 		switch ($mode) {
-			case 'StartApp' :
+			case 'StartApp':
 				$this->processStartupCall($request);
 				break;
-			case 'DialAnswer' :
+			case 'DialAnswer':
 				$this->processDialCall($request);
 				break;
-			case 'Record' :
+			case 'Record':
 				$this->processRecording($request);
 				break;
-			case 'EndCall' :
+			case 'EndCall':
 				$this->processEndCall($request);
 				break;
-			case 'Hangup' :
+			case 'Hangup':
 				$callCause = $request->get('causetxt');
 				if ($callCause === 'null') {
 					break;
@@ -49,9 +49,10 @@ class PBXManager_PBXManager_Controller
 	}
 
 	/**
-	 * Function to process Incoming call request
+	 * Function to process Incoming call request.
+	 *
 	 * @param \App\Request $request
-	 * return response object
+	 *                              return response object
 	 */
 	public function processStartupCall(\App\Request $request)
 	{
@@ -77,9 +78,9 @@ class PBXManager_PBXManager_Controller
 
 			if ($request->get('callerIdNumber') == $temp[1]) {
 				$to = $request->get('callerIdName');
-			} else if ($request->get('callerIdNumber')) {
+			} elseif ($request->get('callerIdNumber')) {
 				$to = $request->get('callerIdNumber');
-			} else if ($request->get('callerId')) {
+			} elseif ($request->get('callerId')) {
 				$to = $request->get('callerId');
 			}
 
@@ -96,9 +97,10 @@ class PBXManager_PBXManager_Controller
 	}
 
 	/**
-	 * Function to process Dial call request
+	 * Function to process Dial call request.
+	 *
 	 * @param \App\Request $request
-	 * return response object
+	 *                              return response object
 	 */
 	public function processDialCall(\App\Request $request)
 	{
@@ -107,9 +109,10 @@ class PBXManager_PBXManager_Controller
 	}
 
 	/**
-	 * Function to process EndCall event
+	 * Function to process EndCall event.
+	 *
 	 * @param \App\Request $request
-	 * return response object
+	 *                              return response object
 	 */
 	public function processEndCall(\App\Request $request)
 	{
@@ -118,9 +121,10 @@ class PBXManager_PBXManager_Controller
 	}
 
 	/**
-	 * Function to process Hangup call request
+	 * Function to process Hangup call request.
+	 *
 	 * @param \App\Request $request
-	 * return response object
+	 *                              return response object
 	 */
 	public function processHangupCall(\App\Request $request)
 	{
@@ -129,9 +133,10 @@ class PBXManager_PBXManager_Controller
 	}
 
 	/**
-	 * Function to process recording
+	 * Function to process recording.
+	 *
 	 * @param \App\Request $request
-	 * return response object
+	 *                              return response object
 	 */
 	public function processRecording(\App\Request $request)
 	{

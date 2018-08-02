@@ -10,13 +10,13 @@
  * *********************************************************************************** */
 
 /**
- * Calendar Field Model Class
+ * Calendar Field Model Class.
  */
 class Calendar_Field_Model extends Vtiger_Field_Model
 {
-
 	/**
-	 * Function returns special validator for fields
+	 * Function returns special validator for fields.
+	 *
 	 * @return <Array>
 	 */
 	public function getValidator()
@@ -26,35 +26,36 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 
 		switch ($fieldName) {
 			case 'due_date': $funcName = ['name' => 'greaterThanDependentField',
-					'params' => ['date_start']];
+					'params' => ['date_start'], ];
 				array_push($validator, $funcName);
 				break;
 			// NOTE: Letting user to add pre or post dated Event.
 			/* case 'date_start' : $funcName = array('name'=>'greaterThanToday');
 			  array_push($validator, $funcName);
 			  break; */
-			default : $validator = parent::getValidator();
+			default: $validator = parent::getValidator();
 				break;
 		}
 		return $validator;
 	}
 
 	/**
-	 * Function to get the Webservice Field data type
+	 * Function to get the Webservice Field data type.
+	 *
 	 * @return string Data type of the field
 	 */
 	public function getFieldDataType()
 	{
 		if ($this->getName() == 'date_start' || $this->getName() == 'due_date') {
 			return 'datetime';
-		} else if ($this->get('uitype') == '30') {
+		} elseif ($this->get('uitype') == '30') {
 			return 'reminder';
 		}
 		return parent::getFieldDataType();
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -62,31 +63,33 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 			if ($this->getName() === 'date_start') {
 				$dateTimeValue = $value . ' ' . $recordModel->get('time_start');
 				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
-				list($startDate, $startTime, $meridiem) = explode(' ', $value);
-				return $startDate . ' ' . $startTime . ' ' . $meridiem;
-			} else if ($this->getName() === 'due_date') {
+				list($startDate, $startTime) = explode(' ', $value);
+
+				return $startDate . ' ' . $startTime;
+			} elseif ($this->getName() === 'due_date') {
 				$dateTimeValue = $value . ' ' . $recordModel->get('time_end');
 				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
-				list($startDate, $startTime, $meridiem) = explode(' ', $value);
-				return $startDate . ' ' . $startTime . ' ' . $meridiem;
+				list($startDate, $startTime) = explode(' ', $value);
+
+				return $startDate . ' ' . $startTime;
 			}
 		}
 		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 
 	/**
-	 * Function to get Edit view display value
+	 * Function to get Edit view display value.
+	 *
 	 * @param string Data base value
+	 *
 	 * @return string value
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		$fieldName = $this->getName();
-
 		if ($fieldName == 'time_start' || $fieldName == 'time_end') {
 			return $this->getUITypeModel()->getDisplayTimeDifferenceValue($fieldName, $value);
 		}
-
 		//Set the start date and end date
 		if (empty($value)) {
 			if ($fieldName === 'date_start') {
@@ -94,6 +97,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 			} elseif ($fieldName === 'due_date') {
 				$currentUser = Users_Record_Model::getCurrentUserModel();
 				$minutes = $currentUser->get('callduration');
+
 				return DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
 			}
 		}
@@ -101,20 +105,19 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get the advanced filter option names by Field type
+	 * Function to get the advanced filter option names by Field type.
+	 *
 	 * @return <Array>
 	 */
 	public static function getAdvancedFilterOpsByFieldType()
 	{
-
 		$filterOpsByFieldType = parent::getAdvancedFilterOpsByFieldType();
 		$filterOpsByFieldType['O'] = ['e', 'n'];
-
 		return $filterOpsByFieldType;
 	}
 
 	/**
-	 * Function which will check if empty piclist option should be given
+	 * Function which will check if empty piclist option should be given.
 	 */
 	public function isEmptyPicklistOptionAllowed()
 	{
@@ -125,19 +128,23 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get visibilty permissions of a Field
-	 * @param boolean $readOnly
-	 * @return boolean
+	 * Function to get visibilty permissions of a Field.
+	 *
+	 * @param bool $readOnly
+	 *
+	 * @return bool
 	 */
 	public function getPermissions($readOnly = true)
 	{
 		$calendar = \App\Field::getFieldPermission('Calendar', $this->getName(), $readOnly);
 		$events = \App\Field::getFieldPermission('Events', $this->getName(), $readOnly);
-		return ($calendar || $events);
+
+		return $calendar || $events;
 	}
 
 	/**
-	 * Function to get the field details
+	 * Function to get the field details.
+	 *
 	 * @return <Array> - array of field values
 	 */
 	public function getFieldInfo()

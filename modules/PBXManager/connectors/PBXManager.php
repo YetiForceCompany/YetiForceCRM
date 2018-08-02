@@ -8,16 +8,27 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once 'include/utils/utils.php';
+require_once 'include/database/PearDatabase.php';
+require_once 'include/utils/CommonUtils.php';
+require_once 'include/fields/DateTimeField.php';
+require_once 'include/fields/DateTimeRange.php';
+require_once 'include/fields/CurrencyField.php';
+require_once 'include/CRMEntity.php';
+include_once 'modules/Vtiger/CRMEntity.php';
+require_once 'include/runtime/Cache.php';
+require_once 'modules/Vtiger/helpers/Util.php';
+require_once 'modules/PickList/DependentPickListUtils.php';
+require_once 'modules/Users/Users.php';
+require_once 'include/Webservices/Utils.php';
 
 class PBXManager_PBXManager_Connector
 {
-
 	private static $SETTINGS_REQUIRED_PARAMETERS = ['webappurl' => 'text', 'outboundcontext' => 'text', 'outboundtrunk' => 'text', 'vtigersecretkey' => 'text'];
 	private static $RINGING_CALL_PARAMETERS = ['From' => 'callerIdNumber', 'SourceUUID' => 'callUUID', 'Direction' => 'Direction'];
 	private static $NUMBERS = [];
 	private $webappurl;
-	private $outboundcontext, $outboundtrunk;
+	private $outboundcontext;
+	private $outboundtrunk;
 	private $vtigersecretkey;
 
 	const RINGING_TYPE = 'ringing';
@@ -36,7 +47,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to get provider name
-	 * returns string
+	 * returns string.
 	 */
 	public function getGatewayName()
 	{
@@ -45,7 +56,6 @@ class PBXManager_PBXManager_Connector
 
 	public function getPicklistValues($field)
 	{
-
 	}
 
 	public function getServer()
@@ -70,19 +80,21 @@ class PBXManager_PBXManager_Connector
 
 	public function getXmlResponse()
 	{
-		header("Content-type: text/xml; charset=utf-8");
+		header('Content-type: text/xml; charset=utf-8');
 		$response = '<?xml version="1.0" encoding="utf-8"?>';
 		$response .= '<Response><Authentication>';
 		$response .= 'Failure';
 		$response .= '</Authentication></Response>';
+
 		return $response;
 	}
 
 	/**
-	 * Function to set server parameters
-	 * @param <array>  authdetails
+	 * Function to set server parameters.
+	 *
+	 * @param \PBXManager_Server_Model $serverModel
 	 */
-	public function setServerParameters($serverModel)
+	public function setServerParameters(\PBXManager_Server_Model $serverModel)
 	{
 		$this->webappurl = $serverModel->get('webappurl');
 		$this->outboundcontext = $serverModel->get('outboundcontext');
@@ -92,7 +104,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to get Settings edit view params
-	 * returns <array>
+	 * returns <array>.
 	 */
 	public static function getSettingsParameters()
 	{
@@ -100,9 +112,11 @@ class PBXManager_PBXManager_Connector
 	}
 
 	/**
-	 * Function prepares parameters
+	 * Function prepares parameters.
+	 *
 	 * @param \App\Request $details
-	 * @param string $type
+	 * @param string       $type
+	 *
 	 * @return string
 	 */
 	protected function prepareParameters(\App\Request $details, $type)
@@ -119,7 +133,8 @@ class PBXManager_PBXManager_Connector
 	}
 
 	/**
-	 * Function to handle the dial call event
+	 * Function to handle the dial call event.
+	 *
 	 * @param \App\Request $details
 	 */
 	public function handleDialCall(\App\Request $details)
@@ -145,12 +160,13 @@ class PBXManager_PBXManager_Connector
 			}
 		}
 
-		$params['callstatus'] = "in-progress";
+		$params['callstatus'] = 'in-progress';
 		$recordModel->updateCallDetails($params);
 	}
 
 	/**
-	 * Function to handle the EndCall event
+	 * Function to handle the EndCall event.
+	 *
 	 * @param \App\Request $details
 	 */
 	public function handleEndCall(\App\Request $details)
@@ -167,7 +183,8 @@ class PBXManager_PBXManager_Connector
 	}
 
 	/**
-	 * Function to handle the hangup call event
+	 * Function to handle the hangup call event.
+	 *
 	 * @param \App\Request $details
 	 */
 	public function handleHangupCall(\App\Request $details)
@@ -184,13 +201,13 @@ class PBXManager_PBXManager_Connector
 					$params['callstatus'] = 'no-answer';
 				}
 				break;
-			case 'User busy' :
+			case 'User busy':
 				$params['callstatus'] = 'busy';
 				break;
 			case 'Call Rejected':
 				$params['callstatus'] = 'busy';
 				break;
-			default :
+			default:
 				$params['callstatus'] = $hangupcause;
 				break;
 		}
@@ -204,7 +221,8 @@ class PBXManager_PBXManager_Connector
 	}
 
 	/**
-	 * Function to handle record event
+	 * Function to handle record event.
+	 *
 	 * @param \App\Request $details
 	 */
 	public function handleRecording(\App\Request $details)
@@ -216,7 +234,8 @@ class PBXManager_PBXManager_Connector
 	}
 
 	/**
-	 * Function to handle AGI event
+	 * Function to handle AGI event.
+	 *
 	 * @param \App\Request $details
 	 */
 	public function handleStartupCall(\App\Request $details, $userInfo, $customerInfo)
@@ -231,7 +250,7 @@ class PBXManager_PBXManager_Connector
 
 		if ($details->get('from')) {
 			$params['CustomerNumber'] = $details->get('from');
-		} else if ($details->get('to')) {
+		} elseif ($details->get('to')) {
 			$params['CustomerNumber'] = $details->get('to');
 		}
 
@@ -240,14 +259,16 @@ class PBXManager_PBXManager_Connector
 		$recordModel = PBXManager_Record_Model::getCleanInstance();
 		$recordModel->saveRecordWithArrray($params);
 
-		if ($direction == self::INCOMING_TYPE)
+		if ($direction == self::INCOMING_TYPE) {
 			$this->respondToIncomingCall($details);
-		else
+		} else {
 			$this->respondToOutgoingCall($params['CustomerNumber']);
+		}
 	}
 
 	/**
-	 * Function to respond for incoming calls
+	 * Function to respond for incoming calls.
+	 *
 	 * @param \App\Request $details
 	 */
 	public function respondToIncomingCall(\App\Request $details)
@@ -260,13 +281,12 @@ class PBXManager_PBXManager_Connector
 		$response .= 'Success</Authentication>';
 
 		if (self::$NUMBERS) {
-
 			foreach (self::$NUMBERS as $userId => $number) {
 				$callPermission = \App\Privilege::isPermitted('PBXManager', 'ReceiveIncomingCalls');
 
 				if ($number != $details->get('callerIdNumber') && $callPermission) {
-					if (preg_match("/sip/", $number) || preg_match("/@/", $number)) {
-						$number = trim($number, "/sip:/");
+					if (preg_match('/sip/', $number) || preg_match('/@/', $number)) {
+						$number = trim($number, '/sip:/');
 						$response .= '<Number>SIP/';
 						$response .= $number;
 						$response .= '</Number>';
@@ -291,27 +311,29 @@ class PBXManager_PBXManager_Connector
 	}
 
 	/**
-	 * Function to respond for outgoing calls
+	 * Function to respond for outgoing calls.
+	 *
 	 * @param \App\Request $details
 	 */
 	public function respondToOutgoingCall($to)
 	{
-		header("Content-type: text/xml; charset=utf-8");
+		header('Content-type: text/xml; charset=utf-8');
 		$response = '<?xml version="1.0" encoding="utf-8"?>';
 		$response .= '<Response><Dial><Authentication>';
 		$response .= 'Success</Authentication>';
 		$numberLength = strlen($to);
 
-		if (preg_match("/sip/", $to) || preg_match("/@/", $to)) {
-			$to = trim($to, "/sip:/");
+		if (preg_match('/sip/', $to) || preg_match('/@/', $to)) {
+			$to = trim($to, '/sip:/');
 			$response .= '<Number>SIP/';
 			$response .= $to;
 			$response .= '</Number>';
 		} else {
 			$response .= '<Number>SIP/';
 			$response .= $to;
-			if ($numberLength > 5)
+			if ($numberLength > 5) {
 				$response .= '@' . $this->getOutboundTrunk();
+			}
 			$response .= '</Number>';
 		}
 
@@ -320,9 +342,11 @@ class PBXManager_PBXManager_Connector
 	}
 
 	/**
-	 * Function to make outbound call
+	 * Function to make outbound call.
+	 *
 	 * @param string $number (Customer)
-	 * @return boolean
+	 *
+	 * @return bool
 	 */
 	public function call($number)
 	{

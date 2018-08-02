@@ -1,16 +1,15 @@
 <?php
 
 /**
- * Edit View Class for PDF Settings
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Edit View Class for PDF Settings.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$step = strtolower($request->getMode());
@@ -49,11 +48,9 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				$viewer->assign('WATERMARK_TEXT', Vtiger_Mpdf_Pdf::WATERMARK_TYPE_TEXT);
 				$viewer->view('Step8.tpl', $qualifiedModuleName);
 				break;
-
 			case 'step7':
 				$viewer->view('Step7.tpl', $qualifiedModuleName);
 				break;
-
 			case 'step6':
 				$moduleModel = Vtiger_Module_Model::getInstance($pdfModel->get('module_name'));
 				$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
@@ -61,33 +58,18 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				$viewer->assign('ADVANCE_CRITERIA', Vtiger_AdvancedFilter_Helper::transformToAdvancedFilterCondition($pdfModel->get('conditions')));
 				$viewer->view('Step6.tpl', $qualifiedModuleName);
 				break;
-
 			case 'step5':
-				$insertOperations = [
-					'PAGENO' => 'PAGENO',
-					'PAGENUM' => 'nb'
-				];
-				$viewer->assign('INSERT', $insertOperations);
 				$viewer->view('Step5.tpl', $qualifiedModuleName);
 				break;
-
 			case 'step4':
 				$viewer->view('Step4.tpl', $qualifiedModuleName);
 				break;
-
 			case 'step3':
-				$insertOperations = [
-					'PAGENO' => 'PAGENO',
-					'PAGENUM' => 'nb'
-				];
-				$viewer->assign('INSERT', $insertOperations);
 				$viewer->view('Step3.tpl', $qualifiedModuleName);
 				break;
-
 			case 'step2':
 				$viewer->view('Step2.tpl', $qualifiedModuleName);
 				break;
-
 			case 'step1':
 			default:
 				$allModules = Settings_PDF_Module_Model::getSupportedModules();
@@ -103,7 +85,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = [
-			'libraries.jquery.clipboardjs.clipboard',
+			'libraries.clipboard.dist.clipboard',
 			'modules.Settings.Vtiger.resources.Edit',
 			"modules.Settings.$moduleName.resources.Edit",
 			"modules.Settings.$moduleName.resources.Edit1",
@@ -120,6 +102,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 
@@ -132,6 +115,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
+
 		return $headerCssInstances;
 	}
 }

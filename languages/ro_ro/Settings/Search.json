@@ -1,0 +1,27 @@
+{
+  "php": {
+    "Search Configuration": "Configurare cautare",
+    "Search Setup": "Cautare - Configurare",
+    "Search": "Configurare cautare",
+    "LBL_Module_desc": "Acest panou permite setarea etichetelor pentru campurile uitype 10 si pentru mecanismele de cautare. Aceste mecanisme functioneaza independent \u2013 puteti cauta mai multe coloane intr-un camp in timp ce cautati, dar cand selectati o inregistrare, va fi incarcat un nume dintr-o eticheta.",
+    "Module": "Modul",
+    "Table": "Tabel",
+    "LabelFields": "Coloanele principale pentru modul (inclusiv o eticheta de tipul uitype 10)",
+    "SearchFields": "Coloane pentru mecanismele de cautare",
+    "Tools": "Actiuni",
+    "Update labels": "Actualizati etichetele",
+    "LBL_SAVE_CHANGES_SEARCHING": "Schimbari salvate.",
+    "LBL_SAVE_CHANGES_LABLE": "Modificarile in configuratie au fost salvate, trebuie sa actualizari acest modul pentru a vedea modificarile in sistem.",
+    "Update has been completed": "Modulul selectat a fost actualizat cu succes. Modificarile vor fi realizare prin intermediul CRON. Etichetarea timpului de actualizare depinde de cantitatea de date.",
+    "LBL_SAVE_MODULE_SEQUENCE": "Salvati secventa modulelor",
+    "LBL_TURN_ON": "Porniti",
+    "LBL_TURN_OFF": "Opriti"
+  },
+  "js": {
+    "Saving changes": "Actualizare in curs\u2026",
+    "Update labels": "Actualizare",
+    "JS_MODULES_SEQUENCE_UPDATED": "Secvente modul actualizate",
+    "JS_TURN_ON": "Porniti",
+    "JS_TURN_OFF": "Opriti"
+  }
+}

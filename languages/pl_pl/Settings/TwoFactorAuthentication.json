@@ -1,0 +1,13 @@
+{
+  "php": {
+    "LBL_TOTP_AUTHY_MODE": "Tryby autentykacji",
+    "LBL_TOTP_OFF": "TOTP - wy\u0142\u0105czone",
+    "LBL_TOTP_OPTIONAL": "TOTP - opcjonalne, definiowane przez u\u017cytkownika",
+    "LBL_TOTP_OBLIGATORY": "TOTP - obowi\u0105zkowe, ka\u017cdy u\u017cytkownik musi mie\u0107 t\u0119 opcj\u0119 skonfigurowan\u0105.",
+    "LBL_TOTP_NUMBER_OF_WRONG_ATTEMPTS": "Ilo\u015b\u0107 b\u0142\u0119dnych pr\u00f3b",
+    "LBL_2FA_CONF": "Uwierzytelnianie wielopoziomowe (2FA)",
+    "LBL_TOTP": "Time-based One-time Password algorithm",
+    "LBL_TOTP_AUTHY_MODE_DESC": "Wybierz tryby autentykacji.",
+    "LBL_TOTP_NUMBER_OF_WRONG_ATTEMPTS_DESC": "Dopuszczalna liczba b\u0142\u0119dnych pr\u00f3b wpisania kodu weryfikacyjnego."
+  }
+}

@@ -1,20 +1,21 @@
 <?php
 /**
- * Colors ajax requests handler class
- * @package YetiForce.Users
- * @copyright YetiForce Sp. z o.o.
+ * Colors ajax requests handler class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Sławomir Kłos <s.klos@yetiforce.com>
  */
 
 /**
- * Colors Ajax requests handler class
+ * Colors Ajax requests handler class.
  */
 class Settings_Colors_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 {
+	use \App\Controller\ExposeMethod;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	public function __construct()
 	{
@@ -23,19 +24,8 @@ class Settings_Colors_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 	}
 
 	/**
-	 * Process client request
-	 * @param \App\Request $request
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if ($this->isMethodExposed($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-		}
-	}
-
-	/**
-	 * Get picklist view
+	 * Get picklist view.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getPickListView(\App\Request $request)
@@ -49,11 +39,11 @@ class Settings_Colors_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$noColumn = false;
 		if ($fieldId) {
 			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
-			if (key_exists($fieldModel->getName(), $pickListFields) && $fieldModel->getModuleName() === $sourceModule) {
+			if (array_key_exists($fieldModel->getName(), $pickListFields) && $fieldModel->getModuleName() === $sourceModule) {
 				$picklistValuesName = \App\Fields\Picklist::getValues($fieldModel->getName());
 				if ($picklistValuesName) {
 					$firstRow = reset($picklistValuesName);
-					if (!key_exists('color', $firstRow)) {
+					if (!array_key_exists('color', $firstRow)) {
 						$noColumn = true;
 					}
 				}

@@ -1,0 +1,32 @@
+{
+  "php": {
+    "LBL_PAGE_NUMBER": "Gehe zur Seite",
+    "OSSMailScanner_manual": "E-Mail Scanner",
+    "OSSMailScanner": "E-Mail Scanner",
+    "Mail Scanner": "E-Mail Scanner",
+    "LBL_VIEW_LOGS": "E-Mail Protokolle",
+    "CRM Archive": "CRM Archiv",
+    "CRM Archive Sent": "CRM Archiv Gesendet",
+    "Drafts": "Entwurf",
+    "INBOX": "INBOX",
+    "Junk": "JUNK",
+    "Sent": "SENT",
+    "ERR_INCORRECT_ACCESS_DATA": "Fehlerhafter Datenzugriff",
+    "LBL_INFO_ABOUT_FOLDERS_TO_REMOVE": "Die unten aufgef\u00fchrten Verzeichnisse werden nach dem Sichern gel\u00f6scht"
+  },
+  "js": {
+    "start_cron": "E-Mail-Scanner gestartet",
+    "end_cron_ok": "E-Mail-Scanner Aufgabe erfolgreich beendet",
+    "end_cron_error": "W\u00e4hrend der E-Mail-Scanner lief, kam es zu einem Fehler",
+    "JS_mail_error": "Die E-Mail-Adresse ist fehlerhaft",
+    "JS_time_error": "Das Datumsformat ist fehlerhaft",
+    "JS_StopCron": "E-Mail-Scanner manuell stoppen",
+    "stop_user": "Benutzer hat das E-Mail-Scannen gestoppt",
+    "Manually stopped": "E-Mail-Scanner manuell gestoppt",
+    "OK": "Ok",
+    "In progress": "In Arbeit",
+    "whether_remove_an_identity": "Eine Identit\u00e4t entfernen",
+    "removed_identity": "Identit\u00e4t entfernt",
+    "LBL_LOADING_LIST_OF_FOLDERS": "Laden der Verzeichnisse l\u00e4uft.\r\nDies kann einige Minuten dauern..."
+  }
+}

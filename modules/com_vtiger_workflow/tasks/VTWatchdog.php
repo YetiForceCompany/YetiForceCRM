@@ -1,17 +1,16 @@
 <?php
 /**
- * Watchdog Task Class
- * @package YetiForce.Workflow
- * @copyright YetiForce Sp. z o.o.
+ * Watchdog Task Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
+require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
 class VTWatchdog extends VTTask
 {
-
 	public $executeImmediately = true;
 	public $srcWatchdogModule = 'Notification';
 
@@ -21,7 +20,8 @@ class VTWatchdog extends VTTask
 	}
 
 	/**
-	 * Execute task
+	 * Execute task.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
 	 */
 	public function doTask($recordModel)

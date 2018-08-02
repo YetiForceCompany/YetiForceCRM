@@ -11,6 +11,7 @@
 
 class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -67,7 +68,6 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('BLOCKS', $blockModels);
 		$viewer->assign('ADD_SUPPORTED_FIELD_TYPES', $moduleModel->getAddSupportedFieldTypes());
 		$viewer->assign('DISPLAY_TYPE_LIST', Vtiger_Field_Model::showDisplayTypeList());
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('MODULE', $qualifiedModule);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('IN_ACTIVE_FIELDS', $inactiveFields);
@@ -103,9 +103,10 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = ['libraries.jquery.clipboardjs.clipboard'];
+		$jsFileNames = ['libraries.clipboard.dist.clipboard'];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 }

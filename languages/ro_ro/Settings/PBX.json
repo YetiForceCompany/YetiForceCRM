@@ -1,0 +1,18 @@
+{
+  "php": {
+    "LBL_NAME": "Nume",
+    "LBL_TYPE": "Tip",
+    "LBL_DEFAULT": "Implicit",
+    "LBL_ADD_RECORD": "Adauga inregistrare",
+    "LBL_CREATE_RECORD": "Adaugati un telefon de schimb",
+    "LBL_EDIT_RECORD": "Modificati un telefon de schimb",
+    "LBL_URL": "Adresa server",
+    "LBL_USERNAME": "Utilizator",
+    "LBL_PASSWORD": "Parola",
+    "LBL_SECRET_KEY": "Secret Key",
+    "LBL_OUTBOUND_CONTEXT": "Outbound context"
+  },
+  "js": {
+    "JS_SAVE_SUCCESS": "Modificari salvate"
+  }
+}

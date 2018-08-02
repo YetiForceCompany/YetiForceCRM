@@ -1,27 +1,23 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="modal-header row no-margin">
-		<div class="col-xs-12 paddingLRZero">
-			<div class="col-xs-8 paddingLRZero">
-				<h4>{\App\Language::translate('LBL_RECALCULATE_PERMISSION_TITLE', $MODULE)}</h4>
-			</div>
-			<div class="pull-right">
-				<button class="btn btn-warning marginLeft10" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
-			</div>
-		</div>
+	<div class="modal-header">
+		<h5 class="modal-title">{\App\Language::translate('LBL_RECALCULATE_PERMISSION_TITLE', $MODULE)}</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+			<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
+		</button>
 	</div>
 	<form class="sendByAjax">
 		<input type="hidden" name="action" value="RecalculatePermission" />
 		<input type="hidden" name="module" value="{$MODULE_NAME}" />
 		<input type="hidden" name="parent" value="Settings" />
 		<div class="modal-body row">
-			<div class="col-xs-12">
-				<div class="col-xs-12 paddingLRZero marginBottom10px">
+			<div class="col-12">
+				<div class="col-12">
 					<div class="alert alert-info">
 						{\App\Language::translate('LBL_RECALCULATE_CRON_INFO', $MODULE)}
 					</div>
 				</div>
-				<div class="col-xs-12 paddingLRZero marginBottom10px">
+				<div class="col-12">
 					<b>{\App\Language::translate('LBL_MODULES_LIST', $MODULE)}</b>
 					<select class="select2" name="moduleName">
 						{foreach from=$LIST_MODULES key=TABID item=MODULE_INFO}
@@ -31,6 +27,6 @@
 				</div>
 			</div>
 		</div>
-		{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
+		{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 	</form>
 {/strip}

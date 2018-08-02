@@ -1,18 +1,18 @@
 <?php
 
 /**
- * Basic Modal Class
- * @package YetiForce.Modal
- * @copyright YetiForce Sp. z o.o.
+ * Basic Modal Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 {
-
 	/**
-	 * Additional classes for the modal window
+	 * Additional classes for the modal window.
+	 *
 	 * @var string
 	 */
 	protected $modalClass = '';
@@ -32,7 +32,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		}
 	}
 
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		foreach ($this->getModalScripts($request) as $script) {
 			echo '<script type="' . $script->getType() . '" src="' . $script->getSrc() . '"></script>';
@@ -54,10 +54,11 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 
 		$scripts = [
 			"modules.Vtiger.resources.$viewName",
-			"modules.$moduleName.resources.$viewName"
+			"modules.$moduleName.resources.$viewName",
 		];
 
 		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
+
 		return $scriptInstances;
 	}
 
@@ -71,6 +72,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = $cssInstances;
+
 		return $headerCssInstances;
 	}
 }

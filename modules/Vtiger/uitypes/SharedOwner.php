@@ -1,18 +1,17 @@
 <?php
 
 /**
- * UIType sharedOwner Field Class
- * @package YetiForce.Fields
- * @copyright YetiForce Sp. z o.o.
+ * UIType sharedOwner Field Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
@@ -23,26 +22,35 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		$hashValue = is_array($value) ? implode('|', $value) : $value;
+		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
 		if (!is_array($value)) {
-			settype($value, 'array');
+			$value = (array) $value;
+		}
+		$rangeValues = null;
+		$maximumLength = $this->getFieldModel()->get('maximumlength');
+		if ($maximumLength) {
+			$rangeValues = explode(',', $maximumLength);
 		}
 		foreach ($value as $shownerid) {
 			if (!is_numeric($shownerid)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $shownerid, 406);
+			}
+			if ($rangeValues && (($rangeValues[1] ?? $rangeValues[0]) < $shownerid || (isset($rangeValues[1]) ? $rangeValues[0] : 0) > $shownerid)) {
+				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $shownerid, 406);
 			}
 		}
-		$this->validate = true;
+		$this->validate[$hashValue] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -90,7 +98,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
@@ -128,13 +136,12 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					}
 
 					break;
-
 				default:
 					break;
 			}
 		}
 		$display = implode(', ', $display);
-		$display = explode(', ', \vtlib\Functions::textLength($display, $maxLengthText));
+		$display = explode(', ', \App\TextParser::textTruncate($display, $maxLengthText));
 		foreach ($display as $key => &$shownerName) {
 			if (isset($shownerData[$key]['inactive'])) {
 				$shownerName = '<span class="redColor">' . $shownerName . '</span>';
@@ -147,9 +154,11 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the share users list
-	 * @param int $record record ID
+	 * Function to get the share users list.
+	 *
+	 * @param int  $record      record ID
 	 * @param bool $returnArray whether return data in an array
+	 *
 	 * @return array
 	 */
 	public static function getSharedOwners($record, $moduleName = false)
@@ -161,9 +170,11 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 
 		$query = (new \App\Db\Query())->select('userid')->from('u_#__crmentity_showners')->where(['crmid' => $record])->distinct();
 		$values = $query->column();
-		if (empty($values))
+		if (empty($values)) {
 			$values = [];
+		}
 		Vtiger_Cache::set('SharedOwner', $record, $values);
+
 		return $values;
 	}
 
@@ -190,30 +201,39 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		}
 		asort($users);
 		asort($group);
+
 		return ['users' => $users, 'group' => $group];
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/SharedOwner.tpl';
+		return 'Edit/Field/SharedOwner.tpl';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getListSearchTemplateName()
 	{
-		return 'uitypes/SharedOwnerFieldSearchView.tpl';
+		return 'List/Field/SharedOwner.tpl';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function isListviewSortable()
 	{
 		return false;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getRangeValues()
+	{
+		return '65535';
 	}
 }

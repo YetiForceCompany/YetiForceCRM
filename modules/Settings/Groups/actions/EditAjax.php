@@ -8,8 +8,9 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Class Settings_Groups_EditAjax_Action extends Settings_Vtiger_Basic_Action
+class Settings_Groups_EditAjax_Action extends Settings_Vtiger_Basic_Action
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -17,22 +18,16 @@ Class Settings_Groups_EditAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('checkDuplicate');
 	}
 
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
-
+	/**
+	 * Action to check duplicate group.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function checkDuplicate(\App\Request $request)
 	{
-		$groupName = $request->get('groupname');
-		$recordId = $request->get('record');
-
-		$recordModel = Settings_Groups_Record_Model::getInstanceByName(App\Purifier::decodeHtml($groupName), [$recordId]);
-
+		$groupName = $request->getByType('groupname', 'Text');
+		$record = $request->isEmpty('record') ? [] : [$request->getInteger('record')];
+		$recordModel = Settings_Groups_Record_Model::getInstanceByName(App\Purifier::decodeHtml($groupName), $record);
 		$response = new Vtiger_Response();
 		if (!empty($recordModel)) {
 			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))]);

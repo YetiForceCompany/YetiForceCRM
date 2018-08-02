@@ -9,12 +9,15 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
+class Vtiger_NoteBook_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
 
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
 	public function checkPermission(\App\Request $request)
@@ -28,13 +31,6 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 	public function __construct()
 	{
 		$this->exposeMethod('noteBookCreate');
-	}
-
-	public function process(\App\Request $request)
-	{
-		if ($mode = $request->getMode()) {
-			$this->invokeExposedMethod($mode, $request);
-		}
 	}
 
 	public function noteBookCreate(\App\Request $request)
@@ -52,7 +48,7 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 				'title' => $request->get('notePadName'),
 				'data' => $data,
 				'isdefault' => $request->getInteger('isdefault'),
-				'size' => $size
+				'size' => $size,
 			])->execute();
 		$result = [];
 		$result['success'] = true;
@@ -60,10 +56,5 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

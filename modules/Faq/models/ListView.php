@@ -9,7 +9,7 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger ListView Model Class
+ * Vtiger ListView Model Class.
  */
 class Faq_ListView_Model extends Vtiger_ListView_Model
 {

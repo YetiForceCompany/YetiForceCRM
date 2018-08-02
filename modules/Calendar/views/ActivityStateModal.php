@@ -1,28 +1,27 @@
 <?php
 
 /**
- *
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if ($request->isEmpty('record')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView', $request->getInteger('record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -43,8 +42,10 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
 	public function getScripts(\App\Request $request)
@@ -54,6 +55,7 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 			"modules.$moduleName.resources.ActivityStateModal",
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+
 		return $jsScriptInstances;
 	}
 }

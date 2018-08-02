@@ -9,7 +9,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="">
+	<div class="tpl-Settings-Vtiger-ConfigEditorEdit">
 		<div class="contents">
 			<form id="ConfigEditorForm" class="form-horizontal" data-detail-url="{$MODEL->getDetailViewUrl()}" method="POST">
 				<div class="row widget_header">
@@ -17,10 +17,12 @@
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 						{\App\Language::translate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
 					</div>
-					<div class="col-md-4 btn-toolbar no-margin">
-						<div class="pull-right">
-							<button class="btn btn-success saveButton" type="submit" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-							<button type="reset" class="cancelLink btn btn-warning" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+					<div class="col-md-4 btn-toolbar mt-2">
+						<div class="float-right">
+							<button class="btn btn-success saveButton" type="submit" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}">
+								<span class="fa fa-check u-mr-5px"></span><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+							<button type="reset" class="cancelLink btn btn-warning" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">
+								<span class="fas fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 						</div>
 					</div>
 				</div>
@@ -35,14 +37,14 @@
 												'href_max_length' => ['name' => 'NumberRange100'],
  												'listview_max_textlength' => ['name' => 'NumberRange100'],
 												'list_max_entries_per_page' => ['name' => 'NumberRange100']]}
-				<table class="table table-bordered table-condensed themeTableColor">
+				<table class="table table-bordered table-sm themeTableColor">
 					<thead>
 						<tr class="blockHeader"><th colspan="2" class="{$WIDTHTYPE}">{\App\Language::translate('LBL_CONFIG_FILE', $QUALIFIED_MODULE)}</th></tr>
 					</thead>
 					<tbody>
 						{assign var=FIELD_DATA value=$MODEL->getViewableData()}
 						{foreach key=FIELD_NAME item=FIELD_DETAILS from=$MODEL->getEditableFields()}
-							<tr><td width="30%" class="{$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{\App\Language::translate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label></td>
+							<tr><td width="30%" class="{$WIDTHTYPE}"><label class="muted float-right marginRight10px">{\App\Language::translate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label></td>
 								<td style="border-left: none;" class="row {$WIDTHTYPE}">
 									{if $FIELD_DETAILS['fieldType'] == 'picklist'}
 										<div class="col-md-4">
@@ -78,7 +80,7 @@
 													<div class="input-group-addon">{\App\Language::translate('LBL_MB', $QUALIFIED_MODULE)}</div>
 												</div>
 											</div>
-											<label class="control-label">
+											<label class="col-form-label">
 												(upload_max_filesize: {vtlib\Functions::showBytes($MAXUPLOADSIZE)})
 											</label>
 										{else}

@@ -1,17 +1,19 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
-		{if !$LOCK_EXIT}
-			<button class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
-		{/if}
-		<h4 class="modal-title">
+		<h5 class="modal-title">
 			{if $MODE === 'reset' || $MODE === 'massReset'}
-				<span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;
+				<span class="fas fa-redo-alt mr-1"></span>
 			{elseif $MODE === 'change'}
-				<span class="fa fa-key"></span>&nbsp;&nbsp;
+				<span class="fas fa-key mr-1"></span>
 			{/if}
 			{\App\Language::translate($MODE_TITLE, $MODULE_NAME)}{if $RECORD} - {App\Fields\Owner::getUserLabel($RECORD)}{/if}
-		</h4>
+		</h5>
+		{if !$LOCK_EXIT}
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		{/if}
 	</div>
 	<form name="PasswordUsersForm" class="form-horizontal sendByAjax validateForm" action="index.php" method="post" autocomplete="off">
 		<input type="hidden" name="module" value="{$MODULE_NAME}" />
@@ -33,26 +35,26 @@
 			{elseif $MODE === 'change'}
 				{if $WARNING}
 					<div class="alert alert-danger" role="alert">
-						<span class="glyphicon glyphicon-warning-sign fs30 pull-left marginRight10" aria-hidden="true"></span>
+						<span class="fas fa-exclamation-circle fs30 float-left mr-2"></span>
 						{$WARNING}
 					</div>
 				{/if}
 				{if App\User::getCurrentUserId() == $RECORD}
 					<div class="form-group">
-						<label class="control-label col-sm-4">{\App\Language::translate('LBL_OLD_PASSWORD', $MODULE_NAME)}</label>
+						<label class="col-form-label col-sm-4">{\App\Language::translate('LBL_OLD_PASSWORD', $MODULE_NAME)}</label>
 						<div class="controls col-sm-6">
 							<input type="password" name="oldPassword" class="form-control" data-validation-engine="validate[required]" autocomplete="off" />
 						</div>
 					</div>
 				{/if}
 				<div class="form-group">
-					<label class="col-sm-4 control-label">{\App\Language::translate('LBL_NEW_PASSWORD', $MODULE_NAME)}</label>
+					<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_NEW_PASSWORD', $MODULE_NAME)}</label>
 					<div class="col-sm-6 controls">
 						<input type="password" name="password" id="passwordUsersFormPassword" title="{\App\Language::translate('LBL_NEW_PASSWORD', $MODULE_NAME)}" class="form-control" data-validation-engine="validate[required]]" autocomplete="off" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-4 control-label">{\App\Language::translate('LBL_CONFIRM_PASSWORD', $MODULE_NAME)}</label>
+					<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_CONFIRM_PASSWORD', $MODULE_NAME)}</label>
 					<div class="col-sm-6 controls">
 						<input type="password" name="confirmPassword" id="confirmPasswordUsersFormPassword" title="{\App\Language::translate('LBL_CONFIRM_PASSWORD', $MODULE_NAME)}" class="form-control" data-validation-engine="validate[required,equals[passwordUsersFormPassword]]" autocomplete="off" />
 					</div>
@@ -74,17 +76,17 @@
 		<div class="modal-footer">
 			{if ($MODE === 'massReset' || $MODE === 'reset') &&  $ACTIVE_SMTP}
 				<button class="btn btn-success" type="submit" name="saveButton" {if AppConfig::main('systemMode') === 'demo'}disabled="disabled"{/if}>
-					<span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('BTN_RESET_PASSWORD', $MODULE_NAME)}</strong>
+					<span class="fas fa-redo-alt mr-1"></span><strong>{\App\Language::translate('BTN_RESET_PASSWORD', $MODULE_NAME)}</strong>
 				</button>
 			{/if}
 			{if $MODE === 'change'}
 				<button class="btn btn-success" type="submit" name="saveButton" {if AppConfig::main('systemMode') === 'demo'}disabled="disabled"{/if}>
-					<span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_CHANGE_PASSWORD', $MODULE_NAME)}</strong>
+					<span class="fas fa-redo-alt mr-1"></span><strong>{\App\Language::translate('LBL_CHANGE_PASSWORD', $MODULE_NAME)}</strong>
 				</button>
 			{/if}
 			{if !$LOCK_EXIT}
-				<button class="btn btn-warning" type="reset" data-dismiss="modal">
-					<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
+				<button class="btn btn-danger" type="reset" data-dismiss="modal">
+					<span class="fas fa-times mr-1"></span><strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 				</button>
 			{/if}
 		</div>

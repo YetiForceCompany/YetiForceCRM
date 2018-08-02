@@ -6,36 +6,33 @@
 	{if !$SORT_ORDER}
 		{assign 'SORT_ORDER' 'ASC'}
 	{/if}
-	<form class="" id="sortingCustomView">
+	<form class="" id="js-sorting-filter" data-js="submit">
 		<input type="hidden" id="cvid" name="cvid" value="{$CVID}" />
 		<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />
 		<input type="hidden" id="sortOrder" name="sortOrder" value="{$SORT_ORDER}" />
 		<div class="modal-header">
-			<div class="pull-left">
-				<h3 class="modal-title">{\App\Language::translate('LBL_SORTING_SETTINGS', $MODULE_NAME)}</h3>
-			</div>
-			<div class="clearfix"></div>
+			<h5 class="modal-title">{\App\Language::translate('LBL_SORTING_SETTINGS', $MODULE_NAME)}</h5>
 		</div>
 		<div class="modal-body">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="alert alert-danger fade in">
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
 						<a href="#" class="close" data-dismiss="alert">&times;</a>
 						{\App\Language::translate('LBL_SORTING_SETTINGS_WORNING', $MODULE_NAME)}
 					</div>
 				</div>
-				<div class="col-xs-12 form-group">
-					<label class="col-xs-12 control-label">
+				<div class="col-12 form-group">
+					<label class="col-12 col-form-label">
 						{\App\Language::translate('LBL_SELECT_FIELD_TO_SORT_RECORDS', $MODULE_NAME)}
 					</label>
-					<div class="col-md-9 col-sm-10 col-xs-12">
-						<div class="input-group">
-							<div class="input-group-btn" id="basic-addon1">
-								<button type="button" class="btn btn-danger clear" title="{\App\Language::translate('LBL_CLEAR', $MODULE_NAME)}">
-									<span class="glyphicon glyphicon-remove-sign"></span>
+					<div class="col-md-9 col-sm-10 col-12">
+						<div class="input-group js-sort-container" data-js="value">
+							<div class="input-group-prepend">
+								<button type="button" class="btn btn-danger js-clear" data-js="click" title="{\App\Language::translate('LBL_CLEAR', $MODULE_NAME)}">
+									<span class="fas fa-times-circle"></span>
 								</button>
 							</div>
-							<select class="select2 form-control" name="defaultOrderBy" id="defaultOrderBy">
+							<select class="select2 form-control col-3" name="defaultOrderBy" id="defaultOrderBy">
 								<option></option>
 								{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 									<optgroup label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE_MODEL->getName())}'>
@@ -61,10 +58,10 @@
 									</optgroup>
 								{/foreach}
 							</select>
-							<div class="input-group-btn" id="basic-addon2">
-								<button type="button" class="btn btn-primary sortOrderButton" id="sortOrderButton">
-									<span class="glyphicon glyphicon-sort-by-attributes{if $SORT_ORDER eq 'DESC'} hide{/if}" data-val="ASC" title="{\App\Language::translate('LBL_SORT_ASCENDING_ORDER', $MODULE_NAME)}"></span>
-									<span class="glyphicon glyphicon-sort-by-attributes-alt{if $SORT_ORDER eq 'ASC'} hide{/if}" data-val="DESC" title="{\App\Language::translate('LBL_SORT_DESCENDING_ORDER', $MODULE_NAME)}"></span>
+							<div class="input-group-append">
+								<button type="button" class="btn btn-primary js-sort-order-button" data-js="click">
+									<span class="fas fa-sort-amount-up{if $SORT_ORDER eq 'DESC'} d-none{/if}" data-val="ASC" title="{\App\Language::translate('LBL_SORT_ASCENDING_ORDER', $MODULE_NAME)}"></span>
+									<span class="fas fa-sort-amount-down{if $SORT_ORDER eq 'ASC'} d-none{/if}" data-val="DESC" title="{\App\Language::translate('LBL_SORT_DESCENDING_ORDER', $MODULE_NAME)}"></span>
 								</button>
 							</div>
 						</div>

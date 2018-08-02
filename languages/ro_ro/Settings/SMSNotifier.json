@@ -1,0 +1,22 @@
+{
+  "php": {
+    "FL_PROVIDER": "Furnizor",
+    "FL_STATUS": "Status",
+    "FL_SMSAPI_FROM": "Tip mesaj",
+    "FL_API_KEY": "Cheie Api",
+    "PLL_INACTIVE": "Inactiv",
+    "PLL_ACTIVE": "Activ",
+    "LBL_ADD_RECORD": "Configuratie noua",
+    "LBL_SMSNOTIFIER": "Configurare furnizor SMS",
+    "LBL_SMSNOTIFIER_DESCRIPTION": " ",
+    "LBL_ADD_CONFIGURATION": "Configuratie noua",
+    "LBL_EDIT_CONFIGURATION": "Modifica configuratie",
+    "BTN_SAVE": "Salveaza",
+    "BTN_CLOSE": "Anuleaza"
+  },
+  "js": {
+    "LBL_DELETE_CONFIRMATION": "Sunteti sigur ca doriti sa stergeti aceasta configuratie?",
+    "JS_RECORD_DELETED_SUCCESSFULLY": "Configuratie stearsa cu succes",
+    "JS_SAVE_SUCCESS": "Salvat"
+  }
+}

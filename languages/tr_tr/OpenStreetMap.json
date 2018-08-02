@@ -1,0 +1,22 @@
+{
+  "php": {
+    "OpenStreetMap": "OpenStreetMap",
+    "LBL_GROUP_BY": "Grup",
+    "LBL_GROUP_NEIGHBOURS": "Kom\u015fu \u00f6\u011feleri grupla",
+    "LBL_NOT_FOUND_PLACE": "Yer bulunamad\u0131",
+    "LBL_SEARCH_VALUE_DESCRIPTION": "\u015eehir, cadde, bina numaras\u0131 ...",
+    "LBL_IN_RADIUS": "Yar\u0131\u00e7ap i\u00e7inde [km]",
+    "LBL_CALCULATE_TRACK": "Rotay\u0131 ayarla",
+    "LBL_START": "Ba\u015fla",
+    "LBL_END": "Son",
+    "LBL_CALCULATE_ROUTE_HEADER_BLOCK": "Rotay\u0131 ayarla",
+    "LBL_DISTANCE": "Mesafe [km]",
+    "LBL_TRAVEL_TIME": "Zaman [dk]",
+    "LBL_INSTRUCTION": "Manuel",
+    "LBL_SEARCH_IN_RADIUS": "Yar\u0131\u00e7ap i\u00e7inde ara",
+    "LBL_COPY_TO_CLIPBOARD": "Panoya kopyala",
+    "LBL_CLIPBOARD": "Pano",
+    "LBL_INDIRECT_POINT": "Dolayl\u0131 nokta",
+    "ERR_ADDRESS_NOT_FOUND": "Adres bulunamad\u0131"
+  }
+}

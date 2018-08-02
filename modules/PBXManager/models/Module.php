@@ -10,10 +10,10 @@
 
 class PBXManager_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Function to check whether the module is an entity type module or not
-	 * @return boolean true/false
+	 * Function to check whether the module is an entity type module or not.
+	 *
+	 * @return bool true/false
 	 */
 	public function isQuickCreateSupported()
 	{
@@ -27,18 +27,20 @@ class PBXManager_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Overided to make editview=false for this module
+	 * Overided to make editview=false for this module.
 	 */
 	public function isPermitted($actionName)
 	{
-		if ($actionName == 'EditView' || $actionName == 'CreateView')
+		if ($actionName == 'EditView' || $actionName == 'CreateView') {
 			return false;
-		else
-			return ($this->isActive() && \App\Privilege::isPermitted($this->getName(), $actionName));
+		} else {
+			return $this->isActive() && \App\Privilege::isPermitted($this->getName(), $actionName);
+		}
 	}
 
 	/**
-	 * Function to get Settings links
+	 * Function to get Settings links.
+	 *
 	 * @return <Array>
 	 */
 	public function getSettingLinks()
@@ -47,30 +49,26 @@ class PBXManager_Module_Model extends Vtiger_Module_Model
 			return [];
 		}
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
-
-		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
 		$settingsLinks = [];
-
 		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
 			$settingsLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
 				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
-				'linkicon' => $editWorkflowsImagePath
+				'linkicon' => 'adminIcon-triggers',
 			];
 		}
-
 		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTINGS',
 			'linklabel' => 'LBL_SERVER_CONFIGURATION',
 			'linkurl' => 'index.php?parent=Settings&module=PBXManager&view=Index',
-			'linkicon' => ''
+			'linkicon' => 'adminIcon-pbx-manager',
 		];
 		return $settingsLinks;
 	}
 
 	/**
-	 * Funxtion to identify if the module supports quick search or not
+	 * Funxtion to identify if the module supports quick search or not.
 	 */
 	public function isQuickSearchEnabled()
 	{

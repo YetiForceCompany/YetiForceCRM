@@ -1,0 +1,19 @@
+{
+  "php": {
+    "EmailTemplates": "Plantillas de Correos",
+    "SINGLE_EmailTemplates": "Plantilla de Correo",
+    "LBL_CONTENT_MAIL": "Contenido del correo electr\u00f3nico",
+    "LBL_BASIC_DETAILS": "Informaci\u00f3n sobre la Plantilla de Correo",
+    "FL_NAME": "Nombre",
+    "FL_TYPE": "Tipo",
+    "FL_MODULE": "M\u00f3dulo",
+    "FL_SUBJECT": "Asunto",
+    "FL_CONTENT": "Contenido",
+    "FL_SMTP_PRIORITY": "Prioridad - SMTP",
+    "PLL_MODULE": "M\u00f3dulo",
+    "PLL_RECORD": "Registro",
+    "PLL_MAIL": "Mensaje",
+    "PLL_LIST": "Lista",
+    "PLL_DEFAULT": "Empresa predeterminada"
+  }
+}

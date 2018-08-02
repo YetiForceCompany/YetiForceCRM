@@ -1,19 +1,20 @@
 <?php
 
 /**
- * Watchdog Action Class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Watchdog Action Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_Watchdog_Action extends Vtiger_Action_Controller
+class Vtiger_Watchdog_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
@@ -22,17 +23,17 @@ class Vtiger_Watchdog_Action extends Vtiger_Action_Controller
 		$recordId = $request->getInteger('record');
 		if (empty($recordId)) {
 			if (!App\Privilege::isPermitted($moduleName, 'WatchingModule')) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		} else {
 			if (!App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) || !App\Privilege::isPermitted($moduleName, 'WatchingRecords')) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 		if ($request->has('user')) {
 			$userList = array_keys(\App\Fields\Owner::getInstance()->getAccessibleUsers());
 			if (!in_array($request->getInteger('user'), $userList)) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 	}

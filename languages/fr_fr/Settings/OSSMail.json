@@ -1,0 +1,9 @@
+{
+  "php": {
+    "OSSMail": "Ma bo\u00eete mail",
+    "ERR_NO_MODULE_IS_INACTIVE": "Le module \"Ma bo\u00eete aux lettres\" est inactif, il doit \u00eatre activ\u00e9 avant la configuration."
+  },
+  "js": {
+    "JS_ERROR_EMPTY": "Tous les champs doivent \u00eatre remplis"
+  }
+}

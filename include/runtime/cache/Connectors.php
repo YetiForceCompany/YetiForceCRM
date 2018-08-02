@@ -10,7 +10,6 @@
 
 class Vtiger_Cache_Connector_Memory
 {
-
 	public function set($key, $value)
 	{
 		$this->$key = $value;
@@ -18,7 +17,7 @@ class Vtiger_Cache_Connector_Memory
 
 	public function get($key)
 	{
-		return isset($this->$key) ? $this->$key : false;
+		return $this->$key ?? false;
 	}
 
 	public function flush()

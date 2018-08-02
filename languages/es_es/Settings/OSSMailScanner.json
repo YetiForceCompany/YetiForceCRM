@@ -1,0 +1,32 @@
+{
+  "php": {
+    "LBL_PAGE_NUMBER": "Ir a la p\u00e1gina n\u00famero",
+    "OSSMailScanner_manual": "Esc\u00e1ner de correo",
+    "OSSMailScanner": "Esc\u00e1ner de correo",
+    "Mail Scanner": "Correo \u2013 Esc\u00e1ner",
+    "LBL_VIEW_LOGS": "Protocolo de correo",
+    "CRM Archive": "Archivo de CRM",
+    "CRM Archive Sent": "Archivo de CRM enviado",
+    "Drafts": "Borradores",
+    "INBOX": "Bandeja de entrada",
+    "Junk": "Basura",
+    "Sent": "Enviado",
+    "ERR_INCORRECT_ACCESS_DATA": "Datos de acceso incorrectos",
+    "LBL_INFO_ABOUT_FOLDERS_TO_REMOVE": "Las carpetas a continuaci\u00f3n ser\u00e1n eliminadas despu\u00e9s de guardar"
+  },
+  "js": {
+    "start_cron": "El Cron empez\u00f3",
+    "end_cron_ok": "Las tareas de Cron terminaron correctamente",
+    "end_cron_error": "Mientras cron se ejecutaba ha aparecido un error",
+    "JS_mail_error": "La direcci\u00f3n de correo electr\u00f3nico dada es incorrecta",
+    "JS_time_error": "El formato de fecha dado es incorrecto",
+    "JS_StopCron": "Detener manualmente el cron",
+    "stop_user": "Usuario que dej\u00f3 de escanear",
+    "Manually stopped": "Detenido manualmente",
+    "OK": "ok",
+    "In progress": "En progreso",
+    "whether_remove_an_identity": "\u00bfEliminar una identidad?",
+    "removed_identity": "Identidad eliminada",
+    "LBL_LOADING_LIST_OF_FOLDERS": "Cargando la lista de carpetas. Se pueden tardar varios minutos..."
+  }
+}

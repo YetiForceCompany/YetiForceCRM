@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Vtiger Updates widget class
- * @package YetiForce.Widget
- * @copyright YetiForce Sp. z o.o.
+ * Vtiger Updates widget class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_Updates_Widget extends Vtiger_Basic_Widget
 {
-
 	public function getUrl()
 	{
 		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRecentActivities&page=1&limit=5&skipHeader=true';
@@ -27,6 +26,7 @@ class Vtiger_Updates_Widget extends Vtiger_Basic_Widget
 		$this->Config['switchHeader']['off'] = 'review';
 		$this->Config['switchHeaderLables']['on'] = \App\Language::translate('LBL_UPDATES', $moduelName);
 		$this->Config['switchHeaderLables']['off'] = \App\Language::translate('LBL_REVIEW_HISTORY', $moduelName);
+
 		return $this->Config;
 	}
 }

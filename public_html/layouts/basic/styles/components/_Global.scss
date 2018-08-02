@@ -1,0 +1,227 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.basePanel, .bodyContents, .mainContainer, .contentsDiv {
+	min-height: 100%;
+}
+
+.bodyContent {
+	min-height: 100%;
+	height: 100%;
+	margin-top: 0;
+	padding-top: 0;
+	padding-bottom: 15px;
+
+	@include media-breakpoint-down(xs) {
+		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;
+	}
+}
+
+%input-groupSelect2 {
+	.input-group {
+		flex-wrap: nowrap;
+	}
+}
+
+.c-panel {
+	@extend .card;
+	@extend .mb-2;
+
+	&__header {
+		@extend .card-header;
+		@extend .u-cursor-pointer;
+		@extend .px-0;
+		@extend .py-1;
+	}
+
+	&__body {
+		@extend .card-body;
+		@extend .px-1;
+		@extend .py-0;
+		@extend .col-md-12;
+	}
+
+	&__label {
+		@extend .border-right;
+		@extend .d-flex;
+		@extend .justify-content-sm-start;
+		@extend .justify-content-lg-end;
+		@extend .col-sm-12;
+	}
+
+	&--edit {
+		.row {
+			margin: 0;
+		}
+
+		.c-panel__body--edit {
+			@extend .px-0, .pt-1;
+
+			[class^="col-"], [class*=" col-"] {
+				@extend .px-1;
+			}
+		}
+	}
+}
+
+.c-badge__icon {
+	@extend .position-absolute;
+	@extend .rounded-circle;
+	@extend .text-white;
+	@extend .text-center;
+
+	width: 32px;
+	height: 32px;
+	line-height: 30px;
+	font-size: 17px;
+}
+
+.c-badge--md {
+	font-size: 90%;
+}
+
+.c-badge--top-right {
+	position: absolute;
+	top: -5px;
+	right: 0;
+	z-index: 100;
+}
+
+.childrenMarginRight > * {
+	@extend .mr-2;
+}
+
+.childrenMarginTopX > * {
+	@extend .mt-2;
+	@extend .mx-1;
+}
+
+.card {
+	.blockHeader {
+		@extend .d-inline-flex;
+	}
+}
+
+.c-multi-image__preview-img {
+	height: 2rem;
+	width: 2rem;
+	cursor: pointer;
+	background-size: cover;
+	background-position: center;
+}
+
+.c-multi-image__popover-img {
+	cursor: pointer;
+}
+
+.c-multi-image__drop-effect {
+	background: rgba($blue, 0.2);
+	border: $border-width solid rgba($blue, 0.5) !important;
+}
+
+.c-btn-collapsible {
+	overflow: hidden;
+
+	@include u-transition(all 275ms ease);
+
+	max-width: 40px;
+
+	&.btn-xs {
+		max-width: 25px;
+	}
+
+	&.btn-sm {
+		max-width: 32px;
+	}
+
+	&.btn-lg {
+		max-width: 50px;
+	}
+
+	span {
+		opacity: 0;
+		text-indent: -6px;
+		display: inline-block;
+
+		@include u-transition(all 275ms ease);
+	}
+
+	&:hover {
+		max-width: 300px;
+
+		@include u-transition(all 275ms ease);
+
+		span {
+			opacity: 1;
+			text-indent: 0;
+
+			@include u-transition(all 275ms ease);
+		}
+	}
+}
+
+.popover-footer {
+	padding: $popover-header-padding-y $popover-header-padding-x;
+	margin-bottom: 0; // Reset the default from Reboot
+	font-size: $font-size-base;
+	color: $popover-header-color;
+	background-color: $popover-header-bg;
+	border-top: $popover-border-width solid darken($popover-header-bg, 5%);
+	$offset-border-width: calc(#{$border-radius-lg} - #{$popover-border-width});
+
+	@include border-bottom-radius($offset-border-width);
+}
+
+// bootstrap carousel
+.c-carousel {
+	.c-carousel__prevnext-btn {
+		top: 42%;
+		bottom: auto;
+		background: rgba(0, 0, 0, 0.25);
+		border: 1px solid rgba(255, 255, 255, 0.5);
+		opacity: 0.75;
+		height: 60px;
+		width: 60px;
+		border-radius: 100%;
+		margin: 0 20px;
+		transition: all 100ms;
+
+		&:active {
+			transform: scale(0.85, 0.85);
+		}
+	}
+}
+
+//action dropdowns
+.rightRecordActions,
+.leftRecordActions {
+	white-space: nowrap;
+
+	> div {
+		display: inline-block;
+	}
+
+	.actions {
+		display: inline-block;
+		margin: 0 0.25rem;
+
+		.dropdown-menu {
+			padding: 0.2rem;
+			margin-top: -0.2rem;
+			min-width: unset;
+
+			.btn-group {
+				vertical-align: top;
+			}
+
+			.btn-xs {
+				@extend .btn-sm;
+			}
+		}
+	}
+}
+// improved table display on mobile
+@include media-breakpoint-down(xs) {
+	table td {
+		padding: 0.25rem !important;
+	}
+}

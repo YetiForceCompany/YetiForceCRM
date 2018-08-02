@@ -11,15 +11,12 @@
 
 class Contacts_Edit_View extends Vtiger_Edit_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('IMAGE_DETAILS', $this->record->getImageDetails());
-
 		$salutationFieldModel = Vtiger_Field_Model::getInstance('salutationtype', $this->record->getModule());
 		// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/7851
 		$salutationType = $request->get('salutationtype');
@@ -29,7 +26,20 @@ class Contacts_Edit_View extends Vtiger_Edit_View
 			$salutationFieldModel->set('fieldvalue', $this->record->get('salutationtype'));
 		}
 		$viewer->assign('SALUTATION_FIELD_MODEL', $salutationFieldModel);
-
 		parent::process($request);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPageTitle(\App\Request $request)
+	{
+		if ($this->record->isNew()) {
+			return parent::getPageTitle($request);
+		} else {
+			$moduleName = $request->getModule();
+			return \App\Language::translate($moduleName, $moduleName) . ' ' .
+				\App\Language::translate('LBL_EDIT') . ' ' . $this->record->getDisplayName();
+		}
 	}
 }

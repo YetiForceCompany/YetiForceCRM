@@ -1,25 +1,25 @@
 <?php
 /**
- * OSSMail index view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * OSSMail index view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 
 /**
- * OSSMail index view class
+ * OSSMail index view class.
  */
 class OSSMail_Index_View extends Vtiger_Index_View
 {
-
 	/**
-	 * Main url
+	 * Main url.
+	 *
 	 * @var string
 	 */
 	protected $mainUrl = 'modules/OSSMail/roundcube/';
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	public function __construct()
 	{
@@ -31,7 +31,7 @@ class OSSMail_Index_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * Init autologin
+	 * Init autologin.
 	 */
 	public function initAutologin()
 	{
@@ -59,9 +59,10 @@ class OSSMail_Index_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * Pre process
+	 * Pre process.
+	 *
 	 * @param \App\Request $request
-	 * @param bool $display
+	 * @param bool         $display
 	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
@@ -71,7 +72,8 @@ class OSSMail_Index_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)

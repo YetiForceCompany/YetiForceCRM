@@ -1,0 +1,16 @@
+{
+  "php": {
+    "LBL_OWNER_ALLOCATION": "Asignar propietario",
+    "LBL_OWNER_ALLOCATION_DESCRIPTION": " ",
+    "LBL_MULTIOWNER_ALLOCATION": "Asignar usuarios compartidos",
+    "LBL_MULTIOWNER_ALLOCATION_DESCRIPTION": " ",
+    "LBL_SORTING_SETTINGS_WORNING": "\u00a1Advertencia! La configuraci\u00f3n funcionar\u00e1 s\u00f3lo cuando la habilite en el panel de Roles",
+    "LBL_ADD_PANEL_TO_MODULE": "A\u00f1adir asignaci\u00f3n al m\u00f3dulo.",
+    "LBL_SELECT_MODULE": "Seleccionar m\u00f3dulo",
+    "LBL_GO_TO_PANEL": "Ir al panel",
+    "LBL_USERS_AND_GROUPS": "Usuarios y grupos"
+  },
+  "js": {
+    "JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL": "\u00bfSeguro que desea eliminar todas las asignaciones de este m\u00f3dulo?"
+  }
+}

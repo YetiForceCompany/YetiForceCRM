@@ -1,24 +1,26 @@
 <?php
 
 /**
- * Mail edit view
- * @package YetiForce.Settings.View
- * @copyright YetiForce Sp. z o.o.
+ * Mail edit view.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 {
-
 	/**
-	 * Page title
-	 * @var type 
+	 * Page title.
+	 *
+	 * @var type
 	 */
 	protected $pageTitle = 'LBL_MAIL_QUEUE_PAGE_TITLE';
 
 	/**
-	 * Checking permission 
+	 * Checking permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
 	public function checkPermission(\App\Request $request)
@@ -30,7 +32,8 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -45,13 +48,14 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 		}
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('DetailView.tpl', $qualifiedModuleName);
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return array - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)
@@ -61,10 +65,11 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 
 		$jsFileNames = [
 			'modules.Settings.Vtiger.resources.Detail',
-			"modules.Settings.$moduleName.resources.Detail"
+			"modules.Settings.$moduleName.resources.Detail",
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 }

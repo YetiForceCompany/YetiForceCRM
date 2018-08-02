@@ -1,15 +1,14 @@
 <?php
 
 /**
- * FInvoice Record Model Class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * FInvoice Record Model Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class FInvoice_Record_Model extends Vtiger_Record_Model
 {
-
 	public function saveToDb()
 	{
 		parent::saveToDb();
@@ -21,7 +20,7 @@ class FInvoice_Record_Model extends Vtiger_Record_Model
 				->max('saledate');
 			if (!empty($date)) {
 				App\Db::getInstance()->createCommand()->update('vtiger_account', [
-					'last_invoice_date' => $date
+					'last_invoice_date' => $date,
 					], ['accountid' => $this->get('accountid')]
 				)->execute();
 			}

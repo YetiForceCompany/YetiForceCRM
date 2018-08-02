@@ -1,0 +1,22 @@
+{
+  "php": {
+    "CInternalTickets": "Dahili biletler",
+    "SINGLE_CInternalTickets": "Dahili bilet",
+    "LBL_ADDITIONAL_INFORMATION": "Ek bilgi",
+    "LBL_BASIC_INFORMATION": "Temel bilgiler",
+    "LBL_TICKET_RESOLUTION": "\u00c7\u00f6z\u00fcm",
+    "LBL_ATTENTION_BLOCK": "Notlar",
+    "LBL_DESCRIPTION_BLOCK": "A\u00e7\u0131klama",
+    "FL_SUBJECT": "Konu",
+    "FL_STATUS": "Durum",
+    "FL_RESOLUTION": "\u00c7\u00f6z\u00fcm",
+    "PLL_UNASSIGNED": "Atamas\u0131z",
+    "PLL_AWAITING_REALIZATION": "Ger\u00e7ekle\u015fmeyi bekliyor",
+    "PLL_FOR_PROCESSING": "Ger\u00e7ekle\u015ftirme i\u00e7in",
+    "PLL_IN_PROGRESSING": "Devam ediyor",
+    "PLL_SUBMITTED_COMMENTS": "Sunulan yorumlar",
+    "PLL_FOR_APPROVAL": "Onay i\u00e7in",
+    "PLL_CANCELLED": "\u0130ptal edildi",
+    "PLL_ACCEPTED": "Kabul Edildi"
+  }
+}

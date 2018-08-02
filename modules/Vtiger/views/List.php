@@ -11,20 +11,21 @@
 
 class Vtiger_List_View extends Vtiger_Index_View
 {
-
 	protected $listViewEntries = false;
 	protected $listViewCount = false;
 	protected $listViewLinks = false;
 	protected $listViewHeaders = false;
 
 	/**
-	 * List view model instance
+	 * List view model instance.
+	 *
 	 * @var Vtiger_ListView_Model
 	 */
 	protected $listViewModel;
 
 	/**
-	 * List view name or id
+	 * List view name or id.
+	 *
 	 * @var int|string
 	 */
 	protected $viewName;
@@ -65,9 +66,10 @@ class Vtiger_List_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * Pre process
+	 * Pre process.
+	 *
 	 * @param \App\Request $request
-	 * @param bool $display
+	 * @param bool         $display
 	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
@@ -115,7 +117,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -151,9 +153,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -163,8 +165,10 @@ class Vtiger_List_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return Vtiger_JsScript_Model[] - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)
@@ -173,31 +177,33 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$jsFileNames = [
 			'modules.Vtiger.resources.List',
 			"modules.$moduleName.resources.List",
-			'~libraries/jquery/colorpicker/js/colorpicker.js',
+			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
-			'modules.Vtiger.resources.CkEditor',
 			'modules.Vtiger.resources.ListSearch',
-			"modules.$moduleName.resources.ListSearch"
+			"modules.$moduleName.resources.ListSearch",
 		];
+
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
 	/**
-	 * Retrieves css styles that need to loaded in the page
+	 * Retrieves css styles that need to loaded in the page.
+	 *
 	 * @param \App\Request $request - request model
+	 *
 	 * @return Vtiger_CssScript_Model[] - array of Vtiger_CssScript_Model
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$cssFileNames = [
-			'~libraries/jquery/colorpicker/css/colorpicker.css'
+			'~libraries/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css',
 		];
+
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}
-	/*
-	 * Function to initialize the required data in smarty to display the List View Contents
-	 */
+
+	// Function to initialize the required data in smarty to display the List View Contents
 
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
@@ -217,10 +223,10 @@ class Vtiger_List_View extends Vtiger_Index_View
 		}
 		if ($sortOrder === 'ASC') {
 			$nextSortOrder = 'DESC';
-			$sortImage = 'glyphicon glyphicon-chevron-down';
+			$sortImage = 'fas fa-chevron-down';
 		} else {
 			$nextSortOrder = 'ASC';
-			$sortImage = 'glyphicon glyphicon-chevron-up';
+			$sortImage = 'fas fa-chevron-up';
 		}
 		if (empty($pageNumber)) {
 			$pageNumber = App\CustomView::getCurrentPage($moduleName, $this->viewName);

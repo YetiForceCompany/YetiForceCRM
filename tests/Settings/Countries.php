@@ -1,18 +1,19 @@
 <?php
 /**
- * Countries test class
- * @package YetiForce.Test
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Wojciech Bruggemann <w.bruggemann@yetiforce.com>
+ * Countries test class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Wojciech Bruggemann <w.bruggemann@yetiforce.com>
  */
+
 namespace Tests\Settings;
 
 class Countries extends \Tests\Base
 {
-
 	/**
-	 * Testing update all statuses
+	 * Testing update all statuses.
+	 *
 	 * @param int $status
 	 * @dataProvider providerForUpdateAllStatuses
 	 */
@@ -25,7 +26,8 @@ class Countries extends \Tests\Base
 	}
 
 	/**
-	 * Data provider for testUpdateAllStatuses
+	 * Data provider for testUpdateAllStatuses.
+	 *
 	 * @return array
 	 * @codeCoverageIgnore
 	 */
@@ -35,7 +37,7 @@ class Countries extends \Tests\Base
 	}
 
 	/**
-	 * Testing update sequence
+	 * Testing update sequence.
 	 */
 	public function testUpdateSequence()
 	{
@@ -61,7 +63,17 @@ class Countries extends \Tests\Base
 	}
 
 	/**
-	 * Testing update status
+	 * Get all rows.
+	 *
+	 * @return array
+	 */
+	private function getAllRows()
+	{
+		return (new \App\Db\Query())->from('u_#__countries')->all();
+	}
+
+	/**
+	 * Testing update status.
 	 */
 	public function testUpdateStatus()
 	{
@@ -71,11 +83,24 @@ class Countries extends \Tests\Base
 		$result = $moduleModel->updateStatus($row['id'], $status);
 		$this->assertGreaterThan(0, $result, 'There is none any results after update');
 		$status2 = $this->getValueOfField($row['id'], 'status');
-		$this->assertEquals($status, $status2, 'There is none any changes after update');
+		$this->assertSame($status, $status2, 'There is none any changes after update');
 	}
 
 	/**
-	 * Testing update phone
+	 * Get value of field as scalar.
+	 *
+	 * @param int    $id
+	 * @param string $fieldName
+	 *
+	 * @return string
+	 */
+	private function getValueOfField($id, $fieldName)
+	{
+		return (new \App\Db\Query())->from('u_#__countries')->select($fieldName)->where(['id' => $id])->scalar();
+	}
+
+	/**
+	 * Testing update phone.
 	 */
 	public function testUpdatePhone()
 	{
@@ -85,11 +110,11 @@ class Countries extends \Tests\Base
 		$result = $moduleModel->updatePhone($row['id'], $phone);
 		$this->assertGreaterThan(0, $result, 'There is none any results after update');
 		$status2 = $this->getValueOfField($row['id'], 'phone');
-		$this->assertEquals($phone, $status2, 'There is none any changes after update');
+		$this->assertSame($phone, $status2, 'There is none any changes after update');
 	}
 
 	/**
-	 * Testing update uitype
+	 * Testing update uitype.
 	 */
 	public function testUpdateUitype()
 	{
@@ -99,36 +124,16 @@ class Countries extends \Tests\Base
 		$result = $moduleModel->updateUitype($row['id'], $uitype);
 		$this->assertGreaterThan(0, $result, 'There is none any results after update');
 		$status2 = $this->getValueOfField($row['id'], 'uitype');
-		$this->assertEquals($uitype, $status2, 'There is none any changes after update');
+		$this->assertSame($uitype, $status2, 'There is none any changes after update');
 	}
 
 	/**
-	 * Testing get all records
+	 * Testing get all records.
 	 */
 	public function testGetAll()
 	{
 		$allRecords = \Settings_Countries_Record_Model::getAll();
 		$count = (new \App\Db\Query())->from('u_#__countries')->count();
 		$this->assertCount($count, $allRecords, 'Count of all record is different than should be');
-	}
-
-	/**
-	 * Get value of field as scalar
-	 * @param int $id
-	 * @param string $fieldName
-	 * @return string
-	 */
-	private function getValueOfField($id, $fieldName)
-	{
-		return (new \App\Db\Query())->from('u_#__countries')->select($fieldName)->where(['id' => $id])->scalar();
-	}
-
-	/**
-	 * Get all rows
-	 * @return array
-	 */
-	private function getAllRows()
-	{
-		return (new \App\Db\Query())->from('u_#__countries')->all();
 	}
 }

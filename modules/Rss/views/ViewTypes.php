@@ -11,6 +11,7 @@
 
 class Rss_ViewTypes_View extends Vtiger_BasicModal_View
 {
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -19,18 +20,10 @@ class Rss_ViewTypes_View extends Vtiger_BasicModal_View
 		$this->exposeMethod('getRssAddForm');
 	}
 
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
-
 	/**
-	 * Function to display rss sidebar widget
-	 * @param \App\Request $request 
+	 * Function to display rss sidebar widget.
+	 *
+	 * @param \App\Request $request
 	 */
 	public function getRssWidget(\App\Request $request)
 	{
@@ -46,7 +39,8 @@ class Rss_ViewTypes_View extends Vtiger_BasicModal_View
 	}
 
 	/**
-	 * Function to get the rss add form 
+	 * Function to get the rss add form.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getRssAddForm(\App\Request $request)

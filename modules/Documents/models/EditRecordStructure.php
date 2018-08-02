@@ -10,9 +10,9 @@
 
 class Documents_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 {
-
 	/**
-	 * Function to get the values in stuctured format
+	 * Function to get the values in stuctured format.
+	 *
 	 * @return <array> - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()
@@ -49,6 +49,7 @@ class Documents_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Mod
 			}
 		}
 		$this->structuredValues = $values;
+
 		return $values;
 	}
 }

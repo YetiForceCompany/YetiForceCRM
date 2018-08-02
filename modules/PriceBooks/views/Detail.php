@@ -11,11 +11,11 @@
 
 class PriceBooks_Detail_View extends Vtiger_Detail_View
 {
-
 	/**
-	 * {@inheritDoc}
-	 * 
+	 * {@inheritdoc}
+	 *
 	 * This function is based on the Vtiger_RelatedList_View class
+	 *
 	 * @see Vtiger_RelatedList_View
 	 */
 	public function showRelatedList(\App\Request $request)
@@ -43,10 +43,10 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$sortOrder = $request->getForSql('sortorder');
 		if ($sortOrder === 'ASC') {
 			$nextSortOrder = 'DESC';
-			$sortImage = 'glyphicon glyphicon-chevron-down';
+			$sortImage = 'fas fa-chevron-down';
 		} else {
 			$nextSortOrder = 'ASC';
-			$sortImage = 'glyphicon glyphicon-chevron-up';
+			$sortImage = 'fas fa-chevron-up';
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
 			$relatedInstance = CRMEntity::getInstance($relatedModuleName);

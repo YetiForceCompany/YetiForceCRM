@@ -1,17 +1,18 @@
 <?php
 
 /**
- * Reservations calendar view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Reservations calendar view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Reservations_Calendar_View extends Vtiger_Index_View
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -21,7 +22,12 @@ class Reservations_Calendar_View extends Vtiger_Index_View
 		}
 	}
 
-	public function postProcess(\App\Request $request)
+	protected function preProcessTplName(\App\Request $request)
+	{
+		return 'CalendarViewPreProcess.tpl';
+	}
+
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -45,12 +51,15 @@ class Reservations_Calendar_View extends Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 		$jsFileNames = [
-			'~libraries/fullcalendar/fullcalendar.js',
+			'~libraries/fullcalendar/dist/fullcalendar.js',
+			'~libraries/css-element-queries/src/ResizeSensor.js',
+			'~libraries/css-element-queries/src/ElementQueries.js',
 			'modules.' . $moduleName . '.resources.Calendar',
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 
@@ -58,8 +67,7 @@ class Reservations_Calendar_View extends Vtiger_Index_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'~libraries/fullcalendar/fullcalendar.min.css',
-			'~libraries/fullcalendar/fullcalendarCRM.css',
+			'~libraries/fullcalendar/dist/fullcalendar.css',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

@@ -11,23 +11,29 @@
 
 class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
-		if (!is_numeric($value) || \App\User::isExists($value)) {
+		if (!is_numeric($value) || !\App\User::isExists($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$maximumLength = $this->getFieldModel()->get('maximumlength');
+		if ($maximumLength) {
+			$rangeValues = explode(',', $maximumLength);
+			if (($rangeValues[1] ?? $rangeValues[0]) < $value || (isset($rangeValues[1]) ? $rangeValues[0] : 0) > $value) {
+				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			}
+		}
+		$this->validate[$value] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
@@ -38,24 +44,33 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$displayValue = \vtlib\Functions::textLength($this->getEditViewDisplayValue($value, $recordModel), is_int($length) ? $length : false);
+		$displayValue = \App\TextParser::textTruncate($this->getEditViewDisplayValue($value, $recordModel), is_int($length) ? $length : false);
 		if (App\User::getCurrentUserModel()->isAdmin() && !$rawText) {
 			$recordModel = Users_Record_Model::getCleanInstance('Users');
 			$recordModel->setId($value);
+
 			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . $displayValue . '</a>';
 		}
 		return $displayValue;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Reference.tpl';
+		return 'Edit/Field/Reference.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return ['integer', 'smallint'];
 	}
 }

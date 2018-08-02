@@ -7,6 +7,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
+
 Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 	instance: {}
 
@@ -31,7 +33,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 	setContainer: function (element) {
 		this.workFlowsContainer = element;
 		return this;
-},
+	},
 	/*
 	 * Function to return the instance based on the step of the Workflow
 	 */
@@ -45,7 +47,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 		}
 	},
 	/*
-	 * Function to get the value of the step 
+	 * Function to get the value of the step
 	 * returns 1 or 2 or 3
 	 */
 	getStepValue: function () {
@@ -56,7 +58,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 	 * Function to initiate the step 1 instance
 	 */
 	initiate: function (container) {
-		if (typeof container == 'undefined') {
+		if (typeof container === "undefined") {
 			container = jQuery('.workFlowContents');
 		}
 		if (container.is('.workFlowContents')) {
@@ -99,7 +101,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 					var specialValidation = thisInstance.currentInstance.isFormValidate();
 				}
 				if (form.validationEngine('validate') && specialValidation) {
-					thisInstance.currentInstance.submit().then(function (data) {
+					thisInstance.currentInstance.submit().done(function (data) {
 						thisInstance.getContainer().append(data);
 						var stepVal = thisInstance.getStepValue();
 						var nextStepVal = parseInt(stepVal) + 1;
@@ -109,7 +111,6 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 						thisInstance.registerFormSubmitEvent(container);
 						thisInstance.currentInstance.registerEvents();
 					});
-
 				}
 				e.preventDefault();
 			})
@@ -134,10 +135,13 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 	},
 	getPopUp: function (container) {
 		var thisInstance = this;
-		if (typeof container == 'undefined') {
+		if (typeof container === "undefined") {
 			container = thisInstance.getContainer();
 		}
 		container.on('click', '.getPopupUi', function (e) {
+			if(container.find('[name="execution_condition"]').val() == 6){
+				return false;
+			}
 			var fieldValueElement = jQuery(e.currentTarget);
 			var fieldValue = fieldValueElement.val();
 			var fieldUiHolder = fieldValueElement.closest('.fieldUiHolder');
@@ -145,17 +149,18 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			if (valueType == '') {
 				valueType = 'rawtext';
 			}
-			var conditionsContainer = fieldValueElement.closest('.conditionsContainer');
-			var conditionRow = fieldValueElement.closest('.conditionRow');
+			var conditionsContainer = fieldValueElement.closest('.js-conditions-container');
+			var conditionRow = fieldValueElement.closest('.js-conditions-row');
 
 			var clonedPopupUi = conditionsContainer.find('.popupUi').clone(true, true).removeClass('popupUi').addClass('clonedPopupUi')
 			clonedPopupUi.find('select').addClass('chzn-select');
 			clonedPopupUi.find('.fieldValue').val(fieldValue);
+			var value;
 			if (fieldValueElement.hasClass('date')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
 				var dataFormat = fieldValueElement.data('date-format');
 				if (valueType == 'rawtext') {
-					var value = fieldValueElement.val();
+					value = fieldValueElement.val();
 				} else {
 					value = '';
 				}
@@ -164,7 +169,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			} else if (fieldValueElement.hasClass('time')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
 				if (valueType == 'rawtext') {
-					var value = fieldValueElement.val();
+					value = fieldValueElement.val();
 				} else {
 					value = '';
 				}
@@ -173,14 +178,12 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			} else if (fieldValueElement.hasClass('boolean')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
 				if (valueType == 'rawtext') {
-					var value = fieldValueElement.val();
+					value = fieldValueElement.val();
 				} else {
 					value = '';
 				}
 				var clonedBooleanElement = '<input type="checkbox" class="fieldValue col-md-4" value="' + value + '" data-input="true" >';
 				clonedPopupUi.find('.fieldValueContainer').prepend(clonedBooleanElement);
-
-				var fieldValue = clonedPopupUi.find('.fieldValueContainer input').val();
 				if (value == 'true:boolean' || value == '') {
 					clonedPopupUi.find('.fieldValueContainer input').attr('checked', 'checked');
 				} else {
@@ -188,15 +191,15 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 				}
 			}
 			var callBackFunction = function (data) {
-				data.find('.clonedPopupUi').removeClass('hide');
+				data.find('.clonedPopupUi').removeClass('d-none');
 				var moduleNameElement = conditionRow.find('[name="modulename"]');
 				if (moduleNameElement.length > 0) {
 					var moduleName = moduleNameElement.val();
-					data.find('.useFieldElement').addClass('hide');
-					data.find('[name="' + moduleName + '"]').removeClass('hide');
+					data.find('.useFieldElement').addClass('d-none');
+					data.find('[name="' + moduleName + '"]').removeClass('d-none');
 				}
-				app.changeSelectElementView(data);
-				app.registerEventForDatePickerFields(data);
+				App.Fields.Picklist.changeSelectElementView(data);
+				App.Fields.Date.register(data);
 				app.registerEventForClockPicker(data);
 				thisInstance.postShowModalAction(data, valueType);
 				thisInstance.registerChangeFieldEvent(data);
@@ -206,7 +209,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 				data.find('.fieldValue').filter(':visible').trigger('focus');
 				data.find('[data-close-modal="modal"]').off('click').on('click', function () {
 					jQuery(this).closest('.modal').removeClass('in').css('display', 'none');
-				})
+				});
 			}
 			conditionsContainer.find('.clonedPopUp').html(clonedPopupUi);
 			jQuery('.clonedPopupUi').on('shown.bs.modal', function () {
@@ -221,7 +224,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 		data.on('click', '.closeModal', function (e) {
 			data.modal('hide');
 		});
-},
+	},
 	registerPopUpSaveEvent: function (data, fieldUiHolder) {
 		jQuery('[name="saveButton"]', data).on('click', function (e) {
 			var valueType = jQuery('.textType', data).val();
@@ -254,10 +257,10 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 		jQuery('.useField,.useFunction', data).on('change', function (e) {
 			var currentElement = jQuery(e.currentTarget);
 			var newValue = currentElement.val();
-			var oldValue = data.find('.fieldValue').filter(':visible').val();
+			var oldValue = data.find('.fieldValue').filter(':visible').val(), concatenatedValue;
 			if (currentElement.hasClass('useField')) {
 				if (oldValue != '') {
-					var concatenatedValue = oldValue + ' ' + newValue;
+					concatenatedValue = oldValue + ' ' + newValue;
 				} else {
 					concatenatedValue = newValue;
 				}
@@ -277,36 +280,36 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			jQuery('.fieldValue', data).hide();
 			jQuery('[data-' + uiType + ']', data).show();
 			if (valueType == 'fieldname') {
-				useFieldContainer.removeClass('hide');
-				useFunctionContainer.addClass('hide');
+				useFieldContainer.removeClass('d-none');
+				useFunctionContainer.addClass('d-none');
 			} else if (valueType == 'expression') {
-				useFieldContainer.removeClass('hide');
-				useFunctionContainer.removeClass('hide');
+				useFieldContainer.removeClass('d-none');
+				useFunctionContainer.removeClass('d-none');
 			} else {
-				useFieldContainer.addClass('hide');
-				useFunctionContainer.addClass('hide');
+				useFieldContainer.addClass('d-none');
+				useFunctionContainer.addClass('d-none');
 			}
-			jQuery('.helpmessagebox', data).addClass('hide');
-			jQuery('#' + valueType + '_help', data).removeClass('hide');
+			jQuery('.helpmessagebox', data).addClass('d-none');
+			jQuery('#' + valueType + '_help', data).removeClass('d-none');
 			data.find('.fieldValue').val('');
 		});
 	},
 	postShowModalAction: function (data, valueType) {
 		if (valueType == 'fieldname') {
-			jQuery('.useFieldContainer', data).removeClass('hide');
+			jQuery('.useFieldContainer', data).removeClass('d-none');
 			jQuery('.textType', data).val(valueType).trigger('chosen:updated');
 		} else if (valueType == 'expression') {
-			jQuery('.useFieldContainer', data).removeClass('hide');
-			jQuery('.useFunctionContainer', data).removeClass('hide');
+			jQuery('.useFieldContainer', data).removeClass('d-none');
+			jQuery('.useFunctionContainer', data).removeClass('d-none');
 			jQuery('.textType', data).val(valueType).trigger('chosen:updated');
 		}
-		jQuery('#' + valueType + '_help', data).removeClass('hide');
+		jQuery('#' + valueType + '_help', data).removeClass('d-none');
 		var uiType = jQuery('.textType', data).find('option:selected').data('ui');
 		jQuery('.fieldValue', data).hide();
 		jQuery('[data-' + uiType + ']', data).show();
 	},
 	/*
-	 * Function to register the click event for back step 
+	 * Function to register the click event for back step
 	 */
 	registerBackStepClickEvent: function () {
 		var thisInstance = this;

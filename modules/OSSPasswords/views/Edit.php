@@ -1,17 +1,18 @@
 <?php
 
 /**
- * OSSPasswords edit view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * OSSPasswords edit view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-Class OSSPasswords_Edit_View extends Vtiger_Edit_View
+class OSSPasswords_Edit_View extends Vtiger_Edit_View
 {
-
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return array - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)
@@ -20,12 +21,13 @@ Class OSSPasswords_Edit_View extends Vtiger_Edit_View
 
 		$jsFileNames = [
 			'modules.OSSPasswords.resources.gen_pass',
-			'libraries.jquery.clipboardjs.clipboard',
-			'modules.OSSPasswords.resources.zClipDetailView'
+			'libraries.clipboard.dist.clipboard',
+			'modules.OSSPasswords.resources.zClipDetailView',
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($jsScriptInstances, $headerScriptInstances);
+
 		return $headerScriptInstances;
 	}
 

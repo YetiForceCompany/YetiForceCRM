@@ -1,22 +1,22 @@
 <?php
 /**
- * Compose view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Compose view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
- * Compose view class
+ * Compose view class.
  */
 class OSSMail_Compose_View extends OSSMail_Index_View
 {
-
 	/**
-	 * Pre process
+	 * Pre process.
+	 *
 	 * @param \App\Request $request
-	 * @param bool $display
+	 * @param bool         $display
 	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
@@ -24,7 +24,8 @@ class OSSMail_Compose_View extends OSSMail_Index_View
 	}
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -47,11 +48,11 @@ class OSSMail_Compose_View extends OSSMail_Index_View
 	}
 
 	/**
-	 * Post process
+	 * Post process.
+	 *
 	 * @param \App\Request $request
 	 */
-	public function postProcess(\App\Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
-
 	}
 }

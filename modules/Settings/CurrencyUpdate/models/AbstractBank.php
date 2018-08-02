@@ -1,37 +1,28 @@
 <?php
 /**
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
 
 /**
- * Abstract class for connection to bank currency exchange rates
+ * Abstract class for connection to bank currency exchange rates.
  */
 abstract class Settings_CurrencyUpdate_AbstractBank_Model
 {
-	/*
-	 * Returns bank name
-	 */
+	// Returns bank name
 
 	abstract public function getName();
 
-	/*
-	 * Returns url sources from where exchange rates are taken from
-	 */
+	// Returns url sources from where exchange rates are taken from
 
 	abstract public function getSource();
 
-	/*
-	 * Returns list of currencies supported by this bank
-	 */
+	// Returns list of currencies supported by this bank
 
 	abstract public function getSupportedCurrencies();
 
-	/*
-	 * Returns banks main currency 
-	 */
+	// Returns banks main currency
 
 	abstract public function getMainCurrencyCode();
 
@@ -39,7 +30,7 @@ abstract class Settings_CurrencyUpdate_AbstractBank_Model
 	 * Fetch exchange rates
 	 * @param <Array> $currencies - list of systems active currencies
 	 * @param <Date> $date - date for which exchange is fetched
-	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated 
+	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated
 	 */
 
 	abstract public function getRates($currencies, $date, $cron = false);

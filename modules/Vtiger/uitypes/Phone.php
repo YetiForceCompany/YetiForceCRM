@@ -11,9 +11,8 @@
 
 class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
@@ -27,11 +26,11 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
@@ -41,14 +40,14 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 			} catch (\libphonenumber\NumberParseException $e) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
-			$this->validate = true;
+			$this->validate[$value] = true;
 		} else {
 			parent::validate($value, $isUserFormat);
 		}
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -67,7 +66,6 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
 				$rfc3966 = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::RFC3966);
 			} catch (\libphonenumber\NumberParseException $e) {
-				
 			}
 		}
 		if ($rawText) {
@@ -76,21 +74,14 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		if (!\App\Integrations\Pbx::isActive()) {
 			return '<a href="' . $rfc3966 . '">' . $international . $extra . '</a>';
 		}
-		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '\',' . $record . ')"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> ' . $international . $extra . '</a>';
+		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '\',' . $record . ')"><span class="fas fa-phone" aria-hidden="true"></span> ' . $international . $extra . '</a>';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		$extra = '';
-		if ($recordModel) {
-			$extra = $recordModel->getDisplayValue($this->getFieldModel()->getFieldName() . '_extra');
-			if ($extra) {
-				$extra = ' ' . $extra;
-			}
-		}
 		$rfc3966 = $international = \App\Purifier::encodeHtml($value);
 		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
@@ -99,23 +90,22 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
 				$rfc3966 = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::RFC3966);
 			} catch (\libphonenumber\NumberParseException $e) {
-				
 			}
 		}
 		if ($rawText) {
-			return $international . $extra;
+			return $international;
 		}
 		if (!\App\Integrations\Pbx::isActive()) {
-			return '<a href="' . $rfc3966 . '">' . $international . $extra . '</a>';
+			return '<a href="' . $rfc3966 . '">' . $international . '</a>';
 		}
-		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '\',' . $record . ')"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> ' . $international . $extra . '</a>';
+		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '\',' . $record . ')"><span class="fas fa-phone" aria-hidden="true"></span> ' . $international . '</a>';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Phone.tpl';
+		return 'Edit/Field/Phone.tpl';
 	}
 }

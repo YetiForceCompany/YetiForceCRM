@@ -1,0 +1,28 @@
+{
+  "php": {
+    "OutsourcedProducts": "Produse externaliaste",
+    "SINGLE_OutsourcedProducts": "Produs externalizat",
+    "LBL_INFORMATION": "Produse externalizate",
+    "Assigned To": "Repartizat la",
+    "LBL_RODZAJUMOWY": "Tipul acordului",
+    "LBL_osservicesstatus": "Status",
+    "Individual Agreement": "Acord individual",
+    "In service": "Are suport",
+    "Finished support": "Suport terminat",
+    "Product Name": "Denumire produs",
+    "Sub Category": "Subcategorie",
+    "Category": "Categorie",
+    "Date Sold": "Data vanzarii",
+    "Date in Service": "Data terminarii suportului",
+    "Description": "Descriere",
+    "LBL_DESCRIPTION_INFORMATION": "Informatii descriptive",
+    "LBL_CUSTOM_INFORMATION": "Informatii sistem",
+    "Where bought": "Unde a fost cumparat",
+    "Number": "Numar",
+    "Save": "Salveaza",
+    "Selling proposition": "Potential",
+    "LBL_GENERATE_EXTENSION": "Genereaza extensie",
+    "Active": "Activ",
+    "Inactive": "Inactiv"
+  }
+}

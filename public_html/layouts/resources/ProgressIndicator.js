@@ -6,6 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
 (function ($) {
 
@@ -47,14 +48,14 @@
 		this.showOnTop = false;
 
 		this.init = function (element, options) {
-			if (typeof options == 'undefined') {
+			if (typeof options === "undefined") {
 				options = {};
 			}
 
 			thisInstance.options = $.extend(true, this.defaults, options);
 			thisInstance.container = element;
 			thisInstance.position = options.position;
-			if (typeof options.imageContainerCss != 'undefined') {
+			if (typeof options.imageContainerCss !== "undefined") {
 				thisInstance.imageContainerCss = $.extend(true, this.imageContainerCss, options.imageContainerCss);
 			}
 			if (this.isBlockMode()) {
@@ -72,14 +73,14 @@
 		}
 
 		this.isPageBlockMode = function () {
-			if ((typeof this.elementToBlock != 'undefined') && this.elementToBlock.is('body')) {
+			if ((typeof this.elementToBlock !== "undefined") && this.elementToBlock.is('body')) {
 				return true;
 			}
 			return false;
 		}
 
 		this.isBlockMode = function () {
-			if ((typeof this.options.blockInfo != 'undefined') && (this.options.blockInfo.enabled == true)) {
+			if ((typeof this.options.blockInfo !== "undefined") && (this.options.blockInfo.enabled == true)) {
 				return true;
 			}
 			return false;
@@ -94,11 +95,11 @@
 				className = className + ' blockProgressContainer';
 			}
 			var imageHtml = '<div class="imageHolder ' + className + '">' +
-					'<div class="sk-cube-grid"><div class="sk-cube sk-cube1"></div>' +
-					'<div class="sk-cube sk-cube2"></div>' +
-					'<div class="sk-cube sk-cube3"></div><div class="sk-cube sk-cube4"></div><div class="sk-cube sk-cube5"></div>' +
-					'<div class="sk-cube sk-cube6"></div><div class="sk-cube sk-cube7"></div><div class="sk-cube sk-cube8"></div>' +
-					'<div class="sk-cube sk-cube9"></div></div></div>';
+				'<div class="sk-cube-grid"><div class="sk-cube sk-cube1"></div>' +
+				'<div class="sk-cube sk-cube2"></div>' +
+				'<div class="sk-cube sk-cube3"></div><div class="sk-cube sk-cube4"></div><div class="sk-cube sk-cube5"></div>' +
+				'<div class="sk-cube sk-cube6"></div><div class="sk-cube sk-cube7"></div><div class="sk-cube sk-cube8"></div>' +
+				'<div class="sk-cube sk-cube9"></div></div></div>';
 			var jQImageHtml = jQuery(imageHtml).css(this.imageContainerCss);
 
 			var jQMessage = thisInstance.options.message;
@@ -151,11 +152,10 @@
 
 		this.hide = function () {
 			$('.imageHolder', this.container).remove();
-			if (typeof this.blockedElement != 'undefined') {
+			if (typeof this.blockedElement !== "undefined") {
 				if (this.isPageBlockMode()) {
 					$.unblockUI();
-				}
-				else {
+				} else {
 					this.blockedElement.unblock();
 				}
 			}
@@ -171,7 +171,7 @@
 		}
 		return element.each(function (index, element) {
 			var jQueryObject = $(element);
-			if (typeof jQueryObject.data('progressIndicator') != 'undefined') {
+			if (typeof jQueryObject.data('progressIndicator') !== "undefined") {
 				var progressIndicatorInstance = jQueryObject.data('progressIndicator');
 
 			} else {

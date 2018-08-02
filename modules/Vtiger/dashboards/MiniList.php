@@ -11,8 +11,7 @@
 
 class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 {
-
-	public function process(\App\Request $request, $widget = NULL)
+	public function process(\App\Request $request, $widget = null)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -37,6 +36,7 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 		if ($searchParams) {
 			$minilistWidgetModel->setSearchParams($searchParams);
 		}
+		$filterField = false;
 		if ($widget->get('data')) {
 			$widgetParams = $widget->get('data');
 			if (isset($widgetParams['filterFields'])) {

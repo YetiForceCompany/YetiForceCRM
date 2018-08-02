@@ -1,0 +1,25 @@
+{
+  "php": {
+    "HTTP_ERROR": "Site-ul pe care incercati sa il deschideti nu este sigur si este posibil sa nu se deschida. Daca doriti sa vizualizati pagina web, puteti sa faceti click pe blocantul de continut din bara de adrese si sa il activati.",
+    "LBL_ADD_BOOKMARK": "Adauga Bookmark",
+    "LBL_ADD_NEW_BOOKMARK": "Adauga Bookmark nou",
+    "LBL_BOOKMARK": "Semne",
+    "LBL_BOOKMARK_NAME": "Denumire semn",
+    "LBL_BOOKMARK_SAVED_SUCCESSFULLY": "Semn de carte salvat cu succes.",
+    "LBL_BOOKMARKS": "Semne",
+    "LBL_BOOKMARKS_DELETED_SUCCESSFULLY": "Semnn de carte sters cu succes",
+    "LBL_BOOKMARKS_LIST": "Lista Semne",
+    "LBL_BOOKMARK_URL": "URL Semn",
+    "LBL_CREATED_ON": "Creat pe",
+    "LBL_EDIT_BOOKMARK": "Modifica Semn",
+    "LBL_ENTER_BOOKMARK_NAME": "Introduceti denumire semn",
+    "LBL_ENTER_URL": "Introduceti URL (www.example.com)",
+    "LBL_OUR_SITES_LIST": "Lista Site-uri proprii",
+    "LBL_RECORD_DELETED_SUCCESSFULLY": "Inregistrare stearsa cu succes",
+    "Portal": "Site-urile noastre",
+    "SINGLE_Portal": "Site-ul nostru"
+  },
+  "js": {
+    "JS_ENTER_MANDATORY_FIELD": "Va rugam introduceti toate campurile obligatorii"
+  }
+}

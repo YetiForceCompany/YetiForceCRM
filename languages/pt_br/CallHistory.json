@@ -1,0 +1,33 @@
+{
+  "php": {
+    "CallHistory": "Hist\u00f3rico de Chamadas",
+    "SINGLE_CallHistory": "Hist\u00f3rico de Chamada",
+    "LBL_CALLHISTORY_INFORMATION": "Informa\u00e7\u00f5es do hist\u00f3rico de liga\u00e7\u00f5es",
+    "LBL_CUSTOM_INFORMATION": "Informa\u00e7\u00e3o Adicional",
+    "LBL_PHONE_INFORMATION": "Informa\u00e7\u00e3o Telefone",
+    "LBL_RELATED_INFORMATION": "Informa\u00e7\u00e3o relacionada",
+    "LBL_TYPE": "Tipo",
+    "LBL_FROM_NUMBER": "N\u00famero Origem",
+    "LBL_TO_NUMBER": "N\u00famero Destino",
+    "LBL_LOCATION": "Local",
+    "LBL_PHONE_CALL_ID": "ID da Chamada Telef\u00f4nica",
+    "LBL_DURATION": "Tempo dura\u00e7\u00e3o Chamada",
+    "LBL_STATUS": "Status",
+    "LBL_START_TIME": "Chamada iniciada",
+    "LBL_END_TIME": "Chamada conclu\u00edda",
+    "LBL_COUNTRY_CODE": "C\u00f3digo do Pa\u00eds",
+    "LBL_IMEI": "IMEI",
+    "LBL_IPADDRESS": "ID endere\u00e7o",
+    "LBL_SIMSERIAL": "N\u00famero SIM",
+    "LBL_SUBSCRIBERID": "N\u00famero Assinante",
+    "LBL_DESTINATION": "Destino Chamada",
+    "LBL_SOURCE": "Fonte Chamada",
+    "Record Id": "Id do Registro",
+    "Outgoing missed": "Chamada realizada perdida",
+    "Outgoing received": "Chamada realizada",
+    "Incoming": "Chamada recebida",
+    "Missed": "Chamada recebida perdida",
+    "Voicemail": "Mensagem por voz recebida",
+    "Call history": "Hist\u00f3rico de Chamadas"
+  }
+}

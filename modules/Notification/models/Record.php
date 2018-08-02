@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Notification Record Model
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Notification Record Model.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Notification_Record_Model extends Vtiger_Record_Model
 {
-
 	/**
-	 * Function to parse content
+	 * Function to parse content.
+	 *
 	 * @param string $fieldName
+	 *
 	 * @return string
 	 */
 	public function getParseField($fieldName)
@@ -32,7 +33,8 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Title
+	 * Title.
+	 *
 	 * @return string
 	 */
 	public function getTitle()
@@ -41,7 +43,8 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Fuction to get the Name of the record
+	 * Fuction to get the Name of the record.
+	 *
 	 * @return string - Entity Name of the record
 	 */
 	public function getName()
@@ -56,7 +59,8 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get id
+	 * Function to get id.
+	 *
 	 * @return type
 	 */
 	public function getId()
@@ -65,7 +69,8 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Return name type notification
+	 * Return name type notification.
+	 *
 	 * @return string
 	 */
 	public function getTypeName()
@@ -74,7 +79,8 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Return message of notification
+	 * Return message of notification.
+	 *
 	 * @return string
 	 */
 	public function getMessage()
@@ -83,7 +89,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to set notification as read
+	 * Function to set notification as read.
 	 */
 	public function setMarked()
 	{
@@ -92,7 +98,8 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the most important records
+	 * Function to get the most important records.
+	 *
 	 * @return array
 	 */
 	public function getRelatedRecord()
@@ -116,11 +123,12 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		}
 		$relatedModule = \vtlib\Functions::getCRMRecordMetadata($relatedId);
 		$relatedModule = $relatedModule['setype'];
+
 		return ['id' => $relatedId, 'module' => $relatedModule];
 	}
 
 	/**
-	 * Function to get name of user who create this notification
+	 * Function to get name of user who create this notification.
 	 */
 	public function getCreatorUser()
 	{
@@ -130,9 +138,8 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		}
 		return '';
 	}
-	/*
-	 * Function to save record
-	 */
+
+	// Function to save record
 
 	public function save()
 	{
@@ -145,12 +152,14 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		if (!\App\Privilege::isPermitted('Notification', 'DetailView')) {
 			\App\Log::warning('User ' . \App\Fields\Owner::getLabel($this->get('assigned_user_id')) . ' has no active notifications');
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
+
 			return false;
 		}
 		if ($notificationType !== 'PLL_USERS' && !\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedId)) {
 			\App\Log::error('User ' . \App\Fields\Owner::getLabel($this->get('assigned_user_id')) .
 				' does not have permission for this record ' . $relatedId);
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
+
 			return false;
 		}
 		if ($notificationType !== 'PLL_USERS' && \App\Record::isExists($relatedId)) {
@@ -167,7 +176,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 				if ($userType === 'Groups') {
 					$usersCollection = array_merge($usersCollection, \App\PrivilegeUtil::getUsersByGroup($userId));
 				} else {
-					$usersCollection [] = $userId;
+					$usersCollection[] = $userId;
 				}
 			}
 			$this->set('shownerid', null);
@@ -183,7 +192,8 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get icon for notification
+	 * Function to get icon for notification.
+	 *
 	 * @return array params icon
 	 */
 	public function getIcon()
@@ -195,7 +205,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 				$icon = [
 					'type' => 'image',
 					'title' => $userModel->getName(),
-					'src' => $userModel->getImagePath(),
+					'src' => $userModel->getImage()['path'],
 					'class' => 'userImage',
 				];
 				break;
@@ -212,7 +222,8 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the list view actions for the record
+	 * Function to get the list view actions for the record.
+	 *
 	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
 	 */
 	public function getRecordListViewLinksLeftSide()
@@ -224,8 +235,8 @@ class Notification_Record_Model extends Vtiger_Record_Model
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_MARK_AS_READ',
 				'linkurl' => 'javascript:Notification_List_Js.setAsMarked(' . $this->getId() . ')',
-				'linkicon' => 'glyphicon glyphicon-ok',
-				'linkclass' => 'btn-sm btn-default'
+				'linkicon' => 'fas fa-check',
+				'linkclass' => 'btn-sm btn-default',
 			];
 		}
 		foreach ($recordLinks as $recordLink) {

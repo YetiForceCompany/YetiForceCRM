@@ -11,9 +11,8 @@
 
 class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -24,7 +23,7 @@ class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -42,7 +41,7 @@ class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 					$result[] = [
 						'label' => App\Purifier::decodeHtml($recordModel->getName()),
 						'value' => App\Purifier::decodeHtml($recordModel->getName()),
-						'id' => $recordModel->getId()
+						'id' => $recordModel->getId(),
 					];
 				}
 			}

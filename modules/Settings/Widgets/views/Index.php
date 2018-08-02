@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Settings OSSMailView index view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Settings OSSMailView index view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 {
-
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -43,6 +43,7 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 		$cssFileNames = [
 			"modules.Settings.$moduleName.resources.$moduleName",
 		];
+
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}
 
@@ -51,10 +52,11 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 		$jsFileNames = [
-			"modules.Settings.$moduleName.resources.$moduleName"
+			"modules.Settings.$moduleName.resources.$moduleName",
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 }

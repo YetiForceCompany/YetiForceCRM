@@ -1,16 +1,15 @@
 <?php
 
 /**
- * Watching Model Class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Watching Model Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Watchdog_Model extends \App\Base
 {
-
 	const RECORD_ACTIVE = 1;
 
 	protected static $cacheFile = 'user_privileges/watchdogModule.php';
@@ -20,23 +19,28 @@ class Vtiger_Watchdog_Model extends \App\Base
 	public $noticeDefaultType = 'PLL_SYSTEM';
 
 	/**
-	 * Function to get the instance by id
-	 * @param int $record
+	 * Function to get the instance by id.
+	 *
+	 * @param int        $record
 	 * @param int|string $moduleName
-	 * @param int $userId
+	 * @param int        $userId
+	 *
 	 * @return Vtiger_Watchdog_Model
 	 */
 	public static function getInstanceById($record, $moduleName, $userId = false)
 	{
 		$instance = self::getInstance($moduleName, $userId);
 		$instance->set('record', $record);
+
 		return $instance;
 	}
 
 	/**
-	 * Function to get the instance by module
+	 * Function to get the instance by module.
+	 *
 	 * @param int|string $moduleName
-	 * @param int $userId
+	 * @param int        $userId
+	 *
 	 * @return Vtiger_Watchdog_Model
 	 */
 	public static function getInstance($moduleName, $userId = false)
@@ -65,12 +69,14 @@ class Vtiger_Watchdog_Model extends \App\Base
 			$instance->isActive = false;
 		}
 		\App\Cache::staticSave('WatchdogModel', $cacheName, $instance);
+
 		return $instance;
 	}
 
 	/**
-	 * Function checks if module is watched
-	 * @return boolean
+	 * Function checks if module is watched.
+	 *
+	 * @return bool
 	 */
 	public function isWatchingModule()
 	{
@@ -78,12 +84,14 @@ class Vtiger_Watchdog_Model extends \App\Base
 			return false;
 		}
 		$tabId = $this->get('moduleId');
+
 		return isset(static::$cache[$tabId][$this->get('userId')]);
 	}
 
 	/**
-	 * Function verifies if module is active
-	 * @return boolean
+	 * Function verifies if module is active.
+	 *
+	 * @return bool
 	 */
 	public function isActive()
 	{
@@ -91,8 +99,9 @@ class Vtiger_Watchdog_Model extends \App\Base
 	}
 
 	/**
-	 * Function verifies if module is locked
-	 * @return boolean
+	 * Function verifies if module is locked.
+	 *
+	 * @return bool
 	 */
 	public function isLock($moduleId = false)
 	{
@@ -104,8 +113,9 @@ class Vtiger_Watchdog_Model extends \App\Base
 	}
 
 	/**
-	 * Function verifies if module is watching in database
-	 * @return boolean
+	 * Function verifies if module is watching in database.
+	 *
+	 * @return bool
 	 */
 	public function isWatchingModuleConfig($member)
 	{
@@ -113,12 +123,14 @@ class Vtiger_Watchdog_Model extends \App\Base
 			->from('u_#__watchdog_module')
 			->where(['member' => $member, 'module' => $this->get('moduleId')])
 			->exists();
+
 		return $isExists;
 	}
 
 	/**
-	 * Function verifies if rekord is watching
-	 * @return boolean
+	 * Function verifies if rekord is watching.
+	 *
+	 * @return bool
 	 */
 	public function isWatchingRecord()
 	{
@@ -130,22 +142,24 @@ class Vtiger_Watchdog_Model extends \App\Base
 		if (\App\Cache::staticHas('isWatchingRecord', $cacheName)) {
 			return (bool) \App\Cache::staticGet('isWatchingRecord', $cacheName);
 		}
-		$return = $this->isWatchingModule($userId);
-
+		$return = $this->isWatchingModule();
 		$state = (new \App\Db\Query())->select('state')->from('u_#__watchdog_record')->where(['userid' => $userId, 'record' => $this->get('record')])->scalar();
 		$this->set('isRecordExists', false);
 		if ($state !== false) {
 			$this->set('isRecordExists', true);
 			$return = $state;
 		}
-		$return = intval($return);
+		$return = (int) $return;
 		\App\Cache::staticSave('isWatchingRecord', $cacheName, $return);
+
 		return $return;
 	}
 
 	/**
-	 * Function get watching modules
+	 * Function get watching modules.
+	 *
 	 * @param int $userId - User ID
+	 *
 	 * @return array - List of modules
 	 */
 	public static function getWatchingModules($userId = false)
@@ -166,12 +180,15 @@ class Vtiger_Watchdog_Model extends \App\Base
 			}
 		}
 		\App\Cache::staticSave('getWatchingModules', $userId, $modules);
+
 		return $modules;
 	}
 
 	/**
-	 * Function get watching modules by schedule
+	 * Function get watching modules by schedule.
+	 *
 	 * @param int $ownerId - User ID
+	 *
 	 * @return array - List of modules
 	 */
 	public static function getWatchingModulesSchedule($ownerId = false, $isName = false)
@@ -179,7 +196,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 		if ($ownerId === false) {
 			$ownerId = \App\User::getCurrentUserId();
 		}
-		$cacheName = $ownerId . '_' . intval($isName);
+		$cacheName = $ownerId . '_' . (int) $isName;
 		if (\App\Cache::staticHas('getWatchingModulesSchedule', $cacheName)) {
 			return \App\Cache::staticGet('getWatchingModulesSchedule', $cacheName);
 		}
@@ -194,13 +211,16 @@ class Vtiger_Watchdog_Model extends \App\Base
 			}
 		}
 		\App\Cache::staticSave('getWatchingModulesSchedule', $cacheName, $data);
+
 		return $data;
 	}
 
 	/**
-	 * Function to change the state of the observed record
+	 * Function to change the state of the observed record.
+	 *
 	 * @param int $state
-	 * @return int|boolean
+	 *
+	 * @return int|bool
 	 */
 	public function changeRecordState($state)
 	{
@@ -213,6 +233,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 		if (!$this->get('isRecordExists')) {
 			$row['userid'] = $this->get('userId');
 			$row['record'] = $this->get('record');
+
 			return $db->createCommand()->insert('u_#__watchdog_record', $row)->execute();
 		} else {
 			return $db->createCommand()->update(('u_#__watchdog_record'), $row, ['userid' => $this->get('userId'), 'record' => $this->get('record')])->execute();
@@ -220,10 +241,12 @@ class Vtiger_Watchdog_Model extends \App\Base
 	}
 
 	/**
-	 * Function to change the state of the observed module
-	 * @param int $state
+	 * Function to change the state of the observed module.
+	 *
+	 * @param int    $state
 	 * @param string $member
-	 * @return int|boolean
+	 *
+	 * @return int|bool
 	 */
 	public function changeModuleState($state, $member = false)
 	{
@@ -242,7 +265,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 		if ($state === 1) {
 			return $db->createCommand()->insert('u_#__watchdog_module', [
 					'member' => $member,
-					'module' => $moduleId
+					'module' => $moduleId,
 				])->execute();
 		} else {
 			return $db->createCommand()->delete('u_#__watchdog_module', ['member' => $member, 'module' => $moduleId])->execute();
@@ -250,23 +273,27 @@ class Vtiger_Watchdog_Model extends \App\Base
 	}
 
 	/**
-	 * Function to change the state of the locked module
-	 * @param int $state
+	 * Function to change the state of the locked module.
+	 *
+	 * @param int    $state
 	 * @param string $member
+	 *
 	 * @return int
 	 */
 	public function lock($state, $member)
 	{
 		return App\Db::getInstance()
-				->createCommand()
-				->update('u_#__watchdog_module', ['lock' => $state], ['member' => $member, 'module' => $this->get('moduleId')])
-				->execute();
+			->createCommand()
+			->update('u_#__watchdog_module', ['lock' => $state], ['member' => $member, 'module' => $this->get('moduleId')])
+			->execute();
 	}
 
 	/**
-	 * Function to change the exceptions of the module
+	 * Function to change the exceptions of the module.
+	 *
 	 * @param array|string $exceptions
-	 * @param string $member
+	 * @param string       $member
+	 *
 	 * @return int
 	 */
 	public function exceptions($exceptions, $member)
@@ -275,16 +302,18 @@ class Vtiger_Watchdog_Model extends \App\Base
 			$exceptions = implode(',', $exceptions);
 		}
 		return \App\Db::getInstance()
-				->createCommand()
-				->update('u_#__watchdog_module', ['exceptions' => $exceptions], ['member' => $member, 'module' => $this->get('moduleId')])
-				->execute();
+			->createCommand()
+			->update('u_#__watchdog_module', ['exceptions' => $exceptions], ['member' => $member, 'module' => $this->get('moduleId')])
+			->execute();
 	}
 
 	/**
-	 * Function to set user's schedule
+	 * Function to set user's schedule.
+	 *
 	 * @param array $sendNotifications
-	 * @param int $frequency
-	 * @param int $ownerId
+	 * @param int   $frequency
+	 * @param int   $ownerId
+	 *
 	 * @return int
 	 */
 	public static function setSchedulerByUser($sendNotifications, $frequency, $ownerId = false)
@@ -309,8 +338,10 @@ class Vtiger_Watchdog_Model extends \App\Base
 	}
 
 	/**
-	 * Function get watching users
+	 * Function get watching users.
+	 *
 	 * @param array $restrictUsers
+	 *
 	 * @return array - List of users
 	 */
 	public function getWatchingUsers($restrictUsers = [])
@@ -319,9 +350,9 @@ class Vtiger_Watchdog_Model extends \App\Base
 			$users = $this->getModuleUsers();
 			if ($this->has('record')) {
 				$dataReader = (new App\Db\Query())->select(['userid', 'state'])
-						->from('u_#__watchdog_record')
-						->where(['record' => (int) $this->get('record')])
-						->createCommand()->query();
+					->from('u_#__watchdog_record')
+					->where(['record' => (int) $this->get('record')])
+					->createCommand()->query();
 				while ($row = $dataReader->read()) {
 					if ($row['state'] === self::RECORD_ACTIVE) {
 						$users[$row['userid']] = $row['userid'];
@@ -345,8 +376,10 @@ class Vtiger_Watchdog_Model extends \App\Base
 	}
 
 	/**
-	 * Function get watching members
-	 * @param boolean $getData
+	 * Function get watching members.
+	 *
+	 * @param bool $getData
+	 *
 	 * @return array - List of members
 	 */
 	public function getWatchingMembers($getData = false)
@@ -382,16 +415,19 @@ class Vtiger_Watchdog_Model extends \App\Base
 	}
 
 	/**
-	 * Function get watching exceptions
+	 * Function get watching exceptions.
+	 *
 	 * @param string $member
+	 *
 	 * @return array - List of exceptions
 	 */
 	public function getWatchingExceptions($member)
 	{
 		$exceptions = (new App\Db\Query())
-				->select(['exceptions'])
-				->from('u_#__watchdog_module')
-				->where(['module' => \App\Module::getModuleId($this->get('module')), 'member' => $member])->scalar();
+			->select(['exceptions'])
+			->from('u_#__watchdog_module')
+			->where(['module' => \App\Module::getModuleId($this->get('module')), 'member' => $member])->scalar();
+
 		return explode(',', $exceptions);
 	}
 
@@ -420,13 +456,13 @@ class Vtiger_Watchdog_Model extends \App\Base
 		foreach ($members as $module => $usersByType) {
 			$users = array_unique($usersByType['byUsers']);
 			foreach ($users as $user) {
-				if (isset($usersByType['Users']) && isset($usersByType['Users'][$user])) {
+				if (isset($usersByType['Users'], $usersByType['Users'][$user])) {
 					$cache[$module][$user] = $usersByType['Users'][$user];
-				} elseif (isset($usersByType['Groups']) && isset($usersByType['Groups'][$user])) {
+				} elseif (isset($usersByType['Groups'], $usersByType['Groups'][$user])) {
 					$cache[$module][$user] = $usersByType['Groups'][$user];
-				} elseif (isset($usersByType['Roles']) && isset($usersByType['Roles'][$user])) {
+				} elseif (isset($usersByType['Roles'], $usersByType['Roles'][$user])) {
 					$cache[$module][$user] = $usersByType['Roles'][$user];
-				} elseif (isset($usersByType['RoleAndSubordinates']) && isset($usersByType['RoleAndSubordinates'][$user])) {
+				} elseif (isset($usersByType['RoleAndSubordinates'], $usersByType['RoleAndSubordinates'][$user])) {
 					$cache[$module][$user] = $usersByType['RoleAndSubordinates'][$user];
 				}
 			}
@@ -436,7 +472,8 @@ class Vtiger_Watchdog_Model extends \App\Base
 	}
 
 	/**
-	 * Function get users
+	 * Function get users.
+	 *
 	 * @return array - List of users
 	 */
 	public function getModuleUsers()
@@ -451,7 +488,8 @@ class Vtiger_Watchdog_Model extends \App\Base
 	}
 
 	/**
-	 * Function get supported modules
+	 * Function get supported modules.
+	 *
 	 * @return array - List of modules
 	 */
 	public static function getSupportedModules()

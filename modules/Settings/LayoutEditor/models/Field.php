@@ -11,9 +11,8 @@
 
 class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 {
-
 	/**
-	 * Function to remove field
+	 * Function to remove field.
 	 */
 	public function delete()
 	{
@@ -27,12 +26,10 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$oldfieldlabel = $this->get('label');
 		$tablename = $this->get('table');
 		$columnName = $this->get('column');
-		$fieldtype = explode("~", $typeofdata);
+		$fieldtype = explode('~', $typeofdata);
 		$tabId = $this->getModuleId();
-		$deleteColumnName = $tablename . ":" . $columnName . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldtype[0];
-		$columnCvstdfilter = $tablename . ":" . $columnName . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel);
-		$selectColumnname = $tablename . ":" . $columnName . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldname . ":" . $fieldtype[0];
-		$reportsummaryColumn = $tablename . ":" . $columnName . ":" . str_replace(" ", "_", $oldfieldlabel);
+		$deleteColumnName = $tablename . ':' . $columnName . ':' . $fieldname . ':' . $fldModule . '_' . str_replace(' ', '_', $oldfieldlabel) . ':' . $fieldtype[0];
+		$columnCvstdfilter = $tablename . ':' . $columnName . ':' . $fieldname . ':' . $fldModule . '_' . str_replace(' ', '_', $oldfieldlabel);
 		if ($tablename !== 'vtiger_crmentity') {
 			$db->createCommand()->dropColumn($tablename, $columnName)->execute();
 		}
@@ -40,11 +37,6 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$db->createCommand()->delete('vtiger_cvcolumnlist', ['columnname' => $deleteColumnName])->execute();
 		$db->createCommand()->delete('vtiger_cvstdfilter', ['columnname' => $columnCvstdfilter])->execute();
 		$db->createCommand()->delete('vtiger_cvadvfilter', ['columnname' => $deleteColumnName])->execute();
-		$db->createCommand()->delete('vtiger_selectcolumn', ['columnname' => $selectColumnname])->execute();
-		$db->createCommand()->delete('vtiger_relcriteria', ['columnname' => $selectColumnname])->execute();
-		$db->createCommand()->delete('vtiger_reportsortcol', ['columnname' => $selectColumnname])->execute();
-		$db->createCommand()->delete('vtiger_reportdatefilter', ['datecolumnname' => $columnCvstdfilter])->execute();
-		$db->createCommand()->delete('vtiger_reportsummary', ['like', 'columnname', $reportsummaryColumn])->execute();
 		//Deleting from convert lead mapping vtiger_table- Jaguar
 		if ($fldModule === 'Leads') {
 			$db->createCommand()->delete('vtiger_convertleadmapping', ['leadfid' => $id])->execute();
@@ -78,7 +70,8 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to Move the field
+	 * Function to Move the field.
+	 *
 	 * @param <Array> $fieldNewDetails
 	 * @param <Array> $fieldOlderDetails
 	 */
@@ -94,7 +87,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		if ($olderBlockId == $newBlockId) {
 			if ($newSequence > $olderSequence) {
 				$db->createCommand()->update('vtiger_field', ['sequence' => new \yii\db\Expression('sequence - 1')], ['and', 'sequence > :olderSequence', 'sequence <= :newSequence', 'block = :olderBlockId'], [':olderSequence' => $olderSequence, ':newSequence' => $newSequence, ':olderBlockId' => $olderBlockId])->execute();
-			} else if ($newSequence < $olderSequence) {
+			} elseif ($newSequence < $olderSequence) {
 				$db->createCommand()->update('vtiger_field', ['sequence' => new \yii\db\Expression('sequence + 1')], ['and', 'sequence < :olderSequence', 'sequence >= :newSequence', 'block = :olderBlockId'], [':olderSequence' => $olderSequence, ':newSequence' => $newSequence, ':olderBlockId' => $olderBlockId])->execute();
 			}
 			$db->createCommand()->update('vtiger_field', ['sequence' => $newSequence], ['fieldid' => $this->getId()])->execute();
@@ -107,11 +100,12 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to activate field
-	 * @param integer[] $fieldIdsList
-	 * @param integer $blockId
+	 * Function to activate field.
+	 *
+	 * @param int[] $fieldIdsList
+	 * @param int   $blockId
 	 */
-	public static function makeFieldActive($fieldIdsList = [], $blockId)
+	public static function makeFieldActive($fieldIdsList, $blockId)
 	{
 		$maxSequence = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockId, 'presence' => [0, 2]])->max('sequence');
 		$db = \App\Db::getInstance();
@@ -128,8 +122,9 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function which specifies whether the field can have mandatory switch to happen
-	 * @return boolean - true if we can make a field mandatory and non mandatory , false if we cant change previous state
+	 * Function which specifies whether the field can have mandatory switch to happen.
+	 *
+	 * @return bool - true if we can make a field mandatory and non mandatory , false if we cant change previous state
 	 */
 	public function isMandatoryOptionDisabled()
 	{
@@ -147,8 +142,9 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function which will specify whether the active option is disabled
-	 * @return boolean
+	 * Function which will specify whether the active option is disabled.
+	 *
+	 * @return bool
 	 */
 	public function isActiveOptionDisabled()
 	{
@@ -159,45 +155,49 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function which will specify whether the quickcreate option is disabled
-	 * @return boolean
+	 * Function which will specify whether the quickcreate option is disabled.
+	 *
+	 * @return bool
 	 */
 	public function isQuickCreateOptionDisabled()
 	{
 		$moduleModel = $this->getModule();
-		if ($this->get('quickcreate') == 0 || $this->get('quickcreate') == 3 || !$moduleModel->isQuickCreateSupported() || $this->get('uitype') == 69) {
+		if ($this->get('quickcreate') == 0 || $this->get('quickcreate') == 3 || !$moduleModel->isQuickCreateSupported()) {
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * Function which will specify whether the mass edit option is disabled
-	 * @return boolean
+	 * Function which will specify whether the mass edit option is disabled.
+	 *
+	 * @return bool
 	 */
 	public function isMassEditOptionDisabled()
 	{
-		if ($this->get('masseditable') == 0 || $this->get('displaytype') != 1 || $this->get('masseditable') == 3 || $this->get('uitype') == 69) {
+		if ($this->get('masseditable') == 0 || $this->get('displaytype') != 1 || $this->get('masseditable') == 3) {
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * Function which will specify whether the default value option is disabled
-	 * @return boolean
+	 * Function which will specify whether the default value option is disabled.
+	 *
+	 * @return bool
 	 */
 	public function isDefaultValueOptionDisabled()
 	{
-		if ($this->isMandatoryOptionDisabled() || $this->isReferenceField() || $this->get('uitype') == 69) {
+		if ($this->isMandatoryOptionDisabled() || $this->isReferenceField() || $this->getFieldDataType() === 'image' || $this->getFieldDataType() === 'multiImage') {
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * Function to check whether summary field option is disable or not
-	 * @return boolean true/false
+	 * Function to check whether summary field option is disable or not.
+	 *
+	 * @return bool true/false
 	 */
 	public function isSummaryFieldOptionDisabled()
 	{
@@ -205,8 +205,9 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to check field is editable or not
-	 * @return boolean true/false
+	 * Function to check field is editable or not.
+	 *
+	 * @return bool true/false
 	 */
 	public function isEditable()
 	{
@@ -218,9 +219,11 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get instance
-	 * @param string $value - fieldname or fieldid
+	 * Function to get instance.
+	 *
+	 * @param string $value  - fieldname or fieldid
 	 * @param <type> $module - optional - module instance
+	 *
 	 * @return <Settings_LayoutEditor_Field_Model>
 	 */
 	public static function getInstance($value, $module = false)
@@ -235,9 +238,11 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get all fields list for all blocks
+	 * Function to get all fields list for all blocks.
+	 *
 	 * @param array List of block ids
 	 * @param Vtiger_Module_Model $moduleInstance
+	 *
 	 * @return array List of Field models Settings_LayoutEditor_Field_Model
 	 */
 	public static function getInstanceFromBlockIdList($blockId, $moduleInstance = false)
@@ -256,11 +261,14 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			}
 			$fieldModelsList[] = $fieldModel;
 		}
+		$dataReader->close();
+
 		return $fieldModelsList;
 	}
 
 	/**
-	 * Function to get the field details
+	 * Function to get the field details.
+	 *
 	 * @return <Array> - array of field values
 	 */
 	public function getFieldInfo()
@@ -271,6 +279,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$fieldInfo['isSummaryFieldDisabled'] = $this->isSummaryFieldOptionDisabled();
 		$fieldInfo['isMassEditDisabled'] = $this->isMassEditOptionDisabled();
 		$fieldInfo['isDefaultValueDisabled'] = $this->isDefaultValueOptionDisabled();
+
 		return $fieldInfo;
 	}
 }

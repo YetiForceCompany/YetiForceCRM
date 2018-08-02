@@ -1,0 +1,26 @@
+{
+  "php": {
+    "LBL_PBXMANAGER_INFORMATION": "Anrufdetails",
+    "LBL_CUSTOM_INFORMATION": "Kundenspezifische Informationen",
+    "LBL_SERVER_CONFIGURATION": "Provider Konfiguration",
+    "LBL_CALL_FROM": "Anruf von",
+    "LBL_CALL_TO": "Anruf an",
+    "LBL_HIDDEN": "(versteckt)",
+    "Total Duration": "Dauer (sek)",
+    "Bill Duration": "Abrechnungsdauer (sek)",
+    "Recording URL": "Mitschnitt URL",
+    "Start Time": "Start Uhrzeit",
+    "End Time": "Endezeit",
+    "Call Status": "Anruf Status",
+    "Customer Number": "Kundennummer",
+    "Customer": "Kunde",
+    "User": "Benutzer",
+    "SINGLE_PBXManager": "Anruf mitschneiden",
+    "Direction": "Richtung",
+    "Gateway": "Gateway",
+    "Customer type": "Kundentyp",
+    "Source UUID": "Source UUID",
+    "Record Id": "Record Id",
+    "dial": "anrufen"
+  }
+}

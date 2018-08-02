@@ -9,17 +9,17 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-Class Vtiger_Edit_View extends Vtiger_Index_View
+class Vtiger_Edit_View extends Vtiger_Index_View
 {
-
 	/**
-	 * Record model instance
-	 * @var Vtiger_Record_Model 
+	 * Record model instance.
+	 *
+	 * @var Vtiger_Record_Model
 	 */
 	protected $record;
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function __construct()
 	{
@@ -27,7 +27,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -40,13 +40,15 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 			$isPermited = $this->record->isCreateable();
 		}
 		if (!$isPermited) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	/**
-	 * Get breadcrumb title
+	 * Get breadcrumb title.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return string
 	 */
 	public function getBreadcrumbTitle(\App\Request $request)
@@ -63,7 +65,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -71,10 +73,10 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
 		if (!empty($record) && $request->getBoolean('isDuplicate') === true) {
-			$viewer->assign('MODE', '');
+			$viewer->assign('MODE', 'duplicate');
 			$viewer->assign('RECORD_ID', '');
 			$this->getDuplicate();
-		} else if (!empty($record)) {
+		} elseif (!empty($record)) {
 			$viewer->assign('MODE', 'edit');
 			$viewer->assign('RECORD_ID', $record);
 		} else {
@@ -134,10 +136,8 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('APIADDRESS', Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->getConfig());
-		$viewer->assign('APIADDRESS_ACTIVE', Settings_ApiAddress_Module_Model::isActive());
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
-		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
+		$viewer->assign('MAX_UPLOAD_LIMIT', \AppConfig::main('upload_maxsize'));
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 
@@ -157,8 +157,10 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)

@@ -6,6 +6,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
+
 Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 	/*
 	 * function to trigger send Email
@@ -31,7 +33,7 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 	changeCustomFilterElementView: function () {
 		var filterSelectElement = this.content.find('#recordsFilter');
 		if (filterSelectElement.length > 0) {
-			app.showSelect2ElementView(filterSelectElement, {
+			App.Fields.Picklist.showSelect2ElementView(filterSelectElement, {
 				templateSelection: function (data) {
 					var resultContainer = jQuery('<span></span>');
 					resultContainer.append(jQuery(jQuery('.filterImage').detach().get(0)).show());
@@ -50,9 +52,9 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 		var relatedContainer = thisInstance.getRelatedContainer();
 		var filterSelectElement = relatedContainer.find('.loadFormFilterButton');
 		var recordsFilter = relatedContainer.find('#recordsFilter');
-		filterSelectElement.click(function (e) {
+		filterSelectElement.on('click', function (e) {
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(function () {
+			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function () {
 				var cvId = recordsFilter.val();
 				var relatedModuleName = relatedContainer.find('.relatedModuleName').val();
 				var params = {
@@ -69,9 +71,9 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 						enabled: true
 					}
 				});
-				AppConnector.request(params).then(function (responseData) {
+				AppConnector.request(params).done(function (responseData) {
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
-					if (responseData != null) {
+					if (responseData.result === false) {
 						var message = app.vtranslate('JS_NO_RECORDS_RELATED_TO_THIS_FILTER');
 						var params = {
 							text: message,
@@ -81,7 +83,7 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 					} else {
 						Vtiger_Detail_Js.reloadRelatedList();
 					}
-				}, function (textStatus, errorThrown) {
+				}).fail(function () {
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
 				});
 			});
@@ -117,13 +119,13 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 				'mode': 'updateStatus'
 			};
 			element.progressIndicator();
-			AppConnector.request(params).then(function (responseData) {
+			AppConnector.request(params).done(function (responseData) {
 				if (responseData.result[0]) {
 					element.progressIndicator({'mode': 'hide'});
 					currentStatus.find('.statusValue').text(selectedStatusValue);
 					currentStatus.removeClass('open');
 				}
-			}, function (textStatus, errorThrown) {
+			}).fail(function () {
 				element.progressIndicator({mode: 'hide'});
 			});
 		});

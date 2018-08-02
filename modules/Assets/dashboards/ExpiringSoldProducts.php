@@ -1,16 +1,13 @@
 <?php
 
 /**
- * 
- * @package YetiForce.Dashboard
- * @copyright YetiForce Sp. z o.o.
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -49,6 +46,7 @@ class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$query->orderBy('vtiger_assets.dateinservice');
 		$query->limit($limit);
+
 		return $query->all();
 	}
 }

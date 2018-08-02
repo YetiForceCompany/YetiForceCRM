@@ -8,13 +8,13 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-Vtiger_Loader::includeOnce('~modules/Calendar/iCal/ical-parser-class.php');
+Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/ical-parser-class.php');
 
 class Import_ICSReader_Reader extends Ical
 {
-
 	/**
-	 * Function to get info about imported file contains header or not
+	 * Function to get info about imported file contains header or not.
+	 *
 	 * @return <boolean>
 	 */
 	public function hasHeader()
@@ -23,8 +23,10 @@ class Import_ICSReader_Reader extends Ical
 	}
 
 	/**
-	 * Function to get info about imported file contains First Row or not
+	 * Function to get info about imported file contains First Row or not.
+	 *
 	 * @param <boolean> $hasHeader
+	 *
 	 * @return <boolean>
 	 */
 	public function getFirstRowData($hasHeader = true)

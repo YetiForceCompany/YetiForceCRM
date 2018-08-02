@@ -1,14 +1,13 @@
 <?php
 
 /**
- * OSSPasswords CheckPass action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * OSSPasswords CheckPass action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class OSSPasswords_CheckPass_Action extends Vtiger_Action_Controller
+class OSSPasswords_CheckPass_Action extends \App\Controller\Action
 {
-
 	public function checkPermission(\App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();

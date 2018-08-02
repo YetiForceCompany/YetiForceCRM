@@ -1,15 +1,14 @@
 <?php
 
 /**
- * System warnings basic action class
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * System warnings basic action class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Vtiger_SystemWarnings_Action extends Settings_Vtiger_Basic_Action
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -18,7 +17,8 @@ class Settings_Vtiger_SystemWarnings_Action extends Settings_Vtiger_Basic_Action
 	}
 
 	/**
-	 * Update ignore status
+	 * Update ignore status.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function update(\App\Request $request)
@@ -27,7 +27,7 @@ class Settings_Vtiger_SystemWarnings_Action extends Settings_Vtiger_Basic_Action
 		if (!is_subclass_of($className, '\App\SystemWarnings\Template')) {
 			$result = false;
 		} else {
-			$result = (new $className)->update($request->get('params'));
+			$result = (new $className())->update($request->get('params'));
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
@@ -35,7 +35,8 @@ class Settings_Vtiger_SystemWarnings_Action extends Settings_Vtiger_Basic_Action
 	}
 
 	/**
-	 * Update ignore status
+	 * Update ignore status.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function cancel(\App\Request $request)

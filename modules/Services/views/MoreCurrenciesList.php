@@ -10,5 +10,4 @@
 
 class Services_MoreCurrenciesList_View extends Products_MoreCurrenciesList_View
 {
-	
 }

@@ -1,0 +1,20 @@
+{
+  "php": {
+    "IIDN": "Albaranes de Compra Interna",
+    "SINGLE_IIDN": "Albar\u00e1n de Compra Interna",
+    "LBL_DESCRIPTION_BLOCK": "Descripci\u00f3n",
+    "LBL_ATTENTION_BLOCK": "Notas",
+    "FL_ACCEPTANCE_DATE": "Fecha de aceptaci\u00f3n",
+    "FL_NUMBER": "ID",
+    "FL_SUBJECT": "Asunto",
+    "FL_STORAGE": "Almacenamiento",
+    "FL_STATUS": "Estado",
+    "PLL_DRAFT": "Borrador",
+    "PLL_IN_REALIZATION": "En proceso",
+    "PLL_OBJECTIONS": "Objeciones",
+    "PLL_FOR_APPROVAL": "Por Aprobar",
+    "PLL_CANCELLED": "Cancelado",
+    "PLL_ACCEPTED": "Aceptado",
+    "LBL_CHANGE_STATUS": "Cambiar Estado"
+  }
+}

@@ -11,27 +11,26 @@
 
 class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 {
-
 	protected $edit = false;
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if ($this->getFieldModel()->get('uitype') === 72) {
-			return self::convertToDBFormat($value, null, true);
+			return CurrencyField::convertToDBFormat($value, null, true);
 		} else {
-			return self::convertToDBFormat($value);
+			return CurrencyField::convertToDBFormat($value);
 		}
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if ($isUserFormat) {
@@ -41,11 +40,15 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
-		$this->validate = true;
+		$maximumLength = $this->getFieldModel()->get('maximumlength');
+		if ($maximumLength && ($value > $maximumLength || $value < -$maximumLength)) {
+			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
+		$this->validate[$value] = true;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
@@ -60,28 +63,32 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 			if (!$this->edit) {
 				$value = $this->getDetailViewDisplayValue($value, $record, $uiType);
 			}
+
 			return \App\Purifier::encodeHtml($value);
 		}
 		return 0;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		if (!empty($value)) {
 			$this->edit = true;
+
 			return $this->getDisplayValue($value);
 		}
 		return \App\Purifier::encodeHtml($value);
 	}
 
 	/**
-	 * Function that converts the Number into Users Currency along with currency symbol
+	 * Function that converts the Number into Users Currency along with currency symbol.
+	 *
 	 * @param int|string $value
-	 * @param int $recordId
-	 * @param int $uiType
+	 * @param int        $recordId
+	 * @param int        $uiType
+	 *
 	 * @return Formatted Currency
 	 */
 	public function getDetailViewDisplayValue($value, $recordId, $uiType)
@@ -102,33 +109,18 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to transform display value for currency field
-	 * @param $value
-	 * @param Current User
-	 * @param boolean Skip Conversion
-	 * @return converted user format value
-	 */
-	public static function transformDisplayValue($value, $user = null, $skipConversion = false)
-	{
-		return CurrencyField::convertToUserFormat($value, $user, $skipConversion);
-	}
-
-	/**
-	 * Function converts User currency format to database format
-	 * @param <Object> $value - Currency value
-	 * @param <User Object> $user
-	 * @param boolean $skipConversion
-	 */
-	public static function convertToDBFormat($value, $user = null, $skipConversion = false)
-	{
-		return CurrencyField::convertToDBFormat($value, $user, $skipConversion);
-	}
-
-	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Currency.tpl';
+		return 'Edit/Field/Currency.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAllowedColumnTypes()
+	{
+		return ['decimal'];
 	}
 }

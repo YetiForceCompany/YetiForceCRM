@@ -8,13 +8,10 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-/*
- * Settings Module Model Class
- */
+// Settings Module Model Class
 
 class Settings_Vtiger_Module_Model extends \App\Base
 {
-
 	public $baseTable = 'vtiger_settings_field';
 	public $baseIndex = 'fieldid';
 	public $listFields = ['name' => 'Name', 'description' => 'Description'];
@@ -47,6 +44,7 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	public function setListFields($fieldNames)
 	{
 		$this->listFields = $fieldNames;
+
 		return $this;
 	}
 
@@ -64,7 +62,8 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get name fields of this module
+	 * Function to get name fields of this module.
+	 *
 	 * @return <Array> list field names
 	 */
 	public function getNameFields()
@@ -73,8 +72,10 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get field using field name
+	 * Function to get field using field name.
+	 *
 	 * @param string $fieldName
+	 *
 	 * @return <Field_Model>
 	 */
 	public function getField($fieldName)
@@ -88,7 +89,8 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get all the Settings menus
+	 * Function to get all the Settings menus.
+	 *
 	 * @return <Array> - List of Settings_Vtiger_Menu_Model instances
 	 */
 	public function getMenus()
@@ -97,7 +99,8 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get all the Settings menu items for the given menu
+	 * Function to get all the Settings menu items for the given menu.
+	 *
 	 * @return <Array> - List of Settings_Vtiger_MenuItem_Model instances
 	 */
 	public function getMenuItems($menu = false)
@@ -115,17 +118,20 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the instance of Settings module model
+	 * Function to get the instance of Settings module model.
+	 *
 	 * @return Settings_Vtiger_Module_Model instance
 	 */
 	public static function getInstance($name = 'Settings:Vtiger')
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
+
 		return new $modelClassName();
 	}
 
 	/**
-	 * Function to get Index view Url
+	 * Function to get Index view Url.
+	 *
 	 * @return string URL
 	 */
 	public function getIndexViewUrl()
@@ -206,7 +212,7 @@ class Settings_Vtiger_Module_Model extends \App\Base
 		$sequence = (new App\Db\Query())->from('vtiger_settings_field')->where(['blockid' => $blockId])
 			->max('sequence');
 		$params['blockid'] = $blockId;
-		$params['sequence'] = $sequence;
+		$params['sequence'] = ((int) $sequence) + 1;
 		$db->createCommand()->insert('vtiger_settings_field', $params)->execute();
 	}
 
@@ -216,7 +222,8 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	}
 
 	/**
-	 * Delete settings field by module name
+	 * Delete settings field by module name.
+	 *
 	 * @param type $moduleName
 	 */
 	public static function deleteSettingsFieldBymodule($moduleName)

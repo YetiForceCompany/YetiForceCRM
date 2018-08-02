@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Class for count records widget
- * @package YetiForce.Widget
- * @copyright YetiForce Sp. z o.o.
+ * Class for count records widget.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Vtiger_CountRecords_Widget extends Vtiger_Basic_Widget
 {
-
 	public $allowedModules = ['Campaigns'];
 
 	public function getUrl()
@@ -29,6 +28,7 @@ class Vtiger_CountRecords_Widget extends Vtiger_Basic_Widget
 		$this->Config['url'] = $this->getUrl();
 		$this->Config['relatedModules'] = $this->Data['relatedModules'];
 		$widget = $this->Config;
+
 		return $widget;
 	}
 
@@ -37,7 +37,7 @@ class Vtiger_CountRecords_Widget extends Vtiger_Basic_Widget
 		return 'CountRecordsConfig';
 	}
 
-	static public function getCountRecords($modules, $recordId)
+	public static function getCountRecords($modules, $recordId)
 	{
 		$countRecords = [];
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId);

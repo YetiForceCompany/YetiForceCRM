@@ -1,16 +1,16 @@
 <?php
+
 namespace Api\Core\Auth;
 
 /**
- * Basic Authorization class
- * @package YetiForce.WebserviceAuth
- * @copyright YetiForce Sp. z o.o.
+ * Basic Authorization class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Basic extends AbstractAuth
 {
-
 	public function authenticate($realm)
 	{
 		if (!isset($_SERVER['PHP_AUTH_USER'])) {
@@ -33,10 +33,11 @@ class Basic extends AbstractAuth
 	{
 		$row = (new \App\Db\Query())->from('w_#__servers')->where(['name' => $name, 'status' => 1])->one();
 		if ($row) {
-			$status = $password === $row['pass'];
+			$status = $password === \App\Encryption::getInstance()->decrypt($row['pass']);
 			if ($status) {
 				$this->currentServer = $row;
 			}
+
 			return $status;
 		}
 		return false;

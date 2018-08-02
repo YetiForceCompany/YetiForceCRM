@@ -1,18 +1,18 @@
 <?php
+
 namespace Api\Core;
 
 /**
- * Web service response class 
- * @package YetiForce.Webservice
- * @copyright YetiForce Sp. z o.o.
+ * Web service response class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Response
 {
-
 	protected static $acceptableHeaders = ['X-API-KEY', 'X-ENCRYPTED', 'X-TOKEN'];
-	static protected $instance = false;
+	protected static $instance = false;
 	protected $body;
 	protected $headers = [];
 	protected $status = 200;
@@ -50,6 +50,7 @@ class Response
 			405 => 'Method Not Allowed',
 			500 => 'Internal Server Error',
 		];
+
 		return ($status[$this->status]) ? $status[$this->status] : $status[500];
 	}
 
@@ -71,17 +72,17 @@ class Response
 		}
 		if (!empty($this->body)) {
 			if ($encryptDataTransfer) {
-				header("Content-Disposition: attachment; filename=\"api.json\"");
+				header('Content-Disposition: attachment; filename="api.json"');
 				$response = $this->encryptData($this->body);
 			} else {
 				if (strpos($requestContentType, 'text/html') !== false) {
-					header("Content-Disposition: attachment; filename=\"api.html\"");
+					header('Content-Disposition: attachment; filename="api.html"');
 					$response = $this->encodeHtml($this->body);
-				} else if (strpos($requestContentType, 'application/xml') !== false) {
-					header("Content-Disposition: attachment; filename=\"api.xml\"");
+				} elseif (strpos($requestContentType, 'application/xml') !== false) {
+					header('Content-Disposition: attachment; filename="api.xml"');
 					$response = $this->encodeXml($this->body);
 				} else {
-					header("Content-Disposition: attachment; filename=\"api.json\"");
+					header('Content-Disposition: attachment; filename="api.json"');
 					$response = $this->encodeJson($this->body);
 				}
 			}
@@ -92,14 +93,15 @@ class Response
 
 	public function encryptData($data)
 	{
-		openssl_public_encrypt($data, $encrypted, 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . vglobal('publicKey'));
+		openssl_public_encrypt($data, $encrypted, 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \AppConfig::api('PUBLIC_KEY'));
+
 		return $encrypted;
 	}
 
 	public function debugResponse()
 	{
 		if (\AppConfig::debug('WEBSERVICE_DEBUG')) {
-			$log = "-------------  Response  -----  " . date('Y-m-d H:i:s') . "  ------\n";
+			$log = '-------------  Response  -----  ' . date('Y-m-d H:i:s') . "  ------\n";
 			$log .= "Status: {$this->status}\n";
 			$log .= 'Headers: ' . PHP_EOL;
 			foreach ($this->headers as $key => $header) {
@@ -115,9 +117,10 @@ class Response
 	{
 		$htmlResponse = "<table border='1'>";
 		foreach ($responseData as $key => $value) {
-			$htmlResponse .= "<tr><td>$key</td><td>" . (is_array($value) ? $this->encodeHtml($value) : nl2br($value)) . "</td></tr>";
+			$htmlResponse .= "<tr><td>$key</td><td>" . (is_array($value) ? $this->encodeHtml($value) : nl2br($value)) . '</td></tr>';
 		}
-		$htmlResponse .= "</table>";
+		$htmlResponse .= '</table>';
+
 		return $htmlResponse;
 	}
 
@@ -130,10 +133,11 @@ class Response
 	{
 		$xml = new \SimpleXMLElement('<?xml version="1.0"?><data></data>');
 		$this->toXml($responseData, $xml);
+
 		return $xml->asXML();
 	}
 
-	public function toXml($data, &$xmlData)
+	public function toXml($data, \SimpleXMLElement &$xmlData)
 	{
 		foreach ($data as $key => $value) {
 			if (is_numeric($key)) {

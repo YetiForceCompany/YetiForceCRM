@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Automatic assignment save action model class
- * @package YetiForce.Settings.Action
- * @copyright YetiForce Sp. z o.o.
+ * Automatic assignment save action model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_Action
 {
-
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	public function __construct()
 	{
@@ -23,17 +22,17 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 	}
 
 	/**
-	 * Save
+	 * Save.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function save(\App\Request $request)
 	{
 		$data = $request->get('param');
-		$recordId = $request->get('record');
-		if ($recordId) {
-			$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($recordId);
-		} else {
+		if ($request->isEmpty('record')) {
 			$recordModel = Settings_AutomaticAssignment_Record_Model::getCleanInstance();
+		} else {
+			$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($request->getInteger('record'));
 		}
 
 		$dataFull = array_merge($recordModel->getData(), $data);
@@ -47,7 +46,8 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 	}
 
 	/**
-	 * Function changes the type of a given role
+	 * Function changes the type of a given role.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function changeRoleType(\App\Request $request)
@@ -67,7 +67,8 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 	}
 
 	/**
-	 * Function removes given value from record
+	 * Function removes given value from record.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function deleteElement(\App\Request $request)

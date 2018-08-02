@@ -11,7 +11,6 @@
 
 class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 {
-
 	public function __construct()
 	{
 		$this->exposeMethod('changeStatusRelation');
@@ -99,7 +98,8 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 	}
 
 	/**
-	 * Update related view type mode
+	 * Update related view type mode.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function updateRelatedViewType(\App\Request $request)
@@ -126,10 +126,5 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

@@ -9,25 +9,27 @@
  * *********************************************************************************** */
 
 /**
- * class settings workflows recordstructure model
+ * class settings workflows recordstructure model.
  */
 class Settings_Workflows_RecordStructure_Model extends Vtiger_RecordStructure_Model
 {
-
 	/**
-	 * Record structure default mode
+	 * Record structure default mode.
+	 *
 	 * @var string
 	 */
 	const RECORD_STRUCTURE_MODE_DEFAULT = '';
 
 	/**
-	 * Record structure mode filter
+	 * Record structure mode filter.
+	 *
 	 * @var string
 	 */
 	const RECORD_STRUCTURE_MODE_FILTER = 'Filter';
 
 	/**
-	 * Set workflow model
+	 * Set workflow model.
+	 *
 	 * @param object $workFlowModel
 	 */
 	public function setWorkFlowModel($workFlowModel)
@@ -36,7 +38,8 @@ class Settings_Workflows_RecordStructure_Model extends Vtiger_RecordStructure_Mo
 	}
 
 	/**
-	 * Get workflow model
+	 * Get workflow model.
+	 *
 	 * @return object
 	 */
 	public function getWorkFlowModel()
@@ -45,9 +48,11 @@ class Settings_Workflows_RecordStructure_Model extends Vtiger_RecordStructure_Mo
 	}
 
 	/**
-	 * Get instance for workflow module
+	 * Get instance for workflow module.
+	 *
 	 * @param object $workFlowModel
 	 * @param string $mode
+	 *
 	 * @return object
 	 */
 	public static function getInstanceForWorkFlowModule($workFlowModel, $mode)
@@ -56,6 +61,7 @@ class Settings_Workflows_RecordStructure_Model extends Vtiger_RecordStructure_Mo
 		$instance = new $className();
 		$instance->setWorkFlowModel($workFlowModel);
 		$instance->setModule($workFlowModel->getModule());
+
 		return $instance;
 	}
 }

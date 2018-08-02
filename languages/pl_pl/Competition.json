@@ -1,0 +1,13 @@
+{
+  "php": {
+    "Competition": "Konkurenci",
+    "SINGLE_Competition": "Konkurent",
+    "LBL_COMPETITION_INFORMATION": "Informacje podstawowe",
+    "LBL_CUSTOM_INFORMATION": "Informacje systemowe",
+    "LBL_DESCRIPTION_INFORMATION": "Informacje opisowe",
+    "LBL_SUBJECT": "Nazwa",
+    "LBL_NUMBER": "Numer",
+    "LBL_CLOSED_TIME": "Czas zamkni\u0119cia",
+    "LBL_VAT_ID": "NIP"
+  }
+}

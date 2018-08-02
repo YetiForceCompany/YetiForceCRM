@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Edit view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Edit view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PBX_EditModal_View extends Settings_Vtiger_BasicModal_View
 {
-
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)

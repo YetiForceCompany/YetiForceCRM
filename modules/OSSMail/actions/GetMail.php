@@ -1,17 +1,18 @@
 <?php
 
 /**
- * Get mails adress class
- * @package YetiForce.Action
+ * Get mails adress class.
+ *
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSMail_GetMail_Action extends Vtiger_Action_Controller
+class OSSMail_GetMail_Action extends \App\Controller\Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -22,7 +23,7 @@ class OSSMail_GetMail_Action extends Vtiger_Action_Controller
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!\App\Privilege::isPermitted($request->getByType('sourceModule', 2), 'DetailView', $request->getInteger('sourceRecord'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -43,7 +44,7 @@ class OSSMail_GetMail_Action extends Vtiger_Action_Controller
 				$emails[] = [
 					'name' => $name,
 					'fieldlabel' => App\Language::translate($emailField['fieldlabel'], $emailField['name']),
-					'email' => $email
+					'email' => $email,
 				];
 				if ($maxEmails === 1) {
 					break;

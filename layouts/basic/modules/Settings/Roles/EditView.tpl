@@ -7,9 +7,9 @@
 * All Rights Reserved.
 *************************************************************************************}
 {strip}
-	<div class="">
+	<div class="tpl-Settings-Roles-EditView">
 		<div class="row widget_header">
-			<div class="col-xs-12">
+			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{if isset($SELECTED_PAGE)}
 					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
@@ -26,24 +26,23 @@
 			{if $HAS_PARENT}
 				<input type="hidden" name="parent_roleid" value="{$RECORD_MODEL->getParent()->getId()}">
 			{/if}
-			<div>
-				<div class="row">
+			<div class="mt-2">
+				<div class="row mb-2">
 					<div class="col-md-4">
 						<label class=""><span class="redColor">*</span><strong>{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}: </strong></label>
 					</div>
 					<div class=" col-md-7 ">
 						<input type="text" class="fieldValue form-control" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]" />
 					</div>
-				</div><br />
-				<div class="row">
+				</div>
+				<div class="row mb-2">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_REPORTS_TO', $QUALIFIED_MODULE)}: </strong></label>
 					<div class="col-md-7 fieldValue">
 						<input type="hidden" name="parent_roleid" {if $HAS_PARENT}value="{$RECORD_MODEL->getParent()->getId()}"{/if}>
 						<input type="text" class="form-control" name="parent_roleid_display" {if $HAS_PARENT}value="{\App\Language::translate($RECORD_MODEL->getParent()->getName(), $QUALIFIED_MODULE)}"{/if} readonly>
 					</div>
 				</div>
-				<br />
-                <div class="row">
+                <div class="row mb-2">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_CAN_ASSIGN_OWNER_TO', $QUALIFIED_MODULE)}: </strong></label>
 					<div class="col-md-7 fieldValue">
 						<select id="allowassignedrecordsto" class="row select2 form-control" name="allowassignedrecordsto">
@@ -55,11 +54,10 @@
 						</select>
 					</div>
                 </div>
-				<br />
-                <div class="row">
+                <div class="row mb-2">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_CAN_ASSIGN_MULTIOWNER_TO', $QUALIFIED_MODULE)}: </strong></label>
 					<div class="col-md-7 fieldValue">
-						<select id="allowassignedrecordsto" class="row select2 form-control" name="assignedmultiowner">
+						<select id="assignedmultiowner" class="row select2 form-control" name="assignedmultiowner">
 							<option value="1" {if $RECORD_MODEL->get('assignedmultiowner') == '1'}selected="true"{/if}>{\App\Language::translate('LBL_ALL_USERS', $QUALIFIED_MODULE)}</option>
 							<option value="2" {if $RECORD_MODEL->get('assignedmultiowner') == '2'}selected="true"{/if}>{\App\Language::translate('LBL_USERS_WITH_SAME_OR_LOWER_LEVEL', $QUALIFIED_MODULE)}</option>
 							<option value="3" {if $RECORD_MODEL->get('assignedmultiowner') == '3'}selected="true"{/if}>{\App\Language::translate('LBL_USERS_WITH_LOWER_LEVEL', $QUALIFIED_MODULE)}</option>
@@ -68,8 +66,7 @@
 						</select>
 					</div>
                 </div>
-				<br />
-				<div class="row">
+				<div class="row mb-2">
 					<label class="col-md-4"><span class="redColor">*</span><strong>{\App\Language::translate('LBL_PROFILE',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						{assign var="ROLE_PROFILES" value=$RECORD_MODEL->getProfiles()}
@@ -82,17 +79,16 @@
 						</select>
 					</div>
 				</div>
-				<br />
 				<div class="row">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
-						<div class="pull-left">
+						<div class="float-left">
 							<input type="checkbox" value="1" {if $RECORD_MODEL->get('changeowner')} checked="" {/if} name="change_owner" class="alignTop" />
 						</div>
 					</div>
 				</div>
 				<hr/>
-				<div class="row">
+				<div class="row mb-2">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_PERMISSIONS_TO_LIST_RELATED_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						<select id="listRelatedRecord" class="row select2 form-control" name="listRelatedRecord">
@@ -102,8 +98,7 @@
 						</select>
 					</div>
 				</div>
-				<br />
-				<div class="row">
+				<div class="row mb-2">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_PERMISSIONS_TO_VIEW_RELATED_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						<select id="previewRelatedRecord" class="row select2 form-control" name="previewRelatedRecord">
@@ -113,12 +108,11 @@
 						</select>
 					</div>
 				</div>
-				<br />
-				<div class="row">
+				<div class="row mb-2">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_PERMISSIONS_FIELD_RELATED_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						{assign var="PERMISSIONS_RELATED_FIELD" value=explode(',',$RECORD_MODEL->get('permissionsrelatedfield'))}
-						<select id="previewRelatedRecord" class="row select2 form-control" name="permissionsRelatedField[]" multiple >
+						<select id="permissionsRelatedField" class="row select2 form-control" name="permissionsRelatedField[]" multiple >
 							<option value="0" {if in_array('0', $PERMISSIONS_RELATED_FIELD)}selected="true"{/if}>{\App\Language::translate('Assigned To', $QUALIFIED_MODULE)}</option>
 							<option value="1" {if in_array('1', $PERMISSIONS_RELATED_FIELD)}selected="true"{/if}>{\App\Language::translate('Share with users', $QUALIFIED_MODULE)}</option>
 							<option value="2" {if in_array('2', $PERMISSIONS_RELATED_FIELD)}selected="true"{/if}>{\App\Language::translate('LBL_PERMITTED_BY_SHARING', $QUALIFIED_MODULE)}</option>
@@ -126,17 +120,16 @@
 						</select>
 					</div>
 				</div>
-				<br />
 				<div class="row">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_PERMISSIONS_TO_EDIT_RELATED_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
-						<div class="pull-left">
+						<div class="float-left">
 							<input type="checkbox" value="1" {if $RECORD_MODEL->get('editrelatedrecord')} checked="" {/if} name="editRelatedRecord" class="alignTop" />
 						</div>
 					</div>
 				</div>
 				<hr/>
-				<div class="row">
+				<div class="row mb-2">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_SEARCH_WITHOUT_PERMISSION',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						{assign var="SEARCH_MODULES" value=explode(',',$RECORD_MODEL->get('searchunpriv'))}
@@ -147,17 +140,15 @@
 						</select>
 					</div>
 				</div>
-				<br />
-				<div class="row">
+				<div class="row mb-2">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_SHOW_GLOBAL_SEARCH_ADVANCED',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
-						<div class="pull-left">
+						<div class="float-left">
 							<input type="checkbox" value="1" {if $RECORD_MODEL->get('globalsearchadv')} checked="" {/if} name="globalSearchAdvanced" class="alignTop" />
 						</div>
 					</div>
 				</div>
-				<br />
-				<div class="row">
+				<div class="row mb-2">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_BROWSING_OTHER_USERS_GRAPHICAL_CALENDAR',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						<select id="clendarallorecords" class="row select2 form-control" name="clendarallorecords">
@@ -167,20 +158,20 @@
 						</select>
 					</div>
 				</div>
-				<br />
 				<hr>
-				<div class="form-group paddingTop10">
+				<div class="form-group row">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_AUTO_ASSIGN_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
-						<div class="pull-left">
+						<div class="float-left">
 							<input type="checkbox" value="1" {if $RECORD_MODEL->get('auto_assign')} checked="" {/if} name="auto_assign" class="alignTop" />
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="pull-right marginRight10px paddingTop20">
-				<button class="btn btn-success" type="submit">{\App\Language::translate('LBL_SAVE',$MODULE)}</button>
-				<button class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset">{\App\Language::translate('LBL_CANCEL',$MODULE)}</button>
+			<div class="float-right marginRight10px paddingTop20">
+				<button class="btn btn-success" type="submit"><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE',$MODULE)}</button>
+				<button class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset">
+					<span class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL',$MODULE)}</button>
 			</div>
 			{if count($ROLE_USERS) > 0 }
 				<hr/>

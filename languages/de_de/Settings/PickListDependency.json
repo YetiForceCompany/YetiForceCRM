@@ -1,0 +1,32 @@
+{
+  "php": {
+    "Selected Values": "Selektierte Werte",
+    "Target Field": "Feld Ziel",
+    "Source Field": "Feld Quelle",
+    "LBL_ADD_RECORD": "Abh\u00e4ngigkeit hinzuf\u00fcgen",
+    "PickListDependency": "Auswahllisten-Abh\u00e4ngigkeit",
+    "LBL_CONFIGURE_DEPENDENCY_HELP_1": "Nur zugeordnete Auswahllistenwerte des Quellfeldes werden unten gezeigt (Ausnahme beim ersten Mal)",
+    "LBL_CONFIGURE_DEPENDENCY_HELP_2": "Wenn Sie die Zuordnung f\u00fcr die anderen Auswahllistenwerte des Quellfeldes sehen oder \u00e4ndern m\u00f6chten, \r\n dann k\u00f6nnen Sie die Werte durch klicken auf die Schaltfl\u00e4che <b>'Quellwerte ausw\u00e4hlen'<\/b> w\u00e4hlen.",
+    "LBL_CONFIGURE_DEPENDENCY_HELP_3": "Ausgew\u00e4hlte Werte der Zielfeldwerte werden hervorgehoben",
+    "LBL_CONFIGURE_DEPENDENCY_INFO": "Klicken Sie auf die jeweilige Zelle, um die Zuordnung der Auswahllistenwerte des Zielfeldes zu \u00e4ndern",
+    "LBL_ERR_CYCLIC_DEPENDENCY": "Diese Abh\u00e4ngigkeitseinstellung ist nicht erlaubt, weil es in zyklischen Abh\u00e4ngigkeiten endet",
+    "LBL_PICKLIST_DEPENDENCY": "Auswahllisten-Abh\u00e4ngigkeit",
+    "LBL_SELECT_FIELD": "Feld ausw\u00e4hlen",
+    "LBL_SELECT_MODULE": "Modul",
+    "LBL_SELECT_SOURCE_PICKLIST_VALUES": "Quelle der Auswahllistenwerte w\u00e4hlen",
+    "LBL_SELECT_SOURCE_VALUES": "Quellwerte ausw\u00e4hlen",
+    "LBL_SOURCE_FIELD": "Quellfeld",
+    "Module": "Modul ausw\u00e4hlen",
+    "LBL_TARGET_FIELD": "Zielfeld",
+    "LBL_UNMARK_ALL": "Alle Markierungen l\u00f6schen"
+  },
+  "js": {
+    "JS_DEPENDENCY_ATLEAST_ONE_VALUE": "Sie m\u00fcssen mindestens einen Wert w\u00e4hlen f\u00fcr",
+    "JS_DEPENDENCY_DELETED_SUEESSFULLY": "Abh\u00e4ngigkeit erfolgreich gel\u00f6scht",
+    "JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE": "Sind Sie sicher, dass Sie diese Auswahllisten-Abh\u00e4ngigkeit l\u00f6schen m\u00f6chten?",
+    "JS_PICKLIST_DEPENDENCY_SAVED": "Auswahllisten-Abh\u00e4ngigkeit gespeichert",
+    "JS_SELECT_SOME_VALUE": "W\u00e4hlen Sie einen Wert",
+    "JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME": "Quell- und Zielfeld d\u00fcrfen nicht identisch sein",
+    "JS_PICKLIST_DEPENDENCY_NO_SAVED": "Keine Abh\u00e4ngigkeiten wurden eingegeben. Keine \u00c4nderungen gesichert."
+  }
+}

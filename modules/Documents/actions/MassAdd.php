@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Action to mass upload files
- * @package YetiForce.Action
- * @copyright YetiForce Sp. z o.o.
+ * Action to mass upload files.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Documents_MassAdd_Action extends Vtiger_Mass_Action
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -21,7 +20,7 @@ class Documents_MassAdd_Action extends Vtiger_Mass_Action
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -29,7 +28,7 @@ class Documents_MassAdd_Action extends Vtiger_Mass_Action
 		$nameFiles = $request->get('nameFile');
 		foreach ($_FILES as $file) {
 			$countFiles = count($file['name']);
-			for ($i = 0; $i < $countFiles; $i++) {
+			for ($i = 0; $i < $countFiles; ++$i) {
 				$originalFile = [
 					'name' => $file['name'][$i],
 					'type' => $file['type'][$i],

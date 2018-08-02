@@ -11,9 +11,8 @@
 
 class Users_Save_Action extends Vtiger_Save_Action
 {
-
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -28,18 +27,18 @@ class Users_Save_Action extends Vtiger_Save_Action
 				$allowed = false;
 			}
 			if (!$allowed) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		} else {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
 			if (!$this->record->isCreateable()) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	protected function getRecordModelFromRequest(\App\Request $request)
 	{
@@ -53,14 +52,16 @@ class Users_Save_Action extends Vtiger_Save_Action
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
-		$result = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
-		$_FILES = $result['imagename'];
-		if (!empty($_FILES[0]['name'])) {
-			$request->set('imagename', $_FILES[0]['name']);
+		if ($_FILES) {
+			$result = \App\Fields\File::transform($_FILES, true);
+			$_FILES = $result['imagename'];
+			if (!empty($_FILES[0]['name'])) {
+				$request->set('imagename', $_FILES[0]['name']);
+			}
 		}
 		$moduleName = $request->getModule();
 		$message = '';
@@ -83,6 +84,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 		if ($message) {
 			App\Log::error($message);
 			header('Location: index.php?module=Users&parent=Settings&view=Edit');
+
 			return false;
 		}
 		$recordModel = $this->saveRecord($request);
@@ -91,7 +93,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 		if ($request->getBoolean('relationOperation')) {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 2));
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
-		} else if ($request->getBoolean('isPreference')) {
+		} elseif ($request->getBoolean('isPreference')) {
 			$loadUrl = $recordModel->getPreferenceDetailViewUrl();
 		} else {
 			$loadUrl = $recordModel->getDetailViewUrl();

@@ -1,0 +1,18 @@
+{
+  "php": {
+    "LBL_NAME": "Name",
+    "LBL_TYPE": "Typ",
+    "LBL_DEFAULT": "Standard",
+    "LBL_ADD_RECORD": "Neu",
+    "LBL_CREATE_RECORD": "Vermittlungsstelle hinzuf\u00fcgen",
+    "LBL_EDIT_RECORD": "Vermittlungsstelle bearbeiten",
+    "LBL_URL": "Serveradresse",
+    "LBL_USERNAME": "Login",
+    "LBL_PASSWORD": "Passwort",
+    "LBL_SECRET_KEY": "Secret Key",
+    "LBL_OUTBOUND_CONTEXT": "Ausgehender Kontext"
+  },
+  "js": {
+    "JS_SAVE_SUCCESS": "\u00c4nderungen Sichern"
+  }
+}

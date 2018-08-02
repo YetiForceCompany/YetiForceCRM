@@ -1,0 +1,29 @@
+{
+  "php": {
+    "Description": "Description",
+    "OutsourcedProducts": "Produits externalis\u00e9s",
+    "SINGLE_OutsourcedProducts": "Produit externalis\u00e9",
+    "LBL_INFORMATION": "D\u00e9tails produit externalis\u00e9",
+    "Assigned To": "Assign\u00e9 \u00e0",
+    "LBL_RODZAJUMOWY": "Type de contrat",
+    "LBL_osservicesstatus": "Statut",
+    "Individual Agreement": "Contrat individuel",
+    "In service": "En support",
+    "Finished support": "Support terminat\u00e9",
+    "Product Name": "Nom du produit",
+    "Sub Category": "Sous-cat\u00e9gorie",
+    "Category": "Cat\u00e9gorie",
+    "Date Sold": "Date de vente",
+    "Date in Service": "Date de fin de support",
+    "LBL_DESCRIPTION_INFORMATION": "Information",
+    "LBL_CUSTOM_INFORMATION": "Information syst\u00e8mes",
+    "Where bought": "Lieu d'achat",
+    "Number": "Nombre",
+    "Save": "Sauvegarder",
+    "Selling proposition": "Opportunit\u00e9",
+    "LBL_GENERATE_EXTENSION": "Gen\u00e9rer une extension",
+    "Active": "Actif",
+    "Inactive": "Inactif"
+  },
+  "js": []
+}

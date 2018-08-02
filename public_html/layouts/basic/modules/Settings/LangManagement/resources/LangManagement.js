@@ -1,19 +1,16 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
+
 var Settings_Index_Js = {
 	initEvants: function () {
-		$('.LangManagement .add_lang').click(Settings_Index_Js.ShowLangMondal);
-		$('.LangManagement .edit_lang a').click(function (e) {
+		$('.LangManagement .add_lang').on('click', Settings_Index_Js.ShowLangMondal);
+		$('.LangManagement .edit_lang a').on('click', function (e) {
 			jQuery('#edit_lang').html('');
 			document.showDiff = false;
 			Settings_Index_Js.LoadEditLang(this)
 		});
-		$('.LangManagement .editHelpIcon a').click(function (e) {
-			jQuery('#editHelpIcon').html('');
-			document.showDiff = false;
-			Settings_Index_Js.LoadEditLang(this)
-		});
-		$('.AddNewLangMondal .btn-primary').click(Settings_Index_Js.AddLangMondal);
-		$('.AddNewTranslationMondal .btn-primary').click(Settings_Index_Js.AddTranslationMondal);
+		$('.AddNewLangMondal .btn-primary').on('click', Settings_Index_Js.AddLangMondal);
+		$('.AddNewTranslationMondal .btn-primary').on('click', Settings_Index_Js.AddTranslationMondal);
 		$('#lang_list tr').each(function (index, element) {
 			element = $(element);
 			Settings_Index_Js.initEvant(element);
@@ -22,8 +19,7 @@ var Settings_Index_Js = {
 	LoadEditLang: function (e) {
 		var element = jQuery(e);
 		var position = element.attr('href');
-		var tpl = element.data('mode');
-		if (typeof position == 'undefined') {
+		if (typeof position === "undefined") {
 			position = '#' + element.attr('id');
 		}
 		var progress = $.progressIndicator({
@@ -47,42 +43,26 @@ var Settings_Index_Js = {
 		if (document.showDiff == true) {
 			param.sd = 1;
 		}
-		if (typeof tpl != 'undefined') {
-			param.tpl = tpl;
-		}
-		AppConnector.request(param).then(function (data) {
+		AppConnector.request(param).done(function (data) {
 			jQuery(position).html(data);
-			Settings_Index_Js.initEditLang(tpl, position);
+			Settings_Index_Js.initEditLang(position);
 			progress.progressIndicator({'mode': 'hide'});
 		});
 	},
-	initEditLang: function (tpl, position) {
+	initEditLang: function (position) {
 		var thisInstance = this;
-		element = $(".LangManagement .layoutContent .active #langs_list");
-		app.changeSelectElementView(element, 'selectize', {plugins: ['remove_button']}).on("change", function (e) {
+		App.Fields.Picklist.changeSelectElementView($(".LangManagement .layoutContent .active .select2"), 'select2').on("change", function (e) {
 			e = jQuery(this).closest('.active');
 			Settings_Index_Js.LoadEditLang(e);
 		});
-		thisInstance.registerHoverCkEditor();
-		thisInstance.registerHelpInfo();
-
-		app.changeSelectElementView($(".LangManagement .active #helpInfoView"), 'selectize', {plugins: ['remove_button']}).on('change', function (e) {
-			Settings_Index_Js.saveView(e, position)
-		})
-		app.changeSelectElementView($(".LangManagement .layoutContent .active #mods_list"), 'select2').on("change", function (e) {
-			e = jQuery(this).closest('.active');
-			Settings_Index_Js.LoadEditLang(e);
+		$('#edit_lang .translation').on('change', function (e) {
+			Settings_Index_Js.changeTranslation(e, position)
 		});
-		if (tpl != 'editHelpIcon') {
-			$('#edit_lang .translation').change(function (e) {
-				Settings_Index_Js.changeTranslation(e, position)
-			});
-			$('#edit_lang .add_translation').click(Settings_Index_Js.ShowTranslationMondal);
-			$('#edit_lang .delete_translation').click(function (e) {
-				Settings_Index_Js.deleteTranslation(e, position)
-			});
-		}
-		$('.LangManagement ' + position + ' .show_differences').click(Settings_Index_Js.ShowDifferences);
+		$('#edit_lang .js-add-translation').on('click', Settings_Index_Js.ShowTranslationMondal);
+		$('#edit_lang .js-delete').on('click', function (e) {
+			Settings_Index_Js.deleteTranslation(e, position)
+		});
+		$('.LangManagement ' + position + ' .show_differences').on('click', Settings_Index_Js.ShowDifferences);
 		$.extend($.fn.dataTable.defaults, {
 			"searching": true,
 			"ordering": false,
@@ -99,100 +79,6 @@ var Settings_Index_Js = {
 		});
 		$('' + position + ' .listViewEntriesTable').dataTable();
 	},
-	registerHoverCkEditor: function () {
-		var thisInstance = this;
-		jQuery('tr td button.editButton').on('click', function (e) {
-			elementTd = jQuery(this).closest('td');
-			thisInstance.registerEventForCkEditor(this);
-			thisInstance.addClickOutSideEvent(elementTd);
-		});
-	},
-	addClickOutSideEvent: function (element) {
-		var thisInstance = this;
-		element.one('clickoutside', function () {
-			thisInstance.destroyEventForCkEditor(element);
-		});
-	},
-	registerHelpInfo: function () {
-		var form = jQuery('.LangManagement');
-		form.find('.HelpInfoPopover').popover({trigger: 'hover', html: 'true', })
-	},
-	/**
-	 * Function to register event for ckeditor
-	 */
-	registerEventForCkEditor: function (e) {
-		var thisInstance = this;
-		var element = jQuery(e);
-		var elementTd = element.closest('td');
-		var textarea = elementTd.find('textarea.ckEditorSource');
-		element.addClass('hide');
-		textarea.removeClass('hide');
-		thisInstance.loadCkEditorElement(textarea);
-	},
-	/**
-	 * Function to destroy ckeditor element
-	 */
-	destroyEventForCkEditor: function (element) {
-		var thisInstance = this;
-		var textarea = element.find('textarea.ckEditorSource');
-		var elementId = textarea.attr('id');
-		if (typeof elementId != 'undefined' && textarea.css('display') == 'none') {
-			ckeditor = CKEDITOR.instances[elementId];
-			var target = ckeditor.getData();
-			if (textarea.val() != target) {
-				textarea.val(target);
-				if (target) {
-					Settings_Index_Js.changeTranslation(textarea, '#editHelpIcon');
-					element.find('.HelpInfoPopover').attr('data-content', target);
-				} else {
-					Settings_Index_Js.deleteTranslation(textarea, '#editHelpIcon');
-					textarea.addClass('empty_value');
-					element.find('.HelpInfoPopover').attr('data-content', '');
-				}
-			}
-			ckeditor.destroy();
-			textarea.addClass('hide');
-			element.find('button.editButton').removeClass('hide');
-		}
-	},
-	loadCkEditorElement: function (noteContentElement) {
-		var thisInstance = this;
-		var customConfig = {};
-		if (noteContentElement.css('display') != 'none') {
-			customConfig = {
-				disableNativeSpellChecker: true,
-				scayt_autoStartup: false,
-				removePlugins: 'scayt',
-				height: '5em',
-				toolbar: null,
-				toolbarGroups: [
-					{name: 'document', groups: ['mode', 'document', 'doctools']},
-					{name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
-					{name: 'clipboard', groups: ['clipboard', 'undo']}
-				]}
-			var ckEditorInstance = new Vtiger_CkEditor_Js();
-			ckEditorInstance.loadCkEditor(noteContentElement, customConfig);
-		}
-	},
-	saveView: function (e, position) {
-		var target = $(e.currentTarget);
-		if (typeof e.currentTarget == 'undefined')
-			target = jQuery(e);
-		var closestTrElement = target.closest('tr');
-		var progress = $.progressIndicator({
-			'message': app.vtranslate('LBL_Loader'),
-			'position': position,
-			'blockInfo': {
-				'enabled': true
-			}
-		});
-		var SaveEvent = Settings_Index_Js.registerSaveEvent('saveView', {
-			'fieldid': target.data('fieldid'),
-			'mod': $(".LangManagement #mods_list").data('target') ? $(".LangManagement #mods_list").data('target') : $(".LangManagement #mods_list").val(),
-			'value': target.val(),
-		});
-		progress.progressIndicator({'mode': 'hide'});
-	},
 	ShowDifferences: function (e) {
 		var target = $(e.currentTarget);
 		if ($(this).is(':checked')) {
@@ -206,7 +92,7 @@ var Settings_Index_Js = {
 	changeTranslation: function (e, position, mod) {
 
 		var target = $(e.currentTarget);
-		if (typeof e.currentTarget == 'undefined')
+		if (typeof e.currentTarget === "undefined")
 			target = jQuery(e);
 		var closestTrElement = target.closest('tr');
 		var progress = $.progressIndicator({
@@ -220,19 +106,19 @@ var Settings_Index_Js = {
 			mod = jQuery(".LangManagement " + position + " #mods_list").data('target') ? jQuery(".LangManagement " + position + " #mods_list").data('target') : jQuery(".LangManagement " + position + " #mods_list").val();
 		}
 		Settings_Index_Js.registerSaveEvent('saveTranslation', {
-			'lang': target.data('lang'),
-			'mod': mod,
-			'type': target.data('type'),
-			'langkey': closestTrElement.data('langkey'),
-			'val': target.val(),
-			'is_new': target.hasClass("empty_value"),
+			lang: target.data('lang'),
+			mod: mod,
+			type: target.data('type'),
+			variable: closestTrElement.data('langkey'),
+			val: target.val(),
+			is_new: target.hasClass("empty_value"),
 		});
 		target.removeClass("empty_value");
 		progress.progressIndicator({'mode': 'hide'});
 	},
 	deleteTranslation: function (e, position) {
 		var target = $(e.currentTarget);
-		if (typeof e.currentTarget == 'undefined') {
+		if (typeof e.currentTarget === "undefined") {
 			target = e;
 		}
 		var closestTrElement = target.closest('tr');
@@ -244,9 +130,10 @@ var Settings_Index_Js = {
 			}
 		});
 		Settings_Index_Js.registerSaveEvent('deleteTranslation', {
-			'lang': $(".LangManagement #langs_list").val(),
-			'mod': $(".LangManagement " + position + " #mods_list").data('target') ? $(".LangManagement " + position + " #mods_list").data('target') : $(".LangManagement " + position + " #mods_list").val(),
-			'langkey': closestTrElement.data('langkey'),
+			lang: $(".LangManagement #langs_list").val(),
+			mod: $(".LangManagement " + position + " #mods_list").data('target') ? $(".LangManagement " + position + " #mods_list").data('target') : $(".LangManagement " + position + " #mods_list").val(),
+			langkey: closestTrElement.data('langkey'),
+			type: closestTrElement.data('type'),
 		});
 		progress.progressIndicator({'mode': 'hide'});
 		e = target.closest('.active');
@@ -257,33 +144,33 @@ var Settings_Index_Js = {
 			title: app.vtranslate('LBL_AreYouSure'),
 			trigger: 'manual',
 			placement: 'left',
-			html: 'true',
+			html: true,
 			content: '<div class="popover_block"><button class="btn btn-danger deleteItem marginLeft10">' + app.vtranslate('LBL_YES') + '</button>   <button class="btn btn-warning pull-right cancel">' + app.vtranslate('Cancel') + '</button></div>'
 		}
 		var makeSureOptions = {
 			title: app.vtranslate('JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'),
 			trigger: 'manual',
 			placement: 'left',
-			html: 'true',
+			html: true,
 			content: '<div class="popover_block"><button class="btn btn-danger setDefaultItem">' + app.vtranslate('LBL_YES') + '</button>   <button class="btn btn-warning pull-right cancel">' + app.vtranslate('Cancel') + '</button></div>'
 		}
-		element.find('#deleteItemC').click(function (e) {
+		element.find('#deleteItemC').on('click', function (e) {
 			$(e.currentTarget).popover(options).popover('show');
-			$('.popover_block .deleteItem').click(function () {
+			$('.popover_block .deleteItem').on('click', function () {
 				Settings_Index_Js.DeleteLang(element, e);
 				$(e.currentTarget).popover('hide');
 			});
-			$('.popover_block .cancel').click(function () {
+			$('.popover_block .cancel').on('click', function () {
 				$(e.currentTarget).popover('hide');
 			});
 		});
-		element.find('#setAsDefault').click(function (e) {
+		element.find('#setAsDefault').on('click', function (e) {
 			$(e.currentTarget).popover(makeSureOptions).popover('show');
-			$('.popover_block .setDefaultItem').click(function () {
+			$('.popover_block .setDefaultItem').on('click', function () {
 				$(e.currentTarget).popover('hide');
 				Settings_Index_Js.setAsDefaultLang(element, e);
 			});
-			$('.popover_block .cancel').click(function () {
+			$('.popover_block .cancel').on('click', function () {
 				$(e.currentTarget).popover('hide');
 			});
 		});
@@ -300,7 +187,7 @@ var Settings_Index_Js = {
 		var cloneModal = $('.AddNewTranslationMondal').clone(true, true);
 		cloneModal.find('input[name="langs"]').val(JSON.stringify(langs_list));
 		$.each(langs_list, function (key) {
-			langs_fields += '<div class="form-group"><label class="col-md-4 control-label">' + langs_list[key] + ':</label><div class="col-md-8"><input name="' + langs_list[key] + '" class="form-control" type="text" /></div></div>';
+			langs_fields += '<div class="form-group"><label class="col-md-4 col-form-label">' + langs_list[key] + ':</label><div class="col-md-8"><input name="' + langs_list[key] + '" class="form-control" type="text" /></div></div>';
 		});
 		cloneModal.find('.add_translation_block').html(langs_fields);
 		var target = $(e.currentTarget);
@@ -330,7 +217,7 @@ var Settings_Index_Js = {
 	AddTranslationMondal: function (e) {
 		var currentTarget = $(e.currentTarget);
 		var container = currentTarget.closest('.modalContainer');
-		var SaveEvent = Settings_Index_Js.registerSaveEvent('addTranslation',$.extend({mod: $(".LangManagement #mods_list").val()}, container.find(".AddTranslationForm").serializeFormData()));
+		var SaveEvent = Settings_Index_Js.registerSaveEvent('addTranslation', $.extend({mod: $(".LangManagement #mods_list").val()}, container.find(".AddTranslationForm").serializeFormData()));
 		if (SaveEvent.resp) {
 			container.find('.AddNewTranslationMondal').modal('hide');
 		}
@@ -364,23 +251,17 @@ var Settings_Index_Js = {
 		params.data = $.extend(params.data, data);
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).then(
-				function (data) {
-					response = data['result'];
-					var params = {
-						text: response['message'],
-						animation: 'show'
-					};
-					if (response['success'] == true) {
-						params.type = 'info';
-					}
-					Vtiger_Helper_Js.showPnotify(params);
-					resp = response['success'];
-				},
-				function (data, err) {
-
-				}
-		);
+		AppConnector.request(params).done(function (data) {
+			response = data['result'];
+			var params = {
+				text: response['message'] ? response['message'] : app.vtranslate('JS_ERROR'),
+			};
+			if (response['success'] == true) {
+				params.type = 'info';
+			}
+			Vtiger_Helper_Js.showPnotify(params);
+			resp = response['success'];
+		});
 		return {resp: resp, params: params.data.params, result: response};
 	},
 	registerStats: function () {
@@ -395,33 +276,31 @@ var Settings_Index_Js = {
 				langBase: jQuery('[name="langs_basic"]').val(),
 				langs: langs
 			}
-			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (response['success'] && response['data'].length !== 0) {
-							thisInstance.showStats(response['data'], response['modules']);
-						}
-					},
-					function (data, err) {
-					}
-			);
+			AppConnector.request(params).done(function (data) {
+				var response = data['result'];
+				if (response['success'] && response['data'].length !== 0) {
+					thisInstance.showStats(response['data'], response['modules']);
+				}
+			});
 		})
 	},
 	showStats: function (data, modules) {
 		var thisInstance = this;
-		var html = '<div class="col-md-8"><div class="panel panel-default"><div class="panel-body">';
+		var html = '<div class="col-md-12"><div class="panel panel-default"><div class="panel-body">';
 		var langStats = 0;
 		var shortages = [];
 		for (var i in modules) {
 			for (var k in modules[i]) {
-				if (data[k].length == 1)
+				if (data[k].length == 1) {
+					langStats += data[k][0];
 					continue;
+				}
 				var max = data[k][0];
 				langStats += max;
 				delete data[k][0];
-				html += '<div class="row moduleRow" data-module="' + k + '"><label class="col-md-3 form-control-static control-label marginTop2">' + modules[i][k] + ': </label><div class="form-control-static col-md-9">'
+				html += '<div class="row moduleRow" data-module="' + k + '"><label class="col-md-3 form-control-plaintext col-form-label mt-2">' + modules[i][k] + ': </label><div class="form-control-plaintext col-md-9">'
 				for (var q in data[k]) {
-					if (typeof shortages[q] == 'undefined') {
+					if (typeof shortages[q] === "undefined") {
 						shortages[q] = 0;
 					}
 					shortages[q] += data[k][q].length;
@@ -452,12 +331,12 @@ var Settings_Index_Js = {
 			var element = jQuery(e.currentTarget);
 			var row = element.closest('.moduleRow');
 			var url =
-					'index.php?module=' + app.getModuleName() +
-					'&parent=' + app.getParentModuleName() +
-					'&view=GetLabels' +
-					'&langBase=' + jQuery('[name="langs_basic"]').val() +
-					'&lang=' + element.data('lang') +
-					'&sourceModule=' + row.data('module');
+				'index.php?module=' + app.getModuleName() +
+				'&parent=' + app.getParentModuleName() +
+				'&view=GetLabels' +
+				'&langBase=' + jQuery('[name="langs_basic"]').val() +
+				'&lang=' + element.data('lang') +
+				'&sourceModule=' + row.data('module');
 			app.showModalWindow(null, url, function (data) {
 				progress.progressIndicator({'mode': 'hide'});
 				data.find('button:not(.close)').on('click', function (e) {
@@ -470,22 +349,33 @@ var Settings_Index_Js = {
 	},
 	getDataCharts: function (shortages, max) {
 		var k = 1;
-		var chartData = [];
-		chartData['chart'] = {};
 		var data = [];
-		chartData['ticks'] = [];
-		chartData['colors'] = ['#d18b2c'];
+		var chartData = {
+			labels: [],
+			datasets: [
+				{
+					data: data,
+					backgroundColor: [],
+					datalabels: {
+						font: {
+							weight: 'bold'
+						},
+						color: 'white',
+						anchor: 'end',
+						align: 'start',
+					}
+				}
+			],
+		};
 		for (var i in shortages) {
 			var x = shortages[i] * 100 / max;
 			var langName = jQuery('select option[value="' + i + '"]').text();
-			data.push([k, x.toFixed(2)]);
-			chartData['ticks'].push([k, langName]);
+			data.push(Math.round(x * 100) / 100);
+			chartData.datasets[0].backgroundColor.push(App.Fields.Colors.getRandomColor());
+			chartData.labels.push(langName);
 			++k;
 		}
 		if (data.length > 0) {
-			chartData['chart'].data = data;
-			chartData = jQuery.extend({}, chartData);
-			chartData['valueLabels'] = {show: true, showAsHtml: true, align: "center", valign: 'middle'}
 			jQuery('.widgetData').val(JSON.stringify(chartData));
 			this.showCharts()
 		}
@@ -493,7 +383,15 @@ var Settings_Index_Js = {
 	showCharts: function () {
 		var instance = Vtiger_Widget_Js.getInstance(jQuery('.chartBlock'), 'Bar');
 		instance.init(jQuery('.chartBlock'));
-		instance.loadChart();
+		instance.loadChart({
+			scales: {
+				xAxes: [{
+					ticks: {
+						minRotation: 0
+					}
+				}]
+			}
+		});
 	},
 	registerEvents: function () {
 		Settings_Index_Js.initEvants();

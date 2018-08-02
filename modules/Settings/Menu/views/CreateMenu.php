@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Settings menu CreateMenu view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Settings menu CreateMenu view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Menu_CreateMenu_View extends Settings_Vtiger_IndexAjax_View
 {
-
 	public function __construct()
 	{
 		parent::__construct();

@@ -1,17 +1,16 @@
 <?php
 
 /**
- * MailSmtp SaveAjax action model class
- * @package YetiForce.Settings.Action
- * @copyright YetiForce Sp. z o.o.
+ * MailSmtp SaveAjax action model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
+class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
-
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 */
 	public function __construct()
 	{
@@ -20,12 +19,16 @@ class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 	}
 
 	/**
-	 * Function updates smtp configuration 
+	 * Function updates smtp configuration.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function updateSmtp(\App\Request $request)
 	{
 		$data = $request->get('param');
+		$encryptInstance = \App\Encryption::getInstance();
+		$data['password'] = $encryptInstance->encrypt($data['password']);
+		$data['smtp_password'] = $encryptInstance->encrypt($data['smtp_password']);
 		$mailer = new \App\Mailer();
 		$mailer->loadSmtp($data);
 		$testMailer = $mailer->test();

@@ -1,19 +1,20 @@
 <?php
 
 /**
- * List View Model Class for Mail Settings
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * List View Model Class for Mail Settings.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 class Settings_Mail_ListView_Model extends Settings_Vtiger_ListView_Model
 {
-
 	/**
-	 * Function to get the list view entries
+	 * Function to get the list view entries.
+	 *
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 *
+	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance
 	 */
 	public function getListViewEntries($pagingModel)
 	{
@@ -24,7 +25,7 @@ class Settings_Mail_ListView_Model extends Settings_Vtiger_ListView_Model
 		}
 		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listFields = array_keys($module->listFields);
-		$listFields [] = $module->baseIndex;
+		$listFields[] = $module->baseIndex;
 		$query = (new \App\Db\Query())->select($listFields)
 			->from($module->baseTable);
 		$searchParams = $this->get('searchParams');
@@ -61,6 +62,8 @@ class Settings_Mail_ListView_Model extends Settings_Vtiger_ListView_Model
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
+		$dataReader->close();
+
 		return $listViewRecordModels;
 	}
 

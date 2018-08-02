@@ -10,7 +10,6 @@
 
 class Settings_PickListDependency_List_View extends Settings_Vtiger_List_View
 {
-
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		$moduleModelList = Settings_PickListDependency_Module_Model::getPicklistSupportedModules();
@@ -39,19 +38,22 @@ class Settings_PickListDependency_List_View extends Settings_Vtiger_List_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
+	 * Function to get the list of Script models to be included.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
-			'~libraries/jquery/malihu-custom-scrollbar/js/jquery.mCustomScrollbar.concat.min.js',
+			'~libraries/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js',
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 
@@ -60,7 +62,7 @@ class Settings_PickListDependency_List_View extends Settings_Vtiger_List_View
 		$headerCssInstances = parent::getHeaderCss($request);
 
 		$cssFileNames = [
-			'~libraries/jquery/malihu-custom-scrollbar/css/jquery.mCustomScrollbar.css',
+			'~libraries/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

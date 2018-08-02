@@ -1,23 +1,24 @@
 <?php
 
 /**
- * Update the dates of created events automatically
- * @package YetiForce.Workflow
- * @copyright YetiForce Sp. z o.o.
+ * Update the dates of created events automatically.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class VTUpdateCalendarDates extends VTTask
 {
-
 	/**
-	 * Execute immediately
+	 * Execute immediately.
+	 *
 	 * @var bool
 	 */
 	public $executeImmediately = true;
 
 	/**
-	 * Get field names
+	 * Get field names.
+	 *
 	 * @return array
 	 */
 	public function getFieldNames()
@@ -26,7 +27,8 @@ class VTUpdateCalendarDates extends VTTask
 	}
 
 	/**
-	 * Execute task
+	 * Execute task.
+	 *
 	 * @param Vtiger_Record_Model $recordModel
 	 */
 	public function doTask($recordModel)

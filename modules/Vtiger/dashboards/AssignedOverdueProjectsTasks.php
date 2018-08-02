@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Vtiger AssignedOverdueProjectsTasks dashboard class
- * @package YetiForce.Dashboard
- * @copyright YetiForce Sp. z o.o.
+ * Vtiger AssignedOverdueProjectsTasks dashboard class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_AssignedOverdueProjectsTasks_Dashboard extends Vtiger_IndexAjax_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -20,10 +19,11 @@ class Vtiger_AssignedOverdueProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$linkId = $request->getInteger('linkid');
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-		if (!$request->has('owner'))
+		if (!$request->has('owner')) {
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
-		else
+		} else {
 			$owner = $request->getByType('owner', 2);
+		}
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
@@ -39,8 +39,8 @@ class Vtiger_AssignedOverdueProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$viewer->assign('PROJECTSTASKS', $projectsTasks);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$title_max_length = vglobal('title_max_length');
-		$href_max_length = vglobal('href_max_length');
+		$title_max_length = \AppConfig::main('title_max_length');
+		$href_max_length = \AppConfig::main('href_max_length');
 		$viewer->assign('NAMELENGTH', $title_max_length);
 		$viewer->assign('HREFNAMELENGTH', $href_max_length);
 		$viewer->assign('OWNER', $owner);

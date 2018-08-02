@@ -10,15 +10,15 @@
 ************************************************************************************/
 -->*}
 {strip}
-{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
-{assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
-{assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
-<div class="dashboardWidgetHeader">
-	{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeadeAccessible.tpl', $MODULE_NAME)}
-</div>
-<div name="history" class="dashboardWidgetContent">
-	{include file=\App\Layout::getTemplatePath('dashboards/AssignedProjectsTasksContents.tpl', $MODULE_NAME) WIDGET=$WIDGET}
-</div>
+	{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
+	{assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
+	{assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
+	<div class="dashboardWidgetHeader">
+		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeadeAccessible.tpl', $MODULE_NAME)}
+	</div>
+	<div name="history" class="dashboardWidgetContent">
+		{include file=\App\Layout::getTemplatePath('dashboards/AssignedProjectsTasksContents.tpl', $MODULE_NAME) WIDGET=$WIDGET}
+	</div>
 {/strip}
 <script type='text/javascript'>
 	$(document).ready(function () {
@@ -29,7 +29,7 @@
 			jQuery(parent).find('.slimScrollDiv').css('overflow', 'visible');
 			var type = parent.find("[name='type']").val();
 			var url = element.data('url') + '&content=true&type=' + type;
-			AppConnector.request(url).then(function (data) {
+			AppConnector.request(url).done(function (data) {
 				jQuery(parent).find('.dashboardWidgetContent').append(data);
 				element.parent().remove();
 			});

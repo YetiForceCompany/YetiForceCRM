@@ -1,0 +1,28 @@
+{
+  "php": {
+    "providertype": "Furnizor",
+    "LBL_SMS_MAX_CHARACTERS_ALLOWED": "Maxim 160 de caractere sunt permise in SMS",
+    "LBL_SEREVER_CONFIG": "Configuratie noua",
+    "username": "Utilizator",
+    "password": "Parola",
+    "isactive": "Activ",
+    "SINGLE_SMSNotifier": "Notificator SMS",
+    "Server configuration": "Configurare server",
+    "LBL_SEND_SMS_TO_SELECTED_NUMBERS": "Trimite SMS la numerele selectate",
+    "LBL_STEP_1": "Pasul 1",
+    "LBL_STEP_2": "Pasul 2",
+    "LBL_SELECT_THE_PHONE_NUMBER_FIELDS_TO_SEND": "Selectati campurile cu numar de telefon pentru a trimite",
+    "LBL_TYPE_THE_MESSAGE": "Tastati mesajul",
+    "LBL_WRITE_YOUR_MESSAGE_HERE": "scrie mesajul tau aici",
+    "LBL_ADD_MORE_FIELDS": "Adauga mai multe campuri",
+    "LBL_SERVER_CONFIG": "Configuratie server",
+    "FL_STATUS": "Status",
+    "PLL_UNDEFINED": "Nedefinit",
+    "PLL_DELIVERED": "Livrat",
+    "PLL_FAILED": "Esuat",
+    "LBL_MASS_SEND_SMS_INFO": "Toate mesajele text sunt trimise in CRON",
+    "LBL_CHECK_STATUS": "Verifica status",
+    "message": "Mesaj",
+    "LBL_SMSNOTIFIER_INFORMATION": "Informatii SMS"
+  }
+}

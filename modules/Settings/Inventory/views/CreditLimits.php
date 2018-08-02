@@ -1,14 +1,14 @@
 <?php
 
 /**
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Inventory_CreditLimits_View extends Settings_Vtiger_Index_View
 {
+	use \App\Controller\ExposeMethod;
 
 	public function getView()
 	{
@@ -20,6 +20,7 @@ class Settings_Inventory_CreditLimits_View extends Settings_Vtiger_Index_View
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
+
 			return;
 		}
 		$view = $this->getView();
@@ -48,6 +49,7 @@ class Settings_Inventory_CreditLimits_View extends Settings_Vtiger_Index_View
 		$translations['title'] = 'LBL_' . strtoupper($view);
 		$translations['title_single'] = 'LBL_' . strtoupper($view) . '_SINGLE';
 		$translations['description'] = 'LBL_' . strtoupper($view) . '_DESCRIPTION';
+
 		return $translations;
 	}
 }

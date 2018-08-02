@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Calendar Model Class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Calendar Model Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author YetiForce.com
  */
 class Calendar_Calendar_Model extends App\Base
 {
-
 	public $moduleName = 'Calendar';
 	public $relationAcounts = [
 		'Contacts' => ['vtiger_contactdetails', 'contactid', 'parentid'],
@@ -32,7 +31,8 @@ class Calendar_Calendar_Model extends App\Base
 	}
 
 	/**
-	 * Get query
+	 * Get query.
+	 *
 	 * @return \App\Db\Query
 	 */
 	public function getQuery()
@@ -60,18 +60,18 @@ class Calendar_Calendar_Model extends App\Base
 				[
 					'and',
 					['>=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbStartDateTime],
-					['<=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbEndDateTime]
+					['<=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbEndDateTime],
 				],
 				[
 					'and',
 					['>=', new \yii\db\Expression("CONCAT(due_date, ' ', time_end)"), $dbStartDateTime],
-					['<=', new \yii\db\Expression("CONCAT(due_date, ' ', time_end)"), $dbEndDateTime]
+					['<=', new \yii\db\Expression("CONCAT(due_date, ' ', time_end)"), $dbEndDateTime],
 				],
 				[
 					'and',
 					['<', 'date_start', $dbStartDate],
-					['>', 'due_date', $dbEndDate]
-				]
+					['>', 'due_date', $dbEndDate],
+				],
 			]);
 		}
 		$types = $this->get('types');
@@ -115,6 +115,7 @@ class Calendar_Calendar_Model extends App\Base
 			$query->andWhere(array_merge(['or'], $conditions));
 		}
 		$query->orderBy('vtiger_activity.date_start,vtiger_activity.time_start');
+
 		return $query;
 	}
 
@@ -138,9 +139,10 @@ class Calendar_Calendar_Model extends App\Base
 				$ids[] = $record['linkextend'];
 			}
 		}
+		$dataReader->close();
 		$labels = \App\Record::getLabel($ids);
 
-		foreach ($records as &$record) {
+		foreach ($records as $record) {
 			$item = [];
 			$crmid = $record['activityid'];
 			$activitytype = $record['activitytype'];
@@ -168,16 +170,16 @@ class Calendar_Calendar_Model extends App\Base
 			$item['linkm'] = $record['linkmod'];
 			//Process
 			$item['process'] = $record['process'];
-			$item['procl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['process']));
+			$item['procl'] = App\TextParser::textTruncate($this->getLabel($labels, $record['process']));
 			// / migoi
 			$item['procm'] = $record['processmod'];
 			//Subprocess
 			$item['subprocess'] = $record['subprocess'];
-			$item['subprocl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['subprocess']));
+			$item['subprocl'] = App\TextParser::textTruncate($this->getLabel($labels, $record['subprocess']));
 			$item['subprocm'] = $record['subprocessmod'];
 
 			$item['linkextend'] = $record['linkextend'];
-			$item['linkexl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['linkextend']));
+			$item['linkexl'] = App\TextParser::textTruncate($this->getLabel($labels, $record['linkextend']));
 			$item['linkexm'] = $record['linkecrmmod'];
 			if ($record['linkmod'] != 'Accounts' && (!empty($record['link']) || !empty($record['process']))) {
 				$findId = 0;
@@ -225,17 +227,22 @@ class Calendar_Calendar_Model extends App\Base
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$endDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 
+			$item['allDay'] = $record['allday'] == 1 ? true : false;
 			$item['start_date'] = $record['date_start'];
-			$item['start'] = $startDateFormated . ' ' . $startTimeFormated;
-			$item['end'] = $endDateFormated . ' ' . $endTimeFormated;
+			if ($item['allDay']) {
+				$item['start'] = $startDateFormated;
+				$item['end'] = $endDateFormated;
+			} else {
+				$item['start'] = $startDateFormated . ' ' . $startTimeFormated;
+				$item['end'] = $endDateFormated . ' ' . $endTimeFormated;
+			}
 
 			// display date time values
 			$item['start_display'] = $startDateTimeDisplay;
 			$item['end_display'] = $endDateTimeDisplay;
 			$item['hour_start'] = $startTimeDisplay;
 			$hours = \App\Fields\Date::getDiff($item['start'], $item['end'], 'hours');
-			$item['hours'] = vtlib\Functions::decimalTimeFormat($hours)['short'];
-			$item['allDay'] = $record['allday'] == 1 ? true : false;
+			$item['hours'] = \App\Fields\Time::formatToHourText($hours, 'short');
 			$item['className'] = ' ownerCBg_' . $record['smownerid'] . ' picklistCBr_Calendar_activitytype_' . $activitytype;
 			$return[] = $item;
 		}
@@ -284,11 +291,14 @@ class Calendar_Calendar_Model extends App\Base
 				}
 			}
 		}
+		$dataReader->close();
+
 		return array_values($return);
 	}
 
 	/**
-	 * Static Function to get the instance of Vtiger Module Model for the given id or name
+	 * Static Function to get the instance of Vtiger Module Model for the given id or name.
+	 *
 	 * @param mixed id or name of the module
 	 */
 	public static function getCleanInstance()
@@ -297,6 +307,7 @@ class Calendar_Calendar_Model extends App\Base
 		if ($instance === false) {
 			$instance = new self();
 			Vtiger_Cache::set('calendarModels', 'Calendar', clone $instance);
+
 			return $instance;
 		} else {
 			return clone $instance;
@@ -308,8 +319,9 @@ class Calendar_Calendar_Model extends App\Base
 		$calendarConfig = [
 			'PLL_WORKING_TIME',
 			'PLL_BREAK_TIME',
-			'PLL_HOLIDAY'
+			'PLL_HOLIDAY',
 		];
+
 		return $calendarConfig;
 	}
 }

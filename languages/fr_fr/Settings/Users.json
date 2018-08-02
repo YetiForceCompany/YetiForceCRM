@@ -1,0 +1,43 @@
+{
+  "php": {
+    "LBL_PICKLISTS": "Picklists",
+    "LBL_MODULE": "Module",
+    "LBL_AUTHORIZATION": "LDAP",
+    "LBL_AUTHORIZATION_DESCRIPTION": " ",
+    "LBL_LDAP_AUTH": "LDAP",
+    "LBL_LDAP_PORT": "Port",
+    "LBL_WARNING": "Attention",
+    "LBL_SELECT_PICKLIST": "Choisir picklist",
+    "LBL_PICKLIST_COLOR_COL_NOT_FOUND": "La fonctionnalit\u00e9 de couleur n'a pas \u00e9t\u00e9 activ\u00e9e pour cette liste de s\u00e9lection",
+    "LBL_UPDATE_COLOR_COLUMN": "Activer",
+    "LBL_ITEM": "Valeur",
+    "LBL_LDAP_RECOMMENDED_INFO": "Nous ne recommandons pas de s\u00e9lectionner des utilisateurs disposant d'autorisations d'administration pour l'autorisation LDAP. En cas de probl\u00e8mes d'autorisation, il doit y avoir un utilisateur qui peut se connecter sans int\u00e9gration LDAP.",
+    "Users": "Utilisateurs",
+    "USER_MAIL_EXIST": "Utilisateur avec cette adresse email existe",
+    "LBL_GROUP_NAME": "Nom du Groupe ",
+    "LBL_PRIORITY": "Priorit\u00e9",
+    "LBL_ACTIVE_LDAP_AUTH": "Autorisation avec LDAP",
+    "LBL_LDAP_SERVER": "Adresse du serveur",
+    "LBL_SAVE_CONFIG": "Configuration a \u00e9t\u00e9 sauvegard\u00e9e",
+    "LBL_LDAP_DOMAIN": "Domaine (ajout\u00e9 automatiquement au login)",
+    "LBL_VIEW_AUTH": "Autorisation",
+    "LBL_VIEW_COLORS": "Couleurs",
+    "LBL_SWITCH_USERS": "Changer d'utilisateur",
+    "LBL_SWITCH_USERS_DESCRIPTION": "Outil permettant d'intervertir les utilsiateurs dans le syst\u00e8me.",
+    "LBL_SU_BASE_ACCESS": "Utilisateur",
+    "LBL_SU_AVAILABLE_ACCESS": "est autoris\u00e9 \u00e0 se connecter",
+    "LBL_LOCKS": "Verrous",
+    "LBL_LOCKS_DESCRIPTION": "Outil pour bloquer les actions du navigateur (copier, couper, etc)",
+    "LBL_LOCK_COPY": "Verrouiller la copie",
+    "LBL_LOCK_CUT": "Verrouiller la coupe",
+    "LBL_LOCK_PASTE": "Verrouiller le collage",
+    "LBL_LOCK_RIGHT_MENU": "Verrouiller le bouton droit de la souris",
+    "LBL_LOCK_SELECT_TEXT": "Verrouiller la s\u00e9lection",
+    "LBL_LOCK_DRAG": "Verrouiller le tirer "
+  },
+  "js": {
+    "JS_PLEASE_SELECT_MODULE": "Veuillez choisir le module",
+    "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Le s\u00e9parateur des d\u00e9cimales et des milliers ne peuvent \u00eatre identiques",
+    "Changed password successfully": "Mot de passe modifi\u00e9 avec succ\u00e8s"
+  }
+}

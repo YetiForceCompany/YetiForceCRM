@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Update comment for related record
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Update comment for related record.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 {
-
 	/**
-	 * Checking permissions
+	 * Checking permissions.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
@@ -21,13 +22,15 @@ class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 		$relatedRecord = $request->getByType('relid', 'Alnum');
 
 		if (!$recordId || !$relatedRecord || !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId) || (is_numeric($relatedRecord) && !\App\Privilege::isPermitted($request->getByType('relmodule', 2), 'DetailView', $relatedRecord))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	/**
-	 * Process
+	 * Process.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function process(\App\Request $request)

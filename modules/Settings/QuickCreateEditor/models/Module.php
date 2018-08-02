@@ -1,17 +1,18 @@
 <?php
 
 /**
- * Settings QuickCreateEditor module model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Settings QuickCreateEditor module model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_QuickCreateEditor_Module_Model extends Vtiger_Module_Model
 {
-
 	/**
-	 * Update sequence number for quickcreate
+	 * Update sequence number for quickcreate.
+	 *
 	 * @param array $blockFieldSequence
+	 *
 	 * @return int
 	 */
 	public static function updateFieldSequenceNumber($blockFieldSequence)

@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Settings OSSMailScanner logs view class
- * @package YetiForce.View
- * @copyright YetiForce Sp. z o.o.
+ * Settings OSSMailScanner logs view class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_OSSMailScanner_Logs_View extends Settings_Vtiger_Index_View
 {
-
 	/**
-	 * Process function
+	 * Process function.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
@@ -39,6 +39,7 @@ class Settings_OSSMailScanner_Logs_View extends Settings_Vtiger_Index_View
 	public function getNumLog()
 	{
 		$numRecord = (new App\Db\Query())->from('vtiger_ossmails_logs')->count();
+
 		return ceil($numRecord / 30);
 	}
 }

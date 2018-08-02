@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Calendar Handler Class
- * @package YetiForce.Handler
- * @copyright YetiForce Sp. z o.o.
+ * Calendar Handler Class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Calendar_CalendarHandler_Handler
 {
-
 	const UPDATE_FIELDS = ['link', 'process', 'subprocess'];
 
 	/**
-	 * EntityAfterSave function
+	 * EntityAfterSave function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityAfterSave(App\EventHandler $eventHandler)
@@ -35,7 +35,8 @@ class Calendar_CalendarHandler_Handler
 	}
 
 	/**
-	 * EntityChangeState handler function
+	 * EntityChangeState handler function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityChangeState(App\EventHandler $eventHandler)
@@ -50,7 +51,8 @@ class Calendar_CalendarHandler_Handler
 	}
 
 	/**
-	 * EntityAfterUnLink handler function
+	 * EntityAfterUnLink handler function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityAfterUnLink(App\EventHandler $eventHandler)
@@ -61,7 +63,8 @@ class Calendar_CalendarHandler_Handler
 	}
 
 	/**
-	 * EntityBeforeSave handler function
+	 * EntityBeforeSave handler function.
+	 *
 	 * @param App\EventHandler $eventHandler
 	 */
 	public function entityBeforeSave(App\EventHandler $eventHandler)

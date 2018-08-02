@@ -1,8 +1,8 @@
 <?php
 /**
- * Clear cache cron
- * @package YetiForce.Cron
- * @copyright YetiForce Sp. z o.o.
+ * Clear cache cron.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -18,4 +18,3 @@ foreach ($dirs as $dir) {
 		}
 	}
 }
-

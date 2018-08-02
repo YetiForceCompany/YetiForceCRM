@@ -11,10 +11,11 @@
 
 class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 {
-
 	/**
-	 * Function to check permission
+	 * Function to check permission.
+	 *
 	 * @param \App\Request $request
+	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
@@ -30,7 +31,8 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 	}
 
 	/**
-	 * Function is called by the controller
+	 * Function is called by the controller.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)

@@ -11,19 +11,18 @@
 
 class PBXManager_Record_Model extends Vtiger_Record_Model
 {
-
 	const MODULE_TABLE_NAME = 'vtiger_pbxmanager';
 	const LOOKUP_TABLE_NAME = 'vtiger_pbxmanager_phonelookup';
 	const ENTITY_TABLE_NAME = 'vtiger_crmentity';
 
 	public static function getCleanInstance($moduleName)
 	{
-		return new self;
+		return new self();
 	}
 
 	/**
 	 * Function to get call details(polling)
-	 * return <array> calls
+	 * return <array> calls.
 	 */
 	public function searchIncomingCall()
 	{
@@ -32,7 +31,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$result = $db->pquery($query, ['ringing', 'in-progress', 'inbound']);
 		$recordModels = [];
 		$rowCount = $db->numRows($result);
-		for ($i = 0; $i < $rowCount; $i++) {
+		for ($i = 0; $i < $rowCount; ++$i) {
 			$rowData = $db->queryResultRowData($result, $i);
 
 			$record = new self();
@@ -41,7 +40,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 
 			//To check if the call status is 'ringing' for >5min
 			$starttime = strtotime($rowData['starttime']);
-			$currenttime = strtotime(Date('y-m-d H:i:s'));
+			$currenttime = strtotime(date('y-m-d H:i:s'));
 			$timeDiff = $currenttime - $starttime;
 			if ($timeDiff > 300 && $rowData['callstatus'] == 'ringing') {
 				$recordIds[] = $rowData['crmid'];
@@ -49,15 +48,16 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 			//END
 		}
 
-		if (count($recordIds))
+		if (count($recordIds)) {
 			$this->updateCallStatus($recordIds);
-
+		}
 		return $recordModels;
 	}
 
 	/**
 	 * To update call status from 'ringing' to 'no-response', if status not updated
-	 * for more than 5 minutes
+	 * for more than 5 minutes.
+	 *
 	 * @param type $recordIds
 	 */
 	public function updateCallStatus($recordIds)
@@ -66,9 +66,10 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to save PBXManager record with array of params
+	 * Function to save PBXManager record with array of params.
+	 *
 	 * @param array $params
-	 * return string $recordid
+	 *                      return string $recordid
 	 */
 	public function saveRecordWithArrray($params)
 	{
@@ -88,24 +89,28 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to update call details
+	 * Function to update call details.
+	 *
 	 * @param <array> $details
-	 * $param string $callid
-	 * return true
+	 *                         $param string $callid
+	 *                         return true
 	 */
 	public function updateCallDetails($details)
 	{
 		\App\Db::getInstance()->createCommand()->update(self::MODULE_TABLE_NAME, $details, ['sourceuuid' => $this->get('sourceuuid')])->execute();
+
 		return true;
 	}
 
 	/**
-	 * To update Assigned to with user who answered the call
+	 * To update Assigned to with user who answered the call.
+	 *
 	 * @param int $userId
 	 */
 	public function updateAssignedUser($userId)
 	{
 		\App\Db::getInstance()->createCommand()->update(self::ENTITY_TABLE_NAME, ['smownerid' => $userId], ['crmid' => $this->get('pbxmanagerid')])->execute();
+
 		return true;
 	}
 
@@ -130,10 +135,12 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to save/update contact/account/lead record in Phonelookup table on every save
+	 * Function to save/update contact/account/lead record in Phonelookup table on every save.
+	 *
 	 * @param string $fieldName
-	 * @param array $details
-	 * @param boolean $new
+	 * @param array  $details
+	 * @param bool   $new
+	 *
 	 * @return int
 	 */
 	public function receivePhoneLookUpRecord($fieldName, $details, $new)
@@ -148,18 +155,19 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 			return $db->createCommand()->update(self::LOOKUP_TABLE_NAME, ['fnumber' => $fnumber, 'rnumber' => strrev($fnumber)], ['crmid' => $details['crmid'], 'setype' => $details['setype'], 'fieldname' => $fieldName])->execute();
 		} else {
 			return $db->createCommand()
-					->insert(self::LOOKUP_TABLE_NAME, [
+				->insert(self::LOOKUP_TABLE_NAME, [
 						'crmid' => $details['crmid'],
 						'setype' => $details['setype'],
 						'fnumber' => $fnumber,
 						'rnumber' => strrev($fnumber),
-						'fieldname' => $fieldName
+						'fieldname' => $fieldName,
 					])->execute();
 		}
 	}
 
 	/**
-	 * Function to delete contact/account/lead record in Phonelookup table on every delete
+	 * Function to delete contact/account/lead record in Phonelookup table on every delete.
+	 *
 	 * @param string $recordId
 	 */
 	public function deletePhoneLookUpRecord($recordId)
@@ -168,7 +176,8 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * * Function to check the customer with number in phonelookup table
+	 * * Function to check the customer with number in phonelookup table.
+	 *
 	 * @param string $from
 	 */
 	public static function lookUpRelatedWithNumber($from)
@@ -190,15 +199,17 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 				$data['name'] = \App\Record::getLabel($crmid);
 				$data['setype'] = $rowCrm['setype'];
 				$data['fieldname'] = $fieldname;
+
 				return $data;
-			} else
+			} else {
 				return;
+			}
 		}
-		return;
 	}
 
 	/**
-	 * Function to user details with number
+	 * Function to user details with number.
+	 *
 	 * @param string $number
 	 */
 	public static function getUserInfoWithNumber($number)
@@ -207,15 +218,15 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		if (empty($number)) {
 			return false;
 		}
-		$query = PBXManager_Record_Model::buildSearchQueryWithUIType(11, $number, 'Users');
+		$query = self::buildSearchQueryWithUIType(11, $number, 'Users');
 		$result = $db->pquery($query, []);
 		if ($db->numRows($result) > 0) {
 			$user['id'] = $db->queryResult($result, 0, 'id');
 			$user['name'] = $db->queryResult($result, 0, 'name');
 			$user['setype'] = 'Users';
+
 			return $user;
 		}
-		return;
 	}
 
 	// Because, User is not related to crmentity
@@ -227,7 +238,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 		if ($cachedModuleFields === false) {
-			getColumnFields($module); // This API will initialize the cache as well
+			vtlib\Deprecated::getColumnFields($module); // This API will initialize the cache as well
 			// We will succeed now due to above function call
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 		}
@@ -252,11 +263,12 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 			$columnCount = count($lookupcolumns);
 			foreach ($lookupcolumns as $columnname) {
 				if (!empty($columnname)) {
-					if ($i == 0 || $i == ($columnCount))
+					if ($i == 0 || $i == ($columnCount)) {
 						$query .= sprintf("%s = '%s'", $columnname, $value);
-					else
+					} else {
 						$query .= sprintf(" || %s = '%s'", $columnname, $value);
-					$i++;
+					}
+					++$i;
 				}
 			}
 		}
@@ -270,11 +282,12 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$query = 'SELECT id, phone_crm_extension FROM vtiger_users';
 		$result = $db->pquery($query, []);
 		$count = $db->numRows($result);
-		for ($i = 0; $i < $count; $i++) {
+		for ($i = 0; $i < $count; ++$i) {
 			$number = $db->queryResult($result, $i, 'phone_crm_extension');
 			$userId = $db->queryResult($result, $i, 'id');
-			if ($number)
+			if ($number) {
 				$numbers[$userId] = $number;
+			}
 		}
 		return $numbers;
 	}

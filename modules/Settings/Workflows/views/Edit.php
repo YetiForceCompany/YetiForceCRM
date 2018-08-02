@@ -10,7 +10,6 @@
 
 class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 {
-
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
@@ -38,7 +37,6 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 
 	public function step1(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -66,16 +64,14 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('CURRENT_USER', $currentUser);
 		$admin = Users::getActiveAdminUser();
 		$viewer->assign('ACTIVE_ADMIN', $admin);
-		$viewer->assign('WEEK_START_ID', $weekDays[$currentUser->get('dayoftheweek')]);
+		$viewer->assign('WEEK_START_ID', $weekDays[\App\User::getCurrentUserModel()->getDetail('dayoftheweek')]);
 		$viewer->view('Step1.tpl', $qualifiedModuleName);
 	}
 
 	public function step2(\App\Request $request)
 	{
-
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -99,8 +95,9 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 					$value = [$value];
 				}
 			}
-			if ($name == 'summary')
+			if ($name == 'summary') {
 				$value = htmlspecialchars($value);
+			}
 			$workFlowModel->set($name, $value);
 		}
 		//Added to support advance filters
@@ -120,7 +117,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		if ($workFlowModel->isFilterSavedInNew()) {
 			$viewer->assign('ADVANCE_CRITERIA', $workFlowModel->transformToAdvancedFilterCondition());
 		} else {
-			$viewer->assign('ADVANCE_CRITERIA', "");
+			$viewer->assign('ADVANCE_CRITERIA', '');
 		}
 
 		$viewer->assign('IS_FILTER_SAVED_NEW', $workFlowModel->isFilterSavedInNew());
@@ -166,19 +163,20 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = [
-			'libraries.jquery.clipboardjs.clipboard',
+			'libraries.clipboard.dist.clipboard',
 			'modules.Settings.Vtiger.resources.Edit',
 			"modules.Settings.$moduleName.resources.Edit",
 			"modules.Settings.$moduleName.resources.Edit1",
 			"modules.Settings.$moduleName.resources.Edit2",
 			"modules.Settings.$moduleName.resources.Edit3",
 			"modules.Settings.$moduleName.resources.AdvanceFilter",
-			'~libraries/jquery/ckeditor/ckeditor.js',
-			'modules.Vtiger.resources.CkEditor',
+			'~vendor/ckeditor/ckeditor/ckeditor.js',
+			'~vendor/ckeditor/ckeditor/adapters/jquery.js',
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+
 		return $headerScriptInstances;
 	}
 }

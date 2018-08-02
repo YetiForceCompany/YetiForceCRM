@@ -1,21 +1,21 @@
 <?php
 
 /**
- * Settings menu module model class
- * @package YetiForce.Model
- * @copyright YetiForce Sp. z o.o.
+ * Settings menu module model class.
+ *
+ * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Menu_Module_Model
 {
-
 	/**
-	 * Fields to edit
-	 * @var strung[] 
+	 * Fields to edit.
+	 *
+	 * @var strung[]
 	 */
 	protected $editFields = [
 		'id', 'role', 'parentid', 'type', 'sequence', 'module', 'label', 'newwindow',
-		'dataurl', 'showicon', 'icon', 'sizeicon', 'hotkey', 'filters', 'edit'
+		'dataurl', 'showicon', 'icon', 'sizeicon', 'hotkey', 'filters', 'edit',
 	];
 	protected $types = [
 		0 => 'Module',
@@ -30,18 +30,22 @@ class Settings_Menu_Module_Model
 	];
 
 	/**
-	 * Function to get instance
-	 * @param boolean true/false
+	 * Function to get instance.
+	 *
+	 * @param bool true/false
+	 *
 	 * @return <Settings_Menu_Module_Model>
 	 */
 	public static function getInstance()
 	{
 		$instance = new self();
+
 		return $instance;
 	}
 
 	/**
-	 * Function to get editable fields
+	 * Function to get editable fields.
+	 *
 	 * @return string[]
 	 */
 	public function getEditFields()
@@ -51,8 +55,9 @@ class Settings_Menu_Module_Model
 
 	public function getMenuTypes($key = false)
 	{
-		if ($key === false)
+		if ($key === false) {
 			return $this->types;
+		}
 		return $this->types[$key];
 	}
 
@@ -63,6 +68,7 @@ class Settings_Menu_Module_Model
 
 	public function getMenuName($row, $settings = false)
 	{
+		$name ='';
 		switch ($row['type']) {
 			case 0: $name = empty($row['label']) ? $row['name'] : $row['label'];
 				break;
@@ -111,16 +117,18 @@ class Settings_Menu_Module_Model
 		return $url;
 	}
 
+	/**
+	 * Module list.
+	 *
+	 * @return array
+	 */
 	public function getModulesList()
 	{
-		$notInParam = "('Home','Reports','OSSMail','Portal','Rss')";
-		$query = (new \App\Db\Query())->select('tabid, name')->from('vtiger_tab')
+		return (new \App\Db\Query())->select('tabid, name')->from('vtiger_tab')
 			->where(['not in', 'name', ['Users', 'ModComments']])
-			->andWhere(['or', 'isentitytype = 1', "name IN $notInParam"])
-			->orderBy('name');
-		$dataReader = $query->createCommand()->query();
-		$modules = $dataReader->readAll();
-		return $modules;
+			->andWhere(['or', ['isentitytype' => 1], ['name' => ['Home', 'OSSMail', 'Portal', 'Rss']]])
+			->orderBy('name')
+			->all();
 	}
 
 	public static function getLastId()
@@ -128,18 +136,20 @@ class Settings_Menu_Module_Model
 		$maxSequence = (new \App\Db\Query())
 			->from('yetiforce_menu')
 			->max('id');
+
 		return (int) $maxSequence;
 	}
 
 	/**
-	 * Function to get all filters
+	 * Function to get all filters.
+	 *
 	 * @return array
 	 */
 	public function getCustomViewList()
 	{
 		$filters = (new \App\Db\Query())->select('cvid, viewname, entitytype, vtiger_tab.tabid')
-				->from('vtiger_customview')
-				->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')->all();
+			->from('vtiger_customview')
+			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')->all();
 		foreach (Vtiger_Module_Model::getAll() as $module) {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $module->get('name') . DIRECTORY_SEPARATOR . 'filters';
 			if (file_exists($filterDir)) {

@@ -1,9 +1,10 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 	registerGenetateButton: function (container) {
 		var thisInstance = this;
-		container.find('button.genetateButton').on('click', function (e) {
+		container.find('button.js-genetate-button').on('click', function (e) {
 			document.progressLoader = jQuery.progressIndicator({
 				message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 				position: 'html',
@@ -27,24 +28,21 @@ jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 					method: method.val()
 				};
 				params.dataType = 'json';
-				AppConnector.request(params).then(
-						function (data) {
-							var response = data['result'];
-							if (data['success']) {
-								var records = response.ok;
-								thisInstance.summary(container, response);
-								document.progressLoader.progressIndicator({'mode': 'hide'});
-								if (method.val() == 1) {
-									for (var i in records) {
-										var win = window.open(actionUrl + records[i], '_blank');
-									}
-								}
+				AppConnector.request(params).done(function (data) {
+					var response = data['result'];
+					if (data['success']) {
+						var records = response.ok;
+						thisInstance.summary(container, response);
+						document.progressLoader.progressIndicator({'mode': 'hide'});
+						if (method.val() == 1) {
+							for (var i in records) {
+								var win = window.open(actionUrl + records[i], '_blank');
 							}
-						},
-						function (data, err) {
-							app.errorLog(data, err);
 						}
-				);
+					}
+				}).fail(function (data, err) {
+					app.errorLog(data, err);
+				});
 			}
 		});
 	},
@@ -56,7 +54,7 @@ jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 	},
 	registerEvents: function () {
 		var container = jQuery('.generateMappingModal');
-		app.showPopoverElementView(container.find('.popoverTooltip'));
+		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 		this.registerGenetateButton(container);
 	}
 

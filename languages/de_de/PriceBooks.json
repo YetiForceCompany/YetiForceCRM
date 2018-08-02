@@ -1,0 +1,15 @@
+{
+  "php": {
+    "LBL_ADD_TO": "Hinzuf\u00fcgen zu",
+    "LBL_EDIT_LIST_PRICE": "Listenpreis bearbeiten",
+    "LBL_PRICEBOOK_INFORMATION": "Einzelheiten der Preisliste",
+    "LBL_UNIT_PRICE": "St\u00fcckpreis",
+    "Price Book Name": "Preislisten Name",
+    "PriceBook No": "Preislisten Nummer",
+    "PriceBooks": "Preislisten",
+    "SINGLE_PriceBooks": "Preisliste",
+    "yes": "Ja",
+    "no": "Nein",
+    "Unit Price": "Preis\/Einheit"
+  }
+}

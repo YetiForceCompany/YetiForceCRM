@@ -1,56 +1,56 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="widget_header row">
-	<div class="col-xs-12">
+	<div class="col-12">
 		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 	</div>
 </div>
 {if ($CHECKCRON[0]['status'] == 0 ) || !$CHECKCRON || ($CHECKCRON[1]['status'] == 0)}
-	<div class="alert alert-block alert-warning fade in" style="margin-left: 10px;">
+	<div class="alert alert-block alert-warning">
 		<button type="button" class="close" data-dismiss="alert">×</button>
 		<h4 class="alert-heading">{\App\Language::translate('OSSMailScanner', 'OSSMailScanner')} - {\App\Language::translate('Alert_active_cron', 'OSSMailScanner')}</h4>
 		<p>{\App\Language::translate('Alert_active_cron_desc', 'OSSMailScanner')}</p>
 		<p>
-			<a class="btn btn-default" href="index.php?module=CronTasks&parent=Settings&view=List">{\App\Language::translate('Scheduler','Settings:Vtiger')}</a>
+			<a class="btn btn-light" role="button" href="index.php?module=CronTasks&parent=Settings&view=List">{\App\Language::translate('Scheduler','Settings:Vtiger')}</a>
 		</p>
 	</div>	
 {/if}
 {if ( $CHECKCRON[1]['frequency'] * 2) > $CHECKCRON[0]['frequency']}
-	<div class="alert alert-block alert-warning fade in" style="margin-left: 10px;">
+	<div class="alert alert-block alert-warning">
 		<button type="button" class="close" data-dismiss="alert">×</button>
 		<h4 class="alert-heading">{\App\Language::translate('OSSMailScanner', 'OSSMailScanner')} - {\App\Language::translate('Alert_active_crontime', 'OSSMailScanner')}</h4>
 		<p>{\App\Language::translate('Alert_active_crontime_desc', 'OSSMailScanner')}</p>
 		<p>
-			<a class="btn btn-default" href="index.php?module=CronTasks&parent=Settings&view=List">{\App\Language::translate('Scheduler','Settings:Vtiger')}</a>
+			<a class="btn btn-light" role="button" href="index.php?module=CronTasks&parent=Settings&view=List">{\App\Language::translate('Scheduler','Settings:Vtiger')}</a>
 		</p>
 	</div>	
 {/if}
 <ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
-    <li class="active"><a href="#tab_accounts" data-toggle="tab">{\App\Language::translate('E-mail Accounts', 'OSSMailScanner')} </a></li>
-    <li><a href="#tab_actions" data-toggle="tab">{\App\Language::translate('Actions', 'OSSMailScanner')}</a></li>
-    <li><a href="#tab_email_search" data-toggle="tab">{\App\Language::translate('General Configuration', 'OSSMailScanner')}</a></li>  
-    <li><a href="#tab_record_numbering" data-toggle="tab">{\App\Language::translate('Record Numbering', 'OSSMailScanner')}</a></li>
-	<li><a href="#exceptions" data-toggle="tab">{\App\Language::translate('LBL_EXCEPTIONS', 'OSSMailScanner')}</a></li>
+    <li class="nav-item"><a class="nav-link active" href="#tab_accounts" data-toggle="tab">{\App\Language::translate('E-mail Accounts', 'OSSMailScanner')} </a></li>
+    <li class="nav-item"><a class="nav-link" href="#tab_actions" data-toggle="tab">{\App\Language::translate('Actions', 'OSSMailScanner')}</a></li>
+    <li class="nav-item"><a class="nav-link" href="#tab_email_search" data-toggle="tab">{\App\Language::translate('General Configuration', 'OSSMailScanner')}</a></li>  
+    <li class="nav-item"><a class="nav-link" href="#tab_record_numbering" data-toggle="tab">{\App\Language::translate('Record Numbering', 'OSSMailScanner')}</a></li>
+	<li class="nav-item"><a class="nav-link" href="#exceptions" data-toggle="tab">{\App\Language::translate('LBL_EXCEPTIONS', 'OSSMailScanner')}</a></li>
 </ul>
 <div id="my-tab-content" class="tab-content marginTop20">
     <div class='editViewContainer tab-pane active' id="tab_accounts">
         <div class="alert alert-info">{\App\Language::translate('Alert_info_tab_accounts', 'OSSMailScanner')}</div>
         {if $ERRORNOMODULE}
-            <div class="alert alert-block alert-warning fade in">
+            <div class="alert alert-block alert-warning">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <h4 class="alert-heading">{\App\Language::translate('OSSMail', 'OSSMail')} - {\App\Language::translate('Alert_no_module_title', 'OSSMailScanner')}</h4>
                 <p>{\App\Language::translate('Alert_no_module_desc', 'OSSMailScanner')}</p>
                 <p>
-                    <a class="btn btn-danger" href="index.php?module=ModuleManager&parent=Settings&view=List">{\App\Language::translate('LBL_STUDIO','Settings:Vtiger')}</a>
-                    <a class="btn btn-default" href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1">{\App\Language::translate('LBL_IMPORT_MODULE_FROM_FILE','Settings:ModuleManager')}</a>
+                    <a class="btn btn-danger" role="button" href="index.php?module=ModuleManager&parent=Settings&view=List">{\App\Language::translate('LBL_STUDIO','Settings:Vtiger')}</a>
+                    <a class="btn btn-light" role="button" href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1">{\App\Language::translate('LBL_IMPORT_MODULE_FROM_FILE','Settings:ModuleManager')}</a>
                 </p>
             </div>	
         {/if}
         {if $ACCOUNTS_LIST eq false}
-            <div class="alert alert-block alert-warning fade in">
+            <div class="alert alert-block alert-warning">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <h4 class="alert-heading">{\App\Language::translate('OSSMail', 'OSSMail')} - {\App\Language::translate('Alert_no_accounts_title', 'OSSMailScanner')}</h4>
                 <p>{\App\Language::translate('Alert_no_accounts_desc', 'OSSMailScanner')}</p>
-                <p><a class="btn btn-default" href="index.php?module=OSSMail&view=Index">{\App\Language::translate('OSSMail','OSSMail')}</a></p>
+                <p><a class="btn btn-light" role="button" href="index.php?module=OSSMail&view=Index">{\App\Language::translate('OSSMail','OSSMail')}</a></p>
             </div>	
 		{else}
 			<table class="table tableRWD table-bordered">
@@ -101,19 +101,19 @@
 							<td class='scanerMailActionsButtons'>
 								<div class="btn-toolbar">
 									<div class="btn-group">
-										<button title="{\App\Language::translate('LBL_SHOW_ACCOUNT_DETAILS', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default expand-hide">
-											<span class="glyphicon glyphicon-chevron-down"></span>
+										<button title="{\App\Language::translate('LBL_SHOW_ACCOUNT_DETAILS', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-light expand-hide">
+											<span class="fas fa-chevron-down"></span>
 										</button>
-										<button title="{\App\Language::translate('LBL_EDIT_FOLDER_ACCOUNT', 'OSSMailScanner')}" type="button" data-user="{$row['user_id']}" class="btn btn-default editFolders">
-											<span class="glyphicon glyphicon-folder-open"></span>
+										<button title="{\App\Language::translate('LBL_EDIT_FOLDER_ACCOUNT', 'OSSMailScanner')}" type="button" data-user="{$row['user_id']}" class="btn btn-light editFolders">
+											<span class="fas fa-folder-open"></span>
 										</button>
-										<button title="{\App\Language::translate('LBL_DELETE_ACCOUNT', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default delate_accont">
-											<span class="glyphicon glyphicon-trash"></span>
+										<button title="{\App\Language::translate('LBL_DELETE_ACCOUNT', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-light delate_accont">
+											<span class="fas fa-trash-alt"></span>
 										</button>
 									</div>
 								</div>
 								{if empty($FOLDERS)}
-									<span class="label label-danger">{\App\Language::translate('ERR_NO_CONFIGURATION_FOLDERS', 'OSSMailScanner')}</span>
+									<span class="badge badge-danger">{\App\Language::translate('ERR_NO_CONFIGURATION_FOLDERS', 'OSSMailScanner')}</span>
 								{/if}
 							</td>
 						</tr>
@@ -224,7 +224,7 @@
 		</form>
     </div>
     <div class='editViewContainer tab-pane marginTop20' id="tab_record_numbering">
-        <div class="alert alert-info">{\App\Language::translate('Alert_info_tab_record_numbering', 'OSSMailScanner')} &nbsp; <a class="btn btn-info" href="index.php?module=Vtiger&parent=Settings&view=CustomRecordNumbering">{\App\Language::translate('ConfigCustomRecordNumbering','OSSMailScanner')}</a></div>	
+        <div class="alert alert-info">{\App\Language::translate('Alert_info_tab_record_numbering', 'OSSMailScanner')} &nbsp; <a class="btn btn-info" role="button" href="index.php?module=Vtiger&parent=Settings&view=CustomRecordNumbering">{\App\Language::translate('ConfigCustomRecordNumbering','OSSMailScanner')}</a></div>
         <form id="EditView">
             <table class="table table-bordered">
                 <thead>
