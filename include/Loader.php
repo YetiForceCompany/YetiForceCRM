@@ -130,44 +130,40 @@ class Vtiger_Loader
 				$firstFallBackClassPath = str_replace(':', '_', $baseModule);
 			}
 		}
-		// Build module specific file path and class name
-		$moduleSpecificComponentFilePath = self::resolveNameToPath('modules.' . $moduleDir . '.' . $componentTypeDirectory . '.' . $componentName);
-		$moduleSpecificComponentClassName = $moduleClassPath . '_' . $componentName . '_' . $componentType;
-		if (file_exists($moduleSpecificComponentFilePath)) {
-			return $moduleSpecificComponentClassName;
-		}
-
-		// Build first intermediate fall back file path and class name
-		if (!empty($firstFallBackDir) && !empty($firstFallBackClassPath)) {
-			$fallBackComponentFilePath = self::resolveNameToPath('modules.' . $firstFallBackDir . '.' . $componentTypeDirectory . '.' . $componentName);
-			$fallBackComponentClassName = $firstFallBackClassPath . '_' . $componentName . '_' . $componentType;
-
-			if (file_exists($fallBackComponentFilePath)) {
-				return $fallBackComponentClassName;
-			}
-		}
-
-		// Build intermediate fall back file path and class name
-		if (!empty($secondFallBackModuleDir) && !empty($secondFallBackModuleClassPath)) {
-			$fallBackComponentFilePath = self::resolveNameToPath('modules.' . $secondFallBackModuleDir . '.' . $componentTypeDirectory . '.' . $componentName);
-			$fallBackComponentClassName = $secondFallBackModuleClassPath . '_' . $componentName . '_' . $componentType;
-
-			if (file_exists($fallBackComponentFilePath)) {
-				return $fallBackComponentClassName;
-			}
-		}
-
-		// Build fall back file path and class name
-		$fallBackComponentFilePath = self::resolveNameToPath('modules.' . $fallBackModuleDir . '.' . $componentTypeDirectory . '.' . $componentName);
-		$fallBackComponentClassName = $fallBackModuleClassPath . '_' . $componentName . '_' . $componentType;
-		if (file_exists($fallBackComponentFilePath)) {
-			return $fallBackComponentClassName;
-		}
-
-		// Try to search in other predefined directories
+		// search for file in all predefined directories
 		foreach (static::$loaderDirs as $dir) {
-			if (file_exists(self::resolveNameToPath($dir . $moduleDir . '.' . $componentTypeDirectory . '.' . $componentName))) {
+			// Build module specific file path and class name
+			$moduleSpecificComponentFilePath = self::resolveNameToPath($dir . $moduleDir . '.' . $componentTypeDirectory . '.' . $componentName);
+			$moduleSpecificComponentClassName = $moduleClassPath . '_' . $componentName . '_' . $componentType;
+			if (file_exists($moduleSpecificComponentFilePath)) {
 				return $moduleSpecificComponentClassName;
+			}
+
+			// Build first intermediate fall back file path and class name
+			if (!empty($firstFallBackDir) && !empty($firstFallBackClassPath)) {
+				$fallBackComponentFilePath = self::resolveNameToPath($dir . $firstFallBackDir . '.' . $componentTypeDirectory . '.' . $componentName);
+				$fallBackComponentClassName = $firstFallBackClassPath . '_' . $componentName . '_' . $componentType;
+
+				if (file_exists($fallBackComponentFilePath)) {
+					return $fallBackComponentClassName;
+				}
+			}
+
+			// Build intermediate fall back file path and class name
+			if (!empty($secondFallBackModuleDir) && !empty($secondFallBackModuleClassPath)) {
+				$fallBackComponentFilePath = self::resolveNameToPath($dir . $secondFallBackModuleDir . '.' . $componentTypeDirectory . '.' . $componentName);
+				$fallBackComponentClassName = $secondFallBackModuleClassPath . '_' . $componentName . '_' . $componentType;
+
+				if (file_exists($fallBackComponentFilePath)) {
+					return $fallBackComponentClassName;
+				}
+			}
+
+			// Build fall back file path and class name
+			$fallBackComponentFilePath = self::resolveNameToPath($dir . $fallBackModuleDir . '.' . $componentTypeDirectory . '.' . $componentName);
+			$fallBackComponentClassName = $fallBackModuleClassPath . '_' . $componentName . '_' . $componentType;
+			if (file_exists($fallBackComponentFilePath)) {
+				return $fallBackComponentClassName;
 			}
 		}
 
