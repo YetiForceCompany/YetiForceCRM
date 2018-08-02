@@ -7,11 +7,8 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 	 */
 	loadInvoiceData(container) {
 		const invoiceidInput = container.find('[name="finvoiceid"]');
-		if (invoiceidInput.length === 0) {
-			return false;
-		}
-		const form = this.getForm();
 		if (invoiceidInput.length && invoiceidInput.val()) {
+			const form = this.getForm();
 			const progressLoader = $.progressIndicator({'blockInfo': {'enabled': true}});
 			AppConnector.request({
 				module: 'FCorectingInvoice',
