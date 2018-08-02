@@ -17,7 +17,7 @@ class FCorectingInvoice_GetProductsAndServices_Action extends Vtiger_BasicAjax_A
 		if ($request->isEmpty('record', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!\App\Privilege::isPermitted('FInvoice', 'DetailView', $request->getInteger('record'))) {
+		if (!\App\Privilege::isPermitted('FInvoice', null, $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
