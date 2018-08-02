@@ -466,13 +466,13 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		window.location.href = link + '&search_params=[[' + searchParams + ']]';
 	},
 	registerAddButton: function () {
-		const thisInstance = this;
-		$('.calendarViewContainer').closest('.mainContainer').find('.addButton').on('click', function (e) {
-			thisInstance.getCalendarCreateView().done(function (data) {
+		const self = this;
+		$('.js-add').on('click', (e) => {
+			self.getCalendarCreateView().done((data) => {
 				const headerInstance = new Vtiger_Header_Js();
 				headerInstance.handleQuickCreateData(data, {
-					callbackFunction: function (data) {
-						thisInstance.addCalendarEvent(data.result);
+					callbackFunction: (data) => {
+						self.addCalendarEvent(data.result);
 					}
 				});
 			});
