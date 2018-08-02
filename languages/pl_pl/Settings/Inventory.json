@@ -40,7 +40,7 @@
     "LBL_VIEW_TAXCONFIGURATION": "Konfiguracja podatk\u00f3w",
     "LBL_VIEW_DISCOUNTCONFIGURATION": "Konfiguracja rabat\u00f3w",
     "LBL_VIEW_DISCOUNTS": "Lista rabat\u00f3w",
-    "LBL_ALERT_TAX_CONFIG_TITLE": "Opis ustawień podatków:",
+    "LBL_ALERT_TAX_CONFIG_TITLE": "Opis ustawie\u0144 podatk\u00f3w:",
     "LBL_ALERT_TAX_CONFIG_DESC": "Typ sumowania:\r\nSumarycznie:\r\n- \u0141\u0105czna suma wszystkich podatk\u00f3w liczona od warto\u015bci produktu\/us\u0142ugi.\r\n[Przyk\u0142ad]\r\nJe\u017celi wybrane s\u0105 dwa podatki: pierwszy 23%%, drugi 8%%. To system sumuje warto\u015b\u0107 obydwu podatk\u00f3w od pierwotnej kwoty netto.\r\nW powy\u017cszym przyk\u0142adzie dla warto\u015bci netto 100z\u0142. Kwota brutto wyniesie = (100z\u0142 * 1,31) = 131,00 z\u0142\r\n\r\nKaskadowo:\r\n- Kwota podatku naliczana jest ka\u017cdorazowo od warto\u015bci produktu\/us\u0142ugi.\r\n[Przyk\u0142ad]\r\nJe\u017celi wybrane s\u0105 dwa podatki: pierwszy 23%%, drugi 8%%. To system oblicza warto\u015b\u0107 dla pierwszego podatku a nast\u0119pnie ta kwota podnoszona jest o warto\u015b\u0107 drugiego podatku.\r\nW powy\u017cszym przyk\u0142adzie dla warto\u015bci netto 100z\u0142. Kwota brutto wyniesie = (100z\u0142 * 1,23) * 1,08 = 132,84 z\u0142\r\n\r\nOpis ustawie\u0144 podatk\u00f3w:\r\nPodatek z listy dost\u0119pnych podatk\u00f3w:\r\n- Okre\u015blany w ustawieniach modu\u0142\u00f3w zaawansowanych.\r\nPodatek z listy produkt\u00f3w\/us\u0142ug:\r\n- Ustawiany dla produktu indywidualnie w module Produkty.\r\nPodatek niestandardowy:\r\n- Okre\u015blany jednorazowo dla wybranego rekordu.\r\nPodatek kontrahenta:\r\n- Ustawiany indywidualnie dla wybranego klienta."
   },
   "js": {

@@ -7,7 +7,7 @@
     "Accounts": "Kontrahenci",
     "Acquired": "Nabyty",
     "Active": "Aktywny",
-    "DetailView": "Widok Szczegółowy",
+    "DetailView": "Widok Szczeg\u00f3\u0142owy",
     "Activities": "Kalendarz",
     "Add Comment": "Dodaj komentarz",
     "Add Note": "Dodaj dokument",
@@ -1577,9 +1577,9 @@
     "JS_H_LONG": "godzin",
     "JS_M_LONG": "minut",
     "JS_S_LONG": "sekund",
-    "JS_APPLY": "Potwierdź",
+    "JS_APPLY": "Potwierd\u017a",
     "JS_CANCEL": "Anuluj",
-    "JS_CLEAR": "Wyczyść",
+    "JS_CLEAR": "Wyczy\u015b\u0107",
     "JS_FROM": "Od",
     "JS_TO": "Do",
     "JS_DELETE": "Usu\u0144",
@@ -1589,12 +1589,12 @@
     "JS_FILE_UPLOAD_ERROR": "Nie uda\u0142o si\u0119 wgra\u0107 pliku na serwer",
     "JS_INVALID_FILE_HASH": "Nieprawid\u0142owy hash pliku",
     "JS_DOWNLOAD": "Pobierz",
-    "JS_INVALID_FILE_TYPE": "Nieprawid\u0142wy typ pliku",
-    "JS_AVAILABLE_FILE_TYPES": "Dost\u0119pne typy plików to",
+    "JS_INVALID_FILE_TYPE": "Nieprawid\u0142owy typ pliku",
+    "JS_AVAILABLE_FILE_TYPES": "Dost\u0119pne typy plik\u00f3w to",
     "JS_FILE_LIMIT": "Maksymalna liczba plik\u00F3w zosta\u0142a przekroczona",
     "JS_WAIT_FOR_FILE_UPLOAD": "Poczekaj na uko\u0144czenie wysy\u0142ania plik\u00F3w",
 	  "JS_ERROR_MAX_VALUE": "Wprowadzono warto\u015b\u0107 poza dozwolonym zakresem",
     "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Zmie\u0144 nazw\u0119 firmy. Nazwa firmy YetiForce jest zastrze\u017Cona.",
-    "JS_SELECT_OR_WRITE_AND_PRESS_ENTER": "Wybierz wartość z listy lub wpisz w\u0142asn\u0105 i naci\u015bnij enter"
+    "JS_SELECT_OR_WRITE_AND_PRESS_ENTER": "Wybierz warto\u015b\u0107 z listy lub wpisz w\u0142asn\u0105 i naci\u015bnij enter"
   }
 }
