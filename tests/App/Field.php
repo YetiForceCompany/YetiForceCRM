@@ -59,10 +59,14 @@ class Field extends \Tests\Base
 	 *
 	 * @dataProvider relationModulesProvider
 	 */
-	public function testGetRelatedFieldForModulePair($relatedId, $moduleId)
+	public function testGetRelatedFieldForModulePair($forModuleId, $moduleId)
 	{
-		$result = \App\Field::getRelatedFieldForModule(\App\Module::getModuleName($moduleId), \App\Module::getModuleName($relatedId));
-		$this->assertInternalType('array', $result, 'Relation list should be array type');
+		$result0 = \App\Field::getRelatedFieldForModule(\App\Module::getModuleName($moduleId), \App\Module::getModuleName($forModuleId));
+		$this->assertInternalType('array', $result0, 'Relation list should be array type');
+		$result1 = \App\Field::getRelatedFieldForModule(false, \App\Module::getModuleName($forModuleId));
+		$this->assertInternalType('array', $result1, 'Relation list should be array type');
+		$result2 = \App\Field::getRelatedFieldForModule(\App\Module::getModuleName($moduleId), false);
+		$this->assertInternalType('array', $result2, 'Relation list should be array type');
 	}
 
 	/**
