@@ -85,25 +85,45 @@
 
 			> {
 				.imageContainer {
-					width: 40px;
+					width: 30px;
+
+					> {
+						.userImage {
+							margin: 0 auto;
+							width: 30px;
+							height: 30px;
+							padding: 2px;
+							border: 2px solid #d2d6de;
+							font-size: 32px;
+						}
+
+						@include media-breakpoint-up(sm) {
+							.userImage {
+								width: 40px;
+								height: 40px;
+							}
+						}
+					}
 				}
 
 				.timeline-body {
 					padding-right: 10px;
-					padding-left: 44px;
+					padding-left: 0;
+					font-size: 0.7em;
+				}
+				@include media-breakpoint-up(sm) {
+					.imageContainer {
+						width: 40px;
+					}
+
+					.timeline-body {
+						padding-left: 44px;
+						font-size: 1em;
+					}
 				}
 			}
 		}
 	}
-}
-
-.timeline .userImage, .commentInfoHeader .userImage {
-	margin: 0 auto;
-	width: 40px;
-	height: 40px;
-	padding: 2px;
-	border: 2px solid #d2d6de;
-	font-size: 32px;
 }
 
 .PreferenceDetailViewHeader {
