@@ -14,6 +14,8 @@ class Purifier extends \Tests\Base
 	/**
 	 * Provide data for purifyByType test cases.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return array
 	 */
 	public function dataProviderByType()
