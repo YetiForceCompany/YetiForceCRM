@@ -22,6 +22,8 @@ class Custom_NumberToWords extends \Tests\Base
 	/**
 	 * integerNumberToWords tests data provider.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return array
 	 */
 	public function int2wordProvider()
@@ -70,6 +72,8 @@ class Custom_NumberToWords extends \Tests\Base
 
 	/**
 	 * Provide test data for process function.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return array
 	 */
