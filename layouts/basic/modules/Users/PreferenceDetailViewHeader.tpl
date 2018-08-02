@@ -36,14 +36,13 @@
 			</div>
 		</div>
 		<div class="mr-0 pl-1 py-3 mt-2 detailViewButtoncontainer d-flex justify-content-center">
-			<div class="btn-toolbar btn-group">
-				{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}
-					{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic'}
-				{/foreach}
-
-				{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
-					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') TEXT_HOLDER='LBL_MORE' LINKS=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']}
-				{/if}
+			<div class="btn-group btn-toolbar flex-md-nowrap u-w-sm-down-100">
+					{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}
+						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic' CLASS='c-btn-link--responsive'}
+					{/foreach}
+					{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
+						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') TEXT_HOLDER='LBL_MORE' LINKS=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC'] CLASS='c-btn-link--responsive'}
+					{/if}
 			</div>
 		</div>
 	</div>
