@@ -4,7 +4,7 @@
 	@include media-breakpoint-up(lg) {
 		float: left;
 		position: relative;
-		height: 600px;
+		min-height: 600px;
 		padding-left: 0;
 		overflow: hidden;
 	}
