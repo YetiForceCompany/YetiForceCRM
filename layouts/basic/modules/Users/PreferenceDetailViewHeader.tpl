@@ -41,7 +41,7 @@
 						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic' CLASS='c-btn-link--responsive'}
 					{/foreach}
 					{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
-						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') TEXT_HOLDER='LBL_MORE' LINKS=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC'] CLASS='c-btn-link--responsive'}
+						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') TEXT_HOLDER='LBL_MORE' LINKS=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC'] CLASS='c-btn-link--responsive btn-group' BTN_CLASS=' btn-outline-dark'}
 					{/if}
 			</div>
 		</div>
