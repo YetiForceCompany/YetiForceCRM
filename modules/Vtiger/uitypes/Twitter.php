@@ -29,8 +29,8 @@ class Vtiger_Twitter_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$twitter = '@' . parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
-		return "<a href=\"https://twitter.com/{$twitter}\">{$twitter}</a>";
+		$twitter = parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
+		return "<a href=\"https://twitter.com/{$twitter}\" target='_blank'>@{$twitter}</a>";
 	}
 
 	/**
