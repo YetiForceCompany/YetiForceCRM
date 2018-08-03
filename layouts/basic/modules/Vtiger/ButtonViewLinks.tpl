@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if count($LINKS) gt 0}
-		{if !empty($BTN_ICON) && !empty($TEXT_HOLDER)}
+		{if empty($BTN_ICON) && empty($TEXT_HOLDER)}
 			{assign var=TEXT_HOLDER value=''}
 			{foreach item=LINK from=$LINKS}
 				{assign var=LINK_PARAMS value=vtlib\Functions::getQueryParams($LINK->getUrl())}
