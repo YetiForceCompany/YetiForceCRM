@@ -1170,8 +1170,8 @@ jQuery.Class("Vtiger_List_Js", {
 	/*
 	 * Function to register the event for changing the custom Filter
 	 */
-	registerChangeCustomFilterEvent (event) {
-		if($(`.nav-item[data-cvid='${this.getCurrentCvId()}'] .nav-link`).tab('show').length === 0) {
+	registerChangeCustomFilterEvent(event) {
+		if ($(`.nav-item[data-cvid='${this.getCurrentCvId()}'] .nav-link`).tab('show').length === 0) {
 			$('.js-filter-tab .active').removeClass('active');
 		}
 		var target = $(event.currentTarget);
@@ -1192,7 +1192,7 @@ jQuery.Class("Vtiger_List_Js", {
 		//Make total number of pages as empty
 		jQuery('#totalPageCount').text("");
 		$('.pagination').data('totalCount', 0);
-		this.getListViewRecords(urlParams).done(() =>{
+		this.getListViewRecords(urlParams).done(() => {
 			this.breadCrumbsFilter(selectOption.text());
 			this.ListViewPostOperation();
 			this.updatePagination(1);
@@ -1483,12 +1483,30 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 	},
 	/*
+	 * Function to generate filter actions template
+	 */
+	appendFilterActionsTemplate: function (liElement) {
+		var currentOptionElement = this.getSelectOptionFromChosenOption(liElement);
+		let template = $(`<span class="d-none filterActionImgs float-right">
+					<span title="${app.vtranslate('JS_DUPLICATE')}" data-value="duplicate"
+						  class="fas fa-retweet mr-1 duplicateFilter ${$("#createFilter").length !== 0 ? '' : 'd-none'}"></span>
+					<span title="${app.vtranslate('JS_EDIT')}" data-value="edit"
+						  class="fas fa-pencil-alt mr-1 editFilter ${currentOptionElement.data('editable') === 1 ? '' : 'd-none'}"></span>
+					<span title="${app.vtranslate('JS_DELETE')}" data-value="delete"
+						  class="fas fa-trash-alt mr-1 deleteFilter ${currentOptionElement.data('deletable') === 1 ? '' : 'd-none'}"></span>
+					<span title="${app.vtranslate('JS_DENY')}" data-value="deny"
+						  class="fas fa-exclamation-circle mr-1 denyFilter ${currentOptionElement.data('public') === 1 ? '' : 'd-none'}"></span>
+					<span title="${app.vtranslate('JS_APPROVE')}" data-value="approve"
+						  class="fas fa-check mr-1 approveFilter ${currentOptionElement.data('pending') === 1 ? '' : 'd-none'}"></span>
+				</span>`);
+		template.appendTo(liElement);
+	},
+	/*
 	 * Function to register the hover event for customview filter options
 	 */
 	registerCustomFilterOptionsHoverEvent: function () {
 		var thisInstance = this;
-		var listViewTopMenuDiv = this.getListViewTopMenuContainer();
-		var filterBlock = this.getFilterBlock()
+		var filterBlock = this.getFilterBlock();
 		if (filterBlock != false) {
 			filterBlock.on('mouseenter mouseleave', 'li.select2-results__option[role="treeitem"]', function (event) {
 				var liElement = $(event.currentTarget);
@@ -1496,41 +1514,10 @@ jQuery.Class("Vtiger_List_Js", {
 				if (liElement.hasClass('group-result')) {
 					return;
 				}
-
-				if (event.type === 'mouseenter') {
-					if (liFilterImages.length > 0) {
-						liFilterImages.show();
-					} else {
-						thisInstance.performFilterImageActions(liElement);
-					}
-
-				} else {
-					liFilterImages.hide();
+				if (event.type === 'mouseenter' && liFilterImages.length === 0) {
+					thisInstance.appendFilterActionsTemplate(liElement);
 				}
 			});
-		}
-	},
-	performFilterImageActions: function (liElement) {
-		jQuery('.filterActionImages').clone(true, true).removeClass('filterActionImages').addClass('filterActionImgs').appendTo(liElement).removeClass('d-none');
-		var currentOptionElement = this.getSelectOptionFromChosenOption(liElement);
-		var deletable = currentOptionElement.data('deletable');
-		if (deletable != '1') {
-			liElement.find('.deleteFilter').remove();
-		}
-		var editable = currentOptionElement.data('editable');
-		if (editable != '1') {
-			liElement.find('.editFilter').remove();
-		}
-		var pending = currentOptionElement.data('pending');
-		if (pending != '1') {
-			liElement.find('.approveFilter').remove();
-		}
-		var approve = currentOptionElement.data('public');
-		if (approve != '1') {
-			liElement.find('.denyFilter').remove();
-		}
-		if ($("#createFilter").length == 0) {
-			liElement.find('.duplicateFilter').remove();
 		}
 	},
 	/*
