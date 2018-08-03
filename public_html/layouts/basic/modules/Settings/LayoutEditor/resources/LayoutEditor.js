@@ -149,7 +149,16 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				data.on('change', '.target', function (e) {
 					var currentTarget = $(e.currentTarget);
 					data.find('.relLabel').val(currentTarget.find('option:selected').val());
-				})
+				});
+				data.find('[name="type"]').on('change',function(){
+					if($(this).val() === 'getAttachments'){
+						data.find('[name="target"] option').not('[value="Documents"]').addClass('d-none');
+						App.Fields.Picklist.showSelect2ElementView(data.find('[name="target"]'));
+					} else {
+						data.find('[name="target"] option').removeClass('d-none');
+						App.Fields.Picklist.showSelect2ElementView(data.find('[name="target"]'));
+					}
+				});
 				data.on('click', '.addButton', function (e) {
 					var form = data.find('form').serializeFormData();
 					var params = {};

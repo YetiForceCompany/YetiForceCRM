@@ -176,6 +176,7 @@
     "LBL_DATE_DESC": "",
     "LBL_PICKLIST": "Lista wyboru",
     "LBL_PICKLIST_DESC": "",
+    "LBL_WRONG_RELATION": "Nieprawid\u0142owa warto\u015b\u0107 relacji",
     "Image": "Plik graficzny",
     "MultiImage": "Pliki graficzne (wiele)",
     "DateTime": "Pole daty i czasu"
