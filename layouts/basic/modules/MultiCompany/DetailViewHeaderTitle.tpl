@@ -4,6 +4,9 @@
 		<div class="col-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
 				<span class="o-detail__icon js-detail__icon u-cursor-pointer userIcon-{$MODULE}"></span>
+				{if AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
+					<span class="hierarchy"></span>
+				{/if}
 			</div>
 			<div class="paddingLeft5px">
 				<h4 class="recordLabel u-text-ellipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
@@ -19,9 +22,6 @@
 								{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}
 							{/if}
 						</span>
-					{/if}
-					{if AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
-						<span class="hierarchy"></span>
 					{/if}
 				</h4>
 				{assign var=PARENTID value=$RECORD->get('parent_id')}
