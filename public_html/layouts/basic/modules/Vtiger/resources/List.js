@@ -1376,7 +1376,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		var listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].duplicateFilter', function (event) {
+			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].js-filter-duplicate', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
@@ -1394,7 +1394,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		var listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].editFilter', function (event) {
+			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].js-filter-edit', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
@@ -1414,7 +1414,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
 			//used mouseup event to stop the propagation of customfilter select change event.
-			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].deleteFilter', function (event) {
+			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].js-filter-delete', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
@@ -1442,7 +1442,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewFilterBlock = this.getFilterBlock();
 
 		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].approveFilter', function (event) {
+			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].js-filter-approve', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
@@ -1466,7 +1466,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		var listViewFilterBlock = this.getFilterBlock();
 		if (listViewFilterBlock != false) {
-			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].denyFilter', function (event) {
+			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].js-filter-deny', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
@@ -1486,18 +1486,18 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function to generate filter actions template
 	 */
 	appendFilterActionsTemplate: function (liElement) {
-		var currentOptionElement = this.getSelectOptionFromChosenOption(liElement);
-		let template = $(`<span class="d-none filterActionImgs float-right">
-					<span title="${app.vtranslate('JS_DUPLICATE')}" data-value="duplicate"
-						  class="fas fa-retweet mr-1 duplicateFilter ${$("#createFilter").length !== 0 ? '' : 'd-none'}"></span>
-					<span title="${app.vtranslate('JS_EDIT')}" data-value="edit"
-						  class="fas fa-pencil-alt mr-1 editFilter ${currentOptionElement.data('editable') === 1 ? '' : 'd-none'}"></span>
-					<span title="${app.vtranslate('JS_DELETE')}" data-value="delete"
-						  class="fas fa-trash-alt mr-1 deleteFilter ${currentOptionElement.data('deletable') === 1 ? '' : 'd-none'}"></span>
-					<span title="${app.vtranslate('JS_DENY')}" data-value="deny"
-						  class="fas fa-exclamation-circle mr-1 denyFilter ${currentOptionElement.data('public') === 1 ? '' : 'd-none'}"></span>
-					<span title="${app.vtranslate('JS_APPROVE')}" data-value="approve"
-						  class="fas fa-check mr-1 approveFilter ${currentOptionElement.data('pending') === 1 ? '' : 'd-none'}"></span>
+		let currentOptionElement = this.getSelectOptionFromChosenOption(liElement);
+		let template = $(`<span class="js-filter-actions o-filter-actions float-right">
+					<span title="${app.vtranslate('JS_DUPLICATE')}" data-value="duplicate" data-js="click"
+						  class="fas fa-retweet mr-1 js-filter-duplicate ${$("#createFilter").length !== 0 ? '' : 'd-none'}"></span>
+					<span title="${app.vtranslate('JS_EDIT')}" data-value="edit" data-js="click"
+						  class="fas fa-pencil-alt mr-1 js-filter-edit ${currentOptionElement.data('editable') === 1 ? '' : 'd-none'}"></span>
+					<span title="${app.vtranslate('JS_DELETE')}" data-value="delete" data-js="click"
+						  class="fas fa-trash-alt mr-1 js-filter-delete ${currentOptionElement.data('deletable') === 1 ? '' : 'd-none'}"></span>
+					<span title="${app.vtranslate('JS_DENY')}" data-value="deny" data-js="click"
+						  class="fas fa-exclamation-circle mr-1 js-filter-deny ${currentOptionElement.data('public') === 1 ? '' : 'd-none'}"></span>
+					<span title="${app.vtranslate('JS_APPROVE')}" data-value="approve" data-js="click"
+						  class="fas fa-check mr-1 js-filter-approve ${currentOptionElement.data('pending') === 1 ? '' : 'd-none'}"></span>
 				</span>`);
 		template.appendTo(liElement);
 	},
@@ -1505,17 +1505,16 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function to register the hover event for customview filter options
 	 */
 	registerCustomFilterOptionsHoverEvent: function () {
-		var thisInstance = this;
 		var filterBlock = this.getFilterBlock();
 		if (filterBlock != false) {
-			filterBlock.on('mouseenter mouseleave', 'li.select2-results__option[role="treeitem"]', function (event) {
-				var liElement = $(event.currentTarget);
-				var liFilterImages = liElement.find('.filterActionImgs');
+			filterBlock.on('mouseenter mouseleave', 'li.select2-results__option[role="treeitem"]', (event) => {
+				let liElement = $(event.currentTarget);
+				let liFilterImages = liElement.find('.js-filter-actions');
 				if (liElement.hasClass('group-result')) {
 					return;
 				}
 				if (event.type === 'mouseenter' && liFilterImages.length === 0) {
-					thisInstance.appendFilterActionsTemplate(liElement);
+					this.appendFilterActionsTemplate(liElement);
 				}
 			});
 		}
