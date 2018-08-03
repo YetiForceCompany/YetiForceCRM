@@ -80,10 +80,14 @@ class Custom_NumberToWords extends \Tests\Base
 	public function processProvider()
 	{
 		return [
-			[0.01, 'zero zł jeden gr'],
-			[15, 'piętnaście zł zero gr'],
-			[115.50, 'sto piętnaście zł pięćdziesiąt gr'],
-			[2115.50, 'dwa tysiące sto piętnaście zł pięćdziesiąt gr'],
+			[0.01, 'zero zł jeden gr', 'pl_pl'],
+			[0.01, 'zero zł one gr', 'en_us'],
+			[15, 'piętnaście zł zero gr', 'pl_pl'],
+			[15, 'fifteen zł zero gr', 'en_us'],
+			[115.50, 'sto piętnaście zł pięćdziesiąt gr', 'pl_pl'],
+			[115.50, 'hundred fifteen zł fifty gr', 'en_us'],
+			[2115.50, 'dwa tysiące sto piętnaście zł pięćdziesiąt gr', 'pl_pl'],
+			[2115.50, 'two thousand hundred fifteen zł fifty gr', 'en_us'],
 		];
 	}
 
@@ -94,10 +98,18 @@ class Custom_NumberToWords extends \Tests\Base
 	 *
 	 * @param number $amount
 	 * @param string $expected
+	 * @param string $langTmp
 	 */
-	public function testProcess($amount, $expected)
+	public function testProcess($amount, $expected, $langTmp)
 	{
+		$langSys = \App\Language::getLanguage();
+		if ($langSys !==$langTmp) {
+			\App\Language::setTemporaryLanguage($langTmp);
+		}
 		$this->assertSame($expected, \App\Custom\NumberToWords::process($amount), 'Expected amount ' . $amount . ' translates to ' . $expected);
+		if ($langSys !== $langTmp) {
+			\App\Language::setTemporaryLanguage($langSys);
+		}
 	}
 
 	/**
