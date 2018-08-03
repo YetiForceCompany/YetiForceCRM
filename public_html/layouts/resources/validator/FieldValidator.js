@@ -1032,10 +1032,10 @@ Vtiger_Base_Validator_Js("Vtiger_Twitter_Validator_Js", {
 	 * @param accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
-	invokeValidation: function (field, rules, i, options) {
-		var validatorInstance = new Vtiger_Twitter_Validator_Js();
+	invokeValidation(field, rules, i, options) {
+		let validatorInstance = new Vtiger_Twitter_Validator_Js();
 		validatorInstance.setElement(field);
-		var result = validatorInstance.validate();
+		let result = validatorInstance.validate();
 		if (result == true) {
 			return result;
 		} else {
@@ -1050,10 +1050,10 @@ Vtiger_Base_Validator_Js("Vtiger_Twitter_Validator_Js", {
 	 * @return true if validation is successfull
 	 * @return false if validation error occurs
 	 */
-	validate: function () {
-		var fieldValue = this.getFieldValue();
+	validate() {
+		let fieldValue = this.getFieldValue();
 		if ( !fieldValue.match(/^[a-zA-Z0-9_]{1,15}$/g ) ){
-			var errorInfo = app.vtranslate("JS_PLEASE_ENTER_VALID_TWITTER_ACCOUNT");
+			let errorInfo = app.vtranslate("JS_PLEASE_ENTER_VALID_TWITTER_ACCOUNT");
 			this.setError(errorInfo);
 			return false;
 		}
