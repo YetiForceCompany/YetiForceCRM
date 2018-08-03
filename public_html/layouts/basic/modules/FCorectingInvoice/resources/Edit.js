@@ -123,7 +123,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 	 * prevent popovers to show/hide block
 	 */
 	registerPopoverClick() {
-		this.getForm().find('.js-popover-tooltip').on('click', (e) => {
+		this.getForm().find('.c-panel__header .js-popover-tooltip').on('click', (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 		});
