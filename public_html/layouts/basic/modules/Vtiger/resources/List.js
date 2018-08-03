@@ -1171,7 +1171,9 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function to register the event for changing the custom Filter
 	 */
 	registerChangeCustomFilterEvent (event) {
-		$(`.nav-item[data-cvid='${this.getCurrentCvId()}'] .nav-link`).tab('show');
+		if($(`.nav-item[data-cvid='${this.getCurrentCvId()}'] .nav-link`).tab('show').length === 0) {
+			$('.js-filter-tab .active').removeClass('active');
+		}
 		var target = $(event.currentTarget);
 		var selectOption = target.is('option') ? target : $(`#filterOptionId_${event.currentTarget.id.split('-').pop()}`);
 		app.setMainParams('pageNumber', '1');
@@ -1205,6 +1207,11 @@ jQuery.Class("Vtiger_List_Js", {
 		this.getFilterSelectElement().on('click', 'option', this.registerChangeCustomFilterEvent.bind(this));
 		// event triggered by tab filter click
 		this.getFilterBlock().on('mouseup', 'li .select2-results__option', this.registerChangeCustomFilterEvent.bind(this));
+		this.getListViewTopMenuContainer().find('.js-filter-tab').on('click', (e) => {
+			const cvId = $(e.currentTarget).data('cvid');
+			this.getFilterSelectElement().find(`[value=${cvId}]`).trigger('click');
+			this.getFilterSelectElement().val(cvId).trigger('change');
+		});
 	},
 	breadCrumbsFilter: function (text) {
 		var breadCrumbs = jQuery('.breadcrumbsContainer');
@@ -1787,15 +1794,6 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 		}
 	},
-	registerFeaturedElementsEvent: function () {
-		var thisInstance = this;
-		var listViewTopMenuDiv = this.getListViewTopMenuContainer();
-		listViewTopMenuDiv.on('click', '.featuredLabel', function (e) {
-			var cvId = jQuery(this).data('cvid');
-			thisInstance.getFilterSelectElement().find(`[value=${cvId}]`).trigger('click');
-			thisInstance.getFilterSelectElement().val(cvId).trigger('change');
-		});
-	},
 	triggerDisplayTypeEvent: function () {
 		var widthType = app.cacheGet('widthType', 'narrowWidthType');
 		if (widthType) {
@@ -2029,7 +2027,6 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerListScroll(listViewContainer);
 		this.getListSearchInstance(false);
 		this.registerListViewSpecialOption();
-		this.registerFeaturedElementsEvent();
 		this.registerUnreviewedCountEvent();
 		this.registerLastRelationsEvent();
 		app.showPopoverElementView(listViewContainer.find('.js-popover-tooltip'));

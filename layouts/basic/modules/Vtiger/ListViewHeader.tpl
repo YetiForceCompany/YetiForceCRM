@@ -105,11 +105,11 @@
 				{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 					{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 						{if $CUSTOM_VIEW->isFeatured()}
-							<li class="nav-item featuredLabel c-tab--small font-weight-bold"
-								data-cvid="{$CUSTOM_VIEW->getId()}">
+							<li class="nav-item js-filter-tab c-tab--small font-weight-bold"
+								data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
 								<a class="nav-link{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}" href="#"
 								   {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if}
-								   data-toggle="tab" role="tab" aria-selected="false">
+								   data-toggle="tab" role="tab" aria-selected="{if $VIEWID == $CUSTOM_VIEW->getId()}true{else}false{/if}">
 									{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 									{if $CUSTOM_VIEW->get('description')}
 										&nbsp;
