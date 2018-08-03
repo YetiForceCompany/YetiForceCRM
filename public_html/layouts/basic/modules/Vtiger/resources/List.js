@@ -1176,6 +1176,7 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 		var target = $(event.currentTarget);
 		var selectOption = target.is('option') ? target : $(`#filterOptionId_${event.currentTarget.id.split('-').pop()}`);
+		$('#select2-customFilter-container span').contents().last().replaceWith(selectOption.text());
 		app.setMainParams('pageNumber', '1');
 		app.setMainParams('pageToJump', '1');
 		app.setMainParams('orderBy', selectOption.data('orderby'));
@@ -1203,13 +1204,16 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function to register the event listeners for changing the custom Filter
 	 */
 	registerChangeCustomFilterEventListeners() {
+		this.getFilterSelectElement().off('change');
 		// select change event must be replaced by click to avoid triggering while clicking on options' buttons
 		this.getFilterSelectElement().on('click', 'option', this.registerChangeCustomFilterEvent.bind(this));
 		// event triggered by tab filter click
 		this.getFilterBlock().on('mouseup', 'li .select2-results__option', this.registerChangeCustomFilterEvent.bind(this));
 		this.getListViewTopMenuContainer().find('.js-filter-tab').on('click', (e) => {
 			const cvId = $(e.currentTarget).data('cvid');
-			this.getFilterSelectElement().find(`[value=${cvId}]`).trigger('click');
+			let selectOption = this.getFilterSelectElement().find(`[value=${cvId}]`);
+			selectOption.trigger('click');
+			$('#select2-customFilter-container span').contents().last().replaceWith(selectOption.text());
 			this.getFilterSelectElement().val(cvId).trigger('change');
 		});
 	},
