@@ -13,11 +13,6 @@
 	<div class="col-md-12 pr-0 row">
 		<div class="col-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
-				{if AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
-					<span class="hierarchy">
-						<span class="badge {if $RECORD->get('active')} bgGreen {else} bgOrange {/if}"></span>
-					</span>
-				{/if}
 				<span class="o-detail__icon js-detail__icon u-cursor-pointer userIcon-{$MODULE}"></span>
 			</div>
 			<div class="paddingLeft5px">
@@ -33,6 +28,11 @@
 							{else}
 								{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}
 							{/if}
+						</span>
+					{/if}
+					{if AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
+						<span class="hierarchy">
+							<span class="badge {if $RECORD->get('active')} bgGreen {else} bgOrange {/if}"></span>
 						</span>
 					{/if}
 				</h4>

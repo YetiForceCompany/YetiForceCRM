@@ -3,9 +3,6 @@
 	<div class="col-md-12 pr-0 row">
 		<div class="col-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
-				<span class="hierarchy">
-
-				</span>
 				<span class="o-detail__icon js-detail__icon u-cursor-pointer userIcon-{$MODULE}"></span>
 			</div>
 			<div class="paddingLeft5px">
@@ -23,6 +20,7 @@
 							{/if}
 						</span>
 					{/if}
+					<span class="hierarchy"></span>
 				</h4>
 				<span class="muted">
 					{\App\Language::translate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}

@@ -3,11 +3,6 @@
 	<div class="col-md-12 pr-0 row">
 		<div class="col-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
-				{if AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
-					<span class="hierarchy">
-
-					</span>
-				{/if}
 				<span class="o-detail__icon js-detail__icon u-cursor-pointer userIcon-{$MODULE}"></span>
 			</div>
 			<div class="paddingLeft5px">
@@ -24,6 +19,9 @@
 								{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}
 							{/if}
 						</span>
+					{/if}
+					{if AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
+						<span class="hierarchy"></span>
 					{/if}
 				</h4>
 				{assign var=RELATED_TO value=$RECORD->get('related_to')}
