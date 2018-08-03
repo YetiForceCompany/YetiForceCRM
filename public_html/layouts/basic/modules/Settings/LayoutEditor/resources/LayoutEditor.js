@@ -950,14 +950,8 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		var contents = $('#layoutEditorContainer').find('.contents');
 		contents.on('click', 'li.blockVisibility', function (e) {
 			var currentTarget = $(e.currentTarget);
-			var oldDisplayStatus = currentTarget.data('visible');
-			if (oldDisplayStatus == '0') {
-				currentTarget.find('.fa-check').removeClass('d-none');
-				currentTarget.data('visible', '1');
-			} else {
-				currentTarget.find('.fa-check').addClass('d-none');
-				currentTarget.data('visible', '0');
-			}
+			currentTarget.parent().find('li.blockVisibility .fa-check').addClass('d-none');
+			currentTarget.find('.fa-check').removeClass('d-none');
 			thisInstance.updateBlockStatus(currentTarget);
 		})
 	},
@@ -987,6 +981,8 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			var params = {};
 			if (blockStatus == '1') {
 				params['text'] = app.vtranslate('JS_BLOCK_VISIBILITY_SHOW');
+			} else if(blockStatus == '2'){
+				params['text'] = app.vtranslate('JS_BLOCK_VISIBILITY_DYNAMIC');
 			} else {
 				params['text'] = app.vtranslate('JS_BLOCK_VISIBILITY_HIDE');
 			}

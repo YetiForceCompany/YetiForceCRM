@@ -306,12 +306,6 @@ CREATE TABLE `com_vtiger_workflowtasks_entitymethod_seq` (
   `id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `com_vtiger_workflowtasks_seq` */
-
-CREATE TABLE `com_vtiger_workflowtasks_seq` (
-  `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `com_vtiger_workflowtemplates` */
 
 CREATE TABLE `com_vtiger_workflowtemplates` (
