@@ -283,6 +283,7 @@ class Module
 				$newbuf .= 'return ' . Utils::varExport($moduleMeta) . ";\n";
 				fwrite($handle, $newbuf);
 				fclose($handle);
+				Cache::resetFileCache($filename);
 			} else {
 				Log::error("The file $filename is not writable");
 			}

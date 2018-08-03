@@ -9,10 +9,10 @@
 	{/if}
 	{if $TIME_FIELD}
 		<div class="tpl-Edit-Field-Date form-row">
-			<div class="col-7">
+			<div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-3 mb-sm-0"">
 				{include file=\App\Layout::getTemplatePath('Edit/Field/Date.tpl', 'Vtiger') BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$FIELD_MODEL}
 			</div>
-			<div class="col-5">
+			<div class="col-12 col-sm-6 col-md-6 col-lg-6">
 				{include file=\App\Layout::getTemplatePath('Edit/Field/Time.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$TIME_FIELD SKIP=true}
 			</div>
 		</div>

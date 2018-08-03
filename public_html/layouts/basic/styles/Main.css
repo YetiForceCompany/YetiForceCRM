@@ -9783,16 +9783,6 @@ html, body, .o-base-container {
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   ::i-block-chrome, ::i-block-chrome {
     top: -4px; } }
-.basePanel, .bodyContents, .mainContainer, .contentsDiv {
-  min-height: 100%; }
-
-.bodyContent {
-  min-height: 100%;
-  height: 100%;
-  margin-top: 0;
-  padding-top: 0;
-  padding-bottom: 15px; }
-
 .companyLogoContainer {
   display: block;
   width: 48px;
@@ -10384,10 +10374,6 @@ html, body, .o-base-container {
 .marginTop20 {
   margin-top: 20px !important; }
 
-.detailViewIcon {
-  font-size: 48px;
-  padding: 10px; }
-
 .tag {
   margin-right: 5px;
   border-bottom-left-radius: 15px;
@@ -10516,8 +10502,8 @@ select.form-control {
 
 .detailViewTitle .hierarchy {
   position: absolute;
-  top: 0;
-  left: 60px; }
+  top: -12px;
+  left: 50px; }
 
 .indexContainer {
   padding-top: 10px;
@@ -10721,9 +10707,6 @@ select.form-control {
   width: calc(25% - 50px); }
 .leftPanelOpen .toggleSiteBarRightButton {
   right: calc(25% - 50px); }
-
-.detailViewIcon.fa {
-  display: inline; }
 
 .addWidgetDropDown.dropdown-menu > li {
   display: flex;
@@ -11035,6 +11018,9 @@ select[readonly], select[disabled] {
 @media (max-width: 575.98px) {
   .u-w-xs-down-100 {
     width: 100%; } }
+.u-max-w-150px {
+  max-width: 150px; }
+
 .u-h-600px {
   height: 600px !important; }
 
@@ -11043,6 +11029,9 @@ select[readonly], select[disabled] {
 
 .u-h-120px {
   height: 7.5rem; }
+
+.u-h-fit {
+  height: fit-content !important; }
 
 .u-white-space-nowrap {
   white-space: nowrap !important; }
@@ -11120,6 +11109,20 @@ select[readonly], select[disabled] {
   opacity: 0.2; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.basePanel, .bodyContents, .mainContainer, .contentsDiv {
+  min-height: 100%; }
+
+.bodyContent {
+  min-height: 100%;
+  height: 100%;
+  margin-top: 0;
+  padding-top: 0;
+  padding-bottom: 15px; }
+  @media (max-width: 575.98px) {
+    .bodyContent {
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch; } }
+
 .openStreetMapModalBody .input-group {
   flex-wrap: nowrap; }
 
@@ -11238,6 +11241,9 @@ select[readonly], select[disabled] {
       .leftRecordActions .actions .dropdown-menu .btn-group {
         vertical-align: top; }
 
+@media (max-width: 575.98px) {
+  table td {
+    padding: 0.25rem !important; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
   color: #212529;
@@ -11327,6 +11333,9 @@ select[readonly], select[disabled] {
       width: 100%;
       border-radius: 0.25rem !important;
       white-space: normal; } }
+
+.input-group > .input-group-append > .btn-light {
+  border-color: #dee2e6; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 input[type=checkbox] {
@@ -13574,7 +13583,6 @@ label.btn.btn-outline-primary:not(.active) {
     position: fixed;
     left: auto;
     right: -100%;
-    max-height: calc(100vh - 50px);
     width: 100%;
     color: #fff;
     background-color: #f2f4f6;
@@ -14092,6 +14100,12 @@ label.btn.btn-outline-primary:not(.active) {
     .js-calendar-switch-container .btn-group:last-child {
       margin-left: 0.5rem !important; } }
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.o-detail__icon {
+  font-size: 3rem;
+  margin-right: 0.625rem; }
+  .o-detail__icon.fa {
+    display: inline; }
+
 .detailViewTable .fieldLabel.medium, .detailViewTable .fieldValue.medium {
   padding: 10px;
   min-height: 40px; }
@@ -14145,18 +14159,28 @@ label.btn.btn-outline-primary:not(.active) {
       padding: 0;
       position: relative; }
       .timeline > li .timeline-item > .imageContainer {
-        width: 40px; }
+        width: 30px; }
+        .timeline > li .timeline-item > .imageContainer > .userImage {
+          margin: 0 auto;
+          width: 30px;
+          height: 30px;
+          padding: 2px;
+          border: 2px solid #d2d6de;
+          font-size: 32px; }
+        @media (min-width: 576px) {
+          .timeline > li .timeline-item > .imageContainer > .userImage {
+            width: 40px;
+            height: 40px; } }
       .timeline > li .timeline-item > .timeline-body {
         padding-right: 10px;
-        padding-left: 44px; }
-
-.timeline .userImage, .commentInfoHeader .userImage {
-  margin: 0 auto;
-  width: 40px;
-  height: 40px;
-  padding: 2px;
-  border: 2px solid #d2d6de;
-  font-size: 32px; }
+        padding-left: 0;
+        font-size: 0.7em; }
+      @media (min-width: 576px) {
+        .timeline > li .timeline-item > .imageContainer {
+          width: 40px; }
+        .timeline > li .timeline-item > .timeline-body {
+          padding-left: 44px;
+          font-size: 1em; } }
 
 .c-detail-widget__header {
   background: inherit; }
@@ -14296,23 +14320,24 @@ label.btn.btn-outline-primary:not(.active) {
   border-left: 5px solid #ddd; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.c-list-preview {
-  float: left;
-  position: relative;
-  height: 600px;
-  padding-left: 0;
-  overflow: hidden; }
-  .c-list-preview__content {
+@media (min-width: 992px) {
+  .c-list-preview {
+    float: left;
     position: relative;
-    height: max-content; }
-    .c-list-preview__content #recordsList {
-      padding-left: 0;
-      padding-right: 0;
-      float: none; }
-    .c-list-preview__content .listViewSummation td {
-      padding: 0; }
-  .c-list-preview [class^="modCT"] {
-    pointer-events: none; }
+    min-height: 600px;
+    padding-left: 0;
+    overflow: hidden; } }
+.c-list-preview__content {
+  position: relative;
+  height: max-content; }
+  .c-list-preview__content #recordsList {
+    padding-left: 0;
+    padding-right: 0;
+    float: none; }
+  .c-list-preview__content .listViewSummation td {
+    padding: 0; }
+.c-list-preview [class^="modCT"] {
+  pointer-events: none; }
 
 .c-detail-preview {
   float: right;
@@ -14381,7 +14406,7 @@ label.btn.btn-outline-primary:not(.active) {
 .relatedContents .c-side-block--right {
   right: 7px; }
 
-@media only screen and (max-width: 992px) {
+@media (max-width: 991.98px) {
   .c-detail-preview {
     padding-left: 0;
     padding-right: 0;
@@ -14389,7 +14414,9 @@ label.btn.btn-outline-primary:not(.active) {
     height: 100%; }
 
   .c-list-preview {
-    position: static;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    max-height: 200px;
     padding-left: 0;
     padding-right: 0; }
     .c-list-preview__content {

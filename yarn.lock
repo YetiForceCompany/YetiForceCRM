@@ -127,9 +127,9 @@ chartjs-color@^2.1.0:
     chartjs-color-string "^0.5.0"
     color-convert "^0.5.3"
 
-chartjs-plugin-datalabels@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/chartjs-plugin-datalabels/-/chartjs-plugin-datalabels-0.3.0.tgz#f739a9a200a1cffb23206855bda5056c2ad6fca9"
+chartjs-plugin-datalabels@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/chartjs-plugin-datalabels/-/chartjs-plugin-datalabels-0.4.0.tgz#97ed2b3dd2f2b8f0b6ca084e450c8da567faea75"
 
 chartjs-plugin-funnel@^1.1.2:
   version "1.1.2"
@@ -365,9 +365,9 @@ pnotify@^4.0.0-alpha.2:
   version "4.0.0-alpha.4"
   resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.0-alpha.4.tgz#3d5ab2906fdb24ed58f060014c148378a4508608"
 
-popper.js@^1.12.9:
-  version "1.14.3"
-  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.3.tgz#1438f98d046acf7b4d78cd502bf418ac64d4f095"
+popper.js@^1.14.4:
+  version "1.14.4"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.4.tgz#8eec1d8ff02a5a3a152dd43414a15c7b79fd69b6"
 
 respond.js@^1.4.2:
   version "1.4.2"

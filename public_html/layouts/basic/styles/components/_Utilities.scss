@@ -184,6 +184,10 @@
 		width: 100%;
 	}
 }
+
+.u-max-w-150px {
+	max-width: 150px;
+}
 //--- HEIGHT ---//
 .u-h-600px {
 	height: 600px !important;
@@ -195,6 +199,10 @@
 
 .u-h-120px{
 	height: $h-modal-logo;
+}
+
+.u-h-fit {
+	height: fit-content !important;
 }
 
 //--- WHITE SPACE ---//

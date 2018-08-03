@@ -356,11 +356,25 @@ jQuery.Class("Reservations_Calendar_Js", {
 			thisInstance.loadCalendarData();
 		});
 	},
+	registerAddButton: function () {
+		const self = this;
+		$('.js-add').on('click', (e) => {
+			self.getCalendarCreateView().done((data) => {
+				const headerInstance = new Vtiger_Header_Js();
+				headerInstance.handleQuickCreateData(data, {
+					callbackFunction: (data) => {
+						self.addCalendarEvent(data.result);
+					}
+				});
+			});
+		});
+	},
 	registerEvents: function () {
 		this.registerCalendar();
 		this.loadCalendarData(true);
 		this.registerChangeView();
 		this.registerButtonSelectAll();
 		this.registerRefreshEvent();
+		this.registerAddButton();
 	}
 });

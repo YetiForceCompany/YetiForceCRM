@@ -306,12 +306,6 @@ CREATE TABLE `com_vtiger_workflowtasks_entitymethod_seq` (
   `id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `com_vtiger_workflowtasks_seq` */
-
-CREATE TABLE `com_vtiger_workflowtasks_seq` (
-  `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `com_vtiger_workflowtemplates` */
 
 CREATE TABLE `com_vtiger_workflowtemplates` (
@@ -4103,7 +4097,7 @@ CREATE TABLE `vtiger_blocks` (
   KEY `block_tabid_idx` (`tabid`),
   KEY `block_sequence_idx` (`sequence`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=436 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=437 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -5420,7 +5414,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2767 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2769 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -9074,7 +9068,7 @@ CREATE TABLE `vtiger_users` (
   `user_preferences` text DEFAULT NULL,
   `authy_methods` varchar(255) DEFAULT NULL,
   `authy_secret_totp` varchar(255) DEFAULT NULL,
-  `login_method` varchar(50) DEFAULT 'PLL_PASSWORD',
+  `login_method` varchar(255) DEFAULT 'PLL_PASSWORD',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),

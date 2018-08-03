@@ -125,7 +125,6 @@ class NumberToWords
 			[$septendecillion, $septendecillions, $septendecillionss],
 			[$novemdecillion, $novemdecillions, $novemdecillionss],
 		];
-
 		self::$words = $words;
 	}
 
@@ -185,17 +184,14 @@ class NumberToWords
 	public static function process($amount, $currencyName = 'zł', $centName = 'gr')
 	{
 		self::initialize();
-
 		if (!is_numeric($amount)) {
-			throw new \Exception('Nieprawidłowa kwota');
+			throw new \Exception('ERR_ILLEGAL_VALUE');
 		}
-
 		$amountString = number_format($amount, 2, '.', '');
 		list($bigAmount, $smallAmount) = explode('.', $amountString);
 
 		$bigAmount = static::integerNumberToWords($bigAmount) . ' ' . $currencyName . ' ';
 		$smallAmount = static::integerNumberToWords($smallAmount) . ' ' . $centName;
-
 		return self::clear($bigAmount . $smallAmount);
 	}
 
