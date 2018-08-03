@@ -10502,8 +10502,8 @@ select.form-control {
 
 .detailViewTitle .hierarchy {
   position: absolute;
-  top: 0;
-  left: 60px; }
+  top: -12px;
+  left: 50px; }
 
 .indexContainer {
   padding-top: 10px;
@@ -11018,6 +11018,9 @@ select[readonly], select[disabled] {
 @media (max-width: 575.98px) {
   .u-w-xs-down-100 {
     width: 100%; } }
+.u-max-w-150px {
+  max-width: 150px; }
+
 .u-h-600px {
   height: 600px !important; }
 
@@ -11330,6 +11333,9 @@ select[readonly], select[disabled] {
       width: 100%;
       border-radius: 0.25rem !important;
       white-space: normal; } }
+
+.input-group > .input-group-append > .btn-light {
+  border-color: #dee2e6; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 input[type=checkbox] {
@@ -13577,7 +13583,6 @@ label.btn.btn-outline-primary:not(.active) {
     position: fixed;
     left: auto;
     right: -100%;
-    max-height: calc(100vh - 50px);
     width: 100%;
     color: #fff;
     background-color: #f2f4f6;
