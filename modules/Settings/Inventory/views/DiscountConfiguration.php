@@ -37,10 +37,13 @@ class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Inde
 	{
 		$view = $this->getView();
 		$translations = [];
-		$translations['title'] = 'LBL_' . strtoupper($view);
-		$translations['title_single'] = 'LBL_' . strtoupper($view) . '_SINGLE';
-		$translations['description'] = 'LBL_' . strtoupper($view) . '_DESCRIPTION';
-
+		if ($view === 'DiscountConfiguration') {
+			$translations['title'] = 'LBL_' . strtoupper($view);
+			$translations['description'] = 'LBL_' . strtoupper($view) . '_DESCRIPTION';
+		} else {
+			$translations['title'] = 'LBL_ALERT_TAX_CONFIG_TITLE';
+			$translations['description'] = 'LBL_ALERT_TAX_CONFIG_DESC';
+		}
 		return $translations;
 	}
 
