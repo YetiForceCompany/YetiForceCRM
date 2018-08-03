@@ -115,28 +115,28 @@ jQuery.Class("Vtiger_List_Js", {
 				"data": {}
 			};
 			AppConnector.request(actionParams).done(
-					function (data) {
-						progressIndicatorElement.progressIndicator({mode: 'hide'});
-						if (data) {
-							var callback = function (data) {
-								var params = app.validationEngineOptions;
-								params.onValidationComplete = function (form, valid) {
-									if (valid) {
-										thisInstance.transferOwnershipSave(form)
-									}
-									return false;
+				function (data) {
+					progressIndicatorElement.progressIndicator({mode: 'hide'});
+					if (data) {
+						var callback = function (data) {
+							var params = app.validationEngineOptions;
+							params.onValidationComplete = function (form, valid) {
+								if (valid) {
+									thisInstance.transferOwnershipSave(form)
 								}
-								data.find('#changeOwner').validationEngine(app.validationEngineOptions);
+								return false;
 							}
-							app.showModalWindow(data, function (data) {
-								var selectElement = thisInstance.getRelatedModuleContainer();
-								App.Fields.Picklist.changeSelectElementView(selectElement, 'select2');
-								if (typeof callback == 'function') {
-									callback(data);
-								}
-							});
+							data.find('#changeOwner').validationEngine(app.validationEngineOptions);
 						}
+						app.showModalWindow(data, function (data) {
+							var selectElement = thisInstance.getRelatedModuleContainer();
+							App.Fields.Picklist.changeSelectElementView(selectElement, 'select2');
+							if (typeof callback == 'function') {
+								callback(data);
+							}
+						});
 					}
+				}
 			);
 		} else {
 			listInstance.noRecordSelectedAlert();
@@ -209,19 +209,19 @@ jQuery.Class("Vtiger_List_Js", {
 			'related_modules': relatedModules
 		}
 		AppConnector.request(params).done(
-				function (data) {
-					if (data.success) {
-						app.hideModalWindow();
-						var params = {
-							title: app.vtranslate('JS_MESSAGE'),
-							text: app.vtranslate('JS_RECORDS_TRANSFERRED_SUCCESSFULLY'),
-							type: 'info'
-						};
-						Vtiger_Helper_Js.showPnotify(params);
-						listInstance.getListViewRecords();
-						Vtiger_List_Js.clearList();
-					}
+			function (data) {
+				if (data.success) {
+					app.hideModalWindow();
+					var params = {
+						title: app.vtranslate('JS_MESSAGE'),
+						text: app.vtranslate('JS_RECORDS_TRANSFERRED_SUCCESSFULLY'),
+						type: 'info'
+					};
+					Vtiger_Helper_Js.showPnotify(params);
+					listInstance.getListViewRecords();
+					Vtiger_List_Js.clearList();
 				}
+			}
 		);
 	},
 	/*
@@ -469,20 +469,20 @@ jQuery.Class("Vtiger_List_Js", {
 					}
 				});
 				AppConnector.request(url).done(
-						function (data) {
-							progressIndicatorElement.progressIndicator({
-								'mode': 'hide'
-							});
-							if (data.result) {
-								var params = {
-									text: data.result,
-									type: 'info'
-								}
-								Vtiger_Helper_Js.showPnotify(params);
-							} else {
-								listInstance.getListViewRecords();
+					function (data) {
+						progressIndicatorElement.progressIndicator({
+							'mode': 'hide'
+						});
+						if (data.result) {
+							var params = {
+								text: data.result,
+								type: 'info'
 							}
-						}).fail(function (error, err) {
+							Vtiger_Helper_Js.showPnotify(params);
+						} else {
+							listInstance.getListViewRecords();
+						}
+					}).fail(function (error, err) {
 					app.errorLog(error, err);
 				});
 			}).fail(function (error, err) {
@@ -715,25 +715,25 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 		});
 		AppConnector.request(massActionUrl).done(
-				function (data) {
-					progressIndicatorElement.progressIndicator({
-						'mode': 'hide'
-					});
-					app.hideModalWindow();
-					if (!(data.result)) {
-						var params = {
-							text: app.vtranslate('JS_MASS_EDIT_NOT_SUCCESSFUL'),
-							type: 'info'
-						};
-						Vtiger_Helper_Js.showPnotify(params);
-					}
-					aDeferred.resolve(data);
-				}).fail(
-				function (error, err) {
-					app.hideModalWindow();
-					app.errorLog(error, err);
-					aDeferred.reject(error, err);
+			function (data) {
+				progressIndicatorElement.progressIndicator({
+					'mode': 'hide'
+				});
+				app.hideModalWindow();
+				if (!(data.result)) {
+					var params = {
+						text: app.vtranslate('JS_MASS_EDIT_NOT_SUCCESSFUL'),
+						type: 'info'
+					};
+					Vtiger_Helper_Js.showPnotify(params);
 				}
+				aDeferred.resolve(data);
+			}).fail(
+			function (error, err) {
+				app.hideModalWindow();
+				app.errorLog(error, err);
+				aDeferred.reject(error, err);
+			}
 		);
 		return aDeferred.promise();
 	},
@@ -1170,35 +1170,41 @@ jQuery.Class("Vtiger_List_Js", {
 	/*
 	 * Function to register the event for changing the custom Filter
 	 */
-	registerChangeCustomFilterEvent: function () {
-		var thisInstance = this;
-		this.getFilterSelectElement().on('change', function (event) {
-			$(`.nav-item[data-cvid='${thisInstance.getCurrentCvId()}'] .nav-link`).tab('show');
-			var currentTarget = jQuery(event.currentTarget);
-			var selectOption = currentTarget.find(':selected');
-			app.setMainParams('pageNumber', '1');
-			app.setMainParams('pageToJump', '1');
-			app.setMainParams('orderBy', selectOption.data('orderby'));
-			app.setMainParams('sortOrder', selectOption.data('sortorder'));
-			var urlParams = {
-				"viewname": jQuery(this).val(),
-				//to make alphabetic search empty
-				"search_key": thisInstance.getAlphabetSearchField(),
-				"search_value": "",
-				"search_params": ""
-			}
-			//Make the select all count as empty
-			jQuery('#recordsCount').val('');
-			//Make total number of pages as empty
-			jQuery('#totalPageCount').text("");
-			$('.pagination').data('totalCount', 0);
-			thisInstance.getListViewRecords(urlParams).done(function () {
-				thisInstance.breadCrumbsFilter(selectOption.text());
-				thisInstance.ListViewPostOperation();
-				thisInstance.updatePagination(1);
-			});
-			event.stopPropagation();
+	registerChangeCustomFilterEvent (event) {
+		$(`.nav-item[data-cvid='${this.getCurrentCvId()}'] .nav-link`).tab('show');
+		var target = $(event.currentTarget);
+		var selectOption = target.is('option') ? target : $(`#filterOptionId_${event.currentTarget.id.split('-').pop()}`);
+		app.setMainParams('pageNumber', '1');
+		app.setMainParams('pageToJump', '1');
+		app.setMainParams('orderBy', selectOption.data('orderby'));
+		app.setMainParams('sortOrder', selectOption.data('sortorder'));
+		var urlParams = {
+			"viewname": selectOption.val(),
+			//to make alphabetic search empty
+			"search_key": this.getAlphabetSearchField(),
+			"search_value": "",
+			"search_params": ""
+		}
+		//Make the select all count as empty
+		jQuery('#recordsCount').val('');
+		//Make total number of pages as empty
+		jQuery('#totalPageCount').text("");
+		$('.pagination').data('totalCount', 0);
+		this.getListViewRecords(urlParams).done(() =>{
+			this.breadCrumbsFilter(selectOption.text());
+			this.ListViewPostOperation();
+			this.updatePagination(1);
 		});
+		event.stopPropagation();
+	},
+	/*
+	 * Function to register the event listeners for changing the custom Filter
+	 */
+	registerChangeCustomFilterEventListeners() {
+		// select change event must be replaced by click to avoid triggering while clicking on options' buttons
+		this.getFilterSelectElement().on('click', 'option', this.registerChangeCustomFilterEvent.bind(this));
+		// event triggered by tab filter click
+		this.getFilterBlock().on('mouseup', 'li .select2-results__option', this.registerChangeCustomFilterEvent.bind(this));
 	},
 	breadCrumbsFilter: function (text) {
 		var breadCrumbs = jQuery('.breadcrumbsContainer');
@@ -1406,21 +1412,17 @@ jQuery.Class("Vtiger_List_Js", {
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
 				var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER');
-				Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(
-						function (e) {
-							var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
-							var deleteUrl = currentOptionElement.data('deleteurl');
-							var newEle = '<form action=' + deleteUrl + ' method="POST">';
-							if (typeof csrfMagicName !== "undefined") {
-								newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
-							}
-							newEle += '</form>';
-							var formElement = jQuery(newEle);
-							formElement.appendTo('body').submit();
-						},
-						function (error, err) {
-						}
-				);
+				Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
+					var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
+					var deleteUrl = currentOptionElement.data('deleteurl');
+					var newEle = '<form action=' + deleteUrl + ' method="POST">';
+					if (typeof csrfMagicName !== "undefined") {
+						newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
+					}
+					newEle += '</form>';
+					var formElement = jQuery(newEle);
+					formElement.appendTo('body').submit();
+				});
 				event.stopPropagation();
 			});
 		}
@@ -1790,6 +1792,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var listViewTopMenuDiv = this.getListViewTopMenuContainer();
 		listViewTopMenuDiv.on('click', '.featuredLabel', function (e) {
 			var cvId = jQuery(this).data('cvid');
+			thisInstance.getFilterSelectElement().find(`[value=${cvId}]`).trigger('click');
 			thisInstance.getFilterSelectElement().val(cvId).trigger('change');
 		});
 	},
@@ -1895,13 +1898,13 @@ jQuery.Class("Vtiger_List_Js", {
 			$.each(data, function (id, value) {
 				if (value.type) {
 					listViewContentDiv.find('tr[data-id="' + id + '"] .timeLineIconList').addClass(value.color + ' userIcon-' + value.type).parent().removeClass('d-none')
-							.on('click', function (e) {
-								var element = jQuery(e.currentTarget);
-								var url = element.data('url');
-								app.showModalWindow(null, url, function (data) {
-									Vtiger_Index_Js.registerMailButtons(data);
-								});
+						.on('click', function (e) {
+							var element = jQuery(e.currentTarget);
+							var url = element.data('url');
+							app.showModalWindow(null, url, function (data) {
+								Vtiger_Index_Js.registerMailButtons(data);
 							});
+						});
 				}
 			});
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
@@ -1963,9 +1966,9 @@ jQuery.Class("Vtiger_List_Js", {
 	registerListScroll: function (container) {
 		if (CONFIG.view !== 'ListPreview') {
 			const containerH = container.height(),
-					containerOffsetTop = container.offset().top,
-					footerH = $('.js-footer').height(),
-					windowH = $(window).height();
+				containerOffsetTop = container.offset().top,
+				footerH = $('.js-footer').height(),
+				windowH = $(window).height();
 			if ($(window).width() > app.breakpoints.sm) {
 				//if list is bigger than window fit its height to it
 				if ((containerH + containerOffsetTop + footerH) > windowH) {
@@ -2005,7 +2008,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerHeadersClickEvent();
 		this.registerMassActionSubmitEvent();
 		this.changeCustomFilterElementView();
-		this.registerChangeCustomFilterEvent();
+		this.registerChangeCustomFilterEventListeners();
 		this.registerChangeEntityStateEvent();
 		this.registerDuplicateFilterClickEvent();
 		this.registerEditFilterClickEvent();
