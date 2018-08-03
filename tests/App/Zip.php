@@ -30,7 +30,8 @@ class Zip extends \Tests\Base
 	public function testInstanceOpenFileNotExists()
 	{
 		$this->expectException(\App\Exceptions\AppException::class);
-		\App\Zip::openFile('tests/data/NxFile.zip');
+		$zip = \App\Zip::openFile('tests/data/NxFile.zip');
+		$zip->close();
 	}
 
 	/**
@@ -42,5 +43,68 @@ class Zip extends \Tests\Base
 	{
 		$instanceOpen = \App\Zip::openFile('tests/data/TestLinux.zip');
 		$this->assertInstanceOf('\App\Zip', $instanceOpen, 'Expected zip object instance');
+	}
+
+	/**
+	 * Testing linux file unzip.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function testUnzipLinuxFile()
+	{
+		$instanceOpen = \App\Zip::openFile('tests/data/TestLinux.zip');
+		$instanceOpen->unzip('tests/tmp/TestLinux/');
+		$this->assertFileExists('tests/tmp/TestLinux/manifest.xml');
+		$this->assertFileExists('tests/tmp/TestLinux/Languages/pl_pl/TestLinux.json');
+		$dir = 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'TestLinux';
+		$it = new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
+		$files = new \RecursiveIteratorIterator($it,
+			\RecursiveIteratorIterator::CHILD_FIRST);
+		foreach ($files as $file) {
+			if ($file->isDir()) {
+				rmdir($file->getRealPath());
+			} else {
+				unlink($file->getRealPath());
+			}
+		}
+		rmdir($dir);
+	}
+
+	/**
+	 * Testing linux file extract.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function testExtractLinuxFile()
+	{
+		$instanceOpen = \App\Zip::openFile('tests/data/TestLinux.zip');
+		$instanceOpen->extract('tests/tmp/TestLinux/');
+		$this->assertFileExists('tests/tmp/TestLinux/manifest.xml');
+		$this->assertFileExists('tests/tmp/TestLinux/Languages/pl_pl/TestLinux.json');
+		$dir = 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'TestLinux';
+		$it = new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
+		$files = new \RecursiveIteratorIterator($it,
+			\RecursiveIteratorIterator::CHILD_FIRST);
+		foreach ($files as $file) {
+			if ($file->isDir()) {
+				rmdir($file->getRealPath());
+			} else {
+				unlink($file->getRealPath());
+			}
+		}
+		rmdir($dir);
+	}
+
+	/**
+	 * Testing file creation in not existent directory.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function testCreateFileBadDir()
+	{
+		$zip = \App\Zip::createFile('tests/data/NxDir/NxFile.zip');
+		$zip->addFromString('filename.txt', '<minimal content>');
+		$this->assertFalse(@$zip->close());
+		$this->assertFileNotExists(\file_exists('tests/data/NxDir/NxFile.zip'));
 	}
 }
