@@ -107,7 +107,7 @@
 						{if $CUSTOM_VIEW->isFeatured()}
 							<li class="nav-item featuredLabel c-tab--small font-weight-bold"
 								data-cvid="{$CUSTOM_VIEW->getId()}">
-								<a class="nav-link" href="#"
+								<a class="nav-link{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}" href="#"
 								   {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if}
 								   data-toggle="tab" role="tab" aria-selected="false">
 									{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
