@@ -16,8 +16,8 @@
 				<span class="o-detail__icon js-detail__icon u-cursor-pointer userIcon-{$MODULE}"></span>
 				{if AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
 					<span class="hierarchy">
-							<span class="badge {if $RECORD->get('active')} bgGreen {else} bgOrange {/if}"></span>
-						</span>
+						<span class="badge {if $RECORD->get('active')} bgGreen {else} bgOrange {/if}"></span>
+					</span>
 				{/if}
 			</div>
 			<div class="paddingLeft5px">
