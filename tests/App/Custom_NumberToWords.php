@@ -98,18 +98,13 @@ class Custom_NumberToWords extends \Tests\Base
 	 *
 	 * @param number $amount
 	 * @param string $expected
-	 * @param string $langTmp
+	 * @param string $lang
 	 */
-	public function testProcess($amount, $expected, $langTmp)
+	public function testProcess($amount, $expected, $lang)
 	{
-		$langSys = \App\Language::getLanguage();
-		if ($langSys !==$langTmp) {
-			\App\Language::setTemporaryLanguage($langTmp);
-		}
+		\App\Language::setTemporaryLanguage($lang);
 		$this->assertSame($expected, \App\Custom\NumberToWords::process($amount), 'Expected amount ' . $amount . ' translates to ' . $expected);
-		if ($langSys !== $langTmp) {
-			\App\Language::setTemporaryLanguage($langSys);
-		}
+		\App\Language::clearTemporaryLanguage();
 	}
 
 	/**
