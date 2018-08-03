@@ -60,7 +60,10 @@
 .select2Wrapper {
 	width: 100%;
 }
-
+/* select2 selected option display bug fix after use hide class on options */
+.addRelationContainer span.select2-selection__rendered {
+	display:block !important;
+}
 header {
 	.o-global-search__input .select2-selection.select2-selection--single {
 		height: $h-menu-items !important;
