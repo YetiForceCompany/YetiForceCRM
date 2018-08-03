@@ -26,7 +26,7 @@
 			</button>
 			<div class="dropdown-menu">
 				{foreach item=LINK from=$LINKS}
-					{if $LINK_TYPE && $LINK_TYPE neq $LINK->getType()}
+					{if isset($LINK_TYPE) && $LINK_TYPE neq $LINK->getType()}
 						<li class="dropdown-divider"></li>
 					{/if}
 					{assign var="LINK_TYPE" value=$LINK->getType()}
