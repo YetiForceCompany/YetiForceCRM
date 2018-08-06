@@ -363,7 +363,7 @@ class CRMEntity
 					}
 					$dataReader->close();
 					if ($oldNumber != $sequenceNumber) {
-						\App\Fields\RecordNumber::updateNumber($sequenceNumber, $tabid);
+						\App\Fields\RecordNumber::updateNumber($sequenceNumber, $moduleData['cur_sequence'], $tabid);
 					}
 				}
 			} else {
