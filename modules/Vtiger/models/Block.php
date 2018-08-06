@@ -113,7 +113,7 @@ class Vtiger_Block_Model extends vtlib\Block
 	 */
 	public function isHidden()
 	{
-		if ((int) $this->get('display_status') === 0) {
+		if (0 === (int) $this->get('display_status')) {
 			return true;
 		}
 		return false;
@@ -126,7 +126,7 @@ class Vtiger_Block_Model extends vtlib\Block
 	 */
 	public function isDynamic()
 	{
-		if ((int) $this->get('display_status') === 2) {
+		if (2 === (int) $this->get('display_status')) {
 			return true;
 		}
 		return false;
