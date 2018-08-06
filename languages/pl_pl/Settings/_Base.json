@@ -149,6 +149,8 @@
     "LBL_MAIL_TOOLS": "Narz\u0119dzia pocztowe",
     "LBL_PASSWORD_CONF": "Has\u0142a - konfiguracja",
     "LBL_2FA_CONF": "Uwierzytelnianie wielopoziomowe (2FA)",
+    "LBL_SOCIAL_MEDIA": "Media spo\u0142eczno\u015bciowe",
+    "LBL_SOCIAL_MEDIA_DESC": "Media spo\u0142eczno\u015bciowe integracja",
     "LBL_PASSWORD_DESCRIPTION": "Ustaw z\u0142o\u017cono\u015bci has\u0142a dla u\u017cytkownik\u00f3w systemu",
     "LBL_ARRANGE_RELATED_TABS": "Modu\u0142y - wid\u017cety",
     "LBL_About_YetiForce": "O aplikacji",
