@@ -3,7 +3,10 @@
 	{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
-	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
+	{assign var="FIELD_VALUE" value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
+	{if empty($VALIDATE_STRINGS)}
+		{assign var="VALIDATE_STRINGS" value=""}
+	{/if}
 	<div class="tpl-Detail-Field-Base input-group">
 		<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text"
 			   class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if}"
