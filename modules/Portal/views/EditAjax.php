@@ -20,7 +20,7 @@ class Portal_EditAjax_View extends Vtiger_IndexAjax_View
 			$data = Portal_Module_Model::getRecord($recordId);
 		} else {
 			$recordId = null;
-			$data = ['bookmarkName', 'bookmarkUrl'];
+			$data = ['bookmarkName' => null, 'bookmarkUrl' => null];
 		}
 
 		$viewer->assign('RECORD', $recordId);
