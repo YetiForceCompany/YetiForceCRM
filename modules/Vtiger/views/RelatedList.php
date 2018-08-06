@@ -52,7 +52,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 			$_SESSION['relatedView'][$moduleName][$relatedModuleName] = $relatedView;
 		}
 		$pageNumber = $request->isEmpty('page', true) ? 1 : $request->getInteger('page');
-		$totalCount = $request->isEmpty('totalCount', true) ? false : $request->getInteger('totalCount');
+		$totalCount = $request->isEmpty('totalCount', true) ? 0 : $request->getInteger('totalCount');
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		if ($request->has('limit')) {
@@ -126,9 +126,6 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('RELATION_FIELD', $relationModel->getRelationField());
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = (int) $relationListView->getRelatedEntriesCount();
-		}
-		if (empty($totalCount)) {
-			$totalCount = 0;
 		}
 		$pagingModel->set('totalCount', $totalCount);
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
