@@ -15,9 +15,14 @@ class CallHistory_DetailView_Model extends Vtiger_DetailView_Model
 		$linkModelListDetails = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 		//Mark all detail view basic links as detail view links.
 		//Since ui will be look ugly if you need many basic links
-		$detailViewBasiclinks = $linkModelListDetails['DETAIL_VIEW_ADDITIONAL'];
-		unset($linkModelListDetails['DETAIL_VIEW_ADDITIONAL']);
-
+		$detailViewBasiclinks = $linkModelListDetails['DETAIL_VIEW_ADDITIONAL'] ?? [];
+		$linkModelList = [
+			'DETAIL_VIEW_BASIC' => [],
+			'DETAIL_VIEW_ADDITIONAL' => [],
+			'DETAIL_VIEW_EXTENDED' => [],
+			'DETAILVIEWTAB' => [],
+			'DETAILVIEWRELATED' => []
+		];
 		if (!empty($detailViewBasiclinks)) {
 			foreach ($detailViewBasiclinks as $linkModel) {
 				// Remove view history, needed in vtiger5 to see history but not in vtiger6
