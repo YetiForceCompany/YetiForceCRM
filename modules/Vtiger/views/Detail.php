@@ -908,6 +908,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	}
 
 	/**
+	 * Show social media.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function showSocialMedia($request)

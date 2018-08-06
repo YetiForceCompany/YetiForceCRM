@@ -21,11 +21,11 @@ class SocialMedia_Module_Model extends Vtiger_Module_Model
 	public static function isEnableForModule($moduleName)
 	{
 		$socialMediaConfig = AppConfig::module($moduleName, 'ENABLE_SOCIAL');
-		if (!is_array($socialMediaConfig)) {
-			throw new \App\Exceptions\AppException("Incorrect data type in $moduleName:ENABLE_SOCIAL");
-		}
 		if (false===$socialMediaConfig || empty($socialMediaConfig)) {
 			return false;
+		}
+		if (!is_array($socialMediaConfig)) {
+			throw new \App\Exceptions\AppException("Incorrect data type in $moduleName:ENABLE_SOCIAL");
 		}
 		return true;
 	}
