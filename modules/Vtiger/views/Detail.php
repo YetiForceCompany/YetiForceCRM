@@ -48,6 +48,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showRelatedTree');
 		$this->exposeMethod('showRecentRelation');
 		$this->exposeMethod('showOpenStreetMap');
+		$this->exposeMethod('showSocialMedia');
 	}
 
 	/**
@@ -904,6 +905,22 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COORRDINATES', $coordinates);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		return $viewer->view('DetailViewMap.tpl', $moduleName, true);
+	}
+
+	/**
+	 * @param \App\Request $request
+	 */
+	public function showSocialMedia($request)
+	{
+		//TODO: Privilege
+		/*if (!\App\Privilege::isPermitted('SocialMedia')) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}*/
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('QUALIFIED_MODULE', 'Settings::SocialMedia');
+		return $viewer->view('DetailViewSocialMedia.tpl', $moduleName, true);
 	}
 
 	/**
