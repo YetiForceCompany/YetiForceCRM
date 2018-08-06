@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 $.Class("Vtiger_Inventory_Js", {}, {
 	inventoryContainer: false,
@@ -575,7 +576,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 					valuePrices = valuePrices * ((100 - groupDiscount) / 100);
 				} else if (panel.find('.individualDiscountType').length > 0) {
 					var value = app.parseNumberToFloat(panel.find('.individualDiscountValue').val());
-					if (panel.find('.individualDiscountType[name="individual"]:checked').val() == 'percentage') {
+					if (panel.find('.individualDiscountType[name="individualDiscountType"]:checked').val() == 'percentage') {
 						valuePrices = valuePrices * ((100 - value) / 100);
 					} else {
 						valuePrices = valuePrices - value;

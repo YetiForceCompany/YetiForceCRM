@@ -130,11 +130,11 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$uploadFileName = "$uploadDir/$uploadFile";
 		\vtlib\Deprecated::checkFileAccess($uploadFileName);
 
-		$importType = $request->get('module_import_type');
-		if (strtolower($importType) == 'language') {
+		$importType = $request->getByType('module_import_type');
+		if (strtolower($importType) === 'language') {
 			$package = new vtlib\Language();
 			$viewer->assign('IMPORT_MODULE_TYPE', 'Language');
-		} elseif (strtolower($importType) == 'layout') {
+		} elseif (strtolower($importType) === 'layout') {
 			$package = new vtlib\Layout();
 			$viewer->assign('IMPORT_MODULE_TYPE', 'Layout');
 		} else {

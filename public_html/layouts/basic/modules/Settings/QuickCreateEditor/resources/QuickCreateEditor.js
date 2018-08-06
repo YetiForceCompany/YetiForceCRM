@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 	updatedBlockSequence: {},
@@ -101,13 +102,14 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 			var fieldId = fieldEle.data('fieldId');
 			thisInstance.updatedBlockFieldsList.push({'fieldid': fieldId, 'sequence': expectedFieldSequence});
 			expectedFieldSequence = expectedFieldSequence + 2;
-			if (i == tmpArray[0] - 1)
+			if (i == tmpArray[0] - 1) {
 				expectedFieldSequence = 1;
+			}
 		});
 		var secondBlockSortFields = updatedBlock.find('ul[name=sortable2]');
 		var secondEditFields = secondBlockSortFields.find('.editFields');
 		var sequenceValue = 2;
-		var tmpArray = []
+		tmpArray = []
 		secondBlockSortFields.each(function (i, domElement) {
 			var fieldEle = jQuery(domElement);
 			var eleAmount = fieldEle.find('.editFields').length;
@@ -118,8 +120,9 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 			var fieldId = fieldEle.data('fieldId');
 			thisInstance.updatedBlockFieldsList.push({'fieldid': fieldId, 'sequence': sequenceValue});
 			sequenceValue = sequenceValue + 2;
-			if (i == tmpArray[0] - 1)
+			if (i == tmpArray[0] - 1) {
 				sequenceValue = 2;
+			}
 		});
 	},
 
@@ -157,9 +160,7 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {}, {
 		AppConnector.request(params).done(function (data) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			//window.location.reload();
-			var params = {};
-			params['text'] = app.vtranslate('JS_FIELD_SEQUENCE_UPDATED');
-			Settings_Vtiger_Index_Js.showMessage(params);
+			Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_FIELD_SEQUENCE_UPDATED')});
 		}).fail(function (error) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 		});

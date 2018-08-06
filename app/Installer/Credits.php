@@ -29,7 +29,6 @@ class Credits
 		'html5shiv' => 'MIT',
 		'jquery-slimscroll' => 'MIT',
 		'optimist' => 'MIT',
-		'updated-jqplot' => 'MIT',
 		'color-convert' => 'MIT',
 		'humanize' => 'MIT',
 		'microplugin' => 'Apache-2.0',

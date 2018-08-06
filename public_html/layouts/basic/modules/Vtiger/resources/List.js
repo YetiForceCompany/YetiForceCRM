@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 jQuery.Class("Vtiger_List_Js", {
 	listInstance: false,
@@ -1043,7 +1044,7 @@ jQuery.Class("Vtiger_List_Js", {
 					var recordPerPage = jQuery('#pageLimit').val();
 					if (recordPerPage == '0')
 						recordPerPage = 1;
-					pageCount = Math.ceil(totalRecordCount / recordPerPage);
+					let pageCount = Math.ceil(totalRecordCount / recordPerPage);
 					if (pageCount == 0) {
 						pageCount = 1;
 					}
@@ -1052,7 +1053,7 @@ jQuery.Class("Vtiger_List_Js", {
 				}
 				element.progressIndicator({});
 				thisInstance.getPageCount().done(function (data) {
-					var pageCount = data['result']['page'];
+					let pageCount = data['result']['page'];
 					totalCountElem.val(data['result']['numberOfRecords']);
 					if (pageCount == 0) {
 						pageCount = 1;

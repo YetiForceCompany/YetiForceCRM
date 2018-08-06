@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 jQuery.Class("Vtiger_Detail_Js", {
 	detailInstance: false,
@@ -929,24 +930,27 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerBlockStatusCheckOnLoad: function () {
-		var blocks = this.getContentHolder().find('.blockHeader');
-		var module = app.getModuleName();
+		let blocks = this.getContentHolder().find('.js-toggle-panel');
+		let module = app.getModuleName();
 		blocks.each(function (index, block) {
-			var currentBlock = jQuery(block);
-			var headerAnimationElement = currentBlock.find('.js-block-toggle').not('.d-none');
-			var bodyContents = currentBlock.closest('.js-toggle-panel').find('.blockContent');
-			var blockId = headerAnimationElement.data('id');
-			var cacheKey = module + '.' + blockId;
-			var value = app.cacheGet(cacheKey, null);
-			if (value != null) {
-				if (value == 1) {
-					headerAnimationElement.addClass('d-none');
-					currentBlock.find("[data-mode='show']").removeClass('d-none');
-					bodyContents.removeClass('d-none');
-				} else {
-					headerAnimationElement.addClass('d-none');
-					currentBlock.find("[data-mode='hide']").removeClass('d-none');
-					bodyContents.addClass('d-none');
+			let currentBlock = jQuery(block);
+			let dynamicAttr = currentBlock.attr('data-dynamic');
+			if (typeof dynamicAttr !== typeof undefined && dynamicAttr !== false) {
+				let headerAnimationElement = currentBlock.find('.js-block-toggle').not('.d-none');
+				let bodyContents = currentBlock.closest('.js-toggle-panel').find('.blockContent');
+				let blockId = headerAnimationElement.data('id');
+				let cacheKey = module + '.' + blockId;
+				let value = app.cacheGet(cacheKey, null);
+				if (value != null) {
+					if (value == 1) {
+						headerAnimationElement.addClass('d-none');
+						currentBlock.find("[data-mode='show']").removeClass('d-none');
+						bodyContents.removeClass('d-none');
+					} else {
+						headerAnimationElement.addClass('d-none');
+						currentBlock.find("[data-mode='hide']").removeClass('d-none');
+						bodyContents.addClass('d-none');
+					}
 				}
 			}
 		});
@@ -1875,7 +1879,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var moreList = $('.related .nav .dropdown-menu');
 		var relationContainer = tabContainer;
 		if (!relationContainer || (typeof relationContainer.length === "undefined")) {
-			relationContainer = $('.related .nav > .relatedNav, .related .nav > .mainNav, .detailViewBlockLink');
+			relationContainer = $('.related .nav > .relatedNav, .related .nav > .mainNav, .detailViewBlockLink, .related .nav .dropdown-menu > .relatedNav');
 		}
 		relationContainer.each(function (n, item) {
 			item = $(item);

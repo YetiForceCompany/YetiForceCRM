@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 Vtiger_Detail_Js("IStorages_Detail_Js", {}, {
 	//It stores the IStorages Hierarchy response data
@@ -59,7 +60,7 @@ Vtiger_Detail_Js("IStorages_Detail_Js", {}, {
 		var thisInstance = this;
 		var hierarchyButton = $('.detailViewTitle');
 		var url = "index.php?module=IStorages&view=Hierarchy&record=" + app.getRecordId();
-		hierarchyButton.on('click', '.detailViewIcon', function (e) {
+		hierarchyButton.on('click', '.js-detail__icon', function (e) {
 			thisInstance.getHierarchyResponseData(url).done(function (data) {
 				thisInstance.displayHierarchyResponseData(data);
 			});

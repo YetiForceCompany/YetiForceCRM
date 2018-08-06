@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 $.Class("Vtiger_Edit_Js", {
 	//Event that will triggered when reference field is selected
@@ -784,6 +785,7 @@ $.Class("Vtiger_Edit_Js", {
 			}
 		}
 		if (status == false) {
+			let errorMsg;
 			if (sourceModule == "Accounts") {
 				errorMsg = 'JS_SELECTED_ACCOUNT_DOES_NOT_HAVE_AN_ADDRESS';
 			} else if (sourceModule == "Contacts") {
@@ -1046,24 +1048,27 @@ $.Class("Vtiger_Edit_Js", {
 
 	},
 	registerBlockStatusCheckOnLoad: function () {
-		var blocks = this.getForm().find('.js-toggle-panel');
-		var module = app.getModuleName();
+		let blocks = this.getForm().find('.js-toggle-panel');
+		let module = app.getModuleName();
 		blocks.each(function (index, block) {
-			var currentBlock = $(block);
-			var headerAnimationElement = currentBlock.find('.js-block-toggle').not('.d-none');
-			var bodyContents = currentBlock.find('.blockContent')
-			var blockId = headerAnimationElement.data('id');
-			var cacheKey = module + '.' + blockId;
-			var value = app.cacheGet(cacheKey, null);
-			if (value != null) {
-				if (value == 1) {
-					headerAnimationElement.addClass('d-none');
-					currentBlock.find("[data-mode='show']").removeClass('d-none');
-					bodyContents.removeClass('d-none');
-				} else {
-					headerAnimationElement.addClass('d-none');
-					currentBlock.find("[data-mode='hide']").removeClass('d-none');
-					bodyContents.addClass('d-none');
+			let currentBlock = $(block);
+			let dynamicAttr = currentBlock.attr('data-dynamic');
+			if (typeof dynamicAttr !== typeof undefined && dynamicAttr !== false) {
+				let headerAnimationElement = currentBlock.find('.js-block-toggle').not('.d-none');
+				let bodyContents = currentBlock.find('.blockContent')
+				let blockId = headerAnimationElement.data('id');
+				let cacheKey = module + '.' + blockId;
+				let value = app.cacheGet(cacheKey, null);
+				if (value != null) {
+					if (value == 1) {
+						headerAnimationElement.addClass('d-none');
+						currentBlock.find("[data-mode='show']").removeClass('d-none');
+						bodyContents.removeClass('d-none');
+					} else {
+						headerAnimationElement.addClass('d-none');
+						currentBlock.find("[data-mode='hide']").removeClass('d-none');
+						bodyContents.addClass('d-none');
+					}
 				}
 			}
 		});

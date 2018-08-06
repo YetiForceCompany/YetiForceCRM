@@ -5,14 +5,14 @@
 	{/if}
 	<nav class="tpl-Pagination" aria-label="Page navigation">
 		<ul class="js-pagination-list pagination m-0" data-total-count="{$LISTVIEW_COUNT}" data-js="data">
-			<li class="js-page--set page-item {if $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage" data-id="1"
+			<li class="js-page--set page-item {if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage" data-id="1"
 				data-js="data">
 				<a class="page-link" href="#"><span
 							class="fas fa-fast-backward mr-1 d-inline-block d-sm-none"></span><span
 							class="d-none d-sm-inline">{\App\Language::translate('LBL_FIRST')}</span></a>
 			</li>
-			<li class="page-item">
-				<a class="js-page--previous page-link {if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1}disabled{/if}"
+			<li class="page-item {if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1}disabled{/if}">
+				<a class="js-page--previous page-link"
 				   id="{$VIEWNAME}ViewPreviousPageButton" data-js="click" href="#">
 					<span aria-hidden="true">&laquo;</span>
 					<span class="sr-only">Previous</span>

@@ -1,6 +1,6 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<div class="securityIndexPage">
+	<div class="securityIndexPage table-responsive">
 		<table class="table tableRWD table-bordered table-sm themeTableColor confTable">
 			<thead>
 				<tr class="blockHeader">

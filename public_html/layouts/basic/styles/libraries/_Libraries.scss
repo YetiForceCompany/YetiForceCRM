@@ -10,14 +10,17 @@
 	@extend .text-left;
 }
 
-.select2-container--bootstrap4 {
-	.select2-selection--single {
-		padding: 0.375rem 1.125rem 0.375rem 0.75rem;
-	}
+.select2-selection--single {
+	padding: 0.375rem 1.125rem 0.375rem 0.75rem;
 
-	.select2-selection__rendered {
-		line-height: 1.5;
+	@at-root .input-group #{&} {
+		border-right: unset !important;
+		border-radius: 0.25rem 0 0 0.25rem !important;
 	}
+}
+
+.select2-selection__rendered {
+	line-height: 1.5;
 }
 
 .select2-selection__arrow {
@@ -61,6 +64,10 @@
 header {
 	.o-global-search__input .select2-selection.select2-selection--single {
 		height: $h-menu-items !important;
+
+		.select2-selection__rendered {
+			margin-top: calculate-rem(2px);
+		}
 	}
 
 	.select2WithButtonWidth {
@@ -68,7 +75,8 @@ header {
 	}
 
 	.c-header__btn__container .select2-selection {
-		height: $h-menu-right-items;
+		height: $h-menu-items;
+		font-size: 0.875rem;
 
 		&:hover {
 			background: $dark !important;
@@ -78,6 +86,10 @@ header {
 			}
 		}
 	}
+}
+
+#select2-mail-select-results {
+	font-size: 0.875rem;
 }
 
 .select2HeaderWidth {
@@ -237,7 +249,7 @@ ul.ui-autocomplete {
 
 //-------- js-tree --------//
 
-.jstree-proton{
+.jstree-proton {
 	font-family: $font-family-base !important;
 }
 

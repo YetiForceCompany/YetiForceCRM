@@ -25,8 +25,8 @@
 						{foreach item=RECORD from=$RECORD_MODELS name=recordList}
 							<th>
 								<div class="form-check noWrap">
-									<input {if $smarty.foreach.recordList.first}checked{/if} type="radio" id="radio{$RECORD->getId()}" name="record" class="form-check-input position-fixed" value="{$RECORD->getId()}" data-js="change">
-									<label class="form-check-label" for="radio{$RECORD->getId()}">#{$smarty.foreach.recordList.index+1} {\App\TextParser::textTruncate($RECORD->getName())}</label>
+									<input {if $smarty.foreach.recordList.first}checked{/if} type="radio" id="radio{$RECORD->getId()}" name="record" class="form-check-input" value="{$RECORD->getId()}" data-js="change">
+									<label class="form-check-label" for="radio{$RECORD->getId()}">&nbsp; #{$smarty.foreach.recordList.index+1} {\App\TextParser::textTruncate($RECORD->getName())}</label>
 								</div>
 							</th>
 						{/foreach}

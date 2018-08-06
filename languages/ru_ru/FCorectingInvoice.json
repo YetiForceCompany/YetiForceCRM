@@ -18,6 +18,9 @@
     "PLL_TRANSFER": "\u0411\u0430\u043d\u043a\u043e\u0432\u0441\u043a\u0438\u0439 \u043f\u0435\u0440\u0435\u0432\u043e\u0434",
     "PLL_CASH": "\u041d\u0430\u043b\u0438\u0447\u043d\u044b\u0435",
     "LBL_YEAR": "\u0413\u043e\u0434",
-    "FL_INVOICE": "\u0421\u0447\u0435\u0442"
+    "FL_INVOICE": "\u0421\u0447\u0435\u0442",
+    "LBL_COMMENTS": "Comments",
+    "FL_EXTERNAL_COMMENT": "External comment",
+    "FL_INTERNAL_COMMENT": "Internal comment"
   }
 }

@@ -64,13 +64,17 @@ class PackageImport extends PackageExport
 		if (!empty($this->_modulexml) && !empty($this->_modulexml->type)) {
 			$packageType = strtolower($this->_modulexml->type);
 			switch ($packageType) {
-				case 'extension': $packageType = 'LBL_EXTENSION_MODULE';
+				case 'extension':
+					$packageType = 'LBL_EXTENSION_MODULE';
 					break;
-				case 'entity': $packageType = 'LBL_BASE_MODULE';
+				case 'entity':
+					$packageType = 'LBL_BASE_MODULE';
 					break;
-				case 'inventory': $packageType = 'LBL_INVENTORY_MODULE';
+				case 'inventory':
+					$packageType = 'LBL_INVENTORY_MODULE';
 					break;
-				case 'language': $packageType = 'LBL_LANGUAGE_MODULE';
+				case 'language':
+					$packageType = 'LBL_LANGUAGE_MODULE';
 					break;
 			}
 
@@ -537,9 +541,16 @@ class PackageImport extends PackageExport
 					}
 				}
 			} else {
-				$this->initImport($zipfile, $overwrite);
-				// Call module import function
-				$this->importModule();
+				if ((string) $this->_modulexml->type === 'update') {
+					Functions::recurseDelete('cache/updates');
+					$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
+					$zip->extract('cache/updates');
+					$this->importUpdate();
+				} else {
+					$this->initImport($zipfile, $overwrite);
+					// Call module import function
+					$this->importModule();
+				}
 			}
 		}
 	}
@@ -577,25 +588,21 @@ class PackageImport extends PackageExport
 		$moduleInstance->maxversion = (!$vtigerMaxVersion) ? false : $vtigerMaxVersion;
 		$moduleInstance->type = $moduleType;
 
-		if ($this->packageType != 'update') {
-			$moduleInstance->save();
-			$moduleInstance->initWebservice();
-			$this->moduleInstance = $moduleInstance;
+		$moduleInstance->save();
+		$moduleInstance->initWebservice();
+		$this->moduleInstance = $moduleInstance;
 
-			$this->importTables($this->_modulexml);
-			$this->importBlocks($this->_modulexml, $moduleInstance);
-			$this->importInventory();
-			$this->importCustomViews($this->_modulexml, $moduleInstance);
-			$this->importSharingAccess($this->_modulexml, $moduleInstance);
-			$this->importEvents($this->_modulexml, $moduleInstance);
-			$this->importActions($this->_modulexml, $moduleInstance);
-			$this->importRelatedLists($this->_modulexml, $moduleInstance);
-			$this->importCustomLinks($this->_modulexml, $moduleInstance);
-			$this->importCronTasks($this->_modulexml);
-			Module::fireEvent($moduleInstance->name, Module::EVENT_MODULE_POSTINSTALL);
-		} else {
-			$this->importUpdate($this->_modulexml);
-		}
+		$this->importTables($this->_modulexml);
+		$this->importBlocks($this->_modulexml, $moduleInstance);
+		$this->importInventory();
+		$this->importCustomViews($this->_modulexml, $moduleInstance);
+		$this->importSharingAccess($this->_modulexml, $moduleInstance);
+		$this->importEvents($this->_modulexml, $moduleInstance);
+		$this->importActions($this->_modulexml, $moduleInstance);
+		$this->importRelatedLists($this->_modulexml, $moduleInstance);
+		$this->importCustomLinks($this->_modulexml, $moduleInstance);
+		$this->importCronTasks($this->_modulexml);
+		Module::fireEvent($moduleInstance->name, Module::EVENT_MODULE_POSTINSTALL);
 	}
 
 	/**
@@ -968,15 +975,14 @@ class PackageImport extends PackageExport
 		}
 	}
 
-	public function importUpdate($modulenode)
+	public function importUpdate()
 	{
-		$dirName = 'cache/updates';
-		$result = false;
+		$dirName = 'cache/updates/updates';
 		$db = \App\Db::getInstance();
 		ob_start();
 		if (file_exists($dirName . '/init.php')) {
 			require_once $dirName . '/init.php';
-			$updateInstance = new \YetiForceUpdate($modulenode);
+			$updateInstance = new \YetiForceUpdate($this->_modulexml);
 			$updateInstance->package = $this;
 			$result = $updateInstance->preupdate();
 			file_put_contents('cache/logs/update.log', ob_get_clean(), FILE_APPEND);
@@ -1003,21 +1009,25 @@ class PackageImport extends PackageExport
 			}
 		} else {
 			Functions::recurseCopy($dirName . '/files', '');
+			$result = true;
 		}
 		$db->createCommand()->insert('yetiforce_updates', [
 			'user' => \Users_Record_Model::getCurrentUserModel()->get('user_name'),
-			'name' => $modulenode->label,
-			'from_version' => $modulenode->from_version,
-			'to_version' => $modulenode->to_version,
+			'name' => (string) $this->_modulexml->label,
+			'from_version' => (string) $this->_modulexml->from_version,
+			'to_version' => (string) $this->_modulexml->to_version,
 			'result' => $result,
 			'time' => date('Y-m-d H:i:s'),
-		]);
+		])->execute();
 		if ($result) {
-			$db->createCommand()->update('vtiger_version', ['current_version' => $modulenode->to_version]);
+			$db->createCommand()->update('vtiger_version', ['current_version' => (string) $this->_modulexml->to_version])->execute();
 		}
 		Functions::recurseDelete($dirName);
-		Functions::recurseDelete('cache/templates_c');
-
+		register_shutdown_function(function () {
+			$viewer = \Vtiger_Viewer::getInstance();
+			$viewer->clearAllCache();
+			Functions::recurseDelete('cache/templates_c');
+		});
 		\App\Module::createModuleMetaFile();
 		\App\Cache::clear();
 		\App\Cache::clearOpcache();
@@ -1057,15 +1067,15 @@ class PackageImport extends PackageExport
 		$db = \PearDatabase::getInstance();
 
 		return $db->insert($inventoryFieldInstance->getTableName('fields'), [
-				'columnname' => $fieldNode->columnname,
-				'label' => $fieldNode->label,
-				'invtype' => $fieldNode->invtype,
-				'defaultvalue' => $fieldNode->defaultvalue,
-				'sequence' => $fieldNode->sequence,
-				'block' => $fieldNode->block,
-				'displaytype' => $fieldNode->displaytype,
-				'params' => $fieldNode->params,
-				'colspan' => $fieldNode->colspan,
+			'columnname' => $fieldNode->columnname,
+			'label' => $fieldNode->label,
+			'invtype' => $fieldNode->invtype,
+			'defaultvalue' => $fieldNode->defaultvalue,
+			'sequence' => $fieldNode->sequence,
+			'block' => $fieldNode->block,
+			'displaytype' => $fieldNode->displaytype,
+			'params' => $fieldNode->params,
+			'colspan' => $fieldNode->colspan,
 		]);
 	}
 }

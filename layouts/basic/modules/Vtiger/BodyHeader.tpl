@@ -29,13 +29,13 @@
 							{/foreach}
 						</select>
 					</div>
-					<input type="text" class="form-control form-control-sm js-global-search__value o-global-search__value"
+					<input id="global-search-__value" type="text" class="form-control js-global-search__value o-global-search__value"
 						   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
 						   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
 						   data-operator="{AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR')}"
 						   data-js="keypress | value | autocomplete"/>
 					<div class="input-group-append bg-white rounded-right">
-						<button class="btn btn-outline-dark border-0 searchIcon" type="button">
+						<button class="btn btn-outline-dark border-0 h-100 searchIcon" type="button">
 							<span class="fas fa-search fa-fw" title="{\App\Language::translate('LBL_SEARCH')}"></span>
 						</button>
 						{if AppConfig::search('GLOBAL_SEARCH_OPERATOR_SELECT')}
@@ -71,7 +71,7 @@
 								</ul>
 							</div>
 						{/if}
-						<button class="btn btn-outline-dark border-0 globalSearch"
+						<button class="btn btn-outline-dark border-0 h-100 globalSearch"
 								title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
 							<span class="fa fa-th-large fa-fw"></span>
 						</button>
@@ -112,7 +112,7 @@
 							</div>
 						</div>
 						<div class="input-group mb-3 js-global-search__input o-global-search__input" data-js="container">
-							<input type="text" class="form-control js-global-search__value o-global-search__value"
+							<input id="global-search-__value--mobile type="text" class="form-control js-global-search__value o-global-search__value"
 								   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
 								   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
 								   data-js="keypress | value | autocomplete"/>
@@ -144,7 +144,7 @@
 							 {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true"
 							 data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
 							{if count($AUTOLOGINUSERS) eq 1}
-								<a class="btn btn-outline-dark border-0" title="{$MAIN_MAIL.username}"
+								<a class="c-header__btn btn btn-outline-dark border-0" title="{$MAIN_MAIL.username}"
 								   href="index.php?module=OSSMail&view=Index">
 									<div class="d-none d-xxl-block">
 										{$ITEM.username}
@@ -158,7 +158,7 @@
 								</a>
 							{elseif $CONFIG['showMailAccounts']=='true'}
 								<div class="d-none d-xxl-block">
-									<select class="form-control"
+									<select id="mail-select" class="form-control-sm"
 											title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
 										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
 											<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}"
@@ -221,7 +221,7 @@
 				   data-js="click" role="button" aria-expanded="false" aria-controls="o-action-menu__container">
 					<span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 				</a>
-				<div class="o-action-menu__container d-flex flex-sm-nowrap" id="o-action-menu__container">
+				<div class="o-action-menu__container" id="o-action-menu__container">
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
 					<div class="o-action-menu__item commonActionsContainer">

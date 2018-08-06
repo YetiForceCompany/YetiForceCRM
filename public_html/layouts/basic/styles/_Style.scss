@@ -2567,18 +2567,6 @@ html, body, .o-base-container {
 	}
 }
 
-.basePanel, .bodyContents, .mainContainer, .contentsDiv {
-	min-height: 100%;
-}
-
-.bodyContent {
-	min-height: 100%;
-	height: 100%;
-	margin-top: 0;
-	padding-top: 0;
-	padding-bottom: 15px;
-}
-
 .companyLogoContainer {
 	display: block;
 	width: 48px;
@@ -3417,11 +3405,6 @@ html, body, .o-base-container {
 	margin-top: 20px !important;
 }
 
-.detailViewIcon {
-	font-size: 48px;
-	padding: 10px;
-}
-
 .tag {
 	margin-right: 5px;
 	border-bottom-left-radius: 15px;
@@ -3597,8 +3580,8 @@ select.form-control {
 
 .detailViewTitle .hierarchy {
 	position: absolute;
-	top: 0;
-	left: 60px;
+	top: -12px;
+	left: 50px;
 }
 
 .indexContainer {
@@ -3886,10 +3869,6 @@ select.form-control {
 	.toggleSiteBarRightButton {
 		right: calc(25% - 50px);
 	}
-}
-
-.detailViewIcon.fa {
-	display: inline;
 }
 
 .addWidgetDropDown.dropdown-menu > li {

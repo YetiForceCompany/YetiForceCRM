@@ -44,8 +44,7 @@ class Import_List_View extends \App\Controller\View
 			$this->initializeListViewContents($request, $viewer);
 			$moduleName = $request->getByType('forModule');
 			$viewer->assign('MODULE_NAME', $moduleName);
-
-			$viewer->view('Popup.tpl', $moduleName);
+			$viewer->view('ImportPreview.tpl', 'Import');
 		}
 	}
 

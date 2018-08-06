@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
+'use strict';
 
 if (typeof (ImportJs) === "undefined") {
 	/*
@@ -417,11 +418,37 @@ if (typeof (ImportJs) === "undefined") {
 					}
 				});
 			});
+		},
+		openListInModal: function () {
+			$('.js-open-list-in-modal').on('click', function () {
+				let element = $(this),
+					moduleName = element.data('module-name'),
+					type = '',
+					forUser = element.data('for-user'),
+					forModule = element.data('for-module');
+				if ($(this).attr('data-type') !== '') {
+					type = '&type=' + element.data('type');
+				}
+				app.showModalWindow(null, 'index.php?module=' + moduleName + '&view=List&mode=getImportDetails' + type + '&start=1&foruser=' + forUser + '&forModule=' + forModule, function (data) {
+					let container = data.find('.listViewEntriesDiv'),
+						containerH = container.height(),
+						containerOffsetTop = container.offset().top,
+						footerH = $('.js-footer').height(),
+						windowH = $(window).height();
+					if ($(window).width() > app.breakpoints.sm) {
+						if ((containerH + containerOffsetTop + footerH) > windowH) {
+							container.height(windowH - (containerOffsetTop + footerH));
+						}
+						app.showNewScrollbarTopBottomRight(container);
+					}
+				});
+			});
 		}
 	};
 
 	jQuery(document).ready(function () {
 		ImportJs.toogleMergeConfiguration();
+		ImportJs.openListInModal();
 		ImportJs.submitAction();
 		ImportJs.loadDefaultValueWidgetForMappedFields();
 		ImportJs.registerImportClickEvent();

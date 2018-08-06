@@ -44,9 +44,10 @@
 				{if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 				{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
 				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
+				{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
 				{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 				{if $BLOCKS_HIDE}
-					<div class="c-panel c-panel--edit js-toggle-panel mx-1 my-3" data-js="click" data-label="{$BLOCK_LABEL}">
+					<div class="c-panel c-panel--edit js-toggle-panel mx-1 my-3" data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if} data-label="{$BLOCK_LABEL}">
 						<div class="blockHeader c-panel__header align-items-center">
 							{if $APIADDRESS_ACTIVE eq true && ($BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION')}
 								{assign var=APIADDRESFIELD value=TRUE}

@@ -8,9 +8,9 @@ use App\Db\Importers\Base;
  * Class that imports structure and data to database.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Importer
 {
@@ -324,8 +324,8 @@ class Importer
 	 * Rename tables.
 	 *
 	 * $tables = [
-	 * 		['oldName', 'newName']
-	 * 		['u_#__mail_address_boock', 'u_#__mail_address_book']
+	 *        ['oldName', 'newName']
+	 *        ['u_#__mail_address_boock', 'u_#__mail_address_book']
 	 * ];
 	 *
 	 * @param array $tables
@@ -411,8 +411,8 @@ class Importer
 	 * Rename columns.
 	 *
 	 * $columns = [
-	 * 		['TableName', 'oldName', 'newName'],
-	 * 		['vtiger_smsnotifier', 'status', 'smsnotifier_status'],
+	 *        ['TableName', 'oldName', 'newName'],
+	 *        ['vtiger_smsnotifier', 'status', 'smsnotifier_status'],
 	 * ];
 	 *
 	 * @param array $columns
@@ -444,8 +444,8 @@ class Importer
 	 * Drop columns.
 	 *
 	 * $columns = [
-	 * 		['TableName', 'columnName'],
-	 * 		['vtiger_smsnotifier', 'status'],
+	 *        ['TableName', 'columnName'],
+	 *        ['vtiger_smsnotifier', 'status'],
 	 * ];
 	 *
 	 * @param array $columns
@@ -533,9 +533,27 @@ class Importer
 							$this->logs .= "done\n";
 						} else {
 							if ($this->comperColumns($queryBuilder, $tableSchema->columns[$columnName], $column)) {
+								$primaryKey = false;
+								if ($column instanceof \yii\db\ColumnSchemaBuilder) {
+									switch ($column->get('type')) {
+										case 'upk':
+											$column->unsigned();
+										// no break
+										case 'pk':
+											$column->set('type', 'integer')->set('autoIncrement', true)->notNull();
+											$primaryKey = true;
+											break;
+									}
+								}
 								$this->logs .= "  > alter column: $tableName:$columnName ... ";
 								$dbCommand->alterColumn($tableName, $columnName, $column)->execute();
 								$this->logs .= "done\n";
+								if ($primaryKey) {
+									if (!isset($table['primaryKeys'])) {
+										$table['primaryKeys'] = [];
+									}
+									$table['primaryKeys'][] = [$tableSchema->fullName . '_pk', [$columnName]];
+								}
 							}
 						}
 					}

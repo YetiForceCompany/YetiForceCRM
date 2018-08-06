@@ -63,3 +63,14 @@
 		}
 	}
 }
+.input-group {
+	> {
+		.input-group-append {
+			> {
+				.btn-light {
+					border-color: #dee2e6;
+				}
+			}
+		}
+	}
+}

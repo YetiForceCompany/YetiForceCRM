@@ -1,11 +1,19 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.detailViewTable {
-	.fieldRow {
-		@extend .border-top;
+
+.o-detail__icon {
+	font-size: calculate-rem(48px);
+	margin-right: calculate-rem(10px);
+
+	&.fa {
+		display: inline;
 	}
 }
 
 .detailViewTable {
+	.fieldRow {
+		@extend .border-top;
+	}
+
 	.fieldLabel.medium, .fieldValue.medium {
 		padding: 10px;
 		min-height: 40px;
@@ -77,25 +85,45 @@
 
 			> {
 				.imageContainer {
-					width: 40px;
+					width: 30px;
+
+					> {
+						.userImage {
+							margin: 0 auto;
+							width: 30px;
+							height: 30px;
+							padding: 2px;
+							border: 2px solid #d2d6de;
+							font-size: 32px;
+						}
+
+						@include media-breakpoint-up(sm) {
+							.userImage {
+								width: 40px;
+								height: 40px;
+							}
+						}
+					}
 				}
 
 				.timeline-body {
 					padding-right: 10px;
-					padding-left: 44px;
+					padding-left: 0;
+					font-size: 0.7em;
+				}
+				@include media-breakpoint-up(sm) {
+					.imageContainer {
+						width: 40px;
+					}
+
+					.timeline-body {
+						padding-left: 44px;
+						font-size: 1em;
+					}
 				}
 			}
 		}
 	}
-}
-
-.timeline .userImage, .commentInfoHeader .userImage {
-	margin: 0 auto;
-	width: 40px;
-	height: 40px;
-	padding: 2px;
-	border: 2px solid #d2d6de;
-	font-size: 32px;
 }
 
 .PreferenceDetailViewHeader {

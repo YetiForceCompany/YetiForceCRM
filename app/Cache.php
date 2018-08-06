@@ -190,7 +190,19 @@ class Cache
 	public static function resetOpcache()
 	{
 		if (function_exists('opcache_reset')) {
-			opcache_reset();
+			\opcache_reset();
+		}
+	}
+
+	/**
+	 * Reset file from opcache if it is possible.
+	 *
+	 * @param string $path
+	 */
+	public static function resetFileCache(string $path)
+	{
+		if (function_exists('opcache_invalidate')) {
+			\opcache_invalidate($path);
 		}
 	}
 }
