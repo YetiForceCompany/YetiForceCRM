@@ -91,7 +91,7 @@ class RecordNumber
 		if ($row['cur_sequence'] !== $actualSequence) {
 			$row['cur_id'] = 1;
 		}
-		$fullPrefix = self::parse($row['prefix'], $row['cur_id'], $row['postfix'], $row['reset_sequence']);
+		$fullPrefix = self::parse($row['prefix'], $row['cur_id'], $row['postfix']);
 		$strip = strlen($row['cur_id']) - strlen($row['cur_id'] + 1);
 		if ($strip < 0) {
 			$strip = 0;
@@ -178,7 +178,7 @@ class RecordNumber
 			'postfix' => $row['postfix'],
 			'reset_sequence' => $row['reset_sequence'],
 			'cur_sequence' => $row['cur_sequence'],
-			'number' => self::parse($row['prefix'], $row['cur_id'], $row['postfix'], $row['reset_sequence']),
+			'number' => self::parse($row['prefix'], $row['cur_id'], $row['postfix']),
 		];
 		if ($cache) {
 			self::$numberCache[$tabId] = $number;

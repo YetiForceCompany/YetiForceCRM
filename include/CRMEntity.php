@@ -351,10 +351,9 @@ class CRMEntity
 					$sequenceNumber = $moduleData['sequenceNumber'];
 					$prefix = $moduleData['prefix'];
 					$postfix = $moduleData['postfix'];
-					$resetSequence = $moduleData['reset_sequence'];
 					$oldNumber = $sequenceNumber;
 					while ($recordinfo = $dataReader->read()) {
-						$recordNumber = \App\Fields\RecordNumber::parse($prefix, $sequenceNumber, $postfix, $resetSequence);
+						$recordNumber = \App\Fields\RecordNumber::parse($prefix, $sequenceNumber, $postfix);
 						App\Db::getInstance()->createCommand()
 							->update($fieldTable, [$fieldColumn => $recordNumber], [$this->table_index => $recordinfo['recordid']])
 							->execute();
