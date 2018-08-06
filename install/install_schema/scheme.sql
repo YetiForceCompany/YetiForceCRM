@@ -6580,6 +6580,7 @@ CREATE TABLE `vtiger_modentity_num` (
   `start_id` int(10) unsigned NOT NULL,
   `cur_id` int(10) unsigned NOT NULL,
   `reset_sequence` char,
+  `cur_sequence` int DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `semodule` (`cur_id`),
   KEY `prefix` (`prefix`,`postfix`,`cur_id`),
