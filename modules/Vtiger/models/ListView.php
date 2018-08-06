@@ -360,6 +360,7 @@ class Vtiger_ListView_Model extends \App\Base
 		$links = [];
 
 		$basicLinks = $this->getBasicLinks();
+		$links['LISTVIEWBASIC'] = [];
 		foreach ($basicLinks as $basicLink) {
 			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
 		}
