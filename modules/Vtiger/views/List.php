@@ -286,7 +286,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$this->listViewLinks = $this->listViewModel->getListViewLinks($linkParams);
 		}
 		$viewer->assign('LISTVIEW_LINKS', $this->listViewLinks);
-		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels['LISTVIEWMASSACTION']);
+		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels['LISTVIEWMASSACTION'] ?? []);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('ORDER_BY', $orderBy);
