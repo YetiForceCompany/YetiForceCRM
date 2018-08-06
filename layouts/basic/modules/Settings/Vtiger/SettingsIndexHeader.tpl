@@ -6,7 +6,7 @@
 	</div>
 	<div class="row m-0 mt-2">
 		<ul class="nav nav-tabs massEditTabs js-tabs" data-js="click">
-			<li class="nav-item" data-mode="index" data-params="{\App\Purifier::encodeHtml(\App\Json::encode(['count'=>$WARNINGS_COUNT]))}"><a class="active nav-link" href="#" data-toggle="tab"><strong>{\App\Language::translate('LBL_START', $QUALIFIED_MODULE)}</strong></a></li>
+			<li class="nav-item" data-mode="index" data-params="{if isset($WARNINGS_COUNT)}{\App\Purifier::encodeHtml(\App\Json::encode(['count'=>$WARNINGS_COUNT]))}{else}{\App\Purifier::encodeHtml(\App\Json::encode(['count'=>null]))}{/if}"><a class="active nav-link" href="#" data-toggle="tab"><strong>{\App\Language::translate('LBL_START', $QUALIFIED_MODULE)}</strong></a></li>
 			<li class="nav-item" data-mode="github"><a class="nav-link" href="#" data-toggle="tab"><strong>{\App\Language::translate('LBL_GITHUB', $QUALIFIED_MODULE)}</strong></a></li>
 			<li class="nav-item" data-mode="systemWarnings"><a class="nav-link" href="#" data-toggle="tab"><strong>{\App\Language::translate('LBL_SYSTEM_WARNINGS', $QUALIFIED_MODULE)}</strong></a></li>
 			<li class="nav-item" data-mode="security"><a class="nav-link" href="#" data-toggle="tab"><strong>{\App\Language::translate('LBL_SECURITY', $QUALIFIED_MODULE)}</strong></a></li>
