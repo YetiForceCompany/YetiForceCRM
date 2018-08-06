@@ -1171,23 +1171,32 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function to register the event for changing the custom Filter
 	 */
 	registerChangeCustomFilterEvent(event) {
-		if ($(`.nav-item[data-cvid='${this.getCurrentCvId()}'] .nav-link`).tab('show').length === 0) {
+		let target = $(event.currentTarget), selectOption, selectOptionId, urlParams;
+		if (target.is('option')) {
+			selectOption = target;
+		} else if (event.type === 'select2:selecting') {
+			selectOptionId = event.params.args.data.id;
+			selectOption = $(`#filterOptionId_${selectOptionId}`);
+		} else if (event.type === 'mouseup') {
+			selectOptionId = event.currentTarget.id.split('-').pop();
+			selectOption = $(`#filterOptionId_${selectOptionId}`);
+			this.getFilterSelectElement().val(event.currentTarget.id.split('-').pop()).trigger('change');
+		}
+		if ($(`.nav-item[data-cvid='${selectOptionId}'] .nav-link`).tab('show').length === 0) {
 			$('.js-filter-tab .active').removeClass('active');
 		}
-		var target = $(event.currentTarget);
-		var selectOption = target.is('option') ? target : $(`#filterOptionId_${event.currentTarget.id.split('-').pop()}`);
 		$('#select2-customFilter-container span').contents().last().replaceWith(selectOption.text());
 		app.setMainParams('pageNumber', '1');
 		app.setMainParams('pageToJump', '1');
 		app.setMainParams('orderBy', selectOption.data('orderby'));
 		app.setMainParams('sortOrder', selectOption.data('sortorder'));
-		var urlParams = {
+		urlParams = {
 			"viewname": selectOption.val(),
 			//to make alphabetic search empty
 			"search_key": this.getAlphabetSearchField(),
 			"search_value": "",
 			"search_params": ""
-		}
+		};
 		//Make the select all count as empty
 		jQuery('#recordsCount').val('');
 		//Make total number of pages as empty
@@ -1204,17 +1213,26 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function to register the event listeners for changing the custom Filter
 	 */
 	registerChangeCustomFilterEventListeners() {
-		this.getFilterSelectElement().off('change');
+		let filterSelect = this.getFilterSelectElement();
+		filterSelect.on('select2:selecting', (event) => {
+				//prevent default select2 event if it isn't keyboard event
+				if (!$(':focus').length) {
+					event.preventDefault();
+					filterSelect.select2('close');
+					return false;
+				}
+				this.registerChangeCustomFilterEvent(event);
+			});
 		// select change event must be replaced by click to avoid triggering while clicking on options' buttons
-		this.getFilterSelectElement().on('click', 'option', this.registerChangeCustomFilterEvent.bind(this));
+		filterSelect.on('click', 'option', this.registerChangeCustomFilterEvent.bind(this));
 		// event triggered by tab filter click
 		this.getFilterBlock().on('mouseup', 'li .select2-results__option', this.registerChangeCustomFilterEvent.bind(this));
 		this.getListViewTopMenuContainer().find('.js-filter-tab').on('click', (e) => {
 			const cvId = $(e.currentTarget).data('cvid');
-			let selectOption = this.getFilterSelectElement().find(`[value=${cvId}]`);
+			let selectOption = filterSelect.find(`[value=${cvId}]`);
 			selectOption.trigger('click');
 			$('#select2-customFilter-container span').contents().last().replaceWith(selectOption.text());
-			this.getFilterSelectElement().val(cvId).trigger('change');
+			filterSelect.val(cvId).trigger('change');
 		});
 	},
 	breadCrumbsFilter: function (text) {
