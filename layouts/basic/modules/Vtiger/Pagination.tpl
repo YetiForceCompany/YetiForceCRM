@@ -74,7 +74,7 @@
 					<span class="sr-only">Next</span>
 				</a>
 			</li>
-			{if !empty($LISTVIEW_COUNT) && $PAGING_MODEL->isNextPageExists()}
+			{if empty($LISTVIEW_COUNT) && $PAGING_MODEL->isNextPageExists()}
 				<li class="js-count-number-records page-item js-popover-tooltip" data-js="popover|click"
 					id="totalCountBtn" data-content="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}">
 					<a class="page-link" href="#"><span class="fas fa-signal"></span></a>
