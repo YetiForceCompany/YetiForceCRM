@@ -41,7 +41,7 @@ class RecordNumber
 	 *
 	 * @return bool
 	 */
-	public static function setNumber($tabId, $prefix = '', $no = '', $postfix = '', $resetSequence = null)
+	public static function setNumber($tabId, $prefix = '', $no = '', $postfix = '', $resetSequence = null, $curSequence = 0)
 	{
 		if ($no != '') {
 			$db = \App\Db::getInstance();
@@ -58,7 +58,8 @@ class RecordNumber
 					'postfix' => $postfix,
 					'start_id' => $no,
 					'cur_id' => $no,
-					'reset_sequence' => $resetSequence
+					'reset_sequence' => $resetSequence,
+					'cur_sequence' => $curSequence
 				])->execute();
 
 				return true;
@@ -67,7 +68,7 @@ class RecordNumber
 					return false;
 				} else {
 					$db->createCommand()
-						->update('vtiger_modentity_num', ['cur_id' => $no, 'prefix' => $prefix, 'postfix' => $postfix, 'reset_sequence' => $resetSequence], ['tabid' => $tabId])
+						->update('vtiger_modentity_num', ['cur_id' => $no, 'prefix' => $prefix, 'postfix' => $postfix, 'reset_sequence' => $resetSequence, 'cur_sequence' => $curSequence], ['tabid' => $tabId])
 						->execute();
 
 					return true;
