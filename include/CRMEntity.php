@@ -36,7 +36,7 @@ class CRMEntity
 	public $db;
 	public $ownedby;
 
-	/** 	Constructor which will set the column_fields in this object
+	/**    Constructor which will set the column_fields in this object
 	 */
 	public function __construct()
 	{
@@ -351,9 +351,10 @@ class CRMEntity
 					$sequenceNumber = $moduleData['sequenceNumber'];
 					$prefix = $moduleData['prefix'];
 					$postfix = $moduleData['postfix'];
+					$resetSequence = $moduleData['reset_sequence'];
 					$oldNumber = $sequenceNumber;
 					while ($recordinfo = $dataReader->read()) {
-						$recordNumber = \App\Fields\RecordNumber::parse($prefix . $sequenceNumber . $postfix);
+						$recordNumber = \App\Fields\RecordNumber::parse($prefix, $sequenceNumber, $postfix, $resetSequence);
 						App\Db::getInstance()->createCommand()
 							->update($fieldTable, [$fieldColumn => $recordNumber], [$this->table_index => $recordinfo['recordid']])
 							->execute();
@@ -510,7 +511,7 @@ class CRMEntity
 					while (($idFieldValue = $db->getSingleValue($selResult)) !== false) {
 						$db->update($relTableName, [
 							$entityIdField => $entityId,
-							], "$entityIdField = ? and $idField = ?", [$transferId, $idFieldValue]
+						], "$entityIdField = ? and $idField = ?", [$transferId, $idFieldValue]
 						);
 					}
 				}
@@ -520,7 +521,7 @@ class CRMEntity
 				$columnName = $field['columnname'];
 				$db->update($field['tablename'], [
 					$columnName => $entityId,
-					], "$columnName = ?", [$transferId]
+				], "$columnName = ?", [$transferId]
 				);
 			}
 		}
@@ -649,7 +650,7 @@ class CRMEntity
 		$sharingRuleInfo = $$sharingRuleInfoVariable;
 		$query = '';
 		if (!empty($sharingRuleInfo) && (count($sharingRuleInfo['ROLE']) > 0 ||
-			count($sharingRuleInfo['GROUP']) > 0)) {
+				count($sharingRuleInfo['GROUP']) > 0)) {
 			$query = ' (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per ' .
 				"WHERE userid=$userId && tabid=$tabId) UNION (SELECT " .
 				'vtiger_tmp_read_group_sharing_per.sharedgroupid FROM ' .
