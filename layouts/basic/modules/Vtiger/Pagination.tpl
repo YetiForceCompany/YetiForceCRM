@@ -91,7 +91,7 @@
 					<span class="js-popover-tooltip d-block d-sm-none" tabindex="0" data-trigger="focus"
 						  data-js="popover" data-placement="top"
 						  data-content="{$PAGING_MODEL->getRecordStartRange()} {\App\Language::translate('LBL_TO_LC')} {$PAGING_MODEL->getRecordEndRange()}
-                    {if !empty($LISTVIEW_COUNT)} ({$LISTVIEW_COUNT}){/if}">
+					{if !empty($LISTVIEW_COUNT)} ({$LISTVIEW_COUNT}){/if}">
 						<span class="fas fa-info-circle"
 							  title="{App\Language::translate('LBL_SHOW_INVENTORY_ROW')}"></span>
 					</span>
