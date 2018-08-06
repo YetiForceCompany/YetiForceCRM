@@ -41,7 +41,7 @@ class Record
 				if ($id && !Cache::has('recordLabel', $id)) {
 					$metainfo = Functions::getCRMRecordMetadata($id);
 					$computeLabel = static::computeLabels($metainfo['setype'], $id);
-					$recordLabel = TextParser::textTruncate(Purifier::encodeHtml($computeLabel[$id]), 254, false);
+					$recordLabel = isset($computeLabel[$id]) ? TextParser::textTruncate(Purifier::encodeHtml($computeLabel[$id]), 254, false) : '';
 					Cache::save('recordLabel', $id, $recordLabel);
 				}
 			}
