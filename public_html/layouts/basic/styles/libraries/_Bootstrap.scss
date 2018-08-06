@@ -22,10 +22,6 @@ label.btn.btn-outline-primary {
 		border-bottom: 1px solid $color-grey-light;
 	}
 }
-//fixes overflow for validation alerts
-.modal-body {
-	overflow-y: initial !important;
-}
 //btn-group with flex-column on mobile styles correction
 @include media-breakpoint-down(xs) {
 	.btn-group.flex-column {

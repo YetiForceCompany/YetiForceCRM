@@ -6,12 +6,15 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Rss_List_View extends Vtiger_Index_View
 {
 	public function preProcess(\App\Request $request, $display = true)
 	{
+		$viewer = $this->getViewer($request);
+		$viewer->assign('HEADER_LINKS', ['LIST_VIEW_HEADER' => []]);
 		parent::preProcess($request);
 	}
 
@@ -27,6 +30,7 @@ class Rss_List_View extends Vtiger_Index_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
+		$viewer->assign('SOURCE_MODULE', $moduleName);
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
