@@ -13,13 +13,14 @@ class Portal_EditAjax_View extends Vtiger_IndexAjax_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->getInteger('record');
 		$viewer = $this->getViewer($request);
 
-		if (!empty($recordId)) {
+		if ($request->has('record')) {
+			$recordId = $request->getInteger('record');
 			$data = Portal_Module_Model::getRecord($recordId);
 		} else {
 			$recordId = null;
+			$data = ['bookmarkName', 'bookmarkUrl'];
 		}
 
 		$viewer->assign('RECORD', $recordId);
