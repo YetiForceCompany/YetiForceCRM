@@ -1064,17 +1064,20 @@ jQuery.Class("Vtiger_Detail_Js", {
 					fieldNameValueMap = thisInstance.getCustomFieldNameValueMap(fieldNameValueMap);
 					thisInstance.saveFieldValues(fieldNameValueMap).done(function (response) {
 						readRecord.prop('disabled', false);
-						var postSaveRecordDetails = response.result;
 						currentTdElement.progressIndicator({'mode': 'hide'});
 						detailViewValue.removeClass('d-none');
 						actionElement.removeClass('d-none');
-						var displayValue = postSaveRecordDetails[fieldName].display_value;
+						if(!response.success){
+							return;
+						}
+						const postSaveRecordDetails = response.result;
+						let displayValue = postSaveRecordDetails[fieldName].display_value;
 						if (dateTimeField.length && dateTime) {
 							displayValue = postSaveRecordDetails[dateTimeField[0].name].display_value + ' ' + postSaveRecordDetails[dateTimeField[1].name].display_value;
 						}
 						detailViewValue.html(displayValue);
-						if (postSaveRecordDetails['isEditable'] == false) {
-							var progressIndicatorElement = jQuery.progressIndicator({
+						if (postSaveRecordDetails['isEditable'] === false) {
+							const progressIndicatorElement = jQuery.progressIndicator({
 								'position': 'html',
 								'blockInfo': {
 									'enabled': true
