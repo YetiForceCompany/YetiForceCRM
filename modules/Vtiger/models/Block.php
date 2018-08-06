@@ -120,6 +120,19 @@ class Vtiger_Block_Model extends vtlib\Block
 	}
 
 	/**
+	 * Function which indicates whether the block is dynamic show.
+	 *
+	 * @return : <boolean>
+	 */
+	public function isDynamic()
+	{
+		if ($this->get('display_status') == '2') {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Function to get the in active fields for the block.
 	 *
 	 * @param type $raw - true to send field in model format or false to send in array format
