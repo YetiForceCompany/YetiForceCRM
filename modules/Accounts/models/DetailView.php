@@ -113,9 +113,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => '',
 			];
 		}
-		//TODO: PrivilegesModel
-		//if ($userPrivilegesModel->hasModulePermission('Social')) {
-		if (true) {
+		if (SocialMedia_Module_Model::isEnableForModule($moduleName)) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_SOCIAL_MEDIA',
