@@ -156,10 +156,10 @@ class Users_List_View extends Settings_Vtiger_List_View
 		if (!isset($this->listViewCount)) {
 			$this->listViewCount = 0;
 		}
+		$pagingModel->set('totalCount', (int) $this->listViewCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
-		$pagingModel->set('totalCount', (int) $this->listViewCount);
-		$viewer->assign('LISTVIEW_COUNT', $this->listViewCount);
+		$viewer->assign('LISTVIEW_COUNT', (int) $this->listViewCount);
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('MODULE_MODEL', $this->listViewModel->getModule());
