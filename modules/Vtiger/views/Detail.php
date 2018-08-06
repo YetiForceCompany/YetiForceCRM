@@ -373,6 +373,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		if ($type === 'changes') {
 			$newChange = $request->has('newChange') ? $request->get('newChange') : ModTracker_Record_Model::isNewChange($parentRecordId);
+		} else {
+			$newChange = '';
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
