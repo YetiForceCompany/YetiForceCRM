@@ -66,6 +66,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 		$moduleModel->set('prefix', $request->get('prefix'));
 		$moduleModel->set('sequenceNumber', $request->get('sequenceNumber'));
 		$moduleModel->set('postfix', $request->get('postfix'));
+		$moduleModel->set('reset_sequence', $request->get('reset_sequence'));
 		$result = $moduleModel->setModuleSequence();
 		$response = new Vtiger_Response();
 		if ($result['success']) {

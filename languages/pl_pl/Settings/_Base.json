@@ -279,6 +279,12 @@
     "LBL_CV_YEAR": "Rok (np. 15)",
     "LBL_CV_MONTH": "Miesi\u0105c (np. 1, 5, 12)",
     "LBL_CV_DAY": "Dzie\u0144 (np. 1, 5, 25)",
+    "LBL_CV_LEADING_ZERO": "Wiod\u0105ce zero (np. trzy w. zera dzadzą wynik 002, 011, 563, 2342)",
+    "LBL_RS_RESET_SEQUENCE": "Resetuj numer",
+    "LBL_RS_DO_NOT": "Nie resetuj nigdy (numery rekord\u00F3w rosn\u0105 w niesko\u0144czono\u015B\u0107)",
+    "LBL_RS_YEAR": "Resetuj z nowym rokiem",
+    "LBL_RS_MONTH": "Resetuj z nowym miesi\u0105cem",
+    "LBL_RS_DAY": "Resetuj z nowym dniem",
     "LBL_DONATE_US": "Wspieraj nas",
     "LBL_START": "Start",
     "LBL_GITHUB": "Github",
@@ -381,6 +387,9 @@
     "LBL_WRONG_IMAGE_TYPE": "niewspierany format pliku",
     "JS_COLUMN_ADDED": "Pole dodane",
     "JS_COLUMN_EXIST": "B\u0142\u0105d przy dodaniu pola",
-    "JS_NOTIFY_COPY_TEXT": "Skopiowano zmienn\u0105 do schowka"
+    "JS_NOTIFY_COPY_TEXT": "Skopiowano zmienn\u0105 do schowka",
+    "JS_RS_ADD_YEAR_VARIABLE": "Skopiuj zmienn\u0105 typu rok do prefiksu lub postfixu",
+    "JS_RS_ADD_MONTH_VARIABLE": "Skopiuj zmienn\u0105 typu miesi\u0105c do prefiksu lub postfiksu",
+    "JS_RS_ADD_DAY_VARIABLE": "Skopiuj zmienn\u0105 typu dzie\u0144 do prefiksu lub postfixu"
   }
 }
