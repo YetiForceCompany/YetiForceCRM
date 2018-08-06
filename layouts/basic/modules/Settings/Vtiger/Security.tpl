@@ -22,7 +22,7 @@
 			</thead>
 			<tbody>
 				{foreach from=Settings_ConfReport_Module_Model::getSecurityConf() key=key item=item}
-					<tr {if isset($item.status) && $item.status}class="table-danger"{/if}>
+					<tr {if !empty($item.status)}class="table-danger"{/if}>
 						<td>
 							<label>{$key}</label>
 							{if isset($item.help) && isset($item.status) && $item.status}<a href="#" class="js-popover-tooltip float-right text-dark" data-js="popover" data-trigger="focus" data-placement="right" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><span class="fas fa-info-circle"></span></a>{/if}
