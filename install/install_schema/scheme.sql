@@ -2983,7 +2983,8 @@ CREATE TABLE `u_yf_social_media_config` (
   `name` varchar(255) NOT NULL,
   `value` text DEFAULT NULL,
   `type` varchar(128) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_type_unique` (`name`(100),`type`(100))
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_squoteenquiries` */
@@ -8337,7 +8338,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 
