@@ -17,17 +17,20 @@
 				<div class="btn-group btn-group-toggle" data-toggle="buttons">
 					<label class="btn btn-sm btn-outline-primary active">
 						<input class="js-switch" type="radio" name="options" id="option1" data-js="change"
-							   data-on-text="{App\Language::translate('LBL_CURRENT')}"
-							   data-on-val="{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}"
-							   data-basic-text="{App\Language::translate('LBL_CURRENT')}"
-							   autocomplete="off"
-							   > {App\Language::translate('LBL_CURRENT')}
+								data-on-text="{App\Language::translate('LBL_CURRENT')}"
+								{if isset($WIDGET['switchHeader']['on'])}
+									data-on-val="{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}"
+								{/if}
+								data-basic-text="{App\Language::translate('LBL_CURRENT')}"
+								autocomplete="off"> {App\Language::translate('LBL_CURRENT')}
 					</label>
 					<label class="btn btn-sm btn-outline-primary">
 						<input class="js-switch" type="radio" name="options" id="option2" data-js="change"
 							   data-basic-text="{App\Language::translate('LBL_HISTORY')}"
 							   data-off-text="data-off-text {App\Language::translate('LBL_HISTORY')}"
-							   data-off-val="{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}"
+								{if isset($WIDGET['switchHeader']['off'])}
+									data-off-val="{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}"
+								{/if}
 							   autocomplete="off"> {App\Language::translate('LBL_HISTORY')}
 					</label>
 				</div>
