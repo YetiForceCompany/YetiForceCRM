@@ -17,9 +17,11 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="alert alert-danger alert-dismissible fade show" role="alert">
-						<a href="#" class="close" data-dismiss="alert">&times;</a>
-						<strong>{\App\Language::translate('LBL_ATTENTION', $MODULE_NAME)}</strong>
+						<h4 class="alert-heading">{\App\Language::translate('LBL_ATTENTION', $MODULE_NAME)}</h4>
 						{\App\Language::translate('LBL_SORTING_SETTINGS_WORNING', $MODULE_NAME)}
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
 				</div>
 				<label class="col-12">
