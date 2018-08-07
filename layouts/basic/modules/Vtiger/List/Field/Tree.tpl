@@ -3,7 +3,7 @@
     {assign var="FIELD_INFO" value=$FIELD_MODEL->getFieldInfo()}
     {assign var=ALL_VALUES value=$FIELD_INFO['picklistvalues']}
 	{if isset($SEARCH_INFO['searchValue'])}
-		{assign var=SEARCH_VALUES value=explode('##',$SEARCH_INFO['searchValue'])}
+		{assign var=SEARCH_VALUES value=explode('##', $SEARCH_INFO['searchValue'])}
 	{else}
 		{assign var=SEARCH_VALUES value=[]}
 	{/if}
