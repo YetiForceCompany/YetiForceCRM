@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-ButtonLink c-btn-link btn-group {if $BUTTON_VIEW|strrpos:'listView' !== false && $USER_MODEL->get('rowheight') eq 'narrow'}btn-group-sm{/if}{if isset($CLASS)} {$CLASS}{/if}">
+	<div class="tpl-ButtonLink c-btn-link btn-group {if $BUTTON_VIEW|strrpos:'listView' !== false && $USER_MODEL->get('rowheight') eq 'narrow'}btn-group-sm{/if}{if !empty($CLASS)} {$CLASS}{/if}">
 		{assign var="LABEL" value=$LINK->getLabel()}
 		{assign var="ACTION_NAME" value=$LABEL}
 		{if $LINK->get('linkhint') neq ''}
@@ -57,7 +57,7 @@
 			{/if}
 			{if !empty($LABEL) && !empty($CLASS) && $CLASS == 'c-btn-link--responsive'}
 				<span class="d-{$BREAKPOINT}-none ml-1">{\App\Language::translate($LABEL, $BTN_MODULE)}</span>
-			{elseif $LABEL neq '' && $LINK->get('showLabel') == 1}
+			{elseif !empty($LABEL) && $LINK->get('showLabel') == 1}
 				{\App\Language::translate($LABEL, $BTN_MODULE)}
 			{else}
 			{/if}
