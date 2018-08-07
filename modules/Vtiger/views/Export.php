@@ -30,8 +30,8 @@ class Vtiger_Export_View extends Vtiger_Index_View
 	{
 		$sourceModule = $request->getModule();
 		$viewId = $request->getByType('viewname', 2);
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
+		$selectedIds = $request->getArray('selected_ids');
+		$excludedIds = $request->getArray('excluded_ids');
 		$page = $request->getInteger('page');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_IDS', $selectedIds);
@@ -45,7 +45,7 @@ class Vtiger_Export_View extends Vtiger_Index_View
 		$viewer->assign('OPERATOR', $request->getByType('operator', 1));
 		$viewer->assign('ALPHABET_VALUE', $request->getByType('search_value', 2));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
-		$viewer->assign('SEARCH_PARAMS', $request->get('search_params'));
+		$viewer->assign('SEARCH_PARAMS', $request->getArray('search_params'));
 		$viewer->view('Export.tpl', $sourceModule);
 	}
 }
