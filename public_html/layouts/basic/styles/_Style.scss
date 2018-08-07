@@ -2317,17 +2317,6 @@ span[name=existingImages] img {
 	text-align: left !important;
 }
 
-.roundedCorners {
-	:not(:first-child) {
-		padding-left: 0;
-	}
-
-	label {
-		font-weight: normal;
-		min-height: 40px;
-	}
-}
-
 #widgetsManagementEditorContainer {
 	.modal-footer .btn {
 		margin: 5px;
