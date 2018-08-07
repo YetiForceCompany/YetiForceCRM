@@ -73,6 +73,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 	public function getListViewMassActions($linkParams)
 	{
 		$moduleModel = $this->getModule();
+		$moduleName = $moduleModel->getName();
 
 		$linkTypes = ['LISTVIEWMASSACTION'];
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
@@ -83,7 +84,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_EDIT',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->get('name') . '&view=MassActionAjax&mode=showMassEditForm");',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleName . '&view=MassActionAjax&mode=showMassEditForm");',
 				'linkicon' => 'fas fa-edit',
 			];
 		}
@@ -91,7 +92,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MOVE',
-				'linkurl' => 'javascript:Documents_List_Js.massMove("index.php?module=' . $moduleModel->getName() . '&view=MoveDocuments");',
+				'linkurl' => 'javascript:Documents_List_Js.massMove("index.php?module=' . $moduleName . '&view=MoveDocuments");',
 				'linkicon' => 'fas fa-folder-open',
 			];
 		}
@@ -99,7 +100,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleName . '&view=MassActionAjax&mode=transferOwnership")',
 				'linkicon' => 'fas fa-user',
 			];
 		}
@@ -107,7 +108,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD',
-				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
+				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=' . $moduleName . '&view=MassAddDocuments")',
 				'linkicon' => 'fas fa-plus',
 			];
 		}
@@ -116,7 +117,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ACTIVATE',
 				'linkurl' => 'javascript:',
-				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
+				'dataUrl' => 'index.php?module=' . $moduleName . '&action=MassState&state=Active&sourceView=List',
 				'linkclass' => 'massRecordEvent',
 				'linkicon' => 'fas fa-undo-alt',
 			];
@@ -126,7 +127,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ARCHIVE',
 				'linkurl' => 'javascript:',
-				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
+				'dataUrl' => 'index.php?module=' . $moduleName . '&action=MassState&state=Archived&sourceView=List',
 				'linkclass' => 'massRecordEvent',
 				'linkicon' => 'fas fa-archive',
 			];
@@ -136,7 +137,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_MOVE_TO_TRASH',
 				'linkurl' => 'javascript:',
-				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
+				'dataUrl' => 'index.php?module=' . $moduleName . '&action=MassState&state=Trash&sourceView=List',
 				'linkclass' => 'massRecordEvent',
 				'linkicon' => 'fas fa-trash-alt',
 			];
@@ -146,7 +147,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',
 				'linkurl' => 'javascript:',
-				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
+				'dataUrl' => 'index.php?module=' . $moduleName . '&action=MassDelete&sourceView=List',
 				'linkclass' => 'massRecordEvent',
 				'linkicon' => 'fas fa-eraser',
 			];
