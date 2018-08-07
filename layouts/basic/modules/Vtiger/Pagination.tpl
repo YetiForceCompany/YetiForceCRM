@@ -3,6 +3,9 @@
 	{if empty($VIEWNAME)}
 		{assign var=VIEWNAME value='list'}
 	{/if}
+	{if empty($LISTVIEW_COUNT)}
+		{assign var=LISTVIEW_COUNT value=0}
+	{/if}
 	<nav class="tpl-Pagination" aria-label="Page navigation">
 		<ul class="js-pagination-list pagination m-0" data-total-count="{$LISTVIEW_COUNT}" data-js="data">
 			<li class="js-page--set page-item {if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage" data-id="1"
