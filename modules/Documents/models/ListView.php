@@ -14,6 +14,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
+		$moduleName = $moduleModel->getName();
 		$advancedLinks = [];
 
 		if ($moduleModel->isPermitted('Export')) {
@@ -26,14 +27,14 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 		}
 
 		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
-			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
+			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, 'List');
 			if (count($templates) > 0) {
 				$advancedLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
-					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
+					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleName . '&view=PDF&fromview=List");',
 					'linkicon' => 'fas fa-file-excel',
 					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
 				];
@@ -44,19 +45,19 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleName . '")',
 				'linkicon' => 'fas fa-file-excel',
 			];
 		}
 		if ($moduleModel->isPermitted('RecordMappingList')) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleModel->getName());
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 			$mfModel = new $handlerClass();
-			$templates = $mfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
+			$templates = $mfModel->getActiveTemplatesForModule($moduleName, 'List');
 			if (count($templates) > 0) {
 				$advancedLinks[] = [
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_GENERATE_RECORDS',
-					'linkurl' => 'javascript:Vtiger_List_Js.triggerGenerateRecords("index.php?module=' . $moduleModel->getName() . '&view=GenerateModal&fromview=List");',
+					'linkurl' => 'javascript:Vtiger_List_Js.triggerGenerateRecords("index.php?module=' . $moduleName . '&view=GenerateModal&fromview=List");',
 				];
 			}
 		}
