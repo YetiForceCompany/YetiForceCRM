@@ -65,7 +65,7 @@ App.Fields = {
 				todayBtn: "linked",
 				clearBtn: true,
 				language: CONFIG.langKey,
-				starts: CONFIG.firstDayOfWeekNo,
+				weekStart: CONFIG.firstDayOfWeekNo,
 				autoclose: true,
 				todayHighlight: true,
 			};

@@ -87,29 +87,17 @@
 					{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 				</div>
 			</div>
-			<span class="d-none filterActionImages float-right">
-					<span title="{\App\Language::translate('LBL_DENY', $MODULE)}" data-value="deny"
-						  class="fas fa-exclamation-circle alignMiddle denyFilter filterActionImage float-right"></span>
-					<span title="{\App\Language::translate('LBL_APPROVE', $MODULE)}" data-value="approve"
-						  class="fas fa-check alignMiddle approveFilter filterActionImage float-right"></span>
-					<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" data-value="delete"
-						  class="fas fa-trash-alt alignMiddle deleteFilter filterActionImage float-right"></span>
-					<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" data-value="edit"
-						  class="fas fa-pencil-alt alignMiddle editFilter filterActionImage float-right"></span>
-					<span title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}" data-value="duplicate"
-						  class="fas fa-retweet alignMiddle duplicateFilter filterActionImage float-right"></span>
-				</span>
 		</div>
 		{if $CUSTOM_VIEWS|@count gt 0}
 			<ul class="nav nav-tabs pt-2" role="tablist">
 				{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 					{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 						{if $CUSTOM_VIEW->isFeatured()}
-							<li class="nav-item featuredLabel c-tab--small font-weight-bold"
-								data-cvid="{$CUSTOM_VIEW->getId()}">
-								<a class="nav-link" href="#"
+							<li class="nav-item js-filter-tab c-tab--small font-weight-bold"
+								data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
+								<a class="nav-link{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}" href="#"
 								   {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if}
-								   data-toggle="tab" role="tab" aria-selected="false">
+								   data-toggle="tab" role="tab" aria-selected="{if $VIEWID == $CUSTOM_VIEW->getId()}true{else}false{/if}">
 									{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 									{if $CUSTOM_VIEW->get('description')}
 										&nbsp;
