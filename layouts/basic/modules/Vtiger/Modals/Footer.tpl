@@ -6,7 +6,7 @@
 				<span class="fas fa-check mr-1"></span><strong>{\App\Language::translate($BTN_SUCCESS, $MODULE)}</strong>
 			</button>
 		{/if}
-		{if $BTN_DANGER && !$LOCK_EXIT}
+		{if $BTN_DANGER && empty($LOCK_EXIT)}
 			<button class="btn btn-danger" type="reset" data-dismiss="modal">
 				<span class="fas fa-times mr-1"></span><strong>{\App\Language::translate($BTN_DANGER, $MODULE)}</strong>
 			</button>
