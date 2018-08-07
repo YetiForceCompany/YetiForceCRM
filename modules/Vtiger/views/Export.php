@@ -44,7 +44,7 @@ class Vtiger_Export_View extends Vtiger_Index_View
 		$viewer->assign('EXPORT_TYPE', ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml']);
 		if (!$request->isEmpty('operator')) {
 			$viewer->assign('OPERATOR', $request->getByType('operator', 1));
-			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
+			$viewer->assign('ALPHABET_VALUE', $request->getByType('search_value', 2));
 			$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
 		}
 		$viewer->assign('SEARCH_PARAMS', $request->get('search_params'));
