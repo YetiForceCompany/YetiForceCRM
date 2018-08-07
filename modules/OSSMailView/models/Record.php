@@ -313,15 +313,11 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-
-		$crmid = (int) $params['crmid'];
 		$newModule = $params['newModule'];
 		$newCrmId = (int) $params['newCrmId'];
-		$mailId = (int) $params['mailId'];
-
 		if ($newModule === 'Products') {
 			$dbCommand->insert('vtiger_seproductsrel', [
-				'crmid' => $crmid,
+				'crmid' => (int) $params['crmid'],
 				'productid' => $newCrmId,
 				'setype' => $params['mod'],
 				'rel_created_user' => $currentUser->getId(),
@@ -329,13 +325,13 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			])->execute();
 		} elseif ($newModule === 'Services') {
 			$dbCommand->insert('vtiger_crmentityrel', [
-				'crmid' => $crmid,
+				'crmid' => (int) $params['crmid'],
 				'module' => $params['mod'],
 				'relcrmid' => $newCrmId,
 				'relmodule' => $newModule,
 			])->execute();
 		} else {
-			(new OSSMailView_Relation_Model())->addRelation($mailId, $newCrmId);
+			(new OSSMailView_Relation_Model())->addRelation((int) $params['mailId'], $newCrmId);
 		}
 		return \App\Language::translate('Add relationship', 'OSSMail');
 	}
