@@ -3,9 +3,9 @@
 		{include file=\App\Layout::getTemplatePath('DetailViewBlockLink.tpl', $MODULE_NAME) TYPE_VIEW='SummaryTop'}
 	</div>
 	<div class="form-row ml-0">
-		{if isset($DETAILVIEW_WIDGETS[3])}
+		{if !empty($DETAILVIEW_WIDGETS[3])}
 			{assign var=span value='4'}
-		{elseif isset($DETAILVIEW_WIDGETS[2])}
+		{elseif !empty($DETAILVIEW_WIDGETS[2])}
 			{assign var=span value='6'}
 		{else}
 			{assign var=span value='12'}
