@@ -13,7 +13,6 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	 * The name of the tables in the database.
 	 */
 	private const TABLE_NAME = 'u_#__social_media_config';
-
 	/**
 	 * The name of the cache.
 	 */
