@@ -15,6 +15,11 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	private const TABLE_NAME = 'u_#__social_media_config';
 
 	/**
+	 * The name of the cache.
+	 */
+	private const CACHE_NAME = 'SocialMediaConfig';
+
+	/**
 	 * Configuration type.
 	 *
 	 * @var string
@@ -58,6 +63,10 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	 */
 	public function getConfig($type)
 	{
+		if (\App\Cache::has(static::CACHE_NAME, $type)) {
+			$this->value = \App\Cache::get(static::CACHE_NAME, $type);
+			return $this->value;
+		}
 		$this->type = $type;
 		$this->value = [];
 		$dataReader = (new \App\Db\Query())
@@ -70,6 +79,7 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 			$this->value[$row['name']] = \App\Json::decode($row['value']);
 		}
 		$dataReader->close();
+		\App\Cache::save(static::CACHE_NAME, $type, $this->value, \App\Cache::LONG);
 		return $this->value;
 	}
 
@@ -129,9 +139,18 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 				$db->createCommand()->delete(static::TABLE_NAME, ['type' => $this->type, 'name' => $key])->execute();
 			}
 			$transaction->commit();
+			$this->clearCache();
 		} catch (\Exception $e) {
 			$transaction->rollBack();
 			throw $e;
 		}
+	}
+
+	/**
+	 * Function clears cache.
+	 */
+	public function clearCache()
+	{
+		\App\Cache::delete(static::CACHE_NAME, $this->type);
 	}
 }
