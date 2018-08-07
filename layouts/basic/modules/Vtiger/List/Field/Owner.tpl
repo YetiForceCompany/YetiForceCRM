@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    {assign var=FIELD_INFO value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
+	{assign var=FIELD_INFO value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->getName()}
 	{if isset($SEARCH_INFO['searchValue'])}
 		{assign var=SEARCH_VALUE value=explode('##', $SEARCH_INFO['searchValue'])}

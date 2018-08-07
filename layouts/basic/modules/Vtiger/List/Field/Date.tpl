@@ -10,14 +10,14 @@
 ********************************************************************************/
 -->*}
 {strip}
-    {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
-    {assign var="dateFormat" value=$USER_MODEL->get('date_format')}
+	{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
+	{assign var="dateFormat" value=$USER_MODEL->get('date_format')}
 	{if isset($SEARCH_INFO['searchValue'])}
 		{assign var=SEARCH_VALUES value=$SEARCH_INFO['searchValue']}
 	{else}
 		{assign var=SEARCH_VALUES value=''}
 	{/if}
-    <div class="tpl-List-Field-Date picklistSearchField">
-        <input name="{$FIELD_MODEL->getName()}" class="listSearchContributor dateRangeField form-control" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModule()->getName())}" type="text" value="{$SEARCH_VALUES}" data-date-format="{$dateFormat}" data-calendar-type="range" data-fieldinfo='{$FIELD_INFO|escape}' autocomplete="off"/>
-    </div>
+	<div class="tpl-List-Field-Date picklistSearchField">
+		<input name="{$FIELD_MODEL->getName()}" class="listSearchContributor dateRangeField form-control" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModule()->getName())}" type="text" value="{$SEARCH_VALUES}" data-date-format="{$dateFormat}" data-calendar-type="range" data-fieldinfo='{$FIELD_INFO|escape}' autocomplete="off"/>
+	</div>
 {/strip}
