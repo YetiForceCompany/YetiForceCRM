@@ -128,7 +128,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 			$totalCount = (int) $relationListView->getRelatedEntriesCount();
 		}
 		if (!empty($totalCount)) {
-			$pagingModel->set('totalCount', $totalCount);
+			$pagingModel->set('totalCount', (int) $totalCount);
 		}
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('TOTAL_ENTRIES', $totalCount);
