@@ -1,6 +1,5 @@
 {
   "php": {
-    "LBL_ATTENTION": "Uwaga!",
     "Allows you to Configure Cron Task": "Wywo\u0142uje okresowo kolejno zdefiniowane zadania w celu automatyzacji proces\u00f3w w systemie CRM.",
     "Configuration Editor": "Ustawienia",
     "EmailTemplate": "Szablony mailowe",
