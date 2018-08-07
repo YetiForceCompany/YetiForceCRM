@@ -43,6 +43,7 @@ App.Fields = {
 				});
 			}
 			let format = CONFIG.dateFormat;
+			console.log(CONFIG.dateFormat);
 			const elementDateFormat = elements.data('dateFormat');
 			if (typeof elementDateFormat !== "undefined") {
 				format = elementDateFormat;
@@ -56,7 +57,7 @@ App.Fields = {
 					monthsShort: App.Fields.Date.monthsTranslated,
 					today: app.vtranslate('JS_TODAY'),
 					clear: app.vtranslate('JS_CLEAR'),
-					format,
+					format: format,
 					titleFormat: 'MM yyyy', /* Leverages same syntax as 'format' */
 					weekStart: CONFIG.firstDayOfWeekNo
 				};
@@ -68,6 +69,7 @@ App.Fields = {
 				weekStart: CONFIG.firstDayOfWeekNo,
 				autoclose: true,
 				todayHighlight: true,
+				format: format
 			};
 			if (typeof customParams !== "undefined") {
 				params = $.extend(params, customParams);
