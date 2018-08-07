@@ -49,7 +49,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			];
 		}
 		if ($moduleModel->isPermitted('RecordMappingList')) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleModel->getName());
 			$mfModel = new $handlerClass();
 			$templates = $mfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
