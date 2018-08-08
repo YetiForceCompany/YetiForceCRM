@@ -68,7 +68,8 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 			sequenceNumberElement.validationEngine('showPrompt', app.vtranslate('JS_SEQUENCE_NUMBER_MESSAGE') + " " + oldSequenceNumber, 'error', 'topLeft', true);
 			return;
 		}
-		const params = {
+		$('.saveButton').attr("disabled", "disabled");
+		AppConnector.request({
 			'module': app.getModuleName(),
 			'parent': app.getParentModuleName(),
 			'action': "CustomRecordNumberingAjax",
@@ -78,9 +79,7 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 			'postfix': currentPostfix,
 			'sequenceNumber': sequenceNumber,
 			'reset_sequence': editViewForm.find('[name="reset_sequence"]').val(),
-		};
-		$('.saveButton').attr("disabled", "disabled");
-		AppConnector.request(params).done(function (data) {
+		}).done(function (data) {
 			if (data.success === true) {
 				Settings_Vtiger_Index_Js.showMessage({
 					text: app.vtranslate('JS_RECORD_NUMBERING_SAVED_SUCCESSFULLY_FOR') + " " + editViewForm.find('option[value="' + sourceModule + '"]').text()
