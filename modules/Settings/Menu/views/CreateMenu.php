@@ -22,7 +22,7 @@ class Settings_Menu_CreateMenu_View extends Settings_Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $settingsModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('ROLEID', $roleId);
+		//$viewer->assign('ROLEID', null);
 		$viewer->view('CreateMenuStep1.tpl', $qualifiedModuleName);
 	}
 
