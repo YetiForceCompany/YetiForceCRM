@@ -67,6 +67,8 @@ class RecordNumber extends \App\Fields\RecordNumber
 class Z_ResetingRecordNumber extends \Tests\Base
 {
 	/**
+	 * Database transaction pointer.
+	 *
 	 * @var \yii\db\Transaction
 	 */
 	private static $transaction;
@@ -85,7 +87,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	 */
 	public function testDateMock()
 	{
-		$this->assertSame(20, count(RecordNumber::$dates));
+		$this->assertCount(20, RecordNumber::$dates);
 		foreach (RecordNumber::$dates as $index => $date) {
 			RecordNumber::$currentDateIndex = $index;
 			$this->assertSame($date, RecordNumber::date('Y-m-d'));
@@ -111,7 +113,8 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	 */
 	public function testIncrementNumberStandard()
 	{
-		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['=', 'tabid', 95])->createCommand()->queryOne();
+		RecordNumber::setNumber(95, 'F-I', 1, '', null, '');
+		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => 95])->one();
 		$this->assertSame('F-I', $originalRow['prefix']);
 		$this->assertSame('', $originalRow['postfix']);
 		$this->assertSame(null, $originalRow['reset_sequence']);
@@ -131,6 +134,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 
 	/**
 	 * Test method "Parse".
+	 * Test parsing method for record numbers on different dates.
 	 */
 	public function testParse()
 	{
@@ -145,6 +149,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 
 	/**
 	 * Test method "IncrementNumberDay".
+	 * Test record number resetting with new day.
 	 */
 	public function testIncrementNumberDay()
 	{
@@ -156,7 +161,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 		$curSequence = ($parts[0] . $parts[1] . $parts[2]);
 		$result = RecordNumber::setNumber(95, $prefix, $actualNumber, $postfix, $resetSequence, $curSequence);
 		$this->assertSame(1, $result);
-		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['=', 'tabid', 95])->createCommand()->noCache()->queryOne();
+		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => 95])->one();
 		$this->assertSame($prefix, $originalRow['prefix']);
 		$this->assertSame($postfix, $originalRow['postfix']);
 		$this->assertSame($resetSequence, $originalRow['reset_sequence']);
@@ -167,7 +172,6 @@ class Z_ResetingRecordNumber extends \Tests\Base
 		foreach (RecordNumber::$dates as $index => $date) {
 			RecordNumber::$currentDateIndex = $index;
 			$sequence = str_replace('-', '', $date);
-			$parts = explode('-', $date);
 			if ($sequence === $currentDate) {
 				$currentNumber++;
 			} else {
@@ -186,10 +190,10 @@ class Z_ResetingRecordNumber extends \Tests\Base
 
 	/**
 	 * Test method "IncrementNumberMonth".
+	 * Test record number resetting with new month.
 	 */
 	public function testIncrementNumberMonth()
 	{
-		$parts = explode('-', RecordNumber::$dates[0]);
 		$actualNumber = 1;
 		$prefix = '{{YYYY}}-{{MM}}-{{DD}}/';
 		$postfix = '';
@@ -197,7 +201,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 		$curSequence = '';
 		$result = RecordNumber::setNumber(95, $prefix, $actualNumber, $postfix, $resetSequence, $curSequence);
 		$this->assertSame(1, $result);
-		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['=', 'tabid', 95])->createCommand()->noCache()->queryOne();
+		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => 95])->one();
 		$this->assertSame($prefix, $originalRow['prefix']);
 		$this->assertSame($postfix, $originalRow['postfix']);
 		$this->assertSame($resetSequence, $originalRow['reset_sequence']);
@@ -227,6 +231,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 
 	/**
 	 * Test method "IncrementNumberYear".
+	 * Test record number resetting with new year.
 	 */
 	public function testIncrementNumberYear()
 	{
@@ -237,7 +242,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 		$curSequence = '';
 		$result = RecordNumber::setNumber(95, $prefix, $actualNumber, $postfix, $resetSequence, $curSequence);
 		$this->assertSame(1, $result);
-		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['=', 'tabid', 95])->createCommand()->noCache()->queryOne();
+		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => 95])->one();
 		$this->assertSame($prefix, $originalRow['prefix']);
 		$this->assertSame($postfix, $originalRow['postfix']);
 		$this->assertSame($resetSequence, $originalRow['reset_sequence']);
