@@ -17,6 +17,19 @@ class Vtiger_DetailView_Model extends \App\Base
 	public $widgets = [];
 
 	/**
+	 * Default types of links
+	 * @var array
+	 */
+	public $defaultLinksTypes = [
+		'DETAIL_VIEW_BASIC' => [],
+		'DETAIL_VIEW_ADDITIONAL' => [],
+		'DETAIL_VIEW_EXTENDED' => [],
+		'DETAILVIEWTAB' => [],
+		'DETAILVIEWRELATED' => [],
+		'DETAIL_VIEW_HEADER_WIDGET' => []
+	];
+
+	/**
 	 * Function to get Module instance.
 	 *
 	 * @return Vtiger_Module_Model
@@ -81,7 +94,8 @@ class Vtiger_DetailView_Model extends \App\Base
 		$recordModel = $this->getRecord();
 		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
-		$linkModelList = $detailViewLinks = [];
+		$linkModelList = $this->defaultLinksTypes;
+		$detailViewLinks = [];
 		if ($moduleModel->isPermitted('WorkflowTrigger') && $recordModel->isEditable()) {
 			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
 			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
@@ -249,7 +263,7 @@ class Vtiger_DetailView_Model extends \App\Base
 			$relatedLink = Vtiger_Link_Model::getInstanceFromValues($relatedLinkEntry);
 			$linkModelList[$relatedLink->getType()][] = $relatedLink;
 		}
-		$allLinks = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['DETAIL_VIEW_ADDITIONAL', 'DETAIL_VIEW_BASIC', 'DETAIL_VIEW_HEADER_WIDGET', 'DETAIL_VIEW_EXTENDED', 'DETAILVIEWTAB'], $linkParams);
+		$allLinks = Vtiger_Link_Model::getAllByType($moduleModel->getId(), array_keys($this->defaultLinksTypes), $linkParams);
 		if (!empty($allLinks)) {
 			foreach ($allLinks as $type => &$allLinksByType) {
 				foreach ($allLinksByType as $linkModel) {
