@@ -48,10 +48,10 @@ YetiForce_Bar_Widget_Js('YetiForce_SummationByMonths_Widget_Js',{}, {
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 	</div>
 	<hr class="widgetHr" />
-	<div class="row" >
+	<div class="row no-gutters" >
 		<div class="col-md-6">
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-6 pl-0 pt-1 pl-sm-1 pt-sm-0">
 			{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 		</div>
 	</div>

@@ -19,7 +19,7 @@
 		</div>
 	</div>
 	<hr class="widgetHr" />
-	<div class="row">
+	<div class="row no-gutters">
 		<div class="col-sm-6">
 			{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 		</div>

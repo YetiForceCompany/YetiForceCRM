@@ -16,7 +16,7 @@
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 		</div>
 		<hr class="widgetHr" />
-		<div class="row justify-content-end m-0">
+		<div class="row no-gutters justify-content-end m-0">
 			<div class="col-md-6 input-group input-group-sm">
 				<div class="input-group-prepend">
 					<span class="input-group-text">

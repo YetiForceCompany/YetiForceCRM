@@ -19,7 +19,7 @@
 		</div>
 	</div>
 	<hr class="widgetHr" />
-	<div class="row" >
+	<div class="row no-gutters" >
 		<div class="col-sm-6">
 			<div class="input-group input-group-sm">
 				<div class=" input-group-prepend">
@@ -30,7 +30,7 @@
 				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control text-center" value="{implode(',',$DTIME)}" />
 			</div>
 		</div>
-		<div class="col-sm-6">
+		<div class="col-sm-6 pl-0 pt-1 pl-sm-1 pt-sm-0">
 			{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 		</div>
 	</div>
