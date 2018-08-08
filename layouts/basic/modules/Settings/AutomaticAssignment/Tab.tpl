@@ -66,7 +66,7 @@
 					<div class="col-md-5 col-lg-4">
 						<div class="input-group fieldContainer flex-nowrap" data-name="{$FIELD_MODEL->getName()}"
 							 data-dbname="{$FIELD_NAME}">
-							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
+							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE RECORD=$RECORD_MODEL->getId()}
 							<div class="input-group-append">
 								<button type="button" class="btn btn-success saveValue" id="saveValue"
 										title="{\App\Language::translate('BTN_ADD', $QUALIFIED_MODULE)}">
