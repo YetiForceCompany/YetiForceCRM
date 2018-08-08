@@ -213,21 +213,21 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', ['verify' => 1], ['ossmailviewid' => $selectedIds])->execute();
 	}
 
-	public function getMailType()
+	public static function getMailType()
 	{
 		return [2 => 'Internal', 0 => 'Sent', 1 => 'Received'];
 	}
 
 	public function changeTypeAllRecords($mailType)
 	{
-		$mailTypeData = $this->getMailType();
+		$mailTypeData = self::getMailType();
 		$this->addLog('Action_ChangeType', 'all');
 		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', ['ossmailview_sendtype' => $mailTypeData[$mailType], 'type' => $mailType], [])->execute();
 	}
 
 	public function changeTypeSelectedRecords($selectedIds, $mail_type)
 	{
-		$mailType = $this->getMailType();
+		$mailType = self::getMailType();
 		$this->addLog('Action_ChangeType', count($selectedIds));
 		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', ['ossmailview_sendtype' => $mailType[$mail_type], 'type' => $mail_type], ['ossmailviewid' => $selectedIds])->execute();
 	}
