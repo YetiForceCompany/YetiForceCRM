@@ -153,8 +153,9 @@ class RecordNumber
 	/**
 	 * Function updates module number.
 	 *
-	 * @param int $curId
-	 * @param int $tabId
+	 * @param int    $curId
+	 * @param string $curSequence
+	 * @param int    $tabId
 	 */
 	public static function updateNumber($curId, $curSequence, $tabId)
 	{
@@ -166,8 +167,7 @@ class RecordNumber
 	/**
 	 * Function returns information about module numbering.
 	 *
-	 * @param int    $tabId
-	 * @param boolen $cache
+	 * @param int $tabId
 	 *
 	 * @return array
 	 */
