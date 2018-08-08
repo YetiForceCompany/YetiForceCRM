@@ -13,6 +13,22 @@ namespace App\Fields;
 class RecordNumber
 {
 	/**
+	 * Date function that can be overrided in tests.
+	 *
+	 * @param      $format
+	 * @param null $time
+	 *
+	 * @return false|string
+	 */
+	public static function date($format, $time = null)
+	{
+		if ($time === null) {
+			$time = time();
+		}
+		return date($format, $time);
+	}
+
+	/**
 	 * Function that checks if a module has serial number configuration.
 	 *
 	 * @param int $tabId
@@ -41,18 +57,16 @@ class RecordNumber
 	 *
 	 * @return bool
 	 */
-	public static function setNumber($tabId, $prefix = '', $no = '', $postfix = '', $resetSequence = null, $curSequence = 0)
+	public static function setNumber($tabId, $prefix = '', $no = '', $postfix = '', $resetSequence = null, $curSequence = '')
 	{
 		if ($no != '') {
 			$db = \App\Db::getInstance();
 			if (!is_numeric($tabId)) {
 				$tabId = \App\Module::getModuleId($tabId);
 			}
-			$currentId = (new \App\Db\Query())->select(['cur_id'])->from('vtiger_modentity_num')
-				->where(['tabid' => $tabId])
-				->scalar();
-			if (!$currentId) {
-				$db->createCommand()->insert('vtiger_modentity_num', [
+			$current = (new \App\Db\Query())->from('vtiger_modentity_num')->noCache()->where(['tabid' => $tabId])->one();
+			if (!$current['cur_id']) {
+				return $db->createCommand()->noCache()->insert('vtiger_modentity_num', [
 					'tabid' => $tabId,
 					'prefix' => $prefix,
 					'postfix' => $postfix,
@@ -61,18 +75,10 @@ class RecordNumber
 					'reset_sequence' => $resetSequence,
 					'cur_sequence' => $curSequence
 				])->execute();
-
-				return true;
 			} else {
-				if ($no < $currentId) {
-					return false;
-				} else {
-					$db->createCommand()
-						->update('vtiger_modentity_num', ['cur_id' => $no, 'prefix' => $prefix, 'postfix' => $postfix, 'reset_sequence' => $resetSequence, 'cur_sequence' => $curSequence], ['tabid' => $tabId])
-						->execute();
-
-					return true;
-				}
+				return $db->createCommand()->noCache()
+					->update('vtiger_modentity_num', ['cur_id' => $no, 'prefix' => $prefix, 'postfix' => $postfix, 'reset_sequence' => $resetSequence, 'cur_sequence' => $curSequence], ['tabid' => $tabId])
+					->execute();
 			}
 		}
 	}
@@ -86,12 +92,12 @@ class RecordNumber
 	 */
 	public static function incrementNumber($moduleId)
 	{
-		$row = (new \App\Db\Query())->select(['cur_id', 'prefix', 'postfix', 'reset_sequence', 'cur_sequence'])->from('vtiger_modentity_num')->where(['tabid' => $moduleId])->one();
+		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $moduleId])->noCache()->one();
 		$actualSequence = static::getSequenceNumber($row['reset_sequence']);
-		if ($row['cur_sequence'] !== $actualSequence) {
+		if ($row['reset_sequence'] && $row['cur_sequence'] !== $actualSequence) {
 			$row['cur_id'] = 1;
 		}
-		$fullPrefix = self::parse($row['prefix'], $row['cur_id'], $row['postfix']);
+		$fullPrefix = static::parse($row['prefix'], $row['cur_id'], $row['postfix']);
 		$strip = strlen($row['cur_id']) - strlen($row['cur_id'] + 1);
 		if ($strip < 0) {
 			$strip = 0;
@@ -111,14 +117,15 @@ class RecordNumber
 	{
 		switch ($resetSequence) {
 			case 'Y':
-				return (int) date('Y');
+				return static::date('Y');
 				break;
 			case 'M':
-				return (int) date('n');
+				return static::date('Ym'); // with year because 2016-10 (10) === 2017-10 (10) and number will be incremented but should be set to 1 (new year)
 				break;
 			case 'D':
-				return (int) date('j');
+				return static::date('Ymd'); // same as above because od 2016-10-03 (03) === 2016-11-03 (03)
 				break;
+			default: return '';
 		}
 	}
 
@@ -136,7 +143,7 @@ class RecordNumber
 		$leadingZeros = substr_count($prefix, '{{0}}');
 		$prefix = str_replace('{{0}}', '', $prefix);
 		$number = str_pad((string) $number, $leadingZeros, '0', STR_PAD_LEFT);
-		return str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [date('Y'), date('y'), date('m'), date('n'), date('d'), date('j')], $prefix . $number . $postfix);
+		return str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [static::date('Y'), static::date('y'), static::date('m'), static::date('n'), static::date('d'), static::date('j')], $prefix . $number . $postfix);
 	}
 
 	/**
@@ -147,12 +154,10 @@ class RecordNumber
 	 */
 	public static function updateNumber($curId, $curSequence, $tabId)
 	{
-		\App\Db::getInstance()->createCommand()
+		return \App\Db::getInstance()->createCommand()
 			->update('vtiger_modentity_num', ['cur_id' => $curId, 'cur_sequence' => $curSequence], ['tabid' => $tabId])
 			->execute();
 	}
-
-	protected static $numberCache = [];
 
 	/**
 	 * Function returns information about module numbering.
@@ -162,16 +167,12 @@ class RecordNumber
 	 *
 	 * @return array
 	 */
-	public static function getNumber($tabId, $cache = true)
+	public static function getNumber($tabId)
 	{
-		if (isset(self::$numberCache[$tabId]) && $cache) {
-			return self::$numberCache[$tabId];
-		}
 		if (is_string($tabId)) {
 			$tabId = \App\Module::getModuleId($tabId);
 		}
-		$row = (new \App\Db\Query())->select(['cur_id', 'prefix', 'postfix', 'reset_sequence', 'cur_sequence'])->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
-
+		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
 		$number = [
 			'prefix' => $row['prefix'],
 			'sequenceNumber' => $row['cur_id'],
@@ -180,9 +181,6 @@ class RecordNumber
 			'cur_sequence' => $row['cur_sequence'],
 			'number' => self::parse($row['prefix'], $row['cur_id'], $row['postfix']),
 		];
-		if ($cache) {
-			self::$numberCache[$tabId] = $number;
-		}
 		return $number;
 	}
 }
