@@ -105,7 +105,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function getDisplayValueEncoded($value, $record, $length = false)
 	{
 		$value = \App\Json::decode($value);
-		if (!is_array($value)) {
+		if (!is_array($value) || empty($value)) {
 			return '[]';
 		}
 		$len = $length ?: count($value);
