@@ -2,7 +2,7 @@
 {strip}
 	{assign var="INVENTORY_FIELD" value=Vtiger_InventoryField_Model::getInstance($MODULE)}
 	{assign var="FIELDS" value=$INVENTORY_FIELD->getFields(true)}
-	{if count($FIELDS[0]) neq 0 && count($FIELDS[1]) neq 0}
+	{if count($FIELDS[0]) neq 0 || count($FIELDS[1]) neq 0}
 		{assign var="DISCOUNTS_CONFIG" value=Vtiger_Inventory_Model::getDiscountsConfig()}
 		{assign var="TAXS_CONFIG" value=Vtiger_Inventory_Model::getTaxesConfig()}
 		{assign var="TAX_DEFAULT" value=Vtiger_Inventory_Model::getDefaultGlobalTax()}
