@@ -66,9 +66,9 @@ class RecordNumber
 			if (!is_numeric($tabId)) {
 				$tabId = \App\Module::getModuleId($tabId);
 			}
-			$current = (new \App\Db\Query())->from('vtiger_modentity_num')->noCache()->where(['tabid' => $tabId])->one();
+			$current = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
 			if (!$current['cur_id']) {
-				return $db->createCommand()->noCache()->insert('vtiger_modentity_num', [
+				return $db->createCommand()->insert('vtiger_modentity_num', [
 					'tabid' => $tabId,
 					'prefix' => $prefix,
 					'postfix' => $postfix,
@@ -78,7 +78,7 @@ class RecordNumber
 					'cur_sequence' => $curSequence
 				])->execute();
 			} else {
-				return $db->createCommand()->noCache()
+				return $db->createCommand()
 					->update('vtiger_modentity_num', ['cur_id' => $no, 'prefix' => $prefix, 'postfix' => $postfix, 'reset_sequence' => $resetSequence, 'cur_sequence' => $curSequence], ['tabid' => $tabId])
 					->execute();
 			}
@@ -94,7 +94,7 @@ class RecordNumber
 	 */
 	public static function incrementNumber($moduleId)
 	{
-		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $moduleId])->noCache()->one();
+		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $moduleId])->one();
 		$actualSequence = static::getSequenceNumber($row['reset_sequence']);
 		if ($row['reset_sequence'] && $row['cur_sequence'] !== $actualSequence) {
 			$row['cur_id'] = 1;
