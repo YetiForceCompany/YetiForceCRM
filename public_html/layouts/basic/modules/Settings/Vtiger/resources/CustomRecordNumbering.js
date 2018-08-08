@@ -32,7 +32,6 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 				'mode': "getModuleCustomNumberingData",
 				'sourceModule': $(e.currentTarget).val()
 			}).done(function (data) {
-				console.log(data);
 				if (data) {
 					editViewForm.find('[name="prefix"]').val(data.result.prefix);
 					editViewForm.find('[name="reset_sequence"]').val(data.result.reset_sequence).trigger('change');
