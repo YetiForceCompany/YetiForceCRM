@@ -710,5 +710,6 @@ $.Class("Vtiger_DashBoard_Js", {
 		this.registerTabModules();
 		this.removeWidgetFromList();
 		this.registerSelectDashboard();
+		ElementQueries.listen();
 	}
 });
