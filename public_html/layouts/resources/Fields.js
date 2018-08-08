@@ -43,7 +43,6 @@ App.Fields = {
 				});
 			}
 			let format = CONFIG.dateFormat;
-			console.log(CONFIG.dateFormat);
 			const elementDateFormat = elements.data('dateFormat');
 			if (typeof elementDateFormat !== "undefined") {
 				format = elementDateFormat;
