@@ -22,24 +22,20 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 	 * Function to register change event for source module field
 	 */
 	registerOnChangeEventOfSourceModule: function () {
-		var editViewForm = this.getForm();
+		const editViewForm = this.getForm();
 		editViewForm.find('[name="sourceModule"]').on('change', function (e) {
-			jQuery('.saveButton').removeAttr('disabled');
-			var element = jQuery(e.currentTarget);
-			var params = {};
-			var sourceModule = element.val();
-
-			params = {
+			$('.saveButton').removeAttr('disabled');
+			AppConnector.request({
 				'module': app.getModuleName(),
 				'parent': app.getParentModuleName(),
 				'action': "CustomRecordNumberingAjax",
 				'mode': "getModuleCustomNumberingData",
-				'sourceModule': sourceModule
-			}
-
-			AppConnector.request(params).done(function (data) {
+				'sourceModule': $(e.currentTarget).val()
+			}).done(function (data) {
+				console.log(data);
 				if (data) {
 					editViewForm.find('[name="prefix"]').val(data.result.prefix);
+					editViewForm.find('[name="reset_sequence"]').val(data.result.reset_sequence).trigger('change');
 					editViewForm.find('[name="postfix"]').val(data.result.postfix);
 					editViewForm.find('[name="sequenceNumber"]').val(data.result.sequenceNumber);
 					editViewForm.find('[name="sequenceNumber"]').data('oldSequenceNumber', data.result.sequenceNumber);
@@ -51,7 +47,7 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 	/**
 	 * Function to register event for saving module custom numbering
 	 */
-	saveModuleCustomNumbering: function () {
+	saveModuleCustomNumbering() {
 		if ($('.saveButton').attr("disabled")) {
 			return;
 		}
@@ -96,25 +92,18 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 	/**
 	 * Function to handle update record with the given sequence number
 	 */
-	registerEventToUpdateRecordsWithSequenceNumber: function () {
-		var editViewForm = this.getForm();
+	registerEventToUpdateRecordsWithSequenceNumber() {
+		const editViewForm = this.getForm();
 		editViewForm.find('[name="updateRecordWithSequenceNumber"]').on('click', function () {
-			var params = {};
-			var sourceModule = editViewForm.find('[name="sourceModule"]').val();
-			var sourceModuleLabel = editViewForm.find('option[value="' + sourceModule + '"]').text();
-
-			params = {
+			AppConnector.request({
 				'module': app.getModuleName(),
 				'parent': app.getParentModuleName(),
 				'action': "CustomRecordNumberingAjax",
 				'mode': "updateRecordsWithSequenceNumber",
-				'sourceModule': sourceModule
-			}
-
-			AppConnector.request(params).done(function (data) {
-				var successfullSaveMessage = app.vtranslate('JS_RECORD_NUMBERING_UPDATED_SUCCESSFULLY_FOR') + " " + sourceModuleLabel;
-				if (data.success == true) {
-					Settings_Vtiger_Index_Js.showMessage({text: successfullSaveMessage});
+				'sourceModule': editViewForm.find('[name="sourceModule"]').val()
+			}).done(function (data) {
+				if (data.success === true) {
+					Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_RECORD_NUMBERING_UPDATED_SUCCESSFULLY_FOR') + " " + editViewForm.find('option[value="' + sourceModule + '"]').text()});
 				} else {
 					Settings_Vtiger_Index_Js.showMessage(data.error.message);
 				}
