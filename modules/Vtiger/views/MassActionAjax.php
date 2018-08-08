@@ -68,7 +68,6 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('ALPHABET_VALUE', $request->getByType('search_value', 2));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
 		$viewer->assign('SEARCH_PARAMS', $request->getArray('search_params'));
-		$viewer->assign('SCRIPTS', []);
 		echo $viewer->view('MassEditForm.tpl', $moduleName, true);
 	}
 
