@@ -21,7 +21,7 @@
 	</div>
 	<hr class="widgetHr" />
 	<div class="row no-gutters" >
-		<div class="col-md-6">
+		<div class="col-ceq-xsm-6">
 			<div class="input-group input-group-sm">
 				<div class="input-group-prepend">
 					<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">
@@ -31,7 +31,7 @@
 				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control text-center" value="{implode(',',$DTIME)}" />
 			</div>
 		</div>
-		<div class="col-sm-6 pl-0 pt-1 pl-sm-1 pt-sm-0">
+		<div class="col-ceq-xsm-6">
 
 		</div>
 	</div>

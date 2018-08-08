@@ -15,7 +15,7 @@
 		{assign var=ACCESSIBLE_USERS value=$USERS_GROUP_LIST['users']}
 		{assign var=ACCESSIBLE_GROUPS value=$USERS_GROUP_LIST['group']}
 	{/if}
-	<div class="input-group input-group-sm flex-nowrap">
+	<div class="input-group input-group-sm">
 		<span class="input-group-prepend">
 			<span class="input-group-text">
 				<span class="fas fa-user iconMiddle" title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span>

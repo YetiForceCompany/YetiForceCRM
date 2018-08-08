@@ -7,8 +7,8 @@
 		</div>
 		<hr class="widgetHr" />
 		<div class="row no-gutters justify-content-end">
-			<div class="col-md-6">
-				<div class="input-group input-group-sm flex-nowrap">
+			<div class="col-ceq-xsm-6">
+				<div class="input-group input-group-sm">
 					<div class="input-group-prepend">
 						<span class="input-group-text">
 							<span class="fas fa-bell fa-fw"></span>
@@ -21,7 +21,7 @@
 						</select>
 				</div>
 			</div>
-			<div class="col-md-6 pl-0 pt-1 pl-sm-1 pt-sm-0">
+			<div class="col-ceq-xsm-6">
 				<div class="btn-toolbar float-right">
 					{if \App\Privilege::isPermitted('Notification', 'CreateView')}
 						<button type="button" class="btn btn-light" onclick="Vtiger_Index_Js.sendNotification()" title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}">

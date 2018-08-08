@@ -19,8 +19,8 @@
 		</div>
 		<hr class="widgetHr" />
 		<div class="row no-gutters">
-			<div class="col-md-12">
-				<div  class="input-group input-group-sm flex-nowrap">
+			<div class="col">
+				<div  class="input-group input-group-sm">
 					<div class="input-group-prepend">
 						<span class="input-group-text">
 							<span class="fas fa-envelope"></span>

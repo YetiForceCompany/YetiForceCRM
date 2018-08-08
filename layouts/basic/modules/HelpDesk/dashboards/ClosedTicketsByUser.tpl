@@ -7,7 +7,7 @@
 		</div>
 		<hr class="widgetHr" />
 		<div class="row no-gutters">
-			<div class="col-sm-6">
+			<div class="col-ceq-xsm-6">
 				<div class="input-group input-group-sm">
 					<div class=" input-group-prepend">
 						<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">
