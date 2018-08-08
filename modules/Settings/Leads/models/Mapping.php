@@ -112,7 +112,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 				$finalMapping[$mappingId] = [
 					'editable' => $mappingDetails['editable'],
 					'Leads' => $fieldLabelsList[$mappingDetails['leadfid']],
-					'Accounts' => $fieldLabelsList[$mappingDetails['accountfid']],
+					'Accounts' => $fieldLabelsList[$mappingDetails['accountfid']]??null,
 				];
 			}
 
