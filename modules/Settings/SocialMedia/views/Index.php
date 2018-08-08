@@ -17,4 +17,15 @@ class Settings_SocialMedia_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MODULE', $request->getModule());
 		$viewer->view('Index.tpl', $request->getModule(false));
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getFooterScripts(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			"modules.Settings.$moduleName.resources.Twitter"
+		]));
+	}
 }

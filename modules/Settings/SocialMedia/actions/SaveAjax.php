@@ -10,17 +10,35 @@
 class Settings_SocialMedia_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 	/**
+	 * Settings_SocialMedia_SaveAjax_Action constructor.
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('Twitter');
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function process(\App\Request $request)
 	{
-		$methods = $request->getByType('methods', 'Alnum');
-		if (!in_array($methods, Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE)) {
-			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $methods, 406);
+		$mode = $request->getMode();
+		if (!empty($mode) && $this->isMethodExposed($mode)) {
+			return $this->$mode($request);
 		}
-		$config = new \App\Configurator('security');
-		$config->set('USER_AUTHY_MODE', $methods);
-		$config->save();
+		throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 403);
+	}
+
+	/**
+	 * Function to display rss sidebar widget.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function Twitter(\App\Request $request)
+	{
+		\App\DebugerEx::log($request->getAll());
+
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
