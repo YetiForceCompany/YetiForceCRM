@@ -10,7 +10,7 @@
 ************************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-DashBoardContents">
+	<div class="tpl-DashBoardContents px-sm-1">
 		<div class="grid-stack">
 			{assign var=COLUMNS value=3}
 			{assign var=ROW value=0}

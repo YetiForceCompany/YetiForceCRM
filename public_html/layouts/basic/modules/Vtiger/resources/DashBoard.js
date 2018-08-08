@@ -112,8 +112,9 @@ $.Class("Vtiger_DashBoard_Js", {
 		const thisInstance = this;
 		thisInstance.getContainer().find('.dashboardWidget').Lazy({
 			threshold: 0,
-			appendScroll: $('.mainBody'),
+			appendScroll: $(window).width() > app.breakpoints.sm ? $('.mainBody') : $('.bodyContent'),
 			widgetLoader(element) {
+				console.log('load');
 				thisInstance.loadWidget(element);
 			},
 		});

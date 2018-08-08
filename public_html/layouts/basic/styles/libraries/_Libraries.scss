@@ -57,9 +57,6 @@
 	}
 }
 
-.select2Wrapper {
-	width: 100%;
-}
 /* select2 selected option display bug fix after use hide class on options */
 .addRelationContainer span.select2-selection__rendered {
 	display:block !important;
@@ -221,31 +218,6 @@ ul.ui-autocomplete {
 	height: 0 !important;
 }
 
-//-------- gridster--------//
-
-@include media-breakpoint-down(sm) {
-	.gridster {
-		> * {
-			padding: 0;
-			padding-right: 0;
-			width: 100% !important;
-		}
-
-		.gs-w {
-			padding-bottom: 10px;
-			list-style: none;
-			position: static !important;
-			float: left;
-			margin-bottom: 20px;
-		}
-
-		.gs-w[data-sizex] {
-			width: 100% !important;
-			left: 0;
-		}
-	}
-}
-
 //-------- js-tree --------//
 
 .jstree-proton {
@@ -267,18 +239,27 @@ ul.ui-autocomplete {
 
 //-------- gridstack --------//
 
-.tpl-DashBoardContents {
-	margin: 0 calculate-rem(4px);
-}
-
 .grid-stack > .grid-stack-item > .grid-stack-item-content {
 	left: 0.25rem !important;
 	right: 0.25rem !important;
 }
 
 @include media-breakpoint-down(xs) {
+	.grid-stack > .grid-stack-item > .grid-stack-item-content {
+		left: 0 !important;
+		right: 0 !important;
+	}
+
 	.ui-draggable-handle {
 		-ms-touch-action: manipulation !important;
 		touch-action: manipulation !important;
+	}
+
+	.grid-stack > .grid-stack-item > .grid-stack-item-content {
+		width: 100% !important;
+	}
+
+	.grid-stack.grid-stack-one-column-mode > .grid-stack-item {
+		margin-bottom: 0.5rem !important;
 	}
 }
