@@ -94,12 +94,13 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 	registerEventToUpdateRecordsWithSequenceNumber() {
 		const editViewForm = this.getForm();
 		editViewForm.find('[name="updateRecordWithSequenceNumber"]').on('click', function () {
+			const sourceModule = editViewForm.find('[name="sourceModule"]').val();
 			AppConnector.request({
 				'module': app.getModuleName(),
 				'parent': app.getParentModuleName(),
 				'action': "CustomRecordNumberingAjax",
 				'mode': "updateRecordsWithSequenceNumber",
-				'sourceModule': editViewForm.find('[name="sourceModule"]').val()
+				'sourceModule': sourceModule
 			}).done(function (data) {
 				if (data.success === true) {
 					Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_RECORD_NUMBERING_UPDATED_SUCCESSFULLY_FOR') + " " + editViewForm.find('option[value="' + sourceModule + '"]').text()});
