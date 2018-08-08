@@ -7,6 +7,9 @@
 		{assign var=MODULE_MODEL value=$RECORD_STRUCTURE_MODEL->getModule()}
 		{assign var=TIME_FIELD value=$MODULE_MODEL->getField('time_end')}
 	{/if}
+	{if empty($BLOCK_FIELDS)}
+		{assign var=BLOCK_FIELDS value=false}
+	{/if}
 	{if $TIME_FIELD}
 		<div class="tpl-Edit-Field-Date form-row">
 			<div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-3 mb-sm-0"">
