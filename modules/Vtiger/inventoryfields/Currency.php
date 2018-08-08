@@ -58,7 +58,7 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 		$value = $request->getInteger($column);
 		$this->validate($value, $column, true);
 		$insertData[$column] = $value;
-		$value = \App\Json::encode($request->getArray('currencyparam'));
+		$value = \App\Json::encode($request->getArray('currencyparam', 2));
 		$this->validate($value, 'currencyparam', true);
 		$insertData['currencyparam'] = $value;
 	}

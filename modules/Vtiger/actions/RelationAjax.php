@@ -92,7 +92,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$relationListView->set('search_params', $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParmams));
 		$queryGenerator = $relationListView->getRelationQuery(true);
 		$queryGenerator->setFields(['id']);
-		$excludedIds = $request->getArray('excluded_ids', 'Integer');
+		$excludedIds = $request->getArray('excluded_ids', 2);
 		if ($excludedIds && is_array($excludedIds)) {
 			$queryGenerator->addCondition('id', $excludedIds, 'n');
 		}
@@ -189,7 +189,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
-		$excludedIds = $request->getArray('excluded_ids', 'Integer');
+		$excludedIds = $request->getArray('excluded_ids', 2);
 		if ('all' === $request->getRaw('selected_ids')) {
 			if (!$request->isEmpty('operator', true)) {
 				$relationListView->set('operator', $request->getByType('operator', 1));
@@ -206,7 +206,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$relationListView->set('search_params', $transformedSearchParams);
 			$rows = array_keys($relationListView->getEntries($pagingModel));
 		} else {
-			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids');
+			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids', 2);
 		}
 		$relationModel = $relationListView->getRelationModel();
 		foreach ($rows as $relatedRecordId) {
@@ -253,7 +253,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$relationListView->set('search_params', $transformedSearchParams);
 			$rows = array_keys($relationListView->getEntries($pagingModel));
 		} else {
-			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids');
+			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids', 2);
 		}
 		$workbook = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 		$worksheet = $workbook->setActiveSheetIndex(0);

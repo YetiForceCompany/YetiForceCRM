@@ -55,7 +55,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getForSql('picklistName'), $moduleModel);
 		$rolesSelected = [];
 		if ($fieldModel->isRoleBased()) {
-			$userSelectedRoles = $request->getArray('rolesSelected');
+			$userSelectedRoles = $request->getArray('rolesSelected', 2);
 			//selected all roles option
 			if (in_array('all', $userSelectedRoles)) {
 				$roleRecordList = Settings_Roles_Record_Model::getAll();
@@ -115,8 +115,8 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function remove(\App\Request $request)
 	{
 		$moduleName = $request->getByType('source_module', 2);
-		$valueToDelete = $request->getArray('delete_value');
-		$replaceValue = $request->get('replace_value');
+		$valueToDelete = $request->getArray('delete_value', 2);
+		$replaceValue = $request->getByType('replace_value', 2);
 		$pickListFieldName = $request->getForSql('picklistName');
 		if ($moduleName === 'Events' && ($pickListFieldName === 'activitytype' || $pickListFieldName === 'activitystatus')) {
 			$picklistData = \App\Fields\Picklist::getValues($pickListFieldName);
@@ -160,7 +160,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 		$response = new Vtiger_Response();
 		try {
-			$moduleModel->enableOrDisableValuesForRole($request->getForSql('picklistName'), $request->getArray('assign_values'), [], $roleIdList);
+			$moduleModel->enableOrDisableValuesForRole($request->getForSql('picklistName'), $request->getArray('assign_values', 2), [], $roleIdList);
 			$response->setResult(['success', true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -173,7 +173,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$moduleModel = new Settings_Picklist_Module_Model();
 		$response = new Vtiger_Response();
 		try {
-			$moduleModel->updateSequence($request->getForSql('picklistName'), $request->getArray('picklistValues'));
+			$moduleModel->updateSequence($request->getForSql('picklistName'), $request->getArray('picklistValues', 2));
 			$response->setResult(['success', true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());

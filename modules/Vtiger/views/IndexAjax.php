@@ -16,8 +16,8 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 	public function getRecordsListFromRequest(\App\Request $request)
 	{
 		$cvId = $request->getByType('cvid', 2);
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
+		$selectedIds = $request->getArray('selected_ids', 2);
+		$excludedIds = $request->getArray('excluded_ids', 2);
 
 		if (!empty($selectedIds) && $selectedIds != 'all') {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {

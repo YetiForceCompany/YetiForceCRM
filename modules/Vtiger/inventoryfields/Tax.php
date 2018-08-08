@@ -55,7 +55,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		$value = $request->getByType($column . $i, 'NumberInUserFormat');
 		$this->validate($value, $column, true);
 		$insertData[$column] = $value;
-		$value = \App\Json::encode($request->getArray('taxparam' . $i));
+		$value = \App\Json::encode($request->getArray('taxparam' . $i, 2));
 		$this->validate($value, 'taxparam', true);
 		$insertData['taxparam'] = $value;
 	}

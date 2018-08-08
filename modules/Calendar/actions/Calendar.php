@@ -38,8 +38,8 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	public function getEvents(\App\Request $request)
 	{
 		$record = Calendar_Calendar_Model::getCleanInstance();
-		$record->set('user', $request->getArray('user'));
-		$record->set('types', $request->getArray('types'));
+		$record->set('user', $request->getArray('user', 2));
+		$record->set('types', $request->getArray('types', 2));
 		$record->set('time', $request->getByType('time'));
 		if ($request->has('start') && $request->has('end')) {
 			$record->set('start', $request->getByType('start', 'DateInUserFormat'));
@@ -64,7 +64,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('id');
-		$delta = $request->getArray('delta');
+		$delta = $request->getArray('delta', 2);
 
 		$start = DateTimeField::convertToDBTimeZone($request->get('start'));
 		$date_start = $start->format('Y-m-d');

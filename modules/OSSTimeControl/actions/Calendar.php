@@ -28,8 +28,8 @@ class OSSTimeControl_Calendar_Action extends \App\Controller\Action
 	public function getEvent(\App\Request $request)
 	{
 		$record = OSSTimeControl_Calendar_Model::getInstance();
-		$record->set('user', $request->getArray('user'));
-		$record->set('types', $request->getArray('types'));
+		$record->set('user', $request->getArray('user', 2));
+		$record->set('types', $request->getArray('types', 2));
 		if ($request->has('start') && $request->has('end')) {
 			$record->set('start', $request->getByType('start', 'DateInUserFormat'));
 			$record->set('end', $request->getByType('end', 'DateInUserFormat'));
@@ -52,7 +52,7 @@ class OSSTimeControl_Calendar_Action extends \App\Controller\Action
 			$succes = false;
 		} else {
 			try {
-				$delta = $request->getArray('delta');
+				$delta = $request->getArray('delta', 2);
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 				$recordData = $recordModel->entity->column_fields;
 				$end = self::changeDateTime($recordData['due_date'] . ' ' . $recordData['time_end'], $delta);

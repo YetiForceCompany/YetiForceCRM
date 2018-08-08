@@ -45,8 +45,8 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 		$fields[] = 'id';
 		$listInstance->getQueryGenerator()->setFields($fields);
 
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
+		$selectedIds = $request->getArray('selected_ids', 2);
+		$excludedIds = $request->getArray('excluded_ids', 2);
 		if (!empty($selectedIds) && !in_array($selectedIds, ['all', '"all"'])) {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
 				$listInstance->getQueryGenerator()->addCondition('id', $selectedIds, 'e');

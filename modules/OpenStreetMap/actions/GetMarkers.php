@@ -35,9 +35,9 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$coordinatesModel->set('srcModuleModel', $srcModuleModel);
 		$coordinatesModel->set('radius', $request->isEmpty('radius', true) ? 0 : $request->getInteger('radius', 0));
-		$coordinatesModel->set('selectedIds', $request->getArray('selected_ids'));
+		$coordinatesModel->set('selectedIds', $request->getArray('selected_ids', 2));
 		$coordinatesModel->set('viewname', $request->getByType('viewname', 2));
-		$coordinatesModel->set('excludedIds', $request->getArray('excluded_ids'));
+		$coordinatesModel->set('excludedIds', $request->getArray('excluded_ids', 2));
 		$coordinatesModel->set('searchKey', $request->get('search_key'));
 		$coordinatesModel->set('operator', $request->getByType('operator', 1));
 		$coordinatesModel->set('groupBy', $request->getByType('groupBy', 1));

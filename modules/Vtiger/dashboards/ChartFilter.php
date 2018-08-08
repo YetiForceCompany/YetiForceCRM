@@ -32,7 +32,7 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('CHART_COLORS_FROM_FILTERS', $chartFilterWidgetModel->areColorsFromFilter() ? 1 : 0);
 		$viewer->assign('ADDITIONAL_FILTER_FIELD_VALUE', []);
 		if ($request->has('additional_filter_field')) {
-			$additionalFilterFieldsValues = $request->getArray('additional_filter_field');
+			$additionalFilterFieldsValues = $request->getArray('additional_filter_field', 2);
 			$viewer->assign('ADDITIONAL_FILTER_FIELD_VALUE', $additionalFilterFieldsValues);
 			$chartFilterWidgetModel->set('additionalFiltersFieldsSearch', $additionalFilterFieldsValues);
 		}

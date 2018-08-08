@@ -30,8 +30,8 @@ class Vtiger_Export_View extends Vtiger_Index_View
 	{
 		$sourceModule = $request->getModule();
 		$viewId = $request->getByType('viewname', 2);
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
+		$selectedIds = $request->getArray('selected_ids', 2);
+		$excludedIds = $request->getArray('excluded_ids', 2);
 		$page = $request->getInteger('page');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_IDS', $selectedIds);

@@ -50,7 +50,7 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$linkId = $request->getInteger('linkid');
 		$user = $request->getByType('owner', 2);
-		$time = $request->getArray('time');
+		$time = $request->getArray('time', 2);
 		if (empty($time)) {
 			$time['start'] = App\Fields\Date::formatToDisplay('now');
 			$time['end'] = App\Fields\Date::formatToDisplay('now');

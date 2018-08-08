@@ -34,8 +34,8 @@ class Reservations_Calendar_Action extends \App\Controller\Action
 	public function getEvent(\App\Request $request)
 	{
 		$record = Reservations_Calendar_Model::getInstance();
-		$record->set('user', $request->getArray('user'));
-		$record->set('types', $request->getArray('types'));
+		$record->set('user', $request->getArray('user', 2));
+		$record->set('types', $request->getArray('types', 2));
 		if ($request->has('start') && $request->has('end')) {
 			$record->set('start', $request->getByType('start', 'Date'));
 			$record->set('end', $request->getByType('end', 'Date'));

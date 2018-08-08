@@ -21,7 +21,7 @@ class OSSMail_ExecuteActions_Action extends \App\Controller\Action
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		$params = $request->getArray('params');
+		$params = $request->getArray('params', 2);
 		if (isset($params['newModule']) && !\App\Privilege::isPermitted($params['newModule'], 'DetailView', $params['newCrmId'])) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
@@ -33,7 +33,7 @@ class OSSMail_ExecuteActions_Action extends \App\Controller\Action
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
-		$params = $request->getArray('params');
+		$params = $request->getArray('params', 2);
 		$instance = Vtiger_Record_Model::getCleanInstance('OSSMailView');
 
 		if ($mode === 'addRelated') {

@@ -99,7 +99,7 @@ class Login extends \Api\Core\BaseAction
 	{
 		$db = \App\Db::getInstance('webservice');
 		$token = md5(microtime(true) . mt_rand());
-		$params = $this->controller->request->getArray('params');
+		$params = $this->controller->request->getArray('params', 2);
 		$language = !empty($params['language']) ? $params['language'] : (empty($row['language']) ? $this->getLanguage() : $row['language']);
 		$db->createCommand()->insert('w_#__portal_session', [
 			'id' => $token,

@@ -36,7 +36,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	{
 		$sourceModule = $request->getByType('source_module', 2);
 		$queryGenerator = $this->getRecordsListQueryFromRequest($request);
-		$phoneFieldList = $fields = $request->getArray('fields');
+		$phoneFieldList = $fields = $request->getArray('fields', 2);
 		$fields[] = 'id';
 
 		$queryGenerator->setFields($fields);
@@ -81,8 +81,8 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 		$cvId = $request->getByType('viewname', 2);
 		$module = $request->getModule();
 		$sourceModule = $request->getByType('source_module', 2);
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
+		$selectedIds = $request->getArray('selected_ids', 2);
+		$excludedIds = $request->getArray('excluded_ids', 2);
 
 		if (!empty($selectedIds) && !in_array($selectedIds, ['all', '"all"'])) {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {

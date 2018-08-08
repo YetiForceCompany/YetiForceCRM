@@ -47,7 +47,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 		$value = $request->getByType($column . $i, 'NumberInUserFormat');
 		$this->validate($value, $column, true);
 		$insertData[$column] = $value;
-		$value = \App\Json::encode($request->getArray('discountparam' . $i));
+		$value = \App\Json::encode($request->getArray('discountparam' . $i, 2));
 		$this->validate($value, 'discountparam', true);
 		$insertData['discountparam'] = $value;
 	}
