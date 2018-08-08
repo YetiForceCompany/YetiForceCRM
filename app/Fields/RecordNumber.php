@@ -136,7 +136,9 @@ class RecordNumber
 	 *
 	 * @see Important: When you add new parameter in this function you also must add it in Email::findRecordNumber()
 	 *
-	 * @param string $content
+	 * @param string $prefix
+	 * @param string $number
+	 * @param string $postfix
 	 *
 	 * @return string
 	 */
