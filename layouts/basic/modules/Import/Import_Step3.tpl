@@ -24,7 +24,8 @@
 				<div class='col-12 my-4'>
 					<div class="row px-3">
 						<div class="col-md-6 px-0">
-							<span class="font-x-small">{\App\Language::translate('LBL_SPECIFY_MERGE_TYPE', $MODULE)}</span>&nbsp;&nbsp;
+							<span class="font-x-small">{\App\Language::translate('LBL_SPECIFY_MERGE_TYPE', $MODULE)}</span>
+							<a class="js-popover-tooltip m-2" onclick="javascript:void(0)" data-content="{\App\Language::translate('LBL_MERGE_TYPE_INFO','Import')}"><span class="fas fa-info-circle"></span></a>
 						</div>
 						<div class="col-md-6 px-0">
 							<select name="merge_type" id="merge_type" class="font-x-small form-control" title="{\App\Language::translate('LBL_SPECIFY_MERGE_TYPE', $MODULE)}">

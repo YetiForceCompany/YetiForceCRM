@@ -75,6 +75,7 @@
     "LBL_DETAILS": "Szczeg\u00f3\u0142y",
     "skipped": "Pomini\u0119te rekordy",
     "failed": "Niepoprawne rekordy",
-    "LBL_SELECT_FILE": "Wybierz plik do zaimportowania"
+    "LBL_SELECT_FILE": "Wybierz plik do zaimportowania",
+    "LBL_MERGE_TYPE_INFO": "Pomi\u0144: pomija istniej\u0105ce ju\u017C rekordy - nie aktualizuje ich.\nNadpisz: nadpisuje istniej\u0105cy rekord danymi z pliku lub uzupe\u0142nia domy\u015Blnymi warto\u015Bciami je\u017Celi wymagane warto\u015Bci w rekordzie i w pliku s\u0105 puste (nadpisuje warto\u015Bci w rekordzie pustymi warto\u015Bciami z pliku gdy nie s\u0105 wymagane).\nPo\u0142\u0105cz: uzupe\u0142nia brakuj\u0105ce warto\u015Bci w rekordzie danymi z pliku lub domy\u015Blnymi wato\u015Bcami je\u017Celi nie s\u0105 one uzupe\u0142nione ani w rekordzie ani w pliku (nie nadpisuje wyst\u0119puj\u0105cych w rekordzie warto\u015Bci pustymi warto\u015Bciami z pliku)."
   }
 }
