@@ -15,8 +15,8 @@ class RecordNumber
 	/**
 	 * Date function that can be overrided in tests.
 	 *
-	 * @param      $format
-	 * @param null $time
+	 * @param string   $format
+	 * @param null|int $time
 	 *
 	 * @return false|string
 	 */
@@ -50,10 +50,12 @@ class RecordNumber
 	/**
 	 * Function to set number sequence of recoords for module.
 	 *
-	 * @param mixed  $tabId
-	 * @param string $prefix
-	 * @param int    $no
-	 * @param string $postfix
+	 * @param mixed       $tabId
+	 * @param string      $prefix
+	 * @param int         $no
+	 * @param string      $postfix
+	 * @param null|string $resetSequence 'Y'-Year, 'M'-Month, 'D'-Day
+	 * @param string      $curSequence   '201804' for example for M reset sequence
 	 *
 	 * @return bool
 	 */
