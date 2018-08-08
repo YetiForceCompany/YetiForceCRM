@@ -148,3 +148,34 @@
 		width: 22px;
 	}
 }
+
+.js-css-element-queries {
+	.no-gutters {
+		margin-right: 0;
+		margin-left: 0;
+
+		> .col,
+		> [class*="col-"] {
+			padding-right: 0;
+			padding-left: 0;
+		}
+	}
+
+	&[min-width~="#{map-get($grid-breakpoints, xsm)}"] {
+		.col-ceq-xsm-6 {
+			@extend .col-6;
+		}
+
+		.col-ceq-xsm-6:nth-child(2) {
+			@extend .pl-1, .pt-0;
+		}
+	}
+
+	.col-ceq-xsm-6 {
+		@extend .col-12;
+
+		&:nth-child(2) {
+			@extend .pt-1;
+		}
+	}
+}
