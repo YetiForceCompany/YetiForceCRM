@@ -168,9 +168,9 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 				if (strpos($row['u'], "#$userId#") !== false) {
 					break;
 				}
-				if ($row['type'] === 1) {
+				if (isset($row['type']) && $row['type'] === 1) {
 					++$mails;
-				} elseif ($row['type'] !== 0) {
+				} elseif (isset($row['type']) && $row['type'] !== 0) {
 					++$all;
 				}
 			}
