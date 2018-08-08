@@ -30,7 +30,7 @@ $.Class('Settings_Mail_Config_Js', {}, {
 		new App.Fields.Text.Editor(container.find('.js-editor'), {
 			height: '20em',
 		});
-		container.find('button').on('click', function () {
+		container.find('.js-save-signature').on('click', function () {
 			const progressIndicator = $.progressIndicator();
 			const editor = CKEDITOR.instances.signatureEditor;
 			const params = {};
@@ -53,5 +53,6 @@ $.Class('Settings_Mail_Config_Js', {}, {
 		const thisInstance = this;
 		thisInstance.registerChangeConfig();
 		thisInstance.registerSignature();
+		App.Fields.Text.registerCopyClipboard($('.js-container-variable'));
 	},
 });

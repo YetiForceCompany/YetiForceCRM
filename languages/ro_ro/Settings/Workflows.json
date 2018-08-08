@@ -199,7 +199,7 @@
     "LBL_SELECT_ACTION_TYPE": "Selectati tipul notificarii",
     "LBL_SELECT_RECIPIENTS": "Destinatari",
     "LBL_MESSAGE": "Mesaj",
-    "LBL_MESSAGE_INFO": "Textul mesajului suporta variabile, denumirea variabilei poate fi egala cu un camp de sistem sau o functie speciala.\r\n\r\nExemplu variabile pentru campuri:\r\n<strong>$accountname$<\/strong> - Valoare pentru camp\r\n<strong>%accountname%<\/strong> - Eticheta camp\r\n\r\nFunctii speciale:",
+    "LBL_MESSAGE_INFO": "Textul mesajului suporta variabile, denumirea variabilei poate fi egala cu un camp de sistem sau o functie speciala.\r\n\r\nExemplu variabile pentru campuri:\r\n$accountname$ - Valoare pentru camp\r\n%accountname% - Eticheta camp\r\n\r\nFunctii speciale:",
     "LBL_WATCHING_USERS": "Utilizatorii care urmaresc",
     "LBL_VALUE_FROM_FIELD": "Valoare din camp",
     "LBL_FIELDS_LABELS": "Eticheta camp",

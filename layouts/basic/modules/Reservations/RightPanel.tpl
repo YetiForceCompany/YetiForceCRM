@@ -7,7 +7,7 @@
 					<select class="select2 col-12" id="calendarUserList" multiple>
 						<optgroup label="{\App\Language::translate('LBL_USERS')}">
 							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-								<option class="ownerCBg_{$OWNER_ID} marginBottom5px" value="{$OWNER_ID}" {if $USER_MODEL->id eq $OWNER_ID} selected {/if}>{$OWNER_NAME}</option>
+								<option class="ownerCBg_{$OWNER_ID} marginBottom5px" value="{$OWNER_ID}" {if $USER_MODEL->getId() eq $OWNER_ID} selected {/if}>{$OWNER_NAME}</option>
 							{/foreach}
 						</optgroup>
 						<optgroup label="{\App\Language::translate('LBL_GROUPS')}">

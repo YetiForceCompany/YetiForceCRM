@@ -90,7 +90,7 @@
 														<div class="col-sm-6 col-lg-8">
 															<div class="fieldValue"
 																 id="block-{$BLOCK_INDEX}-{$FIELD_MODEL->getName()}-input">
-																{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) VIEW = 'MassEdit'}
+																{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) VIEW = 'MassEdit' RECORD=null}
 															</div>
 														</div>
 													</div>

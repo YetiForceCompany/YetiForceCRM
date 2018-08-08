@@ -66,7 +66,7 @@
 				<div class="commentActionsDiv p-0">
 					{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
 					<div class="commentActions">
-						{if $CHILDS_ROOT_PARENT_MODEL}
+						{if !empty($CHILDS_ROOT_PARENT_MODEL)}
 							{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 						{/if}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
@@ -87,7 +87,7 @@
 							{/foreach}
 						{/if}
 						{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
-						{if $CHILD_COMMENTS_MODEL neq null and ($CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID)}
+						{if !empty($CHILD_COMMENTS_MODEL) and (!empty($CHILDS_ROOT_PARENT_ID) && $CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID)}
 							<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 								<button type="button" class="btn btn-sm btn-info viewThread ml-1">
 									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
@@ -100,7 +100,7 @@
 									<img class="alignMiddle" src="{\App\Layout::getImagePath('downArrowSmall.png')}" />
 								</a>
 							</span>
-						{elseif $CHILD_COMMENTS neq null and ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
+						{elseif !empty($CHILD_COMMENTS) and ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
 							<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 								<button type="button" class="btn btn-sm btn-info viewThread ml-1">
 									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
