@@ -62,9 +62,10 @@ class Portal_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Delete record
+	 * Delete record.
 	 *
 	 * @param $recordId
+	 *
 	 * @throws \yii\db\Exception
 	 */
 	public function deleteRecord($recordId)
@@ -73,8 +74,10 @@ class Portal_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Get website url
+	 * Get website url.
+	 *
 	 * @param $recordId
+	 *
 	 * @return false|null|string
 	 */
 	public static function getWebsiteUrl($recordId)
@@ -85,7 +88,7 @@ class Portal_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Get all records
+	 * Get all records.
 	 *
 	 * @return array
 	 */

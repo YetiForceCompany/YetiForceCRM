@@ -192,8 +192,8 @@ class Calendar_Calendar_Model extends App\Base
 					$findId = $record['process'];
 					$findMod = $record['processmod'];
 				}
-				$tabInfo = $this->relationAcounts[$findMod];
-				if ($tabInfo) {
+				if (isset($this->relationAcounts[$findMod])) {
+					$tabInfo = $this->relationAcounts[$findMod];
 					$query = (new \App\Db\Query())
 						->select('vtiger_account.accountid, vtiger_account.accountname')
 						->from('vtiger_account')
