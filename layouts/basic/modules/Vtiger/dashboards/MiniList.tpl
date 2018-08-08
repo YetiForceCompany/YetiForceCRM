@@ -17,7 +17,7 @@
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 		</div>
 		<hr class="widgetHr" />
-		<div class="row" >
+		<div class="row no-gutters">
 			<div class="col-sm-6">
 				{if $FILTER_FIELD}
 					<div class="widgetFilterByField">
@@ -25,7 +25,7 @@
 					</div>
 				{/if}
 			</div>
-			<div class="col-sm-6">
+			<div class="col-sm-6 pl-0 pt-1 pl-sm-1 pt-sm-0">
 				{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 			</div>
 		</div>

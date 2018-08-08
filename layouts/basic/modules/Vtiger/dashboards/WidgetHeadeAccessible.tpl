@@ -5,7 +5,7 @@
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 	</div>
 	<hr class="widgetHr" />
-	<div class="row" >
+	<div class="row no-gutters" >
 		<div class="col-md-12 select2FullWidthContainer">
 			{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 		</div>

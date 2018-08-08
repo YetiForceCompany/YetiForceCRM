@@ -25,7 +25,7 @@
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 	</div>
 	<hr class="widgetHr" />
-	<div class="row" >
+	<div class="row no gutters">
 		<div class="col-sm-6">
 			<div class="input-group input-group-sm">
 				<div class=" input-group-prepend">
@@ -36,7 +36,7 @@
 				<input type="text" name="createdtime" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField form-control widgetFilter text-center" value="{implode(',', $DTIME)}" aria-label="Small" aria-describedby="inputGroup-sizing-sm"/>
 			</div>
 		</div>
-		<div class="col-sm-6">
+		<div class="col-sm-6 pl-0 pt-1 pl-sm-1 pt-sm-0">
 			{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 		</div>
 	</div>

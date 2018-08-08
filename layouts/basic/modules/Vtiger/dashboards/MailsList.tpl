@@ -18,7 +18,7 @@
 			</div>
 		</div>
 		<hr class="widgetHr" />
-		<div class="row">
+		<div class="row no-gutters">
 			<div class="col-md-12">
 				<div  class="input-group input-group-sm flex-nowrap">
 					<div class="input-group-prepend">
@@ -26,7 +26,6 @@
 							<span class="fas fa-envelope"></span>
 						</span>
 					</div>
-					<div class="select2Wrapper">
 						<select class="mailUserList form-control select2" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="mailUserList" title="{\App\Language::translate('LBL_MAIL_USERS_LIST')}" name="type">
 							{if count($ACCOUNTSLIST) eq 0}
 								<option value="-">{\App\Language::translate('--None--', $MODULE_NAME)}</option>
@@ -36,7 +35,6 @@
 								{/foreach}
 							{/if}
 						</select>
-					</div>
 				</div>
 			</div>
 		</div>

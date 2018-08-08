@@ -17,7 +17,7 @@
 				</div>
 			</div>
 			<hr class="widgetHr"/>
-			<div class="row">
+			<div class="row no-gutters">
 				<div class="col-sm-6">
 					{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'list'}
 						<div class="input-group input-group-sm">
@@ -63,7 +63,7 @@
 							   data-history="{implode(',',$HISTORY_STATUS)}" class="widgetFilterSwitch">
 					{/if}
 				</div>
-				<div class="col-sm-6">
+				<div class="col-sm-6 pl-0 pt-1 pl-sm-1 pt-sm-0">
 					{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 				</div>
 			</div>

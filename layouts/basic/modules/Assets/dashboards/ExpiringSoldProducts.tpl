@@ -19,7 +19,7 @@
 		</div>
 	</div>
 	<hr class="widgetHr"/>
-	<div class="row">
+	<div class="row no-gutters">
 		<div class="col-md-12">
 			<div class="float-right">
 				<div class="btn-group btn-group-toggle" data-toggle="buttons">
