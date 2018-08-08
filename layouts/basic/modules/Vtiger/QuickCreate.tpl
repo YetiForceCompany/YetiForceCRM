@@ -35,7 +35,7 @@
 									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
 								{/foreach}
 							{/if}
-							<button class="btn btn-outline-sb2f2847a2_0.file.DetailViewBlockView.tpl.phpecondary mr-0 mr-md-1 mb-2 mb-md-0 col-12 col-md-4 u-text-ellipsis" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button">
+							<button class="btn btn-outline-secondary mr-0 mr-md-1 mb-2 mb-md-0 col-12 col-md-4 u-text-ellipsis" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button">
 								<strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong>
 							</button>
 							<button class="btn btn-success col-12 col-md-1 mb-2 mb-md-0" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}">
