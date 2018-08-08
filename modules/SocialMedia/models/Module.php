@@ -29,4 +29,54 @@ class SocialMedia_Module_Model extends Vtiger_Module_Model
 		}
 		return true;
 	}
+
+	/**
+	 * Check if there is Twitter available.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return bool
+	 */
+	public static function isTwitterAvailable($recordModel)
+	{
+		$allFieldModel = $recordModel->getModule()->getFieldsByUiType(359);
+		foreach ($allFieldModel as $twitterField) {
+			if (!empty($recordModel->get($twitterField->getColumnName()))) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Get all twitter account names.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return string[]
+	 */
+	public static function getAllTwitterAccount($recordModel)
+	{
+		$twitterAccount = [];
+		$allFieldModel = $recordModel->getModule()->getFieldsByUiType(359);
+		foreach ($allFieldModel as $twitterField) {
+			$val = $recordModel->get($twitterField->getColumnName());
+			if (!empty($val)) {
+				$twitterAccount[] = $val;
+			}
+		}
+		return $twitterAccount;
+	}
+
+	/**
+	 * Get all records by twitter account.
+	 *
+	 * @param string $twitterLogin
+	 *
+	 * @return \SocialMedia_Record_Model[]
+	 */
+	public static function getAllRecordsByName($twitterLogin)
+	{
+		//TODO: Get data from the database
+	}
 }
