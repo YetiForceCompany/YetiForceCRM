@@ -21,7 +21,7 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 	/**
 	 * Function to register change event for source module field
 	 */
-	registerOnChangeEventOfSourceModule: function () {
+	registerOnChangeEventOfSourceModule() {
 		const editViewForm = this.getForm();
 		editViewForm.find('[name="sourceModule"]').on('change', function (e) {
 			$('.saveButton').removeAttr('disabled');
