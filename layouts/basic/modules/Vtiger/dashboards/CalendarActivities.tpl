@@ -36,8 +36,8 @@
 		</div>
 		<hr class="widgetHr" />
 		<div class="row no-gutters" >
-			<div class="col-md-6">
-				<div class="input-group input-group-sm flex-nowrap">
+			<div class="col-ceq-xsm-6">
+				<div class="input-group input-group-sm">
 					<span class="input-group-prepend">
 						<span class="input-group-text">
 							<span class="fas fa-filter iconMiddle margintop3" title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span>
@@ -51,7 +51,7 @@
 						</select>
 				</div>
 			</div>
-			<div class="col-sm-6 pl-0 pt-1 pl-sm-1 pt-sm-0">
+			<div class="col-ceq-xsm-6">
 				{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 			</div>
 		</div>

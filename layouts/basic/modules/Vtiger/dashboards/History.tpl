@@ -17,7 +17,7 @@
 		</div>
 		<hr class="widgetHr" />
 		<div class="row no-gutters justify-content-end">
-			<div class="col-md-6 input-group input-group-sm">
+			<div class="col-ceq-xsm-6 input-group input-group-sm">
 				<div class="input-group-prepend">
 					<span class="input-group-text">
 						<span class="fas fa-filter"></span>

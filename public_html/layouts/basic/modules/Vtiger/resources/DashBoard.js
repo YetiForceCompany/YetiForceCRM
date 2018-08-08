@@ -114,7 +114,6 @@ $.Class("Vtiger_DashBoard_Js", {
 			threshold: 0,
 			appendScroll: $(window).width() > app.breakpoints.sm ? $('.mainBody') : $('.bodyContent'),
 			widgetLoader(element) {
-				console.log('load');
 				thisInstance.loadWidget(element);
 			},
 		});

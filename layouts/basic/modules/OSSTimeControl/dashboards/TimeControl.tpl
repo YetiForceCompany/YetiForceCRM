@@ -70,7 +70,7 @@
 	</div>
 	<hr class="widgetHr"/>
 	<div class="row no-gutters">
-		<div class="col-md-6">
+		<div class="col-ceq-xsm-6">
 			<div class="input-group input-group-sm">
 				<div class=" input-group-prepend">
 					<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">
@@ -81,14 +81,14 @@
 					   class="dateRangeField widgetFilter form-control text-center" value="{implode(',',$DTIME)}"/>
 			</div>
 		</div>
-		<div class="col-md-6 pl-0 pt-1 pl-sm-1 pt-sm-0">
+		<div class="col-ceq-xsm-6">
 			{if $SOURCE_MODULE && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
 				{assign var=USERS_GROUP_LIST value=\App\Fields\Owner::getInstance($SOURCE_MODULE)->getUsersAndGroupForModuleList(false,$USER_CONDITIONS)}
 				{assign var=ACCESSIBLE_USERS value=$USERS_GROUP_LIST['users']}
 			{else}
 				{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 			{/if}
-			<div class="input-group input-group-sm flex-nowrap">
+			<div class="input-group input-group-sm">
 				<span class="input-group-prepend">
 					<span class="input-group-text">
 						<span class="fas fa-user iconMiddle"></span></span>

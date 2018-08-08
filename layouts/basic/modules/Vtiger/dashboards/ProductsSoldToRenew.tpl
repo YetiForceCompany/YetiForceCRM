@@ -10,7 +10,7 @@
 		</div>
 		<hr class="widgetHr"/>
 		<div class="row no-gutters">
-			<div class="col-md-6 input-group input-group-sm">
+			<div class="col-ceq-xsm-6 input-group input-group-sm">
 				<div class="input-group-prepend">
 					<span class="input-group-text">
 						<span class="fas fa-filter"></span>
@@ -25,7 +25,7 @@
 					{/foreach}
 				</select>
 			</div>
-			<div class="col-sm-6 pl-0 pt-1 pl-sm-1 pt-sm-0">
+			<div class="col-ceq-xsm-6">
 				<div class="float-right">
 					{if $LISTVIEWLINKS}
 						<button class="btn btn-light btn-sm ml-1 goToListView"
