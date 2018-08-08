@@ -47,6 +47,14 @@ class RecordNumber extends \App\Fields\RecordNumber
 	 */
 	public static $currentDateIndex = 0;
 
+	/**
+	 * Date method mock for testing purposes.
+	 *
+	 * @param string   $format
+	 * @param null|int $time
+	 *
+	 * @return false|string
+	 */
 	public static function date($format, $time = null)
 	{
 		if (!isset(self::$dates[self::$currentDateIndex])) {
@@ -73,7 +81,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	}
 
 	/**
-	 * @codeCoverageIgnore
+	 * Test method "DateMock".
 	 */
 	public function testDateMock()
 	{
@@ -168,7 +176,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 			}
 			$this->assertSame("$date/$currentNumber", RecordNumber::incrementNumber(95));
 			$number = RecordNumber::getNumber(95);
-			$this->assertSame($currentNumber+1, $number['sequenceNumber']);
+			$this->assertSame($currentNumber + 1, $number['sequenceNumber']);
 			$this->assertSame($resetSequence, $number['reset_sequence']);
 			$this->assertSame($sequence, $number['cur_sequence']);
 			$this->assertSame($prefix, $number['prefix']);
