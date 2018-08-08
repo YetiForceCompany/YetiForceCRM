@@ -18,7 +18,11 @@
 		{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance($MODULE)->getAccessibleGroups('',$FIELD_MODEL->getFieldDataType())}
 		{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->getName()}
 		{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
-		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
+		{if !empty($RECORD)}
+			{assign var="FIELD_VALUE" value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
+		{else}
+			{assign var="FIELD_VALUE" value=""}
+		{/if}
 		{if $FIELD_VALUE eq '' && $VIEW neq 'MassEdit'}
 			{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
 		{/if}
@@ -32,7 +36,7 @@
 				{if $VIEW eq 'MassEdit'}<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>{/if}
 				<optgroup label="{\App\Language::translate('LBL_USERS')}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-						<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {assign var=FOUND_SELECT_VALUE value=1}{/if}
+						<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {assign var="FOUND_SELECT_VALUE" value=1}{/if}
 								data-userId="{$CURRENT_USER_ID}">
 							{$OWNER_NAME}
 						</option>
@@ -40,7 +44,7 @@
 				</optgroup>
 				<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-						<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {assign var=FOUND_SELECT_VALUE value=1}{/if}>
+						<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {assign var="FOUND_SELECT_VALUE" value=1}{/if}>
 							{\App\Language::translate($OWNER_NAME, $MODULE)}
 						</option>
 					{/foreach}
