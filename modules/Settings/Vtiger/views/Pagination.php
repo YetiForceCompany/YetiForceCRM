@@ -50,7 +50,7 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 			$listViewModel->set('search_value', $searchValue);
 		}
 
-		$searchParmams = $request->get('search_params');
+		$searchParmams = $request->getArray('search_params', 2);
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
