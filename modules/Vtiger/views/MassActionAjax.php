@@ -34,7 +34,11 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$cvId = $request->getByType('viewname', 2);
 		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
+		if (!empty($request->get('excluded_ids'))) {
+			$excludedIds = $request->get('excluded_ids');
+		} else {
+			$excludedIds = false;
+		}
 		$viewer = $this->getViewer($request);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -68,6 +72,10 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 			$viewer->assign('OPERATOR', $request->getByType('operator', 1));
 			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
 			$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
+		} else {
+			$viewer->assign('OPERATOR', '');
+			$viewer->assign('ALPHABET_VALUE', '');
+			$viewer->assign('SEARCH_KEY', '');
 		}
 		$searchParams = $request->get('search_params');
 		if (!empty($searchParams)) {
@@ -107,6 +115,10 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 			$viewer->assign('OPERATOR', $request->getByType('operator', 1));
 			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
 			$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
+		} else {
+			$viewer->assign('OPERATOR', '');
+			$viewer->assign('ALPHABET_VALUE', '');
+			$viewer->assign('SEARCH_KEY', '');
 		}
 		$searchParams = $request->get('search_params');
 		if (!empty($searchParams)) {
@@ -154,6 +166,10 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 			$viewer->assign('OPERATOR', $request->getByType('operator', 1));
 			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
 			$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
+		} else {
+			$viewer->assign('OPERATOR', '');
+			$viewer->assign('ALPHABET_VALUE', '');
+			$viewer->assign('SEARCH_KEY', '');
 		}
 		$searchParams = $request->get('search_params');
 		if (!empty($searchParams)) {
