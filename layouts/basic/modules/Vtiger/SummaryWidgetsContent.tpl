@@ -27,6 +27,7 @@
 					{/if}
 				</tr>
 				</thead>
+				{assign var=COUNT value=0}
 				{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 					<tr class="listViewEntries" data-id="{$RELATED_RECORD->getId()}"
 							{if $RELATED_RECORD->isViewable()}
@@ -38,7 +39,7 @@
 							</td>
 						{/if}
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-							{assign var=COUNT value=$COUNT+1}
+							{$COUNT = $COUNT+1}
 							{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 							<td class="text-center {$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}"
 								nowrap>
