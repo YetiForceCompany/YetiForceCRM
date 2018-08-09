@@ -20,7 +20,7 @@ class SocialMedia_Record_Model extends \App\Base
 	/**
 	 * Allowed fields as they are in the table.
 	 */
-	private const ALLOWED_FIELDS = ['id', 'twitter_login', 'id_twitter', 'message', 'created_at', 'data_json', 'createdtime'];
+	private const ALLOWED_FIELDS = ['id', 'twitter_login', 'id_twitter', 'message', 'created_at', 'data_json', 'created_time'];
 
 	/**
 	 * Function to get the id of the record.
@@ -57,5 +57,16 @@ class SocialMedia_Record_Model extends \App\Base
 	 */
 	public function save()
 	{
+		$db = \App\Db::getInstance();
+		$data = [];
+		foreach (static::ALLOWED_FIELDS as $fieldName) {
+			$data[$fieldName] = $this->get($fieldName);
+		}
+		if ($this->isNew()) {
+			$db->createCommand()->insert(static::TABLE_TWITTER, $data)->execute();
+		} else {
+			unset($data['id']);
+			$db->createCommand()->update(static::TABLE_TWITTER, $data, ['id' => $this->getId()])->execute();
+		}
 	}
 }
