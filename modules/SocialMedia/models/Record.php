@@ -12,7 +12,7 @@ class SocialMedia_Record_Model extends \App\Base
 	/**
 	 * The name of the table in the database for Twitter.
 	 */
-	private const TABLE_TWITTER = 'u_yf_social_media_twitter';
+	private const TABLE_TWITTER = 'u_#__social_media_twitter';
 	/**
 	 * Table name in the database for the twitter archive.
 	 */
@@ -64,6 +64,7 @@ class SocialMedia_Record_Model extends \App\Base
 		}
 		if ($this->isNew()) {
 			$db->createCommand()->insert(static::TABLE_TWITTER, $data)->execute();
+			$this->setId((int) $db->getLastInsertID(static::TABLE_TWITTER . '_seq'));
 		} else {
 			unset($data['id']);
 			$db->createCommand()->update(static::TABLE_TWITTER, $data, ['id' => $this->getId()])->execute();
