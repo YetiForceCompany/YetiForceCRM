@@ -179,3 +179,22 @@
 		}
 	}
 }
+
+.o-tablet-scroll {
+	&__container {
+		width: 25px;
+	}
+
+	&__content {
+		height: calc(#{$h-main-viewport} - 112px - 0.5rem);
+	}
+
+	&__icons {
+		top: 50%;
+		position: relative;
+	}
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
