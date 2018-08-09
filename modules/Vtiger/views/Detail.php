@@ -447,6 +447,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('CURRENT_COMMENT', null);
 
 		return $viewer->view('RecentComments.tpl', $moduleName, true);
 	}
@@ -670,7 +671,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
-		$limit = (int) $request->get('limit');
+		$limit = (int)$request->get('limit');
 		$searchParams = $request->get('search_params');
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$orderBy = $request->getForSql('orderby');
@@ -766,8 +767,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
 		if (!empty($totalCount)) {
-			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
+			$pagingModel->set('totalCount', (int)$totalCount);
+			$viewer->assign('TOTAL_ENTRIES', (int)$totalCount);
 		}
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
@@ -814,8 +815,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_MODULE_NAME', $relatedModuleName);
 		$viewer->assign('RELATED_RECORDS', $entries);
 		$viewer->assign('RELATED_HEADERS', $header);
-		$viewer->assign('SHOW_CREATOR_DETAIL', (bool) $relationModel->get('creator_detail'));
-		$viewer->assign('SHOW_COMMENT', (bool) $relationModel->get('relation_comment'));
+		$viewer->assign('SHOW_CREATOR_DETAIL', (bool)$relationModel->get('creator_detail'));
+		$viewer->assign('SHOW_COMMENT', (bool)$relationModel->get('relation_comment'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 
