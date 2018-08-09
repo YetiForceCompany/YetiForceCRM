@@ -10,7 +10,7 @@
 ************************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-DashBoardContents px-sm-1">
+	<div class="tpl-DashBoardContents px-sm-1 d-flex flex-row">
 		<div class="grid-stack">
 			{assign var=COLUMNS value=3}
 			{assign var=ROW value=0}
@@ -53,6 +53,15 @@
 			{/foreach}
 			<input type="hidden" id="row" value="{$ROW}"/>
 			<input type="hidden" id="col" value="{$COLCOUNT}"/>
+		</div>
+		<div class="o-tablet-scroll__container mx-1">
+			<div class="o-tablet-scroll__content position-fixed u-hide-underneath border">
+				<div class="o-tablet-scroll__icons d-flex flex-column u-hide-underneath px-1">
+					<span class="fas fa-arrow-up"></span>
+					<span class="far fa-hand-pointer my-2"></span>
+					<span class="fas fa-arrow-down"></span>
+				</div>
+			</div>
 		</div>
 	</div>
 	</div> {*dashboardViewContainer closing tag*}
