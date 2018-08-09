@@ -385,6 +385,11 @@ class Vtiger_Link_Model extends vtlib\Link
 			Vtiger_Cache::set('links-' . $tabid, $type, $links);
 		}
 		$linkModels = [];
+		if ($type) {
+			foreach ($type as $element) {
+				$linkModels[$element] = [];
+			}
+		}
 		foreach ($links as $linkType => $linkObjects) {
 			foreach ($linkObjects as $linkObject) {
 				$queryParams = vtlib\Functions::getQueryParams($linkObject->linkurl);

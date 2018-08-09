@@ -378,7 +378,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
-		$viewer->assign('NEW_CHANGE', $newChange);
+		$viewer->assign('NEW_CHANGE', $newChange ?? null);
 		$viewer->assign('PARENT_RACORD_ID', $parentRecordId);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);

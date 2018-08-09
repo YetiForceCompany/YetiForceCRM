@@ -198,7 +198,7 @@
     "LBL_LIST_OF_NEW_VALUES_IN_RECORD": "Liste neuer Werte in einem Datensatz",
     "LBL_SELECT_RECIPIENTS": "Empf\u00e4nger",
     "LBL_MESSAGE": "Nachricht",
-    "LBL_MESSAGE_INFO": "Der Text der Nachricht unterst\u00fctzt Variablen, der Name der Variable kann gleich einem System Feldnamen entsprechen oder einer speziellen Funktion.\r\n\r\nBeispiel Feldvariablen:\r\n<strong>$accountname$<\/strong> - Feldwert\r\n<strong>%accountname%<\/strong> - Feldnamen\r\n\r\nSpezielle Funktionen:",
+    "LBL_MESSAGE_INFO": "Der Text der Nachricht unterst\u00fctzt Variablen, der Name der Variable kann gleich einem System Feldnamen entsprechen oder einer speziellen Funktion.\r\n\r\nBeispiel Feldvariablen:\r\n$accountname$ - Feldwert\r\n%accountname% - Feldnamen\r\n\r\nSpezielle Funktionen:",
     "LBL_WATCHING_USERS": "Beobachter",
     "LBL_VALUE_FROM_FIELD": "Wert von Feld",
     "LBL_FIELDS_LABELS": "Feldbezeichnung",
