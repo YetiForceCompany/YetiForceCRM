@@ -17,6 +17,11 @@ class SocialMediaRecord extends \Tests\Base
 	private static $transaction;
 
 	/**
+	 * Record id.
+	 */
+	private static $id;
+
+	/**
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
@@ -30,26 +35,24 @@ class SocialMediaRecord extends \Tests\Base
 	 */
 	public function testInsert()
 	{
+		$createAt = date('Y-m-d H:i:s');
 		$recordModel = new \SocialMedia_Record_Model();
 		$recordModel->set('twitter_login', 'spacex');
 		$recordModel->set('id_twitter', '4543645654456654');
-		$recordModel->set('twitter_login', 'spacex');
 		$recordModel->set('message', 'gdshgjkfdjfdgfds');
-		$recordModel->set('created_at', date('Y-m-d H:i:s'));
-		$recordModel->set('data_json', '{json}');
-		$recordModel->set('created_time', date('Y-m-d H:i:s'));
+		$recordModel->set('created_at', $createAt);
+		$recordModel->set('data_json', \App\Json::encode(['test' => 'data']));
+		$recordModel->set('created_time', $createAt);
 		$recordModel->save();
+		static::$id = $recordModel->getId();
 
-		$this->assertTrue(true);
-		//$row = (new \App\Db\Query())->from('u_#__social_media_twitter')->where(['id' => static::$id])->one();
-		//$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		/*$this->assertSame('test', $row['name']);
-		$this->assertSame(4, $row['tabid']);
-		$this->assertSame(0, $row['action']);
-		$this->assertSame(0, $row['status']);
-		$this->assertSame(0, $row['priority']);
-		$this->assertSame(\App\Json::encode($members), $row['members']);
-		$this->assertSame(\App\Json::encode([]), $row['conditions']);*/
+		$row = (new \App\Db\Query())->from('u_#__social_media_twitter')->where(['id' => static::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$this->assertSame('spacex', $row['twitter_login']);
+		$this->assertSame('gdshgjkfdjfdgfds', $row['message']);
+		$this->assertSame(\App\Json::encode(['test' => 'data']), $row['data_json']);
+		$this->assertSame($createAt, $row['created_at']);
+		$this->assertSame($createAt, $row['created_time']);
 	}
 
 	/**
