@@ -17,5 +17,14 @@ class SocialMedia
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
+		if ($eventType === 'module.postinstall') {
+			\vtlib\Cron::register('LBL_ARCHIVE_OLD_RECORDS', "modules/$moduleName/cron/ArchiveOldRecords.php", 3600 * 24, $moduleName, 1);
+		} elseif ($eventType === 'module.disabled') {
+			\vtlib\Cron::getInstance('LBL_ARCHIVE_OLD_RECORDS')->updateStatus(\vtlib\Cron::$STATUS_DISABLED);
+		} elseif ($eventType === 'module.enabled') {
+			\vtlib\Cron::getInstance('LBL_ARCHIVE_OLD_RECORDS')->updateStatus(\vtlib\Cron::$STATUS_ENABLED);
+		} elseif ($eventType === 'module.preuninstall') {
+			\vtlib\Cron::deregister('LBL_ARCHIVE_OLD_RECORDS');
+		}
 	}
 }
