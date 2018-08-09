@@ -9,4 +9,6 @@
  */
 class SocialMedia_Record_Model extends \App\Base
 {
+	private const TABLE_TWITTER = 'u_yf_social_media_twitter';
+	private const TABLE_TWITTER_BACKUP = 'b_yf_social_media_twitter';
 }
