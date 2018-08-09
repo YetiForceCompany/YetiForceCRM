@@ -186,15 +186,18 @@
 	}
 
 	&__content {
-		height: calc(#{$h-main-viewport} - 112px - 0.5rem);
+		height: calc(#{$h-main-viewport} - #{$h-breadcrumb} - #{$h-breadcrumb} - 0.5rem);
 	}
 
 	&__icons {
 		top: 50%;
+		transform: translateY(-50%);
 		position: relative;
 	}
 }
 
-::-webkit-scrollbar {
-	display: none;
+@include media-breakpoint-down(lg) {
+	::-webkit-scrollbar {
+		display: none;
+	}
 }
