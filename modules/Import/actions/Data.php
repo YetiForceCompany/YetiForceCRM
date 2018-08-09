@@ -114,6 +114,43 @@ class Import_Data_Action extends \App\Controller\Action
 		return $defaultValues;
 	}
 
+	/**
+	 * Get default mandatory field values.
+	 *
+	 * @return array
+	 */
+	public function getDefaultMandatoryFieldValues()
+	{
+		$key = $this->module . '_' . $this->user->getId();
+		if (\App\Cache::staticHas('DefaultMandatoryFieldValues', $key)) {
+			return \App\Cache::staticGet('DefaultMandatoryFieldValues', $key);
+		}
+		$defaultMandatoryValues = [];
+		if (!empty($this->defaultValues)) {
+			if (!is_array($this->defaultValues)) {
+				$this->defaultValues = \App\Json::decode($this->defaultValues);
+			}
+		}
+		$moduleModel = Vtiger_Module_Model::getInstance($this->module);
+		$mandatoryFields = [];
+		foreach ($moduleModel->getMandatoryFieldModels() as $fieldInstance) {
+			$mandatoryFieldName = $fieldInstance->getName();
+			$mandatoryFields[] = $mandatoryFieldName;
+			$fieldDefaultValue = $fieldInstance->getDefaultFieldValue();
+			if (!empty($this->defaultValues[$mandatoryFieldName])) {
+				$defaultMandatoryValues[$mandatoryFieldName] = $this->defaultValues[$mandatoryFieldName];
+			} elseif (!empty($fieldDefaultValue)) {
+				$defaultMandatoryValues[$mandatoryFieldName] = $fieldDefaultValue;
+			} elseif ($fieldInstance->getFieldDataType() === 'owner') {
+				$defaultMandatoryValues[$mandatoryFieldName] = $this->user->getId();
+			} elseif (!in_array($fieldInstance->getFieldDataType(), ['datetime', 'date', 'time', 'reference'])) {
+				$defaultMandatoryValues[$mandatoryFieldName] = '????';
+			}
+		}
+		\App\Cache::staticSave('DefaultMandatoryFieldValues', $key, $defaultMandatoryValues);
+		return $defaultMandatoryValues;
+	}
+
 	public function import()
 	{
 		if (!$this->initializeImport()) {
@@ -254,18 +291,58 @@ class Import_Data_Action extends \App\Controller\Action
 							$entityInfo['status'] = self::IMPORT_RECORD_SKIPPED;
 							break;
 						case Import_Module_Model::AUTO_MERGE_OVERWRITE:
+							// add default mandatory values if empty, set empty field if not mandatory and is empty in record
+							// do not override existing record mandatory field with defaults if empty in file
+							$recordModel = Vtiger_Record_Model::getInstanceById($baseRecordId);
+							$defaultMandatoryFieldValues = $this->getDefaultMandatoryFieldValues();
+							$mandatoryFieldNames = array_keys($defaultMandatoryFieldValues);
+							foreach ($fieldData as $fieldName => &$fieldValue) {
+								$currentValue = $recordModel->get($fieldName);
+								if (in_array($fieldName, $mandatoryFieldNames)) {
+									if (empty($fieldValue) && !empty($currentValue)) {
+										$fieldValue = $currentValue;
+									} elseif (empty($fieldValue) && empty($currentValue) && !empty($defaultMandatoryFieldValues[$fieldName])) {
+										$fieldValue = $defaultMandatoryFieldValues[$fieldName];
+									}
+								} else { // normal fields not mandatory - omit - let user decide what he wants
+									continue;
+								}
+							}
 							$fieldData = $this->transformForImport($fieldData);
 							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName);
 							$entityInfo['status'] = self::IMPORT_RECORD_UPDATED;
 							break;
 						case Import_Module_Model::AUTO_MERGE_MERGEFIELDS:
+							// fill out empty values with defaults for all fields
+							// only if actual record field is empty and file field is empty too
+							$recordModel = Vtiger_Record_Model::getInstanceById($baseRecordId);
 							$defaultFieldValues = $this->getDefaultFieldValues();
 							foreach ($fieldData as $fieldName => &$fieldValue) {
-								if (empty($fieldValue) && !empty($defaultFieldValues[$fieldName])) {
+								$currentValue = $recordModel->get($fieldName);
+								if (empty($fieldValue) && empty($currentValue) && !empty($defaultFieldValues[$fieldName])) {
 									$fieldValue = $defaultFieldValues[$fieldName];
 								}
 							}
-							$fieldData = array_filter($fieldData);
+							$fieldData = array_filter($fieldData); // remove empty values - do not modify existing
+							$fieldData = $this->transformForImport($fieldData, false, false);
+							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName);
+							$entityInfo['status'] = self::IMPORT_RECORD_MERGED;
+							break;
+						case Import_Module_Model::AUTO_MERGE_EXISTINGISPRIORITY:
+							// fill out empty values with defaults for all fields
+							// only if actual record field is empty and file field is empty too
+							$recordModel = Vtiger_Record_Model::getInstanceById($baseRecordId);
+							$defaultFieldValues = $this->getDefaultFieldValues();
+							foreach ($fieldData as $fieldName => &$fieldValue) {
+								$currentValue = $recordModel->get($fieldName);
+								if (!empty($currentValue)) {
+									// existing record data is priority - do not override - save only empty record fields
+									$fieldValue = $currentValue;
+								} elseif (empty($fieldValue) && !empty($defaultFieldValues[$fieldName])) {
+									$fieldValue = $defaultFieldValues[$fieldName];
+								}
+							}
+							$fieldData = array_filter($fieldData); // remove empty values - do not modify existing
 							$fieldData = $this->transformForImport($fieldData, false, false);
 							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName);
 							$entityInfo['status'] = self::IMPORT_RECORD_MERGED;
