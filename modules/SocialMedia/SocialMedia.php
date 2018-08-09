@@ -9,4 +9,13 @@
  */
 class SocialMedia
 {
+	/**
+	 * Handler.
+	 *
+	 * @param string $moduleName
+	 * @param string $eventType
+	 */
+	public function moduleHandler($moduleName, $eventType)
+	{
+	}
 }
