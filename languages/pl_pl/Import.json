@@ -13,7 +13,7 @@
     "comma": "przecinek",
     "ISO-8859-1": "ISO-8859-1",
     "Merge": "Po\u0142\u0105cz (nie nadpisuj pustymi warto\u015Bciami z pliku)",
-    "Overwrite": "Nadpisz (zapisz puste warto\u015Bci z pliku, je\u017Celi pole nie jest wymagane)",
+    "Overwrite": "Nadpisz (zapisz tak\u017Ce puste warto\u015Bci z pliku, je\u017Celi pole nie jest wymagane)",
     "Skip": "Pomi\u0144",
     "LBL_FILL_EMPTY": "Uzupe\u0142nij (aktualizuj tylko puste pola w rekordzie, nie zmieniaj obecnych warto\u015Bci)",
     "LBL_IMPORT_STEP_1": "Krok 1",
