@@ -70,4 +70,17 @@ class SocialMedia_Record_Model extends \App\Base
 			$db->createCommand()->update(static::TABLE_TWITTER, $data, ['id' => $this->getId()])->execute();
 		}
 	}
+
+	/**
+	 * Removal from the database.
+	 *
+	 * @throws \yii\db\Exception
+	 *
+	 * @return int
+	 */
+	public function delete()
+	{
+		return \App\Db::getInstance()->createCommand()->delete(static::TABLE_TWITTER, ['id' => $this->getId()])
+			->execute();
+	}
 }
