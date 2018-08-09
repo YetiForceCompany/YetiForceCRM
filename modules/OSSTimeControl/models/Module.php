@@ -31,7 +31,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			'linkurl' => $this->getListViewUrl(),
 			'linkicon' => 'fas fa-list',
 		]);
-		if ($linkParams['ACTION'] === 'Calendar') {
+		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] === 'Calendar') {
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_USERS',
@@ -94,7 +94,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			$color = App\Fields\Owner::getColor($row['smownerid']);
 			$userTime['labels'][] = vtlib\Functions::getInitials($ownerName);
 			$userTime['datasets'][0]['tooltips'][] = $ownerName;
-			$userTime['datasets'][0]['data'][] = (float) $row['sumtime'];
+			$userTime['datasets'][0]['data'][] = (float)$row['sumtime'];
 			$userTime['datasets'][0]['backgroundColor'][] = $color;
 			$userTime['datasets'][0]['borderColor'][] = $color;
 		}
@@ -136,7 +136,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 				$color = App\Fields\Owner::getColor($row['smownerid']);
 				$chartData['labels'][] = vtlib\Functions::getInitials($ownerName);
 				$chartData['datasets'][0]['tooltips'][] = $ownerName;
-				$chartData['datasets'][0]['data'][] = (float) $row['time'];
+				$chartData['datasets'][0]['data'][] = (float)$row['time'];
 				$chartData['datasets'][0]['backgroundColor'][] = $color;
 				$chartData['datasets'][0]['borderColor'][] = $color;
 			}
