@@ -23,6 +23,46 @@ class SocialMedia_Record_Model extends \App\Base
 	private const ALLOWED_FIELDS = ['id', 'twitter_login', 'id_twitter', 'message', 'created_at', 'data_json', 'created_time'];
 
 	/**
+	 * Function to get the clean instance.
+	 *
+	 * @return \self
+	 */
+	public static function getCleanInstance()
+	{
+		$cacheName = get_class();
+		$key = 'Clean';
+		if (\App\Cache::staticHas($cacheName, $key)) {
+			return \App\Cache::staticGet($cacheName, $key);
+		}
+		$instance = new self();
+		\App\Cache::staticSave($cacheName, $key, $instance);
+		return $instance;
+	}
+
+	/**
+	 * Function to get the instance.
+	 *
+	 * @param $id
+	 *
+	 * @return \SocialMedia_Record_Model
+	 */
+	public static function getInstanceById($id)
+	{
+		$cacheName = get_class();
+		if (\App\Cache::staticHas($cacheName, $id)) {
+			return \App\Cache::staticGet($cacheName, $id);
+		}
+		$instance = self::getCleanInstance();
+		$data = (new \App\Db\Query())
+			->from(static::TABLE_TWITTER)
+			->where(['id' => $id])
+			->one();
+		$instance->setData($data);
+		\App\Cache::staticSave($cacheName, $id, $instance);
+		return $instance;
+	}
+
+	/**
 	 * Function to get the id of the record.
 	 *
 	 * @return int - Record Id
