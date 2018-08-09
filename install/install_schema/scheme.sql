@@ -219,6 +219,19 @@ CREATE TABLE `a_yf_taxes_global` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `b_yf_social_media_twitter` */
+
+CREATE TABLE `b_yf_social_media_twitter` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `twitter_login` varchar(20) NOT NULL,
+  `id_twitter` varchar(32) DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `data_json` text DEFAULT NULL,
+  `created_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 /*Table structure for table `com_vtiger_workflow_activatedonce` */
 
 CREATE TABLE `com_vtiger_workflow_activatedonce` (
@@ -2975,6 +2988,19 @@ CREATE TABLE `u_yf_scalculationscf` (
   PRIMARY KEY (`scalculationsid`),
   CONSTRAINT `fk_1_u_yf_scalculationscf` FOREIGN KEY (`scalculationsid`) REFERENCES `u_yf_scalculations` (`scalculationsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_social_media_twitter` */
+
+CREATE TABLE `u_yf_social_media_twitter` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `twitter_login` varchar(20) NOT NULL,
+  `id_twitter` varchar(32) DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `data_json` text DEFAULT NULL,
+  `created_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_squoteenquiries` */
 
