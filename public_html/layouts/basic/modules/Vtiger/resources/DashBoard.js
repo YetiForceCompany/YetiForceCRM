@@ -27,7 +27,7 @@ $.Class("Vtiger_DashBoard_Js", {
 		widgetContainer.find('.dashboardWidget').data('url', url);
 		var width = element.data('width');
 		var height = element.data('height');
-		Vtiger_DashBoard_Js.grid.addWidget(widgetContainer,0, 0, width, height);
+		Vtiger_DashBoard_Js.grid.addWidget(widgetContainer, 0, 0, width, height);
 		Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer.find('.grid-stack-item-content'));
 	},
 	restrictContentDrag: function (container) {
@@ -700,6 +700,26 @@ $.Class("Vtiger_DashBoard_Js", {
 			});
 		});
 	},
+	/**
+	 * Updates tablet scroll top position
+	 */
+	registerTabletScrollEvent() {
+		let scollbarContainer = $('.js-tablet-scroll'),
+			scollbarContainerH = scollbarContainer.outerHeight(),
+			scollbarOffsetTop = scollbarContainer.offset().top,
+			maxOffset = $('.js-header').outerHeight() + 8;
+
+		this.scrollContainer.on('scroll', () => {
+			if ((this.scrollContainer.scrollTop() + maxOffset) >= scollbarOffsetTop) {
+				scollbarContainer.css({top: maxOffset});
+			} else {
+				scollbarContainer.css({
+					top: scollbarOffsetTop - this.scrollContainer.scrollTop(),
+					height: scollbarContainerH + this.scrollContainer.scrollTop()
+				});
+			}
+		});
+	},
 	registerEvents: function () {
 		this.registerGrid();
 		this.registerRefreshWidget();
@@ -712,6 +732,7 @@ $.Class("Vtiger_DashBoard_Js", {
 		this.registerTabModules();
 		this.removeWidgetFromList();
 		this.registerSelectDashboard();
+		this.registerTabletScrollEvent();
 		ElementQueries.listen();
 	}
 });
