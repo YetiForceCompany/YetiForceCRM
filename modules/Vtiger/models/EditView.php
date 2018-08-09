@@ -43,7 +43,7 @@ class Vtiger_EditView_Model extends \App\Base
 	/**
 	 * Function to get the list of listview links for the module.
 	 *
-	 * @param <Array> $linkParams
+	 * @param  <Array> $linkParams
 	 *
 	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
 	 */
