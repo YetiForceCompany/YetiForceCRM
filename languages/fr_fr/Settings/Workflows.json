@@ -206,7 +206,7 @@
     "LBL_SKIP_CURRENT_USER": "Ignorer l'utilisateur actuel",
     "LBL_SELECT_ACTION_TYPE": "S\u00e9lectionner le type de notification",
     "LBL_SELECT_RECIPIENTS": "Destinataires",
-    "LBL_MESSAGE_INFO": "Le texte du message est comaptible avec des variables, le nom des variables puevent \u00eatre identiques au nom des champs syst\u00e8mes ou des fonctions sp\u00e9ciales.\r\n\r\nExemples de variables pour les champs :\r\n<strong>$accountname$<\/strong> - Valeur du champ \r\n<strong>%accountname%<\/strong> - label du champ\r\n\r\nFonctions sp\u00e9ciales :",
+    "LBL_MESSAGE_INFO": "Le texte du message est comaptible avec des variables, le nom des variables puevent \u00eatre identiques au nom des champs syst\u00e8mes ou des fonctions sp\u00e9ciales.\r\n\r\nExemples de variables pour les champs :\r\n$accountname$ - Valeur du champ \r\n%accountname% - label du champ\r\n\r\nFonctions sp\u00e9ciales :",
     "LBL_WATCHING_USERS": "Utilisateurs observant",
     "LBL_VALUE_FROM_FIELD": "Valeur du champ",
     "LBL_FIELDS_LABELS": "Label champ",
