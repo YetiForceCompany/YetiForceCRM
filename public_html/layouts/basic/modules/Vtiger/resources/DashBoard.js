@@ -13,6 +13,7 @@ $.Class("Vtiger_DashBoard_Js", {
 	grid: false,
 	//static property which will store the instance of dashboard
 	currentInstance: false,
+	scrollContainer: false,
 	addWidget: function (element, url) {
 		element = $(element);
 		var linkId = element.data('linkid');
@@ -105,19 +106,20 @@ $.Class("Vtiger_DashBoard_Js", {
 		});
 	},
 	updateLazyWidget() {
-		const scrollTop = $('.mainBody').scrollTop();
-		$('.mainBody').scrollTop(scrollTop + 1).scrollTop(scrollTop);
+		const scrollTop = this.scrollContainer.scrollTop();
+		this.scrollContainer.scrollTop(scrollTop + 1).scrollTop(scrollTop);
 	},
 	loadWidgets: function () {
 		const thisInstance = this;
+		this.scrollContainer = $(window).width() > app.breakpoints.sm ? $('.mainBody') : $('.bodyContent');
 		thisInstance.getContainer().find('.dashboardWidget').Lazy({
 			threshold: 0,
-			appendScroll: $(window).width() > app.breakpoints.sm ? $('.mainBody') : $('.bodyContent'),
+			appendScroll: thisInstance.scrollContainer,
 			widgetLoader(element) {
 				thisInstance.loadWidget(element);
 			},
 		});
-		this.updateLazyWidget();
+		this.updateLazyWidget(this.scrollContainer);
 	},
 	loadWidget: function (widgetContainer) {
 		var thisInstance = this;
