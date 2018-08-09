@@ -120,6 +120,10 @@ class SocialMedia_Record_Model extends \App\Base
 	 */
 	public function delete()
 	{
+		$cacheName = get_class();
+		if (\App\Cache::staticHas($cacheName, $this->getId())) {
+			\App\Cache::staticDelete($cacheName, $this->getId());
+		}
 		return \App\Db::getInstance()->createCommand()->delete(static::TABLE_TWITTER, ['id' => $this->getId()])
 			->execute();
 	}
