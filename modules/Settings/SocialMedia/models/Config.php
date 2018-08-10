@@ -97,6 +97,19 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	}
 
 	/**
+	 * Function to get the value for a given key.
+	 *
+	 * @param string     $key
+	 * @param mixed|null $defaultVal
+	 *
+	 * @return mixed|null
+	 */
+	public function get($key, $defaultVal = null)
+	{
+		return parent::get($key) ?? $defaultVal;
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function remove($key)

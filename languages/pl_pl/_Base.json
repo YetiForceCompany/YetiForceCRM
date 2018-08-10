@@ -648,7 +648,7 @@
     "OSSSoldServices": "Us\u0142ugi sprzedane",
     "Sub Category": "Podkategoria",
     "Interested products": "Zainteresowany produktami",
-    "LBL_CATEGORIES":"Kategorie",
+    "LBL_CATEGORIES": "Kategorie",
     "Interested services": "Zainteresowany us\u0142ugami",
     "LBL_NO_RELATED_RECORDS_FOUND": "Nie znaleziono \u017cadnych rekord\u00f3w",
     "LBL_RECORD_DETAILS": "Szczeg\u00f3\u0142y",
@@ -1223,6 +1223,7 @@
     "LBL_PICKLIST_FIELD": "Lista wyboru z pola",
     "LBL_MAP": "Mapa",
     "LBL_SHOW_MAP": "Poka\u017c na mapie",
+    "LBL_SOCIAL_MEDIA": "Media spo\u0142eczno\u015bciowe",
     "FL_CAMPAIGN_STATUS": "Status kampanii",
     "LBL_CLOSED_TICKETS_BY_PRIORITY": "Zamkni\u0119te zg\u0142oszenie wed\u0142ug priorytetu",
     "LBL_CLOSED_TICKETS_BY_USER": "Zamkni\u0119te zg\u0142oszenia wed\u0142ug u\u017cytkownik\u00f3w",
@@ -1287,7 +1288,8 @@
     "LBL_SHOP_YETIFORCE": "Sklep",
     "LBL_PRINT": "Drukuj",
     "LBL_IMAGE_DOWNLOAD": "Pobierz obraz",
-    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO":"Liczba scalanych rekord\u00F3w zosta\u0142a zredukowana do %d."
+    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Liczba scalanych rekord\u00F3w zosta\u0142a zredukowana do %d.",
+    "LBL_ARCHIVING_RECORDS_NUMBER_OF_DAYS": "Archiwizowanie rekord\u00f3w liczba dni"
   },
   "js": {
     "JS_APPROVE": "Zatwierd\u017A",
@@ -1598,7 +1600,7 @@
     "JS_AVAILABLE_FILE_TYPES": "Dost\u0119pne typy plik\u00f3w to",
     "JS_FILE_LIMIT": "Maksymalna liczba plik\u00F3w zosta\u0142a przekroczona",
     "JS_WAIT_FOR_FILE_UPLOAD": "Poczekaj na uko\u0144czenie wysy\u0142ania plik\u00F3w",
-	  "JS_ERROR_MAX_VALUE": "Wprowadzono warto\u015b\u0107 poza dozwolonym zakresem",
+    "JS_ERROR_MAX_VALUE": "Wprowadzono warto\u015b\u0107 poza dozwolonym zakresem",
     "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Zmie\u0144 nazw\u0119 firmy. Nazwa firmy YetiForce jest zastrze\u017Cona.",
     "JS_SELECT_OR_WRITE_AND_PRESS_ENTER": "Wybierz warto\u015b\u0107 z listy lub wpisz w\u0142asn\u0105 i naci\u015bnij enter"
   }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Social media class for config.
  *
@@ -15,6 +16,7 @@ class Settings_SocialMedia_Index_View extends Settings_Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
+		$viewer->assign('CONFIG_TWITTER', new Settings_SocialMedia_Config_Model('twitter'));
 		$viewer->view('Index.tpl', $request->getModule(false));
 	}
 

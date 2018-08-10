@@ -37,8 +37,9 @@ class Settings_SocialMedia_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function Twitter(\App\Request $request)
 	{
-		\App\DebugerEx::log($request->getAll());
-
+		$configTitter = (new Settings_SocialMedia_Config_Model('twitter'));
+		$configTitter->set('archiving_records_number_of_days', $request->getInteger('archiving_records_number_of_days'));
+		$configTitter->save();
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
