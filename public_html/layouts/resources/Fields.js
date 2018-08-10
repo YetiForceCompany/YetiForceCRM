@@ -18,7 +18,7 @@ App.Fields = {
 		 * @param {boolean} registerForAddon
 		 * @param {object} customParams
 		 */
-		register(parentElement, registerForAddon, customParams,clasName = 'dateField') {
+		register(parentElement, registerForAddon, customParams, clasName = 'dateField') {
 			if (typeof parentElement === "undefined") {
 				parentElement = $('body');
 			} else {
@@ -27,7 +27,7 @@ App.Fields = {
 			if (typeof registerForAddon === "undefined") {
 				registerForAddon = true;
 			}
-			let elements = $('.'+ clasName, parentElement);
+			let elements = $('.' + clasName, parentElement);
 			if (parentElement.hasClass('dateField')) {
 				elements = parentElement;
 			}
@@ -640,8 +640,14 @@ App.Fields = {
 					select.parent().append(selectNew);
 					select.prop('disabled', true);
 				}
-				if (select.hasClass('tags')) {
-					params.tags = true;
+				let htmlParams = select.data('select');
+				if (htmlParams) {
+					htmlParams = htmlParams.split('; ');
+					htmlParams = htmlParams.reduce((o, key) => ({
+						...o,
+						[key.split(', ')[0]]: JSON.parse(key.split(', ')[1])
+					}), {});
+					params = $.extend(params, htmlParams);
 				}
 				select.select2(params)
 					.on("select2:open", function (e) {
@@ -672,7 +678,8 @@ App.Fields = {
 		 * @param {jQuery} select2 element
 		 * @param {function} callback function
 		 */
-		registerSelect2Sortable(select, cb = () =>{}) {
+		registerSelect2Sortable(select, cb = () => {
+		}) {
 			let ul = select.next('.select2-container').first('ul.select2-selection__rendered');
 			ul.sortable({
 				items: 'li:not(.select2-search__field)',
@@ -680,7 +687,7 @@ App.Fields = {
 				stop: function () {
 					$(ul.find('.select2-selection__choice').get().reverse()).each(function () {
 						let optionTitle = $(this).attr('title');
-						select.find('option').each(function() {
+						select.find('option').each(function () {
 							if ($(this).text() === optionTitle) {
 								select.prepend($(this));
 							}
