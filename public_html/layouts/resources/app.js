@@ -29,6 +29,7 @@ var App = {},
 		cacheParams: [],
 		modalEvents: [],
 		childFrame: false,
+		touchDevice: false,
 		event: new function () {
 			this.el = $({});
 			this.trigger = function () {
@@ -99,6 +100,20 @@ var App = {},
 			} else {
 				return window;
 			}
+		},
+		/**
+		 * Function gets current window parent
+		 * @returns {boolean}
+		 */
+		isTouchDevice() {
+			let supportsTouch = false;
+			if ('ontouchstart' in window) // iOS & android
+				supportsTouch = true;
+			else if (window.navigator.msPointerEnabled) // Win8
+				supportsTouch = true;
+			else if ('ontouchstart' in document.documentElement)
+				supportsTouch = true;
+			return supportsTouch;
 		},
 		/**
 		 * Function to set page title
@@ -1516,6 +1531,7 @@ var App = {},
 		}
 	};
 $(document).ready(function () {
+	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
 	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
 	app.registerSticky();
