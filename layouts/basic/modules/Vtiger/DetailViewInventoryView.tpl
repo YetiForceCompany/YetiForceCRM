@@ -57,10 +57,9 @@
                     {foreach item=FIELD from=$FIELDS[1]}
                         <td {if in_array($FIELD->getName(), $FIELDS_TEXT_ALIGN_RIGHT)}class="textAlignRight"{/if}>
                             {assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
-                            {if $FIELD->get('columnname')==='unit'}
+                            {if $FIELD->get('columnname') === 'unit'}
                                 {assign var="INV_RECORD_MODEL" value=Vtiger_Record_Model::getInstanceById($INVENTORY_ROW['name'])}
-                                {assign var="INV_RECORD_MODULE" value=$INV_RECORD_MODEL->getModuleName()}
-                                {include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_VALUE=\App\Language::translate($INVENTORY_ROW[$FIELD->get('columnname')],$INV_RECORD_MODULE)}
+                                {include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_VALUE=\App\Language::translate($INVENTORY_ROW[$FIELD->get('columnname')], $INV_RECORD_MODEL->getModuleName())}
                             {else}
                                 {include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_VALUE=$INVENTORY_ROW[$FIELD->get('columnname')]}
                             {/if}
