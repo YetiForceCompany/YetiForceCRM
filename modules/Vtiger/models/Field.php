@@ -303,6 +303,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 311:
 						$fieldDataType = 'multiImage';
 						break;
+					case 359:
+						$fieldDataType = 'twitter';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {

@@ -2,7 +2,7 @@
 <div class="tpl-Settings-Menu-Index menuConfigContainer">
 	<div class="widget_header row">
 		<div class="col-md-7">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			{\App\Language::translate('LBL_MENU_BUILDER_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 		<div class="col-md-5 row mt-2">

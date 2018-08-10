@@ -930,24 +930,27 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerBlockStatusCheckOnLoad: function () {
-		var blocks = this.getContentHolder().find('.blockHeader');
-		var module = app.getModuleName();
+		let blocks = this.getContentHolder().find('.js-toggle-panel');
+		let module = app.getModuleName();
 		blocks.each(function (index, block) {
-			var currentBlock = jQuery(block);
-			var headerAnimationElement = currentBlock.find('.js-block-toggle').not('.d-none');
-			var bodyContents = currentBlock.closest('.js-toggle-panel').find('.blockContent');
-			var blockId = headerAnimationElement.data('id');
-			var cacheKey = module + '.' + blockId;
-			var value = app.cacheGet(cacheKey, null);
-			if (value != null) {
-				if (value == 1) {
-					headerAnimationElement.addClass('d-none');
-					currentBlock.find("[data-mode='show']").removeClass('d-none');
-					bodyContents.removeClass('d-none');
-				} else {
-					headerAnimationElement.addClass('d-none');
-					currentBlock.find("[data-mode='hide']").removeClass('d-none');
-					bodyContents.addClass('d-none');
+			let currentBlock = jQuery(block);
+			let dynamicAttr = currentBlock.attr('data-dynamic');
+			if (typeof dynamicAttr !== typeof undefined && dynamicAttr !== false) {
+				let headerAnimationElement = currentBlock.find('.js-block-toggle').not('.d-none');
+				let bodyContents = currentBlock.closest('.js-toggle-panel').find('.blockContent');
+				let blockId = headerAnimationElement.data('id');
+				let cacheKey = module + '.' + blockId;
+				let value = app.cacheGet(cacheKey, null);
+				if (value != null) {
+					if (value == 1) {
+						headerAnimationElement.addClass('d-none');
+						currentBlock.find("[data-mode='show']").removeClass('d-none');
+						bodyContents.removeClass('d-none');
+					} else {
+						headerAnimationElement.addClass('d-none');
+						currentBlock.find("[data-mode='hide']").removeClass('d-none');
+						bodyContents.addClass('d-none');
+					}
 				}
 			}
 		});
@@ -1061,17 +1064,20 @@ jQuery.Class("Vtiger_Detail_Js", {
 					fieldNameValueMap = thisInstance.getCustomFieldNameValueMap(fieldNameValueMap);
 					thisInstance.saveFieldValues(fieldNameValueMap).done(function (response) {
 						readRecord.prop('disabled', false);
-						var postSaveRecordDetails = response.result;
 						currentTdElement.progressIndicator({'mode': 'hide'});
 						detailViewValue.removeClass('d-none');
 						actionElement.removeClass('d-none');
-						var displayValue = postSaveRecordDetails[fieldName].display_value;
+						if(!response.success){
+							return;
+						}
+						const postSaveRecordDetails = response.result;
+						let displayValue = postSaveRecordDetails[fieldName].display_value;
 						if (dateTimeField.length && dateTime) {
 							displayValue = postSaveRecordDetails[dateTimeField[0].name].display_value + ' ' + postSaveRecordDetails[dateTimeField[1].name].display_value;
 						}
 						detailViewValue.html(displayValue);
-						if (postSaveRecordDetails['isEditable'] == false) {
-							var progressIndicatorElement = jQuery.progressIndicator({
+						if (postSaveRecordDetails['isEditable'] === false) {
+							const progressIndicatorElement = jQuery.progressIndicator({
 								'position': 'html',
 								'blockInfo': {
 									'enabled': true

@@ -77,6 +77,21 @@
 							</tr>
 							<tr>
 								<td class="{$WIDTHTYPE}">
+									<label class="float-right marginRight10px">
+										<b>{\App\Language::translate('LBL_RS_RESET_SEQUENCE', $QUALIFIED_MODULE)}</b>
+									</label>
+								</td>
+								<td class="fieldValue {$WIDTHTYPE}" style="border-left: none">
+									<select class="select2" name="reset_sequence" data-allow-clear="true" data-placeholder="{\App\Language::translate('LBL_RS_RESET_SEQUENCE', $QUALIFIED_MODULE)}">
+										<option></option>
+										<option value="Y"{if $DEFAULT_MODULE_DATA['reset_sequence']==='Y'} selected {/if}>{\App\Language::translate('LBL_RS_YEAR',$QUALIFIED_MODULE)}</option>
+										<option value="M"{if $DEFAULT_MODULE_DATA['reset_sequence']==='M'} selected {/if}>{\App\Language::translate('LBL_RS_MONTH',$QUALIFIED_MODULE)}</option>
+										<option value="D"{if $DEFAULT_MODULE_DATA['reset_sequence']==='D'} selected {/if}>{\App\Language::translate('LBL_RS_DAY',$QUALIFIED_MODULE)}</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="{$WIDTHTYPE}">
 									<label class="float-right marginRight10px"><b>{\App\Language::translate('LBL_USE_POSTFIX', $QUALIFIED_MODULE)}</b></label>
 								</td>
 								<td class="fieldValue {$WIDTHTYPE}" style="border-left: none">
@@ -113,6 +128,7 @@
 												<option value="M">{\App\Language::translate('LBL_CV_MONTH', $QUALIFIED_MODULE)}</option>
 												<option value="DD">{\App\Language::translate('LBL_CV_FULL_DAY', $QUALIFIED_MODULE)}</option>
 												<option value="D">{\App\Language::translate('LBL_CV_DAY', $QUALIFIED_MODULE)}</option>
+												<option value="0">{\App\Language::translate('LBL_CV_LEADING_ZERO', $QUALIFIED_MODULE)}</option>
 											</select>
 										</div>
 										<div class="col-md-1">

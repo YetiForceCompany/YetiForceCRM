@@ -177,7 +177,7 @@ CREATE TABLE `a_yf_record_converter` (
   `check_duplicate` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`,`source_module`,`destiny_module`),
   KEY `a_yf_record_converter_fk_tab` (`source_module`),
-  CONSTRAINT `a_yf_record_converter_fk_tab` FOREIGN KEY (`source_module`) REFERENCES `vtiger_tab` (`tabid`)
+  CONSTRAINT `fk_1_a_yf_record_converter` FOREIGN KEY (`source_module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_relatedlists_inv_fields` */
@@ -303,12 +303,6 @@ CREATE TABLE `com_vtiger_workflowtasks_entitymethod` (
 /*Table structure for table `com_vtiger_workflowtasks_entitymethod_seq` */
 
 CREATE TABLE `com_vtiger_workflowtasks_entitymethod_seq` (
-  `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `com_vtiger_workflowtasks_seq` */
-
-CREATE TABLE `com_vtiger_workflowtasks_seq` (
   `id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6585,6 +6579,8 @@ CREATE TABLE `vtiger_modentity_num` (
   `postfix` varchar(50) NOT NULL DEFAULT '',
   `start_id` int(10) unsigned NOT NULL,
   `cur_id` int(10) unsigned NOT NULL,
+  `reset_sequence` char(1),
+  `cur_sequence` varchar(10) DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `semodule` (`cur_id`),
   KEY `prefix` (`prefix`,`postfix`,`cur_id`),

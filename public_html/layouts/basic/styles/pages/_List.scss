@@ -67,3 +67,13 @@
 .listViewAll .leftRecordActions {
 	border-left: 5px solid #ddd;
 }
+
+.o-filter-actions {
+	display: none;
+}
+
+.select2-results__option--highlighted {
+	.o-filter-actions {
+		display: block !important;
+	}
+}
