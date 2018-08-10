@@ -467,7 +467,7 @@ class ConfReport
 	{
 		$current = $row[$sapi];
 		$errorReporting = stripos($current, '_') === false ? \App\ErrorHandler::error2string($current) : $current;
-		if ($row['recommended'] === 'E_ALL & ~E_NOTICE' && (E_ALL & ~E_NOTICE) === (int)$current) {
+		if ($row['recommended'] === 'E_ALL & ~E_NOTICE' && (E_ALL & ~E_NOTICE) === (int) $current) {
 			$row[$sapi] = $row['recommended'];
 		} else {
 			$row['status'] = false;
@@ -504,7 +504,7 @@ class ConfReport
 	 */
 	private static function validateGreater(string $name, array $row, string $sapi)
 	{
-		if ((int)$row[$sapi] > 0 && (int)$row[$sapi] < (int)$row['recommended']) {
+		if ((int) $row[$sapi] > 0 && (int) $row[$sapi] < (int) $row['recommended']) {
 			$row['status'] = false;
 		}
 		return $row;
@@ -539,7 +539,7 @@ class ConfReport
 	 */
 	private static function validateEqual(string $name, array $row, string $sapi)
 	{
-		if (strtolower((string)$row[$sapi]) !== strtolower((string)$row['recommended'])) {
+		if (strtolower((string) $row[$sapi]) !== strtolower((string) $row['recommended'])) {
 			$row['status'] = false;
 		}
 		return $row;
@@ -751,7 +751,7 @@ class ConfReport
 		if (!\is_array($row[$sapi])) {
 			$value = \explode(',', $row[$sapi]);
 		}
-		$recommended = (array)$row['values'];
+		$recommended = (array) $row['values'];
 		foreach ($recommended as $item) {
 			if (\in_array($item, $value)) {
 				$row['status'] = false;
