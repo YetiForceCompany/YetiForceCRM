@@ -18,7 +18,7 @@
 					<strong>{\App\Language::translate('LBL_IMPORT', $MODULE)} {\App\Language::translate($FOR_MODULE, $MODULE)} - {\App\Language::translate('LBL_RESULT', $MODULE)}</strong>
 				</td>
 			</tr>
-			{if $ERROR_MESSAGE neq ''}
+			{if !empty($ERROR_MESSAGE)}
 				<tr>
 					<td class="style1" align="left" colspan="2">
 						{$ERROR_MESSAGE}

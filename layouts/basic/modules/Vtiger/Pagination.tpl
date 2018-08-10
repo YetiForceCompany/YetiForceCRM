@@ -3,6 +3,9 @@
 	{if empty($VIEWNAME)}
 		{assign var=VIEWNAME value='list'}
 	{/if}
+	{if empty($LISTVIEW_COUNT)}
+		{assign var=LISTVIEW_COUNT value=0}
+	{/if}
 	<nav class="tpl-Pagination" aria-label="Page navigation">
 		<ul class="js-pagination-list pagination m-0"
 			{if isset($LISTVIEW_COUNT)}data-total-count="{$LISTVIEW_COUNT}"{/if} data-js="data">

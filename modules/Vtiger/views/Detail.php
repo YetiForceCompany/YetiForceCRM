@@ -320,6 +320,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('VIEW_MODEL', $this->record);
+		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
 		if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
 			return $viewer->view('DetailViewSummaryView.tpl', $moduleName, true);
 		} else {
@@ -373,10 +374,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		if ($type === 'changes') {
 			$newChange = $request->has('newChange') ? $request->get('newChange') : ModTracker_Record_Model::isNewChange($parentRecordId);
+		} else {
+			$newChange = '';
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
-		$viewer->assign('NEW_CHANGE', $newChange);
+		$viewer->assign('NEW_CHANGE', $newChange ?? null);
 		$viewer->assign('PARENT_RACORD_ID', $parentRecordId);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);

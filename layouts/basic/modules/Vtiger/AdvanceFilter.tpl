@@ -33,9 +33,11 @@
 			</div>
 			<div class="contents">
 				<div class="conditionList">
+					{if !empty($ALL_CONDITION_CRITERIA['columns'])}
 					{foreach item=CONDITION_INFO from=$ALL_CONDITION_CRITERIA['columns']}
 						{include file=\App\Layout::getTemplatePath('AdvanceFilterCondition.tpl', $QUALIFIED_MODULE) RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=$CONDITION_INFO MODULE=$MODULE}
 					{/foreach}
+					{/if}
 				</div>
 				<div class="d-none basic">
 					{include file=\App\Layout::getTemplatePath('AdvanceFilterCondition.tpl', $QUALIFIED_MODULE) RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=[] MODULE=$MODULE NOCHOSEN=true}
@@ -49,8 +51,9 @@
 					</button>
 				</div>
 				<div class="groupCondition">
-					{assign var=GROUP_CONDITION value=$ALL_CONDITION_CRITERIA['condition']}
-					{if empty($GROUP_CONDITION)}
+					{if !empty($ALL_CONDITION_CRITERIA['condition'])}
+						{assign var=GROUP_CONDITION value=$ALL_CONDITION_CRITERIA['condition']}
+					{else}
 						{assign var=GROUP_CONDITION value="and"}
 					{/if}
 					<input type="hidden" name="condition" value="{$GROUP_CONDITION}" />

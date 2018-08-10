@@ -34,7 +34,7 @@
 								{$ERROR_MESSAGE}
 							</td>
 						</tr>
-						{if $ERROR_DETAILS neq ''}
+						{if !empty($ERROR_DETAILS)}
 							<tr>
 								<td class="errorMessage d-flex justify-content-center">
 									{\App\Language::translate('ERR_DETAILS_BELOW', $MODULE)}

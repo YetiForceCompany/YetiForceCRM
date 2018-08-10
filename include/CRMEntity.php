@@ -36,7 +36,7 @@ class CRMEntity
 	public $db;
 	public $ownedby;
 
-	/** 	Constructor which will set the column_fields in this object
+	/**    Constructor which will set the column_fields in this object
 	 */
 	public function __construct()
 	{
@@ -263,6 +263,9 @@ class CRMEntity
 			case 'getRelatedList':
 				$this->deleteRelatedFromDB($id, $returnModule, $returnId);
 				break;
+			case 'getEmails':
+				\App\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['crmid' => $returnId, 'ossmailviewid' => $id])->execute();
+				break;
 			default:
 				$this->deleteRelatedDependent($id, $returnModule, $returnId);
 				$this->deleteRelatedFromDB($id, $returnModule, $returnId);
@@ -277,14 +280,16 @@ class CRMEntity
 			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
 			->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $this->moduleName, 'relmodule' => $withModule])])
 			->createCommand()->query();
-		$recordModel = \Vtiger_Record_Model::getInstanceById($crmid, $this->moduleName);
-		while ($row = $dataReader->read()) {
-			if ((int) $recordModel->get($row['fieldname']) === (int) $withCrmid) {
-				$recordModel->set($row['fieldname'], 0);
+		if ($dataReader->count()) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($crmid, $this->moduleName);
+			while ($row = $dataReader->read()) {
+				if ((int) $recordModel->get($row['fieldname']) === (int) $withCrmid) {
+					$recordModel->set($row['fieldname'], 0);
+				}
 			}
+			$recordModel->save();
 		}
 		$dataReader->close();
-		$recordModel->save();
 	}
 
 	/**
@@ -353,7 +358,7 @@ class CRMEntity
 					$postfix = $moduleData['postfix'];
 					$oldNumber = $sequenceNumber;
 					while ($recordinfo = $dataReader->read()) {
-						$recordNumber = \App\Fields\RecordNumber::parse($prefix . $sequenceNumber . $postfix);
+						$recordNumber = \App\Fields\RecordNumber::parse($prefix, $sequenceNumber, $postfix);
 						App\Db::getInstance()->createCommand()
 							->update($fieldTable, [$fieldColumn => $recordNumber], [$this->table_index => $recordinfo['recordid']])
 							->execute();
@@ -362,7 +367,7 @@ class CRMEntity
 					}
 					$dataReader->close();
 					if ($oldNumber != $sequenceNumber) {
-						\App\Fields\RecordNumber::updateNumber($sequenceNumber, $tabid);
+						\App\Fields\RecordNumber::updateNumber($sequenceNumber, $moduleData['cur_sequence'], $tabid);
 					}
 				}
 			} else {
@@ -510,7 +515,7 @@ class CRMEntity
 					while (($idFieldValue = $db->getSingleValue($selResult)) !== false) {
 						$db->update($relTableName, [
 							$entityIdField => $entityId,
-							], "$entityIdField = ? and $idField = ?", [$transferId, $idFieldValue]
+						], "$entityIdField = ? and $idField = ?", [$transferId, $idFieldValue]
 						);
 					}
 				}
@@ -520,7 +525,7 @@ class CRMEntity
 				$columnName = $field['columnname'];
 				$db->update($field['tablename'], [
 					$columnName => $entityId,
-					], "$columnName = ?", [$transferId]
+				], "$columnName = ?", [$transferId]
 				);
 			}
 		}
@@ -649,7 +654,7 @@ class CRMEntity
 		$sharingRuleInfo = $$sharingRuleInfoVariable;
 		$query = '';
 		if (!empty($sharingRuleInfo) && (count($sharingRuleInfo['ROLE']) > 0 ||
-			count($sharingRuleInfo['GROUP']) > 0)) {
+				count($sharingRuleInfo['GROUP']) > 0)) {
 			$query = ' (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per ' .
 				"WHERE userid=$userId && tabid=$tabId) UNION (SELECT " .
 				'vtiger_tmp_read_group_sharing_per.sharedgroupid FROM ' .

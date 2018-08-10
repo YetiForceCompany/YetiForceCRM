@@ -88,16 +88,16 @@ Vtiger_List_Js("Documents_List_Js", {
 		var thisInstance = this;
 
 		var listViewFilterBlock = this.getFilterBlock();
-		console.log(listViewFilterBlock.find('li [data-fa-i2svg].deleteFilter'));
 		if (listViewFilterBlock != false) {
 			//used mouseup event to stop the propagation of customfilter select change event.
-			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].deleteFilter', function (event) {
+			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].js-filter-delete', function (event) {
 				//to close the dropdown
+				event.stopPropagation();
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
 				var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
 				if (liElement.hasClass('folderOption')) {
-					if (liElement.find('.deleteFilter').hasClass('dull')) {
+					if (liElement.find('.js-filter-delete').hasClass('dull')) {
 						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_FOLDER_IS_NOT_EMPTY'));
 						return;
 					} else {
