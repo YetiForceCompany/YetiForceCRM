@@ -15,17 +15,18 @@
 				<input type="hidden" name="mode" value="Twitter">
 				<div class="tab-pane active">
 					<div class="form-group row">
-						<label for="methods"
-							   class="col-12 col-lg-2 col-form-label">{\App\Language::translate('LBL_API_KEY', $QUALIFIED_MODULE)}</label>
+						<label for="api_key"
+							   class="col-12 col-lg-2 col-form-label u-text-small-bold">{\App\Language::translate('LBL_API_KEY', $QUALIFIED_MODULE)}</label>
 						<div class="col-12 col-lg-4">
-							<input type="text" name="api_key" value=""/>
+							<input type="text" name="api_key" id="api_key" value="" class="form-control"/>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="methods"
-							   class="col-12 col-lg-2 col-form-label">{\App\Language::translate('LBL_ARCHIVING_RECORDS_NUMBER_OF_DAYS', $QUALIFIED_MODULE)}</label>
+						<label class="col-12 col-lg-2 col-form-label u-text-small-bold"
+							   for="archiving_records_number_of_days">{\App\Language::translate('LBL_ARCHIVING_RECORDS_NUMBER_OF_DAYS', $QUALIFIED_MODULE)}</label>
 						<div class="col-12 col-lg-4">
-							<input type="text" name="archiving_records_number_of_days"
+							<input type="text" name="archiving_records_number_of_days" class="form-control"
+								   id="archiving_records_number_of_days"
 								   value="{$CONFIG_TWITTER->get('archiving_records_number_of_days', '365')}"
 							/>
 						</div>
