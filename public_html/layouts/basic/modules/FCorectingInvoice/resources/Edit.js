@@ -11,20 +11,22 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 			const form = this.getForm();
 			const progressLoader = $.progressIndicator({'blockInfo': {'enabled': true}});
 			AppConnector.request({
-				module: 'FCorectingInvoice',
-				mode: 'get',
-				view: 'FInvoiceRecords',
-				record: invoiceidInput.val()
+				module: 'FInvoice',
+				record: invoiceidInput.val(),
+				mode: 'showInventoryDetails',
+				view: 'Detail'
 			}).done((response) => {
 				form.find('#beforeInventory').html(response);
+				progressLoader.progressIndicator({mode: 'hide'});
+			}).fail(() => {
 				progressLoader.progressIndicator({mode: 'hide'});
 			});
 		}
 	},
 	/**
 	 * setReferenceFieldValue override - action when correcting invoice is selected
-	 * @param container
-	 * @param params
+	 * @param {jQuery} container
+	 * @param {} params
 	 */
 	setReferenceFieldValue(container, params) {
 		this._super(container, params);
@@ -67,7 +69,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 			const progressLoader = $.progressIndicator({'blockInfo': {'enabled': true}});
 			AppConnector.request({
 				module: 'FCorectingInvoice',
-				action: 'GetProductsAndServices',
+				action: 'GetInventoryTable',
 				record: finvoiceid
 			}).done((response) => {
 				progressLoader.progressIndicator({mode: 'hide'});
