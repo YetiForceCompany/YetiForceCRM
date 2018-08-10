@@ -107,12 +107,16 @@ var App = {},
 		 */
 		isTouchDevice() {
 			let supportsTouch = false;
-			if ('ontouchstart' in window) // iOS & android
+			if ('ontouchstart' in window) { // iOS & android
 				supportsTouch = true;
-			else if (window.navigator.msPointerEnabled) // Win8
+			} else if (window.navigator.msPointerEnabled) { // Win8
 				supportsTouch = true;
-			else if ('ontouchstart' in document.documentElement)
+			} else if ('ontouchstart' in document.documentElement) { //additional check
 				supportsTouch = true;
+			}
+			if (supportsTouch) { //remove browser scrollbar visibility (doesn't work in firefox, edge and ie)
+				$("<style type='text/css'> ::-webkit-scrollbar { display: none;} </style>").appendTo('head');
+			}
 			return supportsTouch;
 		},
 		/**
