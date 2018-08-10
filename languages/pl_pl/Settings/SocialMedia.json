@@ -1,0 +1,6 @@
+{
+  "php": {
+    "LBL_TWITTER": "Twitter",
+    "LBL_TWITTER_DESC": "Integracja Twitterem"
+  }
+}
