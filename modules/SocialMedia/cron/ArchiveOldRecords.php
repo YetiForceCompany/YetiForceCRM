@@ -6,6 +6,15 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-(new \App\Db\Query())
+require_once 'include/main/WebUI.php';
+
+$db = \App\Db::getInstance();
+$dataReader = (new \App\Db\Query())
 	->from('u_#__social_media_twitter')
-	->where(['<', 'created_at', (new DateTime('NOW - 12 months'))->format('Y-m-d')]);
+	->where(['<', 'created_at', (new DateTime('NOW - 12 months'))->format('Y-m-d')])
+	->createCommand()
+	->query();
+while (($row = $dataReader->read())) {
+	$db->createCommand()->insert('b_#__social_media_twitter', $row)->execute();
+	$db->createCommand()->delete('u_#__social_media_twitter', ['id' => $row['id']])->execute();
+}
