@@ -54,8 +54,8 @@
 			<input type="hidden" id="row" value="{$ROW}"/>
 			<input type="hidden" id="col" value="{$COLCOUNT}"/>
 		</div>
-		<div class="o-tablet-scroll__container mx-1">
-			<div class="o-tablet-scroll__content js-tablet-scroll position-fixed u-hide-underneath border" data-js="scroll">
+		<div class="o-tablet-scroll__container mx-1 d-none" data-js="class: d-none">
+			<div class="o-tablet-scroll__content js-tablet-scroll position-fixed u-hide-underneath border" data-js="scroll | parent">
 				<div class="o-tablet-scroll__icons d-flex flex-column u-hide-underneath px-1">
 					<span class="fas fa-arrow-up"></span>
 					<span class="far fa-hand-pointer my-2"></span>

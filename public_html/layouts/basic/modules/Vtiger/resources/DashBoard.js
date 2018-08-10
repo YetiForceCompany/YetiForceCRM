@@ -704,8 +704,14 @@ $.Class("Vtiger_DashBoard_Js", {
 	 * Updates tablet scroll top position
 	 */
 	registerTabletScrollEvent() {
-		let scollbarContainer = $('.js-tablet-scroll'),
-			scollbarContainerH = scollbarContainer.outerHeight(),
+		if (!app.touchDevice || $(window).width() < app.breakpoints.sm) {
+			return;
+		}
+
+		let scollbarContainer = $('.js-tablet-scroll');
+		scollbarContainer.parent().removeClass('d-none');
+
+		let scollbarContainerH = scollbarContainer.outerHeight(),
 			scollbarOffsetTop = scollbarContainer.offset().top,
 			maxOffset = $('.js-header').outerHeight() + 8;
 
