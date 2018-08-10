@@ -48,6 +48,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showRelatedTree');
 		$this->exposeMethod('showRecentRelation');
 		$this->exposeMethod('showOpenStreetMap');
+		$this->exposeMethod('showInventoryDetails');
 	}
 
 	/**
@@ -153,7 +154,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
-
 			return;
 		}
 		$recordId = $request->getInteger('record');
@@ -917,5 +917,24 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		return \App\Language::translate($moduleName, $moduleName) . ' ' . $this->record->getRecord()->getDisplayName();
+	}
+
+	/**
+	 * Show inventory details from record for specified module.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 *
+	 * @return string
+	 */
+	public function showInventoryDetails(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+		$viewer = \Vtiger_Viewer::getInstance();
+		$viewer->assign('RECORD', $recordModel);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		return $viewer->view('DetailViewInventoryView.tpl', $moduleName, true);
 	}
 }
