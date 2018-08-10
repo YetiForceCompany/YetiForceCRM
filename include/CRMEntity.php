@@ -263,6 +263,9 @@ class CRMEntity
 			case 'getRelatedList':
 				$this->deleteRelatedFromDB($id, $returnModule, $returnId);
 				break;
+			case 'getEmails':
+				\App\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['crmid' => $returnId, 'ossmailviewid' => $id])->execute();
+				break;
 			default:
 				$this->deleteRelatedDependent($id, $returnModule, $returnId);
 				$this->deleteRelatedFromDB($id, $returnModule, $returnId);
@@ -277,14 +280,16 @@ class CRMEntity
 			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
 			->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $this->moduleName, 'relmodule' => $withModule])])
 			->createCommand()->query();
-		$recordModel = \Vtiger_Record_Model::getInstanceById($crmid, $this->moduleName);
-		while ($row = $dataReader->read()) {
-			if ((int) $recordModel->get($row['fieldname']) === (int) $withCrmid) {
-				$recordModel->set($row['fieldname'], 0);
+		if ($dataReader->count()) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($crmid, $this->moduleName);
+			while ($row = $dataReader->read()) {
+				if ((int) $recordModel->get($row['fieldname']) === (int) $withCrmid) {
+					$recordModel->set($row['fieldname'], 0);
+				}
 			}
+			$recordModel->save();
 		}
 		$dataReader->close();
-		$recordModel->save();
 	}
 
 	/**
