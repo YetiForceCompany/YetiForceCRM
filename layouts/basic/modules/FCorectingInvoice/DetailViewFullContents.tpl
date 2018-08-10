@@ -3,13 +3,14 @@
     {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
     {include file=\App\Layout::getTemplatePath('DetailViewBlockLink.tpl', $MODULE_NAME) TYPE_VIEW='DetailTop'}
     {include file=\App\Layout::getTemplatePath('DetailViewBlockView.tpl', $MODULE_NAME) RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
-    {if $MODULE_TYPE === '1'}
+    {$MODULE_NAME}
+    {if $MODULE_TYPE === 1}
         <div class="detailViewTable">
             <div class="js-toggle-panel c-panel">
                 <div class="blockHeader c-panel__header d-flex justify-content-between">
                     <div class="d-inline-flex">
                         <div class="m-2">
-                            <span class="u-cursor-pointer js-block-toggle fas fa-angle-right" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
+                            <span class="u-cursor-pointer js-block-toggle fas fa-angle-right d-none" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
                             <span class="u-cursor-pointer js-block-toggle fas fa-angle-down" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
                         </div>
                         <h5 class="my-2">
@@ -32,7 +33,7 @@
                 <div class="blockHeader c-panel__header d-flex justify-content-between">
                     <div class="d-inline-flex">
                         <div class="m-2">
-                            <span class="u-cursor-pointer js-block-toggle fas fa-angle-right" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
+                            <span class="u-cursor-pointer js-block-toggle fas fa-angle-right d-none" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
                             <span class="u-cursor-pointer js-block-toggle fas fa-angle-down" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
                         </div>
                         <h5 class="my-2">
