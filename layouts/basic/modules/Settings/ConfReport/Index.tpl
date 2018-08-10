@@ -17,9 +17,6 @@
 			</button>
 		</div>
 	</div>
-	<div class="badge badge-info my-2">
-		<a> {App\Language::translate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}</a>
-	</div>
 	<ul class="nav nav-tabs">
 		<li class="nav-item">
 			<a class="nav-link active" data-toggle="tab"
