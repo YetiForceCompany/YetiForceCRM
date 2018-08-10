@@ -29,9 +29,5 @@
     "LBL_INVOICE_INFO": "Pozycje faktury korygowanej - przed zmianami.",
     "LBL_AFTER_INVOICE_INFO": "Jak powinna wygl\u0105da\u0107 finalna faktura po korekcie.",
     "LBL_AFTER_INVOICE_INFO_EDIT": "Pozycje faktury korygowanej, kt\u00F3re chcemy zmieni\u0107. Skopiuj wszystkie pozycj\u0119 z faktury i zmie\u0144 warto\u015Bci wedle potrzeb."
-  },
-  "js": {
-    "JS_FCORECTINGINVOICE_CHOOSE_INVOICE": "Wybierz faktur\u0119 korygowan\u0105",
-    "JS_FCORECTINGINVOICE_ITEM_MODULE_NOT_FOUND": "Modu\u0142 '${module}' dla pozycji '${position}' nie zosta\u0142 aktywowany w module Faktury korekty."
   }
 }
