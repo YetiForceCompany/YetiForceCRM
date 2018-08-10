@@ -641,11 +641,11 @@ App.Fields = {
 					select.prop('disabled', true);
 				}
 				let htmlParams = select.data('select');
-				if (htmlParams) {
+				if (typeof htmlParams === 'string') {
 					htmlParams = htmlParams.split('; ');
 					htmlParams = htmlParams.reduce((o, key) => ({
 						...o,
-						[key.split(', ')[0]]: JSON.parse(key.split(', ')[1])
+						[key.split(', ')[0]]: key.split(', ')[1] != false || key.split(', ')[1] != true ? key.split(', ')[1] : JSON.parse(key.split(', ')[1])
 					}), {});
 					params = $.extend(params, htmlParams);
 				}
