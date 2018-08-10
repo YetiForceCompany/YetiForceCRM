@@ -145,4 +145,16 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		}
 		return $chartData;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getFieldsForSave(\Vtiger_Record_Model $recordModel)
+	{
+		$fields = parent::getFieldsForSave($recordModel);
+		if (!in_array('sum_time', $fields)) {
+			$fields[] = 'sum_time';
+		}
+		return $fields;
+	}
 }

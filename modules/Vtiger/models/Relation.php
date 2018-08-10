@@ -703,7 +703,7 @@ class Vtiger_Relation_Model extends \App\Base
 		$eventHandler->setModuleName($this->getParentModuleModel()->getName());
 		$eventHandler->setParams($params);
 		$eventHandler->trigger('EntityBeforeTransferUnLink');
-		\CRMEntity::getInstance($this->getParentModuleModel()->getName())->unlinkRelationship($params['destinationRecordId'], $params['sourceModule'], $params['sourceRecordId'], $this->get('name'));
+		\CRMEntity::getInstance($params['destinationModule'])->unlinkRelationship($params['destinationRecordId'], $params['sourceModule'], $params['sourceRecordId'], $this->get('name'));
 		$eventHandler->trigger('EntityAfterTransferUnLink');
 	}
 
