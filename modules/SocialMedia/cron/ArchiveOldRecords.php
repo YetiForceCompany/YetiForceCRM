@@ -8,10 +8,13 @@
  */
 require_once 'include/main/WebUI.php';
 
+$configTwitter = (new \Settings_SocialMedia_Config_Model('twitter'));
+$days = $configTwitter->get('archiving_records_number_of_days', 365);
+
 $db = \App\Db::getInstance();
 $dataReader = (new \App\Db\Query())
 	->from('u_#__social_media_twitter')
-	->where(['<', 'created_at', (new DateTime('NOW - 12 months'))->format('Y-m-d')])
+	->where(['<', 'created_at', (new DateTime('NOW - ' . $days . ' days'))->format('Y-m-d')])
 	->createCommand()
 	->query();
 while (($row = $dataReader->read())) {
