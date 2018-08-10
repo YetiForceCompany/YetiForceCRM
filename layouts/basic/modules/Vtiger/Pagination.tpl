@@ -7,8 +7,10 @@
 		{assign var=LISTVIEW_COUNT value=0}
 	{/if}
 	<nav class="tpl-Pagination" aria-label="Page navigation">
-		<ul class="js-pagination-list pagination m-0" {if isset($LISTVIEW_COUNT)}data-total-count="{$LISTVIEW_COUNT}"{/if} data-js="data">
-			<li class="js-page--set page-item {if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage" data-id="1"
+		<ul class="js-pagination-list pagination m-0"
+			{if isset($LISTVIEW_COUNT)}data-total-count="{$LISTVIEW_COUNT}"{/if} data-js="data">
+			<li class="js-page--set page-item {if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage"
+				data-id="1"
 				data-js="data">
 				<a class="page-link" href="#"><span
 							class="fas fa-fast-backward mr-1 d-inline-block d-sm-none"></span><span
@@ -75,7 +77,7 @@
 					<span class="sr-only">Next</span>
 				</a>
 			</li>
-			{if !empty($LISTVIEW_COUNT) && $PAGING_MODEL->isNextPageExists()}
+			{if empty($LISTVIEW_COUNT) && $PAGING_MODEL->isNextPageExists()}
 				<li class="js-count-number-records page-item js-popover-tooltip" data-js="popover|click"
 					id="totalCountBtn" data-content="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}">
 					<a class="page-link" href="#"><span class="fas fa-signal"></span></a>
