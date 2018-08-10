@@ -102,7 +102,7 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 		if (empty($totalCount)) {
 			$totalCount = 0;
 		}
-		$pagingModel->set('totalCount', (int)$totalCount);
+		$pagingModel->set('totalCount', (int) $totalCount);
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		$viewer->assign('PAGE_COUNT', $pagingModel->getPageCount());

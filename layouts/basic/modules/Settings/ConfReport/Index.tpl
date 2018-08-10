@@ -57,7 +57,7 @@
 								<td class="bg-light">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
-										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(str_replace(['.', ': ', '-'], "_", $KEY)), $MODULE)}
+										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
 										{if !empty($HELP_TEXT)}
 											<a href="#" class="js-popover-tooltip float-right" data-js="popover"
 											   data-trigger="focus hover" data-placement="right"
@@ -113,7 +113,7 @@
 								<td class="bg-light">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
-										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(str_replace(['.', ': ', '-'], "_", $KEY)), $MODULE)}
+										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
 										{if !empty($HELP_TEXT)}
 											<a href="#" class="js-popover-tooltip float-right" data-js="popover"
 											   data-trigger="focus hover" data-placement="right"
@@ -219,7 +219,7 @@
 								<td class="bg-light">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
-										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(str_replace(['.', ': ', '-'], "_", $KEY)), $MODULE)}
+										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
 										{if !empty($HELP_TEXT)}
 											<a href="#" class="js-popover-tooltip float-right" data-js="popover"
 											   data-trigger="focus hover" data-placement="right"
@@ -282,7 +282,7 @@
 								<td class="bg-light">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
-										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(str_replace(['.', ': ', '-'], "_", $KEY)), $MODULE)}
+										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
 										{if !empty($HELP_TEXT)}
 											<a href="#" class="js-popover-tooltip float-right" data-js="popover"
 											   data-trigger="focus hover" data-placement="right"
@@ -379,7 +379,7 @@
 								<td class="bg-light">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
-										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(str_replace(['.', ': ', '-'], "_", $KEY)), $MODULE)}
+										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
 										{if !empty($HELP_TEXT)}
 											<a href="#" class="js-popover-tooltip float-right" data-js="popover"
 											   data-trigger="focus hover" data-placement="right"

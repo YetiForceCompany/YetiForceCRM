@@ -114,7 +114,7 @@ class ConfReport
 	public static $security = [
 		'HTTPS' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'env', 'testCli' => false],
 		'public_html' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'env', 'testCli' => false],
-		'display_errors' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'demoMode' => true],
+		'display_errors' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'demoMode' => true, 'testCli' => true],
 		'.htaccess' => ['recommended' => 'On', 'type' => 'Htaccess', 'container' => 'php', 'testCli' => false],
 		'session.use_strict_mode' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.use_trans_sid' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
@@ -257,6 +257,22 @@ class ConfReport
 	}
 
 	/**
+	 * Get configuration for cron.
+	 *
+	 * @return array
+	 */
+	public static function getForCron()
+	{
+		static::$sapi = 'cron';
+		static::init('all');
+		$all = [];
+		foreach (static::$types as $type) {
+			$all[$type] = static::parse($type);
+		}
+		return $all;
+	}
+
+	/**
 	 * Validating configuration values.
 	 *
 	 * @param string $type
@@ -272,14 +288,14 @@ class ConfReport
 			if (isset($main[$key])) {
 				$item[static::$sapi] = $main[$key];
 			}
-			if (isset($cron[$type][$key])) {
-				$item['cron'] = $cron[$type][$key];
+			if (isset($cron[$key])) {
+				$item['cron'] = $cron[$key];
 			}
 			if (isset($item['type'])) {
 				$methodName = 'validate' . $item['type'];
 				if (\method_exists(__CLASS__, $methodName)) {
 					$item = call_user_func_array([__CLASS__, $methodName], [$key, $item, 'www']);
-					if ($item['status'] && isset($cron[$type][$key])) {
+					if ($item['testCli'] && !empty($cron)) {
 						$item = call_user_func_array([__CLASS__, $methodName], [$key, $item, 'cron']);
 					}
 				}
@@ -302,6 +318,9 @@ class ConfReport
 	{
 		$values = [];
 		foreach (static::$$type as $key => $item) {
+			if (static::$sapi === 'cron' && !$item['testCli']) {
+				continue;
+			}
 			if (isset($item['type']) && ($methodName = 'parser' . $item['type']) && \method_exists(__CLASS__, $methodName)) {
 				$values[$key] = call_user_func_array([__CLASS__, $methodName], [$key, $item]);
 			} elseif (isset($item['container'])) {
@@ -729,9 +748,6 @@ class ConfReport
 		if (isset(static::$headers[$header])) {
 			$row['status'] = strtolower(static::$headers[$header]) === strtolower($row['recommended']);
 			$row[$sapi] = static::$headers[$header];
-		} else {
-			$row['status'] = false;
-			$row[$sapi] = '';
 		}
 		return $row;
 	}
