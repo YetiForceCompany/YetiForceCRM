@@ -21,3 +21,4 @@ while (($row = $dataReader->read())) {
 	$db->createCommand()->insert('b_#__social_media_twitter', $row)->execute();
 	$db->createCommand()->delete('u_#__social_media_twitter', ['id' => $row['id']])->execute();
 }
+$dataReader->close();
