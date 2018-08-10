@@ -67,7 +67,7 @@ class Vtiger_DetailView_Model extends \App\Base
 	/**
 	 * Function to get the detail view links (links and widgets).
 	 *
-	 * @param  <array> $linkParams - parameters which will be used to calicaulate the params
+	 * @param <array> $linkParams - parameters which will be used to calicaulate the params
 	 *
 	 * @return <array> - array of link models in the format as below
 	 *                 array('linktype'=>list of link models);
@@ -383,7 +383,7 @@ class Vtiger_DetailView_Model extends \App\Base
 	/**
 	 * Function to get the Quick Links for the Detail view of the module.
 	 *
-	 * @param  <Array> $linkParams
+	 * @param <Array> $linkParams
 	 *
 	 * @return <Array> List of Vtiger_Link_Model instances
 	 */

@@ -55,33 +55,35 @@
 						</tr>
 						</thead>
 						<tbody class="small u-word-break-all">
-						{foreach from=$STABILITY_CONF key=key item=item}
-							<tr {if $item['incorrect']}class="table-danger"{/if}>
+						{foreach from=$ALL['stability'] key=KEY item=ITEM}
+							<tr {if !$ITEM['status']}class="table-danger"{/if}>
 								<td class="bg-light">
-									{$key}
-									{if isset($item['help']) && $item['incorrect']}
-										<a href="#"
-										   class="js-popover-tooltip float-right"
-										   data-js="popover"
-										   data-trigger="focus"
-										   data-placement="right"
-										   data-content="{\App\Language::translateEncodeHtml($item['help'], $MODULE)}">
-											<span class="fas fa-info-circle"></span></a>
+									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
+									{if !$ITEM['status']}
+										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+										   data-trigger="focus hover" data-placement="right"
+										   data-content="{\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper($KEY), $MODULE)}">
+											<span class="fas fa-info-circle"></span>
+										</a>
 									{/if}
 								</td>
-								{if $item['recommended'] === false}
+								<td>
+									{if isset($ITEM['recommended'])}
+										{App\Language::translate($ITEM['recommended'], $MODULE)}
+									{else}
+										-
+									{/if}
+								</td>
+								{if empty($ITEM['testCli'])}
 									<td colspan="2">
-										{$item['current']}
+										{App\Language::translate($ITEM['www'], $MODULE)}
 									</td>
 								{else}
 									<td>
-										{App\Language::translate($item['recommended'], $MODULE)}
+										{App\Language::translate($ITEM['www'], $MODULE)}
 									</td>
 									<td>
-										{App\Language::translate($item['current'], $MODULE)}
-									</td>
-									<td>
-										{App\Language::translate($item['cli'], $MODULE)}
+										{App\Language::translate($ITEM['cron'], $MODULE)}
 									</td>
 								{/if}
 							</tr>
@@ -95,35 +97,52 @@
 								{App\Language::translate('LBL_LIBRARY', $MODULE)}
 							</th>
 							<th colspan="1" scope="col">
-								{App\Language::translate('LBL_INSTALLED', $MODULE)}
+								{App\Language::translate('LBL_MANDATORY', $MODULE)}
 							</th>
 							<th colspan="1" scope="col">
-								{App\Language::translate('LBL_MANDATORY', $MODULE)}
+								{App\Language::translate('LBL_WWW_VALUE', $MODULE)}
+							</th>
+							<th colspan="1" scope="col">
+								{App\Language::translate('LBL_CLI_VALUE', $MODULE)}
 							</th>
 						</tr>
 						</thead>
 						<tbody class="small u-word-break-all">
-						{foreach from=Settings_ConfReport_Module_Model::getLibrary() key=key item=item}
-							<tr {if $item.status == 'LBL_NO'}class="table-danger"{/if}>
+						{foreach from=$ALL['libraries'] key=KEY item=ITEM}
+							<tr {if !$ITEM['status']}class="table-danger"{/if}>
 								<td class="bg-light">
-									{App\Language::translate($key,$MODULE)}
-									{if isset($item.help) && $item.status}<a href="#"
-																			 class="js-popover-tooltip float-right"
-																			 data-js="popover" data-trigger="focus"
-																			 data-placement="right"
-																			 data-content="{App\Language::translate($item.help, $MODULE)}">
-											<span class="fas fa-info-circle"></span></a>{/if}
-								</td>
-								<td>
-									{App\Language::translate($item.status, $MODULE)}
-								</td>
-								<td>
-									{if $item.mandatory}
-										{App\Language::translate('LBL_MANDATORY', $MODULE)}
-									{else}
-										{App\Language::translate('LBL_OPTIONAL', $MODULE)}
+									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
+									{if !$ITEM['status']}
+										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+										   data-trigger="focus hover" data-placement="right"
+										   data-content="{\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper($KEY), $MODULE)}">
+											<span class="fas fa-info-circle"></span>
+										</a>
 									{/if}
 								</td>
+								<td>
+									{if isset($ITEM['mandatory'])}
+										{if $ITEM['mandatory']}
+											{App\Language::translate('LBL_MANDATORY', $MODULE)}
+										{else}
+											{App\Language::translate('LBL_OPTIONAL', $MODULE)}
+										{/if}
+									{else}
+										-
+									{/if}
+								</td>
+								{if empty($ITEM['testCli'])}
+									<td colspan="2">
+										{App\Language::translate($ITEM['www'], $MODULE)}
+									</td>
+								{else}
+									<td>
+										{App\Language::translate($ITEM['www'], $MODULE)}
+									</td>
+									<td>
+										{App\Language::translate($ITEM['cron'], $MODULE)}
+									</td>
+								{/if}
 							</tr>
 						{/foreach}
 						</tbody>
@@ -132,7 +151,7 @@
 						<thead>
 						<tr>
 							<th colspan="3" scope="col">
-								{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', $MODULE)}
+								{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', $MODULE)}====
 							</th>
 						</tr>
 						<tr>
@@ -172,12 +191,12 @@
 					<table class="table table-bordered table-sm my-2">
 						<thead>
 						<tr>
-							<th colspan="4" scope="col">
+							<th colspan="4">
 								{App\Language::translate('LBL_PERFORMANCE_VERIFICATION', $MODULE)}
 							</th>
 						</tr>
 						<tr>
-							<th colspan="1" class="w-25" scope="col">
+							<th colspan="1" scope="col">
 								{App\Language::translate('LBL_PARAMETER', $MODULE)}
 							</th>
 							<th colspan="1" scope="col">
@@ -192,24 +211,35 @@
 						</tr>
 						</thead>
 						<tbody class="small u-word-break-all">
-						{foreach from=$PERFORMANCE_INFO key=key item=item}
-							<tr {if $item['incorrect']}class="table-danger"{/if}>
+						{foreach from=$ALL['performance'] key=KEY item=ITEM}
+							<tr {if !$ITEM['status']}class="table-danger"{/if}>
 								<td class="bg-light">
-									{App\Language::translate($key, $MODULE)}
+									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
+									{if !$ITEM['status']}
+										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+										   data-trigger="focus hover" data-placement="right"
+										   data-content="{\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper($KEY), $MODULE)}">
+											<span class="fas fa-info-circle"></span>
+										</a>
+									{/if}
 								</td>
 								<td>
-									{App\Language::translate($item['recommended'], $MODULE)}
+									{if isset($ITEM['recommended'])}
+										{App\Language::translate($ITEM['recommended'], $MODULE)}
+									{else}
+										-
+									{/if}
 								</td>
-								{if is_array($item)}
-									<td>
-										{App\Language::translate($item['www'], $MODULE)}
-									</td>
-									<td>
-										{App\Language::translate($item['cli'], $MODULE)}
+								{if empty($ITEM['testCli'])}
+									<td colspan="2">
+										{App\Language::translate($ITEM['www'], $MODULE)}
 									</td>
 								{else}
-									<td colspan="2">
-										{$item}
+									<td>
+										{App\Language::translate($ITEM['www'], $MODULE)}
+									</td>
+									<td>
+										{App\Language::translate($ITEM['cron'], $MODULE)}
 									</td>
 								{/if}
 							</tr>
@@ -221,7 +251,7 @@
 					<table class="table table-bordered table-sm my-2">
 						<thead>
 						<tr>
-							<th colspan="3" scope="col">
+							<th colspan="4">
 								{App\Language::translate('LBL_SYSTEM_SECURITY', $MODULE)}
 							</th>
 						</tr>
@@ -233,31 +263,45 @@
 								{App\Language::translate('LBL_RECOMMENDED', $MODULE)}
 							</th>
 							<th colspan="1" scope="col">
-								{App\Language::translate('LBL_VALUE', $MODULE)}
+								{App\Language::translate('LBL_WWW_VALUE', $MODULE)}
+							</th>
+							<th colspan="1" scope="col">
+								{App\Language::translate('LBL_CLI_VALUE', $MODULE)}
 							</th>
 						</tr>
 						</thead>
 						<tbody class="small u-word-break-all">
-						{foreach from=$SECURITY_CONF key=key item=item}
-							<tr {if $item.status}class="table-danger"{/if}>
+						{foreach from=$ALL['security'] key=KEY item=ITEM}
+							<tr {if !$ITEM['status']}class="table-danger"{/if}>
 								<td class="bg-light">
-									{$key}
-									{if isset($item.help) && $item.status}
-										<a href="#"
-										   class="js-popover-tooltip float-right"
-										   data-js="popover" data-trigger="focus"
-										   data-placement="right"
-										   data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}">
+									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
+									{if !$ITEM['status']}
+										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+										   data-trigger="focus hover" data-placement="right"
+										   data-content="{\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper($KEY), $MODULE)}">
 											<span class="fas fa-info-circle"></span>
 										</a>
 									{/if}
 								</td>
 								<td>
-									{App\Language::translate($item.recommended, $MODULE)}
+									{if isset($ITEM['recommended'])}
+										{App\Language::translate($ITEM['recommended'], $MODULE)}
+									{else}
+										-
+									{/if}
 								</td>
-								<td>
-									{App\Language::translate($item.current, $MODULE)}
-								</td>
+								{if empty($ITEM['testCli'])}
+									<td colspan="2">
+										{App\Language::translate($ITEM['www'], $MODULE)}
+									</td>
+								{else}
+									<td>
+										{App\Language::translate($ITEM['www'], $MODULE)}
+									</td>
+									<td>
+										{App\Language::translate($ITEM['cron'], $MODULE)}
+									</td>
+								{/if}
 							</tr>
 						{/foreach}
 						</tbody>
@@ -304,7 +348,7 @@
 					<table class="table table-bordered table-sm my-2">
 						<thead>
 						<tr>
-							<th colspan="3" scope="col">
+							<th colspan="4">
 								{App\Language::translate('LBL_DATABASE_INFORMATION', $MODULE)}
 							</th>
 						</tr>
@@ -321,22 +365,29 @@
 						</tr>
 						</thead>
 						<tbody class="small u-word-break-all">
-						{foreach from=$DB_CONF key=key item=item}
-							<tr {if $item['status']}class="table-danger"{/if}>
+						{foreach from=$ALL['database'] key=KEY item=ITEM}
+							<tr {if !$ITEM['status']}class="table-danger"{/if}>
 								<td class="bg-light">
-									{App\Language::translate($key, $MODULE)}
-									{if isset($item.help) && $item.status}<a href="#"
-																			 class="js-popover-tooltip float-right"
-																			 data-js="popover" data-trigger="focus"
-																			 data-placement="right"
-																			 data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}">
-											<span class="fas fa-info-circle"></span></a>{/if}
+									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
+									{if !$ITEM['status']}
+										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+										   data-trigger="focus hover" data-placement="right"
+										   data-content="{\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper($KEY), $MODULE)}">
+											<span class="fas fa-info-circle"></span>
+										</a>
+									{/if}
 								</td>
-								{if $item['recommended'] === false}
-									<td colspan="2">{$item['current']}</td>
+								{if isset($ITEM['recommended'])}
+									<td>
+										{$ITEM['recommended']}
+									</td>
+									<td>
+										{App\Language::translate($ITEM['www'], $MODULE)}
+									</td>
 								{else}
-									<td>{$item['recommended']}</td>
-									<td>{$item['current']}</td>
+									<td colspan="2">
+										{App\Language::translate($ITEM['www'], $MODULE)}
+									</td>
 								{/if}
 							</tr>
 						{/foreach}
