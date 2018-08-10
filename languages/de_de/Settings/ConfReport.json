@@ -25,7 +25,7 @@
     "LBL_LIBRARY": "Bibliotheken",
     "LBL_INSTALLED": "Installiert",
     "LBL_PDO_SUPPORT": "PDO",
-    "LBL_OPEN_SSL": "openssl",
+    "LBL_OPEN_SSL": "Openssl",
     "LBL_CURL": "cURL",
     "LBL_ZLIB_SUPPORT": "Zlib",
     "LBL_IMAP_SUPPORT": "IMAP",

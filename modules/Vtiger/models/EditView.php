@@ -43,13 +43,12 @@ class Vtiger_EditView_Model extends \App\Base
 	/**
 	 * Function to get the list of listview links for the module.
 	 *
-	 * @param <Array> $linkParams
+	 * @param  <Array> $linkParams
 	 *
 	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
 	 */
 	public function getEditViewLinks($linkParams)
 	{
-		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['EDIT_VIEW_HEADER'], $linkParams);
-		return array_merge($links, ['EDIT_VIEW_HEADER' => []]);
+		return Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['EDIT_VIEW_HEADER'], $linkParams);
 	}
 }
