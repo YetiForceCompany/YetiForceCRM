@@ -12,11 +12,11 @@ class SocialMedia_Record_Model extends \App\Base
 	/**
 	 * The name of the table in the database for Twitter.
 	 */
-	private const TABLE_TWITTER = 'u_#__social_media_twitter';
+	public const TABLE_TWITTER = 'u_#__social_media_twitter';
 	/**
 	 * Table name in the database for the twitter archive.
 	 */
-	private const TABLE_TWITTER_BACKUP = 'b_yf_social_media_twitter';
+	public const TABLE_TWITTER_BACKUP = 'b_#__social_media_twitter';
 	/**
 	 * Allowed fields as they are in the table.
 	 */
@@ -29,14 +29,7 @@ class SocialMedia_Record_Model extends \App\Base
 	 */
 	public static function getCleanInstance()
 	{
-		$cacheName = get_class();
-		$key = 'Clean';
-		if (\App\Cache::staticHas($cacheName, $key)) {
-			return \App\Cache::staticGet($cacheName, $key);
-		}
-		$instance = new self();
-		\App\Cache::staticSave($cacheName, $key, $instance);
-		return $instance;
+		return new self();
 	}
 
 	/**
