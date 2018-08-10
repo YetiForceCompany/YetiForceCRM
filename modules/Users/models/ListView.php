@@ -137,7 +137,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 	public function getListViewCount()
 	{
 		$searchParams = $this->get('search_params');
-		if (is_array($searchParams) && count($searchParams[0]['columns']) < 1) {
+		if (is_array($searchParams) && empty($searchParams[0]['columns'])) {
 			$this->set('search_params', []);
 		}
 		return parent::getListViewCount();
