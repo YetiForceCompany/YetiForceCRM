@@ -5,7 +5,7 @@
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 class SocialMedia_Module_Model extends Vtiger_Module_Model
 {
@@ -21,7 +21,7 @@ class SocialMedia_Module_Model extends Vtiger_Module_Model
 	public static function isEnableForModule($moduleName)
 	{
 		$socialMediaConfig = AppConfig::module($moduleName, 'ENABLE_SOCIAL');
-		if (false===$socialMediaConfig || empty($socialMediaConfig)) {
+		if (false === $socialMediaConfig || empty($socialMediaConfig)) {
 			return false;
 		}
 		if (!is_array($socialMediaConfig)) {
@@ -71,12 +71,28 @@ class SocialMedia_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Get all records by twitter account.
 	 *
-	 * @param string $twitterLogin
+	 * @param string[] $twitterLogin
+	 * @param int      $start
+	 * @param int      $limit
 	 *
 	 * @return \SocialMedia_Record_Model[]
 	 */
-	public static function getAllRecordsByName($twitterLogin)
+	public static function getAllRecords($twitterLogin = [], $start = 0, $limit = 50)
 	{
-		//TODO: Get data from the database
+		$query = (new \App\Db\Query())->from(SocialMedia_Record_Model::TABLE_TWITTER);
+		if (empty($twitterLogin)) {
+			$query->where(['twitter_login' => $twitterLogin]);
+		}
+		$dataReader = $query->orderBy(['created_at' => SORT_DESC])
+			->limit($limit)
+			->offset($start)
+			->createCommand()
+			->query();
+		while (($row = $dataReader->read())) {
+			$recordModel = SocialMedia_Record_Model::getCleanInstance();
+			$recordModel->setData($row);
+			yield $recordModel;
+		}
+		$dataReader->close();
 	}
 }
