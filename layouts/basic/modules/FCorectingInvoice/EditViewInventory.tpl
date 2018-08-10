@@ -71,7 +71,7 @@
             <div class="d-inline-flex">
                 <div class="js-popover-tooltip mt-2 mr-2" data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translate("LBL_AFTER_INVOICE_INFO_EDIT",'FCorectingInvoice')}">
                     <span class="fas fa-info-circle"></span></div>
-                <a href class="btn btn-sm btn-primary mr-1" id="copyFromInvoice"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_FROM_INVOICE','FCorectingInvoice')}
+                <a href class="btn btn-primary mr-1" id="copyFromInvoice"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_FROM_INVOICE','FCorectingInvoice')}
                 </a>
             </div>
         </div>
