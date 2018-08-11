@@ -248,6 +248,34 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		return app.parseNumberToFloat(price);
 	},
 	/**
+	 * Set currency
+	 * @param {int} val
+	 */
+	setCurrency(val) {
+		this.getInventoryHeadContainer().find('[name="currency"]').val(val).trigger('change');
+	},
+	/**
+	 * Set currency param
+	 * @param {string} val json string
+	 */
+	setCurrencyParam(val) {
+		this.getInventoryHeadContainer().find('[name="currencyparam"]').val(val);
+	},
+	/**
+	 * Set discount mode
+	 * @param {int} val
+	 */
+	setDiscountMode(val) {
+		this.getInventoryHeadContainer().find('[name="discountmode"]').val(val).trigger('change');
+	},
+	/**
+	 * Set tax mode
+	 * @param {int} val
+	 */
+	setTaxMode(val) {
+		this.getInventoryHeadContainer().find('[name="taxmode"]').val(val).trigger('change');
+	},
+	/**
 	 * Set inventory id
 	 * @param {jQuery} row
 	 * @param {int} val

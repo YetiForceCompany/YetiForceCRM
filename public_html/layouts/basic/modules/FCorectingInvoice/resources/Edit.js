@@ -79,10 +79,10 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 					select.data('oldValue', select.val());
 				};
 				const first = response.result[0];
-				form.find('[name="currencyparam"]').val(first.currencyparam);
-				form.find('[name="currency"]').val(first.currency).trigger('change');
-				form.find('[name="discountmode"]').val(first.discountmode).trigger('change');
-				form.find('[name="taxmode"]').val(first.taxmode).trigger('change');
+				inventoryController.setCurrencyParam(first.currencyparam);
+				inventoryController.setCurrency(first.currency);
+				inventoryController.setDiscountMode(first.discountmode);
+				inventoryController.setTaxMode(first.taxmode);
 				inventoryController.currencyChangeActions = oldCurrencyChangeAction;
 				response.result.forEach((row) => {
 					if (activeModules.indexOf(row.moduleName) !== -1) {
