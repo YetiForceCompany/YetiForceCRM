@@ -95,6 +95,8 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 					}
 				});
 				inventoryController.summaryCalculations();
+			}).fail(() => {
+				progressLoader.progressIndicator({mode: 'hide'});
 			});
 		});
 	},
