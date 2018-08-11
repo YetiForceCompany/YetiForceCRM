@@ -27,11 +27,12 @@ class FCorectingInvoice_GetInventoryTable_Action extends Vtiger_BasicAjax_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$recordModel = FInvoice_Record_Model::getInstanceById($request->getInteger('record'));
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), 'FInvoice');
 		$data = $recordModel->getInventoryData();
 		foreach ($data as &$item) {
 			$item['info'] = (new Vtiger_Inventory_Action())->getRecordDetail($item['name'], $item['currency'], 'FInvoice', 'name')[$item['name']];
-			$item['moduleName'] = App\Record::getType($recordModel->getId());
+			$item['moduleName'] = \App\Record::getType($item['info']['id']);
+			$item['basetableid'] = Vtiger_Module_Model::getInstance($item['moduleName'])->get('basetableid');
 		}
 		unset($item);
 		$response = new Vtiger_Response();
