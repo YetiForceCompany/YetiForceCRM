@@ -247,6 +247,70 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		});
 		return app.parseNumberToFloat(price);
 	},
+	/**
+	 * Set inventory id
+	 * @param {jQuery} row
+	 * @param {int} val
+	 */
+	setName(row, val) {
+		row.find('.input-name').val(val).trigger('change');
+	},
+	/**
+	 * Set inventory name display value
+	 * @param {jQuery} row
+	 * @param {string} val
+	 */
+	setNameDisplay(row, val) {
+		row.find('.input-name_display').val(val).attr('readonly', 'true').trigger('change');
+	},
+	/**
+	 * Set inventory row quantity
+	 * @param {jQuery} row
+	 * @param {int} val
+	 */
+	setQuantity(row, val) {
+		row.find('.qty').val(val).trigger('change');
+	},
+	/**
+	 * Set unit text to display (translated)
+	 * @param {jQuery} row
+	 * @param {string} val
+	 */
+	setUnitText(row, val) {
+		row.find('.unitText').text(val).trigger('change');
+	},
+	/**
+	 * Set unit original (db) value
+	 * @param {jQuery} row
+	 * @param {string} val
+	 */
+	setUnit(row, val) {
+		row.find('.unit').val(val).trigger('change');
+	},
+	/**
+	 * Set subUnit original (db) value
+	 * @param {jQuery} row
+	 * @param {string} val
+	 */
+	setSubUnit(row, val) {
+		row.find('.subunit').val(val);
+	},
+	/**
+	 * Set subUnit text - display value (translated)
+	 * @param row
+	 * @param val
+	 */
+	setSubUnitText(row, val) {
+		row.find('.subunitText').val(val);
+	},
+	/**
+	 * Set inventory row comment
+	 * @param {jQuery} row
+	 * @param {string} val
+	 */
+	setComment(row, val) {
+		row.parent().find('[numrowex=' + row.attr('numrow') + ']').find('.comment').val(val).trigger('change');
+	},
 	setUnitPrice: function (row, val) {
 		val = app.parseNumberToShow(val);
 		row.find('.unitPrice').val(val).attr('title', val);
@@ -1066,31 +1130,70 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			thisInstance.quantityChangeActions(row);
 		});
 	},
-	registerAddItem: function (container) {
-		var thisInstance = this;
-		var items = this.getInventoryItemsContainer();
-		container.find('.btn-toolbar .addItem').on('click', function (e, data) {
-			var newRow = thisInstance.getBasicRow();
-			var sequenceNumber = thisInstance.getNextLineItemRowNumber();
-			var module = $(e.currentTarget).data('module');
-			var field = $(e.currentTarget).data('field');
-			var replaced = newRow.html().replace(/_NUM_/g, sequenceNumber);
-			newRow.html(replaced);
-			newRow = newRow.find('tr').appendTo(items.find('tbody'));
-
-			newRow.find('.rowName input[name="popupReferenceModule"]').val(module).data('field', field);
-			newRow.find('.colPicklistField select').each(function (index, select) {
-				select = $(select);
-				select.find('option').each(function (index, option) {
-					option = $(option);
-					if (option.data('module') != module) {
-						option.remove();
-					}
-				});
+	/**
+	 * Set up all row data that comes from request
+	 * @param {jQuery} row
+	 * @param {object} rowData
+	 */
+	setRowData(row, rowData) {
+		this.setName(row, rowData.name);
+		this.setNameDisplay(row, rowData.info.name);
+		this.setQuantity(row, rowData.qty);
+		this.setUnitText(row, rowData.info.autoFields.unitText);
+		this.setUnit(row, rowData.info.autoFields.unit);
+		if (typeof rowData.info.autoFields !== 'undefined' && typeof rowData.info.autoFields.subunit !== 'undefined') {
+			this.setSubUnit(row, rowData.info.autoFields.subunit);
+			this.setSubUnitText(row, rowData.info.autoFields.subunitText);
+		}
+		this.setComment(row, rowData.comment1);
+		this.setUnitPrice(row, rowData.price);
+		this.setNetPrice(row, rowData.net);
+		this.setGrossPrice(row, rowData.gross);
+		this.setTotalPrice(row, rowData.total);
+		this.setDiscountParam(row, JSON.parse(rowData.discountparam));
+		this.setDiscount(row, rowData.discount);
+		this.setTaxParam(row, JSON.parse(rowData.taxparam));
+		this.setTax(row, rowData.tax);
+	},
+	/**
+	 * Add new row to inventory list
+	 * @param {string} module
+	 * @param {string} baseTableId
+	 * @param {object} rowData [optional]
+	 */
+	addItem(module, baseTableId, rowData = false) {
+		const items = this.getInventoryItemsContainer();
+		let newRow = this.getBasicRow();
+		const sequenceNumber = this.getNextLineItemRowNumber();
+		const replaced = newRow.html().replace(/_NUM_/g, sequenceNumber);
+		newRow.html(replaced);
+		newRow = newRow.find('tr').appendTo(items.find('tbody'));
+		newRow.find('.rowName input[name="popupReferenceModule"]').val(module).data('field', baseTableId);
+		newRow.find('.colPicklistField select').each(function (index, select) {
+			select = $(select);
+			select.find('option').each(function (index, option) {
+				option = $(option);
+				if (option.data('module') !== module) {
+					option.remove();
+				}
 			});
-			thisInstance.initItem(newRow);
-			Vtiger_Edit_Js.getInstance().registerAutoCompleteFields(newRow);
-			app.showPopoverElementView(newRow.find('.js-popover-tooltip'));
+		});
+		this.initItem(newRow);
+		Vtiger_Edit_Js.getInstance().registerAutoCompleteFields(newRow);
+		app.showPopoverElementView(newRow.find('.js-popover-tooltip'));
+		if (rowData) {
+			this.setRowData(newRow, rowData);
+		}
+	},
+	/**
+	 * Register add item button click
+	 * @param {jQuery} container
+	 */
+	registerAddItem(container) {
+		const thisInstance = this;
+		container.find('.btn-toolbar .addItem').on('click', function (e) {
+			const btn = $(this);
+			thisInstance.addItem(btn.data('module'), btn.data('field'));
 		});
 	},
 	registerSortableItems: function () {
@@ -1445,7 +1548,6 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	registerEvents: function (container) {
 		this.registerInventorySaveData(container);
 		this.registerAddItem(container);
-
 		this.initItem();
 		this.registerSortableItems();
 		this.registerSubProducts(container);
@@ -1464,8 +1566,8 @@ $(document).ready(function () {
 		moduleClassName = "Vtiger_Inventory_Js";
 	}
 	if (typeof window[moduleClassName] !== "undefined") {
-		var inventoryController = new window[moduleClassName]();
+		const inventoryController = new window[moduleClassName]();
 		inventoryController.registerEvents(Vtiger_Edit_Js.getInstance().getForm());
+		window.inventoryController = inventoryController;
 	}
-	window.inventoryController = inventoryController;
 });
