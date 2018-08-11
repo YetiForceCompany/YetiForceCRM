@@ -123,11 +123,11 @@
                     <tbody>
                     {foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
                         {assign var="ROW_NO" value=$KEY+1}
-                        {include file=\App\Layout::getTemplatePath('EditViewInventoryItem.tpl', $MODULE)}
+                        {include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE)}
                         {foreachelse}
                         {if !$IS_OPTIONAL_ITEMS}
                             {assign var="ROW_NO" value=1}
-                            {include file=\App\Layout::getTemplatePath('EditViewInventoryItem.tpl', $MODULE)}
+                            {include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE)}
                         {/if}
                     {/foreach}
                     </tbody>
@@ -155,12 +155,12 @@
                 </table>
             </div>
 
-            {include file=\App\Layout::getTemplatePath('EditViewInventorySummary.tpl', $MODULE)}
+            {include file=\App\Layout::getTemplatePath('Edit/InventorySummary.tpl', $MODULE)}
             {assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
             <table id="blackIthemTable" class="noValidate d-none">
                 <tbody>
                 {assign var="ROW_NO" value='_NUM_'}
-                {include file=\App\Layout::getTemplatePath('EditViewInventoryItem.tpl', $MODULE)}
+                {include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE)}
                 </tbody>
             </table>
         </div>
