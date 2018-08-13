@@ -1219,7 +1219,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	 */
 	registerAddItem(container) {
 		const thisInstance = this;
-		container.find('.btn-toolbar .addItem').on('click', function (e) {
+		container.find('.js-add-item').on('click', function (e) {
 			const btn = $(this);
 			thisInstance.addItem(btn.data('module'), btn.data('field'));
 		});
