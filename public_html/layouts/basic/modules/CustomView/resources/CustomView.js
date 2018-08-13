@@ -128,11 +128,14 @@ Vtiger_CustomView_Js = {
 		});
 	},
 	registerBlockToggleEvent: function () {
-		var container = this.getContentsContainer();
+		const container = this.getContentsContainer();
 		container.on('click', '.blockHeader', function (e) {
-			var blockHeader = $(e.currentTarget);
-			var blockContents = blockHeader.next();
-			var iconToggle = blockHeader.find('.iconToggle');
+			if ($(e.target).is('input') || $(e.target).is('button') || $(e.target).parents().is('button') || $(e.target).hasClass('js-stop-propagation') || $(e.target).parents().hasClass('js-stop-propagation')) {
+				return false;
+			}
+			constblockHeader = $(e.currentTarget);
+			const blockContents = blockHeader.next();
+			const iconToggle = blockHeader.find('.iconToggle');
 			if (blockContents.hasClass('d-none')) {
 				blockContents.removeClass('d-none');
 				iconToggle.removeClass(iconToggle.data('hide')).addClass(iconToggle.data('show'));

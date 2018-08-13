@@ -109,20 +109,10 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 		});
 	},
 	/**
-	 * prevent popovers to show/hide block
-	 */
-	registerPopoverClick() {
-		this.getForm().find('.c-panel__header .js-popover-tooltip').on('click', (e) => {
-			e.preventDefault();
-			e.stopPropagation();
-		});
-	},
-	/**
 	 * registerEvents override
 	 */
 	registerEvents() {
 		this._super();
-		this.registerPopoverClick();
 		this.registerCopyFromInvoice();
 		this.registerSetReferenceFieldValue();
 		this.registerClearFieldValue();
