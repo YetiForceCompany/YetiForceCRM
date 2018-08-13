@@ -426,7 +426,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			case 'Twitter':
 				$fieldLength = Vtiger_Twitter_UIType::MAX_LENGTH;
 				$uichekdata = 'V~O~LE~' . $fieldLength;
-				$uitype = 359;
+				$uitype = 313;
 				$type = $importerType->stringType($fieldLength)->defaultValue('');
 				break;
 		}
