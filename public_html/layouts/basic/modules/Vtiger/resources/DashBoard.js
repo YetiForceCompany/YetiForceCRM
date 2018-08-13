@@ -162,17 +162,15 @@ $.Class("Vtiger_DashBoard_Js", {
 	},
 	removeWidget: function () {
 		const thisInstance = this;
-		this.getContainer().on('click', '.grid-stack-item a[name="dclose"]', function (e) {
+		this.getContainer().on('click', '.js-widget-remove', function (e) {
 			var element = $(e.currentTarget);
 			var listItem = $(element).parents('.grid-stack-item');
 			var width = listItem.attr('data-sizex');
 			var height = listItem.attr('data-sizey');
-
 			var url = element.data('url');
 			var parent = element.closest('.dashboardWidgetHeader').parent();
 			var widgetName = parent.data('name');
 			var widgetTitle = parent.find('.dashboardTitle').attr('title');
-
 			var message = app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET') + " [" + widgetTitle + "]. " + app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
 				AppConnector.request(url).done(function (response) {
