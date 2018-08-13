@@ -157,7 +157,6 @@ $.Class("Vtiger_Edit_Js", {
 		}
 		let formElement = container.closest('form');
 		let mappingRelatedField = this.getMappingRelatedField(sourceField, popupReferenceModule, formElement);
-		console.log(mappingRelatedField);
 		if (typeof mappingRelatedField !== 'undefined') {
 			let params = {
 				source_module: popupReferenceModule,
