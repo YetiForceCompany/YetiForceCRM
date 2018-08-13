@@ -82,6 +82,6 @@
             </tr>
             </tfoot>
         </table>
-        {include file=\App\Layout::getTemplatePath('DetailViewInventorySummary.tpl', $MODULE_NAME)}
+        {include file=\App\Layout::getTemplatePath('Detail/InventorySummary.tpl', $MODULE_NAME)}
     {/if}
 {/strip}
