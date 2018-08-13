@@ -114,7 +114,7 @@ class ConfReport
 	public static $security = [
 		'HTTPS' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'env', 'testCli' => false],
 		'public_html' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'env', 'testCli' => false],
-		'display_errors' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'demoMode' => true],
+		'display_errors' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'demoMode' => true, 'testCli' => true],
 		'.htaccess' => ['recommended' => 'On', 'type' => 'Htaccess', 'container' => 'php', 'testCli' => false],
 		'session.use_strict_mode' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.use_trans_sid' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
@@ -159,7 +159,7 @@ class ConfReport
 		'exif' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'exif', 'container' => 'ext', 'testCli' => true],
 		'ldap' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'ldap', 'container' => 'ext', 'testCli' => true],
 		'OPcache' => ['mandatory' => false, 'type' => 'FnExist', 'fnName' => 'opcache_get_configuration', 'container' => 'ext', 'testCli' => true],
-		'apcu' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'apcu', 'container' => 'ext', 'testCli' => true],
+		'apcu' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'apcu', 'container' => 'ext', 'testCli' => true],
 		'allExt' => ['container' => 'ext', 'type' => 'AllExt', 'testCli' => true, 'label' => 'EXTENSIONS'],
 	];
 	public static $directoryPermissions = [
@@ -257,6 +257,22 @@ class ConfReport
 	}
 
 	/**
+	 * Get configuration for cron.
+	 *
+	 * @return array
+	 */
+	public static function getForCron()
+	{
+		static::$sapi = 'cron';
+		static::init('all');
+		$all = [];
+		foreach (static::$types as $type) {
+			$all[$type] = static::parse($type);
+		}
+		return $all;
+	}
+
+	/**
 	 * Validating configuration values.
 	 *
 	 * @param string $type
@@ -272,14 +288,14 @@ class ConfReport
 			if (isset($main[$key])) {
 				$item[static::$sapi] = $main[$key];
 			}
-			if (isset($cron[$type][$key])) {
-				$item['cron'] = $cron[$type][$key];
+			if (isset($cron[$key])) {
+				$item['cron'] = $cron[$key];
 			}
 			if (isset($item['type'])) {
 				$methodName = 'validate' . $item['type'];
 				if (\method_exists(__CLASS__, $methodName)) {
 					$item = call_user_func_array([__CLASS__, $methodName], [$key, $item, 'www']);
-					if ($item['status'] && isset($cron[$type][$key])) {
+					if ($item['testCli'] && !empty($cron)) {
 						$item = call_user_func_array([__CLASS__, $methodName], [$key, $item, 'cron']);
 					}
 				}
@@ -302,6 +318,9 @@ class ConfReport
 	{
 		$values = [];
 		foreach (static::$$type as $key => $item) {
+			if (static::$sapi === 'cron' && !$item['testCli']) {
+				continue;
+			}
 			if (isset($item['type']) && ($methodName = 'parser' . $item['type']) && \method_exists(__CLASS__, $methodName)) {
 				$values[$key] = call_user_func_array([__CLASS__, $methodName], [$key, $item]);
 			} elseif (isset($item['container'])) {
@@ -358,7 +377,7 @@ class ConfReport
 	{
 		if (file_exists('user_privileges/cron.php')) {
 			$cron = include \ROOT_DIRECTORY . '/user_privileges/cron.php';
-			return $cron[$type];
+			return $cron[$type] ?? null;
 		}
 		return [];
 	}
@@ -729,9 +748,6 @@ class ConfReport
 		if (isset(static::$headers[$header])) {
 			$row['status'] = strtolower(static::$headers[$header]) === strtolower($row['recommended']);
 			$row[$sapi] = static::$headers[$header];
-		} else {
-			$row['status'] = false;
-			$row[$sapi] = '';
 		}
 		return $row;
 	}

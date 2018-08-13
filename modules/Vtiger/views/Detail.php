@@ -374,6 +374,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		if ($type === 'changes') {
 			$newChange = $request->has('newChange') ? $request->get('newChange') : ModTracker_Record_Model::isNewChange($parentRecordId);
+		} else {
+			$newChange = '';
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
@@ -765,10 +767,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
-		if (!empty($totalCount)) {
-			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
+		if (empty($totalCount)) {
+			$totalCount = 0;
 		}
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 		$viewer->assign('VIEW_MODEL', $relationListView);
