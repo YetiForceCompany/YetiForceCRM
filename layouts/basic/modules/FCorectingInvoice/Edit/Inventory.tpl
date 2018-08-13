@@ -120,7 +120,7 @@
                         </tr>
                         </thead>
                     {/if}
-                    <tbody>
+                    <tbody class="js-inventory-items-body" data-js="container">
                     {foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
                         {assign var="ROW_NO" value=$KEY+1}
                         {include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE)}
@@ -158,7 +158,7 @@
             {include file=\App\Layout::getTemplatePath('Edit/InventorySummary.tpl', $MODULE)}
             {assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
             <table id="blackIthemTable" class="noValidate d-none">
-                <tbody>
+                <tbody class="js-inventory-base-item">
                 {assign var="ROW_NO" value='_NUM_'}
                 {include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE)}
                 </tbody>

@@ -111,7 +111,7 @@
         {include file=\App\Layout::getTemplatePath('Edit/InventorySummary.tpl', $MODULE)}
         {assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
         <table id="blackIthemTable" class="noValidate d-none">
-            <tbody>
+            <tbody class="js-inventory-base-item">
             {assign var="ROW_NO" value='_NUM_'}
             {include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE)}
             </tbody>
