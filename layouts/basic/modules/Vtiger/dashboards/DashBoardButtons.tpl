@@ -6,7 +6,11 @@
 		{if $WIDGETS|count gt 0}
 			<button class="btn btn-outline-secondary c-btn-block-xs-down addButton dropdown-toggle u-remove-dropdown-icon"
 					data-toggle="dropdown">
-				<span class="fas fa-plus  mr-md-1"></span>
+				<span class="fa-layers fa-fw mr-md-2">
+					<span class="fas fa-chart-pie" data-fa-transform="shrink-5 up-6"></span>
+					<span class="fas fa-chart-line" data-fa-transform="shrink-5 right-7 down-6"></span>
+					<span class="fas fa-chart-area" data-fa-transform="shrink-5 left-7 down-6"></span>
+				</span>
 				<span class="d-none d-md-inline">{\App\Language::translate('LBL_PREDEFINED_WIDGETS')}</span>
 			</button>
 			<ul class="dropdown-menu widgetsList addWidgetDropDown">
@@ -33,7 +37,11 @@
 		{elseif $MODULE_PERMISSION}
 			<button class="btn btn-outline-secondary c-btn-block-xs-down addButton dropdown-toggle"
 					data-toggle="dropdown">
-				<span class="fas fa-plus  mr-md-1"></span>
+				<span class="fa-layers fa-fw mr-md-2">
+					<span class="fas fa-chart-pie" data-fa-transform="shrink-5 up-6"></span>
+					<span class="fas fa-chart-line" data-fa-transform="shrink-5 right-7 down-6"></span>
+					<span class="fas fa-chart-area" data-fa-transform="shrink-5 left-7 down-6"></span>
+				</span>
 				<span class="d-none d-md-inline">{\App\Language::translate('LBL_PREDEFINED_WIDGETS')}</span>
 			</button>
 			<ul class="dropdown-menu widgetsList addWidgetDropDown">
