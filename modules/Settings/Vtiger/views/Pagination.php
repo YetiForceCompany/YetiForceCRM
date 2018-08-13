@@ -4,7 +4,7 @@
  * Settings OSSMailView index view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 {
@@ -50,7 +50,7 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 			$listViewModel->set('search_value', $searchValue);
 		}
 
-		$searchParmams = $request->get('search_params');
+		$searchParmams = $request->getArray('search_params');
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
@@ -77,7 +77,7 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		echo $viewer->view('Pagination.tpl', $moduleName, true);
+		echo $viewer->view('Pagination.tpl', $qualifiedModuleName, true);
 	}
 
 	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)

@@ -10,6 +10,11 @@
 class Vtiger_Twitter_UIType extends Vtiger_Base_UIType
 {
 	/**
+	 * Maximum length of Twitter account name.
+	 */
+	public const MAX_LENGTH = 15;
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function validate($value, $isUserFormat = false)
@@ -17,7 +22,7 @@ class Vtiger_Twitter_UIType extends Vtiger_Base_UIType
 		if ($this->validate || empty($value)) {
 			return;
 		}
-		if (!preg_match('/^[a-zA-Z0-9_]{1,15}$/', $value)) {
+		if (!preg_match('/^[a-zA-Z0-9_]{1,' . static::MAX_LENGTH . '}$/', $value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 		}
 		parent::validate($value, $isUserFormat);

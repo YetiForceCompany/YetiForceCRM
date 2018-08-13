@@ -4,7 +4,7 @@
  * Settings HideBlocks record model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -116,8 +116,8 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 				if (!empty($columns) && is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
-							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
-							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid'], ];
+							'value' => $column['value'] ?? '', 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
+							'groupjoin' => $condition['condition'] ?? '', 'groupid' => $column['groupid'], ];
 					}
 				}
 			}

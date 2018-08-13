@@ -57,11 +57,14 @@
 								<td class="bg-light">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
-										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-										   data-trigger="focus hover" data-placement="right"
-										   data-content="{\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper($KEY), $MODULE)}">
-											<span class="fas fa-info-circle"></span>
-										</a>
+										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
+										{if !empty($HELP_TEXT)}
+											<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+											   data-trigger="focus hover" data-placement="right"
+											   data-content="{$HELP_TEXT}">
+												<span class="fas fa-info-circle"></span>
+											</a>
+										{/if}
 									{/if}
 								</td>
 								<td>
@@ -110,11 +113,14 @@
 								<td class="bg-light">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
-										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-										   data-trigger="focus hover" data-placement="right"
-										   data-content="{\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper($KEY), $MODULE)}">
-											<span class="fas fa-info-circle"></span>
-										</a>
+										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
+										{if !empty($HELP_TEXT)}
+											<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+											   data-trigger="focus hover" data-placement="right"
+											   data-content="{$HELP_TEXT}">
+												<span class="fas fa-info-circle"></span>
+											</a>
+										{/if}
 									{/if}
 								</td>
 								<td>
@@ -213,11 +219,14 @@
 								<td class="bg-light">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
-										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-										   data-trigger="focus hover" data-placement="right"
-										   data-content="{\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper($KEY), $MODULE)}">
-											<span class="fas fa-info-circle"></span>
-										</a>
+										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
+										{if !empty($HELP_TEXT)}
+											<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+											   data-trigger="focus hover" data-placement="right"
+											   data-content="{$HELP_TEXT}">
+												<span class="fas fa-info-circle"></span>
+											</a>
+										{/if}
 									{/if}
 								</td>
 								<td>
@@ -273,11 +282,14 @@
 								<td class="bg-light">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
-										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-										   data-trigger="focus hover" data-placement="right"
-										   data-content="{\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper($KEY), $MODULE)}">
-											<span class="fas fa-info-circle"></span>
-										</a>
+										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
+										{if !empty($HELP_TEXT)}
+											<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+											   data-trigger="focus hover" data-placement="right"
+											   data-content="{$HELP_TEXT}">
+												<span class="fas fa-info-circle"></span>
+											</a>
+										{/if}
 									{/if}
 								</td>
 								<td>
@@ -367,11 +379,14 @@
 								<td class="bg-light">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
-										<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-										   data-trigger="focus hover" data-placement="right"
-										   data-content="{\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper($KEY), $MODULE)}">
-											<span class="fas fa-info-circle"></span>
-										</a>
+										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
+										{if !empty($HELP_TEXT)}
+											<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+											   data-trigger="focus hover" data-placement="right"
+											   data-content="{$HELP_TEXT}">
+												<span class="fas fa-info-circle"></span>
+											</a>
+										{/if}
 									{/if}
 								</td>
 								{if isset($ITEM['recommended'])}
