@@ -80,7 +80,7 @@ class Zip extends \Tests\Base
 		$instanceOpen = \App\Zip::openFile('tests/data/TestLinux.zip');
 		$instanceOpen->extract('tests/tmp/TestLinux/');
 		$this->assertFileExists('tests/tmp/TestLinux/manifest.xml');
-		$this->assertFileExists('tests/tmp/TestLinux/Languages/pl_pl/TestLinux.json');
+		$this->assertFileExists('tests/tmp/TestLinux/languages/pl_pl/TestLinux.json');
 		$dir = 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'TestLinux';
 		$it = new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
 		$files = new \RecursiveIteratorIterator($it,
@@ -104,7 +104,7 @@ class Zip extends \Tests\Base
 	{
 		$zip = \App\Zip::createFile('tests/data/NxDir/NxFile.zip');
 		$zip->addFromString('filename.txt', '<minimal content>');
-		$this->assertFalse(@$zip->close());
-		$this->assertFileNotExists(\file_exists('tests/data/NxDir/NxFile.zip'));
+		//$this->assertFalse(@$zip->close());
+		$this->assertFileNotExists('tests/data/NxDir/NxFile.zip');
 	}
 }
