@@ -403,7 +403,7 @@ Vtiger_Field_Js('Vtiger_Boolean_Field_Js', {}, {
 Vtiger_Owner_Field_Js('Workflows_Owner_Field_Js', {}, {
 
 	getUi: function () {
-		var html = '<select class="chzn-select" data-value="value" name="' + this.getName() + '">';
+		var html = '<select class="select2" data-value="value" name="' + this.getName() + '">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = this.getValue();
 		for (var optGroup in pickListValues) {

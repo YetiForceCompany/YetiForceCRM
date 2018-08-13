@@ -29,7 +29,7 @@
 			<span class="col-md-3">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-9">
 				{assign var=STATUS_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('activitystatus')->getPickListValues()}
-				<select name="status" class="select2 form-control">
+				<select name="status" class="select2 form-control" data-select="allowClear, true">
 					<optgroup class="p-0">
 						<option value=""> - {\App\Language::translate('LBL_AUTOMATIC')} - </option>
 					</optgroup>
@@ -43,7 +43,7 @@
 			<span class="col-md-3">{\App\Language::translate('LBL_PRIORITY',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-9">
 				{assign var=PRIORITY_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('taskpriority')->getPickListValues()}
-				<select name="priority" class="select2 form-control" data-select="allowClear, false">
+				<select name="priority" class="select2 form-control">
 					{foreach  from=$PRIORITY_PICKLIST_VALUES item=PRIORITY_PICKLIST_VALUE key=PRIORITY_PICKLIST_KEY}
 						<option value="{$PRIORITY_PICKLIST_KEY}" {if $PRIORITY_PICKLIST_KEY eq $TASK_OBJECT->priority} selected="" {/if}>{$PRIORITY_PICKLIST_VALUE}</option>
 					{/foreach}
@@ -53,7 +53,7 @@
 		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
 			<span class="col-md-3">{\App\Language::translate('LBL_ASSIGNED_TO',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-9">
-				<select name="assigned_user_id" class="select2 form-control">
+				<select name="assigned_user_id" class="select2 form-control" data-select="allowClear, true">
 					<optgroup class="p-0">
 						<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
 					</optgroup>
@@ -100,7 +100,7 @@
 			<div class="col-md-4 row no-gutters mb-1 mb-md-0 pr-md-1">
 				<div class="col-2 pt-1">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
 				<div class="col-10">
-					<select class="select2 form-control" name="direction_start" data-select="allowClear, false">
+					<select class="select2 form-control" name="direction_start">
 						<option {if $TASK_OBJECT->direction_start eq 'after'}selected=""{/if}
 								value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
 						<option {if $TASK_OBJECT->direction_start eq 'before'}selected=""{/if}
@@ -109,7 +109,7 @@
 				</div>
 			</div>
 			<div class="col-md-3">
-				<select class="select2 form-control" name="datefield_start" data-select="allowClear, false">
+				<select class="select2 form-control" name="datefield_start">
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_FIELDS', $QUALIFIED_MODULE)}'>
 						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
 							<option {if $TASK_OBJECT->datefield_start eq $DATETIME_FIELD->get('name')}selected{/if}
@@ -132,7 +132,7 @@
 				<div class="col-2 pt-1">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
 				<div class="col-10">
 					<select class="select2 form-control" name="direction_end"
-							data-select="allowClear, false">
+					>
 						<option {if $TASK_OBJECT->direction_end eq 'after'}selected=""{/if}
 								value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
 						<option {if $TASK_OBJECT->direction_end eq 'before'}selected=""{/if}
@@ -141,7 +141,7 @@
 				</div>
 			</div>
 			<div class="col-md-3">
-				<select class="select2 form-control" name="datefield_end" data-select="allowClear, false">
+				<select class="select2 form-control" name="datefield_end">
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_FIELDS', $QUALIFIED_MODULE)}'>
 						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
 							<option {if $TASK_OBJECT->datefield_end eq $DATETIME_FIELD->get('name')}selected{/if}

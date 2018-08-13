@@ -489,7 +489,6 @@ App.Fields = {
 			}
 			params.language = {};
 			params.theme = "bootstrap";
-			params.allowClear = true;
 			const width = $(selectElement).data('width');
 			if (typeof width !== "undefined") {
 				params.width = width;

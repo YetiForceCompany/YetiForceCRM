@@ -14,10 +14,10 @@
 			<div class="row no-gutters col-12 col-xl-6 js-conditions-row padding-bottom1per px-md-1"
 				 data-js="container | clone">
 				<div class="col-md-5 mb-1 mb-md-0">
-					<h1>select2</h1>
-					<select name="fieldname" class="select2" style="min-width: 250px"
-							data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
-						<option></option>
+					<select name="fieldname" class="select2" data-select="allowClear, true">
+						<optgroup class="p-0">
+							<option value="">{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}</option>
+						</optgroup>
 						{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
 							{if !$FIELD_MODEL->isEditable() or $FIELD_MODEL->getFieldDataType() eq 'reference' or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS))}
 								{continue}
@@ -53,13 +53,12 @@
 		{include file=\App\Layout::getTemplatePath('FieldExpressions.tpl', $QUALIFIED_MODULE)}
 	</div>
 	<br/>
-	<h1>select0</h1>
 	<div class="row no-gutters col-12 col-xl-6 js-add-basic-field-container d-none padding-bottom1per px-md-2">
 		<div class="col-md-5 mb-1 mb-md-0">
-
-			<select name="fieldname" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}"
-					class="form-control">
-				<option></option>
+			<select name="fieldname" class="form-control" data-select="allowClear, true">
+				<optgroup class="p-0">
+					<option value="">{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}</option>
+				</optgroup>
 				{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
 					{if !$FIELD_MODEL->isEditable() or $FIELD_MODEL->getFieldDataType() eq 'reference' or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS))}
 						{continue}
