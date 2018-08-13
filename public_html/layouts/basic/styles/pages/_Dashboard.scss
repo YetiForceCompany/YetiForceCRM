@@ -1,21 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-.dashboardWidgetHeader {
-	.col-sm-6, .col-md-6 {
-		&:nth-child(1) {
-			@extend .pr-0;
-		}
-
-		&:nth-child(2) {
-			@extend .pl-1;
-		}
-	}
-}
-
-.contentsDiv .gridster {
-	padding: 0;
-}
-
 .dashboardContainer {
 	padding: 0;
 
@@ -162,5 +146,52 @@
 .NotificationsItem {
 	.userImage {
 		width: 22px;
+	}
+}
+
+.js-css-element-queries {
+	.no-gutters {
+		margin-right: 0;
+		margin-left: 0;
+
+		> .col,
+		> [class*="col-"] {
+			padding-right: 0;
+			padding-left: 0;
+		}
+	}
+
+	&[min-width~="#{map-get($grid-breakpoints, xsm)}"] {
+		.col-ceq-xsm-6 {
+			@extend .col-6;
+		}
+
+		.col-ceq-xsm-6:nth-child(2) {
+			@extend .pl-1, .pt-0;
+		}
+	}
+
+	.col-ceq-xsm-6 {
+		@extend .col-12;
+
+		&:nth-child(2) {
+			@extend .pt-1;
+		}
+	}
+}
+
+.o-tablet-scroll {
+	&__container {
+		width: 25px;
+	}
+
+	&__content {
+		height: calc(#{$h-main-viewport} - #{$h-breadcrumb} - #{$h-breadcrumb} - 0.5rem);
+	}
+
+	&__icons {
+		top: 50%;
+		transform: translateY(-50%);
+		position: relative;
 	}
 }

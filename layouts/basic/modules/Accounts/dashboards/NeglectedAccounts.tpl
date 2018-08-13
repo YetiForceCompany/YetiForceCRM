@@ -19,8 +19,8 @@
 		</div>
 	</div>
 	<hr class="widgetHr" />
-	<div class="row">
-		<div class="col-sm-6">
+	<div class="row no-gutters">
+		<div class="col-ceq-xsm-6">
 			{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 		</div>
 	</div>
