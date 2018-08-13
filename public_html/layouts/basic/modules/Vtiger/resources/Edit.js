@@ -157,7 +157,8 @@ $.Class("Vtiger_Edit_Js", {
 		}
 		let formElement = container.closest('form');
 		let mappingRelatedField = this.getMappingRelatedField(sourceField, popupReferenceModule, formElement);
-		if (typeof mappingRelatedField != undefined) {
+		console.log(mappingRelatedField);
+		if (typeof mappingRelatedField !== 'undefined') {
 			let params = {
 				source_module: popupReferenceModule,
 				record: id
@@ -1175,10 +1176,11 @@ $.Class("Vtiger_Edit_Js", {
 		fieldValue.find('.referenceModulesList').removeAttr('required');
 	},
 	getMappingRelatedField: function (sourceField, sourceFieldModule, container) {
-		var mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
-		var mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
-		if (typeof mappingRelatedModule[sourceField] !== "undefined" && typeof mappingRelatedModule[sourceField][sourceFieldModule] !== "undefined")
+		const mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
+		const mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
+		if (typeof mappingRelatedModule[sourceField] !== 'undefined' && typeof mappingRelatedModule[sourceField][sourceFieldModule] !== 'undefined') {
 			return mappingRelatedModule[sourceField][sourceFieldModule];
+		}
 		return [];
 	},
 	registerValidationsFields: function (container) {
