@@ -1591,7 +1591,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 					} else {
 						Vtiger_Helper_Js.showMessage({
 							type: 'error',
-							text: app.vtranslate('JS_FCORECTINGINVOICE_ITEM_MODULE_NOT_FOUND').replace('${module}', row.moduleName).replace('${position}', row.info.name)
+							text: app.vtranslate('JS_INVENTORY_ITEM_MODULE_NOT_FOUND').replace('${sourceModule}', row.moduleName).replace('${position}', row.info.name)
 						});
 					}
 				});
