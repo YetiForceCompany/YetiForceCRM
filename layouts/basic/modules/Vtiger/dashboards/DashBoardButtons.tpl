@@ -4,9 +4,10 @@
 		<input type="hidden" name="selectedModuleName" value="{$MODULE_NAME}">
 		{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}
 		{if $WIDGETS|count gt 0}
-			<button class="btn btn-outline-secondary c-btn-block-xs-down addButton dropdown-toggle u-remove-dropdown-icon" data-toggle="dropdown">
+			<button class="btn btn-outline-secondary c-btn-block-xs-down addButton dropdown-toggle u-remove-dropdown-icon"
+					data-toggle="dropdown">
 				<span class="fas fa-plus  mr-md-1"></span>
-				<span class="d-none d-md-inline">{\App\Language::translate('LBL_ADD_WIDGET')}</span>
+				<span class="d-none d-md-inline">{\App\Language::translate('LBL_PREDEFINED_WIDGETS')}</span>
 			</button>
 			<ul class="dropdown-menu widgetsList addWidgetDropDown">
 				{assign var="WIDGET" value=""}
@@ -30,9 +31,10 @@
 				{/foreach}
 			</ul>
 		{elseif $MODULE_PERMISSION}
-			<button class="btn btn-outline-secondary c-btn-block-xs-down addButton dropdown-toggle" data-toggle="dropdown">
+			<button class="btn btn-outline-secondary c-btn-block-xs-down addButton dropdown-toggle"
+					data-toggle="dropdown">
 				<span class="fas fa-plus  mr-md-1"></span>
-				<span class="d-none d-md-inline">{\App\Language::translate('LBL_ADD_WIDGET')}</span>
+				<span class="d-none d-md-inline">{\App\Language::translate('LBL_PREDEFINED_WIDGETS')}</span>
 			</button>
 			<ul class="dropdown-menu widgetsList addWidgetDropDown">
 				{assign var="WIDGET" value=""}
