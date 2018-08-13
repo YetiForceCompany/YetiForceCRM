@@ -459,7 +459,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		if (!empty($searchValue)) {
 			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
 		}
-		$searchParams = $this->get('search_params');
+		$searchParams = $this->getArray('search_params', 2);
 		if (empty($searchParams)) {
 			$searchParams = [];
 		}

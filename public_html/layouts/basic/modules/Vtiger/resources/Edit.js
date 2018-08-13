@@ -780,6 +780,9 @@ $.Class("Vtiger_Edit_Js", {
 				status = true;
 				toElement.val(fromElement);
 				toElementLable.val(fromElementLable);
+				if (toElement.is('[data-select2-id]')) {
+					toElement.trigger('change');
+				}
 			} else {
 				toElement.attr('readonly', false);
 			}

@@ -188,7 +188,6 @@ jQuery.Class("Vtiger_Base_Validator_Js", {
 	 * @return fieldValue
 	 */
 	getFieldValue: function () {
-		var field = this.getElement();
-		return jQuery.trim(field.val());
+		return this.getElement().val();
 	}
 });

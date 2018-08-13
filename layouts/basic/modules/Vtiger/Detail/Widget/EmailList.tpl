@@ -40,16 +40,16 @@
 				<div class="row">
 					<div class="col-6 paddingRightZero">
 						<select name="mail-type" title="{\App\Language::translate('LBL_CHANGE_MAIL_TYPE')}" class="form-control form-control-sm">
-							<option value="All" {if $TYPE eq 'all'} selected="selected"{/if}>
+							<option value="All">
 								{\App\Language::translate('LBL_ALL', 'OSSMailView')}
 							</option>
-							<option value="0" {if $TYPE eq '0'} selected="selected"{/if}>
+							<option value="0">
 								{\App\Language::translate('LBL_OUTCOMING', 'OSSMailView')}
 							</option>
-							<option value="1" {if $TYPE eq '1'} selected="selected"{/if}>
+							<option value="1">
 								{\App\Language::translate('LBL_INCOMING', 'OSSMailView')}
 							</option>
-							<option value="2" {if $TYPE eq '2'} selected="selected"{/if}>
+							<option value="2">
 								{\App\Language::translate('LBL_INTERNAL', 'OSSMailView')}
 							</option>
 						</select>

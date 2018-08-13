@@ -144,11 +144,9 @@ Vtiger_CustomView_Js = {
 	},
 	registerColorEvent: function () {
 		var container = this.getContentsContainer();
-		var field = container.find('.colorPicker');
-		var addon = field.parent().find('.input-group-addon');
-		field.colorpicker().on('changeColor', function (e) {
-			var color = e.color.toHex();
-			addon.css('background-color', color);
+		container.find('.js-color-picker').colorpicker({
+			format: 'hex',
+			autoInputFallback: false
 		});
 	},
 	registerEvents: function () {
