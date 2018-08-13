@@ -129,7 +129,9 @@
 			</select>
 		</div>
 		<div class="col-md-4 fieldUiHolder">
-			<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control" type="text" value="{$CONDITION_INFO['value']|escape}" />
+			<input name="{if !empty($SELECTED_FIELD_MODEL)}{$SELECTED_FIELD_MODEL->get('name')}{/if}"
+				   title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control"
+				   type="text" value="{if !empty($CONDITION_INFO['value'])}{$CONDITION_INFO['value']|escape}{/if}"/>
 		</div>
 		<span class="d-none">
 			{if empty($CONDITION)}
