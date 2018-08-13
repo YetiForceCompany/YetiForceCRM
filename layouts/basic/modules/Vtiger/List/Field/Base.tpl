@@ -22,14 +22,14 @@
 			<div class="input-group col-12 px-0">
 				<input type="text" name="{$FIELD_MODEL->getName()}" class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}'/>
 				<div  class="input-group-append alphabetBtnContainer">
-					{if isset($ALPHABET_VALUE)}
-						<button class=" btn btn-primary alphabetBtn" type="button">
-							{$ALPHABET_VALUE}
-						</button>
-					{else}
+					{if empty($ALPHABET_VALUE)}
 						<button class=" btn btn-outline-secondary alphabetBtn" type="button">
 							<span class="fas fa-font" aria-hidden="true"></span>
 							<span class="sr-only">{\App\Language::translate('LBL_ALPHABETIC_FILTERING')}</span>
+						</button>
+					{else}
+						<button class=" btn btn-primary alphabetBtn" type="button">
+							{$ALPHABET_VALUE}
 						</button>
 					{/if}
 

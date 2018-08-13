@@ -29,7 +29,7 @@
 										{foreach from=$BLOCKS item=MODULES key=key}
 											<optgroup label="{\App\Language::translate($key, $key)}">
 												{foreach from=$MODULES item=item key=key}
-													<option value="{$key}" {if $BLOCK_ID == $key}selected=""{/if}>{\App\Language::translate($item['blocklabel'],$item['module'])}</option>
+													<option value="{$key}" {if !empty($BLOCK_ID) && $BLOCK_ID == $key}selected=""{/if}>{\App\Language::translate($item['blocklabel'],$item['module'])}</option>
 												{/foreach}
 											</optgroup>
 										{/foreach}

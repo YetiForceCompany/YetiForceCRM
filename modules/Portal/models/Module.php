@@ -62,9 +62,10 @@ class Portal_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Delete record
+	 * Delete record.
 	 *
 	 * @param $recordId
+	 *
 	 * @throws \yii\db\Exception
 	 */
 	public function deleteRecord($recordId)
@@ -73,8 +74,10 @@ class Portal_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Get website url
+	 * Get website url.
+	 *
 	 * @param $recordId
+	 *
 	 * @return false|null|string
 	 */
 	public static function getWebsiteUrl($recordId)
@@ -85,7 +88,7 @@ class Portal_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Get all records
+	 * Get all records.
 	 *
 	 * @return array
 	 */
@@ -102,8 +105,8 @@ class Portal_Module_Model extends Vtiger_Module_Model
 	public static function deleteRecords(\App\Request $request)
 	{
 		$searchValue = $request->getForSql('search_value');
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
+		$selectedIds = $request->getArray('selected_ids', 2);
+		$excludedIds = $request->getArray('excluded_ids', 2);
 		$params = [];
 		if (!empty($selectedIds) && $selectedIds != 'all' && count($selectedIds) > 0) {
 			$params = ['portalid' => $selectedIds];

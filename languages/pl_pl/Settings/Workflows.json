@@ -199,7 +199,7 @@
     "LBL_SELECT_ACTION_TYPE": "Wybierz typ powiadomienia",
     "LBL_SELECT_RECIPIENTS": "Odbiorcy",
     "LBL_MESSAGE": "Wiadomo\u015b\u0107",
-    "LBL_MESSAGE_INFO": "Tre\u015b\u0107 wiadomo\u015bci obs\u0142uguje zmienne, nazwa zmiennej mo\u017ce by\u0107 taka jak nazwa systemowa pola lub funkcje specjalne.\r\n\r\nPrzyk\u0142adowe zmienne dla p\u00f3l:\r\n<strong>$accountname$<\/strong> - Warto\u015b\u0107 z pola\r\n<strong>%accountname%<\/strong> - Etykieta pola\r\n\r\nFunkcje specjalne:",
+    "LBL_MESSAGE_INFO": "Tre\u015b\u0107 wiadomo\u015bci obs\u0142uguje zmienne, nazwa zmiennej mo\u017ce by\u0107 taka jak nazwa systemowa pola lub funkcje specjalne.\r\n\r\nPrzyk\u0142adowe zmienne dla p\u00f3l:\r\n$accountname$ - Warto\u015b\u0107 z pola\r\n%accountname% - Etykieta pola\r\n\r\nFunkcje specjalne:",
     "LBL_WATCHING_USERS": "U\u017cytkownicy obserwuj\u0105cy",
     "LBL_VALUE_FROM_FIELD": "Warto\u015b\u0107 z pola",
     "LBL_FIELDS_LABELS": "Etykieta pola",

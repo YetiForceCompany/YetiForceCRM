@@ -36,7 +36,7 @@
 					</div>
 				</div>
 			{/if}
-			<button type="button" class="btn btn-danger dismiss" data-dismiss="modal">
+			<button type="button" class="btn btn-danger" data-dismiss="modal">
 				<span class="fas fa-times mr-1"></span>
 				{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}
 			</button>

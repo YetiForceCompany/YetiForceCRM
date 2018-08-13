@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<div class="listViewActionsDiv row mt-2 mb-2">
-			<div class="{if $SUPPORTED_MODULE_MODELS}col-md-5{else}col-md-8{/if} btn-toolbar">
+			<div class="{if !empty($SUPPORTED_MODULE_MODELS)}col-md-5{else}col-md-8{/if} btn-toolbar">
 				{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 					{if $LINK->getLabel()}
 						{assign var="LABEL" value=\App\Language::translate($LINK->getLabel(), $QUALIFIED_MODULE)}
@@ -41,12 +41,12 @@
 					</button>
 				{/foreach}
 			</div>
-			{if $SUPPORTED_MODULE_MODELS}
+			{if !empty($SUPPORTED_MODULE_MODELS)}
 				<div class="col-md-3 btn-toolbar marginLeftZero">
 					<select class="chzn-select form-control" id="moduleFilter" >
 						<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 						{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
-							<option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$TAB_ID}">
+							<option {if !empty($SOURCE_MODULE) && $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$TAB_ID}">
 								{App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
 							</option>
 						{/foreach}

@@ -374,10 +374,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		if ($type === 'changes') {
 			$newChange = $request->has('newChange') ? $request->get('newChange') : ModTracker_Record_Model::isNewChange($parentRecordId);
+		} else {
+			$newChange = '';
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
-		$viewer->assign('NEW_CHANGE', $newChange);
+		$viewer->assign('NEW_CHANGE', $newChange ?? null);
 		$viewer->assign('PARENT_RACORD_ID', $parentRecordId);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -447,6 +449,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('CURRENT_COMMENT', null);
 
 		return $viewer->view('RecentComments.tpl', $moduleName, true);
 	}
@@ -671,7 +674,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
 		$limit = (int) $request->get('limit');
-		$searchParams = $request->get('search_params');
+		$searchParams = $request->getArray('search_params', 2);
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
@@ -765,10 +768,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
-		if (!empty($totalCount)) {
-			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
+		if (empty($totalCount)) {
+			$totalCount = 0;
 		}
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 		$viewer->assign('VIEW_MODEL', $relationListView);
@@ -814,8 +818,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_MODULE_NAME', $relatedModuleName);
 		$viewer->assign('RELATED_RECORDS', $entries);
 		$viewer->assign('RELATED_HEADERS', $header);
-		$viewer->assign('SHOW_CREATOR_DETAIL', (bool) $relationModel->get('creator_detail'));
-		$viewer->assign('SHOW_COMMENT', (bool) $relationModel->get('relation_comment'));
+		$viewer->assign('SHOW_CREATOR_DETAIL', (bool)$relationModel->get('creator_detail'));
+		$viewer->assign('SHOW_COMMENT', (bool)$relationModel->get('relation_comment'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 

@@ -43,9 +43,9 @@ abstract class Vtiger_Mass_Action extends \App\Controller\Action
 			$customViewModel->set('search_key', $request->getByType('search_key'));
 			$customViewModel->set('search_value', $request->get('search_value'));
 		}
-		$customViewModel->set('search_params', $request->get('search_params'));
+		$customViewModel->set('search_params', $request->getArray('search_params', 2));
 
-		return $customViewModel->getRecordsListQuery($request->get('excluded_ids'), $moduleName);
+		return $customViewModel->getRecordsListQuery($request->getArray('excluded_ids', 2), $moduleName);
 	}
 
 	/**

@@ -13,6 +13,7 @@ $.Class("Vtiger_DashBoard_Js", {
 	grid: false,
 	//static property which will store the instance of dashboard
 	currentInstance: false,
+	scrollContainer: false,
 	addWidget: function (element, url) {
 		element = $(element);
 		var linkId = element.data('linkid');
@@ -26,7 +27,7 @@ $.Class("Vtiger_DashBoard_Js", {
 		widgetContainer.find('.dashboardWidget').data('url', url);
 		var width = element.data('width');
 		var height = element.data('height');
-		Vtiger_DashBoard_Js.grid.addWidget(widgetContainer,0, 0, width, height);
+		Vtiger_DashBoard_Js.grid.addWidget(widgetContainer, 0, 0, width, height);
 		Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer.find('.grid-stack-item-content'));
 	},
 	restrictContentDrag: function (container) {
@@ -105,19 +106,20 @@ $.Class("Vtiger_DashBoard_Js", {
 		});
 	},
 	updateLazyWidget() {
-		const scrollTop = $('.mainBody').scrollTop();
-		$('.mainBody').scrollTop(scrollTop + 1).scrollTop(scrollTop);
+		const scrollTop = this.scrollContainer.scrollTop();
+		this.scrollContainer.scrollTop(scrollTop + 1).scrollTop(scrollTop);
 	},
 	loadWidgets: function () {
 		const thisInstance = this;
+		this.scrollContainer = $(window).width() > app.breakpoints.sm ? $('.mainBody') : $('.bodyContent');
 		thisInstance.getContainer().find('.dashboardWidget').Lazy({
 			threshold: 0,
-			appendScroll: $('.mainBody'),
+			appendScroll: thisInstance.scrollContainer,
 			widgetLoader(element) {
 				thisInstance.loadWidget(element);
 			},
 		});
-		this.updateLazyWidget();
+		this.updateLazyWidget(this.scrollContainer);
 	},
 	loadWidget: function (widgetContainer) {
 		var thisInstance = this;
@@ -698,6 +700,32 @@ $.Class("Vtiger_DashBoard_Js", {
 			});
 		});
 	},
+	/**
+	 * Updates tablet scroll top position
+	 */
+	registerTabletScrollEvent() {
+		if (!app.touchDevice || $(window).width() < app.breakpoints.sm) {
+			return;
+		}
+
+		let scollbarContainer = $('.js-tablet-scroll');
+		scollbarContainer.parent().removeClass('d-none');
+
+		let scollbarContainerH = scollbarContainer.outerHeight(),
+			scollbarOffsetTop = scollbarContainer.offset().top,
+			maxOffset = $('.js-header').outerHeight() + 8;
+
+		this.scrollContainer.on('scroll', () => {
+			if ((this.scrollContainer.scrollTop() + maxOffset) >= scollbarOffsetTop) {
+				scollbarContainer.css({top: maxOffset});
+			} else {
+				scollbarContainer.css({
+					top: scollbarOffsetTop - this.scrollContainer.scrollTop(),
+					height: scollbarContainerH + this.scrollContainer.scrollTop()
+				});
+			}
+		});
+	},
 	registerEvents: function () {
 		this.registerGrid();
 		this.registerRefreshWidget();
@@ -710,5 +738,7 @@ $.Class("Vtiger_DashBoard_Js", {
 		this.registerTabModules();
 		this.removeWidgetFromList();
 		this.registerSelectDashboard();
+		this.registerTabletScrollEvent();
+		ElementQueries.listen();
 	}
 });

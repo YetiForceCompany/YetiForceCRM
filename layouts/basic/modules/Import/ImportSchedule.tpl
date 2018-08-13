@@ -21,7 +21,7 @@
 					</h3
 				</td>
 			</tr>
-			{if $ERROR_MESSAGE neq ''}
+			{if !empty($ERROR_MESSAGE)}
 				<tr>
 					<td class="text-center">
 						{$ERROR_MESSAGE}

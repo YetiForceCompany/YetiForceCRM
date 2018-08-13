@@ -60,6 +60,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				throw new \Exception('Unable to find a Roundcube version');
 			}
 		}
+
 		include 'public_html/modules/OSSMail/roundcube/config/defaults.inc.php';
 		include 'config/modules/OSSMail.php';
 

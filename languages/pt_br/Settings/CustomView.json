@@ -11,7 +11,8 @@
 	"Actions": "A\u00e7\u00f5es",
 	"Edit": "Editar",
 	"LBL_FEATURED_LABELS": "Nos Favoritos",
-	"LBL_CREATED_BY": "Criado por",
+    "LBL_ATTENTION": "Aviso!",
+    "LBL_CREATED_BY": "Criado por",
 	"LBL_ADD_FILTER": "Adicionar filtro",
 	"LBL_MANAGE_PERMISSIONS": "Gerenciar permiss\u00f5es",
 	"LBL_ALL_GROUP_LIST": "Op\u00e7\u00f5es dispon\u00edveis",
@@ -22,7 +23,7 @@
 	"LBL_EXISTS_PERMISSION_IN_CONFIG": "Conflito com %s \r\n A permiss\u00e3o selecionada n\u00e3o pode ser utilizada em mais de um filtro.",
 	"LBL_SORTING": "Classificando",
 	"LBL_SORTING_SETTINGS": "Configurar Classifica\u00e7\u00e3o",
-	"LBL_SORTING_SETTINGS_WORNING": "<strong>Aviso!<strong>\r\nA classifica\u00e7\u00e3o dos registros pode aumentar significativamente o tempo de carregamento da p\u00e1gina.",
+	"LBL_SORTING_SETTINGS_WORNING": "Classifica\u00e7\u00e3o dos registros pode aumentar significativamente o tempo de carregamento da p\u00e1gina.",
 	"LBL_SELECT_FIELD_TO_SORT_RECORDS": "Selecione uma para classificar os registros",
 	"LBL_SORT_ASCENDING_ORDER": "Classificar em ordem ascendente",
 	"LBL_SORT_DESCENDING_ORDER": "Classificar em ordem descendente"

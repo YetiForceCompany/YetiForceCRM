@@ -38,6 +38,7 @@ class Settings_Mail_Config_View extends Settings_Vtiger_Index_View
 
 		$jsFileNames = [
 			"modules.Settings.$moduleName.resources.Config",
+			'libraries.clipboard.dist.clipboard'
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

@@ -9,7 +9,7 @@
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{if $BLOCKS_HIDE}
 			<div class="detailViewTable">
-				<div class="c-panel js-toggle-panel" data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if} data-label="{$BLOCK_LABEL}">
+				<div class="c-panel js-toggle-panel" data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if} data-label="{$BLOCK_LABEL_KEY}">
 					<div class="blockHeader c-panel__header">
 						<div class="d-flex">
 							<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}"

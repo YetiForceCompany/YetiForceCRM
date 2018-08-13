@@ -12,12 +12,16 @@
 		{/if}
 		<tr class="inventoryRow" numrow="{$ROW_NO}">
 			<td>
-				<span class="fas fa-trash-alt deleteRow u-cursor-pointer {if !$IS_OPTIONAL_ITEMS && $KEY == 0 }d-none{/if}" title="{\App\Language::translate('LBL_DELETE',$MODULE)}"></span>
-				&nbsp;&nbsp;<a class="dragHandle"><img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{\App\Language::translate('LBL_DRAG',$MODULE)}" /></a>
-				<input name="seq{$ROW_NO}" type="hidden" value="{$ROW_NO}" class="sequence" />
+				<span class="fas fa-trash-alt deleteRow u-cursor-pointer {if !$IS_OPTIONAL_ITEMS && empty($KEY)}d-none{/if}"
+					  title="{\App\Language::translate('LBL_DELETE',$MODULE)}"></span>
+				&nbsp;&nbsp;<a class="dragHandle"><img src="{\App\Layout::getImagePath('drag.png')}" border="0"
+													   alt="{\App\Language::translate('LBL_DRAG',$MODULE)}"/></a>
+				<input name="seq{$ROW_NO}" type="hidden" value="{$ROW_NO}" class="sequence"/>
 				{if $COUNT_FIELDS2 > 0}
-					<br /><br />
-					<span class="btn btn-light btn-sm toggleVisibility" data-status="{if $IS_VISIBLE}1{else}0{/if}" href="#">
+					<br/>
+					<br/>
+					<span class="btn btn-light btn-sm toggleVisibility" data-status="{if $IS_VISIBLE}1{else}0{/if}"
+						  href="#">
 						<span class="fas {if $IS_VISIBLE}fa-angle-up{else}fa-angle-down{/if}"></span>
 					</span>
 				{/if}
@@ -25,7 +29,13 @@
 			{foreach item=FIELD from=$FIELDS[1]}
 				<td class="col{$FIELD->getName()}{if !$FIELD->isEditable()} d-none{/if} text-right fieldValue">
 					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
-					{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE) ITEM_VALUE=$ITEM_DATA[$FIELD->get('columnname')]}
+					{assign var="COLUMN_NAME" value=$FIELD->get('columnname')}
+					{if isset($ITEM_DATA[$COLUMN_NAME])}
+						{assign var="FIELD_VALUE" value=$ITEM_DATA[$FIELD->get('columnname')]}
+					{else}
+						{assign var="FIELD_VALUE" value=null}
+					{/if}
+					{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE) ITEM_VALUE=$FIELD_VALUE}
 				</td>
 			{/foreach}
 		</tr>
