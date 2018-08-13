@@ -22,7 +22,7 @@
         </div>
         <div class="c-panel__body blockContent p-2" id="beforeInventory" data-js="container">
             {if $RECORD->get('finvcoiceid')}
-                {include file=\App\Layout::getTemplatePath('DetailViewInventoryView.tpl', $MODULE_NAME) MODULE_NAME='FInvoice' RECORD=FInvoice_Record_Model::getInstanceById($RECORD->get('finvoiceid'))}
+                {include file=\App\Layout::getTemplatePath('Detail/InventoryView.tpl', $MODULE_NAME) MODULE_NAME='FInvoice' RECORD=FInvoice_Record_Model::getInstanceById($RECORD->get('finvoiceid'))}
             {else}
                 <div class="text-center">{\App\Language::translate('LBL_CHOOSE_INVOICE','FCorectingInvoice')}</div>
             {/if}
