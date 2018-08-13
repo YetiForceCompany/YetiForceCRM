@@ -37,7 +37,7 @@
 					<div class="col float-right">
 						<div class="float-right">
 							<div class="btn-group">
-								{if $WIDGET['data']['viewtype'] eq 'Summary'}
+								{if !empty($WIDGET['data']['viewtype']) && $WIDGET['data']['viewtype'] eq 'Summary'}
 									<div class="btn-group control-widget">
 										<button class="btn btn-sm btn-light prev disabled" type="button"
 												title="{\App\Language::translate('LBL_PREV',$MODULE_NAME)}">
