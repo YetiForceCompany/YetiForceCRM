@@ -36,7 +36,9 @@ class Settings_AutomaticAssignment_Edit_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('SOURCE_MODULE', $sourceModuleName);
-
+		if (!empty($recordModel)) {
+			$viewer->assign('RECORD', $recordModel->getId());
+		}
 		if ($request->has('tab')) {
 			$viewer->assign('FIELD_NAME', $request->getByType('tab'));
 			$viewer->assign('LABEL', $recordModel->getEditFields()[$request->getByType('tab')]);

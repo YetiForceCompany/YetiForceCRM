@@ -169,7 +169,7 @@ class Vtiger_Export_Model extends \App\Base
 						$query->andWhere(['in', "$baseTable.$baseTableColumnId", $idList]);
 					}
 				} else {
-					$query->andWhere(['not in', "$baseTable.$baseTableColumnId", $request->get('excluded_ids')]);
+					$query->andWhere(['not in', "$baseTable.$baseTableColumnId", $request->getArray('excluded_ids', 2)]);
 				}
 				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
@@ -241,7 +241,7 @@ class Vtiger_Export_Model extends \App\Base
 				}
 			}
 		}
-		$recordId = $arr[$this->focus->table_index];
+		$recordId = $arr[$this->focus->table_index] ?? '';
 		$moduleName = $this->moduleInstance->getName();
 		foreach ($arr as $fieldName => &$value) {
 			if (isset($this->fieldArray[$fieldName])) {

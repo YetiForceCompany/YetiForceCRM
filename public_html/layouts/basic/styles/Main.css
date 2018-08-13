@@ -9550,9 +9550,6 @@ span[name=existingImages] img {
 .activityWidgetContainer .popover {
   min-width: 240px; }
 
-.filterActionImage {
-  margin-left: 8px; }
-
 .modal-body .btn-elements > .btn {
   margin-left: 5px; }
 
@@ -9616,12 +9613,6 @@ span[name=existingImages] img {
 
 .individualTaxContainer {
   text-align: left !important; }
-
-.roundedCorners :not(:first-child) {
-  padding-left: 0; }
-.roundedCorners label {
-  font-weight: normal;
-  min-height: 40px; }
 
 #widgetsManagementEditorContainer .modal-footer .btn {
   margin: 5px; }
@@ -10946,6 +10937,9 @@ select[readonly], select[disabled] {
 .u-font-size-44px {
   font-size: 44px; }
 
+.u-m-5px {
+  margin: 5px; }
+
 .u-ml-0 {
   margin-left: 0 !important; }
 
@@ -11433,7 +11427,7 @@ input[type="radio"]:checked:before {
 
 .select2-selection--single {
   padding: 0.375rem 1.125rem 0.375rem 0.75rem; }
-  .input-group .select2-selection--single {
+  .input-group-append .select2-selection--single {
     border-right: unset !important;
     border-radius: 0.25rem 0 0 0.25rem !important; }
 
@@ -11452,6 +11446,10 @@ input[type="radio"]:checked:before {
 
 .select2Wrapper {
   width: 100%; }
+
+/* select2 selected option display bug fix after use hide class on options */
+.addRelationContainer span.select2-selection__rendered {
+  display: block !important; }
 
 header .o-global-search__input .select2-selection.select2-selection--single {
   height: 2.125rem !important; }
@@ -11500,9 +11498,6 @@ header .c-header__btn__container .select2-selection {
 
 .awesome-marker [data-fa-i2svg] {
   margin-top: 11px; }
-
-.filterActionImgs {
-  margin-top: 3px; }
 
 .daterangepicker .ranges li {
   margin-bottom: 0.45rem; }
@@ -11567,9 +11562,6 @@ label.btn.btn-outline-primary:not(.active) {
   .dropdown-item:hover, .related .dropdown-menu .nav-link:hover {
     border-top: 1px solid #e0e0e0;
     border-bottom: 1px solid #e0e0e0; }
-
-.modal-body {
-  overflow-y: initial !important; }
 
 @media (max-width: 575.98px) {
   .btn-group.flex-column > .btn {
@@ -13410,7 +13402,7 @@ label.btn.btn-outline-primary:not(.active) {
   position: fixed !important;
   z-index: 1070;
   overflow: hidden;
-  width: -webkit-fill-available; }
+  width: 100%; }
   .modalRightSiteBar .modal-content {
     height: 100%; }
   .modalRightSiteBar button.close {
@@ -14251,14 +14243,6 @@ label.btn.btn-outline-primary:not(.active) {
     box-sizing: border-box;
     word-wrap: break-word; }
 
-.recordDetails .squeezedWell {
-  padding: 3% 0%;
-  min-height: 105px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word; }
-
 .recordEditView .contentHeader {
   padding: 5px 0; }
 .recordEditView .table .fieldLabel, .recordEditView .c-detail-widget__table .fieldLabel, .recordEditView .table .fieldValue, .recordEditView .c-detail-widget__table .fieldValue {
@@ -14282,6 +14266,15 @@ label.btn.btn-outline-primary:not(.active) {
 
 .tpl-Detail-HeaderFields a {
   color: #79baff; }
+
+@media (min-width: 768px) {
+  .o-summary-category__row :not(:first-child) {
+    padding-left: 0; } }
+.o-summary-category__card__body {
+  min-height: 6.5625rem; }
+.o-summary-category__card__label {
+  font-weight: normal;
+  min-height: 2.5rem; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .paginationDiv .listViewBasicAction.dropdown-menu {
@@ -14318,6 +14311,12 @@ label.btn.btn-outline-primary:not(.active) {
     max-width: 400px; } }
 .listViewAll .leftRecordActions {
   border-left: 5px solid #ddd; }
+
+.o-filter-actions {
+  display: none; }
+
+.select2-results__option--highlighted .o-filter-actions {
+  display: block !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media (min-width: 992px) {
