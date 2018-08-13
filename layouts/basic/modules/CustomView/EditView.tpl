@@ -41,7 +41,7 @@
 						  data-show="fas fa-chevron-down"></span>
 					<h5 class="">{\App\Language::translate('LBL_BASIC_DETAILS',$MODULE)}</h5>
 				</div>
-				<div class="c-panel__body d-flex flex-column py-1">
+				<div class="c-panel__body py-1">
 					<div class="form-group">
 						<div class="row col-md-5">
 							<label class="float-left col-form-label "><span
@@ -121,7 +121,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="btn-group js-filter-preferences btn-group-toggle mt-3 mx-auto flex-wrap"
+					<div class="btn-group js-filter-preferences btn-group-toggle mt-3 flex-wrap"
 						 data-toggle="buttons" data-js="change">
 						<label class="c-btn-block-sm-down btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isDefault()} active{/if}"
 							   title="{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE)}">
