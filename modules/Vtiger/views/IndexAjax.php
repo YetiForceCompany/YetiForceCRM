@@ -11,7 +11,7 @@
 class Vtiger_IndexAjax_View extends Vtiger_Index_View
 {
 	use \App\Controller\ExposeMethod,
-	 App\Controller\ClearProcess;
+		App\Controller\ClearProcess;
 
 	public function getRecordsListFromRequest(\App\Request $request)
 	{
@@ -37,7 +37,7 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 				$customViewModel->set('search_value', $request->get('search_value'));
 			}
 			if ($request->has('search_params')) {
-				$customViewModel->set('search_params', $request->getArray('search_params', 2));
+				$customViewModel->set('search_params', $request->getArray('search_params'));
 			}
 
 			return $customViewModel->getRecordIds($excludedIds);

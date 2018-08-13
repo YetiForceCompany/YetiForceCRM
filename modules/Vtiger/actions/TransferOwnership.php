@@ -4,7 +4,7 @@
  * Vtiger TransferOwnership action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 {
@@ -86,9 +86,7 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 					$customViewModel->set('search_key', $searchKey);
 					$customViewModel->set('search_value', $searchValue);
 				}
-
-				$customViewModel->set('search_params', $request->getArray('search_params', 2));
-
+				$customViewModel->set('search_params', $request->getArray('search_params'));
 				return $customViewModel->getRecordIds($excludedIds, $module, true);
 			}
 		}

@@ -63,7 +63,7 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 			$relationListView->set('search_value', $request->get('search_value'));
 			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
 		}
-		$searchParmams = $request->getArray('search_params', 2);
+		$searchParmams = $request->getArray('search_params');
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
