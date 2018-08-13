@@ -104,7 +104,8 @@
 			</select>
 		</div>
 		<div class="col-md-3">
-			<input type="hidden" name="comparatorValue" value="{if !empty($CONDITION_INFO['comparator'])}{$CONDITION_INFO['comparator']}{/if}">
+			<input type="hidden" name="comparatorValue"
+				   value="{if !empty($CONDITION_INFO['comparator'])}{$CONDITION_INFO['comparator']}{/if}">
 			{if !empty($SELECTED_FIELD_MODEL)}
 				{if empty($FIELD_TYPE)}
 					{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
