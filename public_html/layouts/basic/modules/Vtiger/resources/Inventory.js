@@ -805,7 +805,6 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			if (progressInstace) {
 				progressInstace.hide();
 			}
-			console.error(error, err);
 		});
 	},
 	removeSubProducts: function (parentRow) {
@@ -1072,7 +1071,6 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			}
 		}).fail(function (error, err) {
 				progressInstace.hide();
-				console.error(error, err);
 			}
 		);
 		return response;
@@ -1367,7 +1365,6 @@ $.Class("Vtiger_Inventory_Js", {}, {
 				progressInstace.hide();
 			}).fail(function (error, err) {
 				progressInstace.hide();
-				console.error(error, err);
 			});
 		});
 	},
@@ -1449,7 +1446,6 @@ $.Class("Vtiger_Inventory_Js", {}, {
 				progressInstace.hide();
 			}).fail(function (error, err) {
 				progressInstace.hide();
-				console.error(error, err);
 			});
 		});
 	},
@@ -1570,7 +1566,8 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
 				module: sourceModule,
-				action: 'GetInventoryTableData',
+				action: 'Inventory',
+				mode: 'getTableData',
 				record: recordId
 			}).done((response) => {
 				progressLoader.progressIndicator({mode: 'hide'});
@@ -1606,7 +1603,6 @@ $.Class("Vtiger_Inventory_Js", {}, {
 				if (typeof fail === 'function') {
 					fail(error, err);
 				}
-				console.log(error, err);
 			});
 		});
 	},
