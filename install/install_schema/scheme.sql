@@ -2984,8 +2984,10 @@ CREATE TABLE `u_yf_social_media_config` (
   `value` text DEFAULT NULL,
   `type` varchar(128) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name_type_unique` (`name`(100),`type`(100))
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  UNIQUE KEY `name_type_unique` (`name`(100),`type`(100)),
+  KEY `type` (`type`),
+  KEY `name` (`name`,`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_squoteenquiries` */
 
@@ -6590,7 +6592,7 @@ CREATE TABLE `vtiger_modentity_num` (
   `postfix` varchar(50) NOT NULL DEFAULT '',
   `start_id` int(10) unsigned NOT NULL,
   `cur_id` int(10) unsigned NOT NULL,
-  `reset_sequence` char(1),
+  `reset_sequence` char(1) DEFAULT NULL,
   `cur_sequence` varchar(10) DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `semodule` (`cur_id`),
