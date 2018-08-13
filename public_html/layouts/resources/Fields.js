@@ -56,7 +56,7 @@ App.Fields = {
 					monthsShort: App.Fields.Date.monthsTranslated,
 					today: app.vtranslate('JS_TODAY'),
 					clear: app.vtranslate('JS_CLEAR'),
-					format,
+					format: format,
 					titleFormat: 'MM yyyy', /* Leverages same syntax as 'format' */
 					weekStart: CONFIG.firstDayOfWeekNo
 				};
@@ -65,9 +65,10 @@ App.Fields = {
 				todayBtn: "linked",
 				clearBtn: true,
 				language: CONFIG.langKey,
-				starts: CONFIG.firstDayOfWeekNo,
+				weekStart: CONFIG.firstDayOfWeekNo,
 				autoclose: true,
 				todayHighlight: true,
+				format: format
 			};
 			if (typeof customParams !== "undefined") {
 				params = $.extend(params, customParams);

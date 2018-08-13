@@ -1,11 +1,12 @@
 <?php
-/**
- * Settings CronTasks Module Model class
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Rafal Pospiech <r.pospiech@yetiforce.com>
- */
 
+/**
+ * Settings CronTasks Module Model class.
+ *
+ * @copyright YetiForce Sp. z o.o.
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
+ */
 class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 {
 	public $baseTable = 'vtiger_cron_task';
@@ -46,8 +47,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 		$caseSequence .= ' END';
 		$db->createCommand()->update('vtiger_cron_task', ['sequence' => new yii\db\Expression($caseSequence)])->execute();
 	}
-	
-	
+
 	public function hasCreatePermissions()
 	{
 		return false;
@@ -68,7 +68,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 		if ($this->lastCronStart) {
 			return $this->lastCronStart;
 		}
-		$cronConfigFileName=ROOT_DIRECTORY . '/user_privileges/cron.php';
+		$cronConfigFileName = ROOT_DIRECTORY . '/user_privileges/cron.php';
 		if (file_exists($cronConfigFileName)) {
 			$cronConfig = include $cronConfigFileName;
 
@@ -90,14 +90,13 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 		$totalDiff = $finalLastStart = $finalLastEnd = $finishedTasks = 0;
 		$timedout = false;
 		$lastCronStart = $this->getLastCronStart();
-		
 		$tasks = (new \App\Db\Query())
 			->from('vtiger_cron_task')
 			->where(['status', [
-					Settings_CronTasks_Record_Model::$STATUS_ENABLED,
-					Settings_CronTasks_Record_Model::$STATUS_RUNNING,
-					Settings_CronTasks_Record_Model::$STATUS_COMPLETED,
-				]
+				Settings_CronTasks_Record_Model::$STATUS_ENABLED,
+				Settings_CronTasks_Record_Model::$STATUS_RUNNING,
+				Settings_CronTasks_Record_Model::$STATUS_COMPLETED,
+			]
 			])
 			->where(['>=', 'laststart', $lastCronStart])
 			->createCommand()
@@ -121,13 +120,12 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 				$timedout = $record;
 			}
 		}
-
 		if ($timedout) {
 			$result['duration'] = $timedout->getDuration();
 		} else {
 			$result['duration'] = \App\Fields\Time::formatToHourText(\App\Fields\Time::secondsToDecimal($totalDiff), 'short', true);
 		}
-		$result['laststart'] = \App\Fields\DateTime::formatToViewDate(date('Y-m-d H:i:s', $lastCronStart));
+		$result['laststart'] = empty($lastCronStart) ? ' - ' : \App\Fields\DateTime::formatToViewDate(date('Y-m-d H:i:s', $lastCronStart));
 		$result['finished_tasks'] = $finishedTasks;
 		$result['tasks'] = count($tasks);
 		return $result;

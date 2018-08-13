@@ -357,7 +357,7 @@ class Vtiger_ListView_Model extends \App\Base
 	public function getListViewLinks($linkParams)
 	{
 		$moduleModel = $this->getModule();
-		$links = [];
+		$links = ['LISTVIEWBASIC' => []];
 
 		$basicLinks = $this->getBasicLinks();
 		foreach ($basicLinks as $basicLink) {

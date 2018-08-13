@@ -49,10 +49,6 @@ class Vtiger_EditView_Model extends \App\Base
 	 */
 	public function getEditViewLinks($linkParams)
 	{
-		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['EDIT_VIEW_HEADER'], $linkParams);
-		if (empty($links['EDIT_VIEW_HEADER'])) {
-			$links['EDIT_VIEW_HEADER'] = [];
-		}
-		return $links;
+		return Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['EDIT_VIEW_HEADER'], $linkParams);
 	}
 }

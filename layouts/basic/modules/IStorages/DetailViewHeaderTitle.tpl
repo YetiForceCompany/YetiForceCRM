@@ -3,10 +3,8 @@
 	<div class="col-md-12 pr-0 row">
 		<div class="col-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
-				<span class="hierarchy">
-
-				</span>
 				<span class="o-detail__icon js-detail__icon u-cursor-pointer userIcon-{$MODULE}"></span>
+				<span class="hierarchy"></span>
 			</div>
 			<div class="paddingLeft5px">
 				<h4 class="recordLabel u-text-ellipsis pushDown marginbottomZero" title="{$RECORD->getName()}">

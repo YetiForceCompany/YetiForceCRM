@@ -17,25 +17,29 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="alert alert-danger alert-dismissible fade show" role="alert">
-						<a href="#" class="close" data-dismiss="alert">&times;</a>
+						<h4 class="alert-heading">{\App\Language::translate('LBL_ATTENTION', $MODULE_NAME)}</h4>
 						{\App\Language::translate('LBL_SORTING_SETTINGS_WORNING', $MODULE_NAME)}
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
 				</div>
-				<div class="col-12 form-group">
-					<label class="col-12 col-form-label">
+				<label class="col-12">
 						{\App\Language::translate('LBL_SELECT_FIELD_TO_SORT_RECORDS', $MODULE_NAME)}
 					</label>
-					<div class="col-md-9 col-sm-10 col-12">
-						<div class="input-group js-sort-container" data-js="value">
+				<div class="col-12">
+					<div class="input-group js-sort-container flex-nowrap" data-js="value">
 							<div class="input-group-prepend">
-								<button type="button" class="btn btn-danger js-clear" data-js="click" title="{\App\Language::translate('LBL_CLEAR', $MODULE_NAME)}">
+							<button type="button" class="btn btn-danger js-clear" data-js="click"
+									title="{\App\Language::translate('LBL_CLEAR', $MODULE_NAME)}">
 									<span class="fas fa-times-circle"></span>
 								</button>
 							</div>
 							<select class="select2 form-control col-3" name="defaultOrderBy" id="defaultOrderBy">
 								<option></option>
 								{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-									<optgroup label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE_MODEL->getName())}'>
+								<optgroup
+										label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE_MODEL->getName())}'>
 										{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 											{if $FIELD_MODEL->isListviewSortable()}
 												<option value="{$FIELD_MODEL->get('column')}"{if $FIELD_MODEL->get('column') eq $SORT_ORDER_BY[0]} selected{/if}>
@@ -60,18 +64,26 @@
 							</select>
 							<div class="input-group-append">
 								<button type="button" class="btn btn-primary js-sort-order-button" data-js="click">
-									<span class="fas fa-sort-amount-up{if $SORT_ORDER eq 'DESC'} d-none{/if}" data-val="ASC" title="{\App\Language::translate('LBL_SORT_ASCENDING_ORDER', $MODULE_NAME)}"></span>
-									<span class="fas fa-sort-amount-down{if $SORT_ORDER eq 'ASC'} d-none{/if}" data-val="DESC" title="{\App\Language::translate('LBL_SORT_DESCENDING_ORDER', $MODULE_NAME)}"></span>
+								<span class="fas fa-sort-amount-up{if $SORT_ORDER eq 'DESC'} d-none{/if}" data-val="ASC"
+									  title="{\App\Language::translate('LBL_SORT_ASCENDING_ORDER', $MODULE_NAME)}"></span>
+								<span class="fas fa-sort-amount-down{if $SORT_ORDER eq 'ASC'} d-none{/if}"
+									  data-val="DESC"
+									  title="{\App\Language::translate('LBL_SORT_DESCENDING_ORDER', $MODULE_NAME)}"></span>
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 		<div class="modal-footer">
-			<button type="submit" class="btn btn-success">{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}</button>
-			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</button>
+			<button type="submit" class="btn btn-success">
+				<span class="fas fa-check mr-1"></span>
+				{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
+			</button>
+			<button type="button" class="btn btn-danger dismiss" data-dismiss="modal">
+				<span class="fas fa-times mr-1"></span>
+				{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}
+			</button>
 		</div>
 	</form>
 {/strip}

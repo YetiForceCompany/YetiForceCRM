@@ -61,19 +61,38 @@ class Portal_Module_Model extends Vtiger_Module_Model
 			->one();
 	}
 
+	/**
+	 * Delete record.
+	 *
+	 * @param $recordId
+	 *
+	 * @throws \yii\db\Exception
+	 */
 	public function deleteRecord($recordId)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_portal', ['portalid' => $recordId])->execute();
 	}
 
-	public function getWebsiteUrl($recordId)
+	/**
+	 * Get website url.
+	 *
+	 * @param $recordId
+	 *
+	 * @return false|null|string
+	 */
+	public static function getWebsiteUrl($recordId)
 	{
 		return (new \App\Db\Query())->select(['portalurl'])->from(['vtiger_portal'])
 			->where(['portalid' => $recordId])
 			->scalar();
 	}
 
-	public function getAllRecords()
+	/**
+	 * Get all records.
+	 *
+	 * @return array
+	 */
+	public static function getAllRecords()
 	{
 		return (new \App\Db\Query())->select(['id' => 'portalid', 'portalname'])->from(['vtiger_portal'])->all();
 	}
@@ -83,11 +102,11 @@ class Portal_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @param \App\Request $request
 	 */
-	public function deleteRecords(\App\Request $request)
+	public static function deleteRecords(\App\Request $request)
 	{
 		$searchValue = $request->getForSql('search_value');
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
+		$selectedIds = $request->getArray('selected_ids', 2);
+		$excludedIds = $request->getArray('excluded_ids', 2);
 		$params = [];
 		if (!empty($selectedIds) && $selectedIds != 'all' && count($selectedIds) > 0) {
 			$params = ['portalid' => $selectedIds];

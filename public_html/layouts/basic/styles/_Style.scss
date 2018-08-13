@@ -2229,10 +2229,6 @@ span[name=existingImages] img {
 	min-width: 240px;
 }
 
-.filterActionImage {
-	margin-left: 8px;
-}
-
 .modal-body .btn-elements > .btn {
 	margin-left: 5px;
 }
@@ -2319,17 +2315,6 @@ span[name=existingImages] img {
 
 .individualTaxContainer {
 	text-align: left !important;
-}
-
-.roundedCorners {
-	:not(:first-child) {
-		padding-left: 0;
-	}
-
-	label {
-		font-weight: normal;
-		min-height: 40px;
-	}
 }
 
 #widgetsManagementEditorContainer {
@@ -3580,8 +3565,8 @@ select.form-control {
 
 .detailViewTitle .hierarchy {
 	position: absolute;
-	top: 0;
-	left: 60px;
+	top: -12px;
+	left: 50px;
 }
 
 .indexContainer {

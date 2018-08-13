@@ -4,7 +4,7 @@
  * Settings menu CreateMenu view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Menu_CreateMenu_View extends Settings_Vtiger_IndexAjax_View
 {
@@ -22,7 +22,6 @@ class Settings_Menu_CreateMenu_View extends Settings_Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $settingsModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('ROLEID', $roleId);
 		$viewer->view('CreateMenuStep1.tpl', $qualifiedModuleName);
 	}
 

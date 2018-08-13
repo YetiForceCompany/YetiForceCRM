@@ -19,8 +19,8 @@
     "PLL_CASH": "Bar",
     "LBL_YEAR": "Jahr",
     "FL_INVOICE": "Rechnung",
-    "LBL_COMMENTS": "Comments",
-    "FL_EXTERNAL_COMMENT": "External comment",
-    "FL_INTERNAL_COMMENT": "Internal comment"
+    "LBL_COMMENTS": "Bemerkungen",
+    "FL_EXTERNAL_COMMENT": "Externe Bemerkungen",
+    "FL_INTERNAL_COMMENT": "Interne Bemerkungen"
   }
 }

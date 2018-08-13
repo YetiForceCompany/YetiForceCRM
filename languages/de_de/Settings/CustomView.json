@@ -10,6 +10,7 @@
     "Saving CustomView": "Benutzerdefinierte Ansicht wurde gespeichert",
     "Actions": "Aktionen",
     "Edit": "Bearbeiten",
+    "LBL_ATTENTION": "Warnung!",
     "LBL_FEATURED_LABELS": "Zu Favoriten",
     "LBL_CREATED_BY": "Erzeugt von",
     "LBL_ADD_FILTER": "Filter hinzuf\u00fcgen",
@@ -22,7 +23,7 @@
     "LBL_EXISTS_PERMISSION_IN_CONFIG": "Konflikt mit %s \r\n Gew\u00e4hlte Berechtigung kann nicht in mehr als einem Filter verwendet werden.",
     "LBL_SORTING": "Sortieren",
     "LBL_SORTING_SETTINGS": "Sortiereinstellungen",
-    "LBL_SORTING_SETTINGS_WORNING": "<strong>Warnung!<strong>\r\nDatensatzsortierung kann die Ladezeit erheblich erh\u00f6hen.",
+    "LBL_SORTING_SETTINGS_WORNING": "Datensatzsortierung kann die Ladezeit erheblich erh\u00f6hen.",
     "LBL_SELECT_FIELD_TO_SORT_RECORDS": "W\u00e4hle ein Feld um die Datens\u00e4tze zu sortieren",
     "LBL_SORT_ASCENDING_ORDER": "Aufsteigend sortieren",
     "LBL_SORT_DESCENDING_ORDER": "Absteigend sortieren"
