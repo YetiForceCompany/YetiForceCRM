@@ -123,9 +123,12 @@
 			{/if}
 			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control m-0" name="comparator" title="{\App\Language::translate('LBL_COMAPARATOR_TYPE')}">
 				<option value="none">{\App\Language::translate('LBL_NONE',$MODULE)}</option>
-				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
-					<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{\App\Language::translate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
-				{/foreach}
+				{if !empty($ADVANCE_FILTER_OPTIONS)}
+					{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
+						<option value="{$ADVANCE_FILTER_OPTION}"
+								{if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{\App\Language::translate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
+					{/foreach}
+				{/if}
 			</select>
 		</div>
 		<div class="col-md-4 fieldUiHolder">
