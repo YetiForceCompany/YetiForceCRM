@@ -126,7 +126,7 @@ Vtiger_CustomView_Js = {
 			if ($(e.target).is('input') || $(e.target).is('button') || $(e.target).parents().is('button') || $(e.target).hasClass('js-stop-propagation') || $(e.target).parents().hasClass('js-stop-propagation')) {
 				return false;
 			}
-			constblockHeader = $(e.currentTarget);
+			const blockHeader = $(e.currentTarget);
 			const blockContents = blockHeader.next();
 			const iconToggle = blockHeader.find('.iconToggle');
 			if (blockContents.hasClass('d-none')) {
