@@ -55,7 +55,6 @@ class OSSTimeControl_TimeControl_Handler
 	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		OSSTimeControl_Record_Model::setSumTime($recordModel);
 		$wfs = new VTWorkflowManager();
 		$workflows = $wfs->getWorkflowsForModule($eventHandler->getModuleName(), VTWorkflowManager::$MANUAL);
 		foreach ($workflows as &$workflow) {
@@ -63,6 +62,19 @@ class OSSTimeControl_TimeControl_Handler
 				$workflow->performTasks($recordModel);
 			}
 		}
+	}
+
+	/**
+	 * EntityBeforeSave handler function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityBeforeSave(App\EventHandler $eventHandler)
+	{
+		$recordModel = $eventHandler->getRecordModel();
+		$start = strtotime($recordModel->get('date_start') . ' ' . $recordModel->get('time_start'));
+		$end = strtotime($recordModel->get('due_date') . ' ' . $recordModel->get('time_end'));
+		$recordModel->set('sum_time', round(abs(ceil((($end - $start) / 3600) * 100) / 100), 2));
 	}
 
 	/**

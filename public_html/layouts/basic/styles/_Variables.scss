@@ -10,6 +10,7 @@ $blue: #337ab7;
 $pagination-color: $link-color;
 $grid-breakpoints: (
 	xs: 0,
+	xsm: 400px,
 	sm: 576px,
 	md: 768px,
 	lg: 992px,
@@ -28,6 +29,8 @@ $h-menu-items: calculate-rem(34px);
 $h-modal-logo: calculate-rem(120px);
 $h-btn-sm: calculate-rem(31px);
 $h-header: calculate-rem(50px);
+$h-breadcrumb: calculate-rem(54px);
+$h-dashboard-tabs: calculate-rem(58px);
 $h-header-logo: calculate-rem(52px);
 $w-header-search: 500px;
 $h-main-viewport: calc(100vh - (#{$h-footer} + #{$h-header}));
