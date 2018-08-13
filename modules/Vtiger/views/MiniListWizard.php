@@ -32,6 +32,7 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 				}
 				$filters = CustomView_Record_Model::getAllByGroup($selectedModule);
 				$viewer->assign('ALLFILTERS', $filters);
+				$viewer->assign('SELECTED_MODULE', $selectedModule);
 				break;
 			case 'step3':
 				$selectedModule = $request->getByType('selectedModule', 2);
