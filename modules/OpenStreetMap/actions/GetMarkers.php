@@ -4,8 +4,8 @@
  * Action to get markers.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 {
@@ -46,7 +46,7 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 		$coordinatesModel->set('lon', $request->get('lon'));
 		$coordinatesModel->set('lat', $request->get('lat'));
 		$coordinatesModel->set('cache', $request->get('cache'));
-		$coordinatesModel->set('search_params', $request->getArray('search_params', 2));
+		$coordinatesModel->set('search_params', $request->getArray('search_params'));
 		$coordinatesModel->set('request', $request);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());

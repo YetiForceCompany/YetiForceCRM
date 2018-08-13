@@ -104,7 +104,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 				$customViewModel->set('search_value', $searchValue);
 			}
 
-			$customViewModel->set('search_params', $request->getArray('search_params', 2));
+			$customViewModel->set('search_params', $request->getArray('search_params'));
 
 			return $customViewModel->getRecordsListQuery($excludedIds, $module);
 		}
