@@ -7,15 +7,20 @@
 		</div>
 		<div class="col-md-5 row mt-2">
 			<div class="col-6 px-0">
-				<button class="btn btn-outline-secondary addMenu float-right"><strong><span
-								class="fa fa-plus u-mr-5px"></span>{\App\Language::translate('LBL_ADD_MENU', $QUALIFIED_MODULE)}
-					</strong></button>
+				<button class="btn btn-outline-secondary addMenu float-right">
+					<strong>
+						<span class="fa fa-plus u-mr-5px"></span>
+						{\App\Language::translate('LBL_ADD_MENU', $QUALIFIED_MODULE)}
+					</strong>
+				</button>
 			</div>
 			<div class="col-6 float-right">
 				<select class="select2 form-control" name="roleMenu">
 					<option value="0" {if $ROLEID eq 0} selected="" {/if}>{\App\Language::translate('LBL_DEFAULT_MENU', $QUALIFIED_MODULE)}</option>
 					{foreach item=ROLE key=KEY from=Settings_Roles_Record_Model::getAll()}
-						<option value="{$KEY}" {if $ROLEID === $KEY} selected="" {/if}>{\App\Language::translate($ROLE->getName())}</option>
+						<option value="{$KEY}" {if $ROLEID === $KEY} selected="" {/if}>
+							{\App\Language::translate($ROLE->getName())}
+						</option>
 					{/foreach}
 				</select>
 			</div>
@@ -45,17 +50,25 @@
 					<div class="modal-body">
 						<select id="roleList" class="form-control" name="roles"
 								data-validation-engine="validate[required]">
-							<option value="0">{\App\Language::translate('LBL_DEFAULT_MENU', $QUALIFIED_MODULE)}</option>
+							<option value="0">
+								{\App\Language::translate('LBL_DEFAULT_MENU', $QUALIFIED_MODULE)}
+							</option>
 							{foreach item=ROLE key=KEY from=$ROLES_CONTAIN_MENU}
-								<option value="{$ROLE['roleId']}">{\App\Language::translate($ROLE['roleName'])}</option>
+								<option value="{$ROLE['roleId']}">
+									{\App\Language::translate($ROLE['roleName'])}
+								</option>
 							{/foreach}
 						</select>
 					</div>
 					<div class="modal-footer">
 						<button type="submit"
-								class="btn btn-success saveButton">{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
+								class="btn btn-success saveButton">
+							{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
+						</button>
 						<button type="button" class="btn btn-warning dismiss"
-								data-dismiss="modal">{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}</button>
+								data-dismiss="modal">
+							{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}
+						</button>
 					</div>
 				</form>
 			</div>
@@ -77,12 +90,14 @@
 			</div>
 			<div class="modal-footer">
 				<div class="float-right">
-					<button class="btn btn-warning cancelLink" type="reset"
-							data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+					<button class="btn btn-warning cancelLink" type="reset" data-dismiss="modal">
+						{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
+					</button>
 				</div>
 				<div class="float-right">
-					<button class="btn btn-danger"
-							data-dismiss="modal">{\App\Language::translate('LBL_REMOVE', $QUALIFIED_MODULE)}</button>
+					<button class="btn btn-danger" data-dismiss="modal">
+						{\App\Language::translate('LBL_REMOVE', $QUALIFIED_MODULE)}
+					</button>
 				</div>
 			</div>
 		</div>
