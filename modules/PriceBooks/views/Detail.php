@@ -70,7 +70,7 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 			$relationListView->set('search_value', $request->get('search_value'));
 			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
 		}
-		$searchParmams = $request->get('search_params');
+		$searchParmams = $request->getArray('search_params', 2);
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}

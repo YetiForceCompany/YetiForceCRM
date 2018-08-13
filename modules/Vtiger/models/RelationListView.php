@@ -198,7 +198,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		if ($relatedModuleName === $this->get('src_module') && !$this->isEmpty('src_record')) {
 			$queryGenerator->addCondition('id', $this->get('src_record'), 'n');
 		}
-		if ($searchParams = $this->get('search_params')) {
+		if ($searchParams = $this->getArray('search_params', 2)) {
 			$queryGenerator->parseAdvFilter($searchParams);
 		}
 		if (!$this->isEmpty('search_key')) {

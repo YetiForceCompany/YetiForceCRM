@@ -34,7 +34,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 			$listInstance->set('search_key', $searchKey);
 			$listInstance->set('search_value', $searchValue);
 		}
-		$searchParams = $request->get('search_params');
+		$searchParams = $request->getArray('search_params', 2);
 		if (!empty($searchParams) && is_array($searchParams)) {
 			$transformedSearchParams = $listInstance->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$listInstance->set('search_params', $transformedSearchParams);
@@ -45,8 +45,8 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 		$fields[] = 'id';
 		$listInstance->getQueryGenerator()->setFields($fields);
 
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
+		$selectedIds = $request->getArray('selected_ids', 2);
+		$excludedIds = $request->getArray('excluded_ids', 2);
 		if (!empty($selectedIds) && !in_array($selectedIds, ['all', '"all"'])) {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
 				$listInstance->getQueryGenerator()->addCondition('id', $selectedIds, 'e');

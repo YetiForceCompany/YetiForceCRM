@@ -104,7 +104,7 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 			$listView->set('search_key', $searchKey);
 			$listView->set('search_value', $searchValue);
 		}
-		$searchParams = $request->get('search_params');
+		$searchParams = $request->getArray('search_params', 2);
 		if (!empty($searchParams) && is_array($searchParams)) {
 			$transformedSearchParams = $listView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$listView->set('search_params', $transformedSearchParams);
@@ -119,11 +119,11 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 			}
 		}
 		$queryGenerator->setFields(array_merge(['id'], array_keys($this->fields)));
-		$selected = $request->get('selected_ids');
+		$selected = $request->getArray('selected_ids', 2);
 		if ($selected && $selected !== 'all') {
 			$queryGenerator->addNativeCondition(["$baseTableName.$baseTableId" => $selected]);
 		}
-		$excluded = $request->get('excluded_ids');
+		$excluded = $request->getArray('excluded_ids', 2);
 		if ($excluded) {
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId" => $excluded]);
 		}
