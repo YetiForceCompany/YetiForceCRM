@@ -1,8 +1,8 @@
 {
   "php": {
-    "SVendorEnquiries": "Angebotsanalyse",
-    "SQuoteEnquiries": "Angebotsanalyse",
-    "SINGLE_SQuoteEnquiries": "Angebotsanalyse",
+    "SVendorEnquiries": "Lieferantenanfrage",
+    "SQuoteEnquiries": "Angebotsanfragen",
+    "SINGLE_SQuoteEnquiries": "Angebotsanfrage",
     "LBL_QUOTESENQUIRES_INFORMATION": "Informationen",
     "LBL_CUSTOM_INFORMATION": "System Information",
     "LBL_DESCRIPTION_INFORMATION": "Details",
