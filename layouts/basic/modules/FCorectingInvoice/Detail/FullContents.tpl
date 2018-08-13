@@ -16,7 +16,7 @@
                             <span class="menuIcon userIcon-FInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_BEFORE_CORRECTION','FCorectingInvoice')}
                         </h5>
                     </div>
-                    <div class="d-inline-flex">
+                    <div class="d-inline-flex js-stop-propagation">
                         <div class="js-popover-tooltip m-2" data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translate("LBL_INVOICE_INFO",'FCorectingInvoice')}">
                             <span class="fas fa-info-circle"></span>
                         </div>
@@ -39,7 +39,7 @@
                             <span class="menuIcon userIcon-FCorectingInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_AFTER_CORRECTION','FCorectingInvoice')}
                         </h5>
                     </div>
-                    <div class="d-inline-flex">
+                    <div class="d-inline-flex js-stop-propagation">
                         <div class="js-popover-tooltip m-2" data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translate("LBL_AFTER_INVOICE_INFO",'FCorectingInvoice')}">
                             <span class="fas fa-info-circle"></span>
                         </div>

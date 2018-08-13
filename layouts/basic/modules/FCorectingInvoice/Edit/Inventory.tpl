@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-FCorectingInvoice/EditViewInventory -->
+<!-- tpl-FCorectingInvoice/Edit/Inventory -->
 {assign var="INVENTORY_FIELD" value=Vtiger_InventoryField_Model::getInstance($MODULE)}
 {assign var="FIELDS" value=$INVENTORY_FIELD->getFields(true)}
 <div class="detailViewTable">
@@ -15,7 +15,7 @@
                     <span class="menuIcon userIcon-FInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_BEFORE_CORRECTION','FCorectingInvoice')}
                 </h5>
             </div>
-            <div class="d-inline-flex mr-2 mt-2">
+            <div class="d-inline-flex mr-2 mt-2 js-stop-propagation">
                 <div class="js-popover-tooltip" data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translate("LBL_INVOICE_INFO",'FCorectingInvoice')}">
                     <span class="fas fa-info-circle"></span></div>
             </div>
@@ -68,7 +68,7 @@
                     <span class="menuIcon userIcon-FCorectingInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_AFTER_CORRECTION','FCorectingInvoice')}
                 </h5>
             </div>
-            <div class="d-inline-flex">
+            <div class="d-inline-flex js-stop-propagation">
                 <div class="js-popover-tooltip mt-2 mr-2" data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translate("LBL_AFTER_INVOICE_INFO_EDIT",'FCorectingInvoice')}">
                     <span class="fas fa-info-circle"></span></div>
                 <a href class="btn btn-primary mr-1" id="copyFromInvoice"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_FROM_INVOICE','FCorectingInvoice')}
