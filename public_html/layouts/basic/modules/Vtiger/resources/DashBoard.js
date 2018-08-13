@@ -20,9 +20,9 @@ $.Class("Vtiger_DashBoard_Js", {
 		var name = element.data('name');
 		var widgetId = element.data('id');
 		$(element).parent().remove();
-		// if ($('ul.widgetsList li').length < 1) {
-		// 	$('ul.widgetsList').prev('button').css('visibility', 'hidden');
-		// }
+		if ($('ul.widgetsList li').length < 1) {
+			$('ul.widgetsList').prev('button').addClass('d-none');
+		}
 		var widgetContainer = $('<div><div id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open" class="grid-stack-item-content dashboardWidget new"></div></div>');
 		widgetContainer.find('.dashboardWidget').data('url', url);
 		var width = element.data('width');
@@ -181,7 +181,7 @@ $.Class("Vtiger_DashBoard_Js", {
 						});
 						if ($.inArray(widgetName, nonReversableWidgets) == -1) {
 							Vtiger_DashBoard_Js.grid.removeWidget(element.closest('.grid-stack-item'));
-							$('.widgetsList').prev('button').css('visibility', 'visible');
+							$('.widgetsList').prev('button').removeClass('d-none');
 							let data = `<li class="dropdown-item d-flex flex-row-reverse align-items-center justify-content-between">`;
 							if (response.result.deleteFromList) {
 								data += `<button data-widget-id="${response.result.id}" 
@@ -189,7 +189,7 @@ $.Class("Vtiger_DashBoard_Js", {
 										<span class="fas fa-trash-alt"></span>
 										</button>`;
 							}
-							data += `<a onclick="Vtiger_DashBoard_Js.addWidget(this, ${response.result.url})"
+							data += `<a onclick="Vtiger_DashBoard_Js.addWidget(this, '${response.result.url}')"
 										href="#"
 										class="pl-1"
 										data-linkid="${response.result.linkid}"
