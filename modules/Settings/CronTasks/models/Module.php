@@ -125,7 +125,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$result['duration'] = \App\Fields\Time::formatToHourText(\App\Fields\Time::secondsToDecimal($totalDiff), 'short', true);
 		}
-		$result['laststart'] = $lastCronStart === 0 ? ' - ' : \App\Fields\DateTime::formatToViewDate(date('Y-m-d H:i:s', $lastCronStart));
+		$result['laststart'] = empty($lastCronStart) ? ' - ' : \App\Fields\DateTime::formatToViewDate(date('Y-m-d H:i:s', $lastCronStart));
 		$result['finished_tasks'] = $finishedTasks;
 		$result['tasks'] = count($tasks);
 		return $result;
