@@ -163,45 +163,42 @@ $.Class("Vtiger_DashBoard_Js", {
 	removeWidget: function () {
 		const thisInstance = this;
 		this.getContainer().on('click', '.js-widget-remove', function (e) {
-			var element = $(e.currentTarget);
-			var listItem = $(element).parents('.grid-stack-item');
-			var width = listItem.attr('data-sizex');
-			var height = listItem.attr('data-sizey');
-			var url = element.data('url');
-			var parent = element.closest('.dashboardWidgetHeader').parent();
-			var widgetName = parent.data('name');
-			var widgetTitle = parent.find('.dashboardTitle').attr('title');
-			var message = app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET') + " [" + widgetTitle + "]. " + app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO');
+			let element = $(e.currentTarget),
+				listItem = $(element).parents('.grid-stack-item'),
+				width = listItem.attr('data-sizex'),
+				height = listItem.attr('data-sizey'),
+				url = element.data('url'),
+				parent = element.closest('.dashboardWidgetHeader').parent(),
+				widgetName = parent.data('name'),
+				widgetTitle = parent.find('.dashboardTitle').attr('title'),
+				message = app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET') + " [" + widgetTitle + "]. " + app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
 				AppConnector.request(url).done(function (response) {
 					if (response.success) {
-						var nonReversableWidgets = [];
+						let nonReversableWidgets = [];
 						parent.fadeOut('slow', function () {
 							parent.remove();
 						});
 						if ($.inArray(widgetName, nonReversableWidgets) == -1) {
 							Vtiger_DashBoard_Js.grid.removeWidget(element.closest('.grid-stack-item'));
 							$('.widgetsList').prev('button').css('visibility', 'visible');
-							var data = '<li class="d-flex flex-row-reverse align-items-center">';
+							let data = `<li class="d-flex flex-row-reverse align-items-center">`;
 							if (response.result.deleteFromList) {
-								data += '<button ';
-								data += 'data-widget-id="' + response.result.id + '" ';
-								data += 'class="removeWidgetFromList btn btn-danger btn-sm m-1 p-1" '
-								data += '>'
-								data += '<span class="fas fa-trash-alt"></span>';
-								data += '</button>';
+								data += `<button data-widget-id="${response.result.id}" 
+											class="removeWidgetFromList btn btn-danger btn-sm m-1 p-1">
+										<span class="fas fa-trash-alt"></span>
+										</button>`;
 							}
-							data += '<a onclick="Vtiger_DashBoard_Js.addWidget(this, \'' + response.result.url + '\')" ';
-							data += 'href="javascript:void(0);" ';
-							data += 'class="dropdown-item pl-1" ';
-							data += 'data-linkid="' + response.result.linkid + '" ';
-							data += 'data-name="' + response.result.name + '" ';
-							data += 'data-width="' + width + '" ';
-							data += 'data-height="' + height + '" ';
-							data += '>';
-							data += response.result.title + '</a>';
-							data += '</li>';
-							var divider = $('.widgetsList .dropdown-divider');
+							data += `<a onclick="Vtiger_DashBoard_Js.addWidget(this, ${response.result.url})"
+										href="javascript:void(0);"
+										class="dropdown-item pl-1"
+										data-linkid="${response.result.linkid}"
+										data-name="${response.result.name}"
+										data-width="${width}"
+										data-height="${height}">
+										${response.result.title}</a>
+									</li>`;
+							let divider = $('.widgetsList .dropdown-divider');
 							if (divider.length) {
 								$(data).insertBefore(divider);
 							} else {
