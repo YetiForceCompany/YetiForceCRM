@@ -23,7 +23,7 @@ $.Class("Vtiger_DashBoard_Js", {
 		if ($('ul.widgetsList li').length < 1) {
 			$('ul.widgetsList').prev('button').addClass('d-none');
 		}
-		var widgetContainer = $('<div><div id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open" class="grid-stack-item-content dashboardWidget new"></div></div>');
+		var widgetContainer = $('<div class="grid-stack-item js-css-element-queries" data-js="css-element-queries"><div id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open" class="grid-stack-item-content dashboardWidget new"></div></div>');
 		widgetContainer.find('.dashboardWidget').data('url', url);
 		var width = element.data('width');
 		var height = element.data('height');
@@ -165,8 +165,8 @@ $.Class("Vtiger_DashBoard_Js", {
 		this.getContainer().on('click', '.js-widget-remove', function (e) {
 			let element = $(e.currentTarget),
 				listItem = $(element).parents('.grid-stack-item'),
-				width = listItem.attr('data-sizex'),
-				height = listItem.attr('data-sizey'),
+				width = listItem.attr('data-gs-width'),
+				height = listItem.attr('data-gs-height'),
 				url = element.data('url'),
 				parent = element.closest('.dashboardWidgetHeader').parent(),
 				widgetName = parent.data('name'),
@@ -689,8 +689,10 @@ $.Class("Vtiger_DashBoard_Js", {
 					type: 'success',
 				};
 				Vtiger_Helper_Js.showMessage(params);
-				var parent = currentTarget.closest('.dashboardWidget');
-				$(parent).remove();
+				currentTarget.closest('.dropdown-item').remove();
+				if ($('ul.widgetsList li').length < 1) {
+					$('ul.widgetsList').prev('button').addClass('d-none');
+				}
 				thisInstance.updateLazyWidget();
 			});
 		});
