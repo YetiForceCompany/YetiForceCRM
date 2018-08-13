@@ -15,12 +15,14 @@
 				<tr>
 					<th>
 						<strong>{\App\Language::translate('LBL_MODULES', $MODULE)}</strong>
-						<div class="float-right sentNoticeAll">
+						<div class="d-flex align-items-center u-mt-2px float-right">
 							{if $CRON_ACTIVE && $IS_PERMITTED}
-								<span title="{\App\Language::translate('LBL_SELECT_ALL')}"
+								<span class="sentNoticeAll u-cursor-pointer d-flex">
+									<span title="{\App\Language::translate('LBL_SELECT_ALL')}"
 									  class="fas {if $IS_ALL_EMAIL_NOTICE}fa-envelope sandNoticeOn{else}fa-envelope-open sandNoticeOff{/if} fa-lg marginTB3 cursorPointer"></span>
+								</span>
 							{/if}
-							<span class="float-right marginIcon">
+							<span class="d-flex ml-1">
 												<input type="checkbox" {if $SELECT_ALL_MODULES} checked {/if}
 													   class="selectAllModules"
 													   title="{\App\Language::translate('LBL_SELECT_ALL')}"/>
@@ -35,19 +37,20 @@
 					<tr data-id="{$MODULE_ID}">
 						<td>
 							<strong>{\App\Language::translate($MODULE_INFO->getName(), $MODULE_INFO->getName())}</strong>
-							<span class="float-right marginIcon">
-												<input type="checkbox"
-													   {if in_array($MODULE_ID, $WATCHING_MODULES)}checked {/if}
-													   name="modules"
-													   class="watchingModule" {if $WATCHING_MODEL->isLock($MODULE_ID)}disabled{/if}
-													   value="{$MODULE_ID}"/>
-											</span>
-							{if $CRON_ACTIVE && $IS_PERMITTED}
-								<span class="sentNotice">
+							<div class="d-flex align-items-center u-mt-2px float-right">
+								{if $CRON_ACTIVE && $IS_PERMITTED}
+									<span class="sentNotice d-flex u-cursor-pointer">
 												<span title="{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $MODULE)}"
-													  class="fas {if in_array($MODULE_ID, $SCHEDULE_DATA.modules)}fa-envelope sandNoticeOn{else}fa-envelope-open sandNoticeOff{/if} fa-lg float-right marginTB3 cursorPointer"
+													  class="fas {if in_array($MODULE_ID, $SCHEDULE_DATA.modules)}fa-envelope sandNoticeOn{else}fa-envelope-open sandNoticeOff{/if} fa-lg cursorPointer"
 													  data-val=""></span></span>
-							{/if}
+								{/if}
+								<span class="d-flex ml-1">
+									<input type="checkbox" {if in_array($MODULE_ID, $WATCHING_MODULES)}checked {/if}
+										   name="modules"
+										   class="watchingModule" {if $WATCHING_MODEL->isLock($MODULE_ID)}disabled{/if}
+										   value="{$MODULE_ID}"/>
+								</span>
+							</div>
 						</td>
 					</tr>
 				{/foreach}

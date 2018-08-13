@@ -33,8 +33,8 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->getByType('viewname', 2);
-		$selectedIds = $request->getArray('selected_ids');
-		$excludedIds = $request->getArray('excluded_ids');
+		$selectedIds = $request->getArray('selected_ids', 2);
+		$excludedIds = $request->getArray('excluded_ids', 2);
 		$viewer = $this->getViewer($request);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -83,8 +83,8 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$sourceModule = $request->getModule();
 		$moduleName = 'ModComments';
 		$cvId = $request->getByType('viewname', 2);
-		$selectedIds = $request->getArray('selected_ids');
-		$excludedIds = $request->getArray('excluded_ids');
+		$selectedIds = $request->getArray('selected_ids', 2);
+		$excludedIds = $request->getArray('excluded_ids', 2);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -116,8 +116,8 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	{
 		$sourceModule = $request->getModule();
 		$moduleName = 'SMSNotifier';
-		$selectedIds = $request->getArray('selected_ids');
-		$excludedIds = $request->getArray('excluded_ids');
+		$selectedIds = $request->getArray('selected_ids', 2);
+		$excludedIds = $request->getArray('excluded_ids', 2);
 		$cvId = $request->getByType('viewname', 2);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();

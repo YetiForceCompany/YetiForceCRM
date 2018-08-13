@@ -16,9 +16,9 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
+					<form class="validateForm u-word-break" method="post" action="javascript:;">
 						<div class="modal-body">
 							<div class="container-fluid pt-3">
-								<form class="validateForm u-word-break" method="post" action="javascript:;">
 									<input type="hidden" name="module" value="{$MODULE}"/>
 									<input type="hidden" name="action" value="MassSave"/>
 									<input type="hidden" id="widgetStep" value=""/>
@@ -36,8 +36,7 @@
 											</select>
 										</div>
 									</div>
-									<div class="step1">
-										<div class="form-group row">
+									<div class="step1 form-group row">
 											<div class="{$COL_LBL}"><label><span class="redColor">*</span>{\App\Language::translate('LBL_SELECT_MODULE')}</label></div>
 											<div class="{$COL_CTRL}">
 												<select class="form-control" name="module">
@@ -47,14 +46,13 @@
 													{/foreach}
 												</select>
 											</div>
-										</div>
 									</div>
 									<div class="step2"></div>
 									<div class="step3"></div>
-								</form>
 							</div>
 						</div>
 						{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
+					</form>
 				</div>
 			</div>
 		</div>
