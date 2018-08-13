@@ -61,6 +61,7 @@
 						{/foreach}
 					</optgroup>
 				{/foreach}
+				{if empty($EVENT_RECORD_STRUCTURE)} {assign var="EVENT_RECORD_STRUCTURE" value=[]} {/if}
 				{* Required to display event fields also while adding conditions *}
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
 					<optgroup label='{\App\Language::translate($BLOCK_LABEL, 'Events')}'>
@@ -110,7 +111,11 @@
 				{if empty($FIELD_TYPE)}
 					{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
 				{/if}
-				{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
+				{if !empty($ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE])}
+					{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
+				{else}
+					{assign var=ADVANCE_FILTER_OPTIONS value=[]}
+				{/if}
 				{if in_array($SELECTED_FIELD_MODEL->getFieldType(),['D','DT'])}
 					{assign var=DATE_FILTER_CONDITIONS value=array_keys($DATE_FILTERS)}
 					{assign var=ADVANCE_FILTER_OPTIONS value=array_merge($ADVANCE_FILTER_OPTIONS,$DATE_FILTER_CONDITIONS)}
