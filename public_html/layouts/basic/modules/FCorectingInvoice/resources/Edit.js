@@ -4,15 +4,18 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 
 	/**
 	 * Load correcting invoice data to before block
+	 * @param {int} recordId
 	 */
-	loadInvoiceData(container) {
-		const invoiceidInput = container.find('[name="finvoiceid"]');
-		if (invoiceidInput.length && invoiceidInput.val()) {
+	loadInvoiceData(recordId = false) {
+		if (!recordId) {
+			recordId = this.getForm().find('input[name="finvoiceid"]').val();
+		}
+		if (recordId) {
 			const form = this.getForm();
 			const progressLoader = $.progressIndicator({'blockInfo': {'enabled': true}});
 			AppConnector.request({
 				module: 'FInvoice',
-				record: invoiceidInput.val(),
+				record: recordId,
 				mode: 'showInventoryDetails',
 				view: 'Detail'
 			}).done((response) => {
@@ -24,24 +27,29 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 		}
 	},
 	/**
-	 * setReferenceFieldValue override - action when correcting invoice is selected
-	 * @param {jQuery} container
-	 * @param {} params
+	 * register setReferenceFieldValue event
 	 */
-	setReferenceFieldValue(container, params) {
-		this._super(container, params);
-		this.loadInvoiceData(container);
+	registerSetReferenceFieldValue() {
+		app.event.on("EditView.SelectReference", (e, params) => {
+			if (params.source_module === 'FInvoice') {
+				this.loadInvoiceData(params.record);
+			}
+		});
+
 	},
 	/**
 	 * clearFieldValue override - action when correcting invoice is cleared
-	 * @param element
 	 */
-	clearFieldValue(element) {
-		this._super(element);
-		const invoiceidInput = element.closest('.fieldValue').find('[name="finvoiceid"]');
-		if (invoiceidInput.length) {
-			element.closest('form').find('#beforeInventory').html('<div class="text-center">' + app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE') + '</div>');
-		}
+	registerClearFieldValue() {
+		const form = this.getForm();
+		app.event.on("EditView.ClearField", (e, params) => {
+			if (params.fieldName === 'finvoiceid') {
+				const invoiceidInput = form.find('[name="finvoiceid"]');
+				if (invoiceidInput.length) {
+					form.find('#beforeInventory').html('<div class="text-center">' + app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE') + '</div>');
+				}
+			}
+		});
 	},
 	/**
 	 * Action for copy from correcting invoice button - load data before positions to position in data after block
@@ -116,7 +124,9 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 		this._super();
 		this.registerPopoverClick();
 		this.registerCopyFromInvoice();
-		this.loadInvoiceData(this.getForm());
+		this.registerSetReferenceFieldValue();
+		this.registerClearFieldValue();
+		this.loadInvoiceData();
 	}
 
 });
