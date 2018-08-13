@@ -3,7 +3,7 @@
  * Calendar export model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_rfc2445.php');
 Vtiger_Loader::includeOnce('~vendor/yetiforce/icalendar/iCalendar_components.php');
@@ -34,7 +34,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 			$listInstance->set('search_key', $searchKey);
 			$listInstance->set('search_value', $searchValue);
 		}
-		$searchParams = $request->getArray('search_params', 2);
+		$searchParams = $request->getArray('search_params', 'Text');
 		if (!empty($searchParams) && is_array($searchParams)) {
 			$transformedSearchParams = $listInstance->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$listInstance->set('search_params', $transformedSearchParams);
