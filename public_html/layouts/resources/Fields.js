@@ -489,6 +489,7 @@ App.Fields = {
 			}
 			params.language = {};
 			params.theme = "bootstrap";
+			params.allowClear = true;
 			const width = $(selectElement).data('width');
 			if (typeof width !== "undefined") {
 				params.width = width;
@@ -645,7 +646,7 @@ App.Fields = {
 					htmlParams = htmlParams.split('; ');
 					htmlParams = htmlParams.reduce((o, key) => ({
 						...o,
-						[key.split(', ')[0]]: key.split(', ')[1] != false || key.split(', ')[1] != true ? key.split(', ')[1] : JSON.parse(key.split(', ')[1])
+						[key.split(', ')[0]]: key.split(', ')[1] === 'false' || key.split(', ')[1] === 'true' ? JSON.parse(key.split(', ')[1]) : key.split(', ')[1]
 					}), {});
 					params = $.extend(params, htmlParams);
 				}
