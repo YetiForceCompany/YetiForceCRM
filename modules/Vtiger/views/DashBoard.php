@@ -144,6 +144,8 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			'~libraries/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js',
 			'~libraries/gridstack/dist/gridstack.js',
 			'~libraries/gridstack/dist/gridstack.jQueryUI.js',
+			'~libraries/css-element-queries/src/ResizeSensor.js',
+			'~libraries/css-element-queries/src/ElementQueries.js',
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/hammerjs/hammer.js',
 			'~libraries/chartjs-plugin-funnel/dist/chart.funnel.js',

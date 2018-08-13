@@ -58,9 +58,9 @@
 			{if $LINK->get('linkicon') neq ''}
 				<span class="{$LINK->get('linkicon')} {if $LINK->get('linkimg') neq '' || $LINK->get('linkicon') neq '' && $LINK->get('showLabel') neq null}mr-1{/if}" {if $LABEL neq 'LBL_ADD_RECORD'} title="{\App\Language::translate($LABEL, $BTN_MODULE)}" {/if}></span>
 			{/if}
-			{if $LABEL neq '' && $CLASS == 'c-btn-link--responsive'}
+			{if !empty($LABEL) && !empty($CLASS) && $CLASS == 'c-btn-link--responsive'}
 				<span class="d-{$BREAKPOINT}-none ml-1">{\App\Language::translate($LABEL, $BTN_MODULE)}</span>
-			{elseif $LABEL neq '' && $LINK->get('showLabel') == 1}
+			{elseif !empty($LABEL) && $LINK->get('showLabel') == 1}
 				{\App\Language::translate($LABEL, $BTN_MODULE)}
 			{/if}
 			{if $LINK->get('linkhref')}</a>{else}</button>{/if}

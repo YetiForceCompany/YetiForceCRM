@@ -29,7 +29,7 @@
 			<input type="hidden" name="merge_fields" value='{$MERGE_FIELDS}' />
 			<input type="hidden" id="mandatory_fields" name="mandatory_fields" value='{$ENCODED_MANDATORY_FIELDS}' />
 			<table  class="searchUIBasic col-12 no-margin paddingLRZero">
-				{if $ERROR_MESSAGE neq ''}
+				{if !empty($ERROR_MESSAGE)}
 					<tr>
 						<td class="style1" align="left" colspan="2">
 							{$ERROR_MESSAGE}

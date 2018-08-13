@@ -12,9 +12,10 @@
     "semicolon": "\u015brednik",
     "comma": "przecinek",
     "ISO-8859-1": "ISO-8859-1",
-    "Merge": "Po\u0142\u0105cz",
-    "Overwrite": "Nadpisz",
+    "Merge": "Po\u0142\u0105cz (nie nadpisuj pustymi warto\u015Bciami z pliku, aktualizuj obecne warto\u015Bci)",
+    "Overwrite": "Nadpisz (zapisz tak\u017Ce puste warto\u015Bci z pliku, je\u017Celi pole nie jest wymagane)",
     "Skip": "Pomi\u0144",
+    "LBL_FILL_EMPTY": "Uzupe\u0142nij (aktualizuj tylko puste pola w rekordzie, nie zmieniaj obecnych warto\u015Bci)",
     "LBL_IMPORT_STEP_1": "Krok 1",
     "LBL_IMPORT_STEP_1_DESCRIPTION": "Zaznacz plik",
     "LBL_IMPORT_SUPPORTED_FILE_TYPES": "\tWspierane pliki",
@@ -75,6 +76,7 @@
     "LBL_DETAILS": "Szczeg\u00f3\u0142y",
     "skipped": "Pomini\u0119te rekordy",
     "failed": "Niepoprawne rekordy",
-    "LBL_SELECT_FILE": "Wybierz plik do zaimportowania"
+    "LBL_SELECT_FILE": "Wybierz plik do zaimportowania",
+    "LBL_MERGE_TYPE_INFO": "Pomi\u0144: pomija istniej\u0105ce ju\u017C rekordy - nie aktualizuje ich.\n\nNadpisz: nadpisuje istniej\u0105cy rekord danymi z pliku lub uzupe\u0142nia domy\u015Blnymi warto\u015Bciami je\u017Celi wymagane warto\u015Bci w rekordzie i w pliku s\u0105 puste. Nadpisuje warto\u015Bci w rekordzie pustymi warto\u015Bciami z pliku gdy nie s\u0105 one oznaczone jako wymagane.\n\nPo\u0142\u0105cz: nadpisuje warto\u015Bci rekordu warto\u015Bciami z pliku, je\u017Celi warto\u015Bci z pliku nie s\u0105 puste (je\u017Celi s\u0105 zachowuje obecne w rekordzie - nie czy\u015Bci pola).\n\nUzupe\u0142nij: aktualizuje tylko puste pola w rekordzie. Nie nadpisuje warto\u015Bci z pliku, je\u017Celi w rekordzie jest jaka\u015B warto\u015B\u0107."
   }
 }

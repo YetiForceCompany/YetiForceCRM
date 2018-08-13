@@ -77,15 +77,18 @@
 }
 
 .u-font-size-44px {
-	font-size: 44px;
+	font-size: calculate-rem(44px);
 }
 //--- MARGIN ---//
+.u-m-5px{
+	margin: 5px;
+}
 .u-ml-0 {
 	margin-left: 0 !important;
 }
 
 .u-ml-10px {
-	margin-left: 10px;
+	margin-left: calculate-rem(10px);
 }
 
 .u-mr-0px {
@@ -97,7 +100,11 @@
 }
 
 .u-mr-5px {
-	margin-right: 5px;
+	margin-right: calculate-rem(5px);
+}
+
+.u-mt-2px {
+	margin-top: calculate-rem(2px);
 }
 
 .u-paragraph-m-0 {
@@ -111,7 +118,7 @@
 }
 
 .u-ml-minus-5px {
-	margin-left: -5px;
+	margin-left: calculate-rem(-5px);
 }
 
 //--- PADDING ---//

@@ -38,7 +38,7 @@
 										{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 										<optgroup label="{\App\Language::translate('LBL_USERS')}">
 											{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-												<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {/if}
+												<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if !empty($FIELD_VALUE) && $FIELD_VALUE eq $OWNER_ID} selected {/if}
 														data-userId="{$CURRENT_USER_ID}">
 													{$OWNER_NAME}
 												</option>
