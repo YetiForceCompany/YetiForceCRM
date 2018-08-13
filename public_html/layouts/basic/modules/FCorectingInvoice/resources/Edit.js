@@ -57,7 +57,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 	registerCopyFromInvoice() {
 		const form = this.getForm();
 		this.activeModules = activeModules = [];
-		form.find('.addItem').each((index, addBtn) => {
+		form.find('.js-add-item').each((index, addBtn) => {
 			this.activeModules.push($(addBtn).data('module'));
 		});
 		form.find('#copyFromInvoice').on('click', function (e) {

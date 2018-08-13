@@ -88,7 +88,7 @@
 												<button type="button" data-module="{$MAIN_MODULE}"
                                                         data-field="{$CRMENTITY->table_index}"
                                                         data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}"
-                                                        class="btn btn-light addItem border mb-1 mb-lg-0">
+                                                        class="btn btn-light js-add-item border mb-1 mb-lg-0" data-js="click">
 													<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD',$MODULE)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
 												</button>
 											</span>
