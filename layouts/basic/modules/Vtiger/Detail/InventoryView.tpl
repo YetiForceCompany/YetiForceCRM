@@ -47,7 +47,7 @@
                 {/foreach}
             </tr>
             </thead>
-            <tbody>
+            <tbody class="js-inventory-items-body" data-js="container">
             {foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
                 {assign var="ROW_NO" value=$KEY+1}
                 {if $INVENTORY_ROW['name']}

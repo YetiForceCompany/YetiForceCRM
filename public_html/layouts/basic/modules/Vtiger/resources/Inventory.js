@@ -2,6 +2,7 @@
 'use strict';
 
 $.Class("Vtiger_Inventory_Js", {}, {
+	form: false,
 	inventoryContainer: false,
 	inventoryHeadContainer: false,
 	summaryTaxesContainer: false,
@@ -10,6 +11,13 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	rowClass: 'tr.inventoryRow',
 	discountModalFields: ['aggregationType', 'globalDiscount', 'groupCheckbox', 'groupDiscount', 'individualDiscount', 'individualDiscountType'],
 	taxModalFields: ['aggregationType', 'globalTax', 'groupCheckbox', 'groupTax', 'individualTax'],
+	/**
+	 * Get current form element
+	 * @returns {jQuery}
+	 */
+	getForm() {
+		return this.form;
+	},
 	/**
 	 * Function that is used to get the line item container
 	 * @return : jQuery object
@@ -82,7 +90,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	 * @return jQuery object which you can use to
 	 */
 	getBasicRow: function () {
-		return $('#blackIthemTable').find('tbody').clone(true, true);
+		return this.getForm().find('.js-inventory-base-item').eq(0).clone(true, true);
 	},
 	isRecordSelected: function (element) {
 		var parentRow = element.closest('tr');
@@ -1192,10 +1200,11 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	addItem(module, baseTableId, rowData = false) {
 		const items = this.getInventoryItemsContainer();
 		let newRow = this.getBasicRow();
+		console.log(newRow);
 		const sequenceNumber = this.getNextLineItemRowNumber();
 		const replaced = newRow.html().replace(/_NUM_/g, sequenceNumber);
 		newRow.html(replaced);
-		newRow = newRow.find('tr').appendTo(items.find('tbody'));
+		newRow = newRow.find('.inventoryRow').appendTo(items.find('.js-inventory-items-body'));
 		newRow.find('.rowName input[name="popupReferenceModule"]').val(module).data('field', baseTableId);
 		newRow.find('.colPicklistField select').each(function (index, select) {
 			select = $(select);
@@ -1574,6 +1583,7 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	 * Function which will register all the events
 	 */
 	registerEvents: function (container) {
+		this.form = container;
 		this.registerInventorySaveData(container);
 		this.registerAddItem(container);
 		this.initItem();
