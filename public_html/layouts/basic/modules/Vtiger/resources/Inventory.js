@@ -287,17 +287,11 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	 * Set inventory id
 	 * @param {jQuery} row
 	 * @param {int} val
+	 * @param {string} display
 	 */
-	setName(row, val) {
-		row.find('.input-name').val(val).trigger('change');
-	},
-	/**
-	 * Set inventory name display value
-	 * @param {jQuery} row
-	 * @param {string} val
-	 */
-	setNameDisplay(row, val) {
-		row.find('.input-name_display').val(val).attr('readonly', 'true').trigger('change');
+	setName(row, val, display) {
+		row.find('.js-name').val(val).trigger('change');
+		row.find('.js-name_display').val(display).attr('readonly', 'true').trigger('change');
 	},
 	/**
 	 * Set inventory row quantity
@@ -308,36 +302,24 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		row.find('.qty').val(val).trigger('change');
 	},
 	/**
-	 * Set unit text to display (translated)
-	 * @param {jQuery} row
-	 * @param {string} val
-	 */
-	setUnitText(row, val) {
-		row.find('.unitText').text(val).trigger('change');
-	},
-	/**
 	 * Set unit original (db) value
 	 * @param {jQuery} row
 	 * @param {string} val
+	 * @param {string} display
 	 */
-	setUnit(row, val) {
+	setUnit(row, val, display) {
 		row.find('.unit').val(val).trigger('change');
+		row.find('.unitText').text(display).trigger('change');
 	},
 	/**
 	 * Set subUnit original (db) value
 	 * @param {jQuery} row
 	 * @param {string} val
+	 * @param {string} display
 	 */
-	setSubUnit(row, val) {
+	setSubUnit(row, val, display) {
 		row.find('.subunit').val(val);
-	},
-	/**
-	 * Set subUnit text - display value (translated)
-	 * @param row
-	 * @param val
-	 */
-	setSubUnitText(row, val) {
-		row.find('.subunitText').val(val);
+		row.find('.subunitText').val(display);
 	},
 	/**
 	 * Set inventory row comment
@@ -1172,14 +1154,11 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	 * @param {object} rowData
 	 */
 	setRowData(row, rowData) {
-		this.setName(row, rowData.name);
-		this.setNameDisplay(row, rowData.info.name);
+		this.setName(row, rowData.name, rowData.info.name);
 		this.setQuantity(row, rowData.qty);
-		this.setUnitText(row, rowData.info.autoFields.unitText);
-		this.setUnit(row, rowData.info.autoFields.unit);
+		this.setUnit(row, rowData.info.autoFields.unit, rowData.info.autoFields.unitText);
 		if (typeof rowData.info.autoFields !== 'undefined' && typeof rowData.info.autoFields.subunit !== 'undefined') {
-			this.setSubUnit(row, rowData.info.autoFields.subunit);
-			this.setSubUnitText(row, rowData.info.autoFields.subunitText);
+			this.setSubUnit(row, rowData.info.autoFields.subunit, rowData.info.autoFields.subunitText);
 		}
 		this.setComment(row, rowData.comment1);
 		this.setUnitPrice(row, rowData.price);

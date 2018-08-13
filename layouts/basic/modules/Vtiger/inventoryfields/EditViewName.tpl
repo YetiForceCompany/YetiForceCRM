@@ -9,7 +9,7 @@
                 <input name="popupReferenceModule" type="hidden" data-multi-reference="1"
                        data-field="{$CRMEntity->table_index}" value="{$REFERENCE_MODULE}"/>
                 <input name="{$FIELD_NAME}" type="hidden" value="{$ITEM_VALUE}" title="{$ITEM_VALUE}"
-                       class="sourceField input-{$FIELD->getColumnName()}" data-type="inventory" data-displayvalue='{$FIELD->getEditValue($ITEM_VALUE)}'
+                       class="sourceField js-{$FIELD->getColumnName()}" data-type="inventory" data-displayvalue='{$FIELD->getEditValue($ITEM_VALUE)}'
                        data-fieldinfo='{$FIELD_INFO}' data-columnname="{$FIELD->getColumnName()}"
                        {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if} />
                 {assign var="displayId" value=$ITEM_VALUE}
@@ -23,7 +23,7 @@
                 </div>
                 <input id="{$FIELD_NAME}_display" name="{$FIELD_NAME}_display" type="text"
                        title="{$FIELD->getEditValue($ITEM_VALUE)}"
-                       class="marginLeftZero form-control autoComplete recordLabel input-{$FIELD->getColumnName()}_display"
+                       class="marginLeftZero form-control autoComplete recordLabel js-{$FIELD->getColumnName()}_display"
                        {if !empty($ITEM_VALUE)}readonly="true"{/if}
                        value="{$FIELD->getEditValue($ITEM_VALUE)}"
                        data-validation-engine="validate[{if !$IS_OPTIONAL_ITEMS && $FIELD->isMandatory()} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
