@@ -16,21 +16,21 @@
 			<ul class="dropdown-menu widgetsList addWidgetDropDown">
 				{assign var="WIDGET" value=""}
 				{foreach from=$WIDGETS item=WIDGET}
-					<li class="dropdown-item">
-						<a class="pl-1"
-						   onclick="Vtiger_DashBoard_Js.addWidget(this, '{$WIDGET->getUrl()}')"
-						   href="javascript:void(0);"
-						   data-linkid="{$WIDGET->get('linkid')}" data-name="{$WIDGET->getName()}"
-						   data-width="{$WIDGET->getWidth()}" data-height="{$WIDGET->getHeight()}"
-						   data-id="{$WIDGET->get('widgetid')}">
-							{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}
-						</a>
+					<li class="dropdown-item d-flex flex-row-reverse align-items-center justify-content-between">
 						{if $WIDGET->get('deleteFromList')}
 							<button data-widget-id="{$WIDGET->get('widgetid')}"
 									class="removeWidgetFromList btn btn-danger btn-sm m-1 p-1">
 								<span class='fas fa-trash-alt'></span>
 							</button>
 						{/if}
+						<a class="pl-1"
+						   onclick="Vtiger_DashBoard_Js.addWidget(this, '{$WIDGET->getUrl()}')"
+						   href="#"
+						   data-linkid="{$WIDGET->get('linkid')}" data-name="{$WIDGET->getName()}"
+						   data-width="{$WIDGET->getWidth()}" data-height="{$WIDGET->getHeight()}"
+						   data-id="{$WIDGET->get('widgetid')}">
+							{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}
+						</a>
 					</li>
 				{/foreach}
 			</ul>
@@ -47,7 +47,7 @@
 			<ul class="dropdown-menu widgetsList addWidgetDropDown">
 				{assign var="WIDGET" value=""}
 				{foreach from=$WIDGETS item=WIDGET}
-					<li class="dropdown-item">
+					<li class="dropdown-item d-flex flex-row-reverse align-items-center justify-content-between">
 						{if $WIDGET->get('deleteFromList')}
 							<button data-widget-id="{$WIDGET->get('widgetid')}"
 									class="removeWidgetFromList btn btn-sm btn-danger">
@@ -55,7 +55,7 @@
 							</button>
 						{/if}
 						<a onclick="Vtiger_DashBoard_Js.addWidget(this, '{$WIDGET->getUrl()}')"
-						   href="javascript:void(0);"
+						   href="#"
 						   data-linkid="{$WIDGET->get('linkid')}" data-name="{$WIDGET->getName()}"
 						   data-width="{$WIDGET->getWidth()}" data-height="{$WIDGET->getHeight()}"
 						   data-id="{$WIDGET->get('widgetid')}">
