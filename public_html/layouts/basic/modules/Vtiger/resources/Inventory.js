@@ -1179,7 +1179,6 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	addItem(module, baseTableId, rowData = false) {
 		const items = this.getInventoryItemsContainer();
 		let newRow = this.getBasicRow();
-		console.log(newRow);
 		const sequenceNumber = this.getNextLineItemRowNumber();
 		const replaced = newRow.html().replace(/_NUM_/g, sequenceNumber);
 		newRow.html(replaced);
@@ -1557,6 +1556,59 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		App.Fields.Date.register(container, true, {}, 'dateFieldInv');
 		container.validationEngine('detach');
 		container.validationEngine(app.validationEngineOptions);
+	},
+	/**
+	 * Load inventory data for specified record
+	 * @param {int} recordId
+	 * @param {string} sourceModule
+	 * @param {function|bool} success callback
+	 * @param {function|bool} fail callback
+	 * @returns Promise
+	 */
+	loadInventoryData(recordId, sourceModule, success = false, fail = false) {
+		const progressLoader = $.progressIndicator({'blockInfo': {'enabled': true}});
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: sourceModule,
+				action: 'GetInventoryTableData',
+				record: recordId
+			}).done((response) => {
+				progressLoader.progressIndicator({mode: 'hide'});
+				const oldCurrencyChangeAction = this.currencyChangeActions;
+				this.currencyChangeActions = function changeCurrencyActions(select, option) {
+					this.currencyConvertValues(select, option);
+					select.data('oldValue', select.val());
+				};
+				const first = response.result[0];
+				this.setCurrencyParam(first.currencyparam);
+				this.setCurrency(first.currency);
+				this.setDiscountMode(first.discountmode);
+				this.setTaxMode(first.taxmode);
+				this.currencyChangeActions = oldCurrencyChangeAction;
+				response.result.forEach((row) => {
+					if (activeModules.indexOf(row.moduleName) !== -1) {
+						this.addItem(row.moduleName, row.basetableid, row);
+					} else {
+						Vtiger_Helper_Js.showMessage({
+							type: 'error',
+							text: app.vtranslate('JS_FCORECTINGINVOICE_ITEM_MODULE_NOT_FOUND').replace('${module}', row.moduleName).replace('${position}', row.info.name)
+						});
+					}
+				});
+				this.summaryCalculations();
+				resolve(response.result);
+				if (typeof success === 'function') {
+					success(response.result);
+				}
+			}).fail((error, err) => {
+				progressLoader.progressIndicator({mode: 'hide'});
+				reject(error, err);
+				if (typeof fail === 'function') {
+					fail(error, err);
+				}
+				console.log(error, err);
+			});
+		});
 	},
 	/**
 	 * Function which will register all the events

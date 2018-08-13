@@ -27,20 +27,14 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 		}
 	},
 	/**
-	 * register setReferenceFieldValue event
+	 * register reference fields events
 	 */
-	registerSetReferenceFieldValue() {
+	registerReferenceFieldsEvents() {
 		app.event.on("EditView.SelectReference", (e, params) => {
 			if (params.source_module === 'FInvoice') {
 				this.loadInvoiceData(params.record);
 			}
 		});
-
-	},
-	/**
-	 * clearFieldValue override - action when correcting invoice is cleared
-	 */
-	registerClearFieldValue() {
 		const form = this.getForm();
 		app.event.on("EditView.ClearField", (e, params) => {
 			if (params.fieldName === 'finvoiceid') {
@@ -74,38 +68,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 					text: app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE')
 				});
 			}
-			const progressLoader = $.progressIndicator({'blockInfo': {'enabled': true}});
-			AppConnector.request({
-				module: 'FCorectingInvoice',
-				action: 'GetInventoryTable',
-				record: finvoiceid
-			}).done((response) => {
-				progressLoader.progressIndicator({mode: 'hide'});
-				const oldCurrencyChangeAction = inventoryController.currencyChangeActions;
-				inventoryController.currencyChangeActions = function changeCurrencyActions(select, option) {
-					this.currencyConvertValues(select, option);
-					select.data('oldValue', select.val());
-				};
-				const first = response.result[0];
-				inventoryController.setCurrencyParam(first.currencyparam);
-				inventoryController.setCurrency(first.currency);
-				inventoryController.setDiscountMode(first.discountmode);
-				inventoryController.setTaxMode(first.taxmode);
-				inventoryController.currencyChangeActions = oldCurrencyChangeAction;
-				response.result.forEach((row) => {
-					if (activeModules.indexOf(row.moduleName) !== -1) {
-						inventoryController.addItem(row.moduleName, row.basetableid, row);
-					} else {
-						Vtiger_Helper_Js.showMessage({
-							type: 'error',
-							text: app.vtranslate('JS_FCORECTINGINVOICE_ITEM_MODULE_NOT_FOUND').replace('${module}', row.moduleName).replace('${position}', row.info.name)
-						});
-					}
-				});
-				inventoryController.summaryCalculations();
-			}).fail(() => {
-				progressLoader.progressIndicator({mode: 'hide'});
-			});
+			inventoryController.loadInventoryData(finvoiceid, 'FInvoice');
 		});
 	},
 	/**
@@ -114,8 +77,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 	registerEvents() {
 		this._super();
 		this.registerCopyFromInvoice();
-		this.registerSetReferenceFieldValue();
-		this.registerClearFieldValue();
+		this.registerReferenceFieldsEvents();
 		this.loadInvoiceData();
 	}
 

@@ -7,7 +7,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
-class FCorectingInvoice_GetInventoryTable_Action extends Vtiger_BasicAjax_Action
+class Vtiger_GetInventoryTableData_Action extends Vtiger_BasicAjax_Action
 {
 	/**
 	 * {@inheritdoc}
@@ -27,7 +27,7 @@ class FCorectingInvoice_GetInventoryTable_Action extends Vtiger_BasicAjax_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), 'FInvoice');
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		$data = $recordModel->getInventoryData();
 		foreach ($data as &$item) {
 			$item['info'] = (new Vtiger_Inventory_Action())->getRecordDetail($item['name'], $item['currency'], 'FInvoice', 'name')[$item['name']];
