@@ -20,8 +20,8 @@ $.Class("Vtiger_DashBoard_Js", {
 		var name = element.data('name');
 		var widgetId = element.data('id');
 		$(element).parent().remove();
-		if ($('ul.widgetsList li').length < 1) {
-			$('ul.widgetsList').prev('button').addClass('d-none');
+		if ($('.js-widget-list .js-widget-list__item').length < 1) {
+			$('.js-widget-list').prev('.js-widget-predefined').addClass('d-none');
 		}
 		var widgetContainer = $('<div class="grid-stack-item js-css-element-queries" data-js="css-element-queries"><div id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open" class="grid-stack-item-content dashboardWidget new"></div></div>');
 		widgetContainer.find('.dashboardWidget').data('url', url);
@@ -181,8 +181,8 @@ $.Class("Vtiger_DashBoard_Js", {
 						});
 						if ($.inArray(widgetName, nonReversableWidgets) == -1) {
 							Vtiger_DashBoard_Js.grid.removeWidget(element.closest('.grid-stack-item'));
-							$('.widgetsList').prev('button').removeClass('d-none');
-							let data = `<li class="dropdown-item d-flex flex-row-reverse align-items-center justify-content-between">`;
+							$('.js-widget-list').prev('.js-widget-predefined').removeClass('d-none');
+							let data = `<li class="js-widget-list__item dropdown-item d-flex flex-row-reverse align-items-center justify-content-between" data-js="remove">`;
 							if (response.result.deleteFromList) {
 								data += `<button data-widget-id="${response.result.id}" 
 											class="removeWidgetFromList btn btn-danger btn-sm m-1 p-1">
@@ -198,11 +198,11 @@ $.Class("Vtiger_DashBoard_Js", {
 										data-height="${height}">
 										${response.result.title}</a>
 									</li>`;
-							let divider = $('.widgetsList .dropdown-divider');
+							let divider = $('.js-widget-list .dropdown-divider');
 							if (divider.length) {
 								$(data).insertBefore(divider);
 							} else {
-								$('.widgetsList').append(data);
+								$('.js-widget-list').append(data);
 							}
 							thisInstance.updateLazyWidget();
 						}
@@ -690,8 +690,8 @@ $.Class("Vtiger_DashBoard_Js", {
 				};
 				Vtiger_Helper_Js.showMessage(params);
 				currentTarget.closest('.dropdown-item').remove();
-				if ($('ul.widgetsList li').length < 1) {
-					$('ul.widgetsList').prev('button').addClass('d-none');
+				if ($('ul.js-widget-list .js-widget-list__item').length < 1) {
+					$('ul.js-widget-list').prev('.js-widget-predefined').addClass('d-none');
 				}
 				thisInstance.updateLazyWidget();
 			});
