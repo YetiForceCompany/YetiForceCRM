@@ -448,7 +448,7 @@ $.Class("Vtiger_Edit_Js", {
 
 		fieldNameElement.val('');
 		fieldValueContener.find('#' + fieldName + '_display').removeAttr('readonly').val('');
-
+		app.event.trigger('EditView.ClearField', {fieldName: fieldName, referenceModule: referenceModule});
 		var mappingRelatedField = this.getMappingRelatedField(fieldName, referenceModule, formElement);
 		$.each(mappingRelatedField, function (key, value) {
 			var mapFieldElement = formElement.find('[name="' + key + '"]');
