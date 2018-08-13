@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	{if $ALL_ACTIVEGROUP_LIST || $ALL_ACTIVEUSER_LIST}
+	{if !empty($ALL_ACTIVEGROUP_LIST) || !empty($ALL_ACTIVEUSER_LIST)}
 		<div class="calendarUserList">
 			<div class="row no-margin">
 				<div class="col-12 marginTB10">
@@ -25,7 +25,7 @@
 			</div>
 		</div>
 	{/if}
-	{if $ALL_ACTIVETYPES_LIST}
+	{if !empty($ALL_ACTIVETYPES_LIST)}
 		<div class="calendarTypeList">
 			<div class="row no-margin">
 				<div class="col-12 marginTB10">
