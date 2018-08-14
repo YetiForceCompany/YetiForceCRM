@@ -4,9 +4,9 @@
  * Watching Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Watchdog_Model extends \App\Base
 {
@@ -109,7 +109,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 		if (empty($moduleId)) {
 			$moduleId = $this->get('moduleId');
 		}
-		return isset(static::$cache[$moduleId][$userId]) ? (bool) static::$cache[$moduleId][$userId] : false;
+		return isset(static::$cache[$moduleId][$userId]) ? (bool)static::$cache[$moduleId][$userId] : false;
 	}
 
 	/**
@@ -140,7 +140,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 		$userId = $this->get('userId');
 		$cacheName = $userId . '_' . $this->get('record');
 		if (\App\Cache::staticHas('isWatchingRecord', $cacheName)) {
-			return (bool) \App\Cache::staticGet('isWatchingRecord', $cacheName);
+			return (bool)\App\Cache::staticGet('isWatchingRecord', $cacheName);
 		}
 		$return = $this->isWatchingModule();
 		$state = (new \App\Db\Query())->select('state')->from('u_#__watchdog_record')->where(['userid' => $userId, 'record' => $this->get('record')])->scalar();
@@ -149,7 +149,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 			$this->set('isRecordExists', true);
 			$return = $state;
 		}
-		$return = (int) $return;
+		$return = (int)$return;
 		\App\Cache::staticSave('isWatchingRecord', $cacheName, $return);
 
 		return $return;
@@ -196,7 +196,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 		if ($ownerId === false) {
 			$ownerId = \App\User::getCurrentUserId();
 		}
-		$cacheName = $ownerId . '_' . (int) $isName;
+		$cacheName = $ownerId . '_' . (int)$isName;
 		if (\App\Cache::staticHas('getWatchingModulesSchedule', $cacheName)) {
 			return \App\Cache::staticGet('getWatchingModulesSchedule', $cacheName);
 		}
@@ -264,9 +264,9 @@ class Vtiger_Watchdog_Model extends \App\Base
 		$moduleId = $this->get('moduleId');
 		if ($state === 1) {
 			return $db->createCommand()->insert('u_#__watchdog_module', [
-					'member' => $member,
-					'module' => $moduleId,
-				])->execute();
+				'member' => $member,
+				'module' => $moduleId,
+			])->execute();
 		} else {
 			return $db->createCommand()->delete('u_#__watchdog_module', ['member' => $member, 'module' => $moduleId])->execute();
 		}
@@ -351,10 +351,10 @@ class Vtiger_Watchdog_Model extends \App\Base
 			if ($this->has('record')) {
 				$dataReader = (new App\Db\Query())->select(['userid', 'state'])
 					->from('u_#__watchdog_record')
-					->where(['record' => (int) $this->get('record')])
+					->where(['record' => (int)$this->get('record')])
 					->createCommand()->query();
 				while ($row = $dataReader->read()) {
-					if ($row['state'] === self::RECORD_ACTIVE) {
+					if ((int)$row['state'] === self::RECORD_ACTIVE) {
 						$users[$row['userid']] = $row['userid'];
 					} else {
 						unset($users[$row['userid']]);
@@ -387,7 +387,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 		$query = (new App\Db\Query())
 			->select(['member', 'lock', 'exceptions'])
 			->from('u_#__watchdog_module')
-			->where(['module' => (int) $this->get('moduleId')]);
+			->where(['module' => (int)$this->get('moduleId')]);
 		if ($getData) {
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
