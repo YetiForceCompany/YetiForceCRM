@@ -34,7 +34,7 @@
 								<option title="{\App\Language::translate($GROUP_CUSTOM_VIEWS->module->name)}"
 										data-module="{$GROUP_CUSTOM_VIEWS->module->name}"
 										value="{$GROUP_CUSTOM_VIEWS->get('cvid')}" {if $DATA['customFilter'] eq $GROUP_CUSTOM_VIEWS->get('cvid')} selected {/if}>
-									{\App\Language::translate($GROUP_CUSTOM_VIEWS->module->name)}
+									{\App\Language::translate($GROUP_CUSTOM_VIEWS->module->name,$GROUP_CUSTOM_VIEWS->module->name)}
 									&nbsp;-&nbsp;{\App\Language::translate($GROUP_CUSTOM_VIEWS->get('viewname'), $GROUP_CUSTOM_VIEWS->module->name)}
 								</option>
 							{/foreach}
