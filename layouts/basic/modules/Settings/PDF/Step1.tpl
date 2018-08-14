@@ -20,7 +20,7 @@
 						{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
-						<select class="chzn-select form-control" id="status" name="status" required="true">
+						<select class="select2 form-control" id="status" name="status" required="true">
 							<option value="1" {if $PDF_MODEL->get('status') eq 1} selected {/if}>
 								{\App\Language::translate('PLL_ACTIVE', $QUALIFIED_MODULE)}
 							</option>
@@ -67,7 +67,7 @@
 								class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
-						<select class="chzn-select form-control" id="moduleName" name="module_name" required="true"
+						<select class="select2 form-control" id="moduleName" name="module_name" required="true"
 								data-validation-engine='validate[required]'>
 							{foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
 								<option value="{$MODULE_MODEL->getName()}" {if $SELECTED_MODULE == $MODULE_MODEL->getName()} selected {/if}>
@@ -105,9 +105,15 @@
 						{\App\Language::translate('LBL_META_AUTHOR', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<select class="chzn-select form-control" id="meta_author" name="meta_author">
-							<option value=""
-									selected="">{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
+						<select class="select2 form-control" id="meta_author" name="meta_author"
+								data-placeholder="{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}"
+								data-select="allowClear, true">
+
+							<optgroup class="p-0">
+								<option value=""
+										selected="">{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
+							</optgroup>
+
 							<option value="PLL_COMPANY_NAME" {if $PDF_MODEL->get('meta_author') eq 'PLL_COMPANY_NAME'} selected {/if}>
 								{\App\Language::translate('PLL_COMPANY_NAME', $QUALIFIED_MODULE)}
 							</option>
@@ -122,9 +128,13 @@
 						{\App\Language::translate('LBL_META_CREATOR', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<select class="chzn-select form-control" id="meta_creator" name="meta_creator">
-							<option value=""
-									selected="">{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
+						<select class="select2 form-control" id="meta_creator" name="meta_creator"
+								data-placeholder="{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}"
+								data-select="allowClear, true">
+							<optgroup class="p-0">
+								<option value=""
+										selected="">{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
+							</optgroup>
 							<option value="PLL_COMPANY_NAME" {if $PDF_MODEL->get('meta_creator') eq 'PLL_COMPANY_NAME'} selected {/if}>
 								{\App\Language::translate('PLL_COMPANY_NAME', $QUALIFIED_MODULE)}
 							</option>
@@ -166,7 +176,7 @@
 					<span class="fas fa-caret-right mr-1"></span>
 					{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}
 				</button>
-				<button class="btn btn-warning cancelLink" type="reset">
+				<button class="btn btn-danger cancelLink" type="reset">
 					<span class="fas fa-times mr-1"></span>
 					{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
 				</button>

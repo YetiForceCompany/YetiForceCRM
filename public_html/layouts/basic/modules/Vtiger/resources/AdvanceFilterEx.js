@@ -46,7 +46,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 	addNewCondition: function (conditionGroupElement) {
 		var basicElement = jQuery('.basic', conditionGroupElement);
 		var newRowElement = basicElement.find('.js-conditions-row').clone(true, true);
-		jQuery('select', newRowElement).addClass('chzn-select');
+		jQuery('select', newRowElement).addClass('select2');
 		var conditionList = jQuery('.conditionList', conditionGroupElement);
 		conditionList.append(newRowElement);
 
@@ -236,7 +236,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 			var conditionRow = fieldValueElement.closest('.js-conditions-row');
 
 			var clonedPopupUi = conditionsContainer.find('.popupUi').clone(true, true).removeClass('popupUi').addClass('clonedPopupUi');
-			clonedPopupUi.find('select').addClass('chzn-select');
+			clonedPopupUi.find('select').addClass('select2');
 			clonedPopupUi.find('.fieldValue').val(fieldValue);
 			if (fieldValueElement.hasClass('date')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
@@ -573,7 +573,7 @@ Vtiger_Field_Js('Vtiger_Boolean_Field_Js', {}, {
 
 Vtiger_Owner_Field_Js('AdvanceFilterEx_Owner_Field_Js', {}, {
 	getUi: function () {
-		var html = '<select class="chzn-select" name="' + this.getName() + '">';
+		var html = '<select class="select2" name="' + this.getName() + '">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = this.getValue();
 		for (var optGroup in pickListValues) {
