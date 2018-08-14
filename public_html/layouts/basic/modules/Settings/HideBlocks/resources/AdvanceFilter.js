@@ -32,7 +32,7 @@ Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js', {}, {
 	addNewCondition: function (conditionGroupElement) {
 		var basicElement = jQuery('.basic', conditionGroupElement);
 		var newRowElement = basicElement.find('.js-conditions-row').clone(true, true);
-		jQuery('select', newRowElement).addClass('chzn-select');
+		jQuery('select', newRowElement).addClass('select2');
 		var conditionList = jQuery('.conditionList', conditionGroupElement);
 		conditionList.append(newRowElement);
 

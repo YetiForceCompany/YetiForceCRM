@@ -39,10 +39,9 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js', {}, {
 	addNewCondition: function (conditionGroupElement) {
 		var basicElement = jQuery('.basic', conditionGroupElement);
 		var newRowElement = basicElement.find('.js-conditions-row').clone(true, true);
-		jQuery('select', newRowElement).addClass('chzn-select');
+		jQuery('select', newRowElement).addClass('select2');
 		var conditionList = jQuery('.conditionList', conditionGroupElement);
 		conditionList.append(newRowElement);
-
 		//change in to chosen elements
 		App.Fields.Picklist.changeSelectElementView(newRowElement);
 		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected', 'selected').trigger('chosen:updated').trigger('change');
