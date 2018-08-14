@@ -67,7 +67,7 @@
 					<tr>
 						<th class="text-center u-w-1per-45px"></th>
 						{foreach item=FIELD from=$FIELDS[1]}
-							<th class="col{$FIELD->getName()} {if !$FIELD->isEditable()} d-none{/if} text-center text-nowrap {if $FIELD->getName()=='Name'}u-w-3per-150px{/if}">
+							<th class="col{$FIELD->getName()} {if !$FIELD->isEditable()} d-none{/if} text-center text-nowrap {if $FIELD->getName()=='Name'}u-w-3per-250px{/if}">
 								{\App\Language::translate($FIELD->get('label'), $MODULE)}
 							</th>
 						{/foreach}
