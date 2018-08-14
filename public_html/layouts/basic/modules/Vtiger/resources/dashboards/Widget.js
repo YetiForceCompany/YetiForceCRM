@@ -1270,10 +1270,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 			return;
 		}
 		content.css('height', adjustedHeight + 'px');
-		content.css('max-height',adjustedHeight+'px');
+		content.css('max-height', adjustedHeight + 'px');
 		if (typeof this.scrollbar !== 'undefined') {
 			this.scrollbar.update();
-		}else {
+		} else {
 			this.scrollbar = app.showNewScrollbar(content, {
 				wheelPropagation: true
 			});
@@ -2786,5 +2786,125 @@ YetiForce_Widget_Js('YetiForce_ChartFilter_Widget_Js', {}, {
 			}
 		}
 		this.registerRecordsCount();
+	},
+});
+YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
+	multifilterControlsView: false,
+	multifilterContentView: false,
+	registerMultifilter: function () {
+		let thisInstance = this;
+		let selectValue = app.cacheGet('multifilterSelectValue', null);
+		if (null != selectValue) {
+			this.getMultifilterControls().find('select').val(selectValue);
+		}
+		this.getMultifilterControls().find('select').select2({
+			height: "30px",
+			templateSelection: function (item) {
+				return item.text;
+			}
+		});
+		thisInstance.loadMultifilterData(true);
+		this.getMultifilterControls().find('[name="customMultiFilter"]').on('select2:select', function () {
+			thisInstance.loadMultifilterData(true);
+			app.cacheSet('multifilterSelectValue', thisInstance.getMultifilterControls().find('[name="customMultiFilter"]').val());
+		});
+		this.getMultifilterControls().find('[name="customMultiFilter"]').on('select2:unselect', function () {
+			thisInstance.loadMultifilterData(false);
+			app.cacheSet('multifilterSelectValue', thisInstance.getMultifilterControls().find('[name="customMultiFilter"]').val());
+		});
+	},
+	loadMultifilterData: function (select = true) {
+		let thisInstance = this;
+		let widgetId = thisInstance.getMultifilterControls().attr('data-widgetid');
+		let multifilterIds = thisInstance.getMultifilterControls().find('[name="customMultiFilter"] option:selected');
+		let params = [];
+		multifilterIds.each(function () {
+			let existFilter = thisInstance.getMultifilterContent().find('[data-id="' + $(this).val() + '"]');
+			if (select) {
+				if (0 < existFilter.length) {
+					return true;
+				}
+			} else {
+				thisInstance.getMultifilterContent().html('');
+			}
+			params = {
+				module: $(this).data('module'),
+				modulename: $(this).data('module'),
+				view: 'ShowWidget',
+				name: 'Multifilter',
+				content: true,
+				widget: true,
+				widgetid: widgetId,
+				filterid: $(this).val()
+			};
+			thisInstance.loadListData(params);
+		});
+	},
+	loadListData: function (params) {
+		let thisInstance = this;
+		let aDeferred = jQuery.Deferred();
+		AppConnector.request(params).then(
+			function (data) {
+				let addedContent = thisInstance.getMultifilterContent().append(data).children("div:last-child");
+				thisInstance.registerShowHideBlocks();
+				thisInstance.registerRecordsCount(addedContent);
+				aDeferred.resolve();
+			},
+			function () {
+				aDeferred.reject();
+			}
+		);
+		return aDeferred.promise();
+	},
+	registerShowHideBlocks: function () {
+		let detailContentsHolder = this.getMultifilterContent();
+		detailContentsHolder.find('.blockHeader').off("click");
+		detailContentsHolder.find('.blockHeader').click(function () {
+			let currentTarget = $(this).find('.js-block-toggle').not('.d-none');
+			let closestBlock = currentTarget.closest('.js-toggle-panel');
+			let bodyContents = closestBlock.find('.blockContent');
+			let data = currentTarget.data();
+			let hideHandler = function () {
+				bodyContents.addClass('d-none');
+			};
+			let showHandler = function () {
+				bodyContents.removeClass('d-none');
+			};
+			if ('show' == data.mode) {
+				hideHandler();
+				currentTarget.addClass('d-none');
+				closestBlock.find('[data-mode="hide"]').removeClass('d-none');
+			} else {
+				showHandler();
+				currentTarget.addClass('d-none');
+				closestBlock.find("[data-mode='show']").removeClass('d-none');
+			}
+		});
+	},
+	registerRecordsCount: function (container) {
+		let url = container.data('url');
+		AppConnector.request(url).then(function (response) {
+			container.find('.js-count').html(response.result.totalCount);
+		});
+	},
+	getMultifilterControls: function () {
+		if (this.multifilterControlsView == false) {
+			this.multifilterControlsView = this.getContainer().find('.js-multifilterControls');
+		}
+		return this.multifilterControlsView;
+	},
+	getMultifilterContent: function () {
+		if (this.multifilterContentView == false) {
+			this.multifilterContentView = this.getContainer().find('.js-multifilterContent');
+		}
+		return this.multifilterContentView;
+	},
+	postLoadWidget: function () {
+		console.log('Test | 2911');
+		this.registerMultifilter();
+	},
+	refreshWidget: function () {
+		let thisInstance = this;
+		thisInstance.loadMultifilterData(false);
 	},
 });
