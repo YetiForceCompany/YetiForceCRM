@@ -12,7 +12,7 @@
 					  alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"
 					  data-id="{$TYPE_VIEW}_{$RELATED_MODULE_NAME}"></span>
 				<h5>
-					{\App\Language::translate($MODULE_NAME)}
+					{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}
 					&nbsp;-&nbsp;{\App\Language::translate($CUSTOM_VIEW_NAME,$MODULE_NAME)}
 				</h5>
 				<a class="position-absolute u-position-r-10px u-position-t-10px"
