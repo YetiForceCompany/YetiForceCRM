@@ -16,14 +16,6 @@
 			<div class="widget_header row mb-3">
 				<div class="col-12 d-flex">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-					{if isset($SELECTED_PAGE)}
-						<a class="js-popover-tooltip my-auto ml-1 ml-lg-2" role="button" data-js="popover"
-						   data-content="{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}"
-						   href="#" data-trigger="focus hover">
-							<span class="fas fa-info-circle"></span>
-							<span class="sr-only">{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}</span>
-						</a>
-					{/if}
 				</div>
 			</div>
 			<div class="form-group row">
@@ -87,9 +79,12 @@
 									<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
 										{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
 											{if $MEMBER->getName() neq $RECORD_MODEL->getName()}
+												{assign var="MEMBER_ID" value=$MEMBER->getId()}
 												<option class="{$GROUP_LABEL}" value="{$MEMBER->getId()}"
 														data-member-type="{$GROUP_LABEL}"
-														{if isset($GROUP_MEMBERS[$GROUP_LABEL][$MEMBER->getId()])}selected="true"{/if}>{\App\Language::translate($MEMBER->getName(), $QUALIFIED_MODULE)}</option>
+														{if isset($GROUP_MEMBERS[$GROUP_LABEL][$MEMBER_ID])}selected="true"{/if}>
+													{\App\Language::translate($MEMBER->getName(), $QUALIFIED_MODULE)}
+												</option>
 											{/if}
 										{/foreach}
 									</optgroup>

@@ -11567,6 +11567,10 @@ select[readonly], select[disabled] {
 .u-w-3per-150px {
   width: 3%;
   min-width: 150px !important; }
+  
+.u-w-3per-250px {
+  width: 3%;
+  min-width: 250px !important; }
 
 .u-w-85px {
   width: 85px; }
