@@ -86,7 +86,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 	/**
 	 * Function to get the list view entries.
 	 *
-	 * @param Vtiger_Paging_Model $pagingModel, $status (Active or Inactive User). Default false
+	 * @param Vtiger_Paging_Model $pagingModel , $status (Active or Inactive User). Default false
 	 *
 	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance
 	 */
@@ -100,7 +100,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		$fields[] = 'authy_secret_totp';
 		$queryGenerator->setFields($fields);
 		$searchParams = $this->getArray('search_params', 2);
-		if (empty($searchParams)) {
+		if (empty($searchParams) || !is_array($searchParams)) {
 			$searchParams = [];
 		} else {
 			foreach ($searchParams as &$params) {
