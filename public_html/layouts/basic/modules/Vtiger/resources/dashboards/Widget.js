@@ -2792,40 +2792,41 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 	multifilterControlsView: false,
 	multifilterContentView: false,
 	registerMultifilter: function () {
-		let thisInstance = this;
-		let selectValue = app.cacheGet('multifilterSelectValue', null);
+		let self = this,
+			selectValue = app.cacheGet('multifilterSelectValue', null);
 		if (null != selectValue) {
 			this.getMultifilterControls().find('select').val(selectValue);
 		}
+
 		this.getMultifilterControls().find('select').select2({
 			height: "30px",
 			templateSelection: function (item) {
 				return item.text;
 			}
 		});
-		thisInstance.loadMultifilterData(true);
+		self.loadMultifilterData(true);
 		this.getMultifilterControls().find('[name="customMultiFilter"]').on('select2:select', function () {
-			thisInstance.loadMultifilterData(true);
-			app.cacheSet('multifilterSelectValue', thisInstance.getMultifilterControls().find('[name="customMultiFilter"]').val());
+			self.loadMultifilterData(true);
+			app.cacheSet('multifilterSelectValue', self.getMultifilterControls().find('[name="customMultiFilter"]').val());
 		});
 		this.getMultifilterControls().find('[name="customMultiFilter"]').on('select2:unselect', function () {
-			thisInstance.loadMultifilterData(false);
-			app.cacheSet('multifilterSelectValue', thisInstance.getMultifilterControls().find('[name="customMultiFilter"]').val());
+			self.loadMultifilterData(false);
+			app.cacheSet('multifilterSelectValue', self.getMultifilterControls().find('[name="customMultiFilter"]').val());
 		});
 	},
 	loadMultifilterData: function (select = true) {
-		let thisInstance = this;
-		let widgetId = thisInstance.getMultifilterControls().attr('data-widgetid');
-		let multifilterIds = thisInstance.getMultifilterControls().find('[name="customMultiFilter"] option:selected');
-		let params = [];
+		let self = this,
+			widgetId = self.getMultifilterControls().attr('data-widgetid'),
+			multifilterIds = self.getMultifilterControls().find('[name="customMultiFilter"] option:selected'),
+			params = [];
 		multifilterIds.each(function () {
-			let existFilter = thisInstance.getMultifilterContent().find('[data-id="' + $(this).val() + '"]');
+			let existFilter = self.getMultifilterContent().find('[data-id="' + $(this).val() + '"]');
 			if (select) {
 				if (0 < existFilter.length) {
 					return true;
 				}
 			} else {
-				thisInstance.getMultifilterContent().html('');
+				self.getMultifilterContent().html('');
 			}
 			params = {
 				module: $(this).data('module'),
@@ -2837,17 +2838,17 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 				widgetid: widgetId,
 				filterid: $(this).val()
 			};
-			thisInstance.loadListData(params);
+			self.loadListData(params);
 		});
 	},
 	loadListData: function (params) {
-		let thisInstance = this;
-		let aDeferred = jQuery.Deferred();
+		let self = this,
+			aDeferred = jQuery.Deferred();
 		AppConnector.request(params).then(
 			function (data) {
-				let addedContent = thisInstance.getMultifilterContent().append(data).children("div:last-child");
-				thisInstance.registerShowHideBlocks();
-				thisInstance.registerRecordsCount(addedContent);
+				let addedContent = self.getMultifilterContent().append(data).children("div:last-child");
+				self.registerShowHideBlocks();
+				self.registerRecordsCount(addedContent);
 				aDeferred.resolve();
 			},
 			function () {
@@ -2860,10 +2861,10 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 		let detailContentsHolder = this.getMultifilterContent();
 		detailContentsHolder.find('.blockHeader').off("click");
 		detailContentsHolder.find('.blockHeader').click(function () {
-			let currentTarget = $(this).find('.js-block-toggle').not('.d-none');
-			let closestBlock = currentTarget.closest('.js-toggle-panel');
-			let bodyContents = closestBlock.find('.blockContent');
-			let data = currentTarget.data();
+			let currentTarget = $(this).find('.js-block-toggle').not('.d-none'),
+				closestBlock = currentTarget.closest('.js-toggle-panel'),
+				bodyContents = closestBlock.find('.blockContent'),
+				data = currentTarget.data();
 			let hideHandler = function () {
 				bodyContents.addClass('d-none');
 			};
@@ -2900,11 +2901,10 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 		return this.multifilterContentView;
 	},
 	postLoadWidget: function () {
-		console.log('Test | 2911');
 		this.registerMultifilter();
 	},
 	refreshWidget: function () {
-		let thisInstance = this;
-		thisInstance.loadMultifilterData(false);
+		let self = this;
+		self.loadMultifilterData(false);
 	},
 });
