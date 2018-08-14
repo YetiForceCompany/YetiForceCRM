@@ -478,7 +478,7 @@ $.Class("Vtiger_Edit_Js", {
 			if (e.which == 13 && (!currentElement.is('textarea'))) {
 				e.preventDefault();
 			}
-		})
+		});
 	},
 	/**
 	 * Function which will give you all details of the selected record
@@ -486,7 +486,7 @@ $.Class("Vtiger_Edit_Js", {
 	 */
 	getRecordDetails: function (params) {
 		var aDeferred = $.Deferred();
-		var url = "index.php?module=" + app.getModuleName() + "&action=GetData&record=" + params['record'] + "&source_module=" + params['source_module'];
+		var url = "index.php?module=" + params['source_module'] + "&action=GetData&record=" + params['record'];
 		if (app.getParentModuleName() == 'Settings') {
 			url += '&parent=Settings';
 		}
@@ -739,8 +739,6 @@ $.Class("Vtiger_Edit_Js", {
 	copyAddressDetails: function (from, to, data, container) {
 		var thisInstance = this;
 		var sourceModule = data['source_module'];
-		var noAddress = true;
-		var errorMsg;
 		thisInstance.getRecordDetails(data).done(function (data) {
 			var response = data['result'];
 			thisInstance.addressFieldsData = response;

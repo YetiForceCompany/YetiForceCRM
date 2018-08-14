@@ -135,10 +135,10 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 
 	public function getRecordDetail($recordId, $currencyId, $moduleName, $fieldName)
 	{
-		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
+		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		if (!$recordModel->isEditable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$recordModuleName = $recordModel->getModuleName();
 		$info = [
 			'id' => $recordId,
