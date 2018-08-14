@@ -169,7 +169,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 					break;
 				}
 				if (isset($row['type'])) {
-					if ($row['type'] === 1) {
+					if ((int)$row['type'] === 1) {
 						++$mails;
 					} elseif ($row['type'] !== 0) {
 						++$all;
