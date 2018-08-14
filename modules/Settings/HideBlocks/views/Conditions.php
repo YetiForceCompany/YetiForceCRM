@@ -92,8 +92,7 @@ class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 	public function transformToAdvancedFilterCondition($conditions)
 	{
 		$conditions = \App\Json::decode($conditions);
-		$firstGroup = [];
-		$secondGroup = [];
+		$firstGroup = $secondGroup = [];
 		$transformedConditions = [];
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $info) {
