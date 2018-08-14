@@ -81,18 +81,7 @@ class Zip extends \Tests\Base
 		$instanceOpen->extract('tests/tmp/TestLinux/');
 		$this->assertFileExists('tests/tmp/TestLinux/manifest.xml');
 		$this->assertFileExists('tests/tmp/TestLinux/languages/pl_pl/TestLinux.json');
-		$dir = 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'TestLinux';
-		$it = new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
-		$files = new \RecursiveIteratorIterator($it,
-			\RecursiveIteratorIterator::CHILD_FIRST);
-		foreach ($files as $file) {
-			if ($file->isDir()) {
-				rmdir($file->getRealPath());
-			} else {
-				unlink($file->getRealPath());
-			}
-		}
-		rmdir($dir);
+		\vtlib\Functions::recurseDelete('tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'TestLinux');
 	}
 
 	/**
