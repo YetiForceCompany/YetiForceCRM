@@ -343,7 +343,6 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 		$dataReader->close();
-
 		return implode(',', $values);
 	}
 
