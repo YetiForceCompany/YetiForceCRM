@@ -104,7 +104,7 @@ class Zip extends \Tests\Base
 	{
 		$zip = \App\Zip::createFile('tests/data/NxDir/NxFile.zip');
 		$zip->addFromString('filename.txt', '<minimal content>');
-		//$this->assertFalse(@$zip->close());
+		$this->assertFalse($zip->close());
 		$this->assertFileNotExists('tests/data/NxDir/NxFile.zip');
 	}
 }
