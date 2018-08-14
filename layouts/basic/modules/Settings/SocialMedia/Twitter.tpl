@@ -14,17 +14,11 @@
 				<input type="hidden" name="action" value="SaveAjax">
 				<input type="hidden" name="mode" value="Twitter">
 				<div class="tab-pane active">
-					{* Temporarily suspended
-					<div class="form-group row">
-						<label for="api_key"
-							   class="col-12 col-lg-2 col-form-label u-text-small-bold">{\App\Language::translate('LBL_API_KEY', $QUALIFIED_MODULE)}</label>
-						<div class="col-12 col-lg-4">
-							<input type="text" name="api_key" id="api_key" value="" class="form-control"/>
-						</div>
-					</div>*}
 					<div class="form-group row">
 						<label class="col-12 col-lg-2 col-form-label u-text-small-bold"
-							   for="archiving_records_number_of_days">{\App\Language::translate('LBL_ARCHIVING_RECORDS_NUMBER_OF_DAYS', $QUALIFIED_MODULE)}</label>
+							   for="archiving_records_number_of_days">
+							{\App\Language::translate('LBL_ARCHIVING_RECORDS_NUMBER_OF_DAYS', $QUALIFIED_MODULE)}
+						</label>
 						<div class="col-12 col-lg-4">
 							<input type="text" name="archiving_records_number_of_days" class="form-control"
 								   id="archiving_records_number_of_days"
