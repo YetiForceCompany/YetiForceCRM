@@ -689,7 +689,7 @@ $.Class("Vtiger_DashBoard_Js", {
 					type: 'success',
 				};
 				Vtiger_Helper_Js.showMessage(params);
-				currentTarget.closest('.dropdown-item').remove();
+				currentTarget.closest('.js-widget-list__item').remove();
 				if ($('ul.js-widget-list .js-widget-list__item').length < 1) {
 					$('ul.js-widget-list').prev('.js-widget-predefined').addClass('d-none');
 				}
