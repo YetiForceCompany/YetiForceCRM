@@ -104,7 +104,7 @@ Vtiger_Base_Validator_Js("Vtiger_Phone_Validator_Js", {}, {
 					field.val(data.result.number);
 					field.attr('title', data.result.geocoding + ' ' + data.result.carrier);
 					if (phoneCountryList.val() != data.result.country) {
-						phoneCountryList.val(data.result.country).change().trigger("chosen:updated");
+						phoneCountryList.val(data.result.country).trigger('change');
 					}
 				}
 				field.attr('readonly', false);

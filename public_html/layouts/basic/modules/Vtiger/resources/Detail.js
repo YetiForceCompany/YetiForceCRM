@@ -1748,7 +1748,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				if (targetPickListMap.length == 1) {
 					targetPickListSelectedValue = targetPickListMap[0]; // to automatically select picklist if only one picklistmap is present.
 				}
-				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger("chosen:updated");
+				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger('change');
 			})
 
 		});

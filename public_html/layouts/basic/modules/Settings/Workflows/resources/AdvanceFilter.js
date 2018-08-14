@@ -42,9 +42,9 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js', {}, {
 		jQuery('select', newRowElement).addClass('select2');
 		var conditionList = jQuery('.conditionList', conditionGroupElement);
 		conditionList.append(newRowElement);
-		//change in to chosen elements
+		//change in to select elements
 		App.Fields.Picklist.changeSelectElementView(newRowElement);
-		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected', 'selected').trigger('chosen:updated').trigger('change');
+		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected', 'selected').trigger('change');
 		return this;
 	},
 
@@ -92,7 +92,7 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js', {}, {
 				}
 			}
 		}
-		conditionSelectElement.empty().html(options).trigger("chosen:updated");
+		conditionSelectElement.empty().html(options).trigger("change");
 		return conditionSelectElement;
 	},
 

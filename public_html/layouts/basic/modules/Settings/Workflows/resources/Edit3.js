@@ -420,7 +420,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			var newAddFieldContainer = $('.js-add-basic-field-container').clone(true, true).removeClass('js-add-basic-field-container d-none').addClass('js-conditions-row');
 			$('select', newAddFieldContainer).addClass('select2');
 			$('#save_fieldvaluemapping').append(newAddFieldContainer);
-			//change in to chosen elements
+			//change in to select elements
 			App.Fields.Picklist.changeSelectElementView(newAddFieldContainer);
 		});
 	},
@@ -556,7 +556,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				var name = element.attr('name');
 				if ($.inArray(name, taskFields) >= 0) {
 					if (element.is('select')) {
-						element.val('').trigger('chosen:updated').change();
+						element.val('').trigger('change');
 					}
 					element.prop('disabled', true);
 				}
@@ -567,7 +567,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				if ($.inArray(name, taskFields) >= 0) {
 					element.prop('disabled', false);
 					if (element.is('select')) {
-						element.val('').trigger('chosen:updated').change();
+						element.val('').trigger('change');
 					}
 				}
 			});

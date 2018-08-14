@@ -52,7 +52,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 
 		//change in to chosen elements
 		App.Fields.Picklist.changeSelectElementView(newRowElement);
-		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected', 'selected').trigger('chosen:updated').trigger('change');
+		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected', 'selected').trigger('change');
 		return this;
 	},
 	/**
@@ -99,7 +99,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 				}
 			}
 		}
-		conditionSelectElement.empty().html(options).trigger("chosen:updated");
+		conditionSelectElement.empty().html(options).trigger('change');
 		return conditionSelectElement;
 	},
 	/**
@@ -307,11 +307,11 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 	postShowModalAction: function (data, valueType) {
 		if (valueType == 'fieldname') {
 			jQuery('.useFieldContainer', data).removeClass('d-none');
-			jQuery('.textType', data).val(valueType).trigger('chosen:updated');
+			jQuery('.textType', data).val(valueType).trigger('change');
 		} else if (valueType == 'expression') {
 			jQuery('.useFieldContainer', data).removeClass('d-none');
 			jQuery('.useFunctionContainer', data).removeClass('d-none');
-			jQuery('.textType', data).val(valueType).trigger('chosen:updated');
+			jQuery('.textType', data).val(valueType).trigger('change');
 		}
 		jQuery('#' + valueType + '_help', data).removeClass('d-none');
 		var uiType = jQuery('.textType', data).find('option:selected').data('ui');
@@ -356,7 +356,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 				concatenatedValue = oldValue + newValue;
 			}
 			data.find('.fieldValue').val(concatenatedValue);
-			currentElement.val('').trigger('chosen:updated');
+			currentElement.val('').trigger('change');
 		});
 	},
 	registerPopUpSaveEvent: function (data, fieldUiHolder) {

@@ -487,17 +487,15 @@ var App = {},
 			// Reference: http://www.position-absolute.com/articles/jquery-form-validator-because-form-validation-is-a-mess/
 			scroll: false,
 			promptPosition: 'topLeft',
-			//to support validation for chosen select box
+			//to support validation for select2 select box
 			prettySelect: true,
-			useSuffix: "_chosen",
 			usePrefix: "s2id_",
 		},
 		validationEngineOptionsForRecord: {
 			scroll: false,
 			promptPosition: 'topLeft',
-			//to support validation for chosen select box
+			//to support validation for select2 select box
 			prettySelect: true,
-			useSuffix: "_chosen",
 			usePrefix: "s2id_",
 			validateNonVisibleFields: true,
 			onBeforePromptType: function (field) {
@@ -699,17 +697,6 @@ var App = {},
 			//since select2 will add s2id_ to the id of select element
 			var select2EleId = 'select2-' + selectId + '-container';
 			return $('#' + select2EleId).closest('.select2-container');
-		},
-		/**
-		 * Function to get the select element from the chosen element
-		 * @params: chosen element
-		 * @return : selectElement - corresponding select element
-		 */
-		getSelectElementFromChosen: function (chosenElement) {
-			var chosenId = chosenElement.attr('id');
-			var selectEleIdArr = chosenId.split('_chosen');
-			var selectEleId = selectEleIdArr['0'];
-			return $('#' + selectEleId);
 		},
 		/**
 		 * Function to set with of the element to parent width

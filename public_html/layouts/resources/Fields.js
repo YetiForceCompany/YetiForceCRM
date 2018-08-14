@@ -449,7 +449,7 @@ App.Fields = {
 				return;
 			}
 			//If view is select2, This will convert the ui of select boxes to select2 elements.
-			if (typeof view === 'select2') {
+			if (view === 'select2') {
 				return App.Fields.Picklist.showSelect2ElementView(parent, viewParams);
 			} else {
 				app.errorLog(new Error(`Unknown select type [${view}]`));
