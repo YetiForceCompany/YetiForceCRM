@@ -253,7 +253,6 @@ $.Class("Vtiger_Edit_Js", {
 	registerClearTreeSelectionEvent: function (container) {
 		var thisInstance = this;
 		container.find('.clearTreeSelection').on('click', function (e) {
-			console.log('clera');
 			thisInstance.clearFieldValue($(e.currentTarget));
 			e.preventDefault();
 		})
@@ -1316,7 +1315,6 @@ $.Class("Vtiger_Edit_Js", {
 	 *
 	 */
 	registerBasicEvents: function (container) {
-		console.log('reg')
 		this.treePopupRegisterEvent(container);
 		this.registerClearTreeSelectionEvent(container);
 		this.registerTreeAutoCompleteFields(container);
