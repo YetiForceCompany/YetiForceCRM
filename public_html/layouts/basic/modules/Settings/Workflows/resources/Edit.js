@@ -130,7 +130,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 		jQuery('[name="record"]', currentContainer).val(workFlowId);
 		var modulesList = jQuery('#moduleName', currentContainer);
 		if (modulesList.length > 0 && workFlowId != '') {
-			modulesList.attr('disabled', 'disabled').trigger('chosen:updated');
+			modulesList.attr('disabled', 'disabled').trigger('change');
 		}
 	},
 	getPopUp: function (container) {
@@ -139,7 +139,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			container = thisInstance.getContainer();
 		}
 		container.on('click', '.getPopupUi', function (e) {
-			if(container.find('[name="execution_condition"]').val() == 6){
+			if (container.find('[name="execution_condition"]').val() == 6) {
 				return false;
 			}
 			var fieldValueElement = jQuery(e.currentTarget);
@@ -153,7 +153,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			var conditionRow = fieldValueElement.closest('.js-conditions-row');
 
 			var clonedPopupUi = conditionsContainer.find('.popupUi').clone(true, true).removeClass('popupUi').addClass('clonedPopupUi')
-			clonedPopupUi.find('select').addClass('chzn-select');
+			clonedPopupUi.find('select').addClass('select2');
 			clonedPopupUi.find('.fieldValue').val(fieldValue);
 			var value;
 			if (fieldValueElement.hasClass('date')) {
@@ -268,7 +268,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 				concatenatedValue = oldValue + newValue;
 			}
 			data.find('.fieldValue').val(concatenatedValue);
-			currentElement.val('').trigger('chosen:updated');
+			currentElement.val('').trigger('change');
 		});
 	},
 	registerChangeFieldEvent: function (data) {
@@ -297,11 +297,11 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 	postShowModalAction: function (data, valueType) {
 		if (valueType == 'fieldname') {
 			jQuery('.useFieldContainer', data).removeClass('d-none');
-			jQuery('.textType', data).val(valueType).trigger('chosen:updated');
+			jQuery('.textType', data).val(valueType).trigger('change');
 		} else if (valueType == 'expression') {
 			jQuery('.useFieldContainer', data).removeClass('d-none');
 			jQuery('.useFunctionContainer', data).removeClass('d-none');
-			jQuery('.textType', data).val(valueType).trigger('chosen:updated');
+			jQuery('.textType', data).val(valueType).trigger('change');
 		}
 		jQuery('#' + valueType + '_help', data).removeClass('d-none');
 		var uiType = jQuery('.textType', data).find('option:selected').data('ui');

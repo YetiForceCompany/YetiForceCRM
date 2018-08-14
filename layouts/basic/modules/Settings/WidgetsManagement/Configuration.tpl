@@ -9,7 +9,7 @@
 		</div>
 		<div class="col-md-3">
 			<div class="float-right col-6 col-md-6 px-0">
-				<select class="chzn-select form-control" name="widgetsManagementEditorModules">
+				<select class="select2 form-control" name="widgetsManagementEditorModules">
 					{foreach item=SUPPORTED_MODULE from=$SUPPORTED_MODULES}
 						<option value="{$SUPPORTED_MODULE}" {if $SUPPORTED_MODULE eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($SUPPORTED_MODULE, $SUPPORTED_MODULE)}</option>
 					{/foreach}

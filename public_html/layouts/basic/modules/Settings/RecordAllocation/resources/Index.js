@@ -164,7 +164,7 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 		params['type'] = app.getMainParams('fieldType');
 		AppConnector.request(params).done(function (data) {
 			var elements = thisInstance.getContainer().find('.js-panels-container').append(data);
-			App.Fields.Picklist.changeSelectElementView(elements.find('.chzn-select'));
+			App.Fields.Picklist.showSelect2ElementView(elements.find('.select2'));
 			app.hideModalWindow();
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			aDeferred.resolve(data);

@@ -859,10 +859,10 @@ jQuery.Class("Vtiger_List_Js", {
 		field.attr('data-invalid-validation-engine', validationVal ? validationVal : 'validate[]');
 		field.removeAttr('data-validation-engine');
 
-		if (field.is('select') && field.hasClass('chzn-select')) {
-			var chosenElement = app.getChosenElementFromSelect(field);
-			chosenElement.validationEngine('hide');
-			fields.push(chosenElement.get(0));
+		if (field.is('select') && field.hasClass('select2')) {
+			let selectElement = app.getSelect2ElementFromSelect(field);
+			selectElement.validationEngine('hide');
+			fields.push(selectElement.get(0));
 		}
 		for (var i in fields) {
 			var response = jQuery.inArray(fields[i], invalidFields);
@@ -1215,14 +1215,14 @@ jQuery.Class("Vtiger_List_Js", {
 	registerChangeCustomFilterEventListeners() {
 		let filterSelect = this.getFilterSelectElement();
 		filterSelect.on('select2:selecting', (event) => {
-				//prevent default select2 event if it isn't keyboard event
-				if (!$(':focus').length) {
-					event.preventDefault();
-					filterSelect.select2('close');
-					return false;
-				}
-				this.registerChangeCustomFilterEvent(event);
-			});
+			//prevent default select2 event if it isn't keyboard event
+			if (!$(':focus').length) {
+				event.preventDefault();
+				filterSelect.select2('close');
+				return false;
+			}
+			this.registerChangeCustomFilterEvent(event);
+		});
 		// select change event must be replaced by click to avoid triggering while clicking on options' buttons
 		filterSelect.on('click', 'option', this.registerChangeCustomFilterEvent.bind(this));
 		// event triggered by tab filter click
