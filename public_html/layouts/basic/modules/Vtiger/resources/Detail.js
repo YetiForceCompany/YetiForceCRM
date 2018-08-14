@@ -883,7 +883,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		});
 		detailContentsHolder.find('.detailViewBlockLink .blockHeader').on('click', function (e) {
-			if ($(e.target).is('input') || $(e.target).is('button') || $(e.target).parents().is('button') || $(e.target).hasClass('js-stop-propagation') || $(e.target).parents().hasClass('js-stop-propagation')) {
+			const target = $(e.target);
+			if (target.is('input') || target.is('button') || target.parents().is('button') || target.hasClass('js-stop-propagation') || target.parents().hasClass('js-stop-propagation')) {
 				return false;
 			}
 			const block = $(this).closest('.js-toggle-panel');
@@ -911,8 +912,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 	registerBlockAnimationEvent: function () {
 		var thisInstance = this;
 		var detailContentsHolder = this.getContentHolder();
-		detailContentsHolder.find(".blockHeader").on('click', function () {
-			if ($(e.target).is('input') || $(e.target).is('button') || $(e.target).parents().is('button') || $(e.target).hasClass('js-stop-propagation') || $(e.target).parents().hasClass('js-stop-propagation')) {
+		detailContentsHolder.find(".blockHeader").on('click', function (e) {
+			const target = $(e.target);
+			if (target.is('input') || target.is('button') || target.parents().is('button') || target.hasClass('js-stop-propagation') || target.parents().hasClass('js-stop-propagation')) {
 				return false;
 			}
 			var currentTarget = $(this).find(".js-block-toggle").not(".d-none");
@@ -1754,7 +1756,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				if (targetPickListMap.length == 1) {
 					targetPickListSelectedValue = targetPickListMap[0]; // to automatically select picklist if only one picklistmap is present.
 				}
-				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger("chosen:updated");
+				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger('change');
 			})
 
 		});

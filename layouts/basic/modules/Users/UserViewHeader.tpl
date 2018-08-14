@@ -45,7 +45,7 @@
 											<a class="dropdown-item {$DETAIL_VIEW_LINK->getClassName()}"
 											   id="{$MODULE_NAME}_detailView_moreAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}"
 											   href="#"
-											   data-url="{$DETAIL_VIEW_LINK->linkdata['url']}"
+											   data-url="{if !empty($DETAIL_VIEW_LINK->linkdata['url'])}{$DETAIL_VIEW_LINK->linkdata['url']}{/if}"
 											   onclick="{$DETAIL_VIEW_LINK->linkurl}"
 											>
 												<span class="{$DETAIL_VIEW_LINK->linkicon} mr-1"></span>

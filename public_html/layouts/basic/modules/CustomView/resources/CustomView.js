@@ -123,7 +123,8 @@ Vtiger_CustomView_Js = {
 	registerBlockToggleEvent: function () {
 		const container = this.getContentsContainer();
 		container.on('click', '.blockHeader', function (e) {
-			if ($(e.target).is('input') || $(e.target).is('button') || $(e.target).parents().is('button') || $(e.target).hasClass('js-stop-propagation') || $(e.target).parents().hasClass('js-stop-propagation')) {
+			const target = $(e.target);
+			if (target.is('input') || target.is('button') || target.parents().is('button') || target.hasClass('js-stop-propagation') || target.parents().hasClass('js-stop-propagation')) {
 				return false;
 			}
 			const blockHeader = $(e.currentTarget);
@@ -152,7 +153,6 @@ Vtiger_CustomView_Js = {
 		this.registerColorEvent();
 		let select2Element = App.Fields.Picklist.showSelect2ElementView(Vtiger_CustomView_Js.getColumnSelectElement());
 		$('.stndrdFilterDateSelect').datepicker();
-		$('.chzn-select').chosen();
 		$("#standardDateFilter").on('change', function () {
 			Vtiger_CustomView_Js.loadDateFilterValues();
 		});

@@ -25,6 +25,13 @@ Vtiger_Base_Validator_Js("Vtiger_Email_Validator_Js", {
 	}
 }, {
 	/**
+	 *Overwrites base function to avoid trimming and validate white spaces
+	 * @return fieldValue
+	 * */
+	getFieldValue: function () {
+		return this.getElement().val();
+	},
+	/**
 	 * Function to validate the email field data
 	 */
 	validate: function () {
@@ -104,7 +111,7 @@ Vtiger_Base_Validator_Js("Vtiger_Phone_Validator_Js", {}, {
 					field.val(data.result.number);
 					field.attr('title', data.result.geocoding + ' ' + data.result.carrier);
 					if (phoneCountryList.val() != data.result.country) {
-						phoneCountryList.val(data.result.country).change().trigger("chosen:updated");
+						phoneCountryList.val(data.result.country).trigger('change');
 					}
 				}
 				field.attr('readonly', false);
@@ -1052,7 +1059,7 @@ Vtiger_Base_Validator_Js("Vtiger_Twitter_Validator_Js", {
 	 */
 	validate() {
 		let fieldValue = this.getFieldValue();
-		if ( !fieldValue.match(/^[a-zA-Z0-9_]{1,15}$/g ) ){
+		if (!fieldValue.match(/^[a-zA-Z0-9_]{1,15}$/g)) {
 			let errorInfo = app.vtranslate("JS_PLEASE_ENTER_VALID_TWITTER_ACCOUNT");
 			this.setError(errorInfo);
 			return false;
@@ -1349,7 +1356,7 @@ Vtiger_Base_Validator_Js("Vtiger_YetiForceCompanyName_Validator_Js", {
 		}
 		const field = this.getElement();
 		const fieldValue = field.val();
-		if(fieldValue.toLowerCase().indexOf('yetiforce')>=0){
+		if (fieldValue.toLowerCase().indexOf('yetiforce') >= 0) {
 			this.setError(app.vtranslate('JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED'));
 			return false;
 		}
