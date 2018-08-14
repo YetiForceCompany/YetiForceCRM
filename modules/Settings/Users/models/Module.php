@@ -3,7 +3,7 @@
  * Settings users module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 
 /**
@@ -303,7 +303,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				}
 				$name = $name->getName();
 				$prev[$name] = implode(',', $oldValues[$id]);
-				if ($newValues[$id]) {
+				if (!empty($newValues[$id])) {
 					$post[$name] = implode(',', $newValues[$id]);
 				} else {
 					$post[$name] = '';
