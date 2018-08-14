@@ -1018,7 +1018,8 @@ $.Class("Vtiger_Edit_Js", {
 		var thisInstance = this;
 		var detailContentsHolder = this.getForm();
 		detailContentsHolder.on('click', '.blockHeader', function (e) {
-			if ($(e.target).is('input') || $(e.target).is('button') || $(e.target).parents().is('button') || $(e.target).hasClass('js-stop-propagation') || $(e.target).parents().hasClass('js-stop-propagation')) {
+			const target = $(e.target);
+			if (target.is('input') || target.is('button') || target.parents().is('button') || target.hasClass('js-stop-propagation') || target.parents().hasClass('js-stop-propagation')) {
 				return false;
 			}
 			var currentTarget = $(e.currentTarget).find('.js-block-toggle').not('.d-none');
