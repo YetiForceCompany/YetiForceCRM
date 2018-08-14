@@ -89,7 +89,8 @@
 											{if $MEMBER->getName() neq $RECORD_MODEL->getName()}
 												<option class="{$GROUP_LABEL}" value="{$MEMBER->getId()}"
 														data-member-type="{$GROUP_LABEL}"
-														{if isset($GROUP_MEMBERS[$GROUP_LABEL][$MEMBER->getId()])}selected="true"{/if}>{\App\Language::translate($MEMBER->getName(), $QUALIFIED_MODULE)}</option>
+														{assign var="MEMBER_ID" value=$MEMBER->getId()}
+														{if isset($GROUP_MEMBERS[$GROUP_LABEL][$MEMBER_ID])}selected="true"{/if}>{\App\Language::translate($MEMBER->getName(), $QUALIFIED_MODULE)}</option>
 											{/if}
 										{/foreach}
 									</optgroup>
