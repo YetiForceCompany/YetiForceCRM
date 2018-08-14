@@ -281,7 +281,6 @@ var App = {},
 			modalContainer.one('shown.bs.modal', function () {
 				cb(modalContainer);
 				App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'));
-				App.Fields.Picklist.showChoosenElementView(modalContainer.find('select.chzn-select'));
 				App.Fields.Date.register(modalContainer);
 				new App.Fields.Text.Editor(modalContainer.find('.js-editor'), {
 					height: '5em',
@@ -689,16 +688,6 @@ var App = {},
 				}
 			});
 			return table.DataTable();
-		},
-		/**
-		 * Function to get the chosen element from the raw select element
-		 * @params: select element
-		 * @return : chosenElement - corresponding chosen element
-		 */
-		getChosenElementFromSelect: function (selectElement) {
-			var selectId = selectElement.attr('id');
-			var chosenEleId = selectId + '_chosen';
-			return $('#' + chosenEleId);
 		},
 		/**
 		 * Function to get the select2 element from the raw select element

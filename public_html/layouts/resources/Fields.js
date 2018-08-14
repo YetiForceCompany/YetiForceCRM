@@ -443,23 +443,15 @@ App.Fields = {
 			}
 			if (typeof view === "undefined") {
 				const select2Elements = $('select.select2', parent).toArray();
-				const choosenElements = $('.chzn-select', parent).toArray();
 				select2Elements.forEach((elem) => {
 					this.changeSelectElementView($(elem), 'select2', viewParams);
-				});
-				choosenElements.forEach((elem) => {
-					this.changeSelectElementView($(elem), 'choosen', viewParams);
 				});
 				return;
 			}
 			//If view is select2, This will convert the ui of select boxes to select2 elements.
-			if (typeof view === 'string') {
-				switch (view) {
-					case 'select2':
-						return App.Fields.Picklist.showSelect2ElementView(parent, viewParams);
-					case 'choosen':
-						return App.Fields.Picklist.showChoosenElementView(parent, viewParams);
-				}
+			if (typeof view === 'select2') {
+				return App.Fields.Picklist.showSelect2ElementView(parent, viewParams);
+			} else {
 				app.errorLog(new Error(`Unknown select type [${view}]`));
 			}
 		},
@@ -696,91 +688,6 @@ App.Fields = {
 					cb(select);
 				}
 			});
-		},
-		/**
-		 * Replace select with choosen
-		 * @param {jQuery} parent
-		 * @param {object} viewParams
-		 */
-		showChoosenElementView(parent, viewParams) {
-			let selectElement = $('.chzn-select', parent);
-			//parent itself is the element
-			if (parent.is('select.chzn-select')) {
-				selectElement = parent;
-			}
-			// generate random ID
-			selectElement.each(function () {
-				if ($(this).prop("id").length === 0) {
-					$(this).attr('id', "sel" + App.Fields.Text.generateRandomChar() + App.Fields.Text.generateRandomChar() + App.Fields.Text.generateRandomChar());
-				}
-			});
-			//fix for multiselect error prompt hide when validation is success
-			selectElement.filter('[multiple]').filter('[data-validation-engine*="validate"]').on('change', function (e) {
-				$(e.currentTarget).trigger('focusout');
-			});
-			let params = {
-				no_results_text: app.vtranslate('JS_NO_RESULTS_FOUND') + ':'
-			};
-			const moduleName = app.getModuleName();
-			if (selectElement.filter('[multiple]') && moduleName !== 'Install') {
-				params.placeholder_text_multiple = ' ' + app.vtranslate('JS_SELECT_SOME_OPTIONS');
-			}
-			if (moduleName !== 'Install') {
-				params.placeholder_text_single = ' ' + app.vtranslate('JS_SELECT_AN_OPTION');
-			}
-			selectElement.chosen(params);
-			selectElement.each(function () {
-				const select = $(this);
-				// hide selected items in the chosen instance when item is hidden.
-				if (select.hasClass('hideSelected')) {
-					const ns = [];
-					select.find('optgroup,option').each(function (n, e) {
-						if ($(this).hasClass('d-none')) {
-							ns.push(n);
-						}
-					});
-					if (ns.length) {
-						select.next().find('.search-choice-close').each(function (n, e) {
-							if ($.inArray($(this).data('option-array-index'), ns) !== -1) {
-								$(this).closest('li').remove();
-							}
-						})
-					}
-				}
-				if (select.attr('readonly') === 'readonly') {
-					select.on('chosen:updated', function () {
-						if (select.attr('readonly')) {
-							let selectData = select.data('chosen');
-							select.attr('disabled', 'disabled');
-							if (typeof selectData === 'object') {
-								selectData.search_field_disabled();
-							}
-							if (select.is(':disabled')) {
-								select.attr('disabled', 'disabled');
-							} else {
-								select.removeAttr('disabled');
-							}
-						}
-					});
-					select.trigger('chosen:updated');
-				}
-			});
-			// Improve the display of default text (placeholder)
-			return $('.chosen-container-multi .default, .chosen-container').css('width', '100%');
-		},
-		/**
-		 * Function to destroy the chosen element and get back the basic select Element
-		 */
-		destroyChosenElement: function (parent) {
-			if (typeof parent === "undefined") {
-				parent = $('body');
-			}
-			let selectElement = $('.chzn-select', parent);
-			//parent itself is the element
-			if (parent.is('select.chzn-select')) {
-				selectElement = parent;
-			}
-			return selectElement.css('display', 'block').removeClass("chzn-done").data("chosen", null).next().remove();
 		},
 	},
 	MultiImage: {

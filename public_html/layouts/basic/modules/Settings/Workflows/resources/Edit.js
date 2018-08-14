@@ -139,7 +139,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			container = thisInstance.getContainer();
 		}
 		container.on('click', '.getPopupUi', function (e) {
-			if(container.find('[name="execution_condition"]').val() == 6){
+			if (container.find('[name="execution_condition"]').val() == 6) {
 				return false;
 			}
 			var fieldValueElement = jQuery(e.currentTarget);
@@ -153,7 +153,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			var conditionRow = fieldValueElement.closest('.js-conditions-row');
 
 			var clonedPopupUi = conditionsContainer.find('.popupUi').clone(true, true).removeClass('popupUi').addClass('clonedPopupUi')
-			clonedPopupUi.find('select').addClass('chzn-select');
+			clonedPopupUi.find('select').addClass('select2');
 			clonedPopupUi.find('.fieldValue').val(fieldValue);
 			var value;
 			if (fieldValueElement.hasClass('date')) {

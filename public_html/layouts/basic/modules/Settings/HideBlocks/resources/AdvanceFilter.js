@@ -397,7 +397,7 @@ Vtiger_Field_Js('Vtiger_Boolean_Field_Js', {}, {
 Vtiger_Owner_Field_Js('Workflows_Owner_Field_Js', {}, {
 
 	getUi: function () {
-		var html = '<select class="row chzn-select" name="' + this.getName() + '">';
+		var html = '<select class="select2" name="' + this.getName() + '">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = this.getValue();
 		for (var optGroup in pickListValues) {

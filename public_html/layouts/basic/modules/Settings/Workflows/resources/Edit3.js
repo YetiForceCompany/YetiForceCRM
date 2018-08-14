@@ -517,14 +517,8 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			fieldSpecificUi.find('[name="' + fieldName + '"]').removeAttr('data-validation-engine');
 		}
 		fieldUiHolder.html(fieldSpecificUi);
-		if (fieldSpecificUi.is('input.select2')) {
-			App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi)
-		} else if (fieldSpecificUi.is('select')) {
-			if (fieldSpecificUi.hasClass('chzn-select')) {
-				App.Fields.Picklist.showChoosenElementView(fieldSpecificUi);
-			} else {
-				App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi);
-			}
+		if (fieldSpecificUi.is('input.select2') || fieldSpecificUi.is('select')) {
+			App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi);
 		} else if (fieldSpecificUi.is('input.dateField')) {
 			App.Fields.Date.register(fieldSpecificUi);
 		} else if (fieldSpecificUi.is('input.dateRangeField')) {
@@ -647,7 +641,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			var ccContainer = $('#ccContainer');
 			ccContainer.removeClass('d-none');
 			var taskFieldElement = ccContainer.find('select.task-fields');
-			taskFieldElement.addClass('chzn-select');
+			taskFieldElement.addClass('select2');
 			App.Fields.Picklist.changeSelectElementView(taskFieldElement);
 			$(e.currentTarget).addClass('d-none');
 			thisInstance.checkHiddenStatusofCcandBcc();
@@ -656,7 +650,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			var bccContainer = $('#bccContainer');
 			bccContainer.removeClass('d-none');
 			var taskFieldElement = bccContainer.find('select.task-fields');
-			taskFieldElement.addClass('chzn-select');
+			taskFieldElement.addClass('select2');
 			App.Fields.Picklist.changeSelectElementView(taskFieldElement);
 			$(e.currentTarget).addClass('d-none');
 			thisInstance.checkHiddenStatusofCcandBcc();
