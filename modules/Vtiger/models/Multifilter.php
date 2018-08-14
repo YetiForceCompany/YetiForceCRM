@@ -222,7 +222,6 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 		} elseif ($user === 'all') {
 			$user = '';
 		}
-
 		if (!$this->listviewRecords) {
 			if (!empty($user)) {
 				$this->queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $user]);
@@ -265,17 +264,17 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 		if (!$user) {
 			$user = App\User::getCurrentUserId();
 		}
-		$searcParams = [];
+		$searchParams = [];
 		if (!empty($this->searchParams)) {
 			foreach (reset($this->searchParams) as $value) {
-				$searcParams[] = $value;
+				$searchParams[] = $value;
 			}
 		}
 		if ($user !== 'all') {
-			$searcParams[] = ['assigned_user_id', 'e', $user];
+			$searchParams[] = ['assigned_user_id', 'e', $user];
 		}
-		if ($searcParams) {
-			return $url .= '&search_params=[' . json_encode($searcParams) . ']';
+		if ($searchParams) {
+			return $url .= '&search_params=[' . json_encode($searchParams) . ']';
 		}
 		return $url;
 	}

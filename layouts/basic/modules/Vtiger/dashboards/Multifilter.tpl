@@ -13,12 +13,18 @@
 			</div>
 			<div class="col-md-4">
 				<div class="box float-right">
+					<a class="js-widget-settings btn btn-sm btn-light" data-js="click">
+						<span class="fas fa-cog" title="{\App\Language::translate('LBL_SETTINGS')}"
+							  data-js="click"></span>
+					</a>
 					{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 				</div>
 			</div>
 		</div>
-		<hr class="widgetHr"/>
-		<div class="row no-gutters">
+	</div>
+	<div class="dashboardWidgetContent">
+		<div class="js-settings-widget row no-gutters mb-1 pb-1 border-bottom d-none" data-js="toggleClass">
+			<hr class="widgetHr"/>
 			<div class="col-sm-12">
 				<div class="input-group input-group-sm">
 					<select class="widgetFilter form-control customFilter input-sm" multiple="multiple"
@@ -41,8 +47,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="dashboardWidgetContent">
 		<div class="js-multifilterContent contents" data-js="container">
 		</div>
 	</div>

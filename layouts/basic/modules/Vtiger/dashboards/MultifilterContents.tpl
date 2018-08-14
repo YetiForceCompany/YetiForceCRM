@@ -2,22 +2,23 @@
 {strip}
 	{assign var="IS_HIDDEN" value=true}
 	<div class="detailViewTable" data-js="data-id|data-url" data-id="{$CUSTOM_VIEW_ID}"
-		 data-url="{\App\Purifier::encodeHtml($MULTIFILTER_WIDGET_MODEL->getTotalCountURL($OWNER))}">
+		 data-url="{\App\Purifier::encodeHtml($MULTIFILTER_WIDGET_MODEL->getTotalCountURL())}">
 		<div class="js-toggle-panel c-panel" data-js="click|data-dynamic">
 			<div class="blockHeader c-panel__header">
-				<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2" data-js="click"
+				<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-1" data-js="click"
 					  alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"
 					  data-id="{$TYPE_VIEW}_{$RELATED_MODULE_NAME}"></span>
-				<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 d-none" data-js="click"
+				<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-1 d-none" data-js="click"
 					  alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"
 					  data-id="{$TYPE_VIEW}_{$RELATED_MODULE_NAME}"></span>
-				<h5>
+				<h7>
 					{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}
 					-{\App\Language::translate($CUSTOM_VIEW_NAME,$MODULE_NAME)}
-				</h5>
-				<a class="position-absolute u-position-r-10px u-position-t-10px"
-				   href="{\App\Purifier::encodeHtml($LIST_VIEW_URL)}"><span class="fa fa-list"></span></a>
-				<span class="js-count badge">0</span>
+				</h7>
+				<div class="position-absolute u-position-r-5px u-position-t-5px">
+					<a class="mr-1" href="{\App\Purifier::encodeHtml($LIST_VIEW_URL)}"><span class="fa fa-list"></span></a>
+					<span class="js-count badge count badge badge-danger c-badge--md">0</span>
+				</div>
 			</div>
 			<div class="c-panel__body blockContent d-none">
 				{assign var="SPANSIZE_ARRAY" value=[]}
