@@ -518,9 +518,13 @@ class Functions
 			}
 			$response->emit();
 		} else {
-			$viewer = new \Vtiger_Viewer();
-			$viewer->assign('MESSAGE', $message);
-			$viewer->view($tpl, 'Vtiger');
+			if (php_sapi_name() !== 'cli') {
+				$viewer = new \Vtiger_Viewer();
+				$viewer->assign('MESSAGE', $message);
+				$viewer->view($tpl, 'Vtiger');
+			} else {
+				echo $message . \PHP_EOL;
+			}
 		}
 		if ($die) {
 			trigger_error(print_r($message, true), E_USER_ERROR);
