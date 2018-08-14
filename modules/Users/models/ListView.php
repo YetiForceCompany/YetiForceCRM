@@ -99,18 +99,15 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		$fields[] = 'imagename';
 		$fields[] = 'authy_secret_totp';
 		$queryGenerator->setFields($fields);
-		$searchParams = $this->getArray('search_params', 2);
-		if (empty($searchParams) || !is_array($searchParams)) {
-			$searchParams = [];
-		} else {
-			foreach ($searchParams as &$params) {
-				foreach ($params as &$param) {
-					if (strpos($param['columnname'], 'is_admin') !== false) {
-						$param['value'] = $param['value'] == '0' ? 'off' : 'on';
-					}
+		$searchParams = $this->getArray('search_params');
+		foreach ($searchParams as &$params) {
+			foreach ($params as &$param) {
+				if (strpos($param['columnname'], 'is_admin') !== false) {
+					$param['value'] = $param['value'] == '0' ? 'off' : 'on';
 				}
 			}
 		}
+
 		$this->set('search_params', $searchParams);
 
 		return parent::getListViewEntries($pagingModel);
@@ -136,7 +133,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 
 	public function getListViewCount()
 	{
-		$searchParams = $this->getArray('search_params', 2);
+		$searchParams = $this->getArray('search_params');
 		if (is_array($searchParams) && empty($searchParams[0]['columns'])) {
 			$this->set('search_params', []);
 		}
