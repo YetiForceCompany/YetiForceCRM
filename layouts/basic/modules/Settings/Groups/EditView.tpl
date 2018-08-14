@@ -79,10 +79,12 @@
 									<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
 										{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
 											{if $MEMBER->getName() neq $RECORD_MODEL->getName()}
+												{assign var="MEMBER_ID" value=$MEMBER->getId()}
 												<option class="{$GROUP_LABEL}" value="{$MEMBER->getId()}"
 														data-member-type="{$GROUP_LABEL}"
-														{assign var="MEMBER_ID" value=$MEMBER->getId()}
-														{if isset($GROUP_MEMBERS[$GROUP_LABEL][$MEMBER_ID])}selected="true"{/if}>{\App\Language::translate($MEMBER->getName(), $QUALIFIED_MODULE)}</option>
+														{if isset($GROUP_MEMBERS[$GROUP_LABEL][$MEMBER_ID])}selected="true"{/if}>
+													{\App\Language::translate($MEMBER->getName(), $QUALIFIED_MODULE)}
+												</option>
 											{/if}
 										{/foreach}
 									</optgroup>
