@@ -153,7 +153,6 @@ Vtiger_CustomView_Js = {
 		this.registerColorEvent();
 		let select2Element = App.Fields.Picklist.showSelect2ElementView(Vtiger_CustomView_Js.getColumnSelectElement());
 		$('.stndrdFilterDateSelect').datepicker();
-		$('.chzn-select').chosen();
 		$("#standardDateFilter").on('change', function () {
 			Vtiger_CustomView_Js.loadDateFilterValues();
 		});

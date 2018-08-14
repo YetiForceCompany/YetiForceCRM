@@ -16,7 +16,7 @@ Vtiger_Edit_Js('Settings_SMSNotifier_Edit_Js', {}, {
 			contents.find('form [data-provider]').remove();
 			var providerFields = contents.find('.providersFields [data-provider="' + selectedProviderName + '"]').clone(true, true);
 			contents.find('.fieldsContainer').append(providerFields);
-			App.Fields.Picklist.showSelect2ElementView(providerFields.find('select').removeClass('chzn-select'));
+			App.Fields.Picklist.showSelect2ElementView(providerFields.find('select'));
 		});
 	},
 	registerEvents: function () {
