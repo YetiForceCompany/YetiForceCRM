@@ -19,7 +19,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 				mode: 'showInventoryDetails',
 				view: 'Detail'
 			}).done((response) => {
-				form.find('#beforeInventory').html(response);
+				form.find('.js-before-inventory').html(response);
 				progressLoader.progressIndicator({mode: 'hide'});
 			}).fail(() => {
 				progressLoader.progressIndicator({mode: 'hide'});
@@ -40,7 +40,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 			if (params.fieldName === 'finvoiceid') {
 				const invoiceidInput = form.find('[name="finvoiceid"]');
 				if (invoiceidInput.length) {
-					form.find('#beforeInventory').html('<div class="text-center">' + app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE') + '</div>');
+					form.find('.js-before-inventory').html('<div class="text-center">' + app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE') + '</div>');
 				}
 			}
 		});
@@ -54,7 +54,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 		form.find('.js-add-item').each((index, addBtn) => {
 			this.activeModules.push($(addBtn).data('module'));
 		});
-		form.find('#copyFromInvoice').on('click', function (e) {
+		form.find('.js-copy-from-invoice').on('click', function (e) {
 			e.preventDefault();
 			e.stopPropagation();
 			const finvoiceidInput = form.find('input[name="finvoiceid"]');

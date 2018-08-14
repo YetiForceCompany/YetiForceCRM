@@ -22,7 +22,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="c-panel__body blockContent p-2" id="beforeInventory" data-js="container">
+                <div class="c-panel__body blockContent p-2 js-before-inventory" data-js="container">
                     {include file=\App\Layout::getTemplatePath('Detail/InventoryView.tpl', $MODULE_NAME) MODULE_NAME='FInvoice' RECORD=FInvoice_Record_Model::getInstanceById($RECORD->get('finvoiceid'))}
                 </div>
             </div>
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="c-panel__body blockContent p-2" id="afterInventory" data-js="container">
+                <div class="c-panel__body blockContent p-2 js-after-inventory" data-js="container">
                     {include file=\App\Layout::getTemplatePath('Detail/InventoryView.tpl', $MODULE_NAME) MODULE_NAME=$MODULE_NAME}
                 </div>
             </div>
