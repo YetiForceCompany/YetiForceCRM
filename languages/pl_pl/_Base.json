@@ -382,6 +382,7 @@
     "LBL_PERMISSION_DENIED": "Brak uprawnie\u0144",
     "LBL_PLEASE_SELECT_MODULE": "Prosz\u0119 wybra\u0107 modu\u0142",
     "LBL_POST": "Dodaj",
+    "LBL_PREDEFINED_WIDGETS": "Predefiniowane wid\u017Cety",
     "LBL_PREVIOUS_FQ": "Poprzedni kwarta\u0142",
     "LBL_PREVIOUS_FY": "Poprzedni rok",
     "LBL_PRE_TAX_TOTAL": "Warto\u015b\u0107 po rabacie (netto)",
@@ -1313,7 +1314,7 @@
     "JS_ACCEPT_POSITIVE_NUMBER": "Akceptuje tylko dodatnie liczby",
     "JS_ALLOWED_TO_SELECT_MAX_OF_THREE_RECORDS": "Mo\u017cesz wybra\u0107 maksymalnie trzy rekordy",
     "JS_ARE_YOU_SURE_TO_DELETE_WIDGET": "Czy na pewno chcesz zamkn\u0105\u0107 wid\u017cet?",
-    "JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO": "B\u0119dzie on dost\u0119pny pod przyciskiem \"Dodaj wid\u017cet\".",
+    "JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO": "B\u0119dzie on dost\u0119pny pod przyciskiem \"Predefiniowane wid\u017Cety\".",
     "JS_CAN_NOT_REMOVE_DEFAULT_WIDGET": "Nie mo\u017cna usun\u0105\u0107 domy\u015blnego wid\u017cetu",
     "JS_CHECK_FILE_INTEGRITY": "Sprawd\u017a integralno\u015b\u0107 pliku",
     "JS_CONTAINS_ILLEGAL_CHARACTERS": "zawiera niedozwolone znaki",
@@ -1602,6 +1603,7 @@
     "JS_WAIT_FOR_FILE_UPLOAD": "Poczekaj na uko\u0144czenie wysy\u0142ania plik\u00F3w",
     "JS_ERROR_MAX_VALUE": "Wprowadzono warto\u015b\u0107 poza dozwolonym zakresem",
     "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Zmie\u0144 nazw\u0119 firmy. Nazwa firmy YetiForce jest zastrze\u017Cona.",
-    "JS_SELECT_OR_WRITE_AND_PRESS_ENTER": "Wybierz warto\u015b\u0107 z listy lub wpisz w\u0142asn\u0105 i naci\u015bnij enter"
+    "JS_SELECT_OR_WRITE_AND_PRESS_ENTER": "Wybierz warto\u015b\u0107 z listy lub wpisz w\u0142asn\u0105 i naci\u015bnij enter",
+    "JS_INVENTORY_ITEM_MODULE_NOT_FOUND": "Modu\u0142 '${sourceModule}' dla pozycji '${position}' nie zosta\u0142 aktywowany."
   }
 }
