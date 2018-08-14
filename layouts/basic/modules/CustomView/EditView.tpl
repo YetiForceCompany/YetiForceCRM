@@ -32,41 +32,6 @@
 				{/if}
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
-			<div class="col-sm-7 col-12 btn-toolbar p-2 childrenMarginRight justify-content-end" role="toolbar">
-				<div class="btn-group iconPreferences btn-group-toggle" data-toggle="buttons">
-					<label class="btn btn-light{if $CUSTOMVIEW_MODEL->isDefault()} active btn-primary{/if}"
-						   title="{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE)}">
-						<input id="setdefault" name="setdefault" type="checkbox"
-							   {if $CUSTOMVIEW_MODEL->isDefault()}checked="checked"{/if} value="1"/>
-						<span class="far fa-heart" data-check="fas fa-heart" data-unchecked="far fa-heart"></span>
-					</label>
-					<label class="btn btn-light{if $CUSTOMVIEW_MODEL->isSetPublic()} active btn-primary{/if}"
-						   title="{\App\Language::translate('LBL_SET_AS_PUBLIC',$MODULE)}">
-						<input id="status" name="status"
-							   type="checkbox" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if} />
-						<span class="far fa-eye-slash" data-check="fas fa-eye" data-unchecked="fa-eye-slash"></span>
-					</label>
-					<label class="btn btn-light{if $CUSTOMVIEW_MODEL->isFeatured(true)} active btn-primary{/if}"
-						   title="{\App\Language::translate('LBL_FEATURED',$MODULE)}">
-						<input id="featured" name="featured"
-							   type="checkbox" {if $CUSTOMVIEW_MODEL->isFeatured(true)} checked="checked"{/if}
-							   value="1"/>
-						<span class="far fa-star" data-check="fas fa-star" data-unchecked="far fa-star"></span>
-					</label>
-					<label class="btn btn-light{if $CUSTOMVIEW_MODEL->get('setmetrics')} active btn-primary{/if}"
-						   title="{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE)}">
-						<input id="setmetrics" name="setmetrics" type="checkbox"
-							   {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'}checked="checked"{/if} value="1"/>
-						<span class="fas fa-desktop" data-check="fas fa-desktop" data-unchecked="fas fa-desktop"></span>
-					</label>
-				</div>
-				<button class="btn btn-success" id="customViewSubmit" type="submit"><span
-							class="fa fa-check u-mr-5px"></span><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
-				</button>
-				<button class="btn btn-danger" type="reset" onClick="window.location.reload()"><span
-							class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}
-				</button>
-			</div>
 		</div>
 		{assign var=SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
 		<div class="childrenMarginTopX">
@@ -150,11 +115,62 @@
 									<input type="text" class="form-control" name="color"
 										   value="{$CUSTOMVIEW_MODEL->get('color')}"/>
 									<div class="input-group-append">
-    									<div class="input-group-text colorpicker-input-addon"><i></i></div>
+										<div class="input-group-text colorpicker-input-addon"><i></i></div>
 									</div>
 								</div>
 							</div>
 						</div>
+					</div>
+					<div class="btn-group js-filter-preferences btn-group-toggle mt-3 flex-wrap"
+						 data-toggle="buttons" data-js="change">
+						<label class="c-btn-block-sm-down btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isDefault()} active{/if}"
+							   title="{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE)}">
+							<input name="setdefault" value="1" type="checkbox" class="js-filter-preference"
+								   data-js="change"
+								   {if $CUSTOMVIEW_MODEL->isDefault()}checked="checked"{/if}
+								   id="setdefault"
+								   autocomplete="off"/>
+							<span class="{if $CUSTOMVIEW_MODEL->isDefault()}fas{else}far{/if} fa-heart mr-1"
+								  data-check="fas fa-heart" data-unchecked="far fa-heart"
+								  data-fa-transform="grow-2"></span>
+							{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE)}
+
+						</label>
+						<label class="c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isSetPublic()} active{/if}"
+							   title="{\App\Language::translate('LBL_SET_AS_PUBLIC',$MODULE)}">
+							<input name="status" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if}
+								   type="checkbox" class="js-filter-preference" data-js="change"
+								   id="status"
+								   autocomplete="off"/>
+							<span class="far {if $CUSTOMVIEW_MODEL->isSetPublic()}fa-eye{else}fa-eye-slash{/if} mr-1"
+								  data-check="fa-eye" data-unchecked="fa-eye-slash"
+								  data-fa-transform="grow-2"></span>
+							{\App\Language::translate('LBL_SET_AS_PUBLIC',$MODULE)}
+						</label>
+						<label class="c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isFeatured(true)} active{/if}"
+							   title="{\App\Language::translate('LBL_FEATURED',$MODULE)}">
+							<input name="featured" value="1" type="checkbox" class="js-filter-preference"
+								   data-js="change" id="featured"
+									{if $CUSTOMVIEW_MODEL->isFeatured(true)} checked="checked"{/if}
+								   autocomplete="off"/>
+							<span class="{if $CUSTOMVIEW_MODEL->isFeatured(true)}fas{else}far{/if} fa-star mr-1"
+								  data-check="fas" data-unchecked="far"
+								  data-fa-transform="grow-2"></span>
+							{\App\Language::translate('LBL_FEATURED',$MODULE)}
+						</label>
+						<label class="c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-dark{if $CUSTOMVIEW_MODEL->get('setmetrics')} active{/if}"
+							   title="{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE)}">
+							<input name="setmetrics" value="1" type="checkbox" class="js-filter-preference"
+								   data-js="change"
+								   {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'}checked="checked"{/if}
+								   id="setmetrics" autocomplete="off"/>
+							<span class="fa-layers fa-fw mr-1">
+							<span class="fas fa-chart-pie" data-fa-transform="shrink-5 up-6"></span>
+							<span class="fas fa-chart-line" data-fa-transform="shrink-5 right-7 down-6"></span>
+							<span class="fas fa-chart-area" data-fa-transform="shrink-5 left-7 down-6"></span>
+							</span>
+							{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE)}
+						</label>
 					</div>
 				</div>
 			</div>
