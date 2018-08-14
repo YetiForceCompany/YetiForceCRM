@@ -20,7 +20,7 @@
                     <span class="fas fa-info-circle"></span></div>
             </div>
         </div>
-        <div class="c-panel__body blockContent p-2" id="beforeInventory" data-js="container">
+        <div class="c-panel__body blockContent p-2 js-before-inventory" data-js="container">
             {if $RECORD->get('finvcoiceid')}
                 {include file=\App\Layout::getTemplatePath('Detail/InventoryView.tpl', $MODULE_NAME) MODULE_NAME='FInvoice' RECORD=FInvoice_Record_Model::getInstanceById($RECORD->get('finvoiceid'))}
             {else}
@@ -71,11 +71,11 @@
             <div class="d-inline-flex js-stop-propagation">
                 <div class="js-popover-tooltip mt-2 mr-2" data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translate("LBL_AFTER_INVOICE_INFO_EDIT",'FCorectingInvoice')}">
                     <span class="fas fa-info-circle"></span></div>
-                <a href class="btn btn-primary mr-1" id="copyFromInvoice"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_FROM_INVOICE','FCorectingInvoice')}
+                <a href class="btn btn-primary mr-1 js-copy-from-invoice"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_FROM_INVOICE','FCorectingInvoice')}
                 </a>
             </div>
         </div>
-        <div class="c-panel__body blockContent p-2" id="afterInventory" data-js="container">
+        <div class="c-panel__body blockContent p-2 js-after-inventory" data-js="container">
             <div class="table-responsive">
                 <table class="table table-bordered inventoryHeader blockContainer mb-0">
                     <thead>
