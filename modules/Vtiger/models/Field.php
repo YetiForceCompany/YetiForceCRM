@@ -303,7 +303,10 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 311:
 						$fieldDataType = 'multiImage';
 						break;
-					case 359:
+					case 312:
+						$fieldDataType = 'authySecretTotp';
+						break;
+					case 313:
 						$fieldDataType = 'twitter';
 						break;
 					default:

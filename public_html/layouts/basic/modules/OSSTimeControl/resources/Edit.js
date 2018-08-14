@@ -8,7 +8,7 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js", {}, {
 		$('input[name="sum_time"]').attr('readonly', 'readonly').css('width', '80px');
 		var form = thisInstance.getForm();
 		var sumeTime = thisInstance.differenceDays(form);
-		var hours = (Math.round((sumeTime / 3600000) * 100) / 100).toFixed(2);
+		var hours = (Math.ceil((sumeTime / 3600000) * 100) / 100).toFixed(2);
 
 		jQuery('input[name="sum_time"]').val(hours);
 		jQuery('.dateField').on('change', function () {
@@ -16,7 +16,7 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js", {}, {
 			if (sumeTime == 'Error') {
 				return false;
 			}
-			hours = (Math.round((sumeTime / 3600000) * 100) / 100).toFixed(2);
+			hours = (Math.ceil((sumeTime / 3600000) * 100) / 100).toFixed(2);
 			jQuery('input[name="sum_time"]').val(hours);
 		});
 		jQuery('.clockPicker').on('change', function () {

@@ -23,13 +23,13 @@
 									{/foreach}
 									</div>
 									<div class="col-md-4 btn-toolbar ml-0" >
-										<select class="select2 form-control ml-1" id="moduleFilter"
-												data-placeholder="{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}"
+										<select class="select2 form-control ml-1" id="moduleFilter" data-placeholder="{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}"
 												data-select="allowClear, true">
-											<optgroup class="p-0">
+                      <optgroup class="p-0">
 												<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
-											</optgroup>											{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
-												<option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$MODULE_MODEL->getName()}">
+											</optgroup>	
+											{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
+												<option {if !empty($SOURCE_MODULE) && $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$MODULE_MODEL->getName()}">
 													{if $MODULE_MODEL->getName() eq 'Calendar'}
 														{\App\Language::translate('LBL_TASK', $MODULE_MODEL->getName())}
 													{else}

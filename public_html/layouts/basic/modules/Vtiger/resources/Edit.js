@@ -157,7 +157,7 @@ $.Class("Vtiger_Edit_Js", {
 		}
 		let formElement = container.closest('form');
 		let mappingRelatedField = this.getMappingRelatedField(sourceField, popupReferenceModule, formElement);
-		if (typeof mappingRelatedField != undefined) {
+		if (typeof mappingRelatedField !== 'undefined') {
 			let params = {
 				source_module: popupReferenceModule,
 				record: id
@@ -448,7 +448,7 @@ $.Class("Vtiger_Edit_Js", {
 
 		fieldNameElement.val('');
 		fieldValueContener.find('#' + fieldName + '_display').removeAttr('readonly').val('');
-
+		app.event.trigger('EditView.ClearField', {fieldName: fieldName, referenceModule: referenceModule});
 		var mappingRelatedField = this.getMappingRelatedField(fieldName, referenceModule, formElement);
 		$.each(mappingRelatedField, function (key, value) {
 			var mapFieldElement = formElement.find('[name="' + key + '"]');
@@ -1020,7 +1020,7 @@ $.Class("Vtiger_Edit_Js", {
 		var thisInstance = this;
 		var detailContentsHolder = this.getForm();
 		detailContentsHolder.on('click', '.blockHeader', function (e) {
-			if ($(e.target).is('input') || $(e.target).is('button') || $(e.target).parents().is('button')) {
+			if ($(e.target).is('input') || $(e.target).is('button') || $(e.target).parents().is('button') || $(e.target).hasClass('js-stop-propagation') || $(e.target).parents().hasClass('js-stop-propagation')) {
 				return false;
 			}
 			var currentTarget = $(e.currentTarget).find('.js-block-toggle').not('.d-none');
@@ -1175,10 +1175,11 @@ $.Class("Vtiger_Edit_Js", {
 		fieldValue.find('.referenceModulesList').removeAttr('required');
 	},
 	getMappingRelatedField: function (sourceField, sourceFieldModule, container) {
-		var mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
-		var mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
-		if (typeof mappingRelatedModule[sourceField] !== "undefined" && typeof mappingRelatedModule[sourceField][sourceFieldModule] !== "undefined")
+		const mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
+		const mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
+		if (typeof mappingRelatedModule[sourceField] !== 'undefined' && typeof mappingRelatedModule[sourceField][sourceFieldModule] !== 'undefined') {
 			return mappingRelatedModule[sourceField][sourceFieldModule];
+		}
 		return [];
 	},
 	registerValidationsFields: function (container) {

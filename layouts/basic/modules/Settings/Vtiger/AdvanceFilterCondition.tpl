@@ -62,6 +62,7 @@
 						{/foreach}
 					</optgroup>
 				{/foreach}
+				{if empty($EVENT_RECORD_STRUCTURE)} {assign var="EVENT_RECORD_STRUCTURE" value=[]} {/if}
 				{* Required to display event fields also while adding conditions *}
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
 					<optgroup label='{\App\Language::translate($BLOCK_LABEL, 'Events')}'>
@@ -112,7 +113,11 @@
 				{if empty($FIELD_TYPE)}
 					{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
 				{/if}
-				{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
+				{if !empty($ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE])}
+					{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
+				{else}
+					{assign var=ADVANCE_FILTER_OPTIONS value=[]}
+				{/if}
 				{if in_array($SELECTED_FIELD_MODEL->getFieldType(),['D','DT'])}
 					{assign var=DATE_FILTER_CONDITIONS value=array_keys($DATE_FILTERS)}
 					{assign var=ADVANCE_FILTER_OPTIONS value=array_merge($ADVANCE_FILTER_OPTIONS,$DATE_FILTER_CONDITIONS)}
@@ -120,16 +125,20 @@
 			{/if}
 			<select class="{if empty($NOCHOSEN)}select2{/if} row form-control m-0" name="comparator"
 					title="{\App\Language::translate('LBL_COMAPARATOR_TYPE')}">
-				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
-					<option value="{$ADVANCE_FILTER_OPTION}"
-							{if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{\App\Language::translate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
-				{/foreach}
+				{if !empty($ADVANCE_FILTER_OPTIONS)}
+					{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
+						<option value="{$ADVANCE_FILTER_OPTION}"
+								{if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>
+							{\App\Language::translate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}
+						</option>
+					{/foreach}
+				{/if}
 			</select>
 		</div>
 		<div class="col-md-4 fieldUiHolder">
-			<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}"
+			<input name="{if !empty($SELECTED_FIELD_MODEL)}{$SELECTED_FIELD_MODEL->get('name')}{/if}"
 				   title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control"
-				   type="text" value="{$CONDITION_INFO['value']|escape}"/>
+				   type="text" value="{if !empty($CONDITION_INFO['value'])}{$CONDITION_INFO['value']|escape}{/if}"/>
 		</div>
 		<span class="d-none">
 			{if empty($CONDITION)}
