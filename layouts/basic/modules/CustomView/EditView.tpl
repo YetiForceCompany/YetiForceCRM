@@ -164,10 +164,10 @@
 								   data-js="change"
 								   {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'}checked="checked"{/if}
 								   id="setmetrics" autocomplete="off"/>
-							<span class="fa-layers fa-fw mr-1">
-							<span class="fas fa-chart-pie" data-fa-transform="shrink-5 up-6"></span>
-							<span class="fas fa-chart-line" data-fa-transform="shrink-5 right-7 down-6"></span>
-							<span class="fas fa-chart-area" data-fa-transform="shrink-5 left-7 down-6"></span>
+							<span class="fa-layers fa-fw mr-2">
+								<span class="fas fa-chart-pie" data-fa-transform="shrink-5 up-6"></span>
+								<span class="fas fa-chart-line" data-fa-transform="shrink-5 right-7 down-6"></span>
+								<span class="fas fa-chart-area" data-fa-transform="shrink-5 left-7 down-6"></span>
 							</span>
 							{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE)}
 						</label>
