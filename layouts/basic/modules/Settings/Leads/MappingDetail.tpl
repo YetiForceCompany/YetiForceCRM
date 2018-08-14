@@ -17,9 +17,11 @@
 		<div class="col-md-4 btn-toolbar ml-0 justify-content-end">
 			<div>
 				{foreach item=LINK_MODEL from=$MODULE_MODEL->getDetailViewLinks()}
-					<button type="button" class="btn btn-info" onclick={$LINK_MODEL->getUrl()}><strong><span
-									class="fas fa-edit u-mr-5px"></span>{\App\Language::translate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}
-						</strong></button>
+					<button type="button" class="btn btn-info" onclick={$LINK_MODEL->getUrl()}>
+						<strong>
+							<span class="fas fa-edit u-mr-5px"></span>{\App\Language::translate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}
+						</strong>
+					</button>
 				{/foreach}
 			</div>
 		</div>
