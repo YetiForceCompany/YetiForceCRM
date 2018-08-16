@@ -139,7 +139,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 		$fieldLabelsList = [];
 		while ($rowData = $dataReader->read()) {
 			$fieldInfo = ['id' => $rowData['fieldid'], 'label' => $rowData['fieldlabel']];
-			if ($rowData['tabid'] === $leadId) {
+			if ((int) $rowData['tabid'] === $leadId) {
 				$fieldModel = Settings_Leads_Field_Model::getCleanInstance();
 				$fieldModel->set('uitype', $rowData['uitype']);
 				$fieldModel->set('typeofdata', $rowData['typeofdata']);
@@ -151,7 +151,6 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 			$fieldLabelsList[$rowData['fieldid']] = $fieldInfo;
 		}
 		$dataReader->close();
-
 		return $fieldLabelsList;
 	}
 

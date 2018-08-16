@@ -219,6 +219,18 @@ CREATE TABLE `a_yf_taxes_global` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `b_yf_social_media_twitter` */
+
+CREATE TABLE `b_yf_social_media_twitter` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `twitter_login` varchar(20) NOT NULL,
+  `id_twitter` varchar(32) DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `twitter_login` (`twitter_login`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `com_vtiger_workflow_activatedonce` */
 
 CREATE TABLE `com_vtiger_workflow_activatedonce` (
@@ -2987,6 +2999,18 @@ CREATE TABLE `u_yf_social_media_config` (
   UNIQUE KEY `name_type_unique` (`name`,`type`),
   KEY `type` (`type`),
   KEY `name` (`name`,`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_social_media_twitter` */
+
+CREATE TABLE `u_yf_social_media_twitter` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `twitter_login` varchar(20) NOT NULL,
+  `id_twitter` varchar(32) DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `twitter_login` (`twitter_login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_squoteenquiries` */

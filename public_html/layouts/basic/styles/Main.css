@@ -9818,11 +9818,6 @@ textarea.col-md-11 {
     nowrap: nowrap;
     width: 70%; }
 
-.chzn-container {
-  vertical-align: middle; }
-  .chzn-container .chzn-results li {
-    margin-right: 7px; }
-
 .ui-autocomplete-loading {
   background: #f8f9fa url("../images/load.gif") no-repeat right center; }
 
@@ -11567,7 +11562,7 @@ select[readonly], select[disabled] {
 .u-w-3per-150px {
   width: 3%;
   min-width: 150px !important; }
-  
+
 .u-w-3per-250px {
   width: 3%;
   min-width: 250px !important; }
@@ -11903,7 +11898,8 @@ select[readonly], select[disabled] {
       border-radius: 0.25rem !important;
       white-space: normal; } }
 
-.input-group > .input-group-append > .btn-light {
+.input-group > .input-group-append > .btn-light,
+.input-group > .input-group-prepend > .btn-light {
   border-color: #dee2e6; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
