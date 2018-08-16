@@ -22,7 +22,7 @@
 						<div class="col-12 col-lg-4">
 							<input type="text" name="archiving_records_number_of_days" class="form-control"
 								   id="archiving_records_number_of_days"
-								   value="{$CONFIG_TWITTER->get('archiving_records_number_of_days', '365')}"
+								   value="{$CONFIG_TWITTER->get('archiving_records_number_of_days')}"
 							/>
 						</div>
 					</div>

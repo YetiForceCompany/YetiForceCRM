@@ -1289,8 +1289,7 @@
     "LBL_SHOP_YETIFORCE": "Sklep",
     "LBL_PRINT": "Drukuj",
     "LBL_IMAGE_DOWNLOAD": "Pobierz obraz",
-    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Liczba scalanych rekord\u00F3w zosta\u0142a zredukowana do %d.",
-    "LBL_ARCHIVING_RECORDS_NUMBER_OF_DAYS": "Archiwizowanie rekord\u00f3w liczba dni"
+    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Liczba scalanych rekord\u00F3w zosta\u0142a zredukowana do %d."
   },
   "js": {
     "JS_APPROVE": "Zatwierd\u017A",

@@ -13,10 +13,6 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	 * The name of the tables in the database.
 	 */
 	private const TABLE_NAME = 'u_#__social_media_config';
-	/**
-	 * The name of the cache.
-	 */
-	private const CACHE_NAME = 'SocialMediaConfig';
 
 	/**
 	 * Configuration type.
@@ -62,9 +58,8 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	 */
 	public function getConfig($type)
 	{
-		if (\App\Cache::has(static::CACHE_NAME, $type)) {
-			$this->value = \App\Cache::get(static::CACHE_NAME, $type);
-			return $this->value;
+		if (\App\Cache::has('SocialMediaConfig', $type)) {
+			return $this->value = \App\Cache::get('SocialMediaConfig', $type);
 		}
 		$this->type = $type;
 		$this->value = [];
@@ -78,7 +73,7 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 			$this->value[$row['name']] = \App\Json::decode($row['value']);
 		}
 		$dataReader->close();
-		\App\Cache::save(static::CACHE_NAME, $type, $this->value, \App\Cache::LONG);
+		\App\Cache::save('SocialMediaConfig', $type, $this->value, \App\Cache::LONG);
 		return $this->value;
 	}
 
@@ -94,19 +89,6 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 			$this->newRecords[] = $key;
 		}
 		return parent::set($key, $value);
-	}
-
-	/**
-	 * Function to get the value for a given key.
-	 *
-	 * @param string     $key
-	 * @param mixed|null $defaultVal
-	 *
-	 * @return mixed|null
-	 */
-	public function get($key, $defaultVal = null)
-	{
-		return parent::get($key) ?? $defaultVal;
 	}
 
 	/**
@@ -163,6 +145,6 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	 */
 	public function clearCache()
 	{
-		\App\Cache::delete(static::CACHE_NAME, $this->type);
+		\App\Cache::delete('SocialMediaConfig', $this->type);
 	}
 }
