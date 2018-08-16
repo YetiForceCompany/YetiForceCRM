@@ -1,5 +1,8 @@
 ,{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	{if empty($RECORDID)}
+		{assign var=RECORDID value=''}
+	{/if}
 	<div class="tpl-Settings-PDF-Step1 pdfTemplateContents">
 		<form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step1" class="form-horizontal">
 			<input type="hidden" name="module" value="PDF">
