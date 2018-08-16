@@ -319,10 +319,10 @@ class Picklist
 	{
 		$colors = [];
 		foreach (static::getValues($fieldName) as $id => &$value) {
-			$value['color'] = trim($value['color'], " #\s\t\n\r");
 			if (empty($value['color'])) {
 				$color = \App\Colors::getRandomColor($id);
 			} else {
+				$value['color'] = trim($value['color'], " #\s\t\n\r");
 				$color = '#' . $value['color'];
 			}
 			$colors[$id] = $color;

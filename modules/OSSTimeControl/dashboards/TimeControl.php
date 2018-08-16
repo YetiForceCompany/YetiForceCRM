@@ -141,8 +141,6 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			}
 		}
 		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
-		$viewer->assign('SCRIPTS', null);
-		$viewer->assign('STYLES', null);
 		$viewer->assign('USER_CONDITIONS', null);
 		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());
 		$viewer->assign('USERID', $user);

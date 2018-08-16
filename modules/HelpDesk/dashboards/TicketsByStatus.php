@@ -129,8 +129,6 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 				$dataset['links'][] = $listViewUrl . $this->getSearchParams($name, $owner);
 			}
 		}
-		$viewer->assign('SCRIPTS', null);
-		$viewer->assign('STYLES', null);
 		$viewer->assign('USER_CONDITIONS', $this->conditions);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
