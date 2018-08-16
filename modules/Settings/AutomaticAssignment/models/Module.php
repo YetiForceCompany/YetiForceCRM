@@ -204,7 +204,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 		$autoAssignRecord = $moduleInstance->searchRecord($recordModel);
 		if ($autoAssignRecord) {
 			$owner = $autoAssignRecord->getAssignUser();
-			if ($owner && (int)$owner !== (int)$recordModel->get('assigned_user_id')) {
+			if ($owner && (int) $owner !== (int) $recordModel->get('assigned_user_id')) {
 				$recordModel->set('assigned_user_id', $owner);
 				$recordModel->save();
 			}
