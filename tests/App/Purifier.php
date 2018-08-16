@@ -87,7 +87,7 @@ class Purifier extends \Tests\Base
 	 * @param string|false $textBad
 	 * @dataProvider dataProviderByType
 	 */
-	public function testPurifyByType($type, $assertion, $expected='NOT_SET', $text, $message, $exception)
+	public function testPurifyByType($type, $assertion, $expected = 'NOT_SET', $text, $message, $exception)
 	{
 		$assertion = 'assert' . $assertion;
 		if ($exception) {
@@ -101,18 +101,36 @@ class Purifier extends \Tests\Base
 	}
 
 	/**
-	 * Testing html purifier.
+	 * @codeCoverageIgnore
+	 *
+	 * @return array
 	 */
-	public function testPurifyHtml()
+	public function purifyHtmlProvider()
 	{
-		$text = '<div>Test-text-string-for-purifier</div>';
-		$textBad = 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//   <svg/onload=alert(1) onfocus=alert(2)// KdYe<XnS&#@fs
-  <img src="1"onload=alert(1)>
-  &lt;svg/onload=alert(1)onabort=alert(2)//
-  <img src="1" onerror=alert(1)>
-  ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//  <svg/onload=alert(1) onfocus=alert(2)//';
-		$this->assertSame($text, \App\Purifier::purifyHtml($text), 'Sample text should be unchanged');
-		$this->expectException(\App\Exceptions\IllegalValue::class);
-		$this->assertNotSame($textBad, \App\Purifier::purifyHtml($textBad), 'Sample text should be purified');
+		return [
+			['<div>Test-text-string-for-purifier</div>', '<div>Test-text-string-for-purifier</div>', true],
+			['<img src="1"onload=alert(1)>', '', true],
+			['&lt;svg/onload=alert(1)onabort=alert(2)//', '&lt;svg/onload=alert(1)onabort=alert(2)//', false],
+			['<img src="1" onerror=alert(1)>', '', true],
+			['ę€ółśążźćń23{}":?>><>?:"{}+_)', 'ę€ółśążźćń23{}":?&gt;&gt;&lt;&gt;?:"{}+_)', true],
+			['ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!)', 'ę€ółśążźćń23{}":?&gt;&gt;&lt;&gt;?:"{}+_)(*&amp;^%$#@!)', true],
+			['ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//', 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//', false],
+			['ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//  <svg/onload=alert(1) onfocus=alert(2)//', 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//  <svg/onload=alert(1) onfocus=alert(2)//', false]
+		];
+	}
+
+	/**
+	 * Testing html purifier.
+	 *
+	 * @dataProvider purifyHtmlProvider
+	 */
+	public function testPurifyHtml($text, $expected, $notThrowException)
+	{
+		if ($notThrowException) {
+			$this->assertSame($expected, \App\Purifier::purifyHtml($text), 'Sample text should be unchanged');
+		} else {
+			$this->expectException(\App\Exceptions\IllegalValue::class);
+			$this->assertNotSame($expected, \App\Purifier::purifyHtml($text), 'Sample text should be purified');
+		}
 	}
 }
