@@ -105,9 +105,12 @@
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-success" type="button" name="saveButton">
-						<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
+						<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
+					</button>&nbsp;&nbsp;
 					<button class="btn btn-warning cancelLink" type="button"
-							data-close-modal="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+							data-close-modal="modal">
+						{\App\Language::translate('LBL_CANCEL', $MODULE)}
+					</button>
 				</div>
 			</div>
 		</div>

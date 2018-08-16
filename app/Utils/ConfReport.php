@@ -98,7 +98,7 @@ class ConfReport
 		'max_input_vars' => ['recommended' => 10000, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
 		'zlib.output_compression' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.auto_start' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
-		'session.gc_maxlifetime' => ['recommended' => 21600, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
+		'session.gc_maxlifetime' => ['recommended' => 1440, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
 		'session.gc_divisor' => ['recommended' => 500, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
 		'session.gc_probability' => ['recommended' => 1, 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
 		'mbstring.func_overload' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true], //Roundcube
@@ -523,7 +523,7 @@ class ConfReport
 	 */
 	private static function validateGreater(string $name, array $row, string $sapi)
 	{
-		if ((int) $row[$sapi] > 0 && (int) $row[$sapi] < (int) $row['recommended']) {
+		if (isset($row[$sapi]) && (int) $row[$sapi] > 0 && (int) $row[$sapi] < (int) $row['recommended']) {
 			$row['status'] = false;
 		}
 		return $row;
@@ -540,7 +540,7 @@ class ConfReport
 	 */
 	private static function validateGreaterMb(string $name, array $row, string $sapi)
 	{
-		if ($row[$sapi] !== '-1' && \vtlib\Functions::parseBytes($row[$sapi]) < \vtlib\Functions::parseBytes($row['recommended'])) {
+		if (isset($row[$sapi]) && $row[$sapi] !== '-1' && \vtlib\Functions::parseBytes($row[$sapi]) < \vtlib\Functions::parseBytes($row['recommended'])) {
 			$row['status'] = false;
 		}
 		$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi]);
@@ -558,7 +558,7 @@ class ConfReport
 	 */
 	private static function validateEqual(string $name, array $row, string $sapi)
 	{
-		if (strtolower((string) $row[$sapi]) !== strtolower((string) $row['recommended'])) {
+		if (isset($row[$sapi]) && strtolower((string) $row[$sapi]) !== strtolower((string) $row['recommended'])) {
 			$row['status'] = false;
 		}
 		return $row;
@@ -612,7 +612,7 @@ class ConfReport
 	private static function parserOnOff(string $name, array $row)
 	{
 		$container = $row['container'];
-		$current = static::$$container[\strtolower($name)];
+		$current = static::$$container[\strtolower($name)] ?? '';
 		static $map = ['on' => 'On', 'true' => 'On', 'off' => 'Off', 'false' => 'Off'];
 		return isset($map[strtolower($current)]) ? $map[strtolower($current)] : ($current ? 'On' : 'Off');
 	}
