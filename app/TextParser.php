@@ -382,7 +382,7 @@ class TextParser
 			Language::setTemporaryLanguage($this->language);
 		}
 		$this->content = preg_replace_callback('/\$\(translate : ([,"\+\%\.\-\[\]\&\w\s\|]+)\)\$/u', function ($matches) {
-			list(, $params) = $matches;
+			list(, $params) = array_pad($matches, 2, '');
 			return $this->translate($params);
 		}, $this->content);
 		Language::clearTemporaryLanguage();
@@ -616,7 +616,7 @@ class TextParser
 	 */
 	protected function relatedRecord($params)
 	{
-		list($fieldName, $relatedField, $relatedModule) = explode('|', $params);
+		list($fieldName, $relatedField, $relatedModule) = array_pad(explode('|', $params), 3, '');
 		if (!isset($this->recordModel) ||
 			!Privilege::isPermitted($this->moduleName, 'DetailView', $this->record) ||
 			$this->recordModel->isEmpty($fieldName)) {
@@ -625,6 +625,9 @@ class TextParser
 		$relatedId = $this->recordModel->get($fieldName);
 		if (empty($relatedId)) {
 			return '';
+		}
+		if (empty($relatedModule) && \in_array($this->recordModel->getField($fieldName)->getFieldDataType(), ['owner'])) {
+			$relatedModule = 'Users';
 		}
 		if ($relatedModule === 'Users') {
 			$ownerType = Fields\Owner::getType($relatedId);
@@ -656,7 +659,6 @@ class TextParser
 					$return[] = $instance->record($relatedField, false);
 				}
 			}
-
 			return implode($this->relatedRecordSeparator, $return);
 		}
 		$moduleName = Record::getType($relatedId);
@@ -889,7 +891,7 @@ class TextParser
 				$value = \DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value)->format('H:i:s');
 				if ((int) $userModel->get('hour_format') === 12) {
 					if ($value) {
-						list($hours, $minutes) = explode(':', $value);
+						list($hours, $minutes) = array_pad(explode(':', $value), 2, '');
 						$format = '$(translate : PM)$';
 						if ($hours > 12) {
 							$hours = (int) $hours - 12;
