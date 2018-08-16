@@ -2985,8 +2985,7 @@ CREATE TABLE `u_yf_social_media_config` (
   `type` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_type_unique` (`name`,`type`),
-  KEY `type` (`type`),
-  KEY `name` (`name`,`type`)
+  KEY `type` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_squoteenquiries` */
