@@ -2792,36 +2792,37 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 	multifilterControlsView: false,
 	multifilterContentView: false,
 	multifilterSettingsView: false,
-	registerMultifilter: function () {
-		let self = this,
-			selectValue = app.cacheGet('multifilterSelectValue', null);
+	registerMultifilter() {
+		let selectValue = app.cacheGet('multifilterSelectValue', null),
+			multifilterSettings = this.getMultifilterSettings();
 		if (null != selectValue) {
-			self.getMultifilterSettings().find('select').val(selectValue);
+			multifilterSettings.find('.js-select').val(selectValue);
 		}
-		this.getMultifilterSettings().find('select').select2({
+		multifilterSettings.find('.js-select').select2({
 			height: "30px",
 			templateSelection: function (item) {
 				return item.text;
 			}
 		});
-		self.loadMultifilterData(true);
-		self.getMultifilterSettings().find('[name="customMultiFilter"]').on('select2:select', function () {
-			self.loadMultifilterData(true);
-			app.cacheSet('multifilterSelectValue', self.getMultifilterSettings().find('[name="customMultiFilter"]').val());
+		this.loadMultifilterData(true);
+		multifilterSettings.find('.js-select').on('select2:select', () => {
+			this.loadMultifilterData(true);
+			app.cacheSet('multifilterSelectValue', multifilterSettings.find('.js-select').val());
 		});
-		self.getMultifilterSettings().find('[name="customMultiFilter"]').on('select2:unselect', function () {
-			self.loadMultifilterData(false);
-			app.cacheSet('multifilterSelectValue', self.getMultifilterSettings().find('[name="customMultiFilter"]').val());
+		multifilterSettings.find('.js-select').on('select2:unselect', () => {
+			this.loadMultifilterData(false);
+			app.cacheSet('multifilterSelectValue', multifilterSettings.find('.js-select').val());
 		});
-		self.registerShowHideModuleSettings();
+		this.registerShowHideModuleSettings();
 	},
-	loadMultifilterData: function (select = true) {
-		let self = this,
-			widgetId = self.getMultifilterControls().attr('data-widgetid'),
-			multifilterIds = self.getMultifilterSettings().find('[name="customMultiFilter"] option:selected'),
+	loadMultifilterData(select = true) {
+		const self = this;
+		let widgetId = self.getMultifilterControls().attr('data-widgetid'),
+			multifilterIds = self.getMultifilterSettings().find('.js-select option:selected'),
 			params = [];
 		multifilterIds.each(function () {
 			let existFilter = self.getMultifilterContent().find('[data-id="' + $(this).val() + '"]');
+			let thisInstance = $(this);
 			if (select) {
 				if (0 < existFilter.length) {
 					return true;
@@ -2830,41 +2831,37 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 				self.getMultifilterContent().html('');
 			}
 			params = {
-				module: $(this).data('module'),
-				modulename: $(this).data('module'),
+				module: thisInstance.data('module'),
+				modulename: thisInstance.data('module'),
 				view: 'ShowWidget',
 				name: 'Multifilter',
 				content: true,
 				widget: true,
 				widgetid: widgetId,
-				filterid: $(this).val()
+				filterid: thisInstance.val()
 			};
 			self.loadListData(params);
 		});
 	},
-	loadListData: function (params) {
-		let self = this,
-			aDeferred = jQuery.Deferred();
-		AppConnector.request(params).then(
-			function (data) {
-				let addedContent = self.getMultifilterContent().append(data).children("div:last-child");
-				self.registerShowHideBlocks();
-				self.registerRecordsCount(addedContent);
-				aDeferred.resolve();
-			},
-			function () {
-				aDeferred.reject();
-			}
-		);
+	loadListData(params) {
+		const self = this;
+		let aDeferred = jQuery.Deferred();
+		AppConnector.request(params).done(function (data) {
+			let addedContent = self.getMultifilterContent().append(data).children("div:last-child");
+			self.registerShowHideBlocks();
+			self.registerRecordsCount(addedContent);
+			aDeferred.resolve();
+		}).fail(function (error) {
+			aDeferred.reject();
+		});
 		return aDeferred.promise();
 	},
-	registerShowHideModuleSettings: function () {
-		let self = this;
-		self.getMultifilterControls().find('.js-widget-settings').on('click', function () {
-			self.getMultifilterSettings().toggleClass('d-none');
+	registerShowHideModuleSettings() {
+		this.getMultifilterControls().find('.js-widget-settings').on('click', () => {
+			this.getMultifilterSettings().toggleClass('d-none');
 		});
 	},
-	registerShowHideBlocks: function () {
+	registerShowHideBlocks() {
 		let detailContentsHolder = this.getMultifilterContent();
 		detailContentsHolder.find('.blockHeader').off("click");
 		detailContentsHolder.find('.blockHeader').click(function () {
@@ -2889,35 +2886,34 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 			}
 		});
 	},
-	registerRecordsCount: function (container) {
+	registerRecordsCount(container) {
 		let url = container.data('url');
-		AppConnector.request(url).then(function (response) {
-			container.find('.js-count').html(response.result.totalCount);
+		AppConnector.request(url).done(function (data) {
+			container.find('.js-count').html(data.result.totalCount);
 		});
 	},
-	getMultifilterControls: function () {
+	getMultifilterControls() {
 		if (this.multifilterControlsView == false) {
 			this.multifilterControlsView = this.getContainer().find('.js-multifilterControls');
 		}
 		return this.multifilterControlsView;
 	},
-	getMultifilterContent: function () {
+	getMultifilterContent() {
 		if (this.multifilterContentView == false) {
 			this.multifilterContentView = this.getContainer().find('.js-multifilterContent');
 		}
 		return this.multifilterContentView;
 	},
-	getMultifilterSettings: function () {
+	getMultifilterSettings() {
 		if (this.multifilterSettingsView == false) {
 			this.multifilterSettingsView = this.getContainer().find('.js-settings-widget');
 		}
 		return this.multifilterSettingsView;
 	},
-	postLoadWidget: function () {
+	postLoadWidget() {
 		this.registerMultifilter();
 	},
-	refreshWidget: function () {
-		let self = this;
-		self.loadMultifilterData(false);
+	refreshWidget() {
+		this.loadMultifilterData(false);
 	},
 });

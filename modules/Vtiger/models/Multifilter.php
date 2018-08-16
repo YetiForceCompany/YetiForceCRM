@@ -24,6 +24,7 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	 * @var array
 	 */
 	protected $searchParams = [];
+	const SHOW_COMULNS = 4;
 
 	/**
 	 * Set widget model.
@@ -92,7 +93,7 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 		$queryGenerator->initForCustomViewById($this->getFilterId());
 		$fields = [];
 		foreach ($queryGenerator->getListViewFields() as $field) {
-			if (4 <= count($fields)) {
+			if (self::SHOW_COMULNS <= count($fields)) {
 				break;
 			}
 			$fields[] = $field->getColumnName();
