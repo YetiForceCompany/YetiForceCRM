@@ -11658,7 +11658,8 @@ select[readonly], select[disabled] {
   width: 8%; }
 
 .u-w-5per {
-  width: 5%; }
+  min-width: 5%;
+  max-width: 25%; }
 
 .u-disabled {
   pointer-events: none;
@@ -11671,6 +11672,34 @@ select[readonly], select[disabled] {
 
 .u-opacity-muted {
   opacity: 0.2; }
+
+.u-columns__item {
+  display: inline-block;
+  width: 100%; }
+.u-columns-gap-05rem {
+  -webkit-column-gap: 0.5rem;
+  -moz-column-gap: 0.5rem;
+  column-gap: 0.5rem; }
+.u-columns-count-auto {
+  -webkit-column-count: auto;
+  -moz-column-count: auto;
+  column-count: auto; }
+.u-columns-width-27rem {
+  -webkit-column-width: 27rem;
+  -moz-column-width: 27rem;
+  column-width: 27rem; }
+
+.u-position-r-10px {
+  right: 0.625rem; }
+
+.u-position-t-10px {
+  top: 0.625rem; }
+
+.u-position-r-5px {
+  right: 0.3125rem; }
+
+.u-position-t-5px {
+  top: 0.3125rem; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel, .bodyContents, .mainContainer, .contentsDiv {
