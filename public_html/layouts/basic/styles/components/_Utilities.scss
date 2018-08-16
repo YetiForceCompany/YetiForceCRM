@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+//--- MIXINS ---//
 @mixin u-transition($settings) {
 	-webkit-transition: $settings;
 	-moz-transition: $settings;
@@ -12,6 +14,25 @@
 	-webkit-box-shadow: $settings;
 	box-shadow: $settings;
 }
+
+@mixin u-column-count($number) {
+	-webkit-column-count: $number;
+	-moz-column-count: $number;
+	column-count: $number;
+}
+
+@mixin u-column-gap($number) {
+	-webkit-column-gap: $number;
+	-moz-column-gap: $number;
+	column-gap: $number;
+}
+
+@mixin u-column-width($number) {
+	-webkit-column-width: $number;
+	-moz-column-width: $number;
+	column-width: $number;
+}
+
 //--- TEXT ---//
 .u-text-small-bold {
 	@extend .small;
@@ -38,13 +59,13 @@
 	}
 }
 
-.u-text-ellipsis--no-hover, .js-popover-tooltip[data-ellipsis]{
+.u-text-ellipsis--no-hover, .js-popover-tooltip[data-ellipsis] {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
-.u-text-ellipsis--not-active{
+.u-text-ellipsis--not-active {
 	width: auto !important;
 	text-overflow: unset !important;
 	visibility: hidden !important;
@@ -79,10 +100,12 @@
 .u-font-size-44px {
 	font-size: calculate-rem(44px);
 }
+
 //--- MARGIN ---//
-.u-m-5px{
+.u-m-5px {
 	margin: 5px;
 }
+
 .u-ml-0 {
 	margin-left: 0 !important;
 }
@@ -169,8 +192,9 @@
 }
 
 .u-w-3per-250px {
-  width: 3%;
-  min-width: 250px !important; }
+	width: 3%;
+	min-width: 250px !important;
+}
 
 .u-w-85px {
 	width: 85px;
@@ -199,6 +223,7 @@
 .u-max-w-150px {
 	max-width: 150px;
 }
+
 //--- HEIGHT ---//
 .u-h-600px {
 	height: 600px !important;
@@ -208,7 +233,7 @@
 	height: $h-input-text;
 }
 
-.u-h-120px{
+.u-h-120px {
 	height: $h-modal-logo;
 }
 
@@ -316,7 +341,8 @@
 }
 
 .u-w-5per {
-	width: 5%;
+	min-width: 5%;
+	max-width: 25%;
 }
 
 .u-disabled {
@@ -331,3 +357,24 @@
 .u-opacity-muted {
 	opacity: 0.2;
 }
+
+//--- COLUMNS ---///
+.u-columns {
+	&__item {
+		display: inline-block;
+		width: 100%;
+	}
+
+	&-gap-05rem {
+		@include u-column-gap(0.5rem);
+	}
+
+	&-count-auto {
+		@include u-column-count(auto);
+	}
+
+	&-width-27rem {
+		@include u-column-width(27rem);
+	}
+}
+
