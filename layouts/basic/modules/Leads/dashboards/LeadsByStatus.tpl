@@ -13,18 +13,12 @@
 	YetiForce_Bar_Widget_Js('YetiForce_LeadsByStatus_Widget_Js',{}, {});
 </script>
 <div class="dashboardWidgetHeader">
-	{foreach key=index item=cssModel from=$STYLES}
-		<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
-	{/foreach}
-	{foreach key=index item=jsModel from=$SCRIPTS}
-		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
-	{/foreach}
 	{assign var=WIDGET_WIDTH value=$WIDGET->getWidth()}
 	<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 	</div>
-	<hr class="widgetHr" />
+	<hr class="widgetHr"/>
 	<div class="row no-gutters">
 		<div class="col-ceq-xsm-6">
 			<div class="input-group input-group-sm">
@@ -33,7 +27,9 @@
 						<span class="fas fa-calendar-alt"></span>
 					</span>
 				</div>
-				<input type="text" name="createdtime" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField widgetFilter form-control text-center" value="{implode(',', $DTIME)}" aria-label="Small" aria-describedby="inputGroup-sizing-sm"/>
+				<input type="text" name="createdtime" title="{\App\Language::translate('Created Time', $MODULE_NAME)}"
+					   class="dateRangeField widgetFilter form-control text-center" value="{implode(',', $DTIME)}"
+					   aria-label="Small" aria-describedby="inputGroup-sizing-sm"/>
 			</div>
 		</div>
 		<div class="col-ceq-xsm-6">

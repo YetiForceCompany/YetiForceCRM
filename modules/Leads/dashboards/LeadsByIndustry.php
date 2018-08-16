@@ -106,9 +106,6 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$data['datasets'][0]['links'][] = $listViewUrl . $this->getSearchParams($data['datasets'][0]['names'][$i], $owner, $createdTime);
 		}
 		//Include special script and css needed for this widget
-		$viewer->assign('SCRIPTS', null);
-		$viewer->assign('STYLES', null);
-		$viewer->assign('USER_CONDITIONS', null);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
