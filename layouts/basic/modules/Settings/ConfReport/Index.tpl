@@ -1,19 +1,26 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 
 <div class="tpl-Settings-ConfReport-Index">
-	<div class="widget_header row">
-		<div class="col-12 col-md-8 col-sm-7">
+	<div class="o-breadcrumb js-breadcrumb widget_header mb-2 d-flex flex-nowrap flex-md-wrap justify-content-between px-2 row">
+		<div class="o-breadcrumb__container">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
-		<div class="col-12 col-md-4 col-sm-5 align-items-center d-sm-flex justify-content-end text-center text-sm-right">
-			<button class="btn btn-info js-check-php float-right mr-lg-1" data-js="click">
-				<span class="fab fa-php mr-lg-1"></span>{App\Language::translate('BTN_CHECK_LATEST_VERSION',$QUALIFIED_MODULE)}
+		<a class="btn btn-outline-dark d-md-none my-auto o-breadcrumb__actions-btn js-breadcrumb__actions-btn"
+		   href="#" data-js="click" role="button"
+		   aria-expanded="false" aria-controls="o-view-actions__container">
+							<span class="fas fa-ellipsis-h fa-fw"
+								  title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
+		</a>
+		<div class="detailViewToolbar my-auto o-breadcrumb__actions js-breadcrumb__actions d-flex float-right flex-column flex-md-row ml-md-2 pb-md-2 pb-lg-0"
+			 id="o-view-actions__container">
+			<button class="btn btn-info js-check-php mr-md-2 flex-md-nowrap mt-1 mt-md-0" data-js="click">
+				<span class="fab fa-php mr-1"></span>{App\Language::translate('BTN_CHECK_LATEST_VERSION',$QUALIFIED_MODULE)}
 			</button>
-			<button class="btn btn-primary js-test-speed float-right mr-lg-1" data-js="click">
-				<span class="fas fa-stopwatch mr-lg-1"></span>{App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}
+			<button class="btn btn-primary js-test-speed mr-md-2 flex-md-nowrap mt-1 mt-md-0" data-js="click">
+				<span class="fas fa-stopwatch mr-1"></span>{App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}
 			</button>
-			<button id="download-image" class="btn btn-outline-dark">
-				<span class="fas fa-download"></span> {\App\Language::translate('LBL_DOWNLOAD_CONFIG', $MODULE)}
+			<button id="download-image" class="btn btn-outline-dark mr-md-2 flex-md-nowrap mt-1 mt-md-0">
+				<span class="fas fa-download mr-1"></span>{\App\Language::translate('LBL_DOWNLOAD_CONFIG', $MODULE)}
 			</button>
 		</div>
 	</div>
