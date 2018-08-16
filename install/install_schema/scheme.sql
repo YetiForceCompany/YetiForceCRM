@@ -226,8 +226,7 @@ CREATE TABLE `b_yf_social_media_twitter` (
   `twitter_login` varchar(20) NOT NULL,
   `id_twitter` varchar(32) DEFAULT NULL,
   `message` text DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `data_json` text DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `twitter_login` (`twitter_login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2996,8 +2995,7 @@ CREATE TABLE `u_yf_social_media_twitter` (
   `twitter_login` varchar(20) NOT NULL,
   `id_twitter` varchar(32) DEFAULT NULL,
   `message` text DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `data_json` text DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `twitter_login` (`twitter_login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -6605,7 +6603,7 @@ CREATE TABLE `vtiger_modentity_num` (
   `postfix` varchar(50) NOT NULL DEFAULT '',
   `start_id` int(10) unsigned NOT NULL,
   `cur_id` int(10) unsigned NOT NULL,
-  `reset_sequence` char(1) DEFAULT NULL,
+  `reset_sequence` char(1),
   `cur_sequence` varchar(10) DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `semodule` (`cur_id`),
