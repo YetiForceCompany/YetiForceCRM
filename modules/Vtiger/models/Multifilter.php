@@ -9,13 +9,60 @@
  */
 class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 {
+	/**
+	 * Widget model.
+	 *
+	 * @var \Vtiger_Widget_Model
+	 */
 	protected $widgetModel;
+
+	/**
+	 * Extra data.
+	 *
+	 * @var array
+	 */
 	protected $extraData;
+
+	/**
+	 * QueryGenerator model.
+	 *
+	 * @var QueryGenerator
+	 */
 	protected $queryGenerator;
+
+	/**
+	 * List of view headers.
+	 *
+	 * @var array
+	 */
 	protected $listviewHeaders;
+
+	/**
+	 * List of view records.
+	 *
+	 * @var array
+	 */
 	protected $listviewRecords;
+
+	/**
+	 * Target module model.
+	 *
+	 * @var \Vtiger_Module_Model
+	 */
 	protected $targetModuleModel;
+
+	/**
+	 * Filter id.
+	 *
+	 * @var int
+	 */
 	protected $filtersId;
+
+	/**
+	 * Module name.
+	 *
+	 * @var string
+	 */
 	protected $modulesName;
 
 	/**
@@ -24,10 +71,16 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	 * @var array
 	 */
 	protected $searchParams = [];
+
+	/**
+	 * Set numer of shown columns in list.
+	 *
+	 * @var array
+	 */
 	const SHOW_COMULNS = 4;
 
 	/**
-	 * Set widget model.
+	 * Set widget model to show.
 	 *
 	 * @param $widgetModel
 	 *
@@ -43,6 +96,8 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
+	 * Set filter id to show.
+	 *
 	 * @param $filterId
 	 */
 	public function setFilterId($filterId)
@@ -51,6 +106,8 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
+	 * Set actual module name.
+	 *
 	 * @param $modulesName
 	 */
 	public function setModulesName($modulesName)
