@@ -30,8 +30,8 @@
 									<option data-ui="textarea" value="fieldname">
 										{\App\Language::translate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}
 									</option>
-									<option data-ui="textarea" value="expression">
-										{\App\Language::translate('LBL_EXPRESSION',$QUALIFIED_MODULE)}
+									<option data-ui="textarea"
+											value="expression">{\App\Language::translate('LBL_EXPRESSION',$QUALIFIED_MODULE)}
 									</option>
 								</optgroup>	
 							</select>
