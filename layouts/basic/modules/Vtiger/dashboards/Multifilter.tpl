@@ -23,12 +23,14 @@
 		</div>
 	</div>
 	<div class="dashboardWidgetContent">
-		<div class="js-settings-widget row no-gutters mb-1 pb-1 border-bottom d-none" data-js="toggleClass">
+		<div class="js-settings-widget row no-gutters mb-1 pb-1 border-bottom d-none"
+			 data-js="class:.js-settings-widget">
 			<hr class="widgetHr"/>
 			<div class="col-sm-12">
 				<div class="input-group input-group-sm">
-					<select class="widgetFilter form-control customFilter input-sm" multiple="multiple"
-							name="customMultiFilter" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
+					<select name="customMultiFilter" class="js-select widgetFilter form-control customFilter input-sm"
+							data-js="container" multiple="multiple"
+							title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 						{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAll()}
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 							{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
