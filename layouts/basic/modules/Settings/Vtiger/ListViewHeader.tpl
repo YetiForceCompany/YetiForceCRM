@@ -52,16 +52,13 @@
 					<optgroup class="p-0">
 						<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 					</optgroup>
-						{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
-							<option {if !empty($SOURCE_MODULE) && $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$TAB_ID}">
-								{App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
-							</option>
-						{/foreach}
-					</select>
-				</div>
-			{/if}
-			<div class="col-12 col-sm-4 d-flex flex-row-reverse">
-				{include file=\App\Layout::getTemplatePath('ListViewActions.tpl', $QUALIFIED_MODULE)}
+					{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
+						<option {if !empty($SOURCE_MODULE) && $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if}
+								value="{$TAB_ID}">
+							{App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
+						</option>
+					{/foreach}
+				</select>
 			</div>
 		{/if}
 		<div class="col-12 col-sm-4 d-flex flex-row-reverse">

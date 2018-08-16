@@ -1270,10 +1270,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 			return;
 		}
 		content.css('height', adjustedHeight + 'px');
-		content.css('max-height',adjustedHeight+'px');
+		content.css('max-height', adjustedHeight + 'px');
 		if (typeof this.scrollbar !== 'undefined') {
 			this.scrollbar.update();
-		}else {
+		} else {
 			this.scrollbar = app.showNewScrollbar(content, {
 				wheelPropagation: true
 			});
@@ -2786,5 +2786,134 @@ YetiForce_Widget_Js('YetiForce_ChartFilter_Widget_Js', {}, {
 			}
 		}
 		this.registerRecordsCount();
+	},
+});
+YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
+	multifilterControlsView: false,
+	multifilterContentView: false,
+	multifilterSettingsView: false,
+	registerMultifilter() {
+		let selectValue = app.cacheGet('multifilterSelectValue', null),
+			multifilterSettings = this.getMultifilterSettings();
+		if (null != selectValue) {
+			multifilterSettings.find('.js-select').val(selectValue);
+		}
+		multifilterSettings.find('.js-select').select2({
+			height: "30px",
+			templateSelection: function (item) {
+				return item.text;
+			}
+		});
+		this.loadMultifilterData(true);
+		multifilterSettings.find('.js-select').on('select2:select', () => {
+			this.loadMultifilterData(true);
+			app.cacheSet('multifilterSelectValue', multifilterSettings.find('.js-select').val());
+		});
+		multifilterSettings.find('.js-select').on('select2:unselect', () => {
+			this.loadMultifilterData(false);
+			app.cacheSet('multifilterSelectValue', multifilterSettings.find('.js-select').val());
+		});
+		this.registerShowHideModuleSettings();
+	},
+	loadMultifilterData(select = true) {
+		const self = this;
+		let widgetId = self.getMultifilterControls().attr('data-widgetid'),
+			multifilterIds = self.getMultifilterSettings().find('.js-select option:selected'),
+			params = [];
+		multifilterIds.each(function () {
+			let existFilter = self.getMultifilterContent().find('[data-id="' + $(this).val() + '"]');
+			let thisInstance = $(this);
+			if (select) {
+				if (0 < existFilter.length) {
+					return true;
+				}
+			} else {
+				self.getMultifilterContent().html('');
+			}
+			params = {
+				module: thisInstance.data('module'),
+				modulename: thisInstance.data('module'),
+				view: 'ShowWidget',
+				name: 'Multifilter',
+				content: true,
+				widget: true,
+				widgetid: widgetId,
+				filterid: thisInstance.val()
+			};
+			self.loadListData(params);
+		});
+	},
+	loadListData(params) {
+		const self = this;
+		let aDeferred = jQuery.Deferred();
+		AppConnector.request(params).done(function (data) {
+			let addedContent = self.getMultifilterContent().append(data).children("div:last-child");
+			self.registerShowHideBlocks();
+			self.registerRecordsCount(addedContent);
+			aDeferred.resolve();
+		}).fail(function (error) {
+			aDeferred.reject();
+		});
+		return aDeferred.promise();
+	},
+	registerShowHideModuleSettings() {
+		this.getMultifilterControls().find('.js-widget-settings').on('click', () => {
+			this.getMultifilterSettings().toggleClass('d-none');
+		});
+	},
+	registerShowHideBlocks() {
+		let detailContentsHolder = this.getMultifilterContent();
+		detailContentsHolder.find('.blockHeader').off("click");
+		detailContentsHolder.find('.blockHeader').click(function () {
+			let currentTarget = $(this).find('.js-block-toggle').not('.d-none'),
+				closestBlock = currentTarget.closest('.js-toggle-panel'),
+				bodyContents = closestBlock.find('.blockContent'),
+				data = currentTarget.data();
+			let hideHandler = function () {
+				bodyContents.addClass('d-none');
+			};
+			let showHandler = function () {
+				bodyContents.removeClass('d-none');
+			};
+			if ('show' == data.mode) {
+				hideHandler();
+				currentTarget.addClass('d-none');
+				closestBlock.find('[data-mode="hide"]').removeClass('d-none');
+			} else {
+				showHandler();
+				currentTarget.addClass('d-none');
+				closestBlock.find("[data-mode='show']").removeClass('d-none');
+			}
+		});
+	},
+	registerRecordsCount(container) {
+		let url = container.data('url');
+		AppConnector.request(url).done(function (data) {
+			container.find('.js-count').html(data.result.totalCount);
+		});
+	},
+	getMultifilterControls() {
+		if (this.multifilterControlsView == false) {
+			this.multifilterControlsView = this.getContainer().find('.js-multifilterControls');
+		}
+		return this.multifilterControlsView;
+	},
+	getMultifilterContent() {
+		if (this.multifilterContentView == false) {
+			this.multifilterContentView = this.getContainer().find('.js-multifilterContent');
+		}
+		return this.multifilterContentView;
+	},
+	getMultifilterSettings() {
+		if (this.multifilterSettingsView == false) {
+			this.multifilterSettingsView = this.getContainer().find('.js-settings-widget');
+		}
+		return this.multifilterSettingsView;
+	},
+	postLoadWidget() {
+		this.registerMultifilter();
+	},
+	refreshWidget() {
+		this.loadMultifilterData(false);
 	},
 });

@@ -708,7 +708,7 @@ class Import_Data_Action extends \App\Controller\Action
 		}
 		$values = explode(' |##| ', trim($fieldValue));
 		$fieldValue = '';
-		$trees = \App\Fields\Tree::getValuesById((int) $fieldInstance->getFieldParams());
+		$trees = \App\Fields\Tree::getValuesById((int)$fieldInstance->getFieldParams());
 		foreach ($trees as $tree) {
 			foreach ($values as $value) {
 				if ($tree['name'] === $value) {
@@ -820,7 +820,7 @@ class Import_Data_Action extends \App\Controller\Action
 	public function getImportStatusCount()
 	{
 		$statusCount = ['TOTAL' => 0, 'IMPORTED' => 0, 'FAILED' => 0, 'PENDING' => 0,
-			'CREATED' => 0, 'SKIPPED' => 0, 'UPDATED' => 0, 'MERGED' => 0, ];
+			'CREATED' => 0, 'SKIPPED' => 0, 'UPDATED' => 0, 'MERGED' => 0,];
 		$tableName = Import_Module_Model::getDbTableName($this->user);
 		$query = (new \App\Db\Query())->select(['temp_status'])->from($tableName);
 		$dataReader = $query->createCommand()->query();
@@ -925,7 +925,7 @@ class Import_Data_Action extends \App\Controller\Action
 				foreach ($importRecords['headers'] as $columnName => $header) {
 					$record->set($columnName, $row[$columnName]);
 				}
-				if ($row['temp_status'] === self::IMPORT_RECORD_SKIPPED) {
+				if ((int)$row['temp_status'] === self::IMPORT_RECORD_SKIPPED) {
 					$importRecords['skipped'][] = $record;
 				} else {
 					$importRecords['failed'][] = $record;

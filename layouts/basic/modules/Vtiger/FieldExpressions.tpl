@@ -24,32 +24,44 @@
 						<span class="col-md-4">
 							<select class="textType form-control">
 								<optgroup>
-									<option data-ui="textarea" value="rawtext">{\App\Language::translate('LBL_RAW_TEXT',$QUALIFIED_MODULE)}</option>
-									<option data-ui="textarea" value="fieldname">{\App\Language::translate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}</option>
-									<option data-ui="textarea" value="expression">{\App\Language::translate('LBL_EXPRESSION',$QUALIFIED_MODULE)}</option>
+									<option data-ui="textarea" value="rawtext">
+										{\App\Language::translate('LBL_RAW_TEXT',$QUALIFIED_MODULE)}
+									</option>
+									<option data-ui="textarea" value="fieldname">
+										{\App\Language::translate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}
+									</option>
+									<option data-ui="textarea"
+											value="expression">{\App\Language::translate('LBL_EXPRESSION',$QUALIFIED_MODULE)}
+									</option>
 								</optgroup>	
 							</select>
 						</span>
 						<span class="col-md-4 d-none useFieldContainer">
 							<span name="{$MODULE_MODEL->get('name')}" class="useFieldElement">
 								{assign var=MODULE_FIELDS value=$MODULE_MODEL->getFields()}
-								<select class="useField form-control" data-placeholder="{\App\Language::translate('LBL_USE_FIELD',$QUALIFIED_MODULE)}">
+								<select class="useField form-control"
+										data-placeholder="{\App\Language::translate('LBL_USE_FIELD',$QUALIFIED_MODULE)}">
 									<option></option>
 									<optgroup>
 										{foreach from=$MODULE_FIELDS item=MODULE_FIELD}
-											<option value="{$MODULE_FIELD->getName()}">{\App\Language::translate($MODULE_FIELD->get('label'),$MODULE_MODEL->get('name'))}</option>
+											<option value="{$MODULE_FIELD->getName()}">
+												{\App\Language::translate($MODULE_FIELD->get('label'),$MODULE_MODEL->get('name'))}
+											</option>
 										{/foreach}
 									</optgroup>
 								</select>
 							</span>
-							{if $RELATED_MODULE_MODEL neq ''}
+							{if !empty($RELATED_MODULE_MODEL)}
 								<span name="{$RELATED_MODULE_MODEL->get('name')}" class="useFieldElement">
 									{assign var=MODULE_FIELDS value=$RELATED_MODULE_MODEL->getFields()}
-									<select class="useField form-control" data-placeholder="{\App\Language::translate('LBL_USE_FIELD',$QUALIFIED_MODULE)}">
+									<select class="useField form-control"
+											data-placeholder="{\App\Language::translate('LBL_USE_FIELD',$QUALIFIED_MODULE)}">
 										<option></option>
 										<optgroup>
 											{foreach from=$MODULE_FIELDS item=MODULE_FIELD}
-												<option value="{$MODULE_FIELD->getName()}">{\App\Language::translate($MODULE_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
+												<option value="{$MODULE_FIELD->getName()}">
+													{\App\Language::translate($MODULE_FIELD->get('label'),$QUALIFIED_MODULE)}
+												</option>
 											{/foreach}
 										</optgroup>
 									</select>
@@ -57,19 +69,24 @@
 							{/if}
 						</span>
 						<span class="col-md-4 d-none useFunctionContainer">
-							<select class="useFunction form-control" data-placeholder="{\App\Language::translate('LBL_USE_FUNCTION',$QUALIFIED_MODULE)}">
+							<select class="useFunction form-control"
+									data-placeholder="{\App\Language::translate('LBL_USE_FUNCTION',$QUALIFIED_MODULE)}">
 								<option></option>
 								<optgroup>
 									{foreach from=$FIELD_EXPRESSIONS key=FIELD_EXPRESSION_VALUE item=FIELD_EXPRESSIONS_KEY}
-										<option value="{$FIELD_EXPRESSIONS_KEY}">{\App\Language::translate($FIELD_EXPRESSION_VALUE,$QUALIFIED_MODULE)}</option>
+										<option value="{$FIELD_EXPRESSIONS_KEY}">
+											{\App\Language::translate($FIELD_EXPRESSION_VALUE,$QUALIFIED_MODULE)}
+										</option>
 									{/foreach}
 								</optgroup>
 							</select>
 						</span>
-					</div><br />
+					</div>
+					<br/>
 					<div class="fieldValueContainer">
 						<textarea data-textarea="true" class="fieldValue form-control"></textarea>
-					</div><br />
+					</div>
+					<br/>
 					<div id="rawtext_help" class="alert alert-info helpmessagebox d-none">
 						<p><h5>{\App\Language::translate('LBL_RAW_TEXT',$QUALIFIED_MODULE)}</h5></p>
 						<p>2000</p>
@@ -87,8 +104,13 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success" type="button" name="saveButton"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
-					<button class="btn btn-warning cancelLink" type="button" data-close-modal="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+					<button class="btn btn-success" type="button" name="saveButton">
+						<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
+					</button>&nbsp;&nbsp;
+					<button class="btn btn-warning cancelLink" type="button"
+							data-close-modal="modal">
+						{\App\Language::translate('LBL_CANCEL', $MODULE)}
+					</button>
 				</div>
 			</div>
 		</div>
