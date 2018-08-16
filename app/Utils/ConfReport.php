@@ -180,11 +180,11 @@ class ConfReport
 	 * @var array
 	 */
 	public static $database = [
-		'driver' => ['recommended' => 'mysql', 'type' => 'Equal', 'container' => 'db', 'testCli' => false],
-		'serverVersion' => ['container' => 'db', 'testCli' => false],
-		'clientVersion' => ['container' => 'db', 'testCli' => false],
-		'connectionStatus' => ['container' => 'db', 'testCli' => false],
-		'serverInfo' => ['container' => 'db', 'testCli' => false],
+		'driver' => ['recommended' => 'mysql', 'type' => 'Equal', 'container' => 'db', 'testCli' => false, 'label' => 'DB_DRIVER'],
+		'serverVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CLIENT_VERSION'],
+		'clientVersion' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_VERSION'],
+		'connectionStatus' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CONNECTION_STATUS'],
+		'serverInfo' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_INFO'],
 		'innodb_lock_wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
 		'wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
 		'interactive_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
