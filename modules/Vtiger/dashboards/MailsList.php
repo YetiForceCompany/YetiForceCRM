@@ -17,6 +17,8 @@ class Vtiger_MailsList_Dashboard extends Vtiger_IndexAjax_View
 		$linkId = $request->getInteger('linkid');
 		$data = $request->getAll();
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$viewer->assign('SCRIPTS', null);
+		$viewer->assign('STYLES', null);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('USER', $user);
