@@ -27,9 +27,9 @@
 	</ul>
 	<div class="tab-content">
 		<div id="Configuration" class="tab-pane fade in active show">
-			<div class="row">
-				<div class="col-lg-12 col-xl-6">
-					<table class="table table-bordered table-sm my-2">
+			<div class="u-columns-count-auto u-columns-gap-05rem u-columns-width-27rem pt-2">
+				<div class="u-columns__item">
+					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
 							<th colspan="4">
@@ -90,7 +90,9 @@
 						{/foreach}
 						</tbody>
 					</table>
-					<table class="table table-bordered table-sm my-2">
+				</div>
+				<div class="u-columns__item">
+					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
 							<th colspan="1" scope="col">
@@ -150,7 +152,9 @@
 						{/foreach}
 						</tbody>
 					</table>
-					<table class="table table-bordered table-sm my-2">
+				</div>
+				<div class="u-columns__item">
+					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
 							<th colspan="3" scope="col">
@@ -191,7 +195,9 @@
 						{/foreach}
 						</tbody>
 					</table>
-					<table class="table table-bordered table-sm my-2">
+				</div>
+				<div class="u-columns__item">
+					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
 							<th colspan="4">
@@ -253,8 +259,8 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="col-lg-12 col-xl-6">
-					<table class="table table-bordered table-sm my-2">
+				<div class="u-columns__item">
+					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
 							<th colspan="4">
@@ -315,7 +321,9 @@
 						{/foreach}
 						</tbody>
 					</table>
-					<table class="table table-bordered table-sm my-2">
+				</div>
+				<div class="u-columns__item">
+					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
 							<th colspan="2" scope="col">
@@ -354,7 +362,9 @@
 						{/foreach}
 						</tbody>
 					</table>
-					<table class="table table-bordered table-sm my-2">
+				</div>
+				<div class="u-columns__item">
+					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
 							<th colspan="4">
@@ -409,7 +419,7 @@
 			</div>
 		</div>
 		<div id="Permissions" class="tab-pane fade">
-			<table class="table table-bordered table-sm my-2">
+			<table class="table table-bordered table-sm m-0">
 				<thead>
 				<tr>
 					<th colspan="1" scope="col">
