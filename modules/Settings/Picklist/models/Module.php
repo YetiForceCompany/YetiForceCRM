@@ -150,10 +150,10 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			->from($this->getPickListTableName($pickListFieldName))
 			->where([$primaryKey => $valueToDeleteId])
 			->column());
-		$replaceValue = array_map('App\Purifier::decodeHtml', (new \App\Db\Query())->select([$pickListFieldName])
+		$replaceValue = \App\Purifier::decodeHtml((new \App\Db\Query())->select([$pickListFieldName])
 			->from($this->getPickListTableName($pickListFieldName))
 			->where([$primaryKey => $replaceValueId])
-			->column());
+			->scalar());
 		//As older look utf8 characters are pushed as html-entities,and in new utf8 characters are pushed to database
 		//so we are checking for both the values
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, $this);
@@ -259,15 +259,15 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			->from('vtiger_tab')
 			->innerJoin('vtiger_field', 'vtiger_tab.tabid = vtiger_field.tabid')
 			->where([
-					'and',
-					['uitype' => [15, 33, 16]],
-					['NOT IN', 'vtiger_field.tabid', [29, 10]],
-					['<>', 'vtiger_tab.presence', 1],
-					['vtiger_field.presence' => [0, 2]],
-					['<>', 'vtiger_field.columnname', 'taxtype'],
-				])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
-					->distinct()
-					->createCommand()->query();
+				'and',
+				['uitype' => [15, 33, 16]],
+				['NOT IN', 'vtiger_field.tabid', [29, 10]],
+				['<>', 'vtiger_tab.presence', 1],
+				['vtiger_field.presence' => [0, 2]],
+				['<>', 'vtiger_field.columnname', 'taxtype'],
+			])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
+				->distinct()
+				->createCommand()->query();
 		$modulesModelsList = [];
 		while ($row = $dataReader->read()) {
 			$moduleLabel = $row['tablabel'];
