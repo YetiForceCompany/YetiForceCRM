@@ -59,10 +59,19 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			'show_chart' => false,
 		];
 		$time = \App\Fields\Date::formatRangeToDisplay($time);
+		$workingTimeByType = $workingTime = [];
 		while ($row = $dataReader->read()) {
 			$label = \App\Language::translate($row['timecontrol_type'], 'OSSTimeControl');
-			$workingTimeByType[$label] += (float) $row['sum_time'];
-			$workingTime[$row['smownerid']][$row['timecontrol_type']] += (float) $row['sum_time'];
+			if (isset($workingTimeByType[$label])) {
+				$workingTimeByType[$label] += (float) $row['sum_time'];
+			} else {
+				$workingTimeByType[$label] = (float) $row['sum_time'];
+			}
+			if (isset($workingTime[$row['smownerid']][$row['timecontrol_type']])) {
+				$workingTime[$row['smownerid']][$row['timecontrol_type']] += (float) $row['sum_time'];
+			} else {
+				$workingTime[$row['smownerid']][$row['timecontrol_type']] = (float) $row['sum_time'];
+			}
 			if (!in_array($row['timecontrol_type'], $timeTypes)) {
 				$timeTypes[$row['timecontrol_typeid']] = $row['timecontrol_type'];
 				// one dataset per type
@@ -90,7 +99,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			foreach ($workingTime as $ownerId => $timeValue) {
 				foreach ($timeTypes as $timeTypeId => $timeType) {
 					// if owner has this kind of type
-					if ($timeValue[$timeType]) {
+					if (!empty($timeValue[$timeType])) {
 						$userTime = $timeValue[$timeType];
 					} else {
 						$userTime = 0;
