@@ -12,7 +12,7 @@ jQuery.Class('Settings_SocialMedia_Index_Js', {}, {
 	 */
 	getContainer() {
 		if (this.container === null) {
-			this.container = $('form.js-social-media-twitter__form');
+			this.container = $('tpl-Settings-SocialMedia-Index');
 		}
 		return this.container;
 	},
@@ -20,7 +20,7 @@ jQuery.Class('Settings_SocialMedia_Index_Js', {}, {
 	 * Submit form
 	 * @param {jQuery} container
 	 */
-	submitForm(container) {
+	saveForm(container) {
 		container.validationEngine(app.validationEngineOptions);
 		if (container.validationEngine('validate')) {
 			let progressIndicatorElement = jQuery.progressIndicator({
@@ -35,6 +35,8 @@ jQuery.Class('Settings_SocialMedia_Index_Js', {}, {
 					text: response.result.message,
 					type: 'info',
 				});
+			}).fail(function (textStatus, errorThrown) {
+				aDeferred.reject(textStatus, errorThrown);
 			});
 		}
 	},
@@ -46,12 +48,12 @@ jQuery.Class('Settings_SocialMedia_Index_Js', {}, {
 		let thisInstance = this;
 		container.on('change', (event) => {
 			event.preventDefault();
-			thisInstance.submitForm(container);
+			thisInstance.saveForm(container);
 		});
 		//Executed when the enter key is pressed.
 		container.on('submit', (event) => {
 			event.preventDefault();
-			thisInstance.submitForm(container);
+			thisInstance.saveForm(container);
 		});
 	},
 	/**

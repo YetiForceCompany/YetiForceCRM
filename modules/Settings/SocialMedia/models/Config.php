@@ -10,11 +10,6 @@
 class Settings_SocialMedia_Config_Model extends \App\Base
 {
 	/**
-	 * The name of the tables in the database.
-	 */
-	private const TABLE_NAME = 'u_#__social_media_config';
-
-	/**
 	 * Configuration type.
 	 *
 	 * @var string
@@ -65,7 +60,7 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 		$this->value = [];
 		$dataReader = (new \App\Db\Query())
 			->select(['name', 'value'])
-			->from(static::TABLE_NAME)
+			->from('u_#__social_media_config')
 			->where(['type' => $type])
 			->createCommand()
 			->query();
@@ -89,7 +84,7 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 		$transaction->begin();
 		try {
 			foreach ($this->value as $key => $val) {
-				$db->createCommand()->update(static::TABLE_NAME,
+				$db->createCommand()->update('u_#__social_media_config',
 					['value' => \App\Json::encode($val)],
 					['type' => $this->type, 'name' => $key]
 				)->execute();
