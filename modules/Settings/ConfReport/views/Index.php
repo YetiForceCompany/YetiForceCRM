@@ -15,7 +15,6 @@ class Settings_ConfReport_Index_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('ALL', \App\Utils\ConfReport::getAll());
-		$viewer->assign('SYSTEM_INFO', Settings_ConfReport_Module_Model::getSystemInfo());
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}

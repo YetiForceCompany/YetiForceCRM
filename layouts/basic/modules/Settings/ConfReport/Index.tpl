@@ -165,7 +165,7 @@
 						<thead>
 						<tr>
 							<th colspan="3" scope="col">
-								{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', $MODULE)}====
+								{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', $MODULE)}
 							</th>
 						</tr>
 						<tr>
@@ -181,21 +181,31 @@
 						</tr>
 						</thead>
 						<tbody class="small u-word-break-all">
-						{foreach from=$SYSTEM_INFO key=key item=item}
-							<tr>
+						{foreach from=$ALL['environment'] key=KEY item=ITEM}
+							<tr {if !$ITEM['status']}class="table-danger"{/if}>
 								<td class="bg-light">
-									{App\Language::translate($key, $MODULE)}
+									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
+									{if !$ITEM['status']}
+										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
+										{if !empty($HELP_TEXT)}
+											<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+											   data-trigger="focus hover" data-placement="right"
+											   data-content="{$HELP_TEXT}">
+												<span class="fas fa-info-circle"></span>
+											</a>
+										{/if}
+									{/if}
 								</td>
-								{if is_array($item)}
-									<td>
-										{App\Language::translate($item['www'], $MODULE)}
-									</td>
-									<td>
-										{App\Language::translate($item['cli'], $MODULE)}
+								{if empty($ITEM['testCli'])}
+									<td colspan="2">
+										{App\Language::translate($ITEM['www'], $MODULE)}
 									</td>
 								{else}
-									<td colspan="2">
-										{$item}
+									<td>
+										{App\Language::translate($ITEM['www'], $MODULE)}
+									</td>
+									<td>
+										{App\Language::translate($ITEM['cron'], $MODULE)}
 									</td>
 								{/if}
 							</tr>
@@ -347,22 +357,26 @@
 						</tr>
 						</thead>
 						<tbody class="small u-word-break-all">
-						{foreach from=Settings_ConfReport_Module_Model::getDenyPublicDirState() key=key item=item}
-							<tr {if $item.status}class="table-danger"{/if}>
+						{foreach from=$ALL['directoryPermissions'] key=KEY item=ITEM}
+							<tr {if !$ITEM['status']}class="table-danger"{/if}>
 								<td class="bg-light">
-									{$key}
-									{if isset($item.help) && $item.status}<a href="#"
-																			 class="js-popover-tooltip float-right"
-																			 data-js="popover" data-trigger="focus"
-																			 data-placement="right"
-																			 data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}">
-											<span class="fas fa-info-circle"></span></a>{/if}
+									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
+									{if !$ITEM['status']}
+										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
+										{if !empty($HELP_TEXT)}
+											<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+											   data-trigger="focus hover" data-placement="right"
+											   data-content="{$HELP_TEXT}">
+												<span class="fas fa-info-circle"></span>
+											</a>
+										{/if}
+									{/if}
 								</td>
-								<td>
-									{if $item.status}
-										{App\Language::translate('LBL_NO', $MODULE)}
-									{else}
+								<td colspan="2">
+									{if $ITEM.status}
 										{App\Language::translate('LBL_YES', $MODULE)}
+									{else}
+										{App\Language::translate('LBL_NO', $MODULE)}
 									{/if}
 								</td>
 							</tr>

@@ -32,13 +32,13 @@ class ConfReport
 	 *
 	 * @var string[]
 	 */
-	public static $types = ['stability', 'security', 'libraries', 'database', 'performance'];
+	public static $types = ['stability', 'security', 'libraries', 'database', 'performance', 'environment', 'directoryPermissions'];
 	/**
 	 * List all container.
 	 *
 	 * @var string[]
 	 */
-	public static $container = ['php', 'env', 'ext', 'headers', 'db'];
+	public static $container = ['php', 'env', 'ext', 'request', 'db'];
 	/**
 	 * Php variables.
 	 *
@@ -64,11 +64,11 @@ class ConfReport
 	 */
 	private static $ext = [];
 	/**
-	 * Request headers.
+	 * Request request.
 	 *
 	 * @var mixed[]
 	 */
-	private static $headers = [];
+	private static $request = [];
 
 	/**
 	 * Sapi name.
@@ -123,16 +123,16 @@ class ConfReport
 		'session.cookie_secure' => ['recommended' => '?', 'type' => 'CookieSecure', 'container' => 'php', 'testCli' => true],
 		'expose_php' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session_regenerate_id' => ['recommended' => 'On', 'type' => 'SessionRegenerate', 'testCli' => true],
-		'Header: Server' => ['recommended' => '', 'type' => 'Header', 'container' => 'headers', 'testCli' => false],
-		'Header: X-Powered-By' => ['recommended' => '', 'type' => 'Header', 'container' => 'headers', 'testCli' => false],
-		'Header: X-Frame-Options' => ['recommended' => 'SAMEORIGIN', 'type' => 'Header', 'container' => 'headers', 'testCli' => false],
-		'Header: X-XSS-Protection' => ['recommended' => '1; mode=block', 'type' => 'Header', 'container' => 'headers', 'testCli' => false],
-		'Header: X-Content-Type-Options' => ['recommended' => 'nosniff', 'type' => 'Header', 'container' => 'headers', 'testCli' => false],
-		'Header: X-Robots-Tag' => ['recommended' => 'none', 'type' => 'Header', 'container' => 'headers', 'testCli' => false],
-		'Header: X-Permitted-Cross-Domain-Policies' => ['recommended' => 'none', 'type' => 'Header', 'container' => 'headers', 'testCli' => false],
-		'Header: Expect-CT' => ['recommended' => 'enforce; max-age=3600', 'type' => 'Header', 'container' => 'headers', 'testCli' => false],
-		'Header: Referrer-Policy' => ['recommended' => 'no-referrer', 'type' => 'Header', 'container' => 'headers', 'testCli' => false],
-		'Header: Strict-Transport-Security' => ['recommended' => 'max-age=31536000; includeSubDomains; preload', 'type' => 'Header', 'container' => 'headers', 'testCli' => false],
+		'Header: Server' => ['recommended' => '', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: X-Powered-By' => ['recommended' => '', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: X-Frame-Options' => ['recommended' => 'SAMEORIGIN', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: X-XSS-Protection' => ['recommended' => '1; mode=block', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: X-Content-Type-Options' => ['recommended' => 'nosniff', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: X-Robots-Tag' => ['recommended' => 'none', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: X-Permitted-Cross-Domain-Policies' => ['recommended' => 'none', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: Expect-CT' => ['recommended' => 'enforce; max-age=3600', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: Referrer-Policy' => ['recommended' => 'no-referrer', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: Strict-Transport-Security' => ['recommended' => 'max-age=31536000; includeSubDomains; preload', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 	];
 	/**
 	 * Libraries map.
@@ -162,7 +162,16 @@ class ConfReport
 		'apcu' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'apcu', 'container' => 'ext', 'testCli' => true],
 		'allExt' => ['container' => 'ext', 'type' => 'AllExt', 'testCli' => true, 'label' => 'EXTENSIONS'],
 	];
+	/**
+	 * Directory permissions map.
+	 *
+	 * @var array
+	 */
 	public static $directoryPermissions = [
+		'config' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+		'cache' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+		'storage' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+		'user_privileges' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 	];
 	/**
 	 * Database map.
@@ -226,6 +235,19 @@ class ConfReport
 	 * @var array
 	 */
 	public static $environment = [
+		'crmVersion' => ['container' => 'env', 'testCli' => false, 'label' => 'CRM_VERSION'],
+		'crmDate' => ['container' => 'env', 'testCli' => false, 'label' => 'CRM_DATE'],
+		'operatingSystem' => ['container' => 'env', 'testCli' => false, 'label' => 'OPERATING_SYSTEM'],
+		'serverSoftware' => ['container' => 'env', 'testCli' => false, 'label' => 'SERVER_SOFTWARE'],
+		'tempDir' => ['container' => 'env', 'testCli' => false, 'label' => 'TMP_DIR'],
+		'crmDir' => ['container' => 'env', 'testCli' => false, 'label' => 'CRM_DIR'],
+		'sapi' => ['container' => 'env', 'testCli' => true, 'label' => 'PHP_SAPI'],
+		'locale' => ['container' => 'env', 'testCli' => true, 'label' => 'LOCALE'],
+		'error_log' => ['container' => 'php', 'testCli' => true, 'label' => 'LOG_FILE'],
+		'phpIni' => ['container' => 'env', 'testCli' => true, 'label' => 'PHPINI'],
+		'phpIniAll' => ['container' => 'env', 'testCli' => true, 'label' => 'PHPINIS'],
+		'spaceRoot' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_ROOT'],
+		'spaceStorage' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_STORAGE'],
 	];
 
 	/**
@@ -356,8 +378,8 @@ class ConfReport
 				case 'ext':
 					static::$ext = get_loaded_extensions();
 					break;
-				case 'headers':
-					static::$headers = static::getRequestHeaders();
+				case 'request':
+					static::$request = static::getRequest();
 					break;
 				case 'db':
 					static::$db = static::getConfigDb();
@@ -393,6 +415,10 @@ class ConfReport
 		foreach (ini_get_all() as $key => $value) {
 			$php[$key] = $value['local_value'];
 		}
+		$locale = '';
+		if (function_exists('locale_get_default')) {
+			$locale = print_r(locale_get_default(), true);
+		}
 		return [
 			'php' => $php,
 			'env' => [
@@ -400,8 +426,17 @@ class ConfReport
 				'sapi' => PHP_SAPI,
 				'phpIni' => php_ini_loaded_file(),
 				'phpIniAll' => php_ini_scanned_files(),
+				'locale' => $locale,
 				'https' => \App\RequestUtil::getBrowserInfo()->https,
-				'public_html' => IS_PUBLIC_DIR ? 'On' : 'Off'
+				'public_html' => IS_PUBLIC_DIR ? 'On' : 'Off',
+				'crmVersion' => \App\Version::get(),
+				'crmDate' => \App\Version::get('patchVersion'),
+				'crmDir' => ROOT_DIRECTORY,
+				'operatingSystem' => \AppConfig::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
+				'serverSoftware' => $_SERVER['SERVER_SOFTWARE'] ?? '-',
+				'tempDir' => \App\Fields\File::getTmpPath(),
+				'spaceRoot' => '',
+				'spaceStorage' => '',
 			]
 		];
 	}
@@ -438,22 +473,23 @@ class ConfReport
 	}
 
 	/**
-	 * Get request headers.
+	 * Get request request.
 	 *
 	 * @return array
 	 */
-	private static function getRequestHeaders()
+	private static function getRequest()
 	{
 		$requestUrl = \AppConfig::main('site_URL');
-		$headers = [];
+		$request = [];
 		try {
 			$res = (new \GuzzleHttp\Client())->request('GET', $requestUrl, ['timeout' => 1, 'verify' => false]);
+			$request['ProtocolVersion'] = $res->getProtocolVersion();
 			foreach ($res->getHeaders() as $key => $value) {
-				$headers[strtolower($key)] = is_array($value) ? implode(',', $value) : $value;
+				$request[strtolower($key)] = is_array($value) ? implode(',', $value) : $value;
 			}
 		} catch (\Throwable $e) {
 		}
-		return $headers;
+		return $request;
 	}
 
 	/**
@@ -745,9 +781,9 @@ class ConfReport
 	private static function validateHeader(string $name, array $row, string $sapi)
 	{
 		$header = strtolower(\str_replace('Header: ', '', $name));
-		if (isset(static::$headers[$header])) {
-			$row['status'] = strtolower(static::$headers[$header]) === strtolower($row['recommended']);
-			$row[$sapi] = static::$headers[$header];
+		if (isset(static::$request[$header])) {
+			$row['status'] = strtolower(static::$request[$header]) === strtolower($row['recommended']);
+			$row[$sapi] = static::$request[$header];
 		}
 		return $row;
 	}
@@ -778,6 +814,21 @@ class ConfReport
 	}
 
 	/**
+	 * Validate exists url.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateExistsUrl(string $name, array $row, string $sapi)
+	{
+		$row['status'] = !\App\Fields\File::isExistsUrl(\AppConfig::main('site_URL') . $name);
+		return $row;
+	}
+
+	/**
 	 * Parser all extensions value.
 	 *
 	 * @param string $name
@@ -788,5 +839,30 @@ class ConfReport
 	private static function parserAllExt(string $name, array $row)
 	{
 		return \implode(', ', static::$ext);
+	}
+
+	/**
+	 * Parser disc space value.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 *
+	 * @return array
+	 */
+	private static function parserSpace(string $name, array $row)
+	{
+		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+		if ($name === 'spaceRoot') {
+			$dir .= 'storage';
+		}
+		$free = disk_free_space($dir);
+		$total = disk_total_space($dir);
+
+		$val = round((($total - $free) / $total) * 100) . '% | ';
+		$val .= \App\Language::translateSingleMod('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ';
+		$val .= \vtlib\Functions::showBytes($free) . ' | ';
+		$val .= \App\Language::translateSingleMod('LBL_SPACE_USED', 'Settings::ConfReport') . ': ';
+		$val .= \vtlib\Functions::showBytes($total - $free);
+		return $val;
 	}
 }
