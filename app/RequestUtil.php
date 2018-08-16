@@ -137,13 +137,12 @@ class RequestUtil
 		if (isset(static::$connectionCache)) {
 			return static::$connectionCache;
 		}
-		$connected = fsockopen('www.google.com', 80, $errno, $errstr, 1);
-		if ($connected) {
-			static::$connectionCache = true;
-			fclose($connected);
-		} else {
-			static::$connectionCache = false;
+		$status = false;
+		try {
+			$res = (new \GuzzleHttp\Client())->request('GET', 'google.com', ['timeout' => 1, 'verify' => false, 'connect_timeout' => 1]);
+			$status = $res->getStatusCode() === 200;
+		} catch (\Throwable $e) {
 		}
-		return static::$connectionCache;
+		return static::$connectionCache = $status;
 	}
 }
