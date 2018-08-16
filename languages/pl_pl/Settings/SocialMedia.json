@@ -1,0 +1,7 @@
+{
+  "php": {
+    "LBL_TWITTER": "Twitter",
+    "LBL_TWITTER_DESC": "Integracja Twitterem",
+    "LBL_ARCHIVING_RECORDS_NUMBER_OF_DAYS": "Archiwizowanie rekord\u00f3w liczba dni"
+  }
+}
