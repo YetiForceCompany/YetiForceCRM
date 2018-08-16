@@ -64,9 +64,6 @@
 		<div class="col-12 col-sm-4 d-flex flex-row-reverse">
 			{include file=\App\Layout::getTemplatePath('ListViewActions.tpl', $QUALIFIED_MODULE)}
 		</div>
-		<div class="col-12 col-sm-4 d-flex flex-row-reverse">
-			{include file=\App\Layout::getTemplatePath('ListViewActions.tpl', $QUALIFIED_MODULE)}
-		</div>
 	</div>
 	<div class="clearfix"></div>
 	<div class="listViewContentDiv listViewPageDiv" id="listViewContents">
