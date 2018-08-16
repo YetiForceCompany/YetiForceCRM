@@ -24,7 +24,7 @@ class Vtiger_Cache_Connector
 	protected function cacheKey($ns, $key)
 	{
 		if (is_array($key)) {
-			$key = (int) implode('-', $key);
+			$key = implode('-', $key);
 		}
 		return $ns . '-' . $key;
 	}
