@@ -29,7 +29,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getId()
 	{
-		return $this->id;
+		return (int) $this->id;
 	}
 
 	public function getName()
@@ -914,32 +914,32 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_RECORDS_LIST',
-				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => 'fas fa-list',
+			'linktype' => 'SIDEBARLINK',
+			'linklabel' => 'LBL_RECORDS_LIST',
+			'linkurl' => $this->getListViewUrl(),
+			'linkicon' => 'fas fa-list',
 		]);
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
-				'linkurl' => 'index.php?module=' . $this->getName() . '&view=ListPreview',
-				'linkicon' => 'far fa-list-alt',
+			'linktype' => 'SIDEBARLINK',
+			'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
+			'linkurl' => 'index.php?module=' . $this->getName() . '&view=ListPreview',
+			'linkicon' => 'far fa-list-alt',
 		]);
 		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission($this->getId(), 'Dashboard')) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'SIDEBARLINK',
-					'linklabel' => 'LBL_DASHBOARD',
-					'linkurl' => $this->getDashBoardUrl(),
-					'linkicon' => 'fas fa-desktop',
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'LBL_DASHBOARD',
+				'linkurl' => $this->getDashBoardUrl(),
+				'linkicon' => 'fas fa-desktop',
 			]);
 		}
 		$treeViewModel = Vtiger_TreeView_Model::getInstance($this);
 		if ($treeViewModel->isActive()) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'SIDEBARLINK',
-					'linklabel' => $treeViewModel->getName(),
-					'linkurl' => $treeViewModel->getTreeViewUrl(),
-					'linkicon' => 'fas fa-tree',
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => $treeViewModel->getName(),
+				'linkurl' => $treeViewModel->getTreeViewUrl(),
+				'linkicon' => 'fas fa-tree',
 			]);
 		}
 		return $links;
@@ -959,11 +959,11 @@ class Vtiger_Module_Model extends \vtlib\Module
 			return $comments;
 		}
 		$query = (new \App\Db\Query())->select(['vtiger_crmentity.setype', 'vtiger_modcomments.related_to', 'vtiger_modcomments.commentcontent', 'vtiger_crmentity.createdtime', 'assigned_user_id' => 'vtiger_crmentity.smownerid',
-				'parentId' => 'crmentity2.crmid', 'parentModule' => 'crmentity2.setype', ])
-				->from('vtiger_modcomments')
-				->innerJoin('vtiger_crmentity', 'vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid')
-				->innerJoin('vtiger_crmentity crmentity2', 'vtiger_modcomments.related_to = crmentity2.crmid')
-				->where(['vtiger_crmentity.deleted' => 0, 'crmentity2.setype' => $this->getName(), 'crmentity2.deleted' => 0]);
+			'parentId' => 'crmentity2.crmid', 'parentModule' => 'crmentity2.setype', ])
+			->from('vtiger_modcomments')
+			->innerJoin('vtiger_crmentity', 'vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_crmentity crmentity2', 'vtiger_modcomments.related_to = crmentity2.crmid')
+			->where(['vtiger_crmentity.deleted' => 0, 'crmentity2.setype' => $this->getName(), 'crmentity2.deleted' => 0]);
 		\App\PrivilegeQuery::getConditions($query, 'ModComments');
 		$dataReader = $query->orderBy(['vtiger_modcomments.modcommentsid' => SORT_DESC])
 			->limit($pagingModel->getPageLimit())
@@ -1084,12 +1084,12 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 		}
 		$query = (new \App\Db\Query())->select(['vtiger_crmentity.crmid', 'parent_id' => 'crmentity2.crmid', 'description' => 'vtiger_crmentity.description',
-				'vtiger_crmentity.smownerid', 'vtiger_crmentity.smcreatorid', 'vtiger_crmentity.setype', 'vtiger_activity.*', ])
-				->from('vtiger_activity')
-				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
-				->innerJoin(['crmentity2' => 'vtiger_crmentity'], "vtiger_activity.$relationField = crmentity2.crmid AND crmentity2.deleted = :deleted AND crmentity2.setype = :module", [':deleted' => 0, ':module' => $this->getName()])
-				->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
-				->where(['vtiger_crmentity.deleted' => 0]);
+			'vtiger_crmentity.smownerid', 'vtiger_crmentity.smcreatorid', 'vtiger_crmentity.setype', 'vtiger_activity.*', ])
+			->from('vtiger_activity')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
+			->innerJoin(['crmentity2' => 'vtiger_crmentity'], "vtiger_activity.$relationField = crmentity2.crmid AND crmentity2.deleted = :deleted AND crmentity2.setype = :module", [':deleted' => 0, ':module' => $this->getName()])
+			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+			->where(['vtiger_crmentity.deleted' => 0]);
 		$andWhere = ['and'];
 		if ($recordId) {
 			$andWhere[] = ["vtiger_activity.$relationField" => $recordId];
