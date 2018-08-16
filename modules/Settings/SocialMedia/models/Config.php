@@ -78,31 +78,6 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	public function set($key, $value)
-	{
-		if (!in_array($key, $this->changes)) {
-			$this->changes[] = $key;
-		}
-		if (!array_key_exists($key, $this->value)) {
-			$this->newRecords[] = $key;
-		}
-		return parent::set($key, $value);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function remove($key)
-	{
-		if (array_key_exists($key, $this->value)) {
-			$this->removeRecords[] = $key;
-		}
-		parent::remove($key);
-	}
-
-	/**
 	 * Save changes to DB.
 	 *
 	 * @throws \yii\db\Exception
@@ -113,24 +88,11 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 		$transaction = $db->beginTransaction();
 		$transaction->begin();
 		try {
-			foreach ($this->changes as $key) {
-				$val = $this->value[$key];
-				if (in_array($key, $this->newRecords)) {
-					$db->createCommand()->insert(static::TABLE_NAME, [
-						'name' => $key,
-						'value' => \App\Json::encode($val),
-						'type' => $this->type
-					])->execute();
-				} else {
-					$db->createCommand()->update(static::TABLE_NAME,
-						['value' => \App\Json::encode($val)],
-						['type' => $this->type, 'name' => $key]
-					)->execute();
-				}
-			}
-			//Remove records
-			foreach ($this->removeRecords as $key) {
-				$db->createCommand()->delete(static::TABLE_NAME, ['type' => $this->type, 'name' => $key])->execute();
+			foreach ($this->value as $key => $val) {
+				$db->createCommand()->update(static::TABLE_NAME,
+					['value' => \App\Json::encode($val)],
+					['type' => $this->type, 'name' => $key]
+				)->execute();
 			}
 			$transaction->commit();
 			$this->clearCache();
