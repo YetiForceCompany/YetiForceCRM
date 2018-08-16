@@ -15,7 +15,6 @@ class Vtiger_Loader
 	protected static $loaderDirs = [
 		'custom.modules.',
 		'modules.',
-		'admin.modules.',
 	];
 
 	/**
