@@ -15,24 +15,6 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	 * @var string
 	 */
 	protected $type;
-	/**
-	 * Array with information which fields have changed.
-	 *
-	 * @var array
-	 */
-	protected $changes = [];
-	/**
-	 * Array with information which fields are new.
-	 *
-	 * @var array
-	 */
-	protected $newRecords = [];
-	/**
-	 * Array with information on which fields to delete.
-	 *
-	 * @var array
-	 */
-	protected $removeRecords = [];
 
 	/**
 	 * Settings_SocialMedia_Config_Model constructor.

@@ -36,7 +36,11 @@ jQuery.Class('Settings_SocialMedia_Index_Js', {}, {
 					type: 'info',
 				});
 			}).fail(function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
+				Vtiger_Helper_Js.showMessage({
+					type: 'error',
+					text: app.vtranslate('JS_ERROR')
+				});
 			});
 		}
 	},
