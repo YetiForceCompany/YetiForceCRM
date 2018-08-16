@@ -84,6 +84,7 @@ class ConfReport
 	 */
 	public static $stability = [
 		'phpVersion' => ['recommended' => '7.1.x, 7.2.x (dev)', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
+		'protocolVersion' => ['recommended' => '1.x', 'type' => 'Version', 'container' => 'request', 'testCli' => false, 'label' => 'PROTOCOL_VERSION'],
 		'error_reporting' => ['recommended' => 'E_ALL & ~E_NOTICE', 'type' => 'ErrorReporting', 'container' => 'php', 'testCli' => true],
 		'output_buffering' => ['recommended' => 'On', 'type' => 'OnOffInt', 'container' => 'php', 'testCli' => true],
 		'max_execution_time' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
@@ -248,6 +249,7 @@ class ConfReport
 		'phpIniAll' => ['container' => 'env', 'testCli' => true, 'label' => 'PHPINIS'],
 		'spaceRoot' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_ROOT'],
 		'spaceStorage' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_STORAGE'],
+		'disable_functions' => ['container' => 'php', 'testCli' => true],
 	];
 
 	/**
@@ -483,7 +485,7 @@ class ConfReport
 		$request = [];
 		try {
 			$res = (new \GuzzleHttp\Client())->request('GET', $requestUrl, ['timeout' => 1, 'verify' => false]);
-			$request['ProtocolVersion'] = $res->getProtocolVersion();
+			$request['protocolVersion'] = $res->getProtocolVersion();
 			foreach ($res->getHeaders() as $key => $value) {
 				$request[strtolower($key)] = is_array($value) ? implode(',', $value) : $value;
 			}
