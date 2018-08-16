@@ -11,7 +11,7 @@
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 			<div class="d-inline-flex">
 				{if !$WIDGET->isDefault()}
-					<a name="dclose" class="btn btn-sm btn-light widget" data-url="{$WIDGET->getDeleteUrl()}">
+					<a class="js-widget-remove btn btn-sm btn-light" data-js="click | bootbox" data-url="{$WIDGET->getDeleteUrl()}">
 						<span class="fas fa-times" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}" alt="{\App\Language::translate('LBL_CLOSE')}"></span>
 					</a>
 				{/if}

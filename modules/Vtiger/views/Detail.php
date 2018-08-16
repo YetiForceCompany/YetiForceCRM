@@ -48,6 +48,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showRelatedTree');
 		$this->exposeMethod('showRecentRelation');
 		$this->exposeMethod('showOpenStreetMap');
+		$this->exposeMethod('showInventoryDetails');
 	}
 
 	/**
@@ -153,7 +154,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
-
 			return;
 		}
 		$recordId = $request->getInteger('record');
@@ -262,7 +262,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
 
-		return $viewer->view('DetailViewFullContents.tpl', $moduleName, true);
+		return $viewer->view('Detail/FullContents.tpl', $moduleName, true);
 	}
 
 	public function showModuleSummaryView(\App\Request $request)
@@ -324,7 +324,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
 			return $viewer->view('DetailViewSummaryView.tpl', $moduleName, true);
 		} else {
-			return $viewer->view('DetailViewFullContents.tpl', $moduleName, true);
+			return $viewer->view('Detail/FullContents.tpl', $moduleName, true);
 		}
 	}
 
@@ -918,5 +918,24 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		return \App\Language::translate($moduleName, $moduleName) . ' ' . $this->record->getRecord()->getDisplayName();
+	}
+
+	/**
+	 * Show inventory details from record for specified module.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 *
+	 * @return string
+	 */
+	public function showInventoryDetails(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+		$viewer = \Vtiger_Viewer::getInstance();
+		$viewer->assign('RECORD', $recordModel);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		return $viewer->view('Detail/InventoryView.tpl', $moduleName, true);
 	}
 }

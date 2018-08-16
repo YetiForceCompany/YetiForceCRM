@@ -45,7 +45,7 @@
 									<label class="float-right marginRight10px"><b>{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</b></label>
 								</td>
 								<td class="fieldValue {$WIDTHTYPE}" style="border-left: none">
-									<select class="chzn-select form-control" name="sourceModule">
+									<select class="select2 form-control" name="sourceModule">
 										{foreach key=index item=MODULE_MODEL from=$SUPPORTED_MODULES}
 											{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
 											<option value={$MODULE_NAME} {if $MODULE_NAME eq $DEFAULT_MODULE_NAME} selected {/if}>
@@ -121,7 +121,7 @@
 								<td class="fieldValue {$WIDTHTYPE}" style="border-left: none">
 									<div class="row">
 										<div class="col-md-11">
-											<select class="chzn-select form-control" id="customVariables" name="custom_variables">
+											<select class="select2 form-control" id="customVariables" name="custom_variables">
 												<option value="YYYY">{\App\Language::translate('LBL_CV_FULL_YEAR', $QUALIFIED_MODULE)}</option>
 												<option value="YY">{\App\Language::translate('LBL_CV_YEAR', $QUALIFIED_MODULE)}</option>
 												<option value="MM">{\App\Language::translate('LBL_CV_FULL_MONTH', $QUALIFIED_MODULE)}</option>

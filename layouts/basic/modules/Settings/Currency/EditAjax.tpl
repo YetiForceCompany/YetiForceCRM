@@ -37,7 +37,7 @@
 									<span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_CURRENCY_NAME', $QUALIFIED_MODULE)}
 								</label>
 								<div class="controls col-md-6">
-									<select class="chzn-select form-control" name="currency_name">
+									<select class="select2 form-control" name="currency_name">
 										{foreach key=CURRENCY_ID item=CURRENCY_MODEL from=$ALL_CURRENCIES name=currencyIterator}
 											{if !$CURRENCY_MODEL_EXISTS && $smarty.foreach.currencyIterator.first}
 												{assign var=RECORD_MODEL value=$CURRENCY_MODEL}

@@ -12,7 +12,7 @@
 				<span class="fas fa-sync-alt" title="{\App\Language::translate('LBL_REFRESH')}"></span>
 			</a>
 			{if !$WIDGET->isDefault()}
-				<a class="btn btn-sm btn-light" role="button" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
+				<a class="btn btn-sm btn-light" role="button" class="js-widget-remove" data-js="click | bootbox" data-url="{$WIDGET->getDeleteUrl()}">
 					<span class="fas fa-times" title="{\App\Language::translate('LBL_CLOSE')}"></span>
 				</a>
 			{/if}

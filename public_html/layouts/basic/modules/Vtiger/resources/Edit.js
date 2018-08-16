@@ -157,7 +157,7 @@ $.Class("Vtiger_Edit_Js", {
 		}
 		let formElement = container.closest('form');
 		let mappingRelatedField = this.getMappingRelatedField(sourceField, popupReferenceModule, formElement);
-		if (typeof mappingRelatedField != undefined) {
+		if (typeof mappingRelatedField !== 'undefined') {
 			let params = {
 				source_module: popupReferenceModule,
 				record: id
@@ -171,7 +171,7 @@ $.Class("Vtiger_Edit_Js", {
 						var fieldinfo = mapFieldElement.data('fieldinfo');
 						if (mapFieldElement.is('select')) {
 							if (mapFieldElement.find('option[value="' + response[value[0]] + '"]').length) {
-								mapFieldElement.val(response[value[0]]).trigger("chosen:updated").change();
+								mapFieldElement.val(response[value[0]]).trigger("change");
 							}
 						} else if (mapFieldElement.length == 0) {
 							$("<input type='hidden'/>").attr("name", key).attr("value", response[value[0]]).appendTo(formElement);
@@ -184,7 +184,7 @@ $.Class("Vtiger_Edit_Js", {
 							if (fieldinfo.type !== 'tree') {
 								var referenceModulesList = formElement.find('#' + thisInstance.moduleName + '_editView_fieldName_' + key + '_dropDown');
 								if (referenceModulesList.length > 0 && value[1]) {
-									referenceModulesList.val(value[1]).change().trigger("chosen:updated");
+									referenceModulesList.val(value[1]).trigger('change');
 								}
 								thisInstance.setReferenceFieldValue(mapFieldDisplayElement.closest('.fieldValue'), {
 									name: data['result']['displayData'][value[0]],
@@ -448,12 +448,12 @@ $.Class("Vtiger_Edit_Js", {
 
 		fieldNameElement.val('');
 		fieldValueContener.find('#' + fieldName + '_display').removeAttr('readonly').val('');
-
+		app.event.trigger('EditView.ClearField', {fieldName: fieldName, referenceModule: referenceModule});
 		var mappingRelatedField = this.getMappingRelatedField(fieldName, referenceModule, formElement);
 		$.each(mappingRelatedField, function (key, value) {
 			var mapFieldElement = formElement.find('[name="' + key + '"]');
 			if (mapFieldElement.is('select')) {
-				mapFieldElement.val(mapFieldElement.find("option:first").val()).trigger("chosen:updated").change();
+				mapFieldElement.val(mapFieldElement.find("option:first").val()).trigger('change');
 			} else {
 				mapFieldElement.val('');
 			}
@@ -462,7 +462,7 @@ $.Class("Vtiger_Edit_Js", {
 				mapFieldDisplayElement.val('').attr('readonly', false);
 				var referenceModulesList = formElement.find('#' + thisInstance.moduleName + '_editView_fieldName_' + key + '_dropDown');
 				if (referenceModulesList.length > 0 && value[1]) {
-					referenceModulesList.val(referenceModulesList.find("option:first").val()).change().trigger("chosen:updated");
+					referenceModulesList.val(referenceModulesList.find("option:first").val()).trigger('change');
 				}
 			}
 		});
@@ -478,7 +478,7 @@ $.Class("Vtiger_Edit_Js", {
 			if (e.which == 13 && (!currentElement.is('textarea'))) {
 				e.preventDefault();
 			}
-		})
+		});
 	},
 	/**
 	 * Function which will give you all details of the selected record
@@ -486,7 +486,7 @@ $.Class("Vtiger_Edit_Js", {
 	 */
 	getRecordDetails: function (params) {
 		var aDeferred = $.Deferred();
-		var url = "index.php?module=" + app.getModuleName() + "&action=GetData&record=" + params['record'] + "&source_module=" + params['source_module'];
+		var url = "index.php?module=" + params['source_module'] + "&action=GetData&record=" + params['record'];
 		if (app.getParentModuleName() == 'Settings') {
 			url += '&parent=Settings';
 		}
@@ -739,8 +739,6 @@ $.Class("Vtiger_Edit_Js", {
 	copyAddressDetails: function (from, to, data, container) {
 		var thisInstance = this;
 		var sourceModule = data['source_module'];
-		var noAddress = true;
-		var errorMsg;
 		thisInstance.getRecordDetails(data).done(function (data) {
 			var response = data['result'];
 			thisInstance.addressFieldsData = response;
@@ -968,7 +966,7 @@ $.Class("Vtiger_Edit_Js", {
 				})
 				var targetPickListSelectedValue = '';
 				var targetPickListSelectedValue = targetOptions.filter('[selected]').val();
-				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger("chosen:updated");
+				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger('change');
 			})
 		});
 
@@ -1020,7 +1018,8 @@ $.Class("Vtiger_Edit_Js", {
 		var thisInstance = this;
 		var detailContentsHolder = this.getForm();
 		detailContentsHolder.on('click', '.blockHeader', function (e) {
-			if ($(e.target).is('input') || $(e.target).is('button') || $(e.target).parents().is('button')) {
+			const target = $(e.target);
+			if (target.is('input') || target.is('button') || target.parents().is('button') || target.hasClass('js-stop-propagation') || target.parents().hasClass('js-stop-propagation')) {
 				return false;
 			}
 			var currentTarget = $(e.currentTarget).find('.js-block-toggle').not('.d-none');
@@ -1175,10 +1174,11 @@ $.Class("Vtiger_Edit_Js", {
 		fieldValue.find('.referenceModulesList').removeAttr('required');
 	},
 	getMappingRelatedField: function (sourceField, sourceFieldModule, container) {
-		var mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
-		var mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
-		if (typeof mappingRelatedModule[sourceField] !== "undefined" && typeof mappingRelatedModule[sourceField][sourceFieldModule] !== "undefined")
+		const mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
+		const mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
+		if (typeof mappingRelatedModule[sourceField] !== 'undefined' && typeof mappingRelatedModule[sourceField][sourceFieldModule] !== 'undefined') {
 			return mappingRelatedModule[sourceField][sourceFieldModule];
+		}
 		return [];
 	},
 	registerValidationsFields: function (container) {

@@ -32,7 +32,7 @@
 						<tr data-id="{$ITEM.user_id}">
 							<td><label>{$ITEM.username}</label></td>
 							<td>
-								<select class="chzn-select users form-control" multiple name="users">
+								<select class="select2 users form-control" multiple name="users">
 									{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 										<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $USERS)} selected {/if} data-userId="{$CURRENT_USER_ID}">{$OWNER_NAME}</option>
 									{/foreach}

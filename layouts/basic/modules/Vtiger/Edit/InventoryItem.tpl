@@ -12,7 +12,7 @@
 		{/if}
 		<tr class="inventoryRow" numrow="{$ROW_NO}">
 			<td>
-				<span class="fas fa-trash-alt deleteRow u-cursor-pointer {if !$IS_OPTIONAL_ITEMS && empty($KEY)}d-none{/if}"
+				<span class="fas fa-trash-alt deleteRow u-cursor-pointer {if !$IS_OPTIONAL_ITEMS && $KEY == 0 }d-none{/if}"
 					  title="{\App\Language::translate('LBL_DELETE',$MODULE)}"></span>
 				&nbsp;&nbsp;<a class="dragHandle"><img src="{\App\Layout::getImagePath('drag.png')}" border="0"
 													   alt="{\App\Language::translate('LBL_DRAG',$MODULE)}"/></a>
@@ -27,13 +27,18 @@
 				{/if}
 			</td>
 			{foreach item=FIELD from=$FIELDS[1]}
-				<td class="col{$FIELD->getName()}{if !$FIELD->isEditable()} d-none{/if} text-right fieldValue">
+				<td {if $FIELD->getName()!='Name' && $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan')}%" {/if}
+						class="col{$FIELD->getName()}{if !$FIELD->isEditable()} d-none{/if} text-right fieldValue">
 					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 					{assign var="COLUMN_NAME" value=$FIELD->get('columnname')}
-					{if isset($ITEM_DATA[$COLUMN_NAME])}
-						{assign var="FIELD_VALUE" value=$ITEM_DATA[$FIELD->get('columnname')]}
-					{else}
+					{if !isset($ITEM_DATA[$COLUMN_NAME])}
 						{assign var="FIELD_VALUE" value=null}
+					{else}
+						{if $COLUMN_NAME === 'unit'}
+							{assign var="FIELD_VALUE" value=\App\Language::translate($ITEM_DATA[$COLUMN_NAME],$REFERENCE_MODULE)}
+						{else}
+							{assign var="FIELD_VALUE" value=$ITEM_DATA[$COLUMN_NAME]}
+						{/if}
 					{/if}
 					{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE) ITEM_VALUE=$FIELD_VALUE}
 				</td>

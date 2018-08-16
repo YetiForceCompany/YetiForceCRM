@@ -226,8 +226,6 @@ abstract class View extends Base
 			'~layouts/resources/icons/adminIcons.css',
 			'~layouts/resources/icons/additionalIcons.css',
 			'~libraries/fontawesome-web/css/fontawesome-all.css',
-			'~libraries/chosen-js/chosen.css',
-			'~libraries/bootstrap-chosen/bootstrap-chosen.css',
 			'~libraries/jquery-ui-dist/jquery-ui.css',
 			'~libraries/select2/dist/css/select2.css',
 			'~libraries/simplebar/dist/simplebar.css',
@@ -277,7 +275,6 @@ abstract class View extends Base
 	{
 		$jsFileNames = [
 			'~libraries/block-ui/jquery.blockUI.js',
-			'~libraries/chosen-js/chosen.jquery.js',
 			'~libraries/select2/dist/js/select2.full.js',
 			'~libraries/jquery-ui-dist/jquery-ui.js',
 			'~libraries/jquery.class.js/jquery.class.js',
