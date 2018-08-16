@@ -37,13 +37,13 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$query = new \App\Db\Query();
 		$query->select([
-				'leadstatusid' => 'vtiger_leadstatus.leadstatusid',
-				'count' => new \yii\db\Expression('COUNT(*)'),
-				'leadstatusvalue' => 'vtiger_leadstatus.leadstatus', ])
-				->from('vtiger_leaddetails')
-				->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
-				->innerJoin('vtiger_leadstatus', 'vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus')
-				->where(['deleted' => 0]);
+			'leadstatusid' => 'vtiger_leadstatus.leadstatusid',
+			'count' => new \yii\db\Expression('COUNT(*)'),
+			'leadstatusvalue' => 'vtiger_leadstatus.leadstatus', ])
+			->from('vtiger_leaddetails')
+			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_leadstatus', 'vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus')
+			->where(['deleted' => 0]);
 		if (!empty($owner)) {
 			$query->andWhere(['smownerid' => $owner]);
 		}
@@ -108,6 +108,8 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 			$data['datasets'][0]['links'][$i] = $listViewUrl . $this->getSearchParams($data['datasets'][0]['names'][$i], $owner, $createdTime);
 		}
 		//Include special script and css needed for this widget
+		$viewer->assign('SCRIPTS', null);
+		$viewer->assign('STYLES', null);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
