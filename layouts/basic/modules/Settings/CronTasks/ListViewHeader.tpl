@@ -3,28 +3,24 @@
 <!-- tpl-Settings-CronTasks-ListViewHeader -->
 <div class="">
 	<div class='widget_header row '>
-		<div class="col-6">
+		<div class="col-md-6">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 		</div>
-		<div class="col-6 text-right">
-			<div class="row">
-				<div class="col">
-					{\App\Language::translate('LBL_LAST_START',$QUALIFIED_MODULE)}:&nbsp;
-					<b>{$LAST_CRON['laststart']}</b>
-				</div>
+		<div class="col-md-6 ml-2 ml-md-0">
+			<div class="d-flex flex-wrap justify-content-md-end">
+				<span class="mr-1">{\App\Language::translate('LBL_LAST_START',$QUALIFIED_MODULE)}:</span>
+				<strong>{$LAST_CRON['laststart']}</strong>
 			</div>
-			<div class="row">
-				<div class="col">
-					{\App\Language::translate('LBL_TOTAL_LAST_DURATION',$QUALIFIED_MODULE)}: &nbsp;
-					<b>
-						{if $LAST_CRON['duration']==='running'}<i class="fa fa-spinner fa-spin"
-																  title="{\App\Language::translate('LBL_IS_RUNNING',$QUALIFIED_MODULE)}"></i>
-						{elseif $LAST_CRON['duration']==='timeout'}<i class="fa fa-exclamation-triangle text-danger"
-																	  title="{\App\Language::translate('LBL_HAD_TIMEOUT',$QUALIFIED_MODULE)}"></i>
-						{else}{$LAST_CRON['duration']}
-						{/if}
-					</b>
-				</div>
+			<div class="d-flex flex-wrap justify-content-md-end">
+				<span class="mr-1">{\App\Language::translate('LBL_TOTAL_LAST_DURATION',$QUALIFIED_MODULE)}:</span>
+				<strong>
+					{if $LAST_CRON['duration']==='running'}<i class="fa fa-spinner fa-spin"
+															  title="{\App\Language::translate('LBL_IS_RUNNING',$QUALIFIED_MODULE)}"></i>
+					{elseif $LAST_CRON['duration']==='timeout'}<i class="fa fa-exclamation-triangle text-danger"
+																  title="{\App\Language::translate('LBL_HAD_TIMEOUT',$QUALIFIED_MODULE)}"></i>
+					{else}{$LAST_CRON['duration']}
+					{/if}
+				</strong>
 			</div>
 		</div>
 	</div>
