@@ -17,7 +17,7 @@ class Field extends \Tests\Base
 	public function testGetFieldPermission()
 	{
 		$moduleId = \App\Module::getModuleId('Leads');
-		$fieldId = (new \App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid'=>$moduleId, 'fieldname'=>'email'])->scalar();
+		$fieldId = (new \App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid' => $moduleId, 'fieldname' => 'email'])->scalar();
 		$fieldRoId = (new \App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['tabid' => $moduleId, 'fieldname' => 'smcreatorid'])->scalar();
 		$this->assertTrue(\App\Field::getFieldPermission('Leads', 'email', true), 'Expected read perms(strings)');
 		$this->assertTrue(\App\Field::getFieldPermission('Leads', 'email', false), 'Expected write perms(strings)');
@@ -54,17 +54,17 @@ class Field extends \Tests\Base
 	 *
 	 * @return array
 	 */
-	public function relationModulesProvider()
+	public function relationsProvider()
 	{
-		return (new \App\Db\Query())->select(['tabid', 'related_tabid'])->from('vtiger_relatedlists')->all();
+		return (new \App\Db\Query())->select(['tabid', 'related_tabid', 'relation_id'])->from('vtiger_relatedlists')->all();
 	}
 
 	/**
 	 * Testing getRelatedFieldForModule function with params from vtiger_relatedlist table.
 	 *
-	 * @dataProvider relationModulesProvider
+	 * @dataProvider relationsProvider
 	 */
-	public function testGetRelatedFieldForModulePair($forModuleId, $moduleId)
+	public function testGetRelatedFieldForModulePair($forModuleId, $moduleId, $relationId)
 	{
 		$result0 = \App\Field::getRelatedFieldForModule(\App\Module::getModuleName($moduleId), \App\Module::getModuleName($forModuleId));
 		$this->assertInternalType('array', $result0, 'Relation list should be array type');
@@ -83,7 +83,7 @@ class Field extends \Tests\Base
 	 */
 	public function relationSelectedModulesProvider()
 	{
-		return[
+		return [
 			['FInvoice', 'FCorectingInvoice'],
 			['DataSetRegister', 'IncidentRegister'],
 			['DataSetRegister', 'AuditRegister'],
@@ -114,25 +114,13 @@ class Field extends \Tests\Base
 	}
 
 	/**
-	 * Relations ids provider.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return array
-	 */
-	public function relationsProvider()
-	{
-		return (new \App\Db\Query())->select(['relation_id'])->from('vtiger_relatedlists')->all();
-	}
-
-	/**
 	 * Testing getFieldsFromRelation.
 	 *
 	 * @dataProvider relationsProvider
 	 *
 	 * @param int $relationId
 	 */
-	public function testGetFieldsFromRelation($relationId)
+	public function testGetFieldsFromRelation($forModuleId, $moduleId, $relationId)
 	{
 		$result = \App\Field::getFieldsFromRelation($relationId);
 		$this->assertInternalType('array', $result, 'Expected result type array for relation: ' . $relationId);
