@@ -8,32 +8,6 @@ jQuery.Class('Settings_YetiForce_Status_Js', {}, {
 	getType: function () {
 		return $(".form-modalAddWidget [name='type']").val();
 	},
-	registerSaveEvent: function (mode, data) {
-		var resp = '';
-		var params = {}
-		params.data = {
-			module: app.getModuleName(),
-			parent: app.getParentModuleName(),
-			action: 'SaveAjax',
-			mode: mode,
-			params: data
-		}
-		if (mode == 'saveWidget') {
-			params.async = false;
-		} else {
-			params.async = true;
-		}
-		params.dataType = 'json';
-		AppConnector.request(params).done(function (data) {
-			var response = data['result'];
-			var params = {
-				text: response['message'],
-				type: 'success'
-			};
-			Vtiger_Helper_Js.showPnotify(params);
-			resp = response['success'];
-		});
-	},
 	registerEvents: function (container) {
 		var thisInstance = this;
 		if (typeof container === "undefined") {
@@ -50,13 +24,13 @@ jQuery.Class('Settings_YetiForce_Status_Js', {}, {
 				var response = data['result'], params;
 				if (response['success']) {
 					params = {
-						text: response['data'],
+						text: response['message'],
 						type: 'info',
 					};
 					Vtiger_Helper_Js.showPnotify(params);
 				} else {
 					params = {
-						text: response['data'],
+						text: response['message'],
 					};
 					Vtiger_Helper_Js.showPnotify(params);
 				}
@@ -76,13 +50,13 @@ jQuery.Class('Settings_YetiForce_Status_Js', {}, {
 				var response = data['result'], params;
 				if (response['success']) {
 					params = {
-						text: response['data'],
+						text: response['message'],
 						type: 'info',
 					};
 					Vtiger_Helper_Js.showPnotify(params);
 				} else {
 					params = {
-						text: response['data'],
+						text: response['message'],
 					};
 					Vtiger_Helper_Js.showPnotify(params);
 				}

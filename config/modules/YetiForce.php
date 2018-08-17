@@ -7,5 +7,11 @@
  */
 return [
 	// Status url
-	'YF_URL' => 'https://status.yetiforce.com/',
+	'YF_URL' => '',
+	'FLAG_1' => false,
+	'FLAG_2' => false,
+	'FLAG_3' => false,
+	'FLAG_4' => false,
+	'FLAG_5' => false,
+	'FLAG_6' => false,
 ];
