@@ -1,0 +1,15 @@
+{
+  "php": {
+    "Widgets": "Modu\u0142y - wid\u017cety",
+    "LBL_MODULE_HEADER": "YetiForce Status - Ustawienia",
+    "LBL_MODULE_DESC": "Configuration page of YetiForce status service..",
+    "LBL_SERVICE_URL": "Adres us\u0142ugi",
+    "LBL_PARAM_NAME": "Parametr",
+    "LBL_PARAM_VAL": "Ustawienie",
+    "LBL_PARAM_ENABLED": "Tak",
+    "LBL_PARAM_DISABLED": "Nie",
+    "LBL_SAVED": "Zapisano zmiany"
+  },
+  "js": {
+  }
+}
