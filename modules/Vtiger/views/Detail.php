@@ -48,6 +48,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showRelatedTree');
 		$this->exposeMethod('showRecentRelation');
 		$this->exposeMethod('showOpenStreetMap');
+		$this->exposeMethod('showSocialMedia');
 		$this->exposeMethod('showInventoryDetails');
 	}
 
@@ -219,7 +220,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~libraries/leaflet/dist/leaflet.js',
 			'~libraries/leaflet.markercluster/dist/leaflet.markercluster.js',
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
-			'modules.OpenStreetMap.resources.Map',
+			'modules.OpenStreetMap.resources.Map'
 		];
 
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
@@ -908,6 +909,25 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COORRDINATES', $coordinates);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		return $viewer->view('DetailViewMap.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Show social media.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function showSocialMedia($request)
+	{
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
+		if (!Vtiger_SocialMedia_Model::isEnableForModule($recordModel)) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('SOCIAL_MODEL', Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel));
+		$viewer->assign('RECORD_MODEL', $recordModel);
+		return $viewer->view('Detail\SocialMedia.tpl', $moduleName, true);
 	}
 
 	/**

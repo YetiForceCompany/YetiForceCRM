@@ -2166,6 +2166,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			mapView.registerDetailView(container);
 		}
 	},
+	registerSocialMediaEvents(container) {
+		let socialMediaContainer = container.find('.tpl-Detail-SocialMedia');
+		if (socialMediaContainer.length) {
+		}
+	},
 	registerShowSummary: function (container) {
 		container.on('click', '.showSummaryRelRecord', function (e) {
 			var currentTarget = $(e.currentTarget);
@@ -2189,6 +2194,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerCommentEvents(detailContentsHolder);
 		thisInstance.registerEmailEvents(detailContentsHolder);
 		thisInstance.registerMapsEvents(detailContentsHolder);
+		thisInstance.registerSocialMediaEvents(detailContentsHolder);
 		App.Fields.Date.register(detailContentsHolder);
 		App.Fields.DateTime.register(detailContentsHolder);
 		App.Fields.MultiImage.register(detailContentsHolder);
