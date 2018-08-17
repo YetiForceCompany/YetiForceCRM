@@ -8,8 +8,10 @@
 		</div>
 		<div class="o-Settings-YetiForce-Status-table__container container">
 			<div class="row">
-				<div class="col-lg-4">{\App\Language::Translate('LBL_PARAM_NAME',$QUALIFIED_MODULE)}</div>
-				<div class="col-lg-8">{\App\Language::Translate('LBL_PARAM_VAL',$QUALIFIED_MODULE)}</div>
+				<div class="col-lg-4"><strong>{\App\Language::Translate('LBL_PARAM_NAME',$QUALIFIED_MODULE)}</strong>
+				</div>
+				<div class="col-lg-8"><strong>{\App\Language::Translate('LBL_PARAM_VAL',$QUALIFIED_MODULE)}</strong>
+				</div>
 			</div>
 			{foreach $CURRENT_STATE as $CONF_FLAG}
 				<div class="row">

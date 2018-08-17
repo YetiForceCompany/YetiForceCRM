@@ -10,8 +10,8 @@ jQuery.Class('Settings_YetiForce_Status_Js', {}, {
 
 		container.find(".js-YetiForce-Status-var").on('change', function (e) {
 			AppConnector.request({
-				'module': 'YetiForce',
-				'parent': 'Settings',
+				'module': app.getModuleName(),
+				'parent': app.getParentModuleName(),
 				'action': 'Status',
 				'flagName': e.currentTarget.dataset.flag,
 				'newParam': e.currentTarget.value

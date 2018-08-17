@@ -7,11 +7,11 @@
  */
 return [
 	// Status url
-	'YF_URL' => '',
-	'FLAG_1' => false,
-	'FLAG_2' => false,
-	'FLAG_3' => false,
-	'FLAG_4' => false,
-	'FLAG_5' => false,
-	'FLAG_6' => false,
+	'yf_status_url' => '',
+	'flag_1' => false,
+	'flag_2' => false,
+	'flag_3' => false,
+	'flag_4' => false,
+	'flag_5' => false,
+	'flag_6' => false,
 ];
