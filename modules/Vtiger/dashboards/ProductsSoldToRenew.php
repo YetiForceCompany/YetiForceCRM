@@ -63,7 +63,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 
 	public function getTargetModuleModel()
 	{
-		if (!$this->targetModuleModel) {
+		if (empty($this->targetModuleModel)) {
 			$this->targetModuleModel = Vtiger_Module_Model::getInstance($this->getTargetModule());
 		}
 		return $this->targetModuleModel;
@@ -95,7 +95,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 
 	protected function initListViewController()
 	{
-		if (!$this->queryGenerator) {
+		if (empty($this->queryGenerator)) {
 			$this->queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 			$this->queryGenerator->setFields($this->getTargetFields());
 			$this->listviewHeaders = $this->listviewRecords = null;
@@ -105,7 +105,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 	public function getHeaders()
 	{
 		$this->initListViewController();
-		if (!$this->listviewHeaders) {
+		if (empty($this->listviewHeaders)) {
 			$headerFieldModels = [];
 			foreach ($this->queryGenerator->getListViewFields() as $fieldName => &$fieldsModel) {
 				if (in_array($fieldName, $this->getRestrictFields())) {
@@ -126,7 +126,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 	public function getRecords($user)
 	{
 		$this->initListViewController();
-		if (!$this->listviewRecords) {
+		if (empty($this->listviewRecords)) {
 			$this->queryGenerator->addNativeCondition($this->getConditions());
 			$query = $this->queryGenerator->createQuery();
 			$query->limit($this->getRecordLimit());
