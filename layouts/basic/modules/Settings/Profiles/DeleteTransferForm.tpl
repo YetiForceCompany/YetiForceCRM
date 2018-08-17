@@ -32,7 +32,7 @@
 						<div class="form-group row">
 							<div class="col-md-6 col-sm-6">{\App\Language::translate('LBL_TRANSFER_ROLES_TO_PROFILE',$QUALIFIED_MODULE)}</div>
 							<div class="col-md-6 col-sm-6">
-								<select id="transfer_record form-control" name="transfer_record" class="chzn-select form-control">
+								<select id="transfer_record form-control" name="transfer_record" class="select2 form-control">
 									<optgroup label="{\App\Language::translate('LBL_PROFILES', $QUALIFIED_MODULE)}">
 										{foreach from=$ALL_RECORDS item=PROFILE_MODEL}
 											{assign var=PROFILE_ID value=$PROFILE_MODEL->get('profileid')}

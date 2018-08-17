@@ -169,10 +169,10 @@ Vtiger_Field_Js('Vtiger_Picklist_Field_Js', {}, {
 	},
 	/**
 	 * Function to get the ui
-	 * @return - select element and chosen element
+	 * @return - select element and select2 element
 	 */
 	getUi: function () {
-		var html = '<select class="chzn-select form-control" name="' + this.getName() + '">';
+		var html = '<select class="select2 form-control" name="' + this.getName() + '">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = app.htmlDecode(this.getValue());
 		for (var option in pickListValues) {
@@ -199,7 +199,7 @@ Vtiger_Field_Js('Vtiger_Multipicklist_Field_Js', {}, {
 	},
 	/**
 	 * Function to get the ui
-	 * @return - select element and chosen element
+	 * @return - select element and select2 element
 	 */
 	getUi: function () {
 		var html = '<select class="select2 form-control" multiple name="' + this.getName() + '[]">';
@@ -292,7 +292,7 @@ Vtiger_Field_Js('Vtiger_Owner_Field_Js', {}, {
 		return this.get('picklistvalues');
 	},
 	getUi: function () {
-		var html = '<select class="chzn-select form-control" name="' + this.getName() + '">';
+		var html = '<select class="select2 form-control" name="' + this.getName() + '">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = this.getValue();
 		for (var optGroup in pickListValues) {
@@ -389,10 +389,10 @@ Vtiger_Field_Js('Vtiger_Recurrence_Field_Js', {}, {
 	},
 	/**
 	 * Function to get the ui
-	 * @return - select element and chosen element
+	 * @return - select element and select2 element
 	 */
 	getUi: function () {
-		var html = '<select class="chzn-select form-control" name="' + this.getName() + '">';
+		var html = '<select class="select2 form-control" name="' + this.getName() + '">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = app.htmlDecode(this.getValue());
 		for (var option in pickListValues) {

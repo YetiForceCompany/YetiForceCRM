@@ -1,25 +1,29 @@
 ,{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	{if empty($RECORDID)}
+		{assign var=RECORDID value=''}
+	{/if}
 	<div class="tpl-Settings-PDF-Step1 pdfTemplateContents">
 		<form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step1" class="form-horizontal">
 			<input type="hidden" name="module" value="PDF">
 			<input type="hidden" name="view" value="Edit">
-			<input type="hidden" name="mode" value="Step2" />
-			<input type="hidden" name="parent" value="Settings" />
-			<input type="hidden" class="step" value="1" />
-			<input type="hidden" name="record" value="{$RECORDID}" />
+			<input type="hidden" name="mode" value="Step2"/>
+			<input type="hidden" name="parent" value="Settings"/>
+			<input type="hidden" class="step" value="1"/>
+			<input type="hidden" name="record" value="{$RECORDID}"/>
 
 			<div class="padding1per stepBorder">
 				<label>
-					<strong>{\App\Language::translateArgs('LBL_STEP_N', $QUALIFIED_MODULE, 1)}: {\App\Language::translate('LBL_ENTER_BASIC_DETAILS',$QUALIFIED_MODULE)}</strong>
+					<strong>{\App\Language::translateArgs('LBL_STEP_N', $QUALIFIED_MODULE, 1)}
+						: {\App\Language::translate('LBL_ENTER_BASIC_DETAILS',$QUALIFIED_MODULE)}</strong>
 				</label>
-				<br />
+				<br/>
 				<div class="form-group">
 					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
-						<select class="chzn-select form-control" id="status" name="status" required="true">
+						<select class="select2 form-control" id="status" name="status" required="true">
 							<option value="1" {if $PDF_MODEL->get('status') eq 1} selected {/if}>
 								{\App\Language::translate('PLL_ACTIVE', $QUALIFIED_MODULE)}
 							</option>
@@ -34,15 +38,20 @@
 						{\App\Language::translate('LBL_PRIMARY_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
-						<input type="text" name="primary_name" class="form-control" data-validation-engine='validate[required]' value="{$PDF_MODEL->get('primary_name')}" id="primary_name" />
+						<input type="text" name="primary_name" class="form-control"
+							   data-validation-engine='validate[required]' value="{$PDF_MODEL->get('primary_name')}"
+							   id="primary_name"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 col-form-label">
-						{\App\Language::translate('LBL_SECONDARY_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+						{\App\Language::translate('LBL_SECONDARY_NAME', $QUALIFIED_MODULE)}<span
+								class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
-						<input type="text" name="secondary_name" class="form-control" data-validation-engine='validate[required]' value="{$PDF_MODEL->get('secondary_name')}" id="secondary_name" />
+						<input type="text" name="secondary_name" class="form-control"
+							   data-validation-engine='validate[required]' value="{$PDF_MODEL->get('secondary_name')}"
+							   id="secondary_name"/>
 					</div>
 				</div>
 				<!--
@@ -57,10 +66,12 @@
 				-->
 				<div class="form-group">
 					<label class="col-sm-3 col-form-label">
-						{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
+						{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}<span
+								class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
-						<select class="chzn-select form-control" id="moduleName" name="module_name" required="true" data-validation-engine='validate[required]' >
+						<select class="select2 form-control" id="moduleName" name="module_name" required="true"
+								data-validation-engine='validate[required]'>
 							{foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
 								<option value="{$MODULE_MODEL->getName()}" {if $SELECTED_MODULE == $MODULE_MODEL->getName()} selected {/if}>
 									{if $MODULE_MODEL->getName() eq 'Calendar'}
@@ -78,7 +89,9 @@
 						{\App\Language::translate('LBL_METATAGS', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<input type="checkbox" name="metatags_status" id="metatags_status" value="1" class="checkboxForm" {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}checked="checked"{/if} />
+						<input type="checkbox" name="metatags_status" id="metatags_status" value="1"
+							   class="checkboxForm"
+							   {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}checked="checked"{/if} />
 					</div>
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">
@@ -86,7 +99,8 @@
 						{\App\Language::translate('LBL_META_TITLE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<input type="text" name="meta_title" class="form-control" value="{$PDF_MODEL->get('meta_title')}" id="meta_title" />
+						<input type="text" name="meta_title" class="form-control"
+							   value="{$PDF_MODEL->get('meta_title')}" id="meta_title"/>
 					</div>
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">
@@ -94,8 +108,15 @@
 						{\App\Language::translate('LBL_META_AUTHOR', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<select class="chzn-select form-control" id="meta_author" name="meta_author">
-							<option value="" selected="">{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
+						<select class="select2 form-control" id="meta_author" name="meta_author"
+								data-placeholder="{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}"
+								data-select="allowClear, true">
+
+							<optgroup class="p-0">
+								<option value=""
+										selected="">{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
+							</optgroup>
+
 							<option value="PLL_COMPANY_NAME" {if $PDF_MODEL->get('meta_author') eq 'PLL_COMPANY_NAME'} selected {/if}>
 								{\App\Language::translate('PLL_COMPANY_NAME', $QUALIFIED_MODULE)}
 							</option>
@@ -110,8 +131,13 @@
 						{\App\Language::translate('LBL_META_CREATOR', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<select class="chzn-select form-control" id="meta_creator" name="meta_creator">
-							<option value="" selected="">{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
+						<select class="select2 form-control" id="meta_creator" name="meta_creator"
+								data-placeholder="{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}"
+								data-select="allowClear, true">
+							<optgroup class="p-0">
+								<option value=""
+										selected="">{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
+							</optgroup>
 							<option value="PLL_COMPANY_NAME" {if $PDF_MODEL->get('meta_creator') eq 'PLL_COMPANY_NAME'} selected {/if}>
 								{\App\Language::translate('PLL_COMPANY_NAME', $QUALIFIED_MODULE)}
 							</option>
@@ -126,7 +152,8 @@
 						{\App\Language::translate('LBL_META_SUBJECT', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<input type="text" name="meta_subject" class="form-control" value="{$PDF_MODEL->get('meta_subject')}" id="meta_subject" />
+						<input type="text" name="meta_subject" class="form-control"
+							   value="{$PDF_MODEL->get('meta_subject')}" id="meta_subject"/>
 					</div>
 				</div>
 				<div class="form-group metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">
@@ -135,7 +162,10 @@
 					</label>
 					<div class="col-sm-6 controls">
 						{assign 'KEYWORDS' explode(',',$PDF_MODEL->get('meta_keywords'))}
-						<select class="select2 form-control" data-tags="false" id="meta_keywords" name="meta_keywords" multiple="multiple">
+
+						<select class="select2 form-control" id="meta_keywords" name="meta_keywords"
+								data-select="tags, true; tokenSeparators, [,]"
+								multiple="multiple">
 							{foreach item=KEYWORD from=$KEYWORDS}
 								<option value="{$KEYWORD}" selected="selected">{$KEYWORD}</option>
 							{/foreach}
@@ -143,13 +173,13 @@
 					</div>
 				</div>
 			</div>
-			<br />
+			<br/>
 			<div class="float-right mb-2">
 				<button class="btn btn-success mr-1" type="submit" disabled>
 					<span class="fas fa-caret-right mr-1"></span>
 					{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}
 				</button>
-				<button class="btn btn-warning cancelLink" type="reset">
+				<button class="btn btn-danger cancelLink" type="reset">
 					<span class="fas fa-times mr-1"></span>
 					{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
 				</button>

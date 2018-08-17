@@ -308,7 +308,7 @@ class Zip extends \ZipArchive
 		header('Content-Disposition: attachment; filename="' . $name . '.zip";');
 		header('Accept-Ranges: bytes');
 		header('Content-Length: ' . filesize($fileName));
-		echo readfile($fileName);
+		readfile($fileName);
 		unlink($fileName);
 	}
 }

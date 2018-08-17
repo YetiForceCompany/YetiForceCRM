@@ -32,7 +32,7 @@
 							<div class="col-md-3 col-form-label text-right">{\App\Language::translate('LBL_ITEM_TO_RENAME',$QUALIFIED_MODULE)}</div>
 							<div class="col-md-9 controls">
 								{assign var=PICKLIST_VALUES value=$SELECTED_PICKLISTFIELD_EDITABLE_VALUES}
-								<select class="chzn-select form-control" name="oldValue">
+								<select class="select2 form-control" name="oldValue">
 									<optgroup>
 										{foreach from=$PICKLIST_VALUES key=PICKLIST_VALUE_KEY item=PICKLIST_VALUE}
 											<option {if $FIELD_VALUE eq $PICKLIST_VALUE} selected="" {/if}value="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}" data-id={$PICKLIST_VALUE_KEY}>{\App\Language::translate($PICKLIST_VALUE,$SOURCE_MODULE)}</option>

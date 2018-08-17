@@ -10,9 +10,11 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{foreach key=index item=jsModel from=$SCRIPTS}
-		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
-	{/foreach}
+	{if !empty($SCRIPTS)}
+		{foreach key=index item=jsModel from=$SCRIPTS}
+			<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
+		{/foreach}
+	{/if}
 	<div id="massEditContainer" class="modal" tabindex="-1" role="dialog">
 
 		<div class="modal-dialog modal-lg" role="document">

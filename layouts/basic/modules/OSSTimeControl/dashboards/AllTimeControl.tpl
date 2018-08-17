@@ -12,15 +12,15 @@
 				<span class="fas fa-sync-alt" title="{\App\Language::translate('LBL_REFRESH')}"></span>
 			</a>
 			{if !$WIDGET->isDefault()}
-				<a class="btn btn-sm btn-light" role="button" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
+				<a class="btn btn-sm btn-light" role="button" class="js-widget-remove" data-js="click | bootbox" data-url="{$WIDGET->getDeleteUrl()}">
 					<span class="fas fa-times" title="{\App\Language::translate('LBL_CLOSE')}"></span>
 				</a>
 			{/if}
 		</div>
 	</div>
 	<hr class="widgetHr" />
-	<div class="row" >
-		<div class="col-sm-6">
+	<div class="row no-gutters" >
+		<div class="col-ceq-xsm-6">
 			<div class="input-group input-group-sm">
 				<div class=" input-group-prepend">
 					<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">
@@ -30,7 +30,7 @@
 				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control text-center" value="{implode(',',$DTIME)}" />
 			</div>
 		</div>
-		<div class="col-sm-6">
+		<div class="col-ceq-xsm-6">
 			{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 		</div>
 	</div>

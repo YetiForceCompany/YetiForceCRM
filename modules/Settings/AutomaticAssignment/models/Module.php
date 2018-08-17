@@ -4,8 +4,8 @@
  * Automatic assignment module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -204,7 +204,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 		$autoAssignRecord = $moduleInstance->searchRecord($recordModel);
 		if ($autoAssignRecord) {
 			$owner = $autoAssignRecord->getAssignUser();
-			if ($owner && $owner !== $recordModel->get('assigned_user_id')) {
+			if ($owner && (int) $owner !== (int) $recordModel->get('assigned_user_id')) {
 				$recordModel->set('assigned_user_id', $owner);
 				$recordModel->save();
 			}

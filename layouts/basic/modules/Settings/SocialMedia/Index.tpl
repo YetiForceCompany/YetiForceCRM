@@ -4,14 +4,16 @@
 		<div class="widget_header row">
 			<div class="col-md-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-				{\App\Language::translate('LBL_SOCIAL_MEDIA_DESC', $QUALIFIED_MODULE)}
 			</div>
 		</div>
 		<div class="mt-2">
 			<div class="contents tabbable">
 				<ul class="nav nav-tabs layoutTabs massEditTabs">
-					<li class="nav-item"><a class="nav-link active" data-toggle="tab"
-											href="#twitter"><strong>{\App\Language::translate('LBL_TWITTER', $QUALIFIED_MODULE)}</strong></a>
+					<li class="nav-item">
+						<a class="nav-link active" data-toggle="tab" href="#twitter">
+							<span class="fab fa-twitter-square"></span>
+							<strong>{\App\Language::translate('LBL_TWITTER', $QUALIFIED_MODULE)}</strong>
+						</a>
 					</li>
 				</ul>
 				<div class="tab-content layoutContent py-3">

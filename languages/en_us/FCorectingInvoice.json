@@ -18,9 +18,6 @@
     "PLL_TRANSFER": "transfer",
     "PLL_CASH": "cash",
     "LBL_YEAR": "Year",
-    "FL_INVOICE": "Invoice",
-    "LBL_COMMENTS": "Comments",
-    "FL_EXTERNAL_COMMENT": "External comment",
-    "FL_INTERNAL_COMMENT": "Internal comment"
+    "FL_INVOICE": "Invoice"
   }
 }

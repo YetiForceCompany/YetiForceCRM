@@ -15,19 +15,7 @@ class Settings_SocialMedia_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('Twitter');
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function process(\App\Request $request)
-	{
-		$mode = $request->getMode();
-		if (!empty($mode) && $this->isMethodExposed($mode)) {
-			return $this->$mode($request);
-		}
-		throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 403);
+		$this->exposeMethod('twitter');
 	}
 
 	/**
@@ -35,7 +23,7 @@ class Settings_SocialMedia_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function Twitter(\App\Request $request)
+	public function twitter(\App\Request $request)
 	{
 		$configTitter = (new Settings_SocialMedia_Config_Model('twitter'));
 		$configTitter->set('archiving_records_number_of_days', $request->getInteger('archiving_records_number_of_days'));

@@ -382,6 +382,7 @@
     "LBL_PERMISSION_DENIED": "Brak uprawnie\u0144",
     "LBL_PLEASE_SELECT_MODULE": "Prosz\u0119 wybra\u0107 modu\u0142",
     "LBL_POST": "Dodaj",
+    "LBL_PREDEFINED_WIDGETS": "Predefiniowane wid\u017Cety",
     "LBL_PREVIOUS_FQ": "Poprzedni kwarta\u0142",
     "LBL_PREVIOUS_FY": "Poprzedni rok",
     "LBL_PRE_TAX_TOTAL": "Warto\u015b\u0107 po rabacie (netto)",
@@ -1223,7 +1224,7 @@
     "LBL_PICKLIST_FIELD": "Lista wyboru z pola",
     "LBL_MAP": "Mapa",
     "LBL_SHOW_MAP": "Poka\u017c na mapie",
-    "LBL_SOCIAL_MEDIA": "Media spo\u0142eczno\u015bciowe",
+    "LBL_SOCIAL_MEDIA": "Social",
     "FL_CAMPAIGN_STATUS": "Status kampanii",
     "LBL_CLOSED_TICKETS_BY_PRIORITY": "Zamkni\u0119te zg\u0142oszenie wed\u0142ug priorytetu",
     "LBL_CLOSED_TICKETS_BY_USER": "Zamkni\u0119te zg\u0142oszenia wed\u0142ug u\u017cytkownik\u00f3w",
@@ -1288,8 +1289,7 @@
     "LBL_SHOP_YETIFORCE": "Sklep",
     "LBL_PRINT": "Drukuj",
     "LBL_IMAGE_DOWNLOAD": "Pobierz obraz",
-    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Liczba scalanych rekord\u00F3w zosta\u0142a zredukowana do %d.",
-    "LBL_ARCHIVING_RECORDS_NUMBER_OF_DAYS": "Archiwizowanie rekord\u00f3w liczba dni"
+    "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Liczba scalanych rekord\u00F3w zosta\u0142a zredukowana do %d."
   },
   "js": {
     "JS_APPROVE": "Zatwierd\u017A",
@@ -1313,7 +1313,7 @@
     "JS_ACCEPT_POSITIVE_NUMBER": "Akceptuje tylko dodatnie liczby",
     "JS_ALLOWED_TO_SELECT_MAX_OF_THREE_RECORDS": "Mo\u017cesz wybra\u0107 maksymalnie trzy rekordy",
     "JS_ARE_YOU_SURE_TO_DELETE_WIDGET": "Czy na pewno chcesz zamkn\u0105\u0107 wid\u017cet?",
-    "JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO": "B\u0119dzie on dost\u0119pny pod przyciskiem \"Dodaj wid\u017cet\".",
+    "JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO": "B\u0119dzie on dost\u0119pny pod przyciskiem \"Predefiniowane wid\u017Cety\".",
     "JS_CAN_NOT_REMOVE_DEFAULT_WIDGET": "Nie mo\u017cna usun\u0105\u0107 domy\u015blnego wid\u017cetu",
     "JS_CHECK_FILE_INTEGRITY": "Sprawd\u017a integralno\u015b\u0107 pliku",
     "JS_CONTAINS_ILLEGAL_CHARACTERS": "zawiera niedozwolone znaki",
@@ -1602,6 +1602,7 @@
     "JS_WAIT_FOR_FILE_UPLOAD": "Poczekaj na uko\u0144czenie wysy\u0142ania plik\u00F3w",
     "JS_ERROR_MAX_VALUE": "Wprowadzono warto\u015b\u0107 poza dozwolonym zakresem",
     "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Zmie\u0144 nazw\u0119 firmy. Nazwa firmy YetiForce jest zastrze\u017Cona.",
-    "JS_SELECT_OR_WRITE_AND_PRESS_ENTER": "Wybierz warto\u015b\u0107 z listy lub wpisz w\u0142asn\u0105 i naci\u015bnij enter"
+    "JS_SELECT_OR_WRITE_AND_PRESS_ENTER": "Wybierz warto\u015b\u0107 z listy lub wpisz w\u0142asn\u0105 i naci\u015bnij enter",
+    "JS_INVENTORY_ITEM_MODULE_NOT_FOUND": "Modu\u0142 '${sourceModule}' dla pozycji '${position}' nie zosta\u0142 aktywowany."
   }
 }

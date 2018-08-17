@@ -26,14 +26,6 @@ class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	public static function setSumTime($data)
-	{
-		$start = strtotime(DateTimeField::convertToDBFormat($data->get('date_start')) . ' ' . $data->get('time_start'));
-		$end = strtotime(DateTimeField::convertToDBFormat($data->get('due_date')) . ' ' . $data->get('time_end'));
-		$time = round(abs($end - $start) / 3600, 2);
-		\App\Db::getInstance()->createCommand()->update('vtiger_osstimecontrol', ['sum_time' => $time], ['osstimecontrolid' => $data->getId()])->execute();
-	}
-
 	public function getDuplicateRecordUrl()
 	{
 		$module = $this->getModule();

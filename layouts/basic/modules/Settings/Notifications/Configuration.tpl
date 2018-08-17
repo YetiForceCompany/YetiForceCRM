@@ -5,7 +5,7 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 		</div>
 		<div class="col-12 col-sm-6 offset-sm-6 col-md-3 offset-md-0">
-			<select class="chzn-select form-control" name="supportedModule" id="supportedModule">
+			<select class="select2 form-control" name="supportedModule" id="supportedModule">
 				{foreach item=SUPPORTED_MODULE key=TAB_ID from=$SUPPORTED_MODULES}
 					<option value="{$TAB_ID}" {if $TAB_ID eq $SELECTED_MODULE} selected {/if}>{\App\Language::translate($SUPPORTED_MODULE->getName(), $SUPPORTED_MODULE->getName())}</option>
 				{/foreach}

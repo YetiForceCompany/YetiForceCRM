@@ -96,16 +96,16 @@ class Functions
 			if (!$showRestricted && in_array($module['name'], $restrictedModules)) {
 				unset($moduleList[$id]);
 			}
-			if ($isEntityType && $module['isentitytype'] === 0) {
+			if ($isEntityType && (int) $module['isentitytype'] === 0) {
 				unset($moduleList[$id]);
 			}
-			if ($presence !== false && $module['presence'] !== $presence) {
+			if ($presence !== false && (int) $module['presence'] !== $presence) {
 				unset($moduleList[$id]);
 			}
-			if ($colorActive !== false && $module['coloractive'] !== 1) {
+			if ($colorActive !== false && (int) $module['coloractive'] !== 1) {
 				unset($moduleList[$id]);
 			}
-			if ($ownedby !== false && $module['ownedby'] !== $ownedby) {
+			if ($ownedby !== false && (int) $module['ownedby'] !== $ownedby) {
 				unset($moduleList[$id]);
 			}
 		}
@@ -518,9 +518,13 @@ class Functions
 			}
 			$response->emit();
 		} else {
-			$viewer = new \Vtiger_Viewer();
-			$viewer->assign('MESSAGE', $message);
-			$viewer->view($tpl, 'Vtiger');
+			if (php_sapi_name() !== 'cli') {
+				$viewer = new \Vtiger_Viewer();
+				$viewer->assign('MESSAGE', $message);
+				$viewer->view($tpl, 'Vtiger');
+			} else {
+				echo $message . \PHP_EOL;
+			}
 		}
 		if ($die) {
 			trigger_error(print_r($message, true), E_USER_ERROR);

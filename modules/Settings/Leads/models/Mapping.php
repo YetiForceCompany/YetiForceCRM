@@ -61,10 +61,10 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	public function getDetailViewLinks()
 	{
 		return [Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'DETAIL_VIEW_BASIC',
-				'linklabel' => 'LBL_EDIT',
-				'linkurl' => 'javascript:Settings_LeadMapping_Js.triggerEdit("' . $this->getEditViewUrl() . '")',
-				'linkicon' => '',
+			'linktype' => 'DETAIL_VIEW_BASIC',
+			'linklabel' => 'LBL_EDIT',
+			'linkurl' => 'javascript:Settings_LeadMapping_Js.triggerEdit("' . $this->getEditViewUrl() . '")',
+			'linkicon' => '',
 		])];
 	}
 
@@ -76,10 +76,10 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	public function getMappingLinks()
 	{
 		return [Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'DETAIL_VIEW_BASIC',
-				'linklabel' => 'LBL_DELETE',
-				'linkurl' => 'javascript:Settings_LeadMapping_Js.triggerDelete(event,"' . $this->getMappingDeleteUrl() . '")',
-				'linkicon' => '',
+			'linktype' => 'DETAIL_VIEW_BASIC',
+			'linklabel' => 'LBL_DELETE',
+			'linkurl' => 'javascript:Settings_LeadMapping_Js.triggerDelete(event,"' . $this->getMappingDeleteUrl() . '")',
+			'linkicon' => '',
 		])];
 	}
 
@@ -112,7 +112,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 				$finalMapping[$mappingId] = [
 					'editable' => $mappingDetails['editable'],
 					'Leads' => $fieldLabelsList[$mappingDetails['leadfid']],
-					'Accounts' => $fieldLabelsList[$mappingDetails['accountfid']],
+					'Accounts' => $fieldLabelsList[$mappingDetails['accountfid']] ?? null,
 				];
 			}
 
@@ -124,7 +124,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to get fields info.
 	 *
-	 * @param <Array> list of field ids
+	 * @param  <Array> list of field ids
 	 *
 	 * @return <Array> list of field info
 	 */
@@ -139,7 +139,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 		$fieldLabelsList = [];
 		while ($rowData = $dataReader->read()) {
 			$fieldInfo = ['id' => $rowData['fieldid'], 'label' => $rowData['fieldlabel']];
-			if ($rowData['tabid'] === $leadId) {
+			if ((int) $rowData['tabid'] === $leadId) {
 				$fieldModel = Settings_Leads_Field_Model::getCleanInstance();
 				$fieldModel->set('uitype', $rowData['uitype']);
 				$fieldModel->set('typeofdata', $rowData['typeofdata']);
@@ -151,7 +151,6 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 			$fieldLabelsList[$rowData['fieldid']] = $fieldInfo;
 		}
 		$dataReader->close();
-
 		return $fieldLabelsList;
 	}
 
@@ -276,7 +275,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function deleteMapping($mappingIdsList, $editableParam = false)
 	{
-		if ($conditions) {
+		if ($editableParam) {
 			$params = ['cfmid' => $mappingIdsList, 'editable' => 1];
 		} else {
 			$params = ['cfmid' => $mappingIdsList];
