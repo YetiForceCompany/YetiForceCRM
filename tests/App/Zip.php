@@ -30,8 +30,7 @@ class Zip extends \Tests\Base
 	public function testInstanceOpenFileNotExists()
 	{
 		$this->expectException(\App\Exceptions\AppException::class);
-		$zip = \App\Zip::openFile('tests/data/NxFile.zip');
-		$zip->close();
+		\App\Zip::openFile('tests/data/NxFile.zip')->close();
 	}
 
 	/**
