@@ -26,7 +26,7 @@
 								{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 							</label>
 							<div class="col-sm-8 controls">
-								<select class="chzn-select form-control" id="status" name="status" required="true">
+								<select class="select2 form-control" id="status" name="status" required="true">
 									<option value="1" {if $MAPPEDFIELDS_MODULE_MODEL->get('status')}selected{/if}>
 										{\App\Language::translate('active', $QUALIFIED_MODULE)}
 									</option>
@@ -41,7 +41,7 @@
 								{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 							</label>
 							<div class="col-sm-8 controls">
-								<select class="chzn-select form-control" id="tabid" name="tabid" required="true" data-validation-engine="validate[required]" {if $RECORDID} disabled {/if}>
+								<select class="select2 form-control" id="tabid" name="tabid" required="true" data-validation-engine="validate[required]" {if $RECORDID} disabled {/if}>
 									{foreach from=$ALL_MODULES key=TABID item=MODULE}
 										{if $MODULE->getName() eq 'OSSMailView'} continue {/if}
 										<option value="{$TABID}" {if $MAPPEDFIELDS_MODULE_MODEL->get('tabid') == $TABID} selected {/if}>
@@ -56,7 +56,7 @@
 								{\App\Language::translate('LBL_SELECT_REL_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 							</label>
 							<div class="col-sm-8 controls">
-								<select class="chzn-select form-control" id="reltabid" name="reltabid" required="true" data-validation-engine="validate[required]" {if $RECORDID} disabled {/if}>
+								<select class="select2 form-control" id="reltabid" name="reltabid" required="true" data-validation-engine="validate[required]" {if $RECORDID} disabled {/if}>
 									{foreach from=$ALL_MODULES key=TABID item=MODULE}
 										{if $MODULE->getName() eq 'OSSMailView'} continue {/if}
 										<option value="{$TABID}" {if $MAPPEDFIELDS_MODULE_MODEL->get('reltabid') == $TABID} selected {/if}>

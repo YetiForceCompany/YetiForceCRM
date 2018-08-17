@@ -3,9 +3,10 @@
 	<div class="row padding-bottom1per">
 		<span class="col-md-3">{\App\Language::translate('LBL_SELECT_ACTION_TYPE', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-9">
-			<select class="chzn-select form-control" name="type" data-validation-engine="validate[required]">
+			<select class="select2 form-control" name="type" data-validation-engine="validate[required]">
 				{foreach from=\App\Fields\Picklist::getValuesName('notification_type') key=KEY item=ITEM}
-					<option {if $TASK_OBJECT->type eq $ITEM}selected{/if} value="{$ITEM}">{\App\Language::translate($ITEM, $TASK_OBJECT->srcWatchdogModule)}</option>
+					<option {if $TASK_OBJECT->type eq $ITEM}selected{/if}
+							value="{$ITEM}">{\App\Language::translate($ITEM, $TASK_OBJECT->srcWatchdogModule)}</option>
 				{/foreach}
 			</select>
 		</div>
@@ -13,7 +14,7 @@
 	<div class="row padding-bottom1per">
 		<span class="col-md-3">{\App\Language::translate('LBL_SELECT_RECIPIENTS', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-9">
-			<select class="chzn-select form-control" name="recipients" data-validation-engine="validate[required]">
+			<select class="select2 form-control" name="recipients" data-validation-engine="validate[required]">
 				<option {if $TASK_OBJECT->recipients eq 'watchdog'}selected{/if} value="watchdog">
 					{\App\Language::translate('LBL_WATCHING_USERS', $QUALIFIED_MODULE)}
 				</option>
@@ -23,7 +24,8 @@
 				{foreach from=\App\PrivilegeUtil::getMembers() key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 					<optgroup label="{\App\Language::translate($GROUP_LABEL)}">
 						{foreach from=$ALL_GROUP_MEMBERS key=MEMBER_ID item=MEMBER}
-							<option class="{$MEMBER['type']}" value="{$MEMBER_ID}" {if $TASK_OBJECT->recipients eq $MEMBER_ID}selected{/if}>{\App\Language::translate($MEMBER['name'])}</option>
+							<option class="{$MEMBER['type']}" value="{$MEMBER_ID}"
+									{if $TASK_OBJECT->recipients eq $MEMBER_ID}selected{/if}>{\App\Language::translate($MEMBER['name'])}</option>
 						{/foreach}
 					</optgroup>
 				{/foreach}
@@ -53,8 +55,8 @@
 			<textarea class="form-control messageContent" name="message" rows="3">
 				{if $TASK_OBJECT->message}
 					{$TASK_OBJECT->message}
-				{else} 
-						 
+				{else}
+
 				{/if} 
 			</textarea>
 		</div>

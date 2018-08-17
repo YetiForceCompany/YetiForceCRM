@@ -4,14 +4,15 @@
 		<form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step8" class="form-horizontal"
 			  enctype="multipart/form-data">
 			<input type="hidden" name="module" value="PDF">
-			<input type="hidden" name="action" value="Save" />
-			<input type="hidden" name="parent" value="Settings" />
-			<input type="hidden" class="step" value="8" />
-			<input type="hidden" name="record" value="{$RECORDID}" />
-			<input type="hidden" name="watermark_image" value="{$PDF_MODEL->get('watermark_image')}" />
+			<input type="hidden" name="action" value="Save"/>
+			<input type="hidden" name="parent" value="Settings"/>
+			<input type="hidden" class="step" value="8"/>
+			<input type="hidden" name="record" value="{$RECORDID}"/>
+			<input type="hidden" name="watermark_image" value="{$PDF_MODEL->get('watermark_image')}"/>
 			<div class="padding1per stepBorder">
 				<label>
-					<strong>{\App\Language::translateArgs('LBL_STEP_N',$QUALIFIED_MODULE, 8)}: {\App\Language::translate('LBL_WATERMARK_DETAILS',$QUALIFIED_MODULE)}</strong>
+					<strong>{\App\Language::translateArgs('LBL_STEP_N',$QUALIFIED_MODULE, 8)}
+						: {\App\Language::translate('LBL_WATERMARK_DETAILS',$QUALIFIED_MODULE)}</strong>
 				</label>
 				<br/>
 				<div class="form-group">
@@ -19,7 +20,7 @@
 						{\App\Language::translate('LBL_WATERMARK_TYPE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
-						<select class="chzn-select form-control" id="watermark_type" name="watermark_type"
+						<select class="select2 form-control" id="watermark_type" name="watermark_type"
 								required="true">
 							{foreach from=$PDF_MODEL->getWatermarkType() key=VALUE item=LABEL}
 								<option value="{$VALUE}" {if $PDF_MODEL->get('watermark_type') eq $VALUE} selected {/if}>

@@ -420,7 +420,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			var newAddFieldContainer = $('.js-add-basic-field-container').clone(true, true).removeClass('js-add-basic-field-container d-none').addClass('js-conditions-row');
 			$('select', newAddFieldContainer).addClass('select2');
 			$('#save_fieldvaluemapping').append(newAddFieldContainer);
-			//change in to chosen elements
+			//change in to select elements
 			App.Fields.Picklist.changeSelectElementView(newAddFieldContainer);
 		});
 	},
@@ -517,16 +517,8 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			fieldSpecificUi.find('[name="' + fieldName + '"]').removeAttr('data-validation-engine');
 		}
 		fieldUiHolder.html(fieldSpecificUi);
-		if (fieldSpecificUi.is('input.select2')) {
-			var tagElements = fieldSpecificUi.data('tags');
-			var params = {tags: tagElements, tokenSeparators: [","]}
-			App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi, params)
-		} else if (fieldSpecificUi.is('select')) {
-			if (fieldSpecificUi.hasClass('chzn-select')) {
-				App.Fields.Picklist.showChoosenElementView(fieldSpecificUi);
-			} else {
-				App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi);
-			}
+		if (fieldSpecificUi.is('input.select2') || fieldSpecificUi.is('select')) {
+			App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi);
 		} else if (fieldSpecificUi.is('input.dateField')) {
 			App.Fields.Date.register(fieldSpecificUi);
 		} else if (fieldSpecificUi.is('input.dateRangeField')) {
@@ -564,7 +556,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				var name = element.attr('name');
 				if ($.inArray(name, taskFields) >= 0) {
 					if (element.is('select')) {
-						element.val('').trigger('chosen:updated').change();
+						element.val('').trigger('change');
 					}
 					element.prop('disabled', true);
 				}
@@ -575,7 +567,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				if ($.inArray(name, taskFields) >= 0) {
 					element.prop('disabled', false);
 					if (element.is('select')) {
-						element.val('').trigger('chosen:updated').change();
+						element.val('').trigger('change');
 					}
 				}
 			});
@@ -649,7 +641,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			var ccContainer = $('#ccContainer');
 			ccContainer.removeClass('d-none');
 			var taskFieldElement = ccContainer.find('select.task-fields');
-			taskFieldElement.addClass('chzn-select');
+			taskFieldElement.addClass('select2');
 			App.Fields.Picklist.changeSelectElementView(taskFieldElement);
 			$(e.currentTarget).addClass('d-none');
 			thisInstance.checkHiddenStatusofCcandBcc();
@@ -658,7 +650,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			var bccContainer = $('#bccContainer');
 			bccContainer.removeClass('d-none');
 			var taskFieldElement = bccContainer.find('select.task-fields');
-			taskFieldElement.addClass('chzn-select');
+			taskFieldElement.addClass('select2');
 			App.Fields.Picklist.changeSelectElementView(taskFieldElement);
 			$(e.currentTarget).addClass('d-none');
 			thisInstance.checkHiddenStatusofCcandBcc();

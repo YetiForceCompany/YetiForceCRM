@@ -81,8 +81,8 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 		$cvId = $request->getByType('viewname', 2);
 		$module = $request->getModule();
 		$sourceModule = $request->getByType('source_module', 2);
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
+		$selectedIds = $request->getArray('selected_ids', 2);
+		$excludedIds = $request->getArray('excluded_ids', 2);
 
 		if (!empty($selectedIds) && !in_array($selectedIds, ['all', '"all"'])) {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
@@ -104,7 +104,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 				$customViewModel->set('search_value', $searchValue);
 			}
 
-			$customViewModel->set('search_params', $request->get('search_params'));
+			$customViewModel->set('search_params', $request->getArray('search_params'));
 
 			return $customViewModel->getRecordsListQuery($excludedIds, $module);
 		}

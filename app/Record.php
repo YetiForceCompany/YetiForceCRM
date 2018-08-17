@@ -42,7 +42,7 @@ class Record
 					$metainfo = Functions::getCRMRecordMetadata($id);
 					if (!empty($metainfo['setype'])) {
 						$computeLabel = static::computeLabels($metainfo['setype'], $id);
-						$recordLabel = TextParser::textTruncate(Purifier::encodeHtml($computeLabel[$id]), 254, false);
+						$recordLabel = TextParser::textTruncate(Purifier::encodeHtml($computeLabel[$id]??''), 254, false);
 						Cache::save('recordLabel', $id, $recordLabel);
 					}
 				}

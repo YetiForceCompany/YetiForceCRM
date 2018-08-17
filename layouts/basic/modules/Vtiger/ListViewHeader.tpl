@@ -83,7 +83,7 @@
 						<input type="hidden" value="0" id="customFilter"/>
 					{/if}
 				</div>
-				<div class="c-list__right-container d-flex flex-nowrap">
+				<div class="c-list__right-container d-flex flex-nowrap u-overflow-scroll-xs-down">
 					{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 				</div>
 			</div>
@@ -97,7 +97,8 @@
 								data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
 								<a class="nav-link{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}" href="#"
 								   {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if}
-								   data-toggle="tab" role="tab" aria-selected="{if $VIEWID == $CUSTOM_VIEW->getId()}true{else}false{/if}">
+								   data-toggle="tab" role="tab"
+								   aria-selected="{if $VIEWID == $CUSTOM_VIEW->getId()}true{else}false{/if}">
 									{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 									{if $CUSTOM_VIEW->get('description')}
 										&nbsp;

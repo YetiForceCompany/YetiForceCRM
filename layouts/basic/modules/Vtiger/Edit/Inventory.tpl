@@ -67,7 +67,7 @@
 					<tr>
 						<th class="text-center u-w-1per-45px"></th>
 						{foreach item=FIELD from=$FIELDS[1]}
-							<th  class="col{$FIELD->getName()} {if !$FIELD->isEditable()} d-none{/if} text-center text-nowrap u-w-3per-150px">
+							<th class="col{$FIELD->getName()} {if !$FIELD->isEditable()} d-none{/if} text-center text-nowrap {if $FIELD->getName()=='Name'}u-w-3per-250px{/if}">
 								{\App\Language::translate($FIELD->get('label'), $MODULE)}
 							</th>
 						{/foreach}
@@ -77,11 +77,11 @@
 				<tbody>
 				{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
 					{assign var="ROW_NO" value=$KEY+1}
-					{include file=\App\Layout::getTemplatePath('EditViewInventoryItem.tpl', $MODULE)}
+					{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE)}
 					{foreachelse}
 					{if !$IS_OPTIONAL_ITEMS}
 						{assign var="ROW_NO" value=1}
-						{include file=\App\Layout::getTemplatePath('EditViewInventoryItem.tpl', $MODULE)}
+						{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE)}
 					{/if}
 				{/foreach}
 				</tbody>
@@ -108,12 +108,12 @@
 				</tfoot>
 			</table>
 		</div>
-		{include file=\App\Layout::getTemplatePath('EditViewInventorySummary.tpl', $MODULE)}
+		{include file=\App\Layout::getTemplatePath('Edit/InventorySummary.tpl', $MODULE)}
 		{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
 		<table id="blackIthemTable" class="noValidate d-none">
-			<tbody>
+			<tbody class="js-inventory-base-item">
 			{assign var="ROW_NO" value='_NUM_'}
-			{include file=\App\Layout::getTemplatePath('EditViewInventoryItem.tpl', $MODULE)}
+			{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE)}
 			</tbody>
 		</table>
 	{/if}

@@ -882,10 +882,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 		});
-		detailContentsHolder.find('.detailViewBlockLink .blockHeader').on('click', function () {
-			var block = $(this).closest('.js-toggle-panel');
-			var blockContent = block.find('.blockContent');
-			var isEmpty = blockContent.is(':empty');
+		detailContentsHolder.find('.detailViewBlockLink .blockHeader').on('click', function (e) {
+			const target = $(e.target);
+			if (target.is('input') || target.is('button') || target.parents().is('button') || target.hasClass('js-stop-propagation') || target.parents().hasClass('js-stop-propagation')) {
+				return false;
+			}
+			const block = $(this).closest('.js-toggle-panel');
+			const blockContent = block.find('.blockContent');
+			const isEmpty = blockContent.is(':empty');
 			if (!blockContent.is(':visible')) {
 				blockContent.progressIndicator();
 				AppConnector.request({
@@ -894,7 +898,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					data: block.data('url')
 				}).done(function (response) {
 					blockContent.html(response);
-					var relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), block.data('reference'));
+					const relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), block.data('reference'));
 					relatedController.setRelatedContainer(blockContent);
 					if (isEmpty) {
 						relatedController.registerRelatedEvents();
@@ -908,7 +912,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 	registerBlockAnimationEvent: function () {
 		var thisInstance = this;
 		var detailContentsHolder = this.getContentHolder();
-		detailContentsHolder.find(".blockHeader").on('click', function () {
+		detailContentsHolder.find(".blockHeader").on('click', function (e) {
+			const target = $(e.target);
+			if (target.is('input') || target.is('button') || target.parents().is('button') || target.hasClass('js-stop-propagation') || target.parents().hasClass('js-stop-propagation')) {
+				return false;
+			}
 			var currentTarget = $(this).find(".js-block-toggle").not(".d-none");
 			var blockId = currentTarget.data("id");
 			var closestBlock = currentTarget.closest(".js-toggle-panel");
@@ -1748,7 +1756,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				if (targetPickListMap.length == 1) {
 					targetPickListSelectedValue = targetPickListMap[0]; // to automatically select picklist if only one picklistmap is present.
 				}
-				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger("chosen:updated");
+				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger('change');
 			})
 
 		});

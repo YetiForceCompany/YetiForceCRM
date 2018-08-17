@@ -1,4 +1,5 @@
 <?php
+
 return [
 	'modulesHierarchy' => [
 		'Accounts' => ['level' => 0],
@@ -74,6 +75,9 @@ return [
 		],
 		'Assets' => [
 			'contactid' => ['Contacts' => ['parent_id' => ['parent_id']]],
+		],
+		'FCorectingInvoice' => [
+			'finvoiceid' => ['FInvoice' => ['accountid' => ['accountid']]]
 		]
 	],
 	'modulesMap1M' => [// Base => Parent

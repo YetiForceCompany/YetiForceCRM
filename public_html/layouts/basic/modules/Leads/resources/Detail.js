@@ -329,7 +329,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 					var oldvalue = contextElem.val();
 					contextElem.find('option[value="' + oldvalue + '"]').removeAttr("selected");
 					contextElem.find('option[value="' + ajaxnewValue + '"]').attr("selected", "selected");
-					contextElem.trigger("chosen:updated");
+					contextElem.trigger('change');
 				} else {
 					contextElem.attr("value", ajaxnewValue);
 				}

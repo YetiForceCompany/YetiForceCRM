@@ -33,13 +33,6 @@ class Purifier
 	private static $purifyHtmlInstanceCache = false;
 
 	/**
-	 * Error collection class that enables HTML Purifier to report HTML problems back to the user.
-	 *
-	 * @var bool
-	 */
-	public static $collectErrors = false;
-
-	/**
 	 * Html events attributes.
 	 *
 	 * @var string
@@ -128,12 +121,6 @@ class Purifier
 		}
 		if (static::$purifyHtmlInstanceCache) {
 			$value = static::$purifyHtmlInstanceCache->purify($input);
-			if (static::$collectErrors) {
-				if (!$config) {
-					$config = static::getHtmlConfig();
-				}
-				echo static::$purifyHtmlInstanceCache->context->get('ErrorCollector')->getHTMLFormatted($config);
-			}
 			static::purifyHtmlEventAttributes($value);
 			if ($loop) {
 				$last = '';
@@ -243,9 +230,6 @@ class Purifier
 		}
 		$uri = $config->getDefinition('URI');
 		$uri->addFilter(new Extension\HTMLPurifier\Domain(), $config);
-		if (static::$collectErrors) {
-			$config->set('Core.CollectErrors', true);
-		}
 		return $config;
 	}
 

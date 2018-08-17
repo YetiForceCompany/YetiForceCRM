@@ -351,23 +351,25 @@ class PBXManager_PBXManager_Connector
 	public function call($number)
 	{
 		$user = Users_Record_Model::getCurrentUserModel();
-		$extension = $user->phone_crm_extension;
-
-		$webappurl = $this->getServer();
-		$context = $this->getOutboundContext();
-		$vtigerSecretKey = $this->getVtigerSecretKey();
-
-		$serviceURL = $webappurl;
+		$serviceURL = $this->getServer();
 		$serviceURL .= '/makecall?event=OutgoingCall&';
-		$serviceURL .= 'secret=' . urlencode($vtigerSecretKey) . '&';
-		$serviceURL .= 'from=' . urlencode($extension) . '&';
+		$serviceURL .= 'secret=' . urlencode($this->getVtigerSecretKey()) . '&';
+		$serviceURL .= 'from=' . urlencode($user->phone_crm_extension) . '&';
 		$serviceURL .= 'to=' . urlencode($number) . '&';
-		$serviceURL .= 'context=' . urlencode($context);
-
-		$httpClient = Requests::post($serviceURL);
-		$response = trim($httpClient->body);
-
-		if ($response === 'Error' || $response === '' || $response === null || $response === 'Authentication Failure') {
+		$serviceURL .= 'context=' . urlencode($this->getOutboundContext());
+		$content = '';
+		try {
+			$response = (new \GuzzleHttp\Client())->request('POST', $serviceURL, ['timeout' => 5, 'connect_timeout' => 1]);
+			if ($response->getStatusCode() !== 200) {
+				\App\Log::warning("Error when make call: $serviceURL | Status code: " . $response->getStatusCode(), __CLASS__);
+				return false;
+			}
+			$content = trim($response->getBody());
+		} catch (\Throwable $exc) {
+			\App\Log::warning("Error when make call: $serviceURL | " . $exc->getMessage(), __CLASS__);
+			return false;
+		}
+		if ($content === 'Error' || $content === '' || $content === null || $content === 'Authentication Failure') {
 			return false;
 		}
 		return true;

@@ -4,9 +4,16 @@
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
 	<div class="tpl-List-Field-CompanySelect">
-		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="" />
-		<select name="{$FIELD_MODEL->getName()}" class="chzn-select form-control col-md-12" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" id="{$MODULE}_{$VIEW}_fieldName_{$FIELD_MODEL->getName()}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isMandatory() eq true} {/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
-			<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
+		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=""/>
+		<select name="{$FIELD_MODEL->getName()}" class="select2 form-control"
+				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
+				id="{$MODULE}_{$VIEW}_fieldName_{$FIELD_MODEL->getName()}"
+				data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isMandatory() eq true} {/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}
+				data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}"
+				data-select="allowClear, true">
+			<optgroup class="p-0">
+				<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
+			</optgroup>
 			{foreach item=PICKLIST_VALUE key=KEY from=$PICKLIST_VALUES}
 				<option value="{\App\Purifier::encodeHtml($KEY)}" {if $KEY eq $FIELD_VALUE} selected {/if}>
 					{if $PICKLIST_VALUE['default']}

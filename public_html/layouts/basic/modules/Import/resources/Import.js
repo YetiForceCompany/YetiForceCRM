@@ -353,7 +353,7 @@ if (typeof (ImportJs) === "undefined") {
 				} else if (rowId in mapping) {
 					mappedFields.val($rowId);
 				}
-				mappedFields.trigger('chosen:updated');
+				mappedFields.trigger('change');
 				ImportJs.loadDefaultValueWidget(fieldElement.attr('id'));
 			});
 		},
