@@ -2,21 +2,17 @@
 'use strict';
 
 jQuery.Class('Settings_YetiForce_Status_Js', {}, {
-
 	registerEvents: function () {
-		const thisInstance = this;
 		const container = jQuery('.o-Settings-YetiForce-Status-table');
-
-
-		container.find(".js-YetiForce-Status-var").on('change', function (e) {
+		container.find(".js-vars").on('change', function (e) {
 			AppConnector.request({
-				'module': app.getModuleName(),
-				'parent': app.getParentModuleName(),
-				'action': 'Status',
-				'flagName': e.currentTarget.dataset.flag,
-				'newParam': e.currentTarget.value
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				action: 'Status',
+				flagName: e.currentTarget.dataset.flag,
+				newParam: e.currentTarget.value
 			}).done(function (data) {
-				var response = data['result'], params;
+				let response = data['result'], params;
 				if (response['success']) {
 					params = {
 						text: response['message'],
@@ -38,6 +34,3 @@ jQuery.Class('Settings_YetiForce_Status_Js', {}, {
 		});
 	}
 });
-jQuery(document).ready(function () {
-	new Settings_YetiForce_Status_Js().registerEvents();
-})
