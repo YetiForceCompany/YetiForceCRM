@@ -48,14 +48,14 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 */
 	public static function isEnableForModule($recordModel)
 	{
-		$socialMediaConfig = \AppConfig::module($recordModel->getModuleName(), 'ENABLE_SOCIAL');
+		$socialMediaConfig = \AppConfig::module($recordModel->getModuleName(), 'enable_social');
 		if (false === $socialMediaConfig || empty($socialMediaConfig)) {
 			return false;
 		}
 		if (!is_array($socialMediaConfig)) {
 			throw new \App\Exceptions\AppException('Incorrect data type in ' . $recordModel->getModuleName() . ':ENABLE_SOCIAL');
 		}
-		if (!in_array('TWITTER', $socialMediaConfig)) {
+		if (!in_array('twitter', $socialMediaConfig)) {
 			return false;
 		}
 		$allFieldModel = $recordModel->getModule()->getFieldsByUiType(313);
