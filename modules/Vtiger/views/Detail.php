@@ -919,12 +919,14 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function showSocialMedia($request)
 	{
-		//TODO: Privilege
+		$recordId = $request->getInteger('record');
+		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		if (!SocialMedia_Module_Model::isEnableForModule($recordModel)) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 		/*if (!\App\Privilege::isPermitted('SocialMedia')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}*/
-		$recordId = $request->getInteger('record');
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);

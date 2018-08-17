@@ -1,13 +1,13 @@
 <?php
 
 /**
- * SocialMedia Module Model.
+ * SocialMedia Model.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-class SocialMedia_Module_Model extends Vtiger_Module_Model
+class Vtiger_SocialMedia_Model extends Vtiger_Module_Model
 {
 	/**
 	 * Checking whether social media are available for the module.

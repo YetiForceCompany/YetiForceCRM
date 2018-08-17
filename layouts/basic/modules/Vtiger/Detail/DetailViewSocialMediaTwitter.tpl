@@ -8,11 +8,13 @@
 						<div class="d-flex">
 							<span class="flex-shrink-0 fa-layers fa-fw fa-2x u-ml-minus-5px mt-2"></span>
 							<div class="flex-grow-1 ml-1 p-1 timeline-item isUpdate">
-								<div class="float-sm-left imageContainer">{*img*}</div>
+								<div class="float-sm-left imageContainer">
+									<span class="fas fa-user userImage"></span>
+								</div>
 								<div class="timeline-body small">
 									<strong>{$RECORD_TWITTER->get('twitter_login')}</strong>
-									<div class="float-right time text-muted"><span
-												title="{$RECORD_TWITTER->get('created')}">{$RECORD_TWITTER->get('created_at')}</span>
+									<div class="float-right time text-muted">
+										<span title="{$RECORD_TWITTER->get('created')}">{$RECORD_TWITTER->get('created')}</span>
 									</div>
 									<div>
 										{$RECORD_TWITTER->get('message')}
