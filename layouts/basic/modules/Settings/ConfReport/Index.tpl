@@ -34,8 +34,8 @@
 	</ul>
 	<div class="tab-content">
 		<div id="Configuration" class="tab-pane fade in active show">
-			<div class="u-columns-count-auto u-columns-gap-05rem u-columns-width-27rem pt-2">
-				<div class="u-columns__item">
+			<div class="u-columns-count-auto u-columns-gap-1rem u-columns-width-36rem pt-2 text-center u-align-middle-children">
+				<div class="u-columns__item pb-3">
 					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
@@ -44,7 +44,7 @@
 							</th>
 						</tr>
 						<tr>
-							<th colspan="1" scope="col">
+							<th colspan="1" scope="col" class="text-left">
 								{App\Language::translate('LBL_PARAMETER', $MODULE)}
 							</th>
 							<th colspan="1" scope="col">
@@ -58,10 +58,10 @@
 							</th>
 						</tr>
 						</thead>
-						<tbody class="small u-word-break-all">
+						<tbody class="small">
 						{foreach from=$ALL['stability'] key=KEY item=ITEM}
 							<tr {if !$ITEM['status']}class="table-danger"{/if}>
-								<td class="bg-light">
+								<td class="bg-light text-left">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
 										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
@@ -98,11 +98,11 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="u-columns__item">
+				<div class="u-columns__item pb-3">
 					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
-							<th colspan="1" scope="col">
+							<th colspan="1" scope="col" class="text-left">
 								{App\Language::translate('LBL_LIBRARY', $MODULE)}
 							</th>
 							<th colspan="1" scope="col">
@@ -116,10 +116,10 @@
 							</th>
 						</tr>
 						</thead>
-						<tbody class="small u-word-break-all">
+						<tbody class="small">
 						{foreach from=$ALL['libraries'] key=KEY item=ITEM}
 							<tr {if !$ITEM['status']}class="table-danger"{/if}>
-								<td class="bg-light">
+								<td class="bg-light text-left">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
 										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
@@ -160,7 +160,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="u-columns__item">
+				<div class="u-columns__item pb-3">
 					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
@@ -169,10 +169,11 @@
 							</th>
 						</tr>
 						<tr>
-							<th colspan="1" class="w-25" scope="col">
+							<th colspan="1" scope="col" class="text-left">
 								{App\Language::translate('LBL_PARAMETER', $MODULE)}
 							</th>
-							<th colspan="1" scope="col">
+							<th colspan=" 1
+							" scope="col">
 								{App\Language::translate('LBL_WWW_VALUE', $MODULE)}
 							</th>
 							<th colspan="1" scope="col">
@@ -180,10 +181,10 @@
 							</th>
 						</tr>
 						</thead>
-						<tbody class="small u-word-break-all">
+						<tbody class="small">
 						{foreach from=$ALL['environment'] key=KEY item=ITEM}
 							<tr {if !$ITEM['status']}class="table-danger"{/if}>
-								<td class="bg-light">
+								<td class="bg-light text-left">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
 										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
@@ -213,7 +214,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="u-columns__item">
+				<div class="u-columns__item pb-3">
 					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
@@ -222,7 +223,7 @@
 							</th>
 						</tr>
 						<tr>
-							<th colspan="1" scope="col">
+							<th colspan="1" scope="col" class="text-left">
 								{App\Language::translate('LBL_PARAMETER', $MODULE)}
 							</th>
 							<th colspan="1" scope="col">
@@ -236,10 +237,10 @@
 							</th>
 						</tr>
 						</thead>
-						<tbody class="small u-word-break-all">
+						<tbody class="small">
 						{foreach from=$ALL['performance'] key=KEY item=ITEM}
 							<tr {if !$ITEM['status']}class="table-danger"{/if}>
-								<td class="bg-light">
+								<td class="bg-light text-left">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
 										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
@@ -276,7 +277,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="u-columns__item">
+				<div class="u-columns__item pb-3">
 					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
@@ -285,7 +286,7 @@
 							</th>
 						</tr>
 						<tr>
-							<th colspan="1" scope="col">
+							<th colspan="1" scope="col" class="text-left">
 								{App\Language::translate('LBL_PARAMETER', $MODULE)}
 							</th>
 							<th colspan="1" scope="col">
@@ -299,10 +300,10 @@
 							</th>
 						</tr>
 						</thead>
-						<tbody class="small u-word-break-all">
+						<tbody class="small">
 						{foreach from=$ALL['security'] key=KEY item=ITEM}
 							<tr {if !$ITEM['status']}class="table-danger"{/if}>
-								<td class="bg-light">
+								<td class="bg-light text-left">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
 										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
@@ -339,7 +340,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="u-columns__item">
+				<div class="u-columns__item pb-3">
 					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
@@ -348,7 +349,7 @@
 							</th>
 						</tr>
 						<tr>
-							<th colspan="1" scope="col">
+							<th colspan="1" scope="col" class="text-left">
 								{App\Language::translate('LBL_PUBLIC_DIR', $MODULE)}
 							</th>
 							<th colspan="1" scope="col">
@@ -356,10 +357,10 @@
 							</th>
 						</tr>
 						</thead>
-						<tbody class="small u-word-break-all">
+						<tbody class="small">
 						{foreach from=$ALL['directoryPermissions'] key=KEY item=ITEM}
 							<tr {if !$ITEM['status']}class="table-danger"{/if}>
-								<td class="bg-light">
+								<td class="bg-light text-left">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
 										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
@@ -384,7 +385,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="u-columns__item">
+				<div class="u-columns__item pb-3">
 					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
@@ -393,10 +394,10 @@
 							</th>
 						</tr>
 						<tr>
-							<th colspan="1" class="w-25" scope="col">
+							<th colspan="1" scope="col" class="text-left">
 								{App\Language::translate('LBL_PARAMETER', $MODULE)}
 							</th>
-							<th colspan="1" class="w-25" scope="col">
+							<th colspan="1" scope="col">
 								{App\Language::translate('LBL_RECOMMENDED', $MODULE)}
 							</th>
 							<th colspan="1" scope="col">
@@ -404,10 +405,10 @@
 							</th>
 						</tr>
 						</thead>
-						<tbody class="small u-word-break-all">
+						<tbody class="small">
 						{foreach from=$ALL['database'] key=KEY item=ITEM}
 							<tr {if !$ITEM['status']}class="table-danger"{/if}>
-								<td class="bg-light">
+								<td class="bg-light text-left">
 									{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE)}{/if}
 									{if !$ITEM['status']}
 										{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), $MODULE)}
@@ -443,7 +444,7 @@
 			<table class="table table-bordered table-sm m-0">
 				<thead>
 				<tr>
-					<th colspan="1" scope="col">
+					<th colspan="1" scope="col" class="text-left">
 						<span>{App\Language::translate('LBL_FILE', $MODULE)}</span>
 					</th>
 					<th colspan="1" scope="col">
@@ -457,7 +458,7 @@
 				<tbody class="small">
 				{foreach from=Settings_ConfReport_Module_Model::getPermissionsFiles() key=key item=item}
 					<tr {if $item.permission eq 'FailedPermission'}class="table-danger"{/if}>
-						<td class="bg-light">{App\Language::translate($key, $MODULE)}</td>
+						<td class="bg-light text-left">{App\Language::translate($key, $MODULE)}</td>
 						<td>{App\Language::translate($item.path, $MODULE)}
 						</td>
 						<td>
