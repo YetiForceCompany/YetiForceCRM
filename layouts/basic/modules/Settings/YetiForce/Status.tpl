@@ -6,7 +6,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 		</div>
-		<div class="o-Settings-YetiForce-Status-table container">
+		<div class="o-Settings-YetiForce-Status-table container" data-js="container">
 			<div class="row mb-2">
 				<div class="col-lg-4">
 					<strong>{\App\Language::Translate('LBL_PARAM_NAME',$QUALIFIED_MODULE)}</strong>
@@ -27,7 +27,7 @@
 											value="1"
 											type="radio"
 											class="js-vars"
-											data-js="change"
+											data-js="change|value"
 											data-flag="{$CONF_FLAG['name']}"
 											data-type="{$CONF_FLAG['type']}"
 											autocomplete="off"
@@ -41,7 +41,7 @@
 											value="0"
 											type="radio"
 											class="js-vars"
-											data-js="change"
+											data-js="change|value"
 											data-flag="{$CONF_FLAG['name']}"
 											data-type="{$CONF_FLAG['type']}"
 											autocomplete="off"
@@ -54,7 +54,7 @@
 									value="{$CONF_FLAG['value']}"
 									type="text"
 									class="form-control js-vars"
-									data-js="change"
+									data-js="change|value"
 									data-type="{$CONF_FLAG['type']}"
 									data-flag="{$CONF_FLAG['name']}"
 							/>
