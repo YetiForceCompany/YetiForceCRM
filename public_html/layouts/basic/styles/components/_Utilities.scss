@@ -39,6 +39,10 @@
 	@extend .font-weight-bold;
 }
 
+.u-font-size-19px {
+	font-size: calculate-rem(19px);
+}
+
 .u-text-ellipsis {
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -394,6 +398,12 @@
 .u-position-t-5px {
 	top: calculate-rem(5px);
 }
+
+.u-position-t-2px {
+	top: calculate-rem(2px);
+}
+
+//--- ALIGN ---//
 
 .u-align-middle-children {
 	* {
