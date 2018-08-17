@@ -14,22 +14,19 @@ jQuery.Class('Settings_YetiForce_Status_Js', {}, {
 			}).done(function (data) {
 				let response = data['result'], params;
 				if (response['success']) {
-					params = {
+					Vtiger_Helper_Js.showPnotify({
 						text: response['message'],
 						type: 'info',
-					};
-					Vtiger_Helper_Js.showPnotify(params);
+					});
 				} else {
-					params = {
+					Vtiger_Helper_Js.showPnotify({
 						text: response['message'],
-					};
-					Vtiger_Helper_Js.showPnotify(params);
+					});
 				}
 			}).fail(function (data) {
-				params = {
+				Vtiger_Helper_Js.showPnotify({
 					text: response['message'],
-				};
-				Vtiger_Helper_Js.showPnotify(params);
+				});
 			});
 		});
 	}
