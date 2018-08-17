@@ -9,6 +9,11 @@
  */
 class Settings_YetiForce_Status_View extends Settings_Vtiger_Index_View
 {
+	/**
+	 * Process user request.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
