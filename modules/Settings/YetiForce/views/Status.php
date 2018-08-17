@@ -22,7 +22,7 @@ class Settings_YetiForce_Status_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('ALL_PARAMS', \App\YetiForce\Status::getAll());
 
-		$viewer->view('Status.tpl', 'Settings:YetiForce');
+		$viewer->view('Status.tpl', $qualifiedModuleName);
 	}
 
 	/**
