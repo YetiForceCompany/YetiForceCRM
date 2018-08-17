@@ -5,7 +5,7 @@ jQuery.Class('Settings_YetiForce_Status_Js', {}, {
 
 	registerEvents: function () {
 		const thisInstance = this;
-		const container = jQuery('.tpl-Settings-YetiForce-Status');
+		const container = jQuery('.o-Settings-YetiForce-Status-table');
 
 
 		container.find(".js-YetiForce-Status-var").on('change', function (e) {

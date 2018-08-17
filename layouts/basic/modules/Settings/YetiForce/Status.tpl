@@ -6,15 +6,15 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 		</div>
-		<div class="o-Settings-YetiForce-Status-table__container container">
-			<div class="row">
+		<div class="o-Settings-YetiForce-Status-table container">
+			<div class="row mb-2">
 				<div class="col-lg-4"><strong>{\App\Language::Translate('LBL_PARAM_NAME',$QUALIFIED_MODULE)}</strong>
 				</div>
 				<div class="col-lg-8"><strong>{\App\Language::Translate('LBL_PARAM_VAL',$QUALIFIED_MODULE)}</strong>
 				</div>
 			</div>
-			{foreach $CURRENT_STATE as $CONF_FLAG}
-				<div class="row">
+			{foreach $ALL_PARAMS as $CONF_FLAG}
+				<div class="row mb-2">
 					<div class="col-lg-4">{\App\Language::translate($CONF_FLAG['label'],$QUALIFIED_MODULE)}</div>
 					<div class="col-lg-8" align="right">
 						{if $CONF_FLAG['type'] === 'bool'}

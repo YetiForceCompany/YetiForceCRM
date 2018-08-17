@@ -20,8 +20,7 @@ class Settings_YetiForce_Status_View extends Settings_Vtiger_Index_View
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('MODULE', $qualifiedModuleName);
 
-		$viewer->assign('YF_URL', \AppConfig::module('YetiForce', 'YF_URL'));
-		$viewer->assign('CURRENT_STATE', \App\YetiForce\Status::getAll());
+		$viewer->assign('ALL_PARAMS', \App\YetiForce\Status::getAll());
 
 		$viewer->view('Status.tpl', 'Settings:YetiForce');
 	}
