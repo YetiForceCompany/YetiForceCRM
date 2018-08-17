@@ -6,7 +6,7 @@
 				<ul class="nav nav-tabs layoutTabs massEditTabs">
 					<li class="nav-item">
 						<a class="nav-link active" data-toggle="tab" href="#twitter">
-							<strong>{\App\Language::translate('LBL_TWITTER', $QUALIFIED_MODULE)}</strong>
+							<strong>{\App\Language::translate('LBL_TWITTER', 'Settings::SocialMedia')}</strong>
 						</a>
 					</li>
 				</ul>
