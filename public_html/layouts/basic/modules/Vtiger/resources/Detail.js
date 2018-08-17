@@ -2167,7 +2167,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}
 	},
 	registerSocialMediaEvents(container) {
-		let socialMediaContainer = container.find('.tpl-Settings-SocialMedia-Index');
+		let socialMediaContainer = container.find('.tpl-Detail-SocialMedia');
 		if (socialMediaContainer.length) {
 		}
 	},

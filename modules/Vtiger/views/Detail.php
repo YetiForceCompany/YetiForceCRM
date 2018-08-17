@@ -927,7 +927,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('SOCIAL_MODEL', Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel));
 		$viewer->assign('RECORD_MODEL', $recordModel);
-		return $viewer->view('Detail\DetailViewSocialMedia.tpl', $moduleName, true);
+		return $viewer->view('Detail\SocialMedia.tpl', $moduleName, true);
 	}
 
 	/**
