@@ -2,12 +2,6 @@
 'use strict';
 
 jQuery.Class('Settings_YetiForce_Status_Js', {}, {
-	getTabId: function () {
-		return $(".WidgetsManage [name='tabid']").val();
-	},
-	getType: function () {
-		return $(".form-modalAddWidget [name='type']").val();
-	},
 	registerEvents: function (container) {
 		var thisInstance = this;
 		if (typeof container === "undefined") {
@@ -38,7 +32,6 @@ jQuery.Class('Settings_YetiForce_Status_Js', {}, {
 		});
 
 		container.find(".YetiForceStatusFlagBool").on('change', function (e) {
-			console.log(e);
 			AppConnector.request({
 				'module': 'YetiForce',
 				'parent': 'Settings',
