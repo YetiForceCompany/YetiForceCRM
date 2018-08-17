@@ -80,7 +80,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	{
 		$uitype = null;
 		switch ($socialType) {
-			case 'TWITTER':
+			case 'twitter':
 				$uitype = 313;
 				break;
 			default:
@@ -90,7 +90,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 		$allFieldModel = $this->recordModel->getModule()->getFieldsByUiType($uitype);
 		foreach ($allFieldModel as $twitterField) {
 			$val = $this->recordModel->get($twitterField->getColumnName());
-			if (!empty($val)) {
+			if (!empty($val) && $this->recordModel->isViewable()) {
 				$twitterAccount[] = $val;
 			}
 		}
@@ -105,9 +105,9 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 *
 	 * @return \SocialMedia_Record_Model[]
 	 */
-	public function getAllRecords($start, $limit)
+	public function getAllRecords($start = 0, $limit = 50)
 	{
-		$twitterLogin = $this->getAllSocialMediaAccount('TWITTER');
+		$twitterLogin = $this->getAllSocialMediaAccount('twitter');
 		$query = (new \App\Db\Query())->from('u_#__social_media_twitter');
 		if (empty($twitterLogin)) {
 			$query->where(['twitter_login' => $twitterLogin]);

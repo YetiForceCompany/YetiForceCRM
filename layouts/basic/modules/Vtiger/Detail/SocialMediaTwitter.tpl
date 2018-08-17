@@ -3,7 +3,7 @@
 	<div class="tpl-Detail-SocialMediaTwitter">
 		<div class="table-responsive">
 			<ul class="timeline">
-				{foreach from=$SOCIAL_MODEL->getAllRecords(0, 50) item=RECORD_TWITTER}
+				{foreach from=$SOCIAL_MODEL->getAllRecords() item=RECORD_TWITTER}
 					<li>
 						<div class="d-flex">
 							<div class="flex-grow-1 ml-1 p-1 timeline-item isUpdate">
