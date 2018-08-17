@@ -931,7 +931,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('QUALIFIED_MODULE', 'Settings::SocialMedia');
 		$viewer->assign('TWITTER_ACCOUNT', SocialMedia_Module_Model::getAllTwitterAccount($recordModel));
 		$viewer->assign('RECORD_MODEL', $recordModel);
-		return $viewer->view('DetailViewSocialMedia.tpl', $moduleName, true);
+		return $viewer->view('Detail\DetailViewSocialMedia.tpl', $moduleName, true);
 	}
 
 	/**

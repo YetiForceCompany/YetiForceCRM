@@ -12,7 +12,7 @@
 								<div class="timeline-body small">
 									<strong>{$RECORD_TWITTER->get('twitter_login')}</strong>
 									<div class="float-right time text-muted"><span
-												title="{$RECORD_TWITTER->get('created_at')}">{$RECORD_TWITTER->get('created_at')}</span>
+												title="{$RECORD_TWITTER->get('created')}">{$RECORD_TWITTER->get('created_at')}</span>
 									</div>
 									<div>
 										{$RECORD_TWITTER->get('message')}

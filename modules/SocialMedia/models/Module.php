@@ -39,7 +39,7 @@ class SocialMedia_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function isTwitterAvailable($recordModel)
 	{
-		$allFieldModel = $recordModel->getModule()->getFieldsByUiType(359);
+		$allFieldModel = $recordModel->getModule()->getFieldsByUiType(313);
 		foreach ($allFieldModel as $twitterField) {
 			if (!empty($recordModel->get($twitterField->getColumnName()))) {
 				return true;
@@ -58,7 +58,7 @@ class SocialMedia_Module_Model extends Vtiger_Module_Model
 	public static function getAllTwitterAccount($recordModel)
 	{
 		$twitterAccount = [];
-		$allFieldModel = $recordModel->getModule()->getFieldsByUiType(359);
+		$allFieldModel = $recordModel->getModule()->getFieldsByUiType(313);
 		foreach ($allFieldModel as $twitterField) {
 			$val = $recordModel->get($twitterField->getColumnName());
 			if (!empty($val)) {
@@ -79,11 +79,11 @@ class SocialMedia_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getAllRecords($twitterLogin = [], $start = 0, $limit = 50)
 	{
-		$query = (new \App\Db\Query())->from(SocialMedia_Record_Model::TABLE_TWITTER);
+		$query = (new \App\Db\Query())->from('u_#__social_media_twitter');
 		if (empty($twitterLogin)) {
 			$query->where(['twitter_login' => $twitterLogin]);
 		}
-		$dataReader = $query->orderBy(['created_at' => SORT_DESC])
+		$dataReader = $query->orderBy(['created' => SORT_DESC])
 			->limit($limit)
 			->offset($start)
 			->createCommand()
