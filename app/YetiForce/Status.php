@@ -16,25 +16,26 @@ class Status
 	 *
 	 * @var array
 	 */
-	public static $Items = [
-		'FLAG_1' => 'bool',
-		'FLAG_2' => 'bool',
-		'FLAG_3' => 'bool',
-		'FLAG_4' => 'bool',
-		'FLAG_5' => 'bool',
-		'FLAG_6' => 'bool'
+	public static $variables = [
+		'yf_status_url' => 'string',
+		'flag_1' => 'bool',
+		'flag_2' => 'bool',
+		'flag_3' => 'bool',
+		'flag_4' => 'bool',
+		'flag_5' => 'bool',
+		'flag_6' => 'bool'
 	];
 
 	/**
-	 * Returns array of all flags with current state.
+	 * Returns array of all flags with current config.
 	 *
 	 * @return array
 	 */
-	public static function getCurrentState()
+	public static function getAll()
 	{
 		$result = [];
-		foreach (static::$Items as $flag => $type) {
-			$result[$flag] = ['name' => $flag, 'label' => 'LBL_' . $flag, 'type' => $type, 'value' => \AppConfig::module('YetiForce', $flag) ?? false];
+		foreach (static::$variables as $flag => $type) {
+			$result[$flag] = ['name' => $flag, 'label' => 'LBL_' . \strtoupper($flag), 'type' => $type, 'value' => \AppConfig::module('YetiForce', $flag) ?? false];
 		}
 		return $result;
 	}
