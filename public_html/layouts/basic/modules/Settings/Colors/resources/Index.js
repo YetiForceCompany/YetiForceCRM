@@ -40,22 +40,13 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 		container.find('.generateColor').on('click', this.generateCalendarColor);
 		container.find('.removeCalendarColor').on('click', this.removeCalendarColor);
 	},
-	registerColorPicker: function (data, colorObject, selectedColor) {
-		var params = {
+	registerColorPicker: function (data, colorObject) {
+		data.find('.js-color-picker').colorpicker({
+			format: 'hex',
 			inline: true,
 			container: true,
 			color: colorObject.data('color')
-		};
-		if (typeof customParams !== "undefined") {
-			params = jQuery.extend(params, customParams);
-		}
-		data.find('.calendarColorPicker').colorpicker(params)
-			.on('changeColor', function (e) {
-				selectedColor.val(e.color.toHex());
-				if (!colorObject.contents().length) {
-					colorObject.data('color', e.color.toHex());
-				}
-			});
+		});
 	},
 	updateUserColor: function (e, thisInstance) {
 		var target = $(e.currentTarget);
@@ -67,7 +58,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val(colorPreview.data('color'));
 			//register color picker
-			thisInstance.registerColorPicker(data, colorPreview, selectedColor);
+			thisInstance.registerColorPicker(data, colorPreview);
 			data.find('[name="saveButton"]').on('click', function (e) {
 				var progress = $.progressIndicator({
 					'message': app.vtranslate('JS_LOADING_PLEASE_WAIT'),
@@ -147,7 +138,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val(colorPreview.data('color'));
 			//register color picker
-			thisInstance.registerColorPicker(data, colorPreview, selectedColor);
+			thisInstance.registerColorPicker(data, colorPreview);
 			//save the user calendar with color
 			data.find('[name="saveButton"]').on('click', function (e) {
 				var progress = $.progressIndicator({
@@ -228,7 +219,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val(colorPreview.data('color'));
 			//register color picker
-			thisInstance.registerColorPicker(data, colorPreview, selectedColor);
+			thisInstance.registerColorPicker(data, colorPreview);
 			//save the user calendar with color
 			data.find('[name="saveButton"]').on('click', function (e) {
 				var progress = $.progressIndicator({
@@ -348,7 +339,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val(colorPreview.data('color'));
 			//register color picker
-			thisInstance.registerColorPicker(data, colorPreview, selectedColor);
+			thisInstance.registerColorPicker(data, colorPreview);
 			//save the user calendar with color
 			data.find('[name="saveButton"]').on('click', function (e) {
 				var progress = $.progressIndicator({
@@ -469,7 +460,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val(closestTrElement.data('color'));
 			//register color picker
-			thisInstance.registerColorPicker(data, closestTrElement, selectedColor);
+			thisInstance.registerColorPicker(data, closestTrElement);
 			//save the user calendar with color
 			data.find('[name="saveButton"]').on('click', function (e) {
 				var progress = $.progressIndicator({

@@ -29,6 +29,7 @@ var App = {},
 		cacheParams: [],
 		modalEvents: [],
 		childFrame: false,
+		touchDevice: false,
 		event: new function () {
 			this.el = $({});
 			this.trigger = function () {
@@ -99,6 +100,24 @@ var App = {},
 			} else {
 				return window;
 			}
+		},
+		/**
+		 * Function gets current window parent
+		 * @returns {boolean}
+		 */
+		isTouchDevice() {
+			let supportsTouch = false;
+			if ('ontouchstart' in window) { // iOS & android
+				supportsTouch = true;
+			} else if (window.navigator.msPointerEnabled) { // Win8
+				supportsTouch = true;
+			} else if ('ontouchstart' in document.documentElement) { //additional check
+				supportsTouch = true;
+			}
+			if (supportsTouch) { //remove browser scrollbar visibility (doesn't work in firefox, edge and ie)
+				$("<style type='text/css'> ::-webkit-scrollbar { display: none;} </style>").appendTo('head');
+			}
+			return supportsTouch;
 		},
 		/**
 		 * Function to set page title
@@ -281,7 +300,6 @@ var App = {},
 			modalContainer.one('shown.bs.modal', function () {
 				cb(modalContainer);
 				App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'));
-				App.Fields.Picklist.showChoosenElementView(modalContainer.find('select.chzn-select'));
 				App.Fields.Date.register(modalContainer);
 				new App.Fields.Text.Editor(modalContainer.find('.js-editor'), {
 					height: '5em',
@@ -488,17 +506,15 @@ var App = {},
 			// Reference: http://www.position-absolute.com/articles/jquery-form-validator-because-form-validation-is-a-mess/
 			scroll: false,
 			promptPosition: 'topLeft',
-			//to support validation for chosen select box
+			//to support validation for select2 select box
 			prettySelect: true,
-			useSuffix: "_chosen",
 			usePrefix: "s2id_",
 		},
 		validationEngineOptionsForRecord: {
 			scroll: false,
 			promptPosition: 'topLeft',
-			//to support validation for chosen select box
+			//to support validation for select2 select box
 			prettySelect: true,
-			useSuffix: "_chosen",
 			usePrefix: "s2id_",
 			validateNonVisibleFields: true,
 			onBeforePromptType: function (field) {
@@ -691,16 +707,6 @@ var App = {},
 			return table.DataTable();
 		},
 		/**
-		 * Function to get the chosen element from the raw select element
-		 * @params: select element
-		 * @return : chosenElement - corresponding chosen element
-		 */
-		getChosenElementFromSelect: function (selectElement) {
-			var selectId = selectElement.attr('id');
-			var chosenEleId = selectId + '_chosen';
-			return $('#' + chosenEleId);
-		},
-		/**
 		 * Function to get the select2 element from the raw select element
 		 * @params: select element
 		 * @return : select2Element - corresponding select2 element
@@ -710,17 +716,6 @@ var App = {},
 			//since select2 will add s2id_ to the id of select element
 			var select2EleId = 'select2-' + selectId + '-container';
 			return $('#' + select2EleId).closest('.select2-container');
-		},
-		/**
-		 * Function to get the select element from the chosen element
-		 * @params: chosen element
-		 * @return : selectElement - corresponding select element
-		 */
-		getSelectElementFromChosen: function (chosenElement) {
-			var chosenId = chosenElement.attr('id');
-			var selectEleIdArr = chosenId.split('_chosen');
-			var selectEleId = selectEleIdArr['0'];
-			return $('#' + selectEleId);
 		},
 		/**
 		 * Function to set with of the element to parent width
@@ -1516,6 +1511,7 @@ var App = {},
 		}
 	};
 $(document).ready(function () {
+	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
 	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
 	app.registerSticky();

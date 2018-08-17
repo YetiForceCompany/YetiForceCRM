@@ -37,7 +37,7 @@
 					<div class="col float-right">
 						<div class="float-right">
 							<div class="btn-group">
-								{if $WIDGET['data']['viewtype'] eq 'Summary'}
+								{if !empty($WIDGET['data']['viewtype']) && $WIDGET['data']['viewtype'] eq 'Summary'}
 									<div class="btn-group control-widget">
 										<button class="btn btn-sm btn-light prev disabled" type="button"
 												title="{\App\Language::translate('LBL_PREV',$MODULE_NAME)}">
@@ -53,7 +53,7 @@
 									{assign var=VRM value=Vtiger_Record_Model::getInstanceById($RECORD->getId(), $MODULE_NAME)}
 									{assign var=VRMM value=Vtiger_RelationListView_Model::getInstance($VRM, $RELATED_MODULE_NAME)}
 									{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
-									{if $WIDGET['data']['actionSelect'] eq 1}
+									{if !empty($WIDGET['data']['actionSelect'])}
 										{assign var=RESTRICTIONS_FIELD value=$RELATIONMODEL->getRestrictionsPopupField($VRM)}
 										<button class="btn btn-sm btn-light selectRelation" type="button"
 												data-modulename="{$RELATIONMODEL->getRelationModuleName()}"
@@ -63,7 +63,7 @@
 											<span class="fas fa-search"></span>
 										</button>
 									{/if}
-									{if $WIDGET['data']['action'] eq 1 && \App\Privilege::isPermitted($RELATIONMODEL->getRelationModuleName(), 'CreateView')}
+									{if !empty($WIDGET['data']['action']) && \App\Privilege::isPermitted($RELATIONMODEL->getRelationModuleName(), 'CreateView')}
 										{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
 										{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
 										<button class="btn btn-sm btn-light {if $WIDGET['isInventory']} createInventoryRecordFromFilter {else} createRecordFromFilter{/if}"

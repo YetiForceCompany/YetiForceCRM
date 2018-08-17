@@ -96,16 +96,16 @@ class Functions
 			if (!$showRestricted && in_array($module['name'], $restrictedModules)) {
 				unset($moduleList[$id]);
 			}
-			if ($isEntityType && $module['isentitytype'] === 0) {
+			if ($isEntityType && (int) $module['isentitytype'] === 0) {
 				unset($moduleList[$id]);
 			}
-			if ($presence !== false && $module['presence'] !== $presence) {
+			if ($presence !== false && (int) $module['presence'] !== $presence) {
 				unset($moduleList[$id]);
 			}
-			if ($colorActive !== false && $module['coloractive'] !== 1) {
+			if ($colorActive !== false && (int) $module['coloractive'] !== 1) {
 				unset($moduleList[$id]);
 			}
-			if ($ownedby !== false && $module['ownedby'] !== $ownedby) {
+			if ($ownedby !== false && (int) $module['ownedby'] !== $ownedby) {
 				unset($moduleList[$id]);
 			}
 		}
@@ -325,12 +325,12 @@ class Functions
 		return preg_replace(['/</', '/>/', '/"/'], ['&lt;', '&gt;', '&quot;'], $string);
 	}
 
-	/** 	Function used to retrieve a single field value from database
-	 * 	@param string $tableName - tablename from which we will retrieve the field value
-	 * 	@param string $fieldName - fieldname to which we want to get the value from database
-	 * 	@param string $idName	 - idname which is the name of the entity id in the table like, inoviceid, etc.,
-	 * 	@param int    $id	 - entity id
-	 * 	return mixed $fieldval  - field value of the needed fieldname from database will be returned
+	/**    Function used to retrieve a single field value from database
+	 * @param string $tableName - tablename from which we will retrieve the field value
+	 * @param string $fieldName - fieldname to which we want to get the value from database
+	 * @param string $idName    - idname which is the name of the entity id in the table like, inoviceid, etc.,
+	 * @param int    $id        - entity id
+	 *                          return mixed $fieldval  - field value of the needed fieldname from database will be returned
 	 */
 	public static function getSingleFieldValue($tableName, $fieldName, $idName, $id)
 	{
@@ -343,19 +343,19 @@ class Functions
 	 * *     @param string $type_of_data - current type of data of the field. It is to return the same TypeofData
 	 * *            if the  field is not matched with the $new_field_details array.
 	 * *     return string $type_of_data - If the string matched with the $new_field_details array then the Changed
-	 * *	       typeofdata will return, else the same typeofdata will return.
+	 * *           typeofdata will return, else the same typeofdata will return.
 	 * *
 	 * *     EXAMPLE: If you have a field entry like this:
 	 * *
-	 * * 		fieldlabel         | typeofdata | tablename            | columnname       |
-	 * *	        -------------------+------------+----------------------+------------------+
-	 * *		Potential Name     | I~O        | vtiger_quotes        | potentialid      |
+	 * *        fieldlabel         | typeofdata | tablename            | columnname       |
+	 * *            -------------------+------------+----------------------+------------------+
+	 * *        Potential Name     | I~O        | vtiger_quotes        | potentialid      |
 	 * *
 	 * *     Then put an entry in $new_field_details  like this:
 	 * *
-	 * *				"vtiger_quotes:potentialid"=>"V",
+	 * *                "vtiger_quotes:potentialid"=>"V",
 	 * *
-	 * *	Now in customview and report's advance filter this field's criteria will be show like string.
+	 * *    Now in customview and report's advance filter this field's criteria will be show like string.
 	 * *
 	 * */
 	public static function transformFieldTypeOfData($table_name, $column_name, $type_of_data)
@@ -518,9 +518,13 @@ class Functions
 			}
 			$response->emit();
 		} else {
-			$viewer = new \Vtiger_Viewer();
-			$viewer->assign('MESSAGE', $message);
-			$viewer->view($tpl, 'Vtiger');
+			if (php_sapi_name() !== 'cli') {
+				$viewer = new \Vtiger_Viewer();
+				$viewer->assign('MESSAGE', $message);
+				$viewer->view($tpl, 'Vtiger');
+			} else {
+				echo $message . \PHP_EOL;
+			}
 		}
 		if ($die) {
 			trigger_error(print_r($message, true), E_USER_ERROR);
@@ -534,9 +538,16 @@ class Functions
 		}
 	}
 
-	public static function getHtmlOrPlainText($content)
+	/**
+	 * Get html rr plain text.
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 */
+	public static function getHtmlOrPlainText(string $content)
 	{
-		if ($content !== strip_tags($content)) {
+		if (substr($content, 0, 1) === '<' && substr($content, -1) === '>') {
 			$content = \App\Purifier::decodeHtml($content);
 		} else {
 			$content = nl2br($content);

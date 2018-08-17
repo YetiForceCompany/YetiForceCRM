@@ -35,7 +35,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		$hashValue = is_array($value) ? implode('|', $value) : $value;
+		$hashValue = is_array($value) ? md5(print_r($value, true)) : $value;
 		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
@@ -55,8 +55,8 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				continue;
 			}
 			$file = \App\Fields\File::loadFromInfo([
-					'path' => $path,
-					'name' => $item['name'],
+				'path' => $path,
+				'name' => $item['name'],
 			]);
 			$validFormat = $file->validate('image');
 			$validExtension = false;
@@ -105,10 +105,18 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function getDisplayValueEncoded($value, $record, $length = false)
 	{
 		$value = \App\Json::decode($value);
-		if (!is_array($value)) {
+		if (!is_array($value) || empty($value)) {
 			return '[]';
 		}
-		$len = $length ?: count($value);
+		$imagesCount = count($value);
+		if (!empty($length)) {
+			if ($imagesCount > $length) {
+				$len = $length;
+			}
+		}
+		if (empty($len)) {
+			$len = $imagesCount;
+		}
 		for ($i = 0; $i < $len; $i++) {
 			$value[$i]['imageSrc'] = $this->getImageUrl($value[$i]['key'], $record);
 			unset($value[$i]['path']);

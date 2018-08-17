@@ -102,7 +102,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$this->listViewModel->set('search_key', $searchKey);
 			$this->listViewModel->set('search_value', $searchValue);
 		}
-		$searchParmams = $request->get('search_params');
+		$searchParmams = $request->getArray('search_params');
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
@@ -149,15 +149,17 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
-			if (!$this->listViewCount) {
+			if (empty($this->listViewCount)) {
 				$this->listViewCount = $this->listViewModel->getListViewCount();
 			}
-			$pagingModel->set('totalCount', (int) $this->listViewCount);
-			$viewer->assign('LISTVIEW_COUNT', $this->listViewCount);
 		}
+		if (!isset($this->listViewCount)) {
+			$this->listViewCount = 0;
+		}
+		$pagingModel->set('totalCount', (int) $this->listViewCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
-
+		$viewer->assign('LISTVIEW_COUNT', (int) $this->listViewCount);
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('MODULE_MODEL', $this->listViewModel->getModule());
@@ -202,10 +204,9 @@ class Users_List_View extends Settings_Vtiger_List_View
 		if (empty($cvId)) {
 			$cvId = '0';
 		}
-
 		$searchKey = $request->getByType('search_key', 2);
 		$searchValue = $request->get('search_value');
-		$searchParmams = $request->get('search_params');
+		$searchParmams = $request->getArray('search_params');
 		$operator = $request->getByType('operator');
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 

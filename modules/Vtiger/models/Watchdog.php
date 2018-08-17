@@ -4,9 +4,9 @@
  * Watching Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Watchdog_Model extends \App\Base
 {
@@ -264,9 +264,9 @@ class Vtiger_Watchdog_Model extends \App\Base
 		$moduleId = $this->get('moduleId');
 		if ($state === 1) {
 			return $db->createCommand()->insert('u_#__watchdog_module', [
-					'member' => $member,
-					'module' => $moduleId,
-				])->execute();
+				'member' => $member,
+				'module' => $moduleId,
+			])->execute();
 		} else {
 			return $db->createCommand()->delete('u_#__watchdog_module', ['member' => $member, 'module' => $moduleId])->execute();
 		}
@@ -354,7 +354,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 					->where(['record' => (int) $this->get('record')])
 					->createCommand()->query();
 				while ($row = $dataReader->read()) {
-					if ($row['state'] === self::RECORD_ACTIVE) {
+					if ((int) $row['state'] === self::RECORD_ACTIVE) {
 						$users[$row['userid']] = $row['userid'];
 					} else {
 						unset($users[$row['userid']]);

@@ -4,21 +4,28 @@
  * Basic Inventory Action Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Inventory_Action extends \App\Controller\Action
 {
 	use \App\Controller\ExposeMethod;
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function __construct()
 	{
 		$this->exposeMethod('checkLimits');
 		$this->exposeMethod('getUnitPrice');
 		$this->exposeMethod('getDetails');
+		$this->exposeMethod('getTableData');
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -111,16 +118,13 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 
 	public function getDetails(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
-		$idList = $request->get('idlist');
 		$currencyId = $request->getInteger('currency_id');
 		$fieldName = $request->getByType('fieldname');
 		$moduleName = $request->getModule();
-
-		if (empty($idList)) {
-			$info = $this->getRecordDetail($recordId, $currencyId, $moduleName, $fieldName);
+		if ($request->isEmpty('idlist')) {
+			$info = $this->getRecordDetail($request->getInteger('record'), $currencyId, $moduleName, $fieldName);
 		} else {
-			foreach ($idList as $id) {
+			foreach ($request->getArray('idlist', 'Integer') as $id) {
 				$info[] = $this->getRecordDetail($id, $currencyId, $moduleName, $fieldName);
 			}
 		}
@@ -131,10 +135,10 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 
 	public function getRecordDetail($recordId, $currencyId, $moduleName, $fieldName)
 	{
-		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
+		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		if (!$recordModel->isEditable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$recordModuleName = $recordModel->getModuleName();
 		$info = [
 			'id' => $recordId,
@@ -179,7 +183,34 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 			];
 		}
 		$autoCustomFields = $inventoryField->getCustomAutoComplete($moduleName, $fieldName, $recordModel);
-
 		return [$recordId => array_merge($info, $autoCustomFields)];
+	}
+
+	/**
+	 * Get products and services from source invoice to display in correcting invoice before block.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
+	public function getTableData(\App\Request $request)
+	{
+		if ($request->isEmpty('record', true)) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		$data = $recordModel->getInventoryData();
+		foreach ($data as &$item) {
+			$item['info'] = $this->getRecordDetail($item['name'], $item['currency'], $request->getModule(), 'name')[$item['name']];
+			$item['moduleName'] = \App\Record::getType($item['info']['id']);
+			$item['basetableid'] = Vtiger_Module_Model::getInstance($item['moduleName'])->get('basetableid');
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($data);
+		$response->emit();
 	}
 }

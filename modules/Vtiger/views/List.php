@@ -258,7 +258,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		if ($request->has('entityState')) {
 			$this->listViewModel->set('entityState', $request->getByType('entityState'));
 		}
-		$searchParams = $request->get('search_params');
+		$searchParams = $request->getArray('search_params');
 		if (!empty($searchParams) && is_array($searchParams)) {
 			$transformedSearchParams = $this->listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$this->listViewModel->set('search_params', $transformedSearchParams);

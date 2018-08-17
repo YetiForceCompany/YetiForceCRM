@@ -234,7 +234,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 				options += '>' + conditionLabel + '</option>';
 			}
 		}
-		conditionSelectElement.empty().html(options).trigger("chosen:updated");
+		conditionSelectElement.empty().html(options).trigger('change');
 		return conditionSelectElement;
 	},
 	/**
@@ -255,7 +255,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		} else if (fieldModel.getType().toLowerCase() == "boolean") {
 			var conditionRow = fieldSelectElement.closest('.js-conditions-row');
 			var selectedValue = conditionRow.find('[data-value="value"]').val();
-			var html = '<select class="chzn-select" name="' + fieldModel.getName() + '">';
+			var html = '<select class="select2" name="' + fieldModel.getName() + '">';
 			html += '<option value="0"';
 			if (selectedValue == '0') {
 				html += ' selected="selected" ';
@@ -306,7 +306,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		if ($.inArray(fieldModel.getType(), ['multipicklist', 'sharedOwner', 'multiReferenceValue', 'taxes', 'categoryMultipicklist']) > -1) {
 			fieldName = fieldName + "[]";
 		} else if (($.inArray(fieldModel.getType(), ['userCreator', 'picklist', 'owner', 'languages', 'modules', 'inventoryLimit', 'currencyList', 'fileLocationType']) > -1) &&
-				fieldSpecificUi.is('select') && (comparatorElementVal == 'e' || comparatorElementVal == 'n')) {
+			fieldSpecificUi.is('select') && (comparatorElementVal == 'e' || comparatorElementVal == 'n')) {
 			fieldName = fieldName + "[]";
 		}
 
@@ -330,11 +330,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		fieldUiHolder.html(fieldSpecificUi);
 
 		if (fieldSpecificUi.is('select')) {
-			if (fieldSpecificUi.hasClass('chzn-select')) {
-				App.Fields.Picklist.changeSelectElementView(fieldSpecificUi);
-			} else {
-				App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi, {dropdownParent: row});
-			}
+			App.Fields.Picklist.showSelect2ElementView(fieldSpecificUi, {dropdownParent: row});
 		} else if (fieldSpecificUi.has('input.dateField').length > 0) {
 			App.Fields.Date.register(fieldSpecificUi);
 		} else if (fieldSpecificUi.has('input.dateRangeField').length > 0) {
@@ -384,15 +380,15 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			//data attribute will not be present while attaching validation engine events . so we are
 			//depending on the fallback option which is class
 			fieldSpecificElement.addClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
-					.attr('data-validation-engine', 'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
-					.attr('data-fieldinfo', JSON.stringify(selectedOption.data('fieldinfo')));
+				.attr('data-validation-engine', 'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
+				.attr('data-fieldinfo', JSON.stringify(selectedOption.data('fieldinfo')));
 			if (typeof validator !== "undefined") {
 				fieldSpecificElement.attr('data-validator', validator);
 			}
 		} else {
 			fieldSpecificElement.removeClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
-					.removeAttr('data-validation-engine')
-					.removeAttr('data-fieldinfo');
+				.removeAttr('data-validation-engine')
+				.removeAttr('data-fieldinfo');
 		}
 		return this;
 	},
@@ -746,7 +742,7 @@ Vtiger_Date_Field_Js('AdvanceFilter_Date_Field_Js', {}, {
 			if (dateValue[1] == '00:00:00') {
 				dateTimeFieldValue = dateValue[0];
 			} else if (comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal == 'n' ||
-					comparatorSelectedOptionVal == 'b' || comparatorSelectedOptionVal == 'a') {
+				comparatorSelectedOptionVal == 'b' || comparatorSelectedOptionVal == 'a') {
 				var dateTimeArray = dateTimeFieldValue.split(' ');
 				dateTimeFieldValue = dateTimeArray[0];
 			}

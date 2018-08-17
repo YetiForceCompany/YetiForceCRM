@@ -107,7 +107,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getAddSupportedFieldTypes()
 	{
 		return [
-			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'Country', 'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree', 'MultiReferenceValue', 'CategoryMultipicklist', 'DateTime', 'Image', 'MultiImage'
+			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'Country',
+			'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree',
+			'MultiReferenceValue', 'CategoryMultipicklist', 'DateTime', 'Image', 'MultiImage', 'Twitter'
 		];
 	}
 
@@ -171,7 +173,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if ($this->checkFieldLableExists($label)) {
 			throw new Exception(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
 		}
-		if($type === 0) {
+		if ($type === 0) {
 			if ($this->checkFieldNameCharacters($name)) {
 				throw new Exception(\App\Language::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
 			}
@@ -420,6 +422,12 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uitype = 35;
 				$uichekdata = 'V~O';
 				$type = $importerType->text();
+				break;
+			case 'Twitter':
+				$fieldLength = Vtiger_Twitter_UIType::MAX_LENGTH;
+				$uichekdata = 'V~O~LE~' . $fieldLength;
+				$uitype = 313;
+				$type = $importerType->stringType($fieldLength)->defaultValue('');
 				break;
 		}
 		return [

@@ -30,7 +30,7 @@
 		<input id="params" class="" type="hidden" value='["values"]'>
 		<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_PICKLIST_VALUES', $QUALIFIED_MODULE)}:</label>
 		<div class="col-md-7">
-			<select class="form-control select2 tags" name="values" multiple data-validation-engine="validate[required]">
+			<select class="form-control select2" data-select="tags, true; tokenSeparators, [,]" name="values" multiple data-validation-engine="validate[required]">
 				{foreach from=$FIELD_INSTANCE->getPicklistValues() item=VALUE}
 					<option value="{$VALUE}" selected>{$VALUE}</option>
 				{/foreach}

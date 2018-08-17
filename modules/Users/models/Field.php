@@ -95,7 +95,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 		if ($this->get('uitype') == 115) {
 			$fieldPickListValues = [];
 			$query = (new \App\Db\Query())->select([$this->getFieldName()])->from('vtiger_' . $this->getFieldName());
-			$dataReader = $query->createCommand($db)->query();
+			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$picklistValue = $row[$this->getFieldName()];
 				$fieldPickListValues[$picklistValue] = \App\Language::translate($picklistValue, $this->getModuleName());

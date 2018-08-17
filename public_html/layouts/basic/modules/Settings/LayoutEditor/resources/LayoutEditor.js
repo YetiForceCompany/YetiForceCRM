@@ -1248,7 +1248,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				defaultValueUi.removeClass('zeroOpacity');
 				defaultField.removeAttr('disabled');
 				if (defaultField.is('select')) {
-					defaultField.trigger("chosen:updated");
+					defaultField.trigger("change");
 				}
 			} else {
 				defaultField.attr('disabled', 'disabled');

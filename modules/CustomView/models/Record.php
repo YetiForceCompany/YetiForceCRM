@@ -295,7 +295,7 @@ class CustomView_Record_Model extends \App\Base
 		if (!empty($searchValue)) {
 			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
 		}
-		$searchParams = $this->get('search_params');
+		$searchParams = $this->getArray('search_params');
 		if (empty($searchParams)) {
 			$searchParams = [];
 		}
@@ -582,7 +582,7 @@ class CustomView_Record_Model extends \App\Base
 			'status' => $this->get('status'),
 			'color' => $this->get('color'),
 			'description' => $this->get('description'),
-			], ['cvid' => $cvId]
+		], ['cvid' => $cvId]
 		)->execute();
 		$dbCommand->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();
 		$dbCommand->delete('vtiger_cvstdfilter', ['cvid' => $cvId])->execute();

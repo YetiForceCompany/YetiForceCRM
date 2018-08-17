@@ -4,8 +4,8 @@
  * Reset password modal view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Users_PasswordModal_View extends \App\Controller\Modal
 {
@@ -135,9 +135,9 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 		$viewer->assign('MODE', 'massReset');
 		$viewer->assign('MODE_TITLE', 'LBL_MASS_RESET_PASSWORD_HEAD');
 		$viewer->assign('ACTIVE_SMTP', App\Mail::getDefaultSmtp());
-		$viewer->assign('SELECTED_IDS', $request->get('selected_ids'));
-		$viewer->assign('EXCLUDED_IDS', $request->get('excluded_ids'));
-		$viewer->assign('SEARCH_PARAMS', $request->get('search_params'));
+		$viewer->assign('SELECTED_IDS', $request->getArray('selected_ids', 2));
+		$viewer->assign('EXCLUDED_IDS', $request->getArray('excluded_ids', 2));
+		$viewer->assign('SEARCH_PARAMS', $request->getArray('search_params'));
 		$viewer->view('PasswordModal.tpl', $moduleName);
 	}
 

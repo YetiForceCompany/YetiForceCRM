@@ -25,11 +25,11 @@
 							<td><b>{\App\Language::translate('LBL_BLOCK', $QUALIFIED_MODULE)}</b></td>
 							<td>
 								<div class="col-md-5">
-									<select class="chzn-select form-control" name="blockid">
+									<select class="select2 form-control" name="blockid">
 										{foreach from=$BLOCKS item=MODULES key=key}
 											<optgroup label="{\App\Language::translate($key, $key)}">
 												{foreach from=$MODULES item=item key=key}
-													<option value="{$key}" {if $BLOCK_ID == $key}selected=""{/if}>{\App\Language::translate($item['blocklabel'],$item['module'])}</option>
+													<option value="{$key}" {if !empty($BLOCK_ID) && $BLOCK_ID == $key}selected=""{/if}>{\App\Language::translate($item['blocklabel'],$item['module'])}</option>
 												{/foreach}
 											</optgroup>
 										{/foreach}
@@ -49,7 +49,7 @@
 							<td><b>{\App\Language::translate('LBL_VIEW', $QUALIFIED_MODULE)}</b></td>
 							<td class="col-md-10">
 								<div class="col-md-5">
-									<select multiple class="chzn-select form-control" name="views[]">
+									<select multiple class="select2 form-control" name="views[]">
 										{foreach from=$VIEWS item=LABEL key=VIEW_NAME}
 											<option value="{$VIEW_NAME}" {if in_array($VIEW_NAME,$SELECTED_VIEWS)}selected=""{/if}>{\App\Language::translate($LABEL,$QUALIFIED_MODULE)}</option>
 										{/foreach}

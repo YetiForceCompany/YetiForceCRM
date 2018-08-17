@@ -37,19 +37,26 @@
 					</button>
 				</div>
 			{/if}
-			<input type="hidden" name="lengthVectors" value="{\App\Purifier::encodeHtml(\App\Json::encode($MAP_LENGTH_VECTORS_METHODS))}">
+			<input type="hidden" name="lengthVectors"
+				   value="{\App\Purifier::encodeHtml(\App\Json::encode($MAP_LENGTH_VECTORS_METHODS))}">
 			<form class="formEncryption">
 				<input type="hidden" name="parent" value="Settings">
 				<input type="hidden" name="module" value="{$MODULE}">
 				<input type="hidden" name="action" value="Save">
 				<input type="hidden" name="mode" value="encryption">
 				<div class="form-group row">
-					<label for="inputPassword" class="col-12 col-lg-2 col-form-label">{App\Language::translate('LBL_METHOD', $QUALIFIED_MODULE)}</label>
+					<label for="inputPassword"
+						   class="col-12 col-lg-2 col-form-label">{App\Language::translate('LBL_METHOD', $QUALIFIED_MODULE)}</label>
 					<div class="col-12 col-lg-4">
-						<select class="chzn-select" name="methods">
-							<option value="">{App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
+						<select name="methods" class="select2"
+								data-placeholder="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}"
+								data-select="allowClear, true">
+							<optgroup class="p-0">
+								<option value="">{App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
+							</optgroup>
 							{foreach from=$AVAILABLE_METHODS item=METHOD}
-								<option value="{$METHOD}" {if $ENCRYPT->get('method') === $METHOD}selected{/if}>{$METHOD}</option>
+								<option value="{$METHOD}"
+										{if $ENCRYPT->get('method') === $METHOD}selected{/if}>{$METHOD}</option>
 							{/foreach}
 						</select>
 					</div>
@@ -58,7 +65,10 @@
 					<label class="col-12 col-lg-2 col-form-label">{App\Language::translate('LBL_PASSWORD', $QUALIFIED_MODULE)}</label>
 					<div class="col-12 col-lg-4">
 						<div class="input-group">
-							<input type="password" name="password" class="form-control" {if !$ENCRYPT->isEmpty('method') && $MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')] === 0}disabled="disabled"{/if}data-validation-engine="{if $ENCRYPT->isEmpty('method')}validate[required]{else}validate[required,maxSize[{$MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')]}],minSize[{$MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')]}]]{/if}" value="{\App\Purifier::encodeHtml($ENCRYPT->get('vector'))}">
+							<input type="password" name="password" class="form-control"
+								   {if !$ENCRYPT->isEmpty('method') && $MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')] === 0}disabled="disabled"
+								   {/if}data-validation-engine="{if $ENCRYPT->isEmpty('method')}validate[required]{else}validate[required,maxSize[{$MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')]}],minSize[{$MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')]}]]{/if}"
+								   value="{\App\Purifier::encodeHtml($ENCRYPT->get('vector'))}">
 							<span class="input-group-append">
 								<button class="btn btn-outline-secondary previewPassword" type="button">
 									<span class="fas fa-eye"></span>

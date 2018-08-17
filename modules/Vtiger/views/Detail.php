@@ -49,6 +49,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showRecentRelation');
 		$this->exposeMethod('showOpenStreetMap');
 		$this->exposeMethod('showSocialMedia');
+		$this->exposeMethod('showInventoryDetails');
 	}
 
 	/**
@@ -154,7 +155,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
-
 			return;
 		}
 		$recordId = $request->getInteger('record');
@@ -263,7 +263,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
 
-		return $viewer->view('DetailViewFullContents.tpl', $moduleName, true);
+		return $viewer->view('Detail/FullContents.tpl', $moduleName, true);
 	}
 
 	public function showModuleSummaryView(\App\Request $request)
@@ -325,7 +325,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
 			return $viewer->view('DetailViewSummaryView.tpl', $moduleName, true);
 		} else {
-			return $viewer->view('DetailViewFullContents.tpl', $moduleName, true);
+			return $viewer->view('Detail/FullContents.tpl', $moduleName, true);
 		}
 	}
 
@@ -375,6 +375,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		if ($type === 'changes') {
 			$newChange = $request->has('newChange') ? $request->get('newChange') : ModTracker_Record_Model::isNewChange($parentRecordId);
+		} else {
+			$newChange = '';
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
@@ -448,6 +450,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('CURRENT_COMMENT', null);
 
 		return $viewer->view('RecentComments.tpl', $moduleName, true);
 	}
@@ -672,7 +675,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
 		$limit = (int) $request->get('limit');
-		$searchParams = $request->get('search_params');
+		$searchParams = $request->getArray('search_params');
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
@@ -730,7 +733,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		if (!$request->isEmpty('viewType')) {
 			$viewType = $request->getByType('viewType');
-			$viewer->assign('TYPE_VIEW', $viewType);
 			if ($viewType === 'ListWithSummary') {
 				$viewer->assign('RELATED_SUMMARY_HEADERS', $relationListView->getHeaders());
 			}
@@ -747,7 +749,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($columns) {
 			$header = array_splice($header, 0, $columns);
 		}
-
+		$viewer->assign('TYPE_VIEW', $viewType ?? '');
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('LIMIT', $limit);
 		if (!$request->isEmpty('viewType')) {
@@ -766,10 +768,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
-		if (!empty($totalCount)) {
-			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
+		if (empty($totalCount)) {
+			$totalCount = 0;
 		}
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 		$viewer->assign('VIEW_MODEL', $relationListView);
@@ -937,5 +940,24 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		return \App\Language::translate($moduleName, $moduleName) . ' ' . $this->record->getRecord()->getDisplayName();
+	}
+
+	/**
+	 * Show inventory details from record for specified module.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 *
+	 * @return string
+	 */
+	public function showInventoryDetails(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+		$viewer = \Vtiger_Viewer::getInstance();
+		$viewer->assign('RECORD', $recordModel);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		return $viewer->view('Detail/InventoryView.tpl', $moduleName, true);
 	}
 }
