@@ -6,8 +6,8 @@ namespace App\SystemWarnings;
  * System warnings template abstract class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 abstract class Template
 {
@@ -107,14 +107,17 @@ abstract class Template
 		return $this->link;
 	}
 
-	/**
-	 * Updates the warning folder.
-	 *
-	 * @return string
-	 */
-	public function setFolder($folder)
+	public function getTpl()
 	{
-		return $this->folder = $folder;
+		if (!$this->tpl || is_string($this->tpl)) {
+			return $this->tpl;
+		}
+		$refClass = new \ReflectionClass($this);
+		$className = $refClass->getShortName();
+		$path = \App\Layout::getTemplatePath("{$this->getFolder(false)}/{$className}.tpl", 'Settings:SystemWarnings');
+		$this->tpl = $path;
+
+		return $path;
 	}
 
 	/**
@@ -130,17 +133,14 @@ abstract class Template
 		return $this->folder;
 	}
 
-	public function getTpl()
+	/**
+	 * Updates the warning folder.
+	 *
+	 * @return string
+	 */
+	public function setFolder($folder)
 	{
-		if (!$this->tpl || is_string($this->tpl)) {
-			return $this->tpl;
-		}
-		$refClass = new \ReflectionClass($this);
-		$className = $refClass->getShortName();
-		$path = \App\Layout::getTemplatePath("{$this->getFolder(false)}/{$className}.tpl", 'Settings:SystemWarnings');
-		$this->tpl = $path;
-
-		return $path;
+		return $this->folder = $folder;
 	}
 
 	/**
