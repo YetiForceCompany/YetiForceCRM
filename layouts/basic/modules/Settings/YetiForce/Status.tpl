@@ -8,9 +8,11 @@
 		</div>
 		<div class="o-Settings-YetiForce-Status-table container">
 			<div class="row mb-2">
-				<div class="col-lg-4"><strong>{\App\Language::Translate('LBL_PARAM_NAME',$QUALIFIED_MODULE)}</strong>
+				<div class="col-lg-4">
+					<strong>{\App\Language::Translate('LBL_PARAM_NAME',$QUALIFIED_MODULE)}</strong>
 				</div>
-				<div class="col-lg-8"><strong>{\App\Language::Translate('LBL_PARAM_VAL',$QUALIFIED_MODULE)}</strong>
+				<div class="col-lg-8">
+					<strong>{\App\Language::Translate('LBL_PARAM_VAL',$QUALIFIED_MODULE)}</strong>
 				</div>
 			</div>
 			{foreach $ALL_PARAMS as $CONF_FLAG}
@@ -24,7 +26,7 @@
 											name="YF_status_flag[{$CONF_FLAG['name']}]"
 											value="1"
 											type="radio"
-											class="js-YetiForce-Status-var"
+											class="js-vars"
 											data-js="Status"
 											data-flag="{$CONF_FLAG['name']}"
 											data-type="{$CONF_FLAG['type']}"
@@ -38,7 +40,7 @@
 											name="YF_status_flag[{$CONF_FLAG['name']}]"
 											value="0"
 											type="radio"
-											class="js-YetiForce-Status-var"
+											class="js-vars"
 											data-js="Status"
 											data-flag="{$CONF_FLAG['name']}"
 											data-type="{$CONF_FLAG['type']}"
@@ -51,7 +53,7 @@
 							<input
 									value="{$CONF_FLAG['value']}"
 									type="text"
-									class="form-control js-YetiForce-Status-var"
+									class="form-control js-vars"
 									data-type="{$CONF_FLAG['type']}"
 									data-flag="{$CONF_FLAG['name']}"
 							/>

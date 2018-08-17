@@ -19,31 +19,7 @@ class Settings_YetiForce_Status_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('MODULE', $qualifiedModuleName);
-
 		$viewer->assign('ALL_PARAMS', \App\YetiForce\Status::getAll());
-
 		$viewer->view('Status.tpl', $qualifiedModuleName);
-	}
-
-	/**
-	 * Function to get the list of Script models to be included.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
-	 */
-	public function getFooterScripts(\App\Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
-		$jsFileNames = [
-			"modules.Settings.$moduleName.resources.Status",
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
 	}
 }
