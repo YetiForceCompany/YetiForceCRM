@@ -344,7 +344,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$db = App\Db::getInstance();
 		$status = false;
 		$widgetWithLimit = self::getWidgetsWithLimit();
-		if (in_array($data['name'], $widgetWithLimit)) {
+		if (!empty($data['name']) && in_array($data['name'], $widgetWithLimit)) {
 			$status = true;
 		}
 		if ($status && empty($data['limit'])) {
