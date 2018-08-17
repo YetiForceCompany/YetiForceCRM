@@ -12,9 +12,13 @@
 									<span class="fas fa-user userImage"></span>
 								</div>
 								<div class="timeline-body small">
-									<strong>{$RECORD_TWITTER->get('twitter_login')}</strong>
+									<strong>
+										{$RECORD_TWITTER->get('twitter_login')}
+									</strong>
 									<div class="float-right time text-muted">
-										<span title="{$RECORD_TWITTER->get('created')}">{$RECORD_TWITTER->get('created')}</span>
+										<span title="{$RECORD_TWITTER->get('created')}">
+											{$RECORD_TWITTER->get('created')}
+										</span>
 									</div>
 									<div>
 										{$RECORD_TWITTER->get('message')}
