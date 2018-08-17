@@ -50,6 +50,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 	 */
 	registerCopyFromInvoice() {
 		const form = this.getForm();
+		const thisInstance = this;
 		this.activeModules = activeModules = [];
 		form.find('.js-add-item').each((index, addBtn) => {
 			this.activeModules.push($(addBtn).data('module'));
@@ -68,7 +69,7 @@ Vtiger_Edit_Js('FCorectingInvoice_Edit_Js', {}, {
 					text: app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE')
 				});
 			}
-			inventoryController.loadInventoryData(finvoiceid, 'FInvoice');
+			thisInstance.inventoryController.loadInventoryData(finvoiceid, 'FInvoice');
 		});
 	},
 	/**
