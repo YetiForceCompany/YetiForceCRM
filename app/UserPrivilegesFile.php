@@ -6,10 +6,23 @@ namespace App;
  * Create user privileges file class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class UserPrivilegesFile
 {
+	/**
+	 * Function to recalculate the Sharing Rules for all the vtiger_users
+	 * This function will recalculate all the sharing rules for all the vtiger_users in the Organization and will write them in flat vtiger_files.
+	 */
+	public static function recalculateAll()
+	{
+		$userIds = (new Db\Query())->select(['id'])->from('vtiger_users')->where(['deleted' => 0])->column();
+		foreach ($userIds as $id) {
+			static::createUserPrivilegesfile($id);
+			static::createUserSharingPrivilegesfile($id);
+		}
+	}
+
 	/**
 	 * Creates a file with all the user, user-role,user-profile, user-groups informations.
 	 *
@@ -182,10 +195,10 @@ class UserPrivilegesFile
 					->from('vtiger_datashare_relatedmodule_permission')
 					->innerJoin('vtiger_datashare_relatedmodules', 'vtiger_datashare_relatedmodules.datashare_relatedmodule_id = vtiger_datashare_relatedmodule_permission.datashare_relatedmodule_id')
 					->where([
-							'vtiger_datashare_relatedmodule_permission.shareid' => $sharingid,
-							'vtiger_datashare_relatedmodules.tabid' => $parModId,
-							'vtiger_datashare_relatedmodules.relatedto_tabid' => $shareModId,
-						])->scalar();
+						'vtiger_datashare_relatedmodule_permission.shareid' => $sharingid,
+						'vtiger_datashare_relatedmodules.tabid' => $parModId,
+						'vtiger_datashare_relatedmodules.relatedto_tabid' => $shareModId,
+					])->scalar();
 				foreach ($sharingInfoArr as $shareType => $shareEntArr) {
 					foreach ($shareEntArr as $key => $shareEntId) {
 						if ($shareType == 'ROLE') {
@@ -472,19 +485,6 @@ class UserPrivilegesFile
 					}
 				}
 			}
-		}
-	}
-
-	/**
-	 * Function to recalculate the Sharing Rules for all the vtiger_users
-	 * This function will recalculate all the sharing rules for all the vtiger_users in the Organization and will write them in flat vtiger_files.
-	 */
-	public static function recalculateAll()
-	{
-		$userIds = (new Db\Query())->select(['id'])->from('vtiger_users')->where(['deleted' => 0])->column();
-		foreach ($userIds as $id) {
-			static::createUserPrivilegesfile($id);
-			static::createUserSharingPrivilegesfile($id);
 		}
 	}
 }

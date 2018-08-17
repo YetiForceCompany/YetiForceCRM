@@ -13,22 +13,6 @@ namespace App\Fields;
 class RecordNumber
 {
 	/**
-	 * Date function that can be overrided in tests.
-	 *
-	 * @param string   $format
-	 * @param null|int $time
-	 *
-	 * @return false|string
-	 */
-	public static function date($format, $time = null)
-	{
-		if ($time === null) {
-			$time = time();
-		}
-		return date($format, $time);
-	}
-
-	/**
 	 * Function that checks if a module has serial number configuration.
 	 *
 	 * @param int $tabId
@@ -127,8 +111,25 @@ class RecordNumber
 			case 'D':
 				return static::date('Ymd'); // same as above because od 2016-10-03 (03) === 2016-11-03 (03)
 				break;
-			default: return '';
+			default:
+				return '';
 		}
+	}
+
+	/**
+	 * Date function that can be overrided in tests.
+	 *
+	 * @param string   $format
+	 * @param null|int $time
+	 *
+	 * @return false|string
+	 */
+	public static function date($format, $time = null)
+	{
+		if ($time === null) {
+			$time = time();
+		}
+		return date($format, $time);
 	}
 
 	/**

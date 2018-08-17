@@ -6,8 +6,8 @@ namespace App;
  * Version class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Version
 {
@@ -65,7 +65,7 @@ class Version
 	public static function compare($v1, $v2, $operator = '==')
 	{
 		if (substr($v2, -1) === 'x') {
-			$ev2=\explode('.', $v2);
+			$ev2 = \explode('.', $v2);
 			\array_pop($ev2);
 			$lv2 = \count($ev2);
 			$v2 = \implode('.', $ev2);
