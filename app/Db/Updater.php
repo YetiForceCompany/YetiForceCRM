@@ -6,8 +6,8 @@ namespace App\Db;
  * Class that update structure and data to database.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Updater
 {
@@ -15,8 +15,8 @@ class Updater
 	 * Function used to change picklist type field (uitype 16) to field with permissions based on role (uitype 15).
 	 *
 	 * $fiels = [
-	 * 		'fieldName',
-	 * 		'osstimecontrol_status',
+	 *        'fieldName',
+	 *        'osstimecontrol_status',
 	 * ];
 	 *
 	 * @param array $fiels
@@ -65,8 +65,8 @@ class Updater
 	 * Batch update rows.
 	 *
 	 * $rows = [
-	 * 		['u_#__squotes_invfield', ['colspan' => 25], ['id' => 1]],
-	 * 	];
+	 *        ['u_#__squotes_invfield', ['colspan' => 25], ['id' => 1]],
+	 *    ];
 	 *
 	 * @param array $rows
 	 */
@@ -83,7 +83,7 @@ class Updater
 	 * Batch insert rows.
 	 *
 	 * $rows = [
-	 * 		['vtiger_cvcolumnlist', ['cvid' => 43, 'columnindex' => 5, 'columnname' => 'cc']],
+	 *        ['vtiger_cvcolumnlist', ['cvid' => 43, 'columnindex' => 5, 'columnname' => 'cc']],
 	 * ];
 	 *
 	 * @param array $rows
@@ -103,7 +103,7 @@ class Updater
 	 * Batch insert rows.
 	 *
 	 * $rows = [
-	 * 		['vtiger_cvcolumnlist', ['cvid' => 43]],
+	 *        ['vtiger_cvcolumnlist', ['cvid' => 43]],
 	 * ];
 	 *
 	 * @param array $rows
@@ -121,8 +121,8 @@ class Updater
 	 * Function to add and remove cron.
 	 *
 	 * $crons = [
-	 * 		['type' => 'add', 'data' => ['LBL_BROWSING_HISTORY', 'cron/BrowsingHistory.php', 86400, NULL, NULL, 1, NULL, 29, NULL]],
-	 * 		['type' => 'remove', 'data' => ['LBL_BATCH_PROCESSES']],
+	 *        ['type' => 'add', 'data' => ['LBL_BROWSING_HISTORY', 'cron/BrowsingHistory.php', 86400, NULL, NULL, 1, NULL, 29, NULL]],
+	 *        ['type' => 'remove', 'data' => ['LBL_BATCH_PROCESSES']],
 	 * ];
 	 *
 	 * @param array $crons

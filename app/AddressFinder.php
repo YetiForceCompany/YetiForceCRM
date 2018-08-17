@@ -28,6 +28,20 @@ class AddressFinder
 	private static $providerInstanceCache = [];
 
 	/**
+	 * Get default provider.
+	 *
+	 * @return string[]
+	 */
+	public static function getDefaultProvider()
+	{
+		$provider = static::getProvider();
+		if ($provider) {
+			return \array_pop($provider);
+		}
+		return '';
+	}
+
+	/**
 	 * Get provider for address finder.
 	 *
 	 * @return string[]
@@ -46,20 +60,6 @@ class AddressFinder
 			}
 		}
 		return static::$providersCache;
-	}
-
-	/**
-	 * Get default provider.
-	 *
-	 * @return string[]
-	 */
-	public static function getDefaultProvider()
-	{
-		$provider = static::getProvider();
-		if ($provider) {
-			return \array_pop($provider);
-		}
-		return '';
 	}
 
 	/**

@@ -6,20 +6,11 @@ namespace App\QueryField;
  * MultiReferenceValue Query Field Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class MultiReferenceValueField extends BaseField
 {
-	public function getValue()
-	{
-		$valueArray = explode('##', $this->value);
-		foreach ($valueArray as $key => $value) {
-			$valueArray[$key] = '|#|' . $value . '|#|';
-		}
-		return$valueArray;
-	}
-
 	/**
 	 * Equals operator.
 	 *
@@ -28,6 +19,15 @@ class MultiReferenceValueField extends BaseField
 	public function operatorE()
 	{
 		return ['or like', $this->getColumnName(), $this->getValue()];
+	}
+
+	public function getValue()
+	{
+		$valueArray = explode('##', $this->value);
+		foreach ($valueArray as $key => $value) {
+			$valueArray[$key] = '|#|' . $value . '|#|';
+		}
+		return $valueArray;
 	}
 
 	/**

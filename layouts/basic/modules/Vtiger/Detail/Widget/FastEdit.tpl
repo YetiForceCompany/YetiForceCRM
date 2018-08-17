@@ -23,9 +23,14 @@
 								{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 								{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 								{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-								<select class="select2" name="q_{$FIELD_MODEL->getFieldName()}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} data-selected-value='{$FIELD_MODEL->get('fieldvalue')}' {if $FIELD_MODEL->isEditableReadOnly() || !$IS_AJAX_ENABLED || !$FIELD_MODEL->isAjaxEditable()}disabled="disabled"{/if}>
-									{if $FIELD_MODEL->isEmptyPicklistOptionAllowed()}
-										<option value="" {if $FIELD_MODEL->isMandatory() eq true && $FIELD_MODEL->get('fieldvalue') neq ''} disabled{/if}>{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
+								{if $FIELD_MODEL->isEmptyPicklistOptionAllowed() && !($FIELD_MODEL->isMandatory() eq true && $FIELD_MODEL->get('fieldvalue') neq '')}
+									{assign var=PLACE_HOLDER value=true}
+								{/if}
+								<select class="select2" name="q_{$FIELD_MODEL->getFieldName()}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} data-selected-value='{$FIELD_MODEL->get('fieldvalue')}' {if $FIELD_MODEL->isEditableReadOnly() || !$IS_AJAX_ENABLED || !$FIELD_MODEL->isAjaxEditable()}disabled="disabled"{/if}{if $PLACE_HOLDER} data-select="allowClear, true" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}"{/if}>
+									{if $PLACE_HOLDER}
+										<optgroup class="p-0">
+											<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
+										</optgroup>
 									{/if}
 									{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 										<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if trim(App\Purifier::decodeHtml($FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_NAME)} selected {/if}>{$PICKLIST_VALUE}</option>
