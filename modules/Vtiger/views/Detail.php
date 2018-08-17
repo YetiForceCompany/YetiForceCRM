@@ -921,7 +921,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$recordId = $request->getInteger('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-		if (!SocialMedia_Module_Model::isEnableForModule($recordModel)) {
+		if (!Vtiger_SocialMedia_Model::isEnableForModule($recordModel)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		/*if (!\App\Privilege::isPermitted('SocialMedia')) {
@@ -931,7 +931,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', 'Settings::SocialMedia');
-		$viewer->assign('TWITTER_ACCOUNT', SocialMedia_Module_Model::getAllTwitterAccount($recordModel));
+		$viewer->assign('SOCIAL_MODEL', Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		return $viewer->view('Detail\DetailViewSocialMedia.tpl', $moduleName, true);
 	}

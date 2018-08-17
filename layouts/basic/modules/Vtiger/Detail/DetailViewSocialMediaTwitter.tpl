@@ -3,7 +3,7 @@
 	<div class="tpl-Detail-SocialMedia-Twitter-View">
 		<div class="table-responsive">
 			<ul class="timeline">
-				{foreach from=SocialMedia_Module_Model::getAllRecords($TWITTER_ACCOUNT) item=RECORD_TWITTER}
+				{foreach from=$SOCIAL_MODEL->getAllRecords(0, 50) item=RECORD_TWITTER}
 					<li>
 						<div class="d-flex">
 							<span class="flex-shrink-0 fa-layers fa-fw fa-2x u-ml-minus-5px mt-2"></span>

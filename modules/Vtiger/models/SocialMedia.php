@@ -7,8 +7,38 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-class Vtiger_SocialMedia_Model extends Vtiger_Module_Model
+class Vtiger_SocialMedia_Model extends \App\Base
 {
+	/**
+	 * Temporary record object.
+	 *
+	 * @var \Vtiger_Record_Model
+	 */
+	private $recordModel;
+
+	/**
+	 * Vtiger_SocialMedia_Model constructor.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 */
+	public function __construct($recordModel)
+	{
+		parent::__construct();
+		$this->recordModel = $recordModel;
+	}
+
+	/**
+	 * Function to get instance of this object.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return self
+	 */
+	public static function getInstanceByRecordModel($recordModel)
+	{
+		return new self($recordModel);
+	}
+
 	/**
 	 * Checking whether social media are available for the module.
 	 *
@@ -38,18 +68,28 @@ class Vtiger_SocialMedia_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Get all twitter account names.
+	 * Get all social media account names by socialType.
 	 *
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param string $socialType
+	 *
+	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return string[]
 	 */
-	public static function getAllTwitterAccount($recordModel)
+	public function getAllSocialMediaAccount($socialType)
 	{
-		$twitterAccount = [];
-		$allFieldModel = $recordModel->getModule()->getFieldsByUiType(313);
+		$uitype = null;
+		switch ($socialType) {
+			case 'TWITTER':
+				$uitype = 313;
+				break;
+			default:
+				throw new \App\Exceptions\AppException('Incorrect data type in ' . $socialType);
+		}
+		$socialAccount = [];
+		$allFieldModel = $this->recordModel->getModule()->getFieldsByUiType($uitype);
 		foreach ($allFieldModel as $twitterField) {
-			$val = $recordModel->get($twitterField->getColumnName());
+			$val = $this->recordModel->get($twitterField->getColumnName());
 			if (!empty($val)) {
 				$twitterAccount[] = $val;
 			}
@@ -60,14 +100,14 @@ class Vtiger_SocialMedia_Model extends Vtiger_Module_Model
 	/**
 	 * Get all records by twitter account.
 	 *
-	 * @param string[] $twitterLogin
-	 * @param int      $start
-	 * @param int      $limit
+	 * @param int $start
+	 * @param int $limit
 	 *
 	 * @return \SocialMedia_Record_Model[]
 	 */
-	public static function getAllRecords($twitterLogin = [], $start = 0, $limit = 50)
+	public function getAllRecords($start, $limit)
 	{
+		$twitterLogin = $this->getAllSocialMediaAccount('TWITTER');
 		$query = (new \App\Db\Query())->from('u_#__social_media_twitter');
 		if (empty($twitterLogin)) {
 			$query->where(['twitter_login' => $twitterLogin]);
