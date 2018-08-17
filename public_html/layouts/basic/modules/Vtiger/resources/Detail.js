@@ -2144,7 +2144,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var progress = widgetDataContainer.progressIndicator();
 		var params = {};
 		params['module'] = 'OSSMailView';
-		params['view'] = 'widget';
+		params['view'] = 'Widget';
 		params['smodule'] = $('#module').val();
 		params['srecord'] = recordId;
 		params['mode'] = 'showEmailsList';

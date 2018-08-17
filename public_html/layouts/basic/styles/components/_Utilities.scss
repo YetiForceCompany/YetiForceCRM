@@ -39,6 +39,10 @@
 	@extend .font-weight-bold;
 }
 
+.u-font-size-19px {
+	font-size: calculate-rem(19px);
+}
+
 .u-text-ellipsis {
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -365,16 +369,16 @@
 		width: 100%;
 	}
 
-	&-gap-05rem {
-		@include u-column-gap(0.5rem);
+	&-gap-1rem {
+		@include u-column-gap(1rem);
 	}
 
 	&-count-auto {
 		@include u-column-count(auto);
 	}
 
-	&-width-27rem {
-		@include u-column-width(27rem);
+	&-width-36rem {
+		@include u-column-width(36rem);
 	}
 }
 
@@ -393,4 +397,16 @@
 
 .u-position-t-5px {
 	top: calculate-rem(5px);
+}
+
+.u-position-t-2px {
+	top: calculate-rem(2px);
+}
+
+//--- ALIGN ---//
+
+.u-align-middle-children {
+	* {
+		vertical-align: middle !important;
+	}
 }

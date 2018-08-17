@@ -1,6 +1,5 @@
 # YetiForceCRM
 [![Latest Stable Version](https://poser.pugx.org/yetiforce/yetiforce-crm/v/stable)](https://packagist.org/packages/yetiforce/yetiforce-crm)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmariuszkrzaczkowski%2FYetiForceCRM.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmariuszkrzaczkowski%2FYetiForceCRM?ref=badge_shield)
 [![Build Status](https://travis-ci.org/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.org/YetiForceCompany/YetiForceCRM)
 [![Analytics](https://ga-beacon.appspot.com/UA-81376231-1/welcome-page)](https://github.com/igrigorik/ga-beacon)
 [![Scrutinizer](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/badges/quality-score.png?b=developer)](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/)

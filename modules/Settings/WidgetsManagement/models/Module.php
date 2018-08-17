@@ -347,7 +347,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		if (in_array($data['name'], $widgetWithLimit)) {
 			$status = true;
 		}
-		if ($status && !$data['limit']) {
+		if ($status && empty($data['limit'])) {
 			$data['limit'] = 10;
 		}
 		if ($data['isdefault'] != 1 || $data['isdefault'] != '1') {

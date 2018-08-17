@@ -37,13 +37,13 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$query = new \App\Db\Query();
 		$query->select([
-				'leadstatusid' => 'vtiger_leadstatus.leadstatusid',
-				'count' => new \yii\db\Expression('COUNT(*)'),
-				'leadstatusvalue' => 'vtiger_leadstatus.leadstatus', ])
-				->from('vtiger_leaddetails')
-				->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
-				->innerJoin('vtiger_leadstatus', 'vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus')
-				->where(['deleted' => 0]);
+			'leadstatusid' => 'vtiger_leadstatus.leadstatusid',
+			'count' => new \yii\db\Expression('COUNT(*)'),
+			'leadstatusvalue' => 'vtiger_leadstatus.leadstatus', ])
+			->from('vtiger_leaddetails')
+			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_leadstatus', 'vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus')
+			->where(['deleted' => 0]);
 		if (!empty($owner)) {
 			$query->andWhere(['smownerid' => $owner]);
 		}
