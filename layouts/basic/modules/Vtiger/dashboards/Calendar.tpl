@@ -9,7 +9,8 @@
 				{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 				<div class="d-inline-flex">
 					{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
-						<a class="btn btn-light btn-sm" role="button" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar'); return false;">
+						<a class="btn btn-light btn-sm" role="button"
+						   onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar'); return false;">
 							<span class='fas fa-plus' title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 						</a>
 					{/if}
@@ -33,7 +34,7 @@
 									<optgroup
 											label='{\App\Language::translate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}'>
 										{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
-											<option value="{$CUSTOM_VIEW->get('cvid')}" {if $DATA['customFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {/if}>{\App\Language::translate($CUSTOM_VIEW->get('viewname'), 'Calendar')}</option>
+											<option value="{$CUSTOM_VIEW->get('cvid')}" {if !empty($DATA['customFilter']) && $DATA['customFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {/if}>{\App\Language::translate($CUSTOM_VIEW->get('viewname'), 'Calendar')}</option>
 										{/foreach}
 									</optgroup>
 								{/foreach}
@@ -72,13 +73,15 @@
 					<div class="headerCalendar pinUnpinShortCut row">
 						<div class="col-2">
 							<button class="btn btn-light btn-sm" data-type="fc-prev-button">
-								<span class="fas fa-chevron-left" title="{\App\Language::translate('LBL_PREVIOUS')}"></span>
+								<span class="fas fa-chevron-left"
+									  title="{\App\Language::translate('LBL_PREVIOUS')}"></span>
 							</button>
 						</div>
 						<div class="col-8 month textAlignCenter paddingRightZero"></div>
 						<div class="col-2">
 							<button class="btn btn-light btn-sm  float-right" data-type="fc-next-button">
-								<span class="fas fa-chevron-right" title="{\App\Language::translate('LBL_NEXT')}"></span>
+								<span class="fas fa-chevron-right"
+									  title="{\App\Language::translate('LBL_NEXT')}"></span>
 							</button>
 						</div>
 					</div>
