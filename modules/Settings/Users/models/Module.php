@@ -282,7 +282,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 					$name = Settings_Roles_Record_Model::getInstanceById($id);
 				}
 				$name = $name->getName();
-				if ($oldValues[$id]) {
+				if (!empty($oldValues[$id])) {
 					$prev[$name] = implode(',', $oldValues[$id]);
 				} else {
 					$prev[$name] = '';
