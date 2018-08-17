@@ -6,6 +6,7 @@
     "LBL_YF_STATUS_URL": "Adres us\u0142ugi",
     "LBL_PARAM_NAME": "Parametr",
     "LBL_PARAM_VAL": "Ustawienie",
+    "LBL_PARAM_NOT_ALLOWED": "Niedozwolony parametr",
     "LBL_SAVED": "Zapisano zmiany"
   }
 }
