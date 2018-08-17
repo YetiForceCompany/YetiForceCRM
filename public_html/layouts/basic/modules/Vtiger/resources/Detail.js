@@ -2166,7 +2166,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			mapView.registerDetailView(container);
 		}
 	},
-	registerSocialMediaEvents: function (container) {
+	registerSocialMediaEvents(container) {
 		let socialMediaContainer = container.find('.tpl-Settings-SocialMedia-Index');
 		if (socialMediaContainer.length) {
 		}
