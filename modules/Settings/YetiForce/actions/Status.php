@@ -21,19 +21,20 @@ class Settings_YetiForce_Status_Action extends Settings_Vtiger_Save_Action
 		if (!$request->has('flagName')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
+		$flagName = $request->getByType('flagName', 2);
 		$response = new Vtiger_Response();
 		$config = new \App\Configurator('yetiforce');
-		if (isset(\App\YetiForce\Status::$variables[$request->get('flagName')])) {
-			switch (\App\YetiForce\Status::$variables[$request->get('flagName')]) {
+		if (isset(\App\YetiForce\Status::$variables[$flagName])) {
+			switch (\App\YetiForce\Status::$variables[$flagName]) {
 				case 'bool':
-					$config->set($request->get('flagName'), $request->get('newParam') === '1');
+					$config->set($flagName, $request->getByType('newParam', 'Digital') === '1');
 					$response->setResult([
 						'success' => true,
 						'message' => App\Language::translate('LBL_SAVED', $request->getModule(false)),
 					]);
 					break;
 				default:
-					$config->set($request->get('flagName'), $request->get('newParam'));
+					$config->set($flagName, $request->getByType('newParam', 'Text'));
 					$response->setResult([
 						'success' => true,
 						'message' => App\Language::translate('LBL_SAVED', $request->getModule(false)),
