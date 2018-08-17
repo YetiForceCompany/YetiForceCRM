@@ -9,6 +9,13 @@
  */
 class Settings_YetiForce_Status_Action extends Settings_Vtiger_Save_Action
 {
+	/**
+	 * Process user request.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function process(\App\Request $request)
 	{
 		if (!$request->has('type')) {

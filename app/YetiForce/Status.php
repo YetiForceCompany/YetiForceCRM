@@ -11,6 +11,11 @@ namespace App\YetiForce;
 
 class Status
 {
+	/**
+	 * Allowed flags array.
+	 *
+	 * @var array
+	 */
 	public static $Items = [
 		'FLAG_1' => 'bool',
 		'FLAG_2' => 'bool',
@@ -20,6 +25,11 @@ class Status
 		'FLAG_6' => 'bool'
 	];
 
+	/**
+	 * Returns array of all flags with current state.
+	 *
+	 * @return array
+	 */
 	public static function getCurrentState()
 	{
 		$result = [];
