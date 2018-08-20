@@ -1316,7 +1316,9 @@ $.Class("Vtiger_Edit_Js", {
 	 * @param {jQuery} container
 	 */
 	registerInventoryController(container) {
-		this.inventoryController = Vtiger_Inventory_Js.getInventoryInstance(container);
+		if (typeof Vtiger_Inventory_Js !== "undefined") {
+			this.inventoryController = Vtiger_Inventory_Js.getInventoryInstance(container);
+		}
 	},
 	/**
 	 * Function which will register basic events which will be used in quick create as well
