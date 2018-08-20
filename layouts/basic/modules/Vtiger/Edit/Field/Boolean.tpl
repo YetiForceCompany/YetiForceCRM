@@ -10,9 +10,6 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{if empty($RECORD)}
-		{assign var="RECORD" value=""}
-	{/if}
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
@@ -25,7 +22,7 @@
 				   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 					{if $FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)} checked{/if}
 				   value="1" data-fieldinfo='{$FIELD_INFO}'
-				   {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}/>
+					{if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}/>
 		</label>
 	</div>
 {/strip}
