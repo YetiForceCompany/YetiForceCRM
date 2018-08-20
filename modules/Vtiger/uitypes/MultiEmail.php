@@ -17,13 +17,11 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Base_UIType
 		if ($this->validate || empty($value)) {
 			return;
 		}
-		\App\DebugerEx::log($value);
 		if (is_string($value)) {
 			$value = \App\Json::decode($value);
-			\App\DebugerEx::log($value);
 		}
 		foreach ($value as $item) {
-			if (!array_key_exists('e', $item)) {
+			if (!is_array($item) || !array_key_exists('e', $item)) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 			if (!filter_var($item['e'], FILTER_VALIDATE_EMAIL) || $item['e'] !== filter_var($item['e'], FILTER_SANITIZE_EMAIL)) {
@@ -31,6 +29,46 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Base_UIType
 			}
 		}
 		parent::validate($value, $isUserFormat);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		return \App\Json::encode($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		if (empty($value)) {
+			return '';
+		}
+		$value = \App\Json::decode($value);
+		$emails = [];
+		foreach ($value as $item) {
+			$emails[] = $item['e'];
+		}
+		return implode(',', $emails);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		if (empty($value)) {
+			return '';
+		}
+		$value = \App\Json::decode($value);
+		$emails = [];
+		foreach ($value as $item) {
+			$emails[] = $item['e'];
+		}
+		return implode(',', $emails);
 	}
 
 	/**
