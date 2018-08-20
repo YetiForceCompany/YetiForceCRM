@@ -465,7 +465,7 @@ class Project_Gantt_Model
 				'status_label' => App\Language::translate($row['projectstatus'], 'Project'),
 				'assigned_user_id' => $row['assigned_user_id'],
 				'assigned_user_name' => \App\Fields\Owner::getUserLabel($row['assigned_user_id']),
-				'color' => $row['projectstatus'] ? $this->statusColors['Project']['projectstatus'][$row['projectstatus']] : \App\Colors::getRandomColor('projectstatus_' . implode('_', $id)),
+				'color' => $row['projectstatus'] ? $this->statusColors['Project']['projectstatus'][$row['projectstatus']] : \App\Colors::getRandomColor('projectstatus_' . $row['id']),
 			];
 			if (!empty($row['startdate'])) {
 				$project['start_date'] = $row['startdate'];
