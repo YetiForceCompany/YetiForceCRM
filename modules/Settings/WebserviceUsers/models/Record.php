@@ -4,8 +4,8 @@
  * Record Model.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -15,7 +15,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 * @var string[]
 	 */
 	private $editFields = ['Portal' => [
-			'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password_t' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', ],
+		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password_t' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', ],
 	];
 
 	/**
@@ -192,7 +192,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		if (empty($this->getId())) {
 			$seccess = $db->createCommand()->insert($table, $data)->execute();
 			if ($seccess) {
-				$this->set('id', $db->getLastInsertID("$table_$index_seq"));
+				$this->set('id', $db->getLastInsertID("{$table}_{$index}_seq"));
 			}
 		} else {
 			$seccess = $db->createCommand()->update($table, $data, [$index => $this->getId()])->execute();
