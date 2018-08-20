@@ -2,8 +2,8 @@
 'use strict';
 
 jQuery.Class('Settings_YetiForce_Status_Js', {}, {
-	registerEvents: function () {
-		const container = jQuery('.o-Settings-YetiForce-Status-table');
+	registerEvents() {
+		const container = jQuery('.js-Settings-YetiForce-Status-table');
 		container.find(".js-vars").on('change', function (e) {
 			AppConnector.request({
 				module: app.getModuleName(),
