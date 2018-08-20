@@ -240,27 +240,27 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 		$type = \App\Config::$processName;
-		$jsFileNames = [
-			'modules.Vtiger.resources.Vtiger',
-			'~vendor/ckeditor/ckeditor/ckeditor.js',
-			'~vendor/ckeditor/ckeditor/adapters/jquery.js',
-			'~libraries/jstree/dist/jstree.js',
-			'~libraries/datatables.net/js/jquery.dataTables.js',
-			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
-			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
-			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
-			'modules.Settings.Vtiger.resources.Vtiger',
-			'modules.Settings.Vtiger.resources.Edit',
-			"modules.Settings.$moduleName.resources.$type",
-			"modules.Settings.$moduleName.resources.$moduleName",
-			'modules.Settings.Vtiger.resources.Index',
-			"modules.Settings.$moduleName.resources.Index"
-		];
-
-		return array_merge($headerScriptInstances, $this->checkAndConvertJsScripts($jsFileNames));
+		return array_merge(
+			parent::getFooterScripts($request),
+			$this->checkAndConvertJsScripts([
+				'modules.Vtiger.resources.Vtiger',
+				'~vendor/ckeditor/ckeditor/ckeditor.js',
+				'~vendor/ckeditor/ckeditor/adapters/jquery.js',
+				'~libraries/jstree/dist/jstree.js',
+				'~libraries/datatables.net/js/jquery.dataTables.js',
+				'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
+				'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
+				'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
+				'modules.Settings.Vtiger.resources.Vtiger',
+				'modules.Settings.Vtiger.resources.Edit',
+				"modules.Settings.$moduleName.resources.$type",
+				"modules.Settings.$moduleName.resources.$moduleName",
+				'modules.Settings.Vtiger.resources.Index',
+				"modules.Settings.$moduleName.resources.Index"
+			])
+		);
 	}
 
 	/**
@@ -268,15 +268,11 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = [
+		return array_merge($this->checkAndConvertCssStyles([
 			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
 			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
 			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css'
-		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-
-		return array_merge($cssInstances, $headerCssInstances);
+		]), parent::getHeaderCss($request));
 	}
 
 	public static function getSelectedFieldFromModule($menuModels, $moduleName)

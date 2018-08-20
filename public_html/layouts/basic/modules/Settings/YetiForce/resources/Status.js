@@ -9,8 +9,8 @@ jQuery.Class('Settings_YetiForce_Status_Js', {}, {
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
 				action: 'Status',
-				flagName: e.currentTarget.dataset.flag,
-				newParam: e.currentTarget.value
+				flagName: jQuery(e.currentTarget).data('flag'),
+				newParam: jQuery(e.currentTarget).val()
 			}).done(function (data) {
 				let response = data['result'], params;
 				if (response['success']) {
