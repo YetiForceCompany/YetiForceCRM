@@ -1068,14 +1068,13 @@ Vtiger_Base_Validator_Js("Vtiger_Twitter_Validator_Js", {
 	}
 });
 
-Vtiger_Base_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
+Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 	/**
 	 * Function which invokes field validation
 	 * @param accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
-	invokeValidation(field, rules, i, options) {
-		console.log('invokeValidation');
+	invokeValidation(field) {
 		let validatorInstance = new Vtiger_MultiEmail_Validator_Js();
 		validatorInstance.setElement(field);
 		let result = validatorInstance.validate();
@@ -1085,24 +1084,27 @@ Vtiger_Base_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 			return validatorInstance.getError();
 		}
 	}
-
 }, {
 	/**
-	 * Function to validate the Twwiter Account
+	 * Function to validate the Multi email
 	 * @author    Arkadiusz Adach <a.adach@yetiforce.com>
 	 * @return true if validation is successfull
 	 * @return false if validation error occurs
 	 */
 	validate() {
-		console.log('Vtiger_MultiEmail_Validator_Js');
+		console.log('validate: ');
 		let fieldValue = this.getFieldValue();
-		/*if (!fieldValue.match(/^[a-zA-Z0-9_]{1,15}$/g)) {
-			let errorInfo = app.vtranslate("JS_PLEASE_ENTER_VALID_TWITTER_ACCOUNT");
-			this.setError(errorInfo);
-			return false;
-		}*/
-		console.log('validate');
-		return true;
+		console.log('validate: ' + fieldValue);
+		if (fieldValue != '') {
+			let arrayOfEmails = fieldValue.split(',');
+			for (let i = 0; i < arrayOfEmails.length; ++i) {
+				let result = this.validateValue(arrayOfEmails[i]);
+				if (result === false) {
+					return result;
+				}
+			}
+			return true;
+		}
 	}
 });
 

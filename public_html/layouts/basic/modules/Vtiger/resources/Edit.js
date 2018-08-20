@@ -1332,7 +1332,6 @@ $.Class("Vtiger_Edit_Js", {
 	 *
 	 */
 	registerBasicEvents: function (container) {
-		console.log('registerBasicEvents');
 		this.treePopupRegisterEvent(container);
 		this.registerClearTreeSelectionEvent(container);
 		this.registerTreeAutoCompleteFields(container);
