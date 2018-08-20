@@ -72,6 +72,7 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		if (!$request->getBoolean('duplicate')) {
 			$viewer->assign('RECORD_ID', $record);
 		}
+		$viewer->assign('QUALIFIED_MODULE', $moduleName);
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('SOURCE_MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
