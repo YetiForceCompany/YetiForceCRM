@@ -22,6 +22,9 @@
 	{if empty($ANY_CONDITION_CRITERIA) }
 		{assign var=ANY_CONDITION_CRITERIA value=[]}
 	{/if}
+	{if empty($QUALIFIED_MODULE)}
+		{assign var="QUALIFIED_MODULE" value=$MODULE}
+	{/if}
 	<div class="filterContainer">
 		<input type="hidden" name="date_filters"
 			   data-value='{\App\Purifier::encodeHtml(\App\Json::encode($DATE_FILTERS))}'/>
