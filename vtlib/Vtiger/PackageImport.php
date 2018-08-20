@@ -445,7 +445,7 @@ class PackageImport extends PackageExport
 	 */
 	public function getDependentVtigerVersion()
 	{
-		return $this->_modulexml->dependencies->vtiger_version;
+		return \is_object($this->_modulexml) ? $this->_modulexml->dependencies->vtiger_version : '';
 	}
 
 	/**
