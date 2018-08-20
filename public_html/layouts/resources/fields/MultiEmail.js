@@ -14,7 +14,12 @@ class MultiEmail {
 
 	onFormSubmit(element) {
 		let inputObj = $(element).find('input');
-		inputObj.val(JSON.stringify(inputObj.val()));
-		console.log('onFormSubmit');
+		let arrTmp = inputObj.val().split(',');
+		let arr = [];
+		let arrayLength = arrTmp.length;
+		for (var i = 0; i < arrayLength; i++) {
+			arr.push({e: arrTmp[i]});
+		}
+		inputObj.val(JSON.stringify(arr));
 	}
 }
