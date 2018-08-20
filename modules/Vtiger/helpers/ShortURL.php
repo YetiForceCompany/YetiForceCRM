@@ -62,7 +62,7 @@ class Vtiger_ShortURL_Helper
 	public static function handle($uid)
 	{
 		if (!$uid) {
-			echo '<h3>No uid</h3>';
+			echo 'No uid';
 			return false;
 		}
 		$db = PearDatabase::getInstance();
