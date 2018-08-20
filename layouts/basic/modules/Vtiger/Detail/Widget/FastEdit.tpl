@@ -15,7 +15,9 @@
 					{foreach item=item key=key from=$WIDGET['data']['FastEdit']}
 						{assign var=FIELD value=Vtiger_Field_Model::getInstance($item,$MODULEINSTANCE)}
 						{assign var=FIELD_MODEL value=$FIELD->getWithDefaultValue()}
-						<div class="row mb-1 editField" data-prevvalue="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" data-fieldname = "q_{$FIELD_MODEL->getFieldName()}">
+						<div class="row mb-1 editField"
+							 data-prevvalue="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}"
+							 data-fieldname="q_{$FIELD_MODEL->getFieldName()}">
 							<div class="col-md-5 m-0">
 								<h4>{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}</h4>
 							</div>
@@ -23,10 +25,12 @@
 								{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 								{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 								{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-								{if $FIELD_MODEL->isEmptyPicklistOptionAllowed() && !($FIELD_MODEL->isMandatory() eq true && $FIELD_MODEL->get('fieldvalue') neq '')}
-									{assign var=PLACE_HOLDER value=true}
-								{/if}
-								<select class="select2" name="q_{$FIELD_MODEL->getFieldName()}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} data-selected-value='{$FIELD_MODEL->get('fieldvalue')}' {if $FIELD_MODEL->isEditableReadOnly() || !$IS_AJAX_ENABLED || !$FIELD_MODEL->isAjaxEditable()}disabled="disabled"{/if}{if $PLACE_HOLDER} data-select="allowClear, true" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}"{/if}>
+								{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() && !($FIELD_MODEL->isMandatory() eq true && $FIELD_MODEL->get('fieldvalue') neq ''))}
+								<select class="select2" name="q_{$FIELD_MODEL->getFieldName()}"
+										data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+										data-fieldinfo='{$FIELD_INFO|escape}'
+										{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}
+										data-selected-value='{$FIELD_MODEL->get('fieldvalue')}' {if $FIELD_MODEL->isEditableReadOnly() || !$IS_AJAX_ENABLED || !$FIELD_MODEL->isAjaxEditable()}disabled="disabled"{/if}{if $PLACE_HOLDER} data-select="allowClear, true" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}"{/if}>
 									{if $PLACE_HOLDER}
 										<optgroup class="p-0">
 											<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
