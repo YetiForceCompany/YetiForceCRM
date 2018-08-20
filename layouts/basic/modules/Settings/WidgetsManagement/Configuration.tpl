@@ -37,27 +37,29 @@
 			</li>
 		</ul>
 		<div class="contents tabbable">
-
 			<div class="tab-content themeTableColor overflowVisible">
-
 				<div class="tab-pane active" id="layoutDashBoards">
 					<div class="btn-toolbar mb-2">
 						<button type="button" class="btn btn-success addBlockDashBoard btn-sm"><span
 									class="fas fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}
 						</button>
 					</div>
-
 					<div id="moduleBlocks">
 						<input type="hidden" name="filter_date" value='{\App\Json::encode($WIDGETS_WITH_FILTER_DATE)}'>
 						<input type="hidden" name="filter_users"
 							   value='{\App\Json::encode($WIDGETS_WITH_FILTER_USERS)}'>
 						<input type="hidden" name="filter_restrict" value='{\App\Json::encode($RESTRICT_FILTER)}'>
 						{foreach key=AUTHORIZATION_KEY item=AUTHORIZATION_INFO from=$DASHBOARD_AUTHORIZATION_BLOCKS}
-							{assign var=AUTHORIZATION_NAME value=$AUTHORIZATION_INFO.name}
+							{if isset($AUTHORIZATION_INFO['name'])}
+								{assign var=AUTHORIZATION_NAME value=$AUTHORIZATION_INFO['name']}
+							{else}
+								{assign var=AUTHORIZATION_NAME value=''}
+							{/if}
 							<div id="block_{$AUTHORIZATION_KEY}"
 								 class="editFieldsTable block_{$AUTHORIZATION_KEY} mb-2 border1px blockSortable bg-white"
 								 data-block-id="{$AUTHORIZATION_KEY}" data-sequence=""
-								 data-code="{$AUTHORIZATION_INFO.code}" style="border-radius: 4px 4px 0px 0px;">
+								 data-code="{if isset($AUTHORIZATION_INFO['code'])}{$AUTHORIZATION_INFO['code']}{/if}"
+								 style="border-radius: 4px 4px 0px 0px;">
 								<div class="row layoutBlockHeader m-0">
 									<div class="blockLabel col-sm-5 p-2 ">
 									<span class="ml-3">
@@ -141,12 +143,15 @@
 											</div>
 										</div>
 									</div>
-
 								</div>
 								<div class="blockFieldsList blockFieldsSortable row p-1" style="min-height: 27px">
 									<ul name="sortable1" class="connectedSortable col-md-6 p-1"
 										style="list-style-type: none; min-height: 1px;">
-										{assign var=WIDGETS_AUTHORIZATION value=$WIDGETS_AUTHORIZATION_INFO.$AUTHORIZATION_KEY}
+										{if empty($WIDGETS_AUTHORIZATION_INFO[$AUTHORIZATION_KEY])}
+                      {assign var=WIDGETS_AUTHORIZATION value=[]}
+										{else}
+											{assign var=WIDGETS_AUTHORIZATION value=$WIDGETS_AUTHORIZATION_INFO[$AUTHORIZATION_KEY]}
+										{/if}
 										{foreach item=WIDGET_MODEL from=$WIDGETS_AUTHORIZATION name=fieldlist}
 											{if $smarty.foreach.fieldlist.index % 2 eq 0}
 												{include file=\App\Layout::getTemplatePath('WidgetConfig.tpl', $QUALIFIED_MODULE)}
@@ -292,7 +297,6 @@
 								style="list-style-type: none; min-height:1px;" name="sortable2"></ul>
 						</div>
 					</div>
-
 					<div class="modal createFieldModal fade" tabindex="-1">
 						<div class="modal-dialog">
 							<div class="modal-content">
@@ -398,7 +402,6 @@
 							</div>
 						</div>
 					</div>
-
 					<li class="newCustomFieldCopy d-none col-md-12">
 						<div class="ml-0 border1px" data-field-id="" data-linkid="" data-sequence=""
 							 data-js="container">
