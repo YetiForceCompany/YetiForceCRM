@@ -83,14 +83,14 @@
 								</td>
 								{if empty($ITEM['testCli'])}
 									<td colspan="2">
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 								{else}
 									<td>
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 									<td>
-										{App\Language::translate($ITEM['cron'], $MODULE)}
+										{if !empty($ITEM['cron'])}{App\Language::translate($ITEM['cron'], $MODULE)}{/if}
 									</td>
 								{/if}
 							</tr>
@@ -145,14 +145,14 @@
 								</td>
 								{if empty($ITEM['testCli'])}
 									<td colspan="2">
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 								{else}
 									<td>
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 									<td>
-										{App\Language::translate($ITEM['cron'], $MODULE)}
+										{if !empty($ITEM['cron'])}{App\Language::translate($ITEM['cron'], $MODULE)}{/if}
 									</td>
 								{/if}
 							</tr>
@@ -199,14 +199,14 @@
 								</td>
 								{if empty($ITEM['testCli'])}
 									<td colspan="2">
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 								{else}
 									<td>
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 									<td>
-										{App\Language::translate($ITEM['cron'], $MODULE)}
+										{if !empty($ITEM['cron'])}{App\Language::translate($ITEM['cron'], $MODULE)}{/if}
 									</td>
 								{/if}
 							</tr>
@@ -262,14 +262,14 @@
 								</td>
 								{if empty($ITEM['testCli'])}
 									<td colspan="2">
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 								{else}
 									<td>
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 									<td>
-										{App\Language::translate($ITEM['cron'], $MODULE)}
+										{if !empty($ITEM['cron'])}{App\Language::translate($ITEM['cron'], $MODULE)}{/if}
 									</td>
 								{/if}
 							</tr>
@@ -325,14 +325,14 @@
 								</td>
 								{if empty($ITEM['testCli'])}
 									<td colspan="2">
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 								{else}
 									<td>
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 									<td>
-										{App\Language::translate($ITEM['cron'], $MODULE)}
+										{if !empty($ITEM['cron'])}{App\Language::translate($ITEM['cron'], $MODULE)}{/if}
 									</td>
 								{/if}
 							</tr>
@@ -426,11 +426,11 @@
 										{$ITEM['recommended']}
 									</td>
 									<td>
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 								{else}
 									<td colspan="2">
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 								{/if}
 							</tr>
