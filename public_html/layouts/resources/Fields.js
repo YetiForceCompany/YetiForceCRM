@@ -700,6 +700,25 @@ App.Fields = {
 			});
 		}
 	},
+	MultiEmail: {
+		register(container) {
+			console.log('MultiEmail');
+			//container.find('.js-multi-email').each(() => {
+			container.find('.js-multi-email').each(function () {
+				//$('.js-multi-email', container).each(() => {
+				//console.log('V: ');
+				//console.log('V: ' + $(this).attr('class'));
+				//console.log('V: ' + $(this).find('input').val());
+				new MultiEmail(this);
+			});
+			/*$('.js-multi-email', container).toArray().forEach((emailInput) => {
+				console.log('ZZ: ' + emailInput.find('input').val());
+				//console.log('MKLL:' + JSON.stringify(emailInput));
+				//console.log('VAL:' + $(emailInput).val());
+				//new MultiEmail(emailInput);
+			});*/
+		}
+	},
 	DependentSelect: {
 		/**
 		 * Get options for select from array of items (exclude children)

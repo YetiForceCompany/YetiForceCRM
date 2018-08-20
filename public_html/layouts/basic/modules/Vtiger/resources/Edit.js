@@ -1311,18 +1311,27 @@ $.Class("Vtiger_Edit_Js", {
 	registerMultiImageFields(container) {
 		return App.Fields.MultiImage.register(container);
 	},
+	registerMultiEmailFields(container) {
+		console.log('registerMultiEmailFields');
+		return App.Fields.MultiEmail.register(container);
+	},
 	/**
 	 * Register inventory controller
 	 * @param {jQuery} container
 	 */
 	registerInventoryController(container) {
-		this.inventoryController = Vtiger_Inventory_Js.getInventoryInstance(container);
+		console.log('registerInventoryController');
+		//this.inventoryController = Vtiger_Inventory_Js.getInventoryInstance(container);
+		if (typeof Vtiger_Inventory_Js !== "undefined") {
+			this.inventoryController = Vtiger_Inventory_Js.getInventoryInstance(container);
+		}
 	},
 	/**
 	 * Function which will register basic events which will be used in quick create as well
 	 *
 	 */
 	registerBasicEvents: function (container) {
+		console.log('registerBasicEvents');
 		this.treePopupRegisterEvent(container);
 		this.registerClearTreeSelectionEvent(container);
 		this.registerTreeAutoCompleteFields(container);
@@ -1340,6 +1349,7 @@ $.Class("Vtiger_Edit_Js", {
 		this.registerFocusFirstField(container);
 		this.registerCopyValue(container);
 		this.registerMultiImageFields(container);
+		this.registerMultiEmailFields(container);
 	},
 	registerEvents: function () {
 		var editViewForm = this.getForm();

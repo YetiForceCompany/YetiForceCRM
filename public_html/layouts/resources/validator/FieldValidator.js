@@ -1068,6 +1068,43 @@ Vtiger_Base_Validator_Js("Vtiger_Twitter_Validator_Js", {
 	}
 });
 
+Vtiger_Base_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
+	/**
+	 * Function which invokes field validation
+	 * @param accepts field element as parameter
+	 * @return error if validation fails true on success
+	 */
+	invokeValidation(field, rules, i, options) {
+		console.log('invokeValidation');
+		let validatorInstance = new Vtiger_MultiEmail_Validator_Js();
+		validatorInstance.setElement(field);
+		let result = validatorInstance.validate();
+		if (result == true) {
+			return result;
+		} else {
+			return validatorInstance.getError();
+		}
+	}
+
+}, {
+	/**
+	 * Function to validate the Twwiter Account
+	 * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+	 * @return true if validation is successfull
+	 * @return false if validation error occurs
+	 */
+	validate() {
+		console.log('Vtiger_MultiEmail_Validator_Js');
+		let fieldValue = this.getFieldValue();
+		/*if (!fieldValue.match(/^[a-zA-Z0-9_]{1,15}$/g)) {
+			let errorInfo = app.vtranslate("JS_PLEASE_ENTER_VALID_TWITTER_ACCOUNT");
+			this.setError(errorInfo);
+			return false;
+		}*/
+		console.log('validate');
+		return true;
+	}
+});
 
 //Calendar Specific validators
 // We have placed it here since quick create will not load module specific validators
