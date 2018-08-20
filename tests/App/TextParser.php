@@ -302,13 +302,6 @@ class TextParser extends \Tests\Base
 		$employeeUser = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['in', 'id', (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees'])
 			->column()])
 			->limit(1)->scalar();
-		if (!$employeeUser) {
-			$employeeModel = \Vtiger_Record_Model::getCleanInstance('OSSEmployees');
-			$employeeModel->set('smownerid', $tmpUser);
-			$employeeModel->set('name', 'Test employee');
-			$employeeModel->save();
-			$employeeId = $employeeModel->getId();
-		}
 		$employeeUser ? \App\User::setCurrentUserId($employeeUser) : '';
 		$employeeId = $employeeId ? $employeeId : (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => \App\User::getCurrentUserId()])
 			->limit(1)->scalar();
