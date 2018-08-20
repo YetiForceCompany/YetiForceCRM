@@ -190,8 +190,8 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		$moduleName = $customViewModel->get('entitytype');
 		$curretView = App\CustomView::getCurrentView($moduleName);
 		if ($curretView == $params['cvid']) {
-			$sortOrder = explode(',', $params['value']);
-			App\CustomView::setSorder($moduleName, $sortOrder[1] ?? '');
+			$sortOrder = array_pad(explode(',', $params['value']), 2, '');
+			App\CustomView::setSorder($moduleName, $sortOrder[1]);
 			App\CustomView::setSortby($moduleName, $sortOrder[0]);
 		}
 	}
