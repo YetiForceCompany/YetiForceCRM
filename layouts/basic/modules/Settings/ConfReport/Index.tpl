@@ -35,7 +35,7 @@
 	<div class="tab-content">
 		<div id="Configuration" class="tab-pane fade in active show">
 			<div class="u-columns-count-3 u-columns-gap-1rem u-columns-width-36rem pt-2 text-center u-align-middle-children">
-				<div class="u-columns__item table-responsive pb-3">
+				<div class="u-columns__item pb-3">
 					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
@@ -98,7 +98,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="u-columns__item table-responsive pb-3">
+				<div class="u-columns__item pb-3">
 					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
@@ -160,7 +160,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="u-columns__item table-responsive pb-3">
+				<div class="u-columns__item pb-3">
 					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
@@ -214,7 +214,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="u-columns__item table-responsive pb-3">
+				<div class="u-columns__item pb-3">
 					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
@@ -277,7 +277,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="u-columns__item table-responsive pb-3">
+				<div class="u-columns__item pb-3">
 					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
@@ -340,7 +340,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="u-columns__item table-responsive pb-3">
+				<div class="u-columns__item pb-3">
 					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
@@ -385,7 +385,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="u-columns__item table-responsive pb-3">
+				<div class="u-columns__item pb-3">
 					<table class="table table-bordered table-sm m-0">
 						<thead>
 						<tr>
