@@ -4,8 +4,8 @@
  * Notification Record Model.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class Notification_Record_Model extends Vtiger_Record_Model
 {
@@ -147,6 +147,9 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		if ($relatedRecord !== false) {
 			$relatedId = $relatedRecord['id'];
 			$relatedModule = $relatedRecord['module'];
+		} else {
+			$relatedId = false;
+			$relatedModule = null;
 		}
 		$notificationType = $this->get('notification_type');
 		if (!\App\Privilege::isPermitted('Notification', 'DetailView')) {
