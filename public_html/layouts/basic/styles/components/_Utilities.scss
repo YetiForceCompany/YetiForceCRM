@@ -373,8 +373,8 @@
 		@include u-column-gap(1rem);
 	}
 
-	&-count-auto {
-		@include u-column-count(auto);
+	&-count-3 {
+		@include u-column-count(3);
 	}
 
 	&-width-36rem {

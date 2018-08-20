@@ -344,13 +344,13 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$db = App\Db::getInstance();
 		$status = false;
 		$widgetWithLimit = self::getWidgetsWithLimit();
-		if (in_array($data['name'], $widgetWithLimit)) {
+		if (!empty($data['name']) && in_array($data['name'], $widgetWithLimit)) {
 			$status = true;
 		}
 		if ($status && empty($data['limit'])) {
 			$data['limit'] = 10;
 		}
-		if ($data['isdefault'] != 1 || $data['isdefault'] != '1') {
+		if (empty($data['isdefault']) || $data['isdefault'] != 1 || $data['isdefault'] != '1') {
 			$data['isdefault'] = 0;
 		}
 		if (!empty($data['filterid'])) {
@@ -367,7 +367,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filterid||' . $data['filterid'], 406);
 			}
 		}
-		$data['data'] = App\Json::decode(\App\Purifier::decodeHtml($data['data']));
+		$data['data'] = App\Json::decode(\App\Purifier::decodeHtml($data['data'] ?? ''));
 		if (!empty($data['additionalFiltersFields']) && count($data['additionalFiltersFields']) > App\Config::performance('CHART_ADDITIONAL_FILTERS_LIMIT')) {
 			throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||additionalFiltersFields||' . implode(',', $data['additionalFiltersFields']), 406);
 		}
@@ -377,14 +377,14 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'height' => $data['height'],
 		]);
 		$owners = \App\Json::encode([
-			'default' => $data['default_owner'],
-			'available' => $data['owners_all'],
+			'default' => $data['default_owner'] ?? '',
+			'available' => $data['owners_all'] ?? '',
 		]);
 		$db->createCommand()->insert('vtiger_module_dashboard', [
 			'linkid' => $data['linkid'],
 			'blockid' => $data['blockid'],
-			'filterid' => $data['filterid'],
-			'title' => $data['title'],
+			'filterid' => $data['filterid'] ?? '',
+			'title' => $data['title'] ?? '',
 			'data' => $data['data'],
 			'size' => $size,
 			'limit' => $data['limit'] ?? null,
@@ -416,7 +416,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$widgetId = $db->getLastInsertID('vtiger_module_dashboard_widgets_id_seq');
 		}
 		\App\Log::trace('Exiting Settings_WidgetsManagement_Module_Model::addWidget() method ...');
-		return ['success' => true, 'id' => $templateId, 'wid' => $widgetId, 'status' => $status, 'text' => \App\Language::translate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement')];
+		return ['success' => true, 'id' => $templateId, 'wid' => $widgetId ?? '', 'status' => $status, 'text' => \App\Language::translate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement')];
 	}
 
 	public function getBlocksId($dashboard)

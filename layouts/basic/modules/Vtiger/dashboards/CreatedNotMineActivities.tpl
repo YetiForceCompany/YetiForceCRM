@@ -8,11 +8,16 @@
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-10"}
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 		</div>
-		<hr class="widgetHr" />
-		<div class="d-flex flex-nowrap" >
+		<hr class="widgetHr"/>
+		<div class="d-flex flex-nowrap">
 			{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
-			<button class="ml-1 btn btn-light btn-sm ml-1 changeRecordSort" title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
-				<span class="fas fa-sort-amount-down" aria-hidden="true" ></span>
+			<button class="ml-1 btn btn-light btn-sm ml-1 changeRecordSort"
+					title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}"
+					alt="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}"
+					data-sort="{if !empty($DATA['sortorder']) && $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}"
+					data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}"
+					data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
+				<span class="fas fa-sort-amount-down" aria-hidden="true"></span>
 			</button>
 		</div>
 	</div>

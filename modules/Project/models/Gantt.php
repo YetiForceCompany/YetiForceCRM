@@ -371,7 +371,7 @@ class Project_Gantt_Model
 			if (!$status['closing']) {
 				$this->activeStatuses['Project'][] = $status;
 			}
-			$colors['Project']['projectstatus'][$value['projectstatus']] = \App\Colors::get($value['color'], $value['projectstatus']);
+			$colors['Project']['projectstatus'][$value['projectstatus']] = \App\Colors::get($value['color'] ?? '', $value['projectstatus']);
 		}
 		$projectMilestone = array_values(App\Fields\Picklist::getValues('projectmilestone_status'));
 		foreach ($projectMilestone as $value) {
@@ -379,7 +379,7 @@ class Project_Gantt_Model
 			if (!$status['closing']) {
 				$this->activeStatuses['ProjectMilestone'][] = $status;
 			}
-			$colors['ProjectMilestone']['projectmilestone_status'][$value['projectmilestone_status']] = \App\Colors::get($value['color'], $value['projectmilestone_status']);
+			$colors['ProjectMilestone']['projectmilestone_status'][$value['projectmilestone_status']] = \App\Colors::get($value['color'] ?? '', $value['projectmilestone_status']);
 		}
 		$projectTask = array_values(App\Fields\Picklist::getValues('projecttaskstatus'));
 		foreach ($projectTask as $value) {
@@ -387,7 +387,7 @@ class Project_Gantt_Model
 			if (!$status['closing']) {
 				$this->activeStatuses['ProjectTask'][] = $status;
 			}
-			$colors['ProjectTask']['projecttaskstatus'][$value['projecttaskstatus']] = \App\Colors::get($value['color'], $value['projecttaskstatus']);
+			$colors['ProjectTask']['projecttaskstatus'][$value['projecttaskstatus']] = \App\Colors::get($value['color'] ?? '', $value['projecttaskstatus']);
 		}
 		$configColors = \AppConfig::module('Project', 'defaultGanttColors');
 		if (!empty($configColors)) {
@@ -465,7 +465,7 @@ class Project_Gantt_Model
 				'status_label' => App\Language::translate($row['projectstatus'], 'Project'),
 				'assigned_user_id' => $row['assigned_user_id'],
 				'assigned_user_name' => \App\Fields\Owner::getUserLabel($row['assigned_user_id']),
-				'color' => $row['projectstatus'] ? $this->statusColors['Project']['projectstatus'][$row['projectstatus']] : \App\Colors::getRandomColor('projectstatus_' . $id),
+				'color' => $row['projectstatus'] ? $this->statusColors['Project']['projectstatus'][$row['projectstatus']] : \App\Colors::getRandomColor('projectstatus_' . $row['id']),
 			];
 			if (!empty($row['startdate'])) {
 				$project['start_date'] = $row['startdate'];

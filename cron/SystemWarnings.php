@@ -3,8 +3,8 @@
  * System warnings cron.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 $html = '';
 foreach (\App\SystemWarnings::getWarnings('all') as $warning) {
@@ -17,6 +17,14 @@ foreach (\App\SystemWarnings::getWarnings('all') as $warning) {
 }
 if (empty($html)) {
 	return;
+}
+$html .= '<br><br>' . AppConfig::main('site_URL');
+$company = App\Company::getInstanceById(false);
+if (!empty($company->get('name'))) {
+	$html .= ' - ' . $company->get('name');
+}
+if (!empty($company->get('email'))) {
+	$html .= ' - ' . $company->get('email');
 }
 $mails = (new \App\Db\Query())->select('email1')->from('vtiger_users')->where(['is_admin' => 'on', 'status' => 'Active'])->column();
 if ($mails) {

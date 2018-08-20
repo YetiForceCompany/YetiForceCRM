@@ -1311,8 +1311,11 @@ $.Class("Vtiger_Edit_Js", {
 	registerMultiImageFields(container) {
 		return App.Fields.MultiImage.register(container);
 	},
+	/**
+	 * Register multi email field
+	 * @param {HTMLElement|jQuery} container
+	 */
 	registerMultiEmailFields(container) {
-		console.log('registerMultiEmailFields');
 		return App.Fields.MultiEmail.register(container);
 	},
 	/**
@@ -1320,8 +1323,6 @@ $.Class("Vtiger_Edit_Js", {
 	 * @param {jQuery} container
 	 */
 	registerInventoryController(container) {
-		console.log('registerInventoryController');
-		//this.inventoryController = Vtiger_Inventory_Js.getInventoryInstance(container);
 		if (typeof Vtiger_Inventory_Js !== "undefined") {
 			this.inventoryController = Vtiger_Inventory_Js.getInventoryInstance(container);
 		}
