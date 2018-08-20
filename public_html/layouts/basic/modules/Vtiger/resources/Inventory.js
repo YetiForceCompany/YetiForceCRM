@@ -1,7 +1,27 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-$.Class("Vtiger_Inventory_Js", {}, {
+$.Class("Vtiger_Inventory_Js", {
+	inventoryInstance: false,
+	/**
+	 * Get inventory instance
+	 * @param {jQuery} container
+	 * @returns {Vtiger_Inventory_Js}
+	 */
+	getInventoryInstance: function (container) {
+		if (this.inventoryInstance === false) {
+			let moduleClassName = container.find('[name="module"]').val() + "_Inventory_Js";
+			if (typeof window[moduleClassName] === "undefined") {
+				moduleClassName = "Vtiger_Inventory_Js";
+			}
+			if (typeof window[moduleClassName] !== "undefined") {
+				this.inventoryInstance = new window[moduleClassName]();
+				this.inventoryInstance.registerEvents(container);
+			}
+		}
+		return this.inventoryInstance;
+	},
+}, {
 	form: false,
 	inventoryContainer: false,
 	inventoryHeadContainer: false,
@@ -731,13 +751,13 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			$(this).find('.sequence').val(index + 1);
 		});
 	},
-	registerInventorySaveData: function (container) {
-		var thisInstance = this;
-		container.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
-			if (!thisInstance.checkLimits(container)) {
+	registerInventorySaveData: function () {
+		const thisInstance = this;
+		thisInstance.form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
+			if (!thisInstance.checkLimits(thisInstance.form)) {
 				return false;
 			}
-			var table = container.find('#blackIthemTable');
+			let table = thisInstance.form.find('#blackIthemTable');
 			table.find('[name]').removeAttr('name');
 		});
 	},
@@ -1202,9 +1222,9 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	 * Register add item button click
 	 * @param {jQuery} container
 	 */
-	registerAddItem(container) {
+	registerAddItem() {
 		const thisInstance = this;
-		container.find('.js-add-item').on('click', function (e) {
+		thisInstance.form.find('.js-add-item').on('click', function (e) {
 			const btn = $(this);
 			thisInstance.addItem(btn.data('module'), btn.data('field'));
 		});
@@ -1244,9 +1264,9 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			}
 		});
 	},
-	registerShowHideExpanded: function (container) {
-		var thisInstance = this;
-		container.on('click', '.toggleVisibility', function (e) {
+	registerShowHideExpanded: function () {
+		const thisInstance = this;
+		thisInstance.form.on('click', '.toggleVisibility', function (e) {
 			var element = $(e.currentTarget);
 			var row = thisInstance.getClosestRow(element);
 			if (element.data('status') === '0') {
@@ -1293,15 +1313,15 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			thisInstance.rowsCalculations();
 		});
 	},
-	registerSubProducts: function (container) {
-		var thisInstance = this;
-		container.find('.inventoryItems ' + thisInstance.rowClass).each(function (index) {
+	registerSubProducts: function () {
+		const thisInstance = this;
+		thisInstance.form.find('.inventoryItems ' + thisInstance.rowClass).each(function (index) {
 			thisInstance.loadSubProducts($(this), false);
 		});
 	},
-	registerClearReferenceSelection: function (container) {
-		var thisInstance = this;
-		container.on('click', '.clearReferenceSelection', function (e) {
+	registerClearReferenceSelection: function () {
+		const thisInstance = this;
+		thisInstance.form.on('click', '.clearReferenceSelection', function (e) {
 			var element = $(e.currentTarget);
 			var row = thisInstance.getClosestRow(element);
 			thisInstance.removeSubProducts(row);
@@ -1330,9 +1350,9 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			thisInstance.updateRowSequence();
 		});
 	},
-	registerChangeDiscount: function (container) {
+	registerChangeDiscount: function () {
 		var thisInstance = this;
-		container.on('click', '.changeDiscount', function (e) {
+		thisInstance.form.on('click', '.changeDiscount', function (e) {
 			var parentRow;
 			var element = $(e.currentTarget);
 			var params = {
@@ -1408,9 +1428,9 @@ $.Class("Vtiger_Inventory_Js", {}, {
 			app.hideModalWindow();
 		});
 	},
-	registerChangeTax: function (container) {
-		var thisInstance = this;
-		container.on('click', '.changeTax', function (e) {
+	registerChangeTax: function () {
+		const thisInstance = this;
+		thisInstance.form.on('click', '.changeTax', function (e) {
 			var parentRow;
 			var element = $(e.currentTarget);
 			var params = {
@@ -1450,13 +1470,13 @@ $.Class("Vtiger_Inventory_Js", {}, {
 		});
 	},
 	lockCurrencyChange: false,
-	registerChangeCurrency: function (container) {
-		var thisInstance = this;
-		container.on('change', '[name="currency"]', function (e) {
+	registerChangeCurrency: function () {
+		const thisInstance = this;
+		thisInstance.form.on('change', '[name="currency"]', function (e) {
 			var element = $(e.currentTarget);
 			var symbol = element.find('option:selected').data('conversionSymbol');
 			thisInstance.currencyChangeActions(element, element.find('option:selected'));
-			container.find('.currencySymbol').text(symbol);
+			thisInstance.form.find('.currencySymbol').text(symbol);
 		});
 	},
 	registerChangeTaxModal: function (modal, parentRow, params) {
@@ -1611,28 +1631,16 @@ $.Class("Vtiger_Inventory_Js", {}, {
 	 */
 	registerEvents: function (container) {
 		this.form = container;
-		this.registerInventorySaveData(container);
-		this.registerAddItem(container);
+		this.registerInventorySaveData();
+		this.registerAddItem();
 		this.initItem();
 		this.registerSortableItems();
-		this.registerSubProducts(container);
-		this.registerChangeDiscount(container);
-		this.registerChangeTax(container);
-		this.registerClearReferenceSelection(container);
-		this.registerShowHideExpanded(container);
-		this.registerChangeCurrency(container);
+		this.registerSubProducts();
+		this.registerChangeDiscount();
+		this.registerChangeTax();
+		this.registerClearReferenceSelection();
+		this.registerShowHideExpanded();
+		this.registerChangeCurrency();
 		this.setDefaultGlobalTax(container);
-	}
-});
-$(document).ready(function () {
-	var moduleName = app.getModuleName();
-	var moduleClassName = moduleName + "_Inventory_Js";
-	if (typeof window[moduleClassName] === "undefined") {
-		moduleClassName = "Vtiger_Inventory_Js";
-	}
-	if (typeof window[moduleClassName] !== "undefined") {
-		const inventoryController = new window[moduleClassName]();
-		inventoryController.registerEvents(Vtiger_Edit_Js.getInstance().getForm());
-		window.inventoryController = inventoryController;
 	}
 });

@@ -24,15 +24,13 @@
 		{assign var=ACTIVITYTYPE_FIELD_MODEL value=$EVENT_MODULE->getField('activitytype')}
 		{assign var=PICKLIST_VALUES value=$ACTIVITYTYPE_FIELD_MODEL->getPicklistValues()}
 	{/if}
-	{if $FIELD_MODEL->isEmptyPicklistOptionAllowed() || $FIELD_MODEL->getName() eq 'defaulteventstatus' || $FIELD_MODEL->getName() eq 'defaultactivitytype'}
-		{assign var=PLACE_HOLDER value=true}
-	{/if}
+	{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() || $FIELD_MODEL->getName() eq 'defaulteventstatus' || $FIELD_MODEL->getName() eq 'defaultactivitytype')}
 	<select class="tpl-Edit-Field-Picklist select2 form-control" name="{$FIELD_NAME}"
 			data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			data-fieldinfo='{$FIELD_INFO|escape}'
 			{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}
-			data-selected-value='{$FIELD_VALUE}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} {if !empty($PLACE_HOLDER)}data-select="allowClear, true"{/if}>
-		{if !empty($PLACE_HOLDER)}
+			data-selected-value='{$FIELD_VALUE}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} {if $PLACE_HOLDER}data-select="allowClear, true"{/if}>
+		{if $PLACE_HOLDER}
 			<optgroup class="p-0">
 				<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
 			</optgroup>

@@ -4,9 +4,7 @@
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
-	{if $FIELD_MODEL->isEmptyPicklistOptionAllowed() && !($FIELD_MODEL->isMandatory() eq true && $FIELD_VALUE neq '')}
-		{assign var=PLACE_HOLDER value=true}
-	{/if}
+	{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() && !($FIELD_MODEL->isMandatory() eq true && $FIELD_VALUE neq ''))}
 	<div class="tpl-Edit-Field-Country">
 		<select name="{$FIELD_MODEL->getFieldName()}" class="select2 form-control"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"

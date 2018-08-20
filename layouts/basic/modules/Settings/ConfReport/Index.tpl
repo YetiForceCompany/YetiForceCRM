@@ -34,7 +34,7 @@
 	</ul>
 	<div class="tab-content">
 		<div id="Configuration" class="tab-pane fade in active show">
-			<div class="u-columns-count-auto u-columns-gap-1rem u-columns-width-36rem pt-2 text-center u-align-middle-children">
+			<div class="u-columns-count-3 u-columns-gap-1rem u-columns-width-36rem pt-2 text-center u-align-middle-children">
 				<div class="u-columns__item pb-3">
 					<table class="table table-bordered table-sm m-0">
 						<thead>
@@ -58,7 +58,7 @@
 							</th>
 						</tr>
 						</thead>
-						<tbody class="small">
+						<tbody class="u-word-break-all small">
 						{foreach from=$ALL['stability'] key=KEY item=ITEM}
 							<tr {if !$ITEM['status']}class="table-danger"{/if}>
 								<td class="bg-light text-left">
@@ -83,14 +83,14 @@
 								</td>
 								{if empty($ITEM['testCli'])}
 									<td colspan="2">
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 								{else}
 									<td>
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 									<td>
-										{App\Language::translate($ITEM['cron'], $MODULE)}
+										{if !empty($ITEM['cron'])}{App\Language::translate($ITEM['cron'], $MODULE)}{/if}
 									</td>
 								{/if}
 							</tr>
@@ -116,7 +116,7 @@
 							</th>
 						</tr>
 						</thead>
-						<tbody class="small">
+						<tbody class="u-word-break-all small">
 						{foreach from=$ALL['libraries'] key=KEY item=ITEM}
 							<tr {if !$ITEM['status']}class="table-danger"{/if}>
 								<td class="bg-light text-left">
@@ -145,14 +145,14 @@
 								</td>
 								{if empty($ITEM['testCli'])}
 									<td colspan="2">
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 								{else}
 									<td>
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 									<td>
-										{App\Language::translate($ITEM['cron'], $MODULE)}
+										{if !empty($ITEM['cron'])}{App\Language::translate($ITEM['cron'], $MODULE)}{/if}
 									</td>
 								{/if}
 							</tr>
@@ -181,7 +181,7 @@
 							</th>
 						</tr>
 						</thead>
-						<tbody class="small">
+						<tbody class="u-word-break-all small">
 						{foreach from=$ALL['environment'] key=KEY item=ITEM}
 							<tr {if !$ITEM['status']}class="table-danger"{/if}>
 								<td class="bg-light text-left">
@@ -199,14 +199,14 @@
 								</td>
 								{if empty($ITEM['testCli'])}
 									<td colspan="2">
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 								{else}
 									<td>
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 									<td>
-										{App\Language::translate($ITEM['cron'], $MODULE)}
+										{if !empty($ITEM['cron'])}{App\Language::translate($ITEM['cron'], $MODULE)}{/if}
 									</td>
 								{/if}
 							</tr>
@@ -237,7 +237,7 @@
 							</th>
 						</tr>
 						</thead>
-						<tbody class="small">
+						<tbody class="u-word-break-all small">
 						{foreach from=$ALL['performance'] key=KEY item=ITEM}
 							<tr {if !$ITEM['status']}class="table-danger"{/if}>
 								<td class="bg-light text-left">
@@ -262,14 +262,14 @@
 								</td>
 								{if empty($ITEM['testCli'])}
 									<td colspan="2">
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 								{else}
 									<td>
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 									<td>
-										{App\Language::translate($ITEM['cron'], $MODULE)}
+										{if !empty($ITEM['cron'])}{App\Language::translate($ITEM['cron'], $MODULE)}{/if}
 									</td>
 								{/if}
 							</tr>
@@ -300,7 +300,7 @@
 							</th>
 						</tr>
 						</thead>
-						<tbody class="small">
+						<tbody class="u-word-break-all small">
 						{foreach from=$ALL['security'] key=KEY item=ITEM}
 							<tr {if !$ITEM['status']}class="table-danger"{/if}>
 								<td class="bg-light text-left">
@@ -325,14 +325,14 @@
 								</td>
 								{if empty($ITEM['testCli'])}
 									<td colspan="2">
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 								{else}
 									<td>
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 									<td>
-										{App\Language::translate($ITEM['cron'], $MODULE)}
+										{if !empty($ITEM['cron'])}{App\Language::translate($ITEM['cron'], $MODULE)}{/if}
 									</td>
 								{/if}
 							</tr>
@@ -357,7 +357,7 @@
 							</th>
 						</tr>
 						</thead>
-						<tbody class="small">
+						<tbody class="u-word-break-all small">
 						{foreach from=$ALL['directoryPermissions'] key=KEY item=ITEM}
 							<tr {if !$ITEM['status']}class="table-danger"{/if}>
 								<td class="bg-light text-left">
@@ -405,7 +405,7 @@
 							</th>
 						</tr>
 						</thead>
-						<tbody class="small">
+						<tbody class="u-word-break-all small">
 						{foreach from=$ALL['database'] key=KEY item=ITEM}
 							<tr {if !$ITEM['status']}class="table-danger"{/if}>
 								<td class="bg-light text-left">
@@ -426,11 +426,11 @@
 										{$ITEM['recommended']}
 									</td>
 									<td>
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 								{else}
 									<td colspan="2">
-										{App\Language::translate($ITEM['www'], $MODULE)}
+										{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], $MODULE)}{/if}
 									</td>
 								{/if}
 							</tr>
@@ -455,7 +455,7 @@
 					</th>
 				</tr>
 				</thead>
-				<tbody class="small">
+				<tbody class="u-word-break-all small">
 				{foreach from=Settings_ConfReport_Module_Model::getPermissionsFiles() key=key item=item}
 					<tr {if $item.permission eq 'FailedPermission'}class="table-danger"{/if}>
 						<td class="bg-light text-left">{App\Language::translate($key, $MODULE)}</td>

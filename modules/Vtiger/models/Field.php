@@ -1313,6 +1313,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$db = \App\Db::getInstance();
 		$tableSchema = $db->getSchema()->getTableSchema($this->getTableName(), true);
+		if (empty($tableSchema)) {
+			return false;
+		}
 		$columnSchema = $tableSchema->getColumn($this->getColumnName());
 		$data = get_object_vars($columnSchema);
 		if ($returnString) {
@@ -1324,7 +1327,6 @@ class Vtiger_Field_Model extends vtlib\Field
 					$string .= '(' . $data['size'] . ')';
 				}
 			}
-
 			return $string;
 		}
 		return $data;

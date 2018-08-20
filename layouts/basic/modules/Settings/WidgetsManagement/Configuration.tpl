@@ -4,9 +4,7 @@
 		<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}"/>
 		<div class="widget_header row align-items-lg-center">
 			<div class="col-md-9">
-				{if isset($MODULE)}
-					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-				{/if}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 				{\App\Language::translate('LBL_WIDGETS_MANAGEMENT_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 			<div class="col-md-3">
@@ -149,10 +147,10 @@
 								<div class="blockFieldsList blockFieldsSortable row p-1" style="min-height: 27px">
 									<ul name="sortable1" class="connectedSortable col-md-6 p-1"
 										style="list-style-type: none; min-height: 1px;">
-										{if !empty($WIDGETS_AUTHORIZATION_INFO[$AUTHORIZATION_KEY])}
-											{assign var=WIDGETS_AUTHORIZATION value=$WIDGETS_AUTHORIZATION_INFO[$AUTHORIZATION_KEY]}
+										{if empty($WIDGETS_AUTHORIZATION_INFO[$AUTHORIZATION_KEY])}
+                      {assign var=WIDGETS_AUTHORIZATION value=[]}
 										{else}
-											{assign var=WIDGETS_AUTHORIZATION value=[]}
+											{assign var=WIDGETS_AUTHORIZATION value=$WIDGETS_AUTHORIZATION_INFO[$AUTHORIZATION_KEY]}
 										{/if}
 										{foreach item=WIDGET_MODEL from=$WIDGETS_AUTHORIZATION name=fieldlist}
 											{if $smarty.foreach.fieldlist.index % 2 eq 0}
@@ -209,13 +207,17 @@
 							</div>
 						</div>
 					</div>
+
 					<div class="newCustomBlockCopy d-none mb-2 border1px blockSortable bg-white" data-block-id=""
 						 data-sequence="" style="border-radius: 4px 4px 0px 0px;">
 						<div class="row layoutBlockHeader m-0">
 							<div class="blockLabel col-md-5 p-2 ">
-								<span class="ml-3"></span>
+							<span class="ml-3">
+
+							</span>
 							</div>
 							<div class="col-md-6 ml-0 float-right">
+
 								<div class="float-right btn-toolbar blockActions m-1">
 									<div class="btn-group">
 										<button class="btn btn-success btn-sm addCustomField d-none" type="button"><span
