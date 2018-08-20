@@ -3,14 +3,15 @@
 
 jQuery.Class('Settings_YetiForce_Status_Js', {}, {
 	registerEvents() {
-		const container = jQuery('.js-Settings-YetiForce-Status-table');
+		const container = $('.js-Settings-YetiForce-Status-table');
 		container.find(".js-vars").on('change', function (e) {
+			let field = $(this);
 			AppConnector.request({
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
 				action: 'Status',
-				flagName: jQuery(e.currentTarget).data('flag'),
-				newParam: jQuery(e.currentTarget).val()
+				flagName: field.data('flag'),
+				newParam: field.val()
 			}).done(function (data) {
 				let response = data['result'], params;
 				if (response['success']) {
