@@ -27,7 +27,7 @@
 				{if $HEADER_COUNT}
 					{assign var="SPANSIZE" value=(12/$HEADER_COUNT)|string_format:"%d"}
 				{/if}
-				{assign var="MULTIFILTER_WIDGET_RECORDS" value=$MULTIFILTER_WIDGET_MODEL->getRecords('')}
+				{assign var="MULTIFILTER_WIDGET_RECORDS" value=$MULTIFILTER_WIDGET_MODEL->getRecords()}
 				{if !empty(count($MULTIFILTER_WIDGET_RECORDS))}
 					<div class="row mb-1 border-bottom">
 						{foreach item=FIELD from=$MULTIFILTER_WIDGET_MODEL->getHeaders() name=headers}

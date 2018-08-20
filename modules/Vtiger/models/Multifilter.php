@@ -268,22 +268,12 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Return records list.
 	 *
-	 * @param $user
-	 *
 	 * @return array
 	 */
-	public function getRecords($user)
+	public function getRecords()
 	{
 		$this->initListViewController();
-		if (!$user) {
-			$user = App\User::getCurrentUserId();
-		} elseif ($user === 'all') {
-			$user = '';
-		}
 		if (!$this->listviewRecords) {
-			if (!empty($user)) {
-				$this->queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $user]);
-			}
 			if (!empty($this->searchParams)) {
 				$searchParams = $this->queryGenerator->parseBaseSearchParamsToCondition($this->searchParams);
 				$this->queryGenerator->parseAdvFilter($searchParams);
@@ -331,9 +321,6 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 		if ($user !== 'all') {
 			$searchParams[] = ['assigned_user_id', 'e', $user];
 		}
-		if ($searchParams) {
-			return $url .= '&search_params=[' . json_encode($searchParams) . ']';
-		}
 		return $url;
 	}
 
@@ -358,9 +345,6 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 		}
 		if ($user !== 'all') {
 			$searcParams[] = ['assigned_user_id', 'e', $user];
-		}
-		if ($searcParams) {
-			return $url .= '&search_params=[' . json_encode($searcParams) . ']';
 		}
 		return $url;
 	}
