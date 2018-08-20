@@ -854,14 +854,15 @@ class ConfReport
 	}
 
 	/**
-	 * Parser disc space value.
+	 * Validate disc space value.
 	 *
 	 * @param string $name
 	 * @param array  $row
+	 * @param string $sapi
 	 *
 	 * @return array
 	 */
-	private static function parserSpace(string $name, array $row)
+	private static function validateSpace(string $name, array $row, string $sapi)
 	{
 		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		if ($name === 'spaceRoot') {
@@ -870,12 +871,15 @@ class ConfReport
 		$free = disk_free_space($dir);
 		$total = disk_total_space($dir);
 
-		$val = round((($total - $free) / $total) * 100) . '% | ';
-		$val .= \App\Language::translateSingleMod('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ';
-		$val .= \vtlib\Functions::showBytes($free) . ' | ';
-		$val .= \App\Language::translateSingleMod('LBL_SPACE_USED', 'Settings::ConfReport') . ': ';
-		$val .= \vtlib\Functions::showBytes($total - $free);
-		return $val;
+		$row[$sapi] = round((($total - $free) / $total) * 100) . '% | ';
+		$row[$sapi] .= \App\Language::translateSingleMod('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ';
+		$row[$sapi] .= \vtlib\Functions::showBytes($free) . ' | ';
+		$row[$sapi] .= \App\Language::translateSingleMod('LBL_SPACE_USED', 'Settings::ConfReport') . ': ';
+		$row[$sapi] .= \vtlib\Functions::showBytes($total - $free);
+		if ($free < 1024 * 1024 * 1024) {
+			$row['status'] = false;
+		}
+		return $row;
 	}
 
 	/**
@@ -931,6 +935,7 @@ class ConfReport
 		$converter = $current / $max;
 		if ($converter > 1) {
 			$row['recommended'] = \vtlib\Functions::showBytes(ceil($converter) * $max);
+			$row['status'] = false;
 		}
 		$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi]);
 		return $row;
