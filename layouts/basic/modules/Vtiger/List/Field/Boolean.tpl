@@ -14,7 +14,7 @@
 	{if isset($SEARCH_INFO['searchValue'])}
 		{assign var=SEARCH_VALUES value=$SEARCH_INFO['searchValue']}
 	{else}
-		{assign var=SEARCH_VALUES value=''}
+		{assign var=SEARCH_VALUES value=[]}
 	{/if}
 	<div class="tpl-List-Field-Boolean boolenSearchField">
 		<select name="{$FIELD_MODEL->getName()}" class="select2noactive select2 listSearchContributor" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" data-fieldinfo='{$FIELD_INFO|escape}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
