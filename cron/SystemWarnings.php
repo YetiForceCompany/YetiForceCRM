@@ -19,12 +19,12 @@ if (empty($html)) {
 	return;
 }
 $html .= '<br><br>' . AppConfig::main('site_URL');
-$dataReader = (new \App\Db\Query())->select(['name', 'email'])->from('s_#__companies')->where(['default' => 1])->createCommand()->query();
-while ($row = $dataReader->read()) {
-	$html .= ' - ' . $row['name'];
-	if ($row['email']) {
-		$html .= ' - ' . $row['email'];
-	}
+$company = App\Company::getInstanceById(false);
+if (!empty($company->get('name'))) {
+	$html .= ' - ' . $company->get('name');
+}
+if (!empty($company->get('email'))) {
+	$html .= ' - ' . $company->get('email');
 }
 $mails = (new \App\Db\Query())->select('email1')->from('vtiger_users')->where(['is_admin' => 'on', 'status' => 'Active'])->column();
 if ($mails) {
