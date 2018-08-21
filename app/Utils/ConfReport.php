@@ -536,7 +536,7 @@ class ConfReport
 		empty($name);
 		$current = $row[$sapi];
 		$errorReporting = stripos($current, '_') === false ? \App\ErrorHandler::error2string($current) : $current;
-		if ($row['recommended'] === 'E_ALL & ~E_NOTICE' && (E_ALL & ~E_NOTICE) === (int)$current) {
+		if ($row['recommended'] === 'E_ALL & ~E_NOTICE' && (E_ALL & ~E_NOTICE) === (int) $current) {
 			$row[$sapi] = $row['recommended'];
 		} else {
 			$row['status'] = false;
@@ -575,7 +575,7 @@ class ConfReport
 	private static function validateGreater(string $name, array $row, string $sapi)
 	{
 		empty($name);
-		if (isset($row[$sapi]) && (int)$row[$sapi] > 0 && (int)$row[$sapi] < (int)$row['recommended']) {
+		if (isset($row[$sapi]) && (int) $row[$sapi] > 0 && (int) $row[$sapi] < (int) $row['recommended']) {
 			$row['status'] = false;
 		}
 		return $row;
@@ -612,7 +612,7 @@ class ConfReport
 	private static function validateEqual(string $name, array $row, string $sapi)
 	{
 		empty($name);
-		if (isset($row[$sapi]) && strtolower((string)$row[$sapi]) !== strtolower((string)$row['recommended'])) {
+		if (isset($row[$sapi]) && strtolower((string) $row[$sapi]) !== strtolower((string) $row['recommended'])) {
 			$row['status'] = false;
 		}
 		return $row;
@@ -829,7 +829,7 @@ class ConfReport
 		if (!\is_array($row[$sapi])) {
 			$value = \explode(',', $row[$sapi]);
 		}
-		$recommended = (array)$row['values'];
+		$recommended = (array) $row['values'];
 		foreach ($recommended as $item) {
 			if (\in_array($item, $value)) {
 				$row['status'] = false;
@@ -865,7 +865,8 @@ class ConfReport
 	 */
 	private static function parserAllExt(string $name, array $row)
 	{
-		empty($name, $row);
+		empty($name);
+		empty($row);
 
 		return \implode(', ', static::$ext);
 	}
@@ -915,7 +916,7 @@ class ConfReport
 		foreach (\explode(',', $row['recommended']) as $type) {
 			try {
 				$response = (new \GuzzleHttp\Client())->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
-				if ($response->getStatusCode() === 200 && 'No uid' === (string)$response->getBody()) {
+				if ($response->getStatusCode() === 200 && 'No uid' === (string) $response->getBody()) {
 					$supported[] = $type;
 				}
 			} catch (\Throwable $e) {
