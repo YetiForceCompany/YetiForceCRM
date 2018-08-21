@@ -299,12 +299,15 @@ class Gantt {
 	 */
 	loadProject(projectData) {
 		this.projectData = projectData;
+		this.allTasks = this.projectData.tasks;
+		if (typeof this.allTasks === 'undefined') {
+			return;
+		}
 		this.statuses = this.projectData.statuses;
 		this.filter = {status: this.projectData.activeStatuses};
 		this.gantt = new GanttMaster(this.ganttTemplateFunctions);
 		this.gantt.resourceUrl = '/libraries/jquery-gantt-editor/res/';
 		this.gantt.init(this.container);
-		this.allTasks = this.projectData.tasks;
 		if (this.allTasks.length > 0) {
 			this.gantt.loadProject($.extend(true, {}, this.filterProjectData(this.projectData)));
 			this.registerEvents();
