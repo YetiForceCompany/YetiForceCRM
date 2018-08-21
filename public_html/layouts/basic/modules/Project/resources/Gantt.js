@@ -301,6 +301,8 @@ class Gantt {
 		this.projectData = projectData;
 		this.allTasks = this.projectData.tasks;
 		if (typeof this.allTasks === 'undefined') {
+			$('.js-hide-filter').addClass('d-none');
+			$('.js-show-add-record').removeClass('d-none');
 			return;
 		}
 		this.statuses = this.projectData.statuses;
