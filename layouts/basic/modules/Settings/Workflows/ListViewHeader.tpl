@@ -22,7 +22,7 @@
 					{if $CRON_RECORD_MODEL->isDisabled() }{\App\Language::translate('LBL_DISABLED',$QUALIFIED_MODULE)}{/if}
 					{if $CRON_RECORD_MODEL->isRunning() }{\App\Language::translate('LBL_RUNNING',$QUALIFIED_MODULE)}{/if}
 					{if $CRON_RECORD_MODEL->isEnabled()}
-						{if $CRON_RECORD_MODEL->hadTimedout}
+						{if !empty($CRON_RECORD_MODEL->hadTimedout)}
 							{\App\Language::translate('LBL_LAST_SCAN_TIMED_OUT',$QUALIFIED_MODULE)}.
 						{elseif $CRON_RECORD_MODEL->getLastEndDateTime() neq ''}
 							{\App\Language::translate('LBL_LAST_SCAN_AT',$QUALIFIED_MODULE)}
@@ -55,7 +55,7 @@
 				<select class="select2 form-control" id="moduleFilter">
 					<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 					{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
-						<option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if}
+						<option {if !empty($SOURCE_MODULE) && $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if}
 								value="{$MODULE_MODEL->getName()}">
 							{if $MODULE_MODEL->getName() eq 'Calendar'}
 								{\App\Language::translate('LBL_TASK', $MODULE_MODEL->getName())}
