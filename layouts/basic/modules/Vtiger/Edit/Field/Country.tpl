@@ -4,21 +4,23 @@
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
+	{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() && !($FIELD_MODEL->isMandatory() eq true && $FIELD_VALUE neq ''))}
 	<div class="tpl-Edit-Field-Country">
 		<select name="{$FIELD_MODEL->getFieldName()}" class="select2 form-control"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-				data-select="allowClear, {if $FIELD_MODEL->isEmptyPicklistOptionAllowed()}true{else}false{/if}"
+				{if $PLACE_HOLDER}data-select="allowClear, true"
+				data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}"{/if}
 				data-fieldinfo='{$FIELD_INFO|escape}'
 				{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
+			{if $PLACE_HOLDER}
+				<optgroup class="p-0">
+					<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
+				</optgroup>
+			{/if}
 			{if $FIELD_VALUE && empty($PICKLIST_VALUES[$FIELD_VALUE])}
 				<optgroup label="{\App\Language::translate('LBL_VALUE_NOT_FOUND')}">
 					<option value="{$FIELD_VALUE}" title="{$FIELD_VALUE}" selected>{$FIELD_VALUE}</option>
-				</optgroup>
-			{/if}
-			{if $FIELD_MODEL->isEmptyPicklistOptionAllowed()}
-				<optgroup class="p-0">
-					<option value="" {if $FIELD_MODEL->isMandatory() eq true && $FIELD_VALUE neq ''} disabled{/if}>{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 				</optgroup>
 			{/if}
 			<optgroup label="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}">

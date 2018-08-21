@@ -268,7 +268,7 @@ class FieldBasic
 		if ($this->tabid) {
 			return \App\Module::getModuleName($this->tabid);
 		}
-		return $this->block->module->name;
+		return (!empty($this->block) && \is_object($this->block)) ? $this->block->module->name : '';
 	}
 
 	/**

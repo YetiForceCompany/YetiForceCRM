@@ -220,7 +220,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~libraries/leaflet/dist/leaflet.js',
 			'~libraries/leaflet.markercluster/dist/leaflet.markercluster.js',
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
-			'modules.OpenStreetMap.resources.Map',
+			'modules.OpenStreetMap.resources.Map'
 		];
 
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
@@ -918,19 +918,16 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function showSocialMedia($request)
 	{
-		//TODO: Privilege
-		/*if (!\App\Privilege::isPermitted('SocialMedia')) {
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
+		if (!Vtiger_SocialMedia_Model::isEnableForModule($recordModel)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}*/
-		$recordId = $request->getInteger('record');
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		}
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('QUALIFIED_MODULE', 'Settings::SocialMedia');
-		$viewer->assign('TWITTER_ACCOUNT', SocialMedia_Module_Model::getAllTwitterAccount($recordModel));
+		$viewer->assign('SOCIAL_MODEL', Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel));
 		$viewer->assign('RECORD_MODEL', $recordModel);
-		return $viewer->view('DetailViewSocialMedia.tpl', $moduleName, true);
+		return $viewer->view('Detail\SocialMedia.tpl', $moduleName, true);
 	}
 
 	/**

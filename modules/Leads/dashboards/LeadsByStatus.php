@@ -41,13 +41,13 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		$leadsClosed = Settings_MarketingProcesses_Module_Model::getConfig('lead');
 		$query = new \App\Db\Query();
 		$query->select([
-				'leadstatusid' => 'vtiger_leadstatus.leadstatusid',
-				'count' => new \yii\db\Expression('COUNT(*)'),
-				'leadstatusvalue' => new \yii\db\Expression("CASE WHEN vtiger_leadstatus.leadstatus IS NULL OR vtiger_leadstatus.leadstatus = '' THEN '' ELSE vtiger_leadstatus.leadstatus END"), ])
-				->from('vtiger_leaddetails')
-				->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
-				->innerJoin('vtiger_leadstatus', 'vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus')
-				->where(['deleted' => 0, 'converted' => 0]);
+			'leadstatusid' => 'vtiger_leadstatus.leadstatusid',
+			'count' => new \yii\db\Expression('COUNT(*)'),
+			'leadstatusvalue' => new \yii\db\Expression("CASE WHEN vtiger_leadstatus.leadstatus IS NULL OR vtiger_leadstatus.leadstatus = '' THEN '' ELSE vtiger_leadstatus.leadstatus END"), ])
+			->from('vtiger_leaddetails')
+			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_leadstatus', 'vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus')
+			->where(['deleted' => 0, 'converted' => 0]);
 		if (!empty($owner)) {
 			$query->andWhere(['smownerid' => $owner]);
 		}

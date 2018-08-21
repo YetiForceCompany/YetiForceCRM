@@ -93,11 +93,7 @@ class Purifier extends \Tests\Base
 		if ($exception) {
 			$this->expectException($exception);
 		}
-		if ($expected !== 'NOT_SET') {
-			$this->$assertion($expected, \App\Purifier::purifyByType($text, $type), $message);
-		} else {
-			$this->$assertion(\App\Purifier::purifyByType($text, $type), $message);
-		}
+		$this->$assertion($expected, \App\Purifier::purifyByType($text, $type), $message);
 	}
 
 	/**

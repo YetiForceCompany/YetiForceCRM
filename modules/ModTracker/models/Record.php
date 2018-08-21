@@ -514,7 +514,11 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		foreach ($data as $id => &$type) {
-			$type['color'] = $colors[$type['type']];
+			if (isset($colors[$type['type']])) {
+				$type['color'] = $colors[$type['type']];
+			} else {
+				$type['color'] = false;
+			}
 			if (strpos($type['type'], 'OSSMailView') !== false) {
 				$type['type'] = 'OSSMailView';
 			}

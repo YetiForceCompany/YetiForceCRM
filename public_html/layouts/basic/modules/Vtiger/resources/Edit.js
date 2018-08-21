@@ -17,6 +17,7 @@ $.Class("Vtiger_Edit_Js", {
 	//Event that will triggered before saving the record
 	recordPreSave: 'Vtiger.Record.PreSave',
 	editInstance: false,
+	inventoryController: false,
 	/**
 	 * Function to get Instance by name
 	 * @params moduleName:-- Name of the module to create instance
@@ -1311,6 +1312,15 @@ $.Class("Vtiger_Edit_Js", {
 		return App.Fields.MultiImage.register(container);
 	},
 	/**
+	 * Register inventory controller
+	 * @param {jQuery} container
+	 */
+	registerInventoryController(container) {
+		if (typeof Vtiger_Inventory_Js !== "undefined") {
+			this.inventoryController = Vtiger_Inventory_Js.getInventoryInstance(container);
+		}
+	},
+	/**
 	 * Function which will register basic events which will be used in quick create as well
 	 *
 	 */
@@ -1339,6 +1349,7 @@ $.Class("Vtiger_Edit_Js", {
 		if (!statusToProceed) {
 			return;
 		}
+		this.registerInventoryController(editViewForm);
 		this.registerBlockAnimationEvent();
 		this.registerBlockStatusCheckOnLoad();
 		this.registerEventForEditor();

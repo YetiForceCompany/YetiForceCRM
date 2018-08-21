@@ -9047,11 +9047,7 @@ hr {
   background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
   background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
-  border-color: #f3f3f4 #f3f3f4 #cbcbcf;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  text-shadow: 0 1px #fff;
-  color: #444; }
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0); }
 
 .equalSplit td:nth-child(odd) {
   width: 20%; }
@@ -11456,6 +11452,9 @@ select[readonly], select[disabled] {
   width: 57px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.u-font-size-19px {
+  font-size: 1.1875rem; }
+
 .u-text-ellipsis, ul.ui-autocomplete div.ui-menu-item-wrapper {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -11676,18 +11675,18 @@ select[readonly], select[disabled] {
 .u-columns__item {
   display: inline-block;
   width: 100%; }
-.u-columns-gap-05rem {
-  -webkit-column-gap: 0.5rem;
-  -moz-column-gap: 0.5rem;
-  column-gap: 0.5rem; }
-.u-columns-count-auto {
-  -webkit-column-count: auto;
-  -moz-column-count: auto;
-  column-count: auto; }
-.u-columns-width-27rem {
-  -webkit-column-width: 27rem;
-  -moz-column-width: 27rem;
-  column-width: 27rem; }
+.u-columns-gap-1rem {
+  -webkit-column-gap: 1rem;
+  -moz-column-gap: 1rem;
+  column-gap: 1rem; }
+.u-columns-count-3 {
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 3; }
+.u-columns-width-36rem {
+  -webkit-column-width: 36rem;
+  -moz-column-width: 36rem;
+  column-width: 36rem; }
 
 .u-position-r-10px {
   right: 0.625rem; }
@@ -11700,6 +11699,12 @@ select[readonly], select[disabled] {
 
 .u-position-t-5px {
   top: 0.3125rem; }
+
+.u-position-t-2px {
+  top: 0.125rem; }
+
+.u-align-middle-children * {
+  vertical-align: middle !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel, .bodyContents, .mainContainer, .contentsDiv {

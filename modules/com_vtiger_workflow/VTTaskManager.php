@@ -25,7 +25,7 @@ class VTTaskManager
 	 *
 	 * @return The id of the task
 	 */
-	public function saveTask($task)
+	public function saveTask(VTTask $task)
 	{
 		$db = App\Db::getInstance();
 		if (is_numeric($task->id)) {

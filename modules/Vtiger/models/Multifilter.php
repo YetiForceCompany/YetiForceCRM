@@ -268,22 +268,12 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Return records list.
 	 *
-	 * @param $user
-	 *
 	 * @return array
 	 */
-	public function getRecords($user)
+	public function getRecords()
 	{
 		$this->initListViewController();
-		if (!$user) {
-			$user = App\User::getCurrentUserId();
-		} elseif ($user === 'all') {
-			$user = '';
-		}
 		if (!$this->listviewRecords) {
-			if (!empty($user)) {
-				$this->queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $user]);
-			}
 			if (!empty($this->searchParams)) {
 				$searchParams = $this->queryGenerator->parseBaseSearchParamsToCondition($this->searchParams);
 				$this->queryGenerator->parseAdvFilter($searchParams);
@@ -312,56 +302,22 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Get total count URL.
 	 *
-	 * @param mixed $user
-	 *
 	 * @return string
 	 */
-	public function getTotalCountURL($user = false)
+	public function getTotalCountURL()
 	{
 		$url = 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->getFilterId();
-		if (!$user) {
-			$user = App\User::getCurrentUserId();
-		}
-		$searchParams = [];
-		if (!empty($this->searchParams)) {
-			foreach (reset($this->searchParams) as $value) {
-				$searchParams[] = $value;
-			}
-		}
-		if ($user !== 'all') {
-			$searchParams[] = ['assigned_user_id', 'e', $user];
-		}
-		if ($searchParams) {
-			return $url .= '&search_params=[' . json_encode($searchParams) . ']';
-		}
 		return $url;
 	}
 
 	/**
 	 * Get list view URL.
 	 *
-	 * @param mixed $user
-	 *
 	 * @return string
 	 */
-	public function getListViewURL($user = false)
+	public function getListViewURL()
 	{
 		$url = 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->getFilterId();
-		if (!$user) {
-			$user = App\User::getCurrentUserId();
-		}
-		$searcParams = [];
-		if (!empty($this->searchParams)) {
-			foreach (reset($this->searchParams) as $value) {
-				$searcParams[] = $value;
-			}
-		}
-		if ($user !== 'all') {
-			$searcParams[] = ['assigned_user_id', 'e', $user];
-		}
-		if ($searcParams) {
-			return $url .= '&search_params=[' . json_encode($searcParams) . ']';
-		}
 		return $url;
 	}
 }

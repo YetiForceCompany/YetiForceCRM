@@ -32,11 +32,11 @@ class Home_Module_Model extends Vtiger_Module_Model
 	{
 		$query = new \App\Db\Query();
 		$query->select(['*', 'createdtime' => 'vtiger_crmentity.createdtime', 'assigned_user_id' => 'vtiger_crmentity.smownerid',
-				'parentId' => 'crmentity2.crmid', 'parentModule' => 'crmentity2.setype', ])
-				->from('vtiger_modcomments')
-				->innerJoin('vtiger_crmentity', 'vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid')
-				->innerJoin('vtiger_crmentity crmentity2', 'vtiger_modcomments.related_to = crmentity2.crmid')
-				->where(['vtiger_crmentity.deleted' => 0, 'crmentity2.deleted' => 0]);
+			'parentId' => 'crmentity2.crmid', 'parentModule' => 'crmentity2.setype', ])
+			->from('vtiger_modcomments')
+			->innerJoin('vtiger_crmentity', 'vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_crmentity crmentity2', 'vtiger_modcomments.related_to = crmentity2.crmid')
+			->where(['vtiger_crmentity.deleted' => 0, 'crmentity2.deleted' => 0]);
 		\App\PrivilegeQuery::getConditions($query, 'ModComments');
 		$query->orderBy(['vtiger_modcomments.modcommentsid' => SORT_DESC])
 			->limit($pagingModel->getPageLimit())
@@ -136,7 +136,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
 			$model->setData($row);
 			$model->setId($row['crmid']);
-			if ($row['parent_id']) {
+			if (!empty($row['parent_id'])) {
 				if (\App\Record::isExists($row['parent_id'])) {
 					$record = Vtiger_Record_Model::getInstanceById($row['parent_id']);
 					if ($record->getModuleName() === 'Accounts') {

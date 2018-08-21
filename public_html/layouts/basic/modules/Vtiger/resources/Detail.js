@@ -2144,7 +2144,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var progress = widgetDataContainer.progressIndicator();
 		var params = {};
 		params['module'] = 'OSSMailView';
-		params['view'] = 'widget';
+		params['view'] = 'Widget';
 		params['smodule'] = $('#module').val();
 		params['srecord'] = recordId;
 		params['mode'] = 'showEmailsList';
@@ -2164,6 +2164,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 		if (container.find('#coordinates').length) {
 			var mapView = new OpenStreetMap_Map_Js();
 			mapView.registerDetailView(container);
+		}
+	},
+	registerSocialMediaEvents(container) {
+		let socialMediaContainer = container.find('.tpl-Detail-SocialMedia');
+		if (socialMediaContainer.length) {
 		}
 	},
 	registerShowSummary: function (container) {
@@ -2189,6 +2194,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerCommentEvents(detailContentsHolder);
 		thisInstance.registerEmailEvents(detailContentsHolder);
 		thisInstance.registerMapsEvents(detailContentsHolder);
+		thisInstance.registerSocialMediaEvents(detailContentsHolder);
 		App.Fields.Date.register(detailContentsHolder);
 		App.Fields.DateTime.register(detailContentsHolder);
 		App.Fields.MultiImage.register(detailContentsHolder);

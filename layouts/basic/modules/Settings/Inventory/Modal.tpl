@@ -13,36 +13,54 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					{if $EDIT_VIEW}
-						<h5 class="modal-title"><span class="fa fa-edit u-mr-5px"></span>{\App\Language::translate('LBL_EDITING', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</h5>
+						<h5 class="modal-title">
+							<span class="fa fa-edit u-mr-5px"></span>{\App\Language::translate('LBL_EDITING', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}
+						</h5>
 					{else}
-						<h5 class="modal-title"><span class="fa fa-plus u-mr-5px"></span>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</h5>
+						<h5 class="modal-title">
+							<span class="fa fa-plus u-mr-5px"></span>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}
+						</h5>
 					{/if}
-					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
+					<button type="button" class="close" data-dismiss="modal"
+							title="{\App\Language::translate('LBL_CLOSE')}">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<form id="formInventory" class="form-horizontal" method="POST">
-					<input type="hidden" name="id" value="{$ID}" />
+					<input type="hidden" name="id" value="{$ID}"/>
 					<div class="modal-body">
 						<div class="">
 							<div class="form-group form-row">
-								<label class="col-md-4 col-form-label u-text-small-bold text-md-right">{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</label>
+								<label class="col-md-4 col-form-label u-text-small-bold text-md-right">
+									{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}
+								</label>
 								<div class="col-md-6 controls">
-									<input class="form-control" type="text" name="name" placeholder="{\App\Language::translate('LBL_ENTER_NAME', $QUALIFIED_MODULE)}" value="{$RECORD_MODEL->getName()}" data-validation-engine='validate[required]' />
-								</div>	
+									<input class="form-control" type="text" name="name"
+										   placeholder="{\App\Language::translate('LBL_ENTER_NAME', $QUALIFIED_MODULE)}"
+										   value="{$RECORD_MODEL->getName()}"
+										   data-validation-engine='validate[required]'/>
+								</div>
 							</div>
-							{if !$PERCENTAGE}
+							{if empty($PERCENTAGE)}
 								{assign var=VALIDATOR value='Vtiger_Integer_Validator_Js.invokeValidation'}
 							{else}
 								{assign var=VALIDATOR value='Vtiger_Percentage_Validator_Js.invokeValidation'}
-							{/if}	
+							{/if}
 							<div class="form-group form-row">
-								<label class="col-md-4 col-form-label u-text-small-bold text-md-right">{\App\Language::translate('LBL_VALUE', $QUALIFIED_MODULE)}</label>
+								<label class="col-md-4 col-form-label u-text-small-bold text-md-right">
+									{\App\Language::translate('LBL_VALUE', $QUALIFIED_MODULE)}
+								</label>
 								<div class="col-md-6 controls">
 									<div class="input-group">
-										<input class="form-control" type="text" name="value" placeholder="{\App\Language::translate('LBL_ENTER_VALUE', $QUALIFIED_MODULE)}" value="{$RECORD_MODEL->getValue()}" data-validation-engine='validate[required, funcCall[{$VALIDATOR}]]' />
+										<input class="form-control" type="text" name="value"
+											   placeholder="{\App\Language::translate('LBL_ENTER_VALUE', $QUALIFIED_MODULE)}"
+											   value="{$RECORD_MODEL->getValue()}"
+											   data-validation-engine='validate[required, funcCall[{$VALIDATOR}]]'/>
 										<span class="input-group-append">
-											<span class="input-group-text"> {if $PERCENTAGE}%{else}{$CURRENCY.currency_symbol}{/if}</span></span>
+											<span class="input-group-text">
+												{if !empty($PERCENTAGE)}%{else}{$CURRENCY.currency_symbol}{/if}
+											</span>
+										</span>
 									</div>
 								</div>
 							</div>
@@ -50,17 +68,20 @@
 								<div class="form-group form-row">
 									<label class="col-md-4 col-form-label u-text-small-bold text-md-right">{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
 									<div class="col-md-6 controls checkboxForm">
-										<input type="hidden" name="status" value="1" />
-										<input type="checkbox" name="status" value="0" class="status alignBottom" {if !$RECORD_MODEL->getStatus()} checked {/if} />
+										<input type="hidden" name="status" value="1"/>
+										<input type="checkbox" name="status" value="0"
+											   class="status alignBottom" {if !$RECORD_MODEL->getStatus()} checked {/if} />
 										<span>&nbsp;&nbsp;{\App\Language::translate('LBL_STATUS_DESC', $QUALIFIED_MODULE)}</span>
-									</div>	
+									</div>
 								</div>
 							{else}
-								<input type="hidden" class="addView" value="true" />
-								<input type="hidden" name="status" value="0" />
+								<input type="hidden" class="addView" value="true"/>
+								<input type="hidden" name="status" value="0"/>
 							{/if}
 							<div class="form-group form-row">
-								<label class="col-md-4 col-form-label u-text-small-bold text-md-right">{\App\Language::translate('LBL_DEFAULT', $QUALIFIED_MODULE)}</label>
+								<label class="col-md-4 col-form-label u-text-small-bold text-md-right">
+									{\App\Language::translate('LBL_DEFAULT', $QUALIFIED_MODULE)}
+								</label>
 								<div class="col-md-6 controls checkboxForm">
 									<input type="hidden" name="default" value="0"/>
 									<input type="checkbox" name="default" value="1"

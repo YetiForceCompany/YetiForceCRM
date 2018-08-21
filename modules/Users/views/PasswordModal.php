@@ -49,7 +49,6 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 	 */
 	public function preProcessAjax(\App\Request $request)
 	{
-		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
 		switch ($request->getMode()) {

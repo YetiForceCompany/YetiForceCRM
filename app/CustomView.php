@@ -826,14 +826,14 @@ class CustomView
 		if (is_numeric($mixed)) {
 			$info = $query->where(['cvid' => $mixed])->one();
 			$info['cvid'] = (int) $info['cvid'];
-			$info['setdefault'] = (int) $info['setdefault'];
-			$info['setmetrics'] = (int) $info['setmetrics'];
-			$info['status'] = (int) $info['status'];
-			$info['privileges'] = (int) $info['privileges'];
-			$info['featured'] = (int) $info['featured'];
-			$info['presence'] = (int) $info['presence'];
-			$info['sequence'] = (int) $info['sequence'];
-			$info['userid'] = (int) $info['userid'];
+			$info['setdefault'] = (int) ($info['setdefault'] ?? 0);
+			$info['setmetrics'] = (int) ($info['setmetrics'] ?? 0);
+			$info['status'] = (int) ($info['status'] ?? 0);
+			$info['privileges'] = (int) ($info['privileges'] ?? 0);
+			$info['featured'] = (int) ($info['featured'] ?? 0);
+			$info['presence'] = (int) ($info['presence'] ?? 0);
+			$info['sequence'] = (int) ($info['sequence'] ?? 0);
+			$info['userid'] = (int) ($info['userid'] ?? 0);
 		} else {
 			$info = $query->where(['entitytype' => $mixed])->all();
 			foreach ($info as &$item) {

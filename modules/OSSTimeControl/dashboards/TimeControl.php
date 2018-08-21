@@ -58,10 +58,19 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			'days' => []
 		];
 		$dataReader = $query->createCommand()->query();
+		$workingTimeByType = $workingTime = [];
 		while ($row = $dataReader->read()) {
 			$label = \App\Language::translate($row['timecontrol_type'], 'OSSTimeControl');
-			$workingTimeByType[$label] += (float) $row['sum_time'];
-			$workingTime[$row['due_date']][$row['timecontrol_type']] += $row['sum_time'];
+			if (isset($workingTimeByType[$label])) {
+				$workingTimeByType[$label] += (float) $row['sum_time'];
+			} else {
+				$workingTimeByType[$label] = (float) $row['sum_time'];
+			}
+			if (isset($workingTime[$row['due_date']][$row['timecontrol_type']])) {
+				$workingTime[$row['due_date']][$row['timecontrol_type']] += (float) $row['sum_time'];
+			} else {
+				$workingTime[$row['due_date']][$row['timecontrol_type']] = (float) $row['sum_time'];
+			}
 			if (!in_array($row['timecontrol_type'], $timeTypes)) {
 				$timeTypes[$row['timecontrol_typeid']] = $row['timecontrol_type'];
 				// one dataset per type
@@ -132,6 +141,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			}
 		}
 		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
+		$viewer->assign('USER_CONDITIONS', null);
 		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());
 		$viewer->assign('USERID', $user);
 		$viewer->assign('DTIME', \App\Fields\Date::formatRangeToDisplay($time));

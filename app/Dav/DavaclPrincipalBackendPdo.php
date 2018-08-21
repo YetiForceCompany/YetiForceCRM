@@ -12,8 +12,8 @@ use Sabre\DAVACL;
  * is 'principals/', but this can be overriden.
  *
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
- * @author Evert Pot (http://evertpot.com/)
- * @license http://sabre.io/license/ Modified BSD License
+ * @author    Evert Pot (http://evertpot.com/)
+ * @license   http://sabre.io/license/ Modified BSD License
  */
 class DavaclPrincipalBackendPdo extends DAVACL\PrincipalBackend\PDO
 {

@@ -4,7 +4,7 @@
  * Settings OSSPasswords ConfigurePass view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_View
 {
@@ -128,8 +128,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 					\App\Log::error('New encryption password incorrect!');
 					$error = 'New encryption password is incorrect!';
 				}
-			}
-			// change password key
+			} // change password key
 			elseif ($config_exists && $encrypt == 'edit') {
 				$configKey = $config['key'] ?? false;
 
@@ -172,8 +171,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 					// commit transaction
 					$adb->completeTransaction();
 				}
-			}
-			// stop encrypting passwords
+			} // stop encrypting passwords
 			elseif ($encrypt == 'stop') {
 				// check if the given password is correct
 				$passKey = hash('sha256', $passKey);
@@ -237,7 +235,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 		}
 
 		// encryption variables
-		$viewer->assign('CONFIG', (!$config ? false : ['key' => $config['key']]));
+		$viewer->assign('CONFIG', (!$config ? false : ['key' => $config['key'] ?? '']));
 
 		$viewer->view('ConfigurePass.tpl', $moduleName);
 	}
