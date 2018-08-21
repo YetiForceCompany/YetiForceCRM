@@ -255,9 +255,9 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 				'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
 				'modules.Settings.Vtiger.resources.Vtiger',
 				'modules.Settings.Vtiger.resources.Edit',
+				'modules.Settings.Vtiger.resources.Index',
 				"modules.Settings.$moduleName.resources.$type",
 				"modules.Settings.$moduleName.resources.$moduleName",
-				'modules.Settings.Vtiger.resources.Index',
 				"modules.Settings.$moduleName.resources.Index"
 			])
 		);
