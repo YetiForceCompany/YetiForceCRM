@@ -304,7 +304,6 @@ abstract class View extends Base
 			'~layouts/resources/app.js',
 			'~libraries/blueimp-file-upload/js/jquery.fileupload.js',
 			'~layouts/resources/fields/MultiImage.js',
-			'~layouts/resources/fields/MultiEmail.js',
 			'~layouts/resources/Fields.js',
 			'~layouts/resources/helper.js',
 			'~layouts/resources/Connector.js',

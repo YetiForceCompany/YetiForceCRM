@@ -703,8 +703,30 @@ App.Fields = {
 	MultiEmail: {
 		register(container) {
 			container.find('.js-multi-email').each(function () {
-				new MultiEmail(this);
+				const inputElement = this;
+				let form = $(this).closest('form').eq(0);
+				$(form).on(Vtiger_Edit_Js.recordPreSave, (e) => {
+					App.Fields.MultiEmail.onFormSubmit(inputElement);
+				});
 			});
+		},
+		/**
+		 * Convert data to json
+		 * @param element
+		 */
+		onFormSubmit(element) {
+			let inputObj = $(element).find('input');
+			if (inputObj.val().length === 0) {
+				$(element).find('input[type=hidden]').val('');
+				return;
+			}
+			let arrTmp = inputObj.val().split(',');
+			let arr = [];
+			let arrayLength = arrTmp.length;
+			for (var i = 0; i < arrayLength; i++) {
+				arr.push({e: arrTmp[i]});
+			}
+			$(element).find('input[type=hidden]').val(JSON.stringify(arr));
 		}
 	},
 	DependentSelect: {
