@@ -18,7 +18,7 @@ class OpenCageGeocoder extends Base
 	 *
 	 * @var string
 	 */
-	private static $url = 'https://api.opencagedata.com/geocode/v1/';
+	protected static $url = 'https://api.opencagedata.com/geocode/v1/';
 
 	/**
 	 * Function checks if teryt is active.
