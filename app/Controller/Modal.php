@@ -59,7 +59,7 @@ abstract class Modal extends View
 		$this->modalData['module'] = $moduleName;
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODAL_TITLE', $this->getPageTitle($request));
-		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('MODULE', $request->getModule(false));
 		$viewer->assign('VIEW', $view);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('LOCK_EXIT', $this->lockExit);
