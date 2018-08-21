@@ -6,8 +6,6 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-require_once 'include/main/WebUI.php';
-
 $configTwitter = (new \Settings_SocialMedia_Config_Model('twitter'));
 $days = $configTwitter->get('archiving_records_number_of_days');
 if (empty($days)) {
