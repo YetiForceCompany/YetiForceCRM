@@ -2,7 +2,7 @@
   "php": {
     "YetiForce": "YetiForce",
     "LBL_YETIFORCE_STATUS_HEADER": "YetiForce Status",
-    "LBL_YETIFORCE_STATUS_DESC": "Configuration page of YetiForce status service..",
+    "LBL_YETIFORCE_STATUS_DESC": "Konfiguracja parametr\u00f3w us\u0142ugi status.",
     "LBL_YF_STATUS_URL": "Adres us\u0142ugi",
     "LBL_PARAM_NAME": "Parametr",
     "LBL_PARAM_VAL": "Ustawienie",
