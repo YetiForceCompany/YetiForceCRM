@@ -48,6 +48,9 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		$value = \App\Json::decode($value);
+		if (empty($value)) {
+			return '';
+		}
 		$emails = [];
 		foreach ($value as $item) {
 			$emails[] = $item['e'];

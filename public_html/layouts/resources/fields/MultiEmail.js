@@ -23,6 +23,10 @@ class MultiEmail {
 	 */
 	onFormSubmit(element) {
 		let inputObj = $(element).find('input');
+		if (inputObj.val().length === 0) {
+			$(element).find('input[type=hidden]').val('');
+			return;
+		}
 		let arrTmp = inputObj.val().split(',');
 		let arr = [];
 		let arrayLength = arrTmp.length;
