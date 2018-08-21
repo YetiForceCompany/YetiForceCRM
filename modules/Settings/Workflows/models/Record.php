@@ -410,15 +410,15 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 			foreach ($conditions as $index => $info) {
 				if (!($info['groupid'])) {
 					$firstGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
-						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid'], ];
+						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid'],];
 				} else {
 					$secondGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
-						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid'], ];
+						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid'],];
 				}
 			}
 		}
-		$transformedConditions[1] = ['columns' => $firstGroup];
-		$transformedConditions[2] = ['columns' => $secondGroup];
+		$transformedConditions[1] = ['columns' => $firstGroup ?? []];
+		$transformedConditions[2] = ['columns' => $secondGroup ?? []];
 
 		return $transformedConditions;
 	}
@@ -454,13 +454,13 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				$columns = $condition['columns'];
 				if ($index == '1' && empty($columns)) {
 					$wfCondition[] = ['fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
-						'joincondition' => '', 'groupid' => '0', ];
+						'joincondition' => '', 'groupid' => '0',];
 				}
 				if (!empty($columns) && is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
 							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
-							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid'], ];
+							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid'],];
 					}
 				}
 			}
