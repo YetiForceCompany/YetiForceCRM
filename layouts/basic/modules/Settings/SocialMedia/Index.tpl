@@ -7,6 +7,13 @@
 			</div>
 		</div>
 		<div class="mt-2">
+			{if !\vtlib\Cron::getInstance('LBL_ARCHIVE_OLD_RECORDS')->isEnabled() }
+				<div class="contents">
+					<div class="alert alert-warning">
+						{\App\Language::translate('LBL_SOCIAL_MEDIA_CRON_WARNING',$QUALIFIED_MODULE)}
+					</div>
+				</div>
+			{/if}
 			<div class="contents tabbable">
 				<ul class="nav nav-tabs layoutTabs massEditTabs">
 					<li class="nav-item">
