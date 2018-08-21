@@ -10,8 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{assign var=FILE_LOCATION_TYPE_FIELD value=$RECORD_STRUCTURE['LBL_FILE_INFORMATION']['filelocationtype']}
-	{if $FILE_LOCATION_TYPE_FIELD eq NULL}
+	{if !empty($RECORD_STRUCTURE['LBL_FILE_INFORMATION']['filelocationtype'])}
+		{assign var=FILE_LOCATION_TYPE_FIELD value=$RECORD_STRUCTURE['LBL_FILE_INFORMATION']['filelocationtype']}
+	{else}
 		{assign var=DOCUMENTS_MODULE_MODEL value=Vtiger_Module_Model::getInstance('Documents')}
 		{assign var=FILE_LOCATION_TYPE_FIELD value=$DOCUMENTS_MODULE_MODEL->getField('filelocationtype')}
 	{/if}
@@ -27,14 +28,19 @@
 	{/if}
 	{assign var="FIELD_INFO" value=\App\Json::encode($RAW_FIELD_INFO)}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-
 	<div class="tpl-Edit-Field-DocumentsFileUpload fileUploadContainer">
 		{if $IS_EXTERNAL_LOCATION_TYPE}
-			<input type="text" class="form-control{if $FIELD_MODEL->isNameField()} nameField{/if}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="{$FIELD_MODEL->getFieldName()}"
-				   value="{if $IS_EXTERNAL_LOCATION_TYPE} {$FIELD_VALUE} {/if}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}/>
+			<input type="text" class="form-control{if $FIELD_MODEL->isNameField()} nameField{/if}"
+				   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+				   name="{$FIELD_MODEL->getFieldName()}"
+				   value="{if $IS_EXTERNAL_LOCATION_TYPE} {$FIELD_VALUE} {/if}" data-fieldinfo='{$FIELD_INFO}'
+				   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}/>
 		{else}
-			<input type="file" class="{if $FIELD_MODEL->isNameField()}nameField{/if}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="{$FIELD_MODEL->getFieldName()}"
-				   value="{if $IS_INTERNAL_LOCATION_TYPE} {$FIELD_VALUE} {/if}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}/>
+			<input type="file" class="{if $FIELD_MODEL->isNameField()}nameField{/if}"
+				   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+				   name="{$FIELD_MODEL->getFieldName()}"
+				   value="{if $IS_INTERNAL_LOCATION_TYPE} {$FIELD_VALUE} {/if}" data-fieldinfo='{$FIELD_INFO}'
+				   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}/>
 		{/if}
 		<div class="uploadedFileDetails {if $IS_EXTERNAL_LOCATION_TYPE}d-none{/if}">
 			<div class="uploadedFileSize"></div>
@@ -44,7 +50,8 @@
 				{/if}
 			</div>
 			<div class="uploadFileSizeLimit redColor">
-				{\App\Language::translate('LBL_MAX_UPLOAD_SIZE',$MODULE)}&nbsp;<span class="maxUploadSize" data-value="{$MAX_UPLOAD_LIMIT}">{$MAX_UPLOAD_LIMIT_MB}{\App\Language::translate('MB',$MODULE)}</span>
+				{\App\Language::translate('LBL_MAX_UPLOAD_SIZE',$MODULE)}&nbsp;<span class="maxUploadSize"
+																					 data-value="{$MAX_UPLOAD_LIMIT}">{$MAX_UPLOAD_LIMIT_MB}{\App\Language::translate('MB',$MODULE)}</span>
 			</div>
 		</div>
 	</div>

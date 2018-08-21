@@ -132,10 +132,8 @@ class Import_Data_Action extends \App\Controller\Action
 			}
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($this->module);
-		$mandatoryFields = [];
 		foreach ($moduleModel->getMandatoryFieldModels() as $fieldInstance) {
 			$mandatoryFieldName = $fieldInstance->getName();
-			$mandatoryFields[] = $mandatoryFieldName;
 			$fieldDefaultValue = $fieldInstance->getDefaultFieldValue();
 			if (!empty($this->defaultValues[$mandatoryFieldName])) {
 				$defaultMandatoryValues[$mandatoryFieldName] = $this->defaultValues[$mandatoryFieldName];
@@ -329,7 +327,7 @@ class Import_Data_Action extends \App\Controller\Action
 							}
 							// remove empty values - do not modify existing
 							$fieldData = array_filter($fieldData, function ($fieldValue) {
-								return $fieldValue === '';
+								return $fieldValue !== '';
 							});
 							$fieldData = $this->transformForImport($fieldData);
 							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName);
@@ -344,14 +342,14 @@ class Import_Data_Action extends \App\Controller\Action
 								$currentValue = $recordModel->get($fieldName);
 								if ($currentValue !== null && $currentValue !== '') {
 									// existing record data is priority - do not override - save only empty record fields
-									$fieldValue = $currentValue;
+									$fieldValue = '';
 								} elseif ($fieldValue === '' && isset($defaultFieldValues[$fieldName]) && $defaultFieldValues[$fieldName] !== '') {
 									$fieldValue = $defaultFieldValues[$fieldName];
 								}
 							}
 							// remove empty values - do not modify existing
 							$fieldData = array_filter($fieldData, function ($fieldValue) {
-								return $fieldValue === '';
+								return $fieldValue !== '';
 							});
 							$fieldData = $this->transformForImport($fieldData);
 							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName);
@@ -523,12 +521,13 @@ class Import_Data_Action extends \App\Controller\Action
 	public function transformOwner($fieldInstance, $fieldValue)
 	{
 		$defaultFieldValues = $this->getDefaultFieldValues();
+		$fieldName = $fieldInstance->getFieldName();
 		$ownerId = \App\User::getUserIdByName(trim($fieldValue));
 		if (empty($ownerId)) {
 			$ownerId = \App\Fields\Owner::getGroupId($fieldValue);
 		}
-		if (empty($ownerId) && isset($defaultFieldValues[$fieldInstance->getFieldName()])) {
-			$ownerId = $defaultFieldValues[$fieldInstance->getFieldName()];
+		if (empty($ownerId) && isset($defaultFieldValues[$fieldName])) {
+			$ownerId = $defaultFieldValues[$fieldName];
 		}
 		if (!empty($ownerId) && \App\Fields\Owner::getType($ownerId) === 'Users' && !array_key_exists($ownerId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->getId())->getAccessibleUsers('', 'owner'))) {
 			$ownerId = '';
@@ -603,8 +602,8 @@ class Import_Data_Action extends \App\Controller\Action
 		$defaultFieldValues = $this->getDefaultFieldValues();
 		$fieldName = $fieldInstance->getFieldName();
 		$entityId = false;
-		if ($fieldValue) {
-			return false;
+		if ($fieldValue === '') {
+			return $fieldValue;
 		}
 		if (strpos($fieldValue, '::::') !== false) {
 			$fieldValueDetails = explode('::::', $fieldValue);

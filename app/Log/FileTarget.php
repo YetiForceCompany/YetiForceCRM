@@ -16,7 +16,7 @@ use yii\base\InvalidConfigException;
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  *
- * @since 2.0
+ * @since  2.0
  */
 class FileTarget extends \yii\log\FileTarget
 {

@@ -18,7 +18,7 @@ class GoogleGeocode extends Base
 	 *
 	 * @var string
 	 */
-	private static $url = 'https://maps.googleapis.com/maps/api/geocode/json?';
+	protected static $url = 'https://maps.googleapis.com/maps/api/geocode/json?';
 
 	/**
 	 * Function checks if teryt is active.

@@ -43,7 +43,7 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		}
 
 		$response = new Vtiger_Response();
-		$response->setResult(['id' => $moduleInstance->getRecordId(), 'message' => \App\Language::translate($message, $qualifiedModuleName)]);
+		$response->setResult(['id' => $moduleInstance->getRecordId(), 'message' => \App\Language::translate($message ?? '', $qualifiedModuleName)]);
 		$response->emit();
 	}
 

@@ -8,8 +8,8 @@ use App\Log;
  * Base Query Field Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class BaseField
 {
@@ -73,26 +73,6 @@ class BaseField
 	}
 
 	/**
-	 * Get value.
-	 *
-	 * @return mixed
-	 */
-	public function getValue()
-	{
-		return $this->value;
-	}
-
-	/**
-	 * Set value.
-	 *
-	 * @param string $value
-	 */
-	public function setValue($value)
-	{
-		$this->value = $value;
-	}
-
-	/**
 	 * Set operator.
 	 *
 	 * @param string $operator
@@ -110,56 +90,6 @@ class BaseField
 	public function setRelated($relatedInfo)
 	{
 		$this->related = $relatedInfo;
-	}
-
-	/**
-	 * Set table name.
-	 *
-	 * @param string $tableName
-	 */
-	public function setTableName($tableName)
-	{
-		$this->tableName = $tableName;
-	}
-
-	/**
-	 * Get table name.
-	 *
-	 * @return string
-	 */
-	public function getTableName()
-	{
-		if ($this->tableName) {
-			return $this->tableName;
-		}
-		$tableName = $this->fieldModel->getTableName();
-		if ($this->related) {
-			$tableName .= $this->related['sourceField'];
-		}
-		return $this->tableName = $tableName;
-	}
-
-	/**
-	 * Get column name.
-	 *
-	 * @return string
-	 */
-	public function getColumnName()
-	{
-		if ($this->fullColumnName) {
-			return $this->fullColumnName;
-		}
-		return $this->fullColumnName = $this->getTableName() . '.' . $this->fieldModel->getColumnName();
-	}
-
-	/**
-	 * Get field model.
-	 *
-	 * @return \Vtiger_Field_Model
-	 */
-	public function getField()
-	{
-		return $this->fieldModel;
 	}
 
 	/**
@@ -184,6 +114,46 @@ class BaseField
 		} else {
 			return [$this->getColumnName() => SORT_ASC];
 		}
+	}
+
+	/**
+	 * Get column name.
+	 *
+	 * @return string
+	 */
+	public function getColumnName()
+	{
+		if ($this->fullColumnName) {
+			return $this->fullColumnName;
+		}
+		return $this->fullColumnName = $this->getTableName() . '.' . $this->fieldModel->getColumnName();
+	}
+
+	/**
+	 * Get table name.
+	 *
+	 * @return string
+	 */
+	public function getTableName()
+	{
+		if ($this->tableName) {
+			return $this->tableName;
+		}
+		$tableName = $this->fieldModel->getTableName();
+		if ($this->related) {
+			$tableName .= $this->related['sourceField'];
+		}
+		return $this->tableName = $tableName;
+	}
+
+	/**
+	 * Set table name.
+	 *
+	 * @param string $tableName
+	 */
+	public function setTableName($tableName)
+	{
+		$this->tableName = $tableName;
 	}
 
 	/**
@@ -218,6 +188,36 @@ class BaseField
 			return ['like', $this->getColumnName(), "%{$this->getValue()}%", false];
 		}
 		return $this->operatorC();
+	}
+
+	/**
+	 * Get value.
+	 *
+	 * @return mixed
+	 */
+	public function getValue()
+	{
+		return $this->value;
+	}
+
+	/**
+	 * Set value.
+	 *
+	 * @param string $value
+	 */
+	public function setValue($value)
+	{
+		$this->value = $value;
+	}
+
+	/**
+	 * Contains operator.
+	 *
+	 * @return array
+	 */
+	public function operatorC()
+	{
+		return ['like', $this->getColumnName(), $this->getValue()];
 	}
 
 	/**
@@ -267,16 +267,6 @@ class BaseField
 	}
 
 	/**
-	 * Contains operator.
-	 *
-	 * @return array
-	 */
-	public function operatorC()
-	{
-		return ['like', $this->getColumnName(), $this->getValue()];
-	}
-
-	/**
 	 * Does not contain operator.
 	 *
 	 * @return array
@@ -292,6 +282,16 @@ class BaseField
 	public function operatorD()
 	{
 		$this->queryGenerator->setSearchFieldsForDuplicates($this->getField()->getName(), $this->getValue());
+	}
+
+	/**
+	 * Get field model.
+	 *
+	 * @return \Vtiger_Field_Model
+	 */
+	public function getField()
+	{
+		return $this->fieldModel;
 	}
 
 	/**

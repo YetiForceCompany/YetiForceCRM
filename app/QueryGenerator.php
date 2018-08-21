@@ -1138,6 +1138,7 @@ class QueryGenerator
 			foreach ($groupInfo as $fieldSearchInfo) {
 				if ($fieldSearchInfo) {
 					list($fieldName, $operator, $fieldValue, $specialOption) = array_pad($fieldSearchInfo, 4, false);
+					$fieldValue = Purifier::decodeHtml($fieldValue);
 					$field = $this->getModuleField($fieldName);
 					if (($field->getFieldDataType() === 'tree' || $field->getFieldDataType() === 'categoryMultipicklist') && $specialOption) {
 						$fieldValue = \Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $this->moduleModel);

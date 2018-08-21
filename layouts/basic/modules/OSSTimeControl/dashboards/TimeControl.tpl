@@ -41,13 +41,6 @@
 	});
 </script>
 <div class="dashboardWidgetHeader">
-	{foreach key=index item=cssModel from=$STYLES}
-		<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}" type="{$cssModel->getType()}"
-			  media="{$cssModel->getMedia()}"/>
-	{/foreach}
-	{foreach key=index item=jsModel from=$SCRIPTS}
-		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
-	{/foreach}
 	<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-10"}
 		<div class="d-inline-flex">
@@ -62,7 +55,8 @@
 				<span class="fas fa-sync-alt" title="{\App\Language::translate('LBL_REFRESH')}"></span>
 			</a>
 			{if !$WIDGET->isDefault()}
-				<a class="btn btn-sm btn-light" class="js-widget-remove" data-js="click | bootbox" data-url="{$WIDGET->getDeleteUrl()}">
+				<a class="btn btn-sm btn-light" class="js-widget-remove" data-js="click | bootbox"
+				   data-url="{$WIDGET->getDeleteUrl()}">
 					<span class="fas fa-times" title="{\App\Language::translate('LBL_CLOSE')}"></span>
 				</a>
 			{/if}

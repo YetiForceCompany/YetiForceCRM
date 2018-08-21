@@ -6,18 +6,16 @@ namespace App;
  * Cache main class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Cache
 {
-	public static $pool;
-	public static $staticPool;
-
 	const LONG = 3600;
 	const MEDIUM = 300;
 	const SHORT = 60;
-
+	public static $pool;
+	public static $staticPool;
 	/**
 	 * Clean the opcache after the script finishes.
 	 *

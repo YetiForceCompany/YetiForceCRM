@@ -106,6 +106,7 @@ class ConfReport
 		'date.timezone' => ['type' => 'TimeZone', 'container' => 'php', 'testCli' => true], //Roundcube
 		'allow_url_fopen' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true], //Roundcube
 		'auto_detect_line_endings' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true], //CSVReader
+		'httpMethods' => ['recommended' => 'GET,POST,PUT,OPTIONS,PATCH,PROPFIND,REPORT,LOCK,DELETE,COPY,MOVE', 'type' => 'HttpMethods', 'container' => 'request', 'testCli' => false, 'label' => 'HTTP_METHODS'],
 	];
 	/**
 	 * Security variables map.
@@ -134,6 +135,7 @@ class ConfReport
 		'Header: Expect-CT' => ['recommended' => 'enforce; max-age=3600', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: Referrer-Policy' => ['recommended' => 'no-referrer', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: Strict-Transport-Security' => ['recommended' => 'max-age=31536000; includeSubDomains; preload', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'disable_functions' => ['container' => 'php', 'testCli' => true],
 	];
 	/**
 	 * Libraries map.
@@ -229,6 +231,8 @@ class ConfReport
 		'opcache.revalidate_freq' => ['recommended' => 30, 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
 		'opcache.save_comments' => ['recommended' => 0, 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
 		'opcache.memory_consumption' => ['container' => 'php', 'testCli' => true],
+		'realpath_cache_size' => ['recommended' => '256k', 'type' => 'RealpathCacheSize', 'container' => 'php', 'testCli' => true],
+		'realpath_cache_ttl' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
 	];
 	/**
 	 * Environment map.
@@ -249,7 +253,7 @@ class ConfReport
 		'phpIniAll' => ['container' => 'env', 'testCli' => true, 'label' => 'PHPINIS'],
 		'spaceRoot' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_ROOT'],
 		'spaceStorage' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_STORAGE'],
-		'disable_functions' => ['container' => 'php', 'testCli' => true],
+		'lastCronStart' => ['container' => 'env', 'testCli' => false, 'label' => 'LAST_CRON_START'],
 	];
 
 	/**
@@ -421,6 +425,11 @@ class ConfReport
 		if (function_exists('locale_get_default')) {
 			$locale = print_r(locale_get_default(), true);
 		}
+		$cron = static::getCronVariables('last_start');
+		$lastCronStart = '-';
+		if ($cron) {
+			$lastCronStart = \App\Fields\DateTime::formatToViewDate(date('Y-m-d H:i:s', $cron));
+		}
 		return [
 			'php' => $php,
 			'env' => [
@@ -439,6 +448,7 @@ class ConfReport
 				'tempDir' => \App\Fields\File::getTmpPath(),
 				'spaceRoot' => '',
 				'spaceStorage' => '',
+				'lastCronStart' => $lastCronStart,
 			]
 		];
 	}
@@ -505,6 +515,7 @@ class ConfReport
 	 */
 	private static function validateVersion(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		if (version_compare($row[$sapi], str_replace('x', 0, $row['recommended']), '<')) {
 			$row['status'] = false;
 		}
@@ -522,6 +533,7 @@ class ConfReport
 	 */
 	private static function validateErrorReporting(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		$current = $row[$sapi];
 		$errorReporting = stripos($current, '_') === false ? \App\ErrorHandler::error2string($current) : $current;
 		if ($row['recommended'] === 'E_ALL & ~E_NOTICE' && (E_ALL & ~E_NOTICE) === (int) $current) {
@@ -544,6 +556,7 @@ class ConfReport
 	 */
 	private static function validateOnOffInt(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		if ($sapi !== 'cron' && strtolower($row[$sapi]) !== 'on') {
 			$row['status'] = false;
 		}
@@ -561,6 +574,7 @@ class ConfReport
 	 */
 	private static function validateGreater(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		if (isset($row[$sapi]) && (int) $row[$sapi] > 0 && (int) $row[$sapi] < (int) $row['recommended']) {
 			$row['status'] = false;
 		}
@@ -578,6 +592,7 @@ class ConfReport
 	 */
 	private static function validateGreaterMb(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		if (isset($row[$sapi]) && $row[$sapi] !== '-1' && \vtlib\Functions::parseBytes($row[$sapi]) < \vtlib\Functions::parseBytes($row['recommended'])) {
 			$row['status'] = false;
 		}
@@ -596,6 +611,7 @@ class ConfReport
 	 */
 	private static function validateEqual(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		if (isset($row[$sapi]) && strtolower((string) $row[$sapi]) !== strtolower((string) $row['recommended'])) {
 			$row['status'] = false;
 		}
@@ -613,6 +629,7 @@ class ConfReport
 	 */
 	private static function validateTimeZone(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		try {
 			new \DateTimeZone($row[$sapi]);
 		} catch (\Throwable $e) {
@@ -633,6 +650,7 @@ class ConfReport
 	 */
 	private static function validateOnOff(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		if ($row[$sapi] !== $row['recommended'] && !(isset($row['demoMode']) && \AppConfig::main('systemMode') === 'demo')) {
 			$row['status'] = false;
 		}
@@ -666,6 +684,7 @@ class ConfReport
 	 */
 	private static function validateFnExist(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		$status = function_exists($row['fnName']);
 		if (!$status) {
 			$row['status'] = false;
@@ -685,6 +704,7 @@ class ConfReport
 	 */
 	private static function validateExtExist(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		if (!\in_array($row['extName'], static::$ext)) {
 			$row['status'] = false;
 		}
@@ -703,6 +723,7 @@ class ConfReport
 	 */
 	private static function validateExtNotExist(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		if (\in_array($row['extName'], static::$ext)) {
 			$row['status'] = false;
 		}
@@ -721,6 +742,7 @@ class ConfReport
 	 */
 	private static function validateHtaccess(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'nginx') === false) {
 			if (!isset($_SERVER['HTACCESS_TEST'])) {
 				$row['status'] = false;
@@ -762,6 +784,7 @@ class ConfReport
 	 */
 	private static function validateSessionRegenerate(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		if (\AppConfig::main('site_URL')) {
 			$row[$sapi] = \AppConfig::main('session_regenerate_id') ? 'On' : 'Off';
 			$row['status'] = \AppConfig::main('session_regenerate_id');
@@ -801,6 +824,7 @@ class ConfReport
 	 */
 	private static function validateNotIn(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		$value = $row[$sapi];
 		if (!\is_array($row[$sapi])) {
 			$value = \explode(',', $row[$sapi]);
@@ -826,6 +850,7 @@ class ConfReport
 	 */
 	private static function validateExistsUrl(string $name, array $row, string $sapi)
 	{
+		unset($sapi);
 		$row['status'] = !\App\Fields\File::isExistsUrl(\AppConfig::main('site_URL') . $name);
 		return $row;
 	}
@@ -840,18 +865,21 @@ class ConfReport
 	 */
 	private static function parserAllExt(string $name, array $row)
 	{
+		unset($name, $row);
+
 		return \implode(', ', static::$ext);
 	}
 
 	/**
-	 * Parser disc space value.
+	 * Validate disc space value.
 	 *
 	 * @param string $name
 	 * @param array  $row
+	 * @param string $sapi
 	 *
 	 * @return array
 	 */
-	private static function parserSpace(string $name, array $row)
+	private static function validateSpace(string $name, array $row, string $sapi)
 	{
 		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		if ($name === 'spaceRoot') {
@@ -860,11 +888,80 @@ class ConfReport
 		$free = disk_free_space($dir);
 		$total = disk_total_space($dir);
 
-		$val = round((($total - $free) / $total) * 100) . '% | ';
-		$val .= \App\Language::translateSingleMod('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ';
-		$val .= \vtlib\Functions::showBytes($free) . ' | ';
-		$val .= \App\Language::translateSingleMod('LBL_SPACE_USED', 'Settings::ConfReport') . ': ';
-		$val .= \vtlib\Functions::showBytes($total - $free);
-		return $val;
+		$row[$sapi] = round((($total - $free) / $total) * 100) . '% | ';
+		$row[$sapi] .= \App\Language::translateSingleMod('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ';
+		$row[$sapi] .= \vtlib\Functions::showBytes($free) . ' | ';
+		$row[$sapi] .= \App\Language::translateSingleMod('LBL_SPACE_USED', 'Settings::ConfReport') . ': ';
+		$row[$sapi] .= \vtlib\Functions::showBytes($total - $free);
+		if ($free < 1024 * 1024 * 1024) {
+			$row['status'] = false;
+		}
+		return $row;
+	}
+
+	/**
+	 * Parser http methods value.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 *
+	 * @return array
+	 */
+	private static function parserHttpMethods(string $name, array $row)
+	{
+		unset($name);
+		$supported = [];
+		$requestUrl = \AppConfig::main('site_URL') . 'shorturl.php';
+		foreach (\explode(',', $row['recommended']) as $type) {
+			try {
+				$response = (new \GuzzleHttp\Client())->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
+				if ($response->getStatusCode() === 200 && 'No uid' === (string) $response->getBody()) {
+					$supported[] = $type;
+				}
+			} catch (\Throwable $e) {
+			}
+		}
+		return \implode(',', $supported);
+	}
+
+	/**
+	 * Validate http methods.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateHttpMethods(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		foreach (array_diff(\explode(',', $row['recommended']), \explode(',', $row[$sapi])) as $type) {
+			$row['recommended'] = \str_replace($type, "<b class=\"text-danger\">$type</b>", $row['recommended']);
+		}
+		return $row;
+	}
+
+	/**
+	 * Validate realpath cache size.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateRealpathCacheSize(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$current = realpath_cache_size();
+		$max = \vtlib\Functions::parseBytes($row[$sapi]);
+		$converter = $current / $max;
+		if ($converter > 1) {
+			$row['recommended'] = \vtlib\Functions::showBytes(ceil($converter) * $max);
+			$row['status'] = false;
+		}
+		$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi]);
+		return $row;
 	}
 }

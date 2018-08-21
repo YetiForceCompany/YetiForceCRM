@@ -3,8 +3,8 @@
  * Config main class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App;
@@ -57,6 +57,16 @@ class Config
 	private static $jsEnv = [];
 
 	/**
+	 * Get all js configuratin in json.
+	 *
+	 * @return type
+	 */
+	public static function getJsEnv()
+	{
+		return Json::encode(static::$jsEnv);
+	}
+
+	/**
 	 * Set js environment variables.
 	 *
 	 * @param string $key
@@ -65,15 +75,5 @@ class Config
 	public static function setJsEnv($key, $value)
 	{
 		static::$jsEnv[$key] = $value;
-	}
-
-	/**
-	 * Get all js configuratin in json.
-	 *
-	 * @return type
-	 */
-	public static function getJsEnv()
-	{
-		return Json::encode(static::$jsEnv);
 	}
 }

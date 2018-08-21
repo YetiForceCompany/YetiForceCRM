@@ -24,18 +24,6 @@ class Base
 	}
 
 	/**
-	 * Function to get the value for a given key.
-	 *
-	 * @param string $key
-	 *
-	 * @return mixed Value for the given key
-	 */
-	public function get($key)
-	{
-		return isset($this->value[$key]) ? $this->value[$key] : null;
-	}
-
-	/**
 	 * Function to get the value if its safe to use for SQL Query (column).
 	 *
 	 * @param string $key
@@ -46,6 +34,18 @@ class Base
 	public function getForSql($key, $skipEmtpy = true)
 	{
 		return Purifier::purifySql($this->get($key), $skipEmtpy);
+	}
+
+	/**
+	 * Function to get the value for a given key.
+	 *
+	 * @param string $key
+	 *
+	 * @return mixed Value for the given key
+	 */
+	public function get($key)
+	{
+		return isset($this->value[$key]) ? $this->value[$key] : null;
 	}
 
 	/**

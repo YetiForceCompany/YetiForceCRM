@@ -6,8 +6,8 @@ namespace App\TextParser;
  * Base TextParser parser class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base
 {
@@ -45,7 +45,7 @@ class Base
 	 */
 	public function isActive()
 	{
-		if (isset($this->textParser->moduleName, $this->allowedModules)   && !in_array($this->textParser->moduleName, $this->allowedModules)) {
+		if (isset($this->textParser->moduleName, $this->allowedModules) && !in_array($this->textParser->moduleName, $this->allowedModules)) {
 			return false;
 		}
 		if (isset($this->textParser->type) && $this->textParser->type !== $this->type) {

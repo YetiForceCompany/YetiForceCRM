@@ -6,27 +6,11 @@ namespace App;
  * Mail basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Mail
 {
-	/**
-	 * Get a list of all smtp servers.
-	 *
-	 * @return array
-	 */
-	public static function getAll()
-	{
-		if (Cache::has('SmtpServers', 'all')) {
-			return Cache::get('SmtpServers', 'all');
-		}
-		$all = (new Db\Query())->from('s_#__mail_smtp')->indexBy('id')->all(Db::getInstance('admin'));
-		Cache::save('SmtpServers', 'all', $all, Cache::LONG);
-
-		return $all;
-	}
-
 	/**
 	 * Get smtp server by id.
 	 *
@@ -47,6 +31,22 @@ class Mail
 		Cache::save('SmtpServer', $smtpId, $smtp, Cache::LONG);
 
 		return $smtp;
+	}
+
+	/**
+	 * Get a list of all smtp servers.
+	 *
+	 * @return array
+	 */
+	public static function getAll()
+	{
+		if (Cache::has('SmtpServers', 'all')) {
+			return Cache::get('SmtpServers', 'all');
+		}
+		$all = (new Db\Query())->from('s_#__mail_smtp')->indexBy('id')->all(Db::getInstance('admin'));
+		Cache::save('SmtpServers', 'all', $all, Cache::LONG);
+
+		return $all;
 	}
 
 	/**

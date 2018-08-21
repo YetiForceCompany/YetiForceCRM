@@ -8,21 +8,11 @@ use App\Exceptions\CacheException;
  * APC caching class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Apcu
 {
-	/**
-	 * Is apcu is available.
-	 *
-	 * @return bool
-	 */
-	public static function isSupported()
-	{
-		return function_exists('apcu_enabled') && apcu_enabled();
-	}
-
 	/**
 	 * Class constructor.
 	 *
@@ -33,6 +23,16 @@ class Apcu
 		if (!static::isSupported()) {
 			throw new CacheException('APCu is not enabled');
 		}
+	}
+
+	/**
+	 * Is apcu is available.
+	 *
+	 * @return bool
+	 */
+	public static function isSupported()
+	{
+		return function_exists('apcu_enabled') && apcu_enabled();
 	}
 
 	/**

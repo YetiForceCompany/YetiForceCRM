@@ -4,8 +4,8 @@
  * Action to mass upload files.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class Documents_MassAdd_Action extends Vtiger_Mass_Action
 {
@@ -37,7 +37,9 @@ class Documents_MassAdd_Action extends Vtiger_Mass_Action
 					'size' => $file['size'][$i],
 				];
 				$recordeModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-				$recordeModel->set('notes_title', $nameFiles[$i]);
+				$fieldModel = $recordeModel->getModule()->getField('notes_title')->getUITypeModel();
+				$fieldModel->validate($nameFiles[$i], true);
+				$recordeModel->set('notes_title', $fieldModel->getDBValue($nameFiles[$i], $recordeModel));
 				$recordeModel->set('assigned_user_id', App\User::getCurrentUserId());
 				$recordeModel->file = $originalFile;
 				$recordeModel->set('filelocationtype', 'I');

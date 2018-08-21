@@ -61,8 +61,11 @@ class Vtiger_ShortURL_Helper
 
 	public static function handle($uid)
 	{
+		if (!$uid) {
+			echo 'No uid';
+			return false;
+		}
 		$db = PearDatabase::getInstance();
-
 		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', [$uid]);
 		if ($rs && $db->numRows($rs)) {
 			$record = $db->fetchArray($rs);
