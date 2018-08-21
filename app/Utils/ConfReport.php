@@ -893,10 +893,14 @@ class ConfReport
 	private static function parserHttpMethods(string $name, array $row)
 	{
 		$supported = [];
+		$requestUrl = \AppConfig::main('site_URL') . 'shorturl.php';
 		foreach (\explode(',', $row['recommended']) as $type) {
-			$response = (new \GuzzleHttp\Client())->request($type, 'http://yeti/shorturl.php', ['timeout' => 1, 'verify' => false]);
-			if ($response->getStatusCode() === 200 && 'No uid' === (string) $response->getBody()) {
-				$supported[] = $type;
+			try {
+				$response = (new \GuzzleHttp\Client())->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
+				if ($response->getStatusCode() === 200 && 'No uid' === (string) $response->getBody()) {
+					$supported[] = $type;
+				}
+			} catch (\Throwable $e) {
 			}
 		}
 		return \implode(',', $supported);
