@@ -2,6 +2,11 @@
 'use strict';
 
 class MultiEmail {
+	/**
+	 * Create class instance
+	 *
+	 * @param {HTMLElement|jQuery}
+	 */
 	constructor(element) {
 		const thisInstance = this;
 		const inputElement = element;
@@ -12,6 +17,10 @@ class MultiEmail {
 		});
 	}
 
+	/**
+	 * Convert data to json
+	 * @param element
+	 */
 	onFormSubmit(element) {
 		let inputObj = $(element).find('input');
 		let arrTmp = inputObj.val().split(',');
