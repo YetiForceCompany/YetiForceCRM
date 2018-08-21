@@ -19,6 +19,8 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Base_UIType
 		}
 		if (is_string($value)) {
 			$value = \App\Json::decode($value);
+		} elseif (!is_array($value)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		foreach ($value as $item) {
 			if (!is_array($item) || !array_key_exists('e', $item)) {
