@@ -32,7 +32,7 @@
 				<select class="select2" id="moduleFilter">
 					<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 					{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
-						<option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if}
+						<option {if !empty($SOURCE_MODULE) && $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if}
 								value="{$MODULE_MODEL->getName()}">
 							{if $MODULE_MODEL->getName() eq 'Calendar'}
 								{\App\Language::translate('LBL_TASK', $MODULE_MODEL->getName())}
