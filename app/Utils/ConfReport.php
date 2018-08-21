@@ -515,7 +515,7 @@ class ConfReport
 	 */
 	private static function validateVersion(string $name, array $row, string $sapi)
 	{
-		empty($name);
+		unset($name);
 		if (version_compare($row[$sapi], str_replace('x', 0, $row['recommended']), '<')) {
 			$row['status'] = false;
 		}
@@ -533,7 +533,7 @@ class ConfReport
 	 */
 	private static function validateErrorReporting(string $name, array $row, string $sapi)
 	{
-		empty($name);
+		unset($name);
 		$current = $row[$sapi];
 		$errorReporting = stripos($current, '_') === false ? \App\ErrorHandler::error2string($current) : $current;
 		if ($row['recommended'] === 'E_ALL & ~E_NOTICE' && (E_ALL & ~E_NOTICE) === (int) $current) {
@@ -556,7 +556,7 @@ class ConfReport
 	 */
 	private static function validateOnOffInt(string $name, array $row, string $sapi)
 	{
-		empty($name);
+		unset($name);
 		if ($sapi !== 'cron' && strtolower($row[$sapi]) !== 'on') {
 			$row['status'] = false;
 		}
@@ -574,7 +574,7 @@ class ConfReport
 	 */
 	private static function validateGreater(string $name, array $row, string $sapi)
 	{
-		empty($name);
+		unset($name);
 		if (isset($row[$sapi]) && (int) $row[$sapi] > 0 && (int) $row[$sapi] < (int) $row['recommended']) {
 			$row['status'] = false;
 		}
@@ -592,7 +592,7 @@ class ConfReport
 	 */
 	private static function validateGreaterMb(string $name, array $row, string $sapi)
 	{
-		empty($name);
+		unset($name);
 		if (isset($row[$sapi]) && $row[$sapi] !== '-1' && \vtlib\Functions::parseBytes($row[$sapi]) < \vtlib\Functions::parseBytes($row['recommended'])) {
 			$row['status'] = false;
 		}
@@ -611,7 +611,7 @@ class ConfReport
 	 */
 	private static function validateEqual(string $name, array $row, string $sapi)
 	{
-		empty($name);
+		unset($name);
 		if (isset($row[$sapi]) && strtolower((string) $row[$sapi]) !== strtolower((string) $row['recommended'])) {
 			$row['status'] = false;
 		}
@@ -629,7 +629,7 @@ class ConfReport
 	 */
 	private static function validateTimeZone(string $name, array $row, string $sapi)
 	{
-		empty($name);
+		unset($name);
 		try {
 			new \DateTimeZone($row[$sapi]);
 		} catch (\Throwable $e) {
@@ -650,7 +650,7 @@ class ConfReport
 	 */
 	private static function validateOnOff(string $name, array $row, string $sapi)
 	{
-		empty($name);
+		unset($name);
 		if ($row[$sapi] !== $row['recommended'] && !(isset($row['demoMode']) && \AppConfig::main('systemMode') === 'demo')) {
 			$row['status'] = false;
 		}
@@ -684,7 +684,7 @@ class ConfReport
 	 */
 	private static function validateFnExist(string $name, array $row, string $sapi)
 	{
-		empty($name);
+		unset($name);
 		$status = function_exists($row['fnName']);
 		if (!$status) {
 			$row['status'] = false;
@@ -704,7 +704,7 @@ class ConfReport
 	 */
 	private static function validateExtExist(string $name, array $row, string $sapi)
 	{
-		empty($name);
+		unset($name);
 		if (!\in_array($row['extName'], static::$ext)) {
 			$row['status'] = false;
 		}
@@ -723,7 +723,7 @@ class ConfReport
 	 */
 	private static function validateExtNotExist(string $name, array $row, string $sapi)
 	{
-		empty($name);
+		unset($name);
 		if (\in_array($row['extName'], static::$ext)) {
 			$row['status'] = false;
 		}
@@ -742,7 +742,7 @@ class ConfReport
 	 */
 	private static function validateHtaccess(string $name, array $row, string $sapi)
 	{
-		empty($name);
+		unset($name);
 		if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'nginx') === false) {
 			if (!isset($_SERVER['HTACCESS_TEST'])) {
 				$row['status'] = false;
@@ -784,7 +784,7 @@ class ConfReport
 	 */
 	private static function validateSessionRegenerate(string $name, array $row, string $sapi)
 	{
-		empty($name);
+		unset($name);
 		if (\AppConfig::main('site_URL')) {
 			$row[$sapi] = \AppConfig::main('session_regenerate_id') ? 'On' : 'Off';
 			$row['status'] = \AppConfig::main('session_regenerate_id');
@@ -824,7 +824,7 @@ class ConfReport
 	 */
 	private static function validateNotIn(string $name, array $row, string $sapi)
 	{
-		empty($name);
+		unset($name);
 		$value = $row[$sapi];
 		if (!\is_array($row[$sapi])) {
 			$value = \explode(',', $row[$sapi]);
@@ -850,7 +850,7 @@ class ConfReport
 	 */
 	private static function validateExistsUrl(string $name, array $row, string $sapi)
 	{
-		empty($sapi);
+		unset($sapi);
 		$row['status'] = !\App\Fields\File::isExistsUrl(\AppConfig::main('site_URL') . $name);
 		return $row;
 	}
@@ -865,8 +865,7 @@ class ConfReport
 	 */
 	private static function parserAllExt(string $name, array $row)
 	{
-		empty($name);
-		empty($row);
+		unset($name, $row);
 
 		return \implode(', ', static::$ext);
 	}
@@ -910,7 +909,7 @@ class ConfReport
 	 */
 	private static function parserHttpMethods(string $name, array $row)
 	{
-		empty($name);
+		unset($name);
 		$supported = [];
 		$requestUrl = \AppConfig::main('site_URL') . 'shorturl.php';
 		foreach (\explode(',', $row['recommended']) as $type) {
@@ -936,7 +935,7 @@ class ConfReport
 	 */
 	private static function validateHttpMethods(string $name, array $row, string $sapi)
 	{
-		empty($name);
+		unset($name);
 		foreach (array_diff(\explode(',', $row['recommended']), \explode(',', $row[$sapi])) as $type) {
 			$row['recommended'] = \str_replace($type, "<b class=\"text-danger\">$type</b>", $row['recommended']);
 		}
@@ -954,7 +953,7 @@ class ConfReport
 	 */
 	private static function validateRealpathCacheSize(string $name, array $row, string $sapi)
 	{
-		empty($name);
+		unset($name);
 		$current = realpath_cache_size();
 		$max = \vtlib\Functions::parseBytes($row[$sapi]);
 		$converter = $current / $max;
