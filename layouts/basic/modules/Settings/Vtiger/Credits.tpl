@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+packageFileMissing{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="settingsIndexPage tpl-Settings-Vtiger-Credits">
 		<div class="widget_header row">
@@ -30,7 +30,7 @@
 							<tr>
 								<td>
 									{$ITEM['name']}
-									{if $ITEM['description']}
+									{if !empty($ITEM['description'])}
 										&nbsp;({\App\Language::translate($ITEM['description'], $QUALIFIED_MODULE)})
 									{/if}
 								</td>
@@ -41,19 +41,19 @@
 									{$ITEM['license']}
 								</td>
 								<td>
-									{if $ITEM['homepage']}
+									{if !empty($ITEM['homepage'])}
 										<a title="{\App\Language::translate('LBL_LIBRARY_HOMEPAGE', $QUALIFIED_MODULE)}"
 										   href="{$ITEM['homepage']}" target="_blank"><span
 													class="fas fa-link mr-2"></span></a>
 									{/if}
-									{if $ITEM['licenseError']}
+									{if !empty($ITEM['licenseError'])}
 										<span title="{\App\Language::translate('LBL_LICENSE_ERROR', $QUALIFIED_MODULE)}"
 											  class="fas fa-exclamation text-danger mr-2 u-cursor-pointer"></span>
 									{/if}
-									{if $ITEM['packageFileMissing'] }
+									{if !empty($ITEM['packageFileMissing'])}
 										<span title="{\App\Language::translate('LBL_MISSING_PACKAGE_FILE', $QUALIFIED_MODULE)}"
 											  class="fas fa-file-code text-danger mr-2 u-cursor-pointer"></span>
-									{elseif $ITEM['notPackageFile']}
+									{elseif !empty($ITEM['notPackageFile'])}
 									{else}
 										<span title="{\App\Language::translate('LBL_SHOW_MORE', $QUALIFIED_MODULE)}"
 											  data-type="{$TYPE}"
@@ -61,9 +61,9 @@
 											  class="fas fa-info-circle text-dark u-cursor-pointer js-show-more mr-2"
 											  data-js="click"></span>
 									{/if}
-									{if $ITEM['license'] && $ITEM['showLicenseModal']}
+									{if !empty($ITEM['license']) && !empty($ITEM['showLicenseModal'])}
 										<span title="{\App\Language::translate('LBL_LICENSE', $QUALIFIED_MODULE)}"
-											  data-license="{if $ITEM['licenseToDisplay']}{$ITEM['licenseToDisplay']}{else}{$ITEM['license']}{/if}"
+											  data-license="{if !empty($ITEM['licenseToDisplay'])}{$ITEM['licenseToDisplay']}{else}{$ITEM['license']}{/if}"
 											  class="fab fa-wpforms text-dark u-cursor-pointer js-show-license mr-2"
 											  data-js="click"></span>
 									{/if}

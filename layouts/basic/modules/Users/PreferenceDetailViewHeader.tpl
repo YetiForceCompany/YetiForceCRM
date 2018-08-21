@@ -13,7 +13,8 @@
 {assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
 <input id="recordId" type="hidden" value="{$RECORD->getId()}"/>
 <div class="tpl-PreferenceDetailViewHeader detailViewContainer">
-	<div class="detailViewTitle px-2 marginTop5 d-flex flex-column justify-content-lg-between flex-lg-row" id="prefPageHeader">
+	<div class="detailViewTitle px-2 marginTop5 d-flex flex-column justify-content-lg-between flex-lg-row"
+		 id="prefPageHeader">
 		<div class="ml-0 d-flex justify-content-center">
 			<div class="logo pl-0 mt-3">
 				{assign var=IMAGE value=$RECORD->getImage()}
@@ -37,12 +38,12 @@
 		</div>
 		<div class="mr-0 pl-1 py-3 mt-2 detailViewButtoncontainer d-flex justify-content-center">
 			<div class="btn-group btn-toolbar flex-md-nowrap u-w-sm-down-100">
-					{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}
-						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic' CLASS='c-btn-link--responsive'}
-					{/foreach}
-					{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
-						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') TEXT_HOLDER='LBL_MORE' LINKS=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC'] CLASS='c-btn-link--responsive btn-group' BTN_CLASS=' btn-outline-dark'}
-					{/if}
+				{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}
+					{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
+				{/foreach}
+				{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
+					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') TEXT_HOLDER='LBL_MORE' LINKS=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC'] CLASS='c-btn-link--responsive btn-group' BTN_CLASS=' btn-outline-dark'}
+				{/if}
 			</div>
 		</div>
 	</div>
