@@ -270,9 +270,7 @@ class Gantt {
 		let children = [];
 		current.children = current.children.map(task => task);
 		for (let task of current.children) {
-			if (task.module !== moduleName || statuses.map(status => status.value).indexOf(task.normalized_status) > -1 || statuses.length === 0) {
-				children.push(this.getBranchesWithStatus(moduleName, statuses, task));
-			}
+			children.push(this.getBranchesWithStatus(moduleName, statuses, task));
 		}
 		current.children = children;
 		return current;
