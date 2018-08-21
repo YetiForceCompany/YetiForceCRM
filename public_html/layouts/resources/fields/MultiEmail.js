@@ -7,7 +7,7 @@ class MultiEmail {
 		const inputElement = element;
 		this.elements = {};
 		this.elements.form = $(element).closest('form').eq(0);
-		$(this.elements.form).on('submit', () => {
+		$(this.elements.form).on(Vtiger_Edit_Js.recordPreSave, (e) => {
 			thisInstance.onFormSubmit(inputElement);
 		});
 	}
@@ -20,6 +20,6 @@ class MultiEmail {
 		for (var i = 0; i < arrayLength; i++) {
 			arr.push({e: arrTmp[i]});
 		}
-		inputObj.val(JSON.stringify(arr));
+		$(element).find('input[type=hidden]').val(JSON.stringify(arr));
 	}
 }
