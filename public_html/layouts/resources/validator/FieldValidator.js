@@ -1092,9 +1092,7 @@ Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 	 * @return false if validation error occurs
 	 */
 	validate() {
-		console.log('validate: ');
 		let fieldValue = this.getFieldValue();
-		console.log('validate: ' + fieldValue);
 		if (fieldValue != '') {
 			let arrayOfEmails = fieldValue.split(',');
 			for (let i = 0; i < arrayOfEmails.length; ++i) {
