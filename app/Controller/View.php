@@ -76,11 +76,9 @@ abstract class View extends Base
 			$this->viewer->assign('APPTITLE', \App\Language::translate('APPTITLE'));
 			$this->viewer->assign('YETIFORCE_VERSION', \App\Version::get());
 			$this->viewer->assign('MODULE_NAME', $request->getModule());
+			$this->viewer->assign('MODULE', $request->getModule(false));
 			if ($request->isAjax()) {
 				$this->viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
-				if (!$request->isEmpty('parent', true) && $request->getByType('parent', 2) === 'Settings') {
-					$this->viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
-				}
 			}
 		}
 		return $this->viewer;
@@ -155,7 +153,6 @@ abstract class View extends Base
 		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 		$viewer->assign('SHOW_BREAD_CRUMBS', $this->showBreadCrumbLine());
 		$viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PARENT_MODULE', $request->getByType('parent', 2));
