@@ -527,7 +527,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			if (isset($iniAll[$key])) {
 				$values[$key] = $iniAll[$key]['local_value'];
 			} elseif (isset($value['fn'])) {
-				$values[$key] = call_user_func([__CLASS__, $value['fn']], $value);
+				if ($value['fn'] === 'checkExtension') {
+					static::checkExtension($value);
+				} elseif ($value['fn'] === 'checkOpcache') {
+					static::checkOpcache();
+				}
 			}
 		}
 		$values['PHP'] = PHP_VERSION;
@@ -590,7 +594,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		\vtlib\Functions::recurseDelete('cache/speed');
 		$dbs = microtime(true);
-		$conf = \App\Db::getInstance()->createCommand('SELECT BENCHMARK(1000000,1+1);')->execute();
+		\App\Db::getInstance()->createCommand('SELECT BENCHMARK(1000000,1+1);')->execute();
 		$dbe = microtime(true);
 		return [
 			'FilesRead' => (int) $filesRead,
@@ -780,7 +784,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$directiveValues = [
 			'Xdebug' => ['fn' => 'checkExtension', 'extension' => 'xdebug'],
-			'OPcache' => ['fn' => 'checOpcache'],
+			'OPcache' => ['fn' => 'checkOpcache'],
 		];
 		if (extension_loaded('suhosin')) {
 			$directiveValues['suhosin.session.encrypt'] = ['recommended' => 'Off', 'fn' => 'validateOnOff']; //Roundcube
@@ -817,7 +821,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		return extension_loaded($row['extension']) ? 'On' : 'Off';
 	}
 
-	private static function checOpcache($row)
+	private static function checkOpcache()
 	{
 		if (function_exists('opcache_get_configuration')) {
 			if (PHP_SAPI === 'cli') {
