@@ -86,7 +86,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 			default:
 				throw new \App\Exceptions\AppException('Incorrect data type in ' . $socialType);
 		}
-		$socialAccount = [];
+		$twitterAccount = [];
 		$allFieldModel = $this->recordModel->getModule()->getFieldsByUiType($uitype);
 		foreach ($allFieldModel as $twitterField) {
 			$val = $this->recordModel->get($twitterField->getColumnName());
