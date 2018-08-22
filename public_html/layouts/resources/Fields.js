@@ -702,25 +702,20 @@ App.Fields = {
 	},
 	MultiEmail: {
 		register(container) {
-			container.find('.js-multi-email').each(() => {
+			container.find('.js-multi-email').each(function () {
 				const inputElement = this;
 				let form = $(this).closest('form').eq(0);
 				$(form).on(Vtiger_Edit_Js.recordPreSave, (e) => {
 					App.Fields.MultiEmail.onFormSubmit(inputElement);
 				});
 			});
-			//button-addon1
-			console.log('MultiEmail');
-			//container.find('#button-addon1').each(() => {
 			container.find('#button-addon1').each(function () {
-				console.log('ADD E');
-				console.log($(this).attr('id'));
 				$(this).on('click', (e) => {
-					console.log('ADD +');
-					//js-multi-email-row
-					let newField = container.find('.js-multi-email-row').clone(false, false);
-					//container.find('.js-multi-email-row').insertAfter(newField);
-					newField.insertAfter(container.find('.js-multi-email-row'));
+					App.Fields.MultiEmail.triggerAddEmail(container);
+					/*let newField = container.find('.js-multi-email-row-1').clone(false, false);
+					newField.removeClass('js-multi-email-row-1');
+					newField.find('input[type=text]').val('');
+					newField.insertAfter(container.find('[class*=js-multi-email-row]').last());*/
 				});
 			});
 		},
@@ -729,21 +724,19 @@ App.Fields = {
 		 * @param element
 		 */
 		onFormSubmit(element) {
-			let inputObj = $(element).find('input');
-			if (inputObj.val().length === 0) {
-				$(element).find('input[type=hidden]').val('');
-				return;
-			}
-			let arrTmp = inputObj.val().split(',');
+			let inputArray = $(element).find('input[type=text]');
 			let arr = [];
-			let arrayLength = arrTmp.length;
-			for (var i = 0; i < arrayLength; i++) {
-				arr.push({e: arrTmp[i]});
+			let arrayLength = inputArray.length;
+			for (let i = 0; i < arrayLength; i++) {
+				arr.push({e: $(inputArray[i]).val()});
 			}
 			$(element).find('input[type=hidden]').val(JSON.stringify(arr));
 		},
-		triggerAddEmail() {
-
+		triggerAddEmail(container) {
+			let newField = container.find('.js-multi-email-row-1').clone(false, false);
+			newField.removeClass('js-multi-email-row-1');
+			newField.find('input[type=text]').val('');
+			newField.insertAfter(container.find('[class*=js-multi-email-row]').last());
 		}
 	},
 	DependentSelect: {
