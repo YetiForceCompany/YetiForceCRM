@@ -10,6 +10,10 @@
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/YetiForceCompany/YetiForceCRM.svg)](http://isitmaintained.com/project/YetiForceCompany/YetiForceCRM "Percentage of issues still open")
 [![Snyk - Known Vulnerabilities](https://snyk.io/test/github/YetiForceCompany/YetiForceCRM/badge.svg)](https://snyk.io/test/github/YetiForceCompany/YetiForceCRM)
 [![Depfu](https://badges.depfu.com/badges/56870798a59eff717ff60bc775ca6a33/overview.svg)](https://depfu.com/github/YetiForceCompany/YetiForceCRM)
+<a href="https://scan.coverity.com/projects/yetiforcecompany-yetiforcecrm">
+  <img alt="Coverity Scan Build Status"
+       src="https://scan.coverity.com/projects/16547/badge.svg"/>
+</a>
 
 <a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>  <img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' /></a>
 <a href='https://www.capterra.com/customer-relationship-management-software/#affordable' width="50"><img border='0' src='https://public.yetiforce.com/img/CRM-AF-2017.png' width="150" /></a>
