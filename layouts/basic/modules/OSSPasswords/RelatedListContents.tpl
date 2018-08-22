@@ -48,9 +48,9 @@
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						<td>
 							{assign var=FIELD_UI_TYPE_MODEL value=$HEADER_FIELD->getUITypeModel()}
-							{assign var=ARRAY_ELEMENT value=$HEADER_FIELD->getName()}
-							{if isset($SEARCH_DETAILS[$ARRAY_ELEMENT])}
-								{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$ARRAY_ELEMENT]}
+							{assign var=HEADER_FIELD_NAME value=$HEADER_FIELD->getName()}
+							{if isset($SEARCH_DETAILS[$HEADER_FIELD_NAME])}
+								{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$HEADER_FIELD_NAME]}
 							{else}
 								{assign var=SEARCH_INFO value=[]}
 							{/if}
