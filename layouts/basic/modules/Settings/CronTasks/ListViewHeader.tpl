@@ -25,7 +25,7 @@
 		</div>
 	</div>
 	<div class="listViewActionsDiv row">
-		<div class="{if $SUPPORTED_MODULE_MODELS}col-md-5{else}col-md-8{/if} btn-toolbar">
+		<div class="{if !empty($SUPPORTED_MODULE_MODELS)}col-md-5{else}col-md-8{/if} btn-toolbar">
 			{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 				{if $LINK->getLabel()}
 					{assign var="LABEL" value=\App\Language::translate($LINK->getLabel(), $QUALIFIED_MODULE)}
@@ -51,7 +51,7 @@
 				</button>
 			{/foreach}
 		</div>
-		{if $SUPPORTED_MODULE_MODELS}
+		{if !empty($SUPPORTED_MODULE_MODELS)}
 			<div class="col-md-3 btn-toolbar marginLeftZero">
 				<select class="select2 form-control" id="moduleFilter"
 						data-placeholder="{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}"
