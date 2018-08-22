@@ -16,7 +16,7 @@ class OSSPasswords_QuickCreateView_Model extends Vtiger_QuickCreateView_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getLinks($linkParams)
+	public function getLinks(array $linkParams)
 	{
 		$links = parent::getLinks($linkParams);
 		$links['QUICKCREATE_VIEW_HEADER'][] = Vtiger_Link_Model::getInstanceFromValues([
