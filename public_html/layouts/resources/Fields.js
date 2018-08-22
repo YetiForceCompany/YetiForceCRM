@@ -709,13 +709,14 @@ App.Fields = {
 					App.Fields.MultiEmail.onFormSubmit(inputElement);
 				});
 			});
-			container.find('#button-addon1').each(function () {
+			container.find('.js-add-item').each(function () {
 				$(this).on('click', (e) => {
 					App.Fields.MultiEmail.triggerAddEmail(container);
-					/*let newField = container.find('.js-multi-email-row-1').clone(false, false);
-					newField.removeClass('js-multi-email-row-1');
-					newField.find('input[type=text]').val('');
-					newField.insertAfter(container.find('[class*=js-multi-email-row]').last());*/
+				});
+			});
+			container.find('.js-remove-item').each(function () {
+				$(this).on('click', (e) => {
+					App.Fields.MultiEmail.triggerRemoveEmail($(e.target));
 				});
 			});
 		},
@@ -728,15 +729,33 @@ App.Fields = {
 			let arr = [];
 			let arrayLength = inputArray.length;
 			for (let i = 0; i < arrayLength; i++) {
-				arr.push({e: $(inputArray[i]).val()});
+				if ($(inputArray[i]).val() !== '') {
+					arr.push({e: $(inputArray[i]).val()});
+				}
 			}
 			$(element).find('input[type=hidden]').val(JSON.stringify(arr));
 		},
+		/**
+		 * Invoked after clicking the add button
+		 * @param container
+		 */
 		triggerAddEmail(container) {
 			let newField = container.find('.js-multi-email-row-1').clone(false, false);
+			let cnt = container.find('[class*=js-multi-email-row]').length + 1;
 			newField.removeClass('js-multi-email-row-1');
+			newField.addClass('js-multi-email-row-' + cnt);
 			newField.find('input[type=text]').val('');
+			newField.find('.js-remove-item').eq(0).on('click', (e) => {
+				App.Fields.MultiEmail.triggerRemoveEmail(newField.find('.js-remove-item').eq(0));
+			});
 			newField.insertAfter(container.find('[class*=js-multi-email-row]').last());
+		},
+		/**
+		 * Invoked after clicking the remove button
+		 * @param container
+		 */
+		triggerRemoveEmail(element) {
+			element.closest('[class*=js-multi-email-row]').remove();
 		}
 	},
 	DependentSelect: {
@@ -755,7 +774,8 @@ App.Fields = {
 				html += `<option value=${item.value}${selected ? ' selected' : ''}>${item.text}</option>`;
 			}
 			return html;
-		},
+		}
+		,
 		/**
 		 * Register dependent selects
 		 *
@@ -805,10 +825,12 @@ App.Fields = {
 				masterSelect.html(App.Fields.DependentSelect.generateOptionsFromData(data));
 			});
 		}
-	},
+	}
+	,
 	Gantt: {
 		register(container, data) {
 			return new GanttField(container, data);
 		}
 	}
-};
+}
+;

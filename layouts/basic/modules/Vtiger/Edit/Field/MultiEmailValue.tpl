@@ -6,7 +6,8 @@
 		</label>
 		<div class="input-group">
 			<div class="input-group-prepend">
-				<button class="btn btn-outline-danger border" type="button" id="button-addon1">
+				<button class="btn btn-outline-danger border js-remove-item" data-js="click" type="button"
+						id="button-addon1">
 					<span class="fas fa-times"></span>
 				</button>
 			</div>
