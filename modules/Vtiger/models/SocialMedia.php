@@ -118,9 +118,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 			->createCommand()
 			->query();
 		while (($row = $dataReader->read())) {
-			$recordModel = SocialMedia_Record_Model::getCleanInstance();
-			$recordModel->setData($row);
-			yield $recordModel;
+			yield $row;
 		}
 		$dataReader->close();
 	}

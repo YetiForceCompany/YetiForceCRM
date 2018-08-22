@@ -17,7 +17,7 @@
     "LBL_DEFAULT_DESCRIPTION": "Generat de YetiforceCRM ver. ",
     "LBL_CHANGE_AUTHORIZATION": "Schimba autorizare",
     "LBL_USERNAME_DESCRIPTION": "Numele dvs de utilizator www.github.com",
-    "LBL_TOKEN_DESCRIPTION": "Cod unic de acces pentru un cont de 40 caractere. Este posibil sa gasiti manualul de creare a manualelor <a href=\"https:\/\/help.github.com\/articles\/creating-an-access-token-for-command-line-use\/\">here<\/a>",
+    "LBL_TOKEN_DESCRIPTION": "Cod unic de acces pentru un cont de 40 caractere. Este posibil sa gasiti manualul de creare a manualelor %s",
     "LBL_NO_ISSUES": "Nu au fost raportate probleme",
     "LBL_PHP_VERSION": "PHP",
     "LBL_LIBRARIES_ERROR": "Erori librarie",

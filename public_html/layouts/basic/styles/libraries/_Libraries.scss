@@ -17,6 +17,11 @@
 		border-right: unset !important;
 		border-radius: 0.25rem 0 0 0.25rem !important;
 	}
+
+	@at-root .input-group #{&} {
+		border-top-right-radius: 0.25rem !important;
+		border-bottom-right-radius: 0.25rem !important;
+	}
 }
 
 .select2-selection__rendered {

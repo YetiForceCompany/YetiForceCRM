@@ -147,7 +147,7 @@
 										<div class="date w-100">
 											<div class="input-group">
 												{assign var=specificDate value=\App\Json::decode($WORKFLOW_MODEL_OBJ->schannualdates)}
-												{if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} {/if}
+												{if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])}{else}{assign var=specificDate1 value=""}{/if}
 												<input type="text" class="dateField form-control" name="schdate"
 													   value="{$specificDate1}"
 													   data-date-format="{$USER_MODEL->get('date_format')}"
@@ -187,9 +187,11 @@
 												   value='{$WORKFLOW_MODEL_OBJ->schannualdates}'/>
 											<select multiple class="select2" id='annualDates' name='schannualdates'
 													data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
-												{foreach item=DATES from=$ANNUAL_DATES}
-													<option value="{$DATES}" selected>{$DATES}</option>
-												{/foreach}
+												{if !empty($ANNUAL_DATES)}
+													{foreach item=DATES from=$ANNUAL_DATES}
+														<option value="{$DATES}" selected>{$DATES}</option>
+													{/foreach}
+												{/if}
 											</select>
 										</div>
 									</div>

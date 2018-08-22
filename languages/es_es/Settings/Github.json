@@ -17,7 +17,7 @@
     "LBL_DEFAULT_DESCRIPTION": "Generado por YetiforceCRM ver. ",
     "LBL_CHANGE_AUTHORIZATION": "Cambiar autorizaci\u00f3n",
     "LBL_USERNAME_DESCRIPTION": "Su nombre de usuario de www.github.com",
-    "LBL_TOKEN_DESCRIPTION": "C\u00f3digo de acceso de cuenta \u00fanica de 40 caracteres. Puede encontrar el manual de creaci\u00f3n de token <a href=\"https:\/\/help.github.com\/articles\/creating-an-access-token-for-command-line-use\/\">aqu\u00ed<\/a>",
+    "LBL_TOKEN_DESCRIPTION": "C\u00f3digo de acceso de cuenta \u00fanica de 40 caracteres. Puede encontrar el manual de creaci\u00f3n de token %s",
     "LBL_NO_ISSUES": "Sin problemas reportados",
     "LBL_PHP_VERSION": "PHP",
     "LBL_LIBRARIES_ERROR": "Errores de librer\u00edas",

@@ -11,7 +11,8 @@
 -->*}
 {strip}
 	<div class="col-md-12 pr-0 row">
-		<input type="hidden" id="conversion_available_status" value="{\App\Purifier::encodeHtml($CONVERSION_AVAILABLE_STATUS)}" />
+		<input type="hidden" id="conversion_available_status"
+			   value="{if !empty($CONVERSION_AVAILABLE_STATUS)}{\App\Purifier::encodeHtml($CONVERSION_AVAILABLE_STATUS)}{/if}"/>
 		<div class="col-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
 				<span class="o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
@@ -23,7 +24,8 @@
 					{if $RECORD_STATE !== 'Active'}
 						&nbsp;&nbsp;
 						{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
-						<span class="badge badge-secondary" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
+						<span class="badge badge-secondary"
+							  {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
 							{if \App\Record::getState($RECORD->getId()) === 'Trash'}
 								{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
 							{else}
@@ -41,10 +43,12 @@
 				</div>
 				<div class="paddingLeft5px">
 					<span class="muted">
-						{\App\Language::translate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
+						{\App\Language::translate('Assigned To',$MODULE_NAME)}
+						: {$RECORD->getDisplayValue('assigned_user_id')}
 						{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 						{if $SHOWNERS != ''}
-							<br />{\App\Language::translate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+							<br/>
+							{\App\Language::translate('Share with users',$MODULE_NAME)} {$SHOWNERS}
 						{/if}
 					</span>
 				</div>

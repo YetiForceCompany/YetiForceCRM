@@ -73,7 +73,7 @@
     "LBL_FIELD": "Valeur",
     "LBL_WARNINGS_SWITCH": "Filtrer les avertissements",
     "LBL_WARNINGS_OMITTED": "Omis",
-    "ERR_NO_REQUIRED_LIBRARY": "Impossible de trouver la biblioth\u00e8que %s requise. Certaines fonctionnalit\u00e9s ont \u00e9t\u00e9 d\u00e9sactiv\u00e9es. Allez dans <a href=\\\"index.php?module=ModuleManager&parent=Settings&view=List\\\"> Modules - installation <\/a> pour t\u00e9l\u00e9charger.",
+    "ERR_NO_REQUIRED_LIBRARY": "Impossible de trouver la biblioth\u00e8que %s requise.\n Certaines fonctionnalit\u00e9s ont \u00e9t\u00e9 d\u00e9sactiv\u00e9es. Allez dans %s pour t\u00e9l\u00e9charger.",
     "LBL_ICON_EXAMPLE": "Exemple d'ic\u00f4ne",
     "LBL_ICON_NAME": "Nom de l'ic\u00f4ne",
     "LBL_SELECT_ICON": "S\u00e9lectionnez l'ic\u00f4ne",
