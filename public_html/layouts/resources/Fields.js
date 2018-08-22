@@ -702,11 +702,25 @@ App.Fields = {
 	},
 	MultiEmail: {
 		register(container) {
-			container.find('.js-multi-email').each(function () {
+			container.find('.js-multi-email').each(() => {
 				const inputElement = this;
 				let form = $(this).closest('form').eq(0);
 				$(form).on(Vtiger_Edit_Js.recordPreSave, (e) => {
 					App.Fields.MultiEmail.onFormSubmit(inputElement);
+				});
+			});
+			//button-addon1
+			console.log('MultiEmail');
+			//container.find('#button-addon1').each(() => {
+			container.find('#button-addon1').each(function () {
+				console.log('ADD E');
+				console.log($(this).attr('id'));
+				$(this).on('click', (e) => {
+					console.log('ADD +');
+					//js-multi-email-row
+					let newField = container.find('.js-multi-email-row').clone(false, false);
+					//container.find('.js-multi-email-row').insertAfter(newField);
+					newField.insertAfter(container.find('.js-multi-email-row'));
 				});
 			});
 		},
@@ -727,6 +741,9 @@ App.Fields = {
 				arr.push({e: arrTmp[i]});
 			}
 			$(element).find('input[type=hidden]').val(JSON.stringify(arr));
+		},
+		triggerAddEmail() {
+
 		}
 	},
 	DependentSelect: {
