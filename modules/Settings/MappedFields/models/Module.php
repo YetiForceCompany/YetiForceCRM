@@ -305,9 +305,11 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 				$params = [];
 				$params[$this->mappingIndex] = $this->getRecordId();
 				foreach ($stepFields as $name) {
-					$params[$name] = $mapp[$name];
+					if (isset($mapp[$name])) {
+						$params[$name] = $mapp[$name];
+					}
 				}
-				if ($params['source'] && $params['target']) {
+				if (!empty($params['source']) && !empty($params['target'])) {
 					$db->createCommand()->insert($this->mappingTable, $params)->execute();
 				}
 			}
