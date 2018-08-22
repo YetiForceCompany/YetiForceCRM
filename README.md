@@ -14,6 +14,11 @@
   <img alt="Coverity Scan Build Status"
        src="https://scan.coverity.com/projects/16547/badge.svg"/>
 </a>
+[![sonarcloud.io status alert](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=alert_status)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
+[![sonarcloud.io bugs](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=bugs)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
+[![sonarcloud.io sqale](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
+[![sonarcloud.io security](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=security_rating)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
+[![sonarcloud.io vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
 
 <a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>  <img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' /></a>
 <a href='https://www.capterra.com/customer-relationship-management-software/#affordable' width="50"><img border='0' src='https://public.yetiforce.com/img/CRM-AF-2017.png' width="150" /></a>
