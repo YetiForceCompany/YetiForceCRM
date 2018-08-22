@@ -25,7 +25,7 @@
 							<div class="checkbox col-md-8 align-self-center">
 								<label class="mr-1">
 									<input class="mr-1" type="checkbox"
-										   name="autofill" {if $PARAMS.autofill} checked {/if}>{\App\Language::translate('LBL_AUTOFILL',$QUALIFIED_MODULE)}
+										   name="autofill" {if !empty($PARAMS['autofill'])} checked {/if}>{\App\Language::translate('LBL_AUTOFILL',$QUALIFIED_MODULE)}
 								</label>
 								<span class="js-popover-tooltip delay0" data-js="popover" data-placement="top"
 									  data-content="{\App\Language::translate('LBL_AUTOFILL_INFO',$QUALIFIED_MODULE)}">
