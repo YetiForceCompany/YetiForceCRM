@@ -4897,7 +4897,7 @@ button.bg-dark:focus {
 .d-table-cell {
   display: table-cell !important; }
 
-.d-flex, .c-panel__label, .o-label-container, .o-btn-container {
+.d-flex, .c-panel__label, .c-float-label__container, .o-label-container, .o-btn-container {
   display: flex !important; }
 
 .d-inline-flex, .card .blockHeader, .c-panel .blockHeader, .c-detail-widget .blockHeader {
@@ -5168,7 +5168,7 @@ button.bg-dark:focus {
 .justify-content-end {
   justify-content: flex-end !important; }
 
-.justify-content-center, .o-label-container, .o-btn-container {
+.justify-content-center, .c-float-label__container, .o-label-container, .o-btn-container {
   justify-content: center !important; }
 
 .justify-content-between {
@@ -5906,7 +5906,7 @@ button.bg-dark:focus {
 .position-static {
   position: static !important; }
 
-.position-relative {
+.position-relative, .c-float-label__container {
   position: relative !important; }
 
 .position-absolute, .c-badge__icon {
@@ -11490,6 +11490,9 @@ select[readonly], select[disabled] {
 .u-word-break {
   word-break: break-word !important; }
 
+.u-word-break-keep-all {
+  word-break: keep-all !important; }
+
 .u-font-size-95per {
   font-size: 95% !important; }
 
@@ -11842,6 +11845,34 @@ select[readonly], select[disabled] {
 @media (max-width: 399.98px) {
   table td {
     padding: 0.25rem !important; } }
+.c-float-label__container .form-control {
+  width: 100%;
+  border-radius: 0.25rem; }
+.c-float-label__label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: text;
+  font-size: 75%;
+  top: -1.5em;
+  z-index: 3;
+  line-height: 1;
+  color: #000;
+  padding: 0 1px; }
+.c-float-label__label::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  background: #fff;
+  height: 2px;
+  top: 62%;
+  left: -.2em;
+  right: -.2em;
+  z-index: -1; }
+.c-float-label__hidden-ph {
+  visibility: hidden;
+  font-size: 75%; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
   color: #212529;
@@ -12035,6 +12066,9 @@ input[type="radio"]:checked:before {
   .input-group-prepend .select2-selection--single {
     border-right: unset !important;
     border-radius: 0.25rem 0 0 0.25rem !important; }
+  .input-group .select2-selection--single {
+    border-top-right-radius: 0.25rem !important;
+    border-bottom-right-radius: 0.25rem !important; }
 
 .select2-selection__rendered {
   line-height: 1.5; }
