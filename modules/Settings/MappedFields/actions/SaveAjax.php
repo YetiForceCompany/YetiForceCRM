@@ -54,7 +54,9 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 		$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
 		$moduleInstance->getRecord()->set('params', $params['otherConditions']);
-		$moduleInstance->setMapping($params['mapping']);
+		if (!empty($params['mapping'])) {
+			$moduleInstance->setMapping($params['mapping']);
+		}
 		$moduleInstance->save(true);
 
 		$response = new Vtiger_Response();
