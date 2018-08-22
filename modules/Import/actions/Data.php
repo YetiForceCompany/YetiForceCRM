@@ -132,10 +132,8 @@ class Import_Data_Action extends \App\Controller\Action
 			}
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($this->module);
-		$mandatoryFields = [];
 		foreach ($moduleModel->getMandatoryFieldModels() as $fieldInstance) {
 			$mandatoryFieldName = $fieldInstance->getName();
-			$mandatoryFields[] = $mandatoryFieldName;
 			$fieldDefaultValue = $fieldInstance->getDefaultFieldValue();
 			if (!empty($this->defaultValues[$mandatoryFieldName])) {
 				$defaultMandatoryValues[$mandatoryFieldName] = $this->defaultValues[$mandatoryFieldName];

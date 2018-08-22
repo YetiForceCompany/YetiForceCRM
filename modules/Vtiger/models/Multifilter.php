@@ -302,50 +302,22 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Get total count URL.
 	 *
-	 * @param mixed $user
-	 *
 	 * @return string
 	 */
-	public function getTotalCountURL($user = false)
+	public function getTotalCountURL()
 	{
 		$url = 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->getFilterId();
-		if (!$user) {
-			$user = App\User::getCurrentUserId();
-		}
-		$searchParams = [];
-		if (!empty($this->searchParams)) {
-			foreach (reset($this->searchParams) as $value) {
-				$searchParams[] = $value;
-			}
-		}
-		if ($user !== 'all') {
-			$searchParams[] = ['assigned_user_id', 'e', $user];
-		}
 		return $url;
 	}
 
 	/**
 	 * Get list view URL.
 	 *
-	 * @param mixed $user
-	 *
 	 * @return string
 	 */
-	public function getListViewURL($user = false)
+	public function getListViewURL()
 	{
 		$url = 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->getFilterId();
-		if (!$user) {
-			$user = App\User::getCurrentUserId();
-		}
-		$searcParams = [];
-		if (!empty($this->searchParams)) {
-			foreach (reset($this->searchParams) as $value) {
-				$searcParams[] = $value;
-			}
-		}
-		if ($user !== 'all') {
-			$searcParams[] = ['assigned_user_id', 'e', $user];
-		}
 		return $url;
 	}
 }

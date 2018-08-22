@@ -3,8 +3,8 @@
  * Edit View Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -50,7 +50,7 @@ class Settings_SMSNotifier_Edit_View extends Settings_Vtiger_BasicModal_View
 		}
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('RECORD_ID', $recordId);
+		$viewer->assign('RECORD', $recordId);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('MODULE_MODEL', $recordModel->getModule());
 		$viewer->assign('PROVIDERS', $recordModel->getModule()->getAllProviders());

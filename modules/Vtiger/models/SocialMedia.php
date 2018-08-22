@@ -91,10 +91,10 @@ class Vtiger_SocialMedia_Model extends \App\Base
 		foreach ($allFieldModel as $twitterField) {
 			$val = $this->recordModel->get($twitterField->getColumnName());
 			if (!empty($val) && $this->recordModel->isViewable()) {
-				$twitterAccount[] = $val;
+				$socialAccount[] = $val;
 			}
 		}
-		return $twitterAccount;
+		return $socialAccount;
 	}
 
 	/**

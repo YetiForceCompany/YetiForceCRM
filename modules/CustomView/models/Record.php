@@ -644,7 +644,7 @@ class CustomView_Record_Model extends \App\Base
 				$stdFilterList['enddate'] = $endDateTime->getDisplayDate();
 			}
 		}
-		return $stdFilterList;
+		return $stdFilterList ?? [];
 	}
 
 	/**

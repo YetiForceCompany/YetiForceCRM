@@ -20,7 +20,7 @@
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 				data-fieldinfo='{$FIELD_INFO|escape}'
-				{if $PLACE_HOLDER}
+				{if !empty($PLACE_HOLDER)}
 					data-select="allowClear, true"
 					data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}"
 				{/if}

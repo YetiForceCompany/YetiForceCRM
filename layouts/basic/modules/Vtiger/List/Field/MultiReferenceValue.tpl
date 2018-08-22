@@ -6,7 +6,11 @@
 		{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getUITypeModel()->getPicklistValues()}
 	{/if}
 	{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
-	{assign var=SEARCH_VALUES value=explode('##',$SEARCH_INFO['searchValue'])}
+	{if isset($SEARCH_INFO['searchValue'])}
+		{assign var=SEARCH_VALUES value=explode('##', $SEARCH_INFO['searchValue'])}
+	{else}
+		{assign var=SEARCH_VALUES value=[]}
+	{/if}
 	{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
 	{assign var="RELATED_FIELD_MODEL" value=Vtiger_Field_Model::getInstanceFromFieldId($PARAMS['field'])}
 	<div class="tpl-List-Field-MultiReferenceValue picklistSearchField">

@@ -226,3 +226,44 @@
 		padding: 0.25rem !important;
 	}
 }
+
+.c-float-label {
+	&__container {
+		@extend .d-flex, .justify-content-center, .position-relative;
+
+		.form-control {
+			width: 100%;
+			border-radius: 0.25rem;
+		}
+	}
+
+	&__label {
+		position: absolute;
+		left: 0;
+		top: 0;
+		cursor: text;
+		font-size: 75%;
+		top: -1.5em;
+		z-index: 3;
+		line-height: 1;
+		color: #000;
+		padding: 0 1px;
+	}
+
+	&__label::after {
+		content: " ";
+		display: block;
+		position: absolute;
+		background: $fff;
+		height: 2px;
+		top: 62%;
+		left: -.2em;
+		right: -.2em;
+		z-index: -1;
+	}
+
+	&__hidden-ph {
+		visibility: hidden;
+		font-size: 75%;
+	}
+}
