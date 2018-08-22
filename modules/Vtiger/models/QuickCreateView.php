@@ -20,7 +20,7 @@ class Vtiger_QuickCreateView_Model extends \App\Base
 	 *
 	 * @return self
 	 */
-	public static function getInstance($moduleName)
+	public static function getInstance(string $moduleName)
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'QuickCreateView', $moduleName);
 		$instance = new $modelClassName();
@@ -46,7 +46,7 @@ class Vtiger_QuickCreateView_Model extends \App\Base
 	 *
 	 * @return Vtiger_Link_Model[] - Associate array of Link Type to List of Vtiger_Link_Model instances
 	 */
-	public function getLinks($linkParams)
+	public function getLinks(array $linkParams)
 	{
 		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['QUICKCREATE_VIEW_HEADER'], $linkParams);
 		$links['QUICKCREATE_VIEW_HEADER'][] = Vtiger_Link_Model::getInstanceFromValues([
