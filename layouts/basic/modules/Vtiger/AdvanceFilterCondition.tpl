@@ -114,16 +114,23 @@
 				{/foreach}
 			</select>
 		</div>
-		<input class="form-control" type="hidden" name="comparatorValue" value="{$CONDITION_INFO['comparator']}">
+		{if empty($CONDITION_INFO['comparator'])}
+			{assign var=COMPARATOR_VALUE value=''}
+		{else}
+			{assign var=COMPARATOR_VALUE value=$CONDITION_INFO['comparator']}
+		{/if}
+		<input class="form-control" type="hidden" name="comparatorValue" value="{$COMPARATOR_VALUE}">
 		{if !empty($SELECTED_FIELD_MODEL)}
 			{if !$FIELD_TYPE}
 				{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
+				{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
 			{/if}
-			{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
 			{if in_array($SELECTED_FIELD_MODEL->getFieldType(),['D','DT'])}
 				{assign var=DATE_FILTER_CONDITIONS value=array_keys($DATE_FILTERS)}
 				{assign var=ADVANCE_FILTER_OPTIONS value=array_merge($ADVANCE_FILTER_OPTIONS,$DATE_FILTER_CONDITIONS)}
 			{/if}
+		{else}
+			{assign var=ADVANCE_FILTER_OPTIONS value=null}
 		{/if}
 		<div class="w-25">
 			<select class="{if empty($NOCHOSEN)}select2{/if} form-control" name="comparator"
@@ -136,10 +143,15 @@
 			</select>
 		</div>
 		<div class="fieldUiHolder w-25">
+			{if empty($CONDITION_INFO['value'])}
+				{assign var=CONDITION_VALUE value=''}
+			{else}
+				{assign var=CONDITION_VALUE value=$CONDITION_INFO['value']|escape}
+			{/if}
 			<input class="form-control mr-auto"
-				   name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}"
+				   name="{if !empty($SELECTED_FIELD_MODEL)}{$SELECTED_FIELD_MODEL->get('name')}{/if}"
 				   title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" type="text"
-				   value="{$CONDITION_INFO['value']|escape}"/>
+				   value="{$CONDITION_VALUE}"/>
 		</div>
 		<div class="btn btn-danger deleteCondition">
 			<span class="fas fa-trash-alt" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
