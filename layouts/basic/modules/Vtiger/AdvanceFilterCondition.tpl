@@ -124,8 +124,8 @@
 		{if !empty($SELECTED_FIELD_MODEL)}
 			{if !$FIELD_TYPE}
 				{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
-				{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
 			{/if}
+			{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
 			{if in_array($SELECTED_FIELD_MODEL->getFieldType(),['D','DT'])}
 				{assign var=DATE_FILTER_CONDITIONS value=array_keys($DATE_FILTERS)}
 				{assign var=ADVANCE_FILTER_OPTIONS value=array_merge($ADVANCE_FILTER_OPTIONS,$DATE_FILTER_CONDITIONS)}
