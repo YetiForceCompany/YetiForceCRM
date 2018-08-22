@@ -28,7 +28,7 @@
 							<div class="alert alert-warning">
 								<ul>
 									<li>{\App\Language::translate('LBL_USERNAME_DESCRIPTION', $QUALIFIED_MODULE)}</li>
-									<li>{\App\Language::translate('LBL_TOKEN_DESCRIPTION', $QUALIFIED_MODULE)}</li>
+									<li>{\App\Language::translateArgs('LBL_TOKEN_DESCRIPTION', $QUALIFIED_MODULE,'<a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use">help.github.com</a>')}</li>
 								</ul>
 							</div>
 						</div>

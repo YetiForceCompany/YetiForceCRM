@@ -1,0 +1,8 @@
+{
+  "php": {
+    "LBL_TWITTER": "Twitter",
+    "LBL_TWITTER_DESC": "Twitter integration",
+    "LBL_ARCHIVING_RECORDS_NUMBER_OF_DAYS": "Archiving records - number of days",
+    "LBL_SOCIAL_MEDIA_CRON_WARNING": "Social Cron is not enabled, it is necessary for proper archiving."
+  }
+}

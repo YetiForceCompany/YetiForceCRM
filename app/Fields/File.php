@@ -554,11 +554,10 @@ class File
 
 		$fileNameParts = explode('.', $fileName);
 		$badExtensionFound = false;
-
 		foreach ($fileNameParts as $key => &$partOfFileName) {
 			if (in_array(strtolower($partOfFileName), $badFileExtensions)) {
 				$badExtensionFound = true;
-				$fileNameParts[$i] = $partOfFileName;
+				$fileNameParts[$key] = $partOfFileName;
 			}
 		}
 		$newFileName = implode('.', $fileNameParts);

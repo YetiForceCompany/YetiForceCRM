@@ -12,7 +12,7 @@
 		{/if}
 		<tr class="inventoryRow" numrow="{$ROW_NO}">
 			<td>
-				<span class="fas fa-trash-alt deleteRow u-cursor-pointer {if !$IS_OPTIONAL_ITEMS && $KEY == 0 }d-none{/if}"
+				<span class="fas fa-trash-alt deleteRow u-cursor-pointer {if !$IS_OPTIONAL_ITEMS && empty($KEY)}d-none{/if}"
 					  title="{\App\Language::translate('LBL_DELETE',$MODULE)}"></span>
 				&nbsp;&nbsp;<a class="dragHandle"><img src="{\App\Layout::getImagePath('drag.png')}" border="0"
 													   alt="{\App\Language::translate('LBL_DRAG',$MODULE)}"/></a>
@@ -49,7 +49,13 @@
 				<td class="colExpanded" colspan="{$COUNT_FIELDS1+1}">
 					{foreach item=FIELD from=$FIELDS[2]}
 						{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
-						{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE) ITEM_VALUE=$ITEM_DATA[$FIELD->get('columnname')]}
+						{assign var="COLUMN_NAME" value=$FIELD->get('columnname')}
+						{if empty($ITEM_DATA[$COLUMN_NAME])}
+							{assign var="ITEM_VALUE" value=NULL}
+						{else}
+							{assign var="ITEM_VALUE" value=$ITEM_DATA[$COLUMN_NAME]}
+						{/if}
+						{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE)}
 					{/foreach}
 				</td>
 			</tr>

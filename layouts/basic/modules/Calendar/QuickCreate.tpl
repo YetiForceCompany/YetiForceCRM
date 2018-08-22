@@ -119,7 +119,7 @@
 														</label>
 													</div>
 													<div class="fieldValue col-lg-12 col-xl-9 px-0 px-sm-1">
-														{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) RECORD=null}
+														{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) RECORD=null  BLOCK_FIELDS=NULL}
 													</div>
 												</div>
 												{/foreach}

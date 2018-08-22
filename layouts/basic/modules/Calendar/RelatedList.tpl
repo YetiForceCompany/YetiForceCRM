@@ -12,14 +12,15 @@
 {strip}
 	<div class="tpl-RelatedList relatedContainer">
 		{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
-		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}" />
-		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}" />
-		<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
-		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
-		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries" />
-		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit' />
-		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount' />
-		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
+		{assign var=INVENTORY_MODULE value=$RELATED_MODULE->isInventory()}
+		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}"/>
+		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}"/>
+		<input type="hidden" value="{$ORDER_BY}" id="orderBy"/>
+		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder"/>
+		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries"/>
+		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'/>
+		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'/>
+		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 		<div class="relatedHeader calendarRelatedHeader mb-1">
 			<div class="row">
 				<div class="col-sm-6 col-md-6">
@@ -49,7 +50,8 @@
 									<li>
 										<a class="dropdown-item" href="#" data-view="{$RELATEDLIST_VIEW->get('view')}">
 											{if $RELATEDLIST_VIEW->get('linkicon') neq ''}
-												<span class="{$RELATEDLIST_VIEW->get('linkicon')}"></span>&nbsp;&nbsp;
+												<span class="{$RELATEDLIST_VIEW->get('linkicon')}"></span>
+												&nbsp;&nbsp;
 											{/if}
 											{\App\Language::translate($RELATEDLIST_VIEW->getLabel(), $MODULE_NAME)}
 										</a>
@@ -64,10 +66,11 @@
 								{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
 								<button type="button" class="btn btn-light addButton
 										{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modCT_{$RELATED_MODULE_NAME} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
-										{if $IS_SELECT_BUTTON eq true} data-moduleName={$RELATED_LINK->get('_module')->get('name')} {/if}
+										{if $IS_SELECT_BUTTON eq true}
+										data-moduleName={$RELATED_LINK->get('_module')->get('name')} {/if}
 										{if ($RELATED_LINK->isPageLoadLink())}
-											{if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
-											data-url="{$RELATED_LINK->getUrl()}"
+										{if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
+									data-url="{$RELATED_LINK->getUrl()}"
 										{/if}
 										{if $IS_SELECT_BUTTON neq true}name="addButton"{/if}>
 									{if $IS_SELECT_BUTTON eq false}<span class="fas fa-plus"></span>{/if}
@@ -103,9 +106,11 @@
 						{if $VIEW_MODEL}
 							<div class="float-right pl-1">
 								{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
-								<input type="hidden" class="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}" />
+								<input type="hidden" class="entityState"
+									   value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}"/>
 								<div class="dropdown dropdownEntityState u-remove-dropdown-icon">
-									<button class="btn btn-light dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									<button class="btn btn-light dropdown-toggle" type="button" id="dropdownEntityState"
+											data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 										{if $VIEW_MODEL->get('entityState') === 'Archived'}
 											<span class="fas fa-archive"></span>
 										{elseif $VIEW_MODEL->get('entityState') === 'Trash'}
@@ -118,16 +123,25 @@
 									</button>
 									<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">
 										<li {if $COLOR['Active']}style="border-color: {$COLOR['Active']};"{/if}>
-											<a class="dropdown-item{if !$VIEW_MODEL->get('entityState') || $VIEW_MODEL->get('entityState') == 'Active'} active{/if}" href="#" data-value="Active"><span class="fas fa-undo-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
+											<a class="dropdown-item{if !$VIEW_MODEL->get('entityState') || $VIEW_MODEL->get('entityState') == 'Active'} active{/if}"
+											   href="#" data-value="Active"><span class="fas fa-undo-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}
+											</a>
 										</li>
 										<li {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};"{/if}>
-											<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Archived'} active{/if}" href="#" data-value="Archived"><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
+											<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Archived'} active{/if}"
+											   href="#" data-value="Archived"><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}
+											</a>
 										</li>
 										<li {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};"{/if}>
-											<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Trash'} active{/if}" href="#" data-value="Trash"><span class="fas fa-trash-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
+											<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Trash'} active{/if}"
+											   href="#" data-value="Trash"><span class="fas fa-trash-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
+											</a>
 										</li>
 										<li>
-											<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'All'} active{/if}" href="#" data-value="All"><span class="fas fa-bars"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
+											<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'All'} active{/if}"
+											   href="#" data-value="All"><span
+														class="fas fa-bars"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}
+											</a>
 										</li>
 									</ul>
 								</div>
@@ -143,8 +157,10 @@
 		{if $RELATED_VIEW === 'ListPreview'}
 			<div class="relatedContents">
 				<div class="d-flex">
-					<input type="hidden" id="defaultDetailViewName" value="{AppConfig::module($MODULE, 'defaultDetailViewName')}" />
-					<div class="c-side-block c-side-block--left js-side-block js-fixed-scroll" data-js="css: height;/scroll">
+					<input type="hidden" id="defaultDetailViewName"
+						   value="{AppConfig::module($MODULE, 'defaultDetailViewName')}"/>
+					<div class="c-side-block c-side-block--left js-side-block js-fixed-scroll"
+						 data-js="css: height;/scroll">
 						<div class="u-rotate-90">
 							<div class="font-weight-bold text-center">{\App\Language::translate('LBL_VIEW_LIST')}</div>
 						</div>
@@ -159,7 +175,8 @@
 					<div class="c-detail-preview js-detail-preview ">
 						<iframe class="listPreviewframe border1px" frameborder="0"></iframe>
 					</div>
-					<div class="c-side-block c-side-block--right js-side-block js-fixed-scroll" data-js="css: height;/scroll">
+					<div class="c-side-block c-side-block--right js-side-block js-fixed-scroll"
+						 data-js="css: height;/scroll">
 						<div class="u-rotate-90">
 							<div class="font-weight-bold text-center">{\App\Language::translate('LBL_VIEW_DETAIL')}</div>
 						</div>
@@ -168,7 +185,7 @@
 			</div>
 		{else}
 			<div class="relatedContents">
-					{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
+				{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
 			</div>
 		{/if}
 	</div>

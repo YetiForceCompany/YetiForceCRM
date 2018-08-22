@@ -189,15 +189,17 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$tpl = 'NoPermissionsForRecord.tpl';
 			} elseif ($e instanceof \App\Exceptions\Security) {
 				$tpl = 'IllegalValue.tpl';
+			} elseif ($e instanceof \yii\db\Exception) {
+				$tpl = 'OperationNotPermitted.tpl';
 			}
 			\vtlib\Functions::throwNewException($e, false, $tpl);
 			if (!$request->isAjax()) {
 				if (AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
-					echo '<pre>' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString())) . '</pre>';
+					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString())) . '</pre>';
 					$response = false;
 				}
 				if (AppConfig::debug('DISPLAY_EXCEPTION_LOGS')) {
-					echo '<pre>' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs())) . '</pre>';
+					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs())) . '</pre>';
 					$response = false;
 				}
 			}
