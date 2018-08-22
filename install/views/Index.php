@@ -235,6 +235,8 @@ class Install_Index_View extends \App\Controller\View
 		$this->viewer->assign('FAILED_FILE_PERMISSIONS', Settings_ConfReport_Module_Model::getPermissionsFiles(true));
 		$this->viewer->assign('SECURITY_CONF', Settings_ConfReport_Module_Model::getSecurityConf(true));
 		$this->viewer->assign('STABILITY_CONF', Settings_ConfReport_Module_Model::getStabilityConf(true));
+
+		$this->viewer->assign('ALL', \App\Utils\ConfReport::getAll());
 		$this->viewer->display('Step5.tpl');
 	}
 
