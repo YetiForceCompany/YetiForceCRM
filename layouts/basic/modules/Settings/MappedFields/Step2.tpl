@@ -182,9 +182,7 @@
 					</div>
 				</div>
 			</div>
-
-	</div>
-	</form>
+		</form>
 	</div>
 	<div class="d-none" id="defaultValuesElementsContainer">
 		{foreach key=BLOCK_NAME item=FIELDS from=$REL_MODULE_MODEL->getFields()}
