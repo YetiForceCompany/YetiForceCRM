@@ -189,6 +189,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$tpl = 'NoPermissionsForRecord.tpl';
 			} elseif ($e instanceof \App\Exceptions\Security) {
 				$tpl = 'IllegalValue.tpl';
+			} elseif ($e instanceof \yii\db\Exception) {
+				$tpl = 'OperationNotPermitted.tpl';
 			}
 			\vtlib\Functions::throwNewException($e, false, $tpl);
 			if (!$request->isAjax()) {
