@@ -10,20 +10,6 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{if empty($LISTVIEW_COUNT)}
-		{assign var="LISTVIEW_COUNT" value=""}
-	{/if}
-	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}"/>
-	<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}"/>
-	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}"/>
-	<input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}"/>
-	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}"/>
-	<input type="hidden" value="{if !empty($ORDER_BY)}{$ORDER_BY}{/if}" id="orderBy"/>
-	<input type="hidden" value="{if !empty($SORT_ORDER)}{$SORT_ORDER}{/if}" id="sortOrder"/>
-	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}"/>
-	<input type='hidden' value="{if !empty($PAGE_NUMBER)}{$PAGE_NUMBER}{/if}" id='pageNumber'>
-	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
-	<input type="hidden" value="{if !empty($LISTVIEW_ENTRIES_COUNT)}{$LISTVIEW_ENTRIES_COUNT}{/if}" id="noOfEntries">
 	<div class="tpl-Settings-CronTasks-ListViewContents listViewEntriesDiv u-overflow-scroll-xs-down">
 		<span class="listViewLoadingImageBlock d-none modal" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image"
