@@ -75,7 +75,7 @@
 										</button>
 									{/if}
 									{foreach from=$WIDGET['buttonHeader'] item=$LINK}
-										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic'}
+										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='detailViewBasic' MODULE=$MODULE_NAME}
 									{/foreach}
 								{/if}
 							</div>

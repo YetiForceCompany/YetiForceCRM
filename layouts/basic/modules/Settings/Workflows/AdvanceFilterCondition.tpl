@@ -27,7 +27,7 @@
 							{/if}
 							<option value="{$FIELD_MODEL->$columnNameApi()}"
 									data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_NAME}"
-									{if App\Purifier::decodeHtml($FIELD_MODEL->$columnNameApi()) eq $CONDITION_INFO['columnname']}
+									{if !empty($CONDITION_INFO['columnname']) && App\Purifier::decodeHtml($FIELD_MODEL->$columnNameApi()) eq $CONDITION_INFO['columnname']}
 										{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()}
 										{assign var=SELECTED_FIELD_MODEL value=$FIELD_MODEL}
 										{$FIELD_INFO['value'] = App\Purifier::decodeHtml($CONDITION_INFO['value'])}
@@ -48,19 +48,24 @@
 		</div>
 		<div class="col-md-3">
 			<select class="{if empty($NOCHOSEN)}select2{/if} form-control" name="comparator">
-				{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
+				{if !empty($FIELD_TYPE)}
+					{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
+				{else}
+					{assign var=ADVANCE_FILTER_OPTIONS value=''}
+				{/if}
 				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
 					<option value="{$ADVANCE_FILTER_OPTION}"
-							{if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}
+							{if !empty($CONDITION_INFO['comparator']) && $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}
 								selected
 							{/if}
-					>{\App\Language::translate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
+					>{if !empty($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}{\App\Language::translate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}{/if}</option>
 				{/foreach}
 			</select>
 		</div>
 		<div class="col-md-4 fieldUiHolder">
-			<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value"
-				   class="form-control" type="text" value="{$CONDITION_INFO['value']|escape}"/>
+			<input name="{if !empty($SELECTED_FIELD_MODEL)}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value"
+				   class="form-control" type="text"
+				   value="{if !empty($CONDITION_INFO['value'])}{$CONDITION_INFO['value']|escape}{/if}"/>
 		</div>
 		<span class="d-none">
 			{if empty($CONDITION)}
