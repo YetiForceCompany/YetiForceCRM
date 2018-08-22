@@ -511,6 +511,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PARENT_COMMENTS', $childComments);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
+		$viewer->assign('CURRENT_COMMENT', null);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 
 		return $viewer->view('CommentsList.tpl', $request->getModule(), true);
