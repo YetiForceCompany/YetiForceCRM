@@ -4,10 +4,10 @@
 		<div class="calendarUserList">
 			<div class="row no-margin">
 				<div class="col-12 marginTB10">
-					<select class="select2 col-12" id="calendarUserList" name="{$ASSIGNED_USER_ID}" multiple>
+					<select name="calendarUserList" class="select2 col-12" id="calendarUserList" multiple>
 						<optgroup label="{\App\Language::translate('LBL_USERS')}">
 							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-								<option class="ownerCBg_{$OWNER_ID} marginBottom5px" value="{$OWNER_ID}"
+								<option value="{$OWNER_ID}" class="ownerCBg_{$OWNER_ID} marginBottom5px"
 										{if \App\User::getCurrentUserId() eq $OWNER_ID} selected {/if}>
 									{$OWNER_NAME}
 								</option>
@@ -15,7 +15,7 @@
 						</optgroup>
 						<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
 							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-								<option class="ownerCBg_{$OWNER_ID} marginBottom5px" value="{$OWNER_ID}">
+								<option value="{$OWNER_ID}" class="ownerCBg_{$OWNER_ID} marginBottom5px">
 									{$OWNER_NAME}
 								</option>
 							{/foreach}
@@ -29,10 +29,10 @@
 		<div class="calendarTypeList">
 			<div class="row no-margin">
 				<div class="col-12 marginTB10">
-					<select class="select2 col-12 form-control" id="timecontrolTypes" name="timecontrolTypes" multiple>
+					<select name="timecontrolTypes" class="select2 col-12 form-control" id="timecontrolTypes" multiple>
 						{foreach item=ITEM from=$ALL_ACTIVETYPES_LIST}
-							<option class="picklistCBr_OSSTimeControl_timecontrol_type_{$ITEM} marginBottom5px"
-									value="{$ITEM}">{\App\Language::translate($ITEM,$MODULE)}</option>
+							<option value="{$ITEM}"
+									class="picklistCBr_OSSTimeControl_timecontrol_type_{$ITEM} marginBottom5px">{\App\Language::translate($ITEM,$MODULE)}</option>
 						{/foreach}
 					</select>
 				</div>
