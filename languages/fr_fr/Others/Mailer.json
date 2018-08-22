@@ -1,0 +1,7 @@
+{
+    "php": {
+        "LBL_CRON_EMAIL_SUBJECT": "L'importation programm\u00e9e est termin\u00e9e",
+        "LBL_CRON_COMPLETED_IMPORT": "R\u00e9capitulatif de l'importation du module :"
+    },
+    "js": {}
+}

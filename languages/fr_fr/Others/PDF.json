@@ -1,0 +1,32 @@
+{
+    "php": {
+        "LBL_INVOICE": "Facture",
+        "LBL_INVOICE_PROFORMA": "Facture pro-forma",
+        "LBL_RECIPIENT": "B\u00e9n\u00e9ficiaire",
+        "LBL_ORDER": "Commande",
+        "LBL_SUBMIT_ORDER": "Personne autoris\u00e9e \u00e0 passer commande",
+        "LBL_VATID": "N\u00b0 TVA",
+        "LBL_SALE_DATE": "Date vente",
+        "LBL_PAYMENT_METHOD": "Mode de paiement",
+        "LBL_PLACE_DATE": "Emp., Date",
+        "LBL_INVOICE_NUMBER": "Num\u00e9ro de facture de TVA",
+        "LBL_TO_PAY": "Total",
+        "LBL_TO_PAY_WORD": "Total (en lettre)",
+        "LBL_DEALER": "Vendeur",
+        "LBL_BUYER": "Acheteur",
+        "LBL_AUTHORIZED_TO_RECEIVE": "Personne autoris\u00e9e \u00e0 recevoir",
+        "LBL_AUTHORIZED_TO_BE_ISSUED": "Personne autoris\u00e9e \u00e0 \u00e9mettre",
+        "LBL_SALES_QUOTE_FOR": "Devis pour",
+        "LBL_DATE_EXECUTION": "Date d'ach\u00e8vement",
+        "LBL_STAGE": "D\u00e9livr\u00e9 par",
+        "LBL_VALID_UNTIL": "Valable jusqu'au",
+        "LBL_QUOTE_NUMBER": "Num\u00e9ro de devis",
+        "LBL_DETAILS": "D\u00e9tails",
+        "LBL_COMMENTS": "Commentaires",
+        "LBL_FIRST_NAME": "Nom",
+        "LBL_LAST_NAME": "Pr\u00e9nom",
+        "LBL_PHONE": "T\u00e9l\u00e9phone",
+        "LBL_EMAIL": "Email"
+    },
+    "js": {}
+}
