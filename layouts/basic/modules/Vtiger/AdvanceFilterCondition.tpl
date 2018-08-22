@@ -120,6 +120,7 @@
 			{assign var=COMPARATOR_VALUE value=$CONDITION_INFO['comparator']}
 		{/if}
 		<input class="form-control" type="hidden" name="comparatorValue" value="{$COMPARATOR_VALUE}">
+		{assign var=ADVANCE_FILTER_OPTIONS value=null}
 		{if !empty($SELECTED_FIELD_MODEL)}
 			{if !$FIELD_TYPE}
 				{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
@@ -129,8 +130,6 @@
 				{assign var=DATE_FILTER_CONDITIONS value=array_keys($DATE_FILTERS)}
 				{assign var=ADVANCE_FILTER_OPTIONS value=array_merge($ADVANCE_FILTER_OPTIONS,$DATE_FILTER_CONDITIONS)}
 			{/if}
-		{else}
-			{assign var=ADVANCE_FILTER_OPTIONS value=null}
 		{/if}
 		<div class="w-25">
 			<select class="{if empty($NOCHOSEN)}select2{/if} form-control" name="comparator"
