@@ -59,6 +59,7 @@ before_script:
 script:
 - cd tests
 - /usr/local/bin/phpunit --debug --verbose
+- cd ..
 - sonar-scanner -X
     
 after_script:
