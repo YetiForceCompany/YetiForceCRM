@@ -127,7 +127,8 @@ abstract class Base
 		header('X-Permitted-Cross-Domain-Policies: none');
 		if (\AppConfig::security('CSP_ACTIVE')) {
 			// 'nonce-" . App\Session::get('CSP_TOKEN') . "'
-			header("Content-Security-Policy: default-src 'self' blob:; img-src 'self' data: a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' blob:; form-action 'self' ;connect-src 'self';");
+			$allowed = \implode(' ', \AppConfig::security('PURIFIER_ALLOWED_DOMAINS'));
+			header("Content-Security-Policy: default-src 'self' blob:; img-src 'self' data: a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org $allowed; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' blob:; form-action 'self' ;connect-src 'self';");
 		}
 		if ($keys = \AppConfig::security('HPKP_KEYS')) {
 			header('Public-Key-Pins: pin-sha256="' . implode('"; pin-sha256="', $keys) . '"; max-age=10000;');
