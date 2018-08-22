@@ -57,7 +57,7 @@
 							{if empty($INVENTORY_ROWS[0][$COLUMN_NAME])}
 								{assign var="ITEM_VALUE" value=NULL}
 							{else}
-								{assign var="ITEM_VALUE" value=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
+								{assign var="ITEM_VALUE" value=$INVENTORY_ROWS[0][$COLUMN_NAME]}
 							{/if}
 							{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE)}
 						</th>
