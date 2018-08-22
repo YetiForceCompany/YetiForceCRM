@@ -69,6 +69,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$viewer->assign('TWODAYLATER', date('Y-n-j', strtotime('+2 day')));
 		$viewer->assign('THREEDAYSLATER', date('Y-n-j', strtotime('+3 day')));
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('QUICK_CREATE_CONTENTS', $quickCreateContents);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));

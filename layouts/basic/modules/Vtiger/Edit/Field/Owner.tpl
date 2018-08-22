@@ -19,7 +19,7 @@
 		{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->getName()}
 		{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
-		{if $FIELD_VALUE eq '' && (empty($VIEW) || $VIEW neq 'MassEdit')}
+		{if $FIELD_VALUE eq '' && $VIEW neq 'MassEdit'}
 			{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
 		{/if}
 		{assign var=FOUND_SELECT_VALUE value=0}
