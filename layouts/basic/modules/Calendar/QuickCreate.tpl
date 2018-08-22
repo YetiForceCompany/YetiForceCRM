@@ -107,7 +107,7 @@
 															{if $FIELD_MODEL->isMandatory() eq true}
 																<span class="redColor">*</span>
 															{/if}
-															{if !empty($VIEW) && in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
+															{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 																<a href="#" class="js-help-info float-right" title=""
 																   data-placement="top"
 																   data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}"
