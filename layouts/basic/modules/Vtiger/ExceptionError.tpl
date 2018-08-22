@@ -13,7 +13,7 @@
 {strip}
 	<html>
 	<head>
-		<title>Yetiforce: {\App\Language::translate('LBL_ERROR')}</title>
+		<title>Yetiforce: {\App\Purifier::encodeHtml($HEADER_MESSAGE)}</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" href="{\App\Layout::getPublicUrl('layouts/basic/styles/Main.css')}">
@@ -23,10 +23,10 @@
 		<div class="card mx-auto mt-5 u-w-fit shadow" role="alert">
 			<div class="card-header d-flex color-red-a200 bg-color-red-50 justify-content-center">
 				<i class="fas fa-exclamation-triangle fa-10x display-1 mr-3"></i>
-				<h3 class="align-items-center card-title d-flex justify-content-center">{\App\Language::translate('LBL_ERROR')}</h3>
+				<h3 class="align-items-center card-title d-flex justify-content-center">{\App\Purifier::encodeHtml($HEADER_MESSAGE)}</h3>
 			</div>
 			<div class="card-body bg-color-grey-50">
-				<p class="card-text u-font-size-19px">{\App\Purifier::encodeHtml($MESSAGE)}.</p>
+				<p class="card-text u-font-size-19px">{if $MESSAGE_EXPANDED}{\App\Purifier::encodeHtml($MESSAGE['message'])}.{else}{\App\Purifier::encodeHtml($MESSAGE)}{/if}</p>
 			</div>
 			<div class="card-footer d-flex flex-nowrap">
 				<a class="btn btn-lg btn-default mr-2 w-100" role="button"
@@ -37,6 +37,36 @@
 			</div>
 		</div>
 	</div>
+	{if $MESSAGE_EXPANDED}
+		<div class="my-5 mx-auto card u-w-fit shadow">
+			<div class="card-header">
+				<h5>{\App\Language::translate('LBL_SQL_QUERY')}</h5>
+			</div>
+			<div class="card-body">
+				<pre>{$MESSAGE['query']}</pre>
+			</div>
+		</div>
+		{if $MESSAGE['params']}
+			<div class="my-5 mx-auto card u-w-fit shadow">
+				<div class="card-header">
+					<h5>{\App\Language::translate('LBL_SQL_PARAMS')}</h5>
+				</div>
+				<div class="card-body">
+					<pre>{implode(',', $MESSAGE['params'])}</pre>
+				</div>
+			</div>
+		{/if}
+		{if $MESSAGE['trace']}
+			<div class="my-5 mx-auto card u-w-fit shadow">
+				<div class="card-header">
+					<h5>{\App\Language::translate('LBL_BACKTRACE')}</h5>
+				</div>
+				<div class="card-body">
+					<pre>{\App\Language::translate($MESSAGE['trace'])}</pre>
+				</div>
+			</div>
+		{/if}
+	{/if}
 	<script type="text/javascript"
 			src="{\App\Layout::getPublicUrl('libraries/@fortawesome/fontawesome/index.js')}"></script>
 	<script type="text/javascript"
