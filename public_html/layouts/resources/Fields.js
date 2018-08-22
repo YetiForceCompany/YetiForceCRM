@@ -725,12 +725,17 @@ App.Fields = {
 		 * @param element
 		 */
 		onFormSubmit(element) {
-			let inputArray = $(element).find('input[type=text]');
+			let allFields = $(element).find('[class*=js-multi-email-row]');
 			let arr = [];
-			let arrayLength = inputArray.length;
-			for (let i = 0; i < arrayLength; i++) {
-				if ($(inputArray[i]).val() !== '') {
-					arr.push({e: $(inputArray[i]).val()});
+			let arrayLength = allFields.length;
+			for (let i = 0; i < arrayLength; ++i) {
+				let inputField = $(allFields[i]).find('input[type=text]').eq(0);
+				let checkboxField = $(allFields[i]).find('input[type=checkbox]').eq(0);
+				if (inputField !== '') {
+					arr.push({
+						e: $(inputField).val(),
+						o: $(checkboxField).is(":checked") ? 1 : 0
+					});
 				}
 			}
 			$(element).find('input[type=hidden]').val(JSON.stringify(arr));

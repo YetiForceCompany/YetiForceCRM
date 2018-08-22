@@ -16,8 +16,8 @@
 				   placeholder="{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}"
 				   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_MultiEmail_Validator_Js.invokeValidation]]"
 				   value="{$ITEM}"
-				   aria-label="Recipient's username with two button addons"
-				   aria-describedby="button-addon4"/>
+				   aria-label="{\App\Language::translate('LBL_REMOVE', $MODULE)}"
+				   aria-describedby="{\App\Language::translate('LBL_REMOVE', $MODULE)}"/>
 			<div class="input-group-append btn-group-toggle" id="button-addon4"
 				 data-toggle="buttons">
 				<label class="btn btn-outline-primary border">
