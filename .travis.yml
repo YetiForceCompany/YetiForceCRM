@@ -21,6 +21,9 @@ addons:
     token:
       secure: $SONAR_TOKEN
 
+cache:
+  directories:
+    - '$HOME/.sonar/cache'
     
 branches:
   only:
