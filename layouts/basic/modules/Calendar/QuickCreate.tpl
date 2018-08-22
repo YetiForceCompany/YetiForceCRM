@@ -107,7 +107,7 @@
 															{if $FIELD_MODEL->isMandatory() eq true}
 																<span class="redColor">*</span>
 															{/if}
-															{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
+															{if !empty($VIEW) && in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 																<a href="#" class="js-help-info float-right" title=""
 																   data-placement="top"
 																   data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}"
@@ -119,7 +119,7 @@
 														</label>
 													</div>
 													<div class="fieldValue col-lg-12 col-xl-9 px-0 px-sm-1">
-														{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) RECORD=null}
+														{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) RECORD=null  BLOCK_FIELDS=NULL}
 													</div>
 												</div>
 												{/foreach}
