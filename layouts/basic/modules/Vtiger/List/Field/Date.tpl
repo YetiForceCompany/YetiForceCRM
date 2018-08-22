@@ -15,9 +15,12 @@
 	{if isset($SEARCH_INFO['searchValue'])}
 		{assign var=SEARCH_VALUES value=$SEARCH_INFO['searchValue']}
 	{else}
-		{assign var=SEARCH_VALUES value=[]}
+		{assign var=SEARCH_VALUES value=''}
 	{/if}
 	<div class="tpl-List-Field-Date picklistSearchField">
-		<input name="{$FIELD_MODEL->getName()}" class="listSearchContributor dateRangeField form-control" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModule()->getName())}" type="text" value="{$SEARCH_VALUES}" data-date-format="{$dateFormat}" data-calendar-type="range" data-fieldinfo='{$FIELD_INFO|escape}' autocomplete="off"/>
+		<input name="{$FIELD_MODEL->getName()}" class="listSearchContributor dateRangeField form-control"
+			   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModule()->getName())}"
+			   type="text" value="{$SEARCH_VALUES}" data-date-format="{$dateFormat}" data-calendar-type="range"
+			   data-fieldinfo='{$FIELD_INFO|escape}' autocomplete="off"/>
 	</div>
 {/strip}

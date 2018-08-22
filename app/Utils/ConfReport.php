@@ -123,8 +123,11 @@ class ConfReport
 		'session.cookie_httponly' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.use_only_cookies' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.cookie_secure' => ['recommended' => '?', 'type' => 'CookieSecure', 'container' => 'php', 'testCli' => true],
+		'session.name' => ['recommended' => 'YTSID', 'container' => 'php', 'type' => 'Equal', 'testCli' => true],
 		'expose_php' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session_regenerate_id' => ['recommended' => 'On', 'type' => 'SessionRegenerate', 'testCli' => true],
+		'disable_functions' => ['recommended' => 'shell_exec,exec,system,passthru', 'type' => 'In', 'container' => 'php', 'testCli' => true],
+		'allow_url_include' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'Header: Server' => ['recommended' => '', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: X-Powered-By' => ['recommended' => '', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: X-Frame-Options' => ['recommended' => 'SAMEORIGIN', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
@@ -135,7 +138,6 @@ class ConfReport
 		'Header: Expect-CT' => ['recommended' => 'enforce; max-age=3600', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: Referrer-Policy' => ['recommended' => 'no-referrer', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: Strict-Transport-Security' => ['recommended' => 'max-age=31536000; includeSubDomains; preload', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
-		'disable_functions' => ['container' => 'php', 'testCli' => true],
 	];
 	/**
 	 * Libraries map.
@@ -230,9 +232,12 @@ class ConfReport
 		'opcache.validate_timestamps' => ['recommended' => 1, 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
 		'opcache.revalidate_freq' => ['recommended' => 30, 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
 		'opcache.save_comments' => ['recommended' => 0, 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
+		'opcache.file_update_protection' => ['recommended' => 0, 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
 		'opcache.memory_consumption' => ['container' => 'php', 'testCli' => true],
 		'realpath_cache_size' => ['recommended' => '256k', 'type' => 'RealpathCacheSize', 'container' => 'php', 'testCli' => true],
 		'realpath_cache_ttl' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
+		'mysqlnd.collect_statistics' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
+		'mysqlnd.collect_memory_statistics' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 	];
 	/**
 	 * Environment map.
@@ -254,6 +259,9 @@ class ConfReport
 		'spaceRoot' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_ROOT'],
 		'spaceStorage' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_STORAGE'],
 		'lastCronStart' => ['container' => 'env', 'testCli' => false, 'label' => 'LAST_CRON_START'],
+		'allow_url_fopen' => ['container' => 'php', 'testCli' => true],
+		'open_basedir' => ['container' => 'php', 'testCli' => true],
+		'variables_order' => ['container' => 'php', 'testCli' => true],
 	];
 
 	/**
@@ -840,6 +848,33 @@ class ConfReport
 	}
 
 	/**
+	 * Validate in array.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateIn(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$value = $row[$sapi];
+		if (!\is_array($row[$sapi])) {
+			$value = \explode(',', $row[$sapi]);
+		}
+		$recommended = \explode(',', $row['recommended']);
+		foreach ($recommended as &$item) {
+			if (!\in_array($item, $value)) {
+				$row['status'] = false;
+				$item = "<b class=\"text-danger\">$item</b>";
+			}
+		}
+		$row['recommended'] = \implode(',', $recommended);
+		return $row;
+	}
+
+	/**
 	 * Validate exists url.
 	 *
 	 * @param string $name
@@ -866,7 +901,6 @@ class ConfReport
 	private static function parserAllExt(string $name, array $row)
 	{
 		unset($name, $row);
-
 		return \implode(', ', static::$ext);
 	}
 
