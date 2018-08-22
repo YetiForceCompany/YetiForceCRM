@@ -79,14 +79,14 @@ class Functions
 				if (!\App\Cache::has('moduleTabByName', $row['name'])) {
 					\App\Cache::save('moduleTabByName', $row['name'], $row);
 				}
-				$row['tabid'] = (int) $row['tabid'];
-				$row['presence'] = (int) $row['presence'];
-				$row['tabsequence'] = (int) $row['tabsequence'];
-				$row['customized'] = (int) $row['customized'];
-				$row['ownedby'] = (int) $row['ownedby'];
-				$row['isentitytype'] = (int) $row['isentitytype'];
-				$row['coloractive'] = (int) $row['coloractive'];
-				$row['type'] = (int) $row['type'];
+				$row['tabid'] = (int)$row['tabid'];
+				$row['presence'] = (int)$row['presence'];
+				$row['tabsequence'] = (int)$row['tabsequence'];
+				$row['customized'] = (int)$row['customized'];
+				$row['ownedby'] = (int)$row['ownedby'];
+				$row['isentitytype'] = (int)$row['isentitytype'];
+				$row['coloractive'] = (int)$row['coloractive'];
+				$row['type'] = (int)$row['type'];
 				$moduleList[$row['tabid']] = $row;
 			}
 			\App\Cache::save('moduleTabs', 'all', $moduleList);
@@ -96,16 +96,16 @@ class Functions
 			if (!$showRestricted && in_array($module['name'], $restrictedModules)) {
 				unset($moduleList[$id]);
 			}
-			if ($isEntityType && (int) $module['isentitytype'] === 0) {
+			if ($isEntityType && (int)$module['isentitytype'] === 0) {
 				unset($moduleList[$id]);
 			}
-			if ($presence !== false && (int) $module['presence'] !== $presence) {
+			if ($presence !== false && (int)$module['presence'] !== $presence) {
 				unset($moduleList[$id]);
 			}
-			if ($colorActive !== false && (int) $module['coloractive'] !== 1) {
+			if ($colorActive !== false && (int)$module['coloractive'] !== 1) {
 				unset($moduleList[$id]);
 			}
-			if ($ownedby !== false && (int) $module['ownedby'] !== $ownedby) {
+			if ($ownedby !== false && (int)$module['ownedby'] !== $ownedby) {
 				unset($moduleList[$id]);
 			}
 		}
@@ -126,7 +126,7 @@ class Functions
 				return \App\Cache::get('moduleTabById', $mixed);
 			}
 		} else {
-			$name = (string) $mixed;
+			$name = (string)$mixed;
 			if (\App\Cache::has('moduleTabByName', $name)) {
 				return \App\Cache::get('moduleTabByName', $name);
 			}
@@ -212,7 +212,7 @@ class Functions
 				->where(['in', 'crmid', $missing]);
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$row['deleted'] = (int) $row['deleted'];
+				$row['deleted'] = (int)$row['deleted'];
 				self::$crmRecordIdMetadataCache[$row['crmid']] = $row;
 			}
 		}
@@ -420,7 +420,7 @@ class Functions
 	{
 		$short = [];
 		$full = [];
-		$years = ((int) $timeMinutesRange) / (60 * 24 * 365);
+		$years = ((int)$timeMinutesRange) / (60 * 24 * 365);
 		$years = floor($years);
 		if (!empty($years)) {
 			$short[] = $years == 1 ? $years . \App\Language::translate('LBL_Y') : $years . \App\Language::translate('LBL_YRS');
@@ -465,12 +465,12 @@ class Functions
 		$mod = '';
 
 		do {
-			$a = (int) $mod . substr($x, 0, $take);
+			$a = (int)$mod . substr($x, 0, $take);
 			$x = substr($x, $take);
 			$mod = $a % $y;
 		} while (strlen($x));
 
-		return (int) $mod;
+		return (int)$mod;
 	}
 
 	public static function getArrayFromValue($values)
@@ -489,8 +489,9 @@ class Functions
 		return $array;
 	}
 
-	public static function throwNewException($e, $die = true, $tpl = 'OperationNotPermitted.tpl')
+	public static function throwNewException($e, $die = true, $messageHeader = 'LBL_ERROR')
 	{
+
 		$message = is_object($e) ? $e->getMessage() : $e;
 		if (!is_array($message)) {
 			if (strpos($message, '||') === false) {
@@ -521,7 +522,9 @@ class Functions
 			if (php_sapi_name() !== 'cli') {
 				$viewer = new \Vtiger_Viewer();
 				$viewer->assign('MESSAGE', $message);
-				$viewer->view($tpl, 'Vtiger');
+				$viewer->assign('MESSAGE_EXPANDED', is_array($message));
+				$viewer->assign('HEADER_MESSAGE', \App\Language::translate($messageHeader));
+				$viewer->view('ExceptionError.tpl', 'Vtiger');
 			} else {
 				echo $message . \PHP_EOL;
 			}
@@ -616,10 +619,10 @@ class Functions
 	public static function parseBytes($str)
 	{
 		if (is_numeric($str)) {
-			return (float) $str;
+			return (float)$str;
 		}
 		if (preg_match('/([0-9\.]+)\s*([a-z]*)/i', $str, $regs)) {
-			$bytes = (float) ($regs[1]);
+			$bytes = (float)($regs[1]);
 			switch (strtolower($regs[2])) {
 				case 'g':
 				case 'gb':
@@ -635,7 +638,7 @@ class Functions
 					break;
 			}
 		}
-		return (float) $bytes;
+		return (float)$bytes;
 	}
 
 	public static function showBytes($bytes, &$unit = null)
@@ -709,7 +712,7 @@ class Functions
 	{
 		$allCurrencies = self::getAllCurrency(true);
 		foreach ($allCurrencies as $currency) {
-			if ((int) $currency['defaultid'] === -11) {
+			if ((int)$currency['defaultid'] === -11) {
 				return $currency;
 			}
 		}
@@ -741,7 +744,7 @@ class Functions
 	public static function slug($str, $delimiter = '_')
 	{
 		// Make sure string is in UTF-8 and strip invalid UTF-8 characters
-		$str = mb_convert_encoding((string) $str, 'UTF-8', mb_list_encodings());
+		$str = mb_convert_encoding((string)$str, 'UTF-8', mb_list_encodings());
 		$char_map = [
 			// Latin
 			'Ă€' => 'A', 'Ă' => 'A', 'Ă‚' => 'A', 'Ă' => 'A', 'Ă„' => 'A', 'Ă…' => 'A', 'Ă†' => 'AE', 'Ă‡' => 'C',

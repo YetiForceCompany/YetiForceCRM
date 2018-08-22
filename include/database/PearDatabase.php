@@ -156,7 +156,7 @@ class PearDatabase
 				'query' => $query,
 				'params' => $params,
 			];
-			vtlib\Functions::throwNewException($message, true, 'DatabaseException.tpl');
+			vtlib\Functions::throwNewException($message, true, 'LBL_SQL_ERROR');
 		}
 	}
 
@@ -503,7 +503,7 @@ class PearDatabase
 	 * as with the other methods.
 	 *
 	 * @param &$result The query result to fetch from
-	 * @param $row The row number to fetch. It's default value is 0
+	 * @param $row     The row number to fetch. It's default value is 0
 	 */
 	public function rawQueryResultRowData(&$result, $row = 0)
 	{
@@ -561,7 +561,7 @@ class PearDatabase
 			}
 			$type = $showType[0];
 			$vals = explode(')', $showType[1]);
-			if (is_int((int) $vals[0])) {
+			if (is_int((int)$vals[0])) {
 				$maxLength = $vals[0];
 			} elseif (strpos($vals[0], ',') !== false) {
 				$vs = explode(',', $vals[0]);
@@ -630,13 +630,13 @@ class PearDatabase
 		$tableName = $seqname . '_seq';
 		if ($this->checkExistTable($tableName)) {
 			$result = $this->query(sprintf('SELECT id FROM %s', $tableName));
-			$id = ((int) $this->getSingleValue($result)) + 1;
+			$id = ((int)$this->getSingleValue($result)) + 1;
 			$this->database->query("update $tableName set id = $id");
 		} else {
 			$result = $this->query('SHOW COLUMNS FROM ' . $this->quote($seqname, false));
 			$column = $this->getSingleValue($result);
 			$result = $this->query("SELECT MAX($column ) AS max FROM " . $this->quote($seqname, false));
-			$id = ((int) $this->getSingleValue($result)) + 1;
+			$id = ((int)$this->getSingleValue($result)) + 1;
 		}
 		return $id;
 	}
@@ -793,7 +793,7 @@ class PearDatabase
 	{
 		// handle int directly for better performance
 		if ($type == 'integer' || $type == 'int') {
-			return (int) $input;
+			return (int)$input;
 		}
 
 		if (is_null($input)) {
@@ -831,7 +831,7 @@ class PearDatabase
 
 		if ($this->logSqlTimeID === false) {
 			$stmt = $db->database->query(sprintf('SELECT MAX(id) FROM %s', $logTable));
-			$this->logSqlTimeID = (int) $this->getSingleValue($stmt) + 1;
+			$this->logSqlTimeID = (int)$this->getSingleValue($stmt) + 1;
 
 			$type = PHP_SAPI;
 			$data = '';
