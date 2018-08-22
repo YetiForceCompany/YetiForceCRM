@@ -7,16 +7,18 @@
 				<div class="modal-header contentsBackground align-items-center">
 					<span class="fa-layers fa-fw mr-2">
 						<i class="fas fa-circle" data-fa-transform="grow-6"></i>
-						<i class="fa-inverse fas fa-long-arrow-alt-up text-white" data-fa-transform="shrink-6  left-4"></i>
+						<i class="fa-inverse fas fa-long-arrow-alt-up text-white"
+						   data-fa-transform="shrink-6  left-4"></i>
 						<i class="fa-inverse fas fa-percent text-white" data-fa-transform="shrink-8  right-3"></i>
 					</span>
-					<h5 class="modal-title">{\App\Language::translate('LBL_SELECT_TAX', $MODULE)} {\App\Language::translate($SINGLE_MODULE, $MODULE)}</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+					<h5 class="modal-title">{\App\Language::translate('LBL_SELECT_TAX', $MODULE)} {\App\Language::translate('SINGLE_'|cat:$MODULE, $MODULE)}</h5>
+					<button type="button" class="close" data-dismiss="modal"
+							aria-label="{\App\Language::translate('LBL_CLOSE')}">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<input type="hidden" class="taxsType" value="{$AGGREGATION_TYPE}" />
+					<input type="hidden" class="taxsType" value="{$AGGREGATION_TYPE}"/>
 					{foreach item=TAXID from=$CONFIG['taxs']}
 						{assign var="TAX_TYPE_TPL" value="InventoryTaxesType"|cat:$TAXID|cat:".tpl"}
 						{include file=\App\Layout::getTemplatePath($TAX_TYPE_TPL, $MODULE)}
@@ -24,19 +26,26 @@
 					<hr/>
 					<div class="row">
 						<div class="col-md-6">{\App\Language::translate('LBL_TAX_VALUE', $MODULE)}:</div>
-						<div class="col-md-6 text-right"><strong><span class="taxValue js-tax-value">0</span> %</strong></div>
+						<div class="col-md-6 text-right"><strong><span class="taxValue js-tax-value">0</span> %</strong>
+						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">{\App\Language::translate('LBL_PRICE_BEFORE_TAX', $MODULE)}:</div>
-						<div class="col-md-6 text-right"><strong><span class="valueNetPrice">{CurrencyField::convertToUserFormat($TOTAL_PRICE, null, true)}</span> {$CURRENCY_SYMBOL}</strong></div>
+						<div class="col-md-6 text-right"><strong><span
+										class="valueNetPrice">{CurrencyField::convertToUserFormat($TOTAL_PRICE, null, true)}</span> {$CURRENCY_SYMBOL}
+							</strong></div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">{\App\Language::translate('LBL_TAX_IN_TOTAL', $MODULE)}:</div>
-						<div class="col-md-6 text-right"><strong><span class="valueTax" data-js="text">0</span> {$CURRENCY_SYMBOL}</strong></div>
+						<div class="col-md-6 text-right"><strong><span class="valueTax"
+																	   data-js="text">0</span> {$CURRENCY_SYMBOL}
+							</strong></div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">{\App\Language::translate('LBL_PRICE_AFTER_TAX', $MODULE)}:</div>
-						<div class="col-md-6 text-right"><strong><span class="valuePrices">{CurrencyField::convertToUserFormat($TOTAL_PRICE, null, true)}</span> {$CURRENCY_SYMBOL}</span></strong></div>
+						<div class="col-md-6 text-right"><strong><span
+										class="valuePrices">{CurrencyField::convertToUserFormat($TOTAL_PRICE, null, true)}</span> {$CURRENCY_SYMBOL}</span>
+							</strong></div>
 					</div>
 				</div>
 				<div class="modal-footer">
