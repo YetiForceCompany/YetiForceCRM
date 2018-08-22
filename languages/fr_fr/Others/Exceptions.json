@@ -1,0 +1,30 @@
+{
+    "php": {
+        "ERR_NO_PERMISSIONS_FOR_THE_RECORD": "Vous ne disposez pas des autorisations n\u00e9cessaires pour afficher \/ modifier cet enregistrement. Contactez l'administrateur si vous avez l'autorisation de l'afficher.",
+        "ERR_TO_MANY_FILES": "Trop de fichiers - la limite a \u00e9t\u00e9 d\u00e9pass\u00e9e",
+        "ERR_CONTENTS_VARIABLE_CANT_CALLED_FUNCTION": "Le contenu variable (%s) ne peut pas \u00eatre d\u00e9clench\u00e9 en tant que fonction",
+        "ERR_DUPLICATES_VALUES_FOUND": "%s valeurs dupliqu\u00e9es trouv\u00e9es",
+        "ERR_EXCEEDED_NUMBER_CHARACTERS": "Nombre de caract\u00e8res d\u00e9pass\u00e9",
+        "ERR_SPECIAL_CHARACTERS_NOT_ALLOWED": "Les caract\u00e8res sp\u00e9ciaux tels que %s ne sont pas autoris\u00e9s",
+        "ERR_CREATE_FILE_FAILURE": "La cr\u00e9ation du fichier a \u00e9chou\u00e9",
+        "ERR_FILE_WRONG_SIZE": "Mauvaise taille de fichier",
+        "ERR_FILE_EMPTY_NAME": "Le nom du fichier est vide",
+        "ERR_FILE_ERROR_REQUEST": "Erreur de transfert de fichier : %s",
+        "ERR_FILE_ILLEGAL_FORMAT": "Format de fichier ill\u00e9gal",
+        "ERR_FILE_WRONG_IMAGE": "Fichier d'image incorrect",
+        "ERR_FILE_PHP_CODE_INJECTION": "Le fichier contient du code PHP dangereux et a \u00e9t\u00e9 rejet\u00e9",
+        "ERR_FILE_XPACKET_CODE_INJECTION": "Le fichier contient un code XPACKET dangereux et a \u00e9t\u00e9 rejet\u00e9",
+        "ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES": "Aucune autorisation pour cr\u00e9er des r\u00e9pertoires",
+        "ERR_AUTO_LOGOUT": "D\u00e9connect\u00e9 automatiquement en raison d'aucune activit\u00e9",
+        "ERR_FIELD_NOT_FOUND": "Champ introuvable",
+        "ERR_USER_EXISTS": "L'utilisateur avec le m\u00eame nom d'utilisateur et le m\u00eame r\u00f4le existe d\u00e9j\u00e0 (%s)",
+        "ERR_NOT_ACCESSIBLE": "Acc\u00e9s refus\u00e9",
+        "ERR_ILLEGAL_VALUE": "Valeur non valide",
+        "ERR_ILLEGAL_FIELD_VALUE": "Valeur non valide dans le champs %s (%s)",
+        "ERR_VALUE_IS_TOO_LONG": "La valeur du champ %s est trop longue (%s)",
+        "ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO": "La valeur de %s doit \u00eatre sup\u00e9rieur \u00e0 0 (%s)",
+        "ERR_NOT_ALLOWED_VALUE": "Valeur incorrecte d\u00e9tect\u00e9, veuillez contacter l'administrateur.",
+        "ERR_PASSWORD_HAS_ALREADY_BEEN_USED": "Ce mot de passe a d\u00e9j\u00e0 \u00e9t\u00e9 utilis\u00e9. Le syst\u00e8me ne permet pas d'utiliser le m\u00eame mot de passe pour des raisons de s\u00e9curit\u00e9."
+    },
+    "js": {}
+}
