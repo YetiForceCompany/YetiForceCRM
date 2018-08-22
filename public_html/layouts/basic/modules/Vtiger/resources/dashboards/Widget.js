@@ -1654,12 +1654,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 	registerFilterChangeEvent: function registerFilterChangeEvent() {
 		let container = this.getContainer();
 		container.on('change', '.widgetFilter', (e) => {
-			$(e.currentTarget).closest('li').find('a[name="drefresh"]').trigger('click');
+			container.find('a[name="drefresh"]').trigger('click');
 		});
 		if (container.find('.widgetFilterByField').length) {
 			App.Fields.Picklist.showSelect2ElementView(container.find('.select2noactive'));
 			this.getContainer().on('change', '.widgetFilterByField .form-control', (e) => {
-				$(e.currentTarget).closest('li').find('a[name="drefresh"]').trigger('click');
+				container.find('a[name="drefresh"]').trigger('click');
 			});
 		}
 	},
