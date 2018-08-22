@@ -15,6 +15,13 @@ matrix:
     - php: hhvm
     - php: nightly
     
+addons:
+  sonarcloud:
+    organization: "yetiforcecompany"
+    token:
+      secure: $SONAR_TOKEN
+
+    
 branches:
   only:
     - developer
@@ -36,6 +43,7 @@ before_script:
 script:
 - cd tests
 - /usr/local/bin/phpunit --debug --verbose
+- sonar-scanner
     
 after_script:
 - sudo cat /var/log/apache2/error.log
