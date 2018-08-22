@@ -897,6 +897,7 @@
     "LBL_EXECUTE": "Wykonaj",
     "BTN_WORKFLOW_TRIGGER": "Narz\u0119dzie umo\u017cliwiaj\u0105ce r\u0119czne wywo\u0142anie obieg\u00f3w informacji, kt\u00f3re uruchomi automatycznie wszystkie podpi\u0119te zadania.",
     "LBL_EMAIL_TEMPLATE_FOOTER": "Yetiforce CRM",
+    "LBL_CONSENT_TO_SEND": "Zgoda na wys\u0142anie",
     "LBL_VIEW_CREATE": "Tworzenie",
     "LBL_VIEW_EDIT": "Edycja",
     "LBL_VIEW_DETAIL": "Podgl\u0105d",

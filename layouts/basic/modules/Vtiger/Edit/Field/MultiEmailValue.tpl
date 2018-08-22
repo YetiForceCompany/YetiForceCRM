@@ -23,12 +23,12 @@
 				<label class="btn btn-outline-primary border">
 					<div class="c-float-label__container">
 						<div class="c-float-label__hidden-ph">
-							Opted out
+							{\App\Language::translate('LBL_CONSENT_TO_SEND', $MODULE)}
 						</div>
 						<input id="Opted out" type="checkbox" autocomplete="off">
 						<span class="far fa-square position-absolute"></span>
 						<label class="c-float-label__label" for="Opted out">
-							Opted out
+							{\App\Language::translate('LBL_CONSENT_TO_SEND', $MODULE)}
 						</label>
 					</div>
 				</label>
