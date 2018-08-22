@@ -11,7 +11,7 @@
 						   data-fa-transform="shrink-6  left-4"></i>
 						<i class="fa-inverse fas fa-percent text-white" data-fa-transform="shrink-8  right-3"></i>
 					</span>
-					<h5 class="modal-title">{\App\Language::translate('LBL_SELECT_TAX', $MODULE)} {\App\Language::translate('SINGLE_'|cat:$MODULE, $MODULE)}</h5>
+					<h5 class="modal-title">{\App\Language::translate('LBL_SELECT_TAX', $MODULE)}</h5>
 					<button type="button" class="close" data-dismiss="modal"
 							aria-label="{\App\Language::translate('LBL_CLOSE')}">
 						<span aria-hidden="true">&times;</span>
