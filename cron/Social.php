@@ -8,7 +8,7 @@
  */
 $configTwitter = (new \Settings_SocialMedia_Config_Model('twitter'));
 $days = $configTwitter->get('archiving_records_number_of_days');
-if (empty($var)) {
+if (empty($days)) {
 	\App\Log::info('Number of days is empty');
 } else {
 	$db = \App\Db::getInstance();
