@@ -60,7 +60,7 @@ script:
 - cd tests
 - /usr/local/bin/phpunit --debug --verbose
 - cd ..
-- sonar-scanner -X
+- sonar-scanner
     
 after_script:
 - sudo cat /var/log/apache2/error.log
