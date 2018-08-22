@@ -114,7 +114,8 @@
 				{/foreach}
 			</select>
 		</div>
-		<input class="form-control" type="hidden" name="comparatorValue" value="{$CONDITION_INFO['comparator']}">
+		<input class="form-control" type="hidden" name="comparatorValue"
+			   value="{if !empty($CONDITION_INFO['comparator'])}{$CONDITION_INFO['comparator']}{/if}">
 		{if !empty($SELECTED_FIELD_MODEL)}
 			{if !$FIELD_TYPE}
 				{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
@@ -129,17 +130,19 @@
 			<select class="{if empty($NOCHOSEN)}select2{/if} form-control" name="comparator"
 					title="{\App\Language::translate('LBL_COMAPARATOR_TYPE')}">
 				<option value="none">{\App\Language::translate('LBL_NONE',$MODULE)}</option>
-				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
-					<option value="{$ADVANCE_FILTER_OPTION}"
-							{if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{\App\Language::translate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
-				{/foreach}
+				{if !empty($ADVANCE_FILTER_OPTIONS)}
+					{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
+						<option value="{$ADVANCE_FILTER_OPTION}"
+								{if !empty($CONDITION_INFO['comparator']) && $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{\App\Language::translate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
+					{/foreach}
+				{/if}
 			</select>
 		</div>
 		<div class="fieldUiHolder w-25">
 			<input class="form-control mr-auto"
-				   name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}"
+				   name="{if !empty($SELECTED_FIELD_MODEL)}{$SELECTED_FIELD_MODEL->get('name')}{/if}"
 				   title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" type="text"
-				   value="{$CONDITION_INFO['value']|escape}"/>
+				   value="{if !empty($CONDITION_INFO['value'])}{$CONDITION_INFO['value']|escape}{/if}"/>
 		</div>
 		<div class="btn btn-danger deleteCondition">
 			<span class="fas fa-trash-alt" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
