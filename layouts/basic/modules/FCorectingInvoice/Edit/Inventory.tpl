@@ -110,12 +110,11 @@
 							<th class="{if !$FIELD->isEditable()}d-none {/if}col-3 border-bottom-0">
 								<span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $MODULE)}</span>&nbsp;&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
-								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 								{assign var="COLUMN_NAME" value=$FIELD->get('columnname')}
 								{if empty($INVENTORY_ROWS[0][$COLUMN_NAME])}
 									{assign var="ITEM_VALUE" value=NULL}
 								{else}
-									{assign var="ITEM_VALUE" value=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
+									{assign var="ITEM_VALUE" value=$INVENTORY_ROWS[0][$COLUMN_NAME]}
 								{/if}
 								{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE)}
 							</th>
