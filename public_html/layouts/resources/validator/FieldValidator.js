@@ -1053,7 +1053,6 @@ Vtiger_Base_Validator_Js("Vtiger_Twitter_Validator_Js", {
 }, {
 	/**
 	 * Function to validate the Twwiter Account
-	 * @author    Arkadiusz Adach <a.adach@yetiforce.com>
 	 * @return true if validation is successfull
 	 * @return false if validation error occurs
 	 */
@@ -1076,7 +1075,6 @@ Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 	invokeValidation(field) {
 		let validatorInstance = new Vtiger_MultiEmail_Validator_Js();
 		validatorInstance.setElement(field);
-		//console.log('KK: ' + JSON.stringify(field));
 		let result = validatorInstance.validate();
 		if (result == true) {
 			return result;
@@ -1087,7 +1085,6 @@ Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 }, {
 	/**
 	 * Function to validate the Multi email. Check if the email address is duplicated.
-	 * @author    Arkadiusz Adach <a.adach@yetiforce.com>
 	 * @return true if validation is successfull
 	 * @return false if validation error occurs
 	 */
@@ -1095,6 +1092,24 @@ Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 		console.log('KK: ' + JSON.stringify(this.field));
 		let fieldValue = this.getFieldValue();
 		console.log(JSON.stringify(fieldValue));
+		console.log('C: ' + $(this.field).closest('div.js-multi-email').eq(0).attr('class'));
+		let allFields = $(this.field).closest('div.js-multi-email').eq(0).find('[class*=js-multi-email-row]');
+		let arrayLength = allFields.length;
+		for (let i = 0; i < arrayLength; ++i) {
+			let inputField = $(allFields[i]).find('input[type=text]').eq(0);
+			if (inputField.id == this.field.id) {
+				console.log('$#$$$$$$$$$$$$$$$$ ' + inputField.val() + ' <=> ' + fieldValue);
+			}
+			if (inputField.val() === fieldValue) {
+				this.setError(app.vtranslate("JS_EMAIL_DUPLICATED"));
+				return false;
+			}
+		}
+
+		var result = this.validateValue(fieldValue);
+		if (result == false) {
+			return result;
+		}
 
 		/*let fieldValue = this.getFieldValue();
 		console.log(JSON.stringify(fieldValue));

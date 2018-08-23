@@ -13,10 +13,9 @@
 			<input type="text" class="form-control"
 				   name="{$FIELD_MODEL->getFieldName()}_tmp"
 				   placeholder="{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}"
-				   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Email_Validator_Js.invokeValidation],funcCall[Vtiger_MultiEmail_Validator_Js.invokeValidation]]"
+				   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_MultiEmail_Validator_Js.invokeValidation]]"
 				   value="{$ITEM['e']}"
-				   aria-label="{\App\Language::translate('LBL_REMOVE', $MODULE)}"
-				   aria-describedby="{\App\Language::translate('LBL_REMOVE', $MODULE)}"/>
+				   aria-label="{\App\Language::translate('LBL_REMOVE', $MODULE)}"/>
 			<div class="input-group-append btn-group-toggle" data-js="click" data-toggle="buttons">
 				<label class="btn btn-outline-default border {if !empty($ITEM['o']) && $ITEM['o'] }active{/if}">
 					<div class="c-float-label__container"

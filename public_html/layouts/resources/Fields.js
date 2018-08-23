@@ -708,20 +708,20 @@ App.Fields = {
 				$(form).on('submit', (e) => {
 					App.Fields.MultiEmail.onFormSubmit(inputElement);
 				});
-			});
-			container.find('.js-add-item').each((index, element) => {
-				$(element).on('click', (e) => {
-					App.Fields.MultiEmail.triggerAddEmail(container);
+				$(element).find('.js-add-item').each((index, element) => {
+					$(element).on('click', (e) => {
+						App.Fields.MultiEmail.triggerAddEmail(container);
+					});
 				});
-			});
-			container.find('.js-remove-item').each((index, element) => {
-				$(element).on('click', (e) => {
-					App.Fields.MultiEmail.triggerRemoveEmail($(e.target), container);
+				$(element).find('.js-remove-item').each((index, element) => {
+					$(element).on('click', (e) => {
+						App.Fields.MultiEmail.triggerRemoveEmail($(e.target), container);
+					});
 				});
-			});
-			container.find('input[type=checkbox]').each((index, element) => {
-				$(element).on('change', (e) => {
-					App.Fields.MultiEmail.triggerCheck($(e.target));
+				$(element).find('input[type=checkbox]').each((index, element) => {
+					$(element).on('change', (e) => {
+						App.Fields.MultiEmail.triggerCheck($(e.target));
+					});
 				});
 			});
 		},
