@@ -1089,41 +1089,28 @@ Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 	 * @return false if validation error occurs
 	 */
 	validate() {
-		console.log('KK: ' + JSON.stringify(this.field));
 		let fieldValue = this.getFieldValue();
-		console.log(JSON.stringify(fieldValue));
-		console.log('C: ' + $(this.field).closest('div.js-multi-email').eq(0).attr('class'));
+		if (fieldValue === '') {
+			return true;
+		}
+		if (this.validateValue(fieldValue) === false) {
+			return false;
+		}
 		let allFields = $(this.field).closest('div.js-multi-email').eq(0).find('[class*=js-multi-email-row]');
 		let arrayLength = allFields.length;
 		for (let i = 0; i < arrayLength; ++i) {
 			let inputField = $(allFields[i]).find('input[type=text]').eq(0);
-			if (inputField.id == this.field.id) {
-				console.log('$#$$$$$$$$$$$$$$$$ ' + inputField.val() + ' <=> ' + fieldValue);
+			if (inputField.val() === '') {
+				continue;
 			}
-			if (inputField.val() === fieldValue) {
+			let inputClass1 = $(allFields[i]).closest("div[class*=js-multi-email-row-]").eq(0).attr('class');
+			let inputClass2 = $(this.field).closest("div[class*=js-multi-email-row-]").eq(0).attr('class');
+			if (inputClass1 !== inputClass2 && inputField.val() === fieldValue) {
 				this.setError(app.vtranslate("JS_EMAIL_DUPLICATED"));
 				return false;
 			}
 		}
-
-		var result = this.validateValue(fieldValue);
-		if (result == false) {
-			return result;
-		}
-
-		/*let fieldValue = this.getFieldValue();
-		console.log(JSON.stringify(fieldValue));
-		let arrayOfEmails = JSON.parse(fieldValue);
-		for (let i = 0; i < arrayOfEmails.length; ++i) {
-			let email = arrayOfEmails[i]['e'].toLowerCase();
-			for (let k = i; k < arrayOfEmails.length; ++k) {
-				if (k !== i && email === arrayOfEmails[k]['e'].toLowerCase()) {
-					this.setError(app.vtranslate("JS_EMAIL_DUPLICATED"));
-					return false;
-				}
-			}
-		}
-		return true;*/
+		return true;
 	}
 });
 

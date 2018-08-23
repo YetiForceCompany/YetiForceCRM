@@ -710,12 +710,12 @@ App.Fields = {
 				});
 				$(element).find('.js-add-item').each((index, element) => {
 					$(element).on('click', (e) => {
-						App.Fields.MultiEmail.triggerAddEmail(container);
+						App.Fields.MultiEmail.triggerAddEmail($(inputElement));
 					});
 				});
 				$(element).find('.js-remove-item').each((index, element) => {
 					$(element).on('click', (e) => {
-						App.Fields.MultiEmail.triggerRemoveEmail($(e.target), container);
+						App.Fields.MultiEmail.triggerRemoveEmail($(e.target), $(inputElement));
 					});
 				});
 				$(element).find('input[type=checkbox]').each((index, element) => {
@@ -733,11 +733,9 @@ App.Fields = {
 			let allFields = $(element).find('[class*=js-multi-email-row]');
 			let arr = [];
 			let arrayLength = allFields.length;
-			console.log('L: ' + arrayLength);
 			for (let i = 0; i < arrayLength; ++i) {
 				let inputField = $(allFields[i]).find('input[type=text]').eq(0);
 				let checkboxField = $(allFields[i]).find('input[type=checkbox]').eq(0);
-				console.log('V: ' + inputField.val());
 				if (inputField.val() !== '') {
 					arr.push({
 						e: $(inputField).val(),
@@ -760,7 +758,10 @@ App.Fields = {
 			newField.find('input[type=checkbox]').removeAttr('checked');
 			newField.find('label.btn-outline-primary').removeClass('active');
 			newField.find('.js-remove-item').eq(0).on('click', (e) => {
-				App.Fields.MultiEmail.triggerRemoveEmail(newField.find('.js-remove-item').eq(0), container);
+				App.Fields.MultiEmail.triggerRemoveEmail($(e.target), container);
+			});
+			newField.find('input[type=checkbox]').eq(0).on('change', (e) => {
+				App.Fields.MultiEmail.triggerCheck($(e.target));
 			});
 			newField.insertAfter(container.find('[class*=js-multi-email-row]').last());
 		},
