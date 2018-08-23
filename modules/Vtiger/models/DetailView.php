@@ -147,13 +147,13 @@ class Vtiger_DetailView_Model extends \App\Base
 				'modalView' => true,
 			];
 		}
-		if ($userPrivilegesModel->hasModulePermission('RecordConventer') && \App\RecordConverter::checkIfModuleCanConverted($moduleModel->getName(), 'DetailView')) {
+		if ($userPrivilegesModel->hasModulePermission('RecordConventer') && \App\RecordConverter::isActive($moduleModel->getName(), 'DetailView')) {
 			$detailViewLinks[] = [
-					'linktype' => 'LIST_VIEW_HEADER',
-					'linklabel' => 'LBL_RECORD_CONVERTER',
-					'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=RecordConverter&inView=Detail&selected_ids=[{$recordModel->getId()}]"],
-					'linkicon' => 'fas fa-exchange-alt',
-					'modalView' => true,
+				'linktype' => 'LIST_VIEW_HEADER',
+				'linklabel' => 'LBL_RECORD_CONVERTER',
+				'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=RecordConverter&inView=Detail&selected_ids=[{$recordModel->getId()}]"],
+				'linkicon' => 'fas fa-exchange-alt',
+				'modalView' => true,
 			];
 		}
 		foreach ($detailViewLinks as $detailViewLink) {
@@ -348,10 +348,10 @@ class Vtiger_DetailView_Model extends \App\Base
 		foreach ($this->getModule()->getRelations() as $relation) {
 			if ($relation->isRelatedViewType($viewType)) {
 				$relatedLinks[] = Vtiger_Link_Model::getInstanceFromValues([
-						'linklabel' => $relation->get('label'),
-						'linkurl' => $relation->getListUrl($recordModel),
-						'linkicon' => '',
-						'relatedModuleName' => $relation->get('relatedModuleName'),
+					'linklabel' => $relation->get('label'),
+					'linkurl' => $relation->getListUrl($recordModel),
+					'linkicon' => '',
+					'relatedModuleName' => $relation->get('relatedModuleName'),
 				]);
 			}
 		}
@@ -433,7 +433,7 @@ class Vtiger_DetailView_Model extends \App\Base
 	/**
 	 *  Function to get the module name.
 	 *
-	 *  @return string - name of the module
+	 * @return string - name of the module
 	 */
 	public function getModuleName()
 	{

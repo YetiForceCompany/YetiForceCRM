@@ -305,7 +305,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fas fa-check-circle'
 			];
 		}
-		if ($moduleModel->isPermitted('RecordConventer') && \App\RecordConverter::checkIfModuleCanConverted($moduleModel->getName(), 'List')) {
+		if ($moduleModel->isPermitted('RecordConventer') && \App\RecordConverter::isActive($moduleModel->getName(), 'List')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_RECORD_CONVERTER',
