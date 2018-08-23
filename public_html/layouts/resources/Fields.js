@@ -719,6 +719,11 @@ App.Fields = {
 					App.Fields.MultiEmail.triggerRemoveEmail($(e.target), container);
 				});
 			});
+			container.find('input[type=checkbox]').each((index, element) => {
+				$(element).on('change', (e) => {
+					App.Fields.MultiEmail.triggerCheck($(e.target));
+				});
+			});
 		},
 		/**
 		 * Convert data to json
@@ -728,9 +733,11 @@ App.Fields = {
 			let allFields = $(element).find('[class*=js-multi-email-row]');
 			let arr = [];
 			let arrayLength = allFields.length;
+			console.log('L: ' + arrayLength);
 			for (let i = 0; i < arrayLength; ++i) {
 				let inputField = $(allFields[i]).find('input[type=text]').eq(0);
 				let checkboxField = $(allFields[i]).find('input[type=checkbox]').eq(0);
+				console.log('V: ' + inputField.val());
 				if (inputField.val() !== '') {
 					arr.push({
 						e: $(inputField).val(),
@@ -764,6 +771,13 @@ App.Fields = {
 		triggerRemoveEmail(element, container) {
 			if (container.find('[class*=js-multi-email-row]').length > 1) {
 				element.closest('[class*=js-multi-email-row]').remove();
+			}
+		},
+		triggerCheck(element) {
+			if ($(element).is(":checked")) {
+				element.closest('label.btn').eq(0).find('svg.svg-inline--fa').eq(0).removeClass('fa-square').addClass('fa-check-square');
+			} else {
+				element.closest('label.btn').eq(0).find('svg.svg-inline--fa').eq(0).removeClass('fa-check-square').addClass('fa-square');
 			}
 		}
 	},

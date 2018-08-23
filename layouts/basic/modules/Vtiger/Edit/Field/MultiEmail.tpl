@@ -1,5 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-{strip}
+{*{strip}
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	<div class="form-inline tpl-Edit-Field-MultiEmail js-multi-email">
@@ -18,5 +18,29 @@
 		{foreach item=ITEM from=$NOT_DISPLAY_LIST_VALUES}
 			{include file=\App\Layout::getTemplatePath('Edit/Field/MultiEmailValue.tpl', 'Vtiger')}
 		{/foreach}
+	</div>
+{/strip}*}
+
+{strip}
+	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
+	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
+	{if !empty($FIELD_MODEL->get('fieldvalue'))}
+		{assign var=NOT_DISPLAY_LIST_VALUES value=$FIELD_VALUE}
+	{else}
+		{assign var=NOT_DISPLAY_LIST_VALUES value=[]}
+	{/if}
+	<div class="d-flex align-items-center js-multi-email">
+		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=""/>
+		<button class="btn btn-outline-success border mr-2 mb-2 h-100 js-add-item"
+				data-js="click" type="button">
+			<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD', $MODULE)}"></span>
+		</button>
+		<div class="form-inline">
+			{counter start=0 skip=1 print=false}
+			{foreach item=ITEM from=$NOT_DISPLAY_LIST_VALUES}
+				{include file=\App\Layout::getTemplatePath('Edit/Field/MultiEmailValue.tpl', 'Vtiger')}
+			{/foreach}
+		</div>
 	</div>
 {/strip}

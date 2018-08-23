@@ -1076,6 +1076,7 @@ Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 	invokeValidation(field) {
 		let validatorInstance = new Vtiger_MultiEmail_Validator_Js();
 		validatorInstance.setElement(field);
+		//console.log('KK: ' + JSON.stringify(field));
 		let result = validatorInstance.validate();
 		if (result == true) {
 			return result;
@@ -1091,7 +1092,12 @@ Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 	 * @return false if validation error occurs
 	 */
 	validate() {
+		console.log('KK: ' + JSON.stringify(this.field));
 		let fieldValue = this.getFieldValue();
+		console.log(JSON.stringify(fieldValue));
+
+		/*let fieldValue = this.getFieldValue();
+		console.log(JSON.stringify(fieldValue));
 		let arrayOfEmails = JSON.parse(fieldValue);
 		for (let i = 0; i < arrayOfEmails.length; ++i) {
 			let email = arrayOfEmails[i]['e'].toLowerCase();
@@ -1102,7 +1108,7 @@ Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 				}
 			}
 		}
-		return true;
+		return true;*/
 	}
 });
 
