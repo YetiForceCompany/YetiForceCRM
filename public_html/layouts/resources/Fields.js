@@ -718,11 +718,11 @@ App.Fields = {
 						App.Fields.MultiEmail.triggerRemoveEmail($(e.target), $(inputElement));
 					});
 				});
-				$(element).find('input.js-checkbox').each((index, element) => {
+				/*$(element).find('input.js-checkbox').each((index, element) => {
 					$(element).on('change', (e) => {
 						App.Fields.MultiEmail.triggerCheck($(e.target));
 					});
-				});
+				});*/
 			});
 		},
 		/**
@@ -735,11 +735,12 @@ App.Fields = {
 			let arrayLength = allFields.length;
 			for (let i = 0; i < arrayLength; ++i) {
 				let inputField = $(allFields[i]).find('input.js-email').eq(0);
-				let checkboxField = $(allFields[i]).find('input.js-checkbox').eq(0);
+				//let checkboxField = $(allFields[i]).find('input.js-checkbox').eq(0);
 				if (inputField.val() !== '') {
 					arr.push({
 						e: $(inputField).val(),
-						o: $(checkboxField).is(":checked") ? 1 : 0
+						//o: $(checkboxField).is(":checked") ? 1 : 0
+						o: 0
 					});
 				}
 			}
@@ -755,14 +756,14 @@ App.Fields = {
 			newField.removeClass('js-multi-email-row-1');
 			newField.addClass('js-multi-email-row-' + cnt);
 			newField.find('input.js-email').val('');
-			newField.find('input.js-checkbox').removeAttr('checked');
-			newField.find('label.js-label-checkbox').removeClass('active');
+			//newField.find('input.js-checkbox').removeAttr('checked');
+			//newField.find('label.js-label-checkbox').removeClass('active');
 			newField.find('.js-remove-item').eq(0).on('click', (e) => {
 				App.Fields.MultiEmail.triggerRemoveEmail($(e.target), container);
 			});
-			newField.find('input.js-checkbox').eq(0).on('change', (e) => {
+			/*newField.find('input.js-checkbox').eq(0).on('change', (e) => {
 				App.Fields.MultiEmail.triggerCheck($(e.target));
-			});
+			});*/
 			newField.insertAfter(container.find('[class*=js-multi-email-row]').last());
 		},
 		/**
@@ -775,7 +776,7 @@ App.Fields = {
 			}
 		},
 		triggerCheck(element) {
-			if ($(element).is(":checked")) {
+			/*if ($(element).is(":checked")) {
 				element.closest('label.js-label-checkbox')
 					.eq(0).find('svg.svg-inline--fa').eq(0)
 					.removeClass('fa-square').addClass('fa-check-square');
@@ -783,7 +784,7 @@ App.Fields = {
 				element.closest('label.js-label-checkbox')
 					.eq(0).find('svg.svg-inline--fa').eq(0)
 					.removeClass('fa-check-square').addClass('fa-square');
-			}
+			}*/
 		}
 	},
 	DependentSelect: {

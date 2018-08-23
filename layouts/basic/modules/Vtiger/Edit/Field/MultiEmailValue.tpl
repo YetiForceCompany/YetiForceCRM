@@ -22,7 +22,7 @@
 				   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_MultiEmail_Validator_Js.invokeValidation]]"
 				   value="{$ITEM_VAL}"
 				   aria-label="{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}"/>
-			<div class="input-group-append btn-group-toggle" data-js="click" data-toggle="buttons">
+			{*<div class="input-group-append btn-group-toggle" data-js="click" data-toggle="buttons">
 				<label class="btn btn-outline-default border {if !empty($ITEM['o']) && $ITEM['o'] }active{/if} js-label-checkbox"
 					   data-js="checkbox" for="consent-to-send">
 					<div class="c-float-label__container"
@@ -39,7 +39,7 @@
 						</label>
 					</div>
 				</label>
-			</div>
+			</div>*}
 
 		</div>
 	</div>
