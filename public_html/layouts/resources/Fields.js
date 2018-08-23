@@ -705,7 +705,7 @@ App.Fields = {
 			container.find('.js-multi-email').each(function () {
 				const inputElement = this;
 				let form = $(this).closest('form').eq(0);
-				$(form).on(Vtiger_Edit_Js.recordPreSave, (e) => {
+				$(form).on('submit', (e) => {
 					App.Fields.MultiEmail.onFormSubmit(inputElement);
 				});
 			});

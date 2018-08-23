@@ -9,7 +9,8 @@
 		{else}
 			{assign var=NOT_DISPLAY_LIST_VALUES value=[]}
 		{/if}
-		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=""/>
+		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=""
+			   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_MultiEmail_Validator_Js.invokeValidation]]"/>
 		<button class="btn btn-success mr-2 mb-1 js-add-item" data-js="click" type="button" id="button-addon1">
 			<span class="fas fa-plus"></span>
 		</button>

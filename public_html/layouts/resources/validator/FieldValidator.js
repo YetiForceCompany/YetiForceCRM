@@ -1060,8 +1060,7 @@ Vtiger_Base_Validator_Js("Vtiger_Twitter_Validator_Js", {
 	validate() {
 		let fieldValue = this.getFieldValue();
 		if (!fieldValue.match(/^[a-zA-Z0-9_]{1,15}$/g)) {
-			let errorInfo = app.vtranslate("JS_PLEASE_ENTER_VALID_TWITTER_ACCOUNT");
-			this.setError(errorInfo);
+			this.setError(app.vtranslate("JS_PLEASE_ENTER_VALID_TWITTER_ACCOUNT"));
 			return false;
 		}
 		return true;
@@ -1086,23 +1085,24 @@ Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 	}
 }, {
 	/**
-	 * Function to validate the Multi email
+	 * Function to validate the Multi email. Check if the email address is duplicated.
 	 * @author    Arkadiusz Adach <a.adach@yetiforce.com>
 	 * @return true if validation is successfull
 	 * @return false if validation error occurs
 	 */
 	validate() {
 		let fieldValue = this.getFieldValue();
-		if (fieldValue != '') {
-			let arrayOfEmails = fieldValue.split(',');
-			for (let i = 0; i < arrayOfEmails.length; ++i) {
-				let result = this.validateValue(arrayOfEmails[i]);
-				if (result === false) {
-					return result;
+		let arrayOfEmails = JSON.parse(fieldValue);
+		for (let i = 0; i < arrayOfEmails.length; ++i) {
+			let email = arrayOfEmails[i]['e'];
+			for (let k = i; k < arrayOfEmails.length; ++k) {
+				if (k !== i && email === arrayOfEmails[k]['e']) {
+					this.setError(app.vtranslate("JS_EMAIL_DUPLICATED"));
+					return false;
 				}
 			}
-			return true;
 		}
+		return true;
 	}
 });
 
