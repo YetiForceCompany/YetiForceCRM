@@ -716,7 +716,7 @@ App.Fields = {
 			});
 			container.find('.js-remove-item').each(function () {
 				$(this).on('click', (e) => {
-					App.Fields.MultiEmail.triggerRemoveEmail($(e.target));
+					App.Fields.MultiEmail.triggerRemoveEmail($(e.target), container);
 				});
 			});
 		},
@@ -731,7 +731,7 @@ App.Fields = {
 			for (let i = 0; i < arrayLength; ++i) {
 				let inputField = $(allFields[i]).find('input[type=text]').eq(0);
 				let checkboxField = $(allFields[i]).find('input[type=checkbox]').eq(0);
-				if (inputField !== '') {
+				if (inputField.val() !== '') {
 					arr.push({
 						e: $(inputField).val(),
 						o: $(checkboxField).is(":checked") ? 1 : 0
@@ -745,13 +745,15 @@ App.Fields = {
 		 * @param container
 		 */
 		triggerAddEmail(container) {
-			let newField = container.find('.js-multi-email-row-1').clone(false, false);
+			let newField = container.find('[class*=js-multi-email-row]').eq(0).clone(false, false);
 			let cnt = container.find('[class*=js-multi-email-row]').length + 1;
 			newField.removeClass('js-multi-email-row-1');
 			newField.addClass('js-multi-email-row-' + cnt);
 			newField.find('input[type=text]').val('');
+			newField.find('input[type=checkbox]').removeAttr('checked');
+			newField.find('label.btn-outline-primary').removeClass('active');
 			newField.find('.js-remove-item').eq(0).on('click', (e) => {
-				App.Fields.MultiEmail.triggerRemoveEmail(newField.find('.js-remove-item').eq(0));
+				App.Fields.MultiEmail.triggerRemoveEmail(newField.find('.js-remove-item').eq(0), container);
 			});
 			newField.insertAfter(container.find('[class*=js-multi-email-row]').last());
 		},
@@ -759,8 +761,10 @@ App.Fields = {
 		 * Invoked after clicking the remove button
 		 * @param container
 		 */
-		triggerRemoveEmail(element) {
-			element.closest('[class*=js-multi-email-row]').remove();
+		triggerRemoveEmail(element, container) {
+			if (container.find('[class*=js-multi-email-row]').length > 1) {
+				element.closest('[class*=js-multi-email-row]').remove();
+			}
 		}
 	},
 	DependentSelect: {

@@ -65,7 +65,14 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Base_UIType
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return explode(',', $this->getDisplayValue($value, false, $recordModel));
+		if (empty($value)) {
+			return '';
+		}
+		$value = \App\Json::decode($value);
+		if (empty($value)) {
+			return '';
+		}
+		return $value;
 	}
 
 	/**
