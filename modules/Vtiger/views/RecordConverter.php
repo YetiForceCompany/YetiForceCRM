@@ -18,27 +18,19 @@ class Vtiger_RecordConverter_View extends \App\Controller\Modal
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleConverters = \App\RecordConverter::getModuleConverters(\App\Module::getModuleId($moduleName), $request->get('inView'));
-		if (!\App\Privilege::isPermitted($moduleName, 'RecordConventer')) {
+		if (!\App\Privilege::isPermitted($request->getModule(), 'RecordConventer')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-		foreach ($moduleConverters as $converter) {
-			$destinyModules = explode(',', $converter['destiny_module']);
-			foreach ($destinyModules as $destinyModuleId) {
-				if (!\App\Privilege::isPermitted(\App\Module::getModuleName($destinyModuleId), 'CreateView')) {
-					\App\Log::warning("No permitted to action CreateView in module $destinyModuleId in view RecordConventer");
-				}
-			}
 		}
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function preProcessTplName(\App\Request $request)
+	public function preProcessAjax(\App\Request $request)
 	{
-		return 'Modals/RecordConverterHeader.tpl';
+		$moduleName = $request->getModule($request);
+		$this->modalIcon = "modCT_{$moduleName} userIcon-{$moduleName}";
+		parent::preProcessAjax($request);
 	}
 
 	/**
@@ -60,7 +52,7 @@ class Vtiger_RecordConverter_View extends \App\Controller\Modal
 			$viewer->assign('SELECTED_CONVERT_TYPE', $request->getInteger('convertType'));
 			$viewer->assign('CREATED_RECORDS', $converter->countCreatedRecords($records));
 		}
-		$moduleConverters = \App\RecordConverter::getModuleConverters(\App\Module::getModuleId($moduleName), $request->get('inView'));
+		$moduleConverters = \App\RecordConverter::getModuleConverters($moduleName, $request->getByType('inView', 'Text'));
 		foreach ($moduleConverters as $key => $converter) {
 			$destinyModules = explode(',', $converter['destiny_module']);
 			foreach ($destinyModules as $destinyModuleKey => $destinyModuleId) {
@@ -80,12 +72,5 @@ class Vtiger_RecordConverter_View extends \App\Controller\Modal
 		$viewer->assign('CONVERTERS', $moduleConverters);
 		$viewer->assign('MODULE_WITHOUT_PERMISSIONS', $modulesWithoutPermission);
 		$viewer->view('Modals/RecordConverter.tpl', $moduleName);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function initializeContent($request, $viewer)
-	{
 	}
 }

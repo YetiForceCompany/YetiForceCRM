@@ -18,15 +18,8 @@ class Vtiger_RecordConverter_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		if (!\App\Privilege::isPermitted($moduleName, 'RecordConventer')) {
+		if (!\App\Privilege::isPermitted($request->getModule(), 'RecordConventer')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-		$convertInstance = \App\RecordConverter::getInstanceById($request->getInteger('convertId'), $moduleName);
-		foreach (explode(',', $convertInstance->get('destiny_modules')) as $destinyModuleId) {
-			if (!\App\Privilege::isPermitted(\App\Module::getModuleName($destinyModuleId), 'CreateView')) {
-				\App\Log::warning("No permitted to action CreateView in module $destinyModuleId in view RecordConventer");
-			}
 		}
 	}
 

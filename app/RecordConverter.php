@@ -135,9 +135,7 @@ class RecordConverter extends Base
 	 */
 	public static function getInstanceById($id, $moduleName = '')
 	{
-		if ($id) {
-			$query = (new \App\Db\Query())->from('a_#__record_converter')->where(['id' => $id]);
-		}
+		$query = (new \App\Db\Query())->from('a_#__record_converter')->where(['id' => $id]);
 		if ($moduleName) {
 			$query->andWhere(['source_module' => \App\Module::getModuleId($moduleName)]);
 		}
@@ -147,6 +145,7 @@ class RecordConverter extends Base
 			$self->setData($row);
 		} else {
 			\App\Log::error("Could not find record converter id: $id module name: $moduleName");
+			throw new \App\Exceptions\AppException('LBL_NOT_FOUND_RECORD_CONVERTER');
 		}
 		return $self;
 	}
@@ -159,7 +158,7 @@ class RecordConverter extends Base
 	 *
 	 * @return bool
 	 */
-	public static function checkIfModuleCanConverted($moduleName, $view = '')
+	public static function isActive($moduleName, $view = '')
 	{
 		return self::getQuery($moduleName, $view)->exists(\App\Db::getInstance('admin'));
 	}
@@ -167,7 +166,7 @@ class RecordConverter extends Base
 	/**
 	 * Function gets module converters.
 	 *
-	 * @param int    $moduleName
+	 * @param string $moduleName
 	 * @param string $view
 	 *
 	 * @return array
@@ -187,11 +186,11 @@ class RecordConverter extends Base
 	 */
 	public static function getQuery($moduleName, $view = '')
 	{
-		if (Cache::has('getQueryRecordConverter', $moduleName . $view)) {
-			return Cache::get('getQueryRecordConverter', $moduleName . $view);
-		}
 		if (is_string($moduleName)) {
 			$moduleName = \App\Module::getModuleId($moduleName);
+		}
+		if (Cache::has('getQueryRecordConverter', $moduleName . $view)) {
+			return Cache::get('getQueryRecordConverter', $moduleName . $view);
 		}
 		$query = (new \App\Db\Query())->from('a_#__record_converter')->where(['source_module' => $moduleName, 'status' => 1]);
 		if ($view) {
@@ -333,7 +332,7 @@ class RecordConverter extends Base
 	 */
 	public function getRecordsGroupBy($records)
 	{
-		$groupRecords= $this->getGroupRecords($records);
+		$groupRecords = $this->getGroupRecords($records);
 		foreach ($groupRecords as $groupBy => $recordsId) {
 			$this->cleanRecordModels[$groupBy] = \Vtiger_Record_Model::getCleanInstance($this->destinyModule);
 			foreach ($recordsId as $recordId) {
@@ -427,7 +426,7 @@ class RecordConverter extends Base
 			$counter = 1;
 			$inventoryDataForEdit = [];
 			if ($this->inventoryMapping[0] === 'auto') {
-				$inventoryFields = array_merge($this->sourceInvFields[1], $this->destinyInvFields[1]);
+				$inventoryFields = array_merge($this->sourceInvFields, $this->destinyInvFields);
 				foreach ($this->cleanRecordModels as $groupBy => $newRecordModel) {
 					if (!is_array($this->recordModels[$groupBy])) {
 						$sourceRecordModels = [$this->recordModels[$groupBy]];
@@ -440,14 +439,23 @@ class RecordConverter extends Base
 						}
 						foreach ($recordModel as $recordModelGroupBy) {
 							foreach ($recordModelGroupBy->getInventoryData() as $inventoryRow) {
-								foreach ($inventoryFields as $field) {
-									$inventoryData[$groupBy][$counter][$field->get('columnname')] = $inventoryRow[$field->get('columnname')];
-									$invData[$groupBy][$field->get('columnname') . $counter] = $inventoryRow[$field->get('columnname')];
+								foreach ($inventoryFields as $fields) {
+									foreach ($fields as $fieldModel) {
+										$columnName = $fieldModel->get('columnname');
+										$inventoryData[$groupBy][$counter][$columnName] = $inventoryRow[$columnName];
+										$invData[$groupBy][$columnName . $counter] = $inventoryRow[$columnName];
+										if ($fieldModel->getCustomColumn()) {
+											foreach (array_keys($fieldModel->getCustomColumn()) as $customColumn) {
+												$inventoryData[$groupBy][$counter][$customColumn] = $inventoryRow[$customColumn];
+												$invData[$groupBy][$customColumn . $counter] = $inventoryRow[$customColumn];
+											}
+										}
+									}
+									$inventoryDataForEdit[$groupBy][$counter]['seq'] = $counter;
+									$invData[$groupBy]['seq' . $counter] = $counter;
+									$invData[$groupBy]['inventoryItemsNo'] = $counter;
+									$counter++;
 								}
-								$inventoryDataForEdit[$groupBy][$counter]['seq'] = $counter;
-								$invData[$groupBy]['seq' . $counter] = $counter;
-								$invData[$groupBy]['inventoryItemsNo'] = $counter;
-								$counter++;
 							}
 						}
 					}
@@ -469,6 +477,7 @@ class RecordConverter extends Base
 							foreach ($recordModelGroupBy->getInventoryData() as $inventoryRow) {
 								if (isset($this->inventoryMapping[$this->destinyModuleModel->getId()])) {
 									foreach ($this->inventoryMapping[$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
+										//TODO GETCUSTOM COLUMNS
 										$invData[$groupBy][$destinyField . $counter] = $inventoryRow[$sourceField];
 										$inventoryDataForEdit[$groupBy][$counter][$destinyField] = $inventoryRow[$sourceField];
 									}
@@ -508,14 +517,16 @@ class RecordConverter extends Base
 	 */
 	public function checkFieldMerge()
 	{
-		$destinyReferenceFields = $this->destinyModuleModel->getFieldsByReference();
-		$sourceReferenceFields = $this->sourceModuleModel->getFieldsByReference();
-		$referenceDestinyField = $this->fieldMapping['field_merge'][$this->destinyModuleModel->getId()];
-		if ($referenceDestinyField) {
-			if (!$this->destinyModuleModel->getField($referenceDestinyField) || !$this->sourceModuleModel->getField($this->get('field_merge')) || !isset($destinyReferenceFields[$referenceDestinyField]) || !isset($sourceReferenceFields[$referenceDestinyField])) {
-				return false;
-			} else {
-				return true;
+		if (isset($this->fieldMapping['field_merge'])) {
+			$destinyReferenceFields = $this->destinyModuleModel->getFieldsByReference();
+			$sourceReferenceFields = $this->sourceModuleModel->getFieldsByReference();
+			$referenceDestinyField = $this->fieldMapping['field_merge'][$this->destinyModuleModel->getId()];
+			if ($referenceDestinyField) {
+				if (!$this->destinyModuleModel->getField($referenceDestinyField) || !$this->sourceModuleModel->getField($this->get('field_merge')) || !isset($destinyReferenceFields[$referenceDestinyField]) || !isset($sourceReferenceFields[$referenceDestinyField])) {
+					return false;
+				} else {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -529,7 +540,7 @@ class RecordConverter extends Base
 	public function getQueryForDuplicate()
 	{
 		$focus = \CRMEntity::getInstance($this->destinyModule);
-		return  (new \App\Db\Query())->from($focus->table_name)->innerJoin($focus->customFieldTable[0], $focus->table_name . '.' . $focus->table_index . '=' . $focus->customFieldTable[0] . '.' . $focus->customFieldTable[1])
+		return (new \App\Db\Query())->from($focus->table_name)->innerJoin($focus->customFieldTable[0], $focus->table_name . '.' . $focus->table_index . '=' . $focus->customFieldTable[0] . '.' . $focus->customFieldTable[1])
 			->innerJoin('vtiger_crmentity', $focus->table_name . '.' . $focus->table_index . '= vtiger_crmentity.crmid');
 	}
 
