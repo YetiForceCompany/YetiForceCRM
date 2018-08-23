@@ -32,7 +32,7 @@
 			<div class="action-bar__col">
 				<div class="action-bar__head">
 					{if !empty($MODULES_LEVEL_0)}
-						<div data-type="link" class="action-bar__head__container">
+						<div data-type="link" class="action-bar__head__container js-head-container" data-js="container">
 							<div class="action-bar__header ml-5px mr-5px">
 								{\App\Language::translate('LBL_RELATIONS',$MODULE_NAME)}
 							</div>
@@ -59,7 +59,7 @@
 						</div>
 					{/if}
 				</div>
-				<div class="action-bar__data flex-wrap">
+				<div class="action-bar__data flex-wrap js-data">
 					{if !empty($MODULES_LEVEL_0)}
 						<div data-type="link">
 							<div class="col">
@@ -78,7 +78,7 @@
 			<div class="action-bar__col">
 				<div class="action-bar__head">
 					{if !empty($MODULES_LEVEL_3)}
-						<div data-type="link" class="action-bar__head__container">
+						<div data-type="link" class="action-bar__head__container js-head-container" data-js="container">
 							<div class="action-bar__header mr-5px ml-5px">
 								{\App\Language::translate('LBL_RELATIONS_EXTEND',$MODULE_NAME)}
 							</div>
@@ -105,7 +105,7 @@
 						</div>
 					{/if}
 				</div>
-				<div class="action-bar__data flex-wrap">
+				<div class="action-bar__data flex-wrap js-data">
 					{if !empty($MODULES_LEVEL_3)}
 						<div data-type="link">
 							<div class="col">
@@ -124,7 +124,8 @@
 			<div class="action-bar__col">
 				<div class="action-bar__head">
 					{if !empty($MODULES_LEVEL_1)}
-						<div data-type="process" class="action-bar__head__container">
+						<div data-type="process" class="action-bar__head__container js-head-container"
+							 data-js="container">
 							<div class="action-bar__header mr-5px ml-5px">
 								{\App\Language::translate('LBL_PROCESS',$MODULE_NAME)}
 							</div>
@@ -151,7 +152,7 @@
 						</div>
 					{/if}
 				</div>
-				<div class="action-bar__data flex-wrap">
+				<div class="action-bar__data flex-wrap js-data">
 					{if !empty($MODULES_LEVEL_1)}
 						<div data-type="link">
 							<div class="col">
@@ -170,7 +171,8 @@
 			<div class="action-bar__col">
 				<div class="action-bar__head">
 					{if !empty($MODULES_LEVEL_2)}
-						<div data-type="subprocess" class="action-bar__head__container">
+						<div data-type="subprocess" class="action-bar__head__container js-head-container"
+							 data-js="container">
 							<div class="action-bar__header mr-5px ml-5px">
 								{\App\Language::translate('LBL_SUB_PROCESS',$MODULE_NAME)}
 							</div>
@@ -204,7 +206,7 @@
 						</div>
 					{/if}
 				</div>
-				<div class="action-bar__data flex-wrap">
+				<div class="action-bar__data flex-wrap js-data">
 					{if !empty($MODULES_LEVEL_2)}
 						<div data-type="link">
 							<div class="col">
