@@ -32,51 +32,13 @@ class ConfReport
 	 *
 	 * @var string[]
 	 */
-	public static $types = ['stability', 'security', 'libraries', 'database', 'performance', 'environment', 'directoryPermissions'];
+	public static $types = ['stability', 'security', 'libraries', 'database', 'performance', 'environment', 'publicDirectoryAccess', 'writableFilesAndFolders'];
 	/**
 	 * List all container.
 	 *
 	 * @var string[]
 	 */
 	public static $container = ['php', 'env', 'ext', 'request', 'db'];
-	/**
-	 * Php variables.
-	 *
-	 * @var mixed[]
-	 */
-	private static $php = [];
-	/**
-	 * Environment variables.
-	 *
-	 * @var mixed[]
-	 */
-	private static $env = [];
-	/**
-	 * Database variables.
-	 *
-	 * @var mixed[]
-	 */
-	private static $db = [];
-	/**
-	 * Extensions.
-	 *
-	 * @var mixed[]
-	 */
-	private static $ext = [];
-	/**
-	 * Request request.
-	 *
-	 * @var mixed[]
-	 */
-	private static $request = [];
-
-	/**
-	 * Sapi name.
-	 *
-	 * @var string
-	 */
-	private static $sapi = 'www';
-
 	/**
 	 * Stability variables map.
 	 *
@@ -166,17 +128,6 @@ class ConfReport
 		'OPcache' => ['mandatory' => false, 'type' => 'FnExist', 'fnName' => 'opcache_get_configuration', 'container' => 'ext', 'testCli' => true],
 		'apcu' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'apcu', 'container' => 'ext', 'testCli' => true],
 		'allExt' => ['container' => 'ext', 'type' => 'AllExt', 'testCli' => true, 'label' => 'EXTENSIONS'],
-	];
-	/**
-	 * Directory permissions map.
-	 *
-	 * @var array
-	 */
-	public static $directoryPermissions = [
-		'config' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
-		'cache' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
-		'storage' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
-		'user_privileges' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 	];
 	/**
 	 * Database map.
@@ -276,6 +227,87 @@ class ConfReport
 		'open_basedir' => ['container' => 'php', 'testCli' => true],
 		'variables_order' => ['container' => 'php', 'testCli' => true],
 	];
+	/**
+	 * Directory permissions map.
+	 *
+	 * @var array
+	 */
+	public static $publicDirectoryAccess = [
+		'config' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+		'cache' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+		'storage' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+		'user_privileges' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+	];
+	/**
+	 * Writable files and folders permissions map.
+	 *
+	 * @var array
+	 */
+	public static $writableFilesAndFolders = [
+		'config/' => ['type' => 'IsWritable', 'testCli' => true],
+		'config/config.inc.php' => ['type' => 'IsWritable', 'testCli' => true],
+		'user_privileges/' => ['type' => 'IsWritable', 'testCli' => true],
+		'user_privileges/tabdata.php' => ['type' => 'IsWritable', 'testCli' => true],
+		'user_privileges/menu_0.php' => ['type' => 'IsWritable', 'testCli' => true],
+		'user_privileges/user_privileges_1.php' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/addressBook/' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/images/' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/import/' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/logs/' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/session/' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/templates_c/' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/upload/' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/vtlib/' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/vtlib/HTML' => ['type' => 'IsWritable', 'testCli' => true],
+		'cron/modules/' => ['type' => 'IsWritable', 'testCli' => true],
+		'modules/' => ['type' => 'IsWritable', 'testCli' => true],
+		'storage/' => ['type' => 'IsWritable', 'testCli' => true],
+		'storage/Products/' => ['type' => 'IsWritable', 'testCli' => true],
+		'storage/Users/' => ['type' => 'IsWritable', 'testCli' => true],
+		'storage/Contacts/' => ['type' => 'IsWritable', 'testCli' => true],
+		'storage/OSSMailView/' => ['type' => 'IsWritable', 'testCli' => true],
+		'public_html/modules/OSSMail/' => ['type' => 'IsWritable', 'testCli' => true],
+		'public_html/libraries/' => ['type' => 'IsWritable', 'testCli' => true],
+		'public_html/layouts/resources/Logo/' => ['type' => 'IsWritable', 'testCli' => true],
+		'vendor/mPDF/' => ['type' => 'IsWritable', 'testCli' => true],
+	];
+	/**
+	 * Php variables.
+	 *
+	 * @var mixed[]
+	 */
+	private static $php = [];
+	/**
+	 * Environment variables.
+	 *
+	 * @var mixed[]
+	 */
+	private static $env = [];
+	/**
+	 * Database variables.
+	 *
+	 * @var mixed[]
+	 */
+	private static $db = [];
+	/**
+	 * Extensions.
+	 *
+	 * @var mixed[]
+	 */
+	private static $ext = [];
+	/**
+	 * Request request.
+	 *
+	 * @var mixed[]
+	 */
+	private static $request = [];
+	/**
+	 * Sapi name.
+	 *
+	 * @var string
+	 */
+	private static $sapi = 'www';
 
 	/**
 	 * Get all configuration values.
@@ -293,32 +325,147 @@ class ConfReport
 	}
 
 	/**
-	 * Get configuration values by type of map.
+	 * Initializing variables.
 	 *
 	 * @param string $type
-	 *
-	 * @return mixed
 	 */
-	public static function get(string $type)
+	private static function init(string $type)
 	{
-		static::init($type);
-		return static::validate($type);
+		$types = static::$container;
+		if (isset(static::$$type)) {
+			$types = \array_unique(\array_column(static::$$type, 'container'));
+		}
+		$conf = static::getConfig();
+		foreach ($types as $item) {
+			switch ($item) {
+				case 'php':
+					static::$php = $conf['php'];
+					break;
+				case 'env':
+					static::$env = $conf['env'];
+					break;
+				case 'ext':
+					static::$ext = get_loaded_extensions();
+					break;
+				case 'request':
+					static::$request = static::getRequest();
+					break;
+				case 'db':
+					static::$db = static::getConfigDb();
+					break;
+			}
+		}
 	}
 
 	/**
-	 * Get configuration for cron.
+	 * Get environment variables.
 	 *
 	 * @return array
 	 */
-	public static function getForCron()
+	private static function getConfig()
 	{
-		static::$sapi = 'cron';
-		static::init('all');
-		$all = [];
-		foreach (static::$types as $type) {
-			$all[$type] = static::parse($type);
+		$php = [];
+		foreach (ini_get_all() as $key => $value) {
+			$php[$key] = $value['local_value'];
 		}
-		return $all;
+		$locale = '';
+		if (function_exists('locale_get_default')) {
+			$locale = print_r(locale_get_default(), true);
+		}
+		$cron = static::getCronVariables('last_start');
+		$lastCronStart = '-';
+		if ($cron) {
+			$lastCronStart = \App\Fields\DateTime::formatToViewDate(date('Y-m-d H:i:s', $cron));
+		}
+		return [
+			'php' => $php,
+			'env' => [
+				'phpVersion' => PHP_VERSION,
+				'sapi' => PHP_SAPI,
+				'phpIni' => php_ini_loaded_file(),
+				'phpIniAll' => php_ini_scanned_files(),
+				'locale' => $locale,
+				'https' => \App\RequestUtil::getBrowserInfo()->https,
+				'public_html' => IS_PUBLIC_DIR ? 'On' : 'Off',
+				'crmVersion' => \App\Version::get(),
+				'crmDate' => \App\Version::get('patchVersion'),
+				'crmDir' => ROOT_DIRECTORY,
+				'operatingSystem' => \AppConfig::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
+				'serverSoftware' => $_SERVER['SERVER_SOFTWARE'] ?? '-',
+				'tempDir' => \App\Fields\File::getTmpPath(),
+				'spaceRoot' => '',
+				'spaceStorage' => '',
+				'spaceTemp' => '',
+				'lastCronStart' => $lastCronStart,
+			]
+		];
+	}
+
+	/**
+	 * Get variable for cron.
+	 *
+	 * @param string $type
+	 *
+	 * @return array
+	 */
+	private static function getCronVariables(string $type)
+	{
+		if (file_exists('user_privileges/cron.php')) {
+			$cron = include \ROOT_DIRECTORY . '/user_privileges/cron.php';
+			return $cron[$type] ?? null;
+		}
+		return [];
+	}
+
+	/**
+	 * Get request request.
+	 *
+	 * @return array
+	 */
+	private static function getRequest()
+	{
+		$requestUrl = \AppConfig::main('site_URL') ?: \App\RequestUtil::getBrowserInfo()->url;
+		$request = [];
+		try {
+			$res = (new \GuzzleHttp\Client())->request('GET', $requestUrl, ['timeout' => 1, 'verify' => false]);
+			$request['protocolVersion'] = $res->getProtocolVersion();
+			foreach ($res->getHeaders() as $key => $value) {
+				$request[strtolower($key)] = is_array($value) ? implode(',', $value) : $value;
+			}
+		} catch (\Throwable $e) {
+		}
+		return $request;
+	}
+
+	/**
+	 * Get database variables.
+	 *
+	 * @return mixed[]
+	 */
+	private static function getConfigDb()
+	{
+		$pdo = false;
+		if (\class_exists('\App\Db')) {
+			$db = \App\Db::getInstance();
+			$pdo = $db->getSlavePdo();
+			$driver = $db->getDriverName();
+		} elseif (!empty(static::$dbConfig['user'])) {
+			$pdo = new PDO(static::$dbConfig['dsn'], static::$dbConfig['user'], static::$dbConfig['password'], static::$dbConfig['options']);
+			$driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+		}
+		if (!$pdo) {
+			return [];
+		}
+		$conf = [
+			'driver' => $driver,
+			'serverVersion' => $pdo->getAttribute(PDO::ATTR_SERVER_VERSION),
+			'clientVersion' => $pdo->getAttribute(PDO::ATTR_CLIENT_VERSION),
+			'connectionStatus' => $pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS),
+			'serverInfo' => $pdo->getAttribute(PDO::ATTR_SERVER_INFO),
+		];
+		$statement = $pdo->prepare('SHOW VARIABLES');
+		$statement->execute();
+		return \array_merge($conf, $statement->fetchAll(PDO::FETCH_KEY_PAIR));
 	}
 
 	/**
@@ -383,147 +530,32 @@ class ConfReport
 	}
 
 	/**
-	 * Initializing variables.
-	 *
-	 * @param string $type
-	 */
-	private static function init(string $type)
-	{
-		$types = static::$container;
-		if (isset(static::$$type)) {
-			$types = \array_unique(\array_column(static::$$type, 'container'));
-		}
-		$conf = static::getConfig();
-		foreach ($types as $item) {
-			switch ($item) {
-				case 'php':
-					static::$php = $conf['php'];
-					break;
-				case 'env':
-					static::$env = $conf['env'];
-					break;
-				case 'ext':
-					static::$ext = get_loaded_extensions();
-					break;
-				case 'request':
-					static::$request = static::getRequest();
-					break;
-				case 'db':
-					static::$db = static::getConfigDb();
-					break;
-			}
-		}
-	}
-
-	/**
-	 * Get variable for cron.
+	 * Get configuration values by type of map.
 	 *
 	 * @param string $type
 	 *
-	 * @return array
+	 * @return mixed
 	 */
-	private static function getCronVariables(string $type)
+	public static function get(string $type)
 	{
-		if (file_exists('user_privileges/cron.php')) {
-			$cron = include \ROOT_DIRECTORY . '/user_privileges/cron.php';
-			return $cron[$type] ?? null;
-		}
-		return [];
+		static::init($type);
+		return static::validate($type);
 	}
 
 	/**
-	 * Get environment variables.
+	 * Get configuration for cron.
 	 *
 	 * @return array
 	 */
-	private static function getConfig()
+	public static function getForCron()
 	{
-		$php = [];
-		foreach (ini_get_all() as $key => $value) {
-			$php[$key] = $value['local_value'];
+		static::$sapi = 'cron';
+		static::init('all');
+		$all = [];
+		foreach (static::$types as $type) {
+			$all[$type] = static::parse($type);
 		}
-		$locale = '';
-		if (function_exists('locale_get_default')) {
-			$locale = print_r(locale_get_default(), true);
-		}
-		$cron = static::getCronVariables('last_start');
-		$lastCronStart = '-';
-		if ($cron) {
-			$lastCronStart = \App\Fields\DateTime::formatToViewDate(date('Y-m-d H:i:s', $cron));
-		}
-		return [
-			'php' => $php,
-			'env' => [
-				'phpVersion' => PHP_VERSION,
-				'sapi' => PHP_SAPI,
-				'phpIni' => php_ini_loaded_file(),
-				'phpIniAll' => php_ini_scanned_files(),
-				'locale' => $locale,
-				'https' => \App\RequestUtil::getBrowserInfo()->https,
-				'public_html' => IS_PUBLIC_DIR ? 'On' : 'Off',
-				'crmVersion' => \App\Version::get(),
-				'crmDate' => \App\Version::get('patchVersion'),
-				'crmDir' => ROOT_DIRECTORY,
-				'operatingSystem' => \AppConfig::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
-				'serverSoftware' => $_SERVER['SERVER_SOFTWARE'] ?? '-',
-				'tempDir' => \App\Fields\File::getTmpPath(),
-				'spaceRoot' => '',
-				'spaceStorage' => '',
-				'spaceTemp' => '',
-				'lastCronStart' => $lastCronStart,
-			]
-		];
-	}
-
-	/**
-	 * Get database variables.
-	 *
-	 * @return mixed[]
-	 */
-	private static function getConfigDb()
-	{
-		$pdo = false;
-		if (\class_exists('\App\Db')) {
-			$db = \App\Db::getInstance();
-			$pdo = $db->getSlavePdo();
-			$driver = $db->getDriverName();
-		} elseif (!empty(static::$dbConfig['user'])) {
-			$pdo = new PDO(static::$dbConfig['dsn'], static::$dbConfig['user'], static::$dbConfig['password'], static::$dbConfig['options']);
-			$driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
-		}
-		if (!$pdo) {
-			return [];
-		}
-		$conf = [
-			'driver' => $driver,
-			'serverVersion' => $pdo->getAttribute(PDO::ATTR_SERVER_VERSION),
-			'clientVersion' => $pdo->getAttribute(PDO::ATTR_CLIENT_VERSION),
-			'connectionStatus' => $pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS),
-			'serverInfo' => $pdo->getAttribute(PDO::ATTR_SERVER_INFO),
-		];
-		$statement = $pdo->prepare('SHOW VARIABLES');
-		$statement->execute();
-		return \array_merge($conf, $statement->fetchAll(PDO::FETCH_KEY_PAIR));
-	}
-
-	/**
-	 * Get request request.
-	 *
-	 * @return array
-	 */
-	private static function getRequest()
-	{
-		$requestUrl = \AppConfig::main('site_URL') ?: \App\RequestUtil::getBrowserInfo()->url;
-		$request = [];
-		try {
-			$res = (new \GuzzleHttp\Client())->request('GET', $requestUrl, ['timeout' => 1, 'verify' => false]);
-			$request['protocolVersion'] = $res->getProtocolVersion();
-			foreach ($res->getHeaders() as $key => $value) {
-				$request[strtolower($key)] = is_array($value) ? implode(',', $value) : $value;
-			}
-		} catch (\Throwable $e) {
-		}
-		return $request;
+		return $all;
 	}
 
 	/**
@@ -680,22 +712,6 @@ class ConfReport
 	}
 
 	/**
-	 * Parser on or off value.
-	 *
-	 * @param string $name
-	 * @param array  $row
-	 *
-	 * @return array
-	 */
-	private static function parserOnOff(string $name, array $row)
-	{
-		$container = $row['container'];
-		$current = static::$$container[\strtolower($name)] ?? '';
-		static $map = ['on' => 'On', 'true' => 'On', 'off' => 'Off', 'false' => 'Off'];
-		return isset($map[strtolower($current)]) ? $map[strtolower($current)] : ($current ? 'On' : 'Off');
-	}
-
-	/**
 	 * Validate function exist.
 	 *
 	 * @param string $name
@@ -707,11 +723,8 @@ class ConfReport
 	private static function validateFnExist(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		$status = function_exists($row['fnName']);
-		if (!$status) {
-			$row['status'] = false;
-		}
-		$row[$sapi] = $status ? 'LBL_YES' : 'LBL_NO';
+		$row['status'] = function_exists($row['fnName']);
+		$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
 		return $row;
 	}
 
@@ -727,9 +740,7 @@ class ConfReport
 	private static function validateExtExist(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if (!\in_array($row['extName'], static::$ext)) {
-			$row['status'] = false;
-		}
+		$row['status'] = \in_array($row['extName'], static::$ext);
 		$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
 		return $row;
 	}
@@ -793,6 +804,22 @@ class ConfReport
 		$row['recommended'] = static::$env['https'] ? 'On' : 'Off';
 		$row['status'] = $row[$sapi] === $row['recommended'];
 		return $row;
+	}
+
+	/**
+	 * Parser on or off value.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 *
+	 * @return array
+	 */
+	private static function parserOnOff(string $name, array $row)
+	{
+		$container = $row['container'];
+		$current = static::$$container[\strtolower($name)] ?? '';
+		static $map = ['on' => 'On', 'true' => 'On', 'off' => 'Off', 'false' => 'Off'];
+		return isset($map[strtolower($current)]) ? $map[strtolower($current)] : ($current ? 'On' : 'Off');
 	}
 
 	/**
@@ -1015,6 +1042,22 @@ class ConfReport
 			$row['status'] = false;
 		}
 		$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi]);
+		return $row;
+	}
+
+	/**
+	 * Validate realpath cache size.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateIsWritable(string $name, array $row, string $sapi)
+	{
+		$row['status'] = \App\Fields\File::isWriteable($name);
+		$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
 		return $row;
 	}
 }
