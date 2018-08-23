@@ -59,8 +59,10 @@ before_script:
 script:
 - cd tests
 - /usr/local/bin/phpunit --debug --verbose
+- sudo ls -all
 - cd ..
 - sonar-scanner
+- sudo ls -all 
     
 after_script:
 - sudo cat /var/log/apache2/error.log
