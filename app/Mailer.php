@@ -6,8 +6,8 @@ namespace App;
  * Mailer basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Mailer
 {
@@ -185,13 +185,17 @@ class Mailer
 			throw new \App\Exceptions\AppException('ERR_NO_SMTP_CONFIGURATION');
 		}
 		switch ($this->smtp['mailer_type']) {
-			case 'smtp': $this->mailer->isSMTP();
+			case 'smtp':
+				$this->mailer->isSMTP();
 				break;
-			case 'sendmail': $this->mailer->isSendmail();
+			case 'sendmail':
+				$this->mailer->isSendmail();
 				break;
-			case 'mail': $this->mailer->isMail();
+			case 'mail':
+				$this->mailer->isMail();
 				break;
-			case 'qmail': $this->mailer->isQmail();
+			case 'qmail':
+				$this->mailer->isQmail();
 				break;
 		}
 		$this->mailer->Host = $this->smtp['host'];
@@ -345,11 +349,13 @@ class Mailer
 		if ($this->mailer->send()) {
 			if (empty($this->smtp['save_send_mail']) || (!empty($this->smtp['save_send_mail']) && $this->saveMail())) {
 				Log::trace('Mailer sent mail', 'Mailer');
-
 				return true;
 			}
 		} else {
 			Log::error('Mailer Error: ' . $this->mailer->ErrorInfo, 'Mailer');
+			if (empty($this->error)) {
+				$this->error = \is_array($this->mailer->ErrorInfo) ? $this->mailer->ErrorInfo : [$this->mailer->ErrorInfo];
+			}
 		}
 		return false;
 	}

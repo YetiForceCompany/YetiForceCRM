@@ -4,8 +4,8 @@
  * Mail scanner action creating mail.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSMailScanner_CreatedEmail_ScannerAction
 {
@@ -61,14 +61,14 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', [
 					'date' => $mail->get('udate_formated'),
 					'cid' => $mail->getUniqueId(),
-					], ['ossmailviewid' => $id]
+				], ['ossmailviewid' => $id]
 				)->execute();
 
 				return ['mailViewId' => $id, 'attachments' => $attachments];
 			} else {
 				App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', [
 					'id' => $mail->get('id'),
-					], ['ossmailviewid' => $mailId]
+				], ['ossmailviewid' => $mailId]
 				)->execute();
 
 				return ['mailViewId' => $mailId];
@@ -88,7 +88,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 	{
 		$html = $mail->get('body');
 		$attachments = $mail->get('attachments');
-		if (count($html) < 2) {
+		if (count($attachments) < 2) {
 			foreach ($attachments as $key => $attachment) {
 				if ((substr($attachment['filename'], -5) === '.html') || (substr($attachment['filename'], -4) === '.txt')) {
 					$html .= $attachment['attachment'] . '<hr />';
@@ -102,13 +102,13 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 		}
 		$html = preg_replace(
 			[':<(head|style|script).+?</\1>:is', // remove <head>, <styleand <scriptsections
-			':<!\[[^]<]+\]>:', // remove <![if !mso]and friends
-			':<!DOCTYPE[^>]+>:', // remove <!DOCTYPE ... >
-			':<\?[^>]+>:', // remove <?xml version="1.0" ... >
-			'~</?html[^>]*>~', // remove html tags
-			'~</?body[^>]*>~', // remove body tags
-			'~</?o:[^>]*>~', // remove mso tags
-			'~\sclass=[\'|\"][^\'\"]+[\'|\"]~i'// remove class attributes
+				':<!\[[^]<]+\]>:', // remove <![if !mso]and friends
+				':<!DOCTYPE[^>]+>:', // remove <!DOCTYPE ... >
+				':<\?[^>]+>:', // remove <?xml version="1.0" ... >
+				'~</?html[^>]*>~', // remove html tags
+				'~</?body[^>]*>~', // remove body tags
+				'~</?o:[^>]*>~', // remove mso tags
+				'~\sclass=[\'|\"][^\'\"]+[\'|\"]~i'// remove class attributes
 			], ['', '', '', '', '', '', '', ''], $html);
 		$doc = new \DOMDocument('1.0', 'UTF-8');
 		$previousValue = libxml_use_internal_errors(true);

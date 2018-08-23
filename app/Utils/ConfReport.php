@@ -129,7 +129,7 @@ class ConfReport
 		'disable_functions' => ['recommended' => 'shell_exec,exec,system,passthru', 'type' => 'In', 'container' => 'php', 'testCli' => true],
 		'allow_url_include' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'Header: Server' => ['recommended' => '', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
-		'Header: X-Powered-By' => ['recommended' => '', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: X-Powered-By' => ['recommended' => '', 'type' => 'Header', 'contaiuse_only_cookiesner' => 'request', 'testCli' => false],
 		'Header: X-Frame-Options' => ['recommended' => 'SAMEORIGIN', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: X-XSS-Protection' => ['recommended' => '1; mode=block', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: X-Content-Type-Options' => ['recommended' => 'nosniff', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
@@ -499,7 +499,7 @@ class ConfReport
 	 */
 	private static function getRequest()
 	{
-		$requestUrl = \AppConfig::main('site_URL');
+		$requestUrl = \AppConfig::main('site_URL') ?: \App\RequestUtil::getBrowserInfo()->url;
 		$request = [];
 		try {
 			$res = (new \GuzzleHttp\Client())->request('GET', $requestUrl, ['timeout' => 1, 'verify' => false]);
@@ -524,7 +524,7 @@ class ConfReport
 	private static function validateVersion(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if (version_compare($row[$sapi], str_replace('x', 0, $row['recommended']), '<')) {
+		if (!empty($row[$sapi]) && version_compare($row[$sapi], str_replace('x', 0, $row['recommended']), '<')) {
 			$row['status'] = false;
 		}
 		return $row;
