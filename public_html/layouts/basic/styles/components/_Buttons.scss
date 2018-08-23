@@ -5,6 +5,10 @@
 	@include button-variant(#ddd, #ddd);
 }
 
+.btn-outline-default {
+	@include button-outline-variant(#ced4da, #000, #f6f6f6);
+}
+
 @include media-breakpoint-down(sm) {
 	.c-btn-block-sm-down,
 	.c-btn-block-sm-down .btn {
