@@ -362,6 +362,17 @@
 	@include u-box-shadow(3px 3px 14px 0 rgba(50, 50, 50, 0.75));
 }
 
+@each $breakpoint, $max in $grid-breakpoints {
+	@if $max > 0 {
+		@media (max-width: $max) {
+			.display-block-#{$breakpoint} {
+				display: block !important;
+			}
+		}
+	}
+
+}
+
 .u-opacity-muted {
 	opacity: 0.2;
 }
