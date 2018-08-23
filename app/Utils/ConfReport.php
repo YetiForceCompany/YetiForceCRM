@@ -260,7 +260,6 @@ class ConfReport
 		'spaceRoot' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_ROOT'],
 		'spaceStorage' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_STORAGE'],
 		'spaceTemp' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_TEMP'],
-		'spaceDb' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_DB'],
 		'lastCronStart' => ['container' => 'env', 'testCli' => false, 'label' => 'LAST_CRON_START'],
 		'allow_url_fopen' => ['container' => 'php', 'testCli' => true],
 		'open_basedir' => ['container' => 'php', 'testCli' => true],
@@ -460,7 +459,6 @@ class ConfReport
 				'spaceRoot' => '',
 				'spaceStorage' => '',
 				'spaceTemp' => '',
-				'spaceDb' => '',
 				'lastCronStart' => $lastCronStart,
 			]
 		];
@@ -927,9 +925,6 @@ class ConfReport
 				break;
 			case 'spaceTemp':
 				$dir = static::$env['tempDir'];
-				break;
-			case 'spaceDb':
-				$dir = static::$db['datadir'];
 				break;
 		}
 		$free = disk_free_space($dir);
