@@ -4,7 +4,7 @@
  * OSSMailScanner getConfig action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailScanner_GetConfig_Action extends \App\Controller\Action
 {
@@ -28,7 +28,7 @@ class OSSMailScanner_GetConfig_Action extends \App\Controller\Action
 	{
 		$recordModel_OSSMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$Config = $recordModel_OSSMailScanner->getConfig('email_list');
-		$result = ['success' => $success, 'data' => $Config];
+		$result = ['success' => is_array($Config), 'data' => $Config];
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
