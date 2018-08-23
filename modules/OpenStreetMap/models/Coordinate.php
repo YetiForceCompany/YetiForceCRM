@@ -100,6 +100,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 	public function getCoordinatesCenter()
 	{
 		$searchValue = $this->get('searchValue');
+		$coordinatesCenter = [];
 		if (!$this->isEmpty('lat') && !$this->isEmpty('lon')) {
 			$coordinatesCenter = [
 				'lat' => $this->get('lat'),
