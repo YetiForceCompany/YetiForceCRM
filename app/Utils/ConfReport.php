@@ -217,6 +217,7 @@ class ConfReport
 		'character_set_results' => ['recommended' => 'utf8', 'type' => 'Equal', 'container' => 'db', 'testCli' => false],
 		'character_set_system' => ['container' => 'db', 'testCli' => false],
 		'character_set_filesystem' => ['container' => 'db', 'testCli' => false],
+		'datadir' => ['container' => 'db', 'testCli' => false],
 	];
 	/**
 	 * Performance map.
@@ -258,6 +259,8 @@ class ConfReport
 		'phpIniAll' => ['container' => 'env', 'testCli' => true, 'label' => 'PHPINIS'],
 		'spaceRoot' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_ROOT'],
 		'spaceStorage' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_STORAGE'],
+		'spaceTemp' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_TEMP'],
+		'spaceDb' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_DB'],
 		'lastCronStart' => ['container' => 'env', 'testCli' => false, 'label' => 'LAST_CRON_START'],
 		'allow_url_fopen' => ['container' => 'php', 'testCli' => true],
 		'open_basedir' => ['container' => 'php', 'testCli' => true],
@@ -456,6 +459,8 @@ class ConfReport
 				'tempDir' => \App\Fields\File::getTmpPath(),
 				'spaceRoot' => '',
 				'spaceStorage' => '',
+				'spaceTemp' => '',
+				'spaceDb' => '',
 				'lastCronStart' => $lastCronStart,
 			]
 		];
@@ -916,8 +921,16 @@ class ConfReport
 	private static function validateSpace(string $name, array $row, string $sapi)
 	{
 		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-		if ($name === 'spaceRoot') {
-			$dir .= 'storage';
+		switch ($name) {
+			case 'spaceRoot':
+				$dir .= 'storage';
+				break;
+			case 'spaceTemp':
+				$dir = static::$env['tempDir'];
+				break;
+			case 'spaceDb':
+				$dir = static::$db['datadir'];
+				break;
 		}
 		$free = disk_free_space($dir);
 		$total = disk_total_space($dir);
