@@ -152,7 +152,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function getModule()
 	{
 		if (!isset($this->module)) {
-			$moduleObj = $this->block->module;
+			if (isset($this->block->module)) {
+				$moduleObj = $this->block->module;
+			}
 			//fix for opensource emailTemplate listview break
 			if (empty($moduleObj)) {
 				return false;
