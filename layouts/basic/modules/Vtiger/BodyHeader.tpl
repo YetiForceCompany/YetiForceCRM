@@ -14,7 +14,8 @@
 			</div>
 
 			{if AppConfig::performance('GLOBAL_SEARCH')}
-				<div class="js-global-search__input o-global-search__input o-global-search__input--desktop input-group input-group-sm d-none d-xl-flex" data-js="container">
+				<div class="js-global-search__input o-global-search__input o-global-search__input--desktop input-group input-group-sm d-none d-xl-flex"
+					 data-js="container">
 					<div class="input-group-prepend select2HeaderWidth">
 						<select class="select2 basicSearchModulesList form-control"
 								title="{\App\Language::translate('LBL_SEARCH_MODULE')}" data-dropdown-auto-width="true">
@@ -29,7 +30,8 @@
 							{/foreach}
 						</select>
 					</div>
-					<input id="global-search-__value" type="text" class="form-control js-global-search__value o-global-search__value"
+					<input id="global-search-__value" type="text"
+						   class="form-control js-global-search__value o-global-search__value"
 						   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
 						   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
 						   data-operator="{AppConfig::search('GLOBAL_SEARCH_DEFAULT_OPERATOR')}"
@@ -111,11 +113,13 @@
 								</button>
 							</div>
 						</div>
-						<div class="input-group mb-3 js-global-search__input o-global-search__input" data-js="container">
-							<input id="global-search-__value--mobile type="text" class="form-control js-global-search__value o-global-search__value"
-								   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
-								   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
-								   data-js="keypress | value | autocomplete"/>
+						<div class="input-group mb-3 js-global-search__input o-global-search__input"
+							 data-js="container">
+							<input id="global-search-__value--mobile type=" text" class="form-control
+							js-global-search__value o-global-search__value"
+							title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
+							placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
+							data-js="keypress | value | autocomplete"/>
 							<div class="input-group-append">
 								<button class="btn btn-light searchIcon" type="button">
 									<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
@@ -147,7 +151,7 @@
 								<a class="c-header__btn btn btn-outline-dark border-0" title="{$MAIN_MAIL.username}"
 								   href="index.php?module=OSSMail&view=Index">
 									<div class="d-none d-xxl-block">
-										{$ITEM.username}
+										{if !empty($ITEM.username)}{$ITEM.username}{/if}
 										<span class="mail_user_name">{$MAIN_MAIL.username}</span>
 										<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
 									</div>
@@ -229,7 +233,8 @@
 						   data-js="popover" data-toggle="modal" data-target="#quickCreateModules"
 						   data-placement="bottom" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}"
 						   href="#">
-							<span class="fas fa-plus fa-fw" title="{\App\Language::translate('LBL_QUICK_CREATE')}"></span>
+							<span class="fas fa-plus fa-fw"
+								  title="{\App\Language::translate('LBL_QUICK_CREATE')}"></span>
 							<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_QUICK_CREATE')}</span>
 						</a>
 						<div class="quickCreateModules modal" id="quickCreateModules" tabindex="-1" role="dialog"
@@ -292,7 +297,8 @@
 						<a class="c-header__btn ml-2 btn btn-light btn isBadge notificationsNotice js-popover-tooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
 						   role="button" data-js="popover"
 						   data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="#">
-							<span class="fas fa-bell fa-fw" title="{\App\Language::translate('LBL_NOTIFICATIONS')}"> </span>
+							<span class="fas fa-bell fa-fw"
+								  title="{\App\Language::translate('LBL_NOTIFICATIONS')}"> </span>
 							<span class="badge badge-dark d-none mr-1">0</span>
 							<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_NOTIFICATIONS')}</span>
 						</a>
@@ -351,7 +357,8 @@
 							<a class="c-header__btn ml-2 btn btn-light btn js-popover-tooltip dropdownMenu"
 							   id="showHistoryBtn" data-js="popover" data-toggle="dropdown" data-boundary="window"
 							   data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#" role="button">
-								<span class="fas fa-history fa-fw" title="{\App\Language::translate('LBL_PAGES_HISTORY')}"></span>
+								<span class="fas fa-history fa-fw"
+									  title="{\App\Language::translate('LBL_PAGES_HISTORY')}"></span>
 								<span class="c-header__label--sm-down">{\App\Language::translate('LBL_PAGES_HISTORY')}</span>
 							</a>
 							{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
