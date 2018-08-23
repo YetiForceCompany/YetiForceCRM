@@ -1099,7 +1099,7 @@ Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 		let allFields = $(this.field).closest('div.js-multi-email').eq(0).find('[class*=js-multi-email-row]');
 		let arrayLength = allFields.length;
 		for (let i = 0; i < arrayLength; ++i) {
-			let inputField = $(allFields[i]).find('input[type=text]').eq(0);
+			let inputField = $(allFields[i]).find('input.js-email').eq(0);
 			if (inputField.val() === '') {
 				continue;
 			}

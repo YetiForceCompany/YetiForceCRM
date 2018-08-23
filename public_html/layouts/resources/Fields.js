@@ -718,7 +718,7 @@ App.Fields = {
 						App.Fields.MultiEmail.triggerRemoveEmail($(e.target), $(inputElement));
 					});
 				});
-				$(element).find('input[type=checkbox]').each((index, element) => {
+				$(element).find('input.js-checkbox').each((index, element) => {
 					$(element).on('change', (e) => {
 						App.Fields.MultiEmail.triggerCheck($(e.target));
 					});
@@ -734,8 +734,8 @@ App.Fields = {
 			let arr = [];
 			let arrayLength = allFields.length;
 			for (let i = 0; i < arrayLength; ++i) {
-				let inputField = $(allFields[i]).find('input[type=text]').eq(0);
-				let checkboxField = $(allFields[i]).find('input[type=checkbox]').eq(0);
+				let inputField = $(allFields[i]).find('input.js-email').eq(0);
+				let checkboxField = $(allFields[i]).find('input.js-checkbox').eq(0);
 				if (inputField.val() !== '') {
 					arr.push({
 						e: $(inputField).val(),
@@ -743,7 +743,7 @@ App.Fields = {
 					});
 				}
 			}
-			$(element).find('input[type=hidden]').val(JSON.stringify(arr));
+			$(element).find('input.js-hidden-email').val(JSON.stringify(arr));
 		},
 		/**
 		 * Invoked after clicking the add button
@@ -754,13 +754,13 @@ App.Fields = {
 			let cnt = container.find('[class*=js-multi-email-row]').length + 1;
 			newField.removeClass('js-multi-email-row-1');
 			newField.addClass('js-multi-email-row-' + cnt);
-			newField.find('input[type=text]').val('');
-			newField.find('input[type=checkbox]').removeAttr('checked');
-			newField.find('label.btn-outline-default').removeClass('active');
+			newField.find('input.js-email').val('');
+			newField.find('input.js-checkbox').removeAttr('checked');
+			newField.find('label.js-label-checkbox').removeClass('active');
 			newField.find('.js-remove-item').eq(0).on('click', (e) => {
 				App.Fields.MultiEmail.triggerRemoveEmail($(e.target), container);
 			});
-			newField.find('input[type=checkbox]').eq(0).on('change', (e) => {
+			newField.find('input.js-checkbox').eq(0).on('change', (e) => {
 				App.Fields.MultiEmail.triggerCheck($(e.target));
 			});
 			newField.insertAfter(container.find('[class*=js-multi-email-row]').last());
@@ -776,9 +776,13 @@ App.Fields = {
 		},
 		triggerCheck(element) {
 			if ($(element).is(":checked")) {
-				element.closest('label.btn').eq(0).find('svg.svg-inline--fa').eq(0).removeClass('fa-square').addClass('fa-check-square');
+				element.closest('label.js-label-checkbox')
+					.eq(0).find('svg.svg-inline--fa').eq(0)
+					.removeClass('fa-square').addClass('fa-check-square');
 			} else {
-				element.closest('label.btn').eq(0).find('svg.svg-inline--fa').eq(0).removeClass('fa-check-square').addClass('fa-square');
+				element.closest('label.js-label-checkbox')
+					.eq(0).find('svg.svg-inline--fa').eq(0)
+					.removeClass('fa-check-square').addClass('fa-square');
 			}
 		}
 	},

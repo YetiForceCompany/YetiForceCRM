@@ -6,7 +6,7 @@
 	{else}
 		{assign var=ITEM_VAL value=$ITEM['e']}
 	{/if}
-	<div class="form-group mr-1 mb-2 js-multi-email-row-{counter}">
+	<div class="form-group mr-1 mb-2 js-multi-email-row-{counter}" data-js="container">
 		<label for="staticEmail2" class="sr-only">Email</label>
 		<div class="input-group">
 			<div class="input-group-prepend">
@@ -15,24 +15,25 @@
 				</button>
 			</div>
 
-			<input type="text" class="form-control"
+			<input type="text" class="form-control js-email" data-js="email"
 				   name="{$FIELD_MODEL->getFieldName()}_tmp"
 				   placeholder="{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}"
 				   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_MultiEmail_Validator_Js.invokeValidation]]"
 				   value="{$ITEM_VAL}"
 				   aria-label="{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}"/>
 			<div class="input-group-append btn-group-toggle" data-js="click" data-toggle="buttons">
-				<label class="btn btn-outline-default border {if !empty($ITEM['o']) && $ITEM['o'] }active{/if}">
+				<label class="btn btn-outline-default border {if !empty($ITEM['o']) && $ITEM['o'] }active{/if} js-label-checkbox"
+					   data-js="checkbox">
 					<div class="c-float-label__container"
 						 title="{\App\Language::translate('LBL_CONSENT_TO_SEND', $MODULE)}">
 						<div class="c-float-label__hidden-ph">
 							{\App\Language::translate('LBL_CONSENT_TO_SEND', $MODULE)}
 						</div>
-						<input id="Opted out" type="checkbox" autocomplete="off"
-							   {if !empty($ITEM['o']) && $ITEM['o'] }checked="checked"{/if} />
+						<input class="js-checkbox" data-js="js-checkbox" id="consent-to-send" type="checkbox"
+							   autocomplete="off" {if !empty($ITEM['o']) && $ITEM['o'] }checked="checked"{/if} />
 						<span class="far {if !empty($ITEM['o']) && $ITEM['o'] }fa-check-square{else}fa-square{/if}  position-absolute"
 							  title="{\App\Language::translate('LBL_CONSENT_TO_SEND', $MODULE)}"></span>
-						<label class="c-float-label__label" for="Opted out">
+						<label class="c-float-label__label" for="consent-to-send">
 							{\App\Language::translate('LBL_CONSENT_TO_SEND', $MODULE)}
 						</label>
 					</div>

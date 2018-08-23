@@ -9,7 +9,7 @@
 		{assign var=NOT_DISPLAY_LIST_VALUES value=[['e'=>'']]}
 	{/if}
 	<div class="d-flex align-items-center js-multi-email">
-		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=""/>
+		<input class="js-hidden-email" data-js="value" type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=""/>
 		<button class="btn btn-outline-success border mr-2 mb-2 h-100 js-add-item"
 				data-js="click" type="button">
 			<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD', $MODULE)}"></span>
