@@ -7,15 +7,16 @@
 		{assign var=ITEM_VAL value=$ITEM['e']}
 	{/if}
 	<div class="form-group mr-1 mb-2 js-multi-email-row-{counter}" data-js="container">
-		<label for="staticEmail2" class="sr-only">Email</label>
+		<label for="staticEmail2" class="sr-only" for="email-value">
+			{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}
+		</label>
 		<div class="input-group">
 			<div class="input-group-prepend">
 				<button class="btn btn-outline-danger border js-remove-item" data-js="click" type="button">
 					<span class="fas fa-times" title="{\App\Language::translate('LBL_REMOVE', $MODULE)}"></span>
 				</button>
 			</div>
-
-			<input type="text" class="form-control js-email" data-js="email"
+			<input type="text" class="form-control js-email" data-js="email" id="email-value"
 				   name="{$FIELD_MODEL->getFieldName()}_tmp"
 				   placeholder="{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}"
 				   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_MultiEmail_Validator_Js.invokeValidation]]"
@@ -23,7 +24,7 @@
 				   aria-label="{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}"/>
 			<div class="input-group-append btn-group-toggle" data-js="click" data-toggle="buttons">
 				<label class="btn btn-outline-default border {if !empty($ITEM['o']) && $ITEM['o'] }active{/if} js-label-checkbox"
-					   data-js="checkbox">
+					   data-js="checkbox" for="consent-to-send">
 					<div class="c-float-label__container"
 						 title="{\App\Language::translate('LBL_CONSENT_TO_SEND', $MODULE)}">
 						<div class="c-float-label__hidden-ph">

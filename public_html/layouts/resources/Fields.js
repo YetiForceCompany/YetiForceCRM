@@ -852,8 +852,7 @@ App.Fields = {
 				masterSelect.html(App.Fields.DependentSelect.generateOptionsFromData(data));
 			});
 		}
-	}
-	,
+	},
 	Gantt: {
 		register(container, data) {
 			return new GanttField(container, data);
