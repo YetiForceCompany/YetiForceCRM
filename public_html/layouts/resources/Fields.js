@@ -756,7 +756,7 @@ App.Fields = {
 			newField.addClass('js-multi-email-row-' + cnt);
 			newField.find('input[type=text]').val('');
 			newField.find('input[type=checkbox]').removeAttr('checked');
-			newField.find('label.btn-outline-primary').removeClass('active');
+			newField.find('label.btn-outline-default').removeClass('active');
 			newField.find('.js-remove-item').eq(0).on('click', (e) => {
 				App.Fields.MultiEmail.triggerRemoveEmail($(e.target), container);
 			});
