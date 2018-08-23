@@ -239,6 +239,17 @@ class ConfReport
 		'realpath_cache_ttl' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
 		'mysqlnd.collect_statistics' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'mysqlnd.collect_memory_statistics' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
+		'apc.enabled' => ['container' => 'php', 'testCli' => true],
+		'apc.enable_cli' => ['container' => 'php', 'testCli' => true],
+		'apc.preload_path' => ['container' => 'php', 'testCli' => true],
+		'apc.ttl' => ['container' => 'php', 'testCli' => true],
+		'apc.user_ttl' => ['container' => 'php', 'testCli' => true],
+		'apc.num_files_hint' => ['container' => 'php', 'testCli' => true],
+		'apc.stat' => ['container' => 'php', 'testCli' => true],
+		'apc.optimization' => ['container' => 'php', 'testCli' => true],
+		'apc.cache_by_default' => ['container' => 'php', 'testCli' => true],
+		'apc.mmap_file_mask' => ['container' => 'php', 'testCli' => true],
+		'apc.shm_segments' => ['container' => 'php', 'testCli' => true],
 	];
 	/**
 	 * Environment map.
