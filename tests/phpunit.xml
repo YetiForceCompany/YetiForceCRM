@@ -78,5 +78,6 @@
 	</listeners>
 	<logging>
 		<log type="coverage-clover" target="coverage.xml"/>
+		<log type="junit" target="execution.xml"/>
 	</logging>
 </phpunit>
