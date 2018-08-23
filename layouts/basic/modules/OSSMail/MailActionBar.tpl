@@ -68,9 +68,11 @@
 						<div data-type="link">
 							<div class="col">
 								{foreach key=MODULE item=ITEM from=$MODULES_LEVEL_0}
-									{foreach item=RELATED from=$RELATED_RECORDS[$MODULE]}
-										{include file=\App\Layout::getTemplatePath('MailActionBarRow.tpl', $MODULE_NAME)}
-									{/foreach}
+									{if !empty($RELATED_RECORDS[$MODULE])}
+										{foreach item=RELATED from=$RELATED_RECORDS[$MODULE]}
+											{include file=\App\Layout::getTemplatePath('MailActionBarRow.tpl', $MODULE_NAME)}
+										{/foreach}
+									{/if}
 								{/foreach}
 							</div>
 						</div>
@@ -116,9 +118,11 @@
 						<div data-type="link">
 							<div class="col">
 								{foreach key=MODULE item=ITEM from=$MODULES_LEVEL_3}
-									{foreach item=RELATED from=$RELATED_RECORDS[$MODULE]}
-										{include file=\App\Layout::getTemplatePath('MailActionBarRow.tpl', $MODULE_NAME)}
-									{/foreach}
+									{if !empty($RELATED_RECORDS[$MODULE])}
+										{foreach item=RELATED from=$RELATED_RECORDS[$MODULE]}
+											{include file=\App\Layout::getTemplatePath('MailActionBarRow.tpl', $MODULE_NAME)}
+										{/foreach}
+									{/if}
 								{/foreach}
 							</div>
 						</div>
@@ -164,9 +168,11 @@
 						<div data-type="link">
 							<div class="col">
 								{foreach key=MODULE item=ITEM from=$MODULES_LEVEL_1}
-									{foreach item=RELATED from=$RELATED_RECORDS[$MODULE]}
-										{include file=\App\Layout::getTemplatePath('MailActionBarRow.tpl', $MODULE_NAME)}
-									{/foreach}
+									{if !empty($RELATED_RECORDS[$MODULE])}
+										{foreach item=RELATED from=$RELATED_RECORDS[$MODULE]}
+											{include file=\App\Layout::getTemplatePath('MailActionBarRow.tpl', $MODULE_NAME)}
+										{/foreach}
+									{/if}
 								{/foreach}
 							</div>
 						</div>
@@ -219,9 +225,11 @@
 						<div data-type="link">
 							<div class="col">
 								{foreach key=MODULE item=ITEM from=$MODULES_LEVEL_2}
-									{foreach item=RELATED from=$RELATED_RECORDS[$MODULE]}
-										{include file=\App\Layout::getTemplatePath('MailActionBarRow.tpl', $MODULE_NAME)}
-									{/foreach}
+									{if !empty($RELATED_RECORDS[$MODULE])}
+										{foreach item=RELATED from=$RELATED_RECORDS[$MODULE]}
+											{include file=\App\Layout::getTemplatePath('MailActionBarRow.tpl', $MODULE_NAME)}
+										{/foreach}
+									{/if}
 								{/foreach}
 							</div>
 						</div>
