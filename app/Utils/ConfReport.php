@@ -533,12 +533,22 @@ class ConfReport
 	 * Get configuration values by type of map.
 	 *
 	 * @param string $type
+	 * @param bool   $onlyError
 	 *
 	 * @return mixed
 	 */
-	public static function get(string $type)
+	public static function get(string $type, bool $onlyError = false)
 	{
 		static::init($type);
+		if ($onlyError) {
+			$values = [];
+			foreach (static::validate($type) as $key => $item) {
+				if (!$item['status']) {
+					$values[$key] = $item;
+				}
+			}
+			return $values;
+		}
 		return static::validate($type);
 	}
 
