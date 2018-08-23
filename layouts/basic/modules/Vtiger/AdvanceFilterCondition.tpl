@@ -114,8 +114,13 @@
 				{/foreach}
 			</select>
 		</div>
-		<input class="form-control" type="hidden" name="comparatorValue"
-			   value="{if !empty($CONDITION_INFO['comparator'])}{$CONDITION_INFO['comparator']}{/if}">
+		{if empty($CONDITION_INFO['comparator'])}
+			{assign var=COMPARATOR_VALUE value=''}
+		{else}
+			{assign var=COMPARATOR_VALUE value=$CONDITION_INFO['comparator']}
+		{/if}
+		<input class="form-control" type="hidden" name="comparatorValue" value="{$COMPARATOR_VALUE}">
+		{assign var=ADVANCE_FILTER_OPTIONS value=null}
 		{if !empty($SELECTED_FIELD_MODEL)}
 			{if !$FIELD_TYPE}
 				{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
@@ -139,6 +144,11 @@
 			</select>
 		</div>
 		<div class="fieldUiHolder w-25">
+			{if empty($CONDITION_INFO['value'])}
+				{assign var=CONDITION_VALUE value=''}
+			{else}
+				{assign var=CONDITION_VALUE value=$CONDITION_INFO['value']|escape}
+			{/if}
 			<input class="form-control mr-auto"
 				   name="{if !empty($SELECTED_FIELD_MODEL)}{$SELECTED_FIELD_MODEL->get('name')}{/if}"
 				   title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" type="text"

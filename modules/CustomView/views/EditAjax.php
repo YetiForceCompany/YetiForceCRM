@@ -63,8 +63,8 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 			$viewer->assign('EVENT_RECORD_STRUCTURE', $eventBlocksFields);
 		} else {
 			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();
-			$viewer->assign('EVENT_RECORD_STRUCTURE_MODEL', []);
-			$viewer->assign('EVENT_RECORD_STRUCTURE', []);
+			$viewer->assign('EVENT_RECORD_STRUCTURE_MODEL', null);
+			$viewer->assign('EVENT_RECORD_STRUCTURE', null);
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
