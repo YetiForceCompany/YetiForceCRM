@@ -702,20 +702,20 @@ App.Fields = {
 	},
 	MultiEmail: {
 		register(container) {
-			container.find('.js-multi-email').each(function () {
-				const inputElement = this;
-				let form = $(this).closest('form').eq(0);
+			container.find('.js-multi-email').each((index, element) => {
+				const inputElement = element;
+				let form = $(element).closest('form').eq(0);
 				$(form).on('submit', (e) => {
 					App.Fields.MultiEmail.onFormSubmit(inputElement);
 				});
 			});
-			container.find('.js-add-item').each(function () {
-				$(this).on('click', (e) => {
+			container.find('.js-add-item').each((index, element) => {
+				$(element).on('click', (e) => {
 					App.Fields.MultiEmail.triggerAddEmail(container);
 				});
 			});
-			container.find('.js-remove-item').each(function () {
-				$(this).on('click', (e) => {
+			container.find('.js-remove-item').each((index, element) => {
+				$(element).on('click', (e) => {
 					App.Fields.MultiEmail.triggerRemoveEmail($(e.target), container);
 				});
 			});
@@ -783,8 +783,7 @@ App.Fields = {
 				html += `<option value=${item.value}${selected ? ' selected' : ''}>${item.text}</option>`;
 			}
 			return html;
-		}
-		,
+		},
 		/**
 		 * Register dependent selects
 		 *

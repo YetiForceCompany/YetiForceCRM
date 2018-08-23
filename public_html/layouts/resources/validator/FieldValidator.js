@@ -1094,9 +1094,9 @@ Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 		let fieldValue = this.getFieldValue();
 		let arrayOfEmails = JSON.parse(fieldValue);
 		for (let i = 0; i < arrayOfEmails.length; ++i) {
-			let email = arrayOfEmails[i]['e'];
+			let email = arrayOfEmails[i]['e'].toLowerCase();
 			for (let k = i; k < arrayOfEmails.length; ++k) {
-				if (k !== i && email === arrayOfEmails[k]['e']) {
+				if (k !== i && email === arrayOfEmails[k]['e'].toLowerCase()) {
 					this.setError(app.vtranslate("JS_EMAIL_DUPLICATED"));
 					return false;
 				}
