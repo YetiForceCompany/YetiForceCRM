@@ -15,6 +15,10 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 * @var \Vtiger_Record_Model
 	 */
 	private $recordModel;
+	/**
+	 * @var \Abraham\TwitterOAuth\TwitterOAuth
+	 */
+	private $twitterConnection;
 
 	/**
 	 * Vtiger_SocialMedia_Model constructor.
@@ -25,6 +29,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	{
 		parent::__construct();
 		$this->recordModel = $recordModel;
+		$this->twitterConnection = new \Abraham\TwitterOAuth\TwitterOAuth('', '');
 	}
 
 	/**
@@ -121,5 +126,29 @@ class Vtiger_SocialMedia_Model extends \App\Base
 			yield $row;
 		}
 		$dataReader->close();
+	}
+
+	public function getUserIdByName($userName)
+	{
+		$response = $this->getTwitter('users/lookup', ['screen_name' => $userName]);
+		if (!$this->isError($response)) {
+		}
+		return $response[0]->id;
+	}
+
+	private function isError($response)
+	{
+		return false;
+	}
+
+	private function getTwitter($path, array $parameters = [])
+	{
+		$cacheKey = $path . md5(\App\Json::encode(($parameters)));
+		if (\App\Cache::has('twitter', $cacheKey)) {
+			return \App\Cache::get('twitter', $cacheKey);
+		}
+		$response = $this->twitterConnection->get($path, $parameters);
+		\App\Cache::save('twitter', $cacheKey, $response, \App\Cache::MEDIUM);
+		return $response;
 	}
 }
