@@ -39,6 +39,9 @@ class ErrorHandler
 	 */
 	public static function init()
 	{
+		if (\class_exists('rcmail')) {
+			return;
+		}
 		register_shutdown_function([__CLASS__, 'fatalHandler']);
 		set_error_handler([__CLASS__, 'errorHandler'], \AppConfig::debug('EXCEPTION_ERROR_LEVEL'));
 	}

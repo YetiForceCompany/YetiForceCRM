@@ -129,7 +129,7 @@ class ConfReport
 		'disable_functions' => ['recommended' => 'shell_exec,exec,system,passthru', 'type' => 'In', 'container' => 'php', 'testCli' => true],
 		'allow_url_include' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'Header: Server' => ['recommended' => '', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
-		'Header: X-Powered-By' => ['recommended' => '', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: X-Powered-By' => ['recommended' => '', 'type' => 'Header', 'contaiuse_only_cookiesner' => 'request', 'testCli' => false],
 		'Header: X-Frame-Options' => ['recommended' => 'SAMEORIGIN', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: X-XSS-Protection' => ['recommended' => '1; mode=block', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: X-Content-Type-Options' => ['recommended' => 'nosniff', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
@@ -508,7 +508,6 @@ class ConfReport
 				$request[strtolower($key)] = is_array($value) ? implode(',', $value) : $value;
 			}
 		} catch (\Throwable $e) {
-
 		}
 		return $request;
 	}
@@ -545,7 +544,7 @@ class ConfReport
 		unset($name);
 		$current = $row[$sapi];
 		$errorReporting = stripos($current, '_') === false ? \App\ErrorHandler::error2string($current) : $current;
-		if ($row['recommended'] === 'E_ALL & ~E_NOTICE' && (E_ALL & ~E_NOTICE) === (int)$current) {
+		if ($row['recommended'] === 'E_ALL & ~E_NOTICE' && (E_ALL & ~E_NOTICE) === (int) $current) {
 			$row[$sapi] = $row['recommended'];
 		} else {
 			$row['status'] = false;
@@ -584,7 +583,7 @@ class ConfReport
 	private static function validateGreater(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if (isset($row[$sapi]) && (int)$row[$sapi] > 0 && (int)$row[$sapi] < (int)$row['recommended']) {
+		if (isset($row[$sapi]) && (int) $row[$sapi] > 0 && (int) $row[$sapi] < (int) $row['recommended']) {
 			$row['status'] = false;
 		}
 		return $row;
@@ -621,7 +620,7 @@ class ConfReport
 	private static function validateEqual(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if (isset($row[$sapi]) && strtolower((string)$row[$sapi]) !== strtolower((string)$row['recommended'])) {
+		if (isset($row[$sapi]) && strtolower((string) $row[$sapi]) !== strtolower((string) $row['recommended'])) {
 			$row['status'] = false;
 		}
 		return $row;
@@ -838,7 +837,7 @@ class ConfReport
 		if (!\is_array($row[$sapi])) {
 			$value = \explode(',', $row[$sapi]);
 		}
-		$recommended = (array)$row['values'];
+		$recommended = (array) $row['values'];
 		foreach ($recommended as $item) {
 			if (\in_array($item, $value)) {
 				$row['status'] = false;
@@ -950,7 +949,7 @@ class ConfReport
 		foreach (\explode(',', $row['recommended']) as $type) {
 			try {
 				$response = (new \GuzzleHttp\Client())->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
-				if ($response->getStatusCode() === 200 && 'No uid' === (string)$response->getBody()) {
+				if ($response->getStatusCode() === 200 && 'No uid' === (string) $response->getBody()) {
 					$supported[] = $type;
 				}
 			} catch (\Throwable $e) {
