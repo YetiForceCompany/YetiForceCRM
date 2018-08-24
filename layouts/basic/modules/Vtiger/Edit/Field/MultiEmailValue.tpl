@@ -6,7 +6,7 @@
 	{else}
 		{assign var=ITEM_VAL value=$ITEM['e']}
 	{/if}
-	<div class="form-group mr-1 mb-2 js-multi-email-row-{counter}" data-js="container">
+	<div class="tpl-Edit-Field-MultiEmailValue form-group mr-1 mb-2 js-multi-email-row-{counter}" data-js="container">
 		<label for="staticEmail2" class="sr-only" for="email-value">
 			{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}
 		</label>
