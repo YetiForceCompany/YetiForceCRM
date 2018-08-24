@@ -4,9 +4,9 @@
  * Show modal with configuration.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 {
@@ -48,7 +48,7 @@ class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 		$viewer->assign('SELECT_ALL_MODULES', $selectedAllModules);
 		$viewer->assign('IS_ALL_EMAIL_NOTICE', $selectedAllSendNotice);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('FREQUENCY', $scheduleData['frequency']);
+		$viewer->assign('FREQUENCY', $scheduleData['frequency'] ?? null);
 		$viewer->assign('SCHEDULE_DATA', $scheduleData);
 		$viewer->assign('CRON_INFO', \vtlib\Cron::getInstance('LBL_SEND_NOTIFICATIONS'));
 		$viewer->view('NotificationConfig.tpl', $moduleName);

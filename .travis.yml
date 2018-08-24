@@ -51,6 +51,7 @@ mysql:
   encoding: utf8
   
 before_script:
+- git fetch --unshallow
 - sudo chmod -R 777 tests/setup/
 - ./tests/setup/before_script.sh
 - ./tests/setup/apache.sh
@@ -59,8 +60,10 @@ before_script:
 script:
 - cd tests
 - /usr/local/bin/phpunit --debug --verbose
+- sudo ls -all
 - cd ..
 - sonar-scanner
+- sudo ls -all 
     
 after_script:
 - sudo cat /var/log/apache2/error.log

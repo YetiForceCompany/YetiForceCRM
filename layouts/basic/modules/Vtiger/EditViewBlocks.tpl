@@ -61,7 +61,9 @@
 				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
 				{if $BLOCKS_HIDE}
-					<div class="js-toggle-panel c-panel c-panel--edit row  mx-1 mb-3" data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if} data-label="{$BLOCK_LABEL}">
+					<div class="js-toggle-panel c-panel c-panel--edit row  mx-1 mb-3"
+						 data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
+						 data-label="{$BLOCK_LABEL}">
 						<div class="blockHeader c-panel__header align-items-center">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
 								{assign var=SEARCH_ADDRESS value=TRUE}
@@ -79,13 +81,14 @@
 						<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
 							 data-js="display">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-									<div class="{if !$SEARCH_ADDRESS} {/if} adressAction row py-2 justify-content-center">
-										{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE)}
-									</div>
+								<div class="{if !$SEARCH_ADDRESS} {/if} adressAction row py-2 justify-content-center">
+									{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE)}
+								</div>
 							{/if}
 							<div class="row">
 								{assign var=COUNTER value=0}
 								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
+								{if ($FIELD_NAME === 'time_start' || $FIELD_NAME === 'time_end') && ($MODULE === 'OSSTimeControl' || $MODULE === 'Reservations')}{continue}{/if}
 								{if $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '19' || $FIELD_MODEL->getUIType() eq '300'}
 								{if $COUNTER eq '1'}
 							</div>
@@ -109,7 +112,11 @@
 									<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">
 										{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
 										{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-											<a href="#" class="js-help-info float-right" title="" data-placement="top" data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}" data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"><span class="fas fa-info-circle"></span></a>
+											<a href="#" class="js-help-info float-right" title="" data-placement="top"
+											   data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}"
+											   data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}">
+												<span class="fas fa-info-circle"></span>
+											</a>
 										{/if}
 										{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE_NAME)}
 									</label>

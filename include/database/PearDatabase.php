@@ -156,7 +156,7 @@ class PearDatabase
 				'query' => $query,
 				'params' => $params,
 			];
-			vtlib\Functions::throwNewException($message, true, 'DatabaseException.tpl');
+			vtlib\Functions::throwNewException($message, true, 'LBL_SQL_ERROR');
 		}
 	}
 
@@ -503,7 +503,7 @@ class PearDatabase
 	 * as with the other methods.
 	 *
 	 * @param &$result The query result to fetch from
-	 * @param $row The row number to fetch. It's default value is 0
+	 * @param $row     The row number to fetch. It's default value is 0
 	 */
 	public function rawQueryResultRowData(&$result, $row = 0)
 	{

@@ -218,15 +218,11 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	 */
 	protected function getSecurityCount()
 	{
-		$count = 0;
-		foreach (Settings_ConfReport_Module_Model::getSecurityConf(false, true) as $value) {
-			++$count;
-		}
+		$count = count(\App\Utils\ConfReport::get('security', true));
 		$count += App\Log::getLogs('access_for_admin', 'oneDay', true);
 		$count += App\Log::getLogs('access_to_record', 'oneDay', true);
 		$count += App\Log::getLogs('access_for_api', 'oneDay', true);
 		$count += App\Log::getLogs('access_for_user', 'oneDay', true);
-
 		return $count;
 	}
 

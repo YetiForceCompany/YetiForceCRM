@@ -198,7 +198,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$user = App\User::getCurrentUserModel();
 		if (!$user->isAdmin() && $user->getId() !== $ownerId) {
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
-			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
+			$viewer->view('ExceptionError.tpl', 'Vtiger');
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		list($noOfRecords, $noOfRecordsDeleted) = $this->undoRecords($type, $moduleName);

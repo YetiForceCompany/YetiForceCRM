@@ -346,9 +346,9 @@ $.Class("Vtiger_Header_Js", {
 			}
 		});
 
-		form.find('#goToFullForm').on('click', function (e) {
+		form.find('.js-full-editlink').on('click', function (e) {
 			var form = $(e.currentTarget).closest('form');
-			var editViewUrl = $(e.currentTarget).data('editViewUrl');
+			var editViewUrl = $(e.currentTarget).data('url');
 			if (typeof goToFullFormCallBack !== "undefined") {
 				goToFullFormCallBack(form);
 			}

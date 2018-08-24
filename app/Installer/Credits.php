@@ -45,7 +45,7 @@ class Credits
 	 *
 	 * @var array
 	 */
-	public static $libraries = ['YetiForce' => ['name' => 'Yetiforce', 'version' => '4.3', 'license' => 'YetiForce Public License v3', 'homepage' => 'https://yetiforce.com/en/', 'notPackageFile' => true, 'showLicenseModal' => true],
+	public static $libraries = ['YetiForce' => ['name' => 'Yetiforce', 'version' => '4.4', 'license' => 'YetiForce Public License v3', 'homepage' => 'https://yetiforce.com/en/', 'notPackageFile' => true, 'showLicenseModal' => true],
 		'Vtiger' => ['name' => 'Vtiger', 'version' => '6.4.0 rev. 14548', 'license' => 'VPL 1.1', 'homepage' => 'https://www.vtiger.com/', 'notPackageFile' => true, 'showLicenseModal' => true, 'description' => 'LBL_VTIGER_DESCRIPTION'],
 		'Sugar' => ['name' => 'Sugar CRM', 'version' => '', 'license' => 'SPL-1.1.2', 'homepage' => 'https://www.sugarcrm.com/', 'notPackageFile' => true, 'showLicenseModal' => true, 'description' => 'LBL_SUGAR_DESCRIPTION']];
 

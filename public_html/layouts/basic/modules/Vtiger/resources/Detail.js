@@ -1173,12 +1173,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var fullFormUrl = element.data('url');
 			var preQuickCreateSave = function (data) {
 				thisInstance.addElementsToQuickCreateForCreatingRelation(data, customParams);
-				var taskGoToFullFormButton = data.find('[class^="CalendarQuikcCreateContents"]').find('#goToFullForm');
-				var eventsGoToFullFormButton = data.find('[class^="EventsQuikcCreateContents"]').find('#goToFullForm');
-				var taskFullFormUrl = taskGoToFullFormButton.data('edit-view-url') + "&" + fullFormUrl;
-				var eventsFullFormUrl = eventsGoToFullFormButton.data('edit-view-url') + "&" + fullFormUrl;
-				taskGoToFullFormButton.data('editViewUrl', taskFullFormUrl);
-				eventsGoToFullFormButton.data('editViewUrl', eventsFullFormUrl);
+				var taskGoToFullFormButton = data.find('[class^="CalendarQuikcCreateContents"]').find('.js-full-editlink');
+				var eventsGoToFullFormButton = data.find('[class^="EventsQuikcCreateContents"]').find('.js-full-editlink');
+				var taskFullFormUrl = taskGoToFullFormButton.data('url') + "&" + fullFormUrl;
+				var eventsFullFormUrl = eventsGoToFullFormButton.data('url') + "&" + fullFormUrl;
+				taskGoToFullFormButton.data('url', taskFullFormUrl);
+				eventsGoToFullFormButton.data('url', eventsFullFormUrl);
 			}
 			var callbackFunction = function () {
 				var widgetContainer = element.closest('.js-detail-widget');
