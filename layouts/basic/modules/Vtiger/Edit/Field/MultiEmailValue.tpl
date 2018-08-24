@@ -1,12 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-
 {strip}
 	{if empty($ITEM['e']) }
 		{assign var=ITEM_VAL value=''}
 	{else}
 		{assign var=ITEM_VAL value=$ITEM['e']}
 	{/if}
-	<div class="tpl-Edit-Field-MultiEmailValue form-group mr-1 mb-2 js-multi-email-row-{counter}" data-js="container">
+	<div class="tpl-Base-Edit-Field-MultiEmailValue form-group mr-1 mb-2 js-multi-email-row-{counter}"
+		 data-js="container">
 		<label for="staticEmail2" class="sr-only" for="email-value">
 			{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}
 		</label>

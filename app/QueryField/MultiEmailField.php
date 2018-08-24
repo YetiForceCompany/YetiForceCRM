@@ -6,7 +6,8 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-namespace \App\QueryField;
+
+namespace App\QueryField;
 
 class MultiEmailField extends BaseField
 {
