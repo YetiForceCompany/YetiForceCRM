@@ -1282,6 +1282,7 @@
     "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Number of merged records has been reduced to %d."
   },
   "js": {
+    "JS_APPROVE": "Approve",
     "JS_RECORDS_TRANSFERRED_SUCCESSFULLY": "A responsabilidade dos registros foi transferida com sucesso.",
     "JS_SUMMARY": "Resumo",
     "JS_LOADING_PLEASE_WAIT": "Carregando... Por favor, aguarde.",
@@ -1307,11 +1308,14 @@
     "JS_CHECK_FILE_INTEGRITY": "Checar Integridade do Arquivo",
     "JS_CONTAINS_ILLEGAL_CHARACTERS": "cont\u00e9m caracteres n\u00e3o permitidos",
     "JS_CURRENT_DATE": "Data Atual",
+    "JS_DENY": "Deny",
     "JS_DO_NOT_HAVE_AN_EMAIL_ID": "n\u00e3o existe um endere\u00e7o de email",
+    "JS_DUPLICATE": "Duplicate",
     "JS_DUPLIACATE_ENTRIES_FOUND_FOR_THE_VALUE": "Foi encontrado valor duplicado",
     "JS_DUPLICATE_ENTRIES_FOUND_FOR_THE_VALUE": "Foram encontradas entradas duplicadas para o valor",
     "JS_DUPLICATE_RECORD": "Registro Duplicado",
     "JS_DUPLICTAE_CREATION_CONFIRMATION": "O nome da Conta j\u00e1 existe. Deseja criar um registro duplicado?",
+    "JS_EDIT": "Edit",
     "JS_EMAIL_SERVER_CONFIGURATION": "Por favor, ajuste as configura\u00e7\u00f5es do Servidor Envio Mensagens a partir do menu Configura\u00e7\u00f5es",
     "JS_END_DATE_TIME": "Data\/Hora Final",
     "JS_ERROR": "Error, please inform the Administrator",
@@ -1368,6 +1372,7 @@
     "JS_PLEASE_ENTER_VALID_DATE": "Por favor, digite uma data v\u00e1lida",
     "JS_PLEASE_ENTER_VALID_EMAIL_ADDRESS": "Por favor, digite um endere\u00e7o de email v\u00e1lido",
     "JS_PLEASE_ENTER_VALID_TIME": "Por favor, digite uma hora v\u00e1lida",
+    "JS_PLEASE_ENTER_VALID_TWITTER_ACCOUNT": "Please enter valid Twitter account",
     "JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS": "Por favor, selecione uma Conta para copiar o endere\u00e7o",
     "JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS": "Por favor, selecione um Contato para copiar o endere\u00e7o",
     "JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS": "Selecionar um Lead para copiar o endere\u00e7o",
@@ -1628,6 +1633,8 @@
     "JS_FILE_LIMIT": "Maximum number of files was exceeded",
     "JS_WAIT_FOR_FILE_UPLOAD": "Wait for files to be uploaded",
 	"JS_ERROR_MAX_VALUE": "Entered value is out of allowed range",
-    "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Change company name. The name of YetiForce company is reserved."
+    "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Change company name. The name of YetiForce company is reserved.",
+    "JS_SELECT_OR_WRITE_AND_PRESS_ENTER": "Select value from list or write value then press enter",
+    "JS_INVENTORY_ITEM_MODULE_NOT_FOUND": "Module '${sourceModule}' for position'${position}' was not activated."
   }
 }
