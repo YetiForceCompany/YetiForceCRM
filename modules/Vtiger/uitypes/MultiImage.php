@@ -381,7 +381,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 					$item['path'] = $path;
 					$value[] = $item;
 				} else {
-					\App\Log::error("Error during file copy: {$item['path']} >> {$item['path']}{$suffix}");
+					\App\Log::error("Error during file copy: {$item['path']} >> {$item['path']}");
 					throw new \App\Exceptions\FieldException('ERR_CREATE_FILE_FAILURE');
 				}
 			}

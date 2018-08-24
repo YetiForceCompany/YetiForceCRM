@@ -297,27 +297,43 @@ class TextParser extends \Tests\Base
 	 */
 	public function testEmployee()
 	{
-		$tmpUser = \App\User::getCurrentUserId();
-		$employeeId = false;
-		$employeeUser = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['in', 'id', (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees'])
-			->column()])
+		$currentUser = \App\User::getCurrentUserId();
+		$userName = 'Employee';
+		$userExistsId = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => $userName])
 			->limit(1)->scalar();
-		$employeeUser ? \App\User::setCurrentUserId($employeeUser) : '';
-		$employeeId = $employeeId ? $employeeId : (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => \App\User::getCurrentUserId()])
+		$employeeUser = $userExistsId ? \Vtiger_Record_Model::getInstanceById($userExistsId) : \Vtiger_Record_Model::getCleanInstance('Users');
+
+		$employeeUser->set('user_name', $userName);
+		$employeeUser->set('email1', $userName . '@yetiforce.com');
+		$employeeUser->set('first_name', $userName);
+		$employeeUser->set('last_name', 'YetiForce');
+		$employeeUser->set('user_password', 'demo');
+		$employeeUser->set('confirm_password', 'demo');
+		$employeeUser->set('roleid', 'H2');
+		$employeeUser->set('is_admin', 'on');
+		$employeeUser->save();
+		$this->assertNotEmpty($employeeUser->getId(), 'New user id should be not empty');
+		\App\User::setCurrentUserId($employeeUser->getId());
+		$employeeExistsId = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => $employeeUser->getId()])
 			->limit(1)->scalar();
+		$employeeModel = $employeeExistsId ? \Vtiger_Record_Model::getInstanceById($employeeExistsId) : \Vtiger_Record_Model::getCleanInstance('OSSEmployees');
+		$employeeModel->set('smownerid', $employeeUser->getId());
+		$employeeModel->set('name', 'Test employee');
+		$employeeModel->save();
+
 		\App\Cache::clear();
 
 		$text = '+ $(employee : name)$ +';
-		$this->assertSame('+ ' . \Vtiger_Record_Model::getInstanceById($employeeId, 'OSSEmployees')->get('name') . ' +', \App\TextParser::getInstance()
+		$this->assertSame('+ ' . \Vtiger_Record_Model::getInstanceById($employeeModel->getId(), 'OSSEmployees')->get('name') . ' +', \App\TextParser::getInstance()
 			->setContent($text)
 			->parse()
 			->getContent(), 'Clean instance: Employee name should be same as in db');
-		$this->assertSame('+ ' . \Vtiger_Record_Model::getInstanceById($employeeId, 'OSSEmployees')->get('name') . ' +', \App\TextParser::getInstance()
+		$this->assertSame('+ ' . \Vtiger_Record_Model::getInstanceById($employeeModel->getId(), 'OSSEmployees')->get('name') . ' +', \App\TextParser::getInstance()
 			->setContent($text)
 			->parse()
 			->getContent(), 'Clean instance: Employee name should be same as in db(cached)');
 
-		\App\User::setCurrentUserId($tmpUser);
+		\App\User::setCurrentUserId($currentUser);
 	}
 
 	/**

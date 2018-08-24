@@ -8,13 +8,13 @@
     "FL_PAYMENT_DATE": "Fecha de vencimiento",
     "FL_SALE_DATE": "Fecha de venta",
     "FL_FORM_PAYMENT": "M\u00e9todo de pago",
-    "FL_BANK_ACCOUNT": "N\u00famero de cuenta bancaria",
     "FL_NUMBER": "ID Factura",
     "FL_ACCOUNT": "Empresa",
     "FL_TOTAL": "Total",
     "FL_GROSS": "Subtotal",
     "FL_STATUS": "Estado",
-    "PLL_TRANSFER": "transferencia",
-    "PLL_CASH": "efectivo"
+    "PLL_CASH": "Cash",
+    "PLL_TRANSFER": "Bank transfer",
+    "PLL_WIRE_TRANSFER": "Electronic transfer",
   }
 }

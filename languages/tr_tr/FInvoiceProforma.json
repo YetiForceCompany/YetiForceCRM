@@ -9,12 +9,12 @@
     "FL_SALE_DATE": "Sat\u0131\u015f tarihi",
     "FL_FORM_PAYMENT": "\u00d6deme y\u00f6ntemi",
     "FL_STATUS": "Durum",
-    "FL_BANK_ACCOUNT": "Banka hesap numaras\u0131",
     "FL_NUMBER": "Fatura numaras\u0131",
     "FL_ACCOUNT": "Hesap",
     "FL_TOTAL": "Net",
     "FL_GROSS": "Br\u00fct",
-    "PLL_TRANSFER": "transfer",
-    "PLL_CASH": "nakit"
+    "PLL_CASH": "Cash",
+    "PLL_TRANSFER": "Bank transfer",
+    "PLL_WIRE_TRANSFER": "Electronic transfer",
   }
 }
