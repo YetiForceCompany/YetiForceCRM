@@ -33,7 +33,7 @@
 							{if $COLUMN_NAME === 'currency'}
 								{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME)  ITEM_VALUE=$CURRENCY}
 							{else}
-								{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME)  ITEM_VALUE=$INVENTORY_ROWS[0][$COLUMN_NAME]}
+								{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME)  ITEM_VALUE=$INVENTORY_ROWS[0][$COLUMN_NAME] MODULE=$MODULE_NAME}
 							{/if}
 						</th>
 					{/foreach}
