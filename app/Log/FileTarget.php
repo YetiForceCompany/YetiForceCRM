@@ -132,27 +132,29 @@ class FileTarget extends \yii\log\FileTarget
 			chdir(ROOT_DIRECTORY);
 		}
 		$context = \yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars);
-		$library = \Settings_ConfReport_Module_Model::getLibrary();
-		$directiveValues = \Settings_ConfReport_Module_Model::getStabilityConf(true);
-		$permissionsFiles = \Settings_ConfReport_Module_Model::getPermissionsFiles(true);
+		$library = \App\Utils\ConfReport::getAll()['libraries'];
+		$directiveValues = \App\Utils\ConfReport::getAll()['stability'];
+		$permissionsFiles = \App\Utils\ConfReport::getAll()['writableFilesAndFolders'];
 		foreach ($library as $key => $value) {
-			if ($value['status'] === 'LBL_NO') {
-				$context['Libs'][] = $value['name'];
+			if (!$value['status']) {
+				$context['Libs'][] = $value['extName'];
 			}
 		}
 		foreach ($directiveValues as $key => $value) {
-			if (isset($value['status']) && $value['status']) {
-				$context['PHP'][$key] = $value['current'];
+			if (!$value['status']) {
+				$context['PHP'][$key] = $value['www'];
 			}
 		}
 		foreach ($permissionsFiles as $key => $value) {
-			$context['FLPermissions'][] = $value['path'];
+			if (!$value['status']) {
+				$context['FLPermissions'][] = $key;
+			}
 		}
 		$result = '';
 		foreach ($context as $key => $value) {
 			$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($value);
 		}
-		//$result .= PHP_EOL.
+		$result .= PHP_EOL;
 		return $result . "====================================================================================================================================\n";
 	}
 }
