@@ -13,7 +13,7 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model
 	/**
 	 * Function to get the detail view links (links and widgets).
 	 *
-	 * @param <array> $linkParams - parameters which will be used to calicaulate the params
+	 * @param  <array> $linkParams - parameters which will be used to calicaulate the params
 	 *
 	 * @return <array> - array of link models in the format as below
 	 *                 array('linktype'=>list of link models);
@@ -29,6 +29,7 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_CONVERT_FAQ',
 				'linkurl' => $recordModel->getConvertFAQUrl(),
+				'linkicon' => 'userIcon-Faq',
 				'showLabel' => 1,
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
