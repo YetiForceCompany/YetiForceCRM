@@ -57,7 +57,7 @@
 			<div class="col-md-3 btn-toolbar marginLeftZero">
 				<select class="select2 form-control" id="moduleFilter"
 						data-placeholder="{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}"
-						data-select="allowClear, true">
+						data-select="allowClear">
 					<optgroup class="p-0">
 						<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 					</optgroup>
