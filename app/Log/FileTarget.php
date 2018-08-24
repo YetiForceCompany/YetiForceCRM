@@ -131,62 +131,7 @@ class FileTarget extends \yii\log\FileTarget
 		if (getcwd() !== ROOT_DIRECTORY) {
 			chdir(ROOT_DIRECTORY);
 		}
-		$context = \yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars);
-		foreach (\App\Utils\ConfReport::getAll() as $category => $params) {
-			foreach ($params as $param => $data) {
-				if (!$data['status']) {
-					switch ($data['type'] ?? $data['container']) {
-						case 'ExtNotExist':
-						case 'CookieSecure':
-						case 'db':
-						case 'env':
-						case 'ErrorReporting':
-						case 'Equal':
-						case 'FnExist':
-						case 'Greater':
-						case 'GreaterMb':
-						case 'Htaccess':
-						case 'HttpMethods':
-						case 'In':
-						case 'NotIn':
-						case 'OnOff':
-						case 'OnOffInt':
-						case 'php':
-						case 'RealpathCacheSize':
-						case 'SessionRegenerate':
-						case 'Space':
-						case 'IsWritable':
-						case 'TimeZone':
-						case 'Version':
-							if (!isset($data['www']) && !isset($data['cron'])) {
-								$val = $data['status'];
-							} else {
-								$val = $data['www'] ?? $data['cron'];
-							}
-							$context[$category][$param] = $val;
-
-							break;
-						case 'ExtExist':
-							$context[$category][$data['extName']] = $data['mandatory'] ? 'required' : 'optional';
-							break;
-						case 'ExistsUrl':
-							$context[$category][$param] = !$data['status'];
-							break;
-						case 'Header':
-							$context[$category][$param] = $data['www'] ?? '';
-							break;
-						default:
-							if (!isset($data['www']) && !isset($data['cron'])) {
-								$val = 'NO_VALUE';
-							} else {
-								$val = $data['www'] ?? $data['cron'];
-							}
-							$context[$category][$param] = $val;
-							break;
-					}
-				}
-			}
-		}
+		$context = \array_merge(\yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars), \App\Utils\ConfReport::getAllErrors());
 		$result = '';
 		foreach ($context as $key => $value) {
 			$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($value);
