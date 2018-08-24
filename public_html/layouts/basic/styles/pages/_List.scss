@@ -79,7 +79,7 @@
 }
 
 //USERS
-.list-user-img {
+.c-list__user-img {
 	width: auto;
-	height: 40px;
+	height: calculate-rem(40px);
 }

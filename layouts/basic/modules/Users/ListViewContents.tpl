@@ -116,12 +116,12 @@
 							{if $IMAGE}
 							<div class='col-md-6'>
 								<img src="{$IMAGE.url}"
-									 class="list-user-img" alt="{$LISTVIEW_ENTRY->getName()}"
+									 class="c-list__user-img" alt="{$LISTVIEW_ENTRY->getName()}"
 									 title="{$LISTVIEW_ENTRY->getName()}">
 							</div>
 							{else}
 								<div class='col-md-6'>
-									<img class="list-user-img" alt=""
+									<img class="c-list__user-img" alt=""
 										 src="{\App\Layout::getImagePath('DefaultUserIcon.png')}">
 								</div>
 							{/if}
