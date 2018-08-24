@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<h1>asdf</h1>
 	{if !$NOLOADLIBS}
 		{include file="modules/Vtiger/Header.tpl"}
 	{/if}
@@ -8,9 +9,9 @@
 		<div class="modal-dialog modal-blg">
 	{/if}
 	<div class="{if $ISMODAL}modal-content{else}container-fluid{/if}" id="emailPreview" name="emailPreview">
-		<div class="{if $ISMODAL}modal-header{else}blockHeader emailPreviewHeader{/if} flex-wrap flex-sm-nowrap">
+		<div class="{if $ISMODAL}modal-header{else}blockHeader emailPreviewHeader{/if} flex-wrap flex-md-nowrap">
 			<h5 {if $ISMODAL}class="modal-title"{/if}>{\App\Language::translate('emailPreviewHeader',$MODULENAME)}</h5>
-			<div class="btn-toolbar order-3 order-sm-2 ml-sm-auto">
+			<div class="btn-toolbar order-3 order-md-2 ml-md-auto mt-2 mt-md-0">
 				{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 					{if $USER_MODEL->get('internal_mailer') == 1}
 						{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
@@ -64,7 +65,7 @@
 				{/if}
 			</div>
 			{if $ISMODAL}
-				<button type="button" class="close order-2 order-sm-3 ml-1" data-dismiss="modal"
+				<button type="button" class="close order-2 order-md-3 ml-1" data-dismiss="modal"
 						aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -146,7 +147,8 @@
 									<span class="float-right muted">{\App\Language::translate('Content',$MODULENAME)}</span>
 								</span>
 				<span class="col-md-10 row no-gutters">
-									<iframe id="emailPreview_Content" class="col-12 {if $ISMODAL}u-h-70vh{/if}" src="{$URL}"
+									<iframe id="emailPreview_Content" class="col-12 {if $ISMODAL}u-h-70vh{/if}"
+											src="{$URL}"
 											frameborder="0"></iframe>
 								</span>
 			</div>
