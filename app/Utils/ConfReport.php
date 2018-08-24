@@ -1070,4 +1070,31 @@ class ConfReport
 		$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
 		return $row;
 	}
+
+	/**
+	 * Get all configuration error values.
+	 *
+	 * @return array
+	 */
+	public static function getAllErrors()
+	{
+		$result = [];
+		foreach (static::getAll() as $category => $params) {
+			foreach ($params as $param => $data) {
+				if (!$data['status']) {
+					if (!isset($data['www']) && !isset($data['cron'])) {
+						if (!empty($data['type']) && $data['type'] === 'ExistsUrl') {
+							$val = !$data['status'];
+						} else {
+							$val = $data['status'];
+						}
+					} else {
+						$val = $data['www'] ?? $data['cron'];
+					}
+					$result[$category][$param] = $val;
+				}
+			}
+		}
+		return $result;
+	}
 }
