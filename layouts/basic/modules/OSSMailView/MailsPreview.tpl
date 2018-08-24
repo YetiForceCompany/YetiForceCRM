@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var=COUNT value=count($RECOLDLIST)}
-	<div class="modelContainer modal fade" tabindex="-1">
+	<div class="tpl-OSSMailView-MailsPreview modelContainer modal fade" tabindex="-1">
 		<div class="modal-dialog modal-full">
 			<div class="modal-content">
 				<div class="modal-header">

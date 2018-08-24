@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="container-fluid">
+	<div class="tpl-OSSMailView-widgets container-fluid">
 		{assign var=COUNT value=count($RECOLDLIST)}
 		{foreach from=$RECOLDLIST item=ROW key=KEY}
 			<div class="row{if $KEY%2 != 0} even{/if}">
