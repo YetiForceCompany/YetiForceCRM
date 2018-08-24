@@ -308,6 +308,9 @@ class Vtiger_InventoryField_Model extends App\Base
 		if (isset($taxParam['aggregationType'])) {
 			foreach ($taxParam['aggregationType'] as $aggregationType) {
 				$precent = $taxParam[$aggregationType . 'Tax'];
+				if (!isset($return[$precent])) {
+					$return[$precent] = 0;
+				}
 				$return[$precent] += $net * ($precent / 100);
 			}
 		}
