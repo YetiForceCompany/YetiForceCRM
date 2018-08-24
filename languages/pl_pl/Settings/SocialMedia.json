@@ -3,6 +3,8 @@
     "LBL_TWITTER": "Twitter",
     "LBL_TWITTER_DESC": "Integracja Twitterem",
     "LBL_ARCHIVING_RECORDS_NUMBER_OF_DAYS": "Archiwizowanie rekord\u00f3w liczba dni",
-    "LBL_SOCIAL_MEDIA_CRON_WARNING": "Cron social nie jest w\u0142\u0105czony, do prawid\u0142owego dzia\u0142ania archiwizacji jest to konieczne."
+    "LBL_SOCIAL_MEDIA_CRON_WARNING": "Cron social nie jest w\u0142\u0105czony, do prawid\u0142owego dzia\u0142ania archiwizacji jest to konieczne.",
+    "LBL_TWITTER_API_KEY": "Twitter API klucz",
+    "LBL_TWITTER_API_SECRET": "Twitter API sekret"
   }
 }

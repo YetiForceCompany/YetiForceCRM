@@ -12,24 +12,24 @@ jQuery.Class('Settings_SocialMedia_Index_Js', {}, {
 	 */
 	getContainer() {
 		if (this.container === null) {
-			this.container = $('tpl-Settings-SocialMedia-Index');
+			this.container = $('div.tpl-Settings-SocialMedia-Index');
 		}
 		return this.container;
 	},
 	/**
 	 * Submit form
-	 * @param {jQuery} container
+	 * @param {jQuery} form
 	 */
-	saveForm(container) {
-		container.validationEngine(app.validationEngineOptions);
-		if (container.validationEngine('validate')) {
+	saveForm(form) {
+		form.validationEngine(app.validationEngineOptions);
+		if (form.validationEngine('validate')) {
 			let progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
-			AppConnector.request(container.serializeFormData()).done((response) => {
+			AppConnector.request(form.serializeFormData()).done((response) => {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
 				Vtiger_Helper_Js.showPnotify({
 					text: response.result.message,
@@ -47,23 +47,25 @@ jQuery.Class('Settings_SocialMedia_Index_Js', {}, {
 	/**
 	 * Register events for form
 	 */
-	registerForm() {
-		let container = this.getContainer();
+	registerForm(form) {
 		let thisInstance = this;
-		container.on('change', (event) => {
+		form.on('change', (event) => {
 			event.preventDefault();
-			thisInstance.saveForm(container);
+			thisInstance.saveForm(form);
 		});
 		//Executed when the enter key is pressed.
-		container.on('submit', (event) => {
+		form.on('submit', (event) => {
 			event.preventDefault();
-			thisInstance.saveForm(container);
+			thisInstance.saveForm(form);
 		});
 	},
 	/**
 	 * Register all events in view
 	 */
 	registerEvents() {
-		this.registerForm();
+		let container = this.getContainer();
+		container.find('form').each((index, form) => {
+			this.registerForm($(form));
+		});
 	}
 });
