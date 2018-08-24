@@ -30,6 +30,11 @@
     "LBL_VULNERABILITIES_IN_DEPENDENCIES": "Podatno\u015bci w bibliotekach",
     "LBL_VULNERABILITIES_IN_DEPENDENCIES_DESC": "Wykryto podatno\u015bci w bibliotekach zalecamy szybk\u0105 ich aktualizacj\u0119.\r\nPodatno\u015bci:",
     "LBL_MECHANISM_ENCRYPTION": "Mechanizm szyfrowania",
-    "LBL_CONFIGURE_ENCRYPTION_DESCRIPTION": "Brak szyfrowania powoduje \u017ce dane wra\u017cliwe takie jak has\u0142a do poczty, klucze dost\u0119powe s\u0105 przechowywanie w formie jawnej w bazie danych."
+    "LBL_CONFIGURE_ENCRYPTION_DESCRIPTION": "Brak szyfrowania powoduje \u017ce dane wra\u017cliwe takie jak has\u0142a do poczty, klucze dost\u0119powe s\u0105 przechowywanie w formie jawnej w bazie danych.",
+    "LBL_RECOMMENDED_VALUE": "Zalecane",
+    "LBL_CONFIG_PERFORMANCE_DOC_URL": "https:\/\/yetiforce.com\/pl\/baza-wiedzy\/dokumentacja\/dokumentacja-wdrozeniowa\/item\/wymagania-dla-serwera-www",
+    "LBL_CONFIG_PERFORMANCE_DOC_URL_LABEL": "Wymagania dla serwera WWW na stronie yetiforce.com",
+    "LBL_CONFIG_PERFORMANCE_DESC": "Konfiguracja serwera nie zosta\u0142a poprawnie ustawiona. Mog\u0105 wyst\u0105pi\u0107 problemy z dzia\u0142aniem systemu, lub wprowadzane dane mog\u0105 zosta\u0107 uszkodzone, lub usuni\u0119te. Wi\u0119cej informacji znajduje si\u0119 w artykule %s. Wykryte problemy:",
+    "LBL_CONFIG_PERFORMANCE": "Konfiguracja serwera - Wydajno\u015b\u0107"
   }
 }
