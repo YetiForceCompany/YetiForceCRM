@@ -132,22 +132,59 @@ class FileTarget extends \yii\log\FileTarget
 			chdir(ROOT_DIRECTORY);
 		}
 		$context = \yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars);
-		$library = \App\Utils\ConfReport::getAll()['libraries'];
-		$directiveValues = \App\Utils\ConfReport::getAll()['stability'];
-		$permissionsFiles = \App\Utils\ConfReport::getAll()['writableFilesAndFolders'];
-		foreach ($library as $key => $value) {
-			if (!$value['status']) {
-				$context['Libs'][] = $value['extName'];
-			}
-		}
-		foreach ($directiveValues as $key => $value) {
-			if (!$value['status']) {
-				$context['PHP'][$key] = $value['www'];
-			}
-		}
-		foreach ($permissionsFiles as $key => $value) {
-			if (!$value['status']) {
-				$context['FLPermissions'][] = $key;
+		foreach (\App\Utils\ConfReport::getAll() as $category => $params) {
+			foreach ($params as $param => $data) {
+				if (!$data['status']) {
+					switch ($data['type'] ?? $data['container']) {
+						case 'ExtNotExist':
+						case 'CookieSecure':
+						case 'db':
+						case 'env':
+						case 'ErrorReporting':
+						case 'Equal':
+						case 'FnExist':
+						case 'Greater':
+						case 'GreaterMb':
+						case 'Htaccess':
+						case 'HttpMethods':
+						case 'In':
+						case 'NotIn':
+						case 'OnOff':
+						case 'OnOffInt':
+						case 'php':
+						case 'RealpathCacheSize':
+						case 'SessionRegenerate':
+						case 'Space':
+						case 'IsWritable':
+						case 'TimeZone':
+						case 'Version':
+							if (!isset($data['www']) && !isset($data['cron'])) {
+								$val = $data['status'];
+							} else {
+								$val = $data['www'] ?? $data['cron'];
+							}
+							$context[$category][$param] = $val;
+
+							break;
+						case 'ExtExist':
+							$context[$category][$data['extName']] = $data['mandatory'] ? 'required' : 'optional';
+							break;
+						case 'ExistsUrl':
+							$context[$category][$param] = !$data['status'];
+							break;
+						case 'Header':
+							$context[$category][$param] = $data['www'] ?? '';
+							break;
+						default:
+							if (!isset($data['www']) && !isset($data['cron'])) {
+								$val = 'NO_VALUE';
+							} else {
+								$val = $data['www'] ?? $data['cron'];
+							}
+							$context[$category][$param] = $val;
+							break;
+					}
+				}
 			}
 		}
 		$result = '';
