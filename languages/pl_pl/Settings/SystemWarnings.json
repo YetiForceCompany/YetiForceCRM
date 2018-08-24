@@ -39,6 +39,7 @@
     "LBL_CONFIG_PERFORMANCE": "Konfiguracja serwera - Wydajno\u015b\u0107",
     "LBL_CONFIG_PHP_EXTENSIONS": "Konfiguracja serwera - Rozszerzenia PHP",
     "LBL_CONFIG_DATABASE": "Konfiguracja serwera - Baza danych",
+    "LBL_CONFIG_STABILITY": "Konfiguracja serwera - Stabilno\u015b\u0107",
     "LBL_LIB_REQUIRED": "Wymagane",
     "LBL_LIB_OPTIONAL": "Opcjonalne"
   }
