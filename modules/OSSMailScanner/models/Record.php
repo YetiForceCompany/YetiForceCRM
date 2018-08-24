@@ -4,7 +4,7 @@
  * OSSMailScanner Record model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 {
@@ -90,8 +90,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		\App\Db::getInstance()->createCommand()
 			->update('roundcube_users', [
 				'actions' => $value,
-				], ['user_id' => $userid])
-				->execute();
+			], ['user_id' => $userid])
+			->execute();
 	}
 
 	/**
@@ -160,6 +160,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		}
 		$query->orderBy(['parameter' => SORT_DESC]);
 		$dataReader = $query->createCommand()->query();
+		$return = [];
 		while ($row = $dataReader->read()) {
 			if ($confType !== false) {
 				$return[$row['parameter']] = $row['value'];
@@ -201,15 +202,20 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function getTypeFolder($folder)
 	{
 		switch ($folder) {
-			case 'Received': $return = 0;
+			case 'Received':
+				$return = 0;
 				break;
-			case 'Sent': $return = 1;
+			case 'Sent':
+				$return = 1;
 				break;
-			case 'Spam': $return = 2;
+			case 'Spam':
+				$return = 2;
 				break;
-			case 'Trash': $return = 3;
+			case 'Trash':
+				$return = 3;
 				break;
-			case 'All': $return = 4;
+			case 'All':
+				$return = 4;
 				break;
 		}
 		return $return;
@@ -554,11 +560,14 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public function getHistoryStatus($id)
 	{
 		switch ($id) {
-			case 0: $return = 'OK';
+			case 0:
+				$return = 'OK';
 				break;
-			case 1: $return = 'In progress';
+			case 1:
+				$return = 'In progress';
 				break;
-			case 2: $return = 'Manually stopped';
+			case 2:
+				$return = 'Manually stopped';
 				break;
 		}
 		return $return;
@@ -701,9 +710,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$db->createCommand()->insert('vtiger_ossmailscanner_log_cron', ['laststart' => $checkCronStatus, 'status' => 0, 'created_time' => date('Y-m-d H:i:s')])->execute();
 				$config = self::getConfig('cron');
 				$mailStatus = \App\Mailer::addMail([
-						'to' => $config['email'],
-						'subject' => App\Language::translate('Email_FromName', 'OSSMailScanner'),
-						'content' => App\Language::translate('Email_Body', 'OSSMailScanner'),
+					'to' => $config['email'],
+					'subject' => App\Language::translate('Email_FromName', 'OSSMailScanner'),
+					'content' => App\Language::translate('Email_Body', 'OSSMailScanner'),
 				]);
 				$db->createCommand()->update('vtiger_ossmailscanner_log_cron', ['status' => $mailStatus], ['laststart' => $checkCronStatus])->execute();
 				$db->createCommand()->update('vtiger_ossmails_logs', ['status' => 2, 'stop_user' => 'verificationCron'], ['status' => 1])->execute();

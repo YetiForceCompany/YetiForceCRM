@@ -30,7 +30,7 @@
 					</optgroup>
 					{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 						{if $MODULE_MODEL->getName() eq 'OSSMailView'} continue {/if}
-						<option {if $SOURCE_MODULE eq $MODULE_MODEL->getId()} selected="" {/if}
+						<option {if !empty($SOURCE_MODULE) && $SOURCE_MODULE eq $MODULE_MODEL->getId()} selected="" {/if}
 								value="{$MODULE_MODEL->getId()}">
 							{\App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
 						</option>

@@ -189,7 +189,7 @@ class Composer
 			}
 		}
 		$deletedCount = 0;
-		array_unique($deleted);
+		$deleted = array_unique($deleted);
 		arsort($deleted);
 		foreach ($deleted as $delete) {
 			\vtlib\Functions::recurseDelete($delete, true);

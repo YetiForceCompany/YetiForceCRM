@@ -28,42 +28,38 @@
 			<input type="hidden" id="modulesLevel3"
 				   value="{\App\Purifier::encodeHtml(\App\Json::encode(array_keys($MODULES_LEVEL_3)))}"/>
 		{/if}
-		<div class="row actionBar">
-			<div class="col-3">
-				<div class="head row">
+		<div class="flex-wrap action-bar">
+			<div class="action-bar__col">
+				<div class="action-bar__head">
 					{if !empty($MODULES_LEVEL_0)}
-						<div data-type="link">
-							<div class="col">
-								<div class="col-text">
-									{\App\Language::translate('LBL_RELATIONS',$MODULE_NAME)}
-								</div>
-								<div class="pull-right">
-									{assign var="ACCESS_LEVEL_0" value=\App\ModuleHierarchy::accessModulesByLevel()}
-									{if $ACCESS_LEVEL_0}
-										<select class="module">
-											{foreach item="ITEM" key="MODULE" from=$ACCESS_LEVEL_0}
-												<option value="{$MODULE}">
-													{\App\Language::translate($MODULE, $MODULE)}
-												</option>
-											{/foreach}
-										</select>
-										<button class="addRecord"
-												title="{\App\Language::translate('LBL_ADD_RECORD',$MODULE_NAME)}">
-											<span class="fas fa-plus"></span>
-										</button>
-									{/if}
-									{if \App\ModuleHierarchy::accessModulesByLevel(0,'DetailView')}
-										<button class="selectRecord" data-type="0"
-												title="{\App\Language::translate('LBL_SELECT_RECORD',$MODULE_NAME)}">
-											<span class="fas fa-search"></span>
-										</button>
-									{/if}
-								</div>
+						<div data-type="link" class="action-bar__head__container js-head-container" data-js="container">
+							<div class="action-bar__header ml-5px mr-5px">
+								{\App\Language::translate('LBL_RELATIONS',$MODULE_NAME)}
 							</div>
+							{assign var="ACCESS_LEVEL_0" value=\App\ModuleHierarchy::accessModulesByLevel()}
+							{if $ACCESS_LEVEL_0}
+								<select class="module action-bar__select w-100 mr-5px">
+									{foreach item="ITEM" key="MODULE" from=$ACCESS_LEVEL_0}
+										<option value="{$MODULE}">
+											{\App\Language::translate($MODULE, $MODULE)}
+										</option>
+									{/foreach}
+								</select>
+								<button class="addRecord action-bar__add-button mr-5px"
+										title="{\App\Language::translate('LBL_ADD_RECORD',$MODULE_NAME)}">
+									<span class="fas fa-plus"></span>
+								</button>
+							{/if}
+							{if \App\ModuleHierarchy::accessModulesByLevel(0,'DetailView')}
+								<button class="selectRecord action-bar__select-button mr-5px" data-type="0"
+										title="{\App\Language::translate('LBL_SELECT_RECORD',$MODULE_NAME)}">
+									<span class="fas fa-search"></span>
+								</button>
+							{/if}
 						</div>
 					{/if}
 				</div>
-				<div class="data row">
+				<div class="action-bar__data flex-wrap js-data">
 					{if !empty($MODULES_LEVEL_0)}
 						<div data-type="link">
 							<div class="col">
@@ -79,41 +75,37 @@
 					{/if}
 				</div>
 			</div>
-			<div class="col-3">
-				<div class="head row">
+			<div class="action-bar__col">
+				<div class="action-bar__head">
 					{if !empty($MODULES_LEVEL_3)}
-						<div data-type="link">
-							<div class="col">
-								<div class="col-text">
-									{\App\Language::translate('LBL_RELATIONS_EXTEND',$MODULE_NAME)}
-								</div>
-								<div class="pull-right">
-									{assign var="ACCESS_LEVEL_3" value=\App\ModuleHierarchy::accessModulesByLevel(3)}
-									{if $ACCESS_LEVEL_3}
-										<select class="module">
-											{foreach item="ITEM" key="MODULE" from=$ACCESS_LEVEL_3}
-												<option value="{$MODULE}">
-													{\App\Language::translate($MODULE, $MODULE)}
-												</option>
-											{/foreach}
-										</select>
-										<button class="addRecord"
-												title="{\App\Language::translate('LBL_ADD_RECORD',$MODULE_NAME)}">
-											<span class="fas fa-plus"></span>
-										</button>
-									{/if}
-									{if \App\ModuleHierarchy::accessModulesByLevel(3,'DetailView')}
-										<button class="selectRecord" data-type="0"
-												title="{\App\Language::translate('LBL_SELECT_RECORD',$MODULE_NAME)}">
-											<span class="fas fa-search"></span>
-										</button>
-									{/if}
-								</div>
+						<div data-type="link" class="action-bar__head__container js-head-container" data-js="container">
+							<div class="action-bar__header mr-5px ml-5px">
+								{\App\Language::translate('LBL_RELATIONS_EXTEND',$MODULE_NAME)}
 							</div>
+							{assign var="ACCESS_LEVEL_3" value=\App\ModuleHierarchy::accessModulesByLevel(3)}
+							{if $ACCESS_LEVEL_3}
+								<select class="module action-bar__select w-100 mr-5px">
+									{foreach item="ITEM" key="MODULE" from=$ACCESS_LEVEL_3}
+										<option value="{$MODULE}">
+											{\App\Language::translate($MODULE, $MODULE)}
+										</option>
+									{/foreach}
+								</select>
+								<button class="addRecord action-bar__add-button mr-5px"
+										title="{\App\Language::translate('LBL_ADD_RECORD',$MODULE_NAME)}">
+									<span class="fas fa-plus"></span>
+								</button>
+							{/if}
+							{if \App\ModuleHierarchy::accessModulesByLevel(3,'DetailView')}
+								<button class="selectRecord action-bar__select-button mr-5px" data-type="0"
+										title="{\App\Language::translate('LBL_SELECT_RECORD',$MODULE_NAME)}">
+									<span class="fas fa-search"></span>
+								</button>
+							{/if}
 						</div>
 					{/if}
 				</div>
-				<div class="data row">
+				<div class="action-bar__data flex-wrap js-data">
 					{if !empty($MODULES_LEVEL_3)}
 						<div data-type="link">
 							<div class="col">
@@ -129,41 +121,38 @@
 					{/if}
 				</div>
 			</div>
-			<div class="col-3">
-				<div class="head row">
+			<div class="action-bar__col">
+				<div class="action-bar__head">
 					{if !empty($MODULES_LEVEL_1)}
-						<div data-type="process">
-							<div class="col">
-								<div class="col-text">
-									{\App\Language::translate('LBL_PROCESS',$MODULE_NAME)}
-								</div>
-								<div class="pull-right">
-									{assign var="ACCESS_LEVEL_1" value=\App\ModuleHierarchy::accessModulesByLevel(1)}
-									{if $ACCESS_LEVEL_1}
-										<select class="module">
-											{foreach item="ITEM" key="MODULE" from=$ACCESS_LEVEL_1}
-												<option value="{$MODULE}">
-													{\App\Language::translate($MODULE, $MODULE)}
-												</option>
-											{/foreach}
-										</select>
-										<button class="addRecord"
-												title="{\App\Language::translate('LBL_ADD_RECORD',$MODULE_NAME)}">
-											<span class="fas fa-plus"></span>
-										</button>
-									{/if}
-									{if \App\ModuleHierarchy::accessModulesByLevel(1,'DetailView')}
-										<button class="selectRecord" data-type="0"
-												title="{\App\Language::translate('LBL_SELECT_RECORD',$MODULE_NAME)}">
-											<span class="fas fa-search"></span>
-										</button>
-									{/if}
-								</div>
+						<div data-type="process" class="action-bar__head__container js-head-container"
+							 data-js="container">
+							<div class="action-bar__header mr-5px ml-5px">
+								{\App\Language::translate('LBL_PROCESS',$MODULE_NAME)}
 							</div>
+							{assign var="ACCESS_LEVEL_1" value=\App\ModuleHierarchy::accessModulesByLevel(1)}
+							{if $ACCESS_LEVEL_1}
+								<select class="module action-bar__select w-100 mr-5px">
+									{foreach item="ITEM" key="MODULE" from=$ACCESS_LEVEL_1}
+										<option value="{$MODULE}">
+											{\App\Language::translate($MODULE, $MODULE)}
+										</option>
+									{/foreach}
+								</select>
+								<button class="addRecord action-bar__add-button mr-5px"
+										title="{\App\Language::translate('LBL_ADD_RECORD',$MODULE_NAME)}">
+									<span class="fas fa-plus"></span>
+								</button>
+							{/if}
+							{if \App\ModuleHierarchy::accessModulesByLevel(1,'DetailView')}
+								<button class="selectRecord action-bar__select-button mr-5px" data-type="0"
+										title="{\App\Language::translate('LBL_SELECT_RECORD',$MODULE_NAME)}">
+									<span class="fas fa-search"></span>
+								</button>
+							{/if}
 						</div>
 					{/if}
 				</div>
-				<div class="data row">
+				<div class="action-bar__data flex-wrap js-data">
 					{if !empty($MODULES_LEVEL_1)}
 						<div data-type="link">
 							<div class="col">
@@ -179,48 +168,45 @@
 					{/if}
 				</div>
 			</div>
-			<div class="col-3">
-				<div class="head row">
+			<div class="action-bar__col">
+				<div class="action-bar__head">
 					{if !empty($MODULES_LEVEL_2)}
-						<div data-type="subprocess">
-							<div class="col">
-								<div class="col-text">
-									{\App\Language::translate('LBL_SUB_PROCESS',$MODULE_NAME)}
-								</div>
-								<div class="pull-right">
-									{assign var="ACCESS_LEVEL_2" value=\App\ModuleHierarchy::accessModulesByLevel(2)}
-									{if $ACCESS_LEVEL_2}
-										<select class="module">
-											{foreach item="ITEM" key="MODULE" from=\App\ModuleHierarchy::accessModulesByLevel(1)}
-												{assign var="ACCESS_PARENT" value=\App\ModuleHierarchy::accessModulesByParent($MODULE)}
-												{if $ACCESS_PARENT}
-													<optgroup label="{\App\Language::translate($MODULE,$MODULE)}">
-														{foreach item="PARENT_ITEM" key="PARENT_MODULE" from=$ACCESS_PARENT}
-															<option value="{$PARENT_MODULE}">
-																{\App\Language::translate($PARENT_MODULE, $PARENT_MODULE)}
-															</option>
-														{/foreach}
-													</optgroup>
-												{/if}
-											{/foreach}
-										</select>
-										<button class="addRecord"
-												title="{\App\Language::translate('LBL_ADD_RECORD',$MODULE_NAME)}">
-											<span class="fas fa-plus"></span>
-										</button>
-									{/if}
-									{if \App\ModuleHierarchy::accessModulesByLevel(2, 'DetailView')}
-										<button class="selectRecord" data-type="0"
-												title="{\App\Language::translate('LBL_SELECT_RECORD',$MODULE_NAME)}">
-											<span class="fas fa-search"></span>
-										</button>
-									{/if}
-								</div>
+						<div data-type="subprocess" class="action-bar__head__container js-head-container"
+							 data-js="container">
+							<div class="action-bar__header mr-5px ml-5px">
+								{\App\Language::translate('LBL_SUB_PROCESS',$MODULE_NAME)}
 							</div>
+							{assign var="ACCESS_LEVEL_2" value=\App\ModuleHierarchy::accessModulesByLevel(2)}
+							{if $ACCESS_LEVEL_2}
+								<select class="module action-bar__select w-100 mr-5px">
+									{foreach item="ITEM" key="MODULE" from=\App\ModuleHierarchy::accessModulesByLevel(1)}
+										{assign var="ACCESS_PARENT" value=\App\ModuleHierarchy::accessModulesByParent($MODULE)}
+										{if $ACCESS_PARENT}
+											<optgroup label="{\App\Language::translate($MODULE,$MODULE)}">
+												{foreach item="PARENT_ITEM" key="PARENT_MODULE" from=$ACCESS_PARENT}
+													<option value="{$PARENT_MODULE}">
+														{\App\Language::translate($PARENT_MODULE, $PARENT_MODULE)}
+													</option>
+												{/foreach}
+											</optgroup>
+										{/if}
+									{/foreach}
+								</select>
+								<button class="addRecord action-bar__add-button mr-5px"
+										title="{\App\Language::translate('LBL_ADD_RECORD',$MODULE_NAME)}">
+									<span class="fas fa-plus"></span>
+								</button>
+							{/if}
+							{if \App\ModuleHierarchy::accessModulesByLevel(2, 'DetailView')}
+								<button class="selectRecord action-bar__select-button mr-5px" data-type="0"
+										title="{\App\Language::translate('LBL_SELECT_RECORD',$MODULE_NAME)}">
+									<span class="fas fa-search"></span>
+								</button>
+							{/if}
 						</div>
 					{/if}
 				</div>
-				<div class="data row">
+				<div class="action-bar__data flex-wrap js-data">
 					{if !empty($MODULES_LEVEL_2)}
 						<div data-type="link">
 							<div class="col">

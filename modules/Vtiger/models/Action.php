@@ -160,7 +160,7 @@ class Vtiger_Action_Model extends \App\Base
 		}
 		$row = $query->one();
 		if ($row) {
-			return self::getInstanceFromRow($db->getRow($row));
+			return self::getInstanceFromRow($row);
 		}
 		return null;
 	}

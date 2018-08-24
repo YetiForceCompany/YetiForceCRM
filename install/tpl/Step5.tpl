@@ -280,7 +280,7 @@
 								</tr>
 								</thead>
 								<tbody>
-								{foreach from=$ALL['directoryPermissions'] key=KEY item=ITEM}
+								{foreach from=$ALL['publicDirectoryAccess'] key=KEY item=ITEM}
 									<tr {if !$ITEM['status']}class="table-danger font-weight-bold"{/if}>
 										<td>
 											{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}

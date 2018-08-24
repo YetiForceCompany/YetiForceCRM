@@ -4,9 +4,9 @@
  * List View Class for PDF Settings.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 {
@@ -36,10 +36,9 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 								$pdfModel->set($columnKey, '');
 								break;
 							case 'header_content':
-							case 'header_content':
 							case 'footer_content':
 								$pdfModel->set($columnKey, App\Purifier::purifyHtml((string) $columnValue));
-								// no break
+							// no break
 							default:
 								$pdfModel->set($columnKey, App\Purifier::purify((string) $columnValue));
 						}
@@ -50,11 +49,11 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 			if ($pdfModel->getId() && $imagePath && $base64Image) {
 				$targetDir = Settings_PDF_Module_Model::$uploadPath;
 				$imageInstance = \App\Fields\File::loadFromInfo([
-						'content' => base64_decode($base64Image),
-						'path' => $imagePath,
-						'name' => 'watermark_image',
-						'size' => 1,
-						'validateAllCodeInjection' => true,
+					'content' => base64_decode($base64Image),
+					'path' => $imagePath,
+					'name' => 'watermark_image',
+					'size' => 1,
+					'validateAllCodeInjection' => true,
 				]);
 				if (!$imageInstance->validate('image')) {
 					throw new \App\Exceptions\Security('ERR_ILLEGAL_WATERMARK_IMAGE');

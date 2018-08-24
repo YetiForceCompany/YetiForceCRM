@@ -68,6 +68,7 @@ class TableCurrencySTwoLang extends Base
 									</tr>
 								</thead>
 								<tbody>';
+					$currencyAmount = 0;
 					foreach ($taxes as $key => &$tax) {
 						$currencyAmount += $tax;
 

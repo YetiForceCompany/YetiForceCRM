@@ -35,12 +35,6 @@ $.Class("Vtiger_DetailPreview_Js", {}, {
 		if (fixedListHeight > currentHeight) {
 			currentHeight = fixedListHeight;
 		}
-		if ($(window).width() < 993) {
-			relatedContents.find(".gutter, .js-list-preview, .js-side-block, .js-list-detail, .recordsListPreview").height(currentHeight);
-
-		} else {
-			relatedContents.find(".gutter, .js-list-preview, .js-side-block, .js-list-detail, .recordsListPreview").height(currentHeight);
-		}
 		relatedContents.find(".gutter, .js-list-preview, .js-side-block, .js-list-detail, .recordsListPreview").height(currentHeight);
 
 		if (window.frameElement) {
