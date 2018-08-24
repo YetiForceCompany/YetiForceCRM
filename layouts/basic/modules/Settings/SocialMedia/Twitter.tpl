@@ -1,10 +1,11 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-SocialMedia-Twitter-Index">
+	<div class="tpl-Settings-SocialMedia-Twitter-Index marginLeft15">
 		<div class="contents">
 			<div class="alert alert-info">
 				<h5 class="alert-heading">{\App\Language::translate('LBL_TWITTER', $QUALIFIED_MODULE)}</h5>
 				{\App\Language::translate('LBL_TWITTER_DESC',$QUALIFIED_MODULE)}
+				{*TODO - describe process of integration with Twitter API*}
 			</div>
 		</div>
 		<div>
@@ -50,6 +51,13 @@
 							/>
 						</div>
 					</div>
+					{*<div class="form-group row marginLeft10">
+						<button type="button" class="btn btn-default js-twitter-integration"
+								data-js="click">
+							<span class="fab fa-twitter fa-2x" title="LBL_TWITTER_DESC"></span>
+							{\App\Language::translate('LBL_TWITTER_DESC', $QUALIFIED_MODULE)}
+						</button>
+					</div>*}
 				</div>
 			</form>
 		</div>

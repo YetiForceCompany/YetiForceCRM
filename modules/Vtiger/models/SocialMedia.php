@@ -21,6 +21,13 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	private $twitterConnection;
 
 	/**
+	 * Twitter user id.
+	 *
+	 * @var int
+	 */
+	private $twitterUserId;
+
+	/**
 	 * Vtiger_SocialMedia_Model constructor.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
@@ -29,7 +36,12 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	{
 		parent::__construct();
 		$this->recordModel = $recordModel;
-		$this->twitterConnection = new \Abraham\TwitterOAuth\TwitterOAuth('', '');
+		$configTitter = \Settings_SocialMedia_Config_Model::getInstance('twitter');
+		$this->twitterConnection = new \Abraham\TwitterOAuth\TwitterOAuth(
+			$configTitter->get('twitter_api_key'),
+			$configTitter->get('twitter_api_secret')
+		);
+		$this->twitterConnection->setDecodeJsonAsArray(true);
 	}
 
 	/**
@@ -128,12 +140,43 @@ class Vtiger_SocialMedia_Model extends \App\Base
 		$dataReader->close();
 	}
 
+	/**
+	 * Get twitter user id by name.
+	 *
+	 * @param string $userName
+	 *
+	 * @return mixed|false
+	 */
 	public function getUserIdByName($userName)
 	{
 		$response = $this->getTwitter('users/lookup', ['screen_name' => $userName]);
-		return $response[0]['id'];
+		$this->twitterUserId = $response[0]['id'] ?? false;
+		return $this->twitterUserId;
 	}
 
+	/**
+	 * Get user time line.
+	 *
+	 * @param string $userName
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array|object|string
+	 */
+	public function getUserTimeline($userName)
+	{
+		return $this->getTwitter('statuses/user_timeline', ['screen_name' => $userName]);
+	}
+
+	/**
+	 * Check if the Twitter API returned an error.
+	 *
+	 * @param string $response - Response from Twitter API
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return bool
+	 */
 	private function isError($response)
 	{
 		if (isset($response['errors'])) {
@@ -143,6 +186,16 @@ class Vtiger_SocialMedia_Model extends \App\Base
 		return false;
 	}
 
+	/**
+	 * Make GET requests to the API with cache.
+	 *
+	 * @param string $path
+	 * @param array  $parameters
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array|object|string
+	 */
 	private function getTwitter($path, array $parameters = [])
 	{
 		$cacheKey = $path . md5(\App\Json::encode(($parameters)));
