@@ -131,13 +131,15 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	public function getUserIdByName($userName)
 	{
 		$response = $this->getTwitter('users/lookup', ['screen_name' => $userName]);
-		if (!$this->isError($response)) {
-		}
-		return $response[0]->id;
+		return $response[0]['id'];
 	}
 
 	private function isError($response)
 	{
+		if (isset($response['errors'])) {
+			throw new \App\Exceptions\AppException('Twitter API error' . $response['errors']['message'],
+				(int) $response['errors']['code']);
+		}
 		return false;
 	}
 
@@ -148,6 +150,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 			return \App\Cache::get('twitter', $cacheKey);
 		}
 		$response = $this->twitterConnection->get($path, $parameters);
+		$this->isError($response);
 		\App\Cache::save('twitter', $cacheKey, $response, \App\Cache::MEDIUM);
 		return $response;
 	}
