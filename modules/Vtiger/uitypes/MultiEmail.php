@@ -11,10 +11,13 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 {
 	/**
 	 * {@inheritdoc}
+	 *
+	 * @example validate('[{"e":"a.adach@yetiforce.com","o":0},{"e":"test@yetiforce.com","o":0}]');
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if ($this->validate || empty($value)) {
+		$rawValue = $value;
+		if (isset($this->validate[$value]) || empty($value)) {
 			return;
 		}
 		if (is_string($value)) {
@@ -30,6 +33,7 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 		}
+		$this->validate[$rawValue] = true;
 	}
 
 	/**
