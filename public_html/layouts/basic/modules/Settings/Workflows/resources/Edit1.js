@@ -146,6 +146,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js", {}, {
 			thisInstance.hideScheduledMonthByDateList();
 			thisInstance.hideScheduledSpecificDate();
 			thisInstance.hideScheduledAnually();
+			thisInstance.hideScheduleMonthByWeekDays();
 
 			if (value == '1') {	//hourly
 				thisInstance.hideScheduledTime();
@@ -157,6 +158,9 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js", {}, {
 				thisInstance.showScheduledMonthByDateList();
 			} else if (value == '7') {
 				thisInstance.showScheduledAnually();
+			} else if (value == '6') {
+				console.log(thisInstance.showScheduleMonthByWeekDays());
+				thisInstance.showScheduledMonthByDateList();
 			}
 		});
 	},
