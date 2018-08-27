@@ -28,7 +28,7 @@ class Stability extends \App\SystemWarnings\Template
 			$reference = \App\Utils\ConfReport::get('stability');
 			$errorsText = '<br><pre>';
 			foreach ($errors as $key => $value) {
-				$errorsText .= "\n{$key} = " . \yii\helpers\VarDumper::dumpAsString($value) . ' (' . \App\Language::translate('LBL_RECOMMENDED_VALUE', 'Settings:SystemWarnings') . ': ' . $reference[$key]['recommended'] . ')';
+				$errorsText .= "\n{$key} = " . \yii\helpers\VarDumper::dumpAsString($value) . ' (' . \App\Language::translate('LBL_RECOMMENDED_VALUE', 'Settings:SystemWarnings') . ': \'' . $reference[$key]['recommended'] . '\')';
 			}
 			$errorsText .= '</pre>';
 			$this->link = 'index.php?parent=Settings&module=ConfReport&view=Index';

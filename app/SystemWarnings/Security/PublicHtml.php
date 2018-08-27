@@ -32,7 +32,7 @@ class PublicHtml extends \App\SystemWarnings\Template
 			}
 			$errorsText .= '</pre>';
 			$this->link = 'https://yetiforce.com/en/implementer/installation-updates/103-web-server-requirements.html';
-			$this->linkTitle = \App\Language::translate('BTN_CONFIGURE_PUBLIC_ACCESS', 'Settings:SystemWarnings');
+			$this->linkTitle = \App\Language::translate('LBL_CONFIG_REPORT_LINK', 'Settings:SystemWarnings');
 			$this->description = \App\Language::translateArgs('LBL_PUBLIC_ACCESS_DESC', 'Settings:SystemWarnings', '<a target="_blank" rel="noreferrer" href="' . \App\Language::translate('LBL_CONFIG_DOC_URL', 'Settings:SystemWarnings') . '"><u>' . \App\Language::translate('LBL_CONFIG_DOC_URL_LABEL', 'Settings:SystemWarnings') . '</u></a>', $errorsText);
 		}
 	}
