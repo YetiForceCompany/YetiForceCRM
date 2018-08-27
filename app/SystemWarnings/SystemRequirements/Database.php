@@ -26,7 +26,7 @@ class Database extends \App\SystemWarnings\Template
 		}
 		if ($this->status === 0) {
 			$reference = \App\Utils\ConfReport::get('database');
-			$errorsText = '<br><br><pre>';
+			$errorsText = '<br><pre>';
 			foreach ($errors as $key => $value) {
 				$errorsText .= "\n{$key} = " . \yii\helpers\VarDumper::dumpAsString($value) . ' (' . \App\Language::translate('LBL_RECOMMENDED_VALUE', 'Settings:SystemWarnings') . ': ' . $reference[$key]['recommended'] . ')';
 			}

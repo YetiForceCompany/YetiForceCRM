@@ -26,7 +26,7 @@ class PhpExtensions extends \App\SystemWarnings\Template
 		}
 		if ($this->status === 0) {
 			$reference = \App\Utils\ConfReport::get('libraries');
-			$errorsText = '<br><br><pre>';
+			$errorsText = '<br><pre>';
 			foreach ($errors as $key => $value) {
 				$errorsText .= "\n{$key} (" . ($reference[$key]['mandatory'] ? \App\Language::translate('LBL_LIB_REQUIRED', 'Settings:SystemWarnings') : \App\Language::translate('LBL_LIB_OPTIONAL', 'Settings:SystemWarnings')) . ')';
 			}
