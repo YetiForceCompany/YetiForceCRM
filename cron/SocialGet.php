@@ -9,8 +9,8 @@
 if (\Vtiger_SocialMedia_Helper::isConfigured()) {
 	$db = \App\Db::getInstance();
 	foreach (\Vtiger_SocialMedia_Helper::getSocialMediaAccount() as $twitterLogin) {
-		$res = (new \Vtiger_SocialMedia_Helper())->getUserTimeline($twitterLogin);
-		foreach ($res as $rowTwitter) {
+		$allMessages = (new \Vtiger_SocialMedia_Helper())->getUserTimeline($twitterLogin);
+		foreach ($allMessages as $rowTwitter) {
 			if (!(new \App\Db\Query())->from('u_#__social_media_twitter')->where(['id_twitter' => $rowTwitter['id']])->exists()) {
 				$db->createCommand()->insert('u_#__social_media_twitter', [
 					'id_twitter' => $rowTwitter['id'],

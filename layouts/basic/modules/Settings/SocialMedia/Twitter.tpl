@@ -4,8 +4,8 @@
 		<div class="contents">
 			<div class="alert alert-info">
 				<h5 class="alert-heading">{\App\Language::translate('LBL_TWITTER', $QUALIFIED_MODULE)}</h5>
-				{\App\Language::translate('LBL_TWITTER_DESC',$QUALIFIED_MODULE)}
-				{*TODO - describe process of integration with Twitter API*}
+				{\App\Language::translate('LBL_TWITTER_DESC',$QUALIFIED_MODULE)}<br>
+				{\App\Language::translate('LBL_TWITTER_INSTRUCTION',$QUALIFIED_MODULE)}
 			</div>
 		</div>
 		<div>
