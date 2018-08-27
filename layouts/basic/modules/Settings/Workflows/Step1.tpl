@@ -90,25 +90,25 @@
 									<div class="col-md-6 d-flex align-items-center">
 										<select class="select2" id="schtypeid" name="schtypeid">
 											<option value="1"
-													{if !empty($SCHTYPE_ID) && $SCHTYPE_ID eq 1}selected{/if}>{\App\Language::translate('LBL_HOURLY', $QUALIFIED_MODULE)}
+													{if !empty($SCHTYPE_ID) && ($SCHTYPE_ID eq 1)}selected{/if}>{\App\Language::translate('LBL_HOURLY', $QUALIFIED_MODULE)}
 											</option>
 											<option value="2"
-													{if !empty($SCHTYPE_ID) && $SCHTYPE_ID eq 2}selected{/if}>{\App\Language::translate('LBL_DAILY', $QUALIFIED_MODULE)}</option>
+													{if !empty($SCHTYPE_ID) && ($SCHTYPE_ID eq 2)}selected{/if}>{\App\Language::translate('LBL_DAILY', $QUALIFIED_MODULE)}</option>
 											<option value="3"
-													{if !empty($SCHTYPE_ID) && $SCHTYPE_ID eq 3}selected{/if}>{\App\Language::translate('LBL_WEEKLY', $QUALIFIED_MODULE)}</option>
+													{if !empty($SCHTYPE_ID) && ($SCHTYPE_ID eq 3)}selected{/if}>{\App\Language::translate('LBL_WEEKLY', $QUALIFIED_MODULE)}</option>
 											<option value="4"
-													{if !empty($SCHTYPE_ID) && $SCHTYPE_ID eq 4}selected{/if}>{\App\Language::translate('LBL_SPECIFIC_DATE', $QUALIFIED_MODULE)}</option>
+													{if !empty($SCHTYPE_ID) && ($SCHTYPE_ID eq 4)}selected{/if}>{\App\Language::translate('LBL_SPECIFIC_DATE', $QUALIFIED_MODULE)}</option>
 											<option value="5"
-													{if !empty($SCHTYPE_ID) && $SCHTYPE_ID eq 5}selected{/if}>{\App\Language::translate('LBL_MONTHLY_BY_DATE', $QUALIFIED_MODULE)}</option>
+													{if !empty($SCHTYPE_ID) && ($SCHTYPE_ID eq 5)}selected{/if}>{\App\Language::translate('LBL_MONTHLY_BY_DATE', $QUALIFIED_MODULE)}</option>
 											<option value="6"
-													{if !empty($SCHTYPE_ID) && $SCHTYPE_ID eq 6}selected{/if}>{\App\Language::translate('LBL_MONTHLY_BY_WEEKDAY', $QUALIFIED_MODULE)}</option>
+													{if !empty($SCHTYPE_ID) && ($SCHTYPE_ID eq 6)}selected{/if}>{\App\Language::translate('LBL_MONTHLY_BY_WEEKDAY', $QUALIFIED_MODULE)}</option>
 											<option value="7"
-													{if !empty($SCHTYPE_ID) && $SCHTYPE_ID eq 7}selected{/if}>{\App\Language::translate('LBL_YEARLY', $QUALIFIED_MODULE)}</option>
+													{if !empty($SCHTYPE_ID) && ($SCHTYPE_ID eq 7)}selected{/if}>{\App\Language::translate('LBL_YEARLY', $QUALIFIED_MODULE)}</option>
 										</select>
 									</div>
 								</div>
 								{* show weekdays for weekly option *}
-								<div class="form-row {if !empty($SCHTYPE_ID) && $SCHTYPE_ID neq 3} d-none {/if}"
+								<div class="form-row {if empty($SCHTYPE_ID) || $SCHTYPE_ID neq 3} d-none {/if}"
 									 id="scheduledWeekDay">
 									<div class="col-md-2 d-flex align-items-center">{\App\Language::translate('LBL_ON_THESE_DAYS', $QUALIFIED_MODULE)}</div>
 									<div class="col-md-6 d-flex align-items-center">
@@ -119,19 +119,19 @@
 										<select multiple class="select2 col-md-6"
 												data-validation-engine="validate[rquired,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 												name="schdayofweek" id="schdayofweek">
-											<option value="7" {if !empty($DAY_OF_WEEK) && is_array($DAY_OF_WEEK) && in_array('7', $DAY_OF_WEEK)} selected {/if}>{\App\Language::translate('LBL_DAY0', 'Calendar')}</option>
-											<option value="1" {if !empty($DAY_OF_WEEK) && is_array($DAY_OF_WEEK) && in_array('1', $DAY_OF_WEEK)} selected {/if}>{\App\Language::translate('LBL_DAY1', 'Calendar')}</option>
-											<option value="2" {if !empty($DAY_OF_WEEK) && is_array($DAY_OF_WEEK) && in_array('2', $DAY_OF_WEEK)} selected {/if}>{\App\Language::translate('LBL_DAY2', 'Calendar')}</option>
-											<option value="3" {if !empty($DAY_OF_WEEK) && is_array($DAY_OF_WEEK) && in_array('3', $DAY_OF_WEEK)} selected {/if}>{\App\Language::translate('LBL_DAY3', 'Calendar')}</option>
-											<option value="4" {if !empty($DAY_OF_WEEK) && is_array($DAY_OF_WEEK) && in_array('4', $DAY_OF_WEEK)} selected {/if}>{\App\Language::translate('LBL_DAY4', 'Calendar')}</option>
-											<option value="5" {if !empty($DAY_OF_WEEK) && is_array($DAY_OF_WEEK) && in_array('5', $DAY_OF_WEEK)} selected {/if}>{\App\Language::translate('LBL_DAY5', 'Calendar')}</option>
-											<option value="6" {if !empty($DAY_OF_WEEK) && is_array($DAY_OF_WEEK) && in_array('6', $DAY_OF_WEEK)} selected {/if}>{\App\Language::translate('LBL_DAY6', 'Calendar')}</option>
+											<option value="7" {if !empty($DAY_OF_WEEK) && (is_array($DAY_OF_WEEK) && in_array('7', $DAY_OF_WEEK))} selected {/if}>{\App\Language::translate('LBL_DAY0', 'Calendar')}</option>
+											<option value="1" {if !empty($DAY_OF_WEEK) && (is_array($DAY_OF_WEEK) && in_array('1', $DAY_OF_WEEK))} selected {/if}>{\App\Language::translate('LBL_DAY1', 'Calendar')}</option>
+											<option value="2" {if !empty($DAY_OF_WEEK) && (is_array($DAY_OF_WEEK) && in_array('2', $DAY_OF_WEEK))} selected {/if}>{\App\Language::translate('LBL_DAY2', 'Calendar')}</option>
+											<option value="3" {if !empty($DAY_OF_WEEK) && (is_array($DAY_OF_WEEK) && in_array('3', $DAY_OF_WEEK))} selected {/if}>{\App\Language::translate('LBL_DAY3', 'Calendar')}</option>
+											<option value="4" {if !empty($DAY_OF_WEEK) && (is_array($DAY_OF_WEEK) && in_array('4', $DAY_OF_WEEK))} selected {/if}>{\App\Language::translate('LBL_DAY4', 'Calendar')}</option>
+											<option value="5" {if !empty($DAY_OF_WEEK) && (is_array($DAY_OF_WEEK) && in_array('5', $DAY_OF_WEEK))} selected {/if}>{\App\Language::translate('LBL_DAY5', 'Calendar')}</option>
+											<option value="6" {if !empty($DAY_OF_WEEK) && (is_array($DAY_OF_WEEK) && in_array('6', $DAY_OF_WEEK))} selected {/if}>{\App\Language::translate('LBL_DAY6', 'Calendar')}</option>
 										</select>
 									</div>
 								</div>
 
 								{* show month view by dates *}
-								<div class="form-row {if !empty($SCHTYPE_ID) && $SCHTYPE_ID neq 5} d-none {/if}"
+								<div class="form-row {if empty($SCHTYPE_ID) || $SCHTYPE_ID neq 5} d-none {/if}"
 									 id="scheduleMonthByDates">
 									<div class="col-md-2 d-flex align-items-center">{\App\Language::translate('LBL_ON_THESE_DAYS', $QUALIFIED_MODULE)}</div>
 									<div class="col-md-6 d-flex align-items-center">
@@ -153,7 +153,7 @@
 								</div>
 
 								{* show specific date *}
-								<div class='form-row {if !empty($SCHTYPE_ID) && $SCHTYPE_ID neq 4} d-none {/if}'
+								<div class='form-row {if empty($SCHTYPE_ID) || $SCHTYPE_ID neq 4} d-none {/if}'
 									 id='scheduleByDate'>
 									<div class="col-md-2 d-flex align-items-center">{\App\Language::translate('LBL_CHOOSE_DATE', $QUALIFIED_MODULE)}</div>
 									<div class="col-md-6 d-flex align-items-center">
@@ -186,11 +186,11 @@
 								</div>
 
 								{* show month view by weekday *}
-								<div class='form-row {if !empty($SCHTYPE_ID) && $SCHTYPE_ID neq 6} d-none {/if}'
+								<div class='form-row {if empty($SCHTYPE_ID) || $SCHTYPE_ID neq 6} d-none {/if}'
 									 id='scheduleMonthByWeekDays'>
 								</div>
 								{* show month view by anually *}
-								<div class='form-row my-1 {if !empty($SCHTYPE_ID) && $SCHTYPE_ID neq 7} d-none {/if}'
+								<div class='form-row my-1 {if empty($SCHTYPE_ID) || $SCHTYPE_ID neq 7} d-none {/if}'
 									 id='scheduleAnually'>
 									<div class="col-md-2">
 										{\App\Language::translate('LBL_SELECT_MONTH_AND_DAY', $QUALIFIED_MODULE)}
@@ -217,7 +217,7 @@
 									</div>
 								</div>
 								{* show time for all other than Hourly option*}
-								<div class="form-row pt-1 pb-2 px-0 {if !empty($SCHTYPE_ID) && $SCHTYPE_ID < 2} d-none {/if}"
+								<div class="form-row pt-1 pb-2 px-0 {if empty($SCHTYPE_ID) || $SCHTYPE_ID < 2} d-none {/if}"
 									 id="scheduledTime">
 									<div class="col-md-2 d-flex align-items-center">
 										{\App\Language::translate('LBL_AT_TIME', $QUALIFIED_MODULE)}
