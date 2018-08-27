@@ -1037,7 +1037,7 @@ Vtiger_Base_Validator_Js("Vtiger_Twitter_Validator_Js", {
 	/**
 	 * Function which invokes field validation
 	 * @param {jQuery} field - accepts field element as parameter
-	 * @return error if validation fails true on success
+	 * @return string|true - error text if validation fails, true on success
 	 */
 	invokeValidation(field, rules, i, options) {
 		let validatorInstance = new Vtiger_Twitter_Validator_Js();
@@ -1069,7 +1069,7 @@ Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 	/**
 	 * Function which invokes field validation
 	 * @param {jQuery} field - accepts field element as parameter
-	 * @return error if validation fails true on success
+	 * @return string|true - error text if validation fails, true on success
 	 */
 	invokeValidation(field) {
 		let validatorInstance = new Vtiger_MultiEmail_Validator_Js();
