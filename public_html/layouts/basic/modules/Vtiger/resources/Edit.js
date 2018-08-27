@@ -1342,6 +1342,7 @@ $.Class("Vtiger_Edit_Js", {
 		this.registerFocusFirstField(container);
 		this.registerCopyValue(container);
 		this.registerMultiImageFields(container);
+		App.Fields.MultiEmail.register(container);
 	},
 	registerEvents: function () {
 		var editViewForm = this.getForm();
