@@ -6,7 +6,7 @@
 		</div>
 		<input name="{$FIELD_MODEL->getFieldName()}"
 			   value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}"
-			   id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}" class="form-control"
+			   class="form-control" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}"
 			   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}maxSize[15],funcCall[Vtiger_Twitter_Validator_Js.invokeValidation]]"
 			   data-advanced-verification="0" {if !empty($FIELD_INFO)}data-fieldinfo='{$FIELD_INFO}'{/if}
 			   {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}
