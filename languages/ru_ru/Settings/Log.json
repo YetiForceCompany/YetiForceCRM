@@ -1,6 +1,6 @@
 {
   "php": {
-    "Log": "Security incidents",
+    "LBL_LOG": "Security incidents",
     "LBL_ACCESS_FOR_ADMIN": "Access for admin",
     "LBL_ACCESS_FOR_API": "Access for API",
     "LBL_ACCESS_FOR_USER": "Access for user",
