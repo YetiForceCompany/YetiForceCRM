@@ -27,6 +27,8 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 				if ($column === 'url') {
 					$url = explode('?', $log['url'])[1];
 					$tmp[] = "<a href=\"index.php?$url\" title=\"index.php?$url\">" . substr($url, 0, 50) . '...</a>';
+				} elseif ($column === 'agent') {
+					$tmp[] = "<span title=\"{$log['agent']}\">" . substr($log['agent'], 0, 50) . '...</span>';
 				} elseif ($column === 'request') {
 					$requestArray = '';
 					foreach (\App\Json::decode($log[$column]) as $key => $val) {
