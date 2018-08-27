@@ -1319,6 +1319,7 @@
     "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Number of merged records has been reduced to %d."
   },
   "js": {
+    "JS_APPROVE": "Approve",
     "AM": "AM",
     "JS_INFORMATION": "Information",
     "JS_LBL_PERMISSION": "Permissions",
@@ -1387,11 +1388,14 @@
     "JS_CHECK_FILE_INTEGRITY": "V\u00e9rification de l\\\u00ednt\u00e9grit\u00e9 du fichier",
     "JS_CONTAINS_ILLEGAL_CHARACTERS": "contient des caract\u00e8res invalides",
     "JS_CURRENT_DATE": "Date courante",
+    "JS_DENY": "Deny",
     "JS_DO_NOT_HAVE_AN_EMAIL_ID": "n'a pas d'adresse email",
+    "JS_DUPLICATE": "Duplicate",
     "JS_DUPLIACATE_ENTRIES_FOUND_FOR_THE_VALUE": "Doublon trouv\u00e9 pour la valeur",
     "JS_DUPLICATE_ENTRIES_FOUND_FOR_THE_VALUE": "Doublon trouv\u00e9 pour la valeur",
     "JS_DUPLICATE_RECORD": "Enregistrement doublon",
     "JS_DUPLICTAE_CREATION_CONFIRMATION": "Nom du compte existe d\u00e9j\u00e0. Voulez-vous cr\u00e9er un doublon?",
+    "JS_EDIT": "Edit",
     "JS_EMAIL_SERVER_CONFIGURATION": "Merci de configurer les param\u00e8tres du serveur sortant dans la page des param\u00e8tres",
     "JS_END_DATE_TIME": "Date & Heure de fin",
     "JS_ERROR": "Error, please inform the Administrator",
@@ -1443,6 +1447,7 @@
     "JS_PLEASE_ENTER_VALID_DATE": "Merci de saisir une date valide",
     "JS_PLEASE_ENTER_VALID_EMAIL_ADDRESS": "Merci de saisir une adresse email valide",
     "JS_PLEASE_ENTER_VALID_TIME": "Merci de saisir des date & heure valide",
+    "JS_PLEASE_ENTER_VALID_TWITTER_ACCOUNT": "Please enter valid Twitter account",
     "JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS": "Merci de choisir un compte pour copier l'adresse",
     "JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS": "Merci de choisir un contact pour copier l'adresse",
     "JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS": "Merci de choisir un prospect pour copier l'adresse",
@@ -1660,6 +1665,8 @@
     "JS_FILE_LIMIT": "Maximum number of files was exceeded",
     "JS_WAIT_FOR_FILE_UPLOAD": "Wait for files to be uploaded",
 	"JS_ERROR_MAX_VALUE": "Entered value is out of allowed range",
-    "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Change company name. The name of YetiForce company is reserved."
+    "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Change company name. The name of YetiForce company is reserved.",
+    "JS_SELECT_OR_WRITE_AND_PRESS_ENTER": "Select value from list or write value then press enter",
+    "JS_INVENTORY_ITEM_MODULE_NOT_FOUND": "Module '${sourceModule}' for position'${position}' was not activated."
   }
 }

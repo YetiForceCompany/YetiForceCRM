@@ -5,7 +5,7 @@
 		<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_SELECT_TEMPLATE', $QUALIFIED_MODULE)}</label>
 		<div class="col-md-5">
 			<select class="select2 form-control" name="template" data-validation-engine="validate[required]"
-					data-select="allowClear, true"
+					data-select="allowClear"
 					data-placeholder="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">
 				<optgroup class="p-0">
 					<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>

@@ -22,7 +22,7 @@
     "FL_INVOICE": "Factura",
     "LBL_COMMENTS": "Comments",
     "FL_EXTERNAL_COMMENT": "External comment",
-    "FL_INTERNAL_COMMENT": "Internal comment"
+    "FL_INTERNAL_COMMENT": "Internal comment",
     "LBL_BEFORE_CORRECTION": "Before correction",
     "LBL_AFTER_CORRECTION": "After correction",
     "LBL_CHOOSE_INVOICE": "Select invoice to be corrected",
