@@ -7,8 +7,12 @@ Settings_Vtiger_List_Js("Settings_Log_List_Js", {}, {
 	},
 	registerDataTable: function (container) {
 		container.find('.js-data-table').dataTable({
+			searching: false,
+			serverSide: true,
 			processing: true,
 			scrollX: true,
+			bAutoWidth: false,
+			columnDefs: {"width": "200px"},
 			ajax: {
 				url: "index.php",
 				type: "POST",
@@ -18,9 +22,6 @@ Settings_Vtiger_List_Js("Settings_Log_List_Js", {}, {
 					"action": "Data",
 					"type": container.find('.nav .active').data('type'),
 				},
-				dataSrc: function (json) {
-					return json.result;
-				}
 			},
 			language: {
 				sLengthMenu: app.vtranslate('JS_S_LENGTH_MENU'),

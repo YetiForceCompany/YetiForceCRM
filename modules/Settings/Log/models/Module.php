@@ -17,11 +17,11 @@ class Settings_Log_Module_Model extends Settings_Vtiger_Module_Model
 	 * @var array
 	 */
 	public static $tableHeaders = [
-		'access_for_admin' => ['id', 'username', 'date', 'ip', 'module', 'url', 'agent', 'request', 'referer'],
-		'access_for_api' => ['id', 'username', 'date', 'ip', 'url', 'agent', 'request'],
-		'access_for_user' => ['id', 'username', 'date', 'ip', 'module', 'url', 'agent', 'request', 'referer'],
-		'access_to_record' => ['id', 'username', 'date', 'ip', 'record', 'module', 'url', 'agent', 'request', 'referer'],
-		'csrf' => ['id', 'username', 'date', 'ip', 'referer', 'url', 'agent'],
+		'access_for_admin' => ['date', 'username', 'ip', 'module', 'url', 'agent', 'request', 'referer'],
+		'access_for_api' => ['date', 'username', 'ip', 'url', 'agent', 'request'],
+		'access_for_user' => ['date', 'username', 'ip', 'module', 'url', 'agent', 'request', 'referer'],
+		'access_to_record' => ['date', 'username', 'ip', 'record', 'module', 'url', 'agent', 'request', 'referer'],
+		'csrf' => ['date', 'username', 'ip', 'referer', 'url', 'agent'],
 	];
 
 	/**
