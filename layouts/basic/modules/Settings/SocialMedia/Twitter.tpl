@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-SocialMedia-Twitter-Index marginLeft15">
+	<div class="tpl-Settings-SocialMedia-Twitter-Index u-ml-10px">
 		<div class="contents">
 			<div class="alert alert-info">
 				<h5 class="alert-heading">{\App\Language::translate('LBL_TWITTER', $QUALIFIED_MODULE)}</h5>
@@ -9,7 +9,7 @@
 			</div>
 		</div>
 		<div>
-			<form class="js-social-media-twitter__form" method="post" data-js="submit">
+			<form class="js-social-media-twitter-form" method="post" data-js="submit">
 				<input name="parent" value="Settings" type="hidden">
 				<input name="module" value="{$MODULE}" type="hidden">
 				<input name="action" value="SaveAjax" type="hidden">

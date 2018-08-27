@@ -12,7 +12,7 @@ jQuery.Class('Settings_SocialMedia_Index_Js', {}, {
 	 */
 	getContainer() {
 		if (this.container === null) {
-			this.container = $('div.tpl-Settings-SocialMedia-Index');
+			this.container = $('.tpl-Settings-SocialMedia-Index');
 		}
 		return this.container;
 	},
@@ -63,8 +63,7 @@ jQuery.Class('Settings_SocialMedia_Index_Js', {}, {
 	 * Register all events in view
 	 */
 	registerEvents() {
-		let container = this.getContainer();
-		container.find('form').each((index, form) => {
+		this.getContainer().find('form').each((index, form) => {
 			this.registerForm($(form));
 		});
 	}
