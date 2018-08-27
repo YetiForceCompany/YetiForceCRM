@@ -36,6 +36,7 @@ class RecordNumber
 	 *
 	 * @param mixed       $tabId
 	 * @param string      $prefix
+	 * @param int         $leadingZeros
 	 * @param int         $no
 	 * @param string      $postfix
 	 * @param null|string $resetSequence 'Y'-Year, 'M'-Month, 'D'-Day
@@ -43,7 +44,7 @@ class RecordNumber
 	 *
 	 * @return bool
 	 */
-	public static function setNumber($tabId, $prefix = '', $no = '', $postfix = '', $resetSequence = null, $curSequence = '')
+	public static function setNumber($tabId, $prefix = '', $leadingZeros = 0, $no = '', $postfix = '', $resetSequence = null, $curSequence = '')
 	{
 		if ($no != '') {
 			$db = \App\Db::getInstance();
@@ -55,6 +56,7 @@ class RecordNumber
 				return $db->createCommand()->insert('vtiger_modentity_num', [
 					'tabid' => $tabId,
 					'prefix' => $prefix,
+					'leading_zeros' => $leadingZeros,
 					'postfix' => $postfix,
 					'start_id' => $no,
 					'cur_id' => $no,
@@ -83,7 +85,7 @@ class RecordNumber
 		if ($row['reset_sequence'] && $row['cur_sequence'] !== $actualSequence) {
 			$row['cur_id'] = 1;
 		}
-		$fullPrefix = static::parse($row['prefix'], $row['cur_id'], $row['postfix']);
+		$fullPrefix = static::parse($row['prefix'], $row['leading_zeros'], $row['cur_id'], $row['postfix']);
 		$strip = strlen($row['cur_id']) - strlen($row['cur_id'] + 1);
 		if ($strip < 0) {
 			$strip = 0;
@@ -143,10 +145,8 @@ class RecordNumber
 	 *
 	 * @return string
 	 */
-	public static function parse($prefix, $number, $postfix)
+	public static function parse($prefix, $leadingZeros, $number, $postfix)
 	{
-		$leadingZeros = substr_count($prefix, '{{0}}');
-		$prefix = str_replace('{{0}}', '', $prefix);
 		$number = str_pad((string) $number, $leadingZeros, '0', STR_PAD_LEFT);
 		return str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [static::date('Y'), static::date('y'), static::date('m'), static::date('n'), static::date('d'), static::date('j')], $prefix . $number . $postfix);
 	}
@@ -180,11 +180,12 @@ class RecordNumber
 		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
 		$number = [
 			'prefix' => $row['prefix'],
+			'leading_zeros' => $row['leading_zeros'],
 			'sequenceNumber' => $row['cur_id'],
 			'postfix' => $row['postfix'],
 			'reset_sequence' => $row['reset_sequence'],
 			'cur_sequence' => $row['cur_sequence'],
-			'number' => self::parse($row['prefix'], $row['cur_id'], $row['postfix']),
+			'number' => self::parse($row['prefix'], $row['leading_zeros'], $row['cur_id'], $row['postfix']),
 		];
 		return $number;
 	}
