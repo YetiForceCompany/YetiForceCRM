@@ -64,7 +64,8 @@
     "LBL_BATCH_METHODS": "Systemowe metody wsadowe",
     "LBL_CLEAR_FILE_UPLOAD_TEMP": "Czyszczenie katalogu plik\u00f3w tymczasowych",
     "LBL_SESSION_CLEANER": "Czyszczenie nieaktywnych sesji",
-    "LBL_ARCHIVE_OLD_RECORDS": "Archiwizowanie starych rekord\u00f3w"
+    "LBL_ARCHIVE_OLD_RECORDS": "Archiwizowanie starych rekord\u00f3w",
+    "LBL_GET_SOCIAL_MEDIA_MESSAGES": "Pobranie wiadomo\u015bci z medi\u00f3w spo\u0142eczno\u015bciowych"
   },
   "js": {
     "Recommended frequency for Scheduled Import is 15 mins": "Zalecana cz\u0119stotliwo\u015b\u0107 dla Planowanego Importu to 15 minut.",
