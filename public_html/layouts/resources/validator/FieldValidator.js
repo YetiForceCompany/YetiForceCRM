@@ -1036,7 +1036,7 @@ Vtiger_Base_Validator_Js("Vtiger_Time_Validator_Js", {
 Vtiger_Base_Validator_Js("Vtiger_Twitter_Validator_Js", {
 	/**
 	 * Function which invokes field validation
-	 * @param accepts field element as parameter
+	 * @param {jQuery} field - accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
 	invokeValidation(field, rules, i, options) {
@@ -1053,8 +1053,7 @@ Vtiger_Base_Validator_Js("Vtiger_Twitter_Validator_Js", {
 }, {
 	/**
 	 * Function to validate the Twwiter Account
-	 * @return true if validation is successfull
-	 * @return false if validation error occurs
+	 * @return bool true if validation is successfull
 	 */
 	validate() {
 		let fieldValue = this.getFieldValue();
@@ -1069,7 +1068,7 @@ Vtiger_Base_Validator_Js("Vtiger_Twitter_Validator_Js", {
 Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 	/**
 	 * Function which invokes field validation
-	 * @param accepts field element as parameter
+	 * @param {jQuery} field - accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
 	invokeValidation(field) {
@@ -1085,8 +1084,7 @@ Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 }, {
 	/**
 	 * Function to validate the Multi email. Check if the email address is duplicated.
-	 * @return true if validation is successfull
-	 * @return false if validation error occurs
+	 * @return bool true if validation is successfull
 	 */
 	validate() {
 		let fieldValue = this.getFieldValue();

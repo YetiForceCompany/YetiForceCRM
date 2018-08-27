@@ -7,7 +7,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-class Vtiger_MultiEmail_UIType extends Vtiger_Base_UIType
+class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 {
 	/**
 	 * {@inheritdoc}
@@ -30,7 +30,6 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 		}
-		parent::validate($value, $isUserFormat);
 	}
 
 	/**
@@ -55,7 +54,7 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Base_UIType
 		}
 		$emails = [];
 		foreach ($value as $item) {
-			$emails[] = $item['e'];
+			$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, $length);
 		}
 		return implode(',', $emails);
 	}

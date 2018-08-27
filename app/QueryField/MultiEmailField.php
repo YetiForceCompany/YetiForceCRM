@@ -9,6 +9,9 @@
 
 namespace App\QueryField;
 
+/**
+ * MultiEmail Query Field Class.
+ */
 class MultiEmailField extends BaseField
 {
 }

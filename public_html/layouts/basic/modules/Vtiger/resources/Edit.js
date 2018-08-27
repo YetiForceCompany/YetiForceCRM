@@ -1312,13 +1312,6 @@ $.Class("Vtiger_Edit_Js", {
 		return App.Fields.MultiImage.register(container);
 	},
 	/**
-	 * Register multi email field
-	 * @param {HTMLElement|jQuery} container
-	 */
-	registerMultiEmailFields(container) {
-		return App.Fields.MultiEmail.register(container);
-	},
-	/**
 	 * Register inventory controller
 	 * @param {jQuery} container
 	 */
@@ -1349,7 +1342,7 @@ $.Class("Vtiger_Edit_Js", {
 		this.registerFocusFirstField(container);
 		this.registerCopyValue(container);
 		this.registerMultiImageFields(container);
-		this.registerMultiEmailFields(container);
+		App.Fields.MultiEmail.register(container);
 	},
 	registerEvents: function () {
 		var editViewForm = this.getForm();

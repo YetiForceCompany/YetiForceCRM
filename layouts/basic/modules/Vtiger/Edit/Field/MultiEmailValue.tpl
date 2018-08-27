@@ -12,17 +12,16 @@
 		</label>
 		<div class="input-group">
 			<div class="input-group-prepend">
-				<button class="btn btn-outline-danger border js-remove-item" data-js="click" type="button">
+				<button type="button" class="btn btn-outline-danger border js-remove-item" data-js="click">
 					<span class="fas fa-times" title="{\App\Language::translate('LBL_REMOVE', $MODULE)}"></span>
 				</button>
 			</div>
-			<input type="text" class="form-control js-email" data-js="email" id="email-value"
-				   name="{$FIELD_MODEL->getFieldName()}_tmp"
+			<input name="{$FIELD_MODEL->getFieldName()}_tmp" value="{$ITEM_VAL}" type="text"
+				   class="form-control js-email" data-js="email" id="email-value"
 				   placeholder="{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}"
 				   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_MultiEmail_Validator_Js.invokeValidation]]"
-				   value="{$ITEM_VAL}"
 				   aria-label="{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}"/>
-			{*<div class="input-group-append btn-group-toggle" data-js="click" data-toggle="buttons">
+			<div class="input-group-append btn-group-toggle" data-js="click" data-toggle="buttons">
 				<label class="btn btn-outline-default border {if !empty($ITEM['o']) && $ITEM['o'] }active{/if} js-label-checkbox"
 					   data-js="checkbox" for="consent-to-send">
 					<div class="c-float-label__container"
@@ -30,7 +29,7 @@
 						<div class="c-float-label__hidden-ph">
 							{\App\Language::translate('LBL_CONSENT_TO_SEND', $MODULE)}
 						</div>
-						<input class="js-checkbox" data-js="js-checkbox" id="consent-to-send" type="checkbox"
+						<input type="checkbox" class="js-checkbox" data-js="js-checkbox" id="consent-to-send"
 							   autocomplete="off" {if !empty($ITEM['o']) && $ITEM['o'] }checked="checked"{/if} />
 						<span class="far {if !empty($ITEM['o']) && $ITEM['o'] }fa-check-square{else}fa-square{/if}  position-absolute"
 							  title="{\App\Language::translate('LBL_CONSENT_TO_SEND', $MODULE)}"></span>
@@ -39,8 +38,7 @@
 						</label>
 					</div>
 				</label>
-			</div>*}
-
+			</div>
 		</div>
 	</div>
 {/strip}
