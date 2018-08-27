@@ -169,7 +169,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public function save()
 	{
 		$wm = new VTWorkflowManager();
-
 		$wf = $this->getWorkflowObject();
 		$wf->description = $this->get('summary');
 		$wf->test = \App\Json::encode($this->get('conditions'));
@@ -181,9 +180,9 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$wf->schdayofmonth = $this->get('schdayofmonth');
 		$wf->schdayofweek = $this->get('schdayofweek');
 		$wf->schmonth = $this->get('schmonth');
-		$wf->schmonth = $this->get('schmonth');
 		$wf->schannualdates = $this->get('schannualdates');
 		$wf->nexttrigger_time = $this->get('nexttrigger_time');
+
 		$wm->save($wf);
 
 		$this->set('workflow_id', $wf->id);
@@ -301,12 +300,11 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public static function getInstanceFromWorkflowObject($wf)
 	{
 		$workflowModel = new self();
-
-		$workflowModel->set('summary', $wf->description);
-		$workflowModel->set('conditions', \App\Json::decode($wf->test));
+		$workflowModel->set('summary', $wf->description ?? '');
+		$workflowModel->set('conditions', !empty($wf->test) ? \App\Json::decode($wf->test) : []);
 		$workflowModel->set('execution_condition', $wf->executionCondition);
 		$workflowModel->set('module_name', $wf->moduleName);
-		$workflowModel->set('workflow_id', $wf->id);
+		$workflowModel->set('workflow_id', $wf->id ?? false);
 		$workflowModel->set('filtersavedinnew', $wf->filtersavedinnew);
 		$workflowModel->setWorkflowObject($wf);
 		$workflowModel->setModule($wf->moduleName);
@@ -410,10 +408,10 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 			foreach ($conditions as $index => $info) {
 				if (!($info['groupid'])) {
 					$firstGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
-						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid'], ];
+						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid'],];
 				} else {
 					$secondGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
-						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid'], ];
+						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid'],];
 				}
 			}
 		}
@@ -454,13 +452,13 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				$columns = $condition['columns'];
 				if ($index == '1' && empty($columns)) {
 					$wfCondition[] = ['fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
-						'joincondition' => '', 'groupid' => '0', ];
+						'joincondition' => '', 'groupid' => '0',];
 				}
 				if (!empty($columns) && is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
 							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
-							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid'], ];
+							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid'],];
 					}
 				}
 			}
