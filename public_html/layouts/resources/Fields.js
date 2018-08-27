@@ -702,8 +702,10 @@ App.Fields = {
 			container.find('.js-multi-email').each((index, element) => {
 				const inputElement = element;
 				let form = $(element).closest('form').eq(0);
-				$(form).on('submit', (e) => {
-					App.Fields.MultiEmail.onFormSubmit(inputElement);
+				$(element).find('.js-email').each((index, element) => {
+					$(element).on('change', (e) => {
+						App.Fields.MultiEmail.triggerOnChange($(inputElement));
+					});
 				});
 				$(element).find('.js-add-item').each((index, element) => {
 					$(element).on('click', (e) => {
@@ -718,6 +720,7 @@ App.Fields = {
 				$(element).find('input.js-checkbox').each((index, element) => {
 					$(element).on('change', (e) => {
 						App.Fields.MultiEmail.triggerCheck($(e.target));
+						App.Fields.MultiEmail.triggerOnChange(container);
 					});
 				});
 			});
@@ -726,7 +729,7 @@ App.Fields = {
 		 * Convert data to json
 		 * @param element
 		 */
-		onFormSubmit(element) {
+		triggerOnChange(element) {
 			let allFields = $(element).find('[class*=js-multi-email-row]');
 			let arr = [];
 			let arrayLength = allFields.length;
@@ -736,8 +739,7 @@ App.Fields = {
 				if (inputField.val() !== '') {
 					arr.push({
 						e: $(inputField).val(),
-						//o: $(checkboxField).is(":checked") ? 1 : 0
-						o: 0
+						o: $(checkboxField).is(":checked") ? 1 : 0
 					});
 				}
 			}
@@ -760,6 +762,10 @@ App.Fields = {
 			});
 			newField.find('input.js-checkbox').eq(0).on('change', (e) => {
 				App.Fields.MultiEmail.triggerCheck($(e.target));
+				App.Fields.MultiEmail.triggerOnChange(container);
+			});
+			newField.find('input.js-email').eq(0).on('change', (e) => {
+				App.Fields.MultiEmail.triggerOnChange(container);
 			});
 			newField.insertAfter(container.find('[class*=js-multi-email-row]').last());
 		},
