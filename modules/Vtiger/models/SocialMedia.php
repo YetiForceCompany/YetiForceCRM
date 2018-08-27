@@ -56,6 +56,29 @@ class Vtiger_SocialMedia_Model extends \App\Base
 		return new self($recordModel);
 	}
 
+	public static function getSocialMediaAccount()
+	{
+		$dataReader = (new \App\Db\Query())
+			->select(['columnname', 'tablename'])
+			->from('vtiger_field')
+			->where(['uitype' => 313])
+			->andWhere(['presence' => [0, 2]])
+			->createCommand()
+			->query();
+		while (($row = $dataReader->read())) {
+			$dataReaderAccounts = (new \App\Db\Query())
+				->select([$row['columnname']])
+				->from($row['tablename'])
+				->andWhere(['not', [$row['columnname'] => null]])
+				->andWhere(['not', [$row['columnname'] => '']])
+				->createCommand()
+				->query();
+			while (($rowTwitter = $dataReaderAccounts->read())) {
+				echo $rowTwitter[$row['columnname']] . "<br>\r\n";
+			}
+		}
+	}
+
 	/**
 	 * Checking whether social media are available for the module.
 	 *
