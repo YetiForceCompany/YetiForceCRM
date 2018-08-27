@@ -10,10 +10,10 @@
 		</div>
 		<div>
 			<form class="js-social-media-twitter__form" method="post" data-js="submit">
-				<input type="hidden" name="parent" value="Settings">
-				<input type="hidden" name="module" value="{$MODULE}">
-				<input type="hidden" name="action" value="SaveAjax">
-				<input type="hidden" name="mode" value="twitter">
+				<input name="parent" value="Settings" type="hidden">
+				<input name="module" value="{$MODULE}" type="hidden">
+				<input name="action" value="SaveAjax" type="hidden">
+				<input name="mode" value="twitter" type="hidden">
 				<div class="tab-pane active">
 					<div class="form-group row">
 						<label class="col-12 col-lg-2 col-form-label u-text-small-bold"
@@ -21,9 +21,9 @@
 							{\App\Language::translate('LBL_ARCHIVING_RECORDS_NUMBER_OF_DAYS', $QUALIFIED_MODULE)}
 						</label>
 						<div class="col-12 col-lg-4">
-							<input type="text" name="archiving_records_number_of_days" class="form-control"
-								   id="archiving-records-number-of-days"
+							<input name="archiving_records_number_of_days"
 								   value="{$CONFIG_TWITTER->get('archiving_records_number_of_days')}"
+								   type="text" class="form-control" id="archiving-records-number-of-days"
 							/>
 						</div>
 					</div>
@@ -33,9 +33,8 @@
 							{\App\Language::translate('LBL_TWITTER_API_KEY', $QUALIFIED_MODULE)}
 						</label>
 						<div class="col-12 col-lg-4">
-							<input type="text" name="twitter_api_key" class="form-control"
-								   id="twitter-api-key"
-								   value="{$CONFIG_TWITTER->get('twitter_api_key')}"
+							<input name="twitter_api_key" value="{$CONFIG_TWITTER->get('twitter_api_key')}"
+								   type="text" class="form-control" id="twitter-api-key"
 							/>
 						</div>
 					</div>
@@ -45,9 +44,8 @@
 							{\App\Language::translate('LBL_TWITTER_API_SECRET', $QUALIFIED_MODULE)}
 						</label>
 						<div class="col-12 col-lg-4">
-							<input type="text" name="twitter_api_secret" class="form-control"
-								   id="twitter-api-secret"
-								   value="{$CONFIG_TWITTER->get('twitter_api_secret')}"
+							<input name="twitter_api_secret" value="{$CONFIG_TWITTER->get('twitter_api_secret')}"
+								   type="text" class="form-control" id="twitter-api-secret"
 							/>
 						</div>
 					</div>
