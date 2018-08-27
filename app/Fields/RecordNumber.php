@@ -65,8 +65,15 @@ class RecordNumber
 				])->execute();
 			} else {
 				return $db->createCommand()
-					->update('vtiger_modentity_num', ['cur_id' => $no, 'prefix' => $prefix, 'postfix' => $postfix, 'reset_sequence' => $resetSequence, 'cur_sequence' => $curSequence], ['tabid' => $tabId])
-					->execute();
+					->update('vtiger_modentity_num', [
+						'cur_id' => $no,
+						'prefix' => $prefix,
+						'leading_zeros' => $leadingZeros,
+						'postfix' => $postfix,
+						'reset_sequence' => $resetSequence,
+						'cur_sequence' => $curSequence],
+						['tabid' => $tabId])
+						->execute();
 			}
 		}
 	}
