@@ -15,17 +15,6 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 * @var \Vtiger_Record_Model
 	 */
 	private $recordModel;
-	/**
-	 * @var \Abraham\TwitterOAuth\TwitterOAuth
-	 */
-	private $twitterConnection;
-
-	/**
-	 * Twitter user id.
-	 *
-	 * @var int
-	 */
-	private $twitterUserId;
 
 	/**
 	 * Vtiger_SocialMedia_Model constructor.
@@ -36,12 +25,6 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	{
 		parent::__construct();
 		$this->recordModel = $recordModel;
-		$configTitter = \Settings_SocialMedia_Config_Model::getInstance('twitter');
-		$this->twitterConnection = new \Abraham\TwitterOAuth\TwitterOAuth(
-			$configTitter->get('twitter_api_key'),
-			$configTitter->get('twitter_api_secret')
-		);
-		$this->twitterConnection->setDecodeJsonAsArray(true);
 	}
 
 	/**
@@ -54,29 +37,6 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	public static function getInstanceByRecordModel($recordModel)
 	{
 		return new self($recordModel);
-	}
-
-	public static function getSocialMediaAccount()
-	{
-		$dataReader = (new \App\Db\Query())
-			->select(['columnname', 'tablename'])
-			->from('vtiger_field')
-			->where(['uitype' => 313])
-			->andWhere(['presence' => [0, 2]])
-			->createCommand()
-			->query();
-		while (($row = $dataReader->read())) {
-			$dataReaderAccounts = (new \App\Db\Query())
-				->select([$row['columnname']])
-				->from($row['tablename'])
-				->andWhere(['not', [$row['columnname'] => null]])
-				->andWhere(['not', [$row['columnname'] => '']])
-				->createCommand()
-				->query();
-			while (($rowTwitter = $dataReaderAccounts->read())) {
-				echo $rowTwitter[$row['columnname']] . "<br>\r\n";
-			}
-		}
 	}
 
 	/**
@@ -161,73 +121,5 @@ class Vtiger_SocialMedia_Model extends \App\Base
 			yield $row;
 		}
 		$dataReader->close();
-	}
-
-	/**
-	 * Get twitter user id by name.
-	 *
-	 * @param string $userName
-	 *
-	 * @return mixed|false
-	 */
-	public function getUserIdByName($userName)
-	{
-		$response = $this->getTwitter('users/lookup', ['screen_name' => $userName]);
-		$this->twitterUserId = $response[0]['id'] ?? false;
-		return $this->twitterUserId;
-	}
-
-	/**
-	 * Get user time line.
-	 *
-	 * @param string $userName
-	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return array|object|string
-	 */
-	public function getUserTimeline($userName)
-	{
-		return $this->getTwitter('statuses/user_timeline', ['screen_name' => $userName]);
-	}
-
-	/**
-	 * Check if the Twitter API returned an error.
-	 *
-	 * @param string $response - Response from Twitter API
-	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return bool
-	 */
-	private function isError($response)
-	{
-		if (isset($response['errors'])) {
-			throw new \App\Exceptions\AppException('Twitter API error' . $response['errors']['message'],
-				(int) $response['errors']['code']);
-		}
-		return false;
-	}
-
-	/**
-	 * Make GET requests to the API with cache.
-	 *
-	 * @param string $path
-	 * @param array  $parameters
-	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return array|object|string
-	 */
-	private function getTwitter($path, array $parameters = [])
-	{
-		$cacheKey = $path . md5(\App\Json::encode(($parameters)));
-		if (\App\Cache::has('twitter', $cacheKey)) {
-			return \App\Cache::get('twitter', $cacheKey);
-		}
-		$response = $this->twitterConnection->get($path, $parameters);
-		$this->isError($response);
-		\App\Cache::save('twitter', $cacheKey, $response, \App\Cache::MEDIUM);
-		return $response;
 	}
 }
