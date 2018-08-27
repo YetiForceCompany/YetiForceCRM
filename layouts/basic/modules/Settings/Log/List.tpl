@@ -7,6 +7,7 @@
 			</div>
 		</div>
 		<div class="contents" id="listViewContainer">
+			<p>
 			<ul class="nav nav-tabs">
 				{foreach key=INDEX item=ITEM from=$TABLE_HEADERS}
 					<li class="nav-item">
@@ -16,7 +17,8 @@
 					</li>
 				{/foreach}
 			</ul>
-			<table class="table table-bordered js-data-table" data-js="dataTable">
+			</p>
+			<table class="table table-bordered js-data-table fullWidthAlways" data-js="dataTable">
 				<thead>
 				<tr>
 					{foreach item=HEADER from=$TABLE_HEADERS[$TYPE]}

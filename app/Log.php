@@ -8,8 +8,8 @@ use yii\log\Logger;
  * Logger class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Log extends Logger
 {
@@ -150,16 +150,23 @@ class Log extends Logger
 	 * @param string $type
 	 * @param string $mode
 	 * @param bool   $countMode
+	 * @param array  $advanced
 	 *
 	 * @return array
 	 */
-	public static function getLogs($type, $mode, $countMode = false)
+	public static function getLogs($type, $mode, $countMode = false, $advanced = [])
 	{
 		$db = \App\Db::getInstance('log');
 		$query = (new \App\Db\Query())->from('o_#__' . $type);
 		switch ($mode) {
 			case 'oneDay':
 				$query->where(['>=', 'date', date('Y-m-d H:i:s', strtotime('-1 day'))]);
+				break;
+			case 'advanced':
+				if (!$countMode) {
+					$query->offset($advanced['start'] ?? 0);
+					$query->limit($advanced['limit'] ?? 10);
+				}
 				break;
 			default:
 				$query->limit(100);

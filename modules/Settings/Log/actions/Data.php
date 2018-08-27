@@ -16,13 +16,36 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$logs = \App\Log::getLogs($request->getByType('type', 1), 'all');
+		$type = $request->getByType('type', 1);
+		$logs = \App\Log::getLogs($type, 'advanced', false, $request->getAll());
+		$logsCount = \App\Log::getLogs($type, 'advanced', true, $request->getAll());
+		$logsCountAll = \App\Log::getLogs($type, 'all', true);
 		$data = [];
 		foreach ($logs as $log) {
-			$data[] = array_values($log);
+			$tmp = [];
+			foreach (Settings_Log_Module_Model::$tableHeaders[$type] as $column) {
+				if ($column === 'url') {
+					$url = explode('?', $log['url'])[1];
+					$tmp[] = "<a href=\"index.php?$url\" title=\"index.php?$url\">" . substr($url, 0, 50) . '...</a>';
+				} elseif ($column === 'request') {
+					$requestArray = '';
+					foreach (\App\Json::decode($log[$column]) as $key => $val) {
+						$requestArray .= "$key => $val<br>";
+					}
+					$tmp[] = $requestArray;
+				} else {
+					$tmp[] = $log[$column];
+				}
+			}
+			$data[] = array_values($tmp);
 		}
 		$response = new Vtiger_Response();
-		$response->setResult($data);
+		$response->setClear([
+			'data' => $data,
+			'draw' => $request->getInteger('draw', 1),
+			'recordsFiltered' => (int) $logsCount,
+			'recordsTotal' => (int) $logsCountAll
+		]);
 		$response->emit();
 	}
 }
