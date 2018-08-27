@@ -175,7 +175,13 @@ class Log extends Logger
 		if ($countMode) {
 			return $query->count('*', $db);
 		} else {
-			$query->orderBy(['id' => SORT_DESC]);
+			if ($mode === 'advanced' && isset($advanced['order'][0]['column'])) {
+				$column = \Settings_Log_Module_Model::$tableHeaders[$type][$advanced['order'][0]['column']];
+				$dir = ($advanced['order'][0]['dir'] === 'asc') ? \SORT_ASC : \SORT_DESC;
+				$query->orderBy([$column => $dir]);
+			} else {
+				$query->orderBy(['id' => \SORT_DESC]);
+			}
 			return $query->all($db);
 		}
 	}

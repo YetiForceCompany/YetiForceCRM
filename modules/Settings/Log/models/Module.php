@@ -20,7 +20,7 @@ class Settings_Log_Module_Model extends Settings_Vtiger_Module_Model
 		'access_for_admin' => ['date', 'username', 'ip', 'module', 'url', 'agent', 'request', 'referer'],
 		'access_for_api' => ['date', 'username', 'ip', 'url', 'agent', 'request'],
 		'access_for_user' => ['date', 'username', 'ip', 'module', 'url', 'agent', 'request', 'referer'],
-		'access_to_record' => ['date', 'username', 'ip', 'record', 'module', 'url', 'agent', 'request', 'referer'],
+		'access_to_record' => ['date', 'username', 'ip', 'module', 'record', 'url', 'agent', 'request', 'referer'],
 		'csrf' => ['date', 'username', 'ip', 'referer', 'url', 'agent'],
 	];
 
