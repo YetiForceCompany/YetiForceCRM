@@ -40,6 +40,8 @@
     "LBL_CONFIG_PHP_EXTENSIONS": "Konfiguracja serwera - Rozszerzenia PHP",
     "LBL_CONFIG_DATABASE": "Konfiguracja serwera - Baza danych",
     "LBL_CONFIG_STABILITY": "Konfiguracja serwera - Stabilno\u015b\u0107",
+    "LBL_FILE_WRITE_ACCESS": "Bezpiecze\u0144stwo - Zapis do plik\u00f3w",
+    "LBL_MISSING_WRITE_ACCESS": "System nie ma pe\u0142nych uprawnie\u0144 do zapisu. Mog\u0105 wyst\u0105pi\u0107 problemy z dzia\u0142aniem systemu, lub wprowadzane dane mog\u0105 zosta\u0107 uszkodzone, lub usuni\u0119te. Wi\u0119cej informacji znajduje si\u0119 w artykule %s. Brak uprawnien do zapisu w lokalizacjach:\n%s",
     "LBL_LIB_REQUIRED": "Wymagane",
     "LBL_LIB_OPTIONAL": "Opcjonalne"
   }
