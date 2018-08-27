@@ -42,6 +42,8 @@
     "LBL_CONFIG_STABILITY": "Konfiguracja serwera - Stabilno\u015b\u0107",
     "LBL_FILE_WRITE_ACCESS": "Bezpiecze\u0144stwo - Zapis do plik\u00f3w",
     "LBL_MISSING_WRITE_ACCESS": "System nie ma pe\u0142nych uprawnie\u0144 do zapisu. Mog\u0105 wyst\u0105pi\u0107 problemy z dzia\u0142aniem systemu, lub wprowadzane dane mog\u0105 zosta\u0107 uszkodzone, lub usuni\u0119te. Wi\u0119cej informacji znajduje si\u0119 w artykule %s. Brak uprawnien do zapisu w lokalizacjach:\n%s",
+    "LBL_PUBLIC_ACCESS": "Bezpiecze\u0144stwo - Katalog publiczny",
+    "LBL_PUBLIC_ACCESS_DESC": "Istnieje mo\u017cliwosc dost\u0119pu z zewn\u0105trz do plik\u00f3w systemowych. Mog\u0105 wyst\u0105pi\u0107 problemy z dzia\u0142aniem systemu, lub wprowadzane dane mog\u0105 zosta\u0107 uszkodzone, lub usuni\u0119te. Wi\u0119cej informacji znajduje si\u0119 w artykule %s. Nast\u0119puj\u0105ce lokalizacje s\u0105 publicznie dost\u0119pne:\n%s",
     "LBL_LIB_REQUIRED": "Wymagane",
     "LBL_LIB_OPTIONAL": "Opcjonalne"
   }

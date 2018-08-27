@@ -15,7 +15,7 @@ class FileWriteAccess extends \App\SystemWarnings\Template
 	protected $priority = 7;
 
 	/**
-	 * Checking whether there is a https connection.
+	 * Checking whether there is a location where we cant write.
 	 */
 	public function process()
 	{
