@@ -281,7 +281,7 @@
     "LBL_CV_YEAR": "Rok (np. 15)",
     "LBL_CV_MONTH": "Miesi\u0105c (np. 1, 5, 12)",
     "LBL_CV_DAY": "Dzie\u0144 (np. 1, 5, 25)",
-    "LBL_CV_LEADING_ZERO": "Wiod\u0105ce zero (np. trzy w. zera dzadz\u0105 wynik 002, 011, 563, 2342)",
+    "LBL_LEADING_ZEROS": "Wiod\u0105ce zera",
     "LBL_RS_RESET_SEQUENCE": "Resetuj numer",
     "LBL_RS_DO_NOT": "Nie resetuj nigdy (numery rekord\u00F3w rosn\u0105 w niesko\u0144czono\u015B\u0107)",
     "LBL_RS_YEAR": "Resetuj z nowym rokiem",
