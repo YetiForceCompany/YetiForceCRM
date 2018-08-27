@@ -50,7 +50,7 @@
 					<div class="col-12 col-lg-4">
 						<select name="methods" class="select2"
 								data-placeholder="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}"
-								data-select="allowClear, true">
+								data-select="allowClear">
 							<optgroup class="p-0">
 								<option value="">{App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 							</optgroup>

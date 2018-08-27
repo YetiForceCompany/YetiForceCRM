@@ -13,7 +13,7 @@
 	<div class="tpl-Settings-PickListDependency-ListViewActions float-right listViewActions col-8 paddingLRZero">
 		<select class="select2 pickListSupportedModules form-control"
 				data-placeholder="{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}"
-				data-select="allowClear, true">
+				data-select="allowClear">
 			<optgroup class="p-0">
 				<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 			</optgroup>

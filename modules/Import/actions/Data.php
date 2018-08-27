@@ -468,7 +468,7 @@ class Import_Data_Action extends \App\Controller\Action
 							if (in_array($value, $picklist)) {
 								$value = array_search($value, $picklist);
 							} elseif (array_key_exists($value, $picklist)) {
-								$value = $value;
+								break;
 							} else {
 								$value = '';
 							}

@@ -6,7 +6,7 @@
 			<div class="col-md-4 pb-3">
 				<select class="select2 form-control" name="pdfTemplate" data-validation-engine="validate[required]"
 						data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$MODULE)}"
-						data-select="allowClear, true">
+						data-select="allowClear">
 					<optgroup class="p-0">
 						<option value="none">{\App\Language::translate('LBL_SELECT_FIELD',$MODULE)}</option>
 					</optgroup>
@@ -20,7 +20,7 @@
 		<div class="row pb-3">
 			<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
 			<div class="col-md-4">
-				<select id="task_timefields" name="smtp" class="select2 form-control" data-select="allowClear, true"
+				<select id="task_timefields" name="smtp" class="select2 form-control" data-select="allowClear"
 						data-placeholder="{\App\Language::translate('LBL_DEFAULT')}">
 					<optgroup class="p-0">
 						<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>
@@ -37,7 +37,7 @@
 			<span class="col-md-4 col-form-label text-right">{\App\Language::translate('EmailTempleteList', $QUALIFIED_MODULE)}</span>
 			<div class="col-md-4">
 				<select class="select2 form-control" name="mailTemplate" data-validation-engine='validate[required]'
-						data-select="allowClear, true"
+						data-select="allowClear"
 						data-placeholder="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">
 					<optgroup class="p-0">
 						<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>

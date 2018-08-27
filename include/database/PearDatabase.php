@@ -376,7 +376,7 @@ class PearDatabase
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
 		} catch (\App\Exceptions\AppException $e) {
 			$error = $this->database->errorInfo();
-			\App\Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
+			\App\Log::error('Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage());
 		}
 		return $this->stmt;
@@ -561,7 +561,7 @@ class PearDatabase
 			}
 			$type = $showType[0];
 			$vals = explode(')', $showType[1]);
-			if (is_int((int)$vals[0])) {
+			if (is_int((int) $vals[0])) {
 				$maxLength = $vals[0];
 			} elseif (strpos($vals[0], ',') !== false) {
 				$vs = explode(',', $vals[0]);
@@ -630,13 +630,13 @@ class PearDatabase
 		$tableName = $seqname . '_seq';
 		if ($this->checkExistTable($tableName)) {
 			$result = $this->query(sprintf('SELECT id FROM %s', $tableName));
-			$id = ((int)$this->getSingleValue($result)) + 1;
+			$id = ((int) $this->getSingleValue($result)) + 1;
 			$this->database->query("update $tableName set id = $id");
 		} else {
 			$result = $this->query('SHOW COLUMNS FROM ' . $this->quote($seqname, false));
 			$column = $this->getSingleValue($result);
 			$result = $this->query("SELECT MAX($column ) AS max FROM " . $this->quote($seqname, false));
-			$id = ((int)$this->getSingleValue($result)) + 1;
+			$id = ((int) $this->getSingleValue($result)) + 1;
 		}
 		return $id;
 	}
@@ -752,6 +752,7 @@ class PearDatabase
 			\App\Log::error('sqlExprDatalist: empty arrays not allowed');
 			$this->checkError('sqlExprDatalist: empty arrays not allowed');
 		}
+		$l = '';
 		foreach ($array as $key => $val) {
 			$l .= ($l ? ',' : '') . $this->quote($val);
 		}
@@ -793,7 +794,7 @@ class PearDatabase
 	{
 		// handle int directly for better performance
 		if ($type == 'integer' || $type == 'int') {
-			return (int)$input;
+			return (int) $input;
 		}
 
 		if (is_null($input)) {
@@ -831,7 +832,7 @@ class PearDatabase
 
 		if ($this->logSqlTimeID === false) {
 			$stmt = $db->database->query(sprintf('SELECT MAX(id) FROM %s', $logTable));
-			$this->logSqlTimeID = (int)$this->getSingleValue($stmt) + 1;
+			$this->logSqlTimeID = (int) $this->getSingleValue($stmt) + 1;
 
 			$type = PHP_SAPI;
 			$data = '';

@@ -12,7 +12,7 @@
 				{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}
 				data-selected-value='{$FIELD_VALUE}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}
 				{if $PLACE_HOLDER}
-			data-select="allowClear, true"
+			data-select="allowClear"
 			data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}"
 				{/if}>
 			{if $PLACE_HOLDER}

@@ -14,7 +14,7 @@
 			<div class="row no-gutters col-12 col-xl-6 js-conditions-row padding-bottom1per px-md-1"
 				 data-js="container | clone">
 				<div class="col-md-5 mb-1 mb-md-0">
-					<select name="fieldname" class="select2" data-select="allowClear, true">
+					<select name="fieldname" class="select2" data-select="allowClear">
 						<optgroup class="p-0">
 							<option value="">{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}</option>
 						</optgroup>
@@ -55,7 +55,7 @@
 	<br/>
 	<div class="row no-gutters col-12 col-xl-6 js-add-basic-field-container d-none padding-bottom1per px-md-2">
 		<div class="col-md-5 mb-1 mb-md-0">
-			<select name="fieldname" class="form-control" data-select="allowClear, true">
+			<select name="fieldname" class="form-control" data-select="allowClear">
 				<optgroup class="p-0">
 					<option value="">{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}</option>
 				</optgroup>

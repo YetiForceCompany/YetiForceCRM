@@ -9,12 +9,12 @@
     "FL_SALE_DATE": "Data emiterii",
     "FL_FORM_PAYMENT": "Metoda de plata",
     "FL_STATUS": "Status",
-    "FL_BANK_ACCOUNT": "Cont IBAN",
     "FL_NUMBER": "Numar factura",
     "FL_ACCOUNT": "Cont",
     "FL_TOTAL": "Net",
     "FL_GROSS": "Brut",
-    "PLL_TRANSFER": "transfer",
-    "PLL_CASH": "cash"
+    "PLL_CASH": "Cash",
+    "PLL_TRANSFER": "Bank transfer",
+    "PLL_WIRE_TRANSFER": "Electronic transfer"
   }
 }

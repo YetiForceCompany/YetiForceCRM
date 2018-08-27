@@ -126,7 +126,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'color' => $color,
+			'color' => '',
 			'message' => \App\Language::translate('LBL_REMOVED_COLOR', $request->getModule(false)),
 		]);
 		$response->emit();
