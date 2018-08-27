@@ -19,20 +19,31 @@ class SecurityConf extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
-		$errors = \App\Utils\ConfReport::getAllErrors()['security'] ?? [];
-		unset($errors['HTTPS'], $errors['public_html']);
-		if (empty($errors)) {
-			$this->status = 1;
-		} else {
+		$this->status = 1;
+		$errors = \App\Utils\ConfReport::getAllErrors() ?? [];
+		unset($errors['security']['HTTPS']);
+		if (!empty($errors) && (\array_key_exists('security', $errors))) {
 			$this->status = 0;
 		}
 		if ($this->status === 0) {
-			$reference = \App\Utils\ConfReport::get('security');
+			$reference = \App\Utils\ConfReport::getAll();
 			$errorsText = '<br><pre>';
-			foreach ($errors as $key => $value) {
-				$errorsText .= "\n{$key} = " . \yii\helpers\VarDumper::dumpAsString($value) . ' (' . \App\Language::translate('LBL_RECOMMENDED_VALUE', 'Settings:SystemWarnings') . ': \'' . $reference[$key]['recommended'] . '\')';
+			if (!empty($errors['security'])) {
+				$errorsText .= '<strong>' . \App\Language::translate('LBL_SECURITY', 'Settings:SystemWarnings') . ':</strong>';
+				foreach ($errors['security'] as $key => $value) {
+					$errorsText .= "\n  {$key} = " . \yii\helpers\VarDumper::dumpAsString($value) . ' (' . \App\Language::translate('LBL_RECOMMENDED_VALUE', 'Settings:SystemWarnings') . ': \'' . $reference['security'][$key]['recommended'] . '\')';
+				}
+				$errorsText .= "\n\n";
+			}
+			if (!empty($errors['writableFilesAndFolders'])) {
+				$errorsText .= '<strong>' . \App\Language::translate('LBL_NO_FILE_WRITE_RIGHTS', 'Settings:SystemWarnings') . ':</strong>';
+				foreach ($errors['writableFilesAndFolders'] as $key => $value) {
+					$errorsText .= "\n  {$key}";
+				}
+				$errorsText .= "\n\n";
 			}
 			$errorsText .= '</pre>';
+
 			$this->link = 'https://yetiforce.com/en/implementer/installation-updates/103-web-server-requirements.html';
 			$this->linkTitle = \App\Language::translate('LBL_CONFIG_REPORT_LINK', 'Settings:SystemWarnings');
 			$this->description = \App\Language::translateArgs('LBL_SECURITY_CONF_DESC', 'Settings:SystemWarnings', '<a target="_blank" rel="noreferrer" href="' . \App\Language::translate('LBL_CONFIG_DOC_URL', 'Settings:SystemWarnings') . '"><u>' . \App\Language::translate('LBL_CONFIG_DOC_URL_LABEL', 'Settings:SystemWarnings') . '</u></a>', $errorsText);

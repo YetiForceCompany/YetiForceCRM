@@ -21,7 +21,7 @@ class Configuration extends \App\SystemWarnings\Template
 	{
 		$this->status = 1;
 		$errors = \App\Utils\ConfReport::getAllErrors() ?? [];
-		if (!empty($errors)) {
+		if (!empty($errors) && (\array_key_exists('stability', $errors) || \array_key_exists('database', $errors) || \array_key_exists('libraries', $errors) || \array_key_exists('performance', $errors))) {
 			$this->status = 0;
 		}
 		if ($this->status === 0) {
