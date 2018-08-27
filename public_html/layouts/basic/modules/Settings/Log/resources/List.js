@@ -12,7 +12,6 @@ Settings_Vtiger_List_Js("Settings_Log_List_Js", {}, {
 			processing: true,
 			scrollX: true,
 			bAutoWidth: false,
-			columnDefs: {"width": "200px"},
 			ajax: {
 				url: "index.php",
 				type: "POST",
