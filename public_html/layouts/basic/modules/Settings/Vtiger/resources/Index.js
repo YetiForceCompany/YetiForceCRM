@@ -178,7 +178,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 	registerAddShortcutDragDropEvent: function () {
 		var thisInstance = this;
 		var elements = $(".js-menu__item .js-menu__link--draggable");
-		var classes = 'ui-draggable-menuShortcut bg-primary';
+		var classes = 'ui-draggable-menuShortcut bg-warning';
 		elements.draggable({
 			containment: "#page",
 			appendTo: "body",
