@@ -51,13 +51,6 @@
 							/>
 						</div>
 					</div>
-					{*<div class="form-group row marginLeft10">
-						<button type="button" class="btn btn-default js-twitter-integration"
-								data-js="click">
-							<span class="fab fa-twitter fa-2x" title="LBL_TWITTER_DESC"></span>
-							{\App\Language::translate('LBL_TWITTER_DESC', $QUALIFIED_MODULE)}
-						</button>
-					</div>*}
 				</div>
 			</form>
 		</div>

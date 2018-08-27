@@ -45,19 +45,6 @@ jQuery.Class('Settings_SocialMedia_Index_Js', {}, {
 		}
 	},
 	/**
-	 * Button Twitter integration
-	 */
-	/*registerTwitterIntegration() {
-		this.getContainer().find('.js-twitter-integration').eq(0).on('click', (e) => {
-			AppConnector.requestForm('index.php', {
-				module: 'SocialMedia',
-				parent: 'Settings',
-				action: 'TwitterRequestToken',
-				mode: 'requestToken'
-			});
-		});
-	},*/
-	/**
 	 * Register events for form
 	 */
 	registerForm(form) {
@@ -80,6 +67,5 @@ jQuery.Class('Settings_SocialMedia_Index_Js', {}, {
 		container.find('form').each((index, form) => {
 			this.registerForm($(form));
 		});
-		//this.registerTwitterIntegration();
 	}
 });

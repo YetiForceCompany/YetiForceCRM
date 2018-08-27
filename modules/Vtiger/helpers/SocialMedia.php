@@ -14,6 +14,11 @@ class Vtiger_SocialMedia_Helper extends \App\Base
 	 */
 	private $twitterConnection;
 
+	/**
+	 * Get all social media accounts.
+	 *
+	 * @return \Generator
+	 */
 	public static function getSocialMediaAccount()
 	{
 		$dataReader = (new \App\Db\Query())
@@ -34,20 +39,30 @@ class Vtiger_SocialMedia_Helper extends \App\Base
 			while (($rowTwitter = $dataReaderAccounts->read())) {
 				$twitterAccount = $rowTwitter[$row['columnname']];
 				yield $twitterAccount;
-				/*echo $rowTwitter[$row['columnname']] . "<br>\r\n";
-				$obj = new self();
-				$res = $obj->getUserTimeline($twitterAccount);
-				foreach ($res as $twitts) {
-					echo '<b>' . $twitterAccount . "</b><br>\r\n";
-					echo $twitts['text'] . "<br>\r\n";
-				}
-				\App\DebugerEx::varDump($res);*/
 			}
 			$dataReaderAccounts->close();
 		}
 		$dataReader->close();
 	}
 
+	/**
+	 * Is configured.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return bool
+	 */
+	public static function isConfigured()
+	{
+		$configTitter = \Settings_SocialMedia_Config_Model::getInstance('twitter');
+		return !empty($configTitter->get('twitter_api_key')) && !empty($configTitter->get('twitter_api_secret'));
+	}
+
+	/**
+	 * Vtiger_SocialMedia_Helper constructor.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
 	public function __construct()
 	{
 		$configTitter = \Settings_SocialMedia_Config_Model::getInstance('twitter');
