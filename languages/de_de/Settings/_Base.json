@@ -153,6 +153,8 @@
     "LBL_MAIL_TOOLS": "Mailtools",
     "LBL_PASSWORD_CONF": "Passwortkonfiguration",
     "LBL_2FA_CONF": "Multi-factor authentication",
+    "LBL_SOCIAL_MEDIA": "Social media",
+    "LBL_SOCIAL_MEDIA_DESC": "Social media integration",
     "LBL_PASSWORD_DESCRIPTION": "Setze Komplexit\u00e4t des Passwortes f\u00fcr die Benutzer der Software",
     "LBL_LOGS_MANAGEMENT": "Protokolle",
     "LBL_ARRANGE_RELATED_TABS": "Zugeh\u00f6rige Registerkarten anordnen",
@@ -288,6 +290,12 @@
     "LBL_CV_YEAR": "Jahr (zB. 15)",
     "LBL_CV_MONTH": "Monat (zB. 1, 5, 12)",
     "LBL_CV_DAY": "Tag (zB. 1, 5, 25)",
+    "LBL_CV_LEADING_ZERO": "Leading zero (e.g. three leading zeros shall result in 002, 011, 563, 2342)",
+    "LBL_RS_RESET_SEQUENCE": "Reset number",
+    "LBL_RS_DO_NOT": "Never reset (record numbers grow ad infinitum)",
+    "LBL_RS_YEAR": "Reset with new year",
+    "LBL_RS_MONTH": "Reset with new month",
+    "LBL_RS_DAY": "Reset with new day",
     "LBL_DONATE_US": "Spenden",
     "LBL_START": "Start",
     "LBL_GITHUB": "Github",
@@ -384,6 +392,9 @@
     "LBL_WRONG_IMAGE_TYPE": "Nicht unterst\u00fctztes Bildformat",
     "JS_COLUMN_ADDED": "Feld hinzugef\u00fcgt",
     "JS_COLUMN_EXIST": "Fehler beim Feld hinzuf\u00fcgen",
-    "JS_NOTIFY_COPY_TEXT": "Variable in die Zwischenablage kopiert"
+    "JS_NOTIFY_COPY_TEXT": "Variable in die Zwischenablage kopiert",
+    "JS_RS_ADD_YEAR_VARIABLE": "Copy year variable to prefix or postfix",
+    "JS_RS_ADD_MONTH_VARIABLE": "Copy monyh variable to prefix or postfix",
+    "JS_RS_ADD_DAY_VARIABLE": "Copy day variable to prefix or postfix"
   }
 }
