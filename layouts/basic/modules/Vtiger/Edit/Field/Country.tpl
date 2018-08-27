@@ -9,7 +9,7 @@
 		<select name="{$FIELD_MODEL->getFieldName()}" class="select2 form-control"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-				{if $PLACE_HOLDER}data-select="allowClear, true"
+				{if $PLACE_HOLDER}data-select="allowClear"
 				data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}"{/if}
 				data-fieldinfo='{$FIELD_INFO|escape}'
 				{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>

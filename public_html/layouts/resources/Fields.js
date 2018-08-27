@@ -625,7 +625,6 @@ App.Fields = {
 					return data.text;
 				};
 			}
-			var selectElementNew = selectElement;
 			selectElement.each(function (e) {
 				var select = $(this);
 				if (select.attr('readonly') == 'readonly' && !select.attr('disabled')) {
@@ -633,14 +632,12 @@ App.Fields = {
 					select.parent().append(selectNew);
 					select.prop('disabled', true);
 				}
-				let htmlParams = select.data('select');
-				if (typeof htmlParams === 'string') {
-					htmlParams = htmlParams.split('; ');
-					htmlParams = htmlParams.reduce((o, key) => ({
-						...o,
-						[key.split(', ')[0]]: key.split(', ')[1] === 'false' || key.split(', ')[1] === 'true' ? JSON.parse(key.split(', ')[1]) : key.split(', ')[1]
-					}), {});
-					params = $.extend(params, htmlParams);
+				let htmlBoolParams = select.data('select');
+				if (htmlBoolParams === 'tags') {
+					params.tags = true;
+					params.tokenSeparators = [","]
+				} else {
+					params[htmlBoolParams] = true;
 				}
 				select.select2(params)
 					.on("select2:open", function (e) {

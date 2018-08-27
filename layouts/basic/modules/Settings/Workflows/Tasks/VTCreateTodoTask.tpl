@@ -29,7 +29,7 @@
 			<span class="col-md-3">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-9">
 				{assign var=STATUS_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('activitystatus')->getPickListValues()}
-				<select name="status" class="select2 form-control" data-select="allowClear, true">
+				<select name="status" class="select2 form-control" data-select="allowClear">
 					<optgroup class="p-0">
 						<option value=""> - {\App\Language::translate('LBL_AUTOMATIC')} - </option>
 					</optgroup>
@@ -53,7 +53,7 @@
 		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
 			<span class="col-md-3">{\App\Language::translate('LBL_ASSIGNED_TO',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-9">
-				<select name="assigned_user_id" class="select2 form-control" data-select="allowClear, true">
+				<select name="assigned_user_id" class="select2 form-control" data-select="allowClear">
 					<optgroup class="p-0">
 						<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
 					</optgroup>

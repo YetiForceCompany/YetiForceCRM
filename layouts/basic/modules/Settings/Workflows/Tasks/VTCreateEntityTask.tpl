@@ -46,7 +46,7 @@
 				{assign var=RELATED_MODULE_MODEL_NAME value=$TASK_OBJECT->entity_type}
 				<select class="select2 createEntityModule" id="createEntityModule" name="entity_type"
 						data-validation-engine='validate[required]' {if $MAPPING_PANEL} disabled{/if}
-						data-select="allowClear, true"
+						data-select="allowClear"
 						data-placeholder="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">
 					<optgroup class="p-0">
 						<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
@@ -70,7 +70,7 @@
 			<div class="col-md-6">
 				<select class="select2 createEntityModule" id="templatesMapp" name="entity_type"
 						data-validation-engine='validate[required]'{if !$MAPPING_PANEL} disabled{/if}
-						data-select="allowClear, true"
+						data-select="allowClear"
 						data-placeholder="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">
 					<optgroup class="p-0">
 						<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
