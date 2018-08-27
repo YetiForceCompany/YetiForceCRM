@@ -1047,6 +1047,19 @@ var App = {},
 			});
 			return aDeferred.promise();
 		},
+		/**
+		 * Hack for Safari breaking down, when sending empty file input
+		 * @param html
+		 */
+		removeEmptyFilesInput(form) {
+			for (let i = 0; i < form.elements.length; i++) {
+				if (form.elements[i].type === 'file') {
+					if (form.elements[i].value === '') {
+						form.elements[i].parentNode.removeChild(form.elements[i]);
+					}
+				}
+			}
+		},
 		getMainParams: function (param, json) {
 			if (param in CONFIG) {
 				return CONFIG[param];
