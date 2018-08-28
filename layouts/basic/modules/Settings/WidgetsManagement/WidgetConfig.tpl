@@ -82,7 +82,7 @@
 										</label>
 									</div>
 								{/if}
-								{if $LINK_LABEL_KEY == 'DW_SUMMATION_BY_MONTHS' }
+								{if $LINK_LABEL_KEY === 'DW_SUMMATION_BY_MONTHS' }
 									<div class="row p-2">
 										<div class="col-md-3 text-center">
 											<input type="text" name="plotTickSize" class="form-control"
@@ -103,7 +103,7 @@
 										</label>
 									</div>
 								{/if}
-								{if $LINK_LABEL_KEY == 'DW_SUMMATION_BY_USER'}
+								{if $LINK_LABEL_KEY === 'DW_SUMMATION_BY_USER'}
 									<div class="row p-2">
 										<div class="col-md-3 text-center checkboxForm">
 											<input type="checkbox" name="showUsers"
