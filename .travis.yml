@@ -24,6 +24,9 @@ env:
 
 
 addons:
+  apt:
+    packages:
+      - openjdk-8-jre-headless
   chrome: stable
   sonarcloud:
     organization: "yetiforcecompany"
