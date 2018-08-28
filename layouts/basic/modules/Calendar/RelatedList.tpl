@@ -20,7 +20,8 @@
 		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries"/>
 		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'/>
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'/>
-		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+		<input type="hidden" id="autoRefreshListOnChange"
+			   value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 		<div class="relatedHeader calendarRelatedHeader mb-1">
 			<div class="row">
 				<div class="col-sm-6 col-md-6">

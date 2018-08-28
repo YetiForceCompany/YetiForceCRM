@@ -1304,6 +1304,8 @@
     "Generate default PDF": "Generuj domy\u015blny PDF",
     "JS_SAVE_LOADER_INFO": "Trwa zapisywanie danych...",
     "JS_SAVE_NOTIFY_OK": "Zapisano zmiany.",
+    "JS_SAVED_FROM": "z",
+    "JS_SAVED_TO": "na",
     "JS_OF": "z",
     "AM": "AM",
     "JS_LBL_NO_TAXES": "Wybrany produkt nie zawiera podatku",

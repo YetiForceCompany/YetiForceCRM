@@ -231,7 +231,6 @@ class Install_Index_View extends \App\Controller\View
 				'charset' => 'utf8',
 			]);
 		}
-		$this->viewer->assign('FAILED_FILE_PERMISSIONS', Settings_ConfReport_Module_Model::getPermissionsFiles());
 		$this->viewer->assign('ALL', \App\Utils\ConfReport::getAll());
 		$this->viewer->display('Step5.tpl');
 	}
