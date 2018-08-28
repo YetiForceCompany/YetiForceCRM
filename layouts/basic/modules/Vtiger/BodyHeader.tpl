@@ -73,10 +73,12 @@
 								</ul>
 							</div>
 						{/if}
-						<button class="btn btn-outline-dark border-0 h-100 globalSearch"
-								title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
-							<span class="fa fa-th-large fa-fw"></span>
-						</button>
+						{if $USER_MODEL->getRoleDetail()->get('globalsearchadv')}
+							<button class="btn btn-outline-dark border-0 h-100 globalSearch"
+									title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
+								<span class="fa fa-th-large fa-fw"></span>
+							</button>
+						{/if}
 					</div>
 				</div>
 				<div class="searchMenu d-xl-none">
@@ -106,12 +108,14 @@
 									{/foreach}
 								</select>
 							</div>
-							<div class="input-group-append">
-								<button class="btn btn-light globalSearch"
-										title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
-									<span class="fas fa-th-large"></span>
-								</button>
-							</div>
+							{if $USER_MODEL->getRoleDetail()->get('globalsearchadv')}
+								<div class="input-group-append">
+									<button class="btn btn-light globalSearch"
+											title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
+										<span class="fas fa-th-large"></span>
+									</button>
+								</div>
+							{/if}
 						</div>
 						<div class="input-group mb-3 js-global-search__input o-global-search__input"
 							 data-js="container">
