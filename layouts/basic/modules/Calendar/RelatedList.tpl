@@ -28,7 +28,7 @@
 						<div class="btn-group pr-2 relatedViewGroup">
 							{assign var=TEXT_HOLDER value=''}
 							{foreach item=RELATEDLIST_VIEW from=$RELATED_LIST_LINKS['RELATEDLIST_VIEWS']}
-								{if !empty($RELATED_VIEW) && $RELATED_VIEW == $RELATEDLIST_VIEW->get('view')}
+								{if $RELATED_VIEW == $RELATEDLIST_VIEW->get('view')}
 									{assign var=TEXT_HOLDER value=$RELATEDLIST_VIEW->getLabel()}
 									{if $RELATEDLIST_VIEW->get('linkicon') neq ''}
 										{assign var=BTN_ICON value=$RELATEDLIST_VIEW->get('linkicon')}
@@ -154,7 +154,7 @@
 				</div>
 			</div>
 		</div>
-		{if !empty($RELATED_VIEW) && $RELATED_VIEW === 'ListPreview'}
+		{if $RELATED_VIEW === 'ListPreview'}
 			<div class="relatedContents">
 				<div class="d-flex">
 					<input type="hidden" id="defaultDetailViewName"
