@@ -16,6 +16,12 @@ class Vtiger_SocialMedia_Handler
 	 */
 	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
+		$recordModel = $eventHandler->getRecordModel();
+		if (Vtiger_SocialMedia_Model::isEnableForModule($recordModel)) {
+			if ($recordModel->isNew()) {
+			} else {
+			}
+		}
 	}
 
 	/**
