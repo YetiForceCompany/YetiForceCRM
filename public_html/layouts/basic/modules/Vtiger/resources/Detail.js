@@ -986,7 +986,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (editElement.length <= 0) {
 				return;
 			}
-
 			if (editElement.is(':visible')) {
 				return;
 			}
@@ -1080,10 +1079,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 						}
 						const postSaveRecordDetails = response.result;
 						let displayValue = postSaveRecordDetails[fieldName].display_value;
+						let prevDisplayValue = postSaveRecordDetails[fieldName].prev_display_value;
 						if (dateTimeField.length && dateTime) {
 							displayValue = postSaveRecordDetails[dateTimeField[0].name].display_value + ' ' + postSaveRecordDetails[dateTimeField[1].name].display_value;
 						}
 						detailViewValue.html(displayValue);
+						Vtiger_Helper_Js.showPnotify({
+							title: 'title',
+							text: '<b>' + app.vtranslate('JS_SAVE_NOTIFY_OK') + '</b>: ' + prevDisplayValue + ' TO ' + displayValue,
+							type: 'info',
+							textTrusted: true
+						});
 						if (postSaveRecordDetails['isEditable'] === false) {
 							const progressIndicatorElement = jQuery.progressIndicator({
 								'position': 'html',
