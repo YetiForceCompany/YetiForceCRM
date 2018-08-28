@@ -70,25 +70,41 @@
                             <td class="fieldValue {$WIDTHTYPE} border-left-0">
                                 <select class="select2" name="leading_zeros">
                                     <option value="0" {if empty($DEFAULT_MODULE_DATA['leading_zeros'])}selected="selected"{/if}>
-                                        0 (2, 6, 88, 954, 1549)
-                                    </option>
-                                    <option value="1" {if $DEFAULT_MODULE_DATA['leading_zeros']===1}selected="selected"{/if}>
-                                        1 (02, 06, 88, 954, 1549)
+                                        Bez wiodących zer&nbsp;
+                                        ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
+                                        2, 6, 88, 954, 1549)
                                     </option>
                                     <option value="2" {if $DEFAULT_MODULE_DATA['leading_zeros']===2}selected="selected"{/if}>
-                                        2 (002, 006, 088, 954, 1549)
+                                        2 ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
+                                        02, 06, 88, 954, 1549)
                                     </option>
                                     <option value="3" {if $DEFAULT_MODULE_DATA['leading_zeros']===3}selected="selected"{/if}>
-                                        3 (0002, 0006, 0088, 0954, 1549)
+                                        3 ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
+                                        002, 006, 088, 954, 1549)
                                     </option>
                                     <option value="4" {if $DEFAULT_MODULE_DATA['leading_zeros']===4}selected="selected"{/if}>
-                                        4 (00002, 00006, 00088, 00954, 01549)
+                                        4 ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
+                                        0002, 0006, 0088, 0954, 1549)
                                     </option>
                                     <option value="5" {if $DEFAULT_MODULE_DATA['leading_zeros']===5}selected="selected"{/if}>
-                                        5 (000002, 000006, 000088, 000954, 001549)
+                                        5 ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
+                                        00002, 00006, 00088, 00954, 01549)
                                     </option>
                                     <option value="6" {if $DEFAULT_MODULE_DATA['leading_zeros']===6}selected="selected"{/if}>
-                                        6 (0000002, 0000006, 0000088, 0000954, 0001549)
+                                        6 ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
+                                        000002, 000006, 000088, 000954, 001549)
+                                    </option>
+                                    <option value="7" {if $DEFAULT_MODULE_DATA['leading_zeros']===7}selected="selected"{/if}>
+                                        7 ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
+                                        0000002, 0000006, 0000088, 0000954, 0001549)
+                                    </option>
+                                    <option value="8" {if $DEFAULT_MODULE_DATA['leading_zeros']===8}selected="selected"{/if}>
+                                        8 ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
+                                        00000002, 00000006, 00000088, 00000954, 00001549)
+                                    </option>
+                                    <option value="9" {if $DEFAULT_MODULE_DATA['leading_zeros']===9}selected="selected"{/if}>
+                                        9 ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
+                                        000000002, 000000006, 000000088, 000000954, 000001549)
                                     </option>
                                 </select>
                             </td>
@@ -178,8 +194,8 @@
                 <div class="col-md-12 float-right">
                     <div class="float-right">
                         <button class="btn btn-success saveButton" type="submit" disabled="disabled">
-                            <strong><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
-                            </strong></button>
+                            <span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
+                        </button>
                         <button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">
                             <span class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
                         </button>
