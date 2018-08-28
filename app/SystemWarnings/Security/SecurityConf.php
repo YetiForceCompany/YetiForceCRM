@@ -11,7 +11,17 @@ namespace App\SystemWarnings\Security;
  */
 class SecurityConf extends \App\SystemWarnings\Template
 {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @var string
+	 */
 	protected $title = 'LBL_SECURITY_CONF';
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @var int
+	 */
 	protected $priority = 7;
 
 	/**
@@ -20,27 +30,27 @@ class SecurityConf extends \App\SystemWarnings\Template
 	public function process()
 	{
 		$this->status = 1;
-		$errors = \App\Utils\ConfReport::getAllErrors() ?? [];
+		$errors = \App\Utils\ConfReport::getAllErrors();
 		unset($errors['security']['HTTPS']);
-		if (!empty($errors) && (\array_key_exists('security', $errors))) {
+		if (!empty($errors['security'])) {
 			$this->status = 0;
 		}
-		if ($this->status === 0) {
+		if (!$this->status) {
 			$reference = \App\Utils\ConfReport::getAll();
 			$errorsText = '<br><pre>';
 			if (!empty($errors['security'])) {
 				$errorsText .= '<strong>' . \App\Language::translate('LBL_SECURITY', 'Settings:SystemWarnings') . ':</strong>';
 				foreach ($errors['security'] as $key => $value) {
-					$errorsText .= "\n  {$key} = " . \yii\helpers\VarDumper::dumpAsString($value) . ' (' . \App\Language::translate('LBL_RECOMMENDED_VALUE', 'Settings:SystemWarnings') . ': \'' . $reference['security'][$key]['recommended'] . '\')';
+					$errorsText .= \PHP_EOL . "  {$key} = " . \yii\helpers\VarDumper::dumpAsString($value) . ' (' . \App\Language::translate('LBL_RECOMMENDED_VALUE', 'Settings:SystemWarnings') . ': \'' . $reference['security'][$key]['recommended'] . '\')';
 				}
-				$errorsText .= "\n\n";
+				$errorsText .= \PHP_EOL . \PHP_EOL;
 			}
 			if (!empty($errors['writableFilesAndFolders'])) {
 				$errorsText .= '<strong>' . \App\Language::translate('LBL_NO_FILE_WRITE_RIGHTS', 'Settings:SystemWarnings') . ':</strong>';
 				foreach ($errors['writableFilesAndFolders'] as $key => $value) {
-					$errorsText .= "\n  {$key}";
+					$errorsText .= \PHP_EOL . "  {$key}";
 				}
-				$errorsText .= "\n\n";
+				$errorsText .= \PHP_EOL . \PHP_EOL;
 			}
 			$errorsText .= '</pre>';
 

@@ -11,9 +11,18 @@ namespace App\SystemWarnings\SystemRequirements;
  */
 class DiskUsage extends \App\SystemWarnings\Template
 {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @var string
+	 */
 	protected $title = 'LBL_DISK_USAGE';
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @var int
+	 */
 	protected $priority = 9;
-	protected $leftAlert = 1024 * 1024 * 1024; // bytes = 1GB
 
 	/**
 	 * Check disk space.
@@ -25,8 +34,8 @@ class DiskUsage extends \App\SystemWarnings\Template
 		if (!$envInfo['spaceRoot']['status'] || !$envInfo['spaceStorage']['status'] || !$envInfo['spaceTemp']['status']) {
 			$this->status = 0;
 		}
-		if ($this->status === 0) {
-			$this->description = \App\Language::translateArgs('LBL_DISK_FULL', 'Settings:SystemWarnings', $envInfo['spaceRoot']['www'] ?? $envInfo['spaceRoot']['cron'], $envInfo['spaceRoot']['www'] ?? $envInfo['spaceRoot']['cron'], $envInfo['spaceStorage']['www'] ?? $envInfo['spaceStorage']['cron'], $envInfo['spaceTemp']['www'] ?? $envInfo['spaceTemp']['cron']);
+		if (!$this->status) {
+			$this->description = \App\Language::translateArgs('LBL_DISK_FULL', 'Settings:SystemWarnings', $envInfo['spaceRoot']['www'], $envInfo['spaceRoot']['www'], $envInfo['spaceStorage']['www'], $envInfo['spaceTemp']['www']);
 		}
 	}
 }
