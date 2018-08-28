@@ -8,7 +8,7 @@ SELENIUM_STANDALONE_VERSION=3.6.0
 SELENIUM_SUBDIR=$(echo "$SELENIUM_STANDALONE_VERSION" | cut -d"." -f-2)
 
 sudo apt-get update
-sudo apt-get install -y unzip openjdk-8-jre-headless xvfb libxi6 libgconf-2-4
+sudo apt-get install -y unzip xvfb libxi6 libgconf-2-4
 
 #wget -N https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -P ~/
 #sudo dpkg -i --force-depends ~/google-chrome-stable_current_amd64.deb
