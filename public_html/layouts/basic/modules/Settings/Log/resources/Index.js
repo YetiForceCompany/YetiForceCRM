@@ -14,10 +14,10 @@ Settings_Vtiger_Index_Js("Settings_Log_Index_Js", {}, {
 				url: "index.php",
 				type: "POST",
 				data: {
-					"module": "Log",
-					"parent": "Settings",
-					"action": "Data",
-					"type": container.find('.nav .active').data('type'),
+					module: "Log",
+					parent: "Settings",
+					action: "Data",
+					type: container.find('.nav .active').data('type'),
 				},
 			},
 			language: {

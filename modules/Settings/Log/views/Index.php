@@ -19,7 +19,6 @@ class Settings_Log_Index_View extends Settings_Vtiger_Index_View
 		$type = $request->getByType('type', 1);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', 'Settings:Log');
-		$viewer->assign('TABLE_HEADERS', \App\Log::$tableColumnMapping);
 		$viewer->assign('TYPE', ($type) ? $type : 'access_for_admin');
 		$viewer->view('Index.tpl', $request->getModule(false));
 	}
