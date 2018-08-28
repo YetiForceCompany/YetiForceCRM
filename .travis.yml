@@ -10,6 +10,7 @@ php:
   - nightly
   
 matrix:
+  env: BROWSER_NAME="chrome" CHROME_HEADLESS="1" DEPENDENCIES="--prefer-lowest"
   fast_finish: true
   allow_failures:
     - php: hhvm
@@ -23,6 +24,7 @@ env:
 
 
 addons:
+  chrome: stable
   sonarcloud:
     organization: "yetiforcecompany"
     token:
