@@ -6,6 +6,30 @@ class SocialMedia
 {
 	public const ALLOWED_UITYPE = ['twitter' => 313];
 
+	public static function isAllowed($socialMediaType)
+	{
+		return isset(static::ALLOWED_UITYPE[$socialMediaType]);
+	}
+
+	/**
+	 * Add account to database if not exists.
+	 *
+	 * @param string $login
+	 * @param string $socialMediaType
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public static function addAccount($login, $socialMediaType)
+	{
+		if (static::isAllowed($socialMediaType)) {
+			if (!(new \App\Db\Query())->from('u_#__social_media_accounts')->where(['type' => $socialMediaType])->andWhere(['login' => $login])->exists()) {
+				\App\Db::getInstance()->createCommand()->insert('u_#__social_media_accounts', [
+					'login' => $login, 'type' => $socialMediaType
+				])->execute();
+			}
+		}
+	}
+
 	public static function createObjectByType($socialMediaType)
 	{
 		if (isset(static::ALLOWED_UITYPE[$socialMediaType])) {
