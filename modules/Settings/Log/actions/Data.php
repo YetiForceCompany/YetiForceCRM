@@ -42,12 +42,13 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 			$data[] = array_values($tmp);
 		}
 		$response = new Vtiger_Response();
-		$response->setClear([
+		$response->setEmitType(Vtiger_Response::$EMIT_JSONTEXT);
+		$response->setResult(\App\Json::encode([
 			'data' => $data,
 			'draw' => $request->getInteger('draw', 1),
 			'recordsFiltered' => (int) $logsCount,
 			'recordsTotal' => (int) $logsCountAll
-		]);
+		]));
 		$response->emit();
 	}
 }

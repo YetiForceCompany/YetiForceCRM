@@ -18,7 +18,7 @@
 				{/foreach}
 			</ul>
 			</p>
-			<table class="table table-bordered js-data-table fullWidthAlways" data-js="dataTable">
+			<table class="table table-bordered js-data-table" data-js="dataTable">
 				<thead>
 				<tr>
 					{foreach item=HEADER from=$TABLE_HEADERS[$TYPE]}
