@@ -48,11 +48,6 @@ class Vtiger_Response
 	 */
 	private $result;
 
-	/**
-	 * Clear data.
-	 */
-	private $clear;
-
 	// Active emit type
 	private $emitType = 1; // EMIT_JSON
 
@@ -148,30 +143,12 @@ class Vtiger_Response
 	}
 
 	/**
-	 * Set the clear data.
-	 */
-	public function setClear($result)
-	{
-		$this->clear = $result;
-	}
-
-	/**
-	 * Get the result data.
-	 */
-	public function getClear()
-	{
-		return $this->clear;
-	}
-
-	/**
 	 * Prepare the response wrapper.
 	 */
 	protected function prepareResponse()
 	{
 		$response = [];
-		if ($this->clear !== null) {
-			return $this->clear;
-		} elseif ($this->error !== null) {
+		if ($this->error !== null) {
 			$response['success'] = false;
 			$response['error'] = $this->error;
 		} else {

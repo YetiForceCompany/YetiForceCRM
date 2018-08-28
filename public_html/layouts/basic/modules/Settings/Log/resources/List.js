@@ -2,10 +2,8 @@
 'use strict';
 
 Settings_Vtiger_List_Js("Settings_Log_List_Js", {}, {
-	getListContainer: function () {
-		return $('#listViewContainer');
-	},
-	registerDataTable: function (container) {
+	registerDataTable: function () {
+		let container = $('.tpl-Settings-Log-List');
 		container.find('.js-data-table').dataTable({
 			searching: false,
 			serverSide: true,
@@ -47,7 +45,6 @@ Settings_Vtiger_List_Js("Settings_Log_List_Js", {}, {
 	},
 	registerEvents: function () {
 		this._super();
-		let container = this.getListContainer();
-		this.registerDataTable(container);
+		this.registerDataTable();
 	}
 });
