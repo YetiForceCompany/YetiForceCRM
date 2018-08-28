@@ -8,14 +8,27 @@ use yii\log\Logger;
  * Logger class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Log extends Logger
 {
 	public static $logToConsole;
 	public static $logToFile;
 	public static $logToProfile;
+
+	/**
+	 * Column mapping by table.
+	 *
+	 * @var array
+	 */
+	public static $tableColumnMapping = [
+		'access_for_admin' => ['date', 'username', 'ip', 'module', 'url', 'agent', 'request', 'referer'],
+		'access_for_api' => ['date', 'username', 'ip', 'url', 'agent', 'request'],
+		'access_for_user' => ['date', 'username', 'ip', 'module', 'url', 'agent', 'request', 'referer'],
+		'access_to_record' => ['date', 'username', 'ip', 'module', 'record', 'url', 'agent', 'request', 'referer'],
+		'csrf' => ['date', 'username', 'ip', 'referer', 'url', 'agent'],
+	];
 
 	/**
 	 * Logs a message with the given type and category.

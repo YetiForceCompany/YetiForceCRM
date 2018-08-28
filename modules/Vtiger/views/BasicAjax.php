@@ -45,6 +45,9 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	 */
 	public function showAdvancedSearch(\App\Request $request)
 	{
+		if (!\App\User::getCurrentUserModel()->getRoleInstance()->get('globalsearchadv')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		if (!$request->isEmpty('searchModule') && $request->getRaw('searchModule') !== '-') {
@@ -106,6 +109,9 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$isAdvanceSearch = false;
 		$matchingRecords = [];
 		if (is_array($advFilterList) && $advFilterList) {
+			if (!\App\User::getCurrentUserModel()->getRoleInstance()->get('globalsearchadv')) {
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			}
 			$isAdvanceSearch = true;
 			$queryGenerator = new \App\QueryGenerator($moduleName);
 			$queryGenerator->setFields(['id']);
