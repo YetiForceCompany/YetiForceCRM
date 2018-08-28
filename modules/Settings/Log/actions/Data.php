@@ -17,11 +17,20 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 	public function process(\App\Request $request)
 	{
 		$type = $request->getByType('type', 1);
-		$logs = \App\Log::getLogs($type, 'advanced', false, $request->getAll());
-		$logsCount = \App\Log::getLogs($type, 'advanced', true, $request->getAll());
-		$logsCountAll = \App\Log::getLogs($type, 'all', true);
+		$query = (new \App\Db\Query())->from('o_#__' . $type);
+		$logsCountAll = $logsCount = (int) $query->count('*');
+		$query->offset($request->getInteger('start', 0));
+		$query->limit($request->getInteger('limit', 10));
+		$order = $request->getArray('order', false);
+		if (isset($order['0']['column'])) {
+			$column = \App\Log::$tableColumnMapping[$type][$order['0']['column']];
+			$dir = ($order['0']['dir'] === 'asc') ? \SORT_ASC : \SORT_DESC;
+			$query->orderBy([$column => $dir]);
+		} else {
+			$query->orderBy(['id' => \SORT_DESC]);
+		}
 		$data = [];
-		foreach ($logs as $log) {
+		foreach ($query->all() as $log) {
 			$tmp = [];
 			foreach (\App\Log::$tableColumnMapping[$type] as $column) {
 				if ($column === 'url') {
@@ -46,8 +55,8 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 		$response->setResult(\App\Json::encode([
 			'data' => $data,
 			'draw' => $request->getInteger('draw', 1),
-			'recordsFiltered' => (int) $logsCount,
-			'recordsTotal' => (int) $logsCountAll
+			'recordsFiltered' => $logsCount,
+			'recordsTotal' => $logsCountAll
 		]));
 		$response->emit();
 	}

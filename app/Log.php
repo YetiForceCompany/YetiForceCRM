@@ -163,23 +163,16 @@ class Log extends Logger
 	 * @param string $type
 	 * @param string $mode
 	 * @param bool   $countMode
-	 * @param array  $advanced
 	 *
 	 * @return array
 	 */
-	public static function getLogs($type, $mode, $countMode = false, $advanced = [])
+	public static function getLogs($type, $mode, $countMode = false)
 	{
 		$db = \App\Db::getInstance('log');
 		$query = (new \App\Db\Query())->from('o_#__' . $type);
 		switch ($mode) {
 			case 'oneDay':
 				$query->where(['>=', 'date', date('Y-m-d H:i:s', strtotime('-1 day'))]);
-				break;
-			case 'advanced':
-				if (!$countMode) {
-					$query->offset($advanced['start'] ?? 0);
-					$query->limit($advanced['limit'] ?? 10);
-				}
 				break;
 			default:
 				$query->limit(100);
@@ -188,13 +181,7 @@ class Log extends Logger
 		if ($countMode) {
 			return $query->count('*', $db);
 		} else {
-			if ($mode === 'advanced' && isset($advanced['order'][0]['column'])) {
-				$column = self::$tableColumnMapping[$type][$advanced['order'][0]['column']];
-				$dir = ($advanced['order'][0]['dir'] === 'asc') ? \SORT_ASC : \SORT_DESC;
-				$query->orderBy([$column => $dir]);
-			} else {
-				$query->orderBy(['id' => \SORT_DESC]);
-			}
+			$query->orderBy(['id' => \SORT_DESC]);
 			return $query->all($db);
 		}
 	}
