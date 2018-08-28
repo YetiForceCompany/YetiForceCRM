@@ -1303,6 +1303,7 @@
     "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Anzahl der zusammenfu00fchrten Datens\u00e4tze wurde auf %d reduziert."
   },
   "js": {
+    "JS_APPROVE": "Approve",
     "JS_SUMMARY": "Summe",
     "JS_LOADING_PLEASE_WAIT": "Laden, bitte warten.",
     "JS_SELECTED_RECORDS": "Selektierte Daten",
@@ -1327,11 +1328,14 @@
     "JS_CHECK_FILE_INTEGRITY": "\u00dcberpr\u00fcfen Sie die Datei-Integrit\u00e4t",
     "JS_CONTAINS_ILLEGAL_CHARACTERS": "enth\u00e4lt ung\u00fcltige Zeichen",
     "JS_CURRENT_DATE": "Aktuelles Datum",
+    "JS_DENY": "Deny",
     "JS_DO_NOT_HAVE_AN_EMAIL_ID": "hat keine E-Mail-Adresse",
+    "JS_DUPLICATE": "Duplicate",
     "JS_DUPLIACATE_ENTRIES_FOUND_FOR_THE_VALUE": "Doppelte Eintr\u00e4ge f\u00fcr den Wert gefunden",
     "JS_DUPLICATE_ENTRIES_FOUND_FOR_THE_VALUE": "Doppelte Eintr\u00e4ge f\u00fcr den Wert gefunden",
     "JS_DUPLICATE_RECORD": "Doppelter Datensatz",
     "JS_DUPLICTAE_CREATION_CONFIRMATION": "Organisationsname ist bereits vorhanden. M\u00f6chten Sie einen doppelten Datensatz erstellen?",
+    "JS_EDIT": "Edit",
     "JS_EMAIL_SERVER_CONFIGURATION": "Bitte konfigurieren Sie Ihren Postausgangsserver-Einstellungen auf der Seite Einstellungen",
     "JS_END_DATE_TIME": "Enddatum & Zeit",
     "JS_ERROR": "Error, please inform the Administrator",
@@ -1388,6 +1392,7 @@
     "JS_PLEASE_ENTER_VALID_DATE": "Bitte geben Sie ein g\u00fcltiges Datum ein",
     "JS_PLEASE_ENTER_VALID_EMAIL_ADDRESS": "Bitte geben Sie eine g\u00fcltige E-Mail-Adresse ein",
     "JS_PLEASE_ENTER_VALID_TIME": "Bitte geben Sie eine g\u00fcltige Zeit ein",
+    "JS_PLEASE_ENTER_VALID_TWITTER_ACCOUNT": "Please enter valid Twitter account",
     "JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS": "Bitte w\u00e4hlen Sie eine Organisation aus, um die Adresse zu kopieren",
     "JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS": "Bitte w\u00e4hlen Sie einen Kontakt aus, um die Adresse zu kopieren",
     "JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS": "Bitte w\u00e4hlen Sie ein Lead aus, um die Adresse zu kopieren",
@@ -1603,7 +1608,8 @@
     "JS_AVAILABLE_FILE_TYPES": "Verf\u00fcgbare Dateitypen",
     "JS_FILE_LIMIT": "Maximale Anzahl von Dateien wurde \u00fcberschritten",
     "JS_WAIT_FOR_FILE_UPLOAD": "Warten bis Dateien geladen wurden",
-	"JS_ERROR_MAX_VALUE": "Eingabewert ist au\u00dferhalb der erlaubten Werte",
-    "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Firmenname \u00e4ndern. Der Name YetiForce ist reserviert."
+    "JS_ERROR_MAX_VALUE": "Eingabewert ist au\u00dferhalb der erlaubten Werte",
+    "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Firmenname \u00e4ndern. Der Name YetiForce ist reserviert.",
+    "JS_INVENTORY_ITEM_MODULE_NOT_FOUND": "Module '${sourceModule}' for position'${position}' was not activated."
   }
 }

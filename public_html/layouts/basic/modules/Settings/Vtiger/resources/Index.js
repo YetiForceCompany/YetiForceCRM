@@ -117,7 +117,6 @@ $.Class("Settings_Vtiger_Index_Js", {
 		});
 	},
 	registerPinShortCutEvent: function (element) {
-		var thisInstance = this;
 		var id = element.data('id');
 		var url = 'index.php?module=Vtiger&parent=Settings&action=Basic&mode=updateFieldPinnedStatus&pin=true&fieldid=' + id;
 		var progressIndicatorElement = $.progressIndicator({
@@ -136,15 +135,8 @@ $.Class("Settings_Vtiger_Index_Js", {
 				}
 				AppConnector.request(params).done(function (data) {
 					var shortCutsMainContainer = $('#settingsShortCutsContainer');
-					var existingDivBlock = $('#settingsShortCutsContainer div.row:last');
-					var count = $('#settingsShortCutsContainer div.row:last').children("div").length;
-					if (count == 3) {
-
-						var newBlock = $('#settingsShortCutsContainer').append('<div class="row">' + data);
-					} else {
-						var newBlock = $(data).appendTo(existingDivBlock);
-					}
-					thisInstance.registerSettingShortCutAlignmentEvent();
+					var existingDivBlock = $('#settingsShortCutsContainer');
+					$(data).appendTo(existingDivBlock);
 					progressIndicatorElement.progressIndicator({
 						'mode': 'hide'
 					});
@@ -185,8 +177,8 @@ $.Class("Settings_Vtiger_Index_Js", {
 	},
 	registerAddShortcutDragDropEvent: function () {
 		var thisInstance = this;
-		var elements = $(".subMenu .menuShortcut a");
-		var classes = 'ui-draggable-menuShortcut bg-primary';
+		var elements = $(".js-menu__item .js-menu__link--draggable");
+		var classes = 'ui-draggable-menuShortcut bg-warning';
 		elements.draggable({
 			containment: "#page",
 			appendTo: "body",
@@ -199,7 +191,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 		$("#settingsShortCutsContainer").droppable({
 			activeClass: "ui-state-default",
 			hoverClass: "ui-state-hover",
-			accept: ".subMenu .menuShortcut a",
+			accept: ".js-menu__item .js-menu__link--draggable",
 			drop: function (event, ui) {
 				var url = ui.draggable.attr('href');
 				var isExist = false;

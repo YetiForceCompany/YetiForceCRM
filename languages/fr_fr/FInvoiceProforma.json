@@ -9,13 +9,13 @@
     "FL_SALE_DATE": "Date de vente",
     "FL_FORM_PAYMENT": "M\u00e9thode de paiement",
     "FL_STATUS": "Statut",
-    "FL_BANK_ACCOUNT": "N\u00b0 de compte",
     "FL_NUMBER": "N\u00b0 de facture",
     "FL_ACCOUNT": "Organisation",
     "FL_TOTAL": "HT",
     "FL_GROSS": "TTC",
-    "PLL_TRANSFER": "Virement",
-    "PLL_CASH": "Esp\u00e8ces"
+    "PLL_CASH": "Cash",
+    "PLL_TRANSFER": "Bank transfer",
+    "PLL_WIRE_TRANSFER": "Electronic transfer"
   },
   "js": []
 }

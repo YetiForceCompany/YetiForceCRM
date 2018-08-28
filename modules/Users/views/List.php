@@ -112,9 +112,9 @@ class Users_List_View extends Settings_Vtiger_List_View
 		//To make smarty to get the details easily accesible
 		foreach ($searchParmams as $fieldListGroup) {
 			foreach ($fieldListGroup as $fieldSearchInfo) {
-				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
-				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
-				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3];
+				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2] ?? '';
+				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0] ?? '';
+				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3] ?? '';
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
@@ -164,6 +164,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('MODULE_MODEL', $this->listViewModel->getModule());
 		$viewer->assign('VIEW_MODEL', $this->listViewModel);
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('IS_MODULE_EDITABLE', $this->listViewModel->getModule()->isPermitted('EditView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());

@@ -93,6 +93,10 @@
 	word-break: break-word !important;
 }
 
+.u-word-break-keep-all {
+	word-break: keep-all !important;
+}
+
 .u-font-size-95per {
 	font-size: 95% !important;
 }
@@ -245,6 +249,10 @@
 	height: fit-content !important;
 }
 
+.u-h-70vh {
+	height: 70vh !important;
+}
+
 //--- WHITE SPACE ---//
 .u-white-space-nowrap {
 	white-space: nowrap !important;
@@ -356,6 +364,17 @@
 
 .u-box-shadow {
 	@include u-box-shadow(3px 3px 14px 0 rgba(50, 50, 50, 0.75));
+}
+
+@each $breakpoint, $max in $grid-breakpoints {
+	@if $max > 0 {
+		@media (max-width: $max) {
+			.display-block-#{$breakpoint} {
+				display: block !important;
+			}
+		}
+	}
+
 }
 
 .u-opacity-muted {

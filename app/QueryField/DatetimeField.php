@@ -6,8 +6,8 @@ namespace App\QueryField;
  * Date time Query Field Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class DatetimeField extends DateField
 {
@@ -18,7 +18,8 @@ class DatetimeField extends DateField
 	 */
 	public function getValue()
 	{
-		return array_shift(explode(' ', \DateTimeField::convertToDBFormat($this->value)));
+		$val = explode(' ', \DateTimeField::convertToDBFormat($this->value));
+		return array_shift($val);
 	}
 
 	/**

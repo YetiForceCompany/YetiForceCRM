@@ -104,7 +104,7 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 		$row['fieldparams'] = $fieldModel->getFieldParams();
 
 		$instance = self::fromArray($row);
-		$instance->fieldModel == $fieldModel;
+		$instance->fieldModel = $fieldModel;
 
 		return $instance;
 	}
@@ -149,7 +149,7 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 		$row['typeofdata'] = 'INVENTORY';
 
 		$instance = self::fromArray($row);
-		$instance->inventoryField == $inventoryField;
+		$instance->inventoryField = $inventoryField;
 
 		return $instance;
 	}

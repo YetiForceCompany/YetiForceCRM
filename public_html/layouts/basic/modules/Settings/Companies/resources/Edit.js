@@ -3,10 +3,11 @@
 
 Settings_Vtiger_Edit_Js('Settings_Companies_Edit_Js', {}, {
 	registerSubmitForm: function () {
-		var form = this.getForm()
+		var form = this.getForm();
 		form.on('submit', function (e) {
 			e.preventDefault();
 			if (form.validationEngine('validate') === true) {
+				app.removeEmptyFilesInput(form[0]);
 				var formData = new FormData(form[0]);
 				var params = {
 					url: 'index.php',

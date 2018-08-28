@@ -88,7 +88,7 @@
 					{assign var=LINKS value=$COMMENT->getCommentLinks()}
 					{if count($LINKS) > 0}
 						{foreach from=$LINKS item=LINK}
-							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='comment'}
+							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='comment' MODULE=$MODULE_NAME}
 						{/foreach}
 					{/if}
 					{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}

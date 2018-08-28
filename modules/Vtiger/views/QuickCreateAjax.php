@@ -26,6 +26,9 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -58,9 +61,10 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 				}
 			}
 		}
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
-		$viewer->assign('QUICKCREATE_LINKS', Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
+		$viewer->assign('QUICKCREATE_LINKS', Vtiger_QuickCreateView_Model::getInstance($moduleName)->getLinks([]));
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode($mappingRelatedField));
 		$viewer->assign('SOURCE_RELATED_FIELD', $fieldValues);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
@@ -75,7 +79,16 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', \AppConfig::main('upload_maxsize'));
-		echo $viewer->view('QuickCreate.tpl', $moduleName, true);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function postProcessAjax(\App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		echo $viewer->view('QuickCreate.tpl', $request->getModule(), true);
+		parent::postProcessAjax($request);
 	}
 
 	public function getFooterScripts(\App\Request $request)

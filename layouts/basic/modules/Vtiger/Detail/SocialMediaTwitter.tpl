@@ -3,7 +3,7 @@
 	<div class="tpl-Detail-SocialMediaTwitter">
 		<div class="table-responsive">
 			<ul class="timeline">
-				{foreach from=$SOCIAL_MODEL->getAllRecords() item=RECORD_TWITTER}
+				{foreach from=$SOCIAL_MODEL->getAllRecords() item=ITEM}
 					<li>
 						<div class="d-flex">
 							<div class="flex-grow-1 ml-1 p-1 timeline-item isUpdate">
@@ -12,15 +12,15 @@
 								</div>
 								<div class="timeline-body small">
 									<strong>
-										{$RECORD_TWITTER->get('twitter_login')}
+										{$ITEM['twitter_login']}
 									</strong>
 									<div class="float-right time text-muted">
-										<span title="{$RECORD_TWITTER->get('created')}">
-											{$RECORD_TWITTER->get('created')}
+										<span title="{$ITEM['created']}">
+											{$ITEM['created']}
 										</span>
 									</div>
 									<div>
-										{$RECORD_TWITTER->get('message')}
+										{$ITEM['message']}
 									</div>
 								</div>
 							</div>

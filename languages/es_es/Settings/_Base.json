@@ -152,6 +152,8 @@
     "LBL_MAIL_TOOLS": "Herramientas de correo",
     "LBL_PASSWORD_CONF": "Contrase\u00f1as \u2013 Configuraci\u00f3n",
     "LBL_2FA_CONF": "Multi-factor authentication",
+    "LBL_SOCIAL_MEDIA": "Social media",
+    "LBL_SOCIAL_MEDIA_DESC": "Social media integration",
     "LBL_PASSWORD_DESCRIPTION": "Establecer complejidades de la contrase\u00f1a para los usuarios del software",
     "LBL_LOGS_MANAGEMENT": "Registros",
     "LBL_ARRANGE_RELATED_TABS": "Organizar las pesta\u00f1as relacionadas",
@@ -288,6 +290,12 @@
     "LBL_CV_YEAR": "A\u00f1o (ej. 15)",
     "LBL_CV_MONTH": "Mes (ej. 1, 5, 12)",
     "LBL_CV_DAY": "D\u00eda (ej. 1, 5, 25)",
+    "LBL_CV_LEADING_ZERO": "Leading zero (e.g. three leading zeros shall result in 002, 011, 563, 2342)",
+    "LBL_RS_RESET_SEQUENCE": "Reset number",
+    "LBL_RS_DO_NOT": "Never reset (record numbers grow ad infinitum)",
+    "LBL_RS_YEAR": "Reset with new year",
+    "LBL_RS_MONTH": "Reset with new month",
+    "LBL_RS_DAY": "Reset with new day",
     "LBL_DONATE_US": "Donar a YetiForce",
     "LBL_START": "Comenzar",
     "LBL_GITHUB": "Github",
@@ -297,7 +305,7 @@
     "LBL_SELECT_ICON": "Seleccionar icono",
     "LBL_ICON_NAME": "Nombre del icono",
     "LBL_ICON_EXAMPLE": "Ejemplo de icono",
-    "ERR_NO_REQUIRED_LIBRARY": "No se pudo encontrar la biblioteca %s requerida. Algunas funciones estaban deshabilitadas. Ve a <a href=\"index.php?module=ModuleManager&parent=Settings&view=List\">M\u00f3dulos \u2013 instalaci\u00f3n<\/a> para descargar.",
+    "ERR_NO_REQUIRED_LIBRARY": "No se pudo encontrar la biblioteca %s requerida.\n Algunas funciones estaban deshabilitadas. Ve a %s para descargar.",
     "LBL_SYSTEM_WARNINGS": "Advertencias del sistema",
     "LBL_WARNINGS_FOLDERS": "Categor\u00eda de advertencia",
     "LBL_WARNINGS_TITLE": "T\u00edtulo",
@@ -382,6 +390,9 @@
     "LBL_WRONG_IMAGE_TYPE": "Tipo de imagen no compatible",
     "JS_COLUMN_ADDED": "Campo a\u00f1adido",
     "JS_COLUMN_EXIST": "Error al agregar el campo",
-    "JS_NOTIFY_COPY_TEXT": "Variable copiada al portapapeles"
+    "JS_NOTIFY_COPY_TEXT": "Variable copiada al portapapeles",
+    "JS_RS_ADD_YEAR_VARIABLE": "Copy year variable to prefix or postfix",
+    "JS_RS_ADD_MONTH_VARIABLE": "Copy monyh variable to prefix or postfix",
+    "JS_RS_ADD_DAY_VARIABLE": "Copy day variable to prefix or postfix"
   }
 }

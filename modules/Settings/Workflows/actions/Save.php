@@ -18,6 +18,7 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 		$conditions = $request->get('conditions');
 		$filterSavedInNew = $request->get('filtersavedinnew');
 		$executionCondition = $request->get('execution_condition');
+		$workflowScheduleType = $request->get('schtypeid');
 
 		if ($recordId) {
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);
@@ -40,7 +41,6 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 
 			$workflowModel->set('schtime', $schtime);
 
-			$workflowScheduleType = $request->get('schtypeid');
 			$workflowModel->set('schtypeid', $workflowScheduleType);
 
 			$dayOfMonth = null;

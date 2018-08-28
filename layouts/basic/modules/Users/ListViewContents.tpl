@@ -114,14 +114,14 @@
 						<div class="row">
 							{assign var=IMAGE value=$LISTVIEW_ENTRY->getImage()}
 							{if $IMAGE}
+							<div class='col-md-6'>
 								<img src="{$IMAGE.url}"
-									 class="pushDown" alt="{$LISTVIEW_ENTRY->getName()}"
-									 title="{$LISTVIEW_ENTRY->getName()}"
-									 height="80" align="left">
-								<br/>
+									 class="c-list__user-img" alt="{$LISTVIEW_ENTRY->getName()}"
+									 title="{$LISTVIEW_ENTRY->getName()}">
+							</div>
 							{else}
 								<div class='col-md-6'>
-									<img class="list-user-img" alt=""
+									<img class="c-list__user-img" alt=""
 										 src="{\App\Layout::getImagePath('DefaultUserIcon.png')}">
 								</div>
 							{/if}

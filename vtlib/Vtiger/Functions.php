@@ -489,7 +489,7 @@ class Functions
 		return $array;
 	}
 
-	public static function throwNewException($e, $die = true, $tpl = 'OperationNotPermitted.tpl')
+	public static function throwNewException($e, $die = true, $messageHeader = 'LBL_ERROR')
 	{
 		$message = is_object($e) ? $e->getMessage() : $e;
 		if (!is_array($message)) {
@@ -521,7 +521,9 @@ class Functions
 			if (php_sapi_name() !== 'cli') {
 				$viewer = new \Vtiger_Viewer();
 				$viewer->assign('MESSAGE', $message);
-				$viewer->view($tpl, 'Vtiger');
+				$viewer->assign('MESSAGE_EXPANDED', is_array($message));
+				$viewer->assign('HEADER_MESSAGE', \App\Language::translate($messageHeader));
+				$viewer->view('ExceptionError.tpl', 'Vtiger');
 			} else {
 				echo $message . \PHP_EOL;
 			}

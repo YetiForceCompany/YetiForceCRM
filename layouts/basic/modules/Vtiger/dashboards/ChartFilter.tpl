@@ -126,7 +126,7 @@
 			<div class="step4 form-group row">
 				<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_GROUP_VALUES','Home')}</label></div>
 				<div class="{$COL_CTRL}">
-					<select class="form-control select saveParam" data-select="tags, true; tokenSeparators, [,]" multiple name="sectorField" size="2"></select>
+					<select class="form-control select saveParam" data-select="tags" multiple name="sectorField" size="2"></select>
 				</div>
 			</div>
 		{/if}

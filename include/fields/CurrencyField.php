@@ -496,13 +496,14 @@ class CurrencyField
 			}
 			$decimalSeparator = $user->getDetail('currency_decimal_separator');
 			$fieldValue = explode(App\Purifier::decodeHtml($decimalSeparator), $value);
-			if (strlen($fieldValue[1]) <= 1) {
-				if (strlen($fieldValue[1]) == 1) {
-					return $value = $fieldValue[0] . $decimalSeparator . $fieldValue[1];
-				} elseif (!strlen($fieldValue[1])) {
-					return $value = $fieldValue[0];
+			$valueField = (int) $fieldValue[0];
+			if (0 == $valueField || strlen($fieldValue[1]) <= 1) {
+				if (isset($fieldValue[1]) && strlen($fieldValue[1]) == 1) {
+					return $value = $valueField . $decimalSeparator . $fieldValue[1];
+				} elseif (!isset($fieldValue[1])) {
+					return $value = $valueField;
 				} else {
-					return $value = $fieldValue[0] . $decimalSeparator;
+					return $value = $valueField;
 				}
 			} else {
 				return preg_replace('/(?<=\\.[0-9])[0]+$/', '', $value);

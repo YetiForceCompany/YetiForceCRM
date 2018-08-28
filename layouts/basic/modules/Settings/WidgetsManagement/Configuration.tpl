@@ -148,7 +148,7 @@
 									<ul name="sortable1" class="connectedSortable col-md-6 p-1"
 										style="list-style-type: none; min-height: 1px;">
 										{if empty($WIDGETS_AUTHORIZATION_INFO[$AUTHORIZATION_KEY])}
-                      {assign var=WIDGETS_AUTHORIZATION value=[]}
+											{assign var=WIDGETS_AUTHORIZATION value=[]}
 										{else}
 											{assign var=WIDGETS_AUTHORIZATION value=$WIDGETS_AUTHORIZATION_INFO[$AUTHORIZATION_KEY]}
 										{/if}
@@ -374,7 +374,8 @@
 												{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 											</div>
 											<div class="col-sm-8 controls">
-												<select class="form-control owners_all" multiple="true" disabled
+												<select class="form-control owners_all" multiple="true"
+														disabled="disabled"
 														name="owners_all"
 														placeholder="{\App\Language::translate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 													{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}

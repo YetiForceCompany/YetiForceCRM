@@ -152,7 +152,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function getModule()
 	{
 		if (!isset($this->module)) {
-			$moduleObj = $this->block->module;
+			if (isset($this->block->module)) {
+				$moduleObj = $this->block->module;
+			}
 			//fix for opensource emailTemplate listview break
 			if (empty($moduleObj)) {
 				return false;
@@ -308,6 +310,9 @@ class Vtiger_Field_Model extends vtlib\Field
 						break;
 					case 313:
 						$fieldDataType = 'twitter';
+						break;
+					case 314:
+						$fieldDataType = 'multiEmail';
 						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();

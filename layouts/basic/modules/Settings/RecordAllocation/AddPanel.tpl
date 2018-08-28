@@ -20,7 +20,7 @@
 								<select id="userList{$INDEX}" class="select2 form-control js-base-user"
 										data-js="change/value" data-validation-engine="validate[required]"
 										data-placeholder="{\App\Language::translate('LBL_SELECT_USER')}"
-										data-select="allowClear, true">
+										data-select="allowClear">
 									<option value="">{\App\Language::translate('LBL_SELECT_USER')}</option>
 									{foreach from=$ALL_ACTIVEUSER_LIST key=ID item=USER_NAME}
 										<option value="{$ID}">{$USER_NAME}</option>
