@@ -59,7 +59,7 @@ before_script:
 
 script:
 - cd tests
-- /usr/local/bin/phpunit --debug --verbose
+- ../vendor/bin/phpunit --debug --verbose
 - sudo ls -all
 - cd ..
 - if [ "$TRAVIS_SECURE_ENV_VARS" = true ]; then sonar-scanner; fi
