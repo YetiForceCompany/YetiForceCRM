@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-Settings_Vtiger_List_Js("Settings_Log_List_Js", {}, {
+Settings_Vtiger_Index_Js("Settings_Log_Index_Js", {}, {
 	registerDataTable: function () {
 		let container = $('.tpl-Settings-Log-List');
 		container.find('.js-data-table').dataTable({

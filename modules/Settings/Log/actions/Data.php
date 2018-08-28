@@ -23,7 +23,7 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 		$data = [];
 		foreach ($logs as $log) {
 			$tmp = [];
-			foreach (Settings_Log_Module_Model::$tableHeaders[$type] as $column) {
+			foreach (\App\Log::$tableColumnMapping[$type] as $column) {
 				if ($column === 'url') {
 					$url = explode('?', $log['url'])[1];
 					$tmp[] = "<a href=\"index.php?$url\" title=\"index.php?$url\">" . substr($url, 0, 50) . '...</a>';
@@ -39,7 +39,7 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 					$tmp[] = $log[$column];
 				}
 			}
-			$data[] = array_values($tmp);
+			$data[] = $tmp;
 		}
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSONTEXT);

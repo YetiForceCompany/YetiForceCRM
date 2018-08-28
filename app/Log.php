@@ -18,6 +18,19 @@ class Log extends Logger
 	public static $logToProfile;
 
 	/**
+	 * Column mapping by table.
+	 *
+	 * @var array
+	 */
+	public static $tableColumnMapping = [
+		'access_for_admin' => ['date', 'username', 'ip', 'module', 'url', 'agent', 'request', 'referer'],
+		'access_for_api' => ['date', 'username', 'ip', 'url', 'agent', 'request'],
+		'access_for_user' => ['date', 'username', 'ip', 'module', 'url', 'agent', 'request', 'referer'],
+		'access_to_record' => ['date', 'username', 'ip', 'module', 'record', 'url', 'agent', 'request', 'referer'],
+		'csrf' => ['date', 'username', 'ip', 'referer', 'url', 'agent'],
+	];
+
+	/**
 	 * Logs a message with the given type and category.
 	 * If [[traceLevel]] is greater than 0, additional call stack information about
 	 * the application code will be logged as well.
@@ -176,7 +189,7 @@ class Log extends Logger
 			return $query->count('*', $db);
 		} else {
 			if ($mode === 'advanced' && isset($advanced['order'][0]['column'])) {
-				$column = \Settings_Log_Module_Model::$tableHeaders[$type][$advanced['order'][0]['column']];
+				$column = self::$tableColumnMapping[$type][$advanced['order'][0]['column']];
 				$dir = ($advanced['order'][0]['dir'] === 'asc') ? \SORT_ASC : \SORT_DESC;
 				$query->orderBy([$column => $dir]);
 			} else {
