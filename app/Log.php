@@ -181,7 +181,7 @@ class Log extends Logger
 		if ($countMode) {
 			return $query->count('*', $db);
 		} else {
-			$query->orderBy(['id' => \SORT_DESC]);
+			$query->orderBy(['id' => SORT_DESC]);
 			return $query->all($db);
 		}
 	}
