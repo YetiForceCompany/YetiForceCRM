@@ -1086,10 +1086,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 						detailViewValue.html(displayValue);
 						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
-							text: '<b>' + app.vtranslate('JS_SAVE_NOTIFY_OK') + '</b>: '
-							+ app.vtranslate('JS_SAVED_FROM') + ' ' +
-							prevDisplayValue + ' ' + app.vtranslate('JS_SAVED_TO') + ' ' +
-							displayValue,
+							text: '<b>' + fieldInfo.data.label + '</b><br>' +
+							'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
+							prevDisplayValue + '<br> ' +
+							'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
 							type: 'info',
 							textTrusted: true
 						});
