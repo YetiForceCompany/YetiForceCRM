@@ -7,8 +7,7 @@
 		 convertWarningsToExceptions="true"
 		 stopOnError="true"
 		 stopOnFailure="true"
-		 stopOnIncomplete="true"
-		 syntaxCheck="true"
+		 stopOnIncomplete="true" 
 		 printerClass="YtResultPrinter"
 		 printerFile="printer.php"
 		 bootstrap="bootstrap.php">
