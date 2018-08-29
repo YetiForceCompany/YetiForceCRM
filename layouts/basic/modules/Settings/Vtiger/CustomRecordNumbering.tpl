@@ -57,20 +57,36 @@
                         </tr>
                         <tr>
                             <td class="{$WIDTHTYPE}">
-                                <label class="float-right marginRight10px"><b>{\App\Language::translate('LBL_USE_PREFIX', $QUALIFIED_MODULE)}</b></label>
+                                <label class="float-right marginRight10px">
+                                    <b>{\App\Language::translate('LBL_USE_PREFIX', $QUALIFIED_MODULE)}</b>
+                                    <a href="#" class="js-popover-tooltip ml-2"
+                                       data-js="popover"
+                                       data-trigger="focus hover"
+                                       data-content="{\App\Language::translate('LBL_USE_PREFIX_INFO', $QUALIFIED_MODULE)}">
+                                        <span class="fas fa-info-circle"></span>
+                                    </a>
+                                </label>
                             </td>
                             <td class="fieldValue {$WIDTHTYPE} border-left-0">
                                 <input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['prefix']}" placeholder="{\App\Language::translate('LBL_NO_PREFIX', $QUALIFIED_MODULE)}" data-old-prefix="{$DEFAULT_MODULE_DATA['prefix']}" name="prefix" data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js.invokeValidation]]"/>
                             </td>
                         </tr>
                         <tr>
-                            <td class="{$WITHTYPE}">
-                                <label class="float-right marinRight10px"><b>{\App\Language::translate("LBL_LEADING_ZEROS", $QUALIFIED_MODULE)}</b></label>
+                            <td class="{$WIDTHTYPE}">
+                                <label class="float-right marinRight10px">
+                                    <b>{\App\Language::translate("LBL_LEADING_ZEROS", $QUALIFIED_MODULE)}</b>
+                                    <a href="#" class="js-popover-tooltip ml-2"
+                                       data-js="popover"
+                                       data-trigger="focus hover"
+                                       data-content="{\App\Language::translate('LBL_LEADING_ZEROS_INFO', $QUALIFIED_MODULE)}">
+                                        <span class="fas fa-info-circle"></span>
+                                    </a>
+                                </label>
                             </td>
                             <td class="fieldValue {$WIDTHTYPE} border-left-0">
                                 <select class="select2" name="leading_zeros">
                                     <option value="0" {if empty($DEFAULT_MODULE_DATA['leading_zeros'])}selected="selected"{/if}>
-                                        Bez wiodących zer&nbsp;
+                                        {\App\Language::translate('LBL_NO_LEADING_ZEROS', $QUALIFIED_MODULE)}&nbsp;
                                         ({\App\Language::translate('LBL_FOR_EXAMPLE_SHORT',$QUALIFIED_MODULE)}&nbsp;
                                         2, 6, 88, 954, 1549)
                                     </option>
@@ -113,6 +129,12 @@
                             <td class="{$WIDTHTYPE}">
                                 <label class="float-right marginRight10px">
                                     <b>{\App\Language::translate('LBL_START_SEQUENCE', $QUALIFIED_MODULE)}</b><span class="redColor">*</span>
+                                    <a href="#" class="js-popover-tooltip ml-2"
+                                       data-js="popover"
+                                       data-trigger="focus hover"
+                                       data-content="{\App\Language::translate('LBL_START_SEQUENCE_INFO', $QUALIFIED_MODULE)}">
+                                        <span class="fas fa-info-circle"></span>
+                                    </a>
                                 </label>
                             </td>
                             <td class="fieldValue {$WIDTHTYPE} border-left-0">
@@ -125,6 +147,12 @@
                             <td class="{$WIDTHTYPE}">
                                 <label class="float-right marginRight10px">
                                     <b>{\App\Language::translate('LBL_RS_RESET_SEQUENCE', $QUALIFIED_MODULE)}</b>
+                                    <a href="#" class="js-popover-tooltip ml-2"
+                                       data-js="popover"
+                                       data-trigger="focus hover"
+                                       data-content="{\App\Language::translate('LBL_RS_RESET_SEQUENCE_INFO', $QUALIFIED_MODULE)}">
+                                        <span class="fas fa-info-circle"></span>
+                                    </a>
                                 </label>
                             </td>
                             <td class="fieldValue {$WIDTHTYPE} border-left-0">
@@ -138,7 +166,15 @@
                         </tr>
                         <tr>
                             <td class="{$WIDTHTYPE}">
-                                <label class="float-right marginRight10px"><b>{\App\Language::translate('LBL_USE_POSTFIX', $QUALIFIED_MODULE)}</b></label>
+                                <label class="float-right marginRight10px">
+                                    <b>{\App\Language::translate('LBL_USE_POSTFIX', $QUALIFIED_MODULE)}</b>
+                                    <a href="#" class="js-popover-tooltip ml-2"
+                                       data-js="popover"
+                                       data-trigger="focus hover"
+                                       data-content="{\App\Language::translate('LBL_USE_POSTFIX_INFO', $QUALIFIED_MODULE)}">
+                                        <span class="fas fa-info-circle"></span>
+                                    </a>
+                                </label>
                             </td>
                             <td class="fieldValue {$WIDTHTYPE} border-left-0">
                                 <input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['postfix']}" placeholder="{\App\Language::translate('LBL_NO_POSTFIX', $QUALIFIED_MODULE)}" data-old-postfix="{$DEFAULT_MODULE_DATA['postfix']}" name="postfix" data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js.invokeValidation]]"/>
