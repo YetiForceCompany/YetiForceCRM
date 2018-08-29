@@ -165,20 +165,16 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 		$deleteMappingsList = $updateMappingsList = $createMappingsList = [];
 		foreach ($mapping as $mappingDetails) {
 			if (is_array($mappingDetails)) {
-				$mappingId = $mappingDetails['mappingId'];
+				$mappingId = $mappingDetails['mappingId'] ?? '';
 				if ($mappingDetails['lead']) {
 					if ($mappingId) {
 						if ((array_key_exists('deletable', $mappingDetails)) || !$mappingDetails['account']) {
 							$deleteMappingsList[] = $mappingId;
-						} else {
-							if ($mappingDetails['account']) {
-								$updateMappingsList[] = $mappingDetails;
-							}
+						} elseif ($mappingDetails['account']) {
+							$updateMappingsList[] = $mappingDetails;
 						}
-					} else {
-						if ($mappingDetails['account']) {
-							$createMappingsList[] = $mappingDetails;
-						}
+					} elseif ($mappingDetails['account']) {
+						$createMappingsList[] = $mappingDetails;
 					}
 				}
 			}
