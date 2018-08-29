@@ -156,8 +156,8 @@
                                 </label>
                             </td>
                             <td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
-                                <select class="select2" name="reset_sequence" data-allow-clear="true" data-placeholder="{\App\Language::translate('LBL_RS_RESET_SEQUENCE', $QUALIFIED_MODULE)}">
-                                    <option></option>
+                                <select class="select2" name="reset_sequence" data-placeholder="{\App\Language::translate('LBL_RS_RESET_SEQUENCE', $QUALIFIED_MODULE)}">
+                                    <option value="n">{\App\Language::translate('LBL_RS_DO_NOT_RESET', $QUALIFIED_MODULE)}</option>
                                     <option value="Y"{if $DEFAULT_MODULE_DATA['reset_sequence']==='Y'} selected {/if}>{\App\Language::translate('LBL_RS_YEAR',$QUALIFIED_MODULE)}</option>
                                     <option value="M"{if $DEFAULT_MODULE_DATA['reset_sequence']==='M'} selected {/if}>{\App\Language::translate('LBL_RS_MONTH',$QUALIFIED_MODULE)}</option>
                                     <option value="D"{if $DEFAULT_MODULE_DATA['reset_sequence']==='D'} selected {/if}>{\App\Language::translate('LBL_RS_DAY',$QUALIFIED_MODULE)}</option>
