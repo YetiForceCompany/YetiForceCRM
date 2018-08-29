@@ -148,7 +148,7 @@
 							<span class="fas fa-info-circle fa-fw"></span>
 						</span>
 						{if !$IS_READ_ONLY && $RECORD->isEditable()}
-							<span class="2 edit d-none row">
+							<span class="edit d-none">
 								{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('description')}
 								{assign var=FIELD_VALUE value=$FIELD_MODEL->set('fieldvalue', $RECORD->get('description'))}
 								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
@@ -173,12 +173,12 @@
 	{/if}
 	{if $PAGING_MODEL->isNextPageExists()}
 		<div class="d-flex py-1">
-				<div class="ml-auto">
-					<button type="button"
-							class="btn btn-primary btn-sm moreRecentActivities mt-2">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
-						..
-					</button>
-				</div>
+			<div class="ml-auto">
+				<button type="button"
+						class="btn btn-primary btn-sm moreRecentActivities mt-2">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
+					..
+				</button>
+			</div>
 		</div>
 	{/if}
 </div>
