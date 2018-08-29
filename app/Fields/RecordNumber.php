@@ -92,7 +92,7 @@ class RecordNumber
 		if ($row['reset_sequence'] && $row['cur_sequence'] !== $actualSequence) {
 			$row['cur_id'] = 1;
 		}
-		$fullPrefix = static::parse($row['prefix'], $row['leading_zeros'], $row['cur_id'], $row['postfix']);
+		$fullPrefix = static::parse($row['prefix'], $row['cur_id'], $row['postfix'], $row['leading_zeros']);
 		$strip = strlen($row['cur_id']) - strlen($row['cur_id'] + 1);
 		if ($strip < 0) {
 			$strip = 0;
@@ -149,7 +149,7 @@ class RecordNumber
 	 *
 	 * @return string
 	 */
-	public static function parse($prefix, $leadingZeros, $number, $postfix)
+	public static function parse($prefix, $number, $postfix, $leadingZeros)
 	{
 		$number = str_pad((string) $number, $leadingZeros, '0', STR_PAD_LEFT);
 		return str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [static::date('Y'), static::date('y'), static::date('m'), static::date('n'), static::date('d'), static::date('j')], $prefix . $number . $postfix);
@@ -189,7 +189,7 @@ class RecordNumber
 			'postfix' => $row['postfix'],
 			'reset_sequence' => $row['reset_sequence'],
 			'cur_sequence' => $row['cur_sequence'],
-			'number' => self::parse($row['prefix'], $row['leading_zeros'], $row['cur_id'], $row['postfix']),
+			'number' => self::parse($row['prefix'], $row['cur_id'], $row['postfix'], $row['leading_zeros']),
 		];
 		return $number;
 	}

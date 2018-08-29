@@ -113,7 +113,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	 */
 	public function testIncrementNumberStandard()
 	{
-		RecordNumber::setNumber(95, 'F-I', 0, 1, '', null, '');
+		RecordNumber::setNumber(95, 'F-I', 1);
 		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => 95])->one();
 		$this->assertSame('F-I', $originalRow['prefix']);
 		$this->assertSame('', $originalRow['postfix']);
@@ -141,9 +141,9 @@ class Z_ResetingRecordNumber extends \Tests\Base
 		foreach (RecordNumber::$dates as $index => $date) {
 			RecordNumber::$currentDateIndex = $index;
 			$parts = explode('-', $date);
-			$this->assertSame($parts[2] . '/1', RecordNumber::parse('{{DD}}/', 0, 1, ''));
-			$this->assertSame($parts[1] . '/1', RecordNumber::parse('{{MM}}/', 0, 1, ''));
-			$this->assertSame($parts[0] . '/1', RecordNumber::parse('{{YYYY}}/', 0, 1, ''));
+			$this->assertSame($parts[2] . '/1', RecordNumber::parse('{{DD}}/', 1, '', 0));
+			$this->assertSame($parts[1] . '/1', RecordNumber::parse('{{MM}}/', 1, '', 0));
+			$this->assertSame($parts[0] . '/1', RecordNumber::parse('{{YYYY}}/', 1, '', 0));
 		}
 	}
 
@@ -159,7 +159,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 		$postfix = '';
 		$resetSequence = 'D';
 		$curSequence = ($parts[0] . $parts[1] . $parts[2]);
-		$result = RecordNumber::setNumber(95, $prefix, 0, $actualNumber, $postfix, $resetSequence, $curSequence);
+		$result = RecordNumber::setNumber(95, $prefix, $actualNumber, $postfix, 0, $resetSequence, $curSequence);
 		$this->assertSame(1, $result);
 		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => 95])->one();
 		$this->assertSame($prefix, $originalRow['prefix']);
@@ -201,7 +201,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 		$postfix = '';
 		$resetSequence = 'M';
 		$curSequence = '';
-		$result = RecordNumber::setNumber(95, $prefix, 0, $actualNumber, $postfix, $resetSequence, $curSequence);
+		$result = RecordNumber::setNumber(95, $prefix, $actualNumber, $postfix, 0, $resetSequence, $curSequence);
 		$this->assertSame(1, $result);
 		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => 95])->one();
 		$this->assertSame($prefix, $originalRow['prefix']);
@@ -244,7 +244,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 		$postfix = '';
 		$resetSequence = 'Y';
 		$curSequence = '';
-		$result = RecordNumber::setNumber(95, $prefix, 0, $actualNumber, $postfix, $resetSequence, $curSequence);
+		$result = RecordNumber::setNumber(95, $prefix, $actualNumber, $postfix, 0, $resetSequence, $curSequence);
 		$this->assertSame(1, $result);
 		$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => 95])->one();
 		$this->assertSame($prefix, $originalRow['prefix']);
@@ -288,7 +288,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 			$postfix = '';
 			$resetSequence = 'Y';
 			$curSequence = '';
-			$result = RecordNumber::setNumber(95, $prefix, $leadingZeros, $actualNumber, $postfix, $resetSequence, $curSequence);
+			$result = RecordNumber::setNumber(95, $prefix, $actualNumber, $postfix, $leadingZeros, $resetSequence, $curSequence);
 			$this->assertSame(1, $result);
 			$originalRow = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => 95])->one();
 			$this->assertSame($prefix, $originalRow['prefix']);
