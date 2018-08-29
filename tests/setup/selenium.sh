@@ -1,19 +1,7 @@
 serverUrl='http://127.0.0.1:4444'
 CHROME_DRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`
-#mkdir chromedriver 
-#wget -q -t 3 https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip 
-#unzip chromedriver_linux64 -d chromedriver
-#export CHROMEDRIVER_PATH=$PWD/chromedriver/chromedriver
 SELENIUM_STANDALONE_VERSION=3.6.0
 SELENIUM_SUBDIR=$(echo "$SELENIUM_STANDALONE_VERSION" | cut -d"." -f-2)
-
-sudo apt-get update
-sudo apt-get install -y unzip xvfb libxi6 libgconf-2-4
-
-#wget -N https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -P ~/
-#sudo dpkg -i --force-depends ~/google-chrome-stable_current_amd64.deb
-#sudo apt-get -f install -y
-#sudo dpkg -i --force-depends ~/google-chrome-stable_current_amd64.deb
 
 wget -N http://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip -P ~/
 unzip ~/chromedriver_linux64.zip -d ~/
