@@ -181,8 +181,8 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		if ($row) {
 			$instance = new self();
 			$instance->setData($row);
+			return $instance;
 		}
-		return $instance;
 	}
 
 	/**
