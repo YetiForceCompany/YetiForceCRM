@@ -67,7 +67,6 @@ class Composer
 		'tests',
 		'whatsnew',
 		'wysiwyg',
-		'version',
 		'views',
 		'_translationstatus.txt',
 		'composer_release_notes.txt',
