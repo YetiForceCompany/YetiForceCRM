@@ -33,7 +33,7 @@
 							</th>
 							<th width="70%" class="{$WIDTHTYPE} border-left-0">
 								<span class="float-right">
-									<button type="button" class="btn btn-info" name="updateRecordWithSequenceNumber"><strong><span class="fas fa-exchange-alt u-mr-5px"></span>{\App\Language::translate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}</strong></button>
+									<button type="button" class="btn btn-info" name="updateRecordWithSequenceNumber"><span class="fas fa-exchange-alt u-mr-5px"></span>{\App\Language::translate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}</button>
 								</span>
 							</th>
 						</tr>
