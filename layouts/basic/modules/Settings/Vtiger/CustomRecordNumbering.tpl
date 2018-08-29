@@ -12,12 +12,22 @@
 {strip}
 	<div class="tpl-Settings-Vtiger-CustomRecordNumbering">
 		<form id="EditView" method="POST">
-			<div class="widget_header row">
-				<div class="col-12">
-					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+			<div class="widget_header row mb-3">
+				<div class="col-6 col-md-9">
+					<div class="d-inline-flex">
+						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+					</div>
+					<div class="d-inline-flex">
+						<div class="js-popover-tooltip ml-2" data-js="popover"
+						     data-content="{\App\Language::translate('LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION',$QUALIFIED_MODULE)}">
+							<span class="fas fa-info-circle"></span>
+						</div>
+					</div>
 				</div>
-				<div class="col-12">
-					<span>{\App\Language::translate('LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION', $QUALIFIED_MODULE)}</span>
+				<div class="col-6 col-md-3">
+					<button type="button" class="btn btn-info float-right mt-1" name="updateRecordWithSequenceNumber">
+						<span class="fas fa-exchange-alt u-mr-5px"></span>{\App\Language::translate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}
+					</button>
 				</div>
 			</div>
 			<div class="row">
@@ -31,11 +41,7 @@
 							<th width="30%" class="{$WIDTHTYPE}">
 								{\App\Language::translate('LBL_CUSTOMIZE_RECORD_NUMBERING', $QUALIFIED_MODULE)}
 							</th>
-							<th width="70%" class="{$WIDTHTYPE} border-left-0">
-								<span class="float-right">
-									<button type="button" class="btn btn-info" name="updateRecordWithSequenceNumber"><span class="fas fa-exchange-alt u-mr-5px"></span>{\App\Language::translate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}</button>
-								</span>
-							</th>
+							<th width="70%"></th>
 						</tr>
 						</thead>
 						<tbody>
@@ -225,8 +231,8 @@
 								</label>
 							</td>
 							<td class="fieldValue {$WIDTHTYPE} border-left-0">
-								<div class="row">
-									<div class="col-md-11">
+								<div class="form-inline">
+									<div class="input-group w-100">
 										<select class="select2 form-control" id="customVariables" name="custom_variables">
 											<option value="YYYY">{\App\Language::translate('LBL_CV_FULL_YEAR', $QUALIFIED_MODULE)}</option>
 											<option value="YY">{\App\Language::translate('LBL_CV_YEAR', $QUALIFIED_MODULE)}</option>
@@ -235,12 +241,12 @@
 											<option value="DD">{\App\Language::translate('LBL_CV_FULL_DAY', $QUALIFIED_MODULE)}</option>
 											<option value="D">{\App\Language::translate('LBL_CV_DAY', $QUALIFIED_MODULE)}</option>
 										</select>
-									</div>
-									<div class="col-md-1">
-										<input type="hidden" value="" id="customVariable"/>
-										<button class="btn btn-sm btn-info float-right" id="customVariableCopy" title="{\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}">
-											<span class="fas fa-copy"></span>
-										</button>
+										<div class="input-group-append">
+											<input type="hidden" value="" id="customVariable"/>
+											<button class="btn btn-sm btn-info float-right" id="customVariableCopy" title="{\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}">
+												<span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}
+											</button>
+										</div>
 									</div>
 								</div>
 							</td>
