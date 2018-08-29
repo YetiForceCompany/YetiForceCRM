@@ -28,7 +28,9 @@ addons:
     packages:
     - apache2
     - libapache2-mod-fastcgi
+    
   chrome: stable
+  
   sonarcloud:
     organization: "yetiforcecompany"
     token:
@@ -42,6 +44,7 @@ addons:
 
 cache:
   yarn: true
+  
   directories:
   - $HOME/.sonar/cache
   - $HOME/.composer/cache/files
