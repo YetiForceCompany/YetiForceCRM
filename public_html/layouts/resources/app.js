@@ -71,9 +71,9 @@ var App = {},
 		getRecordId: function () {
 			var view = this.getViewName();
 			var recordId;
-			if (view == 'Edit' || view == 'PreferenceEdit') {
+			if (view === 'Edit' || view === 'PreferenceEdit') {
 				recordId = this.getMainParams('recordId');
-			} else if (view == 'Detail' || view == 'PreferenceDetail') {
+			} else if (view === 'Detail' || view === 'PreferenceDetail') {
 				recordId = this.getMainParams('recordId');
 			}
 			return recordId;
