@@ -57,7 +57,7 @@
 			<div class="row mb-3">
 				{foreach item=COLUMN_SIZE from=$COLUMNS_SIZES}
 				<div class="{$COLUMN_SIZE}">
-					{if $COLUMN_SIZE === 'col-md-8'}
+					{if 'col-md-8' === $COLUMN_SIZE}
 						{include file=\App\Layout::getTemplatePath('Edit/Inventory.tpl', $MODULE)}
 						{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_RIGHT}
 					{else}
@@ -153,7 +153,7 @@
 						{/if}
 						{/foreach}
 					</div>
-					{if $MODULE_TYPE === 1 && !isset($RECORD_STRUCTURE_RIGHT)}
+					{if 1 === $MODULE_TYPE && !isset($RECORD_STRUCTURE_RIGHT)}
 						{include file=\App\Layout::getTemplatePath('Edit/Inventory.tpl', $MODULE)}
 					{/if}
 					{/foreach}

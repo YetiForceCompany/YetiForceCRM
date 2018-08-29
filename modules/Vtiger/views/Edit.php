@@ -126,7 +126,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 				}
 			}
 		}
-		if ($moduleModel->getModuleType() === 1 && \AppConfig::performance('DIVIDED_VIEW')) {
+		if (1 === $moduleModel->getModuleType() && \AppConfig::performance('DIVIDED_VIEW')) {
 			$recordStructureRight = [];
 			foreach ($moduleModel->getFieldsByType('text') as $field) {
 				if (isset($recordStructure[$field->getBlockName()][$field->getName()])) {
