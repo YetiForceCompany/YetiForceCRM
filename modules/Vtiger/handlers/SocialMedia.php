@@ -17,34 +17,21 @@ class Vtiger_SocialMedia_Handler
 	public function entityAfterSave(\App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		if (Vtiger_SocialMedia_Model::isEnableForModule($recordModel)) {
+		if (Vtiger_SocialMedia_Model::isEnableForModule($recordModel) && !$recordModel->isNew()) {
 			$socialMedia = Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel);
 			$columns = $socialMedia->getAllColumnName();
-			$columnsToAdd = [];
 			$columnsToRemove = [];
-			if ($recordModel->isNew()) {
-				$accountsToAdd = array_filter($columns, function ($column) use ($recordModel) {
-					return !empty($recordModel->get($column));
-				});
-			} else {
-				foreach ($columns as $column) {
-					if ($recordModel->getPreviousValue($column) !== false) {
-						if (empty($recordModel->getPreviousValue($column)) && !empty($recordModel->get($column))) {
-							//Adding
-							$columnsToAdd[] = $column;
-						} elseif (!empty($recordModel->getPreviousValue($column)) && empty($recordModel->get($column))) {
-							//Removing
-							$columnsToRemove[] = $column;
-						} elseif ($recordModel->getPreviousValue($column) != $recordModel->get($column)) {
-							//Adding and removing
-							$columnsToAdd[] = $column;
-							$columnsToRemove[] = $column;
-						}
+			foreach ($columns as $column) {
+				if ($recordModel->getPreviousValue($column) !== false) {
+					if (!empty($recordModel->getPreviousValue($column)) && empty($recordModel->get($column))) {
+						$columnsToRemove[] = $column;
+					} elseif ($recordModel->getPreviousValue($column) !== $recordModel->get($column)) {
+						$columnsToRemove[] = $column;
 					}
 				}
 			}
-			foreach ($columnsToAdd as $column) {
-				\App\SocialMedia\SocialMedia::addAccount($recordModel->get($column), (int) $recordModel->getField($column)->getUIType());
+			foreach ($columnsToRemove as $column) {
+				\App\SocialMedia\SocialMedia::removeAccount($recordModel->getPreviousValue($column), $recordModel->getField($column)->getUIType());
 			}
 		}
 	}
@@ -58,10 +45,6 @@ class Vtiger_SocialMedia_Handler
 	 */
 	public function entityBeforeDelete(\App\EventHandler $eventHandler)
 	{
-	}
-
-	public function checkIsNewAccount(\Vtiger_Record_Model $recordModel)
-	{
-		//$columns = $socialMedia->getAllColumnName();
+		//$recordModel = $eventHandler->getRecordModel();
 	}
 }

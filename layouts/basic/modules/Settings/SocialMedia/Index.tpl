@@ -18,7 +18,7 @@
 				<div class="contents">
 					<div class="alert alert-warning">
 						{\App\Language::translate('LBL_SOCIAL_MEDIA_CRON2_WARNING',$QUALIFIED_MODULE)}&nbsp;
-						{\App\Language::translate('LBL_GET_SOCIAL_MEDIA_MESSAGES', 'Settings::CronTasks')}
+						<b>"{\App\Language::translate('LBL_GET_SOCIAL_MEDIA_MESSAGES', 'Settings::CronTasks')}"</b>
 					</div>
 				</div>
 			{/if}

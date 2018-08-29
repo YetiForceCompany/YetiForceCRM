@@ -11,10 +11,12 @@ namespace App\SocialMedia;
  */
 class Twitter implements SocialMediaInterface
 {
+	private $userName;
+
 	/**
 	 * @var \Abraham\TwitterOAuth\TwitterOAuth
 	 */
-	private $twitterConnection;
+	private static $twitterConnection = null;
 
 	/**
 	 * Is configured.
@@ -34,31 +36,33 @@ class Twitter implements SocialMediaInterface
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function __construct()
+	public function __construct($userName)
 	{
-		$configTitter = \Settings_SocialMedia_Config_Model::getInstance('twitter');
-		$this->twitterConnection = new \Abraham\TwitterOAuth\TwitterOAuth(
-			$configTitter->get('twitter_api_key'),
-			$configTitter->get('twitter_api_secret')
-		);
-		$this->twitterConnection->setDecodeJsonAsArray(true);
+		$this->userName = $userName;
+		if (!\is_object(static::$twitterConnection)) {
+			$configTitter = \Settings_SocialMedia_Config_Model::getInstance('twitter');
+			static::$twitterConnection = new \Abraham\TwitterOAuth\TwitterOAuth(
+				$configTitter->get('twitter_api_key'),
+				$configTitter->get('twitter_api_secret')
+			);
+			static::$twitterConnection->setDecodeJsonAsArray(true);
+		}
 	}
 
-	public function getData()
+	public function retrieveDataFromApi()
 	{
-	}
-
-	/**
-	 * Get twitter user id by name.
-	 *
-	 * @param string $userName
-	 *
-	 * @return mixed|false
-	 */
-	public function getUserIdByName($userName)
-	{
-		$response = $this->getTwitter('users/lookup', ['screen_name' => $userName]);
-		return $response[0]['id'] ?? false;
+		$db = \App\Db::getInstance();
+		$allMessages = $this->getTwitter('statuses/user_timeline', ['screen_name' => $this->userName]);
+		foreach ($allMessages as $rowTwitter) {
+			if (!(new \App\Db\Query())->from('u_#__social_media_twitter')->where(['id_twitter' => $rowTwitter['id']])->exists()) {
+				$db->createCommand()->insert('u_#__social_media_twitter', [
+					'id_twitter' => $rowTwitter['id'],
+					'twitter_login' => $this->userName,
+					'message' => $rowTwitter['text'],
+					'created' => (new \DateTime($rowTwitter['created_at']))->format('Y-m-d H:i:sP'),
+				])->execute();
+			}
+		}
 	}
 
 	/**
@@ -109,7 +113,7 @@ class Twitter implements SocialMediaInterface
 		if (\App\Cache::has('twitter', $cacheKey)) {
 			return \App\Cache::get('twitter', $cacheKey);
 		}
-		$response = $this->twitterConnection->get($path, $parameters);
+		$response = static::$twitterConnection->get($path, $parameters);
 		$this->isError($response);
 		\App\Cache::save('twitter', $cacheKey, $response, \App\Cache::MEDIUM);
 		return $response;
