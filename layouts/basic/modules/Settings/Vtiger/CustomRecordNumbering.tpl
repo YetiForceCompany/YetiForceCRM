@@ -255,7 +255,6 @@
 					</table>
 				</div>
 			</div>
-			<br/>
 			<div class="row">
 				<div class="col-md-12 float-right">
 					<div class="float-right">
