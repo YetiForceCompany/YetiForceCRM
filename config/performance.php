@@ -91,4 +91,6 @@ $PERFORMANCE_CONFIG = [
 	'ACCESS_TO_INTERNET' => true,
 	//Change the locale for sort the data
 	'CHANGE_LOCALE' => true,
+	//Is divided layout style on edit view in modules with products
+	'DIVIDED_VIEW' => true,
 ];
