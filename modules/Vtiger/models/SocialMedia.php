@@ -86,6 +86,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 		if (!in_array('twitter', $socialMediaConfig)) {
 			return false;
 		}
+		return true;
 	}
 
 	/**

@@ -14,19 +14,22 @@ class SocialMedia
 	/**
 	 * Add account to database if not exists.
 	 *
-	 * @param string $login
-	 * @param string $socialMediaType
+	 * @param string     $login
+	 * @param string|int $socialMediaType
 	 *
 	 * @throws \yii\db\Exception
 	 */
 	public static function addAccount($login, $socialMediaType)
 	{
-		if (static::isAllowed($socialMediaType)) {
-			if (!(new \App\Db\Query())->from('u_#__social_media_accounts')->where(['type' => $socialMediaType])->andWhere(['login' => $login])->exists()) {
-				\App\Db::getInstance()->createCommand()->insert('u_#__social_media_accounts', [
-					'login' => $login, 'type' => $socialMediaType
-				])->execute();
-			}
+		if (\is_int($socialMediaType) && \in_array($socialMediaType, static::ALLOWED_UITYPE)) {
+			$socialMediaType = array_keys(static::ALLOWED_UITYPE, $socialMediaType)[0];
+		} elseif (!static::isAllowed($socialMediaType)) {
+			return;
+		}
+		if (!(new \App\Db\Query())->from('u_#__social_media_accounts')->where(['type' => $socialMediaType])->andWhere(['login' => $login])->exists()) {
+			\App\Db::getInstance()->createCommand()->insert('u_#__social_media_accounts', [
+				'login' => $login, 'type' => $socialMediaType
+			])->execute();
 		}
 	}
 
