@@ -46,19 +46,7 @@ class Module extends ModuleBasic
 		if (empty($label)) {
 			$label = $moduleInstance->name;
 		}
-		$isExists = (new \App\Db\Query())
-			->select('relation_id')
-			->from('vtiger_relatedlists')
-			->where(['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $functionName, 'label' => $label])
-			->exists();
-		if ($isExists) {
-			\App\Log::trace("Setting relation with $moduleInstance->name [$useactions_text] ... Error, the related module already exists", __METHOD__);
 
-			return;
-		}
-
-		$sequence = $this->__getNextRelatedListSequence();
-		$presence = 0; // 0 - Enabled, 1 - Disabled
 		// Allow ADD action of other module records (default)
 		if ($actions === false) {
 			$actions = ['ADD'];
@@ -69,6 +57,20 @@ class Module extends ModuleBasic
 			$useactionsText = implode(',', $actions);
 		}
 		$useactionsText = strtoupper($useactionsText);
+
+		$isExists = (new \App\Db\Query())
+			->select('relation_id')
+			->from('vtiger_relatedlists')
+			->where(['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $functionName, 'label' => $label])
+			->exists();
+		if ($isExists) {
+			\App\Log::trace("Setting relation with $moduleInstance->name [$useactionsText] ... Error, the related module already exists", __METHOD__);
+
+			return;
+		}
+
+		$sequence = $this->__getNextRelatedListSequence();
+		$presence = 0; // 0 - Enabled, 1 - Disabled
 
 		$db->createCommand()->insert('vtiger_relatedlists', [
 			'tabid' => $this->id,
@@ -192,7 +194,7 @@ class Module extends ModuleBasic
 						'<entityfieldlabel>' => $entityField->label,
 						'<entitycolumn>' => $entityField->column,
 						'<entityfieldname>' => $entityField->name,
-						 '_ModuleName_' => $this->name,
+						'_ModuleName_' => $this->name,
 						'<_baseTableName_>' => 'u_' . (\App\Db::getInstance()->getConfig('base')['tablePrefix']) . strtolower($this->name),
 					];
 					foreach ($replacevars as $key => $value) {
