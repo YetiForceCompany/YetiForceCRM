@@ -288,6 +288,8 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		var fieldType = 'string';
 		if (typeof fieldInfo !== "undefined") {
 			fieldType = fieldInfo.type;
+		} else {
+			fieldInfo = {};
 		}
 
 		var comparatorElementVal = fieldInfo.comparatorElementVal = conditionSelectElement.val();

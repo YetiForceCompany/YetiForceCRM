@@ -243,7 +243,7 @@ jQuery.Class("Settings_LeadMapping_Js", {
 
 			if (selectElement.hasClass('accountsFields')) {
 				existingIdElement = jQuery('select.accountsFields.select2[selectedid="' + selectedOptionId + '"]')
-			} else if (selectElement.hasClass('contactFields')) {
+			} else {
 				existingIdElement = jQuery('select.contactFields.select2[selectedid="' + selectedOptionId + '"]')
 			}
 

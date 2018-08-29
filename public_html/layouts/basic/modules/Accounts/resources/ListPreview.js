@@ -14,7 +14,6 @@ Vtiger_ListPreview_Js("Accounts_ListPreview_Js", {}, {
 				AppConnector.request({
 					module: app.getModuleName(),
 					action: 'RelationAjax',
-					record: app.getRecordId(),
 					record: contents.find("#recordId").val(),
 					mode: 'getHierarchyCount',
 				}).done(function (response) {

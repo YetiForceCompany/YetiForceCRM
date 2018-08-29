@@ -152,7 +152,8 @@
 							 {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true"
 							 data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
 							{if count($AUTOLOGINUSERS) eq 1}
-								<a class="c-header__btn btn btn-outline-dark border-0" title="{$MAIN_MAIL.username}"
+								<a class="c-header__btn btn btn-outline-dark border-0 h-100"
+								   title="{$MAIN_MAIL.username}"
 								   href="index.php?module=OSSMail&view=Index">
 									<div class="d-none d-xxl-block">
 										{if !empty($ITEM.username)}{$ITEM.username}{/if}

@@ -71,9 +71,9 @@ var App = {},
 		getRecordId: function () {
 			var view = this.getViewName();
 			var recordId;
-			if (view == 'Edit' || 'PreferenceEdit') {
+			if (view === 'Edit' || view === 'PreferenceEdit') {
 				recordId = this.getMainParams('recordId');
-			} else if (view == 'Detail' || 'PreferenceDetail') {
+			} else if (view === 'Detail' || view === 'PreferenceDetail') {
 				recordId = this.getMainParams('recordId');
 			}
 			return recordId;
@@ -1396,13 +1396,13 @@ var App = {},
 		},
 		setCalendarHeight() {
 			const container = $('.js-base-container');
-			const paddingTop = 10;
+			const paddingTop = 15;
 			if ($(window).width() > 993) {
 				let calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
 				new ResizeSensor(container.find('.contentsDiv'), () => {
 					calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
 					$('#calendarview').fullCalendar('option', 'height', calendarH);
-					$('#calendarview').height(calendarH + 10); // without this line calendar scroll stop working
+					$('#calendarview').height(calendarH + 10); // without this line calendar scroll stops working
 				});
 				return calendarH;
 			} else if ($(window).width() < 993) {
