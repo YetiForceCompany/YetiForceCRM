@@ -10,7 +10,7 @@
 				id="{$MODULE}_{$VIEW}_fieldName_{$FIELD_MODEL->getName()}"
 				data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isMandatory() eq true} {/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}
 				data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}"
-				data-select="allowClear, true">
+				data-select="allowClear">
 			<optgroup class="p-0">
 				<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
 			</optgroup>

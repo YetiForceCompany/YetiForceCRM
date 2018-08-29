@@ -131,28 +131,12 @@ class FileTarget extends \yii\log\FileTarget
 		if (getcwd() !== ROOT_DIRECTORY) {
 			chdir(ROOT_DIRECTORY);
 		}
-		$context = \yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars);
-		$library = \Settings_ConfReport_Module_Model::getLibrary();
-		$directiveValues = \Settings_ConfReport_Module_Model::getStabilityConf(true);
-		$permissionsFiles = \Settings_ConfReport_Module_Model::getPermissionsFiles(true);
-		foreach ($library as $key => $value) {
-			if ($value['status'] === 'LBL_NO') {
-				$context['Libs'][] = $value['name'];
-			}
-		}
-		foreach ($directiveValues as $key => $value) {
-			if (isset($value['status']) && $value['status']) {
-				$context['PHP'][$key] = $value['current'];
-			}
-		}
-		foreach ($permissionsFiles as $key => $value) {
-			$context['FLPermissions'][] = $value['path'];
-		}
+		$context = \array_merge(\yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars), \App\Utils\ConfReport::getAllErrors());
 		$result = '';
 		foreach ($context as $key => $value) {
 			$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($value);
 		}
-		//$result .= PHP_EOL.
+		$result .= PHP_EOL;
 		return $result . "====================================================================================================================================\n";
 	}
 }

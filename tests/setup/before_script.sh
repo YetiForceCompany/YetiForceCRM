@@ -1,10 +1,7 @@
 sudo cp tests/setup/my.cnf /etc/mysql/conf.d/my.cnf
 sudo service mysql restart
-sudo wget https://phar.phpunit.de/phpunit-7.0.2.phar
-sudo chmod +x phpunit-7.0.2.phar
-sudo mv phpunit-7.0.2.phar /usr/local/bin/phpunit
-/usr/local/bin/phpunit --version
 composer install
+vendor/bin/phpunit --version
 yarn install --force --modules-folder "./public_html/libraries"
 sudo wget https://scrutinizer-ci.com/ocular.phar
 sudo chmod +x ocular.phar

@@ -110,7 +110,7 @@
 					<div class="col-sm-6 controls">
 						<select class="select2 form-control" id="meta_author" name="meta_author"
 								data-placeholder="{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}"
-								data-select="allowClear, true">
+								data-select="allowClear">
 
 							<optgroup class="p-0">
 								<option value=""
@@ -133,7 +133,7 @@
 					<div class="col-sm-6 controls">
 						<select class="select2 form-control" id="meta_creator" name="meta_creator"
 								data-placeholder="{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}"
-								data-select="allowClear, true">
+								data-select="allowClear">
 							<optgroup class="p-0">
 								<option value=""
 										selected="">{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
@@ -164,7 +164,7 @@
 						{assign 'KEYWORDS' explode(',',$PDF_MODEL->get('meta_keywords'))}
 
 						<select class="select2 form-control" id="meta_keywords" name="meta_keywords"
-								data-select="tags, true; tokenSeparators, [,]"
+								data-select="tags"
 								multiple="multiple">
 							{foreach item=KEYWORD from=$KEYWORDS}
 								<option value="{$KEYWORD}" selected="selected">{$KEYWORD}</option>

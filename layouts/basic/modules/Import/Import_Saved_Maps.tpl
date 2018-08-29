@@ -12,7 +12,7 @@
 
 <select name="saved_maps" id="saved_maps" class="font-x-small select2" onchange="ImportJs.loadSavedMap();"
 		data-placeholder="--{\App\Language::translate('LBL_SELECT_SAVED_MAPPING', $MODULE)}--"
-		data-select="allowClear, true">
+		data-select="allowClear">
 	<optgroup class="p-0">
 		<option id="-1" value="" selected>--{\App\Language::translate('LBL_SELECT_SAVED_MAPPING', $MODULE)}--</option>
 	</optgroup>

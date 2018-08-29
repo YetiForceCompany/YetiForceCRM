@@ -9,12 +9,12 @@
     "FL_SALE_DATE": "Verkausdatum",
     "FL_FORM_PAYMENT": "Zahlungsmethode",
     "FL_STATUS": "Status",
-    "FL_BANK_ACCOUNT": "Kontonummer",
     "FL_NUMBER": "Rechnungsnummer",
     "FL_ACCOUNT": "Organisation",
     "FL_TOTAL": "Gesamt",
     "FL_GROSS": "Brutto",
-    "PLL_TRANSFER": "\u00dcberweisung",
-    "PLL_CASH": "Bargeld"
+    "PLL_CASH": "Cash",
+    "PLL_TRANSFER": "Bank transfer",
+    "PLL_WIRE_TRANSFER": "Electronic transfer"
   }
 }

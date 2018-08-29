@@ -376,7 +376,7 @@ class PearDatabase
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
 		} catch (\App\Exceptions\AppException $e) {
 			$error = $this->database->errorInfo();
-			\App\Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
+			\App\Log::error('Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage());
 		}
 		return $this->stmt;
@@ -752,6 +752,7 @@ class PearDatabase
 			\App\Log::error('sqlExprDatalist: empty arrays not allowed');
 			$this->checkError('sqlExprDatalist: empty arrays not allowed');
 		}
+		$l = '';
 		foreach ($array as $key => $val) {
 			$l .= ($l ? ',' : '') . $this->quote($val);
 		}

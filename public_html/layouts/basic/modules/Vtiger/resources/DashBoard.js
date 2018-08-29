@@ -723,6 +723,20 @@ $.Class("Vtiger_DashBoard_Js", {
 			}
 		});
 	},
+	/**
+	 * Updates list of predefined widgets after changed dashboard
+	 */
+	registerUpdatePredefinedWidgets: function () {
+		var thisInstance = this;
+		AppConnector.request({
+			view: 'BasicAjax',
+			mode: 'getDashBoardPredefinedWidgets',
+			module: app.getModuleName(),
+			dashboardId: thisInstance.getCurrentDashboard()
+		}).done(function (data) {
+			$('.js-predefined-widgets').html(data);
+		});
+	},
 	registerEvents: function () {
 		this.registerGrid();
 		this.registerRefreshWidget();
@@ -736,6 +750,7 @@ $.Class("Vtiger_DashBoard_Js", {
 		this.removeWidgetFromList();
 		this.registerSelectDashboard();
 		this.registerTabletScrollEvent();
+		this.registerUpdatePredefinedWidgets();
 		ElementQueries.listen();
 	}
 });

@@ -625,7 +625,6 @@ App.Fields = {
 					return data.text;
 				};
 			}
-			var selectElementNew = selectElement;
 			selectElement.each(function (e) {
 				var select = $(this);
 				if (select.attr('readonly') == 'readonly' && !select.attr('disabled')) {
@@ -633,14 +632,12 @@ App.Fields = {
 					select.parent().append(selectNew);
 					select.prop('disabled', true);
 				}
-				let htmlParams = select.data('select');
-				if (typeof htmlParams === 'string') {
-					htmlParams = htmlParams.split('; ');
-					htmlParams = htmlParams.reduce((o, key) => ({
-						...o,
-						[key.split(', ')[0]]: key.split(', ')[1] === 'false' || key.split(', ')[1] === 'true' ? JSON.parse(key.split(', ')[1]) : key.split(', ')[1]
-					}), {});
-					params = $.extend(params, htmlParams);
+				let htmlBoolParams = select.data('select');
+				if (htmlBoolParams === 'tags') {
+					params.tags = true;
+					params.tokenSeparators = [","]
+				} else {
+					params[htmlBoolParams] = true;
 				}
 				select.select2(params)
 					.on("select2:open", function (e) {
@@ -698,6 +695,103 @@ App.Fields = {
 			$('.js-multi-image', container).toArray().forEach((fileUploadInput) => {
 				new MultiImage(fileUploadInput);
 			});
+		}
+	},
+	MultiEmail: {
+		register(container) {
+			container.find('.js-multi-email').each((index, element) => {
+				const inputElement = element;
+				let form = $(element).closest('form').eq(0);
+				$(element).find('.js-email').each((index, element) => {
+					$(element).on('change', (e) => {
+						App.Fields.MultiEmail.parseToJSON($(inputElement));
+					});
+				});
+				$(element).find('.js-add-item').each((index, element) => {
+					$(element).on('click', (e) => {
+						App.Fields.MultiEmail.addEmail($(inputElement));
+					});
+				});
+				$(element).find('.js-remove-item').each((index, element) => {
+					$(element).on('click', (e) => {
+						App.Fields.MultiEmail.removeEmail($(e.target), $(inputElement));
+					});
+				});
+				$(element).find('input.js-checkbox').each((index, element) => {
+					$(element).on('change', (e) => {
+						App.Fields.MultiEmail.toggleCheckBox($(e.target));
+						App.Fields.MultiEmail.parseToJSON(container);
+					});
+				});
+			});
+		},
+		/**
+		 * Convert data to json
+		 * @param {jQuery} element
+		 */
+		parseToJSON(element) {
+			let allFields = $(element).find('[class*=js-multi-email-row]');
+			let arr = [];
+			let arrayLength = allFields.length;
+			for (let i = 0; i < arrayLength; ++i) {
+				let inputField = $(allFields[i]).find('input.js-email').eq(0);
+				let checkboxField = $(allFields[i]).find('input.js-checkbox').eq(0);
+				if (inputField.val() !== '') {
+					arr.push({
+						e: $(inputField).val(),
+						o: $(checkboxField).is(":checked") ? 1 : 0
+					});
+				}
+			}
+			$(element).find('input.js-hidden-email').val(JSON.stringify(arr));
+		},
+		/**
+		 * Invoked after clicking the add button
+		 * @param {jQuery} container
+		 */
+		addEmail(container) {
+			let newField = container.find('[class*=js-multi-email-row]').eq(0).clone(false, false);
+			let cnt = container.find('[class*=js-multi-email-row]').length + 1;
+			newField.removeClass('js-multi-email-row-1');
+			newField.addClass('js-multi-email-row-' + cnt);
+			newField.find('input.js-email').val('');
+			newField.find('input.js-checkbox').removeAttr('checked');
+			newField.find('label.js-label-checkbox').removeClass('active');
+			newField.find('.js-remove-item').eq(0).on('click', (e) => {
+				App.Fields.MultiEmail.removeEmail($(e.target), container);
+			});
+			newField.find('input.js-checkbox').eq(0).on('change', (e) => {
+				App.Fields.MultiEmail.toggleCheckBox($(e.target));
+				App.Fields.MultiEmail.parseToJSON(container);
+			});
+			newField.find('input.js-email').eq(0).on('change', (e) => {
+				App.Fields.MultiEmail.parseToJSON(container);
+			});
+			newField.insertAfter(container.find('[class*=js-multi-email-row]').last());
+		},
+		/**
+		 * Invoked after clicking the remove button
+		 * @param {jQuery} container
+		 */
+		removeEmail(element, container) {
+			if (container.find('[class*=js-multi-email-row]').length > 1) {
+				element.closest('[class*=js-multi-email-row]').remove();
+			}
+		},
+		/**
+		 * Toggle checkbox
+		 * @param {jQuery} element
+		 */
+		toggleCheckBox(element) {
+			if ($(element).is(":checked")) {
+				element.closest('label.js-label-checkbox')
+					.eq(0).find('svg.svg-inline--fa').eq(0)
+					.removeClass('fa-square').addClass('fa-check-square');
+			} else {
+				element.closest('label.js-label-checkbox')
+					.eq(0).find('svg.svg-inline--fa').eq(0)
+					.removeClass('fa-check-square').addClass('fa-square');
+			}
 		}
 	},
 	DependentSelect: {
@@ -772,4 +866,5 @@ App.Fields = {
 			return new GanttField(container, data);
 		}
 	}
-};
+}
+;

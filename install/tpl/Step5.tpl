@@ -349,13 +349,10 @@
 					</div>
 					<div class="offset2">
 						<div>
-							{if $FAILED_FILE_PERMISSIONS}
+							{if !empty($ALL['writableFilesAndFolders'])}
 								<table class="config-table table u-word-break-all">
 									<thead>
 									<tr class="blockHeader">
-										<th colspan="1" class="mediumWidthType">
-											<span>{App\Language::translate('LBL_READ_WRITE_ACCESS', 'Install')}</span>
-										</th>
 										<th colspan="1" class="mediumWidthType">
 											<span>{App\Language::translate('LBL_PATH', 'Settings::ConfReport')}</span>
 										</th>
@@ -365,22 +362,24 @@
 									</tr>
 									</thead>
 									<tbody>
-									{foreach from=$FAILED_FILE_PERMISSIONS key=key item=item}
-										<tr {if $item.permission eq 'FailedPermission'}class="table-danger font-weight-bold"{/if}>
-											<td width="23%">
-												<span class="marginRight5px">{App\Language::translate($key, 'Settings::ConfReport')}</span>
-											</td>
-											<td width="23%">
-												<span class="marginRight5px">{App\Language::translate($item.path, 'Settings::ConfReport')}</span>
-											</td>
-											<td width="23%">
-												<span class="marginRight5px">
-													{if $item.permission eq 'FailedPermission'}
-														{App\Language::translate('LBL_FAILED_PERMISSION', 'Settings::ConfReport')}
-													{else}
-														{App\Language::translate('LBL_TRUE_PERMISSION', 'Settings::ConfReport')}
+									{foreach from=$ALL['writableFilesAndFolders'] key=KEY item=ITEM}
+										<tr {if !$ITEM['status']}class="table-danger font-weight-bold"{/if}>
+											<td>
+												{if empty($ITEM['label'])}{$KEY}{else}{App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'Settings::ConfReport')}{/if}
+												{if !$ITEM['status']}
+													{assign var="HELP_TEXT" value=\App\Language::translateEncodeHtml('LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY)), 'Settings::ConfReport')}
+													{if !empty($HELP_TEXT)}
+														<a href="#" class="js-popover-tooltip float-right"
+														   data-js="popover"
+														   data-trigger="focus hover" data-placement="right"
+														   data-content="{$HELP_TEXT}">
+															<span class="fas fa-info-circle"></span>
+														</a>
 													{/if}
-												</span>
+												{/if}
+											</td>
+											<td>
+												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'Settings::ConfReport')}{/if}
 											</td>
 										</tr>
 									{/foreach}
