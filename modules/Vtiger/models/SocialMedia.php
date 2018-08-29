@@ -47,6 +47,27 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	}
 
 	/**
+	 * Checking whether social media are available for the record.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return bool
+	 */
+	public static function isEnableForRecord($recordModel)
+	{
+		if (!static::isEnableForModule($recordModel)) {
+			return false;
+		}
+		$allFieldModel = $recordModel->getModule()->getFieldsByUiType(313);
+		foreach ($allFieldModel as $twitterField) {
+			if (!empty($recordModel->get($twitterField->getColumnName()))) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Checking whether social media are available for the module.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
@@ -65,13 +86,6 @@ class Vtiger_SocialMedia_Model extends \App\Base
 		if (!in_array('twitter', $socialMediaConfig)) {
 			return false;
 		}
-		$allFieldModel = $recordModel->getModule()->getFieldsByUiType(313);
-		foreach ($allFieldModel as $twitterField) {
-			if (!empty($recordModel->get($twitterField->getColumnName()))) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**
