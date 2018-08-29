@@ -47,7 +47,7 @@
 						<tbody>
 						<tr>
 							<td class="{$WIDTHTYPE}">
-								<label class="float-right marginRight10px"><b>{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</b></label>
+								<label class="float-right"><b>{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</b></label>
 							</td>
 							<td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
 								<select class="select2 form-control" name="sourceModule">
@@ -62,7 +62,7 @@
 						</tr>
 						<tr>
 							<td class="{$WIDTHTYPE}">
-								<label class="float-right marginRight10px">
+								<label class="float-right">
 									<b>{\App\Language::translate('LBL_USE_PREFIX', $QUALIFIED_MODULE)}</b>
 									<a href="#" class="js-popover-tooltip ml-2"
 									   data-js="popover"
@@ -78,7 +78,7 @@
 						</tr>
 						<tr>
 							<td class="{$WIDTHTYPE}">
-								<label class="float-right marinRight10px">
+								<label class="float-right">
 									<b>{\App\Language::translate("LBL_LEADING_ZEROS", $QUALIFIED_MODULE)}</b>
 									<a href="#" class="js-popover-tooltip ml-2"
 									   data-js="popover"
@@ -132,7 +132,7 @@
 						</tr>
 						<tr>
 							<td class="{$WIDTHTYPE}">
-								<label class="float-right marginRight10px">
+								<label class="float-right">
 									<b>{\App\Language::translate('LBL_USE_POSTFIX', $QUALIFIED_MODULE)}</b>
 									<a href="#" class="js-popover-tooltip ml-2"
 									   data-js="popover"
@@ -165,7 +165,7 @@
 						<tbody>
 						<tr>
 							<td class="{$WIDTHTYPE}">
-								<label class="float-right marginRight10px">
+								<label class="float-right">
 									<b>{\App\Language::translate('LBL_START_SEQUENCE', $QUALIFIED_MODULE)}</b><span class="redColor">*</span>
 									<a href="#" class="js-popover-tooltip ml-2"
 									   data-js="popover"
@@ -183,7 +183,7 @@
 						</tr>
 						<tr>
 							<td class="{$WIDTHTYPE}">
-								<label class="float-right marginRight10px">
+								<label class="float-right">
 									<b>{\App\Language::translate('LBL_RS_RESET_SEQUENCE', $QUALIFIED_MODULE)}</b>
 									<a href="#" class="js-popover-tooltip ml-2"
 									   data-js="popover"
@@ -220,7 +220,7 @@
 						<tbody>
 						<tr>
 							<td class="{$WIDTHTYPE}">
-								<label class="float-right marginRight10px">
+								<label class="float-right">
 									<b>{\App\Language::translate('LBL_CUSTOM_VARIABLES', $QUALIFIED_MODULE)}</b>
 									<a href="#" class="js-popover-tooltip ml-2"
 									   data-js="popover"
