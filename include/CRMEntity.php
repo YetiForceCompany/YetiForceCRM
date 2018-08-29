@@ -220,8 +220,7 @@ class CRMEntity
 						$fieldvalue = $resultRow[$fieldkey];
 					}
 					if ($fieldInfo['uitype'] === 120) {
-						$query = (new \App\Db\Query())->select('userid')->from('u_#__crmentity_showners')->where(['crmid' => $record])->distinct();
-						$fieldvalue = $query->column();
+						$fieldvalue = \App\Fields\SharedOwner::getById($record);
 						if (is_array($fieldvalue)) {
 							$fieldvalue = implode(',', $fieldvalue);
 						}

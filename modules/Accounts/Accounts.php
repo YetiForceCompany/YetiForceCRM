@@ -258,7 +258,7 @@ class Accounts extends CRMEntity
 				if ($fieldName == 'assigned_user_id') {
 					$parent_account_info[$fieldName] = $row['user_name'];
 				} elseif ($fieldName == 'shownerid') {
-					$sharedOwners = Vtiger_SharedOwner_UIType::getSharedOwners($row['accountid']);
+					$sharedOwners = \App\Fields\SharedOwner::getById($row['accountid']);
 					if (!empty($sharedOwners)) {
 						$sharedOwners = implode(',', array_map('\App\Fields\Owner::getLabel', $sharedOwners));
 						$parent_account_info[$fieldName] = $sharedOwners;
@@ -316,7 +316,7 @@ class Accounts extends CRMEntity
 					if ($fieldName == 'assigned_user_id') {
 						$child_account_info[$fieldName] = $row['user_name'];
 					} elseif ($fieldName == 'shownerid') {
-						$sharedOwners = Vtiger_SharedOwner_UIType::getSharedOwners($child_acc_id);
+						$sharedOwners = \App\Fields\SharedOwner::getById($child_acc_id);
 						if (!empty($sharedOwners)) {
 							$sharedOwners = implode(',', array_map('\App\Fields\Owner::getLabel', $sharedOwners));
 							$child_account_info[$fieldName] = $sharedOwners;

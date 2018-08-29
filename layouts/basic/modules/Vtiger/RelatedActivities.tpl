@@ -11,15 +11,15 @@
 -->*}
 {strip}
 	<div class="small">
-		<input type="hidden" name="relatedModule" value="Calendar" />
+		<input type="hidden" name="relatedModule" value="Calendar"/>
 		{assign var=MODULE_NAME value="Calendar"}
 		{if count($ACTIVITIES) neq '0'}
 			{if $PAGE_NUMBER eq 1}
-				<input type="hidden" class="totaltActivities" value="{$PAGING_MODEL->get('totalCount')}" />
-				<input type="hidden" class="pageLimit" value="{$PAGING_MODEL->getPageLimit()}" />
+				<input type="hidden" class="totaltActivities" value="{$PAGING_MODEL->get('totalCount')}"/>
+				<input type="hidden" class="pageLimit" value="{$PAGING_MODEL->getPageLimit()}"/>
 			{/if}
-			<input type="hidden" class="countActivities" value="{count($ACTIVITIES)}" />
-			<input type="hidden" class="currentPage" value="{$PAGE_NUMBER}" />
+			<input type="hidden" class="countActivities" value="{count($ACTIVITIES)}"/>
+			<input type="hidden" class="currentPage" value="{$PAGE_NUMBER}"/>
 			{foreach item=RECORD key=KEY from=$ACTIVITIES name=activities}
 				{if $PAGE_NUMBER neq 1 && $smarty.foreach.activities.first}
 					<hr>
@@ -28,9 +28,9 @@
 				{assign var=START_TIME value=$RECORD->get('time_start')}
 				{assign var=END_DATE value=$RECORD->get('due_date')}
 				{assign var=END_TIME value=$RECORD->get('time_end')}
-				{assign var=SHAREDOWNER value=Vtiger_SharedOwner_UIType::getSharedOwners($RECORD->get('crmid'), $RECORD->getModuleName())}
+				{assign var=SHAREDOWNER value=\App\Fields\SharedOwner::getById($RECORD->get('crmid'))}
 				<div class="activityEntries p-1">
-					<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}" />
+					<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}"/>
 					<div class="row">
 						<span class="col-md-6">
 							<strong title='{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME")}'><span class="far fa-clock fa-fw mr-1"></span>{Vtiger_Util_Helper::formatDateIntoStrings($START_DATE, $START_TIME)}</strong>
@@ -44,19 +44,23 @@
 							{assign var=ACTIVITY_TYPE value=$RECORD->get('activitytype')}
 							{if $ACTIVITY_TYPE eq 'Task'}
 								<span class="far fa-check-square fa-fw"></span>
-							{elseif $ACTIVITY_TYPE eq 'Call'}
+
+{elseif $ACTIVITY_TYPE eq 'Call'}
+
 								<span class="fas fa-phone fa-fw" data-fa-transform="rotate--260"></span>
-							{else}
+
+{else}
+
 								<span class="fas fa-user fa-fw"></span>
 							{/if}
 						</span>
 						{$RECORD->getDisplayValue('activitytype')}&nbsp;-&nbsp;
 						{if $RECORD->isViewable()}
-							<a href="{$RECORD->getDetailViewUrl()}" >
-								{$RECORD->getDisplayValue('subject')}</a>
-							{else}
-								{$RECORD->getDisplayValue('subject')}
-							{/if}&nbsp;
+						<a href="{$RECORD->getDetailViewUrl()}">
+							{$RECORD->getDisplayValue('subject')}</a>
+						{else}
+						{$RECORD->getDisplayValue('subject')}
+						{/if}&nbsp;
 						{if !$IS_READ_ONLY && $RECORD->isEditable()}
 							<a href="{$RECORD->getEditViewUrl()}" class="fieldValue">
 								<span class="fas fa-edit fa-fw js-detail-quick-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
@@ -73,7 +77,7 @@
 							<input type="hidden" class="activityType" value="{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" />
 							{if $RECORD->get('activitytype') eq 'Task'}
 								{assign var=MODULE_NAME value=$RECORD->getModuleName()}
-								<input type="hidden" class="activityModule" value="{$RECORD->getModuleName()}" />
+								<input type="hidden" class="activityModule" value="{$RECORD->getModuleName()}"/>
 								{if !$IS_READ_ONLY && $RECORD->isEditable()}
 									<div>
 										<strong>
@@ -88,13 +92,13 @@
 								{/if}
 							{else}
 								{assign var=MODULE_NAME value="Events"}
-								<input type="hidden" class="activityModule" value="Events" />
+								<input type="hidden" class="activityModule" value="Events"/>
 								{if !$IS_READ_ONLY && $RECORD->isEditable()}
 									<div>
 										<strong><span class="fas fa-tags fa-fw mr-1"></span><span class="value">{$RECORD->getDisplayValue('status')}</span></strong>&nbsp;&nbsp;
-												{if $DATA_TYPE != 'history'}
+										{if $DATA_TYPE != 'history'}
 											<span class="editDefaultStatus float-right u-cursor-pointer js-popover-tooltip delay0" data-js="popover" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="fas fa-check fa-fw"></span></span>
-											{/if}
+										{/if}
 									</div>
 								{/if}
 							{/if}
@@ -147,39 +151,39 @@
 							{/if}">
 							<span class="fas fa-info-circle fa-fw"></span>
 						</span>
-						{if !$IS_READ_ONLY && $RECORD->isEditable()}
-							<span class="2 edit d-none row">
+							{if !$IS_READ_ONLY && $RECORD->isEditable()}
+								<span class="2 edit d-none row">
 								{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('description')}
-								{assign var=FIELD_VALUE value=$FIELD_MODEL->set('fieldvalue', $RECORD->get('description'))}
-								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
-								{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
+									{assign var=FIELD_VALUE value=$FIELD_MODEL->set('fieldvalue', $RECORD->get('description'))}
+									{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
+									{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
 									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}[]' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
 								{else}
 									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
-								{/if}
+									{/if}
 							</span>
-						{/if}
+							{/if}
+						</div>
 					</div>
 				</div>
+				{if !$smarty.foreach.activities.last}
+					<hr>
+				{/if}
+			{/foreach}
+		{else}
+			<div class="summaryWidgetContainer">
+				<p class="textAlignCenter">{\App\Language::translate('LBL_NO_PENDING_ACTIVITIES',$MODULE_NAME)}</p>
 			</div>
-			{if !$smarty.foreach.activities.last}
-				<hr>
-			{/if}
-		{/foreach}
-	{else}
-		<div class="summaryWidgetContainer">
-			<p class="textAlignCenter">{\App\Language::translate('LBL_NO_PENDING_ACTIVITIES',$MODULE_NAME)}</p>
-		</div>
-	{/if}
-	{if $PAGING_MODEL->isNextPageExists()}
-		<div class="d-flex py-1">
+		{/if}
+		{if $PAGING_MODEL->isNextPageExists()}
+			<div class="d-flex py-1">
 				<div class="ml-auto">
 					<button type="button"
 							class="btn btn-primary btn-sm moreRecentActivities mt-2">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
 						..
 					</button>
 				</div>
-		</div>
-	{/if}
-</div>
+			</div>
+		{/if}
+	</div>
 {/strip}

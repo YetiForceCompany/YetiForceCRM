@@ -6,9 +6,9 @@ namespace App;
  * Privilege basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Privilege
 {
@@ -189,7 +189,7 @@ class Privilege
 				}
 			}
 			if (!$isPermittedPrivateRecord) {
-				$shownerids = \Vtiger_SharedOwner_UIType::getSharedOwners($record, $moduleName);
+				$shownerids = Fields\SharedOwner::getById($record);
 				if (in_array($userId, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
 					$level = 'SEC_PRIVATE_RECORD_SHARED_OWNER';
 					$isPermittedPrivateRecord = true;
@@ -215,7 +215,7 @@ class Privilege
 			}
 		}
 		if (\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
-			$shownerids = \Vtiger_SharedOwner_UIType::getSharedOwners($record, $moduleName);
+			$shownerids = Fields\SharedOwner::getById($record);
 			if (in_array($userId, $shownerids) || count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
 				static::$isPermittedLevel = 'SEC_RECORD_SHARED_OWNER';
 				\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_SHARED_OWNER');
@@ -224,7 +224,7 @@ class Privilege
 		}
 		//Retreiving the RecordOwnerId
 		$recOwnId = $recordMetaData['smownerid'];
-		$recOwnType = \App\Fields\Owner::getType($recOwnId);
+		$recOwnType = Fields\Owner::getType($recOwnId);
 		if ($recOwnType === 'Users') {
 			//Checking if the Record Owner is the current User
 			if ($userId == $recOwnId) {
@@ -266,7 +266,7 @@ class Privilege
 								$relatedPermission = $recordMetaData['smownerid'] == $userId || in_array($recordMetaData['smownerid'], $userPrivileges['groups']);
 								break;
 							case 1:
-								$relatedPermission = in_array($userId, \Vtiger_SharedOwner_UIType::getSharedOwners($parentRecord, $recordMetaData['setype']));
+								$relatedPermission = in_array($userId, Fields\SharedOwner::getById($parentRecord));
 								break;
 							case 2:
 								if (\AppConfig::security('PERMITTED_BY_SHARING')) {
@@ -335,9 +335,9 @@ class Privilege
 
 	/** Function to check if the currently logged in user has Read Access due to Sharing for the specified record
 	 * @param $moduleName -- Module Name:: Type varchar
-	 * @param $actionId -- Action Id:: Type integer
-	 * @param $recordId -- Record Id:: Type integer
-	 * @param $tabId -- Tab Id:: Type integer
+	 * @param $actionId   -- Action Id:: Type integer
+	 * @param $recordId   -- Record Id:: Type integer
+	 * @param $tabId      -- Tab Id:: Type integer
 	 * @returns yes or no. If Yes means this action is allowed for the currently logged in user. If no means this action is not allowed for the currently logged in user
 	 */
 	public static function isReadPermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
@@ -434,9 +434,9 @@ class Privilege
 
 	/** Function to check if the currently logged in user has Write Access due to Sharing for the specified record
 	 * @param $moduleName -- Module Name:: Type varchar
-	 * @param $actionId -- Action Id:: Type integer
-	 * @param $recordid -- Record Id:: Type integer
-	 * @param $tabId -- Tab Id:: Type integer
+	 * @param $actionId   -- Action Id:: Type integer
+	 * @param $recordid   -- Record Id:: Type integer
+	 * @param $tabId      -- Tab Id:: Type integer
 	 * @returns yes or no. If Yes means this action is allowed for the currently logged in user. If no means this action is not allowed for the currently logged in user
 	 */
 	public static function isReadWritePermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)

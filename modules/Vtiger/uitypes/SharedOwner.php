@@ -4,9 +4,9 @@
  * UIType sharedOwner Field Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 {
@@ -102,7 +102,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		$values = $this->getSharedOwners($record);
+		$values = \App\Fields\SharedOwner::getById($record);
 		if (empty($values)) {
 			return '';
 		}
@@ -151,31 +151,6 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 			}
 		}
 		return implode(', ', $display);
-	}
-
-	/**
-	 * Function to get the share users list.
-	 *
-	 * @param int  $record      record ID
-	 * @param bool $returnArray whether return data in an array
-	 *
-	 * @return array
-	 */
-	public static function getSharedOwners($record, $moduleName = false)
-	{
-		$shownerid = Vtiger_Cache::get('SharedOwner', $record);
-		if ($shownerid !== false) {
-			return $shownerid;
-		}
-
-		$query = (new \App\Db\Query())->select('userid')->from('u_#__crmentity_showners')->where(['crmid' => $record])->distinct();
-		$values = $query->column();
-		if (empty($values)) {
-			$values = [];
-		}
-		Vtiger_Cache::set('SharedOwner', $record, $values);
-
-		return $values;
 	}
 
 	public static function getSearchViewList($moduleName, $cvId)
