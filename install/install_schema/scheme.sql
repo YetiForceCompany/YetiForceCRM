@@ -5388,7 +5388,7 @@ CREATE TABLE `vtiger_fcorectinginvoice_formpayment` (
   `picklist_valueid` int(10) NOT NULL DEFAULT 0,
   `sortorderid` int(10) DEFAULT 0,
   PRIMARY KEY (`fcorectinginvoice_formpaymentid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fcorectinginvoice_status` */
 
@@ -5555,7 +5555,7 @@ CREATE TABLE `vtiger_finvoiceproforma_formpayment` (
   `picklist_valueid` int(10) NOT NULL DEFAULT 0,
   `sortorderid` int(10) DEFAULT 0,
   PRIMARY KEY (`finvoiceproforma_formpaymentid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_finvoiceproforma_status` */
 
