@@ -36,9 +36,9 @@ class RecordNumber
 	 *
 	 * @param mixed       $tabId
 	 * @param string      $prefix
-	 * @param int         $leadingZeros
 	 * @param int         $no
 	 * @param string      $postfix
+	 * @param int         $leadingZeros
 	 * @param null|string $resetSequence 'Y'-Year, 'M'-Month, 'D'-Day
 	 * @param string      $curSequence   '201804' for example for M reset sequence
 	 *
@@ -146,6 +146,7 @@ class RecordNumber
 	 * @param string $prefix
 	 * @param string $number
 	 * @param string $postfix
+	 * @param int    $leadingZeros
 	 *
 	 * @return string
 	 */
