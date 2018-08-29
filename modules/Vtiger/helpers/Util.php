@@ -237,6 +237,7 @@ class Vtiger_Util_Helper
 			$groupColumnsInfo = [];
 			foreach ($groupInfo as &$fieldSearchInfo) {
 				list($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
+				$field = $moduleModel->getFieldByName($fieldName);
 				if ($field->getFieldDataType() === 'tree' && $specialOption) {
 					$fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $moduleModel);
 				}
