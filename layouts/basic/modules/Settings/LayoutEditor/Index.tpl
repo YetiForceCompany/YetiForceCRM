@@ -27,11 +27,7 @@
 				<div class="form-group float-right">
 					<div class="btn-group btn-group-toggle" data-toggle="buttons">
 						<label class="btn btn-outline-primary {if !$IS_INVENTORY}active{/if}">
-							<input class="js-switch--inventory" type="radio" name="options" id="option1"
-							       data-js="change"
-							       data-value="basic" autocomplete="off"
-							       {if !$IS_INVENTORY}checked{/if}
-							> {App\Language::translate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}
+							<input class="js-switch--inventory" type="radio" name="options" id="option1" data-js="change" data-value="basic" autocomplete="off" {if !$IS_INVENTORY}checked{/if}> {App\Language::translate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}
 						</label>
 						<label class="btn btn-outline-primary {if $IS_INVENTORY}active{/if}">
 							<input class="js-switch--inventory" type="radio" name="options" id="option2" data-js="change" data-value="advanced" autocomplete="off" {if $IS_INVENTORY}checked{/if}> {App\Language::translate('LBL_ADVANCED_MODULE',$QUALIFIED_MODULE)}
@@ -43,15 +39,16 @@
 		<hr>
 		<div class="contents tabbable">
 			<ul class="nav nav-tabs layoutTabs massEditTabs" role="tablist">
-				<li class="nav-item"><a class="nav-link active" data-toggle="tab" role="tab"
-				                        href="#detailViewLayout" aria-selected="true">
-						<strong>{App\Language::translate('LBL_DETAILVIEW_LAYOUT', $QUALIFIED_MODULE)}</strong></a>
+				<li class="nav-item">
+					<a class="nav-link active" data-toggle="tab" role="tab" href="#detailViewLayout" aria-selected="true">
+						<strong>{App\Language::translate('LBL_DETAILVIEW_LAYOUT', $QUALIFIED_MODULE)}</strong>
+					</a>
 				</li>
 				{if $IS_INVENTORY}
-					<li class="nav-item inventoryNav"><a class="nav-link" data-toggle="tab" role="tab"
-					                                     href="#inventoryViewLayout"
-					                                     aria-selected="false">
-							<strong>{App\Language::translate('LBL_MANAGING_AN_ADVANCED_BLOCK', $QUALIFIED_MODULE)}</strong></a>
+					<li class="nav-item inventoryNav">
+						<a class="nav-link" data-toggle="tab" role="tab" href="#inventoryViewLayout" aria-selected="false">
+							<strong>{App\Language::translate('LBL_MANAGING_AN_ADVANCED_BLOCK', $QUALIFIED_MODULE)}</strong>
+						</a>
 					</li>
 				{/if}
 			</ul>
@@ -87,8 +84,7 @@
 								<div class="row layoutBlockHeader m-0">
 									<div class="blockLabel col-md-6 col-sm-6 p-2 ml-0">
 										{if $IS_BLOCK_SORTABLE}
-											<img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}"
-											     alt=""/>
+											<img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}" alt=""/>
 											&nbsp;&nbsp;
 										{/if}
 										<strong>{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
