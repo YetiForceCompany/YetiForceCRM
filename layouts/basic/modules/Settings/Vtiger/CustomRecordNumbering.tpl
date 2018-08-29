@@ -206,7 +206,7 @@
 						<thead>
 						<tr>
 							<th width="30%" class="{$WIDTHTYPE}">
-								{\App\Language::translate('LBL_USE_CUSTOME_VARIABLES', $QUALIFIED_MODULE)}
+								{\App\Language::translate('LBL_USE_CUSTOM_VARIABLES', $QUALIFIED_MODULE)}
 							</th>
 							<th width="70%" class="{$WIDTHTYPE} border-left-0"></th>
 						</tr>
@@ -214,7 +214,15 @@
 						<tbody>
 						<tr>
 							<td class="{$WIDTHTYPE}">
-								<label class="float-right marginRight10px"><b>{\App\Language::translate('LBL_CUSTOME_VARIABLES', $QUALIFIED_MODULE)}</b></label>
+								<label class="float-right marginRight10px">
+									<b>{\App\Language::translate('LBL_CUSTOM_VARIABLES', $QUALIFIED_MODULE)}</b>
+									<a href="#" class="js-popover-tooltip ml-2"
+									   data-js="popover"
+									   data-trigger="focus hover"
+									   data-content="{\App\Language::translate('LBL_CUSTOM_VARIABLES_INFO', $QUALIFIED_MODULE)}">
+										<span class="fas fa-info-circle"></span>
+									</a>
+								</label>
 							</td>
 							<td class="fieldValue {$WIDTHTYPE} border-left-0">
 								<div class="row">
