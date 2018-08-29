@@ -2988,17 +2988,6 @@ CREATE TABLE `u_yf_scalculationscf` (
   CONSTRAINT `fk_1_u_yf_scalculationscf` FOREIGN KEY (`scalculationsid`) REFERENCES `u_yf_scalculations` (`scalculationsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `u_yf_social_media_accounts` */
-
-CREATE TABLE `u_yf_social_media_accounts` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `login` varchar(100) NOT NULL,
-  `type` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `login_type_unique` (`login`,`type`),
-  KEY `type` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `u_yf_social_media_config` */
 
 CREATE TABLE `u_yf_social_media_config` (
@@ -4717,7 +4706,7 @@ CREATE TABLE `vtiger_customview` (
   KEY `setdefault` (`setdefault`,`entitytype`),
   KEY `customview_userid_idx` (`userid`),
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cvadvfilter` */
 
