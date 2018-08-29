@@ -41,9 +41,11 @@ addons:
     branch_pattern: coverity_scan
 
 cache:
+  yarn: true
   directories:
   - '$HOME/.sonar/cache'
   - $HOME/.composer/cache/files
+  - public_html/libraries
 
 branches:
   only:
