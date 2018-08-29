@@ -541,13 +541,15 @@ class Import_Data_Action extends \App\Controller\Action
 	/**
 	 * Function transforms value for sharedOwner type field.
 	 *
-	 * @param string $fieldValue
+	 * @param \Vtiger_Field_Model $fieldInstance
+	 * @param string              $fieldValue
 	 *
 	 * @return array
 	 */
-	public function transformSharedOwner($fieldValue)
+	public function transformSharedOwner($fieldInstance, $fieldValue)
 	{
 		$defaultFieldValues = $this->getDefaultFieldValues();
+		$fieldName = $fieldInstance->getFieldName();
 		$values = [];
 		if ($fieldValue) {
 			$owners = explode(',', $fieldValue);
