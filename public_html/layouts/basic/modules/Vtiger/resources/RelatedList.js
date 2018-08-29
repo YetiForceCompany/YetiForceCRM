@@ -447,6 +447,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 					jQuery('<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />').appendTo(data);
 				}
 			}
+			if (typeof queryParameters === "undefined") {
+				let queryParameters = '';
+			}
 			for (index = 0; index < queryParameters.length; index++) {
 				queryParam = queryParameters[index];
 				queryParamComponents = queryParam.split('=');

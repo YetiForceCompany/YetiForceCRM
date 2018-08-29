@@ -893,9 +893,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				var data = {
 					module: selectedModule
 				}
-				if (typeof selectedFields != 'object') {
-					selectedFields = [selectedFields];
-				}
 				data['fields'] = selectedFields;
 				data['filterFields'] = filterFieldsSelect2.val();
 				var paramsForm = {

@@ -43,8 +43,10 @@ class Leads_Module_Model extends Vtiger_Module_Model
 
 		$response = [];
 		while ($row = $db->getRow($result)) {
-			$response[$i][0] = $row['count'];
-			$response[$i][1] = $row['time'];
+			$response[] = [
+				$row['count'],
+				$row['time']
+			];
 		}
 		return $response;
 	}
