@@ -42,6 +42,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		$result = $db->pquery($sql, $params);
 
 		$response = [];
+		$i = 0;
 		while ($row = $db->getRow($result)) {
 			$response[$i][0] = $row['count'];
 			$response[$i][1] = $row['time'];
