@@ -85,6 +85,16 @@ class Twitter implements SocialMediaInterface
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function removeAccount()
+	{
+		$db = \App\Db::getInstance();
+		$db->createCommand()->delete('u_#__social_media_twitter', ['twitter_login' => $this->userName])->execute();
+		$db->createCommand()->delete('b_#__social_media_twitter', ['twitter_login' => $this->userName])->execute();
+	}
+
+	/**
 	 * Get user time line.
 	 *
 	 * @param string $userName

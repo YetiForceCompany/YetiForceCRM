@@ -25,13 +25,13 @@ class Vtiger_SocialMedia_Handler
 				if ($recordModel->getPreviousValue($column) !== false) {
 					if (!empty($recordModel->getPreviousValue($column)) && empty($recordModel->get($column))) {
 						$columnsToRemove[] = $column;
-					} elseif ($recordModel->getPreviousValue($column) !== $recordModel->get($column)) {
+					} elseif (!empty($recordModel->getPreviousValue($column)) && !empty($recordModel->get($column))) {
 						$columnsToRemove[] = $column;
 					}
 				}
 			}
 			foreach ($columnsToRemove as $column) {
-				\App\SocialMedia\SocialMedia::removeAccount($recordModel->getPreviousValue($column), $recordModel->getField($column)->getUIType());
+				\App\SocialMedia\SocialMedia::removeAccount($recordModel->getField($column)->getUIType(), $recordModel->getPreviousValue($column));
 			}
 		}
 	}

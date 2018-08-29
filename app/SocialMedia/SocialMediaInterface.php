@@ -29,4 +29,9 @@ interface SocialMediaInterface
 	 * Retrieve data from Api.
 	 */
 	public function retrieveDataFromApi();
+
+	/**
+	 * Remove social media account from database.
+	 */
+	public function removeAccount();
 }

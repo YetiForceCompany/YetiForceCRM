@@ -13,15 +13,6 @@ class SocialMedia
 {
 	public const ALLOWED_UITYPE = ['twitter' => 313];
 
-	public static function isAllowed($socialMediaType)
-	{
-		return isset(static::ALLOWED_UITYPE[$socialMediaType]);
-	}
-
-	public static function removeAccount($account, $socialMediaType)
-	{
-	}
-
 	/**
 	 * Get social media type. Convert uitype to string.
 	 *
@@ -109,15 +100,57 @@ class SocialMedia
 	}
 
 	/**
+	 * Remove social media account from database.
+	 *
+	 * @param int    $uiType
+	 * @param string $accountName
+	 */
+	public static function removeAccount($uiType, $accountName)
+	{
+		$query = (new \App\Db\Query())->from([
+			'social' => static::getSocialMediaQuery([static::getSocialMediaType($uiType)])
+		])->where(['account_name' => $accountName]);
+		if (!$query->exists()) {
+			$socialMedia = static::createObjectByUiType($uiType, $accountName);
+			if ($socialMedia === false) {
+				throw new \App\Exceptions\AppException('Invalid social media type');
+			}
+			$socialMedia->removeAccount();
+		}
+	}
+
+	/**
 	 * Get all social media accounts.
 	 *
-	 * @param $socialMediaType
+	 * @param string|string[] $socialMediaType
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return \App\SocialMedia\SocialMediaInterface|\Generator|void
 	 */
 	public static function getSocialMediaAccount($socialMediaType)
+	{
+		$query = static::getSocialMediaQuery($socialMediaType);
+		if ($query === false) {
+			return;
+		}
+		$dataReader = $query->createCommand()->query();
+		while (($row = $dataReader->read())) {
+			yield static::createObjectByUiType((int) $row['uitype'], $row['account_name']);
+		}
+		$dataReader->close();
+	}
+
+	/**
+	 * Get social media query.
+	 *
+	 * @param string|string[] $socialMediaType
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return \App\Db\Query|null|void
+	 */
+	public static function getSocialMediaQuery($socialMediaType)
 	{
 		$fields = (new \App\Db\Query())
 			->select(['columnname', 'tablename', 'uitype'])
@@ -126,7 +159,7 @@ class SocialMedia
 			->andWhere(['presence' => [0, 2]])
 			->all();
 		if (\count($fields) === 0) {
-			return;
+			return false;
 		}
 		$query = null;
 		foreach ($fields as $i => $field) {
@@ -142,9 +175,6 @@ class SocialMedia
 				$query->union($subQuery, true);
 			}
 		}
-		$dataReader = $query->createCommand()->query();
-		while (($row = $dataReader->read())) {
-			yield static::createObjectByUiType((int) $row['uitype'], $row['account_name']);
-		}
+		return $query;
 	}
 }
