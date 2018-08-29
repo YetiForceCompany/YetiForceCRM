@@ -3,7 +3,7 @@
 namespace App\SocialMedia;
 
 /**
- * SocialMedia Helper.
+ * SocialMedia Twitter class.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -11,6 +11,11 @@ namespace App\SocialMedia;
  */
 class Twitter implements SocialMediaInterface
 {
+	/**
+	 * User account name.
+	 *
+	 * @var string
+	 */
 	private $userName;
 
 	/**
@@ -32,7 +37,9 @@ class Twitter implements SocialMediaInterface
 	}
 
 	/**
-	 * Vtiger_SocialMedia_Helper constructor.
+	 * Twitter constructor.
+	 *
+	 * @param $userName
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
@@ -49,10 +56,22 @@ class Twitter implements SocialMediaInterface
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function retrieveDataFromApi()
 	{
 		$db = \App\Db::getInstance();
-		$allMessages = $this->getTwitter('statuses/user_timeline', ['screen_name' => $this->userName]);
+		$maxId = (new \App\Db\Query())
+			->from('u_#__social_media_twitter')
+			->max((new \yii\db\Expression('CAST(id_twitter AS INT)')));
+		$param['screen_name'] = $this->userName;
+		if (!\is_null($maxId)) {
+			//Retrieve only new data from Api
+			//"There are limits to the number of Tweets that can be accessed through the API. If the limit of Tweets has occured since the since_id, the since_id will be forced to the oldest ID available."
+			$param['since_id'] = $maxId;
+		}
+		$allMessages = $this->getTwitter('statuses/user_timeline', $param);
 		foreach ($allMessages as $rowTwitter) {
 			if (!(new \App\Db\Query())->from('u_#__social_media_twitter')->where(['id_twitter' => $rowTwitter['id']])->exists()) {
 				$db->createCommand()->insert('u_#__social_media_twitter', [

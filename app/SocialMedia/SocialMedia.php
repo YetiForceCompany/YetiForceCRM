@@ -2,6 +2,13 @@
 
 namespace App\SocialMedia;
 
+/**
+ * SocialMedia class.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ */
 class SocialMedia
 {
 	public const ALLOWED_UITYPE = ['twitter' => 313];
@@ -15,6 +22,13 @@ class SocialMedia
 	{
 	}
 
+	/**
+	 * Get social media type. Convert uitype to string.
+	 *
+	 * @param int $uiType
+	 *
+	 * @return string|bool
+	 */
 	public static function getSocialMediaType($uiType)
 	{
 		if (\in_array($uiType, static::ALLOWED_UITYPE)) {
@@ -55,6 +69,15 @@ class SocialMedia
 		return false;
 	}
 
+	/**
+	 * Check if it is configured social media by uitype.
+	 *
+	 * @param int $uiType
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return bool
+	 */
 	public static function isConfigured($uiType)
 	{
 		return call_user_func(static::getClassNameByUitype($uiType) . '::isConfigured');
@@ -85,6 +108,15 @@ class SocialMedia
 		return $arrUitype;
 	}
 
+	/**
+	 * Get all social media accounts.
+	 *
+	 * @param $socialMediaType
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return \App\SocialMedia\SocialMediaInterface|\Generator|void
+	 */
 	public static function getSocialMediaAccount($socialMediaType)
 	{
 		$fields = (new \App\Db\Query())
@@ -110,57 +142,9 @@ class SocialMedia
 				$query->union($subQuery, true);
 			}
 		}
-		\App\DebugerEx::log($query->createCommand()->getRawSql());
-
 		$dataReader = $query->createCommand()->query();
 		while (($row = $dataReader->read())) {
 			yield static::createObjectByUiType((int) $row['uitype'], $row['account_name']);
 		}
-	}
-
-	/**
-	 * Get all social media accounts.
-	 *
-	 * @param $socialMediaType
-	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return \App\SocialMedia\SocialMediaInterface|\Generator
-	 */
-	public static function getSocialMediaAccount2($socialMediaType)
-	{
-		if (!\is_array($socialMediaType)) {
-			$socialMediaType = [$socialMediaType];
-		}
-		$arrUitype = [];
-		foreach ($socialMediaType as $val) {
-			if (!isset(static::ALLOWED_UITYPE[$val])) {
-				throw new \App\Exceptions\AppException('Invalid social media type');
-			}
-			$arrUitype[] = static::ALLOWED_UITYPE[$val];
-		}
-		$dataReader = (new \App\Db\Query())
-			->select(['columnname', 'tablename', 'uitype'])
-			->from('vtiger_field')
-			->where(['uitype' => $arrUitype])
-			->andWhere(['presence' => [0, 2]])
-			->createCommand()
-			->query();
-		while (($row = $dataReader->read())) {
-			$dataReaderAccounts = (new \App\Db\Query())
-				->select([$row['columnname']])
-				->from($row['tablename'])
-				->andWhere(['not', [$row['columnname'] => null]])
-				->andWhere(['not', [$row['columnname'] => '']])
-				->createCommand()
-				->query();
-			while (($rowTwitter = $dataReaderAccounts->read())) {
-				$twitterAccount = $rowTwitter[$row['columnname']];
-				yield static::createObjectByUiType((int) $row['uitype']);
-				//yield $twitterAccount;
-			}
-			$dataReaderAccounts->close();
-		}
-		$dataReader->close();
 	}
 }
