@@ -23,9 +23,6 @@ class NumberToWords
 	 */
 	public static function initialize()
 	{
-		if (self::$words) {
-			return;
-		}
 		$minus = \App\Language::translate('LBL_MINUS');
 		$zero = \App\Language::translate('LBL_ZERO');
 		$one = \App\Language::translate('LBL_ONE');
