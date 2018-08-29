@@ -22,14 +22,14 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12">
-					<table id="customRecordNumbering" class="table table-bordered">
+					<table class="table table-bordered">
 						{assign var=DEFAULT_MODULE_NAME value=$DEFAULT_MODULE_MODEL->getName()}
 						{assign var=DEFAULT_MODULE_DATA value=\App\Fields\RecordNumber::getNumber($DEFAULT_MODULE_NAME)}
 						{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 						<thead>
 						<tr>
 							<th width="30%" class="{$WIDTHTYPE}">
-								<strong>{\App\Language::translate('LBL_CUSTOMIZE_RECORD_NUMBERING', $QUALIFIED_MODULE)}</strong>
+								{\App\Language::translate('LBL_CUSTOMIZE_RECORD_NUMBERING', $QUALIFIED_MODULE)}
 							</th>
 							<th width="70%" class="{$WIDTHTYPE} border-left-0">
 								<span class="float-right">
@@ -127,6 +127,39 @@
 						<tr>
 							<td class="{$WIDTHTYPE}">
 								<label class="float-right marginRight10px">
+									<b>{\App\Language::translate('LBL_USE_POSTFIX', $QUALIFIED_MODULE)}</b>
+									<a href="#" class="js-popover-tooltip ml-2"
+									   data-js="popover"
+									   data-trigger="focus hover"
+									   data-content="{\App\Language::translate('LBL_USE_POSTFIX_INFO', $QUALIFIED_MODULE)}">
+										<span class="fas fa-info-circle"></span>
+									</a>
+								</label>
+							</td>
+							<td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
+								<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['postfix']}" placeholder="{\App\Language::translate('LBL_NO_POSTFIX', $QUALIFIED_MODULE)}" data-old-postfix="{$DEFAULT_MODULE_DATA['postfix']}" name="postfix" data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js.invokeValidation]]"/>
+							</td>
+						</tr>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<table class="table table-bordered">
+						<thead>
+						<tr>
+							<th width="30%" class="{$WIDTHTYPE}">
+								{\App\Language::translate('LBL_CUSTOMIZE_SEQUENCE', $QUALIFIED_MODULE)}
+							</th>
+							<th></th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td class="{$WIDTHTYPE}">
+								<label class="float-right marginRight10px">
 									<b>{\App\Language::translate('LBL_START_SEQUENCE', $QUALIFIED_MODULE)}</b><span class="redColor">*</span>
 									<a href="#" class="js-popover-tooltip ml-2"
 									   data-js="popover"
@@ -163,22 +196,6 @@
 								</select>
 							</td>
 						</tr>
-						<tr>
-							<td class="{$WIDTHTYPE}">
-								<label class="float-right marginRight10px">
-									<b>{\App\Language::translate('LBL_USE_POSTFIX', $QUALIFIED_MODULE)}</b>
-									<a href="#" class="js-popover-tooltip ml-2"
-									   data-js="popover"
-									   data-trigger="focus hover"
-									   data-content="{\App\Language::translate('LBL_USE_POSTFIX_INFO', $QUALIFIED_MODULE)}">
-										<span class="fas fa-info-circle"></span>
-									</a>
-								</label>
-							</td>
-							<td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
-								<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['postfix']}" placeholder="{\App\Language::translate('LBL_NO_POSTFIX', $QUALIFIED_MODULE)}" data-old-postfix="{$DEFAULT_MODULE_DATA['postfix']}" name="postfix" data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js.invokeValidation]]"/>
-							</td>
-						</tr>
 						</tbody>
 					</table>
 				</div>
@@ -189,7 +206,7 @@
 						<thead>
 						<tr>
 							<th width="30%" class="{$WIDTHTYPE}">
-								<strong>{\App\Language::translate('LBL_USE_CUSTOME_VARIABLES', $QUALIFIED_MODULE)}</strong>
+								{\App\Language::translate('LBL_USE_CUSTOME_VARIABLES', $QUALIFIED_MODULE)}
 							</th>
 							<th width="70%" class="{$WIDTHTYPE} border-left-0"></th>
 						</tr>
