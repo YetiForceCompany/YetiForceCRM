@@ -48,7 +48,6 @@ cache:
   directories:
   - $HOME/.sonar/cache
   - $HOME/.composer/cache/files
-  - public_html/libraries
 
 branches:
   only:
