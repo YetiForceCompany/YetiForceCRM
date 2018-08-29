@@ -119,11 +119,11 @@
 						</div>
 						<div class="input-group mb-3 js-global-search__input o-global-search__input"
 							 data-js="container">
-							<input id="global-search-__value--mobile type=" text" class="form-control
-							js-global-search__value o-global-search__value"
-							title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
-							placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
-							data-js="keypress | value | autocomplete"/>
+							<input id="global-search-__value--mobile" type="text"
+								   class="form-control js-global-search__value o-global-search__value"
+								   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
+								   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
+								   data-js="keypress | value | autocomplete"/>
 							<div class="input-group-append">
 								<button class="btn btn-light searchIcon" type="button">
 									<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
