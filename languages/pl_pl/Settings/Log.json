@@ -1,0 +1,20 @@
+{
+  "php": {
+    "LBL_LOGS": "Incydenty bezpieczeństwa",
+    "LBL_LOGS_DESC": "Panel do przegladania incydentów bezpieczeństwa",
+    "LBL_ACCESS_FOR_ADMIN": "Dostęp do admina",
+    "LBL_ACCESS_FOR_API": "Dostęp do API",
+    "LBL_ACCESS_FOR_USER": "Dostęp do użytkownika",
+    "LBL_ACCESS_TO_RECORD": "Dostęp do rekordu",
+    "LBL_CSRF": "CSRF",
+    "LBL_USERNAME": "Użytkownik",
+    "LBL_DATE": "Data",
+    "LBL_IP": "IP",
+    "LBL_RECORD": "Id rekordu",
+    "LBL_MODULE": "Moduł",
+    "LBL_URL": "Adres",
+    "LBL_AGENT": "Przegladarka",
+    "LBL_REQUEST": "Żądanie",
+    "LBL_REFERER": "Referer"
+  }
+}
