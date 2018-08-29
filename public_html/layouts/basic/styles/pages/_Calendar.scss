@@ -19,7 +19,7 @@
 }
 
 @media(min-width: 992px) {
-	.Calendar_Calendar .mainBody {
+	[class$="_Calendar"] .mainBody {
 		overflow: hidden;
 	}
 }
