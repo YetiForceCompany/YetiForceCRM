@@ -6,8 +6,8 @@ namespace App\Custom;
  * Numbers to words converter class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class NumberToWords
 {
@@ -23,6 +23,9 @@ class NumberToWords
 	 */
 	public static function initialize()
 	{
+		if (self::$words) {
+			return;
+		}
 		$minus = \App\Language::translate('LBL_MINUS');
 		$zero = \App\Language::translate('LBL_ZERO');
 		$one = \App\Language::translate('LBL_ONE');

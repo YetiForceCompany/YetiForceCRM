@@ -116,7 +116,7 @@ AppConnector = {
 			if (action === 'logout') {
 				window.location.href = 'index.php';
 			}
-			if(CONFIG.debug){
+			if (CONFIG.debug) {
 				if (jqXHR.status === 406) {
 					let sep = "-".repeat(150);
 					console.warn("%cYetiForce debug mode!!!", "color: red; font-family: sans-serif; font-size: 1.5em; font-weight: bolder; text-shadow: #000 1px 1px;");
