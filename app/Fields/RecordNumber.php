@@ -44,7 +44,7 @@ class RecordNumber
 	 *
 	 * @return bool
 	 */
-	public static function setNumber($tabId, $prefix = '', $leadingZeros = 0, $no = '', $postfix = '', $resetSequence = null, $curSequence = '')
+	public static function setNumber($tabId, $prefix = '', $no = '', $postfix = '', $leadingZeros = 0, $resetSequence = null, $curSequence = '')
 	{
 		if ($no != '') {
 			$db = \App\Db::getInstance();
@@ -113,13 +113,10 @@ class RecordNumber
 		switch ($resetSequence) {
 			case 'Y':
 				return static::date('Y');
-				break;
 			case 'M':
 				return static::date('Ym'); // with year because 2016-10 (10) === 2017-10 (10) and number will be incremented but should be set to 1 (new year)
-				break;
 			case 'D':
 				return static::date('Ymd'); // same as above because od 2016-10-03 (03) === 2016-11-03 (03)
-				break;
 			default:
 				return '';
 		}
