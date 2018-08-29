@@ -44,7 +44,7 @@
                             <td class="{$WIDTHTYPE}">
                                 <label class="float-right marginRight10px"><b>{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</b></label>
                             </td>
-                            <td class="fieldValue {$WIDTHTYPE} border-left-0">
+                            <td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
                                 <select class="select2 form-control" name="sourceModule">
                                     {foreach key=index item=MODULE_MODEL from=$SUPPORTED_MODULES}
                                         {assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
@@ -67,7 +67,7 @@
                                     </a>
                                 </label>
                             </td>
-                            <td class="fieldValue {$WIDTHTYPE} border-left-0">
+                            <td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
                                 <input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['prefix']}" placeholder="{\App\Language::translate('LBL_NO_PREFIX', $QUALIFIED_MODULE)}" data-old-prefix="{$DEFAULT_MODULE_DATA['prefix']}" name="prefix" data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js.invokeValidation]]"/>
                             </td>
                         </tr>
@@ -83,7 +83,7 @@
                                     </a>
                                 </label>
                             </td>
-                            <td class="fieldValue {$WIDTHTYPE} border-left-0">
+                            <td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
                                 <select class="select2" name="leading_zeros">
                                     <option value="0" {if empty($DEFAULT_MODULE_DATA['leading_zeros'])}selected="selected"{/if}>
                                         {\App\Language::translate('LBL_NO_LEADING_ZEROS', $QUALIFIED_MODULE)}&nbsp;
@@ -137,7 +137,7 @@
                                     </a>
                                 </label>
                             </td>
-                            <td class="fieldValue {$WIDTHTYPE} border-left-0">
+                            <td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
                                 <input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['sequenceNumber']}"
                                        data-old-sequence-number="{$DEFAULT_MODULE_DATA['sequenceNumber']}" name="sequenceNumber"
                                        data-validation-engine="validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]"/>
@@ -155,7 +155,7 @@
                                     </a>
                                 </label>
                             </td>
-                            <td class="fieldValue {$WIDTHTYPE} border-left-0">
+                            <td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
                                 <select class="select2" name="reset_sequence" data-allow-clear="true" data-placeholder="{\App\Language::translate('LBL_RS_RESET_SEQUENCE', $QUALIFIED_MODULE)}">
                                     <option></option>
                                     <option value="Y"{if $DEFAULT_MODULE_DATA['reset_sequence']==='Y'} selected {/if}>{\App\Language::translate('LBL_RS_YEAR',$QUALIFIED_MODULE)}</option>
@@ -176,7 +176,7 @@
                                     </a>
                                 </label>
                             </td>
-                            <td class="fieldValue {$WIDTHTYPE} border-left-0">
+                            <td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
                                 <input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['postfix']}" placeholder="{\App\Language::translate('LBL_NO_POSTFIX', $QUALIFIED_MODULE)}" data-old-postfix="{$DEFAULT_MODULE_DATA['postfix']}" name="postfix" data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js.invokeValidation]]"/>
                             </td>
                         </tr>
