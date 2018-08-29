@@ -43,7 +43,7 @@ addons:
 cache:
   yarn: true
   directories:
-  - '$HOME/.sonar/cache'
+  - $HOME/.sonar/cache
   - $HOME/.composer/cache/files
   - public_html/libraries
 
