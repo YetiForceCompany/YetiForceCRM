@@ -51,7 +51,7 @@ class Documents_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getModalRecordsListFields(\App\QueryGenerator $queryGenerator, $sourceModule = false)
 	{
-		parent::getModalRecordsListFields($queryGenerator, $sourceModule);
+		$popupFields = parent::getModalRecordsListFields($queryGenerator, $sourceModule);
 		$headerFields = $queryGenerator->getListViewFields();
 		foreach (['filestatus', 'filesize', 'filelocationtype'] as $fieldName) {
 			if (!isset($headerFields[$fieldName])) {
@@ -61,6 +61,7 @@ class Documents_Module_Model extends Vtiger_Module_Model
 				}
 			}
 		}
+		return $popupFields;
 	}
 
 	/**

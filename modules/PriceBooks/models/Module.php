@@ -48,12 +48,13 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getModalRecordsListFields(\App\QueryGenerator $queryGenerator, $sourceModule = false)
 	{
-		parent::getModalRecordsListFields($queryGenerator, $sourceModule);
+		$popupFields = parent::getModalRecordsListFields($queryGenerator, $sourceModule);
 		if (!isset($popupFields['currency_id'])) {
 			$fieldModel = Vtiger_Field_Model::getInstance('currency_id', $this);
 			if ($fieldModel->getPermissions()) {
 				$queryGenerator->setField('currency_id');
 			}
 		}
+		return $popupFields;
 	}
 }

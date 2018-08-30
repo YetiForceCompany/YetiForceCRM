@@ -105,6 +105,7 @@ class Vtiger_Kpi_Helper
 	{
 		$reference = 30;
 		$tolerance = '1 dzień';
+		$accepted = 0;
 		$adb = PearDatabase::getInstance();
 
 		$sql = 'SELECT ordertime
