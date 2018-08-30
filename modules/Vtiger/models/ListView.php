@@ -171,7 +171,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linklabel' => 'LBL_MERGING',
 				'linkicon' => 'fa fa-code',
 				'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=MergeRecords"],
-				'linkclass' => 'js-mass-action',
+				'linkclass' => 'js-mass-action--merge',
 			];
 		}
 		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
