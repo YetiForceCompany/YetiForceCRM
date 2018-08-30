@@ -10,7 +10,11 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{assign var=MAPPING_PANEL value=$TASK_OBJECT->mappingPanel}
+	{if !empty($TASK_OBJECT->mappingPanel)}
+		{assign var=MAPPING_PANEL value=$TASK_OBJECT->mappingPanel}
+	{else}
+		{assign var=MAPPING_PANEL value=""}
+	{/if}
 	<input type="hidden" id="taskFields"
 		   value="{\App\Purifier::encodeHtml(\App\Json::encode($TASK_OBJECT->getFieldNames()))}"/>
 	<input type="hidden" id="mappingPanel" value="{$MAPPING_PANEL}"/>
@@ -43,7 +47,11 @@
 			<div class="col-md-6">
 				{assign var=RELATED_MODULES_INFO value=$WORKFLOW_MODEL->getDependentModules()}
 				{assign var=RELATED_MODULES value=$RELATED_MODULES_INFO|array_keys}
-				{assign var=RELATED_MODULE_MODEL_NAME value=$TASK_OBJECT->entity_type}
+				{if !empty($TASK_OBJECT->entity_type)}
+					{assign var=RELATED_MODULE_MODEL_NAME value=$TASK_OBJECT->entity_type}
+				{else}
+					{assign var=RELATED_MODULE_MODEL_NAME value=""}
+				{/if}
 				<select class="select2 createEntityModule" id="createEntityModule" name="entity_type"
 						data-validation-engine='validate[required]' {if $MAPPING_PANEL} disabled{/if}
 						data-select="allowClear"
