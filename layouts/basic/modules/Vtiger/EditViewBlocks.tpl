@@ -55,9 +55,14 @@
 				</div>
 			</div>
 			<div class="row mb-3">
+				{if $EDIT_VIEW_LAYOUT}
+					{assign var=COLUMNS_SIZES value=['col-md-4', 'col-md-8']}
+				{else}
+					{assign var=COLUMNS_SIZES value=['col-md-12']}
+				{/if}
 				{foreach item=COLUMN_SIZE from=$COLUMNS_SIZES}
 				<div class="{$COLUMN_SIZE}">
-					{if 'col-md-8' === $COLUMN_SIZE}
+					{if $EDIT_VIEW_LAYOUT && 'col-md-8' === $COLUMN_SIZE}
 						{include file=\App\Layout::getTemplatePath('Edit/Inventory.tpl', $MODULE)}
 						{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_RIGHT}
 					{else}
