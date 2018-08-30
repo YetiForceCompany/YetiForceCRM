@@ -10,9 +10,6 @@
 		</div>
 		<div>
 			<form class="js-social-media-twitter-form" method="post" data-js="submit">
-				<input name="parent" value="Settings" type="hidden">
-				<input name="module" value="{$MODULE}" type="hidden">
-				<input name="action" value="SaveAjax" type="hidden">
 				<input name="mode" value="twitter" type="hidden">
 				<div class="tab-pane active">
 					<div class="form-group row">

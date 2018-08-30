@@ -29,7 +29,11 @@ jQuery.Class('Settings_SocialMedia_Index_Js', {}, {
 					enabled: true
 				}
 			});
-			AppConnector.request(form.serializeFormData()).done((response) => {
+			let dataForm = form.serializeFormData();
+			dataForm.module = app.getModuleName();
+			dataForm.parent = app.getParentModuleName();
+			dataForm.action = 'SaveAjax';
+			AppConnector.request(dataForm).done((response) => {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
 				Vtiger_Helper_Js.showPnotify({
 					text: response.result.message,
