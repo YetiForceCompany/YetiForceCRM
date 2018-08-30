@@ -119,9 +119,7 @@ class Response
 		foreach ($responseData as $key => $value) {
 			$htmlResponse .= "<tr><td>$key</td><td>" . (is_array($value) ? $this->encodeHtml($value) : nl2br($value)) . '</td></tr>';
 		}
-		$htmlResponse .= '</table>';
-
-		return $htmlResponse;
+		return $htmlResponse . '</table>';
 	}
 
 	public function encodeJson($responseData)

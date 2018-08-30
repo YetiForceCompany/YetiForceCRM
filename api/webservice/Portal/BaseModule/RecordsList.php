@@ -6,13 +6,16 @@ namespace Api\Portal\BaseModule;
  * Get record list class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class RecordsList extends \Api\Core\BaseAction
 {
 	/** @var string[] Allowed request methods */
 	public $allowedMethod = ['GET'];
+	private const FIELD_NAME = 'fieldName';
+	private const VALUE = 'value';
+	private const OPERATOR = 'operator';
 
 	/**
 	 * Get method.
@@ -80,11 +83,11 @@ class RecordsList extends \Api\Core\BaseAction
 		}
 		if ($conditions = $this->controller->request->getHeader('X-CONDITION')) {
 			$conditions = \App\Json::decode($conditions);
-			if (isset($conditions['fieldName'])) {
-				$queryGenerator->addCondition($conditions['fieldName'], $conditions['value'], $conditions['operator']);
+			if (isset($conditions[static::FIELD_NAME])) {
+				$queryGenerator->addCondition($conditions[static::FIELD_NAME], $conditions[static::VALUE], $conditions[static::OPERATOR]);
 			} else {
 				foreach ($conditions as $condition) {
-					$queryGenerator->addCondition($condition['fieldName'], $condition['value'], $condition['operator']);
+					$queryGenerator->addCondition($condition[static::FIELD_NAME], $condition[static::VALUE], $condition[static::OPERATOR]);
 				}
 			}
 		}
@@ -120,8 +123,8 @@ class RecordsList extends \Api\Core\BaseAction
 						'sourceField' => $field['fieldname'],
 						'relatedModule' => $moduleName,
 						'relatedField' => $relatedField['fieldname'],
-						'value' => $parentId,
-						'operator' => 'e',
+						static::VALUE => $parentId,
+						static::OPERATOR => 'e',
 						'conditionGroup' => true,
 					]);
 					$foundField = true;

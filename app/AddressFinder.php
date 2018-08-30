@@ -14,6 +14,8 @@ namespace App;
  */
 class AddressFinder
 {
+	private const STR_ADDRESS_FINDER = 'AddressFinder';
+	private const STR_CONFIG = 'Config';
 	/**
 	 * Providers cache.
 	 *
@@ -53,10 +55,8 @@ class AddressFinder
 		}
 		$dir = new \DirectoryIterator(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/AddressFinder');
 		foreach ($dir as $fileinfo) {
-			if ($fileinfo->getExtension() === 'php' && ($fileName = $fileinfo->getBasename('.php')) !== 'Base') {
-				if (static::getInstance($fileName)->isActive()) {
-					static::$providersCache[] = $fileName;
-				}
+			if ($fileinfo->getExtension() === 'php' && ($fileName = $fileinfo->getBasename('.php')) !== 'Base' && static::getInstance($fileName)->isActive()) {
+				static::$providersCache[] = $fileName;
 			}
 		}
 		return static::$providersCache;
@@ -85,8 +85,8 @@ class AddressFinder
 	 */
 	public static function getConfig()
 	{
-		if (Cache::has('AddressFinder', 'Config')) {
-			return Cache::get('AddressFinder', 'Config');
+		if (Cache::has(static::STR_ADDRESS_FINDER, static::STR_CONFIG)) {
+			return Cache::get(static::STR_ADDRESS_FINDER, static::STR_CONFIG);
 		}
 		$query = (new \App\Db\Query())->from('s_#__address_finder_config');
 		$dataReader = $query->createCommand()->query();
@@ -94,7 +94,7 @@ class AddressFinder
 		while ($row = $dataReader->read()) {
 			$config[$row['type']][$row['name']] = $row['val'];
 		}
-		Cache::save('AddressFinder', 'Config', $config, Cache::LONG);
+		Cache::save(static::STR_ADDRESS_FINDER, static::STR_CONFIG, $config, Cache::LONG);
 		return $config;
 	}
 }

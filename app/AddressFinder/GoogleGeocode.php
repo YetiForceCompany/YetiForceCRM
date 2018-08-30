@@ -13,6 +13,8 @@ namespace App\AddressFinder;
  */
 class GoogleGeocode extends Base
 {
+	private const STR_RESULTS = 'results';
+	private const STR_LONG_NAME = 'long_name';
 	/**
 	 * API Address to retrieve data.
 	 *
@@ -43,8 +45,8 @@ class GoogleGeocode extends Base
 			return false;
 		}
 		$body = \App\Json::decode($response->body);
-		if (isset($body['results'])) {
-			$location = $body['results'][0]['geometry']['location'];
+		if (isset($body[static::STR_RESULTS])) {
+			$location = $body[static::STR_RESULTS][0]['geometry']['location'];
 			$urlParam = "key={$key}&language={$lang}&latlng={$location['lat']},{$location['lng']}";
 			$response = \Requests::get(static::$url . $urlParam);
 			if (!$response->success) {
@@ -52,8 +54,8 @@ class GoogleGeocode extends Base
 				return false;
 			}
 			$body = \App\Json::decode($response->body);
-			if (isset($body['results'])) {
-				foreach ($body['results'] as $row) {
+			if (isset($body[static::STR_RESULTS])) {
+				foreach ($body[static::STR_RESULTS] as $row) {
 					$rows[] = [
 						'label' => $row['formatted_address'],
 						'address' => static::parse($row['address_components'])
@@ -77,40 +79,42 @@ class GoogleGeocode extends Base
 		foreach ($rows as $row) {
 			switch ($row['types'][0]) {
 				case 'street_number':
-					if (strpos($row['long_name'], '/') !== false) {
-						list($address['buildingnumber'], $address['localnumber']) = explode('/', $row['long_name'], 2);
+					if (strpos($row[static::STR_LONG_NAME], '/') !== false) {
+						list($address['buildingnumber'], $address['localnumber']) = explode('/', $row[static::STR_LONG_NAME], 2);
 					} else {
-						$address['buildingnumber'] = $row['long_name'];
+						$address['buildingnumber'] = $row[static::STR_LONG_NAME];
 					}
 					break;
 				case 'route':
-					$address['addresslevel8'] = $row['long_name'];
+					$address['addresslevel8'] = $row[static::STR_LONG_NAME];
 					break;
 				case 'postal_code':
 					if (empty($row['types'][1])) {
-						$address['addresslevel7'] = $row['long_name'];
+						$address['addresslevel7'] = $row[static::STR_LONG_NAME];
 					}
 					break;
 				case 'neighborhood':
-					$address['addresslevel6'] = $row['long_name'];
+					$address['addresslevel6'] = $row[static::STR_LONG_NAME];
 					break;
 				case 'sublocality':
-					$address['addresslevel6'] = $row['long_name'];
+					$address['addresslevel6'] = $row[static::STR_LONG_NAME];
 					break;
 				case 'locality':
-					$address['addresslevel5'] = $row['long_name'];
+					$address['addresslevel5'] = $row[static::STR_LONG_NAME];
 					break;
 				case 'administrative_area_level_3':
-					$address['addresslevel4'] = $row['long_name'];
+					$address['addresslevel4'] = $row[static::STR_LONG_NAME];
 					break;
 				case 'administrative_area_level_2':
-					$address['addresslevel3'] = $row['long_name'];
+					$address['addresslevel3'] = $row[static::STR_LONG_NAME];
 					break;
 				case 'administrative_area_level_1':
-					$address['addresslevel2'] = $row['long_name'];
+					$address['addresslevel2'] = $row[static::STR_LONG_NAME];
 					break;
 				case 'country':
-					$address['addresslevel1'] = $row['long_name'];
+					$address['addresslevel1'] = $row[static::STR_LONG_NAME];
+					break;
+				default:
 					break;
 			}
 		}
