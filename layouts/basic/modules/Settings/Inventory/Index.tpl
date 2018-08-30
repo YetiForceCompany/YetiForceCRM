@@ -29,7 +29,9 @@
 						<th class="themeTextColor textAlignCenter {$WIDTHTYPE}">{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</th>
 						<th class="themeTextColor textAlignCenter {$WIDTHTYPE}">{\App\Language::translate('LBL_VALUE', $QUALIFIED_MODULE)}</th>
 						<th class="themeTextColor textAlignCenter {$WIDTHTYPE}">{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</th>
-						<th class="themeTextColor textAlignCenter {$WIDTHTYPE}">{\App\Language::translate('LBL_DEFAULT', $QUALIFIED_MODULE)}</th>
+						{if $VIEW eq 'Taxes'}
+							<th class="themeTextColor textAlignCenter {$WIDTHTYPE}">{\App\Language::translate('LBL_DEFAULT', $QUALIFIED_MODULE)}</th>
+						{/if}
 					</tr>
 					</thead>
 					<tbody>
@@ -43,21 +45,36 @@
 							<td class="textAlignCenter {$WIDTHTYPE}"><input type="checkbox" data-field-name="status"
 																			class="status js-update-field"
 																			{if !$RECORD->getStatus()}checked{/if} />
+								{if $VIEW neq 'Taxes'}
+									<div class="float-right actions">
+										<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer"
+												data-url="{$RECORD->getEditUrl()}"><span
+													title="{\App\Language::translate('LBL_EDIT', $MODULE)}"
+													class="fas fa-edit alignBottom"></span></button>&nbsp;
+										<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white"
+												data-url="{$RECORD->getEditUrl()}"><span
+													title="{\App\Language::translate('LBL_DELETE', $MODULE)}"
+													class="fas fa-trash-alt alignBottom"></span></button>&nbsp;
+									</div>
+								{/if}
 							</td>
-							<td class="textAlignCenter {$WIDTHTYPE}"><input type="checkbox" data-field-name="default"
-																			class="default js-update-field"
-																			{if $RECORD->getDefault()}checked{/if} />
-								<div class="float-right actions">
-									<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer"
-											data-url="{$RECORD->getEditUrl()}"><span
-												title="{\App\Language::translate('LBL_EDIT', $MODULE)}"
-												class="fas fa-edit alignBottom"></span></button>&nbsp;
-									<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white"
-											data-url="{$RECORD->getEditUrl()}"><span
-												title="{\App\Language::translate('LBL_DELETE', $MODULE)}"
-												class="fas fa-trash-alt alignBottom"></span></button>&nbsp;
-								</div>
-							</td>
+							{if $VIEW eq 'Taxes'}
+								<td class="textAlignCenter {$WIDTHTYPE}">
+									<input type="checkbox" data-field-name="default"
+										   class="default js-update-field"
+										   {if $RECORD->getDefault()}checked{/if} />
+									<div class="float-right actions">
+										<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer"
+												data-url="{$RECORD->getEditUrl()}"><span
+													title="{\App\Language::translate('LBL_EDIT', $MODULE)}"
+													class="fas fa-edit alignBottom"></span></button>&nbsp;
+										<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white"
+												data-url="{$RECORD->getEditUrl()}"><span
+													title="{\App\Language::translate('LBL_DELETE', $MODULE)}"
+													class="fas fa-trash-alt alignBottom"></span></button>&nbsp;
+									</div>
+								</td>
+							{/if}
 						</tr>
 					{/foreach}
 					</tbody>
