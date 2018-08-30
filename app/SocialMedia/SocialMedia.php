@@ -107,10 +107,10 @@ class SocialMedia
 	 */
 	public static function removeAccount($uiType, $accountName)
 	{
-		$query = (new \App\Db\Query())->from([
-			'social' => static::getSocialMediaQuery([static::getSocialMediaType($uiType)])
-		])->where(['account_name' => $accountName]);
-		if (!$query->exists()) {
+		$query = static::getSocialMediaQuery([static::getSocialMediaType($uiType)])
+			->where(['account_name' => $accountName])
+			->having(['=', 'count(*)', 1]);
+		if ($query->exists()) {
 			$socialMedia = static::createObjectByUiType($uiType, $accountName);
 			if ($socialMedia === false) {
 				throw new \App\Exceptions\AppException('Invalid social media type');
@@ -144,7 +144,7 @@ class SocialMedia
 	/**
 	 * Get social media query.
 	 *
-	 * @param string|string[] $socialMediaType
+	 * @param null|string|string[] $socialMediaType - if null then all
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
@@ -165,7 +165,6 @@ class SocialMedia
 		foreach ($fields as $i => $field) {
 			$subQuery = (new \App\Db\Query())
 				->select(['account_name' => $field['columnname'], 'uitype' => new \yii\db\Expression($field['uitype'])])
-				->distinct()
 				->from($field['tablename'])
 				->where(['not', [$field['columnname'] => null]])
 				->andWhere(['not', [$field['columnname'] => '']]);
@@ -175,6 +174,9 @@ class SocialMedia
 				$query->union($subQuery, true);
 			}
 		}
-		return $query;
+		return (new \App\Db\Query())
+			->select(['social.*', 'account_count' => new \yii\db\Expression('COUNT(*)')])
+			->from(['social' => $subQuery])
+			->groupBy(['account_name']);
 	}
 }
