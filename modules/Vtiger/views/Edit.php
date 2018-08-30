@@ -131,8 +131,8 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 			foreach ($moduleModel->getFieldsByType('text') as $field) {
 				if (isset($recordStructure[$field->getBlockName()][$field->getName()])) {
 					$recordStructureRight[$field->getBlockName()] = $recordStructure[$field->getBlockName()];
+					unset($recordStructure[$field->getBlockName()]);
 				}
-				unset($recordStructure[$field->getBlockName()]);
 			}
 			$viewer->assign('RECORD_STRUCTURE_RIGHT', $recordStructureRight);
 		}
