@@ -340,11 +340,11 @@ class TextParser
 	 *
 	 * @param string $text
 	 *
-	 * @return false|int
+	 * @return int
 	 */
 	public static function isVaribleToParse($text)
 	{
-		return preg_match('/^\$\((\w+) : ([,"\+\%\.\-\[\]\&\w\s\|]+)\)\$$/', $text);
+		return (int) preg_match('/^\$\((\w+) : ([,"\+\%\.\-\[\]\&\w\s\|]+)\)\$$/', $text);
 	}
 
 	/**
