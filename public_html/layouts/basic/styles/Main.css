@@ -11,7 +11,7 @@
  *                                          '200', 'a100')
  */
 /*!
- * Bootstrap v4.1.2 (https://getbootstrap.com/)
+ * Bootstrap v4.1.3 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
@@ -10056,10 +10056,6 @@ table.dataTable .form-control {
 #myPrefHeading h3 {
   margin-top: 12px; }
 
-.list-user-img {
-  width: 50px;
-  height: 40px; }
-
 span[name=existingImages] img {
   height: 200px;
   width: 300px; }
@@ -11595,6 +11591,9 @@ select[readonly], select[disabled] {
 
 .u-h-fit {
   height: fit-content !important; }
+
+.u-h-70vh {
+  height: 70vh !important; }
 
 .u-white-space-nowrap {
   white-space: nowrap !important; }
@@ -14994,6 +14993,10 @@ label.btn.btn-outline-primary:not(.active) {
 
 .select2-results__option--highlighted .o-filter-actions {
   display: block !important; }
+
+.c-list__user-img {
+  width: auto;
+  height: 2.5rem; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media (min-width: 992px) {

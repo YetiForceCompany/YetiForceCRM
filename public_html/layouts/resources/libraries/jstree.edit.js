@@ -9,7 +9,7 @@
 	} else {
 		factory(jQuery, jQuery.jstree);
 	}
-}(function ($, jstree, undefined) {
+}(function ($, jstree) {
 	"use strict";
 
 	if ($.jstree.plugins.edit) {

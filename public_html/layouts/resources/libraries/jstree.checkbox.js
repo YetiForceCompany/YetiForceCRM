@@ -9,9 +9,8 @@
 	} else {
 		factory(jQuery, jQuery.jstree);
 	}
-}(function ($, jstree, undefined) {
+}(function ($, jstree) {
 	"use strict";
-
 	var instance_counter = 0,
 		ccp_node = false,
 		ccp_mode = false,

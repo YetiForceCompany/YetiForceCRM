@@ -8,7 +8,7 @@
  *************************************************************************************/
 'use strict';
 
-jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
+$.Class('Settings_CustomRecordNumbering_Js', {}, {
 
 	form: false,
 	getForm: function () {
@@ -34,6 +34,7 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 			}).done(function (data) {
 				if (data) {
 					editViewForm.find('[name="prefix"]').val(data.result.prefix);
+					editViewForm.find('[name="leading_zeros"]').val(data.result.leading_zeros).trigger('change');
 					editViewForm.find('[name="reset_sequence"]').val(data.result.reset_sequence).trigger('change');
 					editViewForm.find('[name="postfix"]').val(data.result.postfix);
 					editViewForm.find('[name="sequenceNumber"]').val(data.result.sequenceNumber);
@@ -53,6 +54,7 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 		const editViewForm = this.getForm();
 		const sourceModule = editViewForm.find('[name="sourceModule"]').val();
 		const prefix = editViewForm.find('[name="prefix"]');
+		const leadingZeros = editViewForm.find('[name="leading_zeros"]').val();
 		const currentPrefix = $.trim(prefix.val());
 		const postfix = editViewForm.find('[name="postfix"]');
 		const currentPostfix = jQuery.trim(postfix.val());
@@ -65,15 +67,16 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 		}
 		editViewForm.find('.saveButton').attr("disabled", "disabled");
 		AppConnector.request({
-			'module': app.getModuleName(),
-			'parent': app.getParentModuleName(),
-			'action': "CustomRecordNumberingAjax",
-			'mode': "saveModuleCustomNumberingData",
-			'sourceModule': sourceModule,
-			'prefix': currentPrefix,
-			'postfix': currentPostfix,
-			'sequenceNumber': sequenceNumber,
-			'reset_sequence': editViewForm.find('[name="reset_sequence"]').val(),
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			action: "CustomRecordNumberingAjax",
+			mode: "saveModuleCustomNumberingData",
+			sourceModule: sourceModule,
+			prefix: currentPrefix,
+			leading_zeros: leadingZeros,
+			postfix: currentPostfix,
+			sequenceNumber: sequenceNumber,
+			reset_sequence: editViewForm.find('[name="reset_sequence"]').val(),
 		}).done(function (data) {
 			if (data.success === true) {
 				Settings_Vtiger_Index_Js.showMessage({
@@ -115,7 +118,7 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 	 * Function to register change event for prefix,postfix,reset_sequence and sequence number
 	 */
 	registerChangeEvent() {
-		this.getForm().find('[name="prefix"],[name="sequenceNumber"],[name="postfix"],[name="reset_sequence"]').on('change', this.checkResetSequence.bind(this))
+		this.getForm().find('[name="prefix"],[name="leading_zeros"],[name="sequenceNumber"],[name="postfix"],[name="reset_sequence"]').on('change', this.checkResetSequence.bind(this))
 	},
 
 	registerCopyClipboard: function (editViewForm) {
@@ -131,7 +134,7 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 	},
 
 	/**
-	 * Check if reset sequence apeears in prefix or postfix to prevent duplicate number generation
+	 * Check if reset sequence appears in prefix or postfix to prevent duplicate number generation
 	 * @returns {boolean}
 	 */
 	checkResetSequence() {

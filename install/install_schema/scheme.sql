@@ -6612,6 +6612,7 @@ CREATE TABLE `vtiger_modentity_num` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `tabid` smallint(5) unsigned NOT NULL,
   `prefix` varchar(50) NOT NULL DEFAULT '',
+  `leading_zeros` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `postfix` varchar(50) NOT NULL DEFAULT '',
   `start_id` int(10) unsigned NOT NULL,
   `cur_id` int(10) unsigned NOT NULL,

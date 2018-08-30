@@ -38,12 +38,13 @@ class RecordNumber
 	 * @param string      $prefix
 	 * @param int         $no
 	 * @param string      $postfix
+	 * @param int         $leadingZeros
 	 * @param null|string $resetSequence 'Y'-Year, 'M'-Month, 'D'-Day
 	 * @param string      $curSequence   '201804' for example for M reset sequence
 	 *
 	 * @return bool
 	 */
-	public static function setNumber($tabId, $prefix = '', $no = '', $postfix = '', $resetSequence = null, $curSequence = '')
+	public static function setNumber($tabId, $prefix = '', $no = '', $postfix = '', $leadingZeros = 0, $resetSequence = null, $curSequence = '')
 	{
 		if ($no != '') {
 			$db = \App\Db::getInstance();
@@ -55,6 +56,7 @@ class RecordNumber
 				return $db->createCommand()->insert('vtiger_modentity_num', [
 					'tabid' => $tabId,
 					'prefix' => $prefix,
+					'leading_zeros' => $leadingZeros,
 					'postfix' => $postfix,
 					'start_id' => $no,
 					'cur_id' => $no,
@@ -63,8 +65,15 @@ class RecordNumber
 				])->execute();
 			} else {
 				return $db->createCommand()
-					->update('vtiger_modentity_num', ['cur_id' => $no, 'prefix' => $prefix, 'postfix' => $postfix, 'reset_sequence' => $resetSequence, 'cur_sequence' => $curSequence], ['tabid' => $tabId])
-					->execute();
+					->update('vtiger_modentity_num', [
+						'cur_id' => $no,
+						'prefix' => $prefix,
+						'leading_zeros' => $leadingZeros,
+						'postfix' => $postfix,
+						'reset_sequence' => $resetSequence,
+						'cur_sequence' => $curSequence],
+						['tabid' => $tabId])
+						->execute();
 			}
 		}
 	}
@@ -83,7 +92,7 @@ class RecordNumber
 		if ($row['reset_sequence'] && $row['cur_sequence'] !== $actualSequence) {
 			$row['cur_id'] = 1;
 		}
-		$fullPrefix = static::parse($row['prefix'], $row['cur_id'], $row['postfix']);
+		$fullPrefix = static::parse($row['prefix'], $row['cur_id'], $row['postfix'], $row['leading_zeros']);
 		$strip = strlen($row['cur_id']) - strlen($row['cur_id'] + 1);
 		if ($strip < 0) {
 			$strip = 0;
@@ -104,13 +113,10 @@ class RecordNumber
 		switch ($resetSequence) {
 			case 'Y':
 				return static::date('Y');
-				break;
 			case 'M':
 				return static::date('Ym'); // with year because 2016-10 (10) === 2017-10 (10) and number will be incremented but should be set to 1 (new year)
-				break;
 			case 'D':
 				return static::date('Ymd'); // same as above because od 2016-10-03 (03) === 2016-11-03 (03)
-				break;
 			default:
 				return '';
 		}
@@ -140,13 +146,12 @@ class RecordNumber
 	 * @param string $prefix
 	 * @param string $number
 	 * @param string $postfix
+	 * @param int    $leadingZeros
 	 *
 	 * @return string
 	 */
-	public static function parse($prefix, $number, $postfix)
+	public static function parse($prefix, $number, $postfix, $leadingZeros)
 	{
-		$leadingZeros = substr_count($prefix, '{{0}}');
-		$prefix = str_replace('{{0}}', '', $prefix);
 		$number = str_pad((string) $number, $leadingZeros, '0', STR_PAD_LEFT);
 		return str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [static::date('Y'), static::date('y'), static::date('m'), static::date('n'), static::date('d'), static::date('j')], $prefix . $number . $postfix);
 	}
@@ -180,11 +185,12 @@ class RecordNumber
 		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
 		$number = [
 			'prefix' => $row['prefix'],
+			'leading_zeros' => $row['leading_zeros'],
 			'sequenceNumber' => $row['cur_id'],
 			'postfix' => $row['postfix'],
 			'reset_sequence' => $row['reset_sequence'],
 			'cur_sequence' => $row['cur_sequence'],
-			'number' => self::parse($row['prefix'], $row['cur_id'], $row['postfix']),
+			'number' => self::parse($row['prefix'], $row['cur_id'], $row['postfix'], $row['leading_zeros']),
 		];
 		return $number;
 	}

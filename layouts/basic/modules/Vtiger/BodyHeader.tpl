@@ -119,11 +119,11 @@
 						</div>
 						<div class="input-group mb-3 js-global-search__input o-global-search__input"
 							 data-js="container">
-							<input id="global-search-__value--mobile type=" text" class="form-control
-							js-global-search__value o-global-search__value"
-							title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
-							placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
-							data-js="keypress | value | autocomplete"/>
+							<input id="global-search-__value--mobile" type="text"
+								   class="form-control js-global-search__value o-global-search__value"
+								   title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}"
+								   placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10"
+								   data-js="keypress | value | autocomplete"/>
 							<div class="input-group-append">
 								<button class="btn btn-light searchIcon" type="button">
 									<span class="fas fa-search" title="{\App\Language::translate('LBL_SEARCH')}"></span>
@@ -152,7 +152,8 @@
 							 {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true"
 							 data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
 							{if count($AUTOLOGINUSERS) eq 1}
-								<a class="c-header__btn btn btn-outline-dark border-0" title="{$MAIN_MAIL.username}"
+								<a class="c-header__btn btn btn-outline-dark border-0 h-100"
+								   title="{$MAIN_MAIL.username}"
 								   href="index.php?module=OSSMail&view=Index">
 									<div class="d-none d-xxl-block">
 										{if !empty($ITEM.username)}{$ITEM.username}{/if}

@@ -162,14 +162,14 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 					.find('[data-fa-i2svg]')
 					.removeClass('fa-chevron-up')
 					.addClass('fa-chevron-down');
-		})
+			})
 			.on('show.bs.collapse', '.js-collapse ', function (e) {
 				$(e.currentTarget)
 					.closest('.convertLeadModules')
 					.find('[data-fa-i2svg]')
 					.removeClass('fa-chevron-down')
 					.addClass('fa-chevron-up');
-		});
+			});
 
 		//Trigger Event on click of Transfer related records modules
 		container.on('click', '.transferModule', function (e) {
@@ -302,7 +302,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 				aDeferred.resolve(reponseData);
 			}
 		);
-		if (fieldDetailList.field == 'leadstatus') {
+		if (fieldDetailList && fieldDetailList.field == 'leadstatus') {
 			var btn = jQuery('.btn-convertLead');
 			var status = JSON.parse(jQuery('#conversion_available_status').val());
 			if (status.length === 0 || jQuery.inArray(fieldDetailList.value, status) != -1) {

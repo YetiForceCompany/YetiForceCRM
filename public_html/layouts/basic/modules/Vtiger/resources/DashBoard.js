@@ -570,8 +570,6 @@ $.Class("Vtiger_DashBoard_Js", {
 					var data = {
 						module: selectedModule
 					};
-					if (typeof selectedFields != 'object')
-						selectedFields = [selectedFields];
 					data['fields'] = selectedFields;
 					thisInstance.saveMiniListWidget(data, element, selectedModuleLabel, selectedFilterId, selectedFilterLabel, form);
 				});

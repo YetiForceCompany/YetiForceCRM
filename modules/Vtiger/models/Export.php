@@ -275,9 +275,8 @@ class Vtiger_Export_Model extends \App\Base
 			} elseif ($uitype === 52 || $type === 'owner') {
 				$value = \App\Fields\Owner::getLabel($value);
 			} elseif ($uitype === 120) {
-				$uitypeInstance = new Vtiger_SharedOwner_UIType();
 				$values = [];
-				foreach ($uitypeInstance->getSharedOwners($recordId) as $owner) {
+				foreach (\App\Fields\SharedOwner::getById($recordId) as $owner) {
 					$values[] = \App\Fields\Owner::getLabel($owner);
 				}
 				$value = implode(',', $values);

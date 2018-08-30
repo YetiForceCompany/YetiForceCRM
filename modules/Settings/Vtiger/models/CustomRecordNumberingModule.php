@@ -67,7 +67,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 		$prefix = $this->get('prefix');
 		$postfix = $this->get('postfix');
 		$tabId = \App\Module::getModuleId($this->getName());
-		$status = \App\Fields\RecordNumber::setNumber($tabId, $prefix, $this->get('sequenceNumber'), $postfix, $this->get('reset_sequence'));
+		$status = \App\Fields\RecordNumber::setNumber($tabId, $prefix, $this->get('sequenceNumber'), $postfix, $this->get('leading_zeros'), $this->get('reset_sequence'));
 		$success = ['success' => $status];
 		if (!$status) {
 			$success['sequenceNumber'] = (new App\Db\Query())->select(['cur_id'])
