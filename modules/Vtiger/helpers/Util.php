@@ -222,7 +222,7 @@ class Vtiger_Util_Helper
 		return $time;
 	}
 
-	public static function transferListSearchParamsToFilterCondition($searchParams, $moduleModel)
+	public static function transferListSearchParamsToFilterCondition($searchParams, \Settings_Vtiger_ListView_Model $moduleModel)
 	{
 		if (empty($searchParams)) {
 			return [];
