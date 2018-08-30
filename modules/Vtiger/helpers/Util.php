@@ -222,6 +222,14 @@ class Vtiger_Util_Helper
 		return $time;
 	}
 
+	/**
+	 * Function to transfer a list of searched parameters to the filter.
+	 *
+	 * @param array $searchParams
+	 * @param <Settings_Vtiger_ListView_Model> $moduleModel
+	 *
+	 * @return array
+	 */
 	public static function transferListSearchParamsToFilterCondition($searchParams, \Settings_Vtiger_ListView_Model $moduleModel)
 	{
 		if (empty($searchParams)) {
