@@ -126,7 +126,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 				}
 			}
 		}
-		if (1 === $moduleModel->getModuleType() && \AppConfig::performance('DIVIDED_VIEW')) {
+		if ($editViewLayout = (1 === $moduleModel->getModuleType() && \AppConfig::performance('INVENTORY_EDIT_VIEW_LAYOUT'))) {
 			$recordStructureRight = [];
 			foreach ($moduleModel->getFieldsByType('text') as $field) {
 				if (isset($recordStructure[$field->getBlockName()][$field->getName()])) {
@@ -136,7 +136,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 			}
 			$viewer->assign('RECORD_STRUCTURE_RIGHT', $recordStructureRight);
 		}
-		$viewer->assign('COLUMNS_SIZES', isset($recordStructureRight) ? ['col-md-4', 'col-md-8'] : ['col-md-12']);
+		$viewer->assign('EDIT_VIEW_LAYOUT', $editViewLayout);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
