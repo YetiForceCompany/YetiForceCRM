@@ -6,8 +6,8 @@ namespace Api;
  * Base class to handle communication via web services.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Controller
 {
@@ -105,19 +105,19 @@ class Controller
 	private function getModuleClassName()
 	{
 		$type = $this->app['type'];
-		$action = $this->request->get('action');
+		$actionName = $this->request->get('action');
 		$module = $this->request->get('module');
 		if ($module) {
-			$className = "Api\\$type\\$module\\$action";
+			$className = "Api\\$type\\$module\\$actionName";
 			if (class_exists($className)) {
 				return $className;
 			}
-			$className = "Api\\$type\\BaseModule\\$action";
+			$className = "Api\\$type\\BaseModule\\$actionName";
 			if (class_exists($className)) {
 				return $className;
 			}
 		}
-		$className = "Api\\$type\\BaseAction\\$action";
+		$className = "Api\\$type\\BaseAction\\$actionName";
 		if (!$module && class_exists($className)) {
 			return $className;
 		}
@@ -139,16 +139,10 @@ class Controller
 		}
 	}
 
-	public function exceptionErrorHandler($errno, $errstr, $errfile, $errline, $errcontext)
+	public function exceptionErrorHandler($errno, $errstr, $errfile, $errline)
 	{
-		switch ($errno) {
-			case E_ERROR:
-			case E_WARNING:
-			case E_CORE_ERROR:
-			case E_COMPILE_ERROR:
-			case E_USER_ERROR:
-				$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
-				throw new Core\Exception($msg);
+		if (\in_array($errno, [E_ERROR, E_WARNING, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR)) {
+			throw new Core\Exception($errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline);
 		}
 	}
 }

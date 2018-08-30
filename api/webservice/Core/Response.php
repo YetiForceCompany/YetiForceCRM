@@ -6,8 +6,8 @@ namespace Api\Core;
  * Web service response class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Response
 {
@@ -42,7 +42,7 @@ class Response
 
 	private function requestStatus()
 	{
-		$status = [
+		$statusCodes = [
 			200 => 'OK',
 			401 => 'Unauthorized',
 			403 => 'Forbidden',
@@ -51,7 +51,7 @@ class Response
 			500 => 'Internal Server Error',
 		];
 
-		return ($status[$this->status]) ? $status[$this->status] : $status[500];
+		return ($statusCodes[$this->status]) ? $statusCodes[$this->status] : $statusCodes[500];
 	}
 
 	public function send()
@@ -93,7 +93,7 @@ class Response
 
 	public function encryptData($data)
 	{
-		openssl_public_encrypt($data, $encrypted, 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \AppConfig::api('PUBLIC_KEY'));
+		openssl_public_encrypt($data, $encrypted, 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \AppConfig::api('PUBLIC_KEY'), OPENSSL_PKCS1_OAEP_PADDING);
 
 		return $encrypted;
 	}
