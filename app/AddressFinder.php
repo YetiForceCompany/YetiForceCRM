@@ -14,7 +14,9 @@ namespace App;
  */
 class AddressFinder
 {
+	/** String constant 'AddressFinder' @var string */
 	private const STR_ADDRESS_FINDER = 'AddressFinder';
+	/** String constant 'Config' @var string */
 	private const STR_CONFIG = 'Config';
 	/**
 	 * Providers cache.

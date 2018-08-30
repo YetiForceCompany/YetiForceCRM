@@ -13,6 +13,8 @@ namespace App\AddressFinder;
  */
 class OpenCageGeocoder extends Base
 {
+	/** String constant 'components' @var string */
+	private const STR_COMPONENTS = 'components';
 	/**
 	 * API Address to retrieve data.
 	 *
@@ -36,12 +38,12 @@ class OpenCageGeocoder extends Base
 	public function find($value)
 	{
 		$config = \App\AddressFinder::getConfig();
-		$url = static::$url . 'json?q=' . $value . '&pretty=1';
-		$url .= '&language=' . \App\Language::getLanguageTag();
-		$url .= '&limit=' . $config['global']['result_num'];
-		$url .= '&key=' . $config['opencage_data']['key'];
+		$urlStr = static::$url . 'json?q=' . $value . '&pretty=1';
+		$urlStr .= '&language=' . \App\Language::getLanguageTag();
+		$urlStr .= '&limit=' . $config['global']['result_num'];
+		$urlStr .= '&key=' . $config['opencage_data']['key'];
 		try {
-			$response = \Requests::get($url);
+			$response = \Requests::get($urlStr);
 			if (!$response->success) {
 				\App\Log::warning($response->status_code . ' ' . $response->body, __NAMESPACE__);
 				return false;
@@ -53,16 +55,16 @@ class OpenCageGeocoder extends Base
 					$rows[] = [
 						'label' => $row['formatted'],
 						'address' => [
-							'addresslevel1' => [$row['components']['country'] ?? '', $row['components']['ISO_3166-1_alpha-2'] ?? ''],
-							'addresslevel2' => $row['components']['state'] ?? '',
-							'addresslevel3' => $row['components']['state_district'] ?? '',
-							'addresslevel4' => $row['components']['county'] ?? '',
-							'addresslevel5' => $row['components']['city'] ?? $row['components']['village'] ?? '',
-							'addresslevel6' => $row['components']['suburb'] ?? $row['components']['neighbourhood'] ?? $row['components']['city_district'] ?? '',
-							'addresslevel7' => $row['components']['postcode'] ?? '',
-							'addresslevel8' => $row['components']['road'] ?? '',
-							'buildingnumber' => $row['components']['house_number'] ?? '',
-							'localnumber' => $row['components']['local_number'] ?? '',
+							'addresslevel1' => [$row[static::STR_COMPONENTS]['country'] ?? '', $row[static::STR_COMPONENTS]['ISO_3166-1_alpha-2'] ?? ''],
+							'addresslevel2' => $row[static::STR_COMPONENTS]['state'] ?? '',
+							'addresslevel3' => $row[static::STR_COMPONENTS]['state_district'] ?? '',
+							'addresslevel4' => $row[static::STR_COMPONENTS]['county'] ?? '',
+							'addresslevel5' => $row[static::STR_COMPONENTS]['city'] ?? $row[static::STR_COMPONENTS]['village'] ?? '',
+							'addresslevel6' => $row[static::STR_COMPONENTS]['suburb'] ?? $row[static::STR_COMPONENTS]['neighbourhood'] ?? $row[static::STR_COMPONENTS]['city_district'] ?? '',
+							'addresslevel7' => $row[static::STR_COMPONENTS]['postcode'] ?? '',
+							'addresslevel8' => $row[static::STR_COMPONENTS]['road'] ?? '',
+							'buildingnumber' => $row[static::STR_COMPONENTS]['house_number'] ?? '',
+							'localnumber' => $row[static::STR_COMPONENTS]['local_number'] ?? '',
 						],
 					];
 				}

@@ -13,7 +13,9 @@ namespace App\AddressFinder;
  */
 class GoogleGeocode extends Base
 {
+	/** String constant 'results' @var string */
 	private const STR_RESULTS = 'results';
+	/** String constant 'long_name' @var string */
 	private const STR_LONG_NAME = 'long_name';
 	/**
 	 * API Address to retrieve data.
