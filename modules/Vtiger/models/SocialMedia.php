@@ -150,7 +150,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	{
 		$twitterLogin = $this->getAllSocialMediaAccount('twitter');
 		$query = (new \App\Db\Query())->from('u_#__social_media_twitter');
-		if (empty($twitterLogin)) {
+		if (!empty($twitterLogin)) {
 			$query->where(['twitter_login' => $twitterLogin]);
 		}
 		$dataReader = $query->orderBy(['created' => SORT_DESC])
