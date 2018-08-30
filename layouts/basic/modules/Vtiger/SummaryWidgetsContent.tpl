@@ -263,7 +263,7 @@
 					<span class="float-right far fa-times-circle hideSummaryRelRecordView u-cursor-pointer"></span>
 					<table class="c-detail-widget__table">
 						<tbody>
-						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+						{foreach item=HEADER_FIELD from=$RELATED_SUMMARY_HEADERS}
 							<tr class="c-table__row--hover border-bottom">
 								<td class="u-w-37per {$WIDTHTYPE}">
 									<label class="font-weight-bold">
@@ -285,8 +285,8 @@
 					<div class="float-right py-1">
 						{if $RELATED_RECORD->isViewable()}
 							<a class="addButton" href="{$RELATED_RECORD->getFullDetailViewUrl()}">
-								<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover"
-										type="button">
+								<button type="button" class="btn btn-sm btn-light js-popover-tooltip" data-js="popover"
+										data-content="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}">
 									<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}"
 										  class="fas fa-th-list"></span>
 								</button>
@@ -294,8 +294,8 @@
 						{/if}
 						{if $RELATED_RECORD->isEditable()}
 							<a class="addButton" href="{$RELATED_RECORD->getEditViewUrl()}">
-								<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover"
-										type="button">
+								<button type="button" class="btn btn-sm btn-light js-popover-tooltip" data-js="popover"
+										data-content="{\App\Language::translate('LBL_EDIT', $MODULE)}">
 									<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}"
 										  class="far fa-edit"></span>
 								</button>

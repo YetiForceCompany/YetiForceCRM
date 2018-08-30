@@ -734,13 +734,24 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewType = !$request->isEmpty('viewType') ? $request->getByType('viewType') : '';
 		if ('ListWithSummary' === $viewType) {
-			$viewer->assign('RELATED_SUMMARY_HEADERS', $relationListView->getHeaders());
-		}
-		if ($request->has('fields')) {
-			$relationListView->setFields($request->getExploded('fields'));
+			$header = $relationListView->getHeaders();
+			if ($summaryHeaders = $relationListView->getRelatedModuleModel()->getSummaryViewFieldsList()) {
+				$relationListView->setFields(array_keys($summaryHeaders));
+				$summaryHeaders = $relationListView->getHeaders();
+			}
+			$viewer->assign('RELATED_SUMMARY_HEADERS', $summaryHeaders);
+			if ($request->has('fields')) {
+				$relationListView->setFields($request->getExploded('fields'));
+				$header = $relationListView->getHeaders();
+				$relationListView->setFields(array_keys(array_merge($summaryHeaders, $header)));
+			}
+		} else {
+			if ($request->has('fields')) {
+				$relationListView->setFields($request->getExploded('fields'));
+			}
+			$header = $relationListView->getHeaders();
 		}
 		$models = $relationListView->getEntries($pagingModel);
-		$header = $relationListView->getHeaders();
 		$links = $relationListView->getLinks();
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
