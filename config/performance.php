@@ -92,5 +92,5 @@ $PERFORMANCE_CONFIG = [
 	//Change the locale for sort the data
 	'CHANGE_LOCALE' => true,
 	//Is divided layout style on edit view in modules with products
-	'DIVIDED_VIEW' => true,
+	'INVENTORY_EDIT_VIEW_LAYOUT' => true,
 ];
