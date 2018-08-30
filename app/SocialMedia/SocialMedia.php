@@ -11,6 +11,9 @@ namespace App\SocialMedia;
  */
 class SocialMedia
 {
+	/**
+	 * Array of allowed uiType.
+	 */
 	public const ALLOWED_UITYPE = ['twitter' => 313];
 
 	/**
@@ -176,7 +179,7 @@ class SocialMedia
 		}
 		return (new \App\Db\Query())
 			->select(['social.*', 'account_count' => new \yii\db\Expression('COUNT(*)')])
-			->from(['social' => $subQuery])
-			->groupBy(['account_name']);
+			->from(['social' => $query])
+			->groupBy(['account_name', 'uitype']);
 	}
 }

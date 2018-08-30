@@ -12,6 +12,12 @@ namespace App\SocialMedia;
 class Twitter implements SocialMediaInterface
 {
 	/**
+	 * Tweet mode.
+	 *
+	 * @link https://developer.twitter.com/en/docs/tweets/tweet-updates.html
+	 */
+	public const TWEET_MODE = 'extended';
+	/**
 	 * User account name.
 	 *
 	 * @var string
@@ -64,8 +70,15 @@ class Twitter implements SocialMediaInterface
 		$db = \App\Db::getInstance();
 		$maxId = (new \App\Db\Query())
 			->from('u_#__social_media_twitter')
+			->where(['twitter_login' => $this->userName])
 			->max((new \yii\db\Expression('CAST(id_twitter AS INT)')));
 		$param['screen_name'] = $this->userName;
+		$param['trim_user'] = 1;
+		$indexOfText = 'text';
+		if (static::TWEET_MODE === 'extended') {
+			$param['tweet_mode'] = 'extended';
+			$indexOfText = 'full_text';
+		}
 		if (!\is_null($maxId)) {
 			//Retrieve only new data from Api
 			//"There are limits to the number of Tweets that can be accessed through the API. If the limit of Tweets has occured since the since_id, the since_id will be forced to the oldest ID available."
@@ -77,7 +90,7 @@ class Twitter implements SocialMediaInterface
 				$db->createCommand()->insert('u_#__social_media_twitter', [
 					'id_twitter' => $rowTwitter['id'],
 					'twitter_login' => $this->userName,
-					'message' => $rowTwitter['text'],
+					'message' => $rowTwitter[$indexOfText],
 					'created' => \DateTimeField::convertToUserTimeZone($rowTwitter['created_at'])->format('Y-m-d H:i:s'),
 				])->execute();
 			}
