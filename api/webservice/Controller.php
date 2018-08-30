@@ -141,7 +141,7 @@ class Controller
 
 	public function exceptionErrorHandler($errno, $errstr, $errfile, $errline)
 	{
-		if (\in_array($errno, [E_ERROR, E_WARNING, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR)) {
+		if (\in_array($errno, [E_ERROR, E_WARNING, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR])) {
 			throw new Core\Exception($errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline);
 		}
 	}
