@@ -27,8 +27,10 @@ class Hierarchy extends \Api\Core\BaseAction
 	public $records = [];
 	public $recursion = [];
 
-	private const CHILD = 'child';
-	private const PARENT = 'parent';
+	/** String constant 'child' @var string */
+	private const STR_CHILD = 'child';
+	/** String constant 'parent' @var string */
+	private const STR_PARENT = 'parent';
 
 	/**
 	 * Check permission to method.
@@ -88,14 +90,14 @@ class Hierarchy extends \Api\Core\BaseAction
 	 *
 	 * @return bool
 	 */
-	public function getRecords(\App\QueryGenerator $mainQueryGenerator, $parentId, $type = self::CHILD)
+	public function getRecords(\App\QueryGenerator $mainQueryGenerator, $parentId, $type = self::STR_CHILD)
 	{
 		if ($this->limit === 0 || isset($this->recursion[$parentId][$type])) {
 			return false;
 		}
 		--$this->limit;
 		$queryGenerator = clone $mainQueryGenerator;
-		if ($type === self::PARENT) {
+		if ($type === self::STR_PARENT) {
 			$queryGenerator->addCondition('id', $parentId, 'e');
 		} else {
 			$queryGenerator->addNativeCondition([$this->childColumn => $parentId]);
@@ -108,7 +110,7 @@ class Hierarchy extends \Api\Core\BaseAction
 			}
 			$this->records[$id] = [
 				'id' => $id,
-				self::PARENT => $row[$this->childField],
+				self::STR_PARENT => $row[$this->childField],
 				'name' => $row[$this->mainFieldName],
 			];
 			if ($this->findId && $this->findId === $id) {
@@ -118,11 +120,11 @@ class Hierarchy extends \Api\Core\BaseAction
 			}
 			if (!empty($row[$this->childField])) {
 				if ($this->getPermissionType() === 4) {
-					$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], self::PARENT);
-					$this->getRecords(clone $mainQueryGenerator, $id, self::PARENT);
+					$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], self::STR_PARENT);
+					$this->getRecords(clone $mainQueryGenerator, $id, self::STR_PARENT);
 				} elseif ($this->getPermissionType() === 3) {
-					$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], self::CHILD);
-					$this->getRecords(clone $mainQueryGenerator, $id, self::CHILD);
+					$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], self::STR_CHILD);
+					$this->getRecords(clone $mainQueryGenerator, $id, self::STR_CHILD);
 				}
 			}
 		}

@@ -13,9 +13,13 @@ class Login extends \Api\Core\BaseAction
 	/** @var string[] Allowed request methods */
 	public $allowedMethod = ['POST'];
 
+	/** String constant 'Y-m-d H:i:s' @var string */
 	public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+	/** String constant 'token' @var string */
 	public const STR_TOKEN = 'token';
+	/** String constant 'language' @var string */
 	public const STR_LANGUAGE = 'language';
+	/** String constant 'date_format' @var string */
 	public const STR_DATE_FORMAT = 'date_format';
 
 	/**
