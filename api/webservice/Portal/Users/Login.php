@@ -6,12 +6,17 @@ namespace Api\Portal\Users;
  * Users Login action class.
  *
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Login extends \Api\Core\BaseAction
 {
 	/** @var string[] Allowed request methods */
 	public $allowedMethod = ['POST'];
+
+	public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+	public const STR_TOKEN = 'token';
+	public const STR_LANGUAGE = 'language';
+	public const STR_DATE_FORMAT = 'date_format';
 
 	/**
 	 * Check permission to method.
@@ -51,25 +56,25 @@ class Login extends \Api\Core\BaseAction
 		if (\App\Encryption::getInstance()->decrypt($row['password_t']) !== $this->controller->request->get('password')) {
 			throw new \Api\Core\Exception('Invalid user password', 401);
 		}
-		$db->createCommand()->update('w_#__portal_user', ['login_time' => date('Y-m-d H:i:s')], ['id' => $row['id']])->execute();
+		$db->createCommand()->update('w_#__portal_user', ['login_time' => date(static::DATE_TIME_FORMAT)], ['id' => $row['id']])->execute();
 		$row = $this->updateSession($row);
 		$userModel = \App\User::getUserModel($row['user_id']);
 
 		return [
-			'token' => $row['token'],
+			static::STR_TOKEN => $row[static::STR_TOKEN],
 			'name' => \App\Record::getLabel($row['crmid']),
 			'parentName' => \App\Record::getLabel(\App\Record::getParentRecord($row['crmid'])),
 			'lastLoginTime' => $row['login_time'],
 			'lastLogoutTime' => $row['logout_time'],
-			'language' => $row['language'],
+			static::STR_LANGUAGE => $row[static::STR_LANGUAGE],
 			'type' => $row['type'],
 			'logged' => true,
 			'preferences' => [
 				'activity_view' => $userModel->getDetail('activity_view'),
 				'hour_format' => $userModel->getDetail('hour_format'),
 				'start_hour' => $userModel->getDetail('start_hour'),
-				'date_format' => $userModel->getDetail('date_format'),
-				'date_format_js' => \App\Fields\Date::currentUserJSDateFormat($userModel->getDetail('date_format')),
+				static::STR_DATE_FORMAT => $userModel->getDetail(static::STR_DATE_FORMAT),
+				'date_format_js' => \App\Fields\Date::currentUserJSDateFormat($userModel->getDetail(static::STR_DATE_FORMAT)),
 				'dayoftheweek' => $userModel->getDetail('dayoftheweek'),
 				'time_zone' => $userModel->getDetail('time_zone'),
 				'currency_id' => $userModel->getDetail('currency_id'),
@@ -100,18 +105,22 @@ class Login extends \Api\Core\BaseAction
 		$db = \App\Db::getInstance('webservice');
 		$token = md5(microtime(true) . mt_rand());
 		$params = $this->controller->request->getArray('params');
-		$language = !empty($params['language']) ? $params['language'] : (empty($row['language']) ? $this->getLanguage() : $row['language']);
+		if (!empty($params[static::STR_LANGUAGE])) {
+			$language = $params[static::STR_LANGUAGE];
+		} else {
+			$language = empty($row[static::STR_LANGUAGE] ? $this->getLanguage() : $row[static::STR_LANGUAGE]);
+		}
 		$db->createCommand()->insert('w_#__portal_session', [
 			'id' => $token,
 			'user_id' => $row['id'],
-			'created' => date('Y-m-d H:i:s'),
-			'changed' => date('Y-m-d H:i:s'),
-			'language' => $language,
+			'created' => date(static::DATE_TIME_FORMAT),
+			'changed' => date(static::DATE_TIME_FORMAT),
+			static::STR_LANGUAGE => $language,
 			'params' => \App\Json::encode($params),
 		])->execute();
-		$row['token'] = $token;
-		$row['language'] = $language;
-		$db->createCommand()->delete('w_#__portal_session', ['<', 'changed', date('Y-m-d H:i:s', strtotime('-1 day'))])->execute();
+		$row[static::STR_TOKEN] = $token;
+		$row[static::STR_LANGUAGE] = $language;
+		$db->createCommand()->delete('w_#__portal_session', ['<', 'changed', date(static::DATE_TIME_FORMAT, strtotime('-1 day'))])->execute();
 
 		return $row;
 	}

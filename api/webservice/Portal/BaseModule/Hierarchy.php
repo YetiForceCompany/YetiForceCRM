@@ -6,8 +6,8 @@ namespace Api\Portal\BaseModule;
  * Records hierarchy action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Hierarchy extends \Api\Core\BaseAction
 {
@@ -26,6 +26,9 @@ class Hierarchy extends \Api\Core\BaseAction
 	public $childField;
 	public $records = [];
 	public $recursion = [];
+
+	private const CHILD = 'child';
+	private const PARENT = 'parent';
 
 	/**
 	 * Check permission to method.
@@ -64,7 +67,7 @@ class Hierarchy extends \Api\Core\BaseAction
 			$this->mainFieldName = $entityFieldInfo['fieldname'];
 			$this->childField = $field['fieldname'];
 			$this->childColumn = "{$field['tablename']}.{$field['columnname']}";
-			$queryGenerator->setFields(['id', $field['fieldname'], $this->mainFieldName]);
+			$queryGenerator->setFields(['id', $this->childField, $this->mainFieldName]);
 			$this->getRecords($queryGenerator, $parentCrmId);
 		}
 		if (!isset($this->records[$parentCrmId])) {
@@ -85,14 +88,14 @@ class Hierarchy extends \Api\Core\BaseAction
 	 *
 	 * @return bool
 	 */
-	public function getRecords(\App\QueryGenerator $mainQueryGenerator, $parentId, $type = 'child')
+	public function getRecords(\App\QueryGenerator $mainQueryGenerator, $parentId, $type = self::CHILD)
 	{
 		if ($this->limit === 0 || isset($this->recursion[$parentId][$type])) {
 			return false;
 		}
 		--$this->limit;
 		$queryGenerator = clone $mainQueryGenerator;
-		if ($type === 'parent') {
+		if ($type === self::PARENT) {
 			$queryGenerator->addCondition('id', $parentId, 'e');
 		} else {
 			$queryGenerator->addNativeCondition([$this->childColumn => $parentId]);
@@ -105,7 +108,7 @@ class Hierarchy extends \Api\Core\BaseAction
 			}
 			$this->records[$id] = [
 				'id' => $id,
-				'parent' => $row[$this->childField],
+				self::PARENT => $row[$this->childField],
 				'name' => $row[$this->mainFieldName],
 			];
 			if ($this->findId && $this->findId === $id) {
@@ -114,15 +117,12 @@ class Hierarchy extends \Api\Core\BaseAction
 				return true;
 			}
 			if (!empty($row[$this->childField])) {
-				switch ($this->getPermissionType()) {
-					case 4:
-						$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], 'parent');
-						$this->getRecords(clone $mainQueryGenerator, $id, 'parent');
-						// no break
-					case 3:
-						$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], 'child');
-						$this->getRecords(clone $mainQueryGenerator, $id, 'child');
-						break;
+				if ($this->getPermissionType() === 4) {
+					$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], self::PARENT);
+					$this->getRecords(clone $mainQueryGenerator, $id, self::PARENT);
+				} elseif ($this->getPermissionType() === 3) {
+					$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], self::CHILD);
+					$this->getRecords(clone $mainQueryGenerator, $id, self::CHILD);
 				}
 			}
 		}
