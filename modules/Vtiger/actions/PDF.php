@@ -101,7 +101,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			Vtiger_PDF_Model::exportToPdf($recordId, $moduleName, $templateIds[0]);
 		} else {
 			if ($singlePdf) {
-				$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Mpdf', $moduleName);
+				$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Tcpdf', $moduleName);
 				$pdf = new $handlerClass();
 				$styles = '';
 				$headers = '';
@@ -169,7 +169,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				$pdfFiles = [];
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
-						$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Mpdf', $moduleName);
+						$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Tcpdf', $moduleName);
 						$pdf = new $handlerClass();
 						$pdf->setTemplateId($id);
 						$pdf->setRecordId($record);
