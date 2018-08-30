@@ -28,7 +28,7 @@ class VTTaskManager
 	public function saveTask(VTTask $task)
 	{
 		$db = App\Db::getInstance();
-		if (is_numeric($task->id)) {
+		if (!empty($task->id) && is_numeric($task->id)) {
 			//How do I check whether a member exists in php?
 			$taskId = $task->id;
 			$db->createCommand()->update('com_vtiger_workflowtasks', ['summary' => $task->summary, 'task' => serialize($task)], ['task_id' => $taskId])->execute();
