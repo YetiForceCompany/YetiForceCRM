@@ -603,9 +603,11 @@ class Vtiger_Relation_Model extends \App\Base
 	public function transfer(array $relationRecords)
 	{
 		switch ($this->getRelationType()) {
-			case static::RELATION_M2M: $this->transferM2M($relationRecords);
+			case static::RELATION_M2M:
+				$this->transferM2M($relationRecords);
 				break;
-			case static::RELATION_O2M: $this->transferO2M($relationRecords);
+			case static::RELATION_O2M:
+				$this->transferO2M($relationRecords);
 				break;
 			default:
 				break;
@@ -668,7 +670,7 @@ class Vtiger_Relation_Model extends \App\Base
 			if ($relationModel->transferDb($params)) {
 				\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', [
 					'modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()
-					], ['crmid' => $crmId])->execute();
+				], ['crmid' => $relId])->execute();
 				$eventHandler->trigger('EntityAfterTransferLink');
 			}
 		}
@@ -684,8 +686,8 @@ class Vtiger_Relation_Model extends \App\Base
 	public function transferDb(array $params)
 	{
 		return \App\Db::getInstance()->createCommand()->update('vtiger_crmentityrel', [
-				'crmid' => $params['sourceRecordId'], 'module' => $params['destinationModule']], ['relcrmid' => $params['fromRecordId'], 'relcrmid' => $params['destinationRecordId']
-			])->execute();
+			'crmid' => $params['sourceRecordId'], 'module' => $params['destinationModule']], ['relcrmid' => $params['fromRecordId'], 'relcrmid' => $params['destinationRecordId']
+		])->execute();
 	}
 
 	/**
@@ -1084,21 +1086,21 @@ class Vtiger_Relation_Model extends \App\Base
 		$result = false;
 		if ('add' === $action) {
 			$result = $db->createCommand()->insert('u_#__favorites', [
-					'data' => date('Y-m-d H:i:s'),
-					'crmid' => $data['crmid'],
-					'module' => $moduleName,
-					'relcrmid' => $data['relcrmid'],
-					'relmodule' => $this->getRelationModuleName(),
-					'userid' => App\User::getCurrentUserId(),
-				])->execute();
+				'data' => date('Y-m-d H:i:s'),
+				'crmid' => $data['crmid'],
+				'module' => $moduleName,
+				'relcrmid' => $data['relcrmid'],
+				'relmodule' => $this->getRelationModuleName(),
+				'userid' => App\User::getCurrentUserId(),
+			])->execute();
 		} elseif ('delete' === $action) {
 			$result = $db->createCommand()->delete('u_#__favorites', [
-					'crmid' => $data['crmid'],
-					'module' => $moduleName,
-					'relcrmid' => $data['relcrmid'],
-					'relmodule' => $this->getRelationModuleName(),
-					'userid' => App\User::getCurrentUserId(),
-				])->execute();
+				'crmid' => $data['crmid'],
+				'module' => $moduleName,
+				'relcrmid' => $data['relcrmid'],
+				'relmodule' => $this->getRelationModuleName(),
+				'userid' => App\User::getCurrentUserId(),
+			])->execute();
 		}
 		return $result;
 	}
