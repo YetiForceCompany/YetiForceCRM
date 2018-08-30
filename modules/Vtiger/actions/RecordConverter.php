@@ -29,18 +29,17 @@ class Vtiger_RecordConverter_Action extends \App\Controller\Action
 	 * @param \App\Request $request
 	 *
 	 * @throws \App\Exceptions\IllegalValue
-	 *
-	 * @return bool|void
 	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$records = Vtiger_Mass_Action::getRecordsListFromRequest($request);
-		$convertInstance = \App\RecordConverter::getInstanceById($request->getInteger('convertId'), $moduleName);
+		$convertId = $request->getInteger('convertId');
+		$convertInstance = \App\RecordConverter::getInstanceById($convertId, $moduleName);
 		$redirect = '';
 		$convertInstance->process($records);
-		if (count($records) === 1 && $convertInstance->get('redirect_to_edit')) {
-			$redirect = 'index.php?module=' . $request->getByType('destinyModule') . '&view=Edit&recordConverter=' . $request->getInteger('convertId') . '&sourceId=' . $records[0] . '&sourceModule=' . $moduleName;
+		if (count($records) === 1 && $convertInstance->get('redirect_to_edit') && count(explode(',', $convertInstance->get('destiny_module')))) {
+			$redirect = 'index.php?module=' . App\Module::getModuleName($convertInstance->get('destiny_module')) . '&view=Edit&recordConverter=' . $convertId . '&sourceId=' . $records[0] . '&sourceModule=' . $moduleName;
 		}
 		$response = new Vtiger_Response();
 		$response->setResult(['redirect' => $redirect, 'createdRecords' => sprintf(\App\Language::translate('LBL_CREATED_CONVERT_RECORDS', $moduleName), $convertInstance->createdRecords), 'error' => $convertInstance->error]);

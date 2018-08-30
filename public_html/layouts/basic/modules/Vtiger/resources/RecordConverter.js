@@ -96,25 +96,26 @@ $.Class("Base_RecordConverter_JS", {}, {
 						elementToBlock: thisInstance.container.find('.modal-body')
 					}
 				});
-				AppConnector.request($.extend(formData, postData)).then(function (responseData) {
+				AppConnector.request($.extend(formData, postData)).done(function (responseData) {
 					progressIndicatorElement.progressIndicator({mode: 'hide'});
 					let parseResult = JSON.parse(responseData);
-					if(parseResult.result.redirect){
-						window.location.href = responseData.result.redirect;
+					if (parseResult.result.redirect) {
+						window.location.href = parseResult.result.redirect;
+					} else {
+						if (parseResult.result.createdRecords) {
+							Vtiger_Helper_Js.showMessage({
+								text: app.vtranslate(parseResult.result.createdRecords),
+								type: 'success',
+							});
+						}
+						if (parseResult.result.error) {
+							Vtiger_Helper_Js.showMessage({
+								text: app.vtranslate(parseResult.result.error),
+								type: 'error',
+							});
+						}
+						app.hideModalWindow();
 					}
-					if (parseResult.result.createdRecords) {
-						Vtiger_Helper_Js.showMessage({
-							text: app.vtranslate(parseResult.result.createdRecords),
-							type: 'success',
-						});
-					}
-					if (parseResult.result.error) {
-						Vtiger_Helper_Js.showMessage({
-							text: app.vtranslate(parseResult.result.error),
-							type: 'error',
-						});
-					}
-					app.hideModalWindow();
 					aDeferred.resolve(responseData);
 				}, function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
