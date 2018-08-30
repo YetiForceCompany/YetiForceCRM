@@ -78,7 +78,7 @@
 								<input type="hidden" class="addView" value="true"/>
 								<input type="hidden" name="status" value="0"/>
 							{/if}
-							{if $VIEW eq 'Taxes'}
+							{if $TYPE eq 'Taxes'}
 								<div class="form-group form-row">
 									<label class="col-md-4 col-form-label u-text-small-bold text-md-right">
 										{\App\Language::translate('LBL_DEFAULT', $QUALIFIED_MODULE)}
