@@ -74,11 +74,12 @@ class Twitter implements SocialMediaInterface
 		$allMessages = $this->getTwitter('statuses/user_timeline', $param);
 		foreach ($allMessages as $rowTwitter) {
 			if (!(new \App\Db\Query())->from('u_#__social_media_twitter')->where(['id_twitter' => $rowTwitter['id']])->exists()) {
+				$created = \DateTimeField::convertToUserTimeZone((new \DateTime($rowTwitter['created_at']))->format('Y-m-d H:i:sP'))->format('Y-m-d H:i:s');
 				$db->createCommand()->insert('u_#__social_media_twitter', [
 					'id_twitter' => $rowTwitter['id'],
 					'twitter_login' => $this->userName,
 					'message' => $rowTwitter['text'],
-					'created' => (new \DateTime($rowTwitter['created_at']))->format('Y-m-d H:i:sP'),
+					'created' => $created,
 				])->execute();
 			}
 		}
