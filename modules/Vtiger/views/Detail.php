@@ -732,17 +732,26 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$relationListView->set('sortorder', $sortOrder);
 		}
 		$viewer = $this->getViewer($request);
-		if (!$request->isEmpty('viewType')) {
-			$viewType = $request->getByType('viewType');
-			if ($viewType === 'ListWithSummary') {
-				$viewer->assign('RELATED_SUMMARY_HEADERS', $relationListView->getHeaders());
+		$viewType = !$request->isEmpty('viewType') ? $request->getByType('viewType') : '';
+		if ('ListWithSummary' === $viewType) {
+			$header = $relationListView->getHeaders();
+			if ($summaryHeaders = $relationListView->getRelatedModuleModel()->getSummaryViewFieldsList()) {
+				$relationListView->setFields(array_keys($summaryHeaders));
+				$summaryHeaders = $relationListView->getHeaders();
 			}
-		}
-		if ($request->has('fields')) {
-			$relationListView->setFields($request->getExploded('fields'));
+			$viewer->assign('RELATED_SUMMARY_HEADERS', $summaryHeaders);
+			if ($request->has('fields')) {
+				$relationListView->setFields($request->getExploded('fields'));
+				$header = $relationListView->getHeaders();
+				$relationListView->setFields(array_keys(array_merge($summaryHeaders, $header)));
+			}
+		} else {
+			if ($request->has('fields')) {
+				$relationListView->setFields($request->getExploded('fields'));
+			}
+			$header = $relationListView->getHeaders();
 		}
 		$models = $relationListView->getEntries($pagingModel);
-		$header = $relationListView->getHeaders();
 		$links = $relationListView->getLinks();
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
@@ -750,12 +759,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($columns) {
 			$header = array_splice($header, 0, $columns);
 		}
-		$viewer->assign('TYPE_VIEW', $viewType ?? '');
+		$viewer->assign('TYPE_VIEW', $viewType);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('LIMIT', $limit);
-		if (!$request->isEmpty('viewType')) {
-			$viewer->assign('TYPE_VIEW', $request->getByType('viewType'));
-		}
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relatedModuleModel);

@@ -20,7 +20,7 @@ class Functions
 		} else {
 			$currencyInfo = self::getAllCurrency();
 		}
-		return $currencyInfo[$currencyid];
+		return $currencyInfo[$currencyid] ?? false;
 	}
 
 	public static function getAllCurrency($onlyActive = false)

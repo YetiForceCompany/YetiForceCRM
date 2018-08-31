@@ -32,10 +32,6 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 		} else {
 			$filename = $fileuri;
 		}
-		// prefix the base lookup folder (relocated file).
-		if (strpos($filename, 'modules') === 0) {
-			$filename = $filename;
-		}
 		return file_exists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . $filename);
 	}
 

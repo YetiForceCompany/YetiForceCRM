@@ -130,12 +130,12 @@ class CurrencyField
 	/**
 	 * Returns the Formatted Currency value for the User.
 	 *
-	 * @global Users    $current_user
+	 * @global Users $current_user
 	 *
 	 * @param \App\User $user
 	 * @param bool      $skipConversion
 	 *
-	 * @return string - Formatted Currency
+	 * @return string Formatted Currency
 	 */
 	public static function convertToUserFormat($value, $user = null, $skipConversion = false, $skipFormatting = false)
 	{
@@ -173,7 +173,7 @@ class CurrencyField
 	 * @param \App\User $user
 	 * @param bool      $skipConversion
 	 *
-	 * @return Formatted Currency
+	 * @return string Formatted Currency
 	 */
 	public function getDisplayValue($user = null, $skipConversion = false, $skipFormatting = false)
 	{
@@ -200,7 +200,7 @@ class CurrencyField
 	 * @param \App\User $user
 	 * @param bool      $skipConversion
 	 *
-	 * @return Formatted Currency
+	 * @return string Formatted Currency
 	 */
 	public function getDisplayValueWithSymbol($user = null, $skipConversion = false)
 	{
@@ -215,7 +215,7 @@ class CurrencyField
 	 * @param string $currencySymbol
 	 * @param string $currencySymbolPlacement
 	 *
-	 * @return Currency value appended with the currency symbol
+	 * @return string Currency value appended with the currency symbol
 	 */
 	public static function appendCurrencySymbol($currencyValue, $currencySymbol, $currencySymbolPlacement = '')
 	{
@@ -238,7 +238,7 @@ class CurrencyField
 	 *
 	 * @param Number $value
 	 *
-	 * @return Formatted Currency
+	 * @return bool|string Formatted Currency
 	 */
 	private function formatCurrencyValue($value)
 	{
