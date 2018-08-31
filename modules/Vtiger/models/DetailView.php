@@ -147,7 +147,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'modalView' => true,
 			];
 		}
-		if ($moduleModel->isPermitted('RecordConventer') && \App\RecordConverter::isActive($moduleModel->getName(), 'DetailView')) {
+		if ($moduleModel->isPermitted('RecordConventer') && \App\RecordConverter::isActive($moduleModel->getName(), 'Detail')) {
 			$detailViewLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linklabel' => 'LBL_RECORD_CONVERTER',
