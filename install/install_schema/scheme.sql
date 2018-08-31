@@ -163,7 +163,7 @@ CREATE TABLE `a_yf_pdf` (
 /*Table structure for table `a_yf_record_converter` */
 
 CREATE TABLE `a_yf_record_converter` (
-  `id` smallint(10) NOT NULL,
+  `id` smallint(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
   `source_module` smallint(5) NOT NULL,
