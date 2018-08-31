@@ -27,8 +27,10 @@
 						{foreach item=RECORD from=$RECORD_MODELS name=recordList}
 							<th>
 								<div class="form-check form-check-inline">
-									<input {if $smarty.foreach.recordList.first}checked{/if} type="radio" id="radio{$RECORD->getId()}" name="record" class="form-check-input" value="{$RECORD->getId()}" data-js="change">
-									<label class="form-check-label u-word-break-keep-all" for="radio{$RECORD->getId()}">&nbsp;
+									<div>
+										<input {if $smarty.foreach.recordList.first}checked{/if} type="radio" id="radio{$RECORD->getId()}" name="record" class="form-check-input" value="{$RECORD->getId()}" data-js="change">
+									</div>
+									<label class="ml-1 form-check-label u-word-break-keep-all" for="radio{$RECORD->getId()}">
 										#{$smarty.foreach.recordList.index+1} {\App\TextParser::textTruncate($RECORD->getName())}</label>
 								</div>
 							</th>
@@ -44,8 +46,10 @@
 									{/if}
 									<td>
 										<div class="form-check form-check-inline">
-											<input {if $smarty.foreach.recordList.first}checked{/if} type="radio" id="radio{$FIELD_NAME}{$RECORD->getId()}" name="{$FIELD_NAME}" class="form-check-input" value="{$RECORD->getId()}">
-											<label class="form-check-label" for="radio{$FIELD_NAME}{$RECORD->getId()}">&nbsp;{$RECORD->getListViewDisplayValue($FIELD_NAME)}</label>
+											<div>
+												<input {if $smarty.foreach.recordList.first}checked{/if} type="radio" id="radio{$FIELD_NAME}{$RECORD->getId()}" name="{$FIELD_NAME}" class="form-check-input" value="{$RECORD->getId()}">
+											</div>
+											<label class="ml-1 form-check-label" for="radio{$FIELD_NAME}{$RECORD->getId()}">{$RECORD->getListViewDisplayValue($FIELD_NAME)}</label>
 										</div>
 									</td>
 								{/foreach}
