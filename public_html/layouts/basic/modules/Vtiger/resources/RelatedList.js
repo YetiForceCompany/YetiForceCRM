@@ -420,13 +420,14 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 
 		var preQuickCreateSave = function (data) {
 			var index, queryParam, queryParamComponents;
+			let queryParameters = [];
 
 			//To handle switch to task tab when click on add task from related list of activities
 			//As this is leading to events tab intially even clicked on add task
 			if (typeof fullFormUrl !== "undefined" && fullFormUrl.indexOf('?') !== -1) {
 				var urlSplit = fullFormUrl.split('?');
 				var queryString = urlSplit[1];
-				var queryParameters = queryString.split('&');
+				queryParameters = queryString.split('&');
 				for (index = 0; index < queryParameters.length; index++) {
 					queryParam = queryParameters[index];
 					queryParamComponents = queryParam.split('=');
@@ -446,9 +447,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				if (field.length == 0) {
 					jQuery('<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />').appendTo(data);
 				}
-			}
-			if (typeof queryParameters === "undefined") {
-				let queryParameters = '';
 			}
 			for (index = 0; index < queryParameters.length; index++) {
 				queryParam = queryParameters[index];
