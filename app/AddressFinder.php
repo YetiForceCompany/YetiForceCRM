@@ -14,10 +14,6 @@ namespace App;
  */
 class AddressFinder
 {
-	/** String constant 'AddressFinder' @var string */
-	private const STR_ADDRESS_FINDER = 'AddressFinder';
-	/** String constant 'Config' @var string */
-	private const STR_CONFIG = 'Config';
 	/**
 	 * Providers cache.
 	 *
@@ -87,8 +83,8 @@ class AddressFinder
 	 */
 	public static function getConfig()
 	{
-		if (Cache::has(static::STR_ADDRESS_FINDER, static::STR_CONFIG)) {
-			return Cache::get(static::STR_ADDRESS_FINDER, static::STR_CONFIG);
+		if (Cache::has('AddressFinder', 'Config')) {
+			return Cache::get('AddressFinder', 'Config');
 		}
 		$query = (new \App\Db\Query())->from('s_#__address_finder_config');
 		$dataReader = $query->createCommand()->query();
@@ -96,7 +92,7 @@ class AddressFinder
 		while ($row = $dataReader->read()) {
 			$config[$row['type']][$row['name']] = $row['val'];
 		}
-		Cache::save(static::STR_ADDRESS_FINDER, static::STR_CONFIG, $config, Cache::LONG);
+		Cache::save('AddressFinder', 'Config', $config, Cache::LONG);
 		return $config;
 	}
 }

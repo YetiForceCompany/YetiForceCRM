@@ -15,12 +15,6 @@ class Login extends \Api\Core\BaseAction
 
 	/** String constant 'Y-m-d H:i:s' @var string */
 	public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
-	/** String constant 'token' @var string */
-	public const STR_TOKEN = 'token';
-	/** String constant 'language' @var string */
-	public const STR_LANGUAGE = 'language';
-	/** String constant 'date_format' @var string */
-	public const STR_DATE_FORMAT = 'date_format';
 
 	/**
 	 * Check permission to method.
@@ -65,20 +59,20 @@ class Login extends \Api\Core\BaseAction
 		$userModel = \App\User::getUserModel($row['user_id']);
 
 		return [
-			static::STR_TOKEN => $row[static::STR_TOKEN],
+			'token' => $row['token'],
 			'name' => \App\Record::getLabel($row['crmid']),
 			'parentName' => \App\Record::getLabel(\App\Record::getParentRecord($row['crmid'])),
 			'lastLoginTime' => $row['login_time'],
 			'lastLogoutTime' => $row['logout_time'],
-			static::STR_LANGUAGE => $row[static::STR_LANGUAGE],
+			'language' => $row['language'],
 			'type' => $row['type'],
 			'logged' => true,
 			'preferences' => [
 				'activity_view' => $userModel->getDetail('activity_view'),
 				'hour_format' => $userModel->getDetail('hour_format'),
 				'start_hour' => $userModel->getDetail('start_hour'),
-				static::STR_DATE_FORMAT => $userModel->getDetail(static::STR_DATE_FORMAT),
-				'date_format_js' => \App\Fields\Date::currentUserJSDateFormat($userModel->getDetail(static::STR_DATE_FORMAT)),
+				'date_format' => $userModel->getDetail('date_format'),
+				'date_format_js' => \App\Fields\Date::currentUserJSDateFormat($userModel->getDetail('date_format')),
 				'dayoftheweek' => $userModel->getDetail('dayoftheweek'),
 				'time_zone' => $userModel->getDetail('time_zone'),
 				'currency_id' => $userModel->getDetail('currency_id'),
@@ -109,21 +103,21 @@ class Login extends \Api\Core\BaseAction
 		$db = \App\Db::getInstance('webservice');
 		$token = md5(microtime(true) . mt_rand());
 		$params = $this->controller->request->getArray('params');
-		if (!empty($params[static::STR_LANGUAGE])) {
-			$language = $params[static::STR_LANGUAGE];
+		if (!empty($params['language'])) {
+			$language = $params['language'];
 		} else {
-			$language = empty($row[static::STR_LANGUAGE] ? $this->getLanguage() : $row[static::STR_LANGUAGE]);
+			$language = empty($row['language'] ? $this->getLanguage() : $row['language']);
 		}
 		$db->createCommand()->insert('w_#__portal_session', [
 			'id' => $token,
 			'user_id' => $row['id'],
 			'created' => date(static::DATE_TIME_FORMAT),
 			'changed' => date(static::DATE_TIME_FORMAT),
-			static::STR_LANGUAGE => $language,
+			'language' => $language,
 			'params' => \App\Json::encode($params),
 		])->execute();
-		$row[static::STR_TOKEN] = $token;
-		$row[static::STR_LANGUAGE] = $language;
+		$row['token'] = $token;
+		$row['language'] = $language;
 		$db->createCommand()->delete('w_#__portal_session', ['<', 'changed', date(static::DATE_TIME_FORMAT, strtotime('-1 day'))])->execute();
 
 		return $row;
