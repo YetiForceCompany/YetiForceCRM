@@ -402,16 +402,20 @@
 }
 
 //--- POSITIONS ---//
+.u-position-r-0 {
+	right: 0;
+}
+
+.u-position-r-5px {
+	right: calculate-rem(5px);
+}
+
 .u-position-r-10px {
 	right: calculate-rem(10px);
 }
 
 .u-position-t-10px {
 	top: calculate-rem(10px);
-}
-
-.u-position-r-5px {
-	right: calculate-rem(5px);
 }
 
 .u-position-t-5px {

@@ -21,7 +21,7 @@
 				{/if}
 			</div>
 			<div class="paddingLeft5px">
-				<h4 class="recordLabel u-text-ellipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
+				<h4 class="recordLabel pushDown marginbottomZero js-popover-tooltip" data-ellipsis="true" data-content="{$RECORD->getName()}" data-toggle="popover" data-js="tooltip">
 					<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
 					{if $RECORD_STATE !== 'Active'}
@@ -35,12 +35,15 @@
 							{/if}
 						</span>
 					{/if}
+					<span class="fas fa-info-circle fa-sm js-popover-icon d-none position-absolute u-position-r-0"></span>
 				</h4>
 				<span class="muted">
-					{\App\Language::translate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
+					{\App\Language::translate('Assigned To',$MODULE_NAME)}
+					: {$RECORD->getDisplayValue('assigned_user_id')}
 					{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 					{if $SHOWNERS != ''}
-						<br />{\App\Language::translate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+						<br/>
+						{\App\Language::translate('Share with users',$MODULE_NAME)} {$SHOWNERS}
 					{/if}
 				</span>
 			</div>

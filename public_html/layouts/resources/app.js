@@ -191,6 +191,11 @@ var App = {},
 					if (!app.isEllipsisActive(element)) {
 						return;
 					}
+					let iconElement = element.find('.js-popover-icon');
+					if (iconElement.length) {
+						element.find('.js-popover-icon').removeClass('d-none');
+						defaultParams.selector = '[data-fa-i2svg].js-popover-icon';
+					}
 				}
 				let elementParams = $.extend(true, defaultParams, params, element.data());
 				if (element.data('class')) {
