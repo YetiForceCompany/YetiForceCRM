@@ -452,7 +452,7 @@ class RecordConverter extends Base
 						foreach ($recordModel as $recordModelGroupBy) {
 							foreach ($recordModelGroupBy->getInventoryData() as $inventoryRow) {
 								foreach ($inventoryFields as $columnName => $fieldModel) {
-									$inventoryData[$groupBy][$counter][$columnName] = $inventoryRow[$columnName];
+									$inventoryDataForEdit[$groupBy][$counter][$columnName] = $inventoryRow[$columnName];
 									$invData[$groupBy][$columnName . $counter] = $inventoryRow[$columnName];
 									$fieldCustomColumn = $fieldModel->getCustomColumn();
 									if ($fieldCustomColumn) {
