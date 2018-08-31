@@ -129,6 +129,13 @@ class RecordConverter extends Base
 	public $isFieldMergeExists = false;
 
 	/**
+	 * Variable determines is redirect to edit view.
+	 *
+	 * @var bool
+	 */
+	public $idEdit = false;
+
+	/**
 	 * Function to get the instance of the record converter model.
 	 *
 	 * @return \self
@@ -386,7 +393,9 @@ class RecordConverter extends Base
 			if ($this->get('check_duplicate')) {
 				$this->checkDuplicate();
 			}
-			//	$this->saveChanges();
+			if (!$this->isEdit) {
+				$this->saveChanges();
+			}
 		}
 	}
 

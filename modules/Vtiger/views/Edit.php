@@ -82,6 +82,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 			$viewer->assign('RECORD_ID', $record);
 		} elseif (!$request->isEmpty('recordConverter')) {
 			$convertInstance = \App\RecordConverter::getInstanceById($request->getInteger('recordConverter'), $request->getByType('sourceModule'));
+			$convertInstance->isEdit = true;
 			$parentRecordModel = $convertInstance->processToEdit($request->getInteger('sourceId'), $moduleName);
 			$this->record = $parentRecordModel;
 			$viewer->assign('RECORD_ID', '');
