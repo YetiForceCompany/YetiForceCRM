@@ -36,7 +36,7 @@ class SocialMedia
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return \App\SocialMedia\SocialMediaInterface|bool
+	 * @return \App\SocialMedia\AbstractSocialMedia|bool
 	 */
 	public static function createObjectByUiType($uiType, $accountName)
 	{
@@ -140,7 +140,7 @@ class SocialMedia
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return \App\SocialMedia\SocialMediaInterface|\Generator|void
+	 * @return \App\SocialMedia\AbstractSocialMedia|\Generator|void
 	 */
 	public static function getSocialMediaAccount($socialMediaType)
 	{

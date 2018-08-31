@@ -22,7 +22,7 @@ abstract class AbstractSocialMedia
 	protected static $socialMediaType;
 
 	/**
-	 * SocialMediaInterface constructor.
+	 * AbstractSocialMedia constructor.
 	 *
 	 * @param string $userName
 	 */
