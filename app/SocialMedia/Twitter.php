@@ -86,6 +86,9 @@ class Twitter implements SocialMediaInterface
 		}
 		$allMessages = $this->getFromApi('statuses/user_timeline', $param);
 		foreach ($allMessages as $rowTwitter) {
+			$rowTwitter['id'] = \App\Purifier::encodeHtml($rowTwitter['id']);
+			$rowTwitter['created_at'] = \App\Purifier::encodeHtml($rowTwitter['created_at']);
+			$rowTwitter[$rowTwitter[$indexOfText]] = \App\Purifier::encodeHtml($rowTwitter[$indexOfText]);
 			if (!(new \App\Db\Query())->from('u_#__social_media_twitter')->where(['id_twitter' => $rowTwitter['id']])->exists()) {
 				$db->createCommand()->insert('u_#__social_media_twitter', [
 					'id_twitter' => $rowTwitter['id'],
