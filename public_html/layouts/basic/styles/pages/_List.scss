@@ -121,6 +121,7 @@ td.fieldValue {
 }
 
 .listViewEntriesDiv {
+	position: relative;
 	.listViewHeaders th {
 		background-color: #f5f5f5;
 		background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
@@ -136,9 +137,6 @@ td.fieldValue {
 		border-bottom: 1px solid #ddd;
 		border-top: 1px solid #ddd !important;
 	}
-
-	overflow: visible;
-	position: relative;
 
 	td {
 		overflow: visible;

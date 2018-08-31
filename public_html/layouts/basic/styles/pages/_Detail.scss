@@ -300,6 +300,9 @@
 	a {
 		color: lighten($link-color, 30%);
 	}
+	* {
+		white-space: normal;
+	}
 }
 
 .o-summary-category {
