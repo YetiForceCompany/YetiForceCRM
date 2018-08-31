@@ -73,7 +73,6 @@ class Twitter implements SocialMediaInterface
 			->where(['twitter_login' => $this->userName])
 			->max((new \yii\db\Expression('CAST(id_twitter AS INT)')));
 		$param['screen_name'] = $this->userName;
-		$param['trim_user'] = 1;
 		$indexOfText = 'text';
 		if (static::TWEET_MODE === 'extended') {
 			$param['tweet_mode'] = 'extended';
@@ -89,6 +88,10 @@ class Twitter implements SocialMediaInterface
 			$rowTwitter['id'] = \App\Purifier::encodeHtml($rowTwitter['id']);
 			$rowTwitter['created_at'] = \App\Purifier::encodeHtml($rowTwitter['created_at']);
 			$rowTwitter[$rowTwitter[$indexOfText]] = \App\Purifier::encodeHtml($rowTwitter[$indexOfText]);
+			if (!isset($rowTwitter['user']['name'])) {
+				throw new \App\Exceptions\AppException('Twitter API error on "user name"');
+			}
+			$rowTwitter['user'] = \App\Purifier::encodeHtml($rowTwitter['user']['username']);
 			if (!(new \App\Db\Query())->from('u_#__social_media_twitter')->where(['id_twitter' => $rowTwitter['id']])->exists()) {
 				$db->createCommand()->insert('u_#__social_media_twitter', [
 					'id_twitter' => $rowTwitter['id'],
