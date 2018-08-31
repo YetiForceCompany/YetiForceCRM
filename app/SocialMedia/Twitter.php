@@ -103,11 +103,12 @@ class Twitter extends AbstractSocialMedia
 			if (!isset($rowTwitter['user']['name'])) {
 				throw new \App\Exceptions\AppException('Twitter API error on "user name"');
 			}
-			$rowTwitter['user'] = \App\Purifier::encodeHtml($rowTwitter['user']['name']);
+			$rowTwitter['user']['name'] = \App\Purifier::encodeHtml($rowTwitter['user']['name']);
 			if (!(new \App\Db\Query())->from('u_#__social_media_twitter')->where(['id_twitter' => $rowTwitter['id']])->exists()) {
 				$db->createCommand()->insert('u_#__social_media_twitter', [
 					'id_twitter' => $rowTwitter['id'],
 					'twitter_login' => $this->userName,
+					'twitter_name' => $rowTwitter['user']['name'],
 					'message' => $rowTwitter[$indexOfText],
 					'created' => \DateTimeField::convertToUserTimeZone($rowTwitter['created_at'])->format('Y-m-d H:i:s'),
 				])->execute();
@@ -188,10 +189,16 @@ class Twitter extends AbstractSocialMedia
 	private function isError($response)
 	{
 		if (isset($response['errors'])) {
-			$errorMessage = \App\Purifier::encodeHtml($response['errors']['message']);
-			$errorCode = (int) $response['errors']['code'];
-			$this->logErrorDb('Twitter API error[code: ' . $errorCode . ']: ' . $errorMessage);
-			throw new \App\Exceptions\AppException('Twitter API error: ' . $errorMessage, $errorCode);
+			if (\is_array($response['errors'])) {
+				foreach ($response['errors'] as $error) {
+					$errorMessage = \App\Purifier::encodeHtml($error['message']);
+					$errorCode = (int) $error['code'];
+					$this->logErrorDb('Twitter API error[code: ' . $errorCode . ']: ' . $errorMessage);
+				}
+			} else {
+				$this->logErrorDb('Twitter API unknown error');
+			}
+			throw new \App\Exceptions\AppException('Twitter API error');
 		}
 		return false;
 	}
