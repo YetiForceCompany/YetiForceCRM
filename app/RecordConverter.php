@@ -574,25 +574,27 @@ class RecordConverter extends Base
 	 */
 	public function checkDuplicate()
 	{
-		$referenceDestinyField = $this->fieldMapping['field_merge'][$this->destinyModuleModel->getId()];
-		if ($referenceDestinyField) {
-			$query = $this->getQueryForDuplicate();
-			foreach ($this->cleanRecordModels as $groupBy => $recordModel) {
-				$columnsToCheck = [];
-				if ($this->isFieldMergeExists) {
-					if ($this->groupRecordConvert) {
-						$columnsToCheck[$referenceDestinyField] = $groupBy;
+		if (isset($this->fieldMapping['field_merge'][$this->destinyModuleModel->getId()])) {
+			$referenceDestinyField = $this->fieldMapping['field_merge'][$this->destinyModuleModel->getId()];
+			if ($referenceDestinyField) {
+				$query = $this->getQueryForDuplicate();
+				foreach ($this->cleanRecordModels as $groupBy => $recordModel) {
+					$columnsToCheck = [];
+					if ($this->isFieldMergeExists) {
+						if ($this->groupRecordConvert) {
+							$columnsToCheck[$referenceDestinyField] = $groupBy;
+						} else {
+							$sourceRecordModel = \Vtiger_Record_Model::getInstanceById($groupBy, $this->sourceModule);
+							$columnsToCheck[$referenceDestinyField] = $sourceRecordModel->get($this->get('field_merge'));
+						}
 					} else {
-						$sourceRecordModel = \Vtiger_Record_Model::getInstanceById($groupBy, $this->sourceModule);
-						$columnsToCheck[$referenceDestinyField] = $sourceRecordModel->get($this->get('field_merge'));
+						foreach ($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
+							$columnsToCheck[$destinyField] = $this->textParserValues[$groupBy][$sourceField];
+						}
 					}
-				} else {
-					foreach ($this->fieldMapping['mapping'][$this->destinyModuleModel->getId()] as $destinyField => $sourceField) {
-						$columnsToCheck[$destinyField] = $this->textParserValues[$groupBy][$sourceField];
+					if ($query->where($columnsToCheck)->exists()) {
+						unset($this->cleanRecordModels[$groupBy]);
 					}
-				}
-				if ($query->where($columnsToCheck)->exists()) {
-					unset($this->cleanRecordModels[$groupBy]);
 				}
 			}
 		}
