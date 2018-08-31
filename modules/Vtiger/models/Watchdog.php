@@ -389,6 +389,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 			->from('u_#__watchdog_module')
 			->where(['module' => (int) $this->get('moduleId')]);
 		if ($getData) {
+			$members = [];
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$data = explode(':', $row['member']);
