@@ -10,12 +10,12 @@ $socialMediaType = [];
 foreach (\App\SocialMedia\SocialMedia::ALLOWED_UITYPE as $uiType) {
 	if (\App\SocialMedia\SocialMedia::isConfigured($uiType)) {
 		$socialMediaType[] = \App\SocialMedia\SocialMedia::getSocialMediaType($uiType);
+	} else {
+		\App\SocialMedia\SocialMedia::log($uiType, 'warning', 'Unconfigured API');
 	}
 }
 if (count($socialMediaType) > 0) {
 	foreach (\App\SocialMedia\SocialMedia::getSocialMediaAccount($socialMediaType) as $socialMedia) {
 		$socialMedia->retrieveDataFromApi();
 	}
-} else {
-	\App\Log::info('The Social API is unconfigured');
 }

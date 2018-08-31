@@ -78,6 +78,17 @@ class SocialMedia
 	}
 
 	/**
+	 * @param int    $uiType
+	 * @param string $message
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public static function log($uiType, $typeOfLog, $message)
+	{
+		call_user_func(static::getClassNameByUitype($uiType) . '::log', $typeOfLog, $message);
+	}
+
+	/**
 	 * @param string|array|null $socialMediaType
 	 *
 	 * @throws \App\Exceptions\AppException

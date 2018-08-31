@@ -9,8 +9,9 @@ namespace App\SocialMedia;
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-class Twitter implements SocialMediaInterface
+class Twitter extends AbstractSocialMedia
 {
+	protected static $socialMediaType = 'twitter';
 	/**
 	 * Tweet mode.
 	 *
@@ -83,7 +84,9 @@ class Twitter implements SocialMediaInterface
 			//"There are limits to the number of Tweets that can be accessed through the API. If the limit of Tweets has occured since the since_id, the since_id will be forced to the oldest ID available."
 			$param['since_id'] = $maxId;
 		}
+		self::logInfo('Begin downloading new messages');
 		$allMessages = $this->getFromApi('statuses/user_timeline', $param);
+		$cnt = 0;
 		foreach ($allMessages as $rowTwitter) {
 			$rowTwitter['id'] = \App\Purifier::encodeHtml($rowTwitter['id']);
 			$rowTwitter['created_at'] = \App\Purifier::encodeHtml($rowTwitter['created_at']);
@@ -91,7 +94,7 @@ class Twitter implements SocialMediaInterface
 			if (!isset($rowTwitter['user']['name'])) {
 				throw new \App\Exceptions\AppException('Twitter API error on "user name"');
 			}
-			$rowTwitter['user'] = \App\Purifier::encodeHtml($rowTwitter['user']['username']);
+			$rowTwitter['user'] = \App\Purifier::encodeHtml($rowTwitter['user']['name']);
 			if (!(new \App\Db\Query())->from('u_#__social_media_twitter')->where(['id_twitter' => $rowTwitter['id']])->exists()) {
 				$db->createCommand()->insert('u_#__social_media_twitter', [
 					'id_twitter' => $rowTwitter['id'],
@@ -99,7 +102,13 @@ class Twitter implements SocialMediaInterface
 					'message' => $rowTwitter[$indexOfText],
 					'created' => \DateTimeField::convertToUserTimeZone($rowTwitter['created_at'])->format('Y-m-d H:i:s'),
 				])->execute();
+				$cnt++;
 			}
+		}
+		if ($cnt > 0) {
+			static::logInfo($cnt . ' new messages downloaded');
+		} else {
+			static::logInfo('No new messages');
 		}
 	}
 
@@ -125,8 +134,10 @@ class Twitter implements SocialMediaInterface
 	private function isError($response)
 	{
 		if (isset($response['errors'])) {
-			throw new \App\Exceptions\AppException('Twitter API error' . $response['errors']['message'],
-				(int) $response['errors']['code']);
+			$errorMessage = \App\Purifier::encodeHtml($response['errors']['message']);
+			$errorCode = (int) $response['errors']['code'];
+			self::logInfo('Twitter API error[code: ' . $errorCode . ']: ' . $errorMessage);
+			throw new \App\Exceptions\AppException('Twitter API error: ' . $errorMessage, $errorCode);
 		}
 		return false;
 	}
