@@ -267,3 +267,11 @@
 		font-size: 75%;
 	}
 }
+
+//Image
+.c-img {
+	&__user {
+		width: auto;
+		height: calculate-rem(40px);
+	}
+}
