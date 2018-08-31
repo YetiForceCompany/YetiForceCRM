@@ -104,22 +104,18 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Tcpdf', $moduleName);
 				$pdf = new $handlerClass();
 				$styles = '';
-				$headers = '';
-				$footers = '';
 				$classes = '';
-				$body = '';
 				foreach ($recordId as $index => $record) {
 					$templateIdsTemp = $templateIds;
 					$pdf->setRecordId($recordId[0]);
 					$pdf->setModuleName($moduleName);
-
 					$firstTemplate = array_shift($templateIdsTemp);
 					$template = Vtiger_PDF_Model::getInstanceById($firstTemplate);
 					$template->setMainRecordId($record);
+					$pdf->setWaterMark($template);
 					$pdf->setLanguage($template->get('language'));
 					App\Language::setTemporaryLanguage($template->get('language'));
 					$template->getParameters();
-
 					$styles .= " @page template_{$record}_{$firstTemplate} {
 						sheet-size: {$template->getFormat()};
 						margin-top: {$template->get('margin_top')}mm;
@@ -129,18 +125,21 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						odd-header-name: html_Header_{$record}_{$firstTemplate};
 						odd-footer-name: html_Footer_{$record}_{$firstTemplate};
 					}";
-					$html = '';
-
-					$headers .= ' <htmlpageheader name="Header_' . $record . '_' . $firstTemplate . '">' . $template->getHeader() . '</htmlpageheader>';
-					$footers .= ' <htmlpagefooter name="Footer_' . $record . '_' . $firstTemplate . '">' . $template->getFooter() . '</htmlpagefooter>';
 					$classes .= ' div.page_' . $record . '_' . $firstTemplate . ' { page-break-before: always; page: template_' . $record . '_' . $firstTemplate . '; }';
-					$body .= '<div class="page_' . $record . '_' . $firstTemplate . '">' . $template->getBody() . '</div>';
-
+					$body = '<div class="page_' . $record . '_' . $firstTemplate . '">' . $template->getBody() . '</div>';
+					$pdf->pdf()->setHtmlHeader('<div style="background-color:red">' . $id . '</div>'); //,$template->getHeader()$template->getHeader());
+					$pdf->pdf()->AddPage();
+					$pdf->pdf()->setHtmlFooter('<div style="background-color:red">' . $id . '</div>'); //,$template->getHeader()$template->getFooter());
+					$pdf->pdf()->writeHTML($body, true, false, true, false, '');
+					$pdf->pdf()->lastPage();
 					foreach ($templateIdsTemp as $id) {
 						$template = Vtiger_PDF_Model::getInstanceById($id);
 						$template->setMainRecordId($record);
+						$pdf->setWaterMark($template);
 						$pdf->setLanguage($template->get('language'));
 						App\Language::setTemporaryLanguage($template->get('language'));
+
+						/* to nie działa w tcp
 						$styles .= " @page template_{$record}_{$id} {
 							sheet-size: {$template->getFormat()};
 							margin-top: {$template->get('margin_top')}mm;
@@ -150,16 +149,16 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 							odd-header-name: html_Header_{$record}_{$id};
 							odd-footer-name: html_Footer_{$record}_{$id};
 						}";
-						$html = '';
-
-						$headers .= ' <htmlpageheader name="Header_' . $record . '_' . $id . '">' . $template->getHeader() . '</htmlpageheader>';
-						$footers .= ' <htmlpagefooter name="Footer_' . $record . '_' . $id . '">' . $template->getFooter() . '</htmlpagefooter>';
 						$classes .= ' div.page_' . $record . '_' . $id . ' { page-break-before: always; page: template_' . $record . '_' . $id . '; }';
-						$body .= '<div class="page_' . $record . '_' . $id . '">' . $template->getBody() . '</div>';
+						*/
+						$body = '<div class="page_' . $record . '_' . $id . '">' . $template->getBody() . '</div>';
+						$pdf->pdf()->setHtmlHeader('<div style="background-color:red">' . $id . '</div>'); //,$template->getHeader());
+						$pdf->pdf()->AddPage();
+						$pdf->pdf()->setHtmlFooter('<div style="background-color:red">' . $id . '</div>'); //,$template->getHeader()$template->getFooter());
+						$pdf->pdf()->writeHTML($body, true, false, true, false, '');
+						$pdf->pdf()->lastPage();
 					}
 				}
-				$html = "<html><head><style>{$styles} {$classes}</style></head><body>{$headers} {$footers} {$body}</body></html>";
-				$pdf->loadHTML($html);
 				$pdf->setFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE'));
 				$pdf->output();
 			} else {
@@ -174,7 +173,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$pdf->setTemplateId($id);
 						$pdf->setRecordId($record);
 						$pdf->setModuleName($moduleName);
-
+						$pdf->setWaterMark($template);
 						$template = Vtiger_PDF_Model::getInstanceById($id);
 						$template->setMainRecordId($record);
 						$pdf->setLanguage($template->get('language'));

@@ -30,7 +30,7 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	 *
 	 * @var int
 	 */
-	protected $defaultFontSize = 24;
+	protected $defaultFontSize = 10;
 
 	/**
 	 * Returns pdf library object.
@@ -43,7 +43,7 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	/**
 	 * Constructor.
 	 */
-	public function __construct($mode = 'UTF-8', $format = 'A4', $defaultFontSize = 24, $defaultFont = 'dejavusans', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
+	public function __construct($mode = 'UTF-8', $format = 'A4', $defaultFontSize = 10, $defaultFont = 'dejavusans', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
 	{
 		$this->setLibraryName('tcpdf');
 		$this->defaultFontFamily = $defaultFont;
@@ -55,8 +55,12 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 		$this->pdf->SetHeaderMargin($headerMargin);
 		$this->pdf->SetFooterMargin($footerMargin);
 		$this->pdf->SetAutoPageBreak(true, $bottomMargin);
-		$this->pdf->setHeaderFont([$defaultFont, '', $defaultFontSize]);
-		$this->pdf->setFooterFont([$defaultFont, '', $defaultFontSize]);
+		$this->pdf->setHeaderFontFamily($defaultFont);
+		$this->pdf->setHeaderFontVariation('');
+		$this->pdf->setHeaderFontSize($defaultFontSize);
+		$this->pdf->setFooterFontFamily($defaultFont);
+		$this->pdf->setFooterFontVariation('');
+		$this->pdf->setFooterFontSize($defaultFontSize);
 		$this->pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 	}
 
@@ -311,7 +315,6 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 			$this->pdf->lastPage();
 		}
 		$this->pdf->Output(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $fileName, $dest);
-		//echo $this->html;
 	}
 
 	public function writeHTML()
@@ -321,7 +324,9 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 
 	public function setWaterMark($templateModel)
 	{
-		$this->pdf->setWatermarkImage(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html/layouts/resources/Logo/logo_yetiforce.png', 0.5);
+		if ($templateModel->get('watermark_image')) {
+			$this->pdf->setWatermarkImage($templateModel->get('watermark_image'), 0.5, 'P');
+		}
 		/*if ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT) {
 			$this->pdf->SetWatermarkText($templateModel->get('watermark_text'), 0.15);
 			$this->pdf->showWatermarkText = true;
@@ -355,11 +360,12 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 		$self->setRecordId($recordId);
 		$self->setModuleName($moduleName);
 		$self->setWaterMark($template);
-
 		$self->setLanguage($template->get('language'));
 		$self->setFileName($template->get('filename'));
 		App\Language::setTemporaryLanguage($template->get('language'));
 		$self->parseParams($template->getParameters());
+		$this->pdf->setHeaderFont([$this->defaultFont, '', $this->defaultFontSize]);
+		$this->pdf->setFooterFont([$this->defaultFont, '', $this->defaultFontSize]);
 		$self->setHeader('Header', $template->getHeader());
 		$self->setFooter('Footer', $template->getFooter());
 		$self->loadHTML($template->getBody());

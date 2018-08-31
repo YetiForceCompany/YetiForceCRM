@@ -9,14 +9,14 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 	 *
 	 * @var string
 	 */
-	protected $headerHtml = '';
+	protected $htmlHeader = '';
 
 	/**
 	 * Footer html.
 	 *
 	 * @var string
 	 */
-	protected $footerHtml = '';
+	protected $htmlFooter = '';
 
 	/**
 	 * Header font.
@@ -80,7 +80,17 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 	 */
 	public function setHtmlHeader(string $html)
 	{
-		$this->headerHtml = $html;
+		$this->htmlHeader = $html;
+	}
+
+	/**
+	 * Get html header.
+	 *
+	 * @return string
+	 */
+	public function getHtmlHeader()
+	{
+		return $this->htmlHeader;
 	}
 
 	/**
@@ -90,7 +100,17 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 	 */
 	public function setHtmlFooter(string $html)
 	{
-		$this->footerHtml = $html;
+		$this->htmlFooter = $html;
+	}
+
+	/**
+	 * Get html footer.
+	 *
+	 * @return string
+	 */
+	public function getHtmlFooter()
+	{
+		return $this->htmlFooter;
 	}
 
 	/**
@@ -100,7 +120,7 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 	 */
 	public function setHeaderFontFamily(string $font)
 	{
-		$this->headerFont = $font;
+		$this->headerFontFamily = $font;
 	}
 
 	/**
@@ -121,6 +141,36 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 	public function setHeaderFontSize(int $size)
 	{
 		$this->headerFontSize = $size;
+	}
+
+	/**
+	 * Set header font.
+	 *
+	 * @param string $font
+	 */
+	public function setFooterFontFamily(string $font)
+	{
+		$this->footerFontFamily = $font;
+	}
+
+	/**
+	 * Set header font variation (bold, italic ...).
+	 *
+	 * @param string $variation
+	 */
+	public function setFooterFontVariation(string $variation)
+	{
+		$this->footerFontVariation = $variation;
+	}
+
+	/**
+	 * Set header font size.
+	 *
+	 * @param int $size
+	 */
+	public function setFooterFontSize(int $size)
+	{
+		$this->footerFontSize = $size;
 	}
 
 	/*public function SetFont($family, $style = '', $size = null, $fontfile = '', $subset = 'default', $out = true)
@@ -195,9 +245,9 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 			$this->setPageMark();
 			$this->SetX($oldX);
 			$this->SetY($oldY);
-			$this->SetAlpha(1);
+			$this->SetAlpha($oldAplha);
 		}
-		$this->writeHTML($this->headerHtml);
+		$this->writeHTML($this->getHtmlHeader());
 	}
 
 	/**
@@ -206,6 +256,6 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 	public function Footer()
 	{
 		$this->setFont($this->footerFontFamily, $this->footerFontVariation, $this->footerFontSize);
-		$this->writeHTML($this->footerHtml);
+		$this->writeHTML($this->getHtmlFooter());
 	}
 }
