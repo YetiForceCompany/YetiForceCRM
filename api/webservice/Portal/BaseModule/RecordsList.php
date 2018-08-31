@@ -13,12 +13,6 @@ class RecordsList extends \Api\Core\BaseAction
 {
 	/** @var string[] Allowed request methods */
 	public $allowedMethod = ['GET'];
-	/** String constant 'fieldName' @var string */
-	private const STR_FIELD_NAME = 'fieldName';
-	/** String constant 'value' @var string */
-	private const STR_VALUE = 'value';
-	/** String constant 'operator' @var string */
-	private const STR_OPERATOR = 'operator';
 
 	/**
 	 * Get method.
@@ -86,11 +80,11 @@ class RecordsList extends \Api\Core\BaseAction
 		}
 		if ($conditions = $this->controller->request->getHeader('X-CONDITION')) {
 			$conditions = \App\Json::decode($conditions);
-			if (isset($conditions[static::STR_FIELD_NAME])) {
-				$queryGenerator->addCondition($conditions[static::STR_FIELD_NAME], $conditions[static::STR_VALUE], $conditions[static::STR_OPERATOR]);
+			if (isset($conditions['fieldName'])) {
+				$queryGenerator->addCondition($conditions['fieldName'], $conditions['value'], $conditions['operator']);
 			} else {
 				foreach ($conditions as $condition) {
-					$queryGenerator->addCondition($condition[static::STR_FIELD_NAME], $condition[static::STR_VALUE], $condition[static::STR_OPERATOR]);
+					$queryGenerator->addCondition($condition['fieldName'], $condition['value'], $condition['operator']);
 				}
 			}
 		}
@@ -126,8 +120,8 @@ class RecordsList extends \Api\Core\BaseAction
 						'sourceField' => $field['fieldname'],
 						'relatedModule' => $moduleName,
 						'relatedField' => $relatedField['fieldname'],
-						static::STR_VALUE => $parentId,
-						static::STR_OPERATOR => 'e',
+						'value' => $parentId,
+						'operator' => 'e',
 						'conditionGroup' => true,
 					]);
 					$foundField = true;
