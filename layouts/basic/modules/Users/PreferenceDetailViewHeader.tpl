@@ -12,14 +12,14 @@
 {strip}
 {assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
 <input id="recordId" type="hidden" value="{$RECORD->getId()}"/>
-<div class="tpl-PreferenceDetailViewHeader detailViewContainer">
+<div class="tpl-Users-PreferenceDetailViewHeader detailViewContainer">
 	<div class="detailViewTitle px-2 marginTop5 d-flex flex-column justify-content-lg-between flex-lg-row"
 		 id="prefPageHeader">
 		<div class="ml-0 d-flex justify-content-center">
 			<div class="logo pl-0 mt-3">
 				{assign var=IMAGE value=$RECORD->getImage()}
 				{if $IMAGE}
-					<img src="{$IMAGE.url}" class="pushDown" alt="{$RECORD->getName()}" title="{$RECORD->getName()}"
+					<img src="{$IMAGE.url}" class="pushDown mr-2" alt="{$RECORD->getName()}" title="{$RECORD->getName()}"
 						 height="80" align="left">
 					<br/>
 				{else}
