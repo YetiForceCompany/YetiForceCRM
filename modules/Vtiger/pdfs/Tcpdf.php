@@ -23,14 +23,14 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	 *
 	 * @var string
 	 */
-	protected $defaultFont = 'dejavusans';
+	protected $defaultFontFamily = 'dejavusans';
 
 	/**
 	 * Default font size.
 	 *
 	 * @var int
 	 */
-	protected $defaultFontSize = 10;
+	protected $defaultFontSize = 24;
 
 	/**
 	 * Returns pdf library object.
@@ -43,19 +43,20 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	/**
 	 * Constructor.
 	 */
-	public function __construct($mode = '', $format = 'A4', $defaultFontSize = 0, $defaultFont = 'dejavusans', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
+	public function __construct($mode = 'UTF-8', $format = 'A4', $defaultFontSize = 24, $defaultFont = 'dejavusans', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
 	{
 		$this->setLibraryName('tcpdf');
-		$this->defaultFont = $defaultFont;
+		$this->defaultFontFamily = $defaultFont;
 		$this->defaultFontSize = $defaultFontSize;
 		$this->pdf = new Vtiger_Yftcpdf_Pdf($orientation, 'mm', $format, true, $mode);
-		$this->pdf->setFont($defaultFont, '', $defaultFontSize);
+		$this->pdf->setFontSubsetting(true);
+		$this->pdf->SetFont($this->defaultFontFamily, '', $this->defaultFontSize);
 		$this->pdf->SetMargins($leftMargin, $topMargin, $rightMargin);
 		$this->pdf->SetHeaderMargin($headerMargin);
 		$this->pdf->SetFooterMargin($footerMargin);
 		$this->pdf->SetAutoPageBreak(true, $bottomMargin);
-		//$this->pdf->setHeaderFont([$defaultFont, '', $defaultFontSize]);
-		//$this->pdf->setFooterFont([$defaultFont, '', $defaultFontSize]);
+		$this->pdf->setHeaderFont([$defaultFont, '', $defaultFontSize]);
+		$this->pdf->setFooterFont([$defaultFont, '', $defaultFontSize]);
 		$this->pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 	}
 
@@ -163,6 +164,12 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	 */
 	public function setPageSize($format, $orientation)
 	{
+	}
+
+	public function setLanguage($language)
+	{
+		parent::setLanguage($language);
+		$this->pdf->setLanguage($language);
 	}
 
 	/**
@@ -340,26 +347,23 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 
 		$pageOrientation = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
 		if ($template->get('margin_chkbox') == 1) {
-			$pdf = new self('utf-8', $template->get('page_format'), 0, '', $pageOrientation);
+			$self = new self('UTF-8', $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientation);
 		} else {
-			$pdf = new self(
-				'utf-8', $template->get('page_format'), 0, '', $pageOrientation, $template->get('margin_left'), $template->get('margin_right'), $template->get('margin_top'), $template->get('margin_bottom'), $template->get('header_height'), $template->get('footer_height')
-			);
+			$self = new self('UTF-8', $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientation, $template->get('margin_left'), $template->get('margin_right'), $template->get('margin_top'), $template->get('margin_bottom'), $template->get('header_height'), $template->get('footer_height'));
 		}
-		$pdf->setTemplateId($templateId);
-		$pdf->setRecordId($recordId);
-		$pdf->setModuleName($moduleName);
-		$pdf->setWaterMark($template);
-		$pdf->setLanguage($template->get('language'));
-		$pdf->setFileName($template->get('filename'));
+		$self->setTemplateId($templateId);
+		$self->setRecordId($recordId);
+		$self->setModuleName($moduleName);
+		$self->setWaterMark($template);
+
+		$self->setLanguage($template->get('language'));
+		$self->setFileName($template->get('filename'));
 		App\Language::setTemporaryLanguage($template->get('language'));
-		$pdf->parseParams($template->getParameters());
-		//$pdf->setHeader('Header', $template->getHeader());
-		//$pdf->setFooter('Footer', $template->getFooter());
-		$pdf->setHeader('Header', '<div style="background-color:red;">header</div>');
-		$pdf->setFooter('Header', '<div style="background-color:red;">header</div>');
-		$pdf->loadHTML($template->getBody());
-		$pdf->output($filePath, $saveFlag);
+		$self->parseParams($template->getParameters());
+		$self->setHeader('Header', $template->getHeader());
+		$self->setFooter('Footer', $template->getFooter());
+		$self->loadHTML($template->getBody());
+		$self->output($filePath, $saveFlag);
 		App\Language::clearTemporaryLanguage();
 	}
 }

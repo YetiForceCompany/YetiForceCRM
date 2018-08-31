@@ -431,9 +431,9 @@ class Vtiger_PDF_Model extends \App\Base
 		$format = $this->get('page_format');
 		$orientation = $this->get('page_orientation');
 		if ($orientation === 'PLL_LANDSCAPE') {
-			$format .= '-L';
+			$format .= 'L';
 		} else {
-			$format .= '-P';
+			$format .= 'P';
 		}
 		return $format;
 	}
