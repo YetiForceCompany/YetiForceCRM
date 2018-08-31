@@ -84,7 +84,7 @@ class Twitter extends AbstractSocialMedia
 			//"There are limits to the number of Tweets that can be accessed through the API. If the limit of Tweets has occured since the since_id, the since_id will be forced to the oldest ID available."
 			$param['since_id'] = $maxId;
 		}
-		self::logInfo('Begin downloading new messages');
+		static::logInfo('Begin downloading new messages');
 		$allMessages = $this->getFromApi('statuses/user_timeline', $param);
 		$cnt = 0;
 		foreach ($allMessages as $rowTwitter) {
@@ -136,7 +136,7 @@ class Twitter extends AbstractSocialMedia
 		if (isset($response['errors'])) {
 			$errorMessage = \App\Purifier::encodeHtml($response['errors']['message']);
 			$errorCode = (int) $response['errors']['code'];
-			self::logInfo('Twitter API error[code: ' . $errorCode . ']: ' . $errorMessage);
+			static::logInfo('Twitter API error[code: ' . $errorCode . ']: ' . $errorMessage);
 			throw new \App\Exceptions\AppException('Twitter API error: ' . $errorMessage, $errorCode);
 		}
 		return false;
@@ -154,8 +154,13 @@ class Twitter extends AbstractSocialMedia
 	 */
 	private function getFromApi($path, array $parameters = [])
 	{
-		$response = static::$twitterConnection->get($path, $parameters);
-		$this->isError($response);
-		return $response;
+		try {
+			$response = static::$twitterConnection->get($path, $parameters);
+			$this->isError($response);
+			return $response;
+		} catch (\Throwable $e) {
+			static::logInfo('Twitter API error: ' . $e->getMessage());
+		}
+		throw new \App\Exceptions\AppException('Twitter API error');
 	}
 }

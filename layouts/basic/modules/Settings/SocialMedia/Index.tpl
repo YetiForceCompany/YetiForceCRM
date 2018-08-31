@@ -23,16 +23,25 @@
 				</div>
 			{/if}
 			<div class="contents tabbable">
-				<ul class="nav nav-tabs layoutTabs massEditTabs">
+				<ul class="nav nav-tabs layoutTabs massEditTabs my-2 m-sm-2">
 					<li class="nav-item">
-						<a class="nav-link active" data-toggle="tab" href="#twitter">
+						<a class="nav-link active" data-toggle="tab" href="#logs">
+							<span class="fab fa-twitter-square"></span>
+							<strong>{\App\Language::translate('LBL_LOGS', $QUALIFIED_MODULE)}</strong>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#twitter">
 							<span class="fab fa-twitter-square"></span>
 							<strong>{\App\Language::translate('LBL_TWITTER', $QUALIFIED_MODULE)}</strong>
 						</a>
 					</li>
 				</ul>
 				<div class="tab-content layoutContent py-3">
-					<div class="tab-pane active" id="twitter">
+					<div class="tab-pane active" id="logs">
+						{include file=\App\Layout::getTemplatePath('Logs.tpl', 'Settings:SocialMedia')}
+					</div>
+					<div class="tab-pane" id="twitter">
 						{include file=\App\Layout::getTemplatePath('Twitter.tpl', 'Settings:SocialMedia')}
 					</div>
 				</div>
