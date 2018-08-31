@@ -74,7 +74,7 @@ $.Class("Base_RecordConverter_JS", {}, {
 		thisInstance.container.on('click', "[name='saveButton']", function (e) {
 			let convertType = thisInstance.container.find('.js-convert-type option:selected').val();
 			if (convertType) {
-				var formData = thisInstance.container.find('form').serializeFormData();
+				let formData = thisInstance.container.find('form').serializeFormData();
 				if (app.getViewName() === 'List') {
 					let listInstance = Vtiger_List_Js.getInstance();
 					var postData = listInstance.getDefaultParams();
