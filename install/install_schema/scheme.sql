@@ -227,6 +227,10 @@ CREATE TABLE `b_yf_social_media_twitter` (
   `id_twitter` varchar(32) DEFAULT NULL,
   `message` text DEFAULT NULL,
   `created` datetime DEFAULT NULL,
+  `twitter_name` varchar(128) DEFAULT NULL,
+  `reply` int(11) DEFAULT NULL,
+  `retweet` int(11) DEFAULT NULL,
+  `favorite` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `twitter_login` (`twitter_login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1071,6 +1075,20 @@ CREATE TABLE `s_yf_smsnotifier_queue` (
   `records` text NOT NULL,
   `module` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `s_yf_social_media_logs` */
+
+CREATE TABLE `s_yf_social_media_logs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `date_log` datetime NOT NULL,
+  `type_of_log` varchar(32) DEFAULT NULL,
+  `type` varchar(32) DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `date_log` (`date_log`),
+  KEY `type_of_log` (`type_of_log`),
+  KEY `type` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_activity_invitation` */
@@ -3008,6 +3026,10 @@ CREATE TABLE `u_yf_social_media_twitter` (
   `id_twitter` varchar(32) DEFAULT NULL,
   `message` text DEFAULT NULL,
   `created` datetime DEFAULT NULL,
+  `twitter_name` varchar(128) DEFAULT NULL,
+  `reply` int(11) DEFAULT NULL,
+  `retweet` int(11) DEFAULT NULL,
+  `favorite` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `twitter_login` (`twitter_login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
