@@ -28,7 +28,8 @@
 			<hr class="widgetHr"/>
 			<div class="col-sm-12">
 				<div class="input-group input-group-sm">
-					<select name="customMultiFilter" class="js-select widgetFilter form-control customFilter input-sm"
+					<select name="customMultiFilter"
+							class="js-select select2 widgetFilter form-control customFilter"
 							data-js="container" multiple="multiple"
 							title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 						{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAll()}

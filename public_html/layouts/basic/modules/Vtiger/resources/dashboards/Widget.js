@@ -2796,14 +2796,8 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 		let selectValue = app.cacheGet('multifilterSelectValue', null),
 			multifilterSettings = this.getMultifilterSettings();
 		if (null != selectValue && this.paramCache) {
-			multifilterSettings.find('.js-select').val(selectValue);
+			multifilterSettings.find('.js-select').val(selectValue).trigger('change.select2');
 		}
-		multifilterSettings.find('.js-select').select2({
-			height: "30px",
-			templateSelection: function (item) {
-				return item.text;
-			}
-		});
 		this.loadMultifilterData(true);
 		multifilterSettings.find('.js-select').on('select2:select', () => {
 			this.loadMultifilterData(true);
@@ -2824,15 +2818,14 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 		let widgetId = self.getMultifilterControls().attr('data-widgetid'),
 			multifilterIds = self.getMultifilterSettings().find('.js-select option:selected'),
 			params = [];
+		if (!select) {
+			self.getMultifilterContent().html('');
+		}
 		multifilterIds.each(function () {
 			let existFilter = self.getMultifilterContent().find('[data-id="' + $(this).val() + '"]');
 			let thisInstance = $(this);
-			if (select) {
-				if (0 < existFilter.length) {
-					return true;
-				}
-			} else {
-				self.getMultifilterContent().html('');
+			if (0 < existFilter.length) {
+				return true;
 			}
 			params = {
 				module: thisInstance.data('module'),
