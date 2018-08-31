@@ -49,7 +49,11 @@ class Vtiger_Multifilter_Dashboard extends Vtiger_IndexAjax_View
 			$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 			$viewer->view('dashboards/MultifilterContents.tpl', $moduleName);
 		} else {
+			if ($widget->get('data')) {
+				$widgetActiveFilters = \App\Json::decode(App\Purifier::decodeHtml($widget->get('data')))['customMultiFilter'] ?? [];
+			}
 			$viewer->assign('WIDGET', $widget);
+			$viewer->assign('WIDGET_ACTIVE_FILTERS', $widgetActiveFilters ?? []);
 			$viewer->assign('MODULE_NAME', $moduleName);
 			$viewer->view('dashboards/Multifilter.tpl', $moduleName);
 		}
