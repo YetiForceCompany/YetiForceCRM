@@ -301,6 +301,9 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				$insert['data'] = \App\Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
 			}
 			if ($data['type'] === 'Multifilter') {
+				if (!is_array($data['customMultiFilter'])) {
+					$data['customMultiFilter'] = [$data['customMultiFilter'] ?? ''];
+				}
 				$insert['data'] = \App\Json::encode(['customMultiFilter' => $data['customMultiFilter']]);
 			}
 			$db->createCommand()->update('vtiger_module_dashboard', $insert, ['id' => $data['id']])

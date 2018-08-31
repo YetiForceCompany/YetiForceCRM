@@ -1741,7 +1741,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 			paramCache += '&' + i + '=' + data[i];
 		}
-		var userId = app.getMainParams('current_user_id');
+		var userId = CONFIG.userId;
 		var name = container.data('name');
 		app.cacheSet(name + userId, paramCache);
 	},
@@ -2795,7 +2795,7 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 	registerMultifilter() {
 		let selectValue = app.cacheGet('multifilterSelectValue', null),
 			multifilterSettings = this.getMultifilterSettings();
-		if (null != selectValue) {
+		if (null != selectValue && this.paramCache) {
 			multifilterSettings.find('.js-select').val(selectValue);
 		}
 		multifilterSettings.find('.js-select').select2({
@@ -2807,11 +2807,15 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 		this.loadMultifilterData(true);
 		multifilterSettings.find('.js-select').on('select2:select', () => {
 			this.loadMultifilterData(true);
-			app.cacheSet('multifilterSelectValue', multifilterSettings.find('.js-select').val());
+			if (this.paramCache) {
+				app.cacheSet('multifilterSelectValue', multifilterSettings.find('.js-select').val());
+			}
 		});
 		multifilterSettings.find('.js-select').on('select2:unselect', () => {
 			this.loadMultifilterData(false);
-			app.cacheSet('multifilterSelectValue', multifilterSettings.find('.js-select').val());
+			if (this.paramCache) {
+				app.cacheSet('multifilterSelectValue', multifilterSettings.find('.js-select').val());
+			}
 		});
 		this.registerShowHideModuleSettings();
 	},

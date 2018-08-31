@@ -166,7 +166,7 @@
 													<option title="{\App\Language::translate($GROUP_CUSTOM_VIEWS->module->name)}"
 															data-module="{$GROUP_CUSTOM_VIEWS->module->name}"
 															value="{$GROUP_CUSTOM_VIEWS->get('cvid')}"
-															{if in_array($GROUP_CUSTOM_VIEWS->get('cvid'),$WIDGET_INFO['customMultiFilter'])}
+															{if !empty($WIDGET_INFO['customMultiFilter']) && in_array($GROUP_CUSTOM_VIEWS->get('cvid'),$WIDGET_INFO['customMultiFilter'])}
 																selected="selected"
 															{/if}
 													>
@@ -178,7 +178,7 @@
 										</select>
 									</div>
 									<label class="col-md-4 form-control-plaintext">
-										{\App\Language::translate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
+										{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 									</label>
 								</div>
 							{/if}
