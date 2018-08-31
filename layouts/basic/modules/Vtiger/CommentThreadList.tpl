@@ -12,7 +12,7 @@
 {strip}
 	<div class="commentDiv">
 		<div class="singleComment">
-			<div class="commentInfoHeader"  data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
+			<div class="commentInfoHeader" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
 				<div class="commentTitle" id="{$COMMENT->getId()}">
 					{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 					{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
@@ -20,8 +20,8 @@
 						<div class="">
 							{assign var=IMAGE value=$COMMENT->getImage()}
 							{if $IMAGE}
-								<img class="userImage float-left" src="{$IMAGE['url']}" >
-							{else}	
+								<img class="c-img__user float-left" src="{$IMAGE['url']}">
+							{else}
 								<span class="fas fa-user userImage float-left"></span>
 							{/if}
 						</div>
@@ -43,11 +43,12 @@
 			</div>
 			<div class="commentActionsContainer row no-margin ">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
-				<div class="editedStatus visible-lg-block col-6"  name="editStatus">
+				<div class="editedStatus visible-lg-block col-6" name="editStatus">
 					<p class="col-6 marginLeftZero">
 						<small>
 							<span class="{if empty($REASON_TO_EDIT)}d-none{/if} marginLeftZero editReason">
-								[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="u-text-ellipsis">{nl2br($REASON_TO_EDIT)}</span>
+								[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)}
+								] : <span name="editReason" class="u-text-ellipsis">{nl2br($REASON_TO_EDIT)}</span>
 							</span>
 						</small>
 					</p>
