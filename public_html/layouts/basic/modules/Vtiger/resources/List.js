@@ -1214,8 +1214,7 @@ jQuery.Class("Vtiger_List_Js", {
 			this.updatePagination(1);
 		});
 		event.stopPropagation();
-	}
-	,
+	},
 	/*
 	 * Function to register the event listeners for changing the custom Filter
 	 */
@@ -1241,8 +1240,7 @@ jQuery.Class("Vtiger_List_Js", {
 			$('#select2-customFilter-container span').contents().last().replaceWith(selectOption.text());
 			filterSelect.val(cvId).trigger('change');
 		});
-	}
-	,
+	},
 	breadCrumbsFilter: function (text) {
 		var breadCrumbs = jQuery('.breadcrumbsContainer');
 		var breadCrumbsLastSpan = breadCrumbs.last('span');
@@ -1257,12 +1255,10 @@ jQuery.Class("Vtiger_List_Js", {
 				breadCrumbs.append('<small class="breadCrumbsFilter hideToHistory p-1 js-text-content" data-js="text"> [' + app.vtranslate('JS_FILTER') + ': ' + text + ']</small>');
 			}
 		}
-	}
-	,
+	},
 	ListViewPostOperation: function () {
 		return true;
-	}
-	,
+	},
 	/*
 	 * Function to register the click event for list view main check box.
 	 */
@@ -1307,8 +1303,7 @@ jQuery.Class("Vtiger_List_Js", {
 			thisInstance.writeExcludedIds(excludedIds);
 
 		});
-	}
-	,
+	},
 	/*
 	 * Function  to register click event for list view check box.
 	 */
@@ -1339,8 +1334,7 @@ jQuery.Class("Vtiger_List_Js", {
 			thisInstance.writeSelectedIds(selectedIds);
 			thisInstance.writeExcludedIds(excludedIds);
 		});
-	}
-	,
+	},
 	/*
 	 * Function to register the click event for select all.
 	 */
@@ -1356,8 +1350,7 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 			thisInstance.writeSelectedIds('all');
 		});
-	}
-	,
+	},
 	/*
 	 * Function to register the click event for deselect All.
 	 */
@@ -1375,8 +1368,7 @@ jQuery.Class("Vtiger_List_Js", {
 			thisInstance.writeSelectedIds(selectedIds);
 			thisInstance.writeExcludedIds(excludedIds);
 		});
-	}
-	,
+	},
 	/*
 	 * Function to register the click event for listView headers
 	 */
@@ -1396,8 +1388,7 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 			thisInstance.getListViewRecords(urlParams);
 		});
-	}
-	,
+	},
 	/*
 	 * function to register the click event event for create filter
 	 */
@@ -1405,8 +1396,7 @@ jQuery.Class("Vtiger_List_Js", {
 		//to close the dropdown
 		this.getFilterSelectElement().data('select2').close();
 		Vtiger_CustomView_Js.loadFilterView($(event.currentTarget).find('#createFilter').data('createurl'));
-	}
-	,
+	},
 	/*
 	 * Function to register the click event for duplicate filter
 	 */
@@ -1424,8 +1414,7 @@ jQuery.Class("Vtiger_List_Js", {
 				event.stopPropagation();
 			});
 		}
-	}
-	,
+	},
 	/*
 	 * Function to register the click event for edit filter
 	 */
@@ -1444,8 +1433,7 @@ jQuery.Class("Vtiger_List_Js", {
 				event.stopPropagation();
 			});
 		}
-	}
-	,
+	},
 	/*
 	 * Function to register the click event for delete filter
 	 */
@@ -1473,8 +1461,7 @@ jQuery.Class("Vtiger_List_Js", {
 				event.stopPropagation();
 			});
 		}
-	}
-	,
+	},
 	/*
 	 * Function to register the click event for approve filter
 	 */
@@ -1499,8 +1486,7 @@ jQuery.Class("Vtiger_List_Js", {
 				event.stopPropagation();
 			});
 		}
-	}
-	,
+	},
 	/*
 	 * Function to register the click event for deny filter
 	 */
@@ -1523,8 +1509,7 @@ jQuery.Class("Vtiger_List_Js", {
 				event.stopPropagation();
 			});
 		}
-	}
-	,
+	},
 	/*
 	 * Function to generate filter actions template
 	 */
@@ -1543,8 +1528,7 @@ jQuery.Class("Vtiger_List_Js", {
 						  class="fas fa-check mr-1 js-filter-approve ${currentOptionElement.data('pending') === 1 ? '' : 'd-none'}"></span>
 				</span>`);
 		template.appendTo(liElement);
-	}
-	,
+	},
 	/*
 	 * Function to register the hover event for customview filter options
 	 */
@@ -1562,8 +1546,7 @@ jQuery.Class("Vtiger_List_Js", {
 				}
 			});
 		}
-	}
-	,
+	},
 	/*
 	 * Function to register the list view row click event
 	 */
@@ -1592,8 +1575,7 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 			window.location.href = recordUrl;
 		});
-	}
-	,
+	},
 	registerRecordEvents: function () {
 		var thisInstance = this;
 		var listViewContentDiv = this.getListViewContentContainer();
@@ -1655,8 +1637,7 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 			event.stopPropagation();
 		});
-	}
-	,
+	},
 	registerMassRecordsEvents: function () {
 		var thisInstance = this;
 		jQuery('.listViewActionsDiv').on('click', '.massRecordEvent', function (event) {
@@ -1707,8 +1688,7 @@ jQuery.Class("Vtiger_List_Js", {
 				listInstance.noRecordSelectedAlert();
 			}
 		});
-	}
-	,
+	},
 	/*
 	 * Function to register the click event of email field
 	 */
@@ -1717,8 +1697,7 @@ jQuery.Class("Vtiger_List_Js", {
 		listViewContentDiv.on('click', '.emailField', function (e) {
 			e.stopPropagation();
 		})
-	}
-	,
+	},
 	/*
 	 * Function to register the click event of phone field
 	 */
@@ -1727,8 +1706,7 @@ jQuery.Class("Vtiger_List_Js", {
 		listViewContentDiv.on('click', '.phoneField', function (e) {
 			e.stopPropagation();
 		})
-	}
-	,
+	},
 	/*
 	 * Function to register the click event of url field
 	 */
@@ -1737,8 +1715,7 @@ jQuery.Class("Vtiger_List_Js", {
 		listViewContentDiv.on('click', '.urlField', function (e) {
 			e.stopPropagation();
 		})
-	}
-	,
+	},
 	/**
 	 * Function to inactive field for validation in a form
 	 * this will remove data-validation-engine attr of all the elements
@@ -1773,8 +1750,7 @@ jQuery.Class("Vtiger_List_Js", {
 			fieldElement.attr('data-invalid-validation-engine', validationVal);
 			fieldElement.removeAttr('data-validation-engine');
 		}
-	}
-	,
+	},
 	registerEventForTabClick: function (form) {
 		var ulContainer = form.find('.massEditTabs');
 		ulContainer.on('click', 'a[data-toggle="tab"]', function (e) {
@@ -1784,12 +1760,10 @@ jQuery.Class("Vtiger_List_Js", {
 				e.stopPropagation();
 			}
 		});
-	}
-	,
+	},
 	registerSlimScrollMassEdit: function () {
 		app.showScrollBar(jQuery('div[name="massEditContent"]'), {'height': app.getScreenHeight(70) + 'px'});
-	}
-	,
+	},
 	/*
 	 * Function to register the submit event for mass Actions save
 	 */
@@ -1812,8 +1786,7 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 			e.preventDefault();
 		});
-	}
-	,
+	},
 	changeCustomFilterElementView: function () {
 		var thisInstance = this;
 		var filterSelectElement = this.getFilterSelectElement();
@@ -1834,16 +1807,14 @@ jQuery.Class("Vtiger_List_Js", {
 				thisInstance.createFilterClickEvent(e);
 			});
 		}
-	}
-	,
+	},
 	triggerDisplayTypeEvent: function () {
 		var widthType = app.cacheGet('widthType', 'narrowWidthType');
 		if (widthType) {
 			var elements = jQuery('.listViewEntriesTable').find('td,th');
 			elements.attr('class', widthType);
 		}
-	}
-	,
+	},
 	/**
 	 * Function to show total records count in listview on hover
 	 * of pageNumber text
@@ -1867,8 +1838,7 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 			element.parent().progressIndicator({mode: 'hide'});
 		})
-	}
-	,
+	},
 	showPagingInfo: function () {
 		var totalNumberOfRecords = jQuery('#totalCount').val();
 		var pageNumberElement = jQuery('.pageNumbersText');
@@ -1880,8 +1850,7 @@ jQuery.Class("Vtiger_List_Js", {
 		} else {
 			jQuery('.pageNumbersText').html("");
 		}
-	}
-	,
+	},
 	registerUnreviewedCountEvent: function () {
 		var thisInstance = this;
 		var ids = [];
@@ -1915,8 +1884,7 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		});
-	}
-	,
+	},
 	registerLastRelationsEvent: function () {
 		var thisInstance = this;
 		var ids = [];
@@ -1953,8 +1921,7 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		});
-	}
-	,
+	},
 	registerChangeEntityStateEvent: function () {
 		var thisInstance = this;
 		$('.dropdownEntityState a').on('click', function (e) {
@@ -1974,8 +1941,7 @@ jQuery.Class("Vtiger_List_Js", {
 				});
 			});
 		});
-	}
-	,
+	},
 	registerSummationEvent: function () {
 		var thisInstance = this;
 		this.getListViewContentContainer().on('click', '.listViewSummation button', function () {
@@ -2008,8 +1974,7 @@ jQuery.Class("Vtiger_List_Js", {
 				progress.progressIndicator({mode: 'hide'});
 			});
 		});
-	}
-	,
+	},
 	registerListScroll: function (container) {
 		if (CONFIG.view !== 'ListPreview') {
 			const containerH = container.height(),
@@ -2024,8 +1989,7 @@ jQuery.Class("Vtiger_List_Js", {
 				app.showNewScrollbarTopBottomRight(container);
 			}
 		}
-	}
-	,
+	},
 	registerMassActionsBtnEvents: function () {
 		var thisInstance = this;
 		this.getListViewContainer().on('click', '.js-mass-action', function (e) {
@@ -2041,8 +2005,7 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 			e.stopPropagation();
 		});
-	}
-	,
+	},
 	registerEvents: function () {
 		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
@@ -2082,8 +2045,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerLastRelationsEvent();
 		app.showPopoverElementView(listViewContainer.find('.js-popover-tooltip'));
 		Vtiger_Index_Js.registerMailButtons(listViewContainer);
-	}
-	,
+	},
 	registerListViewSpecialOption: function () {
 		var thisInstance = this;
 		var listViewContainer = this.getListViewContentContainer();
@@ -2096,8 +2058,7 @@ jQuery.Class("Vtiger_List_Js", {
 				thisInstance.getListSearchInstance().triggerListSearch();
 			}
 		})
-	}
-	,
+	},
 	/**
 	 * Function that executes after the mass delete action
 	 */
@@ -2119,5 +2080,4 @@ jQuery.Class("Vtiger_List_Js", {
 		jQuery('#recordsCount').val('');
 		return aDeferred.promise();
 	}
-	,
 });
