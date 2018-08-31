@@ -207,6 +207,7 @@ class RecordConverter extends Base
 					'%,' . $view . ',%',
 					'%' . $view . ',',
 					$view . ',%',
+					'%,' . $view,
 				], false,
 			]);
 		}
