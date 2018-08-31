@@ -11,6 +11,9 @@ namespace App\SocialMedia;
  */
 class Twitter extends AbstractSocialMedia
 {
+	/**
+	 * @var string
+	 */
 	protected static $socialMediaType = 'twitter';
 	/**
 	 * Tweet mode.
@@ -18,6 +21,12 @@ class Twitter extends AbstractSocialMedia
 	 * @link https://developer.twitter.com/en/docs/tweets/tweet-updates.html
 	 */
 	public const TWEET_MODE = 'extended';
+	/**
+	 * Turn on/off logs.
+	 *
+	 * @var bool
+	 */
+	public static $logOn = true;
 	/**
 	 * User account name.
 	 *
@@ -84,7 +93,7 @@ class Twitter extends AbstractSocialMedia
 			//"There are limits to the number of Tweets that can be accessed through the API. If the limit of Tweets has occured since the since_id, the since_id will be forced to the oldest ID available."
 			$param['since_id'] = $maxId;
 		}
-		static::logInfo('Begin downloading new messages');
+		$this->logInfoDb('Begin downloading new messages');
 		$allMessages = $this->getFromApi('statuses/user_timeline', $param);
 		$cnt = 0;
 		foreach ($allMessages as $rowTwitter) {
@@ -106,9 +115,54 @@ class Twitter extends AbstractSocialMedia
 			}
 		}
 		if ($cnt > 0) {
-			static::logInfo($cnt . ' new messages downloaded');
+			$this->logInfoDb($cnt . ' new messages downloaded from');
 		} else {
-			static::logInfo('No new messages');
+			$this->logInfoDb('No new messages');
+		}
+	}
+
+	/**
+	 * Log info.
+	 *
+	 * @param $message
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \yii\db\Exception
+	 */
+	private function logInfoDb($message)
+	{
+		if (static::$logOn) {
+			static::logInfo('[' . $this->userName . ']: ' . $message);
+		}
+	}
+
+	/**
+	 * Log error.
+	 *
+	 * @param $message
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \yii\db\Exception
+	 */
+	private function logErrorDb($message)
+	{
+		if (static::$logOn) {
+			static::logError('[' . $this->userName . ']: ' . $message);
+		}
+	}
+
+	/**
+	 * Log warning.
+	 *
+	 * @param $message
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \yii\db\Exception
+	 */
+	private function logWarningDb($message)
+	{
+		if (static::$logOn) {
+			static::logWarning('[' . $this->userName . ']: ' . $message);
 		}
 	}
 
@@ -136,7 +190,7 @@ class Twitter extends AbstractSocialMedia
 		if (isset($response['errors'])) {
 			$errorMessage = \App\Purifier::encodeHtml($response['errors']['message']);
 			$errorCode = (int) $response['errors']['code'];
-			static::logInfo('Twitter API error[code: ' . $errorCode . ']: ' . $errorMessage);
+			$this->logErrorDb('Twitter API error[code: ' . $errorCode . ']: ' . $errorMessage);
 			throw new \App\Exceptions\AppException('Twitter API error: ' . $errorMessage, $errorCode);
 		}
 		return false;
@@ -159,7 +213,7 @@ class Twitter extends AbstractSocialMedia
 			$this->isError($response);
 			return $response;
 		} catch (\Throwable $e) {
-			static::logInfo('Twitter API error: ' . $e->getMessage());
+			$this->logErrorDb('Twitter API error: ' . $e->getMessage());
 		}
 		throw new \App\Exceptions\AppException('Twitter API error');
 	}
