@@ -193,4 +193,20 @@ class SocialMedia
 			->from(['social' => $query])
 			->groupBy(['account_name', 'uitype']);
 	}
+
+	/**
+	 * Get logs from db.
+	 *
+	 * @return \Generator
+	 */
+	public static function getLogs()
+	{
+		$dataReader = (new \App\Db\Query())->from('s_#__social_media_logs')
+			->orderBy(['date_log' => SORT_DESC])
+			->limit(1000)
+			->createCommand()->query();
+		while (($row = $dataReader->read())) {
+			yield $row;
+		}
+	}
 }
