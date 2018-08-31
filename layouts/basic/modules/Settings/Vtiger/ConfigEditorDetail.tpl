@@ -13,7 +13,7 @@
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div class="widget_header row">
 			<div class="col-md-8">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 				{\App\Language::translate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 			<div class="col-md-4">
@@ -44,7 +44,9 @@
 						</td>
 						<td style="border-left: none;" class="{$WIDTHTYPE}">
 							<span>{if $FIELD_NAME == 'default_module'}
-									{\App\Language::translate($FIELD_DATA[$FIELD_NAME], $FIELD_DATA[$FIELD_NAME])}
+									{if !empty($FIELD_DATA[$FIELD_NAME])}
+										{\App\Language::translate($FIELD_DATA[$FIELD_NAME], $FIELD_DATA[$FIELD_NAME])}
+									{/if}
 								{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
 									{if \App\Language::translate($FIELD_DATA[$FIELD_NAME]) == 'true'}
 										{\App\Language::translate(LBL_YES)}
