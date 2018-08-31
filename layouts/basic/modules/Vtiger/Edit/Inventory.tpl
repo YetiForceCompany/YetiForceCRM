@@ -34,18 +34,19 @@
 			<table class="table table-bordered inventoryHeader blockContainer mb-0">
 				<thead>
 				<tr data-rownumber="0" class="d-flex u-min-w-650px">
-					<th class="btn-toolbar col-3 d-flex justify-content-center mb-0 border-bottom-0 p-2">
+					<th class="btn-toolbar col-3 d-flex justify-content-center mb-0 border-bottom-0 p-0">
 						{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
 							{if \App\Module::isModuleActive($MAIN_MODULE)}
 								{assign var="CRMENTITY" value=CRMEntity::getInstance($MAIN_MODULE)}
-								<span class="btn-group-sm d-flex align-items-center justify-content-center ml-lg-2">
-										<button type="button" data-module="{$MAIN_MODULE}"
-												data-field="{$CRMENTITY->table_index}"
-												data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}"
-												class="btn btn-light addItem border mb-1 mb-lg-0">
-											<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD',$MODULE)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
-										</button>
-									</span>
+								<div class="btn-group-sm d-flex align-items-center justify-content-center ml-lg-1">
+									<button type="button" data-module="{$MAIN_MODULE}"
+											data-field="{$CRMENTITY->table_index}"
+											data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}"
+											title="{\App\Language::translate('LBL_ADD',$MODULE)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
+											class="btn btn-light addItem border mb-1 mb-lg-0">
+										<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
+									</button>
+								</div>
 							{/if}
 						{/foreach}
 					</th>
