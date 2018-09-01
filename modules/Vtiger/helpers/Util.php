@@ -225,7 +225,7 @@ class Vtiger_Util_Helper
 	/**
 	 * Function to transfer a list of searched parameters to the filter.
 	 *
-	 * @param array $searchParams
+	 * @param array                            $searchParams
 	 * @param <Settings_Vtiger_ListView_Model> $moduleModel
 	 *
 	 * @return array
