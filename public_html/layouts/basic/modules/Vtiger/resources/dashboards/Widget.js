@@ -2842,12 +2842,14 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 	},
 	loadListData(params) {
 		const self = this;
-		let aDeferred = jQuery.Deferred();
+		let aDeferred = jQuery.Deferred(),
+			multiFilterContent = self.getMultifilterContent();
 		AppConnector.request(params).done(function (data) {
-			let addedContent = self.getMultifilterContent().append(data).children("div:last-child");
-			self.registerShowHideBlocks();
-			self.registerRecordsCount(addedContent);
-			aDeferred.resolve();
+			if (self.getMultifilterSettings().find('option[value="' + params.filterid + '"]').is(':selected') && !multiFilterContent.find('.detailViewTable[data-id="' + params.filterid + '"]').length) {
+				self.registerRecordsCount(multiFilterContent.append(data).children("div:last-child"));
+				self.registerShowHideBlocks();
+				aDeferred.resolve();
+			}
 		}).fail(function (error) {
 			aDeferred.reject();
 		});
