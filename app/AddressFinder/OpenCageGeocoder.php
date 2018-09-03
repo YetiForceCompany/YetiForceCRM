@@ -36,12 +36,12 @@ class OpenCageGeocoder extends Base
 	public function find($value)
 	{
 		$config = \App\AddressFinder::getConfig();
-		$urlStr = static::$url . 'json?q=' . $value . '&pretty=1';
-		$urlStr .= '&language=' . \App\Language::getLanguageTag();
-		$urlStr .= '&limit=' . $config['global']['result_num'];
-		$urlStr .= '&key=' . $config['opencage_data']['key'];
+		$urlAddress = static::$url . 'json?q=' . $value . '&pretty=1';
+		$urlAddress .= '&language=' . \App\Language::getLanguageTag();
+		$urlAddress .= '&limit=' . $config['global']['result_num'];
+		$urlAddress .= '&key=' . $config['opencage_data']['key'];
 		try {
-			$response = \Requests::get($urlStr);
+			$response = \Requests::get($urlAddress);
 			if (!$response->success) {
 				\App\Log::warning($response->status_code . ' ' . $response->body, __NAMESPACE__);
 				return false;

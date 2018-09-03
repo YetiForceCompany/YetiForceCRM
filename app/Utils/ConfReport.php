@@ -695,7 +695,12 @@ class ConfReport
 	{
 		unset($name);
 		try {
-			new \DateTimeZone($row[$sapi]);
+			$test = new \DateTimeZone($row[$sapi]);
+			if ($test->getName() === $row[$sapi]) {
+				return $row;
+			}
+			$row['status'] = false;
+			return $row;
 		} catch (\Throwable $e) {
 			$row[$sapi] = \App\Language::translate('LBL_INVALID_TIME_ZONE', 'Settings::ConfReport') . $row[$sapi];
 			$row['status'] = false;
