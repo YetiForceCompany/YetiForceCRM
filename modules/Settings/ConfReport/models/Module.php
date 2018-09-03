@@ -713,7 +713,12 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	public static function validateTimezone($row, $isCli)
 	{
 		try {
-			new DateTimeZone($row['current']);
+			$test = new DateTimeZone($row['current']);
+			if ($test->getName() === $row['current']) {
+				return $row;
+			}
+			$row['current'] = \App\Language::translate('LBL_INVALID_TIME_ZONE', 'Settings::ConfReport') . $row['current'];
+			$row['incorrect'] = true;
 		} catch (Exception $e) {
 			$row['current'] = \App\Language::translate('LBL_INVALID_TIME_ZONE', 'Settings::ConfReport') . $row['current'];
 			$row['incorrect'] = true;
