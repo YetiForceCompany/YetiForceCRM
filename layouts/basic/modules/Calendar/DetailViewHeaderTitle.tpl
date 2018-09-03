@@ -10,19 +10,21 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="col-md-12 pr-0 row">
-		<div class="col-12 col-sm-12 col-md-8">
+	<div class="d-flex flex-wrap flex-md-nowrap px-3 w-100">
+		<div class="u-min-w-md-70 w-100">
 			<div class="moduleIcon">
 				<span class="o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
 			</div>
-			<div class="paddingLeft5px">
-				<h4 class="recordLabel u-text-ellipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
-					<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
+			<div class="pl-1">
+				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip" data-ellipsis="true" data-content="{$RECORD->getName()}" data-toggle="popover" data-js="tooltip">
+					<h4 class="recordLabel h6 pushDown marginbottomZero js-popover-text" data-js="clone">
+						<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
+					</h4>
+					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
 					{if $RECORD_STATE !== 'Active'}
-						&nbsp;&nbsp;
 						{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
-						<span class="badge badge-secondary" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
+						<span class="badge badge-secondary ml-1" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
 							{if \App\Record::getState($RECORD->getId()) === 'Trash'}
 								{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
 							{else}
@@ -30,28 +32,43 @@
 							{/if}
 						</span>
 					{/if}
-				</h4>
+				</div>
 				{assign var=LINK value=$RECORD->get('link')}
 				{if $LINK}
-					<div class="paddingLeft5px">
-						<span class="muted">{\App\Language::translate('LBL_RELATION',$MODULE_NAME)}: </span> <span>{$RECORD->getDisplayValue('link')}</span>
+					<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('link')}" data-toggle="popover" data-js="tooltip">
+					<span class="mr-1 text-muted">
+						{\App\Language::translate('LBL_RELATION',$MODULE_NAME)}:
+					</span>
+						<span class="js-popover-text" data-js="clone">{$RECORD->getDisplayValue('link')}</span>
+						<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 					</div>
 				{/if}
 				{assign var=PROCESS value=$RECORD->get('process')}
 				{if $PROCESS}
-					<div class="paddingLeft5px">
-						<span class="muted">{\App\Language::translate('LBL_PROCESS',$MODULE_NAME)}: </span> <span>{$RECORD->getDisplayValue('process')}</span>
+					<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('process')}" data-toggle="popover" data-js="tooltip">
+						<span class="mr-1 text-muted">{\App\Language::translate('LBL_PROCESS',$MODULE_NAME)}: </span>
+						<span class="js-popover-text" data-js="clone">{$RECORD->getDisplayValue('process')}</span>
+						<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
+
 					</div>
 				{/if}
-				<div class="paddingLeft5px">
-					<span class="muted">
-						{\App\Language::translate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
-						{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
-						{if $SHOWNERS != ''}
-							<br />{\App\Language::translate('Share with users',$MODULE_NAME)} {$SHOWNERS}
-						{/if}
+				<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('assigned_user_id')}" data-toggle="popover" data-js="tooltip">
+					<span class="mr-1 text-muted">
+						{\App\Language::translate('Assigned To',$MODULE_NAME)}:
 					</span>
+					<span class="js-popover-text" data-js="clone">{$RECORD->getDisplayValue('assigned_user_id')}</span>
+					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 				</div>
+				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
+				{if $SHOWNERS != ''}
+					<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content='{$SHOWNERS}' data-toggle="popover" data-js="tooltip">
+						<span class="mr-1 text-muted">
+							{\App\Language::translate('Share with users',$MODULE_NAME)}:
+						</span>
+						<span class="js-popover-text" data-js="clone">{$SHOWNERS}</span>
+						<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
+					</div>
+				{/if}
 			</div>
 		</div>
 		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME)}
