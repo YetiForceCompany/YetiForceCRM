@@ -117,6 +117,10 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 					$pdf->pdf()->setHtmlHeader($template->getHeader());
 					$pdf->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
 					$pdf->parseParams($template->getParameters());
+					if ($template->get('page_orientation') !== $template->getParameters()['page_orientation']) {
+						var_dump($template);
+						exit;
+					}
 					$pdf->pdf()->setHtmlFooter($template->getFooter());
 					$pdf->pdf()->writeHTML($template->getBody(), true, true, true, true, '');
 					$pdf->pdf()->lastPage();
