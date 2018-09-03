@@ -300,9 +300,6 @@
 	a {
 		color: lighten($link-color, 30%);
 	}
-	* {
-		white-space: normal;
-	}
 }
 
 .o-summary-category {
@@ -321,5 +318,50 @@
 	&__card__label {
 		font-weight: normal;
 		min-height: calculate-rem(40px);
+	}
+}
+
+.detailViewInfo {
+	margin-top: 5px;
+
+	.details {
+		padding-bottom: 10px;
+		padding-top: 10px;
+	}
+}
+
+.detailViewTitle {
+	padding: 0 15px 0 15px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	word-wrap: break-word;
+
+	.hierarchy {
+		position: relative;
+		top: -43px;
+		left: -27px;
+	}
+	
+	.popover {
+		min-width: 130px;
+		text-align: center;
+	}
+
+	.spanModuleIcon {
+		margin-right: 10px;
+		height: 100%;
+	}
+
+	.moduleIcon {
+		float: left;
+	}
+
+	.btn-toolbar, .btn-toolbar .btn-group:first-child {
+		margin: 0;
+	}
+
+	.fieldValue:hover .js-detail-quick-edit {
+		display: inherit;
 	}
 }

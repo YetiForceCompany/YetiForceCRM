@@ -516,31 +516,6 @@ hr {
 	}
 }
 
-.detailViewTitle {
-	padding: 0 15px 0 15px;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	word-wrap: break-word;
-
-	.recordLabel {
-		font-size: 16px;
-		font-weight: bold;
-	}
-}
-
-.detailViewTitle .btn-toolbar {
-	margin: 0;
-}
-
-.detailViewInfo {
-	margin-top: 5px;
-
-	.details {
-		padding-bottom: 10px;
-		padding-top: 10px;
-	}
-}
 
 .commentContainer {
 	border-radius: 2px;
@@ -2005,9 +1980,6 @@ table.dataTable .form-control {
 	margin-bottom: 5px;
 }
 
-.detailViewTable .fieldValue:hover .js-detail-quick-edit {
-	display: inherit;
-}
 
 .icon-in-history-widget {
 	font-size: 17px;
@@ -2083,11 +2055,6 @@ span[name=existingImages] img {
 .paddingTBZero {
 	padding-top: 0;
 	padding-bottom: 0;
-}
-
-.detailViewTitle .popover {
-	min-width: 130px;
-	text-align: center;
 }
 
 .cursorDefault {
@@ -3267,17 +3234,6 @@ html, body, .o-base-container {
 	border-top-right-radius: 0;
 }
 
-.detailViewTitle {
-	.spanModuleIcon {
-		margin-right: 10px;
-		height: 100%;
-	}
-
-	.moduleIcon {
-		float: left;
-	}
-}
-
 .spaceRelatedList {
 	width: 50px;
 	min-height: 1px;
@@ -3356,13 +3312,6 @@ html, body, .o-base-container {
 	height: 0;
 }
 
-/*.alphabetBtnContainer{
-	width: auto;
-}*/
-.detailViewTitle .btn-toolbar .btn-group:first-child {
-	margin: 0;
-}
-
 .select2-dropdown ul[aria-multiselectable="true"] [aria-selected="true"] {
 	display: none;
 }
@@ -3430,12 +3379,6 @@ select.form-control {
 
 .addCommentBlock .commentcontent {
 	resize: vertical;
-}
-
-.detailViewTitle .hierarchy {
-	position: absolute;
-	top: -12px;
-	left: 50px;
 }
 
 .indexContainer {
