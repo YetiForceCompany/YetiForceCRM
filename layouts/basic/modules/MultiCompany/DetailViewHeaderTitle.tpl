@@ -31,13 +31,13 @@
 				{assign var=PARENTID value=$RECORD->get('parent_id')}
 				{if !empty($PARENTID)}
 					<div class="d-flex flex-nowrap align-items-center js-popover-tooltip" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('parent_id')}" data-toggle="popover" data-js="tooltip">
-						<span class="mr-1 text-muted">{\App\Language::translate('FL_PARENT',$MODULE_NAME)}:</span>
+						<span class="mr-1 text-muted u-white-space-nowrap">{\App\Language::translate('FL_PARENT',$MODULE_NAME)}:</span>
 						<span class="js-popover-text" data-js="clone">{$RECORD->getDisplayValue('parent_id')}</span>
 						<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 					</div>
 				{/if}
 				<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('assigned_user_id')}" data-toggle="popover" data-js="tooltip">
-					<span class="mr-1 text-muted">
+					<span class="mr-1 text-muted u-white-space-nowrap">
 						{\App\Language::translate('Assigned To',$MODULE_NAME)}:
 					</span>
 					<span class="js-popover-text" data-js="clone">{$RECORD->getDisplayValue('assigned_user_id')}</span>
@@ -46,7 +46,7 @@
 				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 				{if $SHOWNERS != ''}
 					<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content='{$SHOWNERS}' data-toggle="popover" data-js="tooltip">
-						<span class="mr-1 text-muted">
+						<span class="mr-1 text-muted u-white-space-nowrap">
 							{\App\Language::translate('Share with users',$MODULE_NAME)}:
 						</span>
 						<span class="js-popover-text" data-js="clone">{$SHOWNERS}</span>

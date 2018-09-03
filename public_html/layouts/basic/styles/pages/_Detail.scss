@@ -342,7 +342,7 @@
 		top: -43px;
 		left: -27px;
 
-		@at-root .IStorages_Detail #{&} {
+		@at-root .IStorages_Detail #{&}, .SSalesProcesses_Detail #{&} {
 			top: -41px;
 			left: -19px;
 		}

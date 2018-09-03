@@ -36,7 +36,7 @@
 				{assign var=LINK value=$RECORD->get('link')}
 				{if $LINK}
 					<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('link')}" data-toggle="popover" data-js="tooltip">
-					<span class="mr-1 text-muted">
+					<span class="mr-1 text-muted u-white-space-nowrap">
 						{\App\Language::translate('LBL_RELATION',$MODULE_NAME)}:
 					</span>
 						<span class="js-popover-text" data-js="clone">{$RECORD->getDisplayValue('link')}</span>
@@ -46,14 +46,14 @@
 				{assign var=PROCESS value=$RECORD->get('process')}
 				{if $PROCESS}
 					<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('process')}" data-toggle="popover" data-js="tooltip">
-						<span class="mr-1 text-muted">{\App\Language::translate('LBL_PROCESS',$MODULE_NAME)}: </span>
+						<span class="mr-1 text-muted u-white-space-nowrap">{\App\Language::translate('LBL_PROCESS',$MODULE_NAME)}: </span>
 						<span class="js-popover-text" data-js="clone">{$RECORD->getDisplayValue('process')}</span>
 						<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 
 					</div>
 				{/if}
 				<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('assigned_user_id')}" data-toggle="popover" data-js="tooltip">
-					<span class="mr-1 text-muted">
+					<span class="mr-1 text-muted u-white-space-nowrap">
 						{\App\Language::translate('Assigned To',$MODULE_NAME)}:
 					</span>
 					<span class="js-popover-text" data-js="clone">{$RECORD->getDisplayValue('assigned_user_id')}</span>
@@ -62,7 +62,7 @@
 				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 				{if $SHOWNERS != ''}
 					<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content='{$SHOWNERS}' data-toggle="popover" data-js="tooltip">
-						<span class="mr-1 text-muted">
+						<span class="mr-1 text-muted u-white-space-nowrap">
 							{\App\Language::translate('Share with users',$MODULE_NAME)}:
 						</span>
 						<span class="js-popover-text" data-js="clone">{$SHOWNERS}</span>

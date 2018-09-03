@@ -23,12 +23,12 @@
 						</div>
 					{/if}
 				</div>
-				<span class="text-muted">
+				<span class="text-muted u-white-space-nowrap">
 					<small><em>{\App\Language::translate('Sent','OSSMailView')}</em></small>
 					<span><small><em>&nbsp;{$RECORD->getDisplayValue('createdtime')}</em></small></span>
 				</span>
 				<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('assigned_user_id')}" data-toggle="popover" data-js="tooltip">
-					<span class="text-muted mr-1">{\App\Language::translate('LBL_OWNER')}:</span>
+					<span class="text-muted mr-1 u-white-space-nowrap">{\App\Language::translate('LBL_OWNER')}:</span>
 					<span class="js-popover-text" data-js="clone">
 					{$RECORD->getDisplayValue('assigned_user_id')}
 					</span>
