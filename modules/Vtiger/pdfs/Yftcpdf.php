@@ -59,6 +59,13 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 	protected $footerFontSize = 10;
 
 	/**
+	 * Page orientation.
+	 *
+	 * @var string
+	 */
+	protected $pageOrientation = 'P';
+
+	/**
 	 * Watermark image.
 	 *
 	 * @var array

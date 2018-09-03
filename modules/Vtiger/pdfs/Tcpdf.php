@@ -24,6 +24,13 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	public $html = '';
 
 	/**
+	 * Page format.
+	 *
+	 * @var string
+	 */
+	public $format = 'A4';
+
+	/**
 	 * Page orientation.
 	 *
 	 * @var array
@@ -72,6 +79,7 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 		$this->setLibraryName('tcpdf');
 		$this->defaultFontFamily = $defaultFont;
 		$this->defaultFontSize = $defaultFontSize;
+		$this->format = $format;
 		$this->pdf = new Vtiger_Yftcpdf_Pdf($orientation, 'mm', $format, true, $mode);
 		$this->pdf->setFontSubsetting(true);
 		$this->pdf->SetFont($this->defaultFontFamily, '', $this->defaultFontSize);
@@ -187,13 +195,19 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	/**
 	 * Set page size and orientation.
 	 *
-	 * @param string $format      - page format
-	 * @param string $orientation - page orientation
+	 * @param string|null $format      - page format
+	 * @param string      $orientation - page orientation
 	 */
-	public function setPageSize($format, $orientation)
+	public function setPageSize($format, $orientation = null)
 	{
+		$this->pdf->setPageSize($format, $orientation);
 	}
 
+	/**
+	 * Set language.
+	 *
+	 * @param $language
+	 */
 	public function setLanguage($language)
 	{
 		parent::setLanguage($language);
@@ -209,13 +223,6 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	{
 		foreach ($params as $param => $value) {
 			switch ($param) {
-				case 'page_format':
-					$pageOrientation = '';
-					if (isset($params['page_orientation'])) {
-						$pageOrientation = $params['page_orientation'];
-					}
-					$this->setPageSize($value, $pageOrientation);
-					break;
 				case 'margin-top':
 					if (is_numeric($value)) {
 						$this->setTopMargin($value);
