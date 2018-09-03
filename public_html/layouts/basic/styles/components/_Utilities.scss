@@ -63,7 +63,7 @@
 	}
 }
 
-.u-text-ellipsis--no-hover, .js-popover-tooltip[data-ellipsis] {
+.u-text-ellipsis--no-hover, .js-popover-tooltip[data-ellipsis] .js-popover-text {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
