@@ -22,7 +22,7 @@
 			</div>
 			<div class="pl-1">
 				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip" data-ellipsis="true" data-content="{$RECORD->getName()}" data-toggle="popover" data-js="tooltip">
-					<h4 class="recordLabel h6 pushDown marginbottomZero js-popover-text" data-js="clone">
+					<h4 class="recordLabel h6 mb-0 js-popover-text" data-js="clone">
 						<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 					</h4>
 					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
