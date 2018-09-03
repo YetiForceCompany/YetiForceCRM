@@ -113,9 +113,11 @@ class Credits
 					$name = $isPrefix ? '@' : '';
 					$tempName = explode('@', $isPrefix ? ltrim($nameWithVersion, '@') : $nameWithVersion);
 					$name .= array_shift($tempName);
-					$libraries[$name] = self::getLibraryValues($name, $libraryDir);
-					if (empty($libraries[$name]['homepage'])) {
-						$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/$name";
+					if (\is_dir($libraryDir . $name)) {
+						$libraries[$name] = self::getLibraryValues($name, $libraryDir);
+						if (empty($libraries[$name]['homepage'])) {
+							$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/$name";
+						}
 					}
 				}
 			}
