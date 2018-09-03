@@ -147,17 +147,18 @@ class ConfReport
 		'max_allowed_packet' => ['recommended' => '10 MB', 'type' => 'GreaterMb', 'container' => 'db', 'testCli' => false],
 		'log_error' => ['container' => 'db', 'testCli' => false],
 		'max_connections' => ['container' => 'db', 'testCli' => false],
-		'bulk_insert_buffer_size' => ['container' => 'db', 'testCli' => false],
-		'key_buffer_size' => ['container' => 'db', 'testCli' => false],
+		'bulk_insert_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'key_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'thread_cache_size' => ['container' => 'db', 'testCli' => false],
-		'query_cache_size' => ['container' => 'db', 'testCli' => false],
-		'tmp_table_size' => ['container' => 'db', 'testCli' => false],
-		'max_heap_table_size' => ['container' => 'db', 'testCli' => false],
+		'query_cache_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'myisam_sort_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'tmp_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'max_heap_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'innodb_file_per_table' => ['recommended' => 'On', 'container' => 'db', 'testCli' => false],
 		'innodb_stats_on_metadata' => ['recommended' => 'Off', 'container' => 'db', 'testCli' => false],
 		'innodb_buffer_pool_instances' => ['container' => 'db', 'testCli' => false],
-		'innodb_buffer_pool_size' => ['container' => 'db', 'testCli' => false],
-		'innodb_log_file_size' => ['container' => 'db', 'testCli' => false],
+		'innodb_buffer_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'innodb_log_file_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'innodb_io_capacity_max' => ['container' => 'db', 'testCli' => false],
 		'tx_isolation' => ['container' => 'db', 'testCli' => false],
 		'transaction_isolation' => ['container' => 'db', 'testCli' => false],
@@ -660,6 +661,22 @@ class ConfReport
 		if (isset($row[$sapi]) && $row[$sapi] !== '-1' && \vtlib\Functions::parseBytes($row[$sapi]) < \vtlib\Functions::parseBytes($row['recommended'])) {
 			$row['status'] = false;
 		}
+		$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi]);
+		return $row;
+	}
+
+	/**
+	 * Display number in bytes.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateShowBytes(string $name, array $row, string $sapi)
+	{
+		unset($name);
 		$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi]);
 		return $row;
 	}
