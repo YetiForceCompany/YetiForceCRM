@@ -346,6 +346,11 @@
 			top: -41px;
 			left: -19px;
 		}
+
+		@at-root .MultiCompany_Detail #{&} {
+			top: -44px;
+			left: -22px;
+		}
 	}
 
 	.popover {
