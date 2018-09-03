@@ -8,11 +8,11 @@
 						 data-content="{$ROW['title']} {$ROW['badge']}" data-toggle="popover" data-js="tooltip"
 						 {if $ROW['action']}onclick="{\App\Purifier::encodeHtml($ROW['action'])}"{/if}
 					>
-						<div class="js-popover-text">
+						<div class="js-popover-text" data-js="clone">
 							<span class="mr-1">{$ROW['title']}</span>
 							{$ROW['badge']}
 						</div>
-						<span class="fas fa-info-circle fa-sm js-popover-icon d-none"></span>
+						<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 					</div>
 				{/foreach}
 			{/if}
@@ -21,13 +21,13 @@
 					{if !empty($VALUE['value'])}
 						<div class="badge badge-info d-flex flex-nowrap align-items-center justify-content-center mt-1 js-popover-tooltip" data-ellipsis="true"
 							 data-content="{$VALUE['value']}" data-toggle="popover" data-js="tooltip">
-							<div class="js-popover-text">
+							<div class="js-popover-text" data-js="clone">
 								<span class="mr-1">
 									{\App\Language::translate($LABEL, $MODULE_NAME)}:
 								</span>
 								{$VALUE['value']}
 							</div>
-							<span class="fas fa-info-circle fa-sm js-popover-icon d-none"></span>
+							<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 						</div>
 					{/if}
 				{/foreach}
