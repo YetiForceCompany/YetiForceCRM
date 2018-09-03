@@ -18,7 +18,7 @@
 			<div class="float-left">
 				{assign var=IMAGE value=$COMMENT->getImage()}
 				{if $IMAGE}
-					<img class="userImage float-left" alt="" src="{$IMAGE.url}">
+					<img class="c-img__user float-left" alt="" src="{$IMAGE.url}">
 					<br/>
 				{else}
 					<span class="fas fa-user userImage float-left"></span>

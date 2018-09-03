@@ -119,7 +119,7 @@ class CurrencyField
 		$this->currencySymbol = $currencyRateAndSymbol['symbol'];
 		$this->conversionRate = $currencyRateAndSymbol['rate'];
 		$this->currencySymbolPlacement = $user->getDetail('currency_symbol_placement');
-		$this->numberOfDecimal = (empty($user->getDetail('no_of_currency_decimals')) && (string) $user->getDetail('no_of_currency_decimals') !== '0') ? 2 : (int) $user->getDetail('no_of_currency_decimals');
+		$this->numberOfDecimal = (empty($user->getDetail('no_of_currency_decimals')) && (int) $user->getDetail('no_of_currency_decimals') !== 0) ? 2 : (int) $user->getDetail('no_of_currency_decimals');
 	}
 
 	public function getCurrencySymbol()

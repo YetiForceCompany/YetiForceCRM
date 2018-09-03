@@ -54,6 +54,10 @@
 }
 
 .c-btn-link {
+	@at-root .detailViewTitle #{&} {
+		height: max-content;
+	}
+
 	@include media-breakpoint-down(sm) {
 		&--responsive {
 			width: 100%;

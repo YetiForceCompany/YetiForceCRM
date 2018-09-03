@@ -98,12 +98,14 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$parentRecordCurrencyId = $parentRecordModel->get('currency_id');
 		if ($parentRecordCurrencyId) {
 			$productIdsList = [];
-			foreach ($models as $recordId => $recorModel) {
+			foreach ($models as $recordId => $recordModel) {
 				$productIdsList[$recordId] = $recordId;
 			}
 			$unitPricesList = $relationListView->getRelatedModuleModel()->getPricesForProducts($parentRecordCurrencyId, $productIdsList);
-			foreach ($models as $recordId => $recorModel) {
-				$recorModel->set('unit_price', $unitPricesList[$recordId]);
+			foreach ($models as $recordId => $recordModel) {
+				if (isset($unitPricesList[$recordId])) {
+					$recordModel->set('unit_price', $unitPricesList[$recordId]);
+				}
 			}
 		}
 		// [end] modified code compared to base function

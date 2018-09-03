@@ -294,11 +294,17 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			if (!empty($data['default_owner']) && !empty($data['owners_all'])) {
 				$insert['owners'] = \App\Json::encode(['default' => $data['default_owner'], 'available' => $data['owners_all']]);
 			}
-			if ($data['type'] == 'DW_SUMMATION_BY_MONTHS') {
+			if ($data['type'] === 'DW_SUMMATION_BY_MONTHS') {
 				$insert['data'] = \App\Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
 			}
-			if ($data['type'] == 'DW_SUMMATION_BY_USER') {
+			if ($data['type'] === 'DW_SUMMATION_BY_USER') {
 				$insert['data'] = \App\Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
+			}
+			if ($data['type'] === 'Multifilter') {
+				if (!is_array($data['customMultiFilter'])) {
+					$data['customMultiFilter'] = [$data['customMultiFilter'] ?? ''];
+				}
+				$insert['data'] = \App\Json::encode(['customMultiFilter' => $data['customMultiFilter']]);
 			}
 			$db->createCommand()->update('vtiger_module_dashboard', $insert, ['id' => $data['id']])
 				->execute();
@@ -497,11 +503,11 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'mdw.size', 'mdw.limit', 'mdw.isdefault', 'mdw.owners', 'mdw.cache', 'mdw.date',
 			'vtiger_links.*', 'mdb.authorized',
 		])
-		->from('vtiger_module_dashboard AS mdw')
-		->innerJoin('vtiger_links', 'mdw.linkid = vtiger_links.linkid')
-		->innerJoin('vtiger_module_dashboard_blocks AS mdb', 'mdw.blockid = mdb.id AND vtiger_links.tabid = mdb.tabid')
-		->where(['vtiger_links.tabid' => $tabId])
-		->createCommand()->query();
+			->from('vtiger_module_dashboard AS mdw')
+			->innerJoin('vtiger_links', 'mdw.linkid = vtiger_links.linkid')
+			->innerJoin('vtiger_module_dashboard_blocks AS mdb', 'mdw.blockid = mdb.id AND vtiger_links.tabid = mdb.tabid')
+			->where(['vtiger_links.tabid' => $tabId])
+			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			if ($row['linklabel'] == 'Mini List') {
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);

@@ -668,9 +668,9 @@ class Vtiger_Relation_Model extends \App\Base
 			$eventHandler->setParams($params);
 			$eventHandler->trigger('EntityBeforeTransferUnLink');
 			if ($relationModel->transferDb($params)) {
-				\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', [
-					'modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()
-				], ['crmid' => $relId])->execute();
+				\App\Db::getInstance()->createCommand()->update('vtiger_crmentity',
+					['modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()],
+					['crmid' => [$params['sourceRecordId'], $params['fromRecordId']]])->execute();
 				$eventHandler->trigger('EntityAfterTransferLink');
 			}
 		}
@@ -685,9 +685,12 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function transferDb(array $params)
 	{
-		return \App\Db::getInstance()->createCommand()->update('vtiger_crmentityrel', [
-			'crmid' => $params['sourceRecordId'], 'module' => $params['destinationModule']], ['relcrmid' => $params['fromRecordId'], 'relcrmid' => $params['destinationRecordId']
-		])->execute();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$count = $dbCommand->update('vtiger_crmentityrel', ['crmid' => $params['sourceRecordId']],
+			['crmid' => $params['fromRecordId'], 'relcrmid' => $params['destinationRecordId']])->execute();
+		$count += $dbCommand->update('vtiger_crmentityrel', ['relcrmid' => $params['sourceRecordId']],
+			['relcrmid' => $params['fromRecordId'], 'crmid' => $params['destinationRecordId']])->execute();
+		return $count;
 	}
 
 	/**
@@ -722,7 +725,6 @@ class Vtiger_Relation_Model extends \App\Base
 		$sourceModule = $this->getParentModuleModel();
 		$sourceModuleName = $sourceModule->get('name');
 		$destinationModuleName = $this->getRelationModuleModel()->get('name');
-
 		if ($destinationModuleName === 'OSSMailView' || $sourceModuleName === 'OSSMailView') {
 			$moduleName = 'OSSMailView';
 			if ($destinationModuleName === 'OSSMailView') {
@@ -747,7 +749,6 @@ class Vtiger_Relation_Model extends \App\Base
 			$query = \App\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['crmid' => $crmid, 'ossmailviewid' => $mailId]);
 			if ($query->execute()) {
 				$eventHandler->trigger('EntityAfterUnLink');
-
 				return true;
 			} else {
 				return false;
@@ -756,7 +757,6 @@ class Vtiger_Relation_Model extends \App\Base
 			if ($destinationModuleName === 'ModComments') {
 				include_once 'modules/ModTracker/ModTracker.php';
 				ModTracker::unLinkRelation($sourceModuleName, $sourceRecordId, $destinationModuleName, $relatedRecordId);
-
 				return true;
 			}
 			$relationFieldModel = $this->getRelationField();
@@ -765,7 +765,6 @@ class Vtiger_Relation_Model extends \App\Base
 			}
 			$destinationModuleFocus = CRMEntity::getInstance($destinationModuleName);
 			vtlib\Deprecated::deleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
-
 			return true;
 		}
 	}
