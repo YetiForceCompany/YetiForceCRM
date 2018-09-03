@@ -188,7 +188,7 @@ var App = {},
 				let element = $(domElement);
 				if (element.data('ellipsis')) {
 					defaultParams.trigger = 'hover focus';
-					if (!app.isEllipsisActive(element)) {
+					if (!app.isEllipsisActive(element.find('.js-popover-text'))) {
 						return;
 					}
 					let iconElement = element.find('.js-popover-icon');
