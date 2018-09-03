@@ -37,6 +37,10 @@ class CurrencyUpdate extends \Tests\Base
 	{
 		$moduleModel = \Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 		foreach (['CBR', 'ECB', 'NBR', 'NBP'] as $bankCode) {
+			if (\in_array($bankCode, ['CBR'])) {
+				echo $bankCode . ' - Disabled due to data source instability' . PHP_EOL;
+				continue;
+			}
 			$bankClass = '\Settings_CurrencyUpdate_' . $bankCode . '_BankModel';
 			$bank = new $bankClass();
 			$this->assertNotEmpty($bank->getName(), 'Bank name should be not empty');

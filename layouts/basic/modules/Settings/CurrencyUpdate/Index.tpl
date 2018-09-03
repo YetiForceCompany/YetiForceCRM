@@ -26,7 +26,7 @@
 					<td class="fieldValue">
 						<div class="row">
 							<div class="col-md-5">
-								<select name="bank" id="bank" class="chzn-select form-control">
+								<select name="bank" id="bank" class="select2 form-control">
 									{foreach from=$BANK item=key}
 										<option value="{$key.id}" {if $key.active eq '1'}selected{/if} data-name="{$key.bank_name}">{\App\Language::translate($key.bank_name, $QUALIFIED_MODULE)}</option>
 									{/foreach}

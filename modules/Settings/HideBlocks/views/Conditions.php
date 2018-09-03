@@ -4,7 +4,7 @@
  * Settings HideBlocks conditions view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 {
@@ -92,6 +92,7 @@ class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 	public function transformToAdvancedFilterCondition($conditions)
 	{
 		$conditions = \App\Json::decode($conditions);
+		$firstGroup = $secondGroup = [];
 		$transformedConditions = [];
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $info) {

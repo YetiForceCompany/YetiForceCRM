@@ -79,7 +79,7 @@
 					{/if}
 				{/if}
 				<div class="form-group col-12 p-0">
-					{if $MESSAGE}
+					{if !empty($MESSAGE)}
 						<div class="alert {if $MESSAGE_TYPE === 'success'}alert-success{elseif $MESSAGE_TYPE === 'error'}alert-danger{else}alert-warning{/if}">
 							<p>{$MESSAGE}</p>
 						</div>

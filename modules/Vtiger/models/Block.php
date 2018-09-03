@@ -109,11 +109,24 @@ class Vtiger_Block_Model extends vtlib\Block
 	/**
 	 * Function which indicates whether the block is shown or hidden.
 	 *
-	 * @return : <boolean>
+	 * @return bool
 	 */
 	public function isHidden()
 	{
-		if ($this->get('display_status') == '0') {
+		if (0 === (int) $this->get('display_status')) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Function which indicates whether the block is dynamic show.
+	 *
+	 * @return bool
+	 */
+	public function isDynamic()
+	{
+		if (2 === (int) $this->get('display_status')) {
 			return true;
 		}
 		return false;

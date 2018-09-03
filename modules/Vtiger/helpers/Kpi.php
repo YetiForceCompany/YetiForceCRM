@@ -4,7 +4,7 @@
  * Vtiger kpi helper class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_Kpi_Helper
 {
@@ -105,6 +105,7 @@ class Vtiger_Kpi_Helper
 	{
 		$reference = 30;
 		$tolerance = '1 dzień';
+		$accepted = 0;
 		$adb = PearDatabase::getInstance();
 
 		$sql = 'SELECT ordertime
@@ -194,6 +195,7 @@ class Vtiger_Kpi_Helper
 		$all = 0;
 		$accepted = 0;
 		$countResult = $adb->numRows($result);
+		$sum = 0;
 		for ($i = 0; $i < $countResult; ++$i) {
 			$sum += $adb->queryResultRaw($result, $i, 'ordertime');
 			++$all;
@@ -231,6 +233,7 @@ class Vtiger_Kpi_Helper
 		$all = 0;
 		$accepted = 0;
 		$countResult = $adb->numRows($result);
+		$sum = 0;
 		for ($i = 0; $i < $countResult; ++$i) {
 			$sum += $adb->queryResultRaw($result, $i, 'ordertime');
 			++$all;
@@ -272,6 +275,7 @@ class Vtiger_Kpi_Helper
 		$all = 0;
 		$accepted = 0;
 		$countResult = $adb->numRows($result);
+		$sum = 0;
 		for ($i = 0; $i < $countResult; ++$i) {
 			$sum += $adb->queryResultRaw($result, $i, 'ordertime');
 			++$all;

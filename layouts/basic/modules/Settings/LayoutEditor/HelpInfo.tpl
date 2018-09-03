@@ -1,11 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="modal-header">
-		<h5 class="modal-title"><span class="fas fa-info-circle mr-1"></span>{App\Language::translate('LBL_CONTEXT_HELP', $QUALIFIED_MODULE)}</h5>
-		<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
-			<span aria-hidden="true">&times;</span>
-		</button>
-	</div>
 	<form>
 		<input type="hidden" value="{$FIELD_MODEL->getId()}" name="field">
 		<div class="modal-body">
@@ -38,10 +32,6 @@
 					<textarea id="{$PREFIX}" name="context" {if $PREFIX neq $LANG_DEFAULT} disabled {/if} data-js="CkEditor" class="form-control js-editor js-context-area">{if $TRANSLATE neq $CONTEXT_HELP}{$TRANSLATE}{/if}</textarea>
 				</div>
 			{/foreach}
-		</div>
-		<div class="modal-footer">
-			<button class="btn btn-success" type="submit" name="saveButton"><span class="fas fa-check mr-1"></span><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
-			<button class="btn btn-danger" type="reset" data-dismiss="modal"><span class="fas fa-times mr-1"></span><strong>{\App\Language::translate('LBL_CLOSE', $MODULE)}</strong></button>
 		</div>
 	</form>
 {/strip}

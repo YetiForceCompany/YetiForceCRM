@@ -169,7 +169,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public function save()
 	{
 		$wm = new VTWorkflowManager();
-
 		$wf = $this->getWorkflowObject();
 		$wf->description = $this->get('summary');
 		$wf->test = \App\Json::encode($this->get('conditions'));
@@ -181,9 +180,9 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$wf->schdayofmonth = $this->get('schdayofmonth');
 		$wf->schdayofweek = $this->get('schdayofweek');
 		$wf->schmonth = $this->get('schmonth');
-		$wf->schmonth = $this->get('schmonth');
 		$wf->schannualdates = $this->get('schannualdates');
 		$wf->nexttrigger_time = $this->get('nexttrigger_time');
+
 		$wm->save($wf);
 
 		$this->set('workflow_id', $wf->id);
@@ -301,12 +300,11 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public static function getInstanceFromWorkflowObject($wf)
 	{
 		$workflowModel = new self();
-
-		$workflowModel->set('summary', $wf->description);
-		$workflowModel->set('conditions', \App\Json::decode($wf->test));
+		$workflowModel->set('summary', $wf->description ?? '');
+		$workflowModel->set('conditions', !empty($wf->test) ? \App\Json::decode($wf->test) : []);
 		$workflowModel->set('execution_condition', $wf->executionCondition);
 		$workflowModel->set('module_name', $wf->moduleName);
-		$workflowModel->set('workflow_id', $wf->id);
+		$workflowModel->set('workflow_id', $wf->id ?? false);
 		$workflowModel->set('filtersavedinnew', $wf->filtersavedinnew);
 		$workflowModel->setWorkflowObject($wf);
 		$workflowModel->setModule($wf->moduleName);
@@ -417,8 +415,8 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				}
 			}
 		}
-		$transformedConditions[1] = ['columns' => $firstGroup];
-		$transformedConditions[2] = ['columns' => $secondGroup];
+		$transformedConditions[1] = ['columns' => $firstGroup ?? []];
+		$transformedConditions[2] = ['columns' => $secondGroup ?? []];
 
 		return $transformedConditions;
 	}

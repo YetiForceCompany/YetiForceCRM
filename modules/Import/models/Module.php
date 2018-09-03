@@ -27,6 +27,7 @@ class Import_Module_Model extends Vtiger_Module_Model
 	const AUTO_MERGE_IGNORE = 1;
 	const AUTO_MERGE_OVERWRITE = 2;
 	const AUTO_MERGE_MERGEFIELDS = 3;
+	const AUTO_MERGE_EXISTINGISPRIORITY = 4;
 
 	/**
 	 * Components name.
@@ -125,7 +126,9 @@ class Import_Module_Model extends Vtiger_Module_Model
 		return [
 			self::AUTO_MERGE_IGNORE => 'Skip',
 			self::AUTO_MERGE_OVERWRITE => 'Overwrite',
-			self::AUTO_MERGE_MERGEFIELDS => 'Merge', ];
+			self::AUTO_MERGE_MERGEFIELDS => 'Merge',
+			self::AUTO_MERGE_EXISTINGISPRIORITY => 'LBL_FILL_EMPTY'
+		];
 	}
 
 	/**
@@ -291,7 +294,7 @@ class Import_Module_Model extends Vtiger_Module_Model
 		$db = \App\Db::getInstance();
 		$tables = [self::getInventoryDbTableName($user), self::getDbTableName($user)];
 		foreach ($tables as $table) {
-			if (!empty($db->getTableSchema($table))) {
+			if (!empty($db->getTableSchema($table, true))) {
 				$db->createCommand()->dropTable($table)->execute();
 			}
 		}

@@ -51,7 +51,7 @@
 					<span class="redColor">{\App\Language::translate('LBL_RUNNING', $MODULE)} ... </span>
 				</td>
 			</tr>
-			{if $ERROR_MESSAGE neq ''}
+			{if !empty($ERROR_MESSAGE)}
 				<tr>
 					<td class="text-center">
 						{$ERROR_MESSAGE}

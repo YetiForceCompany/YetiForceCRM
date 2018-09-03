@@ -44,7 +44,8 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 			case 'step2':
 				$selectedModuleName = $request->getByType('selectedModule', 2);
 				$viewer->assign('CHART_TYPE', $request->getByType('chartType'));
-				$viewer->assign('ALLFILTERS', CustomView_Record_Model::getAllByGroup($request->getByType('selectedModule', 2)));
+				$viewer->assign('ALLFILTERS', CustomView_Record_Model::getAllByGroup($selectedModuleName));
+				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
 				foreach (Vtiger_Module_Model::getInstance($selectedModuleName)->getFields() as $field) {
 					if (in_array($field->getFieldDataType(), ['currency', 'double', 'percentage', 'integer'])) {
 						$viewer->assign('IS_NUMERAL_VALUE', true);

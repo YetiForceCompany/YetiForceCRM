@@ -48,9 +48,14 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getFieldFromModule()
 	{
 		$fields = [];
-		$dataReader = (new \App\Db\Query())->select(['columnname', 'tabid', 'fieldlabel'])->from('vtiger_field')->where(['not in', 'uitype', [15, 16, 52, 53, 56, 70, 99, 120]])->createCommand()->query();
+		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldlabel', 'vtiger_blocks.blocklabel'])
+			->from('vtiger_field')
+			->innerJoin('vtiger_blocks', 'vtiger_blocks.blockid = vtiger_field.block')
+			->where(['not in', 'uitype', [15, 16, 52, 53, 56, 70, 99, 120]])
+			->createCommand()
+			->query();
 		while ($row = $dataReader->read()) {
-			$fields[$row['tabid']][$row['columnname']] = $row;
+			$fields[$row['tabid']][$row['blocklabel']][$row['columnname']] = $row;
 		}
 		$dataReader->close();
 

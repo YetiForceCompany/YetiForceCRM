@@ -53,7 +53,13 @@
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<td>
 							{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
-							{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
+							{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
+							{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME])}
+								{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]}
+							{else}
+								{assign var=SEARCH_INFO value=[]}
+							{/if}
+							{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 						</td>
 					{/foreach}
 				</tr>

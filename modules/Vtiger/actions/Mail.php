@@ -4,8 +4,8 @@
  * Mail action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Mail_Action extends \App\Controller\Action
 {
@@ -70,21 +70,21 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 			while ($row = $dataReader->read()) {
 				if ($sourceModule === 'Campaigns') {
 					$result = \App\Mailer::sendFromTemplate([
-							'template' => $template,
-							'moduleName' => $sourceModule,
-							'recordId' => $sourceRecord,
-							'to' => $row[$field],
-							'sourceModule' => $moduleName,
-							'sourceRecord' => $row['id'],
+						'template' => $template,
+						'moduleName' => $sourceModule,
+						'recordId' => $sourceRecord,
+						'to' => $row[$field],
+						'sourceModule' => $moduleName,
+						'sourceRecord' => $row['id'],
 					]);
 				} else {
 					$result = \App\Mailer::sendFromTemplate([
-							'template' => $template,
-							'moduleName' => $moduleName,
-							'recordId' => $row['id'],
-							'to' => $row[$field],
-							'sourceModule' => $sourceModule,
-							'sourceRecord' => $sourceRecord,
+						'template' => $template,
+						'moduleName' => $moduleName,
+						'recordId' => $row['id'],
+						'to' => $row[$field],
+						'sourceModule' => $sourceModule,
+						'sourceRecord' => $sourceRecord,
 					]);
 				}
 				if (!$result) {
@@ -127,7 +127,7 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 			$listView->set('search_key', $searchKey);
 			$listView->set('search_value', $searchValue);
 		}
-		$searchParams = $request->get('search_params');
+		$searchParams = $request->getArray('search_params');
 		if (!empty($searchParams) && is_array($searchParams)) {
 			$transformedSearchParams = $listView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$listView->set('search_params', $transformedSearchParams);
@@ -138,11 +138,11 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 		$baseTableId = $moduleModel->get('basetableid');
 		$queryGenerator->setFields(['id', $request->getByType('field')]);
 		$queryGenerator->addCondition($request->getByType('field'), '', 'ny');
-		$selected = $request->get('selected_ids');
+		$selected = $request->getArray('selected_ids', 2);
 		if ($selected && $selected !== 'all') {
 			$queryGenerator->addNativeCondition(["$baseTableName.$baseTableId" => $selected]);
 		}
-		$excluded = $request->get('excluded_ids');
+		$excluded = $request->getArray('excluded_ids', 2);
 		if ($excluded) {
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId" => $excluded]);
 		}

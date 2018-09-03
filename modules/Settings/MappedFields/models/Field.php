@@ -4,8 +4,8 @@
  * Field Class for MappedFields Settings.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 {
@@ -31,9 +31,9 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getFieldDataType()
 	{
-		if (!$this->fieldDataType && $this->get('typeofdata') == 'INVENTORY') {
+		if (empty($this->fieldDataType) && $this->get('typeofdata') == 'INVENTORY') {
 			$this->fieldDataType = 'inventory';
-		} elseif (!$this->fieldDataType) {
+		} elseif (empty($this->fieldDataType)) {
 			$this->fieldDataType = parent::getFieldDataType();
 		}
 		if ($this->fieldDataType == 'salutation') {
@@ -104,7 +104,7 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 		$row['fieldparams'] = $fieldModel->getFieldParams();
 
 		$instance = self::fromArray($row);
-		$instance->fieldModel == $fieldModel;
+		$instance->fieldModel = $fieldModel;
 
 		return $instance;
 	}
@@ -149,7 +149,7 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 		$row['typeofdata'] = 'INVENTORY';
 
 		$instance = self::fromArray($row);
-		$instance->inventoryField == $inventoryField;
+		$instance->inventoryField = $inventoryField;
 
 		return $instance;
 	}

@@ -21,12 +21,13 @@
 			<div class="alert alert-block alert-danger fade show" role="alert">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h4 class="alert-heading">{\App\Language::translate('LBL_TOO_SMALL_UPLOAD_LIMIT', $QUALIFIED_MODULE)}</h4>
-				<p>{\App\Language::translate('LBL_TOO_SMALL_UPLOAD_LIMIT_DESC', $QUALIFIED_MODULE, vtlib\Functions::showBytes($MAXUPLOADSIZE))}</p>
+				<p>{\App\Language::translateArgs('LBL_TOO_SMALL_UPLOAD_LIMIT_DESC', $QUALIFIED_MODULE, vtlib\Functions::showBytes($MAXUPLOADSIZE),'<a href="index.php?parent=Settings&module=ConfReport&view=Index">'|cat:\App\Language::translate('LBL_CHECK_SERVER_CONFIG',$QUALIFIED_MODULE)|cat:'</a>')}</p>
 			</div>
 		{/if}
 		<div class="contents">
 			<div>
-				<form class="form-horizontal contentsBackground" id="importUserModule" name="importUserModule"  action='index.php' method="POST" enctype="multipart/form-data">
+				<form class="form-horizontal contentsBackground" id="importUserModule" name="importUserModule"
+					  action='index.php' method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="module" value="ModuleManager"/>
 					<input type="hidden" name="moduleAction" value="Import"/>
 					<input type="hidden" name="parent" value="Settings"/>
@@ -54,7 +55,8 @@
 							<strong>{\App\Language::translate('LBL_IMPORT', $QUALIFIED_MODULE)}</strong>
 						</button>
 						<div class="float-right cancelLinkContainer">
-							<a class="cancelLink btn btn-warning" href="index.php?module=ModuleManager&parent=Settings&view=List">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+							<a class="cancelLink btn btn-warning"
+							   href="index.php?module=ModuleManager&parent=Settings&view=List">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 						</div>
 					</div>
 				</form>

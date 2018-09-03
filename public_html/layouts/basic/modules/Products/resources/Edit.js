@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	baseCurrency: '',
@@ -370,42 +371,6 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 			moreCurrenciesContainer.find('.currencyContent').find('#' + dataId).val(dataValue);
 		});
 		app.hideModalWindow();
-	},
-	registerSubmitEvent: function () {
-		var editViewForm = this.getForm();
-		editViewForm.on('submit', function (e) {
-			//Form should submit only once for multiple clicks also
-			if (typeof editViewForm.data('submit') !== "undefined") {
-				return false;
-			} else {
-				document.progressLoader = $.progressIndicator({
-					'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
-					'position': 'html',
-					'blockInfo': {
-						'enabled': true
-					}
-				});
-				var module = $(e.currentTarget).find('[name="module"]').val();
-				if (editViewForm.validationEngine('validate')) {
-					//Once the form is submiting add data attribute to that form element
-					editViewForm.data('submit', 'true');
-					//on submit form trigger the recordPreSave event
-					var recordPreSaveEvent = $.Event(Vtiger_Edit_Js.recordPreSave);
-					editViewForm.trigger(recordPreSaveEvent, {'value': 'edit'});
-					if (recordPreSaveEvent.isDefaultPrevented()) {
-						//If duplicate record validation fails, form should submit again
-						document.progressLoader.progressIndicator({'mode': 'hide'});
-						editViewForm.removeData('submit');
-						e.preventDefault();
-					}
-				} else {
-					//If validation fails, form should submit again
-					document.progressLoader.progressIndicator({'mode': 'hide'});
-					editViewForm.removeData('submit');
-					app.formAlignmentAfterValidation(editViewForm);
-				}
-			}
-		});
 	},
 	registerEventForUsageunit: function () {
 		this.checkUsageUnit();

@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 //Show Alert if user is on a unsupported browser (IE7, IE8, ..etc)
 if (/MSIE 6.0/.test(navigator.userAgent) || /MSIE 7.0/.test(navigator.userAgent) || /MSIE 8.0/.test(navigator.userAgent) || /MSIE 9.0/.test(navigator.userAgent)) {
@@ -345,9 +346,9 @@ $.Class("Vtiger_Header_Js", {
 			}
 		});
 
-		form.find('#goToFullForm').on('click', function (e) {
+		form.find('.js-full-editlink').on('click', function (e) {
 			var form = $(e.currentTarget).closest('form');
-			var editViewUrl = $(e.currentTarget).data('editViewUrl');
+			var editViewUrl = $(e.currentTarget).data('url');
 			if (typeof goToFullFormCallBack !== "undefined") {
 				goToFullFormCallBack(form);
 			}
@@ -565,7 +566,7 @@ $.Class("Vtiger_Header_Js", {
 		let breadcrumb = container.find('.js-breadcrumb'),
 			actionBtn = breadcrumb.find('.js-breadcrumb__actions-btn'),
 			cssActionsTop = {top: breadcrumb.offset().top + breadcrumb.height()};
-			breadcrumb.find('.o-breadcrumb__actions').css(cssActionsTop);
+		breadcrumb.find('.o-breadcrumb__actions').css(cssActionsTop);
 		actionBtn.on('click', () => {
 			breadcrumb.find('.o-breadcrumb__actions').toggleClass('is-active');
 		});
@@ -856,24 +857,6 @@ $.Class("Vtiger_Header_Js", {
 		});
 
 		thisInstance.registerMobileEvents();
-
-		if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-			$('#basicSearchModulesList_chosen').find('.chzn-results').css({
-				'max-height': '350px',
-				'overflow-y': 'scroll'
-			});
-		} else {
-			app.showScrollBar($('#basicSearchModulesList_chosen').find('.chzn-results'), {
-				height: '450px',
-				railVisible: true,
-				alwaysVisible: true,
-				size: '6px'
-			});
-			//Added to support standard resolution 1024x768
-			if (window.outerWidth <= 1024) {
-				//$('.headerLinksContainer').css('margin-right', '8px');
-			}
-		}
 		thisInstance.registerReminderNotice();
 		thisInstance.registerReminderNotification();
 		thisInstance.registerChat();

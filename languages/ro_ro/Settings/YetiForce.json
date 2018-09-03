@@ -1,0 +1,12 @@
+{
+  "php": {
+    "YetiForce": "YetiForce",
+    "LBL_YETIFORCE_STATUS_HEADER": "YetiForce Status",
+    "LBL_YETIFORCE_STATUS_DESC": "Configuration page of YetiForce status service",
+    "LBL_YF_STATUS_URL": "Service URL",
+    "LBL_PARAM_NAME": "Parameter",
+    "LBL_PARAM_VAL": "Value",
+    "LBL_PARAM_NOT_ALLOWED": "Parameter not allowed",
+    "LBL_SAVED": "Changes saved"
+  }
+}

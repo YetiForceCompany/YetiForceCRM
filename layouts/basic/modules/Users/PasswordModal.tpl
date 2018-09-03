@@ -1,20 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="modal-header">
-		<h5 class="modal-title">
-			{if $MODE === 'reset' || $MODE === 'massReset'}
-				<span class="fas fa-redo-alt mr-1"></span>
-			{elseif $MODE === 'change'}
-				<span class="fas fa-key mr-1"></span>
-			{/if}
-			{\App\Language::translate($MODE_TITLE, $MODULE_NAME)}{if $RECORD} - {App\Fields\Owner::getUserLabel($RECORD)}{/if}
-		</h5>
-		{if !$LOCK_EXIT}
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		{/if}
-	</div>
 	<form name="PasswordUsersForm" class="form-horizontal sendByAjax validateForm" action="index.php" method="post" autocomplete="off">
 		<input type="hidden" name="module" value="{$MODULE_NAME}" />
 		<input type="hidden" name="action" value="Password" />
@@ -73,22 +58,4 @@
 				</div>
 			{/if}
 		</div>
-		<div class="modal-footer">
-			{if ($MODE === 'massReset' || $MODE === 'reset') &&  $ACTIVE_SMTP}
-				<button class="btn btn-success" type="submit" name="saveButton" {if AppConfig::main('systemMode') === 'demo'}disabled="disabled"{/if}>
-					<span class="fas fa-redo-alt mr-1"></span><strong>{\App\Language::translate('BTN_RESET_PASSWORD', $MODULE_NAME)}</strong>
-				</button>
-			{/if}
-			{if $MODE === 'change'}
-				<button class="btn btn-success" type="submit" name="saveButton" {if AppConfig::main('systemMode') === 'demo'}disabled="disabled"{/if}>
-					<span class="fas fa-redo-alt mr-1"></span><strong>{\App\Language::translate('LBL_CHANGE_PASSWORD', $MODULE_NAME)}</strong>
-				</button>
-			{/if}
-			{if !$LOCK_EXIT}
-				<button class="btn btn-danger" type="reset" data-dismiss="modal">
-					<span class="fas fa-times mr-1"></span><strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
-				</button>
-			{/if}
-		</div>
-	</form>		
 {/strip}

@@ -22,7 +22,7 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 	 */
 	public function startTest(Test $test): void
 	{
-		$this->write(str_replace(['Tests\\', '\\'], ['', ' '], \get_class($test)) . ' ---> ' . $test->getName());
+		$this->write(str_replace(['Tests\\', '\\'], ['', ' '], \get_class($test)) . ' -> ' . $test->getName());
 	}
 
 	/**

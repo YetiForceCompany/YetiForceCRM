@@ -17,7 +17,7 @@
 				{assign var=PARENT_COMMENT_ID value=$COMMENT->getId()}
 				<li class="commentDetails">
 					{include file=\App\Layout::getTemplatePath('Comment.tpl') COMMENT=$COMMENT COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
-					{if $CHILDS_ROOT_PARENT_MODEL}
+					{if !empty($CHILDS_ROOT_PARENT_MODEL)}
 						{if $CHILDS_ROOT_PARENT_MODEL->getId() eq $PARENT_COMMENT_ID}		
 							{assign var=CHILD_COMMENTS_MODEL value=$CHILDS_ROOT_PARENT_MODEL->getChildComments()}
 							{include file=\App\Layout::getTemplatePath('CommentsListIteration.tpl') CHILD_COMMENTS_MODEL=$CHILD_COMMENTS_MODEL}

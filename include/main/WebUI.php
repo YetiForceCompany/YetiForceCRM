@@ -184,20 +184,22 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$this->triggerPostProcess($handler, $request);
 		} catch (Exception $e) {
 			\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
-			$tpl = 'OperationNotPermitted.tpl';
+			$messageHeader ='LBL_ERROR';
 			if ($e instanceof \App\Exceptions\NoPermittedToRecord || $e instanceof WebServiceException) {
-				$tpl = 'NoPermissionsForRecord.tpl';
+				$messageHeader = 'LBL_PERMISSION_DENIED';
 			} elseif ($e instanceof \App\Exceptions\Security) {
-				$tpl = 'IllegalValue.tpl';
+				$messageHeader = 'LBL_BAD_REQUEST';
+			} elseif ($e instanceof \yii\db\Exception) {
+				$messageHeader = 'LBL_ERROR';
 			}
-			\vtlib\Functions::throwNewException($e, false, $tpl);
+			\vtlib\Functions::throwNewException($e, false, $messageHeader);
 			if (!$request->isAjax()) {
 				if (AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
-					echo '<pre>' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString())) . '</pre>';
+					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString())) . '</pre>';
 					$response = false;
 				}
 				if (AppConfig::debug('DISPLAY_EXCEPTION_LOGS')) {
-					echo '<pre>' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs())) . '</pre>';
+					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs())) . '</pre>';
 					$response = false;
 				}
 			}

@@ -6,9 +6,9 @@ namespace App\Fields;
  * Record number class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class RecordNumber
 {
@@ -34,43 +34,46 @@ class RecordNumber
 	/**
 	 * Function to set number sequence of recoords for module.
 	 *
-	 * @param mixed  $tabId
-	 * @param string $prefix
-	 * @param int    $no
-	 * @param string $postfix
+	 * @param mixed       $tabId
+	 * @param string      $prefix
+	 * @param int         $no
+	 * @param string      $postfix
+	 * @param int         $leadingZeros
+	 * @param null|string $resetSequence 'Y'-Year, 'M'-Month, 'D'-Day
+	 * @param string      $curSequence   '201804' for example for M reset sequence
 	 *
 	 * @return bool
 	 */
-	public static function setNumber($tabId, $prefix = '', $no = '', $postfix = '')
+	public static function setNumber($tabId, $prefix = '', $no = '', $postfix = '', $leadingZeros = 0, $resetSequence = null, $curSequence = '')
 	{
 		if ($no != '') {
 			$db = \App\Db::getInstance();
 			if (!is_numeric($tabId)) {
 				$tabId = \App\Module::getModuleId($tabId);
 			}
-			$currentId = (new \App\Db\Query())->select(['cur_id'])->from('vtiger_modentity_num')
-				->where(['tabid' => $tabId])
-				->scalar();
-			if (!$currentId) {
-				$db->createCommand()->insert('vtiger_modentity_num', [
+			$current = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
+			if (!$current['cur_id']) {
+				return $db->createCommand()->insert('vtiger_modentity_num', [
 					'tabid' => $tabId,
 					'prefix' => $prefix,
+					'leading_zeros' => $leadingZeros,
 					'postfix' => $postfix,
 					'start_id' => $no,
 					'cur_id' => $no,
+					'reset_sequence' => $resetSequence,
+					'cur_sequence' => $curSequence
 				])->execute();
-
-				return true;
 			} else {
-				if ($no < $currentId) {
-					return false;
-				} else {
-					$db->createCommand()
-						->update('vtiger_modentity_num', ['cur_id' => $no, 'prefix' => $prefix, 'postfix' => $postfix], ['tabid' => $tabId])
+				return $db->createCommand()
+					->update('vtiger_modentity_num', [
+						'cur_id' => $no,
+						'prefix' => $prefix,
+						'leading_zeros' => $leadingZeros,
+						'postfix' => $postfix,
+						'reset_sequence' => $resetSequence,
+						'cur_sequence' => $curSequence],
+						['tabid' => $tabId])
 						->execute();
-
-					return true;
-				}
 			}
 		}
 	}
@@ -84,20 +87,55 @@ class RecordNumber
 	 */
 	public static function incrementNumber($moduleId)
 	{
-		$row = (new \App\Db\Query())->select(['cur_id', 'prefix', 'postfix'])->from('vtiger_modentity_num')->where(['tabid' => $moduleId])->one();
-		$prefix = $row['prefix'];
-		$postfix = $row['postfix'];
-		$curId = $row['cur_id'];
-		$fullPrefix = self::parse($prefix . $curId . $postfix);
-		$strip = strlen($curId) - strlen($curId + 1);
+		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $moduleId])->one();
+		$actualSequence = static::getSequenceNumber($row['reset_sequence']);
+		if ($row['reset_sequence'] && $row['cur_sequence'] !== $actualSequence) {
+			$row['cur_id'] = 1;
+		}
+		$fullPrefix = static::parse($row['prefix'], $row['cur_id'], $row['postfix'], $row['leading_zeros']);
+		$strip = strlen($row['cur_id']) - strlen($row['cur_id'] + 1);
 		if ($strip < 0) {
 			$strip = 0;
 		}
 		$temp = str_repeat('0', $strip);
-		$reqNo = $temp . ($curId + 1);
-		\App\Db::getInstance()->createCommand()->update('vtiger_modentity_num', ['cur_id' => $reqNo], ['cur_id' => $curId, 'tabid' => $moduleId])->execute();
-
+		$reqNo = $temp . ($row['cur_id'] + 1);
+		\App\Db::getInstance()->createCommand()->update('vtiger_modentity_num', ['cur_id' => $reqNo, 'cur_sequence' => $actualSequence], ['tabid' => $moduleId])->execute();
 		return \App\Purifier::decodeHtml($fullPrefix);
+	}
+
+	/**
+	 * Get sequence number that should be saved.
+	 *
+	 * @param string $resetSequence one character
+	 */
+	public static function getSequenceNumber($resetSequence)
+	{
+		switch ($resetSequence) {
+			case 'Y':
+				return static::date('Y');
+			case 'M':
+				return static::date('Ym'); // with year because 2016-10 (10) === 2017-10 (10) and number will be incremented but should be set to 1 (new year)
+			case 'D':
+				return static::date('Ymd'); // same as above because od 2016-10-03 (03) === 2016-11-03 (03)
+			default:
+				return '';
+		}
+	}
+
+	/**
+	 * Date function that can be overrided in tests.
+	 *
+	 * @param string   $format
+	 * @param null|int $time
+	 *
+	 * @return false|string
+	 */
+	public static function date($format, $time = null)
+	{
+		if ($time === null) {
+			$time = time();
+		}
+		return date($format, $time);
 	}
 
 	/**
@@ -105,57 +143,55 @@ class RecordNumber
 	 *
 	 * @see Important: When you add new parameter in this function you also must add it in Email::findRecordNumber()
 	 *
-	 * @param string $content
+	 * @param string $prefix
+	 * @param string $number
+	 * @param string $postfix
+	 * @param int    $leadingZeros
 	 *
 	 * @return string
 	 */
-	public static function parse($content)
+	public static function parse($prefix, $number, $postfix, $leadingZeros)
 	{
-		return str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [date('Y'), date('y'), date('m'), date('n'), date('d'), date('j')], $content);
+		$number = str_pad((string) $number, $leadingZeros, '0', STR_PAD_LEFT);
+		return str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [static::date('Y'), static::date('y'), static::date('m'), static::date('n'), static::date('d'), static::date('j')], $prefix . $number . $postfix);
 	}
 
 	/**
 	 * Function updates module number.
 	 *
-	 * @param int $curId
-	 * @param int $tabId
+	 * @param int    $curId
+	 * @param string $curSequence
+	 * @param int    $tabId
 	 */
-	public static function updateNumber($curId, $tabId)
+	public static function updateNumber($curId, $curSequence, $tabId)
 	{
-		\App\Db::getInstance()->createCommand()
-			->update('vtiger_modentity_num', ['cur_id' => $curId], ['tabid' => $tabId])
+		return \App\Db::getInstance()->createCommand()
+			->update('vtiger_modentity_num', ['cur_id' => $curId, 'cur_sequence' => $curSequence], ['tabid' => $tabId])
 			->execute();
 	}
-
-	protected static $numberCache = [];
 
 	/**
 	 * Function returns information about module numbering.
 	 *
-	 * @param int    $tabId
-	 * @param boolen $cache
+	 * @param int $tabId
 	 *
 	 * @return array
 	 */
-	public static function getNumber($tabId, $cache = true)
+	public static function getNumber($tabId)
 	{
-		if (isset(self::$numberCache[$tabId]) && $cache) {
-			return self::$numberCache[$tabId];
-		}
 		if (is_string($tabId)) {
 			$tabId = \App\Module::getModuleId($tabId);
 		}
-		$row = (new \App\Db\Query())->select(['cur_id', 'prefix', 'postfix'])->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
-
+		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
 		$number = [
 			'prefix' => $row['prefix'],
+			'leading_zeros' => $row['leading_zeros'],
 			'sequenceNumber' => $row['cur_id'],
 			'postfix' => $row['postfix'],
-			'number' => self::parse($row['prefix'] . $row['cur_id'] . $row['postfix']),
+			'reset_sequence' => $row['reset_sequence'],
+			'cur_sequence' => $row['cur_sequence'],
+			'number' => self::parse($row['prefix'], $row['cur_id'], $row['postfix'], $row['leading_zeros']),
 		];
-		if ($cache) {
-			self::$numberCache[$tabId] = $number;
-		}
 		return $number;
 	}
 }

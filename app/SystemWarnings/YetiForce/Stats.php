@@ -6,8 +6,8 @@ namespace App\SystemWarnings\YetiForce;
  * Privilege File basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Stats extends \App\SystemWarnings\Template
 {
@@ -55,11 +55,11 @@ class Stats extends \App\SystemWarnings\Template
 		$message = \App\Language::translate('LBL_DATA_SAVE_FAIL', 'Settings::SystemWarnings');
 		try {
 			$request = \Requests::POST('https://api.yetiforce.com/stats', [], array_merge($params, [
-					'key' => sha1(\AppConfig::main('site_URL') . ROOT_DIRECTORY),
-					'version' => \App\Version::get(),
-					'language' => \App\Language::getLanguage(),
-					'timezone' => date_default_timezone_get(),
-					]), ['useragent' => 'YetiForceCRM']);
+				'key' => sha1(\AppConfig::main('site_URL') . ROOT_DIRECTORY),
+				'version' => \App\Version::get(),
+				'language' => \App\Language::getLanguage(),
+				'timezone' => date_default_timezone_get(),
+			]), ['useragent' => 'YetiForceCRM']);
 			if ($request->body === 'OK') {
 				file_put_contents('cache/' . $this->getKey(), 'Stats');
 				$result = true;

@@ -6,8 +6,8 @@ namespace Api\Core;
  * Web service request class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Request extends \App\Request
 {
@@ -72,7 +72,7 @@ class Request extends \App\Request
 			throw new \App\Exceptions\AppException('Private Key failed');
 		}
 		$privateKey = openssl_pkey_get_private($privateKey);
-		openssl_private_decrypt($data, $decrypted, $privateKey);
+		openssl_private_decrypt($data, $decrypted, $privateKey, OPENSSL_PKCS1_OAEP_PADDING);
 
 		return $decrypted;
 	}

@@ -442,6 +442,7 @@
     "LBL_PERMISSION_DENIED": "Permission denied",
     "LBL_PLEASE_SELECT_MODULE": "Please select any module to search",
     "LBL_POST": "Post",
+    "LBL_PREDEFINED_WIDGETS": "Predefined widgets",
     "LBL_PREVIOUS_FQ": "Previous FQ",
     "LBL_PREVIOUS_FY": "Previous FY",
     "LBL_PRE_TAX_TOTAL": "Pre tax total",
@@ -1290,6 +1291,7 @@
     "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Number of merged records has been reduced to %d."
   },
   "js": {
+    "JS_APPROVE": "Approve",
     "JS_SUMMARY": "Summary",
     "JS_LOADING_PLEASE_WAIT": "Loading, please wait.",
     "JS_SELECTED_RECORDS": "Selected records",
@@ -1309,16 +1311,19 @@
     "JS_ACCEPT_POSITIVE_NUMBER": "Accepts only positive numbers",
     "JS_ALLOWED_TO_SELECT_MAX_OF_THREE_RECORDS": "You are allowed to select a maximum of three records",
     "JS_ARE_YOU_SURE_TO_DELETE_WIDGET": "Are you sure to delete widget",
-    "JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO": "It will be available under the \"Add widget\".",
+    "JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO": "It will be available under the \"Predefined widgets\" button.",
     "JS_CAN_NOT_REMOVE_DEFAULT_WIDGET": "Cannot remove default widget",
     "JS_CHECK_FILE_INTEGRITY": "Check file integrity",
     "JS_CONTAINS_ILLEGAL_CHARACTERS": "contains invalid characters",
     "JS_CURRENT_DATE": "Current date",
+    "JS_DENY": "Deny",
     "JS_DO_NOT_HAVE_AN_EMAIL_ID": "does not have an email address",
+    "JS_DUPLICATE": "Duplicate",
     "JS_DUPLIACATE_ENTRIES_FOUND_FOR_THE_VALUE": "Duplicate entries found for the value",
     "JS_DUPLICATE_ENTRIES_FOUND_FOR_THE_VALUE": "Duplicate entries found for the value",
     "JS_DUPLICATE_RECORD": "Duplicate record",
     "JS_DUPLICTAE_CREATION_CONFIRMATION": "Account name already exists. Do you want to create a duplicate record?",
+    "JS_EDIT": "Edit",
     "JS_EMAIL_SERVER_CONFIGURATION": "Please configure your outgoing server settings from the settings page",
     "JS_END_DATE_TIME": "End date & time",
     "JS_ERROR": "Error, please inform the Administrator",
@@ -1375,6 +1380,7 @@
     "JS_PLEASE_ENTER_VALID_DATE": "Please enter valid date",
     "JS_PLEASE_ENTER_VALID_EMAIL_ADDRESS": "Please enter a valid email address",
     "JS_PLEASE_ENTER_VALID_TIME": "Please enter valid time",
+    "JS_PLEASE_ENTER_VALID_TWITTER_ACCOUNT": "Please enter valid Twitter account",
     "JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS": "Please select Account to copy address",
     "JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS": "Please select Contact to copy address",
     "JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS": "Select Lead to copy address",
@@ -1638,6 +1644,8 @@
     "JS_FILE_LIMIT": "Maximum number of files was exceeded",
     "JS_WAIT_FOR_FILE_UPLOAD": "Wait for files to be uploaded",
 	"JS_ERROR_MAX_VALUE": "Entered value is out of allowed range",
-    "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Change company name. The name of YetiForce company is reserved."
+    "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Change company name. The name of YetiForce company is reserved.",
+    "JS_SELECT_OR_WRITE_AND_PRESS_ENTER": "Select value from list or write value then press enter",
+    "JS_INVENTORY_ITEM_MODULE_NOT_FOUND": "Module '${sourceModule}' for position'${position}' was not activated."
   }
 }

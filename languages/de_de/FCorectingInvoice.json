@@ -15,9 +15,23 @@
     "FL_TOTAL": "Gesamt",
     "FL_GROSS": "Brutto",
     "FL_STATUS": "Status",
-    "PLL_TRANSFER": "\u00dcberweisung",
-    "PLL_CASH": "Bar",
+    "PLL_CASH": "Cash",
+    "PLL_TRANSFER": "Bank transfer",
+    "PLL_WIRE_TRANSFER": "Electronic transfer",
     "LBL_YEAR": "Jahr",
-    "FL_INVOICE": "Rechnung"
+    "FL_INVOICE": "Rechnung",
+    "LBL_COMMENTS": "Bemerkungen",
+    "FL_EXTERNAL_COMMENT": "Externe Bemerkungen",
+    "FL_INTERNAL_COMMENT": "Interne Bemerkungen",
+    "LBL_BEFORE_CORRECTION": "Before correction",
+    "LBL_AFTER_CORRECTION": "After correction",
+    "LBL_CHOOSE_INVOICE": "Select invoice to be corrected",
+    "LBL_COPY_FROM_INVOICE": "Copy from initial invoice",
+    "LBL_INVOICE_INFO": "Initial invoice fields - before corrections.",
+    "LBL_AFTER_INVOICE_INFO": "How should final invoice look like after correction.",
+    "LBL_AFTER_INVOICE_INFO_EDIT": "Invoice fields to be corrected. Copy all fields from initial invoice and change values as needed."
+  },
+  "js": {
+    "JS_FCORECTINGINVOICE_CHOOSE_INVOICE": "Select invoice to be corrected"
   }
 }

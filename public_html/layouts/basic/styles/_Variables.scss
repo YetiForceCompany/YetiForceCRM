@@ -10,6 +10,7 @@ $blue: #337ab7;
 $pagination-color: $link-color;
 $grid-breakpoints: (
 	xs: 0,
+	xsm: 400px,
 	sm: 576px,
 	md: 768px,
 	lg: 992px,
@@ -25,10 +26,11 @@ $h-footer-user-info: calculate-rem(55px);
 $h-footer-user-info-mobile: calculate-rem(32px);
 $h-input-text: calculate-rem(24px);
 $h-menu-items: calculate-rem(34px);
-$h-menu-right-items: calculate-rem(36px);
 $h-modal-logo: calculate-rem(120px);
 $h-btn-sm: calculate-rem(31px);
-$h-header: calculate-rem(52px);
+$h-header: calculate-rem(50px);
+$h-breadcrumb: calculate-rem(54px);
+$h-dashboard-tabs: calculate-rem(58px);
 $h-header-logo: calculate-rem(52px);
 $w-header-search: 500px;
 $h-main-viewport: calc(100vh - (#{$h-footer} + #{$h-header}));

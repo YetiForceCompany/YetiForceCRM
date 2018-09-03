@@ -33,7 +33,7 @@
 					<label class=""><strong>{\App\Language::translate('LBL_MODULE', $QUALIFIED_MODULE)}: </strong></label>
 				</div>
 				<div class="col-md-4 fieldValue">
-					<select class="chzn-select form-control" name="templatemodule" {if !$ACCESS} disabled {/if} >
+					<select class="select2 form-control" name="templatemodule" {if !$ACCESS} disabled {/if} >
 						{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 							<option {if $SOURCE_MODULE eq $TAB_ID} selected="" {/if} value="{$TAB_ID}">
 								{if $MODULE_MODEL->getName() eq 'Calendar'}

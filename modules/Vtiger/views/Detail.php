@@ -48,6 +48,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showRelatedTree');
 		$this->exposeMethod('showRecentRelation');
 		$this->exposeMethod('showOpenStreetMap');
+		$this->exposeMethod('showSocialMedia');
+		$this->exposeMethod('showInventoryDetails');
 	}
 
 	/**
@@ -153,7 +155,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
-
 			return;
 		}
 		$recordId = $request->getInteger('record');
@@ -219,7 +220,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~libraries/leaflet/dist/leaflet.js',
 			'~libraries/leaflet.markercluster/dist/leaflet.markercluster.js',
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
-			'modules.OpenStreetMap.resources.Map',
+			'modules.OpenStreetMap.resources.Map'
 		];
 
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
@@ -262,7 +263,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
 
-		return $viewer->view('DetailViewFullContents.tpl', $moduleName, true);
+		return $viewer->view('Detail/FullContents.tpl', $moduleName, true);
 	}
 
 	public function showModuleSummaryView(\App\Request $request)
@@ -320,10 +321,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('VIEW_MODEL', $this->record);
+		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
 		if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
 			return $viewer->view('DetailViewSummaryView.tpl', $moduleName, true);
 		} else {
-			return $viewer->view('DetailViewFullContents.tpl', $moduleName, true);
+			return $viewer->view('Detail/FullContents.tpl', $moduleName, true);
 		}
 	}
 
@@ -373,10 +375,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		if ($type === 'changes') {
 			$newChange = $request->has('newChange') ? $request->get('newChange') : ModTracker_Record_Model::isNewChange($parentRecordId);
+		} else {
+			$newChange = '';
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
-		$viewer->assign('NEW_CHANGE', $newChange);
+		$viewer->assign('NEW_CHANGE', $newChange ?? null);
 		$viewer->assign('PARENT_RACORD_ID', $parentRecordId);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -446,6 +450,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('CURRENT_COMMENT', null);
 
 		return $viewer->view('RecentComments.tpl', $moduleName, true);
 	}
@@ -506,6 +511,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PARENT_COMMENTS', $childComments);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
+		$viewer->assign('CURRENT_COMMENT', null);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 
 		return $viewer->view('CommentsList.tpl', $request->getModule(), true);
@@ -670,7 +676,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
 		$limit = (int) $request->get('limit');
-		$searchParams = $request->get('search_params');
+		$searchParams = $request->getArray('search_params');
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
@@ -726,18 +732,26 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$relationListView->set('sortorder', $sortOrder);
 		}
 		$viewer = $this->getViewer($request);
-		if (!$request->isEmpty('viewType')) {
-			$viewType = $request->getByType('viewType');
-			$viewer->assign('TYPE_VIEW', $viewType);
-			if ($viewType === 'ListWithSummary') {
-				$viewer->assign('RELATED_SUMMARY_HEADERS', $relationListView->getHeaders());
+		$viewType = !$request->isEmpty('viewType') ? $request->getByType('viewType') : '';
+		if ('ListWithSummary' === $viewType) {
+			$header = $relationListView->getHeaders();
+			if ($summaryHeaders = $relationListView->getRelatedModuleModel()->getSummaryViewFieldsList()) {
+				$relationListView->setFields(array_keys($summaryHeaders));
+				$summaryHeaders = $relationListView->getHeaders();
 			}
-		}
-		if ($request->has('fields')) {
-			$relationListView->setFields($request->getExploded('fields'));
+			$viewer->assign('RELATED_SUMMARY_HEADERS', $summaryHeaders);
+			if ($request->has('fields')) {
+				$relationListView->setFields($request->getExploded('fields'));
+				$header = $relationListView->getHeaders();
+				$relationListView->setFields(array_keys(array_merge($summaryHeaders, $header)));
+			}
+		} else {
+			if ($request->has('fields')) {
+				$relationListView->setFields($request->getExploded('fields'));
+			}
+			$header = $relationListView->getHeaders();
 		}
 		$models = $relationListView->getEntries($pagingModel);
-		$header = $relationListView->getHeaders();
 		$links = $relationListView->getLinks();
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
@@ -745,12 +759,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($columns) {
 			$header = array_splice($header, 0, $columns);
 		}
-
+		$viewer->assign('TYPE_VIEW', $viewType);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('LIMIT', $limit);
-		if (!$request->isEmpty('viewType')) {
-			$viewer->assign('TYPE_VIEW', $request->getByType('viewType'));
-		}
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relatedModuleModel);
@@ -764,10 +775,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
-		if (!empty($totalCount)) {
-			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
+		if (empty($totalCount)) {
+			$totalCount = 0;
 		}
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 		$viewer->assign('VIEW_MODEL', $relationListView);
@@ -907,11 +919,49 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	}
 
 	/**
+	 * Show social media.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function showSocialMedia($request)
+	{
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
+		if (!Vtiger_SocialMedia_Model::isEnableForModule($recordModel)) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('SOCIAL_MODEL', Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel));
+		$viewer->assign('RECORD_MODEL', $recordModel);
+		return $viewer->view('Detail\SocialMedia.tpl', $moduleName, true);
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function getPageTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		return \App\Language::translate($moduleName, $moduleName) . ' ' . $this->record->getRecord()->getDisplayName();
+	}
+
+	/**
+	 * Show inventory details from record for specified module.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 *
+	 * @return string
+	 */
+	public function showInventoryDetails(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+		$viewer = \Vtiger_Viewer::getInstance();
+		$viewer->assign('RECORD', $recordModel);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		return $viewer->view('Detail/InventoryView.tpl', $moduleName, true);
 	}
 }

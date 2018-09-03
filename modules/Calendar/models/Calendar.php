@@ -192,8 +192,8 @@ class Calendar_Calendar_Model extends App\Base
 					$findId = $record['process'];
 					$findMod = $record['processmod'];
 				}
-				$tabInfo = $this->relationAcounts[$findMod];
-				if ($tabInfo) {
+				if (isset($this->relationAcounts[$findMod])) {
+					$tabInfo = $this->relationAcounts[$findMod];
 					$query = (new \App\Db\Query())
 						->select('vtiger_account.accountid, vtiger_account.accountname')
 						->from('vtiger_account')
@@ -284,7 +284,11 @@ class Calendar_Calendar_Model extends App\Base
 
 					$return[$date]['start'] = $date;
 					$return[$date]['date'] = $date;
-					$return[$date]['event'][$activitytype]['count'] += 1;
+					if (isset($return[$date]['event'][$activitytype]['count'])) {
+						$return[$date]['event'][$activitytype]['count'] += 1;
+					} else {
+						$return[$date]['event'][$activitytype]['count'] = 1;
+					}
 					$return[$date]['event'][$activitytype]['className'] = '  fc-draggable picklistCBg_Calendar_activitytype_' . $activitytype;
 					$return[$date]['event'][$activitytype]['label'] = \App\Language::translate($activitytype, $this->getModuleName());
 					$return[$date]['type'] = 'widget';

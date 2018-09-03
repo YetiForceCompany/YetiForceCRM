@@ -1,5 +1,6 @@
 {
   "php": {
+    "LBL_ATTENTION": "Achtung! ",
     "LBL_MIGRATION_SYSTEM_FINISH": "Migration abgeschlossen - YetiForce CRM-System",
     "LBL_EXAMPLE_DIRECTORY": "Beispiel",
     "LANGNAME": "Deutsch",
@@ -78,7 +79,7 @@
     "LBL_MIGRATION": "Migration",
     "LBL_START_MIGRATION": "Starte Migration",
     "LBL_MIGRATION_HEADER": "Willkommen zur Migration auf das YetiForce CRM",
-    "LBL_MIGRATION_DESC": "<strong>Achtung: <\/strong>Bevor Sie mit der Migration beginnen, bitte f\u00fchren Sie eine Datensicherung der Dateien und der Datenbank des Systems durch, das Sie migrieren m\u00f6chten.",
+    "LBL_MIGRATION_DESC": "Bevor Sie mit der Migration beginnen, bitte f\u00fchren Sie eine Datensicherung der Dateien und der Datenbank des Systems durch, das Sie migrieren m\u00f6chten.",
     "LBL_HAVE_BACKUP_DATABASE": "Ich habe eine Datensicherung der Datenbank",
     "LBL_HAVE_BACKUP_FILES": "Ich habe eine Datensicherung der Dateien",
     "LBL_LOGIN": "Login",
@@ -94,7 +95,7 @@
     "LBL_MIGRATION_ERROR": "W\u00e4hrend der Migration ist ein Fehler aufgetreten",
     "LBL_ERROR_NO_CONFIG": "Ung\u00fcltige lokale Systemadresse",
     "LBL_WRONG_USERNAME_OR_PASSWORD": "Falscher Benutzername oder Passwort",
-    "LBL_DESCRIPTION_CONDITIONS": "<strong>Warnung!<\/strong> Bei der Migration werden Sie alle Daten aus den folgenden Modulen verlieren:\tMailManager, EmailTemplates, Workflows. \r\n Bitte beachten Sie, dass sich die Migration immer noch in der Testphase befindet. Sie sollten alle m\u00f6glichen Sicherheitskopien machen",
+    "LBL_DESCRIPTION_CONDITIONS": "Bei der Migration werden Sie alle Daten aus den folgenden Modulen verlieren:\tMailManager, EmailTemplates, Workflows. \r\n Bitte beachten Sie, dass sich die Migration immer noch in der Testphase befindet. Sie sollten alle m\u00f6glichen Sicherheitskopien machen",
     "LBL_MIGRATION_IN_PROGRESS": "Migration in Bearbeitung",
     "LBL_BACK": "Zur\u00fcck",
     "LBL_READ_LICENSE": "Lizenz lesen",

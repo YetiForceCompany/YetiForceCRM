@@ -491,7 +491,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if (!isset($this->singleColors[$datasetIndex])) {
 			$this->singleColors[$datasetIndex] = [];
 		}
-		if ((!empty($group['color_id']) && !empty($this->colors[$group['color_id']])) || $dividing['color_id'] === null) {
+		if ((!empty($group['color_id']) && !empty($this->colors[$group['color_id']])) || !isset($dividing['color_id'])) {
 			if ($group['color_id'] === null) {
 				$color = $this->getFieldValueColor($groupValue, $dividingValue);
 				$this->singleColors[$datasetIndex][] = $color;
@@ -555,8 +555,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function setChartDatasetsColorsMulti(&$chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing)
 	{
-		if ((!empty($group['color_id']) && !empty($this->colors[$group['color_id']])) || $group['color_id'] === null) {
-			if ($group['color_id'] === null) {
+		if ((!empty($group['color_id']) && !empty($this->colors[$group['color_id']])) || !isset($group['color_id'])) {
+			if (!isset($group['color_id'])) {
 				// we have all fields colors
 				// if some record doesn't have a field which have color use color from other dataset which have same value
 				$color = $this->getFieldValueColor($groupValue, $dividingValue);
@@ -595,7 +595,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$this->colorsFrom = 'picklist';
 		$this->colorsFromRow = 'picklist_id';
 		$this->iterateAllRows(function ($row, $groupValue, $dividingValue, $rowIndex) use ($colors) {
-			$this->colors[$row['picklist_id']] = $colors[$row['picklist_id']];
+			if (isset($colors[$row['picklist_id']])) {
+				$this->colors[$row['picklist_id']] = $colors[$row['picklist_id']];
+			}
 		});
 	}
 
@@ -728,12 +730,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if (!empty($this->valueName)) {
 			$queryGenerator->setField($this->valueName);
 		}
-		if ($searchParams = $request->get('search_params')) {
+		if ($searchParams = $request->getArray('search_params')) {
 			$this->searchParams = $searchParams;
 			$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition([$searchParams]);
 			$queryGenerator->parseAdvFilter($transformedSearchParams);
 		}
-
 		$query = $queryGenerator->createQuery();
 		// we want colors from picklists if available
 		$query = $this->addPicklistsToQuery($query);
@@ -803,8 +804,12 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function setUpModelFields()
 	{
-		$this->valueType = $this->extraData['valueType'];
-		$this->valueName = $this->extraData['valueField'];
+		if (isset($this->extraData['valueType'])) {
+			$this->valueType = $this->extraData['valueType'];
+		}
+		if (isset($this->extraData['valueField'])) {
+			$this->valueName = $this->extraData['valueField'];
+		}
 		$this->groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$this->groupFieldName = $this->groupFieldModel->getFieldName();
 		$this->groupName = $this->groupFieldModel->getName();
@@ -896,7 +901,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$this->incNumRows($groupValue, $dividingValue);
 			}
 			if (!empty($this->extraData['showOwnerFilter'])) {
-				$this->owners[] = $row['assigned_user_id'];
+				if (!empty($row['assigned_user_id'])) {
+					$this->owners[] = $row['assigned_user_id'];
+				}
 			}
 			$this->setValueFromRow($row, $groupValue, $dividingValue);
 		}
@@ -947,7 +954,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	protected function getValueFromRow($row)
 	{
 		$value = empty($row[$this->valueName]) ? 0 : 1;
-		$value = is_numeric($row[$this->valueName]) ? (float) $row[$this->valueName] : $value;
+		if (isset($row[$this->valueName])) {
+			$value = is_numeric($row[$this->valueName]) ? (float) $row[$this->valueName] : $value;
+		}
 		if ($this->valueType === 'count') {
 			$value = 1; // only counting records
 		}
@@ -1246,7 +1255,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 
 		foreach (explode(',', $this->widgetModel->get('filterid')) as $id) {
 			$this->filterIds[] = (int) $id;
-			$this->viewNames[$id] = $this->customView->getInfoFilter((int) $id)['viewname'];
+			$this->viewNames[$id] = $this->customView->getInfoFilter((int) $id)['viewname'] ?? '';
 		}
 		return $this->filterIds;
 	}

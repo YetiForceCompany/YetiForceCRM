@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js', {}, {
 
@@ -31,13 +32,13 @@ Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js', {}, {
 	addNewCondition: function (conditionGroupElement) {
 		var basicElement = jQuery('.basic', conditionGroupElement);
 		var newRowElement = basicElement.find('.js-conditions-row').clone(true, true);
-		jQuery('select', newRowElement).addClass('chzn-select');
+		jQuery('select', newRowElement).addClass('select2');
 		var conditionList = jQuery('.conditionList', conditionGroupElement);
 		conditionList.append(newRowElement);
 
-		//change in to chosen elements
+		//change in to select elements
 		App.Fields.Picklist.changeSelectElementView(newRowElement);
-		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected', 'selected').trigger('chosen:updated').trigger('change');
+		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected', 'selected').trigger('change');
 		return this;
 	},
 
@@ -85,7 +86,7 @@ Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js', {}, {
 				}
 			}
 		}
-		conditionSelectElement.empty().html(options).trigger("chosen:updated");
+		conditionSelectElement.empty().html(options).trigger("change");
 		return conditionSelectElement;
 	},
 
@@ -396,7 +397,7 @@ Vtiger_Field_Js('Vtiger_Boolean_Field_Js', {}, {
 Vtiger_Owner_Field_Js('Workflows_Owner_Field_Js', {}, {
 
 	getUi: function () {
-		var html = '<select class="row chzn-select" name="' + this.getName() + '">';
+		var html = '<select class="select2" name="' + this.getName() + '">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = this.getValue();
 		for (var optGroup in pickListValues) {

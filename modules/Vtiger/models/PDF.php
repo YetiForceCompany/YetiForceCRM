@@ -4,10 +4,10 @@
  * Basic PDF Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_PDF_Model extends \App\Base
 {
@@ -294,8 +294,8 @@ class Vtiger_PDF_Model extends \App\Base
 		\App\Db::getInstance()->createCommand()
 			->update(self::$baseTable, [
 				'conditions' => '',
-				], [self::$baseIndex => $this->getId()])
-				->execute();
+			], [self::$baseIndex => $this->getId()])
+			->execute();
 	}
 
 	/**
@@ -571,7 +571,7 @@ class Vtiger_PDF_Model extends \App\Base
 		header('Accept-Ranges: bytes');
 		header('Content-Length: ' . $size);
 
-		echo readfile($fileName);
+		readfile($fileName);
 		// delete temporary zip file and saved pdf files
 		unlink($fileName);
 	}

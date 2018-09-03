@@ -39,7 +39,7 @@
 	<div class="col-md-12 pr-0 row">
 		<div class="col-12 col-sm-12 col-md-8 d-flex align-items-center">
 			<div class="moduleIcon">
-				<span class="detailViewIcon userIcon-{$MODULE}"></span>
+				<span class="o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
 			</div>
 			<div class="pl-1">
 				<h4 class="recordLabel m-0" title="{$RECORD->getName()}">

@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 $.Class("Vtiger_Helper_Js", {
 	checkServerConfigResponseCache: '',
@@ -297,8 +298,7 @@ $.Class("Vtiger_Helper_Js", {
 				option.removeAttr('disabled');
 			}
 		});
-		element.val(opval);
-		element.trigger('chosen:updated');
+		element.val(opval).trigger('change');
 	},
 	unique: function (array) {
 		return array.filter(function (el, index, arr) {

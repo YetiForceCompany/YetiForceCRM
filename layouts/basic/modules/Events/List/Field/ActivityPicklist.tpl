@@ -10,9 +10,13 @@
 ********************************************************************************/
 -->*}
 {strip}
-    {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
-    {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
-    {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
+	{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
+	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
+	{if isset($SEARCH_INFO['searchValue'])}
+		{assign var=SEARCH_VALUES value=explode(',', $SEARCH_INFO['searchValue'])}
+	{else}
+		{assign var=SEARCH_VALUES value=[]}
+	{/if}
 	<div class="tpl-List-Field-ActivityPicklist picklistSearchField">
 		<select class="select2 listSearchContributor" name="{$FIELD_MODEL->getName()}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple data-fieldinfo='{$FIELD_INFO|escape}'>
 			{foreach item=PICKLIST_LABEL key=PICKLIST_KEY from=$PICKLIST_VALUES}

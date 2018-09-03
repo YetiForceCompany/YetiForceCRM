@@ -7,25 +7,27 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
+'use strict';
 
 $.Class("Vtiger_DashBoard_Js", {
 	grid: false,
 	//static property which will store the instance of dashboard
 	currentInstance: false,
+	scrollContainer: false,
 	addWidget: function (element, url) {
 		element = $(element);
 		var linkId = element.data('linkid');
 		var name = element.data('name');
 		var widgetId = element.data('id');
 		$(element).parent().remove();
-		if ($('ul.widgetsList li').length < 1) {
-			$('ul.widgetsList').prev('button').css('visibility', 'hidden');
+		if ($('.js-widget-list .js-widget-list__item').length < 1) {
+			$('.js-widget-list').prev('.js-widget-predefined').addClass('d-none');
 		}
-		var widgetContainer = $('<div><div id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open" class="grid-stack-item-content dashboardWidget new"></div></div>');
+		var widgetContainer = $('<div class="grid-stack-item js-css-element-queries" data-js="css-element-queries"><div id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open" class="grid-stack-item-content dashboardWidget new"></div></div>');
 		widgetContainer.find('.dashboardWidget').data('url', url);
 		var width = element.data('width');
 		var height = element.data('height');
-		Vtiger_DashBoard_Js.grid.addWidget(widgetContainer,0, 0, width, height);
+		Vtiger_DashBoard_Js.grid.addWidget(widgetContainer, 0, 0, width, height);
 		Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer.find('.grid-stack-item-content'));
 	},
 	restrictContentDrag: function (container) {
@@ -104,19 +106,20 @@ $.Class("Vtiger_DashBoard_Js", {
 		});
 	},
 	updateLazyWidget() {
-		const scrollTop = $('.mainBody').scrollTop();
-		$('.mainBody').scrollTop(scrollTop + 1).scrollTop(scrollTop);
+		const scrollTop = this.scrollContainer.scrollTop();
+		this.scrollContainer.scrollTop(scrollTop + 1).scrollTop(scrollTop);
 	},
 	loadWidgets: function () {
 		const thisInstance = this;
+		this.scrollContainer = $(window).width() > app.breakpoints.sm ? $('.mainBody') : $('.bodyContent');
 		thisInstance.getContainer().find('.dashboardWidget').Lazy({
 			threshold: 0,
-			appendScroll: $('.mainBody'),
+			appendScroll: thisInstance.scrollContainer,
 			widgetLoader(element) {
 				thisInstance.loadWidget(element);
 			},
 		});
-		this.updateLazyWidget();
+		this.updateLazyWidget(this.scrollContainer);
 	},
 	loadWidget: function (widgetContainer) {
 		var thisInstance = this;
@@ -159,52 +162,47 @@ $.Class("Vtiger_DashBoard_Js", {
 	},
 	removeWidget: function () {
 		const thisInstance = this;
-		this.getContainer().on('click', '.grid-stack-item a[name="dclose"]', function (e) {
-			var element = $(e.currentTarget);
-			var listItem = $(element).parents('.grid-stack-item');
-			var width = listItem.attr('data-sizex');
-			var height = listItem.attr('data-sizey');
-
-			var url = element.data('url');
-			var parent = element.closest('.dashboardWidgetHeader').parent();
-			var widgetName = parent.data('name');
-			var widgetTitle = parent.find('.dashboardTitle').attr('title');
-
-			var message = app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET') + " [" + widgetTitle + "]. " + app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO');
+		this.getContainer().on('click', '.js-widget-remove', function (e) {
+			let element = $(e.currentTarget),
+				listItem = $(element).parents('.grid-stack-item'),
+				width = listItem.attr('data-gs-width'),
+				height = listItem.attr('data-gs-height'),
+				url = element.data('url'),
+				parent = element.closest('.dashboardWidgetHeader').parent(),
+				widgetName = parent.data('name'),
+				widgetTitle = parent.find('.dashboardTitle').attr('title'),
+				message = app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET') + " [" + widgetTitle + "]. " + app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
 				AppConnector.request(url).done(function (response) {
 					if (response.success) {
-						var nonReversableWidgets = [];
+						let nonReversableWidgets = [];
 						parent.fadeOut('slow', function () {
 							parent.remove();
 						});
 						if ($.inArray(widgetName, nonReversableWidgets) == -1) {
 							Vtiger_DashBoard_Js.grid.removeWidget(element.closest('.grid-stack-item'));
-							$('.widgetsList').prev('button').css('visibility', 'visible');
-							var data = '<li class="d-flex flex-row-reverse align-items-center">';
+							$('.js-widget-list').prev('.js-widget-predefined').removeClass('d-none');
+							let data = `<li class="js-widget-list__item dropdown-item d-flex flex-row-reverse align-items-center justify-content-between" data-js="remove">`;
 							if (response.result.deleteFromList) {
-								data += '<button ';
-								data += 'data-widget-id="' + response.result.id + '" ';
-								data += 'class="removeWidgetFromList btn btn-danger btn-sm m-1 p-1" '
-								data += '>'
-								data += '<span class="fas fa-trash-alt"></span>';
-								data += '</button>';
+								data += `<button data-widget-id="${response.result.id}" 
+											class="removeWidgetFromList btn btn-danger btn-sm m-1 p-1">
+										<span class="fas fa-trash-alt"></span>
+										</button>`;
 							}
-							data += '<a onclick="Vtiger_DashBoard_Js.addWidget(this, \'' + response.result.url + '\')" ';
-							data += 'href="javascript:void(0);" ';
-							data += 'class="dropdown-item pl-1" ';
-							data += 'data-linkid="' + response.result.linkid + '" ';
-							data += 'data-name="' + response.result.name + '" ';
-							data += 'data-width="' + width + '" ';
-							data += 'data-height="' + height + '" ';
-							data += '>';
-							data += response.result.title + '</a>';
-							data += '</li>';
-							var divider = $('.widgetsList .dropdown-divider');
+							data += `<a onclick="Vtiger_DashBoard_Js.addWidget(this, '${response.result.url}')"
+										href="#"
+										class="pl-1"
+										data-linkid="${response.result.linkid}"
+										data-name="${response.result.name}"
+										data-width="${width}"
+										data-height="${height}">
+										${response.result.title}</a>
+									</li>`;
+							let divider = $('.js-widget-list .dropdown-divider');
 							if (divider.length) {
 								$(data).insertBefore(divider);
 							} else {
-								$('.widgetsList').append(data);
+								$('.js-widget-list').append(data);
 							}
 							thisInstance.updateLazyWidget();
 						}
@@ -572,8 +570,6 @@ $.Class("Vtiger_DashBoard_Js", {
 					var data = {
 						module: selectedModule
 					};
-					if (typeof selectedFields != 'object')
-						selectedFields = [selectedFields];
 					data['fields'] = selectedFields;
 					thisInstance.saveMiniListWidget(data, element, selectedModuleLabel, selectedFilterId, selectedFilterLabel, form);
 				});
@@ -691,10 +687,52 @@ $.Class("Vtiger_DashBoard_Js", {
 					type: 'success',
 				};
 				Vtiger_Helper_Js.showMessage(params);
-				var parent = currentTarget.closest('.dashboardWidget');
-				$(parent).remove();
+				currentTarget.closest('.js-widget-list__item').remove();
+				if ($('ul.js-widget-list .js-widget-list__item').length < 1) {
+					$('ul.js-widget-list').prev('.js-widget-predefined').addClass('d-none');
+				}
 				thisInstance.updateLazyWidget();
 			});
+		});
+	},
+	/**
+	 * Updates tablet scroll top position
+	 */
+	registerTabletScrollEvent() {
+		if (!app.touchDevice || $(window).width() < app.breakpoints.sm) {
+			return;
+		}
+
+		let scollbarContainer = $('.js-tablet-scroll');
+		scollbarContainer.parent().removeClass('d-none');
+
+		let scollbarContainerH = scollbarContainer.outerHeight(),
+			scollbarOffsetTop = scollbarContainer.offset().top,
+			maxOffset = $('.js-header').outerHeight() + 8;
+
+		this.scrollContainer.on('scroll', () => {
+			if ((this.scrollContainer.scrollTop() + maxOffset) >= scollbarOffsetTop) {
+				scollbarContainer.css({top: maxOffset});
+			} else {
+				scollbarContainer.css({
+					top: scollbarOffsetTop - this.scrollContainer.scrollTop(),
+					height: scollbarContainerH + this.scrollContainer.scrollTop()
+				});
+			}
+		});
+	},
+	/**
+	 * Updates list of predefined widgets after changed dashboard
+	 */
+	registerUpdatePredefinedWidgets: function () {
+		var thisInstance = this;
+		AppConnector.request({
+			view: 'BasicAjax',
+			mode: 'getDashBoardPredefinedWidgets',
+			module: app.getModuleName(),
+			dashboardId: thisInstance.getCurrentDashboard()
+		}).done(function (data) {
+			$('.js-predefined-widgets').html(data);
 		});
 	},
 	registerEvents: function () {
@@ -709,5 +747,8 @@ $.Class("Vtiger_DashBoard_Js", {
 		this.registerTabModules();
 		this.removeWidgetFromList();
 		this.registerSelectDashboard();
+		this.registerTabletScrollEvent();
+		this.registerUpdatePredefinedWidgets();
+		ElementQueries.listen();
 	}
 });

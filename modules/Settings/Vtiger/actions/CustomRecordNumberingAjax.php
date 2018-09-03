@@ -63,9 +63,13 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($request->getByType('sourceModule', 2));
-		$moduleModel->set('prefix', $request->get('prefix'));
-		$moduleModel->set('sequenceNumber', $request->get('sequenceNumber'));
-		$moduleModel->set('postfix', $request->get('postfix'));
+		$moduleModel->set('prefix', $request->getByType('prefix', 'Text'));
+		$moduleModel->set('leading_zeros', $request->getByType('leading_zeros', 'Integer'));
+		$moduleModel->set('sequenceNumber', $request->getByType('sequenceNumber', 'Integer'));
+		$moduleModel->set('postfix', $request->getByType('postfix', 'Text'));
+		if (in_array($request->getByType('reset_sequence'), ['Y', 'M', 'D'])) {
+			$moduleModel->set('reset_sequence', $request->getByType('reset_sequence'));
+		}
 		$result = $moduleModel->setModuleSequence();
 		$response = new Vtiger_Response();
 		if ($result['success']) {

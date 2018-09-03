@@ -1,6 +1,6 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<div class="securityIndexPage">
+	<div class="securityIndexPage table-responsive">
 		<table class="table tableRWD table-bordered table-sm themeTableColor confTable">
 			<thead>
 				<tr class="blockHeader">
@@ -22,10 +22,10 @@
 			</thead>
 			<tbody>
 				{foreach from=Settings_ConfReport_Module_Model::getSecurityConf() key=key item=item}
-					<tr {if $item.status}class="table-danger"{/if}>
+					<tr {if !empty($item.status)}class="table-danger"{/if}>
 						<td>
 							<label>{$key}</label>
-							{if isset($item.help) && $item.status}<a href="#" class="js-popover-tooltip float-right text-dark" data-js="popover" data-trigger="focus" data-placement="right" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><span class="fas fa-info-circle"></span></a>{/if}
+							{if !empty($item.help) && !empty($item.status)}<a href="#" class="js-popover-tooltip float-right text-dark" data-js="popover" data-trigger="focus" data-placement="right" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><span class="fas fa-info-circle"></span></a>{/if}
 						</td>
 						<td><label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label></td>
 						<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>

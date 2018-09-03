@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 Vtiger_Edit_Js("Users_Edit_Js", {
 	/**
@@ -28,7 +29,7 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 				var previousSelectedValue = element.data('selectedValue');
 				element.find('option').removeAttr('selected');
 				element.find('option[value="' + previousSelectedValue + '"]').attr('selected', 'selected');
-				element.trigger("chosen:updated");
+				element.trigger('change');
 			} else {
 				element.data('selectedValue', selectedValue);
 			}
@@ -47,7 +48,7 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 				var previousSelectedValue = element.data('selectedValue');
 				element.find('option').removeAttr('selected');
 				element.find('option[value="' + previousSelectedValue + '"]').attr('selected', 'selected');
-				element.trigger("chosen:updated");
+				element.trigger('change');
 			} else {
 				element.data('selectedValue', selectedValue);
 			}
@@ -90,8 +91,8 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 				return false;
 			}
 			var list = thisInstance.hourFormatConditionMapping['hour_format'][hourFormatVal]['start_hour'];
-			startHourElement.html(thisInstance.getHourValues(list, conditionStartSelected)).trigger("chosen:updated");
-			endHourElement.html(thisInstance.getHourValues(list, conditionEndSelected)).trigger("chosen:updated");
+			startHourElement.html(thisInstance.getHourValues(list, conditionStartSelected)).trigger('change');
+			endHourElement.html(thisInstance.getHourValues(list, conditionEndSelected)).trigger('change');
 		});
 	},
 	triggerHourFormatChangeEvent: function (form) {

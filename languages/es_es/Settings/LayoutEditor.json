@@ -130,6 +130,10 @@
     "LBL_TOTAL_PRICE_DESC": "Campo no editable calculado autom\u00e1ticamente, contiene el precio Total para un elemento dado. (Cantidad * Precio unitario).",
     "LBL_DISCOUNT_PRICE_DESC": "Campo no editable calculado autom\u00e1ticamente, contiene el precio Total despu\u00e9s del descuento (Precio Total - Descuento).",
     "LBL_TAX_DESC": "Campo num\u00e9rico utilizado para ingresar el valor del impuesto para un elemento dado, el impuesto puede ser seleccionado de la lista de impuestos disponibles. La suma puede personalizarse en la administraci\u00f3n del sistema.",
+    "LBL_STRING": "Text",
+    "LBL_STRING_DESC": "Additional field used to enter any value by the user.",
+    "LBL_DOUBLE": "Decimal",
+    "LBL_DOUBLE_DESC": "",
     "LBL_VALUE_DESC": "Campo adicional utilizado para ingresar cualquier valor por el usuario.",
     "LBL_REFERENCE_DESC": "Campo adicional utilizado para relacionar un elemento dado con cualquier registro del sistema.",
     "LBL_PURCHASE_DESC": "Campo num\u00e9rico utilizado para introducir el valor de compra\/adquisici\u00f3n de un elemento dado.",
@@ -172,6 +176,7 @@
     "LBL_DATE_DESC": "",
     "LBL_PICKLIST": "Picklist",
     "LBL_PICKLIST_DESC": "",
+    "LBL_WRONG_RELATION": "Invalid relation value",
     "Image": "\"img_\" - Imagen",
     "DateTime": "\"datetime_\" - fecha y hora"
   },

@@ -11,7 +11,7 @@
 			<div class="panel-heading mb-2">
 				<div class="row">
 					<div class="col-md-4 col-sm-4 col-6">
-						<select class="chzn-select js-module-filter" data-js="change" name="moduleFilter">
+						<select class="select2 js-module-filter" data-js="change" name="moduleFilter">
 							{foreach item=SUPPORTED_MODULE_NAME from=$SUPPORTED_MODULE_MODELS}
 								<option {if $SOURCE_MODULE eq $SUPPORTED_MODULE_NAME} selected="" {/if} value="{$SUPPORTED_MODULE_NAME}">
 									{App\Language::translate($SUPPORTED_MODULE_NAME, $SUPPORTED_MODULE_NAME)}

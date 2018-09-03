@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class('Settings_Dav_Keys_Js', {}, {
 	//This will store the MenuEditor Container
@@ -18,7 +19,7 @@ jQuery.Class('Settings_Dav_Keys_Js', {}, {
 		var clonedContainer = editColorModal.clone(true, true);
 		var callBackFunction = function (data) {
 			data.find('.addKeyContainer').removeClass('d-none').show();
-			App.Fields.Picklist.showSelect2ElementView(data.find('.select')); // chzn-select select2
+			App.Fields.Picklist.showSelect2ElementView(data.find('.select'));
 			data.find('[name="saveButton"]').on('click', function (e) {
 				var form = data.find('form');
 				var formData = form.serializeFormData();

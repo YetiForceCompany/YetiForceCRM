@@ -12,6 +12,7 @@
 			{assign var=FIELD_VALUE value=vtlib\Functions::getArrayFromValue($FIELD_VALUE)}
 			{assign var=NOT_DISPLAY_LIST value=array_diff_key(array_flip($FIELD_VALUE), $ALL_ACTIVEUSER_LIST, $ALL_ACTIVEGROUP_LIST)}
 		{else}
+			{assign var=NOT_DISPLAY_LIST value=[]}
 			{assign var=FIELD_VALUE value=[]}
 		{/if}
 		<div class="tpl-Edit-Field-SharedOwner">
@@ -52,11 +53,13 @@
 							</option>
 						{/foreach}
 					</optgroup>
-					{foreach from=$NOT_DISPLAY_LIST key=OWNER_ID item=OWNER_NAME}
-						<option value="{$OWNER_ID}"
-								{if in_array(\App\Purifier::encodeHtml($OWNER_NAME), $FIELD_VALUE)}selected{/if}
-								disabled class="d-none">{\App\Purifier::encodeHtml($OWNER_NAME)}</option>
-					{/foreach}
+					{if !empty($NOT_DISPLAY_LIST)}
+						{foreach from=$NOT_DISPLAY_LIST key=OWNER_ID item=OWNER_NAME}
+							<option value="{$OWNER_ID}"
+									{if in_array(\App\Purifier::encodeHtml($OWNER_NAME), $FIELD_VALUE)}selected{/if}
+									disabled class="d-none">{\App\Purifier::encodeHtml($OWNER_NAME)}</option>
+						{/foreach}
+					{/if}
 				{/if}
 			</select>
 		</div>

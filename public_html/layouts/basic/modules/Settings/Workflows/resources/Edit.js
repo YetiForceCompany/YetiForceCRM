@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 	instance: {}
@@ -129,7 +130,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 		jQuery('[name="record"]', currentContainer).val(workFlowId);
 		var modulesList = jQuery('#moduleName', currentContainer);
 		if (modulesList.length > 0 && workFlowId != '') {
-			modulesList.attr('disabled', 'disabled').trigger('chosen:updated');
+			modulesList.attr('disabled', 'disabled').trigger('change');
 		}
 	},
 	getPopUp: function (container) {
@@ -138,7 +139,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			container = thisInstance.getContainer();
 		}
 		container.on('click', '.getPopupUi', function (e) {
-			if(container.find('[name="execution_condition"]').val() == 6){
+			if (container.find('[name="execution_condition"]').val() == 6) {
 				return false;
 			}
 			var fieldValueElement = jQuery(e.currentTarget);
@@ -152,13 +153,14 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			var conditionRow = fieldValueElement.closest('.js-conditions-row');
 
 			var clonedPopupUi = conditionsContainer.find('.popupUi').clone(true, true).removeClass('popupUi').addClass('clonedPopupUi')
-			clonedPopupUi.find('select').addClass('chzn-select');
+			clonedPopupUi.find('select').addClass('select2');
 			clonedPopupUi.find('.fieldValue').val(fieldValue);
+			var value;
 			if (fieldValueElement.hasClass('date')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
 				var dataFormat = fieldValueElement.data('date-format');
 				if (valueType == 'rawtext') {
-					var value = fieldValueElement.val();
+					value = fieldValueElement.val();
 				} else {
 					value = '';
 				}
@@ -167,7 +169,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			} else if (fieldValueElement.hasClass('time')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
 				if (valueType == 'rawtext') {
-					var value = fieldValueElement.val();
+					value = fieldValueElement.val();
 				} else {
 					value = '';
 				}
@@ -176,14 +178,12 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 			} else if (fieldValueElement.hasClass('boolean')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
 				if (valueType == 'rawtext') {
-					var value = fieldValueElement.val();
+					value = fieldValueElement.val();
 				} else {
 					value = '';
 				}
 				var clonedBooleanElement = '<input type="checkbox" class="fieldValue col-md-4" value="' + value + '" data-input="true" >';
 				clonedPopupUi.find('.fieldValueContainer').prepend(clonedBooleanElement);
-
-				var fieldValue = clonedPopupUi.find('.fieldValueContainer input').val();
 				if (value == 'true:boolean' || value == '') {
 					clonedPopupUi.find('.fieldValueContainer input').attr('checked', 'checked');
 				} else {
@@ -209,7 +209,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 				data.find('.fieldValue').filter(':visible').trigger('focus');
 				data.find('[data-close-modal="modal"]').off('click').on('click', function () {
 					jQuery(this).closest('.modal').removeClass('in').css('display', 'none');
-				})
+				});
 			}
 			conditionsContainer.find('.clonedPopUp').html(clonedPopupUi);
 			jQuery('.clonedPopupUi').on('shown.bs.modal', function () {
@@ -257,10 +257,10 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 		jQuery('.useField,.useFunction', data).on('change', function (e) {
 			var currentElement = jQuery(e.currentTarget);
 			var newValue = currentElement.val();
-			var oldValue = data.find('.fieldValue').filter(':visible').val();
+			var oldValue = data.find('.fieldValue').filter(':visible').val(), concatenatedValue;
 			if (currentElement.hasClass('useField')) {
 				if (oldValue != '') {
-					var concatenatedValue = oldValue + ' ' + newValue;
+					concatenatedValue = oldValue + ' ' + newValue;
 				} else {
 					concatenatedValue = newValue;
 				}
@@ -268,7 +268,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 				concatenatedValue = oldValue + newValue;
 			}
 			data.find('.fieldValue').val(concatenatedValue);
-			currentElement.val('').trigger('chosen:updated');
+			currentElement.val('').trigger('change');
 		});
 	},
 	registerChangeFieldEvent: function (data) {
@@ -297,11 +297,11 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 	postShowModalAction: function (data, valueType) {
 		if (valueType == 'fieldname') {
 			jQuery('.useFieldContainer', data).removeClass('d-none');
-			jQuery('.textType', data).val(valueType).trigger('chosen:updated');
+			jQuery('.textType', data).val(valueType).trigger('change');
 		} else if (valueType == 'expression') {
 			jQuery('.useFieldContainer', data).removeClass('d-none');
 			jQuery('.useFunctionContainer', data).removeClass('d-none');
-			jQuery('.textType', data).val(valueType).trigger('chosen:updated');
+			jQuery('.textType', data).val(valueType).trigger('change');
 		}
 		jQuery('#' + valueType + '_help', data).removeClass('d-none');
 		var uiType = jQuery('.textType', data).find('option:selected').data('ui');

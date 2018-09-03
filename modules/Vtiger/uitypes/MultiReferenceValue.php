@@ -81,10 +81,8 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$queryGenerator->addCondition($params['filterField'], $params['filterValue'], 'e');
 		}
 		$queryGenerator->setFields([$fieldInfo['fieldname']]);
-
-		$values = $queryGenerator->createQuery()->distinct()->indexBy($fieldInfo['column'])->column();
+		$values = $queryGenerator->createQuery()->distinct()->indexBy($fieldInfo['column'] ?? null)->column();
 		$this->set('picklistValues', $values);
-
 		return $values;
 	}
 
@@ -189,7 +187,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$currentValue .= $values['relatedValue'] . self::COMMA;
 		App\Db::getInstance()->createCommand()->update($this->getFieldModel()->get('table'), [
 			$this->getFieldModel()->get('column') => $currentValue,
-			], [$entity->tab_name_index[$this->getFieldModel()->get('table')] => $sourceRecord]
+		], [$entity->tab_name_index[$this->getFieldModel()->get('table')] => $sourceRecord]
 		)->execute();
 	}
 
@@ -221,7 +219,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		}
 		App\Db::getInstance()->createCommand()->update($field->get('table'), [
 			$field->get('column') => $values,
-			], [$sourceRecordModel->getEntity()->tab_name_index[$field->get('table')] => $sourceRecord]
+		], [$sourceRecordModel->getEntity()->tab_name_index[$field->get('table')] => $sourceRecord]
 		)->execute();
 	}
 

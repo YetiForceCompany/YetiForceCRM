@@ -156,7 +156,7 @@ class PearDatabase
 				'query' => $query,
 				'params' => $params,
 			];
-			vtlib\Functions::throwNewException($message, true, 'DatabaseException.tpl');
+			vtlib\Functions::throwNewException($message, true, 'LBL_SQL_ERROR');
 		}
 	}
 
@@ -376,7 +376,7 @@ class PearDatabase
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
 		} catch (\App\Exceptions\AppException $e) {
 			$error = $this->database->errorInfo();
-			\App\Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
+			\App\Log::error('Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage());
 		}
 		return $this->stmt;
@@ -503,7 +503,7 @@ class PearDatabase
 	 * as with the other methods.
 	 *
 	 * @param &$result The query result to fetch from
-	 * @param $row The row number to fetch. It's default value is 0
+	 * @param $row     The row number to fetch. It's default value is 0
 	 */
 	public function rawQueryResultRowData(&$result, $row = 0)
 	{
@@ -752,6 +752,7 @@ class PearDatabase
 			\App\Log::error('sqlExprDatalist: empty arrays not allowed');
 			$this->checkError('sqlExprDatalist: empty arrays not allowed');
 		}
+		$l = '';
 		foreach ($array as $key => $val) {
 			$l .= ($l ? ',' : '') . $this->quote($val);
 		}

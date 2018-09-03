@@ -73,7 +73,8 @@
 						<select class="select2" multiple="true" id="profilesList" name="profiles[]" data-placeholder="{\App\Language::translate('LBL_CHOOSE_PROFILES',$QUALIFIED_MODULE)}" data-validation-engine="validate[required]" style="width: 800px">
 							{foreach from=$ALL_PROFILES item=PROFILE}
 								{if $PROFILE->isDirectlyRelated() eq false}
-									<option value="{$PROFILE->getId()}" {if isset($ROLE_PROFILES[$PROFILE->getId()])}selected="true"{/if}>{\App\Language::translate($PROFILE->getName(),'Settings::Profiles')}</option>
+									{assign var="PROFILE_ID" value=$PROFILE->getId()}
+									<option value="{$PROFILE_ID}" {if isset($ROLE_PROFILES[$PROFILE_ID])}selected="true"{/if}>{\App\Language::translate($PROFILE->getName(),'Settings::Profiles')}</option>
 								{/if}
 							{/foreach}
 						</select>

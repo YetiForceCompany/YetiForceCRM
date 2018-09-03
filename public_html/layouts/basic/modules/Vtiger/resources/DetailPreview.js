@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 $.Class("Vtiger_DetailPreview_Js", {}, {
 	/**
@@ -33,12 +34,6 @@ $.Class("Vtiger_DetailPreview_Js", {}, {
 		frame.height(currentHeight);
 		if (fixedListHeight > currentHeight) {
 			currentHeight = fixedListHeight;
-		}
-		if ($(window).width() < 993) {
-			relatedContents.find(".gutter, .js-list-preview, .js-side-block, .js-list-detail, .recordsListPreview").height(currentHeight);
-
-		} else {
-			relatedContents.find(".gutter, .js-list-preview, .js-side-block, .js-list-detail, .recordsListPreview").height(currentHeight);
 		}
 		relatedContents.find(".gutter, .js-list-preview, .js-side-block, .js-list-detail, .recordsListPreview").height(currentHeight);
 

@@ -37,13 +37,13 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$query = new \App\Db\Query();
 		$query->select([
-				'industryid' => 'vtiger_industry.industryid',
-				'count' => new \yii\db\Expression('COUNT(*)'),
-				'industryvalue' => new \yii\db\Expression("CASE WHEN vtiger_leaddetails.industry IS NULL OR vtiger_leaddetails.industry = '' THEN '' ELSE vtiger_leaddetails.industry END"), ])
-				->from('vtiger_leaddetails')
-				->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
-				->leftJoin('vtiger_industry', 'vtiger_leaddetails.industry = vtiger_industry.industry')
-				->where(['vtiger_crmentity.deleted' => 0, 'vtiger_leaddetails.converted' => 0]);
+			'industryid' => 'vtiger_industry.industryid',
+			'count' => new \yii\db\Expression('COUNT(*)'),
+			'industryvalue' => new \yii\db\Expression("CASE WHEN vtiger_leaddetails.industry IS NULL OR vtiger_leaddetails.industry = '' THEN '' ELSE vtiger_leaddetails.industry END"), ])
+			->from('vtiger_leaddetails')
+			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
+			->leftJoin('vtiger_industry', 'vtiger_leaddetails.industry = vtiger_industry.industry')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_leaddetails.converted' => 0]);
 		if (!empty($owner)) {
 			$query->andWhere(['smownerid' => $owner]);
 		}

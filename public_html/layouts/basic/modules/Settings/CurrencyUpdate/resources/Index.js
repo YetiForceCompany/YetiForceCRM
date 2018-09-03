@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 	/*
@@ -24,7 +25,7 @@ jQuery.Class("Settings_CurrencyUpdate_Index_Js", {}, {
 	 */
 	registerBankChange: function (container) {
 		container.find('#bank').on('change', function () {
-			bankName = container.find('#bank option:selected').data('name');
+			let bankName = container.find('#bank option:selected').data('name');
 			container.find('#alertSpan').html('');
 			container.find('#infoSpan').html('');
 			var infoProgress = jQuery.progressIndicator({

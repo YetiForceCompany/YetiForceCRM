@@ -18,7 +18,7 @@ class Vtiger_SaveWidgetPositions_Action extends Vtiger_IndexAjax_View
 
 		if ($positionsMap) {
 			foreach ($positionsMap as $id => $position) {
-				list($linkid, $widgetid) = explode('-', $id);
+				list($linkid, $widgetid) = array_pad(explode('-', $id), 2, false);
 				if ($widgetid) {
 					Vtiger_Widget_Model::updateWidgetPosition($position, null, (int) $widgetid, $currentUser->getId());
 				} else {
@@ -28,7 +28,7 @@ class Vtiger_SaveWidgetPositions_Action extends Vtiger_IndexAjax_View
 		}
 		if ($sizesMap) {
 			foreach ($sizesMap as $id => $size) {
-				list($linkid, $widgetid) = explode('-', $id);
+				list($linkid, $widgetid) = array_pad(explode('-', $id), 2, false);
 				if ($widgetid) {
 					Vtiger_Widget_Model::updateWidgetSize($size, null, (int) $widgetid, $currentUser->getId());
 				} else {

@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 Vtiger_ListPreview_Js("Accounts_ListPreview_Js", {}, {
 	/**
@@ -13,7 +14,6 @@ Vtiger_ListPreview_Js("Accounts_ListPreview_Js", {}, {
 				AppConnector.request({
 					module: app.getModuleName(),
 					action: 'RelationAjax',
-					record: app.getRecordId(),
 					record: contents.find("#recordId").val(),
 					mode: 'getHierarchyCount',
 				}).done(function (response) {

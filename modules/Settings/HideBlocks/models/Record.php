@@ -4,7 +4,7 @@
  * Settings HideBlocks record model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -59,16 +59,6 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get Delete url.
-	 *
-	 * @return string Url
-	 */
-	public function getDeleteUrl()
-	{
-		return 'index.php?module=HideBlocks&parent=Settings&action=Delete&record=' . $this->getId();
-	}
-
-	/**
 	 * Function to get record links.
 	 *
 	 * @return <Array> list of link models <Vtiger_Link_Model>
@@ -86,7 +76,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE',
-				'linkurl' => $this->getDeleteUrl(),
+				'linkurl' => "javascript:Settings_Vtiger_List_Js.deleteById('{$this->getId()}')",
 				'linkicon' => 'fas fa-trash-alt',
 			],
 		];
@@ -126,8 +116,8 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 				if (!empty($columns) && is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
-							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
-							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid'], ];
+							'value' => $column['value'] ?? '', 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
+							'groupjoin' => $condition['condition'] ?? '', 'groupid' => $column['groupid'], ];
 					}
 				}
 			}

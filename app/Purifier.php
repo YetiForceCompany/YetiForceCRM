@@ -33,13 +33,6 @@ class Purifier
 	private static $purifyHtmlInstanceCache = false;
 
 	/**
-	 * Error collection class that enables HTML Purifier to report HTML problems back to the user.
-	 *
-	 * @var bool
-	 */
-	public static $collectErrors = false;
-
-	/**
 	 * Html events attributes.
 	 *
 	 * @var string
@@ -128,12 +121,6 @@ class Purifier
 		}
 		if (static::$purifyHtmlInstanceCache) {
 			$value = static::$purifyHtmlInstanceCache->purify($input);
-			if (static::$collectErrors) {
-				if (!$config) {
-					$config = static::getHtmlConfig();
-				}
-				echo static::$purifyHtmlInstanceCache->context->get('ErrorCollector')->getHTMLFormatted($config);
-			}
 			static::purifyHtmlEventAttributes($value);
 			if ($loop) {
 				$last = '';
@@ -243,9 +230,6 @@ class Purifier
 		}
 		$uri = $config->getDefinition('URI');
 		$uri->addFilter(new Extension\HTMLPurifier\Domain(), $config);
-		if (static::$collectErrors) {
-			$config->set('Core.CollectErrors', true);
-		}
 		return $config;
 	}
 
@@ -308,14 +292,17 @@ class Purifier
 					}
 					break;
 				case 'DateRangeUserFormat': // date range user format
+					$dateFormat = User::getCurrentUserModel()->getDetail('date_format');
 					$v = [];
 					foreach (explode(',', $input) as $i) {
-						list($y, $m, $d) = Fields\Date::explode($i, User::getCurrentUserModel()->getDetail('date_format'));
+						list($y, $m, $d) = Fields\Date::explode($i, $dateFormat);
 						if (checkdate((int) $m, (int) $d, (int) $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
 							$v[] = \DateTimeField::convertToDBFormat($i);
 						}
 					}
-					$value = $v;
+					if ($v) {
+						$value = $v;
+					}
 					break;
 				case 'Date': // date in base format yyyy-mm-dd
 					list($y, $m, $d) = Fields\Date::explode($input);

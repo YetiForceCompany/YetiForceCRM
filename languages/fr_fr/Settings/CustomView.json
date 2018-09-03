@@ -10,6 +10,7 @@
     "Delete CustomView": "La vue personalis\u00e9e a \u00e9t\u00e9 supprim\u00e9e",
     "Saving CustomView": "Vue sauvegard\u00e9e",
     "Edit": "Editer",
+    "LBL_ATTENTION": "Attention!",
     "LBL_FEATURED_LABELS": "Dans les favoris",
     "LBL_CREATED_BY": "Cr\u00e9\u00e9 par",
     "LBL_ADD_FILTER": "Ajouter filtre",
@@ -22,7 +23,7 @@
     "LBL_EXISTS_PERMISSION_IN_CONFIG": "Conflit avec %s \r\n Permission s\u00e9lectionn\u00e9e ne peuvent \u00eatre utiliser dans plus d'un filtre.",
     "LBL_SORTING": "Tri",
     "LBL_SORTING_SETTINGS": "Param\u00e8tres de tri",
-    "LBL_SORTING_SETTINGS_WORNING": "<strong>Attention!<strong>\r\nLe tri des enregistrements peut fortement augmenter le temps de chargement de la page.",
+    "LBL_SORTING_SETTINGS_WORNING": "Le tri des enregistrements peut fortement augmenter le temps de chargement de la page.",
     "LBL_SELECT_FIELD_TO_SORT_RECORDS": "S\u00e9lectionner un champ pour activer le tri",
     "LBL_SORT_ASCENDING_ORDER": "Tri par ordre croissant",
     "LBL_SORT_DESCENDING_ORDER": "Tri par ordre d\u00e9croissant"

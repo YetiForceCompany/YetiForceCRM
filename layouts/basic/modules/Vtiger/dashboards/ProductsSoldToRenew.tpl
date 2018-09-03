@@ -8,38 +8,44 @@
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 		</div>
-		<hr class="widgetHr" />
-		<div class="row" >
-			<div class="col-md-6 input-group input-group-sm">
+		<hr class="widgetHr"/>
+		<div class="row no-gutters">
+			<div class="col-ceq-xsm-6 input-group input-group-sm">
 				<div class="input-group-prepend">
 					<span class="input-group-text">
 						<span class="fas fa-filter"></span>
 					</span>
 				</div>
-				<select class="widgetFilter form-control orderby" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="orderby" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
+				<select class="widgetFilter form-control orderby" aria-label="Small"
+						aria-describedby="inputGroup-sizing-sm" name="orderby"
+						title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 					{foreach item=FIELD from=$WIDGET_MODEL->getHeaders()}
 						{assign var="FIELD_VALUE" value=$FIELD->get('name')}
 						<option value="{$FIELD_VALUE}" {if $DATA['orderby'] eq $FIELD_VALUE} selected {/if}>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)}</option>
 					{/foreach}
 				</select>
 			</div>
-			<div class="col-md-6">
-				{if $LISTVIEWLINKS}
-					<div class="float-right">&nbsp;
-						<button class="btn btn-light btn-sm goToListView" data-url="{$WIDGET_MODEL->getTargetModuleModel()->getListViewUrl()}" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" >
+			<div class="col-ceq-xsm-6">
+				<div class="float-right">
+					{if $LISTVIEWLINKS}
+						<button class="btn btn-light btn-sm ml-1 goToListView"
+								data-url="{$WIDGET_MODEL->getTargetModuleModel()->getListViewUrl()}"
+								title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}">
 							<span class="fas fa-th-list"></span>
 						</button>
-					</div>
-				{/if}
-				<div class="float-right">&nbsp;
-					<button class="btn btn-light btn-sm changeRecordSort" title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
-						<span class="fas fa-sort-amount-down" ></span>
+					{/if}
+					<button class="btn btn-light btn-sm ml-1 changeRecordSort"
+							title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}"
+							alt="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}"
+							data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}"
+							data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}"
+							data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
+						<span class="fas fa-sort-amount-down"></span>
 					</button>
 				</div>
 			</div>
 		</div>
 	</div>
-
 	<div class="dashboardWidgetContent">
 		{include file=\App\Layout::getTemplatePath('dashboards/ProductsSoldToRenewContents.tpl', $MODULE_NAME)}
 	</div>

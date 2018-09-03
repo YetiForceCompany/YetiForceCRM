@@ -5,14 +5,14 @@
 			<select class="form-control js-users {if $SELECT}select2{/if}" data-js="value">
 				<optgroup label="{\App\Language::translate('LBL_ROLES', $QUALIFIED_MODULE)}">
 					{foreach item=ROLE key=ROLEID from=$ROLES}
-						<option value="{$ROLEID}" {if $ID == $ROLEID}selected{/if}>
+						<option value="{$ROLEID}" {if !empty($ID) && $ID == $ROLEID}selected{/if}>
 							{\App\Language::translate($ROLE->getName(), $QUALIFIED_MODULE)}
 						</option>
 					{/foreach}
 				</optgroup>
 				<optgroup label="{\App\Language::translate('LBL_USERS', $QUALIFIED_MODULE)}">
 					{foreach item=USER key=USERID from=$USERS}
-						<option value="{$USERID}" {if $ID == $USERID}selected{/if}>
+						<option value="{$USERID}" {if !empty($ID) && $ID == $USERID}selected{/if}>
 							{$USER->getName()}
 						</option>
 					{/foreach}

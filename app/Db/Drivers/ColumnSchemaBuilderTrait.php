@@ -16,36 +16,6 @@ trait ColumnSchemaBuilderTrait
 	protected $autoIncrement = false;
 
 	/**
-	 * Return the variable isNotNull.
-	 *
-	 * @return bool
-	 */
-	protected function getisNotNull()
-	{
-		return $this->isNotNull;
-	}
-
-	/**
-	 * Return the variable default.
-	 *
-	 * @return int|string
-	 */
-	protected function getdefault()
-	{
-		return $this->default;
-	}
-
-	/**
-	 * Return the variable isUnsigned.
-	 *
-	 * @return bool
-	 */
-	protected function getisUnsigned()
-	{
-		return $this->isUnsigned;
-	}
-
-	/**
 	 * Assign column as autoincrement.
 	 *
 	 * @return $this
@@ -54,16 +24,6 @@ trait ColumnSchemaBuilderTrait
 	{
 		$this->autoIncrement = true;
 		return $this;
-	}
-
-	/**
-	 * Builds the autoincrement string for column. Defaults to unsupported.
-	 *
-	 * @return string
-	 */
-	protected function buildAutoIncrementString()
-	{
-		return '';
 	}
 
 	/**
@@ -137,5 +97,45 @@ trait ColumnSchemaBuilderTrait
 	{
 		$this->$type = $value;
 		return $this;
+	}
+
+	/**
+	 * Return the variable isNotNull.
+	 *
+	 * @return bool
+	 */
+	protected function getisNotNull()
+	{
+		return $this->isNotNull;
+	}
+
+	/**
+	 * Return the variable default.
+	 *
+	 * @return int|string
+	 */
+	protected function getdefault()
+	{
+		return $this->default;
+	}
+
+	/**
+	 * Return the variable isUnsigned.
+	 *
+	 * @return bool
+	 */
+	protected function getisUnsigned()
+	{
+		return $this->isUnsigned;
+	}
+
+	/**
+	 * Builds the autoincrement string for column. Defaults to unsupported.
+	 *
+	 * @return string
+	 */
+	protected function buildAutoIncrementString()
+	{
+		return '';
 	}
 }

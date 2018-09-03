@@ -10,9 +10,13 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="float-right listViewActions col-8 paddingLRZero">
-		<select class="chzn-select pickListSupportedModules form-control">
-			<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
+	<div class="tpl-Settings-PickListDependency-ListViewActions float-right listViewActions col-8 paddingLRZero">
+		<select class="select2 pickListSupportedModules form-control"
+				data-placeholder="{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}"
+				data-select="allowClear">
+			<optgroup class="p-0">
+				<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
+			</optgroup>
 			{foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}
 				{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
 				<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $FOR_MODULE} selected {/if}>

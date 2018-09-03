@@ -8,10 +8,17 @@
 				{\App\Language::translate($PAGE_LABELS.description,$QUALIFIED_MODULE)}
 			</div>
 		</div>
-		<div class="alert alert-info">
-			<h5 class="alert-heading">{\App\Language::translate('LBL_ALERT_TAX_CONFIG_TITLE', $QUALIFIED_MODULE)}</h5>
-			<p>{\App\Language::translateArgs('LBL_ALERT_TAX_CONFIG_DESC', $QUALIFIED_MODULE,AppConfig::main('site_URL'))}</p>
-		</div>
+		{if $VIEW eq 'DiscountConfiguration'}
+			<div class="alert alert-info">
+				<h5 class="alert-heading">{\App\Language::translate('LBL_ALERT_DISCOUNT_CONFIG_TITLE', $QUALIFIED_MODULE)}</h5>
+				<p>{\App\Language::translateArgs('LBL_ALERT_DISCOUNT_CONFIG_DESC', $QUALIFIED_MODULE,AppConfig::main('site_URL'))}</p>
+			</div>
+		{elseif $VIEW eq 'TaxConfiguration'}
+			<div class="alert alert-info">
+				<h5 class="alert-heading">{\App\Language::translate('LBL_ALERT_TAX_CONFIG_TITLE', $QUALIFIED_MODULE)}</h5>
+				<p>{\App\Language::translateArgs('LBL_ALERT_TAX_CONFIG_DESC', $QUALIFIED_MODULE,AppConfig::main('site_URL'))}</p>
+			</div>
+		{/if}
 		<div class="contents mt-3 form-horizontal">
 			<div class="form-group form-row">
 				{assign var=LABEL_CHECKBOX value='LBL_YES'}

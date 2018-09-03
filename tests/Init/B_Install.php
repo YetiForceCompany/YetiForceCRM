@@ -17,15 +17,6 @@ class B_Install extends \Tests\Base
 	 */
 	public function testInstall()
 	{
-		require_once 'install/models/InitSchema.php';
-
-		$_SESSION['config_file_info']['currency_name'] = 'Poland, Zlotych';
-		$_SESSION['config_file_info']['currency_code'] = 'PLN';
-		$_SESSION['config_file_info']['currency_symbol'] = 'zł';
-
-		$initSchema = new \Install_InitSchema_Model();
-		$initSchema->initialize();
-
 		$db = \App\Db::getInstance();
 		$schema = $db->getSchema();
 

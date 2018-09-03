@@ -22,10 +22,7 @@ label.btn.btn-outline-primary {
 		border-bottom: 1px solid $color-grey-light;
 	}
 }
-//fixes overflow for validation alerts
-.modal-body {
-	overflow-y: initial !important;
-}
+
 //btn-group with flex-column on mobile styles correction
 @include media-breakpoint-down(xs) {
 	.btn-group.flex-column {
@@ -45,4 +42,9 @@ label.btn.btn-outline-primary {
 			border-radius: 0 0 0.25rem 0.25rem !important;
 		}
 	}
+}
+
+// buttons with class border has the same border color as input
+.border.btn {
+	border-color: #ced4da !important;
 }

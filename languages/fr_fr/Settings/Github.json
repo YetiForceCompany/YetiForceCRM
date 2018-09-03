@@ -2,7 +2,7 @@
   "php": {
     "LBL_PHP_VERSION": "PHP",
     "LBL_ID_CLIENT_DESCRIPTION": "Code client unique de 24 caract\u00e8res, g\u00e9n\u00e9r\u00e9 lors de l'enregistrement de l'application",
-    "LBL_TOKEN_DESCRIPTION": "Code d'acc\u00e8s au compte unique de 40 caract\u00e8res. Le manuel de cr\u00e9ation de jetons peut \u00eatre trouv\u00e9 <a href=\"https:\/\/help.github.com\/articles\/creating-an-access-token-for-command-line-use\/\">ici<\/a>",
+    "LBL_TOKEN_DESCRIPTION": "Code d'acc\u00e8s au compte unique de 40 caract\u00e8res. Le manuel de cr\u00e9ation de jetons peut \u00eatre trouv\u00e9 %s",
     "open": "Ouvert",
     "closed": "Fermer",
     "LBL_ADD_ISSUES": "Ajouter",

@@ -37,15 +37,15 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$query = new \App\Db\Query();
 		$query->select([
-				'vtiger_troubletickets.priority',
-				'vtiger_ticketpriorities.ticketpriorities_id',
-				'count' => new \yii\db\Expression('COUNT(*)'),
-				'statusvalue' => new \yii\db\Expression("CASE WHEN vtiger_troubletickets.status IS NULL OR vtiger_troubletickets.status = '' THEN '' ELSE vtiger_troubletickets.status END"), ])
-				->from('vtiger_troubletickets')
-				->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
-				->innerJoin('vtiger_ticketstatus', 'vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus')
-				->innerJoin('vtiger_ticketpriorities', 'vtiger_troubletickets.priority = vtiger_ticketpriorities.ticketpriorities')
-				->where(['vtiger_crmentity.deleted' => 0]);
+			'vtiger_troubletickets.priority',
+			'vtiger_ticketpriorities.ticketpriorities_id',
+			'count' => new \yii\db\Expression('COUNT(*)'),
+			'statusvalue' => new \yii\db\Expression("CASE WHEN vtiger_troubletickets.status IS NULL OR vtiger_troubletickets.status = '' THEN '' ELSE vtiger_troubletickets.status END"), ])
+			->from('vtiger_troubletickets')
+			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_ticketstatus', 'vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus')
+			->innerJoin('vtiger_ticketpriorities', 'vtiger_troubletickets.priority = vtiger_ticketpriorities.ticketpriorities')
+			->where(['vtiger_crmentity.deleted' => 0]);
 
 		if (!empty($owner)) {
 			$query->andWhere(['smownerid' => $owner]);
@@ -88,7 +88,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			$chartData['show_chart'] = true;
 			foreach ($tickets as $status => $ticketValue) {
 				foreach ($priorities as $priorityId => $priorityValue) {
-					if ($ticketValue[$priorityId]) {
+					if (isset($ticketValue[$priorityId])) {
 						$value = $ticketValue[$priorityId];
 					} else {
 						$value = 0;

@@ -5,7 +5,7 @@
 			<div class="row">
 				<label class="col-form-label col-md-4">{\App\Language::translate('EmailTempleteList', $QUALIFIED_MODULE)}</label>
 				<div class="col-md-7">
-					<select class="chzn-select form-control" name="template" data-validation-engine='validate[required]'>
+					<select class="select2 form-control" name="template" data-validation-engine='validate[required]'>
 						<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 						{foreach from=App\Mail::getTempleteList($SOURCE_MODULE,'PLL_RECORD') key=key item=item}
 							<option {if $TASK_OBJECT->template eq $item['id']}selected=""{/if} value="{$item['id']}">{\App\Language::translate($item['name'], $QUALIFIED_MODULE)}</option>

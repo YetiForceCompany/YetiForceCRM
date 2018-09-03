@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 class Gantt {
 
@@ -269,9 +270,7 @@ class Gantt {
 		let children = [];
 		current.children = current.children.map(task => task);
 		for (let task of current.children) {
-			if (task.module !== moduleName || statuses.map(status => status.value).indexOf(task.normalized_status) > -1 || statuses.length === 0) {
-				children.push(this.getBranchesWithStatus(moduleName, statuses, task));
-			}
+			children.push(this.getBranchesWithStatus(moduleName, statuses, task));
 		}
 		current.children = children;
 		return current;
@@ -300,12 +299,17 @@ class Gantt {
 	 */
 	loadProject(projectData) {
 		this.projectData = projectData;
+		this.allTasks = this.projectData.tasks;
+		if (typeof this.allTasks === 'undefined') {
+			$('.js-hide-filter').addClass('d-none');
+			$('.js-show-add-record').removeClass('d-none');
+			return;
+		}
 		this.statuses = this.projectData.statuses;
 		this.filter = {status: this.projectData.activeStatuses};
 		this.gantt = new GanttMaster(this.ganttTemplateFunctions);
 		this.gantt.resourceUrl = '/libraries/jquery-gantt-editor/res/';
 		this.gantt.init(this.container);
-		this.allTasks = this.projectData.tasks;
 		if (this.allTasks.length > 0) {
 			this.gantt.loadProject($.extend(true, {}, this.filterProjectData(this.projectData)));
 			this.registerEvents();

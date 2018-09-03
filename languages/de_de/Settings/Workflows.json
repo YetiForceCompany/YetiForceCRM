@@ -198,7 +198,7 @@
     "LBL_LIST_OF_NEW_VALUES_IN_RECORD": "Liste neuer Werte in einem Datensatz",
     "LBL_SELECT_RECIPIENTS": "Empf\u00e4nger",
     "LBL_MESSAGE": "Nachricht",
-    "LBL_MESSAGE_INFO": "Der Text der Nachricht unterst\u00fctzt Variablen, der Name der Variable kann gleich einem System Feldnamen entsprechen oder einer speziellen Funktion.\r\n\r\nBeispiel Feldvariablen:\r\n<strong>$accountname$<\/strong> - Feldwert\r\n<strong>%accountname%<\/strong> - Feldnamen\r\n\r\nSpezielle Funktionen:",
+    "LBL_MESSAGE_INFO": "Der Text der Nachricht unterst\u00fctzt Variablen, der Name der Variable kann gleich einem System Feldnamen entsprechen oder einer speziellen Funktion.\r\n\r\nBeispiel Feldvariablen:\r\n$accountname$ - Feldwert\r\n%accountname% - Feldnamen\r\n\r\nSpezielle Funktionen:",
     "LBL_WATCHING_USERS": "Beobachter",
     "LBL_VALUE_FROM_FIELD": "Wert von Feld",
     "LBL_FIELDS_LABELS": "Feldbezeichnung",
@@ -233,9 +233,9 @@
     "LBL_OWNER_REKORD": "Datensatz Verantwortlicher",
     "LBL_SMTP": "SMTP",
     "LBL_CHECK_EMAIL_OPTOUT": "Pr\u00fcfen ob Empf\u00e4nger den Empfang der E-Mail best\u00e4tigt hat",
-    "LBL_SUMFIELDFROMDEPENDENT_SOURCE": "Field to be summed",
-    "LBL_SUMFIELDFROMDEPENDENT_TARGET": "Field where summation will be saved",
-    "LBL_SUM_FIELD_FROM_DEPENDENT": "Sum filed values from related module fields"
+    "LBL_SUMFIELDFROMDEPENDENT_SOURCE": "Feld, welches addiert werden soll",
+    "LBL_SUMFIELDFROMDEPENDENT_TARGET": "Feld, in welchem die Summe gespeichert werden soll",
+    "LBL_SUM_FIELD_FROM_DEPENDENT": "Summenfeldwerte aus verknüpften Modulfeldern"
   },
   "js": {
     "JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE": "Dieselben Felder mehr als einmal ausgew\u00e4hlt",

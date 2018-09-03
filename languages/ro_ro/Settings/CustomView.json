@@ -10,6 +10,7 @@
     "Saving CustomView": "Vizualizarea a fost salvata",
     "Actions": "Actiuni",
     "Edit": "Modifica",
+    "LBL_ATTENTION": "Atentie!",
     "LBL_FEATURED_LABELS": "In favorite",
     "LBL_CREATED_BY": "Creat de",
     "LBL_ADD_FILTER": "Adauga filtru",
@@ -22,7 +23,7 @@
     "LBL_EXISTS_PERMISSION_IN_CONFIG": "Conflict cu %s \r\n Permisiunea selectata nu poate fi utilizata in mai multe filtre.",
     "LBL_SORTING": "Sortare",
     "LBL_SORTING_SETTINGS": "Setari sortare",
-    "LBL_SORTING_SETTINGS_WORNING": "<strong>Atentie!<strong>\r\nIncarcarea inregistrarilor poate creste semnificativ timpul de incarcare a paginilor",
+    "LBL_SORTING_SETTINGS_WORNING": "Incarcarea inregistrarilor poate creste semnificativ timpul de incarcare a paginilor",
     "LBL_SELECT_FIELD_TO_SORT_RECORDS": "Selectati un camp pentru a sorta inregistrarilor",
     "LBL_SORT_ASCENDING_ORDER": "Sorteaza in ordine crescatoare",
     "LBL_SORT_DESCENDING_ORDER": "Sorteaza in ordine descrescatoare"

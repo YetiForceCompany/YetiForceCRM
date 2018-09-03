@@ -17,15 +17,15 @@
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 		</div>
 		<hr class="widgetHr" />
-		<div class="row" >
-			<div class="col-sm-6">
+		<div class="row no-gutters">
+			<div class="col-ceq-xsm-6">
 				{if $FILTER_FIELD}
 					<div class="widgetFilterByField">
 						{include file=\App\Layout::getTemplatePath($FILTER_FIELD->getUITypeModel()->getListSearchTemplateName(), $BASE_MODULE) MODULE=$BASE_MODULE FIELD_MODEL=$FILTER_FIELD SEARCH_INFO=[] USER_MODEL=$USER_MODEL}
 					</div>
 				{/if}
 			</div>
-			<div class="col-sm-6">
+			<div class="col-ceq-xsm-6">
 				{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 			</div>
 		</div>

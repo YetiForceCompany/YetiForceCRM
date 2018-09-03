@@ -29,8 +29,10 @@
 			<span class="col-md-3">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-9">
 				{assign var=STATUS_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('activitystatus')->getPickListValues()}
-				<select name="status" class="chzn-select form-control">
-					<option value=""> - {\App\Language::translate('LBL_AUTOMATIC')} - </option>
+				<select name="status" class="select2 form-control" data-select="allowClear">
+					<optgroup class="p-0">
+						<option value=""> - {\App\Language::translate('LBL_AUTOMATIC')} - </option>
+					</optgroup>
 					{foreach  from=$STATUS_PICKLIST_VALUES item=STATUS_PICKLIST_VALUE key=STATUS_PICKLIST_KEY}
 						<option value="{$STATUS_PICKLIST_KEY}" {if $STATUS_PICKLIST_KEY eq $TASK_OBJECT->status} selected="" {/if}>{$STATUS_PICKLIST_VALUE}</option>
 					{/foreach}
@@ -41,7 +43,7 @@
 			<span class="col-md-3">{\App\Language::translate('LBL_TYPE',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-9">
 				{assign var=EVENTTYPE_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('activitytype')->getPickListValues()}
-				<select name="eventType" class="chzn-select form-control">
+				<select name="eventType" class="select2 form-control">
 					{foreach  from=$EVENTTYPE_PICKLIST_VALUES item=EVENTTYPE_PICKLIST_VALUE key=EVENTTYPE_PICKLIST_KEY}
 						<option value="{$EVENTTYPE_PICKLIST_KEY}" {if $EVENTTYPE_PICKLIST_KEY eq $TASK_OBJECT->eventType} selected="" {/if}>{$EVENTTYPE_PICKLIST_VALUE}</option>
 					{/foreach}
@@ -51,8 +53,10 @@
 		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
 			<span class="col-md-3">{\App\Language::translate('LBL_ASSIGNED_TO',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-9">
-				<select name="assigned_user_id" class="chzn-select form-control">
-					<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
+				<select name="assigned_user_id" class="select2 form-control" data-select="allowClear">
+					<optgroup class="p-0">
+						<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
+					</optgroup>
 					{foreach from=$ASSIGNED_TO key=LABEL item=ASSIGNED_USERS_LIST}
 						<optgroup label="{\App\Language::translate($LABEL,$QUALIFIED_MODULE)}">
 							{foreach from=$ASSIGNED_USERS_LIST item=ASSIGNED_USER key=ASSIGNED_USER_KEY}
@@ -78,7 +82,7 @@
 			{/if}
 			<span class="col-md-3">{\App\Language::translate('LBL_START_TIME',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-9">
-				<div class="input-group time input-group-sm">
+				<div class="input-group time">
 					<input type="text" class="clockPicker form-control" data-format="{$timeFormat}"
 						   value="{$START_TIME}" name="startTime"/>
 					<div class="input-group-append">
@@ -98,7 +102,7 @@
 			<div class="col-md-4 row no-gutters mb-1 mb-md-0 pr-md-1">
 				<div class="col-2 pt-1">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
 				<div class="col-10">
-					<select class="chzn-select form-control" name="startDirection">
+					<select class="select2 form-control" name="startDirection">
 						<option {if $TASK_OBJECT->startDirection eq 'after'}selected{/if}
 								value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
 						<option {if $TASK_OBJECT->startDirection eq 'before'}selected{/if}
@@ -107,7 +111,7 @@
 				</div>
 			</div>
 			<span class="col-md-3">
-				<select class="chzn-select form-control" name="startDatefield">
+				<select class="select2 form-control" name="startDatefield">
 					{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
 						<option {if $TASK_OBJECT->startDatefield eq $DATETIME_FIELD->get('name')}selected{/if}
 								value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
@@ -125,7 +129,7 @@
 			{/if}
 			<div class="col-md-3">{\App\Language::translate('LBL_END_TIME',$QUALIFIED_MODULE)}</div>
 			<div class="col-md-9">
-				<div class="input-group time input-group-sm">
+				<div class="input-group time">
 					<input type="text" class="clockPicker form-control" value="{$END_TIME}" name="endTime"/>
 					<div class="input-group-append">
 						<div class="input-group-text u-cursor-pointer js-clock__btn" data-js="click">
@@ -143,18 +147,18 @@
 			</div>
 			<div class="col-md-4 row no-gutters mb-1 mb-md-0 pr-md-1">
 
-			<div class="col-2 pt-1">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
-			<div class="col-10">
-				<select class="chzn-select form-control" name="endDirection">
-					<option {if $TASK_OBJECT->endDirection eq 'after'}selected{/if}
-							value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
-					<option {if $TASK_OBJECT->endDirection eq 'before'}selected{/if}
-							value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
-				</select>
-			</div>
+				<div class="col-2 pt-1">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
+				<div class="col-10">
+					<select class="select2 form-control" name="endDirection">
+						<option {if $TASK_OBJECT->endDirection eq 'after'}selected{/if}
+								value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
+						<option {if $TASK_OBJECT->endDirection eq 'before'}selected{/if}
+								value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
+					</select>
+				</div>
 			</div>
 			<span class="col-md-3">
-				<select class="chzn-select form-control" name="endDatefield">
+				<select class="select2 form-control" name="endDatefield">
 					{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
 						<option {if $TASK_OBJECT->endDatefield eq $DATETIME_FIELD->get('name')}selected{/if}
 								value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>

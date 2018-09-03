@@ -10,7 +10,7 @@
 ************************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-DashBoardContents">
+	<div class="tpl-DashBoardContents px-sm-1 d-flex flex-row">
 		<div class="grid-stack">
 			{assign var=COLUMNS value=3}
 			{assign var=ROW value=0}
@@ -38,10 +38,10 @@
 				{elseif $smarty.foreach.count.index % 3 == 0}
 					{assign var=COLCOUNT value=0}
 				{/if}
-				<div class="grid-stack-item"
+				<div class="grid-stack-item js-css-element-queries"
 					 data-gs-y="{$WIDGET->getPositionRow($ROW)}" data-gs-width="{$WIDGET->getWidth()}"
 					 data-gs-x="{$WIDGET->getPositionCol($COLCOUNT)}"
-					 data-gs-height="{$WIDGET->getHeight()}">
+					 data-gs-height="{$WIDGET->getHeight()}" data-js="css-element-queries">
 					<div id="{$WIDGETDOMID}" {if $smarty.foreach.count.index % $COLUMNS == 0 and $smarty.foreach.count.index != 0} {/if}
 
 						 class="grid-stack-item-content dashboardWidget dashboardWidget_{$smarty.foreach.count.index}"
@@ -53,6 +53,15 @@
 			{/foreach}
 			<input type="hidden" id="row" value="{$ROW}"/>
 			<input type="hidden" id="col" value="{$COLCOUNT}"/>
+		</div>
+		<div class="o-tablet-scroll__container mx-1 d-none" data-js="class: d-none">
+			<div class="o-tablet-scroll__content js-tablet-scroll position-fixed u-hide-underneath border" data-js="scroll | parent">
+				<div class="o-tablet-scroll__icons d-flex flex-column u-hide-underneath px-1">
+					<span class="fas fa-arrow-up"></span>
+					<span class="far fa-hand-pointer my-2"></span>
+					<span class="fas fa-arrow-down"></span>
+				</div>
+			</div>
 		</div>
 	</div>
 	</div> {*dashboardViewContainer closing tag*}

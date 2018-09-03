@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	widgetWithFilterUsers: [],
@@ -32,8 +33,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	 * Function to create the array of block roles list
 	 */
 	getAuthorization: function () {
-		let thisInstance = this,
-			authorization = [],
+		let authorization = [],
 			container = jQuery('#moduleBlocks');
 		container.find('.editFieldsTable').each(function () {
 			authorization.push(jQuery(this).data('code'));
@@ -41,7 +41,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		return authorization;
 	},
 	getAllFieldsInBlock: function (continer) {
-		var thisInstance = this;
 		var fields = [];
 		continer.find('.blockFieldsList .editFieldsWidget').each(function () {
 			fields.push(jQuery(this).data('linkid').toString());
@@ -169,8 +168,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		});
 	},
 	save: function (form, mode) {
-
-		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
@@ -197,7 +194,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		return aDeferred.promise();
 	},
 	displayNewCustomBlock: function (result) {
-		var thisInstance = this;
 		var contents = jQuery('#layoutDashBoards');
 		var newBlockCloneCopy = contents.find('.newCustomBlockCopy').clone(true, true);
 		newBlockCloneCopy.data('block-id', result['id']).find('.blockLabel span').append(jQuery('<strong>' + result['label'] + '</strong>'));
@@ -493,11 +489,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	 * Function to register the click event for save button after edit field details
 	 */
 	registerSaveFieldDetailsEvent: function (form) {
-		var thisInstance = this;
 		var submitButtton = form.find('.saveFieldDetails');
-		var fieldId = submitButtton.data('field-id');
-		var block = submitButtton.closest('.editFieldsTable');
-		var blockId = block.data('block-id');
 		//close the drop down
 		submitButtton.closest('.btn-group').removeClass('open');
 		//adding class opacity to fieldRow - to give opacity to the actions of the fields
@@ -900,9 +892,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				});
 				var data = {
 					module: selectedModule
-				}
-				if (typeof selectedFields != 'object') {
-					selectedFields = [selectedFields];
 				}
 				data['fields'] = selectedFields;
 				data['filterFields'] = filterFieldsSelect2.val();

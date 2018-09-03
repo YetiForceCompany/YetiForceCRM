@@ -4,8 +4,8 @@
  * Protects your password when displaying in history.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class OSSPasswords_Secure_Handler
 {
@@ -26,7 +26,7 @@ class OSSPasswords_Secure_Handler
 			if ($result) {
 				$conf = Vtiger_Record_Model::getCleanInstance($eventHandler->getModuleName())->getConfiguration();
 				$where = ['id' => $result['id'], 'fieldname' => 'password'];
-				if ($conf['register_changes'] === 1) {
+				if ((int) $conf['register_changes'] === 1) {
 					\App\Db::getInstance()->createCommand()->update('vtiger_modtracker_detail', ['postvalue' => '**********'], $where)->execute();
 				} else {
 					\App\Db::getInstance()->createCommand()->update('vtiger_modtracker_detail', ['postvalue' => '**********', 'prevalue' => '**********'], $where)->execute();

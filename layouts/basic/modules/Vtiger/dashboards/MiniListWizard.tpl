@@ -17,7 +17,7 @@
 					<div class="modal-header contentsBackground">
 						<h5 class="modal-title" id="massEditHeader">
 							<span class="fas fa-filter mr-1"></span>
-							{\App\Language::translate('LBL_MINI_LIST','Home')} {\App\Language::translate($MODULE, $MODULE)}
+							{\App\Language::translate('LBL_MINI_LIST','Home')} {\App\Language::translate($MODULE_NAME, $MODULE_NAME)}
 						</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
@@ -25,7 +25,7 @@
 					</div>
 					<form class="form-horizontal" method="post" action="javascript:;">
 						<div class="modal-body">
-							<input type="hidden" name="module" value="{$MODULE}" />
+							<input type="hidden" name="module" value="{$MODULE_NAME}" />
 							<input type="hidden" name="action" value="MassSave" />
 
 							<table class="table table-bordered">
@@ -41,7 +41,7 @@
 										<td class="fieldValue">
 											<select class="form-control select2" name="module">
 												<option></option>
-												{foreach from=$MODULES item=MODULE_MODEL key=MODULE_NAME}
+												{foreach from=$MODULES item=MODULE_MODEL key=MODULE_THIS_NAME}
 													<option value="{$MODULE_MODEL['name']}">{App\Language::translate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
 												{/foreach}
 											</select>
@@ -74,7 +74,7 @@
 								</tbody>
 							</table>
 						</div>
-						{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
+						{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE_NAME) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL' MODULE=$MODULE_NAME}
 					</form>
 				</div>
 			</div>

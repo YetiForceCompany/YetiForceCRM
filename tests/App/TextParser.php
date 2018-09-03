@@ -251,7 +251,7 @@ class TextParser extends \Tests\Base
 	 */
 	public function testParams()
 	{
-		static::$parserClean->setParams(['test_var'=>'test']);
+		static::$parserClean->setParams(['test_var' => 'test']);
 		$text = '+ $(params : test_var)$ +';
 		$this->assertSame('+ test +', static::$parserClean
 			->setContent($text)
@@ -297,37 +297,43 @@ class TextParser extends \Tests\Base
 	 */
 	public function testEmployee()
 	{
-		$tmpUser = \App\User::getCurrentUserId();
-		$employeeId = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => \App\User::getCurrentUserId()])
+		$currentUser = \App\User::getCurrentUserId();
+		$userName = 'Employee';
+		$userExistsId = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => $userName])
 			->limit(1)->scalar();
-		if (!$employeeId) {
-			$employeeUser = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['in', 'id', (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees'])
-				->column()])
-				->limit(1)->scalar();
-			if (!$employeeUser) {
-				$employeeModel = \Vtiger_Record_Model::getCleanInstance('OSSEmployees');
-				$employeeModel->set('smownerid', $tmpUser);
-				$employeeModel->set('name', 'Test employee');
-				$employeeModel->save();
-				$employeeId = $employeeModel->getId();
-			}
-			$employeeUser ? \App\User::setCurrentUserId($employeeUser) : '';
-			$employeeId = $employeeId ? $employeeId : (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => \App\User::getCurrentUserId()])
-				->limit(1)->scalar();
+		$employeeUser = $userExistsId ? \Vtiger_Record_Model::getInstanceById($userExistsId) : \Vtiger_Record_Model::getCleanInstance('Users');
 
-			\App\Cache::clear();
-		}
+		$employeeUser->set('user_name', $userName);
+		$employeeUser->set('email1', $userName . '@yetiforce.com');
+		$employeeUser->set('first_name', $userName);
+		$employeeUser->set('last_name', 'YetiForce');
+		$employeeUser->set('user_password', 'demo');
+		$employeeUser->set('confirm_password', 'demo');
+		$employeeUser->set('roleid', 'H2');
+		$employeeUser->set('is_admin', 'on');
+		$employeeUser->save();
+		$this->assertNotEmpty($employeeUser->getId(), 'New user id should be not empty');
+		\App\User::setCurrentUserId($employeeUser->getId());
+		$employeeExistsId = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => $employeeUser->getId()])
+			->limit(1)->scalar();
+		$employeeModel = $employeeExistsId ? \Vtiger_Record_Model::getInstanceById($employeeExistsId) : \Vtiger_Record_Model::getCleanInstance('OSSEmployees');
+		$employeeModel->set('smownerid', $employeeUser->getId());
+		$employeeModel->set('name', 'Test employee');
+		$employeeModel->save();
+
+		\App\Cache::clear();
+
 		$text = '+ $(employee : name)$ +';
-		$this->assertSame('+ ' . \Vtiger_Record_Model::getInstanceById($employeeId, 'OSSEmployees')->get('name') . ' +', \App\TextParser::getInstance()
+		$this->assertSame('+ ' . \Vtiger_Record_Model::getInstanceById($employeeModel->getId(), 'OSSEmployees')->get('name') . ' +', \App\TextParser::getInstance()
 			->setContent($text)
 			->parse()
 			->getContent(), 'Clean instance: Employee name should be same as in db');
-		$this->assertSame('+ ' . \Vtiger_Record_Model::getInstanceById($employeeId, 'OSSEmployees')->get('name') . ' +', \App\TextParser::getInstance()
+		$this->assertSame('+ ' . \Vtiger_Record_Model::getInstanceById($employeeModel->getId(), 'OSSEmployees')->get('name') . ' +', \App\TextParser::getInstance()
 			->setContent($text)
 			->parse()
 			->getContent(), 'Clean instance: Employee name should be same as in db(cached)');
 
-		\App\User::setCurrentUserId($tmpUser);
+		\App\User::setCurrentUserId($currentUser);
 	}
 
 	/**
@@ -638,7 +644,7 @@ class TextParser extends \Tests\Base
 			$this->assertInternalType('array', $group, 'Expected array type from group: ' . $groupName);
 			$this->assertNotEmpty($group, 'Expected any data in group: ' . $groupName);
 			if (!empty($group)) {
-				foreach ($group as $placeholder=>$translation) {
+				foreach ($group as $placeholder => $translation) {
 					if (!\strpos($placeholder, ', ')) {
 						$this->assertSame(1, \App\TextParser::isVaribleToParse($placeholder), 'Option: ' . $translation . ', value: ' . $placeholder . ' should be parseable in group: ' . $groupName);
 					} else {

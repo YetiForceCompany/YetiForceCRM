@@ -3,16 +3,21 @@
 	{if empty($VIEWNAME)}
 		{assign var=VIEWNAME value='list'}
 	{/if}
+	{if empty($LISTVIEW_COUNT)}
+		{assign var=LISTVIEW_COUNT value=0}
+	{/if}
 	<nav class="tpl-Pagination" aria-label="Page navigation">
-		<ul class="js-pagination-list pagination m-0" data-total-count="{$LISTVIEW_COUNT}" data-js="data">
-			<li class="js-page--set page-item {if $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage" data-id="1"
+		<ul class="js-pagination-list pagination m-0"
+			{if isset($LISTVIEW_COUNT)}data-total-count="{$LISTVIEW_COUNT}"{/if} data-js="data">
+			<li class="js-page--set page-item {if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage"
+				data-id="1"
 				data-js="data">
 				<a class="page-link" href="#"><span
 							class="fas fa-fast-backward mr-1 d-inline-block d-sm-none"></span><span
 							class="d-none d-sm-inline">{\App\Language::translate('LBL_FIRST')}</span></a>
 			</li>
-			<li class="page-item">
-				<a class="js-page--previous page-link {if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1}disabled{/if}"
+			<li class="page-item {if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1}disabled{/if}">
+				<a class="js-page--previous page-link"
 				   id="{$VIEWNAME}ViewPreviousPageButton" data-js="click" href="#">
 					<span aria-hidden="true">&laquo;</span>
 					<span class="sr-only">Previous</span>
@@ -72,13 +77,13 @@
 					<span class="sr-only">Next</span>
 				</a>
 			</li>
-			{if !$LISTVIEW_COUNT && $PAGING_MODEL->isNextPageExists()}
+			{if empty($LISTVIEW_COUNT) && $PAGING_MODEL->isNextPageExists()}
 				<li class="js-count-number-records page-item js-popover-tooltip" data-js="popover|click"
 					id="totalCountBtn" data-content="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}">
 					<a class="page-link" href="#"><span class="fas fa-signal"></span></a>
 				</li>
 			{/if}
-			{if $LISTVIEW_COUNT}
+			{if !empty($LISTVIEW_COUNT)}
 				<li class="js-page--set page-item {if $PAGE_NUMBER eq $PAGE_COUNT or (!$PAGING_MODEL->isNextPageExists())} disabled {/if} pageNumber lastPage"
 					data-id="{$PAGE_COUNT}" data-js="click">
 					<a class="page-link" href="#"><span
@@ -91,11 +96,11 @@
 					<span class="js-popover-tooltip d-block d-sm-none" tabindex="0" data-trigger="focus"
 						  data-js="popover" data-placement="top"
 						  data-content="{$PAGING_MODEL->getRecordStartRange()} {\App\Language::translate('LBL_TO_LC')} {$PAGING_MODEL->getRecordEndRange()}
-					{if $LISTVIEW_COUNT} ({$LISTVIEW_COUNT}){/if}">
+					{if !empty($LISTVIEW_COUNT)} ({$LISTVIEW_COUNT}){/if}">
 						<span class="fas fa-info-circle"
 							  title="{App\Language::translate('LBL_SHOW_INVENTORY_ROW')}"></span>
 					</span>
-					<span class="d-none d-sm-inline">{$PAGING_MODEL->getRecordStartRange()} {\App\Language::translate('LBL_TO_LC')} {$PAGING_MODEL->getRecordEndRange()} {if $LISTVIEW_COUNT} ({$LISTVIEW_COUNT}){/if}</span>
+					<span class="d-none d-sm-inline">{$PAGING_MODEL->getRecordStartRange()} {\App\Language::translate('LBL_TO_LC')} {$PAGING_MODEL->getRecordEndRange()} {if !empty($LISTVIEW_COUNT)} ({$LISTVIEW_COUNT}){/if}</span>
 				</a>
 			</li>
 		</ul>

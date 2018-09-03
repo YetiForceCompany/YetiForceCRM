@@ -198,7 +198,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		if ($relatedModuleName === $this->get('src_module') && !$this->isEmpty('src_record')) {
 			$queryGenerator->addCondition('id', $this->get('src_record'), 'n');
 		}
-		if ($searchParams = $this->get('search_params')) {
+		if ($searchParams = $this->getArray('search_params')) {
 			$queryGenerator->parseAdvFilter($searchParams);
 		}
 		if (!$this->isEmpty('search_key')) {
@@ -448,31 +448,31 @@ class Vtiger_RelationListView_Model extends \App\Base
 		}
 		$relatedLink = [];
 		$relatedLink['RELATEDLIST_VIEWS'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'RELATEDLIST_VIEWS',
-				'linklabel' => 'LBL_RECORDS_LIST',
-				'view' => 'List',
-				'linkicon' => 'far fa-list-alt',
+			'linktype' => 'RELATEDLIST_VIEWS',
+			'linklabel' => 'LBL_RECORDS_LIST',
+			'view' => 'List',
+			'linkicon' => 'far fa-list-alt',
 		]);
 		$relatedLink['RELATEDLIST_VIEWS'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'RELATEDLIST_VIEWS',
-				'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
-				'view' => 'ListPreview',
-				'linkicon' => 'fas fa-desktop',
+			'linktype' => 'RELATEDLIST_VIEWS',
+			'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
+			'view' => 'ListPreview',
+			'linkicon' => 'fas fa-desktop',
 		]);
 		$relatedLink['LISTVIEWBASIC'] = array_merge($selectLinks, $this->getAddRelationLinks());
 		$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'RELATEDLIST_MASSACTIONS',
-				'linklabel' => 'LBL_MASS_DELETE',
-				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=massDeleteRelation&src_record={$id}&relatedModule={$relatedModuleName}')",
-				'linkclass' => '',
-				'linkicon' => 'fas fa-eraser',
+			'linktype' => 'RELATEDLIST_MASSACTIONS',
+			'linklabel' => 'LBL_MASS_DELETE',
+			'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=massDeleteRelation&src_record={$id}&relatedModule={$relatedModuleName}')",
+			'linkclass' => '',
+			'linkicon' => 'fas fa-eraser',
 		]);
 		$relatedLink['RELATEDLIST_MASSACTIONS_ADV'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'RELATEDLIST_MASSACTIONS_ADV',
-				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
-				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=exportToExcel&src_record={$id}&relatedModule={$relatedModuleName}','sendByForm')",
-				'linkclass' => '',
-				'linkicon' => 'fas fa-file-excel',
+			'linktype' => 'RELATEDLIST_MASSACTIONS_ADV',
+			'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
+			'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=exportToExcel&src_record={$id}&relatedModule={$relatedModuleName}','sendByForm')",
+			'linkclass' => '',
+			'linkicon' => 'fas fa-file-excel',
 		]);
 
 		return $relatedLink;
@@ -588,11 +588,11 @@ class Vtiger_RelationListView_Model extends \App\Base
 	{
 		return (new App\Db\Query())->select(['relcrmid'])->from('u_#__favorites')
 			->where([
-					'module' => $this->getParentRecordModel()->getModuleName(),
-					'relmodule' => $this->getRelatedModuleModel()->getName(),
-					'crmid' => $this->getParentRecordModel()->getId(),
-					'userid' => App\User::getCurrentUserId(), ])
-					->column();
+				'module' => $this->getParentRecordModel()->getModuleName(),
+				'relmodule' => $this->getRelatedModuleModel()->getName(),
+				'crmid' => $this->getParentRecordModel()->getId(),
+				'userid' => App\User::getCurrentUserId(), ])
+				->column();
 	}
 
 	/**

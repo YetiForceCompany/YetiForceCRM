@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 	jstreeInstance: false,
@@ -177,8 +178,8 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 			return aDeferred.promise();
 		}
 		app.showModalWindow(null, "index.php?module=TreesManager&parent=Settings&view=ReplaceTreeItem", function (wizardContainer) {
-			var form = jQuery('form', wizardContainer);
-			jstreeInstanceReplace = wizardContainer.find('#treePopupContents');
+			let form = jQuery('form', wizardContainer),
+				jstreeInstanceReplace = wizardContainer.find('#treePopupContents');
 			jstreeInstanceReplace.jstree({
 				core: {
 					data: data,

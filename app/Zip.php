@@ -100,7 +100,7 @@ class Zip extends \ZipArchive
 			for ($i = 0; $i < $this->numFiles; ++$i) {
 				$zipPath = $this->getNameIndex($i);
 				$path = \str_replace('\\', '/', $zipPath);
-				if ((!\is_numeric($dir) && strpos($path, $dir . '/') !== 0) || ($this->checkFiles && $this->checkFile($zipPath))) {
+				if ((!\is_numeric($dir) && strpos($path, $dir . '/') !== 0) || $this->validateFile($zipPath)) {
 					continue;
 				}
 				$files[] = $zipPath;
@@ -129,23 +129,44 @@ class Zip extends \ZipArchive
 	}
 
 	/**
+	 * Simple extract the archive contents.
+	 *
+	 * @param string $toDir
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public function extract(string $toDir)
+	{
+		if (!is_dir($toDir) && !mkdir($toDir, 0755, true) && !is_dir($toDir)) {
+			throw new \App\Exceptions\AppException('Directory unable to create it');
+		}
+		$fileList = [];
+		for ($i = 0; $i < $this->numFiles; $i++) {
+			$path = $this->getNameIndex($i);
+			if ($this->validateFile(\str_replace('\\', '/', $path))) {
+				continue;
+			}
+			$fileList[] = $path;
+		}
+		$this->extractTo($toDir, $fileList);
+		return $fileList;
+	}
+
+	/**
 	 * Check illegal characters.
 	 *
 	 * @param string $path
 	 *
 	 * @return bool
 	 */
-	public function checkFile($path)
+	public function validateFile(string $path)
 	{
-		preg_match("[^\w\s\d\.\-_~,;:\[\]\(\]]", $path, $matches);
-		if ($matches) {
+		if ($this->checkFilePath($path)) {
 			return true;
 		}
-		$tmpPath = \App\Fields\File::getTmpPath();
-		if (strpos(realpath($tmpPath), realpath($tmpPath . str_replace(basename($path), '', $path))) !== 0) {
-			return true;
-		}
-		if (!$this->isDir($path)) {
+		if ($this->checkFiles && !$this->isDir($path)) {
 			$extension = pathinfo($path, PATHINFO_EXTENSION);
 			if (isset($this->onlyExtensions) && !in_array($extension, $this->onlyExtensions)) {
 				return true;
@@ -166,6 +187,33 @@ class Zip extends \ZipArchive
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * CheckFilePath.
+	 *
+	 * @param string $path
+	 *
+	 * @return bool
+	 */
+	public function checkFilePath(string $path)
+	{
+		preg_match("[^\w\s\d\.\-_~,;:\[\]\(\]]", $path, $matches);
+		if ($matches) {
+			return true;
+		}
+		$absolutes = [];
+		foreach (array_filter(explode('/', str_replace(['/', '\\'], '/', $path)), 'strlen') as $part) {
+			if ('.' == $part) {
+				continue;
+			}
+			if ('..' == $part) {
+				array_pop($absolutes);
+			} else {
+				$absolutes[] = $part;
+			}
+		}
+		return strpos('YetiTemp/' . implode('/', $absolutes), 'YetiTemp/') !== 0;
 	}
 
 	/**
@@ -260,7 +308,7 @@ class Zip extends \ZipArchive
 		header('Content-Disposition: attachment; filename="' . $name . '.zip";');
 		header('Accept-Ranges: bytes');
 		header('Content-Length: ' . filesize($fileName));
-		echo readfile($fileName);
+		readfile($fileName);
 		unlink($fileName);
 	}
 }

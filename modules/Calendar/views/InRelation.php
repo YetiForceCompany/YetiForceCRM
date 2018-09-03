@@ -63,7 +63,7 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 			$relationListView->set('search_value', $request->get('search_value'));
 			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
 		}
-		$searchParmams = $request->get('search_params');
+		$searchParmams = $request->getArray('search_params');
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
@@ -99,11 +99,12 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
-		if (!empty($totalCount)) {
-			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('LISTVIEW_COUNT', $totalCount);
-			$viewer->assign('TOTAL_ENTRIES', $totalCount);
+		if (empty($totalCount)) {
+			$totalCount = 0;
 		}
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$viewer->assign('LISTVIEW_COUNT', $totalCount);
+		$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		$viewer->assign('PAGE_COUNT', $pagingModel->getPageCount());
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('START_PAGIN_FROM', $pagingModel->getStartPagingFrom());

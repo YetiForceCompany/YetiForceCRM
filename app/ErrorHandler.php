@@ -3,8 +3,8 @@
  * Exception error handler class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App;
@@ -39,6 +39,9 @@ class ErrorHandler
 	 */
 	public static function init()
 	{
+		if (\class_exists('rcmail')) {
+			return;
+		}
 		register_shutdown_function([__CLASS__, 'fatalHandler']);
 		set_error_handler([__CLASS__, 'errorHandler'], \AppConfig::debug('EXCEPTION_ERROR_LEVEL'));
 	}

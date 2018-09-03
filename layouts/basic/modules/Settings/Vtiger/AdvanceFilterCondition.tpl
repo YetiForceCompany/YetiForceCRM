@@ -15,8 +15,8 @@
 	{/if}
 	<div class="js-conditions-row form-row" data-js="container | clone">
 		<div class="col-md-4 conditionField">
-			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control m-0" name="columnname" title="{\App\Language::translate('LBL_CHOOSE_FIELD')}">
-				<option value="none">{\App\Language::translate('LBL_SELECT_FIELD',$MODULE)}</option>
+			<select class="{if empty($NOCHOSEN)}select2{/if} row form-control m-0" name="columnname"
+					title="{\App\Language::translate('LBL_CHOOSE_FIELD')}">
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 					<optgroup label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}'>
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
@@ -28,7 +28,8 @@
 							{else}
 								{assign var=columnNameApi value=getCustomViewColumnName}
 							{/if}
-							<option value="{$FIELD_MODEL->$columnNameApi()}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_NAME}"
+							<option value="{$FIELD_MODEL->$columnNameApi()}"
+									data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_NAME}"
 									{if isset($CONDITION_INFO['columnname']) && App\Purifier::decodeHtml($FIELD_MODEL->$columnNameApi()) eq App\Purifier::decodeHtml($CONDITION_INFO['columnname'])}
 										{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()}
 										{assign var=SELECTED_FIELD_MODEL value=$FIELD_MODEL}
@@ -50,7 +51,7 @@
 											{$FIELD_INFO['type'] = 'picklist'}
 										{/if}
 									{/if}
-									data-fieldinfo='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}' 
+									data-fieldinfo='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}'
 									{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}>
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
 									({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_MODEL->get('name'))}
@@ -61,6 +62,7 @@
 						{/foreach}
 					</optgroup>
 				{/foreach}
+				{if empty($EVENT_RECORD_STRUCTURE)} {assign var="EVENT_RECORD_STRUCTURE" value=[]} {/if}
 				{* Required to display event fields also while adding conditions *}
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
 					<optgroup label='{\App\Language::translate($BLOCK_LABEL, 'Events')}'>
@@ -72,7 +74,8 @@
 							{else}
 								{assign var=columnNameApi value=getCustomViewColumnName}
 							{/if}
-							<option value="{$FIELD_MODEL->$columnNameApi()}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_NAME}"
+							<option value="{$FIELD_MODEL->$columnNameApi()}"
+									data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_NAME}"
 									{if isset($CONDITION_INFO['columnname']) && App\Purifier::decodeHtml($FIELD_MODEL->$columnNameApi()) eq $CONDITION_INFO['columnname']}
 										{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()}
 										{assign var=SELECTED_FIELD_MODEL value=$FIELD_MODEL}
@@ -91,7 +94,7 @@
 											{$FIELD_INFO['type'] = 'picklist'}
 										{/if}
 									{/if}
-									data-fieldinfo='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}' >
+									data-fieldinfo='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}'>
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
 									({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_MODEL->get('name'))}
 								{else}
@@ -104,35 +107,48 @@
 			</select>
 		</div>
 		<div class="col-md-3">
-			<input type="hidden" name="comparatorValue" value="{$CONDITION_INFO['comparator']}">
-			{if $SELECTED_FIELD_MODEL}
-				{if !$FIELD_TYPE}
+			<input type="hidden" name="comparatorValue"
+				   value="{if !empty($CONDITION_INFO['comparator'])}{$CONDITION_INFO['comparator']}{/if}">
+			{if !empty($SELECTED_FIELD_MODEL)}
+				{if empty($FIELD_TYPE)}
 					{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
 				{/if}
-				{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
+				{if !empty($ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE])}
+					{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
+				{else}
+					{assign var=ADVANCE_FILTER_OPTIONS value=[]}
+				{/if}
 				{if in_array($SELECTED_FIELD_MODEL->getFieldType(),['D','DT'])}
 					{assign var=DATE_FILTER_CONDITIONS value=array_keys($DATE_FILTERS)}
 					{assign var=ADVANCE_FILTER_OPTIONS value=array_merge($ADVANCE_FILTER_OPTIONS,$DATE_FILTER_CONDITIONS)}
 				{/if}
 			{/if}
-			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control m-0" name="comparator" title="{\App\Language::translate('LBL_COMAPARATOR_TYPE')}">
-				<option value="none">{\App\Language::translate('LBL_NONE',$MODULE)}</option>
-				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
-					<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{\App\Language::translate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
-				{/foreach}
+			<select class="{if empty($NOCHOSEN)}select2{/if} row form-control m-0" name="comparator"
+					title="{\App\Language::translate('LBL_COMAPARATOR_TYPE')}">
+				{if !empty($ADVANCE_FILTER_OPTIONS)}
+					{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
+						<option value="{$ADVANCE_FILTER_OPTION}"
+								{if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>
+							{\App\Language::translate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}
+						</option>
+					{/foreach}
+				{/if}
 			</select>
 		</div>
 		<div class="col-md-4 fieldUiHolder">
-			<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control" type="text" value="{$CONDITION_INFO['value']|escape}" />
+			<input name="{if !empty($SELECTED_FIELD_MODEL)}{$SELECTED_FIELD_MODEL->get('name')}{/if}"
+				   title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control"
+				   type="text" value="{if !empty($CONDITION_INFO['value'])}{$CONDITION_INFO['value']|escape}{/if}"/>
 		</div>
 		<span class="d-none">
 			{if empty($CONDITION)}
 				{assign var=CONDITION value="and"}
 			{/if}
-			<input type="hidden" name="column_condition" value="{$CONDITION}" />
+			<input type="hidden" name="column_condition" value="{$CONDITION}"/>
 		</span>
-		<div  class="col-md-1 btn">
-			<span class="deleteCondition fas fa-trash-alt alignMiddle" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
+		<div class="col-md-1 btn">
+			<span class="deleteCondition fas fa-trash-alt alignMiddle"
+				  title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
 		</div>
 	</div>
 {/strip}

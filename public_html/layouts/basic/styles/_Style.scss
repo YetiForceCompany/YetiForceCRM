@@ -36,10 +36,6 @@
 	font-size: 15px !important;
 }
 
-.goToFullFormPassword {
-	margin-right: 7px;
-}
-
 .generatePass {
 	width: 125px;
 	margin-right: 5px;
@@ -698,10 +694,6 @@ hr {
 	background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
-	border-color: #f3f3f4 #f3f3f4 #cbcbcf;
-	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-	text-shadow: 0 1px #fff;
-	color: #444;
 }
 
 .equalSplit td {
@@ -1802,16 +1794,8 @@ textarea.col-md-11 {
 
 	table td {
 		border-bottom: 1px solid #ccc;
-		nowrap: nowrap;
+		white-space: nowrap;
 		width: 70%;
-	}
-}
-
-.chzn-container {
-	vertical-align: middle;
-
-	.chzn-results li {
-		margin-right: 7px;
 	}
 }
 
@@ -2149,11 +2133,6 @@ table.dataTable .form-control {
 	margin-top: 12px;
 }
 
-.list-user-img {
-	width: 50px;
-	height: 40px;
-}
-
 span[name=existingImages] img {
 	height: 200px;
 	width: 300px;
@@ -2227,10 +2206,6 @@ span[name=existingImages] img {
 
 .activityWidgetContainer .popover {
 	min-width: 240px;
-}
-
-.filterActionImage {
-	margin-left: 8px;
 }
 
 .modal-body .btn-elements > .btn {
@@ -2319,17 +2294,6 @@ span[name=existingImages] img {
 
 .individualTaxContainer {
 	text-align: left !important;
-}
-
-.roundedCorners {
-	:not(:first-child) {
-		padding-left: 0;
-	}
-
-	label {
-		font-weight: normal;
-		min-height: 40px;
-	}
 }
 
 #widgetsManagementEditorContainer {
@@ -2565,18 +2529,6 @@ html, body, .o-base-container {
 	::i-block-chrome, ::i-block-chrome {
 		top: -4px;
 	}
-}
-
-.basePanel, .bodyContents, .mainContainer, .contentsDiv {
-	min-height: 100%;
-}
-
-.bodyContent {
-	min-height: 100%;
-	height: 100%;
-	margin-top: 0;
-	padding-top: 0;
-	padding-bottom: 15px;
 }
 
 .companyLogoContainer {
@@ -3417,11 +3369,6 @@ html, body, .o-base-container {
 	margin-top: 20px !important;
 }
 
-.detailViewIcon {
-	font-size: 48px;
-	padding: 10px;
-}
-
 .tag {
 	margin-right: 5px;
 	border-bottom-left-radius: 15px;
@@ -3597,8 +3544,8 @@ select.form-control {
 
 .detailViewTitle .hierarchy {
 	position: absolute;
-	top: 0;
-	left: 60px;
+	top: -12px;
+	left: 50px;
 }
 
 .indexContainer {
@@ -3886,10 +3833,6 @@ select.form-control {
 	.toggleSiteBarRightButton {
 		right: calc(25% - 50px);
 	}
-}
-
-.detailViewIcon.fa {
-	display: inline;
 }
 
 .addWidgetDropDown.dropdown-menu > li {

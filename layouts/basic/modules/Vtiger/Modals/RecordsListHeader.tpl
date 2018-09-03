@@ -19,7 +19,7 @@
 			</h5>
 			<div class="d-flex justify-content-center justify-content-sm-between w-100 mt-2 mt-lg-0 mx-lg-2 order-3 order-lg-0 flex-wrap">
 				<div class="mb-2 mb-sm-0 btn-toolbar u-w-sm-down-100">
-					{if $SWITCH}
+					{if !empty($SWITCH)}
 					<div class="mr-2 mb-2 mb-sm-0">
 						<div class="btn-group btn-group-toggle" data-toggle="buttons">
 							<label class="btn btn-outline-primary active">

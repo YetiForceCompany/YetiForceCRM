@@ -63,6 +63,8 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 			$viewer->assign('EVENT_RECORD_STRUCTURE', $eventBlocksFields);
 		} else {
 			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();
+			$viewer->assign('EVENT_RECORD_STRUCTURE_MODEL', null);
+			$viewer->assign('EVENT_RECORD_STRUCTURE', null);
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
@@ -72,6 +74,7 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		if (!$request->getBoolean('duplicate')) {
 			$viewer->assign('RECORD_ID', $record);
 		}
+		$viewer->assign('QUALIFIED_MODULE', $moduleName);
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('SOURCE_MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());

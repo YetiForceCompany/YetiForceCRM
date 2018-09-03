@@ -1,11 +1,13 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.c-list-preview {
-	float: left;
-	position: relative;
-	height: 600px;
-	padding-left: 0;
-	overflow: hidden;
 
+.c-list-preview {
+	@include media-breakpoint-up(lg) {
+		float: left;
+		position: relative;
+		min-height: 600px;
+		padding-left: 0;
+		overflow: hidden;
+	}
 	&__content {
 		position: relative;
 		height: max-content;
@@ -123,7 +125,7 @@
 	}
 }
 
-@media only screen and (max-width: 992px) {
+@include media-breakpoint-down(md) {
 	.c-detail-preview {
 		padding-left: 0;
 		padding-right: 0;
@@ -132,7 +134,9 @@
 	}
 
 	.c-list-preview {
-		position: static;
+		overflow: scroll;
+		-webkit-overflow-scrolling: touch;
+		max-height: 200px;
 		padding-left: 0;
 		padding-right: 0;
 

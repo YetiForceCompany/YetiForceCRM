@@ -3,7 +3,7 @@
 	{assign var=IS_INVENTORY value=($RELATED_MODULE->isInventory() && !empty($INVENTORY_FIELDS))}
 	{if !$TYPE_VIEW || $TYPE_VIEW eq 'List'}
 		<input type="hidden" class="relatedView" value="List">
-		<div class="listViewEntriesDiv u-overflow-scroll-xs-down  contents-bottomscroll relatedContents">
+		<div class="listViewEntriesDiv relatedContents">
 			<table class="table c-detail-widget__table listViewEntriesTable">
 				<thead>
 				<tr class="text-center">
@@ -27,6 +27,7 @@
 					{/if}
 				</tr>
 				</thead>
+				{assign var=COUNT value=0}
 				{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 					<tr class="listViewEntries" data-id="{$RELATED_RECORD->getId()}"
 							{if $RELATED_RECORD->isViewable()}
@@ -38,7 +39,7 @@
 							</td>
 						{/if}
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-							{assign var=COUNT value=$COUNT+1}
+							{$COUNT = $COUNT+1}
 							{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 							<td class="text-center {$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}"
 								nowrap>
@@ -129,7 +130,7 @@
 			</table>
 		</div>
 	{elseif $TYPE_VIEW eq 'Summary'}
-		<div class="listViewEntriesDiv u-overflow-scroll-xs-down contents-bottomscroll relatedContents">
+		<div class="listViewEntriesDiv relatedContents">
 			<div class="carousel slide" data-interval="false" data-ride="carousel">
 				<div class="carousel-inner" role="listbox">
 					{foreach item=RELATED_RECORD from=$RELATED_RECORDS name=recordlist}
@@ -190,7 +191,7 @@
 			</div>
 		</div>
 	{else}
-		<div class="listViewEntriesDiv u-overflow-scroll-xs-down contents-bottomscroll relatedContents">
+		<div class="listViewEntriesDiv relatedContents">
 			<table class="table c-detail-widget__table listViewEntriesTable">
 				<thead>
 				<tr class="text-center">
@@ -262,7 +263,7 @@
 					<span class="float-right far fa-times-circle hideSummaryRelRecordView u-cursor-pointer"></span>
 					<table class="c-detail-widget__table">
 						<tbody>
-						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+						{foreach item=HEADER_FIELD from=$RELATED_SUMMARY_HEADERS}
 							<tr class="c-table__row--hover border-bottom">
 								<td class="u-w-37per {$WIDTHTYPE}">
 									<label class="font-weight-bold">
@@ -284,8 +285,8 @@
 					<div class="float-right py-1">
 						{if $RELATED_RECORD->isViewable()}
 							<a class="addButton" href="{$RELATED_RECORD->getFullDetailViewUrl()}">
-								<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover"
-										type="button">
+								<button type="button" class="btn btn-sm btn-light js-popover-tooltip" data-js="popover"
+										data-content="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}">
 									<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}"
 										  class="fas fa-th-list"></span>
 								</button>
@@ -293,8 +294,8 @@
 						{/if}
 						{if $RELATED_RECORD->isEditable()}
 							<a class="addButton" href="{$RELATED_RECORD->getEditViewUrl()}">
-								<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover"
-										type="button">
+								<button type="button" class="btn btn-sm btn-light js-popover-tooltip" data-js="popover"
+										data-content="{\App\Language::translate('LBL_EDIT', $MODULE)}">
 									<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}"
 										  class="far fa-edit"></span>
 								</button>

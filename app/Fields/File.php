@@ -205,28 +205,28 @@ class File
 	public static function loadFromUrl($url, $param = [])
 	{
 		if (empty($url)) {
-			Log::error('No url: ' . $url, __CLASS__);
+			Log::warning('No url: ' . $url, __CLASS__);
 			return false;
 		}
 		if (!\App\RequestUtil::isNetConnection()) {
 			return false;
 		}
 		try {
-			$responsse = \Requests::get($url);
-			if ($responsse->status_code !== 200) {
-				Log::error('Error when downloading content: ' . $url . ' | Status code: ' . $responsse->status_code, __CLASS__);
+			$response = (new \GuzzleHttp\Client())->request('GET', $url, ['timeout' => 5, 'connect_timeout' => 1]);
+			if ($response->getStatusCode() !== 200) {
+				Log::warning('Error when downloading content: ' . $url . ' | Status code: ' . $response->getStatusCode(), __CLASS__);
 				return false;
 			}
-			$content = $responsse->body;
-		} catch (\Exception $exc) {
-			Log::error('Error when downloading content: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
+			$content = $response->getBody();
+		} catch (\Throwable $exc) {
+			Log::warning('Error when downloading content: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
 			return false;
 		}
 		if (empty($content)) {
-			Log::error('Url does not contain content: ' . $url, __CLASS__);
+			Log::warning('Url does not contain content: ' . $url, __CLASS__);
 			return false;
 		}
-		return static::loadFromContent($content, basename($url), $param);
+		return static::loadFromContent($content, static::sanitizeFileNameFromUrl($url), $param);
 	}
 
 	/**
@@ -554,11 +554,10 @@ class File
 
 		$fileNameParts = explode('.', $fileName);
 		$badExtensionFound = false;
-
 		foreach ($fileNameParts as $key => &$partOfFileName) {
 			if (in_array(strtolower($partOfFileName), $badFileExtensions)) {
 				$badExtensionFound = true;
-				$fileNameParts[$i] = $partOfFileName;
+				$fileNameParts[$key] = $partOfFileName;
 			}
 		}
 		$newFileName = implode('.', $fileNameParts);
@@ -566,6 +565,19 @@ class File
 			$newFileName .= '.txt';
 		}
 		return $newFileName;
+	}
+
+	/**
+	 * Function to get base name of file.
+	 *
+	 * @param string $url
+	 *
+	 * @return string
+	 */
+	public static function sanitizeFileNameFromUrl($url)
+	{
+		$partsUrl = parse_url($url);
+		return static::sanitizeUploadFileName(basename($partsUrl['path']));
 	}
 
 	/**
@@ -881,16 +893,15 @@ class File
 	public static function isExistsUrl($url)
 	{
 		try {
-			$response = \Requests::get($url);
-			if ($response->status_code === 200) {
+			$response = (new \GuzzleHttp\Client())->request('GET', $url, ['timeout' => 1, 'verify' => false, 'connect_timeout' => 1]);
+			if ($response->getStatusCode() === 200) {
 				return true;
 			} else {
-				Log::error('Checked URL is not allowed: ' . $url . ' | Status code: ' . $response->status_code, __CLASS__);
-
+				Log::warning("Checked URL is not allowed: $url | Status code: " . $response->getStatusCode(), __CLASS__);
 				return false;
 			}
-		} catch (\Exception $exc) {
-			Log::error('Checked URL is not allowed: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
+		} catch (\Throwable $e) {
+			Log::warning("Checked URL is not allowed: $url | " . $e->getMessage(), __CLASS__);
 			return false;
 		}
 	}

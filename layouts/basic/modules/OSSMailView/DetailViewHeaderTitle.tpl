@@ -3,7 +3,7 @@
 	<div class="col-md-12 pr-0 row">
 		<div class="col-10 margin0px">
 			<div class="moduleIcon">
-				<span class="detailViewIcon userIcon-{$MODULE}"></span>
+				<span class="o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
 			</div>
 			<div class="paddingLeft5px float-left">
 				<h4 style="color: #1560bd;" class="recordLabel u-text-ellipsis pushDown marginbottomZero" title="{$RECORD->getName()}">

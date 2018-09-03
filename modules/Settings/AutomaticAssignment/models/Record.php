@@ -4,8 +4,8 @@
  * Automatic Assignment Record Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -359,8 +359,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				if (!empty($columns) && is_array($columns)) {
 					foreach ($columns as $column) {
 						$conditionResult[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
-							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
-							'groupjoin' => $condition['condition'], 'groupid' => $index === 1 ? 0 : 1, ];
+							'value' => $column['value'], 'valuetype' => $column['valuetype'] ?? '', 'joincondition' => $column['column_condition'],
+							'groupjoin' => $condition['condition'] ?? '', 'groupid' => $index === 1 ? 0 : 1, ];
 					}
 				}
 			}

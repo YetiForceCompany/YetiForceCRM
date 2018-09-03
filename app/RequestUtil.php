@@ -11,6 +11,7 @@ namespace App;
  */
 class RequestUtil
 {
+	protected static $browserCache = false;
 	private static $ipFields = [
 		'HTTP_CLIENT_IP',
 		'HTTP_X_FORWARDED_FOR',
@@ -20,6 +21,12 @@ class RequestUtil
 		'HTTP_X_CLUSTER_CLIENT_IP',
 		'HTTP_CF_CONNECTING_IP',
 	];
+	/**
+	 * Net connection cache.
+	 *
+	 * @var
+	 */
+	private static $connectionCache;
 
 	public static function getRemoteIP($onlyIP = false)
 	{
@@ -41,8 +48,6 @@ class RequestUtil
 		}
 		return empty($address) ? '' : $address;
 	}
-
-	protected static $browserCache = false;
 
 	public static function getBrowserInfo()
 	{
@@ -118,13 +123,6 @@ class RequestUtil
 	}
 
 	/**
-	 * Net connection cache.
-	 *
-	 * @var
-	 */
-	private static $connectionCache;
-
-	/**
 	 * Check net connection.
 	 *
 	 * @return bool
@@ -137,13 +135,12 @@ class RequestUtil
 		if (isset(static::$connectionCache)) {
 			return static::$connectionCache;
 		}
-		$connected = fsockopen('www.google.com', 80, $errno, $errstr, 1);
-		if ($connected) {
-			static::$connectionCache = true;
-			fclose($connected);
-		} else {
-			static::$connectionCache = false;
+		$status = false;
+		try {
+			$res = (new \GuzzleHttp\Client())->request('GET', 'google.com', ['timeout' => 1, 'verify' => false, 'connect_timeout' => 1]);
+			$status = $res->getStatusCode() === 200;
+		} catch (\Throwable $e) {
 		}
-		return static::$connectionCache;
+		return static::$connectionCache = $status;
 	}
 }

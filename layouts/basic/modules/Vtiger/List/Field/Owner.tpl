@@ -10,16 +10,16 @@
 ********************************************************************************/
 -->*}
 {strip}
-    {assign var=FIELD_INFO value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
+	{assign var=FIELD_INFO value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->getName()}
 	{if isset($SEARCH_INFO['searchValue'])}
-		{assign var=SEARCH_VALUE value=explode('##',$SEARCH_INFO['searchValue'])}
+		{assign var=SEARCH_VALUE value=explode('##', $SEARCH_INFO['searchValue'])}
 	{else}
 		{assign var=SEARCH_VALUE value=[]}
 	{/if}
     {assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUE)}
 	{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-		{if $VIEWID && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
+		{if !empty($VIEWID) && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
 			{assign var=USERS_GROUP_LIST value=\App\Fields\Owner::getInstance($MODULE)->getUsersAndGroupForModuleList($VIEWID)}
 			{assign var=ALL_ACTIVEUSER_LIST value=$USERS_GROUP_LIST['users']}
 			{assign var=ALL_ACTIVEGROUP_LIST value=$USERS_GROUP_LIST['group']}

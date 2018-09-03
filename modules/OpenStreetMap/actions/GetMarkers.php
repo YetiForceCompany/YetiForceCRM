@@ -4,8 +4,8 @@
  * Action to get markers.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 {
@@ -35,9 +35,9 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$coordinatesModel->set('srcModuleModel', $srcModuleModel);
 		$coordinatesModel->set('radius', $request->isEmpty('radius', true) ? 0 : $request->getInteger('radius', 0));
-		$coordinatesModel->set('selectedIds', $request->getArray('selected_ids'));
+		$coordinatesModel->set('selectedIds', $request->getArray('selected_ids', 2));
 		$coordinatesModel->set('viewname', $request->getByType('viewname', 2));
-		$coordinatesModel->set('excludedIds', $request->getArray('excluded_ids'));
+		$coordinatesModel->set('excludedIds', $request->getArray('excluded_ids', 2));
 		$coordinatesModel->set('searchKey', $request->get('search_key'));
 		$coordinatesModel->set('operator', $request->getByType('operator', 1));
 		$coordinatesModel->set('groupBy', $request->getByType('groupBy', 1));
@@ -46,7 +46,7 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 		$coordinatesModel->set('lon', $request->get('lon'));
 		$coordinatesModel->set('lat', $request->get('lat'));
 		$coordinatesModel->set('cache', $request->get('cache'));
-		$coordinatesModel->set('search_params', $request->get('search_params'));
+		$coordinatesModel->set('search_params', $request->getArray('search_params'));
 		$coordinatesModel->set('request', $request);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());

@@ -47,7 +47,8 @@
     "LBL_ERROR_NO_LAYOUT_FILE": "No hay archivos inteligentes",
     "LBL_IMPORT": "Importar",
     "LBL_TOO_SMALL_UPLOAD_LIMIT": "El l\u00edmite de subida es demasiado peque\u00f1o",
-    "LBL_TOO_SMALL_UPLOAD_LIMIT_DESC": "El l\u00edmite de carga es demasiado peque\u00f1o (%s) por lo que el archivo no puede cargarse en el servidor. Se recomienda comprobar la configuraci\u00f3n del sistema <a href=\"index.php?parent=Settings&module=ConfReport&view=Index\">Compruebe la configuraci\u00f3n del servidor<\/a> ",
+    "LBL_TOO_SMALL_UPLOAD_LIMIT_DESC": "El l\u00edmite de carga es demasiado peque\u00f1o (%s) por lo que el archivo no puede cargarse en el servidor. Se recomienda comprobar la configuraci\u00f3n del sistema %s",
+    "LBL_CHECK_SERVER_CONFIG": "Compruebe la configuraci\u00f3n del servidor",
     "LBL_CREATE_MODULE": "Crear m\u00f3dulo",
     "LBL_CREATING_MODULE": "Creando nuevo m\u00f3dulo",
     "LBL_ENTER_MODULE_NAME": "Nombre del m\u00f3dulo",
@@ -74,7 +75,9 @@
     "LBL_LIBRARY_NEEDS_UPDATING": "Actualizaci\u00f3n necesaria",
     "LBL_NO_PERMISSION_TO_DIR": "No tiene permiso para directorios",
     "LBL_ERROR_NO_VALID_PREFIX": "Prefijo de idioma no v\u00e1lido",
-    "LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings"
+    "LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings",
+    "LBL_SAMPLE_FIELD_NAME": "sample_name",
+    "LBL_SAMPLE_LABEL": "Sample name"
   },
   "js": {
     "JS_UPDATED_MODULE": "Actualizaci\u00f3n correcta",

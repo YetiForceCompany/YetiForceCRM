@@ -28,27 +28,6 @@ class AddressFinder
 	private static $providerInstanceCache = [];
 
 	/**
-	 * Get provider for address finder.
-	 *
-	 * @return string[]
-	 */
-	public static function getProvider()
-	{
-		if (static::$providersCache) {
-			return static::$providersCache;
-		}
-		$dir = new \DirectoryIterator(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/AddressFinder');
-		foreach ($dir as $fileinfo) {
-			if ($fileinfo->getExtension() === 'php' && ($fileName = $fileinfo->getBasename('.php')) !== 'Base') {
-				if (static::getInstance($fileName)->isActive()) {
-					static::$providersCache[] = $fileName;
-				}
-			}
-		}
-		return static::$providersCache;
-	}
-
-	/**
 	 * Get default provider.
 	 *
 	 * @return string[]
@@ -60,6 +39,25 @@ class AddressFinder
 			return \array_pop($provider);
 		}
 		return '';
+	}
+
+	/**
+	 * Get provider for address finder.
+	 *
+	 * @return string[]
+	 */
+	public static function getProvider()
+	{
+		if (static::$providersCache) {
+			return static::$providersCache;
+		}
+		$dir = new \DirectoryIterator(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/AddressFinder');
+		foreach ($dir as $fileinfo) {
+			if ($fileinfo->getExtension() === 'php' && ($fileName = $fileinfo->getBasename('.php')) !== 'Base' && static::getInstance($fileName)->isActive()) {
+				static::$providersCache[] = $fileName;
+			}
+		}
+		return static::$providersCache;
 	}
 
 	/**

@@ -47,7 +47,8 @@
     "LBL_ERROR_NO_LAYOUT_FILE": "Fehler, keine Layout Datei",
     "LBL_IMPORT": "Import",
     "LBL_TOO_SMALL_UPLOAD_LIMIT": "Upload limit ist zu klein",
-    "LBL_TOO_SMALL_UPLOAD_LIMIT_DESC": "Upload limit ist zu klein (%s) daher kann die Datei nicht auf den Server geladen werden. Es ist erforderlich die Systemkonfiguration zu pr\u00fcfen <a href=\"index.php?parent=Settings&module=ConfReport&view=Index\">Systemkonfiguration pr\u00fcfen<\/a>",
+    "LBL_TOO_SMALL_UPLOAD_LIMIT_DESC": "Upload limit ist zu klein (%s) daher kann die Datei nicht auf den Server geladen werden. Es ist erforderlich die Systemkonfiguration zu pr\u00fcfen %s",
+    "LBL_CHECK_SERVER_CONFIG": "Systemkonfiguration pr\u00fcfen",
     "LBL_CREATE_MODULE": "Modul erstellen",
     "LBL_CREATING_MODULE": "Neues Modul erstellen",
     "LBL_ENTER_MODULE_NAME": "Modulname",
@@ -74,7 +75,9 @@
     "LBL_LIBRARY_NEEDS_UPDATING": "Update erforderlich",
     "LBL_NO_PERMISSION_TO_DIR": "Keine Berechtigung f\u00fcr die Verzeichnisse",
     "LBL_ERROR_NO_VALID_PREFIX": "Umg\u00fcltiges Sprachpr\u00e4fix",
-    "LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings"
+    "LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS": "Modulname darf nicht das Wort Settings beinhalten",
+    "LBL_SAMPLE_FIELD_NAME": "beispiel_name",
+    "LBL_SAMPLE_LABEL": "Beispielname"
   },
   "js": {
     "JS_UPDATED_MODULE": "Update Erfolgreich",

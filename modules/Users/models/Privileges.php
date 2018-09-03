@@ -97,8 +97,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	{
 		$profileTabsPermissions = $this->get('profile_tabs_permission');
 		$moduleModel = Vtiger_Module_Model::getInstance($mixed);
-
-		return !empty($moduleModel) && $moduleModel->isActive() && (($this->isAdminUser() || $profileTabsPermissions[$moduleModel->getId()] === 0));
+		return !empty($moduleModel) && $moduleModel->isActive() && ($this->isAdminUser() || (isset($profileTabsPermissions[$moduleModel->getId()]) && $profileTabsPermissions[$moduleModel->getId()] === 0));
 	}
 
 	/**
@@ -120,8 +119,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			$mixed = 1;
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($mixed);
-
-		return $moduleModel->isActive() && (($this->isAdminUser() || $profileTabsPermissions[$moduleModel->getId()][$actionId] === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE));
+		return $moduleModel->isActive() && (($this->isAdminUser() || (isset($profileTabsPermissions[$moduleModel->getId()][$actionId]) && $profileTabsPermissions[$moduleModel->getId()][$actionId] === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE)));
 	}
 
 	/**
@@ -261,6 +259,7 @@ class Users_Privileges_Model extends Users_Record_Model
 					'userid' => $userId,
 				])->execute();
 			}
+			\App\Cache::delete('SharedOwnerFieldValue', $record);
 		}
 	}
 
@@ -385,7 +384,7 @@ class Users_Privileges_Model extends Users_Record_Model
 								$relatedPermission = $recordMetaData['smownerid'] == $currentUserId || in_array($recordMetaData['smownerid'], $currentUserGroups);
 								break;
 							case 1:
-								$relatedPermission = in_array($currentUserId, Vtiger_SharedOwner_UIType::getSharedOwners($id, $recordMetaData['setype']));
+								$relatedPermission = in_array($currentUserId, \App\Fields\SharedOwner::getById($id));
 								break;
 							case 2:
 								$relatedPermission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
@@ -423,7 +422,7 @@ class Users_Privileges_Model extends Users_Record_Model
 								$relatedPermission = $recordMetaData['smownerid'] == $currentUserId || in_array($recordMetaData['smownerid'], $currentUserGroups);
 								break;
 							case 1:
-								$relatedPermission = in_array($currentUserId, Vtiger_SharedOwner_UIType::getSharedOwners($id, $recordMetaData['setype']));
+								$relatedPermission = in_array($currentUserId, \App\Fields\SharedOwner::getById($id, $recordMetaData['setype']));
 								break;
 							case 2:
 								$relatedPermission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);

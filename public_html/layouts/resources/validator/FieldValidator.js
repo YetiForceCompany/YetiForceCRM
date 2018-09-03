@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce Sp. z o.o.
  *************************************************************************************/
+'use strict';
 
 Vtiger_Base_Validator_Js("Vtiger_Email_Validator_Js", {
 	/**
@@ -23,6 +24,13 @@ Vtiger_Base_Validator_Js("Vtiger_Email_Validator_Js", {
 		}
 	}
 }, {
+	/**
+	 *Overwrites base function to avoid trimming and validate white spaces
+	 * @return fieldValue
+	 * */
+	getFieldValue: function () {
+		return this.getElement().val();
+	},
 	/**
 	 * Function to validate the email field data
 	 */
@@ -103,7 +111,7 @@ Vtiger_Base_Validator_Js("Vtiger_Phone_Validator_Js", {}, {
 					field.val(data.result.number);
 					field.attr('title', data.result.geocoding + ' ' + data.result.carrier);
 					if (phoneCountryList.val() != data.result.country) {
-						phoneCountryList.val(data.result.country).change().trigger("chosen:updated");
+						phoneCountryList.val(data.result.country).trigger('change');
 					}
 				}
 				field.attr('readonly', false);
@@ -1025,6 +1033,85 @@ Vtiger_Base_Validator_Js("Vtiger_Time_Validator_Js", {
 	}
 });
 
+Vtiger_Base_Validator_Js("Vtiger_Twitter_Validator_Js", {
+	/**
+	 * Function which invokes field validation
+	 * @param {jQuery} field - accepts field element as parameter
+	 * @return string|true - error text if validation fails, true on success
+	 */
+	invokeValidation(field, rules, i, options) {
+		let validatorInstance = new Vtiger_Twitter_Validator_Js();
+		validatorInstance.setElement(field);
+		let result = validatorInstance.validate();
+		if (result == true) {
+			return result;
+		} else {
+			return validatorInstance.getError();
+		}
+	}
+
+}, {
+	/**
+	 * Function to validate the Twwiter Account
+	 * @return bool true if validation is successfull
+	 */
+	validate() {
+		let fieldValue = this.getFieldValue();
+		if (!fieldValue.match(/^[a-zA-Z0-9_]{1,15}$/g)) {
+			this.setError(app.vtranslate("JS_PLEASE_ENTER_VALID_TWITTER_ACCOUNT"));
+			return false;
+		}
+		return true;
+	}
+});
+
+Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
+	/**
+	 * Function which invokes field validation
+	 * @param {jQuery} field - accepts field element as parameter
+	 * @return string|true - error text if validation fails, true on success
+	 */
+	invokeValidation(field) {
+		let validatorInstance = new Vtiger_MultiEmail_Validator_Js();
+		validatorInstance.setElement(field);
+		let result = validatorInstance.validate();
+		if (result == true) {
+			return result;
+		} else {
+			return validatorInstance.getError();
+		}
+	}
+}, {
+	/**
+	 * Function to validate the Multi email. Check if the email address is duplicated.
+	 * @return bool true if validation is successfull
+	 */
+	validate() {
+		let fieldValue = this.getFieldValue();
+		if (fieldValue === '') {
+			return true;
+		}
+		if (this.validateValue(fieldValue) === false) {
+			return false;
+		}
+		let allFields = $(this.field).closest('div.js-multi-email').eq(0).find('[class*=js-multi-email-row]');
+		let arrayLength = allFields.length;
+		for (let i = 0; i < arrayLength; ++i) {
+			let inputField = $(allFields[i]).find('input.js-email').eq(0);
+			if (inputField.val() === '') {
+				continue;
+			}
+			let inputClass1 = $(allFields[i]).closest("div[class*=js-multi-email-row-]").eq(0).attr('class');
+			let inputClass2 = $(this.field).closest("div[class*=js-multi-email-row-]").eq(0).attr('class');
+			if (inputClass1 !== inputClass2 && inputField.val() === fieldValue) {
+				this.setError(app.vtranslate("JS_EMAIL_DUPLICATED"));
+				return false;
+			}
+		}
+		return true;
+	}
+});
+
 //Calendar Specific validators
 // We have placed it here since quick create will not load module specific validators
 
@@ -1312,7 +1399,7 @@ Vtiger_Base_Validator_Js("Vtiger_YetiForceCompanyName_Validator_Js", {
 		}
 		const field = this.getElement();
 		const fieldValue = field.val();
-		if(fieldValue.toLowerCase().indexOf('yetiforce')>=0){
+		if (fieldValue.toLowerCase().indexOf('yetiforce') >= 0) {
 			this.setError(app.vtranslate('JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED'));
 			return false;
 		}

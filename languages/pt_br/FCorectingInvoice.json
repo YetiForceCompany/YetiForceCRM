@@ -15,9 +15,23 @@
     "FL_TOTAL": "Liquido",
     "FL_GROSS": "Bruto",
     "FL_STATUS": "Situa\u00e7\u00e3o",
-    "PLL_TRANSFER": "Transfer\u00eancia",
-    "PLL_CASH": "Dinheiro",
+    "PLL_CASH": "Cash",
+    "PLL_TRANSFER": "Bank transfer",
+    "PLL_WIRE_TRANSFER": "Electronic transfer",
     "LBL_YEAR": "Ano",
-    "FL_INVOICE": "Fatura"
+    "FL_INVOICE": "Fatura",
+    "LBL_COMMENTS": "Comments",
+    "FL_EXTERNAL_COMMENT": "External comment",
+    "FL_INTERNAL_COMMENT": "Internal comment",
+    "LBL_BEFORE_CORRECTION": "Before correction",
+    "LBL_AFTER_CORRECTION": "After correction",
+    "LBL_CHOOSE_INVOICE": "Select invoice to be corrected",
+    "LBL_COPY_FROM_INVOICE": "Copy from initial invoice",
+    "LBL_INVOICE_INFO": "Initial invoice fields - before corrections.",
+    "LBL_AFTER_INVOICE_INFO": "How should final invoice look like after correction.",
+    "LBL_AFTER_INVOICE_INFO_EDIT": "Invoice fields to be corrected. Copy all fields from initial invoice and change values as needed."
+  },
+  "js": {
+    "JS_FCORECTINGINVOICE_CHOOSE_INVOICE": "Select invoice to be corrected"
   }
 }

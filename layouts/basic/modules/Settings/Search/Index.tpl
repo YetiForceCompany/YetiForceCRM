@@ -29,7 +29,7 @@
 				</thead>
 				<tbody>
 					{foreach from=$MODULESENTITY item=item key=KEY}
-						{assign var="FIELDS" value=$FIELDS_MODULES[$KEY]}
+						{assign var="BLOCKS" value=$FIELDS_MODULES[$KEY]}
 						<tr data-tabid="{$KEY}">
 							<td class="alignMiddle widthMin noWrap"><span>&nbsp;
 									<a>
@@ -42,16 +42,24 @@
 								<div class="elementLabels{$KEY} paddingLR5">
 									{assign var="VALUE" value=explode(',',$item['fieldname'])}
 									{foreach from=$VALUE item=NAME name=valueLoop}
-										{\App\Language::translate($FIELDS[$NAME]['fieldlabel'],$item['modulename'])}
+										{foreach key=BLOCK_NAME item=FIELDS from=$BLOCKS}
+											{if isset($FIELDS[$NAME])}
+												{\App\Language::translate($FIELDS[$NAME]['fieldlabel'],$item['modulename'])}
+											{/if}
+										{/foreach}
 										{if !$smarty.foreach.valueLoop.last},&nbsp;{/if}
 									{/foreach}
 								</div>
 								<div class="d-none elementEdit{$KEY}">
 									<select multiple class="form-control fieldname js-select2-sortable" data-js="sortable" name="fieldname" data-tabid="{$KEY}">
-										{foreach from=$FIELDS item=fieldTab}
-											<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>
-												{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
-											</option>
+										{foreach key=BLOCK_NAME item=FIELDS from=$BLOCKS}
+											<optgroup label="{\App\Language::translate($BLOCK_NAME, $KEY)}">
+											{foreach from=$FIELDS item=fieldTab}
+												<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>
+													{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
+												</option>
+											{/foreach}
+											</optgroup>
 										{/foreach}
 									</select>
 								</div>
@@ -60,17 +68,25 @@
 								<div class="elementLabels{$KEY} paddingLR5">
 									{assign var="VALUE" value=explode(',',$item['searchcolumn'])}
 									{foreach from=$VALUE item=NAME name=valueLoop}
-										{\App\Language::translate($FIELDS[$NAME]['fieldlabel'],$item['modulename'])}
+										{foreach key=BLOCK_NAME item=FIELDS from=$BLOCKS}
+											{if isset($FIELDS[$NAME])}
+												{\App\Language::translate($FIELDS[$NAME]['fieldlabel'],$item['modulename'])}
+											{/if}
+										{/foreach}
 										{if !$smarty.foreach.valueLoop.last},&nbsp;{/if}
 									{/foreach}
 								</div>
 								<div class="d-none elementEdit{$KEY}">
 									<select multiple class="form-control searchcolumn js-select2-sortable"
 											data-js="sortable" name="searchcolumn" data-tabid="{$KEY}">
-										{foreach from=$FIELDS item=fieldTab }
-											<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>
-												{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
-											</option>
+										{foreach key=BLOCK_NAME item=FIELDS from=$BLOCKS}
+											<optgroup label="{\App\Language::translate($BLOCK_NAME, $KEY)}">
+												{foreach from=$FIELDS item=fieldTab}
+													<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>
+														{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
+													</option>
+												{/foreach}
+											</optgroup>
 										{/foreach}
 									</select>
 								</div>

@@ -6,12 +6,12 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
 var Settings_Picklist_Js = {
 
 	registerModuleChangeEvent: function () {
 		jQuery('#pickListModules').on('change', function (e) {
-			var element = jQuery(e.currentTarget);
 			var selectedModule = jQuery(e.currentTarget).val();
 			if (selectedModule.length <= 0) {
 				Settings_Vtiger_Index_Js.showMessage({
@@ -239,9 +239,9 @@ var Settings_Picklist_Js = {
 		jQuery('#renameItem').on('click', function (e) {
 			var pickListValuesTable = jQuery('#pickListValuesTable');
 			var selectedListItem = jQuery('.selectedListItem', pickListValuesTable);
-			var selectedListItemLength = selectedListItem.length;
+			var selectedListItemLength = selectedListItem.length, params;
 			if (selectedListItemLength > 1) {
-				var params = {
+				params = {
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_MORE_THAN_ONE_ITEM_SELECTED'),
 					type: 'error'
@@ -249,7 +249,7 @@ var Settings_Picklist_Js = {
 				Vtiger_Helper_Js.showPnotify(params);
 				return;
 			} else {
-				var params = {
+				params = {
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
 					source_module: jQuery('#pickListModules').val(),
@@ -315,13 +315,12 @@ var Settings_Picklist_Js = {
 		jQuery('[name="delete_value[]"]').on("select2:unselect", function (e) {
 			let id = e.params.data.id;
 			let text = e.params.data.text;
-			replaceValueElement.append('<option value="' + id + '">' + text + '</option>');
-			replaceValueElement.trigger('chosen:updated');
+			replaceValueElement.append('<option value="' + id + '">' + text + '</option>').trigger('change');
 		});
 		jQuery('[name="delete_value[]"]').on("select2:select", function (e) {
 			let id = e.params.data.id;
 			jQuery('#replaceValue option[value="' + id + '"]').remove();
-			replaceValueElement.trigger('chosen:updated');
+			replaceValueElement.trigger('change');
 		});
 	},
 
@@ -343,13 +342,13 @@ var Settings_Picklist_Js = {
 				rolesSelected: rolesList.val(),
 				pickListFieldId: jQuery('#modulePickList').val(),
 				sourceModule: jQuery('input[name="source_module"]').val()
-			}
+			};
 			AppConnector.request(params).done(function (data) {
 				jQuery('#pickListValeByRoleContainer').html(data);
 				Settings_Picklist_Js.registerenableOrDisableListSaveEvent();
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
 			});
-		})
+		});
 	},
 
 	registerAddItemSaveEvent: function (container) {
@@ -463,13 +462,13 @@ var Settings_Picklist_Js = {
 			});
 			Settings_Picklist_Js.registerDeleteOptionEvent();
 
-			var params = app.getvalidationEngineOptions(true);
-			params.onValidationComplete = function (form, valid) {
+			var validationParams = app.getvalidationEngineOptions(true);
+			validationParams.onValidationComplete = function (form, valid) {
 				if (valid) {
 					var selectElement = jQuery('[name="delete_value[]"]');
 					var select2Element = app.getSelect2ElementFromSelect(selectElement);
 					var result = Vtiger_MultiSelect_Validator_Js.invokeValidation(selectElement);
-					if (result != true) {
+					if (result !== true) {
 						select2Element.validationEngine('showPrompt', result, 'error', 'topLeft', true);
 						return;
 					} else {
@@ -477,8 +476,7 @@ var Settings_Picklist_Js = {
 						form.find('[name="saveButton"]').attr('disabled', "disabled");
 					}
 					var deleteValues = jQuery('[name="delete_value[]"]').val();
-					var params = form.serializeFormData();
-					AppConnector.request(params).done(function (data) {
+					AppConnector.request(form.serializeFormData()).done(function (data) {
 						if (typeof data.result !== "undefined") {
 							app.hideModalWindow();
 							//delete the item in the hidden picklist values array
@@ -490,18 +488,17 @@ var Settings_Picklist_Js = {
 								delete pickListValuesArray[e];
 							});
 							pickListValuesEle.val(JSON.stringify(pickListValuesArray));
-							var params = {
+							Vtiger_Helper_Js.showPnotify({
 								title: app.vtranslate('JS_MESSAGE'),
 								text: app.vtranslate('JS_ITEMS_DELETED_SUCCESSFULLY'),
 								type: 'success'
-							};
-							Vtiger_Helper_Js.showPnotify(params);
+							});
 						}
 					});
 				}
 				return false;
 			}
-			form.validationEngine(params);
+			form.validationEngine(validationParams);
 		}
 	},
 
@@ -570,7 +567,7 @@ var Settings_Picklist_Js = {
 					Settings_Vtiger_Index_Js.showMessage({
 						text: app.vtranslate('JS_SEQUENCE_UPDATED_SUCCESSFULLY'),
 						type: 'success'
-					})
+					});
 				}
 			});
 		});

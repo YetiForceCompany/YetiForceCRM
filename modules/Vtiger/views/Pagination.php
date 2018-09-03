@@ -4,7 +4,7 @@
  * Vtiger pagination view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 {
@@ -81,7 +81,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 			if ($request->has('entityState')) {
 				$listViewModel->set('entityState', $request->getByType('entityState'));
 			}
-			$searchParmams = $request->get('search_params');
+			$searchParmams = $request->getArray('search_params');
 			if (!empty($searchParmams) && is_array($searchParmams)) {
 				$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 				$listViewModel->set('search_params', $transformedSearchParams);
@@ -90,9 +90,8 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		}
 		if (!empty($totalCount)) {
 			$pagingModel->set('totalCount', $totalCount);
-			if ($totalCount === $pageNumber * $pagingModel->getPageLimit()) {
-				$pagingModel->set('nextPageExists', false);
-			}
+			$pagingModel->calculatePageRange($totalCount);
+			$pagingModel->set('nextPageExists', ($totalCount > $pageNumber * $pagingModel->getPageLimit()));
 		} else {
 			$totalCount = false;
 		}

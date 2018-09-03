@@ -18,12 +18,7 @@
 	}
 
 	.c-header__btn {
-		@extend .py-0;
-
-		padding-left: 0.3rem;
-		padding-right: 0.3rem;
-		font-size: $font-size-header-button;
-		line-height: $h-menu-items;
+		padding: 0.25rem 0.3rem;
 	}
 
 	.o-navbar__left {
@@ -33,7 +28,6 @@
 	}
 
 	.c-header__btn__container {
-		height: fit-content;
 		width: fit-content;
 
 		.dropdown-menu {
@@ -41,8 +35,10 @@
 			right: 0;
 		}
 
-		.c-header__btn {
-			height: $h-menu-right-items;
+		@include media-breakpoint-up(xxl) {
+			.c-header__btn {
+				padding: 0.315rem 0.75rem;
+			}
 		}
 	}
 }
@@ -114,7 +110,7 @@
 	position: fixed !important;
 	z-index: 1070;
 	overflow: hidden;
-	width: -webkit-fill-available;
+	width: 100%;
 
 	.modal-content {
 		height: 100%;
@@ -185,14 +181,10 @@
 	.o-global-search__value {
 		border-top: none;
 		border-bottom: none;
-	}
-}
-
-.searchMenu.o-global-search__input,
-.navbar .o-global-search__input {
-	.select2-selection {
-		border-top-right-radius: 0;
-		border-bottom-right-radius: 0;
+		//override bootstrap fixed height form 4.1.3 v.
+		&#global-search-__value {
+			height: $h-menu-items;
+		}
 	}
 }
 
@@ -240,6 +232,7 @@
 		left: -4px !important;
 	}
 }
+
 //navbar search mobile
 .searchMenu {
 	.o-search-menu__container {

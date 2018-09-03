@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 	registerColorField: function (field) {
@@ -49,15 +50,15 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 						folders: folder
 					}
 					AppConnector.request(params).done(function (data) {
-						var response = data['result'];
+						var response = data['result'], params;
 						if (response['success']) {
-							var params = {
+							params = {
 								text: response['message'],
 								type: 'info',
 							};
 							Vtiger_Helper_Js.showPnotify(params);
 						} else {
-							var params = {
+							params = {
 								text: response['message'],
 							};
 							Vtiger_Helper_Js.showPnotify(params);

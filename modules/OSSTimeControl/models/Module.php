@@ -31,7 +31,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			'linkurl' => $this->getListViewUrl(),
 			'linkicon' => 'fas fa-list',
 		]);
-		if ($linkParams['ACTION'] === 'Calendar') {
+		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] === 'Calendar') {
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_USERS',
@@ -144,5 +144,17 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			$dataReader->close();
 		}
 		return $chartData;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getFieldsForSave(\Vtiger_Record_Model $recordModel)
+	{
+		$fields = parent::getFieldsForSave($recordModel);
+		if (!in_array('sum_time', $fields)) {
+			$fields[] = 'sum_time';
+		}
+		return $fields;
 	}
 }

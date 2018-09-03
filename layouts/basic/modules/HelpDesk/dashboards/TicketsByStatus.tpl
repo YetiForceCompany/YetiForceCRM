@@ -11,12 +11,6 @@
 -->*}
 {strip}
 	<div class="dashboardWidgetHeader">
-		{foreach key=index item=cssModel from=$STYLES}
-			<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
-		{/foreach}
-		{foreach key=index item=jsModel from=$SCRIPTS}
-			<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
-		{/foreach}
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeadeAccessible.tpl', $MODULE_NAME)}
 	</div>
 	<div class="dashboardWidgetContent">

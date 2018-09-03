@@ -6,18 +6,16 @@ namespace App;
  * Cache main class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Cache
 {
-	public static $pool;
-	public static $staticPool;
-
 	const LONG = 3600;
 	const MEDIUM = 300;
 	const SHORT = 60;
-
+	public static $pool;
+	public static $staticPool;
 	/**
 	 * Clean the opcache after the script finishes.
 	 *
@@ -77,7 +75,7 @@ class Cache
 	public static function save($nameSpace, $key, $value = null, $duration = self::MEDIUM)
 	{
 		if (!static::$pool->save("$nameSpace-$key", $value, $duration)) {
-			Log::warning("Error writing to cache. Key: $nameSpace-$keym | Value: " . var_export($value, true));
+			Log::warning("Error writing to cache. Key: $nameSpace-$key | Value: " . var_export($value, true));
 		}
 		return $value;
 	}
@@ -190,7 +188,19 @@ class Cache
 	public static function resetOpcache()
 	{
 		if (function_exists('opcache_reset')) {
-			opcache_reset();
+			\opcache_reset();
+		}
+	}
+
+	/**
+	 * Reset file from opcache if it is possible.
+	 *
+	 * @param string $path
+	 */
+	public static function resetFileCache(string $path)
+	{
+		if (function_exists('opcache_invalidate')) {
+			\opcache_invalidate($path);
 		}
 	}
 }

@@ -129,6 +129,10 @@
     "LBL_TOTAL_PRICE_DESC": "Camp non-editabil calculat automat, contine pretul net pentru un element dat. (Cantitate*Pretul unitatii)",
     "LBL_DISCOUNT_PRICE_DESC": "Camp non=editabil calculat automat, contine pretul net dupa reducere (Pret net - Discount)",
     "LBL_TAX_DESC": "Camp numeric utilizat pentru a introduce valoarea fiscala pentru un element dat, taxa poate fi selectata din lista de taxe disponibile. Sumarea poate fi personalizata in administrarea sistemului.",
+    "LBL_STRING": "Text",
+    "LBL_STRING_DESC": "Additional field used to enter any value by the user.",
+    "LBL_DOUBLE": "Decimal",
+    "LBL_DOUBLE_DESC": "",
     "LBL_VALUE_DESC": "Camp suplimentar folosit pentru a introduce orice valoare de catre utilizator.",
     "LBL_REFERENCE_DESC": "Camp suplimentar utilizat pentru a face referire la un element dat cu orice inregistrare din sistem.",
     "LBL_PURCHASE_DESC": "Camp numeric folosit pentru a introduce achizitia\/valoarea de achizitie a unui element dat.",
@@ -171,6 +175,7 @@
     "LBL_DATE_DESC": "",
     "LBL_PICKLIST": "Picklist",
     "LBL_PICKLIST_DESC": "",
+    "LBL_WRONG_RELATION": "Invalid relation value",
     "Image": "Fisier imagine",
     "MultiImage": "Fisiere multi imagine",
     "DateTime": "Fisier data si ora"

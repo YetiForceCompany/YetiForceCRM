@@ -338,6 +338,7 @@ class Vtiger_ListView_Model extends \App\Base
 				$basicLinks[] = [
 					'linktype' => 'LISTVIEWBASIC',
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
+					'linkclass' => 'btn-light',
 					'linkicon' => 'fas fa-file-excel',
 					'linkhint' => \App\Language::translate('LBL_EXPORT_PDF')
 				];
@@ -356,7 +357,7 @@ class Vtiger_ListView_Model extends \App\Base
 	public function getListViewLinks($linkParams)
 	{
 		$moduleModel = $this->getModule();
-		$links = [];
+		$links = ['LISTVIEWBASIC' => []];
 
 		$basicLinks = $this->getBasicLinks();
 		foreach ($basicLinks as $basicLink) {

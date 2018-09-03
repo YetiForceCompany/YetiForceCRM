@@ -152,7 +152,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function getModule()
 	{
 		if (!isset($this->module)) {
-			$moduleObj = $this->block->module;
+			if (isset($this->block->module)) {
+				$moduleObj = $this->block->module;
+			}
 			//fix for opensource emailTemplate listview break
 			if (empty($moduleObj)) {
 				return false;
@@ -302,6 +304,15 @@ class Vtiger_Field_Model extends vtlib\Field
 						break;
 					case 311:
 						$fieldDataType = 'multiImage';
+						break;
+					case 312:
+						$fieldDataType = 'authySecretTotp';
+						break;
+					case 313:
+						$fieldDataType = 'twitter';
+						break;
+					case 314:
+						$fieldDataType = 'multiEmail';
 						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
@@ -1307,6 +1318,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$db = \App\Db::getInstance();
 		$tableSchema = $db->getSchema()->getTableSchema($this->getTableName(), true);
+		if (empty($tableSchema)) {
+			return false;
+		}
 		$columnSchema = $tableSchema->getColumn($this->getColumnName());
 		$data = get_object_vars($columnSchema);
 		if ($returnString) {
@@ -1318,7 +1332,6 @@ class Vtiger_Field_Model extends vtlib\Field
 					$string .= '(' . $data['size'] . ')';
 				}
 			}
-
 			return $string;
 		}
 		return $data;

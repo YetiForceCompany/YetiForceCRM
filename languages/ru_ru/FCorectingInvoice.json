@@ -15,9 +15,23 @@
     "FL_TOTAL": "\u0427\u0438\u0441\u0442\u044b\u0439",
     "FL_GROSS": "\u0412\u0430\u043b\u043e\u0432\u044b\u0439",
     "FL_STATUS": "\u0421\u0442\u0430\u0442\u0443\u0441",
-    "PLL_TRANSFER": "\u0411\u0430\u043d\u043a\u043e\u0432\u0441\u043a\u0438\u0439 \u043f\u0435\u0440\u0435\u0432\u043e\u0434",
-    "PLL_CASH": "\u041d\u0430\u043b\u0438\u0447\u043d\u044b\u0435",
+    "PLL_CASH": "Cash",
+    "PLL_TRANSFER": "Bank transfer",
+    "PLL_WIRE_TRANSFER": "Electronic transfer",
     "LBL_YEAR": "\u0413\u043e\u0434",
-    "FL_INVOICE": "\u0421\u0447\u0435\u0442"
+    "FL_INVOICE": "\u0421\u0447\u0435\u0442",
+    "LBL_COMMENTS": "Comments",
+    "FL_EXTERNAL_COMMENT": "External comment",
+    "FL_INTERNAL_COMMENT": "Internal comment",
+    "LBL_BEFORE_CORRECTION": "Before correction",
+    "LBL_AFTER_CORRECTION": "After correction",
+    "LBL_CHOOSE_INVOICE": "Select invoice to be corrected",
+    "LBL_COPY_FROM_INVOICE": "Copy from initial invoice",
+    "LBL_INVOICE_INFO": "Initial invoice fields - before corrections.",
+    "LBL_AFTER_INVOICE_INFO": "How should final invoice look like after correction.",
+    "LBL_AFTER_INVOICE_INFO_EDIT": "Invoice fields to be corrected. Copy all fields from initial invoice and change values as needed."
+  },
+  "js": {
+    "JS_FCORECTINGINVOICE_CHOOSE_INVOICE": "Select invoice to be corrected"
   }
 }

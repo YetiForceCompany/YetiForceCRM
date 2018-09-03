@@ -12,7 +12,7 @@
 class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 {
 	use \App\Controller\ExposeMethod,
-	 App\Controller\ClearProcess;
+		App\Controller\ClearProcess;
 
 	public function __construct()
 	{
@@ -20,6 +20,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$this->exposeMethod('showAdvancedSearch');
 		$this->exposeMethod('showSearchResults');
 		$this->exposeMethod('performPhoneCall');
+		$this->exposeMethod('getDashBoardPredefinedWidgets');
 	}
 
 	public function checkPermission(\App\Request $request)
@@ -44,6 +45,9 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	 */
 	public function showAdvancedSearch(\App\Request $request)
 	{
+		if (!\App\User::getCurrentUserModel()->getRoleInstance()->get('globalsearchadv')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		if (!$request->isEmpty('searchModule') && $request->getRaw('searchModule') !== '-') {
@@ -105,6 +109,9 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$isAdvanceSearch = false;
 		$matchingRecords = [];
 		if (is_array($advFilterList) && $advFilterList) {
+			if (!\App\User::getCurrentUserModel()->getRoleInstance()->get('globalsearchadv')) {
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			}
 			$isAdvanceSearch = true;
 			$queryGenerator = new \App\QueryGenerator($moduleName);
 			$queryGenerator->setFields(['id']);
@@ -193,5 +200,23 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		} catch (Exception $exc) {
 			\App\Log::error('Error while telephone connections: ' . $exc->getMessage(), 'PBX');
 		}
+	}
+
+	/**
+	 * Return button of predefined widgets.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function getDashBoardPredefinedWidgets(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
+		$dashBoardModel->set('dashboardId', $request->getInteger('dashboardId'));
+		$dashBoardModel->verifyDashboard($moduleName);
+		$widgets = $dashBoardModel->getDashboards('Header');
+		$viewer->assign('WIDGETS', $widgets);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->view('dashboards/DashBoardWidgetsList.tpl', $moduleName);
 	}
 }

@@ -966,8 +966,7 @@ class Vtiger_Record_Model extends \App\Base
 				foreach ($commonFields as $fieldName) {
 					if (\App\Field::getFieldPermission($parentRecordModel->getModuleName(), $fieldName)) {
 						if ($fieldName === 'shownerid') {
-							$fieldInstance = Vtiger_Field_Model::getInstance($fieldName, $parentRecordModel->getModule());
-							$parentRecordModel->set($fieldName, $fieldInstance->getUITypeModel()->getSharedOwners($parentRecordModel->getId()));
+							$parentRecordModel->set($fieldName, \App\Fields\SharedOwner::getById($parentRecordModel->getId()));
 						}
 						$this->set($fieldName, $parentRecordModel->get($fieldName));
 					}
@@ -999,8 +998,7 @@ class Vtiger_Record_Model extends \App\Base
 				} elseif ((is_object($mapp['target']) && is_object($mapp['source'])) && \App\Field::getFieldPermission($parentRecordModel->getModuleName(), $mapp['source']->getName()) && in_array($mapp['source']->getName(), $parentFieldsList)) {
 					$parentMapName = $parentRecordModel->get($mapp['source']->getName());
 					if ($mapp['source']->getName() === 'shownerid' && empty($parentMapName)) {
-						$fieldInstance = Vtiger_Field_Model::getInstance($mapp['source']->getName(), $parentRecordModel->getModule());
-						$parentRecordModel->set($mapp['source']->getName(), $fieldInstance->getUITypeModel()->getSharedOwners($parentRecordModel->getId()));
+						$parentRecordModel->set($mapp['source']->getName(), \App\Fields\SharedOwner::getById($parentRecordModel->getId()));
 					}
 					$value = $parentRecordModel->get($mapp['source']->getName());
 					if (!$value) {

@@ -34,7 +34,7 @@
 	"Size info": "Size of widget in records summary, 12 - maximum size, 1 minimal",
 	"Limit entries info": "Number of columns displayed in records list view. Columns are counted from the first displayed column in related module.",
 	"Related module info": "Module name from which records will be listed, relation to this module is mandatory.",
-	"Columns info": "How many colums are displayed in records list. Columns are counted from first displayed column in related module.",
+	"Columns info": "How many columns are displayed in records list. Columns are counted from first displayed column in related module.",
 	"Add button info": "Enable button to add record in widget record view",
 	"No left margin info": "Disable left margin in widget.",
 	"No message": "No message",

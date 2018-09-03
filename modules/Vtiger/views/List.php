@@ -258,7 +258,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		if ($request->has('entityState')) {
 			$this->listViewModel->set('entityState', $request->getByType('entityState'));
 		}
-		$searchParams = $request->get('search_params');
+		$searchParams = $request->getArray('search_params');
 		if (!empty($searchParams) && is_array($searchParams)) {
 			$transformedSearchParams = $this->listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$this->listViewModel->set('search_params', $transformedSearchParams);
@@ -267,7 +267,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 				foreach ($fieldListGroup as $fieldSearchInfo) {
 					$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 					$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
-					$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3];
+					$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3] ?? null;
 					$searchParams[$fieldName] = $fieldSearchInfo;
 				}
 			}
@@ -286,7 +286,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$this->listViewLinks = $this->listViewModel->getListViewLinks($linkParams);
 		}
 		$viewer->assign('LISTVIEW_LINKS', $this->listViewLinks);
-		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels['LISTVIEWMASSACTION']);
+		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels['LISTVIEWMASSACTION'] ?? []);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('ORDER_BY', $orderBy);

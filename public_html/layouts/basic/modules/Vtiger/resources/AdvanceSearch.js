@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 	//cache will store the search data
@@ -139,12 +140,12 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 				var conditionRow = anyConditionContainer.find('.conditionList').find('.js-conditions-row:last');
 				var fieldSelectElemnt = conditionRow.find('select[name="columnname"]');
 				fieldSelectElemnt.find('option[data-field-name="' + labelFieldName + '"]').attr('selected', 'selected');
-				fieldSelectElemnt.trigger('change').trigger('chosen:updated');
+				fieldSelectElemnt.trigger('change').trigger('change');
 
 				var comparatorSelectElemnt = conditionRow.find('select[name="comparator"]');
 				//select the contains value
 				comparatorSelectElemnt.find('option[value="c"]').attr('selected', 'selected');
-				comparatorSelectElemnt.trigger('chosen:updated');
+				comparatorSelectElemnt.trigger('change');
 
 				var valueElement = conditionRow.find('[name="value"]');
 				valueElement.val(value);

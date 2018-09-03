@@ -5,11 +5,11 @@ namespace App\Integrations\Pbx;
 /**
  * Base PBX integrations class.
  *
- * @packasge YetiForce.Integrations
+ * @packasge  YetiForce.Integrations
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 abstract class Base
 {

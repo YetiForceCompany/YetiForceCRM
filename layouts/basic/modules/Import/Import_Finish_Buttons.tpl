@@ -15,8 +15,7 @@
 			onclick="location.href = 'index.php?module={$FOR_MODULE}&view=Import&return_module={$FOR_MODULE}&return_action=index'">
 		<strong>{\App\Language::translate('LBL_IMPORT_MORE', $MODULE)}</strong>
 	</button>
-	<button class="cancel btn btn-primary btn-sm mr-2 mb-sm-3 mb-md-0" name="next"
-			onclick="return window.open('index.php?module={$MODULE}&forModule={$FOR_MODULE}&view=List&start=1&foruser={$OWNER_ID}', 'test', 'width=700,height=650,resizable=1,scrollbars=0,top=150,left=200');">
+	<button class="cancel btn btn-primary btn-sm mr-2 mb-sm-3 mb-md-0 js-show-modal" name="next" data-url="index.php?module={$MODULE}&forModule={$FOR_MODULE}&view=List&start=1&foruser={$OWNER_ID}">
 		<strong>{\App\Language::translate('LBL_VIEW_LAST_IMPORTED_RECORDS', $MODULE)}</strong>
 	</button>
 	{if $MERGE_ENABLED eq '0'}

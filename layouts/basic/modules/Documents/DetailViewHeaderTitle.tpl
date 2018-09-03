@@ -13,7 +13,7 @@
 	<div class="col-md-12 pr-0 row">
 		<div class="col-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
-				<span class="detailViewIcon {$EXTENSION_ICON}"></span>
+				<span class="o-detail__icon js-detail__icon {$EXTENSION_ICON}"></span>
 			</div>
 
 			<div class="paddingLeft5px">

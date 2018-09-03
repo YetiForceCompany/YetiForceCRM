@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 App.Fields = {
 	'Date': {
@@ -17,7 +18,7 @@ App.Fields = {
 		 * @param {boolean} registerForAddon
 		 * @param {object} customParams
 		 */
-		register(parentElement, registerForAddon, customParams,clasName = 'dateField') {
+		register(parentElement, registerForAddon, customParams, clasName = 'dateField') {
 			if (typeof parentElement === "undefined") {
 				parentElement = $('body');
 			} else {
@@ -26,7 +27,7 @@ App.Fields = {
 			if (typeof registerForAddon === "undefined") {
 				registerForAddon = true;
 			}
-			let elements = $('.'+ clasName, parentElement);
+			let elements = $('.' + clasName, parentElement);
 			if (parentElement.hasClass('dateField')) {
 				elements = parentElement;
 			}
@@ -55,7 +56,7 @@ App.Fields = {
 					monthsShort: App.Fields.Date.monthsTranslated,
 					today: app.vtranslate('JS_TODAY'),
 					clear: app.vtranslate('JS_CLEAR'),
-					format,
+					format: format,
 					titleFormat: 'MM yyyy', /* Leverages same syntax as 'format' */
 					weekStart: CONFIG.firstDayOfWeekNo
 				};
@@ -64,9 +65,10 @@ App.Fields = {
 				todayBtn: "linked",
 				clearBtn: true,
 				language: CONFIG.langKey,
-				starts: CONFIG.firstDayOfWeekNo,
+				weekStart: CONFIG.firstDayOfWeekNo,
 				autoclose: true,
 				todayHighlight: true,
+				format: format
 			};
 			if (typeof customParams !== "undefined") {
 				params = $.extend(params, customParams);
@@ -442,23 +444,15 @@ App.Fields = {
 			}
 			if (typeof view === "undefined") {
 				const select2Elements = $('select.select2', parent).toArray();
-				const choosenElements = $('.chzn-select', parent).toArray();
 				select2Elements.forEach((elem) => {
 					this.changeSelectElementView($(elem), 'select2', viewParams);
-				});
-				choosenElements.forEach((elem) => {
-					this.changeSelectElementView($(elem), 'choosen', viewParams);
 				});
 				return;
 			}
 			//If view is select2, This will convert the ui of select boxes to select2 elements.
-			if (typeof view === 'string') {
-				switch (view) {
-					case 'select2':
-						return App.Fields.Picklist.showSelect2ElementView(parent, viewParams);
-					case 'choosen':
-						return App.Fields.Picklist.showChoosenElementView(parent, viewParams);
-				}
+			if (view === 'select2') {
+				return App.Fields.Picklist.showSelect2ElementView(parent, viewParams);
+			} else {
 				app.errorLog(new Error(`Unknown select type [${view}]`));
 			}
 		},
@@ -631,7 +625,6 @@ App.Fields = {
 					return data.text;
 				};
 			}
-			var selectElementNew = selectElement;
 			selectElement.each(function (e) {
 				var select = $(this);
 				if (select.attr('readonly') == 'readonly' && !select.attr('disabled')) {
@@ -639,8 +632,12 @@ App.Fields = {
 					select.parent().append(selectNew);
 					select.prop('disabled', true);
 				}
-				if (select.hasClass('tags')) {
+				let htmlBoolParams = select.data('select');
+				if (htmlBoolParams === 'tags') {
 					params.tags = true;
+					params.tokenSeparators = [","]
+				} else {
+					params[htmlBoolParams] = true;
 				}
 				select.select2(params)
 					.on("select2:open", function (e) {
@@ -671,7 +668,8 @@ App.Fields = {
 		 * @param {jQuery} select2 element
 		 * @param {function} callback function
 		 */
-		registerSelect2Sortable(select, cb = () =>{}) {
+		registerSelect2Sortable(select, cb = () => {
+		}) {
 			let ul = select.next('.select2-container').first('ul.select2-selection__rendered');
 			ul.sortable({
 				items: 'li:not(.select2-search__field)',
@@ -679,7 +677,7 @@ App.Fields = {
 				stop: function () {
 					$(ul.find('.select2-selection__choice').get().reverse()).each(function () {
 						let optionTitle = $(this).attr('title');
-						select.find('option').each(function() {
+						select.find('option').each(function () {
 							if ($(this).text() === optionTitle) {
 								select.prepend($(this));
 							}
@@ -689,91 +687,6 @@ App.Fields = {
 				}
 			});
 		},
-		/**
-		 * Replace select with choosen
-		 * @param {jQuery} parent
-		 * @param {object} viewParams
-		 */
-		showChoosenElementView(parent, viewParams) {
-			let selectElement = $('.chzn-select', parent);
-			//parent itself is the element
-			if (parent.is('select.chzn-select')) {
-				selectElement = parent;
-			}
-			// generate random ID
-			selectElement.each(function () {
-				if ($(this).prop("id").length === 0) {
-					$(this).attr('id', "sel" + App.Fields.Text.generateRandomChar() + App.Fields.Text.generateRandomChar() + App.Fields.Text.generateRandomChar());
-				}
-			});
-			//fix for multiselect error prompt hide when validation is success
-			selectElement.filter('[multiple]').filter('[data-validation-engine*="validate"]').on('change', function (e) {
-				$(e.currentTarget).trigger('focusout');
-			});
-			let params = {
-				no_results_text: app.vtranslate('JS_NO_RESULTS_FOUND') + ':'
-			};
-			const moduleName = app.getModuleName();
-			if (selectElement.filter('[multiple]') && moduleName !== 'Install') {
-				params.placeholder_text_multiple = ' ' + app.vtranslate('JS_SELECT_SOME_OPTIONS');
-			}
-			if (moduleName !== 'Install') {
-				params.placeholder_text_single = ' ' + app.vtranslate('JS_SELECT_AN_OPTION');
-			}
-			selectElement.chosen(params);
-			selectElement.each(function () {
-				const select = $(this);
-				// hide selected items in the chosen instance when item is hidden.
-				if (select.hasClass('hideSelected')) {
-					const ns = [];
-					select.find('optgroup,option').each(function (n, e) {
-						if ($(this).hasClass('d-none')) {
-							ns.push(n);
-						}
-					});
-					if (ns.length) {
-						select.next().find('.search-choice-close').each(function (n, e) {
-							if ($.inArray($(this).data('option-array-index'), ns) !== -1) {
-								$(this).closest('li').remove();
-							}
-						})
-					}
-				}
-				if (select.attr('readonly') === 'readonly') {
-					select.on('chosen:updated', function () {
-						if (select.attr('readonly')) {
-							let selectData = select.data('chosen');
-							select.attr('disabled', 'disabled');
-							if (typeof selectData === 'object') {
-								selectData.search_field_disabled();
-							}
-							if (select.is(':disabled')) {
-								select.attr('disabled', 'disabled');
-							} else {
-								select.removeAttr('disabled');
-							}
-						}
-					});
-					select.trigger('chosen:updated');
-				}
-			});
-			// Improve the display of default text (placeholder)
-			return $('.chosen-container-multi .default, .chosen-container').css('width', '100%');
-		},
-		/**
-		 * Function to destroy the chosen element and get back the basic select Element
-		 */
-		destroyChosenElement: function (parent) {
-			if (typeof parent === "undefined") {
-				parent = $('body');
-			}
-			let selectElement = $('.chzn-select', parent);
-			//parent itself is the element
-			if (parent.is('select.chzn-select')) {
-				selectElement = parent;
-			}
-			return selectElement.css('display', 'block').removeClass("chzn-done").data("chosen", null).next().remove();
-		},
 	},
 	MultiImage: {
 		currentFileUploads: 0,
@@ -782,6 +695,103 @@ App.Fields = {
 			$('.js-multi-image', container).toArray().forEach((fileUploadInput) => {
 				new MultiImage(fileUploadInput);
 			});
+		}
+	},
+	MultiEmail: {
+		register(container) {
+			container.find('.js-multi-email').each((index, element) => {
+				const inputElement = element;
+				let form = $(element).closest('form').eq(0);
+				$(element).find('.js-email').each((index, element) => {
+					$(element).on('change', (e) => {
+						App.Fields.MultiEmail.parseToJSON($(inputElement));
+					});
+				});
+				$(element).find('.js-add-item').each((index, element) => {
+					$(element).on('click', (e) => {
+						App.Fields.MultiEmail.addEmail($(inputElement));
+					});
+				});
+				$(element).find('.js-remove-item').each((index, element) => {
+					$(element).on('click', (e) => {
+						App.Fields.MultiEmail.removeEmail($(e.target), $(inputElement));
+					});
+				});
+				$(element).find('input.js-checkbox').each((index, element) => {
+					$(element).on('change', (e) => {
+						App.Fields.MultiEmail.toggleCheckBox($(e.target));
+						App.Fields.MultiEmail.parseToJSON(container);
+					});
+				});
+			});
+		},
+		/**
+		 * Convert data to json
+		 * @param {jQuery} element
+		 */
+		parseToJSON(element) {
+			let allFields = $(element).find('[class*=js-multi-email-row]');
+			let arr = [];
+			let arrayLength = allFields.length;
+			for (let i = 0; i < arrayLength; ++i) {
+				let inputField = $(allFields[i]).find('input.js-email').eq(0);
+				let checkboxField = $(allFields[i]).find('input.js-checkbox').eq(0);
+				if (inputField.val() !== '') {
+					arr.push({
+						e: $(inputField).val(),
+						o: $(checkboxField).is(":checked") ? 1 : 0
+					});
+				}
+			}
+			$(element).find('input.js-hidden-email').val(JSON.stringify(arr));
+		},
+		/**
+		 * Invoked after clicking the add button
+		 * @param {jQuery} container
+		 */
+		addEmail(container) {
+			let newField = container.find('[class*=js-multi-email-row]').eq(0).clone(false, false);
+			let cnt = container.find('[class*=js-multi-email-row]').length + 1;
+			newField.removeClass('js-multi-email-row-1');
+			newField.addClass('js-multi-email-row-' + cnt);
+			newField.find('input.js-email').val('');
+			newField.find('input.js-checkbox').removeAttr('checked');
+			newField.find('label.js-label-checkbox').removeClass('active');
+			newField.find('.js-remove-item').eq(0).on('click', (e) => {
+				App.Fields.MultiEmail.removeEmail($(e.target), container);
+			});
+			newField.find('input.js-checkbox').eq(0).on('change', (e) => {
+				App.Fields.MultiEmail.toggleCheckBox($(e.target));
+				App.Fields.MultiEmail.parseToJSON(container);
+			});
+			newField.find('input.js-email').eq(0).on('change', (e) => {
+				App.Fields.MultiEmail.parseToJSON(container);
+			});
+			newField.insertAfter(container.find('[class*=js-multi-email-row]').last());
+		},
+		/**
+		 * Invoked after clicking the remove button
+		 * @param {jQuery} container
+		 */
+		removeEmail(element, container) {
+			if (container.find('[class*=js-multi-email-row]').length > 1) {
+				element.closest('[class*=js-multi-email-row]').remove();
+			}
+		},
+		/**
+		 * Toggle checkbox
+		 * @param {jQuery} element
+		 */
+		toggleCheckBox(element) {
+			if ($(element).is(":checked")) {
+				element.closest('label.js-label-checkbox')
+					.eq(0).find('svg.svg-inline--fa').eq(0)
+					.removeClass('fa-square').addClass('fa-check-square');
+			} else {
+				element.closest('label.js-label-checkbox')
+					.eq(0).find('svg.svg-inline--fa').eq(0)
+					.removeClass('fa-check-square').addClass('fa-square');
+			}
 		}
 	},
 	DependentSelect: {
@@ -856,4 +866,5 @@ App.Fields = {
 			return new GanttField(container, data);
 		}
 	}
-};
+}
+;

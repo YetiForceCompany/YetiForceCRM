@@ -193,7 +193,7 @@ class Vtiger_Menu_Model
 	 */
 	public static function getMenuIcon($menu, $title = '')
 	{
-		if ($title == '') {
+		if ($title === '' && !empty($menu['label'])) {
 			$title = self::vtranslateMenu($menu['label'], $menu['mod']);
 		}
 		if (is_string($menu)) {

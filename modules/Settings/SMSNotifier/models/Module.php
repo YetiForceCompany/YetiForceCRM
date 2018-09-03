@@ -63,7 +63,7 @@ class Settings_SMSNotifier_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getAllProviders()
 	{
-		if (!$this->allProviders) {
+		if (empty($this->allProviders)) {
 			$this->allProviders = SMSNotifier_Module_Model::getProviders();
 		}
 		return $this->allProviders;

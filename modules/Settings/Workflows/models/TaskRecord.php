@@ -157,7 +157,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getTaskType()
 	{
-		if (!$this->task_type) {
+		if (empty($this->task_type)) {
 			$taskObject = $this->getTaskObject();
 			if (!empty($taskObject)) {
 				$taskClass = get_class($taskObject);

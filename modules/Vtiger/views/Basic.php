@@ -7,6 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
+
 /* * *******************************************************************************
  * $Header$
  * Description:  Contains a variety of utility functions used to display UI
@@ -59,11 +60,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 	protected function getMenu()
 	{
 		return Vtiger_Menu_Model::getAll(true);
-	}
-
-	protected function preProcessTplName(\App\Request $request)
-	{
-		return 'BasicHeader.tpl';
 	}
 
 	/**

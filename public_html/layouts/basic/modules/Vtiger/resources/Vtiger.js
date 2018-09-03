@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 var Vtiger_Index_Js = {
 	showLocation: function (element) {
@@ -33,6 +34,7 @@ var Vtiger_Index_Js = {
 			});
 			form.on('submit', function (e) {
 				e.preventDefault();
+				app.removeEmptyFilesInput(form[0]);
 				var formData = new FormData(form[0]);
 				if (formData) {
 					url = 'index.php';
@@ -452,12 +454,14 @@ var Vtiger_Index_Js = {
 			lastPopovers.push(el.popover('show'));
 			registerToolTipDestroy();
 		}
+
 		function hideAllTooltipViews() {
 			$.each(lastPopovers, function (index, element) {
 				element.popover('hide');
 			});
 			lastPopovers = [];
 		}
+
 		function hidePop() {
 			$(".popover").on("mouseleave", function () {
 				hideAllTooltipViews();

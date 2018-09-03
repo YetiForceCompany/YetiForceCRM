@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 Vtiger_Edit_Js("OSSTimeControl_Edit_Js", {}, {
 
@@ -7,7 +8,7 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js", {}, {
 		$('input[name="sum_time"]').attr('readonly', 'readonly').css('width', '80px');
 		var form = thisInstance.getForm();
 		var sumeTime = thisInstance.differenceDays(form);
-		var hours = (Math.round((sumeTime / 3600000) * 100) / 100).toFixed(2);
+		var hours = (Math.ceil((sumeTime / 3600000) * 100) / 100).toFixed(2);
 
 		jQuery('input[name="sum_time"]').val(hours);
 		jQuery('.dateField').on('change', function () {
@@ -15,7 +16,7 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js", {}, {
 			if (sumeTime == 'Error') {
 				return false;
 			}
-			hours = (Math.round((sumeTime / 3600000) * 100) / 100).toFixed(2);
+			hours = (Math.ceil((sumeTime / 3600000) * 100) / 100).toFixed(2);
 			jQuery('input[name="sum_time"]').val(hours);
 		});
 		jQuery('.clockPicker').on('change', function () {
@@ -70,7 +71,7 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js", {}, {
 				Vtiger_Helper_Js.showPnotify(parametres);
 				return false;
 			} else {
-				if (CONFIG.disallowLongerThan24Hours === true) {
+				if (app.getMainParams('disallowLongerThan24Hours')) {
 					sumeTime2 = sumeTime2 / 1000 / 60 / 60;
 					if (sumeTime2 > 24) {
 						Vtiger_Helper_Js.showPnotify({

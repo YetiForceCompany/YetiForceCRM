@@ -102,7 +102,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$this->listViewModel->set('search_key', $searchKey);
 			$this->listViewModel->set('search_value', $searchValue);
 		}
-		$searchParmams = $request->get('search_params');
+		$searchParmams = $request->getArray('search_params');
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
@@ -112,9 +112,9 @@ class Users_List_View extends Settings_Vtiger_List_View
 		//To make smarty to get the details easily accesible
 		foreach ($searchParmams as $fieldListGroup) {
 			foreach ($fieldListGroup as $fieldSearchInfo) {
-				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
-				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
-				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3];
+				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2] ?? '';
+				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0] ?? '';
+				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3] ?? '';
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
@@ -149,19 +149,22 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
-			if (!$this->listViewCount) {
+			if (empty($this->listViewCount)) {
 				$this->listViewCount = $this->listViewModel->getListViewCount();
 			}
-			$pagingModel->set('totalCount', (int) $this->listViewCount);
-			$viewer->assign('LISTVIEW_COUNT', $this->listViewCount);
 		}
+		if (!isset($this->listViewCount)) {
+			$this->listViewCount = 0;
+		}
+		$pagingModel->set('totalCount', (int) $this->listViewCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
-
+		$viewer->assign('LISTVIEW_COUNT', (int) $this->listViewCount);
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('MODULE_MODEL', $this->listViewModel->getModule());
 		$viewer->assign('VIEW_MODEL', $this->listViewModel);
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('IS_MODULE_EDITABLE', $this->listViewModel->getModule()->isPermitted('EditView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
@@ -202,10 +205,9 @@ class Users_List_View extends Settings_Vtiger_List_View
 		if (empty($cvId)) {
 			$cvId = '0';
 		}
-
 		$searchKey = $request->getByType('search_key', 2);
 		$searchValue = $request->get('search_value');
-		$searchParmams = $request->get('search_params');
+		$searchParmams = $request->getArray('search_params');
 		$operator = $request->getByType('operator');
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 

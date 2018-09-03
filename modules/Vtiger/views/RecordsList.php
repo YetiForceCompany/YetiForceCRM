@@ -189,7 +189,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
 			$viewer->assign('SEARCH_VALUE', $request->get('search_value'));
 		}
-		$searchParmams = $request->get('search_params');
+		$searchParmams = $request->getArray('search_params');
 		if (empty($searchParmams)) {
 			$searchParmams = [];
 		}
@@ -259,11 +259,11 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		}
 		if (!empty($totalCount)) {
 			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		}
 		if ($showSwitch) {
 			$viewer->assign('SWITCH', true)->assign('SWITCH_ON_TEXT', \App\Language::translateSingularModuleName($relatedParentModule));
 		}
+		$viewer->assign('LISTVIEW_COUNT', (int) $totalCount);
 		$viewer->assign('PAGE_COUNT', $pagingModel->getPageCount());
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('START_PAGIN_FROM', $pagingModel->getStartPagingFrom());

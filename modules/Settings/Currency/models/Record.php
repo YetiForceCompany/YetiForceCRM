@@ -104,7 +104,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function set($key, $value)
 	{
-		if ($this->getId() && $this->value[$key] != $value) {
+		if ($this->value[$key] !== $value && null !== $this->getId()) {
 			$this->changes[$key] = $this->get($key);
 		}
 		$this->value[$key] = $value;
@@ -131,7 +131,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 				'conversion_rate' => $this->isBaseCurrency() ? 1 : $this->get('conversion_rate'),
 				'defaultid' => $this->get('defaultid'),
 				'deleted' => $this->getDeleteStatus(),
-				], ['id' => $id])->execute();
+			], ['id' => $id])->execute();
 			if (isset($this->changes['defaultid'])) {
 				$db->createCommand()->update($tableName, ['defaultid' => 0], ['and', ['defaultid' => -11], ['not', ['id' => $id]]])->execute();
 			}
@@ -181,8 +181,8 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		if ($row) {
 			$instance = new self();
 			$instance->setData($row);
+			return $instance;
 		}
-		return $instance;
 	}
 
 	/**

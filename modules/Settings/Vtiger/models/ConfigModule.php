@@ -85,12 +85,12 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 				foreach ($configContents as $configContent) {
 					if (strpos($configContent, $fieldName)) {
 						$fieldValue = explode(' = ', $configContent);
-						$fieldValue = $fieldValue[1];
+						$fieldValue = str_replace(';', '', str_replace("'", '', $fieldValue[1]));
 						if ($fieldName === 'upload_maxsize') {
 							$fieldValue = round(number_format($fieldValue / 1048576, 2));
 						}
 
-						$data[$fieldName] = str_replace(';', '', str_replace("'", '', $fieldValue));
+						$data[$fieldName] = $fieldValue;
 						break;
 					}
 				}

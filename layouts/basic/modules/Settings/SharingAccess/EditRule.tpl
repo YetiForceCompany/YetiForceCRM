@@ -24,7 +24,7 @@
 						<div class="row form-group align-items-center">
 							<label class="col-md-5 col-form-label text-right">{\App\Language::translate($MODULE_MODEL->get('name'), $MODULE)}&nbsp;{\App\Language::translate('LBL_OF', $MODULE)}</label>
 							<div class="col-md-6">
-								<select class="chzn-select form-control" name="source_id">
+								<select class="select2 form-control" name="source_id">
 									{foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 										<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
 											{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
@@ -40,7 +40,7 @@
 						<div class="row form-group align-items-center">
 							<label class="col-md-5 col-form-label text-right">{\App\Language::translate('LBL_CAN_ACCESSED_BY', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-6">
-								<select class="chzn-select form-control" name="target_id">
+								<select class="select2 form-control" name="target_id">
 									{foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 										<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
 											{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}

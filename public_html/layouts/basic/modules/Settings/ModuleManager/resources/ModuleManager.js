@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 jQuery.Class('Settings_Module_Manager_Js', {
 	validateField: function (field, rules, i, options) {
@@ -61,11 +62,10 @@ jQuery.Class('Settings_Module_Manager_Js', {
 				AppConnector.request(params).done(function (data) {
 					var result = data.result;
 					if (!result.success) {
-						var params = {
+						Vtiger_Helper_Js.showPnotify({
 							text: result.text,
 							type: 'error'
-						};
-						Vtiger_Helper_Js.showPnotify(params);
+						});
 					} else {
 						window.location.href = 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' + result.text;
 					}
@@ -95,7 +95,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
 		params['updateStatus'] = status;
-		params['forModule'] = forModule
+		params['forModule'] = forModule;
 		params['action'] = 'Basic';
 		params['mode'] = 'updateModuleStatus';
 
@@ -134,11 +134,10 @@ jQuery.Class('Settings_Module_Manager_Js', {
 				wizardContainer.find('[name="module_name"]').attr("check", true);
 			} else {
 				wizardContainer.find('[name="module_name"]').attr("check", false);
-				var params = {
+				Vtiger_Helper_Js.showPnotify({
 					text: result.text,
 					type: 'error'
-				};
-				Vtiger_Helper_Js.showPnotify(params);
+				});
 				wizardContainer.find('[name="saveButton"]').attr("disabled", true);
 			}
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
@@ -175,11 +174,10 @@ jQuery.Class('Settings_Module_Manager_Js', {
 				}
 			});
 			AppConnector.request(params).done(function (data) {
-				var params = {
+				Vtiger_Helper_Js.showPnotify({
 					title: app.vtranslate('JS_REMOVED_MODULE'),
 					type: 'info'
-				};
-				Vtiger_Helper_Js.showPnotify(params);
+				});
 				window.location.href = 'index.php?module=ModuleManager&parent=Settings&view=List';
 			});
 		});

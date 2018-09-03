@@ -5,6 +5,10 @@
 	@include button-variant(#ddd, #ddd);
 }
 
+.btn-outline-default {
+	@include button-outline-variant(#ced4da, #000, #f6f6f6);
+}
+
 @include media-breakpoint-down(sm) {
 	.c-btn-block-sm-down,
 	.c-btn-block-sm-down .btn {
@@ -50,6 +54,10 @@
 }
 
 .c-btn-link {
+	@at-root .detailViewTitle #{&} {
+		height: max-content;
+	}
+
 	@include media-breakpoint-down(sm) {
 		&--responsive {
 			width: 100%;
@@ -59,6 +67,19 @@
 				width: 100%;
 				border-radius: 0.25rem !important;
 				white-space: normal;
+			}
+		}
+	}
+}
+
+.input-group {
+	> {
+		.input-group-append,
+		.input-group-prepend {
+			> {
+				.btn-light {
+					border-color: #dee2e6;
+				}
 			}
 		}
 	}

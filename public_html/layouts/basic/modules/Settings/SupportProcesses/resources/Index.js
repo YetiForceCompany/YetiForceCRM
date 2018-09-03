@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class('Settings_SupportProcesses_Index_Js', {}, {
 	/**
@@ -6,7 +7,6 @@ jQuery.Class('Settings_SupportProcesses_Index_Js', {}, {
 	 * @param {jQuery} content
 	 */
 	registerChangeVal: function (content) {
-		var thisInstance = this;
 		content.find('.js-config-field').on('change', function (e) {
 			var target = $(e.currentTarget);
 			var params = {};
@@ -26,6 +26,5 @@ jQuery.Class('Settings_SupportProcesses_Index_Js', {}, {
 		var content = $('.supportProcessesContainer');
 		this.registerChangeVal(content);
 	}
-
 
 });

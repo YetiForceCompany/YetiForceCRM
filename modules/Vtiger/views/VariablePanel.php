@@ -38,7 +38,9 @@ class Vtiger_VariablePanel_View extends \App\Controller\View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->assign('MODULE', $moduleName);
-		if (empty($request->isEmpty('selectedModule'))) {
+		if ($request->isEmpty('selectedModule')) {
+			$viewer->assign('SELECTED_MODULE', '');
+		} else {
 			$viewer->assign('SELECTED_MODULE', $request->getByType('selectedModule', 2));
 		}
 		$viewer->assign('PARSER_TYPE', $request->getByType('type', 1));

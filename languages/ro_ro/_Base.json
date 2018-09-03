@@ -441,6 +441,7 @@
     "LBL_PERMISSION_DENIED": "Acces refuzat",
     "LBL_PLEASE_SELECT_MODULE": "Selectati orice modul pentru a cauta",
     "LBL_POST": "Postare",
+    "LBL_PREDEFINED_WIDGETS": "Predefined widgets",
     "LBL_PREVIOUS_FQ": "FQ precedent",
     "LBL_PREVIOUS_FY": "FY precendent",
     "LBL_PRE_TAX_TOTAL": "Total impozit",
@@ -1287,6 +1288,7 @@
     "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Numarul inregistrarilor imbinate a fost redus la %d."
   },
   "js": {
+    "JS_APPROVE": "Approve",
     "JS_SUMMARY": "Sumar",
     "JS_LOADING_PLEASE_WAIT": "Se incarca, va rugam asteptati.",
     "JS_SELECTED_RECORDS": "Inregistrari selectate",
@@ -1306,16 +1308,19 @@
     "JS_ACCEPT_POSITIVE_NUMBER": "Accepta doar numere pozitive",
     "JS_ALLOWED_TO_SELECT_MAX_OF_THREE_RECORDS": "Aveti dreptul sa selectati maximum trei inregistrari",
     "JS_ARE_YOU_SURE_TO_DELETE_WIDGET": "Esti sigur ca vrei sa stergi widget-ul?",
-    "JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO": "Va fi disponibil in sectiunea \"Adauga widget\".",
+    "JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO": "It will be available under the \"Predefined widgets\" button.",
     "JS_CAN_NOT_REMOVE_DEFAULT_WIDGET": "Nu se poate elimina widget-ul implicit",
     "JS_CHECK_FILE_INTEGRITY": "Verifica integritatea fisierului",
     "JS_CONTAINS_ILLEGAL_CHARACTERS": "contine caractere invalide",
     "JS_CURRENT_DATE": "Data curenta",
+    "JS_DENY": "Deny",
     "JS_DO_NOT_HAVE_AN_EMAIL_ID": "nu are o adresa de email",
+    "JS_DUPLICATE": "Duplicate",
     "JS_DUPLIACATE_ENTRIES_FOUND_FOR_THE_VALUE": "Au fost gasite intrari duplicate pentru valoarea",
     "JS_DUPLICATE_ENTRIES_FOUND_FOR_THE_VALUE": "Au fost gasite intrari duplicate pentru valoarea",
     "JS_DUPLICATE_RECORD": "Inregistrare duplicata",
     "JS_DUPLICTAE_CREATION_CONFIRMATION": "Numele contului exista deja. Doriti sa creati o inregistrare duplicat?",
+    "JS_EDIT": "Edit",
     "JS_EMAIL_SERVER_CONFIGURATION": "Configurati setarile de server de iesire din pagina de setari",
     "JS_END_DATE_TIME": "Data si ora de inchidere",
     "JS_ERROR": "Eroare",
@@ -1371,6 +1376,7 @@
     "JS_PLEASE_ENTER_VALID_DATE": "Introduceti o data valida",
     "JS_PLEASE_ENTER_VALID_EMAIL_ADDRESS": "Introduceti o adresa de email valida",
     "JS_PLEASE_ENTER_VALID_TIME": "Introduceti ora valida",
+    "JS_PLEASE_ENTER_VALID_TWITTER_ACCOUNT": "Please enter valid Twitter account",
     "JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS": "Va rugam selectati Contul pentru a copia adresa",
     "JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS": "Va rugam selectati Contactul pentru a copia adresa",
     "JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS": "Selectati Lead-ul pentru a copia adresa",
@@ -1633,6 +1639,8 @@
     "JS_AVAILABLE_FILE_TYPES": "Tipuri fisiere disponibile",
     "JS_FILE_LIMIT": "Numarul maxim de fisiere a fost depasit",
     "JS_WAIT_FOR_FILE_UPLOAD": "Asteptati ca fisierele sa fie incarcate",
-    "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Change company name. The name of YetiForce company is reserved."
+    "JS_YETIFORCE_COMPANY_NAME_NOT_ALLOWED": "Change company name. The name of YetiForce company is reserved.",
+    "JS_SELECT_OR_WRITE_AND_PRESS_ENTER": "Select value from list or write value then press enter",
+    "JS_INVENTORY_ITEM_MODULE_NOT_FOUND": "Module '${sourceModule}' for position'${position}' was not activated."
   }
 }

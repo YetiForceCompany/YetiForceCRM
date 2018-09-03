@@ -103,8 +103,10 @@
 					{foreach key=TARGET_INDEX item=TARGET_VALUE from=$TARGET_PICKLIST_VALUES name=targetValuesLoop}
 						<tr>
 							{foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
-								{assign var=targetValues value=$MAPPED_TARGET_PICKLIST_VALUES[\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)]}
-
+								{assign var=PURIFIER_TMP_VAL value=\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}
+								{if !empty($MAPPED_TARGET_PICKLIST_VALUES[$PURIFIER_TMP_VAL])}
+									{assign var=targetValues value=$MAPPED_TARGET_PICKLIST_VALUES[$PURIFIER_TMP_VAL]}
+								{/if}
 								{assign var=SOURCE_INDEX value=$smarty.foreach.mappingIndex.index}
 								{assign var=IS_SELECTED value=false}
 

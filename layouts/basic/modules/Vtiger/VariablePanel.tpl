@@ -15,16 +15,20 @@
 						{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable()}
 							<optgroup label="{$BLOCK_NAME}">
 								{foreach item=ITEM from=$FIELDS}
-									<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{\App\Language::translate($ITEM['label'], $SELECTED_MODULE)}</option>
+									<option value="{$ITEM['var_value']}"
+											data-label="{$ITEM['var_label']}">{\App\Language::translate($ITEM['label'], $SELECTED_MODULE)}</option>
 								{/foreach}
 							</optgroup>
 						{/foreach}
 					</select>
 					<div class="input-group-append">
-						<button type="button" class="btn btn-primary clipboard" data-copy-target="#recordVariable" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
+						<button type="button" class="btn btn-primary clipboard" data-copy-target="#recordVariable"
+								title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
 							<span class="fas fa-copy"></span>
 						</button>
-						<button type="button" class="btn btn-success clipboard" data-copy-target="#recordVariable" data-copy-type="label" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')}  - {\App\Language::translate('LBL_COPY_LABEL','Other.TextParser')}">
+						<button type="button" class="btn btn-success clipboard" data-copy-target="#recordVariable"
+								data-copy-type="label"
+								title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')}  - {\App\Language::translate('LBL_COPY_LABEL','Other.TextParser')}">
 							<span class="fas fa-copy"></span>
 						</button>
 					</div>
@@ -36,23 +40,27 @@
 			<div class="col-sm-6 fieldRow row form-group align-items-center my-1">
 				<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_DEPENDENT_MODULE_FIELDS','Other.TextParser')}</label>
 				<div class="medium w-100  col-lg-12 col-xl-9  fieldValue">
-					<div class="input-group"> 
+					<div class="input-group">
 						<select class="select2 form-control" id="relatedVariable" data-width="style">
 							{foreach item=FIELDS from=$RELATED_VARIABLE}
 								{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$FIELDS}
 									<optgroup label="{$BLOCK_NAME}">
 										{foreach item=ITEM from=$RELATED_FIELDS}
-											<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{$ITEM['label']}</option>
+											<option value="{$ITEM['var_value']}"
+													data-label="{$ITEM['var_label']}">{$ITEM['label']}</option>
 										{/foreach}
-									</optgroup> 
+									</optgroup>
 								{/foreach}
 							{/foreach}
 						</select>
 						<div class="input-group-append">
-							<button type="button" class="btn btn-primary clipboard" data-copy-target="#relatedVariable" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
+							<button type="button" class="btn btn-primary clipboard" data-copy-target="#relatedVariable"
+									title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
 								<span class="fas fa-copy"></span>
 							</button>
-							<button type="button" class="btn btn-success clipboard" data-copy-target="#relatedVariable" data-copy-type="label" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')}  - {\App\Language::translate('LBL_COPY_LABEL','Other.TextParser')}">
+							<button type="button" class="btn btn-success clipboard" data-copy-target="#relatedVariable"
+									data-copy-type="label"
+									title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')}  - {\App\Language::translate('LBL_COPY_LABEL','Other.TextParser')}">
 								<span class="fas fa-copy"></span>
 							</button>
 						</div>
@@ -71,26 +79,33 @@
 								{if $SOURCE_MODULE == 'LBL_ENTITY_VARIABLES'}
 									<optgroup label="{\App\Language::translate($SOURCE_MODULE, 'Other.TextParser')}">
 										{foreach item=ITEM from=$BLOCKS}
-											<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{$ITEM['label']}</option>
+											<option value="{$ITEM['var_value']}"
+													data-label="{$ITEM['var_label']}">{$ITEM['label']}</option>
 										{/foreach}
-									</optgroup> 
+									</optgroup>
 								{else}
 									{assign var=SOURCE_LABEL value=\App\Language::translate(\App\Language::getSingularModuleName($SOURCE_MODULE), $SOURCE_MODULE)}
 									{foreach item=FIELDS key=BLOCK_NAME from=$BLOCKS}
-										<optgroup label="{$SOURCE_LABEL} - {\App\Language::translate($BLOCK_NAME, $SOURCE_MODULE)}">
+										<optgroup
+												label="{$SOURCE_LABEL} - {\App\Language::translate($BLOCK_NAME, $SOURCE_MODULE)}">
 											{foreach item=ITEM from=$FIELDS}
-												<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{$SOURCE_LABEL}: {$ITEM['label']}</option>
+												<option value="{$ITEM['var_value']}"
+														data-label="{$ITEM['var_label']}">{$SOURCE_LABEL}
+													: {$ITEM['label']}</option>
 											{/foreach}
-										</optgroup> 
+										</optgroup>
 									{/foreach}
 								{/if}
 							{/foreach}
 						</select>
 						<div class="input-group-append">
-							<button type="button" class="btn btn-primary clipboard" data-copy-target="#sourceVariable" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
+							<button type="button" class="btn btn-primary clipboard" data-copy-target="#sourceVariable"
+									title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
 								<span class="fas fa-copy"></span>
 							</button>
-							<button type="button" class="btn btn-success clipboard" data-copy-target="#sourceVariable" data-copy-type="label" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')}  - {\App\Language::translate('LBL_COPY_LABEL','Other.TextParser')}">
+							<button type="button" class="btn btn-success clipboard" data-copy-target="#sourceVariable"
+									data-copy-type="label"
+									title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')}  - {\App\Language::translate('LBL_COPY_LABEL','Other.TextParser')}">
 								<span class="fas fa-copy"></span>
 							</button>
 						</div>
@@ -110,14 +125,15 @@
 							{/foreach}
 						</select>
 						<div class="input-group-append">
-							<button type="button" class="btn btn-primary clipboard" data-copy-target="#relatedLists" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
+							<button type="button" class="btn btn-primary clipboard" data-copy-target="#relatedLists"
+									title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
 								<span class="fas fa-copy"></span>
 							</button>
 						</div>
 					</div>
 				</div>
 			</div>
-		{/if}		
+		{/if}
 	{/if}
 	{assign var=BASE_LISTS value=$TEXT_PARSER->getBaseListVariable()}
 	{if $BASE_LISTS}
@@ -131,7 +147,8 @@
 						{/foreach}
 					</select>
 					<div class="input-group-append">
-						<button type="button" class="btn btn-primary clipboard" data-copy-target="#recordList" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
+						<button type="button" class="btn btn-primary clipboard" data-copy-target="#recordList"
+								title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
 							<span class="fas fa-copy"></span>
 						</button>
 					</div>
@@ -143,17 +160,19 @@
 		<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_ADDITIONAL_VARIABLES','Other.TextParser')}</label>
 		<div class="medium w-100  col-lg-12 col-xl-9  fieldValue">
 			<div class="input-group">
-				<select class="select2 form-control" id="generalVariable" data-container-class-css="form-control" data-width="style">
+				<select class="select2 form-control" id="generalVariable" data-container-class-css="form-control"
+						data-width="style">
 					{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getGeneralVariable()}
 						<optgroup label="{\App\Language::translate($BLOCK_NAME, 'Other.TextParser')}">
 							{foreach item=LABEL key=VARIABLE from=$FIELDS}
 								<option value="{$VARIABLE}">{$LABEL}</option>
 							{/foreach}
-						</optgroup> 
+						</optgroup>
 					{/foreach}
 				</select>
 				<div class="input-group-append">
-					<button type="button" class="btn btn-primary clipboard" data-copy-target="#generalVariable" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')}">
+					<button type="button" class="btn btn-primary clipboard" data-copy-target="#generalVariable"
+							title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')}">
 						<span class="fas fa-copy"></span>
 					</button>
 				</div>

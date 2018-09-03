@@ -23,32 +23,37 @@
 							<h5 class="modal-title form-row text-center text-xl-left mb-2 mb-xl-0">
 								<span class="col-12">
 									<span class="fas fa-plus mr-1"></span>
-									<strong class="mr-1">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:</strong>
-									<strong class="text-uppercase"><span class="userIcon-{$MODULE} mx-1"></span>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong>
+									<strong class="mr-1">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}
+										:</strong>
+									<strong class="text-uppercase"><span
+												class="userIcon-{$MODULE} mx-1"></span>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong>
 								</span>
 							</h5>
 						</div>
 						<div class="col-xl-6 col-12 text-center text-xl-right">
 							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
-							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
-							{/foreach}
-							<button class="btn btn-outline-secondary mr-0 mr-md-1 mb-2 mb-md-0 col-12 col-md-4 u-text-ellipsis" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button">
-								<strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong>
-							</button>
-							<button class="btn btn-success col-12 col-md-1 mb-2 mb-md-0" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}">
+							{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
+								{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
+									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS='display-block-md'}
+								{/foreach}
+							{/if}
+							<button class="btn btn-success col-12 col-md-1 mb-2 mb-md-0" type="submit"
+									title="{\App\Language::translate('LBL_SAVE', $MODULE)}">
 								<strong><span class="fas fa-check"></span></strong>
 							</button>
-							<button class="cancelLink btn btn-danger col-12 col-md-1 ml-0 ml-md-1" aria-hidden="true" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}">
+							<button class="cancelLink btn btn-danger col-12 col-md-1 ml-0 ml-md-1" aria-hidden="true"
+									data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}">
 								<span class="fas fa-times"></span>
 							</button>
 						</div>
 					</div>
 					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-						<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
+						<input type="hidden" name="picklistDependency"
+							   value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
 					{/if}
 					{if !empty($MAPPING_RELATED_FIELD)}
-						<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
+						<input type="hidden" name="mappingRelatedField"
+							   value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
 					{/if}
 					<input type="hidden" name="module" value="{$MODULE}"/>
 					<input type="hidden" name="action" value="SaveAjax"/>
@@ -58,6 +63,7 @@
 								<div class="px-0 m-0 form-row d-flex justify-content-center">
 									{assign var=COUNTER value=0}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
+									{if ($FIELD_NAME === 'time_start' || $FIELD_NAME === 'time_end') && ($MODULE === 'OSSTimeControl' || $MODULE === 'Reservations')}{continue}{/if}
 									{if $COUNTER eq 2}
 								</div>
 								<div class="col-12 form-row d-flex justify-content-center px-0 m-0">
@@ -74,7 +80,10 @@
 													<span class="redColor">*</span>
 												{/if}
 												{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-													<a href="#" class="js-help-info float-right" title=""  data-placement="top" data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'>
+													<a href="#" class="js-help-info float-right" title=""
+													   data-placement="top"
+													   data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}"
+													   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'>
 														<span class="fas fa-info-circle"></span>
 													</a>
 												{/if}
@@ -82,7 +91,7 @@
 											</label>
 										</div>
 										<div class="fieldValue col-lg-12 col-xl-9 px-0 px-sm-1">
-											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE)}
+											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) RECORD=null}
 										</div>
 									</div>
 									{/foreach}
@@ -95,7 +104,9 @@
 					</div>
 					{if !empty($SOURCE_RELATED_FIELD)}
 						{foreach key=RELATED_FIELD_NAME item=RELATED_FIELD_MODEL from=$SOURCE_RELATED_FIELD}
-							<input type="hidden" name="{$RELATED_FIELD_NAME}" value="{\App\Purifier::encodeHtml($RELATED_FIELD_MODEL->get('fieldvalue'))}" data-fieldtype="{$RELATED_FIELD_MODEL->getFieldDataType()}"/>
+							<input type="hidden" name="{$RELATED_FIELD_NAME}"
+								   value="{\App\Purifier::encodeHtml($RELATED_FIELD_MODEL->get('fieldvalue'))}"
+								   data-fieldtype="{$RELATED_FIELD_MODEL->getFieldDataType()}"/>
 						{/foreach}
 					{/if}
 				</form>

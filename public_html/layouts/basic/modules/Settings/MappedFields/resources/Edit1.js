@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit1_Js", {}, {
 	init: function () {
@@ -50,7 +51,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit1_Js", {}, {
 				}
 			});
 			app.saveAjax('step1', saveData).done(function (data) {
-				if (data.success == true) {
+				if (data.success === true) {
 					if (!data.result.id && data.result.message) {
 						Settings_Vtiger_Index_Js.showMessage({text: data.result.message, type: 'error'});
 						aDeferred.resolve(false);
@@ -85,7 +86,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit1_Js", {}, {
 	checkModulesName: function () {
 		var sourceModule = jQuery('[name="tabid"]').val();
 		var targetModule = jQuery('[name="reltabid"]').val();
-		if (sourceModule == targetModule) {
+		if (sourceModule === targetModule) {
 			var notificationParams = {
 				text: app.vtranslate('JS_YOU_CAN_NOT_SELECT_THE_SAME_MODULES'),
 				'type': 'error'

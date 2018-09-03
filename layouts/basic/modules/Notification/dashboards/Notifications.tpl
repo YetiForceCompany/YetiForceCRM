@@ -6,24 +6,22 @@
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 		</div>
 		<hr class="widgetHr" />
-		<div class="row justify-content-end">
-			<div class="col-md-6">
-				<div class="input-group input-group-sm flex-nowrap">
+		<div class="row no-gutters justify-content-end">
+			<div class="col-ceq-xsm-6">
+				<div class="input-group input-group-sm">
 					<div class="input-group-prepend">
 						<span class="input-group-text">
 							<span class="fas fa-bell fa-fw"></span>
 						</span>
 					</div>
-					<div class="select2Wrapper">
 						<select class="widgetFilter form-control select2" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="type">
 							{foreach from=$TYPES_NOTIFICATION key=KEY item=TYPE}
 								<option value="{$KEY}">{$TYPE}</option>
 							{/foreach}
 						</select>
-					</div>
 				</div>
 			</div>
-			<div class="col-md-6">
+			<div class="col-ceq-xsm-6">
 				<div class="btn-toolbar float-right">
 					{if \App\Privilege::isPermitted('Notification', 'CreateView')}
 						<button type="button" class="btn btn-light" onclick="Vtiger_Index_Js.sendNotification()" title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}">

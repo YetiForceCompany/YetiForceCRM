@@ -3,9 +3,14 @@
  * OSSMail module config.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-$config['db_dsnw'] = 'mysql://' . $dbconfig['db_username'] . ':' . $dbconfig['db_password'] . '@' . $dbconfig['db_server'] . ':' . $dbconfig['db_port'] . '/' . $dbconfig['db_name'];
+if (isset($dbconfig)) {
+	$config['db_dsnw'] = 'mysql://' . $dbconfig['db_username'] . ':' . $dbconfig['db_password'] . '@' . $dbconfig['db_server'] . ':' . $dbconfig['db_port'] . '/' . $dbconfig['db_name'];
+}
+if (!defined('RCUBE_INSTALL_PATH')) {
+	define('RCUBE_INSTALL_PATH', realpath(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'OSSMail' . DIRECTORY_SEPARATOR . 'roundcube'));
+}
 $config['db_prefix'] = 'roundcube_';
 $config['default_host'] = ['ssl://imap.gmail.com' => 'ssl://imap.gmail.com'];
 $config['validate_cert'] = false;
@@ -82,7 +87,9 @@ $config['enable_authres_status_column'] = true;
 $config['show_statuses'] = 127;
 //CRM Additional configuration parameters
 $config['root_directory'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-$config['site_URL'] = $config['public_URL'] = $site_URL;
-$config['public_URL'] .= strpos($_SERVER['SCRIPT_NAME'], 'public_html/modules/OSSMail') === false ? '' : 'public_html/';
+if (isset($site_URL)) {
+	$config['site_URL'] = $config['public_URL'] = $site_URL;
+	$config['public_URL'] .= strpos($_SERVER['SCRIPT_NAME'], 'public_html/modules/OSSMail') === false ? '' : 'public_html/';
+}
 $config['imap_open_add_connection_type'] = true;
 $config['enable_variables_in_signature'] = false;

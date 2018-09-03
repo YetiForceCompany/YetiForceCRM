@@ -13,13 +13,15 @@
 	{if isset($SETTING_EXIST)}
 		<a class="btn btn-sm btn-light" name="dfilter">
 			<span class='icon-cog' title="{\App\Language::translate('LBL_FILTER')}"></span>
-		</a>&nbsp;
+		</a>
+		&nbsp;
 	{/if}
-	<a class="btn btn-sm btn-light" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&content=data">
+	<a class="btn btn-sm btn-light" href="javascript:void(0);" name="drefresh"
+	   data-url="{$WIDGET->getUrl()}&content=data">
 		<span class="fas fa-sync-alt" title="{\App\Language::translate('LBL_REFRESH')}"></span>
 	</a>
 	{if !$WIDGET->isDefault()}
-		<a name="dclose" class="widget btn btn-sm btn-light" data-url="{$WIDGET->getDeleteUrl()}">
+		<a class="js-widget-remove btn btn-sm btn-light" data-js="click | bootbox" data-url="{$WIDGET->getDeleteUrl()}">
 			<span class="fas fa-times" title="{\App\Language::translate('LBL_CLOSE')}"></span>
 		</a>
 	{/if}

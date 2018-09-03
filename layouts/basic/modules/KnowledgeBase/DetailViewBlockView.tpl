@@ -5,11 +5,12 @@
 	{if $BLOCK eq null or $FIELD_MODEL_LIST|@count lte 0}{continue}{/if}
 	{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 	{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
+	{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{if $BLOCKS_HIDE}
 
 		<div class="detailViewTable">
-			<div class="js-toggle-panel c-panel" data-js="click" data-label="{$BLOCK_LABEL}">
+			<div class="js-toggle-panel c-panel" data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if} data-label="{$BLOCK_LABEL}">
 				<div class="blockHeader c-panel__header">
 					<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
 					<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2 {if $IS_HIDDEN}d-none{/if}" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
@@ -67,7 +68,7 @@
 												<span class="d-none edit">
 													{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
 													{if $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}
-														<input type="hidden" class="fieldname" data-type="{$FIELD_MODEL->getFieldDataType()}" value='{$FIELD_MODEL->getName()}' data-prev-value='{$FIELD_MODEL->get('fieldvalue')}' />		
+														<input type="hidden" class="fieldname" data-type="{$FIELD_MODEL->getFieldDataType()}" value='{$FIELD_MODEL->getName()}' data-prev-value='{$FIELD_MODEL->get('fieldvalue')}' />
 													{else}
 														{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}
 														{if $FIELD_VALUE|is_array}

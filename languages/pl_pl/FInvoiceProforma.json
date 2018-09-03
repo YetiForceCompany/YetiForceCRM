@@ -13,7 +13,8 @@
     "FL_NUMBER": "Numer faktury",
     "FL_TOTAL": "Netto",
     "FL_GROSS": "Brutto",
-    "PLL_TRANSFER": "przelew",
-    "PLL_CASH": "got\u00f3wka"
+    "PLL_CASH": "Got\u00f3wka",
+    "PLL_TRANSFER": "Przelew bankowy",
+    "PLL_WIRE_TRANSFER": "Przelew elektroniczny"
   }
 }

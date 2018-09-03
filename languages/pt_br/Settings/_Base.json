@@ -152,6 +152,8 @@
     "LBL_MAIL_TOOLS": "Ferramentas de Correio",
     "LBL_PASSWORD_CONF": "Senhas - Configura\u00e7\u00e3o",
     "LBL_2FA_CONF": "Multi-factor authentication",
+    "LBL_SOCIAL_MEDIA": "Social media",
+    "LBL_SOCIAL_MEDIA_DESC": "Social media integration",
     "LBL_PASSWORD_DESCRIPTION": "Defina a complexidade da senha para os Usu\u00e1rios do software",
     "LBL_LOGS_MANAGEMENT": "Logs",
     "LBL_ARRANGE_RELATED_TABS": "Organizar Abas Relacionadas",
@@ -288,6 +290,12 @@
     "LBL_CV_YEAR": "Ano (ex. 15)",
     "LBL_CV_MONTH": "M\u00eas (ex. 1, 5, 12)",
     "LBL_CV_DAY": "Dia (ex. 1, 5, 25)",
+    "LBL_CV_LEADING_ZERO": "Leading zero (e.g. three leading zeros shall result in 002, 011, 563, 2342)",
+    "LBL_RS_RESET_SEQUENCE": "Reset number",
+    "LBL_RS_DO_NOT": "Never reset (record numbers grow ad infinitum)",
+    "LBL_RS_YEAR": "Reset with new year",
+    "LBL_RS_MONTH": "Reset with new month",
+    "LBL_RS_DAY": "Reset with new day",
     "LBL_DONATE_US": "Doa\u00e7\u00e3o para YetiForce",
     "LBL_START": "Iniciar",
     "LBL_GITHUB": "Github",
@@ -297,7 +305,7 @@
     "LBL_SELECT_ICON": "Seleciona \u00edcone",
     "LBL_ICON_NAME": "Nome \u00edcone",
     "LBL_ICON_EXAMPLE": "Exemplo de \u00edcone",
-    "ERR_NO_REQUIRED_LIBRARY": "N\u00e3o \u00e9 poss\u00edvel encontrar a biblioteca %s requerida. Alguns recursos foram desativados. V\u00e1 para <a href=\"index.php?module=ModuleManager&parent=Settings&view=List\">Modulos \u2013 Instala\u00e7\u00e3o<\/a> para download.",
+    "ERR_NO_REQUIRED_LIBRARY": "N\u00e3o \u00e9 poss\u00edvel encontrar a biblioteca %s requerida.\n Alguns recursos foram desativados. V\u00e1 para %s para download.",
     "LBL_SYSTEM_WARNINGS": "Alertas do Sistema",
     "LBL_WARNINGS_FOLDERS": "Categoria de Alerta",
     "LBL_WARNINGS_TITLE": "T\u00edtulo",
@@ -382,6 +390,9 @@
     "LBL_WRONG_IMAGE_TYPE": "o tipo de imagem n\u00e3o \u00e9 suportado",
     "JS_COLUMN_ADDED": "Campo adicionado",
     "JS_COLUMN_EXIST": "Erro ao adicionar campo",
-    "JS_NOTIFY_COPY_TEXT": "Copiado para \u00e1rea de transfer\u00eancia"
+    "JS_NOTIFY_COPY_TEXT": "Copiado para \u00e1rea de transfer\u00eancia",
+    "JS_RS_ADD_YEAR_VARIABLE": "Copy year variable to prefix or postfix",
+    "JS_RS_ADD_MONTH_VARIABLE": "Copy monyh variable to prefix or postfix",
+    "JS_RS_ADD_DAY_VARIABLE": "Copy day variable to prefix or postfix"
   }
 }

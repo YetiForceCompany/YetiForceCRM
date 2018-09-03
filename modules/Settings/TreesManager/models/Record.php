@@ -4,8 +4,8 @@
  * Settings TreesManager record model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -284,13 +284,14 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		while ($row = $dataReader->read()) {
 			$tableName = $row['tablename'];
 			$columnName = $row['columnname'];
+			$uiType = (int) $row['uitype'];
 			foreach ($tree as $treeRow) {
 				$params = [];
 				foreach ($treeRow['old'] as $new) {
-					$params[] = $row['uitype'] === 309 ? ",T{$new}," : 'T' . $new;
+					$params[] = $uiType === 309 ? ",T{$new}," : 'T' . $new;
 				}
 				$newVal = 'T' . current($treeRow['new']);
-				if ($row['uitype'] === 309) {
+				if ($uiType === 309) {
 					$newVal = ",{$newVal},";
 				}
 				$db->createCommand()
@@ -342,7 +343,6 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 		$dataReader->close();
-
 		return implode(',', $values);
 	}
 

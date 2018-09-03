@@ -6,6 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ********************************************************************************/
+'use strict';
 
 var Settings_Profiles_Js = {
 
@@ -256,15 +257,15 @@ var Settings_Profiles_Js = {
 		var thisInstance = this;
 		var form = jQuery('[name="EditProfile"]');
 		form.on('submit', function (e) {
-			var button = form.find('button[type="submit"]');
+			let button = form.find('button[type="submit"]'),
+				progressIndicatorInstance = jQuery.progressIndicator({
+					'position': 'html',
+					'blockInfo': {
+						'enabled': true
+					}
+				});
 			button.attr('disabled', true);
-			progressIndicatorInstance = jQuery.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
-				}
-			});
-			if (form.data('submit') == 'true' && form.data('performCheck') == 'true') {
+			if (form.data('submit') === 'true' && form.data('performCheck') === 'true') {
 				return true;
 			} else {
 				if (form.data('jqv').InvalidFields.length <= 0) {
@@ -294,7 +295,7 @@ var Settings_Profiles_Js = {
 				}
 				e.preventDefault();
 			}
-		})
+		});
 	},
 
 	/*

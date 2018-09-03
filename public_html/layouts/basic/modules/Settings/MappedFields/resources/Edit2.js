@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 	step2Container: false,
@@ -141,8 +142,9 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 		})
 	},
 	getSequenceNumber: function (element) {
+		let sequenceNumber;
 		if (element.length) {
-			var sequenceNumber = element.attr('sequence-number');
+			sequenceNumber = element.attr('sequence-number');
 		} else {
 			sequenceNumber = 0;
 		}
@@ -172,7 +174,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 				} else if (element.is('optgroup') && element.find('[data-type="' + selectedDataType + '"]').length > 0) {
 					element.children().each(function (q, k) {
 						var option = jQuery(k);
-						if (option.data('type') != selectedDataType) {
+						if (option.data('type') !== selectedDataType) {
 							option.remove();
 						}
 					})
@@ -210,8 +212,9 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 		}
 		dafeultTd.children().remove();
 		var exist = jQuery('#mappingToGenerate').find('#' + id);
-		if (affectedRow.length == 0 || !element.val() || exist.length > 0)
+		if (affectedRow.length === 0 || !element.val() || exist.length > 0) {
 			return;
+		}
 		var seqNumber = thisInstance.getSequenceNumber(element.closest('tr'));
 		var copyOfDefaultValue = affectedRow.clone(true, true);
 		copyOfDefaultValue.prop('disabled', false).attr('name', 'mapping[' + seqNumber + '][default]');
@@ -232,7 +235,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 		fieldsList.on('change', function (e) {
 			var element = jQuery(e.currentTarget);
 			thisInstance.loadDefaultValueWidget(element);
-		})
+		});
 	},
 	/**
 	 * Function to register events for edit view of fields mapping
@@ -272,7 +275,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 				aDeferred.resolve(false);
 				return false;
 			}
-		})
+		});
 		aDeferred.resolve(true);
 		return aDeferred.promise();
 	}

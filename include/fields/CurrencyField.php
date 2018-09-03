@@ -130,12 +130,12 @@ class CurrencyField
 	/**
 	 * Returns the Formatted Currency value for the User.
 	 *
-	 * @global Users    $current_user
+	 * @global Users $current_user
 	 *
 	 * @param \App\User $user
 	 * @param bool      $skipConversion
 	 *
-	 * @return string - Formatted Currency
+	 * @return string Formatted Currency
 	 */
 	public static function convertToUserFormat($value, $user = null, $skipConversion = false, $skipFormatting = false)
 	{
@@ -173,7 +173,7 @@ class CurrencyField
 	 * @param \App\User $user
 	 * @param bool      $skipConversion
 	 *
-	 * @return Formatted Currency
+	 * @return string Formatted Currency
 	 */
 	public function getDisplayValue($user = null, $skipConversion = false, $skipFormatting = false)
 	{
@@ -200,7 +200,7 @@ class CurrencyField
 	 * @param \App\User $user
 	 * @param bool      $skipConversion
 	 *
-	 * @return Formatted Currency
+	 * @return string Formatted Currency
 	 */
 	public function getDisplayValueWithSymbol($user = null, $skipConversion = false)
 	{
@@ -215,7 +215,7 @@ class CurrencyField
 	 * @param string $currencySymbol
 	 * @param string $currencySymbolPlacement
 	 *
-	 * @return Currency value appended with the currency symbol
+	 * @return string Currency value appended with the currency symbol
 	 */
 	public static function appendCurrencySymbol($currencyValue, $currencySymbol, $currencySymbolPlacement = '')
 	{
@@ -238,7 +238,7 @@ class CurrencyField
 	 *
 	 * @param Number $value
 	 *
-	 * @return Formatted Currency
+	 * @return bool|string Formatted Currency
 	 */
 	private function formatCurrencyValue($value)
 	{
@@ -496,13 +496,14 @@ class CurrencyField
 			}
 			$decimalSeparator = $user->getDetail('currency_decimal_separator');
 			$fieldValue = explode(App\Purifier::decodeHtml($decimalSeparator), $value);
-			if (strlen($fieldValue[1]) <= 1) {
-				if (strlen($fieldValue[1]) == 1) {
-					return $value = $fieldValue[0] . $decimalSeparator . $fieldValue[1];
-				} elseif (!strlen($fieldValue[1])) {
-					return $value = $fieldValue[0];
+			$valueField = (int) $fieldValue[0];
+			if (0 == $valueField || strlen($fieldValue[1]) <= 1) {
+				if (isset($fieldValue[1]) && strlen($fieldValue[1]) == 1) {
+					return $value = $valueField . $decimalSeparator . $fieldValue[1];
+				} elseif (!isset($fieldValue[1])) {
+					return $value = $valueField;
 				} else {
-					return $value = $fieldValue[0] . $decimalSeparator;
+					return $value = $valueField;
 				}
 			} else {
 				return preg_replace('/(?<=\\.[0-9])[0]+$/', '', $value);

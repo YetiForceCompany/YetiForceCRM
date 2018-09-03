@@ -52,7 +52,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 			$_SESSION['relatedView'][$moduleName][$relatedModuleName] = $relatedView;
 		}
 		$pageNumber = $request->isEmpty('page', true) ? 1 : $request->getInteger('page');
-		$totalCount = $request->isEmpty('totalCount', true) ? false : $request->getInteger('totalCount');
+		$totalCount = $request->isEmpty('totalCount', true) ? 0 : $request->getInteger('totalCount');
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		if ($request->has('limit')) {
@@ -91,7 +91,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 			$relationListView->set('search_value', $request->get('search_value'));
 			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
 		}
-		$searchParmams = $request->get('search_params');
+		$searchParmams = $request->getArray('search_params');
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
@@ -101,9 +101,9 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		//To make smarty to get the details easily accesible
 		foreach ($searchParmams as $fieldListGroup) {
 			foreach ($fieldListGroup as $fieldSearchInfo) {
-				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
-				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
-				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3];
+				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2] ?? '';
+				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0] ?? '';
+				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3] ?? '';
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
@@ -125,13 +125,14 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_ENTIRES_COUNT', count($models));
 		$viewer->assign('RELATION_FIELD', $relationModel->getRelationField());
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
-			$totalCount = $relationListView->getRelatedEntriesCount();
+			$totalCount = (int) $relationListView->getRelatedEntriesCount();
 		}
-		if (!empty($totalCount)) {
-			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('LISTVIEW_COUNT', $totalCount);
-			$viewer->assign('TOTAL_ENTRIES', $totalCount);
+		if (empty($totalCount)) {
+			$totalCount = 0;
 		}
+		$pagingModel->set('totalCount', (int) $totalCount);
+		$viewer->assign('LISTVIEW_COUNT', $totalCount);
+		$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		$viewer->assign('PAGE_COUNT', $pagingModel->getPageCount());
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('START_PAGIN_FROM', $pagingModel->getStartPagingFrom());

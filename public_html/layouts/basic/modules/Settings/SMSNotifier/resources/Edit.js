@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 Vtiger_Edit_Js('Settings_SMSNotifier_Edit_Js', {}, {
 	getForm: function () {
@@ -15,8 +16,8 @@ Vtiger_Edit_Js('Settings_SMSNotifier_Edit_Js', {}, {
 			contents.find('form [data-provider]').remove();
 			var providerFields = contents.find('.providersFields [data-provider="' + selectedProviderName + '"]').clone(true, true);
 			contents.find('.fieldsContainer').append(providerFields);
-			App.Fields.Picklist.showSelect2ElementView(providerFields.find('select').removeClass('chzn-select'));
-		})
+			App.Fields.Picklist.showSelect2ElementView(providerFields.find('select'));
+		});
 	},
 	registerEvents: function () {
 		var thisInstance = this;
@@ -44,8 +45,8 @@ Vtiger_Edit_Js('Settings_SMSNotifier_Edit_Js', {}, {
 		});
 		thisInstance.registerProviderTypeChangeEvent();
 	}
-})
+});
 jQuery(document).ready(function (e) {
 	var instance = new Settings_SMSNotifier_Edit_Js();
 	instance.registerEvents();
-})
+});

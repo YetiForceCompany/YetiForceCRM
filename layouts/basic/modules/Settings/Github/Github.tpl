@@ -8,7 +8,7 @@
 						<div class="d-flex w-100 m-0">
 							<div>
 								<span class="fas fa-user-secret u-mr-5px mt-2 float-left"></span>
-						<h5 class="modal-title float-left ml-1">{\App\Language::translate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}</h5>
+								<h5 class="modal-title float-left ml-1">{\App\Language::translate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}</h5>
 
 							</div>
 							<div class="ml-auto">
@@ -28,7 +28,7 @@
 							<div class="alert alert-warning">
 								<ul>
 									<li>{\App\Language::translate('LBL_USERNAME_DESCRIPTION', $QUALIFIED_MODULE)}</li>
-									<li>{\App\Language::translate('LBL_TOKEN_DESCRIPTION', $QUALIFIED_MODULE)}</li>
+									<li>{\App\Language::translateArgs('LBL_TOKEN_DESCRIPTION', $QUALIFIED_MODULE,'<a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use">help.github.com</a>')}</li>
 								</ul>
 							</div>
 						</div>
@@ -72,7 +72,6 @@
 				</button>
 			</div>
 		{/if}
-
 		<div class="listViewActions float-right paginationDiv pl-1 pb-2">
 			{include file=\App\Layout::getTemplatePath('Pagination.tpl')}
 		</div>
@@ -108,48 +107,50 @@
 				</div>
 			</div>
 		</div>
-		<table class="table listViewEntriesTable mt-1">
-			<thead>
-			<th>{\App\Language::translate('LBL_TITLE', $QUALIFIED_MODULE)}</th>
-			<th>{\App\Language::translate('LBL_AUTHOR', $QUALIFIED_MODULE)}</th>
-			<th>{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</th>
-			<th></th>
-			</thead>
-			<tbody>
-			{foreach from=$GITHUB_ISSUES item=ISSUE}
-				<tr class="">
-					<td>
-						<a href="{$ISSUE->get('html_url')}" target="_blank" rel="noreferrer">
-							{$ISSUE->get('title')}
-						</a>
-					</td>
-					<td>
-						<a href="{$ISSUE->get('user')->html_url}" target="_blank" rel="noreferrer">
-							{$ISSUE->get('user')->login}
-						</a>
-					</td>
-					<td>
-						{\App\Language::translate($ISSUE->get('state'), $QUALIFIED_MODULE)}
-					</td>
-					<td>
-						<div class="float-right actions">
+		<div class="table-responsive">
+			<table class="table listViewEntriesTable mt-1">
+				<thead>
+				<th>{\App\Language::translate('LBL_TITLE', $QUALIFIED_MODULE)}</th>
+				<th>{\App\Language::translate('LBL_AUTHOR', $QUALIFIED_MODULE)}</th>
+				<th>{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</th>
+				<th></th>
+				</thead>
+				<tbody>
+				{foreach from=$GITHUB_ISSUES item=ISSUE}
+					<tr class="">
+						<td>
+							<a href="{$ISSUE->get('html_url')}" target="_blank" rel="noreferrer">
+								{$ISSUE->get('title')}
+							</a>
+						</td>
+						<td>
+							<a href="{$ISSUE->get('user')->html_url}" target="_blank" rel="noreferrer">
+								{$ISSUE->get('user')->login}
+							</a>
+						</td>
+						<td>
+							{\App\Language::translate($ISSUE->get('state'), $QUALIFIED_MODULE)}
+						</td>
+						<td>
+							<div class="float-right actions">
 							<span class="actionImages">
 								<a href="{$ISSUE->get('html_url')}" target="_blank" rel="noreferrer">
 									<span title="" class="fas fa-th-list alignMiddle"></span>
 								</a>
 							</span>
-						</div>
-					</td>
-				</tr>
-				{foreachelse}
-				<tr>
-					<td>
-						{\App\Language::translate('LBL_NO_ISSUES', $QUALIFIED_MODULE)}
-					</td>
-				</tr>
-			{/foreach}
-			</tbody>
-		</table>
+							</div>
+						</td>
+					</tr>
+					{foreachelse}
+					<tr>
+						<td>
+							{\App\Language::translate('LBL_NO_ISSUES', $QUALIFIED_MODULE)}
+						</td>
+					</tr>
+				{/foreach}
+				</tbody>
+			</table>
+		</div>
 	{else}
 		<div class="alert alert-danger mt-2">
 			{\App\Language::translate('LBL_ERROR_CONNECTED', $QUALIFIED_MODULE)}

@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 $.Class('Settings_Mail_Config_Js', {}, {
 	registerChangeConfig() {
@@ -16,9 +17,9 @@ $.Class('Settings_Mail_Config_Js', {}, {
 			params['val'] = this.checked;
 			AppConnector.request(params).done(function (data) {
 				progressIndicator.progressIndicator({'mode': 'hide'});
-				var params = {};
-				params['text'] = data.result.message;
-				Settings_Vtiger_Index_Js.showMessage(params);
+				let messageParams = {};
+				messageParams['text'] = data.result.message;
+				Settings_Vtiger_Index_Js.showMessage(messageParams);
 			}).fail(function (error) {
 				progressIndicator.progressIndicator({'mode': 'hide'});
 			});
@@ -29,7 +30,7 @@ $.Class('Settings_Mail_Config_Js', {}, {
 		new App.Fields.Text.Editor(container.find('.js-editor'), {
 			height: '20em',
 		});
-		container.find('button').on('click', function () {
+		container.find('.js-save-signature').on('click', function () {
 			const progressIndicator = $.progressIndicator();
 			const editor = CKEDITOR.instances.signatureEditor;
 			const params = {};
@@ -52,5 +53,6 @@ $.Class('Settings_Mail_Config_Js', {}, {
 		const thisInstance = this;
 		thisInstance.registerChangeConfig();
 		thisInstance.registerSignature();
+		App.Fields.Text.registerCopyClipboard($('.js-container-variable'));
 	},
 });

@@ -6,10 +6,10 @@ namespace App\Db\Drivers;
  * Command represents a SQL statement to be executed against a database.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 trait SchemaTrait
 {
@@ -132,20 +132,6 @@ trait SchemaTrait
 	}
 
 	/**
-	 * Sets the metadata of the given type for the given table.
-	 *
-	 * @param string $name table name.
-	 * @param string $type metadata type.
-	 * @param mixed  $data metadata.
-	 *
-	 * @since 2.0.13
-	 */
-	protected function setTableMetadata($name, $type, $data)
-	{
-		$this->_tableMetadata[$this->getRawTableName($name)][$type] = $data;
-	}
-
-	/**
 	 * Returns the metadata of the given type for the given table.
 	 * If there's no metadata in the cache, this method will call
 	 * a `'loadTable' . ucfirst($type)` named method with the table name to obtain the metadata.
@@ -170,5 +156,19 @@ trait SchemaTrait
 			\App\Cache::save('tableSchema', $cacheKey, $this->_tableMetadata[$rawName][$type], \App\Cache::LONG);
 		}
 		return $this->_tableMetadata[$rawName][$type];
+	}
+
+	/**
+	 * Sets the metadata of the given type for the given table.
+	 *
+	 * @param string $name table name.
+	 * @param string $type metadata type.
+	 * @param mixed  $data metadata.
+	 *
+	 * @since 2.0.13
+	 */
+	protected function setTableMetadata($name, $type, $data)
+	{
+		$this->_tableMetadata[$this->getRawTableName($name)][$type] = $data;
 	}
 }

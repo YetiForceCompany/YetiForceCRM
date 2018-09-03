@@ -7,6 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
+'use strict';
 
 Vtiger_Detail_Js("Leads_Detail_Js", {
 	//cache will store the convert lead data(Model)
@@ -161,14 +162,14 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 					.find('[data-fa-i2svg]')
 					.removeClass('fa-chevron-up')
 					.addClass('fa-chevron-down');
-		})
+			})
 			.on('show.bs.collapse', '.js-collapse ', function (e) {
 				$(e.currentTarget)
 					.closest('.convertLeadModules')
 					.find('[data-fa-i2svg]')
 					.removeClass('fa-chevron-down')
 					.addClass('fa-chevron-up');
-		});
+			});
 
 		//Trigger Event on click of Transfer related records modules
 		container.on('click', '.transferModule', function (e) {
@@ -301,7 +302,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 				aDeferred.resolve(reponseData);
 			}
 		);
-		if (fieldDetailList.field == 'leadstatus') {
+		if (fieldDetailList && fieldDetailList.field == 'leadstatus') {
 			var btn = jQuery('.btn-convertLead');
 			var status = JSON.parse(jQuery('#conversion_available_status').val());
 			if (status.length === 0 || jQuery.inArray(fieldDetailList.value, status) != -1) {
@@ -328,7 +329,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 					var oldvalue = contextElem.val();
 					contextElem.find('option[value="' + oldvalue + '"]').removeAttr("selected");
 					contextElem.find('option[value="' + ajaxnewValue + '"]').attr("selected", "selected");
-					contextElem.trigger("chosen:updated");
+					contextElem.trigger('change');
 				} else {
 					contextElem.attr("value", ajaxnewValue);
 				}

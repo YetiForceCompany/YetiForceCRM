@@ -3,12 +3,10 @@
 	<div class="col-md-12 pr-0 row">
 		<div class="col-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
+				<span class="o-detail__icon js-detail__icon u-cursor-pointer userIcon-{$MODULE}"></span>
 				{if AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
-					<span class="hierarchy">
-
-					</span>
+					<span class="hierarchy"></span>
 				{/if}
-				<span class="detailViewIcon u-cursor-pointer userIcon-{$MODULE}"></span>
 			</div>
 			<div class="paddingLeft5px">
 				<h4 class="recordLabel u-text-ellipsis pushDown marginbottomZero" title="{$RECORD->getName()}">

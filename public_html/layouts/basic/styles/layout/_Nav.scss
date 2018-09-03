@@ -253,10 +253,12 @@
 					text-decoration: none;
 				}
 			}
+
 			.c-badge--top-right {
 				position:inherit;
 				margin-left:5px;
 			}
+
 			&.show .dropdown-toggle,
 			&.active .dropdown-toggle {
 				background: $bg-rtabs-active;

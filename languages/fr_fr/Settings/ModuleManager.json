@@ -3,7 +3,8 @@
     "LBL_VERSION": "Version",
     "LBL_INSTALLATION": "Installation",
     "LBL_LIBRARY_ACTION": "Actions",
-    "LBL_TOO_SMALL_UPLOAD_LIMIT_DESC": "La limite de t\u00e9l\u00e9chargement est trop petite (%s) pour que le fichier ne puisse pas \u00eatre t\u00e9l\u00e9charg\u00e9 sur le serveur. Il est recommand\u00e9 de v\u00e9rifier la configuration du syst\u00e8me <a href=\"index.php?parent=Settings&module=ConfReport&view=Index\">V\u00e9rifiez la configuration du serveur<\/a>",
+    "LBL_TOO_SMALL_UPLOAD_LIMIT_DESC": "La limite de t\u00e9l\u00e9chargement est trop petite (%s) pour que le fichier ne puisse pas \u00eatre t\u00e9l\u00e9charg\u00e9 sur le serveur. Il est recommand\u00e9 de v\u00e9rifier la configuration du syst\u00e8me %s",
+    "LBL_CHECK_SERVER_CONFIG": "V\u00e9rifiez la configuration du serveur",
     "LBL_LIBRARY_STATUS": "Statut",
     "Module Manager": "Gestionnaire de module",
     "LBL_ERROR_NO_VALID_PREFIX": "Pr\u00e9fixe de langue incorrect",
@@ -74,7 +75,9 @@
     "LBL_LIBRARY_NO_DOWNLOAD": "Non t\u00e9l\u00e9charg\u00e9",
     "LBL_LIBRARY_NEEDS_UPDATING": "Mise \u00e0 jour requise",
     "LBL_NO_PERMISSION_TO_DIR": "Pas d'autorisation pour les r\u00e9pertoires",
-    "LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings"
+    "LBL_ERROR_MODULE_NAME_CONTAINS_SETTINGS": "Module name must not contain the word Settings",
+    "LBL_SAMPLE_FIELD_NAME": "sample_name",
+    "LBL_SAMPLE_LABEL": "Sample name"
   },
   "js": {
     "JS_ON": "On",

@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 jQuery.Class("Notification_NotificationConfig_Js", {}, {
 	registerEventForModal: function (container) {
@@ -46,32 +47,32 @@ jQuery.Class("Notification_NotificationConfig_Js", {}, {
 			e.stopPropagation();
 			table.$('.watchingModule:not(:disabled)').prop('checked', $(this).is(':checked'));
 		});
-		container.find('.sentNotice').on('click', function (e) {
+		container.find('.sentNoticeAll').on('click', function (e) {
 			e.stopPropagation();
-			var element = jQuery(e.currentTarget);
-			var val = !element.hasClass('sandNoticeOn');
-			thisInstance.changeSendNoticeState(element);
+			let element = $(e.currentTarget).find('[data-fa-i2svg]');
+			let val = !element.hasClass('sandNoticeOn');
+			thisInstance.changeSendNoticeState(element, val);
 			table.$('.sandNoticeOn,.sandNoticeOff').each(function () {
 				thisInstance.changeSendNoticeState($(this), val);
 			});
 		});
-		table.$('.sandNoticeOn,.sandNoticeOff').on('click', function (e) {
+		table.$('.sentNotice').on('click', function (e) {
 			e.stopPropagation();
-			var element = jQuery(e.currentTarget);
+			let element = $(e.currentTarget).find('[data-fa-i2svg]');
 			thisInstance.changeSendNoticeState(element);
 		});
 	},
 	changeSendNoticeState: function (element, val) {
 		if (val !== undefined) {
 			if (val === true) {
-				element.addClass('fa-envelope').removeClass('fa-envelope-o');
+				element.addClass('fa-envelope').removeClass('fa-envelope-open');
 				element.addClass('sandNoticeOn').removeClass('sandNoticeOff');
 			} else {
-				element.addClass('fa-envelope-o').removeClass('fa-envelope');
+				element.addClass('fa-envelope-open').removeClass('fa-envelope');
 				element.addClass('sandNoticeOff').removeClass('sandNoticeOn');
 			}
 		} else {
-			element.toggleClass('fa-envelope fa-envelope-o');
+			element.toggleClass('fa-envelope fa-envelope-open');
 			element.toggleClass('sandNoticeOn sandNoticeOff');
 		}
 	},

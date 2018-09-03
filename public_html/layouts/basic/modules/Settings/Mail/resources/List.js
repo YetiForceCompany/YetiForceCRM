@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 	registerAcceptanceEvent: function () {
@@ -105,7 +106,7 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 			view: "List",
 			searchParams: searchParams
 		}
-		return params
+		return params;
 	},
 	registerListSearch: function () {
 		var thisInstance = this;

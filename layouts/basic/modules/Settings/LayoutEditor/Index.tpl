@@ -117,11 +117,27 @@
 													</button>
 													<ul class="dropdown-menu float-right">
 														<li class="blockVisibility"
-															data-visible="{if !$BLOCK_MODEL->isHidden()}1{else}0{/if}"
+															data-visible="0"
 															data-block-id="{$BLOCK_MODEL->get('id')}">
 															<a class="dropdown-item" href="javascript:void(0)">
-																<span class="fas fa-check {if $BLOCK_MODEL->isHidden()} d-none {/if}"></span>&nbsp;
+																<span class="fas fa-check {if !$BLOCK_MODEL->isHidden()} d-none {/if}"></span>&nbsp;
+																{App\Language::translate('LBL_ALWAYS_HIDE', $QUALIFIED_MODULE)}
+															</a>
+														</li>
+														<li class="blockVisibility"
+															data-visible="1"
+															data-block-id="{$BLOCK_MODEL->get('id')}">
+															<a class="dropdown-item" href="javascript:void(0)">
+																<span class="fas fa-check {if $BLOCK_MODEL->isHidden() || $BLOCK_MODEL->isDynamic()} d-none {/if}"></span>&nbsp;
 																{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
+															</a>
+														</li>
+														<li class="blockVisibility"
+															data-visible="2"
+															data-block-id="{$BLOCK_MODEL->get('id')}">
+															<a class="dropdown-item" href="javascript:void(0)">
+																<span class="fas fa-check {if !$BLOCK_MODEL->isDynamic()} d-none {/if}"></span>&nbsp;
+																{App\Language::translate('LBL_DYNAMIC_SHOW', $QUALIFIED_MODULE)}
 															</a>
 														</li>
 														<li class="inActiveFields">

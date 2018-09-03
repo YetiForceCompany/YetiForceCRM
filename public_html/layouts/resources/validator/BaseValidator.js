@@ -6,6 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
 jQuery.Class("Vtiger_Base_Validator_Js", {
 	moduleName: false,

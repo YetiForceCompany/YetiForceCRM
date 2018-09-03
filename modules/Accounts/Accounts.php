@@ -12,6 +12,7 @@
  * All Rights Reserved.
  * Contributor(s): ______________________________________.
  * ****************************************************************************** */
+
 /* * *******************************************************************************
  * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/modules/Accounts/Accounts.php,v 1.53 2005/04/28 08:06:45 rank Exp $
  * Description:  Defines the Account SugarBean Account entity with the necessary
@@ -139,7 +140,7 @@ class Accounts extends CRMEntity
 		$accountsList = $this->__getParentAccounts($id, $accountsList, $encountered_accounts);
 
 		$baseId = current(array_keys($accountsList));
-		$accountsList = [$baseId => $accountsList[$baseId]];
+		$accountsList = [$baseId => $accountsList[$baseId] ?? []];
 
 		// Get the accounts hierarchy (list of child accounts) based on the current account
 		$accountsList[$baseId] = $this->__getChildAccounts($baseId, $accountsList[$baseId], $accountsList[$baseId]['depth']);
@@ -257,7 +258,7 @@ class Accounts extends CRMEntity
 				if ($fieldName == 'assigned_user_id') {
 					$parent_account_info[$fieldName] = $row['user_name'];
 				} elseif ($fieldName == 'shownerid') {
-					$sharedOwners = Vtiger_SharedOwner_UIType::getSharedOwners($row['accountid']);
+					$sharedOwners = \App\Fields\SharedOwner::getById($row['accountid']);
 					if (!empty($sharedOwners)) {
 						$sharedOwners = implode(',', array_map('\App\Fields\Owner::getLabel', $sharedOwners));
 						$parent_account_info[$fieldName] = $sharedOwners;
@@ -315,7 +316,7 @@ class Accounts extends CRMEntity
 					if ($fieldName == 'assigned_user_id') {
 						$child_account_info[$fieldName] = $row['user_name'];
 					} elseif ($fieldName == 'shownerid') {
-						$sharedOwners = Vtiger_SharedOwner_UIType::getSharedOwners($child_acc_id);
+						$sharedOwners = \App\Fields\SharedOwner::getById($child_acc_id);
 						if (!empty($sharedOwners)) {
 							$sharedOwners = implode(',', array_map('\App\Fields\Owner::getLabel', $sharedOwners));
 							$child_account_info[$fieldName] = $sharedOwners;

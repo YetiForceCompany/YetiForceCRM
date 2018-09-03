@@ -6,8 +6,8 @@ namespace Api\Core;
  * Base action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class BaseAction
 {
@@ -29,19 +29,6 @@ class BaseAction
 		$this->checkPermissionToModule();
 
 		return true;
-	}
-
-	/**
-	 * Unfinished.
-	 *
-	 * @throws \Api\Core\Exception
-	 */
-	public function checkAction2()
-	{
-		$acceptableUrl = $this->controller->app['acceptable_url'];
-		if ($acceptableUrl && rtrim($this->controller->app['acceptable_url'], '/') != rtrim($params['fromUrl'], '/')) {
-			throw new \Api\Core\Exception('LBL_INVALID_SERVER_URL', 401);
-		}
 	}
 
 	/**
@@ -142,19 +129,17 @@ class BaseAction
 	 */
 	public function getParentCrmId()
 	{
-		if ($this->controller) {
-			if ($parentId = $this->controller->request->getHeader('X-PARENT-ID')) {
-				settype($parentId, 'int');
-				$hierarchy = new \Api\Portal\BaseModule\Hierarchy();
-				$hierarchy->session = $this->session;
-				$hierarchy->findId = $parentId;
-				$hierarchy->moduleName = \App\Record::getType(\App\Record::getParentRecord($this->getUserCrmId()));
-				$records = $hierarchy->get();
-				if (isset($records[$parentId])) {
-					return $parentId;
-				} else {
-					throw new \Api\Core\Exception('No permission to X-PARENT-ID', 403);
-				}
+		if ($this->controller && $parentId = $this->controller->request->getHeader('X-PARENT-ID')) {
+			settype($parentId, 'int');
+			$hierarchy = new \Api\Portal\BaseModule\Hierarchy();
+			$hierarchy->session = $this->session;
+			$hierarchy->findId = $parentId;
+			$hierarchy->moduleName = \App\Record::getType(\App\Record::getParentRecord($this->getUserCrmId()));
+			$records = $hierarchy->get();
+			if (isset($records[$parentId])) {
+				return $parentId;
+			} else {
+				throw new \Api\Core\Exception('No permission to X-PARENT-ID', 403);
 			}
 		}
 		return \App\Record::getParentRecord($this->getUserCrmId());

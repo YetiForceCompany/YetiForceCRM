@@ -6,6 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
 Settings_Workflows_Edit_Js("Settings_Workflows_Edit2_Js", {}, {
 
@@ -92,7 +93,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit2_Js", {}, {
 			}
 			progressIndicatorElement.progressIndicator({
 				'mode': 'hide'
-			})
+			});
 		});
 		return aDeferred.promise();
 	},

@@ -6,6 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
 Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 	validationSupportedFieldConditionMap: {
@@ -45,13 +46,13 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 	addNewCondition: function (conditionGroupElement) {
 		var basicElement = jQuery('.basic', conditionGroupElement);
 		var newRowElement = basicElement.find('.js-conditions-row').clone(true, true);
-		jQuery('select', newRowElement).addClass('chzn-select');
+		jQuery('select', newRowElement).addClass('select2');
 		var conditionList = jQuery('.conditionList', conditionGroupElement);
 		conditionList.append(newRowElement);
 
 		//change in to chosen elements
 		App.Fields.Picklist.changeSelectElementView(newRowElement);
-		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected', 'selected').trigger('chosen:updated').trigger('change');
+		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected', 'selected').trigger('change');
 		return this;
 	},
 	/**
@@ -98,7 +99,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 				}
 			}
 		}
-		conditionSelectElement.empty().html(options).trigger("chosen:updated");
+		conditionSelectElement.empty().html(options).trigger('change');
 		return conditionSelectElement;
 	},
 	/**
@@ -235,7 +236,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 			var conditionRow = fieldValueElement.closest('.js-conditions-row');
 
 			var clonedPopupUi = conditionsContainer.find('.popupUi').clone(true, true).removeClass('popupUi').addClass('clonedPopupUi');
-			clonedPopupUi.find('select').addClass('chzn-select');
+			clonedPopupUi.find('select').addClass('select2');
 			clonedPopupUi.find('.fieldValue').val(fieldValue);
 			if (fieldValueElement.hasClass('date')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
@@ -266,7 +267,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 				var clonedBooleanElement = '<input type="checkbox" class="fieldValue col-md-4" value="' + value + '" data-input="true" >';
 				clonedPopupUi.find('.fieldValueContainer').prepend(clonedBooleanElement);
 
-				var fieldValue = clonedPopupUi.find('.fieldValueContainer input').val();
+				fieldValue = clonedPopupUi.find('.fieldValueContainer input').val();
 				if (value == 'true:boolean' || value == '') {
 					clonedPopupUi.find('.fieldValueContainer input').attr('checked', 'checked');
 				} else {
@@ -306,11 +307,11 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 	postShowModalAction: function (data, valueType) {
 		if (valueType == 'fieldname') {
 			jQuery('.useFieldContainer', data).removeClass('d-none');
-			jQuery('.textType', data).val(valueType).trigger('chosen:updated');
+			jQuery('.textType', data).val(valueType).trigger('change');
 		} else if (valueType == 'expression') {
 			jQuery('.useFieldContainer', data).removeClass('d-none');
 			jQuery('.useFunctionContainer', data).removeClass('d-none');
-			jQuery('.textType', data).val(valueType).trigger('chosen:updated');
+			jQuery('.textType', data).val(valueType).trigger('change');
 		}
 		jQuery('#' + valueType + '_help', data).removeClass('d-none');
 		var uiType = jQuery('.textType', data).find('option:selected').data('ui');
@@ -355,7 +356,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 				concatenatedValue = oldValue + newValue;
 			}
 			data.find('.fieldValue').val(concatenatedValue);
-			currentElement.val('').trigger('chosen:updated');
+			currentElement.val('').trigger('change');
 		});
 	},
 	registerPopUpSaveEvent: function (data, fieldUiHolder) {
@@ -572,7 +573,7 @@ Vtiger_Field_Js('Vtiger_Boolean_Field_Js', {}, {
 
 Vtiger_Owner_Field_Js('AdvanceFilterEx_Owner_Field_Js', {}, {
 	getUi: function () {
-		var html = '<select class="chzn-select" name="' + this.getName() + '">';
+		var html = '<select class="select2" name="' + this.getName() + '">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = this.getValue();
 		for (var optGroup in pickListValues) {

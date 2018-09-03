@@ -169,7 +169,7 @@ class Vtiger_Export_Model extends \App\Base
 						$query->andWhere(['in', "$baseTable.$baseTableColumnId", $idList]);
 					}
 				} else {
-					$query->andWhere(['not in', "$baseTable.$baseTableColumnId", $request->get('excluded_ids')]);
+					$query->andWhere(['not in', "$baseTable.$baseTableColumnId", $request->getArray('excluded_ids', 2)]);
 				}
 				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
@@ -241,7 +241,7 @@ class Vtiger_Export_Model extends \App\Base
 				}
 			}
 		}
-		$recordId = $arr[$this->focus->table_index];
+		$recordId = $arr[$this->focus->table_index] ?? '';
 		$moduleName = $this->moduleInstance->getName();
 		foreach ($arr as $fieldName => &$value) {
 			if (isset($this->fieldArray[$fieldName])) {
@@ -275,9 +275,8 @@ class Vtiger_Export_Model extends \App\Base
 			} elseif ($uitype === 52 || $type === 'owner') {
 				$value = \App\Fields\Owner::getLabel($value);
 			} elseif ($uitype === 120) {
-				$uitypeInstance = new Vtiger_SharedOwner_UIType();
 				$values = [];
-				foreach ($uitypeInstance->getSharedOwners($recordId) as $owner) {
+				foreach (\App\Fields\SharedOwner::getById($recordId) as $owner) {
 					$values[] = \App\Fields\Owner::getLabel($owner);
 				}
 				$value = implode(',', $values);

@@ -6,8 +6,8 @@ namespace App\TextParser;
  * Products table class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class ProductsTable extends Base
 {
@@ -199,6 +199,7 @@ class ProductsTable extends Base
 									</tr>
 								</thead>
 								<tbody>';
+					$currencyAmount = 0;
 					foreach ($taxes as $key => &$tax) {
 						$currencyAmount += $tax;
 						$html .= '<tr>

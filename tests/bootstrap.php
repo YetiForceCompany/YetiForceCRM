@@ -6,6 +6,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+$installDatabase = true;
 chdir(__DIR__ . '/../');
 set_include_path(getcwd());
 define('ROOT_DIRECTORY', getcwd());
@@ -41,4 +42,17 @@ App\Session::init();
 
 if (IS_WINDOWS) {
 	App\User::setCurrentUserId(1);
+}
+if ($installDatabase) {
+	echo 'Installing test database ...' . PHP_EOL;
+	require_once 'install/models/InitSchema.php';
+
+	$_SESSION['config_file_info']['currency_name'] = 'Poland, Zlotych';
+	$_SESSION['config_file_info']['currency_code'] = 'PLN';
+	$_SESSION['config_file_info']['currency_symbol'] = 'zł';
+
+	$initSchema = new \Install_InitSchema_Model();
+	$initSchema->initialize();
+} else {
+	echo 'Skipped test database install ...' . PHP_EOL;
 }

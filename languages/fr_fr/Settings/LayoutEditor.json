@@ -141,6 +141,10 @@
     "LBL_TOTAL_PRICE_DESC": "Champ non \u00e9ditable calcul\u00e9 automatiquement, contenant le prix HT pour un \u00e9l\u00e9ment donn\u00e9. (Quantit\u00e9 * Prix unitaire).",
     "LBL_DISCOUNT_PRICE_DESC": "Champ non \u00e9ditable calcul\u00e9 automatiquement, contenant le prix HT apr\u00e8s remise pour un \u00e9l\u00e9ment donn\u00e9. (Prix HT - Remise).",
     "LBL_TAX_DESC": "Champ num\u00e9rique utilis\u00e9 pour saisir la valeur de la taxe pour un \u00e9l\u00e9ment donn\u00e9, la taxe peut \u00eatre choisie parmi les taxes disponibles. R\u00e8gles de calculs peuvent \u00eatre personnalis\u00e9es via l'administration syst\u00e8me.",
+    "LBL_STRING": "Text",
+    "LBL_STRING_DESC": "Additional field used to enter any value by the user.",
+    "LBL_DOUBLE": "Decimal",
+    "LBL_DOUBLE_DESC": "",
     "LBL_VALUE_DESC": "Champ additionnel utilis\u00e9 pour la saisie d'une valeur par l'utilisateur.",
     "LBL_REFERENCE_DESC": "Champ additionnel utilis\u00e9 pour li\u00e9 un \u00e9l\u00e9ment donn\u00e9 avec n'importe quel autre enregistrement dans le syst\u00e8me.",
     "LBL_PURCHASE_DESC": "Champ num\u00e9rique utilis\u00e9 pour saisir la valeur d'achat d'un \u00e9l\u00e9ment donn\u00e9.",
@@ -171,6 +175,7 @@
     "LBL_DATE_DESC": "",
     "LBL_PICKLIST": "Picklist",
     "LBL_PICKLIST_DESC": "",
+    "LBL_WRONG_RELATION": "Invalid relation value",
     "Image": "Image file",
     "MultiImage": "Multi image files",
     "DateTime": "Date and time file"

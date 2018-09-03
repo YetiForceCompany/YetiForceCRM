@@ -6,6 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
+'use strict';
 
 jQuery.Class('Settings_PickListDependency_Js', {
 	//holds the picklist dependency instance
@@ -125,7 +126,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var thisInstance = this;
 		form.find('[name="sourceField"],[name="targetField"]').on('change', function () {
 			thisInstance.checkValuesForDependencyGraph(form);
-		})
+		});
 	},
 	/**
 	 * Function used to check the selected picklist fields are valid before showing dependency graph
@@ -140,10 +141,10 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var targetFieldValue = targetField.val();
 		var dependencyGraph = jQuery('#dependencyGraph');
 		if (sourceFieldValue != '' && targetFieldValue != '') {
-			var result = app.vtranslate('JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME');
+			var resultMessage = app.vtranslate('JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME');
 			form.find('.errorMessage').addClass('d-none');
 			if (sourceFieldValue == targetFieldValue) {
-				select2TargetField.validationEngine('showPrompt', result, 'error', 'topLeft', true);
+				select2TargetField.validationEngine('showPrompt', resultMessage, 'error', 'topLeft', true);
 				dependencyGraph.html('');
 			} else {
 				select2SourceField.validationEngine('hide');
@@ -350,8 +351,9 @@ jQuery.Class('Settings_PickListDependency_Js', {
 		var sourceValuesArray = thisInstance.updatedSourceValues;
 		var dependencyTable = dependencyGraph.find('.pickListDependencyTable');
 		for (var key in sourceValuesArray) {
+			let encodedSourceValue;
 			if (typeof sourceValuesArray[key] == 'string') {
-				var encodedSourceValue = sourceValuesArray[key].replace(/"/g, '\\"');
+				encodedSourceValue = sourceValuesArray[key].replace(/"/g, '\\"');
 			} else {
 				encodedSourceValue = sourceValuesArray[key];
 			}
@@ -407,7 +409,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 					callBackFunction(data);
 				}
 			}, {'width': '1000px'});
-		})
+		});
 	},
 	/**
 	 * Function used to load mapping for selected picklist fields

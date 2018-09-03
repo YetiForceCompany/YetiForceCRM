@@ -119,7 +119,7 @@ class ModTracker
 	{
 		$rows = (new \App\Db\Query())->from('vtiger_modtracker_tabs')->all();
 		foreach ($rows as &$row) {
-			if ($row['visible'] === 1) {
+			if ((int) $row['visible'] === 1) {
 				App\Cache::save('isTrackingEnabledForModule', $row['tabid'], true, App\Cache::LONG);
 				$modules[] = \App\Module::getModuleName($row['tabid']);
 			} else {

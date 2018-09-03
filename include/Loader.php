@@ -15,7 +15,6 @@ class Vtiger_Loader
 	protected static $loaderDirs = [
 		'custom.modules.',
 		'modules.',
-		'admin.modules.',
 	];
 
 	/**
@@ -121,47 +120,48 @@ class Vtiger_Loader
 			$moduleClassPath = str_replace(':', '_', $moduleName);
 			$actualModule = $moduleHierarchyParts[count($moduleHierarchyParts) - 1];
 			$secondFallBackModuleDir = $secondFallBackModuleClassPath = $actualModule;
-			if ($actualModule != 'Users') {
+			if ($actualModule !== 'Users') {
 				$baseModule = $moduleHierarchyParts[0];
-				if ($baseModule == 'Settings') {
+				if ($baseModule === 'Settings') {
 					$baseModule = 'Settings:Vtiger';
 				}
 				$firstFallBackDir = str_replace(':', '.', $baseModule);
 				$firstFallBackClassPath = str_replace(':', '_', $baseModule);
 			}
 		}
-		// Build module specific file path and class name
-		$moduleSpecificComponentFilePath = self::resolveNameToPath('modules.' . $moduleDir . '.' . $componentTypeDirectory . '.' . $componentName);
-		$moduleSpecificComponentClassName = $moduleClassPath . '_' . $componentName . '_' . $componentType;
-		if (file_exists($moduleSpecificComponentFilePath)) {
-			return $moduleSpecificComponentClassName;
-		}
+		// search for file in all predefined directories
+		foreach (self::$loaderDirs as $dir) {
+			// Build module specific file path and class name
+			$moduleSpecificComponentFilePath = self::resolveNameToPath($dir . $moduleDir . '.' . $componentTypeDirectory . '.' . $componentName);
+			$moduleSpecificComponentClassName = $moduleClassPath . '_' . $componentName . '_' . $componentType;
+			if (file_exists($moduleSpecificComponentFilePath)) {
+				return $moduleSpecificComponentClassName;
+			}
 
-		// Build first intermediate fall back file path and class name
-		if (!empty($firstFallBackDir) && !empty($firstFallBackClassPath)) {
-			$fallBackComponentFilePath = self::resolveNameToPath('modules.' . $firstFallBackDir . '.' . $componentTypeDirectory . '.' . $componentName);
-			$fallBackComponentClassName = $firstFallBackClassPath . '_' . $componentName . '_' . $componentType;
+			// Build first intermediate fall back file path and class name
+			if (!empty($firstFallBackDir) && !empty($firstFallBackClassPath)) {
+				$fallBackComponentFilePath = self::resolveNameToPath($dir . $firstFallBackDir . '.' . $componentTypeDirectory . '.' . $componentName);
+				$fallBackComponentClassName = $firstFallBackClassPath . '_' . $componentName . '_' . $componentType;
+				if (file_exists($fallBackComponentFilePath)) {
+					return $fallBackComponentClassName;
+				}
+			}
 
+			// Build intermediate fall back file path and class name
+			if (!empty($secondFallBackModuleDir) && !empty($secondFallBackModuleClassPath)) {
+				$fallBackComponentFilePath = self::resolveNameToPath($dir . $secondFallBackModuleDir . '.' . $componentTypeDirectory . '.' . $componentName);
+				$fallBackComponentClassName = $secondFallBackModuleClassPath . '_' . $componentName . '_' . $componentType;
+				if (file_exists($fallBackComponentFilePath)) {
+					return $fallBackComponentClassName;
+				}
+			}
+
+			// Build fall back file path and class name
+			$fallBackComponentFilePath = self::resolveNameToPath($dir . $fallBackModuleDir . '.' . $componentTypeDirectory . '.' . $componentName);
+			$fallBackComponentClassName = $fallBackModuleClassPath . '_' . $componentName . '_' . $componentType;
 			if (file_exists($fallBackComponentFilePath)) {
 				return $fallBackComponentClassName;
 			}
-		}
-
-		// Build intermediate fall back file path and class name
-		if (!empty($secondFallBackModuleDir) && !empty($secondFallBackModuleClassPath)) {
-			$fallBackComponentFilePath = self::resolveNameToPath('modules.' . $secondFallBackModuleDir . '.' . $componentTypeDirectory . '.' . $componentName);
-			$fallBackComponentClassName = $secondFallBackModuleClassPath . '_' . $componentName . '_' . $componentType;
-
-			if (file_exists($fallBackComponentFilePath)) {
-				return $fallBackComponentClassName;
-			}
-		}
-
-		// Build fall back file path and class name
-		$fallBackComponentFilePath = self::resolveNameToPath('modules.' . $fallBackModuleDir . '.' . $componentTypeDirectory . '.' . $componentName);
-		$fallBackComponentClassName = $fallBackModuleClassPath . '_' . $componentName . '_' . $componentType;
-		if (file_exists($fallBackComponentFilePath)) {
-			return $fallBackComponentClassName;
 		}
 
 		if ($throwException) {

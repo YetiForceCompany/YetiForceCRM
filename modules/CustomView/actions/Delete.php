@@ -27,6 +27,9 @@ class CustomView_Delete_Action extends \App\Controller\Action
 	{
 		$customViewModel = CustomView_Record_Model::getInstanceById($request->getInteger('record'));
 		$customViewModel->delete();
+		if ($request->getInteger('record') == App\CustomView::getCurrentView($customViewModel->getModule()->get('name'))) {
+			\App\CustomView::resetCurrentView();
+		}
 		$listViewUrl = $customViewModel->getModule()->getListViewUrl();
 		header("Location: $listViewUrl");
 	}
