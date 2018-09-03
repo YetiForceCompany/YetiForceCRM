@@ -35,14 +35,14 @@
 				</div>
 				{assign var=RELATED_TO value=$RECORD->get('linktoaccountscontacts')}
 				{if !empty($RELATED_TO)}
-					<div class="js-popover-tooltip d-flex flex-nowrap" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('linktoaccountscontacts')}" data-toggle="popover" data-js="tooltip">
+					<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('linktoaccountscontacts')}" data-toggle="popover" data-js="tooltip">
 						<span class="mr-1 text-muted u-white-space-nowrap">{\App\Language::translate('Related to',$MODULE_NAME)}
 							:</span>
 						<span class="js-popover-text">{$RECORD->getDisplayValue('linktoaccountscontacts')}</span>
 						<span class="fas fa-info-circle fa-sm js-popover-icon d-none"></span>
 					</div>
 				{/if}
-				<div class="js-popover-tooltip d-flex flex-nowrap" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('assigned_user_id')}" data-toggle="popover" data-js="tooltip">
+				<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('assigned_user_id')}" data-toggle="popover" data-js="tooltip">
 				<span class="mr-1 text-muted u-white-space-nowrap">
 						{\App\Language::translate('Assigned To',$MODULE_NAME)}:</span>
 					<span class="js-popover-text">{$RECORD->getDisplayValue('assigned_user_id')}</span>
@@ -50,9 +50,10 @@
 				</div>
 				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 				{if $SHOWNERS != ''}
-					<div class="js-popover-tooltip d-flex flex-nowrap" data-ellipsis="true" data-content='{$SHOWNERS}' data-toggle="popover" data-js="tooltip">
-						<span class="mr-1 text-muted u-white-space-nowrap">{\App\Language::translate('Share with users',$MODULE_NAME)}
-							:</span>
+					<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content='{$SHOWNERS}' data-toggle="popover" data-js="tooltip">
+						<span class="mr-1 text-muted u-white-space-nowrap">
+							{\App\Language::translate('Share with users',$MODULE_NAME)}:
+						</span>
 						<span class="js-popover-text">{$SHOWNERS}</span>
 						<span class="fas fa-info-circle fa-sm js-popover-icon d-none"></span>
 					</div>
