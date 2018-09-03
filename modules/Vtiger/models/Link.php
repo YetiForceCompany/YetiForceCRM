@@ -372,10 +372,10 @@ class Vtiger_Link_Model extends vtlib\Link
 	 * Function to get all the Vtiger Link Models for a module of the given list of link types.
 	 *
 	 * @param int        $tabid
-	 * @param array      $type
+	 * @param string[]   $type
 	 * @param bool|array $parameters
 	 *
-	 * @return array - List of Vtiger_Link_Model instances
+	 * @return Vtiger_Link_Model[] - List of Vtiger_Link_Model instances
 	 */
 	public static function getAllByType($tabid, $type = [], $parameters = false)
 	{
