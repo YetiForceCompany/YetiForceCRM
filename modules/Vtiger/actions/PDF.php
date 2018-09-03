@@ -103,8 +103,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			if ($singlePdf) {
 				$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Tcpdf', $moduleName);
 				$pdf = new $handlerClass();
-				$styles = '';
-				$classes = '';
 				foreach ($recordId as $index => $record) {
 					$templateIdsTemp = $templateIds;
 					$pdf->setRecordId($recordId[0]);
@@ -115,47 +113,26 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 					$pdf->setWaterMark($template);
 					$pdf->setLanguage($template->get('language'));
 					App\Language::setTemporaryLanguage($template->get('language'));
-					$template->getParameters();
-					$styles .= " @page template_{$record}_{$firstTemplate} {
-						sheet-size: {$template->getFormat()};
-						margin-top: {$template->get('margin_top')}mm;
-						margin-left: {$template->get('margin_left')}mm;
-						margin-right: {$template->get('margin_right')}mm;
-						margin-bottom: {$template->get('margin_bottom')}mm;
-						odd-header-name: html_Header_{$record}_{$firstTemplate};
-						odd-footer-name: html_Footer_{$record}_{$firstTemplate};
-					}";
-					$classes .= ' div.page_' . $record . '_' . $firstTemplate . ' { page-break-before: always; page: template_' . $record . '_' . $firstTemplate . '; }';
-					$body = '<div class="page_' . $record . '_' . $firstTemplate . '">' . $template->getBody() . '</div>';
-					$pdf->pdf()->setHtmlHeader('<div style="background-color:red">' . $id . '</div>'); //,$template->getHeader()$template->getHeader());
-					$pdf->pdf()->AddPage();
-					$pdf->pdf()->setHtmlFooter('<div style="background-color:red">' . $id . '</div>'); //,$template->getHeader()$template->getFooter());
-					$pdf->pdf()->writeHTML($body, true, false, true, false, '');
+					$pdf->parseParams($template->getParameters());
+					$pdf->pdf()->setHtmlHeader($template->getHeader());
+					$pdf->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
+					$pdf->parseParams($template->getParameters());
+					$pdf->pdf()->setHtmlFooter($template->getFooter());
+					$pdf->pdf()->writeHTML($template->getBody(), true, true, true, true, '');
 					$pdf->pdf()->lastPage();
 					foreach ($templateIdsTemp as $id) {
 						$template = Vtiger_PDF_Model::getInstanceById($id);
 						$template->setMainRecordId($record);
+						$pdf->setModuleName($moduleName);
 						$pdf->setWaterMark($template);
 						$pdf->setLanguage($template->get('language'));
 						App\Language::setTemporaryLanguage($template->get('language'));
-
-						/* to nie działa w tcp
-						$styles .= " @page template_{$record}_{$id} {
-							sheet-size: {$template->getFormat()};
-							margin-top: {$template->get('margin_top')}mm;
-							margin-left: {$template->get('margin_left')}mm;
-							margin-right: {$template->get('margin_right')}mm;
-							margin-bottom: {$template->get('margin_bottom')}mm;
-							odd-header-name: html_Header_{$record}_{$id};
-							odd-footer-name: html_Footer_{$record}_{$id};
-						}";
-						$classes .= ' div.page_' . $record . '_' . $id . ' { page-break-before: always; page: template_' . $record . '_' . $id . '; }';
-						*/
-						$body = '<div class="page_' . $record . '_' . $id . '">' . $template->getBody() . '</div>';
-						$pdf->pdf()->setHtmlHeader('<div style="background-color:red">' . $id . '</div>'); //,$template->getHeader());
-						$pdf->pdf()->AddPage();
-						$pdf->pdf()->setHtmlFooter('<div style="background-color:red">' . $id . '</div>'); //,$template->getHeader()$template->getFooter());
-						$pdf->pdf()->writeHTML($body, true, false, true, false, '');
+						$pdf->parseParams($template->getParameters());
+						$pdf->pdf()->setHtmlHeader($template->getHeader());
+						$pdf->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
+						$pdf->parseParams($template->getParameters());
+						$pdf->pdf()->setHtmlFooter($template->getFooter());
+						$pdf->pdf()->writeHTML($template->getBody(), true, true, true, true, '');
 						$pdf->pdf()->lastPage();
 					}
 				}
@@ -164,7 +141,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			} else {
 				mt_srand(time());
 				$postfix = time() . '_' . mt_rand(0, 1000);
-
 				$pdfFiles = [];
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
@@ -173,15 +149,17 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$pdf->setTemplateId($id);
 						$pdf->setRecordId($record);
 						$pdf->setModuleName($moduleName);
-						$pdf->setWaterMark($template);
 						$template = Vtiger_PDF_Model::getInstanceById($id);
 						$template->setMainRecordId($record);
+						$pdf->setWaterMark($template);
 						$pdf->setLanguage($template->get('language'));
 						App\Language::setTemporaryLanguage($template->get('language'));
 						$pdf->setFileName($template->get('filename'));
 						$pdf->parseParams($template->getParameters());
-						$pdf->setHeader('Header', $template->getHeader());
-						$pdf->setFooter('Footer', $template->getFooter());
+						$pdf->pdf()->setHtmlHeader($template->getHeader());
+						$pdf->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
+						$pdf->parseParams($template->getParameters());
+						$pdf->pdf()->setHtmlFooter($template->getFooter());
 						$pdf->loadHTML($template->getBody());
 						$pdfFileName = 'cache/pdf/' . $record . '_' . $pdf->getFileName() . '_' . $postfix . '.pdf';
 						$pdf->output($pdfFileName, 'F');

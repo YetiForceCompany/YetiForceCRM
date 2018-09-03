@@ -173,6 +173,40 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 		$this->footerFontSize = $size;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function SetLeftMargin($margin)
+	{
+		parent::SetLeftMargin($margin);
+		$this->original_lMargin = $margin;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function SetRightMargin($margin)
+	{
+		parent::SetRightMargin($margin);
+		$this->original_rMargin = $margin;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function SetMargins($left, $top, $right = -1, $keepmargins = false)
+	{
+		//Set left, top and right margins
+		$this->SetLeftMargin($left);
+		$this->SetTopMargin($top);
+		if ($right === -1) {
+			$right = $left;
+		}
+		$this->SetRightMargin($right);
+		$this->original_lMargin = $this->lMargin;
+		$this->original_rMargin = $this->rMargin;
+	}
+
 	/*public function SetFont($family, $style = '', $size = null, $fontfile = '', $subset = 'default', $out = true)
 	{
 		$this->setFontSubsetting(true);
@@ -209,6 +243,14 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 	}
 
 	/**
+	 * Clear watermark image.
+	 */
+	public function clearWatermarkImage()
+	{
+		$this->watermark['image']['path'] = '';
+	}
+
+	/**
 	 * Set watermark text.
 	 *
 	 * @param string $text
@@ -230,24 +272,46 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 	 */
 	public function Header()
 	{
-		$this->setFontSubsetting(true);
-		$this->setFont($this->headerFontFamily, $this->headerFontVariation, $this->headerFontSize);
 		if (!empty($this->watermark['render'])) {
 			$pageBreakMargin = $this->getBreakMargin();
 			$pageBreak = $this->AutoPageBreak;
 			$oldX = $this->GetX();
 			$oldY = $this->GetY();
 			$oldAplha = $this->GetAlpha();
+			//$this->SetX(0);
+			//$this->SetY(0);
 			$this->SetAlpha($this->watermark['alpha']);
-			$this->SetAutoPageBreak(false, 0);
-			$this->Image($this->watermark['image']['path'], 0, 0, $this->watermark['image']['width'], $this->watermark['image']['height'], '', '', 'M', true, 300, 'C', false, false, 0, false, false, true);
+			$this->SetAutoPageBreak(false, $this->getFooterMargin());
+			$this->Image(
+				$this->watermark['image']['path'], // filename
+				0,  // x
+				$this->tMargin,  // y
+				$this->watermark['image']['width'], // width
+				$this->watermark['image']['height'], // height
+				'', // type jpg png
+				'', // url link
+				'M', // align
+				true,// resize
+				300, // dpi
+				'C', // palign
+				false, // is mask
+				false, // img mask
+				0, // border
+				false, // fitbox
+				false, // hidden
+				true // fit on page
+			);
 			$this->SetAutoPageBreak($pageBreak, $pageBreakMargin);
 			$this->setPageMark();
 			$this->SetX($oldX);
 			$this->SetY($oldY);
 			$this->SetAlpha($oldAplha);
 		}
-		$this->writeHTML($this->getHtmlHeader());
+		if ($header = $this->getHtmlHeader()) {
+			$this->setFontSubsetting(true);
+			$this->setFont($this->headerFontFamily, $this->headerFontVariation, $this->headerFontSize);
+			$this->writeHTML($header);
+		}
 	}
 
 	/**
@@ -255,7 +319,9 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 	 */
 	public function Footer()
 	{
-		$this->setFont($this->footerFontFamily, $this->footerFontVariation, $this->footerFontSize);
-		$this->writeHTML($this->getHtmlFooter());
+		if ($footer = $this->getHtmlFooter()) {
+			$this->setFont($this->footerFontFamily, $this->footerFontVariation, $this->footerFontSize);
+			$this->writeHTML($footer);
+		}
 	}
 }
