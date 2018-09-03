@@ -412,7 +412,7 @@ hr {
 		background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#eeeff2), to(#eeeff2));
 		background-image: -webkit-linear-gradient(top, #eeeff2, #eeeff2);
 		background-image: -o-linear-gradient(top, #eeeff2, #eeeff2);
-		background-image: linear-gradient(top, #eeeff2, #eeeff2);
+		background-image: linear-gradient(to top, #eeeff2, #eeeff2);
 		background-repeat: repeat-x;
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeff2', endColorstr='#eeeff2', GradientType=0);
 		border-color: #eeeff2 #eeeff2 #c3c6d1;
@@ -691,7 +691,7 @@ hr {
 	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
 	background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
 	background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
-	background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: linear-gradient(to top, #f6f6f6, #f3f3f4);
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
 }
@@ -724,7 +724,7 @@ td.fieldValue {
 		background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
 		background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
 		background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
-		background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
+		background-image: linear-gradient(to top, #f6f6f6, #f3f3f4);
 		background-repeat: repeat-x;
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
 		border-color: #f3f3f4 #f3f3f4 #cbcbcf;
@@ -1319,7 +1319,7 @@ td.fieldValue {
 			background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
 			background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
 			background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
-			background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
+			background-image: linear-gradient(to top, #f6f6f6, #f3f3f4);
 			background-repeat: repeat-x;
 			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
 			border-color: #f3f3f4 #f3f3f4 #cbcbcf;
@@ -1533,7 +1533,6 @@ td.fieldValue {
 .close {
 	border: none;
 	background: none repeat scroll 0 0 transparent;
-	border: 0 none;
 	cursor: pointer;
 }
 
@@ -1764,7 +1763,7 @@ textarea.col-md-11 {
 	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
 	background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
 	background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
-	background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: linear-gradient(to top, #f6f6f6, #f3f3f4);
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
 	border-color: #f3f3f4 #f3f3f4 #cbcbcf;
@@ -1929,7 +1928,7 @@ textarea {
 	border: 1px solid #ddd;
 }
 
-.alignMiddle, .tableMiddle td, tableMiddle th {
+.alignMiddle, .tableMiddle td, .tableMiddle th {
 	vertical-align: middle !important;
 }
 
@@ -2322,7 +2321,7 @@ span[name=existingImages] img {
 		background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
 		background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
 		background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
-		background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
+		background-image: linear-gradient(to top, #f6f6f6, #f3f3f4);
 		background-repeat: repeat-x;
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
 		border-color: #f3f3f4 #f3f3f4 #cbcbcf;
@@ -2615,7 +2614,6 @@ html, body, .o-base-container {
 	display: block;
 	padding: 3px 20px;
 	clear: both;
-	font-weight: normal;
 	line-height: 1.42857143;
 	color: #111;
 	white-space: nowrap;
