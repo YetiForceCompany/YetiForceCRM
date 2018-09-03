@@ -158,9 +158,9 @@
 						{/if}
 						{/foreach}
 					</div>
-					{if 1 === $MODULE_TYPE && !isset($RECORD_STRUCTURE_RIGHT)}
-						{include file=\App\Layout::getTemplatePath('Edit/Inventory.tpl', $MODULE)}
-					{/if}
 					{/foreach}
 				</div>
+				{if 1 === $MODULE_TYPE && !isset($RECORD_STRUCTURE_RIGHT)}
+					{include file=\App\Layout::getTemplatePath('Edit/Inventory.tpl', $MODULE)}
+				{/if}
 				{/strip}
