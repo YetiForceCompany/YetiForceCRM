@@ -341,6 +341,11 @@
 		position: relative;
 		top: -43px;
 		left: -27px;
+
+		@at-root .IStorages_Detail #{&} {
+			top: -41px;
+			left: -19px;
+		}
 	}
 
 	.popover {
