@@ -16,7 +16,31 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	const WATERMARK_TYPE_TEXT = 0;
 	const WATERMARK_TYPE_IMAGE = 1;
 
+	/**
+	 * HTML content.
+	 *
+	 * @var string
+	 */
+	public $html = '';
+
+	/**
+	 * Page orientation.
+	 *
+	 * @var array
+	 */
 	public $pageOrientation = ['PLL_PORTRAIT' => 'P', 'PLL_LANDSCAPE' => 'L'];
+
+	/**
+	 * Default margins.
+	 *
+	 * @var array
+	 */
+	public $defaultMargins = [
+		'left' => 15,
+		'right' => 15,
+		'top' => 16,
+		'bottom' => 16
+	];
 
 	/**
 	 * Default font.
@@ -51,7 +75,7 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 		$this->pdf = new Vtiger_Yftcpdf_Pdf($orientation, 'mm', $format, true, $mode);
 		$this->pdf->setFontSubsetting(true);
 		$this->pdf->SetFont($this->defaultFontFamily, '', $this->defaultFontSize);
-		$this->pdf->SetMargins($leftMargin, $topMargin, $rightMargin);
+		$this->pdf->SetMargins($leftMargin, $topMargin, $rightMargin, true);
 		$this->pdf->SetHeaderMargin($headerMargin);
 		$this->pdf->SetFooterMargin($footerMargin);
 		$this->pdf->SetAutoPageBreak(true, $bottomMargin);
@@ -195,21 +219,39 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 				case 'margin-top':
 					if (is_numeric($value)) {
 						$this->setTopMargin($value);
+					} else {
+						$this->setTopMargin($this->defaultMargins['top']);
 					}
 					break;
 				case 'margin-bottom':
 					if (is_numeric($value)) {
 						$this->setBottomMargin($value);
+					} else {
+						$this->setBottomMargin($this->defaultMargins['bottom']);
 					}
 					break;
 				case 'margin-left':
 					if (is_numeric($value)) {
 						$this->setLeftMargin($value);
+					} else {
+						$this->setLeftMargin($this->defaultMargins['left']);
 					}
 					break;
 				case 'margin-right':
 					if (is_numeric($value)) {
 						$this->setRightMargin($value);
+					} else {
+						$this->setRightMargin($this->defaultMargins['right']);
+					}
+					break;
+				case 'header_height':
+					if (is_numeric($value)) {
+						$this->pdf->setHeaderMargin($value);
+					}
+					break;
+				case 'footer_height':
+					if (is_numeric($value)) {
+						$this->pdf->setFooterMargin($value);
 					}
 					break;
 				case 'title':
@@ -296,7 +338,7 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	 */
 	public function loadHTML($html)
 	{
-		$this->html = $html;
+		$this->html .= $html;
 	}
 
 	/**
@@ -308,12 +350,7 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 			$fileName = $this->getFileName() . '.pdf';
 			$dest = 'I';
 		}
-		$pages = explode('<div style="page-break-after:always;"><span style="display:none;"> </span></div>', $this->html);
-		foreach ($pages as $page) {
-			$this->pdf->AddPage();
-			$this->pdf->writeHTML($page, true, false, true, false, '');
-			$this->pdf->lastPage();
-		}
+		$this->writeHTML();
 		$this->pdf->Output(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $fileName, $dest);
 	}
 
@@ -326,6 +363,8 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	{
 		if ($templateModel->get('watermark_image')) {
 			$this->pdf->setWatermarkImage($templateModel->get('watermark_image'), 0.5, 'P');
+		} else {
+			$this->pdf->clearWatermarkImage();
 		}
 		/*if ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT) {
 			$this->pdf->SetWatermarkText($templateModel->get('watermark_text'), 0.15);
@@ -363,11 +402,13 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 		$self->setLanguage($template->get('language'));
 		$self->setFileName($template->get('filename'));
 		App\Language::setTemporaryLanguage($template->get('language'));
+		$self->pdf->setHeaderFont([$this->defaultFont, '', $this->defaultFontSize]);
+		$self->pdf->setFooterFont([$this->defaultFont, '', $this->defaultFontSize]);
 		$self->parseParams($template->getParameters());
-		$this->pdf->setHeaderFont([$this->defaultFont, '', $this->defaultFontSize]);
-		$this->pdf->setFooterFont([$this->defaultFont, '', $this->defaultFontSize]);
-		$self->setHeader('Header', $template->getHeader());
-		$self->setFooter('Footer', $template->getFooter());
+		$self->pdf()->setHtmlHeader($template->getHeader());
+		$self->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
+		$self->parseParams($template->getParameters());
+		$self->pdf()->setHtmlFooter($template->getFooter());
 		$self->loadHTML($template->getBody());
 		$self->output($filePath, $saveFlag);
 		App\Language::clearTemporaryLanguage();

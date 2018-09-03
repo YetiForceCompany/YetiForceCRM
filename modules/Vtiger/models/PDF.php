@@ -386,6 +386,9 @@ class Vtiger_PDF_Model extends \App\Base
 		$parameters = [];
 		$parameters['page_format'] = $this->get('page_format');
 		$parameters['page_orientation'] = $this->get('page_orientation');
+		$parameters['header_height'] = $this->get('header_height');
+		$parameters['footer_height'] = $this->get('footer_height');
+
 		// margins
 		if ($this->get('margin_chkbox') == 0) {
 			$parameters['margin-top'] = $this->get('margin_top');
