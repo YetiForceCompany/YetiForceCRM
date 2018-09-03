@@ -5840,7 +5840,7 @@ button.bg-dark:focus {
 
   .align-self-xxl-stretch {
     align-self: stretch !important; } }
-.float-left {
+.float-left, .profilesEditView .footable-toggle {
   float: left !important; }
 
 .float-right {
@@ -11561,6 +11561,10 @@ select[readonly], select[disabled] {
 .u-w-3per-250px {
   width: 3%;
   min-width: 250px !important; }
+
+.u-w-30per-18rem {
+  width: 30% !important;
+  min-width: 18rem; }
 
 .u-w-85px {
   width: 85px; }
