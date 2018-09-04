@@ -1103,7 +1103,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	registerListScroll: function () {
 		let container = $('.listViewEntriesDiv');
 		if (this.relatedView !== 'ListPreview') {
-			app.showNewScrollbarTopBottomRight(container);
+			container.each((index, element) => {
+				app.showNewScrollbarTopBottomRight($(element));
+			})
 		}
 	},
 	registerRelatedEvents: function () {
