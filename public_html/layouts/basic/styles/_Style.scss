@@ -516,31 +516,6 @@ hr {
 	}
 }
 
-.detailViewTitle {
-	padding: 0 15px 0 15px;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	word-wrap: break-word;
-
-	.recordLabel {
-		font-size: 16px;
-		font-weight: bold;
-	}
-}
-
-.detailViewTitle .btn-toolbar {
-	margin: 0;
-}
-
-.detailViewInfo {
-	margin-top: 5px;
-
-	.details {
-		padding-bottom: 10px;
-		padding-top: 10px;
-	}
-}
 
 .commentContainer {
 	border-radius: 2px;
@@ -678,116 +653,6 @@ hr {
 			margin-bottom: 0;
 		}
 	}
-}
-
-.table-bordered {
-	border-radius: 1px;
-}
-
-.table th {
-	background-color: #f5f5f5;
-	background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
-	background-image: -ms-linear-gradient(top, #f6f6f6, #f3f3f4);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
-	background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
-	background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
-	background-image: linear-gradient(to top, #f6f6f6, #f3f3f4);
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
-}
-
-.equalSplit td {
-	&:nth-child(odd) {
-		width: 20%;
-	}
-
-	&:nth-child(even) {
-		width: 30%;
-	}
-}
-
-td.fieldValue {
-	input, .input-group {
-		margin-bottom: 0;
-	}
-}
-
-.listViewHeaders a {
-	color: #444;
-}
-
-.listViewEntriesDiv {
-	.listViewHeaders th {
-		background-color: #f5f5f5;
-		background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
-		background-image: -ms-linear-gradient(top, #f6f6f6, #f3f3f4);
-		background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
-		background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
-		background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
-		background-image: linear-gradient(to top, #f6f6f6, #f3f3f4);
-		background-repeat: repeat-x;
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
-		border-color: #f3f3f4 #f3f3f4 #cbcbcf;
-		border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-		border-bottom: 1px solid #ddd;
-		border-top: 1px solid #ddd !important;
-	}
-
-	overflow: visible;
-	position: relative;
-
-	td {
-		overflow: visible;
-		position: relative;
-	}
-}
-
-.listViewEntriesTable {
-	.listViewHeaders a.listViewHeaderValues {
-		color: #444;
-
-		&:hover {
-			text-decoration: none;
-		}
-	}
-
-	.listViewEntries td > a {
-		color: inherit !important;
-	}
-}
-
-.activityEntries .summaryViewEntries a {
-	color: inherit !important;
-}
-
-.listViewEntriesTable {
-	.listViewEntries {
-		.unreviewed .badge {
-			margin-left: 4px;
-		}
-	}
-
-	td.listViewEntryValue {
-		vertical-align: middle;
-		cursor: pointer;
-		overflow: visible;
-		padding: 5px;
-	}
-}
-
-.listViewEntries td {
-	vertical-align: middle;
-	cursor: pointer;
-	overflow: visible;
-	padding: 5px;
-}
-
-.listViewEntriesTable td.listViewEntryValue:hover .actionImages, .listViewEntries td:hover .actionImages, .listViewEntriesTable td.listViewEntryValue:hover .actions, .listViewEntries td:hover .actions {
-	opacity: 1;
-
-	/*for IE*/
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-	filter: alpha(opacity=100);
 }
 
 /*opacity applied for summary view edit, comment actions, activity widget edit*/
@@ -2114,9 +1979,6 @@ table.dataTable .form-control {
 	margin-bottom: 5px;
 }
 
-.detailViewTable .fieldValue:hover .js-detail-quick-edit {
-	display: inherit;
-}
 
 .icon-in-history-widget {
 	font-size: 17px;
@@ -2192,11 +2054,6 @@ span[name=existingImages] img {
 .paddingTBZero {
 	padding-top: 0;
 	padding-bottom: 0;
-}
-
-.detailViewTitle .popover {
-	min-width: 130px;
-	text-align: center;
 }
 
 .cursorDefault {
@@ -3375,17 +3232,6 @@ html, body, .o-base-container {
 	border-top-right-radius: 0;
 }
 
-.detailViewTitle {
-	.spanModuleIcon {
-		margin-right: 10px;
-		height: 100%;
-	}
-
-	.moduleIcon {
-		float: left;
-	}
-}
-
 .spaceRelatedList {
 	width: 50px;
 	min-height: 1px;
@@ -3464,13 +3310,6 @@ html, body, .o-base-container {
 	height: 0;
 }
 
-/*.alphabetBtnContainer{
-	width: auto;
-}*/
-.detailViewTitle .btn-toolbar .btn-group:first-child {
-	margin: 0;
-}
-
 .select2-dropdown ul[aria-multiselectable="true"] [aria-selected="true"] {
 	display: none;
 }
@@ -3538,12 +3377,6 @@ select.form-control {
 
 .addCommentBlock .commentcontent {
 	resize: vertical;
-}
-
-.detailViewTitle .hierarchy {
-	position: absolute;
-	top: -12px;
-	left: 50px;
 }
 
 .indexContainer {

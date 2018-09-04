@@ -2,16 +2,29 @@
 /**
  * YetiForce settings module config.
  *
+ * @package   Config
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
-	// Status url
-	'yf_status_url' => '',
-	'flag_1' => false,
-	'flag_2' => false,
-	'flag_3' => false,
-	'flag_4' => false,
-	'flag_5' => false,
-	'flag_6' => false,
+	'statusUrl' => '',
+	'phpVersion' => true,
+	'systemVersion' => true,
+	'dbVersion' => true,
+	'osVersion' => true,
+	'sapiVersion' => true,
+	'lastCronTime' => true,
+	'spaceRoot' => true,
+	'spaceStorage' => true,
+	'spaceTemp' => true,
+	//ConfReport
+	'security' => true,
+	'stability' => true,
+	'libraries' => true,
+	'performance' => true,
+	'publicDirectoryAccess' => true,
+	'environment' => true,
+	'writableFilesAndFolders' => true,
+	'database' => true,
 ];

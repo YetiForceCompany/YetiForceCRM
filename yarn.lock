@@ -76,10 +76,6 @@ bootbox@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-4.4.0.tgz#ff7f898fb87d4527e547feb64158f88450d1a0c9"
 
-bootstrap-chosen@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/bootstrap-chosen/-/bootstrap-chosen-1.4.2.tgz#d7a184b21ecd952d586982339c60128f8827334d"
-
 bootstrap-colorpicker@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-3.0.3.tgz#9fb703e96254ba51c83e6a2274138bdcde1adaf6"
@@ -137,10 +133,6 @@ chartjs-plugin-funnel@^1.1.2:
   resolved "https://registry.yarnpkg.com/chartjs-plugin-funnel/-/chartjs-plugin-funnel-1.1.2.tgz#236b510b9eb8b063557e097a5bed2f08b350d3d8"
   dependencies:
     chart.js ">2.7.0"
-
-chosen-js@^1.8.7:
-  version "1.8.7"
-  resolved "https://registry.yarnpkg.com/chosen-js/-/chosen-js-1.8.7.tgz#9bfa5597f5081d602ff4ae904af9aef33265bb1d"
 
 clipboard@>=2.0.0:
   version "2.0.1"
@@ -275,8 +267,8 @@ jquery-hoverintent@^1.9.0:
     jquery ">=1.7.0"
 
 jquery-lazy@^1.7.7:
-  version "1.7.9"
-  resolved "https://registry.yarnpkg.com/jquery-lazy/-/jquery-lazy-1.7.9.tgz#5a7c8691664b6ec4c53220298ace28c9f2927ffd"
+  version "1.7.10"
+  resolved "https://registry.yarnpkg.com/jquery-lazy/-/jquery-lazy-1.7.10.tgz#aa3d43d058bf1ea89284214f4521f6d9a162d051"
   dependencies:
     jquery ">=1.7.2"
 
@@ -339,12 +331,12 @@ leaflet.awesome-markers@^2.0.4:
   resolved "https://registry.yarnpkg.com/leaflet.awesome-markers/-/leaflet.awesome-markers-2.0.4.tgz#66fea2090c9c8a0ab6d1f3b6bdd02fb37cf4ba1a"
 
 leaflet.markercluster@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/leaflet.markercluster/-/leaflet.markercluster-1.3.0.tgz#58eb0654e90bd3274a660390ab0bc734212b204d"
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/leaflet.markercluster/-/leaflet.markercluster-1.4.0.tgz#82d1892e2dfa6d3b2da262d9ed373c12411ba861"
 
 leaflet@^1.3.3:
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.3.3.tgz#5c8f2fd50e4a41ead93ab850dcd9e058811da9b9"
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.3.4.tgz#7f006ea5832603b53d7269ef5c595fd773060a40"
 
 lodash@^4.17.10:
   version "4.17.10"

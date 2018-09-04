@@ -222,8 +222,10 @@
 
 // improved table display on mobile
 @include media-breakpoint-down(xs) {
-	table td {
-		padding: 0.25rem !important;
+	table {
+		td, th {
+			padding: 0.25rem !important;
+		}
 	}
 }
 
