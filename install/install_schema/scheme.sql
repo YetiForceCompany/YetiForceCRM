@@ -6616,7 +6616,7 @@ CREATE TABLE `vtiger_modentity_num` (
   `postfix` varchar(50) NOT NULL DEFAULT '',
   `start_id` int(10) unsigned NOT NULL,
   `cur_id` int(10) unsigned NOT NULL,
-  `reset_sequence` char(1),
+  `reset_sequence` char(1) DEFAULT NULL,
   `cur_sequence` varchar(10) DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `semodule` (`cur_id`),
