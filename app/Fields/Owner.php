@@ -6,9 +6,9 @@ namespace App\Fields;
  * Owner class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Owner
 {
@@ -150,11 +150,11 @@ class Owner
 	public function getAllocation($mode, $private, $fieldType)
 	{
 		if (\App\Request::_get('parent') != 'Settings') {
-			$moduleName = $this->moduleName;
+			$name = $this->moduleName;
 		}
 
 		$result = [];
-		$usersGroups = \Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($fieldType, $moduleName);
+		$usersGroups = \Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($fieldType, $name);
 		$usersGroups = ($usersGroups && $usersGroups[$this->currentUser->getId()]) ? $usersGroups[$this->currentUser->getId()] : [];
 		if ($mode == 'users') {
 			$users = $usersGroups ? $usersGroups['users'] : [];
@@ -238,18 +238,18 @@ class Owner
 			$queryByUserRole = new \App\Db\Query();
 			$selectFields['id'] = 'vtiger_user2role.userid';
 			$queryByUserRole->
-				select($selectFields)
-					->from('vtiger_user2role')
-					->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
-					->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
-					->where(['vtiger_role.parentrole' => $userPrivileges['parent_role_seq'] . '::%']);
+			select($selectFields)
+				->from('vtiger_user2role')
+				->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
+				->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
+				->where(['vtiger_role.parentrole' => $userPrivileges['parent_role_seq'] . '::%']);
 			$queryBySharing = new \App\Db\Query();
 			$selectFields['id'] = 'shareduserid';
 			$queryBySharing->
-				select($selectFields)
-					->from('vtiger_tmp_write_user_sharing_per')
-					->innerJoin('vtiger_users', 'vtiger_tmp_write_user_sharing_per.shareduserid = vtiger_users.id')
-					->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)]);
+			select($selectFields)
+				->from('vtiger_tmp_write_user_sharing_per')
+				->innerJoin('vtiger_users', 'vtiger_tmp_write_user_sharing_per.shareduserid = vtiger_users.id')
+				->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)]);
 			$query->union($queryByUserRole)->union($queryBySharing);
 		} elseif ($roles !== false) {
 			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')->innerJoin('vtiger_user2role', 'vtiger_users.id = vtiger_user2role.userid');
@@ -321,19 +321,19 @@ class Owner
 	public function getGroups($addBlank = true, $private = '')
 	{
 		\App\Log::trace("Entering getGroups($addBlank,$private) method ...");
-		$moduleName = '';
+		$name = '';
 		if (\App\Request::_get('parent') !== 'Settings' && $this->moduleName) {
-			$moduleName = $this->moduleName === 'Events' ? 'Calendar' : $this->moduleName;
-			$tabId = \App\Module::getModuleId($moduleName);
+			$name = $this->moduleName === 'Events' ? 'Calendar' : $this->moduleName;
+			$tabId = \App\Module::getModuleId($name);
 		}
-		$cacheKey = $addBlank . $private . $moduleName;
+		$cacheKey = $addBlank . $private . $name;
 		if (\App\Cache::has('OwnerGroups', $cacheKey)) {
 			return \App\Cache::get('OwnerGroups', $cacheKey);
 		}
 		// Including deleted vtiger_users for now.
 		\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
 		$query = (new \App\Db\Query())->select(['groupid', 'groupname'])->from('vtiger_groups');
-		if (!empty($moduleName) && $moduleName !== 'CustomView') {
+		if (!empty($name) && $name !== 'CustomView') {
 			$subQuery = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2modules')->where(['tabid' => $tabId]);
 			$query->where(['groupid' => $subQuery]);
 		}

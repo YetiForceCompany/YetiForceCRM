@@ -60,9 +60,9 @@ abstract class WebDavNode implements DAV\INode
 		if (isset($this->mtime)) {
 			return $this->mtime;
 		}
-		$path = $this->exData->localStorageDir . $this->localPath;
+		$pathSource = $this->exData->localStorageDir . $this->localPath;
 
-		return filemtime($path);
+		return filemtime($pathSource);
 	}
 
 	public function getCurrentUser()
