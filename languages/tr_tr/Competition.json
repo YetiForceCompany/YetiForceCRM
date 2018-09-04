@@ -9,6 +9,7 @@
     "LBL_NUMBER": "Say\u0131",
     "LBL_CLOSED_TIME": "Kapan\u0131\u015f saati",
     "LBL_VAT_ID": "Vergi Numaras\u0131",
-    "LBL_SHOW_HIERARCHY": "Hierarchy"
+    "LBL_SHOW_HIERARCHY": "Hierarchy",
+    "LBL_PARENT_ID": "Competitor parent"
   }
 }
