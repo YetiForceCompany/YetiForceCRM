@@ -10,3 +10,9 @@ cp tests/setup/developer.txt config/developer.php
 cp tests/setup/api.txt config/api.php
 cp tests/setup/.htaccess .htaccess
 # cp vendor/phpunit/phpunit-selenium/PHPUnit/Extensions/SeleniumCommon/phpunit_coverage.php phpunit_coverage.php
+
+if [ ! -f $HOME/build/YetiForceCompany/cache/ocular.phar ]; then wget -O $HOME/build/YetiForceCompany/cache/ocular.phar https://scrutinizer-ci.com/ocular.phar; fi
+if [[ $(find "$HOME/build/YetiForceCompany/cache/ocular.phar" -mtime +7 -print) ]]; then
+  wget -O $HOME/build/YetiForceCompany/cache/ocular.phar https://scrutinizer-ci.com/ocular.phar
+fi
+echo $(find "$HOME/build/YetiForceCompany/cache/ocular.phar" -mtime +7 -print)

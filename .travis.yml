@@ -88,7 +88,6 @@ after_script:
 - cat ./cache/logs/Importer.log
 - cat ./cache/logs/webserviceDebug.log
 - cat ./cache/logs/webserviceErrors.log
-- if [ ! -f $HOME/build/YetiForceCompany/cache/ocular.phar ]; then wget -O $HOME/build/YetiForceCompany/cache/ocular.phar https://scrutinizer-ci.com/ocular.phar; fi
 - php $HOME/build/YetiForceCompany/cache/ocular.phar code-coverage:upload --format=php-clover tests/coverage.xml
 - bash <(curl -s https://codecov.io/bash)
 - sudo ls -all ../screenshots
