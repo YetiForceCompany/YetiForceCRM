@@ -48,6 +48,7 @@ build:
 filter:
   excluded_paths:
   - tests/*
+  - vendor/*
   - '*.min.js'
   - '*.min.*.js'
 checks:
@@ -247,3 +248,4 @@ coding_style:
 
 tools:
   sensiolabs_security_checker: true
+  external_code_coverage: true

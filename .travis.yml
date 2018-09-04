@@ -28,9 +28,9 @@ addons:
     packages:
     - apache2
     - libapache2-mod-fastcgi
-    
+
   chrome: stable
-  
+
   sonarcloud:
     organization: "yetiforcecompany"
     token:
@@ -44,7 +44,7 @@ addons:
 
 cache:
   yarn: true
-  
+
   directories:
   - $HOME/.sonar/cache
   - $HOME/.composer/cache/files
@@ -88,6 +88,7 @@ after_script:
 - cat ../cache/logs/Importer.log
 - cat ../cache/logs/webserviceDebug.log
 - cat ../cache/logs/webserviceErrors.log
-- php ocular code-coverage:upload --format=php-clover coverage.xml
+- wget https://scrutinizer-ci.com/ocular.phar
+- php ocular.phar code-coverage:upload --format=php-clover coverage.xml
 - bash <(curl -s https://codecov.io/bash)
 - sudo ls -all ../screenshots
