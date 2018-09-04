@@ -12,7 +12,9 @@ cp tests/setup/.htaccess .htaccess
 # cp vendor/phpunit/phpunit-selenium/PHPUnit/Extensions/SeleniumCommon/phpunit_coverage.php phpunit_coverage.php
 
 if [ ! -f $HOME/build/YetiForceCompany/cache/ocular.phar ]; then wget -O $HOME/build/YetiForceCompany/cache/ocular.phar https://scrutinizer-ci.com/ocular.phar; fi
-if [[ $(find "$HOME/build/YetiForceCompany/cache/ocular.phar" -mtime +7 -print) ]]; then
+if [[ $(date -r "$HOME/build/YetiForceCompany/cache/ocular.phar" +%s) <= $(date -d 'now - 7 days' +%s) ]]; then
   wget -O $HOME/build/YetiForceCompany/cache/ocular.phar https://scrutinizer-ci.com/ocular.phar
 fi
-echo $(find "$HOME/build/YetiForceCompany/cache/ocular.phar" -mtime +7 -print)
+echo $(date -r "$HOME/build/YetiForceCompany/cache/ocular.phar" +%s)
+echo ' second time: '
+echo $(date -d 'now - 7 days' +%s)
