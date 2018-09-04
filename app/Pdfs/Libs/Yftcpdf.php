@@ -322,7 +322,6 @@ class Yftcpdf extends \TCPDF
 				$this->StartTransform();
 				if ((int) $this->watermark['text']['angle']) {
 					$this->Rotate(-(float) $this->watermark['text']['angle']);
-					$this->Translate($this->tMargin, -$this->lMargin);
 				}
 				$this->Text($this->lMargin, $this->tMargin, $this->watermark['text']['text']);
 				$this->StopTransform();

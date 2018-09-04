@@ -252,10 +252,14 @@ class Tcpdf extends AbstractPDF
 	/**
 	 * Parse and set options.
 	 *
-	 * @param array $params - array of parameters
+	 * @param array $params         - array of parameters
+	 * @param bool  $defaultMargins - use default margins or custom user specified?
 	 */
-	public function parseParams(array $params)
+	public function parseParams(array $params, $defaultMargins = true)
 	{
+		if ($defaultMargins) {
+			$params = array_diff_key($params, ['margin-top', 'margin-bottom', 'margin-left', 'margin-right', 'header_height', 'footer_height']);
+		}
 		foreach ($params as $param => $value) {
 			switch ($param) {
 				case 'margin-top':
@@ -426,7 +430,7 @@ class Tcpdf extends AbstractPDF
 		$pageOrientation = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
 		if ($this->isDefault) {
 			$charset = \AppConfig::main('default_charset') ?? 'UTF-8';
-			if ($template->get('margin_chkbox') == 1) {
+			if ($template->get('margin_chkbox') === 1) {
 				$self = new self($charset, $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientation);
 			} else {
 				$self = new self($charset, $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientation, $template->get('margin_left'), $template->get('margin_right'), $template->get('margin_top'), $template->get('margin_bottom'), $template->get('header_height'), $template->get('footer_height'));
@@ -444,7 +448,7 @@ class Tcpdf extends AbstractPDF
 		\App\Language::setTemporaryLanguage($template->get('language'));
 		$self->pdf->setHeaderFont([$self->defaultFont, '', $self->defaultFontSize]);
 		$self->pdf->setFooterFont([$self->defaultFont, '', $self->defaultFontSize]);
-		$self->parseParams($template->getParameters());
+		$self->parseParams($template->getParameters(), $template->get('margin_chkbox') !== 1);
 		$self->pdf()->setHtmlHeader($template->getHeader());
 		$self->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
 		$self->pdf()->setHtmlFooter($template->getFooter());
