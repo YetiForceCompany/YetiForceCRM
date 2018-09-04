@@ -283,13 +283,13 @@ class Competition extends Vtiger_CRMEntity
 		}
 	}
 
-
 	/**
 	 * Function to get competition hierarchy.
 	 *
 	 * @param int  $id
 	 * @param bool $getRawData
 	 * @param bool $getLinks
+	 *
 	 * @return array
 	 */
 	public function getHierarchy($id, $getRawData = false, $getLinks = true)
@@ -321,10 +321,11 @@ class Competition extends Vtiger_CRMEntity
 	 *
 	 * @param int   $id
 	 * @param array $baseInfo
-	 * @param int   $recordId - id
+	 * @param int   $recordId        - id
 	 * @param array $listviewEntries
 	 * @param bool  $getRawData
 	 * @param bool  $getLinks
+	 *
 	 * @return array
 	 */
 	public function getHierarchyData($id, $baseInfo, $recordId, &$listviewEntries, $getRawData = false, $getLinks = true)
@@ -362,7 +363,7 @@ class Competition extends Vtiger_CRMEntity
 		}
 		$listviewEntries[$recordId] = $infoData;
 		foreach ($baseInfo as $accId => $rowInfo) {
-			if (is_array($rowInfo) && (int)$accId) {
+			if (is_array($rowInfo) && (int) $accId) {
 				$listviewEntries = $this->getHierarchyData($id, $rowInfo, $accId, $listviewEntries, $getRawData, $getLinks);
 			}
 		}
@@ -378,6 +379,7 @@ class Competition extends Vtiger_CRMEntity
 	 * @param array $parent
 	 * @param array $encountered
 	 * @param int   $depthBase
+	 *
 	 * @return array
 	 */
 	public function getParent(int $id, array &$parent, array &$encountered, int $depthBase = 0)
@@ -432,11 +434,12 @@ class Competition extends Vtiger_CRMEntity
 	}
 
 	/**
-	 * Function to Recursively get all the child
+	 * Function to Recursively get all the child.
 	 *
 	 * @param int   $id
 	 * @param array $childRow
 	 * @param int   $depthBase
+	 *
 	 * @return array
 	 */
 	public function getChild(int $id, array &$childRow, int $depthBase)

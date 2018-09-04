@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce status helper class.
+ * YetiForce status class.
  *
  * @package   App
  *
@@ -12,12 +12,15 @@
 
 namespace App\YetiForce;
 
+/**
+ * YetiForce status class.
+ */
 class Status
 {
 	/**
 	 * Allowed flags array.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	public static $variables = [
 		'statusUrl' => 'string',
