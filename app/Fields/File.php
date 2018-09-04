@@ -156,27 +156,27 @@ class File
 	/**
 	 * Load file instance from content.
 	 *
-	 * @param string   $content
+	 * @param string   $contents
 	 * @param string   $name
 	 * @param string[] $param
 	 *
 	 * @return bool|\self
 	 */
-	public static function loadFromContent($content, $name = false, $param = [])
+	public static function loadFromContent($contents, $name = false, $param = [])
 	{
-		$ext = 'tmp';
+		$extension = 'tmp';
 		if (empty($name)) {
 			static::initMimeTypes();
-			if (!empty($param['mimeShortType']) && !($ext = array_search($param['mimeShortType'], static::$mimeTypes))) {
-				list(, $ext) = explode('/', $param['mimeShortType']);
+			if (!empty($param['mimeShortType']) && !($extension = array_search($param['mimeShortType'], static::$mimeTypes))) {
+				list(, $extension) = explode('/', $param['mimeShortType']);
 			}
-			$name = uniqid() . '.' . $ext;
+			$name = uniqid() . '.' . $extension;
 		}
-		if ($ext === 'tmp' && ($fileExt = pathinfo($name, PATHINFO_EXTENSION))) {
-			$ext = $fileExt;
+		if ($extension === 'tmp' && ($fileExt = pathinfo($name, PATHINFO_EXTENSION))) {
+			$extension = $fileExt;
 		}
 		$path = tempnam(static::getTmpPath(), 'YFF');
-		$success = file_put_contents($path, $content);
+		$success = file_put_contents($path, $contents);
 		if (!$success) {
 			Log::error('Error while saving the file: ' . $path, __CLASS__);
 			return false;
@@ -184,7 +184,7 @@ class File
 		$instance = new self();
 		$instance->name = $name;
 		$instance->path = $path;
-		$instance->ext = $ext;
+		$instance->ext = $extension;
 		if (isset($param['mimeShortType'])) {
 			$instance->mimeType = $param['mimeShortType'];
 		}
@@ -217,16 +217,16 @@ class File
 				Log::warning('Error when downloading content: ' . $url . ' | Status code: ' . $response->getStatusCode(), __CLASS__);
 				return false;
 			}
-			$content = $response->getBody();
+			$contents = $response->getBody();
 		} catch (\Throwable $exc) {
 			Log::warning('Error when downloading content: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
 			return false;
 		}
-		if (empty($content)) {
+		if (empty($contents)) {
 			Log::warning('Url does not contain content: ' . $url, __CLASS__);
 			return false;
 		}
-		return static::loadFromContent($content, static::sanitizeFileNameFromUrl($url), $param);
+		return static::loadFromContent($contents, static::sanitizeFileNameFromUrl($url), $param);
 	}
 
 	/**
@@ -271,9 +271,9 @@ class File
 	{
 		if (empty($this->mimeType)) {
 			static::initMimeTypes();
-			$ext = $this->getExtension(true);
-			if (isset(self::$mimeTypes[$ext])) {
-				$this->mimeType = self::$mimeTypes[$ext];
+			$extension = $this->getExtension(true);
+			if (isset(self::$mimeTypes[$extension])) {
+				$this->mimeType = self::$mimeTypes[$extension];
 			} elseif (function_exists('mime_content_type')) {
 				$this->mimeType = mime_content_type($this->path);
 			} elseif (function_exists('finfo_open')) {
@@ -313,8 +313,8 @@ class File
 			return $this->ext;
 		}
 		if ($fromName) {
-			$ext = explode('.', $this->name);
-			return $this->ext = strtolower(array_pop($ext));
+			$extension = explode('.', $this->name);
+			return $this->ext = strtolower(array_pop($extension));
 		}
 		return $this->ext = strtolower(pathinfo($this->path, PATHINFO_EXTENSION));
 	}
@@ -434,17 +434,17 @@ class File
 	{
 		if ($this->validateAllCodeInjection || in_array($this->getShortMimeType(0), self::$phpInjection)) {
 			// Check for php code injection
-			$content = $this->getContents();
-			if (preg_match('/(<\?php?(.*?))/si', $content) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/si', $content) === 1 || stripos($content, '<?=') !== false || stripos($content, '<%=') !== false || stripos($content, '<? ') !== false || stripos($content, '<% ') !== false) {
+			$contents = $this->getContents();
+			if (preg_match('/(<\?php?(.*?))/si', $contents) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/si', $contents) === 1 || stripos($contents, '<?=') !== false || stripos($contents, '<%=') !== false || stripos($contents, '<? ') !== false || stripos($contents, '<% ') !== false) {
 				throw new \Exception('ERR_FILE_PHP_CODE_INJECTION');
 			}
 			if (function_exists('exif_read_data') && ($this->mimeType === 'image/jpeg' || $this->mimeType === 'image/tiff') && in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])) {
-				$size = getimagesize($this->path, $imageInfo);
-				if ($size && (empty($imageInfo['APP1']) || strpos($imageInfo['APP1'], 'Exif') === 0) && ($exifdata = exif_read_data($this->path)) && !$this->validateImageMetadata($exifdata)) {
+				$imageSize = getimagesize($this->path, $imageInfo);
+				if ($imageSize && (empty($imageInfo['APP1']) || strpos($imageInfo['APP1'], 'Exif') === 0) && ($exifdata = exif_read_data($this->path)) && !$this->validateImageMetadata($exifdata)) {
 					throw new \Exception('ERR_FILE_PHP_CODE_INJECTION');
 				}
 			}
-			if (stripos('<?xpacket', $content) !== false) {
+			if (stripos('<?xpacket', $contents) !== false) {
 				throw new \Exception('ERR_FILE_XPACKET_CODE_INJECTION');
 			}
 		}
@@ -627,10 +627,10 @@ class File
 	public static function getMimeContentType($fileName)
 	{
 		static::initMimeTypes();
-		$ext = explode('.', $fileName);
-		$ext = strtolower(array_pop($ext));
-		if (isset(self::$mimeTypes[$ext])) {
-			$mimeType = self::$mimeTypes[$ext];
+		$extension = explode('.', $fileName);
+		$extension = strtolower(array_pop($extension));
+		if (isset(self::$mimeTypes[$extension])) {
+			$mimeType = self::$mimeTypes[$extension];
 		} elseif (function_exists('mime_content_type')) {
 			$mimeType = mime_content_type($fileName);
 		} elseif (function_exists('finfo_open')) {
@@ -646,14 +646,14 @@ class File
 	/**
 	 * Create document from string.
 	 *
-	 * @param string $content
+	 * @param string $contents
 	 * @param array  $params
 	 *
 	 * @return bool|array
 	 */
-	public static function saveFromString($content, $params = [])
+	public static function saveFromString($contents, $params = [])
 	{
-		$result = explode(',', $content, 2);
+		$result = explode(',', $contents, 2);
 		$contentType = $isBase64 = false;
 		if (count($result) === 2) {
 			list($metadata, $data) = $result;
@@ -670,7 +670,7 @@ class File
 		$data = rawurldecode($data);
 		$rawData = $isBase64 ? base64_decode($data) : $data;
 		if (strlen($rawData) < 12) {
-			Log::error('Incorrect content value: ' . $content, __CLASS__);
+			Log::error('Incorrect content value: ' . $contents, __CLASS__);
 
 			return false;
 		}
