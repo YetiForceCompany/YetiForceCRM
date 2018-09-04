@@ -54,7 +54,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public function getWatermarkType()
 	{
-		return [Vtiger_Tcpdf_Pdf::WATERMARK_TYPE_TEXT => 'PLL_TEXT', Vtiger_Tcpdf_Pdf::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE'];
+		return [\App\Pdfs\Tcpdf::WATERMARK_TYPE_TEXT => 'PLL_TEXT', \App\Pdfs\Tcpdf::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE'];
 	}
 
 	/**
