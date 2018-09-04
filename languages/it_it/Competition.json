@@ -9,6 +9,7 @@
     "LBL_NUMBER": "Number",
     "LBL_CLOSED_TIME": "Closed time",
     "LBL_VAT_ID": "Tax ID",
-    "LBL_SHOW_HIERARCHY": "Hierarchy"
+    "LBL_SHOW_HIERARCHY": "Hierarchy",
+    "LBL_PARENT_ID": "Competitor parent"
   }
 }

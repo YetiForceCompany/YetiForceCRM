@@ -9,6 +9,7 @@
     "LBL_NUMBER": "Numer",
     "LBL_CLOSED_TIME": "Czas zamkni\u0119cia",
     "LBL_VAT_ID": "NIP",
-    "LBL_SHOW_HIERARCHY": "Hierarchia"
+    "LBL_SHOW_HIERARCHY": "Hierarchia",
+    "LBL_PARENT_ID": "Konkurent nadrzędny"
   }
 }
