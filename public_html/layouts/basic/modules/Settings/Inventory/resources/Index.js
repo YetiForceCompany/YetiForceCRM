@@ -111,17 +111,25 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 			var defaultCheck = ' checked';
 			table.find('.default').prop('checked', false);
 		}
-		var trElement =
-			jQuery('<tr class="opacity" data-id="' + details.id + '">\n\
-					<td class="textAlignCenter ' + details.row_type + '"><label class="name">' + details.name + '</label></td>\n\
-					<td class="textAlignCenter ' + details.row_type + '"><span class="value">' + details.value + ' ' + symbol + '</span></td>\n\
-					<td class="textAlignCenter ' + details.row_type + '"><input class="status js-update-field" checked type="checkbox"></td>\n\
-					<td class="textAlignCenter ' + details.row_type + '"><input class="default js-update-field"' + defaultCheck + ' data-field-name="default" type="checkbox">\n\
-						<div class="float-right actions">\n\
-							<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer" data-url="' + details._editurl + '"><span title="Edycja" class="fas fa-edit alignBottom"></span></button>\n\
-							<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white" data-url="' + details._editurl + '"><span title="Usuń" class="fas fa-trash-alt alignBottom"></span></button>&nbsp;\n\
-						</div>\n\
-					</td></tr>');
+		let actionButtonsTpl = `<div class="actions">
+							<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer" data-url="' + details._editurl + '">
+							<span title="Edycja" class="fas fa-edit alignBottom"></span>
+							</button>
+							<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white" data-url="' + details._editurl + '">
+							<span title="Usuń" class="fas fa-trash-alt alignBottom"></span>
+							</button>
+						</div>`;
+		let tdDefault = `<td class="textAlignCenter ${details.row_type}"><div class="float-right  w-50 d-flex justify-content-between mr-2"><input class="default js-update-field mt-2" ${defaultCheck} data-field-name="default" type="checkbox">${actionButtonsTpl}</div></td>`
+		let trElement = $(`<tr class="opacity" data-id="${details.id}">
+					<td class="textAlignCenter ${details.row_type}"><label class="name">${details.name}</label></td>
+					<td class="textAlignCenter ${details.row_type}"><span class="value">${details.value} ${symbol}</span></td>
+					<td class="textAlignCenter ${details.row_type}">
+					<div class="float-right  w-50 d-flex justify-content-between mr-2">
+					<input class="status js-update-field mt-2" checked type="checkbox">
+${CONFIG.view !== 'Taxes' ? actionButtonsTpl : ''}</div>
+					</td>
+					${CONFIG.view === 'Taxes' ? tdDefault : ''}
+					</tr>`);
 		table.append(trElement);
 	},
 	/*
@@ -310,10 +318,4 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 	registerEvents: function () {
 		this.registerActions();
 	}
-
 });
-
-jQuery(document).ready(function (e) {
-	var instance = new Settings_Inventory_Index_Js();
-	instance.registerEvents();
-})
