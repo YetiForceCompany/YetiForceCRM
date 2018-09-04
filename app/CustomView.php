@@ -275,7 +275,7 @@ class CustomView
 	 * Static Function to get the Instance of CustomView.
 	 *
 	 * @param string $moduleName
-	 * @param mixed  $userId
+	 * @param mixed  $userModelOrId
 	 *
 	 * @return \self
 	 */
