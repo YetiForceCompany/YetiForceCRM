@@ -417,7 +417,7 @@ class Tcpdf extends AbstractPDF
 	 * @param int    $templateId
 	 * @param int    $templateMainRecordId - optional if null $recordId is used
 	 *
-	 * @return Vtiger_Tcpdf_Pdf current or new instance if needed
+	 * @return Tcpdf current or new instance if needed
 	 */
 	public function generateContent($recordId, $moduleName, $templateId, $templateMainRecordId = null)
 	{
