@@ -80,15 +80,15 @@ after_script:
 - sudo cat /var/log/apache2/error.log
 - sudo cat /var/log/apache2/access.log
 - sudo cat /var/log/apache2/other_vhosts_access.log
-- cat ../tests/records.log
-- cat ../cache/logs/errors.log
-- cat ../cache/logs/request.log
-- cat ../cache/logs/phpError.log
-- cat ../cache/logs/system.log
-- cat ../cache/logs/Importer.log
-- cat ../cache/logs/webserviceDebug.log
-- cat ../cache/logs/webserviceErrors.log
+- cat ./tests/records.log
+- cat ./cache/logs/errors.log
+- cat ./cache/logs/request.log
+- cat ./cache/logs/phpError.log
+- cat ./cache/logs/system.log
+- cat ./cache/logs/Importer.log
+- cat ./cache/logs/webserviceDebug.log
+- cat ./cache/logs/webserviceErrors.log
 - wget https://scrutinizer-ci.com/ocular.phar
-- php ocular.phar code-coverage:upload --format=php-clover coverage.xml
+- php ocular.phar code-coverage:upload --format=php-clover tests/coverage.xml
 - bash <(curl -s https://codecov.io/bash)
 - sudo ls -all ../screenshots
