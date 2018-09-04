@@ -9,6 +9,11 @@
 
 namespace Tests\App;
 
+/**
+ * Class YetiForce tests.
+ *
+ * @package Tests\App
+ */
 class YetiForce extends \Tests\Base
 {
 	/**

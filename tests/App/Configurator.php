@@ -9,8 +9,18 @@
 
 namespace Tests\App;
 
+/**
+ * Class Configurator tests.
+ *
+ * @package Tests\App
+ */
 class Configurator extends \Tests\Base
 {
+	/**
+	 * Instance container.
+	 *
+	 * @var \App\Configurator|false
+	 */
 	public static $instance = false;
 
 	/**
