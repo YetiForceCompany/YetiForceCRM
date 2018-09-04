@@ -14,6 +14,31 @@ namespace App\Pdfs\Libs;
 class Yftcpdf extends \TCPDF
 {
 	/**
+	 * Css styles declaration.
+	 *
+	 * @var array
+	 */
+	protected $cssStyles = [
+		'' => '
+			.header-table {
+				width: 100%;
+			    color: #ffffff;
+			    text-align: center;
+			    font-family: dejavusans;
+			    font-size: 16px;
+			    background-color: #4a5364;
+			}
+		'
+	];
+
+	/**
+	 * Current CSS style name (for current page - AddPage).
+	 *
+	 * @var string
+	 */
+	protected $currentCssStyleName = '';
+
+	/**
 	 * Header html.
 	 *
 	 * @var string
@@ -86,6 +111,28 @@ class Yftcpdf extends \TCPDF
 		],
 		'alpha' => 0
 	];
+
+	/**
+	 * Set current pdf css style.
+	 *
+	 * @param string $style
+	 */
+	public function setCssStyle(string $style, $name = '')
+	{
+		$this->cssStyles[$name] = $style;
+	}
+
+	/**
+	 * Get CSS styles for specified name or default if name is empty.
+	 *
+	 * @param string $name
+	 *
+	 * @return string
+	 */
+	public function getCssStyle(string $name = '')
+	{
+		return '<style>' . $this->cssStyles[$name] . '</style>';
+	}
 
 	/**
 	 * Set html header.
@@ -361,5 +408,22 @@ class Yftcpdf extends \TCPDF
 			$this->setFont($this->footerFontFamily, $this->footerFontVariation, $this->footerFontSize);
 			$this->writeHTML($this->replacePdfVariables($footer));
 		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function AddPage($orientation = '', $format = '', $keepmargins = false, $tocpage = false, $cssStyleName = '')
+	{
+		$this->currentCssStyleName = $cssStyleName;
+		parent::AddPage($orientation, $format, $keepmargins, $tocpage);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function writeHTML($html, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '')
+	{
+		parent::writeHTML($this->getCssStyle($this->currentCssStyleName) . $html, $ln, $fill, $reseth, $cell, $align);
 	}
 }
