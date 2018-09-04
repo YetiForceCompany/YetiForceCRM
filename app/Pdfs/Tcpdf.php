@@ -456,6 +456,9 @@ class Tcpdf extends AbstractPDF
 
 	/**
 	 * Output content to PDF.
+	 *
+	 * @param string $fileName
+	 * @param string $dest
 	 */
 	public function output($fileName = '', $dest = '')
 	{
