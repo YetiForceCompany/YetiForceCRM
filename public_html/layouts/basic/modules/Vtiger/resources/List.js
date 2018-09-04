@@ -1172,8 +1172,11 @@ jQuery.Class("Vtiger_List_Js", {
 	/*
 	 * Function to register the event for changing the custom Filter
 	 */
-	registerChangeCustomFilterEvent(event) {
-		let target = $(event.currentTarget), selectOption, selectOptionId, urlParams, textOption = '';
+	registerChangeCustomFilterEvent: function (event) {
+		let target = $(event.currentTarget);
+		let selectOption = '';
+		let selectOptionId = '';
+		let textOption = '';
 		if (target.is('option')) {
 			selectOption = target;
 		} else if (event.type === 'select2:selecting') {
@@ -1198,7 +1201,7 @@ jQuery.Class("Vtiger_List_Js", {
 		app.setMainParams('pageToJump', '1');
 		app.setMainParams('orderBy', selectOption.data('orderby'));
 		app.setMainParams('sortOrder', selectOption.data('sortorder'));
-		urlParams = {
+		let urlParams = {
 			"viewname": selectOption.val(),
 			//to make alphabetic search empty
 			"search_key": this.getAlphabetSearchField(),
