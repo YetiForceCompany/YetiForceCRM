@@ -358,7 +358,7 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 			$dest = 'I';
 		}
 		$this->writeHTML();
-		$this->pdf->Output(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $fileName, $dest);
+		$this->pdf->Output($fileName, $dest);
 	}
 
 	public function writeHTML()
@@ -368,18 +368,15 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 
 	public function setWaterMark($templateModel)
 	{
-		if ($templateModel->get('watermark_image')) {
-			$this->pdf->setWatermarkImage($templateModel->get('watermark_image'), 0.5, 'P');
-		} else {
-			$this->pdf->clearWatermarkImage();
+		if ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_IMAGE) {
+			if ($templateModel->get('watermark_image')) {
+				$this->pdf->setWatermarkImage($templateModel->get('watermark_image'), 0.15, 'P');
+			} else {
+				$this->pdf->clearWatermarkImage();
+			}
+		} elseif ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT) {
+			$this->pdf->SetWatermarkText($templateModel->get('watermark_text'), 0.15, $templateModel->get('watermark_size'), $templateModel->get('watermark_angle'));
 		}
-		/*if ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT) {
-			$this->pdf->SetWatermarkText($templateModel->get('watermark_text'), 0.15);
-			$this->pdf->showWatermarkText = true;
-		} elseif ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_IMAGE) {
-			$this->pdf->SetWatermarkImage($templateModel->get('watermark_image'), 0.15, 'P');
-			$this->pdf->showWatermarkImage = true;
-		}*/
 	}
 
 	/**
@@ -395,7 +392,6 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	{
 		$template = Vtiger_PDF_Model::getInstanceById($templateId, $moduleName);
 		$template->setMainRecordId($recordId);
-
 		$pageOrientation = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
 		if ($template->get('margin_chkbox') == 1) {
 			$self = new self('UTF-8', $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientation);
