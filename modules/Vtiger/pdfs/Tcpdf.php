@@ -13,6 +13,13 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	const WATERMARK_TYPE_IMAGE = 1;
 
 	/**
+	 * Are we fully configured or default params were given in constructor (not fully configured) ?
+	 *
+	 * @var bool
+	 */
+	private $isDefault = true;
+
+	/**
 	 * HTML content.
 	 *
 	 * @var string
@@ -24,7 +31,7 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	 *
 	 * @var string
 	 */
-	public $format = 'A4';
+	public $format = '';
 
 	/**
 	 * Page orientation.
@@ -72,10 +79,35 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	 */
 	public function __construct($mode = 'UTF-8', $format = 'A4', $defaultFontSize = 10, $defaultFont = 'dejavusans', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
 	{
+		$args = func_get_args();
+		// this two arguments are kind of signal that we are configured (from template or elsewhere) - not from default argument values (not empty = default)
+		if (!empty($args['format']) || !empty($args['orientation'])) {
+			$this->isDefault = false;
+		}
 		$this->setLibraryName('tcpdf');
 		$this->defaultFontFamily = $defaultFont;
 		$this->defaultFontSize = $defaultFontSize;
 		$this->format = $format;
+		$this->initializePdf($mode, $format, $defaultFontSize, $defaultFont, $orientation, $leftMargin, $rightMargin, $topMargin, $bottomMargin, $headerMargin, $footerMargin);
+	}
+
+	/**
+	 * Initialize pdf file params.
+	 *
+	 * @param string $mode
+	 * @param string $format
+	 * @param int    $defaultFontSize
+	 * @param string $defaultFont
+	 * @param string $orientation
+	 * @param int    $leftMargin
+	 * @param int    $rightMargin
+	 * @param int    $topMargin
+	 * @param int    $bottomMargin
+	 * @param int    $headerMargin
+	 * @param int    $footerMargin
+	 */
+	public function initializePdf($mode = 'UTF-8', $format = 'A4', $defaultFontSize = 10, $defaultFont = 'dejavusans', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
+	{
 		$this->pdf = new Vtiger_Yftcpdf_Pdf($orientation, 'mm', $format, true, $mode);
 		$this->pdf->setFontSubsetting(true);
 		$this->pdf->SetFont($this->defaultFontFamily, '', $this->defaultFontSize);
@@ -335,13 +367,83 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	}
 
 	/**
+	 * Write html.
+	 */
+	public function writeHTML()
+	{
+		$this->pdf->writeHTML($this->html, true, false, true, false, '');
+	}
+
+	/**
+	 * Set watermark.
+	 *
+	 * @param $templateModel
+	 */
+	public function setWaterMark($templateModel)
+	{
+		if ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_IMAGE) {
+			if ($templateModel->get('watermark_image')) {
+				$this->pdf->setWatermarkImage($templateModel->get('watermark_image'), 0.15, 'P');
+			} else {
+				$this->pdf->clearWatermarkImage();
+			}
+		} elseif ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT) {
+			$this->pdf->SetWatermarkText($templateModel->get('watermark_text'), 0.15, $templateModel->get('watermark_size'), $templateModel->get('watermark_angle'));
+		}
+	}
+
+	/**
 	 * Load html.
 	 *
 	 * @param string $html
 	 */
 	public function loadHTML($html)
 	{
-		$this->html .= $html;
+		$this->html = $html;
+	}
+
+	/**
+	 * Prepare pdf, generate all content.
+	 *
+	 * @param int    $recordId
+	 * @param string $moduleName
+	 * @param int    $templateId
+	 * @param int    $templateMainRecordId
+	 *
+	 * @return Vtiger_Tcpdf_Pdf
+	 */
+	public function generateContent($recordId, $moduleName, $templateId, $templateMainRecordId)
+	{
+		$template = Vtiger_PDF_Model::getInstanceById($templateId, $moduleName);
+		$template->setMainRecordId($templateMainRecordId);
+		$pageOrientation = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
+		if ($this->isDefault) {
+			if ($template->get('margin_chkbox') == 1) {
+				$self = new self('UTF-8', $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientation);
+			} else {
+				$self = new self('UTF-8', $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientation, $template->get('margin_left'), $template->get('margin_right'), $template->get('margin_top'), $template->get('margin_bottom'), $template->get('header_height'), $template->get('footer_height'));
+			}
+			$self->isDefault = false;
+		} else {
+			$self = $this;
+		}
+		$self->setTemplateId($templateId);
+		$self->setRecordId($recordId);
+		$self->setModuleName($moduleName);
+		$self->setWaterMark($template);
+		$self->setLanguage($template->get('language'));
+		$self->setFileName($template->get('filename'));
+		App\Language::setTemporaryLanguage($template->get('language'));
+		$self->pdf->setHeaderFont([$self->defaultFont, '', $self->defaultFontSize]);
+		$self->pdf->setFooterFont([$self->defaultFont, '', $self->defaultFontSize]);
+		$self->parseParams($template->getParameters());
+		$self->pdf()->setHtmlHeader($template->getHeader());
+		$self->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
+		$self->pdf()->setHtmlFooter($template->getFooter());
+		$self->pdf()->writeHTML($template->getBody(), true, true, true, true, '');
+		$self->pdf()->lastPage();
+		App\Language::clearTemporaryLanguage();
+		return $self;
 	}
 
 	/**
@@ -357,24 +459,6 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 		$this->pdf->Output($fileName, $dest);
 	}
 
-	public function writeHTML()
-	{
-		$this->pdf->writeHTML($this->html, true, false, true, false, '');
-	}
-
-	public function setWaterMark($templateModel)
-	{
-		if ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_IMAGE) {
-			if ($templateModel->get('watermark_image')) {
-				$this->pdf->setWatermarkImage($templateModel->get('watermark_image'), 0.15, 'P');
-			} else {
-				$this->pdf->clearWatermarkImage();
-			}
-		} elseif ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT) {
-			$this->pdf->SetWatermarkText($templateModel->get('watermark_text'), 0.15, $templateModel->get('watermark_size'), $templateModel->get('watermark_angle'));
-		}
-	}
-
 	/**
 	 * Export record to PDF file.
 	 *
@@ -386,29 +470,6 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	 */
 	public function export($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
-		$template = Vtiger_PDF_Model::getInstanceById($templateId, $moduleName);
-		$template->setMainRecordId($recordId);
-		$pageOrientation = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
-		if ($template->get('margin_chkbox') == 1) {
-			$self = new self('UTF-8', $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientation);
-		} else {
-			$self = new self('UTF-8', $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientation, $template->get('margin_left'), $template->get('margin_right'), $template->get('margin_top'), $template->get('margin_bottom'), $template->get('header_height'), $template->get('footer_height'));
-		}
-		$self->setTemplateId($templateId);
-		$self->setRecordId($recordId);
-		$self->setModuleName($moduleName);
-		$self->setWaterMark($template);
-		$self->setLanguage($template->get('language'));
-		$self->setFileName($template->get('filename'));
-		App\Language::setTemporaryLanguage($template->get('language'));
-		$self->pdf->setHeaderFont([$this->defaultFont, '', $this->defaultFontSize]);
-		$self->pdf->setFooterFont([$this->defaultFont, '', $this->defaultFontSize]);
-		$self->parseParams($template->getParameters());
-		$self->pdf()->setHtmlHeader($template->getHeader());
-		$self->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
-		$self->pdf()->setHtmlFooter($template->getFooter());
-		$self->loadHTML($template->getBody());
-		$self->output($filePath, $saveFlag);
-		App\Language::clearTemporaryLanguage();
+		$this->generateContent($recordId, $moduleName, $templateId, $recordId)->output($filePath, $saveFlag);
 	}
 }

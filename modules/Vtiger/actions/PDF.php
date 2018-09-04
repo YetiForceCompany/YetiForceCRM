@@ -81,7 +81,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$templateIds = $request->getArray('pdf_template', 'Integer');
 		$singlePdf = $request->getInteger('single_pdf') === 1 ? true : false;
 		$emailPdf = $request->getInteger('email_pdf') === 1 ? true : false;
-		mt_srand(time());
+
 		$postfix = time() . '_' . mt_rand(0, 1000);
 		if (!is_array($recordId)) {
 			$recordId = [$recordId];
@@ -118,33 +118,10 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				$pdf = new $handlerClass();
 				foreach ($recordId as $index => $record) {
 					$templateIdsTemp = $templateIds;
-					$pdf->setRecordId($recordId[0]);
-					$pdf->setModuleName($moduleName);
 					$firstTemplate = array_shift($templateIdsTemp);
-					$template = Vtiger_PDF_Model::getInstanceById($firstTemplate);
-					$template->setMainRecordId($record);
-					$pdf->setWaterMark($template);
-					$pdf->setLanguage($template->get('language'));
-					App\Language::setTemporaryLanguage($template->get('language'));
-					$pdf->parseParams($template->getParameters());
-					$pdf->pdf()->setHtmlHeader($template->getHeader());
-					$pdf->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
-					$pdf->pdf()->setHtmlFooter($template->getFooter());
-					$pdf->pdf()->writeHTML($template->getBody(), true, true, true, true, '');
-					$pdf->pdf()->lastPage();
+					$pdf = $pdf->generateContent($recordId[0], $moduleName, $firstTemplate, $record);
 					foreach ($templateIdsTemp as $id) {
-						$template = Vtiger_PDF_Model::getInstanceById($id);
-						$template->setMainRecordId($record);
-						$pdf->setModuleName($moduleName);
-						$pdf->setWaterMark($template);
-						$pdf->setLanguage($template->get('language'));
-						App\Language::setTemporaryLanguage($template->get('language'));
-						$pdf->parseParams($template->getParameters());
-						$pdf->pdf()->setHtmlHeader($template->getHeader());
-						$pdf->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
-						$pdf->pdf()->setHtmlFooter($template->getFooter());
-						$pdf->pdf()->writeHTML($template->getBody(), true, true, true, true, '');
-						$pdf->pdf()->lastPage();
+						$pdf = $pdf->generateContent($record, $moduleName, $id, $record);
 					}
 				}
 				$pdf->setFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE'));
@@ -154,21 +131,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
 						$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Tcpdf', $moduleName);
-						$pdf = new $handlerClass();
-						$pdf->setTemplateId($id);
-						$pdf->setRecordId($record);
-						$pdf->setModuleName($moduleName);
-						$template = Vtiger_PDF_Model::getInstanceById($id);
-						$template->setMainRecordId($record);
-						$pdf->setWaterMark($template);
-						$pdf->setLanguage($template->get('language'));
-						App\Language::setTemporaryLanguage($template->get('language'));
-						$pdf->setFileName($template->get('filename'));
-						$pdf->parseParams($template->getParameters());
-						$pdf->pdf()->setHtmlHeader($template->getHeader());
-						$pdf->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
-						$pdf->pdf()->setHtmlFooter($template->getFooter());
-						$pdf->loadHTML($template->getBody());
+						$pdf = (new $handlerClass())->generateContent($record, $moduleName, $id, $record);
 						$pdfFileName = 'cache/pdf/' . $record . '_' . $pdf->getFileName() . '_' . $postfix . '.pdf';
 						$pdf->output(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pdfFileName, 'F');
 						if (file_exists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pdfFileName)) {
