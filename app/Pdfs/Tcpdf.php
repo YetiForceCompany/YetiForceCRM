@@ -450,7 +450,7 @@ class Tcpdf extends AbstractPDF
 		$self->pdf->setFooterFont([$self->defaultFont, '', $self->defaultFontSize]);
 		$self->parseParams($template->getParameters(), $template->get('margin_chkbox') !== 1);
 		$self->pdf()->setHtmlHeader($template->getHeader());
-		$self->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
+		$self->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L', $template->get('page_format'));
 		$self->pdf()->setHtmlFooter($template->getFooter());
 		$self->pdf()->writeHTML($template->getBody(), true, true, true, true, '');
 		$self->pdf()->lastPage();
