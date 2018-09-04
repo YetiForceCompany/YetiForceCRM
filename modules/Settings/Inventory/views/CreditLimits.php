@@ -14,7 +14,14 @@ class Settings_Inventory_CreditLimits_View extends Settings_Vtiger_Index_View
 	{
 		return 'CreditLimits';
 	}
-
+	
+	/**
+	 * Process template name.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return string
+	 */
 	public function processTplName(\App\Request $request)
 	{
 		return 'Index.tpl';
