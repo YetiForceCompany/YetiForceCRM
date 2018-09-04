@@ -86,7 +86,7 @@ class WebDavFile extends WebDavNode implements DAV\IFile
 	 */
 	public function getContentType()
 	{
-		return null;
+		return self::getETag();
 	}
 
 	/**
