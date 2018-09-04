@@ -8,6 +8,7 @@
     "LBL_SUBJECT": "Assunto",
     "LBL_NUMBER": "N\u00famero",
     "LBL_CLOSED_TIME": "Hora Fechamento",
-    "LBL_VAT_ID": "CNPJ"
+    "LBL_VAT_ID": "CNPJ",
+    "LBL_SHOW_HIERARCHY": "Hierarchy"
   }
 }
