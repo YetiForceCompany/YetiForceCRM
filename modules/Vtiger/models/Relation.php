@@ -163,7 +163,7 @@ class Vtiger_Relation_Model extends \App\Base
 		if ($this->get('creator_detail') === 0 || $this->getRelationType() !== self::RELATION_M2M) {
 			return false;
 		}
-		return (bool) $this->get('creator_detail');
+		return (bool)$this->get('creator_detail');
 	}
 
 	/**
@@ -176,7 +176,7 @@ class Vtiger_Relation_Model extends \App\Base
 		if ($this->get('relation_comment') === 0 || $this->getRelationType() !== self::RELATION_M2M) {
 			return false;
 		}
-		return (bool) $this->get('relation_comment');
+		return (bool)$this->get('relation_comment');
 	}
 
 	/**
@@ -662,16 +662,19 @@ class Vtiger_Relation_Model extends \App\Base
 		$params = ['sourceRecordId' => $this->get('parentRecord')->getId(), 'destinationModule' => $this->getRelationModuleModel()->getName()];
 		$relationModel = \Vtiger_Relation_Model::getInstance($this->getRelationModuleModel(), $this->getParentModuleModel());
 
+		$updateRecords = [$params['sourceRecordId']];
 		foreach ($relationRecords as $relId => $fromId) {
 			$params['destinationRecordId'] = $relId;
 			$params['fromRecordId'] = $fromId;
 			$eventHandler->setParams($params);
 			$eventHandler->trigger('EntityBeforeTransferUnLink');
 			if ($relationModel->transferDb($params)) {
+				$updateRecords[] = $params['fromRecordId']
 				\App\Db::getInstance()->createCommand()->update('vtiger_crmentity',
 					['modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()],
-					['crmid' => [$params['sourceRecordId'], $params['fromRecordId']]])->execute();
+					['crmid' => $updateRecords])->execute();
 				$eventHandler->trigger('EntityAfterTransferLink');
+				$updateRecords = [];
 			}
 		}
 	}
@@ -994,7 +997,7 @@ class Vtiger_Relation_Model extends \App\Base
 	{
 		$dbCommand = App\Db::getInstance()->createCommand();
 		foreach ($modules as $module) {
-			$dbCommand->update('vtiger_relatedlists', ['sequence' => (int) $module['index'] + 1], ['relation_id' => $module['relationId']])->execute();
+			$dbCommand->update('vtiger_relatedlists', ['sequence' => (int)$module['index'] + 1], ['relation_id' => $module['relationId']])->execute();
 		}
 		\App\Cache::clear();
 	}
