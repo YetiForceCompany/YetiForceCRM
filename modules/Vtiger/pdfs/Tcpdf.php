@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class using TCPDF as a PDF creator.
  *
@@ -6,9 +7,6 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Rafal Pospiech <r.pospiech@yetifoce.com>
  */
-
-//Vtiger_Loader::includeOnce('~/vendor/mPDF/mpdf.php');
-
 class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 {
 	const WATERMARK_TYPE_TEXT = 0;
@@ -408,7 +406,6 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 		$self->parseParams($template->getParameters());
 		$self->pdf()->setHtmlHeader($template->getHeader());
 		$self->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
-		$self->parseParams($template->getParameters());
 		$self->pdf()->setHtmlFooter($template->getFooter());
 		$self->loadHTML($template->getBody());
 		$self->output($filePath, $saveFlag);
