@@ -8,8 +8,6 @@
     "LBL_SUBJECT": "Nombre",
     "LBL_NUMBER": "ID",
     "LBL_CLOSED_TIME": "Fecha de cierre",
-    "LBL_VAT_ID": "NIF",
-    "LBL_SHOW_HIERARCHY": "Hierarchy",
-    "LBL_PARENT_ID": "Competitor parent"
+    "LBL_VAT_ID": "NIF"
   }
 }

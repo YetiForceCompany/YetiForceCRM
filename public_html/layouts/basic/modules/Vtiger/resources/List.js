@@ -681,8 +681,8 @@ jQuery.Class("Vtiger_List_Js", {
 	/*
 	 * Function to return alerts if no records selected.
 	 */
-	noRecordSelectedAlert: function (text = 'JS_PLEASE_SELECT_ONE_RECORD') {
-		return Vtiger_Helper_Js.showPnotify({text: app.vtranslate(text)});
+	noRecordSelectedAlert: function () {
+		return alert(app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD'));
 	},
 	massActionSave: function (form, isMassEdit) {
 		if (typeof isMassEdit === "undefined") {
@@ -840,14 +840,12 @@ jQuery.Class("Vtiger_List_Js", {
 	getAlphabetSearchValue: function () {
 		return jQuery("#alphabetValue").val();
 	},
-	/**
-	 * Function to check whether atleast minNumberOfRecords is checked
-	 * @param {number} minNumberOfRecords
-	 * @returns {boolean}
+	/*
+	 * Function to check whether atleast one record is checked
 	 */
-	checkListRecordSelected(minNumberOfRecords = 1) {
-		let selectedIds = this.readSelectedIds();
-		if (typeof selectedIds === 'object' && selectedIds.length < minNumberOfRecords) {
+	checkListRecordSelected: function () {
+		var selectedIds = this.readSelectedIds();
+		if (typeof selectedIds == 'object' && selectedIds.length <= 0) {
 			return true;
 		}
 		return false;
@@ -1992,16 +1990,20 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 		}
 	},
-	registerMassActionsBtnMergeEvents() {
-		this.getListViewContainer().on('click', '.js-mass-action--merge', (e) => {
-			let url = $(e.target).data('url');
+	registerMassActionsBtnEvents: function () {
+		var thisInstance = this;
+		this.getListViewContainer().on('click', '.js-mass-action', function (e) {
+			e.preventDefault();
+			var currentElement = $(this);
+			var url = currentElement.data('url');
 			if (typeof url !== "undefined") {
-				if (this.checkListRecordSelected(2) !== true) {
+				if (thisInstance.checkListRecordSelected() != true) {
 					Vtiger_List_Js.triggerMassAction(url);
 				} else {
-					this.noRecordSelectedAlert('JS_SELECT_ATLEAST_TWO_RECORD_FOR_MERGING');
+					thisInstance.noRecordSelectedAlert();
 				}
 			}
+			e.stopPropagation();
 		});
 	},
 	registerEvents: function () {
@@ -2014,7 +2016,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerDeselectAllClickEvent();
 		this.registerRecordEvents();
 		this.registerMassRecordsEvents();
-		this.registerMassActionsBtnMergeEvents();
+		this.registerMassActionsBtnEvents();
 		this.registerHeadersClickEvent();
 		this.registerMassActionSubmitEvent();
 		this.changeCustomFilterElementView();

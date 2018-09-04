@@ -2,9 +2,9 @@
 
 /**
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Inventory_CreditLimits_View extends Settings_Vtiger_Index_View
 {
@@ -13,18 +13,6 @@ class Settings_Inventory_CreditLimits_View extends Settings_Vtiger_Index_View
 	public function getView()
 	{
 		return 'CreditLimits';
-	}
-	
-	/**
-	 * Process template name.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return string
-	 */
-	public function processTplName(\App\Request $request)
-	{
-		return 'Index.tpl';
 	}
 
 	public function process(\App\Request $request)
@@ -47,7 +35,7 @@ class Settings_Inventory_CreditLimits_View extends Settings_Vtiger_Index_View
 		$viewer->assign('INVENTORY_DATA', $allData);
 		$viewer->assign('VIEW', $view);
 		$viewer->assign('CURRENCY', Vtiger_Util_Helper::getBaseCurrency());
-		$viewer->view($this->processTplName($request), $qualifiedModuleName);
+		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
 	public function getPageLabels(\App\Request $request)

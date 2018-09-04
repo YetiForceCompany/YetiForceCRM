@@ -78,19 +78,17 @@
 								<input type="hidden" class="addView" value="true"/>
 								<input type="hidden" name="status" value="0"/>
 							{/if}
-							{if $TYPE eq 'Taxes'}
-								<div class="form-group form-row">
-									<label class="col-md-4 col-form-label u-text-small-bold text-md-right">
-										{\App\Language::translate('LBL_DEFAULT', $QUALIFIED_MODULE)}
-									</label>
-									<div class="col-md-6 controls checkboxForm">
-										<input type="hidden" name="default" value="0"/>
-										<input type="checkbox" name="default" value="1"
-											   class="status alignBottom" {if $RECORD_MODEL->getDefault()} checked {/if} />
-										<span>&nbsp;&nbsp;{\App\Language::translate('LBL_STATUS_DESC', $QUALIFIED_MODULE)}</span>
-									</div>
+							<div class="form-group form-row">
+								<label class="col-md-4 col-form-label u-text-small-bold text-md-right">
+									{\App\Language::translate('LBL_DEFAULT', $QUALIFIED_MODULE)}
+								</label>
+								<div class="col-md-6 controls checkboxForm">
+									<input type="hidden" name="default" value="0"/>
+									<input type="checkbox" name="default" value="1"
+										   class="status alignBottom" {if $RECORD_MODEL->getDefault()} checked {/if} />
+									<span>&nbsp;&nbsp;{\App\Language::translate('LBL_STATUS_DESC', $QUALIFIED_MODULE)}</span>
 								</div>
-							{/if}
+							</div>
 						</div>
 					</div>
 					{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}

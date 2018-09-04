@@ -1449,7 +1449,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			const imgEl = $(this.getChartImage());
 			const a = $("<a>")
 				.attr("href", imgEl.attr('src'))
-				.attr("download", header.find('.js-widget__header__title').text() + ".png")
+				.attr("download", header.find('.dashboardTitle').text() + ".png")
 				.appendTo(container);
 			a[0].click();
 			a.remove();

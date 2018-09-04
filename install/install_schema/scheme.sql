@@ -1282,9 +1282,7 @@ CREATE TABLE `u_yf_competition` (
   `sum_time` decimal(10,2) DEFAULT 0.00,
   `email` varchar(100) DEFAULT '',
   `active` tinyint(1) DEFAULT 0,
-  `parent_id` int(11) unsigned DEFAULT 0,
   PRIMARY KEY (`competitionid`),
-  KEY `u_yf_competition_parent_id_idx` (`parent_id`),
   CONSTRAINT `fk_1_u_yf_competition` FOREIGN KEY (`competitionid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5452,7 +5450,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2770 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2769 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -8001,7 +7999,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=577 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=576 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
