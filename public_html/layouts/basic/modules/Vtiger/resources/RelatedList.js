@@ -199,9 +199,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				$('.pageNumbers', thisInstance.content).tooltip();
 				thisInstance.registerPostLoadEvents();
 				thisInstance.registerListEvents();
-				if (thisInstance.listSearchInstance) {
-					thisInstance.listSearchInstance.registerBasicEvents();
-				}
 			}
 			aDeferred.resolve(responseData);
 		}).fail(function (textStatus, errorThrown) {
