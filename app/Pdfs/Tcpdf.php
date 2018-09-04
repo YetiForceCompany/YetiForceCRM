@@ -1,13 +1,17 @@
 <?php
 
+namespace App\Pdfs;
+
 /**
+ * Tcpdf class.
+ *
  * Class using TCPDF as a PDF creator.
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Rafal Pospiech <r.pospiech@yetifoce.com>
  */
-class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
+class Tcpdf extends AbstractPDF
 {
 	const WATERMARK_TYPE_TEXT = 0;
 	const WATERMARK_TYPE_IMAGE = 1;
@@ -108,7 +112,7 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	 */
 	public function initializePdf($mode = 'UTF-8', $format = 'A4', $defaultFontSize = 10, $defaultFont = 'dejavusans', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
 	{
-		$this->pdf = new Vtiger_Yftcpdf_Pdf($orientation, 'mm', $format, true, $mode);
+		$this->pdf = new \App\Pdfs\Libs\Yftcpdf($orientation, 'mm', $format, true, $mode);
 		$this->pdf->setFontSubsetting(true);
 		$this->pdf->SetFont($this->defaultFontFamily, '', $this->defaultFontSize);
 		$this->pdf->SetMargins($leftMargin, $topMargin, $rightMargin, true);
@@ -414,7 +418,7 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	 */
 	public function generateContent($recordId, $moduleName, $templateId, $templateMainRecordId = null)
 	{
-		$template = Vtiger_PDF_Model::getInstanceById($templateId, $moduleName);
+		$template = \Vtiger_PDF_Model::getInstanceById($templateId, $moduleName);
 		$template->setMainRecordId($templateMainRecordId ? $templateMainRecordId : $recordId);
 		$pageOrientation = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
 		if ($this->isDefault) {
@@ -433,7 +437,7 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 		$self->setWaterMark($template);
 		$self->setLanguage($template->get('language'));
 		$self->setFileName($template->get('filename'));
-		App\Language::setTemporaryLanguage($template->get('language'));
+		\App\Language::setTemporaryLanguage($template->get('language'));
 		$self->pdf->setHeaderFont([$self->defaultFont, '', $self->defaultFontSize]);
 		$self->pdf->setFooterFont([$self->defaultFont, '', $self->defaultFontSize]);
 		$self->parseParams($template->getParameters());
@@ -442,7 +446,7 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 		$self->pdf()->setHtmlFooter($template->getFooter());
 		$self->pdf()->writeHTML($template->getBody(), true, true, true, true, '');
 		$self->pdf()->lastPage();
-		App\Language::clearTemporaryLanguage();
+		\App\Language::clearTemporaryLanguage();
 		return $self;
 	}
 
