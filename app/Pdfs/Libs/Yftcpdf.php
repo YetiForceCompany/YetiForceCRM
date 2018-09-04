@@ -284,6 +284,18 @@ class Yftcpdf extends \TCPDF
 	}
 
 	/**
+	 * Replace pdf variables like '{nbn}' with TCPDF variables - this can't be done before TCPDF instance is created.
+	 *
+	 * @param string $str
+	 *
+	 * @return string
+	 */
+	public function replacePdfVariables(string $str)
+	{
+		return str_replace(['{nb}', '{PAGENO}'], [$this->getAliasNbPages(), $this->getAliasNumPage()], $str);
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function Header()
@@ -336,7 +348,7 @@ class Yftcpdf extends \TCPDF
 		if ($header = $this->getHtmlHeader()) {
 			$this->setFontSubsetting(true);
 			$this->setFont($this->headerFontFamily, $this->headerFontVariation, $this->headerFontSize);
-			$this->writeHTML($header);
+			$this->writeHTML($this->replacePdfVariables($header));
 		}
 	}
 
@@ -347,7 +359,7 @@ class Yftcpdf extends \TCPDF
 	{
 		if ($footer = $this->getHtmlFooter()) {
 			$this->setFont($this->footerFontFamily, $this->footerFontVariation, $this->footerFontSize);
-			$this->writeHTML($footer);
+			$this->writeHTML($this->replacePdfVariables($footer));
 		}
 	}
 }
