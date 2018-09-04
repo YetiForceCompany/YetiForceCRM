@@ -8,6 +8,7 @@
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Adrian Koń <a.kon@yetiforce.com>
+ * @author Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 class Vtiger_PDF_Action extends \App\Controller\Action
 {
