@@ -408,14 +408,14 @@ class Vtiger_Tcpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	 * @param int    $recordId
 	 * @param string $moduleName
 	 * @param int    $templateId
-	 * @param int    $templateMainRecordId
+	 * @param int    $templateMainRecordId - optional if null $recordId is used
 	 *
 	 * @return Vtiger_Tcpdf_Pdf
 	 */
-	public function generateContent($recordId, $moduleName, $templateId, $templateMainRecordId)
+	public function generateContent($recordId, $moduleName, $templateId, $templateMainRecordId = null)
 	{
 		$template = Vtiger_PDF_Model::getInstanceById($templateId, $moduleName);
-		$template->setMainRecordId($templateMainRecordId);
+		$template->setMainRecordId($templateMainRecordId ? $templateMainRecordId : $recordId);
 		$pageOrientation = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
 		if ($this->isDefault) {
 			if ($template->get('margin_chkbox') == 1) {
