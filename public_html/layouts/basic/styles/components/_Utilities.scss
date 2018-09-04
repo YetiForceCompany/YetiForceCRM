@@ -63,7 +63,9 @@
 	}
 }
 
-.u-text-ellipsis--no-hover, .js-popover-tooltip[data-ellipsis] {
+.u-text-ellipsis--no-hover,
+.js-popover-tooltip[data-ellipsis] .js-popover-text,
+.js-popover-tooltip[data-ellipsis] .c-popover-text {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -169,6 +171,27 @@
 }
 
 //--- WIDTH ---//
+// width % breakpoint classes for 10, 20, 30, 40, 50, 60, 70, 80, 90, 100
+@for $i from 1 through 10 {
+	@each $breakpoint, $min in $grid-breakpoints {
+		@if $min > 0 {
+			@media (min-width: $min) {
+				.u-min-w-#{$breakpoint}-#{$i*10} {
+					min-width: $i*10% !important;
+				}
+
+				.u-max-w-#{$breakpoint}-#{$i*10} {
+					max-width: $i*10% !important;
+				}
+
+				.u-w-#{$breakpoint}-#{$i*10} {
+					min-width: $i*10% !important;
+				}
+			}
+		}
+	}
+}
+
 .u-w-10per {
 	width: 10%;
 }
@@ -406,16 +429,20 @@
 }
 
 //--- POSITIONS ---//
+.u-position-r-0 {
+	right: 0;
+}
+
+.u-position-r-5px {
+	right: calculate-rem(5px);
+}
+
 .u-position-r-10px {
 	right: calculate-rem(10px);
 }
 
 .u-position-t-10px {
 	top: calculate-rem(10px);
-}
-
-.u-position-r-5px {
-	right: calculate-rem(5px);
 }
 
 .u-position-t-5px {
