@@ -64,6 +64,16 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$response->emit();
 	}
 
+	/**
+	 * Generate pdf.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermitted
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function generate(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -119,7 +129,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 					$pdf->parseParams($template->getParameters());
 					$pdf->pdf()->setHtmlHeader($template->getHeader());
 					$pdf->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
-					$pdf->parseParams($template->getParameters());
 					$pdf->pdf()->setHtmlFooter($template->getFooter());
 					$pdf->pdf()->writeHTML($template->getBody(), true, true, true, true, '');
 					$pdf->pdf()->lastPage();
@@ -133,7 +142,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$pdf->parseParams($template->getParameters());
 						$pdf->pdf()->setHtmlHeader($template->getHeader());
 						$pdf->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
-						$pdf->parseParams($template->getParameters());
 						$pdf->pdf()->setHtmlFooter($template->getFooter());
 						$pdf->pdf()->writeHTML($template->getBody(), true, true, true, true, '');
 						$pdf->pdf()->lastPage();
@@ -159,7 +167,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$pdf->parseParams($template->getParameters());
 						$pdf->pdf()->setHtmlHeader($template->getHeader());
 						$pdf->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
-						$pdf->parseParams($template->getParameters());
 						$pdf->pdf()->setHtmlFooter($template->getFooter());
 						$pdf->loadHTML($template->getBody());
 						$pdfFileName = 'cache/pdf/' . $record . '_' . $pdf->getFileName() . '_' . $postfix . '.pdf';
