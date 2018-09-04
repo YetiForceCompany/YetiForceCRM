@@ -7,7 +7,7 @@
  */
 return [
 	//Columns visible in hierarchy [$label => $columnName]
-	'COLUMNS_IN_HIERARCHY' => [],
+	'COLUMNS_IN_HIERARCHY' => ['LBL_SUBJECT' => 'subject', 'Email' => 'email', 'Vat ID' => 'vat_id', 'LBL_ASSIGNED_TO' => 'assigned_user_id'],
 	//Max depth of hierarchy
 	'MAX_HIERARCHY_DEPTH' => 50,
 	// Count Sales in hierarchy
