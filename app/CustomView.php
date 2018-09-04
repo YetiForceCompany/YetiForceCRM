@@ -22,7 +22,7 @@ class CustomView
 	 */
 	const STD_FILTER_CONDITIONS = ['custom', 'prevfy', 'thisfy', 'nextfy', 'prevfq', 'thisfq', 'nextfq', 'yesterday', 'today', 'tomorrow',
 		'lastweek', 'thisweek', 'nextweek', 'lastmonth', 'thismonth', 'nextmonth',
-		'last7days', 'last15days', 'last30days', 'last60days', 'last90days', 'last120days', 'next15days', 'next30days', 'next60days', 'next90days', 'next120days', ];
+		'last7days', 'last15days', 'last30days', 'last60days', 'last90days', 'last120days', 'next15days', 'next30days', 'next60days', 'next90days', 'next120days',];
 
 	/**
 	 * Supported advanced filter operations.
@@ -275,25 +275,27 @@ class CustomView
 	 * Static Function to get the Instance of CustomView.
 	 *
 	 * @param string $moduleName
-	 * @param mixed  $user
+	 * @param mixed  $userId
 	 *
 	 * @return \self
 	 */
-	public static function getInstance($moduleName, $user = false)
+	public static function getInstance($moduleName, $userModelOrId = false)
 	{
-		if (!$user) {
-			$user = User::getCurrentUserId();
+		if (!$userModelOrId) {
+			$userModelOrId = User::getCurrentUserId();
 		}
-		if (is_numeric($user)) {
-			$user = User::getUserModel($user);
+		if (is_numeric($userModelOrId)) {
+			$userModel = User::getUserModel($userModelOrId);
+		} else {
+			$userModel = $userModelOrId;
 		}
-		$cacheName = $moduleName . '.' . $user->getId();
+		$cacheName = $moduleName . '.' . $userModel->getId();
 		if (\App\Cache::staticHas('AppCustomView', $cacheName)) {
 			return \App\Cache::staticGet('AppCustomView', $cacheName);
 		}
 		$instance = new self();
 		$instance->moduleName = $moduleName;
-		$instance->user = $user;
+		$instance->user = $userModel;
 		\App\Cache::staticGet('AppCustomView', $cacheName, $instance);
 
 		return $instance;
@@ -517,7 +519,7 @@ class CustomView
 				if (!$dataReader->count()) {
 					continue;
 				}
-				$key = (int) $relCriteriaGroup['groupid'] === 1 ? 'and' : 'or';
+				$key = (int)$relCriteriaGroup['groupid'] === 1 ? 'and' : 'or';
 				while ($relCriteriaRow = $dataReader->read()) {
 					$advftCriteria[$key][] = $this->getAdvftCriteria($relCriteriaRow);
 				}
@@ -639,7 +641,7 @@ class CustomView
 					$viewId = $this->getDefaultCvId();
 				}
 			} else {
-				$viewId = (int) $viewId;
+				$viewId = (int)$viewId;
 				if (!$this->isPermittedCustomView($viewId)) {
 					throw new Exceptions\NoPermitted('ERR_NO_PERMITTED_TO_VIEW');
 				}
@@ -663,11 +665,11 @@ class CustomView
 		}
 		$query = (new Db\Query())->select('userid, default_cvid')->from('vtiger_user_module_preferences')->where(['tabid' => Module::getModuleId($this->moduleName)]);
 		$data = $query->createCommand()->queryAllByGroup();
-		$user = 'Users:' . $this->user->getId();
-		if (isset($data[$user])) {
-			Cache::save('GetDefaultCvId', $cacheName, $data[$user]);
+		$userId = 'Users:' . $this->user->getId();
+		if (isset($data[$userId])) {
+			Cache::save('GetDefaultCvId', $cacheName, $data[$userId]);
 
-			return $data[$user];
+			return $data[$userId];
 		}
 		foreach ($this->user->getGroups() as $groupId) {
 			$group = 'Groups:' . $groupId;
@@ -825,27 +827,27 @@ class CustomView
 		$query = (new Db\Query())->from('vtiger_customview');
 		if (is_numeric($mixed)) {
 			$info = $query->where(['cvid' => $mixed])->one();
-			$info['cvid'] = (int) $info['cvid'];
-			$info['setdefault'] = (int) ($info['setdefault'] ?? 0);
-			$info['setmetrics'] = (int) ($info['setmetrics'] ?? 0);
-			$info['status'] = (int) ($info['status'] ?? 0);
-			$info['privileges'] = (int) ($info['privileges'] ?? 0);
-			$info['featured'] = (int) ($info['featured'] ?? 0);
-			$info['presence'] = (int) ($info['presence'] ?? 0);
-			$info['sequence'] = (int) ($info['sequence'] ?? 0);
-			$info['userid'] = (int) ($info['userid'] ?? 0);
+			$info['cvid'] = (int)$info['cvid'];
+			$info['setdefault'] = (int)($info['setdefault'] ?? 0);
+			$info['setmetrics'] = (int)($info['setmetrics'] ?? 0);
+			$info['status'] = (int)($info['status'] ?? 0);
+			$info['privileges'] = (int)($info['privileges'] ?? 0);
+			$info['featured'] = (int)($info['featured'] ?? 0);
+			$info['presence'] = (int)($info['presence'] ?? 0);
+			$info['sequence'] = (int)($info['sequence'] ?? 0);
+			$info['userid'] = (int)($info['userid'] ?? 0);
 		} else {
 			$info = $query->where(['entitytype' => $mixed])->all();
 			foreach ($info as &$item) {
-				$item['cvid'] = (int) $item['cvid'];
-				$item['setdefault'] = (int) $item['setdefault'];
-				$item['setmetrics'] = (int) $item['setmetrics'];
-				$item['status'] = (int) $item['status'];
-				$item['privileges'] = (int) $item['privileges'];
-				$item['featured'] = (int) $item['featured'];
-				$item['presence'] = (int) $item['presence'];
-				$item['sequence'] = (int) $item['sequence'];
-				$item['userid'] = (int) $item['userid'];
+				$item['cvid'] = (int)$item['cvid'];
+				$item['setdefault'] = (int)$item['setdefault'];
+				$item['setmetrics'] = (int)$item['setmetrics'];
+				$item['status'] = (int)$item['status'];
+				$item['privileges'] = (int)$item['privileges'];
+				$item['featured'] = (int)$item['featured'];
+				$item['presence'] = (int)$item['presence'];
+				$item['sequence'] = (int)$item['sequence'];
+				$item['userid'] = (int)$item['userid'];
 			}
 		}
 		Cache::save('CustomViewInfo', $mixed, $info);
