@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Pdfs;
+
 /**
  * Abstract class for connection to bank currency exchange rates.
  *
@@ -7,8 +9,9 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Rafal Pospiech <r.pospiech@yetiforce.com>
  */
-abstract class Vtiger_AbstractPDF_Pdf
+abstract class AbstractPDF
 {
 	protected $pdf;
 	protected $library;

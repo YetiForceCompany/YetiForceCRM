@@ -1,15 +1,17 @@
 <?php
 
+namespace App\Pdfs\Libs;
+
+\Vtiger_Loader::includeOnce('~/vendor/tecnickcom/tcpdf/tcpdf.php');
+
 /**
- * Vtiger ytcpdf pdf class.
+ * Ytcpdf class.
  *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Rafal Pospiech <r.pospiech@yetiforce.com>
  */
-Vtiger_Loader::includeOnce('~/vendor/tecnickcom/tcpdf/tcpdf.php');
-
-class Vtiger_Yftcpdf_Pdf extends TCPDF
+class Yftcpdf extends \TCPDF
 {
 	/**
 	 * Header html.

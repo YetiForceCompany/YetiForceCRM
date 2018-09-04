@@ -516,9 +516,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
-		$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Tcpdf', $moduleName);
-		$pdf = new $handlerClass();
-		$pdf->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
+		(new \App\Pdfs\Tcpdf())->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
 	}
 
 	/**
