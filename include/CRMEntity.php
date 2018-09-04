@@ -80,18 +80,18 @@ class CRMEntity
 	 */
 	public function saveInventoryData($moduleName)
 	{
-		$db = App\Db::getInstance();
+		$instanceDb = App\Db::getInstance();
 
 		\App\Log::trace('Entering ' . __METHOD__);
 
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$table = $inventory->getTableName('data');
 
-		$db->createCommand()->delete($table, ['id' => $this->id])->execute();
+		$instanceDb->createCommand()->delete($table, ['id' => $this->id])->execute();
 		if (is_array($this->inventoryData)) {
 			foreach ($this->inventoryData as $insertData) {
 				$insertData['id'] = $this->id;
-				$db->createCommand()->insert($table, $insertData)->execute();
+				$instanceDb->createCommand()->insert($table, $insertData)->execute();
 			}
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
@@ -475,7 +475,7 @@ class CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$db = PearDatabase::getInstance();
+		$instanceDb = PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
@@ -485,23 +485,23 @@ class CRMEntity
 		}
 		foreach ($transferEntityIds as &$transferId) {
 			// Pick the records related to the entity to be transfered, but do not pick the once which are already related to the current entity.
-			$relatedRecords = $db->pquery('SELECT relcrmid, relmodule FROM vtiger_crmentityrel WHERE crmid=? && module=?' .
+			$relatedRecords = $instanceDb->pquery('SELECT relcrmid, relmodule FROM vtiger_crmentityrel WHERE crmid=? && module=?' .
 				' && relcrmid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid=? && module=?)', [$transferId, $module, $entityId, $module]);
-			while ($row = $db->getRow($relatedRecords)) {
+			while ($row = $instanceDb->getRow($relatedRecords)) {
 				$where = 'relcrmid = ? && relmodule = ? && crmid = ? && module = ?';
 				$params = [$row['relcrmid'], $row['relmodule'], $transferId, $module];
-				$db->update('vtiger_crmentityrel', ['crmid' => $entityId], $where, $params);
+				$instanceDb->update('vtiger_crmentityrel', ['crmid' => $entityId], $where, $params);
 			}
 			// Pick the records to which the entity to be transfered is related, but do not pick the once to which current entity is already related.
-			$parentRecords = $db->pquery('SELECT crmid, module FROM vtiger_crmentityrel WHERE relcrmid=? && relmodule=?' .
+			$parentRecords = $instanceDb->pquery('SELECT crmid, module FROM vtiger_crmentityrel WHERE relcrmid=? && relmodule=?' .
 				' && crmid NOT IN (SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid=? && relmodule=?)', [$transferId, $module, $entityId, $module]);
-			while ($row = $db->getRow($parentRecords)) {
+			while ($row = $instanceDb->getRow($parentRecords)) {
 				$where = 'crmid = ? && module = ? && relcrmid = ? && relmodule = ?';
 				$params = [$row['crmid'], $row['module'], $transferId, $module];
-				$db->update('vtiger_crmentityrel', ['relcrmid' => $entityId], $where, $params);
+				$instanceDb->update('vtiger_crmentityrel', ['relcrmid' => $entityId], $where, $params);
 			}
 
-			$db->update('vtiger_modtracker_basic', ['crmid' => $entityId], 'crmid = ? && status <> ?', [$transferId, 7]);
+			$instanceDb->update('vtiger_modtracker_basic', ['crmid' => $entityId], 'crmid = ? && status <> ?', [$transferId, 7]);
 			foreach ($relTables as &$relTable) {
 				$idField = current($relTable)[1];
 				$entityIdField = current($relTable)[0];
@@ -509,10 +509,10 @@ class CRMEntity
 				// IN clause to avoid duplicate entries
 				$sql = "SELECT $idField FROM $relTableName WHERE $entityIdField = ? " .
 					" && $idField NOT IN ( SELECT $idField FROM $relTableName WHERE $entityIdField = ? )";
-				$selResult = $db->pquery($sql, [$transferId, $entityId]);
-				if ($db->getRowCount($selResult) > 0) {
-					while (($idFieldValue = $db->getSingleValue($selResult)) !== false) {
-						$db->update($relTableName, [
+				$selResult = $instanceDb->pquery($sql, [$transferId, $entityId]);
+				if ($instanceDb->getRowCount($selResult) > 0) {
+					while (($idFieldValue = $instanceDb->getSingleValue($selResult)) !== false) {
+						$instanceDb->update($relTableName, [
 							$entityIdField => $entityId,
 						], "$entityIdField = ? and $idField = ?", [$transferId, $idFieldValue]
 						);
@@ -522,7 +522,7 @@ class CRMEntity
 			$fields = App\Field::getRelatedFieldForModule(false, $module);
 			foreach ($fields as &$field) {
 				$columnName = $field['columnname'];
-				$db->update($field['tablename'], [
+				$instanceDb->update($field['tablename'], [
 					$columnName => $entityId,
 				], "$columnName = ?", [$transferId]
 				);
