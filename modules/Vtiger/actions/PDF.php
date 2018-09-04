@@ -70,6 +70,8 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$templateIds = $request->getArray('pdf_template', 'Integer');
 		$singlePdf = $request->getInteger('single_pdf') === 1 ? true : false;
 		$emailPdf = $request->getInteger('email_pdf') === 1 ? true : false;
+		mt_srand(time());
+		$postfix = time() . '_' . mt_rand(0, 1000);
 		if (!is_array($recordId)) {
 			$recordId = [$recordId];
 		}
@@ -87,8 +89,8 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		}
 		if ($selectedOneTemplate && $recordsAmount == 1) {
 			if ($emailPdf) {
-				$filePath = 'cache/pdf/' . $recordId[0] . '_' . time() . '.pdf';
-				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0], $filePath, 'F');
+				$filePath = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $recordId[0] . '_' . time() . '.pdf';
+				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0], ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $filePath, 'F');
 				if (file_exists($filePath) && \App\Privilege::isPermitted('OSSMail')) {
 					header('Location: index.php?module=OSSMail&view=Compose&pdf_path=' . $filePath);
 				} else {
@@ -117,10 +119,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 					$pdf->pdf()->setHtmlHeader($template->getHeader());
 					$pdf->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L');
 					$pdf->parseParams($template->getParameters());
-					if ($template->get('page_orientation') !== $template->getParameters()['page_orientation']) {
-						var_dump($template);
-						exit;
-					}
 					$pdf->pdf()->setHtmlFooter($template->getFooter());
 					$pdf->pdf()->writeHTML($template->getBody(), true, true, true, true, '');
 					$pdf->pdf()->lastPage();
@@ -143,8 +141,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				$pdf->setFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE'));
 				$pdf->output();
 			} else {
-				mt_srand(time());
-				$postfix = time() . '_' . mt_rand(0, 1000);
 				$pdfFiles = [];
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
@@ -166,9 +162,8 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						$pdf->pdf()->setHtmlFooter($template->getFooter());
 						$pdf->loadHTML($template->getBody());
 						$pdfFileName = 'cache/pdf/' . $record . '_' . $pdf->getFileName() . '_' . $postfix . '.pdf';
-						$pdf->output($pdfFileName, 'F');
-
-						if (file_exists($pdfFileName)) {
+						$pdf->output(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pdfFileName, 'F');
+						if (file_exists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pdfFileName)) {
 							$pdfFiles[] = $pdfFileName;
 						}
 						unset($pdf, $template);

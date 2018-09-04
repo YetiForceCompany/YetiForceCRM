@@ -59,13 +59,6 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 	protected $footerFontSize = 10;
 
 	/**
-	 * Page orientation.
-	 *
-	 * @var string
-	 */
-	protected $pageOrientation = 'P';
-
-	/**
 	 * Watermark image.
 	 *
 	 * @var array
@@ -76,6 +69,11 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 			'path' => '',
 			'width' => '',
 			'height' => '',
+		],
+		'text' => [
+			'text' => '',
+			'fontSize' => 10,
+			'angle' => 0
 		],
 		'alpha' => 0
 	];
@@ -214,13 +212,12 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 		$this->original_rMargin = $this->rMargin;
 	}
 
-	/*public function SetFont($family, $style = '', $size = null, $fontfile = '', $subset = 'default', $out = true)
-	{
-		$this->setFontSubsetting(true);
-		parent::SetFont($family, $style, $size, $fontfile, $subset, $out);
-	}*/
-
-	public function setLanguage($lang)
+	/**
+	 * Set language.
+	 *
+	 * @param string $lang
+	 */
+	public function setLanguage(string $lang)
 	{
 		$this->setFontSubsetting(true);
 		$this->setFont($this->FontFamily, $this->FontStyle, $this->FontSize);
@@ -254,7 +251,11 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 	 */
 	public function clearWatermarkImage()
 	{
-		$this->watermark['image']['path'] = '';
+		$this->watermark['image'] = [
+			'path' => '',
+			'width' => '',
+			'height' => '',
+		];
 	}
 
 	/**
@@ -263,15 +264,14 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 	 * @param string $text
 	 * @param float  $alpha
 	 */
-	public function setWatermarkText(string $text, float $alpha)
+	public function setWatermarkText(string $text, float $alpha, float $fontSize, float $angle)
 	{
-		/*$width = $this->GetStringWidth($text, $this->footerFontFamily, $this->headerFontVariation, $this->headerFontSize);
-		$height = $this->GetStringHeight($this->GetPageWidth(), $text, $this->footerFontFamily, $this->headerFontVariation, $this->headerFontSize);
-		$image = imagecreate($width, $height);
-
-		$this->watermark['imagePath'] = $filePath;
+		$this->clearWatermarkImage();
+		$this->watermark['text']['text'] = $text;
+		$this->watermark['text']['fontSize'] = $fontSize;
+		$this->watermark['text']['angle'] = $angle;
 		$this->watermark['alpha'] = $alpha;
-		$this->watermark['render'] = true;*/
+		$this->watermark['render'] = true;
 	}
 
 	/**
@@ -285,29 +285,40 @@ class Vtiger_Yftcpdf_Pdf extends TCPDF
 			$oldX = $this->GetX();
 			$oldY = $this->GetY();
 			$oldAplha = $this->GetAlpha();
-			//$this->SetX(0);
-			//$this->SetY(0);
 			$this->SetAlpha($this->watermark['alpha']);
 			$this->SetAutoPageBreak(false, $this->getFooterMargin());
-			$this->Image(
-				$this->watermark['image']['path'], // filename
-				0,  // x
-				$this->tMargin,  // y
-				$this->watermark['image']['width'], // width
-				$this->watermark['image']['height'], // height
-				'', // type jpg png
-				'', // url link
-				'M', // align
-				true,// resize
-				300, // dpi
-				'C', // palign
-				false, // is mask
-				false, // img mask
-				0, // border
-				false, // fitbox
-				false, // hidden
-				true // fit on page
-			);
+			if (!empty($this->watermark['image']['path'])) {
+				$this->Image(
+					$this->watermark['image']['path'], // filename
+					0,  // x
+					$this->tMargin,  // y
+					$this->watermark['image']['width'], // width
+					$this->watermark['image']['height'], // height
+					'', // type jpg png
+					'', // url link
+					'M', // align
+					true,// resize
+					300, // dpi
+					'C', // palign
+					false, // is mask
+					false, // img mask
+					0, // border
+					false, // fitbox
+					false, // hidden
+					true // fit on page
+				);
+			} elseif (!empty($this->watermark['text']['text'])) {
+				$this->setFontSubsetting(true);
+				$this->setFont($this->headerFontFamily, $this->headerFontVariation, $this->watermark['text']['fontSize']);
+				$this->StartTransform();
+				if ((int) $this->watermark['text']['angle']) {
+					$this->Rotate(-(float) $this->watermark['text']['angle']);
+					$this->Translate($this->tMargin, -$this->lMargin);
+				}
+				$this->Text($this->lMargin, $this->tMargin, $this->watermark['text']['text']);
+				$this->StopTransform();
+				$this->setFont($this->headerFontFamily, $this->headerFontVariation, $this->headerFontSize);
+			}
 			$this->SetAutoPageBreak($pageBreak, $pageBreakMargin);
 			$this->setPageMark();
 			$this->SetX($oldX);
