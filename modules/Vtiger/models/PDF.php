@@ -7,7 +7,8 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Maciej Stencel <m.stencel@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Radoslaw Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 class Vtiger_PDF_Model extends \App\Base
 {
