@@ -185,7 +185,7 @@ class NumberToWords
 	{
 		self::initialize();
 		if (!is_numeric($amount)) {
-			throw new \Exception('ERR_ILLEGAL_VALUE');
+			throw new \App\Exceptions\AppException('ERR_ILLEGAL_VALUE');
 		}
 		$amountString = number_format($amount, 2, '.', '');
 		list($bigAmount, $smallAmount) = explode('.', $amountString);
