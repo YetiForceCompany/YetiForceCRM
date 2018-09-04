@@ -415,7 +415,9 @@ class Yftcpdf extends \TCPDF
 	 */
 	public function AddPage($orientation = '', $format = '', $keepmargins = false, $tocpage = false, $cssStyleName = '')
 	{
-		$this->currentCssStyleName = $cssStyleName;
+		if (!empty(func_get_args()['cssStyleName'])) {
+			$this->currentCssStyleName = $cssStyleName;
+		}
 		parent::AddPage($orientation, $format, $keepmargins, $tocpage);
 	}
 
