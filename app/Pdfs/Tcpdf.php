@@ -81,7 +81,7 @@ class Tcpdf extends AbstractPDF
 	/**
 	 * Constructor.
 	 */
-	public function __construct($mode = 'UTF-8', $format = 'A4', $defaultFontSize = 10, $defaultFont = 'dejavusans', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
+	public function __construct($mode = '', $format = 'A4', $defaultFontSize = 10, $defaultFont = 'dejavusans', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
 	{
 		$args = func_get_args();
 		// this two arguments are kind of signal that we are configured (from template or elsewhere) - not from default argument values (not empty = default)
@@ -110,8 +110,11 @@ class Tcpdf extends AbstractPDF
 	 * @param int    $headerMargin
 	 * @param int    $footerMargin
 	 */
-	public function initializePdf($mode = 'UTF-8', $format = 'A4', $defaultFontSize = 10, $defaultFont = 'dejavusans', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
+	public function initializePdf($mode = '', $format = 'A4', $defaultFontSize = 10, $defaultFont = 'dejavusans', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
 	{
+		if (empty($mode)) {
+			$mode = \AppConfig::main('default_charset') ?? 'UTF-8';
+		}
 		$this->pdf = new \App\Pdfs\Libs\Yftcpdf($orientation, 'mm', $format, true, $mode);
 		$this->pdf->setFontSubsetting(true);
 		$this->pdf->SetFont($this->defaultFontFamily, '', $this->defaultFontSize);
@@ -422,10 +425,11 @@ class Tcpdf extends AbstractPDF
 		$template->setMainRecordId($templateMainRecordId ? $templateMainRecordId : $recordId);
 		$pageOrientation = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
 		if ($this->isDefault) {
+			$charset = \AppConfig::main('default_charset') ?? 'UTF-8';
 			if ($template->get('margin_chkbox') == 1) {
-				$self = new self('UTF-8', $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientation);
+				$self = new self($charset, $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientation);
 			} else {
-				$self = new self('UTF-8', $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientation, $template->get('margin_left'), $template->get('margin_right'), $template->get('margin_top'), $template->get('margin_bottom'), $template->get('header_height'), $template->get('footer_height'));
+				$self = new self($charset, $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientation, $template->get('margin_left'), $template->get('margin_right'), $template->get('margin_top'), $template->get('margin_bottom'), $template->get('header_height'), $template->get('footer_height'));
 			}
 			$self->isDefault = false;
 		} else {
