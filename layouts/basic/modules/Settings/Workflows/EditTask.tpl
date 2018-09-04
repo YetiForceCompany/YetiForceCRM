@@ -52,15 +52,15 @@
 								</div>
 							</div>
 						</div>
-						{if ($TASK_OBJECT->trigger!=null)}
-							{assign var=trigger value=$TASK_OBJECT->trigger}
-							{assign var=days value=$trigger['days']}
+						{if isset($TASK_OBJECT->trigger)}
+							{assign var=TRIGGER value=$TASK_OBJECT->trigger}
+							{assign var=DAYS value=$TRIGGER['days']}
 
-							{if ($days < 0)}
-								{assign var=days value=$days*-1}
-								{assign var=direction value='before'}
+							{if ($DAYS < 0)}
+								{assign var=DAYS value=$DAYS*-1}
+								{assign var=DIRECTION value='before'}
 							{else}
-								{assign var=direction value='after'}
+								{assign var=DIRECTION value='after'}
 							{/if}
 						{/if}
 						<div class="form-row pb-3">
@@ -69,27 +69,28 @@
 									{\App\Language::translate('LBL_EXECUTE_TASK',$QUALIFIED_MODULE)}
 								</div>
 								<input type="checkbox" class="alignTop" name="check_select_date"
-									   {if $trigger neq null}checked{/if}/>
+										{if !empty($TRIGGER)} checked {/if}/>
 							</div>
-							<div class="col-md-10 form-row {if $trigger neq null}show {else} d-none {/if}"
+							<div class="col-md-10 form-row {if !empty($TRIGGER)} show {else} d-none {/if}"
 								 id="checkSelectDateContainer">
 								<div class="col-md-2">
-									<input class="form-control" type="text" name="select_date_days" value="{$days}"
+									<input class="form-control" type="text" name="select_date_days"
+										   value="{if !empty($DAYS)}{$DAYS}{/if}"
 										   data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">
 								</div>
 								<div class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
 								<div class="col-md-2 ml-0">
 									<select class="select2 form-control" name="select_date_direction">
-										<option {if $direction eq 'after'} selected="" {/if}
+										<option {if !empty($DIRECTION) && ($DIRECTION eq 'after')} selected="" {/if}
 												value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
-										<option {if $direction eq 'before'} selected="" {/if}
+										<option {if !empty($DIRECTION) && ($DIRECTION eq 'before')} selected="" {/if}
 												value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 									</select>
 								</div>
 								<div class="col-md-6 ml-0">
 									<select class="select2" name="select_date_field">
 										{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
-											<option {if $trigger['field'] eq $DATETIME_FIELD->get('name')} selected="" {/if}
+											<option {if !empty($TRIGGER['field']) && ($TRIGGER['field'] eq $DATETIME_FIELD->get('name'))} selected="" {/if}
 													value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
 										{/foreach}
 									</select>

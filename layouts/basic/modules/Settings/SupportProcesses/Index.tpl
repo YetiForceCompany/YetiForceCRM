@@ -25,8 +25,8 @@
 						<td class="w-25">
 							<label>{\App\Language::translate('LBL_TICKET_STATUS_INFO', $QUALIFIED_MODULE)}</label></td>
 						<td>
-							<select class="select2 js-config-field form-control status" data-js="change" multiple
-									name="status">
+							<select class="select2 js-config-field form-control status" data-js="change"
+									name="status" multiple>
 								{foreach  item=STATUS from=$TICKETSTATUS}
 									<option value="{$STATUS}" {if in_array($STATUS, $TICKETSTATUSNOTMODIFY)} selected {/if} >{\App\Language::translate($STATUS, 'HelpDesk')}</option>
 								{/foreach}

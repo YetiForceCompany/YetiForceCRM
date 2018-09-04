@@ -112,8 +112,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 			foreach ($fieldNames as $fieldName) {
 				if ($fieldName == 'field_value_mapping' || $fieldName == 'content') {
 					$values = \App\Json::decode($request->getRaw($fieldName));
-
-					if ($values) {
+					if (is_array($values)) {
 						foreach ($values as $index => $value) {
 							$values[$index]['value'] = htmlspecialchars($value['value']);
 						}

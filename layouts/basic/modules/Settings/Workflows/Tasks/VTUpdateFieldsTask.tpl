@@ -7,10 +7,15 @@
 	</div>
 	<br/>
 	<div class="row js-conditions-container no-gutters px-1" id="save_fieldvaluemapping" data-js="container">
-		{assign var=FIELD_VALUE_MAPPING value=\App\Json::decode($TASK_OBJECT->field_value_mapping)}
+		{if !empty($TASK_OBJECT->field_value_mapping)}
+			{assign var=FIELD_VALUE_MAPPING value=$TASK_OBJECT->field_value_mapping}
+		{else}
+			{assign var=FIELD_VALUE_MAPPING value=""}
+		{/if}
+		{assign var=DECODE_FIELD_VALUE_MAPPING value=\App\Json::decode($FIELD_VALUE_MAPPING)}
 		<input type="hidden" id="fieldValueMapping" name="field_value_mapping"
-			   value='{\App\Purifier::encodeHtml($TASK_OBJECT->field_value_mapping)}'/>
-		{foreach from=$FIELD_VALUE_MAPPING item=FIELD_MAP}
+			   value="{\App\Purifier::encodeHtml($FIELD_VALUE_MAPPING)}"/>
+		{foreach from=$DECODE_FIELD_VALUE_MAPPING item=FIELD_MAP}
 			<div class="row no-gutters col-12 col-xl-6 js-conditions-row padding-bottom1per px-md-1"
 				 data-js="container | clone">
 				<div class="col-md-5 mb-1 mb-md-0">

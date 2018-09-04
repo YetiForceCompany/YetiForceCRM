@@ -39,6 +39,8 @@ class Credits
 		'svg' => 'MIT',
 		'jquery-timers' => 'WTFPL',
 		'bootstrap-tabdrop' => 'Apache-2.0',
+		'jquery-ui-touch-punch' => 'MIT',
+		'jquery-lazy' => 'MIT',
 	];
 	/**
 	 * Information about forks CRM.
@@ -111,9 +113,11 @@ class Credits
 					$name = $isPrefix ? '@' : '';
 					$tempName = explode('@', $isPrefix ? ltrim($nameWithVersion, '@') : $nameWithVersion);
 					$name .= array_shift($tempName);
-					$libraries[$name] = self::getLibraryValues($name, $libraryDir);
-					if (empty($libraries[$name]['homepage'])) {
-						$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/$name";
+					if (\is_dir($libraryDir . $name)) {
+						$libraries[$name] = self::getLibraryValues($name, $libraryDir);
+						if (empty($libraries[$name]['homepage'])) {
+							$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/$name";
+						}
 					}
 				}
 			}
@@ -179,7 +183,7 @@ class Credits
 			$packageFile = $dir . $libraryName . DIRECTORY_SEPARATOR . $file;
 			if (file_exists($packageFile)) {
 				$packageFileContent = \App\Json::decode(file_get_contents($packageFile), true);
-				$license = $packageFileContent['license'] ?? '';
+				$license = $packageFileContent['license'] ?? $packageFileContent['licenses'] ?? '';
 				if ($license) {
 					if (is_array($license)) {
 						if (is_array($license[0]) && isset($license[0]['type'])) {

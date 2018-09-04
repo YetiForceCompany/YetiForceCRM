@@ -5840,7 +5840,7 @@ button.bg-dark:focus {
 
   .align-self-xxl-stretch {
     align-self: stretch !important; } }
-.float-left {
+.float-left, .profilesEditView .footable-toggle {
   float: left !important; }
 
 .float-right {
@@ -9808,7 +9808,7 @@ textarea.col-md-11 {
   z-index: 10000000; }
   .convertLeadError table td {
     border-bottom: 1px solid #ccc;
-    nowrap: nowrap;
+    white-space: nowrap;
     width: 70%; }
 
 .ui-autocomplete-loading {
@@ -11562,6 +11562,10 @@ select[readonly], select[disabled] {
   width: 3%;
   min-width: 250px !important; }
 
+.u-w-30per-18rem {
+  width: 30% !important;
+  min-width: 18rem; }
+
 .u-w-85px {
   width: 85px; }
 
@@ -11887,6 +11891,10 @@ select[readonly], select[disabled] {
   visibility: hidden;
   font-size: 75%; }
 
+.c-img__user {
+  width: auto;
+  height: 2.5rem; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
   color: #212529;
@@ -11989,6 +11997,8 @@ select[readonly], select[disabled] {
     .c-btn-done:not(:disabled):not(.disabled):active:focus, .c-btn-done:not(:disabled):not(.disabled).active:focus, .show > .c-btn-done.dropdown-toggle:focus {
       box-shadow: 0 0 0 0.2rem rgba(57, 73, 171, 0.5); }
 
+.detailViewTitle .c-btn-link {
+  height: max-content; }
 @media (max-width: 767.98px) {
   .c-btn-link--responsive {
     width: 100%;
@@ -14729,7 +14739,7 @@ label.btn.btn-outline-primary:not(.active) {
     padding-right: 1rem !important; } }
 
 @media (min-width: 992px) {
-  .Calendar_Calendar .mainBody {
+  [class$="_Calendar"] .mainBody {
     overflow: hidden; } }
 .hideToggleSiteBarRightButton {
   right: 0 !important; }
@@ -14993,10 +15003,6 @@ label.btn.btn-outline-primary:not(.active) {
 
 .select2-results__option--highlighted .o-filter-actions {
   display: block !important; }
-
-.c-list__user-img {
-  width: auto;
-  height: 2.5rem; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media (min-width: 992px) {

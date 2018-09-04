@@ -51,7 +51,7 @@ Vtiger_Detail_Js("IStorages_Detail_Js", {}, {
 			};
 			AppConnector.request(params).done(function (response) {
 				if (response.success) {
-					$('.detailViewTitle .hierarchy').append(' <span class="badge">' + response.result + '</span>');
+					$('.detailViewTitle .hierarchy .badge').html(response.result);
 				}
 			});
 		}

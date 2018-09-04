@@ -16,7 +16,9 @@ class Vtiger_QuickCreateView_Model extends \App\Base
 	/**
 	 * Function to get the instance.
 	 *
-	 * @param string $moduleName - module name
+	 * @param string $moduleName
+	 *
+	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return self
 	 */
@@ -25,7 +27,6 @@ class Vtiger_QuickCreateView_Model extends \App\Base
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'QuickCreateView', $moduleName);
 		$instance = new $modelClassName();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
 		return $instance->set('module', $moduleModel);
 	}
 

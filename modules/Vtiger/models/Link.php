@@ -371,13 +371,13 @@ class Vtiger_Link_Model extends vtlib\Link
 	/**
 	 * Function to get all the Vtiger Link Models for a module of the given list of link types.
 	 *
-	 * @param <Number> $tabid
-	 * @param <Array>  $type
-	 * @param <Array>  $parameters
+	 * @param int        $tabid
+	 * @param string[]   $type
+	 * @param bool|array $parameters
 	 *
-	 * @return <Array> - List of Vtiger_Link_Model instances
+	 * @return Vtiger_Link_Model[] - List of Vtiger_Link_Model instances
 	 */
-	public static function getAllByType($tabid, $type = false, $parameters = false)
+	public static function getAllByType($tabid, $type = [], $parameters = false)
 	{
 		$links = Vtiger_Cache::get('links-' . $tabid, $type);
 		if (!$links) {
@@ -385,7 +385,7 @@ class Vtiger_Link_Model extends vtlib\Link
 			Vtiger_Cache::set('links-' . $tabid, $type, $links);
 		}
 		$linkModels = [];
-		if ($type) {
+		if (!empty($type)) {
 			foreach ($type as $element) {
 				$linkModels[$element] = [];
 			}
@@ -393,7 +393,7 @@ class Vtiger_Link_Model extends vtlib\Link
 		foreach ($links as $linkType => $linkObjects) {
 			foreach ($linkObjects as $linkObject) {
 				$queryParams = vtlib\Functions::getQueryParams($linkObject->linkurl);
-				if (($type === false || in_array($linkType, $type)) && !(isset($queryParams['module']) && !\App\Privilege::isPermitted($queryParams['module']))) {
+				if ((empty($type) || in_array($linkType, $type)) && !(isset($queryParams['module']) && !\App\Privilege::isPermitted($queryParams['module']))) {
 					$linkModels[$linkType][] = self::getInstanceFromLinkObject($linkObject);
 				}
 			}

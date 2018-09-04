@@ -439,8 +439,8 @@ class File
 				throw new \Exception('ERR_FILE_PHP_CODE_INJECTION');
 			}
 			if (function_exists('exif_read_data') && ($this->mimeType === 'image/jpeg' || $this->mimeType === 'image/tiff') && in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])) {
-				$exifdata = exif_read_data($this->path);
-				if ($exifdata && !$this->validateImageMetadata($exifdata)) {
+				$size = getimagesize($this->path, $imageInfo);
+				if ($size && (empty($imageInfo['APP1']) || strpos($imageInfo['APP1'], 'Exif') === 0) && ($exifdata = exif_read_data($this->path)) && !$this->validateImageMetadata($exifdata)) {
 					throw new \Exception('ERR_FILE_PHP_CODE_INJECTION');
 				}
 			}

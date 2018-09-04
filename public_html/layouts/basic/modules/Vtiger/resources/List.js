@@ -1173,7 +1173,7 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function to register the event for changing the custom Filter
 	 */
 	registerChangeCustomFilterEvent(event) {
-		let target = $(event.currentTarget), selectOption, selectOptionId, urlParams;
+		let target = $(event.currentTarget), selectOption, selectOptionId, urlParams, textOption = '';
 		if (target.is('option')) {
 			selectOption = target;
 		} else if (event.type === 'select2:selecting') {
@@ -1184,10 +1184,16 @@ jQuery.Class("Vtiger_List_Js", {
 			selectOption = $(`#filterOptionId_${selectOptionId}`);
 			this.getFilterSelectElement().val(event.currentTarget.id.split('-').pop()).trigger('change');
 		}
+
 		if ($(`.nav-item[data-cvid='${selectOptionId}'] .nav-link`).tab('show').length === 0) {
 			$('.js-filter-tab .active').removeClass('active');
 		}
-		$('#select2-customFilter-container span').contents().last().replaceWith(selectOption.text());
+
+		if (typeof selectOption === "object") {
+			textOption = selectOption.text();
+		}
+
+		$('#select2-customFilter-container span').contents().last().replaceWith(textOption);
 		app.setMainParams('pageNumber', '1');
 		app.setMainParams('pageToJump', '1');
 		app.setMainParams('orderBy', selectOption.data('orderby'));
@@ -2071,5 +2077,5 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 		jQuery('#recordsCount').val('');
 		return aDeferred.promise();
-	},
+	}
 });

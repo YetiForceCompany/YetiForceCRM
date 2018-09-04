@@ -1362,6 +1362,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 *
 	 * @param \App\QueryGenerator $queryGenerator
 	 * @param string|bool         $sourceModule
+	 *
+	 * @return string[]
 	 */
 	public function getModalRecordsListFields(\App\QueryGenerator $queryGenerator, $sourceModule = false)
 	{
@@ -1387,6 +1389,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			App\Cache::staticSave('PopupViewFieldsList', $this->getName(), $popupFields);
 		}
 		$queryGenerator->setFields($popupFields);
+		return $popupFields;
 	}
 
 	/**

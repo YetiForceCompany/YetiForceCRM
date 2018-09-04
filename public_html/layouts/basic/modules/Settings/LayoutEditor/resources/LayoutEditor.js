@@ -98,13 +98,12 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerRelatedListEvents: function () {
 		let thisInstance = this,
-		relatedList = $('#relatedTabOrder'),
-		container = relatedList.find('.relatedTabModulesList'),
-		ulEle = container.find('ul.relatedModulesList'),
-		select2Element = App.Fields.Picklist.showSelect2ElementView(container.find('.select2_container'), {sortable: true, sortableCb: (currentTarget) => {
-			let relatedModule = currentTarget.closest('.relatedModule'),
-			selectedFields = thisInstance.updateSelectedFields(currentTarget);
-		}});
+			relatedList = $('#relatedTabOrder');
+		App.Fields.Picklist.showSelect2ElementView(relatedList.find('.relatedTabModulesList .select2_container'), {
+			sortable: true, sortableCb: (currentTarget) => {
+				thisInstance.updateSelectedFields(currentTarget);
+			}
+		});
 		relatedList.on('click', '.inActiveRelationModule', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
@@ -138,6 +137,9 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			currentTarget.validationEngine('hide');
 			thisInstance.changeRelatedViewType(currentTarget);
 		});
+		relatedList.find('.js-related-column-list').on('change', function (e) {
+			thisInstance.updateSelectedFields($(e.currentTarget));
+		})
 		relatedList.on('click', '.addRelation', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var container = currentTarget.closest('#relatedTabOrder');
@@ -150,8 +152,8 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 					var currentTarget = $(e.currentTarget);
 					data.find('.relLabel').val(currentTarget.find('option:selected').val());
 				});
-				data.find('[name="type"]').on('change',function(){
-					if($(this).val() === 'getAttachments'){
+				data.find('[name="type"]').on('change', function () {
+					if ($(this).val() === 'getAttachments') {
 						data.find('[name="target"] option').not('[value="Documents"]').addClass('d-none');
 						App.Fields.Picklist.showSelect2ElementView(data.find('[name="target"]'));
 					} else {
@@ -187,7 +189,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		target.find(':selected').each(function (e) {
 			selectedFields.push({
 				id: $(this).val(),
-				name: $(this).data('field-name')
+				name: $(this).data('field-name') ? $(this).data('field-name') : $(this).data('name')
 			});
 		})
 		return selectedFields;
@@ -990,7 +992,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			var params = {};
 			if (blockStatus == '1') {
 				params['text'] = app.vtranslate('JS_BLOCK_VISIBILITY_SHOW');
-			} else if(blockStatus == '2'){
+			} else if (blockStatus == '2') {
 				params['text'] = app.vtranslate('JS_BLOCK_VISIBILITY_DYNAMIC');
 			} else {
 				params['text'] = app.vtranslate('JS_BLOCK_VISIBILITY_HIDE');

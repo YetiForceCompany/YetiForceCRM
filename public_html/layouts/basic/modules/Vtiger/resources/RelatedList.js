@@ -199,9 +199,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				$('.pageNumbers', thisInstance.content).tooltip();
 				thisInstance.registerPostLoadEvents();
 				thisInstance.registerListEvents();
-				if (thisInstance.listSearchInstance) {
-					thisInstance.listSearchInstance.registerBasicEvents();
-				}
 			}
 			aDeferred.resolve(responseData);
 		}).fail(function (textStatus, errorThrown) {
@@ -420,13 +417,14 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 
 		var preQuickCreateSave = function (data) {
 			var index, queryParam, queryParamComponents;
+			let queryParameters = [];
 
 			//To handle switch to task tab when click on add task from related list of activities
 			//As this is leading to events tab intially even clicked on add task
 			if (typeof fullFormUrl !== "undefined" && fullFormUrl.indexOf('?') !== -1) {
 				var urlSplit = fullFormUrl.split('?');
 				var queryString = urlSplit[1];
-				var queryParameters = queryString.split('&');
+				queryParameters = queryString.split('&');
 				for (index = 0; index < queryParameters.length; index++) {
 					queryParam = queryParameters[index];
 					queryParamComponents = queryParam.split('=');
@@ -446,9 +444,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				if (field.length == 0) {
 					jQuery('<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />').appendTo(data);
 				}
-			}
-			if (typeof queryParameters === "undefined") {
-				let queryParameters = '';
 			}
 			for (index = 0; index < queryParameters.length; index++) {
 				queryParam = queryParameters[index];
@@ -601,9 +596,13 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			this.content.find('.listViewEntries').on('click', function (e) {
 				if ($(e.target).is('td')) {
 					if (app.getViewName() == 'DetailPreview') {
-						top.document.location.href = $(e.target).closest('tr').data('recordurl');
+						if ($(e.target).closest('tr').data('recordurl')) {
+							top.document.location.href = $(e.target).closest('tr').data('recordurl');
+						}
 					} else {
-						document.location.href = $(e.target).closest('tr').data('recordurl');
+						if ($(e.target).closest('tr').data('recordurl')) {
+							document.location.href = $(e.target).closest('tr').data('recordurl');
+						}
 					}
 				}
 			});
@@ -1101,7 +1100,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	registerListScroll: function () {
 		let container = $('.listViewEntriesDiv');
 		if (this.relatedView !== 'ListPreview') {
-			app.showNewScrollbarTopBottomRight(container);
+			container.each((index, element) => {
+				app.showNewScrollbarTopBottomRight($(element));
+			})
 		}
 	},
 	registerRelatedEvents: function () {
