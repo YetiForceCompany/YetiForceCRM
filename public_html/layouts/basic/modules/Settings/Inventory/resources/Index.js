@@ -318,10 +318,4 @@ ${CONFIG.view !== 'Taxes' ? actionButtonsTpl : ''}</div>
 	registerEvents: function () {
 		this.registerActions();
 	}
-
 });
-
-jQuery(document).ready(function (e) {
-	var instance = new Settings_Inventory_Index_Js();
-	instance.registerEvents();
-})
