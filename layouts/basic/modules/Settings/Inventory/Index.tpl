@@ -20,8 +20,8 @@
 			<div class="col-md-12">
 				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 				<button type="button" class="btn btn-success addInventory my-2"
-						data-url="{$RECORD_MODEL->getCreateUrl()}" data-type="0"><i
-							class="fas fa-plus"></i>&nbsp;{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}
+						data-url="{$RECORD_MODEL->getCreateUrl()}" data-type="0"><span
+							class="fas fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}
 				</button>
 				<table class="table tableRWD table-bordered inventoryTable themeTableColor">
 					<thead>
@@ -29,7 +29,6 @@
 						<th class="themeTextColor textAlignCenter {$WIDTHTYPE}">{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</th>
 						<th class="themeTextColor textAlignCenter {$WIDTHTYPE}">{\App\Language::translate('LBL_VALUE', $QUALIFIED_MODULE)}</th>
 						<th class="themeTextColor textAlignCenter {$WIDTHTYPE}">{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</th>
-						<th class="themeTextColor textAlignCenter {$WIDTHTYPE}">{\App\Language::translate('LBL_DEFAULT', $QUALIFIED_MODULE)}</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -40,22 +39,11 @@
 							<td class="textAlignCenter {$WIDTHTYPE}"><span
 										class="value">{$RECORD->getValue()} {if empty($CURRENCY_BOOL)}%{else}{$CURRENCY.currency_symbol}{/if}</span>
 							</td>
-							<td class="textAlignCenter {$WIDTHTYPE}"><input type="checkbox" data-field-name="status"
-																			class="status js-update-field"
-																			{if !$RECORD->getStatus()}checked{/if} />
-							</td>
-							<td class="textAlignCenter {$WIDTHTYPE}"><input type="checkbox" data-field-name="default"
-																			class="default js-update-field"
-																			{if $RECORD->getDefault()}checked{/if} />
-								<div class="float-right actions">
-									<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer"
-											data-url="{$RECORD->getEditUrl()}"><span
-												title="{\App\Language::translate('LBL_EDIT', $MODULE)}"
-												class="fas fa-edit alignBottom"></span></button>&nbsp;
-									<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white"
-											data-url="{$RECORD->getEditUrl()}"><span
-												title="{\App\Language::translate('LBL_DELETE', $MODULE)}"
-												class="fas fa-trash-alt alignBottom"></span></button>&nbsp;
+							<td class="textAlignCenter {$WIDTHTYPE}">
+								<div class="float-right  w-50 d-flex justify-content-between mr-2">
+									<input type="checkbox" data-field-name="status"
+										   class="status js-update-field my-2"
+										   {if !$RECORD->getStatus()}checked{/if} />
 								</div>
 							</td>
 						</tr>

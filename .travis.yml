@@ -90,7 +90,6 @@ after_script:
 - cat ./cache/logs/Importer.log
 - cat ./cache/logs/webserviceDebug.log
 - cat ./cache/logs/webserviceErrors.log
-- wget https://scrutinizer-ci.com/ocular.phar
 - if [ ! -f ocular.phar ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
 - php ocular.phar code-coverage:upload --format=php-clover tests/coverage.xml
 - bash <(curl -s https://codecov.io/bash)
