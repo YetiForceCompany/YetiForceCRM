@@ -84,7 +84,7 @@ class Tcpdf extends AbstractPDF
 	public function __construct($mode = '', $format = 'A4', $defaultFontSize = 10, $defaultFont = 'dejavusans', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
 	{
 		$args = func_get_args();
-		// this two arguments are kind of signal that we are configured (from template or elsewhere) - not from default argument values (not empty = default)
+		// this two arguments are kind of signal that we are configured (from template or elsewhere) - not from default argument values (empty = default)
 		if (!empty($args['format']) || !empty($args['orientation'])) {
 			$this->isDefault = false;
 		}
@@ -382,7 +382,7 @@ class Tcpdf extends AbstractPDF
 	 */
 	public function writeHTML()
 	{
-		$this->pdf->writeHTML($this->html, true, false, true, false, '');
+		$this->pdf->writeHTML($this->html, false, false, false, false, '');
 	}
 
 	/**
@@ -452,7 +452,7 @@ class Tcpdf extends AbstractPDF
 		$self->pdf()->setHtmlHeader($template->getHeader());
 		$self->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L', $template->get('page_format'));
 		$self->pdf()->setHtmlFooter($template->getFooter());
-		$self->pdf()->writeHTML($template->getBody(), true, true, true, true, '');
+		$self->pdf()->writeHTML($template->getBody(), false, false, false, false, '');
 		$self->pdf()->lastPage();
 		\App\Language::clearTemporaryLanguage();
 		return $self;
