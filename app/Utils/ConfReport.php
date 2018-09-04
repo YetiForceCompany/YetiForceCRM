@@ -378,7 +378,8 @@ class ConfReport
 		$cron = static::getCronVariables('last_start');
 		$lastCronStart = '-';
 		if ($cron) {
-			$lastCronStart = \App\Fields\DateTime::formatToViewDate(date('Y-m-d H:i:s', $cron));
+			$lastCronStart = date('Y-m-d H:i:s', $cron);
+			$lastCronStartText = \App\Fields\DateTime::formatToViewDate($lastCronStart);
 		}
 		return [
 			'php' => $php,
@@ -399,7 +400,8 @@ class ConfReport
 				'spaceRoot' => '',
 				'spaceStorage' => '',
 				'spaceTemp' => '',
-				'lastCronStart' => $lastCronStart,
+				'lastCronStart' => $lastCronStartText,
+				'lastCronStartDateTime' => $lastCronStart,
 			]
 		];
 	}
@@ -411,7 +413,7 @@ class ConfReport
 	 *
 	 * @return array
 	 */
-	private static function getCronVariables(string $type)
+	public static function getCronVariables(string $type)
 	{
 		if (file_exists('user_privileges/cron.php')) {
 			$cron = include \ROOT_DIRECTORY . '/user_privileges/cron.php';

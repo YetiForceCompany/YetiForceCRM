@@ -119,7 +119,7 @@ class Record extends \Api\Core\BaseAction
 			'data' => $displayData,
 			'inventory' => $inventory,
 		];
-		if ((int)$this->controller->headers['X-RAW-DATA'] === 1) {
+		if ((int) $this->controller->headers['X-RAW-DATA'] === 1) {
 			$resposne['rawData'] = $rawData;
 			$resposne['rawInventory'] = $rawInventory;
 		}
