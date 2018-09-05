@@ -81,7 +81,7 @@ abstract class Template
 				$error = 'OK';
 				break;
 			case 2:
-				$error = 'Bład';
+				$error = 'Error';
 				break;
 		}
 		return $error;
