@@ -209,6 +209,16 @@
 											  name="fieldDefaultValue" id="fieldDefaultValue"
 											  value="{$FIELD_MODEL->get('defaultvalue')}"
 											  data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'></textarea>
+								{else if $FIELD_MODEL->getUIType() eq 300}
+									<textarea name="fieldDefaultValue"
+											  id="fieldDefaultValue_{10|mt_rand:20}_qc"
+											  class="col-md-12 form-control js-editor" {if !$FIELD_MODEL->hasDefaultValue()} disabled="disabled" {/if}
+											  title="{\App\Language::translate($FIELD_MODEL->getFieldLabel())}"
+											  data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+											  data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'
+											  data-js="ckEditor">
+									{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}
+									</textarea>
 								{else}
 									<input type="text" class="input-medium form-control"
 										   data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}

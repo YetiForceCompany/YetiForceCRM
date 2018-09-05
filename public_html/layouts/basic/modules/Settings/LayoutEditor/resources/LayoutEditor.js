@@ -1251,8 +1251,13 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				defaultField.removeAttr('disabled');
 				if (defaultField.is('select')) {
 					defaultField.trigger("change");
+				} else if (defaultField.is('textarea').hasClass('.js-editor')) {
+					new App.Fields.Text.Editor(defaultField, {toolbar: 'Min'});
 				}
 			} else {
+				if (defaultField.is('textarea').hasClass('.js-editor')) {
+					App.Fields.Text.destroyEditor(defaultField);
+				}
 				defaultField.attr('disabled', 'disabled');
 				defaultValueUi.addClass('zeroOpacity');
 			}
