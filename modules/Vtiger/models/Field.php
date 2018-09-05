@@ -319,8 +319,8 @@ class Vtiger_Field_Model extends vtlib\Field
 						if (isset($fieldsDataType[$uiType])) {
 							$fieldDataType = $fieldsDataType[$uiType]['fieldtype'];
 						} else {
-							$fieldType = explode('~', $this->get('typeofdata'));
-							switch ($fieldType[0]) {
+							$fieldTypeArray = explode('~', $this->get('typeofdata'));
+							switch ($fieldTypeArray[0]) {
 								case 'T':
 									$fieldDataType = 'time';
 									break;
@@ -542,14 +542,14 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (isset($this->fieldType)) {
 			return $this->fieldType;
 		}
-		$fieldType = explode('~', $this->get('typeofdata'));
-		$fieldType = array_shift($fieldType);
+		$fieldTypeArray = explode('~', $this->get('typeofdata'));
+		$fieldTypeArray = array_shift($fieldTypeArray);
 		if ($this->getFieldDataType() === 'reference') {
-			$fieldType = 'V';
+			$fieldTypeArray = 'V';
 		} else {
-			$fieldType = \vtlib\Functions::transformFieldTypeOfData($this->get('table'), $this->get('column'), $fieldType);
+			$fieldTypeArray = \vtlib\Functions::transformFieldTypeOfData($this->get('table'), $this->get('column'), $fieldTypeArray);
 		}
-		return $this->fieldType = $fieldType;
+		return $this->fieldType = $fieldTypeArray;
 	}
 
 	/**
@@ -754,17 +754,17 @@ class Vtiger_Field_Model extends vtlib\Field
 		$fieldLabel = $this->get('label');
 		$typeOfData = $this->get('typeofdata');
 		$fieldTypeOfData = explode('~', $typeOfData);
-		$fieldType = $fieldTypeOfData[0];
+		$fieldTypeOfData = $fieldTypeOfData[0];
 		//Special condition need for reference field as they should be treated as string field
 		if ($this->getFieldDataType() === 'reference') {
-			$fieldType = 'V';
+			$fieldTypeOfData = 'V';
 		} else {
-			$fieldType = \vtlib\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldType);
+			$fieldTypeOfData = \vtlib\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldTypeOfData);
 		}
 		$escapedFieldLabel = str_replace(' ', '_', $fieldLabel);
 		$moduleFieldLabel = "{$moduleName}_{$escapedFieldLabel}";
 
-		return "$tableName:$columnName:$fieldName:$moduleFieldLabel:$fieldType";
+		return "$tableName:$columnName:$fieldName:$moduleFieldLabel:$fieldTypeOfData";
 	}
 
 	/**

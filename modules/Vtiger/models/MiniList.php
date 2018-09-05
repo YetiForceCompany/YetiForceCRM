@@ -134,8 +134,8 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 				$this->queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $user]);
 			}
 			if (!empty($this->searchParams)) {
-				$searchParams = $this->queryGenerator->parseBaseSearchParamsToCondition($this->searchParams);
-				$this->queryGenerator->parseAdvFilter($searchParams);
+				$searchParamsCondition = $this->queryGenerator->parseBaseSearchParamsToCondition($this->searchParams);
+				$this->queryGenerator->parseAdvFilter($searchParamsCondition);
 			}
 			$targetModuleName = $this->getTargetModule();
 			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);

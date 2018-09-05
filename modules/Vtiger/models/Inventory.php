@@ -145,13 +145,13 @@ class Vtiger_Inventory_Model
 	{
 		$discount = 0;
 		$discountField = 'discount';
-		$name = '';
+		$recordName = '';
 		if (!empty($relatedRecord)) {
 			$accountRecordModel = Vtiger_Record_Model::getInstanceById($relatedRecord);
 			$discount = $accountRecordModel->get($discountField);
-			$name = $accountRecordModel->getName();
+			$recordName = $accountRecordModel->getName();
 		}
-		return ['discount' => $discount, 'name' => $name];
+		return ['discount' => $discount, 'name' => $recordName];
 	}
 
 	/**
@@ -167,7 +167,7 @@ class Vtiger_Inventory_Model
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$accountField = $inventoryField->getReferenceField();
 		$accountTaxs = [];
-		$name = '';
+		$recordName = '';
 		$taxField = Vtiger_InventoryField_Model::getTaxField('Accounts');
 		if ($accountField !== '' && $taxField !== false) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
@@ -175,10 +175,10 @@ class Vtiger_Inventory_Model
 			if ($relationFieldValue != 0) {
 				$accountRecordModel = Vtiger_Record_Model::getInstanceById($relationFieldValue, 'Accounts');
 				$accountTaxs = Vtiger_Taxes_UIType::getValues($accountRecordModel->get($taxField));
-				$name = $accountRecordModel->getName();
+				$recordName = $accountRecordModel->getName();
 			}
 		}
-		return ['taxs' => $accountTaxs, 'name' => $name];
+		return ['taxs' => $accountTaxs, 'name' => $recordName];
 	}
 
 	/**
