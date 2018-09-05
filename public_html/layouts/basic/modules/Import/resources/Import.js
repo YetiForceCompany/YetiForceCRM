@@ -378,7 +378,7 @@ if (typeof (ImportJs) === "undefined") {
 					console.error(error)
 				});
 			};
-			app.showConfirmation(app.vtranslate('LBL_DELETE_CONFIRMATION'), callback);
+			app.showConfirmModal(app.vtranslate('LBL_DELETE_CONFIRMATION'), callback);
 		},
 		loadDefaultValueWidget: function (rowIdentifierId) {
 			var affectedRow = jQuery('#' + rowIdentifierId);

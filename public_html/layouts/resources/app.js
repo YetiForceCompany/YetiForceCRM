@@ -1572,7 +1572,7 @@ var App = {},
 			PNotify.defaults.icons = 'fontawesome5';
 			return new PNotify(params);
 		},
-		showConfirmation: function (customParams, confirmCallback = () => {
+		showConfirmModal: function (customParams, confirmCallback = () => {
 		}, cancelCallback = () => {
 		}) {
 			let aDeferred = $.Deferred();

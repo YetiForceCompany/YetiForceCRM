@@ -37,7 +37,7 @@ jQuery.Class('Install_Index_Js', {
 		jQuery('input[name="step4"]').on('click', function (e) {
 			var elements = jQuery('.no');
 			if (elements.length > 0) {
-				app.showConfirmation(app.vtranslate('LBL_PHP_WARNING')).done(function (data) {
+				app.showConfirmModal(app.vtranslate('LBL_PHP_WARNING')).done(function (data) {
 					if (data) {
 						jQuery('form[name="step3"]').submit();
 						return true;
