@@ -1586,6 +1586,7 @@ var App = {},
 				target: document.body,
 				data: {
 					hide: false,
+					icon: 'fas fa-question-circle',
 					stack: {
 						'dir1': 'down',
 						'modal': true,
@@ -1634,9 +1635,6 @@ var App = {},
 		}
 	};
 $(document).ready(function () {
-	app.showConfirmation('message').done(function (data) {
-		console.log(data === true);
-	});
 	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
 	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
