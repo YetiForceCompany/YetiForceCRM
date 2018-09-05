@@ -102,7 +102,7 @@ Vtiger_Edit_Js("Documents_Edit_Js", {}, {
 			let uploadFileSizeHolder = element.closest('.fileUploadContainer').find('.uploadedFileSize');
 			let fileSize = element.get(0).files[0].size;
 			if (fileSize > thisInstance.getMaxiumFileUploadingSize(container)) {
-				alert(app.vtranslate('JS_EXCEEDS_MAX_UPLOAD_SIZE'));
+				app.showAlert(app.vtranslate('JS_EXCEEDS_MAX_UPLOAD_SIZE'));
 				element.val('');
 				uploadFileSizeHolder.text('');
 			} else {
@@ -126,7 +126,7 @@ Vtiger_Edit_Js("Documents_Edit_Js", {}, {
 			formData.append("filename", file);
 			file = false;
 		}
-		if (formData) {
+		if (typeof formData !== "undefined") {
 			var params = {
 				url: "index.php",
 				type: "POST",

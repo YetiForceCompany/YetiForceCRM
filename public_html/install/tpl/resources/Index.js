@@ -9,9 +9,9 @@
  ************************************************************************************/
 
 jQuery.Class('Install_Index_Js', {
-	fieldsCached : ['db_hostname','db_username','db_name', 	'create_db',
-		'db_root_username',	'currency_name','firstname','lastname',	'admin_email',
-		'dateformat','timezone'
+	fieldsCached: ['db_hostname', 'db_username', 'db_name', 'create_db',
+		'db_root_username', 'currency_name', 'firstname', 'lastname', 'admin_email',
+		'dateformat', 'timezone'
 	],
 	checkUsername: function (field, rules, i, options) {
 		var logins = JSON.parse(jQuery('#not_allowed_logins').val());
@@ -37,13 +37,14 @@ jQuery.Class('Install_Index_Js', {
 		jQuery('input[name="step4"]').on('click', function (e) {
 			var elements = jQuery('.no');
 			if (elements.length > 0) {
-				var msg = app.vtranslate('LBL_PHP_WARNING');
-				if (confirm(msg)) {
-					jQuery('form[name="step3"]').submit();
-					return true;
-				} else {
-					return false;
-				}
+				app.showConfirmModal(app.vtranslate('LBL_PHP_WARNING')).done(function (data) {
+					if (data) {
+						jQuery('form[name="step3"]').submit();
+						return true;
+					} else {
+						return false;
+					}
+				});
 			}
 			jQuery('form[name="step3"]').submit();
 		});
@@ -78,8 +79,8 @@ jQuery.Class('Install_Index_Js', {
 	},
 	registerEventForStep4: function () {
 		var config = JSON.parse(localStorage.getItem('yetiforce_install'));
-		Install_Index_Js.fieldsCached.forEach(function(field){
-			if(config && typeof config[field] !== 'undefined') {
+		Install_Index_Js.fieldsCached.forEach(function (field) {
+			if (config && typeof config[field] !== 'undefined') {
 				var formField = jQuery('[name="' + field + '"]');
 				if ('SELECT' == jQuery(formField).prop('tagName')) {
 					jQuery(formField).val(config[field]);
@@ -107,6 +108,7 @@ jQuery.Class('Install_Index_Js', {
 				password.addClass('d-none');
 			}
 		});
+
 		function clearPasswordError() {
 			jQuery('#passwordError').html('');
 		}
@@ -186,26 +188,26 @@ jQuery.Class('Install_Index_Js', {
 				var content;
 				if (invalidEmailAddress) {
 					content = '<div class="span12">' +
-							'<div class="alert alert-error">' +
-							'<button class="close" data-dismiss="alert" type="button">x</button>' +
-							jQuery('[name="invalidEmailError"]').val() +
-							'</div>' +
-							'</div>';
+						'<div class="alert alert-error">' +
+						'<button class="close" data-dismiss="alert" type="button">x</button>' +
+						jQuery('[name="invalidEmailError"]').val() +
+						'</div>' +
+						'</div>';
 				} else {
 					if (checkPwdError) {
 						content = '<div class="span12">' +
-								'<div class="alert alert-error">' +
-								'<button class="close" data-dismiss="alert" type="button">x</button>' +
-								jQuery('[name="insufficientlyStrongPassword"]').val() +
-								'</div>' +
-								'</div>';
+							'<div class="alert alert-error">' +
+							'<button class="close" data-dismiss="alert" type="button">x</button>' +
+							jQuery('[name="insufficientlyStrongPassword"]').val() +
+							'</div>' +
+							'</div>';
 					} else {
 						content = '<div class="span12">' +
-								'<div class="alert alert-error">' +
-								'<button class="close" data-dismiss="alert" type="button">x</button>' +
-								app.vtranslate('LBL_MANDATORY_FIELDS_ERROR') +
-								'</div>' +
-								'</div>';
+							'<div class="alert alert-error">' +
+							'<button class="close" data-dismiss="alert" type="button">x</button>' +
+							app.vtranslate('LBL_MANDATORY_FIELDS_ERROR') +
+							'</div>' +
+							'</div>';
 					}
 				}
 				jQuery('#errorMessage').html(content).show();
@@ -234,7 +236,7 @@ jQuery.Class('Install_Index_Js', {
 		jQuery('input[name="step6"]').on('click', function () {
 			var error = jQuery('#errorMessage');
 			if (error.length) {
-				alert(app.vtranslate('LBL_RESOLVE_ERROR'));
+				app.showAlert(app.vtranslate('LBL_RESOLVE_ERROR'));
 				return false;
 			} else {
 				jQuery('#progressIndicator').removeClass('d-none');
@@ -260,7 +262,6 @@ jQuery.Class('Install_Index_Js', {
 		}
 	},
 	changeLanguage: function (e) {
-		var target = $(e.currentTarget);
 		jQuery('input[name="mode"]').val('step1');
 		jQuery('form[name="step1"]').submit();
 	},
