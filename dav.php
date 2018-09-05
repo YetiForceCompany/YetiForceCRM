@@ -1,7 +1,7 @@
 <?php
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 require __DIR__ . '/include/ConfigUtils.php';
 if (!in_array('dav', $enabledServices)) {
@@ -29,17 +29,6 @@ if ($enableCalDAV) {
 if ($enableCardDAV) {
 	$carddavBackend = new App\Dav\CardDavBackendPdo($pdo);
 	$nodes[] = new Sabre\CardDAV\AddressBookRoot($principalBackend, $carddavBackend);
-}
-if ($enableWebDAV) {
-	$exData = new stdClass();
-	$exData->pdo = $pdo;
-	$exData->storageDir = $davStorageDir;
-	$exData->historyDir = $davHistoryDir;
-	$exData->localStorageDir = ROOT_DIRECTORY . $exData->storageDir;
-	$exData->localHistoryDir = ROOT_DIRECTORY . $exData->historyDir;
-	$directory = new App\Dav\WebDavDirectory('files', $exData);
-	$directory->getRootChild();
-	$nodes[] = $directory;
 }
 // The object tree needs in turn to be passed to the server class
 $server = new App\Dav\DavServer($nodes);
