@@ -178,6 +178,8 @@ class Date
 			case 'yyyy/mm/dd':
 				list($y, $m, $d) = explode('/', $date, 3);
 				break;
+			default:
+				break;
 		}
 		return [$y, $m, $d];
 	}
@@ -206,9 +208,7 @@ class Date
 				if ($years) {
 					$months += $years * 12;
 				}
-				$months += $interval->format('%m');
-
-				return $months;
+				return $months + $interval->format('%m');
 			case 'days':
 				return $interval->format('%a');
 			case 'hours':
@@ -217,9 +217,7 @@ class Date
 				if ($days) {
 					$hours += 24 * $days;
 				}
-				$hours += $interval->format('%H');
-
-				return $hours;
+				return $hours + $interval->format('%H');
 			case 'minutes':
 				$days = $interval->format('%a');
 				$minutes = 0;
@@ -230,9 +228,7 @@ class Date
 				if ($hours) {
 					$minutes += 60 * $hours;
 				}
-				$minutes += $interval->format('%i');
-
-				return $minutes;
+				return $minutes + $interval->format('%i');
 			case 'seconds':
 				$days = $interval->format('%a');
 				$seconds = 0;
@@ -247,9 +243,9 @@ class Date
 				if ($minutes) {
 					$seconds += 60 * $minutes;
 				}
-				$seconds += $interval->format('%s');
-
-				return $seconds;
+				return $seconds + $interval->format('%s');
+			default:
+				break;
 		}
 		return $interval->format($format);
 	}

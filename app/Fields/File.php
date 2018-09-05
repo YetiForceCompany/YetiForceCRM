@@ -360,7 +360,7 @@ class File
 				$this->validateImage();
 			}
 			if ($type && $this->getShortMimeType(0) !== $type) {
-				throw new \Exception('Wrong file type');
+				throw new \App\Exceptions\AppException('Wrong file type');
 			}
 		} catch (\Exception $e) {
 			$return = false;
@@ -386,13 +386,13 @@ class File
 	private function checkFile()
 	{
 		if ($this->error !== false && $this->error != UPLOAD_ERR_OK) {
-			throw new \Exception('ERR_FILE_ERROR_REQUEST||' . $this->getErrorMessage($this->error));
+			throw new \App\Exceptions\AppException('ERR_FILE_ERROR_REQUEST||' . $this->getErrorMessage($this->error));
 		}
 		if (empty($this->name)) {
-			throw new \Exception('ERR_FILE_EMPTY_NAME');
+			throw new \App\Exceptions\AppException('ERR_FILE_EMPTY_NAME');
 		}
 		if ($this->getSize() === 0) {
-			throw new \Exception('ERR_FILE_WRONG_SIZE');
+			throw new \App\Exceptions\AppException('ERR_FILE_WRONG_SIZE');
 		}
 	}
 
@@ -403,10 +403,8 @@ class File
 	 */
 	private function validateFormat()
 	{
-		if (isset(self::$allowedFormats[$this->getShortMimeType(0)])) {
-			if (!in_array($this->getShortMimeType(1), self::$allowedFormats[$this->getShortMimeType(0)])) {
-				throw new \Exception('ERR_FILE_ILLEGAL_FORMAT');
-			}
+		if (isset(self::$allowedFormats[$this->getShortMimeType(0)]) && !\in_array($this->getShortMimeType(1), self::$allowedFormats[$this->getShortMimeType(0)])) {
+			throw new \App\Exceptions\AppException('ERR_FILE_ILLEGAL_FORMAT');
 		}
 	}
 
@@ -418,10 +416,10 @@ class File
 	private function validateImage()
 	{
 		if (!getimagesize($this->path)) {
-			throw new \Exception('ERR_FILE_WRONG_IMAGE');
+			throw new \App\Exceptions\AppException('ERR_FILE_WRONG_IMAGE');
 		}
 		if (preg_match('[\x01-\x08\x0c-\x1f]', $this->getContents())) {
-			throw new \Exception('ERR_FILE_WRONG_IMAGE');
+			throw new \App\Exceptions\AppException('ERR_FILE_WRONG_IMAGE');
 		}
 	}
 
@@ -436,12 +434,12 @@ class File
 			// Check for php code injection
 			$content = $this->getContents();
 			if (preg_match('/(<\?php?(.*?))/si', $content) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/si', $content) === 1 || stripos($content, '<?=') !== false || stripos($content, '<%=') !== false || stripos($content, '<? ') !== false || stripos($content, '<% ') !== false) {
-				throw new \Exception('ERR_FILE_PHP_CODE_INJECTION');
+				throw new \App\Exceptions\AppException('ERR_FILE_PHP_CODE_INJECTION');
 			}
 			if (function_exists('exif_read_data') && ($this->mimeType === 'image/jpeg' || $this->mimeType === 'image/tiff') && in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])) {
 				$size = getimagesize($this->path, $imageInfo);
 				if ($size && (empty($imageInfo['APP1']) || strpos($imageInfo['APP1'], 'Exif') === 0) && ($exifdata = exif_read_data($this->path)) && !$this->validateImageMetadata($exifdata)) {
-					throw new \Exception('ERR_FILE_PHP_CODE_INJECTION');
+					throw new \App\Exceptions\AppException('ERR_FILE_PHP_CODE_INJECTION');
 				}
 			}
 			if (stripos('<?xpacket', $content) !== false) {

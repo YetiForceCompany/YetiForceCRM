@@ -6,9 +6,9 @@ namespace App\Fields;
  * Owner class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Owner
 {
@@ -210,9 +210,7 @@ class Owner
 			}
 			\App\Cache::save('getUsers', $cacheKey, $tempResult);
 		}
-		$tmp = \App\Cache::get('getUsers', $cacheKey);
-
-		return $tmp;
+		return \App\Cache::get('getUsers', $cacheKey);
 	}
 
 	/**
@@ -238,18 +236,18 @@ class Owner
 			$queryByUserRole = new \App\Db\Query();
 			$selectFields['id'] = 'vtiger_user2role.userid';
 			$queryByUserRole->
-				select($selectFields)
-					->from('vtiger_user2role')
-					->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
-					->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
-					->where(['vtiger_role.parentrole' => $userPrivileges['parent_role_seq'] . '::%']);
+			select($selectFields)
+				->from('vtiger_user2role')
+				->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
+				->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
+				->where(['vtiger_role.parentrole' => $userPrivileges['parent_role_seq'] . '::%']);
 			$queryBySharing = new \App\Db\Query();
 			$selectFields['id'] = 'shareduserid';
 			$queryBySharing->
-				select($selectFields)
-					->from('vtiger_tmp_write_user_sharing_per')
-					->innerJoin('vtiger_users', 'vtiger_tmp_write_user_sharing_per.shareduserid = vtiger_users.id')
-					->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)]);
+			select($selectFields)
+				->from('vtiger_tmp_write_user_sharing_per')
+				->innerJoin('vtiger_users', 'vtiger_tmp_write_user_sharing_per.shareduserid = vtiger_users.id')
+				->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)]);
 			$query->union($queryByUserRole)->union($queryBySharing);
 		} elseif ($roles !== false) {
 			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')->innerJoin('vtiger_user2role', 'vtiger_users.id = vtiger_user2role.userid');
