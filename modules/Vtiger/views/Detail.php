@@ -159,17 +159,17 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
-		$defaultMode = $this->defaultMode;
-		if ($defaultMode == 'showDetailViewByMode') {
+		$defaultModeValue = $this->defaultMode;
+		if ($defaultModeValue == 'showDetailViewByMode') {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
 			if (!($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList)) {
-				$defaultMode = 'showModuleDetailView';
+				$defaultModeValue = 'showModuleDetailView';
 			}
-		} elseif ($defaultMode === false) {
-			$defaultMode = 'showDetailViewByMode';
+		} elseif ($defaultModeValue === false) {
+			$defaultModeValue = 'showDetailViewByMode';
 		}
-		echo $this->$defaultMode($request);
+		echo $this->$defaultModeValue($request);
 	}
 
 	public function postProcess(\App\Request $request, $display = true)
