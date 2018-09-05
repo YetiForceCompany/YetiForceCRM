@@ -49,9 +49,7 @@ class Import_Map_Model extends \App\Base
 
 	public function getId()
 	{
-		$map = $this->map;
-
-		return $map['id'];
+		return $this->map['id'];
 	}
 
 	public function getAllValues()
@@ -61,9 +59,7 @@ class Import_Map_Model extends \App\Base
 
 	public function getValue($key)
 	{
-		$map = $this->map;
-
-		return $map[$key];
+		return $this->map[$key];
 	}
 
 	public function getStringifiedContent()
@@ -85,12 +81,12 @@ class Import_Map_Model extends \App\Base
 
 	public function save()
 	{
-		$map = $this->getAllValues();
-		$map['content'] = null;
-		$map['date_entered'] = date('Y-m-d H:i:s');
-		if (count($map) > 0) {
+		$values = $this->getAllValues();
+		$values['content'] = null;
+		$values['date_entered'] = date('Y-m-d H:i:s');
+		if (count($values) > 0) {
 			$dbCommand = App\Db::getInstance()->createCommand();
-			$dbCommand->insert(self::$tableName, $map)->execute();
+			$dbCommand->insert(self::$tableName, $values)->execute();
 			$dbCommand->update(self::$tableName, ['content' => $this->getStringifiedContent()], ['name' => $this->getValue('name'), 'module' => $this->getValue('module')])->execute();
 		}
 	}
