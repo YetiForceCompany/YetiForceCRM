@@ -139,11 +139,11 @@ class BaseField
 		if ($this->tableName) {
 			return $this->tableName;
 		}
-		$name = $this->fieldModel->getTableName();
+		$table = $this->fieldModel->getTableName();
 		if ($this->related) {
-			$name .= $this->related['sourceField'];
+			$table .= $this->related['sourceField'];
 		}
-		return $this->tableName = $name;
+		return $this->tableName = $table;
 	}
 
 	/**
