@@ -34,6 +34,8 @@ class Vtiger_InventoryField_Model extends App\Base
 			case 'autofield':
 				$prefix = '_invmap';
 				break;
+			default:
+				break;
 		}
 		$focus = CRMEntity::getInstance($this->get('module'));
 		$basetable = $focus->table_name;

@@ -96,6 +96,8 @@ class Users_Totp_Authmethod
 					$qrCodeGenerator->getBarcodePNG($otpAuthUrl, 'QRCODE') .
 					'" alt="QR code" />';
 				break;
+			default:
+				break;
 		}
 		throw new \App\Exceptions\NotAllowedMethod('LBL_NOT_EXIST: ' . $type);
 	}
@@ -155,6 +157,8 @@ class Users_Totp_Authmethod
 				break;
 			case 'TOTP_OBLIGATORY':
 				return true;
+				break;
+			default:
 				break;
 		}
 		return false;

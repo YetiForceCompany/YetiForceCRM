@@ -295,6 +295,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			case 'Bardividing':
 				$type = 'Bar';
 				break;
+			default:
+				break;
 		}
 		return $lowerCase ? strtolower($type) : $type;
 	}
@@ -672,6 +674,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				break;
 			case 'record_number':
 				$this->setColorsFromRecordNumber();
+				break;
+			default:
 				break;
 		}
 	}
@@ -1198,6 +1202,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				case 'sum':
 				case 'avg':
 					$this->sectorValues[$sectorId][$this->valueType] += $value;
+					break;
+				default:
 					break;
 			}
 			$params = array_merge($this->searchParams, [[$this->valueName, 'm', $sectorId]]);

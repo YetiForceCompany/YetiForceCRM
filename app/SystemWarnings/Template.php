@@ -83,6 +83,8 @@ abstract class Template
 			case 2:
 				$error = 'Error';
 				break;
+			default:
+				break;
 		}
 		return $error;
 	}

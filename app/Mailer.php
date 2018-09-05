@@ -197,6 +197,8 @@ class Mailer
 			case 'qmail':
 				$this->mailer->isQmail();
 				break;
+			default:
+				break;
 		}
 		$this->mailer->Host = $this->smtp['host'];
 		if (!empty($this->smtp['port'])) {
@@ -485,6 +487,8 @@ class Mailer
 		switch ($name) {
 			case 'ics':
 				$mailer->mailer->Ical = $param;
+				break;
+			default:
 				break;
 		}
 	}

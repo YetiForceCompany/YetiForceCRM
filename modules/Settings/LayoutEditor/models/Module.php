@@ -434,6 +434,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$type = $importerType->text();
 				$uichekdata = 'V~O';
 				break;
+			default:
+				break;
 		}
 		return [
 			'uitype' => $uitype,

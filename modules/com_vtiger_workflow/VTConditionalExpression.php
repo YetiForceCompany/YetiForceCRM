@@ -33,6 +33,8 @@ class VTConditionalExpression
 					return $this->evalGate($tree[1]) && $this->evalGate($tree[2]);
 				case 'or':
 					return $this->evalGate($tree[1]) || $this->evalGate($tree[2]);
+				default:
+					break;
 			}
 		} else {
 			return $this->evalCondition($tree);
@@ -44,6 +46,8 @@ class VTConditionalExpression
 		switch ($tree[0]) {
 			case '=':
 				return (int) $this->getVal($tree[1]) == (int) $this->getVal($tree[2]);
+			default:
+				break;
 		}
 	}
 
@@ -55,6 +59,8 @@ class VTConditionalExpression
 				return $this->env[$value];
 			case 'num':
 				return $value;
+			default:
+				break;
 		}
 	}
 }
