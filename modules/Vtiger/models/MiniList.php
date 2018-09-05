@@ -35,7 +35,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$this->extraData = \App\Json::decode(App\Purifier::decodeHtml($this->extraData));
 		}
 		if ($this->extraData === null) {
-			throw new Exception('Invalid data');
+			throw new \App\Exceptions\AppException('Invalid data');
 		}
 	}
 

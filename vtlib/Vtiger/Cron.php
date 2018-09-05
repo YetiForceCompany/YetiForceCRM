@@ -38,7 +38,7 @@ class Cron
 	/**
 	 * set the value to the data.
 	 *
-	 * @param type $value,$key
+	 * @param type $value ,$key
 	 */
 	public function set($key, $value)
 	{
@@ -242,7 +242,7 @@ class Cron
 			case self::$STATUS_RUNNING:
 				break;
 			default:
-				throw new \Exception('Invalid status');
+				throw new \App\Exceptions\AppException('Invalid status');
 		}
 		\App\Db::getInstance()->createCommand()->update(self::$baseTable, ['status' => $status], ['id' => $this->getId()])->execute();
 	}

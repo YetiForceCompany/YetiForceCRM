@@ -87,15 +87,15 @@ class Pbx extends \App\Base
 	public function performCall($targetPhone)
 	{
 		if ($this->isEmpty('sourcePhone')) {
-			throw new \Exception('No user phone number');
+			throw new \App\Exceptions\AppException('No user phone number');
 		}
 		if (empty($targetPhone)) {
-			throw new \Exception('No target phone number');
+			throw new \App\Exceptions\AppException('No target phone number');
 		}
 		$this->set('targetPhone', $targetPhone);
 		$connector = static::getConnectorInstance($this->get('type'));
 		if (empty($connector)) {
-			throw new \Exception('No PBX connector found');
+			throw new \App\Exceptions\AppException('No PBX connector found');
 		}
 		$connector->performCall($this);
 	}

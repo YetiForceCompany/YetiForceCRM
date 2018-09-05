@@ -48,7 +48,7 @@ class Vtiger_ShortURL_Helper
 		$handlerData = $options['handler_data'];
 
 		if (empty($handlerPath) || empty($handlerClass) || empty($handlerFn)) {
-			throw new Exception('Invalid options for generate');
+			throw new \App\Exceptions\AppException('Invalid options for generate');
 		}
 
 		$sql = 'INSERT INTO vtiger_shorturls(uid, handler_path, handler_class, handler_function, handler_data, onetime) VALUES (?,?,?,?,?,?)';

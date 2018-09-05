@@ -101,7 +101,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (property_exists($this, $propertyName)) {
 			return $this->$propertyName;
 		}
-		throw new Exception($propertyName . ' doest not exists in class ' . get_class($this));
+		throw new \App\Exceptions\AppException($propertyName . ' doest not exists in class ' . get_class($this));
 	}
 
 	/**

@@ -69,9 +69,11 @@ class VTJsonCondition
 					if (isset($result)) { // Condition to skip last condition
 						if (isset($logicalOperator)) {
 							switch ($logicalOperator) {
-								case 'and': $groupResult = ($groupResult && $result);
+								case 'and':
+									$groupResult = ($groupResult && $result);
 									break;
-								case 'or': $groupResult = ($groupResult || $result);
+								case 'or':
+									$groupResult = ($groupResult || $result);
 									break;
 							}
 						} else { // Case for the first condition
@@ -87,9 +89,11 @@ class VTJsonCondition
 				if (isset($result)) { // Condition to skip last condition
 					if (!empty($logicalOperator)) {
 						switch ($logicalOperator) {
-							case 'and': $finalResult = ($finalResult && $result);
+							case 'and':
+								$finalResult = ($finalResult && $result);
 								break;
-							case 'or': $finalResult = ($finalResult || $result);
+							case 'or':
+								$finalResult = ($finalResult || $result);
 								break;
 						}
 					} else { // Case for the first condition
@@ -238,7 +242,7 @@ class VTJsonCondition
 				} else {
 					return $fieldValue == $value;
 				}
-				// no break
+			// no break
 			case 'is not':
 				if (preg_match('/([^:]+):boolean$/', $value, $match)) {
 					$value = $match[1];
@@ -250,7 +254,7 @@ class VTJsonCondition
 				} else {
 					return $fieldValue != $value;
 				}
-				// no break
+			// no break
 			case 'contains':
 				if (is_array($value)) {
 					return in_array($fieldValue, $value);
@@ -279,7 +283,7 @@ class VTJsonCondition
 				} else {
 					return $fieldValue != $hasChanged;
 				}
-				// no break
+			// no break
 			case 'is empty':
 				if (empty($fieldValue)) {
 					return true;
@@ -453,7 +457,7 @@ class VTJsonCondition
 				return true;
 			default:
 				//Unexpected condition
-				throw new Exception('Found an unexpected condition: ' . $condition);
+				throw new \App\Exceptions\AppException('Found an unexpected condition: ' . $condition);
 		}
 	}
 }

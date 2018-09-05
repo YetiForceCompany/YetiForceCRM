@@ -434,16 +434,16 @@ class File
 			// Check for php code injection
 			$contents = $this->getContents();
 			if (preg_match('/(<\?php?(.*?))/si', $contents) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/si', $contents) === 1 || stripos($contents, '<?=') !== false || stripos($contents, '<%=') !== false || stripos($contents, '<? ') !== false || stripos($contents, '<% ') !== false) {
-				throw new \Exception('ERR_FILE_PHP_CODE_INJECTION');
+				throw new \App\Exceptions\AppException('ERR_FILE_PHP_CODE_INJECTION');
 			}
 			if (function_exists('exif_read_data') && ($this->mimeType === 'image/jpeg' || $this->mimeType === 'image/tiff') && in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])) {
 				$imageSize = getimagesize($this->path, $imageInfo);
 				if ($imageSize && (empty($imageInfo['APP1']) || strpos($imageInfo['APP1'], 'Exif') === 0) && ($exifdata = exif_read_data($this->path)) && !$this->validateImageMetadata($exifdata)) {
-					throw new \Exception('ERR_FILE_PHP_CODE_INJECTION');
+					throw new \App\Exceptions\AppException('ERR_FILE_PHP_CODE_INJECTION');
 				}
 			}
 			if (stripos('<?xpacket', $contents) !== false) {
-				throw new \Exception('ERR_FILE_XPACKET_CODE_INJECTION');
+				throw new \App\Exceptions\AppException('ERR_FILE_XPACKET_CODE_INJECTION');
 			}
 		}
 	}
