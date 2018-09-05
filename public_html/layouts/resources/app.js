@@ -1527,6 +1527,45 @@ var App = {},
 			var txt = document.createElement('textarea');
 			txt.innerHTML = html;
 			return txt.value;
+		},
+		showConfirmation: function (customParams) {
+			let userParams = customParams;
+			if (typeof customParams === 'string') {
+				userParams = {};
+				userParams.text = customParams;
+			}
+			let params = {
+				target: document.body,
+				data: {
+					title: 'Confirmation Needed',
+					text: 'Are you sure?',
+					icon: 'fas fa-question-circle',
+					hide: false,
+					stack: {
+						'dir1': 'down',
+						'modal': true,
+						'firstpos1': 25
+					},
+					modules: {
+						Confirm: {
+							confirm: true
+						},
+						Buttons: {
+							closer: false,
+							sticker: false
+						},
+						History: {
+							history: false
+						},
+					}
+				}
+			};
+			if (typeof userParams !== "undefined") {
+				params.data = $.extend(params.data, userParams);
+			}
+			PNotify.defaults.styling = 'bootstrap4';
+			PNotify.defaults.icons = 'fontawesome5';
+			return new PNotify(params);
 		}
 	};
 $(document).ready(function () {
