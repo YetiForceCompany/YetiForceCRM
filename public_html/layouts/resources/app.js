@@ -1527,6 +1527,111 @@ var App = {},
 			var txt = document.createElement('textarea');
 			txt.innerHTML = html;
 			return txt.value;
+		},
+		showAlert: function (customParams) {
+			let userParams = customParams;
+			if (typeof customParams === 'string') {
+				userParams = {};
+				userParams.text = customParams;
+			}
+			let params = {
+				target: document.body,
+				data: {
+					type: 'error',
+					hide: false,
+					stack: {
+						'dir1': 'down',
+						'modal': true,
+						'firstpos1': 25
+					},
+					modules: {
+						Confirm: {
+							confirm: true,
+							buttons: [{
+								text: 'Ok',
+								primary: true,
+								click: function (notice) {
+									notice.close();
+								}
+							}]
+						},
+						Buttons: {
+							closer: false,
+							sticker: false
+						},
+						History: {
+							history: false
+						},
+					}
+				}
+			};
+			if (typeof userParams !== "undefined") {
+				params.data = $.extend(params.data, userParams);
+			}
+			PNotify.defaults.styling = 'bootstrap4';
+			PNotify.defaults.icons = 'fontawesome5';
+			return new PNotify(params);
+		},
+		showConfirmModal: function (customParams, confirmCallback = () => {
+		}, cancelCallback = () => {
+		}) {
+			let aDeferred = $.Deferred();
+
+			let userParams = customParams;
+			if (typeof customParams === 'string') {
+				userParams = {};
+				userParams.text = customParams;
+			}
+			let params = {
+				target: document.body,
+				data: {
+					hide: false,
+					icon: 'fas fa-question-circle',
+					stack: {
+						'dir1': 'down',
+						'modal': true,
+						'firstpos1': 25
+					},
+					modules: {
+						Confirm: {
+							confirm: true,
+							buttons: [
+								{
+									text: app.vtranslate('JS_OK'),
+									primary: true,
+									click: function (notice) {
+										notice.close();
+										confirmCallback();
+										aDeferred.resolve(true);
+									}
+								},
+								{
+									text: app.vtranslate('JS_CANCEL'),
+									click: function (notice) {
+										notice.close();
+										cancelCallback();
+										aDeferred.resolve(false);
+									}
+								}
+							]
+						},
+						Buttons: {
+							closer: false,
+							sticker: false
+						},
+						History: {
+							history: false
+						},
+					}
+				}
+			};
+			if (typeof userParams !== "undefined") {
+				params.data = $.extend(params.data, userParams);
+			}
+			PNotify.defaults.styling = 'bootstrap4';
+			PNotify.defaults.icons = 'fontawesome5';
+			new PNotify(params);
+			return aDeferred.promise();
 		}
 	};
 $(document).ready(function () {
