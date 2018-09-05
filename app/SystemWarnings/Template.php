@@ -75,16 +75,16 @@ abstract class Template
 		if (!$returnText) {
 			return $this->status;
 		}
-		$statusTxt = '';
+		$error = '';
 		switch ($this->status) {
 			case 1:
-				$statusTxt = 'OK';
+				$error = 'OK';
 				break;
 			case 2:
-				$statusTxt = 'Bład';
+				$error = 'Bład';
 				break;
 		}
-		return $statusTxt;
+		return $error;
 	}
 
 	/**
