@@ -4,8 +4,8 @@
  * Multifilter model.
  *
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
 class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 {
@@ -146,10 +146,10 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 		if (!\App\Privilege::isPermitted($selectedModule)) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		$queryGenerator = new \App\QueryGenerator($selectedModule);
-		$queryGenerator->initForCustomViewById($this->getFilterId());
+		$queryGeneratorInstance = new \App\QueryGenerator($selectedModule);
+		$queryGeneratorInstance->initForCustomViewById($this->getFilterId());
 		$fields = [];
-		foreach ($queryGenerator->getListViewFields() as $field) {
+		foreach ($queryGeneratorInstance->getListViewFields() as $field) {
 			if (self::SHOW_COMULNS <= count($fields)) {
 				break;
 			}
@@ -275,13 +275,12 @@ class Vtiger_Multifilter_Model extends Vtiger_Widget_Model
 		$this->initListViewController();
 		if (!$this->listviewRecords) {
 			if (!empty($this->searchParams)) {
-				$searchParams = $this->queryGenerator->parseBaseSearchParamsToCondition($this->searchParams);
-				$this->queryGenerator->parseAdvFilter($searchParams);
+				$searchConditions = $this->queryGenerator->parseBaseSearchParamsToCondition($this->searchParams);
+				$this->queryGenerator->parseAdvFilter($searchConditions);
 			}
 			$targetModuleName = $this->getTargetModule();
 			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);
-			$filtersId = $this->getFilterId();
-			$filterModel = CustomView_Record_Model::getInstanceById($filtersId);
+			$filterModel = CustomView_Record_Model::getInstanceById($this->getFilterId());
 			if (!empty($filterModel->get('sort'))) {
 				list($orderby, $sort) = explode(',', $filterModel->get('sort'));
 				$this->queryGenerator->setOrder($orderby, $sort);

@@ -908,9 +908,8 @@ class Vtiger_Relation_Model extends \App\Base
 		$excludedFields = ['created_user_id', 'modifiedby'];
 		$relatedModel = $this->getRelationModuleModel();
 		$relatedModuleName = $relatedModel->getName();
-		$parentModule = $this->getParentModuleModel();
 
-		$parentModelFields = $parentModule->getFields();
+		$parentModelFields = $this->getParentModuleModel()->getFields();
 		foreach ($parentModelFields as $fieldName => $fieldModel) {
 			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
@@ -947,9 +946,8 @@ class Vtiger_Relation_Model extends \App\Base
 		$fields = [];
 		$map = [];
 		$relatedModel = $this->getRelationModuleModel();
-		$parentModule = $this->getParentModuleModel();
 		$relatedModuleName = $relatedModel->getName();
-		$parentModuleName = $parentModule->getName();
+		$parentModuleName = $this->getParentModuleModel()->getName();
 
 		if (array_key_exists("$relatedModuleName::$parentModuleName", $map)) {
 			$fieldMap = $map["$relatedModuleName::$parentModuleName"];
