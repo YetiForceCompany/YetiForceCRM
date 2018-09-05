@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pdfs;
+namespace App\Pdf;
 
 /**
  * Tcpdf class.
@@ -115,7 +115,7 @@ class Tcpdf extends AbstractPDF
 		if (empty($mode)) {
 			$mode = \AppConfig::main('default_charset') ?? 'UTF-8';
 		}
-		$this->pdf = new \App\Pdfs\Libs\Yftcpdf($orientation, 'mm', $format, true, $mode);
+		$this->pdf = new \App\Pdf\Libs\Yftcpdf($orientation, 'mm', $format, true, $mode);
 		$this->pdf->setFontSubsetting(true);
 		$this->pdf->SetFont($this->defaultFontFamily, '', $this->defaultFontSize);
 		$this->pdf->SetMargins($leftMargin, $topMargin, $rightMargin, true);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pdfs;
+namespace App\Pdf;
 
 /**
  * Abstract class for connection to bank currency exchange rates.

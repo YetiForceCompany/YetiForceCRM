@@ -114,7 +114,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			Vtiger_PDF_Model::exportToPdf($recordId, $moduleName, $templateIds[0]);
 		} else {
 			if ($singlePdf) {
-				$pdf = new \App\Pdfs\Tcpdf();
+				$pdf = new \App\Pdf\Tcpdf();
 				foreach ($recordId as $index => $record) {
 					$templateIdsTemp = $templateIds;
 					$firstTemplate = array_shift($templateIdsTemp);
@@ -129,7 +129,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				$pdfFiles = [];
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
-						$pdf = (new \App\Pdfs\Tcpdf())->generateContent($record, $moduleName, $id, $record);
+						$pdf = (new \App\Pdf\Tcpdf())->generateContent($record, $moduleName, $id, $record);
 						$pdfFileName = 'cache/pdf/' . $record . '_' . $pdf->getFileName() . '_' . $postfix . '.pdf';
 						$pdf->output(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pdfFileName, 'F');
 						if (file_exists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pdfFileName)) {
