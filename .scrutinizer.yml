@@ -10,12 +10,20 @@ build:
     postgresql: false
     php:
       version: 7.1
+
   tests:
     stop_on_failure: false
     before: []
-    after: []
     override:
     - 'php -v'
+    after: []
+  nodes:
+    tests: []
+
+build:
+  tests:
+    override:
+    - true
   nodes:
     tests: true
     analysis:
@@ -241,3 +249,4 @@ coding_style:
 tools:
   sensiolabs_security_checker: true
   external_code_coverage: true
+  
