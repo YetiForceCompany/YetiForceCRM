@@ -533,9 +533,9 @@ class Functions
 			if (is_object($message)) {
 				throw new $message();
 			} elseif (is_array($message)) {
-				throw new \Exception($message['message']);
+				throw new \App\Exceptions\AppException($message['message']);
 			} else {
-				throw new \Exception($message);
+				throw new \App\Exceptions\AppException($message);
 			}
 		}
 	}
