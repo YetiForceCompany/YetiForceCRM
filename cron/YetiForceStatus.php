@@ -26,5 +26,5 @@ try {
 		'timeout' => 5,
 		'form_params' => $info]);
 } catch (\Throwable $e) {
-	\App\Log::warning('Not possible to connect to the server status' . PHP_EOL . $e->getMessage(), 'YetiForceStatus')
+	\App\Log::warning('Not possible to connect to the server status' . PHP_EOL . $e->getMessage(), 'YetiForceStatus');
 }

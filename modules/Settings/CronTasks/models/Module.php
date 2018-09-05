@@ -89,7 +89,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 		$result = [];
 		$totalDiff = $finalLastStart = $finalLastEnd = $finishedTasks = 0;
 		$timedout = false;
-		$lastCronStart = $this->getLastCronStart();
+		$lastStart = $this->getLastCronStart();
 		$tasks = (new \App\Db\Query())
 			->from('vtiger_cron_task')
 			->where(['status', [
@@ -98,7 +98,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 				Settings_CronTasks_Record_Model::$STATUS_COMPLETED,
 			]
 			])
-			->where(['>=', 'laststart', $lastCronStart])
+			->where(['>=', 'laststart', $lastStart])
 			->createCommand()
 			->query()
 			->readAll();
@@ -125,7 +125,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$result['duration'] = \App\Fields\Time::formatToHourText(\App\Fields\Time::secondsToDecimal($totalDiff), 'short', true);
 		}
-		$result['laststart'] = empty($lastCronStart) ? ' - ' : \App\Fields\DateTime::formatToViewDate(date('Y-m-d H:i:s', $lastCronStart));
+		$result['laststart'] = empty($lastStart) ? ' - ' : \App\Fields\DateTime::formatToViewDate(date('Y-m-d H:i:s', $lastStart));
 		$result['finished_tasks'] = $finishedTasks;
 		$result['tasks'] = count($tasks);
 		return $result;

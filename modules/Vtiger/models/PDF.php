@@ -7,7 +7,8 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Maciej Stencel <m.stencel@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Radoslaw Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 class Vtiger_PDF_Model extends \App\Base
 {
@@ -53,7 +54,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public function getWatermarkType()
 	{
-		return [Vtiger_Mpdf_Pdf::WATERMARK_TYPE_TEXT => 'PLL_TEXT', Vtiger_Mpdf_Pdf::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE'];
+		return [\App\Pdf\Tcpdf::WATERMARK_TYPE_TEXT => 'PLL_TEXT', \App\Pdf\Tcpdf::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE'];
 	}
 
 	/**
@@ -386,6 +387,9 @@ class Vtiger_PDF_Model extends \App\Base
 		$parameters = [];
 		$parameters['page_format'] = $this->get('page_format');
 		$parameters['page_orientation'] = $this->get('page_orientation');
+		$parameters['header_height'] = $this->get('header_height');
+		$parameters['footer_height'] = $this->get('footer_height');
+
 		// margins
 		if ($this->get('margin_chkbox') == 0) {
 			$parameters['margin-top'] = $this->get('margin_top');
@@ -431,9 +435,9 @@ class Vtiger_PDF_Model extends \App\Base
 		$format = $this->get('page_format');
 		$orientation = $this->get('page_orientation');
 		if ($orientation === 'PLL_LANDSCAPE') {
-			$format .= '-L';
+			$format .= 'L';
 		} else {
-			$format .= '-P';
+			$format .= 'P';
 		}
 		return $format;
 	}
@@ -512,9 +516,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
-		$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Mpdf', $moduleName);
-		$pdf = new $handlerClass();
-		$pdf->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
+		(new \App\Pdf\Tcpdf())->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
 	}
 
 	/**

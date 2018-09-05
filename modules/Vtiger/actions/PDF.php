@@ -8,6 +8,7 @@
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Adrian Koń <a.kon@yetiforce.com>
+ * @author Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 class Vtiger_PDF_Action extends \App\Controller\Action
 {
@@ -63,6 +64,16 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$response->emit();
 	}
 
+	/**
+	 * Generate pdf.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermitted
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function generate(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -70,6 +81,8 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$templateIds = $request->getArray('pdf_template', 'Integer');
 		$singlePdf = $request->getInteger('single_pdf') === 1 ? true : false;
 		$emailPdf = $request->getInteger('email_pdf') === 1 ? true : false;
+
+		$postfix = time() . '_' . mt_rand(0, 1000);
 		if (!is_array($recordId)) {
 			$recordId = [$recordId];
 		}
@@ -87,8 +100,8 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		}
 		if ($selectedOneTemplate && $recordsAmount == 1) {
 			if ($emailPdf) {
-				$filePath = 'cache/pdf/' . $recordId[0] . '_' . time() . '.pdf';
-				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0], $filePath, 'F');
+				$filePath = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $recordId[0] . '_' . time() . '.pdf';
+				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0], ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $filePath, 'F');
 				if (file_exists($filePath) && \App\Privilege::isPermitted('OSSMail')) {
 					header('Location: index.php?module=OSSMail&view=Compose&pdf_path=' . $filePath);
 				} else {
@@ -101,93 +114,25 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			Vtiger_PDF_Model::exportToPdf($recordId, $moduleName, $templateIds[0]);
 		} else {
 			if ($singlePdf) {
-				$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Mpdf', $moduleName);
-				$pdf = new $handlerClass();
-				$styles = '';
-				$headers = '';
-				$footers = '';
-				$classes = '';
-				$body = '';
+				$pdf = new \App\Pdf\Tcpdf();
 				foreach ($recordId as $index => $record) {
 					$templateIdsTemp = $templateIds;
-					$pdf->setRecordId($recordId[0]);
-					$pdf->setModuleName($moduleName);
-
 					$firstTemplate = array_shift($templateIdsTemp);
-					$template = Vtiger_PDF_Model::getInstanceById($firstTemplate);
-					$template->setMainRecordId($record);
-					$pdf->setLanguage($template->get('language'));
-					App\Language::setTemporaryLanguage($template->get('language'));
-					$template->getParameters();
-
-					$styles .= " @page template_{$record}_{$firstTemplate} {
-						sheet-size: {$template->getFormat()};
-						margin-top: {$template->get('margin_top')}mm;
-						margin-left: {$template->get('margin_left')}mm;
-						margin-right: {$template->get('margin_right')}mm;
-						margin-bottom: {$template->get('margin_bottom')}mm;
-						odd-header-name: html_Header_{$record}_{$firstTemplate};
-						odd-footer-name: html_Footer_{$record}_{$firstTemplate};
-					}";
-					$html = '';
-
-					$headers .= ' <htmlpageheader name="Header_' . $record . '_' . $firstTemplate . '">' . $template->getHeader() . '</htmlpageheader>';
-					$footers .= ' <htmlpagefooter name="Footer_' . $record . '_' . $firstTemplate . '">' . $template->getFooter() . '</htmlpagefooter>';
-					$classes .= ' div.page_' . $record . '_' . $firstTemplate . ' { page-break-before: always; page: template_' . $record . '_' . $firstTemplate . '; }';
-					$body .= '<div class="page_' . $record . '_' . $firstTemplate . '">' . $template->getBody() . '</div>';
-
+					$pdf = $pdf->generateContent($recordId[0], $moduleName, $firstTemplate, $record);
 					foreach ($templateIdsTemp as $id) {
-						$template = Vtiger_PDF_Model::getInstanceById($id);
-						$template->setMainRecordId($record);
-						$pdf->setLanguage($template->get('language'));
-						App\Language::setTemporaryLanguage($template->get('language'));
-						$styles .= " @page template_{$record}_{$id} {
-							sheet-size: {$template->getFormat()};
-							margin-top: {$template->get('margin_top')}mm;
-							margin-left: {$template->get('margin_left')}mm;
-							margin-right: {$template->get('margin_right')}mm;
-							margin-bottom: {$template->get('margin_bottom')}mm;
-							odd-header-name: html_Header_{$record}_{$id};
-							odd-footer-name: html_Footer_{$record}_{$id};
-						}";
-						$html = '';
-
-						$headers .= ' <htmlpageheader name="Header_' . $record . '_' . $id . '">' . $template->getHeader() . '</htmlpageheader>';
-						$footers .= ' <htmlpagefooter name="Footer_' . $record . '_' . $id . '">' . $template->getFooter() . '</htmlpagefooter>';
-						$classes .= ' div.page_' . $record . '_' . $id . ' { page-break-before: always; page: template_' . $record . '_' . $id . '; }';
-						$body .= '<div class="page_' . $record . '_' . $id . '">' . $template->getBody() . '</div>';
+						$pdf = $pdf->generateContent($record, $moduleName, $id, $record);
 					}
 				}
-				$html = "<html><head><style>{$styles} {$classes}</style></head><body>{$headers} {$footers} {$body}</body></html>";
-				$pdf->loadHTML($html);
 				$pdf->setFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE'));
 				$pdf->output();
 			} else {
-				mt_srand(time());
-				$postfix = time() . '_' . mt_rand(0, 1000);
-
 				$pdfFiles = [];
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
-						$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Mpdf', $moduleName);
-						$pdf = new $handlerClass();
-						$pdf->setTemplateId($id);
-						$pdf->setRecordId($record);
-						$pdf->setModuleName($moduleName);
-
-						$template = Vtiger_PDF_Model::getInstanceById($id);
-						$template->setMainRecordId($record);
-						$pdf->setLanguage($template->get('language'));
-						App\Language::setTemporaryLanguage($template->get('language'));
-						$pdf->setFileName($template->get('filename'));
-						$pdf->parseParams($template->getParameters());
-						$pdf->setHeader('Header', $template->getHeader());
-						$pdf->setFooter('Footer', $template->getFooter());
-						$pdf->loadHTML($template->getBody());
+						$pdf = (new \App\Pdf\Tcpdf())->generateContent($record, $moduleName, $id, $record);
 						$pdfFileName = 'cache/pdf/' . $record . '_' . $pdf->getFileName() . '_' . $postfix . '.pdf';
-						$pdf->output($pdfFileName, 'F');
-
-						if (file_exists($pdfFileName)) {
+						$pdf->output(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pdfFileName, 'F');
+						if (file_exists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pdfFileName)) {
 							$pdfFiles[] = $pdfFileName;
 						}
 						unset($pdf, $template);
