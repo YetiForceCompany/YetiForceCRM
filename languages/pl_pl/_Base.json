@@ -1367,6 +1367,7 @@
     "JS_NO_RESULTS_FOUND": "Nie znaleziono",
     "JS_NO_VIEW_PERMISSION_AFTER_SAVE": "Po zapisaniu rekordu nie b\u0119dziesz mia\u0142(a) uprawnie\u0144 do jego przegl\u0105dania. Kontynuowa\u0107?",
     "JS_NUMBER_SHOULD_BE_LESS_THAN_32": "Numer powinien by\u0107 mniejszy ni\u017c 32",
+    "JS_OK": "Ok",
     "JS_PAGE_NOT_EXIST": "Strona nie istnieje",
     "JS_PBX_CALL_FROM": "Call From-------------",
     "JS_PBX_FILL_ALL_FIELDS": "Please fill all the fields-------------",
