@@ -126,7 +126,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="form-buttom-nav fixed-bottom button-container p-1">
+					<div class="form-button-nav fixed-bottom button-container p-1">
 						<div class="text-center">
 							<button class="btn c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0"
 									{if $DB_CONNECTION_INFO['flag'] eq true} disabled="disabled"{else} onclick="window.history.back()"{/if}>

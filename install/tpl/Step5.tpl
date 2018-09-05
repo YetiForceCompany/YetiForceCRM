@@ -389,7 +389,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="form-buttom-nav fixed-bottom button-container p-1">
+				<div class="form-button-nav fixed-bottom button-container p-1">
 					<div class="text-center">
 						<a class="btn c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php"
 						   role="button">

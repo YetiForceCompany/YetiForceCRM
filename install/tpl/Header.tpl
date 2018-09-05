@@ -43,5 +43,4 @@
 			<input type="hidden" id="start_day" value="">
 			<input type="hidden" id="row_type" value="">
 			<input type="hidden" id="current_user_id" value="">
-			<div class="container px-2 px-sm-3">
 {/strip}

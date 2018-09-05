@@ -10,46 +10,48 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<main class="main-container">
-		<div class="inner-container">
-			<form class="" name="step2" method="post" action="Install.php">
-				<input type="hidden" name="mode" value="step3">
-				<input type="hidden" name="lang" value="{$LANG}">
-				<div class="row">
-					<div class="col-12 text-center">
-						<h2>{\App\Language::translate('LBL_LICENSE', 'Install')}</h2>
+	<div class="container px-2 px-sm-3">
+		<main class="main-container">
+			<div class="inner-container">
+				<form class="" name="step2" method="post" action="Install.php">
+					<input type="hidden" name="mode" value="step3">
+					<input type="hidden" name="lang" value="{$LANG}">
+					<div class="row">
+						<div class="col-12 text-center">
+							<h2>{\App\Language::translate('LBL_LICENSE', 'Install')}</h2>
+						</div>
 					</div>
-				</div>
-				<hr>
-				<div class="row">
-					<div class="col-12">
-						<p>
-							{\App\Language::translate('LBL_STEP2_DESCRIPTION_1','Install')}&nbsp;
-							<a target="_blank" rel="noreferrer"
-							   href="https://yetiforce.com/en/yetiforce/license" aria-label="{\App\Language::translate('LBL_LICENSE', 'Install')}">
-								<span class="fas fa-link"></span>							</a><br/><br/>
-							{\App\Language::translate('LBL_STEP2_DESCRIPTION_2','Install')}
-						</p>
+					<hr>
+					<div class="row">
+						<div class="col-12">
+							<p>
+								{\App\Language::translate('LBL_STEP2_DESCRIPTION_1','Install')}&nbsp;
+								<a target="_blank" rel="noreferrer"
+								   href="https://yetiforce.com/en/yetiforce/license" aria-label="{\App\Language::translate('LBL_LICENSE', 'Install')}">
+									<span class="fas fa-link"></span> </a><br/><br/>
+								{\App\Language::translate('LBL_STEP2_DESCRIPTION_2','Install')}
+							</p>
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-12">
-						<p class="license">{$LICENSE}</p>
+					<div class="row">
+						<div class="col-12">
+							<p class="license">{$LICENSE}</p>
+						</div>
 					</div>
-				</div>
-				<div class="form-buttom-nav fixed-bottom button-container p-1">
-					<div class="text-center">
-						<a class="btn c-btn-block-xs-down btn-danger mb-1 mb-sm-0 mr-sm-1" href="Install.php" role="button">
-							<span class="fas fa-times-circle mr-1"></span>
-							{App\Language::translate('LBL_DISAGREE', 'Install')}
-						</a>
-						<button type="submit" class="btn c-btn-block-xs-down btn-primary">
-							<span class="fas fa-check mr-1"></span>
-							{App\Language::translate('LBL_I_AGREE', 'Install')}
-						</button>
+					<div class="form-button-nav fixed-bottom button-container p-1 bg-color-amber-50">
+						<div class="text-center">
+							<a class="btn btn-lg c-btn-block-xs-down btn-danger mb-1 mb-sm-0 mr-sm-1" href="Install.php" role="button">
+								<span class="fas fa-lg fa-times-circle mr-2"></span>
+								{App\Language::translate('LBL_DISAGREE', 'Install')}
+							</a>
+							<button type="submit" class="btn btn-lg c-btn-block-xs-down btn-primary">
+								<span class="fas fa-lg fa-check mr-2"></span>
+								{App\Language::translate('LBL_I_AGREE', 'Install')}
+							</button>
+						</div>
 					</div>
-				</div>
-			</form>
-		</div>
-	</main>
+				</form>
+			</div>
+		</main>
+	</div>
 {/strip}
