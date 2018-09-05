@@ -237,7 +237,7 @@ class Yftcpdf extends \TCPDF
 	/**
 	 * {@inheritdoc}
 	 */
-	public function SetLeftMargin($margin)
+	public function setLeftMargin($margin)
 	{
 		parent::SetLeftMargin($margin);
 		$this->original_lMargin = $margin;
@@ -246,7 +246,7 @@ class Yftcpdf extends \TCPDF
 	/**
 	 * {@inheritdoc}
 	 */
-	public function SetRightMargin($margin)
+	public function setRightMargin($margin)
 	{
 		parent::SetRightMargin($margin);
 		$this->original_rMargin = $margin;
@@ -255,7 +255,7 @@ class Yftcpdf extends \TCPDF
 	/**
 	 * {@inheritdoc}
 	 */
-	public function SetMargins($left, $top, $right = -1, $keepmargins = false)
+	public function setMargins($left, $top, $right = -1, $keepmargins = false)
 	{
 		//Set left, top and right margins
 		$this->SetLeftMargin($left);
@@ -345,7 +345,7 @@ class Yftcpdf extends \TCPDF
 	/**
 	 * {@inheritdoc}
 	 */
-	public function Header()
+	public function header()
 	{
 		if (!empty($this->watermark['render'])) {
 			$pageBreakMargin = $this->getBreakMargin();
@@ -402,7 +402,7 @@ class Yftcpdf extends \TCPDF
 	/**
 	 * {@inheritdoc}
 	 */
-	public function Footer()
+	public function footer()
 	{
 		if ($footer = $this->getHtmlFooter()) {
 			$this->setFont($this->footerFontFamily, $this->footerFontVariation, $this->footerFontSize);
@@ -413,7 +413,7 @@ class Yftcpdf extends \TCPDF
 	/**
 	 * {@inheritdoc}
 	 */
-	public function AddPage($orientation = '', $format = '', $keepmargins = false, $tocpage = false, $cssStyleName = '')
+	public function addPage($orientation = '', $format = '', $keepmargins = false, $tocpage = false, $cssStyleName = '')
 	{
 		if (!empty(func_get_args()['cssStyleName'])) {
 			$this->currentCssStyleName = $cssStyleName;
