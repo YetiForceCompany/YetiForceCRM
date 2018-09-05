@@ -65,14 +65,14 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				)->execute();
 
 				return ['mailViewId' => $id, 'attachments' => $attachments];
-			} else {
-				App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', [
-					'id' => $mail->get('id'),
-				], ['ossmailviewid' => $mailId]
-				)->execute();
-
-				return ['mailViewId' => $mailId];
 			}
+		} else {
+			App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', [
+				'id' => $mail->get('id'),
+			], ['ossmailviewid' => $mail->getMailCrmId()]
+			)->execute();
+
+			return ['mailViewId' => $mail->getMailCrmId()];
 		}
 		return false;
 	}
