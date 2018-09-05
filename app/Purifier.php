@@ -340,6 +340,9 @@ class Purifier
 						$value = (string) $input;
 					}
 					break;
+				case 'Version':
+					$value = preg_match('/^[\.0-9]+$/', $input) ? $input : false;
+					break;
 				case 'Text':
 				default:
 					$value = self::purify($input);
