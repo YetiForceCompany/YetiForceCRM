@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pdfs\Libs;
+namespace App\Pdf\Libs;
 
 \Vtiger_Loader::includeOnce('~/vendor/tecnickcom/tcpdf/tcpdf.php');
 
