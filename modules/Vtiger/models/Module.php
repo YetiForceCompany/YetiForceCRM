@@ -596,9 +596,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getFieldsById()
 	{
-		$fields = $this->getFields();
 		$fieldList = [];
-		foreach ($fields as &$field) {
+		foreach ($this->getFields() as &$field) {
 			$fieldList[$field->getId()] = $field;
 		}
 		return $fieldList;
@@ -1335,10 +1334,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getMandatoryFieldModels()
 	{
-		$fields = $this->getFields();
 		$mandatoryFields = [];
-		if ($fields) {
-			foreach ($fields as $field) {
+		if ($this->getFields()) {
+			foreach ($this->getFields() as $field) {
 				if ($field->isActiveField() && $field->isMandatory()) {
 					$mandatoryFields[$field->getName()] = $field;
 				}
