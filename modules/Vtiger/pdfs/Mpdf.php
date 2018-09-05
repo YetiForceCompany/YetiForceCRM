@@ -3,10 +3,10 @@
  * Class using mPDF as a PDF creator.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 Vtiger_Loader::includeOnce('~/vendor/mPDF/mpdf.php');
 
@@ -157,11 +157,11 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 		foreach ($params as $param => $value) {
 			switch ($param) {
 				case 'page_format':
-					$pageOrientation = '';
+					$pageOrientationVal = '';
 					if (isset($params['page_orientation'])) {
-						$pageOrientation = $params['page_orientation'];
+						$pageOrientationVal = $params['page_orientation'];
 					}
-					$this->setPageSize($value, $pageOrientation);
+					$this->setPageSize($value, $pageOrientationVal);
 					break;
 				case 'margin-top':
 					if (is_numeric($value)) {
@@ -314,12 +314,12 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 		$template = Vtiger_PDF_Model::getInstanceById($templateId, $moduleName);
 		$template->setMainRecordId($recordId);
 
-		$pageOrientation = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
+		$pageOrientationVal = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
 		if ($template->get('margin_chkbox') == 1) {
-			$pdf = new self('utf-8', $template->get('page_format'), 0, '', $pageOrientation);
+			$pdf = new self('utf-8', $template->get('page_format'), 0, '', $pageOrientationVal);
 		} else {
 			$pdf = new self(
-				'utf-8', $template->get('page_format'), 0, '', $pageOrientation, $template->get('margin_left'), $template->get('margin_right'), $template->get('margin_top'), $template->get('margin_bottom'), $template->get('header_height'), $template->get('footer_height')
+				'utf-8', $template->get('page_format'), 0, '', $pageOrientationVal, $template->get('margin_left'), $template->get('margin_right'), $template->get('margin_top'), $template->get('margin_bottom'), $template->get('header_height'), $template->get('footer_height')
 			);
 		}
 		$pdf->setTemplateId($templateId);
