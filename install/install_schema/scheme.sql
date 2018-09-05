@@ -531,8 +531,9 @@ CREATE TABLE `l_yf_batchmethod` (
 
 CREATE TABLE `l_yf_mail` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `smtp_id` int(10) unsigned NOT NULL DEFAULT 1,
   `date` datetime NOT NULL,
+  `error_code` int(10) unsigned NOT NULL,
+  `smtp_id` int(10) unsigned NOT NULL DEFAULT 1,
   `owner` int(10) NOT NULL,
   `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `from` text DEFAULT NULL,
@@ -542,7 +543,6 @@ CREATE TABLE `l_yf_mail` (
   `cc` text DEFAULT NULL,
   `bcc` text DEFAULT NULL,
   `attachments` text DEFAULT NULL,
-  `error_code` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `smtp_id` (`smtp_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
