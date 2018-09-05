@@ -93,7 +93,6 @@ Vtiger_Edit_Js("Documents_Edit_Js", {}, {
 		container.on('change', 'input[name="filename"]', function (e) {
 			if (e.target.type == "text")
 				return false;
-			file = e.target.files[0];
 			var element = container.find('[name="filename"]');
 			//ignore all other types than file
 			if (element.attr('type') != 'file') {
@@ -103,7 +102,7 @@ Vtiger_Edit_Js("Documents_Edit_Js", {}, {
 			var fileSize = element.get(0).files[0].size;
 			var maxFileSize = thisInstance.getMaxiumFileUploadingSize(container);
 			if (fileSize > maxFileSize) {
-				alert(app.vtranslate('JS_EXCEEDS_MAX_UPLOAD_SIZE'));
+				app.showAlert(app.vtranslate('JS_EXCEEDS_MAX_UPLOAD_SIZE'));
 				element.val('');
 				uploadFileSizeHolder.text('');
 			} else {
@@ -128,7 +127,7 @@ Vtiger_Edit_Js("Documents_Edit_Js", {}, {
 			formData.append("filename", file);
 			file = false;
 		}
-		if (formData) {
+		if (typeof formData !== "undefined") {
 			var params = {
 				url: "index.php",
 				type: "POST",
