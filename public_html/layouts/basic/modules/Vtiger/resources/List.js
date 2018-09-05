@@ -1186,6 +1186,9 @@ jQuery.Class("Vtiger_List_Js", {
 			selectOptionId = event.currentTarget.id.split('-').pop();
 			selectOption = $(`#filterOptionId_${selectOptionId}`);
 			this.getFilterSelectElement().val(event.currentTarget.id.split('-').pop()).trigger('change');
+		} else {
+			app.errorLog(`selectOption is ${selectOption}`);
+			return;
 		}
 
 		if ($(`.nav-item[data-cvid='${selectOptionId}'] .nav-link`).tab('show').length === 0) {
