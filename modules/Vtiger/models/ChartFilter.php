@@ -730,9 +730,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		if (!empty($this->valueName)) {
 			$queryGenerator->setField($this->valueName);
 		}
-		if ($searchParams = $request->getArray('search_params')) {
-			$this->searchParams = $searchParams;
-			$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition([$searchParams]);
+		if ($params = $request->getArray('search_params')) {
+			$this->searchParams = $params;
+			$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition([$params]);
 			$queryGenerator->parseAdvFilter($transformedSearchParams);
 		}
 		$query = $queryGenerator->createQuery();
@@ -927,8 +927,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			return $this->generateSectorsData();
 		}
 		if ($this->isMultiFilter()) {
-			$queries = $this->getQueries();
-			foreach ($queries as $dividingValue => $query) {
+			foreach ($this->getQueries() as $dividingValue => $query) {
 				$this->getRowsDb($query, $dividingValue);
 			}
 		} else {
@@ -1035,11 +1034,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	protected function setLinkFromRow($row, $groupValue, $dividingValue)
 	{
 		if (!isset($this->data[$groupValue][$dividingValue]['link'])) {
-			$searchParams = array_merge($this->searchParams, [[$this->groupFieldName, 'e', $row[$this->groupName]]]);
+			$params = array_merge($this->searchParams, [[$this->groupFieldName, 'e', $row[$this->groupName]]]);
 			if ($this->isDividedByField()) {
-				$searchParams = array_merge($searchParams, [[$this->dividingFieldName, 'e', $row[$this->dividingName]]]);
+				$params = array_merge($params, [[$this->dividingFieldName, 'e', $row[$this->dividingName]]]);
 			}
-			$link = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->getFilterId($dividingValue) . '&search_params=' . App\Json::encode([$searchParams]);
+			$link = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->getFilterId($dividingValue) . '&search_params=' . App\Json::encode([$params]);
 			$this->addValue('link', $link, $groupValue, $dividingValue);
 		}
 	}
@@ -1201,11 +1200,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 					$this->sectorValues[$sectorId][$this->valueType] += $value;
 					break;
 			}
-			$searchParams = array_merge($this->searchParams, [[$this->valueName, 'm', $sectorId]]);
+			$params = array_merge($this->searchParams, [[$this->valueName, 'm', $sectorId]]);
 			if ($previousSectorValue !== null) {
-				$searchParams[] = [$this->valueName, 'g', $previousSectorValue];
+				$params[] = [$this->valueName, 'g', $previousSectorValue];
 			}
-			$this->sectorValues[$sectorId]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->getFilterId($dividingValue) . '&search_params=' . App\Json::encode([$searchParams]);
+			$this->sectorValues[$sectorId]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->getFilterId($dividingValue) . '&search_params=' . App\Json::encode([$params]);
 			$this->sectorValues[$sectorId]['color_id'] = $sectorId;
 			$this->colors[$sectorId] = \App\Colors::getRandomColor('generated_' . $sectorId);
 		});
@@ -1225,11 +1224,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	public function getRowsOwners()
 	{
-		$owners = [];
+		$ownersArray = [];
 		foreach (array_unique($this->owners) as $ownerId) {
-			$owners[$ownerId] = App\Fields\Owner::getLabel($ownerId);
+			$ownersArray[$ownerId] = App\Fields\Owner::getLabel($ownerId);
 		}
-		return $owners;
+		return $ownersArray;
 	}
 
 	/**
@@ -1373,8 +1372,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			if ($viewName) {
 				$suffix = ' - ' . \App\Language::translate($viewName, $this->getTargetModule());
 				if (!empty($this->extraData['groupField'])) {
-					$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
-					$suffix .= ' - ' . \App\Language::translate($groupFieldModel->getFieldLabel(), $this->getTargetModule());
+					$fieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
+					$suffix .= ' - ' . \App\Language::translate($fieldModel->getFieldLabel(), $this->getTargetModule());
 				}
 			}
 			return $prefix . \App\Language::translate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
