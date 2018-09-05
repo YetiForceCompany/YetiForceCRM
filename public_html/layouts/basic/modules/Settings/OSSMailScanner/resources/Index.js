@@ -227,48 +227,44 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 		});
 	},
 	saveActions: function (userid, vale) {
-		var params = {
+		let params = {
 			'module': 'OSSMailScanner',
 			'action': "SaveActions",
 			'userid': userid,
 			'vale': vale
-		}
+		};
 		AppConnector.request(params).done(function (data) {
-			var response = data['result'];
+			let response = data['result'];
 			if (response['success']) {
-				var params = {
+				Vtiger_Helper_Js.showPnotify({
 					text: response['data'],
 					type: 'info',
-				};
-				Vtiger_Helper_Js.showPnotify(params);
+				});
 			} else {
-				var params = {
+				Vtiger_Helper_Js.showPnotify({
 					text: response['data'],
-				};
-				Vtiger_Helper_Js.showPnotify(params);
+				});
 			}
 		});
 	},
 	saveCRMuser: function (userid, value) {
-		var params = {
+		let params = {
 			'module': 'OSSMailScanner',
 			'action': "SaveCRMuser",
 			'userid': userid,
 			'value': value
-		}
+		};
 		AppConnector.request(params).done(function (data) {
-			var response = data['result'];
+			let response = data['result'];
 			if (response['success']) {
-				var params = {
+				Vtiger_Helper_Js.showPnotify({
 					text: response['data'],
 					type: 'info',
-				};
-				Vtiger_Helper_Js.showPnotify(params);
+				});
 			} else {
-				var params = {
+				Vtiger_Helper_Js.showPnotify({
 					text: response['data'],
-				};
-				Vtiger_Helper_Js.showPnotify(params);
+				});
 			}
 		});
 	},
@@ -280,41 +276,39 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 		return '';
 	},
 	saveEmailSearchList: function (vale) {
-		var params = {
+		let params = {
 			'module': 'OSSMailScanner',
 			'action': "SaveEmailSearchList",
 			'vale': vale
-		}
+		};
 		AppConnector.request(params).done(function (data) {
-			var response = data['result'];
+			let response = data['result'];
 			if (response['success']) {
-				var params = {
+				Vtiger_Helper_Js.showPnotify({
 					text: response['data'],
 					type: 'info',
-				};
-				Vtiger_Helper_Js.showPnotify(params);
+				});
 			} else {
-				var params = {
+				Vtiger_Helper_Js.showPnotify({
 					text: response['data'],
-				};
-				Vtiger_Helper_Js.showPnotify(params);
+				});
 			}
 		});
 	},
 	domainValidateToExceptions: function (src) {
-		var regex = /^@([a-zA-Z0-9.-]+\.)+[a-zA-Z0-9.-]{2,63}$/;
+		let regex = /^@([a-zA-Z0-9.-]+\.)+[a-zA-Z0-9.-]{2,63}$/;
 		return regex.test(src);
 	},
 	email_validate: function (src) {
-		var regex = /^[a-zA-Z0-9._-]+@([a-zA-Z0-9.-]+\.)+[a-zA-Z0-9.-]{2,63}$/;
+		let regex = /^[a-zA-Z0-9._-]+@([a-zA-Z0-9.-]+\.)+[a-zA-Z0-9.-]{2,63}$/;
 		return regex.test(src);
 	},
 	number_validate: function (value) {
-		var valid = !/^\s*$/.test(value) && !isNaN(value);
+		let valid = !/^\s*$/.test(value) && !isNaN(value);
 		return valid;
 	},
 	saveWidgetConfig: function (name, value, type) {
-		var params = {
+		let params = {
 			'module': 'OSSMailScanner',
 			'action': "SaveWidgetConfig",
 			'conf_type': type,
@@ -322,18 +316,16 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 			'value': value
 		}
 		AppConnector.request(params).done(function (data) {
-			var response = data['result'];
+			let response = data['result'];
 			if (response['success']) {
-				var params = {
+				Vtiger_Helper_Js.showPnotify({
 					text: response['data'],
 					type: 'info',
-				};
-				Vtiger_Helper_Js.showPnotify(params);
+				});
 			} else {
-				var params = {
+				Vtiger_Helper_Js.showPnotify({
 					text: response['data'],
-				};
-				Vtiger_Helper_Js.showPnotify(params);
+				});
 			}
 		});
 	}

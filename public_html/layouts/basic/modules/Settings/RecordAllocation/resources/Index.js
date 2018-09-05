@@ -42,17 +42,18 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 	 * @param {jQuery} contentData
 	 */
 	registerDragDropEvent: function (contentData) {
-		var thisInstance = this;
 		if (contentData == undefined) {
 			return;
 		}
-		var panel = contentData.closest('.js-panel');
-		var index = panel.data('index');
+		let thisInstance = this,
+			panel = contentData.closest('.js-panel'),
+			index = panel.data('index'),
+			width;
 		contentData.find('.js-drag-drop-' + index).draggable({
 			appendTo: 'body',
 			helper: 'clone',
 			start: function (e, ui) {
-				var width = $(ui.helper.context).width();
+				width = $(ui.helper.context).width();
 				$(ui.helper).css('width', width).addClass('dataTableDragDrop bg-primary');
 			},
 			zIndex: 9999999999
@@ -62,12 +63,12 @@ jQuery.Class('Settings_RecordAllocation_Index_Js', {}, {
 			hoverClass: 'ui-state-hover',
 			accept: '.js-drag-drop-' + index,
 			drop: function (event, ui) {
-				var tableBase = $(ui.draggable).closest('.js-data-table');
-				var table = $(this);
+				let tableBase = $(ui.draggable).closest('.js-data-table'),
+					table = $(this);
 				if (tableBase.data('mode') != table.data('mode')) {
 					tableBase.DataTable().row(ui.draggable).remove().draw();
 					table.DataTable().row.add(ui.draggable[0]).draw();
-					var table = table.data('mode') == 'active' ? table : tableBase;
+					table = table.data('mode') == 'active' ? table : tableBase;
 					thisInstance.save(table.closest('.js-panel'));
 				}
 			}

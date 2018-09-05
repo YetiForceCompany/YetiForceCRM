@@ -18,15 +18,14 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 	 * Delete chosen holiday date
 	 */
 	deleteHoliday: function (holidayId) {
-		var thisInstance = this;
-		var progressIndicatorElement = jQuery.progressIndicator({
-			'position': 'html',
-			'blockInfo': {
-				'enabled': true
-			}
-		});
-
-		var params = {};
+		let thisInstance = this,
+			progressIndicatorElement = jQuery.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			}),
+			params = {};
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
 		params['action'] = 'Holiday';
@@ -34,7 +33,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 		params['id'] = holidayId;
 
 		AppConnector.request(params).done(function (data) {
-			var params = {};
+			params = {};
 			params['module'] = app.getModuleName();
 			params['view'] = 'Configuration';
 			params['parent'] = app.getParentModuleName();
@@ -48,7 +47,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 			params = {};
 			params['text'] = data.result.message;
 			Settings_Vtiger_Index_Js.showMessage(params);
-		}).fail(function (error) {
+		}).fail(function () {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 		});
 	},
@@ -106,20 +105,20 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 
 				form.on('submit', function (e) {
 					e.preventDefault();
-					var progressIndicatorElement = jQuery.progressIndicator({
+					let progressIndicatorElement = jQuery.progressIndicator({
 						'position': 'html',
 						'blockInfo': {
 							'enabled': true
 						}
 					});
 					thisInstance.saveNewDate(form).done(function (data) {
-						var params = {};
+						let params = {};
 						if (data['success']) {
-							var result = data['result'];
+							let result = data['result'];
 
 							params['text'] = result['message'];
 							Settings_Vtiger_Index_Js.showMessage(params);
-							var params = {};
+							params = {};
 							params['module'] = app.getModuleName();
 							params['view'] = 'Configuration';
 							params['parent'] = app.getParentModuleName();
@@ -151,38 +150,36 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 	 * Function to register click event for add custom block button
 	 */
 	registerEditDate: function () {
-		var thisInstance = this;
-		var contents = jQuery('#layoutDashBoards');
+		let thisInstance = this,
+			contents = jQuery('#layoutDashBoards');
 		contents.find('.editHoliday').on('click', function (e) {
-			var addBlockContainer = contents.find('.addDateWindowModal').clone(true, true);
-			var dateElement = jQuery(this).closest('.holidayElement');
+			let addBlockContainer = contents.find('.addDateWindowModal').clone(true, true),
+				dateElement = jQuery(this).closest('.holidayElement');
 			addBlockContainer.find('[name="holidayId"]').val(dateElement.data('holiday-id'));
 			addBlockContainer.find('[name="holidayDate"]').val(dateElement.data('holiday-date'));
 			addBlockContainer.find('[name="holidayName"]').val(dateElement.data('holiday-name'));
 			addBlockContainer.find('[name="holidayType"]').val(dateElement.data('holiday-type'));
-			var translate = app.vtranslate('JS_EDIT_HOLIDAY')
+			let translate = app.vtranslate('JS_EDIT_HOLIDAY');
 			addBlockContainer.find('.modal-title').text(translate);
 
-			var callBackFunction = function (data) {
+			let callBackFunction = function (data) {
 				data.find('.addDateWindowModal').removeClass('d-none').show();
-
-				var form = data.find('.addDateWindowForm');
-
+				let form = data.find('.addDateWindowForm');
 				jQuery('[name="saveButton"]').on('click', function () {
-					var progressIndicatorElement = jQuery.progressIndicator({
+					let progressIndicatorElement = jQuery.progressIndicator({
 						'position': 'html',
 						'blockInfo': {
 							'enabled': true
 						}
 					});
 					thisInstance.saveNewDate(form).done(function (data) {
-						var params = {};
+						let params = {};
 						if (data['success']) {
 							var result = data['result'];
 
 							params['text'] = result['message'];
 							Settings_Vtiger_Index_Js.showMessage(params);
-							var params = {};
+							params = {};
 							params['module'] = app.getModuleName();
 							params['view'] = 'Configuration';
 							params['parent'] = app.getParentModuleName();
@@ -201,7 +198,6 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 					app.hideModalWindow();
 					return true;
 				});
-
 
 				jQuery(document).find('div.blockOverlay').on('click', function () {
 					var progressIndicatorElement = jQuery.progressIndicator({
@@ -255,25 +251,25 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 	 * Function to save the new custom block details
 	 */
 	saveNewDate: function (form) {
-		var thisInstance = this;
-		var params = form.serializeFormData();
+		let thisInstance = this,
+			params = form.serializeFormData();
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
 		params['action'] = 'Holiday';
 		params['mode'] = 'save';
 
 		if (params['holidayName'] == '' || params['holidayDate'] == '') {
-			var params = [];
+			params = [];
 			params['text'] = app.vtranslate('JS_FILL_FORM_ERROR');
 			params['type'] = 'error';
 			Settings_Vtiger_Index_Js.showMessage(params);
-			var progressIndicatorElement = jQuery.progressIndicator({
+			let progressIndicatorElement = jQuery.progressIndicator({
 				'position': 'html',
 				'blockInfo': {
 					'enabled': true
 				}
 			});
-			var params = {};
+			params = {};
 			params['module'] = app.getModuleName();
 			params['view'] = 'Configuration';
 			params['parent'] = app.getParentModuleName();
@@ -283,7 +279,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			});
 		} else {
-			var aDeferred = jQuery.Deferred();
+			let aDeferred = jQuery.Deferred();
 			AppConnector.request(params).done(function (data) {
 				aDeferred.resolve(data);
 			}).fail(function (error) {
