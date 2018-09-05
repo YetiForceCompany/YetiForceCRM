@@ -1575,6 +1575,8 @@ var App = {},
 		showConfirmation: function (customParams, confirmCallback = () => {
 		}, cancelCallback = () => {
 		}) {
+			let aDeferred = $.Deferred();
+
 			let userParams = customParams;
 			if (typeof customParams === 'string') {
 				userParams = {};
@@ -1599,13 +1601,15 @@ var App = {},
 									click: function (notice) {
 										notice.close();
 										confirmCallback();
+										aDeferred.resolve(true);
 									}
 								},
 								{
 									text: app.vtranslate('JS_CANCEL'),
 									click: function (notice) {
 										notice.close();
-										cancelCallback()
+										cancelCallback();
+										aDeferred.resolve(false);
 									}
 								}
 							]
@@ -1625,10 +1629,14 @@ var App = {},
 			}
 			PNotify.defaults.styling = 'bootstrap4';
 			PNotify.defaults.icons = 'fontawesome5';
-			return new PNotify(params);
+			new PNotify(params);
+			return aDeferred.promise();
 		}
 	};
 $(document).ready(function () {
+	app.showConfirmation('message').done(function (data) {
+		console.log(data === true);
+	});
 	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
 	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
