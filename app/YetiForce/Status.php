@@ -302,4 +302,54 @@ class Status
 		}
 		return $param;
 	}
+
+	/**
+	 * Get web server name and version.
+	 */
+	public function getSapiVersion()
+	{
+		return [];
+	}
+
+	/**
+	 * Get root filesystem space.
+	 *
+	 * @return array
+	 */
+	public function getSpaceRoot()
+	{
+		if (empty($this->cache['environment'])) {
+			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
+		}
+		return ['total' => $this->cache['environment']['spaceRoot']['spaceTotal'] ?? '',
+			'free' => $this->cache['environment']['spaceRoot']['spaceFree'] ?? ''];
+	}
+
+	/**
+	 * Get storage filesystem space.
+	 *
+	 * @return array
+	 */
+	public function getSpaceStorage()
+	{
+		if (empty($this->cache['environment'])) {
+			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
+		}
+		return ['total' => $this->cache['environment']['spaceStorage']['spaceTotal'] ?? '',
+			'free' => $this->cache['environment']['spaceStorage']['spaceFree'] ?? ''];
+	}
+
+	/**
+	 * Get temporary filesystem space.
+	 *
+	 * @return array
+	 */
+	public function getSpaceTemp()
+	{
+		if (empty($this->cache['environment'])) {
+			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
+		}
+		return ['total' => $this->cache['environment']['spaceTemp']['spaceTotal'] ?? '',
+			'free' => $this->cache['environment']['spaceTemp']['spaceFree'] ?? ''];
+	}
 }
