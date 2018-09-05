@@ -410,7 +410,7 @@ if (typeof (ImportJs) === "undefined") {
 		submitAction: function () {
 			var form = jQuery('[name="importAdvanced"]');
 			form.on('submit', function () {
-				var progressIndicatorElement = jQuery.progressIndicator({
+				$.progressIndicator({
 					'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
 					'position': 'html',
 					'blockInfo': {

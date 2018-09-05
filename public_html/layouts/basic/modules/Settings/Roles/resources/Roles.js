@@ -67,7 +67,7 @@ var Settings_Roles_Js = {
 
 			AppConnector.request(params).done(function (res) {
 				if (!res.success) {
-					alert(app.vtranslate('JS_FAILED_TO_SAVE'));
+					app.showAlert(app.vtranslate('JS_FAILED_TO_SAVE'));
 					window.location.reload();
 				}
 			});
@@ -223,16 +223,16 @@ var Settings_Roles_Js = {
 		}
 
 		AppConnector.request(params).done(function (data) {
-				var response = data['result'];
-				var result = response['success'];
-				if (result == true) {
-					aDeferred.reject(response);
-				} else {
-					aDeferred.resolve(response);
-				}
-			}).fail(function (error, err) {
-				aDeferred.reject(error, err);
-			});
+			var response = data['result'];
+			var result = response['success'];
+			if (result == true) {
+				aDeferred.reject(response);
+			} else {
+				aDeferred.resolve(response);
+			}
+		}).fail(function (error, err) {
+			aDeferred.reject(error, err);
+		});
 		return aDeferred.promise();
 	},
 
