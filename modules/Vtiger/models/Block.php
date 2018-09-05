@@ -142,8 +142,7 @@ class Vtiger_Block_Model extends vtlib\Block
 	public function getInActiveFields($raw = true)
 	{
 		$inActiveFields = [];
-		$fields = $this->getFields();
-		foreach ($fields as $fieldName => $fieldModel) {
+		foreach ($this->getFields() as $fieldName => $fieldModel) {
 			if (!$fieldModel->isActiveField()) {
 				if ($raw) {
 					$inActiveFields[$fieldName] = $fieldModel;
