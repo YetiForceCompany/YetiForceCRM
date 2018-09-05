@@ -4,8 +4,8 @@
  * Record Model.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -287,11 +287,11 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 			$this->set($name, $data[$name] ?? null);
 		}
 		$connector = App\Integrations\Pbx::getConnectorInstance($data['type']);
-		$param = [];
+		$params = [];
 		foreach ($connector->configFields as $name => $config) {
-			$param[$name] = $data[$name] ?? null;
+			$params[$name] = $data[$name] ?? null;
 		}
-		$this->param = $param;
-		$this->set('param', \App\Json::encode($param));
+		$this->param = $params;
+		$this->set('param', \App\Json::encode($params));
 	}
 }

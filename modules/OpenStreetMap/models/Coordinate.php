@@ -283,7 +283,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		if (isset(self::$colors[$value])) {
 			return self::$colors[$value];
 		}
-		$colors = ['ff0000', 'ff00de', '7000ff', '001eff', '00c2ff', '00ff45', 'ff9b00', '961d5f',
+		$defaultColors = ['ff0000', 'ff00de', '7000ff', '001eff', '00c2ff', '00ff45', 'ff9b00', '961d5f',
 			'FF79E1', 'FF73B9', 'FE67EB', 'E77AFE', 'D97BFD', 'A27AFE', 'FF8A8A', 'FF86E3', 'FF86C2',
 			'FE8BF0', 'EA8DFE', 'DD88FD', 'AD8BFE', 'FF9797', 'FF97E8', 'FF97CB', 'FE98F1', 'ED9EFE',
 			'E29BFD', 'B89AFE', 'FFA8A8', 'FFACEC', 'FFA8D3', 'FEA9F3', 'EFA9FE', 'E7A9FE', 'C4ABFE',
@@ -344,7 +344,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 			'EFCDF8', 'DBDBFF', 'D8F0F8', 'E7F3F1', 'FFEAEA', 'FAE7EC', 'FFE3FF', 'F8E9FC', 'EEEEFF',
 			'EFF9FC', 'F2F9F8', 'FFFDFD', 'FEFAFB', 'FFFDFF', 'FFFFFF', 'FDFDFF', 'FAFDFE', 'F7FBFA', ];
 
-		$color = '#' . $colors[$indexColor];
+		$color = '#' . $defaultColors[$indexColor];
 		++$indexColor;
 		self::$colors[$value] = $color;
 
