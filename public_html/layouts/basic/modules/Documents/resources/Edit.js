@@ -91,24 +91,23 @@ Vtiger_Edit_Js("Documents_Edit_Js", {}, {
 	registerFileChangeEvent: function (container) {
 		var thisInstance = this;
 		container.on('change', 'input[name="filename"]', function (e) {
-			if (e.target.type == "text")
+			if (e.target.type === "text") {
 				return false;
-			var element = container.find('[name="filename"]');
+			}
+			let element = container.find('[name="filename"]');
 			//ignore all other types than file
-			if (element.attr('type') != 'file') {
+			if (element.attr('type') !== 'file') {
 				return;
 			}
-			var uploadFileSizeHolder = element.closest('.fileUploadContainer').find('.uploadedFileSize');
-			var fileSize = element.get(0).files[0].size;
-			var maxFileSize = thisInstance.getMaxiumFileUploadingSize(container);
-			if (fileSize > maxFileSize) {
+			let uploadFileSizeHolder = element.closest('.fileUploadContainer').find('.uploadedFileSize');
+			let fileSize = element.get(0).files[0].size;
+			if (fileSize > thisInstance.getMaxiumFileUploadingSize(container)) {
 				app.showAlert(app.vtranslate('JS_EXCEEDS_MAX_UPLOAD_SIZE'));
 				element.val('');
 				uploadFileSizeHolder.text('');
 			} else {
 				uploadFileSizeHolder.text(thisInstance.convertFileSizeInToDisplayFormat(fileSize));
 			}
-
 		});
 	},
 

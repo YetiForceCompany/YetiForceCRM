@@ -502,8 +502,8 @@ class Project_Gantt_Model
 		$projects = $this->getProject(0, $viewName);
 		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
-		$tasks = $this->getGanttTasks($projectIds);
-		$this->tasks = array_merge($projects, $milestones, $tasks);
+		$ganttTasks = $this->getGanttTasks($projectIds);
+		$this->tasks = array_merge($projects, $milestones, $ganttTasks);
 		$this->prepareRecords();
 		$response = [
 			'statusColors' => $this->statusColors,
@@ -517,7 +517,7 @@ class Project_Gantt_Model
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
 			$response['tasks'] = $this->cleanup($this->flattenRecordTasks($this->tree['children']));
 		}
-		unset($projectIds, $milestones, $tasks, $projects, $queryGenerator, $rootProjectIds, $projectIdsRows);
+		unset($projectIds, $milestones, $ganttTasks, $projects, $queryGenerator, $rootProjectIds, $projectIdsRows);
 		return $response;
 	}
 
@@ -534,8 +534,8 @@ class Project_Gantt_Model
 		$projects = $this->getProject($id);
 		$projectIds = array_column($projects, 'id');
 		$milestones = $this->getGanttMilestones($projectIds);
-		$tasks = $this->getGanttTasks($projectIds);
-		$this->tasks = array_merge($projects, $milestones, $tasks);
+		$ganttTasks = $this->getGanttTasks($projectIds);
+		$this->tasks = array_merge($projects, $milestones, $ganttTasks);
 		$this->prepareRecords();
 		$response = [
 			'statusColors' => $this->statusColors,
@@ -549,7 +549,7 @@ class Project_Gantt_Model
 		if (!empty($this->tree) && !empty($this->tree['children'])) {
 			$response['tasks'] = $this->cleanup($this->flattenRecordTasks($this->tree['children']));
 		}
-		unset($projects, $projectIds, $milestones, $tasks);
+		unset($projects, $projectIds, $milestones, $ganttTasks);
 		return $response;
 	}
 
@@ -618,7 +618,7 @@ class Project_Gantt_Model
 		$queryGenerator->setFields(['id', 'projectid', 'projecttaskname', 'parentid', 'projectmilestoneid', 'projecttaskprogress', 'projecttaskpriority', 'startdate', 'targetenddate', 'projecttask_no', 'projecttaskstatus', 'estimated_work_time', 'assigned_user_id']);
 		$queryGenerator->addNativeCondition(['vtiger_projecttask.projectid' => $projectIds]);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
-		$tasks = [];
+		$ganttTasks = [];
 		while ($row = $dataReader->read()) {
 			$task = [
 				'id' => $row['id'],
@@ -653,10 +653,10 @@ class Project_Gantt_Model
 			$task['end'] = $endDate * 1000;
 			$task['duration'] = $this->calculateDuration($task['start_date'], $task['end_date']);
 			$taskTime += $row['estimated_work_time'];
-			$tasks[] = $task;
+			$ganttTasks[] = $task;
 		}
 		$dataReader->close();
 		unset($dataReader, $queryGenerator, $taskTime, $endDate);
-		return $tasks;
+		return $ganttTasks;
 	}
 }

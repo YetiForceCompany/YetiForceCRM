@@ -377,6 +377,7 @@ class ConfReport
 		}
 		$cron = static::getCronVariables('last_start');
 		$lastCronStart = '-';
+		$lastCronStartText = '-';
 		if ($cron) {
 			$lastCronStart = date('Y-m-d H:i:s', $cron);
 			$lastCronStartText = \App\Fields\DateTime::formatToViewDate($lastCronStart);
@@ -1003,7 +1004,8 @@ class ConfReport
 		}
 		$free = disk_free_space($dir);
 		$total = disk_total_space($dir);
-
+		$row['spaceTotal'] = $total;
+		$row['spaceFree'] = $free;
 		$row[$sapi] = round((($total - $free) / $total) * 100) . '% | ';
 		$row[$sapi] .= \App\Language::translateSingleMod('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ';
 		$row[$sapi] .= \vtlib\Functions::showBytes($free) . ' | ';
