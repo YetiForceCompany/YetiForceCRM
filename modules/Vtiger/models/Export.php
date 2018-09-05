@@ -173,6 +173,8 @@ class Vtiger_Export_Model extends \App\Base
 				}
 				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
+			default:
+				break;
 		}
 		return $query;
 	}

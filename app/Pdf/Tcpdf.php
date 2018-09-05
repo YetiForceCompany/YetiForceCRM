@@ -315,6 +315,8 @@ class Tcpdf extends AbstractPDF
 				case 'keywords':
 					$this->setKeywords($value);
 					break;
+				default:
+					break;
 			}
 		}
 	}

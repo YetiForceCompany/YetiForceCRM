@@ -962,6 +962,8 @@ class Import_Data_Action extends \App\Controller\Action
 			case 'none':
 				$temp_status = self::IMPORT_RECORD_NONE;
 				break;
+			default:
+				break;
 		}
 		return $temp_status;
 	}

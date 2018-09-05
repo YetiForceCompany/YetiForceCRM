@@ -76,6 +76,8 @@ class PackageImport extends PackageExport
 				case 'language':
 					$packageType = 'LBL_LANGUAGE_MODULE';
 					break;
+				default:
+					break;
 			}
 
 			return $packageType;

@@ -486,6 +486,8 @@ class Vtiger_Relation_Model extends \App\Base
 			case 'history':
 				$queryGenerator->addNativeCondition(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('history')]);
 				break;
+			default:
+				break;
 		}
 	}
 

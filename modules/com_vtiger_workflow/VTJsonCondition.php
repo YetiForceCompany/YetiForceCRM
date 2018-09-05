@@ -75,6 +75,8 @@ class VTJsonCondition
 								case 'or':
 									$groupResult = ($groupResult || $result);
 									break;
+								default:
+									break;
 							}
 						} else { // Case for the first condition
 							$groupResult = $result;
@@ -94,6 +96,8 @@ class VTJsonCondition
 								break;
 							case 'or':
 								$finalResult = ($finalResult || $result);
+								break;
+							default:
 								break;
 						}
 					} else { // Case for the first condition

@@ -4,10 +4,10 @@
  * Record Class for PDF Settings.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -158,6 +158,8 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				$pdfModel->set('pdfid', $db->getLastInsertID('a_#__pdf_pdfid_seq'));
 
 				return $pdfModel->get('pdfid');
+			default:
+				break;
 		}
 	}
 
@@ -223,6 +225,9 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'margin_chkbox':
 				$value = $value ? 'LBL_YES' : 'LBL_NO';
+				break;
+			default:
+				break;
 		}
 		return $value;
 	}

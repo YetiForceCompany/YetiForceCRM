@@ -86,6 +86,8 @@ class ProductsTableRelatedModule extends Base
 							case 'DetailViewBase.tpl':
 								$html .= $field->getDisplayValue($itemValue);
 								break;
+							default:
+								break;
 						}
 						$html .= '</td>';
 					}

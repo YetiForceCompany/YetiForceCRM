@@ -576,6 +576,8 @@ class API_CalDAV_Model
 				case 'TRANSPARENT':
 					$state = 'PLL_TRANSPARENT';
 					break;
+				default:
+					break;
 			}
 		}
 		return $state;
@@ -598,6 +600,8 @@ class API_CalDAV_Model
 			case 'PLL_TRANSPARENT':
 				$state = 'TRANSPARENT';
 				break;
+			default:
+				break;
 		}
 		return $state;
 	}
@@ -619,6 +623,8 @@ class API_CalDAV_Model
 					break;
 				case 'private':
 					$visibility = 'Private';
+					break;
+				default:
 					break;
 			}
 		}

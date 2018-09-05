@@ -141,6 +141,8 @@ class DateTimeField
 				case 'yyyy-mm-dd':
 					list($y, $m, $d) = explode('-', $dateToConvert, 3);
 					break;
+				default:
+					break;
 			}
 			$dbDate = $y . '-' . $m . '-' . $d;
 		} elseif (!$y && !$m && !$d) {
@@ -215,6 +217,8 @@ class DateTimeField
 				break;
 			case 'yyyy/mm/dd':
 				$date[0] = $y . '/' . $m . '/' . $d;
+				break;
+			default:
 				break;
 		}
 

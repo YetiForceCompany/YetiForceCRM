@@ -883,6 +883,8 @@ class Vtiger_Field_Model extends vtlib\Field
 				$this->fieldInfo['limit'] = $params['limit'] ?? Vtiger_Image_UIType::$defaultLimit;
 				$this->fieldInfo['formats'] = $params['formats'] ?? \App\Fields\File::$allowedFormats['image'];
 				break;
+			default:
+				break;
 		}
 		return $this->fieldInfo;
 	}
@@ -1068,6 +1070,8 @@ class Vtiger_Field_Model extends vtlib\Field
 				$funcName = ['name' => 'lessThanDependentField',
 					'params' => ['end_period'], ];
 				array_push($validator, $funcName);
+				break;
+			default:
 				break;
 		}
 		return $validator;

@@ -879,6 +879,8 @@ class QueryGenerator
 			case 'Users':
 				$condition = [];
 				break;
+			default:
+				break;
 		}
 		return $condition;
 	}

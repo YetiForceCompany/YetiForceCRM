@@ -4,7 +4,7 @@
  * Vtiger TransferOwnership model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_TransferOwnership_Model extends \App\Base
 {
@@ -53,6 +53,8 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 						->column();
 				}
 				break;
+			default:
+				break;
 		}
 		return array_unique($relatedIds);
 	}
@@ -65,7 +67,7 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 			'smownerid' => $transferOwnerId,
 			'modifiedby' => \App\User::getCurrentUserId(),
 			'modifiedtime' => date('Y-m-d H:i:s'),
-			], ['crmid' => $relatedModuleRecordIds]
+		], ['crmid' => $relatedModuleRecordIds]
 		)->execute();
 		Vtiger_Loader::includeOnce('~modules/ModTracker/ModTracker.php');
 		$flag = ModTracker::isTrackingEnabledForModule($module);

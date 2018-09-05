@@ -158,7 +158,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 				$db->createCommand()->update('vtiger_activity_reminder', [
 					'reminder_time' => $reminderTime,
 					'reminder_sent' => 0,
-					], ['activity_id' => $this->getId()])->execute();
+				], ['activity_id' => $this->getId()])->execute();
 			} else {
 				$db->createCommand()->insert('vtiger_activity_reminder', [
 					'reminder_time' => $reminderTime,
@@ -232,7 +232,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 				\App\Db::getInstance()->createCommand()->update('vtiger_activity_reminder_popup', [
 					'datetime' => "$cbdate $cbtime",
 					'status' => $status,
-					], ['reminderid' => $reminderid]
+				], ['reminderid' => $reminderid]
 				)->execute();
 			} else {
 				\App\Db::getInstance()->createCommand()->insert('vtiger_activity_reminder_popup', [
@@ -252,8 +252,8 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_activity_reminder_popup', [
 				'status' => $status,
-				], ['recordid' => $this->getId()])
-				->execute();
+			], ['recordid' => $this->getId()])
+			->execute();
 	}
 
 	/**
@@ -282,6 +282,8 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			case '1d':
 				$datatime = date('Y-m-d H:i:s', strtotime('+1 day'));
 				break;
+			default:
+				break;
 		}
 		$datatimeSTR = strtotime($datatime);
 		$timeStart = date('H:i:s', $datatimeSTR);
@@ -290,8 +292,8 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			->update('vtiger_activity_reminder_popup', [
 				'status' => 0,
 				'datetime' => date('Y-m-d H:i:s', $datatimeSTR),
-				], ['recordid' => $this->getId()])
-				->execute();
+			], ['recordid' => $this->getId()])
+			->execute();
 		if ((new App\Db\Query())->select(['value'])->from('vtiger_calendar_config')
 			->where(['type' => 'reminder', 'name' => 'update_event', 'value' => 1])
 			->exists()) {
@@ -347,6 +349,8 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			case 'Archived':
 				$stateId = 2;
 				break;
+			default:
+				break;
 		}
 		\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['deleted' => $stateId], ['activityid' => $this->getId()])->execute();
 	}
@@ -395,21 +399,21 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		if ($viewModel->getRelationModel()->isEditable() && $this->isEditable()) {
 			if (in_array($this->getValueByField('activitystatus'), Calendar_Module_Model::getComponentActivityStateLabel('current'))) {
 				$links['LBL_SET_RECORD_STATUS'] = Vtiger_Link_Model::getInstanceFromValues([
-						'linklabel' => 'LBL_SET_RECORD_STATUS',
-						'linkhref' => true,
-						'linkurl' => $this->getActivityStateModalUrl(),
-						'linkicon' => 'fas fa-check',
-						'linkclass' => 'btn-xs btn-default',
-						'modalView' => true,
+					'linklabel' => 'LBL_SET_RECORD_STATUS',
+					'linkhref' => true,
+					'linkurl' => $this->getActivityStateModalUrl(),
+					'linkicon' => 'fas fa-check',
+					'linkclass' => 'btn-xs btn-default',
+					'modalView' => true,
 				]);
 			}
 			if ($viewModel->getRelationModel()->isEditable() && $this->isEditable()) {
 				$links['LBL_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
-						'linklabel' => 'LBL_EDIT',
-						'linkurl' => $this->getEditViewUrl(),
-						'linkhref' => true,
-						'linkicon' => 'fas fa-edit',
-						'linkclass' => 'btn-xs btn-default',
+					'linklabel' => 'LBL_EDIT',
+					'linkurl' => $this->getEditViewUrl(),
+					'linkhref' => true,
+					'linkicon' => 'fas fa-edit',
+					'linkclass' => 'btn-xs btn-default',
 				]);
 			}
 		}

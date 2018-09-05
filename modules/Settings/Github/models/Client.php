@@ -3,8 +3,8 @@
  * Client Model.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 
 /**
@@ -149,9 +149,9 @@ class Settings_Github_Client_Model
 	public function saveKeys()
 	{
 		return App\Db::getInstance()->createCommand()->update('u_#__github', [
-				'token' => App\Encryption::getInstance()->encrypt($this->clientToken),
-				'username' => $this->username,
-			])->execute();
+			'token' => App\Encryption::getInstance()->encrypt($this->clientToken),
+			'username' => $this->username,
+		])->execute();
 	}
 
 	/**
@@ -196,6 +196,8 @@ class Settings_Github_Client_Model
 					break;
 				case 'POST':
 					$content = \Requests::post($url, [], $data, $options);
+					break;
+				default:
 					break;
 			}
 		} catch (Exception $e) {

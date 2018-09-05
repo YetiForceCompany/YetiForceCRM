@@ -98,6 +98,8 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		switch ($name) {
 			case 'default':
 				return $this->get($name) ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
+			default:
+				break;
 		}
 		return $this->get($name);
 	}
@@ -216,6 +218,8 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 						$connectors[$connectorName] = \App\Language::translate($instance->name, $moduleName);
 					}
 					$params['picklistValues'] = $connectors;
+					break;
+				default:
 					break;
 			}
 			$fieldModel = Settings_Vtiger_Field_Model::init($moduleName, array_merge($mainParams, $params, ['column' => $name, 'name' => $name]));

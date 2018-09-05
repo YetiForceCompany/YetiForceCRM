@@ -635,6 +635,8 @@ class Functions
 				case 'kb':
 					$bytes *= 1024;
 					break;
+				default:
+					break;
 			}
 		}
 		return (float) $bytes;
@@ -681,6 +683,8 @@ class Functions
 				break;
 			case 'css':
 				$return = \AppConfig::developer('MINIMIZE_CSS');
+				break;
+			default:
 				break;
 		}
 		return $return;

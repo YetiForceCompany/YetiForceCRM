@@ -1468,6 +1468,8 @@ class Vtiger_Record_Model extends \App\Base
 				case 'Archived':
 					$stateId = 2;
 					break;
+				default:
+					break;
 			}
 			$dbCommand = $db->createCommand();
 			$dbCommand->update('vtiger_crmentity', [

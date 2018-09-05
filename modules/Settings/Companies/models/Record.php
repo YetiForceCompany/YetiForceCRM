@@ -118,6 +118,8 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				$src = \App\Fields\File::getImageBaseData($this->getLogoPath($value));
 				$value = "<img src='$src' class='img-thumbnail'/>";
 				break;
+			default:
+				break;
 		}
 		return $value;
 	}
