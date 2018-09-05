@@ -582,7 +582,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$filesRead = $filesWrite / (microtime(true) - $readS);
 		$testStartTime = microtime(true);
 		while ((microtime(true) - $testStartTime) < 1) {
-			sha1($cpu);
+			$cpuTmp = sha1($cpu);
+			unset($cpuTmp);
 			$cpu++;
 		}
 		$testStartTime = microtime(true);

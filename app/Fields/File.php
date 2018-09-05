@@ -360,7 +360,7 @@ class File
 				$this->validateImage();
 			}
 			if ($type && $this->getShortMimeType(0) !== $type) {
-				throw new \Exception('Wrong file type');
+				throw new \App\Exceptions\AppException('Wrong file type');
 			}
 		} catch (\Exception $e) {
 			$return = false;
@@ -386,13 +386,13 @@ class File
 	private function checkFile()
 	{
 		if ($this->error !== false && $this->error != UPLOAD_ERR_OK) {
-			throw new \Exception('ERR_FILE_ERROR_REQUEST||' . $this->getErrorMessage($this->error));
+			throw new \App\Exceptions\AppException('ERR_FILE_ERROR_REQUEST||' . $this->getErrorMessage($this->error));
 		}
 		if (empty($this->name)) {
-			throw new \Exception('ERR_FILE_EMPTY_NAME');
+			throw new \App\Exceptions\AppException('ERR_FILE_EMPTY_NAME');
 		}
 		if ($this->getSize() === 0) {
-			throw new \Exception('ERR_FILE_WRONG_SIZE');
+			throw new \App\Exceptions\AppException('ERR_FILE_WRONG_SIZE');
 		}
 	}
 
@@ -403,10 +403,8 @@ class File
 	 */
 	private function validateFormat()
 	{
-		if (isset(self::$allowedFormats[$this->getShortMimeType(0)])) {
-			if (!in_array($this->getShortMimeType(1), self::$allowedFormats[$this->getShortMimeType(0)])) {
-				throw new \Exception('ERR_FILE_ILLEGAL_FORMAT');
-			}
+		if (isset(self::$allowedFormats[$this->getShortMimeType(0)]) && !\in_array($this->getShortMimeType(1), self::$allowedFormats[$this->getShortMimeType(0)])) {
+			throw new \App\Exceptions\AppException('ERR_FILE_ILLEGAL_FORMAT');
 		}
 	}
 
@@ -418,10 +416,10 @@ class File
 	private function validateImage()
 	{
 		if (!getimagesize($this->path)) {
-			throw new \Exception('ERR_FILE_WRONG_IMAGE');
+			throw new \App\Exceptions\AppException('ERR_FILE_WRONG_IMAGE');
 		}
 		if (preg_match('[\x01-\x08\x0c-\x1f]', $this->getContents())) {
-			throw new \Exception('ERR_FILE_WRONG_IMAGE');
+			throw new \App\Exceptions\AppException('ERR_FILE_WRONG_IMAGE');
 		}
 	}
 

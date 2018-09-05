@@ -45,6 +45,8 @@ class Command extends \yii\db\Command
 				return $this->queryInternal('fetchAll', \PDO::FETCH_GROUP | \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC);
 			case 2:
 				return $this->queryInternal('fetchAll', \PDO::FETCH_GROUP | \PDO::FETCH_COLUMN | \PDO::FETCH_ASSOC);
+			default:
+				break;
 		}
 	}
 }

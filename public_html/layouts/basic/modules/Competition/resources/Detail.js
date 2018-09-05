@@ -28,9 +28,9 @@ Vtiger_Detail_Js("Competition_Detail_Js", {}, {
 				size: '6px'
 			});
 		};
-		app.showModalWindow(data, function (data) {
+		app.showModalWindow(data, function () {
 			if (typeof callbackFunction == 'function' && $("#hierarchyScroll").height() > 300) {
-				callbackFunction(data);
+				callbackFunction();
 			}
 		});
 	},

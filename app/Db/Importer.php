@@ -165,13 +165,11 @@ class Importer
 	public function getOptions(Base $importer, $table)
 	{
 		$options = null;
-		switch ($importer->db->getDriverName()) {
-			case 'mysql':
-				$options = "ENGINE={$table['engine']} DEFAULT CHARSET={$table['charset']}";
-				if (isset($table['collate'])) {
-					$options .= " COLLATE={$table['collate']}";
-				}
-				break;
+		if ($importer->db->getDriverName() === 'mysql') {
+			$options = "ENGINE={$table['engine']} DEFAULT CHARSET={$table['charset']}";
+			if (isset($table['collate'])) {
+				$options .= " COLLATE={$table['collate']}";
+			}
 		}
 		return $options;
 	}
@@ -534,16 +532,12 @@ class Importer
 						} else {
 							if ($this->comperColumns($queryBuilder, $tableSchema->columns[$columnName], $column)) {
 								$primaryKey = false;
-								if ($column instanceof \yii\db\ColumnSchemaBuilder) {
-									switch ($column->get('type')) {
-										case 'upk':
-											$column->unsigned();
-										// no break
-										case 'pk':
-											$column->set('type', 'integer')->set('autoIncrement', true)->notNull();
-											$primaryKey = true;
-											break;
+								if ($column instanceof \yii\db\ColumnSchemaBuilder && (\in_array($column->get('type'), ['upk', 'pk']))) {
+									if ($column->get('type') == 'upk') {
+										$column->unsigned();
 									}
+									$column->set('type', 'integer')->set('autoIncrement', true)->notNull();
+									$primaryKey = true;
 								}
 								$this->logs .= "  > alter column: $tableName:$columnName ... ";
 								$dbCommand->alterColumn($tableName, $columnName, $column)->execute();

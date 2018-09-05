@@ -3,9 +3,9 @@
  * Encryption basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 
 namespace App;
@@ -178,8 +178,7 @@ class Encryption extends Base
 		if (!$this->isActive()) {
 			return $encrypted;
 		}
-		$decrypted = openssl_decrypt(base64_decode($encrypted), $this->get('method'), $this->get('pass'), $this->get('options'), $this->get('vector'));
-		return $decrypted;
+		return openssl_decrypt(base64_decode($encrypted), $this->get('method'), $this->get('pass'), $this->get('options'), $this->get('vector'));
 	}
 
 	/**
@@ -201,13 +200,7 @@ class Encryption extends Base
 	 */
 	public function isActive()
 	{
-		if (!function_exists('openssl_encrypt')) {
-			return false;
-		} elseif ($this->isEmpty('method')) {
-			return false;
-		} elseif ($this->get('method') !== \AppConfig::securityKeys('encryptionMethod')) {
-			return false;
-		} elseif (!in_array($this->get('method'), static::getMethods())) {
+		if (!\function_exists('openssl_encrypt') || $this->isEmpty('method') || $this->get('method') !== \AppConfig::securityKeys('encryptionMethod') || !\in_array($this->get('method'), static::getMethods())) {
 			return false;
 		}
 		return true;

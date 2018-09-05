@@ -19,10 +19,8 @@ class DebugBarDatabase extends DataCollector implements Renderable
 	 */
 	public function collect()
 	{
-		$data = [
+		return [
 		];
-
-		return $data;
 	}
 
 	/**

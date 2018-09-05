@@ -210,9 +210,7 @@ class Owner
 			}
 			\App\Cache::save('getUsers', $cacheKey, $tempResult);
 		}
-		$tmp = \App\Cache::get('getUsers', $cacheKey);
-
-		return $tmp;
+		return \App\Cache::get('getUsers', $cacheKey);
 	}
 
 	/**

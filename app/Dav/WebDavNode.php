@@ -45,9 +45,7 @@ abstract class WebDavNode implements DAV\INode
 	 */
 	public function getName()
 	{
-		list(, $name) = URLUtil::splitPath($this->path);
-
-		return $name;
+		return list(, $name) = URLUtil::splitPath($this->path);
 	}
 
 	/**

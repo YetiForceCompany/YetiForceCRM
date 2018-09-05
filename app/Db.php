@@ -6,8 +6,8 @@ namespace App;
  * Database connection class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Db extends \yii\db\Connection
 {
@@ -253,13 +253,11 @@ class Db extends \yii\db\Connection
 		}
 		$tableName = $this->quoteTableName(str_replace('#__', $this->tablePrefix, $tableName));
 		$keys = [];
-		switch ($this->getDriverName()) {
-			case 'mysql':
-				$dataReader = $this->createCommand()->setSql('SHOW KEYS FROM ' . $tableName)->query();
-				while ($row = $dataReader->read()) {
-					$keys[$row['Key_name']][$row['Column_name']] = ['columnName' => $row['Column_name'], 'unique' => empty($row['Non_unique'])];
-				}
-				break;
+		if ($this->getDriverName() === 'mysql') {
+			$dataReader = $this->createCommand()->setSql('SHOW KEYS FROM ' . $tableName)->query();
+			while ($row = $dataReader->read()) {
+				$keys[$row['Key_name']][$row['Column_name']] = ['columnName' => $row['Column_name'], 'unique' => empty($row['Non_unique'])];
+			}
 		}
 		Cache::save('getTableKeys', $tableName, $keys, Cache::LONG);
 		return $keys;
@@ -278,11 +276,9 @@ class Db extends \yii\db\Connection
 			return Cache::get('getPrimaryKey', $tableName);
 		}
 		$key = [];
-		switch ($this->getDriverName()) {
-			case 'mysql':
-				$tableKeys = $this->getTableKeys($tableName);
-				$key = isset($tableKeys['PRIMARY']) ? ['PRIMARY' => array_keys($tableKeys['PRIMARY'])] : [];
-				break;
+		if ($this->getDriverName() === 'mysql') {
+			$tableKeys = $this->getTableKeys($tableName);
+			$key = isset($tableKeys['PRIMARY']) ? ['PRIMARY' => array_keys($tableKeys['PRIMARY'])] : [];
 		}
 		Cache::save('getPrimaryKey', $tableName, $key, Cache::LONG);
 		return $key;
