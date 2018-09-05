@@ -1528,7 +1528,7 @@ var App = {},
 			txt.innerHTML = html;
 			return txt.value;
 		},
-		showConfirmation: function (customParams) {
+		showAlert: function (customParams) {
 			let userParams = customParams;
 			if (typeof customParams === 'string') {
 				userParams = {};
@@ -1537,9 +1537,7 @@ var App = {},
 			let params = {
 				target: document.body,
 				data: {
-					title: 'Confirmation Needed',
-					text: 'Are you sure?',
-					icon: 'fas fa-question-circle',
+					type: 'error',
 					hide: false,
 					stack: {
 						'dir1': 'down',
@@ -1548,7 +1546,14 @@ var App = {},
 					},
 					modules: {
 						Confirm: {
-							confirm: true
+							confirm: true,
+							buttons: [{
+								text: 'Ok',
+								primary: true,
+								click: function (notice) {
+									notice.close();
+								}
+							}]
 						},
 						Buttons: {
 							closer: false,
