@@ -79,39 +79,39 @@ class Import_Data_Action extends \App\Controller\Action
 			return \App\Cache::staticGet('DefaultFieldValues', $key);
 		}
 
-		$defaultValues = [];
+		$defaultValue = [];
 		if (!empty($this->defaultValues)) {
 			if (!is_array($this->defaultValues)) {
 				$this->defaultValues = \App\Json::decode($this->defaultValues);
 			}
 			if ($this->defaultValues) {
-				$defaultValues = $this->defaultValues;
+				$defaultValue = $this->defaultValues;
 			}
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($this->module);
 		foreach ($moduleModel->getMandatoryFieldModels() as $fieldInstance) {
 			$mandatoryFieldName = $fieldInstance->getName();
-			if (empty($defaultValues[$mandatoryFieldName])) {
+			if (empty($defaultValue[$mandatoryFieldName])) {
 				if ($fieldInstance->getFieldDataType() === 'owner') {
-					$defaultValues[$mandatoryFieldName] = $this->user->getId();
+					$defaultValue[$mandatoryFieldName] = $this->user->getId();
 				} elseif (!in_array($fieldInstance->getFieldDataType(), ['datetime', 'date', 'time', 'reference'])) {
-					$defaultValues[$mandatoryFieldName] = '????';
+					$defaultValue[$mandatoryFieldName] = '????';
 				}
 			}
 		}
 		foreach ($moduleModel->getFields() as $fieldName => $fieldInstance) {
 			$fieldDefaultValue = $fieldInstance->getDefaultFieldValue();
-			if (empty($defaultValues[$fieldName])) {
+			if (empty($defaultValue[$fieldName])) {
 				if ($fieldInstance->getUIType() === 52) {
-					$defaultValues[$fieldName] = $this->user->getId();
+					$defaultValue[$fieldName] = $this->user->getId();
 				} elseif (!empty($fieldDefaultValue)) {
-					$defaultValues[$fieldName] = $fieldDefaultValue;
+					$defaultValue[$fieldName] = $fieldDefaultValue;
 				}
 			}
 		}
-		\App\Cache::staticSave('DefaultFieldValues', $key, $defaultValues);
+		\App\Cache::staticSave('DefaultFieldValues', $key, $defaultValue);
 
-		return $defaultValues;
+		return $defaultValue;
 	}
 
 	/**
@@ -232,8 +232,6 @@ class Import_Data_Action extends \App\Controller\Action
 			$inventoryTableName = Import_Module_Model::getInventoryDbTableName($this->user);
 		}
 
-		$fieldMapping = $this->fieldMapping;
-
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$rowId = $row['id'];
@@ -244,19 +242,18 @@ class Import_Data_Action extends \App\Controller\Action
 
 			$entityInfo = null;
 			$fieldData = [];
-			foreach ($fieldMapping as $fieldName => $index) {
+			foreach ($this->fieldMapping as $fieldName => $index) {
 				$fieldData[$fieldName] = \App\Purifier::decodeHtml($row[$fieldName]);
 			}
 
-			$mergeType = $this->mergeType;
+			$mergeTypeValue = $this->mergeType;
 			$createRecord = false;
 
-			if (!empty($mergeType) && $mergeType !== Import_Module_Model::AUTO_MERGE_NONE) {
+			if (!empty($mergeTypeValue) && $mergeTypeValue !== Import_Module_Model::AUTO_MERGE_NONE) {
 				$queryGenerator = new App\QueryGenerator($moduleName, $this->user->getId());
 				$queryGenerator->setFields(['id']);
 				$moduleFields = $queryGenerator->getModuleFields();
-				$mergeFields = $this->mergeFields;
-				foreach ($mergeFields as $index => $mergeField) {
+				foreach ($this->mergeFields as $index => $mergeField) {
 					$comparisonValue = $fieldData[$mergeField];
 					$fieldInstance = $moduleFields[$mergeField];
 					if ($fieldInstance->getFieldDataType() == 'owner') {
@@ -284,7 +281,7 @@ class Import_Data_Action extends \App\Controller\Action
 				$query = $queryGenerator->createQuery();
 				$baseRecordId = $query->scalar();
 				if ($baseRecordId) {
-					switch ($mergeType) {
+					switch ($mergeTypeValue) {
 						case Import_Module_Model::AUTO_MERGE_IGNORE:
 							$entityInfo['status'] = self::IMPORT_RECORD_SKIPPED;
 							break;
@@ -461,8 +458,7 @@ class Import_Data_Action extends \App\Controller\Action
 					$this->inventoryFieldMapData[$mapData['field']][$entityName] = $fieldObject;
 				}
 				if ($fieldObject) {
-					$type = $fieldObject->getFieldDataType();
-					switch ($type) {
+					switch ($fieldObject->getFieldDataType()) {
 						case 'picklist':
 							$picklist = $fieldObject->getValuesName();
 							if (in_array($value, $picklist)) {
@@ -676,10 +672,10 @@ class Import_Data_Action extends \App\Controller\Action
 		if (!isset($this->allPicklistValues[$fieldName])) {
 			$this->allPicklistValues[$fieldName] = array_keys($fieldInstance->getPicklistValues());
 		}
-		$allPicklistValues = $this->allPicklistValues[$fieldName];
+		$picklistValues = $this->allPicklistValues[$fieldName];
 		$picklistValueInLowerCase = strtolower(htmlentities($fieldValue, ENT_QUOTES, $defaultCharset));
-		$allPicklistValuesInLowerCase = array_map('strtolower', $allPicklistValues);
-		$picklistDetails = array_combine($allPicklistValuesInLowerCase, $allPicklistValues);
+		$allPicklistValuesInLowerCase = array_map('strtolower', $picklistValues);
+		$picklistDetails = array_combine($allPicklistValuesInLowerCase, $picklistValues);
 		if (!in_array($picklistValueInLowerCase, $allPicklistValuesInLowerCase)) {
 			if (\AppConfig::module('Import', 'ADD_PICKLIST_VALUE')) {
 				$fieldObject = \vtlib\Field::getInstance($fieldName, Vtiger_Module_Model::getInstance($this->module));

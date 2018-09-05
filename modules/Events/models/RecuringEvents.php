@@ -36,9 +36,9 @@ class Events_RecuringEvents_Model extends \App\Base
 	 */
 	public function updateNeverEndingEvents($recordId)
 	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-		$cleanInstance = Vtiger_Record_Model::getCleanInstance($recordModel->getModuleName());
-		$cleanInstance->setData($recordModel->getData());
+		$record = Vtiger_Record_Model::getInstanceById($recordId);
+		$cleanInstance = Vtiger_Record_Model::getCleanInstance($record->getModuleName());
+		$cleanInstance->setData($record->getData());
 		$this->recordModel = $cleanInstance;
 		$records = $this->getLastRecord($recordId);
 		$dates = $this->getDates($records['date_start'] . ' ' . $records['time_start'], $records['due_date'] . ' ' . $records['time_end']);
@@ -92,12 +92,12 @@ class Events_RecuringEvents_Model extends \App\Base
 	public function createRecords($dates)
 	{
 		foreach ($dates as $date) {
-			$recordModel = clone $this->recordModel;
-			$recordModel->set('date_start', $date['startDate']);
-			$recordModel->set('time_start', $date['startTime']);
-			$recordModel->set('due_date', $date['endDate']);
-			$recordModel->set('time_end', $date['endTime']);
-			$recordModel->save();
+			$record = clone $this->recordModel;
+			$record->set('date_start', $date['startDate']);
+			$record->set('time_start', $date['startTime']);
+			$record->set('due_date', $date['endDate']);
+			$record->set('time_end', $date['endTime']);
+			$record->save();
 		}
 	}
 
@@ -120,11 +120,11 @@ class Events_RecuringEvents_Model extends \App\Base
 	public function updateOmmitedRecords($records, $dateStart)
 	{
 		foreach ($records as $recordId) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-			$rule = new \Recurr\Rule($recordModel->get('recurrence'));
+			$record = Vtiger_Record_Model::getInstanceById($recordId);
+			$rule = new \Recurr\Rule($record->get('recurrence'));
 			$rule->setUntil(new \DateTime($dateStart));
-			$recordModel->set('recurrence', $rule->getString());
-			$recordModel->save();
+			$record->set('recurrence', $rule->getString());
+			$record->save();
 		}
 	}
 
@@ -136,15 +136,15 @@ class Events_RecuringEvents_Model extends \App\Base
 	 */
 	public function updateRecord($recordId, $dates)
 	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		$record = Vtiger_Record_Model::getInstanceById($recordId);
 		foreach ($this->changes as $fieldName => $value) {
-			$recordModel->set($fieldName, $this->recordModel->get($fieldName));
+			$record->set($fieldName, $this->recordModel->get($fieldName));
 		}
-		$recordModel->set('date_start', $dates['startDate']);
-		$recordModel->set('time_start', $dates['startTime']);
-		$recordModel->set('due_date', $dates['endDate']);
-		$recordModel->set('time_end', $dates['endTime']);
-		$recordModel->save();
+		$record->set('date_start', $dates['startDate']);
+		$record->set('time_start', $dates['startTime']);
+		$record->set('due_date', $dates['endDate']);
+		$record->set('time_end', $dates['endTime']);
+		$record->save();
 	}
 
 	/**
