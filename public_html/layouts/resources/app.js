@@ -1635,6 +1635,7 @@ var App = {},
 		}
 	};
 $(document).ready(function () {
+	app.showConfirmModal('Jesteś pewny?');
 	app.touchDevice = app.isTouchDevice();
 	App.Fields.Picklist.changeSelectElementView();
 	app.showPopoverElementView($('body').find('.js-popover-tooltip'));
