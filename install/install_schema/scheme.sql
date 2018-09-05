@@ -527,6 +527,26 @@ CREATE TABLE `l_yf_batchmethod` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `l_yf_mail` */
+
+CREATE TABLE `l_yf_mail` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `smtp_id` int(10) unsigned NOT NULL DEFAULT 1,
+  `date` datetime NOT NULL,
+  `owner` int(10) NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `from` text DEFAULT NULL,
+  `subject` text DEFAULT NULL,
+  `to` text DEFAULT NULL,
+  `content` text DEFAULT NULL,
+  `cc` text DEFAULT NULL,
+  `bcc` text DEFAULT NULL,
+  `attachments` text DEFAULT NULL,
+  `error_code` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `smtp_id` (`smtp_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `l_yf_profile` */
 
 CREATE TABLE `l_yf_profile` (
