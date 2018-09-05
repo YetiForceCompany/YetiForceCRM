@@ -6,16 +6,15 @@ Settings_Inventory_Index_Js("Settings_Inventory_Taxes_Js", {}, {
 	 * Function to add the Details in the list after saving
 	 */
 	addDetails: function (details) {
-		var container = jQuery('#inventory');
-		var currency = jQuery('#currency');
-		var symbol = '%';
+		let container = jQuery('#inventory'),
+			currency = jQuery('#currency'),
+			symbol = '%',
+			table = $('.inventoryTable', container);
 		if (currency.length > 0) {
-			var currency = JSON.parse(currency.val());
+			currency = JSON.parse(currency.val());
 			symbol = currency.currency_symbol;
 		}
-		var table = $('.inventoryTable', container);
 		if (details.default === 1) {
-			var defaultCheck = ' checked';
 			table.find('.default').prop('checked', false);
 		}
 		let trElement = $(
