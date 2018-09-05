@@ -150,11 +150,11 @@ class Owner
 	public function getAllocation($mode, $private, $fieldType)
 	{
 		if (\App\Request::_get('parent') != 'Settings') {
-			$moduleName = $this->moduleName;
+			$name = $this->moduleName;
 		}
 
 		$result = [];
-		$usersGroups = \Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($fieldType, $moduleName);
+		$usersGroups = \Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($fieldType, $name);
 		$usersGroups = ($usersGroups && $usersGroups[$this->currentUser->getId()]) ? $usersGroups[$this->currentUser->getId()] : [];
 		if ($mode == 'users') {
 			$users = $usersGroups ? $usersGroups['users'] : [];
@@ -319,19 +319,19 @@ class Owner
 	public function getGroups($addBlank = true, $private = '')
 	{
 		\App\Log::trace("Entering getGroups($addBlank,$private) method ...");
-		$moduleName = '';
+		$name = '';
 		if (\App\Request::_get('parent') !== 'Settings' && $this->moduleName) {
-			$moduleName = $this->moduleName === 'Events' ? 'Calendar' : $this->moduleName;
-			$tabId = \App\Module::getModuleId($moduleName);
+			$name = $this->moduleName === 'Events' ? 'Calendar' : $this->moduleName;
+			$tabId = \App\Module::getModuleId($name);
 		}
-		$cacheKey = $addBlank . $private . $moduleName;
+		$cacheKey = $addBlank . $private . $name;
 		if (\App\Cache::has('OwnerGroups', $cacheKey)) {
 			return \App\Cache::get('OwnerGroups', $cacheKey);
 		}
 		// Including deleted vtiger_users for now.
 		\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
 		$query = (new \App\Db\Query())->select(['groupid', 'groupname'])->from('vtiger_groups');
-		if (!empty($moduleName) && $moduleName !== 'CustomView') {
+		if (!empty($name) && $name !== 'CustomView') {
 			$subQuery = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2modules')->where(['tabid' => $tabId]);
 			$query->where(['groupid' => $subQuery]);
 		}

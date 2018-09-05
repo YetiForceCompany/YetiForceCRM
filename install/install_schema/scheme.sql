@@ -7012,7 +7012,7 @@ CREATE TABLE `vtiger_ossmailview` (
   `attachments_exist` smallint(1) DEFAULT 0,
   `type` tinyint(1) DEFAULT NULL,
   `from_id` text NOT NULL,
-  `to_id` varchar(100) NOT NULL,
+  `to_id` text NOT NULL,
   `orginal_mail` text DEFAULT NULL,
   `verify` smallint(1) DEFAULT 0,
   `rel_mod` varchar(128) DEFAULT NULL,

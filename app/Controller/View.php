@@ -103,11 +103,11 @@ abstract class View extends Base
 			$prefix = \App\Language::translate($moduleName, $qualifiedModuleName) . ' ';
 		}
 		if (isset($this->pageTitle)) {
-			$pageTitle = \App\Language::translate($this->pageTitle, $qualifiedModuleName);
+			$title = \App\Language::translate($this->pageTitle, $qualifiedModuleName);
 		} else {
-			$pageTitle = $this->getBreadcrumbTitle($request);
+			$title = $this->getBreadcrumbTitle($request);
 		}
-		return $prefix . $pageTitle;
+		return $prefix . $title;
 	}
 
 	/**
@@ -137,31 +137,31 @@ abstract class View extends Base
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
-		$viewer = $this->getViewer($request);
-		$pageTitle = $this->getPageTitle($request);
+		$view = $this->getViewer($request);
+		$title = $this->getPageTitle($request);
 		$this->loadJsConfig($request);
 		if (\AppConfig::performance('BROWSING_HISTORY_WORKING')) {
-			\Vtiger_BrowsingHistory_Helper::saveHistory($pageTitle);
+			\Vtiger_BrowsingHistory_Helper::saveHistory($title);
 		}
-		$viewer->assign('PAGETITLE', $pageTitle);
-		$viewer->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($request));
-		$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
-		$viewer->assign('STYLES', $this->getHeaderCss($request));
-		$viewer->assign('SKIN_PATH', \Vtiger_Theme::getCurrentUserThemePath());
-		$viewer->assign('LAYOUT_PATH', \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()));
-		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
-		$viewer->assign('LANGUAGE', \App\Language::getLanguage());
-		$viewer->assign('HTMLLANG', \App\Language::getShortLanguageName());
-		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
-		$viewer->assign('SHOW_BREAD_CRUMBS', $this->showBreadCrumbLine());
-		$viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('VIEW', $request->getByType('view', 1));
-		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('PARENT_MODULE', $request->getByType('parent', 2));
+		$view->assign('PAGETITLE', $title);
+		$view->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($request));
+		$view->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
+		$view->assign('STYLES', $this->getHeaderCss($request));
+		$view->assign('SKIN_PATH', \Vtiger_Theme::getCurrentUserThemePath());
+		$view->assign('LAYOUT_PATH', \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()));
+		$view->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
+		$view->assign('LANGUAGE', \App\Language::getLanguage());
+		$view->assign('HTMLLANG', \App\Language::getShortLanguageName());
+		$view->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
+		$view->assign('SHOW_BREAD_CRUMBS', $this->showBreadCrumbLine());
+		$view->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
+		$view->assign('MODULE', $moduleName);
+		$view->assign('VIEW', $request->getByType('view', 1));
+		$view->assign('MODULE_NAME', $moduleName);
+		$view->assign('PARENT_MODULE', $request->getByType('parent', 2));
 		$companyDetails = \App\Company::getInstanceById();
-		$viewer->assign('COMPANY_DETAILS', $companyDetails);
-		$viewer->assign('COMPANY_LOGO', $companyDetails->getLogo(false, false));
+		$view->assign('COMPANY_DETAILS', $companyDetails);
+		$view->assign('COMPANY_LOGO', $companyDetails->getLogo(false, false));
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -196,12 +196,12 @@ abstract class View extends Base
 	 */
 	public function postProcess(\App\Request $request, $display = true)
 	{
-		$viewer = $this->getViewer($request);
+		$view = $this->getViewer($request);
 		$currentUser = \Users_Record_Model::getCurrentUserModel();
-		$viewer->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
-		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
-		$viewer->assign('SHOW_FOOTER', $this->showFooter());
-		$viewer->view('Footer.tpl');
+		$view->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
+		$view->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
+		$view->assign('SHOW_FOOTER', $this->showFooter());
+		$view->view('Footer.tpl');
 	}
 
 	/**

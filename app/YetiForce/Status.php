@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce status helper class.
+ * YetiForce status class.
  *
  * @package   App
  *
@@ -12,12 +12,15 @@
 
 namespace App\YetiForce;
 
+/**
+ * YetiForce status class.
+ */
 class Status
 {
 	/**
 	 * Allowed flags array.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	public static $variables = [
 		'statusUrl' => 'string',
@@ -79,6 +82,60 @@ class Status
 	}
 
 	/**
+	 * Get system version param.
+	 *
+	 * @return array
+	 */
+	public function getSystemVersion()
+	{
+		if (empty($this->cache['environment'])) {
+			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
+		}
+		return $this->cache['environment']['crmVersion']['www'];
+	}
+
+	/**
+	 * Get database version param.
+	 *
+	 * @return array
+	 */
+	public function getDbVersion()
+	{
+		if (empty($this->cache['database'])) {
+			$this->cache['database'] = \App\Utils\ConfReport::get('database');
+		}
+		return $this->cache['database']['serverVersion']['www'];
+	}
+
+	/**
+	 * Get os version param.
+	 *
+	 * @return array
+	 */
+	public function getOsVersion()
+	{
+		if (empty($this->cache['environment'])) {
+			$this->cache['environment'] = \App\Utils\ConfReport::get('database');
+		}
+		return $this->cache['environment']['operatingSystem']['www'];
+	}
+
+	/**
+	 * Get last cron time param.
+	 *
+	 * @return array
+	 */
+	public function getLastCronTime()
+	{
+		$cron = \App\Utils\ConfReport::getCronVariables('last_start');
+		$value = '-';
+		if ($cron) {
+			$value = date('Y-m-d H:i:s', $cron);
+		}
+		return $value;
+	}
+
+	/**
 	 * Get security param.
 	 *
 	 * @return array
@@ -90,7 +147,154 @@ class Status
 		}
 		$param = [];
 		foreach ($this->cache['security'] as $name => $values) {
-			$value = [$values['www']];
+			$value = [$values['www'] ?? ''];
+			if (isset($values['cron'])) {
+				$value[] = $values['cron'];
+			}
+			$param[$name] = $value;
+		}
+		return $param;
+	}
+
+	/**
+	 * Get stability param.
+	 *
+	 * @return array
+	 */
+	public function getStability()
+	{
+		if (empty($this->cache['stability'])) {
+			$this->cache['stability'] = \App\Utils\ConfReport::get('stability');
+		}
+		$param = [];
+		foreach ($this->cache['stability'] as $name => $values) {
+			$value = [$values['www'] ?? ''];
+			if (isset($values['cron'])) {
+				$value[] = $values['cron'];
+			}
+			$param[$name] = $value;
+		}
+		return $param;
+	}
+
+	/**
+	 * Get libraries param.
+	 *
+	 * @return array
+	 */
+	public function getLibraries()
+	{
+		if (empty($this->cache['libraries'])) {
+			$this->cache['libraries'] = \App\Utils\ConfReport::get('libraries');
+		}
+		$param = [];
+		foreach ($this->cache['libraries'] as $name => $values) {
+			$value = [$values['www'] ?? ''];
+			if (isset($values['cron'])) {
+				$value[] = $values['cron'];
+			}
+			$param[$name] = $value;
+		}
+		return $param;
+	}
+
+	/**
+	 * Get performance param.
+	 *
+	 * @return array
+	 */
+	public function getPerformance()
+	{
+		if (empty($this->cache['performance'])) {
+			$this->cache['performance'] = \App\Utils\ConfReport::get('performance');
+		}
+		$param = [];
+		foreach ($this->cache['performance'] as $name => $values) {
+			$value = [$values['www'] ?? ''];
+			if (isset($values['cron'])) {
+				$value[] = $values['cron'];
+			}
+			$param[$name] = $value;
+		}
+		return $param;
+	}
+
+	/**
+	 * Get security param.
+	 *
+	 * @return array
+	 */
+	public function getPublicDirectoryAccess()
+	{
+		if (empty($this->cache['publicDirectoryAccess'])) {
+			$this->cache['publicDirectoryAccess'] = \App\Utils\ConfReport::get('publicDirectoryAccess');
+		}
+		$param = [];
+		foreach ($this->cache['publicDirectoryAccess'] as $name => $values) {
+			$value = [$values['www'] ?? ''];
+			if (isset($values['cron'])) {
+				$value[] = $values['cron'];
+			}
+			$param[$name] = $value;
+		}
+		return $param;
+	}
+
+	/**
+	 * Get environment param.
+	 *
+	 * @return array
+	 */
+	public function getEnvironment()
+	{
+		if (empty($this->cache['environment'])) {
+			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
+		}
+		$param = [];
+		foreach ($this->cache['environment'] as $name => $values) {
+			$value = [$values['www'] ?? ''];
+			if (isset($values['cron'])) {
+				$value[] = $values['cron'];
+			}
+			$param[$name] = $value;
+		}
+		return $param;
+	}
+
+	/**
+	 * Get writable files and folders param.
+	 *
+	 * @return array
+	 */
+	public function getWritableFilesAndFolders()
+	{
+		if (empty($this->cache['writableFilesAndFolders'])) {
+			$this->cache['writableFilesAndFolders'] = \App\Utils\ConfReport::get('writableFilesAndFolders');
+		}
+		$param = [];
+		foreach ($this->cache['writableFilesAndFolders'] as $name => $values) {
+			$value = [$values['www'] ?? ''];
+			if (isset($values['cron'])) {
+				$value[] = $values['cron'];
+			}
+			$param[$name] = $value;
+		}
+		return $param;
+	}
+
+	/**
+	 * Get database param.
+	 *
+	 * @return array
+	 */
+	public function getDatabase()
+	{
+		if (empty($this->cache['database'])) {
+			$this->cache['database'] = \App\Utils\ConfReport::get('database');
+		}
+		$param = [];
+		foreach ($this->cache['database'] as $name => $values) {
+			$value = [$values['www'] ?? ''];
 			if (isset($values['cron'])) {
 				$value[] = $values['cron'];
 			}
