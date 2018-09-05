@@ -71,14 +71,14 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$record = $request->getInteger('record');
-		if (!empty($record) && $request->getBoolean('isDuplicate') === true) {
+		$recordId = $request->getInteger('record');
+		if (!empty($recordId) && $request->getBoolean('isDuplicate') === true) {
 			$viewer->assign('MODE', 'duplicate');
 			$viewer->assign('RECORD_ID', '');
 			$this->getDuplicate();
-		} elseif (!empty($record)) {
+		} elseif (!empty($recordId)) {
 			$viewer->assign('MODE', 'edit');
-			$viewer->assign('RECORD_ID', $record);
+			$viewer->assign('RECORD_ID', $recordId);
 		} else {
 			$referenceId = $request->getInteger('reference_id');
 			if ($referenceId) {
@@ -88,8 +88,8 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 			$viewer->assign('MODE', '');
 			$viewer->assign('RECORD_ID', '');
 		}
-		$editModel = Vtiger_EditView_Model::getInstance($moduleName, $record);
-		$editViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $record];
+		$editModel = Vtiger_EditView_Model::getInstance($moduleName, $recordId);
+		$editViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId];
 		$detailViewLinks = $editModel->getEditViewLinks($editViewLinkParams);
 		$viewer->assign('EDITVIEW_LINKS', $detailViewLinks);
 
