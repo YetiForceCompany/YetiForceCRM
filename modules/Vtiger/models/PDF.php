@@ -413,8 +413,8 @@ class Vtiger_PDF_Model extends \App\Base
 		} else {
 			$companyDetails = App\Company::getInstanceById()->getData();
 			$parameters['title'] = $this->get('primary_name');
-			$parameters['author'] = $companyDetails['organizationname'];
-			$parameters['creator'] = $companyDetails['organizationname'];
+			$parameters['author'] = $companyDetails['name'];
+			$parameters['creator'] = 'YetiForce CRM';
 			$parameters['subject'] = $this->get('secondary_name');
 
 			// preparing keywords
