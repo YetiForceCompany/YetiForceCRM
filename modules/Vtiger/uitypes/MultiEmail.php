@@ -81,6 +81,14 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
+	{
+		return $this->getDisplayValue($value, $record, $recordModel, $rawText);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/MultiEmail.tpl';
