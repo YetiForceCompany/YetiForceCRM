@@ -442,7 +442,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$pagingModel->calculatePageRange(count($parentCommentModels));
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PARENT_RECORD', $parentId);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
@@ -452,7 +451,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		$viewer->assign('CURRENT_COMMENT', null);
-
 		return $viewer->view('RecentComments.tpl', $moduleName, true);
 	}
 
@@ -565,11 +563,17 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$parentRecordId = $request->getInteger('record');
 		$commentRecordId = $request->getInteger('commentid');
+		$moduleName = $request->getModule();
 		$hierarchy = [];
 		if ($request->has('hierarchy')) {
-			$hierarchy = $request->getExploded('hierarchy', ',', 'Integer');
+			$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
+			$hierarchyValue = $request->getByType('hierarchy');
+			if ($level === 0) {
+				$hierarchy = $hierarchyValue === 'all' ? [1, 2] : [];
+			} elseif ($level === 1) {
+				$hierarchy = $hierarchyValue === 'all' ? [2] : [];
+			}
 		}
-		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId, $hierarchy);
@@ -589,17 +593,14 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('PARENT_RECORD', $parentRecordId);
 		$viewer->assign('HIERARCHY', $hierarchy);
+		$viewer->assign('HIERARCHY_VALUE', $request->getByType('hierarchy'));
 		$viewer->assign('HIERARCHY_LIST', $hierarchyList);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-		if ($request->getByType('mode', 1) !== 'showSearchComments') {
-			return $viewer->view('ShowAllComments.tpl', $moduleName, true);
-		} else {
-			return $viewer->view('CommentsList.tpl', $moduleName, true);
-		}
+		return $viewer->view('ShowAllComments.tpl', $moduleName, true);
 	}
 
 	/**
@@ -631,20 +632,30 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$hierarchy = [];
 		if ($request->has('hierarchy')) {
-			$hierarchy = $request->getExploded('hierarchy', ',', 'Integer');
+			$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
+			$hierarchyValue = $request->getByType('hierarchy');
+			if ($level === 0) {
+				$hierarchy = $hierarchyValue === 'all' ? [1, 2] : [];
+			} elseif ($level === 1) {
+				$hierarchy = $hierarchyValue === 'all' ? [2] : [];
+			}
 		}
 		if ($request->isEmpty('search_key', true)) {
 			return $this->showAllComments($request);
 		} else {
-			$searchValue = $request->getByType('search_key', 2);
+			$searchValue = $request->getByType('search_key', 'Text');
 			$parentCommentModels = ModComments_Record_Model::getSearchComments($recordId, $searchValue, $hierarchy, $pagingModel);
 		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('CURRENTUSER', $currentUserModel);
-		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
-		$viewer->assign('SHOW_CHILD_COMMENTS', true);
-		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-		return $viewer->view('CommentsList.tpl', $moduleName, true);
+		if (!empty($parentCommentModels)) {
+			$viewer->assign('CURRENTUSER', $currentUserModel);
+			$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
+			$viewer->assign('SHOW_CHILD_COMMENTS', true);
+			$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+			return $viewer->view('CommentsList.tpl', $moduleName, true);
+		} else {
+			return $viewer->view('NoComments.tpl', $moduleName, true);
+		}
 	}
 
 	/**

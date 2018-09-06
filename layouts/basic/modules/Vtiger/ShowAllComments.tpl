@@ -47,18 +47,24 @@
 						   aria-describedby="commentSearchAddon">
 				</div>
 			</div>
-			<div class="col-md-4 pr-0">
-				<select class="select2 form-control commentsHierarchy" multiple>
-					{foreach key=NAME item=LABEL from=$HIERARCHY_LIST}
-						<option value="{$NAME}"
-								{if in_array($NAME, $HIERARCHY)}selected{/if}>{\App\Language::translate($LABEL, 'ModComments')}</option>
-					{/foreach}
-				</select>
+			<div class="btn-group btn-group-toggle detailCommentsHierarchy" data-toggle="buttons">
+				<label class="btn btn-sm btn-outline-primary {if $HIERARCHY_VALUE !== 'all'}active{/if}">
+					<input class="detailHierarchyComments" type="radio" name="options" id="option1"
+						   value="current" autocomplete="off"
+						   {if $HIERARCHY_VALUE !== 'all'}checked="checked"{/if}
+					> {\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
+				</label>
+				<label class="btn btn-sm btn-outline-primary {if $HIERARCHY_VALUE === 'all'}active{/if}">
+					<input class="detailHierarchyComments" type="radio"
+						   name="options" id="option2" value="all"
+						   {if $HIERARCHY_VALUE === 'all'}checked="checked"{/if}
+						   autocomplete="off"> {\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}
+				</label>
 			</div>
 		</div>
 	{/if}
 	<div class="commentContainer">
-		<div class="commentsList commentsBody  col-md-12 px-0">
+		<div class="commentsList col-md-12 px-0">
 			{include file=\App\Layout::getTemplatePath('CommentsList.tpl') COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
 		</div>
 	</div>

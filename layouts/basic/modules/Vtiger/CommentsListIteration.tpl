@@ -20,7 +20,6 @@
 						{include file=\App\Layout::getTemplatePath('CommentsListIteration.tpl') CHILD_COMMENTS_MODEL=$COMMENT->getChildComments()}
 					{/if}
 				</li>
-				<br />
 			{/foreach}
 		</ul>
 	{/if}

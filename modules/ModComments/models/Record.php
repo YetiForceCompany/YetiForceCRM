@@ -304,7 +304,11 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$queryGeneratorParents->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
 				'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'parents']);
 			$queryGeneratorParents->addNativeCondition(['in', 'modcommentsid', array_unique($commentsId)], false);
-			$dataReaderParents = $queryGeneratorParents->createQuery()->createCommand()->query();
+			$parentQuery = $queryGeneratorParents->createQuery();
+			if ($pagingModel && $pagingModel->get('limit') !== 0) {
+				$parentQuery->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
+			}
+			$dataReaderParents = $parentQuery->createCommand()->query();
 			$recordInstances = [];
 			while ($row = $dataReaderParents->read()) {
 				$recordInstance = new self();
