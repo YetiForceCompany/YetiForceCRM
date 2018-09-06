@@ -452,8 +452,8 @@ class Tcpdf extends PDF
 		$self->setLanguage($template->get('language'));
 		$self->setFileName($template->get('filename'));
 		\App\Language::setTemporaryLanguage($template->get('language'));
-		$self->pdf->setHeaderFont([$self->defaultFont, '', $self->defaultFontSize]);
-		$self->pdf->setFooterFont([$self->defaultFont, '', $self->defaultFontSize]);
+		$self->pdf->setHeaderFont([$self->defaultFontFamily, '', $self->defaultFontSize]);
+		$self->pdf->setFooterFont([$self->defaultFontFamily, '', $self->defaultFontSize]);
 		$self->parseParams($template->getParameters(), $template->get('margin_chkbox') !== 1);
 		$self->pdf()->setHtmlHeader($template->getHeader());
 		$self->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L', $template->get('page_format'));
