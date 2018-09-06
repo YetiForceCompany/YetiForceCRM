@@ -12,7 +12,7 @@
 {strip}
 	{assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 	{* Change to this also refer: AddCommentForm.tpl *}
-	<div class="commentContainer recentComments">
+	<div class="js-commentContainer commentContainer recentComments" data-js="container">
 		<div class="commentTitle">
 			{if !$IS_READ_ONLY && $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 				<div class="addCommentBlock">
@@ -36,18 +36,35 @@
 			{/if}
 		</div>
 		<div class="col-md-12 form-row commentsHeader my-3 mx-0 px-0">
-			<div class="col-md-4"></div>
-			<div class="col-md-4">
-				<div class="input-group">
-					<span class="input-group-prepend" id="commentSearchAddon">
-						<div class="input-group-text"><span class="fas fa-search"></span></div>
-					</span>
+			<div class="col-9 col-lg-5 col-md-12 col-sm-6 p-0">
+				<div class="input-group-append bg-white rounded-right">
 					<input type="text" class="form-control commentSearch"
 						   placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
 						   aria-describedby="commentSearchAddon"
 						   data-container="widget"
 						   data-js="data">
+					<button class="btn btn-outline-dark border-0 h-100 searchIcon" type="button">
+						<span class="fas fa-search fa-fw" title="{\App\Language::translate('LBL_SEARCH')}"></span>
+					</button>
 				</div>
+			</div>
+			<div class="col-3 col-lg-7 col-md-12 col-sm-6 p-0 text-md-center text-lg-right m-md-2 m-lg-0">
+				{if $LEVEL < 2}
+					<div class="btn-group btn-group-toggle hierarchyButtons float-right float-md-none"
+						 data-toggle="buttons">
+						<label class="btn btn-sm btn-outline-primary {if $HIERARCHY_VALUE !== 'all'}active{/if}">
+							<input class="hierarchyComments" type="radio" name="options" id="option1"
+								   value="current" autocomplete="off"
+								   {if $HIERARCHY_VALUE !== 'all'}checked="checked"{/if}
+							> {\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
+						</label>
+						<label class="btn btn-sm btn-outline-primary {if $HIERARCHY_VALUE === 'all'}active{/if}">
+							<input class="hierarchyComments" type="radio" name="options" id="option2" value="all"
+								   {if $HIERARCHY_VALUE === 'all'}checked="checked"{/if}
+								   autocomplete="off"> {\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}
+						</label>
+					</div>
+				{/if}
 			</div>
 		</div>
 		<hr>
@@ -59,12 +76,11 @@
 			{/if}
 		</div>
 		{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
-			<div class="row">
-				<div class="float-right">
-					<a href="javascript:void(0)"
-					   class="moreRecentComments btn btn-sm btn-info marginTop5 marginRight15">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
-						..</a>
-				</div>
+			<div class="col-12 float-right p-0 mb-2">
+				<a href="javascript:void(0)"
+				   class="moreRecentComments btn btn-sm btn-info marginTop5 marginRight15">
+					{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..
+				</a>
 			</div>
 		{/if}
 		{if !$IS_READ_ONLY}

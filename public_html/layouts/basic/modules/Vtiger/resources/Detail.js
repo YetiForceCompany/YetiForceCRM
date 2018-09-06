@@ -2053,7 +2053,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			let recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
 			recentCommentsTab.trigger('click');
 		});
-		detailContentsHolder.find('.detailHierarchyComments').on('change', function (e) {
+		detailContentsHolder.on('change', '.detailHierarchyComments', function (e) {
 			let recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
 			let url = recentCommentsTab.data('url');
 			let regex = /&hierarchy=+([\w,]+)/;
@@ -2064,46 +2064,41 @@ jQuery.Class("Vtiger_Detail_Js", {
 			recentCommentsTab.data('url', url);
 			recentCommentsTab.trigger('click');
 		});
-		detailContentsHolder.on('keyup', '.commentSearch', function (e) {
-			let searchTextDom = $(this),
-				progressIndicatorElement;
-			if (searchTextDom.val() !== previousSearchValue) {
+		detailContentsHolder.on('click', '.searchIcon', function (e) {
+			let searchTextDom = detailContentsHolder.find('.commentSearch'),
 				progressIndicatorElement = jQuery.progressIndicator();
-				if (searchTextDom.data('container') === 'widget' && !searchTextDom.val()) {
-					let request = searchTextDom.closest('[data-name="ModComments"]').data('url'); //todo data-js
-					AppConnector.request(request).done(function (data) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						detailContentsHolder.find('.commentContainer').html(data);
-					});
-				} else {
-					let hierarchy = detailContentsHolder.find('.detailHierarchyComments:checked').val();
-					if (searchTextDom.data('container') === 'widget') {
-						hierarchy = detailContentsHolder.find('.hierarchyComments:checked').val();
-					}
-					AppConnector.request({
-						module: app.getModuleName(),
-						view: 'Detail',
-						mode: 'showSearchComments',
-						hierarchy: hierarchy,
-						record: app.getRecordId(),
-						search_key: searchTextDom.val(),
-					}).done(function (data) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						if (!searchTextDom.val()) {
-							detailContentsHolder.html(data);
-						} else {
-							detailContentsHolder.find('.commentsBody').html(data);
-						}
-					});
+			if (searchTextDom.data('container') === 'widget' && !searchTextDom.val()) {
+				let request = searchTextDom.closest('[data-name="ModComments"]').data('url'); //todo data-js
+				AppConnector.request(request).done(function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					detailContentsHolder.find('.js-commentContainer').html(data);
+				});
+			} else {
+				let hierarchy = detailContentsHolder.find('.detailHierarchyComments:checked').val();
+				if (searchTextDom.data('container') === 'widget') {
+					hierarchy = detailContentsHolder.find('.hierarchyComments:checked').val();
 				}
+				AppConnector.request({
+					module: app.getModuleName(),
+					view: 'Detail',
+					mode: 'showSearchComments',
+					hierarchy: hierarchy,
+					record: app.getRecordId(),
+					search_key: searchTextDom.val(),
+				}).done(function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					if (!searchTextDom.val()) {
+						detailContentsHolder.html(data);
+					} else {
+						detailContentsHolder.find('.commentsBody').html(data);
+					}
+				});
 			}
-			previousSearchValue = $(this).val();
 		});
 	},
 	registerCommentEventsInDetail: function (widgetContainer) {
-		var thisInstance = this;
-		widgetContainer.find('.hierarchyComments').on('change', function (e) {
-			var progressIndicatorElement = jQuery.progressIndicator();
+		widgetContainer.on('change', '.hierarchyComments', function (e) {
+			let progressIndicatorElement = jQuery.progressIndicator();
 			AppConnector.request({
 				module: app.getModuleName(),
 				view: 'Detail',
@@ -2112,7 +2107,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				record: app.getRecordId(),
 			}).done(function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				var widgetDataContainer = widgetContainer.find('.js-detail-widget-content');
+				let widgetDataContainer = widgetContainer.find('.js-detail-widget-content');
 				widgetDataContainer.html(data);
 				App.Fields.Picklist.showSelect2ElementView(widgetDataContainer.find('.select2'));
 			});
