@@ -155,6 +155,7 @@ class Install_Index_View extends \App\Controller\View
 		} else {
 			$license = file_get_contents('licenses/LicenseEN.txt');
 		}
+		$this->viewer->assign('LIBRARIES', \App\Installer\Credits::getCredits());
 		$this->viewer->assign('LICENSE', nl2br($license));
 		$this->viewer->display('Step2.tpl');
 	}

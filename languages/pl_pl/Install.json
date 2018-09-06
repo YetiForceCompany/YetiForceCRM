@@ -30,6 +30,7 @@
     "LBL_INSTALL_BUTTON": "Instalacja",
     "LBL_INSTALL_PREREQUISITES": "Weryfikacja konfiguracji serwera",
     "LBL_MORE_INFORMATION": "Wi\u0119cej informacji",
+    "LBL_LIBRARY_NAME": "Nazwa",
     "LBL_NEXT": "Dalej",
     "LBL_ONE_LAST_THING": "Ostatnia rzecz...",
     "LBL_PASSWORD_MISMATCH": "Prosz\u0119 wprowadzi\u0107 ponownie has\u0142a. Has\u0142a do siebie nie pasuj\u0105.",
@@ -40,7 +41,6 @@
     "LBL_PLEASE_WAIT": "Prosz\u0119 czeka\u0107...",
     "LBL_PRESENT_VALUE": "Aktualne warto\u015bci",
     "LBL_READ_WRITE_ACCESS": "Uprawnienia odczytu\/zapisu",
-
     "LBL_RECHECK": "Sprawd\u017a ponownie",
     "LBL_REQUIRED_VALUE": "Wymagane warto\u015bci",
     "LBL_RETYPE_PASSWORD": "Powt\u00f3rz has\u0142o",
@@ -71,6 +71,7 @@
     "LBL_PDO_SUPPORT": "Wsparcie dla PDO",
     "LBL_OPEN_SSL": "Wsparcie dla openssl",
     "LBL_LICENSE": "Licencja",
+    "LBL_LICENSE_LIST": "Lista licencji",
     "LBL_CURL": "Wsparcie dla cURL",
     "LBL_INDUSTRY_OPTION": "Prosz\u0119 wybra\u0107 odpowiedni\u0105 ga\u0142\u0105\u017a gospodarki.",
     "LBL_BACK": "Cofnij",
@@ -100,7 +101,8 @@
     "LBL_WRONG_USERNAME_OR_PASSWORD": "B\u0142\u0119dny login lub has\u0142o",
     "LBL_DESCRIPTION_CONDITIONS": "W trakcie migracji zostan\u0105 bezpowrotnie utracone wszystkie dane zwi\u0105zane z modu\u0142ami: MailManager, EmailTemplates, Workflows. \r\n Migracja jest ci\u0105gle w fazie test\u00f3w, wi\u0119c nale\u017cy wykona\u0107 wszelkie mo\u017cliwe kopie i zabazpieczenia w przypadku wyst\u0105pienia nieprzewidzianych zdarze\u0144.",
     "LBL_MIGRATION_IN_PROGRESS": "Trwa proces migracji",
-    "LBL_SETUP_WIZARD_HEADER": "Kreator instalacji systemu YetiForce"
+    "LBL_SETUP_WIZARD_HEADER": "Kreator instalacji systemu YetiForce",
+    "LBL_VERSION": "Wersja"
   },
   "js": {
     "LBL_PASS_TO_SHORT": "Has\u0142o jest zbyt kr\u00f3tkie - minimalna d\u0142ugo\u015b\u0107 to 8 znak\u00f3w",
