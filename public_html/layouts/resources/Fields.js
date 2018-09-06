@@ -715,6 +715,7 @@ App.Fields = {
 				$(element).find('.js-remove-item').each((index, element) => {
 					$(element).on('click', (e) => {
 						App.Fields.MultiEmail.removeEmail($(e.target), $(inputElement));
+						App.Fields.MultiEmail.parseToJSON(container);
 					});
 				});
 				$(element).find('input.js-checkbox').each((index, element) => {
@@ -759,6 +760,7 @@ App.Fields = {
 			newField.find('label.js-label-checkbox').removeClass('active');
 			newField.find('.js-remove-item').eq(0).on('click', (e) => {
 				App.Fields.MultiEmail.removeEmail($(e.target), container);
+				App.Fields.MultiEmail.parseToJSON(container);
 			});
 			newField.find('input.js-checkbox').eq(0).on('change', (e) => {
 				App.Fields.MultiEmail.toggleCheckBox($(e.target));

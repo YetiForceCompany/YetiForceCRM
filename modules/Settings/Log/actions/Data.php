@@ -17,8 +17,11 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 	public function process(\App\Request $request)
 	{
 		$type = $request->getByType('type', 1);
+		if (!isset(App\Log::$tableColumnMapping[$type])) {
+			throw new \App\Exceptions\NoPermittedForAdmin('ERR_ILLEGAL_VALUE');
+		}
 		$query = (new \App\Db\Query())->from('o_#__' . $type);
-		$logsCountAll = $logsCount = (int) $query->count('*');
+		$logsCountAll = $logsCount = (int)$query->count('*');
 		$query->offset($request->getInteger('start', 0));
 		$query->limit($request->getInteger('limit', 10));
 		$order = $request->getArray('order', false);
@@ -34,7 +37,7 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 			$tmp = [];
 			foreach (\App\Log::$tableColumnMapping[$type] as $column) {
 				if ($column === 'url') {
-					$url = explode('?', $log['url'])[1];
+					$url = \App\Purifier::encodeHtml(explode('?', $log['url'])[1]);
 					$tmp[] = "<a href=\"index.php?$url\" title=\"index.php?$url\">" . substr($url, 0, 50) . '...</a>';
 				} elseif ($column === 'agent') {
 					$tmp[] = "<span title=\"{$log['agent']}\">" . substr($log['agent'], 0, 50) . '...</span>';
@@ -43,7 +46,7 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 					foreach (\App\Json::decode($log[$column]) as $key => $val) {
 						$requestArray .= "$key => $val<br>";
 					}
-					$tmp[] = $requestArray;
+					$tmp[] = \App\Purifier::purifyHtml($requestArray);
 				} else {
 					$tmp[] = $log[$column];
 				}
