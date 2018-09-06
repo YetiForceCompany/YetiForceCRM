@@ -29,7 +29,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getId()
 	{
-		return (int) $this->id;
+		return (int)$this->id;
 	}
 
 	public function getName()
@@ -107,7 +107,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function to set the value of a given property.
 	 *
-	 * @param string   $propertyName
+	 * @param string $propertyName
 	 * @param <Object> $propertyValue
 	 *
 	 * @return Vtiger_Module_Model instance
@@ -757,8 +757,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function to get all modules from CRM.
 	 *
-	 * @param <array> $presence
-	 * @param <array> $restrictedModulesList
+	 * @param  <array> $presence
+	 * @param  <array> $restrictedModulesList
 	 *
 	 * @return <array> List of module models Vtiger_Module_Model
 	 */
@@ -818,14 +818,25 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the list of all accessible modules for Quick Create.
+	 * @param bool $restrictList
+	 * @param bool $tree
 	 *
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
-	public static function getQuickCreateModules($restrictList = false)
+	public static function getQuickCreateModules($restrictList = false, $tree = false)
 	{
-		$quickCreateModules = Vtiger_Cache::get('getQuickCreateModules', $restrictList ? 1 : 0);
-		if ($quickCreateModules !== false) {
-			return $quickCreateModules;
+		$restrictListString = $restrictList ? 1 : 0;
+		if ($tree) {
+			$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$quickCreateModulesTree = Vtiger_Cache::get('getQuickCreateModules', 'tree' . $restrictListString . $userPrivModel->get('roleid'));
+			if ($quickCreateModulesTree !== false) {
+				return $quickCreateModulesTree;
+			}
+		} else {
+			$quickCreateModules = Vtiger_Cache::get('getQuickCreateModules', $restrictListString);
+			if ($quickCreateModules !== false) {
+				return $quickCreateModules;
+			}
 		}
 
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -844,11 +855,31 @@ class Vtiger_Module_Model extends \vtlib\Module
 		while ($row = $dataReader->read()) {
 			if ($userPrivModel->hasModuleActionPermission($row['tabid'], 'CreateView')) {
 				$moduleModel = self::getInstanceFromArray($row);
-				$quickCreateModules[$row['name']] = $moduleModel;
+				if ($tree) {
+					$quickCreateModules[$row['tabid']] = $moduleModel;
+				} else {
+					$quickCreateModules[$row['name']] = $moduleModel;
+				}
 			}
 		}
-		Vtiger_Cache::set('getQuickCreateModules', $restrictList ? 1 : 0, $quickCreateModules);
-
+		if ($tree) {
+			$menu = Vtiger_Menu_Model::getAll(true);
+			$quickCreateModulesTree = [];
+			foreach ($menu as $parent) {
+				$items = [];
+				foreach ($parent['childs'] as $child) {
+					if (isset($quickCreateModules[$child['tabid']])) {
+						$items[$quickCreateModules[$child['tabid']]->name] = $quickCreateModules[$child['tabid']];
+					}
+				}
+				if (!empty($items)) {
+					$quickCreateModulesTree[$parent['name']] = $items;
+				}
+			}
+			Vtiger_Cache::set('getQuickCreateModules', 'tree' . $restrictListString . $userPrivModel->get('roleid'), $quickCreateModulesTree);
+			return $quickCreateModulesTree;
+		}
+		Vtiger_Cache::set('getQuickCreateModules', $restrictListString, $quickCreateModules);
 		return $quickCreateModules;
 	}
 
@@ -947,7 +978,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function returns latest comments for the module.
 	 *
-	 * @param <Vtiger_Paging_Model> $pagingModel
+	 * @param  <Vtiger_Paging_Model> $pagingModel
 	 *
 	 * @return <Array>
 	 */
@@ -958,7 +989,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			return $comments;
 		}
 		$query = (new \App\Db\Query())->select(['vtiger_crmentity.setype', 'vtiger_modcomments.related_to', 'vtiger_modcomments.commentcontent', 'vtiger_crmentity.createdtime', 'assigned_user_id' => 'vtiger_crmentity.smownerid',
-			'parentId' => 'crmentity2.crmid', 'parentModule' => 'crmentity2.setype', ])
+			'parentId' => 'crmentity2.crmid', 'parentModule' => 'crmentity2.setype',])
 			->from('vtiger_modcomments')
 			->innerJoin('vtiger_crmentity', 'vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_crmentity crmentity2', 'vtiger_modcomments.related_to = crmentity2.crmid')
@@ -984,8 +1015,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function returns comments and recent activities across module.
 	 *
-	 * @param <Vtiger_Paging_Model> $pagingModel
-	 * @param string                $type        - comments, updates or all
+	 * @param  <Vtiger_Paging_Model> $pagingModel
+	 * @param string $type - comments, updates or all
 	 *
 	 * @return <Array>
 	 */
@@ -1038,10 +1069,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function returns the Calendar Events for the module.
 	 *
-	 * @param string              $mode        - upcoming/overdue mode
+	 * @param string              $mode     - upcoming/overdue mode
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @param int|string          $user        - all/userid
-	 * @param int                 $recordId    - record id
+	 * @param int|string          $user     - all/userid
+	 * @param int                 $recordId - record id
 	 *
 	 * @return array
 	 */
@@ -1083,7 +1114,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			}
 		}
 		$query = (new \App\Db\Query())->select(['vtiger_crmentity.crmid', 'parent_id' => 'crmentity2.crmid', 'description' => 'vtiger_crmentity.description',
-			'vtiger_crmentity.smownerid', 'vtiger_crmentity.smcreatorid', 'vtiger_crmentity.setype', 'vtiger_activity.*', ])
+			'vtiger_crmentity.smownerid', 'vtiger_crmentity.smcreatorid', 'vtiger_crmentity.setype', 'vtiger_activity.*',])
 			->from('vtiger_activity')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 			->innerJoin(['crmentity2' => 'vtiger_crmentity'], "vtiger_activity.$relationField = crmentity2.crmid AND crmentity2.deleted = :deleted AND crmentity2.setype = :module", [':deleted' => 0, ':module' => $this->getName()])
@@ -1169,7 +1200,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function to get Specific Relation Query for this Module.
 	 *
-	 * @param <type> $relatedModule
+	 * @param  <type> $relatedModule
 	 *
 	 * @return <type>
 	 */
