@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	{*<h1>{var_dump($LIBRARIES)}</h1>*}
 	<div class="container px-2 px-sm-3">
 		<main class="main-container mt-3">
 			<div class="inner-container">
