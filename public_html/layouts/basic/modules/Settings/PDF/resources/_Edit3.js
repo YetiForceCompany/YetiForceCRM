@@ -1,7 +1,9 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
+Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
+	step3Container: false,
+	advanceFilterInstance: false,
 	init: function () {
 		this.initialize();
 	},
@@ -10,7 +12,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 	 * @return jQuery object
 	 */
 	getContainer: function () {
-		return this.step1Container;
+		return this.step3Container;
 	},
 	/**
 	 * Function to set the reports step1 container
@@ -18,7 +20,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 	 * @return : current instance
 	 */
 	setContainer: function (element) {
-		this.step1Container = element;
+		this.step3Container = element;
 		return this;
 	},
 	/**
@@ -26,19 +28,21 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 	 */
 	initialize: function (container) {
 		if (typeof container === "undefined") {
-			container = jQuery('#pdf_step1');
+			container = jQuery('#pdf_step3');
 		}
-		if (container.is('#pdf_step1')) {
+		if (container.is('#pdf_step3')) {
 			this.setContainer(container);
 		} else {
-			this.setContainer(jQuery('#pdf_step1'));
+			this.setContainer(jQuery('#pdf_step3'));
 		}
 	},
 	submit: function () {
+		for (var instance in CKEDITOR.instances) {
+			CKEDITOR.instances[instance].updateElement();
+		}
 		var aDeferred = jQuery.Deferred();
 		var form = this.getContainer();
 		var formData = form.serializeFormData();
-		formData['async'] = false;
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
@@ -48,19 +52,12 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 
 		var saveData = form.serializeFormData();
 		saveData['action'] = 'Save';
-		saveData['step'] = 1;
-		saveData['async'] = false;
+		saveData['step'] = 3;
 		AppConnector.request(saveData).done(function (data) {
 			data = JSON.parse(data);
 			if (data.success == true) {
 				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
-				var pdfRecordElement = jQuery('[name="record"]', form);
-				if (pdfRecordElement.val() === '') {
-					pdfRecordElement.val(data.result.id);
-					formData['record'] = data.result.id;
-				}
 
-				formData['record'] = data.result.id;
 				AppConnector.request(formData).done(function (data) {
 					form.hide();
 					progressIndicatorElement.progressIndicator({
@@ -74,7 +71,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 		}).fail(function (error, err) {
 			app.errorLog(error, err);
 		});
-
 		return aDeferred.promise();
 	},
 	registerCancelStepClickEvent: function (form) {
@@ -82,24 +78,9 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 			window.history.back();
 		});
 	},
-	registerMarginCheckboxClickEvent: function (container) {
-		container.find('#margin_chkbox').on('change', function () {
-			var status = jQuery(this).is(':checked');
-
-			if (status) {
-				container.find('.margin_inputs').addClass('d-none');
-			} else {
-				container.find('.margin_inputs').removeClass('d-none');
-			}
-		});
-	},
-
 	registerEvents: function () {
-		var container = this.getContainer();
-		//After loading 1st step only, we will enable the Next button
-		container.find('[type="submit"]').removeAttr('disabled');
-
-		var opts = app.validationEngineOptions;
+		let container = this.getContainer(),
+			opts = app.validationEngineOptions;
 		// to prevent the page reload after the validation has completed
 		opts['onValidationComplete'] = function (form, valid) {
 			//returns the valid status
@@ -107,7 +88,8 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 		};
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
+		App.Fields.Picklist.showSelect2ElementView(container.find('select'));
+		new App.Fields.Text.Editor('.js-editor', {toolbar: 'Full'});
 		this.registerCancelStepClickEvent(container);
-		this.registerMarginCheckboxClickEvent(container);
 	}
 });
