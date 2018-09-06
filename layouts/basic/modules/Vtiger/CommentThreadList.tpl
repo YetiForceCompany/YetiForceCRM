@@ -10,34 +10,45 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="commentDiv">
+	<div class="Comment commentDiv">
 		<div class="singleComment">
-			<div class="commentInfoHeader" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
-				<div class="commentTitle" id="{$COMMENT->getId()}">
+			<div class="commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}"
+				 data-parentcommentid="{$COMMENT->get('parent_comments')}">
+				<div class="float-left">
+					{assign var=IMAGE value=$COMMENT->getImage()}
+					{if $IMAGE}
+						<img class="c-img__user float-left" alt="" src="{$IMAGE.url}">
+						<br/>
+					{else}
+						<span class="fas fa-user userImage float-left"></span>
+					{/if}
+				</div>
+				<div class="commentTitle ml-5 mb-0 d-flex justify-content-between" id="{$COMMENT->getId()}">
 					{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 					{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
-					<div class="row no-margin">
-						<div class="">
-							{assign var=IMAGE value=$COMMENT->getImage()}
-							{if $IMAGE}
-								<img class="c-img__user float-left" src="{$IMAGE['url']}">
-							{else}
-								<span class="fas fa-user userImage float-left"></span>
-							{/if}
+					<div class="commentorInfo w-100">
+						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
+						<div class="d-flex justify-content-between">
+							<span class="commentorName">
+								<strong>{$COMMENTOR->getName()}</strong>
+							</span>
+							<span class="pr-2">
+								<p class="text-muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
+							</span>
 						</div>
-						<div class="col-8 commentorInfo">
-							{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
-							<div class="inner">
-								<span class="commentorName float-left"><strong>{$COMMENTOR->getName()}</strong></span>
-								<div class="clearfix"></div>
-							</div>
-							<div class="commentInfoContent">
-								{$COMMENT->getDisplayValue('commentcontent')}
-							</div>
+						{if $HIERARCHY}
+							{assign var=RELATED_TO value=$COMMENT->get('related_to')}
+							<input hidden="" class="related_to" name="related_to" value="{$RELATED_TO}"/>
+							{assign var=RELATED_MODULE value=\App\Record::getType($RELATED_TO)}
+							<a href="index.php?module={$RELATED_MODULE}&view=Detail&record={$RELATED_TO}">
+								<strong>{\App\Language::translate($RELATED_MODULE,$RELATED_MODULE)}
+									:&nbsp;&nbsp;</strong>
+								<strong>{$COMMENT->getDisplayValue('related_to')}</strong>
+							</a>
+						{/if}
+						<div class="commentInfoContent">
+							{$COMMENT->getDisplayValue('commentcontent')}
 						</div>
-						<span class="float-right paddingRight15">
-							<p class="muted"><small class="commentModifiedTime">{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
-						</span>
 					</div>
 				</div>
 			</div>
@@ -46,34 +57,34 @@
 				<div class="editedStatus visible-lg-block col-6" name="editStatus">
 					<p class="col-6 marginLeftZero">
 						<small>
-							<span class="{if empty($REASON_TO_EDIT)}d-none{/if} marginLeftZero editReason">
-								[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)}
-								] : <span name="editReason" class="u-text-ellipsis">{nl2br($REASON_TO_EDIT)}</span>
-							</span>
+					<span class="{if empty($REASON_TO_EDIT)}d-none{/if} marginLeftZero editReason">
+						[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)}
+						] : <span name="editReason" class="u-text-ellipsis">{nl2br($REASON_TO_EDIT)}</span>
+					</span>
 						</small>
 					</p>
 					{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
 						<span class="{if empty($REASON_TO_EDIT)}row{else} col-6 paddingRightZero{/if}">
-							<span class="float-right">
-								<p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small></p>
-							</span>
-						</span>
+					<span class="float-right">
+						<p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small></p>
+					</span>
+				</span>
 					{/if}
 				</div>
 				<div class="commentActionsDiv">
 					{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
 					<span class="float-right commentActions">
-						{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
+				{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 							<button type="button" class="btn btn-sm btn-success replyComment">
-								<span class="fas fa-share"></span>
-								&nbsp;{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
-							</button>
+						<span class="fas fa-share"></span>
+						&nbsp;{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
+					</button>
 						{/if}
 						{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
 							<button type="button" class="btn btn-sm btn-primary editComment feedback marginLeft5">
-								<span class="fas fa-edit"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
-							</button>
+						<span class="fas fa-edit"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
+					</button>
 						{/if}
 						{assign var=LINKS value=$COMMENT->getCommentLinks()}
 						{if count($LINKS) > 0}
@@ -81,7 +92,7 @@
 								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='comment'}
 							{/foreach}
 						{/if}
-					</span>
+			</span>
 				</div>
 			</div>
 		</div>

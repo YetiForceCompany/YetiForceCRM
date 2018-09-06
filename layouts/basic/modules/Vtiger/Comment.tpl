@@ -43,11 +43,10 @@
 						{assign var=RELATED_MODULE value=\App\Record::getType($RELATED_TO)}
 						<a href="index.php?module={$RELATED_MODULE}&view=Detail&record={$RELATED_TO}">
 							<strong>{\App\Language::translate($RELATED_MODULE,$RELATED_MODULE)}:&nbsp;&nbsp;</strong>
-							<strong class="js-comment-search__value"
-									data-js="contains">{$COMMENT->getDisplayValue('related_to')}</strong>
+							<strong>{$COMMENT->getDisplayValue('related_to')}</strong>
 						</a>
 					{/if}
-					<div class="commentInfoContent js-comment-search__value" data-js="contains">
+					<div class="commentInfoContent">
 						{$COMMENT->getDisplayValue('commentcontent')}
 					</div>
 				</div>
@@ -92,7 +91,7 @@
 						{/foreach}
 					{/if}
 					{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
-					{if !empty($CHILD_COMMENTS_MODEL) and (!empty($CHILDS_ROOT_PARENT_ID) && $CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID)}
+					{if !empty($CHILD_COMMENTS_MODEL) && $CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID && empty($SHOW_CHILD_COMMENTS)}
 						<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 								<button type="button" class="btn btn-sm btn-info viewThread ml-1">
 									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}
