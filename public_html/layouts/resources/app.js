@@ -941,7 +941,6 @@ var App = {},
 			const view = app.getViewName()
 			const parentModule = app.getParentModuleName();
 			let moduleClassName = parentModule + "_" + moduleName + "_" + view + "_Js";
-			console.log(moduleClassName);
 			if (typeof window[moduleClassName] === "undefined") {
 				moduleClassName = parentModule + "_Vtiger_" + view + "_Js";
 			}
