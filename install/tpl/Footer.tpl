@@ -10,19 +10,19 @@
 ********************************************************************************/
 -->*}
 {strip}
-				<input id="activityReminder" class="d-none noprint" type="hidden" value="{$ACTIVITY_REMINDER}">
-				{if !$MAIN_PRODUCT_WHITELABEL}
-				<footer class="noprint">
-					<div class="vtFooter mb-5 pb-5 pb-sm-0">
-						<p>
-							{\App\Language::translate('LBL_FOOTER_CONTENT')}
-						</p>
-					</div>
-				</footer>
-				{/if}
-				{* javascript files *}
-				{include file='JSResources.tpl'}
+	<input id="activityReminder" class="d-none noprint" type="hidden" value="{$ACTIVITY_REMINDER}">
+	{if !$MAIN_PRODUCT_WHITELABEL}
+		<footer class="noprint fixed-bottom">
+			<div class="vtFooter pb-5 pb-sm-0">
+				<p>
+					{\App\Language::translate('LBL_FOOTER_CONTENT')}
+				</p>
 			</div>
-		</body>
+		</footer>
+	{/if}
+	{* javascript files *}
+	{include file='JSResources.tpl'}
+	</div>
+	</body>
 	</html>
 {/strip}

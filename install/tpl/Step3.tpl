@@ -247,7 +247,7 @@
 								</table>
 							</div>
 							<div class="form-button-nav fixed-bottom button-container p-1 bg-color-amber-50">
-								<div class="text-center">
+								<div class="text-center w-100">
 									<a class="btn btn-lg c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php"
 									   role="button">
 										<span class="fas fa-lg fa-arrow-circle-left mr-2"></span>
