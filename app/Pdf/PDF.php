@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Pdf;
-
 /**
  * Abstract class for connection to bank currency exchange rates.
  *
@@ -11,7 +9,15 @@ namespace App\Pdf;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Rafal Pospiech <r.pospiech@yetiforce.com>
  */
-abstract class AbstractPDF
+
+namespace App\Pdf;
+
+/**
+ * Class PDF.
+ *
+ * @package App\Pdf
+ */
+abstract class PDF
 {
 	protected $pdf;
 	protected $library;
