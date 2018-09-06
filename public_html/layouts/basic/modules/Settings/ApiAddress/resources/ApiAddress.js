@@ -12,18 +12,22 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 		});
 	},
 	registerSave: function (content) {
-		let thisInstance = this;
+		const thisInstance = this;
 		content.find('.saveGlobal').on('click', function () {
-			let elements = {
-					min_length: $('[name="min_length"]').val(),
-					result_num: $('[name="result_num"]').val(),
-					api_name: 'global',
+			AppConnector.request({
+				data: {
+					module: 'ApiAddress',
+					parent: 'Settings',
+					action: 'SaveConfig',
+					elements: {
+						min_length: $('[name="min_length"]').val(),
+						result_num: $('[name="result_num"]').val(),
+						api_name: 'global',
+					}
 				},
-				params = {};
-			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements};
-			params.async = false;
-			params.dataType = 'json';
-			AppConnector.request(params).done(
+				async: false,
+				dataType: 'json'
+			}).done(
 				function (data) {
 					Vtiger_Helper_Js.showPnotify({
 						text: data['result']['message'],
@@ -83,18 +87,22 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 		});
 	},
 	registerRemoveConnection: function (content) {
-		let thisInstance = this;
+		const thisInstance = this;
 		content.find('.delete').on('click', function () {
-			let elements = {
-					'key': '0',
-					'nominatim': '0',
-					api_name: jQuery(this).closest('.apiContainer').find('.apiAdrress').data('api-name')
+			AppConnector.request({
+				data: {
+					module: 'ApiAddress',
+					parent: 'Settings',
+					action: 'SaveConfig',
+					elements: {
+						key: '0',
+						nominatim: '0',
+						api_name: jQuery(this).closest('.apiContainer').find('.apiAdrress').data('api-name')
+					}
 				},
-				params = {}
-			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
-			params.async = false;
-			params.dataType = 'json';
-			AppConnector.request(params).done(function (data) {
+				async: false,
+				dataType: 'json'
+			}).done(function (data) {
 				let response = data['result'];
 				if (response['success']) {
 					thisInstance.registerReload();

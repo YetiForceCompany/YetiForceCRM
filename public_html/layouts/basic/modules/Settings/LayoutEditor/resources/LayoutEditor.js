@@ -97,7 +97,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 * Function to register all the relatedList Events
 	 */
 	registerRelatedListEvents: function () {
-		let thisInstance = this,
+		const thisInstance = this,
 			relatedList = $('#relatedTabOrder');
 		App.Fields.Picklist.showSelect2ElementView(relatedList.find('.relatedTabModulesList .select2_container'), {
 			sortable: true, sortableCb: (currentTarget) => {
@@ -351,8 +351,8 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		});
 	},
 	updateSelectedFields: function (target) {
-		let thisInstance = this,
-			params = {},
+		const thisInstance = this;
+		let params = {},
 			relatedModule = $(target).closest('.relatedModule'),
 			progressIndicatorElement = $.progressIndicator({
 				'position': 'html',
