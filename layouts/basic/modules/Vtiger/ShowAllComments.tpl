@@ -21,7 +21,10 @@
 						<span class="input-group-prepend">
 							<div class="input-group-text"><span class="fas fa-comments"></span></div>
 						</span>
-						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" name="commentcontent" class="commentcontent form-control" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
+						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" name="commentcontent"
+								  class="commentcontent form-control"
+								  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 					</div>
 					<button class="btn btn-success mt-3 saveComment float-right" type="button" data-mode="add">
 						<span class="visible-xs-inline-block fas fa-check"></span>
@@ -39,13 +42,16 @@
 					<span class="input-group-prepend" id="commentSearchAddon">
 						<div class="input-group-text"><span class="fas fa-search"></span> </div>
 					</span>
-					<input type="text" class="form-control commentSearch" placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}" aria-describedby="commentSearchAddon">
+					<input type="text" class="form-control commentSearch"
+						   placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
+						   aria-describedby="commentSearchAddon">
 				</div>
 			</div>
 			<div class="col-md-4 pr-0">
 				<select class="select2 form-control commentsHierarchy" multiple>
 					{foreach key=NAME item=LABEL from=$HIERARCHY_LIST}
-						<option value="{$NAME}" {if in_array($NAME, $HIERARCHY)}selected{/if}>{\App\Language::translate($LABEL, 'ModComments')}</option>
+						<option value="{$NAME}"
+								{if in_array($NAME, $HIERARCHY)}selected{/if}>{\App\Language::translate($LABEL, 'ModComments')}</option>
 					{/foreach}
 				</select>
 			</div>
@@ -64,7 +70,10 @@
 								<span class="fas fa-comments"></span>
 							</span>
 						</div>
-						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
+						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"
+								  class="form-control commentcontenthidden fullWidthAlways" name="commentcontent"
+								  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 					</div>
 					<button class="u-cursor-pointer mt-3 closeCommentBlock btn btn-warning float-right cancel"
 							type="reset">
@@ -82,7 +91,10 @@
 		<div class="d-none basicEditCommentBlock">
 			<div class="form-row">
 				<div class="col-md-12 my-3">
-					<input type="text" name="reasonToEdit" title="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level form-control"/>
+					<input type="text" name="reasonToEdit"
+						   title="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
+						   placeholder="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
+						   class="input-block-level form-control"/>
 				</div>
 			</div>
 			<div class="form-row">
@@ -93,9 +105,13 @@
 								<span class="fas fa-comments"></span>
 							</span>
 						</div>
-						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
+						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"
+								  class="form-control commentcontenthidden fullWidthAlways" name="commentcontent"
+								  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 					</div>
-					<button class="u-cursor-pointer mt-3 closeCommentBlock btn btn-warning float-right cancel" type="reset">
+					<button class="u-cursor-pointer mt-3 closeCommentBlock btn btn-warning float-right cancel"
+							type="reset">
 						<span class="visible-xs-inline-block fas fa-times"></span>
 						<strong class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 					</button>

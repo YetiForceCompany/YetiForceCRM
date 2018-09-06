@@ -1087,9 +1087,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 							text: '<b>' + fieldInfo.data.label + '</b><br>' +
-							'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
-							prevDisplayValue + '<br> ' +
-							'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
+								'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
+								prevDisplayValue + '<br> ' +
+								'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
 							type: 'info',
 							textTrusted: true
 						});
@@ -2064,20 +2064,20 @@ jQuery.Class("Vtiger_Detail_Js", {
 			recentCommentsTab.trigger('click');
 		});
 		detailContentsHolder.find('.commentSearch').on('keyup', function (e) {
-			var text = $(this).val();
-			if (text) {
-				detailContentsHolder.find('.commentDetails').addClass('d-none');
-				var contains = detailContentsHolder.find(".js-comment-search__value:contains(" + text + ")");
-				contains.each(function (e) {
-					$(this).closest('.commentDetails').removeClass('d-none');
-				});
-				if (contains.length == 0) {
-					detailContentsHolder.find('.noCommentsMsgContainer').removeClass('d-none');
-				}
-			} else {
-				detailContentsHolder.find('.commentDetails').removeClass('d-none');
-				detailContentsHolder.find('.noCommentsMsgContainer').addClass('d-none');
-			}
+			var progressIndicatorElement = jQuery.progressIndicator();
+			AppConnector.request({
+				module: app.getModuleName(),
+				view: 'Detail',
+				mode: 'showSearchComments',
+				hierarchy: detailContentsHolder.find('.commentsHierarchy').val().join(','),
+				record: app.getRecordId(),
+				search_key: $(this).val(),
+			}).done(function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				let commentsContainer = detailContentsHolder.find('.commentContainer');
+				commentsContainer.html(data);
+				//App.Fields.Picklist.showSelect2ElementView(widgetDataContainer.find('.select2'));
+			});
 		});
 	},
 	registerCommentEventsInDetail: function (widgetContainer) {

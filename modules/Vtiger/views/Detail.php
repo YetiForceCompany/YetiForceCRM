@@ -42,6 +42,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showChildComments');
 		$this->exposeMethod('showAllComments');
 		$this->exposeMethod('showThreadComments');
+		$this->exposeMethod('showSearchComments');
 		$this->exposeMethod('getActivities');
 		$this->exposeMethod('showRelatedProductsServices');
 		$this->exposeMethod('showRelatedRecords');
@@ -159,17 +160,17 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
-		$defaultModeValue = $this->defaultMode;
-		if ($defaultModeValue == 'showDetailViewByMode') {
+		$defaultMode = $this->defaultMode;
+		if ($defaultMode == 'showDetailViewByMode') {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
 			if (!($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList)) {
-				$defaultModeValue = 'showModuleDetailView';
+				$defaultMode = 'showModuleDetailView';
 			}
-		} elseif ($defaultModeValue === false) {
-			$defaultModeValue = 'showDetailViewByMode';
+		} elseif ($defaultMode === false) {
+			$defaultMode = 'showDetailViewByMode';
 		}
-		echo $this->$defaultModeValue($request);
+		echo $this->$defaultMode($request);
 	}
 
 	public function postProcess(\App\Request $request, $display = true)
@@ -509,6 +510,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PARENT_COMMENTS', $childComments);
+		$viewer->assign('CHILD_COMMENTS', true);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('CURRENT_COMMENT', null);
@@ -593,8 +595,56 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		if ($request->getByType('mode', 1) !== 'showSearchComments') {
+			return $viewer->view('ShowAllComments.tpl', $moduleName, true);
+		} else {
+			return $viewer->view('CommentsList.tpl', $moduleName, true);
+		}
+	}
 
-		return $viewer->view('ShowAllComments.tpl', $moduleName, true);
+	/**
+	 * Function send all the comments with search value.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return mixed
+	 */
+	public function showSearchComments(\App\Request $request)
+	{
+		if (!\App\Privilege::isPermitted('ModComments')) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$recordId = $request->getInteger('record');
+		$moduleName = $request->getModule();
+		$pageNumber = $request->getInteger('page');
+		$limit = $request->getInteger('limit');
+		if (empty($pageNumber)) {
+			$pageNumber = 1;
+		}
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel->set('page', $pageNumber);
+		if (!empty($limit)) {
+			$pagingModel->set('limit', $limit);
+		}
+		$hierarchy = [];
+		if ($request->has('hierarchy')) {
+			$hierarchy = $request->getExploded('hierarchy', ',', 'Integer');
+		}
+		if ($request->isEmpty('search_key', true)) {
+			return $this->showAllComments($request);
+		} else {
+			$searchValue = $request->getByType('search_key', 2);
+			$parentCommentModels = ModComments_Record_Model::getSearchComments($recordId, $searchValue, $hierarchy, $pagingModel);
+		}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('CURRENTUSER', $currentUserModel);
+		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
+		$viewer->assign('SHOW_CHILD_COMMENTS', true);
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		return $viewer->view('CommentsList.tpl', $moduleName, true);
 	}
 
 	/**

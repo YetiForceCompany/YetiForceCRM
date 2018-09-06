@@ -9,24 +9,28 @@
 				{assign var=CURRENT_COMMENT_PARENT_MODEL value=$CURRENT_COMMENT_PARENT_MODEL->getParentCommentModel()}
 				{if $CURRENT_COMMENT_PARENT_MODEL eq false}
 					{assign var=CHILDS_ROOT_PARENT_MODEL value=$TEMP_COMMENT}
-				{/if}	
+				{/if}
 			{/while}
 		{/if}
-		{if is_array($PARENT_COMMENTS)}
-			{foreach key=Index item=COMMENT from=$PARENT_COMMENTS}
-				{assign var=PARENT_COMMENT_ID value=$COMMENT->getId()}
-				<li class="commentDetails">
-					{include file=\App\Layout::getTemplatePath('Comment.tpl') COMMENT=$COMMENT COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
-					{if !empty($CHILDS_ROOT_PARENT_MODEL)}
-						{if $CHILDS_ROOT_PARENT_MODEL->getId() eq $PARENT_COMMENT_ID}		
-							{assign var=CHILD_COMMENTS_MODEL value=$CHILDS_ROOT_PARENT_MODEL->getChildComments()}
-							{include file=\App\Layout::getTemplatePath('CommentsListIteration.tpl') CHILD_COMMENTS_MODEL=$CHILD_COMMENTS_MODEL}
-						{/if}
+		{if !empty($SHOW_CHILD_COMMENTS) && !empty($PARENT_COMMENTS)}
+			<li class="commentDetails">
+				{include file=\App\Layout::getTemplatePath('Comment.tpl') COMMENT=$PARENT_COMMENTS COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
+				{if !empty($CHILDS_ROOT_PARENT_MODEL)}
+					{if $CHILDS_ROOT_PARENT_MODEL->getId() eq $PARENT_COMMENTS->getId()}
+						{include file=\App\Layout::getTemplatePath('CommentsListIteration.tpl') CHILD_COMMENTS_MODEL=$CHILDS_ROOT_PARENT_MODEL->getChildComments()}
 					{/if}
-				</li>	
-			{/foreach}
+				{/if}
+			</li>
 		{else}
-			{include file=\App\Layout::getTemplatePath('Comment.tpl') COMMENT=$PARENT_COMMENTS}
+			{if is_array($PARENT_COMMENTS)}
+				{foreach key=Index item=COMMENT from=$PARENT_COMMENTS}
+					<li class="commentDetails">
+						{include file=\App\Layout::getTemplatePath('Comment.tpl') COMMENT=$COMMENT COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL PARENT_COMMENT_ID=$COMMENT->getId()}
+					</li>
+				{/foreach}
+			{else}
+				{include file=\App\Layout::getTemplatePath('Comment.tpl') COMMENT=$PARENT_COMMENTS}
+			{/if}
 		{/if}
 	</ul>
 {/strip}

@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	{if !empty($CHILD_COMMENTS_MODEL)}
-		<ul class="liStyleNone">
+		<ul class="pl-2">
 			{foreach item=COMMENT from=$CHILD_COMMENTS_MODEL}
 				<li class="commentDetails">
 					{include file=\App\Layout::getTemplatePath('CommentThreadList.tpl') COMMENT=$COMMENT}
