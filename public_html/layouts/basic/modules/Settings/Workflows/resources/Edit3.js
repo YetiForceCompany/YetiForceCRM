@@ -91,31 +91,28 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		});
 	},
 	registerSaveTaskSubmitEvent: function (taskType) {
-		var thisInstance = this;
+		const thisInstance = this;
 		$('#saveTask').on('submit', function (e) {
-			var form = $(e.currentTarget);
-			var validationResult = form.validationEngine('validate');
-			if (validationResult == true) {
-				var customValidationFunctionName = taskType + 'CustomValidation';
+			let form = $(e.currentTarget);
+			if (form.validationEngine('validate') === true) {
+				let customValidationFunctionName = taskType + 'CustomValidation';
 				if (typeof thisInstance[customValidationFunctionName] !== "undefined") {
-					var result = thisInstance[customValidationFunctionName].apply(thisInstance);
-					if (result != true) {
-						var params = {
+					let result = thisInstance[customValidationFunctionName].apply(thisInstance);
+					if (result !== true) {
+						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_MESSAGE'),
 							text: result,
 							type: 'error'
-						}
-						Vtiger_Helper_Js.showPnotify(params);
+						});
 						e.preventDefault();
 						return;
 					}
 				}
-				var preSaveActionFunctionName = 'preSave' + taskType;
+				let preSaveActionFunctionName = 'preSave' + taskType;
 				if (typeof thisInstance[preSaveActionFunctionName] !== "undefined") {
 					thisInstance[preSaveActionFunctionName].apply(thisInstance, [taskType]);
 				}
-				var params = form.serializeFormData();
-				AppConnector.request(params).done(function (data) {
+				AppConnector.request(form.serializeFormData()).done(function (data) {
 					if (data.result) {
 						thisInstance.getTaskList();
 						app.hideModalWindow();
@@ -186,29 +183,30 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		return new Array('fieldname', 'value', 'valuetype');
 	},
 	getValues: function (tasktype) {
-		var thisInstance = this;
-		var conditionsContainer = $('#save_fieldvaluemapping');
-		var fieldListFunctionName = 'get' + tasktype + 'FieldList';
+		const thisInstance = this;
+		let fieldListFunctionName = 'get' + tasktype + 'FieldList',
+			fieldList = [];
 		if (typeof thisInstance[fieldListFunctionName] !== "undefined") {
-			var fieldList = thisInstance[fieldListFunctionName].apply()
+			fieldList = thisInstance[fieldListFunctionName].apply()
 		}
 
-		var values = [];
-		var conditions = $('.js-conditions-row', conditionsContainer);
-		conditions.each(function (i, conditionDomElement) {
-			var rowElement = $(conditionDomElement);
-			var fieldSelectElement = $('[name="fieldname"]', rowElement);
-			var valueSelectElement = $('[data-value="value"]', rowElement);
+		let values = [];
+		$('.js-conditions-row', $('#save_fieldvaluemapping')).each(function (i, conditionDomElement) {
+			let rowElement = $(conditionDomElement),
+				fieldSelectElement = $('[name="fieldname"]', rowElement),
+				valueSelectElement = $('[data-value="value"]', rowElement);
 			//To not send empty fields to server
 			if (thisInstance.isEmptyFieldSelected(fieldSelectElement)) {
 				return true;
 			}
-			var fieldDataInfo = fieldSelectElement.find('option:selected').data('fieldinfo');
-			var fieldType = fieldDataInfo.type;
-			var rowValues = {};
+			let fieldDataInfo = fieldSelectElement.find('option:selected').data('fieldinfo'),
+				fieldType = fieldDataInfo.type,
+				rowValues = {},
+				key,
+				field;
 			if (fieldType == 'owner') {
-				for (var key in fieldList) {
-					var field = fieldList[key];
+				for (key in fieldList) {
+					field = fieldList[key];
 					if (field == 'value' && valueSelectElement.is('select')) {
 						rowValues[field] = valueSelectElement.find('option:selected').val();
 					} else {
@@ -216,22 +214,20 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 					}
 				}
 			} else if (fieldType == 'picklist' || fieldType == 'multipicklist') {
-				for (var key in fieldList) {
-					var field = fieldList[key];
+				for (key in fieldList) {
+					field = fieldList[key];
 					if (field == 'value' && valueSelectElement.is('input')) {
-						var commaSeperatedValues = valueSelectElement.val();
-						var pickListValues = valueSelectElement.data('picklistvalues');
-						var valuesArr = commaSeperatedValues.split(',');
-						var newvaluesArr = [];
+						let pickListValues = valueSelectElement.data('picklistvalues'),
+							valuesArr = valueSelectElement.val().split(','),
+							newValuesArr = [];
 						for (i = 0; i < valuesArr.length; i++) {
 							if (typeof pickListValues[valuesArr[i]] !== "undefined") {
-								newvaluesArr.push(pickListValues[valuesArr[i]]);
+								newValuesArr.push(pickListValues[valuesArr[i]]);
 							} else {
-								newvaluesArr.push(valuesArr[i]);
+								newValuesArr.push(valuesArr[i]);
 							}
 						}
-						var reconstructedCommaSeperatedValues = newvaluesArr.join(',');
-						rowValues[field] = reconstructedCommaSeperatedValues;
+						rowValues[field] = newValuesArr.join(',');
 					} else if (field == 'value' && valueSelectElement.is('select') && fieldType == 'picklist') {
 						rowValues[field] = valueSelectElement.val();
 					} else if (field == 'value' && valueSelectElement.is('select') && fieldType == 'multipicklist') {
@@ -247,8 +243,8 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				}
 
 			} else {
-				for (var key in fieldList) {
-					var field = fieldList[key];
+				for (key in fieldList) {
+					field = fieldList[key];
 					if (field == 'value') {
 						rowValues[field] = valueSelectElement.val();
 					} else {
