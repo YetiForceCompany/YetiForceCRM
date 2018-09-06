@@ -399,7 +399,7 @@ var App = {},
 		 */
 		hideModalWindow: function (callback, id) {
 			let container;
-			if (typeof callback === 'object') {
+			if (callback && typeof callback === 'object') {
 				container = callback;
 			} else if (id == undefined) {
 				container = $('.modalContainer');
