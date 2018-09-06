@@ -288,8 +288,6 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		if ($pagingModel && $pagingModel->get('limit') !== 0) {
 			$query->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
 		}
-		////echo $dataReader = $query->createCommand()->getRawSql();
-		//die();
 		$dataReader = $query->createCommand()->query();
 		$commentsId = [];
 		while ($row = $dataReader->read()) {
