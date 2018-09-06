@@ -115,6 +115,14 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDefaultEditTemplateName()
+	{
+		return 'Edit/DefaultField/Date.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getAllowedColumnTypes()
 	{
 		return null;

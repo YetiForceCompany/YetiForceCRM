@@ -47,6 +47,8 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	 * Save field.
 	 *
 	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
 	 */
 	public function save(\App\Request $request)
 	{
@@ -74,14 +76,11 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		}
 		$response = new Vtiger_Response();
 		try {
-			$defaultValue = $request->get('fieldDefaultValue');
-			if ($fieldInstance->getFieldDataType() === 'date' && \App\TextParser::isVaribleToParse($defaultValue)) {
-				$fieldInstance->set('defaultvalue', $defaultValue);
-			} elseif ($defaultValue) {
-				$uitypeModel->validate($defaultValue, true);
-				$defaultValue = $uitypeModel->getDBValue($defaultValue);
+			if ($request->getBoolean('defaultvalue')) {
+				$uitypeModel->setDefaultValueFromRequest($request);
+			} else {
+				$fieldInstance->set('defaultvalue', '');
 			}
-			$fieldInstance->set('defaultvalue', trim($defaultValue));
 			$fieldInstance->save();
 			$response->setResult([
 				'success' => true,
