@@ -59,7 +59,7 @@
 						</div>
 					</div>
 					<div class="form-button-nav fixed-bottom button-container p-1 bg-color-amber-50">
-						<div class="text-center">
+						<div class="text-center w-100">
 							<button href="#" class="btn btn-lg c-btn-block-xs-down btn-primary bt_install mr-sm-1 {if $IS_MIGRATE} mb-1 {/if} mb-sm-0" type="submit">
 								<span class="fas fa-lg fa-arrow-circle-right mr-2"></span>
 								{\App\Language::translate('LBL_INSTALL_BUTTON','Install')}
