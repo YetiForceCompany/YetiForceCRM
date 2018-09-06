@@ -2,8 +2,10 @@
 'use strict';
 
 Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
-	step3Container: false,
+	step8Container: false,
 	advanceFilterInstance: false,
+	ckEditorInstance: false,
+	fieldValueMap: false,
 	init: function () {
 		this.initialize();
 	},
@@ -12,7 +14,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 	 * @return jQuery object
 	 */
 	getContainer: function () {
-		return this.step3Container;
+		return this.step8Container;
 	},
 	/**
 	 * Function to set the reports step1 container
@@ -20,7 +22,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 	 * @return : current instance
 	 */
 	setContainer: function (element) {
-		this.step3Container = element;
+		this.step8Container = element;
 		return this;
 	},
 	/**
@@ -37,36 +39,27 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 		}
 	},
 	submit: function () {
-		for (var instance in CKEDITOR.instances) {
-			CKEDITOR.instances[instance].updateElement();
-		}
 		var aDeferred = jQuery.Deferred();
 		var form = this.getContainer();
-		var formData = form.serializeFormData();
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
 			}
 		});
-
 		var saveData = form.serializeFormData();
 		saveData['action'] = 'Save';
-		saveData['step'] = 3;
+		saveData['step'] = 8;
 		AppConnector.request(saveData).done(function (data) {
-			data = JSON.parse(data);
 			if (data.success == true) {
 				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
 
-				AppConnector.request(formData).done(function (data) {
-					form.hide();
+				setTimeout(function () {
+					window.location.href = "index.php?module=PDF&parent=Settings&page=1&view=List";
 					progressIndicatorElement.progressIndicator({
 						'mode': 'hide'
-					})
-					aDeferred.resolve(data);
-				}).fail(function (error, err) {
-					app.errorLog(error, err);
-				});
+					});
+				}, 1000);
 			}
 		}).fail(function (error, err) {
 			app.errorLog(error, err);
@@ -78,18 +71,21 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 			window.history.back();
 		});
 	},
-	registerEvents: function () {
-		let container = this.getContainer(),
-			opts = app.validationEngineOptions;
-		// to prevent the page reload after the validation has completed
-		opts['onValidationComplete'] = function (form, valid) {
-			//returns the valid status
-			return valid;
-		};
-		opts['promptPosition'] = "bottomRight";
-		container.validationEngine(opts);
-		App.Fields.Picklist.showSelect2ElementView(container.find('select'));
-		new App.Fields.Text.Editor('.js-editor', {toolbar: 'Full'});
+	calculateValues: function () {
+		//handled advanced filters saved values.
+		var enableFilterElement = jQuery('#enableAdvanceFilters');
+		if (enableFilterElement.length > 0 && enableFilterElement.is(':checked') == false) {
+			jQuery('#advanced_filter').val(jQuery('#olderConditions').val());
+		} else {
+			jQuery('[name="filtersavedinnew"]').val("6");
+			var advfilterlist = this.advanceFilterInstance.getValues();
+			jQuery('#advanced_filter').val(JSON.stringify(advfilterlist));
+		}
+	},
+	registerEvents() {
+		const container = this.getContainer();
+		App.Fields.Picklist.changeSelectElementView(container);
 		this.registerCancelStepClickEvent(container);
+		this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance($('#advanceFilterContainer', container));
 	}
 });

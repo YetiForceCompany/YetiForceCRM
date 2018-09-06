@@ -9,7 +9,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 	},
 	/**
 	 * Function to get the container which holds all the reports step1 elements
-	 * @return jQuery object
+	 * @return $ object
 	 */
 	getContainer: function () {
 		return this.step2Container;
@@ -26,21 +26,21 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 	/**
 	 * Function  to intialize the reports step1
 	 */
-	initialize: function (container) {
-		if (typeof container === "undefined") {
-			container = jQuery('#pdf_step2');
+	initialize(container) {
+		if (typeof container === 'undefined') {
+			container = $('#pdf_step2');
 		}
 		if (container.is('#pdf_step2')) {
 			this.setContainer(container);
 		} else {
-			this.setContainer(jQuery('#pdf_step2'));
+			this.setContainer($('#pdf_step2'));
 		}
 	},
 	submit: function () {
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		var form = this.getContainer();
 		var formData = form.serializeFormData();
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
@@ -50,56 +50,128 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 		saveData['action'] = 'Save';
 		saveData['step'] = 2;
 		AppConnector.request(saveData).done(function (data) {
-				data = JSON.parse(data);
-				if (data.success == true) {
-					Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
+			data = JSON.parse(data);
+			if (data.success == true) {
+				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
 
-					AppConnector.request(formData).done(function (data) {
-							form.hide();
-							progressIndicatorElement.progressIndicator({
-								'mode': 'hide'
-							})
-							aDeferred.resolve(data);
-						}).fail(function (error, err) {
-							app.errorLog(error, err);
-						}
-					);
-				}
-			}).fail(function (error, err) {
-				app.errorLog(error, err);
-			});
+				AppConnector.request(formData).done(function (data) {
+					form.hide();
+					progressIndicatorElement.progressIndicator({
+						'mode': 'hide'
+					})
+					aDeferred.resolve(data);
+				}).fail(function (error, err) {
+						app.errorLog(error, err);
+					}
+				);
+			}
+		}).fail(function (error, err) {
+			app.errorLog(error, err);
+		});
 		return aDeferred.promise();
 	},
 	registerCancelStepClickEvent: function (form) {
-		jQuery('button.cancelLink', form).on('click', function () {
+		$('button.cancelLink', form).on('click', function () {
 			window.history.back();
 		});
 	},
-	registerMarginCheckboxClickEvent: function (container) {
-		container.find('#margin_chkbox').on('change', function () {
-			var status = jQuery(this).is(':checked');
+	registerEditors(container) {
+		new App.Fields.Text.Editor($(container).find('.js-editor'), {toolbar: 'Full'});
+	},
+	registerWatermarkTypeChange: function (container) {
+		var watermarkType = container.find('#watermark_type');
 
-			if (status) {
-				container.find('.margin_inputs').addClass('d-none');
-			} else {
-				container.find('.margin_inputs').removeClass('d-none');
+		watermarkType.on('change', function () {
+			container.find('.watertext').toggleClass('d-none')
+			container.find('.waterimage').toggleClass('d-none')
+		});
+	},
+	registerUploadButton: function (form) {
+		form.find('#uploadWM').on('click', function (e) {
+			e.preventDefault();
+			var fileSelect = form.find('#watermark_image');
+			// Get the selected files from the input.
+			var files = fileSelect[0].files;
+
+			// Create a new FormData object.
+			var formData = new FormData();
+			// Loop through each of the selected files.
+			for (var i = 0; i < files.length; i++) {
+				var file = files[i];
+
+				// Check the file type.
+				if (!file.type.match('image.*')) {
+					continue;
+				}
+
+				// Add the file to the request.
+				formData.append('watermark[]', file, file.name);
 			}
+			formData.append('template_id', form.find('[name="record"]').val());
+			// Set up the request.
+			var xhr = new XMLHttpRequest();
+
+			// Open the connection.
+			xhr.open('POST', 'index.php?module=PDF&parent=Settings&action=Watermark&mode=upload', true);
+
+			// Set up a handler for when the request finishes.
+			xhr.onload = function () {
+				if (xhr.status === 200) {
+					var templateId = form.find('[name="record"]').val();
+					var fileName = files[0]['name'];
+					var fileExt = fileName.split('.');
+					var uploadedImage = templateId + '.' + fileExt[fileExt.length - 1];
+
+					form.find('#watermark').html('<img src="storage/Pdf/watermark/' + uploadedImage + '" class="col-md-9" />');
+					form.find('[name="watermark_image"]').val('storage/Pdf/watermark/' + uploadedImage);
+					form.find('#deleteWM').removeClass('d-none');
+				}
+			};
+
+			// Send the Data.
+			xhr.send(formData);
+		});
+	},
+	registerDeleteUploadButton: function (form) {
+		form.find('#deleteWM').on('click', function (e) {
+			e.preventDefault();
+			var params = {};
+			params.data = {
+				parent: app.getParentModuleName(),
+				module: app.getModuleName(),
+				action: 'Watermark',
+				mode: 'delete',
+				id: form.find('[name="record"]').val()
+			};
+			params.dataType = 'json';
+			AppConnector.request(params).done(function (data) {
+				var response = data['result'];
+				if (response) {
+					form.find('#watermark').html('');
+					form.find('[name="watermark_image"]').val('');
+					form.find('#deleteWM').addClass('d-none');
+				}
+			}).fail(function (data, err) {
+				app.errorLog(data, err);
+			});
 		});
 	},
 	registerEvents: function () {
-		var container = this.getContainer();
-
-		var opts = app.validationEngineOptions;
+		const container = this.getContainer();
+		/*var opts = app.validationEngineOptions;
 		// to prevent the page reload after the validation has completed
 		opts['onValidationComplete'] = function (form, valid) {
 			//returns the valid status
 			return valid;
 		};
 		opts['promptPosition'] = "topLeft";
-		container.validationEngine(opts);
+		container.validationEngine(opts);*/
 		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
 		this.registerCancelStepClickEvent(container);
-		this.registerMarginCheckboxClickEvent(container);
 		app.showPopoverElementView(container.find('.js-popover-tooltip'));
+		this.registerEditors(container);
+		this.registerWatermarkTypeChange(container);
+		this.registerUploadButton(container);
+		this.registerDeleteUploadButton(container);
 	}
 });
