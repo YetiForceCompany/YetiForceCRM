@@ -18,29 +18,17 @@ namespace App\Pdf\Libs;
 class Tcpdf extends \TCPDF
 {
 	/**
-	 * Css styles declaration.
+	 * Global css style declaration.
 	 *
 	 * @var array
 	 */
-	protected $cssStyles = [
-		'' => '
-			.header-table {
-				width: 100%;
-			    color: #ffffff;
-			    text-align: center;
-			    font-family: dejavusans;
-			    font-size: 16px;
-			    background-color: #4a5364;
-			}
-		'
-	];
-
-	/**
-	 * Current CSS style name (for current page - AddPage).
-	 *
-	 * @var string
-	 */
-	protected $currentCssStyleName = '';
+	protected $cssStyle = '
+		table {
+			width: 100%;
+			font-size: 12px;
+			color: black;
+		}
+	';
 
 	/**
 	 * Header html.
@@ -117,25 +105,21 @@ class Tcpdf extends \TCPDF
 	];
 
 	/**
-	 * Set current pdf css style.
-	 *
-	 * @param string $style
+	 * {@inheritdoc}
 	 */
-	public function setCssStyle(string $style, $name = '')
+	public function __construct($orientation = 'P', $unit = 'mm', $format = 'A4', $unicode = true, $encoding = 'UTF-8', $diskcache = false, $pdfa = false)
 	{
-		$this->cssStyles[$name] = $style;
+		parent::__construct($orientation, $unit, $format, $unicode, $encoding, $diskcache, $pdfa);
 	}
 
 	/**
 	 * Get CSS styles for specified name or default if name is empty.
 	 *
-	 * @param string $name
-	 *
 	 * @return string
 	 */
-	public function getCssStyle(string $name = '')
+	public function getCssStyle()
 	{
-		return '<style>' . $this->cssStyles[$name] . '</style>';
+		return '<style>' . $this->cssStyle . '</style>';
 	}
 
 	/**
@@ -417,12 +401,10 @@ class Tcpdf extends \TCPDF
 	/**
 	 * {@inheritdoc}
 	 */
-	public function addPage($orientation = '', $format = '', $keepmargins = false, $tocpage = false, $cssStyleName = '')
+	public function addPage($orientation = '', $format = '', $keepmargins = false, $tocpage = false)
 	{
-		if (!empty(func_get_args()['cssStyleName'])) {
-			$this->currentCssStyleName = $cssStyleName;
-		}
 		parent::AddPage($orientation, $format, $keepmargins, $tocpage);
+		$this->writeHTML($this->getCssStyle());
 	}
 
 	/**
@@ -430,6 +412,6 @@ class Tcpdf extends \TCPDF
 	 */
 	public function writeHTML($html, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '')
 	{
-		parent::writeHTML($this->getCssStyle($this->currentCssStyleName) . $html, $ln, $fill, $reseth, $cell, $align);
+		parent::writeHTML($this->getCssStyle() . $html, $ln, $fill, $reseth, $cell, $align);
 	}
 }
