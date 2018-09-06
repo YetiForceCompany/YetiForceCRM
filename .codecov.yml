@@ -1,5 +1,5 @@
 coverage:
-  range: 15..25
+  range: 0..22
   status:
     project:
       default: false
@@ -7,7 +7,7 @@ coverage:
         target: 100%
         paths: "tests/"
       app:
-        target: 16%
+        target: 40%
         paths: "!tests/"
     patch: off
 ignore:
