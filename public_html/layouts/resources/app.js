@@ -941,6 +941,7 @@ var App = {},
 			const view = app.getViewName()
 			const parentModule = app.getParentModuleName();
 			let moduleClassName = parentModule + "_" + moduleName + "_" + view + "_Js";
+			console.log(moduleClassName);
 			if (typeof window[moduleClassName] === "undefined") {
 				moduleClassName = parentModule + "_Vtiger_" + view + "_Js";
 			}
@@ -960,6 +961,15 @@ var App = {},
 				}
 				if (typeof window[moduleClassName] === 'object') {
 					return window.pageController = window[moduleClassName];
+				}
+			}
+			let moduleBaseClassName = parentModule + "_" + moduleName + "_" + "Index_Js";
+			if (typeof window[moduleBaseClassName] !== "undefined") {
+				if (typeof window[moduleBaseClassName] === 'function') {
+					return window.pageController = new window[moduleBaseClassName]();
+				}
+				if (typeof window[moduleBaseClassName] === 'object') {
+					return window.pageController = window[moduleBaseClassName];
 				}
 			}
 		},
