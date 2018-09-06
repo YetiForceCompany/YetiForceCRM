@@ -56,6 +56,22 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Set default value from request.
+	 *
+	 * @param \App\Request $request
+	 * @param bool         $requestFieldName
+	 *
+	 * @throws \App\Exceptions\Security
+	 */
+	public function setDefaultValueFromRequest(\App\Request $request)
+	{
+		$fieldModel = $this->getFieldModel();
+		$recordModel = Vtiger_Record_Model::getCleanInstance($fieldModel->getModuleName());
+		$this->setValueFromRequest($request, $recordModel);
+		$fieldModel->set('defaultvalue', $recordModel->get($fieldModel->getName()));
+	}
+
+	/**
 	 * Verification of data.
 	 *
 	 * @param string $value
@@ -130,7 +146,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 * Function to get the list value in display view.
 	 *
 	 * @param mixed                    $value       Field value
-	 * @param int                      $record|bool Record Id
+	 * @param int                      $record      |bool Record Id
 	 * @param Vtiger_Record_Model|bool $recordModel
 	 * @param bool                     $rawText     Return text or html
 	 *
@@ -145,7 +161,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 * Function to get the related list value in display view.
 	 *
 	 * @param mixed                    $value       Field value
-	 * @param int                      $record|bool Record Id
+	 * @param int                      $record      |bool Record Id
 	 * @param Vtiger_Record_Model|bool $recordModel
 	 * @param bool                     $rawText     Return text or html
 	 *
@@ -269,6 +285,16 @@ class Vtiger_Base_UIType extends \App\Base
 	public function getListSearchTemplateName()
 	{
 		return 'List/Field/Base.tpl';
+	}
+
+	/**
+	 * Function to get the default edit view template name for the current UI Type Object.
+	 *
+	 * @return string - Template Name
+	 */
+	public function getDefaultEditTemplateName()
+	{
+		return 'Edit/DefaultField/Base.tpl';
 	}
 
 	/**
