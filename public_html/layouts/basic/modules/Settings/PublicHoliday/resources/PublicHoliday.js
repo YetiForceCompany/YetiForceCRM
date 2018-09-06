@@ -18,7 +18,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 	 * Delete chosen holiday date
 	 */
 	deleteHoliday: function (holidayId) {
-		let thisInstance = this,
+		const thisInstance = this,
 			progressIndicatorElement = jQuery.progressIndicator({
 				'position': 'html',
 				'blockInfo': {
@@ -54,7 +54,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 		const thisInstance = this,
 			contents = jQuery('#layoutDashBoards');
 		contents.find('.addDateWindow').on('click', function (e) {
-			const addBlockContainer = contents.find('.addDateWindowModal').clone(true, true),
+			let addBlockContainer = contents.find('.addDateWindowModal').clone(true, true),
 				translate = app.vtranslate('JS_ADD_NEW_HOLIDAY');
 			addBlockContainer.find('.modal-title').text(translate);
 			let callBackFunction = function (data) {
@@ -226,7 +226,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 				form.on('submit', function (e) {
 					e.preventDefault();
 				});
-			}
+			};
 			app.showModalWindow(addBlockContainer, function (data) {
 				if (typeof callBackFunction == 'function') {
 					callBackFunction(data);
@@ -239,7 +239,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {}, {
 	 * Function to save the new custom block details
 	 */
 	saveNewDate: function (form) {
-		let thisInstance = this,
+		const thisInstance = this,
 			params = form.serializeFormData();
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
