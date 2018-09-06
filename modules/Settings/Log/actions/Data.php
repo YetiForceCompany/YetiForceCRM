@@ -17,8 +17,8 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 	public function process(\App\Request $request)
 	{
 		$type = $request->getByType('type', 1);
-		if (!array_key_exists($type, App\Log::$tableColumnMapping)) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		if (!isset(App\Log::$tableColumnMapping[$type])) {
+			throw new \App\Exceptions\NoPermittedForAdmin('ERR_ILLEGAL_VALUE');
 		}
 		$query = (new \App\Db\Query())->from('o_#__' . $type);
 		$logsCountAll = $logsCount = (int)$query->count('*');
