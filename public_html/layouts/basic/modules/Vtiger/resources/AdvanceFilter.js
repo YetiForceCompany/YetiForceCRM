@@ -243,34 +243,33 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	 * @return : jquery object which represents the ui for the field
 	 */
 	getFieldSpecificUi: function (fieldSelectElement) {
-		var selectedOption = fieldSelectElement.find('option:selected');
-		var fieldModel = this.fieldModelInstance;
+		let fieldModel = this.fieldModelInstance,
+			html;
 		if (fieldModel.get('comparatorElementVal') === 'd') {
-			var html = '<div class="checkbox"><label><input type="checkbox" name="' + fieldModel.getName() + '" value="0" ';
+			html = '<div class="checkbox"><label><input type="checkbox" name="' + fieldModel.getName() + '" value="0" ';
 			if (fieldModel.getValue() === 1 || fieldModel.getValue() === '1') {
 				html += 'checked';
 			}
 			html += ' >' + app.vtranslate('JS_IGNORE_EMPTY_VALUES') + '</label></div>';
-			return jQuery(html);
-		} else if (fieldModel.getType().toLowerCase() == "boolean") {
-			var conditionRow = fieldSelectElement.closest('.js-conditions-row');
-			var selectedValue = conditionRow.find('[data-value="value"]').val();
-			var html = '<select class="select2" name="' + fieldModel.getName() + '">';
+			return $(html);
+		} else if (fieldModel.getType().toLowerCase() === "boolean") {
+			let selectedValue = fieldSelectElement.closest('.js-conditions-row').find('[data-value="value"]').val();
+			html = '<select class="select2" name="' + fieldModel.getName() + '">';
 			html += '<option value="0"';
-			if (selectedValue == '0') {
+			if (selectedValue === '0') {
 				html += ' selected="selected" ';
 			}
 			html += '>' + app.vtranslate('JS_IS_DISABLED') + '</option>';
 
 			html += '<option value="1"';
-			if (selectedValue == '1') {
+			if (selectedValue === '1') {
 				html += ' selected="selected" ';
 			}
 			html += '>' + app.vtranslate('JS_IS_ENABLED') + '</option>';
 			html += '</select>';
-			return jQuery(html);
+			return $(html);
 		} else {
-			return jQuery(fieldModel.getUiTypeSpecificHtml());
+			return $(fieldModel.getUiTypeSpecificHtml());
 		}
 	},
 	/**
@@ -427,85 +426,80 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	 * @return : object
 	 */
 	getValues: function () {
-		var thisInstance = this;
-		var filterContainer = this.getFilterContainer();
-
-		var fieldList = new Array('columnname', 'comparator', 'value', 'column_condition');
-
-		var values = {};
-		var columnIndex = 0;
-		var conditionGroups = jQuery('.conditionGroup', filterContainer);
-		conditionGroups.each(function (index, domElement) {
-			var groupElement = jQuery(domElement);
+		const thisInstance = this;
+		let fieldList = ['columnname', 'comparator', 'value', 'column_condition'],
+			filterContainer = this.getFilterContainer(),
+			conditionGroups = $('.conditionGroup', filterContainer),
+			values = {},
+			columnIndex = 0;
+		$('.conditionGroup', filterContainer).each(function (index, domElement) {
 			values[index + 1] = {};
-			var conditions = jQuery('.conditionList .js-conditions-row', groupElement);
 			values[index + 1]['columns'] = {};
-			conditions.each(function (i, conditionDomElement) {
-				var rowElement = jQuery(conditionDomElement);
-				var fieldSelectElement = jQuery('[name="columnname"]', rowElement);
-				var valueSelectElement = jQuery('[data-value="value"]', rowElement);
+			$('.conditionList .js-conditions-row', $(domElement)).each(function (i, conditionDomElement) {
+				let rowElement = $(conditionDomElement),
+					fieldSelectElement = $('[name="columnname"]', rowElement),
+					valueSelectElement = $('[data-value="value"]', rowElement);
 				//To not send empty fields to server
 				if (thisInstance.isEmptyFieldSelected(fieldSelectElement)) {
 					return true;
 				}
-				var fieldDataInfo = fieldSelectElement.find('option:selected').data('fieldinfo');
-				var fieldType = fieldDataInfo.type;
-				var searchOperator = fieldDataInfo.hasOwnProperty("searchOperator");
-				var rowValues = {};
-				if (fieldType == 'owner' || fieldType == 'userCreator') {
-					for (var key in fieldList) {
-						var field = fieldList[key];
-						if (field == 'value' && valueSelectElement.is('select')) {
-							var newValuesArr = valueSelectElement.val();
+				let fieldDataInfo = fieldSelectElement.find('option:selected').data('fieldinfo'),
+					fieldType = fieldDataInfo.type,
+					rowValues = {},
+					key,
+					field;
+				if (fieldType === 'owner' || fieldType === 'userCreator') {
+					for (key in fieldList) {
+						field = fieldList[key];
+						if (field === 'value' && valueSelectElement.is('select')) {
+							let newValuesArr = valueSelectElement.val();
 							if (!newValuesArr) {
 								rowValues[field] = '';
 							} else {
 								rowValues[field] = newValuesArr.join(',');
 							}
-						} else if (field == 'value' && valueSelectElement.is('input')) {
+						} else if (field === 'value' && valueSelectElement.is('input')) {
 							rowValues[field] = valueSelectElement.attr('type') === 'checkbox' && valueSelectElement.prop('checked') ? 1 : valueSelectElement.val();
 						} else {
-							rowValues[field] = jQuery('[name="' + field + '"]', rowElement).val();
+							rowValues[field] = $('[name="' + field + '"]', rowElement).val();
 						}
 					}
 				} else if ($.inArray(fieldType, ['picklist', 'multipicklist', 'modules', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1) {
-					for (var key in fieldList) {
-						var field = fieldList[key];
-						if (field == 'value' && valueSelectElement.attr('type') === 'checkbox') {
+					for (key in fieldList) {
+						field = fieldList[key];
+						if (field === 'value' && valueSelectElement.attr('type') === 'checkbox') {
 							rowValues[field] = valueSelectElement.prop('checked') ? 1 : valueSelectElement.val();
-						} else if (field == 'value' && valueSelectElement.is('input')) {
-							var commaSeperatedValues = valueSelectElement.val();
-							var pickListValues = valueSelectElement.data('picklistvalues');
-							var valuesArr = commaSeperatedValues.split(',');
-							var newvaluesArr = [];
+						} else if (field === 'value' && valueSelectElement.is('input')) {
+							let pickListValues = valueSelectElement.data('picklistvalues'),
+								valuesArr = valueSelectElement.val().split(','),
+								newValuesArr = [];
 							for (i = 0; i < valuesArr.length; i++) {
 								if (typeof pickListValues[valuesArr[i]] !== "undefined") {
-									newvaluesArr.push(pickListValues[valuesArr[i]]);
+									newValuesArr.push(pickListValues[valuesArr[i]]);
 								} else {
-									newvaluesArr.push(valuesArr[i]);
+									newValuesArr.push(valuesArr[i]);
 								}
 							}
-							var reconstructedCommaSeperatedValues = newvaluesArr.join(',');
-							rowValues[field] = reconstructedCommaSeperatedValues;
-						} else if (field == 'value' && valueSelectElement.is('select') && ($.inArray(fieldType, ['picklist', 'multipicklist', 'modules', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1)) {
-							var value = valueSelectElement.val();
+							rowValues[field] = newValuesArr.join(',');
+						} else if (field === 'value' && valueSelectElement.is('select') && ($.inArray(fieldType, ['picklist', 'multipicklist', 'modules', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1)) {
+							let value = valueSelectElement.val();
 							if (value == null) {
 								rowValues[field] = value;
 							} else {
 								rowValues[field] = value.join(',');
 							}
 						} else {
-							rowValues[field] = jQuery('[name="' + field + '"]', rowElement).val();
+							rowValues[field] = $('[name="' + field + '"]', rowElement).val();
 						}
 					}
 
 				} else {
-					for (var key in fieldList) {
-						var field = fieldList[key];
-						if (field == 'value') {
+					for (key in fieldList) {
+						field = fieldList[key];
+						if (field === 'value') {
 							rowValues[field] = valueSelectElement.attr('type') === 'checkbox' && valueSelectElement.prop('checked') ? 1 : valueSelectElement.val();
 						} else {
-							rowValues[field] = jQuery('[name="' + field + '"]', rowElement).val();
+							rowValues[field] = $('[name="' + field + '"]', rowElement).val();
 						}
 					}
 				}
@@ -648,18 +642,21 @@ AdvanceFilter_Multipicklist_Field_Js('AdvanceFilter_Taxes_Field_Js', {}, {});
 
 Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 	getUi: function () {
-		var comparatorSelectedOptionVal = this.get('comparatorElementVal');
-		if ((comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal == 'n') || (this.getName() === 'shownerid' && jQuery.inArray(comparatorSelectedOptionVal, ['c', 'k']) != -1)) {
-			var html = '<select class="select2" multiple name="' + this.getName() + '[]">';
-			var pickListValues = this.getPickListValues();
-			var selectedOption = app.htmlDecode(this.getValue());
-			var selectedOptionsArray = selectedOption.split(',');
-			for (var optGroup in pickListValues) {
-				html += '<optgroup label="' + optGroup + '">'
-				var optionGroupValues = pickListValues[optGroup];
-				for (var option in optionGroupValues) {
+		let comparatorSelectedOptionVal = this.get('comparatorElementVal'),
+			html = '',
+			selectContainer;
+		if ((comparatorSelectedOptionVal === 'e' || comparatorSelectedOptionVal === 'n') || (this.getName() === 'shownerid' && $.inArray(comparatorSelectedOptionVal, ['c', 'k']) != -1)) {
+			html = '<select class="select2" multiple name="' + this.getName() + '[]">';
+			let pickListValues = this.getPickListValues(),
+				selectedOption = app.htmlDecode(this.getValue()),
+				optGroup;
+			for (optGroup in pickListValues) {
+				html += '<optgroup label="' + optGroup + '">';
+				let optionGroupValues = pickListValues[optGroup],
+					option;
+				for (option in optionGroupValues) {
 					html += '<option value="' + option + '" ';
-					if (jQuery.inArray(option, selectedOptionsArray) != -1) {
+					if ($.inArray(option, selectedOption.split(',')) != -1) {
 						html += ' selected ';
 					}
 					html += '>' + optionGroupValues[option] + '</option>';
@@ -667,20 +664,18 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 				html += '</optgroup>';
 			}
 			html += '</select>';
-			var selectContainer = jQuery(html);
+			selectContainer = $(html);
 			this.addValidationToElement(selectContainer);
 			return selectContainer;
 		} else {
-			var selectedOption = this.getValue();
-			var pickListValues = this.getPickListValues();
-			var tagsArray = [];
-			jQuery.each(pickListValues, function (groups, blocks) {
-				jQuery.each(blocks, function (i, e) {
-					tagsArray.push(jQuery.trim(e));
+			let tagsArray = [];
+			$.each(this.getPickListValues(), function (groups, blocks) {
+				$.each(blocks, function (i, e) {
+					tagsArray.push($.trim(e));
 				});
 			});
-			var html = '<input data-tags="' + tagsArray + '" type="hidden" class="row select2" name="' + this.getName() + '">';
-			var selectContainer = jQuery(html).val(selectedOption);
+			html = '<input data-tags="' + tagsArray + '" type="hidden" class="row select2" name="' + this.getName() + '">';
+			selectContainer = $(html).val(this.getValue());
 			selectContainer.data('tags', tagsArray);
 			this.addValidationToElement(selectContainer);
 			return selectContainer;
@@ -699,53 +694,54 @@ Vtiger_Date_Field_Js('AdvanceFilter_Date_Field_Js', {}, {
 	 * @return - input text field
 	 */
 	getUi: function () {
-		var comparatorSelectedOptionVal = this.get('comparatorElementVal');
-		var dateSpecificConditions = this.get('dateSpecificConditions');
-		if (comparatorSelectedOptionVal == 'bw' || comparatorSelectedOptionVal == 'custom') {
-			var html = '<div class="date"><input class="dateRangeField form-control" data-calendar-type="range" name="' + this.getName() + '" data-date-format="' + this.getDateFormat() + '" type="text" ReadOnly="true" value="' + this.getValue() + '"></div>';
-			var element = jQuery(html);
-			var dateFieldUi = element.find('.dateRangeField');
+		let comparatorSelectedOptionVal = this.get('comparatorElementVal'),
+			dateSpecificConditions = this.get('dateSpecificConditions'),
+			html = '';
+		if (comparatorSelectedOptionVal === 'bw' || comparatorSelectedOptionVal === 'custom') {
+			html = '<div class="date"><input class="dateRangeField form-control" data-calendar-type="range" name="' + this.getName() + '" data-date-format="' + this.getDateFormat() + '" type="text" ReadOnly="true" value="' + this.getValue() + '"></div>';
+			let element = $(html),
+				dateFieldUi = element.find('.dateRangeField');
 			if (dateFieldUi.val().indexOf(',') !== -1) {
-				var valueArray = this.getValue().split(',');
-				var startDateTime = valueArray[0];
-				var endDateTime = valueArray[1];
+				let valueArray = this.getValue().split(','),
+					startDateTime = valueArray[0],
+					endDateTime = valueArray[1];
 				if (startDateTime.indexOf(' ') !== -1) {
-					var dateTime = startDateTime.split(' ');
+					let dateTime = startDateTime.split(' ');
 					startDateTime = dateTime[0];
 				}
 				if (endDateTime.indexOf(' ') !== -1) {
-					var dateTimeValue = endDateTime.split(' ');
+					let dateTimeValue = endDateTime.split(' ');
 					endDateTime = dateTimeValue[0];
 				}
 				dateFieldUi.val(startDateTime + ',' + endDateTime);
 			} else {
 				// while changing to between/custom from equal/notequal/... we'll only have one value
-				var value = this.getValue().split(' ');
-				var startDate = value[0];
-				var endDate = value[0];
-				if (startDate != '' && endDate != '') {
+				let value = this.getValue().split(' '),
+					startDate = value[0],
+					endDate = value[0];
+				if (startDate !== '' && endDate !== '') {
 					dateFieldUi.val(startDate + ',' + endDate);
 				}
 			}
 			return this.addValidationToElement(element);
 		} else if (comparatorSelectedOptionVal in dateSpecificConditions) {
-			var startValue = dateSpecificConditions[comparatorSelectedOptionVal]['startdate'];
-			var endValue = dateSpecificConditions[comparatorSelectedOptionVal]['enddate'];
-			if (comparatorSelectedOptionVal == 'today' || comparatorSelectedOptionVal == 'tomorrow' || comparatorSelectedOptionVal == 'yesterday') {
-				var html = '<input name="' + this.getName() + '" type="text" ReadOnly="true" value="' + startValue + '">';
+			let startValue = dateSpecificConditions[comparatorSelectedOptionVal]['startdate'],
+				endValue = dateSpecificConditions[comparatorSelectedOptionVal]['enddate'];
+			if (comparatorSelectedOptionVal === 'today' || comparatorSelectedOptionVal === 'tomorrow' || comparatorSelectedOptionVal === 'yesterday') {
+				html = '<input name="' + this.getName() + '" type="text" ReadOnly="true" value="' + startValue + '">';
 			} else {
-				var html = '<input name="' + this.getName() + '" type="text" ReadOnly="true" value="' + startValue + ',' + endValue + '">';
+				html = '<input name="' + this.getName() + '" type="text" ReadOnly="true" value="' + startValue + ',' + endValue + '">';
 			}
-			return jQuery(html);
+			return $(html);
 		} else {
-			var fieldUi = this._super();
-			var dateTimeFieldValue = fieldUi.find('.dateField').val();
-			var dateValue = dateTimeFieldValue.split(' ');
-			if (dateValue[1] == '00:00:00') {
+			let fieldUi = this._super(),
+				dateTimeFieldValue = fieldUi.find('.dateField').val(),
+				dateValue = dateTimeFieldValue.split(' ');
+			if (dateValue[1] === '00:00:00') {
 				dateTimeFieldValue = dateValue[0];
-			} else if (comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal == 'n' ||
-				comparatorSelectedOptionVal == 'b' || comparatorSelectedOptionVal == 'a') {
-				var dateTimeArray = dateTimeFieldValue.split(' ');
+			} else if (comparatorSelectedOptionVal === 'e' || comparatorSelectedOptionVal === 'n' ||
+				comparatorSelectedOptionVal === 'b' || comparatorSelectedOptionVal === 'a') {
+				let dateTimeArray = dateTimeFieldValue.split(' ');
 				dateTimeFieldValue = dateTimeArray[0];
 			}
 			fieldUi.find('.dateField').val(dateTimeFieldValue);

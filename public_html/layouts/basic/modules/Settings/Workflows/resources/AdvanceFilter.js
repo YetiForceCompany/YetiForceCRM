@@ -101,80 +101,74 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js', {}, {
 	 * @return : object
 	 */
 	getValues: function () {
-		var thisInstance = this;
-		var filterContainer = this.getFilterContainer();
-
-		var fieldList = new Array('columnname', 'comparator', 'value', 'valuetype', 'column_condition');
-
-		var values = {};
-		var columnIndex = 0;
-		var conditionGroups = jQuery('.conditionGroup', filterContainer);
+		const thisInstance = this;
+		let fieldList = new Array('columnname', 'comparator', 'value', 'valuetype', 'column_condition'),
+			values = {},
+			columnIndex = 0,
+			conditionGroups = jQuery('.conditionGroup', this.getFilterContainer()),
+			iterationValues = {};
 		conditionGroups.each(function (index, domElement) {
-			var groupElement = jQuery(domElement);
-
-			var conditions = jQuery('.conditionList .js-conditions-row', groupElement);
+			let groupElement = jQuery(domElement),
+				conditions = jQuery('.conditionList .js-conditions-row', groupElement);
 			if (conditions.length <= 0) {
 				return true;
 			}
-
-			var iterationValues = {};
 			conditions.each(function (i, conditionDomElement) {
-				var rowElement = jQuery(conditionDomElement);
-				var fieldSelectElement = jQuery('[name="columnname"]', rowElement);
-				var valueSelectElement = jQuery('[data-value="value"]', rowElement);
+				let rowElement = $(conditionDomElement),
+					fieldSelectElement = $('[name="columnname"]', rowElement),
+					valueSelectElement = $('[data-value="value"]', rowElement);
 				//To not send empty fields to server
 				if (thisInstance.isEmptyFieldSelected(fieldSelectElement)) {
 					return true;
 				}
-				var fieldDataInfo = fieldSelectElement.find('option:selected').data('fieldinfo');
-				var fieldType = fieldDataInfo.type;
-				var rowValues = {};
+				let fieldType = fieldSelectElement.find('option:selected').data('fieldinfo').type,
+					rowValues = {},
+					key,
+					field;
 				if ($.inArray(fieldType, ['picklist', 'multipicklist', 'multiReferenceValue']) > -1) {
-					for (var key in fieldList) {
-						var field = fieldList[key];
-						if (field == 'value' && valueSelectElement.is('input')) {
-							var commaSeperatedValues = valueSelectElement.val();
-							var pickListValues = valueSelectElement.data('picklistvalues');
-							var valuesArr = commaSeperatedValues.split(',');
-							var newvaluesArr = [];
+					for (key in fieldList) {
+						field = fieldList[key];
+						if (field === 'value' && valueSelectElement.is('input')) {
+							let pickListValues = valueSelectElement.data('picklistvalues'),
+								valuesArr = valueSelectElement.val().split(','),
+								newValuesArr = [];
 							for (i = 0; i < valuesArr.length; i++) {
 								if (typeof pickListValues[valuesArr[i]] !== "undefined") {
-									newvaluesArr.push(pickListValues[valuesArr[i]]);
+									newValuesArr.push(pickListValues[valuesArr[i]]);
 								} else {
-									newvaluesArr.push(valuesArr[i]);
+									newValuesArr.push(valuesArr[i]);
 								}
 							}
-							var reconstructedCommaSeperatedValues = newvaluesArr.join(',');
-							rowValues[field] = reconstructedCommaSeperatedValues;
-						} else if (field == 'value' && valueSelectElement.is('select') && fieldType == 'picklist') {
+							rowValues[field] = newValuesArr.join(',');
+						} else if (field === 'value' && valueSelectElement.is('select') && fieldType === 'picklist') {
 							rowValues[field] = valueSelectElement.val();
-						} else if (field == 'value' && valueSelectElement.is('select') && $.inArray(fieldType, ['multipicklist', 'multiReferenceValue']) > -1) {
-							var value = valueSelectElement.val();
+						} else if (field === 'value' && valueSelectElement.is('select') && $.inArray(fieldType, ['multipicklist', 'multiReferenceValue']) > -1) {
+							let value = valueSelectElement.val();
 							if (value == null) {
 								rowValues[field] = value;
 							} else {
 								rowValues[field] = value.join(',');
 							}
 						} else {
-							rowValues[field] = jQuery('[name="' + field + '"]', rowElement).val();
+							rowValues[field] = $('[name="' + field + '"]', rowElement).val();
 						}
 					}
 				} else {
-					for (var key in fieldList) {
-						var field = fieldList[key];
-						if (field == 'value') {
+					for (key in fieldList) {
+						field = fieldList[key];
+						if (field === 'value') {
 							rowValues[field] = valueSelectElement.val();
 						} else {
-							rowValues[field] = jQuery('[name="' + field + '"]', rowElement).val();
+							rowValues[field] = $('[name="' + field + '"]', rowElement).val();
 						}
 					}
 				}
 
-				if (jQuery('[name="valuetype"]', rowElement).val() == 'false' || (jQuery('[name="valuetype"]', rowElement).length == 0)) {
+				if ($('[name="valuetype"]', rowElement).val() === 'false' || ($('[name="valuetype"]', rowElement).length === 0)) {
 					rowValues['valuetype'] = 'rawtext';
 				}
 
-				if (index == '0') {
+				if (index === '0') {
 					rowValues['groupid'] = '0';
 				} else {
 					rowValues['groupid'] = '1';
@@ -187,12 +181,12 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js', {}, {
 				columnIndex++;
 			});
 
-			if (!jQuery.isEmptyObject(iterationValues)) {
+			if (!$.isEmptyObject(iterationValues)) {
 				values[index + 1] = {};
 				//values[index+1]['columns'] = {};
 				values[index + 1]['columns'] = iterationValues;
 			}
-			if (groupElement.find('div.groupCondition').length > 0 && !jQuery.isEmptyObject(values[index + 1])) {
+			if (groupElement.find('div.groupCondition').length > 0 && !$.isEmptyObject(values[index + 1])) {
 				values[index + 1]['condition'] = conditionGroups.find('div.groupCondition [name="condition"]').val();
 			}
 		});
@@ -255,31 +249,33 @@ Vtiger_Date_Field_Js('Workflows_Date_Field_Js', {}, {
 	 * @return - input text field
 	 */
 	getUi: function () {
-		var comparatorSelectedOptionVal = this.get('comparatorElementVal');
-		var dateSpecificConditions = this.get('dateSpecificConditions');
+		let comparatorSelectedOptionVal = this.get('comparatorElementVal'),
+			dateSpecificConditions = this.get('dateSpecificConditions'),
+			html,
+			element;
 		if (comparatorSelectedOptionVal.length > 0) {
-			if (comparatorSelectedOptionVal == 'between' || comparatorSelectedOptionVal == 'custom') {
-				var html = '<div class="date"><input class="dateRangeField" data-calendar-type="range" name="' + this.getName() + '" data-date-format="' + this.getDateFormat() + '" type="text" ReadOnly="true" value="' + this.getValue() + '"></div>';
-				var element = jQuery(html);
+			if (comparatorSelectedOptionVal === 'between' || comparatorSelectedOptionVal === 'custom') {
+				html = '<div class="date"><input class="dateRangeField" data-calendar-type="range" name="' + this.getName() + '" data-date-format="' + this.getDateFormat() + '" type="text" ReadOnly="true" value="' + this.getValue() + '"></div>';
+				element = jQuery(html);
 				return this.addValidationToElement(element);
 			} else if (this._specialDateComparator(comparatorSelectedOptionVal)) {
-				var html = '<input name="' + this.getName() + '" type="text" value="' + this.getValue() + '" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator="[{"name":"PositiveNumber"}]">\n\
+				html = '<input name="' + this.getName() + '" type="text" value="' + this.getValue() + '" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator="[{"name":"PositiveNumber"}]">\n\
 							<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 				return jQuery(html);
 			} else if (comparatorSelectedOptionVal in dateSpecificConditions) {
-				var startValue = dateSpecificConditions[comparatorSelectedOptionVal]['startdate'];
-				var endValue = dateSpecificConditions[comparatorSelectedOptionVal]['enddate'];
-				var html = '<input name="' + this.getName() + '"  type="text" ReadOnly="true" value="' + startValue + ',' + endValue + '">'
+				let startValue = dateSpecificConditions[comparatorSelectedOptionVal]['startdate'],
+					endValue = dateSpecificConditions[comparatorSelectedOptionVal]['enddate'];
+				html = '<input name="' + this.getName() + '"  type="text" ReadOnly="true" value="' + startValue + ',' + endValue + '">'
 				return jQuery(html);
-			} else if (comparatorSelectedOptionVal == 'is today') {
+			} else if (comparatorSelectedOptionVal === 'is today') {
 				//show nothing
 			} else {
 				return this._super();
 			}
 		} else {
-			var html = '<input type="text" class="getPopupUi date form-control" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
+			html = '<input type="text" class="getPopupUi date form-control" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
 				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />'
-			var element = jQuery(html);
+			element = jQuery(html);
 			return this.addValidationToElement(element);
 		}
 	},
