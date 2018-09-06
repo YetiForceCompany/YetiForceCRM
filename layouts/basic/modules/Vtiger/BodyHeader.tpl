@@ -262,25 +262,30 @@
 											{if $singularLabel == 'SINGLE_Calendar'}
 												{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
 											{/if}
-											{if $quickCreateModule == '1'}
-												{if $count % 3 == 0}
-													<div class="row">
-												{/if}
-												<div class="col-md-4">
-													<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule"
-													   data-name="{$NAME}"
-													   data-url="{$MODULEMODEL->getQuickCreateUrl()}"
-													   href="javascript:void(0)">
+											{if $count % 3 == 0}
+												<div class="row">
+											{/if}
+											<div class="col-md-4">
+
+												<a id="menubar_quickCreate_{$NAME}"
+												   data-name="{$NAME}"
+														{if $quickCreateModule}
+															class="quickCreateModule"
+															data-url="{$MODULEMODEL->getQuickCreateUrl()}"
+															href="javascript:void(0)"
+														{else}
+															href="{$MODULEMODEL->getCreateRecordUrl()}"
+														{/if}
+												>
 														<span class="modCT_{$NAME} userIcon-{$NAME} mr-1"
 															  title="{\App\Language::translate($singularLabel,$NAME)}"></span>
-														<span>{\App\Language::translate($singularLabel,$NAME)}</span>
-													</a>
+													<span>{\App\Language::translate($singularLabel,$NAME)}</span>
+												</a>
+											</div>
+											{if $count % 3 == 2}
 												</div>
-												{if $count % 3 == 2}
-													</div>
-												{/if}
-												{assign var='count' value=$count+1}
 											{/if}
+											{assign var='count' value=$count+1}
 										{/foreach}
 										{if $count % 3 >= 1}
 									</div>
