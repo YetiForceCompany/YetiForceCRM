@@ -26,7 +26,7 @@ body {
 	box-shadow: 0 0 5px #ccc;
 	min-height: 375px;
 	position: relative;
-	margin-bottom: 100px;
+	margin-bottom: 130px;
 	margin-top: 20px;
 }
 
@@ -198,10 +198,6 @@ hr {
 	text-decoration: none;
 }
 
-.button-container {
-	float: right;
-}
-
 .button-container .btn {
 	min-width: 100px;
 	font-weight: bold;
@@ -237,7 +233,7 @@ hr {
 	box-shadow: 0 0 5px #ccc;
 	min-height: 50px;
 	padding: 0 15px;
-	bottom: 44px;
+	bottom: 18px;
 }
 
 .yetiforceDetailsLink {
@@ -245,6 +241,17 @@ hr {
 	font-size: 60px;
 }
 
-.table-responsive {
-	overflow-x: unset;
+.c-footer, .form-button-nav {
+	width: 100vw;
 }
+
+@media only screen and (min-width: 767.98px) {
+	.form-button-nav {
+		bottom: 31px;
+	}
+
+	.main-container {
+		margin-bottom: 100px;
+	}
+}
+
