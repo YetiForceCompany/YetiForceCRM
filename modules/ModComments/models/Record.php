@@ -294,6 +294,8 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$parentId = explode('::', $row['parents'])[0];
 			if (!empty($parentId)) {
 				$commentsId[] = $parentId;
+			} else {
+				$commentsId[] = $row['id'];
 			}
 		}
 		$dataReader->close();
