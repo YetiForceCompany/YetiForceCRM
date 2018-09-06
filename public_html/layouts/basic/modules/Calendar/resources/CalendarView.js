@@ -114,7 +114,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				thisInstance.updateEvent(event, delta, revertFunc);
 			},
 			eventRender: function (event, element) {
-				const valueEventVis = '';
+				let valueEventVis = '';
 				if (event.vis !== '') {
 					valueEventVis = app.vtranslate('JS_' + event.vis);
 				}
