@@ -1,17 +1,21 @@
 <?php
 
-namespace App\Pdf;
-
 /**
- * Tcpdf class.
- *
  * Class using TCPDF as a PDF creator.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetifoce.com>
  */
-class Tcpdf extends AbstractPDF
+
+namespace App\Pdf;
+
+/**
+ * Class Tcpdf.
+ *
+ * @package App\Pdf
+ */
+class Tcpdf extends PDF
 {
 	const WATERMARK_TYPE_TEXT = 0;
 	const WATERMARK_TYPE_IMAGE = 1;
@@ -115,7 +119,7 @@ class Tcpdf extends AbstractPDF
 		if (empty($mode)) {
 			$mode = \AppConfig::main('default_charset') ?? 'UTF-8';
 		}
-		$this->pdf = new \App\Pdf\Libs\Yftcpdf($orientation, 'mm', $format, true, $mode);
+		$this->pdf = new \App\Pdf\Libs\Tcpdf($orientation, 'mm', $format, true, $mode);
 		$this->pdf->setFontSubsetting(true);
 		$this->pdf->SetFont($this->defaultFontFamily, '', $this->defaultFontSize);
 		$this->pdf->SetMargins($leftMargin, $topMargin, $rightMargin, true);
