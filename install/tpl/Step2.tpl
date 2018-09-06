@@ -40,18 +40,17 @@
 					</div>
 					<div class="form-button-nav fixed-bottom button-container p-1 bg-color-amber-50">
 						<div class="text-center w-100">
-							<button type="button" class="btn btn-lg c-btn-block-xs-down btn-outline-info mb-1 mb-sm-0 mr-sm-1" data-toggle="modal" data-target="#license-modal">
+							<button type="button" class="btn btn-lg c-btn-block-sm-down btn-outline-info mb-1 mb-md-0 mr-md-1" data-toggle="modal" data-target="#license-modal">
 								<span class="fas fa-lg fas fa-bars mr-2"></span>
 								{App\Language::translate('LBL_LICENSE_LIST', 'Install')}
 							</button>
-							<a class="btn btn-lg c-btn-block-xs-down btn-danger mb-1 mb-sm-0 mr-sm-1" href="Install.php" role="button">
+							<a class="btn btn-lg c-btn-block-sm-down btn-danger mb-1 mb-md-0 mr-md-1" href="Install.php" role="button">
 								<span class="fas fa-lg fa-times-circle mr-2"></span>
 								{App\Language::translate('LBL_DISAGREE', 'Install')}
 							</a>
-							<button type="submit" class="btn btn-lg c-btn-block-xs-down btn-primary"
-							">
-							<span class="fas fa-lg fa-check mr-2"></span>
-							{App\Language::translate('LBL_I_AGREE', 'Install')}
+							<button type="submit" class="btn btn-lg c-btn-block-sm-down btn-primary">
+								<span class="fas fa-lg fa-check mr-2"></span>
+								{App\Language::translate('LBL_I_AGREE', 'Install')}
 							</button>
 						</div>
 					</div>
