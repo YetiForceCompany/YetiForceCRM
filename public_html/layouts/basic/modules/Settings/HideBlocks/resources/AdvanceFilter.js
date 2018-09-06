@@ -95,11 +95,11 @@ Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js', {}, {
 	 * @return : object
 	 */
 	getValues: function () {
-		let thisInstance = this,
+		const thisInstance = this,
 			filterContainer = this.getFilterContainer(),
 			fieldList = new Array('columnname', 'comparator', 'value', 'valuetype', 'column_condition'),
-			values = {},
-			columnIndex = 0,
+			values = {};
+		let columnIndex = 0,
 			conditionGroups = jQuery('.conditionGroup', filterContainer);
 		conditionGroups.each(function (index, domElement) {
 			let groupElement = jQuery(domElement),
@@ -129,15 +129,15 @@ Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js', {}, {
 							let commaSeperatedValues = valueSelectElement.val(),
 								pickListValues = valueSelectElement.data('picklistvalues'),
 								valuesArr = commaSeperatedValues.split(','),
-								newvaluesArr = [];
+								newValuesArr = [];
 							for (i = 0; i < valuesArr.length; i++) {
 								if (typeof pickListValues[valuesArr[i]] !== "undefined") {
-									newvaluesArr.push(pickListValues[valuesArr[i]]);
+									newValuesArr.push(pickListValues[valuesArr[i]]);
 								} else {
-									newvaluesArr.push(valuesArr[i]);
+									newValuesArr.push(valuesArr[i]);
 								}
 							}
-							let reconstructedCommaSeperatedValues = newvaluesArr.join(',');
+							let reconstructedCommaSeperatedValues = newValuesArr.join(',');
 							rowValues[field] = reconstructedCommaSeperatedValues;
 						} else if (field == 'value' && valueSelectElement.is('select') && fieldType == 'picklist') {
 							rowValues[field] = valueSelectElement.val();
