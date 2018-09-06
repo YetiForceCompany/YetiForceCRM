@@ -40,7 +40,7 @@
 			<div class="col-md-4">
 				<div class="input-group">
 					<span class="input-group-prepend" id="commentSearchAddon">
-						<div class="input-group-text"><span class="fas fa-search"></span> </div>
+						<div class="input-group-text"><span class="fas fa-search"></span></div>
 					</span>
 					<input type="text" class="form-control commentSearch"
 						   placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
@@ -60,68 +60,6 @@
 	<div class="commentContainer">
 		<div class="commentsList commentsBody  col-md-12 px-0">
 			{include file=\App\Layout::getTemplatePath('CommentsList.tpl') COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
-		</div>
-		<div class="d-none basicAddCommentBlock my-3">
-			<div class="form-row">
-				<div class="col-md-12">
-					<div class="input-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text">
-								<span class="fas fa-comments"></span>
-							</span>
-						</div>
-						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"
-								  class="form-control commentcontenthidden fullWidthAlways" name="commentcontent"
-								  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
-								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
-					</div>
-					<button class="u-cursor-pointer mt-3 closeCommentBlock btn btn-warning float-right cancel"
-							type="reset">
-						<span class="visible-xs-inline-block fas fa-times"></span>
-						<strong class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
-					</button>
-					<button class="btn btn-success mt-3 saveComment float-right" type="button" data-mode="add">
-						<span class="visible-xs-inline-block fas fa-check"></span>
-						<strong class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
-					</button>
-				</div>
-			</div>
-			<div class="clearfix"></div>
-		</div>
-		<div class="d-none basicEditCommentBlock">
-			<div class="form-row">
-				<div class="col-md-12 my-3">
-					<input type="text" name="reasonToEdit"
-						   title="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
-						   placeholder="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
-						   class="input-block-level form-control"/>
-				</div>
-			</div>
-			<div class="form-row">
-				<div class="col-md-12 mb-3">
-					<div class="input-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text">
-								<span class="fas fa-comments"></span>
-							</span>
-						</div>
-						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"
-								  class="form-control commentcontenthidden fullWidthAlways" name="commentcontent"
-								  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
-								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
-					</div>
-					<button class="u-cursor-pointer mt-3 closeCommentBlock btn btn-warning float-right cancel"
-							type="reset">
-						<span class="visible-xs-inline-block fas fa-times"></span>
-						<strong class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
-					</button>
-					<button class="btn btn-success mt-3 saveComment float-right" type="button" data-mode="edit">
-						<span class="visible-xs-inline-block fas fa-check"></span>
-						<strong class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
-					</button>
-				</div>
-			</div>
-			<div class="clearfix"></div>
 		</div>
 	</div>
 {/strip}
