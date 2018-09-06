@@ -6,9 +6,11 @@ Vtiger_List_Js("OSSMailView_List_Js", {
 		var listInstance = Vtiger_List_Js.getInstance();
 		var validationResult = listInstance.checkListRecordSelected();
 		if (validationResult != true) {
-			if (!confirm(app.vtranslate('JS_BIND_CONFIRM'))) {
-				return false;
-			}
+			app.showConfirmModal(app.vtranslate('JS_BIND_CONFIRM')).done(function (data) {
+				if (!data) {
+					return false;
+				}
+			});
 			var params = {};
 			params.data = {module: 'OSSMailView', action: 'BindMails'};
 			$.extend(params.data, Vtiger_List_Js.getSelectedRecordsParams());

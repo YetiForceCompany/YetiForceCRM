@@ -140,8 +140,25 @@ class Mailer
 		if (empty($params['smtp_id'])) {
 			$params['smtp_id'] = Mail::getDefaultSmtp();
 		}
-		if (!$params['smtp_id']) {
+		if (empty($params['smtp_id'])) {
+			unset($params['priority'], $params['status']);
+			$params['error_code'] = 1;
+			\App\Db::getInstance('log')->createCommand()->insert('l_#__mail', $params)->execute();
 			Log::warning('No SMTP configuration', 'Mailer');
+			return false;
+		}
+		if (!\App\Mail::getSmtpById($params['smtp_id'])) {
+			unset($params['priority'], $params['status']);
+			$params['error_code'] = 2;
+			\App\Db::getInstance('log')->createCommand()->insert('l_#__mail', $params)->execute();
+			Log::warning('SMTP configuration with provided id not exists', 'Mailer');
+			return false;
+		}
+		if (empty($params['to'])) {
+			unset($params['priority'], $params['status']);
+			$params['error_code'] = 3;
+			\App\Db::getInstance('log')->createCommand()->insert('l_#__mail', $params)->execute();
+			Log::warning('No target email address provided', 'Mailer');
 			return false;
 		}
 		if (empty($params['owner'])) {
@@ -196,6 +213,8 @@ class Mailer
 				break;
 			case 'qmail':
 				$this->mailer->isQmail();
+				break;
+			default:
 				break;
 		}
 		$this->mailer->Host = $this->smtp['host'];
@@ -485,6 +504,8 @@ class Mailer
 		switch ($name) {
 			case 'ics':
 				$mailer->mailer->Ical = $param;
+				break;
+			default:
 				break;
 		}
 	}

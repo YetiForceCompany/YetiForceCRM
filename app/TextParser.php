@@ -514,8 +514,10 @@ class TextParser
 			case 'UserTimeZone':
 				$userModel = \App\User::getCurrentUserModel();
 				return ($userModel && $userModel->getDetail('time_zone')) ? $userModel->getDetail('time_zone') : \AppConfig::main('default_timezone');
+			default:
+				return $key;
+				break;
 		}
-		return $key;
 	}
 
 	/**
@@ -601,6 +603,8 @@ class TextParser
 				switch ($key) {
 					case 'Comments':
 						return $this->getComments($params);
+					default:
+						break;
 				}
 				break;
 		}

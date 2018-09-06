@@ -101,7 +101,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (property_exists($this, $propertyName)) {
 			return $this->$propertyName;
 		}
-		throw new Exception($propertyName . ' doest not exists in class ' . get_class($this));
+		throw new \App\Exceptions\AppException($propertyName . ' doest not exists in class ' . get_class($this));
 	}
 
 	/**
@@ -596,9 +596,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getFieldsById()
 	{
-		$fields = $this->getFields();
 		$fieldList = [];
-		foreach ($fields as &$field) {
+		foreach ($this->getFields() as &$field) {
 			$fieldList[$field->getId()] = $field;
 		}
 		return $fieldList;
@@ -1335,10 +1334,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getMandatoryFieldModels()
 	{
-		$fields = $this->getFields();
 		$mandatoryFields = [];
-		if ($fields) {
-			foreach ($fields as $field) {
+		if ($fieldsArray = $this->getFields()) {
+			foreach ($fieldsArray as $field) {
 				if ($field->isActiveField() && $field->isMandatory()) {
 					$mandatoryFields[$field->getName()] = $field;
 				}

@@ -79,6 +79,8 @@ class Privilege
 							static::$isPermittedLevel = 'SEC_RECORD_ARCHIVED';
 							\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_ARCHIVED');
 							break;
+						default:
+							break;
 					}
 					return false;
 				}
@@ -168,6 +170,8 @@ class Privilege
 				case 2:
 					static::$isPermittedLevel = 'SEC_RECORD_ARCHIVED';
 					\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_ARCHIVED');
+					break;
+				default:
 					break;
 			}
 			return false;
@@ -275,6 +279,8 @@ class Privilege
 								break;
 							case 3:
 								$relatedPermission = static::isPermitted($recordMetaData['setype'], 'DetailView', $parentRecord);
+								break;
+							default:
 								break;
 						}
 						if ($relatedPermission) {

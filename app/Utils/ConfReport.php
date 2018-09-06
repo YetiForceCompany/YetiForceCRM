@@ -356,6 +356,8 @@ class ConfReport
 				case 'db':
 					static::$db = static::getConfigDb();
 					break;
+				default:
+					break;
 			}
 		}
 	}
@@ -1000,6 +1002,8 @@ class ConfReport
 				break;
 			case 'spaceTemp':
 				$dir = static::$env['tempDir'];
+				break;
+			default:
 				break;
 		}
 		$free = disk_free_space($dir);

@@ -4,8 +4,8 @@
  * Recurring Events Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class Events_RecuringEvents_Model extends \App\Base
 {
@@ -215,6 +215,8 @@ class Events_RecuringEvents_Model extends \App\Base
 						$this->createRecords($dates);
 					}
 					break;
+				default:
+					break;
 			}
 		} else {
 			$dates = $this->getDates($this->recordModel->get('date_start') . ' ' . $this->recordModel->get('time_start'), $this->recordModel->get('due_date') . ' ' . $this->recordModel->get('time_end'));
@@ -266,6 +268,8 @@ class Events_RecuringEvents_Model extends \App\Base
 						}
 					}
 				}
+				break;
+			default:
 				break;
 		}
 	}

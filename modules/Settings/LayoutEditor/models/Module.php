@@ -171,25 +171,25 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$name = strtolower($params['fieldName']);
 		$fieldParams = '';
 		if ($this->checkFieldLableExists($label)) {
-			throw new Exception(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
 		}
 		if ($type === 0) {
 			if ($this->checkFieldNameCharacters($name)) {
-				throw new Exception(\App\Language::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
+				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
 			}
 			if ($this->checkFieldNameExists($name)) {
-				throw new Exception(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
+				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
 			}
 			if ($this->checkFieldNameIsAnException($name, $params['sourceModule'])) {
-				throw new Exception(\App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
+				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
 			}
 			if (strlen($name) > 30) {
-				throw new Exception(\App\Language::translate('LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME', 'Settings::LayoutEditor'), 512);
+				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME', 'Settings::LayoutEditor'), 512);
 			}
 		}
 		$supportedFieldTypes = $this->getAddSupportedFieldTypes();
 		if (!in_array($fieldType, $supportedFieldTypes)) {
-			throw new Exception(\App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
 		}
 		if ($fieldType === 'Picklist' || $fieldType === 'MultiSelectCombo') {
 			$pickListValues = $params['pickListValues'];
@@ -198,10 +198,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			}
 			foreach ($pickListValues as $value) {
 				if (preg_match('/[\<\>\"\#\,]/', $value)) {
-					throw new Exception(\App\Language::translateArgs('ERR_SPECIAL_CHARACTERS_NOT_ALLOWED', 'Other.Exceptions', '<>"#,'), 512);
+					throw new \App\Exceptions\AppException(\App\Language::translateArgs('ERR_SPECIAL_CHARACTERS_NOT_ALLOWED', 'Other.Exceptions', '<>"#,'), 512);
 				}
 				if (strlen($value) > 200) {
-					throw new Exception(\App\Language::translate('ERR_EXCEEDED_NUMBER_CHARACTERS', 'Other.Exceptions'), 512);
+					throw new \App\Exceptions\AppException(\App\Language::translate('ERR_EXCEEDED_NUMBER_CHARACTERS', 'Other.Exceptions'), 512);
 				}
 			}
 		}
@@ -433,6 +433,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uitype = 314;
 				$type = $importerType->text();
 				$uichekdata = 'V~O';
+				break;
+			default:
 				break;
 		}
 		return [

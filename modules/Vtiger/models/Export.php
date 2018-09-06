@@ -19,15 +19,15 @@ class Vtiger_Export_Model extends \App\Base
 
 	public static function getInstanceFromRequest(\App\Request $request)
 	{
-		$moduleName = $request->getByType('source_module', 2);
-		if (empty($moduleName)) {
-			$moduleName = $request->getModule();
+		$module = $request->getByType('source_module', 2);
+		if (empty($module)) {
+			$module = $request->getModule();
 		}
 		$componentName = 'Export';
 		if ('xml' === $request->get('export_type')) {
 			$componentName = 'ExportToXml';
 		}
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', $componentName, $moduleName);
+		$modelClassName = Vtiger_Loader::getComponentClassName('Model', $componentName, $module);
 		$exportModel = new $modelClassName();
 		$exportModel->initialize($request);
 
@@ -36,12 +36,12 @@ class Vtiger_Export_Model extends \App\Base
 
 	public function initialize(\App\Request $request)
 	{
-		$moduleName = $request->getByType('source_module', 2);
-		if (!empty($moduleName)) {
-			$this->moduleName = $moduleName;
-			$this->moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
+		$module = $request->getByType('source_module', 2);
+		if (!empty($module)) {
+			$this->moduleName = $module;
+			$this->moduleInstance = Vtiger_Module_Model::getInstance($module);
 			$this->moduleFieldInstances = $this->moduleInstance->getFields();
-			$this->focus = CRMEntity::getInstance($moduleName);
+			$this->focus = CRMEntity::getInstance($module);
 		}
 	}
 
@@ -52,7 +52,7 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public function exportData(\App\Request $request)
 	{
-		$moduleName = $request->getByType('source_module', 2);
+		$module = $request->getByType('source_module', 2);
 		$query = $this->getExportQuery($request);
 		$headers = [];
 		$exportBlockName = \AppConfig::module('Export', 'BLOCK_NAME');
@@ -63,9 +63,9 @@ class Vtiger_Export_Model extends \App\Base
 					$fieldModel = $this->moduleFieldInstances[$fieldName];
 					// Check added as querygenerator is not checking this for admin users
 					if ($fieldModel && $fieldModel->isExportTable()) { // export headers for mandatory fields
-						$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
+						$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $module);
 						if ($exportBlockName) {
-							$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
+							$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $module) . '::' . $header;
 						}
 						$headers[] = $header;
 					}
@@ -73,9 +73,9 @@ class Vtiger_Export_Model extends \App\Base
 			}
 		} else {
 			foreach ($this->moduleFieldInstances as $fieldModel) {
-				$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
+				$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $module);
 				if ($exportBlockName) {
-					$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
+					$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $module) . '::' . $header;
 				}
 				$headers[] = $header;
 			}
@@ -83,11 +83,11 @@ class Vtiger_Export_Model extends \App\Base
 		$isInventory = $this->moduleInstance->isInventory();
 		if ($isInventory) {
 			//Get inventory headers
-			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($moduleName);
+			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($module);
 			$inventoryFields = $inventoryFieldModel->getFields();
 			$headers[] = 'Inventory::recordIteration';
 			foreach ($inventoryFields as &$field) {
-				$headers[] = 'Inventory::' . \App\Language::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $moduleName);
+				$headers[] = 'Inventory::' . \App\Language::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $module);
 				foreach ($field->getCustomColumn() as $columnName => $dbType) {
 					$headers[] = 'Inventory::' . $columnName;
 				}
@@ -173,6 +173,8 @@ class Vtiger_Export_Model extends \App\Base
 				}
 				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
+			default:
+				break;
 		}
 		return $query;
 	}
@@ -201,8 +203,8 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public function output(\App\Request $request, $headers, $entries)
 	{
-		$moduleName = $request->getByType('source_module', 2);
-		$fileName = str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($moduleName, $moduleName))) . '.csv';
+		$module = $request->getByType('source_module', 2);
+		$fileName = str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($module, $module))) . '.csv';
 		$exportType = $this->getExportContentType($request);
 
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
@@ -242,7 +244,7 @@ class Vtiger_Export_Model extends \App\Base
 			}
 		}
 		$recordId = $arr[$this->focus->table_index] ?? '';
-		$moduleName = $this->moduleInstance->getName();
+		$module = $this->moduleInstance->getName();
 		foreach ($arr as $fieldName => &$value) {
 			if (isset($this->fieldArray[$fieldName])) {
 				$fieldInfo = $this->fieldArray[$fieldName];
@@ -310,7 +312,7 @@ class Vtiger_Export_Model extends \App\Base
 				}
 				$value = implode(' |##| ', $parts);
 			}
-			if ($moduleName === 'Documents' && $fieldname === 'description') {
+			if ($module === 'Documents' && $fieldname === 'description') {
 				$value = strip_tags($value);
 				$value = str_replace('&nbsp;', '', $value);
 				array_push($new_arr, $value);

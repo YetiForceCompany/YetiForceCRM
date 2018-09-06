@@ -8,8 +8,8 @@ namespace App\Pdf;
  * Class using TCPDF as a PDF creator.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Rafal Pospiech <r.pospiech@yetifoce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Rafal Pospiech <r.pospiech@yetifoce.com>
  */
 class Tcpdf extends AbstractPDF
 {
@@ -315,6 +315,8 @@ class Tcpdf extends AbstractPDF
 				case 'keywords':
 					$this->setKeywords($value);
 					break;
+				default:
+					break;
 			}
 		}
 	}
@@ -427,13 +429,13 @@ class Tcpdf extends AbstractPDF
 	{
 		$template = \Vtiger_PDF_Model::getInstanceById($templateId, $moduleName);
 		$template->setMainRecordId($templateMainRecordId ? $templateMainRecordId : $recordId);
-		$pageOrientation = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
+		$pageOrientationValue = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
 		if ($this->isDefault) {
 			$charset = \AppConfig::main('default_charset') ?? 'UTF-8';
 			if ($template->get('margin_chkbox') === 1) {
-				$self = new self($charset, $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientation);
+				$self = new self($charset, $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientationValue);
 			} else {
-				$self = new self($charset, $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientation, $template->get('margin_left'), $template->get('margin_right'), $template->get('margin_top'), $template->get('margin_bottom'), $template->get('header_height'), $template->get('footer_height'));
+				$self = new self($charset, $template->get('page_format'), $this->defaultFontSize, $this->defaultFontFamily, $pageOrientationValue, $template->get('margin_left'), $template->get('margin_right'), $template->get('margin_top'), $template->get('margin_bottom'), $template->get('header_height'), $template->get('footer_height'));
 			}
 			$self->isDefault = false;
 		} else {

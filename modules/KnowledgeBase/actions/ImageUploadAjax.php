@@ -4,8 +4,8 @@
  * Action to upload file.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Krzysztof Gastołek <krzysztofgastolek@wars.pl>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Krzysztof Gastołek <krzysztofgastolek@wars.pl>
  */
 class KnowledgeBase_ImageUploadAjax_Action extends \App\Controller\Action
 {
@@ -133,6 +133,8 @@ class KnowledgeBase_ImageUploadAjax_Action extends \App\Controller\Action
 								. 'alert("' . $msg . '");'
 								. 'var dialog = cke_ob.dialog.getCurrent();'
 								. 'dialog.hide()';
+							break;
+						default:
 							break;
 					}
 				} else {

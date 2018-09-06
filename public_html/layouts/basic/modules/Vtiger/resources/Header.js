@@ -46,7 +46,6 @@ $.Class("Vtiger_Header_Js", {
 		return this.contentContainer;
 	},
 	getQuickCreateForm: function (url, moduleName, params) {
-		var thisInstance = this;
 		var aDeferred = $.Deferred();
 		var requestParams;
 		if (typeof params === "undefined") {
@@ -60,7 +59,7 @@ $.Class("Vtiger_Header_Js", {
 		}
 		requestParams = url;
 		if (typeof params.data !== "undefined") {
-			var requestParams = {};
+			requestParams = {};
 			requestParams['data'] = params.data;
 			requestParams['url'] = url;
 		}
@@ -414,7 +413,6 @@ $.Class("Vtiger_Header_Js", {
 				_renderMenu: function (ul, items) {
 					var that = this, currentCategory = "";
 					$.each(items, function (index, item) {
-						var li;
 						if (item.category != currentCategory) {
 							ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
 							currentCategory = item.category;
@@ -441,7 +439,7 @@ $.Class("Vtiger_Header_Js", {
 					basicSearch.returnHtml = false;
 					basicSearch.setMainContainer(this.element.closest('.js-global-search__input'));
 					basicSearch.search(request.term).done(function (data) {
-						var data = JSON.parse(data);
+						data = JSON.parse(data);
 						var serverDataFormat = data.result;
 						var reponseDataList = [];
 						for (var id in serverDataFormat) {
@@ -468,7 +466,7 @@ $.Class("Vtiger_Header_Js", {
 	labelSearch: function (currentTarget) {
 		var val = currentTarget.val();
 		if (val == '') {
-			alert(app.vtranslate('JS_PLEASE_ENTER_SOME_VALUE'));
+			app.showAlert(app.vtranslate('JS_PLEASE_ENTER_SOME_VALUE'));
 			currentTarget.focus();
 			return false;
 		}

@@ -1245,15 +1245,9 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		contents.find('[name="defaultvalue"]').on('change', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var defaultValueUi = currentTarget.closest('.checkbox').find('.defaultValueUi');
-			var defaultField = defaultValueUi.find('[name="fieldDefaultValue"]');
 			if (currentTarget.is(':checked')) {
 				defaultValueUi.removeClass('zeroOpacity');
-				defaultField.removeAttr('disabled');
-				if (defaultField.is('select')) {
-					defaultField.trigger("change");
-				}
 			} else {
-				defaultField.attr('disabled', 'disabled');
 				defaultValueUi.addClass('zeroOpacity');
 			}
 		});
@@ -1452,7 +1446,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	registerVaribleToParsers: function (container) {
 		var thisInstance = this;
 		container.find('.configButton').on('click', function (e) {
-			container.find('.defaultValueUi .input-group').each(function (n, e) {
+			container.find('.defaultValueUi .js-base-element').each(function (n, e) {
 				var currentElement = $(e);
 				if (currentElement.hasClass('d-none')) {
 					currentElement.find('input,select').prop('disabled', false);
@@ -1463,16 +1457,17 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			})
 		});
 		container.find('.varibleToParsers').on('click', function (e) {
-			var input = $(e.currentTarget).closest('.input-group').find('[name="fieldDefaultValue"]');
-			var fieldId = container.find('[name="fieldid"]').val();
-			var id = 'varibleToParsersModal';
+			let element = $(e.currentTarget);
+			let container = element.closest('.js-base-element');
+			let input = container.find('[name="' + container.data('name') + '"]');
+			let fieldId = element.closest('form').find('[name="fieldid"]').val();
+			let id = 'varibleToParsersModal';
 			app.showModalWindow({
 				id: id,
 				url: 'index.php?parent=Settings&module=LayoutEditor&view=VaribleToParsers&fieldId=' + fieldId + '&defaultValue=' + input.val(),
 				cb: function (modalContainer) {
-					var select = modalContainer.find('select');
 					modalContainer.find('[name="saveButton"]').on('click', function () {
-						input.val(select.val());
+						input.val(modalContainer.find('select').val());
 						app.hideModalWindow(null, id);
 					})
 				}

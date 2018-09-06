@@ -285,6 +285,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 			case 'is_admin':
 				return 'off';
 				break;
+			default:
+				break;
 		}
 		return false;
 	}
@@ -615,13 +617,17 @@ class Users_Record_Model extends Vtiger_Record_Model
 				if ($string) {
 					switch ($string) {
 						case 'Minute':
-						case 'Minutes': $activityReminderInSeconds = $number * 60;
+						case 'Minutes':
+							$activityReminderInSeconds = $number * 60;
 							break;
-						case 'Hour': $activityReminderInSeconds = $number * 60 * 60;
+						case 'Hour':
+							$activityReminderInSeconds = $number * 60 * 60;
 							break;
-						case 'Day': $activityReminderInSeconds = $number * 60 * 60 * 24;
+						case 'Day':
+							$activityReminderInSeconds = $number * 60 * 60 * 24;
 							break;
-						default: $activityReminderInSeconds = '';
+						default:
+							$activityReminderInSeconds = '';
 					}
 				}
 			}
@@ -706,7 +712,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 				'status' => 'Inactive',
 				'date_modified' => date('Y-m-d H:i:s'),
 				'modified_user_id' => App\User::getCurrentUserRealId(),
-				], ['id' => $this->getId()])->execute();
+			], ['id' => $this->getId()])->execute();
 			$transaction->commit();
 		} catch (\Exception $e) {
 			$transaction->rollBack();
@@ -796,17 +802,25 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$return = '';
 		foreach ($this->getLocks() as $lock) {
 			switch ($lock) {
-				case 'copy': $return .= ' oncopy = "return false"';
+				case 'copy':
+					$return .= ' oncopy = "return false"';
 					break;
-				case 'cut': $return .= ' oncut = "return false"';
+				case 'cut':
+					$return .= ' oncut = "return false"';
 					break;
-				case 'paste': $return .= ' onpaste = "return false"';
+				case 'paste':
+					$return .= ' onpaste = "return false"';
 					break;
-				case 'contextmenu': $return .= ' oncontextmenu = "return false"';
+				case 'contextmenu':
+					$return .= ' oncontextmenu = "return false"';
 					break;
-				case 'selectstart': $return .= ' onselectstart = "return false" onselect = "return false"';
+				case 'selectstart':
+					$return .= ' onselectstart = "return false" onselect = "return false"';
 					break;
-				case 'drag': $return .= ' ondragstart = "return false" ondrag = "return false"';
+				case 'drag':
+					$return .= ' ondragstart = "return false" ondrag = "return false"';
+					break;
+				default:
 					break;
 			}
 		}
@@ -818,17 +832,25 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$return = 'function lockFunction() {return false;}';
 		foreach ($this->getLocks() as $lock) {
 			switch ($lock) {
-				case 'copy': $return .= ' document.oncopy = lockFunction;';
+				case 'copy':
+					$return .= ' document.oncopy = lockFunction;';
 					break;
-				case 'cut': $return .= ' document.oncut = lockFunction;';
+				case 'cut':
+					$return .= ' document.oncut = lockFunction;';
 					break;
-				case 'paste': $return .= ' document.onpaste = lockFunction;';
+				case 'paste':
+					$return .= ' document.onpaste = lockFunction;';
 					break;
-				case 'contextmenu': $return .= ' document.oncontextmenu = function(event) {if(event.button==2){return false;}}; document.oncontextmenu = lockFunction;';
+				case 'contextmenu':
+					$return .= ' document.oncontextmenu = function(event) {if(event.button==2){return false;}}; document.oncontextmenu = lockFunction;';
 					break;
-				case 'selectstart': $return .= ' document.onselectstart = lockFunction; document.onselect = lockFunction;';
+				case 'selectstart':
+					$return .= ' document.onselectstart = lockFunction; document.onselect = lockFunction;';
 					break;
-				case 'drag': $return .= ' document.ondragstart = lockFunction; document.ondrag = lockFunction;';
+				case 'drag':
+					$return .= ' document.ondragstart = lockFunction; document.ondrag = lockFunction;';
+					break;
+				default:
 					break;
 			}
 		}
