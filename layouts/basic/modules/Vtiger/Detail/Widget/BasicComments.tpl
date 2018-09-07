@@ -3,7 +3,8 @@
 	<div class="c-detail-widget u-mb-13px js-detail-widget BasicComments updatesWidgetContainer" data-js=”container”>
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}"
 			 data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}"
-			 data-js="data-url|data-type">
+			 data-limit="{$WIDGET['limit']}"
+			 data-js="data-url|data-type|data-limit">
 			<div class="c-detail-widget__header js-detail-widget-header" data-js=”container|value>
 				<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}"/>
 				<div class="form-row align-items-center my-1">

@@ -1785,6 +1785,18 @@ jQuery.Class("Vtiger_Detail_Js", {
 		return aDeferred.promise();
 	},
 	/**
+	 * Function to get parent comment
+	 */
+	getParentComments: function (commentId) {
+		var aDeferred = jQuery.Deferred();
+		var url = 'module=' + app.getModuleName() + '&view=Detail&record=' + this.getRecordId() + '&mode=showParentComments&commentid=' + commentId;
+		var dataObj = this.getCommentThread(url);
+		dataObj.done(function (data) {
+			aDeferred.resolve(data);
+		});
+		return aDeferred.promise();
+	},
+	/**
 	 * Function to show total records count in listview on hover
 	 * of pageNumber text
 	 */
@@ -2064,37 +2076,52 @@ jQuery.Class("Vtiger_Detail_Js", {
 			recentCommentsTab.data('url', url);
 			recentCommentsTab.trigger('click');
 		});
-		detailContentsHolder.on('click', '.searchIcon', function (e) {
-			let searchTextDom = detailContentsHolder.find('.commentSearch'),
-				progressIndicatorElement = jQuery.progressIndicator();
-			if (searchTextDom.data('container') === 'widget' && !searchTextDom.val()) {
-				let request = searchTextDom.closest('[data-name="ModComments"]').data('url'); //todo data-js
-				AppConnector.request(request).done(function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					detailContentsHolder.find('.js-commentContainer').html(data);
-				});
-			} else {
-				let hierarchy = detailContentsHolder.find('.detailHierarchyComments:checked').val();
-				if (searchTextDom.data('container') === 'widget') {
-					hierarchy = detailContentsHolder.find('.hierarchyComments:checked').val();
-				}
-				AppConnector.request({
-					module: app.getModuleName(),
-					view: 'Detail',
-					mode: 'showSearchComments',
-					hierarchy: hierarchy,
-					record: app.getRecordId(),
-					search_key: searchTextDom.val(),
-				}).done(function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					if (!searchTextDom.val()) {
-						detailContentsHolder.html(data);
-					} else {
-						detailContentsHolder.find('.commentsBody').html(data);
-					}
-				});
+		detailContentsHolder.on('keypress', '.commentSearch', function (e) {
+			if (13 === e.which) {
+				thisInstance.submitSearchForm(detailContentsHolder);
 			}
 		});
+		detailContentsHolder.on('click', '.searchIcon', function (e) {
+			thisInstance.submitSearchForm(detailContentsHolder);
+		});
+	},
+	submitSearchForm(detailContentsHolder) {
+		let searchTextDom = detailContentsHolder.find('.commentSearch'),
+			widgetContainer = searchTextDom.closest('[data-name="ModComments"]'),
+			progressIndicatorElement = jQuery.progressIndicator();
+		if (searchTextDom.data('container') === 'widget' && !searchTextDom.val()) {
+			let request = widgetContainer.data('url'); //todo data-js
+			AppConnector.request(request).done(function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				detailContentsHolder.find('.js-commentContainer').html(data);
+			});
+		} else {
+			let hierarchy = detailContentsHolder.find('.detailHierarchyComments:checked').val(),
+				limit = '',
+				isWidget = false;
+			if (searchTextDom.data('container') === 'widget') {
+				hierarchy = detailContentsHolder.find('.hierarchyComments:checked').val();
+				limit = widgetContainer.data('limit');
+				isWidget = true;
+			}
+			AppConnector.request({
+				module: app.getModuleName(),
+				view: 'Detail',
+				mode: 'showSearchComments',
+				hierarchy: hierarchy,
+				limit: limit,
+				record: app.getRecordId(),
+				search_key: searchTextDom.val(),
+				is_widget: isWidget,
+			}).done(function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				if (!searchTextDom.val()) {
+					detailContentsHolder.html(data);
+				} else {
+					detailContentsHolder.find('.commentsBody').html(data);
+				}
+			});
+		}
 	},
 	registerCommentEventsInDetail: function (widgetContainer) {
 		widgetContainer.on('change', '.hierarchyComments', function (e) {
@@ -2271,6 +2298,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var commentId = currentTarget.closest('.commentDiv').find('.commentInfoHeader').data('commentid');
 			thisInstance.getChildComments(commentId).done(function (data) {
 				jQuery(data).appendTo(jQuery(e.currentTarget).closest('.commentDetails'));
+				commentActionsBlock.find('.hideThreadBlock').show();
+				currentTargetParent.hide();
+			});
+		});
+		detailContentsHolder.on('click', '.viewParentThread', function (e) {
+			var currentTarget = jQuery(e.currentTarget);
+			var currentTargetParent = currentTarget.parent();
+			var commentActionsBlock = currentTarget.closest('.commentActions');
+			var commentId = currentTarget.closest('.commentDiv').find('.commentInfoHeader').data('commentid');
+			thisInstance.getParentComments(commentId).done(function (data) {
+				jQuery(e.currentTarget.closest('.commentDetails')).html(data);
 				commentActionsBlock.find('.hideThreadBlock').show();
 				currentTargetParent.hide();
 			});

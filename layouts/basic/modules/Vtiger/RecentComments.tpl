@@ -74,15 +74,15 @@
 			{else}
 				{include file=\App\Layout::getTemplatePath('NoComments.tpl')}
 			{/if}
+			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
+				<div class="col-12 float-right p-0 mb-2">
+					<a href="javascript:void(0)"
+					   class="moreRecentComments btn btn-sm btn-info marginTop5 marginRight15">
+						{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..
+					</a>
+				</div>
+			{/if}
 		</div>
-		{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
-			<div class="col-12 float-right p-0 mb-2">
-				<a href="javascript:void(0)"
-				   class="moreRecentComments btn btn-sm btn-info marginTop5 marginRight15">
-					{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..
-				</a>
-			</div>
-		{/if}
 		{if !$IS_READ_ONLY}
 			<div class="d-none basicAddCommentBlock my-2">
 				<div class="row">

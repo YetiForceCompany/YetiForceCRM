@@ -259,16 +259,43 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
+	 * Returns parent comment models for a comment.
+	 *
+	 * @return ModComment_Record_Model[]
+	 */
+	public function getParentComments()
+	{
+		$commentId = $this->getId();
+		$parentCommentId = explode('::', $this->get('parents'))[0];
+		if (empty($commentId) || empty($parentCommentId)) {
+			return;
+		}
+		$queryGenerator = new \App\QueryGenerator('ModComments');
+		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
+			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid', 'parents']);
+		$queryGenerator->addNativeCondition(['modcommentsid' => $parentCommentId, 'related_to' => $this->get('related_to')]);
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		$recordInstances = [];
+		while ($row = $dataReader->read()) {
+			$recordInstance = new self();
+			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
+			$recordInstances[] = $recordInstance;
+		}
+		return $recordInstances;
+	}
+
+	/**
 	 * Function returns all the parent comments model.
 	 *
 	 * @param int                 $parentId
 	 * @param string              $searchValue
+	 * @param bool                $isWidget
 	 * @param int[]               $hierarchy
 	 * @param Vtiger_Paging_Model $pagingModel
 	 *
 	 * @return \ModComments_Record_Model[]
 	 */
-	public static function getSearchComments($parentId, $searchValue, $hierarchy = false, $pagingModel = false)
+	public static function getSearchComments($parentId, $searchValue, $isWidget, $hierarchy = false, $pagingModel = false)
 	{
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
@@ -292,13 +319,14 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$commentsId = [];
 		while ($row = $dataReader->read()) {
 			$parentId = explode('::', $row['parents'])[0];
-			if (!empty($parentId)) {
+			if (!empty($parentId) && !$isWidget) {
 				$commentsId[] = $parentId;
 			} else {
 				$commentsId[] = $row['id'];
 			}
 		}
 		$dataReader->close();
+		$recordInstances = [];
 		if (!empty($commentsId)) {
 			$queryGeneratorParents = new \App\QueryGenerator('ModComments');
 			$queryGeneratorParents->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
@@ -309,7 +337,6 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 				$parentQuery->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
 			}
 			$dataReaderParents = $parentQuery->createCommand()->query();
-			$recordInstances = [];
 			while ($row = $dataReaderParents->read()) {
 				$recordInstance = new self();
 				$recordInstance->setData($row)->setModuleFromInstance($queryGeneratorParents->getModuleModel());
