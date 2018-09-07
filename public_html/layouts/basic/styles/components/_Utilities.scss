@@ -231,6 +231,7 @@
 	width: 30% !important;
 	min-width: 18rem;
 }
+
 .u-w-85px {
 	width: 85px;
 }
@@ -425,6 +426,10 @@
 
 	&-width-36rem {
 		@include u-column-width(36rem);
+	}
+
+	&-width-300px-rem {
+		@include u-column-width(#{calculate-rem(300px)});
 	}
 }
 
