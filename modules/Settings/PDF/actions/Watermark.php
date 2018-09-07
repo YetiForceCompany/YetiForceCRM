@@ -46,6 +46,8 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 		if ($uploadOk && $_FILES['watermark']['size'][0] > \AppConfig::main('upload_maxsize')) {
 			$uploadOk = 0;
 		}
+		$response = new Vtiger_Response();
+		$response->setResult(['error' => true]);
 		// Check if $uploadOk is set to 0 by an error
 		if ($uploadOk === 1) {
 			$db = App\Db::getInstance('admin');
@@ -61,7 +63,12 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 				$db->createCommand()
 					->update('a_#__pdf', ['watermark_image' => $targetFile], ['pdfid' => $templateId])
 					->execute();
+				$response->setResult(['fileName' => $targetFile, 'base64' => \App\Fields\File::getImageBaseData($targetFile)]);
+				return $response->emit();
 			}
+			$response->setResult(['error' => true]);
+			return $response->emit();
 		}
+		$response->emit();
 	}
 }

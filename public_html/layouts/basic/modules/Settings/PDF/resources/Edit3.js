@@ -2,7 +2,7 @@
 'use strict';
 
 Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
-	step8Container: false,
+	step3Container: false,
 	advanceFilterInstance: false,
 	ckEditorInstance: false,
 	fieldValueMap: false,
@@ -14,7 +14,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 	 * @return jQuery object
 	 */
 	getContainer: function () {
-		return this.step8Container;
+		return this.step3Container;
 	},
 	/**
 	 * Function to set the reports step1 container
@@ -22,7 +22,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 	 * @return : current instance
 	 */
 	setContainer: function (element) {
-		this.step8Container = element;
+		this.step3Container = element;
 		return this;
 	},
 	/**
@@ -38,7 +38,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 			this.setContainer(jQuery('#pdf_step3'));
 		}
 	},
-	submit: function () {
+	submit() {
 		var aDeferred = jQuery.Deferred();
 		var form = this.getContainer();
 		var progressIndicatorElement = jQuery.progressIndicator({
@@ -49,7 +49,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 		});
 		var saveData = form.serializeFormData();
 		saveData['action'] = 'Save';
-		saveData['step'] = 8;
+		saveData['step'] = 3;
 		AppConnector.request(saveData).done(function (data) {
 			if (data.success == true) {
 				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
