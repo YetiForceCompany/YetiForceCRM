@@ -238,8 +238,8 @@
 							   data-js="popover" data-toggle="modal" data-target="#quickCreateModules"
 							   data-placement="bottom" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}"
 							   href="#">
-							<span class="fas fa-plus fa-fw"
-								  title="{\App\Language::translate('LBL_QUICK_CREATE')}"></span>
+								<span class="fas fa-plus fa-fw"
+									  title="{\App\Language::translate('LBL_QUICK_CREATE')}"></span>
 								<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_QUICK_CREATE')}</span>
 							</a>
 							{include file=\App\Layout::getTemplatePath('QuickCreateModal.tpl')}
