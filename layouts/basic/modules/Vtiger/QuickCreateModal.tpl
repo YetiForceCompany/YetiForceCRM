@@ -4,19 +4,32 @@
 		 aria-labelledby="c-quick-create__title" aria-hidden="true">
 		<div class="modal-dialog c-modal-xxl" role="document">
 			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-tile" id="c-quick-create__title">
-						<span class="fas fa-plus fa-fw mr-1"></span>
-						{\App\Language::translate('LBL_QUICK_CREATE')}
-					</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<div class="modal-header container-fluid row">
+					<div class="col col-md-5 col-lg-6 col-xl-8">
+						<h5 class="modal-tile" id="c-quick-create__title">
+							<span class="fas fa-plus fa-fw mr-1"></span>
+							{\App\Language::translate('LBL_QUICK_CREATE')}
+						</h5>
+					</div>
+					<button type="button" class="close d-md-none" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<div class="col-md-6 col-lg-5 col-xl-3">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fa fa-search"></i></span>
+							</div>
+							<input type="text" class="form-control js-quickcreate-search">
+						</div>
+					</div>
+					<button type="button" class="close d-none d-md-block" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<div class="u-columns-width-300px-rem">
+					<div class="u-columns-width-300px-rem u-columns-count-5">
 						{foreach item=PARENT_MODULE from=$QUICKCREATE_MODULES_PARENT}
-							<div class="card u-columns__item mb-2">
+							<div class="card u-columns__item mb-2 js-quickcreate-search-block">
 								<h5 class="card-header pb-2 pt-2">
 									<span class="{$PARENT_MODULE['icon']} mr-1"></span>
 									{\App\Language::translate($PARENT_MODULE['name'], 'Other:Menu')}
@@ -28,7 +41,7 @@
 										{if $singularLabel == 'SINGLE_Calendar'}
 											{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
 										{/if}
-										<li class="list-group-item pt-1 pb-1">
+										<li class="list-group-item pt-1 pb-1 js-quickcreate-search-item">
 											<a id="menubar_quickCreate_{$NAME}"
 											   data-name="{$NAME}"
 													{if $quickCreateModule}
