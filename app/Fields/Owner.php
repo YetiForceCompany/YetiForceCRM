@@ -191,8 +191,10 @@ class Owner
 		$cacheKeyAss = is_array($assignedUser) ? md5(json_encode($assignedUser)) : $assignedUser;
 		$cacheKeyRole = is_array($roles) ? md5(json_encode($roles)) : $roles;
 		$showRolesName = \AppConfig::module('Users', 'SHOW_ROLE_NAME');
-		$cacheKey = $cacheKeyMod . $status . $cacheKeyAss . $private . $cacheKeyRole . '_' . (int) $showRolesName;
-		if (!\App\Cache::has('getUsers', $cacheKey)) {
+		$cacheKey = $cacheKeyMod . '_' . $status . '|' . $cacheKeyAss . '_' . $private . '|' . $cacheKeyRole . '_' . (int) $showRolesName;
+		if (\App\Cache::has('getUsers', $cacheKey)) {
+			$tempResult = \App\Cache::get('getUsers', $cacheKey);
+		} else {
 			$entityData = \App\Module::getEntityInfo('Users');
 			$query = $this->getQueryInitUsers($private, $status, $roles);
 			if (!empty($assignedUser)) {
@@ -208,14 +210,14 @@ class Owner
 				}
 				if ($showRolesName && isset($row['rolename'])) {
 					$roleName = \App\Language::translate($row['rolename']);
-					$fullName .= "  ({$roleName})";
+					$fullName .= " ({$roleName})";
 				}
 				$row['fullName'] = trim($fullName);
 				$tempResult[$row['id']] = array_map('\App\Purifier::encodeHtml', $row);
 			}
 			\App\Cache::save('getUsers', $cacheKey, $tempResult);
 		}
-		return \App\Cache::get('getUsers', $cacheKey);
+		return $tempResult;
 	}
 
 	/**
@@ -466,7 +468,7 @@ class Owner
 				$users[$id] = $name;
 				if ($showRolesName) {
 					$roleName = \App\Language::translate($userModel->getRoleInstance()->getName());
-					$users[$id] .= "  ({$roleName})";
+					$users[$id] .= " ({$roleName})";
 				}
 			}
 		}
