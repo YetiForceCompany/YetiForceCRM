@@ -1,6 +1,6 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<div class="tpl-QuickCreateModel quickCreateModules modal" id="quickCreateModules" tabindex="-1" role="dialog"
+	<div class="tpl-Base-QuickCreateModel quickCreateModules modal" id="quickCreateModules" tabindex="-1" role="dialog"
 		 aria-labelledby="c-quick-create__title" aria-hidden="true">
 		<div class="modal-dialog c-modal-xxl" role="document">
 			<div class="modal-content">
@@ -28,7 +28,7 @@
 										{if $singularLabel == 'SINGLE_Calendar'}
 											{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
 										{/if}
-										<li class="list-group-item">
+										<li class="list-group-item pt-1 pb-1">
 											<a id="menubar_quickCreate_{$NAME}"
 											   data-name="{$NAME}"
 													{if $quickCreateModule}

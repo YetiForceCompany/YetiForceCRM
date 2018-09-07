@@ -29,7 +29,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getId()
 	{
-		return (int)$this->id;
+		return (int) $this->id;
 	}
 
 	public function getName()
@@ -827,13 +827,13 @@ class Vtiger_Module_Model extends \vtlib\Module
 	{
 		$restrictListString = $restrictList ? 1 : 0;
 		if ($tree) {
-			$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-			$quickCreateModulesTree = Vtiger_Cache::get('getQuickCreateModules', 'tree' . $restrictListString . $userPrivModel->get('roleid'));
+			$userModel = App\User::getCurrentUserModel();
+			$quickCreateModulesTree = App\Cache::get('getQuickCreateModules', 'tree' . $restrictListString . $userModel->get('roleid'));
 			if ($quickCreateModulesTree !== false) {
 				return $quickCreateModulesTree;
 			}
 		} else {
-			$quickCreateModules = Vtiger_Cache::get('getQuickCreateModules', $restrictListString);
+			$quickCreateModules = App\Cache::get('getQuickCreateModules', $restrictListString);
 			if ($quickCreateModules !== false) {
 				return $quickCreateModules;
 			}
@@ -884,10 +884,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 			if (!empty($quickCreateModules)) {
 				$quickCreateModulesTree[] = ['name' => 'LBL_OTHER', 'icon' => 'userIcon-Other', 'modules' => $quickCreateModules];
 			}
-			Vtiger_Cache::set('getQuickCreateModules', 'tree' . $restrictListString . $userPrivModel->get('roleid'), $quickCreateModulesTree);
+			App\Cache::save('getQuickCreateModules', 'tree' . $restrictListString . $userModel->get('roleid'), $quickCreateModulesTree);
 			return $quickCreateModulesTree;
 		}
-		Vtiger_Cache::set('getQuickCreateModules', $restrictListString, $quickCreateModules);
+		App\Cache::save('getQuickCreateModules', $restrictListString, $quickCreateModules);
 		return $quickCreateModules;
 	}
 
