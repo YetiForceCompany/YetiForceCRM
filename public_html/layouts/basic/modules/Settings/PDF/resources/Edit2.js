@@ -36,7 +36,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 			this.setContainer($('#pdf_step2'));
 		}
 	},
-	submit: function () {
+	submit() {
 		var aDeferred = $.Deferred();
 		var form = this.getContainer();
 		var formData = form.serializeFormData();
@@ -51,15 +51,12 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 		saveData['step'] = 2;
 		AppConnector.request(saveData).done(function (data) {
 			data = JSON.parse(data);
-			if (data.success == true) {
-				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
-
+			if (data.success === true) {
 				AppConnector.request(formData).done(function (data) {
 					form.hide();
-					progressIndicatorElement.progressIndicator({
-						'mode': 'hide'
-					})
 					aDeferred.resolve(data);
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
 				}).fail(function (error, err) {
 						app.errorLog(error, err);
 					}
@@ -117,13 +114,10 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 			// Set up a handler for when the request finishes.
 			xhr.onload = function () {
 				if (xhr.status === 200) {
-					var templateId = form.find('[name="record"]').val();
-					var fileName = files[0]['name'];
-					var fileExt = fileName.split('.');
-					var uploadedImage = templateId + '.' + fileExt[fileExt.length - 1];
-
-					form.find('#watermark').html('<img src="storage/Pdf/watermark/' + uploadedImage + '" class="col-md-9" />');
-					form.find('[name="watermark_image"]').val('storage/Pdf/watermark/' + uploadedImage);
+					const response = JSON.parse(xhr.response);
+					const templateId = form.find('[name="record"]').val();
+					form.find('#watermark').html('<img src="' + response.result.base64 + '" class="col-md-9" />');
+					form.find('[name="watermark_image"]').val(response.result.fileName);
 					form.find('#deleteWM').removeClass('d-none');
 				}
 			};
