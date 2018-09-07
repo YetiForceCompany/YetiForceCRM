@@ -19,8 +19,8 @@ class ModComments_Reference_UIType extends Vtiger_Reference_UIType
 			$requestFieldName = $fieldName;
 		}
 		parent::setValueFromRequest($request, $recordModel, $requestFieldName);
-		if ($fieldName === 'parent_comments') {
-			$parentModel = Vtiger_Record_Model::getInstanceById($request->getInteger('parent_comments'));
+		if ($fieldName === 'parent_comments' && ($parentId = $request->getInteger('parent_comments'))) {
+			$parentModel = Vtiger_Record_Model::getInstanceById($parentId);
 			if (!empty($parentModel->get('parents'))) {
 				$parents = $parentModel->get('parents') . '::' . $parentModel->get('modcommentsid');
 			} else {

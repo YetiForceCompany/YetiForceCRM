@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-CommentsList -->
 	{if !empty($CHILD_COMMENTS)}
 		<div class="ml-4">
 	{/if}
@@ -28,7 +29,7 @@
 	{if !empty($CHILD_COMMENTS)}
 		</div>
 	{/if}
-	{if !$IS_READ_ONLY && !$CHILD_COMMENTS}
+	{if !$IS_READ_ONLY && empty($NO_COMMENT_FORM)}
 		<div class="d-none basicAddCommentBlock my-2">
 			<div class="row">
 				<div class="col-md-12">
@@ -88,4 +89,5 @@
 			<div class="clearfix"></div>
 		</div>
 	{/if}
+	<!-- /tpl-CommentsList -->
 {/strip}

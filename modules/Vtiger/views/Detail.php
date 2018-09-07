@@ -508,15 +508,14 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$childComments = $parentCommentModel->getChildComments();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PARENT_COMMENTS', $childComments);
 		$viewer->assign('CHILD_COMMENTS', true);
+		$viewer->assign('NO_COMMENT_FORM', true);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('CURRENT_COMMENT', null);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-
 		return $viewer->view('CommentsList.tpl', $request->getModule(), true);
 	}
 
@@ -540,7 +539,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PARENT_COMMENTS', $parentThreadComments);
-		$viewer->assign('CHILD_COMMENTS', true);
 		$viewer->assign('SHOW_CHILD_COMMENTS', true);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
@@ -686,10 +684,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($parentCommentModels)) {
 			$viewer->assign('CURRENTUSER', $currentUserModel);
 			$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
-			$viewer->assign('CHILD_COMMENTS', true);
 			$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 			if ($isWidget === false) {
 				$viewer->assign('SHOW_CHILD_COMMENTS', true);
+				$viewer->assign('NO_COMMENT_FORM', true);
 				return $viewer->view('CommentsList.tpl', $moduleName, true);
 			} else {
 				$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');

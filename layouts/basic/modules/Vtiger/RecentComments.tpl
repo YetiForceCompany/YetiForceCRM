@@ -12,7 +12,7 @@
 {strip}
 	{assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 	{* Change to this also refer: AddCommentForm.tpl *}
-	<div class="js-commentContainer commentContainer recentComments" data-js="container">
+	<div class="tpl-RecentComments js-commentContainer commentContainer recentComments" data-js="container">
 		<div class="commentTitle">
 			{if !$IS_READ_ONLY && $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 				<div class="addCommentBlock">

@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="Comment commentDiv">
+	<div class="tpl-CommentThreadList Comment commentDiv">
 		<div class="singleComment">
 			<div class="commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}"
 				 data-parentcommentid="{$COMMENT->get('parent_comments')}">
@@ -54,22 +54,27 @@
 			</div>
 			<div class="commentActionsContainer row no-margin ">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
-				<div class="editedStatus visible-lg-block col-6" name="editStatus">
-					<p class="col-6 marginLeftZero">
-						<small>
-					<span class="{if empty($REASON_TO_EDIT)}d-none{/if} marginLeftZero editReason">
-						[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)}
-						] : <span name="editReason" class="u-text-ellipsis">{nl2br($REASON_TO_EDIT)}</span>
+				<div class="editedStatus" name="editStatus">
+					<span class="{if empty($REASON_TO_EDIT)}d-none{/if} editReason text-muted">
+						<p>
+							<small>
+								[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] :
+								<span name="editReason" class="u-text-ellipsis ml-1">
+									{nl2br($REASON_TO_EDIT)}
+								</span>
+							</small>
+							{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
+								<span class="d-block text-muted">
+									<small>
+										<em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em>
+									</small>&nbsp;
+									<small class="commentModifiedTime">
+										{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}
+									</small>
+								</span>
+							{/if}
+						</p>
 					</span>
-						</small>
-					</p>
-					{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-						<span class="{if empty($REASON_TO_EDIT)}row{else} col-6 paddingRightZero{/if}">
-					<span class="float-right">
-						<p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small></p>
-					</span>
-				</span>
-					{/if}
 				</div>
 				<div class="commentActionsDiv">
 					{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
