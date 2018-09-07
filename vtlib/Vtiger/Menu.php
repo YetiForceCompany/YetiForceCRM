@@ -37,9 +37,8 @@ class Menu
 	/**
 	 * Get instance of menu by label.
 	 *
-	 * @param string Menu label
 	 */
-	public static function getInstance($value)
+	public static function getInstance()
 	{
 		return false;
 	}

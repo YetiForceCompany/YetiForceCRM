@@ -88,7 +88,7 @@ class Link
 				'linklabel' => $label,
 				'linkurl' => $url,
 				'linkicon' => $iconpath,
-				'sequence' => (int) $sequence,
+				'sequence' => (int)$sequence,
 			];
 			if (!empty($handlerInfo)) {
 				$params['handler_path'] = $handlerInfo['path'];
@@ -296,11 +296,9 @@ class Link
 	/**
 	 * Checks whether the user is admin or not.
 	 *
-	 * @param vtlib\LinkData $linkData
-	 *
 	 * @return bool
 	 */
-	public static function isAdmin(LinkData $linkData)
+	public static function isAdmin()
 	{
 		return \App\User::getCurrentUserModel()->isAdmin();
 	}

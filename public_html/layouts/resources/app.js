@@ -760,11 +760,11 @@ var App = {},
 		showNewScrollbarTopBottom: function (element) {
 			if (typeof element === "undefined" || !element.length)
 				return;
-			var scrollbarTopInit = new PerfectScrollbar(element[0], {
+			new PerfectScrollbar(element[0], {
 				wheelPropagation: true,
 				suppressScrollY: true
 			});
-			var scrollbarBottomInit = new PerfectScrollbar(element[0], {
+			new PerfectScrollbar(element[0], {
 				wheelPropagation: true,
 				suppressScrollY: true
 			});
@@ -784,7 +784,7 @@ var App = {},
 			if (typeof options === "undefined")
 				options = {};
 			options.wheelPropagation = true;
-			var scrollbarLeftInit = new PerfectScrollbar(element[0], options);
+			new PerfectScrollbar(element[0], options);
 			var scrollbarLeftElement = element.children('.ps__rail-y').first();
 			scrollbarLeftElement.css({
 				left: 0,
@@ -1005,7 +1005,7 @@ var App = {},
 		getUrlVar: function (varName) {
 			var getVar = function () {
 				var vars = {};
-				var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+				window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 					vars[key] = value;
 				});
 				return vars;
@@ -1120,7 +1120,6 @@ var App = {},
 			return integer;
 		},
 		parseNumberToFloat: function (val) {
-			var numberOfDecimal = parseInt(CONFIG.noOfCurrencyDecimals);
 			var groupSeparator = CONFIG.currencyGroupingSeparator;
 			var decimalSeparator = CONFIG.currencyDecimalSeparator;
 			if (val == undefined || val == '') {
@@ -1358,7 +1357,6 @@ var App = {},
 		},
 		sidebarKeyboard: function (e) {
 			let target = $(e.target);
-			let toggler = $(e.target).closest('.js-submenu-toggler');
 			if (e.which == this.keyboard.LEFT) {
 				if (target.hasClass('js-submenu-toggler') && !target.hasClass('collapsed')) {
 					target.click();

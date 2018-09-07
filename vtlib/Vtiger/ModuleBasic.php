@@ -50,17 +50,17 @@ class ModuleBasic
 	 */
 	public function initialize($valuemap)
 	{
-		$this->id = (int) $valuemap['tabid'];
+		$this->id = (int)$valuemap['tabid'];
 		$this->name = $valuemap['name'];
 		$this->label = $valuemap['tablabel'];
 		$this->version = $valuemap['version'];
-		$this->presence = (int) $valuemap['presence'];
+		$this->presence = (int)$valuemap['presence'];
 		$this->ownedby = $valuemap['ownedby'];
-		$this->tabsequence = (int) $valuemap['tabsequence'];
+		$this->tabsequence = (int)$valuemap['tabsequence'];
 		$this->parent = $valuemap['parent'];
-		$this->customized = (int) $valuemap['customized'];
-		$this->type = (int) $valuemap['type'];
-		$this->isentitytype = (int) $valuemap['isentitytype'];
+		$this->customized = (int)$valuemap['customized'];
+		$this->type = (int)$valuemap['type'];
+		$this->isentitytype = (int)$valuemap['isentitytype'];
 		if ($this->isentitytype || $this->name === 'Users') {
 			$entitydata = \App\Module::getEntityInfo($this->name);
 			if ($entitydata) {
@@ -510,8 +510,8 @@ class ModuleBasic
 		\App\Log::trace('Start', __METHOD__);
 		$query = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $this->name]);
 		$dataReader = $query->createCommand()->query();
-		while ($id = $dataReader->readColumn(0)) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($id, $this->name);
+		while ($itemId = $dataReader->readColumn(0)) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($itemId, $this->name);
 			$recordModel->delete();
 		}
 		\App\Log::trace('End', __METHOD__);

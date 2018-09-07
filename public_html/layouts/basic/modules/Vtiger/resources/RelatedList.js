@@ -1106,7 +1106,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		}
 	},
 	registerRelatedEvents: function () {
-		var relatedContainer = this.getRelatedContainer();
 		this.registerUnreviewedCountEvent();
 		this.registerChangeEntityStateEvent();
 		this.registerPaginationEvents();

@@ -929,7 +929,7 @@ Vtiger_Base_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
 		if (!maximumLength) {
 			return true;
 		}
-		if (maximumLength && strippedValue > parseFloat(maximumLength)) {
+		if (strippedValue > parseFloat(maximumLength)) {
 			errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
 			this.setError(errorInfo);
 			return false;
@@ -949,7 +949,6 @@ Vtiger_Base_Validator_Js("Vtiger_ReferenceField_Validator_Js", {}, {
 		var parentElement = field.closest('.fieldValue');
 		var referenceField = parentElement.find('.sourceField');
 		var referenceFieldValue = referenceField.val();
-		var fieldInfo = referenceField.data().fieldinfo;
 		if (referenceFieldValue == "") {
 			var errorInfo = app.vtranslate('JS_REQUIRED_FIELD');
 			this.setError(errorInfo);

@@ -164,7 +164,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		AppConnector.request(params).done(function (data) {
 			jQuery('.paginationDiv').html(data);
 			var instance = thisInstance.getInstanceView();
-			if (instance && instance != undefined && jQuery.isFunction(instance.registerPageNavigationEvents)) {
+			if (instance && jQuery.isFunction(instance.registerPageNavigationEvents)) {
 				instance.registerPageNavigationEvents();
 			}
 		});
@@ -277,7 +277,6 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		}
 	},
 	executeFunctions: function (instance) {
-		var thisInstance = this;
 		if (instance.execute) {
 			var func = instance.execute;
 			for (var i in func) {

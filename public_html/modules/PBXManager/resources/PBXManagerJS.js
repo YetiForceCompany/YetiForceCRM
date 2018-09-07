@@ -215,7 +215,6 @@ var Vtiger_PBXManager_Js = {
 	 * Function to register required events
 	 */
 	registerEvents: function () {
-		var thisInstance = this;
 		//for polling
 		var url = 'index.php?module=PBXManager&action=IncomingCallPoll&mode=checkPermissionForPolling';
 		AppConnector.request(url).done(function (data) {

@@ -29,7 +29,6 @@
 			this._data.category.selected = [];
 			this.element.on('model.jstree', $.proxy(function (e, data) {
 				var m = this._model.data,
-					p = m[data.parent],
 					dpc = data.nodes,
 					i, j;
 				for (i = 0, j = dpc.length; i < j; i++) {
