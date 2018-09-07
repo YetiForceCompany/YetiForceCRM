@@ -26,9 +26,6 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	public function process(\App\Request $request)
 	{
 		$request->set('assigned_user_id', App\User::getCurrentUserId());
-		if (!$request->isEmpty('parent_comments')) {
-			$request->set('parents', $request->getInteger('parent_comments'));
-		}
 		$recordModel = $this->saveRecord($request);
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = [];
@@ -39,7 +36,6 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$result['id'] = $recordModel->getId();
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
-
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);

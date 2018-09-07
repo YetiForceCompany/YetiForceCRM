@@ -122,6 +122,15 @@
 								</a>
 							</span>
 					{/if}
+					{if !empty($BUTTON_SHOW_PARENT)}
+						<span class="viewParentThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
+								<button type="button" class="btn btn-sm btn-secondary viewParentThread ml-1">
+									{\App\Language::translate('LBL_THREAD',$MODULE_NAME)}
+									&nbsp;
+									<span class="fas fa-share"></span>
+								</button>
+							</span>
+					{/if}
 					</small></p>
 				</div>
 			</div>
