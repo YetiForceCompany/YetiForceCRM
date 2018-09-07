@@ -844,9 +844,13 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$query = new \App\Db\Query();
 		$query->select('vtiger_tab.*')->from('vtiger_field')
 			->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-			->where(['or', 'quickcreate = 0', 'quickcreate = 2'])
-			->andWhere(['<>', 'vtiger_tab.presence', 1])
-			->andWhere(['<>', 'vtiger_tab.type', 1])->distinct();
+			->where(['<>', 'vtiger_tab.presence', 1]);
+		if ($tree) {
+			$query->andWhere(['<>', 'vtiger_tab.name', 'Users']);
+		} else {
+			$query->andWhere(['or', 'quickcreate = 0', 'quickcreate = 2'])
+				->andWhere(['<>', 'vtiger_tab.type', 1])->distinct();;
+		}
 		if ($restrictList) {
 			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments', 'PriceBooks', 'Events']]);
 		}
@@ -870,11 +874,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 				foreach ($parent['childs'] as $child) {
 					if (isset($quickCreateModules[$child['tabid']])) {
 						$items[$quickCreateModules[$child['tabid']]->name] = $quickCreateModules[$child['tabid']];
+						unset($quickCreateModules[$child['tabid']]);
 					}
 				}
 				if (!empty($items)) {
-					$quickCreateModulesTree[$parent['name']] = $items;
+					$quickCreateModulesTree[] = ['name' => $parent['name'], 'icon' => $parent['icon'], 'modules' => $items];
 				}
+			}
+			if (!empty($quickCreateModules)) {
+				$quickCreateModulesTree[] = ['name' => 'LBL_OTHER', 'icon' => 'userIcon-Other', 'modules' => $quickCreateModules];
 			}
 			Vtiger_Cache::set('getQuickCreateModules', 'tree' . $restrictListString . $userPrivModel->get('roleid'), $quickCreateModulesTree);
 			return $quickCreateModulesTree;
