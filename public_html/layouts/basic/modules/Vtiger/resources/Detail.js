@@ -1993,9 +1993,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 			app.event.trigger("DetailView.SaveComment.AfterUpdate", commentInfoBlock, data);
 		}
 	},
+	/**
+	 * Register all comment events
+	 * @param detailContentsHolder
+	 */
 	registerCommentEvents: function (detailContentsHolder) {
 		const thisInstance = this;
-		let previousSearchValue = '';
 		detailContentsHolder.on('click', '.addCommentBtn', function (e) {
 			thisInstance.removeCommentBlockIfExists();
 			var addCommentBlock = thisInstance.getCommentBlock();
