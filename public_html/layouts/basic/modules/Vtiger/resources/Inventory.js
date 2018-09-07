@@ -1025,33 +1025,35 @@ $.Class("Vtiger_Inventory_Js", {
 		thisInstance.calculateDiscount(parentRow, modal);
 	},
 	initTaxParameters: function (parentRow, modal) {
-		var thisInstance = this;
+		const thisInstance = this;
+		let parameters;
 		if (parentRow.data('taxParam')) {
-			var parameters = parentRow.data('taxParam');
+			parameters = parentRow.data('taxParam');
 		} else {
-			var parameters = parentRow.find('.taxParam').val();
+			parameters = parentRow.find('.taxParam').val();
 		}
 		if (!parameters) {
 			return;
 		}
 		parameters = JSON.parse(parameters);
 		$.each(thisInstance.taxModalFields, function (index, param) {
-			var parameter = parameters[param];
-			var field = modal.find('[name="' + param + '"]');
+			let parameter = parameters[param],
+				field = modal.find('[name="' + param + '"]');
 
-			if (field.attr('type') == 'checkbox' || field.attr('type') == 'radio') {
-				var array = parameter;
+			if (field.attr('type') === 'checkbox' || field.attr('type') === 'radio') {
+				let array = parameter,
+					value;
 				if (!$.isArray(array)) {
 					array = [array];
 				}
 				$.each(array, function (index, arrayValue) {
-					var value = field.filter('[value="' + arrayValue + '"]').prop('checked', true);
-					if (param == 'aggregationType') {
+					value = field.filter('[value="' + arrayValue + '"]').prop('checked', true);
+					if (param === 'aggregationType') {
 						value.closest('.js-panel').find('.js-panel__body').removeClass('d-none');
 						value.closest('.js-panel').addClass('js-active');
 					}
 				});
-			} else if (field.prop("tagName") == 'SELECT') {
+			} else if (field.prop("tagName") === 'SELECT') {
 				field.find('option[value="' + parameter + '"]').prop('selected', 'selected').change();
 			} else {
 				modal.find('[name="' + param + '"]').val(parameter);
