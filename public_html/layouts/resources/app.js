@@ -71,9 +71,7 @@ var App = {},
 		getRecordId: function () {
 			var view = this.getViewName();
 			var recordId;
-			if (view === 'Edit' || view === 'PreferenceEdit') {
-				recordId = this.getMainParams('recordId');
-			} else if (view === 'Detail' || view === 'PreferenceDetail') {
+			if($.inArray(view, ['Edit', 'PreferenceEdit', 'Detail', 'PreferenceDetail', 'DetailPreview']) !== -1) {
 				recordId = this.getMainParams('recordId');
 			}
 			return recordId;
