@@ -141,7 +141,7 @@
 			<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_RECORDS_LIST')}</label>
 			<div class="medium w-100  col-lg-12 col-xl-9  fieldValue">
 				<div class="input-group">
-					<select class="select2" id="recordList" data-width="style">
+					<select class="select2 form-control" id="recordList" data-width="style">
 						{foreach item=MODULE_LIST from=$BASE_LISTS}
 							<option value="{$MODULE_LIST['key']}">{$MODULE_LIST['label']}</option>
 						{/foreach}

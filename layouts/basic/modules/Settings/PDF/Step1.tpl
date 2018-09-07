@@ -14,6 +14,17 @@
 
 
 			<div class="row">
+				<div class="col-12 mb-2">
+					<div class="card">
+						<div class="card-header">{\App\Language::translate('LBL_VARIABLES',$QUALIFIED_MODULE)}</div>
+						<div class="card-body">
+							<div class="row">
+								{include file='layouts/basic/modules/Vtiger/VariablePanel.tpl' SELECTED_MODULE=$SELECTED_MODULE PARSER_TYPE='pdf'}
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<div class="col-xs-12 col-xl-6 col-xxl-4 mb-2">
 					<div class="card">
 						<div class="card-header">
