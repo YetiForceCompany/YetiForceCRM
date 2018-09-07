@@ -356,7 +356,7 @@
 	}
 }
 
-@include media-breakpoint-down(xs) {
+@media only screen and (max-width: 513px) {
 	.c-menu__container.js-expand + .c-header {
 		&,
 		.o-navbar__left,
