@@ -433,9 +433,10 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			values = {},
 			columnIndex = 0;
 		$('.conditionGroup', filterContainer).each(function (index, domElement) {
+			let groupElement = $(domElement);
 			values[index + 1] = {};
 			values[index + 1]['columns'] = {};
-			$('.conditionList .js-conditions-row', $(domElement)).each(function (i, conditionDomElement) {
+			$('.conditionList .js-conditions-row', groupElement).each(function (i, conditionDomElement) {
 				let rowElement = $(conditionDomElement),
 					fieldSelectElement = $('[name="columnname"]', rowElement),
 					valueSelectElement = $('[data-value="value"]', rowElement);
