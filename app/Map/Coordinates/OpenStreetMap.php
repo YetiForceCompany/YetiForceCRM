@@ -31,9 +31,11 @@ class OpenStreetMap extends Base
 		}
 		$url .= \http_build_query(array_merge($data, $addressInfo));
 		try {
-			$response = \Requests::get($url);
-			if ($response->success) {
-				$coordinates =  \App\Json::decode($response->body);
+			$response = (new \GuzzleHttp\Client())->request('GET', $url, ['timeout' => 1, 'verify' => false]);
+			if ($response->getStatusCode() === 200) {
+				$coordinates =  \App\Json::decode($response->getBody());
+			} else {
+				\App\Log::warning('Error with connection - ' . __CLASS__);
 			}
 		} catch (\Exception $ex) {
 			\App\Log::warning($ex->getMessage());

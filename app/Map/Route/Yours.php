@@ -48,8 +48,13 @@ class Yours extends Base
 		try {
 			foreach ($tracks as $track) {
 				$url = $urlToRoute . '?format=geojson&flat=' . $track['startLat'] . '&flon=' . $track['startLon'] . '&tlat=' . $track['endLat'] . '&tlon=' . $track['endLon'] . '&lang=' . \App\Language::getLanguage() . '&instructions=1';
-				$response = \Requests::get($url);
-				$json = \App\Json::decode($response->body);
+				$response = (new \GuzzleHttp\Client())->request('GET', $url, ['timeout' => 1, 'verify' => false]);
+				if ($response->getStatusCode() === 200) {
+					$json = \App\Json::decode($response->getBody());
+				} else {
+					\App\Log::warning('Error with connection - ' . __CLASS__);
+					return;
+				}
 				$coordinates = array_merge($coordinates, $json['coordinates']);
 				$description .= $json['properties']['description'];
 				$travel = $travel + $json['properties']['traveltime'];
