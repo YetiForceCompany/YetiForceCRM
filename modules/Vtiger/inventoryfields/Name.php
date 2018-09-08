@@ -70,8 +70,8 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	public function mandatoryValues()
 	{
 		return [
-			['id' => 'false', 'name' => 'LBL_NO'],
 			['id' => 'true', 'name' => 'LBL_YES'],
+			['id' => 'false', 'name' => 'LBL_NO']
 		];
 	}
 
@@ -81,7 +81,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	public function isMandatory()
 	{
 		$config = $this->getConfig();
-		return isset($config['mandatory']) ? $config['mandatory'] !== 'false' : false;
+		return isset($config['mandatory']) ? $config['mandatory'] !== 'false' : true;
 	}
 
 	public function getConfig()
@@ -98,7 +98,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
 			return false;
 		}
-		$value = $request->get($column . $i);
+		$value = $request->isEmpty($column . $i) ? '' : $request->getInteger($column . $i);
 		$this->validate($value, $column, true);
 		$insertData[$column] = $value;
 	}
