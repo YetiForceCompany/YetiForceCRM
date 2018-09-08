@@ -693,11 +693,11 @@ class Functions
 	/**
 	 * Function to capture the initial letters of words.
 	 *
-	 * @param $name
+	 * @param string $name
 	 *
 	 * @return string
 	 */
-	public static function getInitials($name)
+	public static function getInitials(string $name): string
 	{
 		preg_match_all('#(?<=\s|\b)\pL|[()]#u', $name, $initial);
 		return isset($initial[0]) ? implode('', $initial[0]) : '';
