@@ -690,13 +690,17 @@ class Functions
 		return $return;
 	}
 
+	/**
+	 * Function to capture the initial letters of words.
+	 *
+	 * @param $name
+	 *
+	 * @return string
+	 */
 	public static function getInitials($name)
 	{
-		$initial = '';
-		foreach (explode(' ', $name) as $word) {
-			$initial .= strtoupper($word[0]);
-		}
-		return $initial;
+		preg_match_all('#(?<=\s|\b)\pL|[()]#u', $name, $initial);
+		return isset($initial[0]) ? implode('', $initial[0]) : '';
 	}
 
 	public static function getDiskSpace($dir = '')
