@@ -636,7 +636,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				if(thisInstance.routeLayer) {
 					map.removeLayer(thisInstance.routeLayer);
 				}
-				var route = L.geoJson(response.result);
+				var route = L.geoJson(response.result.geoJson);
 				thisInstance.routeLayer = L.featureGroup([route]);
 				map.addLayer(thisInstance.routeLayer);
 				container.find('.descriptionContainer').removeClass('d-none');
@@ -645,9 +645,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				container.find('.descriptionContent .travelTime').html(app.parseNumberToShow(response.result.properties.traveltime / 60));
 			});
 		});
-		container.find('.setView').on('click', function (e) {
+		container.on('click', '.setView', function (e) {
 			var currentTarget = $(e.currentTarget);
-			var inputInstance = currentTarget.closest('.input-group').find('.end,.start');
+			var inputInstance = currentTarget.closest('.input-group').find('.end,.start,.indirect');
 			var lat = inputInstance.data('lat');
 			var lon = inputInstance.data('lon');
 			if (!(typeof lat === "undefined" && typeof lon === "undefined")) {
