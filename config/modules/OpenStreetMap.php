@@ -22,4 +22,5 @@ return [
 		'Vendors' => ['vendorname', 'email', 'website'],
 		'Contacts' => ['firstname', 'lastname', 'email', 'phone'],
 	],
+	'COORDINATE_CONNECTOR' => 'OpenStreetMap'
 ];

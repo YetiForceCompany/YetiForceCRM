@@ -25,34 +25,12 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 	}
 
 	/**
-	 * The function to retrieve data from the server.
-	 *
-	 * @param string $url
-	 *
-	 * @return array|bool
-	 */
-	private function doRequest($url)
-	{
-		try {
-			$response = Requests::get($url);
-			if ($response->success) {
-				return \App\Json::decode($response->body);
-			} else {
-				return false;
-			}
-		} catch (Exception $ex) {
-			\App\Log::warning($ex->getMessage());
-			return false;
-		}
-	}
-
-	/**
 	 * The function return the border coordinates for the point.
 	 *
-	 * @param type $coordinates
-	 * @param type $radius
+	 * @param array $coordinates
+	 * @param int   $radius
 	 *
-	 * @return type
+	 * @return float[]
 	 */
 	private function getMargins($coordinates, $radius)
 	{
@@ -67,29 +45,6 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 			'lonMax' => $long + rad2deg($radius / $earthRadius / cos(deg2rad($lat))),
 			'lonMin' => $long - rad2deg($radius / $earthRadius / cos(deg2rad($lat))),
 		];
-	}
-
-	/**
-	 * Function to get coordinates.
-	 *
-	 * @param array $address params url
-	 *
-	 * @return array
-	 */
-	public function getCoordinates($address)
-	{
-		$url = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
-		$data = [
-			'format' => 'json',
-			'addressdetails' => 1,
-			'limit' => 1,
-		];
-		if (empty($address)) {
-			return [];
-		}
-		$url .= http_build_query(array_merge($data, $address));
-
-		return $this->doRequest($url);
 	}
 
 	/**
@@ -108,79 +63,10 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 			];
 		}
 		if (!empty($searchValue)) {
-			$coordinatesCenter = $this->getCoordinatesBySearching($searchValue);
+			$coordinatesCenter = \App\Map\Coordinates::getInstance()->getCoordinatesByValue($searchValue);
 		}
 		$this->set('coordinatesCenter', $coordinatesCenter);
-
 		return $coordinatesCenter;
-	}
-
-	/**
-	 * Function to get coordinates from searcher.
-	 *
-	 * @param string $searchValue
-	 *
-	 * @return array
-	 */
-	public function getCoordinatesBySearching($searchValue)
-	{
-		$coordinatesDetails = $this->getCoordinates(['q' => $searchValue]);
-		if ($coordinatesDetails === false) {
-			return [];
-		}
-		$coordinatesDetails = reset($coordinatesDetails);
-		if (empty($coordinatesDetails)) {
-			return ['error' => \App\Language::translate('LBL_NOT_FOUND_PLACE', 'OpenStreetMap')];
-		} else {
-			return ['lat' => $coordinatesDetails['lat'], 'lon' => $coordinatesDetails['lon']];
-		}
-	}
-
-	/**
-	 * Function to get params url.
-	 *
-	 * @param Vtiger_Record_Model $recordModel
-	 * @param string              $type        a,b or c
-	 *
-	 * @return array
-	 */
-	public function getUrlParamsToSearching($recordModel, $type)
-	{
-		return [
-			'state' => $recordModel->get('addresslevel2' . $type),
-			'county' => $recordModel->get('addresslevel3' . $type),
-			'city' => $recordModel->get('addresslevel5' . $type),
-			'street' => $recordModel->get('addresslevel8' . $type) . ' ' . $recordModel->get('buildingnumber' . $type),
-			'country' => $recordModel->get('addresslevel1' . $type),
-		];
-	}
-
-	/**
-	 * Function to get coordinates for record.
-	 *
-	 * @param Vtiger_Record_Model $recordModel
-	 *
-	 * @return array
-	 */
-	public function getCoordinatesByRecord($recordModel)
-	{
-		$coordinates = [];
-		foreach (['a', 'b', 'c'] as $numAddress) {
-			$address = $this->getUrlParamsToSearching($recordModel, $numAddress);
-			$coordinatesDetails = $this->getCoordinates($address);
-			if ($coordinatesDetails === false) {
-				break;
-			}
-			if (empty($coordinatesDetails)) {
-				continue;
-			}
-			$coordinatesDetails = reset($coordinatesDetails);
-			$coordinates[$numAddress] = [
-				'lat' => $coordinatesDetails['lat'],
-				'lon' => $coordinatesDetails['lon'],
-			];
-		}
-		return $coordinates;
 	}
 
 	/**
