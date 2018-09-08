@@ -9,11 +9,11 @@ $db = App\Db::getInstance();
 $dataReader = (new App\Db\Query())->from('u_#__openstreetmap_record_updater')
 	->limit(AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
 	->createCommand()->query();
+$coordinatesConnector = \App\Map\Coordinates::getInstance();
 while ($row = $dataReader->read()) {
 	$typeAddress = $row['type'];
 	$recordId = $row['crmid'];
-	$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-	$coordinates = $coordinatesModel->getCoordinates(\App\Json::decode($row['address']));
+	$coordinates = $coordinatesConnector->getCoordinates(\App\Json::decode($row['address']));
 	if ($coordinates === false) {
 		break;
 	}
