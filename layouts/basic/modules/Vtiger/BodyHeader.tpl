@@ -231,212 +231,159 @@
 					<span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 				</a>
 				<div class="o-action-menu__container" id="o-action-menu__container">
-					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
-					{if !empty($QUICKCREATE_MODULES)}
-					<div class="o-action-menu__item commonActionsContainer">
-						<a class="c-header__btn ml-2 btn-light btn js-popover-tooltip dropdownMenu" role="button"
-						   data-js="popover" data-toggle="modal" data-target="#quickCreateModules"
-						   data-placement="bottom" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}"
-						   href="#">
-							<span class="fas fa-plus fa-fw"
-								  title="{\App\Language::translate('LBL_QUICK_CREATE')}"></span>
-							<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_QUICK_CREATE')}</span>
-						</a>
-						<div class="quickCreateModules modal" id="quickCreateModules" tabindex="-1" role="dialog"
-							 aria-labelledby="c-quick-create__title" aria-hidden="true">
-							<div class="modal-dialog modal-lg" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-tile" id="c-quick-create__title">
-											<span class="fas fa-plus fa-fw mr-1"></span>
-											{\App\Language::translate('LBL_QUICK_CREATE')}
-										</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										{foreach key=NAME item=MODULEMODEL from=$QUICKCREATE_MODULES}
-											{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
-											{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
-											{if $singularLabel == 'SINGLE_Calendar'}
-												{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
-											{/if}
-											{if $count % 3 == 0}
-												<div class="row">
-											{/if}
-											<div class="col-md-4">
-												<a id="menubar_quickCreate_{$NAME}"
-												   data-name="{$NAME}"
-														{if $quickCreateModule}
-															class="quickCreateModule"
-															data-url="{$MODULEMODEL->getQuickCreateUrl()}"
-															href="javascript:void(0)"
-														{else}
-															href="{$MODULEMODEL->getCreateRecordUrl()}"
-														{/if}
-												>
-													<span class="modCT_{$NAME} userIcon-{$NAME} mr-1"
-														  title="{\App\Language::translate($singularLabel,$NAME)}"></span>
-													<span>{\App\Language::translate($singularLabel,$NAME)}</span>
-												</a>
-											</div>
-											{if $count % 3 == 2}
-												</div>
-											{/if}
-											{assign var='count' value=$count+1}
-										{/foreach}
-										{if $count % 3 >= 1}
-									</div>
-									{/if}
-								</div>
-								<div class="modal-footer">
-									<button class="btn btn-danger btn-sm" type="reset" data-dismiss="modal">
-										<span class="fas fa-times mr-1"></span>
-										<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				{/if}
-				{if \App\Privilege::isPermitted('Notification', 'DetailView')}
-					<div class="o-action-menu__item">
-						<a class="c-header__btn ml-2 btn btn-light btn isBadge notificationsNotice js-popover-tooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
-						   role="button" data-js="popover"
-						   data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="#">
-							<span class="fas fa-bell fa-fw"
-								  title="{\App\Language::translate('LBL_NOTIFICATIONS')}"> </span>
-							<span class="badge badge-dark d-none mr-1">0</span>
-							<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_NOTIFICATIONS')}</span>
-						</a>
-					</div>
-				{/if}
-				{if isset($CHAT_ENTRIES)}
-					<div class="o-action-menu__item">
-						<a class="c-header__btn ml-2 btn btn-light btn headerLinkChat js-popover-tooltip" role="button"
-						   data-js="popover" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
-							<span class="fas fa-comments fa-fw" title="{\App\Language::translate('LBL_CHAT')}"></span>
-							<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_CHAT')}</span>
-						</a>
-						<div class="chatModal modal fade c-modal--custom-animation" tabindex="-1" role="dialog"
-							 aria-labelledby="c-chat-modal__title"
-							 data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
-							<div class="modal-dialog modalRightSiteBar px-0" role="document">
-								<div class="modal-content rounded-0">
-									<div class="modal-header">
-										<h5 class="modal-title" id="c-chat-modal__title">
-											<span class="fas fa-comments fa-fw mr-1"></span>
-											{\App\Language::translate('LBL_CHAT')}
-										</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										{include file=\App\Layout::getTemplatePath('Items.tpl', 'Chat')}
-									</div>
-									<div class="modal-footer pinToDown row mx-0 d-block">
-										<label for="c-chat-modal__message">{\App\Language::translate('LBL_MESSAGE', 'Notification')}</label>
-										<input class="form-control message" id="c-chat-modal__message" type="text"/>
-										<button type="button"
-												class="btn btn-primary addMsg float-right mt-2">{\App\Language::translate('LBL_SEND_MESSAGE')}</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				{/if}
-				{if $REMINDER_ACTIVE}
-					<div class="o-action-menu__item">
-						<a class="c-header__btn ml-2 btn btn-light btn isBadge remindersNotice js-popover-tooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
-						   data-js="popover" role="button" data-content="{\App\Language::translate('LBL_REMINDER')}"
-						   href="#">
-							<span class="fas fa-calendar fa-fw"
-								  title="{\App\Language::translate('LBL_REMINDER')}"></span>
-							<span class="badge badge-danger d-none mr-1">0</span>
-							<span class="c-header__label--sm-down">{\App\Language::translate('LBL_REMINDER')}</span>
-						</a>
-					</div>
-				{/if}
-				{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
-					<div class="o-action-menu__item">
-						<div class="dropdown">
-							<a class="c-header__btn ml-2 btn btn-light btn js-popover-tooltip dropdownMenu"
-							   id="showHistoryBtn" data-js="popover" data-toggle="dropdown" data-boundary="window"
-							   data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#" role="button">
-								<span class="fas fa-history fa-fw"
-									  title="{\App\Language::translate('LBL_PAGES_HISTORY')}"></span>
-								<span class="c-header__label--sm-down">{\App\Language::translate('LBL_PAGES_HISTORY')}</span>
+					{assign var=QUICKCREATE_MODULES_PARENT value=Vtiger_Module_Model::getQuickCreateModules(true, true)}
+					{if !empty($QUICKCREATE_MODULES_PARENT)}
+						<div class="o-action-menu__item commonActionsContainer">
+							<a class="c-header__btn ml-2 btn-light btn js-popover-tooltip dropdownMenu" role="button"
+							   data-js="popover" data-toggle="modal" data-target="#quickCreateModules"
+							   data-placement="bottom" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}"
+							   href="#">
+								<span class="fas fa-plus fa-fw"
+									  title="{\App\Language::translate('LBL_QUICK_CREATE')}"></span>
+								<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_QUICK_CREATE')}</span>
 							</a>
-							{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
-						</div>
-					</div>
-				{/if}
-				{foreach key=index item=obj from=$MENU_HEADER_LINKS}
-					{if $obj->linktype == 'HEADERLINK'}
-						{assign var="HREF" value='#'}
-						{assign var="ICON_PATH" value=$obj->getIconPath()}
-						{assign var="LINK" value=$obj->convertToNativeLink()}
-						{assign var="ICON" value=$obj->getHeaderIcon()}
-						{assign var="TITLE" value=$obj->getLabel()}
-						{assign var="CHILD_LINKS" value=$obj->getChildLinks()}
-						{if !empty($LINK)}
-							{assign var="HREF" value=$LINK}
-						{/if}
-						<div class="o-action-menu__item">
-							<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}"
-							   role="button" data-js="popover" data-content="{\App\Language::translate($TITLE)}"
-							   href="{$HREF}"
-									{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
-								{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-									data-{$DATA_NAME}="{$DATA_VALUE}"
-								{/foreach}
-									{/if}>
-								{if $ICON}
-									<span class="{$ICON}" title="{\App\Language::translate($TITLE,$MODULE)}"></span>
-									<span class="c-header__label--sm-down">{\App\Language::translate($TITLE,$MODULE)}</span>
-								{/if}
-								{if $ICON_PATH}
-									<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}"
-										 title="{\App\Language::translate($TITLE,$MODULE)}"/>
-								{/if}
-							</a>
-							{if !empty($CHILD_LINKS)}
-								<ul class="dropdown-menu">
-									{foreach key=index item=obj from=$CHILD_LINKS}
-										{if $obj->getLabel() eq NULL}
-											<li class="dropdown-divider"></li>
-										{else}
-											{assign var="id" value=$obj->getId()}
-											{assign var="href" value=$obj->getUrl()}
-											{assign var="label" value=$obj->getLabel()}
-											{assign var="onclick" value=""}
-											{if stripos($obj->getUrl(), 'javascript:') === 0}
-												{assign var="onclick" value="onclick="|cat:$href}
-												{assign var="href" value="javascript:;"}
-											{/if}
-											<li>
-												<a class="dropdown-item" target="{$obj->target}"
-												   id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}"
-												   {if $label=='Switch to old look'}switchLook{/if}
-												   href="{$href}" {$onclick}
-														{if $obj->linkdata && is_array($obj->linkdata)}
-													{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-														data-{$DATA_NAME}="{$DATA_VALUE}"
-													{/foreach}
-														{/if}>{\App\Language::translate($label,$MODULE)}</a>
-											</li>
-										{/if}
-									{/foreach}
-								</ul>
-							{/if}
+							{include file=\App\Layout::getTemplatePath('QuickCreateModal.tpl')}
 						</div>
 					{/if}
-				{/foreach}
-		</div>
-		</nav>
+					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
+						<div class="o-action-menu__item">
+							<a class="c-header__btn ml-2 btn btn-light btn isBadge notificationsNotice js-popover-tooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
+							   role="button" data-js="popover"
+							   data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="#">
+								<span class="fas fa-bell fa-fw"
+									  title="{\App\Language::translate('LBL_NOTIFICATIONS')}"> </span>
+								<span class="badge badge-dark d-none mr-1">0</span>
+								<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_NOTIFICATIONS')}</span>
+							</a>
+						</div>
+					{/if}
+					{if isset($CHAT_ENTRIES)}
+						<div class="o-action-menu__item">
+							<a class="c-header__btn ml-2 btn btn-light btn headerLinkChat js-popover-tooltip"
+							   role="button"
+							   data-js="popover" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
+								<span class="fas fa-comments fa-fw"
+									  title="{\App\Language::translate('LBL_CHAT')}"></span>
+								<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_CHAT')}</span>
+							</a>
+							<div class="chatModal modal fade c-modal--custom-animation" tabindex="-1" role="dialog"
+								 aria-labelledby="c-chat-modal__title"
+								 data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
+								<div class="modal-dialog modalRightSiteBar px-0" role="document">
+									<div class="modal-content rounded-0">
+										<div class="modal-header">
+											<h5 class="modal-title" id="c-chat-modal__title">
+												<span class="fas fa-comments fa-fw mr-1"></span>
+												{\App\Language::translate('LBL_CHAT')}
+											</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											{include file=\App\Layout::getTemplatePath('Items.tpl', 'Chat')}
+										</div>
+										<div class="modal-footer pinToDown row mx-0 d-block">
+											<label for="c-chat-modal__message">{\App\Language::translate('LBL_MESSAGE', 'Notification')}</label>
+											<input class="form-control message" id="c-chat-modal__message" type="text"/>
+											<button type="button"
+													class="btn btn-primary addMsg float-right mt-2">{\App\Language::translate('LBL_SEND_MESSAGE')}</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{/if}
+					{if $REMINDER_ACTIVE}
+						<div class="o-action-menu__item">
+							<a class="c-header__btn ml-2 btn btn-light btn isBadge remindersNotice js-popover-tooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
+							   data-js="popover" role="button" data-content="{\App\Language::translate('LBL_REMINDER')}"
+							   href="#">
+							<span class="fas fa-calendar fa-fw"
+								  title="{\App\Language::translate('LBL_REMINDER')}"></span>
+								<span class="badge badge-danger d-none mr-1">0</span>
+								<span class="c-header__label--sm-down">{\App\Language::translate('LBL_REMINDER')}</span>
+							</a>
+						</div>
+					{/if}
+					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
+						<div class="o-action-menu__item">
+							<div class="dropdown">
+								<a class="c-header__btn ml-2 btn btn-light btn js-popover-tooltip dropdownMenu"
+								   id="showHistoryBtn" data-js="popover" data-toggle="dropdown" data-boundary="window"
+								   data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#"
+								   role="button">
+								<span class="fas fa-history fa-fw"
+									  title="{\App\Language::translate('LBL_PAGES_HISTORY')}"></span>
+									<span class="c-header__label--sm-down">{\App\Language::translate('LBL_PAGES_HISTORY')}</span>
+								</a>
+								{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
+							</div>
+						</div>
+					{/if}
+					{foreach key=index item=obj from=$MENU_HEADER_LINKS}
+						{if $obj->linktype == 'HEADERLINK'}
+							{assign var="HREF" value='#'}
+							{assign var="ICON_PATH" value=$obj->getIconPath()}
+							{assign var="LINK" value=$obj->convertToNativeLink()}
+							{assign var="ICON" value=$obj->getHeaderIcon()}
+							{assign var="TITLE" value=$obj->getLabel()}
+							{assign var="CHILD_LINKS" value=$obj->getChildLinks()}
+							{if !empty($LINK)}
+								{assign var="HREF" value=$LINK}
+							{/if}
+							<div class="o-action-menu__item">
+								<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}"
+								   role="button" data-js="popover" data-content="{\App\Language::translate($TITLE)}"
+								   href="{$HREF}"
+										{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
+									{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+										data-{$DATA_NAME}="{$DATA_VALUE}"
+									{/foreach}
+										{/if}>
+									{if $ICON}
+										<span class="{$ICON}" title="{\App\Language::translate($TITLE,$MODULE)}"></span>
+										<span class="c-header__label--sm-down">{\App\Language::translate($TITLE,$MODULE)}</span>
+									{/if}
+									{if $ICON_PATH}
+										<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}"
+											 title="{\App\Language::translate($TITLE,$MODULE)}"/>
+									{/if}
+								</a>
+								{if !empty($CHILD_LINKS)}
+									<ul class="dropdown-menu">
+										{foreach key=index item=obj from=$CHILD_LINKS}
+											{if $obj->getLabel() eq NULL}
+												<li class="dropdown-divider"></li>
+											{else}
+												{assign var="id" value=$obj->getId()}
+												{assign var="href" value=$obj->getUrl()}
+												{assign var="label" value=$obj->getLabel()}
+												{assign var="onclick" value=""}
+												{if stripos($obj->getUrl(), 'javascript:') === 0}
+													{assign var="onclick" value="onclick="|cat:$href}
+													{assign var="href" value="javascript:;"}
+												{/if}
+												<li>
+													<a class="dropdown-item" target="{$obj->target}"
+													   id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}"
+													   {if $label=='Switch to old look'}switchLook{/if}
+													   href="{$href}" {$onclick}
+															{if $obj->linkdata && is_array($obj->linkdata)}
+														{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+															data-{$DATA_NAME}="{$DATA_VALUE}"
+														{/foreach}
+															{/if}>{\App\Language::translate($label,$MODULE)}</a>
+												</li>
+											{/if}
+										{/foreach}
+									</ul>
+								{/if}
+							</div>
+						{/if}
+					{/foreach}
+				</div>
+			</nav>
 		</div>
 	</header>
 {/strip}

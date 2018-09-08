@@ -45,6 +45,23 @@ $.Class("Vtiger_Header_Js", {
 	getContentsContainer: function () {
 		return this.contentContainer;
 	},
+	registerQuickCreateSearch() {
+		$(".js-quickcreate-search").on('keyup', function () {
+			let value = $(this).val().toLowerCase();
+			$(".quickCreateModules .js-quickcreate-search-item a").filter(function () {
+				let item = $(this).closest('.js-quickcreate-search-item');
+				if ($(this).text().toLowerCase().indexOf(value) > -1) {
+					item.removeClass('d-none');
+				} else {
+					item.addClass('d-none');
+				}
+			});
+			$(".js-quickcreate-search-block").hide();
+			$(".js-quickcreate-search-item").not(".d-none").each(function () {
+				$(this).closest('.js-quickcreate-search-block').show();
+			});
+		});
+	},
 	getQuickCreateForm: function (url, moduleName, params) {
 		var aDeferred = $.Deferred();
 		var requestParams;
@@ -858,6 +875,7 @@ $.Class("Vtiger_Header_Js", {
 		thisInstance.registerReminderNotice();
 		thisInstance.registerReminderNotification();
 		thisInstance.registerChat();
+		thisInstance.registerQuickCreateSearch();
 	}
 });
 $(document).ready(function () {
