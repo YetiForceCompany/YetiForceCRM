@@ -171,4 +171,17 @@ trait SchemaTrait
 	{
 		$this->_tableMetadata[$this->getRawTableName($name)][$type] = $data;
 	}
+
+	/**
+	 * Lists indexes for table.
+	 *
+	 * @param string $name
+	 * @param bool   $refresh
+	 *
+	 * @return \yii\db\IndexConstraint[]
+	 */
+	public function getTableIndexes($name, $refresh = false)
+	{
+		return $this->getTableMetadata($name, 'indexes', $refresh);
+	}
 }
