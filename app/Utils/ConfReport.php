@@ -2,6 +2,8 @@
 /**
  * Conf report class.
  *
+ * @package   App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -147,17 +149,18 @@ class ConfReport
 		'max_allowed_packet' => ['recommended' => '10 MB', 'type' => 'GreaterMb', 'container' => 'db', 'testCli' => false],
 		'log_error' => ['container' => 'db', 'testCli' => false],
 		'max_connections' => ['container' => 'db', 'testCli' => false],
-		'bulk_insert_buffer_size' => ['container' => 'db', 'testCli' => false],
-		'key_buffer_size' => ['container' => 'db', 'testCli' => false],
+		'bulk_insert_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'key_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'thread_cache_size' => ['container' => 'db', 'testCli' => false],
-		'query_cache_size' => ['container' => 'db', 'testCli' => false],
-		'tmp_table_size' => ['container' => 'db', 'testCli' => false],
-		'max_heap_table_size' => ['container' => 'db', 'testCli' => false],
+		'query_cache_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'myisam_sort_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'tmp_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'max_heap_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'innodb_file_per_table' => ['recommended' => 'On', 'container' => 'db', 'testCli' => false],
 		'innodb_stats_on_metadata' => ['recommended' => 'Off', 'container' => 'db', 'testCli' => false],
 		'innodb_buffer_pool_instances' => ['container' => 'db', 'testCli' => false],
-		'innodb_buffer_pool_size' => ['container' => 'db', 'testCli' => false],
-		'innodb_log_file_size' => ['container' => 'db', 'testCli' => false],
+		'innodb_buffer_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'innodb_log_file_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'innodb_io_capacity_max' => ['container' => 'db', 'testCli' => false],
 		'tx_isolation' => ['container' => 'db', 'testCli' => false],
 		'transaction_isolation' => ['container' => 'db', 'testCli' => false],
@@ -353,6 +356,8 @@ class ConfReport
 				case 'db':
 					static::$db = static::getConfigDb();
 					break;
+				default:
+					break;
 			}
 		}
 	}
@@ -374,8 +379,10 @@ class ConfReport
 		}
 		$cron = static::getCronVariables('last_start');
 		$lastCronStart = '-';
+		$lastCronStartText = '-';
 		if ($cron) {
-			$lastCronStart = \App\Fields\DateTime::formatToViewDate(date('Y-m-d H:i:s', $cron));
+			$lastCronStart = date('Y-m-d H:i:s', $cron);
+			$lastCronStartText = \App\Fields\DateTime::formatToViewDate($lastCronStart);
 		}
 		return [
 			'php' => $php,
@@ -396,7 +403,8 @@ class ConfReport
 				'spaceRoot' => '',
 				'spaceStorage' => '',
 				'spaceTemp' => '',
-				'lastCronStart' => $lastCronStart,
+				'lastCronStart' => $lastCronStartText,
+				'lastCronStartDateTime' => $lastCronStart,
 			]
 		];
 	}
@@ -408,7 +416,7 @@ class ConfReport
 	 *
 	 * @return array
 	 */
-	private static function getCronVariables(string $type)
+	public static function getCronVariables(string $type)
 	{
 		if (file_exists('user_privileges/cron.php')) {
 			$cron = include \ROOT_DIRECTORY . '/user_privileges/cron.php';
@@ -665,6 +673,22 @@ class ConfReport
 	}
 
 	/**
+	 * Display number in bytes.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateShowBytes(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi]);
+		return $row;
+	}
+
+	/**
 	 * Validate equal value "recommended == current".
 	 *
 	 * @param string $name
@@ -695,7 +719,12 @@ class ConfReport
 	{
 		unset($name);
 		try {
-			new \DateTimeZone($row[$sapi]);
+			$test = new \DateTimeZone($row[$sapi]);
+			if ($test->getName() === $row[$sapi]) {
+				return $row;
+			}
+			$row['status'] = false;
+			return $row;
 		} catch (\Throwable $e) {
 			$row[$sapi] = \App\Language::translate('LBL_INVALID_TIME_ZONE', 'Settings::ConfReport') . $row[$sapi];
 			$row['status'] = false;
@@ -974,10 +1003,13 @@ class ConfReport
 			case 'spaceTemp':
 				$dir = static::$env['tempDir'];
 				break;
+			default:
+				break;
 		}
 		$free = disk_free_space($dir);
 		$total = disk_total_space($dir);
-
+		$row['spaceTotal'] = $total;
+		$row['spaceFree'] = $free;
 		$row[$sapi] = round((($total - $free) / $total) * 100) . '% | ';
 		$row[$sapi] .= \App\Language::translateSingleMod('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ';
 		$row[$sapi] .= \vtlib\Functions::showBytes($free) . ' | ';

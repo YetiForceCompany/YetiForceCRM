@@ -4,7 +4,7 @@
  * PermissionInspector class module model.
  *
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class PermissionInspector_Module_Model extends Vtiger_Module_Model
 {
@@ -76,6 +76,8 @@ class PermissionInspector_Module_Model extends Vtiger_Module_Model
 			case 'SEC_RECORD_OWNER_CURRENT_USER':
 				$metadata = \vtlib\Functions::getCRMRecordMetadata($this->get('sourceRecord'));
 				$privileges['param'] = \App\Language::translate(\App\Fields\Owner::getLabel($metadata['smownerid']));
+				break;
+			default:
 				break;
 		}
 		return $privileges;

@@ -4,8 +4,8 @@
  * Companies record model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -118,6 +118,8 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				$src = \App\Fields\File::getImageBaseData($this->getLogoPath($value));
 				$value = "<img src='$src' class='img-thumbnail'/>";
 				break;
+			default:
+				break;
 		}
 		return $value;
 	}
@@ -192,14 +194,14 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getLogoPath($name)
 	{
-		$logoPath = $this->logoPath;
-		if (!is_dir($logoPath)) {
+		$logo = $this->logoPath;
+		if (!is_dir($logo)) {
 			return '';
 		}
-		$iterator = new \DirectoryIterator($logoPath);
+		$iterator = new \DirectoryIterator($logo);
 		foreach ($iterator as $fileInfo) {
 			if ($name === $fileInfo->getFilename() && in_array($fileInfo->getExtension(), self::$logoSupportedFormats) && !$fileInfo->isDot() && !$fileInfo->isDir()) {
-				return $logoPath . $name;
+				return $logo . $name;
 			}
 		}
 		return '';

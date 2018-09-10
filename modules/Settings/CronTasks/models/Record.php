@@ -93,7 +93,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Detect if the task was started and never finished.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function hadTimedout()
@@ -139,7 +139,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Get Time taken to complete task.
-	 * 
+	 *
 	 * @return int seconds
 	 */
 	public function getTimeDiff()
@@ -216,6 +216,8 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'duration':
 				$fieldValue = $this->getDuration();
+				break;
+			default:
 				break;
 		}
 		return $fieldValue;

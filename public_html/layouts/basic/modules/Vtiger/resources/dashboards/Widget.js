@@ -1449,7 +1449,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			const imgEl = $(this.getChartImage());
 			const a = $("<a>")
 				.attr("href", imgEl.attr('src'))
-				.attr("download", header.find('.dashboardTitle').text() + ".png")
+				.attr("download", header.find('.js-widget__header__title').text() + ".png")
 				.appendTo(container);
 			a[0].click();
 			a.remove();
@@ -1741,7 +1741,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 			paramCache += '&' + i + '=' + data[i];
 		}
-		var userId = app.getMainParams('current_user_id');
+		var userId = CONFIG.userId;
 		var name = container.data('name');
 		app.cacheSet(name + userId, paramCache);
 	},
@@ -2795,23 +2795,21 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 	registerMultifilter() {
 		let selectValue = app.cacheGet('multifilterSelectValue', null),
 			multifilterSettings = this.getMultifilterSettings();
-		if (null != selectValue) {
-			multifilterSettings.find('.js-select').val(selectValue);
+		if (null != selectValue && this.paramCache) {
+			multifilterSettings.find('.js-select').val(selectValue).trigger('change.select2');
 		}
-		multifilterSettings.find('.js-select').select2({
-			height: "30px",
-			templateSelection: function (item) {
-				return item.text;
-			}
-		});
 		this.loadMultifilterData(true);
 		multifilterSettings.find('.js-select').on('select2:select', () => {
 			this.loadMultifilterData(true);
-			app.cacheSet('multifilterSelectValue', multifilterSettings.find('.js-select').val());
+			if (this.paramCache) {
+				app.cacheSet('multifilterSelectValue', multifilterSettings.find('.js-select').val());
+			}
 		});
 		multifilterSettings.find('.js-select').on('select2:unselect', () => {
 			this.loadMultifilterData(false);
-			app.cacheSet('multifilterSelectValue', multifilterSettings.find('.js-select').val());
+			if (this.paramCache) {
+				app.cacheSet('multifilterSelectValue', multifilterSettings.find('.js-select').val());
+			}
 		});
 		this.registerShowHideModuleSettings();
 	},
@@ -2820,15 +2818,14 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 		let widgetId = self.getMultifilterControls().attr('data-widgetid'),
 			multifilterIds = self.getMultifilterSettings().find('.js-select option:selected'),
 			params = [];
+		if (!select) {
+			self.getMultifilterContent().html('');
+		}
 		multifilterIds.each(function () {
 			let existFilter = self.getMultifilterContent().find('[data-id="' + $(this).val() + '"]');
 			let thisInstance = $(this);
-			if (select) {
-				if (0 < existFilter.length) {
-					return true;
-				}
-			} else {
-				self.getMultifilterContent().html('');
+			if (0 < existFilter.length) {
+				return true;
 			}
 			params = {
 				module: thisInstance.data('module'),
@@ -2845,12 +2842,14 @@ YetiForce_Widget_Js('YetiForce_Multifilter_Widget_Js', {}, {
 	},
 	loadListData(params) {
 		const self = this;
-		let aDeferred = jQuery.Deferred();
+		let aDeferred = jQuery.Deferred(),
+			multiFilterContent = self.getMultifilterContent();
 		AppConnector.request(params).done(function (data) {
-			let addedContent = self.getMultifilterContent().append(data).children("div:last-child");
-			self.registerShowHideBlocks();
-			self.registerRecordsCount(addedContent);
-			aDeferred.resolve();
+			if (self.getMultifilterSettings().find('option[value="' + params.filterid + '"]').is(':selected') && !multiFilterContent.find('.detailViewTable[data-id="' + params.filterid + '"]').length) {
+				self.registerRecordsCount(multiFilterContent.append(data).children("div:last-child"));
+				self.registerShowHideBlocks();
+				aDeferred.resolve();
+			}
 		}).fail(function (error) {
 			aDeferred.reject();
 		});

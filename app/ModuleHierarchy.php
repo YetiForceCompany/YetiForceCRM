@@ -6,8 +6,8 @@ namespace App;
  * Modules hierarchy basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class ModuleHierarchy
 {
@@ -79,13 +79,19 @@ class ModuleHierarchy
 	public static function getModulesByUitype($uitype)
 	{
 		switch ($uitype) {
-			case 67: $level = 0;
+			case 67:
+				$level = 0;
 				break;
-			case 66: $level = 1;
+			case 66:
+				$level = 1;
 				break;
-			case 68: $level = 2;
+			case 68:
+				$level = 2;
 				break;
-			case 65: $level = 3;
+			case 65:
+				$level = 3;
+				break;
+			default:
 				break;
 		}
 		return static::getModulesByLevel($level);
@@ -119,13 +125,19 @@ class ModuleHierarchy
 	{
 		$return = false;
 		switch (static::getModuleLevel($moduleName)) {
-			case 0: $return = 'link';
+			case 0:
+				$return = 'link';
 				break;
-			case 1: $return = 'process';
+			case 1:
+				$return = 'process';
 				break;
-			case 2: $return = 'subprocess';
+			case 2:
+				$return = 'subprocess';
 				break;
-			case 3: $return = 'linkextend';
+			case 3:
+				$return = 'linkextend';
+				break;
+			default:
 				break;
 		}
 		return $return;
@@ -153,13 +165,19 @@ class ModuleHierarchy
 	public static function getUitypeByModule($moduleName)
 	{
 		switch (static::getModuleLevel($moduleName)) {
-			case 0: $return = 67;
+			case 0:
+				$return = 67;
 				break;
-			case 1: $return = 66;
+			case 1:
+				$return = 66;
 				break;
-			case 2: $return = 68;
+			case 2:
+				$return = 68;
 				break;
-			case 3: $return = 65;
+			case 3:
+				$return = 65;
+				break;
+			default:
 				break;
 		}
 		return $return;
@@ -196,6 +214,8 @@ class ModuleHierarchy
 						}
 					}
 				}
+				break;
+			default:
 				break;
 		}
 		return $modules;

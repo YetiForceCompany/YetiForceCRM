@@ -79,7 +79,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			if ($matchesFound) {
 				$configContents = $matches[0];
 			}
-			$data = [];
+			$dataArray = [];
 			$editableFields = $this->getEditableFields();
 			foreach ($editableFields as $fieldName => $fieldDetails) {
 				foreach ($configContents as $configContent) {
@@ -90,12 +90,12 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 							$fieldValue = round(number_format($fieldValue / 1048576, 2));
 						}
 
-						$data[$fieldName] = $fieldValue;
+						$dataArray[$fieldName] = $fieldValue;
 						break;
 					}
 				}
 			}
-			$this->setData($data);
+			$this->setData($dataArray);
 		}
 		return $this->getData();
 	}

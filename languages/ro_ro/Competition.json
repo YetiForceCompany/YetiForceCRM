@@ -8,6 +8,8 @@
     "LBL_SUBJECT": "Nume",
     "LBL_NUMBER": "Numar",
     "LBL_CLOSED_TIME": "Timp inchis",
-    "LBL_VAT_ID": "Cod TVA"
+    "LBL_VAT_ID": "Cod TVA",
+    "LBL_SHOW_HIERARCHY": "Hierarchy",
+    "LBL_PARENT_ID": "Competitor parent"
   }
 }

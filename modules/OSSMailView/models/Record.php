@@ -4,7 +4,7 @@
  * OSSMailView record model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailView_Record_Model extends Vtiger_Record_Model
 {
@@ -173,6 +173,8 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 					break;
 				case 'SSalesProcesses':
 					$accountId = $recordModel->get('related_to');
+					break;
+				default:
 					break;
 			}
 			if (\App\Record::isExists($accountId)) {

@@ -2,9 +2,9 @@
 
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Inventory_Record_Model extends \App\Base
 {
@@ -84,9 +84,9 @@ class Settings_Inventory_Record_Model extends \App\Base
 
 	public function save()
 	{
-		$tablename = self::getTableNameFromType($this->getType());
+		$table = self::getTableNameFromType($this->getType());
 		$id = $this->getId();
-		if (!empty($id) && $tablename) {
+		if (!empty($id) && $table) {
 			$updateRows = [
 				'name' => $this->getName(),
 				'value' => $this->get('value'),
@@ -99,7 +99,7 @@ class Settings_Inventory_Record_Model extends \App\Base
 				$updateRows['default'] = $this->get('default');
 			}
 			\App\Db::getInstance()->createCommand()
-				->update($tablename, $updateRows, ['id' => $id])
+				->update($table, $updateRows, ['id' => $id])
 				->execute();
 		} else {
 			$id = $this->add();
@@ -109,15 +109,15 @@ class Settings_Inventory_Record_Model extends \App\Base
 		return $id;
 	}
 
-	/** 	Function used to add the tax type which will do database alterations
-	 * 	@param string $taxlabel - tax label name to be added
-	 * 	@param string $taxvalue - tax value to be added
-	 *      @param string $sh - sh or empty , if sh passed then the tax will be added in shipping and handling related table
+	/**    Function used to add the tax type which will do database alterations
+	 * @param string $taxlabel - tax label name to be added
+	 * @param string $taxvalue - tax value to be added
+	 * @param string $sh       - sh or empty , if sh passed then the tax will be added in shipping and handling related table
 	 */
 	public function add()
 	{
-		$tableName = self::getTableNameFromType($this->getType());
-		if ($tableName) {
+		$table = self::getTableNameFromType($this->getType());
+		if ($table) {
 			$insertData = [
 				'status' => $this->get('status'),
 				'value' => $this->get('value'),
@@ -132,8 +132,8 @@ class Settings_Inventory_Record_Model extends \App\Base
 			}
 			$db = \App\Db::getInstance();
 			$db->createCommand()
-				->insert($tableName, $insertData)->execute();
-			return $db->getLastInsertID($tableName . '_id_seq');
+				->insert($table, $insertData)->execute();
+			return $db->getLastInsertID($table . '_id_seq');
 		}
 		throw new Error('Error occurred while adding value');
 	}
@@ -143,10 +143,10 @@ class Settings_Inventory_Record_Model extends \App\Base
 	 */
 	public function disableDefaultsTax()
 	{
-		$tablename = self::getTableNameFromType($this->getType());
-		if ($tablename) {
+		$table = self::getTableNameFromType($this->getType());
+		if ($table) {
 			\App\Db::getInstance()->createCommand()
-				->update($tablename, [
+				->update($table, [
 					'default' => 0
 				])
 				->execute();
@@ -156,10 +156,10 @@ class Settings_Inventory_Record_Model extends \App\Base
 
 	public function delete()
 	{
-		$tableName = self::getTableNameFromType($this->getType());
-		if ($tableName) {
+		$table = self::getTableNameFromType($this->getType());
+		if ($table) {
 			\App\Db::getInstance()->createCommand()
-				->delete($tableName, ['id' => $this->getId()])
+				->delete($table, ['id' => $this->getId()])
 				->execute();
 			$this->clearCache();
 
@@ -171,11 +171,11 @@ class Settings_Inventory_Record_Model extends \App\Base
 	public static function getDataAll($type)
 	{
 		$recordList = [];
-		$tableName = self::getTableNameFromType($type);
-		if (!$tableName) {
+		$table = self::getTableNameFromType($type);
+		if (!$table) {
 			return $recordList;
 		}
-		$dataReader = (new \App\Db\Query())->from($tableName)->createCommand()->query();
+		$dataReader = (new \App\Db\Query())->from($table)->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$recordModel = new self();
 			$recordModel->setData($row)->setType($type);
@@ -188,11 +188,11 @@ class Settings_Inventory_Record_Model extends \App\Base
 
 	public static function getInstanceById($id, $type = '')
 	{
-		$tableName = self::getTableNameFromType($type);
-		if (!$tableName) {
+		$table = self::getTableNameFromType($type);
+		if (!$table) {
 			return false;
 		}
-		$row = (new \App\Db\Query())->from($tableName)
+		$row = (new \App\Db\Query())->from($table)
 			->where(['id' => $id])
 			->createCommand()->queryOne();
 		$recordModel = new self();
@@ -211,9 +211,9 @@ class Settings_Inventory_Record_Model extends \App\Base
 				$excludedIds = [];
 			}
 		}
-		$tableName = self::getTableNameFromType($type);
+		$table = self::getTableNameFromType($type);
 		$query = (new \App\Db\Query())
-			->from($tableName)
+			->from($table)
 			->where(['name' => $label]);
 		if (!empty($excludedIds)) {
 			$query->andWhere(['NOT IN', 'id', $excludedIds]);

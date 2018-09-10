@@ -40,6 +40,8 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 					return true;
 				}
 				break;
+			default:
+				break;
 		}
 		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 	}
@@ -63,6 +65,8 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 			case 'massReset':
 				$modeTitle = 'LBL_MASS_RESET_PASSWORD_HEAD';
 				$this->modalIcon = 'fas fa-redo-alt mr-1';
+				break;
+			default:
 				break;
 		}
 		$title = \App\Language::translate($modeTitle, $moduleName);

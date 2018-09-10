@@ -222,8 +222,10 @@
 
 // improved table display on mobile
 @include media-breakpoint-down(xs) {
-	table td {
-		padding: 0.25rem !important;
+	table {
+		td, th {
+			padding: 0.25rem !important;
+		}
 	}
 }
 
@@ -240,7 +242,6 @@
 	&__label {
 		position: absolute;
 		left: 0;
-		top: 0;
 		cursor: text;
 		font-size: 75%;
 		top: -1.5em;
@@ -265,5 +266,13 @@
 	&__hidden-ph {
 		visibility: hidden;
 		font-size: 75%;
+	}
+}
+
+//Image
+.c-img {
+	&__user {
+		width: auto;
+		height: calculate-rem(40px);
 	}
 }

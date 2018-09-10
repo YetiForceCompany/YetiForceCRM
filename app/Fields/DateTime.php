@@ -3,8 +3,8 @@
  * Tools for datetime class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Arkadiusz Sołek <a.solek@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
  */
 
 namespace App\Fields;
@@ -94,6 +94,8 @@ class DateTime
 				return '<span title="' . static::formatToDay($dateTime) . '">' . \Vtiger_Util_Helper::formatDateDiffInStrings($dateTime) . '</span>';
 			case 'PLL_FULL_AND_DAY':
 				return '<span title="' . \Vtiger_Util_Helper::formatDateDiffInStrings($dateTime) . '">' . static::formatToDay($dateTime) . '</span>';
+			default:
+				break;
 		}
 		return '-';
 	}
@@ -128,8 +130,7 @@ class DateTime
 			$displayTime = $hours . ':' . $minutes . ' ' . $seconds;
 			$formatedDate .= ' ' . \App\Language::translate('LBL_AT') . ' ' . $displayTime;
 		}
-		$formatedDate .= " ($dateDay)";
-		return $formatedDate;
+		return $formatedDate . " ($dateDay)";
 	}
 
 	/**

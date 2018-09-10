@@ -399,39 +399,39 @@ var Settings_Picklist_Js = {
 	registerRenameItemSaveEvent: function () {
 		jQuery('#renameItemForm').on('submit', function (e) {
 			e.preventDefault();
-			var form = jQuery(e.currentTarget);
-			var validationResult = form.validationEngine('validate');
+			let form = jQuery(e.currentTarget),
+				validationResult = form.validationEngine('validate');
 			if (validationResult == true) {
-				var oldElem = jQuery('[name="oldValue"]', form);
-				var oldValue = oldElem.val();
-				var id = oldElem.find('option[value="' + oldValue + '"]').data('id');
-				var newValueEle = jQuery('[name="newValue"]', form);
-				var newValue = jQuery.trim(newValueEle.val());
-				var params = jQuery(e.currentTarget).serializeFormData();
+				let oldElem = jQuery('[name="oldValue"]', form),
+					oldValue = oldElem.val(),
+					id = oldElem.find('option[value="' + oldValue + '"]').data('id'),
+					newValueEle = jQuery('[name="newValue"]', form),
+					newValue = jQuery.trim(newValueEle.val()),
+					params = jQuery(e.currentTarget).serializeFormData(),
+					invalidFields = form.data('jqv').InvalidFields;
 				params.newValue = newValue;
 				params.id = id;
-				var invalidFields = form.data('jqv').InvalidFields;
 				if (invalidFields.length == 0) {
 					form.find('[name="saveButton"]').attr('disabled', "disabled");
 				}
 				AppConnector.request(params).done(function (data) {
 					if (typeof data.result !== "undefined") {
 						app.hideModalWindow();
-						var encodedOldValue = oldValue.replace(/"/g, '\\"');
-						var dragImagePath = jQuery('#dragImagePath').val();
-						var renamedElement = '<tr class="pickListValue u-cursor-pointer"><td class="u-text-ellipsis"><img class="alignMiddle" src="' + dragImagePath + '" />&nbsp;&nbsp;' + newValue + '</td></tr>';
-						var renamedElement = jQuery(renamedElement).attr('data-key', newValue).attr('data-key-id', id);
-						jQuery('[data-key="' + encodedOldValue + '"]').replaceWith(renamedElement)
-						var params = {
-							title: app.vtranslate('JS_MESSAGE'),
-							text: app.vtranslate('JS_ITEM_RENAMED_SUCCESSFULLY'),
-							type: 'success'
-						};
+						let encodedOldValue = oldValue.replace(/"/g, '\\"'),
+							dragImagePath = jQuery('#dragImagePath').val(),
+							renamedElement = '<tr class="pickListValue u-cursor-pointer"><td class="u-text-ellipsis"><img class="alignMiddle" src="' + dragImagePath + '" />&nbsp;&nbsp;' + newValue + '</td></tr>',
+							renamedElementNew = jQuery(renamedElement).attr('data-key', newValue).attr('data-key-id', id),
+							params = {
+								title: app.vtranslate('JS_MESSAGE'),
+								text: app.vtranslate('JS_ITEM_RENAMED_SUCCESSFULLY'),
+								type: 'success'
+							};
+						jQuery('[data-key="' + encodedOldValue + '"]').replaceWith(renamedElementNew);
 						Vtiger_Helper_Js.showPnotify(params);
 
 						//update the new item in the hidden picklist values array
-						var pickListValuesEle = jQuery('[name="pickListValues"]');
-						var pickListValuesArray = JSON.parse(pickListValuesEle.val());
+						let pickListValuesEle = jQuery('[name="pickListValues"]'),
+							pickListValuesArray = JSON.parse(pickListValuesEle.val());
 						pickListValuesArray[id] = newValueEle.val();
 						pickListValuesEle.val(JSON.stringify(pickListValuesArray));
 					} else {

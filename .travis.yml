@@ -28,9 +28,9 @@ addons:
     packages:
     - apache2
     - libapache2-mod-fastcgi
-    
+
   chrome: stable
-  
+
   sonarcloud:
     organization: "yetiforcecompany"
     token:
@@ -44,11 +44,11 @@ addons:
 
 cache:
   yarn: true
-  
+
   directories:
   - $HOME/.sonar/cache
   - $HOME/.composer/cache/files
-
+  - $HOME/build/YetiForceCompany/cache
 branches:
   only:
   - developer
@@ -80,14 +80,14 @@ after_script:
 - sudo cat /var/log/apache2/error.log
 - sudo cat /var/log/apache2/access.log
 - sudo cat /var/log/apache2/other_vhosts_access.log
-- cat ../tests/records.log
-- cat ../cache/logs/errors.log
-- cat ../cache/logs/request.log
-- cat ../cache/logs/phpError.log
-- cat ../cache/logs/system.log
-- cat ../cache/logs/Importer.log
-- cat ../cache/logs/webserviceDebug.log
-- cat ../cache/logs/webserviceErrors.log
-- php ocular code-coverage:upload --format=php-clover coverage.xml
+- cat ./tests/records.log
+- cat ./cache/logs/errors.log
+- cat ./cache/logs/request.log
+- cat ./cache/logs/phpError.log
+- cat ./cache/logs/system.log
+- cat ./cache/logs/Importer.log
+- cat ./cache/logs/webserviceDebug.log
+- cat ./cache/logs/webserviceErrors.log
+- php $HOME/build/YetiForceCompany/cache/ocular.phar code-coverage:upload --format=php-clover tests/coverage.xml
 - bash <(curl -s https://codecov.io/bash)
 - sudo ls -all ../screenshots

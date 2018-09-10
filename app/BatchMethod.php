@@ -3,8 +3,8 @@
  * Batch method.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App;
@@ -17,7 +17,7 @@ class BatchMethod extends Base
 	/** Enebled */
 	const STATUS_ENABLED = 1;
 
-	/** Running	 */
+	/** Running     */
 	const STATUS_RUNNING = 2;
 
 	/** Halted */
@@ -80,8 +80,8 @@ class BatchMethod extends Base
 	{
 		try {
 			$this->setStatus(static::STATUS_RUNNING);
-			if (is_callable($this->get('method'))) {
-				call_user_func_array($this->get('method'), Json::decode($this->get('params')));
+			if (\is_callable($this->get('method'))) {
+				\call_user_func_array($this->get('method'), Json::decode($this->get('params')));
 			} else {
 				throw new Exceptions\AppException("ERR_CONTENTS_VARIABLE_CANT_CALLED_FUNCTION||{$this->get('method')}", 406);
 			}

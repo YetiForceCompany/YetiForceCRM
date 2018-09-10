@@ -81,6 +81,8 @@ class ProductsTableNew extends Base
 							case 'DetailViewBase.tpl':
 								$html .= $field->getDisplayValue($itemValue, true);
 								break;
+							default:
+								break;
 						}
 						$html .= '</td>';
 					}

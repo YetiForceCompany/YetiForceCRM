@@ -6,9 +6,9 @@ namespace Api\Portal\BaseModule;
  * Get record detail class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Record extends \Api\Core\BaseAction
 {
@@ -76,9 +76,9 @@ class Record extends \Api\Core\BaseAction
 	{
 		$moduleName = $this->controller->request->get('module');
 		$record = $this->controller->request->get('record');
-		$recordModel = $this->recordModel;
-		$rawData = $recordModel->getData();
-		$moduleModel = $recordModel->getModule();
+		$model = $this->recordModel;
+		$rawData = $model->getData();
+		$moduleModel = $model->getModule();
 
 		$displayData = $fieldsLabel = [];
 		$moduleBlockFields = \Vtiger_Field_Model::getAllForModule($moduleModel);
@@ -89,18 +89,18 @@ class Record extends \Api\Core\BaseAction
 					continue;
 				}
 				$fieldLabel = \App\Language::translate($moduleField->get('label'), $moduleName);
-				$displayData[$moduleField->getName()] = $recordModel->getDisplayValue($moduleField->getName(), $record, true);
+				$displayData[$moduleField->getName()] = $model->getDisplayValue($moduleField->getName(), $record, true);
 				$fieldsLabel[$moduleField->getName()] = $fieldLabel;
 				if ($moduleField->isReferenceField()) {
-					$refereneModule = $moduleField->getUITypeModel()->getReferenceModule($recordModel->get($moduleField->getName()));
+					$refereneModule = $moduleField->getUITypeModel()->getReferenceModule($model->get($moduleField->getName()));
 					$rawData[$moduleField->getName() . '_module'] = $refereneModule ? $refereneModule->getName() : null;
 				}
 			}
 		}
 
 		$inventory = false;
-		if ($recordModel->getModule()->isInventory()) {
-			$rawInventory = $recordModel->getInventoryData();
+		if ($model->getModule()->isInventory()) {
+			$rawInventory = $model->getInventoryData();
 			$inventory = [];
 			$inventoryField = \Vtiger_InventoryField_Model::getInstance($moduleName);
 			$inventoryFields = $inventoryField->getFields();
@@ -113,8 +113,8 @@ class Record extends \Api\Core\BaseAction
 			}
 		}
 		$resposne = [
-			'name' => $recordModel->getName(),
-			'id' => $recordModel->getId(),
+			'name' => $model->getName(),
+			'id' => $model->getId(),
 			'fields' => $fieldsLabel,
 			'data' => $displayData,
 			'inventory' => $inventory,
@@ -145,12 +145,7 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function put()
 	{
-		$moduleName = $this->controller->request->getModule();
-		$modelClassName = \Vtiger_Loader::getComponentClassName('Action', 'Save', $moduleName);
-		$saveClass = new $modelClassName();
-		$recordModel = $saveClass->saveRecord($this->controller->request);
-
-		return ['id' => $recordModel->getId()];
+		return $this->post();
 	}
 
 	/**
@@ -163,8 +158,8 @@ class Record extends \Api\Core\BaseAction
 		$moduleName = $this->controller->request->getModule();
 		$modelClassName = \Vtiger_Loader::getComponentClassName('Action', 'Save', $moduleName);
 		$saveClass = new $modelClassName();
-		$recordModel = $saveClass->saveRecord($this->controller->request);
+		$model = $saveClass->saveRecord($this->controller->request);
 
-		return ['id' => $recordModel->getId()];
+		return ['id' => $model->getId()];
 	}
 }

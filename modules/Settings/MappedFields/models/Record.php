@@ -4,8 +4,8 @@
  * Record Class for MappedFields Settings.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_MappedFields_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -87,6 +87,8 @@ class Settings_MappedFields_Record_Model extends Settings_Vtiger_Record_Model
 		switch ($key) {
 			case 'status':
 				$value = $value ? 'active' : 'inactive';
+				break;
+			default:
 				break;
 		}
 		return $value;

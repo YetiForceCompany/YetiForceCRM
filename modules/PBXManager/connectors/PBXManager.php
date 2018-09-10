@@ -128,6 +128,8 @@ class PBXManager_PBXManager_Connector
 				}
 				$params['GateWay'] = $this->getGatewayName();
 				break;
+			default:
+				break;
 		}
 		return $params;
 	}

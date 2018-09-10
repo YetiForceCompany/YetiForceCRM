@@ -91,16 +91,16 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	{
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_CALENDAR_VIEW',
-				'linkurl' => $this->getCalendarViewUrl(),
-				'linkicon' => 'fas fa-calendar-alt',
+			'linktype' => 'SIDEBARLINK',
+			'linklabel' => 'LBL_CALENDAR_VIEW',
+			'linkurl' => $this->getCalendarViewUrl(),
+			'linkicon' => 'fas fa-calendar-alt',
 		]);
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_RECORDS_LIST',
-				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => 'fas fa-list',
+			'linktype' => 'SIDEBARLINK',
+			'linklabel' => 'LBL_RECORDS_LIST',
+			'linkurl' => $this->getListViewUrl(),
+			'linkicon' => 'fas fa-list',
 		]);
 		if (isset($linkParams['ACTION'])) {
 			if ($linkParams['ACTION'] === 'Calendar' && AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
@@ -410,6 +410,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 					break;
 				case 'PLL_CANCELLED':
 					$componentsActivityState['cancelled'] = $value;
+					break;
+				default:
 					break;
 			}
 		}

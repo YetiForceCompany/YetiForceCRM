@@ -71,9 +71,7 @@ var App = {},
 		getRecordId: function () {
 			var view = this.getViewName();
 			var recordId;
-			if (view === 'Edit' || view === 'PreferenceEdit') {
-				recordId = this.getMainParams('recordId');
-			} else if (view === 'Detail' || view === 'PreferenceDetail') {
+			if($.inArray(view, ['Edit', 'PreferenceEdit', 'Detail', 'PreferenceDetail', 'DetailPreview']) !== -1) {
 				recordId = this.getMainParams('recordId');
 			}
 			return recordId;
@@ -188,8 +186,14 @@ var App = {},
 				let element = $(domElement);
 				if (element.data('ellipsis')) {
 					defaultParams.trigger = 'hover focus';
-					if (!app.isEllipsisActive(element)) {
+					let popoverText = element.find('js-popover-text').length ? element.find('js-popover-text') : element;
+					if (!app.isEllipsisActive(popoverText)) {
 						return;
+					}
+					let iconElement = element.find('.js-popover-icon');
+					if (iconElement.length) {
+						element.find('.js-popover-icon').removeClass('d-none');
+						defaultParams.selector = '[data-fa-i2svg].js-popover-icon';
 					}
 				}
 				let elementParams = $.extend(true, defaultParams, params, element.data());
@@ -393,7 +397,7 @@ var App = {},
 		 */
 		hideModalWindow: function (callback, id) {
 			let container;
-			if (typeof callback === 'object') {
+			if (callback && typeof callback === 'object') {
 				container = callback;
 			} else if (id == undefined) {
 				container = $('.modalContainer');
@@ -954,6 +958,15 @@ var App = {},
 				}
 				if (typeof window[moduleClassName] === 'object') {
 					return window.pageController = window[moduleClassName];
+				}
+			}
+			let moduleBaseClassName = parentModule + "_" + moduleName + "_" + "Index_Js";
+			if (typeof window[moduleBaseClassName] !== "undefined") {
+				if (typeof window[moduleBaseClassName] === 'function') {
+					return window.pageController = new window[moduleBaseClassName]();
+				}
+				if (typeof window[moduleBaseClassName] === 'object') {
+					return window.pageController = window[moduleBaseClassName];
 				}
 			}
 		},
@@ -1521,6 +1534,111 @@ var App = {},
 			var txt = document.createElement('textarea');
 			txt.innerHTML = html;
 			return txt.value;
+		},
+		showAlert: function (customParams) {
+			let userParams = customParams;
+			if (typeof customParams === 'string') {
+				userParams = {};
+				userParams.text = customParams;
+			}
+			let params = {
+				target: document.body,
+				data: {
+					type: 'error',
+					hide: false,
+					stack: {
+						'dir1': 'down',
+						'modal': true,
+						'firstpos1': 25
+					},
+					modules: {
+						Confirm: {
+							confirm: true,
+							buttons: [{
+								text: 'Ok',
+								primary: true,
+								click: function (notice) {
+									notice.close();
+								}
+							}]
+						},
+						Buttons: {
+							closer: false,
+							sticker: false
+						},
+						History: {
+							history: false
+						},
+					}
+				}
+			};
+			if (typeof userParams !== "undefined") {
+				params.data = $.extend(params.data, userParams);
+			}
+			PNotify.defaults.styling = 'bootstrap4';
+			PNotify.defaults.icons = 'fontawesome5';
+			return new PNotify(params);
+		},
+		showConfirmModal: function (customParams, confirmCallback = () => {
+		}, cancelCallback = () => {
+		}) {
+			let aDeferred = $.Deferred();
+
+			let userParams = customParams;
+			if (typeof customParams === 'string') {
+				userParams = {};
+				userParams.text = customParams;
+			}
+			let params = {
+				target: document.body,
+				data: {
+					hide: false,
+					icon: 'fas fa-question-circle',
+					stack: {
+						'dir1': 'down',
+						'modal': true,
+						'firstpos1': 25
+					},
+					modules: {
+						Confirm: {
+							confirm: true,
+							buttons: [
+								{
+									text: app.vtranslate('JS_OK'),
+									primary: true,
+									click: function (notice) {
+										notice.close();
+										confirmCallback();
+										aDeferred.resolve(true);
+									}
+								},
+								{
+									text: app.vtranslate('JS_CANCEL'),
+									click: function (notice) {
+										notice.close();
+										cancelCallback();
+										aDeferred.resolve(false);
+									}
+								}
+							]
+						},
+						Buttons: {
+							closer: false,
+							sticker: false
+						},
+						History: {
+							history: false
+						},
+					}
+				}
+			};
+			if (typeof userParams !== "undefined") {
+				params.data = $.extend(params.data, userParams);
+			}
+			PNotify.defaults.styling = 'bootstrap4';
+			PNotify.defaults.icons = 'fontawesome5';
+			new PNotify(params);
+			return aDeferred.promise();
 		}
 	};
 $(document).ready(function () {

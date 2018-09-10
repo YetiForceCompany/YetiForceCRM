@@ -43,7 +43,8 @@
 											data-field="{$CRMENTITY->table_index}"
 											data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}"
 											title="{\App\Language::translate('LBL_ADD',$MODULE)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
-											class="btn btn-light addItem border mb-1 mb-lg-0">
+											class="btn btn-light js-add-item border mb-1 mb-lg-0"
+											data-js="click">
 										<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
 									</button>
 								</div>
@@ -81,7 +82,7 @@
 					</tr>
 					</thead>
 				{/if}
-				<tbody>
+				<tbody class="js-inventory-items-body" data-js="container">
 				{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
 					{assign var="ROW_NO" value=$KEY+1}
 					{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE)}

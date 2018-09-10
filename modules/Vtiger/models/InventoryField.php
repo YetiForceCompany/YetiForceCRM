@@ -34,6 +34,8 @@ class Vtiger_InventoryField_Model extends App\Base
 			case 'autofield':
 				$prefix = '_invmap';
 				break;
+			default:
+				break;
 		}
 		$focus = CRMEntity::getInstance($this->get('module'));
 		$basetable = $focus->table_name;
@@ -62,7 +64,7 @@ class Vtiger_InventoryField_Model extends App\Base
 			if ($ids) {
 				$query->andWhere(['id' => $ids]);
 			}
-			$fields = [];
+			$fieldsArray = [];
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				if ($viewType !== 'Settings' && !$this->isActiveField($row)) {
@@ -73,27 +75,27 @@ class Vtiger_InventoryField_Model extends App\Base
 					continue;
 				}
 				if ($returnInBlock) {
-					$fields[$row['block']][$row['columnname']] = $inventoryFieldInstance;
+					$fieldsArray[$row['block']][$row['columnname']] = $inventoryFieldInstance;
 				} else {
-					$fields[$row['columnname']] = $inventoryFieldInstance;
+					$fieldsArray[$row['columnname']] = $inventoryFieldInstance;
 				}
 			}
-			$this->fields[$key] = $fields;
+			$this->fields[$key] = $fieldsArray;
 		} else {
-			$fields = $this->fields[$key];
+			$fieldsArray = $this->fields[$key];
 		}
 		if ($returnInBlock) {
-			if (!isset($fields[0])) {
-				$fields[0] = [];
+			if (!isset($fieldsArray[0])) {
+				$fieldsArray[0] = [];
 			}
-			if (!isset($fields[1])) {
-				$fields[1] = [];
+			if (!isset($fieldsArray[1])) {
+				$fieldsArray[1] = [];
 			}
-			if (!isset($fields[2])) {
-				$fields[2] = [];
+			if (!isset($fieldsArray[2])) {
+				$fieldsArray[2] = [];
 			}
 		}
-		return $fields;
+		return $fieldsArray;
 	}
 
 	/**
@@ -127,19 +129,19 @@ class Vtiger_InventoryField_Model extends App\Base
 		if ($this->columns) {
 			return $this->columns;
 		}
-		$columns = [];
+		$columnsArray = [];
 		foreach ($this->getFields() as $key => $field) {
 			$column = $field->getColumnName();
 			if (!empty($column) && $column != '-') {
-				$columns[] = $column;
+				$columnsArray[] = $column;
 			}
 			foreach ($field->getCustomColumn() as $name => $field) {
-				$columns[] = $name;
+				$columnsArray[] = $name;
 			}
 		}
-		$this->columns = $columns;
+		$this->columns = $columnsArray;
 
-		return $columns;
+		return $columnsArray;
 	}
 
 	/**
@@ -188,7 +190,7 @@ class Vtiger_InventoryField_Model extends App\Base
 		} else {
 			$moduleName = 'Vtiger';
 		}
-		$fields = [];
+		$fieldsArray = [];
 		foreach ($fieldPaths as $fieldPath) {
 			if (!is_dir($fieldPath)) {
 				continue;
@@ -198,14 +200,14 @@ class Vtiger_InventoryField_Model extends App\Base
 					$fieldName = str_replace('.php', '', $fileinfo->getFilename());
 					$className = Vtiger_Loader::getComponentClassName('InventoryField', $fieldName, $moduleName);
 					$instance = new $className();
-					$fields[$fieldName] = $instance->set('module', $moduleName);
+					$fieldsArray[$fieldName] = $instance->set('module', $moduleName);
 				}
 			}
 		}
-		Vtiger_Cache::set('InventoryFields', $moduleName, $fields);
+		Vtiger_Cache::set('InventoryFields', $moduleName, $fieldsArray);
 		\App\Log::trace('Exiting ' . __METHOD__);
 
-		return $fields;
+		return $fieldsArray;
 	}
 
 	/**
@@ -466,9 +468,9 @@ class Vtiger_InventoryField_Model extends App\Base
 	 */
 	public function saveField($type, $param)
 	{
-		$columns = ['label', 'invtype', 'defaultValue', 'sequence', 'block', 'displayType', 'params', 'colSpan'];
+		$columnsArray = ['label', 'invtype', 'defaultValue', 'sequence', 'block', 'displayType', 'params', 'colSpan'];
 		$updates = [];
-		foreach ($columns as $columnName) {
+		foreach ($columnsArray as $columnName) {
 			if (isset($param[$columnName])) {
 				$updates[strtolower($columnName)] = \App\Purifier::decodeHtml($param[$columnName]);
 			}
@@ -511,9 +513,9 @@ class Vtiger_InventoryField_Model extends App\Base
 		$status = $db->createCommand()->delete($this->getTableName('fields'), ['id' => $param['id']])->execute();
 		if ($status) {
 			$fieldInstance = self::getFieldInstance($param['module'], $param['name']);
-			$columns = array_keys($fieldInstance->getCustomColumn());
-			$columns[] = $param['column'];
-			foreach ($columns as $column) {
+			$columnsArray = array_keys($fieldInstance->getCustomColumn());
+			$columnsArray[] = $param['column'];
+			foreach ($columnsArray as $column) {
 				$result = $db->createCommand()->dropColumn($this->getTableName('data'), $column)->execute();
 			}
 
@@ -560,12 +562,12 @@ class Vtiger_InventoryField_Model extends App\Base
 			return \App\Cache::get('AutoCompleteFields', $this->get('module'));
 		}
 		$invmap = (new \App\Db\Query())->from($this->getTableName('autofield'))->all();
-		$fields = [];
+		$fieldsArray = [];
 		foreach ($invmap as $row) {
-			$fields[$row['module']][$row['tofield']] = $row;
+			$fieldsArray[$row['module']][$row['tofield']] = $row;
 		}
-		App\Cache::save('AutoCompleteFields', $this->get('module'), $fields);
-		return $fields;
+		App\Cache::save('AutoCompleteFields', $this->get('module'), $fieldsArray);
+		return $fieldsArray;
 	}
 
 	public function getJsonFields()

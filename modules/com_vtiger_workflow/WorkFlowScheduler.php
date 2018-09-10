@@ -276,6 +276,8 @@ class WorkFlowScheduler
 				$hours = $condition['value'];
 				$value = date('Y-m-d H:i:s', strtotime('-' . $hours . ' hours'));
 				break;
+			default:
+				break;
 		}
 		date_default_timezone_set($default_timezone);
 

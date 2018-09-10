@@ -543,9 +543,9 @@ class PearDatabase
 
 	public function getColumnNames($tablename)
 	{
-		$stmt = $this->database->query('SHOW COLUMNS FROM ' . $tablename, PDO::FETCH_OBJ);
+		$query = $this->database->query('SHOW COLUMNS FROM ' . $tablename, PDO::FETCH_OBJ);
 		$columns = [];
-		foreach ($stmt as $col) {
+		foreach ($query as $col) {
 			$columns[] = $col->Field;
 		}
 		return $columns;
@@ -553,9 +553,9 @@ class PearDatabase
 
 	public function getColumnsMeta($tablename)
 	{
-		$stmt = $this->database->query('SHOW COLUMNS FROM ' . $tablename, PDO::FETCH_OBJ);
+		$query = $this->database->query('SHOW COLUMNS FROM ' . $tablename, PDO::FETCH_OBJ);
 		$columns = [];
-		foreach ($stmt as $col) {
+		foreach ($query as $col) {
 			if (strpos($col->Type, '(') !== false) {
 				$showType = explode('(', $col->Type); //PREG_SPLIT IS BETTER
 			}
@@ -648,7 +648,7 @@ class PearDatabase
 			return $tablePresent;
 		}
 
-		$dieOnError = $this->dieOnError;
+		$tmpDieOnError = $this->dieOnError;
 		$this->dieOnError = false;
 
 		$tablename = $this->sqlEscapeString($tableName);
@@ -657,7 +657,7 @@ class PearDatabase
 		if (empty($tableCheck) || $this->getRowCount($tableCheck) === 0) {
 			$tablePresent = 0;
 		}
-		$this->dieOnError = $dieOnError;
+		$this->dieOnError = $tmpDieOnError;
 		Vtiger_Cache::set('checkExistTable', $tableName, $tablePresent);
 
 		return $tablePresent;
@@ -831,8 +831,8 @@ class PearDatabase
 		$logQuery = 'INSERT INTO ' . $logTable . '(`id`, `type`, `qtime`, `content`, `date`, `group`) VALUES (?,?,?,?,?,?)';
 
 		if ($this->logSqlTimeID === false) {
-			$stmt = $db->database->query(sprintf('SELECT MAX(id) FROM %s', $logTable));
-			$this->logSqlTimeID = (int) $this->getSingleValue($stmt) + 1;
+			$query = $db->database->query(sprintf('SELECT MAX(id) FROM %s', $logTable));
+			$this->logSqlTimeID = (int) $this->getSingleValue($query) + 1;
 
 			$type = PHP_SAPI;
 			$data = '';
@@ -844,8 +844,8 @@ class PearDatabase
 				}
 				$data = $uri . '?' . http_build_query($_SERVER['REQUEST_METHOD'] == 'GET' ? $_GET : $_POST);
 			}
-			$stmt = $db->database->prepare($logQuery);
-			$stmt->execute([$this->logSqlTimeID, $type, null, $data, $now, $group]);
+			$query = $db->database->prepare($logQuery);
+			$query->execute([$this->logSqlTimeID, $type, null, $data, $now, $group]);
 		}
 
 		$type = 'SQL';
@@ -854,8 +854,8 @@ class PearDatabase
 			$data .= '[' . implode(',', $params) . ']';
 		}
 		$qtime = round(($endat - $startat) * 1000) / 1000;
-		$stmt = $db->database->prepare($logQuery);
-		$stmt->execute([$this->logSqlTimeID, $type, $qtime, $data, $now, $group]);
+		$query = $db->database->prepare($logQuery);
+		$query->execute([$this->logSqlTimeID, $type, $qtime, $data, $now, $group]);
 
 		$type = 'CALLERS';
 		$data = [];
@@ -885,8 +885,8 @@ class PearDatabase
 			}
 			$data[] = 'CALLER: (' . $callers[$calleridx]['line'] . ') ' . $callers[$calleridx]['file'] . $callerfunc;
 		}
-		$stmt = $db->database->prepare($logQuery);
-		$stmt->execute([$this->logSqlTimeID, $type, null, implode(PHP_EOL, $data), $now, $group]);
+		$query = $db->database->prepare($logQuery);
+		$query->execute([$this->logSqlTimeID, $type, null, implode(PHP_EOL, $data), $now, $group]);
 		++$this->logSqlTimeGroup;
 	}
 

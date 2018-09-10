@@ -4,7 +4,7 @@
  * Calendar right panel view model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 {
@@ -67,6 +67,8 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 				} else {
 					$groups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 				}
+				break;
+			default:
 				break;
 		}
 		$viewer->assign('MODULE', $moduleName);

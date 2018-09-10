@@ -13,14 +13,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 	detailInstance: false,
 	getInstance: function () {
 		if (Vtiger_Detail_Js.detailInstance == false) {
-			var module = app.getModuleName();
-			var view = app.getViewName();
-			var moduleClassName = module + "_" + view + "_Js";
-			var fallbackClassName = Vtiger_Detail_Js;
+			let moduleClassName = app.getModuleName() + "_" + app.getViewName() + "_Js",
+				instance;
 			if (typeof window[moduleClassName] !== "undefined") {
-				var instance = new window[moduleClassName]();
+				instance = new window[moduleClassName]();
 			} else {
-				var instance = new fallbackClassName();
+				instance = new Vtiger_Detail_Js();
 			}
 			Vtiger_Detail_Js.detailInstance = instance;
 		}
@@ -148,66 +146,59 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	showWorkflowTriggerView: function (instance) {
 		$(instance).popover('hide');
-		var detailInstance = Vtiger_Detail_Js.getInstance();
-		var params = {
+		const detailInstance = Vtiger_Detail_Js.getInstance(),
+			callback = function (data) {
+				data.find('[type="submit"]').on('click', function () {
+					let ids = [];
+					data.find('input[type="checkbox"]:checked').each(function () {
+						ids.push($(this).val());
+					});
+					if (ids.length === 0) {
+						Vtiger_Helper_Js.showPnotify({
+							title: app.vtranslate('JS_INFORMATION'),
+							text: app.vtranslate('JS_NOT_SELECTED_WORKFLOW_TRIGGER'),
+							type: 'error',
+						});
+					} else {
+						Vtiger_Helper_Js.showPnotify({
+							title: app.vtranslate('JS_MESSAGE'),
+							text: app.vtranslate('JS_STARTED_PERFORM_WORKFLOW'),
+							type: 'info',
+						});
+						AppConnector.request({
+							module: app.getModuleName(),
+							action: 'Workflow',
+							mode: 'execute',
+							user: data.find('[name="user"]').val(),
+							record: detailInstance.getRecordId(),
+							ids: ids
+						}).done(function () {
+							Vtiger_Helper_Js.showPnotify({
+								title: app.vtranslate('JS_MESSAGE'),
+								text: app.vtranslate('JS_COMPLETED_PERFORM_WORKFLOW'),
+								type: 'success',
+							});
+							app.hideModalWindow();
+							detailInstance.loadWidgets();
+						}).fail(function () {
+							Vtiger_Helper_Js.showPnotify({
+								title: app.vtranslate('JS_ERROR'),
+								text: app.vtranslate('JS_ERROR_DURING_TRIGGER_OF_WORKFLOW'),
+								type: 'error',
+							});
+							app.hideModalWindow();
+						});
+					}
+				});
+			};
+		AppConnector.request({
 			module: app.getModuleName(),
 			view: 'WorkflowTrigger',
 			record: detailInstance.getRecordId()
-		}
-		var callback = function (data) {
-			data.find('[type="submit"]').on('click', function (e) {
-				var ids = [];
-				data.find('input[type="checkbox"]:checked').each(function (index) {
-					ids.push($(this).val());
-				});
-				if (ids.length == 0) {
-					var params = {
-						title: app.vtranslate('JS_INFORMATION'),
-						text: app.vtranslate('JS_NOT_SELECTED_WORKFLOW_TRIGGER'),
-						type: 'error',
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-				} else {
-					var params = {
-						title: app.vtranslate('JS_MESSAGE'),
-						text: app.vtranslate('JS_STARTED_PERFORM_WORKFLOW'),
-						type: 'info',
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-					var postData = {
-						module: app.getModuleName(),
-						action: 'Workflow',
-						mode: 'execute',
-						user: data.find('[name="user"]').val(),
-						record: detailInstance.getRecordId(),
-						ids: ids
-					}
-					AppConnector.request(postData).done(function (data) {
-						var params = {
-							title: app.vtranslate('JS_MESSAGE'),
-							text: app.vtranslate('JS_COMPLETED_PERFORM_WORKFLOW'),
-							type: 'success',
-						};
-						Vtiger_Helper_Js.showPnotify(params);
-						app.hideModalWindow();
-						detailInstance.loadWidgets();
-					}).fail(function (error, err) {
-						var params = {
-							title: app.vtranslate('JS_ERROR'),
-							text: app.vtranslate('JS_ERROR_DURING_TRIGGER_OF_WORKFLOW'),
-							type: 'error',
-						};
-						Vtiger_Helper_Js.showPnotify(params);
-						app.hideModalWindow();
-					});
-				}
-			});
-		}
-		AppConnector.request(params).done(function (data) {
+		}).done(function (data) {
 			if (data) {
 				app.showModalWindow(data, '', callback);
 			}
-		}).fail(function (error, err) {
 		});
 	}
 }, {
@@ -300,28 +291,29 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerRelatedModulesRecordCount();
 	},
 	loadWidget: function (widgetContainer, params) {
-		var thisInstance = this;
-		var contentContainer = jQuery('.js-detail-widget-content', widgetContainer);
+		const thisInstance = this,
+			contentContainer = $('.js-detail-widget-content', widgetContainer);
+		let relatedModuleName;
 		if (widgetContainer.find('[name="relatedModule"]').length) {
-			var relatedModuleName = widgetContainer.find('[name="relatedModule"]').val();
+			relatedModuleName = widgetContainer.find('[name="relatedModule"]').val();
 		} else {
-			var relatedModuleName = widgetContainer.data('name');
+			relatedModuleName = widgetContainer.data('name');
 		}
-		if (params == undefined) {
-			var urlParams = widgetContainer.data('url');
+		if (params === undefined) {
+			let urlParams = widgetContainer.data('url');
 			if (urlParams == undefined) {
 				return;
 			}
-			var queryParameters = urlParams.split('&');
-			var keyValueMap = {};
-			for (var index = 0; index < queryParameters.length; index++) {
-				var queryParam = queryParameters[index];
-				var queryParamComponents = queryParam.split('=');
+			let queryParameters = urlParams.split('&'),
+				keyValueMap = {},
+				index;
+			for (index = 0; index < queryParameters.length; index++) {
+				let queryParamComponents = queryParameters[index].split('=');
 				keyValueMap[queryParamComponents[0]] = queryParamComponents[1];
 			}
 			params = keyValueMap;
 		}
-		var aDeferred = $.Deferred();
+		let aDeferred = $.Deferred();
 		contentContainer.progressIndicator({});
 		AppConnector.request({
 			type: 'POST',
@@ -336,14 +328,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 			app.registerModal(contentContainer);
 			app.registerMoreContent(contentContainer.find('button.moreBtn'));
 			if (relatedModuleName) {
-				var relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), relatedModuleName);
+				let relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), relatedModuleName);
 				relatedController.setRelatedContainer(contentContainer);
 				relatedController.registerRelatedEvents();
 				thisInstance.widgetRelatedRecordView(widgetContainer, true);
 			}
 			app.event.trigger("DetailView.Widget.AfterLoad", contentContainer, relatedModuleName, thisInstance);
 			aDeferred.resolve(params);
-		}).fail(function (e) {
+		}).fail(function () {
 			contentContainer.progressIndicator({mode: 'hide'});
 			aDeferred.reject();
 		});
@@ -1087,9 +1079,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 							text: '<b>' + fieldInfo.data.label + '</b><br>' +
-							'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
-							prevDisplayValue + '<br> ' +
-							'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
+								'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
+								prevDisplayValue + '<br> ' +
+								'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
 							type: 'info',
 							textTrusted: true
 						});
@@ -1467,10 +1459,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 		/**
 		 * Function to handle actions after ajax save in summary view
 		 */
-		summaryViewContainer.on(thisInstance.fieldUpdatedEvent, '.js-widget-general-info', function (e, params) {
-			var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
+		summaryViewContainer.on(thisInstance.fieldUpdatedEvent, '.js-widget-general-info', function () {
+			let updatesWidget = summaryViewContainer.find("[data-type='Updates']"),
+				params;
 			if (updatesWidget.length) {
-				var params = thisInstance.getFiltersData(updatesWidget);
+				params = thisInstance.getFiltersData(updatesWidget);
 				updatesWidget.find('.btnChangesReviewedOn').parent().remove();
 				thisInstance.loadWidget(updatesWidget, params['params']);
 			}
@@ -2342,28 +2335,27 @@ jQuery.Class("Vtiger_Detail_Js", {
 			});
 		});
 		detailContentsHolder.on('click', '.moreRecentUpdates', function (e) {
-			var container = $(e.currentTarget).closest('.recentActivitiesContainer');
-			var newChangeInput = container.find('#newChange');
-			var newChange = newChangeInput.val();
-			var currentPage = container.find('#updatesCurrentPage').val();
-			var nextPage = parseInt(currentPage) + 1;
+			const container = $(e.currentTarget).closest('.recentActivitiesContainer');
+			let newChange = container.find('#newChange').val(),
+				nextPage = parseInt(container.find('#updatesCurrentPage').val()) + 1,
+				url;
 			if (container.closest('.js-detail-widget').length) {
-				var data = thisInstance.getFiltersData(e, {
+				let data = thisInstance.getFiltersData(e, {
 					'page': nextPage,
 					'tab_label': 'LBL_UPDATES',
 					'newChange': newChange
 				}, container.find('#updates'));
-				var url = data['params'];
+				url = data['params'];
 			} else {
-				var url = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).data('url');
+				url = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).data('url');
 				url = url.replace('&page=1', '&page=' + nextPage) + '&skipHeader=true&newChange=' + newChange;
-				if (url.indexOf('&whereCondition') == -1) {
-					var switchBtn = jQuery('.active .js-switch--recentActivities');
+				if (url.indexOf('&whereCondition') === -1) {
+					let switchBtn = jQuery('.active .js-switch--recentActivities');
 					url += '&whereCondition=' + (typeof switchBtn.data('on-val') === "undefined" ? switchBtn.data('off-val') : switchBtn.data('on-val'));
 				}
 			}
 			AppConnector.request(url).done(function (data) {
-					var dataContainer = jQuery(data);
+					let dataContainer = jQuery(data);
 					container.find('#newChange').val(dataContainer.find('#newChange').val());
 					container.find('#updatesCurrentPage').val(dataContainer.find('#updatesCurrentPage').val());
 					container.find('.js-more-link').html(dataContainer.find('.js-more-link').html());
@@ -2495,27 +2487,27 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	updateRecordsPDFTemplateBtn: function (form) {
-		var params = {};
-		params.data = {
-			module: app.getModuleName(),
-			action: 'PDF',
-			mode: 'hasValidTemplate',
-			record: app.getRecordId(),
-			view: app.getViewName()
-		};
-		params.dataType = 'json';
-		AppConnector.request(params).done(function (data) {
-			var response = data['result'];
-			var btnToolbar = jQuery('.detailViewToolbar .btn-toolbar');
-			if (response.valid == false) {
-				var btn = btnToolbar.find('.btn-group:eq(1) [href*="showPdfModal"]');
+		AppConnector.request({
+			data: {
+				module: app.getModuleName(),
+				action: 'PDF',
+				mode: 'hasValidTemplate',
+				record: app.getRecordId(),
+				view: app.getViewName()
+			},
+			dataType: 'json'
+		}).done(function (data) {
+			let btnToolbar = jQuery('.detailViewToolbar .btn-toolbar'),
+				btn;
+			if (data['result'].valid === false) {
+				btn = btnToolbar.find('.btn-group:eq(1) [href*="showPdfModal"]');
 				if (btn.length) {
 					btn.remove();
 				}
 			} else {
-				var btnGroup = btnToolbar.find('.btn-group:eq(1)');
-				var btn = btnToolbar.find('.btn-group:eq(1) [href*="showPdfModal"]');
-				if (btn.length == 0) {
+				let btnGroup = btnToolbar.find('.btn-group:eq(1)');
+				btn = btnToolbar.find('.btn-group:eq(1) [href*="showPdfModal"]');
+				if (btn.length === 0) {
 					btnGroup.append('<a class="btn btn-default js-popover-tooltip" href=\'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' + app.getModuleName() + '&view=PDF&fromview=Detail&record=' + app.getRecordId() + '");\' data-content="' + app.vtranslate('LBL_EXPORT_PDF') + '" data-original-title="" title=""><span class="fas fa-file-excel icon-in-button"></span></a>');
 				}
 			}

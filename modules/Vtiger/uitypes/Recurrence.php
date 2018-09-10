@@ -119,6 +119,8 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 				case 'YEARLY':
 					$labelFreq = 'LBL_YEAR_TYPE';
 					break;
+				default:
+					break;
 			}
 			$result['freqLabel'] = $labelFreq;
 		}

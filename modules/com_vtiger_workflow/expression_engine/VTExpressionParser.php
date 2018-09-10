@@ -46,7 +46,7 @@ class VTExpressionParser
 		$token = $this->nextToken();
 		if ($token->label != $label || $token->value != $value) {
 			echo "Was expecting a $label of value $value got a {$token->label} of {$token->value} instead.";
-			throw new Exception("Was expecting a $label of value $value got a {$token->label} of {$token->value} instead.");
+			throw new \App\Exceptions\AppException("Was expecting a $label of value $value got a {$token->label} of {$token->value} instead.");
 		}
 	}
 
@@ -90,12 +90,12 @@ class VTExpressionParser
 				$val = $this->expression();
 				$close = $this->nextToken();
 				if ($close->label !== 'CLOSE_BRACKET') {
-					throw new Exception('Was expecting a close bracket');
+					throw new \App\Exceptions\AppException('Was expecting a close bracket');
 				}
 
 				return $val;
 			default:
-				throw new Exception('Token not found: ' . $token->label);
+				throw new \App\Exceptions\AppException('Token not found: ' . $token->label);
 		}
 	}
 
@@ -132,7 +132,7 @@ class VTExpressionParser
 					$comma = $this->nextToken();
 				}
 				if ($comma->label != 'CLOSE_BRACKET') {
-					throw new Exception('Was expecting a closing bracket');
+					throw new \App\Exceptions\AppException('Was expecting a closing bracket');
 				}
 			} else {
 				$this->consume('CLOSE_BRACKET', new Symbol(')'));

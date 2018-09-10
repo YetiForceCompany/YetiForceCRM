@@ -3,7 +3,7 @@
 
 Settings_Vtiger_Index_Js("Settings_Log_Index_Js", {}, {
 	registerDataTable: function () {
-		let container = $('.tpl-Settings-Log-List');
+		let container = $('.tpl-Settings-Log-Index');
 		container.find('.js-data-table').dataTable({
 			searching: false,
 			serverSide: true,

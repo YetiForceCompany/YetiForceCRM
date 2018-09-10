@@ -26,13 +26,16 @@ $.Class("Vtiger_Edit_Js", {
 		if (typeof moduleName === "undefined") {
 			moduleName = app.getModuleName();
 		}
-		var parentModule = app.getParentModuleName();
-		if (parentModule == 'Settings') {
-			var moduleClassName = parentModule + "_" + moduleName + "_Edit_Js";
+		let parentModule = app.getParentModuleName(),
+			moduleClassName,
+			fallbackClassName,
+			instance;
+		if (parentModule === 'Settings') {
+			moduleClassName = parentModule + "_" + moduleName + "_Edit_Js";
 			if (typeof window[moduleClassName] === "undefined") {
 				moduleClassName = moduleName + "_Edit_Js";
 			}
-			var fallbackClassName = parentModule + "_Vtiger_Edit_Js";
+			fallbackClassName = parentModule + "_Vtiger_Edit_Js";
 			if (typeof window[fallbackClassName] === "undefined") {
 				fallbackClassName = "Vtiger_Edit_Js";
 			}
@@ -41,9 +44,9 @@ $.Class("Vtiger_Edit_Js", {
 			fallbackClassName = "Vtiger_Edit_Js";
 		}
 		if (typeof window[moduleClassName] !== "undefined") {
-			var instance = new window[moduleClassName]();
+			instance = new window[moduleClassName]();
 		} else {
-			var instance = new window[fallbackClassName]();
+			instance = new window[fallbackClassName]();
 		}
 		instance.moduleName = moduleName;
 		return instance;
@@ -751,34 +754,38 @@ $.Class("Vtiger_Edit_Js", {
 	 * @param strings which accepts value as either odd or even
 	 */
 	copyAddress: function (fromLabel, toLabel, relatedRecord, sourceModule) {
-		let status = false;
-		let thisInstance = this;
-		let formElement = this.getForm();
-		let addressMapping = this.addressFieldsMapping;
-		let BlockIds = this.addressFieldsMappingBlockID;
-
-		let from = BlockIds[fromLabel];
+		const thisInstance = this;
+		let formElement = this.getForm(),
+			status = false,
+			addressMapping = this.addressFieldsMapping,
+			BlockIds = this.addressFieldsMappingBlockID,
+			from = BlockIds[fromLabel];
 		if (relatedRecord === false || sourceModule === false)
 			from = BlockIds[fromLabel];
-		let to = BlockIds[toLabel];
-		for (var key in addressMapping) {
-			var nameElementFrom = addressMapping[key] + from;
-			var nameElementTo = addressMapping[key] + to;
+		let to = BlockIds[toLabel],
+			key,
+			fromElement,
+			fromElementLabel,
+			nameElementFrom,
+			nameElementTo;
+		for (key in addressMapping) {
+			nameElementFrom = addressMapping[key] + from;
+			nameElementTo = addressMapping[key] + to;
 			if (relatedRecord) {
-				var fromElement = thisInstance.addressFieldsData['data'][nameElementFrom];
-				var fromElementLable = thisInstance.addressFieldsData['displayData'][nameElementFrom];
+				fromElement = thisInstance.addressFieldsData['data'][nameElementFrom];
+				fromElementLabel = thisInstance.addressFieldsData['displayData'][nameElementFrom];
 			} else {
-				var fromElement = formElement.find('[name="' + nameElementFrom + '"]').val();
-				var fromElementLable = formElement.find('[name="' + nameElementFrom + '_display"]').val();
+				fromElement = formElement.find('[name="' + nameElementFrom + '"]').val();
+				fromElementLabel = formElement.find('[name="' + nameElementFrom + '_display"]').val();
 			}
-			var toElement = formElement.find('[name="' + nameElementTo + '"]');
-			var toElementLable = formElement.find('[name="' + nameElementTo + '_display"]');
-			if (fromElement != '' && fromElement != '0' && fromElement != undefined) {
+			let toElement = formElement.find('[name="' + nameElementTo + '"]'),
+				toElementLable = formElement.find('[name="' + nameElementTo + '_display"]');
+			if (fromElement !== '' && fromElement !== '0' && fromElement !== undefined) {
 				if (toElementLable.length > 0)
 					toElementLable.attr('readonly', true);
 				status = true;
 				toElement.val(fromElement);
-				toElementLable.val(fromElementLable);
+				toElementLable.val(fromElementLabel);
 				if (toElement.is('[data-select2-id]')) {
 					toElement.trigger('change');
 				}
@@ -786,11 +793,11 @@ $.Class("Vtiger_Edit_Js", {
 				toElement.attr('readonly', false);
 			}
 		}
-		if (status == false) {
+		if (status === false) {
 			let errorMsg;
-			if (sourceModule == "Accounts") {
+			if (sourceModule === "Accounts") {
 				errorMsg = 'JS_SELECTED_ACCOUNT_DOES_NOT_HAVE_AN_ADDRESS';
-			} else if (sourceModule == "Contacts") {
+			} else if (sourceModule === "Contacts") {
 				errorMsg = 'JS_SELECTED_CONTACT_DOES_NOT_HAVE_AN_ADDRESS';
 			} else {
 				errorMsg = 'JS_DOES_NOT_HAVE_AN_ADDRESS';
@@ -906,68 +913,63 @@ $.Class("Vtiger_Edit_Js", {
 	 * for a module if exist on change of picklist value
 	 */
 	registerEventForPicklistDependencySetup: function (container) {
-		var picklistDependcyElemnt = $('[name="picklistDependency"]', container);
+		let picklistDependcyElemnt = $('[name="picklistDependency"]', container);
 		if (picklistDependcyElemnt.length <= 0) {
 			return;
 		}
-		var picklistDependencyMapping = JSON.parse(picklistDependcyElemnt.val());
+		let picklistDependencyMapping = JSON.parse(picklistDependcyElemnt.val());
 
-		var sourcePicklists = Object.keys(picklistDependencyMapping);
+		let sourcePicklists = Object.keys(picklistDependencyMapping);
 		if (sourcePicklists.length <= 0) {
 			return;
 		}
 
-		var sourcePickListNames = [];
-		for (var i = 0; i < sourcePicklists.length; i++) {
+		let sourcePickListNames = [],
+			i;
+		for (i = 0; i < sourcePicklists.length; i++) {
 			sourcePickListNames.push('[name="' + sourcePicklists[i] + '"]');
 		}
 		sourcePickListNames = sourcePickListNames.join(',');
-		var sourcePickListElements = container.find(sourcePickListNames);
+		let sourcePickListElements = container.find(sourcePickListNames);
 
 		sourcePickListElements.on('change', function (e) {
-			var currentElement = $(e.currentTarget);
-			var sourcePicklistname = currentElement.attr('name');
-
-			var configuredDependencyObject = picklistDependencyMapping[sourcePicklistname];
-			var selectedValue = currentElement.val();
-			var targetObjectForSelectedSourceValue = configuredDependencyObject[selectedValue];
-			var picklistmap = configuredDependencyObject["__DEFAULT__"];
+			let currentElement = $(e.currentTarget),
+				configuredDependencyObject = picklistDependencyMapping[currentElement.attr('name')],
+				targetObjectForSelectedSourceValue = configuredDependencyObject[currentElement.val()],
+				picklistmap = configuredDependencyObject["__DEFAULT__"];
 
 			if (typeof targetObjectForSelectedSourceValue === "undefined") {
 				targetObjectForSelectedSourceValue = picklistmap;
 			}
 			$.each(picklistmap, function (targetPickListName, targetPickListValues) {
-				var targetPickListMap = targetObjectForSelectedSourceValue[targetPickListName];
+				let targetPickListMap = targetObjectForSelectedSourceValue[targetPickListName];
 				if (typeof targetPickListMap === "undefined") {
 					targetPickListMap = targetPickListValues;
 				}
-				var targetPickList = $('[name="' + targetPickListName + '"]', container);
+				let targetPickList = $('[name="' + targetPickListName + '"]', container);
 				if (targetPickList.length <= 0) {
 					return;
 				}
 
-				var listOfAvailableOptions = targetPickList.data('availableOptions');
+				let listOfAvailableOptions = targetPickList.data('availableOptions');
 				if (typeof listOfAvailableOptions === "undefined") {
 					listOfAvailableOptions = $('option', targetPickList);
 					targetPickList.data('available-options', listOfAvailableOptions);
 				}
 
-				var targetOptions = new $();
-				var optionSelector = [];
+				let targetOptions = new $(),
+					optionSelector = [];
 				optionSelector.push('');
-				for (var i = 0; i < targetPickListMap.length; i++) {
+				for (i = 0; i < targetPickListMap.length; i++) {
 					optionSelector.push(targetPickListMap[i]);
 				}
 
 				$.each(listOfAvailableOptions, function (i, e) {
-					var picklistValue = $(e).val();
-					if ($.inArray(picklistValue, optionSelector) != -1) {
+					if ($.inArray($(e).val(), optionSelector) !== -1) {
 						targetOptions = targetOptions.add($(e));
 					}
-				})
-				var targetPickListSelectedValue = '';
-				var targetPickListSelectedValue = targetOptions.filter('[selected]').val();
-				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger('change');
+				});
+				targetPickList.html(targetOptions).val(targetOptions.filter('[selected]').val()).trigger('change');
 			})
 		});
 

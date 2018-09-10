@@ -67,6 +67,8 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 					$fieldName = 'crmid';
 					$relatedFieldName = 'productid';
 					break;
+				default:
+					break;
 			}
 			if ($sourceModule === 'Services') {
 				$subQuery = (new App\Db\Query())

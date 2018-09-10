@@ -250,27 +250,28 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 	 * Function to register on chnage event of target module
 	 */
 	validationMappingFields: function () {
-		var aDeferred = jQuery.Deferred();
-		var mappingTable = jQuery('#mappingToGenerate tr:not(.d-none)');
+		let aDeferred = jQuery.Deferred(),
+			mappingTable = jQuery('#mappingToGenerate tr:not(.d-none)');
 
 		mappingTable.each(function (i, e) {
-			var breakSave = false;
-			var sourceField = jQuery(this).find('.sourceFields :selected');
+			let breakSave = false,
+				sourceField = jQuery(this).find('.sourceFields :selected'),
+				targetField = jQuery(this).find('.targetFields :selected'),
+				moduleName;
 			if (mappingTable.find('.sourceFields option[value="' + sourceField.val() + '"]:selected').length > 1) {
-				var moduleName = jQuery('.sourceModuleName').text();
+				moduleName = jQuery('.sourceModuleName').text();
 				breakSave = moduleName + ': ' + sourceField.text();
 			}
-			var targetField = jQuery(this).find('.targetFields :selected');
 			if (mappingTable.find('.targetFields option[value="' + targetField.val() + '"]:selected').length > 1) {
-				var moduleName = jQuery('.targetModuleName').text();
+				moduleName = jQuery('.targetModuleName').text();
 				breakSave = moduleName + ': ' + targetField.text();
 			}
 			if (breakSave) {
-				var warningMessage = breakSave + ' <br />' + app.vtranslate('JS_IS_ALREADY_BEEN_MAPPED');
-				var notificationParams = {
-					text: warningMessage,
-					'type': 'error'
-				};
+				let warningMessage = breakSave + ' <br />' + app.vtranslate('JS_IS_ALREADY_BEEN_MAPPED'),
+					notificationParams = {
+						text: warningMessage,
+						'type': 'error'
+					};
 				Settings_Vtiger_Index_Js.showMessage(notificationParams);
 				aDeferred.resolve(false);
 				return false;
