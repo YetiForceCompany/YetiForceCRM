@@ -510,8 +510,8 @@ class ModuleBasic
 		\App\Log::trace('Start', __METHOD__);
 		$query = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $this->name]);
 		$dataReader = $query->createCommand()->query();
-		while ($id = $dataReader->readColumn(0)) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($id, $this->name);
+		while ($crmId = $dataReader->readColumn(0)) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($crmId, $this->name);
 			$recordModel->delete();
 		}
 		\App\Log::trace('End', __METHOD__);

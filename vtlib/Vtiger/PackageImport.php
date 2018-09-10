@@ -62,25 +62,25 @@ class PackageImport extends PackageExport
 	public function getTypeName()
 	{
 		if (!empty($this->_modulexml) && !empty($this->_modulexml->type)) {
-			$packageType = strtolower($this->_modulexml->type);
-			switch ($packageType) {
+			$type = strtolower($this->_modulexml->type);
+			switch ($type) {
 				case 'extension':
-					$packageType = 'LBL_EXTENSION_MODULE';
+					$type = 'LBL_EXTENSION_MODULE';
 					break;
 				case 'entity':
-					$packageType = 'LBL_BASE_MODULE';
+					$type = 'LBL_BASE_MODULE';
 					break;
 				case 'inventory':
-					$packageType = 'LBL_INVENTORY_MODULE';
+					$type = 'LBL_INVENTORY_MODULE';
 					break;
 				case 'language':
-					$packageType = 'LBL_LANGUAGE_MODULE';
+					$type = 'LBL_LANGUAGE_MODULE';
 					break;
 				default:
 					break;
 			}
 
-			return $packageType;
+			return $type;
 		}
 		return '';
 	}
@@ -195,7 +195,7 @@ class PackageImport extends PackageExport
 				return false;
 			}
 		}
-		return (bool) $this->_modulexml->modulebundle;
+		return (bool)$this->_modulexml->modulebundle;
 	}
 
 	/**
@@ -203,9 +203,9 @@ class PackageImport extends PackageExport
 	 */
 	public function getAvailableModuleInfoFromModuleBundle()
 	{
-		$list = (array) $this->_modulexml->modulelist;
+		$list = (array)$this->_modulexml->modulelist;
 
-		return (array) $list['dependent_module'];
+		return (array)$list['dependent_module'];
 	}
 
 	/**
@@ -219,14 +219,14 @@ class PackageImport extends PackageExport
 
 	public function getParameters()
 	{
-		$parameters = [];
+		$params = [];
 		if (empty($this->_modulexml->parameters)) {
-			return $parameters;
+			return $params;
 		}
 		foreach ($this->_modulexml->parameters->parameter as $parameter) {
-			$parameters[] = $parameter;
+			$params[] = $parameter;
 		}
-		return $parameters;
+		return $params;
 	}
 
 	public function initParameters(\App\Request $request)
@@ -262,8 +262,8 @@ class PackageImport extends PackageExport
 			$matches = [];
 			if ($fileName === 'manifest.xml') {
 				$manifestxml_found = true;
-				$modulename = (string) $this->_modulexml->name;
-				$isModuleBundle = (string) $this->_modulexml->modulebundle;
+				$modulename = (string)$this->_modulexml->name;
+				$isModuleBundle = (string)$this->_modulexml->modulebundle;
 				if ($isModuleBundle === 'true' && (!empty($this->_modulexml)) &&
 					(!empty($this->_modulexml->dependencies)) &&
 					(!empty($this->_modulexml->dependencies->vtiger_version))) {
@@ -304,9 +304,9 @@ class PackageImport extends PackageExport
 		if (!empty($language_modulename) && $language_modulename == $modulename) {
 			$languagefile_found = true;
 		} elseif (!$updatefile_found && !$layoutfile_found && !$languagefile_found) {
-			$_errorText = \App\Language::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
-			$_errorText = str_replace('__DEFAULTLANGUAGE__', \AppConfig::main('default_language'), $_errorText);
-			$this->_errorText = $_errorText;
+			$errorText = \App\Language::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
+			$errorText = str_replace('__DEFAULTLANGUAGE__', \AppConfig::main('default_language'), $errorText);
+			$this->_errorText = $errorText;
 		}
 		if (!empty($this->_modulexml) &&
 			!empty($this->_modulexml->dependencies) &&
@@ -666,18 +666,18 @@ class PackageImport extends PackageExport
 		$blockInstance = new Block();
 		$blockInstance->label = $blocklabel;
 		if (isset($blocknode->sequence, $blocknode->display_status)) {
-			$blockInstance->sequence = (string) ($blocknode->sequence);
+			$blockInstance->sequence = (string)($blocknode->sequence);
 			if ($blockInstance->sequence = '') {
 				$blockInstance->sequence = null;
 			}
-			$blockInstance->showtitle = (string) ($blocknode->show_title);
-			$blockInstance->visible = (string) ($blocknode->visible);
-			$blockInstance->increateview = (string) ($blocknode->create_view);
-			$blockInstance->ineditview = (string) ($blocknode->edit_view);
-			$blockInstance->indetailview = (string) ($blocknode->detail_view);
-			$blockInstance->display_status = (string) ($blocknode->display_status);
-			$blockInstance->iscustom = (string) ($blocknode->iscustom);
-			$blockInstance->islist = (string) ($blocknode->islist);
+			$blockInstance->showtitle = (string)($blocknode->show_title);
+			$blockInstance->visible = (string)($blocknode->visible);
+			$blockInstance->increateview = (string)($blocknode->create_view);
+			$blockInstance->ineditview = (string)($blocknode->edit_view);
+			$blockInstance->indetailview = (string)($blocknode->detail_view);
+			$blockInstance->display_status = (string)($blocknode->display_status);
+			$blockInstance->iscustom = (string)($blocknode->iscustom);
+			$blockInstance->islist = (string)($blocknode->islist);
 		} else {
 			$blockInstance->display_status = null;
 		}
@@ -736,7 +736,7 @@ class PackageImport extends PackageExport
 		}
 
 		if (isset($fieldnode->columntype) && !empty($fieldnode->columntype)) {
-			$fieldInstance->columntype = (string) ($fieldnode->columntype);
+			$fieldInstance->columntype = (string)($fieldnode->columntype);
 		}
 
 		if (!empty($fieldnode->tree_template)) {
@@ -948,7 +948,7 @@ class PackageImport extends PackageExport
 				$handlerInfo = [];
 				$handlerInfo = ['path' => "$customlinknode->handler_path",
 					'class' => "$customlinknode->handler_class",
-					'method' => "$customlinknode->handler", ];
+					'method' => "$customlinknode->handler",];
 			}
 			$moduleInstance->addLink(
 				"$customlinknode->linktype", "$customlinknode->linklabel", "$customlinknode->linkurl", "$customlinknode->linkicon", "$customlinknode->sequence", $handlerInfo
