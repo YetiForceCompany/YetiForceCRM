@@ -21,7 +21,7 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 			throw new \App\Exceptions\NoPermittedForAdmin('ERR_ILLEGAL_VALUE');
 		}
 		$query = (new \App\Db\Query())->from('o_#__' . $type);
-		$logsCountAll = $logsCount = (int)$query->count('*');
+		$logsCountAll = $logsCount = (int) $query->count('*');
 		$query->offset($request->getInteger('start', 0));
 		$query->limit($request->getInteger('limit', 10));
 		$order = $request->getArray('order', false);
