@@ -26,7 +26,11 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 				$value = $request->get($field);
 			}
 			if (is_array($value)) {
-				$value = implode(',', $value);
+				if ($field === 'conditions') {
+					$value = json_encode($value);
+				} else {
+					$value = implode(',', $value);
+				}
 			}
 			if ($field === 'module_name' && $pdfModel->get('module_name') !== $value) {
 				// change of main module, overwrite existing conditions
