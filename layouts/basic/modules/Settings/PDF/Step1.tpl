@@ -34,11 +34,11 @@
 						</div>
 						<div class="card-body">
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label">
+								<label class="col-sm-4 col-form-label">
 									{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}
 									<span class="redColor">*</span>
 								</label>
-								<div class="col-sm-9 controls">
+								<div class="col-sm-8 controls">
 									<select class="select2 form-control" id="status" name="status" required="true">
 										<option value="1" {if $PDF_MODEL->get('status') eq 1} selected {/if}>
 											{\App\Language::translate('PLL_ACTIVE', $QUALIFIED_MODULE)}
@@ -50,33 +50,43 @@
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label">
+								<label class="col-sm-4 col-form-label">
 									{\App\Language::translate('LBL_PRIMARY_NAME', $QUALIFIED_MODULE)}
 									<span class="redColor">*</span>
 								</label>
-								<div class="col-sm-9 controls">
-									<input type="text" name="primary_name" class="form-control"
-									       data-validation-engine='validate[required]' value="{$PDF_MODEL->get('primary_name')}"
-									       id="primary_name"/>
+								<div class="col-sm-8 controls">
+									<div class="input-group">
+										<input type="text" name="primary_name" class="form-control"
+										       data-validation-engine='validate[required]' value="{$PDF_MODEL->get('primary_name')}"
+										       id="primary_name"/>
+										<div class="input-group-append">
+											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label">
+								<label class="col-sm-4 col-form-label">
 									{\App\Language::translate('LBL_SECONDARY_NAME', $QUALIFIED_MODULE)}<span
 											class="redColor">*</span>
 								</label>
-								<div class="col-sm-9 controls">
-									<input type="text" name="secondary_name" class="form-control"
-									       data-validation-engine='validate[required]' value="{$PDF_MODEL->get('secondary_name')}"
-									       id="secondary_name"/>
+								<div class="col-sm-8 controls">
+									<div class="input-group">
+										<input type="text" name="secondary_name" class="form-control"
+										       data-validation-engine='validate[required]' value="{$PDF_MODEL->get('secondary_name')}"
+										       id="secondary_name"/>
+										<div class="input-group-append">
+											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label">
+								<label class="col-sm-4 col-form-label">
 									{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}<span
 											class="redColor">*</span>
 								</label>
-								<div class="col-sm-9 controls">
+								<div class="col-sm-8 controls">
 									<select class="select2 form-control" id="moduleName" name="module_name" required="true"
 									        data-validation-engine='validate[required]'>
 										{foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
@@ -92,29 +102,34 @@
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label">
+								<label class="col-sm-4 col-form-label">
 									{\App\Language::translate('LBL_METATAGS', $QUALIFIED_MODULE)}
 								</label>
-								<div class="col-sm-9 controls">
+								<div class="col-sm-8 controls">
 									<input type="checkbox" name="metatags_status" id="metatags_status" value="1"
 									       class="checkboxForm"
 									       {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}checked="checked"{/if} />
 								</div>
 							</div>
 							<div class="form-group row metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">
-								<label class="col-sm-3 col-form-label">
+								<label class="col-sm-4 col-form-label">
 									{\App\Language::translate('LBL_META_TITLE', $QUALIFIED_MODULE)}
 								</label>
-								<div class="col-sm-9 controls">
-									<input type="text" name="meta_title" class="form-control"
-									       value="{$PDF_MODEL->get('meta_title')}" id="meta_title"/>
+								<div class="col-sm-8 controls">
+									<div class="input-group">
+										<input type="text" name="meta_title" class="form-control"
+										       value="{$PDF_MODEL->get('meta_title')}" id="meta_title"/>
+										<div class="input-group-append">
+											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="form-group row metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">
-								<label class="col-sm-3 col-form-label">
+								<label class="col-sm-4 col-form-label">
 									{\App\Language::translate('LBL_META_AUTHOR', $QUALIFIED_MODULE)}
 								</label>
-								<div class="col-sm-9 controls">
+								<div class="col-sm-8 controls">
 									<select class="select2 form-control" id="meta_author" name="meta_author"
 									        data-placeholder="{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}"
 									        data-select="allowClear">
@@ -134,10 +149,10 @@
 								</div>
 							</div>
 							<div class="form-group row metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">
-								<label class="col-sm-3 col-form-label">
+								<label class="col-sm-4 col-form-label">
 									{\App\Language::translate('LBL_META_CREATOR', $QUALIFIED_MODULE)}
 								</label>
-								<div class="col-sm-9 controls">
+								<div class="col-sm-8 controls">
 									<select class="select2 form-control" id="meta_creator" name="meta_creator"
 									        data-placeholder="{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}"
 									        data-select="allowClear">
@@ -155,19 +170,24 @@
 								</div>
 							</div>
 							<div class="form-group row metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">
-								<label class="col-sm-3 col-form-label">
+								<label class="col-sm-4 col-form-label">
 									{\App\Language::translate('LBL_META_SUBJECT', $QUALIFIED_MODULE)}
 								</label>
-								<div class="col-sm-9 controls">
-									<input type="text" name="meta_subject" class="form-control"
-									       value="{$PDF_MODEL->get('meta_subject')}" id="meta_subject"/>
+								<div class="col-sm-8 controls">
+									<div class="input-group">
+										<input type="text" name="meta_subject" class="form-control"
+										       value="{$PDF_MODEL->get('meta_subject')}" id="meta_subject"/>
+										<div class="input-group-append">
+											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="form-group row metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">
-								<label class="col-sm-3 col-form-label">
+								<label class="col-sm-4 col-form-label">
 									{\App\Language::translate('LBL_META_KEYWORDS', $QUALIFIED_MODULE)}
 								</label>
-								<div class="col-sm-9 controls">
+								<div class="col-sm-8 controls">
 									{assign 'KEYWORDS' explode(',',$PDF_MODEL->get('meta_keywords'))}
 
 									<select class="select2 form-control" id="meta_keywords" name="meta_keywords"
@@ -303,7 +323,12 @@
 									{\App\Language::translate('LBL_FILENAME', $QUALIFIED_MODULE)}
 								</label>
 								<div class="col-sm-9 controls">
-									<input type="text" name="filename" class="form-control" value="{$PDF_MODEL->get('filename')}" id="filename"/>
+									<div class="input-group">
+										<input type="text" name="filename" class="form-control" value="{$PDF_MODEL->get('filename')}" id="filename"/>
+										<div class="input-group-append">
+											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="form-group row">

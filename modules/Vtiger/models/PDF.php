@@ -404,7 +404,7 @@ class Vtiger_PDF_Model extends \App\Base
 		}
 
 		// metadata
-		if ($this->get('metatags_status') == 0) {
+		if ($this->get('metatags_status') == 1) {
 			$parameters['title'] = $this->get('meta_title');
 			$parameters['author'] = $this->get('meta_author');
 			$parameters['creator'] = $this->get('meta_creator');
