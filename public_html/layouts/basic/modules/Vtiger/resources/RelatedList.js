@@ -11,12 +11,13 @@
 
 jQuery.Class("Vtiger_RelatedList_Js", {
 	getInstance: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
-		var moduleClassName = app.getModuleName() + "_RelatedList_Js";
-		var fallbackClassName = Vtiger_RelatedList_Js;
+		let moduleClassName = app.getModuleName() + "_RelatedList_Js",
+			fallbackClassName = Vtiger_RelatedList_Js,
+			instance;
 		if (typeof window[moduleClassName] !== "undefined") {
-			var instance = new window[moduleClassName]();
+			instance = new window[moduleClassName]();
 		} else {
-			var instance = new fallbackClassName();
+			instance = new fallbackClassName();
 		}
 		instance.parentRecordId = parentId;
 		instance.parentModuleName = parentModule;
@@ -317,12 +318,11 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	 * Function to handle next page navigation
 	 */
 	previousPageHandler: function () {
-		var aDeferred = jQuery.Deferred();
-		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
-		var pageNumber = this.getCurrentPageNum();
+		const thisInstance = this,
+			aDeferred = jQuery.Deferred();
+		let pageNumber = this.getCurrentPageNum();
 		if (pageNumber > 1) {
-			var previousPage = parseInt(pageNumber) - 1;
+			let previousPage = parseInt(pageNumber) - 1;
 			this.loadRelatedList({
 				page: previousPage
 			}).done(function (data) {
@@ -338,9 +338,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	 * Function to handle select page jump in related list
 	 */
 	selectPageHandler: function (pageNumber) {
-		var aDeferred = jQuery.Deferred();
-		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
+		const thisInstance = this,
+			aDeferred = jQuery.Deferred();
 		this.loadRelatedList({
 			page: pageNumber,
 		}).done(function (data) {
