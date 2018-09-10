@@ -93,6 +93,32 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 			}
 		});
 	},
+	/**
+	 * Register module change event - load proper variable panel for specified module
+	 * @param {jQuery} container
+	 */
+	registerModuleChangeEvent(container) {
+		container.find('[name="module_name"]').on('change', function () {
+			const progressIndicator = jQuery.progressIndicator({
+				'position': 'html',
+				'blockInfo': {'enabled': true}
+			});
+			AppConnector.request({
+				module: 'PDF',
+				parent: 'Settings',
+				view: 'VariablePanel',
+				record: container.find('[name="record"]').val(),
+				type: 'pdf',
+				selectedModule: $(this).val()
+			}).done((response) => {
+				container.find('.js-variable-panel').html(response);
+				progressIndicator.progressIndicator({'mode': 'hide'});
+			}).fail((error, err) => {
+				progressIndicator.progressIndicator({'mode': 'hide'});
+				app.errorLog(error, err);
+			});
+		});
+	},
 
 	registerEvents: function () {
 		const container = this.getContainer();
@@ -108,5 +134,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 		container.validationEngine(opts);
 		this.registerCancelStepClickEvent(container);
 		this.registerMarginCheckboxClickEvent(container);
+		this.registerModuleChangeEvent(container);
 	}
 });

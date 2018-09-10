@@ -18,7 +18,7 @@
 					<div class="card">
 						<div class="card-header">{\App\Language::translate('LBL_VARIABLES',$QUALIFIED_MODULE)}</div>
 						<div class="card-body">
-							<div class="row">
+							<div class="row js-variable-panel" data-js="container">
 								{include file='layouts/basic/modules/Vtiger/VariablePanel.tpl' SELECTED_MODULE=$SELECTED_MODULE PARSER_TYPE='pdf'}
 							</div>
 						</div>
