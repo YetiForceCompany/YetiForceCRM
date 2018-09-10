@@ -37,7 +37,7 @@
 			</div>
 		</div>
 
-		{*{if $MESSAGE_EXPANDED}*}
+		{if $MESSAGE_EXPANDED}
 		<div class="my-5 mx-auto card u-w-fit shadow">
 			<div class="card-header">
 				<h5>{\App\Language::translate('LBL_SQL_QUERY')}</h5>
@@ -66,7 +66,7 @@
 				</div>
 			</div>
 		{/if}
-		{*{/if}*}
+		{/if}
 	</div>
 	<script type="text/javascript"
 			src="{\App\Layout::getPublicUrl('libraries/@fortawesome/fontawesome/index.js')}"></script>
