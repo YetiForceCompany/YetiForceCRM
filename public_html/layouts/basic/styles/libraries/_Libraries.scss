@@ -48,17 +48,16 @@
 
 		font-size: inherit;
 	}
-
-	.select2-results__group {
-		padding-top: 0.33rem;
-		padding-bottom: 0.25rem;
-		font-size: inherit;
-	}
 }
 
 .select2-container--bootstrap {
 	.select2-results > .select2-results__options {
 		max-height: 400px;
+	}
+
+	.select2-results__group {
+		font-size: calculate-rem(16px) !important;
+		background: #e1f0fd;
 	}
 }
 
