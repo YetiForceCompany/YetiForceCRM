@@ -58,7 +58,7 @@
 			</div>
 		</main>
 	</div>
-	<div class="modal" id="license-modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+	<div class="modal js-license-modal" id="license-modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" data-js="shown.bs.modal | container">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -71,48 +71,46 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<div class="table-responsive">
-						<table class="table table-sm table-bordered">
-							<thead>
-							<th class="p-2">
-								{\App\Language::translate('LBL_LIBRARY_NAME', 'Install')}
-							</th>
-							<th class="p-2 text-center">
-								{\App\Language::translate('LBL_VERSION', 'Install')}
-							</th>
-							<th class="p-2 text-center">
-								{\App\Language::translate('LBL_LICENSE', 'Install')}
-							</th>
-							</thead>
-							<tbody>
-							{foreach from=$LIBRARIES key=TYPE item=ITEMS}
-								{if $ITEMS}
-									{foreach from=$ITEMS item=ITEM}
-										<tr>
-											<td class="u-word-break">
-												<a title="{\App\Language::translate('LBL_LIBRARY_HOMEPAGE', 'Install')}"
-												   href="{if !empty($ITEM['homepage'])}{$ITEM['homepage']}{else}#{/if}" target="_blank">
-													{$ITEM['name']}
-												</a>
-												{if !empty($ITEM['description'])}
-													({\App\Language::translate($ITEM['description'], 'Install')})
-												{/if}
-											</td>
-											<td class="text-center">
-												{$ITEM['version']}
-											</td>
-											<td class="text-center">
-												{$ITEM['license']}
-											</td>
-										</tr>
-									{/foreach}
-								{else}
-									<div class="p-3 mb-2 bg-danger text-white">{\App\Language::translate('LBL_MISSING_FILE')}</div>
-								{/if}
-							{/foreach}
-							</tbody>
-						</table>
-					</div>
+					<table class="table table-sm table-bordered js-data-table" data-js="datatable">
+						<thead>
+						<th class="p-2">
+							{\App\Language::translate('LBL_LIBRARY_NAME', 'Install')}
+						</th>
+						<th class="p-2 text-center">
+							{\App\Language::translate('LBL_VERSION', 'Install')}
+						</th>
+						<th class="p-2 text-center">
+							{\App\Language::translate('LBL_LICENSE', 'Install')}
+						</th>
+						</thead>
+						<tbody>
+						{foreach from=$LIBRARIES key=TYPE item=ITEMS}
+							{if $ITEMS}
+								{foreach from=$ITEMS item=ITEM}
+									<tr>
+										<td class="u-word-break">
+											<a title="{\App\Language::translate('LBL_LIBRARY_HOMEPAGE', 'Install')}"
+											   href="{if !empty($ITEM['homepage'])}{$ITEM['homepage']}{else}#{/if}" target="_blank">
+												{$ITEM['name']}
+											</a>
+											{if !empty($ITEM['description'])}
+												({\App\Language::translate($ITEM['description'], 'Install')})
+											{/if}
+										</td>
+										<td class="text-center">
+											{$ITEM['version']}
+										</td>
+										<td class="text-center">
+											{$ITEM['license']}
+										</td>
+									</tr>
+								{/foreach}
+							{else}
+								<div class="p-3 mb-2 bg-danger text-white">{\App\Language::translate('LBL_MISSING_FILE')}</div>
+							{/if}
+						{/foreach}
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
