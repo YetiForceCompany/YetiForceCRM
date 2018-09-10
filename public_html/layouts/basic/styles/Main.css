@@ -12547,13 +12547,12 @@ input[type="radio"]:checked:before {
 
 .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option {
   font-size: inherit; }
-.select2-container--bootstrap4 .select2-results__group {
-  padding-top: 0.33rem;
-  padding-bottom: 0.25rem;
-  font-size: inherit; }
 
 .select2-container--bootstrap .select2-results > .select2-results__options {
   max-height: 400px; }
+.select2-container--bootstrap .select2-results__group {
+  font-size: 1rem !important;
+  background: #e1f0fd; }
 
 .input-group > .select2-container--bootstrap {
   width: 1% !important; }
@@ -14651,7 +14650,7 @@ label.btn.btn-outline-primary:not(.active) {
 .widget_header .breadcrumb-item.active {
   color: #545b62; }
 
-@media (max-width: 399.98px) {
+@media only screen and (max-width: 513px) {
   .c-menu__container.js-expand + .c-header,
   .c-menu__container.js-expand + .c-header .o-navbar__left,
   .c-menu__container.js-expand + .c-header .o-navbar__right {
