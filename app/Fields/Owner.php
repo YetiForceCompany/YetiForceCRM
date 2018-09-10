@@ -243,8 +243,12 @@ class Owner
 				->from('vtiger_user2role')
 				->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
 				->where(['like', 'parentrole', $userPrivileges['parent_role_seq'] . '::%', false]);
+			$queryBySharing = (new \App\Db\Query())
+				->select(['vtiger_tmp_write_user_sharing_per.shareduserid'])
+				->from('vtiger_tmp_write_user_sharing_per')
+				->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)]);
 			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')
-				->where(['or', ['id' => $this->currentUser->getId()], ['id' => $queryByUserRole]]);
+				->where(['or', ['id' => $this->currentUser->getId()], ['id' => $queryByUserRole], ['id' => $queryBySharing]]);
 			if (\AppConfig::module('Users', 'SHOW_ROLE_NAME')) {
 				$query->addSelect(['vtiger_role.rolename'])->innerJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
 					->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid');
