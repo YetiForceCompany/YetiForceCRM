@@ -190,7 +190,7 @@ class Mail
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$name = Purifier::decodeHtml($row['name']);
-			$filePath = realpath(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $row['path'] . $row['attachmentsid'] . '_' . $name);
+			$filePath = realpath(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $row['path'] . $row['attachmentsid']);
 			if (is_file($filePath)) {
 				$attachments[$filePath] = $name;
 			}
