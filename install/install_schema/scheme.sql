@@ -1097,18 +1097,18 @@ CREATE TABLE `s_yf_smsnotifier_queue` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `s_yf_social_media_logs` */
+/*Table structure for table `l_yf_social_media_logs` */
 
-CREATE TABLE `s_yf_social_media_logs` (
+CREATE TABLE `l_yf_social_media_logs` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `date_log` datetime NOT NULL,
-  `type_of_log` varchar(32) DEFAULT NULL,
-  `type` varchar(32) DEFAULT NULL,
-  `message` text DEFAULT NULL,
+  `date` datetime NOT NULL,
+  `type` varchar(16) NOT NULL,
+  `name` varchar(16) NOT NULL,
+  `message` text NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `date_log` (`date_log`),
-  KEY `type_of_log` (`type_of_log`),
-  KEY `type` (`type`)
+  KEY `date` (`date`),
+  KEY `type` (`type`),
+  KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_activity_invitation` */
