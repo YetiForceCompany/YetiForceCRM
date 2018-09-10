@@ -84,11 +84,11 @@ $.Class("Vtiger_Helper_Js", {
 	 */
 
 	getDateInstance: function (dateTime, dateFormat) {
-		var dateTimeComponents = dateTime.split(" ");
-		var dateComponent = dateTimeComponents[0];
-		var timeComponent = dateTimeComponents[1];
-		var seconds = '00';
-		var dotMode = '-';
+		let dateTimeComponents = dateTime.split(" "),
+			dateComponent = dateTimeComponents[0],
+			timeComponent = dateTimeComponents[1],
+			seconds = '00',
+			dotMode = '-';
 		if (dateFormat.indexOf("-") !== -1) {
 			dotMode = '-';
 		}
@@ -99,12 +99,12 @@ $.Class("Vtiger_Helper_Js", {
 			dotMode = '/';
 		}
 
-		var splittedDate = dateComponent.split(dotMode);
-		var splittedDateFormat = dateFormat.split(dotMode);
-		var year = splittedDate[splittedDateFormat.indexOf("yyyy")];
-		var month = splittedDate[splittedDateFormat.indexOf("mm")];
-		var date = splittedDate[splittedDateFormat.indexOf("dd")];
-		var dateInstance = Date.parse(year + dotMode + month + dotMode + date);
+		let splittedDate = dateComponent.split(dotMode),
+			splittedDateFormat = dateFormat.split(dotMode),
+			year = splittedDate[splittedDateFormat.indexOf("yyyy")],
+			month = splittedDate[splittedDateFormat.indexOf("mm")],
+			date = splittedDate[splittedDateFormat.indexOf("dd")],
+			dateInstance = Date.parse(year + dotMode + month + dotMode + date);
 		if (isNaN(dateInstance) || (year.length > 4) || (month.length > 2) || (date.length > 2) || (dateInstance == null)) {
 			throw app.vtranslate('JS_INVALID_DATE');
 		}
@@ -115,25 +115,24 @@ $.Class("Vtiger_Helper_Js", {
 			timeComponent = '00:00:00';
 		}
 
-		var timeSections = timeComponent.split(':');
+		let timeSections = timeComponent.split(':');
 		if (typeof timeSections[2] !== "undefined") {
 			seconds = timeSections[2];
 		}
 
 		//Am/Pm component exits
 		if (typeof dateTimeComponents[2] !== "undefined") {
-			timeComponent += ' ' + dateTimeComponents[2];
-			if (dateTimeComponents[2].toLowerCase() == 'pm' && timeSections[0] != '12') {
+			if (dateTimeComponents[2].toLowerCase() === 'pm' && timeSections[0] !== '12') {
 				timeSections[0] = parseInt(timeSections[0], 10) + 12;
 			}
 
-			if (dateTimeComponents[2].toLowerCase() == 'am' && timeSections[0] == '12') {
+			if (dateTimeComponents[2].toLowerCase() === 'am' && timeSections[0] === '12') {
 				timeSections[0] = '00';
 			}
 		}
 
 		month = month - 1;
-		var dateInstance = new Date(year, month, date, timeSections[0], timeSections[1], seconds);
+		dateInstance = new Date(year, month, date, timeSections[0], timeSections[1], seconds);
 		return dateInstance;
 	},
 	/*

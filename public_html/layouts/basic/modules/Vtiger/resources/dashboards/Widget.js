@@ -2403,18 +2403,19 @@ YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 		})
 	},
 	registerListViewButton: function () {
-		var thisInstance = this;
-		var container = thisInstance.getContainer();
+		const thisInstance = this,
+			container = thisInstance.getContainer();
 		container.find('.goToListView').on('click', function () {
-			if (container.data('name') == 'OverdueActivities') {
-				var status = 'PLL_OVERDUE';
+			let status;
+			if (container.data('name') === 'OverdueActivities') {
+				status = 'PLL_OVERDUE';
 			} else {
-				var status = 'PLL_IN_REALIZATION,PLL_PLANNED';
+				status = 'PLL_IN_REALIZATION,PLL_PLANNED';
 			}
-			var url = 'index.php?module=Calendar&view=List&viewname=All';
+			let url = 'index.php?module=Calendar&view=List&viewname=All';
 			url += '&search_params=[[';
-			var owner = container.find('.widgetFilter.owner option:selected');
-			if (owner.val() != 'all') {
+			let owner = container.find('.widgetFilter.owner option:selected');
+			if (owner.val() !== 'all') {
 				url += '["assigned_user_id","e","' + owner.val() + '"],';
 			}
 			url += '["activitystatus","e","' + status + '"]]]';
@@ -2535,20 +2536,22 @@ YetiForce_Bar_Widget_Js('YetiForce_NotificationsBySender_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_NotificationsByRecipient_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_TeamsEstimatedSales_Widget_Js', {}, {
 	generateChartData: function () {
-		var thisInstance = this;
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [
-			[],
-			[],
-			[],
-			[]
-		];
-		var yMaxValue = 0;
+		const thisInstance = this,
+			container = this.getContainer(),
+			jData = container.find('.widgetData').val(),
+			data = JSON.parse(jData);
+		let chartData = [
+				[],
+				[],
+				[],
+				[]
+			],
+			yMaxValue,
+			index,
+			parseData;
 		if (data.hasOwnProperty('compare')) {
-			for (var index in data) {
-				var parseData = thisInstance.parseChartData(data[index], chartData);
+			for (index in data) {
+				parseData = thisInstance.parseChartData(data[index], chartData);
 				chartData[0].push(parseData[0]);
 				chartData[3].push(parseData[3]);
 				chartData = [chartData[0], parseData[1], parseData[2], chartData[3],
@@ -2556,14 +2559,14 @@ YetiForce_Bar_Widget_Js('YetiForce_TeamsEstimatedSales_Widget_Js', {}, {
 				];
 			}
 		} else {
-			var parseData = thisInstance.parseChartData(data, chartData);
+			parseData = thisInstance.parseChartData(data, chartData);
 			chartData = [
 				[parseData[0]], parseData[1], parseData[2],
 				[parseData[3]],
 				['#208CB3']
 			];
 		}
-		var yMaxValue = chartData[1];
+		yMaxValue = chartData[1];
 		yMaxValue = yMaxValue + 2 + (yMaxValue / 100) * 25;
 		return {
 			'chartData': chartData[0],
@@ -2592,17 +2595,18 @@ YetiForce_Bar_Widget_Js('YetiForce_TeamsEstimatedSales_Widget_Js', {}, {
 		return [chartData, chartDataGlobal[1], xLabels, '&nbsp; \u03A3 ' + sum + '&nbsp;'];
 	},
 	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		var compare = dataInfo && dataInfo.hasOwnProperty('compare');
+		const container = this.getContainer(),
+			data = container.find('.widgetData').val(),
+			dataInfo = JSON.parse(data),
+			compare = dataInfo && dataInfo.hasOwnProperty('compare');
+		let url;
 		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
 			if (seriesIndex) {
-				var url = dataInfo['compare'][pointIndex][2];
+				url = dataInfo['compare'][pointIndex][2];
 			} else if (compare) {
-				var url = dataInfo[0][pointIndex][2];
+				url = dataInfo[0][pointIndex][2];
 			} else {
-				var url = dataInfo[pointIndex][2];
+				url = dataInfo[pointIndex][2];
 			}
 			window.location.href = url;
 		});
