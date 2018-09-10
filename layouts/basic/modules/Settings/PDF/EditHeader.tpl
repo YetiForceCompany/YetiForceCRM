@@ -3,7 +3,6 @@
 	<div class="row widget_header">
 		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-			{\App\Language::translate('LBL_PDF_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
 	<div class="editContainer">
