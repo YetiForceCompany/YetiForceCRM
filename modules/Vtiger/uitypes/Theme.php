@@ -32,7 +32,7 @@ class Vtiger_Theme_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$allSkins = Vtiger_Theme::getAllSkins();
-		$skinColor = $allSkins[$value];
+		$skinColor = $allSkins[$value] ?? '';
 		$value = ucfirst($value);
 
 		return "<div style='width:99%; background-color:$skinColor;' title='$value'>&nbsp;</div>";
