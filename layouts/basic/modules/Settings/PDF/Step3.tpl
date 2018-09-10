@@ -9,17 +9,21 @@
 			<input type="hidden" name="record" value="{$RECORDID}"/>
 			<input type="hidden" name="conditions" id="advanced_filter" value=''/>
 
-			{include file=\App\Layout::getTemplatePath('AdvanceFilterExpressions.tpl')}
+			<div class="row">
+				<div class="col-12">
+					{include file=\App\Layout::getTemplatePath('AdvanceFilterExpressions.tpl')}
 
-			<div class="float-right mb-2">
-				<button class="btn btn-danger backStep mr-1" type="button">
-					<span class="fas fa-caret-left mr-1"></span>
-					{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}
-				</button>
-				<button class="btn btn-success mr-1" type="submit">
-					<span class="fas fa-caret-right mr-1"></span>
-					{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
-				</button>
+					<div class="float-right mb-2">
+						<button class="btn btn-danger backStep mr-1" type="button">
+							<span class="fas fa-caret-left mr-1"></span>
+							{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}
+						</button>
+						<button class="btn btn-success mr-1" type="submit">
+							<span class="fas fa-caret-right mr-1"></span>
+							{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
+						</button>
+					</div>
+				</div>
 			</div>
 		</form>
 	</div>
