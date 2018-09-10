@@ -3,6 +3,8 @@
 /**
  * SocialMedia class.
  *
+ * @package   App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
@@ -94,10 +96,10 @@ class SocialMedia
 		}
 		$arrUitype = [];
 		foreach ($socialMediaType as $val) {
-			if (!isset(static::ALLOWED_UITYPE[$val])) {
+			if (!\in_array($val, static::ALLOWED_UITYPE)) {
 				throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE');
 			}
-			$arrUitype[$val] = static::ALLOWED_UITYPE[$val];
+			$arrUitype[] = $val;
 		}
 		return $arrUitype;
 	}
@@ -133,6 +135,9 @@ class SocialMedia
 	 */
 	public static function getSocialMediaAccount($socialMediaType)
 	{
+		if (!$socialMediaType) {
+			return;
+		}
 		$query = static::getSocialMediaQuery($socialMediaType);
 		if ($query === false) {
 			return;

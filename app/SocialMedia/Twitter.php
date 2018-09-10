@@ -3,6 +3,8 @@
 /**
  * SocialMedia Twitter class.
  *
+ * @package   App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
@@ -81,6 +83,10 @@ class Twitter extends AbstractSocialMedia
 	 */
 	public function retrieveDataFromApi()
 	{
+		if (!\App\RequestUtil::isNetConnection()) {
+			$this->logErrorDb('No internet connection');
+			return;
+		}
 		$db = \App\Db::getInstance();
 		$maxId = (new \App\Db\Query())
 			->from('u_#__social_media_twitter')
