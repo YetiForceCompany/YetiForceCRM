@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	{include file='Header.tpl'}
-	<div class="w-100 bg-color-amber-50">
+	<div class="w-100 bg-light">
 		<div class="container px-2 px-sm-3">
 			<header class="d-flex flex-nowrap align-items-center">
 				<div class="logo">
