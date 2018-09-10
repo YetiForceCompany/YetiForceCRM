@@ -16,7 +16,9 @@
 			<div class="row">
 				<div class="col-12 mb-2">
 					<div class="card">
-						<div class="card-header">{\App\Language::translate('LBL_VARIABLES',$QUALIFIED_MODULE)}</div>
+						<div class="card-header">
+							<span class="fa fa-copy"></span> {\App\Language::translate('LBL_VARIABLES',$QUALIFIED_MODULE)}
+						</div>
 						<div class="card-body">
 							<div class="row js-variable-panel" data-js="container">
 								{include file='layouts/basic/modules/Vtiger/VariablePanel.tpl' SELECTED_MODULE=$SELECTED_MODULE PARSER_TYPE='pdf'}
@@ -28,7 +30,7 @@
 				<div class="col-xs-12 col-xl-6 col-xxl-4 mb-2">
 					<div class="card">
 						<div class="card-header">
-							{\App\Language::translate('LBL_ENTER_BASIC_DETAILS',$QUALIFIED_MODULE)}
+							<span class="fa fa-edit"></span> {\App\Language::translate('LBL_ENTER_BASIC_DETAILS',$QUALIFIED_MODULE)}
 						</div>
 						<div class="card-body">
 							<div class="form-group row">
@@ -185,7 +187,7 @@
 				<div class="col-xs-12 col-xl-6 col-xxl-4 mb-2 order-1 order-xl-2 order-xxl-1">
 					<div class="card">
 						<div class="card-header">
-							{\App\Language::translate('LBL_DOCUMENT_SETTINGS_DETAILS',$QUALIFIED_MODULE)}
+							<span class="fa fa-cogs"></span> {\App\Language::translate('LBL_DOCUMENT_SETTINGS_DETAILS',$QUALIFIED_MODULE)}
 						</div>
 						<div class="card-body">
 							<div class="form-group row">
@@ -342,7 +344,7 @@
 				<div class="col-xs-12 col-xl-6 col-xxl-4 mb-2  order-2 order-xl-1 order-xxl-2">
 					<div class="card">
 						<div class="card-header">
-							{\App\Language::translate('LBL_PERMISSIONS_DETAILS',$QUALIFIED_MODULE)}
+							<span class="fa fa-user-shield"></span> {\App\Language::translate('LBL_PERMISSIONS_DETAILS',$QUALIFIED_MODULE)}
 						</div>
 						<div class="card-body">
 							<div class="form-group row">
