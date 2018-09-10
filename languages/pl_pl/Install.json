@@ -105,6 +105,7 @@
     "LBL_VERSION": "Wersja"
   },
   "js": {
+    "JS_ALL": "Wszystkie",
     "LBL_PASS_TO_SHORT": "Has\u0142o jest zbyt kr\u00f3tkie - minimalna d\u0142ugo\u015b\u0107 to 8 znak\u00f3w",
     "LBL_PASS_TO_LONG": "Has\u0142o jest zbyt d\u0142ugie - maksymalna d\u0142ugo\u015b\u0107 to 32 znaki",
     "LBL_PASS_NO_NUM": "Has\u0142o musi zawiera\u0107 cyfry",

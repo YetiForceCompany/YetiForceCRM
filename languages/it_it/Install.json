@@ -101,6 +101,7 @@
     "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard"
   },
   "js": {
+    "JS_ALL": "All",
     "LBL_PASS_TO_SHORT": "Password is too short - the minimum length is 8 characters",
     "LBL_PASS_TO_LONG": "The password is too long - maximum length is 32 characters",
     "LBL_PASS_NO_NUM": "The password must contain numbers",
