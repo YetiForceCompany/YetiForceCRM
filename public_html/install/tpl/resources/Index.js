@@ -30,6 +30,14 @@ jQuery.Class('Install_Index_Js', {
 			jQuery('form[name="step1"]').submit();
 		});
 	},
+	registerEventForStep2: function () {
+		let modalContainer = $('.js-license-modal');
+		modalContainer.on('shown.bs.modal', function (e) {
+			app.registerDataTables(modalContainer.find('.js-data-table'), {
+				"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, app.vtranslate("JS_ALL")]]
+			});
+		});
+	},
 	registerEventForStep3: function () {
 		jQuery('#recheck').on('click', function () {
 			window.location.reload();
@@ -275,6 +283,7 @@ jQuery.Class('Install_Index_Js', {
 		});
 		jQuery('form').validationEngine(app.validationEngineOptions);
 		this.registerEventForStep1();
+		this.registerEventForStep2();
 		this.registerEventForStep3();
 		this.registerEventForStep4();
 		this.registerEventForStep5();

@@ -680,7 +680,7 @@ var App = {},
 			});
 			elementClockBtn.clockpicker(params);
 		},
-		registerDataTables: function (table) {
+		registerDataTables: function (table, options = {}) {
 			if ($.fn.dataTable == undefined) {
 				return false;
 			}
@@ -710,7 +710,7 @@ var App = {},
 					}
 				}
 			});
-			return table.DataTable();
+			return table.DataTable(options);
 		},
 		/**
 		 * Function to get the select2 element from the raw select element
