@@ -15,6 +15,12 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 * @var \Vtiger_Record_Model
 	 */
 	private $recordModel;
+	/**
+	 * Social media module configuration.
+	 *
+	 * @var string[]
+	 */
+	private $moduleConfig;
 
 	/**
 	 * Vtiger_SocialMedia_Model constructor.
@@ -25,6 +31,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	{
 		parent::__construct();
 		$this->recordModel = $recordModel;
+		$this->moduleConfig = \AppConfig::module($this->recordModel->getModuleName(), 'enable_social');
 	}
 
 	/**
@@ -37,6 +44,27 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	public static function getInstanceByRecordModel($recordModel)
 	{
 		return new self($recordModel);
+	}
+
+	/**
+	 * Checking whether social media are available for the record.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return bool
+	 */
+	public static function isEnableForRecord($recordModel)
+	{
+		if (!static::isEnableForModule($recordModel)) {
+			return false;
+		}
+		$allFieldModel = $recordModel->getModule()->getFieldsByUiType(313);
+		foreach ($allFieldModel as $twitterField) {
+			if (!empty($recordModel->get($twitterField->getColumnName()))) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -58,13 +86,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 		if (!in_array('twitter', $socialMediaConfig)) {
 			return false;
 		}
-		$allFieldModel = $recordModel->getModule()->getFieldsByUiType(313);
-		foreach ($allFieldModel as $twitterField) {
-			if (!empty($recordModel->get($twitterField->getColumnName()))) {
-				return true;
-			}
-		}
-		return false;
+		return true;
 	}
 
 	/**
@@ -88,13 +110,32 @@ class Vtiger_SocialMedia_Model extends \App\Base
 		}
 		$socialAccount = [];
 		$allFieldModel = $this->recordModel->getModule()->getFieldsByUiType($uitype);
-		foreach ($allFieldModel as $twitterField) {
-			$val = $this->recordModel->get($twitterField->getColumnName());
+		foreach ($allFieldModel as $socialField) {
+			$val = $this->recordModel->get($socialField->getColumnName());
 			if (!empty($val) && $this->recordModel->isViewable()) {
-				$socialAccount[] = $val;
+				$socialAccount[$socialField->getColumnName()] = $val;
 			}
 		}
 		return $socialAccount;
+	}
+
+	/**
+	 * Get all available social media columns name.
+	 *
+	 * @return string[]
+	 */
+	public function getAllColumnName()
+	{
+		$columnNames = [];
+		foreach (\App\SocialMedia\SocialMedia::ALLOWED_UITYPE as $key => $uitype) {
+			if (in_array($key, $this->moduleConfig)) {
+				$allFieldModel = $this->recordModel->getModule()->getFieldsByUiType($uitype);
+				foreach ($allFieldModel as $socialField) {
+					$columnNames[] = $socialField->getColumnName();
+				}
+			}
+		}
+		return $columnNames;
 	}
 
 	/**
@@ -109,7 +150,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	{
 		$twitterLogin = $this->getAllSocialMediaAccount('twitter');
 		$query = (new \App\Db\Query())->from('u_#__social_media_twitter');
-		if (empty($twitterLogin)) {
+		if (!empty($twitterLogin)) {
 			$query->where(['twitter_login' => $twitterLogin]);
 		}
 		$dataReader = $query->orderBy(['created' => SORT_DESC])
