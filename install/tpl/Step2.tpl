@@ -38,11 +38,11 @@
 							<p class="license">{$LICENSE}</p>
 						</div>
 					</div>
-					<div class="form-button-nav fixed-bottom button-container p-1 bg-color-amber-50">
+					<div class="form-button-nav fixed-bottom button-container p-1 bg-light">
 						<div class="text-center w-100">
 							<button type="button" class="btn btn-lg c-btn-block-sm-down btn-outline-info mb-1 mb-md-0 mr-md-1" data-toggle="modal" data-target="#license-modal">
 								<span class="fas fa-lg fas fa-bars mr-2"></span>
-								{App\Language::translate('LBL_LICENSE_LIST', 'Install')}
+								{App\Language::translate('LBL_EXTERNAL_LIBRARIES_LICENSES', 'Install')}
 							</button>
 							<a class="btn btn-lg c-btn-block-sm-down btn-danger mb-1 mb-md-0 mr-md-1" href="Install.php" role="button">
 								<span class="fas fa-lg fa-times-circle mr-2"></span>
@@ -64,7 +64,7 @@
 				<div class="modal-header">
 					<h5 class="modal-title" id="ModalLabel">
 						<span class="fas fa-sm fas fa-bars mr-1"></span>
-						{\App\Language::translate('LBL_LICENSE_LIST', 'Install')}
+						{\App\Language::translate('LBL_EXTERNAL_LIBRARIES_LICENSES', 'Install')}
 					</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>

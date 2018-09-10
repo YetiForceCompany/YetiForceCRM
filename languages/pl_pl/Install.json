@@ -71,7 +71,7 @@
     "LBL_PDO_SUPPORT": "Wsparcie dla PDO",
     "LBL_OPEN_SSL": "Wsparcie dla openssl",
     "LBL_LICENSE": "Licencja",
-    "LBL_LICENSE_LIST": "Lista licencji",
+    "LBL_EXTERNAL_LIBRARIES_LICENSES": "Licencje bibliotek zewn\u0119trznych",
     "LBL_CURL": "Wsparcie dla cURL",
     "LBL_INDUSTRY_OPTION": "Prosz\u0119 wybra\u0107 odpowiedni\u0105 ga\u0142\u0105\u017a gospodarki.",
     "LBL_BACK": "Cofnij",
