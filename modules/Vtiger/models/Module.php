@@ -29,7 +29,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getId()
 	{
-		return (int)$this->id;
+		return (int) $this->id;
 	}
 
 	public function getName()
