@@ -102,16 +102,17 @@ jQuery.Class("Settings_Vtiger_Tax_Js", {}, {
 	 * Function to add the Tax Details in the list after saving
 	 */
 	addTaxDetails: function (details) {
-		var container = jQuery('#TaxCalculationsContainer');
+		let container = jQuery('#TaxCalculationsContainer'),
+			taxTable;
 
 		//Based on tax type, we will add the tax details row
-		if (details.type == '0') {
-			var taxTable = jQuery('.inventoryTaxTable', container);
+		if (details.type === '0') {
+			taxTable = jQuery('.inventoryTaxTable', container);
 		} else {
-			var taxTable = jQuery('.shippingTaxTable', container);
+			taxTable = jQuery('.shippingTaxTable', container);
 		}
 
-		var trElementForTax =
+		let trElementForTax =
 			jQuery('<tr class="opacity" data-taxid="' + details.taxid + '" data-taxtype="' + details.type + '">\n\
 					<td style="border-left: none;" class="textAlignCenter ' + details.row_type + '"><label class="taxLabel">' + details.taxlabel + '</label></td>\n\
 					<td style="border-left: none;" class="textAlignCenter ' + details.row_type + '"><span class="taxPercentage">' + details.percentage + '%</span></td>\n\
