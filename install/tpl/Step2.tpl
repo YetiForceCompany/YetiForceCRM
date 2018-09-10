@@ -94,7 +94,7 @@
 												{$ITEM['name']}
 											</a>
 											{if !empty($ITEM['description'])}
-												({\App\Language::translate($ITEM['description'], 'Install')})
+												({\App\Language::translate($ITEM['description'], 'Settings')})
 											{/if}
 										</td>
 										<td class="text-center">
