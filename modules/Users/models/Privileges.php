@@ -392,6 +392,8 @@ class Users_Privileges_Model extends Users_Record_Model
 							case 3:
 								$relatedPermission = \App\Privilege::isPermitted($recordMetaData['setype'], 'DetailView', $id);
 								break;
+							default:
+								break;
 						}
 					}
 				}
@@ -429,6 +431,8 @@ class Users_Privileges_Model extends Users_Record_Model
 								break;
 							case 3:
 								$relatedPermission = \App\Privilege::isPermitted($recordMetaData['setype'], 'DetailView', $id);
+								break;
+							default:
 								break;
 						}
 					}

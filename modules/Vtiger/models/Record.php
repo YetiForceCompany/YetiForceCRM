@@ -248,9 +248,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getDetailViewUrl()
 	{
-		$module = $this->getModule();
-
-		return 'index.php?module=' . $this->getModuleName() . '&view=' . $module->getDetailViewName() . '&record=' . $this->getId();
+		return 'index.php?module=' . $this->getModuleName() . '&view=' . $this->getModule()->getDetailViewName() . '&record=' . $this->getId();
 	}
 
 	/**
@@ -260,9 +258,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getFullDetailViewUrl()
 	{
-		$module = $this->getModule();
-
-		return 'index.php?module=' . $this->getModuleName() . '&view=' . $module->getDetailViewName() . '&record=' . $this->getId() . '&mode=showDetailViewByMode&requestMode=full';
+		return 'index.php?module=' . $this->getModuleName() . '&view=' . $this->getModule()->getDetailViewName() . '&record=' . $this->getId() . '&mode=showDetailViewByMode&requestMode=full';
 	}
 
 	/**
@@ -272,9 +268,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getEditViewUrl()
 	{
-		$module = $this->getModule();
-
-		return 'index.php?module=' . $this->getModuleName() . '&view=' . $module->getEditViewName() . ($this->getId() ? '&record=' . $this->getId() : '');
+		return 'index.php?module=' . $this->getModuleName() . '&view=' . $this->getModule()->getEditViewName() . ($this->getId() ? '&record=' . $this->getId() : '');
 	}
 
 	/**
@@ -304,9 +298,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getDeleteUrl()
 	{
-		$module = $this->getModule();
-
-		return 'index.php?module=' . $this->getModuleName() . '&action=' . $module->getDeleteActionName() . '&record=' . $this->getId();
+		return 'index.php?module=' . $this->getModuleName() . '&action=' . $this->getModule()->getDeleteActionName() . '&record=' . $this->getId();
 	}
 
 	/**
@@ -862,9 +854,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getDuplicateRecordUrl()
 	{
-		$module = $this->getModule();
-
-		return 'index.php?module=' . $this->getModuleName() . '&view=' . $module->getEditViewName() . '&record=' . $this->getId() . '&isDuplicate=true';
+		return 'index.php?module=' . $this->getModuleName() . '&view=' . $this->getModule()->getEditViewName() . '&record=' . $this->getId() . '&isDuplicate=true';
 	}
 
 	/**
@@ -1015,9 +1005,9 @@ class Vtiger_Record_Model extends \App\Base
 
 	public function getListFieldsToGenerate($parentModuleName, $moduleName)
 	{
-		$module = CRMEntity::getInstance($parentModuleName);
+		$moduleInstance = CRMEntity::getInstance($parentModuleName);
 
-		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : [];
+		return $moduleInstance->fieldsToGenerate[$moduleName] ? $moduleInstance->fieldsToGenerate[$moduleName] : [];
 	}
 
 	/**
@@ -1057,10 +1047,10 @@ class Vtiger_Record_Model extends \App\Base
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$table = $inventory->getTableName('data');
 
-		$inventoryData = $this->getInventoryData();
+		$inventoryDataValue = $this->getInventoryData();
 		$db->createCommand()->delete($table, ['id' => $this->getId()])->execute();
-		if (is_array($inventoryData)) {
-			foreach ($inventoryData as $insertData) {
+		if (is_array($inventoryDataValue)) {
+			foreach ($inventoryDataValue as $insertData) {
 				$insertData['id'] = $this->getId();
 				$db->createCommand()->insert($table, $insertData)->execute();
 			}
@@ -1075,8 +1065,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getInventoryDefaultDataFields()
 	{
-		$inventoryData = $this->getInventoryData();
-		$lastItem = end($inventoryData);
+		$lastItem = end($this->getInventoryData());
 		$defaultData = [];
 		if (!empty($lastItem)) {
 			$items = ['discountparam', 'currencyparam', 'taxparam', 'taxmode', 'discountmode'];
@@ -1096,7 +1085,6 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
 		if (!isset($this->inventoryData)) {
-			$module = $this->getModuleName();
 			$record = $this->getId();
 			if (empty($record)) {
 				$record = $this->get('record_id');
@@ -1104,7 +1092,7 @@ class Vtiger_Record_Model extends \App\Base
 			if (empty($record)) {
 				return [];
 			}
-			$this->inventoryData = self::getInventoryDataById($record, $module);
+			$this->inventoryData = self::getInventoryDataById($record, $this->getModuleName());
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
 		return $this->inventoryData;
@@ -1138,7 +1126,7 @@ class Vtiger_Record_Model extends \App\Base
 		$inventory = Vtiger_InventoryField_Model::getInstance($this->getModuleName());
 		$fields = $inventory->getFields();
 		$summaryFields = $inventory->getSummaryFields();
-		$inventoryData = [];
+		$inventoryDataArray = [];
 		if (isset($this->inventoryRawData)) {
 			$request = $this->inventoryRawData;
 		} else {
@@ -1159,15 +1147,15 @@ class Vtiger_Record_Model extends \App\Base
 				foreach ($fields as $field) {
 					$field->getValueFromRequest($insertData, $request, $i);
 				}
-				$inventoryData[] = $insertData;
+				$inventoryDataArray[] = $insertData;
 			}
 			foreach ($summaryFields as $fieldName) {
 				if ($this->has('sum_' . $fieldName)) {
-					$value = $fields[$fieldName]->getSummaryValuesFromData($inventoryData);
+					$value = $fields[$fieldName]->getSummaryValuesFromData($inventoryDataArray);
 					$this->set('sum_' . $fieldName, $value);
 				}
 			}
-			$this->inventoryData = $inventoryData;
+			$this->inventoryData = $inventoryDataArray;
 			$this->inventoryDataExist = true;
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
@@ -1479,6 +1467,8 @@ class Vtiger_Record_Model extends \App\Base
 					break;
 				case 'Archived':
 					$stateId = 2;
+					break;
+				default:
 					break;
 			}
 			$dbCommand = $db->createCommand();

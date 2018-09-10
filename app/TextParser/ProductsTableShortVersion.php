@@ -98,6 +98,8 @@ class ProductsTableShortVersion extends Base
 									$html .= $field->getDisplayValue($itemValue);
 								}
 								break;
+							default:
+								break;
 						}
 						$html .= '</td>';
 					}

@@ -266,3 +266,10 @@ ul.ui-autocomplete {
 		margin-bottom: 0.5rem !important;
 	}
 }
+
+//-------- footable --------//
+.profilesEditView {
+	.footable-toggle {
+		@extend .float-left;
+	}
+}

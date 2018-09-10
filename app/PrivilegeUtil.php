@@ -267,6 +267,8 @@ class PrivilegeUtil
 			case 'RoleAndSubordinates':
 				$users = array_merge($users, static::getUsersByRoleAndSubordinate($id));
 				break;
+			default:
+				break;
 		}
 		$users = array_unique($users);
 		Cache::save('getUserByMember', $member, $users, Cache::LONG);
@@ -1409,6 +1411,8 @@ class PrivilegeUtil
 					foreach ($item as $roleId) {
 						$users[] = static::getUsersByRoleAndSubordinate($roleId);
 					}
+					break;
+				default:
 					break;
 			}
 		}

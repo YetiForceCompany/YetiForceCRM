@@ -204,6 +204,8 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 					$fieldValue = implode($views, ',');
 				}
 				break;
+			default:
+				break;
 		}
 		return $fieldValue;
 	}

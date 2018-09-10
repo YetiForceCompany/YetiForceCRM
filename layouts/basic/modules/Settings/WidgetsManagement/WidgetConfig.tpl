@@ -152,6 +152,36 @@
 									</div>
 								</div>
 							{/if}
+							{if $LINK_LABEL_KEY === 'Multifilter'}
+								<div class="row p-2">
+									<div class="col-md-8 controls">
+										<select class="widgetFilter form-control" name="customMultiFilter"
+												multiple="multiple">
+											{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAll()}
+											{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
+												{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
+													{if !(\App\Privilege::isPermitted({$GROUP_CUSTOM_VIEWS->module->name}))}
+														{continue}
+													{/if}
+													<option title="{\App\Language::translate($GROUP_CUSTOM_VIEWS->module->name)}"
+															data-module="{$GROUP_CUSTOM_VIEWS->module->name}"
+															value="{$GROUP_CUSTOM_VIEWS->get('cvid')}"
+															{if !empty($WIDGET_INFO['customMultiFilter']) && in_array($GROUP_CUSTOM_VIEWS->get('cvid'),$WIDGET_INFO['customMultiFilter'])}
+																selected="selected"
+															{/if}
+													>
+														{\App\Language::translate($GROUP_CUSTOM_VIEWS->module->name,$GROUP_CUSTOM_VIEWS->module->name)}
+														- {\App\Language::translate($GROUP_CUSTOM_VIEWS->get('viewname'), $GROUP_CUSTOM_VIEWS->module->name)}
+													</option>
+												{/foreach}
+											{/foreach}
+										</select>
+									</div>
+									<label class="col-md-4 form-control-plaintext">
+										{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
+									</label>
+								</div>
+							{/if}
 							{if in_array($LINK_LABEL_KEY, $WIDGETS_WITH_FILTER_DATE)}
 								<div class="form-group ">
 									<div class="col-sm-3 col-form-label">

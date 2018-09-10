@@ -4,8 +4,8 @@
  * Inventory Reference Field Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 {
@@ -28,16 +28,16 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($value)) {
 			return '';
 		}
-		$name = \App\Record::getLabel($value);
+		$label = \App\Record::getLabel($value);
 		$moduleName = \App\Record::getType($value);
 		if ($rawText || ($value && !\App\Privilege::isPermitted($moduleName, 'DetailView', $value))) {
-			return $name;
+			return $label;
 		}
-		$name = App\TextParser::textTruncate($name, \AppConfig::main('href_max_length'));
+		$label = App\TextParser::textTruncate($label, \AppConfig::main('href_max_length'));
 		if (\App\Record::getState($value) !== 'Active') {
-			$name = '<s>' . $name . '</s>';
+			$label = '<s>' . $label . '</s>';
 		}
-		return "<a class='modCT_$moduleName showReferenceTooltip' href='index.php?module=$moduleName&view=Detail&record=$value' title='" . App\Language::translateSingularModuleName($moduleName) . "'>$name</a>";
+		return "<a class='modCT_$moduleName showReferenceTooltip' href='index.php?module=$moduleName&view=Detail&record=$value' title='" . App\Language::translateSingularModuleName($moduleName) . "'>$label</a>";
 	}
 
 	/**
@@ -57,9 +57,9 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 
 	public function getReferenceModules()
 	{
-		$params = \App\Json::decode($this->get('params'));
+		$paramsDecoded = \App\Json::decode($this->get('params'));
 
-		return $params['modules'];
+		return $paramsDecoded['modules'];
 	}
 
 	public function getReferenceModule($record)

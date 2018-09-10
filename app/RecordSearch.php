@@ -70,8 +70,10 @@ class RecordSearch
 				return $this->getSearchLabelQuery();
 			case 'label':
 				return $this->getLabelQuery();
+			default:
+				return false;
+				break;
 		}
-		return false;
 	}
 
 	/**

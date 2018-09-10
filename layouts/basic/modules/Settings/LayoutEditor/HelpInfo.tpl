@@ -33,5 +33,4 @@
 				</div>
 			{/foreach}
 		</div>
-	</form>
 {/strip}

@@ -101,7 +101,7 @@ class VTWorkflowManager
 				'summary' => $wf->description,
 				'test' => $wf->test,
 				'execution_condition' => $wf->executionCondition,
-				'defaultworkflow' => $wf->defaultworkflow,
+				'defaultworkflow' => empty($wf->defaultworkflow) ? null : $wf->defaultworkflow,
 				'filtersavedinnew' => $wf->filtersavedinnew,
 				'schtypeid' => $wf->schtypeid,
 				'schtime' => $wf->schtime,
@@ -109,20 +109,21 @@ class VTWorkflowManager
 				'schdayofweek' => $wf->schdayofweek,
 				'schannualdates' => $wf->schannualdates,
 				'nexttrigger_time' => empty($wf->nexttrigger_time) ? null : $wf->nexttrigger_time,
-				], ['workflow_id' => $wf->id])->execute();
+			], ['workflow_id' => $wf->id])->execute();
 		} else {
 			$db = App\Db::getInstance();
 			$wf = $workflow;
 			if ($wf->filtersavedinnew === null) {
 				$wf->filtersavedinnew = 5;
 			}
+
 			$db->createCommand()->insert('com_vtiger_workflows', [
 				'module_name' => $wf->moduleName,
 				'summary' => $wf->description,
 				'test' => $wf->test,
 				'execution_condition' => $wf->executionCondition,
 				'type' => $wf->type,
-				'defaultworkflow' => $wf->defaultworkflow,
+				'defaultworkflow' => empty($wf->defaultworkflow) ? null : $wf->defaultworkflow,
 				'filtersavedinnew' => $wf->filtersavedinnew,
 				'schtypeid' => $wf->schtypeid,
 				'schtime' => $wf->schtime,

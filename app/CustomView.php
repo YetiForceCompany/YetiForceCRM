@@ -259,13 +259,7 @@ class CustomView
 	 */
 	public static function hasViewChanged($moduleName, $viewId = false)
 	{
-		if (empty($_SESSION['lvs'][$moduleName]['viewname'])) {
-			return true;
-		}
-		if (!Request::_isEmpty('viewname') && (Request::_get('viewname') !== $_SESSION['lvs'][$moduleName]['viewname'])) {
-			return true;
-		}
-		if ($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) {
+		if (empty($_SESSION['lvs'][$moduleName]['viewname']) || ($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) || (!Request::_isEmpty('viewname') && (Request::_get('viewname') !== $_SESSION['lvs'][$moduleName]['viewname']))) {
 			return true;
 		}
 		return false;
@@ -275,25 +269,27 @@ class CustomView
 	 * Static Function to get the Instance of CustomView.
 	 *
 	 * @param string $moduleName
-	 * @param mixed  $user
+	 * @param mixed  $userModelOrId
 	 *
 	 * @return \self
 	 */
-	public static function getInstance($moduleName, $user = false)
+	public static function getInstance($moduleName, $userModelOrId = false)
 	{
-		if (!$user) {
-			$user = User::getCurrentUserId();
+		if (!$userModelOrId) {
+			$userModelOrId = User::getCurrentUserId();
 		}
-		if (is_numeric($user)) {
-			$user = User::getUserModel($user);
+		if (is_numeric($userModelOrId)) {
+			$userModel = User::getUserModel($userModelOrId);
+		} else {
+			$userModel = $userModelOrId;
 		}
-		$cacheName = $moduleName . '.' . $user->getId();
+		$cacheName = $moduleName . '.' . $userModel->getId();
 		if (\App\Cache::staticHas('AppCustomView', $cacheName)) {
 			return \App\Cache::staticGet('AppCustomView', $cacheName);
 		}
 		$instance = new self();
 		$instance->moduleName = $moduleName;
-		$instance->user = $user;
+		$instance->user = $userModel;
 		\App\Cache::staticGet('AppCustomView', $cacheName, $instance);
 
 		return $instance;
@@ -663,11 +659,11 @@ class CustomView
 		}
 		$query = (new Db\Query())->select('userid, default_cvid')->from('vtiger_user_module_preferences')->where(['tabid' => Module::getModuleId($this->moduleName)]);
 		$data = $query->createCommand()->queryAllByGroup();
-		$user = 'Users:' . $this->user->getId();
-		if (isset($data[$user])) {
-			Cache::save('GetDefaultCvId', $cacheName, $data[$user]);
+		$userId = 'Users:' . $this->user->getId();
+		if (isset($data[$userId])) {
+			Cache::save('GetDefaultCvId', $cacheName, $data[$userId]);
 
-			return $data[$user];
+			return $data[$userId];
 		}
 		foreach ($this->user->getGroups() as $groupId) {
 			$group = 'Groups:' . $groupId;

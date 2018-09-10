@@ -199,6 +199,8 @@ class ModTracker_ModTrackerHandler_Handler
 				case 'Archived':
 					$status = ModTracker::$ARCHIVED;
 					break;
+				default:
+					break;
 			}
 		}
 		$db = \App\Db::getInstance();

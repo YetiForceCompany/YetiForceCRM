@@ -7,6 +7,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 {
@@ -45,7 +46,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('SOURCE_MODULE', $selectedModuleName);
 		switch ($step) {
 			case 'step8':
-				$viewer->assign('WATERMARK_TEXT', Vtiger_Mpdf_Pdf::WATERMARK_TYPE_TEXT);
+				$viewer->assign('WATERMARK_TEXT', \App\Pdf\Tcpdf::WATERMARK_TYPE_TEXT);
 				$viewer->view('Step8.tpl', $qualifiedModuleName);
 				break;
 			case 'step7':

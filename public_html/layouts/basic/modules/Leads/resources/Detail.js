@@ -249,7 +249,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 			var organizationElement = accountModel.length;
 			if (organizationElement != '0') {
 				if (jQuery.inArray('Accounts', moduleArray) == -1) {
-					alert(app.vtranslate('JS_SELECT_ORGANIZATION'));
+					app.showAlert(app.vtranslate('JS_SELECT_ORGANIZATION'));
 					e.preventDefault();
 				}
 			}

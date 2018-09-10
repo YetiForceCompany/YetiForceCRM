@@ -64,6 +64,8 @@ class ProductsTable extends Base
 					case 'DetailViewDiscountMode.tpl':
 						$html .= \App\Language::translate($field->getDisplayValue($inventoryRows[0][$field->get('columnname')]), $this->textParser->moduleName);
 						break;
+					default:
+						break;
 				}
 				$html .= '</th>';
 			}
@@ -102,6 +104,8 @@ class ProductsTable extends Base
 								break;
 							case 'DetailViewBase.tpl':
 								$html .= $field->getDisplayValue($itemValue);
+								break;
+							default:
 								break;
 						}
 						$html .= '</td>';

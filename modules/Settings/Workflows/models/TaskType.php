@@ -133,8 +133,12 @@ class Settings_Workflows_TaskType_Model extends \App\Base
 	{
 		$taskTypeName = $this->get('tasktypename');
 		switch ($taskTypeName) {
-			case 'VTCreateTodoTask': return Vtiger_Module_Model::getInstance('Calendar');
-			case 'VTCreateEventTask': return Vtiger_Module_Model::getInstance('Events');
+			case 'VTCreateTodoTask':
+				return Vtiger_Module_Model::getInstance('Calendar');
+			case 'VTCreateEventTask':
+				return Vtiger_Module_Model::getInstance('Events');
+			default:
+				break;
 		}
 	}
 }

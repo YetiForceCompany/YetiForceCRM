@@ -533,9 +533,9 @@ class Functions
 			if (is_object($message)) {
 				throw new $message();
 			} elseif (is_array($message)) {
-				throw new \Exception($message['message']);
+				throw new \App\Exceptions\AppException($message['message']);
 			} else {
-				throw new \Exception($message);
+				throw new \App\Exceptions\AppException($message);
 			}
 		}
 	}
@@ -635,6 +635,8 @@ class Functions
 				case 'kb':
 					$bytes *= 1024;
 					break;
+				default:
+					break;
 			}
 		}
 		return (float) $bytes;
@@ -681,6 +683,8 @@ class Functions
 				break;
 			case 'css':
 				$return = \AppConfig::developer('MINIMIZE_CSS');
+				break;
+			default:
 				break;
 		}
 		return $return;

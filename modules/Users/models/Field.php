@@ -64,8 +64,10 @@ class Users_Field_Model extends Vtiger_Field_Model
 		switch ($this->get('uitype')) {
 			case 101:
 				return 'userReference';
+			default:
+				return parent::getFieldDataType();
+				break;
 		}
-		return parent::getFieldDataType();
 	}
 
 	/**

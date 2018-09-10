@@ -112,6 +112,8 @@ class GoogleGeocode extends Base
 				case 'country':
 					$address['addresslevel1'] = $row['long_name'];
 					break;
+				default:
+					break;
 			}
 		}
 		return $address;

@@ -527,6 +527,26 @@ CREATE TABLE `l_yf_batchmethod` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `l_yf_mail` */
+
+CREATE TABLE `l_yf_mail` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `date` datetime NOT NULL,
+  `error_code` int(10) unsigned NOT NULL,
+  `smtp_id` int(10) unsigned NOT NULL DEFAULT 1,
+  `owner` int(10) NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `from` text DEFAULT NULL,
+  `subject` text DEFAULT NULL,
+  `to` text DEFAULT NULL,
+  `content` text DEFAULT NULL,
+  `cc` text DEFAULT NULL,
+  `bcc` text DEFAULT NULL,
+  `attachments` text DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `smtp_id` (`smtp_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `l_yf_profile` */
 
 CREATE TABLE `l_yf_profile` (
@@ -1282,7 +1302,9 @@ CREATE TABLE `u_yf_competition` (
   `sum_time` decimal(10,2) DEFAULT 0.00,
   `email` varchar(100) DEFAULT '',
   `active` tinyint(1) DEFAULT 0,
+  `parent_id` int(11) unsigned DEFAULT 0,
   PRIMARY KEY (`competitionid`),
+  KEY `u_yf_competition_parent_id_idx` (`parent_id`),
   CONSTRAINT `fk_1_u_yf_competition` FOREIGN KEY (`competitionid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5450,7 +5472,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2769 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2770 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6616,7 +6638,7 @@ CREATE TABLE `vtiger_modentity_num` (
   `postfix` varchar(50) NOT NULL DEFAULT '',
   `start_id` int(10) unsigned NOT NULL,
   `cur_id` int(10) unsigned NOT NULL,
-  `reset_sequence` char(1),
+  `reset_sequence` char(1) DEFAULT NULL,
   `cur_sequence` varchar(10) DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `semodule` (`cur_id`),
@@ -7009,8 +7031,8 @@ CREATE TABLE `vtiger_ossmailview` (
   `ossmailview_sendtype` varchar(30) DEFAULT NULL,
   `attachments_exist` smallint(1) DEFAULT 0,
   `type` tinyint(1) DEFAULT NULL,
-  `from_id` varchar(50) NOT NULL,
-  `to_id` varchar(100) NOT NULL,
+  `from_id` text NOT NULL,
+  `to_id` text NOT NULL,
   `orginal_mail` text DEFAULT NULL,
   `verify` smallint(1) DEFAULT 0,
   `rel_mod` varchar(128) DEFAULT NULL,
@@ -7999,7 +8021,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=576 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=577 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 

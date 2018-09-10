@@ -450,25 +450,26 @@ $.Class("Vtiger_DashBoard_Js", {
 		};
 		const sourceModule = $('[name="selectedModuleName"]').val();
 		thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).done(function (data) {
-			var result = data['result'];
-			var params = {};
+			let result = data['result'],
+				params = {};
 			if (data['success']) {
 				app.hideModalWindow();
 				paramsForm['id'] = result['id'];
 				paramsForm['status'] = result['status'];
 				params['text'] = result['text'];
 				params['type'] = 'success';
-				var linkElement = element.clone();
+				let linkElement = element.clone();
 				linkElement.data('name', 'ChartFilter');
 				linkElement.data('id', result['wid']);
 				Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=ChartFilter&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0');
 				Vtiger_Helper_Js.showMessage(params);
 			} else {
-				var message = data['error']['message'];
+				let message = data['error']['message'],
+					errorField;
 				if (data['error']['code'] != 513) {
-					var errorField = form.find('[name="fieldName"]');
+					errorField = form.find('[name="fieldName"]');
 				} else {
-					var errorField = form.find('[name="fieldLabel"]');
+					errorField = form.find('[name="fieldLabel"]');
 				}
 				errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 			}
@@ -577,43 +578,44 @@ $.Class("Vtiger_DashBoard_Js", {
 		});
 	},
 	saveMiniListWidget: function (data, element, moduleNameLabel, filterid, filterLabel, form) {
-		var thisInstance = this;
-		var paramsForm = {
-			data: JSON.stringify(data),
-			blockid: element.data('block-id'),
-			linkid: element.data('linkid'),
-			label: moduleNameLabel + ' - ' + filterLabel,
-			title: form.find('[name="widgetTitle"]').val(),
-			name: 'Mini List',
-			filterid: filterid,
-			isdefault: 0,
-			height: 4,
-			width: 4,
-			owners_all: ["mine", "all", "users", "groups"],
-			default_owner: 'mine',
-			dashboardId: thisInstance.getCurrentDashboard()
-		};
-		var sourceModule = $('[name="selectedModuleName"]').val();
+		const thisInstance = this,
+			paramsForm = {
+				data: JSON.stringify(data),
+				blockid: element.data('block-id'),
+				linkid: element.data('linkid'),
+				label: moduleNameLabel + ' - ' + filterLabel,
+				title: form.find('[name="widgetTitle"]').val(),
+				name: 'Mini List',
+				filterid: filterid,
+				isdefault: 0,
+				height: 4,
+				width: 4,
+				owners_all: ["mine", "all", "users", "groups"],
+				default_owner: 'mine',
+				dashboardId: thisInstance.getCurrentDashboard()
+			},
+			sourceModule = $('[name="selectedModuleName"]').val();
 		thisInstance.saveWidget(paramsForm, 'add', sourceModule, paramsForm.linkid).done(function (data) {
-			var result = data['result'];
-			var params = {};
+			let result = data['result'],
+				params = {};
 			if (data['success']) {
 				app.hideModalWindow();
 				paramsForm['id'] = result['id'];
 				paramsForm['status'] = result['status'];
 				params['text'] = result['text'];
 				params['type'] = 'success';
-				var linkElement = element.clone();
+				let linkElement = element.clone();
 				linkElement.data('name', 'MiniList');
 				linkElement.data('id', result['wid']);
 				Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=MiniList&linkid=' + element.data('linkid') + '&widgetid=' + result['wid'] + '&active=0');
 				Vtiger_Helper_Js.showMessage(params);
 			} else {
-				var message = data['error']['message'];
+				let message = data['error']['message'],
+					errorField;
 				if (data['error']['code'] != 513) {
-					var errorField = form.find('[name="fieldName"]');
+					errorField = form.find('[name="fieldName"]');
 				} else {
-					var errorField = form.find('[name="fieldLabel"]');
+					errorField = form.find('[name="fieldLabel"]');
 				}
 				errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 			}

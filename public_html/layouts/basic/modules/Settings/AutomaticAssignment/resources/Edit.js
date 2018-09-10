@@ -60,24 +60,25 @@ jQuery.Class('Settings_AutomaticAssignment_Edit_Js', {}, {
 		});
 
 		container.find('.saveValue').on('click', function (e) {
-			var button = jQuery(e.currentTarget);
-			var fieldContainer = button.closest('.fieldContainer');
-			var baseFieldName = fieldContainer.data('dbname');
+			let button = jQuery(e.currentTarget),
+				fieldContainer = button.closest('.fieldContainer'),
+				baseFieldName = fieldContainer.data('dbname'),
+				value = '';
 			if (baseFieldName === 'conditions') {
-				var advfilterlist = thisInstance.advanceFilterInstance.getValues();
-				var value = JSON.stringify(advfilterlist);
+				let advfilterlist = thisInstance.advanceFilterInstance.getValues();
+				value = JSON.stringify(advfilterlist);
 			} else {
-				var fieldName = fieldContainer.data('name');
-				var fieldElement = fieldContainer.find('[name="' + fieldName + '"]');
+				let fieldName = fieldContainer.data('name'),
+					fieldElement = fieldContainer.find('[name="' + fieldName + '"]');
 				if (fieldElement.validationEngine('validate')) {
 					return false;
 				}
-				var value = fieldElement.val();
+				value = fieldElement.val();
 			}
 
-			var params = [];
+			let params = [];
 			params[baseFieldName] = value;
-			app.saveAjax('save', jQuery.extend({}, params), {'record': app.getMainParams('record')}).done(function (respons) {
+			app.saveAjax('save', jQuery.extend({}, params), {'record': app.getMainParams('record')}).done(function () {
 				thisInstance.refreshTab();
 			});
 		});

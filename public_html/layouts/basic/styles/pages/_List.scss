@@ -77,9 +77,116 @@
 		display: block !important;
 	}
 }
-
 //USERS
 .c-list__user-img {
 	width: auto;
 	height: calculate-rem(40px);
+}
+
+.table-bordered {
+	border-radius: 1px;
+}
+
+.table th {
+	background-color: #f5f5f5;
+	background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: -ms-linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
+	background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
+}
+
+.equalSplit td {
+	&:nth-child(odd) {
+		width: 20%;
+	}
+
+	&:nth-child(even) {
+		width: 30%;
+	}
+}
+
+td.fieldValue {
+	input, .input-group {
+		margin-bottom: 0;
+	}
+}
+
+.listViewHeaders a {
+	color: #444;
+}
+
+.listViewEntriesDiv {
+	position: relative;
+	.listViewHeaders th {
+		background-color: #f5f5f5;
+		background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
+		background-image: -ms-linear-gradient(top, #f6f6f6, #f3f3f4);
+		background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
+		background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
+		background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
+		background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
+		border-color: #f3f3f4 #f3f3f4 #cbcbcf;
+		border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+		border-bottom: 1px solid #ddd;
+		border-top: 1px solid #ddd !important;
+	}
+
+	td {
+		overflow: visible;
+		position: relative;
+	}
+}
+
+.listViewEntriesTable {
+	.listViewHeaders a.listViewHeaderValues {
+		color: #444;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	.listViewEntries td > a {
+		color: inherit !important;
+	}
+}
+
+.activityEntries .summaryViewEntries a {
+	color: inherit !important;
+}
+
+.listViewEntriesTable {
+	.listViewEntries {
+		.unreviewed .badge {
+			margin-left: 4px;
+		}
+	}
+
+	td.listViewEntryValue {
+		vertical-align: middle;
+		cursor: pointer;
+		overflow: visible;
+		padding: 5px;
+	}
+}
+
+.listViewEntries td {
+	vertical-align: middle;
+	cursor: pointer;
+	overflow: visible;
+	padding: 5px;
+}
+
+.listViewEntriesTable td.listViewEntryValue:hover .actionImages, .listViewEntries td:hover .actionImages, .listViewEntriesTable td.listViewEntryValue:hover .actions, .listViewEntries td:hover .actions {
+	opacity: 1;
+
+	/*for IE*/
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
 }

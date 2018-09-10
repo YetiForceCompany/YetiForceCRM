@@ -99,7 +99,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 
 			if (!empty($checkSelectDate)) {
 				$trigger = [
-					'days' => ($request->get('select_date_direction') == 'after' ? 1 : -1) * (int)$request->get('select_date_days'),
+					'days' => ($request->get('select_date_direction') == 'after' ? 1 : -1) * (int) $request->get('select_date_days'),
 					'field' => $request->get('select_date_field'),
 				];
 				$taskObject->trigger = $trigger;

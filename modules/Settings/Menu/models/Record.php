@@ -4,7 +4,7 @@
  * Settings menu record model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -112,9 +112,13 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				$sqlCol .= $key . ',';
 				switch ($key) {
-					case 'role': $role = $item = filter_var($item, FILTER_SANITIZE_NUMBER_INT);
+					case 'role':
+						$role = $item = filter_var($item, FILTER_SANITIZE_NUMBER_INT);
 						break;
-					case 'type': $item = $settingsModel->getMenuTypeKey($item);
+					case 'type':
+						$item = $settingsModel->getMenuTypeKey($item);
+						break;
+					default:
 						break;
 				}
 				$params[] = $item;

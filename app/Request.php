@@ -362,21 +362,21 @@ class Request
 		if (isset($this->headers)) {
 			return $this->headers;
 		}
-		$headers = [];
+		$data = [];
 		if (!function_exists('apache_request_headers')) {
 			foreach ($_SERVER as $key => $value) {
 				if (substr($key, 0, 5) === 'HTTP_') {
 					$key = str_replace(' ', '-', strtoupper(str_replace('_', ' ', substr($key, 5))));
 				}
-				$headers[$key] = Purifier::purify($value);
+				$data[$key] = Purifier::purify($value);
 			}
 		} else {
-			$headers = array_change_key_case(apache_request_headers(), CASE_UPPER);
-			foreach ($headers as &$value) {
+			$data = array_change_key_case(apache_request_headers(), CASE_UPPER);
+			foreach ($data as &$value) {
 				$value = Purifier::purify($value);
 			}
 		}
-		return $this->headers = $headers;
+		return $this->headers = $data;
 	}
 
 	/**

@@ -4,8 +4,8 @@
  * Calendar Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author YetiForce.com
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    YetiForce.com
  */
 class Calendar_Calendar_Model extends App\Base
 {
@@ -84,6 +84,8 @@ class Calendar_Calendar_Model extends App\Base
 				break;
 			case 'history':
 				$query->andWhere(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('history')]);
+				break;
+			default:
 				break;
 		}
 		$activityStatus = $this->get('activitystatus');

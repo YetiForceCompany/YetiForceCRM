@@ -53,10 +53,8 @@ class AddressFinder
 		}
 		$dir = new \DirectoryIterator(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/AddressFinder');
 		foreach ($dir as $fileinfo) {
-			if ($fileinfo->getExtension() === 'php' && ($fileName = $fileinfo->getBasename('.php')) !== 'Base') {
-				if (static::getInstance($fileName)->isActive()) {
-					static::$providersCache[] = $fileName;
-				}
+			if ($fileinfo->getExtension() === 'php' && ($fileName = $fileinfo->getBasename('.php')) !== 'Base' && static::getInstance($fileName)->isActive()) {
+				static::$providersCache[] = $fileName;
 			}
 		}
 		return static::$providersCache;

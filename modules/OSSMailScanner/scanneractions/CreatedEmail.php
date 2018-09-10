@@ -65,14 +65,14 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				)->execute();
 
 				return ['mailViewId' => $id, 'attachments' => $attachments];
-			} else {
-				App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', [
-					'id' => $mail->get('id'),
-				], ['ossmailviewid' => $mailId]
-				)->execute();
-
-				return ['mailViewId' => $mailId];
 			}
+		} else {
+			App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', [
+				'id' => $mail->get('id'),
+			], ['ossmailviewid' => $mail->getMailCrmId()]
+			)->execute();
+
+			return ['mailViewId' => $mail->getMailCrmId()];
 		}
 		return false;
 	}
@@ -159,6 +159,10 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 		}
 		$mail->set('files', $files);
 		$mail->set('attachments', $attachments);
-		return \App\Purifier::purifyHtml(str_replace('<?xml encoding="utf-8"?>', '', $doc->saveHTML()));
+		$previousValue = libxml_use_internal_errors(true);
+		$html = $doc->saveHTML();
+		libxml_clear_errors();
+		libxml_use_internal_errors($previousValue);
+		return \App\Purifier::purifyHtml(str_replace('<?xml encoding="utf-8"?>', '', $html));
 	}
 }
