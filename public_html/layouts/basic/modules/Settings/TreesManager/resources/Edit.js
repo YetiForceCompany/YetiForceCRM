@@ -192,28 +192,30 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 				$(this).jstree("open_all");
 			});
 			form.on('submit', function (e) {
-				var selected = jstreeInstanceReplace.jstree("get_selected");
-				var replaceIds = $('#replaceIds').val();
-				if (replaceIds == '') {
-					var data = [];
+				let selected = jstreeInstanceReplace.jstree("get_selected"),
+					replaceIdsElement = $('#replaceIds'),
+					replaceIds = replaceIdsElement.val(),
+					data;
+				if (replaceIds === '') {
+					data = [];
 				} else {
-					var data = JSON.parse(replaceIds);
+					data = JSON.parse(replaceIds);
 				}
 				if (!selected.length) {
-					var params = {};
-					params['type'] = 'error';
-					params['text'] = app.vtranslate('JS_NO_ITEM_SELECTED');
-					Settings_Vtiger_Index_Js.showMessage(params);
+					Settings_Vtiger_Index_Js.showMessage({
+						type: 'error',
+						text: app.vtranslate('JS_NO_ITEM_SELECTED')
+					});
 					return false;
 				} else if (selected.length > 1) {
-					var params = {};
-					params['type'] = 'error';
-					params['text'] = app.vtranslate('JS_ONLY_ONE_ITEM_SELECTED');
-					Settings_Vtiger_Index_Js.showMessage(params);
+					Settings_Vtiger_Index_Js.showMessage({
+						type: 'error',
+						text: app.vtranslate('JS_ONLY_ONE_ITEM_SELECTED')
+					});
 					return false;
 				}
 				data = $.merge(data, [{'old': id, 'new': selected}]);
-				$('#replaceIds').val(JSON.stringify(data));
+				replaceIdsElement.val(JSON.stringify(data));
 				app.hideModalWindow();
 				aDeferred.resolve(selected);
 			});
