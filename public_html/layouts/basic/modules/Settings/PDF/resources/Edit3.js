@@ -40,6 +40,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 	},
 	submit() {
 		var aDeferred = jQuery.Deferred();
+		this.calculateValues();
 		var form = this.getContainer();
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
