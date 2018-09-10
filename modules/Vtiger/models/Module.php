@@ -29,7 +29,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getId()
 	{
-		return (int) $this->id;
+		return (int)$this->id;
 	}
 
 	public function getName()
@@ -870,15 +870,17 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$menu = Vtiger_Menu_Model::getAll(true);
 			$quickCreateModulesTree = [];
 			foreach ($menu as $parent) {
-				$items = [];
-				foreach ($parent['childs'] as $child) {
-					if (isset($quickCreateModules[$child['tabid']])) {
-						$items[$quickCreateModules[$child['tabid']]->name] = $quickCreateModules[$child['tabid']];
-						unset($quickCreateModules[$child['tabid']]);
+				if (!empty($parent['childs'])) {
+					$items = [];
+					foreach ($parent['childs'] as $child) {
+						if (isset($quickCreateModules[$child['tabid']])) {
+							$items[$quickCreateModules[$child['tabid']]->name] = $quickCreateModules[$child['tabid']];
+							unset($quickCreateModules[$child['tabid']]);
+						}
 					}
-				}
-				if (!empty($items)) {
-					$quickCreateModulesTree[] = ['name' => $parent['name'], 'icon' => $parent['icon'], 'modules' => $items];
+					if (!empty($items)) {
+						$quickCreateModulesTree[] = ['name' => $parent['name'], 'icon' => $parent['icon'], 'modules' => $items];
+					}
 				}
 			}
 			if (!empty($quickCreateModules)) {
