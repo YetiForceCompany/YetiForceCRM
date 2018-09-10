@@ -7,6 +7,7 @@
 			<input type="hidden" name="parent" value="Settings"/>
 			<input type="hidden" class="step" value="3"/>
 			<input type="hidden" name="record" value="{$RECORDID}"/>
+			<input type="hidden" name="conditions" id="advanced_filter" value=''/>
 
 			{include file=\App\Layout::getTemplatePath('AdvanceFilterExpressions.tpl')}
 
