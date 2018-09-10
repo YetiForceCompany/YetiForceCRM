@@ -195,7 +195,7 @@ class PackageImport extends PackageExport
 				return false;
 			}
 		}
-		return (bool)$this->_modulexml->modulebundle;
+		return (bool) $this->_modulexml->modulebundle;
 	}
 
 	/**
@@ -203,9 +203,9 @@ class PackageImport extends PackageExport
 	 */
 	public function getAvailableModuleInfoFromModuleBundle()
 	{
-		$list = (array)$this->_modulexml->modulelist;
+		$list = (array) $this->_modulexml->modulelist;
 
-		return (array)$list['dependent_module'];
+		return (array) $list['dependent_module'];
 	}
 
 	/**
@@ -262,8 +262,8 @@ class PackageImport extends PackageExport
 			$matches = [];
 			if ($fileName === 'manifest.xml') {
 				$manifestxml_found = true;
-				$modulename = (string)$this->_modulexml->name;
-				$isModuleBundle = (string)$this->_modulexml->modulebundle;
+				$modulename = (string) $this->_modulexml->name;
+				$isModuleBundle = (string) $this->_modulexml->modulebundle;
 				if ($isModuleBundle === 'true' && (!empty($this->_modulexml)) &&
 					(!empty($this->_modulexml->dependencies)) &&
 					(!empty($this->_modulexml->dependencies->vtiger_version))) {
@@ -666,18 +666,18 @@ class PackageImport extends PackageExport
 		$blockInstance = new Block();
 		$blockInstance->label = $blocklabel;
 		if (isset($blocknode->sequence, $blocknode->display_status)) {
-			$blockInstance->sequence = (string)($blocknode->sequence);
+			$blockInstance->sequence = (string) ($blocknode->sequence);
 			if ($blockInstance->sequence = '') {
 				$blockInstance->sequence = null;
 			}
-			$blockInstance->showtitle = (string)($blocknode->show_title);
-			$blockInstance->visible = (string)($blocknode->visible);
-			$blockInstance->increateview = (string)($blocknode->create_view);
-			$blockInstance->ineditview = (string)($blocknode->edit_view);
-			$blockInstance->indetailview = (string)($blocknode->detail_view);
-			$blockInstance->display_status = (string)($blocknode->display_status);
-			$blockInstance->iscustom = (string)($blocknode->iscustom);
-			$blockInstance->islist = (string)($blocknode->islist);
+			$blockInstance->showtitle = (string) ($blocknode->show_title);
+			$blockInstance->visible = (string) ($blocknode->visible);
+			$blockInstance->increateview = (string) ($blocknode->create_view);
+			$blockInstance->ineditview = (string) ($blocknode->edit_view);
+			$blockInstance->indetailview = (string) ($blocknode->detail_view);
+			$blockInstance->display_status = (string) ($blocknode->display_status);
+			$blockInstance->iscustom = (string) ($blocknode->iscustom);
+			$blockInstance->islist = (string) ($blocknode->islist);
 		} else {
 			$blockInstance->display_status = null;
 		}
@@ -736,7 +736,7 @@ class PackageImport extends PackageExport
 		}
 
 		if (isset($fieldnode->columntype) && !empty($fieldnode->columntype)) {
-			$fieldInstance->columntype = (string)($fieldnode->columntype);
+			$fieldInstance->columntype = (string) ($fieldnode->columntype);
 		}
 
 		if (!empty($fieldnode->tree_template)) {
@@ -948,7 +948,7 @@ class PackageImport extends PackageExport
 				$handlerInfo = [];
 				$handlerInfo = ['path' => "$customlinknode->handler_path",
 					'class' => "$customlinknode->handler_class",
-					'method' => "$customlinknode->handler",];
+					'method' => "$customlinknode->handler", ];
 			}
 			$moduleInstance->addLink(
 				"$customlinknode->linktype", "$customlinknode->linklabel", "$customlinknode->linkurl", "$customlinknode->linkicon", "$customlinknode->sequence", $handlerInfo
