@@ -389,8 +389,8 @@ class ConfReport
 			'env' => [
 				'phpVersion' => PHP_VERSION,
 				'sapi' => PHP_SAPI,
-				'phpIni' => php_ini_loaded_file(),
-				'phpIniAll' => php_ini_scanned_files(),
+				'phpIni' => php_ini_loaded_file() ?: '-',
+				'phpIniAll' => php_ini_scanned_files() ?: '-',
 				'locale' => $locale,
 				'https' => \App\RequestUtil::getBrowserInfo()->https,
 				'public_html' => IS_PUBLIC_DIR ? 'On' : 'Off',
