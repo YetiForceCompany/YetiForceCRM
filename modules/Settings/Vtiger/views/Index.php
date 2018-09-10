@@ -254,9 +254,9 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 				'modules.Settings.Vtiger.resources.Index',
 				'modules.Vtiger.resources.List',
 				'modules.Settings.Vtiger.resources.List',
+				"modules.Settings.$moduleName.resources.Index",
 				"modules.Settings.$moduleName.resources.$type",
 				"modules.Settings.$moduleName.resources.$moduleName",
-				"modules.Settings.$moduleName.resources.Index"
 			])
 		);
 	}

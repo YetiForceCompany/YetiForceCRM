@@ -294,11 +294,17 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			if (!empty($data['default_owner']) && !empty($data['owners_all'])) {
 				$insert['owners'] = \App\Json::encode(['default' => $data['default_owner'], 'available' => $data['owners_all']]);
 			}
-			if ($data['type'] == 'DW_SUMMATION_BY_MONTHS') {
+			if ($data['type'] === 'DW_SUMMATION_BY_MONTHS') {
 				$insert['data'] = \App\Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
 			}
-			if ($data['type'] == 'DW_SUMMATION_BY_USER') {
+			if ($data['type'] === 'DW_SUMMATION_BY_USER') {
 				$insert['data'] = \App\Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
+			}
+			if ($data['type'] === 'Multifilter') {
+				if (!is_array($data['customMultiFilter'])) {
+					$data['customMultiFilter'] = [$data['customMultiFilter'] ?? ''];
+				}
+				$insert['data'] = \App\Json::encode(['customMultiFilter' => $data['customMultiFilter']]);
 			}
 			$db->createCommand()->update('vtiger_module_dashboard', $insert, ['id' => $data['id']])
 				->execute();

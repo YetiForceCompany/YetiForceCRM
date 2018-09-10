@@ -45,6 +45,8 @@ class PBXManager_PBXManager_Controller
 				}
 				$this->processHangupCall($request);
 				break;
+			default:
+				break;
 		}
 	}
 

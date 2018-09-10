@@ -41,7 +41,7 @@ class PBXManager_OutgoingCall_Action extends \App\Controller\Action
 				$result = $connector->call($number);
 				$response->setResult($result);
 			} catch (Exception $e) {
-				throw new Exception($e);
+				throw new \App\Exceptions\AppException($e);
 			}
 		} else {
 			$response->setResult(false);

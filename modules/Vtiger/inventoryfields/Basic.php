@@ -4,9 +4,9 @@
  * Inventory Basic Field Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Basic_InventoryField extends \App\Base
 {
@@ -293,9 +293,9 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	{
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($this->get('module'));
 		$fields = $inventoryField->getAutoCompleteFields();
-		$name = $this->getColumnName();
-		if (isset($fields[$name])) {
-			$mapDetail = $fields[$name];
+		$columnName = $this->getColumnName();
+		if (isset($fields[$columnName])) {
+			$mapDetail = $fields[$columnName];
 			if ($returInstance) {
 				$moduleModel = Vtiger_Module_Model::getInstance($mapDetail['module']);
 

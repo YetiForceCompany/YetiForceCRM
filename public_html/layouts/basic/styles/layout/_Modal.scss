@@ -62,3 +62,29 @@
 		padding: 0 !important;
 	}
 }
+
+@each $breakpoint, $max in $grid-breakpoints {
+	@if $max > map-get($grid-breakpoints, sm) and $max < map-get($grid-breakpoints, xxl) {
+		@media (min-width: $max) {
+			@if $breakpoint != xxl {
+				.c-modal-xl {
+					max-width: calc(#{map-get($grid-breakpoints, $breakpoint)} - 5vw);
+				}
+
+				.c-modal-xxl {
+					max-width: calc(#{map-get($grid-breakpoints, $breakpoint)} - 2vw);
+				}
+			}
+		}
+	}
+}
+
+@include media-breakpoint-up(xxl) {
+	.c-modal-xl {
+		max-width: 80vw;
+	}
+
+	.c-modal-xxl {
+		max-width: 90vw;
+	}
+}

@@ -102,6 +102,8 @@ class ProductsTableLongVTwoLang extends Base
 									$html .= $field->getDisplayValue($itemValue) . ' ' . $currencySymbol;
 								}
 								break;
+							default:
+								break;
 						}
 						$html .= '</td>';
 					}

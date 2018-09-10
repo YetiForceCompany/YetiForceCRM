@@ -41,7 +41,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$viewer->assign('AGGREGATION_INPUT_TYPE', $config['aggregation'] == 0 ? 'radio' : 'checkbox');
 		$viewer->assign('GROUP_DISCOUNT', $groupDiscount['discount']);
 		$viewer->assign('ACCOUNT_NAME', $groupDiscount['name']);
-		echo $viewer->view('InventoryDiscounts.tpl', $moduleName, true);
+		$viewer->view('InventoryDiscounts.tpl', $moduleName);
 	}
 
 	/**
@@ -79,6 +79,6 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$viewer->assign('AGGREGATION_INPUT_TYPE', $config['aggregation'] == 0 ? 'radio' : 'checkbox');
 		$viewer->assign('GROUP_TAXS', $accountTaxs['taxs']);
 		$viewer->assign('ACCOUNT_NAME', $accountTaxs['name']);
-		echo $viewer->view('InventoryTaxes.tpl', $moduleName, true);
+		$viewer->view('InventoryTaxes.tpl', $moduleName);
 	}
 }

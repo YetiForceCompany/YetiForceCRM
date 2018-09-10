@@ -97,7 +97,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 * Function to register all the relatedList Events
 	 */
 	registerRelatedListEvents: function () {
-		let thisInstance = this,
+		const thisInstance = this,
 			relatedList = $('#relatedTabOrder');
 		App.Fields.Picklist.showSelect2ElementView(relatedList.find('.relatedTabModulesList .select2_container'), {
 			sortable: true, sortableCb: (currentTarget) => {
@@ -351,20 +351,21 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		});
 	},
 	updateSelectedFields: function (target) {
-		var thisInstance = this;
-		var params = {};
-		var relatedModule = $(target).closest('.relatedModule');
-		var progressIndicatorElement = $.progressIndicator({
-			'position': 'html',
-			'blockInfo': {
-				'enabled': true
-			}
-		});
+		const thisInstance = this;
+		let params = {},
+			relatedModule = $(target).closest('.relatedModule'),
+			progressIndicatorElement = $.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			}),
+			selectedFields;
 		if ($(target).data('type') == 'inventory') {
 			params['inventory'] = true;
-			var selectedFields = $(target).val();
+			selectedFields = $(target).val();
 		} else {
-			var selectedFields = thisInstance.getSelectedFields($(target));
+			selectedFields = thisInstance.getSelectedFields($(target));
 		}
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
@@ -372,14 +373,14 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		params['mode'] = 'updateSelectedFields';
 		params['relationId'] = relatedModule.data('relation-id');
 		params['fields'] = selectedFields;
-		AppConnector.request(params).done(function (data) {
+		AppConnector.request(params).done(function () {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			var params = {};
+			let params = {};
 			params['text'] = app.vtranslate('JS_UPDATED_FIELD_LIST_MODULE_RELATED');
 			Settings_Vtiger_Index_Js.showMessage(params);
 		}).fail(function (error) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			var params = {};
+			let params = {};
 			params['text'] = error;
 			Settings_Vtiger_Index_Js.showMessage(params);
 		});
@@ -561,17 +562,17 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	 */
 	registerAddCustomFieldEvent: function () {
 		const thisInstance = this;
-		let container = $('#layoutEditorContainer');
-		let contents = container.find('.contents');
+		let container = $('#layoutEditorContainer'),
+			contents = container.find('.contents');
 		contents.find('.addCustomField').on('click', function (e) {
-			let blockId = $(e.currentTarget).closest('.editFieldsTable').data('blockId');
-			let addFieldContainer = container.find('.createFieldModal').clone(true, true);
+			let blockId = $(e.currentTarget).closest('.editFieldsTable').data('blockId'),
+				addFieldContainer = container.find('.createFieldModal').clone(true, true);
 			addFieldContainer.removeClass('d-none').show();
-			var callBackFunction = function (data) {
+			let callBackFunction = function (data) {
 				//register all select2 Elements
 				App.Fields.Picklist.showSelect2ElementView(data.find('select'), {width: '100%'});
 
-				var form = data.find('.createCustomFieldForm');
+				let form = data.find('.createCustomFieldForm');
 				form.attr('id', 'createFieldForm');
 				App.Fields.Picklist.showSelect2ElementView(form.find('[name="pickListValues"]'), {
 					tags: true,
@@ -582,65 +583,68 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				thisInstance.registerMultiReferenceFieldsChangeEvent(form);
 				thisInstance.registerMultiReferenceFilterFieldChangeEvent(form);
 
-				var params = app.getvalidationEngineOptions(true);
+				let params = app.getvalidationEngineOptions(true);
 				params.onValidationComplete = function (form, valid) {
 					if (valid) {
-						var fieldTypeValue = $('[name="fieldType"]', form).val();
-						var fieldNameValue = $('[name="fieldName"]', form).val();
+						let fieldTypeValue = $('[name="fieldType"]', form).val(),
+							fieldNameValue = $('[name="fieldName"]', form).val(),
+							message;
 
 						if (fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
-							var pickListValueElement = $('#pickListValues', form);
-							var pickListValuesArray = pickListValueElement.val();
-							var pickListValuesArraySize = pickListValuesArray.length;
-							var specialChars = /["]/;
+							let pickListValueElement = $('#pickListValues', form),
+								pickListValuesArray = pickListValueElement.val(),
+								pickListValuesArraySize = pickListValuesArray.length,
+								i,
+								select2Element,
+								specialChars = /["]/;
 							if (fieldNameValue.toLowerCase() === 'status' || 'picklist' === fieldNameValue.toLowerCase()) {
-								var message = app.vtranslate('JS_RESERVED_PICKLIST_NAME');
+								message = app.vtranslate('JS_RESERVED_PICKLIST_NAME');
 								$('[name="fieldName"]', form).validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
 								return false;
 							}
-							for (var i = 0; i < pickListValuesArray.length; i++) {
+							for (i = 0; i < pickListValuesArray.length; i++) {
 								if (specialChars.test(pickListValuesArray[i])) {
-									var select2Element = app.getSelect2ElementFromSelect(pickListValueElement);
-									var message = app.vtranslate('JS_SPECIAL_CHARACTERS') + ' " ' + app.vtranslate('JS_NOT_ALLOWED');
+									select2Element = app.getSelect2ElementFromSelect(pickListValueElement);
+									message = app.vtranslate('JS_SPECIAL_CHARACTERS') + ' " ' + app.vtranslate('JS_NOT_ALLOWED');
 									select2Element.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
 									return false;
 								}
 							}
-							var lowerCasedpickListValuesArray = $.map(pickListValuesArray, function (item, index) {
-								return item.toLowerCase();
-							});
-							var uniqueLowerCasedpickListValuesArray = $.uniqueSort(lowerCasedpickListValuesArray);
-							var uniqueLowerCasedpickListValuesArraySize = uniqueLowerCasedpickListValuesArray.length;
-							var arrayDiffSize = pickListValuesArraySize - uniqueLowerCasedpickListValuesArraySize;
+							let lowerCasedpickListValuesArray = $.map(pickListValuesArray, function (item, index) {
+									return item.toLowerCase();
+								}),
+								uniqueLowerCasedpickListValuesArray = $.uniqueSort(lowerCasedpickListValuesArray),
+								uniqueLowerCasedpickListValuesArraySize = uniqueLowerCasedpickListValuesArray.length,
+								arrayDiffSize = pickListValuesArraySize - uniqueLowerCasedpickListValuesArraySize;
 							if (arrayDiffSize > 0) {
-								var select2Element = app.getSelect2ElementFromSelect(pickListValueElement);
-								var message = app.vtranslate('JS_DUPLICATES_VALUES_FOUND');
+								select2Element = app.getSelect2ElementFromSelect(pickListValueElement);
+								message = app.vtranslate('JS_DUPLICATES_VALUES_FOUND');
 								select2Element.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
 								return false;
 							}
 
 						}
 						if (fieldTypeValue == 'Tree' || fieldTypeValue == 'CategoryMultipicklist') {
-							var treeListElement = form.find('select.TreeList');
+							let treeListElement = form.find('select.TreeList');
 							if (treeListElement.val() == '-') {
-								var message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
+								message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
 								form.find('.TreeList').validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
 								return false;
 							}
 
 						}
-						var saveButton = form.find(':submit');
+						let saveButton = form.find(':submit');
 						saveButton.attr('disabled', 'disabled');
 						thisInstance.addCustomField(blockId, form).done(function (data) {
-							var result = data['result'];
-							var params = {};
+							let result = data['result'],
+								params = {};
 							if (data['success']) {
 								app.hideModalWindow();
 								params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
 								Settings_Vtiger_Index_Js.showMessage(params);
 								thisInstance.showCustomField(result);
 							} else {
-								var message = data['error']['message'];
+								message = data['error']['message'];
 								Vtiger_Helper_Js.showPnotify({
 									title: data['error']['code'] != 513 ? form.find('.fieldNameForm').text() : form.find('.fieldLabelForm').text(),
 									type: 'error',
@@ -652,9 +656,9 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 					}
 					//To prevent form submit
 					return false;
-				}
+				};
 				form.validationEngine(params);
-			}
+			};
 
 			app.showModalWindow(addFieldContainer, function (data) {
 				if (typeof callBackFunction == 'function') {
@@ -1245,15 +1249,9 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		contents.find('[name="defaultvalue"]').on('change', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var defaultValueUi = currentTarget.closest('.checkbox').find('.defaultValueUi');
-			var defaultField = defaultValueUi.find('[name="fieldDefaultValue"]');
 			if (currentTarget.is(':checked')) {
 				defaultValueUi.removeClass('zeroOpacity');
-				defaultField.removeAttr('disabled');
-				if (defaultField.is('select')) {
-					defaultField.trigger("change");
-				}
 			} else {
-				defaultField.attr('disabled', 'disabled');
 				defaultValueUi.addClass('zeroOpacity');
 			}
 		});
@@ -1452,7 +1450,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	registerVaribleToParsers: function (container) {
 		var thisInstance = this;
 		container.find('.configButton').on('click', function (e) {
-			container.find('.defaultValueUi .input-group').each(function (n, e) {
+			container.find('.defaultValueUi .js-base-element').each(function (n, e) {
 				var currentElement = $(e);
 				if (currentElement.hasClass('d-none')) {
 					currentElement.find('input,select').prop('disabled', false);
@@ -1463,16 +1461,17 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			})
 		});
 		container.find('.varibleToParsers').on('click', function (e) {
-			var input = $(e.currentTarget).closest('.input-group').find('[name="fieldDefaultValue"]');
-			var fieldId = container.find('[name="fieldid"]').val();
-			var id = 'varibleToParsersModal';
+			let element = $(e.currentTarget);
+			let container = element.closest('.js-base-element');
+			let input = container.find('[name="' + container.data('name') + '"]');
+			let fieldId = element.closest('form').find('[name="fieldid"]').val();
+			let id = 'varibleToParsersModal';
 			app.showModalWindow({
 				id: id,
 				url: 'index.php?parent=Settings&module=LayoutEditor&view=VaribleToParsers&fieldId=' + fieldId + '&defaultValue=' + input.val(),
 				cb: function (modalContainer) {
-					var select = modalContainer.find('select');
 					modalContainer.find('[name="saveButton"]').on('click', function () {
-						input.val(select.val());
+						input.val(modalContainer.find('select').val());
 						app.hideModalWindow(null, id);
 					})
 				}

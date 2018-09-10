@@ -76,6 +76,8 @@ class PackageImport extends PackageExport
 				case 'language':
 					$packageType = 'LBL_LANGUAGE_MODULE';
 					break;
+				default:
+					break;
 			}
 
 			return $packageType;
@@ -336,7 +338,7 @@ class PackageImport extends PackageExport
 			$validzip = false;
 			$this->_errorText = \App\Language::translate('LBL_ERROR_NO_VALID_PREFIX', 'Settings:ModuleManager');
 		}
-		if ($manifestxml_found && !empty($this->_modulexml->type) && in_array(strtolower($this->_modulexml->type), ['entity', 'inventory', 'extension']) && $modulename && \Settings_ModuleManager_Module_Model::checkModuleName($modulename)) {
+		if ($manifestxml_found && !empty($modulename) && !empty($this->_modulexml->type) && \Settings_ModuleManager_Module_Model::checkModuleName($modulename) && \in_array(strtolower($this->_modulexml->type), ['entity', 'inventory', 'extension'])) {
 			$validzip = false;
 			$this->_errorText = \App\Language::translate('LBL_INVALID_MODULE_NAME', 'Settings:ModuleManager');
 		}

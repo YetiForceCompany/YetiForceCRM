@@ -17,10 +17,9 @@ class Settings_LayoutEditor_HelpInfo_View extends \App\Controller\Modal
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (Users_Record_Model::getCurrentUserModel()) {
-			return;
+		if (!\App\User::getCurrentUserModel()->isAdmin()) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
-		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 	}
 
 	/**
@@ -28,9 +27,9 @@ class Settings_LayoutEditor_HelpInfo_View extends \App\Controller\Modal
 	 */
 	public function preProcessAjax(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
+		$moduleName = $request->getModule(false);
 		$this->modalIcon = 'fas fa-info-circle';
-		$this->pageTitle = App\Language::translate('LBL_CONTEXT_HELP', 'Settings:' . $moduleName);
+		$this->pageTitle = App\Language::translate('LBL_CONTEXT_HELP', $moduleName);
 		parent::preProcessAjax($request);
 	}
 
@@ -59,12 +58,12 @@ class Settings_LayoutEditor_HelpInfo_View extends \App\Controller\Modal
 	public function postProcessAjax(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule($request);
+		$moduleName = $request->getModule(false);
 		if (!$request->getBoolean('onlyBody')) {
-			$viewer->assign('MODULE', 'Settings:' . $moduleName);
+			$viewer->assign('MODULE', $moduleName);
 			$viewer->assign('BTN_SUCCESS', 'LBL_SAVE');
 			$viewer->assign('BTN_DANGER', 'LBL_CLOSE');
-			$viewer->view('Modals/HelpInfoFooter.tpl', 'Settings:' . $moduleName);
+			$viewer->view('Modals/HelpInfoFooter.tpl', $moduleName);
 		}
 	}
 }

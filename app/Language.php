@@ -582,9 +582,9 @@ class Language
 				}
 
 				return '_5';
+			default:
+				return '';
 		}
-		//Fallback if no language found
-		return '';
 	}
 
 	/**

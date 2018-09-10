@@ -53,11 +53,11 @@ class Vtiger_Kpi_Helper
 
 	public function getData()
 	{
-		$type = 'get' . $this->type;
-		if ($this->type == '' || !method_exists('Vtiger_Kpi_Helper', $type)) {
+		$method = 'get' . $this->type;
+		if ($this->type == '' || !method_exists('Vtiger_Kpi_Helper', $method)) {
 			return;
 		}
-		return $this->$type();
+		return $this->$method();
 	}
 
 	// Data KPI

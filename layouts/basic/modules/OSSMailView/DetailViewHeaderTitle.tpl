@@ -1,32 +1,38 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="col-md-12 pr-0 row">
-		<div class="col-10 margin0px">
+	<div class="d-flex flex-wrap flex-md-nowrap px-3 w-100">
+		<div class="u-min-w-md-70 w-100">
 			<div class="moduleIcon">
 				<span class="o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
 			</div>
-			<div class="paddingLeft5px float-left">
-				<h4 style="color: #1560bd;" class="recordLabel u-text-ellipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
-					<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
+			<div class="pl-1">
+				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip" data-ellipsis="true" data-content="{$RECORD->getName()}" data-toggle="popover" data-js="tooltip">
+					<h4 class="recordLabel h6 mb-0 js-popover-text" data-js="clone">
+						<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
+					</h4>
+					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
 					{if $RECORD_STATE !== 'Active'}
-						&nbsp;&nbsp;
 						{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
-						<span class="badge badge-secondary" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
+						<div class="badge badge-secondary ml-1" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
 							{if \App\Record::getState($RECORD->getId()) === 'Trash'}
 								{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
 							{else}
 								{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}
 							{/if}
-						</span>
+						</div>
 					{/if}
-				</h4>
-				<span class="muted">
+				</div>
+				<span class="text-muted u-white-space-nowrap">
 					<small><em>{\App\Language::translate('Sent','OSSMailView')}</em></small>
 					<span><small><em>&nbsp;{$RECORD->getDisplayValue('createdtime')}</em></small></span>
 				</span>
-				<div>
-					<strong>{\App\Language::translate('LBL_OWNER')} : {$RECORD->getDisplayValue('assigned_user_id')}</strong>
+				<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('assigned_user_id')}" data-toggle="popover" data-js="tooltip">
+					<span class="text-muted mr-1 u-white-space-nowrap">{\App\Language::translate('LBL_OWNER')}:</span>
+					<span class="js-popover-text" data-js="clone">
+					{$RECORD->getDisplayValue('assigned_user_id')}
+					</span>
+					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 				</div>
 			</div>
 		</div>

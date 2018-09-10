@@ -4,7 +4,7 @@
  * App config class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class AppConfig
 {
@@ -66,6 +66,8 @@ class AppConfig
 					App\Log::warning("Parameter does not exist: $module, $key");
 
 					return null;
+				default:
+					break;
 			}
 		}
 		$fileName = "config/modules/$module.php";

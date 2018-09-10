@@ -28,11 +28,10 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 		if (empty(self::$fileContents)) {
 			self::$fileContents = file_get_contents($filePath);
 		}
-		$fileContents = self::$fileContents;
 
 		$data = null;
 		$matches = [];
-		preg_match_all($this->vCardPattern, $fileContents, $matches);
+		preg_match_all($this->vCardPattern, self::$fileContents, $matches);
 
 		$row = $matches[0][0];
 		$fieldValueMappings = explode("\r\n", $row);
@@ -62,10 +61,9 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 		if (empty(self::$fileContents)) {
 			self::$fileContents = file_get_contents($filePath);
 		}
-		$fileContents = self::$fileContents;
 
 		$matches = [];
-		preg_match_all($this->vCardPattern, $fileContents, $matches);
+		preg_match_all($this->vCardPattern, self::$fileContents, $matches);
 		$countMatches = count($matches[0]);
 		for ($i = 0; $i < $countMatches; ++$i) {
 			$row = $matches[0][$i];

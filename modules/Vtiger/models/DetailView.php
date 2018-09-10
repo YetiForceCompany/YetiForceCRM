@@ -362,15 +362,15 @@ class Vtiger_DetailView_Model extends \App\Base
 			return;
 		}
 		$moduleModel = $this->getModule();
-		$module = $this->getModuleName();
-		$record = $this->getRecord()->getId();
-		$modelWidgets = $moduleModel->getWidgets($module);
+		$moduleName = $this->getModuleName();
+		$recordId = $this->getRecord()->getId();
+		$modelWidgets = $moduleModel->getWidgets($moduleName);
 		foreach ($modelWidgets as $widgetCol) {
 			foreach ($widgetCol as $widget) {
 				$widgetName = 'Vtiger_' . $widget['type'] . '_Widget';
 				if (class_exists($widgetName)) {
 					$this->widgetsList[] = $widget['type'];
-					$widgetInstance = new $widgetName($module, $moduleModel, $record, $widget);
+					$widgetInstance = new $widgetName($moduleName, $moduleModel, $recordId, $widget);
 					$widgetObject = $widgetInstance->getWidget();
 					if (count($widgetObject) > 0) {
 						$this->widgets[$widgetObject['wcol']][] = $widgetObject;

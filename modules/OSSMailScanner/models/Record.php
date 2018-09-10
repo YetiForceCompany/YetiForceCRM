@@ -217,6 +217,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			case 'All':
 				$return = 4;
 				break;
+			default:
+				break;
 		}
 		return $return;
 	}
@@ -568,6 +570,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				break;
 			case 2:
 				$return = 'Manually stopped';
+				break;
+			default:
 				break;
 		}
 		return $return;

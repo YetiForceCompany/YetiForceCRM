@@ -6,8 +6,8 @@ namespace App;
  * Debuger basic class.
  *
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 use DebugBar;
 use DebugBar\DataCollector;
@@ -126,12 +126,7 @@ class Debuger
 	public static function checkIP()
 	{
 		$ips = \AppConfig::debug('DEBUG_CONSOLE_ALLOWED_IPS');
-		if ($ips === false) {
-			return true;
-		}
-		if (is_array($ips) && in_array(RequestUtil::getRemoteIP(true), $ips)) {
-			return true;
-		} elseif (is_string($ips) && RequestUtil::getRemoteIP(true) === $ips) {
+		if ($ips === false || (\is_string($ips) && RequestUtil::getRemoteIP(true) === $ips) || (\is_array($ips) && \in_array(RequestUtil::getRemoteIP(true), $ips))) {
 			return true;
 		}
 		return false;

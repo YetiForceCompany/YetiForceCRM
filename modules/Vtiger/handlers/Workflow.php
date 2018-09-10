@@ -120,7 +120,7 @@ class Vtiger_Workflow_Handler
 					$doEvaluate = false;
 					break;
 				default:
-					throw new Exception('Should never come here! Execution Condition:' . $workflow->executionCondition);
+					throw new \App\Exceptions\AppException('Should never come here! Execution Condition:' . $workflow->executionCondition);
 			}
 			if ($doEvaluate && $workflow->evaluate($recordModel, $recordModel->getId())) {
 				if (VTWorkflowManager::$ONCE == $workflow->executionCondition) {

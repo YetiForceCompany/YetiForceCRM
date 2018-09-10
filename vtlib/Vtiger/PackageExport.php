@@ -142,7 +142,7 @@ class PackageExport
 		}
 
 		if (file_exists($this->zipFileName)) {
-			throw new \Exception('File already exists: ' . $this->zipFileName);
+			throw new \App\Exceptions\AppException('File already exists: ' . $this->zipFileName);
 		}
 		$zip = \App\Zip::createFile($this->zipFileName);
 		// Add manifest file

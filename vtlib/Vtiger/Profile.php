@@ -73,7 +73,7 @@ class Profile
 
 	private function update()
 	{
-		throw new \Exception('Not implemented');
+		throw new \App\Exceptions\AppException('Not implemented');
 	}
 
 	/**

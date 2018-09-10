@@ -76,6 +76,8 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		switch ($this->getFieldModel()->getUIType()) {
 			case 80:
 				return $rawText ? \App\Fields\DateTime::formatToViewDate($value) : '<span title="' . App\Fields\DateTime::formatToDisplay($value) . '">' . \App\Fields\DateTime::formatToViewDate($value) . '</span>';
+			default:
+				break;
 		}
 		return \App\TextParser::textTruncate($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->getFieldModel()->get('maxlengthtext'));
 	}

@@ -92,23 +92,19 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 	 * Function to register the click event for next button
 	 */
 	registerFormSubmitEvent: function (form) {
-		var thisInstance = this;
+		const thisInstance = this;
 		if (jQuery.isFunction(thisInstance.currentInstance.submit)) {
 			form.on('submit', function (e) {
-				var form = jQuery(e.currentTarget);
-				var specialValidation = true;
+				let specialValidation = true;
 				if (jQuery.isFunction(thisInstance.currentInstance.isFormValidate)) {
-					var specialValidation = thisInstance.currentInstance.isFormValidate();
+					specialValidation = thisInstance.currentInstance.isFormValidate();
 				}
-				if (form.validationEngine('validate') && specialValidation) {
+				if (jQuery(e.currentTarget).validationEngine('validate') && specialValidation) {
 					thisInstance.currentInstance.submit().done(function (data) {
 						thisInstance.getContainer().append(data);
-						var stepVal = thisInstance.getStepValue();
-						var nextStepVal = parseInt(stepVal) + 1;
-						thisInstance.initiateStep(nextStepVal);
+						thisInstance.initiateStep((parseInt(thisInstance.getStepValue()) + 1));
 						thisInstance.currentInstance.initialize();
-						var container = thisInstance.currentInstance.getContainer();
-						thisInstance.registerFormSubmitEvent(container);
+						thisInstance.registerFormSubmitEvent(thisInstance.currentInstance.getContainer());
 						thisInstance.currentInstance.registerEvents();
 					});
 				}

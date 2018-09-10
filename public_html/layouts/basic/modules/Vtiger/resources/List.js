@@ -14,15 +14,18 @@ jQuery.Class("Vtiger_List_Js", {
 	getRelatedModulesContainer: false,
 	massEditPreSave: 'Vtiger.MassEdit.PreSave',
 	getInstance: function () {
-		if (Vtiger_List_Js.listInstance == false) {
-			var module = app.getModuleName();
-			var parentModule = app.getParentModuleName();
+		if (Vtiger_List_Js.listInstance === false) {
+			let module = app.getModuleName(),
+				parentModule = app.getParentModuleName(),
+				moduleClassName,
+				fallbackClassName,
+				instance;
 			if (parentModule == 'Settings') {
-				var moduleClassName = parentModule + "_" + module + "_List_Js";
+				moduleClassName = parentModule + "_" + module + "_List_Js";
 				if (typeof window[moduleClassName] === "undefined") {
 					moduleClassName = module + "_List_Js";
 				}
-				var fallbackClassName = parentModule + "_Vtiger_List_Js";
+				fallbackClassName = parentModule + "_Vtiger_List_Js";
 				if (typeof window[fallbackClassName] === "undefined") {
 					fallbackClassName = "Vtiger_List_Js";
 				}
@@ -31,9 +34,9 @@ jQuery.Class("Vtiger_List_Js", {
 				fallbackClassName = "Vtiger_List_Js";
 			}
 			if (typeof window[moduleClassName] !== "undefined") {
-				var instance = new window[moduleClassName]();
+				instance = new window[moduleClassName]();
 			} else {
-				var instance = new window[fallbackClassName]();
+				instance = new window[fallbackClassName]();
 			}
 			Vtiger_List_Js.listInstance = instance;
 			return instance;
@@ -681,8 +684,8 @@ jQuery.Class("Vtiger_List_Js", {
 	/*
 	 * Function to return alerts if no records selected.
 	 */
-	noRecordSelectedAlert: function () {
-		return alert(app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD'));
+	noRecordSelectedAlert: function (text = 'JS_PLEASE_SELECT_ONE_RECORD') {
+		return Vtiger_Helper_Js.showPnotify({text: app.vtranslate(text)});
 	},
 	massActionSave: function (form, isMassEdit) {
 		if (typeof isMassEdit === "undefined") {
@@ -840,12 +843,14 @@ jQuery.Class("Vtiger_List_Js", {
 	getAlphabetSearchValue: function () {
 		return jQuery("#alphabetValue").val();
 	},
-	/*
-	 * Function to check whether atleast one record is checked
+	/**
+	 * Function to check whether atleast minNumberOfRecords is checked
+	 * @param {number} minNumberOfRecords
+	 * @returns {boolean}
 	 */
-	checkListRecordSelected: function () {
-		var selectedIds = this.readSelectedIds();
-		if (typeof selectedIds == 'object' && selectedIds.length <= 0) {
+	checkListRecordSelected(minNumberOfRecords = 1) {
+		let selectedIds = this.readSelectedIds();
+		if (typeof selectedIds === 'object' && selectedIds.length < minNumberOfRecords) {
 			return true;
 		}
 		return false;
@@ -1170,8 +1175,11 @@ jQuery.Class("Vtiger_List_Js", {
 	/*
 	 * Function to register the event for changing the custom Filter
 	 */
-	registerChangeCustomFilterEvent(event) {
-		let target = $(event.currentTarget), selectOption, selectOptionId, urlParams, textOption = '';
+	registerChangeCustomFilterEvent: function (event) {
+		let target = $(event.currentTarget);
+		let selectOption = '';
+		let selectOptionId = '';
+		let textOption = '';
 		if (target.is('option')) {
 			selectOption = target;
 		} else if (event.type === 'select2:selecting') {
@@ -1196,7 +1204,7 @@ jQuery.Class("Vtiger_List_Js", {
 		app.setMainParams('pageToJump', '1');
 		app.setMainParams('orderBy', selectOption.data('orderby'));
 		app.setMainParams('sortOrder', selectOption.data('sortorder'));
-		urlParams = {
+		let urlParams = {
 			"viewname": selectOption.val(),
 			//to make alphabetic search empty
 			"search_key": this.getAlphabetSearchField(),
@@ -1990,20 +1998,16 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 		}
 	},
-	registerMassActionsBtnEvents: function () {
-		var thisInstance = this;
-		this.getListViewContainer().on('click', '.js-mass-action', function (e) {
-			e.preventDefault();
-			var currentElement = $(this);
-			var url = currentElement.data('url');
+	registerMassActionsBtnMergeEvents() {
+		this.getListViewContainer().on('click', '.js-mass-action--merge', (e) => {
+			let url = $(e.target).data('url');
 			if (typeof url !== "undefined") {
-				if (thisInstance.checkListRecordSelected() != true) {
+				if (this.checkListRecordSelected(2) !== true) {
 					Vtiger_List_Js.triggerMassAction(url);
 				} else {
-					thisInstance.noRecordSelectedAlert();
+					this.noRecordSelectedAlert('JS_SELECT_ATLEAST_TWO_RECORD_FOR_MERGING');
 				}
 			}
-			e.stopPropagation();
 		});
 	},
 	registerEvents: function () {
@@ -2016,7 +2020,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerDeselectAllClickEvent();
 		this.registerRecordEvents();
 		this.registerMassRecordsEvents();
-		this.registerMassActionsBtnEvents();
+		this.registerMassActionsBtnMergeEvents();
 		this.registerHeadersClickEvent();
 		this.registerMassActionSubmitEvent();
 		this.changeCustomFilterElementView();

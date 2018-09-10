@@ -340,11 +340,11 @@ class TextParser
 	 *
 	 * @param string $text
 	 *
-	 * @return false|int
+	 * @return int
 	 */
 	public static function isVaribleToParse($text)
 	{
-		return preg_match('/^\$\((\w+) : ([,"\+\%\.\-\[\]\&\w\s\|]+)\)\$$/', $text);
+		return (int) preg_match('/^\$\((\w+) : ([,"\+\%\.\-\[\]\&\w\s\|]+)\)\$$/', $text);
 	}
 
 	/**
@@ -418,8 +418,8 @@ class TextParser
 			return Language::translate($params);
 		}
 		$aparams = explode('|', $params);
-		$moduleName = array_shift($aparams);
-		return Language::translate(reset($aparams), $moduleName, $this->language);
+		$module = array_shift($aparams);
+		return Language::translate(reset($aparams), $module, $this->language);
 	}
 
 	/**
@@ -433,9 +433,9 @@ class TextParser
 	{
 		$id = false;
 		if (strpos($fieldName, '|') !== false) {
-			$params = explode('|', $fieldName);
-			$fieldName = array_shift($params);
-			$id = array_shift($params);
+			$paramsArray = explode('|', $fieldName);
+			$fieldName = array_shift($paramsArray);
+			$id = array_shift($paramsArray);
 		}
 		$company = Company::getInstanceById($id);
 		if ($fieldName === 'mailLogo' || $fieldName === 'loginLogo') {
@@ -514,8 +514,10 @@ class TextParser
 			case 'UserTimeZone':
 				$userModel = \App\User::getCurrentUserModel();
 				return ($userModel && $userModel->getDetail('time_zone')) ? $userModel->getDetail('time_zone') : \AppConfig::main('default_timezone');
+			default:
+				return $key;
+				break;
 		}
-		return $key;
 	}
 
 	/**
@@ -601,6 +603,8 @@ class TextParser
 				switch ($key) {
 					case 'Comments':
 						return $this->getComments($params);
+					default:
+						break;
 				}
 				break;
 		}
@@ -661,13 +665,13 @@ class TextParser
 			}
 			return implode($this->relatedRecordSeparator, $return);
 		}
-		$moduleName = Record::getType($relatedId);
-		if (!empty($moduleName)) {
-			if (($relatedModule && $relatedModule !== $moduleName)) {
+		$module = Record::getType($relatedId);
+		if (!empty($module)) {
+			if (($relatedModule && $relatedModule !== $module)) {
 				return '';
 			}
 		}
-		$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedId, $moduleName);
+		$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedId, $module);
 		$instance = static::getInstanceByModel($relatedRecordModel);
 		foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
 			if (isset($this->$key)) {
@@ -832,14 +836,14 @@ class TextParser
 	 */
 	protected function getDisplayValueByField(\Vtiger_Field_Model $fieldModel, $value = false, $params = null)
 	{
-		$recordModel = $this->recordModel;
+		$model = $this->recordModel;
 		if ($value === false) {
 			$value = $this->recordModel->get($fieldModel->getName());
 			if (!$fieldModel->isViewEnabled()) {
 				return '';
 			}
 		} elseif (is_object($value)) {
-			$recordModel = $value;
+			$model = $value;
 			$value = $value->get($fieldModel->getName());
 			if (!$fieldModel->isViewEnabled()) {
 				return false;
@@ -849,9 +853,9 @@ class TextParser
 			return '';
 		}
 		if ($this->withoutTranslations) {
-			return $this->getDisplayValueByType($value, $recordModel, $fieldModel, $params);
+			return $this->getDisplayValueByType($value, $model, $fieldModel, $params);
 		}
-		return $fieldModel->getUITypeModel()->getTextParserDisplayValue($value, $recordModel, $params);
+		return $fieldModel->getUITypeModel()->getTextParserDisplayValue($value, $model, $params);
 	}
 
 	/**
@@ -998,17 +1002,17 @@ class TextParser
 		$params = explode('|', $params);
 		$parserName = array_shift($params);
 		$aparams = $params;
-		$moduleName = false;
+		$module = false;
 		if (!empty($params)) {
-			$moduleName = array_shift($params);
-			if (!Module::getModuleId($moduleName)) {
-				$moduleName = $this->moduleName;
+			$module = array_shift($params);
+			if (!Module::getModuleId($module)) {
+				$module = $this->moduleName;
 			}
 		}
-		if ($moduleName) {
-			$handlerClass = \Vtiger_Loader::getComponentClassName('TextParser', $parserName, $moduleName, false);
+		if ($module) {
+			$handlerClass = \Vtiger_Loader::getComponentClassName('TextParser', $parserName, $module, false);
 			if (!$handlerClass) {
-				Log::error("Not found custom class: $parserName|{$moduleName}");
+				Log::error("Not found custom class: $parserName|{$module}");
 				return '';
 			}
 			$instance = new $handlerClass($this, $params);

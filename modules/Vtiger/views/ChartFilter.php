@@ -71,6 +71,8 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$filters = $request->getArray('filtersId', 'Integer');
 				$viewer->assign('FILTERS', $filters);
 				break;
+			default:
+				break;
 		}
 		$viewer->view('dashboards/ChartFilter.tpl', $moduleName);
 	}

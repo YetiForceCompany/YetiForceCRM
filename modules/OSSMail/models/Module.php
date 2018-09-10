@@ -2,9 +2,9 @@
 
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSMail_Module_Model extends Vtiger_Module_Model
 {
@@ -169,6 +169,8 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 								break;
 							case 'Project':
 								$subject .= $recordModel->get('projectname');
+								break;
+							default:
 								break;
 						}
 					}

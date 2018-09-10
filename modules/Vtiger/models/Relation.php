@@ -486,6 +486,8 @@ class Vtiger_Relation_Model extends \App\Base
 			case 'history':
 				$queryGenerator->addNativeCondition(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('history')]);
 				break;
+			default:
+				break;
 		}
 	}
 
@@ -662,16 +664,19 @@ class Vtiger_Relation_Model extends \App\Base
 		$params = ['sourceRecordId' => $this->get('parentRecord')->getId(), 'destinationModule' => $this->getRelationModuleModel()->getName()];
 		$relationModel = \Vtiger_Relation_Model::getInstance($this->getRelationModuleModel(), $this->getParentModuleModel());
 
+		$updateRecords = [$params['sourceRecordId']];
 		foreach ($relationRecords as $relId => $fromId) {
 			$params['destinationRecordId'] = $relId;
 			$params['fromRecordId'] = $fromId;
 			$eventHandler->setParams($params);
 			$eventHandler->trigger('EntityBeforeTransferUnLink');
 			if ($relationModel->transferDb($params)) {
-				\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', [
-					'modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()
-				], ['crmid' => $relId])->execute();
+				$updateRecords[] = $params['fromRecordId'];
+				\App\Db::getInstance()->createCommand()->update('vtiger_crmentity',
+					['modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()],
+					['crmid' => $updateRecords])->execute();
 				$eventHandler->trigger('EntityAfterTransferLink');
+				$updateRecords = [];
 			}
 		}
 	}
@@ -685,9 +690,12 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function transferDb(array $params)
 	{
-		return \App\Db::getInstance()->createCommand()->update('vtiger_crmentityrel', [
-			'crmid' => $params['sourceRecordId'], 'module' => $params['destinationModule']], ['relcrmid' => $params['fromRecordId'], 'relcrmid' => $params['destinationRecordId']
-		])->execute();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$count = $dbCommand->update('vtiger_crmentityrel', ['crmid' => $params['sourceRecordId']],
+			['crmid' => $params['fromRecordId'], 'relcrmid' => $params['destinationRecordId']])->execute();
+		$count += $dbCommand->update('vtiger_crmentityrel', ['relcrmid' => $params['sourceRecordId']],
+			['relcrmid' => $params['fromRecordId'], 'crmid' => $params['destinationRecordId']])->execute();
+		return $count;
 	}
 
 	/**
@@ -722,7 +730,6 @@ class Vtiger_Relation_Model extends \App\Base
 		$sourceModule = $this->getParentModuleModel();
 		$sourceModuleName = $sourceModule->get('name');
 		$destinationModuleName = $this->getRelationModuleModel()->get('name');
-
 		if ($destinationModuleName === 'OSSMailView' || $sourceModuleName === 'OSSMailView') {
 			$moduleName = 'OSSMailView';
 			if ($destinationModuleName === 'OSSMailView') {
@@ -747,7 +754,6 @@ class Vtiger_Relation_Model extends \App\Base
 			$query = \App\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['crmid' => $crmid, 'ossmailviewid' => $mailId]);
 			if ($query->execute()) {
 				$eventHandler->trigger('EntityAfterUnLink');
-
 				return true;
 			} else {
 				return false;
@@ -756,7 +762,6 @@ class Vtiger_Relation_Model extends \App\Base
 			if ($destinationModuleName === 'ModComments') {
 				include_once 'modules/ModTracker/ModTracker.php';
 				ModTracker::unLinkRelation($sourceModuleName, $sourceRecordId, $destinationModuleName, $relatedRecordId);
-
 				return true;
 			}
 			$relationFieldModel = $this->getRelationField();
@@ -765,7 +770,6 @@ class Vtiger_Relation_Model extends \App\Base
 			}
 			$destinationModuleFocus = CRMEntity::getInstance($destinationModuleName);
 			vtlib\Deprecated::deleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
-
 			return true;
 		}
 	}
@@ -906,9 +910,8 @@ class Vtiger_Relation_Model extends \App\Base
 		$excludedFields = ['created_user_id', 'modifiedby'];
 		$relatedModel = $this->getRelationModuleModel();
 		$relatedModuleName = $relatedModel->getName();
-		$parentModule = $this->getParentModuleModel();
 
-		$parentModelFields = $parentModule->getFields();
+		$parentModelFields = $this->getParentModuleModel()->getFields();
 		foreach ($parentModelFields as $fieldName => $fieldModel) {
 			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
@@ -945,9 +948,8 @@ class Vtiger_Relation_Model extends \App\Base
 		$fields = [];
 		$map = [];
 		$relatedModel = $this->getRelationModuleModel();
-		$parentModule = $this->getParentModuleModel();
 		$relatedModuleName = $relatedModel->getName();
-		$parentModuleName = $parentModule->getName();
+		$parentModuleName = $this->getParentModuleModel()->getName();
 
 		if (array_key_exists("$relatedModuleName::$parentModuleName", $map)) {
 			$fieldMap = $map["$relatedModuleName::$parentModuleName"];
