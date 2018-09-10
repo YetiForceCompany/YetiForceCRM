@@ -59,11 +59,11 @@ class Twitter extends AbstractSocialMedia
 	/**
 	 * Twitter constructor.
 	 *
-	 * @param $userName
+	 * @param string $userName
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function __construct($userName)
+	public function __construct(string $userName)
 	{
 		$this->userName = $userName;
 		if (!\is_object(static::$twitterConnection)) {

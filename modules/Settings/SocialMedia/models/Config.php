@@ -19,7 +19,7 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	/**
 	 * Return object instance.
 	 *
-	 * @param string $type - Type of config
+	 * @param string $type Type of config
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
@@ -33,7 +33,7 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	/**
 	 * Settings_SocialMedia_Config_Model constructor.
 	 *
-	 * @param string $type - Type of config
+	 * @param string $type Type of config
 	 */
 	public function __construct(string $type)
 	{
@@ -41,13 +41,13 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	}
 
 	/**
-	 * @param string $type - Type of config
+	 * @param string $type Type of config
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return array
 	 */
-	public function getConfig($type)
+	public function getConfig(string $type)
 	{
 		if (\App\Cache::has('SocialMediaConfig', $type)) {
 			return $this->value = \App\Cache::get('SocialMediaConfig', $type);

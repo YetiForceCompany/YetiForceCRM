@@ -46,10 +46,10 @@ class SocialMedia
 	 *
 	 * @return bool|string
 	 */
-	public static function getClassNameByUitype($uiType)
+	public static function getClassNameByUitype(int $uiType)
 	{
-		if (\in_array($uiType, static::ALLOWED_UITYPE)) {
-			return __NAMESPACE__ . '\\' . ucfirst(\array_keys(static::ALLOWED_UITYPE, $uiType)[0]);
+		if (isset(static::ALLOWED_UITYPE[$uiType])) {
+			return __NAMESPACE__ . '\\' . ucfirst(static::ALLOWED_UITYPE[$uiType]);
 		}
 		throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE');
 	}
@@ -63,18 +63,19 @@ class SocialMedia
 	 *
 	 * @return bool
 	 */
-	public static function isConfigured($uiType)
+	public static function isConfigured(int $uiType)
 	{
 		return call_user_func(static::getClassNameByUitype($uiType) . '::isConfigured');
 	}
 
 	/**
 	 * @param int    $uiType
+	 * @param string $typeOfLog
 	 * @param string $message
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public static function log($uiType, $typeOfLog, $message)
+	public static function log(int $uiType, string $typeOfLog, string $message)
 	{
 		call_user_func(static::getClassNameByUitype($uiType) . '::log', $typeOfLog, $message);
 	}
@@ -107,7 +108,7 @@ class SocialMedia
 	 * @param int    $uiType
 	 * @param string $accountName
 	 */
-	public static function remove($uiType, $accountName)
+	public static function remove(int $uiType, string $accountName)
 	{
 		$query = static::getSocialMediaQuery([static::ALLOWED_UITYPE[$uiType]])
 			->where(['account_name' => $accountName])

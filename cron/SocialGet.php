@@ -9,7 +9,7 @@
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 $socialMediaType = [];
-foreach (\App\SocialMedia\SocialMedia::ALLOWED_UITYPE as $uiType) {
+foreach (\App\SocialMedia\SocialMedia::ALLOWED_UITYPE as $uiType => $socialMediaType) {
 	if (\App\SocialMedia\SocialMedia::isConfigured($uiType)) {
 		$socialMediaType[] = \App\SocialMedia\SocialMedia::ALLOWED_UITYPE[$uiType];
 	} else {
