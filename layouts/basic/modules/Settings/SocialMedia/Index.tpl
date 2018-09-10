@@ -14,6 +14,14 @@
 					</div>
 				</div>
 			{/if}
+			{if !\vtlib\Cron::getInstance('LBL_GET_SOCIAL_MEDIA_MESSAGES')->isEnabled() }
+				<div class="contents">
+					<div class="alert alert-warning">
+						{\App\Language::translate('LBL_SOCIAL_MEDIA_CRON2_WARNING',$QUALIFIED_MODULE)}&nbsp;
+						<b>"{\App\Language::translate('LBL_GET_SOCIAL_MEDIA_MESSAGES', 'Settings::CronTasks')}"</b>
+					</div>
+				</div>
+			{/if}
 			<div class="contents tabbable">
 				<ul class="nav nav-tabs layoutTabs massEditTabs">
 					<li class="nav-item">

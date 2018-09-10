@@ -17,9 +17,23 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	protected $type;
 
 	/**
+	 * Return object instance.
+	 *
+	 * @param $type string - Type of config
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return \Settings_SocialMedia_Config_Model
+	 */
+	public static function getInstance($type)
+	{
+		return new self($type);
+	}
+
+	/**
 	 * Settings_SocialMedia_Config_Model constructor.
 	 *
-	 * @param $type string
+	 * @param $type string - Type of config
 	 */
 	public function __construct($type)
 	{
@@ -27,7 +41,7 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	}
 
 	/**
-	 * @param $type string
+	 * @param $type string - Type of config
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
@@ -63,7 +77,6 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	{
 		$db = \App\Db::getInstance();
 		$transaction = $db->beginTransaction();
-		$transaction->begin();
 		try {
 			foreach ($this->value as $key => $val) {
 				$db->createCommand()->update('u_#__social_media_config',
