@@ -55,7 +55,7 @@ class TableDiscountSummary extends Base
 			'</style>';
 		if (count($fields[0]) != 0) {
 			$discount = 0;
-			foreach ($inventoryRows as $key => &$inventoryRow) {
+			foreach ($inventoryRows as &$inventoryRow) {
 				$discount += $inventoryRow['discount'];
 			}
 			if (in_array('discount', $columns) && in_array('discountmode', $columns)) {
