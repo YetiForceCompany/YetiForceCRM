@@ -73,7 +73,7 @@
     "LBL_EXPRESSION_EXAMPLE2": "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
     "LBL_EXAMPLE_FIELD_NAME": "Pole",
     "LBL_NOTIFY_OWNER": "notify_owner",
-    "LBL_WATERMARK_DETAILS": "Edycja znaku wodnego",
+    "LBL_WATERMARK_DETAILS": "Znak wodny",
     "LBL_WATERMARK_TYPE": "Rodzaj znaku wodnego",
     "LBL_WATERMARK_TEXT": "Tekst znaku wodnego",
     "LBL_WATERMARK_IMAGE": "Obraz znaku wodnego",

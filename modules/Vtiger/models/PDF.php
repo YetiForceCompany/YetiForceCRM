@@ -404,23 +404,12 @@ class Vtiger_PDF_Model extends \App\Base
 		}
 
 		// metadata
+		$parameters['creator'] = 'YetiForce CRM';
 		if ($this->get('metatags_status') == 1) {
 			$parameters['title'] = $this->get('meta_title');
 			$parameters['author'] = $this->get('meta_author');
-			$parameters['creator'] = $this->get('meta_creator');
 			$parameters['subject'] = $this->get('meta_subject');
 			$parameters['keywords'] = $this->get('meta_keywords');
-		} else {
-			$companyDetails = App\Company::getInstanceById()->getData();
-			$parameters['title'] = $this->get('primary_name');
-			$parameters['author'] = $companyDetails['name'];
-			$parameters['creator'] = 'YetiForce CRM';
-			$parameters['subject'] = $this->get('secondary_name');
-
-			// preparing keywords
-			unset($companyDetails['id'], $companyDetails['logo'], $companyDetails['logoname']);
-
-			$parameters['keywords'] = implode(', ', $companyDetails);
 		}
 		return $parameters;
 	}
