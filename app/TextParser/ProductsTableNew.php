@@ -56,7 +56,7 @@ class ProductsTableNew extends Base
 				</thead>
 				<tbody>';
 			$counter = 1;
-			foreach ($inventoryRows as $key => &$inventoryRow) {
+			foreach ($inventoryRows as &$inventoryRow) {
 				$html .= '<tr>';
 				foreach ($fields[1] as $field) {
 					if (!$field->isVisible()) {

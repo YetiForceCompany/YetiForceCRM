@@ -561,7 +561,7 @@ class PearDatabase
 			}
 			$type = $showType[0];
 			$vals = explode(')', $showType[1]);
-			if (is_int((int) $vals[0])) {
+			if (is_int((int)$vals[0])) {
 				$maxLength = $vals[0];
 			} elseif (strpos($vals[0], ',') !== false) {
 				$vs = explode(',', $vals[0]);
@@ -573,10 +573,10 @@ class PearDatabase
 			}
 			$column = new stdClass();
 			$column->name = $col->Field;
-			$column->notNull = $col->null == 'NO' ? true : false;
-			$column->primaryKey = $col->Key == 'PRI' ? true : false;
-			$column->uniqueKey = $col->Key == 'UNI' ? true : false;
-			$column->hasDefault = $col->Default === null ? false : true;
+			$column->notNull = ($col->null == 'NO');
+			$column->primaryKey = ($col->Key == 'PRI');
+			$column->uniqueKey = ($col->Key == 'UNI');
+			$column->hasDefault = !($col->Default === null);
 			if ($column->hasDefault) {
 				$column->default = $col->Default;
 			}
@@ -589,9 +589,7 @@ class PearDatabase
 
 	public function updateBlob($table, $column, $val, $where)
 	{
-		$success = $this->pquery("UPDATE $table SET $column=? WHERE $where", [$val]);
-
-		return $success;
+		return $this->pquery("UPDATE $table SET $column=? WHERE $where", [$val]);
 	}
 
 	public function getEmptyBlob()
@@ -602,9 +600,7 @@ class PearDatabase
 	public function fetchByAssoc(&$result, $rowNum = -1)
 	{
 		if (isset($result) && $rowNum < 0) {
-			$row = $this->getRow($result);
-
-			return $row;
+			return $this->getRow($result);
 		}
 		if ($this->getRowCount($result) > $rowNum) {
 			$row = $this->rawQueryResultRowData($result, $rowNum);
@@ -630,13 +626,13 @@ class PearDatabase
 		$tableName = $seqname . '_seq';
 		if ($this->checkExistTable($tableName)) {
 			$result = $this->query(sprintf('SELECT id FROM %s', $tableName));
-			$id = ((int) $this->getSingleValue($result)) + 1;
+			$id = ((int)$this->getSingleValue($result)) + 1;
 			$this->database->query("update $tableName set id = $id");
 		} else {
 			$result = $this->query('SHOW COLUMNS FROM ' . $this->quote($seqname, false));
 			$column = $this->getSingleValue($result);
 			$result = $this->query("SELECT MAX($column ) AS max FROM " . $this->quote($seqname, false));
-			$id = ((int) $this->getSingleValue($result)) + 1;
+			$id = ((int)$this->getSingleValue($result)) + 1;
 		}
 		return $id;
 	}
@@ -666,9 +662,7 @@ class PearDatabase
 	// Function to get the last insert id based on the type of database
 	public function getLastInsertID()
 	{
-		$lastInsertID = $this->database->lastInsertId();
-
-		return $lastInsertID;
+		return $this->database->lastInsertId();
 	}
 
 	public function formatDate($datetime, $strip_quotes = false)
@@ -683,9 +677,7 @@ class PearDatabase
 	public function getOne($sql, $dieOnError = false, $msg = '')
 	{
 		$result = $this->query($sql, $dieOnError, $msg);
-		$val = $this->getSingleValue($result);
-
-		return $val;
+		return $this->getSingleValue($result);
 	}
 
 	public function getFieldsDefinition(PDOStatement $result)
@@ -761,9 +753,7 @@ class PearDatabase
 
 	public function getAffectedRowCount(PDOStatement $result)
 	{
-		$rows = $result->rowCount();
-
-		return $rows;
+		return $result->rowCount();
 	}
 
 	public function requirePsSingleResult($sql, $params, $dieOnError = false, $msg = '')
@@ -794,7 +784,7 @@ class PearDatabase
 	{
 		// handle int directly for better performance
 		if ($type == 'integer' || $type == 'int') {
-			return (int) $input;
+			return (int)$input;
 		}
 
 		if (is_null($input)) {
@@ -832,7 +822,7 @@ class PearDatabase
 
 		if ($this->logSqlTimeID === false) {
 			$query = $db->database->query(sprintf('SELECT MAX(id) FROM %s', $logTable));
-			$this->logSqlTimeID = (int) $this->getSingleValue($query) + 1;
+			$this->logSqlTimeID = (int)$this->getSingleValue($query) + 1;
 
 			$type = PHP_SAPI;
 			$data = '';

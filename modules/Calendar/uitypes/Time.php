@@ -46,8 +46,6 @@ class Calendar_Time_UIType extends Vtiger_Time_UIType
 		}
 
 		$dateTimeField = new DateTimeField($date->format('Y-m-d H:i:s'));
-		$value = $dateTimeField->getDisplayTime();
-
-		return $value;
+		return $dateTimeField->getDisplayTime();
 	}
 }

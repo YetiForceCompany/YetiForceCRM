@@ -45,18 +45,12 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'~libraries/fullcalendar/dist/fullcalendar.js',
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',
 			'modules.Calendar.resources.CalendarView',
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		]));
 	}
 
 	/**
@@ -64,15 +58,9 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
-
-		$cssFileNames = [
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
 			'~libraries/fullcalendar/dist/fullcalendar.css',
-		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-
-		return $headerCssInstances;
+		]));
 	}
 
 	public function process(\App\Request $request)
@@ -84,8 +72,8 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		$viewer->assign('WEEK_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
 		$viewer->assign('DAY_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
 		$viewer->assign('ACTIVITY_STATE_LABELS', \App\Json::encode([
-				'current' => Calendar_Module_Model::getComponentActivityStateLabel('current'),
-				'history' => Calendar_Module_Model::getComponentActivityStateLabel('history'),
+			'current' => Calendar_Module_Model::getComponentActivityStateLabel('current'),
+			'history' => Calendar_Module_Model::getComponentActivityStateLabel('history'),
 		]));
 		$viewer->view('CalendarView.tpl', $request->getModule());
 	}
