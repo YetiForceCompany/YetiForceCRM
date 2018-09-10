@@ -22,7 +22,7 @@
 	<div class="card mb-2">
 		<div id="advanceFilterContainer" class="js-conditions-container" data-js="container">
 			<div class="card-header">
-				{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}
+				<span class="fas fa-random"></span> {\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}
 			</div>
 			<div class="card-body">
 				{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl')}
