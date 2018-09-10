@@ -109,8 +109,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 				throw new \App\Exceptions\AppException('Incorrect data type in ' . $socialType);
 		}
 		$socialAccount = [];
-		$allFieldModel = $this->recordModel->getModule()->getFieldsByUiType($uitype);
-		foreach ($allFieldModel as $socialField) {
+		foreach ($this->recordModel->getModule()->getFieldsByUiType($uitype) as $socialField) {
 			$val = $this->recordModel->get($socialField->getColumnName());
 			if (!empty($val) && $this->recordModel->isViewable()) {
 				$socialAccount[$socialField->getColumnName()] = $val;
@@ -129,8 +128,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 		$columnNames = [];
 		foreach (\App\SocialMedia\SocialMedia::ALLOWED_UITYPE as $key => $uitype) {
 			if (in_array($key, $this->moduleConfig)) {
-				$allFieldModel = $this->recordModel->getModule()->getFieldsByUiType($uitype);
-				foreach ($allFieldModel as $socialField) {
+				foreach ($this->recordModel->getModule()->getFieldsByUiType($uitype) as $socialField) {
 					$columnNames[] = $socialField->getColumnName();
 				}
 			}

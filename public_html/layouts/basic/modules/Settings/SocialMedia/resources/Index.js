@@ -12,7 +12,7 @@ jQuery.Class('Settings_SocialMedia_Index_Js', {}, {
 	 */
 	getContainer() {
 		if (this.container === null) {
-			this.container = $('.tpl-Settings-SocialMedia-Index');
+			this.container = $('.js-social-media-container');
 		}
 		return this.container;
 	},
@@ -52,7 +52,7 @@ jQuery.Class('Settings_SocialMedia_Index_Js', {}, {
 	 * Register events for form
 	 */
 	registerForm(form) {
-		let thisInstance = this;
+		const thisInstance = this;
 		form.on('change', (event) => {
 			event.preventDefault();
 			thisInstance.saveForm(form);

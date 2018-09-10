@@ -1,13 +1,17 @@
 <?php
 
-namespace App\SocialMedia;
-
 /**
  * SocialMedia Twitter class.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ */
+
+namespace App\SocialMedia;
+
+/**
+ * Class Twitter.
  */
 class Twitter extends AbstractSocialMedia
 {
@@ -101,7 +105,7 @@ class Twitter extends AbstractSocialMedia
 			$rowTwitter['created_at'] = \App\Purifier::encodeHtml($rowTwitter['created_at']);
 			$rowTwitter[$rowTwitter[$indexOfText]] = \App\Purifier::encodeHtml($rowTwitter[$indexOfText]);
 			if (!isset($rowTwitter['user']['name'])) {
-				throw new \App\Exceptions\AppException('Twitter API error on "user name"');
+				throw new \App\Exceptions\AppException('ERR_NO_VALUE||"user name"');
 			}
 			$rowTwitter['user']['name'] = \App\Purifier::encodeHtml($rowTwitter['user']['name']);
 			if (!(new \App\Db\Query())->from('u_#__social_media_twitter')->where(['id_twitter' => $rowTwitter['id']])->exists()) {
@@ -170,38 +174,12 @@ class Twitter extends AbstractSocialMedia
 	/**
 	 * {@inheritdoc}
 	 */
-	public function removeAccount()
+	public function remove()
 	{
 		$this->logInfoDb('Remove account');
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('u_#__social_media_twitter', ['twitter_login' => $this->userName])->execute();
 		$db->createCommand()->delete('b_#__social_media_twitter', ['twitter_login' => $this->userName])->execute();
-	}
-
-	/**
-	 * Check if the Twitter API returned an error.
-	 *
-	 * @param string $response - Response from Twitter API
-	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return bool
-	 */
-	private function isError($response)
-	{
-		if (isset($response['errors'])) {
-			if (\is_array($response['errors'])) {
-				foreach ($response['errors'] as $error) {
-					$errorMessage = \App\Purifier::encodeHtml($error['message']);
-					$errorCode = (int) $error['code'];
-					$this->logErrorDb('Twitter API error[code: ' . $errorCode . ']: ' . $errorMessage);
-				}
-			} else {
-				$this->logErrorDb('Twitter API unknown error');
-			}
-			throw new \App\Exceptions\AppException('Twitter API error');
-		}
-		return false;
 	}
 
 	/**
@@ -212,17 +190,28 @@ class Twitter extends AbstractSocialMedia
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return array|object|string
+	 * @return mixed
 	 */
-	private function getFromApi($path, array $parameters = [])
+	private function getFromApi(string $path, array $parameters = [])
 	{
 		try {
 			$response = static::$twitterConnection->get($path, $parameters);
-			$this->isError($response);
+			if (isset($response['errors'])) {
+				if (\is_array($response['errors'])) {
+					foreach ($response['errors'] as $error) {
+						$errorMessage = \App\Purifier::encodeHtml($error['message']);
+						$errorCode = (int) $error['code'];
+						$this->logErrorDb('Twitter API error[code: ' . $errorCode . ']: ' . $errorMessage);
+					}
+				} else {
+					$this->logErrorDb('Twitter API unknown error');
+				}
+				throw new \App\Exceptions\AppException('ERR_API');
+			}
 			return $response;
 		} catch (\Throwable $e) {
 			$this->logErrorDb('Twitter API error: ' . $e->getMessage());
 		}
-		throw new \App\Exceptions\AppException('Twitter API error');
+		throw new \App\Exceptions\AppException('ERR_API');
 	}
 }

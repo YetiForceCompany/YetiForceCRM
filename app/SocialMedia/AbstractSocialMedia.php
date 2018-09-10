@@ -1,13 +1,17 @@
 <?php
 
-namespace App\SocialMedia;
-
 /**
  * Abstract Social media class.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ */
+
+namespace App\SocialMedia;
+
+/**
+ * Abstract Social media class.
  */
 abstract class AbstractSocialMedia
 {
@@ -26,7 +30,7 @@ abstract class AbstractSocialMedia
 	 *
 	 * @param string $userName
 	 */
-	abstract public function __construct($userName);
+	abstract public function __construct(string $userName);
 
 	/**
 	 * Is configured.
@@ -43,7 +47,7 @@ abstract class AbstractSocialMedia
 	/**
 	 * Remove social media account from database.
 	 */
-	abstract public function removeAccount();
+	abstract public function remove();
 
 	/**
 	 * Log info.
@@ -53,7 +57,7 @@ abstract class AbstractSocialMedia
 	 * @throws \App\Exceptions\AppException
 	 * @throws \yii\db\Exception
 	 */
-	public static function logInfo($message)
+	public static function logInfo(string $message)
 	{
 		static::log('info', $message);
 	}
@@ -66,7 +70,7 @@ abstract class AbstractSocialMedia
 	 * @throws \App\Exceptions\AppException
 	 * @throws \yii\db\Exception
 	 */
-	public static function logError($message)
+	public static function logError(string $message)
 	{
 		static::log('error', $message);
 	}
@@ -79,7 +83,7 @@ abstract class AbstractSocialMedia
 	 * @throws \App\Exceptions\AppException
 	 * @throws \yii\db\Exception
 	 */
-	public static function logWarning($message)
+	public static function logWarning(string $message)
 	{
 		static::log('warning', $message);
 	}
@@ -93,10 +97,10 @@ abstract class AbstractSocialMedia
 	 * @throws \App\Exceptions\AppException
 	 * @throws \yii\db\Exception
 	 */
-	public static function log($typeOfLog, $message)
+	public static function log(string $typeOfLog, string $message)
 	{
 		if (!\in_array($typeOfLog, static::ALLOWED_TYPE_OF_LOG)) {
-			throw new \App\Exceptions\AppException('Unknown log type');
+			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE');
 		}
 		\App\Db::getInstance()
 			->createCommand()

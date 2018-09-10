@@ -1,7 +1,5 @@
 <?php
 
-namespace App\SocialMedia;
-
 /**
  * SocialMedia class.
  *
@@ -9,36 +7,30 @@ namespace App\SocialMedia;
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
+
+namespace App\SocialMedia;
+
+/**
+ * Class SocialMedia.
+ *
+ * @package App\SocialMedia
+ */
 class SocialMedia
 {
 	/**
 	 * Array of allowed uiType.
 	 */
-	public const ALLOWED_UITYPE = ['twitter' => 313];
+	public const ALLOWED_UITYPE = [313 => 'twitter'];
 
 	/**
-	 * Get social media type. Convert uitype to string.
-	 *
-	 * @param int $uiType
-	 *
-	 * @return string|bool
-	 */
-	public static function getSocialMediaType($uiType)
-	{
-		if (\in_array($uiType, static::ALLOWED_UITYPE)) {
-			return \array_keys(static::ALLOWED_UITYPE, $uiType)[0];
-		}
-		return false;
-	}
-
-	/**
-	 * @param $uiType
+	 * @param int    $uiType
+	 * @param string $uiType
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return \App\SocialMedia\AbstractSocialMedia|bool
 	 */
-	public static function createObjectByUiType($uiType, $accountName)
+	public static function createObjectByUiType(int $uiType, string $accountName)
 	{
 		$className = static::getClassNameByUitype($uiType);
 		if ($className === false) {
@@ -59,8 +51,7 @@ class SocialMedia
 		if (\in_array($uiType, static::ALLOWED_UITYPE)) {
 			return __NAMESPACE__ . '\\' . ucfirst(\array_keys(static::ALLOWED_UITYPE, $uiType)[0]);
 		}
-		throw new \App\Exceptions\AppException('Invalid social media type');
-		return false;
+		throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE');
 	}
 
 	/**
@@ -93,20 +84,17 @@ class SocialMedia
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return []
+	 * @return int[]
 	 */
 	public static function getUitypeFromParam($socialMediaType = null)
 	{
-		if (empty($socialMediaType)) {
-			return static::ALLOWED_UITYPE;
-		}
 		if (!\is_array($socialMediaType)) {
 			$socialMediaType = [$socialMediaType];
 		}
 		$arrUitype = [];
 		foreach ($socialMediaType as $val) {
 			if (!isset(static::ALLOWED_UITYPE[$val])) {
-				throw new \App\Exceptions\AppException('Invalid social media type');
+				throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE');
 			}
 			$arrUitype[$val] = static::ALLOWED_UITYPE[$val];
 		}
@@ -119,17 +107,17 @@ class SocialMedia
 	 * @param int    $uiType
 	 * @param string $accountName
 	 */
-	public static function removeAccount($uiType, $accountName)
+	public static function remove($uiType, $accountName)
 	{
-		$query = static::getSocialMediaQuery([static::getSocialMediaType($uiType)])
+		$query = static::getSocialMediaQuery([static::ALLOWED_UITYPE[$uiType]])
 			->where(['account_name' => $accountName])
 			->having(['=', 'count(*)', 1]);
 		if ($query->exists()) {
 			$socialMedia = static::createObjectByUiType($uiType, $accountName);
 			if ($socialMedia === false) {
-				throw new \App\Exceptions\AppException('Invalid social media type');
+				throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE');
 			}
-			$socialMedia->removeAccount();
+			$socialMedia->remove();
 		}
 	}
 
@@ -164,7 +152,7 @@ class SocialMedia
 	 *
 	 * @return \App\Db\Query|null|void
 	 */
-	public static function getSocialMediaQuery($socialMediaType)
+	private static function getSocialMediaQuery($socialMediaType)
 	{
 		$fields = (new \App\Db\Query())
 			->select(['columnname', 'tablename', 'uitype'])
@@ -172,7 +160,7 @@ class SocialMedia
 			->where(['uitype' => static::getUitypeFromParam($socialMediaType)])
 			->andWhere(['presence' => [0, 2]])
 			->all();
-		if (\count($fields) === 0) {
+		if (!$fields) {
 			return false;
 		}
 		$query = null;

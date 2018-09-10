@@ -19,13 +19,13 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	/**
 	 * Return object instance.
 	 *
-	 * @param $type string - Type of config
+	 * @param string $type - Type of config
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return \Settings_SocialMedia_Config_Model
 	 */
-	public static function getInstance($type)
+	public static function getInstance(string $type)
 	{
 		return new self($type);
 	}
@@ -33,15 +33,15 @@ class Settings_SocialMedia_Config_Model extends \App\Base
 	/**
 	 * Settings_SocialMedia_Config_Model constructor.
 	 *
-	 * @param $type string - Type of config
+	 * @param string $type - Type of config
 	 */
-	public function __construct($type)
+	public function __construct(string $type)
 	{
 		$this->getConfig($type);
 	}
 
 	/**
-	 * @param $type string - Type of config
+	 * @param string $type - Type of config
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
