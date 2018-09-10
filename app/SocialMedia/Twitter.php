@@ -9,14 +9,24 @@ namespace App\SocialMedia;
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-class Twitter implements SocialMediaInterface
+class Twitter extends AbstractSocialMedia
 {
+	/**
+	 * @var string
+	 */
+	protected static $socialMediaType = 'twitter';
 	/**
 	 * Tweet mode.
 	 *
 	 * @link https://developer.twitter.com/en/docs/tweets/tweet-updates.html
 	 */
 	public const TWEET_MODE = 'extended';
+	/**
+	 * Turn on/off logs.
+	 *
+	 * @var bool
+	 */
+	public static $logOn = true;
 	/**
 	 * User account name.
 	 *
@@ -83,7 +93,9 @@ class Twitter implements SocialMediaInterface
 			//"There are limits to the number of Tweets that can be accessed through the API. If the limit of Tweets has occured since the since_id, the since_id will be forced to the oldest ID available."
 			$param['since_id'] = $maxId;
 		}
+		$this->logInfoDb('Begin downloading new messages');
 		$allMessages = $this->getFromApi('statuses/user_timeline', $param);
+		$cnt = 0;
 		foreach ($allMessages as $rowTwitter) {
 			$rowTwitter['id'] = \App\Purifier::encodeHtml($rowTwitter['id']);
 			$rowTwitter['created_at'] = \App\Purifier::encodeHtml($rowTwitter['created_at']);
@@ -91,15 +103,67 @@ class Twitter implements SocialMediaInterface
 			if (!isset($rowTwitter['user']['name'])) {
 				throw new \App\Exceptions\AppException('Twitter API error on "user name"');
 			}
-			$rowTwitter['user'] = \App\Purifier::encodeHtml($rowTwitter['user']['username']);
+			$rowTwitter['user']['name'] = \App\Purifier::encodeHtml($rowTwitter['user']['name']);
 			if (!(new \App\Db\Query())->from('u_#__social_media_twitter')->where(['id_twitter' => $rowTwitter['id']])->exists()) {
 				$db->createCommand()->insert('u_#__social_media_twitter', [
 					'id_twitter' => $rowTwitter['id'],
 					'twitter_login' => $this->userName,
+					'twitter_name' => $rowTwitter['user']['name'],
 					'message' => $rowTwitter[$indexOfText],
 					'created' => \DateTimeField::convertToUserTimeZone($rowTwitter['created_at'])->format('Y-m-d H:i:s'),
 				])->execute();
+				$cnt++;
 			}
+		}
+		if ($cnt > 0) {
+			$this->logInfoDb($cnt . ' new messages downloaded from');
+		} else {
+			$this->logInfoDb('No new messages');
+		}
+	}
+
+	/**
+	 * Log info.
+	 *
+	 * @param $message
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \yii\db\Exception
+	 */
+	private function logInfoDb($message)
+	{
+		if (static::$logOn) {
+			static::logInfo('[' . $this->userName . ']: ' . $message);
+		}
+	}
+
+	/**
+	 * Log error.
+	 *
+	 * @param $message
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \yii\db\Exception
+	 */
+	private function logErrorDb($message)
+	{
+		if (static::$logOn) {
+			static::logError('[' . $this->userName . ']: ' . $message);
+		}
+	}
+
+	/**
+	 * Log warning.
+	 *
+	 * @param $message
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \yii\db\Exception
+	 */
+	private function logWarningDb($message)
+	{
+		if (static::$logOn) {
+			static::logWarning('[' . $this->userName . ']: ' . $message);
 		}
 	}
 
@@ -108,6 +172,7 @@ class Twitter implements SocialMediaInterface
 	 */
 	public function removeAccount()
 	{
+		$this->logInfoDb('Remove account');
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('u_#__social_media_twitter', ['twitter_login' => $this->userName])->execute();
 		$db->createCommand()->delete('b_#__social_media_twitter', ['twitter_login' => $this->userName])->execute();
@@ -125,8 +190,16 @@ class Twitter implements SocialMediaInterface
 	private function isError($response)
 	{
 		if (isset($response['errors'])) {
-			throw new \App\Exceptions\AppException('Twitter API error' . $response['errors']['message'],
-				(int) $response['errors']['code']);
+			if (\is_array($response['errors'])) {
+				foreach ($response['errors'] as $error) {
+					$errorMessage = \App\Purifier::encodeHtml($error['message']);
+					$errorCode = (int) $error['code'];
+					$this->logErrorDb('Twitter API error[code: ' . $errorCode . ']: ' . $errorMessage);
+				}
+			} else {
+				$this->logErrorDb('Twitter API unknown error');
+			}
+			throw new \App\Exceptions\AppException('Twitter API error');
 		}
 		return false;
 	}
@@ -143,8 +216,13 @@ class Twitter implements SocialMediaInterface
 	 */
 	private function getFromApi($path, array $parameters = [])
 	{
-		$response = static::$twitterConnection->get($path, $parameters);
-		$this->isError($response);
-		return $response;
+		try {
+			$response = static::$twitterConnection->get($path, $parameters);
+			$this->isError($response);
+			return $response;
+		} catch (\Throwable $e) {
+			$this->logErrorDb('Twitter API error: ' . $e->getMessage());
+		}
+		throw new \App\Exceptions\AppException('Twitter API error');
 	}
 }

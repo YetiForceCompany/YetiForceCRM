@@ -36,7 +36,7 @@ class SocialMedia
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return \App\SocialMedia\SocialMediaInterface|bool
+	 * @return \App\SocialMedia\AbstractSocialMedia|bool
 	 */
 	public static function createObjectByUiType($uiType, $accountName)
 	{
@@ -75,6 +75,17 @@ class SocialMedia
 	public static function isConfigured($uiType)
 	{
 		return call_user_func(static::getClassNameByUitype($uiType) . '::isConfigured');
+	}
+
+	/**
+	 * @param int    $uiType
+	 * @param string $message
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public static function log($uiType, $typeOfLog, $message)
+	{
+		call_user_func(static::getClassNameByUitype($uiType) . '::log', $typeOfLog, $message);
 	}
 
 	/**
@@ -129,7 +140,7 @@ class SocialMedia
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return \App\SocialMedia\SocialMediaInterface|\Generator|void
+	 * @return \App\SocialMedia\AbstractSocialMedia|\Generator|void
 	 */
 	public static function getSocialMediaAccount($socialMediaType)
 	{
@@ -181,5 +192,21 @@ class SocialMedia
 			->select(['social.*', 'account_count' => new \yii\db\Expression('COUNT(*)')])
 			->from(['social' => $query])
 			->groupBy(['account_name', 'uitype']);
+	}
+
+	/**
+	 * Get logs from db.
+	 *
+	 * @return \Generator
+	 */
+	public static function getLogs()
+	{
+		$dataReader = (new \App\Db\Query())->from('s_#__social_media_logs')
+			->orderBy(['date_log' => SORT_DESC])
+			->limit(1000)
+			->createCommand()->query();
+		while (($row = $dataReader->read())) {
+			yield $row;
+		}
 	}
 }
