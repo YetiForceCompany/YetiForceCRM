@@ -152,14 +152,14 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 	},
 	registerEvents: function () {
 		const container = this.getContainer();
-		/*var opts = app.validationEngineOptions;
+		var opts = app.validationEngineOptions;
 		// to prevent the page reload after the validation has completed
 		opts['onValidationComplete'] = function (form, valid) {
 			//returns the valid status
 			return valid;
 		};
 		opts['promptPosition'] = "topLeft";
-		container.validationEngine(opts);*/
+		container.validationEngine(opts);
 		App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
 		this.registerCancelStepClickEvent(container);
 		app.showPopoverElementView(container.find('.js-popover-tooltip'));

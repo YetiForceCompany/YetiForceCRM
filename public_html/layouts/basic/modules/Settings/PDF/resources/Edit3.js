@@ -85,6 +85,14 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 	},
 	registerEvents() {
 		const container = this.getContainer();
+		const opts = app.validationEngineOptions;
+		// to prevent the page reload after the validation has completed
+		opts['onValidationComplete'] = function (form, valid) {
+			//returns the valid status
+			return valid;
+		};
+		opts['promptPosition'] = "bottomRight";
+		container.validationEngine(opts);
 		App.Fields.Picklist.changeSelectElementView(container);
 		this.registerCancelStepClickEvent(container);
 		this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance($('#advanceFilterContainer', container));

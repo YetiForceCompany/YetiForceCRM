@@ -95,11 +95,10 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 	},
 
 	registerEvents: function () {
-		var container = this.getContainer();
+		const container = this.getContainer();
 		//After loading 1st step only, we will enable the Next button
 		container.find('[type="submit"]').removeAttr('disabled');
-
-		var opts = app.validationEngineOptions;
+		const opts = app.validationEngineOptions;
 		// to prevent the page reload after the validation has completed
 		opts['onValidationComplete'] = function (form, valid) {
 			//returns the valid status
