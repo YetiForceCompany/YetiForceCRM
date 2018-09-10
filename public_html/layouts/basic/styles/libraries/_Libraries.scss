@@ -273,3 +273,12 @@ ul.ui-autocomplete {
 		@extend .float-left;
 	}
 }
+
+//-------- datatable --------//
+
+.dataTables_wrapper {
+	.custom-select {
+		//removed additional arrows
+		background: unset;
+	}
+}
