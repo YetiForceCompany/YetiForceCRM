@@ -6,7 +6,7 @@
     "LBL_API_KEY": "Klucz",
     "LBL_ADD_APPLICATION": "Dodaj klucz",
     "LBL_WEBSERVICE_APPS": "Web service - Aplikacje",
-    "LBL_WEBSERVICE_APPS_DESCRIPTION": "Uwaga: Pe\u0142na funcjonalno\u015b\u0107 modu\u0142u b\u0119dzie dost\u0119pna w wersji 3.1",
+    "LBL_WEBSERVICE_APPS_DESCRIPTION": "Tworzenie i zarządzanie kluczami aplikacji integrującymi si\u0119 poprzez interfejs API.",
     "LBL_PASS": "Has\u0142o",
     "LBL_TITLE_ADDED": "Dodaj",
     "LBL_TITLE_EDIT": "Edytuj"
