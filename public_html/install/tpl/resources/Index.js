@@ -39,22 +39,21 @@ jQuery.Class('Install_Index_Js', {
 		});
 	},
 	registerEventForStep3: function () {
-		jQuery('#recheck').on('click', function () {
+		$('#recheck').on('click', function () {
 			window.location.reload();
 		});
-		jQuery('input[name="step4"]').on('click', function (e) {
-			var elements = jQuery('.no');
+		let elements = jQuery('.js-wrong-status');
+		$('.js-confirm').on('submit', function (e) {
 			if (elements.length > 0) {
+				e.preventDefault();
 				app.showConfirmModal(app.vtranslate('LBL_PHP_WARNING')).done(function (data) {
 					if (data) {
-						jQuery('form[name="step3"]').submit();
-						return true;
-					} else {
-						return false;
+						elements = false;
+						$('form[name="step3"]').submit();
+						return;
 					}
 				});
 			}
-			jQuery('form[name="step3"]').submit();
 		});
 	},
 	checkPwdEvent: function () {
