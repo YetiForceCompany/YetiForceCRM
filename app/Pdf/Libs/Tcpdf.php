@@ -404,7 +404,7 @@ class Tcpdf extends \TCPDF
 	public function addPage($orientation = '', $format = '', $keepmargins = false, $tocpage = false)
 	{
 		parent::AddPage($orientation, $format, $keepmargins, $tocpage);
-		$this->writeHTML($this->getCssStyle());
+		$this->writeHTML('');
 	}
 
 	/**

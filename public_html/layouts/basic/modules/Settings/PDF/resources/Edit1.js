@@ -46,7 +46,8 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 			}
 		});
 
-		var saveData = form.serializeFormData();
+		const saveData = form.serializeFormData();
+		//saveData['meta_status'] = saveData['meta_status'] ? '0' : '1'; //reverse status
 		saveData['action'] = 'Save';
 		saveData['step'] = 1;
 		saveData['async'] = false;
