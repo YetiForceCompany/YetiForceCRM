@@ -10,21 +10,23 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{if $INSTALATION_SUCCESS}
-		<form class="" name="step7" method="post" action="../index.php?module=Users&action=Login">
-			<input type="hidden" name="mode" value="install">
-			<input type="hidden" name="username" value="{$USER_NAME}">
-			<input type="hidden" name="password" value="{$PASSWORD}">
-		</form>
-		<script type="text/javascript">
-			window.localStorage.removeItem('yetiforce_install');
-			jQuery(function () { /* Delay to let page load complete */
-				setTimeout(function () {
-					jQuery('form[name="step7"]').submit();
-				}, 150);
-			});
-		</script>
-	{else}
-		{nl2br(\App\Log::getlastLogs())}
-	{/if}
+	<div class="tpl-install-tpl-Step7">
+		{if $INSTALATION_SUCCESS}
+			<form class="" name="step7" method="post" action="../index.php?module=Users&action=Login">
+				<input type="hidden" name="mode" value="install">
+				<input type="hidden" name="username" value="{$USER_NAME}">
+				<input type="hidden" name="password" value="{$PASSWORD}">
+			</form>
+			<script type="text/javascript">
+				window.localStorage.removeItem('yetiforce_install');
+				jQuery(function () { /* Delay to let page load complete */
+					setTimeout(function () {
+						jQuery('form[name="step7"]').submit();
+					}, 150);
+				});
+			</script>
+		{else}
+			{nl2br(\App\Log::getlastLogs())}
+		{/if}
+	</div>
 {/strip}

@@ -34,7 +34,7 @@ jQuery.Class('Install_Index_Js', {
 		let modalContainer = $('.js-license-modal');
 		modalContainer.on('shown.bs.modal', function (e) {
 			app.registerDataTables(modalContainer.find('.js-data-table'), {
-				"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, app.vtranslate("JS_ALL")]]
+				lengthMenu: [[10, 25, 50, -1], [10, 25, 50, app.vtranslate("JS_ALL")]]
 			});
 		});
 	},

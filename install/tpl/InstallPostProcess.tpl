@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-install-tpl-InstallPostProcess -->
 	<br>
 	<footer class="noprint text-center fixed-bottom c-footer">
 		<p class="text-center text-center {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}u-p-05per{/if}">
@@ -23,4 +24,5 @@
 	</div>
 	</body>
 	</html>
+	<!-- /tpl-install-tpl-InstallPostProcess -->
 {/strip}

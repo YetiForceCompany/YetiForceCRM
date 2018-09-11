@@ -10,8 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{*<h1>{var_dump($LIBRARIES)}</h1>*}
-	<div class="container px-2 px-sm-3">
+	<div class="tpl-install-tpl-Step1 container px-2 px-sm-3">
 		<main class="main-container mt-3">
 			<div class="inner-container">
 				<form class="" name="step1" method="post" action="Install.php">
