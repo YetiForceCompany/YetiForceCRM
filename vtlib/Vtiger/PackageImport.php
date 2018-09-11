@@ -195,7 +195,7 @@ class PackageImport extends PackageExport
 				return false;
 			}
 		}
-		return (bool)$this->_modulexml->modulebundle;
+		return (bool) $this->_modulexml->modulebundle;
 	}
 
 	/**
@@ -203,9 +203,9 @@ class PackageImport extends PackageExport
 	 */
 	public function getAvailableModuleInfoFromModuleBundle()
 	{
-		$list = (array)$this->_modulexml->modulelist;
+		$list = (array) $this->_modulexml->modulelist;
 
-		return (array)$list['dependent_module'];
+		return (array) $list['dependent_module'];
 	}
 
 	/**
@@ -262,8 +262,8 @@ class PackageImport extends PackageExport
 			$matches = [];
 			if ($fileName === 'manifest.xml') {
 				$manifestxml_found = true;
-				$modulename = (string)$this->_modulexml->name;
-				$isModuleBundle = (string)$this->_modulexml->modulebundle;
+				$modulename = (string) $this->_modulexml->name;
+				$isModuleBundle = (string) $this->_modulexml->modulebundle;
 				if ($isModuleBundle === 'true' && (!empty($this->_modulexml)) &&
 					(!empty($this->_modulexml->dependencies)) &&
 					(!empty($this->_modulexml->dependencies->vtiger_version))) {
@@ -311,7 +311,7 @@ class PackageImport extends PackageExport
 		if (!empty($this->_modulexml) &&
 			!empty($this->_modulexml->dependencies) &&
 			!empty($this->_modulexml->dependencies->vtiger_version)) {
-			$moduleVersion = (string)$this->_modulexml->dependencies->vtiger_version;
+			$moduleVersion = (string) $this->_modulexml->dependencies->vtiger_version;
 			if (\App\Version::check($moduleVersion) >= 0) {
 				$moduleVersionFound = true;
 			} else {
@@ -345,9 +345,9 @@ class PackageImport extends PackageExport
 		if ($validzip) {
 			if (!empty($this->_modulexml->license)) {
 				if (!empty($this->_modulexml->license->inline)) {
-					$this->_licensetext = (string)$this->_modulexml->license->inline;
+					$this->_licensetext = (string) $this->_modulexml->license->inline;
 				} elseif (!empty($this->_modulexml->license->file)) {
-					$licensefile = (string)$this->_modulexml->license->file;
+					$licensefile = (string) $this->_modulexml->license->file;
 					if ($licenseContent = $zip->getFromName($licensefile)) {
 						$this->_licensetext = $licenseContent;
 					} else {
@@ -370,7 +370,7 @@ class PackageImport extends PackageExport
 		if (!$this->checkZip($zipfile)) {
 			return null;
 		}
-		return (string)$this->_modulexml->name;
+		return (string) $this->_modulexml->name;
 	}
 
 	/**
@@ -380,7 +380,7 @@ class PackageImport extends PackageExport
 	 */
 	public function getModuleName()
 	{
-		return (string)$this->_modulexml->name;
+		return (string) $this->_modulexml->name;
 	}
 
 	/**
@@ -523,12 +523,12 @@ class PackageImport extends PackageExport
 			}
 			$buildModuleArray = [];
 			$installSequenceArray = [];
-			$moduleBundle = (bool)$this->_modulexml->modulebundle;
+			$moduleBundle = (bool) $this->_modulexml->modulebundle;
 			if ($moduleBundle === true) {
-				$moduleList = (array)$this->_modulexml->modulelist;
+				$moduleList = (array) $this->_modulexml->modulelist;
 				foreach ($moduleList as $moduleInfos) {
 					foreach ($moduleInfos as $moduleInfo) {
-						$moduleInfo = (array)$moduleInfo;
+						$moduleInfo = (array) $moduleInfo;
 						$buildModuleArray[] = $moduleInfo;
 						$installSequenceArray[] = $moduleInfo['install_sequence'];
 					}
@@ -543,7 +543,7 @@ class PackageImport extends PackageExport
 					}
 				}
 			} else {
-				if ((string)$this->_modulexml->type === 'update') {
+				if ((string) $this->_modulexml->type === 'update') {
 					Functions::recurseDelete('cache/updates');
 					$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
 					$zip->extract('cache/updates');
@@ -621,7 +621,7 @@ class PackageImport extends PackageExport
 		// Import the table via queries
 		foreach ($modulenode->tables->table as $tablenode) {
 			$tableName = $tablenode->name;
-			$sql = (string)$tablenode->sql; // Convert to string format
+			$sql = (string) $tablenode->sql; // Convert to string format
 			// Avoid executing SQL that will DELETE or DROP table data
 			if (Utils::isCreateSql($sql)) {
 				if (!Utils::checkTable($tableName)) {
@@ -666,18 +666,18 @@ class PackageImport extends PackageExport
 		$blockInstance = new Block();
 		$blockInstance->label = $blocklabel;
 		if (isset($blocknode->sequence, $blocknode->display_status)) {
-			$blockInstance->sequence = (string)($blocknode->sequence);
+			$blockInstance->sequence = (string) ($blocknode->sequence);
 			if ($blockInstance->sequence = '') {
 				$blockInstance->sequence = null;
 			}
-			$blockInstance->showtitle = (string)($blocknode->show_title);
-			$blockInstance->visible = (string)($blocknode->visible);
-			$blockInstance->increateview = (string)($blocknode->create_view);
-			$blockInstance->ineditview = (string)($blocknode->edit_view);
-			$blockInstance->indetailview = (string)($blocknode->detail_view);
-			$blockInstance->display_status = (string)($blocknode->display_status);
-			$blockInstance->iscustom = (string)($blocknode->iscustom);
-			$blockInstance->islist = (string)($blocknode->islist);
+			$blockInstance->showtitle = (string) ($blocknode->show_title);
+			$blockInstance->visible = (string) ($blocknode->visible);
+			$blockInstance->increateview = (string) ($blocknode->create_view);
+			$blockInstance->ineditview = (string) ($blocknode->edit_view);
+			$blockInstance->indetailview = (string) ($blocknode->detail_view);
+			$blockInstance->display_status = (string) ($blocknode->display_status);
+			$blockInstance->iscustom = (string) ($blocknode->iscustom);
+			$blockInstance->islist = (string) ($blocknode->islist);
 		} else {
 			$blockInstance->display_status = null;
 		}
@@ -706,37 +706,37 @@ class PackageImport extends PackageExport
 	public function importField($blocknode, $blockInstance, $moduleInstance, $fieldnode)
 	{
 		$fieldInstance = new Field();
-		$fieldInstance->name = (string)$fieldnode->fieldname;
-		$fieldInstance->label = (string)$fieldnode->fieldlabel;
-		$fieldInstance->table = (string)$fieldnode->tablename;
-		$fieldInstance->column = (string)$fieldnode->columnname;
-		$fieldInstance->uitype = (int)$fieldnode->uitype;
-		$fieldInstance->generatedtype = (int)$fieldnode->generatedtype;
-		$fieldInstance->readonly = (int)$fieldnode->readonly;
-		$fieldInstance->presence = (int)$fieldnode->presence;
-		$fieldInstance->defaultvalue = (string)$fieldnode->defaultvalue;
-		$fieldInstance->maximumlength = (int)$fieldnode->maximumlength;
-		$fieldInstance->sequence = (int)$fieldnode->sequence;
-		$fieldInstance->quickcreate = (int)$fieldnode->quickcreate;
-		$fieldInstance->quicksequence = (int)$fieldnode->quickcreatesequence;
-		$fieldInstance->typeofdata = (string)$fieldnode->typeofdata;
-		$fieldInstance->displaytype = (int)$fieldnode->displaytype;
-		$fieldInstance->info_type = (string)$fieldnode->info_type;
+		$fieldInstance->name = (string) $fieldnode->fieldname;
+		$fieldInstance->label = (string) $fieldnode->fieldlabel;
+		$fieldInstance->table = (string) $fieldnode->tablename;
+		$fieldInstance->column = (string) $fieldnode->columnname;
+		$fieldInstance->uitype = (int) $fieldnode->uitype;
+		$fieldInstance->generatedtype = (int) $fieldnode->generatedtype;
+		$fieldInstance->readonly = (int) $fieldnode->readonly;
+		$fieldInstance->presence = (int) $fieldnode->presence;
+		$fieldInstance->defaultvalue = (string) $fieldnode->defaultvalue;
+		$fieldInstance->maximumlength = (int) $fieldnode->maximumlength;
+		$fieldInstance->sequence = (int) $fieldnode->sequence;
+		$fieldInstance->quickcreate = (int) $fieldnode->quickcreate;
+		$fieldInstance->quicksequence = (int) $fieldnode->quickcreatesequence;
+		$fieldInstance->typeofdata = (string) $fieldnode->typeofdata;
+		$fieldInstance->displaytype = (int) $fieldnode->displaytype;
+		$fieldInstance->info_type = (string) $fieldnode->info_type;
 
 		if (!empty($fieldnode->fieldparams)) {
-			$fieldInstance->fieldparams = (string)$fieldnode->fieldparams;
+			$fieldInstance->fieldparams = (string) $fieldnode->fieldparams;
 		}
 
 		if (!empty($fieldnode->helpinfo)) {
-			$fieldInstance->helpinfo = (string)$fieldnode->helpinfo;
+			$fieldInstance->helpinfo = (string) $fieldnode->helpinfo;
 		}
 
 		if (isset($fieldnode->masseditable)) {
-			$fieldInstance->masseditable = (int)$fieldnode->masseditable;
+			$fieldInstance->masseditable = (int) $fieldnode->masseditable;
 		}
 
 		if (isset($fieldnode->columntype) && !empty($fieldnode->columntype)) {
-			$fieldInstance->columntype = (string)($fieldnode->columntype);
+			$fieldInstance->columntype = (string) ($fieldnode->columntype);
 		}
 
 		if (!empty($fieldnode->tree_template)) {
@@ -871,11 +871,11 @@ class PackageImport extends PackageExport
 	 */
 	public function importAction($modulenode, $moduleInstance, $actionnode)
 	{
-		$actionstatus = (string)$actionnode->status;
+		$actionstatus = (string) $actionnode->status;
 		if ($actionstatus === 'enabled') {
-			$moduleInstance->enableTools((string)$actionnode->name);
+			$moduleInstance->enableTools((string) $actionnode->name);
 		} else {
-			$moduleInstance->disableTools((string)$actionnode->name);
+			$moduleInstance->disableTools((string) $actionnode->name);
 		}
 	}
 
@@ -948,7 +948,7 @@ class PackageImport extends PackageExport
 				$handlerInfo = [];
 				$handlerInfo = ['path' => "$customlinknode->handler_path",
 					'class' => "$customlinknode->handler_class",
-					'method' => "$customlinknode->handler",];
+					'method' => "$customlinknode->handler", ];
 			}
 			$moduleInstance->addLink(
 				"$customlinknode->linktype", "$customlinknode->linklabel", "$customlinknode->linkurl", "$customlinknode->linkicon", "$customlinknode->sequence", $handlerInfo
@@ -1015,14 +1015,14 @@ class PackageImport extends PackageExport
 		}
 		$db->createCommand()->insert('yetiforce_updates', [
 			'user' => \Users_Record_Model::getCurrentUserModel()->get('user_name'),
-			'name' => (string)$this->_modulexml->label,
-			'from_version' => (string)$this->_modulexml->from_version,
-			'to_version' => (string)$this->_modulexml->to_version,
+			'name' => (string) $this->_modulexml->label,
+			'from_version' => (string) $this->_modulexml->from_version,
+			'to_version' => (string) $this->_modulexml->to_version,
 			'result' => $result,
 			'time' => date('Y-m-d H:i:s'),
 		])->execute();
 		if ($result) {
-			$db->createCommand()->update('vtiger_version', ['current_version' => (string)$this->_modulexml->to_version])->execute();
+			$db->createCommand()->update('vtiger_version', ['current_version' => (string) $this->_modulexml->to_version])->execute();
 		}
 		Functions::recurseDelete($dirName);
 		register_shutdown_function(function () {
@@ -1045,7 +1045,7 @@ class PackageImport extends PackageExport
 		if (empty($this->_modulexml->inventory) || empty($this->_modulexml->inventory->fields->field)) {
 			return false;
 		}
-		$module = (string)$this->moduleInstance->name;
+		$module = (string) $this->moduleInstance->name;
 
 		$inventoryInstance = \Vtiger_Inventory_Model::getInstance($module);
 		$inventoryInstance->createInventoryTables();

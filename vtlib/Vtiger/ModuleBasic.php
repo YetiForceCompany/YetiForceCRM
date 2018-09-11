@@ -50,17 +50,17 @@ class ModuleBasic
 	 */
 	public function initialize($valuemap)
 	{
-		$this->id = (int)$valuemap['tabid'];
+		$this->id = (int) $valuemap['tabid'];
 		$this->name = $valuemap['name'];
 		$this->label = $valuemap['tablabel'];
 		$this->version = $valuemap['version'];
-		$this->presence = (int)$valuemap['presence'];
+		$this->presence = (int) $valuemap['presence'];
 		$this->ownedby = $valuemap['ownedby'];
-		$this->tabsequence = (int)$valuemap['tabsequence'];
+		$this->tabsequence = (int) $valuemap['tabsequence'];
 		$this->parent = $valuemap['parent'];
-		$this->customized = (int)$valuemap['customized'];
-		$this->type = (int)$valuemap['type'];
-		$this->isentitytype = (int)$valuemap['isentitytype'];
+		$this->customized = (int) $valuemap['customized'];
+		$this->type = (int) $valuemap['type'];
+		$this->isentitytype = (int) $valuemap['isentitytype'];
 		if ($this->isentitytype || $this->name === 'Users') {
 			$entitydata = \App\Module::getEntityInfo($this->name);
 			if ($entitydata) {

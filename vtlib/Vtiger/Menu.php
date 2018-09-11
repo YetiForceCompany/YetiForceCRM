@@ -36,7 +36,6 @@ class Menu
 
 	/**
 	 * Get instance of menu by label.
-	 *
 	 */
 	public static function getInstance()
 	{

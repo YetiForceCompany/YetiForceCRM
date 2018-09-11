@@ -12,7 +12,7 @@ jQuery.Class("Vtiger_Menu_Js", {
 	registerMenu: function () {
 		var largeNav = jQuery('#largeNavDiv nav').width();
 		var tabsWidth = 0;
-		
+
 		jQuery('#largeNavDiv ul.nav.modulesList').children('li').each(function () {
 			var eWidth = jQuery(this).width();
 			var moreMenuElement = jQuery('#commonMoreMenu li[data-id="' + jQuery(this).data('id') + '"]')
