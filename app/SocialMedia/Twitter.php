@@ -18,6 +18,8 @@ namespace App\SocialMedia;
 class Twitter extends AbstractSocialMedia
 {
 	/**
+	 * Social media type.
+	 *
 	 * @var string
 	 */
 	protected static $socialMediaType = 'twitter';
@@ -41,6 +43,8 @@ class Twitter extends AbstractSocialMedia
 	private $userName;
 
 	/**
+	 * Object TwitterOAuth.
+	 *
 	 * @var \Abraham\TwitterOAuth\TwitterOAuth
 	 */
 	private static $twitterConnection = null;
@@ -52,9 +56,9 @@ class Twitter extends AbstractSocialMedia
 	 *
 	 * @return bool
 	 */
-	public static function isConfigured()
+	public static function isActive()
 	{
-		$configTitter = \App\SocialMedia::getInstance('twitter');
+		$configTitter = \App\SocialMedia::getInstance(static::$socialMediaType);
 		return !empty($configTitter->get('twitter_api_key')) && !empty($configTitter->get('twitter_api_secret'));
 	}
 
@@ -85,7 +89,7 @@ class Twitter extends AbstractSocialMedia
 	{
 		$this->userName = $userName;
 		if (!\is_object(static::$twitterConnection)) {
-			$configTitter = \App\SocialMedia::getInstance('twitter');
+			$configTitter = \App\SocialMedia::getInstance(static::$socialMediaType);
 			static::$twitterConnection = new \Abraham\TwitterOAuth\TwitterOAuth(
 				$configTitter->get('twitter_api_key'),
 				$configTitter->get('twitter_api_secret')

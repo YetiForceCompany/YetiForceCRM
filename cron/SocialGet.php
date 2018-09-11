@@ -9,13 +9,11 @@
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 foreach (\App\SocialMedia::ALLOWED_UITYPE as $uiType => $socialMediaType) {
-	if (\App\SocialMedia::isConfigured($uiType)) {
-		$availableSocialMediaType[] = \App\SocialMedia::ALLOWED_UITYPE[$uiType];
+	if (\App\SocialMedia::isActiveBytype($uiType)) {
+		foreach (\App\SocialMedia::getSocialMediaAccount($socialMediaType) as $socialMedia) {
+			$socialMedia->retrieveDataFromApi();
+		}
 	} else {
 		\App\SocialMedia::log($uiType, 'warning', 'Unconfigured API');
 	}
-}
-
-foreach (\App\SocialMedia::getSocialMediaAccount($availableSocialMediaType) as $socialMedia) {
-	$socialMedia->retrieveDataFromApi();
 }

@@ -39,7 +39,7 @@ abstract class AbstractSocialMedia
 	 *
 	 * @return bool
 	 */
-	abstract public static function isConfigured();
+	abstract public static function isActive();
 
 	/**
 	 * Retrieve data from Api.
@@ -49,7 +49,7 @@ abstract class AbstractSocialMedia
 	/**
 	 * Remove social media account from database.
 	 */
-	abstract public function removeAccount();
+	abstract public function remove();
 
 	/**
 	 * Log info.

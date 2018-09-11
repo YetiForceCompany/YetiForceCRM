@@ -168,7 +168,7 @@ class SocialMedia extends Base
 	public static function getClassNameByUitype(int $uiType)
 	{
 		if (isset(static::ALLOWED_UITYPE[$uiType])) {
-			return __NAMESPACE__ . '\\' . ucfirst(static::ALLOWED_UITYPE[$uiType]);
+			return __NAMESPACE__ . '\\SocialMedia\\' . ucfirst(static::ALLOWED_UITYPE[$uiType]);
 		}
 		throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE');
 	}
@@ -182,9 +182,9 @@ class SocialMedia extends Base
 	 *
 	 * @return bool
 	 */
-	public static function isConfigured(int $uiType)
+	public static function isActiveBytype(int $uiType)
 	{
-		return call_user_func(static::getClassNameByUitype($uiType) . '::isConfigured');
+		return call_user_func(static::getClassNameByUitype($uiType) . '::isActive');
 	}
 
 	/**
@@ -213,16 +213,15 @@ class SocialMedia extends Base
 		}
 		$arrUitype = [];
 		foreach ($socialMediaType as $val) {
-			if (!\in_array($val, static::ALLOWED_UITYPE)) {
+			if (($arrUitype[] = \array_search($val, static::ALLOWED_UITYPE)) === false) {
 				throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE');
 			}
-			$arrUitype[] = $val;
 		}
 		return $arrUitype;
 	}
 
 	/**
-	 * Remove social media account from database.
+	 * Remove a social account from the database if not used.
 	 *
 	 * @param int    $uiType
 	 * @param string $accountName
@@ -269,7 +268,7 @@ class SocialMedia extends Base
 	/**
 	 * Get social media query.
 	 *
-	 * @param null|string|string[] $socialMediaType - if null then all
+	 * @param string|string[] $socialMediaType
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
