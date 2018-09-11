@@ -12,11 +12,25 @@ label.btn.btn-outline-primary {
 	}
 }
 
+.dropdown-menu {
+	max-height: calc(100vh - 100px);
+	max-width: calc(100vh - 100px);
+	overflow: auto;
+	&.historyList {
+		left: auto;
+		right: 9px;
+	}
+}
+
 .dropdown-item {
 	cursor: pointer;
 	border-top: 1px solid transparent;
 	border-bottom: 1px solid transparent;
-
+	white-space: normal;
+	@at-root .historyList #{&} {
+		min-width: 320px;
+		max-width: calc(100vh - 100px);
+	}
 	&:hover {
 		border-top: 1px solid $color-grey-light;
 		border-bottom: 1px solid $color-grey-light;
