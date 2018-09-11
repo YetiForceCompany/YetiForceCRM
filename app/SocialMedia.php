@@ -199,13 +199,13 @@ class SocialMedia extends Base
 	}
 
 	/**
-	 * @param string|array|null $socialMediaType
+	 * @param string|array $socialMediaType
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return int[]
 	 */
-	public static function getUitypeFromParam($socialMediaType = null)
+	public static function getUitypeFromParam($socialMediaType)
 	{
 		if (!\is_array($socialMediaType)) {
 			$socialMediaType = [$socialMediaType];

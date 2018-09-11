@@ -27,7 +27,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
 	 */
-	public function __construct($recordModel)
+	private function __construct($recordModel)
 	{
 		parent::__construct();
 		$this->recordModel = $recordModel;
@@ -53,16 +53,18 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 *
 	 * @return bool
 	 */
-	public static function isEnableForRecord($recordModel)
+	public function isEnableForRecord()
 	{
 		//TODO: App/SocialMEdia/Abstract
-		if (!static::isEnableForModule($recordModel)) {
+		if (!\App\SocialMedia::isEnableForModule($this->recordModel->getModuleName())) {
 			return false;
 		}
-		$allFieldModel = $recordModel->getModule()->getFieldsByUiType(313);
-		foreach ($allFieldModel as $twitterField) {
-			if (!empty($recordModel->get($twitterField->getColumnName()))) {
-				return true;
+		foreach (\App\SocialMedia::ALLOWED_UITYPE as $uiType => $socialMediaType) {
+			$allFieldModel = $this->recordModel->getModule()->getFieldsByUiType($uiType);
+			foreach ($allFieldModel as $twitterField) {
+				if (!empty($this->recordModel->get($twitterField->getColumnName()))) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -79,16 +81,9 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 */
 	public function getAllSocialMediaAccount($socialType)
 	{
-		$uitype = null;
-		switch ($socialType) {
-			case 'twitter':
-				$uitype = 313;
-				break;
-			default:
-				throw new \App\Exceptions\AppException('Incorrect data type in ' . $socialType);
-		}
+		$uiType = \App\SocialMedia::getUitypeFromParam($socialType)[0];
 		$socialAccount = [];
-		foreach ($this->recordModel->getModule()->getFieldsByUiType($uitype) as $socialField) {
+		foreach ($this->recordModel->getModule()->getFieldsByUiType($uiType) as $socialField) {
 			$val = $this->recordModel->get($socialField->getColumnName());
 			if (!empty($val) && $this->recordModel->isViewable()) {
 				$socialAccount[$socialField->getColumnName()] = $val;
@@ -102,16 +97,38 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 *
 	 * @return string[]
 	 */
-	public static function getAllColumnName()
+	public function getAllColumnName()
 	{
 		$columnNames = [];
 		foreach (\App\SocialMedia\SocialMedia::ALLOWED_UITYPE as $uiType => $socialMediaType) {
 			if (in_array($socialMediaType, $this->moduleConfig)) {
 				foreach ($this->recordModel->getModule()->getFieldsByUiType($uiType) as $socialField) {
-					$columnNames[] = $socialField->getColumnName();
+					$columnNames[$uiType] = $socialField->getColumnName();
 				}
 			}
 		}
 		return $columnNames;
+	}
+
+	/**
+	 * Get all social media records.
+	 *
+	 * @param int $start
+	 * @param int $limit
+	 *
+	 * @return \Generator
+	 */
+	public function getAllRecords(int $start = 0, int $limit = 50)
+	{
+		$dataReader = \App\SocialMedia\Twitter::getQueryList($this->getAllSocialMediaAccount('twitter'))
+			->orderBy(['created' => SORT_DESC])
+			->limit($limit)
+			->offset($start)
+			->createCommand()
+			->query();
+		while (($row = $dataReader->read())) {
+			yield $row;
+		}
+		$dataReader->close();
 	}
 }

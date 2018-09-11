@@ -59,6 +59,22 @@ class Twitter extends AbstractSocialMedia
 	}
 
 	/**
+	 * Get query for list records.
+	 *
+	 * @param string|string[] $twitterLogin
+	 *
+	 * @return \App\Db\Query
+	 */
+	public static function getQueryList($twitterLogin)
+	{
+		$query = (new \App\Db\Query())->from('u_#__social_media_twitter');
+		if (!empty($twitterLogin)) {
+			$query->where(['twitter_login' => $twitterLogin]);
+		}
+		return $query;
+	}
+
+	/**
 	 * Twitter constructor.
 	 *
 	 * @param string $userName
@@ -76,32 +92,6 @@ class Twitter extends AbstractSocialMedia
 			);
 			static::$twitterConnection->setDecodeJsonAsArray(true);
 		}
-	}
-
-	/**
-	 * Get all records by twitter account.
-	 *
-	 * @param array $start
-	 * @param int   $start
-	 * @param int   $limit
-	 *
-	 * @return \SocialMedia_Record_Model[]
-	 */
-	public static function getAllRecords(array $twitterLogin, int $start = 0, int $limit = 50)
-	{
-		$query = (new \App\Db\Query())->from('u_#__social_media_twitter');
-		if (!empty($twitterLogin)) {
-			$query->where(['twitter_login' => $twitterLogin]);
-		}
-		$dataReader = $query->orderBy(['created' => SORT_DESC])
-			->limit($limit)
-			->offset($start)
-			->createCommand()
-			->query();
-		while (($row = $dataReader->read())) {
-			yield $row;
-		}
-		$dataReader->close();
 	}
 
 	/**

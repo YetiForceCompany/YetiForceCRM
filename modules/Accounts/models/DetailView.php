@@ -113,7 +113,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => '',
 			];
 		}
-		if (Vtiger_SocialMedia_Model::isEnableForRecord($recordModel)) {
+		if (Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel)->isEnableForRecord()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_SOCIAL_MEDIA',
