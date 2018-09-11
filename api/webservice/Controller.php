@@ -47,15 +47,15 @@ class Controller
 	 */
 	public static function getInstance()
 	{
-		if (isset(static::$instance)) {
-			return static::$instance;
+		if (isset(self::$instance)) {
+			return self::$instance;
 		}
-		return static::$instance = new self();
+		return self::$instance = new self();
 	}
 
 	public static function getAction()
 	{
-		return static::$action;
+		return self::$action;
 	}
 
 	public function preProcess()
@@ -82,7 +82,7 @@ class Controller
 		$handlerClass = $this->getModuleClassName();
 		$this->request->getData();
 		$this->debugRequest();
-		static::$action = $handler = new $handlerClass();
+		self::$action = $handler = new $handlerClass();
 		$handler->controller = $this;
 		if ($handler->checkAction()) {
 			$handler->preProcess();
