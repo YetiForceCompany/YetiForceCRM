@@ -130,22 +130,13 @@
 									{\App\Language::translate('LBL_META_AUTHOR', $QUALIFIED_MODULE)}
 								</label>
 								<div class="col-sm-6 controls">
-									<select class="select2 form-control" id="meta_author" name="meta_author"
-									        data-placeholder="{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}"
-									        data-select="allowClear">
-
-										<optgroup class="p-0">
-											<option value=""
-											        selected="">{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
-										</optgroup>
-
-										<option value="PLL_COMPANY_NAME" {if $PDF_MODEL->get('meta_author') eq 'PLL_COMPANY_NAME'} selected {/if}>
-											{\App\Language::translate('PLL_COMPANY_NAME', $QUALIFIED_MODULE)}
-										</option>
-										<option value="PLL_USER_CREATING" {if $PDF_MODEL->get('meta_author') eq 'PLL_USER_CREATING'} selected {/if}>
-											{\App\Language::translate('PLL_USER_CREATING', $QUALIFIED_MODULE)}
-										</option>
-									</select>
+									<div class="input-group">
+										<input type="text" name="meta_author" class="form-control"
+										       value="{$PDF_MODEL->get('meta_author')}" id="meta_author"/>
+										<div class="input-group-append">
+											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="form-group row metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">

@@ -77,7 +77,7 @@ class Tcpdf extends PDF
 	/**
 	 * @var \Vtiger_Module_Model
 	 */
-	private $moduleModel;
+	protected $moduleModel;
 
 	/**
 	 * Returns pdf library object.
@@ -202,7 +202,8 @@ class Tcpdf extends PDF
 	public function setModuleName($name)
 	{
 		$this->moduleName = $name;
-		$this->moduleModel = \Vtiger_Loader::getComponentClassName('Model', 'PDF', $name);
+		$handlerClass = \Vtiger_Loader::getComponentClassName('Model', 'PDF', $name);
+		$this->moduleModel = new $handlerClass();
 	}
 
 	/**
@@ -356,7 +357,7 @@ class Tcpdf extends PDF
 	 */
 	public function setTitle($title)
 	{
-		$this->pdf->SetTitle($title);
+		$this->pdf->SetTitle($this->parseVariables($title));
 	}
 
 	/**
@@ -364,7 +365,7 @@ class Tcpdf extends PDF
 	 */
 	public function setAuthor($author)
 	{
-		$this->pdf->SetAuthor($author);
+		$this->pdf->SetAuthor($this->parseVariables($author));
 	}
 
 	/**
@@ -380,7 +381,7 @@ class Tcpdf extends PDF
 	 */
 	public function setSubject($subject)
 	{
-		$this->pdf->SetSubject($subject);
+		$this->pdf->SetSubject($this->parseVariables($subject));
 	}
 
 	/**
@@ -388,7 +389,7 @@ class Tcpdf extends PDF
 	 */
 	public function setKeywords($keywords)
 	{
-		$this->pdf->SetKeywords($keywords);
+		$this->pdf->SetKeywords($this->parseVariables($keywords));
 	}
 
 	/**
@@ -412,7 +413,7 @@ class Tcpdf extends PDF
 	 */
 	public function writeHTML()
 	{
-		$this->pdf->writeHTML($this->html, false, false, false, false, '');
+		$this->pdf->writeHTML($this->parseVariables($this->html), false, false, false, false, '');
 	}
 
 	/**
@@ -479,10 +480,10 @@ class Tcpdf extends PDF
 		$self->pdf->setHeaderFont([$self->defaultFontFamily, '', $self->defaultFontSize]);
 		$self->pdf->setFooterFont([$self->defaultFontFamily, '', $self->defaultFontSize]);
 		$self->parseParams($template->getParameters(), $template->get('margin_chkbox') !== 1);
-		$self->pdf()->setHtmlHeader($template->getHeader());
+		$self->pdf()->setHtmlHeader($self->parseVariables($template->getHeader()));
 		$self->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L', $template->get('page_format'));
-		$self->pdf()->setHtmlFooter($template->getFooter());
-		$self->pdf()->writeHTML($template->getBody(), false, false, false, false, '');
+		$self->pdf()->setHtmlFooter($self->parseVariables($template->getFooter()));
+		$self->pdf()->writeHTML($self->parseVariables($template->getBody()), false, false, false, false, '');
 		$self->pdf()->lastPage();
 		\App\Language::clearTemporaryLanguage();
 		return $self;
