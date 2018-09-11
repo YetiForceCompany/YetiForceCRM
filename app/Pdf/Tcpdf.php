@@ -3,6 +3,8 @@
 /**
  * Class using TCPDF as a PDF creator.
  *
+ * @package App\Pdf
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetifoce.com>
@@ -11,9 +13,7 @@
 namespace App\Pdf;
 
 /**
- * Class Tcpdf.
- *
- * @package App\Pdf
+ * YetiForce Tcpdf class.
  */
 class Tcpdf extends PDF
 {
