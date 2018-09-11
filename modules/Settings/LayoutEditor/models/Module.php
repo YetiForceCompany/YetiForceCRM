@@ -167,7 +167,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function addField($fieldType, $blockId, $params)
 	{
 		$label = $params['fieldLabel'];
-		$type = $params['fieldTypeList'];
+		$type = (int) $params['fieldTypeList'];
 		$name = strtolower($params['fieldName']);
 		$fieldParams = '';
 		if ($this->checkFieldLableExists($label)) {
@@ -207,10 +207,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		}
 		$moduleName = $this->getName();
 		$focus = CRMEntity::getInstance($moduleName);
-		if ($type == 0) {
+		if ($type === 0) {
 			$columnName = $name;
 			$tableName = $focus->table_name;
-		} elseif ($type == 1) {
+		} elseif ($type === 1) {
 			$columnName = 'cf_' . App\Db::getInstance()->getUniqueID('vtiger_field');
 			if (isset($focus->customFieldTable)) {
 				$tableName = $focus->customFieldTable[0];
