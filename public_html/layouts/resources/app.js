@@ -729,12 +729,9 @@ var App = {},
 				$(element).width(parentWidth);
 			});
 		},
-		showNewScrollbar: function (element, options) {
+		showNewScrollbar: function (element, options = {wheelPropagation: true}) {
 			if (typeof element === "undefined" || !element.length)
 				return;
-			if (typeof options === "undefined")
-				options = {};
-
 			return new PerfectScrollbar(element[0], options);
 		},
 		showNewScrollbarTopBottomRight: function (element) {
