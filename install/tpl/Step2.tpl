@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="container px-2 px-sm-3">
+	<div class="tpl-install-tpl-Step2 container px-2 px-sm-3">
 		<main class="main-container">
 			<div class="inner-container">
 				<form class="" name="step2" method="post" action="Install.php">
@@ -57,60 +57,60 @@
 				</form>
 			</div>
 		</main>
-	</div>
-	<div class="modal js-license-modal" id="license-modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" data-js="shown.bs.modal | container">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="ModalLabel">
-						<span class="fas fa-sm fas fa-bars mr-1"></span>
-						{\App\Language::translate('LBL_EXTERNAL_LIBRARIES_LICENSES', 'Install')}
-					</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<table class="table table-sm table-bordered js-data-table" data-js="datatable">
-						<thead>
-						<th class="p-2">
-							{\App\Language::translate('LBL_LIBRARY_NAME', 'Install')}
-						</th>
-						<th class="p-2 text-center">
-							{\App\Language::translate('LBL_VERSION', 'Install')}
-						</th>
-						<th class="p-2 text-center">
-							{\App\Language::translate('LBL_LICENSE', 'Install')}
-						</th>
-						</thead>
-						<tbody>
-						{foreach from=$LIBRARIES key=TYPE item=ITEMS}
-							{if $ITEMS}
-								{foreach from=$ITEMS item=ITEM}
-									<tr>
-										<td class="u-word-break">
-											<a title="{\App\Language::translate('LBL_LIBRARY_HOMEPAGE', 'Install')}"
-											   href="{if !empty($ITEM['homepage'])}{$ITEM['homepage']}{else}#{/if}" target="_blank">
-												{$ITEM['name']}
-											</a>
-											{if !empty($ITEM['description'])}
-												({\App\Language::translate($ITEM['description'], 'Settings')})
-											{/if}
-										</td>
-										<td class="text-center">
-											{$ITEM['version']}
-										</td>
-										<td class="text-center">
-											{$ITEM['license']}
-										</td>
-									</tr>
-								{/foreach}
-							{else}
-								<div class="p-3 mb-2 bg-danger text-white">{\App\Language::translate('LBL_MISSING_FILE')}</div>
-							{/if}
-						{/foreach}
-						</tbody>
-					</table>
+		<div class="modal js-license-modal" id="license-modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" data-js="shown.bs.modal | container">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="ModalLabel">
+							<span class="fas fa-sm fas fa-bars mr-1"></span>
+							{\App\Language::translate('LBL_EXTERNAL_LIBRARIES_LICENSES', 'Install')}
+						</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<table class="table table-sm table-bordered js-data-table" data-js="datatable">
+							<thead>
+							<th class="p-2">
+								{\App\Language::translate('LBL_LIBRARY_NAME', 'Install')}
+							</th>
+							<th class="p-2 text-center">
+								{\App\Language::translate('LBL_VERSION', 'Install')}
+							</th>
+							<th class="p-2 text-center">
+								{\App\Language::translate('LBL_LICENSE', 'Install')}
+							</th>
+							</thead>
+							<tbody>
+							{foreach from=$LIBRARIES key=TYPE item=ITEMS}
+								{if $ITEMS}
+									{foreach from=$ITEMS item=ITEM}
+										<tr>
+											<td class="u-word-break">
+												<a title="{\App\Language::translate('LBL_LIBRARY_HOMEPAGE', 'Install')}"
+												   href="{if !empty($ITEM['homepage'])}{$ITEM['homepage']}{else}#{/if}" target="_blank">
+													{$ITEM['name']}
+												</a>
+												{if !empty($ITEM['description'])}
+													({\App\Language::translate($ITEM['description'], 'Settings')})
+												{/if}
+											</td>
+											<td class="text-center">
+												{$ITEM['version']}
+											</td>
+											<td class="text-center">
+												{$ITEM['license']}
+											</td>
+										</tr>
+									{/foreach}
+								{else}
+									<div class="p-3 mb-2 bg-danger text-white">{\App\Language::translate('LBL_MISSING_FILE')}</div>
+								{/if}
+							{/foreach}
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>

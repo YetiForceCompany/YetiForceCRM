@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="container px-2 px-sm-3">
+	<div class="tpl-install-tpl-Step5 container px-2 px-sm-3">
 		<main class="main-container">
 			<div class="inner-container">
 				<form class="js-confirm" name="step3" method="post" action="Install.php" data-js="submit">

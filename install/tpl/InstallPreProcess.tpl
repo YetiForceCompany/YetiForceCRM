@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-install-tpl-InstallPreProcess -->
 	{include file='Header.tpl'}
 	<div class="w-100 bg-light">
 		<div class="container px-2 px-sm-3">
@@ -79,4 +80,5 @@
 			</div>
 		</div>
 	{/if}
+	<!-- /tpl-install-tpl-InstallPreProcess -->
 {/strip}
