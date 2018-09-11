@@ -435,11 +435,12 @@
 								<div class="form-group col-12 watertext {if $PDF_MODEL->get('watermark_type') neq $WATERMARK_TEXT}d-none{/if}">
 									<div class="row">
 										<div class="col-12">
-											<label>{\App\Language::translate('LBL_WATERMARK_TEXT', $QUALIFIED_MODULE)}</label>
+											<label>{\App\Language::translate('LBL_WATERMARK_TEXT', $QUALIFIED_MODULE)}
+												<span class="ml-2 js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span></label>
 										</div>
 										<div class="col-12 controls">
 											<textarea name="watermark_text" class="form-control"
-											id="watermark_text">{$PDF_MODEL->get('watermark_text')}</textarea>
+											          id="watermark_text">{$PDF_MODEL->get('watermark_text')}</textarea>
 										</div>
 									</div>
 								</div>
