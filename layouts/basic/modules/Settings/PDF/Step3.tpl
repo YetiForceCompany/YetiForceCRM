@@ -20,8 +20,12 @@
 						</button>
 						<button class="btn btn-success mr-1" type="submit">
 							<span class="fas fa-caret-right mr-1"></span>
-							{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
+							{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
 						</button>
+						<a class="btn btn-primary mr-1" href="index.php?module=PDF&parent=Settings&page=1&view=List">
+							<span class="fas fa-angle-double-left mr-1"></span>
+							{\App\Language::translate('LBL_RETURN', $QUALIFIED_MODULE)}
+						</a>
 					</div>
 				</div>
 			</div>
