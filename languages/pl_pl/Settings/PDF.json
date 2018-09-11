@@ -86,6 +86,7 @@
     "LBL_WATERMARK_ANGLE": "K\u0105t w stopniach",
     "LBL_IMPORT_TEMPLATE": "Importuj szablon",
     "LBL_UPLOAD_ERROR": "Import pliku XML szablonu PDF nie powi\u00f3d\u0142 si\u0119!",
+    "LBL_WATERMARK_UPLOAD_ERROR": "Nie uda\u0142o si\u0119 zapisa\u0107 pliku znaku wodnego.",
     "LBL_UPLOAD_OK": "Pomy\u015blnie zaimportowano plik szablonu.",
     "LBL_IMPORT_VIEW": "Import szablon\u00f3w PDF",
     "LBL_TEMPLATE_XML": "Plik XML",

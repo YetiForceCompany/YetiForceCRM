@@ -9,7 +9,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 	},
 	/**
 	 * Function to get the container which holds all the reports step1 elements
-	 * @return $ object
+	 * @return {jQuery} object
 	 */
 	getContainer: function () {
 		return this.step2Container;

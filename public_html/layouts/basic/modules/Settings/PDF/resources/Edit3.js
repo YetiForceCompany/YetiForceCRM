@@ -29,20 +29,20 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 	 * Function  to intialize the reports step1
 	 */
 	initialize: function (container) {
-		if (typeof container === "undefined") {
-			container = jQuery('#pdf_step3');
+		if (typeof container === 'undefined') {
+			container = $('#pdf_step3');
 		}
 		if (container.is('#pdf_step3')) {
 			this.setContainer(container);
 		} else {
-			this.setContainer(jQuery('#pdf_step3'));
+			this.setContainer($('#pdf_step3'));
 		}
 	},
 	submit() {
 		var aDeferred = jQuery.Deferred();
 		this.calculateValues();
 		var form = this.getContainer();
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
@@ -52,15 +52,11 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 		saveData['action'] = 'Save';
 		saveData['step'] = 3;
 		AppConnector.request(saveData).done(function (data) {
-			if (data.success == true) {
+			if (data.success === true) {
 				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
-
-				setTimeout(function () {
-					window.location.href = "index.php?module=PDF&parent=Settings&page=1&view=List";
-					progressIndicatorElement.progressIndicator({
-						'mode': 'hide'
-					});
-				}, 1000);
+				progressIndicatorElement.progressIndicator({
+					'mode': 'hide'
+				});
 			}
 		}).fail(function (error, err) {
 			app.errorLog(error, err);
@@ -68,19 +64,19 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 		return aDeferred.promise();
 	},
 	registerCancelStepClickEvent: function (form) {
-		jQuery('button.cancelLink', form).on('click', function () {
+		$('button.cancelLink', form).on('click', function () {
 			window.history.back();
 		});
 	},
 	calculateValues: function () {
 		//handled advanced filters saved values.
-		var enableFilterElement = jQuery('#enableAdvanceFilters');
+		var enableFilterElement = $('#enableAdvanceFilters');
 		if (enableFilterElement.length > 0 && enableFilterElement.is(':checked') == false) {
-			jQuery('#advanced_filter').val(jQuery('#olderConditions').val());
+			$('#advanced_filter').val($('#olderConditions').val());
 		} else {
-			jQuery('[name="filtersavedinnew"]').val("6");
+			$('[name="filtersavedinnew"]').val("6");
 			var advfilterlist = this.advanceFilterInstance.getValues();
-			jQuery('#advanced_filter').val(JSON.stringify(advfilterlist));
+			$('#advanced_filter').val(JSON.stringify(advfilterlist));
 		}
 	},
 	registerEvents() {
