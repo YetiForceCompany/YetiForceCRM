@@ -28,7 +28,7 @@ label.btn.btn-outline-primary {
 	border-bottom: 1px solid transparent;
 	white-space: normal;
 	@at-root .historyList #{&} {
-		min-width: 320px;
+		min-width: 500px;
 		max-width: calc(100vh - 100px);
 	}
 	&:hover {

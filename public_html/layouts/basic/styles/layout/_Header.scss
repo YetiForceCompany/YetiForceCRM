@@ -322,9 +322,11 @@
 			}
 
 			.dropdown-menu.historyList {
-				position: static;
+				position: relative;
 				float: none;
 				margin-bottom: 5px;
+				overflow-y: scroll;
+				-webkit-overflow-scrolling: touch;
 			}
 		}
 
