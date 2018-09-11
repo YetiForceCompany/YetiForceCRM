@@ -286,8 +286,6 @@ class Import_Data_Action extends \App\Controller\Action
 							$entityInfo['status'] = self::IMPORT_RECORD_SKIPPED;
 							break;
 						case Import_Module_Model::AUTO_MERGE_OVERWRITE:
-							// add default mandatory values if empty, set empty field if not mandatory and is empty in record
-							// do not override existing record mandatory field with defaults if empty in file
 							$recordModel = Vtiger_Record_Model::getInstanceById($baseRecordId);
 							$defaultMandatoryFieldValues = $this->getDefaultMandatoryFieldValues();
 							$mandatoryFieldNames = array_keys($defaultMandatoryFieldValues);

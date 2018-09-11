@@ -63,8 +63,6 @@ class SMSNotifier extends Vtiger_CRMEntity
 	];
 	// For Popup window record selection
 	public $popup_fields = ['message'];
-	// Should contain field labels
-	//var $detailview_links = Array ('Message');
 	// For Alphabetical search
 	public $def_basicsearch_col = 'message';
 	// Column value to use on detail view record text display
