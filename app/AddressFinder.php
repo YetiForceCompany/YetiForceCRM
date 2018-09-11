@@ -48,16 +48,16 @@ class AddressFinder
 	 */
 	public static function getProvider()
 	{
-		if (static::$providersCache) {
-			return static::$providersCache;
+		if (self::$providersCache) {
+			return self::$providersCache;
 		}
 		$dir = new \DirectoryIterator(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app/AddressFinder');
 		foreach ($dir as $fileinfo) {
 			if ($fileinfo->getExtension() === 'php' && ($fileName = $fileinfo->getBasename('.php')) !== 'Base' && static::getInstance($fileName)->isActive()) {
-				static::$providersCache[] = $fileName;
+				self::$providersCache[] = $fileName;
 			}
 		}
-		return static::$providersCache;
+		return self::$providersCache;
 	}
 
 	/**
@@ -69,11 +69,11 @@ class AddressFinder
 	 */
 	public static function getInstance($type)
 	{
-		if (isset(static::$providerInstanceCache[$type])) {
-			return static::$providerInstanceCache[$type];
+		if (isset(self::$providerInstanceCache[$type])) {
+			return self::$providerInstanceCache[$type];
 		}
 		$className = "\App\AddressFinder\\$type";
-		return static::$providerInstanceCache[$type] = new $className();
+		return self::$providerInstanceCache[$type] = new $className();
 	}
 
 	/**

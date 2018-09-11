@@ -66,7 +66,7 @@ class Apcu
 	 * @param string|array $value    Data to store
 	 * @param int          $duration Cache TTL (in seconds)
 	 *
-	 * @return bool
+	 * @return bool|array
 	 */
 	public function save($key, $value, $duration)
 	{

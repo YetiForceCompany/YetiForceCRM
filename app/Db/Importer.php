@@ -596,9 +596,11 @@ class Importer
 				$dbPrimaryKeys = $importer->db->getPrimaryKey($tableName);
 				foreach ($table['primaryKeys'] as $primaryKey) {
 					$status = true;
-					foreach ($dbPrimaryKeys as $dbPrimaryKey) {
-						if (is_string($primaryKey[1]) ? !(count($dbPrimaryKey) !== 1 && $primaryKey[1] !== $dbPrimaryKey[0]) : !array_diff($primaryKey[1], $dbPrimaryKey)) {
-							$status = false;
+					if (\is_array($dbPrimaryKeys)) {
+						foreach ($dbPrimaryKeys as $dbPrimaryKey) {
+							if (is_string($primaryKey[1]) ? !(count($dbPrimaryKey) !== 1 && $primaryKey[1] !== $dbPrimaryKey[0]) : !array_diff($primaryKey[1], $dbPrimaryKey)) {
+								$status = false;
+							}
 						}
 					}
 					if ($status) {

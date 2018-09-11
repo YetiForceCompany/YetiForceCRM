@@ -71,7 +71,7 @@ class Owner
 		} else {
 			$accessibleGroups = \App\Cache::get('getAccessibleGroups', $cacheKey);
 		}
-		if ($translate) {
+		if ($translate && \is_array($accessibleGroups)) {
 			foreach ($accessibleGroups as &$name) {
 				$name = \App\Language::translate($name);
 			}
@@ -163,8 +163,7 @@ class Owner
 			}
 		} else {
 			$groups = $usersGroups ? $usersGroups['groups'] : [];
-			if (!empty($groups)) {
-				$groupsAll = $this->getGroups(false, $private);
+			if (!empty($groups) && (\is_array($groupsAll = $this->getGroups(false, $private)))) {
 				foreach ($groupsAll as $ID => $name) {
 					if (in_array($ID, $groups)) {
 						$result[$ID] = $name;
@@ -632,9 +631,11 @@ class Owner
 				$users = $instance->initUsers(false);
 			}
 		}
-		foreach ($users as $uid => &$user) {
-			self::$userLabelCache[$uid] = $user['fullName'];
-			self::$ownerLabelCache[$uid] = $user['fullName'];
+		if (\is_array($users)) {
+			foreach ($users as $uid => &$user) {
+				self::$userLabelCache[$uid] = $user['fullName'];
+				self::$ownerLabelCache[$uid] = $user['fullName'];
+			}
 		}
 		return isset($users[$id]) ? $users[$id]['fullName'] : false;
 	}
@@ -734,7 +735,7 @@ class Owner
 				}
 			}
 		}
-		static::transferOwnershipForWorkflow($oldId, $newId);
+		self::transferOwnershipForWorkflow($oldId, $newId);
 	}
 
 	/**

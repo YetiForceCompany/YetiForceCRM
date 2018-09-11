@@ -133,11 +133,11 @@ class Colors
 	public static function get($color, $value)
 	{
 		if (empty($color)) {
-			return static::getRandomColor($value, '#');
+			return static::getRandomColor($value);
 		}
 		$color = ltrim($color, "#\t ");
 		if (empty($color)) {
-			return static::getRandomColor($value, '#');
+			return static::getRandomColor($value);
 		}
 		return '#' . $color;
 	}
@@ -193,6 +193,9 @@ class Colors
 	public static function updatePicklistValueColor($picklistId, $picklistValueId, $color)
 	{
 		$table = (new Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $picklistId])->scalar();
+		if (empty($table)) {
+			return;
+		}
 		Db::getInstance()->createCommand()->update('vtiger_' . $table, ['color' => ltrim($color, '#')], [Fields\Picklist::getPickListId($table) => $picklistValueId])->execute();
 		Cache::clear();
 		self::generate('picklist');
@@ -289,6 +292,9 @@ class Colors
 	public static function getAllModuleColor($active = false)
 	{
 		$allModules = \vtlib\Functions::getAllModules(false, false, false, $active);
+		if (!\is_array($allModules)) {
+			return [];
+		}
 		$modules = [];
 		foreach ($allModules as $tabid => $module) {
 			$modules[] = [

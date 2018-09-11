@@ -30,7 +30,7 @@ class Company extends Base
 		if (Cache::has('CompanyDetail', $id)) {
 			return Cache::get('CompanyDetail', $id);
 		}
-		if ($id) {
+		if (!empty($id)) {
 			$row = (new \App\Db\Query())->from('s_#__companies')->where(['id' => $id])->one();
 		} else {
 			$row = (new \App\Db\Query())->from('s_#__companies')->where(['default' => 1])->one();
@@ -54,7 +54,7 @@ class Company extends Base
 		if (Cache::has('CompanyLogo', $type)) {
 			return Cache::get('CompanyLogo', $type);
 		}
-		$logoName = Purifier::decodeHtml($this->get($type ? $type : 'logo_main'));
+		$logoName = Purifier::decodeHtml($this->get((\is_string($type) && !empty($type)) ? $type : 'logo_main'));
 		if (!$logoName) {
 			return false;
 		}

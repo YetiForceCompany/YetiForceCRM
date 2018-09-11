@@ -167,7 +167,7 @@ class File
 		$extension = 'tmp';
 		if (empty($name)) {
 			static::initMimeTypes();
-			if (!empty($param['mimeShortType']) && !($extension = array_search($param['mimeShortType'], static::$mimeTypes))) {
+			if (!empty($param['mimeShortType']) && !($extension = array_search($param['mimeShortType'], self::$mimeTypes))) {
 				list(, $extension) = explode('/', $param['mimeShortType']);
 			}
 			$name = uniqid() . '.' . $extension;
@@ -585,24 +585,24 @@ class File
 	 */
 	public static function getTmpPath()
 	{
-		if (isset(static::$tmpPath)) {
-			return static::$tmpPath;
+		if (isset(self::$tmpPath)) {
+			return self::$tmpPath;
 		}
 		$hash = hash('crc32', ROOT_DIRECTORY);
 		if (!empty(ini_get('upload_tmp_dir')) && is_writable(ini_get('upload_tmp_dir'))) {
-			static::$tmpPath = ini_get('upload_tmp_dir') . DIRECTORY_SEPARATOR . 'YetiForceTemp' . $hash . DIRECTORY_SEPARATOR;
-			if (!is_dir(static::$tmpPath)) {
-				mkdir(static::$tmpPath, 0755);
+			self::$tmpPath = ini_get('upload_tmp_dir') . DIRECTORY_SEPARATOR . 'YetiForceTemp' . $hash . DIRECTORY_SEPARATOR;
+			if (!is_dir(self::$tmpPath)) {
+				mkdir(self::$tmpPath, 0755);
 			}
 		} elseif (is_writable(sys_get_temp_dir())) {
-			static::$tmpPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'YetiForceTemp' . $hash . DIRECTORY_SEPARATOR;
-			if (!is_dir(static::$tmpPath)) {
-				mkdir(static::$tmpPath, 0755);
+			self::$tmpPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'YetiForceTemp' . $hash . DIRECTORY_SEPARATOR;
+			if (!is_dir(self::$tmpPath)) {
+				mkdir(self::$tmpPath, 0755);
 			}
 		} elseif (is_writable(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload')) {
-			static::$tmpPath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR;
+			self::$tmpPath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR;
 		}
-		return static::$tmpPath;
+		return self::$tmpPath;
 	}
 
 	/**

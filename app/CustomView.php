@@ -290,7 +290,7 @@ class CustomView
 		$instance = new self();
 		$instance->moduleName = $moduleName;
 		$instance->user = $userModel;
-		\App\Cache::staticGet('AppCustomView', $cacheName, $instance);
+		\App\Cache::staticSave('AppCustomView', $cacheName, $instance);
 
 		return $instance;
 	}
@@ -685,6 +685,9 @@ class CustomView
 			}
 		}
 		$info = $this->getInfoFilter($this->moduleName);
+		if (!\is_array($info)) {
+			return;
+		}
 		foreach ($info as &$values) {
 			if ($values['setdefault'] === 1) {
 				Cache::save('GetDefaultCvId', $cacheName, $values['cvid']);
@@ -780,6 +783,9 @@ class CustomView
 	{
 		Log::trace(__METHOD__);
 		$info = $this->getInfoFilter($this->moduleName);
+		if (!\is_array($info)) {
+			return;
+		}
 		foreach ($info as &$values) {
 			if ($values['presence'] === 0) {
 				return $returnData ? $values : $values['cvid'];
@@ -798,6 +804,9 @@ class CustomView
 	{
 		Log::trace(__METHOD__);
 		$info = $this->getInfoFilter($this->moduleName);
+		if (!\is_array($info)) {
+			return;
+		}
 		foreach ($info as &$values) {
 			if ($values['viewname'] === $viewName) {
 				return $values['cvid'];
