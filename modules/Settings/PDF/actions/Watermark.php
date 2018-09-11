@@ -47,7 +47,6 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 			$uploadOk = 0;
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(['error' => true]);
 		// Check if $uploadOk is set to 0 by an error
 		if ($uploadOk === 1) {
 			$db = App\Db::getInstance('admin');
@@ -66,9 +65,10 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 				$response->setResult(['fileName' => $targetFile, 'base64' => \App\Fields\File::getImageBaseData($targetFile)]);
 				return $response->emit();
 			}
-			$response->setResult(['error' => true]);
+			$response->setError(500, App\Language::translate('LBL_WATERMARK_UPLOAD_ERROR', $request->getModule()));
 			return $response->emit();
 		}
+		$response->setError(500, App\Language::translate('LBL_WATERMARK_UPLOAD_ERROR', $request->getModule()));
 		$response->emit();
 	}
 }
