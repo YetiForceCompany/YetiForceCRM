@@ -505,8 +505,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 	/**
 	 * Recursively parse options and replace function replacement strings to functions
 	 * @param  {Object} options
-	 * @return {Object} options with replaced string functions
 	 * @param  {bool} afterInit are we parsing chart after it was mounted ?
+	 * @return {Object} options with replaced string functions
 	 */
 	parseOptionsObject: function parseOptionsObject(options, original, afterInit = false) {
 		let result = {};
@@ -541,8 +541,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 	/**
 	 * Recursively parse options in array form and replace function replacement string with functions
 	 * @param  {Array} arr
-	 * @return {Array}
 	 * @param  {bool} afterInit are we after chart js was mounted?
+	 * @return {Array}
 	 */
 	parseOptionsArray: function parseOptionsArray(arr, original, afterInit = false) {
 		return arr.map((item, index) => {
@@ -559,8 +559,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 	/**
 	 * Recursively parse options object and replace function replacement strings with global functions
 	 * @param  {Object} options
-	 * @return {Object}
 	 * @param  {bool} afterInit - is chartjs loaded ?
+	 * @return {Object}
 	 */
 	parseOptions: function parseOptions(options, original, afterInit = false) {
 		if (Array.isArray(options)) {
