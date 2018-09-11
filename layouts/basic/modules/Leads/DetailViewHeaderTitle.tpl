@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce Sp. z o.o
 ********************************************************************************/
 -->*}
 {strip}
@@ -65,6 +65,7 @@
 				{/if}
 			</div>
 		</div>
-		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME)}
+		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME) HEADER_TYPE=value}
 	</div>
+	{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME) HEADER_TYPE=process}
 {/strip}

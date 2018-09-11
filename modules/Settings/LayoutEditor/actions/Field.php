@@ -48,6 +48,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	 *
 	 * @param \App\Request $request
 	 *
+	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\IllegalValue
 	 */
 	public function save(\App\Request $request)
@@ -63,7 +64,16 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 						$fieldInstance->updateTypeofDataFromMandatory($request->getByType($field, 'Standard'));
 						break;
 					case 'header_field':
-						$fieldInstance->set($field, $request->isEmpty($field, true) ? 0 : $request->getByType($field, 'Standard'));
+						if ($request->getBoolean($field)) {
+							if (!in_array($request->getByType('header_type', 'Standard'), $uitypeModel->getHeaderTypes())) {
+								throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . 'header_type', 406);
+							}
+							$value = \App\Json::encode(['header_type' => $request->getByType('header_type', 'Standard'),
+								'header_class' => $request->getByType('header_class', 'Standard')]);
+						} else {
+							$value = '';
+						}
+						$fieldInstance->set($field, $value);
 						break;
 					default:
 						$fieldInstance->set($field, $request->getInteger($field));

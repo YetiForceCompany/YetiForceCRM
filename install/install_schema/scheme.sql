@@ -5456,7 +5456,7 @@ CREATE TABLE `vtiger_field` (
   `helpinfo` varchar(30) DEFAULT '',
   `summaryfield` int(10) NOT NULL DEFAULT 0,
   `fieldparams` varchar(255) DEFAULT '',
-  `header_field` varchar(15) DEFAULT NULL,
+  `header_field` varchar(255) DEFAULT NULL,
   `maxlengthtext` smallint(3) unsigned DEFAULT 0,
   `maxwidthcolumn` smallint(3) unsigned DEFAULT 0,
   PRIMARY KEY (`fieldid`),
