@@ -386,47 +386,47 @@
 
 .c-arrows {
 	&__container {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
 		height: auto;
 		overflow: hidden;
 		padding: 0;
 		margin-bottom: 0;
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
 	}
 
 	&__text {
+		display: inline-block;
 		position: relative;
 		top: 0;
-		left: 5px;
-		display: inline-block;
+		left: calculate-rem(5px);
 		white-space: nowrap;
 		overflow: hidden;
-		font-size: 11px;
+		font-size: calculate-rem(11px);
 		vertical-align: bottom;
 	}
 
 	&__item {
-		height: 0;
-		border-top: 10px solid #ececec;
-		border-bottom: 10px solid #ececec;
-		border-left: 10px solid transparent;
 		display: inline-block;
-		margin-right: 3px;
-		margin-top: 2px;
-		margin-bottom: 2px;
+		height: 0;
+		border-top: calculate-rem(10px) solid #ececec;
+		border-bottom: calculate-rem(10px) solid #ececec;
+		border-left: calculate-rem(10px) solid transparent;
+		margin-right: calculate-rem(3px);
+		margin-top: calculate-rem(2px);
+		margin-bottom: calculate-rem(2px);
 
 		&:after {
 			content: '\0000a0';
-			width: 0;
-			height: 0;
-			border-left: 10px solid #ececec;
-			border-top: 10px solid transparent;
-			border-bottom: 10px solid transparent;
 			display: inline-block;
 			position: relative;
-			top: -10px;
-			left: 10px;
+			top: calculate-rem(-10px);
+			left: calculate-rem(10px);
+			width: 0;
+			height: 0;
+			border-left: calculate-rem(10px) solid #ececec;
+			border-top: calculate-rem(10px) solid transparent;
+			border-bottom: calculate-rem(10px) solid transparent;
 		}
 
 		&.first {
@@ -452,27 +452,27 @@
 	}
 
 	&__link {
-		@at-root .c-arrows__item.active #{&}, .c-arrows__item.before #{&} {
-			color: #fff;
-		}
 		display: inline-block;
+		font-size: calculate-rem(14px);
 		float: left;
-		margin-top: -13px;
-		font-size: 14px;
-		color: #666;
 		text-decoration: none;
+		margin-top: calculate-rem(-13px);
+
+		@at-root .c-arrows__item.active #{&}, .c-arrows__item.before #{&} {
+			color: $white;
+		}
 	}
 
 	&__item.active &__link:after,
 	&__item.active + &__item.after &__link:after {
 		content: '\0000a0';
-		width: calc(100%);
-		height: 20px;
-		z-index: -1;
 		display: inline-block;
 		position: relative;
-		top: -18px;
-		left: -13px;
-		background: #FFEB3B;
+		top: calculate-rem(-18px);
+		left: calculate-rem(-13px);
+		width: calc(100%);
+		height: calculate-rem(20px);
+		z-index: -1;
+		background: material-color('yellow', '500');
 	}
 }
