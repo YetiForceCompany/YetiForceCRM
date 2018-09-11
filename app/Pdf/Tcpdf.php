@@ -75,6 +75,11 @@ class Tcpdf extends PDF
 	protected $defaultFontSize = 10;
 
 	/**
+	 * @var \Vtiger_Module_Model
+	 */
+	private $moduleModel;
+
+	/**
 	 * Returns pdf library object.
 	 */
 	public function pdf()
@@ -197,6 +202,7 @@ class Tcpdf extends PDF
 	public function setModuleName($name)
 	{
 		$this->moduleName = $name;
+		$this->moduleModel = \Vtiger_Loader::getComponentClassName('Model', 'PDF', $name);
 	}
 
 	/**
@@ -251,6 +257,24 @@ class Tcpdf extends PDF
 	{
 		parent::setLanguage($language);
 		$this->pdf->setLanguage($language);
+	}
+
+	/**
+	 * Parse variables.
+	 *
+	 * @param string $str
+	 *
+	 * @return string
+	 */
+	public function parseVariables(string $str)
+	{
+		$textParser = \App\TextParser::getInstanceById($this->recordId, $this->moduleName);
+		$textParser->setType('pdf');
+		$textParser->setParams(['pdf' => $this->moduleModel]);
+		if ($this->language) {
+			$textParser->setLanguage($this->language);
+		}
+		return $textParser->setContent($str)->parse()->getContent();
 	}
 
 	/**
@@ -405,7 +429,7 @@ class Tcpdf extends PDF
 				$this->pdf->clearWatermarkImage();
 			}
 		} elseif ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT) {
-			$this->pdf->SetWatermarkText($templateModel->get('watermark_text'), 0.15, $templateModel->get('watermark_size'), $templateModel->get('watermark_angle'));
+			$this->pdf->SetWatermarkText($this->parseVariables($templateModel->get('watermark_text')), 0.15, $templateModel->get('watermark_size'), $templateModel->get('watermark_angle'));
 		}
 	}
 
