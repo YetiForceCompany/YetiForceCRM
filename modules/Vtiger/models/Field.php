@@ -791,7 +791,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		$this->fieldInfo['presence'] = $this->isActiveField();
 		$this->fieldInfo['quickcreate'] = $this->isQuickCreateEnabled();
 		$this->fieldInfo['masseditable'] = $this->isMassEditable();
-		$this->fieldInfo['header_field'] = $this->isHeaderField();
+		$this->fieldInfo['header_field'] = $this->getHeaderField();
 		$this->fieldInfo['maxlengthtext'] = $this->get('maxlengthtext');
 		$this->fieldInfo['maximumlength'] = $this->get('maximumlength');
 		$this->fieldInfo['maxwidthcolumn'] = $this->get('maxwidthcolumn');
@@ -1218,6 +1218,33 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function isHeaderField()
 	{
 		return !empty($this->header_field) ? true : false;
+	}
+
+	/**
+	 * Gets header field data.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array|mixed
+	 */
+	public function getHeaderField()
+	{
+		return !empty($this->header_field) ? \App\Json::decode($this->header_field) : [];
+	}
+
+	/**
+	 * Gets header field value.
+	 *
+	 * @param string $type
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return mixed|string
+	 */
+	public function getHeaderValue(string $type)
+	{
+		$param = $this->getHeaderField();
+		return $param[$type] ?? '';
 	}
 
 	/**

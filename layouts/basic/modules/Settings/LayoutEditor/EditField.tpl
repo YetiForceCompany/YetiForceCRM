@@ -71,10 +71,20 @@
 						<input type="hidden" name="header_field" value="0"/>
 						<input type="checkbox" name="header_field"
 							   id="header_field" {if $FIELD_MODEL->isHeaderField()} checked {/if}
-							   value="btn-default"/>
+							   value="1"/>
 						<label for="header_field">
 							{App\Language::translate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}
 						</label>
+						<div class="js-toggle-hide form-group{if !$FIELD_MODEL->isHeaderField()} zeroOpacity {/if}{if $FIELD_MODEL->getFieldDataType() neq 'picklist'} hide{/if}" data-js="calss:zeroOpacity">
+							{assign var=HEADER_FIELD_VALUE value=$FIELD_MODEL->getHeaderValue('header_class')}
+							{assign var=HEADER_FIELD_TYPE value=$FIELD_MODEL->getHeaderValue('header_type')}
+							<select name="header_type" class="form-control select2">
+								{foreach key=LABEL item=VALUE from=$FIELD_MODEL->getUITypeModel()->getHeaderTypes()}
+									<option value="{$VALUE}" {if $VALUE == $HEADER_FIELD_TYPE} selected {/if}>{App\Language::translate($LABEL, $QUALIFIED_MODULE)}</option>
+								{/foreach}
+							</select>
+							<input name="header_class" value="{if $HEADER_FIELD_VALUE}{$HEADER_FIELD_VALUE}{else}badge-info{/if}" type="text" class="hide">
+						</div>
 					</div>
 					<div class="checkbox">
 						<input type="hidden" name="masseditable" value="2"/>
@@ -96,7 +106,7 @@
 						<label for="defaultvalue">
 							{App\Language::translate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}
 						</label>
-						<div class="defaultValueUi form-group{if !$FIELD_MODEL->hasDefaultValue()} zeroOpacity {/if}" data-js="container">
+						<div class="js-toggle-hide form-group{if !$FIELD_MODEL->hasDefaultValue()} zeroOpacity {/if}" data-js="container">
 							{if $FIELD_MODEL->isDefaultValueOptionDisabled() neq "true"}
 								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDefaultEditTemplateName(), $FIELD_MODEL->getModuleName())}
 							{/if}
@@ -144,7 +154,7 @@
 									<strong>{App\Language::translate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}</strong>
 									{assign var=DISPLAY_TYPE value=Vtiger_Field_Model::showDisplayTypeList()}
 								</label>
-								<div class="defaultValueUi">
+								<div class="js-toggle-hide">
 									<select name="displaytype" class="form-control select2" id="displaytype">
 										{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
 											<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_KEY == $FIELD_MODEL->get('displaytype')} selected {/if} >{App\Language::translate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
