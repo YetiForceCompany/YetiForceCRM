@@ -11,7 +11,7 @@
 			</tr>
 			</thead>
 			<tbody>
-			{foreach from=\App\SocialMedia\SocialMedia::getLogs() item=ITEM}
+			{foreach from=\App\SocialMedia::getLogs() item=ITEM}
 				{if $ITEM['type_of_log']==='error'}
 					{assign var=TR_CLASS value='table-danger font-weight-bold'}
 				{elseif $ITEM['type_of_log']==='warning'}

@@ -8,14 +8,14 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-foreach (\App\SocialMedia\SocialMedia::ALLOWED_UITYPE as $uiType => $socialMediaType) {
-	if (\App\SocialMedia\SocialMedia::isConfigured($uiType)) {
-		$availableSocialMediaType[] = \App\SocialMedia\SocialMedia::ALLOWED_UITYPE[$uiType];
+foreach (\App\SocialMedia::ALLOWED_UITYPE as $uiType => $socialMediaType) {
+	if (\App\SocialMedia::isConfigured($uiType)) {
+		$availableSocialMediaType[] = \App\SocialMedia::ALLOWED_UITYPE[$uiType];
 	} else {
-		\App\SocialMedia\SocialMedia::log($uiType, 'warning', 'Unconfigured API');
+		\App\SocialMedia::log($uiType, 'warning', 'Unconfigured API');
 	}
 }
 
-foreach (\App\SocialMedia\SocialMedia::getSocialMediaAccount($availableSocialMediaType) as $socialMedia) {
+foreach (\App\SocialMedia::getSocialMediaAccount($availableSocialMediaType) as $socialMedia) {
 	$socialMedia->retrieveDataFromApi();
 }

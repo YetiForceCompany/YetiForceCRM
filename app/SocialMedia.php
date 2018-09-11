@@ -15,9 +15,8 @@ namespace App;
 /**
  * Class SocialMedia.
  *
- * @package App\SocialMedia
+ * @package App
  */
-//TODO: Konfiguracja
 class SocialMedia extends Base
 {
 	/**

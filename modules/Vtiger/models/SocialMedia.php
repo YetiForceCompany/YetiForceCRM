@@ -100,7 +100,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	public function getAllColumnName()
 	{
 		$columnNames = [];
-		foreach (\App\SocialMedia\SocialMedia::ALLOWED_UITYPE as $uiType => $socialMediaType) {
+		foreach (\App\SocialMedia::ALLOWED_UITYPE as $uiType => $socialMediaType) {
 			if (in_array($socialMediaType, $this->moduleConfig)) {
 				foreach ($this->recordModel->getModule()->getFieldsByUiType($uiType) as $socialField) {
 					$columnNames[$uiType] = $socialField->getColumnName();

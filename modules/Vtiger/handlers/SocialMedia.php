@@ -29,7 +29,7 @@ class Vtiger_SocialMedia_Handler
 				}
 			}
 			foreach ($columnsToRemove as $column) {
-				\App\SocialMedia\SocialMedia::remove($recordModel->getField($column)->getUIType(), $recordModel->getPreviousValue($column));
+				\App\SocialMedia::removeAccount($recordModel->getField($column)->getUIType(), $recordModel->getPreviousValue($column));
 			}
 		}
 	}
@@ -46,7 +46,7 @@ class Vtiger_SocialMedia_Handler
 		$recordModel = $eventHandler->getRecordModel();
 		if (Vtiger_SocialMedia_Model::isEnableForModule($recordModel)) {
 			foreach (Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel)->getAllColumnName() as $column) {
-				\App\SocialMedia\SocialMedia::remove($recordModel->getField($column)->getUIType(), $recordModel->get($column));
+				\App\SocialMedia::removeAccount($recordModel->getField($column)->getUIType(), $recordModel->get($column));
 			}
 		}
 	}
