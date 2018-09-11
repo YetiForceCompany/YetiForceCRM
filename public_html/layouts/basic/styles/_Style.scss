@@ -516,7 +516,6 @@ hr {
 	}
 }
 
-
 .commentContainer {
 	border-radius: 2px;
 
@@ -1978,7 +1977,6 @@ table.dataTable .form-control {
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
-
 
 .icon-in-history-widget {
 	font-size: 17px;
@@ -3942,4 +3940,11 @@ select {
 
 .popupEntriesDiv .listSearchTd {
 	width: 57px;
+}
+
+ul.tweets li {
+	list-style-type: none;
+	width: 528px;
+	min-height: 72px;
+	border-top: #e6ecf0 solid 1px;
 }
