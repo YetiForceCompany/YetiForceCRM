@@ -329,4 +329,18 @@ class Picklist
 		}
 		return $colors;
 	}
+
+	/**
+	 * Get description for all fields or generate it if not exists.
+	 *
+	 * @return array
+	 */
+	public static function getDescriptions($fieldName)
+	{
+		$descriptions = [];
+		foreach (static::getValues($fieldName) as $id => $value) {
+			$descriptions[$id] = $value['description'] ?? '';
+		}
+		return $descriptions;
+	}
 }
