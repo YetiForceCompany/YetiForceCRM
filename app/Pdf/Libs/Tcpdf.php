@@ -98,6 +98,8 @@ class Tcpdf extends \TCPDF
 		],
 		'text' => [
 			'text' => '',
+			'lines' => 0,
+			'html' => '',
 			'fontSize' => 10,
 			'angle' => 0
 		],
@@ -266,7 +268,7 @@ class Tcpdf extends \TCPDF
 		$this->setFontSubsetting(true);
 		$this->setFont($this->FontFamily, $this->FontStyle, $this->FontSize);
 		$lg = [
-			'a_meta_charset' => 'UTF-8',
+			'a_meta_charset' => $this->encoding,
 			'a_meta_dir' => 'ltl',
 			'a_meta_language' => $lang,
 			'w_page' => 'page'
@@ -312,6 +314,8 @@ class Tcpdf extends \TCPDF
 	{
 		$this->clearWatermarkImage();
 		$this->watermark['text']['text'] = $text;
+		$this->watermark['text']['lines'] = substr_count($text, "\n") + 1;
+		$this->watermark['text']['html'] = str_replace("\n", '<br />', $text);
 		$this->watermark['text']['fontSize'] = $fontSize;
 		$this->watermark['text']['angle'] = $angle;
 		$this->watermark['alpha'] = $alpha;
@@ -366,11 +370,15 @@ class Tcpdf extends \TCPDF
 			} elseif (!empty($this->watermark['text']['text'])) {
 				$this->setFontSubsetting(true);
 				$this->setFont($this->headerFontFamily, $this->headerFontVariation, $this->watermark['text']['fontSize']);
+				$this->SetXY($this->lMargin, $this->tMargin);
+				$textHeight = $this->watermark['text']['lines'] * $this->getCellHeight($this->watermark['text']['fontSize'] / $this->k);
+				$pivotX = $this->GetAbsX();
+				$pivotY = $this->GetY() + $textHeight;
 				$this->StartTransform();
-				if ((int) $this->watermark['text']['angle']) {
-					$this->Rotate(-(float) $this->watermark['text']['angle']);
+				if ((float) $this->watermark['text']['angle']) {
+					$this->Rotate(-(float) $this->watermark['text']['angle'], $pivotX, $pivotY);
 				}
-				$this->Text($this->lMargin, $this->tMargin, $this->watermark['text']['text']);
+				$this->WriteHTML($this->watermark['text']['html']);
 				$this->StopTransform();
 				$this->setFont($this->headerFontFamily, $this->headerFontVariation, $this->headerFontSize);
 			}
@@ -396,15 +404,6 @@ class Tcpdf extends \TCPDF
 			$this->setFont($this->footerFontFamily, $this->footerFontVariation, $this->footerFontSize);
 			$this->writeHTML($this->replacePdfVariables($footer));
 		}
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function addPage($orientation = '', $format = '', $keepmargins = false, $tocpage = false)
-	{
-		parent::AddPage($orientation, $format, $keepmargins, $tocpage);
-		$this->writeHTML('');
 	}
 
 	/**
