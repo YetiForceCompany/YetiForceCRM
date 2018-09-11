@@ -406,30 +406,12 @@ class Vtiger_PDF_Model extends \App\Base
 		// metadata
 		$parameters['creator'] = 'YetiForce CRM';
 		if ($this->get('metatags_status') == 1) {
-			$parameters['title'] = $this->parseVariables($this->get('meta_title'));
+			$parameters['title'] = $this->get('meta_title');
 			$parameters['author'] = $this->get('meta_author');
-			$parameters['subject'] = $this->parseVariables($this->get('meta_subject'));
+			$parameters['subject'] = $this->get('meta_subject');
 			$parameters['keywords'] = $this->get('meta_keywords');
 		}
 		return $parameters;
-	}
-
-	/**
-	 * Parse variables.
-	 *
-	 * @param string $str
-	 *
-	 * @return string
-	 */
-	public function parseVariables(string $str)
-	{
-		$textParser = \App\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
-		$textParser->setType('pdf');
-		$textParser->setParams(['pdf' => $this]);
-		if ($this->get('language')) {
-			$textParser->setLanguage($this->get('language'));
-		}
-		return $textParser->setContent($str)->parse()->getContent();
 	}
 
 	/**
@@ -452,46 +434,31 @@ class Vtiger_PDF_Model extends \App\Base
 	/**
 	 * Get header content.
 	 *
-	 * @param bool $raw - if true return unparsed header
-	 *
 	 * @return string - header content
 	 */
-	public function getHeader($raw = false)
+	public function getHeader()
 	{
-		if ($raw) {
-			return $this->get('header_content');
-		}
-		return $this->parseVariables($this->get('header_content'));
+		return $this->get('header_content');
 	}
 
 	/**
 	 * Get body content.
 	 *
-	 * @param bool $raw - if true return unparsed header
-	 *
 	 * @return string - body content
 	 */
-	public function getFooter($raw = false)
+	public function getFooter()
 	{
-		if ($raw) {
-			return $this->get('footer_content');
-		}
-		return $this->parseVariables($this->get('footer_content'));
+		return $this->get('footer_content');
 	}
 
 	/**
 	 * Get body content.
 	 *
-	 * @param bool $raw - if true return unparsed header
-	 *
 	 * @return string - body content
 	 */
-	public function getBody($raw = false)
+	public function getBody()
 	{
-		if ($raw) {
-			return $this->get('body_content');
-		}
-		return $this->parseVariables($this->get('body_content'));
+		return $this->get('body_content');
 	}
 
 	/**
