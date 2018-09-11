@@ -19,17 +19,18 @@ class Vtiger_SocialMedia_Handler
 		$recordModel = $eventHandler->getRecordModel();
 		if (\App\SocialMedia::isEnableForModule($recordModel->getModuleName() && !$recordModel->isNew())) {
 			$columnsToRemove = [];
-			foreach (Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel)->getAllColumnName() as $column) {
+			foreach (Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel)->getAllColumnName() as $uiType => $column) {
 				if ($recordModel->getPreviousValue($column) !== false) {
-					if (!empty($recordModel->getPreviousValue($column)) && empty($recordModel->get($column))) {
-						$columnsToRemove[] = $column;
+					$columnsToRemove[][$uiType] = $column;
+					/*if (!empty($recordModel->getPreviousValue($column)) && empty($recordModel->get($column))) {
+						$columnsToRemove[][$uiType] = $column;
 					} elseif (!empty($recordModel->getPreviousValue($column)) && !empty($recordModel->get($column))) {
-						$columnsToRemove[] = $column;
-					}
+						$columnsToRemove[][$uiType] = $column;
+					}*/
 				}
 			}
 			foreach ($columnsToRemove as $column) {
-				\App\SocialMedia::removeAccount($recordModel->getField($column)->getUIType(), $recordModel->getPreviousValue($column));
+				//\App\SocialMedia::removeAccount($recordModel->getField($column)->getUIType(), $recordModel->getPreviousValue($column));
 			}
 		}
 	}
