@@ -70,7 +70,7 @@ class Vtiger_Loader
 
 		$status = include_once $file;
 
-		$success = !($status === 0);
+		$success = ($status !== 0);
 
 		if ($success) {
 			self::$includeCache[$qualifiedName] = $file;

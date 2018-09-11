@@ -83,6 +83,6 @@ class OverdueDeadlines extends Base
 			}
 			$html .= '</tr>';
 		}
-		return '</tbody></table>';
+		return $html . '</tbody></table>';
 	}
 }
