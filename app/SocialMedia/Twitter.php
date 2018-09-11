@@ -151,12 +151,12 @@ class Twitter extends AbstractSocialMedia
 	/**
 	 * Log info.
 	 *
-	 * @param $message
+	 * @param string $message
 	 *
 	 * @throws \App\Exceptions\AppException
 	 * @throws \yii\db\Exception
 	 */
-	private function logInfoDb($message)
+	private function logInfoDb(string $message)
 	{
 		if (static::$logOn) {
 			static::logInfo('[' . $this->userName . ']: ' . $message);
@@ -166,12 +166,12 @@ class Twitter extends AbstractSocialMedia
 	/**
 	 * Log error.
 	 *
-	 * @param $message
+	 * @param string $message
 	 *
 	 * @throws \App\Exceptions\AppException
 	 * @throws \yii\db\Exception
 	 */
-	private function logErrorDb($message)
+	private function logErrorDb(string $message)
 	{
 		if (static::$logOn) {
 			static::logError('[' . $this->userName . ']: ' . $message);
@@ -181,12 +181,12 @@ class Twitter extends AbstractSocialMedia
 	/**
 	 * Log warning.
 	 *
-	 * @param $message
+	 * @param string $message
 	 *
 	 * @throws \App\Exceptions\AppException
 	 * @throws \yii\db\Exception
 	 */
-	private function logWarningDb($message)
+	private function logWarningDb(string $message)
 	{
 		if (static::$logOn) {
 			static::logWarning('[' . $this->userName . ']: ' . $message);

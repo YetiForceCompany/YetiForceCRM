@@ -49,7 +49,7 @@ abstract class AbstractSocialMedia
 	/**
 	 * Remove social media account from database.
 	 */
-	abstract public function remove();
+	abstract public function removeAccount();
 
 	/**
 	 * Log info.
@@ -106,10 +106,10 @@ abstract class AbstractSocialMedia
 		}
 		\App\Db::getInstance()
 			->createCommand()
-			->insert('s_#__social_media_logs', [
-				'date_log' => date('Y-m-d H:i:s'),
-				'type_of_log' => $typeOfLog,
-				'type' => static::$socialMediaType,
+			->insert('l_#__social_media_logs', [
+				'date' => date('Y-m-d H:i:s'),
+				'type' => $typeOfLog,
+				'name' => static::$socialMediaType,
 				'message' => $message,
 			])->execute();
 	}

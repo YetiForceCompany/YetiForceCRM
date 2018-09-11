@@ -161,7 +161,9 @@ class SocialMedia extends Base
 	 *
 	 * @param int $uiType
 	 *
-	 * @return bool|string
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return string
 	 */
 	public static function getClassNameByUitype(int $uiType)
 	{
@@ -198,7 +200,7 @@ class SocialMedia extends Base
 	}
 
 	/**
-	 * @param string|array $socialMediaType
+	 * @param string|string[] $socialMediaType
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
@@ -271,7 +273,7 @@ class SocialMedia extends Base
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return \App\Db\Query|null|void
+	 * @return \App\Db\Query|false
 	 */
 	private static function getSocialMediaQuery($socialMediaType)
 	{
@@ -310,8 +312,8 @@ class SocialMedia extends Base
 	 */
 	public static function getLogs()
 	{
-		$dataReader = (new \App\Db\Query())->from('s_#__social_media_logs')
-			->orderBy(['date_log' => SORT_DESC])
+		$dataReader = (new \App\Db\Query())->from('l_#__social_media_logs')
+			->orderBy(['date' => SORT_DESC])
 			->limit(1000)
 			->createCommand()->query();
 		while (($row = $dataReader->read())) {

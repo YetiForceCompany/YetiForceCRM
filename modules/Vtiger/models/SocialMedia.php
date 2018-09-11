@@ -27,7 +27,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
 	 */
-	private function __construct($recordModel)
+	private function __construct(\Vtiger_Record_Model $recordModel)
 	{
 		parent::__construct();
 		$this->recordModel = $recordModel;
@@ -41,7 +41,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 *
 	 * @return self
 	 */
-	public static function getInstanceByRecordModel($recordModel)
+	public static function getInstanceByRecordModel(\Vtiger_Record_Model $recordModel)
 	{
 		return new self($recordModel);
 	}
@@ -79,7 +79,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 *
 	 * @return string[]
 	 */
-	public function getAllSocialMediaAccount($socialType)
+	public function getAllSocialMediaAccount(string $socialType)
 	{
 		$uiType = \App\SocialMedia::getUitypeFromParam($socialType)[0];
 		$socialAccount = [];
