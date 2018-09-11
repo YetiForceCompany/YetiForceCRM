@@ -4,9 +4,9 @@
  * Inventory MarginP Field Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 {
@@ -33,14 +33,19 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 
 	public function getSummaryValuesFromData($data)
 	{
-		$sum = $purchase = $margin = 0;
+		$sum = $purchase = $totalOrNet = 0;
 		if (is_array($data)) {
 			foreach ($data as $row) {
-				$purchase += $row['purchase'];
-				$margin += $row['margin'];
+				$purchase += $row['qty'] * $row['purchase'];
+				if (isset($row['net'])) {
+					$totalOrNet += $row['net'];
+				} else {
+					$totalOrNet += $row['total'];
+				}
 			}
 			if (!empty($purchase)) {
-				$sum = ($margin / $purchase) * 100;
+				$subtraction = ($totalOrNet - $purchase);
+				$sum = ($subtraction / $totalOrNet) * 100;
 			}
 		}
 		return $sum;
