@@ -112,16 +112,16 @@ jQuery.Class("Settings_Vtiger_Tax_Js", {}, {
 		}
 
 		var trElementForTax =
-			jQuery('<tr class="opacity" data-taxid="' + details.taxid + '" data-taxtype="' + details.type + '">\n\
-					<td style="border-left: none;" class="textAlignCenter ' + details.row_type + '"><label class="taxLabel">' + details.taxlabel + '</label></td>\n\
-					<td style="border-left: none;" class="textAlignCenter ' + details.row_type + '"><span class="taxPercentage">' + details.percentage + '%</span></td>\n\
-					<td style="border-left: none;" class="textAlignCenter ' + details.row_type + '"><input class="editTaxStatus" type="checkbox" checked>\n\
-						<div class="pull-right actions">\n\
-							<a class="editTax u-cursor-pointer" data-url="' + details._editurl + '">\n\
-								<i class="fas fa-edit alignBottom" title="' + app.vtranslate('JS_EDIT') + '"></i>\n\
-							</a>\n\
-						</div>\n\
-					</td></tr>');
+			jQuery('<tr class="opacity" data-taxid="' + details.taxid + '" data-taxtype="' +
+				details.type + '"><td style="border-left: none;" class="textAlignCenter ' +
+				details.row_type + '"><label class="taxLabel">' + details.taxlabel +
+				'</label></td><td style="border-left: none;" class="textAlignCenter ' +
+				details.row_type + '"><span class="taxPercentage">' + details.percentage +
+				'%</span></td><td style="border-left: none;" class="textAlignCenter ' +
+				details.row_type + '"><input class="editTaxStatus" type="checkbox" checked>' +
+				'<div class="pull-right actions"><a class="editTax u-cursor-pointer" data-url="' +
+				details._editurl + '"><i class="fas fa-edit alignBottom" title="' +
+				app.vtranslate('JS_EDIT') + '"></i></a></div></td></tr>');
 		taxTable.append(trElementForTax);
 	},
 

@@ -51,20 +51,16 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 			if (isset($this->Data['switchHeader']) && $this->Data['switchHeader'] != '-') {
 				$switchHeaderData = Settings_Widgets_Module_Model::getHeaderSwitch([$this->Data['relatedmodule'], $this->Data['switchHeader']]);
 				if ($switchHeaderData) {
-					switch ($switchHeaderData['type']) {
-						case 1:
-							$whereConditionOff = [];
-							foreach ($switchHeaderData['value'] as $name => $value) {
-								$whereCondition[] = [$name, 'n', implode('##', $value)];
-								$whereConditionOff[] = [$name, 'e', implode('##', $value)];
-							}
-							$this->getCheckboxLables($model, 'switchHeader', 'LBL_SWITCHHEADER_');
-							$this->Config['switchHeader']['on'] = \App\Json::encode($whereCondition);
-							$this->Config['switchHeader']['off'] = \App\Json::encode($whereConditionOff);
-							$whereCondition = [$whereCondition];
-							break;
-						default:
-							break;
+					if ($switchHeaderData['type'] === 1) {
+						$whereConditionOff = [];
+						foreach ($switchHeaderData['value'] as $name => $value) {
+							$whereCondition[] = [$name, 'n', implode('##', $value)];
+							$whereConditionOff[] = [$name, 'e', implode('##', $value)];
+						}
+						$this->getCheckboxLables($model, 'switchHeader', 'LBL_SWITCHHEADER_');
+						$this->Config['switchHeader']['on'] = \App\Json::encode($whereCondition);
+						$this->Config['switchHeader']['off'] = \App\Json::encode($whereConditionOff);
+						$whereCondition = [$whereCondition];
 					}
 				}
 			}

@@ -84,12 +84,8 @@ class Settings_MappedFields_Record_Model extends Settings_Vtiger_Record_Model
 	public function getDisplayValue($key)
 	{
 		$value = $this->get($key);
-		switch ($key) {
-			case 'status':
-				$value = $value ? 'active' : 'inactive';
-				break;
-			default:
-				break;
+		if ($key === 'status') {
+			$value = $value ? 'active' : 'inactive';
 		}
 		return $value;
 	}

@@ -4,8 +4,8 @@
  * List records action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_List_Action extends Vtiger_Mass_Action
 {
@@ -50,12 +50,10 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 			throw new \App\Exceptions\Security('LBL_NOT_SUPPORTED_FIELD', 406);
 		}
 		$columnName = $fieldQueryModel->getColumnName();
-		switch ($request->getByType('calculateType')) {
-			case 'sum':
-				$value = $queryGenerator->createQuery()->sum($columnName);
-				break;
-			default:
-				throw new \App\Exceptions\NotAllowedMethod('LBL_PERMISSION_DENIED', 406);
+		if ($request->getByType('calculateType') === 'sum') {
+			$value = $queryGenerator->createQuery()->sum($columnName);
+		} else {
+			throw new \App\Exceptions\NotAllowedMethod('LBL_PERMISSION_DENIED', 406);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($fieldModel->getDisplayValue($value));

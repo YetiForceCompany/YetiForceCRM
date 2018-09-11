@@ -600,11 +600,8 @@ class TextParser
 				if (strpos($key, ' ') !== false) {
 					list($key, $params) = explode(' ', $key);
 				}
-				switch ($key) {
-					case 'Comments':
-						return $this->getComments($params);
-					default:
-						break;
+				if ($key === 'Comments') {
+					return $this->getComments($params);
 				}
 				break;
 		}

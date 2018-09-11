@@ -259,8 +259,12 @@ Vtiger_Date_Field_Js('Workflows_Date_Field_Js', {}, {
 				element = jQuery(html);
 				return this.addValidationToElement(element);
 			} else if (this._specialDateComparator(comparatorSelectedOptionVal)) {
-				html = '<input name="' + this.getName() + '" type="text" value="' + this.getValue() + '" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator="[{"name":"PositiveNumber"}]">\n\
-							<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+				html = '<input name="' + this.getName() + '" type="text" value="' +
+					this.getValue() + '" data-validation-engine="' +
+					'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"' +
+					' data-validator="[{"name":"PositiveNumber"}]">' +
+					'<input type="hidden" name="valuetype" value="' +
+					this.get('workflow_valuetype') + '" />';
 				return jQuery(html);
 			} else if (comparatorSelectedOptionVal in dateSpecificConditions) {
 				let startValue = dateSpecificConditions[comparatorSelectedOptionVal]['startdate'],

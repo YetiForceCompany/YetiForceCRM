@@ -43,11 +43,8 @@ class VTConditionalExpression
 
 	private function evalCondition($tree)
 	{
-		switch ($tree[0]) {
-			case '=':
-				return (int) $this->getVal($tree[1]) == (int) $this->getVal($tree[2]);
-			default:
-				break;
+		if ($tree[0] === '=') {
+			return (int) $this->getVal($tree[1]) == (int) $this->getVal($tree[2]);
 		}
 	}
 

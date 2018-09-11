@@ -487,12 +487,10 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			throw new \App\Exceptions\Security('ERR_NOT_SUPPORTED_FIELD', 406);
 		}
 		$columnName = $fieldQueryModel->getColumnName();
-		switch ($request->getByType('calculateType')) {
-			case 'sum':
-				$value = $queryGenerator->createQuery()->sum($columnName);
-				break;
-			default:
-				throw new \App\Exceptions\NotAllowedMethod('LBL_PERMISSION_DENIED', 406);
+		if ($request->getByType('calculateType') === 'sum') {
+			$value = $queryGenerator->createQuery()->sum($columnName);
+		} else {
+			throw new \App\Exceptions\NotAllowedMethod('LBL_PERMISSION_DENIED', 406);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($fieldModel->getDisplayValue($value));

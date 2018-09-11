@@ -1013,7 +1013,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var dateTime = false;
 				if (editElement.find('[data-fieldinfo]').length == 2) {
 					editElement.find('[data-fieldinfo]').each(function () {
-						var field = [];
+						var field = {};
 						field['name'] = jQuery(this).attr('name');
 						field['type'] = jQuery(this).data('fieldinfo').type;
 						if (field['type'] == 'datetime') {
@@ -1087,9 +1087,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 							text: '<b>' + fieldInfo.data.label + '</b><br>' +
-							'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
-							prevDisplayValue + '<br> ' +
-							'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
+								'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
+								prevDisplayValue + '<br> ' +
+								'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
 							type: 'info',
 							textTrusted: true
 						});

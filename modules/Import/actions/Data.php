@@ -458,19 +458,14 @@ class Import_Data_Action extends \App\Controller\Action
 					$this->inventoryFieldMapData[$mapData['field']][$entityName] = $fieldObject;
 				}
 				if ($fieldObject) {
-					switch ($fieldObject->getFieldDataType()) {
-						case 'picklist':
-							$picklist = $fieldObject->getValuesName();
-							if (in_array($value, $picklist)) {
-								$value = array_search($value, $picklist);
-							} elseif (array_key_exists($value, $picklist)) {
-								break;
-							} else {
-								$value = '';
-							}
-							break;
-						default:
-							break;
+					if ($fieldObject->getFieldDataType() === 'picklist') {
+						$picklist = $fieldObject->getValuesName();
+						if (in_array($value, $picklist)) {
+							$value = array_search($value, $picklist);
+						} elseif (array_key_exists($value, $picklist)) {
+						} else {
+							$value = '';
+						}
 					}
 				} else {
 					$value = '';

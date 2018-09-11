@@ -44,10 +44,23 @@ var Vtiger_PBXManager_Js = {
 	showPBXIncomingCallPopup: function (record) {
 		var params = {
 			title: app.vtranslate('JS_PBX_INCOMING_CALL'),
-			text: '<div class="row pbxcall" id="pbxcall_' + record.pbxmanagerid + '" callid=' + record.pbxmanagerid + ' style="color:black"><span class="col-md-12" id="caller" value="' + record.customernumber + '">' + app.vtranslate('JS_PBX_CALL_FROM') + ' : ' + record.customernumber + '</span><span class="d-none col-md-12" id="contactsave_' + record.pbxmanagerid + '">\n\
-                        <span><input class="col-md-3" id="email_' + record.pbxmanagerid + '" type="text" placeholder="Enter Email-id"></input>&nbsp;&nbsp;&nbsp;<select class="input-small" id="module_' + record.pbxmanagerid + '" placeholder="Select"><option>Select</option></select><h5 class="alert-danger d-none col-md-3" id="alert_msg">' + app.vtranslate('JS_PBX_FILL_ALL_FIELDS') + '</h5>\n\
-                        <button class="btn btn-success pull-right"  id="pbxcontactsave_' + record.pbxmanagerid + '" recordid="' + record.pbxmanagerid + '" type="submit">Save</button>\n\
-                        </span></span><br /><span class="col-md-12" style="display:none" id="answeredby"><i class="icon-headphones"></i>&nbsp;<span id="answeredbyname"></span></span></div>',
+			text: '<div class="row pbxcall" id="pbxcall_' + record.pbxmanagerid + '" callid=' +
+				record.pbxmanagerid + ' style="color:black"><span class="col-md-12" id="caller"' +
+				'value="' + record.customernumber + '">' + app.vtranslate('JS_PBX_CALL_FROM') +
+				' : ' + record.customernumber +
+				'</span><span class="d-none col-md-12" id="contactsave_' +
+				record.pbxmanagerid +
+				'"><span><input class="col-md-3" id="email_' +
+				record.pbxmanagerid + '" type="text" placeholder="' +
+				'Enter Email-id"></input>&nbsp;&nbsp;&nbsp;<select class="input-small" id="module_' +
+				record.pbxmanagerid + '"placeholder="Select">' +
+				'<option>Select</option></select><h5 class="alert-danger d-none col-md-3"' +
+				'id="alert_msg">' + app.vtranslate('JS_PBX_FILL_ALL_FIELDS') +
+				'</h5><button class="btn btn-success pull-right"  id="pbxcontactsave_' +
+				record.pbxmanagerid + '" recordid="' + record.pbxmanagerid +
+				'" type="submit">Save</button></span></span><br /><span ' +
+				'class="col-md-12" style="display:none" id="answeredby"><i class="' +
+				'icon-headphones"></i>&nbsp;<span id="answeredbyname"></span></span></div>',
 			width: '28%',
 			min_height: '75px',
 			addclass: 'vtCall',
@@ -107,31 +120,29 @@ var Vtiger_PBXManager_Js = {
 		});
 	},
 	checkIfRelatedModuleRecordExist: function (record) {
-		switch (record.callername) {
-			case null:
-				var url = 'index.php?module=PBXManager&action=IncomingCallPoll&mode=checkModuleViewPermission&view=EditView';
-				AppConnector.request(url).done(function (data) {
-					var responsedata = JSON.parse(data);
-					var showSaveOption = false;
-					var moduleList = responsedata.result.modules;
-					var contents = jQuery('#module_' + record.pbxmanagerid + '');
-					var newEle;
-					for (var module in moduleList) {
-						if (moduleList.hasOwnProperty(module)) {
-							if (moduleList[module]) {
-								newEle = '<option id="select_' + module + '" value="' + module + '">' + app.vtranslate(module) + '</option>';
-								contents.append(newEle);
-								showSaveOption = true;
-							}
+		if (record.callername === null) {
+			var url = 'index.php?module=PBXManager&action=IncomingCallPoll&mode=checkModuleViewPermission&view=EditView';
+			AppConnector.request(url).done(function (data) {
+				var responsedata = JSON.parse(data);
+				var showSaveOption = false;
+				var moduleList = responsedata.result.modules;
+				var contents = jQuery('#module_' + record.pbxmanagerid + '');
+				var newEle;
+				for (var module in moduleList) {
+					if (moduleList.hasOwnProperty(module)) {
+						if (moduleList[module]) {
+							newEle = '<option id="select_' + module + '" value="' + module + '">' + app.vtranslate(module) + '</option>';
+							contents.append(newEle);
+							showSaveOption = true;
 						}
 					}
-					if (responsedata.success && showSaveOption)
-						jQuery('#contactsave_' + record.pbxmanagerid + '').show();
-				});
-				break;
-			default:
-				jQuery('#caller', '#pbxcall_' + record.pbxmanagerid + '').html(app.vtranslate('JS_PBX_CALL_FROM') + ' :&nbsp;<a href="index.php?module=' + record.customertype + '&view=Detail&record=' + record.customer + '">' + record.callername + '</a>');
-				break;
+				}
+				if (responsedata.success && showSaveOption)
+					jQuery('#contactsave_' + record.pbxmanagerid + '').show();
+			});
+			break;
+		} else {
+			jQuery('#caller', '#pbxcall_' + record.pbxmanagerid + '').html(app.vtranslate('JS_PBX_CALL_FROM') + ' :&nbsp;<a href="index.php?module=' + record.customertype + '&view=Detail&record=' + record.customer + '">' + record.callername + '</a>');
 		}
 	},
 	/**

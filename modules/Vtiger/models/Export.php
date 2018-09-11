@@ -347,22 +347,18 @@ class Vtiger_Export_Model extends \App\Base
 			$inventoryEntries['inv_' . $columnName] = $value;
 			foreach ($field->getCustomColumn() as $customColumnName => $dbType) {
 				$valueParam = $inventoryRow[$customColumnName];
-				switch ($customColumnName) {
-					case 'currencyparam':
-						$field = $inventoryFields['currency'];
-						$valueData = $field->getCurrencyParam([], $valueParam);
-						if (is_array($valueData)) {
-							$valueNewData = [];
-							foreach ($valueData as $currencyId => $data) {
-								$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
-								$data['value'] = $currencyName;
-								$valueNewData[$currencyName] = $data;
-							}
-							$valueParam = \App\Json::encode($valueNewData);
+				if ($customColumnName === 'currencyparam') {
+					$field = $inventoryFields['currency'];
+					$valueData = $field->getCurrencyParam([], $valueParam);
+					if (is_array($valueData)) {
+						$valueNewData = [];
+						foreach ($valueData as $currencyId => $data) {
+							$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
+							$data['value'] = $currencyName;
+							$valueNewData[$currencyName] = $data;
 						}
-						break;
-					default:
-						break;
+						$valueParam = \App\Json::encode($valueNewData);
+					}
 				}
 				$inventoryEntries['inv_' . $customColumnName] = $valueParam;
 			}

@@ -501,12 +501,8 @@ class Mailer
 	 */
 	public function sendCustomParams($name, $param, $mailer)
 	{
-		switch ($name) {
-			case 'ics':
-				$mailer->mailer->Ical = $param;
-				break;
-			default:
-				break;
+		if ($name === 'ics') {
+			$mailer->mailer->Ical = $param;
 		}
 	}
 

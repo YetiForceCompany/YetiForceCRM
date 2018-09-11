@@ -170,13 +170,10 @@ class Log extends Logger
 	{
 		$db = \App\Db::getInstance('log');
 		$query = (new \App\Db\Query())->from('o_#__' . $type);
-		switch ($mode) {
-			case 'oneDay':
-				$query->where(['>=', 'date', date('Y-m-d H:i:s', strtotime('-1 day'))]);
-				break;
-			default:
-				$query->limit(100);
-				break;
+		if ($mode === 'oneDay') {
+			$query->where(['>=', 'date', date('Y-m-d H:i:s', strtotime('-1 day'))]);
+		} else {
+			$query->limit(100);
 		}
 		if ($countMode) {
 			return $query->count('*', $db);

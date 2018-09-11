@@ -138,7 +138,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					if (form.validationEngine('validate')) {
 						var paramsForm = form.serializeFormData();
 						paramsForm['action'] = 'addBlock';
-						var paramsBlock = [];
+						var paramsBlock = {};
 						paramsBlock['authorized'] = block.val();
 						paramsBlock['label'] = block.find(':selected').text();
 						thisInstance.save(paramsForm, 'save').done(function (data) {
