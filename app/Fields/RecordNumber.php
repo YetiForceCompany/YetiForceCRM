@@ -73,7 +73,7 @@ class RecordNumber
 						'reset_sequence' => $resetSequence,
 						'cur_sequence' => $curSequence],
 						['tabid' => $tabId])
-					->execute();
+						->execute();
 			}
 		}
 	}
@@ -152,7 +152,7 @@ class RecordNumber
 	 */
 	public static function parse($prefix, $number, $postfix, $leadingZeros)
 	{
-		$number = str_pad((string)$number, $leadingZeros, '0', STR_PAD_LEFT);
+		$number = str_pad((string) $number, $leadingZeros, '0', STR_PAD_LEFT);
 		return str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [static::date('Y'), static::date('y'), static::date('m'), static::date('n'), static::date('d'), static::date('j')], $prefix . $number . $postfix);
 	}
 
