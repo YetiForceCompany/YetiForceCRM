@@ -180,7 +180,9 @@
     "LBL_WRONG_RELATION": "Nieprawid\u0142owa warto\u015b\u0107 relacji",
     "Image": "Plik graficzny",
     "MultiImage": "Pliki graficzne (wiele)",
-    "DateTime": "Pole daty i czasu"
+    "DateTime": "Pole daty i czasu",
+    "LBL_HEADER_TYPE_VALUE": "Warto\u015B\u0107",
+    "LBL_HEADER_TYPE_PROCESS": "Proces"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Nazwa bloku ju\u017c istnieje",

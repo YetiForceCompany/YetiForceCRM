@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce Sp. z o.o
 ********************************************************************************/
 -->*}
 {strip}
@@ -46,7 +46,8 @@
 				{assign var=PROCESS value=$RECORD->get('process')}
 				{if $PROCESS}
 					<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('process')}" data-toggle="popover" data-js="tooltip">
-						<span class="mr-1 text-muted u-white-space-nowrap">{\App\Language::translate('LBL_PROCESS',$MODULE_NAME)}: </span>
+						<span class="mr-1 text-muted u-white-space-nowrap">{\App\Language::translate('LBL_PROCESS',$MODULE_NAME)}
+							: </span>
 						<span class="js-popover-text" data-js="clone">{$RECORD->getDisplayValue('process')}</span>
 						<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 
@@ -71,7 +72,8 @@
 				{/if}
 			</div>
 		</div>
-		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME)}
+		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME) HEADER_TYPE=value}
 	</div>
+	{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME) HEADER_TYPE=process}
 {/strip}
 

@@ -60,4 +60,12 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 		}
 		return !isset(\App\Fields\Picklist::$picklistDependencyFields[$moduleName][$this->getFieldModel()->getFieldName()]);
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getHeaderTypes()
+	{
+		return ['LBL_HEADER_TYPE_VALUE' => 'value', 'LBL_HEADER_TYPE_PROCESS' => 'process'];
+	}
 }
