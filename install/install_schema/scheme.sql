@@ -1010,6 +1010,7 @@ CREATE TABLE `s_yf_mail_queue` (
   `priority` tinyint(1) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `smtp_id` (`smtp_id`),
+  KEY `status` (`status`),
   CONSTRAINT `s_yf_mail_queue_ibfk_1` FOREIGN KEY (`smtp_id`) REFERENCES `s_yf_mail_smtp` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
