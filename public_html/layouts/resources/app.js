@@ -1648,6 +1648,9 @@ $(document).ready(function () {
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
+	$('.js-scrollbar').each(function () {
+		app.showNewScrollbar($(this));
+	})
 	String.prototype.toCamelCase = function () {
 		var value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
