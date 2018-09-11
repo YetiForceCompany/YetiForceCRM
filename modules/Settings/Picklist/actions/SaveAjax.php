@@ -49,7 +49,8 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function add(\App\Request $request)
 	{
-		$newValue = $request->get('newValue');
+		$newValue = $request->getByType('newValue', 'text');
+		$description = $request->getForHtml('description');
 		$moduleName = $request->getByType('source_module', 2);
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getForSql('picklistName'), $moduleModel);
@@ -69,7 +70,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		try {
 			$fieldModel->validate($newValue);
-			$id = $moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected);
+			$id = $moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected, $description);
 			$response->setResult(['id' => $id['id']]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -85,10 +86,11 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function rename(\App\Request $request)
 	{
 		$moduleName = $request->getByType('source_module', 2);
-		$newValue = $request->get('newValue');
+		$newValue = $request->getByType('newValue', 'text');
 		$pickListFieldName = $request->getForSql('picklistName');
-		$oldValue = $request->get('oldValue');
-		$id = $request->get('id');
+		$oldValue = $request->getByType('oldValue', 'text');
+		$id = $request->getInteger('id');
+		$description = $request->getForHtml('description');
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, $moduleModel);
 		$response = new Vtiger_Response();
@@ -98,7 +100,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				if ($moduleName === 'Events' && ($pickListFieldName === 'activitytype' || $pickListFieldName === 'activitystatus')) {
 					$this->updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue);
 				}
-				$status = $moduleModel->renamePickListValues($fieldModel, $oldValue, $newValue, $id);
+				$status = $moduleModel->renamePickListValues($fieldModel, $oldValue, $newValue, $id, $description);
 				$response->setResult(['success', $status]);
 			} catch (Exception $e) {
 				$response->setError($e->getCode(), $e->getMessage());
