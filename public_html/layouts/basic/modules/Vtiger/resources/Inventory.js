@@ -505,13 +505,27 @@ $.Class("Vtiger_Inventory_Js", {
 	},
 	calculatMarginPSummary: function () {
 		var thisInstance = this;
+		var purchase = 0;
+		var totalOrNet = 0;
 		var sumRow = thisInstance.getInventoryItemsContainer().find('tfoot');
-		var purchase = app.parseNumberToFloat(sumRow.find('[data-sumfield="purchase"]').text());
-		var margin = app.parseNumberToFloat(sumRow.find('[data-sumfield="margin"]').text());
-		margin = app.parseNumberToFloat(margin);
+		var total = app.parseNumberToFloat(sumRow.find('[data-sumfield="totalPrice"]').text());
+		var netPrice = app.parseNumberToFloat(sumRow.find('[data-sumfield="netPrice"]').text());
+		this.getInventoryItemsContainer().find(thisInstance.rowClass).each(function (index) {
+			var qty = $(this).find('.qty');
+			var purchasPrice = $(this).find('.purchase');
+			if ((qty.length > 0) && (purchasPrice.length > 0)) {
+				purchase += app.parseNumberToFloat(qty.val()) * app.parseNumberToFloat(purchasPrice.val());
+			}
+		})
+		if (netPrice != total) {
+			totalOrNet += app.parseNumberToFloat(netPrice);
+		} else {
+			totalOrNet += app.parseNumberToFloat(total);
+		}
 		var marginp = '0';
 		if (purchase !== 0) {
-			marginp = (margin / purchase) * 100;
+			var subtraction = (totalOrNet - purchase);
+			marginp = (subtraction / totalOrNet) * 100;
 		}
 		sumRow.find('[data-sumfield="marginP"]').text(app.parseNumberToShow(marginp))
 	},
