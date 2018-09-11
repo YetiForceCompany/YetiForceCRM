@@ -202,5 +202,6 @@ class SocialMedia
 		while (($row = $dataReader->read())) {
 			yield $row;
 		}
+		$dataReader->close();
 	}
 }

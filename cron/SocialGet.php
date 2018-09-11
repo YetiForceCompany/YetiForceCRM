@@ -16,6 +16,6 @@ foreach (\App\SocialMedia\SocialMedia::ALLOWED_UITYPE as $uiType => $socialMedia
 	}
 }
 
-foreach (\App\SocialMedia\SocialMedia::getSocialMediaAccount($socialMediaType) as $socialMedia) {
+foreach (\App\SocialMedia\SocialMedia::getSocialMediaAccount($availableSocialMediaType) as $socialMedia) {
 	$socialMedia->retrieveDataFromApi();
 }
