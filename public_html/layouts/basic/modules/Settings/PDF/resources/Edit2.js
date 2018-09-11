@@ -73,7 +73,53 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 		});
 	},
 	registerEditors(container) {
-		new App.Fields.Text.Editor($(container).find('.js-editor'), {toolbar: 'Full'});
+		new App.Fields.Text.Editor($(container).find('.js-editor'), {
+			toolbar: 'PDF',
+			font_names: 'dejavusans',
+			styleSet: false,
+			toolbar_PDF: [
+				{
+					name: 'clipboard',
+					items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+				},
+				{name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
+				{name: 'links', items: ['Link', 'Unlink']},
+				{name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar']},
+				{name: 'tools', items: ['Maximize', 'ShowBlocks']},
+				{name: 'document', items: ['Source', 'Print']},
+				'/',
+				{name: 'styles', items: ['Format', 'Font', 'FontSize']},
+				{
+					name: 'basicstyles',
+					items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']
+				},
+				{name: 'colors', items: ['TextColor', 'BGColor']},
+				{
+					name: 'paragraph',
+					items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+				},
+				{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+			],
+			allowedContent: {
+				'$1': {
+					elements: CKEDITOR.dtd,
+					attributes: true,
+					classes: true,
+					styles: {
+						'color': true,
+						'background-color': true,
+						'font-size': true,
+						'font-weight': true,
+						'font-family': true,
+						'text-align': true,
+						'text-transform': true,
+						'width': true,
+						'height': true,
+						'border': true
+					}
+				}
+			}
+		});
 	},
 
 	registerEvents: function () {
