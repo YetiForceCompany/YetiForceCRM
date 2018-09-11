@@ -10,19 +10,135 @@
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
-namespace App\SocialMedia;
+namespace App;
 
 /**
  * Class SocialMedia.
  *
  * @package App\SocialMedia
  */
-class SocialMedia
+//TODO: Konfiguracja
+class SocialMedia extends Base
 {
 	/**
 	 * Array of allowed uiType.
 	 */
 	public const ALLOWED_UITYPE = [313 => 'twitter'];
+
+	/**
+	 * Configuration type.
+	 *
+	 * @var string
+	 */
+	protected $type;
+
+	/**
+	 * Return object instance.
+	 *
+	 * @param string $type Type of config
+	 *
+	 * @return \App\SocialMedia
+	 */
+	public static function getInstance(string $type)
+	{
+		return new self($type);
+	}
+
+	/**
+	 * SocialMedia constructor.
+	 *
+	 * @param string $type Type of config
+	 */
+	private function __construct(string $type)
+	{
+		$this->getConfig($type);
+	}
+
+	/**
+	 * Get configuration from DB.
+	 *
+	 * @param string $type Type of config
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return array
+	 */
+	public function getConfig(string $type)
+	{
+		if (\App\Cache::has('SocialMediaConfig', $type)) {
+			return $this->value = \App\Cache::get('SocialMediaConfig', $type);
+		}
+		$this->type = $type;
+		$this->value = [];
+		$dataReader = (new \App\Db\Query())
+			->select(['name', 'value'])
+			->from('u_#__social_media_config')
+			->where(['type' => $type])
+			->createCommand()
+			->query();
+		while ($row = $dataReader->read()) {
+			$this->value[$row['name']] = \App\Json::decode($row['value']);
+		}
+		$dataReader->close();
+		\App\Cache::save('SocialMediaConfig', $type, $this->value, \App\Cache::LONG);
+		return $this->value;
+	}
+
+	/**
+	 * Save changes to DB.
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public function save()
+	{
+		$db = \App\Db::getInstance();
+		$transaction = $db->beginTransaction();
+		try {
+			foreach ($this->value as $key => $val) {
+				$db->createCommand()->update('u_#__social_media_config',
+					['value' => \App\Json::encode($val)],
+					['type' => $this->type, 'name' => $key]
+				)->execute();
+			}
+			$transaction->commit();
+			$this->clearCache();
+		} catch (\Exception $e) {
+			$transaction->rollBack();
+			throw $e;
+		}
+	}
+
+	/**
+	 * Function clears cache.
+	 */
+	public function clearCache()
+	{
+		\App\Cache::delete('SocialMediaConfig', $this->type);
+	}
+
+	/**
+	 * Checking whether social media are available for the module.
+	 *
+	 * @param string $moduleName Name of module
+	 *
+	 * @return bool
+	 */
+	public static function isEnableForModule(string $moduleName)
+	{
+		$socialMediaConfig = \AppConfig::module($moduleName, 'enable_social');
+		if (false === $socialMediaConfig || empty($socialMediaConfig)) {
+			return false;
+		}
+		if (!is_array($socialMediaConfig)) {
+			throw new \App\Exceptions\AppException("ERR_ILLEGAL_VALUE||$moduleName:ENABLE_SOCIAL");
+		}
+		foreach ($socialMediaConfig as $socialMediaType) {
+			if (in_array($socialMediaType, static::ALLOWED_UITYPE)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * @param int    $uiType
@@ -110,7 +226,7 @@ class SocialMedia
 	 * @param int    $uiType
 	 * @param string $accountName
 	 */
-	public static function remove(int $uiType, string $accountName)
+	public static function removeAccount(int $uiType, string $accountName)
 	{
 		$query = static::getSocialMediaQuery([static::ALLOWED_UITYPE[$uiType]])
 			->where(['account_name' => $accountName])

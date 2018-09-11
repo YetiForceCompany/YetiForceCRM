@@ -55,6 +55,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 */
 	public static function isEnableForRecord($recordModel)
 	{
+		//TODO: App/SocialMEdia/Abstract
 		if (!static::isEnableForModule($recordModel)) {
 			return false;
 		}
@@ -65,28 +66,6 @@ class Vtiger_SocialMedia_Model extends \App\Base
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * Checking whether social media are available for the module.
-	 *
-	 * @param \Vtiger_Record_Model $recordModel
-	 *
-	 * @return bool
-	 */
-	public static function isEnableForModule($recordModel)
-	{
-		$socialMediaConfig = \AppConfig::module($recordModel->getModuleName(), 'enable_social');
-		if (false === $socialMediaConfig || empty($socialMediaConfig)) {
-			return false;
-		}
-		if (!is_array($socialMediaConfig)) {
-			throw new \App\Exceptions\AppException('Incorrect data type in ' . $recordModel->getModuleName() . ':ENABLE_SOCIAL');
-		}
-		if (!in_array('twitter', $socialMediaConfig)) {
-			return false;
-		}
-		return true;
 	}
 
 	/**
@@ -123,16 +102,9 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 *
 	 * @return string[]
 	 */
-	public function getAllColumnName()
+	public static function getAllColumnName()
 	{
 		$columnNames = [];
-		/*foreach (\App\SocialMedia\SocialMedia::ALLOWED_UITYPE as $key => $uitype) {
-			if (in_array($key, $this->moduleConfig)) {
-				foreach ($this->recordModel->getModule()->getFieldsByUiType($uitype) as $socialField) {
-					$columnNames[] = $socialField->getColumnName();
-				}
-			}
-		}*/
 		foreach (\App\SocialMedia\SocialMedia::ALLOWED_UITYPE as $uiType => $socialMediaType) {
 			if (in_array($socialMediaType, $this->moduleConfig)) {
 				foreach ($this->recordModel->getModule()->getFieldsByUiType($uiType) as $socialField) {
@@ -141,31 +113,5 @@ class Vtiger_SocialMedia_Model extends \App\Base
 			}
 		}
 		return $columnNames;
-	}
-
-	/**
-	 * Get all records by twitter account.
-	 *
-	 * @param int $start
-	 * @param int $limit
-	 *
-	 * @return \SocialMedia_Record_Model[]
-	 */
-	public function getAllRecords($start = 0, $limit = 50)
-	{
-		$twitterLogin = $this->getAllSocialMediaAccount('twitter');
-		$query = (new \App\Db\Query())->from('u_#__social_media_twitter');
-		if (!empty($twitterLogin)) {
-			$query->where(['twitter_login' => $twitterLogin]);
-		}
-		$dataReader = $query->orderBy(['created' => SORT_DESC])
-			->limit($limit)
-			->offset($start)
-			->createCommand()
-			->query();
-		while (($row = $dataReader->read())) {
-			yield $row;
-		}
-		$dataReader->close();
 	}
 }

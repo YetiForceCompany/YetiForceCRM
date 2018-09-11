@@ -54,7 +54,7 @@ class Twitter extends AbstractSocialMedia
 	 */
 	public static function isConfigured()
 	{
-		$configTitter = \Settings_SocialMedia_Config_Model::getInstance('twitter');
+		$configTitter = \App\SocialMedia::getInstance('twitter');
 		return !empty($configTitter->get('twitter_api_key')) && !empty($configTitter->get('twitter_api_secret'));
 	}
 
@@ -69,13 +69,39 @@ class Twitter extends AbstractSocialMedia
 	{
 		$this->userName = $userName;
 		if (!\is_object(static::$twitterConnection)) {
-			$configTitter = \Settings_SocialMedia_Config_Model::getInstance('twitter');
+			$configTitter = \App\SocialMedia::getInstance('twitter');
 			static::$twitterConnection = new \Abraham\TwitterOAuth\TwitterOAuth(
 				$configTitter->get('twitter_api_key'),
 				$configTitter->get('twitter_api_secret')
 			);
 			static::$twitterConnection->setDecodeJsonAsArray(true);
 		}
+	}
+
+	/**
+	 * Get all records by twitter account.
+	 *
+	 * @param array $start
+	 * @param int   $start
+	 * @param int   $limit
+	 *
+	 * @return \SocialMedia_Record_Model[]
+	 */
+	public static function getAllRecords(array $twitterLogin, int $start = 0, int $limit = 50)
+	{
+		$query = (new \App\Db\Query())->from('u_#__social_media_twitter');
+		if (!empty($twitterLogin)) {
+			$query->where(['twitter_login' => $twitterLogin]);
+		}
+		$dataReader = $query->orderBy(['created' => SORT_DESC])
+			->limit($limit)
+			->offset($start)
+			->createCommand()
+			->query();
+		while (($row = $dataReader->read())) {
+			yield $row;
+		}
+		$dataReader->close();
 	}
 
 	/**

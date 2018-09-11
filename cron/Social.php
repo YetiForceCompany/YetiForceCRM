@@ -8,7 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-$configTwitter = (new \Settings_SocialMedia_Config_Model('twitter'));
+$configTwitter = \App\SocialMedia::getInstance('twitter');
 $days = $configTwitter->get('archiving_records_number_of_days');
 if (empty($days)) {
 	\App\Log::info('Number of days is empty');
