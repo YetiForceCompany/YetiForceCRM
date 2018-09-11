@@ -3,6 +3,8 @@
 /**
  * Ytcpdf class.
  *
+ * @package App\Pdf\Libs
+ *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Rafal Pospiech <r.pospiech@yetiforce.com>
@@ -11,9 +13,7 @@
 namespace App\Pdf\Libs;
 
 /**
- * Class Tcpdf.
- *
- * @package App\Pdf\Libs
+ * YetiForce Tcpdf class.
  */
 class Tcpdf extends \TCPDF
 {
