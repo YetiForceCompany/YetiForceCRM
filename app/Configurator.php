@@ -42,12 +42,12 @@ class Configurator extends Base
 	 */
 	public function save()
 	{
-		$this->content = $fileContent = file_get_contents(static::$paths[$this->type]);
+		$this->content = $fileContent = file_get_contents(self::$paths[$this->type]);
 		foreach ($this->getData() as $fieldName => $fieldValue) {
 			$replacement = sprintf("'%s' => %s,", $fieldName, Utils::varExport($fieldValue));
 			$fileContent = preg_replace('/\'' . $fieldName . '\'[\s]+=>([^\n]+),/', $replacement, $fileContent);
 		}
-		file_put_contents(static::$paths[$this->type], $fileContent);
+		file_put_contents(self::$paths[$this->type], $fileContent);
 		Cache::resetOpcache();
 	}
 
@@ -57,7 +57,7 @@ class Configurator extends Base
 	public function revert()
 	{
 		if ($this->content) {
-			file_put_contents(static::$paths[$this->type], $this->content);
+			file_put_contents(self::$paths[$this->type], $this->content);
 		}
 	}
 }

@@ -52,7 +52,8 @@ class Request extends \App\Request
 			$type = $this->getHeader('Accept');
 		}
 		if (!empty($type)) {
-			$type = array_pop(explode('/', $type));
+			$type = explode('/', $type);
+			$type = array_pop($type);
 		}
 		switch ($type) {
 			case 'form-data':

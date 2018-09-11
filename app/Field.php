@@ -6,9 +6,9 @@ namespace App;
  * Field basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Field
 {
@@ -43,11 +43,11 @@ class Field
 				->innerJoin('vtiger_profile2field', 'vtiger_profile2field.fieldid = vtiger_field.fieldid')
 				->innerJoin('vtiger_def_org_field', 'vtiger_def_org_field.fieldid = vtiger_field.fieldid')
 				->where([
-				'vtiger_field.tabid' => (int) $tabId,
-				'vtiger_profile2field.visible' => 0,
-				'vtiger_def_org_field.visible' => 0,
-				'vtiger_field.presence' => [0, 2]
-			]);
+					'vtiger_field.tabid' => (int) $tabId,
+					'vtiger_profile2field.visible' => 0,
+					'vtiger_def_org_field.visible' => 0,
+					'vtiger_field.presence' => [0, 2]
+				]);
 			$profileList = \App\User::getCurrentUserModel()->getProfiles();
 			if ($profileList) {
 				$query->andWhere(['vtiger_profile2field.profileid' => $profileList]);
@@ -59,9 +59,11 @@ class Field
 		if ($readOnly) {
 			return $fields;
 		}
-		foreach ($fields as $key => $field) {
-			if ($field['readonly']) {
-				unset($fields[$key]);
+		if (\is_array($fields)) {
+			foreach ($fields as $key => $field) {
+				if ($field['readonly']) {
+					unset($fields[$key]);
+				}
 			}
 		}
 		return $fields;
@@ -86,10 +88,10 @@ class Field
 			$tabId = Module::getModuleId($tabMix);
 		}
 		Log::trace('Entering ' . __METHOD__ . ": $tabId,$fieldMix");
-		if ($readOnly && isset(static::$fieldPermissionCacheRead[$tabId][$fieldMix])) {
-			return static::$fieldPermissionCacheRead[$tabId][$fieldMix];
-		} elseif (!$readOnly && isset(static::$fieldPermissionCacheWrite[$tabId][$fieldMix])) {
-			return static::$fieldPermissionCacheWrite[$tabId][$fieldMix];
+		if ($readOnly && isset(self::$fieldPermissionCacheRead[$tabId][$fieldMix])) {
+			return self::$fieldPermissionCacheRead[$tabId][$fieldMix];
+		} elseif (!$readOnly && isset(self::$fieldPermissionCacheWrite[$tabId][$fieldMix])) {
+			return self::$fieldPermissionCacheWrite[$tabId][$fieldMix];
 		}
 		$fields = static::getFieldsPermissions($tabId, $readOnly);
 		if (is_numeric($fieldMix)) {
@@ -98,24 +100,26 @@ class Field
 		} else {
 			$key = 'fieldname';
 		}
-		foreach ($fields as &$field) {
-			if ($field[$key] === $fieldMix) {
-				$permission = !($field['visible']);
-				if ($readOnly) {
-					static::$fieldPermissionCacheRead[$tabId][$fieldMix] = $permission;
-					static::$columnPermissionCacheRead[$tabId][$field['columnname']] = $permission;
-				} else {
-					static::$fieldPermissionCacheWrite[$tabId][$fieldMix] = $permission;
-					static::$columnPermissionCacheWrite[$tabId][$field['columnname']] = $permission;
-				}
+		if (\is_array($fields)) {
+			foreach ($fields as &$field) {
+				if ($field[$key] === $fieldMix) {
+					$permission = !($field['visible']);
+					if ($readOnly) {
+						self::$fieldPermissionCacheRead[$tabId][$fieldMix] = $permission;
+						self::$columnPermissionCacheRead[$tabId][$field['columnname']] = $permission;
+					} else {
+						self::$fieldPermissionCacheWrite[$tabId][$fieldMix] = $permission;
+						self::$columnPermissionCacheWrite[$tabId][$field['columnname']] = $permission;
+					}
 
-				return $permission;
+					return $permission;
+				}
 			}
 		}
 		if ($readOnly) {
-			static::$fieldPermissionCacheRead[$tabId][$fieldMix] = false;
+			self::$fieldPermissionCacheRead[$tabId][$fieldMix] = false;
 		} else {
-			static::$fieldPermissionCacheWrite[$tabId][$fieldMix] = false;
+			self::$fieldPermissionCacheWrite[$tabId][$fieldMix] = false;
 		}
 		return false;
 	}
@@ -139,30 +143,32 @@ class Field
 			$tabId = Module::getModuleId($tabMix);
 		}
 		Log::trace('Entering ' . __METHOD__ . ": $tabId,$columnName");
-		if ($readOnly && isset(static::$columnPermissionCacheRead[$tabId][$columnName])) {
-			return static::$columnPermissionCacheRead[$tabId][$columnName];
-		} elseif (!$readOnly && isset(static::$columnPermissionCacheWrite[$tabId][$columnName])) {
-			return static::$columnPermissionCacheWrite[$tabId][$columnName];
+		if ($readOnly && isset(self::$columnPermissionCacheRead[$tabId][$columnName])) {
+			return self::$columnPermissionCacheRead[$tabId][$columnName];
+		} elseif (!$readOnly && isset(self::$columnPermissionCacheWrite[$tabId][$columnName])) {
+			return self::$columnPermissionCacheWrite[$tabId][$columnName];
 		}
 		$fields = static::getFieldsPermissions($tabId, $readOnly);
-		foreach ($fields as &$field) {
-			if ($field['columnname'] === $columnName) {
-				$permission = !($field['visible']);
-				if ($readOnly) {
-					static::$columnPermissionCacheRead[$tabId][$columnName] = $permission;
-					static::$fieldPermissionCacheRead[$tabId][$field['fieldname']] = $permission;
-				} else {
-					static::$columnPermissionCacheWrite[$tabId][$columnName] = $permission;
-					static::$fieldPermissionCacheWrite[$tabId][$field['fieldname']] = $permission;
-				}
+		if (\is_array($fields)) {
+			foreach ($fields as &$field) {
+				if ($field['columnname'] === $columnName) {
+					$permission = !($field['visible']);
+					if ($readOnly) {
+						self::$columnPermissionCacheRead[$tabId][$columnName] = $permission;
+						self::$fieldPermissionCacheRead[$tabId][$field['fieldname']] = $permission;
+					} else {
+						self::$columnPermissionCacheWrite[$tabId][$columnName] = $permission;
+						self::$fieldPermissionCacheWrite[$tabId][$field['fieldname']] = $permission;
+					}
 
-				return $permission;
+					return $permission;
+				}
 			}
 		}
 		if ($readOnly) {
-			static::$columnPermissionCacheRead[$tabId][$columnName] = false;
+			self::$columnPermissionCacheRead[$tabId][$columnName] = false;
 		} else {
-			static::$columnPermissionCacheWrite[$tabId][$columnName] = false;
+			self::$columnPermissionCacheWrite[$tabId][$columnName] = false;
 		}
 		return false;
 	}
@@ -225,12 +231,13 @@ class Field
 		} else {
 			if ($forModule) {
 				$rfields = [];
-				foreach ($fields as $moduleName => $forModules) {
-					if (isset($forModules[$forModule])) {
-						$rfields[$moduleName] = $forModules[$forModule];
+				if (is_array($fields)) {
+					foreach ($fields as $moduleName => $forModules) {
+						if (isset($forModules[$forModule])) {
+							$rfields[$moduleName] = $forModules[$forModule];
+						}
 					}
 				}
-
 				return $rfields;
 			}
 		}
