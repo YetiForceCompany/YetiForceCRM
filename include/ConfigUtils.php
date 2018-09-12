@@ -79,15 +79,14 @@ class AppConfig
 			return false;
 		}
 		self::$modules[$module] = $moduleConfig;
-		switch ($argsLength) {
-			case 2:
-				if (!isset($moduleConfig[$key])) {
-					return false;
-				}
+		if ($argsLength === 2) {
+			if (!isset($moduleConfig[$key])) {
+				return false;
+			}
 
-				return $moduleConfig[$key];
-			default:
-				return $moduleConfig;
+			return $moduleConfig[$key];
+		} else {
+			return $moduleConfig;
 		}
 	}
 
