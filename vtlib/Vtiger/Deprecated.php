@@ -255,20 +255,6 @@ class Deprecated
 			$cachedModuleFields = \VTCacheUtils::lookupFieldInfoModule($module);
 		}
 
-		if ($module == 'Calendar') {
-			$cachedEventsFields = \VTCacheUtils::lookupFieldInfoModule('Events');
-			if (!$cachedEventsFields) {
-				static::getColumnFields('Events');
-				$cachedEventsFields = \VTCacheUtils::lookupFieldInfoModule('Events');
-			}
-
-			if (!$cachedModuleFields) {
-				$cachedModuleFields = $cachedEventsFields;
-			} else {
-				$cachedModuleFields = array_merge($cachedModuleFields, $cachedEventsFields);
-			}
-		}
-
 		$column_fld = [];
 		if ($cachedModuleFields) {
 			foreach ($cachedModuleFields as $fieldinfo) {
