@@ -73,8 +73,8 @@
 								{\App\Language::translate('LBL_DESCRIPTION',$QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-9 controls">
-							<textarea class="form-control js-editor" name="description" data-js="ckeditor"
-									  data-descriptions="{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_PICKLISTFIELD_DESCRIPTIONS))}"></textarea>
+								<textarea class="form-control js-editor" name="description" data-js="ckeditor"
+										  data-descriptions="{\App\Purifier::encodeHtml(\App\Json::encode(\App\Fields\Picklist::getDescriptions($FIELD_MODEL->getName())))}"></textarea>
 							</div>
 						</div>
 						{if $FIELD_MODEL->get('uitype') === 15}
@@ -83,7 +83,9 @@
 									{\App\Language::translate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}
 								</div>
 								<div class="col-md-9 controls">
-									<input class="form-control" type="checkbox" value="1" name="close_state">
+									<input class="form-control js-close-state" type="checkbox" value="1"
+										   name="close_state"
+										   data-states="{\App\Purifier::encodeHtml(\App\Json::encode(\App\Fields\Picklist::getStateClose($FIELD_MODEL)))}">
 								</div>
 							</div>
 						{/if}

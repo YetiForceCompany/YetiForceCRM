@@ -333,6 +333,8 @@ class Picklist
 	/**
 	 * Get description for all fields or generate it if not exists.
 	 *
+	 * @param string $fieldName
+	 *
 	 * @return string[]
 	 */
 	public static function getDescriptions($fieldName)
@@ -342,5 +344,23 @@ class Picklist
 			$descriptions[$id] = $value['description'] ?? '';
 		}
 		return $descriptions;
+	}
+
+	/**
+	 * Get closing state for all fields or generate it if not exists.
+	 *
+	 * @param \Settings_Picklist_Field_Model $fieldModel
+	 *
+	 * @return string[]
+	 */
+	public static function getStateClose(\Settings_Picklist_Field_Model $fieldModel)
+	{
+		return (new \App\Db\Query())->select(['value'])
+			->from('u_#__picklist_close_state')
+			->where([
+				'tabid' => $fieldModel->get('tabid'),
+				'fieldid' => $fieldModel->getId()
+			])
+			->column();
 	}
 }

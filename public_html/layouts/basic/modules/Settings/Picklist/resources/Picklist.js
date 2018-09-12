@@ -264,6 +264,7 @@ var Settings_Picklist_Js = {
 					thisInstance.registerScrollForNonEditablePicklistValues(form);
 					form.validationEngine();
 					Settings_Picklist_Js.registerEditDescriptionChanger();
+					Settings_Picklist_Js.registerEditCloseStateChanger();
 					Settings_Picklist_Js.registerRenameItemSaveEvent();
 				});
 			}
@@ -584,6 +585,16 @@ var Settings_Picklist_Js = {
 			if (dataDescriptions[changeId] !== undefined) {
 				descriptionElement.val(dataDescriptions[changeId]);
 			}
+		});
+		selectField.change();
+	},
+	registerEditCloseStateChanger: function () {
+		let container = $("#renameItemForm"),
+			closeStateElement = container.find(".js-close-state"),
+			dataCloseState = closeStateElement.data('states'),
+			selectField = container.find(".js-picklist-change-value");
+		selectField.on("change", function () {
+			closeStateElement.attr('checked', ($.inArray($(this).val(), dataCloseState) !== -1));
 		});
 		selectField.change();
 	},

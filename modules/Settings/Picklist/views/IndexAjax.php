@@ -33,7 +33,6 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 
 		$selectedFieldEditablePickListValues = App\Fields\Picklist::getEditablePicklistValues($fieldModel->getName());
 		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
-		$selectedFieldPickListDescriptions = App\Fields\Picklist::getDescriptions($fieldModel->getName());
 		$qualifiedName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -43,7 +42,6 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$viewer->assign('FIELD_VALUE', $valueToEdit);
 		$viewer->assign('SELECTED_PICKLISTFIELD_EDITABLE_VALUES', $selectedFieldEditablePickListValues);
 		$viewer->assign('SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES', $selectedFieldNonEditablePickListValues);
-		$viewer->assign('SELECTED_PICKLISTFIELD_DESCRIPTIONS', $selectedFieldPickListDescriptions);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
 		echo $viewer->view('EditView.tpl', $qualifiedName, true);
