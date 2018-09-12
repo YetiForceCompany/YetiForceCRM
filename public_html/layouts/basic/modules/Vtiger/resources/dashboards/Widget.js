@@ -508,7 +508,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {bool} afterInit are we parsing chart after it was mounted ?
 	 * @return {Object} options with replaced string functions
 	 */
-	parseOptionsObject: function parseOptionsObject(options, afterInit = false, original) {
+	parseOptionsObject: function parseOptionsObject(options, original, afterInit = false) {
 		let result = {};
 		for (let propertyName in options) {
 			let value = options[propertyName];
@@ -516,9 +516,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 				if (propertyName.substr(0, 1) === '_') {
 					result[propertyName] = value;
 				} else if (Array.isArray(value)) {
-					result[propertyName] = this.parseOptionsArray(value, afterInit, original);
+					result[propertyName] = this.parseOptionsArray(value, original, afterInit);
 				} else if (typeof value === 'object' && value !== null) {
-					result[propertyName] = this.parseOptionsObject(value, afterInit, original);
+					result[propertyName] = this.parseOptionsObject(value, original, afterInit);
 				} else {
 					result[propertyName] = value;
 				}
@@ -528,9 +528,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 				} else if (this.isReplacementString(value)) {
 					result[propertyName] = this.getFunctionFromReplacementString(value, afterInit, original);
 				} else if (Array.isArray(value)) {
-					result[propertyName] = this.parseOptionsArray(value, afterInit, original);
+					result[propertyName] = this.parseOptionsArray(value, original, afterInit);
 				} else if (typeof value === 'object' && value !== null) {
-					result[propertyName] = this.parseOptionsObject(value, afterInit, original);
+					result[propertyName] = this.parseOptionsObject(value, original, afterInit);
 				} else {
 					result[propertyName] = value;
 				}
@@ -544,14 +544,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {bool} afterInit are we after chart js was mounted?
 	 * @return {Array}
 	 */
-	parseOptionsArray: function parseOptionsArray(arr, afterInit = false, original) {
+	parseOptionsArray: function parseOptionsArray(arr, original, afterInit = false) {
 		return arr.map((item, index) => {
 			if (this.isReplacementString(item)) {
 				return this.getFunctionFromReplacementString(value);
 			} else if (Array.isArray(item)) {
-				return this.parseOptionsArray(item, afterInit, original);
+				return this.parseOptionsArray(item, original, afterInit);
 			} else if (typeof item === 'object' && item !== null) {
-				return this.parseOptionsObject(item, afterInit, original);
+				return this.parseOptionsObject(item, original, afterInit);
 			}
 			return item;
 		});
@@ -562,11 +562,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {bool} afterInit - is chartjs loaded ?
 	 * @return {Object}
 	 */
-	parseOptions: function parseOptions(options, afterInit = false, original) {
+	parseOptions: function parseOptions(options, original, afterInit = false) {
 		if (Array.isArray(options)) {
-			return this.parseOptionsArray(options, afterInit, original);
+			return this.parseOptionsArray(options, original, afterInit);
 		} else if (typeof options === 'object' && options !== null) {
-			return this.parseOptionsObject(options, afterInit, original);
+			return this.parseOptionsObject(options, original, afterInit);
 		}
 		app.errorLog(new Error('Unknown options format [' + typeof options + '] - should be object.'));
 	},
@@ -1785,7 +1785,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		// parse chart one more time after it was mounted - some options need to have chart loaded
 		data.datasets = data.datasets.map((dataset, index) => {
 			dataset.datasetIndex = index;
-			return this.parseOptions(dataset, true, dataset);
+			return this.parseOptions(dataset, dataset, true);
 		});
 		return chart;
 	},
@@ -2403,18 +2403,19 @@ YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 		})
 	},
 	registerListViewButton: function () {
-		var thisInstance = this;
-		var container = thisInstance.getContainer();
+		const thisInstance = this,
+			container = thisInstance.getContainer();
 		container.find('.goToListView').on('click', function () {
-			if (container.data('name') == 'OverdueActivities') {
-				var status = 'PLL_OVERDUE';
+			let status;
+			if (container.data('name') === 'OverdueActivities') {
+				status = 'PLL_OVERDUE';
 			} else {
-				var status = 'PLL_IN_REALIZATION,PLL_PLANNED';
+				status = 'PLL_IN_REALIZATION,PLL_PLANNED';
 			}
-			var url = 'index.php?module=Calendar&view=List&viewname=All';
+			let url = 'index.php?module=Calendar&view=List&viewname=All';
 			url += '&search_params=[[';
-			var owner = container.find('.widgetFilter.owner option:selected');
-			if (owner.val() != 'all') {
+			let owner = container.find('.widgetFilter.owner option:selected');
+			if (owner.val() !== 'all') {
 				url += '["assigned_user_id","e","' + owner.val() + '"],';
 			}
 			url += '["activitystatus","e","' + status + '"]]]';
@@ -2535,20 +2536,22 @@ YetiForce_Bar_Widget_Js('YetiForce_NotificationsBySender_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_NotificationsByRecipient_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_TeamsEstimatedSales_Widget_Js', {}, {
 	generateChartData: function () {
-		var thisInstance = this;
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [
-			[],
-			[],
-			[],
-			[]
-		];
-		var yMaxValue = 0;
+		const thisInstance = this,
+			container = this.getContainer(),
+			jData = container.find('.widgetData').val(),
+			data = JSON.parse(jData);
+		let chartData = [
+				[],
+				[],
+				[],
+				[]
+			],
+			yMaxValue,
+			index,
+			parseData;
 		if (data.hasOwnProperty('compare')) {
-			for (var index in data) {
-				var parseData = thisInstance.parseChartData(data[index], chartData);
+			for (index in data) {
+				parseData = thisInstance.parseChartData(data[index], chartData);
 				chartData[0].push(parseData[0]);
 				chartData[3].push(parseData[3]);
 				chartData = [chartData[0], parseData[1], parseData[2], chartData[3],
@@ -2556,14 +2559,14 @@ YetiForce_Bar_Widget_Js('YetiForce_TeamsEstimatedSales_Widget_Js', {}, {
 				];
 			}
 		} else {
-			var parseData = thisInstance.parseChartData(data, chartData);
+			parseData = thisInstance.parseChartData(data, chartData);
 			chartData = [
 				[parseData[0]], parseData[1], parseData[2],
 				[parseData[3]],
 				['#208CB3']
 			];
 		}
-		var yMaxValue = chartData[1];
+		yMaxValue = chartData[1];
 		yMaxValue = yMaxValue + 2 + (yMaxValue / 100) * 25;
 		return {
 			'chartData': chartData[0],
@@ -2592,17 +2595,18 @@ YetiForce_Bar_Widget_Js('YetiForce_TeamsEstimatedSales_Widget_Js', {}, {
 		return [chartData, chartDataGlobal[1], xLabels, '&nbsp; \u03A3 ' + sum + '&nbsp;'];
 	},
 	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		var compare = dataInfo && dataInfo.hasOwnProperty('compare');
+		const container = this.getContainer(),
+			data = container.find('.widgetData').val(),
+			dataInfo = JSON.parse(data),
+			compare = dataInfo && dataInfo.hasOwnProperty('compare');
+		let url;
 		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
 			if (seriesIndex) {
-				var url = dataInfo['compare'][pointIndex][2];
+				url = dataInfo['compare'][pointIndex][2];
 			} else if (compare) {
-				var url = dataInfo[0][pointIndex][2];
+				url = dataInfo[0][pointIndex][2];
 			} else {
-				var url = dataInfo[pointIndex][2];
+				url = dataInfo[pointIndex][2];
 			}
 			window.location.href = url;
 		});

@@ -318,8 +318,7 @@ class DateTimeField
 			$date = self::convertToUserTimeZone($this->datetime, $user);
 			$date_value = $date->format('Y-m-d');
 		}
-		$display_date = self::convertToUserFormat($date_value, $user);
-		return $display_date;
+		return self::convertToUserFormat($date_value, $user);
 	}
 
 	public function getDisplayTime($user = null)

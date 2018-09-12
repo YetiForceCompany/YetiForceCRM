@@ -41,7 +41,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					{if count($GLOBAL_DISCOUNTS) > 0 || $GROUP_DISCOUNT != 0 || $DISCOUNT_TYPE == '0'}
+					{if count($GLOBAL_DISCOUNTS) > 0 || $GROUP_DISCOUNT != 0 || $DISCOUNT_TYPE == '0' || ($DISCOUNT_TYPE == '1' && in_array(2, $CONFIG['discounts']))}
 						<button class="btn btn-success saveDiscount" type="submit">
 							<strong>
 								<span class="fas fa-check mr-1"></span>

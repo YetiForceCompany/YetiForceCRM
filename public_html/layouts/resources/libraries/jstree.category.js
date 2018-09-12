@@ -265,8 +265,8 @@
 			}
 		};
 		this.getCategory = function (fullData) {
-			var fullData = typeof fullData !== "undefined" ? true : false;
-			var i, j, selected = [];
+			fullData = typeof fullData !== "undefined";
+			let i, j, selected = [];
 			for (i = 0, j = this._data.category.selected.length; i < j; i++) {
 				if (fullData) {
 					selected.push(this._model.data[this._data.category.selected[i]].original);

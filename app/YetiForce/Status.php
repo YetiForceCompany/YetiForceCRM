@@ -24,6 +24,8 @@ class Status
 	 */
 	public static $variables = [
 		'statusUrl' => 'string',
+		'crmHash' => 'hidden',
+		'domain' => 'string',
 		'phpVersion' => 'bool',
 		'systemVersion' => 'bool',
 		'dbVersion' => 'bool',
@@ -58,8 +60,9 @@ class Status
 	public static function getAll()
 	{
 		$result = [];
+		$config = \AppConfig::module('YetiForce');
 		foreach (static::$variables as $flag => $type) {
-			$result[$flag] = ['name' => $flag, 'label' => 'LBL_' . \strtoupper($flag), 'type' => $type, 'value' => \AppConfig::module('YetiForce', $flag) ?? false];
+			$result[$flag] = ['name' => $flag, 'label' => 'LBL_' . \strtoupper($flag), 'type' => $type, 'value' => $config[$flag] ?? '-'];
 		}
 		return $result;
 	}

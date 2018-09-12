@@ -37,7 +37,7 @@ AppConnector = {
 	},
 
 	_request: function (params, pjaxMode, rawData) {
-		var aDeferred = jQuery.Deferred();
+		const aDeferred = jQuery.Deferred();
 		if (typeof rawData === "undefined") {
 			rawData = false;
 		}
@@ -47,18 +47,20 @@ AppConnector = {
 		if (typeof params === "undefined") {
 			params = {};
 		}
-		var fullUrl = '';
+		let fullUrl = '',
+			index,
+			callerParams;
 		//caller has send only data
 		if (typeof params.data === "undefined" || rawData) {
 			if (typeof params === 'string') {
-				var callerParams = fullUrl = params;
-				var index = callerParams.indexOf('?');
+				callerParams = fullUrl = params;
+				index = callerParams.indexOf('?');
 				if (index !== -1) {
-					var subStr = callerParams.substr(0, index + 1);//need to replace only "index.php?" or "?"
+					let subStr = callerParams.substr(0, index + 1);//need to replace only "index.php?" or "?"
 					callerParams = callerParams.replace(subStr, '');
 				}
 			} else {
-				callerParams = jQuery.extend({}, params);
+				callerParams = $.extend({}, params);
 			}
 			params = {};
 			params.data = callerParams;
@@ -71,7 +73,7 @@ AppConnector = {
 
 		//By default we expect json from the server
 		if (typeof params.dataType === "undefined" || rawData) {
-			var data = params.data;
+			let data = params.data;
 			//view will return html
 			params.dataType = 'json';
 			if (data.hasOwnProperty('view')) {
@@ -86,13 +88,13 @@ AppConnector = {
 		//If url contains params then seperate them and make them as data
 		if (typeof params.url !== "undefined" && params.url.indexOf('?') !== -1) {
 			fullUrl = params.url;
-			var urlSplit = params.url.split('?');
-			var queryString = urlSplit[1];
+			let urlSplit = params.url.split('?'),
+				queryString = urlSplit[1];
 			params.url = urlSplit[0];
-			var queryParameters = queryString.split('&');
-			for (var index = 0; index < queryParameters.length; index++) {
-				var queryParam = queryParameters[index];
-				var queryParamComponents = queryParam.split('=');
+			let queryParameters = queryString.split('&');
+			for (index = 0; index < queryParameters.length; index++) {
+				let queryParam = queryParameters[index],
+					queryParamComponents = queryParam.split('=');
 				params.data[queryParamComponents[0]] = queryParamComponents[1];
 			}
 		}

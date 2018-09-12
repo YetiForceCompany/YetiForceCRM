@@ -310,14 +310,15 @@ Vtiger_Date_Field_Js('Workflows_Datetime_Field_Js', {}, {
 	 * @return - input text field
 	 */
 	getUi: function () {
-		var comparatorSelectedOptionVal = this.get('comparatorElementVal');
-		if (this._specialDateTimeComparator(comparatorSelectedOptionVal)) {
-			var html = '<input name="' + this.getName() + '" type="text" value="' + this.getValue() + '" data-validator="[{name:PositiveNumber}]"><input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
-			var element = jQuery(html);
+		let html,
+			element;
+		if (this._specialDateTimeComparator(this.get('comparatorElementVal'))) {
+			html = '<input name="' + this.getName() + '" type="text" value="' + this.getValue() + '" data-validator="[{name:PositiveNumber}]"><input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+			element = jQuery(html);
 		} else {
-			var html = '<input type="text" class="getPopupUi date" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
+			html = '<input type="text" class="getPopupUi date" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
 				'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />'
-			var element = jQuery(html);
+			element = jQuery(html);
 		}
 		return element;
 	},

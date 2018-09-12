@@ -1247,9 +1247,9 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 				}
 			}
 		});
-		contents.find('[name="defaultvalue"]').on('change', function (e) {
+		contents.find('[name="defaultvalue"],[name="header_field"]').on('change', function (e) {
 			var currentTarget = $(e.currentTarget);
-			var defaultValueUi = currentTarget.closest('.checkbox').find('.defaultValueUi');
+			var defaultValueUi = currentTarget.closest('.checkbox').find('.js-toggle-hide');
 			if (currentTarget.is(':checked')) {
 				defaultValueUi.removeClass('zeroOpacity');
 			} else {
@@ -1451,7 +1451,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	registerVaribleToParsers: function (container) {
 		var thisInstance = this;
 		container.find('.configButton').on('click', function (e) {
-			container.find('.defaultValueUi .js-base-element').each(function (n, e) {
+			container.find('.js-toggle-hide .js-base-element').each(function (n, e) {
 				var currentElement = $(e);
 				if (currentElement.hasClass('d-none')) {
 					currentElement.find('input,select').prop('disabled', false);

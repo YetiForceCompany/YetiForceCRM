@@ -43,11 +43,15 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js", {}, {
 		var secondTimeValue = secondTime.val();
 		var firstDateTimeValue = firstDateValue + ' ' + firstTimeValue;
 		var secondDateTimeValue = secondDateValue + ' ' + secondTimeValue;
-		var firstDateInstance = Vtiger_Helper_Js.getDateInstance(firstDateTimeValue, firstDateFormat);
-		var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue, secondDateFormat);
-		var timeBetweenDates = secondDateInstance - firstDateInstance;
-		if (timeBetweenDates >= 0) {
-			return timeBetweenDates;
+		try {
+			var firstDateInstance = Vtiger_Helper_Js.getDateInstance(firstDateTimeValue, firstDateFormat);
+			var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue, secondDateFormat);
+			var timeBetweenDates = secondDateInstance - firstDateInstance;
+			if (timeBetweenDates >= 0) {
+				return timeBetweenDates;
+			}
+		} catch (err){
+			return 'Error';
 		}
 		return 'Error';
 	},

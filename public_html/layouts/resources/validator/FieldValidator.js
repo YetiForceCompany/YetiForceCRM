@@ -486,23 +486,23 @@ Vtiger_PositiveNumber_Validator_Js("Vtiger_WholeNumber_Validator_Js", {
 }, {
 	/**
 	 * Function to validate the Positive Numbers and whole Number
-	 * @return true if validation is successfull
-	 * @return false if validation error occurs
+	 * @return boolean true if validation is successful or false if validation error occurs
 	 */
 	validate: function () {
-		var response = this._super();
-		if (response != true) {
+		let response = this._super();
+		if (response !== true) {
 			return response;
 		}
-		var field = this.getElement();
-		var fieldValue = this.getFieldValue();
-		var fieldData = field.data();
-		var fieldInfo = fieldData.fieldinfo;
-		if ((fieldValue % 1) != 0) {
+		let field = this.getElement(),
+			fieldValue = this.getFieldValue(),
+			fieldData = field.data(),
+			fieldInfo = fieldData.fieldinfo,
+			errorInfo;
+		if ((fieldValue % 1) !== 0) {
 			if (!jQuery.isEmptyObject(fieldInfo)) {
-				var errorInfo = app.vtranslate('INVALID_NUMBER_OF') + " " + fieldInfo.label;
+				errorInfo = app.vtranslate('INVALID_NUMBER_OF') + " " + fieldInfo.label;
 			} else {
-				var errorInfo = app.vtranslate('INVALID_NUMBER');
+				errorInfo = app.vtranslate('INVALID_NUMBER');
 			}
 			this.setError(errorInfo);
 			return false;
@@ -1117,22 +1117,24 @@ Vtiger_Email_Validator_Js("Vtiger_MultiEmail_Validator_Js", {
 
 Vtiger_greaterThanDependentField_Validator_Js("Calendar_greaterThanDependentField_Validator_Js", {}, {
 	getDateTimeInstance: function (field) {
-		var form = field.closest('form');
-		if (field.attr('name') == 'date_start') {
-			var timeField = form.find('[name="time_start"]');
-			var timeFieldValue = timeField.val();
-		} else if (field.attr('name') == 'due_date') {
-			var timeField = form.find('[name="time_end"]');
+		let form = field.closest('form'),
+			timeField,
+			timeFieldValue;
+		if (field.attr('name') === 'date_start') {
+			timeField = form.find('[name="time_start"]');
+			timeFieldValue = timeField.val();
+		} else if (field.attr('name') === 'due_date') {
+			timeField = form.find('[name="time_end"]');
 			if (timeField.length > 0) {
-				var timeFieldValue = timeField.val();
+				timeFieldValue = timeField.val();
 			} else {
 				//Max value for the day
 				timeFieldValue = '11:59 PM';
 			}
 		}
 
-		var dateFieldValue = field.val() + " " + timeFieldValue;
-		var dateFormat = field.data('dateFormat');
+		let dateFieldValue = field.val() + " " + timeFieldValue,
+			dateFormat = field.data('dateFormat');
 		return Vtiger_Helper_Js.getDateInstance(dateFieldValue, dateFormat);
 	}
 
@@ -1324,21 +1326,21 @@ Vtiger_Base_Validator_Js("Vtiger_InputMask_Validator_Js", {
 }, {
 	/**
 	 * Function to validate the Positive Numbers
-	 * @return true if validation is successfull
-	 * @return false if validation error occurs
+	 * @return  boolean true if validation is successful false if validation error occurs
 	 */
 	validate: function () {
-		var response = this._super();
-		if (response != true) {
+		let response = this._super();
+		if (response !== true) {
 			return response;
 		}
-		var field = this.getElement();
+		let field = this.getElement(),
+			errorInfo;
 		if (field.attr('data-inputmask')) {
-			var unMaskedValue = field.inputmask('unmaskedvalue');
-			var getmetadata = field.inputmask("getmetadata");
-			var maskLength = (getmetadata.match(/9/g) || []).length + (getmetadata.match(/A/g) || []).length + (getmetadata.match(/'*'/g) || []).length;
-			if (unMaskedValue.length != 0 && maskLength > unMaskedValue.length) {
-				var errorInfo = app.vtranslate("JS_INVALID_LENGTH");
+			let unMaskedValue = field.inputmask('unmaskedvalue'),
+				getMetaData = field.inputmask("getmetadata"),
+				maskLength = (getMetaData.match(/9/g) || []).length + (getMetaData.match(/A/g) || []).length + (getMetaData.match(/'*'/g) || []).length;
+			if (unMaskedValue.length !== 0 && maskLength > unMaskedValue.length) {
+				errorInfo = app.vtranslate("JS_INVALID_LENGTH");
 				this.setError(errorInfo);
 				window.inputMaskValidation = true;
 				return false;
@@ -1347,7 +1349,7 @@ Vtiger_Base_Validator_Js("Vtiger_InputMask_Validator_Js", {
 			}
 		}
 		if (window.inputMaskValidation) {
-			var errorInfo = app.vtranslate("JS_INVALID_LENGTH");
+			errorInfo = app.vtranslate("JS_INVALID_LENGTH");
 			this.setError(errorInfo);
 			return false;
 		}

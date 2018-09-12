@@ -113,6 +113,7 @@
     "LBL_PARAMS_MODULES": "Modu\u0142y",
     "LBL_PARAMS_LIMIT": "Limit kredytowy \r\n- Blokada zapisu",
     "LBL_PARAMS_LIMIT_CONDITIONS": "Wymagane pola",
+    "LBL_PARAMS_MANDATORY": "Pole obowi\u0105zkowe",
     "LBL_DISPLAYTYPE_ALL": "Widoczne wsz\u0119dzie",
     "LBL_DISPLAYTYPE_READONLY": "Tylko do odczytu",
     "LBL_DISPLAYTYPE_ONLY_DETAIL": "Widoczne w podgl\u0105dzie",
@@ -179,7 +180,9 @@
     "LBL_WRONG_RELATION": "Nieprawid\u0142owa warto\u015b\u0107 relacji",
     "Image": "Plik graficzny",
     "MultiImage": "Pliki graficzne (wiele)",
-    "DateTime": "Pole daty i czasu"
+    "DateTime": "Pole daty i czasu",
+    "LBL_HEADER_TYPE_VALUE": "Warto\u015B\u0107",
+    "LBL_HEADER_TYPE_PROCESS": "Proces"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Nazwa bloku ju\u017c istnieje",
