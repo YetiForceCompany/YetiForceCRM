@@ -4,7 +4,9 @@
 		<div class="tpl-Detail-HeaderFields ml-md-2 pr-md-2 u-min-w-md-30 w-100">
 			{if $CUSTOM_FIELDS_HEADER}
 				{foreach from=$CUSTOM_FIELDS_HEADER item=ROW}
-					<div class="badge badge-info d-flex flex-nowrap align-items-center justify-content-center my-1 js-popover-tooltip" data-ellipsis="true" data-content="{$ROW['title']} {$ROW['badge']}" data-toggle="popover" data-js="tooltip"
+					<div class="badge badge-info d-flex flex-nowrap align-items-center justify-content-center my-1 js-popover-tooltip"
+						 data-ellipsis="true" data-content="{$ROW['title']} {$ROW['badge']}" data-toggle="popover"
+						 data-js="tooltip"
 						 {if $ROW['action']}onclick="{\App\Purifier::encodeHtml($ROW['action'])}"{/if}>
 						<div class="c-popover-text">
 							<span class="mr-1">{$ROW['title']}</span>
@@ -18,15 +20,18 @@
 				{foreach from=$FIELDS_HEADER[$HEADER_TYPE] key=NAME item=FIELD_MODEL}
 					{if !$RECORD->isEmpty($NAME)}
 						{assign var=VALUE value=$RECORD->getDisplayValue($NAME)}
-						<div class="badge {if $FIELD_MODEL->getHeaderValue('header_class')}{$FIELD_MODEL->getHeaderValue('header_class')}{else}badge-info{/if} d-flex flex-nowrap align-items-center justify-content-center mt-1 js-popover-tooltip" data-ellipsis="true"
-							 data-content='{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_NAME)}: <string>{$VALUE}</string>' data-toggle="popover" data-js="tooltip">
+						<div class="badge {if $FIELD_MODEL->getHeaderValue('header_class')}{$FIELD_MODEL->getHeaderValue('header_class')}{else}badge-info{/if} d-flex flex-nowrap align-items-center justify-content-center mt-1 js-popover-tooltip"
+							 data-ellipsis="true"
+							 data-content='{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_NAME)}: <string>{$VALUE}</string>'
+							 data-toggle="popover" data-js="tooltip">
 							<div class="c-popover-text">
 								<span class="mr-1">
 									{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_NAME)}:
 								</span>
 								{$VALUE}
 							</div>
-							<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
+							<span class="fas fa-info-circle fa-sm js-popover-icon d-none"
+								  data-js="class: d-none"></span>
 						</div>
 					{/if}
 				{/foreach}
@@ -43,6 +48,14 @@
 							<li class="c-arrows__item {if $smarty.foreach.picklistValues.first}first{/if} {if $VALUE_DATA['picklistValue'] eq $RECORD->get($NAME)}active{assign var=ARROW_CLASS value="after"}{else}{$ARROW_CLASS}{/if}">
 								<a class="c-arrows__link">
 									<span class="c-arrows__text">{$FIELD_MODEL->getDisplayValue($VALUE_DATA['picklistValue'], false, false, true)}</span>
+									{if !empty($VALUE_DATA['description'])}
+										<span class="c-arrows__text ml-1 u-mr-minus-8px js-popover-tooltip"
+											  data-js="popover"
+											  data-trigger="hover focus"
+											  data-content="{\App\Purifier::encodeHtml($VALUE_DATA['description'])}">
+											<span class="fas fa-info-circle"></span>
+										</span>
+									{/if}
 								</a>
 							</li>
 						{/foreach}
