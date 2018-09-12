@@ -187,7 +187,7 @@ class SocialMedia extends Base
 	}
 
 	/**
-	 * Remove mass social media records from DB.
+	 * Remove mass social media records from the database if not used.
 	 *
 	 * @param int      $uiType
 	 * @param string[] $logins
@@ -198,7 +198,11 @@ class SocialMedia extends Base
 	 */
 	public static function removeMass(int $uiType, array $logins)
 	{
-		return call_user_func_array(static::getClassNameByUitype($uiType) . '::removeMass', [$logins]);
+		$loginsToRemove = static::getSocialMediaQuery([static::ALLOWED_UITYPE[$uiType]])
+			->select(['account_name'])
+			->where(['account_name' => $logins])
+			->having(['=', 'count(*)', 1])->column();
+		return call_user_func_array(static::getClassNameByUitype($uiType) . '::removeMass', [$loginsToRemove]);
 	}
 
 	/**

@@ -55,7 +55,6 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 */
 	public function isEnableForRecord()
 	{
-		//TODO: App/SocialMEdia/Abstract
 		if (!\App\SocialMedia::isEnableForModule($this->recordModel->getModuleName())) {
 			return false;
 		}
