@@ -63,7 +63,7 @@
 								{\App\Language::translate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-9 controls">
-								<input class="form-control" type="checkbox" name="close_state">
+								<input class="form-control" type="checkbox" value="1" name="close_state">
 							</div>
 						</div>
 					{/if}

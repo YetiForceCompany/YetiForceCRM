@@ -149,7 +149,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 * @param string                        $value
 	 * @param bool                          $closeState
 	 */
-	public function updateCloseState($valueId, $fieldModel, $value, $closeState)
+	public function updateCloseState(int $valueId, Settings_Picklist_Field_Model $fieldModel, string $value, bool $closeState)
 	{
 		$db = App\Db::getInstance()->createCommand();
 		$db->delete('u_#__picklist_close_state', [
