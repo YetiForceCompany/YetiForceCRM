@@ -6,12 +6,12 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
-	<div class='modelContainer modal fade' tabindex="-1">
-		<div class="modal-dialog">
+	<div class='tpl-Settings-Picklist-EditView modelContainer modal fade' tabindex="-1">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">{\App\Language::translate('LBL_RENAME_PICKLIST_ITEM', $QUALIFIED_MODULE)}</h5>
@@ -33,7 +33,8 @@
 							<div class="col-md-3 col-form-label text-right">{\App\Language::translate('LBL_ITEM_TO_RENAME',$QUALIFIED_MODULE)}</div>
 							<div class="col-md-9 controls">
 								{assign var=PICKLIST_VALUES value=$SELECTED_PICKLISTFIELD_EDITABLE_VALUES}
-								<select class="select2 form-control" name="oldValue">
+								<select class="select2 form-control js-picklist-change-value" name="oldValue"
+										data-js="change">
 									<optgroup>
 										{foreach from=$PICKLIST_VALUES key=PICKLIST_VALUE_KEY item=PICKLIST_VALUE}
 											<option {if $FIELD_VALUE eq $PICKLIST_VALUE} selected=""
@@ -67,6 +68,15 @@
 								</div>
 							</div>
 						{/if}
+						<div class="form-group row align-items-center">
+							<div class="col-md-3 col-form-label text-right">
+								{\App\Language::translate('LBL_DESCRIPTION',$QUALIFIED_MODULE)}
+							</div>
+							<div class="col-md-9 controls">
+							<textarea class="form-control js-editor" name="description" data-js="ckeditor"
+									  data-descriptions="{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_PICKLISTFIELD_DESCRIPTIONS))}"></textarea>
+							</div>
+						</div>
 						{if $FIELD_MODEL->get('uitype') === 15}
 							<div class="form-group row align-items-center">
 								<div class="col-md-3 col-form-label text-right">

@@ -45,10 +45,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 * @param Vtiger_Field_Model $fieldModel
 	 * @param string             $newValue
 	 * @param int[]              $rolesSelected
+	 * @param string             $description
 	 *
 	 * @return int[]
 	 */
-	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [])
+	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [], $description = '')
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
@@ -68,10 +69,16 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			'presence' => 1,
 		];
 		if ($fieldModel->isRoleBased()) {
-			$row = array_merge($row, ['picklist_valueid' => $picklistValueId]);
+			$row['picklist_valueid'] = $picklistValueId;
+		}
+		if (!empty($description)) {
+			if (!$this->checkDescriptionColumn($db, $tableName)) {
+				$this->addDescriptionColumn($db, $tableName);
+			}
+			$row['description'] = $description;
 		}
 		if (in_array('color', $db->getTableSchema($tableName)->getColumnNames())) {
-			$row = array_merge($row, ['color' => '#E6FAD8']);
+			$row['color'] = '#E6FAD8';
 		}
 		$db->createCommand()->insert($tableName, $row)->execute();
 		if ($fieldModel->isRoleBased() && !empty($rolesSelected)) {
@@ -105,15 +112,25 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 * @param string                        $oldValue
 	 * @param string                        $newValue
 	 * @param int                           $id
+	 * @param string                        $description
 	 *
 	 * @return bool
 	 */
-	public function renamePickListValues($fieldModel, $oldValue, $newValue, $id)
+	public function renamePickListValues($fieldModel, $oldValue, $newValue, $id, $description = '')
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
 		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
-		$result = $db->createCommand()->update($this->getPickListTableName($pickListFieldName), [$pickListFieldName => $newValue], [$primaryKey => $id])->execute();
+		$tableName = $this->getPickListTableName($pickListFieldName);
+		$newData = [$pickListFieldName => $newValue];
+		$descriptionColumnExist = $this->checkDescriptionColumn($db, $tableName);
+		if (!empty($description) || $descriptionColumnExist) {
+			if (!$descriptionColumnExist) {
+				$this->addDescriptionColumn($db, $tableName);
+			}
+			$newData['description'] = $description;
+		}
+		$result = $db->createCommand()->update($tableName, $newData, [$primaryKey => $id])->execute();
 		if ($result) {
 			$dataReader = (new \App\Db\Query())->select(['tablename', 'columnname', 'tabid'])
 				->from('vtiger_field')
@@ -139,6 +156,32 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			\App\Colors::generate('picklist');
 		}
 		return !empty($result);
+	}
+
+	/**
+	 * Check description column in picklist.
+	 *
+	 * @param App\Db $db
+	 * @param string $tableName
+	 *
+	 * @return bool
+	 */
+	public function checkDescriptionColumn(App\Db $db, string $tableName)
+	{
+		return (bool) $db->getTableSchema($tableName)->getColumn('description');
+	}
+
+	/**
+	 * Add description column to picklist.
+	 *
+	 * @param \App\Db $db
+	 * @param string  $tableName
+	 *
+	 * @return bool
+	 */
+	public function addDescriptionColumn($db, $tableName)
+	{
+		return $db->createCommand()->addColumn($tableName, 'description', 'text')->execute();
 	}
 
 	/**

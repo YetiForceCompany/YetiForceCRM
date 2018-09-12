@@ -6,12 +6,12 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
-	<div class='modelContainer modal fade basicCreateView' tabindex="-1">
-		<div class="modal-dialog">
+	<div class='tpl-Settings-Picklist-CreateView modelContainer modal fade basicCreateView' tabindex="-1">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">{\App\Language::translate('LBL_ADD_ITEM_TO', $QUALIFIED_MODULE)}
@@ -31,8 +31,9 @@
 						   value='{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_PICKLISTFIELD_ALL_VALUES))}'/>
 					<div class="modal-body tabbable">
 						<div class="form-group row align-items-center">
-							<div class="col-md-3 col-form-label text-right"><span
-										class="redColor">*</span>{\App\Language::translate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}
+							<div class="col-md-3 col-form-label text-right">
+								<span class="redColor">*</span>
+								{\App\Language::translate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-9 controls">
 								<input class="form-control" type="text"
@@ -56,6 +57,15 @@
 								</div>
 							</div>
 						{/if}
+						<div class="form-group row align-items-center">
+							<div class="col-md-3 col-form-label text-right">
+								{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
+							</div>
+							<div class="col-md-9 controls">
+								<textarea class="form-control js-editor" name="description"
+										  data-js="ckeditor"></textarea>
+							</div>
+						</div>
 					</div>
 					{if $SELECTED_PICKLIST_FIELDMODEL->get('uitype') === 15}
 						<div class="form-group row align-items-center">

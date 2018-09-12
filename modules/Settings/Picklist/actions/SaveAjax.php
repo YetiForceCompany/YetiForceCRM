@@ -49,7 +49,8 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function add(\App\Request $request)
 	{
-		$newValue = $request->get('newValue');
+		$newValue = $request->getByType('newValue', 'Text');
+		$description = $request->getForHtml('description');
 		$moduleName = $request->getByType('source_module', 2);
 		$closeState = $request->getBoolean('close_state');
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
@@ -70,9 +71,9 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		try {
 			$fieldModel->validate($newValue);
-			$id = $moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected);
-			$moduleModel->updateCloseState($id['id'], $fieldModel, $newValue, $closeState);
-			$response->setResult(['id' => $id['id']]);
+			$id = $moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected, $description)['id'];
+			$moduleModel->updateCloseState($id, $fieldModel, $newValue, $closeState);
+			$response->setResult(['id' => $id]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
@@ -87,10 +88,11 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function rename(\App\Request $request)
 	{
 		$moduleName = $request->getByType('source_module', 2);
-		$newValue = $request->get('newValue');
+		$newValue = $request->getByType('newValue', 'Text');
 		$pickListFieldName = $request->getForSql('picklistName');
-		$oldValue = $request->get('oldValue');
-		$id = $request->get('id');
+		$oldValue = $request->getByType('oldValue', 'Text');
+		$id = $request->getInteger('id');
+		$description = $request->getForHtml('description');
 		$closeState = $request->getBoolean('close_state');
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, $moduleModel);
@@ -101,7 +103,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				if ($moduleName === 'Events' && ($pickListFieldName === 'activitytype' || $pickListFieldName === 'activitystatus')) {
 					$this->updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue);
 				}
-				$status = $moduleModel->renamePickListValues($fieldModel, $oldValue, $newValue, $id);
+				$status = $moduleModel->renamePickListValues($fieldModel, $oldValue, $newValue, $id, $description);
 				$moduleModel->updateCloseState($id, $fieldModel, $newValue, $closeState);
 				$response->setResult(['success', $status]);
 			} catch (Exception $e) {
