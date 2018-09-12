@@ -20,13 +20,14 @@
 					</button>
 				</div>
 				<form id="renameItemForm" class="form-horizontal" method="post" action="index.php">
-					<input type="hidden" name="module" value="{$MODULE}" />
-					<input type="hidden" name="parent" value="Settings" />
-					<input type="hidden" name="source_module" value="{$SOURCE_MODULE}" />
-					<input type="hidden" name="action" value="SaveAjax" />
-					<input type="hidden" name="mode" value="rename" />
-					<input type="hidden" name="picklistName" value="{$FIELD_MODEL->getName()}" />
-					<input type="hidden" name="pickListValues" value='{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_PICKLISTFIELD_EDITABLE_VALUES))}' />
+					<input type="hidden" name="module" value="{$MODULE}"/>
+					<input type="hidden" name="parent" value="Settings"/>
+					<input type="hidden" name="source_module" value="{$SOURCE_MODULE}"/>
+					<input type="hidden" name="action" value="SaveAjax"/>
+					<input type="hidden" name="mode" value="rename"/>
+					<input type="hidden" name="picklistName" value="{$FIELD_MODEL->getName()}"/>
+					<input type="hidden" name="pickListValues"
+						   value='{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_PICKLISTFIELD_EDITABLE_VALUES))}'/>
 					<div class="modal-body tabbable">
 						<div class="form-group row align-items-center">
 							<div class="col-md-3 col-form-label text-right">{\App\Language::translate('LBL_ITEM_TO_RENAME',$QUALIFIED_MODULE)}</div>
@@ -35,15 +36,24 @@
 								<select class="select2 form-control" name="oldValue">
 									<optgroup>
 										{foreach from=$PICKLIST_VALUES key=PICKLIST_VALUE_KEY item=PICKLIST_VALUE}
-											<option {if $FIELD_VALUE eq $PICKLIST_VALUE} selected="" {/if}value="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}" data-id={$PICKLIST_VALUE_KEY}>{\App\Language::translate($PICKLIST_VALUE,$SOURCE_MODULE)}</option>
-										{/foreach}	
+											<option {if $FIELD_VALUE eq $PICKLIST_VALUE} selected=""
+													{/if}value="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}"
+													data-id={$PICKLIST_VALUE_KEY}>{\App\Language::translate($PICKLIST_VALUE,$SOURCE_MODULE)}</option>
+										{/foreach}
 									</optgroup>
-								</select>	
+								</select>
 							</div>
 						</div>
 						<div class="form-group row align-items-center">
-							<div class="col-md-3 col-form-label text-right"><span class="redColor">*</span>{\App\Language::translate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}</div>
-							<div class="col-md-9 controls"><input type="text" class="form-control" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={\App\Json::encode([['name'=>'FieldLabel']])} name="newValue"></div>
+							<div class="col-md-3 col-form-label text-right">
+								<span class="redColor">*</span>
+								{\App\Language::translate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}
+							</div>
+							<div class="col-md-9 controls">
+								<input type="text" class="form-control"
+									   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+									   data-validator={\App\Json::encode([['name'=>'FieldLabel']])} name="newValue">
+							</div>
 						</div>
 						{if $SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES}
 							<div class="form-group row align-items-center">
@@ -52,8 +62,18 @@
 									<ul class="nonEditablePicklistValues list-unstyled">
 										{foreach from=$SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES key=NON_EDITABLE_VALUE_KEY item=NON_EDITABLE_VALUE}
 											<li>{\App\Language::translate($NON_EDITABLE_VALUE,$SOURCE_MODULE)}</li>
-											{/foreach}
+										{/foreach}
 									</ul>
+								</div>
+							</div>
+						{/if}
+						{if $SELECTED_PICKLIST_FIELDMODEL->get('uitype') === 15}
+							<div class="form-group row align-items-center">
+								<div class="col-md-3 col-form-label text-right">
+									{\App\Language::translate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}
+								</div>
+								<div class="col-md-9 controls">
+									<input class="form-control" type="checkbox" name="close_state">
 								</div>
 							</div>
 						{/if}
