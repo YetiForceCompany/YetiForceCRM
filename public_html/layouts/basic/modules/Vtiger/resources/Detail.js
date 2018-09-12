@@ -1375,7 +1375,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			urlParams[key] = value;
 		});
 		var urlNewParams = [];
-		summaryWidgetContainer.find('.js-detail-widget-header .js-switch, .js-detail-widget-header .filterField').each(function (n, item) {
+		summaryWidgetContainer.find('.js-detail-widget-header .js-switch, .js-detail-widget-header .js-filter_field').each(function (n, item) {
 			var value = '';
 			var element = jQuery(item);
 			var name = element.data('urlparams');
@@ -1412,7 +1412,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		jQuery('.js-switch').on('change', function (e, state) {
 			thisInstance.getFiltersDataAndLoad(e);
 		})
-		jQuery('.filterField').on('select2:select', function (e, state) {
+		jQuery('.js-filter_field').on('select2:select', function (e, state) {
 			thisInstance.getFiltersDataAndLoad(e);
 		})
 	},

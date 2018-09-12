@@ -97,7 +97,7 @@
 							{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 							{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 							{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-							<select class="select2 filterField form-control form-control-sm"
+							<select class="select2 form-control form-control-sm js-filter_field"
 									name="{$FIELD_MODEL->getName()}"
 									data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 									data-fieldinfo='{$FIELD_INFO|escape}'
