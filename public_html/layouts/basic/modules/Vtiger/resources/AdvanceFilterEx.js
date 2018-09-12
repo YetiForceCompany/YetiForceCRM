@@ -176,10 +176,10 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 					rowValues['valuetype'] = 'rawtext';
 				}
 
-				if (index === '0') {
-					rowValues['groupid'] = '0';
+				if (index === 0) {
+					rowValues['groupid'] = 0;
 				} else {
-					rowValues['groupid'] = '1';
+					rowValues['groupid'] = 1;
 				}
 
 				if (rowElement.is(":last-child")) {
@@ -429,8 +429,7 @@ Vtiger_Date_Field_Js('AdvanceFilterEx_Date_Field_Js', {}, {
 				element = $(html);
 				return this.addValidationToElement(element);
 			} else if (this._specialDateComparator(comparatorSelectedOptionVal)) {
-				html = '<input name="' + this.getName() + '" type="text" value="' + this.getValue() + '" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator="[{"name":"PositiveNumber"}]">\n\
-							<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+				html = '<input name="' + this.getName() + '" type="text" value="' + this.getValue() + '" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator="[{"name":"PositiveNumber"}]">\n<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 				return $(html);
 			} else if (comparatorSelectedOptionVal in dateSpecificConditions) {
 				let startValue = dateSpecificConditions[comparatorSelectedOptionVal]['startdate'],
