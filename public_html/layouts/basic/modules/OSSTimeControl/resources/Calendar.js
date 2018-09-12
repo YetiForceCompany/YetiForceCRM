@@ -118,7 +118,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 						'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
 						'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_TOTAL_TIME') + '</label>: ' + event.totalTime + '</div>' +
 						'<div><span class="fas fa-bars"></span> <label>' + app.vtranslate('JS_NUMBER') + '</label>: ' + event.number + '</div>' +
-						'<div><span class="fas fa-question-circle"></span> <label>' + app.vtranslate('JS_TYPE') + '</label>: <span class="picklistCT_OSSTimeControl_timecontrol_type_' + event.type_name + '">' + event.type + '</span></div>' +
+						'<div><span class="fas fa-question-circle"></span> <label>' + app.vtranslate('JS_TYPE') + '</label>: <span class="picklistCT_OSSTimeControl_timecontrol_type_' + event.type_value + '">' + event.type + '</span></div>' +
 						(event.status ? '<div><span class="far fa-star"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: <span class="picklistCT_OSSTimeControl_osstimecontrol_status_' + event.sta + '">' + event.status + '</span></div>' : '') +
 						(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a class="modCT_' + event.linkm + '" target="_blank" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</a></div>' : '') +
 						(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a class="modCT_' + event.linkexm + '" target="_blank" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
@@ -315,7 +315,9 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			totalTime: calendarDetails.sum_time.display_value,
 			number: calendarDetails.osstimecontrol_no.display_value,
 			type: calendarDetails.timecontrol_type.display_value,
+			type_value: calendarDetails.timecontrol_type.value,
 			status: calendarDetails.osstimecontrol_status.display_value,
+			sta: calendarDetails.osstimecontrol_status.value,
 			smownerid: calendarDetails.assigned_user_id.display_value,
 		};
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
