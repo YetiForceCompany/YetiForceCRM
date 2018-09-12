@@ -70,7 +70,7 @@
 					{if $SELECTED_PICKLIST_FIELDMODEL->get('uitype') === 15}
 						<div class="form-group row align-items-center">
 							<div class="col-md-3 col-form-label text-right">
-								{\App\Language::translate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}
+								{\App\Language::translate('LBL_CLOSES_RECORD',$QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-9 controls">
 								<input class="form-control" type="checkbox" value="1" name="close_state">
