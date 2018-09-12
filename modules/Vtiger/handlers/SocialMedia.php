@@ -17,20 +17,16 @@ class Vtiger_SocialMedia_Handler
 	public function entityBeforeSave(\App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		if (\App\SocialMedia::isEnableForModule($recordModel->getModuleName() && !$recordModel->isNew())) {
-			$columnsToRemove = [];
+		if (\App\SocialMedia::isEnableForModule($recordModel->getModuleName()) && !$recordModel->isNew()) {
+			$accountsToRemove = [];
 			foreach (Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel)->getAllColumnName() as $uiType => $column) {
-				if ($recordModel->getPreviousValue($column) !== false) {
-					$columnsToRemove[][$uiType] = $column;
-					/*if (!empty($recordModel->getPreviousValue($column)) && empty($recordModel->get($column))) {
-						$columnsToRemove[][$uiType] = $column;
-					} elseif (!empty($recordModel->getPreviousValue($column)) && !empty($recordModel->get($column))) {
-						$columnsToRemove[][$uiType] = $column;
-					}*/
+				$preValue = $recordModel->getPreviousValue($column);
+				if ($preValue !== false && !empty($preValue)) {
+					$accountsToRemove[$uiType][] = $preValue;
 				}
 			}
-			foreach ($columnsToRemove as $column) {
-				//\App\SocialMedia::removeAccount($recordModel->getField($column)->getUIType(), $recordModel->getPreviousValue($column));
+			foreach ($accountsToRemove as $uiType => $row) {
+				\App\SocialMedia::removeMass($uiType, $row);
 			}
 		}
 	}
@@ -46,8 +42,12 @@ class Vtiger_SocialMedia_Handler
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if (\App\SocialMedia::isEnableForModule($recordModel->getModuleName())) {
-			foreach (Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel)->getAllColumnName() as $column) {
-				\App\SocialMedia::removeAccount($recordModel->getField($column)->getUIType(), $recordModel->get($column));
+			$accountsToRemove = [];
+			foreach (Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel)->getAllColumnName() as $uiType => $column) {
+				$accountsToRemove[$uiType][] = $recordModel->get($column);
+			}
+			foreach ($accountsToRemove as $uiType => $row) {
+				\App\SocialMedia::removeMass($uiType, $row);
 			}
 		}
 	}

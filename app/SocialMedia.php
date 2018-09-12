@@ -187,6 +187,21 @@ class SocialMedia extends Base
 	}
 
 	/**
+	 * Remove mass social media records from DB.
+	 *
+	 * @param int      $uiType
+	 * @param string[] $logins
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return mixed
+	 */
+	public static function removeMass(int $uiType, array $logins)
+	{
+		return call_user_func_array(static::getClassNameByUitype($uiType) . '::removeMass', [$logins]);
+	}
+
+	/**
 	 * @param int    $uiType
 	 * @param string $typeOfLog
 	 * @param string $message

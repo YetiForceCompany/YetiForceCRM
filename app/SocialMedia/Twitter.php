@@ -79,6 +79,20 @@ class Twitter extends AbstractSocialMedia
 	}
 
 	/**
+	 * Remove mass twitter records from DB.
+	 *
+	 * @param string[] $logins
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public static function removeMass(array $logins)
+	{
+		$db = \App\Db::getInstance();
+		$db->createCommand()->delete('u_#__social_media_twitter', ['twitter_login' => $logins])->execute();
+		$db->createCommand()->delete('b_#__social_media_twitter', ['twitter_login' => $logins])->execute();
+	}
+
+	/**
 	 * Twitter constructor.
 	 *
 	 * @param string $userName

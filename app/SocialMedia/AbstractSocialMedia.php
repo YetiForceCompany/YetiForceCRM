@@ -42,6 +42,15 @@ abstract class AbstractSocialMedia
 	abstract public static function isActive();
 
 	/**
+	 * Remove mass social media records from DB.
+	 *
+	 * @param string[] $logins
+	 *
+	 * @return mixed
+	 */
+	abstract public static function removeMass(array $logins);
+
+	/**
 	 * Retrieve data from Api.
 	 */
 	abstract public function retrieveDataFromApi();
