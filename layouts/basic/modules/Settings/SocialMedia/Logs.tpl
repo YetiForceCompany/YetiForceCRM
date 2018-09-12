@@ -12,17 +12,17 @@
 			</thead>
 			<tbody>
 			{foreach from=\App\SocialMedia::getLogs() item=ITEM}
-				{if $ITEM['type_of_log']==='error'}
+				{if $ITEM['type']==='error'}
 					{assign var=TR_CLASS value='table-danger font-weight-bold'}
-				{elseif $ITEM['type_of_log']==='warning'}
+				{elseif $ITEM['type']==='warning'}
 					{assign var=TR_CLASS value='table-warning font-weight-bold'}
 				{else}
 					{assign var=TR_CLASS value=''}
 				{/if}
 				<tr class="{$TR_CLASS}">
-					<td>{$ITEM['date_log']}</td>
-					<td>{$ITEM['type_of_log']}</td>
+					<td>{$ITEM['date']}</td>
 					<td>{$ITEM['type']}</td>
+					<td>{$ITEM['name']}</td>
 					<td>{$ITEM['message']}</td>
 				</tr>
 			{/foreach}
