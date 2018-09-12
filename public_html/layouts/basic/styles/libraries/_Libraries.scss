@@ -4,47 +4,47 @@
 
 //-------- select2 --------//
 .select2-selection {
-	padding-top: 0.2rem;
+  padding-top: 0.2rem;
 
-	@extend .border;
-	@extend .text-left;
+  @extend .border;
+  @extend .text-left;
 }
 
 .select2-selection--single {
-	padding: 0.375rem 1.125rem 0.375rem 0.75rem;
+  padding: 0.375rem 1.125rem 0.375rem 0.75rem;
 
-	@at-root .input-group > .input-group-prepend #{&} {
-		border-right: unset !important;
-		border-radius: 0.25rem 0 0 0.25rem !important;
-	}
-	// Border correction for select2 sm
-	@at-root .input-group #{&} {
-		border-top-right-radius: 0.25rem !important;
-		border-bottom-right-radius: 0.25rem !important;
-	}
+  @at-root .input-group > .input-group-prepend #{&} {
+    border-right: unset !important;
+    border-radius: 0.25rem 0 0 0.25rem !important;
+  }
+  // Border correction for select2 sm
+  @at-root .input-group #{&} {
+    border-top-right-radius: 0.25rem !important;
+    border-bottom-right-radius: 0.25rem !important;
+  }
 }
 
 .select2-selection__rendered {
-	line-height: 1.5;
+  line-height: 1.5;
 }
 
 .select2-selection__arrow {
-	@extend .mt-1;
+  @extend .mt-1;
 }
 
 .select2-container--bootstrap4 {
-	ul.select2-selection__rendered {
-		@extend .py-2;
-		@extend .px-1;
+  ul.select2-selection__rendered {
+    @extend .py-2;
+    @extend .px-1;
 
-		li.select2-selection__choice {
-			@extend .p-1;
-			@extend .my-auto;
-		}
-	}
+    li.select2-selection__choice {
+      @extend .p-1;
+      @extend .my-auto;
+    }
+  }
 
-	.select2-results__option, .select2-results__option .select2-results__option {
-		@extend .p-1;
+  .select2-results__option, .select2-results__option .select2-results__option {
+    @extend .p-1;
 
 		font-size: inherit;
 	}
@@ -62,215 +62,219 @@
 }
 
 .input-group > .select2-container--bootstrap {
-	width: 1% !important;
+  width: 1% !important;
 }
 
 /* select2 selected option display bug fix after use hide class on options */
 .addRelationContainer span.select2-selection__rendered {
-	display: block !important;
+  display: block !important;
 }
 
 header {
-	.o-global-search__input .select2-selection.select2-selection--single {
-		height: $h-menu-items !important;
+  .o-global-search__input .select2-selection.select2-selection--single {
+    height: $h-menu-items !important;
 
-		.select2-selection__rendered {
-			margin-top: calculate-rem(2px);
-		}
-	}
+    .select2-selection__rendered {
+      margin-top: calculate-rem(2px);
+    }
+  }
 
-	.select2WithButtonWidth {
-		width: calc(100% - #{$w-icon-button});
-	}
+  .select2WithButtonWidth {
+    width: calc(100% - #{$w-icon-button});
+  }
 
-	.c-header__btn__container .select2-selection {
-		height: $h-menu-items;
-		font-size: 0.875rem;
+  .c-header__btn__container .select2-selection {
+    height: $h-menu-items;
+    font-size: 0.875rem;
 
-		&:hover {
-			background: $dark !important;
+    &:hover {
+      background: $dark !important;
 
-			.select2-selection__rendered {
-				color: $white !important;
-			}
-		}
-	}
+      .select2-selection__rendered {
+        color: $white !important;
+      }
+    }
+  }
 }
 
 #select2-mail-select-results {
-	font-size: 0.875rem;
+  font-size: 0.875rem;
 }
 
 .select2HeaderWidth {
-	.select2-selection {
-		height: 2.5rem !important;
-	}
+  .select2-selection {
+    height: 2.5rem !important;
+  }
 }
 
 .fieldUiHolder {
-	width: 25%;
+  width: 25%;
 
-	.select2-container--bootstrap4 {
-		width: 100% !important;
-	}
+  .select2-container--bootstrap4 {
+    width: 100% !important;
+  }
 }
 
 //theme selection
 .select2-selection__rendered.u-hover-bold {
-	padding: 6px !important;
-	border-radius: 0.25rem
+  padding: 6px !important;
+  border-radius: 0.25rem
 }
 
 .select2-selection__rendered[title=Twilight] {
-	@extend .u-bg-twilight;
+  @extend .u-bg-twilight;
 }
 
 .select2-selection__rendered[title=Modern] {
-	@extend .u-bg-modern;
+  @extend .u-bg-modern;
 }
 
 .select2-selection[aria-labelledby^="select2-theme"] {
-	@extend .p-0;
+  @extend .p-0;
 }
 
 .select2-search__field, .select2-search.select2-search--inline {
-	width: 100% !important;
+  width: 100% !important;
 }
 
 .customFilterMainSpan {
-	width: 100%;
-	cursor: pointer;
+  width: 100%;
+  cursor: pointer;
 
-	.select2-container {
-		width: 95% !important;
-	}
+  .select2-container {
+    width: 95% !important;
+  }
 }
 
 .conditionRow .select2-container--bootstrap4 {
-	display: inline-block;
-	vertical-align: middle;
+  display: inline-block;
+  vertical-align: middle;
 
-	@extend .w-25;
-	@extend .mr-sm-2;
+  @extend .w-25;
+  @extend .mr-sm-2;
 }
 
 //-------- leaflet --------//
 .leaflet-popup-content {
-	width: 62px;
+  width: 62px;
 }
 
 .awesome-marker {
-	[data-fa-i2svg] {
-		margin-top: 11px;
-	}
+  [data-fa-i2svg] {
+    margin-top: 11px;
+  }
 }
 
 //--- list ---//
 
 .openStreetMapModalBody {
-	@extend %input-groupSelect2;
+  @extend %input-groupSelect2;
 }
 
 .bootbox-close-button {
-	@extend .order-2;
+  @extend .order-2;
 }
 
 //-------- daterangepicker --------//
 
 .daterangepicker {
-	&.show-calendar {
-		@extend .p-0;
-	}
+  &.show-calendar {
+    @extend .p-0;
+  }
 
-	.left, .right {
-		@extend .mb-0;
-	}
+  .left, .right {
+    @extend .mb-0;
+  }
 
-	.ranges {
-		li {
-			margin-bottom: 0.45rem;
-		}
+  .ranges {
+    li {
+      margin-bottom: 0.45rem;
+    }
 
-		li:last-child {
-			@extend .mb-0;
-		}
-	}
+    li:last-child {
+      @extend .mb-0;
+    }
+  }
 }
 
 .recordEditView {
-	.daterangepicker {
-		.ranges {
-			float: none !important;
-			text-align: center !important;
-		}
-	}
+  .daterangepicker {
+    .ranges {
+      float: none !important;
+      text-align: center !important;
+    }
+  }
 }
 
 //-------- jQuery UI --------//
 .ui-autocomplete {
-	padding: 0 !important;
+  padding: 0 !important;
 
-	a.ui-menu-item-wrapper, a.ui-menu-item-wrapper:hover {
-		font-weight: inherit !important;
-	}
+  a.ui-menu-item-wrapper, a.ui-menu-item-wrapper:hover {
+    font-weight: inherit !important;
+  }
 }
 
 ul.ui-autocomplete {
-	div.ui-menu-item-wrapper {
-		@extend .u-text-ellipsis;
-	}
+  div.ui-menu-item-wrapper {
+    @extend .u-text-ellipsis;
+  }
 }
 
 //-------- ckeditor --------//
 
 .cke_screen_reader_only {
-	height: 0 !important;
+  height: 0 !important;
+}
+
+.pdfTemplateContents .cke {
+  border: 0px;
 }
 
 //-------- js-tree --------//
 
 .jstree-proton {
-	font-family: $font-family-base !important;
+  font-family: $font-family-base !important;
 }
 
 //-------- perfectscrollbar --------//
 
 .leftPanel .ps-scrollbar-y-rail {
-	display: none !important;
+  display: none !important;
 }
 
 //-------- gridstack --------//
 
 .grid-stack > .grid-stack-item > .grid-stack-item-content {
-	left: 0.25rem !important;
-	right: 0.25rem !important;
+  left: 0.25rem !important;
+  right: 0.25rem !important;
 }
 
 @include media-breakpoint-down(xs) {
-	.grid-stack > .grid-stack-item > .grid-stack-item-content {
-		left: 0 !important;
-		right: 0 !important;
-	}
+  .grid-stack > .grid-stack-item > .grid-stack-item-content {
+    left: 0 !important;
+    right: 0 !important;
+  }
 
-	.ui-draggable-handle {
-		-ms-touch-action: manipulation !important;
-		touch-action: manipulation !important;
-	}
+  .ui-draggable-handle {
+    -ms-touch-action: manipulation !important;
+    touch-action: manipulation !important;
+  }
 
-	.grid-stack > .grid-stack-item > .grid-stack-item-content {
-		width: 100% !important;
-	}
+  .grid-stack > .grid-stack-item > .grid-stack-item-content {
+    width: 100% !important;
+  }
 
-	.grid-stack.grid-stack-one-column-mode > .grid-stack-item {
-		margin-bottom: 0.5rem !important;
-	}
+  .grid-stack.grid-stack-one-column-mode > .grid-stack-item {
+    margin-bottom: 0.5rem !important;
+  }
 }
 
 //-------- footable --------//
 .profilesEditView {
-	.footable-toggle {
-		@extend .float-left;
-	}
+  .footable-toggle {
+    @extend .float-left;
+  }
 }
 
 //-------- datatable --------//
