@@ -15,7 +15,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">
-						<span class="fas fa-plus-circle fa-sm mr-1"></span>
+						<span class="fas fa-filter fa-sm mr-1"></span>
 						{\App\Language::translate('LBL_CREATE_NEW_FILTER')}
 					</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
