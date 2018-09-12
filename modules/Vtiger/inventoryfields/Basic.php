@@ -298,9 +298,9 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	{
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($this->get('module'));
 		$fields = $inventoryField->getAutoCompleteFields();
-		$columnName = $this->getColumnName();
-		if (isset($fields[$columnName])) {
-			$mapDetail = $fields[$columnName];
+		$columnNameValue = $this->getColumnName();
+		if (isset($fields[$columnNameValue])) {
+			$mapDetail = $fields[$columnNameValue];
 			if ($returInstance) {
 				$moduleModel = Vtiger_Module_Model::getInstance($mapDetail['module']);
 

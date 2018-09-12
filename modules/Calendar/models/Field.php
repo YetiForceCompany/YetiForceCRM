@@ -24,15 +24,12 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		$validator = [];
 		$fieldName = $this->getName();
 
-		switch ($fieldName) {
-			case 'due_date':
-				$funcName = ['name' => 'greaterThanDependentField',
-					'params' => ['date_start'], ];
-				array_push($validator, $funcName);
-				break;
-			default:
-				$validator = parent::getValidator();
-				break;
+		if ($this->getName() === 'due_date') {
+			$funcName = ['name' => 'greaterThanDependentField',
+				'params' => ['date_start'],];
+			array_push($validator, $funcName);
+		} else {
+			$validator = parent::getValidator();
 		}
 		return $validator;
 	}

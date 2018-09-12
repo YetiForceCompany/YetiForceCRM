@@ -103,6 +103,7 @@
     "LBL_SETUP_WIZARD_HEADER": "Expert instalare YetiForce"
   },
   "js": {
+    "JS_ALL": "Toate",
     "LBL_PASS_TO_SHORT": "Parola este prea scurta - lungimea minima este de 8 caractere",
     "LBL_PASS_TO_LONG": "Parola este prea lunga - lungimea maxima este de 32 caractere",
     "LBL_PASS_NO_NUM": "Parola trebuie sa contina numere",

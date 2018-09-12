@@ -508,7 +508,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {bool} afterInit are we parsing chart after it was mounted ?
 	 * @return {Object} options with replaced string functions
 	 */
-	parseOptionsObject: function parseOptionsObject(options, afterInit = false, original) {
+	parseOptionsObject: function parseOptionsObject(options, original, afterInit = false) {
 		let result = {};
 		for (let propertyName in options) {
 			let value = options[propertyName];
@@ -516,9 +516,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 				if (propertyName.substr(0, 1) === '_') {
 					result[propertyName] = value;
 				} else if (Array.isArray(value)) {
-					result[propertyName] = this.parseOptionsArray(value, afterInit, original);
+					result[propertyName] = this.parseOptionsArray(value, original, afterInit);
 				} else if (typeof value === 'object' && value !== null) {
-					result[propertyName] = this.parseOptionsObject(value, afterInit, original);
+					result[propertyName] = this.parseOptionsObject(value, original, afterInit);
 				} else {
 					result[propertyName] = value;
 				}
@@ -528,9 +528,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 				} else if (this.isReplacementString(value)) {
 					result[propertyName] = this.getFunctionFromReplacementString(value, afterInit, original);
 				} else if (Array.isArray(value)) {
-					result[propertyName] = this.parseOptionsArray(value, afterInit, original);
+					result[propertyName] = this.parseOptionsArray(value, original, afterInit);
 				} else if (typeof value === 'object' && value !== null) {
-					result[propertyName] = this.parseOptionsObject(value, afterInit, original);
+					result[propertyName] = this.parseOptionsObject(value, original, afterInit);
 				} else {
 					result[propertyName] = value;
 				}
@@ -544,14 +544,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {bool} afterInit are we after chart js was mounted?
 	 * @return {Array}
 	 */
-	parseOptionsArray: function parseOptionsArray(arr, afterInit = false, original) {
+	parseOptionsArray: function parseOptionsArray(arr, original, afterInit = false) {
 		return arr.map((item, index) => {
 			if (this.isReplacementString(item)) {
 				return this.getFunctionFromReplacementString(value);
 			} else if (Array.isArray(item)) {
-				return this.parseOptionsArray(item, afterInit, original);
+				return this.parseOptionsArray(item, original, afterInit);
 			} else if (typeof item === 'object' && item !== null) {
-				return this.parseOptionsObject(item, afterInit, original);
+				return this.parseOptionsObject(item, original, afterInit);
 			}
 			return item;
 		});
@@ -562,11 +562,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 	 * @param  {bool} afterInit - is chartjs loaded ?
 	 * @return {Object}
 	 */
-	parseOptions: function parseOptions(options, afterInit = false, original) {
+	parseOptions: function parseOptions(options, original, afterInit = false) {
 		if (Array.isArray(options)) {
-			return this.parseOptionsArray(options, afterInit, original);
+			return this.parseOptionsArray(options, original, afterInit);
 		} else if (typeof options === 'object' && options !== null) {
-			return this.parseOptionsObject(options, afterInit, original);
+			return this.parseOptionsObject(options, original, afterInit);
 		}
 		app.errorLog(new Error('Unknown options format [' + typeof options + '] - should be object.'));
 	},
@@ -1785,7 +1785,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		// parse chart one more time after it was mounted - some options need to have chart loaded
 		data.datasets = data.datasets.map((dataset, index) => {
 			dataset.datasetIndex = index;
-			return this.parseOptions(dataset, true, dataset);
+			return this.parseOptions(dataset, dataset, true);
 		});
 		return chart;
 	},
