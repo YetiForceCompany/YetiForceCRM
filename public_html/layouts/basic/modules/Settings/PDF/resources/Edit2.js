@@ -84,9 +84,9 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 				},
 				{name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
 				{name: 'links', items: ['Link', 'Unlink']},
-				{name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar']},
+				{name: 'insert', items: ['Image', 'Table', 'HorizontalRule']},
 				{name: 'tools', items: ['Maximize', 'ShowBlocks']},
-				{name: 'document', items: ['Source', 'Print']},
+				{name: 'document', items: ['Source']},
 				'/',
 				{name: 'styles', items: ['Format', 'Font', 'FontSize']},
 				{

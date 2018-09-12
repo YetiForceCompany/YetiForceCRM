@@ -30,7 +30,7 @@
 							<div class="card-header">
 								<span class="fas fa-edit"></span> {\App\Language::translate('LBL_HEADER_DETAILS',$QUALIFIED_MODULE)}
 							</div>
-							<div class="card-body">
+							<div class="card-body p-0">
 								<div class="controls">
 									<textarea class="form-control w-100 js-editor" name="header_content" id="header_content" data-js="ckeditor">{$PDF_MODEL->get('header_content')}</textarea>
 								</div>
@@ -43,7 +43,7 @@
 							<div class="card-header">
 								<span class="fas fa-edit"></span> {\App\Language::translate('LBL_BODY_DETAILS',$QUALIFIED_MODULE)}
 							</div>
-							<div class="card-body">
+							<div class="card-body p-0">
 								<div class="controls">
 									<textarea class="form-control w-100 js-editor" name="body_content" id="body_content" data-js="ckeditor">{$PDF_MODEL->get('body_content')}</textarea>
 								</div>
@@ -56,7 +56,7 @@
 							<div class="card-header">
 								<span class="fas fa-edit"></span> {\App\Language::translate('LBL_FOOTER_DETAILS',$QUALIFIED_MODULE)}
 							</div>
-							<div class="card-body">
+							<div class="card-body p-0">
 								<div class="controls">
 									<textarea class="form-control js-editor" name="footer_content" id="footer_content" data-js="ckeditor">{$PDF_MODEL->get('footer_content')}</textarea>
 								</div>
