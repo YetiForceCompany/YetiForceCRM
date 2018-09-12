@@ -316,7 +316,7 @@ class Privilege
 				return true;
 			}
 		} elseif ($othersPermissionId == 1) {
-			return ($actionId == 2);
+			return $actionId == 2;
 		} elseif ($othersPermissionId == 2) {
 			return true;
 		} elseif ($othersPermissionId == 3) {
