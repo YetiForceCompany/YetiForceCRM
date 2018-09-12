@@ -61,7 +61,7 @@ class OSSTimeControl_Calendar_Model extends App\Base
 			$item['url'] = 'index.php?module=OSSTimeControl&view=Detail&record=' . $record['id'];
 			$item['status'] = \App\Language::translate($record['osstimecontrol_status'], 'OSSTimeControl');
 			$item['sta'] = \App\Purifier::encodeHtml($record['osstimecontrol_status']);
-			$item['type_name'] = \App\Purifier::encodeHtml($record['timecontrol_type']);
+			$item['type_value'] = \App\Purifier::encodeHtml($record['timecontrol_type']);
 			$item['type'] = \App\Language::translate($record['timecontrol_type'], 'OSSTimeControl');
 			$item['number'] = $record['osstimecontrol_no'];
 			//Relation
