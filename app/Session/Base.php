@@ -6,8 +6,8 @@ namespace App\Session;
  * Base Session Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base extends \SessionHandler
 {
@@ -102,18 +102,6 @@ class Base extends \SessionHandler
 	public function regenerateId($deleteOldSession = false)
 	{
 		return session_regenerate_id($deleteOldSession);
-	}
-
-	/**
-	 * Destroys all data registered to a session.
-	 *
-	 * @link http://php.net/manual/en/function.session-destroy.php
-	 *
-	 * @param string $sessionId
-	 */
-	public function destroy($sessionId)
-	{
-		return parent::destroy($sessionId);
 	}
 
 	/**

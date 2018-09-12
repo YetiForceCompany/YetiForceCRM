@@ -4,8 +4,8 @@
  * Api CardDAV Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class API_CardDAV_Model
 {
@@ -50,7 +50,7 @@ class API_CardDAV_Model
 		}
 		$dataReader = $query->createCommand()->query();
 		while ($record = $dataReader->read()) {
-			foreach ($this->davUsers as $key => $user) {
+			foreach ($this->davUsers as $user) {
 				$this->addressBookId = $user->get('addressbooksid');
 				$orgUserId = App\User::getCurrentUserId();
 				App\User::setCurrentUserId($user->get('id'));
@@ -77,7 +77,7 @@ class API_CardDAV_Model
 	public function cardDav2Crm()
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
-		foreach ($this->davUsers as $key => $user) {
+		foreach ($this->davUsers as $user) {
 			$this->addressBookId = $user->get('addressbooksid');
 			$this->user = $user;
 			$this->syncAddressBooks();
@@ -245,8 +245,8 @@ class API_CardDAV_Model
 		if (isset($vcard->ORG)) {
 			$lead = Vtiger_Record_Model::getCleanInstance('Leads');
 			$lead->set('assigned_user_id', $this->user->get('id'));
-			$lead->set('company', \App\Purifier::purify((string) $vcard->ORG));
-			$lead->set('lastname', \App\Purifier::purify((string) $vcard->ORG));
+			$lead->set('company', \App\Purifier::purify((string)$vcard->ORG));
+			$lead->set('lastname', \App\Purifier::purify((string)$vcard->ORG));
 			$lead->set('leadstatus', 'PLL_PENDING');
 			$lead->set('vat_id', '');
 			$lead->save();
@@ -341,22 +341,22 @@ class API_CardDAV_Model
 	{
 		if ($moduleName == 'Contacts') {
 			return (new App\Db\Query())->select([
-						'vtiger_crmentity.crmid', 'vtiger_contactdetails.parentid', 'vtiger_contactdetails.firstname',
-						'vtiger_contactdetails.lastname', 'vtiger_contactdetails.phone', 'vtiger_contactdetails.mobile', 'vtiger_contactdetails.email',
-						'vtiger_contactdetails.secondary_email', 'vtiger_contactdetails.jobtitle',
-						'vtiger_crmentity.modifiedtime', 'vtiger_contactaddress.*',
-					])->from('vtiger_contactdetails')
-						->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')
-						->innerJoin('vtiger_contactaddress', 'vtiger_contactdetails.contactid = vtiger_contactaddress.contactaddressid')
-						->where(['vtiger_contactdetails.dav_status' => 1, 'vtiger_crmentity.deleted' => 0]);
+				'vtiger_crmentity.crmid', 'vtiger_contactdetails.parentid', 'vtiger_contactdetails.firstname',
+				'vtiger_contactdetails.lastname', 'vtiger_contactdetails.phone', 'vtiger_contactdetails.mobile', 'vtiger_contactdetails.email',
+				'vtiger_contactdetails.secondary_email', 'vtiger_contactdetails.jobtitle',
+				'vtiger_crmentity.modifiedtime', 'vtiger_contactaddress.*',
+			])->from('vtiger_contactdetails')
+				->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')
+				->innerJoin('vtiger_contactaddress', 'vtiger_contactdetails.contactid = vtiger_contactaddress.contactaddressid')
+				->where(['vtiger_contactdetails.dav_status' => 1, 'vtiger_crmentity.deleted' => 0]);
 		} elseif ($moduleName == 'OSSEmployees') {
 			return (new App\Db\Query())->select([
-						'vtiger_crmentity.crmid', 'vtiger_ossemployees.name', 'vtiger_ossemployees.last_name',
-						'vtiger_ossemployees.business_phone', 'vtiger_ossemployees.private_phone', 'vtiger_ossemployees.business_mail',
-						'vtiger_ossemployees.private_mail', 'vtiger_crmentity.modifiedtime',
-					])->from('vtiger_ossemployees')
-						->innerJoin('vtiger_crmentity', 'vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid')
-						->where(['vtiger_ossemployees.dav_status' => 1, 'vtiger_crmentity.deleted' => 0]);
+				'vtiger_crmentity.crmid', 'vtiger_ossemployees.name', 'vtiger_ossemployees.last_name',
+				'vtiger_ossemployees.business_phone', 'vtiger_ossemployees.private_phone', 'vtiger_ossemployees.business_mail',
+				'vtiger_ossemployees.private_mail', 'vtiger_crmentity.modifiedtime',
+			])->from('vtiger_ossemployees')
+				->innerJoin('vtiger_crmentity', 'vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid')
+				->where(['vtiger_ossemployees.dav_status' => 1, 'vtiger_crmentity.deleted' => 0]);
 		}
 	}
 
@@ -390,7 +390,7 @@ class API_CardDAV_Model
 			return '';
 		}
 		foreach ($vcard->TEL as $t) {
-			foreach ($t->parameters() as $k => $p) {
+			foreach ($t->parameters() as $p) {
 				$vcardType = $p->getValue();
 				$vcardType = strtoupper(trim(str_replace('VOICE', '', $vcardType), ','));
 				if ($vcardType == strtoupper($type) && $t->getValue() != '') {
@@ -422,7 +422,7 @@ class API_CardDAV_Model
 			return '';
 		}
 		foreach ($vcard->EMAIL as $e) {
-			foreach ($e->parameters() as $k => $p) {
+			foreach ($e->parameters() as $p) {
 				$vcardType = $p->getValue();
 				$vcardType = trim(str_replace('pref', '', $vcardType), ',');
 				$vcardType = strtoupper(trim(str_replace('INTERNET', '', $vcardType), ','));
@@ -443,7 +443,7 @@ class API_CardDAV_Model
 	 *
 	 * @param mixed  $addressBookId
 	 * @param string $objectUri
-	 * @param int    $operation     1 = add, 2 = modify, 3 = delete
+	 * @param int    $operation 1 = add, 2 = modify, 3 = delete
 	 */
 	protected function addChange($objectUri, $operation)
 	{

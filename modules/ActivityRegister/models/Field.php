@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ActivityRegister field model class.
  *
@@ -16,16 +17,12 @@ class ActivityRegister_Field_Model extends Vtiger_Field_Model
 	public function getValidator()
 	{
 		$validator = [];
-		$fieldName = $this->getName();
-		switch ($fieldName) {
-			case 'end_date':
-				$funcName = ['name' => 'greaterThanDependentField',
-					'params' => ['start_date']];
-				array_push($validator, $funcName);
-				break;
-			default:
-				$validator = parent::getValidator();
-				break;
+		if ($this->getName() === 'end_date') {
+			$funcName = ['name' => 'greaterThanDependentField',
+				'params' => ['start_date']];
+			array_push($validator, $funcName);
+		} else {
+			$validator = parent::getValidator();
 		}
 		return $validator;
 	}
