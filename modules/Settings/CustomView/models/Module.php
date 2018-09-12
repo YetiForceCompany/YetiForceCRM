@@ -145,7 +145,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getUrlToEdit($module, $record)
 	{
-		return "module=CustomView&view=EditAjax&source_module=$module&record=$record";
+		return "index.php?module=CustomView&view=EditAjax&source_module=$module&record=$record";
 	}
 
 	public function getCreateFilterUrl($module)
