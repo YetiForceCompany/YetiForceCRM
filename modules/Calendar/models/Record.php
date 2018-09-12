@@ -90,11 +90,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getType()
 	{
-		$activityType = $this->get('activitytype');
-		if ($activityType == 'Task') {
-			return 'Calendar';
-		}
-		return 'Events';
+		return 'Calendar';
 	}
 
 	/**
@@ -418,5 +414,39 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		return $links;
+	}
+
+	/**
+	 * Get invities.
+	 *
+	 * @return array
+	 */
+	public function getInvities()
+	{
+		return (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => (int) $this->getId()])->all();
+	}
+
+	/**
+	 * Get invition status.
+	 *
+	 * @param int $status
+	 *
+	 * @return string
+	 */
+	public static function getInvitionStatus($status = false)
+	{
+		$statuses = [0 => 'LBL_NEEDS-ACTION', 1 => 'LBL_ACCEPTED', 2 => 'LBL_DECLINED'];
+
+		return $status !== false ? $statuses[$status] : $statuses;
+	}
+
+	/**
+	 * Get invite user mail data.
+	 *
+	 * @return array
+	 */
+	public function getInviteUserMailData()
+	{
+		return []; // To do
 	}
 }
