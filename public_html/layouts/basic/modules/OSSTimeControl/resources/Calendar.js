@@ -182,7 +182,6 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		var thisInstance = this;
 		thisInstance.getCalendarView().fullCalendar('removeEvents');
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
-		console.log(view);
 		const formatDate = CONFIG.dateFormat.toUpperCase();
 		var user;
 		if (jQuery('#calendarUserList').length == 0) {
@@ -304,7 +303,6 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			return;
 		}
 		const calendar = this.getCalendarView();
-		console.log(calendarDetails);
 		const eventObject = {
 			id: calendarDetails._recordId,
 			title: calendarDetails.name.display_value,
