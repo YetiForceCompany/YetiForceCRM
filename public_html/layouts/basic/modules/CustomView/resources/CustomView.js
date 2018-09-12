@@ -23,13 +23,16 @@ Vtiger_CustomView_Js = {
 	selectedColumnsList: false,
 	loadFilterView: function (url) {
 		var progressIndicatorElement = $.progressIndicator();
-		AppConnector.request(url).done(function (data) {
-			app.hideModalWindow();
-			var contents = $(".contentsDiv").html(data);
+		app.showModalWindow(null, url, function () {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			Vtiger_CustomView_Js.registerEvents();
-			Vtiger_CustomView_Js.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance($('.filterContainer', contents));
+			Vtiger_CustomView_Js.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance($('.filterContainer'));
 		});
+
+		// AppConnector.request(url).done(function (data) {
+		// 	var contents = $(".contentsDiv").html(data);
+		//
+		// });
 	},
 	loadDateFilterValues: function () {
 		var selectedDateFilter = $('#standardDateFilter option:selected');
@@ -44,7 +47,7 @@ Vtiger_CustomView_Js = {
 	 */
 	getContentsContainer: function () {
 		if (Vtiger_CustomView_Js.contentsCotainer == false) {
-			Vtiger_CustomView_Js.contentsCotainer = $('div.contentsDiv');
+			Vtiger_CustomView_Js.contentsCotainer = $('.js-filter-modal__container');
 		}
 		return Vtiger_CustomView_Js.contentsCotainer;
 	},
