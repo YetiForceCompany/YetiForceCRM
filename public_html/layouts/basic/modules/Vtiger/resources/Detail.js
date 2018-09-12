@@ -1013,9 +1013,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var dateTime = false;
 				if (editElement.find('[data-fieldinfo]').length == 2) {
 					editElement.find('[data-fieldinfo]').each(function () {
-						var field = {};
-						field['name'] = jQuery(this).attr('name');
-						field['type'] = jQuery(this).data('fieldinfo').type;
+						var field = {
+							name: jQuery(this).attr('name'),
+							type: jQuery(this).data('fieldinfo').type
+						};
 						if (field['type'] == 'datetime') {
 							dateTime = true;
 						}

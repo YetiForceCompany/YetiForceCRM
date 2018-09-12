@@ -140,7 +140,6 @@ var Vtiger_PBXManager_Js = {
 				if (responsedata.success && showSaveOption)
 					jQuery('#contactsave_' + record.pbxmanagerid + '').show();
 			});
-			break;
 		} else {
 			jQuery('#caller', '#pbxcall_' + record.pbxmanagerid + '').html(app.vtranslate('JS_PBX_CALL_FROM') + ' :&nbsp;<a href="index.php?module=' + record.customertype + '&view=Detail&record=' + record.customer + '">' + record.callername + '</a>');
 		}
