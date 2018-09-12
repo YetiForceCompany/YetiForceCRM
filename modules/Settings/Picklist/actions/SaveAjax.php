@@ -49,7 +49,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function add(\App\Request $request)
 	{
-		$newValue = $request->getByType('newValue', 'text');
+		$newValue = $request->getByType('newValue', 'Text');
 		$description = $request->getForHtml('description');
 		$moduleName = $request->getByType('source_module', 2);
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
@@ -86,9 +86,9 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function rename(\App\Request $request)
 	{
 		$moduleName = $request->getByType('source_module', 2);
-		$newValue = $request->getByType('newValue', 'text');
+		$newValue = $request->getByType('newValue', 'Text');
 		$pickListFieldName = $request->getForSql('picklistName');
-		$oldValue = $request->getByType('oldValue', 'text');
+		$oldValue = $request->getByType('oldValue', 'Text');
 		$id = $request->getInteger('id');
 		$description = $request->getForHtml('description');
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);

@@ -333,7 +333,7 @@ class Picklist
 	/**
 	 * Get description for all fields or generate it if not exists.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public static function getDescriptions($fieldName)
 	{

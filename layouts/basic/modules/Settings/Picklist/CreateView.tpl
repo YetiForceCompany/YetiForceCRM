@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class='modelContainer modal fade basicCreateView' tabindex="-1">
+	<div class='tpl-Settings-Picklist-CreateView modelContainer modal fade basicCreateView' tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
