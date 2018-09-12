@@ -15,6 +15,33 @@
 class Calendar_Module_Model extends Vtiger_Module_Model
 {
 	/**
+	 * Calendar view.
+	 *
+	 * @var string
+	 */
+	protected $calendarView;
+
+	/**
+	 * Right panel.
+	 *
+	 * @var string
+	 */
+	protected $rightPanel;
+
+	/**
+	 * Calendar_Module_Model constructor.
+	 */
+	public function __construct()
+	{
+		$this->calendarView = \AppConfig::module($this->getName(), 'CALENDAR_VIEW');
+		if ($this->calendarView === false) {
+			$this->rightPanel = 'RightPanel';
+		} else {
+			$this->rightPanel = 'RightPanel' . $this->calendarView;
+		}
+	}
+
+	/**
 	 * Function returns the default view for the Calendar module.
 	 *
 	 * @return string
@@ -95,19 +122,19 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'SIDEBARWIDGETRIGHT',
 					'linklabel' => 'Activity Type',
-					'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getActivityType',
+					'linkurl' => 'module=' . $this->get('name') . '&view=' . $this->rightPanel . '&mode=getActivityType',
 					'linkicon' => '',
 				]);
 				$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'SIDEBARWIDGETRIGHT',
 					'linklabel' => 'LBL_USERS',
-					'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getUsersList',
+					'linkurl' => 'module=' . $this->get('name') . '&view=' . $this->rightPanel . '&mode=getUsersList',
 					'linkicon' => '',
 				]);
 				$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'SIDEBARWIDGETRIGHT',
 					'linklabel' => 'LBL_GROUPS',
-					'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getGroupsList',
+					'linkurl' => 'module=' . $this->get('name') . '&view=' . $this->rightPanel . '&mode=getGroupsList',
 					'linkicon' => '',
 				]);
 			}
