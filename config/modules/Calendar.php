@@ -3,7 +3,7 @@
  * Calender module config.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
 	// Limits the number of events displayed on a day.
@@ -45,4 +45,6 @@ return [
 	'CRON_MAX_NUMBERS_ACTIVITY_STATS' => 5000,
 	// Show number of current records in record preview for related modules
 	'SHOW_ONLY_CURRENT_RECORDS_COUNT' => false,
+	//Calendar view - allowed values: extended, standard
+	'CALENDAR_VIEW' => 'standard'
 ];
