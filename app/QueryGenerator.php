@@ -471,10 +471,6 @@ class QueryGenerator
 			return $this->fieldsModel;
 		}
 		$moduleFields = $this->moduleModel->getFields();
-		if ($this->moduleName === 'Calendar') {
-			$eventModuleFieldList = \Vtiger_Module_Model::getInstance('Events')->getFields();
-			$moduleFields = array_merge($moduleFields, $eventModuleFieldList);
-		}
 		foreach ($moduleFields as $fieldName => &$fieldModel) {
 			if ($fieldModel->isReferenceField()) {
 				$this->referenceFields[$fieldName] = $fieldModel->getReferenceList();
