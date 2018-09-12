@@ -135,28 +135,4 @@ class Leads_Record_Model extends Vtiger_Record_Model
 		}
 		return $convertFields;
 	}
-
-	/**
-	 * Function returns the url for create event.
-	 *
-	 * @return string
-	 */
-	public function getCreateEventUrl()
-	{
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-
-		return $calendarModuleModel->getCreateEventRecordUrl() . '&link=' . $this->getId();
-	}
-
-	/**
-	 * Function returns the url for create todo.
-	 *
-	 * @return string
-	 */
-	public function getCreateTaskUrl()
-	{
-		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-
-		return $calendarModuleModel->getCreateTaskRecordUrl() . '&link=' . $this->getId();
-	}
 }

@@ -31,7 +31,8 @@
 				{assign var=RELATED_TO value=$RECORD->get('related_to')}
 				{if !empty($RELATED_TO)}
 					<div class="js-popover-tooltip d-flex flex-nowrap align-items-center" data-ellipsis="true" data-content="{$RECORD->getDisplayValue('related_to')}" data-toggle="popover" data-js="tooltip">
-						<span class="mr-1 text-muted u-white-space-nowrap">{\App\Language::translate('SINGLE_Accounts',$MODULE_NAME)}:</span>
+						<span class="mr-1 text-muted u-white-space-nowrap">{\App\Language::translate('SINGLE_Accounts',$MODULE_NAME)}
+							:</span>
 						<span class="js-popover-text" data-js="clone">{$RECORD->getDisplayValue('related_to')}</span>
 					</div>
 				{/if}
@@ -54,6 +55,7 @@
 				{/if}
 			</div>
 		</div>
-		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME)}
+		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME) HEADER_TYPE=value}
 	</div>
+	{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME) HEADER_TYPE=process}
 {/strip}

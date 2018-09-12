@@ -630,9 +630,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if ($this->getName() === 'Events') {
 			$tabId = \App\Module::getModuleId('Calendar');
 		}
-		if ($this->getName() === 'Calendar' && $recordModel->get('activitytype') !== 'Task') {
-			$tabId = \App\Module::getModuleId('Events');
-		}
 		$editFields = [];
 		foreach (App\Field::getFieldsPermissions($tabId, false) as $field) {
 			$editFields[] = $field['fieldname'];
@@ -829,7 +826,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$restrictListString = $restrictList ? 1 : 0;
 		if ($tree) {
 			$userModel = App\User::getCurrentUserModel();
-			$quickCreateModulesTree = App\Cache::get('getQuickCreateModules', 'tree' . $restrictListString . $userModel->get('roleid'));
+			$quickCreateModulesTree = App\Cache::get('getQuickCreateModules', 'tree' . $restrictListString . $userModel->getDetail('roleid'));
 			if ($quickCreateModulesTree !== false) {
 				return $quickCreateModulesTree;
 			}
@@ -887,7 +884,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			if (!empty($quickCreateModules)) {
 				$quickCreateModulesTree[] = ['name' => 'LBL_OTHER', 'icon' => 'userIcon-Other', 'modules' => $quickCreateModules];
 			}
-			App\Cache::save('getQuickCreateModules', 'tree' . $restrictListString . $userModel->get('roleid'), $quickCreateModulesTree);
+			App\Cache::save('getQuickCreateModules', 'tree' . $restrictListString . $userPrivModel->get('roleid'), $quickCreateModulesTree);
 			return $quickCreateModulesTree;
 		}
 		App\Cache::save('getQuickCreateModules', $restrictListString, $quickCreateModules);

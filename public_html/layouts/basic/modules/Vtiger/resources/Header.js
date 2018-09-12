@@ -236,13 +236,14 @@ $.Class("Vtiger_Header_Js", {
 		});
 		AppConnector.request(params).done(function (events) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			container.find('.eventsTable').html(events);
+			container.find('.eventsTable').remove();
+			container.append(events);
 			thisInstance.registerHelpInfo(container);
 		});
 	},
 	registerChangeNearCalendarEvent: function (data, module) {
 		var thisInstance = this;
-		if (!data || module != 'Calendar' || typeof module === "undefined" || !data.find('.eventsTable').length) {
+		if (!data || module != 'Calendar' || typeof module === "undefined" || !app.getMainParams('showEventsTable')) {
 			return;
 		}
 		var user = data.find('[name="assigned_user_id"]');

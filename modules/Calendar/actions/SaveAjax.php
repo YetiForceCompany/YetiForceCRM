@@ -39,7 +39,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				$dateTimeComponents = explode(' ', $userDateTimeString);
 				$dateComponent = $dateTimeComponents[0];
 				//Conveting the date format in to Y-m-d . since full calendar expects in the same format
-				$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
+				$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->getDetail('date_format'));
 				$result[$fieldName]['value'] = $dataBaseDateFormatedString;
 				$result[$fieldName]['display_value'] = $dateComponent;
 			} elseif ($fieldName === 'due_date') {
@@ -50,7 +50,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				$dateTimeComponents = explode(' ', $userDateTimeString);
 				$dateComponent = $dateTimeComponents[0];
 				//Conveting the date format in to Y-m-d . since full calendar expects in the same format
-				$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
+				$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->getDetail('date_format'));
 				$result[$fieldName]['value'] = $dataBaseDateFormatedString;
 				$result[$fieldName]['display_value'] = $dateComponent;
 			} elseif ($fieldName === 'time_end') {
@@ -60,7 +60,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
 				$dateTimeComponents = explode(' ', $userDateTimeString);
 
-				if ($user->get('hour_format') === '12') {
+				if ($user->getDetail('hour_format') === '12') {
 					$dateTimeComponents[1] = Vtiger_Time_UIType::getTimeValueInAMorPM($dateTimeComponents[1]);
 				}
 
@@ -73,7 +73,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
 				$dateTimeComponents = explode(' ', $userDateTimeString);
 
-				if ($user->get('hour_format') === '12') {
+				if ($user->getDetail('hour_format') === '12') {
 					$dateTimeComponents[1] = Vtiger_Time_UIType::getTimeValueInAMorPM($dateTimeComponents[1]);
 				}
 

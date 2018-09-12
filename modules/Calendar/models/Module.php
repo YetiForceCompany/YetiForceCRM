@@ -55,26 +55,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function returns the URL for creating Events.
-	 *
-	 * @return string
-	 */
-	public function getCreateEventRecordUrl()
-	{
-		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getEditViewName() . '&mode=events';
-	}
-
-	/**
-	 * Function returns the URL for creating Task.
-	 *
-	 * @return string
-	 */
-	public function getCreateTaskRecordUrl()
-	{
-		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getEditViewName() . '&mode=calendar';
-	}
-
-	/**
 	 * Function to get list of field for summary view.
 	 *
 	 * @return <Array> empty array

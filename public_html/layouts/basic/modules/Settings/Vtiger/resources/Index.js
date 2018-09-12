@@ -358,25 +358,26 @@ $.Class("Settings_Vtiger_Index_Js", {
 		});
 	},
 	registerWarningsAlert: function () {
-		var aletrsContainer = $('#systemWarningAletrs');
-		if (aletrsContainer.length) {
-			app.showModalWindow(aletrsContainer, function (modal) {
-				aletrsContainer.find('.warning').first().removeClass('d-none');
-				aletrsContainer.find('.warning .btn').on('click', function (e) {
-					var btn = $(this);
-					var save = true;
+		const alertsContainer = $('#systemWarningAletrs');
+		if (alertsContainer.length) {
+			app.showModalWindow(alertsContainer, function () {
+				alertsContainer.find('.warning').first().removeClass('d-none');
+				alertsContainer.find('.warning .btn').on('click', function (e) {
+					let btn = $(this),
+						save = true,
+						params;
 					if (btn.hasClass('ajaxBtn')) {
-						if (btn.data('params') == undefined) {
-							var form = btn.closest('form');
+						if (btn.data('params') === undefined) {
+							let form = btn.closest('form');
 							if (form.hasClass('validateForm') && !form.validationEngine('validate')) {
 								save = false;
 							}
-							var params = btn.closest('form').serializeArray().reduce(function (obj, item) {
+							params = btn.closest('form').serializeArray().reduce(function (obj, item) {
 								obj[item.name] = item.value;
 								return obj;
 							}, {});
 						} else {
-							var params = btn.data('params');
+							params = btn.data('params');
 						}
 						if (save) {
 							AppConnector.request({
@@ -404,17 +405,17 @@ $.Class("Settings_Vtiger_Index_Js", {
 						});
 					}
 					if (save) {
-						aletrsContainer.find('.warning').first().remove();
-						if (aletrsContainer.find('.warning').length) {
-							aletrsContainer.find('.warning').first().removeClass('d-none');
+						alertsContainer.find('.warning').first().remove();
+						if (alertsContainer.find('.warning').length) {
+							alertsContainer.find('.warning').first().removeClass('d-none');
 						} else {
-							app.hideModalWindow(aletrsContainer);
+							app.hideModalWindow(alertsContainer);
 						}
 					}
 				});
-				aletrsContainer.find('.input-group-addon input[type="checkbox"]').on('click', function (e) {
-					var btn = $(this);
-					var group = btn.closest('.input-group')
+				alertsContainer.find('.input-group-addon input[type="checkbox"]').on('click', function (e) {
+					let btn = $(this),
+						group = btn.closest('.input-group')
 					if (this.checked) {
 						group.find('input[type="text"]').attr("disabled", false);
 					} else {

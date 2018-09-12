@@ -375,3 +375,104 @@
 		display: inherit;
 	}
 }
+
+@mixin c-arrows-color($color) {
+	border-top-color: $color;
+	border-bottom-color: $color;
+	&:after {
+		border-left-color: $color;
+	}
+}
+
+.c-arrows {
+	&__container {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		height: auto;
+		overflow: hidden;
+		padding: 0;
+		margin-bottom: 0;
+	}
+
+	&__text {
+		display: inline-block;
+		position: relative;
+		top: 0;
+		left: calculate-rem(5px);
+		white-space: nowrap;
+		overflow: hidden;
+		font-size: calculate-rem(11px);
+		vertical-align: bottom;
+	}
+
+	&__item {
+		display: inline-block;
+		height: 0;
+		border-top: calculate-rem(10px) solid #ececec;
+		border-bottom: calculate-rem(10px) solid #ececec;
+		border-left: calculate-rem(10px) solid transparent;
+		margin-right: calculate-rem(3px);
+		margin-top: calculate-rem(2px);
+		margin-bottom: calculate-rem(2px);
+
+		&:after {
+			content: '\0000a0';
+			display: inline-block;
+			position: relative;
+			top: calculate-rem(-10px);
+			left: calculate-rem(10px);
+			width: 0;
+			height: 0;
+			border-left: calculate-rem(10px) solid #ececec;
+			border-top: calculate-rem(10px) solid transparent;
+			border-bottom: calculate-rem(10px) solid transparent;
+		}
+
+		&.first {
+			border-left: 0;
+		}
+
+		&.before {
+			@include c-arrows-color(material-color('green', '800'));
+		}
+
+		&.after {
+			@include c-arrows-color(material-color('green', '100'));
+			font-weight: bold;
+		}
+
+		&.active {
+			@include c-arrows-color(material-color('green', '400'));
+
+			.c-arrows__text {
+				font-weight: bold;
+			}
+		}
+	}
+
+	&__link {
+		display: inline-block;
+		font-size: calculate-rem(14px);
+		float: left;
+		text-decoration: none;
+		margin-top: calculate-rem(-13px);
+
+		@at-root .c-arrows__item.active #{&}, .c-arrows__item.before #{&} {
+			color: $white;
+		}
+	}
+
+	&__item.active &__link:after,
+	&__item.active + &__item.after &__link:after {
+		content: '\0000a0';
+		display: inline-block;
+		position: relative;
+		top: calculate-rem(-18px);
+		left: calculate-rem(-13px);
+		width: calc(100%);
+		height: calculate-rem(20px);
+		z-index: -1;
+		background: material-color('yellow', '500');
+	}
+}

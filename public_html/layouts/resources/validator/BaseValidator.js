@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  *************************************************************************************/
 'use strict';
 
@@ -24,7 +25,7 @@ jQuery.Class("Vtiger_Base_Validator_Js", {
 			}
 		}
 		let listOfValidators = Vtiger_Base_Validator_Js.getValidator(field);
-		for (i = 0; i < listOfValidators.length; i++) {
+		for (let i = 0; i < listOfValidators.length; i++) {
 			let validatorList = listOfValidators[i],
 				validatorName = validatorList.name,
 				validatorInstance = new validatorName(),

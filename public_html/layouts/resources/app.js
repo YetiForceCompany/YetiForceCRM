@@ -676,7 +676,7 @@ var App = {},
 			});
 			elementClockBtn.clockpicker(params);
 		},
-		registerDataTables: function (table) {
+		registerDataTables: function (table, options = {}) {
 			if ($.fn.dataTable == undefined) {
 				return false;
 			}
@@ -706,7 +706,7 @@ var App = {},
 					}
 				}
 			});
-			return table.DataTable();
+			return table.DataTable(options);
 		},
 		/**
 		 * Function to get the select2 element from the raw select element
@@ -729,12 +729,9 @@ var App = {},
 				$(element).width(parentWidth);
 			});
 		},
-		showNewScrollbar: function (element, options) {
+		showNewScrollbar: function (element, options = {wheelPropagation: true}) {
 			if (typeof element === "undefined" || !element.length)
 				return;
-			if (typeof options === "undefined")
-				options = {};
-
 			return new PerfectScrollbar(element[0], options);
 		},
 		showNewScrollbarTopBottomRight: function (element) {
@@ -1648,6 +1645,9 @@ $(document).ready(function () {
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
+	$('.js-scrollbar').each(function () {
+		app.showNewScrollbar($(this));
+	});
 	String.prototype.toCamelCase = function () {
 		var value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
