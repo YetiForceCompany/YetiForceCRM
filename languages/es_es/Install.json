@@ -101,6 +101,7 @@
     "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard"
   },
   "js": {
+    "JS_ALL": "Todo",
     "LBL_PASS_TO_SHORT": "La contrase\u00f1a es demasiado corta: la longitud m\u00ednima es de 8 caracteres",
     "LBL_PASS_TO_LONG": "La contrase\u00f1a es demasiado larga: la longitud m\u00e1xima es de 32 caracteres",
     "LBL_PASS_NO_NUM": "La contrase\u00f1a debe contener n\u00fameros",

@@ -183,7 +183,7 @@ class RecordNumber
 			$tabId = \App\Module::getModuleId($tabId);
 		}
 		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
-		$number = [
+		return [
 			'prefix' => $row['prefix'],
 			'leading_zeros' => $row['leading_zeros'],
 			'sequenceNumber' => $row['cur_id'],
@@ -192,6 +192,5 @@ class RecordNumber
 			'cur_sequence' => $row['cur_sequence'],
 			'number' => self::parse($row['prefix'], $row['cur_id'], $row['postfix'], $row['leading_zeros']),
 		];
-		return $number;
 	}
 }

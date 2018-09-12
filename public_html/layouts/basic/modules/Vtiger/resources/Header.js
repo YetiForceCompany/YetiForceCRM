@@ -45,6 +45,23 @@ $.Class("Vtiger_Header_Js", {
 	getContentsContainer: function () {
 		return this.contentContainer;
 	},
+	registerQuickCreateSearch() {
+		$(".js-quickcreate-search").on('keyup', function () {
+			let value = $(this).val().toLowerCase();
+			$(".quickCreateModules .js-quickcreate-search-item a").filter(function () {
+				let item = $(this).closest('.js-quickcreate-search-item');
+				if ($(this).text().toLowerCase().indexOf(value) > -1) {
+					item.removeClass('d-none');
+				} else {
+					item.addClass('d-none');
+				}
+			});
+			$(".js-quickcreate-search-block").hide();
+			$(".js-quickcreate-search-item").not(".d-none").each(function () {
+				$(this).closest('.js-quickcreate-search-block').show();
+			});
+		});
+	},
 	getQuickCreateForm: function (url, moduleName, params) {
 		var aDeferred = $.Deferred();
 		var requestParams;
@@ -219,13 +236,14 @@ $.Class("Vtiger_Header_Js", {
 		});
 		AppConnector.request(params).done(function (events) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			container.find('.eventsTable').html(events);
+			container.find('.eventsTable').remove();
+			container.append(events);
 			thisInstance.registerHelpInfo(container);
 		});
 	},
 	registerChangeNearCalendarEvent: function (data, module) {
 		var thisInstance = this;
-		if (!data || module != 'Calendar' || typeof module === "undefined" || !data.find('.eventsTable').length) {
+		if (!data || module != 'Calendar' || typeof module === "undefined" || !app.getMainParams('showEventsTable')) {
 			return;
 		}
 		var user = data.find('[name="assigned_user_id"]');
@@ -858,6 +876,7 @@ $.Class("Vtiger_Header_Js", {
 		thisInstance.registerReminderNotice();
 		thisInstance.registerReminderNotification();
 		thisInstance.registerChat();
+		thisInstance.registerQuickCreateSearch();
 	}
 });
 $(document).ready(function () {

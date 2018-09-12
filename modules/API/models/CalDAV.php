@@ -114,7 +114,7 @@ class API_CalDAV_Model
 					if ($vcalendar === false) {
 						// Creating
 						$this->davCreate();
-					//} elseif($this->record['deleted'] == 1){
+						//} elseif($this->record['deleted'] == 1){
 					} elseif (strtotime($this->record['modifiedtime']) > $vcalendar['lastmodified']) { // Updating
 						$this->davUpdate($vcalendar);
 					}
@@ -267,7 +267,7 @@ class API_CalDAV_Model
 					$component->TRANSP = $state;
 				}
 				if (isset($component->SEQUENCE)) {
-					$seq = (int) $component->SEQUENCE->getValue();
+					$seq = (int)$component->SEQUENCE->getValue();
 					++$seq;
 					$component->SEQUENCE->setValue($seq);
 				} else {
@@ -316,7 +316,7 @@ class API_CalDAV_Model
 	public function calDav2Crm()
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
-		foreach ($this->davUsers as $key => $user) {
+		foreach ($this->davUsers as $user) {
 			$this->calendarId = $user->get('calendarsid');
 			$this->user = $user;
 			$this->recordSync();
@@ -371,14 +371,14 @@ class API_CalDAV_Model
 
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
 		foreach ($vcalendar->getBaseComponents() as $component) {
-			$type = (string) $component->name;
+			$type = (string)$component->name;
 			if ($type === 'VTODO' || $type === 'VEVENT') {
 				$dates = $this->getEventDates($component);
 				$recordModel = Vtiger_Record_Model::getCleanInstance('Calendar');
 				$recordModel->set('assigned_user_id', $this->user->get('id'));
-				$recordModel->set('subject', \App\Purifier::purify((string) $component->SUMMARY));
-				$recordModel->set('location', \App\Purifier::purify((string) $component->LOCATION));
-				$recordModel->set('description', \App\Purifier::purify((string) $component->DESCRIPTION));
+				$recordModel->set('subject', \App\Purifier::purify((string)$component->SUMMARY));
+				$recordModel->set('location', \App\Purifier::purify((string)$component->LOCATION));
+				$recordModel->set('description', \App\Purifier::purify((string)$component->DESCRIPTION));
 				$recordModel->set('allday', $dates['allday']);
 				$recordModel->set('date_start', $dates['date_start']);
 				$recordModel->set('due_date', $dates['due_date']);
@@ -443,13 +443,13 @@ class API_CalDAV_Model
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
 
 		foreach ($vcalendar->getBaseComponents() as $component) {
-			$type = (string) $component->name;
+			$type = (string)$component->name;
 			if ($type === 'VTODO' || $type === 'VEVENT') {
 				$dates = $this->getEventDates($component);
 				$record->set('assigned_user_id', $this->user->get('id'));
-				$record->set('subject', \App\Purifier::purify((string) $component->SUMMARY));
-				$record->set('location', \App\Purifier::purify((string) $component->LOCATION));
-				$record->set('description', \App\Purifier::purify((string) $component->DESCRIPTION));
+				$record->set('subject', \App\Purifier::purify((string)$component->SUMMARY));
+				$record->set('location', \App\Purifier::purify((string)$component->LOCATION));
+				$record->set('description', \App\Purifier::purify((string)$component->DESCRIPTION));
 				$record->set('allday', $dates['allday']);
 				$record->set('date_start', $dates['date_start']);
 				$record->set('due_date', $dates['due_date']);
@@ -836,7 +836,7 @@ class API_CalDAV_Model
 		foreach ($vObject->getComponents() as $component) {
 			if ($component->name !== 'VTIMEZONE') {
 				$componentType = $component->name;
-				$uid = (string) $component->UID;
+				$uid = (string)$component->UID;
 				break;
 			}
 		}
@@ -861,7 +861,7 @@ class API_CalDAV_Model
 					$lastOccurence = $firstOccurence;
 				}
 			} else {
-				$it = new Sabre\VObject\Recur\EventIterator($vObject, (string) $component->UID);
+				$it = new Sabre\VObject\Recur\EventIterator($vObject, (string)$component->UID);
 				$maxDate = new \DateTime(self::MAX_DATE);
 				if ($it->isInfinite()) {
 					$lastOccurence = $maxDate->getTimeStamp();

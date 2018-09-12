@@ -334,4 +334,14 @@ class Vtiger_Base_UIType extends \App\Base
 	{
 		return ['string', 'text', 'binary'];
 	}
+
+	/**
+	 * Gets header types.
+	 *
+	 * @return string[]
+	 */
+	public function getHeaderTypes()
+	{
+		return ['LBL_HEADER_TYPE_VALUE' => 'value'];
+	}
 }

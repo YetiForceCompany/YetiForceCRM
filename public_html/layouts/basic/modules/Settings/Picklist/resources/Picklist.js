@@ -263,6 +263,7 @@ var Settings_Picklist_Js = {
 					var form = jQuery('#renameItemForm');
 					thisInstance.registerScrollForNonEditablePicklistValues(form);
 					form.validationEngine();
+					Settings_Picklist_Js.registerEditDescriptionChanger();
 					Settings_Picklist_Js.registerRenameItemSaveEvent();
 				});
 			}
@@ -571,6 +572,20 @@ var Settings_Picklist_Js = {
 				}
 			});
 		});
+	},
+	registerEditDescriptionChanger: function () {
+		let container = $("#renameItemForm"),
+			descriptionElement = container.find(".js-editor"),
+			dataDescriptions = descriptionElement.data('descriptions'),
+			selectField = container.find(".js-picklist-change-value"),
+			changeId;
+		selectField.on("change", function () {
+			changeId = $(this).find('option:selected').data('id');
+			if (dataDescriptions[changeId] !== undefined) {
+				descriptionElement.val(dataDescriptions[changeId]);
+			}
+		});
+		selectField.change();
 	},
 
 	registerAssingValueToRoleTabClickEvent: function () {

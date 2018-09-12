@@ -229,7 +229,7 @@ class Calendar_Calendar_Model extends App\Base
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$endDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 
-			$item['allDay'] = $record['allday'] == 1 ? true : false;
+			$item['allDay'] = $record['allday'] == 1;
 			$item['start_date'] = $record['date_start'];
 			if ($item['allDay']) {
 				$item['start'] = $startDateFormated;
@@ -322,12 +322,10 @@ class Calendar_Calendar_Model extends App\Base
 
 	public static function getCalendarTypes()
 	{
-		$calendarConfig = [
+		return [
 			'PLL_WORKING_TIME',
 			'PLL_BREAK_TIME',
 			'PLL_HOLIDAY',
 		];
-
-		return $calendarConfig;
 	}
 }

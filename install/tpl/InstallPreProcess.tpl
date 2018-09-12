@@ -10,15 +10,20 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-install-tpl-InstallPreProcess -->
 	{include file='Header.tpl'}
-	<header class="d-flex flex-nowrap align-items-center">
-			<div class="logo">
-				<img src="../{\App\Layout::getPublicUrl('layouts/resources/Logo/logo_yetiforce.png')}" alt="{\App\Language::translate('LBL_COMPANY_LOGO_TITLE')} YetiForce">
-			</div>
-		<div class="pl-1 pl-sm-3">
-			<h1 class="h3">{\App\Language::translate('LBL_INSTALLATION_WIZARD', 'Install')}</h1>
+	<div class="w-100 bg-light">
+		<div class="container px-2 px-sm-3">
+			<header class="d-flex flex-nowrap align-items-center">
+				<div class="logo">
+					<img src="../{\App\Layout::getPublicUrl('layouts/resources/Logo/logo_yetiforce.png')}" alt="{\App\Language::translate('LBL_COMPANY_LOGO_TITLE')} YetiForce">
+				</div>
+				<div class="pl-1 pl-sm-3">
+					<h1 class="h3">{\App\Language::translate('LBL_INSTALLATION_WIZARD', 'Install')}</h1>
+				</div>
+			</header>
 		</div>
-	</header>
+	</div>
 	{if $MODE === 'step7'}
 		<div id="progressIndicator" class="main-container">
 			<div class="inner-container py-5">
@@ -75,4 +80,5 @@
 			</div>
 		</div>
 	{/if}
+	<!-- /tpl-install-tpl-InstallPreProcess -->
 {/strip}

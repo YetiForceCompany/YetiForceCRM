@@ -73,7 +73,7 @@ class ProductsTableLongVersion extends Base
 			$html .= '</tr>
 				</thead>
 				<tbody>';
-			foreach ($inventoryRows as $key => &$inventoryRow) {
+			foreach ($inventoryRows as &$inventoryRow) {
 				$html .= '<tr>';
 				foreach ($fields[1] as $field) {
 					if (!$field->isVisible() || !in_array($field->getName(), $fieldsTextAlignRight) || ($field->get('columnname') === 'subunit')) {

@@ -158,7 +158,18 @@ class FieldBasic
 		if (!empty($this->columntype)) {
 			Utils::addColumn($this->table, $this->column, $this->columntype);
 			if ($this->uitype === 10) {
-				$db->createCommand()->createIndex("{$this->table}_{$this->column}_idx", $this->table, $this->column)->execute();
+				$nameIndex = "{$this->table}_{$this->column}_idx";
+				$indexes = $db->getSchema()->getTableIndexes($this->table, true);
+				$isCreateIndex = true;
+				foreach ($indexes as $indexObject) {
+					if ($indexObject->name === $nameIndex) {
+						$isCreateIndex = false;
+						break;
+					}
+				}
+				if ($isCreateIndex) {
+					$db->createCommand()->createIndex("{$this->table}_{$this->column}_idx", $this->table, $this->column)->execute();
+				}
 			}
 		}
 		$this->createAdditionalField();
@@ -223,15 +234,24 @@ class FieldBasic
 	public function __delete()
 	{
 		Profile::deleteForField($this);
-		\App\Db::getInstance()->createCommand()->delete('vtiger_field', ['fieldid' => $this->id])->execute();
+		$db = \App\Db::getInstance();
+		$db->createCommand()->delete('vtiger_field', ['fieldid' => $this->id])->execute();
 		if ($this->uitype === 10) {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $this->id])->execute();
+			$db->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $this->id])->execute();
+			$nameIndex = "{$this->table}_{$this->column}_idx";
+			$indexes = $db->getSchema()->getTableIndexes($this->table, true);
+			foreach ($indexes as $indexObject) {
+				if ($indexObject->name === $nameIndex) {
+					$db->createCommand()->dropIndex($nameIndex, $this->table)->execute();
+					break;
+				}
+			}
 		} elseif ($this->uitype === 11) {
 			$rowExtra = (new \App\Db\Query())->from('vtiger_field')->where(['fieldname' => $this->name . '_extra'])->one();
 			if ($rowExtra === false) {
 				throw new \App\Exceptions\AppException('Extra field does not exist');
 			}
-			\App\Db::getInstance()->createCommand()->delete('vtiger_field', ['fieldid' => $rowExtra['fieldid']])->execute();
+			$db->createCommand()->delete('vtiger_field', ['fieldid' => $rowExtra['fieldid']])->execute();
 		}
 		\App\Log::trace("Deleteing Field $this->name ... DONE", __METHOD__);
 	}

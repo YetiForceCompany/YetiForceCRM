@@ -34,6 +34,18 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
 			$relationModel->addRelation($parentRecordId, $relatedRecordId);
 		}
+		if ($request->getBoolean('reapeat')) {
+			$recurringEvents = Calendar_RecuringEvents_Model::getInstanceFromRequest($request);
+			if ($request->isEmpty('record')) {
+				App\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordModel->getId()], ['activityid' => $recordModel->getId()])->execute();
+				$data['followup'] = $recordModel->getId();
+			} elseif (empty($data['followup'])) {
+				$data['followup'] = $recordModel->getId();
+			}
+			$recurringEvents->setChanges($recordModel->getPreviousValue());
+			$recurringEvents->setData($data);
+			$recurringEvents->save();
+		}
 		return $recordModel;
 	}
 
@@ -99,6 +111,9 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 		$recordModel->set('duration_hours', (int) $hours);
 		$recordModel->set('duration_minutes', round($minutes, 0));
 
+		if (!$request->isEmpty('typeSaving') && $request->getInteger('typeSaving') === Calendar_RecuringEvents_Model::UPDATE_THIS_EVENT) {
+			$recordModel->set('recurrence', $recordModel->getPreviousValue('recurrence'));
+		}
 		return $recordModel;
 	}
 }

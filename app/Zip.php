@@ -284,7 +284,7 @@ class Zip extends \ZipArchive
 			$localName .= \DIRECTORY_SEPARATOR;
 		}
 		$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(realpath($dir)), \RecursiveIteratorIterator::LEAVES_ONLY);
-		foreach ($files as $name => $file) {
+		foreach ($files as $file) {
 			if (!$file->isDir()) {
 				$filePath = $file->getRealPath();
 				$this->addFile($filePath, $localName . Fields\File::getLocalPath($filePath));
