@@ -47,14 +47,17 @@ class Company extends Base
 	/**
 	 * Function to get the Company Logo.
 	 *
+	 * @param $type    String
+	 * @param $fullUrl String|Boolean
+	 *
 	 * @return \Vtiger_Image_Model instance
 	 */
-	public function getLogo($type = false, $fullUrl = false)
+	public function getLogo($type = '', $fullUrl = false)
 	{
 		if (Cache::has('CompanyLogo', $type)) {
 			return Cache::get('CompanyLogo', $type);
 		}
-		$logoName = Purifier::decodeHtml($this->get((\is_string($type) && !empty($type)) ? $type : 'logo_main'));
+		$logoName = Purifier::decodeHtml($this->get(($type ? $type : 'logo_main')));
 		if (!$logoName) {
 			return false;
 		}
