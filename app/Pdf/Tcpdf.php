@@ -473,10 +473,10 @@ class Tcpdf extends PDF
 		$self->setTemplateId($templateId);
 		$self->setRecordId($recordId);
 		$self->setModuleName($moduleName);
+		\App\Language::setTemporaryLanguage($template->get('language'));
 		$self->setWaterMark($template);
 		$self->setLanguage($template->get('language'));
 		$self->setFileName($self->parseVariables($template->get('filename')));
-		\App\Language::setTemporaryLanguage($template->get('language'));
 		$self->pdf->setHeaderFont([$self->defaultFontFamily, '', $self->defaultFontSize]);
 		$self->pdf->setFooterFont([$self->defaultFontFamily, '', $self->defaultFontSize]);
 		$self->parseParams($template->getParameters(), $template->get('margin_chkbox') !== 1);
