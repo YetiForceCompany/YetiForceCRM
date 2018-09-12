@@ -10,10 +10,10 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class='modelContainer modal fade js-filter-modal__container' tabindex="-1">
+	<div class='tpl-CustomView-EditView modal fade js-filter-modal__container' tabindex="-1" data-js="container">
 		<div class="modal-dialog modal-fullscreen">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground">
+				<div class="modal-header">
 					<h5 class="modal-title">
 						<span class="fas fa-plus-circle fa-sm mr-1"></span>
 						{\App\Language::translate('LBL_CREATE_NEW_FILTER')}
@@ -209,10 +209,10 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button class="cancelLink float-right btn btn-danger" type="reset" data-dismiss="modal">
+						<button class="btn btn-danger" type="reset" data-dismiss="modal">
 							<span class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}
 						</button>
-						<button class="btn btn-success float-right mr-1" type="submit">
+						<button class="btn btn-success mr-1" type="submit">
 							<span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $MODULE)}
 						</button>
 					</div>
