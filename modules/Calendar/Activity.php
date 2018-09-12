@@ -8,7 +8,7 @@
  * the specific language governing rights and limitations under the License.
  * The Original Code is:  SugarCRM Open Source
  * The Initial Developer of the Original Code is SugarCRM, Inc.
- * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
+ * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
  * Contributor(s): ______________________________________.
  * ****************************************************************************** */
@@ -120,7 +120,7 @@ class Activity extends CRMEntity
 				$this->db->update($this->reminder_table, [
 					'reminder_time' => $reminderTime,
 					'reminder_sent' => $reminderSent,
-					], 'activity_id = ?', [$activityId]
+				], 'activity_id = ?', [$activityId]
 				);
 			} else {
 				$this->db->insert($this->reminder_table, [
@@ -154,8 +154,8 @@ class Activity extends CRMEntity
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_activity_reminder_popup', [
 				'status' => 1,
-				], ['recordid' => $this->id])
-				->execute();
+			], ['recordid' => $this->id])
+			->execute();
 
 		return true;
 	}

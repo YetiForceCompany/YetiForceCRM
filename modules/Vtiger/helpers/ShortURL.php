@@ -22,7 +22,7 @@ class Vtiger_ShortURL_Helper
 	 * 			'key1' => 'value1',
 	 * 			'key2' => 'value2'
 	 * 		)
-	 * 	));
+	 * 	))
 	 */
 
 	public static function generateURL(array $options)

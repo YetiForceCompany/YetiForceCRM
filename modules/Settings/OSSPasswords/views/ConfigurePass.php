@@ -74,7 +74,6 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 		$register = $passwordConfig['register_changes'];
 
 		// if password configuration form was sent
-		//if ( isset($_POST['save'],$_POST['pass_length_min'],$_POST['pass_length_max'],$_POST['pass_allow_chars']) ) {
 		if (!empty($save) && !empty($pass_length_min) && !empty($pass_length_max) && !empty($pass_allow_chars)) {
 			$post_min = (int) $pass_length_min > 0 ? (int) $pass_length_min : 0;
 			$post_max = (int) $pass_length_max > 0 ? (int) $pass_length_max : 0;

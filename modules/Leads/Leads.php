@@ -8,7 +8,7 @@
  * the specific language governing rights and limitations under the License.
  * The Original Code is:  SugarCRM Open Source
  * The Initial Developer of the Original Code is SugarCRM, Inc.
- * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
+ * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
@@ -25,7 +25,7 @@ class Leads extends CRMEntity
 	 * Mandatory table for supporting custom fields.
 	 */
 	public $customFieldTable = ['vtiger_leadscf', 'leadid'];
-	//construct this from database;
+	//construct this from database
 	public $column_fields = [];
 	// This is used to retrieve related vtiger_fields from form posts.
 	public $additional_column_fields = ['smcreatorid', 'smownerid', 'contactid', 'crmid'];
