@@ -183,10 +183,9 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js', {}, {
 
 			if (!$.isEmptyObject(iterationValues)) {
 				values[index + 1] = {};
-				//values[index+1]['columns'] = {};
 				values[index + 1]['columns'] = iterationValues;
 			}
-			if (groupElement.find('div.groupCondition').length > 0 && !$.isEmptyObject(values[index + 1])) {
+			if (groupElement.find('div.groupCondition').length > 0) {
 				values[index + 1]['condition'] = conditionGroups.find('div.groupCondition [name="condition"]').val();
 			}
 		});
