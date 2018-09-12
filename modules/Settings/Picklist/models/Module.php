@@ -161,13 +161,14 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Check description column in picklist.
 	 *
+	 * @param App\Db $db
 	 * @param string $tableName
 	 *
 	 * @return bool
 	 */
-	public function checkDescriptionColumn($db, $tableName)
+	public function checkDescriptionColumn(App\Db $db, string $tableName)
 	{
-		return in_array('description', $db->getTableSchema($tableName)->getColumnNames());
+		return (bool) $db->getTableSchema($tableName)->getColumn('description');
 	}
 
 	/**
