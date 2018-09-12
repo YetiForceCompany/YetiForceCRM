@@ -1,6 +1,6 @@
 <?php
 /**
- * Api integrations test class.
+ * Twitter integrations test class.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -20,7 +20,14 @@ class Twitter extends \Tests\Base
 	 * @var \Settings_LayoutEditor_Field_Model[]
 	 */
 	private static $twitterFields;
+	/**
+	 * @var int[]
+	 */
 	private static $listId;
+	/**
+	 * @var int
+	 */
+	private static $idTwitter = 299792456;
 
 	private static function addField($moduleName)
 	{
@@ -37,6 +44,26 @@ class Twitter extends \Tests\Base
 		$param['fieldTypeList'] = 0;
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
 		static::$twitterFields[] = $moduleModel->addField($param['fieldType'], $block->id, $param);
+	}
+
+	/**
+	 * Add Twitter message.
+	 *
+	 * @param string $twitterLogin
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	private static function addTwitter(string $twitterLogin)
+	{
+		$db = \App\Db::getInstance()
+			->createCommand()
+			->insert('u_#__social_media_twitter', [
+				'id_twitter' => static::$idTwitter++,
+				'twitter_login' => 'yeti',
+				'twitter_name' => 'yeti',
+				'message' => 'TEST',
+				'created' => \date('Y-m-d H:i:s'),
+			])->execute();
 	}
 
 	/**
@@ -59,38 +86,57 @@ class Twitter extends \Tests\Base
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
 		static::$twitterFields[] = $moduleModel->addField($param['fieldType'], $block->id, $param);
 
-		/*$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
-		$recordModel->set($param['fieldLabel'], 'yetiforceen');
-		$recordModel->save();
-		static::$listId[] = $recordModel->getId();*/
-
-		/*static::addField('Contacts');
-
-		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
-		$recordModel->set($param['fieldLabel'], $twitterLogin);
-		$recordModel->save();*/
+		static::addTwitter('yeti');
+		static::addTwitter('yetiforceen');
 	}
 
+	/**
+	 * Testing adding a Twitter account.
+	 *
+	 * @throws \Exception
+	 */
 	public function testAddTwitter()
 	{
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
 		$recordModel->set('assigned_user_id', \App\User::getActiveAdminId());
 		$recordModel->set('lastname', 'Test');
-		$recordModel->set(static::$twitterFields[0]->getFieldLabel(), 'yetiforceen');
+		$recordModel->set(static::$twitterFields[0]->getColumnName(), 'yetiforceen');
 		$recordModel->save();
+		static::$listId[] = $recordModel->getId();
 
-		\App\DebugerEx::log($recordModel->getId(), static::$twitterFields[0]->getColumnName(), static::$twitterFields[0]->getTableName());
+		$this->assertSame('yetiforceen',
+			(new \App\Db\Query())->select([static::$twitterFields[0]->getColumnName()])
+				->from(static::$twitterFields[0]->getTableName())
+				->where(['contactid' => $recordModel->getId()])->scalar()
+		);
+		$this->assertTrue((new \App\Db\Query())
+			->from('u_#__social_media_twitter')
+			->where(['twitter_login' => 'yeti'])->exists(), 'Twitter message not exists');
 	}
 
-	/*public function testMethodGetAllColumnName()
+	/**
+	 * Testing editing a Twitter account.
+	 *
+	 * @throws \Exception
+	 */
+	public function testEditTwitter()
 	{
-		foreach (static::$listId as $recordId) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId);
-			$arr = \Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel)->getAllColumnName();
-			\App\DebugerEx::log($arr);
-		}
-		//$this->assertSame($row['rolename'], 'Test');
-	}*/
+		$recordModel = \Vtiger_Record_Model::getInstanceById(static::$listId[0]);
+		$recordModel->set(static::$twitterFields[0]->getColumnName(), 'yeti');
+		$recordModel->save();
+
+		$this->assertSame('yeti',
+			(new \App\Db\Query())->select([static::$twitterFields[0]->getColumnName()])
+				->from(static::$twitterFields[0]->getTableName())
+				->where(['contactid' => $recordModel->getId()])->scalar()
+		);
+		$this->assertTrue((new \App\Db\Query())
+			->from('u_#__social_media_twitter')
+			->where(['twitter_login' => 'yeti'])->exists(), 'Twitter message not exists');
+		$this->assertFalse((new \App\Db\Query())
+			->from('u_#__social_media_twitter')
+			->where(['twitter_login' => 'yetiforceen'])->exists(), 'Twitter message exists');
+	}
 
 	/**
 	 * @codeCoverageIgnore
