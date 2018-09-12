@@ -12,27 +12,24 @@
 var Vtiger_CustomView_Js;
 Vtiger_CustomView_Js = {
 	init() {
+		this.contentsCotainer = false;
+		this.columnListSelect2Element = false;
+		this.advanceFilterInstance = false;
+		//This will store the columns selection container
+		this.columnSelectElement = false;
+		//This will store the input hidden selectedColumnsList element
+		this.selectedColumnsList = false;
 		return this;
 	},
-	contentsCotainer: false,
-	columnListSelect2Element: false,
-	advanceFilterInstance: false,
-	//This will store the columns selection container
-	columnSelectElement: false,
-	//This will store the input hidden selectedColumnsList element
-	selectedColumnsList: false,
 	loadFilterView: function (url) {
+		let self = this;
 		var progressIndicatorElement = $.progressIndicator();
 		app.showModalWindow(null, url, function () {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			Vtiger_CustomView_Js = self.init();
 			Vtiger_CustomView_Js.registerEvents();
 			Vtiger_CustomView_Js.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance($('.filterContainer'));
 		});
-
-		// AppConnector.request(url).done(function (data) {
-		// 	var contents = $(".contentsDiv").html(data);
-		//
-		// });
 	},
 	loadDateFilterValues: function () {
 		var selectedDateFilter = $('#standardDateFilter option:selected');

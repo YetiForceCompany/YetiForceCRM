@@ -10,11 +10,14 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class='modelContainer modal fade js-filter-modal__container' id="addTaskContainer" tabindex="-1">
+	<div class='modelContainer modal fade js-filter-modal__container' tabindex="-1">
 		<div class="modal-dialog modal-fullscreen">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<h5 class="modal-title">filtr</h5>
+					<h5 class="modal-title">
+						<span class="fas fa-plus-circle fa-sm mr-1"></span>
+						{\App\Language::translate('LBL_CREATE_NEW_FILTER')}
+					</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -184,8 +187,8 @@
 								<h5 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE)}</h5>
 							</div>
 							<div class="c-panel__body py-1 d-none">
-					<textarea name="description" id="description" class="js-editor"
-							  data-js="ckeditor">{$CUSTOMVIEW_MODEL->get('description')}</textarea>
+								<textarea name="description" id="description" class="js-editor"
+										  data-js="ckeditor">{$CUSTOMVIEW_MODEL->get('description')}</textarea>
 							</div>
 						</div>
 						<div class="js-toggle-panel c-panel" data-js="click">
@@ -205,14 +208,12 @@
 							</div>
 						</div>
 					</div>
-					<div class="filterActions py-2">
-						<button class="cancelLink float-right btn btn-danger" type="reset" onClick="window.location.reload()"><span
-									class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}
+					<div class="modal-footer">
+						<button class="cancelLink float-right btn btn-danger" type="reset" data-dismiss="modal">
+							<span class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}
 						</button>
-						<button class="btn btn-success float-right mr-1" id="customViewSubmit" type="submit">
-							<strong><span
-										class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $MODULE)}
-							</strong>
+						<button class="btn btn-success float-right mr-1" type="submit">
+							<span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $MODULE)}
 						</button>
 					</div>
 				</form>
