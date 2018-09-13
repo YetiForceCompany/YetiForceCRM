@@ -19,7 +19,9 @@
 						{if $IMAGE}
 							<img class="pushDown" title="{$RECORD->getName()}" height="80" align="left" src="{$IMAGE.url}">
 							<br/>
-						{else}
+
+{else}
+
 							<span class="pl-0 o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
 						{/if}
 					</span>
@@ -66,7 +68,7 @@
 				{/if}
 			</div>
 		</div>
-		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME) HEADER_TYPE=value}
+		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME)}
 	</div>
-	{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME) HEADER_TYPE=process}
+	{include file=\App\Layout::getTemplatePath('Detail/HeaderProgress.tpl', $MODULE_NAME)}
 {/strip}

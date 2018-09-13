@@ -182,7 +182,7 @@
     "MultiImage": "Pliki graficzne (wiele)",
     "DateTime": "Pole daty i czasu",
     "LBL_HEADER_TYPE_VALUE": "Warto\u015B\u0107",
-    "LBL_HEADER_TYPE_PROCESS": "Proces"
+    "LBL_HEADER_TYPE_PROGRESS": "Linia post\u0119pu"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Nazwa bloku ju\u017c istnieje",

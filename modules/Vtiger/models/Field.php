@@ -1225,7 +1225,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return array|mixed
+	 * @return mixed
 	 */
 	public function getHeaderField()
 	{
@@ -1239,12 +1239,11 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return mixed|string
+	 * @return mixed
 	 */
 	public function getHeaderValue(string $type)
 	{
-		$param = $this->getHeaderField();
-		return $param[$type] ?? '';
+		return $this->getHeaderField()[$type] ?? '';
 	}
 
 	/**
