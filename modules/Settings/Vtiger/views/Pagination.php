@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Settings OSSMailView index view class.
+ * Settings Pagination view class.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -80,8 +80,64 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 		echo $viewer->view('Pagination.tpl', $qualifiedModuleName, true);
 	}
 
-	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
+	/**
+	 * Function to transfer a list of searched parameters to the filter.
+	 *
+	 * @param array                        $searchParams
+	 * @param Settings_Vtiger_Module_Model $moduleModel
+	 *
+	 * @return array
+	 */
+	public function transferListSearchParamsToFilterCondition($searchParams, \Settings_Vtiger_Module_Model $moduleModel)
 	{
-		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
+		if (empty($searchParams)) {
+			return [];
+		}
+		$advFilterConditionFormat = [];
+		$glueOrder = ['and', 'or'];
+		$groupIterator = 0;
+		foreach ($searchParams as &$groupInfo) {
+			if (empty($groupInfo)) {
+				continue;
+			}
+			$groupColumnsInfo = [];
+			foreach ($groupInfo as &$fieldSearchInfo) {
+				list($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
+				$field = $moduleModel->getFieldByName($fieldName);
+				if ($field->getFieldDataType() === 'tree' && $specialOption) {
+					$fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $moduleModel);
+				}
+				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
+				if ($field->getFieldDataType() === 'time') {
+					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
+				}
+				if ($field->getFieldDataType() === 'currency') {
+					$fieldValue = CurrencyField::convertToDBFormat($fieldValue);
+				}
+				if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
+					$dateValues = explode(',', $fieldValue);
+					//Indicate whether it is fist date in the between condition
+					$isFirstDate = true;
+					foreach ($dateValues as $key => $dateValue) {
+						$dateTimeCompoenents = explode(' ', $dateValue);
+						if (empty($dateTimeCompoenents[1])) {
+							if ($isFirstDate) {
+								$dateTimeCompoenents[1] = '00:00:00';
+							} else {
+								$dateTimeCompoenents[1] = '23:59:59';
+							}
+						}
+						$dateValue = implode(' ', $dateTimeCompoenents);
+						$dateValues[$key] = $dateValue;
+						$isFirstDate = false;
+					}
+					$fieldValue = implode(',', $dateValues);
+				}
+				$groupColumnsInfo[] = ['columnname' => $field->getCustomViewColumnName(), 'comparator' => $operator, 'value' => $fieldValue];
+			}
+			$advFilterConditionFormat[$glueOrder[$groupIterator]] = $groupColumnsInfo;
+			++$groupIterator;
+		}
+		return $advFilterConditionFormat;
 	}
 }
