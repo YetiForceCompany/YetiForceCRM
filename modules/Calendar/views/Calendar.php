@@ -10,6 +10,11 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+/**
+ * Class Calendar_Calendar_View.
+ *
+ * @package   View
+ */
 class Calendar_Calendar_View extends Vtiger_Index_View
 {
 	/**
