@@ -146,18 +146,6 @@ class Module
 	}
 
 	/**
-	 * Function get module name.
-	 *
-	 * @param string $moduleName
-	 *
-	 * @return string
-	 */
-	public static function getTabName($moduleName)
-	{
-		return $moduleName === 'Events' ? 'Calendar' : $moduleName;
-	}
-
-	/**
 	 * Function to get the list of module for which the user defined sharing rules can be defined.
 	 *
 	 * @param array $eliminateModules
@@ -224,7 +212,7 @@ class Module
 			$actionId = (new Db\Query())->select(['actionid'])->from('vtiger_actionmapping')->where(['actionname' => $action])->scalar();
 		}
 		if (is_numeric($actionId)) {
-			$actionId = (int)$actionId;
+			$actionId = (int) $actionId;
 		}
 		Cache::save('getActionId', $action, $actionId, Cache::LONG);
 		return $actionId;
@@ -240,7 +228,7 @@ class Module
 		$tabNames = $tabPresence = $tabOwned = [];
 		$allModules = \vtlib\Functions::getAllModules(false, true);
 		foreach ($allModules as $moduleInfo) {
-			$tabNames[$moduleInfo['name']] = $tabId = (int)$moduleInfo['tabid'];
+			$tabNames[$moduleInfo['name']] = $tabId = (int) $moduleInfo['tabid'];
 			$tabPresence[$tabId] = $moduleInfo['presence'];
 			$tabOwned[$tabId] = $moduleInfo['ownedby'];
 		}
@@ -249,8 +237,8 @@ class Module
 		$dataReader = (new Db\Query())->from(['vtiger_actionmapping'])->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$actionname = $row['actionname'];
-			$actionAll[$actionname] = $actionid = (int)$row['actionid'];
-			if ((int)$row['securitycheck'] === 0) {
+			$actionAll[$actionname] = $actionid = (int) $row['actionid'];
+			if ((int) $row['securitycheck'] === 0) {
 				$actionSecure[$actionid] = $actionname;
 			}
 		}

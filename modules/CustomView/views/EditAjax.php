@@ -55,16 +55,8 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		// Added to show event module custom fields
 		if ($moduleName === 'Calendar') {
 			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
-			$relatedModuleName = 'Events';
-			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
-			$relatedRecordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($relatedModuleModel);
-			$eventBlocksFields = $relatedRecordStructureInstance->getStructure();
-			$viewer->assign('EVENT_RECORD_STRUCTURE_MODEL', $relatedRecordStructureInstance);
-			$viewer->assign('EVENT_RECORD_STRUCTURE', $eventBlocksFields);
 		} else {
 			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();
-			$viewer->assign('EVENT_RECORD_STRUCTURE_MODEL', null);
-			$viewer->assign('EVENT_RECORD_STRUCTURE', null);
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
