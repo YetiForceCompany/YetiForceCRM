@@ -59,11 +59,9 @@ class Field
 		if ($readOnly) {
 			return $fields;
 		}
-		if (\is_array($fields)) {
-			foreach ($fields as $key => $field) {
-				if ($field['readonly']) {
-					unset($fields[$key]);
-				}
+		foreach ($fields as $key => $field) {
+			if ($field['readonly']) {
+				unset($fields[$key]);
 			}
 		}
 		return $fields;
@@ -100,20 +98,18 @@ class Field
 		} else {
 			$key = 'fieldname';
 		}
-		if (\is_array($fields)) {
-			foreach ($fields as &$field) {
-				if ($field[$key] === $fieldMix) {
-					$permission = !($field['visible']);
-					if ($readOnly) {
-						self::$fieldPermissionCacheRead[$tabId][$fieldMix] = $permission;
-						self::$columnPermissionCacheRead[$tabId][$field['columnname']] = $permission;
-					} else {
-						self::$fieldPermissionCacheWrite[$tabId][$fieldMix] = $permission;
-						self::$columnPermissionCacheWrite[$tabId][$field['columnname']] = $permission;
-					}
-
-					return $permission;
+		foreach ($fields as &$field) {
+			if ($field[$key] === $fieldMix) {
+				$permission = !($field['visible']);
+				if ($readOnly) {
+					self::$fieldPermissionCacheRead[$tabId][$fieldMix] = $permission;
+					self::$columnPermissionCacheRead[$tabId][$field['columnname']] = $permission;
+				} else {
+					self::$fieldPermissionCacheWrite[$tabId][$fieldMix] = $permission;
+					self::$columnPermissionCacheWrite[$tabId][$field['columnname']] = $permission;
 				}
+
+				return $permission;
 			}
 		}
 		if ($readOnly) {
@@ -231,11 +227,9 @@ class Field
 		} else {
 			if ($forModule) {
 				$rfields = [];
-				if (is_array($fields)) {
-					foreach ($fields as $moduleName => $forModules) {
-						if (isset($forModules[$forModule])) {
-							$rfields[$moduleName] = $forModules[$forModule];
-						}
+				foreach ($fields as $moduleName => $forModules) {
+					if (isset($forModules[$forModule])) {
+						$rfields[$moduleName] = $forModules[$forModule];
 					}
 				}
 				return $rfields;

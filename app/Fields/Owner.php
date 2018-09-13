@@ -163,7 +163,8 @@ class Owner
 			}
 		} else {
 			$groups = $usersGroups ? $usersGroups['groups'] : [];
-			if (!empty($groups) && (\is_array($groupsAll = $this->getGroups(false, $private)))) {
+			if (!empty($groups)) {
+				$groupsAll = $this->getGroups(false, $private);
 				foreach ($groupsAll as $ID => $name) {
 					if (in_array($ID, $groups)) {
 						$result[$ID] = $name;
@@ -735,7 +736,7 @@ class Owner
 				}
 			}
 		}
-		self::transferOwnershipForWorkflow($oldId, $newId);
+		sel::transferOwnershipForWorkflow($oldId, $newId);
 	}
 
 	/**

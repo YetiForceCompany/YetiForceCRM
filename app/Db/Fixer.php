@@ -45,9 +45,6 @@ class Fixer
 		\App\Log::trace('Entering ' . __METHOD__);
 		$profileIds = \vtlib\Profile::getAllIds();
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		if (!\is_array($profileIds)) {
-			return;
-		}
 		foreach ($profileIds as $profileId) {
 			$subQuery = (new \App\Db\Query())->select(['fieldid'])->from('vtiger_profile2field')->where(['profileid' => $profileId]);
 			$query = (new \App\Db\Query())->select(['tabid', 'fieldid'])->from('vtiger_field')->where(['not in', 'vtiger_field.fieldid', $subQuery]);
@@ -77,9 +74,6 @@ class Fixer
 		$moduleIds = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['isentitytype' => 1])->column();
 		$baseActionIds = array_map('App\Module::getActionId', \Settings_ModuleManager_Module_Model::$baseModuleTools);
 		$exceptions = \Settings_ModuleManager_Module_Model::getBaseModuleToolsExceptions();
-		if (!\is_array($profileIds)) {
-			return;
-		}
 		foreach ($profileIds as $profileId) {
 			foreach ($moduleIds as $moduleId) {
 				foreach ($baseActionIds as $actionId) {
@@ -115,9 +109,6 @@ class Fixer
 		$moduleIds = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['isentitytype' => 1])->column();
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$profileIds = \vtlib\Profile::getAllIds();
-		if (!\is_array($profileIds)) {
-			return;
-		}
 		foreach ($profileIds as $profileId) {
 			foreach ($moduleIds as $moduleId) {
 				foreach (\Vtiger_Action_Model::$standardActions as $actionId => $actionName) {
