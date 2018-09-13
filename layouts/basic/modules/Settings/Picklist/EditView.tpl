@@ -14,7 +14,9 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">{\App\Language::translate('LBL_RENAME_PICKLIST_ITEM', $QUALIFIED_MODULE)}</h5>
+					<h5 class="modal-title">
+						{\App\Language::translate('LBL_RENAME_PICKLIST_ITEM', $QUALIFIED_MODULE)} {$PICKLIST_VALUE['picklistValue']}
+					</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -26,55 +28,28 @@
 					<input type="hidden" name="action" value="SaveAjax"/>
 					<input type="hidden" name="mode" value="rename"/>
 					<input type="hidden" name="picklistName" value="{$FIELD_MODEL->getName()}"/>
+					<input type="hidden" name="oldValue" value="{$PICKLIST_VALUE['picklistValue']}"/>
+					<input type="hidden" name="id" value="{$PICKLIST_VALUE['picklistValueId']}"/>
 					<input type="hidden" name="pickListValues"
-						   value='{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_PICKLISTFIELD_EDITABLE_VALUES))}'/>
+						   value='{\App\Purifier::encodeHtml(\App\Json::encode(App\Fields\Picklist::getEditablePicklistValues($FIELD_MODEL->getName())))}'/>
 					<div class="modal-body tabbable">
 						<div class="form-group row align-items-center">
-							<div class="col-md-3 col-form-label text-right">{\App\Language::translate('LBL_ITEM_TO_RENAME',$QUALIFIED_MODULE)}</div>
-							<div class="col-md-9 controls">
-								{assign var=PICKLIST_VALUES value=$SELECTED_PICKLISTFIELD_EDITABLE_VALUES}
-								<select class="select2 form-control js-picklist-change-value" name="oldValue"
-										data-js="change">
-									<optgroup>
-										{foreach from=$PICKLIST_VALUES key=PICKLIST_VALUE_KEY item=PICKLIST_VALUE}
-											<option {if $FIELD_VALUE eq $PICKLIST_VALUE} selected=""
-													{/if}value="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}"
-													data-id={$PICKLIST_VALUE_KEY}>{\App\Language::translate($PICKLIST_VALUE,$SOURCE_MODULE)}</option>
-										{/foreach}
-									</optgroup>
-								</select>
-							</div>
-						</div>
-						<div class="form-group row align-items-center">
 							<div class="col-md-3 col-form-label text-right">
-								<span class="redColor">*</span>
 								{\App\Language::translate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-9 controls">
 								<input type="text" class="form-control"
-									   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+									   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 									   data-validator={\App\Json::encode([['name'=>'FieldLabel']])} name="newValue">
 							</div>
 						</div>
-						{if $SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES}
-							<div class="form-group row align-items-center">
-								<div class="col-md-3 col-form-label text-right">{\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUES',$QUALIFIED_MODULE)}</div>
-								<div class="col-md-9 controls nonEditableValuesDiv">
-									<ul class="nonEditablePicklistValues list-unstyled">
-										{foreach from=$SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES key=NON_EDITABLE_VALUE_KEY item=NON_EDITABLE_VALUE}
-											<li>{\App\Language::translate($NON_EDITABLE_VALUE,$SOURCE_MODULE)}</li>
-										{/foreach}
-									</ul>
-								</div>
-							</div>
-						{/if}
 						<div class="form-group row align-items-center">
 							<div class="col-md-3 col-form-label text-right">
 								{\App\Language::translate('LBL_DESCRIPTION',$QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-9 controls">
-								<textarea class="form-control js-editor" name="description" data-js="ckeditor"
-										  data-descriptions="{\App\Purifier::encodeHtml(\App\Json::encode(\App\Fields\Picklist::getDescriptions($FIELD_MODEL->getName())))}"></textarea>
+								<textarea class="form-control js-editor" name="description"
+										  data-js="ckeditor">{\App\Purifier::encodeHtml($PICKLIST_VALUE['description'])}</textarea>
 							</div>
 						</div>
 						{if $FIELD_MODEL->get('uitype') === 15}
@@ -84,8 +59,8 @@
 								</div>
 								<div class="col-md-9 controls">
 									<input class="form-control js-close-state" type="checkbox" value="1"
-										   name="close_state"
-										   data-states="{\App\Purifier::encodeHtml(\App\Json::encode(\App\Fields\Picklist::getStateClose($FIELD_MODEL)))}">
+										   {if $PICKLIST_VALUE['close_state']}checked="checked"{/if}
+										   name="close_state">
 								</div>
 							</div>
 						{/if}

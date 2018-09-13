@@ -122,7 +122,10 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$pickListFieldName = $fieldModel->getName();
 		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
 		$tableName = $this->getPickListTableName($pickListFieldName);
-		$newData = [$pickListFieldName => $newValue];
+		$newData = [];
+		if (!empty($newValue)) {
+			$newData[$pickListFieldName] = $newValue;
+		}
 		$descriptionColumnExist = $this->checkDescriptionColumn($db, $tableName);
 		if (!empty($description) || $descriptionColumnExist) {
 			if (!$descriptionColumnExist) {
@@ -131,7 +134,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$newData['description'] = $description;
 		}
 		$result = $db->createCommand()->update($tableName, $newData, [$primaryKey => $id])->execute();
-		if ($result) {
+		if ($result && !empty($newValue)) {
 			$dataReader = (new \App\Db\Query())->select(['tablename', 'columnname', 'tabid'])
 				->from('vtiger_field')
 				->where(['and', ['fieldname' => $pickListFieldName], ['presence' => [0, 2]], ['or', ['uitype' => [15, 16, 33]], ['and', ['uitype' => [55]], ['fieldname' => 'salutationtype']]]])
@@ -194,16 +197,21 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 */
 	public function updateCloseState(int $valueId, Settings_Picklist_Field_Model $fieldModel, string $value, bool $closeState)
 	{
+		$oldValue = isset(\App\Fields\Picklist::getCloseStates($fieldModel->get('tabid'))[$fieldModel->getName()][$valueId]);
+		if ($closeState === $oldValue) {
+			return;
+		}
 		$db = App\Db::getInstance()->createCommand();
-		$db->delete('u_#__picklist_close_state', [
-			'tabid' => $fieldModel->get('tabid'),
-			'fieldid' => $fieldModel->getId(),
-			'valueid' => $valueId
-		])->execute();
-		if ($closeState) {
+		if (!$closeState && $oldValue) {
+			$db->delete('u_#__picklist_close_state', [
+				'tabid' => $fieldModel->get('tabid'),
+				'fieldid' => $fieldModel->getId(),
+				'valueid' => $valueId
+			])->execute();
+		} else {
 			$db->insert('u_#__picklist_close_state', [
 				'tabid' => $fieldModel->get('tabid'),
-				'picklist_name' => $fieldModel->getName(),
+				'name' => $fieldModel->getName(),
 				'fieldid' => $fieldModel->getId(),
 				'valueid' => $valueId,
 				'value' => $value

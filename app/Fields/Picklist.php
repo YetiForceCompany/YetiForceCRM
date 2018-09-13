@@ -331,36 +331,27 @@ class Picklist
 	}
 
 	/**
-	 * Get description for all fields or generate it if not exists.
+	 * Get closing state for all fields in module.
 	 *
-	 * @param string $fieldName
+	 * @param int $tabId
 	 *
 	 * @return string[]
 	 */
-	public static function getDescriptions($fieldName)
+	public static function getCloseStates(int $tabId)
 	{
-		$descriptions = [];
-		foreach (static::getValues($fieldName) as $id => $value) {
-			$descriptions[$id] = $value['description'] ?? '';
+		$cacheName = 'getCloseStates';
+		if (\App\Cache::has($cacheName, $tabId)) {
+			return \App\Cache::get($cacheName, $tabId);
 		}
-		return $descriptions;
-	}
-
-	/**
-	 * Get closing state for all fields or generate it if not exists.
-	 *
-	 * @param \Settings_Picklist_Field_Model $fieldModel
-	 *
-	 * @return string[]
-	 */
-	public static function getStateClose(\Settings_Picklist_Field_Model $fieldModel)
-	{
-		return (new \App\Db\Query())->select(['value'])
+		$dataReader = (new \App\Db\Query())->select(['valueid', 'name', 'value'])
 			->from('u_#__picklist_close_state')
-			->where([
-				'tabid' => $fieldModel->get('tabid'),
-				'fieldid' => $fieldModel->getId()
-			])
-			->column();
+			->where(['tabid' => $tabId])
+			->createCommand()->query();
+		$values = [];
+		while ($row = $dataReader->read()) {
+			$values[$row['name']][$row['valueid']] = $row['value'];
+		}
+		\App\Cache::save($cacheName, $tabId, $values);
+		return $values;
 	}
 }

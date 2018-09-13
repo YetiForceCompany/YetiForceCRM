@@ -92,8 +92,6 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$pickListFieldName = $request->getForSql('picklistName');
 		$oldValue = $request->getByType('oldValue', 'Text');
 		$id = $request->getInteger('id');
-		$description = $request->getForHtml('description');
-		$closeState = $request->getBoolean('close_state');
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, $moduleModel);
 		$response = new Vtiger_Response();
@@ -103,8 +101,8 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				if ($moduleName === 'Events' && ($pickListFieldName === 'activitytype' || $pickListFieldName === 'activitystatus')) {
 					$this->updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue);
 				}
-				$status = $moduleModel->renamePickListValues($fieldModel, $oldValue, $newValue, $id, $description);
-				$moduleModel->updateCloseState($id, $fieldModel, $newValue, $closeState);
+				$status = $moduleModel->renamePickListValues($fieldModel, $oldValue, $newValue, $id, $request->getForHtml('description'));
+				$moduleModel->updateCloseState($id, $fieldModel, empty($newValue) ? $oldValue : $newValue, $request->getBoolean('close_state'));
 				$response->setResult(['success', $status]);
 			} catch (Exception $e) {
 				$response->setError($e->getCode(), $e->getMessage());

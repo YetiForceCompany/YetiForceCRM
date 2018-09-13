@@ -27,22 +27,20 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 	public function showEditView(\App\Request $request)
 	{
 		$module = $request->getByType('source_module', 2);
-		$pickListFieldId = $request->get('pickListFieldId');
-		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldId);
-		$valueToEdit = $request->get('fieldValue');
-
-		$selectedFieldEditablePickListValues = App\Fields\Picklist::getEditablePicklistValues($fieldModel->getName());
-		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
+		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getInteger('pickListFieldId'));
+		$valueId = $request->getInteger('fieldValueId');
 		$qualifiedName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
+
+		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
+		$picklistValueRow = App\Fields\Picklist::getValues($fieldModel->getName())[$valueId];
+		$picklistValueRow['close_state'] = isset(\App\Fields\Picklist::getCloseStates($fieldModel->get('tabid'))[$fieldModel->getName()][$valueId]);
+		$viewer->assign('EDITABLE', !isset($selectedFieldNonEditablePickListValues[$valueId]));
+		$viewer->assign('PICKLIST_VALUE', $picklistValueRow);
 		$viewer->assign('SOURCE_MODULE', $module);
 		$viewer->assign('SOURCE_MODULE_NAME', $module);
 		$viewer->assign('FIELD_MODEL', $fieldModel);
-		$viewer->assign('FIELD_VALUE', $valueToEdit);
-		$viewer->assign('SELECTED_PICKLISTFIELD_EDITABLE_VALUES', $selectedFieldEditablePickListValues);
-		$viewer->assign('SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES', $selectedFieldNonEditablePickListValues);
-		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
 		echo $viewer->view('EditView.tpl', $qualifiedName, true);
 	}
