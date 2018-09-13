@@ -79,12 +79,10 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	public function getAllSocialMediaAccount($socialType)
 	{
 		$uitype = null;
-		switch ($socialType) {
-			case 'twitter':
-				$uitype = 313;
-				break;
-			default:
-				throw new \App\Exceptions\AppException('Incorrect data type in ' . $socialType);
+		if ($socialType === 'twitter') {
+			$uitype = 313;
+		} else {
+			throw new \App\Exceptions\AppException('Incorrect data type in ' . $socialType);
 		}
 		$socialAccount = [];
 		$allFieldModel = $this->recordModel->getModule()->getFieldsByUiType($uitype);

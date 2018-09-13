@@ -211,7 +211,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		if (!empty($activityReminder)) {
 			$currentTime = time();
 			$time = date('Y-m-d H:i:s', strtotime("+$activityReminder seconds", $currentTime));
-
 			$query = (new \App\Db\Query())
 				->select(['recordid', 'vtiger_activity_reminder_popup.datetime'])
 				->from('vtiger_activity_reminder_popup')
@@ -226,7 +225,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			}
 			$query->andWhere(['vtiger_crmentity.smownerid' => $currentUserModel->getId(), 'vtiger_crmentity.deleted' => 0, 'vtiger_activity.status' => self::getComponentActivityStateLabel('current')]);
 			$query->andWhere(['<=', 'vtiger_activity_reminder_popup.datetime', $time])->orderBy(['vtiger_activity_reminder_popup.datetime' => SORT_DESC]);
-
 			$dataReader = $query->createCommand()->query();
 			while ($recordId = $dataReader->readColumn(0)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
@@ -251,7 +249,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public function getFieldsByType($type)
 	{
 		$restrictedField = ['picklist' => ['activitystatus', 'visibility', 'duration_minutes']];
-
 		if (!is_array($type)) {
 			$type = [$type];
 		}
@@ -279,7 +276,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$settingLinks = [];
-
 		if ($currentUserModel->isAdminUser()) {
 			$settingLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
@@ -287,7 +283,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				'linkurl' => 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' . $this->getName(),
 				'linkicon' => 'adminIcon-triggers',
 			];
-
 			$settingLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_PICKLIST_VALUES',
@@ -326,11 +321,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			if (in_array($activityStatus, self::getComponentActivityStateLabel('history'))) {
 				return false;
 			}
-
 			$dueDateTime = $data['due_date'] . ' ' . $data['time_end'];
 			$startDateTime = $data['date_start'] . ' ' . $data['time_start'];
 			$dates = ['start' => $startDateTime, 'end' => $dueDateTime, 'current' => null];
-
 			foreach ($dates as $key => $date) {
 				$date = new DateTimeField($date);
 				$userFormatedString = $date->getDisplayDate();
@@ -351,7 +344,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 					$state = $activityStatusLabels['overdue'];
 				}
 			}
-
 			return $state;
 		}
 		return false;

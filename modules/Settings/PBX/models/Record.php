@@ -95,11 +95,8 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDisplayValue($name)
 	{
-		switch ($name) {
-			case 'default':
-				return $this->get($name) ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
-			default:
-				break;
+		if ($name === 'default') {
+			return $this->get($name) ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
 		}
 		return $this->get($name);
 	}
@@ -211,16 +208,12 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		$mainParams = ['uitype' => 1, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
 		$fieldModels = [];
 		foreach ($this->editFields as $name => $params) {
-			switch ($name) {
-				case 'type':
-					$connectors = [];
-					foreach (App\Integrations\Pbx::getConnectors() as $connectorName => $instance) {
-						$connectors[$connectorName] = \App\Language::translate($instance->name, $moduleName);
-					}
-					$params['picklistValues'] = $connectors;
-					break;
-				default:
-					break;
+			if ($name === 'type') {
+				$connectors = [];
+				foreach (App\Integrations\Pbx::getConnectors() as $connectorName => $instance) {
+					$connectors[$connectorName] = \App\Language::translate($instance->name, $moduleName);
+				}
+				$params['picklistValues'] = $connectors;
 			}
 			$fieldModel = Settings_Vtiger_Field_Model::init($moduleName, array_merge($mainParams, $params, ['column' => $name, 'name' => $name]));
 			$fieldModel->set('fieldvalue', $this->get($name));

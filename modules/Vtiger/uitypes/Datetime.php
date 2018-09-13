@@ -41,11 +41,10 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		if (empty($value)) {
 			return '';
 		}
-		switch ($this->getFieldModel()->getUIType()) {
-			case 79:
-				return App\Fields\DateTime::formatToDb($value);
-			default:
-				return parent::getDBValue($value);
+		if ($this->getFieldModel()->getUIType() === 79) {
+			return App\Fields\DateTime::formatToDb($value);
+		} else {
+			return parent::getDBValue($value);
 		}
 	}
 
@@ -57,11 +56,10 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		if (empty($value)) {
 			return '';
 		}
-		switch ($this->getFieldModel()->getUIType()) {
-			case 80:
-				return $rawText ? Vtiger_Util_Helper::formatDateDiffInStrings($value) : '<span title="' . App\Fields\DateTime::formatToDisplay($value) . '">' . Vtiger_Util_Helper::formatDateDiffInStrings($value) . '</span>';
-			default:
-				return App\Fields\DateTime::formatToDisplay($value);
+		if ($this->getFieldModel()->getUIType() === 80) {
+			return $rawText ? Vtiger_Util_Helper::formatDateDiffInStrings($value) : '<span title="' . App\Fields\DateTime::formatToDisplay($value) . '">' . Vtiger_Util_Helper::formatDateDiffInStrings($value) . '</span>';
+		} else {
+			return App\Fields\DateTime::formatToDisplay($value);
 		}
 	}
 
@@ -73,11 +71,8 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		if (empty($value)) {
 			return '';
 		}
-		switch ($this->getFieldModel()->getUIType()) {
-			case 80:
-				return $rawText ? \App\Fields\DateTime::formatToViewDate($value) : '<span title="' . App\Fields\DateTime::formatToDisplay($value) . '">' . \App\Fields\DateTime::formatToViewDate($value) . '</span>';
-			default:
-				break;
+		if ($this->getFieldModel()->getUIType() === 80) {
+			return $rawText ? \App\Fields\DateTime::formatToViewDate($value) : '<span title="' . App\Fields\DateTime::formatToDisplay($value) . '">' . \App\Fields\DateTime::formatToViewDate($value) . '</span>';
 		}
 		return \App\TextParser::textTruncate($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->getFieldModel()->get('maxlengthtext'));
 	}
@@ -87,11 +82,10 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	 */
 	public function getTemplateName()
 	{
-		switch ($this->getFieldModel()->getUIType()) {
-			case 79:
-				return 'Edit/Field/DateTimeField.tpl';
-			default:
-				return 'Edit/Field/DateTime.tpl';
+		if ($this->getFieldModel()->getUIType() === 79) {
+			return 'Edit/Field/DateTimeField.tpl';
+		} else {
+			return 'Edit/Field/DateTime.tpl';
 		}
 	}
 }
