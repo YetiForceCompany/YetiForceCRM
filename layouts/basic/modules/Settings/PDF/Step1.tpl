@@ -83,7 +83,7 @@
 									<span class="redColor">*</span>
 								</label>
 								<div class="col-sm-6 controls">
-									<select class="select2 form-control" id="moduleName" name="module_name" required="true" data-validation-engine='validate[required]'>
+									<select class="select2 form-control" id="moduleName" name="module_name" required="required" data-validation-engine="validate[required]" data-js="change">
 										{foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
 											<option value="{$MODULE_MODEL->getName()}" {if $SELECTED_MODULE == $MODULE_MODEL->getName()} selected {/if}>
 												{if $MODULE_MODEL->getName() eq 'Calendar'}
@@ -101,7 +101,7 @@
 									{\App\Language::translate('LBL_METATAGS', $QUALIFIED_MODULE)}
 								</label>
 								<div class="col-sm-6 controls">
-									<input type="checkbox" name="metatags_status" id="metatags_status" value="1" class="checkboxForm" {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}checked="checked"{/if} />
+									<input type="checkbox" name="metatags_status" id="metatags_status" value="1" class="checkboxForm" {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}checked="checked"{/if} data-js="click"/>
 								</div>
 							</div>
 							<div class="form-group row metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">
@@ -193,7 +193,7 @@
 									{assign 'MARGIN_CHECKED' false}
 								{/if}
 								<div class="col-sm-6">
-									<input type="checkbox" id="margin_chkbox" name="margin_chkbox" value="1" {if $MARGIN_CHECKED eq 'true'}checked="checked"{/if} />
+									<input type="checkbox" id="margin_chkbox" name="margin_chkbox" value="1" {if $MARGIN_CHECKED eq 'true'}checked="checked"{/if} data-js="click"/>
 								</div>
 							</div>
 							<div class="form-group row margin_inputs {if $MARGIN_CHECKED eq 'true'}d-none{/if}">
