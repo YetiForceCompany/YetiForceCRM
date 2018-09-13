@@ -1,7 +1,9 @@
 <?php
 
 /**
- * Abstract class for connection to bank currency exchange rates.
+ * Abstract class for pdf generation.
+ *
+ * @package App\Pdf
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -14,8 +16,6 @@ namespace App\Pdf;
 
 /**
  * Class PDF.
- *
- * @package App\Pdf
  */
 abstract class PDF
 {
