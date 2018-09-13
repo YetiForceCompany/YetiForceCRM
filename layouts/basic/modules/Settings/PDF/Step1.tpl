@@ -304,9 +304,8 @@
 							<div class="form-group row">
 								<label class="col-sm-6 col-form-label">
 									{\App\Language::translate('LBL_GENERATE_ONE_PDF', $QUALIFIED_MODULE)}
-									<span class="js-popover-tooltip delay0" data-js="popover" data-placement="top"
-									      data-content="{\App\Language::translate('LBL_GENERATE_ONE_PDF_INFO',$QUALIFIED_MODULE)}">
-											<span class="fas fa-info-circle"></span>
+									<span class="js-popover-tooltip delay0" data-js="popover" data-placement="top" data-content="{\App\Language::translate('LBL_GENERATE_ONE_PDF_INFO',$QUALIFIED_MODULE)}">
+										<span class="fas fa-info-circle ml-1"></span>
 									</span>
 								</label>
 								<div class="col-sm-6">
@@ -371,7 +370,7 @@
 								<div class="form-group col-12 col-xl-6 col-xxl-4">
 									<div class="row">
 										<div class="col-12 col-sm-6">
-											<label>{\App\Language::translate('LBL_WATERMARK_TYPE', $QUALIFIED_MODULE)}</label>
+											<label class="col-form-label">{\App\Language::translate('LBL_WATERMARK_TYPE', $QUALIFIED_MODULE)}</label>
 										</div>
 										<div class="col-sm-6 controls">
 											<select class="select2 form-control" id="watermark_type" name="watermark_type" required="true" data-js="change">
@@ -387,7 +386,7 @@
 								<div class="form-group col-12 col-sm-6 col-xl-6 col-xxl-4 watertext {if $PDF_MODEL->get('watermark_type') neq $WATERMARK_TEXT}d-none{/if}">
 									<div class="row">
 										<div class="col-12 col-sm-6">
-											<label>{\App\Language::translate('LBL_WATERMARK_SIZE', $QUALIFIED_MODULE)}</label>
+											<label class="col-form-label">{\App\Language::translate('LBL_WATERMARK_SIZE', $QUALIFIED_MODULE)}</label>
 										</div>
 										<div class="col-sm-6 controls">
 											<input type="number" name="watermark_size" class="form-control" value="{intval($PDF_MODEL->get('watermark_size'))}" id="watermark_size" min="0" max="99"/>
@@ -397,7 +396,7 @@
 								<div class="form-group col-12 col-sm-6 col-xl-6 col-xxl-4 watertext {if $PDF_MODEL->get('watermark_type') neq $WATERMARK_TEXT}d-none{/if}">
 									<div class="row">
 										<div class="col-12 col-sm-6">
-											<label>{\App\Language::translate('LBL_WATERMARK_ANGLE', $QUALIFIED_MODULE)}</label>
+											<label class="col-form-label">{\App\Language::translate('LBL_WATERMARK_ANGLE', $QUALIFIED_MODULE)}</label>
 										</div>
 										<div class="col-sm-6 controls">
 											<input type="number" name="watermark_angle" class="form-control" value="{intval($PDF_MODEL->get('watermark_angle'))}" id="watermark_angle" min="0" max="360"/>
@@ -407,7 +406,7 @@
 								<div class="form-group col-12 watertext {if $PDF_MODEL->get('watermark_type') neq $WATERMARK_TEXT}d-none{/if}">
 									<div class="row">
 										<div class="col-12">
-											<label>{\App\Language::translate('LBL_WATERMARK_TEXT', $QUALIFIED_MODULE)}
+											<label class="col-form-label">{\App\Language::translate('LBL_WATERMARK_TEXT', $QUALIFIED_MODULE)}
 												<span class="ml-2 js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span></label>
 										</div>
 										<div class="col-12 controls">
@@ -418,7 +417,7 @@
 								<div class="form-group col-12 col-xl-4 waterimage {if $PDF_MODEL->get('watermark_type') eq $WATERMARK_TEXT}d-none{/if}">
 									<div class="row">
 										<div class="col-12 col-sm-4">
-											<label>{\App\Language::translate('LBL_WATERMARK_IMAGE', $QUALIFIED_MODULE)}</label>
+											<label class="col-form-label">{\App\Language::translate('LBL_WATERMARK_IMAGE', $QUALIFIED_MODULE)}</label>
 										</div>
 										<div class="col-sm-8 controls">
 											<div class="row">
