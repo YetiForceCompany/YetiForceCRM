@@ -8,12 +8,27 @@
  */
 class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 {
+	/**
+	 * Calendar_RightPanel_View constructor.
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getUsersList');
 		$this->exposeMethod('getGroupsList');
 		$this->exposeMethod('getActivityType');
+	}
+
+	/**
+	 * Get tpl path file.
+	 *
+	 * @param string $tplFile
+	 *
+	 * @return string
+	 */
+	protected function getTpl(string $tplFile)
+	{
+		return "Standard/$tplFile";
 	}
 
 	public function getUsersList(\App\Request $request)
@@ -42,7 +57,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ALL_ACTIVEUSER_LIST', $users);
 		$viewer->assign('USER_MODEL', $currentUser);
-		$viewer->view('RightPanel.tpl', $moduleName);
+		$viewer->view($this->getTpl('RightPanel.tpl'), $moduleName);
 	}
 
 	public function getGroupsList(\App\Request $request)
@@ -73,7 +88,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		}
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ALL_ACTIVEGROUP_LIST', $groups);
-		$viewer->view('RightPanel.tpl', $moduleName);
+		$viewer->view($this->getTpl('RightPanel.tpl'), $moduleName);
 	}
 
 	public function getActivityType(\App\Request $request)
@@ -82,6 +97,6 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ACTIVITY_TYPE', Calendar_Module_Model::getCalendarTypes());
-		$viewer->view('RightPanel.tpl', $moduleName);
+		$viewer->view($this->getTpl('RightPanel.tpl'), $moduleName);
 	}
 }
