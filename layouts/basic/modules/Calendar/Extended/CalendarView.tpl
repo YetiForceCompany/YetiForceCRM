@@ -25,12 +25,13 @@
 			</div>
 		</div>
 		<div class="alert alert-info marginTop10 hide" id="moduleCacheAlert" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close" data-js="click">
 				<span aria-hidden="true">&times;</span>
 			</button>
 			{\App\Language::translate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}&nbsp;
-			<button type="button"
-					class="pull-right btn btn-warning btn-xs marginRight10 cacheClear">{\App\Language::translate('LBL_CACHE_CLEAR', $MODULE_NAME)}</button>
+			<button type="button" class="pull-right btn btn-warning btn-xs marginRight10 cacheClear" data-js="click">
+				{\App\Language::translate('LBL_CACHE_CLEAR', $MODULE_NAME)}
+			</button>
 		</div>
 		<div class="hide">
 			{foreach item=ITEM from=$ACTIVITY_TYPE}
