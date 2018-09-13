@@ -25,9 +25,18 @@ class Tcpdf extends \TCPDF
 	protected $cssStyle = '
 		table {
 			width: 100%;
-			font-size: 12px;
+			font-size: 10px;
 			color: black;
 		}
+		thead,thead tr,thead tr td{background-color:#eeeeee;}
+		.productTable{color:#000000; font-size:8px; width:100%}
+		.productTable th {text-transform: capitalize;font-weight:normal;}
+		.productTable .tHeader {background-color:#eeeeee; text-transform: capitalize;font-weight:bold;}
+		.productTable tr td{border-bottom: 1px solid #dddddd;text-align:center;}
+		.productTable td.summaryContainer {font-weight:bold;}
+		.colapseBorder {border-collapse: collapse;}
+		.barcode {vertical-align: top;color: #000000;}
+		.textAlignCenter{text-align:center;}
 	';
 
 	/**
@@ -113,7 +122,7 @@ class Tcpdf extends \TCPDF
 	 */
 	public function getCssStyle()
 	{
-		return '<style>' . $this->cssStyle . '</style>';
+		return '<style>' . str_replace("\n", '', $this->cssStyle) . '</style>';
 	}
 
 	/**
@@ -403,6 +412,7 @@ class Tcpdf extends \TCPDF
 	 */
 	public function writeHTML($html, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '')
 	{
+		//echo $this->getCssStyle() . $html;
 		parent::writeHTML($this->getCssStyle() . $html, $ln, $fill, $reseth, $cell, $align);
 	}
 }

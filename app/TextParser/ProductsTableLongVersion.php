@@ -44,15 +44,7 @@ class ProductsTableLongVersion extends Base
 			$currencySymbol = $currencySymbolRate['symbol'];
 		}
 		$html .= '<style>' .
-			'.productTable{color:#000; font-size:10px; width:100%}' .
-			'.productTable th {text-transform: capitalize;font-weight:normal}' .
-			'.productTable .tHeader {background:#ddd, text-transform: capitalize !important;}' .
-			'.productTable tbody tr:nth-child(odd){background:#eee}' .
-			'.productTable tr td{border-bottom: 1px solid #ddd; padding:5px;text-align:center; }' .
-			'.colapseBorder {border-collapse: collapse;}' .
-			'.productTable td, th {padding-left: 5px; padding-right: 5px;}' .
-			'.productTable .summaryContainer{background:#ddd;padding:5px}' .
-			'.barcode {padding: 1.5mm;margin: 0;vertical-align: top;color: #000000}' .
+
 			'</style>';
 		if (count($fields[1]) != 0) {
 			$fieldsTextAlignRight = ['Name', 'Value', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Tax', 'GrossPrice'];
@@ -62,11 +54,11 @@ class ProductsTableLongVersion extends Base
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible() && in_array($field->getName(), $fieldsTextAlignRight) && ($field->get('columnname') !== 'subunit')) {
 					if ($field->getName() === 'Quantity' || $field->getName() === 'Value') {
-						$html .= '<th style="width: 9%;" class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
+						$html .= '<th class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 					} elseif ($field->getName() === 'Name') {
-						$html .= '<th style="width: 30%;" class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
+						$html .= '<th class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 					} else {
-						$html .= '<th style="width: 12%;" class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
+						$html .= '<th class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 					}
 				}
 			}
@@ -86,7 +78,7 @@ class ProductsTableLongVersion extends Base
 						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
 					} elseif ($field->isVisible()) {
 						$itemValue = $inventoryRow[$field->get('columnname')];
-						$html .= '<td class="' . (in_array($field->getName(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
+						$html .= '<td style="font-size:8px" class="' . (in_array($field->getName(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
 						switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
 							case 'DetailViewName.tpl':
 								$html .= '<strong>' . $field->getDisplayValue($itemValue, true) . '</strong>';

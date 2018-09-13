@@ -413,7 +413,7 @@ class Tcpdf extends PDF
 	 */
 	public function writeHTML()
 	{
-		$this->pdf->writeHTML($this->parseVariables($this->html), false, false, false, false, '');
+		$this->pdf->writeHTML($this->parseVariables($this->html));
 	}
 
 	/**
@@ -483,7 +483,7 @@ class Tcpdf extends PDF
 		$self->pdf()->setHtmlHeader($self->parseVariables($template->getHeader()));
 		$self->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L', $template->get('page_format'));
 		$self->pdf()->setHtmlFooter($self->parseVariables($template->getFooter()));
-		$self->pdf()->writeHTML($self->parseVariables($template->getBody()), false, false, false, false, '');
+		$self->pdf()->writeHTML($self->parseVariables($template->getBody()));
 		$self->pdf()->lastPage();
 		\App\Language::clearTemporaryLanguage();
 		return $self;
