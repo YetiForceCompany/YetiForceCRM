@@ -199,24 +199,21 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	public function getIcon()
 	{
 		$icon = false;
-		switch ($this->get('notification_type')) {
-			case 'PLL_USERS':
-				$userModel = Users_Privileges_Model::getInstanceById($this->get('smcreatorid'));
-				$icon = [
-					'type' => 'image',
-					'title' => $userModel->getName(),
-					'src' => $userModel->getImage()['path'],
-					'class' => 'userImage',
-				];
-				break;
-			default:
-				$relatedRecord = $this->getRelatedRecord();
-				$icon = [
-					'type' => 'icon',
-					'title' => \App\Language::translate($relatedRecord['module'], $relatedRecord['module']),
-					'class' => 'userIcon-' . $relatedRecord['module'],
-				];
-				break;
+		if ($this->get('notification_type') === 'PLL_USERS') {
+			$userModel = Users_Privileges_Model::getInstanceById($this->get('smcreatorid'));
+			$icon = [
+				'type' => 'image',
+				'title' => $userModel->getName(),
+				'src' => $userModel->getImage()['path'],
+				'class' => 'userImage',
+			];
+		} else {
+			$relatedRecord = $this->getRelatedRecord();
+			$icon = [
+				'type' => 'icon',
+				'title' => \App\Language::translate($relatedRecord['module'], $relatedRecord['module']),
+				'class' => 'userIcon-' . $relatedRecord['module'],
+			];
 		}
 		return $icon;
 	}

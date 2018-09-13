@@ -83,7 +83,6 @@ class AppConfig
 			if (!isset($moduleConfig[$key])) {
 				return false;
 			}
-
 			return $moduleConfig[$key];
 		} else {
 			return $moduleConfig;

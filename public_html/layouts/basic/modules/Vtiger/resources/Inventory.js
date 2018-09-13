@@ -1119,9 +1119,10 @@ $.Class("Vtiger_Inventory_Js", {
 
 			if (currencyParam != false) {
 				if (typeof currencyParam[option.val()] === "undefined") {
-					var defaultCurrencyParams = [];
-					defaultCurrencyParams['value'] = 1;
-					defaultCurrencyParams['date'] = '';
+					var defaultCurrencyParams = {
+						value: 1,
+						date: ''
+					};
 					currencyParam[option.val()] = defaultCurrencyParams;
 				}
 				modal.find('.currencyName').text(option.text());
