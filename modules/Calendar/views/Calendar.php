@@ -67,10 +67,20 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$startDate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+		$startDate = new DateTimeField($startDate);
+		$endDate = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
+		$endDate = new DateTimeField($endDate);
+		$date = [
+			$startDate->getDisplayDate(),
+			$endDate->getDisplayDate(),
+		];
+		var_dump($date);
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 		$viewer->assign('EVENT_LIMIT', AppConfig::module('Calendar', 'EVENT_LIMIT'));
 		$viewer->assign('WEEK_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
 		$viewer->assign('DAY_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
+		$viewer->assign('PUBLIC_HOLIDAYS', \App\Json::encode(Settings_PublicHoliday_Module_Model::getHolidays($date)));
 		$viewer->assign('ACTIVITY_STATE_LABELS', \App\Json::encode([
 			'current' => Calendar_Module_Model::getComponentActivityStateLabel('current'),
 			'history' => Calendar_Module_Model::getComponentActivityStateLabel('history'),
