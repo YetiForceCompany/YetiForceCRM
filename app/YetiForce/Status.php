@@ -24,10 +24,9 @@ class Status
 	 */
 	public static $variables = [
 		'statusUrl' => 'string',
-		'crmHash' => 'hidden',
-		'domain' => 'string',
+		'domain' => 'bool',
 		'phpVersion' => 'bool',
-		'systemVersion' => 'bool',
+		'crmVersion' => 'bool',
 		'dbVersion' => 'bool',
 		'osVersion' => 'bool',
 		'sapiVersion' => 'bool',
@@ -89,7 +88,7 @@ class Status
 	 *
 	 * @return array
 	 */
-	public function getSystemVersion()
+	public function getCrmVersion()
 	{
 		if (empty($this->cache['environment'])) {
 			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
@@ -354,5 +353,15 @@ class Status
 		}
 		return ['total' => $this->cache['environment']['spaceTemp']['spaceTotal'] ?? '',
 			'free' => $this->cache['environment']['spaceTemp']['spaceFree'] ?? ''];
+	}
+
+	/**
+	 * Get domain.
+	 *
+	 * @return array
+	 */
+	public function getDomain()
+	{
+		return \AppConfig::main('site_URL');
 	}
 }

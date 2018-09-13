@@ -68,8 +68,8 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 							if (!in_array($request->getByType('header_type', 'Standard'), $uitypeModel->getHeaderTypes())) {
 								throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . 'header_type', 406);
 							}
-							$value = \App\Json::encode(['header_type' => $request->getByType('header_type', 'Standard'),
-								'header_class' => $request->getByType('header_class', 'Standard')]);
+							$value = \App\Json::encode(['type' => $request->getByType('header_type', 'Standard'),
+								'class' => $request->getByType('header_class', 'Standard')]);
 						} else {
 							$value = '';
 						}

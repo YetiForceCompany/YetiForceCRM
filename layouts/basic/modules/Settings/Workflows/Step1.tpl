@@ -37,11 +37,7 @@
 									data-placeholder="Select Module...">
 								{foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
 									<option value="{$MODULE_MODEL->getName()}" {if isset($SELECTED_MODULE) && $SELECTED_MODULE == $MODULE_MODEL->getName()} selected {/if}>
-										{if $MODULE_MODEL->getName() eq 'Calendar'}
-											{\App\Language::translate('LBL_TASK', $MODULE_MODEL->getName())}
-										{else}
-											{\App\Language::translate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}
-										{/if}
+										{\App\Language::translate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}
 									</option>
 								{/foreach}
 							</select>

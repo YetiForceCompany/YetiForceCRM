@@ -4,8 +4,8 @@
  * HelpDesk Handler Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class HelpDesk_TicketRangeTime_Handler
 {
@@ -17,7 +17,7 @@ class HelpDesk_TicketRangeTime_Handler
 	public function entityAfterLink(App\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
-		if (in_array($params['destinationModule'], ['Calendar', 'Events', 'Activity', 'ModComments'])) {
+		if (in_array($params['destinationModule'], ['Calendar', 'Activity', 'ModComments'])) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($params['destinationRecordId'], $params['destinationModule']);
 			HelpDesk_Record_Model::updateTicketRangeTimeField($recordModel, true);
 		}

@@ -75,7 +75,7 @@ class VTCacheUtils
 							'fieldlabel' => $field->get('label'),
 							'columnname' => $field->get('column'),
 							'tablename' => $field->get('table'),
-							'uitype' => (int)$field->get('uitype'),
+							'uitype' => (int) $field->get('uitype'),
 							'typeofdata' => $field->get('typeofdata'),
 							'presence' => $field->get('presence'),
 						];

@@ -461,8 +461,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		if (!isset($this->module_permissions)) {
 			$allModules = Vtiger_Module_Model::getAll([0], Settings_Profiles_Module_Model::getNonVisibleModulesList());
-			$eventModule = Vtiger_Module_Model::getInstance('Events');
-			$allModules[$eventModule->getId()] = $eventModule;
 			$profileTabPermissions = $this->getProfileTabPermissions();
 			$profileActionPermissions = $this->getProfileActionPermissions();
 			$profileUtilityPermissions = $this->getProfileUtilityPermissions();
@@ -576,7 +574,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				'profilename' => $profileName,
 				'description' => $description,
 				'directly_related_to_role' => $isProfileDirectlyRelatedToRole,
-				], ['profileid' => $profileId])->execute();
+			], ['profileid' => $profileId])->execute();
 			$db->createCommand()->delete('vtiger_profile2globalpermissions', ['profileid' => $profileId])->execute();
 		}
 		$db->createCommand()->insert('vtiger_profile2globalpermissions', [
@@ -683,7 +681,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 						$caseExpression .= 'ELSE permissions END ';
 						$dbCommand->update('vtiger_profile2standardpermissions', [
 							'permissions' => new \yii\db\Expression($caseExpression),
-							], ['profileid' => $profileId, 'tabid' => $tabId])->execute();
+						], ['profileid' => $profileId, 'tabid' => $tabId])->execute();
 					}
 
 					foreach (Vtiger_Action_Model::$utilityActions as $utilityActionId => $utilityActionName) {
@@ -702,7 +700,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 						$caseExpression .= " ELSE {$db->quoteValue(1)} END ";
 						$dbCommand->update('vtiger_profile2utility', [
 							'permission' => new \yii\db\Expression($caseExpression),
-							], ['profileid' => $profileId, 'tabid' => $tabId])->execute();
+						], ['profileid' => $profileId, 'tabid' => $tabId])->execute();
 					}
 				} else {
 					//Insert Process

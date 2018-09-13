@@ -176,10 +176,10 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 					rowValues['valuetype'] = 'rawtext';
 				}
 
-				if (index === '0') {
-					rowValues['groupid'] = '0';
+				if (index === 0) {
+					rowValues['groupid'] = 0;
 				} else {
-					rowValues['groupid'] = '1';
+					rowValues['groupid'] = 1;
 				}
 
 				if (rowElement.is(":last-child")) {

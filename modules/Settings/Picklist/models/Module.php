@@ -89,9 +89,9 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			//add the picklist values to the selected roles
 			foreach ($rolesSelected as $roleid) {
 				$sortid = (new \App\Db\Query())->from('vtiger_role2picklist')
-						->leftJoin("vtiger_$pickListFieldName", "vtiger_$pickListFieldName.picklist_valueid = vtiger_role2picklist.picklistvalueid")
-						->where(['roleid' => $roleid, 'picklistid' => $picklistid])
-						->max('sortid') + 1;
+					->leftJoin("vtiger_$pickListFieldName", "vtiger_$pickListFieldName.picklist_valueid = vtiger_role2picklist.picklistvalueid")
+					->where(['roleid' => $roleid, 'picklistid' => $picklistid])
+					->max('sortid') + 1;
 				$db->createCommand()->insert('vtiger_role2picklist', [
 					'roleid' => $roleid,
 					'picklistvalueid' => $picklistValueId,
@@ -205,7 +205,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		//if role based then we need to delete all the values in role based picklist
 		if ($fieldModel->isRoleBased()) {
 			$dbCommand->delete('vtiger_role2picklist', ['picklistvalueid' => (new \App\Db\Query())->select(['picklist_valueid'])->from($this->getPickListTableName($pickListFieldName))
-				->where([$primaryKey => $valueToDeleteId]),])->execute();
+				->where([$primaryKey => $valueToDeleteId]), ])->execute();
 		}
 		$dbCommand->delete($this->getPickListTableName($pickListFieldName), [$primaryKey => $valueToDeleteId])->execute();
 		$dbCommand->delete('vtiger_picklist_dependency', ['sourcevalue' => $pickListValues, 'sourcefield' => $pickListFieldName])
@@ -311,8 +311,8 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				['vtiger_field.presence' => [0, 2]],
 				['<>', 'vtiger_field.columnname', 'taxtype'],
 			])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
-			->distinct()
-			->createCommand()->query();
+				->distinct()
+				->createCommand()->query();
 		$modulesModelsList = [];
 		while ($row = $dataReader->read()) {
 			$moduleLabel = $row['tablabel'];
