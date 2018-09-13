@@ -30,6 +30,7 @@
 					<input type="hidden" name="picklistName" value="{$FIELD_MODEL->getName()}"/>
 					<input type="hidden" name="oldValue" value="{$PICKLIST_VALUE['picklistValue']}"/>
 					<input type="hidden" name="id" value="{$PICKLIST_VALUE['picklistValueId']}"/>
+					<input type="hidden" name="picklist_valueid" value="{$PICKLIST_VALUE['picklist_valueid']}"/>
 					<input type="hidden" name="pickListValues"
 						   value='{\App\Purifier::encodeHtml(\App\Json::encode(App\Fields\Picklist::getEditablePicklistValues($FIELD_MODEL->getName())))}'/>
 					<div class="modal-body tabbable">

@@ -204,14 +204,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$db = App\Db::getInstance()->createCommand();
 		if (!$closeState && $oldValue) {
 			$db->delete('u_#__picklist_close_state', [
-				'tabid' => $fieldModel->get('tabid'),
 				'fieldid' => $fieldModel->getId(),
 				'valueid' => $valueId
 			])->execute();
 		} else {
 			$db->insert('u_#__picklist_close_state', [
-				'tabid' => $fieldModel->get('tabid'),
-				'name' => $fieldModel->getName(),
 				'fieldid' => $fieldModel->getId(),
 				'valueid' => $valueId,
 				'value' => $value

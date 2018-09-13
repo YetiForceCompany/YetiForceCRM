@@ -343,13 +343,14 @@ class Picklist
 		if (\App\Cache::has($cacheName, $tabId)) {
 			return \App\Cache::get($cacheName, $tabId);
 		}
-		$dataReader = (new \App\Db\Query())->select(['valueid', 'name', 'value'])
+		$dataReader = (new \App\Db\Query())->select(['valueid', 'value'])
 			->from('u_#__picklist_close_state')
+			->innerJoin('vtiger_field')
 			->where(['tabid' => $tabId])
 			->createCommand()->query();
 		$values = [];
 		while ($row = $dataReader->read()) {
-			$values[$row['name']][$row['valueid']] = $row['value'];
+			$values[$row['valueid']] = $row['value'];
 		}
 		\App\Cache::save($cacheName, $tabId, $values);
 		return $values;
