@@ -213,5 +213,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 		this.registerWatermarkTypeChange(container);
 		this.registerUploadButton(container);
 		this.registerDeleteUploadButton(container);
+		App.Fields.Text.registerCopyClipboard(container);
 	}
 });
