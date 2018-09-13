@@ -135,7 +135,13 @@ class Calendar_Calendar_Model extends App\Base
 			$item['type'] = $holiday['type'];
 			$item['start'] = $holiday['date'];
 			$item['rendering'] = 'background';
-			$item['color'] = '#ff9f89';
+			if ($item['type'] === 'national') {
+				$item['color'] = '#FFAB91';
+				$item['icon'] = 'fas fa-flag';
+			} else {
+				$item['color'] = '#81D4FA';
+				$item['icon'] = 'fas fa-church';
+			}
 			$result[] = $item;
 		}
 		return $result;
