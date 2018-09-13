@@ -138,6 +138,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					'<div><span class="fas fa-eye"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>:  <span class="picklistCT_Calendar_visibility_' + event.vis + '">' + valueEventVis + '</div>' +
 					(event.smownerid ? '<div><span class="fas fa-user"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 				});
+				if (event.rendering === 'background') {
+					element.append(`<span class="${event.icon} mr-1"></span>${event.title}`)
+				}
 			},
 			eventClick: function (calEvent, jsEvent, view) {
 				jsEvent.preventDefault();
