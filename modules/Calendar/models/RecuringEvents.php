@@ -7,7 +7,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
-class Events_RecuringEvents_Model extends \App\Base
+class Calendar_RecuringEvents_Model extends \App\Base
 {
 	public $recordModel;
 	public $typeSaving;
@@ -22,7 +22,7 @@ class Events_RecuringEvents_Model extends \App\Base
 	/**
 	 * Function to get empty instance.
 	 *
-	 * @return Events_RecuringEvents_Model
+	 * @return Calendar_RecuringEvents_Model
 	 */
 	public static function getInstance()
 	{
@@ -56,7 +56,7 @@ class Events_RecuringEvents_Model extends \App\Base
 	 *
 	 * @param \App\Request $request
 	 *
-	 * @return Events_RecuringEvents_Model
+	 * @return Calendar_RecuringEvents_Model
 	 */
 	public static function getInstanceFromRequest(\App\Request $request)
 	{

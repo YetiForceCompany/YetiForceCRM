@@ -14,15 +14,18 @@ jQuery.Class("Vtiger_List_Js", {
 	getRelatedModulesContainer: false,
 	massEditPreSave: 'Vtiger.MassEdit.PreSave',
 	getInstance: function () {
-		if (Vtiger_List_Js.listInstance == false) {
-			var module = app.getModuleName();
-			var parentModule = app.getParentModuleName();
+		if (Vtiger_List_Js.listInstance === false) {
+			let module = app.getModuleName(),
+				parentModule = app.getParentModuleName(),
+				moduleClassName,
+				fallbackClassName,
+				instance;
 			if (parentModule == 'Settings') {
-				var moduleClassName = parentModule + "_" + module + "_List_Js";
+				moduleClassName = parentModule + "_" + module + "_List_Js";
 				if (typeof window[moduleClassName] === "undefined") {
 					moduleClassName = module + "_List_Js";
 				}
-				var fallbackClassName = parentModule + "_Vtiger_List_Js";
+				fallbackClassName = parentModule + "_Vtiger_List_Js";
 				if (typeof window[fallbackClassName] === "undefined") {
 					fallbackClassName = "Vtiger_List_Js";
 				}
@@ -31,9 +34,9 @@ jQuery.Class("Vtiger_List_Js", {
 				fallbackClassName = "Vtiger_List_Js";
 			}
 			if (typeof window[moduleClassName] !== "undefined") {
-				var instance = new window[moduleClassName]();
+				instance = new window[moduleClassName]();
 			} else {
-				var instance = new window[fallbackClassName]();
+				instance = new window[fallbackClassName]();
 			}
 			Vtiger_List_Js.listInstance = instance;
 			return instance;

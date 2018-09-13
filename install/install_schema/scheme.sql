@@ -1010,6 +1010,7 @@ CREATE TABLE `s_yf_mail_queue` (
   `priority` tinyint(1) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `smtp_id` (`smtp_id`),
+  KEY `status` (`status`),
   CONSTRAINT `s_yf_mail_queue_ibfk_1` FOREIGN KEY (`smtp_id`) REFERENCES `s_yf_mail_smtp` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3952,7 +3953,7 @@ CREATE TABLE `vtiger_activitytype` (
   `color` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`activitytypeid`),
   UNIQUE KEY `activitytype_activitytype_idx` (`activitytype`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_activitytype_seq` */
 
@@ -5456,7 +5457,7 @@ CREATE TABLE `vtiger_field` (
   `helpinfo` varchar(30) DEFAULT '',
   `summaryfield` int(10) NOT NULL DEFAULT 0,
   `fieldparams` varchar(255) DEFAULT '',
-  `header_field` varchar(15) DEFAULT NULL,
+  `header_field` varchar(255) DEFAULT NULL,
   `maxlengthtext` smallint(3) unsigned DEFAULT 0,
   `maxwidthcolumn` smallint(3) unsigned DEFAULT 0,
   PRIMARY KEY (`fieldid`),

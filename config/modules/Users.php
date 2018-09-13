@@ -3,7 +3,7 @@
  * Users module config.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
 	// Show information about logged user in footer
@@ -12,4 +12,6 @@ return [
 	'USER_NAME_IS_EDITABLE' => true,
 	// Verify previously used usernames
 	'CHECK_LAST_USERNAME' => true,
+	// Show role name
+	'SHOW_ROLE_NAME' => true,
 ];

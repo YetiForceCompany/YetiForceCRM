@@ -179,7 +179,7 @@ class Composer
 		$rootDir = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
 		$objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($rootDir), \RecursiveIteratorIterator::SELF_FIRST);
 		$deleted = [];
-		foreach ($objects as $name => $object) {
+		foreach ($objects as $object) {
 			if ($object->getFilename() === '.' || $object->getFilename() === '..') {
 				continue;
 			}

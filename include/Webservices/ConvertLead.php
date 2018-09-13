@@ -121,7 +121,7 @@ class WebservicesConvertLead
 			$eventHandler->trigger('EntityAfterConvertLead');
 		} catch (Exception $e) {
 			\App\Log::error('Error converting a lead: ' . $e->getMessage());
-			foreach ($entityIds as $entity => $id) {
+			foreach ($entityIds as $id) {
 				vtws_delete($id, $user);
 			}
 
@@ -152,11 +152,14 @@ class WebservicesConvertLead
 		$result = $adb->pquery($sql, []);
 		if ($adb->numRows($result)) {
 			switch ($entityName) {
-				case 'Accounts':$column = 'accountfid';
+				case 'Accounts':
+					$column = 'accountfid';
 					break;
-				case 'Contacts':$column = 'contactfid';
+				case 'Contacts':
+					$column = 'contactfid';
 					break;
-				default:$column = 'leadfid';
+				default:
+					$column = 'leadfid';
 					break;
 			}
 			$row = $adb->fetchArray($result);

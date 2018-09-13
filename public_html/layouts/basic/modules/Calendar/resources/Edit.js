@@ -9,14 +9,6 @@
 'use strict';
 
 Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
-	isEvents: function () {
-		var form = this.getForm();
-		var moduleName = form.find('[name="module"]').val();
-		if (moduleName == 'Events') {
-			return true;
-		}
-		return false;
-	},
 	registerReminderFieldCheckBox: function () {
 		this.getForm().find('input[name="set_reminder"]').on('change', function (e) {
 			var element = jQuery(e.currentTarget);
@@ -309,17 +301,15 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 				}
 				form.find('[name="recurrence"]').val(thisInstance.getRule());
 			}
-			if (thisInstance.isEvents()) {
-				var rows = form.find(".inviteesContent .inviteRow");
-				var invitees = [];
-				rows.each(function (index, domElement) {
-					var row = jQuery(domElement);
-					if (row.data('crmid') != '') {
-						invitees.push([row.data('email'), row.data('crmid'), row.data('ivid')]);
-					}
-				});
-				jQuery('<input type="hidden" name="inviteesid" />').appendTo(form).val(JSON.stringify(invitees));
-			}
+			var rows = form.find(".inviteesContent .inviteRow");
+			var invitees = [];
+			rows.each(function (index, domElement) {
+				var row = jQuery(domElement);
+				if (row.data('crmid') != '') {
+					invitees.push([row.data('email'), row.data('crmid'), row.data('ivid')]);
+				}
+			});
+			jQuery('<input type="hidden" name="inviteesid" />').appendTo(form).val(JSON.stringify(invitees));
 		});
 	},
 	getFreeTime: function (container) {
@@ -523,9 +513,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		this.registerRecurrenceFieldCheckBox();
 		this.registerFormSubmitEvent();
 		this.registerRecurringTypeChangeEvent();
-		if (this.isEvents()) {
-			this.registerInviteEvent(editViewForm);
-		}
+		this.registerInviteEvent(editViewForm);
 		this._super();
 	}
 });

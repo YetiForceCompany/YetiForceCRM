@@ -277,9 +277,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					onValidationComplete: function (form, valid) {
 						if (valid) {
 							if (widgets.val()) {
-								var saveButton = form.find(':submit');
+								let saveButton = form.find(':submit'),
+									field = form.find('[name="widgets"]');
 								saveButton.attr('disabled', 'disabled');
-								var field = form.find('[name="widgets"]');
 
 								let paramsForm = form.serializeFormData();
 								paramsForm['action'] = 'addWidget';
@@ -294,15 +294,16 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 								if (form.find('[name="cache"]').prop("checked"))
 									paramsForm['cache'] = 1;
 								if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] === "undefined") {
-									var result = app.vtranslate('JS_FIELD_EMPTY');
-									form.find('select[name="owners_all"]').prev('div').validationEngine('showPrompt', result, 'error', 'bottomLeft', true);
+									form.find('select[name="owners_all"]')
+										.prev('div')
+										.validationEngine('showPrompt', app.vtranslate('JS_FIELD_EMPTY'), 'error', 'bottomLeft', true);
 									saveButton.removeAttr('disabled');
 									e.preventDefault();
 									return false;
 								}
 								thisInstance.save(paramsForm, 'save').done(function (data) {
-									var result = data['result'];
-									var params = {};
+									let result = data['result'],
+										params = {};
 									if (data['success']) {
 										app.hideModalWindow();
 										paramsForm['id'] = result['id']
@@ -311,19 +312,19 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 										Settings_Vtiger_Index_Js.showMessage(params);
 										thisInstance.showCustomField(paramsForm);
 									} else {
-										var message = data['error']['message'];
+										let message = data['error']['message'],
+											errorField;
 										if (data['error']['code'] != 513) {
-											var errorField = form.find('[name="fieldName"]');
+											errorField = form.find('[name="fieldName"]');
 										} else {
-											var errorField = form.find('[name="fieldLabel"]');
+											errorField = form.find('[name="fieldLabel"]');
 										}
 										errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 										saveButton.removeAttr('disabled');
 									}
 								});
 							} else {
-								var result = app.vtranslate('JS_FIELD_EMPTY');
-								widgets.prev('div').validationEngine('showPrompt', result, 'error', 'topLeft', true);
+								widgets.prev('div').validationEngine('showPrompt', app.vtranslate('JS_FIELD_EMPTY'), 'error', 'topLeft', true);
 								e.preventDefault();
 								return;
 							}
@@ -494,28 +495,28 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	 * Function to register the click event for save button after edit field details
 	 */
 	registerSaveFieldDetailsEvent: function (form) {
-		var submitButtton = form.find('.saveFieldDetails');
+		let submitButtton = form.find('.saveFieldDetails'),
+			fieldRow = submitButtton.closest('.editFieldsWidget'),
+			dropDownMenu = form.closest('.dropdown-menu');
 		//close the drop down
 		submitButtton.closest('.btn-group').removeClass('open');
 		//adding class opacity to fieldRow - to give opacity to the actions of the fields
-		var fieldRow = submitButtton.closest('.editFieldsWidget');
 		fieldRow.addClass('opacity');
-		var dropDownMenu = form.closest('.dropdown-menu');
 		form.find('select').each(function () {
-			var selectedvalue = jQuery(this).val();
-			jQuery(this).find('option').removeAttr('selected');
-			if (typeof (jQuery(this).attr('multiple')) === "undefined") {
-				var encodedSelectedValue = selectedvalue.replace(/"/g, '\\"');
-				jQuery(this).find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
+			let selectedValue = $(this).val(),
+				encodedSelectedValue;
+			$(this).find('option').removeAttr('selected');
+			if (typeof ($(this).attr('multiple')) === "undefined") {
+				encodedSelectedValue = selectedValue.replace(/"/g, '\\"');
+				$(this).find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
 			} else {
-				for (var i = 0; i < selectedvalue.length; i++) {
-					var encodedSelectedValue = selectedvalue[i].replace(/"/g, '\\"');
-					jQuery(this).find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
+				for (let i = 0; i < selectedValue.length; i++) {
+					encodedSelectedValue = selectedValue[i].replace(/"/g, '\\"');
+					$(this).find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
 				}
 			}
 		});
-		var basicContents = form.closest('.editFieldsWidget').find('.basicFieldOperations');
-		basicContents.html(form);
+		form.closest('.editFieldsWidget').find('.basicFieldOperations').html(form);
 		dropDownMenu.remove();
 	},
 	/**
@@ -740,8 +741,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			paramsForm['default_owner'] = 'mine';
 
 			thisInstance.save(paramsForm, 'save').done(function (data) {
-				var result = data['result'];
-				var params = {};
+				let result = data['result'],
+					params = {};
 				if (data['success']) {
 					app.hideModalWindow();
 					paramsForm['id'] = result['id'];
@@ -750,11 +751,12 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					Settings_Vtiger_Index_Js.showMessage(params);
 					thisInstance.showCustomField(paramsForm);
 				} else {
-					var message = data['error']['message'];
+					let message = data['error']['message'],
+						errorField;
 					if (data['error']['code'] != 513) {
-						var errorField = form.find('[name="fieldName"]');
+						errorField = form.find('[name="fieldName"]');
 					} else {
-						var errorField = form.find('[name="fieldLabel"]');
+						errorField = form.find('[name="fieldLabel"]');
 					}
 					errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 				}
@@ -869,7 +871,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					selectedModule: moduleNameSelect2.val(),
 					filterid: filteridSelect2.val()
 				}).done(function (res) {
-					var res = jQuery(res);
+					res = $(res);
 					fieldsSelectDOM.empty().html(res.find('select[name="fields"]').html()).trigger('change');
 					filterFieldsSelectDOM.empty().html(res.find('select[name="filter_fields"]').html()).trigger('change');
 					fieldsSelect2.closest('tr').show();
@@ -887,28 +889,24 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			});
 			form.on('submit', function (e) {
 				e.preventDefault();
-				var selectedModule = moduleNameSelect2.val();
-				var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
-				var selectedFilterId = filteridSelect2.val();
-				var selectedFilterLabel = filteridSelect2.find(':selected').text();
-				var selectedFields = [];
+				let selectedFields = [];
 				fieldsSelect2.select2('data').map(function (obj) {
 					selectedFields.push(obj.id);
 				});
-				var data = {
-					module: selectedModule
-				}
+				let data = {
+					module: moduleNameSelect2.val()
+				};
 				data['fields'] = selectedFields;
 				data['filterFields'] = filterFieldsSelect2.val();
-				var paramsForm = {
+				let paramsForm = {
 					data: JSON.stringify(data),
 					action: 'addWidget',
 					blockid: element.data('block-id'),
 					title: form.find('[name="widgetTitle"]').val(),
 					linkid: element.data('linkid'),
-					label: selectedModuleLabel + ' - ' + selectedFilterLabel,
+					label: moduleNameSelect2.find(':selected').text() + ' - ' + filteridSelect2.find(':selected').text(),
 					name: 'Mini List',
-					filterid: selectedFilterId,
+					filterid: filteridSelect2.val(),
 					isdefault: 0,
 					cache: 0,
 					height: 4,
@@ -917,8 +915,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					default_owner: 'mine'
 				};
 				thisInstance.save(paramsForm, 'save').done(function (data) {
-					var result = data['result'];
-					var params = {};
+					let result = data['result'],
+						params = {};
 					if (data['success']) {
 						app.hideModalWindow();
 						paramsForm['id'] = result['id'];
@@ -927,11 +925,12 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 						Settings_Vtiger_Index_Js.showMessage(params);
 						thisInstance.showCustomField(paramsForm);
 					} else {
-						var message = data['error']['message'];
-						if (data['error']['code'] != 513) {
-							var errorField = form.find('[name="fieldName"]');
+						let message = data['error']['message'],
+							errorField;
+						if (data['error']['code'] !== 513) {
+							errorField = form.find('[name="fieldName"]');
 						} else {
-							var errorField = form.find('[name="fieldLabel"]');
+							errorField = form.find('[name="fieldLabel"]');
 						}
 						errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 					}

@@ -258,7 +258,7 @@ class Credits
 	public static function checkIfLicenseFileExists($license)
 	{
 		$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'licenses' . DIRECTORY_SEPARATOR . $license . '.txt';
-		return file_exists($filePath) ? true : false;
+		return file_exists($filePath);
 	}
 
 	/**

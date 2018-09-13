@@ -10,7 +10,8 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<main class="main-container">
+<div class="tpl-install-tpl-Step4 container px-2 px-sm-3">
+<main class="main-container">
 		<div class="inner-container">
 			<form class="" name="step5" method="post" action="Install.php">
 				<input type="hidden" name="mode" value="step5">
@@ -126,23 +127,41 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="form-buttom-nav fixed-bottom button-container p-1">
-						<div class="text-center">
-							<button class="btn c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0"
+					<div class="form-button-nav fixed-bottom button-container p-1 bg-light">
+					<div class="text-center">
+							<button class="btn-lg c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0"
 									{if $DB_CONNECTION_INFO['flag'] eq true} disabled="disabled"{else} onclick="window.history.back()"{/if}>
 								<span class="fas fa-arrow-circle-left mr-1"></span>
 								{App\Language::translate('LBL_BACK', 'Install')}
 							</button>
 							{if $DB_CONNECTION_INFO['flag'] eq true}
-								<button type="submit" role="button" class="btn c-btn-block-xs-down btn-primary">
+								<button type="submit" role="button" class="btn-lg c-btn-block-xs-down btn-primary">
 									<span class="fas fa-arrow-circle-right mr-1"></span>
 									{App\Language::translate('LBL_NEXT', 'Install')}
 								</button>
 							{/if}
 						</div>
 					</div>
+
+
+					<div class="form-button-nav fixed-bottom button-container p-1 bg-light">
+						<div class="text-center w-100">
+							<a class="btn btn-lg c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php"
+							   role="button">
+								<span class="fas fa-lg fa-arrow-circle-left mr-2"></span>
+								{App\Language::translate('LBL_BACK', 'Install')}
+							</a>
+							<button type="submit" class="btn btn-lg c-btn-block-xs-down btn-primary">
+								{App\Language::translate('LBL_NEXT', 'Install')}
+								<span class="fas fa-lg fa-arrow-circle-right ml-2"></span>
+							</button>
+						</div>
+					</div>
+
+
 				</div>
 			</form>
 		</div>
 	</main>
+</div>
 {/strip}

@@ -709,8 +709,12 @@ class Import_Data_Action extends \App\Controller\Action
 				}
 			}
 		}
-		if ($fieldValue) {
-			$fieldValue = ',' . $fieldValue;
+		if ($fieldInstance->getFieldDataType() === 'tree') {
+			$fieldValue = trim($fieldValue, ',');
+		} else {
+			if ($fieldValue) {
+				$fieldValue = ',' . $fieldValue;
+			}
 		}
 		return $fieldValue;
 	}
@@ -730,7 +734,7 @@ class Import_Data_Action extends \App\Controller\Action
 			if ($fieldInstance->getFieldDataType() === 'owner') {
 				$fieldData[$fieldName] = $this->transformOwner($fieldInstance, $fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'sharedOwner') {
-				$fieldData[$fieldName] = $this->transformSharedOwner($fieldValue);
+				$fieldData[$fieldName] = $this->transformSharedOwner($fieldInstance, $fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'multipicklist') {
 				$fieldData[$fieldName] = $this->transformMultipicklist($fieldInstance, $fieldValue);
 			} elseif (in_array($fieldInstance->getFieldDataType(), Vtiger_Field_Model::$referenceTypes)) {
@@ -748,7 +752,6 @@ class Import_Data_Action extends \App\Controller\Action
 					if (count($valuesList) === 1) {
 						$fieldValue = '';
 					}
-					$fieldValue = \App\Fields\DateTime::formatToDb($fieldValue, true);
 					if (preg_match('/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2} ([0-1][0-9]|[2][0-3])([:][0-5][0-9]){1,2}$/', $fieldValue) == 0) {
 						$fieldValue = '';
 					}
@@ -758,7 +761,6 @@ class Import_Data_Action extends \App\Controller\Action
 					if ($fieldValue === null || $fieldValue === '0000-00-00') {
 						$fieldValue = '';
 					}
-					$fieldValue = \App\Fields\Date::formatToDb($fieldValue, true);
 					if (preg_match('/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/', $fieldValue) == 0) {
 						$fieldValue = '';
 					}

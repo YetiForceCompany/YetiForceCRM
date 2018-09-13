@@ -62,25 +62,25 @@ class PackageImport extends PackageExport
 	public function getTypeName()
 	{
 		if (!empty($this->_modulexml) && !empty($this->_modulexml->type)) {
-			$packageType = strtolower($this->_modulexml->type);
-			switch ($packageType) {
+			$type = strtolower($this->_modulexml->type);
+			switch ($type) {
 				case 'extension':
-					$packageType = 'LBL_EXTENSION_MODULE';
+					$type = 'LBL_EXTENSION_MODULE';
 					break;
 				case 'entity':
-					$packageType = 'LBL_BASE_MODULE';
+					$type = 'LBL_BASE_MODULE';
 					break;
 				case 'inventory':
-					$packageType = 'LBL_INVENTORY_MODULE';
+					$type = 'LBL_INVENTORY_MODULE';
 					break;
 				case 'language':
-					$packageType = 'LBL_LANGUAGE_MODULE';
+					$type = 'LBL_LANGUAGE_MODULE';
 					break;
 				default:
 					break;
 			}
 
-			return $packageType;
+			return $type;
 		}
 		return '';
 	}
@@ -219,14 +219,14 @@ class PackageImport extends PackageExport
 
 	public function getParameters()
 	{
-		$parameters = [];
+		$params = [];
 		if (empty($this->_modulexml->parameters)) {
-			return $parameters;
+			return $params;
 		}
 		foreach ($this->_modulexml->parameters->parameter as $parameter) {
-			$parameters[] = $parameter;
+			$params[] = $parameter;
 		}
-		return $parameters;
+		return $params;
 	}
 
 	public function initParameters(\App\Request $request)
@@ -304,9 +304,9 @@ class PackageImport extends PackageExport
 		if (!empty($language_modulename) && $language_modulename == $modulename) {
 			$languagefile_found = true;
 		} elseif (!$updatefile_found && !$layoutfile_found && !$languagefile_found) {
-			$_errorText = \App\Language::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
-			$_errorText = str_replace('__DEFAULTLANGUAGE__', \AppConfig::main('default_language'), $_errorText);
-			$this->_errorText = $_errorText;
+			$errorText = \App\Language::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
+			$errorText = str_replace('__DEFAULTLANGUAGE__', \AppConfig::main('default_language'), $errorText);
+			$this->_errorText = $errorText;
 		}
 		if (!empty($this->_modulexml) &&
 			!empty($this->_modulexml->dependencies) &&
