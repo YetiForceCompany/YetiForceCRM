@@ -23,6 +23,8 @@ class Tcpdf extends \TCPDF
 	 * @var array
 	 */
 	protected $cssStyle = '
+		* {font-size:10px;}
+		div {display:block;}
 		table {
 			width: 100%;
 			font-size: 10px;
@@ -37,6 +39,7 @@ class Tcpdf extends \TCPDF
 		.colapseBorder {border-collapse: collapse;}
 		.barcode {vertical-align: top;color: #000000;}
 		.textAlignCenter{text-align:center;}
+		.font-fourteen{font-size:14px;}
 	';
 
 	/**
