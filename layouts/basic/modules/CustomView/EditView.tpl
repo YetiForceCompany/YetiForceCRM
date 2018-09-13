@@ -81,24 +81,6 @@
 											{/foreach}
 										</optgroup>
 									{/foreach}
-									{*Required to include event fields for columns in calendar module advanced filter*}
-									{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
-										<optgroup label='{\App\Language::translate($BLOCK_LABEL, 'Events')}'>
-											{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
-												{if $FIELD_MODEL->isMandatory()}
-													{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewColumnName())}
-												{/if}
-												<option value="{$FIELD_MODEL->getCustomViewColumnName()}"
-														data-field-name="{$FIELD_NAME}"
-														{if in_array($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
-															selected
-														{/if}
-												>{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
-													{if $FIELD_MODEL->isMandatory() eq true}<span>*</span>{/if}
-												</option>
-											{/foreach}
-										</optgroup>
-									{/foreach}
 								</select>
 							</div>
 							<input type="hidden" name="columnslist" value='{\App\Json::encode($SELECTED_FIELDS)}'/>

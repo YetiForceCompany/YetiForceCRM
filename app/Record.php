@@ -8,9 +8,9 @@ use vtlib\Functions;
  * Record basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Record
 {
@@ -42,7 +42,7 @@ class Record
 					$metainfo = Functions::getCRMRecordMetadata($id);
 					if (!empty($metainfo['setype'])) {
 						$computeLabel = static::computeLabels($metainfo['setype'], $id);
-						$recordLabel = TextParser::textTruncate(Purifier::encodeHtml($computeLabel[$id]??''), 254, false);
+						$recordLabel = TextParser::textTruncate(Purifier::encodeHtml($computeLabel[$id] ?? ''), 254, false);
 						Cache::save('recordLabel', $id, $recordLabel);
 					}
 				}
@@ -105,9 +105,6 @@ class Record
 		}
 		if (!is_array($ids)) {
 			$ids = [$ids];
-		}
-		if ($moduleName === 'Events') {
-			$moduleName = 'Calendar';
 		}
 		$entityDisplay = [];
 		$cacheName = 'computeLabelsQuery';
@@ -274,7 +271,7 @@ class Record
 	public static function isExists($recordId, $moduleName = false)
 	{
 		$recordMetaData = Functions::getCRMRecordMetadata($recordId);
-		return (isset($recordMetaData) && $recordMetaData['deleted'] === 0 && ($moduleName ? $recordMetaData['setype'] === \App\Module::getTabName($moduleName) : true)) ? true : false;
+		return (isset($recordMetaData) && $recordMetaData['deleted'] === 0 && ($moduleName ? $recordMetaData['setype'] === $moduleName : true)) ? true : false;
 	}
 
 	/**

@@ -146,18 +146,6 @@ class Module
 	}
 
 	/**
-	 * Function get module name.
-	 *
-	 * @param string $moduleName
-	 *
-	 * @return string
-	 */
-	public static function getTabName($moduleName)
-	{
-		return $moduleName === 'Events' ? 'Calendar' : $moduleName;
-	}
-
-	/**
 	 * Function to get the list of module for which the user defined sharing rules can be defined.
 	 *
 	 * @param array $eliminateModules

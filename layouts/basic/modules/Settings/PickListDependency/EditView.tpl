@@ -33,11 +33,7 @@
 							{foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}
 								{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
 								<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE} selected {/if}>
-									{if $MODULE_MODEL->get('label') eq 'Calendar'}
-										{\App\Language::translate('LBL_TASK', $MODULE_MODEL->get('label'))}
-									{else}
-										{\App\Language::translate($MODULE_MODEL->get('label'), $MODULE_NAME)}
-									{/if}
+									{\App\Language::translate($MODULE_MODEL->get('label'), $MODULE_NAME)}
 								</option>
 							{/foreach}
 						</select>
