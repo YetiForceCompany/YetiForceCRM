@@ -9565,19 +9565,6 @@ hr {
     .feedback .handle:hover {
       text-decoration: none; }
 
-/* Footer */
-.vtFooter {
-  text-align: center; }
-  .vtFooter p {
-    background: #404952;
-    color: #fff;
-    border-top: 1px solid #ddd;
-    padding: 1px 0;
-    font-size: 0.9em;
-    margin-bottom: 0; }
-    .vtFooter p a {
-      color: #fff; }
-
 .crumbs {
   height: 40px;
   margin: 0;
@@ -12648,6 +12635,9 @@ header .c-header__btn__container .select2-selection {
 
   .grid-stack.grid-stack-one-column-mode > .grid-stack-item {
     margin-bottom: 0.5rem !important; } }
+.dataTables_wrapper .custom-select {
+  background: unset; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 label.btn.btn-outline-primary:not(.active) {
   background: #fff; }
@@ -12655,10 +12645,23 @@ label.btn.btn-outline-primary:not(.active) {
     color: #337ab7;
     background: #e9ecef; }
 
+.dropdown-menu {
+  max-height: calc(100vh - 100px);
+  max-width: calc(100vh - 100px);
+  overflow: auto; }
+  @media (min-width: 768px) {
+    .dropdown-menu.historyList {
+      left: auto;
+      right: 9px; } }
+
 .dropdown-item, .related .dropdown-menu .nav-link {
   cursor: pointer;
   border-top: 1px solid transparent;
-  border-bottom: 1px solid transparent; }
+  border-bottom: 1px solid transparent;
+  white-space: normal; }
+  .historyList .dropdown-item, .historyList .related .dropdown-menu .nav-link, .related .dropdown-menu .historyList .nav-link {
+    min-width: 500px;
+    max-width: calc(100vh - 100px); }
   .dropdown-item:hover, .related .dropdown-menu .nav-link:hover {
     border-top: 1px solid #e0e0e0;
     border-bottom: 1px solid #e0e0e0; }
@@ -14538,10 +14541,6 @@ label.btn.btn-outline-primary:not(.active) {
         margin-left: 6px;
         font-weight: bold; }
 
-.dropdown-menu.historyList {
-  left: auto;
-  right: 9px; }
-
 .navbar .o-global-search__value {
   border-top: none;
   border-bottom: none; }
@@ -14638,9 +14637,11 @@ label.btn.btn-outline-primary:not(.active) {
     .actionMenu .o-action-menu__container .modal-content {
       color: #212529; }
     .actionMenu .o-action-menu__container .dropdown-menu.historyList {
-      position: static;
+      position: relative;
       float: none;
-      margin-bottom: 5px; }
+      margin-bottom: 5px;
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch; }
   .actionMenu .o-action-menu__item {
     display: block; }
   .actionMenu.actionMenuOn .o-action-menu__container {
@@ -15445,6 +15446,82 @@ label.btn.btn-outline-primary:not(.active) {
     margin: 0; }
   .detailViewTitle .fieldValue:hover .js-detail-quick-edit {
     display: inherit; }
+
+.c-arrows__container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  height: auto;
+  overflow: hidden;
+  padding: 0;
+  margin-bottom: 0; }
+.c-arrows__text {
+  display: inline-block;
+  position: relative;
+  top: 0;
+  left: 0.3125rem;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 0.6875rem;
+  vertical-align: bottom; }
+.c-arrows__item {
+  display: inline-block;
+  height: 0;
+  border-top: 0.625rem solid #ececec;
+  border-bottom: 0.625rem solid #ececec;
+  border-left: 0.625rem solid transparent;
+  margin-right: 0.1875rem;
+  margin-top: 0.125rem;
+  margin-bottom: 0.125rem; }
+  .c-arrows__item:after {
+    content: '\0000a0';
+    display: inline-block;
+    position: relative;
+    top: -0.625rem;
+    left: 0.625rem;
+    width: 0;
+    height: 0;
+    border-left: 0.625rem solid #ececec;
+    border-top: 0.625rem solid transparent;
+    border-bottom: 0.625rem solid transparent; }
+  .c-arrows__item.first {
+    border-left: 0; }
+  .c-arrows__item.before {
+    border-top-color: #2e7d32;
+    border-bottom-color: #2e7d32; }
+    .c-arrows__item.before:after {
+      border-left-color: #2e7d32; }
+  .c-arrows__item.after {
+    border-top-color: #c8e6c9;
+    border-bottom-color: #c8e6c9;
+    font-weight: bold; }
+    .c-arrows__item.after:after {
+      border-left-color: #c8e6c9; }
+  .c-arrows__item.active {
+    border-top-color: #66bb6a;
+    border-bottom-color: #66bb6a; }
+    .c-arrows__item.active:after {
+      border-left-color: #66bb6a; }
+    .c-arrows__item.active .c-arrows__text {
+      font-weight: bold; }
+.c-arrows__link {
+  display: inline-block;
+  font-size: 0.875rem;
+  float: left;
+  text-decoration: none;
+  margin-top: -0.8125rem; }
+  .c-arrows__item.active .c-arrows__link, .c-arrows__item.before .c-arrows__link {
+    color: #fff; }
+.c-arrows__item.active .c-arrows__link:after, .c-arrows__item.active + .c-arrows__item.after .c-arrows__link:after {
+  content: '\0000a0';
+  display: inline-block;
+  position: relative;
+  top: -1.125rem;
+  left: -0.8125rem;
+  width: calc(100%);
+  height: 1.25rem;
+  z-index: -1;
+  background: #ffeb3b; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .paginationDiv .listViewBasicAction.dropdown-menu {

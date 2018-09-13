@@ -66,6 +66,6 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	 */
 	public function getHeaderTypes()
 	{
-		return ['LBL_HEADER_TYPE_VALUE' => 'value', 'LBL_HEADER_TYPE_PROCESS' => 'process'];
+		return ['LBL_HEADER_TYPE_VALUE' => 'value', 'LBL_HEADER_TYPE_PROGRESS' => 'progress'];
 	}
 }

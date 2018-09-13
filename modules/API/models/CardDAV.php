@@ -245,8 +245,8 @@ class API_CardDAV_Model
 		if (isset($vcard->ORG)) {
 			$lead = Vtiger_Record_Model::getCleanInstance('Leads');
 			$lead->set('assigned_user_id', $this->user->get('id'));
-			$lead->set('company', \App\Purifier::purify((string)$vcard->ORG));
-			$lead->set('lastname', \App\Purifier::purify((string)$vcard->ORG));
+			$lead->set('company', \App\Purifier::purify((string) $vcard->ORG));
+			$lead->set('lastname', \App\Purifier::purify((string) $vcard->ORG));
 			$lead->set('leadstatus', 'PLL_PENDING');
 			$lead->set('vat_id', '');
 			$lead->save();
@@ -443,7 +443,7 @@ class API_CardDAV_Model
 	 *
 	 * @param mixed  $addressBookId
 	 * @param string $objectUri
-	 * @param int    $operation 1 = add, 2 = modify, 3 = delete
+	 * @param int    $operation     1 = add, 2 = modify, 3 = delete
 	 */
 	protected function addChange($objectUri, $operation)
 	{

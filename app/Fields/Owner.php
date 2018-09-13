@@ -332,7 +332,7 @@ class Owner
 		\App\Log::trace("Entering getGroups($addBlank,$private) method ...");
 		$name = '';
 		if (\App\Request::_get('parent') !== 'Settings' && $this->moduleName) {
-			$name = $this->moduleName === 'Events' ? 'Calendar' : $this->moduleName;
+			$name = $this->moduleName;
 			$tabId = \App\Module::getModuleId($name);
 		}
 		$cacheKey = $addBlank . $private . $name;

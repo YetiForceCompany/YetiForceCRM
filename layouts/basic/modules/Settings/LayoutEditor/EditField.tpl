@@ -75,9 +75,9 @@
 						<label for="header_field">
 							{App\Language::translate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}
 						</label>
-						<div class="js-toggle-hide form-group{if !$FIELD_MODEL->isHeaderField()} zeroOpacity {/if}{if $FIELD_MODEL->getFieldDataType() neq 'picklist'} hide{/if}" data-js="calss:zeroOpacity">
-							{assign var=HEADER_FIELD_VALUE value=$FIELD_MODEL->getHeaderValue('header_class')}
-							{assign var=HEADER_FIELD_TYPE value=$FIELD_MODEL->getHeaderValue('header_type')}
+						<div class="js-toggle-hide form-group{if !$FIELD_MODEL->isHeaderField()} zeroOpacity {/if}{if $FIELD_MODEL->getFieldDataType() neq 'picklist'} hide{/if}" data-js="class:zeroOpacity">
+							{assign var=HEADER_FIELD_VALUE value=$FIELD_MODEL->getHeaderValue('class')}
+							{assign var=HEADER_FIELD_TYPE value=$FIELD_MODEL->getHeaderValue('type')}
 							<select name="header_type" class="form-control select2">
 								{foreach key=LABEL item=VALUE from=$FIELD_MODEL->getUITypeModel()->getHeaderTypes()}
 									<option value="{$VALUE}" {if $VALUE == $HEADER_FIELD_TYPE} selected {/if}>{App\Language::translate($LABEL, $QUALIFIED_MODULE)}</option>

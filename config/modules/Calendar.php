@@ -18,7 +18,7 @@ return [
 	// switch - Switch "To realize" and "History",
 	// list - filter list
 	'DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE' => 'list',
-	// Show the Event/To Do quick create window after changing the status
+	// Show the Calendar quick create window after changing the status
 	// array - PLL_COMPLETED, PLL_CANCELLED
 	'SHOW_QUICK_CREATE_BY_STATUS' => [],
 	// Right calendar panel visible by default

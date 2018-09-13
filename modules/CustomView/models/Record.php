@@ -441,16 +441,7 @@ class CustomView_Record_Model extends \App\Base
 					$columnInfo = explode(':', $advFilterColumn);
 					$fieldName = $columnInfo[2];
 					$fieldModel = $moduleModel->getField($fieldName);
-					//Required if Events module fields are selected for the condition
-					if (!$fieldModel) {
-						$modulename = $moduleModel->get('name');
-						if ($modulename === 'Calendar') {
-							$eventModuleModel = Vtiger_Module_model::getInstance('Events');
-							$fieldModel = $eventModuleModel->getField($fieldName);
-						}
-					}
 					$fieldType = $fieldModel->getFieldDataType();
-
 					if ($fieldType === 'currency') {
 						if ($fieldModel->get('uitype') == '72') {
 							// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
@@ -458,8 +449,7 @@ class CustomView_Record_Model extends \App\Base
 						} else {
 							$advFitlerValue = CurrencyField::convertToDBFormat($advFitlerValue);
 						}
-					}
-					if (($fieldType === 'date' || ($fieldType === 'time' && $fieldName !== 'time_start' && $fieldName !== 'time_end') || ($fieldType === 'datetime')) && ($fieldType !== '' && $advFitlerValue !== '')) {
+					} elseif (($fieldType === 'date' || ($fieldType === 'time' && $fieldName !== 'time_start' && $fieldName !== 'time_end') || ($fieldType === 'datetime')) && ($fieldType !== '' && $advFitlerValue !== '')) {
 						$tempVal = explode(',', $advFitlerValue);
 						$val = [];
 						$countTempVal = count($tempVal);
