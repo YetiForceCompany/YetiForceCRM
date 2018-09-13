@@ -99,12 +99,12 @@
 							{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 							<select name="{$FIELD_MODEL->getName()}"
 									class="select2 form-control form-control-sm js-filter_field"
-									data-js="change"
 									data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 									data-fieldinfo='{$FIELD_INFO|escape}'
 									{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}
 									data-fieldlable='{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$RELATED_MODULE_NAME)}'
-									data-filter="{$FILTER}" data-urlparams="search_params">
+									data-filter="{$FILTER}" data-urlparams="search_params"
+									data-js="change">
 								<option>{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$RELATED_MODULE_NAME)}</option>
 								{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 									<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if $FIELD_MODEL->get('fieldvalue') eq $PICKLIST_NAME} selected {/if}>{\App\Purifier::encodeHtml($PICKLIST_VALUE)}</option>
