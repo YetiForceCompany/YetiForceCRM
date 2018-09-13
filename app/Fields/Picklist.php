@@ -346,7 +346,10 @@ class Picklist
 		$dataReader = (new \App\Db\Query())->select(['valueid', 'value'])
 			->from('u_#__picklist_close_state')
 			->innerJoin('vtiger_field')
-			->where(['tabid' => $tabId])
+			->where([
+				'tabid' => $tabId,
+				'presence' => [0, 2]
+			])
 			->createCommand()->query();
 		$values = [];
 		while ($row = $dataReader->read()) {
