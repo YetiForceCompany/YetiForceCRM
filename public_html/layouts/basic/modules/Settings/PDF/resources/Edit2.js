@@ -79,7 +79,13 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 				toolbar: 'PDF',
 				font_names: 'dejavusans',
 				height: editor.attr('id') === 'body_content' ? '800px' : '80px',
-				styleSet: false,
+				stylesSet: [{
+					name: 'Komorka 14',
+					element: 'td',
+					attributes: {
+						style: 'font-size:14px'
+					}
+				}],
 				toolbar_PDF: [
 					{
 						name: 'clipboard',
@@ -91,7 +97,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 					{name: 'tools', items: ['Maximize', 'ShowBlocks']},
 					{name: 'document', items: ['Source']},
 					'/',
-					{name: 'styles', items: ['Format', 'Font', 'FontSize']},
+					{name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
 					{
 						name: 'basicstyles',
 						items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']
@@ -140,5 +146,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit2_Js", {}, {
 		this.registerCancelStepClickEvent(container);
 		app.showPopoverElementView(container.find('.js-popover-tooltip'));
 		this.registerEditors(container);
+		App.Fields.Text.registerCopyClipboard(container);
 	}
 });
