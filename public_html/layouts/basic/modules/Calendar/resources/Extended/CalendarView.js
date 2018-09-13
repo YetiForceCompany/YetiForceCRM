@@ -3,7 +3,7 @@
 
 Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 	getInstanceByView() {
-		let view = jQuery('#currentView').val();
+		let view = $('#currentView').val();
 		let jsFileName = view + 'View';
 		let moduleClassName = view + "_" + jsFileName + "_Js";
 		let instance;
@@ -20,7 +20,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 	 * @returns {*}
 	 */
 	getDatesColumnView() {
-		this.datesColumnView = jQuery('#datesColumn');
+		this.datesColumnView = $('#datesColumn');
 		return this.datesColumnView;
 	},
 	/**
@@ -33,6 +33,9 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 			position: 'left'
 		});
 	},
+	/**
+	 * Render calendar
+	 */
 	renderCalendar() {
 		const thisInstance = this;
 		let eventLimit = app.getMainParams('eventLimit');
@@ -191,7 +194,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 /**
  * Create instance of Calendar_CalendarExtendedView_Js
  */
-jQuery(document).ready(function () {
+$(document).ready(function () {
 	let instance = Calendar_CalendarExtendedView_Js.getInstanceByView();
 	instance.registerEvents();
 	Calendar_CalendarExtendedView_Js.currentInstance = instance;
