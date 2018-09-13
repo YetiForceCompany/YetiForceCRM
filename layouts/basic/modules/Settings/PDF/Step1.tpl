@@ -374,7 +374,7 @@
 											<label>{\App\Language::translate('LBL_WATERMARK_TYPE', $QUALIFIED_MODULE)}</label>
 										</div>
 										<div class="col-sm-6 controls">
-											<select class="select2 form-control" id="watermark_type" name="watermark_type" required="true">
+											<select class="select2 form-control" id="watermark_type" name="watermark_type" required="true" data-js="change">
 												{foreach from=$PDF_MODEL->getWatermarkType() key=VALUE item=LABEL}
 													<option value="{$VALUE}" {if $PDF_MODEL->get('watermark_type') eq $VALUE} selected {/if}>
 														{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}
