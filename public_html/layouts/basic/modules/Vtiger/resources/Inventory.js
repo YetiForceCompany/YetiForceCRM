@@ -1224,6 +1224,7 @@ $.Class("Vtiger_Inventory_Js", {
 		newRowBlock.attr('numrow', sequenceNumber);
 		newRowHiddenBlock.appendTo(table);
 		newRowHiddenBlock.switchClass('numRow_NUM_', 'numRow' + sequenceNumber).attr('numrowex', sequenceNumber);
+		newRowHiddenBlock.find('textarea').attr('name', 'comment1' + sequenceNumber).attr('id', 'editView_commentcomment1' + sequenceNumber);
 		newRowBlock.find('.rowName input[name="popupReferenceModule"]').val(module).data('field', baseTableId);
 		newRowBlock.find('.colPicklistField select').each(function (index, select) {
 			select = $(select);
