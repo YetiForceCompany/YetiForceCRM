@@ -121,6 +121,7 @@ class PBXManager_PBXManager_Connector
 	 */
 	protected function prepareParameters(\App\Request $details, $type)
 	{
+		$params = [];
 		if ($type === 'ringing') {
 			foreach (self::$RINGING_CALL_PARAMETERS as $key => $value) {
 				$params[$key] = $details->get($value);
