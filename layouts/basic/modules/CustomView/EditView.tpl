@@ -54,57 +54,59 @@
 												   data-validation-engine="validate[required]" name="viewname"
 												   value="{$CUSTOMVIEW_MODEL->get('viewname')}"/>
 										</div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class=" col-form-label"><span
-                        class="redColor">*</span> {\App\Language::translate('LBL_CHOOSE_COLUMNS',$MODULE)}
-                    ({\App\Language::translate('LBL_MAX_NUMBER_FILTER_COLUMNS')}):</label>
-                  <div class="columnsSelectDiv col-md-12">
-                    {assign var=MANDATORY_FIELDS value=[]}
-                    <div class="">
-                      <select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}"
-                          multiple class="columnsSelect form-control js-select2-sortable"
-                          id="viewColumnsSelect">
-                        {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-                          <optgroup label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}'>
-                            {foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
-                              {if $FIELD_MODEL->isMandatory()}
-                                {array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewColumnName())}
-                              {/if}
-                              <option value="{$FIELD_MODEL->getCustomViewColumnName()}"
-                                  data-field-name="{$FIELD_NAME}"
-                                  {if in_array($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
-                                    selected
-                                  {/if}
-                              >{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
-                                {if $FIELD_MODEL->isMandatory() eq true}<span>*</span>{/if}
-                              </option>
-                            {/foreach}
-                          </optgroup>
-                        {/foreach}
-                      </select>
-                    </div>
-                    <input type="hidden" name="columnslist" value='{\App\Json::encode($SELECTED_FIELDS)}'/>
-                    <input id="mandatoryFieldsList" type="hidden"
-                         value='{\App\Json::encode($MANDATORY_FIELDS)}'/>
-                  </div>
-                </div>
-                <div class="form-group marginbottomZero">
-                  <div class="row col-md-5">
-                    <label class="float-left col-form-label ">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE)}
-                      :</label>
-                    <div class="col-md-7">
-                      <div class="input-group js-color-picker" data-js="color-picker">
-                        <input type="text" class="form-control" name="color"
-                             value="{$CUSTOMVIEW_MODEL->get('color')}"/>
-                        <div class="input-group-append">
-                          <div class="input-group-text colorpicker-input-addon"><i></i></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class=" col-form-label"><span
+												class="redColor">*</span> {\App\Language::translate('LBL_CHOOSE_COLUMNS',$MODULE)}
+										({\App\Language::translate('LBL_MAX_NUMBER_FILTER_COLUMNS')}):</label>
+									<div class="columnsSelectDiv col-md-12">
+										{assign var=MANDATORY_FIELDS value=[]}
+										<div class="">
+											<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}"
+													multiple class="columnsSelect form-control js-select2-sortable"
+													id="viewColumnsSelect">
+												{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
+													<optgroup label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}'>
+														{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
+															{if $FIELD_MODEL->isMandatory()}
+																{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewColumnName())}
+															{/if}
+															<option value="{$FIELD_MODEL->getCustomViewColumnName()}"
+																	data-field-name="{$FIELD_NAME}"
+																	{if in_array($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
+																		selected
+																	{/if}
+															>{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
+																{if $FIELD_MODEL->isMandatory() eq true}
+																	<span>*</span>
+																{/if}
+															</option>
+														{/foreach}
+													</optgroup>
+												{/foreach}
+											</select>
+										</div>
+										<input type="hidden" name="columnslist" value='{\App\Json::encode($SELECTED_FIELDS)}'/>
+										<input id="mandatoryFieldsList" type="hidden"
+											   value='{\App\Json::encode($MANDATORY_FIELDS)}'/>
+									</div>
+								</div>
+								<div class="form-group marginbottomZero">
+									<div class="row col-md-5">
+										<label class="float-left col-form-label ">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE)}
+											:</label>
+										<div class="col-md-7">
+											<div class="input-group js-color-picker" data-js="color-picker">
+												<input type="text" class="form-control" name="color"
+													   value="{$CUSTOMVIEW_MODEL->get('color')}"/>
+												<div class="input-group-append">
+													<div class="input-group-text colorpicker-input-addon"><i></i></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 								<div class="btn-group js-filter-preferences btn-group-toggle mt-3 flex-wrap"
 									 data-toggle="buttons" data-js="change">
 									<label class="c-btn-block-sm-down btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isDefault()} active{/if}"

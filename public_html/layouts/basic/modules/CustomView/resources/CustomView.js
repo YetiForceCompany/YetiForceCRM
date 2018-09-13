@@ -11,14 +11,12 @@
 
 var Vtiger_CustomView_Js;
 Vtiger_CustomView_Js = {
-	init() {
-		this.contentsCotainer = false;
-		this.columnListSelect2Element = false;
-		this.advanceFilterInstance = false;
+	init(container) {
+		this.contentsCotainer = container;
+		Vtiger_CustomView_Js.registerEvents();
+		this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(this.contentsCotainer.find('.filterContainer'));
 		//This will store the columns selection container
 		this.columnSelectElement = false;
-		//This will store the input hidden selectedColumnsList element
-		this.selectedColumnsList = false;
 		return this;
 	},
 	loadFilterView: function (url) {
@@ -26,9 +24,7 @@ Vtiger_CustomView_Js = {
 		var progressIndicatorElement = $.progressIndicator();
 		app.showModalWindow(null, url, function () {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			Vtiger_CustomView_Js = self.init();
-			Vtiger_CustomView_Js.registerEvents();
-			Vtiger_CustomView_Js.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance($('.filterContainer'));
+			Vtiger_CustomView_Js = self.init($('.js-filter-modal__container'));
 		});
 	},
 	loadDateFilterValues: function () {
@@ -48,9 +44,6 @@ Vtiger_CustomView_Js = {
 		}
 		return Vtiger_CustomView_Js.contentsCotainer;
 	},
-	getColumnListSelect2Element: function () {
-		return Vtiger_CustomView_Js.columnListSelect2Element;
-	},
 	/**
 	 * Function to get the view columns selection element
 	 * @return : jQuery object of view columns selection element
@@ -60,16 +53,6 @@ Vtiger_CustomView_Js = {
 			Vtiger_CustomView_Js.columnSelectElement = $('#viewColumnsSelect');
 		}
 		return Vtiger_CustomView_Js.columnSelectElement;
-	},
-	/**
-	 * Function to get the selected columns list
-	 * @return : jQuery object of selectedColumnsList
-	 */
-	getSelectedColumnsList: function () {
-		if (Vtiger_CustomView_Js.selectedColumnsList == false) {
-			Vtiger_CustomView_Js.selectedColumnsList = $('#selectedColumnsList');
-		}
-		return Vtiger_CustomView_Js.selectedColumnsList;
 	},
 	/**
 	 * Function which will get the selected columns
@@ -217,6 +200,3 @@ Vtiger_CustomView_Js = {
 		$('#CustomView').validationEngine(app.validationEngineOptions);
 	}
 };
-$(document).ready(function () {
-	Vtiger_CustomView_Js.init();
-})
