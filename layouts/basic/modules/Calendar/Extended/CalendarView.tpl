@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Calendar-Extended-CalendarView -->
 	<input type="hidden" id="currentView" value="{$VIEW}"/>
 	<input type="hidden" id="activity_view" value="{\App\Purifier::encodeHtml($CURRENT_USER->get('activity_view'))}"/>
 	<input type="hidden" id="time_format" value="{$CURRENT_USER->get('hour_format')}"/>
@@ -40,19 +41,19 @@
 		<div class="row">
 			<div id="datesColumn">
 				<p><!-- Divider --></p>
-				<div class="col-md-1 col-sm-1 hidden-xs">
-					<div class="dateList">
-					</div>
+	<div class="col-md-1 col-sm-1 hidden-xs">
+		<div class="dateList">
+		</div>
 
-					<div class="subDateList">
-					</div>
-				</div>
-				<div id="calendarview" class="col-md-11 paddingLefttZero bottom_margin"></div>
-			</div>
+		<div class="subDateList">
 		</div>
-		<div class="o-calendar-container">
-			<div id="calendarview"></div>
-		</div>
+	</div>
+	<div id="calendarview" class="col-md-11 paddingLefttZero bottom_margin"></div>
+	</div>
+	</div>
+	<div class="o-calendar-container">
+		<div id="calendarview"></div>
+	</div>
 	</div>
 {/strip}
 
