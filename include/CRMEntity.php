@@ -50,8 +50,7 @@ class CRMEntity
 		if (is_numeric($module)) {
 			$modName = App\Module::getModuleName($module);
 		}
-		if ($module === 'Calendar' || $module === 'Events') {
-			$module = 'Calendar';
+		if ($module === 'Calendar') {
 			$modName = 'Activity';
 		}
 		if (\App\Cache::staticHas('CRMEntity', $module)) {
@@ -144,19 +143,7 @@ class CRMEntity
 		}
 
 		// Lookup module field cache
-		if ($module == 'Calendar' || $module == 'Events') {
-			vtlib\Deprecated::getColumnFields('Calendar');
-			if (VTCacheUtils::lookupFieldInfoModule('Events')) {
-				$cachedEventsFields = VTCacheUtils::lookupFieldInfoModule('Events');
-			} else {
-				$cachedEventsFields = [];
-			}
-			$cachedCalendarFields = VTCacheUtils::lookupFieldInfoModule('Calendar');
-			$cachedModuleFields = array_merge($cachedEventsFields, $cachedCalendarFields);
-			$module = 'Calendar';
-		} else {
-			$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
-		}
+		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 		if ($cachedModuleFields === false) {
 			// Pull fields and cache for further use
 			$tabid = \App\Module::getModuleId($module);

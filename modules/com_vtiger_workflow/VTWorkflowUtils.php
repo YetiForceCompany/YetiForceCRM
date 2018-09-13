@@ -52,7 +52,7 @@ class VTWorkflowUtils
 	 */
 	public static function checkModuleWorkflow($modulename)
 	{
-		return (new \App\Db\Query())->from('vtiger_tab')->where(['NOT IN', 'name', ['Calendar', 'Faq', 'Events', 'Users']])->andWhere(['isentitytype' => 1, 'presence' => 0, 'tabid' => \App\Module::getModuleId($modulename)])->exists();
+		return (new \App\Db\Query())->from('vtiger_tab')->where(['NOT IN', 'name', ['Calendar', 'Faq', 'Users']])->andWhere(['isentitytype' => 1, 'presence' => 0, 'tabid' => \App\Module::getModuleId($modulename)])->exists();
 	}
 
 	/**

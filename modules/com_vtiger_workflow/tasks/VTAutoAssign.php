@@ -24,7 +24,6 @@ class VTAutoAssign extends VTTask
 
 	public function getAutoAssignEntries($moduleName)
 	{
-		$moduleName = \App\Module::getTabName($moduleName);
 		$listViewModel = Settings_Vtiger_ListView_Model::getInstance('Settings:AutomaticAssignment');
 		$listViewModel->set('sourceModule', \App\Module::getModuleId($moduleName));
 		$entries = $listViewModel->getListViewEntries(new Vtiger_Paging_Model());
