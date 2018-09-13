@@ -222,67 +222,6 @@ class Vtiger_Util_Helper
 		return $time;
 	}
 
-	/**
-	 * Function to transfer a list of searched parameters to the filter.
-	 *
-	 * @param array                            $searchParams
-	 * @param <Settings_Vtiger_ListView_Model> $moduleModel
-	 *
-	 * @return array
-	 */
-	public static function transferListSearchParamsToFilterCondition($searchParams, \Settings_Vtiger_ListView_Model $moduleModel)
-	{
-		if (empty($searchParams)) {
-			return [];
-		}
-		$advFilterConditionFormat = [];
-		$glueOrder = ['and', 'or'];
-		$groupIterator = 0;
-		foreach ($searchParams as &$groupInfo) {
-			if (empty($groupInfo)) {
-				continue;
-			}
-			$groupColumnsInfo = [];
-			foreach ($groupInfo as &$fieldSearchInfo) {
-				list($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
-				$field = $moduleModel->getFieldByName($fieldName);
-				if ($field->getFieldDataType() === 'tree' && $specialOption) {
-					$fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $moduleModel);
-				}
-				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
-				if ($field->getFieldDataType() === 'time') {
-					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
-				}
-				if ($field->getFieldDataType() === 'currency') {
-					$fieldValue = CurrencyField::convertToDBFormat($fieldValue);
-				}
-				if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
-					$dateValues = explode(',', $fieldValue);
-					//Indicate whether it is fist date in the between condition
-					$isFirstDate = true;
-					foreach ($dateValues as $key => $dateValue) {
-						$dateTimeCompoenents = explode(' ', $dateValue);
-						if (empty($dateTimeCompoenents[1])) {
-							if ($isFirstDate) {
-								$dateTimeCompoenents[1] = '00:00:00';
-							} else {
-								$dateTimeCompoenents[1] = '23:59:59';
-							}
-						}
-						$dateValue = implode(' ', $dateTimeCompoenents);
-						$dateValues[$key] = $dateValue;
-						$isFirstDate = false;
-					}
-					$fieldValue = implode(',', $dateValues);
-				}
-				$groupColumnsInfo[] = ['columnname' => $field->getCustomViewColumnName(), 'comparator' => $operator, 'value' => $fieldValue];
-			}
-			$advFilterConditionFormat[$glueOrder[$groupIterator]] = $groupColumnsInfo;
-			++$groupIterator;
-		}
-		return $advFilterConditionFormat;
-	}
-
 	public static function getAllSkins()
 	{
 		return [

@@ -105,11 +105,11 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js', {}, {
 		let fieldList = new Array('columnname', 'comparator', 'value', 'valuetype', 'column_condition'),
 			values = {},
 			columnIndex = 0,
-			conditionGroups = jQuery('.conditionGroup', this.getFilterContainer()),
-			iterationValues = {};
+			conditionGroups = jQuery('.conditionGroup', this.getFilterContainer());
 		conditionGroups.each(function (index, domElement) {
 			let groupElement = jQuery(domElement),
-				conditions = jQuery('.conditionList .js-conditions-row', groupElement);
+				conditions = jQuery('.conditionList .js-conditions-row', groupElement),
+				iterationValues = {};
 			if (conditions.length <= 0) {
 				return true;
 			}
@@ -168,10 +168,10 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js', {}, {
 					rowValues['valuetype'] = 'rawtext';
 				}
 
-				if (index === '0') {
-					rowValues['groupid'] = '0';
+				if (index === 0) {
+					rowValues['groupid'] = 0;
 				} else {
-					rowValues['groupid'] = '1';
+					rowValues['groupid'] = 1;
 				}
 
 				if (rowElement.is(":last-child")) {
@@ -183,10 +183,9 @@ Vtiger_AdvanceFilter_Js('Workflows_AdvanceFilter_Js', {}, {
 
 			if (!$.isEmptyObject(iterationValues)) {
 				values[index + 1] = {};
-				//values[index+1]['columns'] = {};
 				values[index + 1]['columns'] = iterationValues;
 			}
-			if (groupElement.find('div.groupCondition').length > 0 && !$.isEmptyObject(values[index + 1])) {
+			if (groupElement.find('div.groupCondition').length > 0) {
 				values[index + 1]['condition'] = conditionGroups.find('div.groupCondition [name="condition"]').val();
 			}
 		});

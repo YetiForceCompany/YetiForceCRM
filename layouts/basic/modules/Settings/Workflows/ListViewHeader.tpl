@@ -57,11 +57,7 @@
 					{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 						<option {if !empty($SOURCE_MODULE) && $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if}
 								value="{$MODULE_MODEL->getName()}">
-							{if $MODULE_MODEL->getName() eq 'Calendar'}
-								{\App\Language::translate('LBL_TASK', $MODULE_MODEL->getName())}
-							{else}
-								{\App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
-							{/if}
+							{\App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
 						</option>
 					{/foreach}
 				</select>

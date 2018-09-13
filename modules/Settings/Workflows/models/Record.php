@@ -457,7 +457,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				if (!empty($columns) && is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
-							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
+							'value' => $column['value'] ?? '', 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
 							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid'], ];
 					}
 				}
