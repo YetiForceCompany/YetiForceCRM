@@ -631,7 +631,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	}
 });
 jQuery(document).ready(function () {
-	if (jQuery('#currentView').val() !== 'CalendarExtended') {
+	if ($('#currentView').val() !== 'CalendarExtended') {
 		let instance = Calendar_CalendarView_Js.getInstanceByView();
 		instance.registerEvents();
 		Calendar_CalendarView_Js.currentInstance = instance;
