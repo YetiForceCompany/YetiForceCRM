@@ -47,8 +47,8 @@ class Company extends Base
 	/**
 	 * Function to get the Company Logo.
 	 *
-	 * @param $type    String
-	 * @param $fullUrl String|Boolean
+	 * @param string      $type
+	 * @param string|bool $fullUrl
 	 *
 	 * @return \Vtiger_Image_Model instance
 	 */
