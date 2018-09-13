@@ -9,4 +9,31 @@
  */
 class Calendar_CalendarExtended_View extends Calendar_Calendar_View
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function preProcessTplName(\App\Request $request)
+	{
+		return 'Extended/CalendarViewPreProcess.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process(\App\Request $request)
+	{
+		parent::process($request);
+		$viewer = $this->getViewer($request);
+		$viewer->view('Extended/CalendarView.tpl', $request->getModule());
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function postProcess(\App\Request $request, $display = true)
+	{
+		parent::postProcess($request, $display);
+		$viewer = $this->getViewer($request);
+		$viewer->view('Extended/CalendarViewPostProcess.tpl', $request->getModule());
+	}
 }
