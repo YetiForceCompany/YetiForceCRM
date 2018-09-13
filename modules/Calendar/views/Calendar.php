@@ -13,6 +13,18 @@
 class Calendar_Calendar_View extends Vtiger_Index_View
 {
 	/**
+	 * Get tpl path file.
+	 *
+	 * @param string $tplFile
+	 *
+	 * @return string
+	 */
+	protected function getTpl(string $tplFile)
+	{
+		return "Standard/$tplFile";
+	}
+
+	/**
 	 * Function to check permission.
 	 *
 	 * @param \App\Request $request
@@ -46,7 +58,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 	 */
 	protected function preProcessTplName(\App\Request $request)
 	{
-		return 'Standard/CalendarViewPreProcess.tpl';
+		return $this->getTpl('CalendarViewPreProcess.tpl');
 	}
 
 	/**
@@ -58,8 +70,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 			'~libraries/fullcalendar/dist/fullcalendar.js',
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',
-			'modules.Calendar.resources.Standard.CalendarView',
-			'modules.Calendar.resources.Extended.CalendarView',
+			'modules.Calendar.resources.Standard.CalendarView'
 		]));
 	}
 
@@ -88,7 +99,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 			'current' => Calendar_Module_Model::getComponentActivityStateLabel('current'),
 			'history' => Calendar_Module_Model::getComponentActivityStateLabel('history'),
 		]));
-		$viewer->view('Standard/CalendarView.tpl', $request->getModule());
+		$viewer->view($this->getTpl('CalendarView.tpl'), $request->getModule());
 	}
 
 	/**
@@ -100,7 +111,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$calendarFilters = Calendar_CalendarFilters_Model::getCleanInstance();
 		$viewer->assign('CALENDAR_FILTERS', $calendarFilters);
-		$viewer->view('Standard/CalendarViewPostProcess.tpl', $moduleName);
+		$viewer->view($this->getTpl('CalendarViewPostProcess.tpl'), $moduleName);
 		parent::postProcess($request);
 	}
 }
