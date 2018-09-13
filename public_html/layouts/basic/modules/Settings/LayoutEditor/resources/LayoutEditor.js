@@ -1055,8 +1055,9 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	showHiddenFields: function (blockId, form) {
 		var thisInstance = this;
 		$.each(thisInstance.inActiveFieldsList[blockId], function (key, value) {
-			var inActiveField = $('<div class="col-md-4 marginLeftZero padding-bottom1per checkbox"><label class="">\n\
-									<input type="checkbox" class="inActiveField" value="' + key + '" />&nbsp;' + value + '</label></div>');
+			var inActiveField = $('<div class="col-md-4 marginLeftZero padding-bottom1per' +
+				' checkbox"><label class=""><input type="checkbox" class="inActiveField"' +
+				' value="' + key + '" />&nbsp;' + value + '</label></div>');
 			form.find('.inActiveList').append(inActiveField);
 		});
 	},

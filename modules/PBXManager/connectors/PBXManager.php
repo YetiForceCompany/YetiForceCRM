@@ -121,15 +121,12 @@ class PBXManager_PBXManager_Connector
 	 */
 	protected function prepareParameters(\App\Request $details, $type)
 	{
-		switch ($type) {
-			case 'ringing':
-				foreach (self::$RINGING_CALL_PARAMETERS as $key => $value) {
-					$params[$key] = $details->get($value);
-				}
-				$params['GateWay'] = $this->getGatewayName();
-				break;
-			default:
-				break;
+		$params = [];
+		if ($type === 'ringing') {
+			foreach (self::$RINGING_CALL_PARAMETERS as $key => $value) {
+				$params[$key] = $details->get($value);
+			}
+			$params['GateWay'] = $this->getGatewayName();
 		}
 		return $params;
 	}

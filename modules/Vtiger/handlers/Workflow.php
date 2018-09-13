@@ -20,16 +20,14 @@ class Vtiger_Workflow_Handler
 	 */
 	public function entityChangeState(App\EventHandler $eventHandler)
 	{
-		switch ($eventHandler->getRecordModel()->get('deleted')) {
-			case 'Trash':
-				$this->performTasks($eventHandler, [
-					VTWorkflowManager::$ON_DELETE
-				]);
-				break;
-			default:
-				$this->performTasks($eventHandler, [
-					VTWorkflowManager::$ON_EVERY_SAVE
-				]);
+		if ($eventHandler->getRecordModel()->get('deleted') === 'Trash') {
+			$this->performTasks($eventHandler, [
+				VTWorkflowManager::$ON_DELETE
+			]);
+		} else {
+			$this->performTasks($eventHandler, [
+				VTWorkflowManager::$ON_EVERY_SAVE
+			]);
 		}
 	}
 
