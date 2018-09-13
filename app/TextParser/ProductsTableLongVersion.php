@@ -48,7 +48,7 @@ class ProductsTableLongVersion extends Base
 			'</style>';
 		if (count($fields[1]) != 0) {
 			$fieldsTextAlignRight = ['Name', 'Value', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Tax', 'GrossPrice'];
-			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable">
+			$html .= '<table  border="0" cellpadding="0" cellspacing="1" class="productTable">
 				<thead>
 					<tr>';
 			foreach ($fields[1] as $field) {
