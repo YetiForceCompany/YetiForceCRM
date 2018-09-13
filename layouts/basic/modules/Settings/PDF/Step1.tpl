@@ -3,8 +3,8 @@
 	{if empty($RECORDID)}
 		{assign var=RECORDID value=''}
 	{/if}
-	<div class="tpl-Settings-PDF-Step1 pdfTemplateContents">
-		<form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step1" class="form-horizontal">
+	<div class="tpl-Settings-PDF-Step1 pdfTemplateContents" data-js="container">
+		<form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step1" class="form-horizontal" data-js="container">
 			<input type="hidden" name="module" value="PDF">
 			<input type="hidden" name="view" value="Edit">
 			<input type="hidden" name="mode" value="Step2"/>
@@ -56,9 +56,7 @@
 								</label>
 								<div class="col-sm-6 controls">
 									<div class="input-group">
-										<input type="text" name="primary_name" class="form-control"
-										       data-validation-engine='validate[required]' value="{$PDF_MODEL->get('primary_name')}"
-										       id="primary_name"/>
+										<input type="text" name="primary_name" class="form-control" data-validation-engine='validate[required]' value="{$PDF_MODEL->get('primary_name')}" id="primary_name"/>
 										<div class="input-group-append">
 											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
 										</div>
@@ -67,14 +65,12 @@
 							</div>
 							<div class="form-group row">
 								<label class="col-sm-6 col-form-label">
-									{\App\Language::translate('LBL_SECONDARY_NAME', $QUALIFIED_MODULE)}<span
-											class="redColor">*</span>
+									{\App\Language::translate('LBL_SECONDARY_NAME', $QUALIFIED_MODULE)}
+									<span class="redColor">*</span>
 								</label>
 								<div class="col-sm-6 controls">
 									<div class="input-group">
-										<input type="text" name="secondary_name" class="form-control"
-										       data-validation-engine='validate[required]' value="{$PDF_MODEL->get('secondary_name')}"
-										       id="secondary_name"/>
+										<input type="text" name="secondary_name" class="form-control" data-validation-engine='validate[required]' value="{$PDF_MODEL->get('secondary_name')}" id="secondary_name"/>
 										<div class="input-group-append">
 											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
 										</div>
@@ -83,12 +79,11 @@
 							</div>
 							<div class="form-group row">
 								<label class="col-sm-6 col-form-label">
-									{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}<span
-											class="redColor">*</span>
+									{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}
+									<span class="redColor">*</span>
 								</label>
 								<div class="col-sm-6 controls">
-									<select class="select2 form-control" id="moduleName" name="module_name" required="true"
-									        data-validation-engine='validate[required]'>
+									<select class="select2 form-control" id="moduleName" name="module_name" required="true" data-validation-engine='validate[required]'>
 										{foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
 											<option value="{$MODULE_MODEL->getName()}" {if $SELECTED_MODULE == $MODULE_MODEL->getName()} selected {/if}>
 												{if $MODULE_MODEL->getName() eq 'Calendar'}
@@ -106,9 +101,7 @@
 									{\App\Language::translate('LBL_METATAGS', $QUALIFIED_MODULE)}
 								</label>
 								<div class="col-sm-6 controls">
-									<input type="checkbox" name="metatags_status" id="metatags_status" value="1"
-									       class="checkboxForm"
-									       {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}checked="checked"{/if} />
+									<input type="checkbox" name="metatags_status" id="metatags_status" value="1" class="checkboxForm" {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}checked="checked"{/if} />
 								</div>
 							</div>
 							<div class="form-group row metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">
@@ -117,8 +110,7 @@
 								</label>
 								<div class="col-sm-6 controls">
 									<div class="input-group">
-										<input type="text" name="meta_title" class="form-control"
-										       value="{$PDF_MODEL->get('meta_title')}" id="meta_title"/>
+										<input type="text" name="meta_title" class="form-control" value="{$PDF_MODEL->get('meta_title')}" id="meta_title"/>
 										<div class="input-group-append">
 											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
 										</div>
@@ -131,8 +123,7 @@
 								</label>
 								<div class="col-sm-6 controls">
 									<div class="input-group">
-										<input type="text" name="meta_author" class="form-control"
-										       value="{$PDF_MODEL->get('meta_author')}" id="meta_author"/>
+										<input type="text" name="meta_author" class="form-control" value="{$PDF_MODEL->get('meta_author')}" id="meta_author"/>
 										<div class="input-group-append">
 											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
 										</div>
@@ -145,8 +136,7 @@
 								</label>
 								<div class="col-sm-6 controls">
 									<div class="input-group">
-										<input type="text" name="meta_subject" class="form-control"
-										       value="{$PDF_MODEL->get('meta_subject')}" id="meta_subject"/>
+										<input type="text" name="meta_subject" class="form-control" value="{$PDF_MODEL->get('meta_subject')}" id="meta_subject"/>
 										<div class="input-group-append">
 											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span>
 										</div>
@@ -160,9 +150,7 @@
 								<div class="col-sm-12 controls">
 									{assign 'KEYWORDS' explode(',',$PDF_MODEL->get('meta_keywords'))}
 
-									<select class="select2 form-control" id="meta_keywords" name="meta_keywords"
-									        data-select="tags"
-									        multiple="multiple">
+									<select class="select2 form-control" id="meta_keywords" name="meta_keywords" data-select="tags" multiple="multiple">
 										{foreach item=KEYWORD from=$KEYWORDS}
 											<option value="{$KEYWORD}" selected="selected">{$KEYWORD}</option>
 										{/foreach}
@@ -172,7 +160,6 @@
 						</div>
 					</div>
 				</div>
-
 
 				<div class="col-xs-12 col-xl-6 col-xxl-4 mb-2 order-1 order-xl-2 order-xxl-1">
 					<div class="card">
@@ -335,7 +322,6 @@
 					</div>
 				</div>
 
-
 				<div class="col-xs-12 col-xl-6 col-xxl-4 mb-2  order-2 order-xl-1 order-xxl-2">
 					<div class="card">
 						<div class="card-header">
@@ -388,8 +374,7 @@
 											<label>{\App\Language::translate('LBL_WATERMARK_TYPE', $QUALIFIED_MODULE)}</label>
 										</div>
 										<div class="col-sm-6 controls">
-											<select class="select2 form-control" id="watermark_type" name="watermark_type"
-											        required="true">
+											<select class="select2 form-control" id="watermark_type" name="watermark_type" required="true">
 												{foreach from=$PDF_MODEL->getWatermarkType() key=VALUE item=LABEL}
 													<option value="{$VALUE}" {if $PDF_MODEL->get('watermark_type') eq $VALUE} selected {/if}>
 														{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}
@@ -405,9 +390,7 @@
 											<label>{\App\Language::translate('LBL_WATERMARK_SIZE', $QUALIFIED_MODULE)}</label>
 										</div>
 										<div class="col-sm-6 controls">
-											<input type="number" name="watermark_size" class="form-control"
-											       value="{intval($PDF_MODEL->get('watermark_size'))}" id="watermark_size" min="0"
-											       max="99"/>
+											<input type="number" name="watermark_size" class="form-control" value="{intval($PDF_MODEL->get('watermark_size'))}" id="watermark_size" min="0" max="99"/>
 										</div>
 									</div>
 								</div>
@@ -417,9 +400,7 @@
 											<label>{\App\Language::translate('LBL_WATERMARK_ANGLE', $QUALIFIED_MODULE)}</label>
 										</div>
 										<div class="col-sm-6 controls">
-											<input type="number" name="watermark_angle" class="form-control"
-											       value="{intval($PDF_MODEL->get('watermark_angle'))}" id="watermark_angle" min="0"
-											       max="360"/>
+											<input type="number" name="watermark_angle" class="form-control" value="{intval($PDF_MODEL->get('watermark_angle'))}" id="watermark_angle" min="0" max="360"/>
 										</div>
 									</div>
 								</div>
@@ -430,8 +411,7 @@
 												<span class="ml-2 js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-clipboard"></span></span></label>
 										</div>
 										<div class="col-12 controls">
-											<textarea name="watermark_text" class="form-control"
-											          id="watermark_text">{$PDF_MODEL->get('watermark_text')}</textarea>
+											<textarea name="watermark_text" class="form-control" id="watermark_text">{$PDF_MODEL->get('watermark_text')}</textarea>
 										</div>
 									</div>
 								</div>
