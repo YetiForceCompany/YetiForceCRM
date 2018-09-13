@@ -415,7 +415,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="form-group col-12 col-xl-5 waterimage {if $PDF_MODEL->get('watermark_type') eq $WATERMARK_TEXT}d-none{/if}">
+								<div class="form-group col-12 col-xl-4 waterimage {if $PDF_MODEL->get('watermark_type') eq $WATERMARK_TEXT}d-none{/if}">
 									<div class="row">
 										<div class="col-12 col-sm-4">
 											<label>{\App\Language::translate('LBL_WATERMARK_IMAGE', $QUALIFIED_MODULE)}</label>
