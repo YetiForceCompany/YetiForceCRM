@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ytcpdf class.
+ * Tcpdf lib class.
  *
  * @package App\Pdf\Libs
  *
@@ -13,7 +13,7 @@
 namespace App\Pdf\Libs;
 
 /**
- * YetiForce Tcpdf class.
+ * Tcpdf lib class.
  */
 class Tcpdf extends \TCPDF
 {
@@ -412,7 +412,6 @@ class Tcpdf extends \TCPDF
 	 */
 	public function writeHTML($html, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '')
 	{
-		//echo $this->getCssStyle() . $html;
 		parent::writeHTML($this->getCssStyle() . $html, $ln, $fill, $reseth, $cell, $align);
 	}
 }

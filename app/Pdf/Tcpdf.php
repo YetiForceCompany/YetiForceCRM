@@ -13,7 +13,7 @@
 namespace App\Pdf;
 
 /**
- * YetiForce Tcpdf class.
+ * Tcpdf class.
  */
 class Tcpdf extends PDF
 {
