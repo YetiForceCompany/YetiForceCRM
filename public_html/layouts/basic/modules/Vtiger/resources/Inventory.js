@@ -1203,10 +1203,12 @@ $.Class("Vtiger_Inventory_Js", {
 		let newRowHiddenBlock = $(newRow[1]);
 		let table = items.find('.js-inventory-items-body');
 		const sequenceNumber = this.getNextLineItemRowNumber();
-		const replaced = newRowBlock.html().replace(/_NUM_/g, sequenceNumber);
+		const replaced = newRowBlock.html().replace(/\_NUM_/g, sequenceNumber);
 		newRowBlock.html(replaced);
 		newRowBlock = newRowBlock.appendTo(table);
+		newRowBlock.attr('numrow', sequenceNumber);
 		newRowHiddenBlock.appendTo(table);
+		newRowHiddenBlock.switchClass('numRow_NUM_', 'numRow' + sequenceNumber).attr('numrowex', sequenceNumber);
 		newRowBlock.find('.rowName input[name="popupReferenceModule"]').val(module).data('field', baseTableId);
 		newRowBlock.find('.colPicklistField select').each(function (index, select) {
 			select = $(select);
