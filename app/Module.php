@@ -103,7 +103,7 @@ class Module
 			return true;
 		}
 		$moduleId = static::getModuleId($moduleName);
-		$isActive = (isset(static::$tabdataCache['tabPresence'][$moduleId]) && static::$tabdataCache['tabPresence'][$moduleId] == 0) ? true : false;
+		$isActive = (isset(static::$tabdataCache['tabPresence'][$moduleId]) && static::$tabdataCache['tabPresence'][$moduleId] == 0);
 		static::$isModuleActiveCache[$moduleName] = $isActive;
 
 		return $isActive;
@@ -146,18 +146,6 @@ class Module
 	}
 
 	/**
-	 * Function get module name.
-	 *
-	 * @param string $moduleName
-	 *
-	 * @return string
-	 */
-	public static function getTabName($moduleName)
-	{
-		return $moduleName === 'Events' ? 'Calendar' : $moduleName;
-	}
-
-	/**
 	 * Function to get the list of module for which the user defined sharing rules can be defined.
 	 *
 	 * @param array $eliminateModules
@@ -168,7 +156,7 @@ class Module
 	{
 		$modules = \vtlib\Functions::getAllModules(true, true, 0, false, 0);
 		$sharingModules = [];
-		foreach ($modules as $tabId => $row) {
+		foreach ($modules as $row) {
 			if (!$eliminateModules || !in_array($row['name'], $eliminateModules)) {
 				$sharingModules[] = $row['name'];
 			}

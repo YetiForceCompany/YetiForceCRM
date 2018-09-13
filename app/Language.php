@@ -672,7 +672,7 @@ class Language
 		} else {
 			$loc = '';
 			array_pop($fileLocation);
-			foreach ($fileLocation as $key => $name) {
+			foreach ($fileLocation as $name) {
 				$loc .= DIRECTORY_SEPARATOR . $name;
 				if (!file_exists(ROOT_DIRECTORY . $loc)) {
 					if (!mkdir(ROOT_DIRECTORY . $loc, 0755)) {

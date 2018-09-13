@@ -45,7 +45,7 @@
 							{else}
 								<input type="hidden" name="labelFields"
 									   data-value='{\App\Json::encode($SOURCE_MODULE_MODEL->getNameFields())}'/>
-								{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl') QUALIFIED_MODULE=null EVENT_RECORD_STRUCTURE=null}
+								{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl') QUALIFIED_MODULE=null}
 							{/if}
 						</form>
 					</div>

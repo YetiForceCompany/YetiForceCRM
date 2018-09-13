@@ -164,7 +164,6 @@ class Competition extends Vtiger_CRMEntity
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType === 'module.postinstall') {
-			$moduleInstance = CRMEntity::getInstance('Competition');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'CMP', '1');
 			\App\Db::getInstance()->update('vtiger_tab', ['customized' => 0], ['name' => 'Competition'])->execute();
 

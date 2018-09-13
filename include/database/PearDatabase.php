@@ -573,10 +573,10 @@ class PearDatabase
 			}
 			$column = new stdClass();
 			$column->name = $col->Field;
-			$column->notNull = $col->null == 'NO' ? true : false;
-			$column->primaryKey = $col->Key == 'PRI' ? true : false;
-			$column->uniqueKey = $col->Key == 'UNI' ? true : false;
-			$column->hasDefault = $col->Default === null ? false : true;
+			$column->notNull = ($col->null == 'NO');
+			$column->primaryKey = ($col->Key == 'PRI');
+			$column->uniqueKey = ($col->Key == 'UNI');
+			$column->hasDefault = !($col->Default === null);
 			if ($column->hasDefault) {
 				$column->default = $col->Default;
 			}
@@ -589,9 +589,7 @@ class PearDatabase
 
 	public function updateBlob($table, $column, $val, $where)
 	{
-		$success = $this->pquery("UPDATE $table SET $column=? WHERE $where", [$val]);
-
-		return $success;
+		return $this->pquery("UPDATE $table SET $column=? WHERE $where", [$val]);
 	}
 
 	public function getEmptyBlob()
@@ -602,9 +600,7 @@ class PearDatabase
 	public function fetchByAssoc(&$result, $rowNum = -1)
 	{
 		if (isset($result) && $rowNum < 0) {
-			$row = $this->getRow($result);
-
-			return $row;
+			return $this->getRow($result);
 		}
 		if ($this->getRowCount($result) > $rowNum) {
 			$row = $this->rawQueryResultRowData($result, $rowNum);
@@ -666,9 +662,7 @@ class PearDatabase
 	// Function to get the last insert id based on the type of database
 	public function getLastInsertID()
 	{
-		$lastInsertID = $this->database->lastInsertId();
-
-		return $lastInsertID;
+		return $this->database->lastInsertId();
 	}
 
 	public function formatDate($datetime, $strip_quotes = false)
@@ -683,9 +677,7 @@ class PearDatabase
 	public function getOne($sql, $dieOnError = false, $msg = '')
 	{
 		$result = $this->query($sql, $dieOnError, $msg);
-		$val = $this->getSingleValue($result);
-
-		return $val;
+		return $this->getSingleValue($result);
 	}
 
 	public function getFieldsDefinition(PDOStatement $result)
@@ -761,9 +753,7 @@ class PearDatabase
 
 	public function getAffectedRowCount(PDOStatement $result)
 	{
-		$rows = $result->rowCount();
-
-		return $rows;
+		return $result->rowCount();
 	}
 
 	public function requirePsSingleResult($sql, $params, $dieOnError = false, $msg = '')

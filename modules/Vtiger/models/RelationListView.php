@@ -395,42 +395,6 @@ class Vtiger_RelationListView_Model extends \App\Base
 		return $createViewUrl;
 	}
 
-	public function getCreateEventRecordUrl()
-	{
-		$relationModelInstance = $this->getRelationModel();
-		$relatedModel = $relationModelInstance->getRelationModuleModel();
-		$parentRecordModule = $this->getParentRecordModel();
-		$parentModule = $parentRecordModule->getModule();
-
-		$createViewUrl = $relatedModel->getCreateEventRecordUrl() . '&sourceModule=' . $parentModule->get('name') .
-			'&sourceRecord=' . $parentRecordModule->getId() . '&relationOperation=true';
-
-		//To keep the reference fieldname and record value in the url if it is direct relation
-		if ($relationModelInstance->isDirectRelation()) {
-			$relationField = $relationModelInstance->getRelationField();
-			$createViewUrl .= '&' . $relationField->getName() . '=' . $parentRecordModule->getId();
-		}
-		return $createViewUrl;
-	}
-
-	public function getCreateTaskRecordUrl()
-	{
-		$relationModelInstance = $this->getRelationModel();
-		$relatedModel = $relationModelInstance->getRelationModuleModel();
-		$parentRecordModule = $this->getParentRecordModel();
-		$parentModule = $parentRecordModule->getModule();
-
-		$createViewUrl = $relatedModel->getCreateTaskRecordUrl() . '&sourceModule=' . $parentModule->get('name') .
-			'&sourceRecord=' . $parentRecordModule->getId() . '&relationOperation=true';
-
-		//To keep the reference fieldname and record value in the url if it is direct relation
-		if ($relationModelInstance->isDirectRelation()) {
-			$relationField = $relationModelInstance->getRelationField();
-			$createViewUrl .= '&' . $relationField->getName() . '=' . $parentRecordModule->getId();
-		}
-		return $createViewUrl;
-	}
-
 	/**
 	 * Function to get the links for related list.
 	 *
@@ -519,32 +483,16 @@ class Vtiger_RelationListView_Model extends \App\Base
 			return $addLinkModel;
 		}
 
-		if ($relatedModel->get('label') === 'Calendar') {
-			$addLinkList[] = [
-				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => App\Language::translate('LBL_ADD_EVENT'),
-				'linkurl' => $this->getCreateEventRecordUrl(),
-				'linkqcs' => $relatedModel->isQuickCreateSupported(),
-				'linkicon' => 'fas fa-plus',
-			];
-			$addLinkList[] = [
-				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => App\Language::translate('LBL_ADD_TASK'),
-				'linkurl' => $this->getCreateTaskRecordUrl(),
-				'linkqcs' => $relatedModel->isQuickCreateSupported(),
-				'linkicon' => 'fas fa-plus',
-			];
-		} else {
-			$addLinkList = [[
-				'linktype' => 'LISTVIEWBASIC',
-				// NOTE: $relatedModel->get('label') assuming it to be a module name - we need singular label for Add action.
-				//'linklabel' => \App\Language::translate('LBL_ADD')." ".vtranslate'SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
-				'linklabel' => App\Language::translate('LBL_ADD_RELATION'),
-				'linkurl' => $this->getCreateViewUrl(),
-				'linkqcs' => $relatedModel->isQuickCreateSupported(),
-				'linkicon' => 'fas fa-plus',
-			]];
-		}
+		$addLinkList = [[
+			'linktype' => 'LISTVIEWBASIC',
+			// NOTE: $relatedModel->get('label') assuming it to be a module name - we need singular label for Add action.
+			//'linklabel' => \App\Language::translate('LBL_ADD')." ".vtranslate'SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
+			'linklabel' => App\Language::translate('LBL_ADD_RELATION'),
+			'linkurl' => $this->getCreateViewUrl(),
+			'linkqcs' => $relatedModel->isQuickCreateSupported(),
+			'linkicon' => 'fas fa-plus',
+		]];
+
 		if ($relatedModel->get('label') === 'Documents') {
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',

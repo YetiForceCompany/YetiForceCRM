@@ -316,7 +316,7 @@ class API_CalDAV_Model
 	public function calDav2Crm()
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
-		foreach ($this->davUsers as $key => $user) {
+		foreach ($this->davUsers as $user) {
 			$this->calendarId = $user->get('calendarsid');
 			$this->user = $user;
 			$this->recordSync();

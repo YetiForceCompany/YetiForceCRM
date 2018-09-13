@@ -50,12 +50,7 @@ class Privilege
 			\App\Log::trace('Exiting isPermitted method ... - ' . ($permission) ? 'YES' : 'NO');
 			return $permission;
 		}
-		//Retreiving the Tabid and Action Id
-		$checkModule = $moduleName;
-		if ($checkModule === 'Events') {
-			$checkModule = 'Calendar';
-		}
-		if (!Module::isModuleActive($checkModule)) {
+		if (!Module::isModuleActive($moduleName)) {
 			static::$isPermittedLevel = 'SEC_MODULE_IS_INACTIVE';
 			\App\Log::trace('Exiting isPermitted method ... - yes');
 			return false;
@@ -316,11 +311,7 @@ class Privilege
 				return true;
 			}
 		} elseif ($othersPermissionId == 1) {
-			if ($actionId == 2) {
-				return false;
-			} else {
-				return true;
-			}
+			return $actionId == 2;
 		} elseif ($othersPermissionId == 2) {
 			return true;
 		} elseif ($othersPermissionId == 3) {
