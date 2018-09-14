@@ -173,7 +173,8 @@
     "LBL_DELETE_FUTURE_EVENTS": "Sterge inregistrarile ulterioare",
     "LBL_DELETE_FUTURE_EVENTS_DESCRIPTION": "Doar inregistrarile ulterioare vor fi modificate",
     "LBL_DELETE_ALL_EVENTS": "Sterge toate inregistrarile",
-    "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "Toate inregistrarile in ordine vor fi sterse"
+    "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "Toate inregistrarile in ordine vor fi sterse",
+    "LBL_REPEATEVENT": "Odata in fiecare"
   },
   "js": {
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "Nu pot selecta contact din lead-uri",

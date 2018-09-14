@@ -173,7 +173,8 @@
     "LBL_DELETE_FUTURE_EVENTS": "L\u00f6sche nachfolgende Datens\u00e4tze",
     "LBL_DELETE_FUTURE_EVENTS_DESCRIPTION": "Nur die nachfolgenden Datens\u00e4tze werden gel\u00f6scht",
     "LBL_DELETE_ALL_EVENTS": "Alle Datens\u00e4tze l\u00f6schen",
-    "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "Alle Datens\u00e4tze werden der Reihenfolge nach gel\u00f6scht"
+    "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "Alle Datens\u00e4tze werden der Reihenfolge nach gel\u00f6scht",
+    "LBL_REPEATEVENT": "Einmal in jeder"
   },
   "js": {
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "Kontakt aus Lead nicht verwendbar",
