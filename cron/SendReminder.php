@@ -2,26 +2,25 @@
 
 \App\Log::trace('Start SendReminder');
 $dataReader = (new \App\Db\Query())->select([
-			'vtiger_crmentity.smownerid',
-			'vtiger_activity.date_start',
-			'vtiger_activity.time_start',
-			'vtiger_activity.activityid',
-			'vtiger_activity.activitytype',
-			'vtiger_activity_reminder.reminder_time',
-		])->from('vtiger_activity')
-			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid=vtiger_activity.activityid')
-			->innerJoin('vtiger_activity_reminder', 'vtiger_activity.activityid = vtiger_activity_reminder.activity_id')
-			->where([
-			'and',
-			['>=', 'vtiger_activity.date_start', date('Y-m-d')],
-			['vtiger_activity.status' => 'PLL_PLANNED'],
-			['vtiger_activity_reminder.reminder_sent' => 0],
-		])->createCommand()->query();
-if ($dataReader->count() >= 1) {
+	'vtiger_crmentity.smownerid',
+	'vtiger_activity.date_start',
+	'vtiger_activity.time_start',
+	'vtiger_activity.activityid',
+	'vtiger_activity.activitytype',
+	'vtiger_activity_reminder.reminder_time'
+])->from('vtiger_activity')
+	->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid=vtiger_activity.activityid')
+	->innerJoin('vtiger_activity_reminder', 'vtiger_activity.activityid = vtiger_activity_reminder.activity_id')
+	->where(['and',
+		['>=', 'vtiger_activity.date_start', date('Y-m-d')],
+		['vtiger_activity.status' => 'PLL_PLANNED'],
+		['vtiger_activity_reminder.reminder_sent' => 0],
+	])->createCommand()->query();
+if ($dataReader->count()) {
 	//To fetch reminder frequency from cron tasks
 	$reminderFrequency = (new \App\Db\Query())->select(['frequency'])->from('vtiger_cron_task')->where(['name' => 'LBL_SEND_REMINDER'])->scalar();
 	$dbCommand = App\Db::getInstance()->createCommand();
-	$eventsRecordModel = Vtiger_Record_Model::getCleanInstance('Events');
+	$recordModel = Vtiger_Record_Model::getCleanInstance('Calendar');
 	while ($row = $dataReader->read()) {
 		$dateStart = $row['date_start'];
 		$timeStart = $row['time_start'];
@@ -47,9 +46,9 @@ if ($dataReader->count() >= 1) {
 				$template = 'ActivityReminderNotificationTask';
 			} else {
 				$template = 'ActivityReminderNotificationEvents';
-				$eventsRecordModel->setId($activityId);
+				$recordModel->setId($activityId);
 				if (AppConfig::module('Calendar', 'SEND_REMINDER_INVITATION')) {
-					$invitees = $eventsRecordModel->getInvities();
+					$invitees = $recordModel->getInvities();
 				}
 			}
 			if (!empty($toEmail)) {

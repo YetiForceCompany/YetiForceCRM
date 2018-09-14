@@ -743,7 +743,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getEditUrl()
 	{
-		return 'module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name') . '&record=' . $this->getId();
+		return 'index.php?module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name') . '&record=' . $this->getId();
 	}
 
 	/**
@@ -773,7 +773,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getDuplicateUrl()
 	{
-		return 'module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name') . '&record=' . $this->getId() . '&duplicate=1';
+		return 'index.php?module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name') . '&record=' . $this->getId() . '&duplicate=1';
 	}
 
 	/**
