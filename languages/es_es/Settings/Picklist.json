@@ -34,7 +34,8 @@
     "LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY": "Para eliminar varios elementos mantenga presionada la tecla ctrl mientras selecciona los elementos",
     "LBL_VALUES_ASSIGNED_TO_A_ROLE": "Valores asignados a un rol",
     "NO_PICKLIST_FIELDS": "No tiene campos del desplegable",
-    "LBL_NEW_VALUE": "Nuevo valor"
+    "LBL_NEW_VALUE": "Nuevo valor",
+    "LBL_CLOSES_RECORD": "Closes record"
   },
   "js": {
     "JS_ALL_ROLES_SELECTED": "Todos los roles seleccionados",

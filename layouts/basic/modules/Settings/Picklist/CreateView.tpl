@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
@@ -31,13 +31,15 @@
 						   value='{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_PICKLISTFIELD_ALL_VALUES))}'/>
 					<div class="modal-body tabbable">
 						<div class="form-group row align-items-center">
-							<div class="col-md-3 col-form-label text-right"><span
-										class="redColor">*</span>{\App\Language::translate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}
+							<div class="col-md-3 col-form-label text-right">
+								<span class="redColor">*</span>
+								{\App\Language::translate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}
 							</div>
-							<div class="col-md-9 controls"><input class="form-control" type="text"
-																  data-prompt-position="topLeft:70"
-																  data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-																  data-validator={\App\Json::encode([['name'=>'FieldLabel']])} name="newValue">
+							<div class="col-md-9 controls">
+								<input class="form-control" type="text"
+									   data-prompt-position="topLeft:70"
+									   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+									   data-validator={\App\Json::encode([['name'=>'FieldLabel']])} name="newValue">
 							</div>
 						</div>
 						{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
@@ -65,6 +67,16 @@
 							</div>
 						</div>
 					</div>
+					{if $SELECTED_PICKLIST_FIELDMODEL->get('uitype') === 15}
+						<div class="form-group row align-items-center">
+							<div class="col-md-3 col-form-label text-right">
+								{\App\Language::translate('LBL_CLOSES_RECORD',$QUALIFIED_MODULE)}
+							</div>
+							<div class="col-md-9 controls">
+								<input class="form-control" type="checkbox" value="1" name="close_state">
+							</div>
+						</div>
+					{/if}
 					{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 				</form>
 			</div>

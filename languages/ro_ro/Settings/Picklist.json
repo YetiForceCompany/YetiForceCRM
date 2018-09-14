@@ -34,7 +34,8 @@
     "LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY": "Pentru a sterge mai multe elemente, tineti apasata tasta ctrl in timp ce selectati elemente",
     "LBL_VALUES_ASSIGNED_TO_A_ROLE": "Valori alocate unui Rol",
     "NO_PICKLIST_FIELDS": "nu aveti campuri de alegere",
-    "LBL_NEW_VALUE": "Valoare noua"
+    "LBL_NEW_VALUE": "Valoare noua",
+    "LBL_CLOSES_RECORD": "Closes record"
   },
   "js": {
     "JS_ALL_ROLES_SELECTED": "Toate Rolurile selectate",

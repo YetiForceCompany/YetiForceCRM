@@ -331,16 +331,31 @@ class Picklist
 	}
 
 	/**
-	 * Get description for all fields or generate it if not exists.
+	 * Get closing state for all fields in module.
+	 *
+	 * @param int $tabId
 	 *
 	 * @return string[]
 	 */
-	public static function getDescriptions($fieldName)
+	public static function getCloseStates(int $tabId)
 	{
-		$descriptions = [];
-		foreach (static::getValues($fieldName) as $id => $value) {
-			$descriptions[$id] = $value['description'] ?? '';
+		$cacheName = 'getCloseStates';
+		if (\App\Cache::has($cacheName, $tabId)) {
+			return \App\Cache::get($cacheName, $tabId);
 		}
-		return $descriptions;
+		$dataReader = (new \App\Db\Query())->select(['valueid', 'value'])
+			->from('u_#__picklist_close_state')
+			->innerJoin('vtiger_field')
+			->where([
+				'tabid' => $tabId,
+				'presence' => [0, 2]
+			])
+			->createCommand()->query();
+		$values = [];
+		while ($row = $dataReader->read()) {
+			$values[$row['valueid']] = $row['value'];
+		}
+		\App\Cache::save($cacheName, $tabId, $values);
+		return $values;
 	}
 }
