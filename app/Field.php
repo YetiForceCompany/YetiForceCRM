@@ -145,20 +145,18 @@ class Field
 			return self::$columnPermissionCacheWrite[$tabId][$columnName];
 		}
 		$fields = static::getFieldsPermissions($tabId, $readOnly);
-		if (\is_array($fields)) {
-			foreach ($fields as &$field) {
-				if ($field['columnname'] === $columnName) {
-					$permission = !($field['visible']);
-					if ($readOnly) {
-						self::$columnPermissionCacheRead[$tabId][$columnName] = $permission;
-						self::$fieldPermissionCacheRead[$tabId][$field['fieldname']] = $permission;
-					} else {
-						self::$columnPermissionCacheWrite[$tabId][$columnName] = $permission;
-						self::$fieldPermissionCacheWrite[$tabId][$field['fieldname']] = $permission;
-					}
-
-					return $permission;
+		foreach ($fields as &$field) {
+			if ($field['columnname'] === $columnName) {
+				$permission = !($field['visible']);
+				if ($readOnly) {
+					self::$columnPermissionCacheRead[$tabId][$columnName] = $permission;
+					self::$fieldPermissionCacheRead[$tabId][$field['fieldname']] = $permission;
+				} else {
+					self::$columnPermissionCacheWrite[$tabId][$columnName] = $permission;
+					self::$fieldPermissionCacheWrite[$tabId][$field['fieldname']] = $permission;
 				}
+
+				return $permission;
 			}
 		}
 		if ($readOnly) {

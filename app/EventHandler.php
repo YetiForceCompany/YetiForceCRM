@@ -40,7 +40,7 @@ class EventHandler
 			$handlers = (new \App\Db\Query())->from(self::$baseTable)->orderBy(['priority' => SORT_DESC])->all();
 			Cache::save('EventHandler', 'All', $handlers);
 		}
-		if ($active && \is_array($handlers)) {
+		if ($active) {
 			foreach ($handlers as $key => &$handler) {
 				if ((int) $handler['is_active'] !== 1) {
 					unset($handlers[$key]);
