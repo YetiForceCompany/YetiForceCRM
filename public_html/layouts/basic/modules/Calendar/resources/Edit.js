@@ -40,12 +40,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 				repeatUI.closest('.fieldRow').addClass('d-none');
 			}
 		});
-		if (form.find('input[name="reapeat"]').is(':checked')) {
-			form.find('.repeatUI').removeClass('d-none');
-			var container = form.find('[name="followup"]').closest('.fieldValue');
-			container.find('[name="followup_display"]').attr('disabled', 'disabled');
-			container.find('button').attr('disabled', 'disabled');
-		}
 		element.change();
 	},
 	/**
