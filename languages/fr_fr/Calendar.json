@@ -173,7 +173,8 @@
     "LBL_UPDATE_FUTURE_EVENTS": "Mettre \u00e0 jour les enregistrements suivants",
     "LBL_UPDATE_THIS_EVENT_DESCRIPTION": "Seul cet enregistrement sera modifi\u00e9, le reste reste inchang\u00e9",
     "LBL_UPDATE_THIS_EVENT": "Mettre \u00e0 jour uniquement cet enregistrement",
-    "LBL_TITLE_TYPE_SAVING": "Mode d'enregistrement"
+    "LBL_TITLE_TYPE_SAVING": "Mode d'enregistrement",
+    "LBL_REPEATEVENT": "Une fois tous les "
   },
   "js": {
     "JS_Normal": "Normal",

@@ -173,7 +173,8 @@
     "LBL_DELETE_FUTURE_EVENTS": "Sonraki kay\u0131tlar\u0131 sil",
     "LBL_DELETE_FUTURE_EVENTS_DESCRIPTION": "Yaln\u0131zca sonraki kay\u0131tlar silinecek",
     "LBL_DELETE_ALL_EVENTS": "T\u00fcm kay\u0131tlar\u0131 sil",
-    "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "S\u0131ral\u0131 t\u00fcm kay\u0131tlar silinir"
+    "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "S\u0131ral\u0131 t\u00fcm kay\u0131tlar silinir",
+    "LBL_REPEATEVENT": "Her vaktinde"
   },
   "js": {
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "\u0130lanlardan ileti\u015fim se\u00e7emiyorum",

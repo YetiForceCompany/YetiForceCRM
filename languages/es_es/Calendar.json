@@ -158,7 +158,8 @@
     "LBL_SELECT_INVITE": "Invitar a otros",
     "LBL_NEEDS-ACTION": "A la espera de aceptaci\u00f3n",
     "LBL_ACCEPTED": "Aceptada",
-    "LBL_DECLINED": "Rechazada"
+    "LBL_DECLINED": "Rechazada",
+    "LBL_REPEATEVENT": "Un vez cada"
   },
   "js": {
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "No se puede seleccionar el contacto de \"Potenciales\"",

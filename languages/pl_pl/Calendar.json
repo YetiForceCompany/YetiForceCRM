@@ -164,7 +164,6 @@
     "LBL_NEEDS-ACTION": "Oczekuje na akceptacj\u0119",
     "LBL_ACCEPTED": "Zaakceptowane",
     "LBL_DECLINED": "Odrzucone",
-    "LBL_REPEATEVENT": "Powt\u00f3rz raz co",
     "LBL_TITLE_TYPE_SAVING": "Tryb zapisu",
     "LBL_UPDATE_THIS_EVENT": "Aktualizuj tylko ten rekord",
     "LBL_UPDATE_THIS_EVENT_DESCRIPTION": "Zmodyfikowany zostanie tylko ten rekord, pozosta\u0142e nie ulegn\u0105 zmianie",
@@ -178,7 +177,8 @@
     "LBL_DELETE_FUTURE_EVENTS": "Usu\u0144 kolejne rekordy",
     "LBL_DELETE_FUTURE_EVENTS_DESCRIPTION": "Usuni\u0119te zostan\u0105 tylko kolejne rekordy",
     "LBL_DELETE_ALL_EVENTS": "Usu\u0144 wszystkie rekordy",
-    "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "Usuni\u0119te zostan\u0105 wszystkie rekordy w serii"
+    "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "Usuni\u0119te zostan\u0105 wszystkie rekordy w serii",
+    "LBL_REPEATEVENT": "Powt\u00f3rz raz co"
   },
   "js": {
     "JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY": "Dodano kalendarz",
