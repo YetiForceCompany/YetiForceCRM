@@ -108,8 +108,7 @@ class Fixer
 		}
 		$moduleIds = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['isentitytype' => 1])->column();
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		$profileIds = \vtlib\Profile::getAllIds();
-		foreach ($profileIds as $profileId) {
+		foreach (\vtlib\Profile::getAllIds() as $profileId) {
 			foreach ($moduleIds as $moduleId) {
 				foreach (\Vtiger_Action_Model::$standardActions as $actionId => $actionName) {
 					if (!isset($curentProfile[$profileId][$moduleId][$actionId])) {

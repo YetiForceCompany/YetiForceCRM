@@ -71,7 +71,7 @@ class Owner
 		} else {
 			$accessibleGroups = \App\Cache::get('getAccessibleGroups', $cacheKey);
 		}
-		if ($translate && \is_array($accessibleGroups)) {
+		if ($translate) {
 			foreach ($accessibleGroups as &$name) {
 				$name = \App\Language::translate($name);
 			}
@@ -632,11 +632,9 @@ class Owner
 				$users = $instance->initUsers(false);
 			}
 		}
-		if (\is_array($users)) {
-			foreach ($users as $uid => &$user) {
-				self::$userLabelCache[$uid] = $user['fullName'];
-				self::$ownerLabelCache[$uid] = $user['fullName'];
-			}
+		foreach ($users as $uid => &$user) {
+			self::$userLabelCache[$uid] = $user['fullName'];
+			self::$ownerLabelCache[$uid] = $user['fullName'];
 		}
 		return isset($users[$id]) ? $users[$id]['fullName'] : false;
 	}

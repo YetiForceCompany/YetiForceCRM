@@ -292,9 +292,6 @@ class Colors
 	public static function getAllModuleColor($active = false)
 	{
 		$allModules = \vtlib\Functions::getAllModules(false, false, false, $active);
-		if (!\is_array($allModules)) {
-			return [];
-		}
 		$modules = [];
 		foreach ($allModules as $tabid => $module) {
 			$modules[] = [
