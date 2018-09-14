@@ -98,3 +98,81 @@
 		}
 	}
 }
+
+//Calendar Extended
+#datesColumn {
+	.subDateList {
+		text-align: center;
+		margin-top: 10px;
+		.subDateCount div.countEvents {
+			background-color: #ff4e4d;
+			color: #fff;
+			border-radius: 20px;
+			display: inline-block;
+			padding-top: 5px;
+			padding-bottom: 5px;
+			width: 28px;
+		}
+		.subRecord {
+			font-size: 12px;
+			border: 1px solid #eee;
+			padding-top: 0px;
+			padding-bottom: 2px;
+			margin-bottom: 5px;
+			margin-left: 5px;
+			/* margin-right: 5px; */
+			cursor: pointer;
+		}
+		.subActive {
+			background-color: #337ab7;
+			color: #fff;
+			cursor: default;
+			.subDateCount {
+				div.countEvents {
+					background-color: #fff;
+					color: #337ab7;
+					font-weight: bold;
+				}
+				margin-top: 5px;
+				margin-bottom: 5px;
+			}
+			.subDateName {
+				font-weight: bold;
+			}
+		}
+		.subDateName {
+			margin-top: 2px;
+			margin-bottom: 2px;
+		}
+	}
+	.dateList {
+		text-align: center;
+		.dateRecord {
+			margin-bottom: 5px;
+			cursor: pointer;
+		}
+		.dateActive {
+			font-weight: 600;
+			font-size: 1.15em;
+			cursor: default;
+			white-space: nowrap;
+			background-color: #efeff1;
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
+	}
+}
+
+@media (max-width: 992px) {
+	#datesColumn .subDateList .subDateCount {
+		margin-top: 3px;
+		margin-bottom: 3px;
+	}
+}
+
+@media (min-width: 992px) {
+	#datesColumn .subDateList .subDateCount {
+		margin-top: 2px;
+		margin-bottom: 0px;
+	}
+}
