@@ -142,9 +142,6 @@
 				{/foreach}
 			{/if}
 			<div class="formActionsPanel hidden-xs hidden-sm">
-				<button type="button" class="btn btn-primary saveAndComplete marginRight10" data-js="click">
-					{\App\Language::translate('LBL_SAVE_AND_CLOSE', $MODULE)}
-				</button>
 				<button type="button" class="btn btn-success save"
 						title="{\App\Language::translate('LBL_SAVE', $MODULE)}" data-js="click">
 					<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
