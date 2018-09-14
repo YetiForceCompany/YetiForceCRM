@@ -88,6 +88,6 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 		$viewer->assign('VIEW', $request->getByType('view'));
-		$viewer->view('EventForm.tpl', $moduleName);
+		$viewer->view('Extended/EventForm.tpl', $moduleName);
 	}
 }

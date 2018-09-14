@@ -576,6 +576,30 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 			});
 		});
 	},
+	addCalendarEvent: function (calendarDetails) {
+		var calendar = this.getCalendarView();
+		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value);
+		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
+		var eventObject = {
+			id: calendarDetails._recordId,
+			title: calendarDetails.subject.display_value,
+			start: startDate.toString(),
+			end: endDate.toString(),
+			url: 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId,
+			activitytype: calendarDetails.activitytype.value,
+			allDay: calendarDetails.allday.value == 'on',
+			state: calendarDetails.state.value,
+			vis: calendarDetails.visibility.value,
+			sta: calendarDetails.activitystatus.value,
+			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value,
+			start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
+			end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
+			smownerid: calendarDetails.assigned_user_id.display_value,
+			pri: calendarDetails.taskpriority.value,
+			lok: calendarDetails.location.display_value
+		};
+		this.getCalendarView().fullCalendar('renderEvent', eventObject);
+	},
 	registerSubmitForm: function () {
 		var thisInstance = this;
 		var rightFormCreate = $(document).find('form[name="QuickCreate"]').find('.save');
@@ -629,25 +653,25 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 		return aDeferred.promise();
 	},
 	getCalendarCreateView: function () {
-		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
+		const thisInstance = this;
+		let aDeferred = jQuery.Deferred();
 		if (this.calendarCreateView !== false) {
 			aDeferred.resolve(this.calendarCreateView.clone(true, true));
 			return aDeferred.promise();
 		}
-		var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
+		let progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
 		this.loadCalendarCreateView().then(
 			function (data) {
-				var sideBar = thisInstance.getSidebarView();
+				let sideBar = thisInstance.getSidebarView();
 				progressInstance.progressIndicator({mode: 'hide'});
 				thisInstance.showRightPanelForm();
 				sideBar.find('.qcForm').html(data);
-				var rightFormCreate = $(document).find('form[name="QuickCreate"]');
-				var moduleName = sideBar.find('[name="module"]').val();
-				var editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
-				var headerInstance = new Vtiger_Header_Js();
-				var params = {};
-				var customConfig = {
+				let rightFormCreate = $(document).find('form[name="QuickCreate"]');
+				let moduleName = sideBar.find('[name="module"]').val();
+				let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+				let headerInstance = new Vtiger_Header_Js();
+				let params = {};
+				let customConfig = {
 					height: '5em',
 					toolbar: 'Min'
 				};
@@ -681,8 +705,8 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 		this.loadCalendarData(true);
 	},
 	registerAddForm: function () {
-		var thisInstance = this;
-		var sideBar = thisInstance.getSidebarView();
+		const thisInstance = this;
+		let sideBar = thisInstance.getSidebarView();
 		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList').then(
 			function (data) {
 				if (data) {

@@ -1,27 +1,28 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Calendar-Extended-EventForm -->
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
 	<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post"
 		  action="index.php">
 		{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-			<input type="hidden" name="picklistDependency"
-				   value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
+			<input value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}' type="hidden"
+				   name="picklistDependency"
+			/>
 		{/if}
 		{if !empty($RECORD->getId())}
-			<input type="hidden" name="record" value='{$RECORD->getId()}'/>
+			<input name="record" value='{$RECORD->getId()}' type="hidden"/>
 		{/if}
 		{if !empty($MAPPING_RELATED_FIELD)}
-			<input type="hidden" name="mappingRelatedField"
-				   value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
+			<input name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'
+				   type="hidden"/>
 		{/if}
-		<input type="hidden" name="module" value="{$MODULE}"/>
-		<input type="hidden" name="action" value="SaveAjax"/>
-		<input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}"/>
-		<input type="hidden" name="defaultOtherEventDuration"
-			   value="{$USER_MODEL->get('othereventduration')}"/>
-		<input type="hidden" name="userChangedEndDateTime" value="0"/>
+		<input name="module" value="{$MODULE}" type="hidden"/>
+		<input name="action" value="SaveAjax" type="hidden"/>
+		<input name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" type="hidden"/>
+		<input name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" type="hidden"/>
+		<input name="userChangedEndDateTime" value="0" type="hidden"/>
 		<!-- Random number is used to make specific tab is opened -->
 		{assign var="RAND_NUMBER" value=rand()}
 		{if count($QUICK_CREATE_CONTENTS) > 1}
@@ -53,12 +54,16 @@
 					<li class="active">
 						<a href="javascript:void(0);"
 						   data-target=".EventsQuikcCreateContents_{$RAND_NUMBER}" data-toggle="tab"
-						   data-tab-name="Event">{\App\Language::translate('LBL_EVENT',$MODULE)}</a>
+						   data-tab-name="Event">
+							{\App\Language::translate('LBL_EVENT',$MODULE)}
+						</a>
 					</li>
 					<li class="">
 						<a href="javascript:void(0);"
 						   data-target=".CalendarQuikcCreateContents_{$RAND_NUMBER} " data-toggle="tab"
-						   data-tab-name="Task">{\App\Language::translate('LBL_TASK',$MODULE)}</a>
+						   data-tab-name="Task">
+							{\App\Language::translate('LBL_TASK',$MODULE)}
+						</a>
 					</li>
 				</ul>
 			{/if}
@@ -71,12 +76,11 @@
 					{else}
 					<div class="{$MODULE_NAME}QuikcCreateContents_{$RAND_NUMBER}">
 						{/if}
-						<input type="hidden" name="mode"
-							   value="{if $MODULE_NAME eq 'Calendar'}calendar{else}events{/if}"/>
+						<input name="mode" value="{if $MODULE_NAME eq 'Calendar'}calendar{else}events{/if}"
+							   type="hidden"/>
 						{assign var="RECORD_STRUCTURE_MODEL" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['recordStructureModel']}
 						{assign var="RECORD_STRUCTURE" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['recordStructure']}
 						{assign var="MODULE_MODEL" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['moduleModel']}
-
 						<div class="eventFormContent">
 							<div class="massEditTable row no-margin">
 								<div class="col-xs-12 paddingLRZero fieldRow">
@@ -95,7 +99,6 @@
 										{/if}
 										<div class="col-xs-12 col-md-12 fieldsLabelValue {$WIDTHTYPE} paddingLRZero"
 											 style="margin-top:10px;">
-
 											<div class="col-xs-12 col-sm-12">
 												{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 												{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
@@ -107,8 +110,9 @@
 														<a href="#" class="HelpInfoPopover pull-right"
 														   title="" data-placement="auto top"
 														   data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}"
-														   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'><span
-																	class="glyphicon glyphicon-info-sign"></span></a>
+														   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'>
+															<span class="glyphicon glyphicon-info-sign"></span>
+														</a>
 													{/if}
 													{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 												</label>
@@ -138,11 +142,13 @@
 				{/foreach}
 			{/if}
 			<div class="formActionsPanel hidden-xs hidden-sm">
-				<button class="btn btn-primary saveAndComplete marginRight10"
-						type="button">{\App\Language::translate('LBL_SAVE_AND_CLOSE', $MODULE)}</button>
-				<button class="btn btn-success save" type="button"
-						title="{\App\Language::translate('LBL_SAVE', $MODULE)}">
-					<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
+				<button type="button" class="btn btn-primary saveAndComplete marginRight10" data-js="click">
+					{\App\Language::translate('LBL_SAVE_AND_CLOSE', $MODULE)}
+				</button>
+				<button type="button" class="btn btn-success save"
+						title="{\App\Language::translate('LBL_SAVE', $MODULE)}" data-js="click">
+					<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
+				</button>
 			</div>
 	</form>
 	<script type="text/javascript">
@@ -151,4 +157,5 @@
 			instance.registerAddForm();
 		});
 	</script>
+	<!-- /tpl-Calendar-Extended-EventForm -->
 {/strip}
