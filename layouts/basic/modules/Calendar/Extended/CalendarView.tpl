@@ -15,7 +15,7 @@
 	<input value="{\App\Purifier::encodeHtml(\App\Json::encode(\AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"
 		   type="hidden" id="hiddenDays"/>
 	<input value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" type="hidden" id="activityStateLabels"/>
-	<div class="calendarViewContainer rowContent col-md-12 paddingLefttZero col-xs-12">
+	<div class="calendarViewContainer rowContent">
 		<div class="d-flex flex-md-nowrap mt-2">
 			<div class="btn-toolbar flex-nowrap mb-1 mb-sm-0 align-items-center">
 				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions' BTN_CLASS='btn-light'}
@@ -39,24 +39,15 @@
 				</div>
 			</div>
 		</div>
-		<div class="hide">
-			{foreach item=ITEM from=$ACTIVITY_TYPE}
-				<span value="{$ITEM}" class="btn btn-success buttonCBr_Calendar_activitytype_{$ITEM}">
-					{\App\Language::translate($ITEM,$MODULE)}
-				</span>
-			{/foreach}
-		</div>
-		<div class="row">
-			<div id="datesColumn">
-				<div class="col-md-1 col-sm-1 hidden-xs">
-					<div class="dateList">
-					</div>
-					<div class="subDateList">
-					</div>
+		<div class="row no-gutters" id="datesColumn">
+			<div class="col-sm-1 d-none d-sm-block">
+				<div class="dateList">
 				</div>
-				<div class="o-calendar-container">
-					<div id="calendarview"></div>
+				<div class="subDateList">
 				</div>
+			</div>
+			<div class="o-calendar-container col-sm-11">
+				<div id="calendarview"></div>
 			</div>
 		</div>
 	</div>
