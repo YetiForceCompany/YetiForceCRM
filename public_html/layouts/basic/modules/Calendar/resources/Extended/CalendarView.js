@@ -556,6 +556,103 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 			data.find('[name="time_end"]').val(endTimeString);
 		});
 	},
+	registerUsersChange: function () {
+		var thisInstance = this;
+		thisInstance.getSidebarView().find('.usersForm input[type=checkbox]').on('click', function () {
+			thisInstance.loadCalendarData();
+		});
+	},
+	registerSelect2: function () {
+		var thisInstance = this;
+		var select2 = thisInstance.getSidebarView().find('.select2');
+		select2.each(function () {
+			$(this).select2();
+		});
+
+		thisInstance.getSidebarView().find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			var select2 = thisInstance.getSidebarView().find('.select2');
+			select2.each(function () {
+				$(this).select2();
+			});
+		});
+	},
+	registerSubmitForm: function () {
+		var thisInstance = this;
+		var rightFormCreate = $(document).find('form[name="QuickCreate"]').find('.save');
+		rightFormCreate.on('click', function (e) {
+			if ($(this).parents('form:first').validationEngine('validate')) {
+				var formData = $(this).parents('form:first').serializeFormData();
+				AppConnector.request(formData).then(
+					function (data) {
+						if (data.success) {
+							if (formData.record) {
+								thisInstance.updateCalendarEvent(formData.record, data.result);
+								var textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_UPDATED_IN_YOUR_CALENDAR');
+							} else {
+								thisInstance.addCalendarEvent(data.result);
+								var textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR');
+							}
+							thisInstance.getCalendarCreateView();
+							Vtiger_Helper_Js.showPnotify({
+								text: textToShow,
+								type: 'success',
+								animation: 'show'
+							});
+						}
+					}
+				);
+			}
+		});
+	},
+	showRightPanelForm: function () {
+		if ($('.calendarRightPanel').hasClass('hideSiteBar')) {
+			$('.toggleSiteBarRightButton').trigger('click');
+		}
+		if (!$('#rightPanelEvent').hasClass('active')) {
+			$('a[href="#rightPanelEvent"]').trigger('click');
+		}
+	},
+	getCalendarCreateView: function () {
+		var thisInstance = this;
+		var aDeferred = jQuery.Deferred();
+		if (this.calendarCreateView !== false) {
+			aDeferred.resolve(this.calendarCreateView.clone(true, true));
+			return aDeferred.promise();
+		}
+		var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
+		this.loadCalendarCreateView().then(
+			function (data) {
+				var sideBar = thisInstance.getSidebarView();
+				progressInstance.progressIndicator({mode: 'hide'});
+				thisInstance.showRightPanelForm();
+				sideBar.find('.qcForm').html(data);
+				var rightFormCreate = $(document).find('form[name="QuickCreate"]');
+				var moduleName = sideBar.find('[name="module"]').val();
+				var editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+				var headerInstance = new Vtiger_Header_Js();
+				var params = {};
+				var customConfig = {
+					height: '5em',
+					toolbar: 'Min'
+				};
+				editViewInstance.registerBasicEvents(rightFormCreate);
+				rightFormCreate.validationEngine(app.validationEngineOptions);
+				headerInstance.registerHelpInfo(rightFormCreate);
+				thisInstance.registerSelect2();
+				thisInstance.registerSubmitForm();
+				headerInstance.registerQuickCreateSidebarPostLoadEvents(rightFormCreate, params);
+				jQuery.each(sideBar.find('.ckEditorSource'), function (key, element) {
+					var ckEditorInstance = new Vtiger_CkEditor_Js();
+					ckEditorInstance.loadCkEditor(jQuery(element), customConfig);
+				});
+				aDeferred.resolve(sideBar.find('.qcForm'));
+			},
+			function () {
+				progressInstance.progressIndicator({mode: 'hide'});
+			}
+		);
+		return aDeferred.promise();
+	},
 	/**
 	 * Overwriting the parent function
 	 */
