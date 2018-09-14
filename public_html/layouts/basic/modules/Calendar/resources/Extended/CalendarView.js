@@ -614,14 +614,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 	},
 	loadCalendarCreateView: function () {
 		var aDeferred = jQuery.Deferred();
-		var moduleName = app.getModuleName();
-		var url = 'index.php?module=' + moduleName + '&view=QuickCreateAjaxExtended';
-		var headerInstance = Vtiger_Header_Js.getInstance();
-		headerInstance.getQuickCreateForm(url, moduleName).done(function (data) {
-			aDeferred.resolve(jQuery(data));
-		}).fail(function () {
-			aDeferred.reject();
-		});
+		var params = {
+			'module': app.getModuleName(),
+			'view': 'EventForm',
+		};
+		AppConnector.request(params).then(
+			function (data) {
+				aDeferred.resolve(jQuery(data));
+			},
+			function () {
+				aDeferred.reject();
+			}
+		);
 		return aDeferred.promise();
 	},
 	getCalendarCreateView: function () {
