@@ -196,7 +196,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 		);
 	},
 	getDatesColumnView: function () {
-		this.datesColumnView = jQuery('#datesColumn');
+		this.datesColumnView = $('#datesColumn');
 		return this.datesColumnView;
 	},
 	refreshDatesColumnView: function (calendarView) {
@@ -277,12 +277,12 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 		return users;
 	},
 	getSidebarView: function () {
-		this.sidebarView = jQuery('#rightPanel');
+		this.sidebarView = $('#rightPanel');
 		return this.sidebarView;
 	},
 	countEventsInRange: function (dateStart, dateEnd) {
 		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		var types = thisInstance.getTypesCalendar();
 		var user = thisInstance.getSelectedUsersCalendar();
 		if (user.length == 0) {
@@ -388,7 +388,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 		datesView.find('.dateList').html(html);
 	},
 	loadCalendarData: function (allEvents) {
-		var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
+		var progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 		var thisInstance = this;
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
 		var types = [];
@@ -482,19 +482,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 		}
 		datesView.find('.subDateList').html(html);
 	},
-	generateSubDaysList: function (dateStart, dateEnd) {
-		var thisInstance = this;
+	generateSubDaysList(dateStart, dateEnd) {
+		const thisInstance = this;
 		var datesView = thisInstance.getDatesColumnView();
-		var prevDays = moment(dateStart).subtract(5, 'days');
-		var actualDay = moment(dateStart).format('DDD');
-		var nextDays = moment(dateStart).add(5, 'days');
-		var daysToShow = nextDays.diff(prevDays, 'days');
-		var html = '';
-		for (var day = 0; day < daysToShow; day++) {
+		let prevDays = moment(dateStart).subtract(5, 'days');
+		let actualDay = moment(dateStart).format('DDD');
+		let nextDays = moment(dateStart).add(5, 'days');
+		let daysToShow = nextDays.diff(prevDays, 'days');
+		let html = '';
+		for (let day = 0; day < daysToShow; day++) {
+			let active = '';
 			if (prevDays.format('DDD') === actualDay) {
-				var active = ' subActive';
-			} else {
-				var active = '';
+				active = ' subActive';
 			}
 			html += '<div class="subRecord' + active + '" data-type="days" data-date="' + prevDays.format('YYYY-MM-DD') + '">' +
 				'<div class="subDateName">' + app.vtranslate('JS_DAY') + ' ' + prevDays.format('DD') + '</div>' +
@@ -506,16 +505,16 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 		}
 		datesView.find('.subDateList').html(html);
 	},
-	selectDays: function (startDate, endDate) {
-		var thisInstance = this;
-		var start_hour = $('#start_hour').val();
-		var end_hour = $('#end_hour').val();
+	selectDays(startDate, endDate) {
+		const thisInstance = this;
+		let start_hour = $('#start_hour').val();
+		let end_hour = $('#end_hour').val();
 		if (endDate.hasTime() == false) {
 			endDate.add(-1, 'days');
 		}
 		startDate = startDate.format();
 		endDate = endDate.format();
-		var view = thisInstance.getCalendarView().fullCalendar('getView');
+		let view = thisInstance.getCalendarView().fullCalendar('getView');
 		if (start_hour == '') {
 			start_hour = '00';
 		}
@@ -530,7 +529,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 				startDate = startDate + 'T' + start_hour + ':00';
 				endDate = endDate + 'T' + start_hour + ':00';
 				if (startDate == endDate) {
-					var defaulDuration = 0;
+					let defaulDuration = 0;
 					if (data.find('[name="activitytype"]').val() == 'Call') {
 						defaulDuration = data.find('[name="defaultCallDuration"]').val();
 					} else {
@@ -539,48 +538,44 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 					endDate = moment(endDate).add(defaulDuration, 'minutes').toISOString();
 				}
 			}
-			var dateFormat = data.find('[name="date_start"]').data('dateFormat').toUpperCase();
-			var timeFormat = data.find('[name="time_start"]').data('format');
+			let dateFormat = data.find('[name="date_start"]').data('dateFormat').toUpperCase();
+			let timeFormat = data.find('[name="time_start"]').data('format');
+			let defaultTimeFormat = '';
 			if (timeFormat == 24) {
-				var defaultTimeFormat = 'HH:mm';
+				defaultTimeFormat = 'HH:mm';
 			} else {
 				defaultTimeFormat = 'hh:mm A';
 			}
-			var startDateString = moment(startDate).format(dateFormat);
-			var startTimeString = moment(startDate).format(defaultTimeFormat);
-			var endDateString = moment(endDate).format(dateFormat);
-			var endTimeString = moment(endDate).format(defaultTimeFormat);
-			data.find('[name="date_start"]').val(startDateString);
-			data.find('[name="due_date"]').val(endDateString);
-			data.find('[name="time_start"]').val(startTimeString);
-			data.find('[name="time_end"]').val(endTimeString);
+			data.find('[name="date_start"]').val(moment(startDate).format(dateFormat));
+			data.find('[name="due_date"]').val(moment(endDate).format(dateFormat));
+			data.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
+			data.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
 		});
 	},
 	registerUsersChange: function () {
-		var thisInstance = this;
-		thisInstance.getSidebarView().find('.usersForm input[type=checkbox]').on('click', function () {
+		const thisInstance = this;
+		thisInstance.getSidebarView().find('.usersForm input[type=checkbox]').on('click', () => {
 			thisInstance.loadCalendarData();
 		});
 	},
 	registerSelect2: function () {
-		var thisInstance = this;
-		var select2 = thisInstance.getSidebarView().find('.select2');
+		const thisInstance = this;
+		let select2 = thisInstance.getSidebarView().find('.select2');
 		select2.each(function () {
 			$(this).select2();
 		});
-
 		thisInstance.getSidebarView().find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-			var select2 = thisInstance.getSidebarView().find('.select2');
+			let select2 = thisInstance.getSidebarView().find('.select2');
 			select2.each(function () {
 				$(this).select2();
 			});
 		});
 	},
-	addCalendarEvent: function (calendarDetails) {
-		var calendar = this.getCalendarView();
-		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value);
-		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
-		var eventObject = {
+	addCalendarEvent(calendarDetails) {
+		let calendar = this.getCalendarView();
+		let startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value);
+		let endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
+		let eventObject = {
 			id: calendarDetails._recordId,
 			title: calendarDetails.subject.display_value,
 			start: startDate.toString(),
@@ -601,20 +596,19 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	},
 	registerSubmitForm: function () {
-		var thisInstance = this;
-		var rightFormCreate = $(document).find('form[name="QuickCreate"]').find('.save');
-		rightFormCreate.on('click', function (e) {
+		const thisInstance = this;
+		$(document).find('form[name="QuickCreate"]').find('.save').on('click', (e) => {
 			if ($(this).parents('form:first').validationEngine('validate')) {
-				var formData = $(this).parents('form:first').serializeFormData();
-				AppConnector.request(formData).then(
-					function (data) {
+				let formData = $(e.currentTarget).parents('form:first').serializeFormData();
+				AppConnector.request(formData).then((data) => {
 						if (data.success) {
+							let textToShow = '';
 							if (formData.record) {
 								thisInstance.updateCalendarEvent(formData.record, data.result);
-								var textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_UPDATED_IN_YOUR_CALENDAR');
+								textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_UPDATED_IN_YOUR_CALENDAR');
 							} else {
 								thisInstance.addCalendarEvent(data.result);
-								var textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR');
+								textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR');
 							}
 							thisInstance.getCalendarCreateView();
 							Vtiger_Helper_Js.showPnotify({
@@ -628,7 +622,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 			}
 		});
 	},
-	showRightPanelForm: function () {
+	showRightPanelForm() {
 		if ($('.calendarRightPanel').hasClass('hideSiteBar')) {
 			$('.toggleSiteBarRightButton').trigger('click');
 		}
@@ -636,32 +630,31 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 			$('a[href="#rightPanelEvent"]').trigger('click');
 		}
 	},
-	loadCalendarCreateView: function () {
-		var aDeferred = jQuery.Deferred();
-		var params = {
+	loadCalendarCreateView() {
+		let aDeferred = $.Deferred();
+		AppConnector.request({
 			'module': app.getModuleName(),
 			'view': 'EventForm',
-		};
-		AppConnector.request(params).then(
-			function (data) {
-				aDeferred.resolve(jQuery(data));
+		}).then(
+			(data) => {
+				aDeferred.resolve($(data));
 			},
-			function () {
+			() => {
 				aDeferred.reject();
 			}
 		);
 		return aDeferred.promise();
 	},
-	getCalendarCreateView: function () {
+	getCalendarCreateView() {
 		const thisInstance = this;
-		let aDeferred = jQuery.Deferred();
+		let aDeferred = $.Deferred();
 		if (this.calendarCreateView !== false) {
 			aDeferred.resolve(this.calendarCreateView.clone(true, true));
 			return aDeferred.promise();
 		}
-		let progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
+		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 		this.loadCalendarCreateView().then(
-			function (data) {
+			(data) => {
 				let sideBar = thisInstance.getSidebarView();
 				progressInstance.progressIndicator({mode: 'hide'});
 				thisInstance.showRightPanelForm();
@@ -670,24 +663,22 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 				let moduleName = sideBar.find('[name="module"]').val();
 				let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
 				let headerInstance = new Vtiger_Header_Js();
-				let params = {};
-				let customConfig = {
-					height: '5em',
-					toolbar: 'Min'
-				};
 				editViewInstance.registerBasicEvents(rightFormCreate);
 				rightFormCreate.validationEngine(app.validationEngineOptions);
 				headerInstance.registerHelpInfo(rightFormCreate);
 				thisInstance.registerSelect2();
 				thisInstance.registerSubmitForm();
-				headerInstance.registerQuickCreateSidebarPostLoadEvents(rightFormCreate, params);
-				jQuery.each(sideBar.find('.ckEditorSource'), function (key, element) {
+				headerInstance.registerQuickCreateSidebarPostLoadEvents(rightFormCreate, {});
+				$.each(sideBar.find('.ckEditorSource'), function (key, element) {
 					var ckEditorInstance = new Vtiger_CkEditor_Js();
-					ckEditorInstance.loadCkEditor(jQuery(element), customConfig);
+					ckEditorInstance.loadCkEditor($(element), {
+						height: '5em',
+						toolbar: 'Min'
+					});
 				});
 				aDeferred.resolve(sideBar.find('.qcForm'));
 			},
-			function () {
+			() => {
 				progressInstance.progressIndicator({mode: 'hide'});
 			}
 		);
