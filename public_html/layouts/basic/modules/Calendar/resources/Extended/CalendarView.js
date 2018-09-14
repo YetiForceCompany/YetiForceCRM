@@ -612,6 +612,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 			$('a[href="#rightPanelEvent"]').trigger('click');
 		}
 	},
+	loadCalendarCreateView: function () {
+		var aDeferred = jQuery.Deferred();
+		var moduleName = app.getModuleName();
+		var url = 'index.php?module=' + moduleName + '&view=QuickCreateAjaxExtended';
+		var headerInstance = Vtiger_Header_Js.getInstance();
+		headerInstance.getQuickCreateForm(url, moduleName).done(function (data) {
+			aDeferred.resolve(jQuery(data));
+		}).fail(function () {
+			aDeferred.reject();
+		});
+		return aDeferred.promise();
+	},
 	getCalendarCreateView: function () {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
