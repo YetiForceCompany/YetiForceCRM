@@ -118,7 +118,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			->update('vtiger_field', [
 				'presence' => 2,
 				'sequence' => new \yii\db\Expression($caseExpression),
-				], ['fieldid' => $fieldIdsList])->execute();
+			], ['fieldid' => $fieldIdsList])->execute();
 	}
 
 	/**
@@ -211,11 +211,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isEditable()
 	{
-		$moduleName = $this->block->module->name;
-		if (in_array($moduleName, ['Calendar', 'Events'])) {
-			return false;
-		}
-		return true;
+		return 'Calendar' !== $this->block->module->name;
 	}
 
 	/**

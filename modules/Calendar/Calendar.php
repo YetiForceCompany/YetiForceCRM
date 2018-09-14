@@ -22,7 +22,7 @@
  */
 
 // Task is used to store customer information.
-class Activity extends CRMEntity
+class Calendar extends CRMEntity
 {
 	public $table_name = 'vtiger_activity';
 	public $table_index = 'activityid';
@@ -120,7 +120,7 @@ class Activity extends CRMEntity
 				$this->db->update($this->reminder_table, [
 					'reminder_time' => $reminderTime,
 					'reminder_sent' => $reminderSent,
-					], 'activity_id = ?', [$activityId]
+				], 'activity_id = ?', [$activityId]
 				);
 			} else {
 				$this->db->insert($this->reminder_table, [
@@ -154,8 +154,8 @@ class Activity extends CRMEntity
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_activity_reminder_popup', [
 				'status' => 1,
-				], ['recordid' => $this->id])
-				->execute();
+			], ['recordid' => $this->id])
+			->execute();
 
 		return true;
 	}

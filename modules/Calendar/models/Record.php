@@ -124,9 +124,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	public function getValuesForSave()
 	{
 		$forSave = parent::getValuesForSave();
-		if ($this->isNew()) {
-			$forSave['vtiger_crmentity']['setype'] = 'Calendar';
-		}
 		if (isset($forSave['vtiger_crmentity']['smownerid'])) {
 			$forSave['vtiger_activity']['smownerid'] = $forSave['vtiger_crmentity']['smownerid'];
 		}

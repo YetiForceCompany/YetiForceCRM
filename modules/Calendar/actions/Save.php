@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * *********************************************************************************** */
 
 class Calendar_Save_Action extends Vtiger_Save_Action
@@ -13,27 +14,15 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 	/**
 	 * Function to save record.
 	 *
-	 * @param \App\Request $request - values of the record
+	 * @param \App\Request $request Values of the record
 	 *
-	 * @return Vtiger_Record_Model - record Model of saved record
+	 * @throws \yii\db\Exception
+	 *
+	 * @return \Vtiger_Record_Model Record Model of saved record
 	 */
 	public function saveRecord(\App\Request $request)
 	{
-		$recordModel = $this->getRecordModelFromRequest($request);
-		$recordModel->save();
-		if ($request->getBoolean('relationOperation')) {
-			$parentModuleName = $request->getByType('sourceModule', 2);
-			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
-			$parentRecordId = $request->getInteger('sourceRecord');
-			$relatedModule = $recordModel->getModule();
-			if ($relatedModule->getName() === 'Events') {
-				$relatedModule = Vtiger_Module_Model::getInstance('Calendar');
-			}
-			$relatedRecordId = $recordModel->getId();
-
-			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
-			$relationModel->addRelation($parentRecordId, $relatedRecordId);
-		}
+		$recordModel = parent::saveRecord($request);
 		if ($request->getBoolean('reapeat')) {
 			$recurringEvents = Calendar_RecuringEvents_Model::getInstanceFromRequest($request);
 			if ($request->isEmpty('record')) {

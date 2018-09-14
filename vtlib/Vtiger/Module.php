@@ -236,9 +236,6 @@ class Module extends ModuleBasic
 	 */
 	public static function getClassInstance($modulename)
 	{
-		if ($modulename == 'Calendar') {
-			$modulename = 'Activity';
-		}
 		$instance = false;
 		$filepath = "modules/$modulename/$modulename.php";
 		if (Utils::checkFileAccessForInclusion($filepath, false)) {
