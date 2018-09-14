@@ -121,6 +121,22 @@ class Calendar_Calendar_Model extends App\Base
 		return $query;
 	}
 
+	/**
+	 * Get records count for extended calendar left column.
+	 *
+	 * @return int|string
+	 */
+	public function getEntityRecordsCount()
+	{
+		$count = $this->getQuery()->count();
+		return $count;
+	}
+
+	/**
+	 * Get public holidays for rendenring them on the calendar.
+	 *
+	 * @return array
+	 */
 	public function getPublicHolidays()
 	{
 		$startDate = new DateTimeField($this->get('start'));
