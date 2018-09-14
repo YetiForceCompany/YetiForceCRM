@@ -25,12 +25,12 @@
 			<div class="tab-pane fade" id="rightPanelFilter" role="tabpanel" aria-labelledby="rightPanelFilter-tab">
 				<div class="filterButtons">
 					<span class="btn btn-danger calendarFilters" id="meetingSwitchingDays"
-						  data-type="Meeting">{\App\Language::translate('LBL_FILTER', $MODULE)}</span>
+						  data-type="Meeting">{strtoupper(\App\Language::translate('LBL_FILTER', $MODULE))}</span>
 					<span class="btn btn-success calendarFilters" id="taskSwitchingDays" data-type="Task">
 						{strtoupper(\App\Language::translate('LBL_TASK', $MODULE))}
 					</span>
 					<span class="btn btn-warning calendarFilters" id="phoneSwitchingDays"
-						  data-type="Call"></span>
+						  data-type="Call">{strtoupper(\App\Language::translate('LBL_CALL', $MODULE))}</span>
 				</div>
 				<div style="border-bottom: 1px solid #ddd;">
 					<div class="usersForm"></div>
