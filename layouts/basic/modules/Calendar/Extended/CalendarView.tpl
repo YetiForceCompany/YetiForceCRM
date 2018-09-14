@@ -35,8 +35,9 @@
 		</div>
 		<div class="hide">
 			{foreach item=ITEM from=$ACTIVITY_TYPE}
-				<span class="btn btn-success buttonCBr_Calendar_activitytype_{$ITEM}"
-					  value="{$ITEM}">{\App\Language::translate($ITEM,$MODULE)}</span>
+				<span value="{$ITEM}" class="btn btn-success buttonCBr_Calendar_activitytype_{$ITEM}">
+					{\App\Language::translate($ITEM,$MODULE)}
+				</span>
 			{/foreach}
 		</div>
 		<div class="row">
@@ -45,7 +46,6 @@
 				<div class="col-md-1 col-sm-1 hidden-xs">
 					<div class="dateList">
 					</div>
-
 					<div class="subDateList">
 					</div>
 				</div>
@@ -57,4 +57,3 @@
 		</div>
 	</div>
 {/strip}
-

@@ -9,4 +9,11 @@
  */
 class Calendar_RightPanelExtended_View extends Calendar_RightPanel_View
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function getTpl(string $tplFile)
+	{
+		return "Extended/$tplFile";
+	}
 }

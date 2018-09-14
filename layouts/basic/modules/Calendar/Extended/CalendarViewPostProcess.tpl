@@ -6,7 +6,6 @@
 			 title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
 			<span class="glyphicon glyphicon-chevron-left"></span>
 		</div>
-
 		<ul class="nav nav-tabs" id="rightPanelTab" role="tablist">
 			<li class="nav-item active">
 				<a class="nav-link" id="rightPanelEvent-tab" data-toggle="tab" href="#rightPanelEvent" role="tab"
