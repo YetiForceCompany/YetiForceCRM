@@ -19,6 +19,19 @@ class Calendar_CalendarExtended_View extends Calendar_Calendar_View
 		return "Extended/$tplFile";
 	}
 
+	public function preProcess(\App\Request $request, $display = true)
+	{
+		parent::preProcess($request, $display);
+
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$mid = false;
+		if ($request->has('mid')) {
+			$mid = $request->getInteger('mid');
+		}
+		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
