@@ -122,10 +122,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$pickListFieldName = $fieldModel->getName();
 		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
 		$tableName = $this->getPickListTableName($pickListFieldName);
-		$newData = [];
-		if (!empty($newValue)) {
-			$newData[$pickListFieldName] = $newValue;
-		}
+		$newData = [$pickListFieldName => $newValue];
 		$descriptionColumnExist = $this->checkDescriptionColumn($db, $tableName);
 		if (!empty($description) || $descriptionColumnExist) {
 			if (!$descriptionColumnExist) {
@@ -134,7 +131,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$newData['description'] = $description;
 		}
 		$result = $db->createCommand()->update($tableName, $newData, [$primaryKey => $id])->execute();
-		if ($result && !empty($newValue)) {
+		if ($result) {
 			$dataReader = (new \App\Db\Query())->select(['tablename', 'columnname', 'tabid'])
 				->from('vtiger_field')
 				->where(['and', ['fieldname' => $pickListFieldName], ['presence' => [0, 2]], ['or', ['uitype' => [15, 16, 33]], ['and', ['uitype' => [55]], ['fieldname' => 'salutationtype']]]])

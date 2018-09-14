@@ -71,9 +71,9 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		try {
 			$fieldModel->validate($newValue);
-			$id = $moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected, $description)['id'];
-			$moduleModel->updateCloseState($id, $fieldModel, $newValue, $closeState);
-			$response->setResult(['id' => $id]);
+			$id = $moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected, $description);
+			$moduleModel->updateCloseState($id['picklistValueId'], $fieldModel, $newValue, $closeState);
+			$response->setResult(['id' => $id['id']]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
@@ -98,6 +98,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if (isset($selectedFieldNonEditablePickListValues[$id])) {
 			throw new \Sabre\DAV\Exception\BadRequest('ERR_NOT_ALLOWED_VALUE');
 		}
+		$newValue = ($newValue !== '') ?: $oldValue;
 		$response = new Vtiger_Response();
 		if ($fieldModel->isEditable()) {
 			try {
@@ -106,7 +107,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 					$this->updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue);
 				}
 				$status = $moduleModel->renamePickListValues($fieldModel, $oldValue, $newValue, $id, $request->getForHtml('description'));
-				$moduleModel->updateCloseState($request->getInteger('picklist_valueid'), $fieldModel, empty($newValue) ? $oldValue : $newValue, $request->getBoolean('close_state'));
+				$moduleModel->updateCloseState($request->getInteger('picklist_valueid'), $fieldModel, $newValue, $request->getBoolean('close_state'));
 				$response->setResult(['success', $status]);
 			} catch (Exception $e) {
 				$response->setError($e->getCode(), $e->getMessage());
