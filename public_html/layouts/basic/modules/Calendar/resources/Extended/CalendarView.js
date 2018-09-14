@@ -34,6 +34,12 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 		});
 	},
 	/**
+	 * Register load calendar data
+	 */
+	registerLoadCalendarData() {
+		this.loadCalendarData(true);
+	},
+	/**
 	 * Render calendar
 	 */
 	renderCalendar() {

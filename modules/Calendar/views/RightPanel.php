@@ -9,7 +9,7 @@
 class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 {
 	/**
-	 * Calendar_RightPanel_View constructor.
+	 * Constructor.
 	 */
 	public function __construct()
 	{
