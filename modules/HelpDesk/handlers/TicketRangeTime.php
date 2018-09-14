@@ -17,7 +17,7 @@ class HelpDesk_TicketRangeTime_Handler
 	public function entityAfterLink(App\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
-		if (in_array($params['destinationModule'], ['Calendar', 'Activity', 'ModComments'])) {
+		if (in_array($params['destinationModule'], ['Calendar', 'ModComments'])) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($params['destinationRecordId'], $params['destinationModule']);
 			HelpDesk_Record_Model::updateTicketRangeTimeField($recordModel, true);
 		}

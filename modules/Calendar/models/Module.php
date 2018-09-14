@@ -82,8 +82,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			'linkurl' => $this->getListViewUrl(),
 			'linkicon' => 'fas fa-list',
 		]);
-		if (isset($linkParams['ACTION'])) {
-			if ($linkParams['ACTION'] === 'Calendar' && AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
+		if (isset($linkParams['ACTION']) && 'Calendar' === $linkParams['ACTION']) {
+			if (AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
 				$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'SIDEBARLINK',
 					'linklabel' => 'LBL_CALENDAR_LIST',
@@ -91,26 +91,24 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 					'linkicon' => 'far fa-calendar-minus',
 				]);
 			}
-			if ($linkParams['ACTION'] === 'Calendar') {
-				$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'SIDEBARWIDGETRIGHT',
-					'linklabel' => 'Activity Type',
-					'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getActivityType',
-					'linkicon' => '',
-				]);
-				$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'SIDEBARWIDGETRIGHT',
-					'linklabel' => 'LBL_USERS',
-					'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getUsersList',
-					'linkicon' => '',
-				]);
-				$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'SIDEBARWIDGETRIGHT',
-					'linklabel' => 'LBL_GROUPS',
-					'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getGroupsList',
-					'linkicon' => '',
-				]);
-			}
+			$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARWIDGETRIGHT',
+				'linklabel' => 'Activity Type',
+				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getActivityType',
+				'linkicon' => '',
+			]);
+			$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARWIDGETRIGHT',
+				'linklabel' => 'LBL_USERS',
+				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getUsersList',
+				'linkicon' => '',
+			]);
+			$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARWIDGETRIGHT',
+				'linklabel' => 'LBL_GROUPS',
+				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getGroupsList',
+				'linkicon' => '',
+			]);
 		}
 		return $links;
 	}

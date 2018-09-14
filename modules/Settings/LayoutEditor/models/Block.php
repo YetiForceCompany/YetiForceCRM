@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
@@ -27,11 +28,9 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 	public function isAddCustomFieldEnabled()
 	{
 		$actionNotSupportedModules = ['calendar', 'events', 'faq', 'helpdesk'];
-		$blocksEliminatedArray = ['calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION', 'LBL_CUSTOM_INFORMATION', 'LBL_RELATED_TO'],
+		$blocksEliminatedArray = ['calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION', 'LBL_CUSTOM_INFORMATION', 'LBL_RELATED_TO', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION'],
 			'helpdesk' => ['LBL_TICKET_RESOLUTION', 'LBL_COMMENTS'],
-			'faq' => ['LBL_COMMENT_INFORMATION'],
-			'events' => ['LBL_EVENT_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_DESCRIPTION_INFORMATION',
-				'LBL_RECURRENCE_INFORMATION', 'LBL_RELATED_TO', 'LBL_INVITE_RECORDS', 'LBL_CUSTOM_INFORMATION', ], ];
+			'faq' => ['LBL_COMMENT_INFORMATION']];
 		if (in_array(strtolower($this->module->name), $actionNotSupportedModules)) {
 			if (!empty($blocksEliminatedArray[strtolower($this->module->name)])) {
 				if (in_array($this->get('label'), $blocksEliminatedArray[strtolower($this->module->name)])) {
@@ -68,7 +67,7 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 		$db->createCommand()->update('vtiger_field', [
 			'sequence' => new yii\db\Expression($caseSequence),
 			'block' => new yii\db\Expression($caseBlock),
-			], ['fieldid' => $fieldIdList])->execute();
+		], ['fieldid' => $fieldIdList])->execute();
 	}
 
 	public static function getInstance($value, $moduleInstance = false)
