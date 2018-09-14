@@ -51,4 +51,5 @@
 			</div>
 		</div>
 	</div>
+	<!-- /tpl-Calendar-Extended-CalendarView -->
 {/strip}
