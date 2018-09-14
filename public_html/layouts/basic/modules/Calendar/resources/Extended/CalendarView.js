@@ -16,14 +16,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 	}
 }, {
 	/**
-	 * Dates left side
-	 * @returns {*}
-	 */
-	getDatesColumnView() {
-		this.datesColumnView = $('#datesColumn');
-		return this.datesColumnView;
-	},
-	/**
 	 * Calendar scroll
 	 */
 	registerCalendarScroll() {
@@ -183,6 +175,321 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 		thisInstance.getCalendarView().fullCalendar('destroy');
 		thisInstance.getCalendarView().fullCalendar(options);
 		thisInstance.registerCalendarScroll();
+	},
+	getDatesColumnView: function () {
+		this.datesColumnView = jQuery('#datesColumn');
+		return this.datesColumnView;
+	},
+	refreshDatesColumnView: function (calendarView) {
+		var thisInstance = this;
+		thisInstance.registerDatesColumn(calendarView);
+	},
+	registerDatesColumn: function (calendarView) {
+		var thisInstance = this;
+		var dateListUnit = calendarView.type;
+		var subDateListUnit = 'week';
+
+		if (dateListUnit === 'year') {
+			subDateListUnit = 'year';
+		} else if (dateListUnit === 'month') {
+			subDateListUnit = 'month';
+		} else if (dateListUnit === 'week') {
+			subDateListUnit = 'week';
+		} else if (dateListUnit === 'day') {
+			subDateListUnit = 'day';
+		}
+
+		if (subDateListUnit === 'year') {
+			thisInstance.generateYearList(calendarView.intervalStart, calendarView.intervalEnd);
+			var datesView = thisInstance.getDatesColumnView();
+			datesView.find('.subDateList').html('');
+		} else if (subDateListUnit === 'month') {
+			thisInstance.generateYearList(calendarView.intervalStart, calendarView.intervalEnd);
+			thisInstance.generateSubMonthList(calendarView.intervalStart, calendarView.intervalEnd);
+		} else if (subDateListUnit === 'week') {
+			thisInstance.generateMonthList(calendarView.intervalStart, calendarView.intervalEnd);
+			thisInstance.generateSubWeekList(calendarView.start, calendarView.end);
+		} else if (subDateListUnit === 'day') {
+			thisInstance.generateWeekList(calendarView.start, calendarView.end);
+			thisInstance.generateSubDaysList(calendarView.start, calendarView.end);
+		}
+		thisInstance.updateCountTaskCalendar();
+		thisInstance.registerDatesChange();
+	},
+	registerDatesChange: function () {
+		var thisInstance = this;
+		var datesView = thisInstance.getDatesColumnView().find('.dateRecord');
+		datesView.on('click', function () {
+			datesView.removeClass('dateActive');
+			$(this).addClass('dateActive');
+			var momentData = moment($(this).data('date') + '-01-01', "YYYY-MM-DD");
+			thisInstance.getCalendarView().fullCalendar('gotoDate', momentData);
+			var view = thisInstance.getCalendarView().fullCalendar('getView');
+			thisInstance.refreshDatesColumnView(view);
+			thisInstance.loadCalendarData();
+		});
+		var subDatesView = thisInstance.getDatesColumnView().find('.subRecord');
+		subDatesView.on('click', function () {
+			datesView.removeClass('subActive');
+			$(this).addClass('subActive');
+			var momentData = moment($(this).data('date'), "YYYY-MM-DD");
+			thisInstance.getCalendarView().fullCalendar('gotoDate', momentData);
+			var view = thisInstance.getCalendarView().fullCalendar('getView');
+			thisInstance.refreshDatesColumnView(view);
+			thisInstance.loadCalendarData();
+		});
+	},
+	getTypesCalendar: function () {
+		var thisInstance = this;
+		var filterButtons = thisInstance.getSidebarView().find('.calendarFilters[data-selected="true"]');
+		var types = [];
+		filterButtons.each(function () {
+			types.push($(this).data('type'));
+		});
+		return types;
+	},
+	getSelectedUsersCalendar: function () {
+		var thisInstance = this;
+		var selectedUsers = thisInstance.getSidebarView().find('.usersForm input:checked');
+		var users = [];
+		selectedUsers.each(function () {
+			users.push($(this).val());
+		});
+		return users;
+	},
+	getSidebarView: function () {
+		this.sidebarView = jQuery('#rightPanel');
+		return this.sidebarView;
+	},
+	countEventsInRange: function (dateStart, dateEnd) {
+		var thisInstance = this;
+		var aDeferred = jQuery.Deferred();
+		var types = thisInstance.getTypesCalendar();
+		var user = thisInstance.getSelectedUsersCalendar();
+		if (user.length == 0) {
+			user = [app.getMainParams('current_user_id')];
+		}
+		var params = {
+			module: 'Calendar',
+			action: 'Calendar',
+			mode: 'getCountEvents',
+			start: dateStart,
+			end: dateEnd,
+			types: types,
+			user: user,
+			time: app.getMainParams('showType'),
+		};
+		AppConnector.request(params).then(function (events) {
+			aDeferred.resolve(events.result);
+		});
+		return aDeferred.promise();
+	},
+	updateCountTaskCalendar: function () {
+		var thisInstance = this;
+		var datesView = thisInstance.getDatesColumnView();
+		var subDatesElements = datesView.find('.subRecord');
+		subDatesElements.each(function () {
+			var thisElement = $(this);
+			var data = $(this).data('date');
+			var type = $(this).data('type');
+
+			if (type == 'months') {
+				thisInstance.countEventsInRange(moment(data).format('YYYY-MM') + '-01', moment(data).endOf('month').format('YYYY-MM-DD')).then(function (count) {
+					thisElement.find('.countEvents').removeClass('hide').html(count);
+				});
+			} else if (type == 'weeks') {
+				thisInstance.countEventsInRange(moment(data).format('YYYY-MM-DD'), moment(data).add(1, 'weeks').format('YYYY-MM-DD')).then(function (count) {
+					thisElement.find('.countEvents').removeClass('hide').html(count);
+				});
+			} else if (type == 'days') {
+				thisInstance.countEventsInRange(moment(data).format('YYYY-MM-DD'), moment(data).format('YYYY-MM-DD')).then(function (count) {
+					thisElement.find('.countEvents').removeClass('hide').html(count);
+				});
+			}
+		});
+	},
+	generateYearList: function (dateStart, dateEnd) {
+		var thisInstance = this;
+		var datesView = thisInstance.getDatesColumnView();
+		var prevYear = moment(dateStart).subtract(1, 'year');
+		var actualYear = moment(dateStart);
+		var nextYear = moment(dateStart).add(1, 'year');
+		var html = '';
+		while (prevYear <= nextYear) {
+			if (prevYear.format('YYYY') === actualYear.format('YYYY')) {
+				var active = ' dateActive';
+			} else {
+				var active = '';
+			}
+			html += '<div class="dateRecord' + active + '" data-date="' + prevYear.format('YYYY') + '">' +
+				prevYear.format('YYYY') +
+				'</div>';
+			prevYear = moment(prevYear).add(1, 'year');
+		}
+		datesView.find('.dateList').html(html);
+	},
+	generateMonthList: function (dateStart, dateEnd) {
+		var thisInstance = this;
+		var datesView = thisInstance.getDatesColumnView();
+		var prevMonth = moment(dateStart).subtract(1, 'months');
+		var actualMonth = moment(dateStart);
+		var nextMonth = moment(dateStart).add(1, 'months');
+		var html = '';
+		while (prevMonth <= nextMonth) {
+			if (prevMonth.format('YYYY-MM') === actualMonth.format('YYYY-MM')) {
+				var active = ' dateActive';
+			} else {
+				var active = '';
+			}
+			html += '<div class="dateRecord' + active + '" data-date="' + prevMonth.format('YYYY-MM-DD') + '">' +
+				prevMonth.format('MMMM') +
+				'</div>';
+			prevMonth = moment(prevMonth).add(1, 'months');
+		}
+		datesView.find('.dateList').html(html);
+	},
+	generateWeekList: function (dateStart, dateEnd) {
+		var thisInstance = this;
+		var datesView = thisInstance.getDatesColumnView();
+		var prevMonth = moment(dateStart).subtract(1, 'week');
+		var actualMonth = moment(dateStart);
+		var nextMonth = moment(dateStart).add(1, 'week');
+		var html = '';
+		while (prevMonth <= nextMonth) {
+			if (prevMonth.format('WW') === actualMonth.format('WW') && prevMonth.format('YYYY') === actualMonth.format('YYYY')) {
+				var active = ' dateActive';
+			} else {
+				var active = '';
+			}
+			html += '<div class="dateRecord' + active + '" data-date="' + prevMonth.format('YYYY-MM-DD') + '">' +
+				prevMonth.format('WW') +
+				'</div>';
+			prevMonth = moment(prevMonth).add(1, 'week');
+		}
+		datesView.find('.dateList').html(html);
+	},
+	loadCalendarData: function (allEvents) {
+		var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
+		var thisInstance = this;
+		var view = thisInstance.getCalendarView().fullCalendar('getView');
+		var types = [];
+		var user = [];
+		thisInstance.getCalendarView().fullCalendar('removeEvents');
+		var formatDate = CONFIG.dateFormat.toUpperCase();
+		thisInstance.refreshDatesColumnView(view);
+		types = thisInstance.getTypesCalendar();
+		if (types.length == 0) {
+			allEvents = true;
+		}
+		user = thisInstance.getSelectedUsersCalendar();
+		if (user.length == 0) {
+			user = [app.getMainParams('current_user_id')];
+		}
+		var filters = [];
+		$(".calendarFilters .filterField").each(function (index) {
+			var element = $(this);
+			var name, value;
+			if (element.attr('type') == 'checkbox') {
+				name = element.val();
+				value = element.prop('checked') ? 1 : 0;
+			} else {
+				name = element.attr('name');
+				value = element.val();
+			}
+			filters.push({name: name, value: value});
+		});
+		if (allEvents == true || types.length > 0) {
+			var params = {
+				module: 'Calendar',
+				action: 'Calendar',
+				mode: 'getEvents',
+				start: view.start.format(formatDate),
+				end: view.end.format(formatDate),
+				user: user,
+				time: app.getMainParams('showType'),
+				types: types,
+				filters: filters
+			};
+			AppConnector.request(params).then(function (events) {
+				thisInstance.getCalendarView().fullCalendar('removeEvents');
+				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
+				progressInstance.progressIndicator({mode: 'hide'});
+			});
+		} else {
+			thisInstance.getCalendarView().fullCalendar('removeEvents');
+			progressInstance.progressIndicator({mode: 'hide'});
+		}
+	},
+	generateSubMonthList: function (dateStart, dateEnd) {
+		var thisInstance = this;
+		var datesView = thisInstance.getDatesColumnView();
+		var activeMonth = parseInt(moment(dateStart).locale('en').format('M')) - 1;
+		var html = '';
+		for (var month = 0; 12 > month; month++) {
+			if (month === activeMonth) {
+				var active = ' subActive';
+			} else {
+				var active = '';
+			}
+			html += '<div class="subRecord' + active + '" data-type="months" data-date="' + moment(dateStart).month(month).format('YYYY-MM') + '">' +
+				'<div class="subDateName">' + app.vtranslate('JS_' + moment().month(month).format('MMM').toUpperCase()).toUpperCase() + '</div>' +
+				'<div class="subDateCount">' +
+				'<div class="countEvents">0</div>' +
+				'</div>' +
+				'</div>';
+		}
+		datesView.find('.subDateList').html(html);
+	},
+	generateSubWeekList: function (dateStart, dateEnd) {
+		var thisInstance = this;
+		var datesView = thisInstance.getDatesColumnView();
+		var prevWeeks = moment(dateStart).subtract(5, 'weeks');
+		var actualWeek = moment(dateStart).format('WW');
+		var nextWeeks = moment(dateStart).add(5, 'weeks');
+		var html = '';
+		while (prevWeeks <= nextWeeks) {
+			if (prevWeeks.format('WW') === actualWeek) {
+				var active = ' subActive';
+			} else {
+				var active = '';
+			}
+			html += '<div class="subRecord' + active + '" data-type="weeks" data-date="' + prevWeeks.format('YYYY-MM-DD') + '">' +
+				'<div class="subDateName">' + app.vtranslate('JS_WEEK') + ' ' + prevWeeks.format('WW') + '</div>' +
+				'<div class="subDateCount">' +
+				'<div class="countEvents">0</div>' +
+				'</div>' +
+				'</div>';
+			prevWeeks = moment(prevWeeks).add(1, 'weeks');
+		}
+		datesView.find('.subDateList').html(html);
+	},
+	generateSubDaysList: function (dateStart, dateEnd) {
+		var thisInstance = this;
+		var datesView = thisInstance.getDatesColumnView();
+		var prevDays = moment(dateStart).subtract(5, 'days');
+		var actualDay = moment(dateStart).format('DDD');
+		var nextDays = moment(dateStart).add(5, 'days');
+		var daysToShow = nextDays.diff(prevDays, 'days');
+		var html = '';
+		for (var day = 0; day < daysToShow; day++) {
+			if (prevDays.format('DDD') === actualDay) {
+				var active = ' subActive';
+			} else {
+				var active = '';
+			}
+			html += '<div class="subRecord' + active + '" data-type="days" data-date="' + prevDays.format('YYYY-MM-DD') + '">' +
+				'<div class="subDateName">' + app.vtranslate('JS_DAY') + ' ' + prevDays.format('DD') + '</div>' +
+				'<div class="subDateCount">' +
+				'<div class="countEvents">0</div>' +
+				'</div>' +
+				'</div>';
+			prevDays = moment(prevDays).add(1, 'days');
+		}
+		datesView.find('.subDateList').html(html);
+	},
+	registerLoadCalendarData: function () {
+		var thisInstance = this;
+		thisInstance.loadCalendarData(true);
 	},
 	/**
 	 * Register events
