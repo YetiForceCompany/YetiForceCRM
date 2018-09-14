@@ -19,10 +19,12 @@
 		{assign var=META_VARIABLES value=Vtiger_AdvancedFilter_Helper::getMetaVariables()}
 	{/if}
 	{assign var=COLUMNNAME_API value='getName'}
-	<div class="padding1per stepBorder">
-		<div id="advanceFilterContainer" class="row js-conditions-container padding1per" data-js="container">
-			<h5 class="padding-bottom1per col-md-10"><strong>{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h5>
-			<div class="col-md-10" >
+	<div class="card mb-2">
+		<div id="advanceFilterContainer" class="js-conditions-container" data-js="container">
+			<div class="card-header">
+				<span class="fas fa-random"></span> {\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}
+			</div>
+			<div class="card-body">
 				{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl')}
 			</div>
 			{include file=\App\Layout::getTemplatePath('FieldExpressions.tpl')}

@@ -4,7 +4,7 @@
  * Calendar action class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 {
@@ -50,9 +50,9 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		}
 		if ($request->get('widget')) {
 			$record->set('customFilter', $request->getByType('customFilter', 2));
-			$entity = $record->getEntityCount();
+			$entity = array_merge($record->getEntityCount(), $record->getPublicHolidays());
 		} else {
-			$entity = $record->getEntity();
+			$entity = array_merge($record->getEntity(), $record->getPublicHolidays());
 		}
 
 		$response = new Vtiger_Response();

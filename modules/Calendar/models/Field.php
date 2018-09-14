@@ -127,21 +127,6 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get visibilty permissions of a Field.
-	 *
-	 * @param bool $readOnly
-	 *
-	 * @return bool
-	 */
-	public function getPermissions($readOnly = true)
-	{
-		$calendar = \App\Field::getFieldPermission('Calendar', $this->getName(), $readOnly);
-		$events = \App\Field::getFieldPermission('Events', $this->getName(), $readOnly);
-
-		return $calendar || $events;
-	}
-
-	/**
 	 * Function to get the field details.
 	 *
 	 * @return <Array> - array of field values

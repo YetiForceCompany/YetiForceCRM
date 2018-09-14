@@ -42,9 +42,6 @@
 										{$FIELD_INFO['value'] = App\Purifier::decodeHtml($CONDITION_INFO['value'])}
 										selected="selected"
 									{/if}
-									{if ($MODULE_MODEL->get('name') eq 'Calendar') && ($FIELD_NAME eq 'activitytype')}
-										{$FIELD_INFO['picklistvalues']['Task'] = \App\Language::translate('Task', 'Calendar')}
-									{/if}
 									{if $FIELD_MODEL->getFieldDataType() eq 'reference'}
 										{assign var=referenceList value=$FIELD_MODEL->getReferenceList()}
 										{if is_array($referenceList) && in_array('Users', $referenceList)}

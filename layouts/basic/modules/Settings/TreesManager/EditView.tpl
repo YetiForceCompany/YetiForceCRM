@@ -57,11 +57,7 @@
 					<select class="select2 form-control" name="share[]" multiple>
 						{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 							<option {if in_array($TAB_ID, $RECORD_MODEL->get('share'))} selected="" {/if} value="{$TAB_ID}">
-								{if $MODULE_MODEL->getName() eq 'Calendar'}
-									{\App\Language::translate('LBL_TASK', $MODULE_MODEL->getName())}
-								{else}
-									{\App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
-								{/if}
+								{\App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
 							</option>
 						{/foreach}
 					</select>

@@ -4,6 +4,8 @@
 Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 	step3Container: false,
 	advanceFilterInstance: false,
+	ckEditorInstance: false,
+	fieldValueMap: false,
 	init: function () {
 		this.initialize();
 	},
@@ -27,45 +29,33 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 	 * Function  to intialize the reports step1
 	 */
 	initialize: function (container) {
-		if (typeof container === "undefined") {
-			container = jQuery('#pdf_step3');
+		if (typeof container === 'undefined') {
+			container = $('#pdf_step3');
 		}
 		if (container.is('#pdf_step3')) {
 			this.setContainer(container);
 		} else {
-			this.setContainer(jQuery('#pdf_step3'));
+			this.setContainer($('#pdf_step3'));
 		}
 	},
-	submit: function () {
-		for (var instance in CKEDITOR.instances) {
-			CKEDITOR.instances[instance].updateElement();
-		}
+	submit() {
 		var aDeferred = jQuery.Deferred();
+		this.calculateValues();
 		var form = this.getContainer();
-		var formData = form.serializeFormData();
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var progressIndicatorElement = $.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
 			}
 		});
-
 		var saveData = form.serializeFormData();
 		saveData['action'] = 'Save';
 		saveData['step'] = 3;
 		AppConnector.request(saveData).done(function (data) {
-			data = JSON.parse(data);
-			if (data.success == true) {
+			if (data.success === true) {
 				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
-
-				AppConnector.request(formData).done(function (data) {
-					form.hide();
-					progressIndicatorElement.progressIndicator({
-						'mode': 'hide'
-					})
-					aDeferred.resolve(data);
-				}).fail(function (error, err) {
-					app.errorLog(error, err);
+				progressIndicatorElement.progressIndicator({
+					'mode': 'hide'
 				});
 			}
 		}).fail(function (error, err) {
@@ -74,13 +64,24 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 		return aDeferred.promise();
 	},
 	registerCancelStepClickEvent: function (form) {
-		jQuery('button.cancelLink', form).on('click', function () {
+		$('button.cancelLink', form).on('click', function () {
 			window.history.back();
 		});
 	},
-	registerEvents: function () {
-		let container = this.getContainer(),
-			opts = app.validationEngineOptions;
+	calculateValues: function () {
+		//handled advanced filters saved values.
+		var enableFilterElement = $('#enableAdvanceFilters');
+		if (enableFilterElement.length > 0 && enableFilterElement.is(':checked') == false) {
+			$('#advanced_filter').val($('#olderConditions').val());
+		} else {
+			$('[name="filtersavedinnew"]').val("6");
+			var advfilterlist = this.advanceFilterInstance.getValues();
+			$('#advanced_filter').val(JSON.stringify(advfilterlist));
+		}
+	},
+	registerEvents() {
+		const container = this.getContainer();
+		const opts = app.validationEngineOptions;
 		// to prevent the page reload after the validation has completed
 		opts['onValidationComplete'] = function (form, valid) {
 			//returns the valid status
@@ -88,8 +89,8 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 		};
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
-		App.Fields.Picklist.showSelect2ElementView(container.find('select'));
-		new App.Fields.Text.Editor('.js-editor', {toolbar: 'Full'});
+		App.Fields.Picklist.changeSelectElementView(container);
 		this.registerCancelStepClickEvent(container);
+		this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance($('#advanceFilterContainer', container));
 	}
 });

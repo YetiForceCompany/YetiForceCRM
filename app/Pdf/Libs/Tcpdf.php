@@ -1,42 +1,46 @@
 <?php
 
-namespace App\Pdf\Libs;
-
-\Vtiger_Loader::includeOnce('~/vendor/tecnickcom/tcpdf/tcpdf.php');
-
 /**
- * Ytcpdf class.
+ * Tcpdf lib class.
+ *
+ * @package App\Pdf\Libs
  *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Rafal Pospiech <r.pospiech@yetiforce.com>
  */
-class Yftcpdf extends \TCPDF
+
+namespace App\Pdf\Libs;
+
+/**
+ * Tcpdf lib class.
+ */
+class Tcpdf extends \TCPDF
 {
 	/**
-	 * Css styles declaration.
+	 * Global css style declaration.
 	 *
 	 * @var array
 	 */
-	protected $cssStyles = [
-		'' => '
-			.header-table {
-				width: 100%;
-			    color: #ffffff;
-			    text-align: center;
-			    font-family: dejavusans;
-			    font-size: 16px;
-			    background-color: #4a5364;
-			}
-		'
-	];
-
-	/**
-	 * Current CSS style name (for current page - AddPage).
-	 *
-	 * @var string
-	 */
-	protected $currentCssStyleName = '';
+	protected $cssStyle = '
+		* {font-size:10px;}
+		div {display:block;}
+		table {
+			width: 100%;
+			font-size: 10px;
+			color: black;
+		}
+		thead,thead tr,thead tr td{background-color:#eeeeee;}
+		.productTable{color:#000000; font-size:8px; width:100%}
+		.productTable th {text-transform: capitalize;font-weight:normal;}
+		.productTable .tHeader {background-color:#eeeeee; text-transform: capitalize;font-weight:bold;}
+		.productTable tr td{border-bottom: 1px solid #dddddd;text-align:center;}
+		.productTable td.summaryContainer {font-weight:bold;}
+		.colapseBorder {border-collapse: collapse;}
+		.barcode {vertical-align: top;color: #000000;}
+		.textAlignCenter{text-align:center;}
+		.font-fourteen{font-size:14px;}
+	';
 
 	/**
 	 * Header html.
@@ -106,6 +110,8 @@ class Yftcpdf extends \TCPDF
 		],
 		'text' => [
 			'text' => '',
+			'lines' => 0,
+			'html' => '',
 			'fontSize' => 10,
 			'angle' => 0
 		],
@@ -113,25 +119,13 @@ class Yftcpdf extends \TCPDF
 	];
 
 	/**
-	 * Set current pdf css style.
-	 *
-	 * @param string $style
-	 */
-	public function setCssStyle(string $style, $name = '')
-	{
-		$this->cssStyles[$name] = $style;
-	}
-
-	/**
 	 * Get CSS styles for specified name or default if name is empty.
-	 *
-	 * @param string $name
 	 *
 	 * @return string
 	 */
-	public function getCssStyle(string $name = '')
+	public function getCssStyle()
 	{
-		return '<style>' . $this->cssStyles[$name] . '</style>';
+		return '<style>' . str_replace("\n", '', $this->cssStyle) . '</style>';
 	}
 
 	/**
@@ -278,7 +272,7 @@ class Yftcpdf extends \TCPDF
 		$this->setFontSubsetting(true);
 		$this->setFont($this->FontFamily, $this->FontStyle, $this->FontSize);
 		$lg = [
-			'a_meta_charset' => 'UTF-8',
+			'a_meta_charset' => $this->encoding,
 			'a_meta_dir' => 'ltl',
 			'a_meta_language' => $lang,
 			'w_page' => 'page'
@@ -324,6 +318,8 @@ class Yftcpdf extends \TCPDF
 	{
 		$this->clearWatermarkImage();
 		$this->watermark['text']['text'] = $text;
+		$this->watermark['text']['lines'] = substr_count($text, "\n") + 1;
+		$this->watermark['text']['html'] = str_replace("\n", '<br />', $text);
 		$this->watermark['text']['fontSize'] = $fontSize;
 		$this->watermark['text']['angle'] = $angle;
 		$this->watermark['alpha'] = $alpha;
@@ -378,11 +374,15 @@ class Yftcpdf extends \TCPDF
 			} elseif (!empty($this->watermark['text']['text'])) {
 				$this->setFontSubsetting(true);
 				$this->setFont($this->headerFontFamily, $this->headerFontVariation, $this->watermark['text']['fontSize']);
+				$this->SetXY($this->lMargin, $this->tMargin);
+				$textHeight = $this->watermark['text']['lines'] * $this->getCellHeight($this->watermark['text']['fontSize'] / $this->k);
+				$pivotX = $this->GetAbsX();
+				$pivotY = $this->GetY() + $textHeight;
 				$this->StartTransform();
-				if ((int) $this->watermark['text']['angle']) {
-					$this->Rotate(-(float) $this->watermark['text']['angle']);
+				if ((float) $this->watermark['text']['angle']) {
+					$this->Rotate(-(float) $this->watermark['text']['angle'], $pivotX, $pivotY);
 				}
-				$this->Text($this->lMargin, $this->tMargin, $this->watermark['text']['text']);
+				$this->WriteHTML($this->watermark['text']['html']);
 				$this->StopTransform();
 				$this->setFont($this->headerFontFamily, $this->headerFontVariation, $this->headerFontSize);
 			}
@@ -413,19 +413,8 @@ class Yftcpdf extends \TCPDF
 	/**
 	 * {@inheritdoc}
 	 */
-	public function addPage($orientation = '', $format = '', $keepmargins = false, $tocpage = false, $cssStyleName = '')
-	{
-		if (!empty(func_get_args()['cssStyleName'])) {
-			$this->currentCssStyleName = $cssStyleName;
-		}
-		parent::AddPage($orientation, $format, $keepmargins, $tocpage);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function writeHTML($html, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '')
 	{
-		parent::writeHTML($this->getCssStyle($this->currentCssStyleName) . $html, $ln, $fill, $reseth, $cell, $align);
+		parent::writeHTML($this->getCssStyle() . $html, $ln, $fill, $reseth, $cell, $align);
 	}
 }

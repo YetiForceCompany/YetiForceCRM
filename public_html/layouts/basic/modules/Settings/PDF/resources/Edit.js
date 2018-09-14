@@ -138,27 +138,26 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	},
 	registerMetatagsClickEvent: function (form) {
 		var metaTagsStatus = form.find('#metatags_status');
-		if (metaTagsStatus.is(':checked')) {
+		if (!metaTagsStatus.is(':checked')) {
 			form.find('.metatags').addClass('d-none');
 		} else {
 			form.find('.metatags').removeClass('d-none');
 		}
 
 		metaTagsStatus.on('change', function () {
-			var status = jQuery(this).is(':checked');
-			if (status) {
-				jQuery('.metatags', form).addClass('d-none');
+			const status = $(this).is(':checked');
+			if (!status) {
+				$('.metatags', form).addClass('d-none');
 			} else {
-				jQuery('#set_subject', form).val(jQuery('#secondary_name', form).val());
-				jQuery('#set_title', form).val(jQuery('#primary_name', form).val());
-				jQuery('.metatags', form).removeClass('d-none');
+				$('#set_subject', form).val($('#secondary_name', form).val());
+				$('#set_title', form).val($('#primary_name', form).val());
+				$('.metatags', form).removeClass('d-none');
 			}
 		});
 	},
 	registerEvents: function () {
 		var form = this.currentInstance.getContainer();
 		this.registerFormSubmitEvent(form);
-		App.Fields.Text.registerCopyClipboard(form);
 		this.registerBackStepClickEvent();
 		this.registerCancelStepClickEvent(form);
 		this.registerMetatagsClickEvent(form);

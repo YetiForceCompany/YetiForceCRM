@@ -550,12 +550,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		$profileName = $this->get('profilename');
 		$description = $this->get('description');
 		$profilePermissions = $this->get('profile_permissions');
-		$calendarModule = Vtiger_Module_Model::getInstance('Calendar');
-		$eventModule = Vtiger_Module_Model::getInstance('Events');
-		$eventFieldsPermissions = $profilePermissions[$eventModule->getId()]['fields'];
-		$profilePermissions[$eventModule->getId()] = $profilePermissions[$calendarModule->getId()];
-		$profilePermissions[$eventModule->getId()]['fields'] = $eventFieldsPermissions;
-
 		$isProfileDirectlyRelatedToRole = 0;
 		if ($this->has('directly_related_to_role')) {
 			$isProfileDirectlyRelatedToRole = $this->get('directly_related_to_role');
@@ -588,7 +582,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			'globalactionpermission' => $this->tranformInputPermissionValue($this->get('viewall')),
 		])->execute();
 		$allModuleModules = Vtiger_Module_Model::getAll([0], Settings_Profiles_Module_Model::getNonVisibleModulesList());
-		$allModuleModules[$eventModule->getId()] = $eventModule;
 		if (count($allModuleModules) > 0) {
 			$actionModels = Vtiger_Action_Model::getAll(true);
 			foreach ($allModuleModules as $moduleModel) {

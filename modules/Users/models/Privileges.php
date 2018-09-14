@@ -339,10 +339,6 @@ class Users_Privileges_Model extends Users_Record_Model
 			$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record);
 			$moduleName = $recordMetaData['setype'];
 		}
-		if ($moduleName == 'Events') {
-			$moduleName = 'Calendar';
-		}
-
 		$parentRecord = false;
 		if ($parentModule = \App\ModuleHierarchy::getModulesMap1M($moduleName)) {
 			$parentModuleModel = Vtiger_Module_Model::getInstance($moduleName);

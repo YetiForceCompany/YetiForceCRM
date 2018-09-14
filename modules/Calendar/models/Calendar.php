@@ -121,6 +121,32 @@ class Calendar_Calendar_Model extends App\Base
 		return $query;
 	}
 
+	public function getPublicHolidays()
+	{
+		$startDate = new DateTimeField($this->get('start'));
+		$startDate = $startDate->getDisplayDate();
+		$endDate = new DateTimeField($this->get('end'));
+		$endDate = $endDate->getDisplayDate();
+		$holidays = Settings_PublicHoliday_Module_Model::getHolidays([$startDate, $endDate]);
+		$result = [];
+		foreach ($holidays as $holiday) {
+			$item = [];
+			$item['title'] = $holiday['name'];
+			$item['type'] = $holiday['type'];
+			$item['start'] = $holiday['date'];
+			$item['rendering'] = 'background';
+			if ($item['type'] === 'national') {
+				$item['color'] = '#FFAB91';
+				$item['icon'] = 'fas fa-flag';
+			} else {
+				$item['color'] = '#81D4FA';
+				$item['icon'] = 'fas fa-church';
+			}
+			$result[] = $item;
+		}
+		return $result;
+	}
+
 	public function getEntity()
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();

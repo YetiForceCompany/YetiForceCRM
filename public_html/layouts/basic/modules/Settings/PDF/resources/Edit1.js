@@ -46,7 +46,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 			}
 		});
 
-		var saveData = form.serializeFormData();
+		const saveData = form.serializeFormData();
 		saveData['action'] = 'Save';
 		saveData['step'] = 1;
 		saveData['async'] = false;
@@ -82,12 +82,124 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 			window.history.back();
 		});
 	},
+	registerMarginCheckboxClickEvent: function (container) {
+		container.find('#margin_chkbox').on('change', function () {
+			var status = jQuery(this).is(':checked');
+
+			if (status) {
+				container.find('.margin_inputs').addClass('d-none');
+			} else {
+				container.find('.margin_inputs').removeClass('d-none');
+			}
+		});
+	},
+	/**
+	 * Register module change event - load proper variable panel for specified module
+	 * @param {jQuery} container
+	 */
+	registerModuleChangeEvent(container) {
+		container.find('[name="module_name"]').on('change', function () {
+			const progressIndicator = jQuery.progressIndicator({
+				'position': 'html',
+				'blockInfo': {'enabled': true}
+			});
+			AppConnector.request({
+				module: 'PDF',
+				parent: 'Settings',
+				view: 'VariablePanel',
+				record: container.find('[name="record"]').val(),
+				type: 'pdf',
+				selectedModule: $(this).val()
+			}).done((response) => {
+				container.find('.js-variable-panel').html(response);
+				progressIndicator.progressIndicator({'mode': 'hide'});
+			}).fail((error, err) => {
+				progressIndicator.progressIndicator({'mode': 'hide'});
+				app.errorLog(error, err);
+			});
+		});
+	},
+	registerWatermarkTypeChange: function (container) {
+		var watermarkType = container.find('#watermark_type');
+
+		watermarkType.on('change', function () {
+			container.find('.watertext').toggleClass('d-none')
+			container.find('.waterimage').toggleClass('d-none')
+		});
+	},
+	registerUploadButton: function (form) {
+		form.find('#uploadWM').on('click', function (e) {
+			e.preventDefault();
+			var fileSelect = form.find('#watermark_image');
+			// Get the selected files from the input.
+			var files = fileSelect[0].files;
+
+			// Create a new FormData object.
+			var formData = new FormData();
+			// Loop through each of the selected files.
+			for (var i = 0; i < files.length; i++) {
+				var file = files[i];
+
+				// Check the file type.
+				if (!file.type.match('image.*')) {
+					continue;
+				}
+
+				// Add the file to the request.
+				formData.append('watermark[]', file, file.name);
+			}
+			formData.append('template_id', form.find('[name="record"]').val());
+			// Set up the request.
+			var xhr = new XMLHttpRequest();
+
+			// Open the connection.
+			xhr.open('POST', 'index.php?module=PDF&parent=Settings&action=Watermark&mode=upload', true);
+
+			// Set up a handler for when the request finishes.
+			xhr.onload = function () {
+				if (xhr.status === 200) {
+					const response = JSON.parse(xhr.response);
+					const templateId = form.find('[name="record"]').val();
+					form.find('#watermark').html('<img src="' + response.result.base64 + '" class="col-md-9" />');
+					form.find('[name="watermark_image"]').val(response.result.fileName);
+					form.find('#deleteWM').removeClass('d-none');
+				}
+			};
+
+			// Send the Data.
+			xhr.send(formData);
+		});
+	},
+	registerDeleteUploadButton: function (form) {
+		form.find('#deleteWM').on('click', function (e) {
+			e.preventDefault();
+			var params = {};
+			params.data = {
+				parent: app.getParentModuleName(),
+				module: app.getModuleName(),
+				action: 'Watermark',
+				mode: 'delete',
+				id: form.find('[name="record"]').val()
+			};
+			params.dataType = 'json';
+			AppConnector.request(params).done(function (data) {
+				var response = data['result'];
+				if (response) {
+					form.find('#watermark').html('');
+					form.find('[name="watermark_image"]').val('');
+					form.find('#deleteWM').addClass('d-none');
+				}
+			}).fail(function (data, err) {
+				app.errorLog(data, err);
+			});
+		});
+	},
+
 	registerEvents: function () {
-		var container = this.getContainer();
+		const container = this.getContainer();
 		//After loading 1st step only, we will enable the Next button
 		container.find('[type="submit"]').removeAttr('disabled');
-
-		var opts = app.validationEngineOptions;
+		const opts = app.validationEngineOptions;
 		// to prevent the page reload after the validation has completed
 		opts['onValidationComplete'] = function (form, valid) {
 			//returns the valid status
@@ -96,5 +208,11 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
 		this.registerCancelStepClickEvent(container);
+		this.registerMarginCheckboxClickEvent(container);
+		this.registerModuleChangeEvent(container);
+		this.registerWatermarkTypeChange(container);
+		this.registerUploadButton(container);
+		this.registerDeleteUploadButton(container);
+		App.Fields.Text.registerCopyClipboard(container);
 	}
 });
