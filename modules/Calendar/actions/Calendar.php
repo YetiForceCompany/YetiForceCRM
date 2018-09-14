@@ -32,6 +32,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	{
 		parent::__construct();
 		$this->exposeMethod('getEvents');
+		$this->exposeMethod('getCountEvents');
 		$this->exposeMethod('updateEvent');
 	}
 
@@ -55,6 +56,30 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$entity = array_merge($record->getEntity(), $record->getPublicHolidays());
 		}
 
+		$response = new Vtiger_Response();
+		$response->setResult($entity);
+		$response->emit();
+	}
+
+	/**
+	 * Get count Events for extended calendar's left column.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function getCountEvents(\App\Request $request)
+	{
+		$record = Calendar_Calendar_Model::getCleanInstance();
+		$record->set('user', $request->getArray('user'));
+		$record->set('types', $request->getArray('types'));
+		$record->set('time', $request->getByType('time'));
+		if ($request->has('start') && $request->has('end')) {
+			$record->set('start', $request->getByType('start', 'DateInUserFormat'));
+			$record->set('end', $request->getByType('end', 'DateInUserFormat'));
+		}
+		if ($request->has('filters')) {
+			$record->set('filters', $request->get('filters'));
+		}
+		$entity = $record->getEntityRecordsCount();
 		$response = new Vtiger_Response();
 		$response->setResult($entity);
 		$response->emit();

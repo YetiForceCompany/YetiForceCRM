@@ -15,45 +15,40 @@
 	<input value="{\App\Purifier::encodeHtml(\App\Json::encode(\AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"
 		   type="hidden" id="hiddenDays"/>
 	<input value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" type="hidden" id="activityStateLabels"/>
-	<div class="calendarViewContainer rowContent col-md-12 paddingLefttZero col-xs-12">
-		<div class="widget_header row marginbottomZero marginRightMinus20">
-			<div class="pull-left paddingLeftMd">
-				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
+	<div class="calendarViewContainer rowContent">
+		<div class="d-flex flex-md-nowrap mt-2">
+			<div class="btn-toolbar flex-nowrap mb-1 mb-sm-0 align-items-center">
+				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions' BTN_CLASS='btn-light'}
+				<button class="ml-1 btn btn-light js-add u-h-fit" data-js="click">
+					<span class="fas fa-plus mr-1"></span>
+					{\App\Language::translate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}
+				</button>
 			</div>
-			<div class="col-xs-10 col-sm-7">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-			</div>
-		</div>
-		<div class="alert alert-info marginTop10 hide" id="moduleCacheAlert" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close" data-js="click">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			{\App\Language::translate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}&nbsp;
-			<button type="button" class="pull-right btn btn-warning btn-xs marginRight10 cacheClear" data-js="click">
-				{\App\Language::translate('LBL_CACHE_CLEAR', $MODULE_NAME)}
-			</button>
-		</div>
-		<div class="hide">
-			{foreach item=ITEM from=$ACTIVITY_TYPE}
-				<span value="{$ITEM}" class="btn btn-success buttonCBr_Calendar_activitytype_{$ITEM}">
-					{\App\Language::translate($ITEM,$MODULE)}
-				</span>
-			{/foreach}
-		</div>
-		<div class="row">
-			<div id="datesColumn">
-				<p><!-- Divider --></p>
-				<div class="col-md-1 col-sm-1 hidden-xs">
-					<div class="dateList">
-					</div>
-					<div class="subDateList">
+			<div class="ml-2 w-100">
+				<div class="alert alert-info d-none mb-0" id="moduleCacheAlert" role="alert">
+					<div class="d-flex">
+						<div class="mr-auto align-self-center">
+							{\App\Language::translate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}
+						</div>
+						<button type="button"
+								class="btn btn-warning btn-sm cacheClear px-2">{\App\Language::translate('LBL_CACHE_CLEAR', $MODULE_NAME)}</button>
+						<button type="button" class="close px-2 pb-1" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
 				</div>
-				<div id="calendarview" class="col-md-11 paddingLefttZero bottom_margin"></div>
 			</div>
 		</div>
-		<div class="o-calendar-container">
-			<div id="calendarview"></div>
+		<div class="row no-gutters" id="datesColumn">
+			<div class="col-sm-1 d-none d-sm-block">
+				<div class="dateList">
+				</div>
+				<div class="subDateList">
+				</div>
+			</div>
+			<div class="o-calendar-container col-sm-11">
+				<div id="calendarview"></div>
+			</div>
 		</div>
 	</div>
 {/strip}
