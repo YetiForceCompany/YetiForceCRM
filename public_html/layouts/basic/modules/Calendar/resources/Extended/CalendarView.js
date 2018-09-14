@@ -497,11 +497,36 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {
 		var thisInstance = this;
 		thisInstance.loadCalendarData(true);
 	},
+	registerAddForm: function () {
+		var thisInstance = this;
+		var sideBar = thisInstance.getSidebarView();
+		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList').then(
+			function (data) {
+				if (data) {
+					sideBar.find('.usersForm').html(data);
+					thisInstance.registerUsersChange();
+				}
+			}
+		);
+		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getGroupsList').then(
+			function (data) {
+				if (data) {
+					sideBar.find('.groupForm').html(data);
+					thisInstance.registerUsersChange();
+				}
+			}
+		);
+		thisInstance.getSidebarView().slimScroll({
+			width: '',
+			height: ''
+		});
+	},
 	/**
 	 * Register events
 	 */
 	registerEvents() {
 		this._super();
+		this.registerAddForm();
 	}
 });
 /**
