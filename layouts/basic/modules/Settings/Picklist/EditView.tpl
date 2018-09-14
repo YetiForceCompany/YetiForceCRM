@@ -60,7 +60,7 @@
 										{\App\Language::translate('LBL_CLOSES_RECORD',$QUALIFIED_MODULE)}
 									</div>
 									<div class="col-md-9 controls">
-										<input class="form-control js-close-state" type="checkbox" value="1"
+										<input class="form-control" type="checkbox" value="1"
 											   {if $PICKLIST_VALUE['close_state']}checked="checked"{/if}
 											   name="close_state">
 									</div>

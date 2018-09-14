@@ -50,10 +50,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function add(\App\Request $request)
 	{
 		$newValue = $request->getByType('newValue', 'Text');
-		$description = $request->getForHtml('description');
-		$moduleName = $request->getByType('source_module', 2);
-		$closeState = $request->getBoolean('close_state');
-		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
+		$moduleModel = Settings_Picklist_Module_Model::getInstance($request->getByType('source_module', 2));
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getForSql('picklistName'), $moduleModel);
 		$rolesSelected = [];
 		if ($fieldModel->isRoleBased()) {
@@ -71,8 +68,8 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		try {
 			$fieldModel->validate($newValue);
-			$id = $moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected, $description);
-			$moduleModel->updateCloseState($id['picklistValueId'], $fieldModel, $newValue, $closeState);
+			$id = $moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected, $request->getForHtml('description'));
+			$moduleModel->updateCloseState($id['picklistValueId'], $fieldModel, $newValue, $request->getBoolean('close_state'));
 			$response->setResult(['id' => $id['id']]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -96,7 +93,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, $moduleModel);
 		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
 		if (isset($selectedFieldNonEditablePickListValues[$id])) {
-			throw new \Sabre\DAV\Exception\BadRequest('ERR_NOT_ALLOWED_VALUE');
+			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE');
 		}
 		$newValue = ($newValue !== '') ?: $oldValue;
 		$response = new Vtiger_Response();

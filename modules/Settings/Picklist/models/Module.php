@@ -187,7 +187,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Update close state table.
 	 *
-	 * @param int                           $valueId    .
+	 * @param int                           $valueId
 	 * @param Settings_Picklist_Field_Model $fieldModel
 	 * @param string                        $value
 	 * @param bool                          $closeState
@@ -211,6 +211,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				'value' => $value
 			])->execute();
 		}
+		\App\Cache::delete('getCloseStates', $fieldModel->get('tabid'));
 	}
 
 	public function remove($pickListFieldName, $valueToDeleteId, $replaceValueId, $moduleName)
