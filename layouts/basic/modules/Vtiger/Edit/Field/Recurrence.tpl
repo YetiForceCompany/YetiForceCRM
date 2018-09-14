@@ -16,48 +16,51 @@
 				<div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
 						<div class="modal-header row m-0 d-flex align-items-center">
-							<h5 class="modal-title m-0"><span class="fas fa-save mr-2"></span>{App\Language::translate('LBL_TITLE_TYPE_SAVING', $MODULE)}</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
+							<h5 class="modal-title m-0"><span
+										class="fas fa-save mr-2"></span>{App\Language::translate('LBL_TITLE_TYPE_SAVING', $MODULE)}
+							</h5>
+							<button type="button" class="close" data-dismiss="modal"
+									aria-label="{\App\Language::translate('LBL_CLOSE')}">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
 						<div class="modal-body">
-								<div class="col-12 px-0 mb-3 form-row m-0">
-									<div class="col-12 col-lg-4 px-0">
-										<button class="btn btn-primary btn-sm typeSavingBtn" data-value="2">
-											{App\Language::translate('LBL_UPDATE_THIS_EVENT', $MODULE)}
-										</button>
-									</div>
-									<div class="col-12 col-lg-8 px-0">
-										{App\Language::translate('LBL_UPDATE_THIS_EVENT_DESCRIPTION', $MODULE)}
-									</div>
+							<div class="col-12 px-0 mb-3 form-row m-0">
+								<div class="col-12 col-lg-4 px-0">
+									<button class="btn btn-primary btn-sm typeSavingBtn" data-value="2">
+										{App\Language::translate('LBL_UPDATE_THIS_EVENT', $MODULE)}
+									</button>
 								</div>
-								<div class="col-12 px-0 mb-3 form-row m-0">
-									<div class="col-12 col-lg-4 px-0">
-										<button class="btn btn-primary btn-sm typeSavingBtn" data-value="3">
-											{App\Language::translate('LBL_UPDATE_FUTURE_EVENTS', $MODULE)}
-										</button>
-									</div>
-									<div class="col-12 col-lg-8 px-0">
-										{App\Language::translate('LBL_UPDATE_FUTURE_EVENTS_DESCRIPTION', $MODULE)}
-									</div>
+								<div class="col-12 col-lg-8 px-0">
+									{App\Language::translate('LBL_UPDATE_THIS_EVENT_DESCRIPTION', $MODULE)}
 								</div>
-								<div class="col-12 px-0 mb-3 form-row m-0">
-									<div class="col-12 col-lg-4 px-0">
-										<button class="btn btn-primary btn-sm typeSavingBtn" type="button" data-value="1">
-											{App\Language::translate('LBL_UPDATE_ALL_EVENTS', $MODULE)}
-										</button>
-									</div>
-									<div class="col-12 col-lg-8 px-0">
-										{App\Language::translate('LBL_UPDATE_ALL_EVENTS_DESCRIPTION', $MODULE)}
-									</div>
+							</div>
+							<div class="col-12 px-0 mb-3 form-row m-0">
+								<div class="col-12 col-lg-4 px-0">
+									<button class="btn btn-primary btn-sm typeSavingBtn" data-value="3">
+										{App\Language::translate('LBL_UPDATE_FUTURE_EVENTS', $MODULE)}
+									</button>
 								</div>
+								<div class="col-12 col-lg-8 px-0">
+									{App\Language::translate('LBL_UPDATE_FUTURE_EVENTS_DESCRIPTION', $MODULE)}
+								</div>
+							</div>
+							<div class="col-12 px-0 mb-3 form-row m-0">
+								<div class="col-12 col-lg-4 px-0">
+									<button class="btn btn-primary btn-sm typeSavingBtn" type="button" data-value="1">
+										{App\Language::translate('LBL_UPDATE_ALL_EVENTS', $MODULE)}
+									</button>
+								</div>
+								<div class="col-12 col-lg-8 px-0">
+									{App\Language::translate('LBL_UPDATE_ALL_EVENTS_DESCRIPTION', $MODULE)}
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="d-none repeatUI">
+		<div class="repeatUI">
 			<input type="hidden" name="typeSaving">
 			<input id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}" type="hidden"
 				   name="{$FIELD_MODEL->getFieldName()}"
