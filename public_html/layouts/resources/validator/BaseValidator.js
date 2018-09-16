@@ -128,11 +128,6 @@ jQuery.Class("Vtiger_Base_Validator_Js", {
 		} else {
 			moduleName = app.getModuleName();
 		}
-
-		if (moduleName === 'Events') {
-			moduleName = 'Calendar';
-		}
-
 		return moduleName + "_" + validatorName + "_Validator_Js";
 	},
 	/**

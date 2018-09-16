@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce Sp. z o.o
 ********************************************************************************/
 -->*}
 {strip}
@@ -94,7 +94,6 @@
 						{assign var=PROFILE_MODULES value=$RECORD_MODEL->getModulePermissions()}
 						{foreach from=$PROFILE_MODULES key=TABID item=PROFILE_MODULE}
 						{assign var=MODULE_NAME value=$PROFILE_MODULE->getName()}
-						{if $MODULE_NAME neq 'Events'}
 						<tr>
 							<td>
 								<div class="float-left mr-1">
@@ -240,8 +239,6 @@
 							</div>
 						</td>
 					</tr>
-				{/if}
-
 				{/if}
 				{/foreach}
 				</tbody>

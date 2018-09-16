@@ -100,7 +100,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if ($fieldModel->isEditable()) {
 			try {
 				$fieldModel->validate($newValue, $id);
-				if ($moduleName === 'Events' && ($pickListFieldName === 'activitytype' || $pickListFieldName === 'activitystatus')) {
+				if ($moduleName === 'Calendar' && ($pickListFieldName === 'activitytype' || $pickListFieldName === 'activitystatus')) {
 					$this->updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue);
 				}
 				$status = $moduleModel->renamePickListValues($fieldModel, $oldValue, $newValue, $id, $request->getForHtml('description'));
@@ -124,7 +124,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$valueToDelete = $request->getArray('delete_value');
 		$replaceValue = $request->get('replace_value');
 		$pickListFieldName = $request->getForSql('picklistName');
-		if ($moduleName === 'Events' && ($pickListFieldName === 'activitytype' || $pickListFieldName === 'activitystatus')) {
+		if ($moduleName === 'Calendar' && ($pickListFieldName === 'activitytype' || $pickListFieldName === 'activitystatus')) {
 			$picklistData = \App\Fields\Picklist::getValues($pickListFieldName);
 			$valuesToDelete = [];
 			foreach ($valueToDelete as $value) {

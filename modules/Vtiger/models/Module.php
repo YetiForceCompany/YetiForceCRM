@@ -626,12 +626,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getFieldsForSave(\Vtiger_Record_Model $recordModel)
 	{
-		$tabId = $this->getId();
-		if ($this->getName() === 'Events') {
-			$tabId = \App\Module::getModuleId('Calendar');
-		}
 		$editFields = [];
-		foreach (App\Field::getFieldsPermissions($tabId, false) as $field) {
+		foreach (App\Field::getFieldsPermissions($this->getId(), false) as $field) {
 			$editFields[] = $field['fieldname'];
 		}
 		return array_diff($editFields, ['closedtime', 'shownerid', 'smcreatorid', 'modifiedtime', 'modifiedby']);
@@ -850,7 +846,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				->andWhere(['<>', 'vtiger_tab.type', 1])->distinct();
 		}
 		if ($restrictList) {
-			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments', 'PriceBooks', 'Events']]);
+			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments', 'PriceBooks']]);
 		}
 		$quickCreateModules = [];
 		$dataReader = $query->createCommand()->query();
