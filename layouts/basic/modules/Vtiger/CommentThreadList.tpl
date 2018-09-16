@@ -11,9 +11,10 @@
 -->*}
 {strip}
 	<div class="tpl-CommentThreadList Comment commentDiv">
-		<div class="singleComment" data-js="append">
-			<div class="commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}"
-				 data-parentcommentid="{$COMMENT->get('parent_comments')}">
+		<div class="js-singleComment singleComment" data-js="append">
+			<div class="js-commentInfoHeader commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}"
+				 data-parentcommentid="{$COMMENT->get('parent_comments')}"
+				 data-js="data-commentid|data-parentcommentid">
 				<div class="float-left">
 					{assign var=IMAGE value=$COMMENT->getImage()}
 					{if $IMAGE}
@@ -46,20 +47,21 @@
 								<strong>{$COMMENT->getDisplayValue('related_to')}</strong>
 							</a>
 						{/if}
-						<div class="commentInfoContent">
+						<div class="js-commentInfoContent commentInfoContent" data-js="html">
 							{$COMMENT->getDisplayValue('commentcontent')}
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="commentActionsContainer row no-margin ">
+			<div class="js-commentActionsContainer commentActionsContainer row no-margin" data-js="hide|show">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
-				<div class="editedStatus" name="editStatus">
-					<span class="{if empty($REASON_TO_EDIT)}d-none{/if} editReason text-muted">
+				<div class="js-editedStatus editedStatus" name="editStatus" data-js="class: d-none">
+					<span class="{if empty($REASON_TO_EDIT)}d-none{/if} js-editReason text-muted"
+						  data-js="class: d-none">
 						<p>
 							<small>
 								[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] :
-								<span name="editReason" class="u-text-ellipsis ml-1">
+								<span name="editReason" class="js-editReasonSpan u-text-ellipsis ml-1" data-js="text">
 									{nl2br($REASON_TO_EDIT)}
 								</span>
 							</small>
@@ -68,7 +70,7 @@
 									<small>
 										<em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em>
 									</small>&nbsp;
-									<small class="commentModifiedTime">
+									<small class="js-commentModifiedTime commentModifiedTime" data-js="html">
 										{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}
 									</small>
 								</span>
