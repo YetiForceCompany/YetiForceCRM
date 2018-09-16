@@ -79,7 +79,7 @@
 				</span>
 			</div>
 			<div class="commentActionsDiv p-0">
-				{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
+				{assign var=COMMENTS_MODULE_MODEL value=Vtiger_Module_Model::getInstance('ModComments')}
 				<div class="commentActions">
 					{if !empty($CHILDS_ROOT_PARENT_MODEL)}
 						{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
@@ -138,9 +138,10 @@
 								</a>
 							</span>
 					{/if}
-					{if !empty($BUTTON_SHOW_PARENT)}
+					{if !empty($BUTTON_SHOW_PARENT) && !empty($COMMENT->get('parents'))}
 						<span class="viewParentThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
-								<button type="button" class="btn btn-sm btn-secondary viewParentThread ml-1"
+								<button type="button"
+										class="btn btn-sm btn-secondary js-viewParentThread viewParentThread ml-1"
 										data-js="click">
 									{\App\Language::translate('LBL_THREAD',$MODULE_NAME)}
 									&nbsp;

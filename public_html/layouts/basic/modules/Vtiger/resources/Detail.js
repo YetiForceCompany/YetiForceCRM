@@ -2114,7 +2114,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				if (!searchTextDom.val()) {
 					detailContentsHolder.html(data);
 				} else {
-					detailContentsHolder.find('.commentsBody').html(data);
+					detailContentsHolder.find('.js-commentsBody').html(data);
 				}
 			});
 		}
@@ -2332,14 +2332,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 				currentTargetParent.hide();
 				return;
 			}
-			var commentId = currentTarget.closest('.commentDiv').find('.commentInfoHeader').data('commentid');
+			var commentId = currentTarget.closest('.commentDiv').find('.js-commentInfoHeader').data('commentid');
 			thisInstance.getChildComments(commentId).done(function (data) {
 				jQuery(data).appendTo(jQuery(e.currentTarget).closest('.js-commentDetails'));
 				commentActionsBlock.find('.hideThreadBlock').show();
 				currentTargetParent.hide();
 			});
 		});
-		detailContentsHolder.on('click', '.viewParentThread', function (e) {
+		detailContentsHolder.on('click', '.js-viewParentThread', function (e) {
 			let currentTarget = jQuery(e.currentTarget),
 				currentTargetParent = currentTarget.parent(),
 				commentId = currentTarget.closest('.commentDiv').find('.js-commentInfoHeader').data('commentid');
@@ -2386,8 +2386,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 				record: app.getRecordId(),
 				mode: 'showRecentRelation',
 				page: 1,
-				limit: widgetContent.find("#relatedHistoryPageLimit").val(),
-				type: jQuery(e.currentTarget).val(),
+				limit: widgetContent.find(".js-relatedHistoryPageLimit").val(),
+				type: $(e.currentTarget).val(),
 			}).done(function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				widgetContent.find("#relatedHistoryCurrentPage").remove();

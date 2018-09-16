@@ -74,7 +74,7 @@
 			</div>
 		</div>
 		<hr>
-		<div class="commentsBody">
+		<div class="js-commentsBody commentsBody">
 			{if !empty($PARENT_COMMENTS)}
 				{include file=\App\Layout::getTemplatePath('Comments.tpl') PARENT_COMMENTS=$PARENT_COMMENTS CURRENT_COMMENT=$CURRENT_COMMENT}
 			{else}
