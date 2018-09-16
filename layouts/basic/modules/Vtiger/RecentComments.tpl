@@ -38,12 +38,13 @@
 		<div class="col-md-12 form-row commentsHeader my-3 mx-0 px-0">
 			<div class="col-9 col-lg-5 col-md-12 col-sm-6 p-0">
 				<div class="input-group-append bg-white rounded-right">
-					<input type="text" class="form-control commentSearch"
+					<input type="text" class="js-commentSearch form-control commentSearch"
 						   placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
 						   aria-describedby="commentSearchAddon"
 						   data-container="widget"
-						   data-js="data">
-					<button class="btn btn-outline-dark border-0 h-100 searchIcon" type="button">
+						   data-js="keypress|data">
+					<button class="btn btn-outline-dark border-0 h-100 js-searchIcon searchIcon" type="button"
+							data-js="click">
 						<span class="fas fa-search fa-fw" title="{\App\Language::translate('LBL_SEARCH')}"></span>
 					</button>
 				</div>
@@ -53,15 +54,20 @@
 					<div class="btn-group btn-group-toggle hierarchyButtons float-right float-md-none"
 						 data-toggle="buttons">
 						<label class="btn btn-sm btn-outline-primary {if $HIERARCHY_VALUE !== 'all'}active{/if}">
-							<input class="hierarchyComments" type="radio" name="options" id="option1"
+							<input class="js-hierarchyComments hierarchyComments" type="radio" name="options"
+								   id="option1"
 								   value="current" autocomplete="off"
 								   {if $HIERARCHY_VALUE !== 'all'}checked="checked"{/if}
+								   data-js="value"
 							> {\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
 						</label>
 						<label class="btn btn-sm btn-outline-primary {if $HIERARCHY_VALUE === 'all'}active{/if}">
-							<input class="hierarchyComments" type="radio" name="options" id="option2" value="all"
+							<input class="js-hierarchyComments hierarchyComments" type="radio" name="options"
+								   id="option2" value="all"
 								   {if $HIERARCHY_VALUE === 'all'}checked="checked"{/if}
-								   autocomplete="off"> {\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}
+								   autocomplete="off"
+								   data-js="value">
+							{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}
 						</label>
 					</div>
 				{/if}
@@ -77,7 +83,8 @@
 			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
 				<div class="col-12 float-right p-0 mb-2">
 					<a href="javascript:void(0)"
-					   class="moreRecentComments btn btn-sm btn-info marginTop5 marginRight15">
+					   class="js-moreRecentComments moreRecentComments btn btn-sm btn-info marginTop5 marginRight15"
+					   data-js="click">
 						{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..
 					</a>
 				</div>
@@ -101,7 +108,9 @@
 							<span class="visible-xs-inline-block fas fa-times"></span>
 							<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 						</button>
-						<button class="btn btn-success saveComment mt-3 float-right" type="button" data-mode="add">
+						<button class="btn btn-success js-saveComment saveComment mt-3 float-right" type="button"
+								data-mode="add"
+								data-js="click|data-mode">
 							<span class="visible-xs-inline-block fas fa-check"></span>
 							<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 						</button>
@@ -136,7 +145,9 @@
 							<span class="visible-xs-inline-block fas fa-times"></span>
 							<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 						</button>
-						<button class="btn btn-success saveComment mt-3 float-right" type="button" data-mode="edit">
+						<button class="btn btn-success js-saveComment saveComment mt-3 float-right" type="button"
+								data-mode="edit"
+								data-js="click|data-mode">
 							<span class="visible-xs-inline-block fas fa-check"></span>
 							<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 						</button>
