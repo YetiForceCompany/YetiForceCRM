@@ -115,7 +115,9 @@
 						<input type="text" name="reasonToEdit"
 							   title="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
 							   placeholder="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
-							   class="input-block-level form-control"/>
+							   class="js-reasonToEdit input-block-level form-control"
+							   data-js="value"
+						>
 					</div>
 				</div>
 				<div class="row">

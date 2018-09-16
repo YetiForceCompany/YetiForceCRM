@@ -22,7 +22,8 @@
 		{else}
 			{include file=\App\Layout::getTemplatePath('Comments.tpl') PARENT_COMMENTS=$PARENT_COMMENTS CURRENT_COMMENT=$CURRENT_COMMENT}
 		{/if}
-		<div class="tpl-CommentsList js-noCommentsMsgContainer summaryWidgetContainer noCommentsMsgContainer {if !empty($PARENT_COMMENTS)}d-none{/if}" data-js="container">
+		<div class="tpl-CommentsList js-noCommentsMsgContainer summaryWidgetContainer noCommentsMsgContainer {if !empty($PARENT_COMMENTS)}d-none{/if}"
+			 data-js="container">
 			<p class="textAlignCenter"> {\App\Language::translate('LBL_NO_COMMENTS',$MODULE_NAME)}</p>
 		</div>
 	</div>
@@ -61,7 +62,9 @@
 					<input type="text" name="reasonToEdit"
 						   title="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
 						   placeholder="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
-						   class="input-block-level form-control"/>
+						   class="js-reasonToEdit input-block-level form-control"
+						   data-js="value"
+					>
 				</div>
 			</div>
 			<div class="row">
