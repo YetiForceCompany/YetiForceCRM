@@ -6,15 +6,18 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce Sp. z o.o
 ********************************************************************************/
 -->*}
 {strip}
 	{assign var=REMINDER_VALUES value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}
 	{if $REMINDER_VALUES eq ''}
 		{assign var=DAYS value=0}
+		{assign var=DAY value=0}
 		{assign var=HOURS value=0}
+		{assign var=HOUR value=0}
 		{assign var=MINUTES value=1}
+		{assign var=MINUTE value=1}
 	{else}
 		{assign var=DAY value=$REMINDER_VALUES[0]}
 		{assign var=HOUR value=$REMINDER_VALUES[1]}

@@ -31,7 +31,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getCalendarViewName()
 	{
-		return 'Calendar';
+		return 'Calendar' . AppConfig::module('Calendar', 'CALENDAR_VIEW');
 	}
 
 	/**
@@ -304,12 +304,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	public static function getCalendarTypes()
 	{
-		$calendarConfig = ['Task'];
-		$eventConfig = App\Fields\Picklist::getValuesName('activitytype');
-		if (is_array($eventConfig)) {
-			$calendarConfig = array_merge($calendarConfig, $eventConfig);
-		}
-		return $calendarConfig;
+		return App\Fields\Picklist::getValuesName('activitytype');
 	}
 
 	public static function getCalendarState($data = [])
