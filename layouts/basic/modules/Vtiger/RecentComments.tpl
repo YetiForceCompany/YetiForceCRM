@@ -15,7 +15,7 @@
 	<div class="tpl-RecentComments js-commentContainer commentContainer recentComments" data-js="container">
 		<div class="commentTitle">
 			{if !$IS_READ_ONLY && $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-				<div class="addCommentBlock">
+				<div class="js-addCommentBlock addCommentBlock">
 					<div class="input-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text">

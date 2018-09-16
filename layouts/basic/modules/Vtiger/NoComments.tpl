@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-NoComments summaryWidgetContainer noCommentsMsgContainer">
+	<div class="tpl-NoComments js-noCommentsMsgContainer summaryWidgetContainer noCommentsMsgContainer" data-js="container">
 		<p class="textAlignCenter"> {\App\Language::translate('LBL_NO_COMMENTS',$MODULE_NAME)}
 		</p>
 	</div>

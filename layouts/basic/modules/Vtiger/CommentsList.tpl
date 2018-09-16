@@ -22,7 +22,7 @@
 		{else}
 			{include file=\App\Layout::getTemplatePath('Comments.tpl') PARENT_COMMENTS=$PARENT_COMMENTS CURRENT_COMMENT=$CURRENT_COMMENT}
 		{/if}
-		<div class="tpl-CommentsList summaryWidgetContainer noCommentsMsgContainer {if !empty($PARENT_COMMENTS)}d-none{/if}">
+		<div class="tpl-CommentsList js-noCommentsMsgContainer summaryWidgetContainer noCommentsMsgContainer {if !empty($PARENT_COMMENTS)}d-none{/if}" data-js="container">
 			<p class="textAlignCenter"> {\App\Language::translate('LBL_NO_COMMENTS',$MODULE_NAME)}</p>
 		</div>
 	</div>

@@ -17,7 +17,7 @@
 	<div class="col-md-12 form-row m-0 commentsBar px-0">
 		{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 			<div class="commentTitle col-12 pt-2">
-				<div class="addCommentBlock">
+				<div class="js-addCommentBlock addCommentBlock" data-js="container">
 					<div class="input-group">
 						<span class="input-group-prepend">
 							<div class="input-group-text"><span class="fas fa-comments"></span></div>
