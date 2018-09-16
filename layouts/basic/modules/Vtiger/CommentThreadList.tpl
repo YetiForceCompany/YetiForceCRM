@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class="tpl-CommentThreadList Comment commentDiv">
-		<div class="singleComment">
+		<div class="singleComment" data-js="append">
 			<div class="commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}"
 				 data-parentcommentid="{$COMMENT->get('parent_comments')}">
 				<div class="float-left">
@@ -81,13 +81,14 @@
 					<span class="float-right commentActions">
 				{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-							<button type="button" class="btn btn-sm btn-success replyComment">
+							<button type="button" class="btn btn-sm btn-success js-replyComment" data-js="click">
 						<span class="fas fa-share"></span>
 						&nbsp;{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 					</button>
 						{/if}
 						{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-							<button type="button" class="btn btn-sm btn-primary editComment feedback marginLeft5">
+							<button type="button" class="btn btn-sm btn-primary js-editComment feedback marginLeft5"
+									data-js="click">
 						<span class="fas fa-edit"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 					</button>
 						{/if}
