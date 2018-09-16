@@ -2041,7 +2041,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 		});
-		detailContentsHolder.on('click', '.saveComment', function (e) {
+		detailContentsHolder.on('click', '.js-saveComment', function (e) {
 			let element = $(e.currentTarget);
 			if (!element.is(":disabled")) {
 				self.saveComment(e).done(function (data) {
@@ -2054,10 +2054,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 		});
-		detailContentsHolder.on('click', '.moreRecentComments', function () {
+		detailContentsHolder.on('click', '.js-moreRecentComments', function () {
 			self.getTabByLabel(self.detailViewRecentCommentsTabLabel).trigger('click');
 		});
-		detailContentsHolder.on('change', '.detailHierarchyComments', function (e) {
+		detailContentsHolder.on('change', '.js-detailHierarchyComments', function (e) {
 			let recentCommentsTab = self.getTabByLabel(self.detailViewRecentCommentsTabLabel),
 				url = recentCommentsTab.data('url'),
 				regex = /&hierarchy=+([\w,]+)/;
@@ -2068,12 +2068,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 			recentCommentsTab.data('url', url);
 			recentCommentsTab.trigger('click');
 		});
-		detailContentsHolder.on('keypress', '.commentSearch', function (e) {
+		detailContentsHolder.on('keypress', '.js-commentSearch', function (e) {
 			if (13 === e.which) {
 				self.submitSearchForm(detailContentsHolder);
 			}
 		});
-		detailContentsHolder.on('click', '.searchIcon', function (e) {
+		detailContentsHolder.on('click', '.js-searchIcon', function (e) {
 			self.submitSearchForm(detailContentsHolder);
 		});
 	},
@@ -2082,7 +2082,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * @param {jQuery} detailContentsHolder
 	 */
 	submitSearchForm(detailContentsHolder) {
-		let searchTextDom = detailContentsHolder.find('.commentSearch'),
+		let searchTextDom = detailContentsHolder.find('.js-commentSearch'),
 			widgetContainer = searchTextDom.closest('[data-name="ModComments"]'),
 			progressIndicatorElement = $.progressIndicator();
 		if (searchTextDom.data('container') === 'widget' && !searchTextDom.val()) {
@@ -2092,11 +2092,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 				detailContentsHolder.find('.js-commentContainer').html(data);
 			});
 		} else {
-			let hierarchy = detailContentsHolder.find('.detailHierarchyComments:checked').val(),
+			let hierarchy = detailContentsHolder.find('.js-detailHierarchyComments:checked').val(),
 				limit = '',
 				isWidget = false;
 			if (searchTextDom.data('container') === 'widget') {
-				hierarchy = detailContentsHolder.find('.hierarchyComments:checked').val();
+				hierarchy = detailContentsHolder.find('.js-hierarchyComments:checked').val();
 				limit = widgetContainer.data('limit');
 				isWidget = true;
 			}
@@ -2124,7 +2124,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * @param {jQuery} widgetContainer
 	 */
 	registerCommentEventsInDetail(widgetContainer) {
-		widgetContainer.on('change', '.hierarchyComments', function (e) {
+		widgetContainer.on('change', '.js-hierarchyComments', function (e) {
 			let progressIndicatorElement = $.progressIndicator();
 			AppConnector.request({
 				module: app.getModuleName(),
