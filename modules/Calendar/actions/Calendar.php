@@ -49,6 +49,9 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		if ($request->has('filters')) {
 			$record->set('filters', $request->get('filters'));
 		}
+		if ($request->has('cvid')) {
+			$record->set('customFilter', $request->get('cvid'));
+		}
 		if ($request->get('widget')) {
 			$record->set('customFilter', $request->getByType('customFilter', 2));
 			$entity = array_merge($record->getEntityCount(), $record->getPublicHolidays());
@@ -78,6 +81,9 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		}
 		if ($request->has('filters')) {
 			$record->set('filters', $request->get('filters'));
+		}
+		if ($request->has('cvid')) {
+			$record->set('customFilter', $request->get('cvid'));
 		}
 		$entity = $record->getEntityRecordsCount();
 		$response = new Vtiger_Response();
