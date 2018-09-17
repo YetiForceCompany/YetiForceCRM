@@ -10,26 +10,35 @@
 				<input type="text" class="form-control js-filter__search" placeholder="Nazwa użytkownika"
 					   aria-describedby="search-icon">
 			</div>
-			<ul class="nav">
-				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST.users}
-					<li class="js-filter__item__container">
-						<div class="marginRightZero">
-							<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}" class="alignMiddle"
-									{if $USER_MODEL->getId() eq $OWNER_ID} checked{/if}>
-							{foreach key=IMAGE_ID item=IMAGE_INFO from=$ALL_ACTIVEUSER_LIST.images.$OWNER_ID}
-								<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}"
-									 alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}"
-									 data-image-id="{$IMAGE_INFO.id}"
-									 class="calendarUserImage alignMiddle marginLeft10">
-								{break}
-							{/foreach}
-							<label class="marginLeft10 js-filter__item__value" for="ownerId{$OWNER_ID}">
-								<span class="ownerCBg_{$OWNER_ID}">&nbsp&nbsp</span>&nbsp{$OWNER_NAME}
-							</label>
-						</div>
-					</li>
-				{/foreach}
-			</ul>
+			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+				<ul class="nav">
+					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+						<li class="js-filter__item__container">
+							<div class="marginRightZero">
+								<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
+									   class="js-inputUserOwnerId alignMiddle"
+										{if $USER_MODEL->getId() eq $OWNER_ID} checked{/if}>
+								<label class="marginLeft10 js-filter__item__value" for="ownerId{$OWNER_ID}">
+									<span class="ownerCBg_{$OWNER_ID}">&nbsp&nbsp</span>&nbsp{$OWNER_NAME}
+								</label>
+							</div>
+						</li>
+					{/foreach}
+				</ul>
+			{else}
+				<select class="js-inputUserOwnerIdAjax select2 form-control"
+						data-validation-engine="validate[required]"
+						title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE)}"
+						name="transferOwnerId" id="transferOwnerId" multiple="multiple"
+						data-ajax-search="1"
+						data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id"
+						data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
+					<option value="{$USER_MODEL->get('id')}"
+							data-picklistvalue="{$USER_MODEL->getName()}">
+						{$USER_MODEL->getName()}
+					</option>
+				</select>
+			{/if}
 		</div>
 	{/if}
 	{if !empty($ALL_ACTIVEGROUP_LIST)}

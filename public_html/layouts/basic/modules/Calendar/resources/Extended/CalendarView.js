@@ -256,37 +256,41 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			thisInstance.loadCalendarData();
 		});
 	},
-	getTypesCalendar: function () {
-		var thisInstance = this;
-		var filterButtons = thisInstance.getSidebarView().find('.calendarFilters[data-selected="true"]');
-		var types = [];
+	getTypesCalendar() {
+		let filterButtons = this.getSidebarView().find('.calendarFilters[data-selected="true"]'),
+			types = [];
 		filterButtons.each(function () {
 			types.push($(this).data('type'));
 		});
 		return types;
 	},
-	getSelectedUsersCalendar: function () {
-		var thisInstance = this;
-		var selectedUsers = thisInstance.getSidebarView().find('.usersForm input:checked');
-		var users = [];
-		selectedUsers.each(function () {
-			users.push($(this).val());
-		});
+	getSelectedUsersCalendar() {
+		const self = this;
+		let selectedUsers = self.getSidebarView().find('.js-inputUserOwnerId:checked'),
+			selectedUsersAjax = self.getSidebarView().find('.js-inputUserOwnerIdAjax'),
+			users = [];
+		if (selectedUsers.length > 0) {
+			selectedUsers.each(function () {
+				users.push($(this).val());
+			});
+		} else if (selectedUsersAjax.length > 0) {
+			users = self.getSidebarView().find('.js-inputUserOwnerIdAjax').val();
+		}
 		return users;
 	},
 	getSidebarView: function () {
 		this.sidebarView = $('#rightPanel');
 		return this.sidebarView;
 	},
-	countEventsInRange: function (dateStart, dateEnd) {
-		var thisInstance = this;
-		var aDeferred = $.Deferred();
-		var types = thisInstance.getTypesCalendar();
-		var user = thisInstance.getSelectedUsersCalendar();
-		if (user.length == 0) {
+	countEventsInRange(dateStart, dateEnd) {
+		const self = this;
+		let aDeferred = $.Deferred(),
+			types = self.getTypesCalendar(),
+			user = self.getSelectedUsersCalendar();
+		if (user.length === 0) {
 			user = [app.getMainParams('current_user_id')];
 		}
-		var params = {
+		let params = {
 			module: 'Calendar',
 			action: 'Calendar',
 			mode: 'getCountEvents',
@@ -613,9 +617,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			data.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
 		});
 	},
-	registerUsersChange: function () {
+	registerUsersChange() {
 		const thisInstance = this;
-		thisInstance.getSidebarView().find('.usersForm input[type=checkbox]').on('click', () => {
+		thisInstance.getSidebarView().find('.js-inputUserOwnerId').on('change', () => {
+			thisInstance.loadCalendarData();
+		});
+		thisInstance.getSidebarView().find('.js-inputUserOwnerIdAjax').on('change', () => {
+			thisInstance.loadCalendarData();
+		});
+	},
+	registerGroupChange() {
+		const thisInstance = this;
+		thisInstance.getSidebarView().find('.groupForm input[type=checkbox]').on('click', () => {
 			thisInstance.loadCalendarData();
 		});
 	},
@@ -671,11 +684,11 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		});
 	},
 	showRightPanelForm() {
-		if ($('.calendarRightPanel').hasClass('hideSiteBar')) {
-			$('.toggleSiteBarRightButton').trigger('click');
+		if ($('.js-calendarRightPanel').hasClass('hideSiteBar')) {
+			$('.js-toggleSiteBarRightButton').trigger('click');
 		}
-		if (!$('#rightPanelEvent').hasClass('active')) {
-			$('a[href="#rightPanelEvent"]').trigger('click');
+		if (!$('.js-rightPanelEvent').hasClass('active')) {
+			$('.js-rightPanelEventLink').trigger('click');
 		}
 	},
 	loadCalendarCreateView() {
@@ -743,7 +756,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	registerLoadCalendarData() {
 		this.loadCalendarData(true);
 	},
-	registerAddForm: function () {
+	registerAddForm() {
 		const thisInstance = this;
 		let sideBar = thisInstance.getSidebarView();
 		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList').then(
@@ -751,6 +764,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				if (data) {
 					sideBar.find('.usersForm').html(data);
 					thisInstance.registerUsersChange();
+					App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
 				}
 			}
 		);
@@ -758,7 +772,8 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			function (data) {
 				if (data) {
 					sideBar.find('.groupForm').html(data);
-					thisInstance.registerUsersChange();
+					thisInstance.registerGroupChange();
+					App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
 				}
 			}
 		);
