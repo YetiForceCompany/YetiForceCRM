@@ -412,8 +412,7 @@
 				max-height: 30px;
 				border: none;
 				box-shadow: none;
-				padding-left: 18px !important;
-				padding-right: 18px !important;
+				padding: calculate-rem(5px) calculate-rem(18px) !important;
 			}
 			&.fc-state-active {
 				z-index: 4;
