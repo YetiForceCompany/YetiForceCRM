@@ -60,7 +60,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="js-repeat-ui" data-js="registerRecurrenceFieldCheckBox">
+		<div class="js-repeat-ui" data-js="container">
 			<input type="hidden" name="typeSaving">
 			<input id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}" type="hidden"
 				   name="{$FIELD_MODEL->getFieldName()}"
