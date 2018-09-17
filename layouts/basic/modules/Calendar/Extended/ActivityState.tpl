@@ -28,17 +28,21 @@
 					{/if}
 					{if $RECORD->isEditable()}
 						<a href="#" data-url="{$RECORD->getEditViewUrl()}" data-id="{$ID}"
-						   class="editRecord btn btn-default"><span class="glyphicon glyphicon-pencil summaryViewEdit"
-																	title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span></a>
+						   class="editRecord btn btn-default">
+							<span class="fas fa-edit summaryViewEdit"
+								  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+						</a>
 					{/if}
 					{if $RECORD->isViewable()}
-						<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default"><span
-									title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"
-									class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>
+						<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default">
+							<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"
+								  class="fas fa-list summaryViewEdit"></span>
+						</a>
 					{/if}
-					<a href="#" class="btn btn-default summaryCloseEdit"><span
-								title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"
-								class="glyphicon glyphicon-remove"></span></a>
+					<a href="#" class="btn btn-default summaryCloseEdit">
+						<span title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"
+							  class="fas fa-trash-alt"></span>
+					</a>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -55,8 +59,9 @@
 				{assign var=END_TIME value=$RECORD->get('time_end')}
 				<div class="form-horizontal modalSummaryValues">
 					<div class="form-group">
-						<label class="col-sm-4 control-label">{\App\Language::translate('Subject',$MODULE_NAME)}
-							:</label>
+						<label class="col-sm-4 control-label">
+							{\App\Language::translate('Subject',$MODULE_NAME)}:
+						</label>
 						<div class="col-sm-8 textOverflowEllipsis fieldVal"
 							 data-subject="{$RECORD->getDisplayValue('subject',false,false,true)}">
 							{$RECORD->getDisplayValue('subject',false,false,100)}
@@ -64,24 +69,27 @@
 					</div>
 					<div class="">
 						<div class="form-group">
-							<label class="col-sm-4 control-label">{\App\Language::translate('Start Date & Time',$MODULE_NAME)}
-								:</label>
+							<label class="col-sm-4 control-label">
+								{\App\Language::translate('Start Date & Time',$MODULE_NAME)}:
+							</label>
 							<div class="col-sm-8">
 								{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME",$RECORD->get('allday'))}
 							</div>
 
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">{\App\Language::translate('Due Date',$MODULE_NAME)}
-								:</label>
+							<label class="col-sm-4 control-label">
+								{\App\Language::translate('Due Date',$MODULE_NAME)}:
+							</label>
 							<div class="col-sm-8">
 								{\App\Fields\DateTime::formatToDay("$END_DATE $END_TIME",$RECORD->get('allday'))}
 							</div>
 						</div>
 						{if $RECORD->get('activitystatus') neq '' }
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{\App\Language::translate('Status',$MODULE_NAME)}
-									: </label>
+								<label class="col-sm-4 control-label">
+									{\App\Language::translate('Status',$MODULE_NAME)}:
+								</label>
 								<div class="col-sm-8">
 									{$RECORD->getDisplayValue('activitystatus',false,false,true)}
 								</div>
@@ -89,8 +97,9 @@
 						{/if}
 						{if $RECORD->get('linkextend') neq '' }
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{\App\Language::translate('FL_RELATION_EXTEND',$MODULE_NAME)}
-									: </label>
+								<label class="col-sm-4 control-label">
+									{\App\Language::translate('FL_RELATION_EXTEND',$MODULE_NAME)}:
+								</label>
 								<div class="col-sm-8 textOverflowEllipsis">
 									{$RECORD->getDisplayValue('linkextend',false,false,true)}
 								</div>
@@ -98,8 +107,9 @@
 						{/if}
 						{if $RECORD->get('link') neq '' }
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{\App\Language::translate('FL_RELATION',$MODULE_NAME)}
-									: </label>
+								<label class="col-sm-4 control-label">
+									{\App\Language::translate('FL_RELATION',$MODULE_NAME)}:
+								</label>
 								<div class="col-sm-8 textOverflowEllipsis">
 									{$RECORD->getDisplayValue('link',false,false,true)}
 								</div>
@@ -107,8 +117,9 @@
 						{/if}
 						{if $RECORD->get('process') neq '' }
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{\App\Language::translate('Process',$MODULE_NAME)}
-									: </label>
+								<label class="col-sm-4 control-label">
+									{\App\Language::translate('Process',$MODULE_NAME)}:
+								</label>
 								<div class="col-sm-8 textOverflowEllipsis">
 									{$RECORD->getDisplayValue('process',false,false,true)}
 								</div>
@@ -116,8 +127,9 @@
 						{/if}
 						<hr/>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">{\App\Language::translate('Description',$MODULE_NAME)}
-								: </label>
+							<label class="col-sm-4 control-label">
+								{\App\Language::translate('Description',$MODULE_NAME)}:
+							</label>
 							<div class="col-sm-8">
 								{if $RECORD->get('description') neq ''}
 									{$RECORD->getDisplayValue('description',false,false,200)}
@@ -128,22 +140,27 @@
 						</div>
 						<hr/>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">{\App\Language::translate('Created By',$MODULE_NAME)}
-								: </label>
+							<label class="col-sm-4 control-label">
+								{\App\Language::translate('Created By',$MODULE_NAME)}:
+							</label>
 							<div class="col-sm-8 textOverflowEllipsis">
 								{$RECORD->getDisplayValue('created_user_id',false,false,true)}
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">{\App\Language::translate('Assigned To',$MODULE_NAME)}
-								: </label>
+							<label class="col-sm-4 control-label">
+								{\App\Language::translate('Assigned To',$MODULE_NAME)}:
+							</label>
 							<div class="col-sm-8 textOverflowEllipsis">{$RECORD->getDisplayValue('assigned_user_id',false,false,true)}</div>
 						</div>
 						{if $RECORD->get('shownerid')}
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{\App\Language::translate('Share with users',$MODULE_NAME)}
-									: </label>
-								<div class="col-sm-8">{$RECORD->getDisplayValue('shownerid',false,false,true)}</div>
+								<label class="col-sm-4 control-label">
+									{\App\Language::translate('Share with users',$MODULE_NAME)}:
+								</label>
+								<div class="col-sm-8">
+									{$RECORD->getDisplayValue('shownerid',false,false,true)}
+								</div>
 							</div>
 						{/if}
 					</div>
@@ -157,18 +174,25 @@
 							<button type="button"
 									class="btn btn-danger {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}"
 									data-state="{$ACTIVITY_STATE_LABEL.cancelled}" data-id="{$ID}"
-									data-type="1">{\App\Language::translate($ACTIVITY_STATE_LABEL.cancelled, $MODULE_NAME)}</button>
+									data-type="1" data-js="click">
+								{\App\Language::translate($ACTIVITY_STATE_LABEL.cancelled, $MODULE_NAME)}
+							</button>
 						{/if}
 						{if $ACTIVITYCOMPLETE eq 'yes' && $EMPTY}
 							<button type="button"
 									class="btn btn-success {if in_array($ACTIVITY_STATE_LABEL.completed,$SHOW_QUICK_CREATE)}showQuickCreate{/if}"
 									data-state="{$ACTIVITY_STATE_LABEL.completed}" data-id="{$ID}"
-									data-type="1">{\App\Language::translate($ACTIVITY_STATE_LABEL.completed, $MODULE_NAME)}</button>
+									data-type="1" data-js="click">
+								{\App\Language::translate($ACTIVITY_STATE_LABEL.completed, $MODULE_NAME)}
+							</button>
 						{/if}
 						{if $ACTIVITYPOSTPONED eq 'yes' && $EMPTY}
 							<button type="button" class="btn btn-primary showQuickCreate"
 									data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}"
-									data-type="0">{\App\Language::translate($ACTIVITY_STATE_LABEL.postponed, $MODULE_NAME)}</button>
+									data-type="0"
+									data-js="click">
+								{\App\Language::translate($ACTIVITY_STATE_LABEL.postponed, $MODULE_NAME)}
+							</button>
 						{/if}
 						{if !$EMPTY}
 							{\App\Language::translate('LBL_NO_AVAILABLE_ACTIONS', $MODULE_NAME)}
