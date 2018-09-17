@@ -27,7 +27,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function that returns all the fields for the module.
 	 *
-	 * @return <Array of Vtiger_Field_Model> - list of field models
+	 * @return Vtiger_Field_Model[] - list of field models
 	 */
 	public function getFields($blockInstance = false)
 	{
@@ -36,10 +36,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$blocks = $this->getBlocks();
 			$blockId = [];
 			foreach ($blocks as $block) {
-				//to skip events hardcoded block id
-				if ($block->get('id') == 'EVENT_INVITE_USER_BLOCK_ID') {
-					continue;
-				}
 				$blockId[] = $block->get('id');
 			}
 			if (count($blockId) > 0) {
