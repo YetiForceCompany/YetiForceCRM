@@ -99,6 +99,24 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response->emit();
 	}
 
+	public function getRecordModelFromRequest1(\App\Request $request)
+	{
+		if (!$request->isEmpty('record') && !$request->has('massAjax')) {
+			$request->delete('massAjax');
+			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+			$fieldModel = $recordModel->getModule()->getFieldByName($request->getByType('field', 2));
+			if ($fieldModel && $fieldModel->isEditable()) {
+				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel, 'value');
+				if ($request->getBoolean('setRelatedFields') && $fieldModel->isReferenceField()) {
+					$recordModel = $this->setRelatedFieldsInHierarchy($recordModel, $fieldModel->getName());
+				}
+			}
+		} else {
+			$recordModel = (new Vtiger_Save_Action())->getRecordModelFromRequest($request);
+		}
+		return $recordModel;
+	}
+
 	/**
 	 * Function to get the record model based on the request parameters.
 	 *
@@ -108,8 +126,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	 */
 	public function getRecordModelFromRequest(\App\Request $request)
 	{
-		$recordModel = parent::getRecordModelFromRequest($request);
-
+		$recordModel = $this->getRecordModelFromRequest1($request);
 		$startDate = $request->get('date_start');
 		if (!empty($startDate)) {
 			//Start Date and Time values

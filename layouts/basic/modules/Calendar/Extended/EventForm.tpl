@@ -16,6 +16,7 @@
 			<input name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'
 				   type="hidden"/>
 		{/if}
+		<input name="massAjax" type="hidden" value="1">
 		<input name="module" value="{$MODULE}" type="hidden"/>
 		<input name="action" value="SaveAjax" type="hidden"/>
 		<input name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" type="hidden"/>
