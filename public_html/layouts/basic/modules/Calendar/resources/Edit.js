@@ -10,13 +10,13 @@
 
 Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 	registerReminderFieldCheckBox: function () {
-		let element = this.getForm().find('input[name="set_reminder"]');
+		let element = this.getForm().find('.js-reminder-field-checkbox');
 		element.on('change', function (e) {
-			let closestDiv = element.closest('div').next();
+			let rowElement = element.closest('.js-reminder-field-element').find('.js-reminder-field-row');
 			if (element.is(':checked')) {
-				closestDiv.removeClass('d-none');
+				rowElement.removeClass('d-none');
 			} else {
-				closestDiv.addClass('d-none');
+				rowElement.addClass('d-none');
 			}
 		});
 		element.change();
@@ -28,7 +28,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		const form = this.getForm(),
 			element = form.find('input[name="reapeat"]');
 		element.on('change', function (e) {
-			let repeatUI = form.find('.repeatUI'),
+			let repeatUI = form.find('.js-repeat-ui'),
 				container = form.find('[name="followup"]').closest('.fieldValue');
 			if ($(e.currentTarget).is(':checked')) {
 				repeatUI.closest('.fieldRow').removeClass('d-none');

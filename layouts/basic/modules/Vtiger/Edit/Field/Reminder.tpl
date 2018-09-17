@@ -20,15 +20,19 @@
 		{assign var=HOUR value=$REMINDER_VALUES[1]}
 		{assign var=MINUTE value=$REMINDER_VALUES[2]}
 	{/if}
-	<div class="tpl-Edit-Field-Reminder d-flex flex-nowrap">
+	<div class="tpl-Edit-Field-Reminder d-flex flex-nowrap js-reminder-field-element"
+		 data-js="registerReminderFieldCheckBox">
 		<div class="checkbox">
 			<input type="hidden" name="set_reminder" value=0/>
 			<label class="d-flex align-items-baseline">
-				<input type="checkbox" name="set_reminder" {if $REMINDER_VALUES neq ''}checked{/if}
-					   title="{\App\Language::translate('Send Reminder', $MODULE)}" value=1/>&nbsp;&nbsp;
+				<input type="checkbox" name="set_reminder" class="js-reminder-field-checkbox"
+					   {if $REMINDER_VALUES neq ''}checked="checked"{/if}
+					   title="{\App\Language::translate('Send Reminder', $MODULE)}" value="1"
+					   data-js="registerReminderFieldCheckBox"/>&nbsp;&nbsp;
 			</label>
 		</div>
-		<div class="{if $REMINDER_VALUES neq ''}show{else}d-none{/if} row w-100">
+		<div class="{if $REMINDER_VALUES neq ''}show{else}d-none{/if} row w-100 js-reminder-field-row"
+			 data-js="registerReminderFieldCheckBox">
 			<div class="col-4">
 				<div>
 					<select class="select2" name="remdays"
