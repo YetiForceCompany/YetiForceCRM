@@ -110,7 +110,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			eventClick: function (calEvent, jsEvent, view) {
 				jsEvent.preventDefault();
 				let link = new URL($(this)[0].href);
-				let url = 'index.php?module=Calendar&view=ActivityStateModal&record=' +
+				let url = 'index.php?module=Calendar&view=ActivityState&record=' +
 					link.searchParams.get("record");
 				thisInstance.showStatusUpdate(url);
 			},
