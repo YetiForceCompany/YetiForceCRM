@@ -95,7 +95,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if (isset($selectedFieldNonEditablePickListValues[$id])) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE');
 		}
-		$newValue = ($newValue !== '') ?: $oldValue;
+		$newValue = $newValue ?: $oldValue;
 		$response = new Vtiger_Response();
 		if ($fieldModel->isEditable()) {
 			try {

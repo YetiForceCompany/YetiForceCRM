@@ -330,24 +330,18 @@ class Picklist
 	 *
 	 * @return string[]
 	 */
-	public static function getCloseStates(int $tabId)
+	public static function getCloseStates(int $tabId, bool $byName = true)
 	{
-		$cacheName = 'getCloseStates';
+		$cacheName = 'getCloseStates' . ($byName ? 'ByName' : '');
 		if (\App\Cache::has($cacheName, $tabId)) {
 			return \App\Cache::get($cacheName, $tabId);
 		}
-		$dataReader = (new \App\Db\Query())->select(['valueid', 'value'])
+		$field = $byName ? ['vtiger_field.fieldname', 'value'] : ['valueid', 'value'];
+		$values = (new \App\Db\Query())->select($field)
 			->from('u_#__picklist_close_state')
-			->innerJoin('vtiger_field')
-			->where([
-				'tabid' => $tabId,
-				'presence' => [0, 2]
-			])
-			->createCommand()->query();
-		$values = [];
-		while ($row = $dataReader->read()) {
-			$values[$row['valueid']] = $row['value'];
-		}
+			->innerJoin('vtiger_field', 'u_#__picklist_close_state.fieldid = vtiger_field.fieldid')
+			->where(['tabid' => $tabId, 'presence' => [0, 2]])
+			->createCommand()->queryAllByGroup($byName ? 2 : 0);
 		\App\Cache::save($cacheName, $tabId, $values);
 		return $values;
 	}

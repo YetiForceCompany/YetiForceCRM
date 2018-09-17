@@ -187,30 +187,24 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Update close state table.
 	 *
-	 * @param int                           $valueId
-	 * @param Settings_Picklist_Field_Model $fieldModel
-	 * @param string                        $value
-	 * @param bool                          $closeState
+	 * @param int                            $valueId
+	 * @param \Settings_Picklist_Field_Model $fieldModel
+	 * @param string                         $value
+	 * @param bool                           $closeState
+	 *
+	 * @throws \yii\db\Exception
 	 */
 	public function updateCloseState(int $valueId, Settings_Picklist_Field_Model $fieldModel, string $value, bool $closeState)
 	{
-		$oldValue = isset(\App\Fields\Picklist::getCloseStates($fieldModel->get('tabid'))[$fieldModel->getName()][$valueId]);
-		if ($closeState === $oldValue) {
-			return;
+		$dbCommand = App\Db::getInstance()->createCommand();
+		$oldValue = \App\Fields\Picklist::getCloseStates($fieldModel->get('tabid'), false)[$valueId] ?? false;
+		if (!$closeState || ($oldValue !== false && $value !== $oldValue)) {
+			$dbCommand->delete('u_#__picklist_close_state', ['fieldid' => $fieldModel->getId(), 'valueid' => $valueId])->execute();
 		}
-		$db = App\Db::getInstance()->createCommand();
-		if (!$closeState && $oldValue) {
-			$db->delete('u_#__picklist_close_state', [
-				'fieldid' => $fieldModel->getId(),
-				'valueid' => $valueId
-			])->execute();
-		} else {
-			$db->insert('u_#__picklist_close_state', [
-				'fieldid' => $fieldModel->getId(),
-				'valueid' => $valueId,
-				'value' => $value
-			])->execute();
+		if ($closeState && $value !== $oldValue) {
+			$dbCommand->insert('u_#__picklist_close_state', ['fieldid' => $fieldModel->getId(), 'valueid' => $valueId, 'value' => $value])->execute();
 		}
+		\App\Cache::delete('getCloseStatesByName', $fieldModel->get('tabid'));
 		\App\Cache::delete('getCloseStates', $fieldModel->get('tabid'));
 	}
 
@@ -341,8 +335,8 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				['vtiger_field.presence' => [0, 2]],
 				['<>', 'vtiger_field.columnname', 'taxtype'],
 			])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
-				->distinct()
-				->createCommand()->query();
+			->distinct()
+			->createCommand()->query();
 		$modulesModelsList = [];
 		while ($row = $dataReader->read()) {
 			$moduleLabel = $row['tablabel'];
