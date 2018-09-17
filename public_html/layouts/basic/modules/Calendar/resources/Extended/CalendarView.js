@@ -60,6 +60,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		if (app.getMainParams('switchingDays') === 'workDays') {
 			hiddenDays = app.getMainParams('hiddenDays', true);
 		}
+		console.log('op');
 		let options = {
 			header: {
 				left: 'year,month,' + weekView + ',' + dayView,
@@ -88,7 +89,8 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				},
 				year: {
 					eventLimit: 10,
-					eventLimitText: app.vtranslate('JS_COUNT_RECORDS')
+					eventLimitText: app.vtranslate('JS_COUNT_RECORDS'),
+					titleFormat: 'YYYY'
 				},
 				basicDay: {
 					type: 'agendaDay'

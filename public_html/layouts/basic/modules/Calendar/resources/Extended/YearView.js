@@ -1,12 +1,31 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
-var FC = $.fullCalendar; // a reference to FullCalendar's root namespace
-var View = FC.View;      // the class that all views must inherit from
+let FC = $.fullCalendar; // a reference to FullCalendar's root namespace
+let View = FC.View;      // the class that all views must inherit from
 
-var YearView = View.extend({
-
+let YearView = View.extend({
 	initialize: function () {
 
+	},
+	renderHtml: function () {
+		return `	
+			<div class="h-100 fc-year">
+				<div class="row no-gutters">
+					<div class="fc-january fc-year__month col-sm-6 col-lg-4"></div>
+					<div class="fc-february fc-year__month col-sm-6 col-lg-4"></div>
+					<div class="fc-march fc-year__month col-sm-6 col-lg-4"></div>
+					<div class="fc-aprill fc-year__month col-sm-6 col-lg-4"></div>
+					<div class="fc-mai fc-year__month col-sm-6 col-lg-4"></div>
+					<div class="fc-juni fc-year__month col-sm-6 col-lg-4"></div>
+					<div class="fc-juli fc-year__month col-sm-6 col-lg-4"></div>
+					<div class="fc-august fc-year__month col-sm-6 col-lg-4"></div>
+					<div class="fc-septempber fc-year__month col-sm-6 col-lg-4"></div>
+					<div class="fc-october fc-year__month col-sm-6 col-lg-4"></div>
+					<div class="fc-november fc-year__month col-sm-6 col-lg-4"></div>
+					<div class="fc-december fc-year__month col-sm-6 col-lg-4"></div>
+				</div>
+			</div>
+		`;
 	},
 	render: function () {
 
@@ -20,6 +39,7 @@ var YearView = View.extend({
 		console.log(this.el);
 		console.log($('#calendarview').fullCalendar('getCalendar').getDate().year());
 		console.log($('#calendarview').fullCalendar('getCalendar').moment().year());
+		// calendar.titleFormat = 'MMMM';
 		let yearView = this.el.html(this.renderHtml());
 		yearView.find('.fc-year__month').each(function (i) {
 			let date = moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD");
@@ -29,8 +49,6 @@ var YearView = View.extend({
 				header: {center: 'title', left: false, right: false},
 				height: 'auto',
 				defaultDate: date,
-				fixedWeekCount: false,
-				showNonCurrentDates: false,
 
 
 				///common
@@ -63,32 +81,6 @@ var YearView = View.extend({
 		});
 	},
 
-	renderHtml: function () {
-		return `	
-			<div class="h-100 fc-year">
-				<div class="row no-gutters">
-					<div class="fc-january fc-year__month col-4"></div>
-					<div class="fc-february fc-year__month col-4"></div>
-					<div class="fc-march fc-year__month col-4"></div>
-				</div>
-				<div class="row no-gutters">
-					<div class="fc-aprill fc-year__month col-4"></div>
-					<div class="fc-mai fc-year__month col-4"></div>
-					<div class="fc-juni fc-year__month col-4"></div>
-				</div>
-				<div class="row no-gutters">
-					<div class="fc-juli fc-year__month col-4"></div>
-					<div class="fc-august fc-year__month col-4"></div>
-					<div class="fc-septempber fc-year__month col-4"></div>
-				</div>
-				<div class="row no-gutters">
-					<div class="fc-october fc-year__month col-4"></div>
-					<div class="fc-november fc-year__month col-4"></div>
-					<div class="fc-december fc-year__month col-4"></div>
-				</div>
-			</div>
-		`;
-	}
 });
 
 
