@@ -450,7 +450,7 @@
 	.bottom_margin .fc-basic-view .fc-body .fc-row {
 		min-height: 9em !important;
 	}
-	.qcForm .formActionsPanel {
+	.formActionsPanel {
 		bottom: 49px;
 		width: calc(25% - 30px);
 		margin-right: 15px;
@@ -486,27 +486,18 @@
 		right: -25%;
 	}
 
-	.qcForm .massEditTable {
-		margin-bottom: 75px;
+	.massEditTable {
+		margin-bottom: 50px;
 	}
 	.formsContainer {
 		/*computed height: footer, userinfo, header filter buttons, padding */
 		height: calc(100vh - 35px - 17px - 50px - 34px - 6px);
 	}
 	@media only screen and (max-width: 1682px) {
-		.filterButtons {
-			margin-top: 40px;
-		}
 
 		.formsContainer {
 			/*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
-			height: calc(100vh - 35px - 17px - 50px - 34px - 6px - 40px);
-		}
-	}
-
-	@media only screen and (max-width: 1467px) {
-		.qcForm {
-			margin-top: 40px;
+			height: calc(100vh - 35px - 17px - 50px - 34px - 6px);
 		}
 	}
 }

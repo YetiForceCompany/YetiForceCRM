@@ -15519,6 +15519,41 @@ label.btn.btn-outline-primary:not(.active) {
   font-size: 1em; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .bottom_margin .fc-basic-view .fc-body .fc-row {
   min-height: 9em !important; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel {
+  bottom: 49px;
+  width: calc(25% - 30px);
+  margin-right: 15px;
+  text-align: center;
+  border-top: 1px solid #ddd;
+  right: 0px;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  position: fixed;
+  bottom: 33px;
+  height: 45px;
+  background: #f8f9fa;
+  margin-left: -10px;
+  text-align: center;
+  border-top: 1px solid #ddd;
+  z-index: 5;
+  padding: 5px; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .btn-group {
+    margin-right: 3px; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .saveAndComplete {
+    margin-right: 6px; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .qcForm .formActionsPanel {
+  right: -25%; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .massEditTable {
+  margin-bottom: 50px; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .formsContainer {
+  /*computed height: footer, userinfo, header filter buttons, padding */
+  height: calc(100vh - 35px - 17px - 50px - 34px - 6px); }
+@media only screen and (max-width: 1682px) {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .formsContainer {
+    /*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
+    height: calc(100vh - 35px - 17px - 50px - 34px - 6px); } }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .o-detail__icon {
