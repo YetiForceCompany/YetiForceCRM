@@ -6,7 +6,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	 * Calendar scroll
 	 */
 	registerCalendarScroll() {
-		app.showScrollBar($('.bodyContents'), {
+		app.showScrollBar($('.js-calendar--scroll'), {
 			railVisible: true,
 			alwaysVisible: true,
 			position: 'left'
@@ -105,7 +105,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				thisInstance.updateEvent(event, delta, revertFunc);
 			},
 			eventRender: function (event, element) {
-				thisInstance.updatgg(event, element);
+				thisInstance.actionOnRender(event, element);
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),

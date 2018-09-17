@@ -101,6 +101,10 @@
 
 //Calendar Extended
 .tpl-Calendar-Extended-CalendarViewPreProcess {
+	.o-calendar-container {
+		@extend .pt-0;
+	}
+
 	#datesColumn {
 		.subDateList {
 			text-align: center;
@@ -310,7 +314,7 @@
 		user-select: none;
 		background-image: none;
 		border: 1px solid transparent;
-		border-radius: 4px;
+		border-radius: 0 !important;
 		&:active .fc-button-inner {
 			background: transparent;
 			.fc-button-content {
@@ -358,12 +362,80 @@
 	}
 
 	.fc button {
-		/* FullCalendar buttons */
 		height: auto !important;
 	}
 
 	.fc-toolbar {
 		margin-bottom: 0 !important;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		.fc-right {
+			order: 3;
+			div {
+				display: flex;
+			}
+			button.btn, .btn {
+				border-radius: 0;
+				font-size: 12px;
+				max-height: 30px;
+				box-shadow: none;
+				text-shadow: none;
+			}
+			button.fc-today-button {
+				color: #fff !important;
+				background-image: none !important;
+				background-color: #337ab7 !important;
+				border-color: #2e6da4 !important;
+				border: none;
+				margin-left: 20px;
+				&:hover {
+					background-color: #204d74 !important;
+					border-color: #122b40 !important;
+				}
+				&:active {
+					background-image: none;
+					outline: 0;
+					-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+					box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+				}
+			}
+		}
+		.fc-left div button {
+			&.fc-button {
+				margin-right: 5px;
+				border-radius: 0;
+				background: #dfdfdf;
+				color: #353535;
+				height: 30px;
+				max-height: 30px;
+				border: none;
+				box-shadow: none;
+				padding: calculate-rem(5px) calculate-rem(18px) !important;
+			}
+			&.fc-state-active {
+				z-index: 4;
+				background: #337ab7 !important;
+				color: #fff !important;
+				text-shadow: none;
+			}
+		}
+		.fc-center div {
+			button:not(.fc-today-button) {
+				background: none;
+				border: none;
+				box-shadow: none;
+			}
+			display: flex;
+			h2 {
+				font-size: 1.25em;
+				margin-left: 5px;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				text-transform: uppercase;
+			}
+		}
 	}
 
 	.fc-time-grid .fc-time-grid-event.fc-event {
@@ -379,74 +451,4 @@
 		min-height: 9em !important;
 	}
 
-	/* added 20.07.2018 */
-
-	.fc-left div button {
-		&.fc-button {
-			margin-right: 5px;
-			border-radius: 0;
-			background: #dfdfdf;
-			color: #353535;
-			height: 30px;
-			max-height: 30px;
-			border: none;
-			box-shadow: none;
-			padding-left: 18px !important;
-			padding-right: 18px !important;
-		}
-		&.fc-state-active {
-			z-index: 4;
-			background: #337ab7 !important;
-			color: #fff !important;
-			text-shadow: none;
-		}
-	}
-
-	.fc-right {
-		div {
-			display: flex;
-		}
-		button.btn, .btn {
-			border-radius: 0;
-			font-size: 12px;
-			max-height: 30px;
-			box-shadow: none;
-			text-shadow: none;
-		}
-		button.fc-today-button {
-			color: #fff !important;
-			background-image: none !important;
-			background-color: #337ab7 !important;
-			border-color: #2e6da4 !important;
-			border: none;
-			margin-right: 5px;
-			margin-left: 20px;
-			&:hover {
-				background-color: #204d74 !important;
-				border-color: #122b40 !important;
-			}
-			&:active {
-				background-image: none;
-				outline: 0;
-				-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-				box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-			}
-		}
-	}
-
-	.fc-center div {
-		button:not(.fc-today-button) {
-			background: none;
-			border: none;
-			box-shadow: none;
-		}
-		display: flex;
-		h2 {
-			font-size: 1.25em;
-			margin-left: 5px;
-			margin-top: 10px;
-			margin-bottom: 10px;
-			text-transform: uppercase;
-		}
-	}
 }
