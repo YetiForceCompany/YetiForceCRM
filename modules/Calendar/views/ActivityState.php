@@ -12,6 +12,9 @@
  */
 class Calendar_ActivityState_View extends Calendar_ActivityStateModal_View
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	protected function getTpl()
 	{
 		return 'Extended/ActivityState.tpl';

@@ -146,24 +146,19 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		thisInstance.getCalendarView().fullCalendar(options);
 		thisInstance.registerCalendarScroll();
 	},
-	showStatusUpdate: function (params) {
-		console.log('showStatusUpdate');
-		var thisInstance = this;
-		AppConnector.request(params).then(
-			function (data) {
-				var sideBar = thisInstance.getSidebarView();
-				sideBar.find('.qcForm').html(data);
-				thisInstance.showRightPanelForm();
-				var rightFormStatus = sideBar.find('#activityStateModal .summaryCloseEdit');
-				rightFormStatus.on('click', function () {
-					thisInstance.getCalendarCreateView();
-				});
-				var editRecord = sideBar.find('#activityStateModal .editRecord');
-				editRecord.on('click', function () {
-					thisInstance.getCalendarEditView($(this).data('id'));
-				});
-			}
-		);
+	showStatusUpdate(params) {
+		const thisInstance = this;
+		AppConnector.request(params).then((data) => {
+			let sideBar = thisInstance.getSidebarView();
+			sideBar.find('.qcForm').html(data);
+			thisInstance.showRightPanelForm();
+			sideBar.find('#activityStateModal .summaryCloseEdit').on('click', function () {
+				thisInstance.getCalendarCreateView();
+			});
+			sideBar.find('#activityStateModal .editRecord').on('click', function () {
+				thisInstance.getCalendarEditView($(this).data('id'));
+			});
+		});
 	},
 	actionOnRender(event, element) {
 		const thisInstance = this;
@@ -379,6 +374,69 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			prevMonth = moment(prevMonth).add(1, 'week');
 		}
 		datesView.find('.dateList').html(html);
+	},
+	loadCalendarEditView: function (id) {
+		var aDeferred = jQuery.Deferred();
+		var params = {
+			'module': app.getModuleName(),
+			'view': 'EventForm',
+			'record': id
+		};
+		AppConnector.request(params).then(
+			function (data) {
+				aDeferred.resolve(jQuery(data));
+			},
+			function () {
+				aDeferred.reject();
+			}
+		);
+		return aDeferred.promise();
+	},
+	getCalendarEditView(id) {
+		var thisInstance = this;
+		var aDeferred = jQuery.Deferred();
+		if (this.calendarCreateView !== false) {
+			aDeferred.resolve(this.calendarCreateView.clone(true, true));
+			return aDeferred.promise();
+		}
+		var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
+		this.loadCalendarEditView(id).then(
+			function (data) {
+				progressInstance.progressIndicator({mode: 'hide'});
+				var sideBar = thisInstance.getSidebarView();
+				thisInstance.showRightPanelForm();
+				sideBar.find('.qcForm').html(data);
+				var rightFormCreate = $(document).find('form[name="QuickCreate"]');
+				var moduleName = sideBar.find('[name="module"]').val();
+				var editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+				var headerInstance = new Vtiger_Header_Js();
+				editViewInstance.registerBasicEvents(rightFormCreate);
+				rightFormCreate.validationEngine(app.validationEngineOptions);
+				headerInstance.registerHelpInfo(rightFormCreate);
+				thisInstance.registerSelect2();
+				thisInstance.registerSubmitForm();
+				var rightFormStatus = sideBar.find('.summaryCloseEdit');
+				rightFormStatus.on('click', function () {
+					thisInstance.getCalendarCreateView();
+				});
+
+				var params = {};
+				headerInstance.registerQuickCreateSidebarPostLoadEvents(rightFormCreate, params);
+				var customConfig = {
+					height: '5em',
+					toolbar: 'Min'
+				};
+				jQuery.each(sideBar.find('.ckEditorSource'), function (key, element) {
+					var ckEditorInstance = new Vtiger_CkEditor_Js();
+					ckEditorInstance.loadCkEditor(jQuery(element), customConfig);
+				});
+				aDeferred.resolve(sideBar.find('.qcForm'));
+			},
+			function () {
+				progressInstance.progressIndicator({mode: 'hide'});
+			}
+		);
+		return aDeferred.promise();
 	},
 	loadCalendarData: function (allEvents) {
 		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
