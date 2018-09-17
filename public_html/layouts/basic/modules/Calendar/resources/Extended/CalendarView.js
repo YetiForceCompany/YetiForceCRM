@@ -60,6 +60,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		if (app.getMainParams('switchingDays') === 'workDays') {
 			hiddenDays = app.getMainParams('hiddenDays', true);
 		}
+		console.log('op');
 		let options = {
 			header: {
 				left: 'year,month,' + weekView + ',' + dayView,
@@ -88,7 +89,8 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				},
 				year: {
 					eventLimit: 10,
-					eventLimitText: app.vtranslate('JS_COUNT_RECORDS')
+					eventLimitText: app.vtranslate('JS_COUNT_RECORDS'),
+					titleFormat: 'YYYY'
 				},
 				basicDay: {
 					type: 'agendaDay'
@@ -409,37 +411,34 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			return aDeferred.promise();
 		}
 		const progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		this.loadCalendarEditView(id).then(
-			function (data) {
+		this.loadCalendarEditView(id).then((data) => {
 				progressInstance.progressIndicator({mode: 'hide'});
-				var sideBar = thisInstance.getSidebarView();
+				let sideBar = thisInstance.getSidebarView();
 				thisInstance.showRightPanelForm();
 				sideBar.find('.qcForm').html(data);
-				var rightFormCreate = $(document).find('form[name="QuickCreate"]');
-				var moduleName = sideBar.find('[name="module"]').val();
-				var editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
-				var headerInstance = new Vtiger_Header_Js();
+				let rightFormCreate = $(document).find('form[name="QuickCreate"]');
+				let moduleName = sideBar.find('[name="module"]').val();
+				let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+				let headerInstance = new Vtiger_Header_Js();
 				editViewInstance.registerBasicEvents(rightFormCreate);
 				rightFormCreate.validationEngine(app.validationEngineOptions);
 				headerInstance.registerHelpInfo(rightFormCreate);
 				thisInstance.registerSelect2();
 				thisInstance.registerSubmitForm();
-				var rightFormStatus = sideBar.find('.summaryCloseEdit');
-				rightFormStatus.on('click', function () {
+				sideBar.find('.summaryCloseEdit').on('click', function () {
 					thisInstance.getCalendarCreateView();
 				});
 				headerInstance.registerQuickCreateSidebarPostLoadEvents(rightFormCreate, {});
-				var customConfig = {
-					height: '5em',
-					toolbar: 'Min'
-				};
 				$.each(sideBar.find('.ckEditorSource'), function (key, element) {
-					var ckEditorInstance = new Vtiger_CkEditor_Js();
-					ckEditorInstance.loadCkEditor($(element), customConfig);
+					let ckEditorInstance = new Vtiger_CkEditor_Js();
+					ckEditorInstance.loadCkEditor($(element), {
+						height: '5em',
+						toolbar: 'Min'
+					});
 				});
 				aDeferred.resolve(sideBar.find('.qcForm'));
 			},
-			function () {
+			() => {
 				progressInstance.progressIndicator({mode: 'hide'});
 			}
 		);

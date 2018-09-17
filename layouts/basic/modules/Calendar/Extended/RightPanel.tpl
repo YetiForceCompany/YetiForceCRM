@@ -3,14 +3,7 @@
 	{if !empty($ALL_ACTIVEUSER_LIST)}
 		<div class="js-filter__container">
 			<h4 class="boxFilterTitle">{\App\Language::translate('LBL_SELECT_USER_CALENDAR',$MODULE)}</h4>
-			<div class="input-group input-group-sm marginBottom5px">
-			  <span class="input-group-btn cursorPointer" id="search-icon">
-					<button class="btn btn-default "><span class="glyphicon glyphicon-search"></span></button>
-			  </span>
-				<input type="text" class="form-control js-filter__search" placeholder="Nazwa użytkownika"
-					   aria-describedby="search-icon">
-			</div>
-			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+			{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 				<ul class="nav">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 						<li class="js-filter__item__container">

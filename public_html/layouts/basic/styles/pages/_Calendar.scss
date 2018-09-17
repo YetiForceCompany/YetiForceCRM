@@ -500,4 +500,13 @@
 			height: calc(100vh - 35px - 17px - 50px - 34px - 6px);
 		}
 	}
+
+	.fc-year__month {
+		.fc-toolbar.fc-header-toolbar {
+			justify-content: center;
+			h2 {
+				font-size: 1.3rem;
+			}
+		}
+	}
 }
