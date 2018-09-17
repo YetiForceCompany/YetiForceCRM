@@ -9568,22 +9568,23 @@ hr {
 .crumbs {
   height: 40px;
   margin: 0;
+  margin-top: 6px;
   padding: 0 20px 0 0;
   display: inline-block;
   font-family: sans-serif; }
   .crumbs li {
     height: 0;
-    border-top: 20px solid #ececec;
-    border-bottom: 20px solid #ececec;
+    border-top: 20px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 20px solid rgba(0, 0, 0, 0.05);
     border-left: 20px solid transparent;
     display: inline-block;
-    box-shadow: 0 1px #ddd;
+    box-shadow: 0 1px rgba(0, 0, 0, 0.05);
     margin-right: 5px; }
     .crumbs li:after {
       content: '\0000a0';
       width: 0;
       height: 0;
-      border-left: 18px solid #ececec;
+      border-left: 18px solid rgba(0, 0, 0, 0.05);
       border-top: 20px solid transparent;
       border-bottom: 20px solid transparent;
       display: inline-block;
@@ -9896,7 +9897,37 @@ table.dataTable .form-control {
   width: 100% !important; }
 
 #breadcrumb .stepNum {
-  margin-top: 0; }
+  margin-top: 0px;
+  margin-right: 10px;
+  width: 25px;
+  height: 25px;
+  margin-left: 6px;
+  line-height: 25px;
+  text-align: center;
+  opacity: 0.9;
+  font-size: 1rem;
+  vertical-align: text-bottom;
+  position: relative; }
+  #breadcrumb .stepNum:after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 100%;
+    box-shadow: inset 0px 0px 1px 1px rgba(33, 37, 41, 0.5); }
+#breadcrumb .active .stepNum::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  box-shadow: inset 0px 0px 0px 1px #ffffff57;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 100%; }
 #breadcrumb .stepText {
   position: relative;
   top: -4px; }
@@ -11393,6 +11424,9 @@ select[readonly], select[disabled] {
 .u-ml-minus-5px {
   margin-left: -0.3125rem; }
 
+.u-mr-minus-8px {
+  margin-right: -0.5rem; }
+
 .u-p-1per {
   padding: 1%; }
 
@@ -12611,6 +12645,9 @@ header .c-header__btn__container .select2-selection {
 .cke_screen_reader_only {
   height: 0 !important; }
 
+.pdfTemplateContents .cke {
+  border: 0px; }
+
 .jstree-proton {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important; }
 
@@ -12637,6 +12674,9 @@ header .c-header__btn__container .select2-selection {
     margin-bottom: 0.5rem !important; } }
 .dataTables_wrapper .custom-select {
   background: unset; }
+
+.leaflet-popup-content {
+  width: auto; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 label.btn.btn-outline-primary:not(.active) {
