@@ -107,6 +107,13 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			eventRender: function (event, element) {
 				thisInstance.actionOnRender(event, element);
 			},
+			eventClick: function (calEvent, jsEvent, view) {
+				jsEvent.preventDefault();
+				let link = new URL($(this)[0].href);
+				let url = 'index.php?module=Calendar&view=ActivityStateModal&record=' +
+					link.searchParams.get("record");
+				thisInstance.showStatusUpdate(url);
+			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
 				app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
@@ -140,6 +147,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		thisInstance.registerCalendarScroll();
 	},
 	showStatusUpdate: function (params) {
+		console.log('showStatusUpdate');
 		var thisInstance = this;
 		AppConnector.request(params).then(
 			function (data) {
@@ -150,7 +158,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				rightFormStatus.on('click', function () {
 					thisInstance.getCalendarCreateView();
 				});
-
 				var editRecord = sideBar.find('#activityStateModal .editRecord');
 				editRecord.on('click', function () {
 					thisInstance.getCalendarEditView($(this).data('id'));
@@ -159,6 +166,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		);
 	},
 	actionOnRender(event, element) {
+		const thisInstance = this;
 		app.showPopoverElementView(element.find('.fc-content'), {
 			title: event.title + '<a href="index.php?module=' + event.module + '&view=Edit&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="fas fa-pencil"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="fas fa-th-list"></span></a>',
 			container: 'body',
@@ -178,11 +186,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			(event.state ? '<div><span class="fas fa-star-empty" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATE') + '</label>: ' + app.vtranslate(event.state) + '</div>' : '') +
 			'<div><span class="fas fa-eye-open" aria-hidden="true"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>: ' + app.vtranslate('JS_' + event.vis) + '</div>' +
 			(event.smownerid ? '<div><span class="fas fa-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
-		});
-		element.find('.fc-content, .fc-info').click(function () {
-			var event = $(this).closest('.fc-event');
-			var url = 'index.php?module=Calendar&view=ActivityState&record=' + event.data('id');
-			thisInstance.showStatusUpdate(url);
 		});
 	},
 	getDatesColumnView: function () {
