@@ -6,13 +6,15 @@
 	{/foreach}
 	<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
 		{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-			<input name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}' type="hidden"/>
+			<input name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'
+				   type="hidden"/>
 		{/if}
 		{if !empty($RECORD_ID)}
 			<input name="record" value="{$RECORD_ID}" type="hidden"/>
 		{/if}
 		{if !empty($MAPPING_RELATED_FIELD)}
-			<input name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}' type="hidden"/>
+			<input name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'
+				   type="hidden"/>
 		{/if}
 		<input name="module" value="{$MODULE}" type="hidden"/>
 		<input name="action" value="SaveAjax" type="hidden"/>
@@ -20,15 +22,15 @@
 		<input name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" type="hidden"/>
 		<input name="userChangedEndDateTime" value="0" type="hidden"/>
 		<div class="w-100 d-flex flex-column">
-			{if !empty($RECORD_ID)}
-				<h6 class="boxEventTitle text-muted text-center my-1">
+			<h6 class="boxEventTitle text-muted text-center my-1">
+				{if !empty($RECORD_ID)}
 					<span class="fas fa-edit mr-1"></span>
-					{\App\Language::translate('LBL_EDIT_EVENT',$MODULE)}</h6>
-			{else}
-				<h6 class="boxEventTitle text-muted text-center my-1">
+				{\App\Language::translate('LBL_EDIT_EVENT',$MODULE)}
+				{else}
 					<span class="fas fa-plus mr-1"></span>
-					{\App\Language::translate('LBL_ADD',$MODULE)}</h6>
-			{/if}
+					{\App\Language::translate('LBL_ADD',$MODULE)}
+				{/if}
+			</h6>
 			<div class="massEditTable row no-margin">
 				<div class="col-xs-12 paddingLRZero fieldRow">
 					{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
@@ -55,6 +57,7 @@
 								</label>
 							</div>
 							<div class="fieldValue col-12">
+								{$FIELD_MODEL->getUITypeModel()->getTemplateName()}
 								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
 							</div>
 						</div>
