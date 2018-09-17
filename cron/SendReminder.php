@@ -42,18 +42,13 @@ if ($dataReader->count()) {
 			\App\Log::trace('Start Send SendReminder');
 			$toEmail = App\Fields\Email::getUserMail($row['smownerid']);
 			$invitees = [];
-			if ($row['activitytype'] == 'Task') {
-				$template = 'ActivityReminderNotificationTask';
-			} else {
-				$template = 'ActivityReminderNotificationEvents';
-				$recordModel->setId($activityId);
-				if (AppConfig::module('Calendar', 'SEND_REMINDER_INVITATION')) {
-					$invitees = $recordModel->getInvities();
-				}
+			$recordModel->setId($activityId);
+			if (AppConfig::module('Calendar', 'SEND_REMINDER_INVITATION')) {
+				$invitees = $recordModel->getInvities();
 			}
 			if (!empty($toEmail)) {
 				\App\Mailer::sendFromTemplate([
-					'template' => $template,
+					'template' => 'ActivityReminderNotificationTask',
 					'moduleName' => 'Calendar',
 					'recordId' => $activityId,
 					'to' => $toEmail,
