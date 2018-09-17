@@ -450,5 +450,63 @@
 	.bottom_margin .fc-basic-view .fc-body .fc-row {
 		min-height: 9em !important;
 	}
+	.qcForm .formActionsPanel {
+		bottom: 49px;
+		width: calc(25% - 30px);
+		margin-right: 15px;
+		text-align: center;
+		border-top: 1px solid #ddd;
+		right: 0px;
+		-webkit-transition: all 0.5s ease;
+		-moz-transition: all 0.5s ease;
+		-o-transition: all 0.5s ease;
+		transition: all 0.5s ease;
 
+		position: fixed;
+		bottom: 33px;
+		height: 45px;
+		background: $light;
+		margin-left: -10px;
+		text-align: center;
+		border-top: 1px solid #ddd;
+		z-index: 5;
+
+		padding: 5px;
+
+		.btn-group {
+			margin-right: 3px;
+		}
+
+		.saveAndComplete {
+			margin-right: 6px;
+		}
+	}
+
+	.hideSiteBar .qcForm .formActionsPanel {
+		right: -25%;
+	}
+
+	.qcForm .massEditTable {
+		margin-bottom: 75px;
+	}
+	.formsContainer {
+		/*computed height: footer, userinfo, header filter buttons, padding */
+		height: calc(100vh - 35px - 17px - 50px - 34px - 6px);
+	}
+	@media only screen and (max-width: 1682px) {
+		.filterButtons {
+			margin-top: 40px;
+		}
+
+		.formsContainer {
+			/*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
+			height: calc(100vh - 35px - 17px - 50px - 34px - 6px - 40px);
+		}
+	}
+
+	@media only screen and (max-width: 1467px) {
+		.qcForm {
+			margin-top: 40px;
+		}
+	}
 }
