@@ -22,8 +22,6 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	public function getValidator()
 	{
 		$validator = [];
-		$fieldName = $this->getName();
-
 		if ($this->getName() === 'due_date') {
 			$funcName = ['name' => 'greaterThanDependentField',
 				'params' => ['date_start'], ];
