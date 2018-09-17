@@ -48,7 +48,7 @@
 			</div>
 			<div class="o-calendar-container col-sm-11">
 				{if $CUSTOM_VIEWS|@count gt 0}
-					<ul class="nav nav-tabs pt-2" role="tablist">
+					<ul class="nav nav-tabs pt-2 js-calendar-extended-filter-tab" data-js="change" role="tablist">
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 							{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 								{if $CUSTOM_VIEW->isFeatured()}
