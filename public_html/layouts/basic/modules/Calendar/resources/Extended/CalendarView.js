@@ -315,12 +315,12 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		});
 	},
 	generateYearList: function (dateStart, dateEnd) {
-		var thisInstance = this;
-		var datesView = thisInstance.getDatesColumnView();
-		var prevYear = moment(dateStart).subtract(1, 'year');
-		var actualYear = moment(dateStart);
-		var nextYear = moment(dateStart).add(1, 'year');
-		var html = '';
+		const thisInstance = this;
+		const datesView = thisInstance.getDatesColumnView();
+		let prevYear = moment(dateStart).subtract(1, 'year');
+		let actualYear = moment(dateStart);
+		let nextYear = moment(dateStart).add(1, 'year');
+		let html = '';
 		while (prevYear <= nextYear) {
 			if (prevYear.format('YYYY') === actualYear.format('YYYY')) {
 				var active = ' dateActive';
@@ -335,12 +335,12 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		datesView.find('.dateList').html(html);
 	},
 	generateMonthList: function (dateStart, dateEnd) {
-		var thisInstance = this;
-		var datesView = thisInstance.getDatesColumnView();
-		var prevMonth = moment(dateStart).subtract(1, 'months');
-		var actualMonth = moment(dateStart);
-		var nextMonth = moment(dateStart).add(1, 'months');
-		var html = '';
+		const thisInstance = this;
+		const datesView = thisInstance.getDatesColumnView();
+		let prevMonth = moment(dateStart).subtract(1, 'months');
+		let actualMonth = moment(dateStart);
+		let nextMonth = moment(dateStart).add(1, 'months');
+		let html = '';
 		while (prevMonth <= nextMonth) {
 			if (prevMonth.format('YYYY-MM') === actualMonth.format('YYYY-MM')) {
 				var active = ' dateActive';
@@ -355,12 +355,12 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		datesView.find('.dateList').html(html);
 	},
 	generateWeekList: function (dateStart, dateEnd) {
-		var thisInstance = this;
-		var datesView = thisInstance.getDatesColumnView();
-		var prevMonth = moment(dateStart).subtract(1, 'week');
-		var actualMonth = moment(dateStart);
-		var nextMonth = moment(dateStart).add(1, 'week');
-		var html = '';
+		const thisInstance = this;
+		const datesView = thisInstance.getDatesColumnView();
+		let prevMonth = moment(dateStart).subtract(1, 'week');
+		let actualMonth = moment(dateStart);
+		let nextMonth = moment(dateStart).add(1, 'week');
+		let html = '';
 		while (prevMonth <= nextMonth) {
 			if (prevMonth.format('WW') === actualMonth.format('WW') && prevMonth.format('YYYY') === actualMonth.format('YYYY')) {
 				var active = ' dateActive';
@@ -375,13 +375,13 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		datesView.find('.dateList').html(html);
 	},
 	loadCalendarData: function (allEvents) {
-		var progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		var thisInstance = this;
-		var view = thisInstance.getCalendarView().fullCalendar('getView');
-		var types = [];
-		var user = [];
+		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
+		const thisInstance = this;
+		const view = thisInstance.getCalendarView().fullCalendar('getView');
+		let types = [];
+		let user = [];
 		thisInstance.getCalendarView().fullCalendar('removeEvents');
-		var formatDate = CONFIG.dateFormat.toUpperCase();
+		let formatDate = CONFIG.dateFormat.toUpperCase();
 		thisInstance.refreshDatesColumnView(view);
 		types = thisInstance.getTypesCalendar();
 		if (types.length == 0) {
@@ -391,10 +391,10 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		if (user.length == 0) {
 			user = [app.getMainParams('current_user_id')];
 		}
-		var filters = [];
+		let filters = [];
 		$(".calendarFilters .filterField").each(function (index) {
-			var element = $(this);
-			var name, value;
+			let element = $(this);
+			let name, value;
 			if (element.attr('type') == 'checkbox') {
 				name = element.val();
 				value = element.prop('checked') ? 1 : 0;
@@ -405,7 +405,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			filters.push({name: name, value: value});
 		});
 		if (allEvents == true || types.length > 0) {
-			var params = {
+			AppConnector.request({
 				module: 'Calendar',
 				action: 'Calendar',
 				mode: 'getEvents',
@@ -415,8 +415,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				time: app.getMainParams('showType'),
 				types: types,
 				filters: filters
-			};
-			AppConnector.request(params).then(function (events) {
+			}).then(function (events) {
 				thisInstance.getCalendarView().fullCalendar('removeEvents');
 				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
 				progressInstance.progressIndicator({mode: 'hide'});
@@ -427,11 +426,11 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		}
 	},
 	generateSubMonthList: function (dateStart, dateEnd) {
-		var thisInstance = this;
-		var datesView = thisInstance.getDatesColumnView();
-		var activeMonth = parseInt(moment(dateStart).locale('en').format('M')) - 1;
-		var html = '';
-		for (var month = 0; 12 > month; month++) {
+		let thisInstance = this;
+		let datesView = thisInstance.getDatesColumnView();
+		let activeMonth = parseInt(moment(dateStart).locale('en').format('M')) - 1;
+		let html = '';
+		for (let month = 0; 12 > month; ++month) {
 			if (month === activeMonth) {
 				var active = ' subActive';
 			} else {
