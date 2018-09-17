@@ -100,351 +100,353 @@
 }
 
 //Calendar Extended
-#datesColumn {
-	.subDateList {
-		text-align: center;
-		margin-top: 10px;
-		.subDateCount div.countEvents {
-			background-color: #ff4e4d;
-			color: #fff;
-			border-radius: 20px;
-			display: inline-block;
-			padding-top: 5px;
-			padding-bottom: 5px;
-			width: 28px;
-		}
-		.subRecord {
-			font-size: 12px;
-			border: 1px solid #eee;
-			padding-top: 0px;
-			padding-bottom: 2px;
-			margin-bottom: 5px;
-			margin-left: 5px;
-			/* margin-right: 5px; */
-			cursor: pointer;
-		}
-		.subActive {
-			background-color: #337ab7;
-			color: #fff;
-			cursor: default;
-			.subDateCount {
-				div.countEvents {
-					background-color: #fff;
-					color: #337ab7;
+.tpl-Calendar-Extended-CalendarViewPreProcess {
+	#datesColumn {
+		.subDateList {
+			text-align: center;
+			margin-top: 10px;
+			.subDateCount div.countEvents {
+				background-color: #ff4e4d;
+				color: #fff;
+				border-radius: 20px;
+				display: inline-block;
+				padding-top: 5px;
+				padding-bottom: 5px;
+				width: 28px;
+			}
+			.subRecord {
+				font-size: 12px;
+				border: 1px solid #eee;
+				padding-top: 0px;
+				padding-bottom: 2px;
+				margin-bottom: 5px;
+				margin-left: 5px;
+				/* margin-right: 5px; */
+				cursor: pointer;
+			}
+			.subActive {
+				background-color: #337ab7;
+				color: #fff;
+				cursor: default;
+				.subDateCount {
+					div.countEvents {
+						background-color: #fff;
+						color: #337ab7;
+						font-weight: bold;
+					}
+					margin-top: 5px;
+					margin-bottom: 5px;
+				}
+				.subDateName {
 					font-weight: bold;
 				}
-				margin-top: 5px;
-				margin-bottom: 5px;
 			}
 			.subDateName {
-				font-weight: bold;
+				margin-top: 2px;
+				margin-bottom: 2px;
 			}
 		}
-		.subDateName {
+		.dateList {
+			text-align: center;
+			.dateRecord {
+				margin-bottom: 5px;
+				cursor: pointer;
+			}
+			.dateActive {
+				font-weight: 600;
+				font-size: 1.15em;
+				cursor: default;
+				white-space: nowrap;
+				background-color: #efeff1;
+				padding-top: 5px;
+				padding-bottom: 5px;
+			}
+		}
+	}
+
+	@media (max-width: 992px) {
+		#datesColumn .subDateList .subDateCount {
+			margin-top: 3px;
+			margin-bottom: 3px;
+		}
+	}
+
+	@media (min-width: 992px) {
+		#datesColumn .subDateList .subDateCount {
 			margin-top: 2px;
-			margin-bottom: 2px;
+			margin-bottom: 0px;
 		}
 	}
-	.dateList {
-		text-align: center;
-		.dateRecord {
-			margin-bottom: 5px;
-			cursor: pointer;
-		}
-		.dateActive {
-			font-weight: 600;
-			font-size: 1.15em;
-			cursor: default;
-			white-space: nowrap;
-			background-color: #efeff1;
-			padding-top: 5px;
-			padding-bottom: 5px;
-		}
+
+	.fc-state-default .fc-button-effect {
+		top: 100% !important;
 	}
-}
 
-@media (max-width: 992px) {
-	#datesColumn .subDateList .subDateCount {
-		margin-top: 3px;
-		margin-bottom: 3px;
-	}
-}
-
-@media (min-width: 992px) {
-	#datesColumn .subDateList .subDateCount {
-		margin-top: 2px;
-		margin-bottom: 0px;
-	}
-}
-
-.fc-state-default .fc-button-effect {
-	top: 100% !important;
-}
-
-.fc-event-style1 {
-	background: #17309a;
-	border-color: #17309a;
-	font-weight: normal;
-	text-shadow: none;
-	.fc-event-skin {
+	.fc-event-style1 {
 		background: #17309a;
 		border-color: #17309a;
 		font-weight: normal;
 		text-shadow: none;
+		.fc-event-skin {
+			background: #17309a;
+			border-color: #17309a;
+			font-weight: normal;
+			text-shadow: none;
+		}
 	}
-}
 
-.fc-event-style2 {
-	background: #3a87ad;
-	border-color: #3a87ad;
-	font-weight: normal;
-	text-shadow: none;
-	.fc-event-skin {
+	.fc-event-style2 {
 		background: #3a87ad;
 		border-color: #3a87ad;
 		font-weight: normal;
 		text-shadow: none;
+		.fc-event-skin {
+			background: #3a87ad;
+			border-color: #3a87ad;
+			font-weight: normal;
+			text-shadow: none;
+		}
 	}
-}
 
-.fc-event-style3 {
-	background: #aa6705;
-	border-color: #aa6705;
-	font-weight: normal;
-	text-shadow: none;
-	.fc-event-skin {
+	.fc-event-style3 {
 		background: #aa6705;
 		border-color: #aa6705;
 		font-weight: normal;
 		text-shadow: none;
+		.fc-event-skin {
+			background: #aa6705;
+			border-color: #aa6705;
+			font-weight: normal;
+			text-shadow: none;
+		}
 	}
-}
 
-.fc-event-style4 {
-	background: #953b39;
-	border-color: #953b39;
-	font-weight: normal;
-	text-shadow: none;
-	.fc-event-skin {
+	.fc-event-style4 {
 		background: #953b39;
 		border-color: #953b39;
 		font-weight: normal;
 		text-shadow: none;
+		.fc-event-skin {
+			background: #953b39;
+			border-color: #953b39;
+			font-weight: normal;
+			text-shadow: none;
+		}
 	}
-}
 
-.fc-event-style5 {
-	background: #545252;
-	border-color: #545252;
-	font-weight: normal;
-	text-shadow: none;
-	.fc-event-skin {
+	.fc-event-style5 {
 		background: #545252;
 		border-color: #545252;
 		font-weight: normal;
 		text-shadow: none;
+		.fc-event-skin {
+			background: #545252;
+			border-color: #545252;
+			font-weight: normal;
+			text-shadow: none;
+		}
 	}
-}
 
-.fc-event-style6 {
-	background: #87865d;
-	border-color: #87865d;
-	font-weight: normal;
-	text-shadow: none;
-	.fc-event-skin {
+	.fc-event-style6 {
 		background: #87865d;
 		border-color: #87865d;
 		font-weight: normal;
 		text-shadow: none;
+		.fc-event-skin {
+			background: #87865d;
+			border-color: #87865d;
+			font-weight: normal;
+			text-shadow: none;
+		}
 	}
-}
 
-.fc-event-style7 {
-	background: #c71585;
-	border-color: #c71585;
-	font-weight: normal;
-	text-shadow: none;
-	.fc-event-calendarMassEditskin {
+	.fc-event-style7 {
 		background: #c71585;
 		border-color: #c71585;
 		font-weight: normal;
 		text-shadow: none;
+		.fc-event-calendarMassEditskin {
+			background: #c71585;
+			border-color: #c71585;
+			font-weight: normal;
+			text-shadow: none;
+		}
 	}
-}
 
-.fc-event-style8 {
-	background: #006400;
-	border-color: #006400;
-	font-weight: normal;
-	text-shadow: none;
-	.fc-event-skin {
+	.fc-event-style8 {
 		background: #006400;
 		border-color: #006400;
 		font-weight: normal;
 		text-shadow: none;
-	}
-}
-
-.fc-agenda-divider + div {
-	overflow-y: visible !important;
-}
-
-.fc-button {
-	/* FullCalendar buttons */
-	display: inline-block;
-	padding: 6px 0.4em !important;
-	margin-bottom: 0;
-	font-size: 14px;
-	font-weight: normal;
-	line-height: 1.42857143;
-	text-align: center;
-	white-space: nowrap;
-	vertical-align: middle;
-	-ms-touch-action: manipulation;
-	touch-action: manipulation;
-	cursor: pointer;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	background-image: none;
-	border: 1px solid transparent;
-	border-radius: 4px;
-	&:active .fc-button-inner {
-		background: transparent;
-		.fc-button-content {
-			color: #ffffff;
+		.fc-event-skin {
+			background: #006400;
+			border-color: #006400;
+			font-weight: normal;
+			text-shadow: none;
 		}
 	}
-	&.fc-state-active .fc-button-inner .fc-button-content, &:active .fc-button-inner .fc-button-content {
-		color: #000000 !important;
-		background: transparent;
+
+	.fc-agenda-divider + div {
+		overflow-y: visible !important;
+	}
+
+	.fc-button {
+		/* FullCalendar buttons */
+		display: inline-block;
+		padding: 6px 0.4em !important;
+		margin-bottom: 0;
+		font-size: 14px;
+		font-weight: normal;
+		line-height: 1.42857143;
+		text-align: center;
+		white-space: nowrap;
+		vertical-align: middle;
+		-ms-touch-action: manipulation;
+		touch-action: manipulation;
+		cursor: pointer;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
 		background-image: none;
-	}
-}
-
-.fc-header-title h2 {
-	font-size: 15px;
-	line-height: 20px;
-}
-
-.fc-widget-header {
-	th {
-		padding: 4px 0px !important;
-	}
-	color: #666;
-	background: #eee;
-	border-color: #ccc;
-}
-
-.fc-content {
-	background: #fff;
-	margin-left: 10px;
-}
-
-.fc-event-container .fc-event.fc-draggable {
-	margin: 0 0px 2px 0px;
-	border-radius: 0;
-}
-
-.fc-content {
-	.fc-title {
-		padding-left: 2px;
-	}
-	td:hover {
-		background: #f3f3f3;
-	}
-}
-
-.fc button {
-	/* FullCalendar buttons */
-	height: auto !important;
-}
-
-.fc-toolbar {
-	margin-bottom: 0 !important;
-}
-
-.fc-time-grid .fc-time-grid-event.fc-event {
-	min-height: 27px;
-	min-width: 100px;
-}
-
-.fc-time-grid-event.fc-short .fc-title {
-	font-size: 1em;
-}
-
-.bottom_margin .fc-basic-view .fc-body .fc-row {
-	min-height: 9em !important;
-}
-
-/* added 20.07.2018 */
-
-.fc-left div button {
-	&.fc-button {
-		margin-right: 5px;
-		border-radius: 0;
-		background: #dfdfdf;
-		color: #353535;
-		height: 30px;
-		max-height: 30px;
-		border: none;
-		box-shadow: none;
-		padding-left: 18px !important;
-		padding-right: 18px !important;
-	}
-	&.fc-state-active {
-		z-index: 4;
-		background: #337ab7 !important;
-		color: #fff !important;
-		text-shadow: none;
-	}
-}
-
-.fc-right {
-	div {
-		display: flex;
-	}
-	button.btn, .btn {
-		border-radius: 0;
-		font-size: 12px;
-		max-height: 30px;
-		box-shadow: none;
-		text-shadow: none;
-	}
-	button.fc-today-button {
-		color: #fff !important;
-		background-image: none !important;
-		background-color: #337ab7 !important;
-		border-color: #2e6da4 !important;
-		border: none;
-		margin-right: 5px;
-		margin-left: 20px;
-		&:hover {
-			background-color: #204d74 !important;
-			border-color: #122b40 !important;
+		border: 1px solid transparent;
+		border-radius: 4px;
+		&:active .fc-button-inner {
+			background: transparent;
+			.fc-button-content {
+				color: #ffffff;
+			}
 		}
-		&:active {
+		&.fc-state-active .fc-button-inner .fc-button-content, &:active .fc-button-inner .fc-button-content {
+			color: #000000 !important;
+			background: transparent;
 			background-image: none;
-			outline: 0;
-			-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-			box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 		}
 	}
-}
 
-.fc-center div {
-	button:not(.fc-today-button) {
-		background: none;
-		border: none;
-		box-shadow: none;
+	.fc-header-title h2 {
+		font-size: 15px;
+		line-height: 20px;
 	}
-	display: flex;
-	h2 {
-		font-size: 1.25em;
-		margin-left: 5px;
-		margin-top: 10px;
-		margin-bottom: 10px;
-		text-transform: uppercase;
+
+	.fc-widget-header {
+		th {
+			padding: 4px 0px !important;
+		}
+		color: #666;
+		background: #eee;
+		border-color: #ccc;
+	}
+
+	.fc-content {
+		background: #fff;
+		margin-left: 10px;
+	}
+
+	.fc-event-container .fc-event.fc-draggable {
+		margin: 0 0px 2px 0px;
+		border-radius: 0;
+	}
+
+	.fc-content {
+		.fc-title {
+			padding-left: 2px;
+		}
+		td:hover {
+			background: #f3f3f3;
+		}
+	}
+
+	.fc button {
+		/* FullCalendar buttons */
+		height: auto !important;
+	}
+
+	.fc-toolbar {
+		margin-bottom: 0 !important;
+	}
+
+	.fc-time-grid .fc-time-grid-event.fc-event {
+		min-height: 27px;
+		min-width: 100px;
+	}
+
+	.fc-time-grid-event.fc-short .fc-title {
+		font-size: 1em;
+	}
+
+	.bottom_margin .fc-basic-view .fc-body .fc-row {
+		min-height: 9em !important;
+	}
+
+	/* added 20.07.2018 */
+
+	.fc-left div button {
+		&.fc-button {
+			margin-right: 5px;
+			border-radius: 0;
+			background: #dfdfdf;
+			color: #353535;
+			height: 30px;
+			max-height: 30px;
+			border: none;
+			box-shadow: none;
+			padding-left: 18px !important;
+			padding-right: 18px !important;
+		}
+		&.fc-state-active {
+			z-index: 4;
+			background: #337ab7 !important;
+			color: #fff !important;
+			text-shadow: none;
+		}
+	}
+
+	.fc-right {
+		div {
+			display: flex;
+		}
+		button.btn, .btn {
+			border-radius: 0;
+			font-size: 12px;
+			max-height: 30px;
+			box-shadow: none;
+			text-shadow: none;
+		}
+		button.fc-today-button {
+			color: #fff !important;
+			background-image: none !important;
+			background-color: #337ab7 !important;
+			border-color: #2e6da4 !important;
+			border: none;
+			margin-right: 5px;
+			margin-left: 20px;
+			&:hover {
+				background-color: #204d74 !important;
+				border-color: #122b40 !important;
+			}
+			&:active {
+				background-image: none;
+				outline: 0;
+				-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+				box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+			}
+		}
+	}
+
+	.fc-center div {
+		button:not(.fc-today-button) {
+			background: none;
+			border: none;
+			box-shadow: none;
+		}
+		display: flex;
+		h2 {
+			font-size: 1.25em;
+			margin-left: 5px;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			text-transform: uppercase;
+		}
 	}
 }
