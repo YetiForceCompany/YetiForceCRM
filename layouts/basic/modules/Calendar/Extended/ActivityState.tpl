@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Calendar-Extended-ActivityState modalEditStatus" id="activityStateModal" tabindex="-1">
+	<div class="tpl-Calendar-Extended-ActivityState js-activity-state modalEditStatus"
+		 data-js="container" tabindex="-1">
 		{assign var=ID value=$RECORD->getId()}
 		<div>
 			<div>

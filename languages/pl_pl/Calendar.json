@@ -130,6 +130,8 @@
     "LBL_FILTER": "Filtry",
     "LBL_MEET": "SPOTKANIE",
     "LBL_PHONE": "TELEFON",
+    "LBL_EDIT_EVENT": "Edytuj termin",
+    "LBL_USER_NAME": "Nazwa u\u017cytkownika",
     "LBL_AUTO_FILL_DESCRIPTION": "Wype\u0142nienie daty rozpocz\u0119cia na podstawie pierwszego wolnego terminu",
     "LBL_CACHE_SELECTED_FILTERS": "Zmieni\u0142e\u015b standardowy widok w kalendarzu, aby go wyczy\u015bci\u0107 wci\u015bnij przycisk \"Wyczy\u015b\u0107 widok\".",
     "LBL_CACHE_CLEAR": "Wyczy\u015b\u0107 widok",
