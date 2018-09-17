@@ -110,7 +110,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			eventClick: function (calEvent, jsEvent, view) {
 				jsEvent.preventDefault();
 				let link = new URL($(this)[0].href);
-				let url = 'index.php?module=Calendar&view=ActivityStateModal&record=' +
+				let url = 'index.php?module=Calendar&view=ActivityState&record=' +
 					link.searchParams.get("record");
 				thisInstance.showStatusUpdate(url);
 			},
@@ -146,24 +146,19 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		thisInstance.getCalendarView().fullCalendar(options);
 		thisInstance.registerCalendarScroll();
 	},
-	showStatusUpdate: function (params) {
-		console.log('showStatusUpdate');
-		var thisInstance = this;
-		AppConnector.request(params).then(
-			function (data) {
-				var sideBar = thisInstance.getSidebarView();
-				sideBar.find('.qcForm').html(data);
-				thisInstance.showRightPanelForm();
-				var rightFormStatus = sideBar.find('#activityStateModal .summaryCloseEdit');
-				rightFormStatus.on('click', function () {
-					thisInstance.getCalendarCreateView();
-				});
-				var editRecord = sideBar.find('#activityStateModal .editRecord');
-				editRecord.on('click', function () {
-					thisInstance.getCalendarEditView($(this).data('id'));
-				});
-			}
-		);
+	showStatusUpdate(params) {
+		const thisInstance = this;
+		AppConnector.request(params).then((data) => {
+			let sideBar = thisInstance.getSidebarView();
+			sideBar.find('.qcForm').html(data);
+			thisInstance.showRightPanelForm();
+			sideBar.find('.js-activity-state .summaryCloseEdit').on('click', function () {
+				thisInstance.getCalendarCreateView();
+			});
+			sideBar.find('.js-activity-state .editRecord').on('click', function () {
+				thisInstance.getCalendarEditView($(this).data('id'));
+			});
+		});
 	},
 	actionOnRender(event, element) {
 		const thisInstance = this;
@@ -174,18 +169,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			placement: 'auto',
 			template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
 			content: '<div><span class="fas fa-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start_display + '</div>' +
-			'<div><span class="fas fa-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
-			(event.lok ? '<div><span class="fas fa-globe" aria-hidden="true"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
-			(event.pri ? '<div><span class="fas fa-warning-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PRIORITY') + '</label>: ' + app.vtranslate('JS_' + event.pri) + '</div>' : '') +
-			'<div><span class="fas fa-question-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + app.vtranslate('JS_' + event.sta) + '</div>' +
-			(event.accname ? '<div><span class="userIcon-Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ACCOUNTS') + '</label>: ' + event.accname + '</div>' : '') +
-			(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a target="_blank" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
-			(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a target="_blank" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</a></div>' : '') +
-			(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
-			(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
-			(event.state ? '<div><span class="fas fa-star-empty" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATE') + '</label>: ' + app.vtranslate(event.state) + '</div>' : '') +
-			'<div><span class="fas fa-eye-open" aria-hidden="true"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>: ' + app.vtranslate('JS_' + event.vis) + '</div>' +
-			(event.smownerid ? '<div><span class="fas fa-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
+				'<div><span class="fas fa-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
+				(event.lok ? '<div><span class="fas fa-globe" aria-hidden="true"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
+				(event.pri ? '<div><span class="fas fa-warning-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PRIORITY') + '</label>: ' + app.vtranslate('JS_' + event.pri) + '</div>' : '') +
+				'<div><span class="fas fa-question-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + app.vtranslate('JS_' + event.sta) + '</div>' +
+				(event.accname ? '<div><span class="userIcon-Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ACCOUNTS') + '</label>: ' + event.accname + '</div>' : '') +
+				(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a target="_blank" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
+				(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a target="_blank" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</a></div>' : '') +
+				(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
+				(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
+				(event.state ? '<div><span class="fas fa-star-empty" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATE') + '</label>: ' + app.vtranslate(event.state) + '</div>' : '') +
+				'<div><span class="fas fa-eye-open" aria-hidden="true"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>: ' + app.vtranslate('JS_' + event.vis) + '</div>' +
+				(event.smownerid ? '<div><span class="fas fa-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 		});
 	},
 	getDatesColumnView: function () {
@@ -210,7 +205,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		} else if (dateListUnit === 'day') {
 			subDateListUnit = 'day';
 		}
-
 		if (subDateListUnit === 'year') {
 			thisInstance.generateYearList(calendarView.intervalStart, calendarView.intervalEnd);
 			var datesView = thisInstance.getDatesColumnView();
@@ -227,6 +221,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		}
 		thisInstance.updateCountTaskCalendar();
 		thisInstance.registerDatesChange();
+		thisInstance.registerFilterTabChange();
 	},
 	registerDatesChange: function () {
 		var thisInstance = this;
@@ -251,37 +246,50 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			thisInstance.loadCalendarData();
 		});
 	},
-	getTypesCalendar: function () {
-		var thisInstance = this;
-		var filterButtons = thisInstance.getSidebarView().find('.calendarFilters[data-selected="true"]');
-		var types = [];
+	getCurrentCvId: function () {
+		return $(".js-calendar-extended-filter-tab .active").parent('.js-filter-tab').data('cvid');
+	},
+	registerFilterTabChange: function () {
+		const thisInstance = this;
+		$(".js-calendar-extended-filter-tab").on('shown.bs.tab', function () {
+			thisInstance.loadCalendarData();
+		});
+	},
+	getTypesCalendar() {
+		let filterButtons = this.getSidebarView().find('.calendarFilters[data-selected="true"]'),
+			types = [];
 		filterButtons.each(function () {
 			types.push($(this).data('type'));
 		});
 		return types;
 	},
-	getSelectedUsersCalendar: function () {
-		var thisInstance = this;
-		var selectedUsers = thisInstance.getSidebarView().find('.usersForm input:checked');
-		var users = [];
-		selectedUsers.each(function () {
-			users.push($(this).val());
-		});
+	getSelectedUsersCalendar() {
+		const self = this;
+		let selectedUsers = self.getSidebarView().find('.js-inputUserOwnerId:checked'),
+			selectedUsersAjax = self.getSidebarView().find('.js-inputUserOwnerIdAjax'),
+			users = [];
+		if (selectedUsers.length > 0) {
+			selectedUsers.each(function () {
+				users.push($(this).val());
+			});
+		} else if (selectedUsersAjax.length > 0) {
+			users = self.getSidebarView().find('.js-inputUserOwnerIdAjax').val();
+		}
 		return users;
 	},
 	getSidebarView: function () {
 		this.sidebarView = $('#rightPanel');
 		return this.sidebarView;
 	},
-	countEventsInRange: function (dateStart, dateEnd) {
-		var thisInstance = this;
-		var aDeferred = $.Deferred();
-		var types = thisInstance.getTypesCalendar();
-		var user = thisInstance.getSelectedUsersCalendar();
-		if (user.length == 0) {
+	countEventsInRange(dateStart, dateEnd) {
+		const self = this;
+		let aDeferred = $.Deferred(),
+			types = self.getTypesCalendar(),
+			user = self.getSelectedUsersCalendar();
+		if (user.length === 0) {
 			user = [app.getMainParams('current_user_id')];
 		}
-		var params = {
+		let params = {
 			module: 'Calendar',
 			action: 'Calendar',
 			mode: 'getCountEvents',
@@ -290,6 +298,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			types: types,
 			user: user,
 			time: app.getMainParams('showType'),
+			cvid: self.getCurrentCvId()
 		};
 		AppConnector.request(params).then(function (events) {
 			aDeferred.resolve(events.result);
@@ -380,6 +389,67 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		}
 		datesView.find('.dateList').html(html);
 	},
+	loadCalendarEditView: function (id) {
+		var aDeferred = $.Deferred();
+		var params = {
+			'module': app.getModuleName(),
+			'view': 'EventForm',
+			'record': id
+		};
+		AppConnector.request(params).then(
+			function (data) {
+				aDeferred.resolve($(data));
+			},
+			function () {
+				aDeferred.reject();
+			}
+		);
+		return aDeferred.promise();
+	},
+	getCalendarEditView(id) {
+		const thisInstance = this;
+		const aDeferred = $.Deferred();
+		if (this.calendarCreateView !== false) {
+			aDeferred.resolve(this.calendarCreateView.clone(true, true));
+			return aDeferred.promise();
+		}
+		const progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
+		this.loadCalendarEditView(id).then(
+			function (data) {
+				progressInstance.progressIndicator({mode: 'hide'});
+				var sideBar = thisInstance.getSidebarView();
+				thisInstance.showRightPanelForm();
+				sideBar.find('.qcForm').html(data);
+				var rightFormCreate = $(document).find('form[name="QuickCreate"]');
+				var moduleName = sideBar.find('[name="module"]').val();
+				var editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+				var headerInstance = new Vtiger_Header_Js();
+				editViewInstance.registerBasicEvents(rightFormCreate);
+				rightFormCreate.validationEngine(app.validationEngineOptions);
+				headerInstance.registerHelpInfo(rightFormCreate);
+				thisInstance.registerSelect2();
+				thisInstance.registerSubmitForm();
+				var rightFormStatus = sideBar.find('.summaryCloseEdit');
+				rightFormStatus.on('click', function () {
+					thisInstance.getCalendarCreateView();
+				});
+				headerInstance.registerQuickCreateSidebarPostLoadEvents(rightFormCreate, {});
+				var customConfig = {
+					height: '5em',
+					toolbar: 'Min'
+				};
+				$.each(sideBar.find('.ckEditorSource'), function (key, element) {
+					var ckEditorInstance = new Vtiger_CkEditor_Js();
+					ckEditorInstance.loadCkEditor($(element), customConfig);
+				});
+				aDeferred.resolve(sideBar.find('.qcForm'));
+			},
+			function () {
+				progressInstance.progressIndicator({mode: 'hide'});
+			}
+		);
+		return aDeferred.promise();
+	},
 	loadCalendarData: function (allEvents) {
 		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 		const thisInstance = this;
@@ -420,7 +490,8 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				user: user,
 				time: app.getMainParams('showType'),
 				types: types,
-				filters: filters
+				filters: filters,
+				cvid: thisInstance.getCurrentCvId()
 			}).then(function (events) {
 				thisInstance.getCalendarView().fullCalendar('removeEvents');
 				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
@@ -543,9 +614,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			data.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
 		});
 	},
-	registerUsersChange: function () {
+	registerUsersChange() {
 		const thisInstance = this;
-		thisInstance.getSidebarView().find('.usersForm input[type=checkbox]').on('click', () => {
+		thisInstance.getSidebarView().find('.js-inputUserOwnerId').on('change', () => {
+			thisInstance.loadCalendarData();
+		});
+		thisInstance.getSidebarView().find('.js-inputUserOwnerIdAjax').on('change', () => {
+			thisInstance.loadCalendarData();
+		});
+	},
+	registerGroupChange() {
+		const thisInstance = this;
+		thisInstance.getSidebarView().find('.groupForm input[type=checkbox]').on('click', () => {
 			thisInstance.loadCalendarData();
 		});
 	},
@@ -601,11 +681,11 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		});
 	},
 	showRightPanelForm() {
-		if ($('.calendarRightPanel').hasClass('hideSiteBar')) {
-			$('.toggleSiteBarRightButton').trigger('click');
+		if ($('.js-calendarRightPanel').hasClass('hideSiteBar')) {
+			$('.js-toggleSiteBarRightButton').trigger('click');
 		}
-		if (!$('#rightPanelEvent').hasClass('active')) {
-			$('a[href="#rightPanelEvent"]').trigger('click');
+		if (!$('.js-rightPanelEvent').hasClass('active')) {
+			$('.js-rightPanelEventLink').trigger('click');
 		}
 	},
 	loadCalendarCreateView() {
@@ -673,7 +753,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	registerLoadCalendarData() {
 		this.loadCalendarData(true);
 	},
-	registerAddForm: function () {
+	registerAddForm() {
 		const thisInstance = this;
 		let sideBar = thisInstance.getSidebarView();
 		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList').then(
@@ -681,6 +761,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				if (data) {
 					sideBar.find('.usersForm').html(data);
 					thisInstance.registerUsersChange();
+					App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
 				}
 			}
 		);
@@ -688,7 +769,8 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			function (data) {
 				if (data) {
 					sideBar.find('.groupForm').html(data);
-					thisInstance.registerUsersChange();
+					thisInstance.registerGroupChange();
+					App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
 				}
 			}
 		);
