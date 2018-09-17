@@ -25,7 +25,7 @@ class Leads extends CRMEntity
 	 * Mandatory table for supporting custom fields.
 	 */
 	public $customFieldTable = ['vtiger_leadscf', 'leadid'];
-	//construct this from database;
+	//construct this from database
 	public $column_fields = [];
 	// This is used to retrieve related vtiger_fields from form posts.
 	public $additional_column_fields = ['smcreatorid', 'smownerid', 'contactid', 'crmid'];

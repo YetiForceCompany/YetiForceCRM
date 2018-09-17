@@ -40,6 +40,7 @@ require_once 'include/Webservices/Utils.php';
 require_once 'modules/Users/UserTimeZonesArray.php';
 
 // User is used to store customer information.
+
 /** Main class for the user module
  *
  */
@@ -227,14 +228,14 @@ class Users extends CRMEntity
 		$eventHandler->trigger('UsersBeforeDelete');
 
 		App\Fields\Owner::transferOwnership($userId, $transformToUserId);
-		//updating the vtiger_users table;
+		//updating the vtiger_users table
 		App\Db::getInstance()->createCommand()
 			->update('vtiger_users', [
 				'status' => 'Inactive',
 				'deleted' => 1,
 				'date_modified' => date('Y-m-d H:i:s'),
 				'modified_user_id' => App\User::getCurrentUserRealId(),
-				], ['id' => $userId])->execute();
+			], ['id' => $userId])->execute();
 
 		$eventHandler->trigger('UsersAfterDelete');
 	}
@@ -290,8 +291,8 @@ class Users extends CRMEntity
 		App\Db::getInstance()->createCommand()
 			->update('vtiger_users', [
 				'accesskey' => \App\Encryption::generatePassword(20, 'lbn'),
-				], ['id' => $this->id])
-				->execute();
+			], ['id' => $this->id])
+			->execute();
 		\App\UserPrivilegesFile::createUserPrivilegesfile($this->id);
 	}
 }
