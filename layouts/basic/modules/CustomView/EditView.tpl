@@ -23,7 +23,7 @@
 					</button>
 				</div>
 				<form class="form-horizontal" id="CustomView" name="CustomView" method="post" action="index.php">
-					{if $RECORD_ID}
+					{if !empty($RECORD_ID)}
 						<input type="hidden" name="record" id="record" value="{$RECORD_ID}"/>
 					{/if}
 					<input type="hidden" name="module" value="{$MODULE}"/>

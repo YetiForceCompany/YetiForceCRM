@@ -290,7 +290,7 @@ class CustomView
 		$instance = new self();
 		$instance->moduleName = $moduleName;
 		$instance->user = $userModel;
-		\App\Cache::staticGet('AppCustomView', $cacheName, $instance);
+		\App\Cache::staticSave('AppCustomView', $cacheName, $instance);
 
 		return $instance;
 	}

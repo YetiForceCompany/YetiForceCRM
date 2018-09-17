@@ -6,8 +6,8 @@ namespace App\Db;
  * Query represents a SELECT SQL statement in a way that is independent of DBMS.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Query extends \yii\db\Query
 {
@@ -48,11 +48,11 @@ class Query extends \yii\db\Query
 			$db = \App\Db::getInstance();
 		}
 		return \Yii::createObject([
-				'class' => \yii\db\BatchQueryResult::className(),
-				'query' => $this,
-				'batchSize' => $batchSize,
-				'db' => $db,
-				'each' => false,
+			'class' => \yii\db\BatchQueryResult::class,
+			'query' => $this,
+			'batchSize' => $batchSize,
+			'db' => $db,
+			'each' => false,
 		]);
 	}
 
@@ -73,11 +73,11 @@ class Query extends \yii\db\Query
 			$db = \App\Db::getInstance();
 		}
 		return \Yii::createObject([
-				'class' => \yii\db\BatchQueryResult::className(),
-				'query' => $this,
-				'batchSize' => $batchSize,
-				'db' => $db,
-				'each' => true,
+			'class' => \yii\db\BatchQueryResult::class,
+			'query' => $this,
+			'batchSize' => $batchSize,
+			'db' => $db,
+			'each' => true,
 		]);
 	}
 

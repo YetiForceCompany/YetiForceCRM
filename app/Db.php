@@ -94,12 +94,12 @@ class Db extends \yii\db\Connection
 	 */
 	public static function getInstance($type = 'base')
 	{
-		if (isset(static::$cache[$type])) {
-			return static::$cache[$type];
+		if (isset(self::$cache[$type])) {
+			return self::$cache[$type];
 		}
-		$db = new self(static::getConfig($type));
+		$db = new self(self::getConfig($type));
 		$db->dbType = $type;
-		static::$cache[$type] = $db;
+		self::$cache[$type] = $db;
 		return $db;
 	}
 
@@ -112,13 +112,13 @@ class Db extends \yii\db\Connection
 	 */
 	public static function getConfig($type, $reload = false)
 	{
-		if (!static::$config || $reload) {
-			static::$config = require 'config/config.db.php';
+		if (!self::$config || $reload) {
+			self::$config = require 'config/config.db.php';
 		}
-		if (isset(static::$config[$type])) {
-			return static::$config[$type];
+		if (isset(self::$config[$type])) {
+			return self::$config[$type];
 		}
-		return static::$config['base'];
+		return self::$config['base'];
 	}
 
 	/**
@@ -129,7 +129,7 @@ class Db extends \yii\db\Connection
 	 */
 	public static function setConfig($config, $type = 'base')
 	{
-		static::$config[$type] = $config;
+		self::$config[$type] = $config;
 	}
 
 	/**
@@ -174,7 +174,7 @@ class Db extends \yii\db\Connection
 	{
 		if (\App\Debuger::isDebugBar() && !\App\Debuger::getDebugBar()->hasCollector('pdo')) {
 			$pdo = new \DebugBar\DataCollector\PDO\TraceablePDO(parent::createPdoInstance());
-			\App\Debuger::getDebugBar()->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo, null, $this->dbType));
+			\App\Debuger::getDebugBar()->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo, null));
 
 			return $pdo;
 		}

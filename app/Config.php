@@ -63,7 +63,7 @@ class Config
 	 */
 	public static function getJsEnv()
 	{
-		return Json::encode(static::$jsEnv);
+		return Json::encode(self::$jsEnv);
 	}
 
 	/**
@@ -74,6 +74,6 @@ class Config
 	 */
 	public static function setJsEnv($key, $value)
 	{
-		static::$jsEnv[$key] = $value;
+		self::$jsEnv[$key] = $value;
 	}
 }

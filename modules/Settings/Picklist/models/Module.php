@@ -184,6 +184,36 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		return $db->createCommand()->addColumn($tableName, 'description', 'text')->execute();
 	}
 
+	/**
+	 * Update close state table.
+	 *
+	 * @param int                           $valueId
+	 * @param Settings_Picklist_Field_Model $fieldModel
+	 * @param string                        $value
+	 * @param bool                          $closeState
+	 */
+	public function updateCloseState(int $valueId, Settings_Picklist_Field_Model $fieldModel, string $value, bool $closeState)
+	{
+		$oldValue = isset(\App\Fields\Picklist::getCloseStates($fieldModel->get('tabid'))[$fieldModel->getName()][$valueId]);
+		if ($closeState === $oldValue) {
+			return;
+		}
+		$db = App\Db::getInstance()->createCommand();
+		if (!$closeState && $oldValue) {
+			$db->delete('u_#__picklist_close_state', [
+				'fieldid' => $fieldModel->getId(),
+				'valueid' => $valueId
+			])->execute();
+		} else {
+			$db->insert('u_#__picklist_close_state', [
+				'fieldid' => $fieldModel->getId(),
+				'valueid' => $valueId,
+				'value' => $value
+			])->execute();
+		}
+		\App\Cache::delete('getCloseStates', $fieldModel->get('tabid'));
+	}
+
 	public function remove($pickListFieldName, $valueToDeleteId, $replaceValueId, $moduleName)
 	{
 		$dbCommand = App\Db::getInstance()->createCommand();

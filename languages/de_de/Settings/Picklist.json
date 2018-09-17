@@ -34,7 +34,8 @@
     "LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY": "Um mehrere Elemente zu l\u00f6schen, w\u00e4hrend der Auswahl die Strg-Taste dr\u00fccken",
     "LBL_VALUES_ASSIGNED_TO_A_ROLE": "Einer Rolle zugewiesene Werte",
     "NO_PICKLIST_FIELDS": "hat keine Auswahllisten-Felder",
-    "LBL_NEW_VALUE": "Neuer Wert"
+    "LBL_NEW_VALUE": "Neuer Wert",
+    "LBL_CLOSES_RECORD": "Closes record"
   },
   "js": {
     "JS_ALL_ROLES_SELECTED": "Alle Rollen gew\u00e4hlt",

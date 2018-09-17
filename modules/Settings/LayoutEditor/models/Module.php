@@ -27,7 +27,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function that returns all the fields for the module.
 	 *
-	 * @return <Array of Vtiger_Field_Model> - list of field models
+	 * @return Vtiger_Field_Model[] - list of field models
 	 */
 	public function getFields($blockInstance = false)
 	{
@@ -36,28 +36,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$blocks = $this->getBlocks();
 			$blockId = [];
 			foreach ($blocks as $block) {
-				//to skip events hardcoded block id
-				if ($block->get('id') == 'EVENT_INVITE_USER_BLOCK_ID') {
-					continue;
-				}
 				$blockId[] = $block->get('id');
 			}
 			if (count($blockId) > 0) {
 				$fieldList = Settings_LayoutEditor_Field_Model::getInstanceFromBlockIdList($blockId);
-			}
-			//To handle special case for invite users
-			if ($this->getName() === 'Events') {
-				$blockModel = new Settings_LayoutEditor_Block_Model();
-				$blockModel->set('id', 'EVENT_INVITE_USER_BLOCK_ID');
-				$blockModel->set('label', 'LBL_INVITE_RECORDS');
-				$blockModel->set('module', $this);
-
-				$fieldModel = new Settings_LayoutEditor_Field_Model();
-				$fieldModel->set('name', 'selectedusers');
-				$fieldModel->set('label', 'LBL_INVITE_RECORDS');
-				$fieldModel->set('block', $blockModel);
-				$fieldModel->setModule($this);
-				$fieldList[] = $fieldModel;
 			}
 			$this->fieldsModule = $fieldList;
 		}
@@ -85,14 +67,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				if ($block->get('label') != 'LBL_ITEM_DETAILS') {
 					$blocksList[$block->get('label')] = $block;
 				}
-			}
-			//To handle special case for invite users block
-			if ($this->getName() === 'Events') {
-				$blockModel = new Settings_LayoutEditor_Block_Model();
-				$blockModel->set('id', 'EVENT_INVITE_USER_BLOCK_ID');
-				$blockModel->set('label', 'LBL_INVITE_RECORDS');
-				$blockModel->set('module', $this);
-				$blocksList['LBL_INVITE_RECORDS'] = $blockModel;
 			}
 			$this->blocks = $blocksList;
 		}

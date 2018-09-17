@@ -64,9 +64,9 @@ class EventHandler
 			foreach (static::getAll(true) as &$handler) {
 				$handlers[$handler['event_name']][$handler['handler_class']] = $handler;
 			}
-			static::$handlerByType = $handlers;
+			self::$handlerByType = $handlers;
 		}
-		$handlers = static::$handlerByType[$name] ?? [];
+		$handlers = self::$handlerByType[$name] ?? [];
 		if ($moduleName) {
 			foreach ($handlers as $key => &$handler) {
 				if ((!empty($handler['include_modules']) && !in_array($moduleName, explode(',', $handler['include_modules']))) || (!empty($handler['exclude_modules']) && in_array($moduleName, explode(',', $handler['exclude_modules'])))) {
@@ -255,7 +255,7 @@ class EventHandler
 		if ($this->exceptions) {
 			if (!empty($this->exceptions['disableHandlers'])) {
 				$mandatory = [];
-				foreach (static::$mandatoryEventClass as &$className) {
+				foreach (self::$mandatoryEventClass as &$className) {
 					if (isset($handlers[$className])) {
 						$mandatory[$className] = $handlers[$className];
 					}
@@ -285,11 +285,11 @@ class EventHandler
 	public function trigger($name)
 	{
 		foreach ($this->getHandlers($name) as &$handler) {
-			if (isset(static::$handlersInstance[$handler['handler_class']])) {
-				$handlerInstance = static::$handlersInstance[$handler['handler_class']];
+			if (isset(self::$handlersInstance[$handler['handler_class']])) {
+				$handlerInstance = self::$handlersInstance[$handler['handler_class']];
 			} else {
 				$handlerInstance = new $handler['handler_class']();
-				static::$handlersInstance[$handler['handler_class']] = $handlerInstance;
+				self::$handlersInstance[$handler['handler_class']] = $handlerInstance;
 			}
 			$function = lcfirst($name);
 			if (method_exists($handlerInstance, $function)) {

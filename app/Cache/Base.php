@@ -32,7 +32,7 @@ class Base
 	 */
 	public function get($key)
 	{
-		return static::$cache[$key] ?? false;
+		return self::$cache[$key] ?? false;
 	}
 
 	/**
@@ -44,21 +44,21 @@ class Base
 	 */
 	public function has($key)
 	{
-		return isset(static::$cache[$key]);
+		return isset(self::$cache[$key]);
 	}
 
 	/**
 	 * Cache save.
 	 *
-	 * @param string       $key      Cache ID
-	 * @param string|array $value    Data to store
-	 * @param int          $duration Cache TTL (in seconds)
+	 * @param string            $key      Cache ID
+	 * @param string|array|null $value    Data to store
+	 * @param int|false         $duration Cache TTL (in seconds)
 	 *
 	 * @return bool
 	 */
 	public function save($key, $value = null, $duration = false)
 	{
-		static::$cache[$key] = $value;
+		self::$cache[$key] = $value;
 		unset($duration);
 		return true;
 	}
@@ -72,7 +72,7 @@ class Base
 	 */
 	public function delete($key)
 	{
-		unset(static::$cache[$key]);
+		unset(self::$cache[$key]);
 	}
 
 	/**
@@ -82,6 +82,6 @@ class Base
 	 */
 	public function clear()
 	{
-		static::$cache = [];
+		self::$cache = [];
 	}
 }

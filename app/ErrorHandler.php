@@ -95,7 +95,7 @@ class ErrorHandler
 			$levels[] = 'E_ALL';
 			$value &= ~E_ALL;
 		}
-		foreach (static::$levelNames as $level => $name) {
+		foreach (self::$levelNames as $level => $name) {
 			if (($value & $level) == $level) {
 				$levels[] = $name;
 			}
