@@ -298,7 +298,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			types: types,
 			user: user,
 			time: app.getMainParams('showType'),
-			cvid: thisInstance.getCurrentCvId()
+			cvid: self.getCurrentCvId()
 		};
 		AppConnector.request(params).then(function (events) {
 			aDeferred.resolve(events.result);
