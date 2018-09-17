@@ -57,7 +57,6 @@
 								</label>
 							</div>
 							<div class="fieldValue col-12">
-								{$FIELD_MODEL->getUITypeModel()->getTemplateName()}
 								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
 							</div>
 						</div>
@@ -73,6 +72,13 @@
 			{/foreach}
 		{/if}
 		<div class="formActionsPanel d-none d-md-block">
+			<label class="btn c-btn-checkbox c-btn-outline-done js-btn--mark-as-completed" data-js="click">
+				<strong>
+					<span class="far fa-square fa-lg mr-1 c-btn-checkbox--unchecked"></span>
+					<span class="far fa-check-square fa-lg mr-1 c-btn-checkbox--checked"></span>
+					<input type="checkbox" checked
+						   autocomplete="off">{\App\Language::translate('LBL_MARK_AS_HELD', $MODULE)}</strong>
+			</label>
 			<button type="button" class="btn btn-success save"
 					title="{\App\Language::translate('LBL_SAVE', $MODULE)}" data-js="click">
 				{\App\Language::translate('LBL_SAVE', $MODULE)}
