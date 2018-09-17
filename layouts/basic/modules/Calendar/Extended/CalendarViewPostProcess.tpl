@@ -4,7 +4,7 @@
 		 data-showPanel="{if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}" id="rightPanel">
 		<div class="btn btn-block toggleSiteBarRightButton hideToggleSiteBarRightButton hidden-xs hidden-sm"
 			 title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
-			<span class="glyphicon glyphicon-chevron-left"></span>
+			<span class="fas fa-chevron-left"></span>
 		</div>
 		<ul class="nav nav-tabs" id="rightPanelTab" role="tablist">
 			<li class="nav-item active">

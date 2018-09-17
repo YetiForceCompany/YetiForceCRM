@@ -19,6 +19,9 @@ class Calendar_CalendarExtended_View extends Calendar_Calendar_View
 		return "Extended/$tplFile";
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, $display);
