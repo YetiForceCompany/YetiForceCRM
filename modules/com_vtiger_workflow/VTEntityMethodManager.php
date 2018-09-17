@@ -62,19 +62,6 @@ class VTEntityMethodManager
 		return (new \App\Db\Query())->select(['method_name'])->from('com_vtiger_workflowtasks_entitymethod')->where(['module_name' => $moduleName])->column();
 	}
 
-	/*
-	  private function methodExists($object, $methodName){
-	  $className = get_class($object);
-	  $class = new ReflectionClass($className);
-	  $methods = $class->getMethods();
-	  foreach($methods as $method){
-	  if($method->getName()==$methodName){
-	  return true;
-	  }
-	  }
-	  return false;
-	  } */
-
 	/**
 	 * Function to remove workflowtasks entity method.
 	 *

@@ -64,9 +64,6 @@ class PBXManager extends CRMEntity
 	public $def_basicsearch_col = 'customer';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'customernumber';
-	// Used when enabling/disabling the mandatory fields for the module.
-	// Refers to vtiger_field.fieldname values.
-	//    public $mandatory_fields = Array('assigned_user_id');
 	public $column_fields = [];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';

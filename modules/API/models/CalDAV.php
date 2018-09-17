@@ -114,7 +114,6 @@ class API_CalDAV_Model
 					if ($vcalendar === false) {
 						// Creating
 						$this->davCreate();
-					//} elseif($this->record['deleted'] == 1){
 					} elseif (strtotime($this->record['modifiedtime']) > $vcalendar['lastmodified']) { // Updating
 						$this->davUpdate($vcalendar);
 					}
