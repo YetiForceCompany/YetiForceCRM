@@ -501,11 +501,21 @@
 		}
 	}
 
-	.fc-year__month {
-		.fc-toolbar.fc-header-toolbar {
-			justify-content: center;
-			h2 {
-				font-size: 1.3rem;
+	.fc-year {
+		&__container {
+			margin-right: -8px;
+		}
+
+		&__month {
+			> .fc-toolbar,
+			> .fc-view-container {
+				padding-right: 8px;
+			}
+			.fc-toolbar.fc-header-toolbar {
+				justify-content: center;
+				h2 {
+					font-size: 1.3rem;
+				}
 			}
 		}
 	}

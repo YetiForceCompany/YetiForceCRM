@@ -10,19 +10,19 @@ let YearView = View.extend({
 	renderHtml: function () {
 		return `	
 			<div class="h-100 fc-year">
-				<div class="row no-gutters">
-					<div class="fc-january fc-year__month col-sm-6 col-lg-4"></div>
-					<div class="fc-february fc-year__month col-sm-6 col-lg-4"></div>
-					<div class="fc-march fc-year__month col-sm-6 col-lg-4"></div>
-					<div class="fc-aprill fc-year__month col-sm-6 col-lg-4"></div>
-					<div class="fc-mai fc-year__month col-sm-6 col-lg-4"></div>
-					<div class="fc-juni fc-year__month col-sm-6 col-lg-4"></div>
-					<div class="fc-juli fc-year__month col-sm-6 col-lg-4"></div>
-					<div class="fc-august fc-year__month col-sm-6 col-lg-4"></div>
-					<div class="fc-septempber fc-year__month col-sm-6 col-lg-4"></div>
-					<div class="fc-october fc-year__month col-sm-6 col-lg-4"></div>
-					<div class="fc-november fc-year__month col-sm-6 col-lg-4"></div>
-					<div class="fc-december fc-year__month col-sm-6 col-lg-4"></div>
+				<div class="fc-year__container row no-gutters">
+					<div class="fc-january fc-year__month col-sm-6 col-xl-4"></div>
+					<div class="fc-february fc-year__month col-sm-6 col-xl-4"></div>
+					<div class="fc-march fc-year__month col-sm-6 col-xl-4"></div>
+					<div class="fc-aprill fc-year__month col-sm-6 col-xl-4"></div>
+					<div class="fc-mai fc-year__month col-sm-6 col-xl-4"></div>
+					<div class="fc-juni fc-year__month col-sm-6 col-xl-4"></div>
+					<div class="fc-juli fc-year__month col-sm-6 col-xl-4"></div>
+					<div class="fc-august fc-year__month col-sm-6 col-xl-4"></div>
+					<div class="fc-septempber fc-year__month col-sm-6 col-xl-4"></div>
+					<div class="fc-october fc-year__month col-sm-6 col-xl-4"></div>
+					<div class="fc-november fc-year__month col-sm-6 col-xl-4"></div>
+					<div class="fc-december fc-year__month col-sm-6 col-xl-4"></div>
 				</div>
 			</div>
 		`;

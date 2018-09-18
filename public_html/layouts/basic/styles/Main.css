@@ -15554,6 +15554,11 @@ label.btn.btn-outline-primary:not(.active) {
   .tpl-Calendar-Extended-CalendarViewPreProcess .formsContainer {
     /*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
     height: calc(100vh - 35px - 17px - 50px - 34px - 6px); } }
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__container {
+  margin-right: -8px; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month > .fc-toolbar,
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month > .fc-view-container {
+  padding-right: 8px; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-toolbar.fc-header-toolbar {
   justify-content: center; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-toolbar.fc-header-toolbar h2 {
