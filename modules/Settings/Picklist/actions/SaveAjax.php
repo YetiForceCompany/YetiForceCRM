@@ -93,7 +93,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, $moduleModel);
 		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
 		if (isset($selectedFieldNonEditablePickListValues[$id])) {
-			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE');
+			$newValue = $oldValue;
 		}
 		$newValue = $newValue ?: $oldValue;
 		$response = new Vtiger_Response();
