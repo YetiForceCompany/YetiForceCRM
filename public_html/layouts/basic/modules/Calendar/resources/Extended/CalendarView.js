@@ -17,7 +17,15 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	 */
 	renderCalendar() {
 		const thisInstance = this;
-		let eventLimit = app.getMainParams('eventLimit');
+		let eventLimit = app.getMainParams('eventLimit'),
+			weekView = app.getMainParams('weekView'),
+			dayView = app.getMainParams('dayView'),
+			userDefaultActivityView = app.getMainParams('activity_view'),
+			defaultView = app.moduleCacheGet('defaultView'),
+			userDefaultTimeFormat = app.getMainParams('time_format'),
+			convertedFirstDay = CONFIG.firstDayOfWeekNo,
+			defaultFirstHour = app.getMainParams('start_hour') + ':00',
+			hiddenDays = [];
 		if (eventLimit == 'true') {
 			eventLimit = true;
 		} else if (eventLimit == 'false') {
@@ -25,38 +33,22 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		} else {
 			eventLimit = parseInt(eventLimit) + 1;
 		}
-		let weekView = app.getMainParams('weekView');
-		let dayView = app.getMainParams('dayView');
-
-		//User preferred default view
-		let userDefaultActivityView = app.getMainParams('activity_view');
-		if (userDefaultActivityView == 'Today') {
+		if (userDefaultActivityView === 'Today') {
 			userDefaultActivityView = dayView;
-		} else if (userDefaultActivityView == 'This Week') {
+		} else if (userDefaultActivityView === 'This Week') {
 			userDefaultActivityView = weekView;
 		} else {
 			userDefaultActivityView = 'month';
 		}
-		let defaultView = app.moduleCacheGet('defaultView');
 		if (defaultView != null) {
 			userDefaultActivityView = defaultView;
 		}
 		thisInstance.getDatesColumnView().find('.subDateList').data('type', userDefaultActivityView);
-
-		//Default time format
-		let userDefaultTimeFormat = app.getMainParams('time_format');
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H:mm';
 		} else {
 			userDefaultTimeFormat = 'h:mmt';
 		}
-
-		//Default first day of the week
-		let convertedFirstDay = CONFIG.firstDayOfWeekNo;
-
-		//Default first hour of the day
-		let defaultFirstHour = app.getMainParams('start_hour') + ':00';
-		let hiddenDays = [];
 		if (app.getMainParams('switchingDays') === 'workDays') {
 			hiddenDays = app.getMainParams('hiddenDays', true);
 		}
@@ -66,7 +58,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				center: 'prev,title,next',
 				right: 'today'
 			},
-
 			axisFormat: userDefaultTimeFormat,
 			scrollTime: defaultFirstHour,
 			firstDay: convertedFirstDay,
@@ -110,9 +101,9 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			},
 			eventClick: function (calEvent, jsEvent, view) {
 				jsEvent.preventDefault();
-				let link = new URL($(this)[0].href);
-				let url = 'index.php?module=Calendar&view=ActivityState&record=' +
-					link.searchParams.get("record");
+				let link = new URL($(this)[0].href),
+					url = 'index.php?module=Calendar&view=ActivityState&record=' +
+						link.searchParams.get("record");
 				thisInstance.showStatusUpdate(url);
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
@@ -139,8 +130,8 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			allDayText: app.vtranslate('JS_ALL_DAY'),
 		};
 		if (app.moduleCacheGet('start') != null) {
-			var s = moment(app.moduleCacheGet('start')).valueOf();
-			var e = moment(app.moduleCacheGet('end')).valueOf();
+			let s = moment(app.moduleCacheGet('start')).valueOf(),
+				e = moment(app.moduleCacheGet('end')).valueOf();
 			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
 		}
 		thisInstance.getCalendarView().fullCalendar('destroy');
@@ -164,7 +155,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		});
 	},
 	actionOnRender(event, element) {
-		const thisInstance = this;
 		app.showPopoverElementView(element.find('.fc-content'), {
 			title: event.title + '<a href="index.php?module=' + event.module + '&view=Edit&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="fas fa-pencil"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="fas fa-th-list"></span></a>',
 			container: 'body',
