@@ -4,9 +4,15 @@
 		 data-js="container" tabindex="-1">
 		{assign var=ID value=$RECORD->getId()}
 		<div>
-			<h6 class="boxEventTitle text-muted text-center my-1">
-				{\App\Language::translate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}
-			</h6>
+			<div class="clearfix">
+				<a href="#" class="btn btn-sm btn-default summaryCloseEdit float-right m-1"
+				   title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}">
+					<span class="fas fa-times"></span>
+				</a>
+				<h6 class="boxEventTitle text-muted text-center my-1">
+					{\App\Language::translate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}
+				</h6>
+			</div>
 			{assign var=ACTIVITYPOSTPONED value=\App\Privilege::isPermitted('Calendar', 'ActivityPostponed', $ID)}
 			{assign var=ACTIVITYCANCEL value=\App\Privilege::isPermitted('Calendar', 'ActivityCancel', $ID)}
 			{assign var=ACTIVITYCOMPLETE value=\App\Privilege::isPermitted('Calendar', 'ActivityComplete', $ID)}
@@ -69,15 +75,16 @@
 					{/if}
 				{/if}
 				{if $RECORD->isEditable()}
-					<a href="{$RECORD->getEditViewUrl()}" class="btn btn-light mr-1 pull-right" role="button"
+					<a href="#" data-url="{$RECORD->getEditViewUrl()}" data-id="{$ID}"
+					   class="editRecord btn btn-default mr-1"
 					   title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}">
-						<span class="fas fa-edit js-detail-quick-edit" data-js="click"></span>
+						<span class="fas fa-edit summaryViewEdit"></span>
 					</a>
 				{/if}
 				{if $RECORD->isViewable()}
-					<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-light pull-right" role="button"
+					<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default mr-1"
 					   title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}">
-						<span class="fas fa-th-list js-detail-quick-edit"></span>
+						<span class="fas fa-list summaryViewEdit"></span>
 					</a>
 				{/if}
 			</div>
