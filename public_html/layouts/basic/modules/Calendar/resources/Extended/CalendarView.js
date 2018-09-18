@@ -61,7 +61,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			axisFormat: userDefaultTimeFormat,
 			scrollTime: defaultFirstHour,
 			firstDay: convertedFirstDay,
-			defaultView: 'year',
+			defaultView: userDefaultActivityView,
 			editable: true,
 			slotMinutes: 15,
 			defaultEventMinutes: 0,
@@ -188,15 +188,15 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				(event.smownerid ? '<div><span class="fas fa-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 		});
 	},
-	getDatesColumnView() {
+	getDatesColumnView: function () {
 		this.datesColumnView = $('#datesColumn');
 		return this.datesColumnView;
 	},
-	refreshDatesColumnView(calendarView) {
+	refreshDatesColumnView: function (calendarView) {
 		const thisInstance = this;
 		thisInstance.registerDatesColumn(calendarView);
 	},
-	registerDatesColumn(calendarView) {
+	registerDatesColumn: function (calendarView) {
 		const thisInstance = this;
 		let dateListUnit = calendarView.type,
 			subDateListUnit = 'week';
@@ -225,7 +225,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		thisInstance.updateCountTaskCalendar();
 		thisInstance.registerDatesChange();
 	},
-	registerDatesChange() {
+	registerDatesChange: function () {
 		const thisInstance = this;
 		let datesView = thisInstance.getDatesColumnView().find('.dateRecord'),
 			subDatesView = thisInstance.getDatesColumnView().find('.subRecord');
@@ -242,10 +242,10 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			thisInstance.loadCalendarData();
 		});
 	},
-	getCurrentCvId() {
+	getCurrentCvId: function () {
 		return $(".js-calendar-extended-filter-tab .active").parent('.js-filter-tab').data('cvid');
 	},
-	registerFilterTabChange() {
+	registerFilterTabChange: function () {
 		const thisInstance = this;
 		$(".js-calendar-extended-filter-tab").on('shown.bs.tab', function () {
 			thisInstance.loadCalendarData();
@@ -279,11 +279,11 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		}
 		return roles;
 	},
-	getSidebarView() {
+	getSidebarView: function () {
 		this.sidebarView = $('#rightPanel');
 		return this.sidebarView;
 	},
-	updateCountTaskCalendar() {
+	updateCountTaskCalendar: function () {
 		let datesView = this.getDatesColumnView(),
 			subDatesElements = datesView.find('.subRecord'),
 			dateArray = {},
@@ -316,7 +316,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			});
 		});
 	},
-	generateYearList(dateStart, dateEnd) {
+	generateYearList: function (dateStart, dateEnd) {
 		const thisInstance = this,
 			datesView = thisInstance.getDatesColumnView();
 		let prevYear = moment(dateStart).subtract(1, 'year'),
@@ -337,7 +337,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		}
 		datesView.find('.dateList').html(html);
 	},
-	generateMonthList(dateStart, dateEnd) {
+	generateMonthList: function (dateStart, dateEnd) {
 		const thisInstance = this,
 			datesView = thisInstance.getDatesColumnView();
 		let prevMonth = moment(dateStart).subtract(1, 'months'),
@@ -358,7 +358,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		}
 		datesView.find('.dateList').html(html);
 	},
-	generateWeekList(dateStart, dateEnd) {
+	generateWeekList: function (dateStart, dateEnd) {
 		const thisInstance = this,
 			datesView = thisInstance.getDatesColumnView();
 		let prevMonth = moment(dateStart).subtract(1, 'week'),
@@ -398,7 +398,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	getCalendarEditView(id) {
 		const thisInstance = this,
 			aDeferred = $.Deferred();
-		if (thisInstance.calendarCreateView !== false) {
+		if (this.calendarCreateView !== false) {
 			aDeferred.resolve(this.calendarCreateView.clone(true, true));
 			return aDeferred.promise();
 		}
@@ -436,21 +436,21 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		return aDeferred.promise();
 	},
 	loadCalendarData(allEvents) {
-		const thisInstance = this,
-			view = thisInstance.getCalendarView().fullCalendar('getView');
-		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}}),
-			user = [],
-			filters = [],
-			formatDate = CONFIG.dateFormat.toUpperCase();
+		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
+		const thisInstance = this;
+		const view = thisInstance.getCalendarView().fullCalendar('getView');
+		let user = [];
 		thisInstance.getCalendarView().fullCalendar('removeEvents');
+		let formatDate = CONFIG.dateFormat.toUpperCase();
 		thisInstance.refreshDatesColumnView(view);
 		user = thisInstance.getSelectedUsersCalendar();
 		if (0 === user.length) {
 			user = [app.getMainParams('current_user_id')];
 		}
+		let filters = [];
 		$(".calendarFilters .filterField").each(function (index) {
-			let element = $(this),
-				name, value;
+			let element = $(this);
+			let name, value;
 			if (element.attr('type') == 'checkbox') {
 				name = element.val();
 				value = element.prop('checked') ? 1 : 0;
@@ -476,16 +476,16 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
 	},
-	generateSubMonthList(dateStart, dateEnd) {
-		let datesView = this.getDatesColumnView(),
-			activeMonth = parseInt(moment(dateStart).locale('en').format('M')) - 1,
-			html = '',
-			active = '';
+	generateSubMonthList: function (dateStart, dateEnd) {
+		let thisInstance = this;
+		let datesView = thisInstance.getDatesColumnView();
+		let activeMonth = parseInt(moment(dateStart).locale('en').format('M')) - 1;
+		let html = '';
 		for (let month = 0; 12 > month; ++month) {
 			if (month === activeMonth) {
-				active = ' subActive';
+				var active = ' subActive';
 			} else {
-				active = '';
+				var active = '';
 			}
 			html += '<div class="subRecord' + active + '" data-type="months" data-date="' + moment(dateStart).month(month).format('YYYY-MM') + '">' +
 				'<div class="subDateName">' + app.vtranslate('JS_' + moment().month(month).format('MMM').toUpperCase()).toUpperCase() + '</div>' +
@@ -496,12 +496,13 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		}
 		datesView.find('.subDateList').html(html);
 	},
-	generateSubWeekList(dateStart, dateEnd) {
-		let datesView = this.getDatesColumnView(),
-			prevWeeks = moment(dateStart).subtract(5, 'weeks'),
-			actualWeek = moment(dateStart).format('WW'),
-			nextWeeks = moment(dateStart).add(5, 'weeks'),
-			html = '';
+	generateSubWeekList: function (dateStart, dateEnd) {
+		let thisInstance = this;
+		let datesView = thisInstance.getDatesColumnView();
+		let prevWeeks = moment(dateStart).subtract(5, 'weeks');
+		let actualWeek = moment(dateStart).format('WW');
+		let nextWeeks = moment(dateStart).add(5, 'weeks');
+		let html = '';
 		while (prevWeeks <= nextWeeks) {
 			let active = '';
 			if (prevWeeks.format('WW') === actualWeek) {
@@ -519,12 +520,12 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	},
 	generateSubDaysList(dateStart, dateEnd) {
 		const thisInstance = this;
-		let datesView = thisInstance.getDatesColumnView(),
-			prevDays = moment(dateStart).subtract(5, 'days'),
-			actualDay = moment(dateStart).format('DDD'),
-			nextDays = moment(dateStart).add(5, 'days'),
-			daysToShow = nextDays.diff(prevDays, 'days'),
-			html = '';
+		let datesView = thisInstance.getDatesColumnView();
+		let prevDays = moment(dateStart).subtract(5, 'days');
+		let actualDay = moment(dateStart).format('DDD');
+		let nextDays = moment(dateStart).add(5, 'days');
+		let daysToShow = nextDays.diff(prevDays, 'days');
+		let html = '';
 		for (let day = 0; day < daysToShow; ++day) {
 			let active = '';
 			if (prevDays.format('DDD') === actualDay) {
@@ -542,14 +543,14 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	},
 	selectDays(startDate, endDate) {
 		const thisInstance = this;
-		let start_hour = $('#start_hour').val(),
-			end_hour = $('#end_hour').val(),
-			view = thisInstance.getCalendarView().fullCalendar('getView');
+		let start_hour = $('#start_hour').val();
+		let end_hour = $('#end_hour').val();
 		if (endDate.hasTime() == false) {
 			endDate.add(-1, 'days');
 		}
 		startDate = startDate.format();
 		endDate = endDate.format();
+		let view = thisInstance.getCalendarView().fullCalendar('getView');
 		if (start_hour == '') {
 			start_hour = '00';
 		}
@@ -573,9 +574,9 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 					endDate = moment(endDate).add(defaulDuration, 'minutes').toISOString();
 				}
 			}
-			let dateFormat = data.find('[name="date_start"]').data('dateFormat').toUpperCase(),
-				timeFormat = data.find('[name="time_start"]').data('format'),
-				defaultTimeFormat = '';
+			let dateFormat = data.find('[name="date_start"]').data('dateFormat').toUpperCase();
+			let timeFormat = data.find('[name="time_start"]').data('format');
+			let defaultTimeFormat = '';
 			if (timeFormat == 24) {
 				defaultTimeFormat = 'HH:mm';
 			} else {
@@ -606,27 +607,27 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		});
 	},
 	addCalendarEvent(calendarDetails) {
-		let calendar = this.getCalendarView(),
-			startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value),
-			endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value),
-			eventObject = {
-				id: calendarDetails._recordId,
-				title: calendarDetails.subject.display_value,
-				start: startDate.format(),
-				end: endDate.format(),
-				url: 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId,
-				activitytype: calendarDetails.activitytype.value,
-				allDay: calendarDetails.allday.value == 'on',
-				state: calendarDetails.state.value,
-				vis: calendarDetails.visibility.value,
-				sta: calendarDetails.activitystatus.value,
-				className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value,
-				start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
-				end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
-				smownerid: calendarDetails.assigned_user_id.display_value,
-				pri: calendarDetails.taskpriority.value,
-				lok: calendarDetails.location.display_value
-			};
+		let calendar = this.getCalendarView();
+		let startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value);
+		let endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
+		let eventObject = {
+			id: calendarDetails._recordId,
+			title: calendarDetails.subject.display_value,
+			start: startDate.format(),
+			end: endDate.format(),
+			url: 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId,
+			activitytype: calendarDetails.activitytype.value,
+			allDay: calendarDetails.allday.value == 'on',
+			state: calendarDetails.state.value,
+			vis: calendarDetails.visibility.value,
+			sta: calendarDetails.activitystatus.value,
+			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value,
+			start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
+			end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
+			smownerid: calendarDetails.assigned_user_id.display_value,
+			pri: calendarDetails.taskpriority.value,
+			lok: calendarDetails.location.display_value
+		};
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	},
 	registerSubmitForm() {
@@ -681,10 +682,10 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	},
 	updateCalendarEvent(calendarEventId, eventData) {
 		const calendar = this.getCalendarView();
-		let recordToUpdate = calendar.fullCalendar('clientEvents', calendarEventId)[0],
-			calendarDetails = eventData,
-			startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value),
-			endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
+		let recordToUpdate = calendar.fullCalendar('clientEvents', calendarEventId)[0];
+		let calendarDetails = eventData;
+		let startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value);
+		let endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
 		recordToUpdate.title = calendarDetails.subject.display_value;
 		recordToUpdate.start = startDate.format();
 		recordToUpdate.end = endDate.format();
@@ -716,10 +717,10 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				progressInstance.progressIndicator({mode: 'hide'});
 				thisInstance.showRightPanelForm();
 				sideBar.find('.qcForm').html(data);
-				let rightFormCreate = $(document).find('form[name="QuickCreate"]'),
-					moduleName = sideBar.find('[name="module"]').val(),
-					editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName),
-					headerInstance = new Vtiger_Header_Js();
+				let rightFormCreate = $(document).find('form[name="QuickCreate"]');
+				let moduleName = sideBar.find('[name="module"]').val();
+				let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+				let headerInstance = new Vtiger_Header_Js();
 				App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
 				editViewInstance.registerBasicEvents(rightFormCreate);
 				rightFormCreate.validationEngine(app.validationEngineOptions);
@@ -727,7 +728,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				thisInstance.registerSubmitForm();
 				headerInstance.registerQuickCreateSidebarPostLoadEvents(rightFormCreate, {});
 				$.each(sideBar.find('.ckEditorSource'), function (key, element) {
-					let ckEditorInstance = new Vtiger_CkEditor_Js();
+					var ckEditorInstance = new Vtiger_CkEditor_Js();
 					ckEditorInstance.loadCkEditor($(element), {
 						height: '5em',
 						toolbar: 'Min'
