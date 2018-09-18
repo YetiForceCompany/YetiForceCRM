@@ -409,7 +409,6 @@
 				background: #dfdfdf;
 				color: #353535;
 				height: 30px;
-				max-height: 30px;
 				border: none;
 				box-shadow: none;
 				padding: calculate-rem(5px) calculate-rem(18px) !important;
@@ -517,6 +516,16 @@
 					font-size: 1.3rem;
 				}
 			}
+		}
+	}
+
+	.c-calendar-switch {
+		&__button {
+			font-size: calculate-rem(14px);
+			border-radius: 0;
+			height: calculate-rem(30px);
+			line-height: 1.3;
+			padding: calculate-rem(5px) calculate-rem(18px) !important;
 		}
 	}
 }

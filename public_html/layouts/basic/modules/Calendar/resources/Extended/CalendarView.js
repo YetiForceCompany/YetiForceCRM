@@ -149,6 +149,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		thisInstance.getCalendarView().fullCalendar('destroy');
 		thisInstance.getCalendarView().fullCalendar(options);
 		thisInstance.registerCalendarScroll();
+		thisInstance.createAddSwitch();
 	},
 	showStatusUpdate(params) {
 		const thisInstance = this,

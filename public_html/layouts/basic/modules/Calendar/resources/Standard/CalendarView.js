@@ -481,12 +481,12 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		});
 	},
 	switchTpl(on, off, state) {
-		return `<div class="btn-group btn-group-toggle js-switch" data-toggle="buttons">
-					<label class="btn btn-outline-primary js-switch--label-on ${state ? '' : 'active'}">
+		return `<div class="btn-group btn-group-toggle js-switch c-calendar-switch" data-toggle="buttons">
+					<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on ${state ? '' : 'active'}">
 						<input type="radio" name="options" data-on-text="${on}" autocomplete="off" ${state ? '' : 'checked'}>
 						${on}
 					</label>
-					<label class="btn btn-outline-primary ${state ? 'active' : ''}">
+					<label class="btn btn-outline-primary c-calendar-switch__button ${state ? 'active' : ''}">
 						<input type="radio" name="options" data-off-text="${off}" autocomplete="off" ${state ? 'checked' : ''}>
 						${off}
 					</label>
