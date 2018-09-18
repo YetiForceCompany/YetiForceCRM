@@ -64,7 +64,7 @@
 											class="mr-1 btn btn-warning {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}"
 											data-state="{$ACTIVITY_STATE_LABEL.cancelled}" data-id="{$ID}"
 											data-type="1">
-										<span class="fas fa-times mr-1"></span>
+										<span class="fas fa-ban mr-1"></span>
 										{\App\Language::translate($ACTIVITY_STATE_LABEL.cancelled, $MODULE_NAME)}
 									</button>
 								{/if}

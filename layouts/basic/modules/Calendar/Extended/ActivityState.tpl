@@ -5,10 +5,6 @@
 		{assign var=ID value=$RECORD->getId()}
 		<div>
 			<div class="clearfix">
-				<a href="#" class="btn btn-sm btn-default summaryCloseEdit float-right m-1"
-				   title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}">
-					<span class="fas fa-times"></span>
-				</a>
 				<h6 class="boxEventTitle text-muted text-center my-1">
 					{\App\Language::translate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}
 				</h6>
@@ -27,11 +23,11 @@
 					{assign var=SHOW_QUICK_CREATE value=AppConfig::module('Calendar','SHOW_QUICK_CREATE_BY_STATUS')}
 					{if $ACTIVITYCANCEL eq 'yes' && $EMPTY}
 						<button type="button"
-								class="btn btn-danger mr-1 {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}"
+								class="btn btn-warning mr-1 {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}"
 								data-state="{$ACTIVITY_STATE_LABEL.cancelled}" data-id="{$ID}"
 								data-type="1" data-js="click"
 								title="{\App\Language::translate($ACTIVITY_STATE_LABEL.cancelled, $MODULE_NAME)}">
-							<span class="fas fa-times"></span>
+							<span class="fas fa-ban"></span>
 						</button>
 					{/if}
 					{if $ACTIVITYCOMPLETE eq 'yes' && $EMPTY}
@@ -59,7 +55,7 @@
 				{if $RECORD->get('link') neq '' && $PERMISSION_TO_SENDE_MAIL}
 					{if $USER_MODEL->get('internal_mailer') == 1}
 						{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
-						<a target="_blank" class="btn btn-light mr-1" role="button"
+						<a target="_blank" class="btn btn-default mr-1" role="button"
 						   href="{$COMPOSE_URL}"
 						   title="{\App\Language::translate('LBL_SEND_EMAIL')}">
 							<span class="fas fa-envelope"></span>
@@ -67,7 +63,7 @@
 					{else}
 						{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 						{if $URLDATA && $URLDATA != 'mailto:?'}
-							<a class="btn btn-light mr-1" role="button" href="{$URLDATA}"
+							<a class="btn btn-default mr-1" role="button" href="{$URLDATA}"
 							   title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
 								<span class="fas fa-envelope"></span>
 							</a>
@@ -87,6 +83,10 @@
 						<span class="fas fa-list summaryViewEdit"></span>
 					</a>
 				{/if}
+				<a href="#" class="btn btn-danger summaryCloseEdit float-right"
+				   title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}">
+					<span class="fas fa-times"></span>
+				</a>
 			</div>
 		</div>
 	</div>
