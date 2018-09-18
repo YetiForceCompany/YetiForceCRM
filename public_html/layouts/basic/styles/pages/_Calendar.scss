@@ -528,4 +528,13 @@
 			padding: calculate-rem(5px) calculate-rem(18px) !important;
 		}
 	}
+	.js-css-element-queries {
+		&[max-width~="1500px"] {
+			.o-calendar__view-btn {
+				.textHolder {
+					display: none;
+				}
+			}
+		}
+	}
 }

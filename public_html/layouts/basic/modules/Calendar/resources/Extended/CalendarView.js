@@ -812,5 +812,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		this._super();
 		this.registerAddForm();
 		this.registerFilterForm();
+		ElementQueries.listen();
 	}
 });
