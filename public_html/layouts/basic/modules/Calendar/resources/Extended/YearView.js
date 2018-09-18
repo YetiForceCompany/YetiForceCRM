@@ -93,13 +93,15 @@ let YearView = View.extend({
 				header: {center: 'title', left: false, right: false},
 				height: 'auto',
 				defaultDate: date,
-				eventRender: function (event, element, view) {
+				eventRender: function (event, element) {
 					element = '<div class="cell-calendar">';
 					for (var key in event.event) {
-						element += '<a class="" href="javascript:;"' +
-							' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
-							'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary u-font-size-95per">' + event.event[key].count + '</span>' +
-							'</a>\n';
+						element += `
+							<a class="" href="#" data-date="${event.date}" data-type="${key}" title="${event.event[key].label}">
+								<span class="${event.event[key].className} ${event.width <= 20 ? 'small-badge' : ''} ${(event.width >= 24) ? 'big-badge' : ''} badge badge-secondary u-font-size-95per">
+									${event.event[key].count}
+								</span>
+							</a>`;
 					}
 					element += '</div>';
 					return element;

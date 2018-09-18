@@ -55,13 +55,13 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		let options = {
 			header: {
 				left: 'year,month,' + weekView + ',' + dayView,
-				center: 'prev,title,next',
+				center: 'prevYear,prev,title,next,nextYear',
 				right: 'today'
 			},
 			axisFormat: userDefaultTimeFormat,
 			scrollTime: defaultFirstHour,
 			firstDay: convertedFirstDay,
-			defaultView: userDefaultActivityView,
+			defaultView: 'year',
 			editable: true,
 			slotMinutes: 15,
 			defaultEventMinutes: 0,
@@ -105,6 +105,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 					url = 'index.php?module=Calendar&view=ActivityState&record=' +
 						link.searchParams.get("record");
 				thisInstance.showStatusUpdate(url);
+			},
+			viewRender: function (view, element) {
+				let toolbar = element.closest('#calendarview').find('.fc-toolbar.fc-header-toolbar');
+				let nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button');
+				let yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
+				if (view.name === 'year') {
+					nextPrevButtons.hide();
+					yearButtons.show();
+				} else {
+					nextPrevButtons.show();
+					yearButtons.hide();
+				}
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
