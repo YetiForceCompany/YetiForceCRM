@@ -61,7 +61,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			axisFormat: userDefaultTimeFormat,
 			scrollTime: defaultFirstHour,
 			firstDay: convertedFirstDay,
-			defaultView: 'year',
+			defaultView: userDefaultActivityView,
 			editable: true,
 			slotMinutes: 15,
 			defaultEventMinutes: 0,
@@ -97,7 +97,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				thisInstance.updateEvent(event, delta, revertFunc);
 			},
 			eventRender: function (event, element) {
-				thisInstance.actionOnRender(event, element);
+				thisInstance.eventRender(event, element);
 			},
 			eventClick: function (calEvent, jsEvent, view) {
 				jsEvent.preventDefault();
@@ -149,6 +149,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		thisInstance.getCalendarView().fullCalendar('destroy');
 		thisInstance.getCalendarView().fullCalendar(options);
 		thisInstance.registerCalendarScroll();
+		thisInstance.createAddSwitch();
 	},
 	showStatusUpdate(params) {
 		const thisInstance = this,
@@ -166,27 +167,34 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			});
 		});
 	},
-	actionOnRender(event, element) {
+	eventRender: function (event, element) {
+		let valueEventVis = '';
+		if (event.vis !== '') {
+			valueEventVis = app.vtranslate('JS_' + event.vis);
+		}
 		app.showPopoverElementView(element.find('.fc-content'), {
-			title: event.title + '<a href="index.php?module=' + event.module + '&view=Edit&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="fas fa-pencil"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="fas fa-th-list"></span></a>',
+			title: event.title + '<a href="index.php?module=' + event.module + '&view=Edit&record=' + event.id + '" class="float-right"><span class="fas fa-edit"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
 			container: 'body',
 			html: true,
 			placement: 'auto',
-			template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
-			content: '<div><span class="fas fa-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start_display + '</div>' +
-				'<div><span class="fas fa-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
-				(event.lok ? '<div><span class="fas fa-globe" aria-hidden="true"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
-				(event.pri ? '<div><span class="fas fa-warning-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PRIORITY') + '</label>: ' + app.vtranslate('JS_' + event.pri) + '</div>' : '') +
-				'<div><span class="fas fa-question-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + app.vtranslate('JS_' + event.sta) + '</div>' +
-				(event.accname ? '<div><span class="userIcon-Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ACCOUNTS') + '</label>: ' + event.accname + '</div>' : '') +
-				(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a target="_blank" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
-				(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a target="_blank" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</a></div>' : '') +
-				(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
-				(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
-				(event.state ? '<div><span class="fas fa-star-empty" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATE') + '</label>: ' + app.vtranslate(event.state) + '</div>' : '') +
-				'<div><span class="fas fa-eye-open" aria-hidden="true"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>: ' + app.vtranslate('JS_' + event.vis) + '</div>' +
-				(event.smownerid ? '<div><span class="fas fa-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
+			template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+			content: '<div><span class="fas fa-clock"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start_display + '</div>' +
+				'<div><span class="fas fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
+				(event.lok ? '<div><span class="fas fa-globe"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
+				(event.pri ? '<div><span class="fas fa-exclamation-circle"></span> <label>' + app.vtranslate('JS_PRIORITY') + '</label>: <span class="picklistCT_Calendar_taskpriority_' + event.pri + '">' + app.vtranslate('JS_' + event.pri) + '</span></div>' : '') +
+				'<div><span class="fas fa-question-circle"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>:  <span class="picklistCT_Calendar_activitystatus_' + event.sta + '">' + app.vtranslate('JS_' + event.sta) + '</span></div>' +
+				(event.accname ? '<div><span class="userIcon-Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ACCOUNTS') + '</label>: <span class="modCT_Accounts">' + event.accname + '</span></div>' : '') +
+				(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a class="modCT_' + event.linkexm + '" target="_blank" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
+				(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a class="modCT_' + event.linkm + '" target="_blank" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</span></a></div>' : '') +
+				(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a class="modCT_' + event.procm + '"target="_blank" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
+				(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a class="modCT_' + event.subprocm + '" target="_blank" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
+				(event.state ? '<div><span class="fas fa-star"></span> <label>' + app.vtranslate('JS_STATE') + '</label>:  <span class="picklistCT_Calendar_state_' + event.state + '">' + app.vtranslate(event.state) + '</span></div>' : '') +
+				'<div><span class="fas fa-eye"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>:  <span class="picklistCT_Calendar_visibility_' + event.vis + '">' + valueEventVis + '</div>' +
+				(event.smownerid ? '<div><span class="fas fa-user"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 		});
+		if (event.rendering === 'background') {
+			element.append(`<span class="${event.icon} mr-1"></span>${event.title}`)
+		}
 	},
 	getDatesColumnView() {
 		this.datesColumnView = $('#datesColumn');
@@ -419,7 +427,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				sideBar.find('.summaryCloseEdit').on('click', function () {
 					thisInstance.getCalendarCreateView();
 				});
-				headerInstance.registerQuickCreateSidebarPostLoadEvents(rightFormCreate, {});
+				headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, {});
 				$.each(sideBar.find('.ckEditorSource'), function (key, element) {
 					let ckEditorInstance = new Vtiger_CkEditor_Js();
 					ckEditorInstance.loadCkEditor($(element), {
@@ -614,15 +622,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			thisInstance.loadCalendarData();
 		});
 	},
-	registerGroupChange() {
-		const thisInstance = this;
-		thisInstance.getSidebarView().find('.js-inputRoleOwnerId').on('change', () => {
-			thisInstance.loadCalendarData();
-		});
-		thisInstance.getSidebarView().find('.js-inputRoleOwnerIdAjax').on('change', () => {
-			thisInstance.loadCalendarData();
-		});
-	},
 	addCalendarEvent(calendarDetails) {
 		let calendar = this.getCalendarView(),
 			startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value),
@@ -743,7 +742,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				rightFormCreate.validationEngine(app.validationEngineOptions);
 				headerInstance.registerHelpInfo(rightFormCreate);
 				thisInstance.registerSubmitForm();
-				headerInstance.registerQuickCreateSidebarPostLoadEvents(rightFormCreate, {});
+				headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, {});
 				$.each(sideBar.find('.ckEditorSource'), function (key, element) {
 					let ckEditorInstance = new Vtiger_CkEditor_Js();
 					ckEditorInstance.loadCkEditor($(element), {
@@ -789,7 +788,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			function (data) {
 				if (data) {
 					sideBar.find('.groupForm').html(data);
-					thisInstance.registerGroupChange();
+					thisInstance.registerUsersChange();
 					App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
 				}
 			}
@@ -832,5 +831,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		this._super();
 		this.registerAddForm();
 		this.registerFilterForm();
+		ElementQueries.listen();
 	}
 });

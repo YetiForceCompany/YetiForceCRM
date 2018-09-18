@@ -61,7 +61,7 @@
 						<li class="js-filter__item__container" data-js="classs: d-none">
 							<div class="marginRightZero">
 								<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
-									   class="js-inputRoleOwnerId alignMiddle"
+									   class="js-inputUserOwnerId alignMiddle"
 										{if $USER_MODEL->getId() eq $OWNER_ID} checked{/if}>
 								<label class="marginLeft10 js-filter__item__value" for="ownerId{$OWNER_ID}">
 									<span class="ownerCBg_{$OWNER_ID}">&nbsp&nbsp</span>&nbsp{$OWNER_NAME}
@@ -71,7 +71,7 @@
 					{/foreach}
 				</ul>
 			{else}
-				<select class="js-inputRoleOwnerIdAjax select2 form-control"
+				<select class="js-inputUserOwnerIdAjax select2 form-control"
 						data-validation-engine="validate[required]"
 						title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE)}"
 						name="transferOwnerId" id="transferOwnerId" multiple="multiple"

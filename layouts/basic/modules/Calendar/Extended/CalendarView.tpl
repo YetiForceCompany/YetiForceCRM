@@ -15,15 +15,8 @@
 	<input value="{\App\Purifier::encodeHtml(\App\Json::encode(\AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"
 		   type="hidden" id="hiddenDays"/>
 	<input value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" type="hidden" id="activityStateLabels"/>
-	<div class="calendarViewContainer rowContent">
-		<div class="d-flex flex-md-nowrap mt-2">
-			<div class="btn-toolbar flex-nowrap mb-1 mb-sm-0 align-items-center">
-				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions' BTN_CLASS='btn-light'}
-				<button class="ml-1 btn btn-light js-add u-h-fit" data-js="click">
-					<span class="fas fa-plus mr-1"></span>
-					{\App\Language::translate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}
-				</button>
-			</div>
+	<div class="calendarViewContainer rowContent js-css-element-queries" data-js="css-element-queries">
+		<div class="d-flex flex-md-nowrap">
 			<div class="ml-2 w-100">
 				<button class="btn btn-warning float-right d-none js-calendar-clear-filters" data-js="class: f-none">
 					<i class="fas fa-eraser mr-1"></i>
@@ -33,9 +26,12 @@
 		</div>
 		<div class="row no-gutters pt-2" id="datesColumn">
 			<div class="col-sm-1 d-none d-sm-block">
-				<div class="dateList">
+				<div class="btn-toolbar flex-nowrap mb-1 mb-sm-0 align-items-center">
+					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions w-100 u-remove-dropdown-icon u-text-ellipsis' BTN_CLASS='btn-light o-calendar__view-btn w-100'}
 				</div>
-				<div class="subDateList">
+				<div class="js-dateList dateList">
+				</div>
+				<div class="js-subDateList subDateList" data-js="data-type">
 				</div>
 			</div>
 			<div class="o-calendar-container col-sm-11 pl-1">

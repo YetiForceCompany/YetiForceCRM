@@ -3,7 +3,7 @@
 	<div class="tpl-Calendar-Extended-CalendarViewPostProcess js-calendarRightPanel {if $USER_MODEL->get('leftpanelhide')}leftPanelOpen {/if}siteBarRight calendarRightPanel col-xs-12 hideSiteBar"
 		 data-showPanel="{if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}" id="rightPanel"
 		 data-js="class: hideSiteBar">
-		<div class="btn btn-block js-toggleSiteBarRightButton toggleSiteBarRightButton hideToggleSiteBarRightButton hidden-xs hidden-sm"
+		<div class="btn btn-block js-toggleSiteBarRightButton toggleSiteBarRightButton hideToggleSiteBarRightButton d-none d-md-block"
 			 title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}" data-js="click">
 			<span class="fas fa-chevron-left"></span>
 		</div>
@@ -24,7 +24,7 @@
 		<div class="tab-content" id="rightPanelTabContent">
 			<div class="tab-pane fade active show js-rightPanelEvent" id="rightPanelEvent" role="tabpanel"
 				 aria-labelledby="rightPanelEvent-tab" data-js="class: active">
-				<div class="qcForm"></div>
+				<div class="js-qcForm qcForm"></div>
 			</div>
 			<div class="tab-pane fade" id="rightPanelFilter" role="tabpanel" aria-labelledby="rightPanelFilter-tab">
 				<div class="border-bottom">
