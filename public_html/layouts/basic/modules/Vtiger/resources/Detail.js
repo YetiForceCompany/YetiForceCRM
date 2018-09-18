@@ -2192,6 +2192,33 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	/**
+	 * Register confirmation on event click
+	 * @param jQuery element
+	 * @param string picklistName
+	 */
+	registerConfirmationClick(element, picklistName) {
+		const thisInstance = this;
+		$(element).on('click', (e) => {
+			let picklistValue = $(e).data('picklistValue');
+			Vtiger_Helper_Js.showConfirmationBox({
+				title: picklistValue,
+				message: app.vtranslate('JS_CHANGE_STATUS_CONFIRMATION')
+			}).done(() => {
+				const progressIndicatorElement = $.progressIndicator();
+				thisInstance.saveFieldValues({
+					value: picklistValue,
+					field: picklistName
+				}).done(() => {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					window.location.reload();
+				}).fail(function (error, err) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					app.errorLog(error, err);
+				});
+			});
+		});
+	},
+	/**
 	 * Change status from progress
 	 */
 	registerProgress() {
@@ -2200,25 +2227,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 		if (progressList.length > 0) {
 			let picklistName = progressList.data('picklistName');
 			progressList.find('li').each((index, element) => {
-				$(element).on('click', (e) => {
-					let picklistValue = $(element).data('picklistValue');
-					Vtiger_Helper_Js.showConfirmationBox({
-						title: picklistValue,
-						message: app.vtranslate('JS_CHANGE_STATUS_CONFIRMATION')
-					}).done(() => {
-						const progressIndicatorElement = $.progressIndicator();
-						thisInstance.saveFieldValues({
-							value: picklistValue,
-							field: picklistName
-						}).done(() => {
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							window.location.reload();
-						}).fail(function (error, err) {
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							app.errorLog(error, err);
-						});
-					});
-				});
+				if ($(element).data('access') === 1) {
+					thisInstance.registerConfirmationClick(element, picklistName);
+				}
 			});
 		}
 	},
@@ -2485,8 +2496,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			tabElement.data('url', url);
 			tabElement.trigger('click');
 		});
-	}
-	,
+	},
 	reloadWidgetActivitesStats: function (container) {
 		var countElement = container.find('.countActivities');
 		var totalElement = container.find('.totaltActivities');
@@ -2499,8 +2509,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var text = switchBtn.data('basic-text') + stats;
 		switchBtnParent.removeTextNode();
 		switchBtnParent.append(text);
-	}
-	,
+	},
 	refreshCommentContainer: function (commentId) {
 		var thisInstance = this;
 		var commentContainer = $('.commentsBody');
@@ -2522,8 +2531,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			commentContainer.html(data);
 		});
-	}
-	,
+	},
 	updateRecordsPDFTemplateBtn: function (form) {
 		AppConnector.request({
 			data: {
@@ -2552,13 +2560,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}).fail(function (data, err) {
 			app.errorLog(data, err);
 		});
-	}
-	,
+	},
 	updateWindowHeight: function (currentHeight, frame) {
 		frame.height(currentHeight);
-	}
-	,
-
+	},
 	registerEvents: function () {
 		//this.triggerDisplayTypeEvent();
 		this.registerHelpInfo();
@@ -2585,5 +2590,4 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerEventForTotalRecordsCount();
 		this.registerProgress();
 	}
-})
-;
+});
