@@ -627,8 +627,8 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		let eventObject = {
 			id: calendarDetails._recordId,
 			title: calendarDetails.subject.display_value,
-			start: startDate.toString(),
-			end: endDate.toString(),
+			start: startDate.format(),
+			end: endDate.format(),
 			url: 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId,
 			activitytype: calendarDetails.activitytype.value,
 			allDay: calendarDetails.allday.value == 'on',
@@ -701,15 +701,15 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		let startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value);
 		let endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
 		recordToUpdate.title = calendarDetails.subject.display_value;
-		recordToUpdate.start = startDate.toString();
-		recordToUpdate.end = endDate.toString();
+		recordToUpdate.start = startDate.format();
+		recordToUpdate.end = endDate.format();
 		recordToUpdate.url = 'index.php?module=Calendar&view=Detail&record=' + calendarEventId;
 		recordToUpdate.ctivitytype = calendarDetails.activitytype.value;
 		recordToUpdate.allDay = calendarDetails.allday.value == 'on';
 		recordToUpdate.state = calendarDetails.state.value;
 		recordToUpdate.vis = calendarDetails.visibility.value;
 		recordToUpdate.sta = calendarDetails.activitystatus.value;
-		recordToUpdate.className = 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value;
+		recordToUpdate.className = ['ownerCBg_' + calendarDetails.assigned_user_id.value, 'picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value];
 		recordToUpdate.start_display = calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value;
 		recordToUpdate.end_display = calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value;
 		recordToUpdate.smownerid = calendarDetails.assigned_user_id.display_value;
