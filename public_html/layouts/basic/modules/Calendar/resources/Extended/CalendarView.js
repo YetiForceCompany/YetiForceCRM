@@ -597,15 +597,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			thisInstance.loadCalendarData();
 		});
 	},
-	registerGroupChange() {
-		const thisInstance = this;
-		thisInstance.getSidebarView().find('.js-inputRoleOwnerId').on('change', () => {
-			thisInstance.loadCalendarData();
-		});
-		thisInstance.getSidebarView().find('.js-inputRoleOwnerIdAjax').on('change', () => {
-			thisInstance.loadCalendarData();
-		});
-	},
 	addCalendarEvent(calendarDetails) {
 		let calendar = this.getCalendarView(),
 			startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value),
@@ -771,7 +762,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			function (data) {
 				if (data) {
 					sideBar.find('.groupForm').html(data);
-					thisInstance.registerGroupChange();
+					thisInstance.registerUsersChange();
 					App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
 				}
 			}
