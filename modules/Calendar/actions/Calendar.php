@@ -34,6 +34,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$this->exposeMethod('getEvents');
 		$this->exposeMethod('getCountEvents');
 		$this->exposeMethod('updateEvent');
+		$this->exposeMethod('getCountEventsGroup');
 	}
 
 	public function getEvents(\App\Request $request)
@@ -88,6 +89,35 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$entity = $record->getEntityRecordsCount();
 		$response = new Vtiger_Response();
 		$response->setResult($entity);
+		$response->emit();
+	}
+
+	/**
+	 * Get count Events for extended calendar's left column.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function getCountEventsGroup(\App\Request $request)
+	{
+		$record = Calendar_Calendar_Model::getCleanInstance();
+		$record->set('user', $request->getArray('user'));
+		$record->set('types', $request->getArray('types'));
+		$record->set('time', $request->getByType('time'));
+		if ($request->has('filters')) {
+			$record->set('filters', $request->get('filters'));
+		}
+		if ($request->has('cvid')) {
+			$record->set('customFilter', $request->get('cvid'));
+		}
+		$result = [];
+		foreach ($request->getArray('dates', false, []) as $datePair) {
+			$record->set('start', $datePair[0]);
+			$record->set('end', $datePair[1]);
+			$result[] = $record->getEntityRecordsCount();
+		}
+
+		$response = new Vtiger_Response();
+		$response->setResult($result);
 		$response->emit();
 	}
 

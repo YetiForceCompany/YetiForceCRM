@@ -278,52 +278,38 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		this.sidebarView = $('#rightPanel');
 		return this.sidebarView;
 	},
-	countEventsInRange(dateStart, dateEnd) {
-		const self = this;
-		let aDeferred = $.Deferred(),
-			types = self.getTypesCalendar(),
-			user = self.getSelectedUsersCalendar();
+	updateCountTaskCalendar: function () {
+		let datesView = this.getDatesColumnView(),
+			subDatesElements = datesView.find('.subRecord'),
+			dateArray = {},
+			user = this.getSelectedUsersCalendar();
 		if (user.length === 0) {
 			user = [app.getMainParams('current_user_id')];
 		}
-		let params = {
+		subDatesElements.each(function (key, element) {
+			let data = $(this).data('date'),
+				type = $(this).data('type');
+			if (type === 'months') {
+				dateArray[key] = [moment(data).format('YYYY-MM') + '-01', moment(data).endOf('month').format('YYYY-MM-DD')];
+			} else if (type === 'weeks') {
+				dateArray[key] = [moment(data).format('YYYY-MM-DD'), moment(data).add(1, 'weeks').format('YYYY-MM-DD')];
+			} else if (type === 'days') {
+				dateArray[key] = [moment(data).format('YYYY-MM-DD'), moment(data).format('YYYY-MM-DD')];
+			}
+		});
+		AppConnector.request({
 			module: 'Calendar',
 			action: 'Calendar',
-			mode: 'getCountEvents',
-			start: dateStart,
-			end: dateEnd,
-			types: types,
+			mode: 'getCountEventsGroup',
+			dates: dateArray,
+			types: this.getTypesCalendar(),
 			user: user,
 			time: app.getMainParams('showType'),
-			cvid: self.getCurrentCvId()
-		};
-		AppConnector.request(params).then(function (events) {
-			aDeferred.resolve(events.result);
-		});
-		return aDeferred.promise();
-	},
-	updateCountTaskCalendar: function () {
-		var thisInstance = this;
-		var datesView = thisInstance.getDatesColumnView();
-		var subDatesElements = datesView.find('.subRecord');
-		subDatesElements.each(function () {
-			var thisElement = $(this);
-			var data = $(this).data('date');
-			var type = $(this).data('type');
-
-			if (type == 'months') {
-				thisInstance.countEventsInRange(moment(data).format('YYYY-MM') + '-01', moment(data).endOf('month').format('YYYY-MM-DD')).then(function (count) {
-					thisElement.find('.countEvents').removeClass('hide').html(count);
-				});
-			} else if (type == 'weeks') {
-				thisInstance.countEventsInRange(moment(data).format('YYYY-MM-DD'), moment(data).add(1, 'weeks').format('YYYY-MM-DD')).then(function (count) {
-					thisElement.find('.countEvents').removeClass('hide').html(count);
-				});
-			} else if (type == 'days') {
-				thisInstance.countEventsInRange(moment(data).format('YYYY-MM-DD'), moment(data).format('YYYY-MM-DD')).then(function (count) {
-					thisElement.find('.countEvents').removeClass('hide').html(count);
-				});
-			}
+			cvid: this.getCurrentCvId()
+		}).then(function (events) {
+			subDatesElements.each(function (key, element) {
+				$(this).find('.countEvents').removeClass('hide').html(events.result[key]);
+			});
 		});
 	},
 	generateYearList: function (dateStart, dateEnd) {
