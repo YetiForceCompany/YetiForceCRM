@@ -9,7 +9,7 @@
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 foreach (\App\SocialMedia::ALLOWED_UITYPE as $uiType => $socialMediaType) {
-	if (\App\SocialMedia::isActiveBytype($uiType)) {
+	if (\App\SocialMedia::isActiveByType($uiType)) {
 		foreach (\App\SocialMedia::getSocialMediaAccount($socialMediaType) as $socialMedia) {
 			$socialMedia->retrieveDataFromApi();
 		}

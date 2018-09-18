@@ -49,37 +49,23 @@ class SocialMedia extends Base
 	 */
 	private function __construct(string $type)
 	{
-		$this->getConfig($type);
-	}
-
-	/**
-	 * Get configuration from DB.
-	 *
-	 * @param string $type Type of config
-	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return array
-	 */
-	public function getConfig(string $type)
-	{
-		if (\App\Cache::has('SocialMediaConfig', $type)) {
-			return $this->value = \App\Cache::get('SocialMediaConfig', $type);
-		}
 		$this->type = $type;
+		if (\App\Cache::has('SocialMediaConfig', $this->type)) {
+			$this->value = \App\Cache::get('SocialMediaConfig', $this->type);
+			return;
+		}
 		$this->value = [];
 		$dataReader = (new \App\Db\Query())
 			->select(['name', 'value'])
 			->from('u_#__social_media_config')
-			->where(['type' => $type])
+			->where(['type' => $this->type])
 			->createCommand()
 			->query();
 		while ($row = $dataReader->read()) {
 			$this->value[$row['name']] = \App\Json::decode($row['value']);
 		}
 		$dataReader->close();
-		\App\Cache::save('SocialMediaConfig', $type, $this->value, \App\Cache::LONG);
-		return $this->value;
+		\App\Cache::save('SocialMediaConfig', $this->type, $this->value, \App\Cache::LONG);
 	}
 
 	/**
@@ -139,16 +125,18 @@ class SocialMedia extends Base
 	}
 
 	/**
+	 * Create object by uitype.
+	 *
 	 * @param int    $uiType
-	 * @param string $uiType
+	 * @param string $accountName
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return \App\SocialMedia\AbstractSocialMedia|bool
+	 * @return \App\SocialMedia\Base|bool
 	 */
 	public static function createObjectByUiType(int $uiType, string $accountName)
 	{
-		$className = static::getClassNameByUitype($uiType);
+		$className = static::getClassNameByUiType($uiType);
 		if ($className === false) {
 			return false;
 		}
@@ -164,7 +152,7 @@ class SocialMedia extends Base
 	 *
 	 * @return string
 	 */
-	public static function getClassNameByUitype(int $uiType)
+	public static function getClassNameByUiType(int $uiType)
 	{
 		if (isset(static::ALLOWED_UITYPE[$uiType])) {
 			return __NAMESPACE__ . '\\SocialMedia\\' . ucfirst(static::ALLOWED_UITYPE[$uiType]);
@@ -181,9 +169,9 @@ class SocialMedia extends Base
 	 *
 	 * @return bool
 	 */
-	public static function isActiveBytype(int $uiType)
+	public static function isActiveByType(int $uiType)
 	{
-		return call_user_func(static::getClassNameByUitype($uiType) . '::isActive');
+		return call_user_func(static::getClassNameByUiType($uiType) . '::isActive');
 	}
 
 	/**
@@ -202,7 +190,7 @@ class SocialMedia extends Base
 			->select(['account_name'])
 			->where(['account_name' => $logins])
 			->having(['=', 'count(*)', 1])->column();
-		return call_user_func_array(static::getClassNameByUitype($uiType) . '::removeMass', [$loginsToRemove]);
+		return call_user_func_array(static::getClassNameByUiType($uiType) . '::removeMass', [$loginsToRemove]);
 	}
 
 	/**
@@ -214,7 +202,7 @@ class SocialMedia extends Base
 	 */
 	public static function log(int $uiType, string $typeOfLog, string $message)
 	{
-		call_user_func(static::getClassNameByUitype($uiType) . '::log', $typeOfLog, $message);
+		call_user_func(static::getClassNameByUiType($uiType) . '::log', $typeOfLog, $message);
 	}
 
 	/**
@@ -265,7 +253,7 @@ class SocialMedia extends Base
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return \App\SocialMedia\AbstractSocialMedia|\Generator|void
+	 * @return \App\SocialMedia\Base|\Generator|void
 	 */
 	public static function getSocialMediaAccount($socialMediaType)
 	{

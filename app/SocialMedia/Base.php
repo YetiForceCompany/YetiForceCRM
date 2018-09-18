@@ -15,7 +15,7 @@ namespace App\SocialMedia;
 /**
  * Abstract Social media class.
  */
-abstract class AbstractSocialMedia
+abstract class Base
 {
 	/**
 	 * Allowed type of log.
@@ -28,7 +28,7 @@ abstract class AbstractSocialMedia
 	protected static $socialMediaType;
 
 	/**
-	 * AbstractSocialMedia constructor.
+	 * Base constructor.
 	 *
 	 * @param string $userName
 	 */
