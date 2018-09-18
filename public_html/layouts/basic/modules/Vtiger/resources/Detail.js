@@ -1080,9 +1080,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 							text: '<b>' + fieldInfo.data.label + '</b><br>' +
-								'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
-								prevDisplayValue + '<br> ' +
-								'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
+							'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
+							prevDisplayValue + '<br> ' +
+							'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
 							type: 'info',
 							textTrusted: true
 						});
@@ -2191,6 +2191,37 @@ jQuery.Class("Vtiger_Detail_Js", {
 			summaryView.hide();
 		});
 	},
+	/**
+	 * Change status from progress
+	 */
+	registerProgress() {
+		const thisInstance = this;
+		let progressList = $('.js-header-progress-bar').eq(0);
+		if (progressList.length > 0) {
+			let picklistName = progressList.data('picklistName');
+			progressList.find('li').each((index, element) => {
+				$(element).on('click', (e) => {
+					let picklistValue = $(element).data('picklistValue');
+					Vtiger_Helper_Js.showConfirmationBox({
+						title: picklistValue,
+						message: app.vtranslate('JS_CHANGE_STATUS_CONFIRMATION')
+					}).done(() => {
+						const progressIndicatorElement = $.progressIndicator();
+						thisInstance.saveFieldValues({
+							value: picklistValue,
+							field: picklistName
+						}).done(() => {
+							progressIndicatorElement.progressIndicator({'mode': 'hide'});
+							window.location.reload();
+						}).fail(function (error, err) {
+							progressIndicatorElement.progressIndicator({'mode': 'hide'});
+							app.errorLog(error, err);
+						});
+					});
+				});
+			});
+		}
+	},
 	registerBasicEvents: function () {
 		var thisInstance = this;
 		var detailContentsHolder = thisInstance.getContentHolder();
@@ -2454,7 +2485,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			tabElement.data('url', url);
 			tabElement.trigger('click');
 		});
-	},
+	}
+	,
 	reloadWidgetActivitesStats: function (container) {
 		var countElement = container.find('.countActivities');
 		var totalElement = container.find('.totaltActivities');
@@ -2467,7 +2499,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var text = switchBtn.data('basic-text') + stats;
 		switchBtnParent.removeTextNode();
 		switchBtnParent.append(text);
-	},
+	}
+	,
 	refreshCommentContainer: function (commentId) {
 		var thisInstance = this;
 		var commentContainer = $('.commentsBody');
@@ -2489,7 +2522,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			commentContainer.html(data);
 		});
-	},
+	}
+	,
 	updateRecordsPDFTemplateBtn: function (form) {
 		AppConnector.request({
 			data: {
@@ -2518,10 +2552,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}).fail(function (data, err) {
 			app.errorLog(data, err);
 		});
-	},
+	}
+	,
 	updateWindowHeight: function (currentHeight, frame) {
 		frame.height(currentHeight);
-	},
+	}
+	,
 
 	registerEvents: function () {
 		//this.triggerDisplayTypeEvent();
@@ -2547,5 +2583,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.loadWidgets();
 		this.registerBasicEvents();
 		this.registerEventForTotalRecordsCount();
+		this.registerProgress();
 	}
-});
+})
+;
