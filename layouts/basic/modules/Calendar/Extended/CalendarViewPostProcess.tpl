@@ -24,7 +24,7 @@
 		<div class="tab-content" id="rightPanelTabContent">
 			<div class="tab-pane fade active show js-rightPanelEvent" id="rightPanelEvent" role="tabpanel"
 				 aria-labelledby="rightPanelEvent-tab" data-js="class: active">
-				<div class="qcForm"></div>
+				<div class="js-qcForm qcForm"></div>
 			</div>
 			<div class="tab-pane fade" id="rightPanelFilter" role="tabpanel" aria-labelledby="rightPanelFilter-tab">
 				<div class="border-bottom">

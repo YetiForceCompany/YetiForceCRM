@@ -41,9 +41,9 @@
 		</div>
 		<div class="row no-gutters pt-2" id="datesColumn">
 			<div class="col-sm-1 d-none d-sm-block">
-				<div class="dateList">
+				<div class="js-dateList dateList">
 				</div>
-				<div class="subDateList">
+				<div class="js-subDateList subDateList" data-js="data-type">
 				</div>
 			</div>
 			<div class="o-calendar-container col-sm-11 pl-1">
