@@ -285,50 +285,37 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		this.sidebarView = $('#rightPanel');
 		return this.sidebarView;
 	},
-	countEventsInRange(dateStart, dateEnd) {
-		const self = this;
-		let aDeferred = $.Deferred(),
-			user = self.getSelectedUsersCalendar();
+	updateCountTaskCalendar: function () {
+		let datesView = this.getDatesColumnView(),
+			subDatesElements = datesView.find('.subRecord'),
+			dateArray = {},
+			user = this.getSelectedUsersCalendar();
 		if (user.length === 0) {
 			user = [app.getMainParams('current_user_id')];
 		}
-		let params = {
+		subDatesElements.each(function (key, element) {
+			let data = $(this).data('date'),
+				type = $(this).data('type');
+			if (type === 'months') {
+				dateArray[key] = [moment(data).format('YYYY-MM') + '-01', moment(data).endOf('month').format('YYYY-MM-DD')];
+			} else if (type === 'weeks') {
+				dateArray[key] = [moment(data).format('YYYY-MM-DD'), moment(data).add(1, 'weeks').format('YYYY-MM-DD')];
+			} else if (type === 'days') {
+				dateArray[key] = [moment(data).format('YYYY-MM-DD'), moment(data).format('YYYY-MM-DD')];
+			}
+		});
+		AppConnector.request({
 			module: 'Calendar',
 			action: 'Calendar',
-			mode: 'getCountEvents',
-			start: dateStart,
-			end: dateEnd,
+			mode: 'getCountEventsGroup',
+			dates: dateArray,
 			user: user,
 			time: app.getMainParams('showType'),
-			cvid: self.getCurrentCvId()
-		};
-		AppConnector.request(params).then(function (events) {
-			aDeferred.resolve(events.result);
-		});
-		return aDeferred.promise();
-	},
-	updateCountTaskCalendar: function () {
-		var thisInstance = this;
-		var datesView = thisInstance.getDatesColumnView();
-		var subDatesElements = datesView.find('.subRecord');
-		subDatesElements.each(function () {
-			var thisElement = $(this);
-			var data = $(this).data('date');
-			var type = $(this).data('type');
-
-			if (type == 'months') {
-				thisInstance.countEventsInRange(moment(data).format('YYYY-MM') + '-01', moment(data).endOf('month').format('YYYY-MM-DD')).then(function (count) {
-					thisElement.find('.countEvents').removeClass('hide').html(count);
-				});
-			} else if (type == 'weeks') {
-				thisInstance.countEventsInRange(moment(data).format('YYYY-MM-DD'), moment(data).add(1, 'weeks').format('YYYY-MM-DD')).then(function (count) {
-					thisElement.find('.countEvents').removeClass('hide').html(count);
-				});
-			} else if (type == 'days') {
-				thisInstance.countEventsInRange(moment(data).format('YYYY-MM-DD'), moment(data).format('YYYY-MM-DD')).then(function (count) {
-					thisElement.find('.countEvents').removeClass('hide').html(count);
-				});
-			}
+			cvid: this.getCurrentCvId()
+		}).then(function (events) {
+			subDatesElements.each(function (key, element) {
+				$(this).find('.countEvents').removeClass('hide').html(events.result[key]);
+			});
 		});
 	},
 	generateYearList: function (dateStart, dateEnd) {
@@ -427,7 +414,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				editViewInstance.registerBasicEvents(rightFormCreate);
 				rightFormCreate.validationEngine(app.validationEngineOptions);
 				headerInstance.registerHelpInfo(rightFormCreate);
-				App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
+				thisInstance.registerSelect2();
 				thisInstance.registerSubmitForm();
 				sideBar.find('.summaryCloseEdit').on('click', function () {
 					thisInstance.getCalendarCreateView();
@@ -487,6 +474,20 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			thisInstance.getCalendarView().fullCalendar('removeEvents');
 			thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
 			progressInstance.progressIndicator({mode: 'hide'});
+		});
+	},
+	registerSelect2() {
+		var thisInstance = this;
+		var select2 = thisInstance.getSidebarView().find('.select2');
+		select2.each(function () {
+			$(this).select2();
+		});
+
+		thisInstance.getSidebarView().find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			var select2 = thisInstance.getSidebarView().find('.select2');
+			select2.each(function () {
+				$(this).select2();
+			});
 		});
 	},
 	generateSubMonthList: function (dateStart, dateEnd) {
