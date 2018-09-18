@@ -8,8 +8,10 @@
 	<div class="modelContainer modal fade" tabindex="-1">
 		<div class="modal-dialog modal-full">
 			<div class="modal-content">
-				<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post"
-					  action="index.php">
+				<form class="js-qc-form form-horizontal recordEditView" id="quickCreate" name="QuickCreate"
+					  method="post"
+					  action="index.php"
+					  data-js="container">
 					<div class="modal-header">
 						<div class="pull-left">
 							<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}
@@ -47,7 +49,7 @@
 						<input type="hidden" name="mappingRelatedField"
 							   value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
 					{/if}
-					<input type="hidden" name="module" value="{$MODULE}"/>
+					<input type="hidden" name="module" value="{$MODULE}" class="js-module-name" data-js="container"/>
 					<input type="hidden" name="action" value="SaveAjax"/>
 					<input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}"/>
 					<input type="hidden" name="defaultOtherEventDuration"

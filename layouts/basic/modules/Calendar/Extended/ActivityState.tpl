@@ -29,20 +29,20 @@
 					{/if}
 					{if $RECORD->isEditable()}
 						<a href="#" data-url="{$RECORD->getEditViewUrl()}" data-id="{$ID}"
-						   class="editRecord btn btn-default">
-							<span class="fas fa-edit summaryViewEdit"
-								  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+						   class="editRecord btn btn-default"
+						   title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}">
+							<span class="fas fa-edit summaryViewEdit"></span>
 						</a>
 					{/if}
 					{if $RECORD->isViewable()}
-						<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default">
-							<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"
-								  class="fas fa-list summaryViewEdit"></span>
+						<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default"
+						   title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}">
+							<span class="fas fa-list summaryViewEdit"></span>
 						</a>
 					{/if}
-					<a href="#" class="btn btn-default summaryCloseEdit">
-						<span title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"
-							  class="fas fa-trash-alt"></span>
+					<a href="#" class="btn btn-default summaryCloseEdit"
+					   title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}">
+						<span class="fas fa-times"></span>
 					</a>
 				</div>
 				<div class="clearfix"></div>

@@ -139,8 +139,8 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		thisInstance.registerCalendarScroll();
 	},
 	showStatusUpdate(params) {
-		const thisInstance = this;
-		const progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
+		const thisInstance = this,
+			progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 		AppConnector.request(params).then((data) => {
 			progressInstance.progressIndicator({mode: 'hide'});
 			let sideBar = thisInstance.getSidebarView();
@@ -305,17 +305,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		});
 	},
 	generateYearList: function (dateStart, dateEnd) {
-		const thisInstance = this;
-		const datesView = thisInstance.getDatesColumnView();
-		let prevYear = moment(dateStart).subtract(1, 'year');
-		let actualYear = moment(dateStart);
-		let nextYear = moment(dateStart).add(1, 'year');
-		let html = '';
+		const thisInstance = this,
+			datesView = thisInstance.getDatesColumnView();
+		let prevYear = moment(dateStart).subtract(1, 'year'),
+			actualYear = moment(dateStart),
+			nextYear = moment(dateStart).add(1, 'year'),
+			html = '',
+			active = '';
 		while (prevYear <= nextYear) {
 			if (prevYear.format('YYYY') === actualYear.format('YYYY')) {
-				var active = ' dateActive';
+				active = ' dateActive';
 			} else {
-				var active = '';
+				active = '';
 			}
 			html += '<div class="dateRecord' + active + '" data-date="' + prevYear.format('YYYY') + '">' +
 				prevYear.format('YYYY') +
@@ -325,17 +326,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		datesView.find('.dateList').html(html);
 	},
 	generateMonthList: function (dateStart, dateEnd) {
-		const thisInstance = this;
-		const datesView = thisInstance.getDatesColumnView();
-		let prevMonth = moment(dateStart).subtract(1, 'months');
-		let actualMonth = moment(dateStart);
-		let nextMonth = moment(dateStart).add(1, 'months');
-		let html = '';
+		const thisInstance = this,
+			datesView = thisInstance.getDatesColumnView();
+		let prevMonth = moment(dateStart).subtract(1, 'months'),
+			actualMonth = moment(dateStart),
+			nextMonth = moment(dateStart).add(1, 'months'),
+			html = '',
+			active = '';
 		while (prevMonth <= nextMonth) {
 			if (prevMonth.format('YYYY-MM') === actualMonth.format('YYYY-MM')) {
-				var active = ' dateActive';
+				active = ' dateActive';
 			} else {
-				var active = '';
+				active = '';
 			}
 			html += '<div class="dateRecord' + active + '" data-date="' + prevMonth.format('YYYY-MM-DD') + '">' +
 				prevMonth.format('MMMM') +
@@ -345,17 +347,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		datesView.find('.dateList').html(html);
 	},
 	generateWeekList: function (dateStart, dateEnd) {
-		const thisInstance = this;
-		const datesView = thisInstance.getDatesColumnView();
-		let prevMonth = moment(dateStart).subtract(1, 'week');
-		let actualMonth = moment(dateStart);
-		let nextMonth = moment(dateStart).add(1, 'week');
-		let html = '';
+		const thisInstance = this,
+			datesView = thisInstance.getDatesColumnView();
+		let prevMonth = moment(dateStart).subtract(1, 'week'),
+			actualMonth = moment(dateStart),
+			nextMonth = moment(dateStart).add(1, 'week'),
+			html = '',
+			active = '';
 		while (prevMonth <= nextMonth) {
 			if (prevMonth.format('WW') === actualMonth.format('WW') && prevMonth.format('YYYY') === actualMonth.format('YYYY')) {
-				var active = ' dateActive';
+				active = ' dateActive';
 			} else {
-				var active = '';
+				active = '';
 			}
 			html += '<div class="dateRecord' + active + '" data-date="' + prevMonth.format('YYYY-MM-DD') + '">' +
 				prevMonth.format('WW') +
@@ -381,22 +384,21 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		return aDeferred.promise();
 	},
 	getCalendarEditView(id) {
-		const thisInstance = this;
-		const aDeferred = $.Deferred();
+		const thisInstance = this,
+			aDeferred = $.Deferred();
 		if (this.calendarCreateView !== false) {
 			aDeferred.resolve(this.calendarCreateView.clone(true, true));
 			return aDeferred.promise();
 		}
 		const progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		this.loadCalendarEditView(id).then((data) => {
+		thisInstance.loadCalendarEditView(id).then((data) => {
 				progressInstance.progressIndicator({mode: 'hide'});
 				let sideBar = thisInstance.getSidebarView();
 				thisInstance.showRightPanelForm();
 				sideBar.find('.qcForm').html(data);
-				let rightFormCreate = $(document).find('form[name="QuickCreate"]');
-				let moduleName = sideBar.find('[name="module"]').val();
-				let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
-				let headerInstance = new Vtiger_Header_Js();
+				let rightFormCreate = $(document).find('.js-qc-form'),
+					editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(sideBar.find('.js-module-name').val()),
+					headerInstance = new Vtiger_Header_Js();
 				editViewInstance.registerBasicEvents(rightFormCreate);
 				rightFormCreate.validationEngine(app.validationEngineOptions);
 				headerInstance.registerHelpInfo(rightFormCreate);
