@@ -27,8 +27,56 @@ let YearView = View.extend({
 			</div>
 		`;
 	},
-	render: function () {
+	loadCalendarData: function (calendar) {
+		var thisInstance = this;
+		var view = calendar.fullCalendar('getView');
+		var formatDate = CONFIG.dateFormat.toUpperCase();
+		var start_date = view.start.format(formatDate);
+		var end_date = view.end.format(formatDate);
+		// let user = Calendar_CalendarExtendedView_Js.getSelectedUsersCalendar();
+		// if (user.length === 0) {
+		// }
+		let user = [app.getMainParams('current_user_id')];
 
+		var params = {
+			module: 'Calendar',
+			action: 'Calendar',
+			mode: 'getEvents',
+			start: start_date,
+			end: end_date,
+			user: user,
+			yearView: true
+		}
+		AppConnector.request(params).done(function (events) {
+			var height = (calendar.find('.fc-bg :first').height() - calendar.find('.fc-day-number').height()) - 10;
+			var width = (calendar.find('.fc-day-number').width() / 2) - 10;
+			for (var i in events.result) {
+				events.result[i]['width'] = width;
+				events.result[i]['height'] = height;
+			}
+			calendar.fullCalendar('addEventSource',
+				events.result
+			);
+			calendar.find(".cell-calendar a").on('click', function () {
+				var container = thisInstance.getContainer();
+				var url = 'index.php?module=Calendar&view=List';
+				if (customFilter) {
+					url += '&viewname=' + calendar.find('select.widgetFilter.customFilter').val();
+				} else {
+					url += '&viewname=All';
+				}
+				url += '&search_params=[[';
+				// var owner = calendar.find('.widgetFilter.owner option:selected');
+				// if (owner.val() != 'all') {
+				// 	url += '["assigned_user_id","e","' + owner.val() + '"],';
+				// }
+				var date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase())
+				window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","bw","' + date + ',' + date + '"]]]';
+			});
+		});
+	},
+	render: function () {
+		const self = this;
 		//common
 		let hiddenDays = [];
 		if (app.getMainParams('switchingDays') === 'workDays') {
@@ -36,10 +84,6 @@ let YearView = View.extend({
 		}
 		//
 		let calendar = $('#calendarview').fullCalendar('getCalendar');
-		console.log(this.el);
-		console.log($('#calendarview').fullCalendar('getCalendar').getDate().year());
-		console.log($('#calendarview').fullCalendar('getCalendar').moment().year());
-		// calendar.titleFormat = 'MMMM';
 		let yearView = this.el.html(this.renderHtml());
 		yearView.find('.fc-year__month').each(function (i) {
 			let date = moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD");
@@ -49,9 +93,17 @@ let YearView = View.extend({
 				header: {center: 'title', left: false, right: false},
 				height: 'auto',
 				defaultDate: date,
-
-
-				///common
+				eventRender: function (event, element, view) {
+					element = '<div class="cell-calendar">';
+					for (var key in event.event) {
+						element += '<a class="" href="javascript:;"' +
+							' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
+							'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge badge-secondary u-font-size-95per">' + event.event[key].count + '</span>' +
+							'</a>\n';
+					}
+					element += '</div>';
+					return element;
+				},
 				hiddenDays: hiddenDays,
 				monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 					app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
@@ -75,13 +127,12 @@ let YearView = View.extend({
 					day: app.vtranslate('JS_DAY')
 				},
 				allDayText: app.vtranslate('JS_ALL_DAY'),
-				//
 			}
-			$(this).fullCalendar(options);
+			let calendarInstance = $(this).fullCalendar(options);
+			self.loadCalendarData(calendarInstance);
 		});
 	},
 
 });
-
 
 FC.views.year = YearView; // register our class with the view system
