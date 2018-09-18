@@ -137,26 +137,25 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function updateActivityReminder()
 	{
-		if ($this->get('set_reminder') === null) {
+		if (!$this->isNew() && $this->getPreviousValue('reminder_time') === false) {
 			return false;
 		}
 		$db = \App\Db::getInstance();
-		if ($this->get('set_reminder') !== false) {
-			$reminderTime = $this->get('set_reminder');
+		if (!$this->isEmpty('reminder_time')) {
 			$activityReminderExists = (new \App\Db\Query())->select(['activity_id'])
 				->from('vtiger_activity_reminder')
 				->where(['activity_id' => $this->getId()])
 				->exists();
 			if ($activityReminderExists) {
 				$db->createCommand()->update('vtiger_activity_reminder', [
-					'reminder_time' => $reminderTime,
-					'reminder_sent' => 0,
+					'reminder_time' => $this->get('reminder_time'),
+					'reminder_sent' => 0
 				], ['activity_id' => $this->getId()])->execute();
 			} else {
 				$db->createCommand()->insert('vtiger_activity_reminder', [
-					'reminder_time' => $reminderTime,
+					'reminder_time' => $this->get('reminder_time'),
 					'reminder_sent' => 0,
-					'activity_id' => $this->getId(),
+					'activity_id' => $this->getId()
 				])->execute();
 			}
 		} else {
