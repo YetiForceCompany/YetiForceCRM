@@ -16,14 +16,6 @@
 		   type="hidden" id="hiddenDays"/>
 	<input value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" type="hidden" id="activityStateLabels"/>
 	<div class="calendarViewContainer rowContent js-css-element-queries" data-js="css-element-queries">
-		<div class="d-flex flex-md-nowrap">
-			<div class="ml-2 w-100">
-				<button class="btn btn-warning float-right d-none js-calendar-clear-filters" data-js="class: f-none">
-					<i class="fas fa-eraser mr-1"></i>
-					{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}
-				</button>
-			</div>
-		</div>
 		<div class="row no-gutters pt-2" id="datesColumn">
 			<div class="col-sm-1 d-none d-sm-block">
 				<div class="btn-toolbar flex-nowrap mb-1 mb-sm-0 align-items-center">
@@ -35,6 +27,11 @@
 				</div>
 			</div>
 			<div class="o-calendar-container col-sm-11 pl-1">
+				<button class="btn btn-warning position-absolute u-position-r-0 d-none js-calendar-clear-filters"
+						data-js="class: f-none">
+					<i class="fas fa-eraser mr-1"></i>
+					{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}
+				</button>
 				{if $CUSTOM_VIEWS|@count gt 0}
 					<ul class="nav nav-tabs pt-2 js-calendar-extended-filter-tab" data-js="change" role="tablist">
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
