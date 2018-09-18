@@ -72,13 +72,13 @@
 			{/foreach}
 		{/if}
 		<div class="formActionsPanel d-none d-md-block">
-			<label class="btn c-btn-checkbox c-btn-outline-done js-btn--mark-as-completed" data-js="click">
-				<strong>
-					<span class="far fa-square fa-lg mr-1 c-btn-checkbox--unchecked"></span>
-					<span class="far fa-check-square fa-lg mr-1 c-btn-checkbox--checked"></span>
-					<input type="checkbox" checked
-						   autocomplete="off">{\App\Language::translate('LBL_MARK_AS_HELD', $MODULE)}</strong>
-			</label>
+			{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
+				{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
+					{if $LINK->get('linkhint') neq 'LBL_GO_TO_FULL_FORM'}
+						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS='display-block-md'}
+					{/if}
+				{/foreach}
+			{/if}
 			<button type="button" class="btn btn-success save"
 					title="{\App\Language::translate('LBL_SAVE', $MODULE)}" data-js="click">
 				{\App\Language::translate('LBL_SAVE', $MODULE)}

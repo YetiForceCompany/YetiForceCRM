@@ -41,17 +41,18 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
 			$recordStructure = $recordStructureInstance->getStructure();
 			$viewer->assign('QUICKCREATE_LINKS', Vtiger_QuickCreateView_Model::getInstance($moduleName)->getLinks([]));
-			$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
-			$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
+			$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(
+				\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName))
+			);
+			$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(
+				\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName))
+			);
 			$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 			$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 			$viewer->assign('SOURCE_RELATED_FIELD', []);
 			$viewer->assign('RECORD', $recordModel);
 			$viewer->assign('MODULE', $moduleName);
 			$viewer->assign('RECORD_ID', $recordModel->getId());
-			$viewer->assign('QUICK_CREATE_CONTENTS', $this->getQuickCreateContents(
-				$request, $recordModel
-			));
 			$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 			$viewer->assign('VIEW', $request->getByType('view'));
 		} else {
@@ -69,59 +70,5 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view('Extended/EventForm.tpl', $request->getModule());
-	}
-
-	private function getQuickCreateContents($request, $requestRecordModel)
-	{
-		$quickCreateContents = [];
-		$module = 'Calendar';
-		$info = [];
-		if (!empty($requestRecordModel) && $module == $requestRecordModel->getModuleName()) {
-			$recordModel = $requestRecordModel;
-		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($module);
-		}
-		$moduleModel = $recordModel->getModule();
-
-		$fieldList = $moduleModel->getFields();
-		foreach (array_intersect($request->getKeys(), array_keys($fieldList)) as $fieldName) {
-			$fieldModel = $fieldList[$fieldName];
-			if ($fieldModel->isWritable()) {
-				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
-			}
-		}
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
-		$recordStructure = $recordStructureInstance->getStructure();
-		uksort($recordStructure, function ($a, $b) use ($recordStructure) {
-			$types = ['string', 'datetime', 'date', 'time', 'owner', 'sharedOwner', 'picklist', 'referenceLink', 'referenceProcess', 'referenceSubProcess', 'reference'];
-			if (($val1 = array_search($recordStructure[$a]->getFieldDataType(), $types)) === false) {
-				$val1 = 99;
-			}
-			if (($val2 = array_search($recordStructure[$b]->getFieldDataType(), $types)) === false) {
-				$val2 = 99;
-			}
-			return strcasecmp($val1, $val2);
-		});
-		$fieldValues = [];
-		$sourceRelatedField = $moduleModel->getValuesFromSource($request);
-		foreach ($sourceRelatedField as $fieldName => $fieldValue) {
-			if (isset($recordStructure[$fieldName])) {
-				$fieldvalue = $recordStructure[$fieldName]->get('fieldvalue');
-				if (empty($fieldvalue)) {
-					$recordStructure[$fieldName]->set('fieldvalue', $fieldValue);
-				}
-			} else {
-				if (isset($fieldList[$fieldName])) {
-					$fieldModel = $fieldList[$fieldName];
-					$fieldModel->set('fieldvalue', $fieldValue);
-					$fieldValues[$fieldName] = $fieldModel;
-				}
-			}
-		}
-		$info['recordStructureModel'] = $recordStructureInstance;
-		$info['recordStructure'] = $recordStructure;
-		$info['moduleModel'] = $moduleModel;
-		$quickCreateContents[$module] = $info;
-		return $quickCreateContents;
 	}
 }

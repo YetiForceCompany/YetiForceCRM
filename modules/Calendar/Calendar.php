@@ -131,33 +131,8 @@ class Calendar extends CRMEntity
 			}
 		} elseif (($reminderMode == 'delete') && ($this->db->getRowCount($resultExist) > 0)) {
 			$this->db->delete($this->reminder_table, 'activity_id = ?', [$activityId]);
-		} else {
-			if (\App\Request::_get('set_reminder') == 'Yes') {
-				$this->db->insert($this->reminder_table, [
-					'activity_id' => $activityId,
-					'reminder_time' => $reminderTime,
-					'reminder_sent' => 0,
-				]);
-			}
 		}
 		\App\Log::trace('Exiting vtiger_activity_reminder method ...');
-	}
-
-	/**
-	 * this function sets the status flag of activity to true or false depending on the status passed to it.
-	 *
-	 * @param string $status - the status of the activity flag to set
-	 * @return:: true if successful; false otherwise
-	 */
-	public function setActivityReminder($status)
-	{
-		\App\Db::getInstance()->createCommand()
-			->update('vtiger_activity_reminder_popup', [
-				'status' => 1,
-			], ['recordid' => $this->id])
-			->execute();
-
-		return true;
 	}
 
 	public function deleteRelatedDependent($crmid, $withModule, $withCrmid)

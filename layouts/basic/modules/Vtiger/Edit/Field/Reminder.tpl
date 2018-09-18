@@ -23,15 +23,19 @@
 		{assign var=HOUR value=$REMINDER_VALUES[1]}
 		{assign var=MINUTE value=$REMINDER_VALUES[2]}
 	{/if}
-	<div class="tpl-Edit-Field-Reminder d-flex flex-nowrap">
+	<div class="tpl-Edit-Field-Reminder d-flex flex-nowrap js-reminder-field-element"
+		 data-js="container">
 		<div class="checkbox">
-			<input type="hidden" name="set_reminder" value=0/>
+			<input name="{$FIELD_MODEL->getName()}" value="0" type="hidden">
 			<label class="d-flex align-items-baseline">
-				<input type="checkbox" name="set_reminder" {if $REMINDER_VALUES neq ''}checked{/if}
-					   title="{\App\Language::translate('Send Reminder', $MODULE)}" value=1/>&nbsp;&nbsp;
+				<input name="{$FIELD_MODEL->getName()}" value="1" type="checkbox" class="js-reminder-field-checkbox"
+					   {if $REMINDER_VALUES neq ''}checked="checked"{/if}
+					   title="{\App\Language::translate('Send Reminder', $MODULE)}"
+					   data-js="checked"/>&nbsp;&nbsp;
 			</label>
 		</div>
-		<div class="{if $REMINDER_VALUES neq ''}show{else}d-none{/if} row w-100">
+		<div class="{if $REMINDER_VALUES neq ''}show{else}d-none{/if} row w-100 js-reminder-field-row"
+			 data-js="class:d-none">
 			<div class="col-4">
 				<div>
 					<select class="select2" name="remdays"
@@ -44,9 +48,7 @@
 				<div class="float-left mt-1 px-1">
 					{\App\Language::translate('LBL_DAYS', $MODULE)}
 				</div>
-
 			</div>
-
 			<div class="col-4">
 				<div>
 					<select class="select2" name="remhrs"
@@ -59,7 +61,6 @@
 				<div class="float-left mt-1 px-1">
 					{\App\Language::translate('LBL_HOURS', $MODULE)}
 				</div>
-
 			</div>
 			<div class="col-4">
 				<div>
@@ -74,7 +75,6 @@
 					{\App\Language::translate('LBL_MINUTES', $MODULE)}
 				</div>
 			</div>
-
 		</div>
 	</div>
 {/strip}
