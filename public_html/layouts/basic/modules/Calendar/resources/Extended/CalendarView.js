@@ -427,7 +427,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				sideBar.find('.summaryCloseEdit').on('click', function () {
 					thisInstance.getCalendarCreateView();
 				});
-				headerInstance.registerQuickCreateSidebarPostLoadEvents(rightFormCreate, {});
+				headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, {});
 				$.each(sideBar.find('.ckEditorSource'), function (key, element) {
 					let ckEditorInstance = new Vtiger_CkEditor_Js();
 					ckEditorInstance.loadCkEditor($(element), {
@@ -724,7 +724,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				rightFormCreate.validationEngine(app.validationEngineOptions);
 				headerInstance.registerHelpInfo(rightFormCreate);
 				thisInstance.registerSubmitForm();
-				headerInstance.registerQuickCreateSidebarPostLoadEvents(rightFormCreate, {});
+				headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, {});
 				$.each(sideBar.find('.ckEditorSource'), function (key, element) {
 					let ckEditorInstance = new Vtiger_CkEditor_Js();
 					ckEditorInstance.loadCkEditor($(element), {
