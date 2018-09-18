@@ -181,34 +181,32 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		return this.datesColumnView;
 	},
 	refreshDatesColumnView: function (calendarView) {
-		var thisInstance = this;
+		const thisInstance = this;
 		thisInstance.registerDatesColumn(calendarView);
 	},
 	registerDatesColumn: function (calendarView) {
-		var thisInstance = this;
-		var dateListUnit = calendarView.type;
-		var subDateListUnit = 'week';
-
-		if (dateListUnit === 'year') {
-			subDateListUnit = 'year';
-		} else if (dateListUnit === 'month') {
-			subDateListUnit = 'month';
-		} else if (dateListUnit === 'week') {
+		const thisInstance = this;
+		let dateListUnit = calendarView.type,
 			subDateListUnit = 'week';
-		} else if (dateListUnit === 'day') {
+		if ('year' === dateListUnit) {
+			subDateListUnit = 'year';
+		} else if ('month' === dateListUnit) {
+			subDateListUnit = 'month';
+		} else if ('week' === dateListUnit) {
+			subDateListUnit = 'week';
+		} else if ('day' === dateListUnit) {
 			subDateListUnit = 'day';
 		}
-		if (subDateListUnit === 'year') {
+		if ('year' === subDateListUnit) {
 			thisInstance.generateYearList(calendarView.intervalStart, calendarView.intervalEnd);
-			var datesView = thisInstance.getDatesColumnView();
-			datesView.find('.subDateList').html('');
-		} else if (subDateListUnit === 'month') {
+			thisInstance.getDatesColumnView().find('.subDateList').html('');
+		} else if ('month' === subDateListUnit) {
 			thisInstance.generateYearList(calendarView.intervalStart, calendarView.intervalEnd);
 			thisInstance.generateSubMonthList(calendarView.intervalStart, calendarView.intervalEnd);
-		} else if (subDateListUnit === 'week') {
+		} else if ('week' === subDateListUnit) {
 			thisInstance.generateMonthList(calendarView.intervalStart, calendarView.intervalEnd);
 			thisInstance.generateSubWeekList(calendarView.start, calendarView.end);
-		} else if (subDateListUnit === 'day') {
+		} else if ('day' === subDateListUnit) {
 			thisInstance.generateWeekList(calendarView.start, calendarView.end);
 			thisInstance.generateSubDaysList(calendarView.start, calendarView.end);
 		}
@@ -216,21 +214,19 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		thisInstance.registerDatesChange();
 	},
 	registerDatesChange: function () {
-		var thisInstance = this;
-		var datesView = thisInstance.getDatesColumnView().find('.dateRecord');
+		const thisInstance = this;
+		let datesView = thisInstance.getDatesColumnView().find('.dateRecord'),
+			subDatesView = thisInstance.getDatesColumnView().find('.subRecord');
 		datesView.on('click', function () {
 			datesView.removeClass('dateActive');
 			$(this).addClass('dateActive');
-			var momentData = moment($(this).data('date') + '-01-01', "YYYY-MM-DD");
-			thisInstance.getCalendarView().fullCalendar('gotoDate', momentData);
+			thisInstance.getCalendarView().fullCalendar('gotoDate', moment($(this).data('date') + '-01-01', "YYYY-MM-DD"));
 			thisInstance.loadCalendarData();
 		});
-		var subDatesView = thisInstance.getDatesColumnView().find('.subRecord');
 		subDatesView.on('click', function () {
 			datesView.removeClass('subActive');
 			$(this).addClass('subActive');
-			var momentData = moment($(this).data('date'), "YYYY-MM-DD");
-			thisInstance.getCalendarView().fullCalendar('gotoDate', momentData);
+			thisInstance.getCalendarView().fullCalendar('gotoDate', moment($(this).data('date'), "YYYY-MM-DD"));
 			thisInstance.loadCalendarData();
 		});
 	},
