@@ -304,9 +304,9 @@ class PackageImport extends PackageExport
 		if (!empty($language_modulename) && $language_modulename == $modulename) {
 			$languagefile_found = true;
 		} elseif (!$updatefile_found && !$layoutfile_found && !$languagefile_found) {
-			$_errorTextStr = \App\Language::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
-			$_errorTextStr = str_replace('__DEFAULTLANGUAGE__', \AppConfig::main('default_language'), $_errorTextStr);
-			$this->_errorText = $_errorTextStr;
+			$errorText = \App\Language::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
+			$errorText = str_replace('__DEFAULTLANGUAGE__', \AppConfig::main('default_language'), $errorText);
+			$this->_errorText = $errorText;
 		}
 		if (!empty($this->_modulexml) &&
 			!empty($this->_modulexml->dependencies) &&
@@ -315,10 +315,10 @@ class PackageImport extends PackageExport
 			if (\App\Version::check($moduleVersion) >= 0) {
 				$moduleVersionFound = true;
 			} else {
-				$_errorTextStr = \App\Language::translate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
-				$_errorTextStr = str_replace('__MODULEVERSION__', $moduleVersion, $_errorTextStr);
-				$_errorTextStr = str_replace('__CRMVERSION__', \App\Version::get(), $_errorTextStr);
-				$this->_errorText = $_errorTextStr;
+				$errorText = \App\Language::translate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
+				$errorText = str_replace('__MODULEVERSION__', $moduleVersion, $errorText);
+				$errorText = str_replace('__CRMVERSION__', \App\Version::get(), $errorText);
+				$this->_errorText = $errorText;
 			}
 		}
 		$validzip = false;

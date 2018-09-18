@@ -294,16 +294,6 @@ class Link
 	}
 
 	/**
-	 * Checks whether the user is admin or not.
-	 *
-	 * @return bool
-	 */
-	public static function isAdmin()
-	{
-		return \App\User::getCurrentUserModel()->isAdmin();
-	}
-
-	/**
 	 * Link data.
 	 *
 	 * @param int $linkId
