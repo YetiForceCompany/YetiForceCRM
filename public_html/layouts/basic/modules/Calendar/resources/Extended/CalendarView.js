@@ -188,15 +188,15 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				(event.smownerid ? '<div><span class="fas fa-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 		});
 	},
-	getDatesColumnView: function () {
+	getDatesColumnView() {
 		this.datesColumnView = $('#datesColumn');
 		return this.datesColumnView;
 	},
-	refreshDatesColumnView: function (calendarView) {
+	refreshDatesColumnView(calendarView) {
 		const thisInstance = this;
 		thisInstance.registerDatesColumn(calendarView);
 	},
-	registerDatesColumn: function (calendarView) {
+	registerDatesColumn(calendarView) {
 		const thisInstance = this;
 		let dateListUnit = calendarView.type,
 			subDateListUnit = 'week';
@@ -225,7 +225,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		thisInstance.updateCountTaskCalendar();
 		thisInstance.registerDatesChange();
 	},
-	registerDatesChange: function () {
+	registerDatesChange() {
 		const thisInstance = this;
 		let datesView = thisInstance.getDatesColumnView().find('.dateRecord'),
 			subDatesView = thisInstance.getDatesColumnView().find('.subRecord');
@@ -242,10 +242,10 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			thisInstance.loadCalendarData();
 		});
 	},
-	getCurrentCvId: function () {
+	getCurrentCvId() {
 		return $(".js-calendar-extended-filter-tab .active").parent('.js-filter-tab').data('cvid');
 	},
-	registerFilterTabChange: function () {
+	registerFilterTabChange() {
 		const thisInstance = this;
 		$(".js-calendar-extended-filter-tab").on('shown.bs.tab', function () {
 			thisInstance.loadCalendarData();
@@ -279,11 +279,11 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		}
 		return roles;
 	},
-	getSidebarView: function () {
+	getSidebarView() {
 		this.sidebarView = $('#rightPanel');
 		return this.sidebarView;
 	},
-	updateCountTaskCalendar: function () {
+	updateCountTaskCalendar() {
 		let datesView = this.getDatesColumnView(),
 			subDatesElements = datesView.find('.subRecord'),
 			dateArray = {},
@@ -316,7 +316,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			});
 		});
 	},
-	generateYearList: function (dateStart, dateEnd) {
+	generateYearList(dateStart, dateEnd) {
 		const thisInstance = this,
 			datesView = thisInstance.getDatesColumnView();
 		let prevYear = moment(dateStart).subtract(1, 'year'),
@@ -337,7 +337,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		}
 		datesView.find('.dateList').html(html);
 	},
-	generateMonthList: function (dateStart, dateEnd) {
+	generateMonthList(dateStart, dateEnd) {
 		const thisInstance = this,
 			datesView = thisInstance.getDatesColumnView();
 		let prevMonth = moment(dateStart).subtract(1, 'months'),
@@ -358,7 +358,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		}
 		datesView.find('.dateList').html(html);
 	},
-	generateWeekList: function (dateStart, dateEnd) {
+	generateWeekList(dateStart, dateEnd) {
 		const thisInstance = this,
 			datesView = thisInstance.getDatesColumnView();
 		let prevMonth = moment(dateStart).subtract(1, 'week'),
@@ -476,7 +476,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
 	},
-	generateSubMonthList: function (dateStart, dateEnd) {
+	generateSubMonthList(dateStart, dateEnd) {
 		let datesView = this.getDatesColumnView(),
 			activeMonth = parseInt(moment(dateStart).locale('en').format('M')) - 1,
 			html = '',
@@ -496,7 +496,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		}
 		datesView.find('.subDateList').html(html);
 	},
-	generateSubWeekList: function (dateStart, dateEnd) {
+	generateSubWeekList(dateStart, dateEnd) {
 		let datesView = this.getDatesColumnView(),
 			prevWeeks = moment(dateStart).subtract(5, 'weeks'),
 			actualWeek = moment(dateStart).format('WW'),
