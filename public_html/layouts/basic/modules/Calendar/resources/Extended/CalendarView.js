@@ -770,10 +770,37 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		});
 	},
 	/**
+	 * Find element on list (user, group)
+	 * @param {jQuery.Event} e
+	 */
+	findElementOnList(e) {
+		let target = $(e.target),
+			value = target.val().toLowerCase(),
+			container = target.closest('.js-filter__container');
+		container.find('.js-filter__item__value').filter(function () {
+			let item = $(this).closest('.js-filter__item__container');
+			if ($(this).text().trim().toLowerCase().indexOf(value) > -1) {
+				item.removeClass('d-none');
+			} else {
+				item.addClass('d-none');
+			}
+		});
+	},
+	/**
+	 * Register filter for users and groups
+	 */
+	registerFilterForm: function () {
+		const self = this;
+		this.getSidebarView().find('a[data-toggle="tab"]').one('shown.bs.tab', function (e) {
+			$(".js-filter__search").on('keyup', self.findElementOnList.bind(self));
+		});
+	},
+	/**
 	 * Register events
 	 */
 	registerEvents() {
 		this._super();
 		this.registerAddForm();
+		this.registerFilterForm();
 	}
 });

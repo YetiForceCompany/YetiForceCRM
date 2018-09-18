@@ -15,7 +15,7 @@
 				</div>
 				<ul class="nav">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-						<li class="js-filter__item__container">
+						<li class="js-filter__item__container" data-js="classs: d-none">
 							<div class="marginRightZero">
 								<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
 									   class="js-inputUserOwnerId alignMiddle"
@@ -58,7 +58,7 @@
 				</div>
 				<ul class="nav">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-						<li class="js-filter__item__container">
+						<li class="js-filter__item__container" data-js="classs: d-none">
 							<div class="marginRightZero">
 								<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
 									   class="js-inputRoleOwnerId alignMiddle"
