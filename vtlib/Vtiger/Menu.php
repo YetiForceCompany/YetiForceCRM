@@ -35,16 +35,6 @@ class Menu
 	}
 
 	/**
-	 * Get instance of menu by label.
-	 *
-	 * @param string Menu label
-	 */
-	public static function getInstance($value)
-	{
-		return false;
-	}
-
-	/**
 	 * Delete all menus associated with module.
 	 *
 	 * @param ModuleBasic $moduleInstance

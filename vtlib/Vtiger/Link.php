@@ -294,18 +294,6 @@ class Link
 	}
 
 	/**
-	 * Checks whether the user is admin or not.
-	 *
-	 * @param vtlib\LinkData $linkData
-	 *
-	 * @return bool
-	 */
-	public static function isAdmin(LinkData $linkData)
-	{
-		return \App\User::getCurrentUserModel()->isAdmin();
-	}
-
-	/**
 	 * Link data.
 	 *
 	 * @param int $linkId

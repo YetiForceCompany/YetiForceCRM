@@ -113,8 +113,6 @@ var Vtiger_Index_Js = {
 			sendButton.on('click', function (e) {
 				e.stopPropagation();
 				var url = sendButton.data("url");
-				var module = sendButton.data("module");
-				var record = sendButton.data("record");
 				var popup = sendButton.data("popup");
 				var toMail = sendButton.data("to");
 				if (toMail) {
@@ -136,7 +134,7 @@ var Vtiger_Index_Js = {
 				return;
 			}
 			var form = $("<form/>", {action: 'index.php'});
-			var parts = url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+			url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 				form.append($("<input>", {name: key, value: value}));
 			});
 			for (var i in postData) {
@@ -565,7 +563,6 @@ var Vtiger_Index_Js = {
 		return aDeferred.promise();
 	},
 	assignToOwner: function (element, userId) {
-		var aDeferred = $.Deferred();
 		element = $(element);
 		if (userId == undefined) {
 			userId = CONFIG.userId;

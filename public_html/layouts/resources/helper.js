@@ -200,9 +200,8 @@ $.Class("Vtiger_Helper_Js", {
 		if (typeof customParams.type !== "undefined" && customParams.type != 'error') {
 			params.data.hide = true;
 		}
-		if (typeof userParams !== "undefined") {
-			params.data = $.extend(params.data, userParams);
-		}
+		params.data = $.extend(params.data, userParams);
+
 		PNotify.defaults.styling = 'bootstrap4';
 		PNotify.defaults.icons = 'fontawesome5';
 		return new PNotify(params);
