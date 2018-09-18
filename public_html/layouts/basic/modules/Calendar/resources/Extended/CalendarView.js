@@ -801,7 +801,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	/**
 	 * Register filter for users and groups
 	 */
-	registerFilterForm: function () {
+	registerFilterForm() {
 		const self = this;
 		this.getSidebarView().find('a[data-toggle="tab"]').one('shown.bs.tab', function (e) {
 			$(".js-filter__search").on('keyup', self.findElementOnList.bind(self));

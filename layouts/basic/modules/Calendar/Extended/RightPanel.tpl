@@ -5,11 +5,11 @@
 			<h4 class="boxFilterTitle">{\App\Language::translate('LBL_SELECT_USER_CALENDAR',$MODULE)}</h4>
 			{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 				<div class="input-group input-group-sm marginBottom5px">
-			  		<span class="input-group-btn cursorPointer" id="search-icon">
-						<button class="btn btn-default ">
-							<span class="glyphicon glyphicon-search"></span>
-						</button>
-			 	 	</span>
+					<div class="input-group-append">
+						<span class="input-group-text">
+							<span class="fas fa-search fa-fw"></span>
+						</span>
+					</div>
 					<input type="text" class="form-control js-filter__search" placeholder="Nazwa użytkownika"
 						   aria-describedby="search-icon">
 				</div>
@@ -48,11 +48,11 @@
 			<h4 class="boxFilterTitle">{\App\Language::translate('LBL_SELECT_GROUP_CALENDAR',$MODULE)}</h4>
 			{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 				<div class="input-group input-group-sm marginBottom5px">
-				<span class="input-group-btn cursorPointer" id="search-icon-group">
-					<button class="btn btn-default">
-						<span class="glyphicon glyphicon-search"></span>
-					</button>
-				</span>
+					<div class="input-group-append">
+						<span class="input-group-text">
+							<span class="fas fa-search fa-fw"></span>
+						</span>
+					</div>
 					<input type="text" class="form-control js-filter__search" placeholder="Nazwa grupy"
 						   aria-describedby="search-icon-group">
 				</div>
