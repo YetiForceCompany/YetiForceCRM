@@ -45,7 +45,6 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 	 */
 	public function showModuleDetailView(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$recordModel = $this->record->getRecord();
 		if (!$this->recordStructure) {
 			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
