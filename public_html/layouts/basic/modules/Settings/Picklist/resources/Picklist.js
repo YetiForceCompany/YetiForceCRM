@@ -400,21 +400,25 @@ var Settings_Picklist_Js = {
 	/**
 	 * Remene item
 	 */
-	registerRenameItemSaveEvent: function () {
-		$('#renameItemForm').on('submit', function (e) {
+	registerRenameItemSaveEvent() {
+		$('#renameItemForm').on('submit', (e) => {
 			e.preventDefault();
 			let form = $(e.currentTarget);
 			if (form.validationEngine('validate')) {
-				let oldValue = form.find('[name="oldValue"]').val(),
+				let newValue, oldValue = form.find('[name="oldValue"]').val(),
 					id = form.find('[name="id"]').val(),
-					params = $(e.currentTarget).serializeFormData(),
+					params = $(e.currentTarget).serializeFormData();
+				if (form.find('[name="newValue"]').length > 0) {
 					newValue = $.trim(form.find('[name="newValue"]').val());
-				params.newValue = newValue;
+					params.newValue = newValue;
+				}
 				if (form.data('jqv').InvalidFields.length === 0) {
 					form.find('[name="saveButton"]').attr('disabled', "disabled");
 				}
-				AppConnector.request(params).done(function (data) {
+				const progress = $.progressIndicator();
+				AppConnector.request(params).done((data) => {
 					if (typeof data.result !== "undefined") {
+						progress.progressIndicator({'mode': 'hide'});
 						app.hideModalWindow();
 						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_MESSAGE'),
@@ -424,7 +428,10 @@ var Settings_Picklist_Js = {
 						if (newValue !== '') {
 							let encodedOldValue = oldValue.replace(/"/g, '\\"'),
 								dragImagePath = $('#dragImagePath').val(),
-								renamedElement = '<tr class="pickListValue u-cursor-pointer"><td class="u-text-ellipsis"><img class="alignMiddle" src="' + dragImagePath + '" />&nbsp;&nbsp;' + newValue + '</td></tr>';
+								renamedElement = '<tr class="pickListValue u-cursor-pointer">' +
+									'<td class="u-text-ellipsis"><img class="alignMiddle" src="' +
+									dragImagePath + '" />&nbsp;&nbsp;' + data.result.newValue +
+									'</td></tr>';
 							$('[data-key="' + encodedOldValue + '"]').replaceWith($(renamedElement).attr('data-key', newValue).attr('data-key-id', id));
 							//update the new item in the hidden picklist values array
 							let pickListValuesEle = $('[name="pickListValues"]'),
@@ -435,6 +442,9 @@ var Settings_Picklist_Js = {
 					} else {
 						form.find('[name="saveButton"]').attr('disabled', false);
 					}
+				}).fail(function (data, err) {
+					app.errorLog(data, err);
+					progress.progressIndicator({'mode': 'hide'});
 				});
 			}
 		});
