@@ -56,6 +56,9 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		if ($request->get('widget')) {
 			$record->set('customFilter', $request->getByType('customFilter', 2));
 			$entity = array_merge($record->getEntityCount(), $record->getPublicHolidays());
+		}
+		if ($request->get('yearView')) {
+			$entity = array_merge($record->getEntityCount(), $record->getPublicHolidays());
 		} else {
 			$entity = array_merge($record->getEntity(), $record->getPublicHolidays());
 		}

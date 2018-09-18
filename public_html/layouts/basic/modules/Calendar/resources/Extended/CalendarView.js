@@ -17,7 +17,15 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	 */
 	renderCalendar() {
 		const thisInstance = this;
-		let eventLimit = app.getMainParams('eventLimit');
+		let eventLimit = app.getMainParams('eventLimit'),
+			weekView = app.getMainParams('weekView'),
+			dayView = app.getMainParams('dayView'),
+			userDefaultActivityView = app.getMainParams('activity_view'),
+			defaultView = app.moduleCacheGet('defaultView'),
+			userDefaultTimeFormat = app.getMainParams('time_format'),
+			convertedFirstDay = CONFIG.firstDayOfWeekNo,
+			defaultFirstHour = app.getMainParams('start_hour') + ':00',
+			hiddenDays = [];
 		if (eventLimit == 'true') {
 			eventLimit = true;
 		} else if (eventLimit == 'false') {
@@ -25,52 +33,35 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		} else {
 			eventLimit = parseInt(eventLimit) + 1;
 		}
-		let weekView = app.getMainParams('weekView');
-		let dayView = app.getMainParams('dayView');
-
-		//User preferred default view
-		let userDefaultActivityView = app.getMainParams('activity_view');
-		if (userDefaultActivityView == 'Today') {
+		if (userDefaultActivityView === 'Today') {
 			userDefaultActivityView = dayView;
-		} else if (userDefaultActivityView == 'This Week') {
+		} else if (userDefaultActivityView === 'This Week') {
 			userDefaultActivityView = weekView;
 		} else {
 			userDefaultActivityView = 'month';
 		}
-		let defaultView = app.moduleCacheGet('defaultView');
 		if (defaultView != null) {
 			userDefaultActivityView = defaultView;
 		}
 		thisInstance.getDatesColumnView().find('.subDateList').data('type', userDefaultActivityView);
-
-		//Default time format
-		let userDefaultTimeFormat = app.getMainParams('time_format');
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H:mm';
 		} else {
 			userDefaultTimeFormat = 'h:mmt';
 		}
-
-		//Default first day of the week
-		let convertedFirstDay = CONFIG.firstDayOfWeekNo;
-
-		//Default first hour of the day
-		let defaultFirstHour = app.getMainParams('start_hour') + ':00';
-		let hiddenDays = [];
 		if (app.getMainParams('switchingDays') === 'workDays') {
 			hiddenDays = app.getMainParams('hiddenDays', true);
 		}
 		let options = {
 			header: {
 				left: 'year,month,' + weekView + ',' + dayView,
-				center: 'prev,title,next',
+				center: 'prevYear,prev,title,next,nextYear',
 				right: 'today'
 			},
-
 			axisFormat: userDefaultTimeFormat,
 			scrollTime: defaultFirstHour,
 			firstDay: convertedFirstDay,
-			defaultView: userDefaultActivityView,
+			defaultView: 'year',
 			editable: true,
 			slotMinutes: 15,
 			defaultEventMinutes: 0,
@@ -110,10 +101,22 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			},
 			eventClick: function (calEvent, jsEvent, view) {
 				jsEvent.preventDefault();
-				let link = new URL($(this)[0].href);
-				let url = 'index.php?module=Calendar&view=ActivityState&record=' +
-					link.searchParams.get("record");
+				let link = new URL($(this)[0].href),
+					url = 'index.php?module=Calendar&view=ActivityState&record=' +
+						link.searchParams.get("record");
 				thisInstance.showStatusUpdate(url);
+			},
+			viewRender: function (view, element) {
+				let toolbar = element.closest('#calendarview').find('.fc-toolbar.fc-header-toolbar');
+				let nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button');
+				let yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
+				if (view.name === 'year') {
+					nextPrevButtons.hide();
+					yearButtons.show();
+				} else {
+					nextPrevButtons.show();
+					yearButtons.hide();
+				}
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
@@ -139,8 +142,8 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			allDayText: app.vtranslate('JS_ALL_DAY'),
 		};
 		if (app.moduleCacheGet('start') != null) {
-			var s = moment(app.moduleCacheGet('start')).valueOf();
-			var e = moment(app.moduleCacheGet('end')).valueOf();
+			let s = moment(app.moduleCacheGet('start')).valueOf(),
+				e = moment(app.moduleCacheGet('end')).valueOf();
 			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
 		}
 		thisInstance.getCalendarView().fullCalendar('destroy');
@@ -148,8 +151,8 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		thisInstance.registerCalendarScroll();
 	},
 	showStatusUpdate(params) {
-		const thisInstance = this;
-		const progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
+		const thisInstance = this,
+			progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 		AppConnector.request(params).then((data) => {
 			progressInstance.progressIndicator({mode: 'hide'});
 			let sideBar = thisInstance.getSidebarView();
@@ -164,7 +167,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		});
 	},
 	actionOnRender(event, element) {
-		const thisInstance = this;
 		app.showPopoverElementView(element.find('.fc-content'), {
 			title: event.title + '<a href="index.php?module=' + event.module + '&view=Edit&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="fas fa-pencil"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="fas fa-th-list"></span></a>',
 			container: 'body',
@@ -191,34 +193,32 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		return this.datesColumnView;
 	},
 	refreshDatesColumnView: function (calendarView) {
-		var thisInstance = this;
+		const thisInstance = this;
 		thisInstance.registerDatesColumn(calendarView);
 	},
 	registerDatesColumn: function (calendarView) {
-		var thisInstance = this;
-		var dateListUnit = calendarView.type;
-		var subDateListUnit = 'week';
-
-		if (dateListUnit === 'year') {
-			subDateListUnit = 'year';
-		} else if (dateListUnit === 'month') {
-			subDateListUnit = 'month';
-		} else if (dateListUnit === 'week') {
+		const thisInstance = this;
+		let dateListUnit = calendarView.type,
 			subDateListUnit = 'week';
-		} else if (dateListUnit === 'day') {
+		if ('year' === dateListUnit) {
+			subDateListUnit = 'year';
+		} else if ('month' === dateListUnit) {
+			subDateListUnit = 'month';
+		} else if ('week' === dateListUnit) {
+			subDateListUnit = 'week';
+		} else if ('day' === dateListUnit) {
 			subDateListUnit = 'day';
 		}
-		if (subDateListUnit === 'year') {
+		if ('year' === subDateListUnit) {
 			thisInstance.generateYearList(calendarView.intervalStart, calendarView.intervalEnd);
-			var datesView = thisInstance.getDatesColumnView();
-			datesView.find('.subDateList').html('');
-		} else if (subDateListUnit === 'month') {
+			thisInstance.getDatesColumnView().find('.subDateList').html('');
+		} else if ('month' === subDateListUnit) {
 			thisInstance.generateYearList(calendarView.intervalStart, calendarView.intervalEnd);
 			thisInstance.generateSubMonthList(calendarView.intervalStart, calendarView.intervalEnd);
-		} else if (subDateListUnit === 'week') {
+		} else if ('week' === subDateListUnit) {
 			thisInstance.generateMonthList(calendarView.intervalStart, calendarView.intervalEnd);
 			thisInstance.generateSubWeekList(calendarView.start, calendarView.end);
-		} else if (subDateListUnit === 'day') {
+		} else if ('day' === subDateListUnit) {
 			thisInstance.generateWeekList(calendarView.start, calendarView.end);
 			thisInstance.generateSubDaysList(calendarView.start, calendarView.end);
 		}
@@ -226,21 +226,19 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		thisInstance.registerDatesChange();
 	},
 	registerDatesChange: function () {
-		var thisInstance = this;
-		var datesView = thisInstance.getDatesColumnView().find('.dateRecord');
+		const thisInstance = this;
+		let datesView = thisInstance.getDatesColumnView().find('.dateRecord'),
+			subDatesView = thisInstance.getDatesColumnView().find('.subRecord');
 		datesView.on('click', function () {
 			datesView.removeClass('dateActive');
 			$(this).addClass('dateActive');
-			var momentData = moment($(this).data('date') + '-01-01', "YYYY-MM-DD");
-			thisInstance.getCalendarView().fullCalendar('gotoDate', momentData);
+			thisInstance.getCalendarView().fullCalendar('gotoDate', moment($(this).data('date') + '-01-01', "YYYY-MM-DD"));
 			thisInstance.loadCalendarData();
 		});
-		var subDatesView = thisInstance.getDatesColumnView().find('.subRecord');
 		subDatesView.on('click', function () {
 			datesView.removeClass('subActive');
 			$(this).addClass('subActive');
-			var momentData = moment($(this).data('date'), "YYYY-MM-DD");
-			thisInstance.getCalendarView().fullCalendar('gotoDate', momentData);
+			thisInstance.getCalendarView().fullCalendar('gotoDate', moment($(this).data('date'), "YYYY-MM-DD"));
 			thisInstance.loadCalendarData();
 		});
 	},
@@ -319,17 +317,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		});
 	},
 	generateYearList: function (dateStart, dateEnd) {
-		const thisInstance = this;
-		const datesView = thisInstance.getDatesColumnView();
-		let prevYear = moment(dateStart).subtract(1, 'year');
-		let actualYear = moment(dateStart);
-		let nextYear = moment(dateStart).add(1, 'year');
-		let html = '';
+		const thisInstance = this,
+			datesView = thisInstance.getDatesColumnView();
+		let prevYear = moment(dateStart).subtract(1, 'year'),
+			actualYear = moment(dateStart),
+			nextYear = moment(dateStart).add(1, 'year'),
+			html = '',
+			active = '';
 		while (prevYear <= nextYear) {
 			if (prevYear.format('YYYY') === actualYear.format('YYYY')) {
-				var active = ' dateActive';
+				active = ' dateActive';
 			} else {
-				var active = '';
+				active = '';
 			}
 			html += '<div class="dateRecord' + active + '" data-date="' + prevYear.format('YYYY') + '">' +
 				prevYear.format('YYYY') +
@@ -339,17 +338,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		datesView.find('.dateList').html(html);
 	},
 	generateMonthList: function (dateStart, dateEnd) {
-		const thisInstance = this;
-		const datesView = thisInstance.getDatesColumnView();
-		let prevMonth = moment(dateStart).subtract(1, 'months');
-		let actualMonth = moment(dateStart);
-		let nextMonth = moment(dateStart).add(1, 'months');
-		let html = '';
+		const thisInstance = this,
+			datesView = thisInstance.getDatesColumnView();
+		let prevMonth = moment(dateStart).subtract(1, 'months'),
+			actualMonth = moment(dateStart),
+			nextMonth = moment(dateStart).add(1, 'months'),
+			html = '',
+			active = '';
 		while (prevMonth <= nextMonth) {
 			if (prevMonth.format('YYYY-MM') === actualMonth.format('YYYY-MM')) {
-				var active = ' dateActive';
+				active = ' dateActive';
 			} else {
-				var active = '';
+				active = '';
 			}
 			html += '<div class="dateRecord' + active + '" data-date="' + prevMonth.format('YYYY-MM-DD') + '">' +
 				prevMonth.format('MMMM') +
@@ -359,17 +359,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		datesView.find('.dateList').html(html);
 	},
 	generateWeekList: function (dateStart, dateEnd) {
-		const thisInstance = this;
-		const datesView = thisInstance.getDatesColumnView();
-		let prevMonth = moment(dateStart).subtract(1, 'week');
-		let actualMonth = moment(dateStart);
-		let nextMonth = moment(dateStart).add(1, 'week');
-		let html = '';
+		const thisInstance = this,
+			datesView = thisInstance.getDatesColumnView();
+		let prevMonth = moment(dateStart).subtract(1, 'week'),
+			actualMonth = moment(dateStart),
+			nextMonth = moment(dateStart).add(1, 'week'),
+			html = '',
+			active = '';
 		while (prevMonth <= nextMonth) {
 			if (prevMonth.format('WW') === actualMonth.format('WW') && prevMonth.format('YYYY') === actualMonth.format('YYYY')) {
-				var active = ' dateActive';
+				active = ' dateActive';
 			} else {
-				var active = '';
+				active = '';
 			}
 			html += '<div class="dateRecord' + active + '" data-date="' + prevMonth.format('YYYY-MM-DD') + '">' +
 				prevMonth.format('WW') +
@@ -395,26 +396,25 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		return aDeferred.promise();
 	},
 	getCalendarEditView(id) {
-		const thisInstance = this;
-		const aDeferred = $.Deferred();
+		const thisInstance = this,
+			aDeferred = $.Deferred();
 		if (this.calendarCreateView !== false) {
 			aDeferred.resolve(this.calendarCreateView.clone(true, true));
 			return aDeferred.promise();
 		}
 		const progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		this.loadCalendarEditView(id).then((data) => {
+		thisInstance.loadCalendarEditView(id).then((data) => {
 				progressInstance.progressIndicator({mode: 'hide'});
 				let sideBar = thisInstance.getSidebarView();
 				thisInstance.showRightPanelForm();
 				sideBar.find('.qcForm').html(data);
-				let rightFormCreate = $(document).find('form[name="QuickCreate"]');
-				let moduleName = sideBar.find('[name="module"]').val();
-				let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
-				let headerInstance = new Vtiger_Header_Js();
+				let rightFormCreate = $(document).find('.js-qc-form'),
+					editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(sideBar.find('.js-module-name').val()),
+					headerInstance = new Vtiger_Header_Js();
 				editViewInstance.registerBasicEvents(rightFormCreate);
 				rightFormCreate.validationEngine(app.validationEngineOptions);
 				headerInstance.registerHelpInfo(rightFormCreate);
-				thisInstance.registerSelect2();
+				App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
 				thisInstance.registerSubmitForm();
 				sideBar.find('.summaryCloseEdit').on('click', function () {
 					thisInstance.getCalendarCreateView();
@@ -474,20 +474,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			thisInstance.getCalendarView().fullCalendar('removeEvents');
 			thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
 			progressInstance.progressIndicator({mode: 'hide'});
-		});
-	},
-	registerSelect2() {
-		var thisInstance = this;
-		var select2 = thisInstance.getSidebarView().find('.select2');
-		select2.each(function () {
-			$(this).select2();
-		});
-
-		thisInstance.getSidebarView().find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-			var select2 = thisInstance.getSidebarView().find('.select2');
-			select2.each(function () {
-				$(this).select2();
-			});
 		});
 	},
 	generateSubMonthList: function (dateStart, dateEnd) {
@@ -796,10 +782,37 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		});
 	},
 	/**
+	 * Find element on list (user, group)
+	 * @param {jQuery.Event} e
+	 */
+	findElementOnList(e) {
+		let target = $(e.target),
+			value = target.val().toLowerCase(),
+			container = target.closest('.js-filter__container');
+		container.find('.js-filter__item__value').filter(function () {
+			let item = $(this).closest('.js-filter__item__container');
+			if ($(this).text().trim().toLowerCase().indexOf(value) > -1) {
+				item.removeClass('d-none');
+			} else {
+				item.addClass('d-none');
+			}
+		});
+	},
+	/**
+	 * Register filter for users and groups
+	 */
+	registerFilterForm: function () {
+		const self = this;
+		this.getSidebarView().find('a[data-toggle="tab"]').one('shown.bs.tab', function (e) {
+			$(".js-filter__search").on('keyup', self.findElementOnList.bind(self));
+		});
+	},
+	/**
 	 * Register events
 	 */
 	registerEvents() {
 		this._super();
 		this.registerAddForm();
+		this.registerFilterForm();
 	}
 });
