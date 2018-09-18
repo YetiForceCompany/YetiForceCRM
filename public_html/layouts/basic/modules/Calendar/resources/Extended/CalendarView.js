@@ -770,6 +770,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	registerAddForm() {
 		const thisInstance = this;
 		let sideBar = thisInstance.getSidebarView();
+		thisInstance.getCalendarCreateView();
 		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList').then(
 			function (data) {
 				if (data) {

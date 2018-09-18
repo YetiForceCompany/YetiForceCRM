@@ -8,8 +8,8 @@
 			<span class="fas fa-chevron-left"></span>
 		</div>
 		<ul class="nav nav-tabs" id="rightPanelTab" role="tablist">
-			<li class="nav-item active">
-				<a class="nav-link js-rightPanelEventLink" id="rightPanelEvent-tab" data-toggle="tab"
+			<li class="nav-item">
+				<a class="nav-link js-rightPanelEventLink active show" id="rightPanelEvent-tab" data-toggle="tab"
 				   href="#rightPanelEvent" role="tab"
 				   aria-controls="event"
 				   aria-selected="true" data-js="trigger">
