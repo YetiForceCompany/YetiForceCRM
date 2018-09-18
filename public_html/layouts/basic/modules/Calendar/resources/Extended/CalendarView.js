@@ -441,17 +441,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}}),
 			user = [],
 			filters = [],
-			formatDate = CONFIG.dateFormat.toUpperCase();
+			formatDate = CONFIG.dateFormat.toUpperCase(),
+			cvid = thisInstance.getCurrentCvId();
 		thisInstance.getCalendarView().fullCalendar('removeEvents');
 		thisInstance.refreshDatesColumnView(view);
 		user = thisInstance.getSelectedUsersCalendar();
 		if (0 === user.length) {
-			user = [app.getMainParams('current_user_id')];
+			user = [app.getMainParams('userId')];
 		}
 		$(".calendarFilters .filterField").each(function (index) {
 			let element = $(this),
 				name, value;
-			if (element.attr('type') == 'checkbox') {
+			if (element.attr('type') === 'checkbox') {
 				name = element.val();
 				value = element.prop('checked') ? 1 : 0;
 			} else {
@@ -460,6 +461,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			}
 			filters.push({name: name, value: value});
 		});
+		thisInstance.clearFilterButton(user, filters, cvid);
 		AppConnector.request({
 			module: 'Calendar',
 			action: 'Calendar',
@@ -469,12 +471,28 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			user: user,
 			time: app.getMainParams('showType'),
 			filters: filters,
-			cvid: thisInstance.getCurrentCvId()
+			cvid: cvid
 		}).then((events) => {
 			thisInstance.getCalendarView().fullCalendar('removeEvents');
 			thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
+	},
+	clearFilterButton(user, filters, cvid) {
+		let currentUser = parseInt(app.getMainParams('userId')),
+			statement = ((user.length === 0 || (user.length === 1 && parseInt(user) === currentUser)) && filters.length === 0 && cvid === undefined);
+		$(".js-calendar-clear-filters").toggleClass('d-none', statement);
+
+	},
+	registerClearFilterButton() {
+		const thisInstance = this,
+			sidebar = thisInstance.getSidebarView();
+		$(".js-calendar-clear-filters").on('click', () => {
+			$(".js-calendar-extended-filter-tab a").removeClass('active');
+			sidebar.find("input:checkbox").prop('checked', false);
+			sidebar.find(".js-inputUserOwnerId[value=" + app.getMainParams('userId') + "]").prop('checked', true);
+			thisInstance.loadCalendarData();
+		})
 	},
 	generateSubMonthList(dateStart, dateEnd) {
 		let datesView = this.getDatesColumnView(),
@@ -752,6 +770,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	registerLoadCalendarData() {
 		this.loadCalendarData(true);
 		this.registerFilterTabChange();
+		this.registerClearFilterButton();
 	},
 	registerAddForm() {
 		const thisInstance = this;

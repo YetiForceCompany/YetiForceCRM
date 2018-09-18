@@ -25,18 +25,10 @@
 				</button>
 			</div>
 			<div class="ml-2 w-100">
-				<div class="alert alert-info d-none mb-0" id="moduleCacheAlert" role="alert">
-					<div class="d-flex">
-						<div class="mr-auto align-self-center">
-							{\App\Language::translate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}
-						</div>
-						<button type="button"
-								class="btn btn-warning btn-sm cacheClear px-2">{\App\Language::translate('LBL_CACHE_CLEAR', $MODULE_NAME)}</button>
-						<button type="button" class="close px-2 pb-1" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-				</div>
+				<button class="btn btn-warning float-right d-none js-calendar-clear-filters" data-js="class: f-none">
+					<i class="fas fa-eraser mr-1"></i>
+					{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}
+				</button>
 			</div>
 		</div>
 		<div class="row no-gutters pt-2" id="datesColumn">
