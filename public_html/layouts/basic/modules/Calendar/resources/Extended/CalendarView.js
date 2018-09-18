@@ -60,7 +60,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		if (app.getMainParams('switchingDays') === 'workDays') {
 			hiddenDays = app.getMainParams('hiddenDays', true);
 		}
-		console.log('op');
 		let options = {
 			header: {
 				left: 'year,month,' + weekView + ',' + dayView,
@@ -423,7 +422,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				editViewInstance.registerBasicEvents(rightFormCreate);
 				rightFormCreate.validationEngine(app.validationEngineOptions);
 				headerInstance.registerHelpInfo(rightFormCreate);
-				thisInstance.registerSelect2();
+				App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
 				thisInstance.registerSubmitForm();
 				sideBar.find('.summaryCloseEdit').on('click', function () {
 					thisInstance.getCalendarCreateView();
@@ -495,20 +494,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			thisInstance.getCalendarView().fullCalendar('removeEvents');
 			progressInstance.progressIndicator({mode: 'hide'});
 		}
-	},
-	registerSelect2() {
-		var thisInstance = this;
-		var select2 = thisInstance.getSidebarView().find('.select2');
-		select2.each(function () {
-			$(this).select2();
-		});
-
-		thisInstance.getSidebarView().find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-			var select2 = thisInstance.getSidebarView().find('.select2');
-			select2.each(function () {
-				$(this).select2();
-			});
-		});
 	},
 	generateSubMonthList: function (dateStart, dateEnd) {
 		let thisInstance = this;
