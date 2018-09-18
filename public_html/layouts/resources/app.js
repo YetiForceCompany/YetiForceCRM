@@ -71,9 +71,7 @@ var App = {},
 		getRecordId: function () {
 			var view = this.getViewName();
 			var recordId;
-			if (view === 'Edit' || view === 'PreferenceEdit') {
-				recordId = this.getMainParams('recordId');
-			} else if (view === 'Detail' || view === 'PreferenceDetail') {
+			if ($.inArray(view, ['Edit', 'PreferenceEdit', 'Detail', 'PreferenceDetail', 'DetailPreview']) !== -1) {
 				recordId = this.getMainParams('recordId');
 			}
 			return recordId;
@@ -329,6 +327,7 @@ var App = {},
 				return;
 			}
 			const thisInstance = this;
+			let sendByAjaxCb;
 			Window.lastModalId = 'modal_' + Math.random().toString(36).substr(2, 9);
 			//null is also an object
 			if (typeof data === 'object' && data != null && !(data instanceof $)) {
@@ -339,7 +338,7 @@ var App = {},
 				cb = data.cb;
 				url = data.url;
 				if (data.sendByAjaxCb !== "undefined") {
-					var sendByAjaxCb = data.sendByAjaxCb;
+					sendByAjaxCb = data.sendByAjaxCb;
 				}
 				data = data.data;
 			}
@@ -360,7 +359,7 @@ var App = {},
 				}
 			}
 			if (typeof sendByAjaxCb !== 'function') {
-				var sendByAjaxCb = function () {
+				sendByAjaxCb = function () {
 				}
 			}
 			if (paramsObject !== undefined && paramsObject.modalId !== undefined) {
@@ -375,8 +374,8 @@ var App = {},
 			container.attr('id', Window.lastModalId).addClass('modalContainer js-modal-container');
 			container.one('hidden.bs.modal', function () {
 				container.remove();
-				var backdrop = $('.modal-backdrop');
-				var modalContainers = $('.modalContainer');
+				let backdrop = $('.modal-backdrop'),
+					modalContainers = $('.modalContainer');
 				if (modalContainers.length == 0 && backdrop.length) {
 					backdrop.remove();
 				}
@@ -577,8 +576,8 @@ var App = {},
 			}
 		},
 		convertTojQueryDatePickerFormat: function (dateFormat) {
-			var i = 0;
-			var dotMode = '-';
+			let i,
+				dotMode = '-';
 			if (dateFormat.indexOf("-") !== -1) {
 				dotMode = '-';
 			}
@@ -588,17 +587,14 @@ var App = {},
 			if (dateFormat.indexOf("/") !== -1) {
 				dotMode = '/';
 			}
-			var splitDateFormat = dateFormat.split(dotMode);
-			for (var i in splitDateFormat) {
-				var sectionDate = splitDateFormat[i];
-				var sectionCount = sectionDate.length;
-				if (sectionCount == 4) {
-					var strippedString = sectionDate.substring(0, 2);
-					splitDateFormat[i] = strippedString;
+			let splitDateFormat = dateFormat.split(dotMode);
+			for (i in splitDateFormat) {
+				let sectionDate = splitDateFormat[i];
+				if (sectionDate.length === 4) {
+					splitDateFormat[i] = sectionDate.substring(0, 2);
 				}
 			}
-			var joinedDateFormat = splitDateFormat.join(dotMode);
-			return joinedDateFormat;
+			return splitDateFormat.join(dotMode);
 		},
 		/*
 		 * Converts user formated date to database format yyyy-mm-dd
@@ -640,16 +636,16 @@ var App = {},
 			}
 
 			parentElement = $(parentElement);
-
+			let element;
 			if (parentElement.hasClass('dateField')) {
-				var element = parentElement;
+				element = parentElement;
 			} else {
-				var element = $('.dateField', parentElement);
+				element = $('.dateField', parentElement);
 			}
 			element.datepicker({'autoclose': true}).on('changeDate', function (ev) {
-				var currentElement = $(ev.currentTarget);
-				var dateFormat = currentElement.data('dateFormat').toUpperCase();
-				var date = $.datepicker.formatDate(moment(ev.date).format(dateFormat), ev.date);
+				let currentElement = $(ev.currentTarget),
+					dateFormat = currentElement.data('dateFormat').toUpperCase(),
+					date = $.datepicker.formatDate(moment(ev.date).format(dateFormat), ev.date);
 				currentElement.val(date);
 			});
 		},
@@ -680,7 +676,7 @@ var App = {},
 			});
 			elementClockBtn.clockpicker(params);
 		},
-		registerDataTables: function (table) {
+		registerDataTables: function (table, options = {}) {
 			if ($.fn.dataTable == undefined) {
 				return false;
 			}
@@ -710,7 +706,7 @@ var App = {},
 					}
 				}
 			});
-			return table.DataTable();
+			return table.DataTable(options);
 		},
 		/**
 		 * Function to get the select2 element from the raw select element
@@ -733,12 +729,9 @@ var App = {},
 				$(element).width(parentWidth);
 			});
 		},
-		showNewScrollbar: function (element, options) {
+		showNewScrollbar: function (element, options = {wheelPropagation: true}) {
 			if (typeof element === "undefined" || !element.length)
 				return;
-			if (typeof options === "undefined")
-				options = {};
-
 			return new PerfectScrollbar(element[0], options);
 		},
 		showNewScrollbarTopBottomRight: function (element) {
@@ -1079,13 +1072,12 @@ var App = {},
 			if (param in CONFIG) {
 				return CONFIG[param];
 			}
-			if (app.cacheParams[param] == undefined) {
-				var value = $('#' + param).val();
-				app.cacheParams[param] = value;
+			if (app.cacheParams[param] === undefined) {
+				app.cacheParams[param] = $('#' + param).val();
 			}
-			var value = app.cacheParams[param];
+			let value = app.cacheParams[param];
 			if (json) {
-				if (value != '') {
+				if (value !== '') {
 					value = JSON.parse(value);
 				} else {
 					value = [];
@@ -1203,12 +1195,13 @@ var App = {},
 			}
 		},
 		registerSticky: function () {
-			var elements = $('.stick');
+			const elements = $('.stick');
 			elements.each(function () {
-				var currentElement = $(this);
-				var position = currentElement.data('position');
-				if (position == 'top') {
-					var offsetTop = currentElement.offset().top - 50;
+				let currentElement = $(this),
+					position = currentElement.data('position'),
+					offsetTop;
+				if (position === 'top') {
+					offsetTop = currentElement.offset().top - 50;
 					$('.mainBody').on('scroll', function () {
 						if ($(this).scrollTop() > offsetTop)
 							currentElement.css({
@@ -1224,8 +1217,8 @@ var App = {},
 							});
 					});
 				}
-				if (position == 'bottom') {
-					var offsetTop = currentElement.offset().top - $(window).height();
+				if (position === 'bottom') {
+					offsetTop = currentElement.offset().top - $(window).height();
 					$('.mainBody').on('scroll', function () {
 						if ($(this).scrollTop() < offsetTop)
 							currentElement.css({
@@ -1650,6 +1643,9 @@ $(document).ready(function () {
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
+	$('.js-scrollbar').each(function () {
+		app.showNewScrollbar($(this));
+	});
 	String.prototype.toCamelCase = function () {
 		var value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()

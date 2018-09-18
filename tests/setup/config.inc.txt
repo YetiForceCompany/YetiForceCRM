@@ -87,7 +87,7 @@ $default_action = 'index';
 
 // set default theme
 // default_theme default value = blue
-$default_theme = 'softed';
+$default_theme = 'twilight';
 
 // default text that is placed initially in the login form for user name
 // no default_user_name default value

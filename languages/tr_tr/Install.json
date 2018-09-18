@@ -102,6 +102,7 @@
     "LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard"
   },
   "js": {
+    "JS_ALL": "Hepsi",
     "LBL_PASS_TO_SHORT": "Parola \u00e7ok k\u0131sa - en az 8 karakter uzunlu\u011funda",
     "LBL_PASS_TO_LONG": "Parola \u00e7ok uzun - maksimum uzunluk 32 karakter",
     "LBL_PASS_NO_NUM": "\u015eifre numara i\u00e7ermelidir",

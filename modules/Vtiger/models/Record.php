@@ -738,7 +738,7 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * The function decide about mandatory save record.
 	 *
-	 * @return type
+	 * @return bool
 	 */
 	public function isMandatorySave()
 	{
@@ -1146,8 +1146,14 @@ class Vtiger_Record_Model extends \App\Base
 				$insertData = [];
 				foreach ($fields as $field) {
 					$field->getValueFromRequest($insertData, $request, $i);
+					if ($field->isRequired() && empty($insertData[$field->getColumnName()])) {
+						$insertData = [];
+						break;
+					}
 				}
-				$inventoryDataArray[] = $insertData;
+				if ($insertData) {
+					$inventoryDataArray[] = $insertData;
+				}
 			}
 			foreach ($summaryFields as $fieldName) {
 				if ($this->has('sum_' . $fieldName)) {

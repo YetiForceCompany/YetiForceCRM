@@ -190,12 +190,15 @@ class Owner
 		$cacheKeyMod = $private === 'private' ? $this->moduleName : '';
 		$cacheKeyAss = is_array($assignedUser) ? md5(json_encode($assignedUser)) : $assignedUser;
 		$cacheKeyRole = is_array($roles) ? md5(json_encode($roles)) : $roles;
-		$cacheKey = $cacheKeyMod . $status . $cacheKeyAss . $private . $cacheKeyRole;
-		if (!\App\Cache::has('getUsers', $cacheKey)) {
+		$showRolesName = \AppConfig::module('Users', 'SHOW_ROLE_NAME');
+		$cacheKey = $cacheKeyMod . '_' . $status . '|' . $cacheKeyAss . '_' . $private . '|' . $cacheKeyRole . '_' . (int) $showRolesName;
+		if (\App\Cache::has('getUsers', $cacheKey)) {
+			$tempResult = \App\Cache::get('getUsers', $cacheKey);
+		} else {
 			$entityData = \App\Module::getEntityInfo('Users');
 			$query = $this->getQueryInitUsers($private, $status, $roles);
 			if (!empty($assignedUser)) {
-				$query->where(['vtiger_users.id' => $assignedUser]);
+				$query->andWhere(['vtiger_users.id' => $assignedUser]);
 			}
 			$tempResult = [];
 			$dataReader = $query->createCommand()->query();
@@ -205,12 +208,16 @@ class Owner
 				foreach ($entityData['fieldnameArr'] as &$field) {
 					$fullName .= ' ' . $row[$field];
 				}
+				if ($showRolesName && isset($row['rolename'])) {
+					$roleName = \App\Language::translate($row['rolename']);
+					$fullName .= " ({$roleName})";
+				}
 				$row['fullName'] = trim($fullName);
 				$tempResult[$row['id']] = array_map('\App\Purifier::encodeHtml', $row);
 			}
 			\App\Cache::save('getUsers', $cacheKey, $tempResult);
 		}
-		return \App\Cache::get('getUsers', $cacheKey);
+		return $tempResult;
 	}
 
 	/**
@@ -231,31 +238,35 @@ class Owner
 		if ($private === 'private') {
 			$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getId());
 			\App\Log::trace('Sharing is Private. Only the current user should be listed');
-			$query = new \App\Db\Query();
-			$query->select($selectFields)->from('vtiger_users')->where(['id' => $this->currentUser->getId()]);
-			$queryByUserRole = new \App\Db\Query();
-			$selectFields['id'] = 'vtiger_user2role.userid';
-			$queryByUserRole->
-			select($selectFields)
+			$queryByUserRole = (new \App\Db\Query())
+				->select(['vtiger_user2role.userid'])
 				->from('vtiger_user2role')
-				->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
 				->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
-				->where(['vtiger_role.parentrole' => $userPrivileges['parent_role_seq'] . '::%']);
-			$queryBySharing = new \App\Db\Query();
-			$selectFields['id'] = 'shareduserid';
-			$queryBySharing->
-			select($selectFields)
+				->where(['like', 'parentrole', $userPrivileges['parent_role_seq'] . '::%', false]);
+			$queryBySharing = (new \App\Db\Query())
+				->select(['vtiger_tmp_write_user_sharing_per.shareduserid'])
 				->from('vtiger_tmp_write_user_sharing_per')
-				->innerJoin('vtiger_users', 'vtiger_tmp_write_user_sharing_per.shareduserid = vtiger_users.id')
 				->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)]);
-			$query->union($queryByUserRole)->union($queryBySharing);
+			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')
+				->where(['or', ['id' => $this->currentUser->getId()], ['id' => $queryByUserRole], ['id' => $queryBySharing]]);
+			if (\AppConfig::module('Users', 'SHOW_ROLE_NAME')) {
+				$query->addSelect(['vtiger_role.rolename'])->innerJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
+					->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid');
+			}
 		} elseif ($roles !== false) {
 			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')->innerJoin('vtiger_user2role', 'vtiger_users.id = vtiger_user2role.userid');
-			$where[] = ['vtiger_user2role.roleid' => $roles];
+			if (\AppConfig::module('Users', 'SHOW_ROLE_NAME')) {
+				$query->addSelect(['rolename'])->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid');
+			}
 		} else {
 			\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
 			$query = new \App\Db\Query();
 			$query->select($selectFields)->from('vtiger_users');
+			if (\AppConfig::module('Users', 'SHOW_ROLE_NAME')) {
+				$query->addSelect(['vtiger_role.rolename'])
+					->innerJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
+					->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid');
+			}
 		}
 		if (!empty($this->searchValue)) {
 			$where[] = ['like', \App\Module::getSqlForNameInDisplayFormat('Users'), $this->searchValue];
@@ -264,7 +275,7 @@ class Owner
 			$where[] = ['status' => $status];
 		}
 		if ($where) {
-			$query->where(array_merge(['and'], $where));
+			$query->andWhere(array_merge(['and'], $where));
 		}
 		return $query;
 	}
@@ -431,6 +442,7 @@ class Owner
 	 */
 	public function getUsersAndGroupForModuleList($view = false, $conditions = false)
 	{
+		$showRolesName = \AppConfig::module('Users', 'SHOW_ROLE_NAME');
 		$queryGenerator = new \App\QueryGenerator($this->moduleName, $this->currentUser->getId());
 		if ($view) {
 			$queryGenerator->initForCustomViewById($view);
@@ -452,6 +464,10 @@ class Owner
 			$name = $userModel->getName();
 			if (!empty($name) && ($adminInList || (!$adminInList && !$userModel->isAdmin()))) {
 				$users[$id] = $name;
+				if ($showRolesName) {
+					$roleName = \App\Language::translate($userModel->getRoleInstance()->getName());
+					$users[$id] .= " ({$roleName})";
+				}
 			}
 		}
 		$diffIds = array_diff($ids, array_keys($users));

@@ -45,10 +45,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 * @param Vtiger_Field_Model $fieldModel
 	 * @param string             $newValue
 	 * @param int[]              $rolesSelected
+	 * @param string             $description
 	 *
 	 * @return int[]
 	 */
-	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [])
+	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [], $description = '')
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
@@ -68,10 +69,16 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			'presence' => 1,
 		];
 		if ($fieldModel->isRoleBased()) {
-			$row = array_merge($row, ['picklist_valueid' => $picklistValueId]);
+			$row['picklist_valueid'] = $picklistValueId;
+		}
+		if (!empty($description)) {
+			if (!$this->checkDescriptionColumn($db, $tableName)) {
+				$this->addDescriptionColumn($db, $tableName);
+			}
+			$row['description'] = $description;
 		}
 		if (in_array('color', $db->getTableSchema($tableName)->getColumnNames())) {
-			$row = array_merge($row, ['color' => '#E6FAD8']);
+			$row['color'] = '#E6FAD8';
 		}
 		$db->createCommand()->insert($tableName, $row)->execute();
 		if ($fieldModel->isRoleBased() && !empty($rolesSelected)) {
@@ -82,9 +89,9 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			//add the picklist values to the selected roles
 			foreach ($rolesSelected as $roleid) {
 				$sortid = (new \App\Db\Query())->from('vtiger_role2picklist')
-					->leftJoin("vtiger_$pickListFieldName", "vtiger_$pickListFieldName.picklist_valueid = vtiger_role2picklist.picklistvalueid")
-					->where(['roleid' => $roleid, 'picklistid' => $picklistid])
-					->max('sortid') + 1;
+						->leftJoin("vtiger_$pickListFieldName", "vtiger_$pickListFieldName.picklist_valueid = vtiger_role2picklist.picklistvalueid")
+						->where(['roleid' => $roleid, 'picklistid' => $picklistid])
+						->max('sortid') + 1;
 				$db->createCommand()->insert('vtiger_role2picklist', [
 					'roleid' => $roleid,
 					'picklistvalueid' => $picklistValueId,
@@ -94,6 +101,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		$this->clearPicklistCache($pickListFieldName);
+		\App\Colors::generate('picklist');
 		return ['picklistValueId' => $picklistValueId, 'id' => $id];
 	}
 
@@ -104,15 +112,25 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	 * @param string                        $oldValue
 	 * @param string                        $newValue
 	 * @param int                           $id
+	 * @param string                        $description
 	 *
 	 * @return bool
 	 */
-	public function renamePickListValues($fieldModel, $oldValue, $newValue, $id)
+	public function renamePickListValues($fieldModel, $oldValue, $newValue, $id, $description = '')
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
 		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
-		$result = $db->createCommand()->update($this->getPickListTableName($pickListFieldName), [$pickListFieldName => $newValue], [$primaryKey => $id])->execute();
+		$tableName = $this->getPickListTableName($pickListFieldName);
+		$newData = [$pickListFieldName => $newValue];
+		$descriptionColumnExist = $this->checkDescriptionColumn($db, $tableName);
+		if (!empty($description) || $descriptionColumnExist) {
+			if (!$descriptionColumnExist) {
+				$this->addDescriptionColumn($db, $tableName);
+			}
+			$newData['description'] = $description;
+		}
+		$result = $db->createCommand()->update($tableName, $newData, [$primaryKey => $id])->execute();
 		if ($result) {
 			$dataReader = (new \App\Db\Query())->select(['tablename', 'columnname', 'tabid'])
 				->from('vtiger_field')
@@ -135,8 +153,35 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				'id' => $id,
 			]);
 			$eventHandler->trigger('PicklistAfterRename');
+			\App\Colors::generate('picklist');
 		}
 		return !empty($result);
+	}
+
+	/**
+	 * Check description column in picklist.
+	 *
+	 * @param App\Db $db
+	 * @param string $tableName
+	 *
+	 * @return bool
+	 */
+	public function checkDescriptionColumn(App\Db $db, string $tableName)
+	{
+		return (bool) $db->getTableSchema($tableName)->getColumn('description');
+	}
+
+	/**
+	 * Add description column to picklist.
+	 *
+	 * @param \App\Db $db
+	 * @param string  $tableName
+	 *
+	 * @return bool
+	 */
+	public function addDescriptionColumn($db, $tableName)
+	{
+		return $db->createCommand()->addColumn($tableName, 'description', 'text')->execute();
 	}
 
 	public function remove($pickListFieldName, $valueToDeleteId, $replaceValueId, $moduleName)
@@ -160,7 +205,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		//if role based then we need to delete all the values in role based picklist
 		if ($fieldModel->isRoleBased()) {
 			$dbCommand->delete('vtiger_role2picklist', ['picklistvalueid' => (new \App\Db\Query())->select(['picklist_valueid'])->from($this->getPickListTableName($pickListFieldName))
-				->where([$primaryKey => $valueToDeleteId]), ])->execute();
+				->where([$primaryKey => $valueToDeleteId]),])->execute();
 		}
 		$dbCommand->delete($this->getPickListTableName($pickListFieldName), [$primaryKey => $valueToDeleteId])->execute();
 		$dbCommand->delete('vtiger_picklist_dependency', ['sourcevalue' => $pickListValues, 'sourcefield' => $pickListFieldName])
@@ -187,7 +232,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			'module' => $moduleName,
 		]);
 		$eventHandler->trigger('PicklistAfterDelete');
-
+		\App\Colors::generate('picklist');
 		return true;
 	}
 
@@ -266,8 +311,8 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				['vtiger_field.presence' => [0, 2]],
 				['<>', 'vtiger_field.columnname', 'taxtype'],
 			])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
-				->distinct()
-				->createCommand()->query();
+			->distinct()
+			->createCommand()->query();
 		$modulesModelsList = [];
 		while ($row = $dataReader->read()) {
 			$moduleLabel = $row['tablabel'];

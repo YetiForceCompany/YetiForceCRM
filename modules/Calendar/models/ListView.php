@@ -14,32 +14,6 @@
  */
 class Calendar_ListView_Model extends Vtiger_ListView_Model
 {
-	public function getBasicLinks()
-	{
-		$basicLinks = [];
-		$moduleModel = $this->getModule();
-		$createPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'CreateView');
-		if ($createPermission) {
-			$basicLinks[] = [
-				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => 'LBL_ADD_EVENT',
-				'linkurl' => $this->getModule()->getCreateEventRecordUrl(),
-				'linkclass' => 'modCT_' . $moduleModel->getName(),
-				'linkicon' => 'fas fa-plus',
-				'showLabel' => 1,
-			];
-			$basicLinks[] = [
-				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => 'LBL_ADD_TASK',
-				'linkurl' => $this->getModule()->getCreateTaskRecordUrl(),
-				'linkclass' => 'modCT_' . $moduleModel->getName(),
-				'linkicon' => 'fas fa-plus',
-				'showLabel' => 1,
-			];
-		}
-		return $basicLinks;
-	}
-
 	/*
 	 * Function to give advance links of a module
 	 * 	@RETURN array of advanced links

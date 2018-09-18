@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  *************************************************************************************/
 'use strict';
 
@@ -19,20 +20,21 @@ jQuery.Class("Vtiger_Base_Validator_Js", {
 		//If validation engine already maked the field as error 
 		// we dont want to proceed
 		if (typeof options !== "undefined") {
-			if (options.isError == true) {
+			if (options.isError === true) {
 				return;
 			}
 		}
-		var listOfValidators = Vtiger_Base_Validator_Js.getValidator(field);
-		for (var i = 0; i < listOfValidators.length; i++) {
-			var validatorList = listOfValidators[i];
-			var validatorName = validatorList.name;
-			var validatorInstance = new validatorName();
+		let listOfValidators = Vtiger_Base_Validator_Js.getValidator(field);
+		for (let i = 0; i < listOfValidators.length; i++) {
+			let validatorList = listOfValidators[i],
+				validatorName = validatorList.name,
+				validatorInstance = new validatorName(),
+				result;
 			validatorInstance.setElement(field);
 			if (validatorList.hasOwnProperty("params")) {
-				var result = validatorInstance.validate(validatorList.params);
+				result = validatorInstance.validate(validatorList.params);
 			} else {
-				var result = validatorInstance.validate();
+				result = validatorInstance.validate();
 			}
 			if (!result) {
 				return validatorInstance.getError();
@@ -45,42 +47,43 @@ jQuery.Class("Vtiger_Base_Validator_Js", {
 	 * @return list of validators for field
 	 */
 	getValidator: function (field) {
-		var listOfValidators = [];
-		var fieldData = field.data();
-		var fieldInfo = fieldData.fieldinfo;
-		if (typeof fieldInfo == 'string') {
+		let listOfValidators = [],
+			fieldData = field.data(),
+			fieldInfo = fieldData.fieldinfo;
+		if (typeof fieldInfo === 'string') {
 			fieldInfo = JSON.parse(fieldInfo);
 		}
-		var dataValidator = "validator";
-		var moduleEle = field.closest('form').find('[name="module"]');
-		if (Vtiger_Base_Validator_Js.moduleName == false && moduleEle.length > 0) {
+		let dataValidator = "validator",
+			moduleEle = field.closest('form').find('[name="module"]');
+		if (Vtiger_Base_Validator_Js.moduleName === false && moduleEle.length > 0) {
 			Vtiger_Base_Validator_Js.moduleName = moduleEle.val();
 		}
 
-		var fieldInstance = Vtiger_Field_Js.getInstance(fieldInfo);
-		var validatorsOfType = Vtiger_Base_Validator_Js.getValidatorsFromFieldType(fieldInstance);
-		for (var key in validatorsOfType) {
+		let fieldInstance = Vtiger_Field_Js.getInstance(fieldInfo),
+			validatorsOfType = Vtiger_Base_Validator_Js.getValidatorsFromFieldType(fieldInstance),
+			key,
+			value;
+		for (key in validatorsOfType) {
 			//IE for loop fix
 			if (!validatorsOfType.hasOwnProperty(key)) {
 				continue;
 			}
-			var value = validatorsOfType[key];
-			if (value != "") {
-				var tempValidator = {'name': value};
-				listOfValidators.push(tempValidator);
+			value = validatorsOfType[key];
+			if (value !== "") {
+				listOfValidators.push({'name': value});
 			}
 		}
 		if (fieldData.hasOwnProperty(dataValidator)) {
-			var specialValidators = fieldData[dataValidator];
-			for (var key in specialValidators) {
+			let specialValidators = fieldData[dataValidator];
+			for (key in specialValidators) {
 				//IE for loop fix
 				if (!specialValidators.hasOwnProperty(key)) {
 					continue;
 				}
-				var specialValidator = specialValidators[key];
-				var tempSpecialValidator = jQuery.extend({}, specialValidator);
-				var validatorOfNames = Vtiger_Base_Validator_Js.getValidatorClassName(specialValidator.name);
-				if (validatorOfNames != "") {
+				let specialValidator = specialValidators[key],
+					tempSpecialValidator = jQuery.extend({}, specialValidator),
+					validatorOfNames = Vtiger_Base_Validator_Js.getValidatorClassName(specialValidator.name);
+				if (validatorOfNames !== "") {
 					tempSpecialValidator.name = validatorOfNames;
 					if (!jQuery.isEmptyObject(tempSpecialValidator)) {
 						listOfValidators.push(tempSpecialValidator);
@@ -119,13 +122,14 @@ jQuery.Class("Vtiger_Base_Validator_Js", {
 	 * @return module specific validator className
 	 */
 	getClassName: function (validatorName) {
+		let moduleName;
 		if (Vtiger_Base_Validator_Js.moduleName != false) {
-			var moduleName = Vtiger_Base_Validator_Js.moduleName;
+			moduleName = Vtiger_Base_Validator_Js.moduleName;
 		} else {
-			var moduleName = app.getModuleName();
+			moduleName = app.getModuleName();
 		}
 
-		if (moduleName == 'Events') {
+		if (moduleName === 'Events') {
 			moduleName = 'Calendar';
 		}
 

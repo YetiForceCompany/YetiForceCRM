@@ -62,25 +62,25 @@ class PackageImport extends PackageExport
 	public function getTypeName()
 	{
 		if (!empty($this->_modulexml) && !empty($this->_modulexml->type)) {
-			$importedPackageType = strtolower($this->_modulexml->type);
-			switch ($importedPackageType) {
+			$type = strtolower($this->_modulexml->type);
+			switch ($type) {
 				case 'extension':
-					$packageType = 'LBL_EXTENSION_MODULE';
+					$type = 'LBL_EXTENSION_MODULE';
 					break;
 				case 'entity':
-					$packageType = 'LBL_BASE_MODULE';
+					$type = 'LBL_BASE_MODULE';
 					break;
 				case 'inventory':
-					$packageType = 'LBL_INVENTORY_MODULE';
+					$type = 'LBL_INVENTORY_MODULE';
 					break;
 				case 'language':
-					$packageType = 'LBL_LANGUAGE_MODULE';
+					$type = 'LBL_LANGUAGE_MODULE';
 					break;
 				default:
 					break;
 			}
 
-			return $packageType;
+			return $type;
 		}
 		return '';
 	}
@@ -219,14 +219,14 @@ class PackageImport extends PackageExport
 
 	public function getParameters()
 	{
-		$parametersArr = [];
+		$params = [];
 		if (empty($this->_modulexml->parameters)) {
-			return $parametersArr;
+			return $params;
 		}
 		foreach ($this->_modulexml->parameters->parameter as $parameter) {
-			$parametersArr[] = $parameter;
+			$params[] = $parameter;
 		}
-		return $parametersArr;
+		return $params;
 	}
 
 	public function initParameters(\App\Request $request)

@@ -7,7 +7,7 @@
 	* The Initial Developer of the Original Code is vtiger.
 	* Portions created by vtiger are Copyright (C) vtiger.
 	* All Rights Reserved.
-	* Contributor(s): YetiForce.com
+	* Contributor(s): YetiForce Sp. z o.o
 	********************************************************************************/
 	-->*}
 	<div class="d-flex flex-wrap flex-md-nowrap px-3 w-100">
@@ -54,6 +54,7 @@
 				{/if}
 			</div>
 		</div>
-		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME)}
+		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME) HEADER_TYPE=value}
 	</div>
+	{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME) HEADER_TYPE=process}
 {/strip}

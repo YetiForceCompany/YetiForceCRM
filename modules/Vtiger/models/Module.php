@@ -630,9 +630,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if ($this->getName() === 'Events') {
 			$tabId = \App\Module::getModuleId('Calendar');
 		}
-		if ($this->getName() === 'Calendar' && $recordModel->get('activitytype') !== 'Task') {
-			$tabId = \App\Module::getModuleId('Events');
-		}
 		$editFields = [];
 		foreach (App\Field::getFieldsPermissions($tabId, false) as $field) {
 			$editFields[] = $field['fieldname'];
@@ -819,13 +816,25 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function to get the list of all accessible modules for Quick Create.
 	 *
+	 * @param bool $restrictList
+	 * @param bool $tree
+	 *
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
-	public static function getQuickCreateModules($restrictList = false)
+	public static function getQuickCreateModules($restrictList = false, $tree = false)
 	{
-		$quickCreateModules = Vtiger_Cache::get('getQuickCreateModules', $restrictList ? 1 : 0);
-		if ($quickCreateModules !== false) {
-			return $quickCreateModules;
+		$restrictListString = $restrictList ? 1 : 0;
+		if ($tree) {
+			$userModel = App\User::getCurrentUserModel();
+			$quickCreateModulesTree = App\Cache::get('getQuickCreateModules', 'tree' . $restrictListString . $userModel->getDetail('roleid'));
+			if ($quickCreateModulesTree !== false) {
+				return $quickCreateModulesTree;
+			}
+		} else {
+			$quickCreateModules = App\Cache::get('getQuickCreateModules', $restrictListString);
+			if ($quickCreateModules !== false) {
+				return $quickCreateModules;
+			}
 		}
 
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -833,9 +842,13 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$query = new \App\Db\Query();
 		$query->select('vtiger_tab.*')->from('vtiger_field')
 			->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-			->where(['or', 'quickcreate = 0', 'quickcreate = 2'])
-			->andWhere(['<>', 'vtiger_tab.presence', 1])
-			->andWhere(['<>', 'vtiger_tab.type', 1])->distinct();
+			->where(['<>', 'vtiger_tab.presence', 1]);
+		if ($tree) {
+			$query->andWhere(['<>', 'vtiger_tab.name', 'Users']);
+		} else {
+			$query->andWhere(['or', 'quickcreate = 0', 'quickcreate = 2'])
+				->andWhere(['<>', 'vtiger_tab.type', 1])->distinct();
+		}
 		if ($restrictList) {
 			$query->andWhere(['not in', 'vtiger_tab.name', ['ModComments', 'PriceBooks', 'Events']]);
 		}
@@ -844,11 +857,37 @@ class Vtiger_Module_Model extends \vtlib\Module
 		while ($row = $dataReader->read()) {
 			if ($userPrivModel->hasModuleActionPermission($row['tabid'], 'CreateView')) {
 				$moduleModel = self::getInstanceFromArray($row);
-				$quickCreateModules[$row['name']] = $moduleModel;
+				if ($tree) {
+					$quickCreateModules[$row['tabid']] = $moduleModel;
+				} else {
+					$quickCreateModules[$row['name']] = $moduleModel;
+				}
 			}
 		}
-		Vtiger_Cache::set('getQuickCreateModules', $restrictList ? 1 : 0, $quickCreateModules);
-
+		if ($tree) {
+			$menu = Vtiger_Menu_Model::getAll(true);
+			$quickCreateModulesTree = [];
+			foreach ($menu as $parent) {
+				if (!empty($parent['childs'])) {
+					$items = [];
+					foreach ($parent['childs'] as $child) {
+						if (isset($quickCreateModules[$child['tabid']])) {
+							$items[$quickCreateModules[$child['tabid']]->name] = $quickCreateModules[$child['tabid']];
+							unset($quickCreateModules[$child['tabid']]);
+						}
+					}
+					if (!empty($items)) {
+						$quickCreateModulesTree[] = ['name' => $parent['name'], 'icon' => $parent['icon'], 'modules' => $items];
+					}
+				}
+			}
+			if (!empty($quickCreateModules)) {
+				$quickCreateModulesTree[] = ['name' => 'LBL_OTHER', 'icon' => 'userIcon-Other', 'modules' => $quickCreateModules];
+			}
+			App\Cache::save('getQuickCreateModules', 'tree' . $restrictListString . $userPrivModel->get('roleid'), $quickCreateModulesTree);
+			return $quickCreateModulesTree;
+		}
+		App\Cache::save('getQuickCreateModules', $restrictListString, $quickCreateModules);
 		return $quickCreateModules;
 	}
 

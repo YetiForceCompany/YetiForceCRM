@@ -220,6 +220,11 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		return $value;
 	}
 
+	/**
+	 * Function to check if the current field is mandatory or not.
+	 *
+	 * @return bool
+	 */
 	public function isMandatory()
 	{
 		return true;
@@ -293,9 +298,9 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	{
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($this->get('module'));
 		$fields = $inventoryField->getAutoCompleteFields();
-		$columnName = $this->getColumnName();
-		if (isset($fields[$columnName])) {
-			$mapDetail = $fields[$columnName];
+		$columnNameValue = $this->getColumnName();
+		if (isset($fields[$columnNameValue])) {
+			$mapDetail = $fields[$columnNameValue];
 			if ($returInstance) {
 				$moduleModel = Vtiger_Module_Model::getInstance($mapDetail['module']);
 
@@ -349,5 +354,15 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		if (App\TextParser::getTextLength($value) > $this->maximumLength) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
+	}
+
+	/**
+	 * Field required to make an entry.
+	 *
+	 * @return bool
+	 */
+	public function isRequired()
+	{
+		return false;
 	}
 }

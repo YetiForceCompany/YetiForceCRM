@@ -200,7 +200,7 @@ class UserPrivilegesFile
 						'vtiger_datashare_relatedmodules.relatedto_tabid' => $shareModId,
 					])->scalar();
 				foreach ($sharingInfoArr as $shareType => $shareEntArr) {
-					foreach ($shareEntArr as $key => $shareEntId) {
+					foreach ($shareEntArr as $shareEntId) {
 						if ($shareType == 'ROLE') {
 							if ($sharePermission == 1) {
 								if ($def_org_share[$shareModId] == 3) {

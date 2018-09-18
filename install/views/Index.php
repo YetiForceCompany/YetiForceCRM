@@ -155,6 +155,7 @@ class Install_Index_View extends \App\Controller\View
 		} else {
 			$license = file_get_contents('licenses/LicenseEN.txt');
 		}
+		$this->viewer->assign('LIBRARIES', \App\Installer\Credits::getCredits());
 		$this->viewer->assign('LICENSE', nl2br($license));
 		$this->viewer->display('Step2.tpl');
 	}
@@ -292,9 +293,11 @@ class Install_Index_View extends \App\Controller\View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'~install/tpl/resources/css/style.css',
-			'~install/tpl/resources/css/mkCheckbox.css',
+			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
+			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css',
 			'~libraries/fontawesome-web/css/fontawesome-all.css',
+			'~install/tpl/resources/css/style.css',
+			'~install/tpl/resources/css/mkCheckbox.css'
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 
@@ -321,6 +324,10 @@ class Install_Index_View extends \App\Controller\View
 			return [];
 		}
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			'~libraries/datatables.net/js/jquery.dataTables.js',
+			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
+			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
+			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
 			'~install/tpl/resources/Index.js',
 		]));
 	}

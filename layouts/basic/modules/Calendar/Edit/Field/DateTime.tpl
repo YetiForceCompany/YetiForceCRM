@@ -21,7 +21,9 @@
 		{assign var=TIME_FIELD value=$MODULE_MODEL->getField('time_end')}
 		{assign var=TIME_NAME value='time_end'}
 	{/if}
-
+	{if empty($BLOCK_FIELDS)}
+		{assign var=BLOCK_FIELDS value=false}
+	{/if}
 	{assign var=DATE_TIME_VALUE value=$FIELD_MODEL->get('fieldvalue')}
 	{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
 	{if count($DATE_TIME_COMPONENTS) eq 2}
