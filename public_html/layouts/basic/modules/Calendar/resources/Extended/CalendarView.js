@@ -172,18 +172,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			placement: 'auto',
 			template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
 			content: '<div><span class="fas fa-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start_display + '</div>' +
-			'<div><span class="fas fa-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
-			(event.lok ? '<div><span class="fas fa-globe" aria-hidden="true"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
-			(event.pri ? '<div><span class="fas fa-warning-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PRIORITY') + '</label>: ' + app.vtranslate('JS_' + event.pri) + '</div>' : '') +
-			'<div><span class="fas fa-question-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + app.vtranslate('JS_' + event.sta) + '</div>' +
-			(event.accname ? '<div><span class="userIcon-Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ACCOUNTS') + '</label>: ' + event.accname + '</div>' : '') +
-			(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a target="_blank" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
-			(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a target="_blank" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</a></div>' : '') +
-			(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
-			(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
-			(event.state ? '<div><span class="fas fa-star-empty" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATE') + '</label>: ' + app.vtranslate(event.state) + '</div>' : '') +
-			'<div><span class="fas fa-eye-open" aria-hidden="true"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>: ' + app.vtranslate('JS_' + event.vis) + '</div>' +
-			(event.smownerid ? '<div><span class="fas fa-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
+				'<div><span class="fas fa-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
+				(event.lok ? '<div><span class="fas fa-globe" aria-hidden="true"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
+				(event.pri ? '<div><span class="fas fa-warning-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PRIORITY') + '</label>: ' + app.vtranslate('JS_' + event.pri) + '</div>' : '') +
+				'<div><span class="fas fa-question-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + app.vtranslate('JS_' + event.sta) + '</div>' +
+				(event.accname ? '<div><span class="userIcon-Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ACCOUNTS') + '</label>: ' + event.accname + '</div>' : '') +
+				(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a target="_blank" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
+				(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a target="_blank" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</a></div>' : '') +
+				(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
+				(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
+				(event.state ? '<div><span class="fas fa-star-empty" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATE') + '</label>: ' + app.vtranslate(event.state) + '</div>' : '') +
+				'<div><span class="fas fa-eye-open" aria-hidden="true"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>: ' + app.vtranslate('JS_' + event.vis) + '</div>' +
+				(event.smownerid ? '<div><span class="fas fa-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 		});
 	},
 	getDatesColumnView: function () {
@@ -253,14 +253,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			thisInstance.loadCalendarData();
 		});
 	},
-	getTypesCalendar() {
-		let filterButtons = this.getSidebarView().find('.calendarFilters[data-selected="true"]'),
-			types = [];
-		filterButtons.each(function () {
-			types.push($(this).data('type'));
-		});
-		return types;
-	},
 	getSelectedUsersCalendar() {
 		const self = this;
 		let selectedUsers = self.getSidebarView().find('.js-inputUserOwnerId:checked'),
@@ -275,6 +267,20 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		}
 		return users;
 	},
+	getSelectedRolesCalendar() {
+		const self = this;
+		let selectedRoles = self.getSidebarView().find('.js-inputRoleOwnerId:checked'),
+			selectedRolesAjax = self.getSidebarView().find('.js-inputRoleOwnerIdAjax'),
+			roles = [];
+		if (selectedRoles.length > 0) {
+			selectedRoles.each(function () {
+				roles.push($(this).val());
+			});
+		} else if (selectedRolesAjax.length > 0) {
+			roles = self.getSidebarView().find('.js-inputRoleOwnerIdAjax').val();
+		}
+		return roles;
+	},
 	getSidebarView: function () {
 		this.sidebarView = $('#rightPanel');
 		return this.sidebarView;
@@ -282,7 +288,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	countEventsInRange(dateStart, dateEnd) {
 		const self = this;
 		let aDeferred = $.Deferred(),
-			types = self.getTypesCalendar(),
 			user = self.getSelectedUsersCalendar();
 		if (user.length === 0) {
 			user = [app.getMainParams('current_user_id')];
@@ -293,7 +298,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			mode: 'getCountEvents',
 			start: dateStart,
 			end: dateEnd,
-			types: types,
 			user: user,
 			time: app.getMainParams('showType'),
 			cvid: self.getCurrentCvId()
@@ -448,17 +452,12 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 		const thisInstance = this;
 		const view = thisInstance.getCalendarView().fullCalendar('getView');
-		let types = [];
 		let user = [];
 		thisInstance.getCalendarView().fullCalendar('removeEvents');
 		let formatDate = CONFIG.dateFormat.toUpperCase();
 		thisInstance.refreshDatesColumnView(view);
-		types = thisInstance.getTypesCalendar();
-		if (types.length == 0) {
-			allEvents = true;
-		}
 		user = thisInstance.getSelectedUsersCalendar();
-		if (user.length == 0) {
+		if (0 === user.length) {
 			user = [app.getMainParams('current_user_id')];
 		}
 		let filters = [];
@@ -474,27 +473,21 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			}
 			filters.push({name: name, value: value});
 		});
-		if (allEvents == true || types.length > 0) {
-			AppConnector.request({
-				module: 'Calendar',
-				action: 'Calendar',
-				mode: 'getEvents',
-				start: view.start.format(formatDate),
-				end: view.end.format(formatDate),
-				user: user,
-				time: app.getMainParams('showType'),
-				types: types,
-				filters: filters,
-				cvid: thisInstance.getCurrentCvId()
-			}).then((events) => {
-				thisInstance.getCalendarView().fullCalendar('removeEvents');
-				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
-				progressInstance.progressIndicator({mode: 'hide'});
-			});
-		} else {
+		AppConnector.request({
+			module: 'Calendar',
+			action: 'Calendar',
+			mode: 'getEvents',
+			start: view.start.format(formatDate),
+			end: view.end.format(formatDate),
+			user: user,
+			time: app.getMainParams('showType'),
+			filters: filters,
+			cvid: thisInstance.getCurrentCvId()
+		}).then((events) => {
 			thisInstance.getCalendarView().fullCalendar('removeEvents');
+			thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
 			progressInstance.progressIndicator({mode: 'hide'});
-		}
+		});
 	},
 	generateSubMonthList: function (dateStart, dateEnd) {
 		let thisInstance = this;
@@ -619,7 +612,10 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	},
 	registerGroupChange() {
 		const thisInstance = this;
-		thisInstance.getSidebarView().find('.groupForm input[type=checkbox]').on('click', () => {
+		thisInstance.getSidebarView().find('.js-inputRoleOwnerId').on('change', () => {
+			thisInstance.loadCalendarData();
+		});
+		thisInstance.getSidebarView().find('.js-inputRoleOwnerIdAjax').on('change', () => {
 			thisInstance.loadCalendarData();
 		});
 	},

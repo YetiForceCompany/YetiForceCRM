@@ -9,7 +9,8 @@
 		</div>
 		<ul class="nav nav-tabs" id="rightPanelTab" role="tablist">
 			<li class="nav-item active">
-				<a class="nav-link js-rightPanelEventLink" id="rightPanelEvent-tab" data-toggle="tab" href="#rightPanelEvent" role="tab"
+				<a class="nav-link js-rightPanelEventLink" id="rightPanelEvent-tab" data-toggle="tab"
+				   href="#rightPanelEvent" role="tab"
 				   aria-controls="event"
 				   aria-selected="true" data-js="trigger">
 					{\App\Language::translate('LBL_EVENTS', $MODULE)}
@@ -26,15 +27,6 @@
 				<div class="qcForm"></div>
 			</div>
 			<div class="tab-pane fade" id="rightPanelFilter" role="tabpanel" aria-labelledby="rightPanelFilter-tab">
-				<div class="filterButtons">
-					<span class="btn btn-danger calendarFilters" id="meetingSwitchingDays"
-						  data-type="Meeting">{strtoupper(\App\Language::translate('LBL_FILTER', $MODULE))}</span>
-					<span class="btn btn-success calendarFilters" id="taskSwitchingDays" data-type="Task">
-						{strtoupper(\App\Language::translate('LBL_TASK', $MODULE))}
-					</span>
-					<span class="btn btn-warning calendarFilters" id="phoneSwitchingDays"
-						  data-type="Call">{strtoupper(\App\Language::translate('LBL_CALL', $MODULE))}</span>
-				</div>
 				<div class="border-bottom">
 					<div class="usersForm"></div>
 					<div class="groupForm"></div>
