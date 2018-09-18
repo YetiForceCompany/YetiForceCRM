@@ -96,7 +96,6 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			if (!empty($newValue)) {
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE');
 			}
-			$newValue = $oldValue;
 		}
 		$newValue = $newValue ?: $oldValue;
 		$response = new Vtiger_Response();
