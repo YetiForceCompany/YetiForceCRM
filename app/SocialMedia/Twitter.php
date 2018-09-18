@@ -177,7 +177,7 @@ class Twitter extends Base
 	private function logInfoDb(string $message)
 	{
 		if (static::$logOn) {
-			static::logInfo('[' . $this->userName . ']: ' . $message);
+			static::logInfo("[{$this->userName}]: {$message}");
 		}
 	}
 
@@ -192,7 +192,7 @@ class Twitter extends Base
 	private function logErrorDb(string $message)
 	{
 		if (static::$logOn) {
-			static::logError('[' . $this->userName . ']: ' . $message);
+			static::logError("[{$this->userName}]: {$message}");
 		}
 	}
 
@@ -207,7 +207,7 @@ class Twitter extends Base
 	private function logWarningDb(string $message)
 	{
 		if (static::$logOn) {
-			static::logWarning('[' . $this->userName . ']: ' . $message);
+			static::logWarning("[{$this->userName}]: {$message}");
 		}
 	}
 
