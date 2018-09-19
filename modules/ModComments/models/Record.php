@@ -171,7 +171,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
 			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'parents']);
 		$queryGenerator->setSourceRecord($parentId);
-		if (empty($hierarchy) || (count($hierarchy) == 1 && reset($hierarchy) == 0)) {
+		if (empty($hierarchy) || (count($hierarchy) === 1 && reset($hierarchy) === 0)) {
 			$queryGenerator->addNativeCondition(['related_to' => $parentId]);
 		} else {
 			$recordIds = \App\ModuleHierarchy::getRelatedRecords($parentId, $hierarchy);
