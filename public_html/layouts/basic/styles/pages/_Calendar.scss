@@ -14,7 +14,7 @@
 	}
 }
 
-.o-calendar-container {
+.o-calendar__container {
 	@extend .pt-2;
 }
 
@@ -101,8 +101,14 @@
 
 //Calendar Extended
 .tpl-Calendar-Extended-CalendarViewPreProcess {
-	.o-calendar-container {
-		@extend .pt-0;
+	.o-calendar {
+		&__container {
+			@extend .pt-0;
+		}
+		&__clear-btn {
+			padding: 0.44rem 1rem;
+			font-size: 80%;
+		}
 	}
 
 	#datesColumn {
@@ -528,11 +534,14 @@
 			padding: calculate-rem(5px) calculate-rem(18px) !important;
 		}
 	}
+
 	.js-css-element-queries {
 		&[max-width~="1500px"] {
-			.o-calendar__view-btn {
-				.textHolder {
-					display: none;
+			.o-calendar {
+				&__view-btn {
+					.textHolder {
+						display: none;
+					}
 				}
 			}
 		}

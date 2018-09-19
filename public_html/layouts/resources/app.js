@@ -1404,9 +1404,9 @@ var App = {},
 			const container = $('.js-base-container');
 			const paddingTop = 15;
 			if ($(window).width() > 993) {
-				let calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
+				let calendarH = $(window).height() - container.find('.js-calendar__container').offset().top - $('.js-footer').height() - paddingTop;
 				new ResizeSensor(container.find('.contentsDiv'), () => {
-					calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
+					calendarH = $(window).height() - container.find('.js-calendar__container').offset().top - $('.js-footer').height() - paddingTop;
 					$('#calendarview').fullCalendar('option', 'height', calendarH);
 					$('#calendarview').height(calendarH + 10); // without this line calendar scroll stops working
 				});

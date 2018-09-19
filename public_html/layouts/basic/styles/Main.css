@@ -6129,7 +6129,7 @@ button.bg-dark:focus {
 .p-0, .select2-selection[aria-labelledby^="select2-theme"], .daterangepicker.show-calendar {
   padding: 0 !important; }
 
-.pt-0, .js-css-element-queries[min-width~="400px"] .col-ceq-xsm-6:nth-child(2), .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar-container,
+.pt-0, .js-css-element-queries[min-width~="400px"] .col-ceq-xsm-6:nth-child(2), .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__container,
 .py-0,
 .c-panel__body,
 .c-detail-widget__header,
@@ -6191,7 +6191,7 @@ button.bg-dark:focus {
 .p-2 {
   padding: 0.5rem !important; }
 
-.pt-2, .o-calendar-container,
+.pt-2, .o-calendar__container,
 .py-2,
 .select2-container--bootstrap4 ul.select2-selection__rendered {
   padding-top: 0.5rem !important; }
@@ -15270,6 +15270,9 @@ label.btn.btn-outline-primary:not(.active) {
       margin-bottom: 0.5rem; }
     .js-calendar-switch-container .btn-group:last-child {
       margin-left: 0.5rem !important; } }
+.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn {
+  padding: 0.44rem 1rem;
+  font-size: 80%; }
 .tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .subDateList {
   text-align: center;
   margin-top: 10px; }
