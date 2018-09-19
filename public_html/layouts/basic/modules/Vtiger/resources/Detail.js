@@ -2226,10 +2226,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 		let progressList = $('.js-header-progress-bar').eq(0);
 		if (progressList.length > 0) {
 			let picklistName = progressList.data('picklistName');
-			progressList.find('li').each((index, element) => {
-				if ($(element).data('access') === 1) {
-					thisInstance.registerConfirmationClick(element, picklistName);
-				}
+			progressList.find('li.js-access').each((index, element) => {
+				thisInstance.registerConfirmationClick(element, picklistName);
 			});
 		}
 	},
