@@ -1941,7 +1941,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		let mode = currentTarget.data('mode'),
 			closestAddCommentBlock = currentTarget.closest('.addCommentBlock'),
 			commentTextAreaElement = closestAddCommentBlock.find('.commentcontent'),
-			commentInfoBlock = currentTarget.closest('.js-singleComment');
+			commentInfoBlock = currentTarget.closest('.js-comment-single');
 		commentTextAreaElement.val('');
 		if (mode == "add") {
 			let commentId = data['result']['id'],
@@ -2005,20 +2005,20 @@ jQuery.Class("Vtiger_Detail_Js", {
 			self.getCommentBlock().appendTo('.commentBlock');
 		});
 		detailContentsHolder.on('click', '.closeCommentBlock', function (e) {
-			let commentInfoBlock = jQuery(e.currentTarget.closest('.js-singleComment'));
+			let commentInfoBlock = jQuery(e.currentTarget.closest('.js-comment-single'));
 			commentInfoBlock.find('.js-commentActionsContainer').show();
 			commentInfoBlock.find('.commentInfoContent').show();
 			self.removeCommentBlockIfExists();
 		});
 		detailContentsHolder.on('click', '.js-replyComment', function (e) {
 			self.removeCommentBlockIfExists();
-			let commentInfoBlock = $(e.currentTarget).closest('.js-singleComment');
+			let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single');
 			commentInfoBlock.find('.js-commentActionsContainer').hide();
 			self.getCommentBlock().appendTo(commentInfoBlock).show();
 		});
 		detailContentsHolder.on('click', '.js-editComment', function (e) {
 			self.removeCommentBlockIfExists();
-			let commentInfoBlock = $(e.currentTarget).closest('.js-singleComment'),
+			let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single'),
 				commentInfoContent = commentInfoBlock.find('.commentInfoContent'),
 				editCommentBlock = self.getEditCommentBlock();
 			editCommentBlock.find('.commentcontent').val(commentInfoContent.text());
