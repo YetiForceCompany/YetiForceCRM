@@ -248,6 +248,10 @@
 	min-width: 650px !important;
 }
 
+.u-w-1em {
+	width: 1em;
+}
+
 @include media-breakpoint-down(sm) {
 	.u-w-sm-down-100 {
 		width: 100%;
@@ -283,6 +287,10 @@
 
 .u-h-70vh {
 	height: 70vh !important;
+}
+
+.u-h-1em {
+	height: 1em;
 }
 
 //--- WHITE SPACE ---//

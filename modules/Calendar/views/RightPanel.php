@@ -53,7 +53,21 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 				$users[$currentUser->getId()] = $currentUser->getName();
 				break;
 		}
-
+		if (!empty($users)) {
+			$favouritesUsersPin = [];
+			$query = new \App\Db\Query();
+			$favouritesUsers = $query->select('fav_element_id')
+				->from('u_#__users_pinned')
+				->where(['owner_id' => $currentUser->getId()])
+				->column();
+			foreach ($favouritesUsers as $key => $value) {
+				if (isset($users[$value])) {
+					$users = array($value => $users[$value]) + $users;
+					$favouritesUsersPin[$value] = true;
+				}
+			}
+			$viewer->assign('FAVOURITES_USERS', $favouritesUsersPin);
+		}
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ALL_ACTIVEUSER_LIST', $users);
 		$viewer->assign('USER_MODEL', $currentUser);

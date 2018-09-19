@@ -1,10 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if !empty($ALL_ACTIVEUSER_LIST)}
-		<div class="js-filter__container">
-			<h4 class="boxFilterTitle">{\App\Language::translate('LBL_SELECT_USER_CALENDAR',$MODULE)}</h4>
+		<div class="js-filter__container border-bottom">
+			<h6 class="boxFilterTitle mt-3">{\App\Language::translate('LBL_SELECT_USER_CALENDAR',$MODULE)}</h6>
 			{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-				<div class="input-group input-group-sm marginBottom5px">
+				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-append">
 						<span class="input-group-text">
 							<span class="fas fa-search fa-fw"></span>
@@ -13,20 +13,25 @@
 					<input type="text" class="form-control js-filter__search" placeholder="Nazwa użytkownika"
 						   aria-describedby="search-icon">
 				</div>
-				<ul class="nav">
+				<ul class="nav form-row">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-						<li class="js-filter__item__container" data-js="classs: d-none">
-							<div class="marginRightZero">
-								<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
-									   class="js-inputUserOwnerId alignMiddle"
-										{if $USER_MODEL->getId() eq $OWNER_ID} checked{/if}>
-								<label class="marginLeft10 js-filter__item__value" for="ownerId{$OWNER_ID}">
-									<span class="ownerCBg_{$OWNER_ID}">&nbsp&nbsp</span>&nbsp{$OWNER_NAME}
-								</label>
-								<div class="js-pinUser float-right" data-elementid="{$OWNER_ID}"
-									 data-js="click|data-elementid">
-									<span class="fas fa-thumbtack u-cursor-pointer u-opacity-muted"></span>
+						<li class="js-filter__item__container m-0 p-0 col-12 mb-1" data-js="classs: d-none">
+							<div class="mr-0 col-12 form-row d-flex align-items-center">
+								<div class="col-1">
+									<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
+										   class="js-inputUserOwnerId alignMiddle"
+											{if $USER_MODEL->getId() eq $OWNER_ID} checked{/if}>
 								</div>
+								<div class="col-1 js-pinUser d-inline-block align-middle text-center"
+									 data-elementid="{$OWNER_ID}"
+									 data-js="click|data-elementid">
+									<span class="fas fa-thumbtack u-cursor-pointer {if empty($FAVOURITES_USERS[$OWNER_ID])}u-opacity-muted{/if}"></span>
+								</div>
+								<label class="m-0 col-9 js-filter__item__value u-text-ellipsis"
+									   for="ownerId{$OWNER_ID}">
+									<div class="ownerCBg_{$OWNER_ID} d-inline-block align-middle mr-1 u-w-1em u-h-1em"></div>{$OWNER_NAME}
+								</label>
+
 							</div>
 						</li>
 					{/foreach}
@@ -49,9 +54,9 @@
 	{/if}
 	{if !empty($ALL_ACTIVEGROUP_LIST)}
 		<div class="js-filter__container">
-			<h4 class="boxFilterTitle">{\App\Language::translate('LBL_SELECT_GROUP_CALENDAR',$MODULE)}</h4>
+			<h6 class="boxFilterTitle mt-3">{\App\Language::translate('LBL_SELECT_GROUP_CALENDAR',$MODULE)}</h6>
 			{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-				<div class="input-group input-group-sm marginBottom5px">
+				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-append">
 						<span class="input-group-text">
 							<span class="fas fa-search fa-fw"></span>
@@ -60,15 +65,18 @@
 					<input type="text" class="form-control js-filter__search" placeholder="Nazwa grupy"
 						   aria-describedby="search-icon-group">
 				</div>
-				<ul class="nav">
+				<ul class="nav form-row">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-						<li class="js-filter__item__container" data-js="classs: d-none">
-							<div class="marginRightZero">
-								<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
-									   class="js-inputUserOwnerId alignMiddle"
-										{if $USER_MODEL->getId() eq $OWNER_ID} checked{/if}>
-								<label class="marginLeft10 js-filter__item__value" for="ownerId{$OWNER_ID}">
-									<span class="ownerCBg_{$OWNER_ID}">&nbsp&nbsp</span>&nbsp{$OWNER_NAME}
+						<li class="js-filter__item__container m-0 p-0 col-12 mb-1" data-js="classs: d-none">
+							<div class="mr-0 col-12 form-row d-flex align-items-center">
+								<div class="col-1">
+									<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
+										   class="js-inputUserOwnerId alignMiddle"
+											{if $USER_MODEL->getId() eq $OWNER_ID} checked{/if}>
+								</div>
+								<label class="m-0 col-10 js-filter__item__value u-text-ellipsis"
+									   for="ownerId{$OWNER_ID}">
+									<div class="ownerCBg_{$OWNER_ID} d-inline-block align-middle mr-1 u-w-1em u-h-1em"></div>{$OWNER_NAME}
 								</label>
 							</div>
 						</li>
