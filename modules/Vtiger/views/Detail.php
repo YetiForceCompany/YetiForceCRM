@@ -162,7 +162,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$defaultMode = $this->defaultMode;
-		if ($defaultMode == 'showDetailViewByMode') {
+		if ($defaultMode === 'showDetailViewByMode') {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
 			if (!($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList)) {
@@ -429,16 +429,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		}
-		$hierarchy = [];
-		if ($request->has('hierarchy')) {
-			$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
-			$hierarchyValue = $request->getByType('hierarchy');
-			if ($level === 0) {
-				$hierarchy = $hierarchyValue === 'all' ? [1, 2] : [];
-			} elseif ($level === 1) {
-				$hierarchy = $hierarchyValue === 'all' ? [2] : [];
-			}
-		}
+		$hierarchy = $this->getHierarchy($request);
+		$hierarchyValue = $request->getByType('hierarchy');
 		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $hierarchy, $pagingModel);
 		$pagingModel->calculatePageRange(count($parentCommentModels));
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -595,17 +587,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentRecordId = $request->getInteger('record');
 		$commentRecordId = $request->getInteger('commentid');
 		$moduleName = $request->getModule();
-		$hierarchy = [];
-		$hierarchyValue = '';
-		if ($request->has('hierarchy')) {
-			$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
-			$hierarchyValue = $request->getByType('hierarchy');
-			if ($level === 0) {
-				$hierarchy = $hierarchyValue === 'all' ? [1, 2] : [];
-			} elseif ($level === 1) {
-				$hierarchy = $hierarchyValue === 'all' ? [2] : [];
-			}
-		}
+		$hierarchy = $this->getHierarchy($request);
+		$hierarchyValue = $request->getByType('hierarchy');
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId, $hierarchy);
@@ -665,16 +648,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!$request->isEmpty('is_widget', true)) {
 			$isWidget = $request->getBoolean('is_widget');
 		}
-		$hierarchy = [];
-		if ($request->has('hierarchy')) {
-			$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
-			$hierarchyValue = $request->getByType('hierarchy');
-			if ($level === 0) {
-				$hierarchy = $hierarchyValue === 'all' ? [1, 2] : [];
-			} elseif ($level === 1) {
-				$hierarchy = $hierarchyValue === 'all' ? [2] : [];
-			}
-		}
+		$hierarchy = $this->getHierarchy($request);
 		if ($request->isEmpty('search_key', true)) {
 			return $this->showAllComments($request);
 		} else {
@@ -700,6 +674,29 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		} else {
 			return $viewer->view('NoComments.tpl', $moduleName, true);
 		}
+	}
+
+	/**
+	 * Get comments hierarchy.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return array
+	 */
+	public function getHierarchy(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$hierarchy = [];
+		if ($request->has('hierarchy')) {
+			$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
+			$hierarchyValue = $request->getByType('hierarchy');
+			if ($level === 0) {
+				$hierarchy = $hierarchyValue === 'all' ? [1, 2] : [];
+			} elseif ($level === 1) {
+				$hierarchy = $hierarchyValue === 'all' ? [2] : [];
+			}
+		}
+		return $hierarchy;
 	}
 
 	/**
