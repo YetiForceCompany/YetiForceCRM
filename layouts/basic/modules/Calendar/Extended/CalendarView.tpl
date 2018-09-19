@@ -27,11 +27,11 @@
 				</div>
 			</div>
 			<div class="o-calendar-container col-sm-11 pl-1">
-				<button class="btn btn-warning position-absolute u-position-r-0 d-none js-calendar-clear-filters"
-						data-js="class: f-none">
+				<a class="btn btn-warning position-absolute u-position-r-0 d-none u-z-index-100 js-calendar-clear-filters"
+				   data-js="class: f-none">
 					<i class="fas fa-eraser mr-1"></i>
 					{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}
-				</button>
+				</a>
 				{if $CUSTOM_VIEWS|@count gt 0}
 					<ul class="nav nav-tabs pt-2 js-calendar-extended-filter-tab" data-js="change" role="tablist">
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
