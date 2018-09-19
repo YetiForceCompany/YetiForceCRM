@@ -38,7 +38,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="o-calendar-container">
+		<div class="o-calendar__container js-calendar__container" data-js="offset">
 			<div id="calendarview"></div>
 		</div>
 	</div>

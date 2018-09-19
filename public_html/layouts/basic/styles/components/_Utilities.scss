@@ -248,6 +248,10 @@
 	min-width: 650px !important;
 }
 
+.u-w-1em {
+	width: 1em;
+}
+
 @include media-breakpoint-down(sm) {
 	.u-w-sm-down-100 {
 		width: 100%;
@@ -283,6 +287,18 @@
 
 .u-h-70vh {
 	height: 70vh !important;
+}
+
+.u-h-1em {
+	height: 1em;
+}
+
+.u-h-30per {
+	height: 30%;
+}
+
+.u-h-70per {
+	height: 70%;
 }
 
 //--- WHITE SPACE ---//
@@ -357,6 +373,10 @@
 
 .u-overflow-auto {
 	overflow: auto !important;
+}
+
+.u-overflow-y-auto {
+	overflow-y: auto !important;
 }
 
 @include media-breakpoint-down(xs) {

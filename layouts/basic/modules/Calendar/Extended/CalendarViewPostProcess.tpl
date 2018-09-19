@@ -27,9 +27,9 @@
 				<div class="js-qcForm qcForm"></div>
 			</div>
 			<div class="tab-pane fade" id="rightPanelFilter" role="tabpanel" aria-labelledby="rightPanelFilter-tab">
-				<div class="border-bottom">
-					<div class="usersForm"></div>
-					<div class="groupForm"></div>
+				<div class="formsContainer border-bottom">
+					<div class="js-usersForm usersForm u-h-70per"></div>
+					<div class="js-groupForm groupForm u-h-30per"></div>
 				</div>
 			</div>
 		</div>

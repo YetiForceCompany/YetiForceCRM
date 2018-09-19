@@ -6,6 +6,9 @@
 	bottom: $h-footer;
 	width: 100%;
 	overflow-x: hidden;
+	@at-root .Calendar_CalendarExtended #{&} {
+		overflow-y: hidden;
+	}
 }
 
 @include media-breakpoint-down(sm) {

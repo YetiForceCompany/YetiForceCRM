@@ -19,7 +19,7 @@
 				</button>
 			</div>
 		</div>
-		<div class="o-calendar-container">
+		<div class="o-calendar__container js-calendar__container" data-js="offset">
 			<p class="m-0"><!-- Divider --></p>
 			<div id="calendarview"></div>
 		</div>

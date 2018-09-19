@@ -14,7 +14,7 @@
 	}
 }
 
-.o-calendar-container {
+.o-calendar__container {
 	@extend .pt-2;
 }
 
@@ -101,14 +101,25 @@
 
 //Calendar Extended
 .tpl-Calendar-Extended-CalendarViewPreProcess {
-	.o-calendar-container {
-		@extend .pt-0;
+	.o-calendar {
+		&__container {
+			@extend .pt-0;
+		}
+		&__clear-btn,
+		&__view-btn {
+			padding: 0.44rem 1rem;
+			font-size: 80%;
+			.textHolder {
+				@extend .ml-1;
+			}
+		}
 	}
 
 	#datesColumn {
 		.subDateList {
+			height: calc(100vh - #{$h-footer} - #{$h-header} - #{$h-breadcrumb} - #{$h-filter-tabs} - #{$h-date-list});
 			text-align: center;
-			margin-top: 10px;
+			padding-top: 10px;
 			.subDateCount div.countEvents {
 				background-color: #ff4e4d;
 				color: #fff;
@@ -118,14 +129,17 @@
 				padding-bottom: 5px;
 				width: 28px;
 			}
+
 			.subRecord {
+				$margin: calculate-rem(5px);
+
+				height: calc(8.333% - #{$margin});
 				font-size: 12px;
 				border: 1px solid #eee;
 				padding-top: 0px;
 				padding-bottom: 2px;
-				margin-bottom: 5px;
+				margin-bottom: $margin;
 				margin-left: 5px;
-				/* margin-right: 5px; */
 				cursor: pointer;
 			}
 			.subActive {
@@ -528,13 +542,20 @@
 			padding: calculate-rem(5px) calculate-rem(18px) !important;
 		}
 	}
+
 	.js-css-element-queries {
 		&[max-width~="1500px"] {
-			.o-calendar__view-btn {
-				.textHolder {
-					display: none;
+			.o-calendar {
+				&__view-btn {
+					.textHolder {
+						display: none;
+					}
 				}
 			}
 		}
+	}
+	//filter tabs active user color overwrite
+	.nav-pills .nav-link.active {
+		color: $white !important;
 	}
 }

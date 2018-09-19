@@ -6041,7 +6041,7 @@ button.bg-dark:focus {
 .my-1 {
   margin-bottom: 0.25rem !important; }
 
-.ml-1,
+.ml-1, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn .textHolder, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn .textHolder,
 .mx-1,
 .childrenMarginTopX > * {
   margin-left: 0.25rem !important; }
@@ -6129,7 +6129,7 @@ button.bg-dark:focus {
 .p-0, .select2-selection[aria-labelledby^="select2-theme"], .daterangepicker.show-calendar {
   padding: 0 !important; }
 
-.pt-0, .js-css-element-queries[min-width~="400px"] .col-ceq-xsm-6:nth-child(2), .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar-container,
+.pt-0, .js-css-element-queries[min-width~="400px"] .col-ceq-xsm-6:nth-child(2), .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__container,
 .py-0,
 .c-panel__body,
 .c-detail-widget__header,
@@ -6191,7 +6191,7 @@ button.bg-dark:focus {
 .p-2 {
   padding: 0.5rem !important; }
 
-.pt-2, .o-calendar-container,
+.pt-2, .o-calendar__container,
 .py-2,
 .select2-container--bootstrap4 ul.select2-selection__rendered {
   padding-top: 0.5rem !important; }
@@ -9936,11 +9936,6 @@ table.dataTable .form-control {
   padding-left: 5px;
   padding-right: 5px; }
 
-.calendarRightPanel ul li {
-  margin-bottom: 2px;
-  margin-left: 5px;
-  margin-right: 5px; }
-
 .square9 {
   width: 12px;
   height: 12px;
@@ -12017,6 +12012,9 @@ select[readonly], select[disabled] {
 .u-min-w-650px {
   min-width: 650px !important; }
 
+.u-w-1em {
+  width: 1em; }
+
 @media (max-width: 767.98px) {
   .u-w-sm-down-100 {
     width: 100%; } }
@@ -12040,6 +12038,9 @@ select[readonly], select[disabled] {
 
 .u-h-70vh {
   height: 70vh !important; }
+
+.u-h-1em {
+  height: 1em; }
 
 .u-white-space-nowrap {
   white-space: nowrap !important; }
@@ -12088,6 +12089,9 @@ select[readonly], select[disabled] {
 
 .u-overflow-auto {
   overflow: auto !important; }
+
+.u-overflow-y-auto {
+  overflow-y: auto !important; }
 
 @media (max-width: 399.98px) {
   .u-overflow-scroll-xs-down {
@@ -14431,6 +14435,8 @@ label.btn.btn-outline-primary:not(.active) {
   bottom: 1.9375rem;
   width: 100%;
   overflow-x: hidden; }
+  .Calendar_CalendarExtended .mainBody {
+    overflow-y: hidden; }
 
 @media (max-width: 767.98px) {
   .mainBody {
@@ -15270,9 +15276,13 @@ label.btn.btn-outline-primary:not(.active) {
       margin-bottom: 0.5rem; }
     .js-calendar-switch-container .btn-group:last-child {
       margin-left: 0.5rem !important; } }
+.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn {
+  padding: 0.44rem 1rem;
+  font-size: 80%; }
 .tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .subDateList {
+  height: calc(100vh - 1.9375rem - 3.125rem - 3.375rem - 2.6875rem - 5.9375rem);
   text-align: center;
-  margin-top: 10px; }
+  padding-top: 10px; }
   .tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .subDateList .subDateCount div.countEvents {
     background-color: #ff4e4d;
     color: #fff;
@@ -15282,13 +15292,13 @@ label.btn.btn-outline-primary:not(.active) {
     padding-bottom: 5px;
     width: 28px; }
   .tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .subDateList .subRecord {
+    height: calc(8.333% - 0.3125rem);
     font-size: 12px;
     border: 1px solid #eee;
     padding-top: 0px;
     padding-bottom: 2px;
-    margin-bottom: 5px;
+    margin-bottom: 0.3125rem;
     margin-left: 5px;
-    /* margin-right: 5px; */
     cursor: pointer; }
   .tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .subDateList .subActive {
     background-color: #337ab7;
@@ -15576,6 +15586,8 @@ label.btn.btn-outline-primary:not(.active) {
   padding: 0.3125rem 1.125rem !important; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .js-css-element-queries[max-width~="1500px"] .o-calendar__view-btn .textHolder {
   display: none; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .nav-pills .nav-link.active {
+  color: #fff !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .o-detail__icon {
