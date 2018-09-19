@@ -11,8 +11,8 @@
 -->*}
 {strip}
 {assign var="HIERARCHY" value=isset($PARENT_RECORD) && $PARENT_RECORD != $COMMENT->get('related_to')}
-<div class="tpl-Comment Comment commentDiv">
-	<div class="js-singleComment singleComment" data-js="append">
+<div class="tpl-Base-Comment Comment commentDiv">
+	<div class="js-comment-single singleComment" data-js="append">
 		<div class="js-commentInfoHeader commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}"
 			 data-parentcommentid="{$COMMENT->get('parent_comments')}"
 			 data-js="data-commentid|data-parentcommentid">
