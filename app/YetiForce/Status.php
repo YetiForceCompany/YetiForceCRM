@@ -149,11 +149,11 @@ class Status
 		}
 		$param = [];
 		foreach ($this->cache['security'] as $name => $values) {
-			$value = [$values['www'] ?? ''];
+			$value = ['name' => $name, 'www' => $values['www'] ?? '', 'status' => $values['status']];
 			if (isset($values['cron'])) {
-				$value[] = $values['cron'];
+				$value['cron'] = $values['cron'];
 			}
-			$param[$name] = $value;
+			$param[] = $value;
 		}
 		return $param;
 	}
@@ -170,11 +170,11 @@ class Status
 		}
 		$param = [];
 		foreach ($this->cache['stability'] as $name => $values) {
-			$value = [$values['www'] ?? ''];
+			$value = ['name' => $name, 'www' => $values['www'] ?? '', 'status' => $values['status']];
 			if (isset($values['cron'])) {
-				$value[] = $values['cron'];
+				$value['cron'] = $values['cron'];
 			}
-			$param[$name] = $value;
+			$param[] = $value;
 		}
 		return $param;
 	}
@@ -191,11 +191,11 @@ class Status
 		}
 		$param = [];
 		foreach ($this->cache['libraries'] as $name => $values) {
-			$value = [$values['www'] ?? ''];
+			$value = ['name' => $name, 'www' => $values['www'] ?? '', 'status' => $values['status']];
 			if (isset($values['cron'])) {
-				$value[] = $values['cron'];
+				$value['cron'] = $values['cron'];
 			}
-			$param[$name] = $value;
+			$param[] = $value;
 		}
 		return $param;
 	}
@@ -212,11 +212,11 @@ class Status
 		}
 		$param = [];
 		foreach ($this->cache['performance'] as $name => $values) {
-			$value = [$values['www'] ?? ''];
+			$value = ['name' => $name, 'www' => $values['www'] ?? '', 'status' => $values['status']];
 			if (isset($values['cron'])) {
-				$value[] = $values['cron'];
+				$value['cron'] = $values['cron'];
 			}
-			$param[$name] = $value;
+			$param[] = $value;
 		}
 		return $param;
 	}
@@ -233,11 +233,11 @@ class Status
 		}
 		$param = [];
 		foreach ($this->cache['publicDirectoryAccess'] as $name => $values) {
-			$value = [$values['www'] ?? ''];
+			$value = ['name' => $name, 'www' => $values['www'] ?? '', 'status' => $values['status']];
 			if (isset($values['cron'])) {
-				$value[] = $values['cron'];
+				$value['cron'] = $values['cron'];
 			}
-			$param[$name] = $value;
+			$param[] = $value;
 		}
 		return $param;
 	}
@@ -254,11 +254,11 @@ class Status
 		}
 		$param = [];
 		foreach ($this->cache['environment'] as $name => $values) {
-			$value = [$values['www'] ?? ''];
+			$value = ['name' => $name, 'www' => $values['www'] ?? '', 'status' => $values['status']];
 			if (isset($values['cron'])) {
-				$value[] = $values['cron'];
+				$value['cron'] = $values['cron'];
 			}
-			$param[$name] = $value;
+			$param[] = $value;
 		}
 		return $param;
 	}
@@ -275,11 +275,11 @@ class Status
 		}
 		$param = [];
 		foreach ($this->cache['writableFilesAndFolders'] as $name => $values) {
-			$value = [$values['www'] ?? ''];
+			$value = ['name' => $name, 'www' => $values['www'] ?? '', 'status' => $values['status']];
 			if (isset($values['cron'])) {
-				$value[] = $values['cron'];
+				$value['cron'] = $values['cron'];
 			}
-			$param[$name] = $value;
+			$param[] = $value;
 		}
 		return $param;
 	}
@@ -296,11 +296,11 @@ class Status
 		}
 		$param = [];
 		foreach ($this->cache['database'] as $name => $values) {
-			$value = [$values['www'] ?? ''];
+			$value = ['name' => $name, 'www' => $values['www'] ?? '', 'status' => $values['status']];
 			if (isset($values['cron'])) {
-				$value[] = $values['cron'];
+				$value['cron'] = $values['cron'];
 			}
-			$param[$name] = $value;
+			$param[] = $value;
 		}
 		return $param;
 	}
