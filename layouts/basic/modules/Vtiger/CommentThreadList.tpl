@@ -37,7 +37,7 @@
 								<p class="text-muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
 							</span>
 						</div>
-						{if $HIERARCHY}
+						{if !empty($HIERARCHY)}
 							{assign var=RELATED_TO value=$COMMENT->get('related_to')}
 							<input hidden="" class="related_to" name="related_to" value="{$RELATED_TO}"/>
 							{assign var=RELATED_MODULE value=\App\Record::getType($RELATED_TO)}
@@ -97,7 +97,7 @@
 						{assign var=LINKS value=$COMMENT->getCommentLinks()}
 						{if count($LINKS) > 0}
 							{foreach from=$LINKS item=LINK}
-								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='comment'}
+								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='comment'}
 							{/foreach}
 						{/if}
 			</span>

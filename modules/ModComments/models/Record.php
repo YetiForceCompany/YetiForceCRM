@@ -295,7 +295,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return \ModComments_Record_Model[]
 	 */
-	public static function getSearchComments($parentId, $searchValue, $isWidget, $hierarchy = false, $pagingModel = false)
+	public static function getSearchComments(int $parentId, string $searchValue, bool $isWidget, array $hierarchy = [], Vtiger_Paging_Model $pagingModel = null)
 	{
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
