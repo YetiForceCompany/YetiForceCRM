@@ -105,9 +105,13 @@
 		&__container {
 			@extend .pt-0;
 		}
-		&__clear-btn {
+		&__clear-btn,
+		&__view-btn {
 			padding: 0.44rem 1rem;
 			font-size: 80%;
+			.textHolder {
+				@extend .ml-1;
+			}
 		}
 	}
 
