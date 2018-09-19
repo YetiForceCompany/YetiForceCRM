@@ -230,6 +230,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			thisInstance.generateWeekList(calendarView.start, calendarView.end);
 			thisInstance.generateSubDaysList(calendarView.start, calendarView.end);
 		}
+		thisInstance.updateCountTaskCalendar();
 		thisInstance.registerDatesChange();
 	},
 	registerDatesChange() {
@@ -256,7 +257,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		const thisInstance = this;
 		$(".js-calendar-extended-filter-tab").on('shown.bs.tab', function () {
 			thisInstance.loadCalendarData();
-			thisInstance.updateCountTaskCalendar();
 		});
 	},
 	getSelectedUsersCalendar() {
@@ -792,7 +792,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	registerLoadCalendarData() {
 		this.loadCalendarData(true);
 		this.registerFilterTabChange();
-		this.updateCountTaskCalendar();
 		this.registerClearFilterButton();
 	},
 	registerAddForm() {
