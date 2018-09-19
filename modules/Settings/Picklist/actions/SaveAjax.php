@@ -92,6 +92,16 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, $moduleModel);
 		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
+		$itemNotExist = true;
+		foreach (\App\Fields\Picklist::getValues($pickListFieldName) as $item) {
+			if ($item['picklistValue'] === $oldValue) {
+				$itemNotExist = false;
+				break;
+			}
+		}
+		if ($itemNotExist) {
+			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE');
+		}
 		if (isset($selectedFieldNonEditablePickListValues[$id])) {
 			if (!empty($newValue)) {
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE');
