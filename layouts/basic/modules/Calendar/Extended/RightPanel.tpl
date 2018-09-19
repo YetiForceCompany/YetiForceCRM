@@ -37,12 +37,12 @@
 					{/foreach}
 				</ul>
 			{else}
-				<select class="js-inputUserOwnerIdAjax select2 form-control"
+				<select class="js-inputUserOwnerIdAjax form-control"
 						data-validation-engine="validate[required]"
 						title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE)}"
 						name="transferOwnerId" id="transferOwnerId" multiple="multiple"
 						data-ajax-search="1"
-						data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id"
+						data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=users"
 						data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
 					<option value="{$USER_MODEL->get('id')}"
 							data-picklistvalue="{$USER_MODEL->getName()}">
@@ -83,12 +83,12 @@
 					{/foreach}
 				</ul>
 			{else}
-				<select class="js-inputUserOwnerIdAjax select2 form-control"
+				<select class="js-inputRoleOwnerIdAjax form-control"
 						data-validation-engine="validate[required]"
 						title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE)}"
-						name="transferOwnerId" id="transferOwnerId" multiple="multiple"
+						name="transferRoleOwnerId" id="transferRoleOwnerId" multiple="multiple"
 						data-ajax-search="1"
-						data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id"
+						data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=groups"
 						data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
 					<option value="{$USER_MODEL->get('id')}"
 							data-picklistvalue="{$USER_MODEL->getName()}">

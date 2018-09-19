@@ -28,8 +28,8 @@
 			</div>
 			<div class="tab-pane fade" id="rightPanelFilter" role="tabpanel" aria-labelledby="rightPanelFilter-tab">
 				<div class="border-bottom">
-					<div class="usersForm"></div>
-					<div class="groupForm"></div>
+					<div class="js-usersForm usersForm"></div>
+					<div class="js-groupForm groupForm"></div>
 				</div>
 			</div>
 		</div>

@@ -269,29 +269,16 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		const self = this;
 		let selectedUsers = self.getSidebarView().find('.js-inputUserOwnerId:checked'),
 			selectedUsersAjax = self.getSidebarView().find('.js-inputUserOwnerIdAjax'),
+			selectedRolesAjax = self.getSidebarView().find('.js-inputRoleOwnerIdAjax'),
 			users = [];
 		if (selectedUsers.length > 0) {
 			selectedUsers.each(function () {
 				users.push($(this).val());
 			});
 		} else if (selectedUsersAjax.length > 0) {
-			users = self.getSidebarView().find('.js-inputUserOwnerIdAjax').val();
+			users = selectedUsersAjax.val().concat(selectedRolesAjax.val());
 		}
 		return users;
-	},
-	getSelectedRolesCalendar() {
-		const self = this;
-		let selectedRoles = self.getSidebarView().find('.js-inputRoleOwnerId:checked'),
-			selectedRolesAjax = self.getSidebarView().find('.js-inputRoleOwnerIdAjax'),
-			roles = [];
-		if (selectedRoles.length > 0) {
-			selectedRoles.each(function () {
-				roles.push($(this).val());
-			});
-		} else if (selectedRolesAjax.length > 0) {
-			roles = self.getSidebarView().find('.js-inputRoleOwnerIdAjax').val();
-		}
-		return roles;
 	},
 	getSidebarView() {
 		this.sidebarView = $('#rightPanel');
@@ -504,6 +491,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		$(".js-calendar-clear-filters").on('click', () => {
 			$(".js-calendar-extended-filter-tab a").removeClass('active');
 			sidebar.find("input:checkbox").prop('checked', false);
+			sidebar.find("option:selected").prop('selected', false).trigger('change');
 			sidebar.find(".js-inputUserOwnerId[value=" + app.getMainParams('userId') + "]").prop('checked', true);
 			thisInstance.loadCalendarData();
 		})
@@ -625,6 +613,9 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			thisInstance.loadCalendarData();
 		});
 		thisInstance.getSidebarView().find('.js-inputUserOwnerIdAjax').on('change', () => {
+			thisInstance.loadCalendarData();
+		});
+		thisInstance.getSidebarView().find('.js-inputRoleOwnerIdAjax').on('change', () => {
 			thisInstance.loadCalendarData();
 		});
 		thisInstance.registerPinUser();
@@ -807,18 +798,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList').then(
 			function (data) {
 				if (data) {
-					sideBar.find('.usersForm').html(data);
+					sideBar.find('.js-usersForm').html(data);
 					thisInstance.registerUsersChange();
-					App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
+					App.Fields.Picklist.showSelect2ElementView(sideBar.find('.js-usersForm select'));
 				}
 			}
 		);
 		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getGroupsList').then(
 			function (data) {
 				if (data) {
-					sideBar.find('.groupForm').html(data);
+					sideBar.find('.js-groupForm').html(data);
 					thisInstance.registerUsersChange();
-					App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
+					App.Fields.Picklist.showSelect2ElementView(sideBar.find('.js-groupForm select'));
 				}
 			}
 		);
