@@ -45,21 +45,18 @@
 						<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
 					</button>
 				</div>
-				{assign var=ACTIVITYPOSTPONED value=\App\Privilege::isPermitted('Calendar', 'ActivityPostponed', $ID)}
-				{assign var=ACTIVITYCANCEL value=\App\Privilege::isPermitted('Calendar', 'ActivityCancel', $ID)}
-				{assign var=ACTIVITYCOMPLETE value=\App\Privilege::isPermitted('Calendar', 'ActivityComplete', $ID)}
-				{assign var=ACTIVITY_STATE_LABEL value=Calendar_Module_Model::getComponentActivityStateLabel()}
-				{assign var=ACTIVITY_STATE value=$RECORD->get('activitystatus')}
-				{assign var=EMPTY value=!in_array($ACTIVITY_STATE, [$ACTIVITY_STATE_LABEL.cancelled,$ACTIVITY_STATE_LABEL.completed])}
 				<div class="modal-body">
 					{include file=\App\Layout::getTemplatePath('ActivityStateContent.tpl', $MODULE_NAME)}
 				</div>
 				<div class="modal-footer">
 					<div class="col-12 p-0">
 						{if $RECORD->isEditable()}
+							{assign var=ACTIVITY_STATE_LABEL value=Calendar_Module_Model::getComponentActivityStateLabel()}
+							{assign var=ACTIVITY_STATE value=$RECORD->get('activitystatus')}
+							{assign var=EMPTY value=!in_array($ACTIVITY_STATE, [$ACTIVITY_STATE_LABEL.cancelled,$ACTIVITY_STATE_LABEL.completed])}
 							<div class="float-left">
 								{assign var=SHOW_QUICK_CREATE value=AppConfig::module('Calendar','SHOW_QUICK_CREATE_BY_STATUS')}
-								{if $ACTIVITYCANCEL eq 'yes' && $EMPTY}
+								{if $EMPTY && \App\Privilege::isPermitted($MODULE_NAME, 'ActivityCancel', $ID)}
 									<button type="button"
 											class="mr-1 btn btn-warning {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}"
 											data-state="{$ACTIVITY_STATE_LABEL.cancelled}" data-id="{$ID}"
@@ -68,7 +65,7 @@
 										{\App\Language::translate($ACTIVITY_STATE_LABEL.cancelled, $MODULE_NAME)}
 									</button>
 								{/if}
-								{if $ACTIVITYCOMPLETE eq 'yes' && $EMPTY}
+								{if $EMPTY && \App\Privilege::isPermitted($MODULE_NAME, 'ActivityComplete', $ID)}
 									<button type="button"
 											class="mr-1 btn c-btn-done {if in_array($ACTIVITY_STATE_LABEL.completed,$SHOW_QUICK_CREATE)}showQuickCreate{/if}"
 											data-state="{$ACTIVITY_STATE_LABEL.completed}" data-id="{$ID}"
@@ -77,7 +74,7 @@
 										{\App\Language::translate($ACTIVITY_STATE_LABEL.completed, $MODULE_NAME)}
 									</button>
 								{/if}
-								{if $ACTIVITYPOSTPONED eq 'yes' && $EMPTY}
+								{if $EMPTY && \App\Privilege::isPermitted($MODULE_NAME, 'ActivityPostponed', $ID)}
 									<button type="button" class="mr-1 btn btn-primary showQuickCreate"
 											data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}"
 											data-type="0">
