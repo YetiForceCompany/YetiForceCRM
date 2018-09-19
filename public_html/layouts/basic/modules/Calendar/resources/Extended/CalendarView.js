@@ -72,7 +72,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			selectable: true,
 			selectHelper: true,
 			hiddenDays: hiddenDays,
-			height: 'auto',
+			height: app.setCalendarHeight(),
 			views: {
 				basic: {
 					eventLimit: false,

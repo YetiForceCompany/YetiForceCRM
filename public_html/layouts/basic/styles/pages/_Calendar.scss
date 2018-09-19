@@ -117,8 +117,9 @@
 
 	#datesColumn {
 		.subDateList {
+			height: calc(100vh - #{$h-footer} - #{$h-header} - #{$h-breadcrumb} - #{$h-filter-tabs} - #{$h-date-list});
 			text-align: center;
-			margin-top: 10px;
+			padding-top: 10px;
 			.subDateCount div.countEvents {
 				background-color: #ff4e4d;
 				color: #fff;
@@ -128,14 +129,17 @@
 				padding-bottom: 5px;
 				width: 28px;
 			}
+			
 			.subRecord {
+				$margin: calculate-rem(5px);
+
+				height: calc(8.333% - #{$margin});
 				font-size: 12px;
 				border: 1px solid #eee;
 				padding-top: 0px;
 				padding-bottom: 2px;
-				margin-bottom: 5px;
+				margin-bottom: $margin;
 				margin-left: 5px;
-				/* margin-right: 5px; */
 				cursor: pointer;
 			}
 			.subActive {
