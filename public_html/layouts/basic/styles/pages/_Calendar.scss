@@ -546,4 +546,8 @@
 			}
 		}
 	}
+	//filter tabs active user color overwrite
+	.nav-pills .nav-link.active {
+		color: $white !important;
+	}
 }

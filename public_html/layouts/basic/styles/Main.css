@@ -15579,6 +15579,8 @@ label.btn.btn-outline-primary:not(.active) {
   padding: 0.3125rem 1.125rem !important; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .js-css-element-queries[max-width~="1500px"] .o-calendar__view-btn .textHolder {
   display: none; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .nav-pills .nav-link.active {
+  color: #fff !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .o-detail__icon {
