@@ -16,9 +16,8 @@
 		ccp_mode = false,
 		ccp_inst = false,
 		themes_loaded = [],
-		src = $('script:last').attr('src'),
 		document = window.document, // local variable is always faster to access then a global
-		_node = document.createElement('LI'), _temp1, _temp2;
+		_temp1, _temp2;
 
 	var _i = document.createElement('I');
 	_i.className = 'jstree-icon jstree-checkbox';
@@ -55,7 +54,6 @@
 				this.element
 					.on('model.jstree', $.proxy(function (e, data) {
 						var m = this._model.data,
-							p = m[data.parent],
 							dpc = data.nodes,
 							i, j;
 						for (i = 0, j = dpc.length; i < j; i++) {
@@ -664,7 +662,6 @@
 			if (this.settings.checkbox.tie_selection) {
 				return this.select_all();
 			}
-			var tmp = this._data.checkbox.selected.concat([]), i, j;
 			this._data.checkbox.selected = this._model.data[$.jstree.root].children_d.concat();
 			for (i = 0, j = this._data.checkbox.selected.length; i < j; i++) {
 				if (this._model.data[this._data.checkbox.selected[i]]) {
@@ -803,7 +800,6 @@
 				if (tmp && tmp.state.loaded) {
 					for (k = 0, l = tmp.children_d.length; k < l; k++) {
 						if (this._model.data[tmp.children_d[k]].state.checked) {
-							c = true;
 							this._data.checkbox.selected = $.vakata.array_remove_item(this._data.checkbox.selected, tmp.children_d[k]);
 						}
 					}

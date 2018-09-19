@@ -709,12 +709,17 @@ class CRMEntity
 		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $crmId])->execute();
 	}
 
+	/**
+	 * Gets fields to locking record.
+	 *
+	 * @return array
+	 */
 	public function getLockFields()
 	{
 		if (isset($this->lockFields)) {
 			return $this->lockFields;
 		}
-		return false;
+		return [];
 	}
 
 	/**

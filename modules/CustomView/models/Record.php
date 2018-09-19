@@ -306,10 +306,9 @@ class CustomView_Record_Model extends \App\Base
 		}
 		if ($lockRecords) {
 			$lockFields = Vtiger_CRMEntity::getInstance($moduleName)->getLockFields();
-			if (is_array($lockFields)) {
-				foreach ($lockFields as $fieldName => $fieldValues) {
-					$queryGenerator->addNativeCondition(['not in', "$baseTableName.$fieldName", $fieldValues]);
-				}
+			$lockFields = array_merge_recursive($lockFields, \App\Fields\Picklist::getCloseStates(\App\Module::getModuleId($moduleName)));
+			foreach ($lockFields as $fieldName => $fieldValues) {
+				$queryGenerator->addNativeCondition(['not in', "$baseTableName.$fieldName", $fieldValues]);
 			}
 		}
 		return $queryGenerator;
@@ -743,7 +742,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getEditUrl()
 	{
-		return 'module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name') . '&record=' . $this->getId();
+		return 'index.php?module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name') . '&record=' . $this->getId();
 	}
 
 	/**
@@ -773,7 +772,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getDuplicateUrl()
 	{
-		return 'module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name') . '&record=' . $this->getId() . '&duplicate=1';
+		return 'index.php?module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name') . '&record=' . $this->getId() . '&duplicate=1';
 	}
 
 	/**

@@ -315,10 +315,10 @@ class PackageImport extends PackageExport
 			if (\App\Version::check($moduleVersion) >= 0) {
 				$moduleVersionFound = true;
 			} else {
-				$_errorText = \App\Language::translate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
-				$_errorText = str_replace('__MODULEVERSION__', $moduleVersion, $_errorText);
-				$_errorText = str_replace('__CRMVERSION__', \App\Version::get(), $_errorText);
-				$this->_errorText = $_errorText;
+				$errorText = \App\Language::translate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
+				$errorText = str_replace('__MODULEVERSION__', $moduleVersion, $errorText);
+				$errorText = str_replace('__CRMVERSION__', \App\Version::get(), $errorText);
+				$this->_errorText = $errorText;
 			}
 		}
 		$validzip = false;

@@ -22,10 +22,10 @@ return [
 	// array - PLL_COMPLETED, PLL_CANCELLED
 	'SHOW_QUICK_CREATE_BY_STATUS' => [],
 	// Right calendar panel visible by default
-	// true - show right panel, false - hide right panel;
+	// true - show right panel, false - hide right panel
 	'SHOW_RIGHT_PANEL' => true, // Boolean
 	// Button referring to the list view that includes filters
-	// true - show, false - hide;
+	// true - show, false - hide
 	'SHOW_LIST_BUTTON' => true, // Boolean
 	// Show companies and processes in quickcreate
 	'SHOW_COMPANIES_IN_QUICKCREATE' => false, // Boolean

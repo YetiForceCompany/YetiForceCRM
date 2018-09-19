@@ -56,7 +56,7 @@ class GoogleGeocode extends Base
 				foreach ($body['results'] as $row) {
 					$rows[] = [
 						'label' => $row['formatted_address'],
-						'address' => static::parse($row['address_components'])
+						'address' => $this->parse($row['address_components'])
 					];
 				}
 			}

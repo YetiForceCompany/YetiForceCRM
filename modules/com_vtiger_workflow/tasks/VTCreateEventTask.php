@@ -95,7 +95,7 @@ class VTCreateEventTask extends VTTask
 				}
 			}
 		}
-		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Events');
+		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Calendar');
 		$newRecordModel->setData($fields);
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();

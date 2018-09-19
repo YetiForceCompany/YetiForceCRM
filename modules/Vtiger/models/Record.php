@@ -765,6 +765,7 @@ class Vtiger_Record_Model extends \App\Base
 				$this->setEntity($focus);
 			}
 			$lockFields = $focus->getLockFields();
+			$lockFields = array_merge_recursive($lockFields, \App\Fields\Picklist::getCloseStates($this->getModule()->getId()));
 			if ($lockFields) {
 				$loadData = false;
 				foreach ($lockFields as $fieldName => $values) {

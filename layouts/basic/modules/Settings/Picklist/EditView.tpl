@@ -10,12 +10,14 @@
 ********************************************************************************/
 -->*}
 {strip}
+	{assign var=OLD_VALUE value=\App\Purifier::encodeHtml($PICKLIST_VALUE['picklistValue'])}
 	<div class='tpl-Settings-Picklist-EditView modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">
-						{\App\Language::translate('LBL_RENAME_PICKLIST_ITEM', $QUALIFIED_MODULE)} {$PICKLIST_VALUE['picklistValue']}
+						{\App\Language::translate('LBL_RENAME_PICKLIST_ITEM', $QUALIFIED_MODULE)}
+						: {\App\Language::translate($PICKLIST_VALUE['picklistValue'], $SOURCE_MODULE)}
 					</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -28,7 +30,7 @@
 					<input type="hidden" name="action" value="SaveAjax"/>
 					<input type="hidden" name="mode" value="rename"/>
 					<input type="hidden" name="picklistName" value="{$FIELD_MODEL->getName()}"/>
-					<input type="hidden" name="oldValue" value="{$PICKLIST_VALUE['picklistValue']}"/>
+					<input type="hidden" name="oldValue" value="{$OLD_VALUE}"/>
 					<input type="hidden" name="id" value="{$PICKLIST_VALUE['picklistValueId']}"/>
 					<input type="hidden" name="picklist_valueid" value="{$PICKLIST_VALUE['picklist_valueid']}"/>
 					<input type="hidden" name="pickListValues"
@@ -37,42 +39,54 @@
 						{if $EDITABLE}
 							<div class="form-group row align-items-center">
 								<div class="col-md-3 col-form-label text-right">
-									{\App\Language::translate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}
+									{\App\Language::translate('LBL_CURRENT_VALUE',$QUALIFIED_MODULE)}
 								</div>
 								<div class="col-md-9 controls">
-									<input type="text" class="form-control"
-										   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-										   data-validator={\App\Json::encode([['name'=>'FieldLabel']])} name="newValue">
+									<input name="oldValueReadonly" value="{$OLD_VALUE}" type="text"
+										   class="form-control" readonly disabled/>
 								</div>
 							</div>
 							<div class="form-group row align-items-center">
 								<div class="col-md-3 col-form-label text-right">
-									{\App\Language::translate('LBL_DESCRIPTION',$QUALIFIED_MODULE)}
+									{\App\Language::translate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}
 								</div>
 								<div class="col-md-9 controls">
-								<textarea class="form-control js-editor" name="description"
-										  data-js="ckeditor">{\App\Purifier::encodeHtml($PICKLIST_VALUE['description'])}</textarea>
+									<input name="newValue" type="text"
+										   class="form-control"
+										   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+										   data-validator={\App\Json::encode([['name'=>'FieldLabel']])}>
 								</div>
 							</div>
-							{if $FIELD_MODEL->get('uitype') === 15}
-								<div class="form-group row align-items-center">
-									<div class="col-md-3 col-form-label text-right">
-										{\App\Language::translate('LBL_CLOSES_RECORD',$QUALIFIED_MODULE)}
-									</div>
-									<div class="col-md-9 controls">
-										<input class="form-control" type="checkbox" value="1"
-											   {if $PICKLIST_VALUE['close_state']}checked="checked"{/if}
-											   name="close_state">
-									</div>
-								</div>
-							{/if}
 						{else}
 							<div class="alert alert-warning">{\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUES',$QUALIFIED_MODULE)}</div>
 						{/if}
+						<div class="form-group row align-items-center">
+							<div class="col-md-3 col-form-label text-right">
+								{\App\Language::translate('LBL_DESCRIPTION',$QUALIFIED_MODULE)}
+							</div>
+							<div class="col-md-9 controls">
+								<textarea class="form-control js-editor" name="description"
+										  data-js="ckeditor">
+									{if isset($PICKLIST_VALUE['description'])}
+										{\App\Purifier::encodeHtml($PICKLIST_VALUE['description'])}
+									{/if}
+								</textarea>
+							</div>
+						</div>
+						{if $FIELD_MODEL->get('uitype') === 15}
+							<div class="form-group row align-items-center">
+								<div class="col-md-3 col-form-label text-right">
+									{\App\Language::translate('LBL_CLOSES_RECORD',$QUALIFIED_MODULE)}
+								</div>
+								<div class="col-md-9 controls">
+									<input class="form-control" type="checkbox" value="1"
+										   {if $PICKLIST_VALUE['close_state']}checked="checked"{/if}
+										   name="close_state">
+								</div>
+							</div>
+						{/if}
 					</div>
-					{if $EDITABLE}
-						{ASSIGN var=BTN_SUCCESS value='LBL_SAVE'}
-					{/if}
+					{ASSIGN var=BTN_SUCCESS value='LBL_SAVE'}
 					{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_DANGER='LBL_CANCEL'}
 				</form>
 			</div>

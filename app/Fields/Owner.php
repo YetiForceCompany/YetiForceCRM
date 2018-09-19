@@ -734,7 +734,7 @@ class Owner
 				}
 			}
 		}
-		static::transferOwnershipForWorkflow($oldId, $newId);
+		self::transferOwnershipForWorkflow($oldId, $newId);
 	}
 
 	/**

@@ -25,7 +25,6 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public static $baseModuleToolsExceptions = [
 		'Documents' => ['notAllowed' => ['Import']],
 		'Faq' => ['notAllowed' => ['Import', 'Export']],
-		'Events' => ['notAllowed' => 'all'],
 		'PBXManager' => ['notAllowed' => 'all'],
 		'OSSMailView' => ['notAllowed' => 'all'],
 		'CallHistory' => ['allowed' => ['QuickExportToExcel']],

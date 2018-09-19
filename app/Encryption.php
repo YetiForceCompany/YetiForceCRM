@@ -66,7 +66,7 @@ class Encryption extends Base
 		$transactionWebservice = Db::getInstance('webservice')->beginTransaction();
 		try {
 			$passwords = [];
-			foreach (static::$mapPasswords as $tableName => $info) {
+			foreach (self::$mapPasswords as $tableName => $info) {
 				$values = (new Db\Query())->select(array_merge([$info['index']], $info['columnName']))
 					->from($tableName)
 					->createCommand(Db::getInstance($info['db']))
@@ -103,7 +103,7 @@ class Encryption extends Base
 			\AppConfig::set('securityKeys', 'encryptionPass', $decryptInstance->get('pass'));
 			$encryptInstance = static::getInstance();
 			foreach ($passwords as $tableName => $pass) {
-				$dbCommand = Db::getInstance(static::$mapPasswords[$tableName]['db'])->createCommand();
+				$dbCommand = Db::getInstance(self::$mapPasswords[$tableName]['db'])->createCommand();
 				foreach ($pass as $index => $values) {
 					foreach ($values as &$value) {
 						if (!empty($value)) {
@@ -113,7 +113,7 @@ class Encryption extends Base
 							}
 						}
 					}
-					$dbCommand->update($tableName, $values, [static::$mapPasswords[$tableName]['index'] => $index])->execute();
+					$dbCommand->update($tableName, $values, [self::$mapPasswords[$tableName]['index'] => $index])->execute();
 				}
 			}
 			$transactionWebservice->commit();

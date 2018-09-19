@@ -46,13 +46,9 @@
 							{assign var=ACTIVITY_TYPE value=$RECORD->get('activitytype')}
 							{if $ACTIVITY_TYPE eq 'Task'}
 								<span class="far fa-check-square fa-fw"></span>
-
-{elseif $ACTIVITY_TYPE eq 'Call'}
-
+							{elseif $ACTIVITY_TYPE eq 'Call'}
 								<span class="fas fa-phone fa-fw" data-fa-transform="rotate--260"></span>
-
-{else}
-
+							{else}
 								<span class="fas fa-user fa-fw"></span>
 							{/if}
 						</span>
@@ -99,7 +95,6 @@
 									</div>
 								{/if}
 							{else}
-								{assign var=MODULE_NAME value="Events"}
 								<input type="hidden" class="activityModule" value="Events"/>
 								{if !$IS_READ_ONLY && $RECORD->isEditable()}
 									<div>
@@ -160,14 +155,13 @@
 									  {/foreach}
 									  </div>
 								  {/if}
-								  {if $MODULE_NAME eq 'Events'}
-									  {if count($RECORD->get('selectedusers')) > 0}
-										  <br />{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}:
-										  {foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
-										  {if $USER}{\App\Purifier::encodeHtml(\App\Fields\Owner::getLabel($USER))}{/if}
+								  {if count($RECORD->get('selectedusers')) > 0}
+									  <br />{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}:
+									  {foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
+									 	 {if $USER}{\App\Purifier::encodeHtml(\App\Fields\Owner::getLabel($USER))}{/if}
 									  {/foreach}
 								  {/if}
-							{/if}">
+							">
 							<span class="fas fa-info-circle fa-fw"></span>
 						</span>
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
@@ -178,9 +172,7 @@
 									{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
 										<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}[]'
 											   data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}'/>
-
-{else}
-
+									{else}
 										<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}'
 											   data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}'/>
 									{/if}

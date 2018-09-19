@@ -29,7 +29,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		const form = this.getForm(),
 			element = form.find('input[name="reapeat"]');
 		element.on('change', function (e) {
-			let repeatUI = form.find('.repeatUI'),
+			let repeatUI = form.find('.js-repeat-ui'),
 				container = form.find('[name="followup"]').closest('.fieldValue');
 			if ($(e.currentTarget).is(':checked')) {
 				repeatUI.closest('.fieldRow').removeClass('d-none');
@@ -513,3 +513,4 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		this._super();
 	}
 });
+

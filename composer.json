@@ -48,7 +48,7 @@
     "ext-xml": "*",
     "sabre/dav": "3.2.2",
     "rmccue/requests": "v1.7.0",
-    "smarty/smarty": "3.1.31",
+    "smarty/smarty": "^v3.1.33",
     "phpmailer/phpmailer": "v6.0.5",
     "ezyang/htmlpurifier": "v4.10.0",
     "simshaun/recurr": "v3.0.5",

@@ -152,7 +152,7 @@ class Picklist
 	{
 		return (new \App\Db\Query())->select(['vtiger_tab.tabid', 'vtiger_tab.tablabel', 'tabname' => 'vtiger_tab.name'])->from('vtiger_field')
 			->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')->where(['uitype' => [15, 16, 33, 115]])
-			->andWhere((['<>', 'vtiger_tab.name', 'Events']))->distinct('vtiger_tab.tabid')->orderBy(['vtiger_tab.tabid' => SORT_ASC])->createCommand()->queryAllByGroup(1);
+			->distinct('vtiger_tab.tabid')->orderBy(['vtiger_tab.tabid' => SORT_ASC])->createCommand()->queryAllByGroup(1);
 	}
 
 	/**
@@ -162,28 +162,21 @@ class Picklist
 	 *
 	 * @return array associative array [$moduleName=>[...$fieldNames]]
 	 */
-	public static function getModulesByName($moduleName = '')
+	public static function getModulesByName(string $moduleName = '')
 	{
 		if (\App\Cache::has('getPicklistModulesByName', $moduleName)) {
 			return \App\Cache::get('getPicklistModulesByName', $moduleName);
 		}
-		$query = (new \App\Db\Query())->select(['vtiger_field.fieldname', 'vtiger_tab.name'])
+		$query = (new \App\Db\Query())->select(['vtiger_tab.name', 'vtiger_field.fieldname'])
 			->from('vtiger_field')
 			->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
-			->where(['uitype' => [15, 16, 33, 115]])
-			->andWhere((['<>', 'vtiger_tab.name', 'Events']));
+			->where(['uitype' => [15, 16, 33, 115]]);
 		if ($moduleName) {
-			$query = $query->andWhere(['vtiger_tab.name' => $moduleName]);
+			$modules = $query->andWhere(['vtiger_tab.name' => $moduleName])->createCommand()->queryAllByGroup(2);
+			$result = $modules[$moduleName] ?? [];
+		} else {
+			$result = $query->orderBy(['vtiger_tab.tabid' => SORT_ASC])->createCommand()->queryAllByGroup(2);
 		}
-		$rows = $query->orderBy(['vtiger_tab.tabid' => SORT_ASC])->createCommand()->queryAll();
-		$modules = [];
-		foreach ($rows as $row) {
-			if (!isset($modules[$row['name']])) {
-				$modules[$row['name']] = [];
-			}
-			$modules[$row['name']][] = $row['fieldname'];
-		}
-		$result = $modules[$moduleName] ?: $modules;
 		\App\Cache::save('getPicklistModulesByName', $moduleName, $result);
 		return $result;
 	}
@@ -337,24 +330,18 @@ class Picklist
 	 *
 	 * @return string[]
 	 */
-	public static function getCloseStates(int $tabId)
+	public static function getCloseStates(int $tabId, bool $byName = true)
 	{
-		$cacheName = 'getCloseStates';
+		$cacheName = 'getCloseStates' . ($byName ? 'ByName' : '');
 		if (\App\Cache::has($cacheName, $tabId)) {
 			return \App\Cache::get($cacheName, $tabId);
 		}
-		$dataReader = (new \App\Db\Query())->select(['valueid', 'value'])
+		$field = $byName ? ['vtiger_field.fieldname', 'value'] : ['valueid', 'value'];
+		$values = (new \App\Db\Query())->select($field)
 			->from('u_#__picklist_close_state')
-			->innerJoin('vtiger_field')
-			->where([
-				'tabid' => $tabId,
-				'presence' => [0, 2]
-			])
-			->createCommand()->query();
-		$values = [];
-		while ($row = $dataReader->read()) {
-			$values[$row['valueid']] = $row['value'];
-		}
+			->innerJoin('vtiger_field', 'u_#__picklist_close_state.fieldid = vtiger_field.fieldid')
+			->where(['tabid' => $tabId, 'presence' => [0, 2]])
+			->createCommand()->queryAllByGroup($byName ? 2 : 0);
 		\App\Cache::save($cacheName, $tabId, $values);
 		return $values;
 	}
