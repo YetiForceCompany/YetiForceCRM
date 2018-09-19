@@ -10,8 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Settings-Picklist-EditView -->
 	{assign var=OLD_VALUE value=\App\Purifier::encodeHtml($PICKLIST_VALUE['picklistValue'])}
-	<div class='tpl-Settings-Picklist-EditView modelContainer modal fade' tabindex="-1">
+	<div class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -92,4 +93,5 @@
 			</div>
 		</div>
 	</div>
+	<!-- /tpl-Settings-Picklist-EditView -->
 {/strip}
