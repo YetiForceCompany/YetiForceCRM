@@ -657,16 +657,18 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$viewer = $this->getViewer($request);
 		if (!empty($parentCommentModels)) {
+			$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
+			$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 			$viewer->assign('CURRENTUSER', $currentUserModel);
 			$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
+			$viewer->assign('CURRENT_COMMENT', false);
 			$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 			$viewer->assign('NO_COMMENT_FORM', true);
+			$viewer->assign('MODULE', $moduleName);
 			if ($isWidget === false) {
 				$viewer->assign('SHOW_CHILD_COMMENTS', true);
 				return $viewer->view('CommentsList.tpl', $moduleName, true);
 			} else {
-				$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-				$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 				$viewer->assign('PAGING_MODEL', $pagingModel);
 				$viewer->assign('BUTTON_SHOW_PARENT', true);
 				return $viewer->view('CommentsList.tpl', $moduleName, true);
