@@ -70,6 +70,9 @@ let YearView = View.extend({
 		}
 		return users;
 	},
+	getCurrentCvId() {
+		return $(".js-calendar-extended-filter-tab .active").parent('.js-filter-tab').data('cvid');
+	},
 	render: function () {
 		const self = this;
 		//common
@@ -92,7 +95,8 @@ let YearView = View.extend({
 			start: date + '-01-01',
 			end: date + '-12-31',
 			user: user,
-			yearView: true
+			yearView: true,
+			cvid: this.getCurrentCvId()
 		}).done(function (events) {
 			yearView.find('.fc-year__month').each(function (i) {
 				let date = moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD");
