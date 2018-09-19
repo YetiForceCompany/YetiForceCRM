@@ -806,6 +806,12 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			width: '',
 			height: ''
 		});
+		app.showNewScrollbar($('.js-usersForm'), {
+			wheelPropagation: true
+		});
+		app.showNewScrollbar($('.js-groupForm'), {
+			wheelPropagation: true
+		});
 	},
 	/**
 	 * Find element on list (user, group)
