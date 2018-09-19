@@ -490,34 +490,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				progressInstance.progressIndicator({mode: 'hide'});
 			});
 		}
-		$(".calendarFilters .filterField").each(function (index) {
-			let element = $(this),
-				name, value;
-			if (element.attr('type') === 'checkbox') {
-				name = element.val();
-				value = element.prop('checked') ? 1 : 0;
-			} else {
-				name = element.attr('name');
-				value = element.val();
-			}
-			filters.push({name: name, value: value});
-		});
-		thisInstance.clearFilterButton(user, filters, cvid);
-		AppConnector.request({
-			module: 'Calendar',
-			action: 'Calendar',
-			mode: 'getEvents',
-			start: view.start.format(formatDate),
-			end: view.end.format(formatDate),
-			user: user,
-			time: app.getMainParams('showType'),
-			filters: filters,
-			cvid: cvid
-		}).then((events) => {
-			thisInstance.getCalendarView().fullCalendar('removeEvents');
-			thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
-			progressInstance.progressIndicator({mode: 'hide'});
-		});
 	},
 	clearFilterButton(user, filters, cvid) {
 		let currentUser = parseInt(app.getMainParams('userId')),
