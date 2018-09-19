@@ -285,8 +285,10 @@ class SocialMedia extends Base
 		$fields = (new \App\Db\Query())
 			->select(['columnname', 'tablename', 'uitype'])
 			->from('vtiger_field')
-			->where(['uitype' => static::getUitypeFromParam($socialMediaType)])
-			->andWhere(['presence' => [0, 2]])
+			->leftJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
+			->where(['vtiger_tab.presence' => 0])
+			->andWhere(['vtiger_field.presence' => [0, 2]])
+			->andWhere(['vtiger_field.uitype' => static::getUitypeFromParam($socialMediaType)])
 			->all();
 		if (!$fields) {
 			return false;

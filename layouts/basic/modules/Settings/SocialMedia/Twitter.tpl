@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-SocialMedia-Index-Twitter u-ml-10px">
+	<div class="tpl-Settings-SocialMedia-Twitter u-ml-10px">
 		<div class="contents">
 			<div class="alert alert-info">
 				<h5 class="alert-heading">{\App\Language::translate('LBL_TWITTER', $QUALIFIED_MODULE)}</h5>
