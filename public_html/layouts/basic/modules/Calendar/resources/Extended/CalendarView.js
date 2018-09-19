@@ -3,16 +3,6 @@
 
 Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	/**
-	 * Calendar scroll
-	 */
-	registerCalendarScroll() {
-		app.showScrollBar($('.js-calendar--scroll'), {
-			railVisible: true,
-			alwaysVisible: true,
-			position: 'left'
-		});
-	},
-	/**
 	 * Render calendar
 	 */
 	renderCalendar() {
@@ -141,7 +131,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		}
 		self.getCalendarView().fullCalendar('destroy');
 		self.getCalendarView().fullCalendar(options);
-		self.registerCalendarScroll();
 		self.createAddSwitch();
 	},
 	showStatusUpdate(params) {

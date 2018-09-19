@@ -26,7 +26,7 @@
 				<div class="js-subDateList subDateList" data-js="data-type">
 				</div>
 			</div>
-			<div class="o-calendar__container js-calendar__container col-sm-11 pl-1" data-js="offset">
+			<div class="o-calendar__container u-overflow-y-auto col-sm-11 pl-1" data-js="offset">
 				<div class="d-flex justify-content-between">
 					{if $CUSTOM_VIEWS|@count gt 0}
 						<ul class="nav nav-pills u-w-fit js-calendar-extended-filter-tab" data-js="change" role="tablist">
@@ -58,7 +58,7 @@
 						<span class="o-calendar__clear-btn__text">{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}</span>
 					</a>
 				</div>
-				<div id="calendarview"></div>
+				<div class="js-calendar__container" id="calendarview"></div>
 			</div>
 		</div>
 	</div>

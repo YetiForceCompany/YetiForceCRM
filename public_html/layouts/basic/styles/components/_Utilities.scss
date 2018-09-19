@@ -367,6 +367,10 @@
 	overflow: auto !important;
 }
 
+.u-overflow-y-auto {
+	overflow-y: auto !important;
+}
+
 @include media-breakpoint-down(xs) {
 	.u-overflow-scroll-xs-down {
 		overflow: scroll !important;

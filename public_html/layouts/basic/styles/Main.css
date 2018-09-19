@@ -12090,6 +12090,9 @@ select[readonly], select[disabled] {
 .u-overflow-auto {
   overflow: auto !important; }
 
+.u-overflow-y-auto {
+  overflow-y: auto !important; }
+
 @media (max-width: 399.98px) {
   .u-overflow-scroll-xs-down {
     overflow: scroll !important; } }
@@ -14432,6 +14435,8 @@ label.btn.btn-outline-primary:not(.active) {
   bottom: 1.9375rem;
   width: 100%;
   overflow-x: hidden; }
+  .Calendar_CalendarExtended .mainBody {
+    overflow-y: hidden; }
 
 @media (max-width: 767.98px) {
   .mainBody {
