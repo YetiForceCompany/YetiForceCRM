@@ -211,7 +211,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isEditable()
 	{
-		return 'Calendar' !== $this->block->module->name;
+		return !('Calendar' === $this->block->module->name && $this->isActiveOptionDisabled());
 	}
 
 	/**
