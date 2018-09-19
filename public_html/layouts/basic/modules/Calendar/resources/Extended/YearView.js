@@ -27,53 +27,48 @@ let YearView = View.extend({
 			</div>
 		`;
 	},
-	loadCalendarData: function (calendar) {
+	loadCalendarData: function (calendar, events) {
 		var thisInstance = this;
-		var view = calendar.fullCalendar('getView');
-		var formatDate = CONFIG.dateFormat.toUpperCase();
-		var start_date = view.start.format(formatDate);
-		var end_date = view.end.format(formatDate);
-		// let user = Calendar_CalendarExtendedView_Js.getSelectedUsersCalendar();
-		// if (user.length === 0) {
-		// }
-		let user = [app.getMainParams('current_user_id')];
-
-		var params = {
-			module: 'Calendar',
-			action: 'Calendar',
-			mode: 'getEvents',
-			start: start_date,
-			end: end_date,
-			user: user,
-			yearView: true
+		var height = (calendar.find('.fc-bg :first').height() - calendar.find('.fc-day-number').height()) - 10;
+		var width = (calendar.find('.fc-day-number').width() / 2) - 10;
+		for (var i in events.result) {
+			events.result[i]['width'] = width;
+			events.result[i]['height'] = height;
 		}
-		AppConnector.request(params).done(function (events) {
-			var height = (calendar.find('.fc-bg :first').height() - calendar.find('.fc-day-number').height()) - 10;
-			var width = (calendar.find('.fc-day-number').width() / 2) - 10;
-			for (var i in events.result) {
-				events.result[i]['width'] = width;
-				events.result[i]['height'] = height;
+		calendar.fullCalendar('addEventSource',
+			events.result
+		);
+		calendar.find(".cell-calendar a").on('click', function () {
+			var url = 'index.php?module=Calendar&view=List';
+			if (customFilter) {
+				url += '&viewname=' + calendar.find('select.widgetFilter.customFilter').val();
+			} else {
+				url += '&viewname=All';
 			}
-			calendar.fullCalendar('addEventSource',
-				events.result
-			);
-			calendar.find(".cell-calendar a").on('click', function () {
-				var container = thisInstance.getContainer();
-				var url = 'index.php?module=Calendar&view=List';
-				if (customFilter) {
-					url += '&viewname=' + calendar.find('select.widgetFilter.customFilter').val();
-				} else {
-					url += '&viewname=All';
-				}
-				url += '&search_params=[[';
-				// var owner = calendar.find('.widgetFilter.owner option:selected');
-				// if (owner.val() != 'all') {
-				// 	url += '["assigned_user_id","e","' + owner.val() + '"],';
-				// }
-				var date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase())
-				window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","bw","' + date + ',' + date + '"]]]';
-			});
+			url += '&search_params=[[';
+			// var owner = calendar.find('.widgetFilter.owner option:selected');
+			// if (owner.val() != 'all') {
+			// 	url += '["assigned_user_id","e","' + owner.val() + '"],';
+			// }
+			var date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase())
+			window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","bw","' + date + ',' + date + '"]]]';
 		});
+	},
+	getSidebarView() {
+		return $('#rightPanel');
+	},
+	getSelectedUsersCalendar() {
+		let selectedUsers = this.getSidebarView().find('.js-inputUserOwnerId:checked'),
+			selectedUsersAjax = this.getSidebarView().find('.js-inputUserOwnerIdAjax'),
+			users = [];
+		if (selectedUsers.length > 0) {
+			selectedUsers.each(function () {
+				users.push($(this).val());
+			});
+		} else if (selectedUsersAjax.length > 0) {
+			users = this.getSidebarView().find('.js-inputUserOwnerIdAjax').val();
+		}
+		return users;
 	},
 	render: function () {
 		const self = this;
@@ -83,55 +78,70 @@ let YearView = View.extend({
 			hiddenDays = app.getMainParams('hiddenDays', true);
 		}
 		//
-		let calendar = $('#calendarview').fullCalendar('getCalendar');
-		let yearView = this.el.html(this.renderHtml());
-		yearView.find('.fc-year__month').each(function (i) {
-			let date = moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD");
-			let options = {
-				defaultView: 'month',
-				titleFormat: 'MMMM',
-				header: {center: 'title', left: false, right: false},
-				height: 'auto',
-				defaultDate: date,
-				eventRender: function (event, element) {
-					element = '<div class="cell-calendar">';
-					for (var key in event.event) {
-						element += `
+		let calendar = $('#calendarview').fullCalendar('getCalendar'),
+			yearView = this.el.html(this.renderHtml()),
+			user = this.getSelectedUsersCalendar(),
+			date = $("#datesColumn .dateRecord.dateActive").text();
+		if (user.length === 0) {
+			user = [app.getMainParams('userId')];
+		}
+		AppConnector.request({
+			module: 'Calendar',
+			action: 'Calendar',
+			mode: 'getEvents',
+			start: date + '-01-01',
+			end: date + '-12-31',
+			user: user,
+			yearView: true
+		}).done(function (events) {
+			yearView.find('.fc-year__month').each(function (i) {
+				let date = moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD");
+				let options = {
+					defaultView: 'month',
+					titleFormat: 'MMMM',
+					header: {center: 'title', left: false, right: false},
+					height: 'auto',
+					defaultDate: date,
+					eventRender: function (event, element) {
+						element = '<div class="cell-calendar">';
+						for (var key in event.event) {
+							element += `
 							<a class="" href="#" data-date="${event.date}" data-type="${key}" title="${event.event[key].label}">
 								<span class="${event.event[key].className} ${event.width <= 20 ? 'small-badge' : ''} ${(event.width >= 24) ? 'big-badge' : ''} badge badge-secondary u-font-size-95per">
 									${event.event[key].count}
 								</span>
 							</a>`;
-					}
-					element += '</div>';
-					return element;
-				},
-				hiddenDays: hiddenDays,
-				monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
-					app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
-					app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
-					app.vtranslate('JS_NOVEMBER'), app.vtranslate('JS_DECEMBER')],
-				monthNamesShort: [app.vtranslate('JS_JAN'), app.vtranslate('JS_FEB'), app.vtranslate('JS_MAR'),
-					app.vtranslate('JS_APR'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUN'), app.vtranslate('JS_JUL'),
-					app.vtranslate('JS_AUG'), app.vtranslate('JS_SEP'), app.vtranslate('JS_OCT'), app.vtranslate('JS_NOV'),
-					app.vtranslate('JS_DEC')],
-				dayNames: [app.vtranslate('JS_SUNDAY'), app.vtranslate('JS_MONDAY'), app.vtranslate('JS_TUESDAY'),
-					app.vtranslate('JS_WEDNESDAY'), app.vtranslate('JS_THURSDAY'), app.vtranslate('JS_FRIDAY'),
-					app.vtranslate('JS_SATURDAY')],
-				dayNamesShort: [app.vtranslate('JS_SUN'), app.vtranslate('JS_MON'), app.vtranslate('JS_TUE'),
-					app.vtranslate('JS_WED'), app.vtranslate('JS_THU'), app.vtranslate('JS_FRI'),
-					app.vtranslate('JS_SAT')],
-				buttonText: {
-					today: app.vtranslate('JS_TODAY'),
-					year: app.vtranslate('JS_YEAR'),
-					month: app.vtranslate('JS_MONTH'),
-					week: app.vtranslate('JS_WEEK'),
-					day: app.vtranslate('JS_DAY')
-				},
-				allDayText: app.vtranslate('JS_ALL_DAY'),
-			}
-			let calendarInstance = $(this).fullCalendar(options);
-			self.loadCalendarData(calendarInstance);
+						}
+						element += '</div>';
+						return element;
+					},
+					hiddenDays: hiddenDays,
+					monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
+						app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
+						app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
+						app.vtranslate('JS_NOVEMBER'), app.vtranslate('JS_DECEMBER')],
+					monthNamesShort: [app.vtranslate('JS_JAN'), app.vtranslate('JS_FEB'), app.vtranslate('JS_MAR'),
+						app.vtranslate('JS_APR'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUN'), app.vtranslate('JS_JUL'),
+						app.vtranslate('JS_AUG'), app.vtranslate('JS_SEP'), app.vtranslate('JS_OCT'), app.vtranslate('JS_NOV'),
+						app.vtranslate('JS_DEC')],
+					dayNames: [app.vtranslate('JS_SUNDAY'), app.vtranslate('JS_MONDAY'), app.vtranslate('JS_TUESDAY'),
+						app.vtranslate('JS_WEDNESDAY'), app.vtranslate('JS_THURSDAY'), app.vtranslate('JS_FRIDAY'),
+						app.vtranslate('JS_SATURDAY')],
+					dayNamesShort: [app.vtranslate('JS_SUN'), app.vtranslate('JS_MON'), app.vtranslate('JS_TUE'),
+						app.vtranslate('JS_WED'), app.vtranslate('JS_THU'), app.vtranslate('JS_FRI'),
+						app.vtranslate('JS_SAT')],
+					buttonText: {
+						today: app.vtranslate('JS_TODAY'),
+						year: app.vtranslate('JS_YEAR'),
+						month: app.vtranslate('JS_MONTH'),
+						week: app.vtranslate('JS_WEEK'),
+						day: app.vtranslate('JS_DAY')
+					},
+					allDayText: app.vtranslate('JS_ALL_DAY'),
+				};
+				let calendarInstance = $(this).fullCalendar(options);
+				self.loadCalendarData(calendarInstance, events);
+			});
 		});
 	},
 
