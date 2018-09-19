@@ -47,13 +47,13 @@
 								<strong>{$COMMENT->getDisplayValue('related_to')}</strong>
 							</a>
 						{/if}
-						<div class="js-commentInfoContent commentInfoContent" data-js="html">
+						<div class="js-comment-info commentInfoContent" data-js="html">
 							{$COMMENT->getDisplayValue('commentcontent')}
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="js-commentActionsContainer commentActionsContainer row no-margin" data-js="hide|show">
+			<div class="js-comment-container commentActionsContainer row no-margin" data-js="hide|show">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
 				<div class="js-editedStatus editedStatus" name="editStatus" data-js="class: d-none">
 					<span class="{if empty($REASON_TO_EDIT)}d-none{/if} js-editReason text-muted"
@@ -89,7 +89,7 @@
 					</button>
 						{/if}
 						{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-							<button type="button" class="btn btn-sm btn-primary js-editComment feedback marginLeft5"
+							<button type="button" class="btn btn-sm btn-primary js-edit-comment feedback marginLeft5"
 									data-js="click">
 						<span class="fas fa-edit"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 					</button>

@@ -1970,12 +1970,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 				} else {
 					$('<ul class="liStyleNone"><li class="js-commentDetails commentDetails">' + data + '</li></ul>').prependTo(closestAddCommentBlock.closest('.contents').find('.commentsList'));
 				}
-				commentInfoBlock.find('.js-commentActionsContainer').show();
+				commentInfoBlock.find('.js-comment-container').show();
 				app.event.trigger("DetailView.SaveComment.AfterLoad", commentInfoBlock, data);
 			});
 		} else if (mode == "edit") {
 			let modifiedTime = commentInfoBlock.find('.js-commentModifiedTime'),
-				commentInfoContent = commentInfoBlock.find('.js-commentInfoContent'),
+				commentInfoContent = commentInfoBlock.find('.js-comment-info'),
 				commentEditStatus = commentInfoBlock.find('.js-editStatus'),
 				commentReason = commentInfoBlock.find('.js-editReasonSpan');
 			commentInfoContent.html(data.result.commentcontent);
@@ -1989,7 +1989,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				commentInfoBlock.find('.js-editReason').removeClass('d-none')
 			}
 			commentInfoContent.show();
-			commentInfoBlock.find('.js-commentActionsContainer').show();
+			commentInfoBlock.find('.js-comment-container').show();
 			closestAddCommentBlock.remove();
 			app.event.trigger("DetailView.SaveComment.AfterUpdate", commentInfoBlock, data);
 		}
@@ -2006,17 +2006,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 		detailContentsHolder.on('click', '.closeCommentBlock', function (e) {
 			let commentInfoBlock = jQuery(e.currentTarget.closest('.js-comment-single'));
-			commentInfoBlock.find('.js-commentActionsContainer').show();
+			commentInfoBlock.find('.js-comment-container').show();
 			commentInfoBlock.find('.commentInfoContent').show();
 			self.removeCommentBlockIfExists();
 		});
 		detailContentsHolder.on('click', '.js-replyComment', function (e) {
 			self.removeCommentBlockIfExists();
 			let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single');
-			commentInfoBlock.find('.js-commentActionsContainer').hide();
+			commentInfoBlock.find('.js-comment-container').hide();
 			self.getCommentBlock().appendTo(commentInfoBlock).show();
 		});
-		detailContentsHolder.on('click', '.js-editComment', function (e) {
+		detailContentsHolder.on('click', '.js-edit-comment', function (e) {
 			self.removeCommentBlockIfExists();
 			let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single'),
 				commentInfoContent = commentInfoBlock.find('.commentInfoContent'),
@@ -2024,7 +2024,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			editCommentBlock.find('.commentcontent').val(commentInfoContent.text());
 			editCommentBlock.find('.js-reasonToEdit').val(commentInfoBlock.find('.js-editReasonSpan').text());
 			commentInfoContent.hide();
-			commentInfoBlock.find('.js-commentActionsContainer').hide();
+			commentInfoBlock.find('.js-comment-container').hide();
 			editCommentBlock.appendTo(commentInfoBlock).show();
 		});
 		detailContentsHolder.on('click', '.detailViewSaveComment', function (e) {
