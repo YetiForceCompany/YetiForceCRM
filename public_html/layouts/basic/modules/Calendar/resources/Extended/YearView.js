@@ -84,7 +84,8 @@ let YearView = View.extend({
 		let calendar = $('#calendarview').fullCalendar('getCalendar'),
 			yearView = this.el.html(this.renderHtml()),
 			user = this.getSelectedUsersCalendar(),
-			date = $("#datesColumn .dateRecord.dateActive").text();
+			date = calendar.getDate().year(),
+			progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 		if (user.length === 0) {
 			user = [app.getMainParams('userId')];
 		}
@@ -146,6 +147,7 @@ let YearView = View.extend({
 				let calendarInstance = $(this).fullCalendar(options);
 				self.loadCalendarData(calendarInstance, events);
 			});
+			progressInstance.progressIndicator({mode: 'hide'});
 		});
 	},
 
