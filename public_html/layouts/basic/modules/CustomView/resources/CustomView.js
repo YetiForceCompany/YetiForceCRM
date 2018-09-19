@@ -166,8 +166,13 @@ Vtiger_CustomView_Js = {
 				}
 			}
 			if (mandatoryFieldsMissing) {
-				var message = app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_MANDATORY_FIELD');
-				select2Element.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+				selectElement.validationEngine(
+					'showPrompt',
+					app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_MANDATORY_FIELD'),
+					'error',
+					'topLeft',
+					true
+				);
 				e.preventDefault();
 				return;
 			} else {
