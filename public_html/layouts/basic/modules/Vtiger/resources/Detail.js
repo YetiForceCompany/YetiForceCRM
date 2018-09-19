@@ -2199,7 +2199,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	registerConfirmationClick(element, picklistName) {
 		const thisInstance = this;
 		$(element).on('click', (e) => {
-			let picklistValue = $(e).data('picklistValue');
+			let picklistValue = $(element).data('picklistValue');
 			Vtiger_Helper_Js.showConfirmationBox({
 				title: picklistValue,
 				message: app.vtranslate('JS_CHANGE_STATUS_CONFIRMATION')
