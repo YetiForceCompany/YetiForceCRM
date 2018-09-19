@@ -35,6 +35,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$this->exposeMethod('getCountEvents');
 		$this->exposeMethod('updateEvent');
 		$this->exposeMethod('getCountEventsGroup');
+		$this->exposeMethod('pinOrUnpinUser');
 	}
 
 	public function getEvents(\App\Request $request)
@@ -174,5 +175,41 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$date = $date->modify('+' . $delta['minutes'] . ' minutes');
 		}
 		return ['date' => $date->format('Y-m-d'), 'time' => $date->format('H:i:s')];
+	}
+
+	/**
+	 * Get count Events for extended calendar's left column.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function pinOrUnpinUser(\App\Request $request)
+	{
+		$db = \App\Db::getInstance();
+		$userId = \App\User::getCurrentUserId();
+		if (!$request->isEmpty('element_id')) {
+			$favouritesId = $request->getInteger('element_id');
+			if (\App\User::isExists($favouritesId)) {
+				$query = new \App\Db\Query();
+				$countRecords = $query->select('fav_element_id')
+					->from('u_#__users_pinned')
+					->where(['owner_id' => $userId])
+					->where(['fav_element_id' => $favouritesId])
+					->count();
+				$data = [
+					'owner_id' => $userId,
+					'fav_element_id' => $favouritesId,
+				];
+				if ($countRecords === 0) {
+					$db->createCommand()->insert('u_#__users_pinned', $data)->execute();
+					$result = 'pin';
+				} else {
+					$db->createCommand()->delete('u_#__users_pinned', $data)->execute();
+					$result = 'unpin';
+				}
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
 	}
 }

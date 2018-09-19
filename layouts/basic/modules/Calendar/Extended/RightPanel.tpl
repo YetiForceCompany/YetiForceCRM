@@ -23,6 +23,10 @@
 								<label class="marginLeft10 js-filter__item__value" for="ownerId{$OWNER_ID}">
 									<span class="ownerCBg_{$OWNER_ID}">&nbsp&nbsp</span>&nbsp{$OWNER_NAME}
 								</label>
+								<div class="js-pinUser float-right" data-elementid="{$OWNER_ID}"
+									 data-js="click|data-elementid">
+									<span class="fas fa-thumbtack u-cursor-pointer u-opacity-muted"></span>
+								</div>
 							</div>
 						</li>
 					{/foreach}

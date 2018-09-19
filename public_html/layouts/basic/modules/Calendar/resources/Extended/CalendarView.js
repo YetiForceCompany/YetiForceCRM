@@ -621,6 +621,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		thisInstance.getSidebarView().find('.js-inputUserOwnerIdAjax').on('change', () => {
 			thisInstance.loadCalendarData();
 		});
+		thisInstance.registerPinUser();
 	},
 	addCalendarEvent(calendarDetails) {
 		let calendar = this.getCalendarView(),
@@ -757,6 +758,28 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			}
 		);
 		return aDeferred.promise();
+	},
+	registerPinUser() {
+		$('.js-pinUser').off('click').on('click', function () {
+			const thisInstance = $(this);
+			AppConnector.request({
+				'module': app.getModuleName(),
+				'action': 'Calendar',
+				'mode': 'pinOrUnpinUser',
+				'element_id': thisInstance.data('elementid'),
+			}).then(
+				(data) => {
+					let response = data.result;
+					if (response === 'unpin') {
+						thisInstance.find('.fa-thumbtack').addClass('u-opacity-muted');
+					} else if (response === 'pin') {
+						thisInstance.find('.fa-thumbtack').removeClass('u-opacity-muted');
+					} else {
+						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+					}
+				}
+			);
+		});
 	},
 	/**
 	 * Overwriting the parent function
