@@ -163,9 +163,8 @@ let YearView = View.extend({
 	getCalendarCreateView() {
 		const thisInstance = this;
 		let aDeferred = $.Deferred();
-		if (this.calendarCreateView !== false) {
-			aDeferred.resolve(this.calendarCreateView.clone(true, true));
-			return aDeferred.promise();
+		if (thisInstance.calendarCreateView !== false) {
+			return thisInstance.calendarCreateView;
 		}
 		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 		this.loadCalendarCreateView().then(
@@ -197,7 +196,8 @@ let YearView = View.extend({
 				progressInstance.progressIndicator({mode: 'hide'});
 			}
 		);
-		return aDeferred.promise();
+		thisInstance.calendarCreateView = aDeferred.promise();
+		return thisInstance.calendarCreateView;
 	},
 	registerSubmitForm() {
 		const thisInstance = this;

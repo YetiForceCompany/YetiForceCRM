@@ -715,9 +715,8 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	getCalendarCreateView() {
 		const thisInstance = this;
 		let aDeferred = $.Deferred();
-		if (this.calendarCreateView !== false) {
-			aDeferred.resolve(this.calendarCreateView.clone(true, true));
-			return aDeferred.promise();
+		if (thisInstance.calendarCreateView !== false) {
+			return thisInstance.calendarCreateView;
 		}
 		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 		this.loadCalendarCreateView().then(
@@ -749,7 +748,8 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				progressInstance.progressIndicator({mode: 'hide'});
 			}
 		);
-		return aDeferred.promise();
+		thisInstance.calendarCreateView = aDeferred.promise();
+		return thisInstance.calendarCreateView;
 	},
 	registerPinUser() {
 		$('.js-pinUser').off('click').on('click', function () {
