@@ -49,6 +49,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				center: 'prevYear,prev,title,next,nextYear',
 				right: 'today'
 			},
+			timeFormat: userDefaultTimeFormat,
 			axisFormat: userDefaultTimeFormat,
 			scrollTime: defaultFirstHour,
 			firstDay: convertedFirstDay,
