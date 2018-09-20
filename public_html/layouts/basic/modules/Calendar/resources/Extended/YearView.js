@@ -31,10 +31,10 @@ let YearView = View.extend({
 		`;
 	},
 	loadCalendarData: function (calendar, events) {
-		var thisInstance = this;
-		var height = (calendar.find('.fc-bg :first').height() - calendar.find('.fc-day-number').height()) - 10;
-		var width = (calendar.find('.fc-day-number').width() / 2) - 10;
-		for (var i in events.result) {
+		let height = (calendar.find('.fc-bg :first').height() - calendar.find('.fc-day-number').height()) - 10,
+			width = (calendar.find('.fc-day-number').width() / 2) - 10,
+			i;
+		for (i in events.result) {
 			events.result[i]['width'] = width;
 			events.result[i]['height'] = height;
 		}
@@ -42,18 +42,18 @@ let YearView = View.extend({
 			events.result
 		);
 		calendar.find(".cell-calendar a").on('click', function () {
-			var url = 'index.php?module=Calendar&view=List';
+			let url = 'index.php?module=Calendar&view=List';
 			//if (customFilter) { TODO: add customFilter
 			//	url += '&viewname=' + calendar.find('select.widgetFilter.customFilter').val();
 			//} else {
 			url += '&viewname=All';
 			//}
 			url += '&search_params=[[';
-			// var owner = calendar.find('.widgetFilter.owner option:selected');
+			// let owner = calendar.find('.widgetFilter.owner option:selected');
 			// if (owner.val() != 'all') {
 			// 	url += '["assigned_user_id","e","' + owner.val() + '"],';
 			// }
-			var date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase())
+			let date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase())
 			window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","bw","' + date + ',' + date + '"]]]';
 		});
 	},
@@ -112,18 +112,16 @@ let YearView = View.extend({
 	},
 	render: function () {
 		const self = this;
-		//common
-		let hiddenDays = [];
-		if (app.getMainParams('switchingDays') === 'workDays') {
-			hiddenDays = app.getMainParams('hiddenDays', true);
-		}
-		//
-		let calendar = $('#calendarview').fullCalendar('getCalendar'),
+		let hiddenDays = [],
+			calendar = $('#calendarview').fullCalendar('getCalendar'),
 			yearView = this.el.html(this.renderHtml()),
 			user = this.getSelectedUsersCalendar(),
 			date = calendar.getDate().year(),
 			progressInstance = $.progressIndicator({blockInfo: {enabled: true}}),
 			cvid = this.getCurrentCvId();
+		if (app.getMainParams('switchingDays') === 'workDays') {
+			hiddenDays = app.getMainParams('hiddenDays', true);
+		}
 		if (user.length === 0) {
 			user = [app.getMainParams('userId')];
 		}
@@ -139,16 +137,15 @@ let YearView = View.extend({
 			cvid: cvid
 		}).done(function (events) {
 			yearView.find('.fc-year__month').each(function (i) {
-				let date = moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD");
-				let options = {
+				self.loadCalendarData($(this).fullCalendar({
 					defaultView: 'month',
 					titleFormat: 'MMMM',
 					header: {center: 'title', left: false, right: false},
 					height: 'auto',
-					defaultDate: date,
+					defaultDate: moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD"),
 					eventRender: function (event, element) {
 						element = '<div class="cell-calendar">';
-						for (var key in event.event) {
+						for (let key in event.event) {
 							element += `
 							<a class="" href="#" data-date="${event.date}" data-type="${key}" title="${event.event[key].label}">
 								<span class="${event.event[key].className} ${event.width <= 20 ? 'small-badge' : ''} ${(event.width >= 24) ? 'big-badge' : ''} badge badge-secondary u-font-size-95per">
@@ -182,9 +179,7 @@ let YearView = View.extend({
 						day: app.vtranslate('JS_DAY')
 					},
 					allDayText: app.vtranslate('JS_ALL_DAY'),
-				};
-				let calendarInstance = $(this).fullCalendar(options);
-				self.loadCalendarData(calendarInstance, events);
+				}), events);
 			});
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
