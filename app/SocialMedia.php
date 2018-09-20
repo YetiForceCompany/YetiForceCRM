@@ -47,7 +47,7 @@ class SocialMedia extends Base
 	 *
 	 * @param string $type Type of config
 	 */
-	private function __construct(string $type)
+	public function __construct(string $type)
 	{
 		$this->type = $type;
 		if (\App\Cache::has('SocialMediaConfig', $this->type)) {
