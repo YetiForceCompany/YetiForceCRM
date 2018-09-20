@@ -2192,29 +2192,27 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	/**
-	 * Register confirmation on event click
+	 * Show confirmation on event click
 	 * @param jQuery element
 	 * @param string picklistName
 	 */
-	registerConfirmationClick(element, picklistName) {
-		const thisInstance = this;
-		$(element).on('click', (e) => {
-			let picklistValue = $(element).data('picklistValue');
-			Vtiger_Helper_Js.showConfirmationBox({
-				title: picklistValue,
-				message: app.vtranslate('JS_CHANGE_STATUS_CONFIRMATION')
+	showProgressConfirmation(element, picklistName) {
+		const self = this;
+		let picklistValue = $(element).data('picklistValue');
+		Vtiger_Helper_Js.showConfirmationBox({
+			title: picklistValue,
+			message: app.vtranslate('JS_CHANGE_STATUS_CONFIRMATION')
+		}).done(() => {
+			const progressIndicatorElement = $.progressIndicator();
+			self.saveFieldValues({
+				value: picklistValue,
+				field: picklistName
 			}).done(() => {
-				const progressIndicatorElement = $.progressIndicator();
-				thisInstance.saveFieldValues({
-					value: picklistValue,
-					field: picklistName
-				}).done(() => {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					window.location.reload();
-				}).fail(function (error, err) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					app.errorLog(error, err);
-				});
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				window.location.reload();
+			}).fail(function (error, err) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				app.errorLog(error, err);
 			});
 		});
 	},
@@ -2222,14 +2220,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * Change status from progress
 	 */
 	registerProgress() {
-		const thisInstance = this;
-		let progressList = $('.js-header-progress-bar').eq(0);
-		if (progressList.length > 0) {
-			let picklistName = progressList.data('picklistName');
-			progressList.find('li.js-access').each((index, element) => {
-				thisInstance.registerConfirmationClick(element, picklistName);
+		const self = this;
+		$('.js-header-progress-bar').each((index, element) => {
+			let picklistName = $(element).data('picklistName');
+			$(element).find('.js-access').on('click', (e) => {
+				self.showProgressConfirmation(e.currentTarget, picklistName);
 			});
-		}
+		});
 	},
 	registerBasicEvents: function () {
 		var thisInstance = this;
