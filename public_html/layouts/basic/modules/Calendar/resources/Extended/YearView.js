@@ -57,6 +57,45 @@ let YearView = View.extend({
 			window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","bw","' + date + ',' + date + '"]]]';
 		});
 	},
+
+	selectDays: function (startDate, endDate) {
+		let start_hour = $('#start_hour').val(),
+			data = $(".js-rightPanelEvent");
+		if (endDate.hasTime() === false) {
+			endDate.add(-1, 'days');
+		}
+		startDate = startDate.format();
+		endDate = endDate.format();
+		if (start_hour === '') {
+			start_hour = '00';
+		}
+		if (data.length <= 0) {
+			return;
+		}
+		startDate = startDate + 'T' + start_hour + ':00';
+		endDate = endDate + 'T' + start_hour + ':00';
+		if (startDate === endDate) {
+			let defaulDuration = 0;
+			if (data.find('[name="activitytype"]').val() === 'Call') {
+				defaulDuration = data.find('[name="defaultCallDuration"]').val();
+			} else {
+				defaulDuration = data.find('[name="defaultOtherEventDuration"]').val();
+			}
+			endDate = moment(endDate).add(defaulDuration, 'minutes').toISOString();
+		}
+		let dateFormat = data.find('[name="date_start"]').data('dateFormat').toUpperCase(),
+			timeFormat = data.find('[name="time_start"]').data('format'),
+			defaultTimeFormat = '';
+		if (timeFormat === 24) {
+			defaultTimeFormat = 'HH:mm';
+		} else {
+			defaultTimeFormat = 'hh:mm A';
+		}
+		data.find('[name="date_start"]').val(moment(startDate).format(dateFormat));
+		data.find('[name="due_date"]').val(moment(endDate).format(dateFormat));
+		data.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
+		data.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
+	},
 	getSidebarView() {
 		return $('#rightPanel');
 	},
@@ -142,6 +181,10 @@ let YearView = View.extend({
 					titleFormat: 'MMMM',
 					header: {center: 'title', left: false, right: false},
 					height: 'auto',
+					selectable: true,
+					select: function (start, end) {
+						self.selectDays(start, end);
+					},
 					defaultDate: moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD"),
 					eventRender: function (event, element) {
 						element = '<div class="cell-calendar">';
@@ -184,7 +227,6 @@ let YearView = View.extend({
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
 	},
-
 });
 
 FC.views.year = YearView; // register our class with the view system
