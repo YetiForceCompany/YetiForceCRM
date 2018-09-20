@@ -10,6 +10,7 @@
 	* Contributor(s): YetiForce.com
 	********************************************************************************/
 	-->*}
+	<!-- tpl-Base-Detail-BlockView -->
 	{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE}
 		{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL_KEY]}
 		{if $BLOCK eq null or $FIELD_MODEL_LIST|@count lte 0}
@@ -32,63 +33,61 @@
 						{assign var=COUNTER value=0}
 						<div class="form-row border-bottom u-border-bottom-0-sm">
 							{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELD_MODEL_LIST}
-								{if !$FIELD_MODEL->isViewableInDetailView()}
-									{continue}
+							{if !$FIELD_MODEL->isViewableInDetailView()}
+								{continue}
+							{/if}
+							{if $FIELD_MODEL->getUIType() eq "20" or $FIELD_MODEL->getUIType() eq "19" or $FIELD_MODEL->getUIType() eq '300'}
+								{if $COUNTER eq '1'}
+									{assign var=COUNTER value=0}
 								{/if}
-									{if $FIELD_MODEL->getUIType() eq "20" or $FIELD_MODEL->getUIType() eq "19" or $FIELD_MODEL->getUIType() eq '300'}
-										{if $COUNTER eq '1'}
-											{assign var=COUNTER value=0}
-										{/if}
-									{/if}
-									{if $COUNTER eq 2}
+							{/if}
+							{if $COUNTER eq 2}
+						</div>
+						<div class="form-row border-bottom u-border-bottom-0-sm">
+							{assign var=COUNTER value=1}
+							{else}
+							{assign var=COUNTER value=$COUNTER+1}
+							{/if}
+							<div class="col-sm">
+								<div class="form-row border-right h-100 align-items-start">
+									<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel__label {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'}  col-lg-3  {else} col-lg-6 {/if} {$WIDTHTYPE} text-right" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
+										{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
+										{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
+										<label class="u-text-small-bold">
+											{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
+											{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
+												<a href="#" class="js-help-info float-right u-cursor-pointer" title="" data-placement="top" data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span class="fas fa-info-circle"></span></a>
+											{/if}
+										</label>
 									</div>
-									<div class="form-row border-bottom u-border-bottom-0-sm">
-										{assign var=COUNTER value=1}
-									{else}
-										{assign var=COUNTER value=$COUNTER+1}
-									{/if}
-									<div class="col-sm">
-										<div class="form-row border-right h-100 align-items-start">
-											<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel__label {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'}  col-lg-3  {else} col-lg-6 {/if} {$WIDTHTYPE} text-right" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
-												{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
-												{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-												<label class="u-text-small-bold">
-													{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
-													{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-														<a href="#" class="js-help-info float-right u-cursor-pointer" title="" data-placement="top" data-content="{\App\Language::translate($HELPINFO_LABEL, 'HelpInfo')}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span class="fas fa-info-circle"></span></a>
-														{/if}
-												</label>
-											</div>
-											<div class="fieldValue u-border-bottom-value-sm col-12 d-flex align-items-center {$WIDTHTYPE} {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} col-lg-9 {else} col-lg-6 {/if}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} {assign var=COUNTER value=$COUNTER+1} {/if}>
+									<div class="fieldValue u-border-bottom-value-sm col-12 d-flex align-items-center {$WIDTHTYPE} {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} col-lg-9 {else} col-lg-6 {/if}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} {assign var=COUNTER value=$COUNTER+1} {/if}>
 												<span class="value col-11 col-sm-10 col-md-10 col-xl-11 px-0" data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21' or $FIELD_MODEL->getUIType() eq '300'} style="white-space:normal;" {/if}>
 													{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 												</span>
-												{assign var=EDIT value=false}
-												{if in_array($FIELD_MODEL->getName(),['date_start','due_date']) && ($MODULE_NAME eq 'Calendar' || $MODULE_NAME eq 'Events')}
-													{assign var=EDIT value=true}
-												{/if}
-												{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
-													<span class="js-detail-quick-edit u-cursor-pointer float-right ">
+										{assign var=EDIT value=false}
+										{if in_array($FIELD_MODEL->getName(),['date_start','due_date']) && $MODULE_NAME eq 'Calendar'}
+											{assign var=EDIT value=true}
+										{/if}
+										{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
+											<span class="js-detail-quick-edit u-cursor-pointer float-right ">
 														&nbsp;<i class="fas fa-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></i>
 													</span>
-													<span class="d-none edit col-12">
+											<span class="d-none edit col-12">
 														{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
-
-
-														{if $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}
-															<input type="hidden" class="fieldname" data-type="{$FIELD_MODEL->getFieldDataType()}" value='{$FIELD_MODEL->getName()}' data-prev-value='{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}' />
-														{else}
-															{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}
-															{if $FIELD_VALUE|is_array}
-																{assign var=FIELD_VALUE value=\App\Json::encode($FIELD_VALUE)}
-															{/if}
-															<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}' data-type="{$FIELD_MODEL->getFieldDataType()}" data-prev-value='{\App\Purifier::encodeHtml($FIELD_VALUE)}' />
-														{/if}
-													</span>
+												{if $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}
+													<input type="hidden" class="fieldname" data-type="{$FIELD_MODEL->getFieldDataType()}" value='{$FIELD_MODEL->getName()}' data-prev-value='{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}'/>
+												{else}
+													{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}
+													{if $FIELD_VALUE|is_array}
+														{assign var=FIELD_VALUE value=\App\Json::encode($FIELD_VALUE)}
+													{/if}
+													<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}' data-type="{$FIELD_MODEL->getFieldDataType()}" data-prev-value='{\App\Purifier::encodeHtml($FIELD_VALUE)}'/>
 												{/if}
-											</div>
-										</div>
+												</span>
+										{/if}
 									</div>
+								</div>
+							</div>
 							{/foreach}
 							{if $COUNTER eq 1}
 								<div class="col-md-6 fieldsLabelValue"></div>
@@ -99,4 +98,5 @@
 			</div>
 		{/if}
 	{/foreach}
+	<!-- /tpl-Base-Detail-BlockView -->
 {/strip}

@@ -306,10 +306,9 @@ class CustomView_Record_Model extends \App\Base
 		}
 		if ($lockRecords) {
 			$lockFields = Vtiger_CRMEntity::getInstance($moduleName)->getLockFields();
-			if (is_array($lockFields)) {
-				foreach ($lockFields as $fieldName => $fieldValues) {
-					$queryGenerator->addNativeCondition(['not in', "$baseTableName.$fieldName", $fieldValues]);
-				}
+			$lockFields = array_merge_recursive($lockFields, \App\Fields\Picklist::getCloseStates(\App\Module::getModuleId($moduleName)));
+			foreach ($lockFields as $fieldName => $fieldValues) {
+				$queryGenerator->addNativeCondition(['not in', "$baseTableName.$fieldName", $fieldValues]);
 			}
 		}
 		return $queryGenerator;
@@ -441,16 +440,7 @@ class CustomView_Record_Model extends \App\Base
 					$columnInfo = explode(':', $advFilterColumn);
 					$fieldName = $columnInfo[2];
 					$fieldModel = $moduleModel->getField($fieldName);
-					//Required if Events module fields are selected for the condition
-					if (!$fieldModel) {
-						$modulename = $moduleModel->get('name');
-						if ($modulename === 'Calendar') {
-							$eventModuleModel = Vtiger_Module_model::getInstance('Events');
-							$fieldModel = $eventModuleModel->getField($fieldName);
-						}
-					}
 					$fieldType = $fieldModel->getFieldDataType();
-
 					if ($fieldType === 'currency') {
 						if ($fieldModel->get('uitype') == '72') {
 							// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
@@ -458,8 +448,7 @@ class CustomView_Record_Model extends \App\Base
 						} else {
 							$advFitlerValue = CurrencyField::convertToDBFormat($advFitlerValue);
 						}
-					}
-					if (($fieldType === 'date' || ($fieldType === 'time' && $fieldName !== 'time_start' && $fieldName !== 'time_end') || ($fieldType === 'datetime')) && ($fieldType !== '' && $advFitlerValue !== '')) {
+					} elseif (($fieldType === 'date' || ($fieldType === 'time' && $fieldName !== 'time_start' && $fieldName !== 'time_end') || ($fieldType === 'datetime')) && ($fieldType !== '' && $advFitlerValue !== '')) {
 						$tempVal = explode(',', $advFitlerValue);
 						$val = [];
 						$countTempVal = count($tempVal);
@@ -753,7 +742,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getEditUrl()
 	{
-		return 'module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name') . '&record=' . $this->getId();
+		return 'index.php?module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name') . '&record=' . $this->getId();
 	}
 
 	/**
@@ -783,7 +772,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getDuplicateUrl()
 	{
-		return 'module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name') . '&record=' . $this->getId() . '&duplicate=1';
+		return 'index.php?module=CustomView&view=EditAjax&source_module=' . $this->getModule()->get('name') . '&record=' . $this->getId() . '&duplicate=1';
 	}
 
 	/**

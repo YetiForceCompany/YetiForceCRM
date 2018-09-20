@@ -1005,9 +1005,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var dateTime = false;
 				if (editElement.find('[data-fieldinfo]').length == 2) {
 					editElement.find('[data-fieldinfo]').each(function () {
-						var field = [];
-						field['name'] = jQuery(this).attr('name');
-						field['type'] = jQuery(this).data('fieldinfo').type;
+						var field = {
+							name: jQuery(this).attr('name'),
+							type: jQuery(this).data('fieldinfo').type
+						};
 						if (field['type'] == 'datetime') {
 							dateTime = true;
 						}
@@ -1375,7 +1376,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			urlParams[key] = value;
 		});
 		var urlNewParams = [];
-		summaryWidgetContainer.find('.js-detail-widget-header .js-switch').each(function (n, item) {
+		summaryWidgetContainer.find('.js-detail-widget-header .js-switch, .js-detail-widget-header .js-filter_field').each(function (n, item) {
 			var value = '';
 			var element = jQuery(item);
 			var name = element.data('urlparams');
@@ -1394,7 +1395,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					return;
 				}
 			}
-			if (name) {
+			if (name && value) {
 				if (name in urlNewParams) {
 					urlNewParams[name].push(value);
 				} else {
@@ -1410,6 +1411,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 	registerChangeFilterForWidget: function () {
 		var thisInstance = this;
 		jQuery('.js-switch').on('change', function (e, state) {
+			thisInstance.getFiltersDataAndLoad(e);
+		})
+		jQuery('.js-filter_field').on('select2:select', function (e, state) {
 			thisInstance.getFiltersDataAndLoad(e);
 		})
 	},

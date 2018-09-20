@@ -251,7 +251,7 @@ class Functions
 		if (!\App\Cache::has($cacheName, $module)) {
 			$dataReader = (new \App\Db\Query())
 				->from('vtiger_field')
-				->where(['tabid' => $module === 'Calendar' ? [9, 16] : \App\Module::getModuleId($module)])
+				->where(['tabid' => \App\Module::getModuleId($module)])
 				->createCommand()->query();
 			$fieldInfoByName = $fieldInfoByColumn = [];
 			while ($row = $dataReader->read()) {

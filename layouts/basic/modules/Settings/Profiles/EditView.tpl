@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce Sp. z o.o
 ********************************************************************************/
 -->*}
 {strip}
@@ -94,7 +94,6 @@
 						{assign var=PROFILE_MODULES value=$RECORD_MODEL->getModulePermissions()}
 						{foreach from=$PROFILE_MODULES key=TABID item=PROFILE_MODULE}
 						{assign var=MODULE_NAME value=$PROFILE_MODULE->getName()}
-						{if $MODULE_NAME neq 'Events'}
 						<tr>
 							<td>
 								<div class="float-left mr-1">
@@ -145,7 +144,7 @@
 							<td colspan="6" data-toggle-visible="false">
 								<div data-togglecontent="{$TABID}-fields">
 									<div class="col-md-12">
-										<label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)}{if $MODULE_NAME eq 'Calendar'} {\App\Language::translate('LBL_OF', $MODULE_NAME)} {\App\Language::translate('LBL_TASKS', $MODULE_NAME)}{/if}</strong></label>
+										<label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)}</strong></label>
 										<div class="float-right">
 															<span class="mini-slider-control ui-slider" data-value="0">
 																<a style="margin-top: 3px;"
@@ -197,50 +196,12 @@
 											{/if}
 										{/foreach}
 									</div>
-									{if $MODULE_NAME eq 'Calendar'}
-										{assign var=EVENT_MODULE value=$PROFILE_MODULES[16]}
-										{assign var=COUNTER value=0}
-										<label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)} {\App\Language::translate('LBL_OF', $EVENT_MODULE->getName())} {\App\Language::translate('LBL_EVENTS', $EVENT_MODULE->getName())}</strong></label>
-										<div class="col-12 paddingLRZero marginBottom10px">
-											{foreach from=$EVENT_MODULE->getFields() key=FIELD_NAME item=FIELD_MODEL name="fields"}
-												{if $FIELD_MODEL->isActiveField()}
-													{assign var="FIELD_ID" value=$FIELD_MODEL->getId()}
-													{if $COUNTER % 3 == 0}
-														<div class="col-md-12 row">
-													{/if}
-													<div class='col-md-4 col-sm-6 col-12  padding10 div-bordered'
-														 style="border-left: 1px solid #DDD !important;">
-														{assign var="FIELD_LOCKED" value=$RECORD_MODEL->isModuleFieldLocked($EVENT_MODULE, $FIELD_MODEL)}
-														<input type="hidden" name="permissions[16][fields][{$FIELD_ID}]"
-															   data-range-input="{$FIELD_ID}"
-															   value="{$RECORD_MODEL->getModuleFieldPermissionValue($EVENT_MODULE, $FIELD_MODEL)}"
-															   readonly="true">
-														<div class="mini-slider-control editViewMiniSlider float-left"
-															 data-locked="{$FIELD_LOCKED}" data-range="{$FIELD_ID}"
-															 data-value="{$RECORD_MODEL->getModuleFieldPermissionValue($EVENT_MODULE, $FIELD_MODEL)}"></div>
-														<div class="float-left">
-															{if $FIELD_MODEL->isMandatory()}
-																<span class="redColor">*</span>
-															{/if} {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
-															cccc
-														</div>
-													</div>
-													{if $smarty.foreach.fields.last OR ($COUNTER+1) % 3 == 0}
-														</div>
-													{/if}
-													{assign var=COUNTER value=$COUNTER+1}
-												{/if}
-											{/foreach}
-										</div>
-									{/if}
 								</div>
 								</ul>
 				</div>
 				</td>
 				</tr>
 				{/if}
-
-
 				{assign var=UTILITY_ACTION_COUNT value=0}
 				{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=[]}
 				{foreach from=$ALL_UTILITY_ACTIONS item=ACTION_MODEL}
@@ -278,8 +239,6 @@
 							</div>
 						</td>
 					</tr>
-				{/if}
-
 				{/if}
 				{/foreach}
 				</tbody>

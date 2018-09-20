@@ -16,13 +16,9 @@
 	{assign var=FIELD_NAME value=$FIELD_MODEL->getFieldName()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	{if $FIELD_NAME eq 'defaulteventstatus'}
-		{assign var=EVENT_MODULE value=Vtiger_Module_Model::getInstance('Events')}
-		{assign var=EVENTSTATUS_FIELD_MODEL value=$EVENT_MODULE->getField('activitystatus')}
-		{assign var=PICKLIST_VALUES value=$EVENTSTATUS_FIELD_MODEL->getPicklistValues()}
+		{assign var=PICKLIST_VALUES value=Vtiger_Module_Model::getInstance('Calendar')->getField('activitystatus')->getPicklistValues()}
 	{else if $FIELD_NAME eq 'defaultactivitytype'}
-		{assign var=EVENT_MODULE value=Vtiger_Module_Model::getInstance('Events')}
-		{assign var=ACTIVITYTYPE_FIELD_MODEL value=$EVENT_MODULE->getField('activitytype')}
-		{assign var=PICKLIST_VALUES value=$ACTIVITYTYPE_FIELD_MODEL->getPicklistValues()}
+		{assign var=PICKLIST_VALUES value=Vtiger_Module_Model::getInstance('Calendar')->getField('activitytype')->getPicklistValues()}
 	{/if}
 	{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() || $FIELD_MODEL->getName() eq 'defaulteventstatus' || $FIELD_MODEL->getName() eq 'defaultactivitytype')}
 	<select class="tpl-Edit-Field-Picklist select2 form-control" name="{$FIELD_NAME}"

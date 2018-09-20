@@ -227,6 +227,10 @@ ul.ui-autocomplete {
 	height: 0 !important;
 }
 
+.pdfTemplateContents .cke {
+	border: 0px;
+}
+
 //-------- js-tree --------//
 
 .jstree-proton {
@@ -281,3 +285,10 @@ ul.ui-autocomplete {
 		background: unset;
 	}
 }
+
+//-------- leaflet --------//
+
+.leaflet-popup-content {
+	width: auto;
+}
+

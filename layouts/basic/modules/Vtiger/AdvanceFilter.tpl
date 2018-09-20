@@ -24,9 +24,9 @@
 	{/if}
 	<div class="filterContainer">
 		<input type="hidden" name="date_filters"
-			   data-value='{\App\Purifier::encodeHtml(\App\Json::encode($DATE_FILTERS))}'/>
+		       data-value='{\App\Purifier::encodeHtml(\App\Json::encode($DATE_FILTERS))}'/>
 		<input type="hidden" name="advanceFilterOpsByFieldType"
-			   data-value='{\App\Json::encode($ADVANCED_FILTER_OPTIONS_BY_TYPE)}'/>
+		       data-value='{\App\Json::encode($ADVANCED_FILTER_OPTIONS_BY_TYPE)}'/>
 		{foreach key=ADVANCE_FILTER_OPTION_KEY item=ADVANCE_FILTER_OPTION from=$ADVANCED_FILTER_OPTIONS}
 			{$ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION_KEY] = {\App\Language::translate($ADVANCE_FILTER_OPTION, $MODULE)}|escape}
 		{/foreach}
@@ -90,6 +90,14 @@
 							{\App\Language::translate('LBL_ADD_CONDITION',$MODULE)}
 						</strong>
 					</button>
+				</div>
+				<div class="groupCondition">
+					{if !empty($ANY_CONDITION_CRITERIA['condition'])}
+						{assign var=GROUP_CONDITION value=$ANY_CONDITION_CRITERIA['condition']}
+					{else}
+						{assign var=GROUP_CONDITION value="and"}
+					{/if}
+					<input type="hidden" name="condition" value="{$GROUP_CONDITION}"/>
 				</div>
 			</div>
 		</div>

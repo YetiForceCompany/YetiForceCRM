@@ -2345,7 +2345,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		container.find('.fc-toolbar').addClass('d-none');
 		var month = container.find('.fc-toolbar h2').text();
 		if (month) {
-			var headerCalendar = container.find('.headerCalendar').removeClass('d-none').find('.month').append('<h3>' + month + '</h3>');
+			container.find('.headerCalendar').removeClass('d-none').find('.month').append('<h3>' + month + '</h3>');
 			var button = container.find('.headerCalendar button');
 			button.each(function () {
 				var tag = jQuery(this).data('type');

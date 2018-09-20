@@ -154,33 +154,27 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 	relatedModuleFields: function (container) {
 		const relatedModule = parseInt(container.find("select[name='relatedmodule']").val());
 		const relatedfields = container.find("select[name='relatedfields']");
-		if (relatedfields.hasClass("select2-hidden-accessible")) {
-			// Select2 has been initialized
-			relatedfields.select2('close');
-			relatedfields.val(null);
-			relatedfields.trigger('change');
-			relatedfields.find('optgroup').each(function (index, optgroup) {
-				optgroup = $(optgroup);
-				if (relatedModule !== optgroup.data('module')) {
-					optgroup.addClass("d-none");
-					optgroup.prop("disabled", "disabled");
+		relatedfields.find('optgroup').each(function (index, optgroup) {
+			optgroup = $(optgroup);
+			if (relatedModule !== optgroup.data('module')) {
+				optgroup.addClass("d-none");
+				optgroup.prop("disabled", "disabled");
+			} else {
+				optgroup.removeClass('d-none');
+				optgroup.prop("disabled", false);
+			}
+			optgroup.find('option').each(function (index, option) {
+				option = $(option);
+				if (relatedModule !== option.data('module')) {
+					option.addClass("d-none");
+					option.prop("disabled", "disabled");
 				} else {
-					optgroup.removeClass('d-none');
-					optgroup.prop("disabled", false);
+					option.removeClass('d-none');
+					option.prop('disabled', false);
 				}
-				optgroup.find('option').each(function (index, option) {
-					option = $(option);
-					if (relatedModule !== option.data('module')) {
-						option.addClass("d-none");
-						option.prop("disabled", "disabled");
-					} else {
-						option.removeClass('d-none');
-						option.prop('disabled', false);
-					}
-				});
 			});
-			relatedfields.trigger('change:select2');
-		}
+		});
+		relatedfields.trigger('change:select2');
 	},
 
 	changeRelatedModule: function (e) {

@@ -4,8 +4,8 @@
  * ExportToXml Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 {
@@ -92,20 +92,16 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 				$value;
 			}
 		} elseif (in_array($columnName, ['taxparam', 'discountparam', 'currencyparam'])) {
-			switch ($columnName) {
-				case 'currencyparam':
-					$field = $this->inventoryFields['currency'];
-					$valueData = $field->getCurrencyParam([], $value);
-					$valueNewData = [];
-					foreach ($valueData as $currencyId => &$data) {
-						$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
-						$data['value'] = $currencyName;
-						$valueNewData[$currencyName] = $data;
-					}
-					$value = \App\Json::encode($valueNewData);
-					break;
-				default:
-					break;
+			if ($columnName === 'currencyparam') {
+				$field = $this->inventoryFields['currency'];
+				$valueData = $field->getCurrencyParam([], $value);
+				$valueNewData = [];
+				foreach ($valueData as $currencyId => &$data) {
+					$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
+					$data['value'] = $currencyName;
+					$valueNewData[$currencyName] = $data;
+				}
+				$value = \App\Json::encode($valueNewData);
 			}
 		}
 		return html_entity_decode($value);

@@ -2907,6 +2907,17 @@ CREATE TABLE `u_yf_partnerscf` (
   CONSTRAINT `fk_1_u_yf_partnerscf` FOREIGN KEY (`partnersid`) REFERENCES `u_yf_partners` (`partnersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_picklist_close_state` */
+
+CREATE TABLE `u_yf_picklist_close_state` (
+  `valueid` int(11) NOT NULL,
+  `fieldid` int(11) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY (`valueid`),
+  KEY `fieldid` (`fieldid`),
+  CONSTRAINT `fk_1_u_yf_picklist_close_state` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_recurring_info` */
 
 CREATE TABLE `u_yf_recurring_info` (

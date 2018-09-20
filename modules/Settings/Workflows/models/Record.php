@@ -457,7 +457,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				if (!empty($columns) && is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
-							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
+							'value' => $column['value'] ?? '', 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
 							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid'], ];
 					}
 				}
@@ -484,7 +484,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$dataReader = $query->union($querySecond)->createCommand()->query();
 		$dependentFields = [];
 		// List of modules which will not be supported by 'Create Entity' workflow task
-		$filterModules = ['Calendar', 'Events', 'Accounts'];
+		$filterModules = ['Calendar', 'Accounts'];
 		$skipFieldsList = [];
 		while ($row = $dataReader->read()) {
 			$fieldName = $row['fieldname'];
@@ -505,8 +505,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 		foreach ($skipFieldsList as $tabModuleName => $fieldInfo) {
-			$dependentFieldInfo = $dependentFields[$tabModuleName];
-			if ($dependentFieldInfo['fieldname'] != $fieldInfo['fieldname']) {
+			if (isset($dependentFields[$tabModuleName]) && $dependentFields[$tabModuleName]['fieldname'] !== $fieldInfo['fieldname']) {
 				unset($dependentFields[$tabModuleName]);
 			}
 		}

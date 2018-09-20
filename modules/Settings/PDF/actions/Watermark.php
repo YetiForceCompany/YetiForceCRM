@@ -7,6 +7,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 {
@@ -46,6 +47,7 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 		if ($uploadOk && $_FILES['watermark']['size'][0] > \AppConfig::main('upload_maxsize')) {
 			$uploadOk = 0;
 		}
+		$response = new Vtiger_Response();
 		// Check if $uploadOk is set to 0 by an error
 		if ($uploadOk === 1) {
 			$db = App\Db::getInstance('admin');
@@ -61,7 +63,13 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 				$db->createCommand()
 					->update('a_#__pdf', ['watermark_image' => $targetFile], ['pdfid' => $templateId])
 					->execute();
+				$response->setResult(['fileName' => $targetFile, 'base64' => \App\Fields\File::getImageBaseData($targetFile)]);
+				return $response->emit();
 			}
+			$response->setError(500, App\Language::translate('LBL_WATERMARK_UPLOAD_ERROR', $request->getModule()));
+			return $response->emit();
 		}
+		$response->setError(500, App\Language::translate('LBL_WATERMARK_UPLOAD_ERROR', $request->getModule()));
+		$response->emit();
 	}
 }

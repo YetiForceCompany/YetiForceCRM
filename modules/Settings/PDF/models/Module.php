@@ -29,7 +29,6 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'primary_name',
 		'secondary_name',
 		'meta_author',
-		'meta_creator',
 		'meta_keywords',
 		'metatags_status',
 		'meta_subject',
@@ -59,14 +58,9 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		'watermark_image',
 		'one_pdf',
 	];
-	public static $step1Fields = ['status', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'meta_subject', 'meta_title', 'meta_author', 'meta_creator', 'meta_keywords'];
-	public static $step2Fields = ['page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'header_height', 'footer_height', 'page_orientation', 'language', 'filename', 'visibility', 'default', 'one_pdf'];
-	public static $step3Fields = ['module_name', 'header_content'];
-	public static $step4Fields = ['module_name', 'body_content'];
-	public static $step5Fields = ['footer_content'];
-	public static $step6Fields = ['conditions'];
-	public static $step7Fields = ['template_members'];
-	public static $step8Fields = ['watermark_type', 'watermark_text', 'watermark_size', 'watermark_angle', 'watermark_image'];
+	public static $step1Fields = ['status', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'meta_subject', 'meta_title', 'meta_author', 'meta_keywords', 'page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'header_height', 'footer_height', 'page_orientation', 'language', 'filename', 'visibility', 'default', 'one_pdf', 'template_members', 'watermark_type', 'watermark_text', 'watermark_size', 'watermark_angle', 'watermark_image'];
+	public static $step2Fields = ['module_name', 'header_content', 'module_name', 'body_content', 'footer_content'];
+	public static $step3Fields = ['conditions'];
 	public static $module = 'PDF';
 	public static $parent = 'Settings';
 	public static $uploadPath = 'storage/Pdf/watermark/';
@@ -117,16 +111,6 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getFieldsByStep($step = 1)
 	{
 		switch ($step) {
-			case 8:
-				return self::$step8Fields;
-			case 7:
-				return self::$step7Fields;
-			case 6:
-				return self::$step6Fields;
-			case 5:
-				return self::$step5Fields;
-			case 4:
-				return self::$step4Fields;
 			case 3:
 				return self::$step3Fields;
 			case 2:

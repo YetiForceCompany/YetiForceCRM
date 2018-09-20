@@ -1,4 +1,5 @@
 <?php
+
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -9,8 +10,25 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+/**
+ * Class Calendar_Calendar_View.
+ *
+ * @package   View
+ */
 class Calendar_Calendar_View extends Vtiger_Index_View
 {
+	/**
+	 * Get tpl path file.
+	 *
+	 * @param string $tplFile
+	 *
+	 * @return string
+	 */
+	protected function getTpl(string $tplFile)
+	{
+		return "Standard/$tplFile";
+	}
+
 	/**
 	 * Function to check permission.
 	 *
@@ -27,29 +45,37 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $request->getModule());
-
 		parent::preProcess($request, false);
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	protected function preProcessTplName(\App\Request $request)
 	{
-		return 'CalendarViewPreProcess.tpl';
+		return $this->getTpl('CalendarViewPreProcess.tpl');
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'~libraries/fullcalendar/dist/fullcalendar.js',
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',
-			'modules.Calendar.resources.CalendarView',
+			'modules.Calendar.resources.Standard.CalendarView'
 		]));
 	}
 
@@ -63,6 +89,9 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		]));
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -75,16 +104,19 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 			'current' => Calendar_Module_Model::getComponentActivityStateLabel('current'),
 			'history' => Calendar_Module_Model::getComponentActivityStateLabel('history'),
 		]));
-		$viewer->view('CalendarView.tpl', $request->getModule());
+		$viewer->view($this->getTpl('CalendarView.tpl'), $request->getModule());
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function postProcess(\App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$calendarFilters = Calendar_CalendarFilters_Model::getCleanInstance();
 		$viewer->assign('CALENDAR_FILTERS', $calendarFilters);
-		$viewer->view('CalendarViewPostProcess.tpl', $moduleName);
+		$viewer->view($this->getTpl('CalendarViewPostProcess.tpl'), $moduleName);
 		parent::postProcess($request);
 	}
 }

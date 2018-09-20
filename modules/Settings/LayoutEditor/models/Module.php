@@ -27,7 +27,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function that returns all the fields for the module.
 	 *
-	 * @return <Array of Vtiger_Field_Model> - list of field models
+	 * @return Vtiger_Field_Model[] - list of field models
 	 */
 	public function getFields($blockInstance = false)
 	{
@@ -36,28 +36,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$blocks = $this->getBlocks();
 			$blockId = [];
 			foreach ($blocks as $block) {
-				//to skip events hardcoded block id
-				if ($block->get('id') == 'EVENT_INVITE_USER_BLOCK_ID') {
-					continue;
-				}
 				$blockId[] = $block->get('id');
 			}
 			if (count($blockId) > 0) {
 				$fieldList = Settings_LayoutEditor_Field_Model::getInstanceFromBlockIdList($blockId);
-			}
-			//To handle special case for invite users
-			if ($this->getName() === 'Events') {
-				$blockModel = new Settings_LayoutEditor_Block_Model();
-				$blockModel->set('id', 'EVENT_INVITE_USER_BLOCK_ID');
-				$blockModel->set('label', 'LBL_INVITE_RECORDS');
-				$blockModel->set('module', $this);
-
-				$fieldModel = new Settings_LayoutEditor_Field_Model();
-				$fieldModel->set('name', 'selectedusers');
-				$fieldModel->set('label', 'LBL_INVITE_RECORDS');
-				$fieldModel->set('block', $blockModel);
-				$fieldModel->setModule($this);
-				$fieldList[] = $fieldModel;
 			}
 			$this->fieldsModule = $fieldList;
 		}
@@ -85,14 +67,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				if ($block->get('label') != 'LBL_ITEM_DETAILS') {
 					$blocksList[$block->get('label')] = $block;
 				}
-			}
-			//To handle special case for invite users block
-			if ($this->getName() === 'Events') {
-				$blockModel = new Settings_LayoutEditor_Block_Model();
-				$blockModel->set('id', 'EVENT_INVITE_USER_BLOCK_ID');
-				$blockModel->set('label', 'LBL_INVITE_RECORDS');
-				$blockModel->set('module', $this);
-				$blocksList['LBL_INVITE_RECORDS'] = $blockModel;
 			}
 			$this->blocks = $blocksList;
 		}
@@ -456,29 +430,29 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		return false;
 	}
 
-	public function checkFieldLableExists($fieldLabel)
+	/**
+	 * Check if label exists.
+	 *
+	 * @param string $fieldLabel
+	 *
+	 * @return bool
+	 */
+	public function checkFieldLableExists(string $fieldLabel): bool
 	{
-		$tabId = [$this->getId()];
-		if ($this->getName() === 'Calendar' || $this->getName() === 'Events') {
-			//Check for fiel exists in both calendar and events module
-			$tabId = ['9', '16'];
-		}
-		$count = (new \App\Db\Query())->from('vtiger_field')->where(['fieldlabel' => $fieldLabel, 'tabid' => $tabId])->count();
-
-		return ($count > 0) ? true : false;
+		return (new \App\Db\Query())->from('vtiger_field')->where(['fieldlabel' => $fieldLabel, 'tabid' => $this->getId()])->exists();
 	}
 
-	public function checkFieldNameExists($fieldName)
+	/**
+	 * Check if field exists.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return bool
+	 */
+	public function checkFieldNameExists(string $fieldName): bool
 	{
-		$tabId = [$this->getId()];
-		if ($this->getName() === 'Calendar' || $this->getName() === 'Events') {
-			$tabId = [\App\Module::getModuleId('Calendar'), \App\Module::getModuleId('Events')];
-		}
-		$count = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $tabId])
-			->andWhere(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]])
-			->count();
-
-		return ($count > 0) ? true : false;
+		return (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $this->getId()])
+			->andWhere(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]])->exists();
 	}
 
 	public function checkFieldNameIsAnException($fieldName, $moduleName)
@@ -521,27 +495,12 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to get Entity module names list.
 	 *
-	 * @return <Array> List of Entity modules
+	 * @return string[] List of Entity modules
 	 */
 	public static function getEntityModulesList()
 	{
-		$presence = [0, 2];
 		$restrictedModules = ['SMSNotifier', 'Integration', 'Dashboard', 'ModComments'];
-
-		$query = (new \App\Db\Query())->select('name')->from('vtiger_tab')->where(['presence' => $presence, 'isentitytype' => 1])->andWhere(['not in', 'name', $restrictedModules]);
-		$dataReader = $query->createCommand()->query();
-		$modulesList = [];
-		while ($moduleName = $dataReader->read()) {
-			$moduleName = $moduleName['name'];
-			$modulesList[$moduleName] = $moduleName;
-		}
-		$dataReader->close();
-		// If calendar is disabled we should not show events module too
-		// in layout editor
-		if (!array_key_exists('Calendar', $modulesList)) {
-			unset($modulesList['Events']);
-		}
-		return $modulesList;
+		return (new \App\Db\Query())->select(['name', 'module' => 'name'])->from('vtiger_tab')->where(['presence' => [0, 2], 'isentitytype' => 1])->andWhere(['not in', 'name', $restrictedModules])->createCommand()->queryAllByGroup();
 	}
 
 	/**
@@ -551,11 +510,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 */
 	public function isSortableAllowed()
 	{
-		$moduleName = $this->getName();
-		if (in_array($moduleName, ['Calendar', 'Events'])) {
-			return false;
-		}
-		return true;
+		return 'Calendar' !== $this->getName();
 	}
 
 	/**
@@ -565,10 +520,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 */
 	public function isBlockSortableAllowed()
 	{
-		$moduleName = $this->getName();
-		if (in_array($moduleName, ['Calendar', 'Events'])) {
-			return false;
-		}
 		return true;
 	}
 
@@ -582,9 +533,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$moduleName = $this->getName();
 		$blocksEliminatedArray = ['HelpDesk' => ['LBL_TICKET_RESOLUTION', 'LBL_COMMENTS'],
 			'Faq' => ['LBL_COMMENT_INFORMATION'],
-			'Calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION'],
-			'Events' => ['LBL_EVENT_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION', 'LBL_RELATED_TO', 'LBL_DESCRIPTION_INFORMATION', 'LBL_INVITE_RECORDS'], ];
-		if (in_array($moduleName, ['Calendar', 'Events', 'HelpDesk', 'Faq'])) {
+			'Calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION']
+		];
+		if (in_array($moduleName, ['Calendar', 'HelpDesk', 'Faq'])) {
 			if (!empty($blocksEliminatedArray[$moduleName])) {
 				if (in_array($blockName, $blocksEliminatedArray[$moduleName])) {
 					return false;

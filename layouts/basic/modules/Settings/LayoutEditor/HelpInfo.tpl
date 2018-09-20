@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-LayoutEditor-HelpInfo -->
 	<form>
 		<input type="hidden" value="{$FIELD_MODEL->getId()}" name="field">
 		<div class="modal-body">
@@ -19,7 +20,7 @@
 			{/if}
 			<div class="form-group">
 				<label for="lang">{\App\Language::translate('LBL_CHOOSE_LANGUAGE', $QUALIFIED_MODULE)}</label>
-				<a href="#" class="js-help-info float-right" data-toggle="popover" title="{App\Purifier::decodeHtml(\App\Language::translate($FIELD_MODEL->getFieldLabel(),$FIELD_MODEL->getModuleName()))}" data-placement="top" data-content="{htmlspecialchars(App\Purifier::decodeHtml($TRANSLATE))}" data-original-title='{$langs.label}'><span class="fa fa-info-circle"></span></a>
+				<a href="#" class="js-help-info float-right" data-toggle="popover" title="{App\Purifier::decodeHtml(\App\Language::translate($FIELD_MODEL->getFieldLabel(),$FIELD_MODEL->getModuleName()))}" data-placement="top" data-content="{htmlspecialchars(App\Purifier::decodeHtml($TRANSLATE))}" data-original-title='{App\Purifier::decodeHtml(\App\Language::translate($FIELD_MODEL->getFieldLabel(),$FIELD_MODEL->getModuleName()))}'><span class="fa fa-info-circle"></span></a>
 				<select class="form-control select2 js-lang" data-js="change" name="lang" id="lang">
 					{foreach from=$LANGUAGES item=LABEL key=PREFIX}
 						<option value="{$PREFIX}" {if $PREFIX eq $LANG_DEFAULT}selected{/if}>{$LABEL}</option>
@@ -33,4 +34,5 @@
 				</div>
 			{/foreach}
 		</div>
+	<!-- /tpl-Settings-LayoutEditor-HelpInfo -->
 {/strip}

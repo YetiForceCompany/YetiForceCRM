@@ -1470,6 +1470,7 @@ hr {
 .crumbs {
 	height: 40px;
 	margin: 0;
+	margin-top: 6px;
 	padding: 0 20px 0 0;
 	display: inline-block;
 	font-family: sans-serif;
@@ -1479,7 +1480,7 @@ hr {
 			content: '\0000a0';
 			width: 0;
 			height: 0;
-			border-left: 18px solid #ececec;
+			border-left: 18px solid rgba($card-cap-bg, 0.05);
 			border-top: 20px solid transparent;
 			border-bottom: 20px solid transparent;
 			display: inline-block;
@@ -1490,11 +1491,11 @@ hr {
 		}
 
 		height: 0;
-		border-top: 20px solid #ececec;
-		border-bottom: 20px solid #ececec;
+		border-top: 20px solid rgba($card-cap-bg, 0.05);
+		border-bottom: 20px solid rgba($card-cap-bg, 0.05);
 		border-left: 20px solid transparent;
 		display: inline-block;
-		box-shadow: 0 1px #ddd;
+		box-shadow: 0 1px rgba($card-cap-bg, 0.05);
 		margin-right: 5px;
 
 		a {
@@ -1904,7 +1905,39 @@ table.dataTable .form-control {
 
 #breadcrumb {
 	.stepNum {
-		margin-top: 0;
+		margin-top: 0px;
+		margin-right: 10px;
+		width: 25px;
+		height: 25px;
+		margin-left: 6px;
+		line-height: 25px;
+		text-align: center;
+		opacity: 0.9;
+		font-size: 1rem;
+		vertical-align: text-bottom;
+		position: relative;
+		&:after {
+			content: "";
+			width: 100%;
+			height: 100%;
+			background: transparent;
+			position: absolute;
+			left: 0;
+			top: 0;
+			border-radius: 100%;
+			box-shadow: inset 0px 0px 1px 1px rgba($body-color, 0.5);
+		}
+	}
+	.active .stepNum::after {
+		content: "";
+		width: 100%;
+		height: 100%;
+		background: transparent;
+		box-shadow: inset 0px 0px 0px 1px #ffffff57;
+		position: absolute;
+		left: 0;
+		top: 0;
+		border-radius: 100%;
 	}
 
 	.stepText {

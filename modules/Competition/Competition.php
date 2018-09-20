@@ -320,7 +320,7 @@ class Competition extends Vtiger_CRMEntity
 	 *
 	 * @param int   $id
 	 * @param array $baseInfo
-	 * @param int   $recordId - id
+	 * @param int   $recordId        - id
 	 * @param array $listviewEntries
 	 * @param bool  $getRawData
 	 * @param bool  $getLinks
@@ -362,7 +362,7 @@ class Competition extends Vtiger_CRMEntity
 		}
 		$listviewEntries[$recordId] = $infoData;
 		foreach ($baseInfo as $accId => $rowInfo) {
-			if (is_array($rowInfo) && (int)$accId) {
+			if (is_array($rowInfo) && (int) $accId) {
 				$listviewEntries = $this->getHierarchyData($id, $rowInfo, $accId, $listviewEntries, $getRawData, $getLinks);
 			}
 		}

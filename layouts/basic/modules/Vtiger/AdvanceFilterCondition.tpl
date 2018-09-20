@@ -13,7 +13,7 @@
 	{if !$USER_MODEL}
 		{assign var=USER_MODEL value = Users_Record_Model::getCurrentUserModel()}
 	{/if}
-	<div class="js-conditions-row d-flex justify-content-between bg-light p-1 rounded mb-2 "
+	<div class="tpl-Base-AdvanceFilterCondition js-conditions-row d-flex justify-content-between bg-light p-1 rounded mb-2 "
 		 data-js="container | clone">
 		<label class="sr-only">{\App\Language::translate('LBL_SELECT_FIELD',$MODULE)}</label>
 		<div class="w-25">
@@ -42,9 +42,6 @@
 										{$FIELD_INFO['value'] = App\Purifier::decodeHtml($CONDITION_INFO['value'])}
 										selected="selected"
 									{/if}
-									{if ($MODULE_MODEL->get('name') eq 'Calendar') && ($FIELD_NAME eq 'activitytype')}
-										{$FIELD_INFO['picklistvalues']['Task'] = \App\Language::translate('Task', 'Calendar')}
-									{/if}
 									{if $FIELD_MODEL->getFieldDataType() eq 'reference'}
 										{assign var=referenceList value=$FIELD_MODEL->getReferenceList()}
 										{if is_array($referenceList) && in_array('Users', $referenceList)}
@@ -59,50 +56,6 @@
 									{/if}
 									data-fieldinfo='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}'
 									{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}>
-								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
-									({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_MODEL->get('name'))}
-								{else}
-									{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
-								{/if}
-							</option>
-						{/foreach}
-					</optgroup>
-				{/foreach}
-				{* Required to display event fields also while adding conditions *}
-				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
-					<optgroup label='{\App\Language::translate($BLOCK_LABEL, 'Events')}'>
-						{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
-							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
-							{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
-							{if !empty($COLUMNNAME_API)}
-								{assign var=columnNameApi value=$COLUMNNAME_API}
-							{else}
-								{assign var=columnNameApi value=getCustomViewColumnName}
-							{/if}
-							<option value="{$FIELD_MODEL->$columnNameApi()}"
-									data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_NAME}"
-									{if isset($CONDITION_INFO['columnname']) && App\Purifier::decodeHtml($FIELD_MODEL->$columnNameApi()) eq $CONDITION_INFO['columnname']}
-										{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldType()}
-										{assign var=SELECTED_FIELD_MODEL value=$FIELD_MODEL}
-										{if $FIELD_MODEL->getFieldDataType() == 'reference'}
-											{$FIELD_TYPE='V'}
-										{/if}
-										{$FIELD_INFO['value'] = App\Purifier::decodeHtml($CONDITION_INFO['value'])}
-										selected="selected"
-									{/if}
-									{if $FIELD_MODEL->getFieldDataType() eq 'reference'}
-										{assign var=referenceList value=$FIELD_MODEL->getReferenceList()}
-										{if is_array($referenceList) && in_array('Users', $referenceList)}
-											{assign var=USERSLIST value=[]}
-											{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
-											{foreach item=USER_NAME from=$ACCESSIBLE_USERS}
-												{$USERSLIST[$USER_NAME] = $USER_NAME}
-											{/foreach}
-											{$FIELD_INFO['picklistvalues'] = $USERSLIST}
-											{$FIELD_INFO['type'] = 'picklist'}
-										{/if}
-									{/if}
-									data-fieldinfo='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}'>
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
 									({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_MODEL->get('name'))}
 								{else}

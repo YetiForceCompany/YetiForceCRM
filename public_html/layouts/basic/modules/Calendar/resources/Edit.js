@@ -10,42 +10,37 @@
 
 Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 	registerReminderFieldCheckBox: function () {
-		this.getForm().find('input[name="set_reminder"]').on('change', function (e) {
-			var element = jQuery(e.currentTarget);
-			var closestDiv = element.closest('div').next();
+		let element = this.getForm().find('.js-reminder-field-checkbox');
+		element.on('change', function (e) {
+			let rowElement = element.closest('.js-reminder-field-element').find('.js-reminder-field-row');
 			if (element.is(':checked')) {
-				closestDiv.removeClass('d-none');
+				rowElement.removeClass('d-none');
 			} else {
-				closestDiv.addClass('d-none');
+				rowElement.addClass('d-none');
 			}
 		});
+		element.change();
 	},
 	/**
 	 * Function which will register change event on recurrence field checkbox
 	 */
 	registerRecurrenceFieldCheckBox: function () {
-		var thisInstance = this;
-		var form = thisInstance.getForm();
-		form.find('input[name="reapeat"]').on('change', function (e) {
-			var element = jQuery(e.currentTarget);
-			var repeatUI = form.find('.repeatUI');
-			var container = form.find('[name="followup"]').closest('.fieldValue');
-			if (element.is(':checked')) {
-				repeatUI.removeClass('d-none');
+		const form = this.getForm(),
+			element = form.find('input[name="reapeat"]');
+		element.on('change', function (e) {
+			let repeatUI = form.find('.js-repeat-ui'),
+				container = form.find('[name="followup"]').closest('.fieldValue');
+			if ($(e.currentTarget).is(':checked')) {
+				repeatUI.closest('.fieldRow').removeClass('d-none');
 				container.find('[name="followup_display"]').attr('disabled', 'disabled');
 				container.find('button').attr('disabled', 'disabled');
 			} else {
 				container.find('[name="followup_display"]').removeAttr('disabled');
 				container.find('button').removeAttr('disabled');
-				repeatUI.addClass('d-none');
+				repeatUI.closest('.fieldRow').addClass('d-none');
 			}
 		});
-		if (form.find('input[name="reapeat"]').is(':checked')) {
-			form.find('.repeatUI').removeClass('d-none');
-			var container = form.find('[name="followup"]').closest('.fieldValue');
-			container.find('[name="followup_display"]').attr('disabled', 'disabled');
-			container.find('button').attr('disabled', 'disabled');
-		}
+		element.change();
 	},
 	/**
 	 * Function which will register the change event for recurring type

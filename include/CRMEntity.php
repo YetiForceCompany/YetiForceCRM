@@ -46,29 +46,24 @@ class CRMEntity
 
 	public static function getInstance($module)
 	{
-		$modName = $module;
 		if (is_numeric($module)) {
-			$modName = App\Module::getModuleName($module);
-		}
-		if ($module === 'Calendar' || $module === 'Events') {
-			$module = 'Calendar';
-			$modName = 'Activity';
+			$module = App\Module::getModuleName($module);
 		}
 		if (\App\Cache::staticHas('CRMEntity', $module)) {
 			return clone \App\Cache::staticGet('CRMEntity', $module);
 		}
 
 		// File access security check
-		if (!class_exists($modName)) {
-			if (AppConfig::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$modName.php")) {
-				\vtlib\Deprecated::checkFileAccessForInclusion("custom/modules/$module/$modName.php");
-				require_once "custom/modules/$module/$modName.php";
+		if (!class_exists($module)) {
+			if (AppConfig::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$module.php")) {
+				\vtlib\Deprecated::checkFileAccessForInclusion("custom/modules/$module/$module.php");
+				require_once "custom/modules/$module/$module.php";
 			} else {
-				\vtlib\Deprecated::checkFileAccessForInclusion("modules/$module/$modName.php");
-				require_once "modules/$module/$modName.php";
+				\vtlib\Deprecated::checkFileAccessForInclusion("modules/$module/$module.php");
+				require_once "modules/$module/$module.php";
 			}
 		}
-		$focus = new $modName();
+		$focus = new $module();
 		$focus->moduleName = $module;
 		\App\Cache::staticSave('CRMEntity', $module, clone $focus);
 
@@ -144,19 +139,7 @@ class CRMEntity
 		}
 
 		// Lookup module field cache
-		if ($module == 'Calendar' || $module == 'Events') {
-			vtlib\Deprecated::getColumnFields('Calendar');
-			if (VTCacheUtils::lookupFieldInfoModule('Events')) {
-				$cachedEventsFields = VTCacheUtils::lookupFieldInfoModule('Events');
-			} else {
-				$cachedEventsFields = [];
-			}
-			$cachedCalendarFields = VTCacheUtils::lookupFieldInfoModule('Calendar');
-			$cachedModuleFields = array_merge($cachedEventsFields, $cachedCalendarFields);
-			$module = 'Calendar';
-		} else {
-			$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
-		}
+		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 		if ($cachedModuleFields === false) {
 			// Pull fields and cache for further use
 			$tabid = \App\Module::getModuleId($module);
@@ -726,12 +709,17 @@ class CRMEntity
 		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $crmId])->execute();
 	}
 
+	/**
+	 * Gets fields to locking record.
+	 *
+	 * @return array
+	 */
 	public function getLockFields()
 	{
 		if (isset($this->lockFields)) {
 			return $this->lockFields;
 		}
-		return false;
+		return [];
 	}
 
 	/**

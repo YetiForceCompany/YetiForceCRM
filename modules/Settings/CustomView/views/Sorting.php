@@ -19,15 +19,6 @@ class Settings_CustomView_Sorting_View extends Settings_Vtiger_BasicModal_View
 		$recordStructure = $recordStructureInstance->getStructure();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		// Added to show event module custom fields
-		if ($sourceModuleModel->getName() == 'Calendar') {
-			$relatedModuleName = 'Events';
-			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
-			$relatedRecordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($relatedModuleModel);
-			$eventBlocksFields = $relatedRecordStructureInstance->getStructure();
-			$viewer->assign('EVENT_RECORD_STRUCTURE_MODEL', $relatedRecordStructureInstance);
-			$viewer->assign('EVENT_RECORD_STRUCTURE', $eventBlocksFields);
-		}
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('SOURCE_MODULE_MODEL', $sourceModuleModel);

@@ -11,24 +11,20 @@
 
 var Vtiger_CustomView_Js;
 Vtiger_CustomView_Js = {
-	init() {
+	init(container) {
+		this.contentsCotainer = container;
+		Vtiger_CustomView_Js.registerEvents();
+		this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(this.contentsCotainer.find('.filterContainer'));
+		//This will store the columns selection container
+		this.columnSelectElement = false;
 		return this;
 	},
-	contentsCotainer: false,
-	columnListSelect2Element: false,
-	advanceFilterInstance: false,
-	//This will store the columns selection container
-	columnSelectElement: false,
-	//This will store the input hidden selectedColumnsList element
-	selectedColumnsList: false,
 	loadFilterView: function (url) {
+		let self = this;
 		var progressIndicatorElement = $.progressIndicator();
-		AppConnector.request(url).done(function (data) {
-			app.hideModalWindow();
-			var contents = $(".contentsDiv").html(data);
+		app.showModalWindow(null, url, function () {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			Vtiger_CustomView_Js.registerEvents();
-			Vtiger_CustomView_Js.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance($('.filterContainer', contents));
+			Vtiger_CustomView_Js = self.init($('.js-filter-modal__container'));
 		});
 	},
 	loadDateFilterValues: function () {
@@ -44,12 +40,9 @@ Vtiger_CustomView_Js = {
 	 */
 	getContentsContainer: function () {
 		if (Vtiger_CustomView_Js.contentsCotainer == false) {
-			Vtiger_CustomView_Js.contentsCotainer = $('div.contentsDiv');
+			Vtiger_CustomView_Js.contentsCotainer = $('.js-filter-modal__container');
 		}
 		return Vtiger_CustomView_Js.contentsCotainer;
-	},
-	getColumnListSelect2Element: function () {
-		return Vtiger_CustomView_Js.columnListSelect2Element;
 	},
 	/**
 	 * Function to get the view columns selection element
@@ -60,16 +53,6 @@ Vtiger_CustomView_Js = {
 			Vtiger_CustomView_Js.columnSelectElement = $('#viewColumnsSelect');
 		}
 		return Vtiger_CustomView_Js.columnSelectElement;
-	},
-	/**
-	 * Function to get the selected columns list
-	 * @return : jQuery object of selectedColumnsList
-	 */
-	getSelectedColumnsList: function () {
-		if (Vtiger_CustomView_Js.selectedColumnsList == false) {
-			Vtiger_CustomView_Js.selectedColumnsList = $('#selectedColumnsList');
-		}
-		return Vtiger_CustomView_Js.selectedColumnsList;
 	},
 	/**
 	 * Function which will get the selected columns
@@ -183,8 +166,13 @@ Vtiger_CustomView_Js = {
 				}
 			}
 			if (mandatoryFieldsMissing) {
-				var message = app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_MANDATORY_FIELD');
-				select2Element.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+				selectElement.validationEngine(
+					'showPrompt',
+					app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_MANDATORY_FIELD'),
+					'error',
+					'topLeft',
+					true
+				);
 				e.preventDefault();
 				return;
 			} else {
@@ -217,6 +205,3 @@ Vtiger_CustomView_Js = {
 		$('#CustomView').validationEngine(app.validationEngineOptions);
 	}
 };
-$(document).ready(function () {
-	Vtiger_CustomView_Js.init();
-})

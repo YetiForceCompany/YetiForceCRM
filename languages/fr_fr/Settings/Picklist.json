@@ -34,7 +34,8 @@
     "LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY": "Pour supprimer plusieurs \u00e9l\u00e9ments maintenir la touche Ctrl appuy\u00e9e pendant la s\u00e9lection des \u00e9l\u00e9ments",
     "LBL_VALUES_ASSIGNED_TO_A_ROLE": "Valeurs assign\u00e9s \u00e0 un r\u00f4le",
     "NO_PICKLIST_FIELDS": "ne poss\u00e8de pas de champs liste deroulante",
-    "LBL_NEW_VALUE": "Nouvelle valeur"
+    "LBL_NEW_VALUE": "Nouvelle valeur",
+    "LBL_CLOSES_RECORD": "Closes record"
   },
   "js": {
     "JS_ALL_ROLES_SELECTED": "Tous les R\u00f4les s\u00e9lectionn\u00e9s",

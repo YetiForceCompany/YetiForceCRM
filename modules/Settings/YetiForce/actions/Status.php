@@ -27,13 +27,10 @@ class Settings_YetiForce_Status_Action extends Settings_Vtiger_Save_Action
 		$result = true;
 		$message = App\Language::translate('LBL_SAVED', $request->getModule(false));
 		if (isset(\App\YetiForce\Status::$variables[$flagName])) {
-			switch (\App\YetiForce\Status::$variables[$flagName]) {
-				case 'bool':
-					$config->set($flagName, $request->getByType('newParam', 'Digital') === '1');
-					break;
-				default:
-					$config->set($flagName, $request->getByType('newParam', 'Text'));
-					break;
+			if (\App\YetiForce\Status::$variables[$flagName] === 'bool') {
+				$config->set($flagName, $request->getByType('newParam', 'Digital') === '1');
+			} else {
+				$config->set($flagName, $request->getByType('newParam', 'Text'));
 			}
 		} else {
 			$result = false;

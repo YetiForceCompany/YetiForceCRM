@@ -3,7 +3,7 @@
  * Calender module config.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
 	// Limits the number of events displayed on a day.
@@ -18,14 +18,14 @@ return [
 	// switch - Switch "To realize" and "History",
 	// list - filter list
 	'DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE' => 'list',
-	// Show the Event/To Do quick create window after changing the status
+	// Show the Calendar quick create window after changing the status
 	// array - PLL_COMPLETED, PLL_CANCELLED
 	'SHOW_QUICK_CREATE_BY_STATUS' => [],
 	// Right calendar panel visible by default
-	// true - show right panel, false - hide right panel;
+	// true - show right panel, false - hide right panel
 	'SHOW_RIGHT_PANEL' => true, // Boolean
 	// Button referring to the list view that includes filters
-	// true - show, false - hide;
+	// true - show, false - hide
 	'SHOW_LIST_BUTTON' => true, // Boolean
 	// Show companies and processes in quickcreate
 	'SHOW_COMPANIES_IN_QUICKCREATE' => false, // Boolean
@@ -45,4 +45,6 @@ return [
 	'CRON_MAX_NUMBERS_ACTIVITY_STATS' => 5000,
 	// Show number of current records in record preview for related modules
 	'SHOW_ONLY_CURRENT_RECORDS_COUNT' => false,
+	//Calendar view - allowed values: Extended, Standard
+	'CALENDAR_VIEW' => 'Standard'
 ];

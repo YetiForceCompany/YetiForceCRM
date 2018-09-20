@@ -45,30 +45,15 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('SOURCE_MODULE', $selectedModuleName);
 		switch ($step) {
-			case 'step8':
-				$viewer->assign('WATERMARK_TEXT', \App\Pdf\Tcpdf::WATERMARK_TYPE_TEXT);
-				$viewer->view('Step8.tpl', $qualifiedModuleName);
-				break;
-			case 'step7':
-				$viewer->view('Step7.tpl', $qualifiedModuleName);
-				break;
-			case 'step6':
+			case 'step3':
 				$moduleModel = Vtiger_Module_Model::getInstance($pdfModel->get('module_name'));
 				$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 				$viewer->assign('ADVANCE_CRITERIA', Vtiger_AdvancedFilter_Helper::transformToAdvancedFilterCondition($pdfModel->get('conditions')));
-				$viewer->view('Step6.tpl', $qualifiedModuleName);
-				break;
-			case 'step5':
-				$viewer->view('Step5.tpl', $qualifiedModuleName);
-				break;
-			case 'step4':
-				$viewer->view('Step4.tpl', $qualifiedModuleName);
-				break;
-			case 'step3':
 				$viewer->view('Step3.tpl', $qualifiedModuleName);
 				break;
 			case 'step2':
+				$viewer->assign('WATERMARK_TEXT', \App\Pdf\Tcpdf::WATERMARK_TYPE_TEXT);
 				$viewer->view('Step2.tpl', $qualifiedModuleName);
 				break;
 			case 'step1':
@@ -92,11 +77,6 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 			"modules.Settings.$moduleName.resources.Edit1",
 			"modules.Settings.$moduleName.resources.Edit2",
 			"modules.Settings.$moduleName.resources.Edit3",
-			"modules.Settings.$moduleName.resources.Edit4",
-			"modules.Settings.$moduleName.resources.Edit5",
-			"modules.Settings.$moduleName.resources.Edit6",
-			"modules.Settings.$moduleName.resources.Edit7",
-			"modules.Settings.$moduleName.resources.Edit8",
 			'modules.Vtiger.resources.AdvanceFilter',
 			'modules.Vtiger.resources.AdvanceFilterEx',
 		];

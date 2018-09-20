@@ -1,17 +1,21 @@
 <?php
 
-namespace App\Pdf;
-
 /**
- * Tcpdf class.
- *
  * Class using TCPDF as a PDF creator.
+ *
+ * @package App\Pdf
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetifoce.com>
  */
-class Tcpdf extends AbstractPDF
+
+namespace App\Pdf;
+
+/**
+ * Tcpdf class.
+ */
+class Tcpdf extends PDF
 {
 	const WATERMARK_TYPE_TEXT = 0;
 	const WATERMARK_TYPE_IMAGE = 1;
@@ -71,6 +75,11 @@ class Tcpdf extends AbstractPDF
 	protected $defaultFontSize = 10;
 
 	/**
+	 * @var \Vtiger_Module_Model
+	 */
+	protected $moduleModel;
+
+	/**
 	 * Returns pdf library object.
 	 */
 	public function pdf()
@@ -115,7 +124,7 @@ class Tcpdf extends AbstractPDF
 		if (empty($mode)) {
 			$mode = \AppConfig::main('default_charset') ?? 'UTF-8';
 		}
-		$this->pdf = new \App\Pdf\Libs\Yftcpdf($orientation, 'mm', $format, true, $mode);
+		$this->pdf = new \App\Pdf\Libs\Tcpdf($orientation, 'mm', $format, true, $mode);
 		$this->pdf->setFontSubsetting(true);
 		$this->pdf->SetFont($this->defaultFontFamily, '', $this->defaultFontSize);
 		$this->pdf->SetMargins($leftMargin, $topMargin, $rightMargin, true);
@@ -193,6 +202,8 @@ class Tcpdf extends AbstractPDF
 	public function setModuleName($name)
 	{
 		$this->moduleName = $name;
+		$handlerClass = \Vtiger_Loader::getComponentClassName('Model', 'PDF', $name);
+		$this->moduleModel = new $handlerClass();
 	}
 
 	/**
@@ -247,6 +258,24 @@ class Tcpdf extends AbstractPDF
 	{
 		parent::setLanguage($language);
 		$this->pdf->setLanguage($language);
+	}
+
+	/**
+	 * Parse variables.
+	 *
+	 * @param string $str
+	 *
+	 * @return string
+	 */
+	public function parseVariables(string $str)
+	{
+		$textParser = \App\TextParser::getInstanceById($this->recordId, $this->moduleName);
+		$textParser->setType('pdf');
+		$textParser->setParams(['pdf' => $this->moduleModel]);
+		if ($this->language) {
+			$textParser->setLanguage($this->language);
+		}
+		return $textParser->setContent($str)->parse()->getContent();
 	}
 
 	/**
@@ -328,7 +357,7 @@ class Tcpdf extends AbstractPDF
 	 */
 	public function setTitle($title)
 	{
-		$this->pdf->SetTitle($title);
+		$this->pdf->SetTitle($this->parseVariables($title));
 	}
 
 	/**
@@ -336,7 +365,7 @@ class Tcpdf extends AbstractPDF
 	 */
 	public function setAuthor($author)
 	{
-		$this->pdf->SetAuthor($author);
+		$this->pdf->SetAuthor($this->parseVariables($author));
 	}
 
 	/**
@@ -352,7 +381,7 @@ class Tcpdf extends AbstractPDF
 	 */
 	public function setSubject($subject)
 	{
-		$this->pdf->SetSubject($subject);
+		$this->pdf->SetSubject($this->parseVariables($subject));
 	}
 
 	/**
@@ -360,7 +389,7 @@ class Tcpdf extends AbstractPDF
 	 */
 	public function setKeywords($keywords)
 	{
-		$this->pdf->SetKeywords($keywords);
+		$this->pdf->SetKeywords($this->parseVariables($keywords));
 	}
 
 	/**
@@ -384,7 +413,7 @@ class Tcpdf extends AbstractPDF
 	 */
 	public function writeHTML()
 	{
-		$this->pdf->writeHTML($this->html, false, false, false, false, '');
+		$this->pdf->writeHTML($this->parseVariables($this->html));
 	}
 
 	/**
@@ -401,7 +430,7 @@ class Tcpdf extends AbstractPDF
 				$this->pdf->clearWatermarkImage();
 			}
 		} elseif ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT) {
-			$this->pdf->SetWatermarkText($templateModel->get('watermark_text'), 0.15, $templateModel->get('watermark_size'), $templateModel->get('watermark_angle'));
+			$this->pdf->SetWatermarkText($this->parseVariables($templateModel->get('watermark_text')), 0.15, $templateModel->get('watermark_size'), $templateModel->get('watermark_angle'));
 		}
 	}
 
@@ -444,17 +473,17 @@ class Tcpdf extends AbstractPDF
 		$self->setTemplateId($templateId);
 		$self->setRecordId($recordId);
 		$self->setModuleName($moduleName);
+		\App\Language::setTemporaryLanguage($template->get('language'));
 		$self->setWaterMark($template);
 		$self->setLanguage($template->get('language'));
-		$self->setFileName($template->get('filename'));
-		\App\Language::setTemporaryLanguage($template->get('language'));
-		$self->pdf->setHeaderFont([$self->defaultFont, '', $self->defaultFontSize]);
-		$self->pdf->setFooterFont([$self->defaultFont, '', $self->defaultFontSize]);
+		$self->setFileName($self->parseVariables($template->get('filename')));
+		$self->pdf->setHeaderFont([$self->defaultFontFamily, '', $self->defaultFontSize]);
+		$self->pdf->setFooterFont([$self->defaultFontFamily, '', $self->defaultFontSize]);
 		$self->parseParams($template->getParameters(), $template->get('margin_chkbox') !== 1);
-		$self->pdf()->setHtmlHeader($template->getHeader());
+		$self->pdf()->setHtmlHeader($self->parseVariables($template->getHeader()));
 		$self->pdf()->AddPage($template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L', $template->get('page_format'));
-		$self->pdf()->setHtmlFooter($template->getFooter());
-		$self->pdf()->writeHTML($template->getBody(), false, false, false, false, '');
+		$self->pdf()->setHtmlFooter($self->parseVariables($template->getFooter()));
+		$self->pdf()->writeHTML($self->parseVariables($template->getBody()));
 		$self->pdf()->lastPage();
 		\App\Language::clearTemporaryLanguage();
 		return $self;

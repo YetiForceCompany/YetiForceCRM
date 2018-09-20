@@ -461,8 +461,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		if (!isset($this->module_permissions)) {
 			$allModules = Vtiger_Module_Model::getAll([0], Settings_Profiles_Module_Model::getNonVisibleModulesList());
-			$eventModule = Vtiger_Module_Model::getInstance('Events');
-			$allModules[$eventModule->getId()] = $eventModule;
 			$profileTabPermissions = $this->getProfileTabPermissions();
 			$profileActionPermissions = $this->getProfileActionPermissions();
 			$profileUtilityPermissions = $this->getProfileUtilityPermissions();
@@ -552,12 +550,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		$profileName = $this->get('profilename');
 		$description = $this->get('description');
 		$profilePermissions = $this->get('profile_permissions');
-		$calendarModule = Vtiger_Module_Model::getInstance('Calendar');
-		$eventModule = Vtiger_Module_Model::getInstance('Events');
-		$eventFieldsPermissions = $profilePermissions[$eventModule->getId()]['fields'];
-		$profilePermissions[$eventModule->getId()] = $profilePermissions[$calendarModule->getId()];
-		$profilePermissions[$eventModule->getId()]['fields'] = $eventFieldsPermissions;
-
 		$isProfileDirectlyRelatedToRole = 0;
 		if ($this->has('directly_related_to_role')) {
 			$isProfileDirectlyRelatedToRole = $this->get('directly_related_to_role');
@@ -576,7 +568,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				'profilename' => $profileName,
 				'description' => $description,
 				'directly_related_to_role' => $isProfileDirectlyRelatedToRole,
-				], ['profileid' => $profileId])->execute();
+			], ['profileid' => $profileId])->execute();
 			$db->createCommand()->delete('vtiger_profile2globalpermissions', ['profileid' => $profileId])->execute();
 		}
 		$db->createCommand()->insert('vtiger_profile2globalpermissions', [
@@ -590,7 +582,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			'globalactionpermission' => $this->tranformInputPermissionValue($this->get('viewall')),
 		])->execute();
 		$allModuleModules = Vtiger_Module_Model::getAll([0], Settings_Profiles_Module_Model::getNonVisibleModulesList());
-		$allModuleModules[$eventModule->getId()] = $eventModule;
 		if (count($allModuleModules) > 0) {
 			$actionModels = Vtiger_Action_Model::getAll(true);
 			foreach ($allModuleModules as $moduleModel) {
@@ -683,7 +674,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 						$caseExpression .= 'ELSE permissions END ';
 						$dbCommand->update('vtiger_profile2standardpermissions', [
 							'permissions' => new \yii\db\Expression($caseExpression),
-							], ['profileid' => $profileId, 'tabid' => $tabId])->execute();
+						], ['profileid' => $profileId, 'tabid' => $tabId])->execute();
 					}
 
 					foreach (Vtiger_Action_Model::$utilityActions as $utilityActionId => $utilityActionName) {
@@ -702,7 +693,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 						$caseExpression .= " ELSE {$db->quoteValue(1)} END ";
 						$dbCommand->update('vtiger_profile2utility', [
 							'permission' => new \yii\db\Expression($caseExpression),
-							], ['profileid' => $profileId, 'tabid' => $tabId])->execute();
+						], ['profileid' => $profileId, 'tabid' => $tabId])->execute();
 					}
 				} else {
 					//Insert Process

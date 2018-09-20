@@ -34,7 +34,8 @@
     "LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY": "Para Apagar m\u00faltiplos itens aperte a tecla Ctrl enquanto seleciona os itens",
     "LBL_VALUES_ASSIGNED_TO_A_ROLE": "Valores atribu\u00eddos a uma fun\u00e7\u00e3o",
     "NO_PICKLIST_FIELDS": "n\u00e3o existe nenhum campo Lista de Op\u00e7\u00f5es",
-    "LBL_NEW_VALUE": "Novo valor"
+    "LBL_NEW_VALUE": "Novo valor",
+    "LBL_CLOSES_RECORD": "Closes record"
   },
   "js": {
     "JS_ALL_ROLES_SELECTED": "Todas as Fun\u00e7\u00f5es Selecionadas",

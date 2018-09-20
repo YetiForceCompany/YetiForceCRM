@@ -254,12 +254,19 @@ Vtiger_Date_Field_Js('Workflows_Date_Field_Js', {}, {
 			element;
 		if (comparatorSelectedOptionVal.length > 0) {
 			if (comparatorSelectedOptionVal == 'between' || comparatorSelectedOptionVal == 'custom') {
-				html = '<div class="date"><input class="dateRangeField" data-calendar-type="range" name="' + this.getName() + '" data-date-format="' + this.getDateFormat() + '" type="text" ReadOnly="true" value="' + this.getValue() + '"></div>';
+				html = '<div class="date"><input class="dateRangeField"' +
+					'data-calendar-type="range" name="' + this.getName() +
+					'" data-date-format="' + this.getDateFormat() +
+					'" type="text" ReadOnly="true" value="' + this.getValue() + '"></div>';
 				element = jQuery(html);
 				return this.addValidationToElement(element);
 			} else if (this._specialDateComparator(comparatorSelectedOptionVal)) {
-				html = '<input name="' + this.getName() + '" type="text" value="' + this.getValue() + '" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator="[{"name":"PositiveNumber"}]">\n\
-							<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+				html = '<input name="' + this.getName() + '" type="text" value="' +
+					this.getValue() + '" data-validation-engine="' +
+					'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"' +
+					' data-validator="[{"name":"PositiveNumber"}]">' +
+					'<input type="hidden" name="valuetype" value="' +
+					this.get('workflow_valuetype') + '" />';
 				return jQuery(html);
 			} else if (comparatorSelectedOptionVal in dateSpecificConditions) {
 				let startValue = dateSpecificConditions[comparatorSelectedOptionVal]['startdate'],
@@ -306,7 +313,7 @@ Vtiger_Date_Field_Js('Workflows_Datetime_Field_Js', {}, {
 		let html,
 			element;
 		if (this._specialDateTimeComparator(this.get('comparatorElementVal'))) {
-			var html = '<input name="' + this.getName() + '" type="text" value="' + this.getValue() + '" data-validator="[{name:PositiveNumber}]"><input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
+			html = '<input name="' + this.getName() + '" type="text" value="' + this.getValue() + '" data-validator="[{name:PositiveNumber}]"><input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 			element = jQuery(html);
 		} else {
 			html = '<input type="text" class="getPopupUi date" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +

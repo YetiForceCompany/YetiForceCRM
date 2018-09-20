@@ -516,7 +516,6 @@ App.Fields = {
 			//formatSelectionTooBig param is not defined even it has the maximumSelectionLength,
 			//then we should send our custom function for formatSelectionTooBig
 			if (typeof params.maximumSelectionLength !== "undefined" && typeof params.formatSelectionTooBig === "undefined") {
-				var limit = params.maximumSelectionLength;
 				//custom function which will return the maximum selection size exceeds message.
 				var formatSelectionExceeds = function (limit) {
 					return app.vtranslate('JS_YOU_CAN_SELECT_ONLY') + ' ' + limit.maximum + ' ' + app.vtranslate('JS_ITEMS');
@@ -701,7 +700,6 @@ App.Fields = {
 		register(container) {
 			container.find('.js-multi-email').each((index, element) => {
 				const inputElement = element;
-				let form = $(element).closest('form').eq(0);
 				$(element).find('.js-email').each((index, element) => {
 					$(element).on('change', (e) => {
 						App.Fields.MultiEmail.parseToJSON($(inputElement));

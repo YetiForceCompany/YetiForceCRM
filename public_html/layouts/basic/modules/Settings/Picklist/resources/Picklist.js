@@ -235,35 +235,38 @@ var Settings_Picklist_Js = {
 	},
 
 	registerRenameItemEvent: function () {
-		var thisInstance = this;
-		jQuery('#renameItem').on('click', function (e) {
-			var pickListValuesTable = jQuery('#pickListValuesTable');
-			var selectedListItem = jQuery('.selectedListItem', pickListValuesTable);
-			var selectedListItemLength = selectedListItem.length, params;
-			if (selectedListItemLength > 1) {
-				params = {
+		const thisInstance = this;
+		$('#renameItem').on('click', function (e) {
+			var selectedListItem = $('.selectedListItem', $('#pickListValuesTable'));
+			var selectedListItemLength = selectedListItem.length;
+			if (selectedListItemLength < 1) {
+				Vtiger_Helper_Js.showPnotify({
+					title: app.vtranslate('JS_MESSAGE'),
+					text: app.vtranslate('JS_NO_ITEM_SELECTED'),
+					type: 'error'
+				});
+				return false;
+			} else if (selectedListItemLength > 1) {
+				Vtiger_Helper_Js.showPnotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_MORE_THAN_ONE_ITEM_SELECTED'),
 					type: 'error'
-				};
-				Vtiger_Helper_Js.showPnotify(params);
-				return;
+				});
+				return false;
 			} else {
-				params = {
+				AppConnector.request({
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
-					source_module: jQuery('#pickListModules').val(),
+					source_module: $('#pickListModules').val(),
 					view: 'IndexAjax',
 					mode: 'showEditView',
-					pickListFieldId: jQuery('#modulePickList').val(),
-					fieldValue: selectedListItem.closest('tr').data('key')
-				}
-				AppConnector.request(params).done(function (data) {
+					pickListFieldId: $('#modulePickList').val(),
+					fieldValueId: selectedListItem.closest('tr').data('key-id')
+				}).done(function (data) {
 					app.showModalWindow(data);
-					var form = jQuery('#renameItemForm');
+					let form = $('#renameItemForm');
 					thisInstance.registerScrollForNonEditablePicklistValues(form);
 					form.validationEngine();
-					Settings_Picklist_Js.registerEditDescriptionChanger();
 					Settings_Picklist_Js.registerRenameItemSaveEvent();
 				});
 			}
@@ -397,47 +400,51 @@ var Settings_Picklist_Js = {
 	/**
 	 * Remene item
 	 */
-	registerRenameItemSaveEvent: function () {
-		jQuery('#renameItemForm').on('submit', function (e) {
+	registerRenameItemSaveEvent() {
+		$('#renameItemForm').on('submit', (e) => {
 			e.preventDefault();
-			let form = jQuery(e.currentTarget),
-				validationResult = form.validationEngine('validate');
-			if (validationResult == true) {
-				let oldElem = jQuery('[name="oldValue"]', form),
-					oldValue = oldElem.val(),
-					id = oldElem.find('option[value="' + oldValue + '"]').data('id'),
-					newValueEle = jQuery('[name="newValue"]', form),
-					newValue = jQuery.trim(newValueEle.val()),
-					params = jQuery(e.currentTarget).serializeFormData(),
-					invalidFields = form.data('jqv').InvalidFields;
-				params.newValue = newValue;
-				params.id = id;
-				if (invalidFields.length == 0) {
+			let form = $(e.currentTarget);
+			if (form.validationEngine('validate')) {
+				let newValue, oldValue = form.find('[name="oldValue"]').val(),
+					id = form.find('[name="id"]').val(),
+					params = $(e.currentTarget).serializeFormData();
+				if (form.find('[name="newValue"]').length > 0) {
+					newValue = $.trim(form.find('[name="newValue"]').val());
+					params.newValue = newValue;
+				}
+				if (form.data('jqv').InvalidFields.length === 0) {
 					form.find('[name="saveButton"]').attr('disabled', "disabled");
 				}
-				AppConnector.request(params).done(function (data) {
+				const progress = $.progressIndicator();
+				AppConnector.request(params).done((data) => {
 					if (typeof data.result !== "undefined") {
+						progress.progressIndicator({'mode': 'hide'});
 						app.hideModalWindow();
-						let encodedOldValue = oldValue.replace(/"/g, '\\"'),
-							dragImagePath = jQuery('#dragImagePath').val(),
-							renamedElement = '<tr class="pickListValue u-cursor-pointer"><td class="u-text-ellipsis"><img class="alignMiddle" src="' + dragImagePath + '" />&nbsp;&nbsp;' + newValue + '</td></tr>',
-							renamedElementNew = jQuery(renamedElement).attr('data-key', newValue).attr('data-key-id', id),
-							params = {
-								title: app.vtranslate('JS_MESSAGE'),
-								text: app.vtranslate('JS_ITEM_RENAMED_SUCCESSFULLY'),
-								type: 'success'
-							};
-						jQuery('[data-key="' + encodedOldValue + '"]').replaceWith(renamedElementNew);
-						Vtiger_Helper_Js.showPnotify(params);
-
-						//update the new item in the hidden picklist values array
-						let pickListValuesEle = jQuery('[name="pickListValues"]'),
-							pickListValuesArray = JSON.parse(pickListValuesEle.val());
-						pickListValuesArray[id] = newValueEle.val();
-						pickListValuesEle.val(JSON.stringify(pickListValuesArray));
+						Vtiger_Helper_Js.showPnotify({
+							title: app.vtranslate('JS_MESSAGE'),
+							text: app.vtranslate('JS_ITEM_RENAMED_SUCCESSFULLY'),
+							type: 'success'
+						});
+						if (newValue !== '') {
+							let encodedOldValue = oldValue.replace(/"/g, '\\"'),
+								dragImagePath = $('#dragImagePath').val(),
+								renamedElement = '<tr class="pickListValue u-cursor-pointer">' +
+									'<td class="u-text-ellipsis"><img class="alignMiddle" src="' +
+									dragImagePath + '" />&nbsp;&nbsp;' + data.result.newValue +
+									'</td></tr>';
+							$('[data-key="' + encodedOldValue + '"]').replaceWith($(renamedElement).attr('data-key', newValue).attr('data-key-id', id));
+							//update the new item in the hidden picklist values array
+							let pickListValuesEle = $('[name="pickListValues"]'),
+								pickListValuesArray = JSON.parse(pickListValuesEle.val());
+							pickListValuesArray[id] = newValue;
+							pickListValuesEle.val(JSON.stringify(pickListValuesArray));
+						}
 					} else {
 						form.find('[name="saveButton"]').attr('disabled', false);
 					}
+				}).fail(function (data, err) {
+					app.errorLog(data, err);
+					progress.progressIndicator({'mode': 'hide'});
 				});
 			}
 		});
@@ -572,20 +579,6 @@ var Settings_Picklist_Js = {
 				}
 			});
 		});
-	},
-	registerEditDescriptionChanger: function () {
-		let container = $("#renameItemForm"),
-			descriptionElement = container.find(".js-editor"),
-			dataDescriptions = descriptionElement.data('descriptions'),
-			selectField = container.find(".js-picklist-change-value"),
-			changeId;
-		selectField.on("change", function () {
-			changeId = $(this).find('option:selected').data('id');
-			if (dataDescriptions[changeId] !== undefined) {
-				descriptionElement.val(dataDescriptions[changeId]);
-			}
-		});
-		selectField.change();
 	},
 
 	registerAssingValueToRoleTabClickEvent: function () {

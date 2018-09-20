@@ -34,7 +34,7 @@ class Assets extends CRMEntity
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_assets' => 'assetsid',
-		'vtiger_assetscf' => 'assetsid',];
+		'vtiger_assetscf' => 'assetsid', ];
 
 	/**
 	 * Mandatory for Listing (Related listview).

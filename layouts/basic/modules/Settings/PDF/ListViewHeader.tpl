@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<div class="tpl-ListViewHeader listViewPageDiv" id="listViewContainer">
+<div class="tpl-Settings-PDF-ListViewHeader listViewPageDiv" id="listViewContainer">
 	<div class="listViewTopMenuDiv">
 		<div class="row widget_header mb-2">
 			<div class="col-12">
@@ -34,11 +34,7 @@
 					{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 						<option {if !empty($SOURCE_MODULE) && $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if}
 								value="{$MODULE_MODEL->getName()}">
-							{if $MODULE_MODEL->getName() eq 'Calendar'}
-								{\App\Language::translate('LBL_TASK', $MODULE_MODEL->getName())}
-							{else}
-								{\App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
-							{/if}
+							{\App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
 						</option>
 					{/foreach}
 				</select>

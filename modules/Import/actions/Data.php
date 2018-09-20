@@ -286,8 +286,6 @@ class Import_Data_Action extends \App\Controller\Action
 							$entityInfo['status'] = self::IMPORT_RECORD_SKIPPED;
 							break;
 						case Import_Module_Model::AUTO_MERGE_OVERWRITE:
-							// add default mandatory values if empty, set empty field if not mandatory and is empty in record
-							// do not override existing record mandatory field with defaults if empty in file
 							$recordModel = Vtiger_Record_Model::getInstanceById($baseRecordId);
 							$defaultMandatoryFieldValues = $this->getDefaultMandatoryFieldValues();
 							$mandatoryFieldNames = array_keys($defaultMandatoryFieldValues);
@@ -458,19 +456,13 @@ class Import_Data_Action extends \App\Controller\Action
 					$this->inventoryFieldMapData[$mapData['field']][$entityName] = $fieldObject;
 				}
 				if ($fieldObject) {
-					switch ($fieldObject->getFieldDataType()) {
-						case 'picklist':
-							$picklist = $fieldObject->getValuesName();
-							if (in_array($value, $picklist)) {
-								$value = array_search($value, $picklist);
-							} elseif (array_key_exists($value, $picklist)) {
-								break;
-							} else {
-								$value = '';
-							}
-							break;
-						default:
-							break;
+					if ($fieldObject->getFieldDataType() === 'picklist') {
+						$picklist = $fieldObject->getValuesName();
+						if (in_array($value, $picklist)) {
+							$value = array_search($value, $picklist);
+						} elseif (!array_key_exists($value, $picklist)) {
+							$value = '';
+						}
 					}
 				} else {
 					$value = '';

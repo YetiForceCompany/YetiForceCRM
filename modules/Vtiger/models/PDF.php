@@ -404,23 +404,12 @@ class Vtiger_PDF_Model extends \App\Base
 		}
 
 		// metadata
-		if ($this->get('metatags_status') == 0) {
+		$parameters['creator'] = 'YetiForce CRM';
+		if ($this->get('metatags_status') == 1) {
 			$parameters['title'] = $this->get('meta_title');
 			$parameters['author'] = $this->get('meta_author');
-			$parameters['creator'] = $this->get('meta_creator');
 			$parameters['subject'] = $this->get('meta_subject');
 			$parameters['keywords'] = $this->get('meta_keywords');
-		} else {
-			$companyDetails = App\Company::getInstanceById()->getData();
-			$parameters['title'] = $this->get('primary_name');
-			$parameters['author'] = $companyDetails['organizationname'];
-			$parameters['creator'] = $companyDetails['organizationname'];
-			$parameters['subject'] = $this->get('secondary_name');
-
-			// preparing keywords
-			unset($companyDetails['id'], $companyDetails['logo'], $companyDetails['logoname']);
-
-			$parameters['keywords'] = implode(', ', $companyDetails);
 		}
 		return $parameters;
 	}
@@ -445,64 +434,31 @@ class Vtiger_PDF_Model extends \App\Base
 	/**
 	 * Get header content.
 	 *
-	 * @param bool $raw - if true return unparsed header
-	 *
 	 * @return string - header content
 	 */
-	public function getHeader($raw = false)
+	public function getHeader()
 	{
-		if ($raw) {
-			return $this->get('header_content');
-		}
-		$textParser = \App\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
-		$textParser->setType('pdf');
-		$textParser->setParams(['pdf' => $this]);
-		if ($this->get('language')) {
-			$textParser->setLanguage($this->get('language'));
-		}
-		return $textParser->setContent($this->get('header_content'))->parse()->getContent();
+		return $this->get('header_content');
 	}
 
 	/**
 	 * Get body content.
 	 *
-	 * @param bool $raw - if true return unparsed header
-	 *
 	 * @return string - body content
 	 */
-	public function getFooter($raw = false)
+	public function getFooter()
 	{
-		if ($raw) {
-			return $this->get('footer_content');
-		}
-		$textParser = \App\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
-		$textParser->setType('pdf');
-		$textParser->setParams(['pdf' => $this]);
-		if ($this->get('language')) {
-			$textParser->setLanguage($this->get('language'));
-		}
-		return $textParser->setContent($this->get('footer_content'))->parse()->getContent();
+		return $this->get('footer_content');
 	}
 
 	/**
 	 * Get body content.
 	 *
-	 * @param bool $raw - if true return unparsed header
-	 *
 	 * @return string - body content
 	 */
-	public function getBody($raw = false)
+	public function getBody()
 	{
-		if ($raw) {
-			return $this->get('body_content');
-		}
-		$textParser = \App\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
-		$textParser->setType('pdf');
-		$textParser->setParams(['pdf' => $this]);
-		if ($this->get('language')) {
-			$textParser->setLanguage($this->get('language'));
-		}
-		return $textParser->setContent($this->get('body_content'))->parse()->getContent();
+		return $this->get('body_content');
 	}
 
 	/**

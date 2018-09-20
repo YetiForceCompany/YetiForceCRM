@@ -61,12 +61,10 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getFieldDataType()
 	{
-		switch ($this->get('uitype')) {
-			case 101:
-				return 'userReference';
-			default:
-				return parent::getFieldDataType();
-				break;
+		if ($this->get('uitype') === 101) {
+			return 'userReference';
+		} else {
+			return parent::getFieldDataType();
 		}
 	}
 
@@ -182,7 +180,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isEditableReadOnly()
 	{
-		if ($this->getColumnName()==='login_method' && !\App\User::getCurrentUserModel()->isAdmin()) {
+		if ($this->getColumnName() === 'login_method' && !\App\User::getCurrentUserModel()->isAdmin()) {
 			return true;
 		}
 		return parent::isEditableReadOnly();

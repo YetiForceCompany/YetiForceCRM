@@ -24,18 +24,18 @@
 				</button>
 			</div>
 			<div class="ml-2 w-100">
-			<div class="alert alert-info d-none mb-0" id="moduleCacheAlert" role="alert">
-				<div class="d-flex">
-					<div class="mr-auto align-self-center">
-						{\App\Language::translate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}
+				<div class="alert alert-info d-none mb-0" id="moduleCacheAlert" role="alert">
+					<div class="d-flex">
+						<div class="mr-auto align-self-center">
+							{\App\Language::translate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}
+						</div>
+						<button type="button"
+								class="btn btn-warning btn-sm cacheClear px-2">{\App\Language::translate('LBL_CACHE_CLEAR', $MODULE_NAME)}</button>
+						<button type="button" class="close px-2 pb-1" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
-					<button type="button"
-							class="btn btn-warning btn-sm cacheClear px-2">{\App\Language::translate('LBL_CACHE_CLEAR', $MODULE_NAME)}</button>
-					<button type="button" class="close px-2 pb-1" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
 				</div>
-			</div>
 			</div>
 		</div>
 		<div class="o-calendar-container">
