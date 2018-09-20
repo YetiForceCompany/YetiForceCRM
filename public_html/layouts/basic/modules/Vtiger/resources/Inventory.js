@@ -110,7 +110,7 @@ $.Class("Vtiger_Inventory_Js", {
 	 * @return jQuery object which you can use to
 	 */
 	getBasicRow: function () {
-		return this.getForm().find('.js-inventory-base-item').children().clone(true, true);
+		return this.getForm().find('.js-inventory-base-item').eq(0).clone(true, true);
 	},
 	isRecordSelected: function (element) {
 		var parentRow = element.closest('tr');
@@ -1199,19 +1199,12 @@ $.Class("Vtiger_Inventory_Js", {
 	addItem(module, baseTableId, rowData = false) {
 		const items = this.getInventoryItemsContainer();
 		let newRow = this.getBasicRow();
-		let newRowBlock = $(newRow[0]);
-		let newRowHiddenBlock = $(newRow[1]);
-		let table = items.find('.js-inventory-items-body');
 		const sequenceNumber = this.getNextLineItemRowNumber();
-		const replaced = newRowBlock.html().replace(/\_NUM_/g, sequenceNumber);
-		newRowBlock.html(replaced);
-		newRowBlock = newRowBlock.appendTo(table);
-		newRowBlock.attr('numrow', sequenceNumber);
-		newRowHiddenBlock.appendTo(table);
-		newRowHiddenBlock.switchClass('numRow_NUM_', 'numRow' + sequenceNumber).attr('numrowex', sequenceNumber);
-		newRowHiddenBlock.find('textarea').attr('name', 'comment1' + sequenceNumber).attr('id', 'editView_commentcomment1' + sequenceNumber);
-		newRowBlock.find('.rowName input[name="popupReferenceModule"]').val(module).data('field', baseTableId);
-		newRowBlock.find('.colPicklistField select').each(function (index, select) {
+		const replaced = newRow.html().replace(/\_NUM_/g, sequenceNumber);
+		newRow.html(replaced);
+		newRow = newRow.children().appendTo(items.find('.js-inventory-items-body'));
+		newRow.find('.rowName input[name="popupReferenceModule"]').val(module).data('field', baseTableId);
+		newRow.find('.colPicklistField select').each(function (index, select) {
 			select = $(select);
 			select.find('option').each(function (index, option) {
 				option = $(option);
@@ -1220,13 +1213,14 @@ $.Class("Vtiger_Inventory_Js", {
 				}
 			});
 		});
-		this.initItem(newRowBlock);
-		Vtiger_Edit_Js.getInstance().registerAutoCompleteFields(newRowBlock);
-		app.showPopoverElementView(newRowBlock.find('.js-popover-tooltip'));
+		this.initItem(newRow);
+		Vtiger_Edit_Js.getInstance().registerAutoCompleteFields(newRow);
+		app.showPopoverElementView(newRow.find('.js-popover-tooltip'));
 		if (rowData) {
-			this.setRowData(newRowBlock, rowData);
+			this.setRowData(newRow, rowData);
 		}
 	},
+
 	/**
 	 * Register add item button click
 	 * @param {jQuery} container
