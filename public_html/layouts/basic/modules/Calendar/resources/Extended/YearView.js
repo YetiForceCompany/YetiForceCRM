@@ -4,8 +4,11 @@ let FC = $.fullCalendar; // a reference to FullCalendar's root namespace
 let View = FC.View;      // the class that all views must inherit from
 
 let YearView = View.extend({
+	isRegisterUsersChangeRegistered: false,
 	initialize: function () {
-
+		this.registerFilterTabChange();
+		this.registerClearFilterButton();
+		this.registerUsersChange();
 	},
 	renderHtml: function () {
 		return `	
@@ -40,11 +43,11 @@ let YearView = View.extend({
 		);
 		calendar.find(".cell-calendar a").on('click', function () {
 			var url = 'index.php?module=Calendar&view=List';
-			if (customFilter) {
-				url += '&viewname=' + calendar.find('select.widgetFilter.customFilter').val();
-			} else {
-				url += '&viewname=All';
-			}
+			//if (customFilter) { TODO: add customFilter
+			//	url += '&viewname=' + calendar.find('select.widgetFilter.customFilter').val();
+			//} else {
+			url += '&viewname=All';
+			//}
 			url += '&search_params=[[';
 			// var owner = calendar.find('.widgetFilter.owner option:selected');
 			// if (owner.val() != 'all') {
@@ -56,6 +59,18 @@ let YearView = View.extend({
 	},
 	getSidebarView() {
 		return $('#rightPanel');
+	},
+	clearFilterButton(user, cvid) {
+		let currentUser = parseInt(app.getMainParams('userId')),
+			statement = ((user.length === 0 || (user.length === 1 && parseInt(user) === currentUser)) && cvid === undefined);
+		$(".js-calendar-clear-filters").toggleClass('d-none', statement);
+
+	},
+	registerFilterTabChange() {
+		const thisInstance = this;
+		$(".js-calendar-extended-filter-tab").on('shown.bs.tab', function () {
+			thisInstance.render();
+		});
 	},
 	getSelectedUsersCalendar() {
 		let selectedUsers = this.getSidebarView().find('.js-inputUserOwnerId:checked'),
@@ -73,6 +88,28 @@ let YearView = View.extend({
 	getCurrentCvId() {
 		return $(".js-calendar-extended-filter-tab .active").parent('.js-filter-tab').data('cvid');
 	},
+	registerUsersChange() {
+		const thisInstance = this;
+		if (!thisInstance.isRegisterUsersChangeRegistered) {
+			thisInstance.isRegisterUsersChangeRegistered = true;
+			thisInstance.getSidebarView().find('.js-inputUserOwnerId').on('change', () => {
+				thisInstance.render();
+			});
+			thisInstance.getSidebarView().find('.js-inputUserOwnerIdAjax').on('change', () => {
+				thisInstance.render();
+			});
+		}
+	},
+	registerClearFilterButton() {
+		const thisInstance = this,
+			sidebar = thisInstance.getSidebarView();
+		$(".js-calendar-clear-filters").on('click', () => {
+			$(".js-calendar-extended-filter-tab a").removeClass('active');
+			sidebar.find("input:checkbox").prop('checked', false);
+			sidebar.find(".js-inputUserOwnerId[value=" + app.getMainParams('userId') + "]").prop('checked', true);
+			thisInstance.render();
+		})
+	},
 	render: function () {
 		const self = this;
 		//common
@@ -85,10 +122,12 @@ let YearView = View.extend({
 			yearView = this.el.html(this.renderHtml()),
 			user = this.getSelectedUsersCalendar(),
 			date = calendar.getDate().year(),
-			progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
+			progressInstance = $.progressIndicator({blockInfo: {enabled: true}}),
+			cvid = this.getCurrentCvId();
 		if (user.length === 0) {
 			user = [app.getMainParams('userId')];
 		}
+		this.clearFilterButton(user, cvid);
 		AppConnector.request({
 			module: 'Calendar',
 			action: 'Calendar',
@@ -97,7 +136,7 @@ let YearView = View.extend({
 			end: date + '-12-31',
 			user: user,
 			yearView: true,
-			cvid: this.getCurrentCvId()
+			cvid: cvid
 		}).done(function (events) {
 			yearView.find('.fc-year__month').each(function (i) {
 				let date = moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD");
