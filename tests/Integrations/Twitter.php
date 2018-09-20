@@ -28,6 +28,10 @@ class Twitter extends \Tests\Base
 	 * @var int
 	 */
 	private static $idTwitter = 299792456;
+	/**
+	 * @var \AppConfig
+	 */
+	private static $appConfigExt;
 
 	/**
 	 * Add Twitter message.
@@ -50,11 +54,32 @@ class Twitter extends \Tests\Base
 	}
 
 	/**
+	 * Create extended \AppConfig class.
+	 */
+	private static function extendedConfig()
+	{
+		static::$appConfigExt = new class() extends \AppConfig {
+			/**
+			 * Set configuration for module.
+			 *
+			 * @param string $module
+			 * @param array  $config
+			 */
+			public static function setConfigForModule(string $module, array $config)
+			{
+				parent::$modules[$module] = $config;
+			}
+		};
+	}
+
+	/**
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
 	public static function setUpBeforeClass()
 	{
+		static::extendedConfig();
+		static::$appConfigExt::setConfigForModule('Contacts', ['enable_social' => ['twitter']]);
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Contacts');
 		$block = $moduleModel->getBlocks()['LBL_CONTACT_INFORMATION'];
 		$type = 'Twitter';
@@ -72,6 +97,15 @@ class Twitter extends \Tests\Base
 		static::addTwitter('yeti');
 		static::addTwitter('yetiforceen');
 		static::addTwitter('forceen');
+	}
+
+	/**
+	 * Testing configuration for module.
+	 */
+	public function testConfigModule()
+	{
+		$this->assertTrue(\is_array(\AppConfig::module('Contacts', 'enable_social')), 'Module Contacts not configured for social media');
+		$this->assertTrue(\in_array('twitter', \AppConfig::module('Contacts', 'enable_social')), 'Module Contacts not configured for social media');
 	}
 
 	/**
@@ -184,6 +218,7 @@ class Twitter extends \Tests\Base
 	 */
 	public static function tearDownAfterClass()
 	{
+		static::$appConfigExt::setConfigForModule('Contacts', []);
 		foreach (static::$twitterFields as $fieldModel) {
 			$fieldModel->delete();
 		}
