@@ -38,10 +38,10 @@
 						   value='{\App\Purifier::encodeHtml(\App\Json::encode(App\Fields\Picklist::getEditablePicklistValues($FIELD_MODEL->getName())))}'/>
 					<div class="modal-body tabbable">
 						<div class="form-group row align-items-center">
+							<div class="col-md-3 col-form-label text-right">
+								{\App\Language::translate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}
+							</div>
 							{if $EDITABLE}
-								<div class="col-md-3 col-form-label text-right">
-									{\App\Language::translate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}
-								</div>
 								<div class="col-md-9 controls">
 									<input name="newValue" type="text"
 										   class="form-control"
@@ -49,12 +49,7 @@
 										   data-validator={\App\Json::encode([['name'=>'FieldLabel']])}>
 								</div>
 							{else}
-								<div class="col-md-3 col-form-label text-right">
-									{\App\Language::translate('LBL_VALUE',$QUALIFIED_MODULE)}
-								</div>
-								<div class="col-md-9 controls">
-									{\App\Language::translate($PICKLIST_VALUE['picklistValue'], $SOURCE_MODULE)}
-								</div>
+								<div class="col-md-9 controls alert alert-warning">{\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUE',$QUALIFIED_MODULE)}</div>
 							{/if}
 						</div>
 						<div class="form-group row align-items-center">
