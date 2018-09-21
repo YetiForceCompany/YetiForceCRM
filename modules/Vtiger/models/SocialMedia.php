@@ -27,7 +27,7 @@ class Vtiger_SocialMedia_Model extends \App\Base
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
 	 */
-	private function __construct(\Vtiger_Record_Model $recordModel)
+	public function __construct(\Vtiger_Record_Model $recordModel)
 	{
 		parent::__construct();
 		$this->recordModel = $recordModel;
