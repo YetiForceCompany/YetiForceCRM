@@ -76,6 +76,17 @@ class Twitter extends \Tests\Base
 	}
 
 	/**
+	 * Check if the Twitter field exists.
+	 */
+	public function testFieldTwitter()
+	{
+		$this->assertInternalType('integer', static::$twitterFields[0]->getId());
+		$this->assertTrue((new \App\Db\Query())
+			->from('vtiger_field')
+			->where(['fieldid' => static::$twitterFields[0]->getId()])->exists(), 'Field twitter not exists');
+	}
+
+	/**
 	 * Testing configuration for module.
 	 */
 	public function testConfigModule()
@@ -96,12 +107,14 @@ class Twitter extends \Tests\Base
 		$recordModel->set('lastname', 'Test');
 		$recordModel->set(static::$twitterFields[0]->getColumnName(), 'yetiforceen');
 		$recordModel->save();
+		$this->assertInternalType('integer', $recordModel->getId());
 		static::$listId[] = $recordModel->getId();
 
 		$this->assertSame('yetiforceen',
 			(new \App\Db\Query())->select([static::$twitterFields[0]->getColumnName()])
 				->from(static::$twitterFields[0]->getTableName())
-				->where(['contactid' => $recordModel->getId()])->scalar()
+				->where(['contactid' => $recordModel->getId()])->scalar(),
+			"Bad value in table '" . static::$twitterFields[0]->getTableName() . "' column '" . static::$twitterFields[0]->getColumnName() . "'."
 		);
 		$this->assertTrue((new \App\Db\Query())
 			->from('u_#__social_media_twitter')
