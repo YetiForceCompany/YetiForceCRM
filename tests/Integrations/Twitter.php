@@ -85,6 +85,13 @@ class Twitter extends \Tests\Base
 		$this->assertTrue((new \App\Db\Query())
 			->from('vtiger_field')
 			->where(['fieldid' => static::$twitterFields[0]->getId()])->exists(), 'Field twitter not exists');
+		$this->assertSame(
+			static::$twitterFields[0]->getId(),
+			\Vtiger_Module_Model::getInstance('Contacts')
+				->getFieldByName(static::$twitterFields[0]->getFieldName())
+				->getId(),
+			'Vtiger_Field_Model problem'
+		);
 	}
 
 	/**
@@ -111,11 +118,6 @@ class Twitter extends \Tests\Base
 		\App\Cache::clear();
 		$this->assertInternalType('integer', $recordModel->getId());
 		static::$listId[] = $recordModel->getId();
-		\var_dump($recordModel->getId());
-		$row = (new \App\Db\Query())
-			->from(static::$twitterFields[0]->getTableName())
-			->where(['contactid' => $recordModel->getId()])->one();
-		\var_dump($row);
 
 		$this->assertSame('yetiforceen',
 			(new \App\Db\Query())->select([static::$twitterFields[0]->getColumnName()])
