@@ -28,10 +28,6 @@ class Twitter extends \Tests\Base
 	 * @var int
 	 */
 	private static $idTwitter = 299792456;
-	/**
-	 * @var \AppConfig
-	 */
-	private static $appConfigExt;
 
 	/**
 	 * Add Twitter message.
