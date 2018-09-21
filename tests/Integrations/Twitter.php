@@ -69,6 +69,7 @@ class Twitter extends \Tests\Base
 		$param['fieldTypeList'] = 0;
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
 		static::$twitterFields[] = $moduleModel->addField($param['fieldType'], $block->id, $param);
+		\App\Cache::clear();
 
 		static::addTwitter('yeti');
 		static::addTwitter('yetiforceen');
