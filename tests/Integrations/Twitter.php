@@ -74,6 +74,8 @@ class Twitter extends \Tests\Base
 		static::addTwitter('yetiforceen');
 		static::addTwitter('forceen');
 		\App\Cache::delete('getFieldsPermissions' . \App\User::getCurrentUserId(), $moduleModel->getId());
+		\Vtiger_Cache::flush();
+		\App\Cache::init();
 	}
 
 	/**
