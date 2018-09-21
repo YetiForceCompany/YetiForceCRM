@@ -11,6 +11,7 @@ let YearView = View.extend({
 		this.registerFilterTabChange();
 		this.registerClearFilterButton();
 		this.registerUsersChange();
+		this.createAddSwitch();
 	},
 	renderHtml: function () {
 		return `	
@@ -33,6 +34,7 @@ let YearView = View.extend({
 		`;
 	},
 	loadCalendarData: function (calendar, events) {
+		const thisInstance = this;
 		let height = (calendar.find('.fc-bg :first').height() - calendar.find('.fc-day-number').height()) - 10,
 			width = (calendar.find('.fc-day-number').width() / 2) - 10,
 			i;
@@ -44,20 +46,22 @@ let YearView = View.extend({
 			events.result
 		);
 		calendar.find(".cell-calendar a").on('click', function () {
-			let url = 'index.php?module=Calendar&view=List';
-			//if (customFilter) { TODO: add customFilter
-			//	url += '&viewname=' + calendar.find('select.widgetFilter.customFilter').val();
-			//} else {
-			url += '&viewname=All';
-			//}
-			url += '&search_params=[[';
-			// let owner = calendar.find('.widgetFilter.owner option:selected');
-			// if (owner.val() != 'all') {
-			// 	url += '["assigned_user_id","e","' + owner.val() + '"],';
-			// }
-			let date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase())
-			window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","bw","' + date + ',' + date + '"]]]';
-		});
+				let url = 'index.php?module=Calendar&view=List',
+					cvid = thisInstance.getCurrentCvId(),
+					user = thisInstance.getSelectedUsersCalendar(),
+					date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase());
+				if (cvid !== undefined) {
+					url += '&viewname=' + cvid;
+				} else {
+					url += '&viewname=All';
+				}
+				url += '&search_params=[[';
+				if (user.length !== 0) {
+					url += '["assigned_user_id","e","' + user + '"],';
+				}
+				window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","bw","' + date + ',' + date + '"]]]';
+			}
+		);
 	},
 
 	selectDays: function (startDate, endDate) {
@@ -243,6 +247,7 @@ let YearView = View.extend({
 		return aDeferred.promise();
 	},
 	render: function () {
+		alert('spoko');
 		const self = this;
 		let hiddenDays = [],
 			calendar = $('#calendarview').fullCalendar('getCalendar'),
@@ -266,6 +271,7 @@ let YearView = View.extend({
 			end: date + '-12-31',
 			user: user,
 			yearView: true,
+			time: app.getMainParams('showType'),
 			cvid: cvid
 		}).done(function (events) {
 			yearView.find('.fc-year__month').each(function (i) {
@@ -320,6 +326,35 @@ let YearView = View.extend({
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
 	},
+
+	createAddSwitch() {
+		const thisInstance = this;
+		let switchContainer = $(".js-calendar-switch-container");
+		switchContainer.find('.js-switch').eq(1).on('change', 'input', (e) => {
+			const currentTarget = $(e.currentTarget);
+			if (typeof currentTarget.data('on-text') !== 'undefined') {
+				app.setMainParams('showType', 'current');
+				app.moduleCacheSet('defaultShowType', 'current');
+			} else if (typeof currentTarget.data('off-text') !== 'undefined') {
+				app.setMainParams('showType', 'history');
+				app.moduleCacheSet('defaultShowType', 'history');
+			}
+			thisInstance.render();
+		});
+		switchContainer.find('.js-switch').eq(0).on('change', 'input', (e) => {
+			const currentTarget = $(e.currentTarget);
+			alert(currentTarget.data('on-text'));
+			alert(currentTarget.data('off-text'));
+			if (typeof currentTarget.data('on-text') !== 'undefined') {
+				app.setMainParams('switchingDays', 'workDays');
+				app.moduleCacheSet('defaultSwitchingDays', 'workDays');
+			} else if (typeof currentTarget.data('off-text') !== 'undefined') {
+				app.setMainParams('switchingDays', 'all');
+				app.moduleCacheSet('defaultSwitchingDays', 'all');
+			}
+			thisInstance.render();
+		});
+	}
 });
 
 FC.views.year = YearView; // register our class with the view system
