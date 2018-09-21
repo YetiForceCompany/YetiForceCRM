@@ -1291,7 +1291,8 @@
     "LBL_PRINT": "Drukuj",
     "LBL_IMAGE_DOWNLOAD": "Pobierz obraz",
     "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Liczba scalanych rekord\u00F3w zosta\u0142a zredukowana do %d.",
-    "LBL_USE_VARIABLES": "W tym polu mo\u017Cesz skorzysta\u0107 ze zmiennych. Wystarczy \u017Ce skopiujesz do schowka dowoln\u0105 zmienn\u0105 z panelu i wkleisz w tym miejscu. Pole mo\u017Ce zawiera\u0107 kilka zmiennych."
+    "LBL_USE_VARIABLES": "W tym polu mo\u017Cesz skorzysta\u0107 ze zmiennych. Wystarczy \u017Ce skopiujesz do schowka dowoln\u0105 zmienn\u0105 z panelu i wkleisz w tym miejscu. Pole mo\u017Ce zawiera\u0107 kilka zmiennych.",
+    "BTN_RECORD_OPEN": "Odblokuj rekord"
   },
   "js": {
     "JS_APPROVE": "Zatwierd\u017A",
