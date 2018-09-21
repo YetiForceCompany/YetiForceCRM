@@ -2201,7 +2201,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		let picklistValue = $(element).data('picklistValue');
 		Vtiger_Helper_Js.showConfirmationBox({
 			title: picklistValue,
-			message: app.vtranslate('JS_CHANGE_STATUS_CONFIRMATION')
+			message: app.vtranslate('JS_CHANGE_VALUE_CONFIRMATION')
 		}).done(() => {
 			const progressIndicatorElement = $.progressIndicator();
 			self.saveFieldValues({
