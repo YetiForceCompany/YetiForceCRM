@@ -7,7 +7,7 @@
 			 title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}" data-js="click">
 			<span class="fas fa-chevron-left"></span>
 		</div>
-		<ul class="nav nav-tabs" id="rightPanelTab" role="tablist">
+		<ul class="o-calendar__panel__tabs nav nav-pills js-show-sitebar" id="rightPanelTab" role="tablist" data-js="click">
 			<li class="nav-item">
 				<a class="nav-link js-rightPanelEventLink active show" id="rightPanelEvent-tab" data-toggle="tab"
 				   href="#rightPanelEvent" role="tab"

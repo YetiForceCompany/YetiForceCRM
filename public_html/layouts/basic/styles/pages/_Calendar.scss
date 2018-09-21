@@ -1,4 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+$sitebar-border: 1px solid #ccc;
 
 .calendarViewContainer {
 	.widget_header {
@@ -64,7 +65,7 @@
 	cursor: pointer;
 	width: 17px;
 	z-index: 100;
-	border: 1px solid #ddd;
+	border: $sitebar-border;
 	border-right: 0;
 	display: inline-block;
 	border-radius: 0;
@@ -99,7 +100,7 @@
 	.siteBarRight {
 		width: 25%;
 		padding: 0 15px;
-		border-left: 1px solid #ccc;
+		border-left: $sitebar-border;
 		background: $light;
 		position: fixed;
 		right: 0;
@@ -602,5 +603,51 @@
 	//filter tabs active user color overwrite
 	.nav-pills .nav-link.active {
 		color: $white !important;
+	}
+
+	.o-calendar__panel__tabs {
+		$tab-left-border-radius: 25px;
+		height: calculate-rem(48px); //breadcrumb
+		background: #f8f9fa;
+		position: fixed;
+		top: $h-header;
+		right: calc(25% - 1px);
+		z-index: 100;
+		border-bottom: $sitebar-border;
+		border-left: $sitebar-border;
+		display: inline-block;
+		border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
+		font-size: calculate-rem(13px);
+		@include u-transition(all 0.5s ease);
+
+		.nav-item {
+			height: 50%;
+
+			&:first-child {
+				.nav-link {
+					border-radius: $tab-left-border-radius 0 0 0;
+				}
+			}
+			&:last-child {
+				.nav-link {
+					border-radius: 0 0 0 $tab-left-border-radius;
+				}
+			}
+		}
+
+		.nav-link {
+			text-align: center;
+			height: 100%;
+			padding: calculate-rem(1px) calculate-rem(20px);
+			background: material-color('blue-grey', '50');
+
+			&.active {
+				background: transparent;
+				color: $gray-600 !important;
+			}
+		}
+	}
+	.hideSiteBar .o-calendar__panel__tabs {
+		right: 0;
 	}
 }

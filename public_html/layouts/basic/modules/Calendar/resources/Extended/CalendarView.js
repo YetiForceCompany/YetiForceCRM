@@ -672,12 +672,19 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		});
 	},
 	showRightPanelForm() {
-		if ($('.js-calendarRightPanel').hasClass('hideSiteBar')) {
-			$('.js-toggleSiteBarRightButton').trigger('click');
+		let calendarRightPanel = $('.js-calendarRightPanel'),
+			sitebarButton = $('.js-toggleSiteBarRightButton');
+		if (calendarRightPanel.hasClass('hideSiteBar')) {
+			sitebarButton.trigger('click');
 		}
 		if (!$('.js-rightPanelEvent').hasClass('active')) {
 			$('.js-rightPanelEventLink').trigger('click');
 		}
+		$('.js-show-sitebar').on('click', () => {
+			if (calendarRightPanel.hasClass('hideSiteBar')) {
+				sitebarButton.trigger('click');
+			}
+		})
 	},
 	loadCalendarCreateView() {
 		let aDeferred = $.Deferred();
