@@ -92,13 +92,17 @@ class Twitter extends \Tests\Base
 			'Field twitter not exists'
 		);
 
-		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
-		$res = $recordModel->getModule()->getFieldsForSave($recordModel);
-		\var_dump($res);
+		$obj = new class() extends \Vtiger_Module_Model {
+			public function clearFields()
+			{
+				$this->fields = false;
+			}
+		};
+		$obj->clearFields();
 
 		$fieldModel = \Vtiger_Module_Model::getInstance('Contacts')
 			->getFieldByName(static::$twitterFields[0]->getFieldName());
-		$this->assertNotFalse($fieldModel, 'Vtiger_Field_Model problem');
+		$this->assertNotFalse($fieldModel, 'Vtiger_Field_Model problem - not exists');
 		$this->assertSame(
 			static::$twitterFields[0]->getId(),
 			$fieldModel->getId(),
