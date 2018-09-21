@@ -17,15 +17,16 @@
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 						<li class="js-filter__item__container m-0 p-0 col-12 mb-1" data-js="classs: d-none">
 							<div class="mr-0 col-12 form-row d-flex align-items-center">
-								<div class="col-1">
+								<div class="mr-2">
 									<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
-										   class="js-inputUserOwnerId alignMiddle"
+										   class="js-inputUserOwnerId alignMiddle mr-2"
 											{if $USER_MODEL->getId() eq $OWNER_ID} checked{/if}>
-								</div>
-								<div class="col-1 js-pinUser d-inline-block align-middle text-center"
-									 data-elementid="{$OWNER_ID}"
-									 data-js="click|data-elementid">
-									<span class="fas fa-thumbtack u-cursor-pointer {if empty($FAVOURITES_USERS[$OWNER_ID])}u-opacity-muted{/if}"></span>
+
+									<div class="js-pinUser d-inline-block align-middle text-center"
+										 data-elementid="{$OWNER_ID}"
+										 data-js="click|data-elementid">
+										<span class="fas fa-thumbtack u-cursor-pointer {if empty($FAVOURITES_USERS[$OWNER_ID])}u-opacity-muted{/if}"></span>
+									</div>
 								</div>
 								<label class="m-0 col-9 js-filter__item__value u-text-ellipsis"
 									   for="ownerId{$OWNER_ID}">
