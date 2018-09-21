@@ -108,8 +108,11 @@ class Twitter extends \Tests\Base
 		$recordModel->set('lastname', 'Test');
 		$recordModel->set(static::$twitterFields[0]->getColumnName(), 'yetiforceen');
 		$recordModel->save();
+		\App\Cache::clear();
 		$this->assertInternalType('integer', $recordModel->getId());
 		static::$listId[] = $recordModel->getId();
+		\var_dump($recordModel->getId());
+		\var_dump($recordModel->get(static::$twitterFields[0]->getColumnName()));
 
 		$this->assertSame('yetiforceen',
 			(new \App\Db\Query())->select([static::$twitterFields[0]->getColumnName()])
