@@ -206,6 +206,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 					$db->createCommand()->delete('u_#__users_pinned', $data)->execute();
 					$result = 'unpin';
 				}
+				\App\Cache::delete('UsersFavourite', $userId);
 			}
 		}
 		$response = new Vtiger_Response();
