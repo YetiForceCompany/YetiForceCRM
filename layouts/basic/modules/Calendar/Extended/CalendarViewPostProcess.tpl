@@ -27,9 +27,9 @@
 				<div class="js-qcForm qcForm"></div>
 			</div>
 			<div class="tab-pane fade" id="rightPanelFilter" role="tabpanel" aria-labelledby="rightPanelFilter-tab">
-				<div class="formsContainer border-bottom">
-					<div class="js-usersForm usersForm u-h-70per"></div>
-					<div class="js-groupForm groupForm u-h-30per"></div>
+				<div class="formsContainer border-bottom d-flex flex-column">
+					<div class="js-usersForm usersForm position-relative" data-js="perfectScrollbar | html | container"></div>
+					<div class="js-groupForm groupForm position-relative" data-js="perfectScrollbar | html | container | class: u-min-h-30per"></div>
 				</div>
 			</div>
 		</div>

@@ -554,12 +554,9 @@
 		height: calc(100vh - #{$h-footer} - 17px - 50px - 34px - 50px - 20px);
 		position: relative;
 	}
-	@media only screen and (max-width: 1682px) {
-
-		.formsContainer {
-			/*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
-			height: calc(100vh - 35px - 17px - 50px - 34px - 6px);
-		}
+	.formsContainer {
+		/*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
+		height: calc(100vh - 35px - 17px - 50px - 34px - 6px);
 	}
 
 	.fc-year {

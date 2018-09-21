@@ -796,39 +796,36 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		let sideBar = thisInstance.getSidebarView();
 		thisInstance.getCalendarCreateView().done(function () {
 			app.showNewScrollbar($('.js-calendar__form__wrapper'), {
-				wheelPropagation: true,
 				suppressScrollX: true
 			});
 		});
-		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList').then(
+		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList').done(
 			function (data) {
 				if (data) {
-					sideBar.find('.js-usersForm').html(data);
+					let formContainer = sideBar.find('.js-usersForm');
+					formContainer.html(data);
 					thisInstance.registerUsersChange();
-					App.Fields.Picklist.showSelect2ElementView(sideBar.find('.js-usersForm select'));
+					App.Fields.Picklist.showSelect2ElementView(formContainer.find('select'));
+					app.showNewScrollbar(formContainer, {
+						suppressScrollX: true
+					});
 				}
 			}
 		);
-		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getGroupsList').then(
+		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getGroupsList').done(
 			function (data) {
 				if (data) {
-					sideBar.find('.js-groupForm').html(data);
+					let formContainer = sideBar.find('.js-groupForm');
+					formContainer.html(data);
 					thisInstance.registerUsersChange();
-					App.Fields.Picklist.showSelect2ElementView(sideBar.find('.js-groupForm select'));
+					App.Fields.Picklist.showSelect2ElementView(formContainer.find('select'));
+					formContainer.addClass('u-min-h-30per');
+					app.showNewScrollbar(formContainer, {
+						suppressScrollX: true
+					});
 				}
 			}
 		);
-
-		thisInstance.getSidebarView().slimScroll({
-			width: '',
-			height: ''
-		});
-		app.showNewScrollbar($('.js-usersForm'), {
-			wheelPropagation: true
-		});
-		app.showNewScrollbar($('.js-groupForm'), {
-			wheelPropagation: true
-		});
 	},
 	/**
 	 * Find element on list (user, group)
