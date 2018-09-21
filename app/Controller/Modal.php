@@ -90,11 +90,10 @@ abstract class Modal extends View
 	public function postProcessAjax(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule($request);
 		if (!$request->getBoolean('onlyBody')) {
 			$viewer->assign('BTN_SUCCESS', $this->successBtn);
 			$viewer->assign('BTN_DANGER', $this->dangerBtn);
-			$viewer->view('Modals/Footer.tpl', $moduleName);
+			$viewer->view('Modals/Footer.tpl', $request->getModule());
 		}
 	}
 
