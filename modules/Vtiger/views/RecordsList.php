@@ -47,7 +47,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	 */
 	public function preProcessAjax(\App\Request $request)
 	{
-		$moduleName = $request->getModule($request);
+		$moduleName = $request->getModule();
 		$this->modalIcon = "modCT_{$moduleName} userIcon-{$moduleName}";
 		$this->initializeContent($request);
 		parent::preProcessAjax($request);
@@ -62,9 +62,9 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('ONLY_BODY', $request->getBoolean('onlyBody'));
 		if ($request->getMode() === 'getPagination') {
 			$viewer->assign('VIEWNAME', 'recordsList');
-			$viewer->view('Pagination.tpl', $request->getModule($request));
+			$viewer->view('Pagination.tpl', $request->getModule());
 		} else {
-			$viewer->view('Modals/RecordsList.tpl', $request->getModule($request));
+			$viewer->view('Modals/RecordsList.tpl', $request->getModule());
 		}
 	}
 

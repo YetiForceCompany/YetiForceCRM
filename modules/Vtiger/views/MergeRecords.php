@@ -3,8 +3,8 @@
  * Merge records view.
  *
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -87,7 +87,7 @@ class Vtiger_MergeRecords_View extends \App\Controller\Modal
 			$viewer->assign('BTN_SUCCESS', 'LBL_MERGE');
 		}
 		$viewer->assign('BTN_DANGER', $this->dangerBtn);
-		$viewer->view('Modals/Footer.tpl', $request->getModule($request));
+		$viewer->view('Modals/Footer.tpl', $request->getModule());
 	}
 
 	/**
