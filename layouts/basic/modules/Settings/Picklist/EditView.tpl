@@ -40,15 +40,6 @@
 						{if $EDITABLE}
 							<div class="form-group row align-items-center">
 								<div class="col-md-3 col-form-label text-right">
-									{\App\Language::translate('LBL_CURRENT_VALUE',$QUALIFIED_MODULE)}
-								</div>
-								<div class="col-md-9 controls">
-									<input name="oldValueReadonly" value="{$OLD_VALUE}" type="text"
-										   class="form-control" readonly disabled/>
-								</div>
-							</div>
-							<div class="form-group row align-items-center">
-								<div class="col-md-3 col-form-label text-right">
 									{\App\Language::translate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}
 								</div>
 								<div class="col-md-9 controls">
