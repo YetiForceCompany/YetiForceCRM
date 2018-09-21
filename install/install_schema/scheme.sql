@@ -223,7 +223,7 @@ CREATE TABLE `a_yf_taxes_global` (
 
 CREATE TABLE `b_yf_social_media_twitter` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `twitter_login` varchar(20) NOT NULL,
+  `twitter_login` varchar(15) NOT NULL,
   `id_twitter` varchar(32) DEFAULT NULL,
   `message` text DEFAULT NULL,
   `created` datetime DEFAULT NULL,
@@ -3056,7 +3056,7 @@ CREATE TABLE `u_yf_social_media_config` (
 
 CREATE TABLE `u_yf_social_media_twitter` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `twitter_login` varchar(20) NOT NULL,
+  `twitter_login` varchar(15) NOT NULL,
   `id_twitter` varchar(32) DEFAULT NULL,
   `message` text DEFAULT NULL,
   `created` datetime DEFAULT NULL,
