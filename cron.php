@@ -11,6 +11,7 @@
 /**
  * Start the cron services configured.
  */
+chdir(__DIR__);
 include_once __DIR__ . '/include/main/WebUI.php';
 \App\Config::$requestMode = 'Cron';
 \App\Utils\ConfReport::$sapi = 'cron';
