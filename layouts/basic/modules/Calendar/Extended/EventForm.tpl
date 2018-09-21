@@ -21,7 +21,7 @@
 		<input name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" type="hidden"/>
 		<input name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" type="hidden"/>
 		<input name="userChangedEndDateTime" value="0" type="hidden"/>
-		<div class="w-100 d-flex flex-column">
+		<div class=" w-100 d-flex flex-column">
 			<h6 class="boxEventTitle text-muted text-center my-1">
 				{if !empty($RECORD_ID)}
 					<span class="fas fa-edit mr-1"></span>
@@ -31,7 +31,7 @@
 					{\App\Language::translate('LBL_ADD',$MODULE)}
 				{/if}
 			</h6>
-			<div class="massEditTable row no-margin">
+			<div class="o-calendar__form__wrapper js-calendar__form__wrapper massEditTable row no-margin">
 				<div class="col-xs-12 paddingLRZero fieldRow">
 					{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 						{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}

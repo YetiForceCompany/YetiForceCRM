@@ -2860,21 +2860,6 @@ html, body, .o-base-container {
 		border-bottom: 1px solid $light;
 	}
 
-	.siteBarRight {
-		width: 100%;
-		padding: 0 15px;
-		position: relative;
-		-webkit-transition: all 0.5s ease;
-		-moz-transition: all 0.5s ease;
-		-o-transition: all 0.5s ease;
-		transition: all 0.5s ease;
-		z-index: 100;
-	}
-
-	.hideSiteBar {
-		right: 0 !important;
-	}
-
 	.pull-right-sm {
 		float: right;
 	}
@@ -2948,23 +2933,6 @@ html, body, .o-base-container {
 				width: 41.66666667%;
 			}
 		}
-	}
-
-	.siteBarRight {
-		width: 25%;
-		padding: 0 15px;
-		border-left: 1px solid #ccc;
-		background: $light;
-		position: fixed;
-		right: 0;
-		top: 50px;
-		bottom: 33px;
-		overflow: auto;
-		-webkit-transition: all 0.5s ease;
-		-moz-transition: all 0.5s ease;
-		-o-transition: all 0.5s ease;
-		transition: all 0.5s ease;
-		z-index: 100;
 	}
 
 	.move-action {
@@ -3194,14 +3162,6 @@ html, body, .o-base-container {
 
 .padding0 {
 	padding: 0 !important;
-}
-
-.hideSiteBar {
-	right: -25%;
-
-	.siteBarContent {
-		overflow: hidden;
-	}
 }
 
 .noLeftRadius {
@@ -3660,16 +3620,6 @@ select.form-control {
 		overflow: hidden;
 		white-space: nowrap;
 		line-height: 14px;
-	}
-}
-
-.leftPanelOpen {
-	&.siteBarRight {
-		width: calc(25% - 50px);
-	}
-
-	.toggleSiteBarRightButton {
-		right: calc(25% - 50px);
 	}
 }
 

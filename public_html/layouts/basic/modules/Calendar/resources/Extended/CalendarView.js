@@ -794,7 +794,12 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	registerAddForm() {
 		const thisInstance = this;
 		let sideBar = thisInstance.getSidebarView();
-		thisInstance.getCalendarCreateView();
+		thisInstance.getCalendarCreateView().done(function () {
+			app.showNewScrollbar($('.js-calendar__form__wrapper'), {
+				wheelPropagation: true,
+				suppressScrollX: true
+			});
+		});
 		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList').then(
 			function (data) {
 				if (data) {
@@ -813,6 +818,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				}
 			}
 		);
+
 		thisInstance.getSidebarView().slimScroll({
 			width: '',
 			height: ''
