@@ -17,7 +17,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">
-						{\App\Language::translate('LBL_RENAME_PICKLIST_ITEM', $QUALIFIED_MODULE)}
+						{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}
 						: {\App\Language::translate($PICKLIST_VALUE['picklistValue'], $SOURCE_MODULE)}
 					</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -37,8 +37,8 @@
 					<input type="hidden" name="pickListValues"
 						   value='{\App\Purifier::encodeHtml(\App\Json::encode(App\Fields\Picklist::getEditablePicklistValues($FIELD_MODEL->getName())))}'/>
 					<div class="modal-body tabbable">
-						{if $EDITABLE}
-							<div class="form-group row align-items-center">
+						<div class="form-group row align-items-center">
+							{if $EDITABLE}
 								<div class="col-md-3 col-form-label text-right">
 									{\App\Language::translate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}
 								</div>
@@ -48,10 +48,15 @@
 										   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 										   data-validator={\App\Json::encode([['name'=>'FieldLabel']])}>
 								</div>
-							</div>
-						{else}
-							<div class="alert alert-warning">{\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUES',$QUALIFIED_MODULE)}</div>
-						{/if}
+							{else}
+								<div class="col-md-3 col-form-label text-right">
+									{\App\Language::translate('LBL_VALUE',$QUALIFIED_MODULE)}
+								</div>
+								<div class="col-md-9 controls">
+									{\App\Language::translate($PICKLIST_VALUE['picklistValue'], $SOURCE_MODULE)}
+								</div>
+							{/if}
+						</div>
 						<div class="form-group row align-items-center">
 							<div class="col-md-3 col-form-label text-right">
 								{\App\Language::translate('LBL_DESCRIPTION',$QUALIFIED_MODULE)}
