@@ -33,10 +33,10 @@ class Vtiger_Twitter_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$twitter = parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
-		if (empty($twitter)) {
+		if (empty($value)) {
 			return '';
 		}
+		$twitter = parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 		if ($rawText) {
 			return $twitter;
 		}
