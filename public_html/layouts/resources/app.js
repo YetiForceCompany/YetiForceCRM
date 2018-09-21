@@ -180,7 +180,7 @@ var App = {},
 				html: true,
 				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
 				container: 'body',
-				delay: {"show": 300, "hide": 100},
+				delay: {"show": 300, "hide": 100}
 			};
 			selectElement.each(function (index, domElement) {
 				let element = $(domElement);
@@ -206,6 +206,11 @@ var App = {},
 				element.popover(elementParams);
 				if (elementParams.trigger === 'manual' || typeof elementParams.trigger === 'undefined') {
 					app.registerPopoverManualTrigger(element);
+				}
+				if (elementParams.callbackShown) {
+					element.on('shown.bs.popover', function () {
+						elementParams.callbackShown();
+					})
 				}
 			});
 			return selectElement;

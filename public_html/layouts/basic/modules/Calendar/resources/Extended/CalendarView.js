@@ -153,16 +153,22 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		});
 	},
 	eventRender: function (event, element) {
+		const self = this;
 		let valueEventVis = '';
 		if (event.vis !== '') {
 			valueEventVis = app.vtranslate('JS_' + event.vis);
 		}
 		app.showPopoverElementView(element.find('.fc-content'), {
-			title: event.title + '<a href="index.php?module=' + event.module + '&view=Edit&record=' + event.id + '" class="float-right"><span class="fas fa-edit"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
+			title: event.title + '<a href="javascript:void(0);" class="float-right mx-1 js-edit-element" data-js="click"><span class="fas fa-edit float-right"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
 			container: 'body',
 			html: true,
 			placement: 'auto',
-			template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+			callbackShown: function () {
+				$('.js-calendar-popover' + event.id).find('.js-edit-element').on('click', function () {
+					self.getCalendarEditView(event.id);
+				});
+			},
+			template: '<div class="popover calendarPopover js-calendar-popover' + event.id + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
 			content: '<div><span class="fas fa-clock"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start_display + '</div>' +
 				'<div><span class="fas fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
 				(event.lok ? '<div><span class="fas fa-globe"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
@@ -393,10 +399,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	getCalendarEditView(id) {
 		const thisInstance = this,
 			aDeferred = $.Deferred();
-		if (thisInstance.calendarCreateView !== false) {
-			aDeferred.resolve(this.calendarCreateView.clone(true, true));
-			return aDeferred.promise();
-		}
 		const progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 		thisInstance.loadCalendarEditView(id).then((data) => {
 				progressInstance.progressIndicator({mode: 'hide'});
@@ -422,6 +424,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 						toolbar: 'Min'
 					});
 				});
+				thisInstance.calendarCreateView = false;
 				aDeferred.resolve(sideBar.find('.js-qcForm'));
 			},
 			() => {
