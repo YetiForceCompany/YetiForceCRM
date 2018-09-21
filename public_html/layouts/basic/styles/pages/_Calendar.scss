@@ -19,8 +19,8 @@ $sitebar-border: 1px solid #ccc;
 	@extend .pt-2;
 }
 
-@media(min-width: 992px) {
-	[class$="_Calendar"] .mainBody {
+@media(min-width: map_get($grid-breakpoints, lg)) {
+	[class~="_Calendar"] .mainBody {
 		overflow: hidden;
 	}
 }
@@ -80,7 +80,6 @@ $sitebar-border: 1px solid #ccc;
 
 .siteBarRight {
 	width: 100%;
-	padding: 0 15px;
 	position: relative;
 	@include u-transition(all 0.5s ease);
 	z-index: 100;
@@ -104,8 +103,8 @@ $sitebar-border: 1px solid #ccc;
 		background: $light;
 		position: fixed;
 		right: 0;
-		top: 50px;
-		bottom: 33px;
+		top: $h-header;
+		bottom: $h-footer;
 		z-index: 100;
 	}
 }
@@ -507,54 +506,6 @@ $sitebar-border: 1px solid #ccc;
 	.bottom_margin .fc-basic-view .fc-body .fc-row {
 		min-height: 9em !important;
 	}
-	.formActionsPanel {
-		bottom: 49px;
-		width: calc(25% - 30px);
-		margin-right: 15px;
-		text-align: center;
-		border-top: 1px solid #ddd;
-		right: 0px;
-		-webkit-transition: all 0.5s ease;
-		-moz-transition: all 0.5s ease;
-		-o-transition: all 0.5s ease;
-		transition: all 0.5s ease;
-
-		position: fixed;
-		bottom: 33px;
-		height: 45px;
-		background: $light;
-		margin-left: -10px;
-		text-align: center;
-		border-top: 1px solid #ddd;
-		z-index: 5;
-
-		padding: 5px;
-
-		.btn-group {
-			margin-right: 3px;
-		}
-
-		.saveAndComplete {
-			margin-right: 6px;
-		}
-	}
-
-	.hideSiteBar .qcForm .formActionsPanel {
-		right: -25%;
-	}
-
-	.massEditTable {
-		margin-bottom: 50px;
-	}
-	.o-calendar__form__wrapper {
-		/*computed height: footer, userinfo, header filter buttons, padding */
-		height: calc(100vh - #{$h-footer} - 17px - 50px - 34px - 50px - 20px);
-		position: relative;
-	}
-	.formsContainer {
-		/*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
-		height: calc(100vh - 35px - 17px - 50px - 34px - 6px);
-	}
 
 	.fc-year {
 		&__container {
@@ -601,61 +552,107 @@ $sitebar-border: 1px solid #ccc;
 		color: $white !important;
 	}
 
-	.o-calendar__panel__tabs {
-		$tab-left-border-radius: 25px;
-
-		display: flex;
-		height: calculate-rem(48px); //breadcrumb
-		background: #f8f9fa;
-		position: fixed;
-		top: $h-header;
-		right: calc(25% - 1px);
-		z-index: 100;
-		border-bottom: $sitebar-border;
-		border-left: $sitebar-border;
-		border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
-		font-size: calculate-rem(13px);
-		@include u-transition(all 0.5s ease);
-
-		.toggleSiteBarRightButton {
-			padding: calculate-rem(11px) 0;
-			margin-top: calculate-rem(1px);
-			margin-left: calculate-rem(1px);
-			margin-bottom: calculate-rem(1px);
-			cursor: pointer;
-			width: calculate-rem(19px);
-			z-index: 100;
-			border: 0;
-			display: inline-block;
-			border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
-			&:hover {
-				background: material-color('blue-grey', '50');
-			}
-		}
-
-		.nav {
-			display: block;
-		}
-
-		.nav-item {
-			height: 50%;
-		}
-
-		.nav-link {
+	@media screen and (min-width: map-get($grid-breakpoints, lg)) {
+		.formActionsPanel {
+			bottom: 49px;
+			width: calc(25% - 30px);
+			margin-right: 15px;
 			text-align: center;
-			height: 100%;
-			padding: calculate-rem(1px) calculate-rem(20px);
-			background: material-color('blue-grey', '50');
-			border-left: 1px solid #eee;
-			border-radius: 0;
+			border-top: 1px solid #ddd;
+			right: 0px;
+			@include u-transition(all 0.5s ease);
+			position: fixed;
+			bottom: 33px;
+			height: 45px;
+			background: $light;
+			margin-left: -10px;
+			text-align: center;
+			border-top: 1px solid #ddd;
+			z-index: 5;
+			padding: 5px;
 
-			&.active {
-				background: transparent;
-				color: $gray-600 !important;
+			.btn-group {
+				margin-right: 3px;
+			}
+
+			.saveAndComplete {
+				margin-right: 6px;
 			}
 		}
-	}
-	.hideSiteBar .o-calendar__panel__tabs {
-		right: 0;
+
+		.hideSiteBar .qcForm .formActionsPanel {
+			right: -25%;
+		}
+
+		.massEditTable {
+			margin-bottom: 50px;
+		}
+		.o-calendar__form__wrapper {
+			/*computed height: footer, userinfo, header filter buttons, padding */
+			height: calc(100vh - #{$h-footer} - 17px - 50px - 34px - 50px - 20px);
+			position: relative;
+		}
+		.formsContainer {
+			/*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
+			height: calc(100vh - 35px - 17px - 50px - 34px - 6px);
+		}
+
+		.o-calendar__panel__tabs {
+			$tab-left-border-radius: 25px;
+
+			display: flex;
+			height: calculate-rem(48px); //breadcrumb
+			background: #f8f9fa;
+			position: fixed;
+			top: $h-header;
+			right: calc(25% - 1px);
+			z-index: 100;
+			border-bottom: $sitebar-border;
+			border-left: $sitebar-border;
+			border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
+			font-size: calculate-rem(13px);
+			@include u-transition(all 0.5s ease);
+
+			.toggleSiteBarRightButton {
+				padding: calculate-rem(11px) 0;
+				margin-top: calculate-rem(1px);
+				margin-left: calculate-rem(1px);
+				margin-bottom: calculate-rem(1px);
+				cursor: pointer;
+				width: calculate-rem(19px);
+				z-index: 100;
+				border: 0;
+				display: inline-block;
+				border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
+				&:hover {
+					background: material-color('blue-grey', '50');
+				}
+			}
+
+			.nav {
+				display: block;
+			}
+
+			.nav-item {
+				height: 50%;
+			}
+
+			.nav-link {
+				text-align: center;
+				height: 100%;
+				padding: calculate-rem(1px) calculate-rem(20px);
+				background: material-color('blue-grey', '50');
+				border-left: 1px solid #eee;
+				border-radius: 0;
+
+				&.active {
+					background: transparent;
+					color: $gray-600 !important;
+				}
+			}
+		}
+		.hideSiteBar .o-calendar__panel__tabs {
+			right: 0;
+		}
 	}
 }

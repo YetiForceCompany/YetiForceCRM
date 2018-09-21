@@ -31,8 +31,8 @@
 					{\App\Language::translate('LBL_ADD',$MODULE)}
 				{/if}
 			</h6>
-			<div class="o-calendar__form__wrapper js-calendar__form__wrapper massEditTable row no-margin">
-				<div class="col-xs-12 paddingLRZero fieldRow">
+			<div class="o-calendar__form__wrapper js-calendar__form__wrapper massEditTable no-margin">
+				<div class="fieldRow">
 					{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 						{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 						{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
@@ -71,11 +71,11 @@
 					   data-fieldtype="{$RELATED_FIELD_MODEL->getFieldDataType()}"/>
 			{/foreach}
 		{/if}
-		<div class="formActionsPanel d-none d-md-block">
+		<div class="formActionsPanel my-2 my-lg-0">
 			{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
 				{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
 					{if $LINK->get('linkhint') neq 'LBL_GO_TO_FULL_FORM'}
-						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS='display-block-md'}
+						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
 					{/if}
 				{/foreach}
 			{/if}

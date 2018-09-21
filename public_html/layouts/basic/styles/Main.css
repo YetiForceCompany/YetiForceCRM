@@ -9932,7 +9932,7 @@ table.dataTable .form-control {
   position: relative;
   top: -4px; }
 
-.calendarRightPanel, .paddingLR5 {
+.paddingLR5 {
   padding-left: 5px;
   padding-right: 5px; }
 
@@ -14399,8 +14399,6 @@ label.btn.btn-outline-primary:not(.active) {
   bottom: 1.9375rem;
   width: 100%;
   overflow-x: hidden; }
-  .Calendar_CalendarExtended .mainBody {
-    overflow-y: hidden; }
 
 @media (max-width: 767.98px) {
   .mainBody {
@@ -15202,7 +15200,7 @@ label.btn.btn-outline-primary:not(.active) {
     padding-right: 1rem !important; } }
 
 @media (min-width: 992px) {
-  [class$="_Calendar"] .mainBody {
+  [class~="_Calendar"] .mainBody {
     overflow: hidden; } }
 .hideToggleSiteBarRightButton {
   right: 0 !important; }
@@ -15228,7 +15226,6 @@ label.btn.btn-outline-primary:not(.active) {
 
 .siteBarRight {
   width: 100%;
-  padding: 0 15px;
   position: relative;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -15250,8 +15247,8 @@ label.btn.btn-outline-primary:not(.active) {
     background: #f8f9fa;
     position: fixed;
     right: 0;
-    top: 50px;
-    bottom: 33px;
+    top: 3.125rem;
+    bottom: 1.9375rem;
     z-index: 100; } }
 .hideSiteBar {
   right: -25%; }
@@ -15530,41 +15527,6 @@ label.btn.btn-outline-primary:not(.active) {
   font-size: 1em; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .bottom_margin .fc-basic-view .fc-body .fc-row {
   min-height: 9em !important; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel {
-  bottom: 49px;
-  width: calc(25% - 30px);
-  margin-right: 15px;
-  text-align: center;
-  border-top: 1px solid #ddd;
-  right: 0px;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  position: fixed;
-  bottom: 33px;
-  height: 45px;
-  background: #f8f9fa;
-  margin-left: -10px;
-  text-align: center;
-  border-top: 1px solid #ddd;
-  z-index: 5;
-  padding: 5px; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .btn-group {
-    margin-right: 3px; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .saveAndComplete {
-    margin-right: 6px; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .qcForm .formActionsPanel {
-  right: -25%; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .massEditTable {
-  margin-bottom: 50px; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper {
-  /*computed height: footer, userinfo, header filter buttons, padding */
-  height: calc(100vh - 1.9375rem - 17px - 50px - 34px - 50px - 20px);
-  position: relative; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .formsContainer {
-  /*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
-  height: calc(100vh - 35px - 17px - 50px - 34px - 6px); }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__container {
   margin-right: -8px; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month > .fc-toolbar,
@@ -15584,52 +15546,89 @@ label.btn.btn-outline-primary:not(.active) {
   display: none; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .nav-pills .nav-link.active {
   color: #fff !important; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs {
-  display: flex;
-  height: 3rem;
-  background: #f8f9fa;
-  position: fixed;
-  top: 3.125rem;
-  right: calc(25% - 1px);
-  z-index: 100;
-  border-bottom: 1px solid #ccc;
-  border-left: 1px solid #ccc;
-  border-radius: 25px 0 0 25px;
-  font-size: 0.8125rem;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -ms-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .toggleSiteBarRightButton {
-    padding: 0.6875rem 0;
-    margin-top: 0.0625rem;
-    margin-left: 0.0625rem;
-    margin-bottom: 0.0625rem;
-    cursor: pointer;
-    width: 1.1875rem;
-    z-index: 100;
-    border: 0;
-    display: inline-block;
-    border-radius: 25px 0 0 25px; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .toggleSiteBarRightButton:hover {
-      background: #eceff1; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav {
-    display: block; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-item {
-    height: 50%; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-link {
+@media screen and (min-width: 992px) {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel {
+    bottom: 49px;
+    width: calc(25% - 30px);
+    margin-right: 15px;
     text-align: center;
-    height: 100%;
-    padding: 0.0625rem 1.25rem;
-    background: #eceff1;
-    border-left: 1px solid #eee;
-    border-radius: 0; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-link.active {
-      background: transparent;
-      color: #6c757d !important; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .o-calendar__panel__tabs {
-  right: 0; }
+    border-top: 1px solid #ddd;
+    right: 0px;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    position: fixed;
+    bottom: 33px;
+    height: 45px;
+    background: #f8f9fa;
+    margin-left: -10px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    z-index: 5;
+    padding: 5px; }
+    .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .btn-group {
+      margin-right: 3px; }
+    .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .saveAndComplete {
+      margin-right: 6px; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .qcForm .formActionsPanel {
+    right: -25%; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .massEditTable {
+    margin-bottom: 50px; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper {
+    /*computed height: footer, userinfo, header filter buttons, padding */
+    height: calc(100vh - 1.9375rem - 17px - 50px - 34px - 50px - 20px);
+    position: relative; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .formsContainer {
+    /*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
+    height: calc(100vh - 35px - 17px - 50px - 34px - 6px); }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs {
+    display: flex;
+    height: 3rem;
+    background: #f8f9fa;
+    position: fixed;
+    top: 3.125rem;
+    right: calc(25% - 1px);
+    z-index: 100;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-radius: 25px 0 0 25px;
+    font-size: 0.8125rem;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease; }
+    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .toggleSiteBarRightButton {
+      padding: 0.6875rem 0;
+      margin-top: 0.0625rem;
+      margin-left: 0.0625rem;
+      margin-bottom: 0.0625rem;
+      cursor: pointer;
+      width: 1.1875rem;
+      z-index: 100;
+      border: 0;
+      display: inline-block;
+      border-radius: 25px 0 0 25px; }
+      .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .toggleSiteBarRightButton:hover {
+        background: #eceff1; }
+    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav {
+      display: block; }
+    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-item {
+      height: 50%; }
+    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-link {
+      text-align: center;
+      height: 100%;
+      padding: 0.0625rem 1.25rem;
+      background: #eceff1;
+      border-left: 1px solid #eee;
+      border-radius: 0; }
+      .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-link.active {
+        background: transparent;
+        color: #6c757d !important; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .o-calendar__panel__tabs {
+    right: 0; } }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .o-detail__icon {

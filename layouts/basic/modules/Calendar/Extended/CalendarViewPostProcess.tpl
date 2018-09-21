@@ -4,7 +4,7 @@
 		 data-showPanel="{if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}" id="rightPanel"
 		 data-js="class: hideSiteBar">
 		<div class="o-calendar__panel__tabs">
-			<div class="btn btn-block js-toggleSiteBarRightButton toggleSiteBarRightButton hideToggleSiteBarRightButton d-none d-md-block"
+			<div class="btn btn-block js-toggleSiteBarRightButton toggleSiteBarRightButton hideToggleSiteBarRightButton d-none d-lg-block"
 				 title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}" data-js="click">
 				<span class="fas fa-chevron-left"></span>
 			</div>
