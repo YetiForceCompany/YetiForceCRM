@@ -67,13 +67,13 @@ class Twitter extends \Tests\Base
 		$param['blockid'] = $block->id;
 		$param['sourceModule'] = 'Contacts';
 		$param['fieldTypeList'] = 0;
-		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
 		static::$twitterFields[] = $moduleModel->addField($param['fieldType'], $block->id, $param);
 		\App\Cache::clear();
 
 		static::addTwitter('yeti');
 		static::addTwitter('yetiforceen');
 		static::addTwitter('forceen');
+		\App\Cache::delete('getFieldsPermissions' . \App\User::getCurrentUserId(), $moduleModel->getId());
 	}
 
 	/**
@@ -82,14 +82,18 @@ class Twitter extends \Tests\Base
 	public function testFieldTwitter()
 	{
 		$this->assertInternalType('integer', static::$twitterFields[0]->getId());
-		$this->assertTrue((new \App\Db\Query())
-			->from('vtiger_field')
-			->where(['fieldid' => static::$twitterFields[0]->getId()])->exists(), 'Field twitter not exists');
+		$this->assertTrue(
+			(new \App\Db\Query())
+				->from('vtiger_field')
+				->where(['fieldid' => static::$twitterFields[0]->getId()])->exists(),
+			'Field twitter not exists'
+		);
+		$fieldModel = \Vtiger_Module_Model::getInstance('Contacts')
+			->getFieldByName(static::$twitterFields[0]->getFieldName());
+		$this->assertNotFalse($fieldModel, 'Vtiger_Field_Model problem');
 		$this->assertSame(
 			static::$twitterFields[0]->getId(),
-			\Vtiger_Module_Model::getInstance('Contacts')
-				->getFieldByName(static::$twitterFields[0]->getFieldName())
-				->getId(),
+			$fieldModel->getId(),
 			'Vtiger_Field_Model problem'
 		);
 	}
