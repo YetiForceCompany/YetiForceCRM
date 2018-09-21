@@ -112,7 +112,10 @@ class Twitter extends \Tests\Base
 		$this->assertInternalType('integer', $recordModel->getId());
 		static::$listId[] = $recordModel->getId();
 		\var_dump($recordModel->getId());
-		\var_dump($recordModel->get(static::$twitterFields[0]->getColumnName()));
+		$row = (new \App\Db\Query())
+			->from(static::$twitterFields[0]->getTableName())
+			->where(['contactid' => $recordModel->getId()])->one();
+		\var_dump($row);
 
 		$this->assertSame('yetiforceen',
 			(new \App\Db\Query())->select([static::$twitterFields[0]->getColumnName()])
