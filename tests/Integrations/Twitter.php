@@ -76,6 +76,7 @@ class Twitter extends \Tests\Base
 		\App\Cache::delete('getFieldsPermissions' . \App\User::getCurrentUserId(), $moduleModel->getId());
 		\Vtiger_Cache::flush();
 		\App\Cache::init();
+		\App\Cache::staticClear();
 	}
 
 	/**
@@ -90,6 +91,11 @@ class Twitter extends \Tests\Base
 				->where(['fieldid' => static::$twitterFields[0]->getId()])->exists(),
 			'Field twitter not exists'
 		);
+
+		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
+		$res = $recordModel->getModule()->getFieldsForSave($recordModel);
+		\var_dump($res);
+
 		$fieldModel = \Vtiger_Module_Model::getInstance('Contacts')
 			->getFieldByName(static::$twitterFields[0]->getFieldName());
 		$this->assertNotFalse($fieldModel, 'Vtiger_Field_Model problem');
