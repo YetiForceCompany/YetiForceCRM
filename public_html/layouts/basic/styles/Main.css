@@ -10566,19 +10566,6 @@ html, body, .o-base-container {
       padding-top: 15px;
       padding-bottom: 15px; }
 
-  .siteBarRight {
-    width: 100%;
-    padding: 0 15px;
-    position: relative;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-    z-index: 100; }
-
-  .hideSiteBar {
-    right: 0 !important; }
-
   .pull-right-sm {
     float: right; }
 
@@ -10629,22 +10616,6 @@ html, body, .o-base-container {
       padding-bottom: 15px; }
     .quickCreateContent .fieldsLabelValue::before {
       width: 41.66666667%; }
-
-  .siteBarRight {
-    width: 25%;
-    padding: 0 15px;
-    border-left: 1px solid #ccc;
-    background: #f8f9fa;
-    position: fixed;
-    right: 0;
-    top: 50px;
-    bottom: 33px;
-    overflow: auto;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-    z-index: 100; }
 
   .move-action {
     right: -309px !important; }
@@ -10799,11 +10770,6 @@ html, body, .o-base-container {
 
 .padding0 {
   padding: 0 !important; }
-
-.hideSiteBar {
-  right: -25%; }
-  .hideSiteBar .siteBarContent {
-    overflow: hidden; }
 
 .noLeftRadius {
   border-bottom-left-radius: 0;
@@ -11137,11 +11103,6 @@ select.form-control {
   overflow: hidden;
   white-space: nowrap;
   line-height: 14px; }
-
-.leftPanelOpen.siteBarRight {
-  width: calc(25% - 50px); }
-.leftPanelOpen .toggleSiteBarRightButton {
-  right: calc(25% - 50px); }
 
 .addWidgetDropDown.dropdown-menu > li {
   display: flex;
@@ -12041,6 +12002,9 @@ select[readonly], select[disabled] {
 
 .u-h-1em {
   height: 1em; }
+
+.u-min-h-30per {
+  min-height: 30%; }
 
 .u-white-space-nowrap {
   white-space: nowrap !important; }
@@ -15262,6 +15226,41 @@ label.btn.btn-outline-primary:not(.active) {
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease; }
 
+.siteBarRight {
+  width: 100%;
+  padding: 0 15px;
+  position: relative;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  z-index: 100; }
+
+.leftPanelOpen.siteBarRight {
+  width: calc(25% - 50px); }
+.leftPanelOpen .toggleSiteBarRightButton {
+  right: calc(25% - 50px); }
+
+@media (min-width: 992px) {
+  .siteBarRight {
+    width: 25%;
+    padding: 0 15px;
+    border-left: 1px solid #ccc;
+    background: #f8f9fa;
+    position: fixed;
+    right: 0;
+    top: 50px;
+    bottom: 33px;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    z-index: 100; } }
+.hideSiteBar {
+  right: -25%; }
+  .hideSiteBar .siteBarContent {
+    overflow: hidden; }
+
 @media (min-width: 1080px) {
   .js-calendar-switch-container {
     margin-right: 0.75em;
@@ -15562,13 +15561,13 @@ label.btn.btn-outline-primary:not(.active) {
   right: -25%; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .massEditTable {
   margin-bottom: 50px; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .formsContainer {
+.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper {
   /*computed height: footer, userinfo, header filter buttons, padding */
+  height: calc(100vh - 1.9375rem - 17px - 50px - 34px - 50px - 20px);
+  position: relative; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .formsContainer {
+  /*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
   height: calc(100vh - 35px - 17px - 50px - 34px - 6px); }
-@media only screen and (max-width: 1682px) {
-  .tpl-Calendar-Extended-CalendarViewPreProcess .formsContainer {
-    /*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
-    height: calc(100vh - 35px - 17px - 50px - 34px - 6px); } }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__container {
   margin-right: -8px; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month > .fc-toolbar,

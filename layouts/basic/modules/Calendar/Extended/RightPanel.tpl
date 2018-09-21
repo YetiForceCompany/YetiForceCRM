@@ -5,7 +5,7 @@
 			<h6 class="boxFilterTitle mt-3">{\App\Language::translate('LBL_SELECT_USER_CALENDAR',$MODULE)}</h6>
 			{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 				<div class="input-group input-group-sm mb-3">
-					<div class="input-group-append">
+					<div class="input-group-prepend">
 						<span class="input-group-text">
 							<span class="fas fa-search fa-fw"></span>
 						</span>
@@ -58,7 +58,7 @@
 			<h6 class="boxFilterTitle mt-3">{\App\Language::translate('LBL_SELECT_GROUP_CALENDAR',$MODULE)}</h6>
 			{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 				<div class="input-group input-group-sm mb-3">
-					<div class="input-group-append">
+					<div class="input-group-prepend">
 						<span class="input-group-text">
 							<span class="fas fa-search fa-fw"></span>
 						</span>
