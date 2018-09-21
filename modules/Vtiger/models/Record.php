@@ -736,6 +736,21 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
+	 * Function to check permission.
+	 *
+	 * @param string $action
+	 *
+	 * @return bool
+	 */
+	public function isPermitted(string $action)
+	{
+		if (!isset($this->privileges[$action])) {
+			$this->privileges[$action] = \App\Privilege::isPermitted($this->getModuleName(), $action, $this->getId());
+		}
+		return $this->privileges[$action];
+	}
+
+	/**
 	 * The function decide about mandatory save record.
 	 *
 	 * @return bool
@@ -760,12 +775,7 @@ class Vtiger_Record_Model extends \App\Base
 			$moduleName = $this->getModuleName();
 			$recordId = $this->getId();
 			$focus = $this->getEntity();
-			if (!$focus) {
-				$focus = CRMEntity::getInstance($moduleName);
-				$this->setEntity($focus);
-			}
-			$lockFields = $focus->getLockFields();
-			$lockFields = array_merge_recursive($lockFields, \App\Fields\Picklist::getCloseStates($this->getModule()->getId()));
+			$lockFields = array_merge_recursive($focus->getLockFields(), \App\Fields\Picklist::getCloseStates($this->getModule()->getId()));
 			if ($lockFields) {
 				$loadData = false;
 				foreach ($lockFields as $fieldName => $values) {
