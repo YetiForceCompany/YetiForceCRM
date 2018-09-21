@@ -15207,7 +15207,7 @@ label.btn.btn-outline-primary:not(.active) {
 .hideToggleSiteBarRightButton {
   right: 0 !important; }
 
-.toggleSiteBarRightButton {
+.Calendar_Calendar .toggleSiteBarRightButton {
   background: #f8f9fa;
   font-weight: bold;
   padding: 15px 0 !important;
@@ -15232,6 +15232,7 @@ label.btn.btn-outline-primary:not(.active) {
   position: relative;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
   z-index: 100; }
@@ -15251,10 +15252,6 @@ label.btn.btn-outline-primary:not(.active) {
     right: 0;
     top: 50px;
     bottom: 33px;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
     z-index: 100; } }
 .hideSiteBar {
   right: -25%; }
@@ -15588,6 +15585,7 @@ label.btn.btn-outline-primary:not(.active) {
 .tpl-Calendar-Extended-CalendarViewPreProcess .nav-pills .nav-link.active {
   color: #fff !important; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs {
+  display: flex;
   height: 3rem;
   background: #f8f9fa;
   position: fixed;
@@ -15596,7 +15594,6 @@ label.btn.btn-outline-primary:not(.active) {
   z-index: 100;
   border-bottom: 1px solid #ccc;
   border-left: 1px solid #ccc;
-  display: inline-block;
   border-radius: 25px 0 0 25px;
   font-size: 0.8125rem;
   -webkit-transition: all 0.5s ease;
@@ -15604,17 +15601,30 @@ label.btn.btn-outline-primary:not(.active) {
   -ms-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .toggleSiteBarRightButton {
+    padding: 0.6875rem 0;
+    margin-top: 0.0625rem;
+    margin-left: 0.0625rem;
+    margin-bottom: 0.0625rem;
+    cursor: pointer;
+    width: 1.1875rem;
+    z-index: 100;
+    border: 0;
+    display: inline-block;
+    border-radius: 25px 0 0 25px; }
+    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .toggleSiteBarRightButton:hover {
+      background: #eceff1; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav {
+    display: block; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-item {
     height: 50%; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-item:first-child .nav-link {
-      border-radius: 25px 0 0 0; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-item:last-child .nav-link {
-      border-radius: 0 0 0 25px; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-link {
     text-align: center;
     height: 100%;
     padding: 0.0625rem 1.25rem;
-    background: #eceff1; }
+    background: #eceff1;
+    border-left: 1px solid #eee;
+    border-radius: 0; }
     .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-link.active {
       background: transparent;
       color: #6c757d !important; }

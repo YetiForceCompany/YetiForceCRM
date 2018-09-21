@@ -55,34 +55,34 @@ $sitebar-border: 1px solid #ccc;
 	right: 0 !important;
 }
 
-.toggleSiteBarRightButton {
-	background: $light;
-	font-weight: bold;
-	padding: 15px 0 !important;
-	position: fixed;
-	top: 50%;
-	right: 25%;
-	cursor: pointer;
-	width: 17px;
-	z-index: 100;
-	border: $sitebar-border;
-	border-right: 0;
-	display: inline-block;
-	border-radius: 0;
-	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
-	transition: all 0.5s ease;
+//standard calendar toggle button
+.Calendar_Calendar {
+	.toggleSiteBarRightButton {
+		background: $light;
+		font-weight: bold;
+		padding: 15px 0 !important;
+		position: fixed;
+		top: 50%;
+		right: 25%;
+		cursor: pointer;
+		width: 17px;
+		z-index: 100;
+		border: $sitebar-border;
+		border-right: 0;
+		display: inline-block;
+		border-radius: 0;
+		-webkit-transition: all 0.5s ease;
+		-moz-transition: all 0.5s ease;
+		-o-transition: all 0.5s ease;
+		transition: all 0.5s ease;
+	}
 }
 
 .siteBarRight {
 	width: 100%;
 	padding: 0 15px;
 	position: relative;
-	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
-	transition: all 0.5s ease;
+	@include u-transition(all 0.5s ease);
 	z-index: 100;
 }
 
@@ -106,10 +106,6 @@ $sitebar-border: 1px solid #ccc;
 		right: 0;
 		top: 50px;
 		bottom: 33px;
-		-webkit-transition: all 0.5s ease;
-		-moz-transition: all 0.5s ease;
-		-o-transition: all 0.5s ease;
-		transition: all 0.5s ease;
 		z-index: 100;
 	}
 }
@@ -607,6 +603,8 @@ $sitebar-border: 1px solid #ccc;
 
 	.o-calendar__panel__tabs {
 		$tab-left-border-radius: 25px;
+
+		display: flex;
 		height: calculate-rem(48px); //breadcrumb
 		background: #f8f9fa;
 		position: fixed;
@@ -615,24 +613,32 @@ $sitebar-border: 1px solid #ccc;
 		z-index: 100;
 		border-bottom: $sitebar-border;
 		border-left: $sitebar-border;
-		display: inline-block;
 		border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
 		font-size: calculate-rem(13px);
 		@include u-transition(all 0.5s ease);
 
+		.toggleSiteBarRightButton {
+			padding: calculate-rem(11px) 0;
+			margin-top: calculate-rem(1px);
+			margin-left: calculate-rem(1px);
+			margin-bottom: calculate-rem(1px);
+			cursor: pointer;
+			width: calculate-rem(19px);
+			z-index: 100;
+			border: 0;
+			display: inline-block;
+			border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
+			&:hover {
+				background: material-color('blue-grey', '50');
+			}
+		}
+
+		.nav {
+			display: block;
+		}
+
 		.nav-item {
 			height: 50%;
-
-			&:first-child {
-				.nav-link {
-					border-radius: $tab-left-border-radius 0 0 0;
-				}
-			}
-			&:last-child {
-				.nav-link {
-					border-radius: 0 0 0 $tab-left-border-radius;
-				}
-			}
 		}
 
 		.nav-link {
@@ -640,6 +646,8 @@ $sitebar-border: 1px solid #ccc;
 			height: 100%;
 			padding: calculate-rem(1px) calculate-rem(20px);
 			background: material-color('blue-grey', '50');
+			border-left: 1px solid #eee;
+			border-radius: 0;
 
 			&.active {
 				background: transparent;
