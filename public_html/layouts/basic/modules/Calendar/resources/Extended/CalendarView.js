@@ -149,6 +149,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			sideBar.find('.js-activity-state .editRecord').on('click', function () {
 				thisInstance.getCalendarEditView($(this).data('id'));
 			});
+			thisInstance.calendarCreateView = false;
 		});
 	},
 	eventRender: function (event, element) {
