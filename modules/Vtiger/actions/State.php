@@ -16,22 +16,12 @@
  */
 class Vtiger_State_Action extends \App\Controller\Action
 {
-	use \App\Controller\ExposeMethod;
 	/**
 	 * Record model instance.
 	 *
 	 * @var Vtiger_Record_Model
 	 */
 	protected $record;
-
-	/**
-	 * Constructor.
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('open');
-	}
 
 	/**
 	 * {@inheritdoc}
@@ -44,8 +34,7 @@ class Vtiger_State_Action extends \App\Controller\Action
 		$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		if (!(($request->getByType('state') === 'Archived' && $this->record->privilegeToArchive()) ||
 			($request->getByType('state') === 'Trash' && $this->record->privilegeToMoveToTrash()) ||
-			($request->getByType('state') === 'Active' && $this->record->privilegeToActivate()) ||
-			($request->getMode() === 'open' && !$this->record->checkLockFields() && $this->record->isPermitted('OpenRecord') && $this->record->isPermitted('EditView')))
+			($request->getByType('state') === 'Active' && $this->record->privilegeToActivate()))
 		) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
@@ -56,11 +45,7 @@ class Vtiger_State_Action extends \App\Controller\Action
 	 */
 	public function process(\App\Request $request)
 	{
-		if ($mode = $request->getMode()) {
-			$this->invokeExposedMethod($mode, $request);
-		} else {
-			$this->record->changeState($request->getByType('state'));
-		}
+		$this->record->changeState($request->getByType('state'));
 		$response = new Vtiger_Response();
 		if ($request->getByType('sourceView') === 'List') {
 			$response->setResult(['notify' => ['type' => 'success', 'text' => \App\Language::translate('LBL_CHANGES_SAVED')]]);
@@ -68,32 +53,5 @@ class Vtiger_State_Action extends \App\Controller\Action
 			$response->setResult($this->record->getDetailViewUrl());
 		}
 		$response->emit();
-	}
-
-	/**
-	 * Function to open record.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermitted
-	 */
-	public function open(\App\Request $request)
-	{
-		$lockFields = array_merge_recursive(
-			$this->record->getEntity()->getLockFields(),
-			\App\Fields\Picklist::getCloseStates($this->record->getModule()->getId())
-		);
-		foreach ($lockFields as $fieldName => $values) {
-			if ($request->has($fieldName)) {
-				$this->record->getField($fieldName)->getUITypeModel()->setValueFromRequest($request, $this->record);
-				if (in_array($this->record->get($fieldName), $values)) {
-					throw new \App\Exceptions\NoPermitted('ERR_ILLEGAL_VALUE', 406);
-				}
-			}
-		}
-		if (!$this->record->getPreviousValue()) {
-			throw new \App\Exceptions\NoPermitted('ERR_ILLEGAL_VALUE', 406);
-		}
-		$this->record->save();
 	}
 }

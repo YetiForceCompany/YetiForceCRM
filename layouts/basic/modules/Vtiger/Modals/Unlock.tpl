@@ -2,8 +2,7 @@
 {strip}
 	<form name="recordState" class="tpl-Base-Modals-RecordState" method="post">
 		<input name="module" value="{$MODULE_NAME}" type="hidden">
-		<input name="action" value="State" type="hidden">
-		<input name="mode" value="open" type="hidden">
+		<input name="action" value="Unlock" type="hidden">
 		<input name="record" value="{$RECORD->getId()}" type="hidden">
 		<div class="modal-body">
 			{foreach item=FIELD_MODEL from=$LOCK_FIELDS}

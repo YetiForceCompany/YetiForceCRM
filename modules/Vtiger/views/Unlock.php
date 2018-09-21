@@ -11,9 +11,9 @@
  */
 
 /**
- * Class Vtiger_RecordState_View.
+ * Class Vtiger_Unlock_View.
  */
-class Vtiger_RecordState_View extends \App\Controller\Modal
+class Vtiger_Unlock_View extends \App\Controller\Modal
 {
 	/**
 	 * {@inheritdoc}
@@ -25,11 +25,7 @@ class Vtiger_RecordState_View extends \App\Controller\Modal
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if ($request->isEmpty('record')) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
-		if (!$recordModel->isPermitted('OpenRecord') || !$recordModel->isPermitted('EditView') || $recordModel->checkLockFields()) {
+		if ($request->isEmpty('record', true) || !Vtiger_Record_Model::getInstanceById($request->getInteger('record'))->isUnlockByFields()) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
@@ -51,7 +47,7 @@ class Vtiger_RecordState_View extends \App\Controller\Modal
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->view('Modals/RecordState.tpl', $request->getModule());
+		$viewer->view('Modals/Unlock.tpl', $request->getModule());
 	}
 
 	/**
@@ -67,20 +63,18 @@ class Vtiger_RecordState_View extends \App\Controller\Modal
 	 */
 	public function initializeContent(\App\Request $request)
 	{
-		$lockFieldsModel = [];
+		$lockFields = [];
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
-		$lockFields = array_merge_recursive(
-			$recordModel->getEntity()->getLockFields(),
-			\App\Fields\Picklist::getCloseStates($recordModel->getModule()->getId())
-		);
-		foreach ($lockFields as $fieldName => $values) {
-			if (in_array($recordModel->get($fieldName), $values)) {
-				$lockFieldsModel[$fieldName] = $recordModel->getField($fieldName);
+		foreach ($recordModel->getUnlockFields() as $fieldName => $values) {
+			$fieldModel = $recordModel->getField($fieldName);
+			if ($fieldModel->getFieldDataType() === 'picklist' || $fieldModel->getFieldDataType() === 'multipicklist') {
+				$fieldModel->picklistValues = array_diff_key($fieldModel->getPicklistValues(), array_flip($values));
 			}
+			$lockFields[$fieldName] = $fieldModel;
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
-		$viewer->assign('LOCK_FIELDS', $lockFieldsModel);
+		$viewer->assign('LOCK_FIELDS', $lockFields);
 		$viewer->assign('BTN_SUCCESS', $this->successBtn);
 		$viewer->assign('BTN_DANGER', $this->dangerBtn);
 	}

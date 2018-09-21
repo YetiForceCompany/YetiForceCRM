@@ -458,6 +458,7 @@ class Vtiger_Record_Model extends \App\Base
 			$this->isNew = false;
 		}
 		\App\Cache::delete('recordLabel', $this->getId());
+		\App\Cache::delete('UnlockFields', $this->getId());
 		\App\PrivilegeUpdater::updateOnRecordSave($this);
 	}
 
@@ -722,15 +723,17 @@ class Vtiger_Record_Model extends \App\Base
 		return $this->privileges['isCreateable'];
 	}
 
+	/**
+	 * Function check if record is editable.
+	 *
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return bool
+	 */
 	public function isEditable()
 	{
 		if (!isset($this->privileges['isEditable'])) {
-			$moduleName = $this->getModuleName();
-			$recordId = $this->getId();
-
-			$isPermitted = \App\Privilege::isPermitted($moduleName, 'EditView', $recordId);
-			$checkLockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $this);
-			$this->privileges['isEditable'] = $isPermitted && $this->checkLockFields() && $checkLockEdit === false;
+			$this->privileges['isEditable'] = $this->isPermitted('EditView') && !$this->isLockByFields() && Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) === false;
 		}
 		return $this->privileges['isEditable'];
 	}
@@ -768,10 +771,16 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @return bool
 	 */
-	public function checkLockFields()
+
+	/**
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return mixed
+	 */
+	public function isLockByFields()
 	{
-		if (!isset($this->privileges['isNoLockByField'])) {
-			$isNoLock = true;
+		if (!isset($this->privileges['isLockByFields'])) {
+			$isLock = false;
 			$moduleName = $this->getModuleName();
 			$recordId = $this->getId();
 			$focus = $this->getEntity();
@@ -790,20 +799,51 @@ class Vtiger_Record_Model extends \App\Base
 				}
 				foreach ($lockFields as $fieldName => $values) {
 					foreach ($values as $value) {
-						if ($this->get($fieldName) == $value) {
-							$isNoLock = false;
-							break 2;
-						}
-						if (isset($focus->column_fields[$fieldName]) && $focus->column_fields[$fieldName] == $value) {
-							$isNoLock = false;
+						if ($this->get($fieldName) === $value || (isset($focus->column_fields[$fieldName]) && $focus->column_fields[$fieldName] === $value)) {
+							$isLock = true;
 							break 2;
 						}
 					}
 				}
 			}
-			$this->privileges['isNoLockByField'] = $isNoLock;
+			$this->privileges['isLockByFields'] = $isLock;
 		}
-		return $this->privileges['isNoLockByField'];
+		return $this->privileges['isLockByFields'];
+	}
+
+	/**
+	 * Function check if record is to unlock.
+	 *
+	 * @return bool
+	 */
+	public function isUnlockByFields()
+	{
+		if (!isset($this->privileges['Unlock'])) {
+			$this->privileges['Unlock'] = !$this->isNew() && $this->isPermitted('EditView') && $this->isPermitted('OpenRecord') &&
+				Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) === false && !empty($this->getUnlockFields());
+		}
+		return $this->privileges['Unlock'];
+	}
+
+	/**
+	 * Gets unlock fields.
+	 *
+	 * @return array
+	 */
+	public function getUnlockFields()
+	{
+		$cacheName = 'UnlockFields';
+		if (\App\Cache::staticHas($cacheName, $this->getId())) {
+			return \App\Cache::staticGet($cacheName, $this->getId());
+		}
+		$lockFields = array_merge_recursive($this->getEntity()->getLockFields(), \App\Fields\Picklist::getCloseStates($this->getModule()->getId()));
+		foreach ($lockFields as $fieldName => $values) {
+			if (!in_array($this->get($fieldName), $values) || !$this->getField($fieldName)->isAjaxEditable()) {
+				unset($lockFields[$fieldName]);
+			}
+		}
+		\App\Cache::staticSave($cacheName, $this->getId(), $lockFields);
+		return $lockFields;
 	}
 
 	/**
@@ -1183,14 +1223,10 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function clearPrivilegesCache()
 	{
-		$privilegesName = ['isEditable', 'isCreateable', 'isViewable', 'isNoLockByField'];
-		foreach ($privilegesName as $name) {
-			if (!empty($name) && isset($this->privileges[$name])) {
-				unset($this->privileges[$name]);
-			}
-		}
+		$this->privileges = [];
 		Users_Privileges_Model::clearLockEditCache($this->getModuleName() . $this->getId());
 		\vtlib\Functions::clearCacheMetaDataRecord($this->getId());
+		\App\Cache::delete('UnlockFields', $this->getId());
 	}
 
 	/**
