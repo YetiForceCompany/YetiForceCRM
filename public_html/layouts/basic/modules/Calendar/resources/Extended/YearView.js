@@ -247,7 +247,6 @@ let YearView = View.extend({
 		return aDeferred.promise();
 	},
 	render: function () {
-		alert('spoko');
 		const self = this;
 		let hiddenDays = [],
 			calendar = $('#calendarview').fullCalendar('getCalendar'),
@@ -343,8 +342,6 @@ let YearView = View.extend({
 		});
 		switchContainer.find('.js-switch').eq(0).on('change', 'input', (e) => {
 			const currentTarget = $(e.currentTarget);
-			alert(currentTarget.data('on-text'));
-			alert(currentTarget.data('off-text'));
 			if (typeof currentTarget.data('on-text') !== 'undefined') {
 				app.setMainParams('switchingDays', 'workDays');
 				app.moduleCacheSet('defaultSwitchingDays', 'workDays');
