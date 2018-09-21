@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Records list view class.
+ * Unlocking record.
  *
  * @package   View
  *
