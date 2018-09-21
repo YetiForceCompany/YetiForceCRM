@@ -655,6 +655,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 								thisInstance.addCalendarEvent(data.result);
 								textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR');
 							}
+							thisInstance.calendarCreateView = false;
 							thisInstance.getCalendarCreateView();
 							Vtiger_Helper_Js.showPnotify({
 								text: textToShow,

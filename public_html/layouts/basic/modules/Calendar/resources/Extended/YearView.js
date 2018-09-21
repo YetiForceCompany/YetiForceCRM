@@ -211,9 +211,10 @@ let YearView = View.extend({
 								thisInstance.updateCalendarEvent(formData.record, data.result);
 								textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_UPDATED_IN_YOUR_CALENDAR');
 							} else {
-								thisInstance.addCalendarEvent(data.result);
+								thisInstance.render();
 								textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR');
 							}
+							thisInstance.calendarCreateView = false;
 							thisInstance.getCalendarCreateView();
 							Vtiger_Helper_Js.showPnotify({
 								text: textToShow,
