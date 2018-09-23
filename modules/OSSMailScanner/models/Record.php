@@ -352,6 +352,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 					if ($uid > $lastScanUid) {
 						$msgno = imap_msgno($mbox, $uid);
 						$getEmails = true;
+						break;
 					}
 				}
 			}
