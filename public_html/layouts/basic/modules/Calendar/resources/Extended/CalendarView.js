@@ -198,6 +198,9 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	 */
 	toggleNextPrevArrows(view, element) {
 		let toolbar = element.closest('#calendarview').find('.fc-toolbar.fc-header-toolbar');
+		if (!this.subDateRow) {
+			this.subDateRow = $('<div class="js-subDateList subDateList row flex-nowrap u-overflow-auto" data-js="data-type"></div>').insertAfter(toolbar);
+		}
 		let nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button');
 		let yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
 		if (view.name === 'year') {
@@ -218,7 +221,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			subDateListUnit = 'month';
 		} else if ('week' === dateListUnit) {
 			subDateListUnit = 'week';
-		} else if ('day' === dateListUnit) {
+		} else if ('day' === dateListUnit || 'agendaDay' === dateListUnit) {
 			subDateListUnit = 'day';
 		}
 		if ('year' === subDateListUnit) {
@@ -313,7 +316,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			cvid: this.getCurrentCvId()
 		}).then(function (events) {
 			subDatesElements.each(function (key, element) {
-				$(this).find('.countEvents').removeClass('hide').html(events.result[key]);
+				$(this).find('.js-countEvents').removeClass('hide').html(events.result[key]);
 			});
 		});
 	},
@@ -506,10 +509,11 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			} else {
 				active = '';
 			}
-			html += '<div class="subRecord' + active + '" data-type="months" data-date="' + moment(dateStart).month(month).format('YYYY-MM') + '">' +
-				'<div class="subDateName">' + app.vtranslate('JS_' + moment().month(month).format('MMM').toUpperCase()).toUpperCase() + '</div>' +
-				'<div class="subDateCount">' +
-				'<div class="countEvents">0</div>' +
+			html += '<div class="subRecord col-1 pl-0 pr-1 pt-1" data-type="months" data-date="' + moment(dateStart).month(month).format('YYYY-MM') + '">' +
+				'<div class="subRecordContent' + active + '">' +
+				'<div class="subDateName">' + app.vtranslate('JS_' + moment().month(month).format('MMM').toUpperCase()).toUpperCase() +
+				'<div class="js-countEvents count badge badge-danger c-badge--md ml-1">0</div>' +
+				'</div>' +
 				'</div>' +
 				'</div>';
 		}
@@ -519,17 +523,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		let datesView = this.getDatesColumnView(),
 			prevWeeks = moment(dateStart).subtract(5, 'weeks'),
 			actualWeek = moment(dateStart).format('WW'),
-			nextWeeks = moment(dateStart).add(5, 'weeks'),
+			nextWeeks = moment(dateStart).add(6, 'weeks'),
 			html = '';
 		while (prevWeeks <= nextWeeks) {
 			let active = '';
 			if (prevWeeks.format('WW') === actualWeek) {
 				active = ' subActive';
 			}
-			html += '<div class="subRecord' + active + '" data-type="weeks" data-date="' + prevWeeks.format('YYYY-MM-DD') + '">' +
-				'<div class="subDateName">' + app.vtranslate('JS_WEEK') + ' ' + prevWeeks.format('WW') + '</div>' +
-				'<div class="subDateCount">' +
-				'<div class="countEvents">0</div>' +
+			html += '<div class="subRecord col-1 pl-0 pr-1 pt-1" data-type="weeks" data-date="' + prevWeeks.format('YYYY-MM-DD') + '">' +
+				'<div class="subRecordContent' + active + '">' +
+				'<div class="subDateName">' + app.vtranslate('JS_WEEK_SHORT') + ' ' + prevWeeks.format('WW') +
+				'<div class="js-countEvents count badge badge-danger c-badge--md ml-1">0</div>' +
+				'</div>' +
 				'</div>' +
 				'</div>';
 			prevWeeks = moment(prevWeeks).add(1, 'weeks');
@@ -541,7 +546,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		let datesView = thisInstance.getDatesColumnView(),
 			prevDays = moment(dateStart).subtract(5, 'days'),
 			actualDay = moment(dateStart).format('DDD'),
-			nextDays = moment(dateStart).add(5, 'days'),
+			nextDays = moment(dateStart).add(7, 'days'),
 			daysToShow = nextDays.diff(prevDays, 'days'),
 			html = '';
 		for (let day = 0; day < daysToShow; ++day) {
@@ -549,10 +554,11 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			if (prevDays.format('DDD') === actualDay) {
 				active = ' subActive';
 			}
-			html += '<div class="subRecord' + active + '" data-type="days" data-date="' + prevDays.format('YYYY-MM-DD') + '">' +
-				'<div class="subDateName">' + app.vtranslate('JS_DAY') + ' ' + prevDays.format('DD') + '</div>' +
-				'<div class="subDateCount">' +
-				'<div class="countEvents">0</div>' +
+			html += '<div class="subRecord col-1 pl-0 pr-1 pt-1" data-type="days" data-date="' + prevDays.format('YYYY-MM-DD') + '">' +
+				'<div class="subRecordContent' + active + '">' +
+				'<div class="subDateName">' + app.vtranslate('JS_DAY_SHORT') + ' ' + prevDays.format('DD') +
+				'<div class="js-countEvents count badge badge-danger c-badge--md ml-1">0</div>' +
+				'</div>' +
 				'</div>' +
 				'</div>';
 			prevDays = moment(prevDays).add(1, 'days');

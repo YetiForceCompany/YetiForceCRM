@@ -23,25 +23,26 @@
 				</div>
 				<div class="js-dateList dateList">
 				</div>
-				<div class="js-subDateList subDateList" data-js="data-type">
-				</div>
 			</div>
 			<div class="o-calendar__container u-overflow-y-auto col-sm-11 pl-1" data-js="offset">
 				<div class="d-flex justify-content-between">
 					{if $CUSTOM_VIEWS|@count gt 0}
-						<ul class="nav nav-pills u-w-fit js-calendar-extended-filter-tab" data-js="change" role="tablist">
+						<ul class="nav nav-pills u-w-fit js-calendar-extended-filter-tab" data-js="change"
+							role="tablist">
 							{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 								{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 									{if $CUSTOM_VIEW->isFeatured()}
 										<li class="nav-item js-filter-tab c-tab--small font-weight-bold"
 											data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
-											<a class="nav-link{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}" href="#"
+											<a class="nav-link{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}"
+											   href="#"
 											   {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if}
 											   data-toggle="tab" role="tab"
 											   aria-selected="{if $VIEWID == $CUSTOM_VIEW->getId()}true{else}false{/if}">
 												{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 												{if $CUSTOM_VIEW->get('description')}
-													<span class="js-popover-tooltip fas fa-info-circle" data-js="popover"
+													<span class="js-popover-tooltip fas fa-info-circle"
+														  data-js="popover"
 														  data-placement="auto right"
 														  data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
 												{/if}
