@@ -201,7 +201,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	appendSubDateRow(toolbar) {
 		if (!this.subDateRow) {
 			this.subDateRow = $(`
-								<div class="js-scroll js-dates-row u-overflow-auto-lg-down order-4 flex-grow-1 position-relative" data-js="perfectScrollbar | container">
+								<div class="js-scroll js-dates-row u-overflow-auto-lg-down order-4 flex-grow-1 position-relative mt-1" data-js="perfectScrollbar | container">
 									<div class="d-flex flex-nowrap w-100">
 										<div class="js-dateList dateList d-flex"></div>
 										<div class="js-subDateList w-100 subDateList row flex-nowrap" data-js="data-type"></div>

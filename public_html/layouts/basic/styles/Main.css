@@ -15471,8 +15471,6 @@ label.btn.btn-outline-primary:not(.active) {
   padding-left: 2px; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-content td:hover {
   background: #f3f3f3; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc button {
-  height: auto !important; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar {
   margin-bottom: 0 !important;
   display: flex;
@@ -15509,7 +15507,7 @@ label.btn.btn-outline-primary:not(.active) {
     border-radius: 0;
     background: #dfdfdf;
     color: #353535;
-    height: 30px;
+    height: 1.875rem !important;
     border: none;
     box-shadow: none;
     padding: 0.3125rem 1.125rem !important; }
@@ -15528,7 +15526,6 @@ label.btn.btn-outline-primary:not(.active) {
       font-size: 0.85em;
       margin-left: 5px;
       margin-top: 10px;
-      margin-bottom: 10px;
       text-transform: uppercase; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-time-grid .fc-time-grid-event.fc-event {
   min-height: 27px;

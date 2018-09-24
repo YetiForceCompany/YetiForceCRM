@@ -424,10 +424,6 @@ $sitebar-border: 1px solid #ccc;
 		}
 	}
 
-	.fc button {
-		height: auto !important;
-	}
-
 	.fc-toolbar {
 		margin-bottom: 0 !important;
 		display: flex;
@@ -472,7 +468,7 @@ $sitebar-border: 1px solid #ccc;
 				border-radius: 0;
 				background: #dfdfdf;
 				color: #353535;
-				height: 30px;
+				height: calculate-rem(30px) !important;
 				border: none;
 				box-shadow: none;
 				padding: calculate-rem(5px) calculate-rem(18px) !important;
@@ -495,7 +491,6 @@ $sitebar-border: 1px solid #ccc;
 				font-size: 0.85em;
 				margin-left: 5px;
 				margin-top: 10px;
-				margin-bottom: 10px;
 				text-transform: uppercase;
 			}
 		}
