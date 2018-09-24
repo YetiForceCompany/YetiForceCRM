@@ -11297,6 +11297,12 @@ select[readonly], select[disabled] {
 .popupEntriesDiv .listSearchTd {
   width: 57px; }
 
+ul.tweets li {
+  list-style-type: none;
+  width: 528px;
+  min-height: 72px;
+  border-top: #e6ecf0 solid 1px; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .u-font-size-19px {
   font-size: 1.1875rem; }
@@ -15276,41 +15282,29 @@ label.btn.btn-outline-primary:not(.active) {
 .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn {
   padding: 0.44rem 1rem;
   font-size: 80%; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .subDateList {
+.tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list {
   text-align: center;
   margin: 0 0 5px; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subDateCount div.countEvents {
-    background-color: #ff4e4d;
-    color: #fff;
-    border-radius: 20px;
-    display: inline-block;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    width: 28px; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subRecord {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record {
     height: 1.875rem;
     font-size: 0.8125rem;
     min-width: 80px;
     cursor: pointer; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subRecord .subRecordContent {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record .sub-record-content {
       border: 1px solid #eee;
       padding: 5px 3px;
       height: 100%; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subActive {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-active {
     background-color: #337ab7;
     color: #fff;
     cursor: default; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subActive .subDateCount div.countEvents {
-      background-color: #fff;
-      color: #337ab7;
+    .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-active .sub-date-name {
       font-weight: bold; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subActive .subDateName {
-      font-weight: bold; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subDateName {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-date-name {
     margin-bottom: 2px; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .dateList {
+.tpl-Calendar-Extended-CalendarViewPreProcess .date-list {
   text-align: center; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .dateList .dateRecord {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .date-list .date-record {
     cursor: pointer;
     margin-right: 5px;
     border-radius: 0;
@@ -15326,17 +15320,17 @@ label.btn.btn-outline-primary:not(.active) {
     text-align: center;
     white-space: nowrap;
     vertical-align: middle; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .dateList .dateActive {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .date-list .date-active {
     cursor: default;
     white-space: nowrap;
     background-color: #337ab7;
     color: white; }
 @media (max-width: 992px) {
-  .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subDateCount {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .subDateCount {
     margin-top: 3px;
     margin-bottom: 3px; } }
 @media (min-width: 992px) {
-  .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subDateCount {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .subDateCount {
     margin-top: 2px;
     margin-bottom: 0px; } }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-state-default .fc-button-effect {
