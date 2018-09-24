@@ -378,9 +378,11 @@ $sitebar-border: 1px solid #ccc;
 
 	.fc-widget-header {
 		th {
-			padding: 4px 0px !important;
+			padding: 4px 0 !important;
 		}
+
 		color: #666;
+		font-weight: 400;
 		background: #eee;
 		border-color: #ccc;
 	}
@@ -464,7 +466,7 @@ $sitebar-border: 1px solid #ccc;
 				margin-right: 0;
 			}
 		}
-		
+
 		.fc-center {
 			margin-left: auto;
 			margin-right: auto;
@@ -477,9 +479,9 @@ $sitebar-border: 1px solid #ccc;
 				}
 				display: flex;
 				h2 {
-					font-size: 0.85em;
-					margin-left: 5px;
-					margin-top: 10px;
+					font-size: 1.4rem;
+					margin-left: calculate-rem(5px);
+					margin-top: calculate-rem(1px);
 					text-transform: uppercase;
 				}
 			}
@@ -510,11 +512,19 @@ $sitebar-border: 1px solid #ccc;
 				padding-right: 8px;
 			}
 			.fc-toolbar.fc-header-toolbar {
-				justify-content: center;
+				justify-content: start;
+
+				.fc-center {
+					margin: 0;
+				}
 				h2 {
-					font-size: 1.3rem;
+					font-size: 1rem;
 				}
 			}
+		}
+		&__event-badge {
+			padding: 0.2em 0.2em;
+			font-size: 80%;
 		}
 	}
 
