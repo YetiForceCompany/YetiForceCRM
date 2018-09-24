@@ -45,25 +45,18 @@ let YearView = View.extend({
 		calendar.fullCalendar('addEventSource',
 			events.result
 		);
-		calendar.find(".cell-calendar a").on('click', function () {
-				let url = 'index.php?module=Calendar&view=List',
-					cvid = thisInstance.getCurrentCvId(),
-					user = thisInstance.getSelectedUsersCalendar(),
-					date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase());
-				if (cvid !== undefined) {
-					url += '&viewname=' + cvid;
-				} else {
-					url += '&viewname=All';
-				}
-				url += '&search_params=[[';
-				if (user.length !== 0) {
-					url += '["assigned_user_id","e","' + user + '"],';
-				}
-				window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","bw","' + date + ',' + date + '"]]]';
+		calendar.find(".cell-calendar").on('click', function () {
+				let date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase());
+				thisInstance.getCalendarView().fullCalendar('changeView', 'agendaDay', date);
 			}
 		);
 	},
-
+	getCalendarView: function () {
+		if (this.calendarView === false) {
+			this.calendarView = $('#calendarview');
+		}
+		return this.calendarView;
+	},
 	selectDays: function (startDate, endDate) {
 		let start_hour = $('#start_hour').val();
 		if (endDate.hasTime() === false) {
@@ -285,14 +278,14 @@ let YearView = View.extend({
 					},
 					defaultDate: moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD"),
 					eventRender: function (event, element) {
-						element = '<div class="cell-calendar">';
+						element = `<div class="cell-calendar" data-date="${event.date}">`;
 						for (let key in event.event) {
 							element += `
-							<a class="" href="#" data-date="${event.date}" data-type="${key}" title="${event.event[key].label}">
+							<span class="" href="#" data-type="${key}" title="${event.event[key].label}">
 								<span class="${event.event[key].className} ${event.width <= 20 ? 'small-badge' : ''} ${(event.width >= 24) ? 'big-badge' : ''} badge badge-secondary u-font-size-95per">
 									${event.event[key].count}
 								</span>
-							</a>`;
+							</span>`;
 						}
 						element += '</div>';
 						return element;
@@ -349,7 +342,7 @@ let YearView = View.extend({
 				app.setMainParams('switchingDays', 'all');
 				app.moduleCacheSet('defaultSwitchingDays', 'all');
 			}
-			thisInstance.render();
+			thisInstance.getCalendarView().fullCalendar('changeView', 'year');
 		});
 	}
 });
