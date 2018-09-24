@@ -2,6 +2,8 @@
 /**
  * Class to get coordinates.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
@@ -20,6 +22,11 @@ class Coordinates
 	const TYPE_ADDRES = ['a', 'b', 'c'];
 
 	/**
+	 * @var self
+	 */
+	private static $instance;
+
+	/**
 	 * Function to get connector.
 	 *
 	 * @throws \App\Exceptions\AppException
@@ -28,12 +35,16 @@ class Coordinates
 	 */
 	public static function getInstance()
 	{
+		if (static::$instance) {
+			return static::$instance;
+		}
 		$type = \AppConfig::module('OpenStreetMap', 'COORDINATE_CONNECTOR');
 		$className = "\App\Map\Coordinates\\$type";
 		if (!class_exists($className)) {
 			throw new \App\Exceptions\AppException('ERR_CLASS_NOT_FOUND');
 		}
-		return new $className();
+		static::$instance = new $className();
+		return static::$instance;
 	}
 
 	/**

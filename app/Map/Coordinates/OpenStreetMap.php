@@ -2,9 +2,13 @@
 /**
  * Class to get coordinates for OpenStreetMap.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ *
+ * @link https://wiki.openstreetmap.org/wiki/Nominatim
  */
 
 namespace App\Map\Coordinates;
@@ -19,16 +23,16 @@ class OpenStreetMap extends Base
 	 */
 	public function getCoordinates(array $addressInfo)
 	{
+		$coordinates = false;
+		if (empty($addressInfo) || !\App\RequestUtil::isNetConnection()) {
+			return $coordinates;
+		}
 		$url = \AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
 		$data = [
 			'format' => 'json',
 			'addressdetails' => 1,
 			'limit' => 1,
 		];
-		$coordinates = false;
-		if (empty($addressInfo)) {
-			return $coordinates;
-		}
 		$url .= \http_build_query(array_merge($data, $addressInfo));
 		try {
 			$response = (new \GuzzleHttp\Client())->request('GET', $url, ['timeout' => 1, 'verify' => false]);
@@ -38,7 +42,7 @@ class OpenStreetMap extends Base
 				\App\Log::warning('Error with connection - ' . __CLASS__);
 			}
 		} catch (\Exception $ex) {
-			\App\Log::warning($ex->getMessage());
+			\App\Log::warning('Error - ' . __CLASS__ . ' - ' . $ex->getMessage());
 		}
 		return $coordinates;
 	}

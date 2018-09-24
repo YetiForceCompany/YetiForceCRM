@@ -1,10 +1,14 @@
 <?php
 /**
- * Class to get route.
+ * Connector to find route. Connector based on service YOURS.
+ *
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ *
+ * @link https://wiki.openstreetmap.org/wiki/YOURS
  */
 
 namespace App\Map\Route;
@@ -19,6 +23,9 @@ class Yours extends Base
 	 */
 	public function calculate()
 	{
+		if (!\App\RequestUtil::isNetConnection()) {
+			return;
+		}
 		$startLat = $this->start['lat'];
 		$startLon = $this->start['lon'];
 		if (!empty($this->indirectPoints)) {
