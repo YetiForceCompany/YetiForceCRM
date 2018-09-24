@@ -388,6 +388,9 @@
 }
 
 @include media-breakpoint-down(lg) {
+	.u-overflow-auto-lg-down {
+		overflow: auto !important;
+	}
 	.u-remove-dropdown-icon-down-lg {
 		.dropdown-toggle::after {
 			display: none;

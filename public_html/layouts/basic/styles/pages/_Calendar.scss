@@ -20,7 +20,8 @@ $sitebar-border: 1px solid #ccc;
 }
 
 @media(min-width: map_get($grid-breakpoints, lg)) {
-	[class~="_Calendar"] .mainBody {
+	.Calendar_CalendarExtended .mainBody,
+	.Calendar_Calendar .mainBody {
 		overflow: hidden;
 	}
 }
@@ -422,6 +423,7 @@ $sitebar-border: 1px solid #ccc;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		flex-wrap: wrap;
 
 		.fc-right {
 			order: 3;
