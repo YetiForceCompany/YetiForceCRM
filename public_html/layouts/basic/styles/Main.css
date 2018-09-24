@@ -15286,29 +15286,27 @@ label.btn.btn-outline-primary:not(.active) {
   background: #ffe082;
   border-color: #ffe082; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list {
-  text-align: center;
-  margin: 0 0 5px; }
+  text-align: center; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record {
     height: 1.875rem;
     font-size: 0.8125rem;
     min-width: 80px;
     cursor: pointer; }
     .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record .sub-record-content {
-      border: 1px solid #eee;
-      padding: 5px 3px;
+      background-color: #eceff1;
+      padding: 6px 3px;
       height: 100%; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-active {
-    background-color: #81d4fa;
-    cursor: default; }
+    .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record .sub-record-content.sub-active {
+      background-color: #b0bec5;
+      cursor: default; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-date-name {
     margin-bottom: 2px; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .date-list {
   text-align: center; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .date-list .date-record {
     cursor: pointer;
-    margin-right: 5px;
     border-radius: 0;
-    background: #e1f5fe;
+    background: #c5cae9;
     color: #353535;
     height: 30px;
     border: none;
@@ -15323,7 +15321,7 @@ label.btn.btn-outline-primary:not(.active) {
   .tpl-Calendar-Extended-CalendarViewPreProcess .date-list .date-active {
     cursor: default;
     white-space: nowrap;
-    background-color: #81d4fa; }
+    background-color: #9fa8da; }
 @media (max-width: 992px) {
   .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .subDateCount {
     margin-top: 3px;
@@ -15470,31 +15468,28 @@ label.btn.btn-outline-primary:not(.active) {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right {
-    order: 3; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right div {
-      display: flex; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right button.btn, .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .btn {
-      border-radius: 0;
-      font-size: 12px;
-      max-height: 30px;
-      box-shadow: none;
-      text-shadow: none; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right button.fc-today-button {
-      color: #fff !important;
-      background-image: none !important;
-      background-color: #337ab7 !important;
-      border-color: #2e6da4 !important;
-      border: none;
-      margin-left: 20px; }
-      .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right button.fc-today-button:hover {
-        background-color: #204d74 !important;
-        border-color: #122b40 !important; }
-      .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right button.fc-today-button:active {
-        background-image: none;
-        outline: 0;
-        -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-        box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right div {
+    display: flex; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right button.btn, .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .btn {
+    border-radius: 0;
+    font-size: 12px;
+    max-height: 30px;
+    box-shadow: none;
+    text-shadow: none; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right button.fc-today-button {
+    color: #fff !important;
+    background-image: none !important;
+    background-color: #337ab7 !important;
+    border-color: #2e6da4 !important;
+    border: none; }
+    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right button.fc-today-button:hover {
+      background-color: #204d74 !important;
+      border-color: #122b40 !important; }
+    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right button.fc-today-button:active {
+      background-image: none;
+      outline: 0;
+      -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+      box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); }
   .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-left div button.fc-button {
     margin-right: 5px;
     border-radius: 0;
@@ -15509,17 +15504,23 @@ label.btn.btn-outline-primary:not(.active) {
     background: #337ab7 !important;
     color: #fff !important;
     text-shadow: none; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-center div {
-    display: flex; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-center div button:not(.fc-today-button) {
-      background: none;
-      border: none;
-      box-shadow: none; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-center div h2 {
-      font-size: 0.85em;
-      margin-left: 5px;
-      margin-top: 10px;
-      text-transform: uppercase; }
+  @media (min-width: 1080px) {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .js-calendar-switch-container {
+      margin-right: 0; } }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-center {
+    margin-left: auto;
+    margin-right: auto; }
+    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-center div {
+      display: flex; }
+      .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-center div button:not(.fc-today-button) {
+        background: none;
+        border: none;
+        box-shadow: none; }
+      .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-center div h2 {
+        font-size: 0.85em;
+        margin-left: 5px;
+        margin-top: 10px;
+        text-transform: uppercase; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-time-grid .fc-time-grid-event.fc-event {
   min-height: 27px;
   min-width: 100px; }
