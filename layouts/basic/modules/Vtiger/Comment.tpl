@@ -103,7 +103,7 @@
 						{/foreach}
 					{/if}
 					{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
-					{if !empty($CHILD_COMMENTS_MODEL) && (empty($CHILDS_ROOT_PARENT_ID) || $CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID) && empty($SHOW_CHILD_COMMENTS)}
+					{if !empty($CHILD_COMMENTS_MODEL) && !empty($PARENT_COMMENT_ID) && (empty($CHILDS_ROOT_PARENT_ID) || $CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID) && empty($SHOW_CHILD_COMMENTS)}
 						<span class="js-viewThreadBlock viewThreadBlock"
 							  data-child-comments-count="{$CHILD_COMMENTS_COUNT}"
 							  data-js="data-child-comments-count">

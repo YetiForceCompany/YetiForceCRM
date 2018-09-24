@@ -10,8 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Base-CommentsListIteration -->
 	{if !empty($CHILD_COMMENTS_MODEL)}
-		<ul class="tpl-CommentsListIteration pl-2">
+		<ul class="pl-2">
 			{foreach item=COMMENT from=$CHILD_COMMENTS_MODEL}
 				<li class="js-commentDetails commentDetails" data-js="container|append">
 					{include file=\App\Layout::getTemplatePath('CommentThreadList.tpl') COMMENT=$COMMENT}
@@ -23,4 +24,5 @@
 			{/foreach}
 		</ul>
 	{/if}
+	<!-- /tpl-Base-CommentsListIteration -->
 {/strip}
