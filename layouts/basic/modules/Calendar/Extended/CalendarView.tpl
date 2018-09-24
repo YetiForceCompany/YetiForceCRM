@@ -16,49 +16,47 @@
 		   type="hidden" id="hiddenDays"/>
 	<input value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" type="hidden" id="activityStateLabels"/>
 	<div class="calendarViewContainer rowContent js-css-element-queries" data-js="css-element-queries">
-		<div class="pt-2" >
-			<div class="o-calendar__container u-overflow-y-auto" data-js="offset">
-				<div class="d-flex justify-content-between">
-					<div class="d-flex">
-						<div class="btn-toolbar flex-nowrap mb-1 mb-sm-0 align-items-center mr-1">
-							{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions w-100 u-remove-dropdown-icon u-text-ellipsis' BTN_CLASS='btn-light o-calendar__view-btn w-100'}
-						</div>
-						{if $CUSTOM_VIEWS|@count gt 0}
-							<ul class="nav nav-pills u-w-fit js-calendar-extended-filter-tab" data-js="change"
-								role="tablist">
-								{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-									{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
-										{if $CUSTOM_VIEW->isFeatured()}
-											<li class="nav-item js-filter-tab c-tab--small font-weight-bold"
-												data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
-												<a class="nav-link{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}"
-												   href="#"
-												   {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if}
-												   data-toggle="tab" role="tab"
-												   aria-selected="{if $VIEWID == $CUSTOM_VIEW->getId()}true{else}false{/if}">
-													{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
-													{if $CUSTOM_VIEW->get('description')}
-														<span class="js-popover-tooltip fas fa-info-circle"
-															  data-js="popover"
-															  data-placement="auto right"
-															  data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
-													{/if}
-												</a>
-											</li>
-										{/if}
-									{/foreach}
-								{/foreach}
-							</ul>
-						{/if}
+		<div class="o-calendar__container u-overflow-y-auto pt-2" data-js="offset">
+			<div class="d-flex justify-content-between">
+				<div class="d-flex">
+					<div class="btn-toolbar flex-nowrap mb-1 mb-sm-0 align-items-center mr-1">
+						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions w-100 u-remove-dropdown-icon u-text-ellipsis' BTN_CLASS='btn-light o-calendar__view-btn w-100'}
 					</div>
-					<a class="o-calendar__clear-btn btn btn-warning d-none js-calendar-clear-filters" role="button"
-					   data-js="class: d-none">
-						<span class="fas fa-eraser mr-1"></span>
-						<span class="o-calendar__clear-btn__text">{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}</span>
-					</a>
+					{if $CUSTOM_VIEWS|@count gt 0}
+						<ul class="nav nav-pills u-w-fit js-calendar-extended-filter-tab" data-js="change"
+							role="tablist">
+							{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
+								{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
+									{if $CUSTOM_VIEW->isFeatured()}
+										<li class="nav-item js-filter-tab c-tab--small font-weight-bold"
+											data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
+											<a class="nav-link{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}"
+											   href="#"
+											   {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if}
+											   data-toggle="tab" role="tab"
+											   aria-selected="{if $VIEWID == $CUSTOM_VIEW->getId()}true{else}false{/if}">
+												{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
+												{if $CUSTOM_VIEW->get('description')}
+													<span class="js-popover-tooltip fas fa-info-circle"
+														  data-js="popover"
+														  data-placement="auto right"
+														  data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
+												{/if}
+											</a>
+										</li>
+									{/if}
+								{/foreach}
+							{/foreach}
+						</ul>
+					{/if}
 				</div>
-				<div class="js-calendar__container" id="calendarview"></div>
+				<a class="o-calendar__clear-btn btn btn-warning d-none js-calendar-clear-filters" role="button"
+				   data-js="class: d-none">
+					<span class="fas fa-eraser mr-1"></span>
+					<span class="o-calendar__clear-btn__text">{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}</span>
+				</a>
 			</div>
+			<div class="js-calendar__container" id="calendarview"></div>
 		</div>
 	</div>
 	<!-- /tpl-Calendar-Extended-CalendarView -->

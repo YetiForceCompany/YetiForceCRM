@@ -15246,7 +15246,7 @@ label.btn.btn-outline-primary:not(.active) {
 @media (min-width: 992px) {
   .siteBarRight {
     width: 25%;
-    padding: 0 15px;
+    padding: 0 0.3125rem;
     border-left: 1px solid #ccc;
     background: #f8f9fa;
     position: fixed;
@@ -15567,8 +15567,7 @@ label.btn.btn-outline-primary:not(.active) {
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
     position: fixed;
-    bottom: 33px;
-    height: 45px;
+    bottom: 1.9375rem;
     background: #f8f9fa;
     margin-left: -10px;
     text-align: center;
@@ -15581,12 +15580,12 @@ label.btn.btn-outline-primary:not(.active) {
       margin-right: 6px; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .qcForm .formActionsPanel {
     right: -25%; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .massEditTable {
-    margin-bottom: 50px; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper {
     /*computed height: footer, userinfo, header filter buttons, padding */
-    height: calc(100vh - 1.9375rem - 17px - 50px - 34px - 50px - 20px);
+    height: calc(100vh - 1.9375rem - 17px - 90px - 34px - 10px - 20px);
     position: relative; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel[min-height~="80px"] button {
+    margin-bottom: 0.25rem; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .formsContainer {
     /*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
     height: calc(100vh - 35px - 17px - 50px - 34px - 6px); }

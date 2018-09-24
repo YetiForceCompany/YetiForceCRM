@@ -99,7 +99,7 @@ $sitebar-border: 1px solid #ccc;
 @include media-breakpoint-up(lg) {
 	.siteBarRight {
 		width: 25%;
-		padding: 0 15px;
+		padding: 0 calculate-rem(5px);
 		border-left: $sitebar-border;
 		background: $light;
 		position: fixed;
@@ -546,8 +546,7 @@ $sitebar-border: 1px solid #ccc;
 			right: 0px;
 			@include u-transition(all 0.5s ease);
 			position: fixed;
-			bottom: 33px;
-			height: 45px;
+			bottom: $h-footer;
 			background: $light;
 			margin-left: -10px;
 			text-align: center;
@@ -567,14 +566,15 @@ $sitebar-border: 1px solid #ccc;
 		.hideSiteBar .qcForm .formActionsPanel {
 			right: -25%;
 		}
-
-		.massEditTable {
-			margin-bottom: 50px;
-		}
 		.o-calendar__form__wrapper {
 			/*computed height: footer, userinfo, header filter buttons, padding */
-			height: calc(100vh - #{$h-footer} - 17px - 50px - 34px - 50px - 20px);
+			height: calc(100vh - #{$h-footer} - 17px - 90px - 34px - 10px - 20px);
 			position: relative;
+		}
+		.formActionsPanel[min-height~="80px"] {
+			button {
+				margin-bottom: 0.25rem;
+			}
 		}
 		.formsContainer {
 			/*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
