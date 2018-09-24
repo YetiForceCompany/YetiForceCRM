@@ -43,6 +43,9 @@ App\Session::init();
 if (IS_WINDOWS) {
 	App\User::setCurrentUserId(1);
 }
+if (empty($_SERVER['YETI_MAIL_PASS'])) {
+	echo 'No mailbox password provided, please set YETI_MAIL_PASS in $_SERVER array' . PHP_EOL;
+}
 if ($installDatabase) {
 	echo 'Installing test database ...' . PHP_EOL;
 	require_once 'install/models/InitSchema.php';
