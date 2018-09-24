@@ -61,6 +61,7 @@ class Twitter extends \Tests\Base
 
 		\AppConfig::set('modules', 'Contacts', ['enable_social' => ['twitter']]);
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Contacts');
+
 		$block = $moduleModel->getBlocks()['LBL_CONTACT_INFORMATION'];
 		$type = 'Twitter';
 		$suffix = '_t1';
@@ -71,7 +72,26 @@ class Twitter extends \Tests\Base
 		$param['blockid'] = $block->id;
 		$param['sourceModule'] = 'Contacts';
 		$param['fieldTypeList'] = 0;
-		static::$twitterFields[] = $moduleModel->addField($param['fieldType'], $block->id, $param);
+
+		$blockInstance = \vtlib\Block::getInstance('LBL_CONTACT_INFORMATION', 'Contacts');
+		$fieldInstance = new \vtlib\Field();
+		$fieldInstance->name = $param['fieldName'];
+		$fieldInstance->label = $param['fieldLabel'];
+		$fieldInstance->table = 'vtiger_contactdetails';
+		$fieldInstance->column = $param['fieldName'];
+		$fieldInstance->uitype = 313;
+		$fieldInstance->typeofdata = 'V~O';
+		$fieldInstance->displaytype = 1;
+		$fieldInstance->quickcreate = 3;
+		$fieldInstance->masseditable = 0;
+		$blockInstance->addField($fieldInstance);
+
+		\var_dump($fieldInstance->id);
+		static::$twitterFields[] = \Settings_LayoutEditor_Field_Model::getInstance($fieldInstance->id);
+
+		//static::$twitterFields[] =
+
+		//static::$twitterFields[] = $moduleModel->addField($param['fieldType'], $block->id, $param);
 		\App\Cache::clear();
 
 		static::addTwitter('yeti');
@@ -128,6 +148,10 @@ class Twitter extends \Tests\Base
 		/*$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
 		$res = \Vtiger_Module_Model::getInstance('Contacts')->getFieldsForSave($recordModel);
 		\var_dump($res);*/
+
+		//\Vtiger_Cache::getInstance()->set
+
+		//\Vtiger_Cache::getInstance()->
 
 		$fieldModel = $obj::getInstance('Contacts')->getFieldByName(static::$twitterFields[0]->getFieldName());
 		\var_dump($fieldModel);
