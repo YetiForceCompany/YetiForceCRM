@@ -250,6 +250,10 @@ let YearView = View.extend({
 			progressInstance = $.progressIndicator({blockInfo: {enabled: true}}),
 			cvid = this.getCurrentCvId(),
 			convertedFirstDay = CONFIG.firstDayOfWeekNo;
+
+		if (this.getCalendarView().fullCalendar('getView').type !== 'year') {
+			this.getCalendarView().fullCalendar('changeView', 'year');
+		}
 		if (app.getMainParams('switchingDays') === 'workDays') {
 			hiddenDays = app.getMainParams('hiddenDays', true);
 		}
@@ -345,7 +349,7 @@ let YearView = View.extend({
 				app.setMainParams('switchingDays', 'all');
 				app.moduleCacheSet('defaultSwitchingDays', 'all');
 			}
-			thisInstance.getCalendarView().fullCalendar('changeView', 'year');
+			thisInstance.render();
 		});
 	}
 });
