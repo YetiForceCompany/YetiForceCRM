@@ -197,7 +197,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	 */
 	appendSubDateRow(toolbar) {
 		if (!this.subDateRow) {
-			this.subDateRow = $('<div class="js-subDateList u-overflow-auto-lg-down subDateList row flex-nowrap order-4 flex-grow-1 position-relative" data-js="data-type"></div>');
+			this.subDateRow = $('<div class="d-flex flex-nowrap w-100 order-4 flex-grow-1"><div class="js-dateList dateList d-flex"></div><div class="js-subDateList u-overflow-auto-lg-down w-100 subDateList row flex-nowrap position-relative" data-js="data-type"></div></div>');
 			toolbar.append(this.subDateRow);
 			if ($(window).width() > app.breakpoints.lg) {
 				app.showNewScrollbar(this.subDateRow, {
@@ -520,17 +520,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			active = '';
 		for (let month = 0; 12 > month; ++month) {
 			if (month === activeMonth) {
-				active = ' subActive';
+				active = 'subActive';
 			} else {
 				active = '';
 			}
-			html += '<div class="subRecord col-1 pl-0 pr-1 pt-1" data-type="months" data-date="' + moment(dateStart).month(month).format('YYYY-MM') + '">' +
-				'<div class="subRecordContent' + active + '">' +
-				'<div class="subDateName">' + app.vtranslate('JS_' + moment().month(month).format('MMM').toUpperCase()).toUpperCase() +
-				'<div class="js-countEvents count badge badge-danger c-badge--md ml-1">0</div>' +
-				'</div>' +
-				'</div>' +
-				'</div>';
+			html +=
+				`<div class="subRecord col-1 pl-0 ${month === 11 ? 'pr-0' : 'pr-1'}" data-type="months" data-date="${moment(dateStart).month(month).format('YYYY-MM')}">
+					<div class="subRecordContent ${active}">
+						<div class="subDateName">${app.vtranslate('JS_' + moment().month(month).format('MMM').toUpperCase()).toUpperCase()}
+							<div class="js-countEvents count badge badge-danger c-badge--md ml-1">0</div>
+						</div>
+					</div>
+				</div>`;
 		}
 		datesView.find('.subDateList').html(html);
 	},

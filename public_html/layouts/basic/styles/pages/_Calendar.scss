@@ -176,12 +176,14 @@ $sitebar-border: 1px solid #ccc;
 			.subRecord {
 				$margin: calculate-rem(5px);
 
-				font-size: 12px;
+				height: calculate-rem(30px);
+				font-size: calculate-rem(13px);
 				min-width: 80px;
 				cursor: pointer;
 				.subRecordContent {
 					border: 1px solid #eee;
-					padding: 3px;
+					padding: 5px 3px;
+					height: 100%;
 				}
 			}
 			.subActive {
@@ -206,17 +208,27 @@ $sitebar-border: 1px solid #ccc;
 		.dateList {
 			text-align: center;
 			.dateRecord {
-				margin-bottom: 5px;
 				cursor: pointer;
+				margin-right: 5px;
+				border-radius: 0;
+				background: #dfdfdf;
+				color: #353535;
+				height: 30px;
+				border: none;
+				box-shadow: none;
+				padding: 0.3125rem 1.125rem !important;
+				font-size: 14px;
+				font-weight: normal;
+				line-height: 1.42857143;
+				text-align: center;
+				white-space: nowrap;
+				vertical-align: middle;
 			}
 			.dateActive {
-				font-weight: 600;
-				font-size: 1.15em;
 				cursor: default;
 				white-space: nowrap;
-				background-color: #efeff1;
-				padding-top: 5px;
-				padding-bottom: 5px;
+				background-color: #337ab7;
+				color: white;
 			}
 		}
 	}
