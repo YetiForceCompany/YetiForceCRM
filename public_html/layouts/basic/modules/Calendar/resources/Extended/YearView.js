@@ -33,6 +33,12 @@ let YearView = View.extend({
 			</div>
 		`;
 	},
+	getCalendarView: function () {
+		if (this.calendarView === false) {
+			this.calendarView = $('#calendarview');
+		}
+		return this.calendarView;
+	},
 	loadCalendarData: function (calendar, events) {
 		const thisInstance = this;
 		let height = (calendar.find('.fc-bg :first').height() - calendar.find('.fc-day-number').height()) - 10,
@@ -45,21 +51,9 @@ let YearView = View.extend({
 		calendar.fullCalendar('addEventSource',
 			events.result
 		);
-		calendar.find(".cell-calendar a").on('click', function () {
-				let url = 'index.php?module=Calendar&view=List',
-					cvid = thisInstance.getCurrentCvId(),
-					user = thisInstance.getSelectedUsersCalendar(),
-					date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase());
-				if (cvid !== undefined) {
-					url += '&viewname=' + cvid;
-				} else {
-					url += '&viewname=All';
-				}
-				url += '&search_params=[[';
-				if (user.length !== 0) {
-					url += '["assigned_user_id","e","' + user + '"],';
-				}
-				window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","bw","' + date + ',' + date + '"]]]';
+		calendar.find(".cell-calendar").on('click', function () {
+				let date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase());
+				thisInstance.getCalendarView().fullCalendar('changeView', 'agendaDay', date);
 			}
 		);
 	},
@@ -351,7 +345,7 @@ let YearView = View.extend({
 				app.setMainParams('switchingDays', 'all');
 				app.moduleCacheSet('defaultSwitchingDays', 'all');
 			}
-			thisInstance.render();
+			thisInstance.getCalendarView().fullCalendar('changeView', 'year');
 		});
 	}
 });
