@@ -633,18 +633,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$pagingModel = new Vtiger_Paging_Model();
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
-		$pageNumber = $request->getInteger('page');
 		$isWidget = false;
-		if (empty($pageNumber)) {
-			$pageNumber = 1;
-		}
-		$pagingModel->set('page', $pageNumber);
-		if (!$request->isEmpty('limit', true)) {
-			$pagingModel->set('limit', $request->getInteger('limit'));
-		}
 		if (!$request->isEmpty('is_widget', true)) {
 			$isWidget = $request->getBoolean('is_widget');
 		}
@@ -667,12 +658,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$viewer->assign('MODULE', $moduleName);
 			if ($isWidget === false) {
 				$viewer->assign('SHOW_CHILD_COMMENTS', true);
-				return $viewer->view('CommentsList.tpl', $moduleName, true);
 			} else {
-				$viewer->assign('PAGING_MODEL', $pagingModel);
 				$viewer->assign('BUTTON_SHOW_PARENT', true);
-				return $viewer->view('CommentsList.tpl', $moduleName, true);
 			}
+			return $viewer->view('CommentsList.tpl', $moduleName, true);
 		} else {
 			return $viewer->view('NoComments.tpl', $moduleName, true);
 		}
