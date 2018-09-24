@@ -55,6 +55,9 @@ class Twitter extends \Tests\Base
 	 */
 	public static function setUpBeforeClass()
 	{
+		//App\User::setCurrentUserId(1);
+		var_dump(\App\User::getCurrentUserId());
+
 		\AppConfig::set('modules', 'Contacts', ['enable_social' => ['twitter']]);
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Contacts');
 		$block = $moduleModel->getBlocks()['LBL_CONTACT_INFORMATION'];
@@ -92,13 +95,18 @@ class Twitter extends \Tests\Base
 			'Field twitter not exists'
 		);
 
-		$obj = new class() extends \Vtiger_Module_Model {
+		\var_dump(static::$twitterFields[0]->getFieldName());
+
+		$fm = \Vtiger_Field_Model::getInstance(static::$twitterFields[0]->getId());
+		\var_dump($fm);
+
+		/*$obj = new class() extends \Vtiger_Module_Model {
 			public function clearFields()
 			{
 				$this->fields = false;
 			}
 		};
-		$obj->clearFields();
+		$obj->clearFields();*/
 
 		$fieldModel = \Vtiger_Module_Model::getInstance('Contacts')
 			->getFieldByName(static::$twitterFields[0]->getFieldName());
