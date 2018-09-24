@@ -99,6 +99,7 @@ class Twitter extends \Tests\Base
 		static::addTwitter('forceen');
 		\App\Cache::delete('getFieldsPermissions' . \App\User::getCurrentUserId(), $moduleModel->getId());
 		\Vtiger_Cache::flush();
+		\Vtiger_Cache::$cacheEnable = false;
 
 		\App\Cache::init();
 		\App\Cache::staticClear();
