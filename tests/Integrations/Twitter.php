@@ -97,8 +97,10 @@ class Twitter extends \Tests\Base
 
 		\var_dump(static::$twitterFields[0]->getFieldName());
 
-		$fm = \Vtiger_Field_Model::getInstance(static::$twitterFields[0]->getId());
+		$fm = \Vtiger_Field_Model::getInstance(static::$twitterFields[0]->getFieldName());
 		\var_dump($fm);
+
+		\var_dump('cache', \Vtiger_Cache::$cacheEnable);
 
 		/*$obj = new class() extends \Vtiger_Module_Model {
 			public function clearFields()
@@ -108,8 +110,13 @@ class Twitter extends \Tests\Base
 		};
 		$obj->clearFields();*/
 
+		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
+		$res = \Vtiger_Module_Model::getInstance('Contacts')->getFieldsForSave($recordModel);
+		\var_dump($res);
+
 		$fieldModel = \Vtiger_Module_Model::getInstance('Contacts')
 			->getFieldByName(static::$twitterFields[0]->getFieldName());
+
 		$this->assertNotFalse($fieldModel, 'Vtiger_Field_Model problem - not exists');
 		$this->assertSame(
 			static::$twitterFields[0]->getId(),
