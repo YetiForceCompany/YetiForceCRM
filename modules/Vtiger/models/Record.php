@@ -458,7 +458,7 @@ class Vtiger_Record_Model extends \App\Base
 			$this->isNew = false;
 		}
 		\App\Cache::delete('recordLabel', $this->getId());
-		\App\Cache::delete('UnlockFields', $this->getId());
+		\App\Cache::staticDelete('UnlockFields', $this->getId());
 		\App\PrivilegeUpdater::updateOnRecordSave($this);
 	}
 
@@ -1226,7 +1226,7 @@ class Vtiger_Record_Model extends \App\Base
 		$this->privileges = [];
 		Users_Privileges_Model::clearLockEditCache($this->getModuleName() . $this->getId());
 		\vtlib\Functions::clearCacheMetaDataRecord($this->getId());
-		\App\Cache::delete('UnlockFields', $this->getId());
+		\App\Cache::staticDelete('UnlockFields', $this->getId());
 	}
 
 	/**
