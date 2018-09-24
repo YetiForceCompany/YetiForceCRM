@@ -119,6 +119,7 @@ class Twitter extends \Tests\Base
 		\var_dump(static::$twitterFields[0]->getFieldName());
 
 		$fm = \Vtiger_Field_Model::getInstance(static::$twitterFields[0]->getFieldName());
+
 		//\var_dump('getFieldName', $fm);
 
 		//\var_dump('cache', \Vtiger_Cache::$cacheEnable);
@@ -127,7 +128,13 @@ class Twitter extends \Tests\Base
 			public static function getInstance($mixed)
 			{
 				$inst = parent::getInstance($mixed);
-				\var_dump('fields', $inst->fields);
+
+				if (\is_array($inst->fields)) {
+					foreach ($inst->fields as $field) {
+						\var_dump('FM: ', $field->getFieldName());
+					}
+				}
+				$inst->fields = false;
 				return $inst;
 				//self::getInstanceFromModuleObject($moduleObject);
 			}
