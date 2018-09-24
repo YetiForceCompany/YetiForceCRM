@@ -159,54 +159,36 @@ $sitebar-border: 1px solid #ccc;
 		}
 	}
 
-	.subDateList {
+	.sub-date-list {
 		text-align: center;
 		margin: 0 0 5px;
-		.subDateCount div.countEvents {
-			background-color: #ff4e4d;
-			color: #fff;
-			border-radius: 20px;
-			display: inline-block;
-			padding-top: 5px;
-			padding-bottom: 5px;
-			width: 28px;
-		}
-
-		.subRecord {
+		.sub-record {
 			$margin: calculate-rem(5px);
-
 			height: calculate-rem(30px);
 			font-size: calculate-rem(13px);
 			min-width: 80px;
 			cursor: pointer;
-			.subRecordContent {
+			.sub-record-content {
 				border: 1px solid #eee;
 				padding: 5px 3px;
 				height: 100%;
 			}
 		}
-		.subActive {
+		.sub-active {
 			background-color: #337ab7;
 			color: #fff;
 			cursor: default;
-			.subDateCount {
-				div.countEvents {
-					background-color: #fff;
-					color: #337ab7;
-					font-weight: bold;
-				}
-			}
-			.subDateName {
+			.sub-date-name {
 				font-weight: bold;
 			}
 		}
-		.subDateName {
+		.sub-date-name {
 			margin-bottom: 2px;
 		}
 	}
 	.dateList {
 		text-align: center;
-		.dateRecord {
+		.date-record {
 			cursor: pointer;
 			margin-right: 5px;
 			border-radius: 0;
@@ -223,7 +205,7 @@ $sitebar-border: 1px solid #ccc;
 			white-space: nowrap;
 			vertical-align: middle;
 		}
-		.dateActive {
+		.date-active {
 			cursor: default;
 			white-space: nowrap;
 			background-color: #337ab7;
@@ -232,14 +214,14 @@ $sitebar-border: 1px solid #ccc;
 	}
 
 	@media (max-width: 992px) {
-		.subDateList .subDateCount {
+		.sub-date-list .subDateCount {
 			margin-top: 3px;
 			margin-bottom: 3px;
 		}
 	}
 
 	@media (min-width: 992px) {
-		.subDateList .subDateCount {
+		.sub-date-list .subDateCount {
 			margin-top: 2px;
 			margin-bottom: 0px;
 		}

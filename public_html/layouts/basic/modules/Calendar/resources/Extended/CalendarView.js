@@ -35,7 +35,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		if (defaultView != null) {
 			userDefaultActivityView = defaultView;
 		}
-		self.getDatesRowView().find('.subDateList').data('type', userDefaultActivityView);
+		self.getDatesRowView().find('.js-sub-date-list').data('type', userDefaultActivityView);
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H:mm';
 		} else {
@@ -203,8 +203,8 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			this.subDateRow = $(`
 								<div class="js-scroll js-dates-row u-overflow-auto-lg-down order-4 flex-grow-1 position-relative mt-1" data-js="perfectScrollbar | container">
 									<div class="d-flex flex-nowrap w-100">
-										<div class="js-dateList dateList d-flex"></div>
-										<div class="js-subDateList w-100 subDateList row flex-nowrap" data-js="data-type"></div>
+										<div class="js-js-date-list date-list d-flex" js-data="html"></div>
+										<div class="js-sub-date-list w-100 sub-date-list row flex-nowrap" data-js="data-type"></div>
 									</div>
 								</div>
 								`);
@@ -251,7 +251,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		}
 		if ('year' === subDateListUnit) {
 			self.generateYearList(calendarView.intervalStart, calendarView.intervalEnd);
-			self.getDatesRowView().find('.subDateList').html('');
+			self.getDatesRowView().find('.js-sub-date-list').html('');
 		} else if ('month' === subDateListUnit) {
 			self.generateYearList(calendarView.intervalStart, calendarView.intervalEnd);
 			self.generateSubMonthList(calendarView.intervalStart, calendarView.intervalEnd);
@@ -269,17 +269,17 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	},
 	registerDatesChange() {
 		const thisInstance = this;
-		let datesView = thisInstance.getDatesRowView().find('.dateRecord'),
-			subDatesView = thisInstance.getDatesRowView().find('.subRecord');
+		let datesView = thisInstance.getDatesRowView().find('.js-date-record'),
+			subDatesView = thisInstance.getDatesRowView().find('.js-sub-record');
 		datesView.on('click', function () {
-			datesView.removeClass('dateActive');
-			$(this).addClass('dateActive');
+			datesView.removeClass('date-active');
+			$(this).addClass('date-active');
 			thisInstance.getCalendarView().fullCalendar('gotoDate', moment($(this).data('date') + '-01-01', "YYYY-MM-DD"));
 			thisInstance.loadCalendarData();
 		});
 		subDatesView.on('click', function () {
-			datesView.removeClass('subActive');
-			$(this).addClass('subActive');
+			datesView.removeClass('sub-active');
+			$(this).addClass('sub-active');
 			thisInstance.getCalendarView().fullCalendar('gotoDate', moment($(this).data('date'), "YYYY-MM-DD"));
 			thisInstance.loadCalendarData();
 		});
@@ -314,7 +314,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	},
 	updateCountTaskCalendar() {
 		let datesView = this.getDatesRowView(),
-			subDatesElements = datesView.find('.subRecord'),
+			subDatesElements = datesView.find('.js-sub-record'),
 			dateArray = {},
 			user = this.getSelectedUsersCalendar();
 		if (user.length === 0) {
@@ -341,7 +341,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			cvid: this.getCurrentCvId()
 		}).then(function (events) {
 			subDatesElements.each(function (key, element) {
-				$(this).find('.js-countEvents').removeClass('hide').html(events.result[key]);
+				$(this).find('.js-count-events').removeClass('hide').html(events.result[key]);
 			});
 		});
 	},
@@ -355,16 +355,16 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			active = '';
 		while (prevYear <= nextYear) {
 			if (prevYear.format('YYYY') === actualYear.format('YYYY')) {
-				active = ' dateActive';
+				active = ' date-active';
 			} else {
 				active = '';
 			}
-			html += '<div class="dateRecord' + active + '" data-date="' + prevYear.format('YYYY') + '">' +
+			html += '<div class="js-date-record date-record' + active + '" data-date="' + prevYear.format('YYYY') + '" data-js="click|class:date-active">' +
 				prevYear.format('YYYY') +
 				'</div>';
 			prevYear = moment(prevYear).add(1, 'year');
 		}
-		datesView.find('.dateList').html(html);
+		datesView.find('.js-date-list').html(html);
 	},
 	generateMonthList(dateStart, dateEnd) {
 		const thisInstance = this,
@@ -376,16 +376,16 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			active = '';
 		while (prevMonth <= nextMonth) {
 			if (prevMonth.format('YYYY-MM') === actualMonth.format('YYYY-MM')) {
-				active = ' dateActive';
+				active = ' date-active';
 			} else {
 				active = '';
 			}
-			html += '<div class="dateRecord' + active + '" data-date="' + prevMonth.format('YYYY-MM-DD') + '">' +
+			html += '<div class="js-date-record date-record' + active + '" data-date="' + prevMonth.format('YYYY-MM-DD') + '">' +
 				prevMonth.format('MMMM') +
 				'</div>';
 			prevMonth = moment(prevMonth).add(1, 'months');
 		}
-		datesView.find('.dateList').html(html);
+		datesView.find('.js-date-list').html(html);
 	},
 	generateWeekList(dateStart, dateEnd) {
 		const thisInstance = this,
@@ -397,16 +397,17 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			active = '';
 		while (prevMonth <= nextMonth) {
 			if (prevMonth.format('WW') === actualMonth.format('WW') && prevMonth.format('YYYY') === actualMonth.format('YYYY')) {
-				active = ' dateActive';
+				active = ' date-active';
 			} else {
 				active = '';
 			}
-			html += '<div class="dateRecord' + active + '" data-date="' + prevMonth.format('YYYY-MM-DD') + '">' +
+			html += '<div class="js-date-record date-record' + active + '" data-date="' + prevMonth.format('YYYY-MM-DD') + '">' +
+				app.vtranslate('JS_WEEK_SHORT') + ' ' +
 				prevMonth.format('WW') +
 				'</div>';
 			prevMonth = moment(prevMonth).add(1, 'week');
 		}
-		datesView.find('.dateList').html(html);
+		datesView.find('.js-date-list').html(html);
 	},
 	loadCalendarEditView(id) {
 		const aDeferred = $.Deferred();
@@ -530,20 +531,20 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			active = '';
 		for (let month = 0; 12 > month; ++month) {
 			if (month === activeMonth) {
-				active = 'subActive';
+				active = 'sub-active';
 			} else {
 				active = '';
 			}
 			html +=
-				`<div class="subRecord col-1 pl-0 ${month === 11 ? 'pr-0' : 'pr-1'}" data-type="months" data-date="${moment(dateStart).month(month).format('YYYY-MM')}">
-					<div class="subRecordContent ${active}">
-						<div class="subDateName">${app.vtranslate('JS_' + moment().month(month).format('MMM').toUpperCase()).toUpperCase()}
-							<div class="js-countEvents count badge badge-danger c-badge--md ml-1">0</div>
+				`<div class="js-sub-record sub-record col-1 pl-0 ${month === 11 ? 'pr-0' : 'pr-1'}" data-type="months" data-date="${moment(dateStart).month(month).format('YYYY-MM')}">
+					<div class="sub-record-content ${active}">
+						<div class="sub-date-name">${app.vtranslate('JS_' + moment().month(month).format('MMM').toUpperCase()).toUpperCase()}
+							<div class="js-count-events count badge badge-danger c-badge--md ml-1" data-js="html">0</div>
 						</div>
 					</div>
 				</div>`;
 		}
-		datesView.find('.subDateList').html(html);
+		datesView.find('.js-sub-date-list').html(html);
 	},
 	generateSubWeekList(dateStart, dateEnd) {
 		let datesView = this.getDatesRowView(),
@@ -554,18 +555,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		while (prevWeeks <= nextWeeks) {
 			let active = '';
 			if (prevWeeks.format('WW') === actualWeek) {
-				active = ' subActive';
+				active = ' sub-active';
 			}
-			html += '<div class="subRecord col-1 pl-0 pr-1" data-type="weeks" data-date="' + prevWeeks.format('YYYY-MM-DD') + '">' +
-				'<div class="subRecordContent' + active + '">' +
-				'<div class="subDateName">' + app.vtranslate('JS_WEEK_SHORT') + ' ' + prevWeeks.format('WW') +
-				'<div class="js-countEvents count badge badge-danger c-badge--md ml-1">0</div>' +
+			html += '<div class="js-sub-record sub-record col-1 pl-0 pr-1" data-type="weeks" data-date="' + prevWeeks.format('YYYY-MM-DD') + '">' +
+				'<div class="sub-record-content' + active + '">' +
+				'<div class="sub-date-name">' + app.vtranslate('JS_WEEK_SHORT') + ' ' + prevWeeks.format('WW') +
+				'<div class="js-count-events count badge badge-danger c-badge--md ml-1" data-js="html">0</div>' +
 				'</div>' +
 				'</div>' +
 				'</div>';
 			prevWeeks = moment(prevWeeks).add(1, 'weeks');
 		}
-		datesView.find('.subDateList').html(html);
+		datesView.find('.js-sub-date-list').html(html);
 	},
 	generateSubDaysList(dateStart, dateEnd) {
 		const thisInstance = this;
@@ -578,18 +579,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		for (let day = 0; day < daysToShow; ++day) {
 			let active = '';
 			if (prevDays.format('DDD') === actualDay) {
-				active = ' subActive';
+				active = ' sub-active';
 			}
-			html += '<div class="subRecord col-1 pl-0 pr-1" data-type="days" data-date="' + prevDays.format('YYYY-MM-DD') + '">' +
-				'<div class="subRecordContent' + active + '">' +
-				'<div class="subDateName">' + app.vtranslate('JS_DAY_SHORT') + ' ' + prevDays.format('DD') +
-				'<div class="js-countEvents count badge badge-danger c-badge--md ml-1">0</div>' +
+			html += '<div class="js-sub-record sub-record col-1 pl-0 pr-1" data-type="days" data-date="' + prevDays.format('YYYY-MM-DD') + '">' +
+				'<div class="sub-record-content' + active + '">' +
+				'<div class="sub-date-name">' + app.vtranslate('JS_DAY_SHORT') + ' ' + prevDays.format('DD') +
+				'<div class="js-count-events count badge badge-danger c-badge--md ml-1" data-js="html">0</div>' +
 				'</div>' +
 				'</div>' +
 				'</div>';
 			prevDays = moment(prevDays).add(1, 'days');
 		}
-		datesView.find('.subDateList').html(html);
+		datesView.find('.js-sub-date-list').html(html);
 	},
 	selectDays(startDate, endDate) {
 		const thisInstance = this;
