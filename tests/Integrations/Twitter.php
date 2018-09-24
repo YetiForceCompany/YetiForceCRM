@@ -65,28 +65,30 @@ class Twitter extends \Tests\Base
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		\AppConfig::set('modules', 'Contacts', ['enable_social' => ['twitter']]);
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Contacts');
+
 		$block = $moduleModel->getBlocks()['LBL_CONTACT_INFORMATION'];
 		$type = 'Twitter';
 		$suffix = '_t1';
-		$key = $type . $suffix;
-		$param['fieldType'] = $type;
-		$param['fieldLabel'] = $type . 'FL' . $suffix;
-		$param['fieldName'] = strtolower($type . 'FL' . $suffix);
-		$param['blockid'] = $block->id;
-		$param['sourceModule'] = 'Contacts';
-		$param['fieldTypeList'] = 0;
-		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
-		static::$twitterFields[] = $moduleModel->addField($param['fieldType'], $block->id, $param);
+
+		$fieldInstance = new \vtlib\Field();
+		$fieldInstance->name = strtolower($type . 'FL' . $suffix);
+		$fieldInstance->label = $type . 'FL' . $suffix;
+		$fieldInstance->table = 'vtiger_contactdetails';
+		$fieldInstance->column = strtolower($type . 'FL' . $suffix);
+		$fieldInstance->uitype = 313;
+		$fieldInstance->typeofdata = 'V~O';
+		$fieldInstance->displaytype = 1;
+		$fieldInstance->quickcreate = 3;
+		$fieldInstance->masseditable = 0;
+		$block->addField($fieldInstance);
+		static::$twitterFields[] = \Settings_LayoutEditor_Field_Model::getInstance($fieldInstance->id);
 
 		static::addTwitter('yeti');
 		static::addTwitter('yetiforceen');
 		static::addTwitter('forceen');
-
+		\App\Cache::clear();
 		static::$vCacheEnable = \Vtiger_Cache::$cacheEnable;
 		\Vtiger_Cache::$cacheEnable = false;
-		\App\Cache::clear();
-		\App\Cache::init();
-		\App\Cache::staticClear();
 	}
 
 	/**
@@ -139,7 +141,8 @@ class Twitter extends \Tests\Base
 		$this->assertSame('yetiforceen',
 			(new \App\Db\Query())->select([static::$twitterFields[0]->getColumnName()])
 				->from(static::$twitterFields[0]->getTableName())
-				->where(['contactid' => $recordModel->getId()])->scalar()
+				->where(['contactid' => $recordModel->getId()])->scalar(),
+			"Bad value in table '" . static::$twitterFields[0]->getTableName() . "' column '" . static::$twitterFields[0]->getColumnName() . "'."
 		);
 		$this->assertTrue((new \App\Db\Query())
 			->from('u_#__social_media_twitter')
