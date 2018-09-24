@@ -99,11 +99,19 @@ class Twitter extends \Tests\Base
 		\var_dump(static::$twitterFields[0]->getFieldName());
 
 		$fm = \Vtiger_Field_Model::getInstance(static::$twitterFields[0]->getFieldName());
-		\var_dump($fm);
+		//\var_dump('getFieldName', $fm);
 
-		\var_dump('cache', \Vtiger_Cache::$cacheEnable);
+		//\var_dump('cache', \Vtiger_Cache::$cacheEnable);
 
 		$obj = new class() extends \Vtiger_Module_Model {
+			public static function getInstance($mixed)
+			{
+				$inst = parent::getInstance($mixed);
+				\var_dump('fields', $inst->fields);
+				return $inst;
+				//self::getInstanceFromModuleObject($moduleObject);
+			}
+
 			public function clearFields()
 			{
 				$this->fields = false;
@@ -122,7 +130,7 @@ class Twitter extends \Tests\Base
 		\var_dump($res);*/
 
 		$fieldModel = $obj::getInstance('Contacts')->getFieldByName(static::$twitterFields[0]->getFieldName());
-
+		\var_dump($fieldModel);
 		/*$fieldModel = \Vtiger_Module_Model::getInstance('Contacts')
 			->getFieldByName(static::$twitterFields[0]->getFieldName());*/
 
