@@ -55,8 +55,9 @@ class Twitter extends \Tests\Base
 	 */
 	public static function setUpBeforeClass()
 	{
-		//App\User::setCurrentUserId(1);
-		var_dump(\App\User::getCurrentUserId());
+		\var_dump(\App\User::getActiveAdminId());
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
+		\var_dump(\App\User::getCurrentUserId());
 
 		\AppConfig::set('modules', 'Contacts', ['enable_social' => ['twitter']]);
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Contacts');
@@ -102,20 +103,28 @@ class Twitter extends \Tests\Base
 
 		\var_dump('cache', \Vtiger_Cache::$cacheEnable);
 
-		/*$obj = new class() extends \Vtiger_Module_Model {
+		$obj = new class() extends \Vtiger_Module_Model {
 			public function clearFields()
 			{
 				$this->fields = false;
 			}
+
+			public function getFieldByName($fieldName)
+			{
+				\var_dump($fieldName, $this->fields);
+				return parent::getFieldByName($fieldName);
+			}
 		};
-		$obj->clearFields();*/
+		//$obj::getInstance('Contacts');
 
-		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
+		/*$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
 		$res = \Vtiger_Module_Model::getInstance('Contacts')->getFieldsForSave($recordModel);
-		\var_dump($res);
+		\var_dump($res);*/
 
-		$fieldModel = \Vtiger_Module_Model::getInstance('Contacts')
-			->getFieldByName(static::$twitterFields[0]->getFieldName());
+		$fieldModel = $obj::getInstance('Contacts')->getFieldByName(static::$twitterFields[0]->getFieldName());
+
+		/*$fieldModel = \Vtiger_Module_Model::getInstance('Contacts')
+			->getFieldByName(static::$twitterFields[0]->getFieldName());*/
 
 		$this->assertNotFalse($fieldModel, 'Vtiger_Field_Model problem - not exists');
 		$this->assertSame(
