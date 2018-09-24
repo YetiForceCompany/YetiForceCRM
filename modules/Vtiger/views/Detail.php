@@ -165,10 +165,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($defaultMode === 'showDetailViewByMode') {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
-			if (!($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList)) {
+			if (!('Summary' === $currentUserModel->get('default_record_view') && $this->record->widgetsList)) {
 				$defaultMode = 'showModuleDetailView';
 			}
-		} elseif ($defaultMode === false) {
+		} elseif (false === $defaultMode) {
 			$defaultMode = 'showDetailViewByMode';
 		}
 		echo $this->$defaultMode($request);
@@ -429,9 +429,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		}
-		$hierarchy = $this->getHierarchy($request);
 		$hierarchyValue = $request->getByType('hierarchy');
-		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $hierarchy, $pagingModel);
+		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $this->getHierarchy($request), $pagingModel);
 		$pagingModel->calculatePageRange(count($parentCommentModels));
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
@@ -639,12 +638,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!$request->isEmpty('is_widget', true)) {
 			$isWidget = $request->getBoolean('is_widget');
 		}
-		$hierarchy = $this->getHierarchy($request);
 		if ($request->isEmpty('search_key', true)) {
 			return $this->showAllComments($request);
 		} else {
 			$searchValue = $request->getByType('search_key', 'Text');
-			$parentCommentModels = ModComments_Record_Model::getSearchComments($recordId, $searchValue, $isWidget, $hierarchy, $pagingModel);
+			$parentCommentModels = ModComments_Record_Model::getSearchComments($recordId, $searchValue, $isWidget, $this->getHierarchy($request));
 		}
 		$viewer = $this->getViewer($request);
 		if (!empty($parentCommentModels)) {
@@ -681,9 +679,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($request->has('hierarchy')) {
 			$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
 			$hierarchyValue = $request->getByType('hierarchy');
-			if ($level === 0) {
+			if (0 === $level) {
 				$hierarchy = $hierarchyValue === 'all' ? [1, 2] : [];
-			} elseif ($level === 1) {
+			} elseif (1 === $level) {
 				$hierarchy = $hierarchyValue === 'all' ? [2] : [];
 			}
 		}
