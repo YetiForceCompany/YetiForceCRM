@@ -161,6 +161,15 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linkclass' => 'btn',
 				'linkhint' => 'BTN_RECORD_EDIT',
 			]);
+		} elseif ($recordModel->isUnlockByFields()) {
+			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'DETAIL_VIEW_BASIC',
+				'linklabel' => 'BTN_RECORD_OPEN',
+				'linkdata' => ['url' => 'index.php?module=' . $recordModel->getModuleName() . '&view=Unlock&record=' . $recordModel->getId()],
+				'linkicon' => 'fas fa-lock-open',
+				'linkclass' => 'js-show-modal',
+				'linkhint' => 'BTN_RECORD_OPEN'
+			]);
 		}
 		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
 		if ($recordModel->privilegeToActivate()) {

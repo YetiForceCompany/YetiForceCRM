@@ -260,7 +260,7 @@ class Vtiger_Export_Model extends \App\Base
 				$this->fieldDataTypeCache[$fieldName] = $fieldInfo->getFieldDataType();
 			}
 			$type = $this->fieldDataTypeCache[$fieldName];
-			if ($fieldname !== 'hdnTaxType' && ($uitype === 15 || $uitype === 16 || $uitype === 33)) {
+			if ($uitype === 15 || $uitype === 16 || $uitype === 33) {
 				if (empty($this->picklistValues[$fieldname])) {
 					$this->picklistValues[$fieldname] = $this->fieldArray[$fieldname]->getPicklistValues();
 				}

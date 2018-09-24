@@ -3900,3 +3900,10 @@ select {
 .popupEntriesDiv .listSearchTd {
 	width: 57px;
 }
+
+ul.tweets li {
+	list-style-type: none;
+	width: 528px;
+	min-height: 72px;
+	border-top: #e6ecf0 solid 1px;
+}

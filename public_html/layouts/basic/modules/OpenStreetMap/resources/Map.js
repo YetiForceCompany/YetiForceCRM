@@ -475,7 +475,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		});
 		var startIconLayer = false;
 		container.on('click', '.startTrack', function (e) {
-			map.removeLayer(startIconLayer);
+			if(startIconLayer) {
+				map.removeLayer(startIconLayer);
+			}
 			var currentTarget = $(e.currentTarget);
 			var containerPopup = currentTarget.closest('.leaflet-popup-content');
 			description = containerPopup.find('.description').html();
@@ -498,7 +500,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		});
 		var endIconLayer = false;
 		container.on('click', '.endTrack', function (e) {
-			map.removeLayer(endIconLayer);
+			if(endIconLayer) {
+				map.removeLayer(endIconLayer);
+			}
 			var currentTarget = $(e.currentTarget);
 			var containerPopup = currentTarget.closest('.leaflet-popup-content');
 			description = containerPopup.find('.description').html();
@@ -571,7 +575,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			}
 		});
 		container.on('click', '.searchInRadius', function (e) {
-			map.removeLayer(endIconLayer);
+			if(endIconLayer) {
+				map.removeLayer(endIconLayer);
+			}
 			var currentTarget = $(e.currentTarget);
 			var containerPopup = currentTarget.closest('.leaflet-popup-content');
 			var coordinates = containerPopup.find('.coordinates');
@@ -627,8 +633,10 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			};
 			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
-				map.removeLayer(thisInstance.routeLayer);
-				var route = L.geoJson(response.result);
+				if(thisInstance.routeLayer) {
+					map.removeLayer(thisInstance.routeLayer);
+				}
+				var route = L.geoJson(response.result.geoJson);
 				thisInstance.routeLayer = L.featureGroup([route]);
 				map.addLayer(thisInstance.routeLayer);
 				container.find('.descriptionContainer').removeClass('d-none');
@@ -637,9 +645,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				container.find('.descriptionContent .travelTime').html(app.parseNumberToShow(response.result.properties.traveltime / 60));
 			});
 		});
-		container.find('.setView').on('click', function (e) {
+		container.on('click', '.setView', function (e) {
 			var currentTarget = $(e.currentTarget);
-			var inputInstance = currentTarget.closest('.input-group').find('.end,.start');
+			var inputInstance = currentTarget.closest('.input-group').find('.end,.start,.indirect');
 			var lat = inputInstance.data('lat');
 			var lon = inputInstance.data('lon');
 			if (!(typeof lat === "undefined" && typeof lon === "undefined")) {

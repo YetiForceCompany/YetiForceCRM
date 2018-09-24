@@ -223,10 +223,14 @@ CREATE TABLE `a_yf_taxes_global` (
 
 CREATE TABLE `b_yf_social_media_twitter` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `twitter_login` varchar(20) NOT NULL,
+  `twitter_login` varchar(15) NOT NULL,
   `id_twitter` varchar(32) DEFAULT NULL,
   `message` text DEFAULT NULL,
   `created` datetime DEFAULT NULL,
+  `twitter_name` varchar(50) DEFAULT NULL,
+  `reply` int(11) DEFAULT NULL,
+  `retweet` int(11) DEFAULT NULL,
+  `favorite` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `twitter_login` (`twitter_login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1092,6 +1096,20 @@ CREATE TABLE `s_yf_smsnotifier_queue` (
   `records` text NOT NULL,
   `module` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `l_yf_social_media_logs` */
+
+CREATE TABLE `l_yf_social_media_logs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `date` datetime NOT NULL,
+  `type` varchar(16) NOT NULL,
+  `name` varchar(16) NOT NULL,
+  `message` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `date` (`date`),
+  KEY `type` (`type`),
+  KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_activity_invitation` */
@@ -2910,9 +2928,12 @@ CREATE TABLE `u_yf_partnerscf` (
 /*Table structure for table `u_yf_picklist_close_state` */
 
 CREATE TABLE `u_yf_picklist_close_state` (
-  `fieldid` int(11) DEFAULT NULL,
-  `valueid` int(11) DEFAULT NULL,
-  `value` varchar(255) DEFAULT NULL
+  `valueid` int(11) NOT NULL,
+  `fieldid` int(11) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY (`valueid`),
+  KEY `fieldid` (`fieldid`),
+  CONSTRAINT `fk_1_u_yf_picklist_close_state` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_recurring_info` */
@@ -3035,10 +3056,14 @@ CREATE TABLE `u_yf_social_media_config` (
 
 CREATE TABLE `u_yf_social_media_twitter` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `twitter_login` varchar(20) NOT NULL,
+  `twitter_login` varchar(15) NOT NULL,
   `id_twitter` varchar(32) DEFAULT NULL,
   `message` text DEFAULT NULL,
   `created` datetime DEFAULT NULL,
+  `twitter_name` varchar(50) DEFAULT NULL,
+  `reply` int(11) DEFAULT NULL,
+  `retweet` int(11) DEFAULT NULL,
+  `favorite` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `twitter_login` (`twitter_login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
