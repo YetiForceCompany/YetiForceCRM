@@ -1,4 +1,3 @@
-{strip}
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -10,6 +9,8 @@
 * Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
+{strip}
+<!-- tpl-Base-DetailViewHeader -->
 {assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
 <input id="recordId" type="hidden" value="{$RECORD->getId()}"/>
 <div class="detailViewContainer">
@@ -45,5 +46,6 @@
 						   value="{\App\Purifier::encodeHtml($PICKLIST_DEPENDENCY_DATASOURCE)}">
 				{/if}
 				<div class="contents">
+					<!-- /tpl-Base-DetailViewHeader -->
 					{/strip}
 
