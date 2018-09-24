@@ -55,8 +55,13 @@ class Twitter extends \Tests\Base
 	 */
 	public static function setUpBeforeClass()
 	{
+		\var_dump(\App\User::getActiveAdminId());
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
+		\var_dump(\App\User::getCurrentUserId());
+
 		\AppConfig::set('modules', 'Contacts', ['enable_social' => ['twitter']]);
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Contacts');
+
 		$block = $moduleModel->getBlocks()['LBL_CONTACT_INFORMATION'];
 		$type = 'Twitter';
 		$suffix = '_t1';
@@ -67,12 +72,101 @@ class Twitter extends \Tests\Base
 		$param['blockid'] = $block->id;
 		$param['sourceModule'] = 'Contacts';
 		$param['fieldTypeList'] = 0;
-		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
-		static::$twitterFields[] = $moduleModel->addField($param['fieldType'], $block->id, $param);
+
+		$blockInstance = \vtlib\Block::getInstance('LBL_CONTACT_INFORMATION', 'Contacts');
+		$fieldInstance = new \vtlib\Field();
+		$fieldInstance->name = $param['fieldName'];
+		$fieldInstance->label = $param['fieldLabel'];
+		$fieldInstance->table = 'vtiger_contactdetails';
+		$fieldInstance->column = $param['fieldName'];
+		$fieldInstance->uitype = 313;
+		$fieldInstance->typeofdata = 'V~O';
+		$fieldInstance->displaytype = 1;
+		$fieldInstance->quickcreate = 3;
+		$fieldInstance->masseditable = 0;
+		$blockInstance->addField($fieldInstance);
+
+		\var_dump($fieldInstance->id);
+		static::$twitterFields[] = \Settings_LayoutEditor_Field_Model::getInstance($fieldInstance->id);
+
+		//static::$twitterFields[] =
+
+		//static::$twitterFields[] = $moduleModel->addField($param['fieldType'], $block->id, $param);
+		\App\Cache::clear();
 
 		static::addTwitter('yeti');
 		static::addTwitter('yetiforceen');
 		static::addTwitter('forceen');
+		\App\Cache::delete('getFieldsPermissions' . \App\User::getCurrentUserId(), $moduleModel->getId());
+		\Vtiger_Cache::flush();
+		\Vtiger_Cache::$cacheEnable = false;
+
+		\App\Cache::init();
+		\App\Cache::staticClear();
+	}
+
+	/**
+	 * Check if the Twitter field exists.
+	 */
+	public function testFieldTwitter()
+	{
+		$this->assertInternalType('integer', static::$twitterFields[0]->getId());
+		$this->assertTrue(
+			(new \App\Db\Query())
+				->from('vtiger_field')
+				->where(['fieldid' => static::$twitterFields[0]->getId()])->exists(),
+			'Field twitter not exists'
+		);
+
+		\var_dump(static::$twitterFields[0]->getFieldName());
+
+		$fm = \Vtiger_Field_Model::getInstance(static::$twitterFields[0]->getFieldName());
+
+		//\var_dump('getFieldName', $fm);
+
+		//\var_dump('cache', \Vtiger_Cache::$cacheEnable);
+
+		$obj = new class() extends \Vtiger_Module_Model {
+			public static function getInstance($mixed)
+			{
+				$inst = parent::getInstance($mixed);
+
+				if (\is_array($inst->fields)) {
+					foreach ($inst->fields as $field) {
+						\var_dump('FM: ', $field->getFieldName());
+					}
+				}
+				$inst->fields = null;
+				return $inst;
+				//self::getInstanceFromModuleObject($moduleObject);
+			}
+
+			public function clearFields()
+			{
+				$this->fields = false;
+			}
+		};
+		//$obj::getInstance('Contacts');
+
+		/*$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
+		$res = \Vtiger_Module_Model::getInstance('Contacts')->getFieldsForSave($recordModel);
+		\var_dump($res);*/
+
+		//\Vtiger_Cache::getInstance()->set
+
+		//\Vtiger_Cache::getInstance()->
+
+		$fieldModel = $obj::getInstance('Contacts')->getFieldByName(static::$twitterFields[0]->getFieldName());
+		\var_dump($fieldModel);
+		/*$fieldModel = \Vtiger_Module_Model::getInstance('Contacts')
+			->getFieldByName(static::$twitterFields[0]->getFieldName());*/
+
+		/*$this->assertNotFalse($fieldModel, 'Vtiger_Field_Model problem - not exists');
+		$this->assertSame(
+			static::$twitterFields[0]->getId(),
+			$fieldModel->getId(),
+			'Vtiger_Field_Model problem'
+		);*/
 	}
 
 	/**
@@ -96,12 +190,15 @@ class Twitter extends \Tests\Base
 		$recordModel->set('lastname', 'Test');
 		$recordModel->set(static::$twitterFields[0]->getColumnName(), 'yetiforceen');
 		$recordModel->save();
+		\App\Cache::clear();
+		$this->assertInternalType('integer', $recordModel->getId());
 		static::$listId[] = $recordModel->getId();
 
 		$this->assertSame('yetiforceen',
 			(new \App\Db\Query())->select([static::$twitterFields[0]->getColumnName()])
 				->from(static::$twitterFields[0]->getTableName())
-				->where(['contactid' => $recordModel->getId()])->scalar()
+				->where(['contactid' => $recordModel->getId()])->scalar(),
+			"Bad value in table '" . static::$twitterFields[0]->getTableName() . "' column '" . static::$twitterFields[0]->getColumnName() . "'."
 		);
 		$this->assertTrue((new \App\Db\Query())
 			->from('u_#__social_media_twitter')
