@@ -99,6 +99,7 @@ class Twitter extends \Tests\Base
 		static::addTwitter('forceen');
 		\App\Cache::delete('getFieldsPermissions' . \App\User::getCurrentUserId(), $moduleModel->getId());
 		\Vtiger_Cache::flush();
+
 		\App\Cache::init();
 		\App\Cache::staticClear();
 	}
@@ -134,7 +135,7 @@ class Twitter extends \Tests\Base
 						\var_dump('FM: ', $field->getFieldName());
 					}
 				}
-				$inst->fields = false;
+				$inst->fields = null;
 				return $inst;
 				//self::getInstanceFromModuleObject($moduleObject);
 			}
@@ -142,12 +143,6 @@ class Twitter extends \Tests\Base
 			public function clearFields()
 			{
 				$this->fields = false;
-			}
-
-			public function getFieldByName($fieldName)
-			{
-				\var_dump($fieldName, $this->fields);
-				return parent::getFieldByName($fieldName);
 			}
 		};
 		//$obj::getInstance('Contacts');
