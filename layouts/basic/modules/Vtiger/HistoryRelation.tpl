@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="recentActivitiesContainer pt-2">
+	<div class="tpl-Base-HistoryRelation recentActivitiesContainer pt-2">
 		<input class="js-relatedHistoryCurrentPage" type="hidden" id="relatedHistoryCurrentPage"
 			   value="{$PAGING_MODEL->get('page')}"
 			   data-js="value"/>

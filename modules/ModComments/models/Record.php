@@ -316,31 +316,39 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$query->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
 		}
 		$dataReader = $query->createCommand()->query();
-		$commentsId = [];
-		while ($row = $dataReader->read()) {
-			$parentId = explode('::', $row['parents'])[0];
-			if (!empty($parentId) && !$isWidget) {
-				$commentsId[] = $parentId;
-			} else {
-				$commentsId[] = $row['id'];
-			}
-		}
-		$dataReader->close();
-		$recordInstances = [];
-		if (!empty($commentsId)) {
-			$queryGeneratorParents = new \App\QueryGenerator('ModComments');
-			$queryGeneratorParents->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
-				'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'parents']);
-			$queryGeneratorParents->addNativeCondition(['in', 'modcommentsid', array_unique($commentsId)], false);
-			$parentQuery = $queryGeneratorParents->createQuery();
-			if ($pagingModel && $pagingModel->get('limit') !== 0) {
-				$parentQuery->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
-			}
-			$dataReaderParents = $parentQuery->createCommand()->query();
-			while ($row = $dataReaderParents->read()) {
+		if ($isWidget) {
+			while ($row = $dataReader->read()) {
 				$recordInstance = new self();
-				$recordInstance->setData($row)->setModuleFromInstance($queryGeneratorParents->getModuleModel());
+				$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 				$recordInstances[] = $recordInstance;
+			}
+			$dataReader->close();
+		} else {
+			$commentsId = [];
+			while ($row = $dataReader->read()) {
+				$parentTempId = strstr($row['parents'], '::', true) ?: $row['parents'];
+				if (!empty($parentTempId) && !$isWidget) {
+					$commentsId[] = $parentTempId;
+				} else {
+					$commentsId[] = $row['id'];
+				}
+			}
+			$recordInstances = [];
+			if (!empty($commentsId)) {
+				$queryGeneratorParents = new \App\QueryGenerator('ModComments');
+				$queryGeneratorParents->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
+					'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'parents']);
+				$queryGeneratorParents->addNativeCondition(['in', 'modcommentsid', array_unique($commentsId)], false);
+				$parentQuery = $queryGeneratorParents->createQuery();
+				if ($pagingModel && $pagingModel->get('limit') !== 0) {
+					$parentQuery->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
+				}
+				$dataReaderParents = $parentQuery->createCommand()->query();
+				while ($row = $dataReaderParents->read()) {
+					$recordInstance = new self();
+					$recordInstance->setData($row)->setModuleFromInstance($queryGeneratorParents->getModuleModel());
+					$recordInstances[] = $recordInstance;
+				}
 			}
 		}
 		return $recordInstances;

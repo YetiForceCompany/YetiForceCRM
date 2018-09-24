@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-CommentThreadList Comment commentDiv">
+	<div class="tpl-Base-CommentThreadList Comment commentDiv">
 		<div class="js-comment-single singleComment" data-js="append">
 			<div class="js-commentInfoHeader commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}"
 				 data-parentcommentid="{$COMMENT->get('parent_comments')}"

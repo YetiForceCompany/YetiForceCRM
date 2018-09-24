@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<!-- tpl-CommentsList -->
+	<!-- tpl-Base-CommentsList -->
 	{if !empty($CHILD_COMMENTS)}
 		<div class="ml-4">
 	{/if}
@@ -96,5 +96,5 @@
 			<div class="clearfix"></div>
 		</div>
 	{/if}
-	<!-- /tpl-CommentsList -->
+	<!-- /tpl-Base-CommentsList -->
 {/strip}
