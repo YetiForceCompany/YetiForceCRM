@@ -203,7 +203,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			this.subDateRow = $(`
 								<div class="js-scroll js-dates-row u-overflow-auto-lg-down order-4 flex-grow-1 position-relative mt-1" data-js="perfectScrollbar | container">
 									<div class="d-flex flex-nowrap w-100">
-										<div class="js-js-date-list date-list d-flex" js-data="html"></div>
+										<div class="js-date-list date-list d-flex" js-data="html"></div>
 										<div class="js-sub-date-list w-100 sub-date-list row flex-nowrap" data-js="data-type"></div>
 									</div>
 								</div>
