@@ -30,6 +30,13 @@ class Twitter extends \Tests\Base
 	private static $idTwitter = 299792456;
 
 	/**
+	 * \Vtiger_Cache::$cacheEnable.
+	 *
+	 * @var bool
+	 */
+	private static $vCacheEnable;
+
+	/**
 	 * Add Twitter message.
 	 *
 	 * @param string $twitterLogin
@@ -55,6 +62,7 @@ class Twitter extends \Tests\Base
 	 */
 	public static function setUpBeforeClass()
 	{
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		\AppConfig::set('modules', 'Contacts', ['enable_social' => ['twitter']]);
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Contacts');
 		$block = $moduleModel->getBlocks()['LBL_CONTACT_INFORMATION'];
@@ -73,6 +81,34 @@ class Twitter extends \Tests\Base
 		static::addTwitter('yeti');
 		static::addTwitter('yetiforceen');
 		static::addTwitter('forceen');
+
+		static::$vCacheEnable = \Vtiger_Cache::$cacheEnable;
+		\Vtiger_Cache::$cacheEnable = false;
+		\App\Cache::clear();
+		\App\Cache::init();
+		\App\Cache::staticClear();
+	}
+
+	/**
+	 * Check if the Twitter field exists.
+	 */
+	public function testFieldTwitter()
+	{
+		$this->assertInternalType('integer', static::$twitterFields[0]->getId());
+		$this->assertTrue(
+			(new \App\Db\Query())
+				->from('vtiger_field')
+				->where(['fieldid' => static::$twitterFields[0]->getId()])->exists(),
+			'Field twitter not exists'
+		);
+		$fieldModel = \Vtiger_Module_Model::getInstance('Contacts')
+			->getFieldByName(static::$twitterFields[0]->getFieldName());
+		$this->assertNotFalse($fieldModel, 'Vtiger_Field_Model problem - not exists');
+		$this->assertSame(
+			static::$twitterFields[0]->getId(),
+			$fieldModel->getId(),
+			'Vtiger_Field_Model problem'
+		);
 	}
 
 	/**
@@ -96,6 +132,8 @@ class Twitter extends \Tests\Base
 		$recordModel->set('lastname', 'Test');
 		$recordModel->set(static::$twitterFields[0]->getColumnName(), 'yetiforceen');
 		$recordModel->save();
+		\App\Cache::clear();
+		$this->assertInternalType('integer', $recordModel->getId());
 		static::$listId[] = $recordModel->getId();
 
 		$this->assertSame('yetiforceen',
@@ -198,5 +236,6 @@ class Twitter extends \Tests\Base
 		foreach (static::$twitterFields as $fieldModel) {
 			$fieldModel->delete();
 		}
+		\Vtiger_Cache::$cacheEnable = static::$vCacheEnable;
 	}
 }
