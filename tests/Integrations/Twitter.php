@@ -87,6 +87,7 @@ class Twitter extends \Tests\Base
 		static::addTwitter('yetiforceen');
 		static::addTwitter('forceen');
 		\App\Cache::clear();
+		//Disabling the cache has solved the problem with the newly created field
 		static::$vCacheEnable = \Vtiger_Cache::$cacheEnable;
 		\Vtiger_Cache::$cacheEnable = false;
 	}
