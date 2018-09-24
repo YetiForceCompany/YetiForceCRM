@@ -242,12 +242,13 @@ let YearView = View.extend({
 	render: function () {
 		const self = this;
 		let hiddenDays = [],
-			calendar = $('#calendarview').fullCalendar('getCalendar'),
+			calendar = self.getCalendarView().fullCalendar('getCalendar'),
 			yearView = this.el.html(this.renderHtml()),
 			user = this.getSelectedUsersCalendar(),
 			date = calendar.getDate().year(),
 			progressInstance = $.progressIndicator({blockInfo: {enabled: true}}),
-			cvid = this.getCurrentCvId();
+			cvid = this.getCurrentCvId(),
+			convertedFirstDay = CONFIG.firstDayOfWeekNo;
 		if (app.getMainParams('switchingDays') === 'workDays') {
 			hiddenDays = app.getMainParams('hiddenDays', true);
 		}
@@ -273,6 +274,7 @@ let YearView = View.extend({
 					header: {center: 'title', left: false, right: false},
 					height: 'auto',
 					selectable: true,
+					firstDay: convertedFirstDay,
 					select: function (start, end) {
 						self.selectDays(start, end);
 					},
