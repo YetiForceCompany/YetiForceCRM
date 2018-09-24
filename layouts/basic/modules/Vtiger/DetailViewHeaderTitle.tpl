@@ -10,6 +10,7 @@
 	* Contributor(s): YetiForce Sp. z o.o.
 	********************************************************************************/
 	-->*}
+	<!-- tpl-Base-DetailViewHeaderTitle -->
 	<div class="d-flex flex-wrap flex-md-nowrap px-3 w-100">
 		<div class="u-min-w-md-70 w-100">
 			<div class="moduleIcon marginTop20">
@@ -63,5 +64,6 @@
 		</div>
 		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME)}
 	</div>
-	{include file=\App\Layout::getTemplatePath('Detail/HeaderProgress.tpl', $MODULE_NAME)}
+	{include file=\App\Layout::getTemplatePath('Detail/HeaderProgress.tpl', $MODULE_NAME)}\
+	<!-- /tpl-Base-DetailViewHeaderTitle -->
 {/strip}
