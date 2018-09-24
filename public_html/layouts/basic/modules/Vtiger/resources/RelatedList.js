@@ -762,7 +762,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.content.find('[name="addButton"]').on('click', function (e) {
 			const element = $(this);
 			if (element.hasClass('quickCreateSupported') !== true) {
-				window.location.href = element.data('url');
+				app.openUrl(element.data('url'));
 				return;
 			}
 			thisInstance.addRelatedRecord(element);
