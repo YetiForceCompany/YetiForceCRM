@@ -16,7 +16,7 @@
 		   type="hidden" id="hiddenDays"/>
 	<input value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" type="hidden" id="activityStateLabels"/>
 	<div class="calendarViewContainer rowContent js-css-element-queries" data-js="css-element-queries">
-		<div class="pt-2" id="datesColumn">
+		<div class="pt-2" >
 			<div class="o-calendar__container u-overflow-y-auto" data-js="offset">
 				<div class="d-flex justify-content-between">
 					<div class="d-flex">

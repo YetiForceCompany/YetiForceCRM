@@ -15276,10 +15276,10 @@ label.btn.btn-outline-primary:not(.active) {
 .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn {
   padding: 0.44rem 1rem;
   font-size: 80%; }
-.tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .subDateList {
+.tpl-Calendar-Extended-CalendarViewPreProcess .subDateList {
   text-align: center;
   margin: 0 0 5px; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .subDateList .subDateCount div.countEvents {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subDateCount div.countEvents {
     background-color: #ff4e4d;
     color: #fff;
     border-radius: 20px;
@@ -15287,30 +15287,30 @@ label.btn.btn-outline-primary:not(.active) {
     padding-top: 5px;
     padding-bottom: 5px;
     width: 28px; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .subDateList .subRecord {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subRecord {
     height: 1.875rem;
     font-size: 0.8125rem;
     min-width: 80px;
     cursor: pointer; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .subDateList .subRecord .subRecordContent {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subRecord .subRecordContent {
       border: 1px solid #eee;
       padding: 5px 3px;
       height: 100%; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .subDateList .subActive {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subActive {
     background-color: #337ab7;
     color: #fff;
     cursor: default; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .subDateList .subActive .subDateCount div.countEvents {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subActive .subDateCount div.countEvents {
       background-color: #fff;
       color: #337ab7;
       font-weight: bold; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .subDateList .subActive .subDateName {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subActive .subDateName {
       font-weight: bold; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .subDateList .subDateName {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subDateName {
     margin-bottom: 2px; }
-.tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .dateList {
+.tpl-Calendar-Extended-CalendarViewPreProcess .dateList {
   text-align: center; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .dateList .dateRecord {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .dateList .dateRecord {
     cursor: pointer;
     margin-right: 5px;
     border-radius: 0;
@@ -15326,17 +15326,17 @@ label.btn.btn-outline-primary:not(.active) {
     text-align: center;
     white-space: nowrap;
     vertical-align: middle; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .dateList .dateActive {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .dateList .dateActive {
     cursor: default;
     white-space: nowrap;
     background-color: #337ab7;
     color: white; }
 @media (max-width: 992px) {
-  .tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .subDateList .subDateCount {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subDateCount {
     margin-top: 3px;
     margin-bottom: 3px; } }
 @media (min-width: 992px) {
-  .tpl-Calendar-Extended-CalendarViewPreProcess #datesColumn .subDateList .subDateCount {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .subDateList .subDateCount {
     margin-top: 2px;
     margin-bottom: 0px; } }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-state-default .fc-button-effect {

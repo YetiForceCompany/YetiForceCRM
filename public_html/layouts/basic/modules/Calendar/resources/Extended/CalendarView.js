@@ -3,6 +3,7 @@
 
 Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	isRegisterUsersChangeRegistered: false,
+	datesRowView: false,
 	/**
 	 * Render calendar
 	 */
@@ -188,8 +189,10 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		}
 	},
 	getDatesRowView() {
-		this.datesColumnView = $('#datesColumn');
-		return this.datesColumnView;
+		if (!this.datesRowView || !this.datesRowView.length) {
+			this.datesRowView = $('.js-dates-row');
+		}
+		return this.datesRowView;
 	},
 	/**
 	 * Appends subdate row to calendar header and register its scroll
@@ -197,7 +200,14 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	 */
 	appendSubDateRow(toolbar) {
 		if (!this.subDateRow) {
-			this.subDateRow = $('<div class="d-flex flex-nowrap w-100 order-4 flex-grow-1"><div class="js-dateList dateList d-flex"></div><div class="js-subDateList u-overflow-auto-lg-down w-100 subDateList row flex-nowrap position-relative" data-js="data-type"></div></div>');
+			this.subDateRow = $(`
+								<div class="js-scroll js-dates-row u-overflow-auto-lg-down order-4 flex-grow-1 position-relative" data-js="perfectScrollbar | container">
+									<div class="d-flex flex-nowrap w-100">
+										<div class="js-dateList dateList d-flex"></div>
+										<div class="js-subDateList w-100 subDateList row flex-nowrap" data-js="data-type"></div>
+									</div>
+								</div>
+								`);
 			toolbar.append(this.subDateRow);
 			if ($(window).width() > app.breakpoints.lg) {
 				app.showNewScrollbar(this.subDateRow, {
@@ -546,7 +556,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			if (prevWeeks.format('WW') === actualWeek) {
 				active = ' subActive';
 			}
-			html += '<div class="subRecord col-1 pl-0 pr-1 pt-1" data-type="weeks" data-date="' + prevWeeks.format('YYYY-MM-DD') + '">' +
+			html += '<div class="subRecord col-1 pl-0 pr-1" data-type="weeks" data-date="' + prevWeeks.format('YYYY-MM-DD') + '">' +
 				'<div class="subRecordContent' + active + '">' +
 				'<div class="subDateName">' + app.vtranslate('JS_WEEK_SHORT') + ' ' + prevWeeks.format('WW') +
 				'<div class="js-countEvents count badge badge-danger c-badge--md ml-1">0</div>' +
@@ -570,7 +580,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			if (prevDays.format('DDD') === actualDay) {
 				active = ' subActive';
 			}
-			html += '<div class="subRecord col-1 pl-0 pr-1 pt-1" data-type="days" data-date="' + prevDays.format('YYYY-MM-DD') + '">' +
+			html += '<div class="subRecord col-1 pl-0 pr-1" data-type="days" data-date="' + prevDays.format('YYYY-MM-DD') + '">' +
 				'<div class="subRecordContent' + active + '">' +
 				'<div class="subDateName">' + app.vtranslate('JS_DAY_SHORT') + ' ' + prevDays.format('DD') +
 				'<div class="js-countEvents count badge badge-danger c-badge--md ml-1">0</div>' +
