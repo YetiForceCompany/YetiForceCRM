@@ -157,8 +157,13 @@ $sitebar-border: 1px solid #ccc;
 				@extend .ml-1;
 			}
 		}
+		&__clear-btn {
+			$clear-btn-color: material-color('amber', '200');
+			background: $clear-btn-color;
+			border-color: $clear-btn-color;
+		}
 	}
-
+	$active-date-list-color: material-color('light-blue', '200');
 	.sub-date-list {
 		text-align: center;
 		margin: 0 0 5px;
@@ -175,12 +180,8 @@ $sitebar-border: 1px solid #ccc;
 			}
 		}
 		.sub-active {
-			background-color: #337ab7;
-			color: #fff;
+			background-color: $active-date-list-color;
 			cursor: default;
-			.sub-date-name {
-				font-weight: bold;
-			}
 		}
 		.sub-date-name {
 			margin-bottom: 2px;
@@ -192,7 +193,7 @@ $sitebar-border: 1px solid #ccc;
 			cursor: pointer;
 			margin-right: 5px;
 			border-radius: 0;
-			background: #dfdfdf;
+			background: material-color('light-blue', '50');
 			color: #353535;
 			height: 30px;
 			border: none;
@@ -208,8 +209,7 @@ $sitebar-border: 1px solid #ccc;
 		.date-active {
 			cursor: default;
 			white-space: nowrap;
-			background-color: #337ab7;
-			color: white;
+			background-color: $active-date-list-color;
 		}
 	}
 
@@ -534,6 +534,7 @@ $sitebar-border: 1px solid #ccc;
 	//filter tabs active user color overwrite
 	.nav-pills .nav-link.active {
 		color: $white !important;
+		background: material-color('teal', '300');
 	}
 
 	@media screen and (min-width: map-get($grid-breakpoints, lg)) {

@@ -15282,6 +15282,9 @@ label.btn.btn-outline-primary:not(.active) {
 .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn {
   padding: 0.44rem 1rem;
   font-size: 80%; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn {
+  background: #ffe082;
+  border-color: #ffe082; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list {
   text-align: center;
   margin: 0 0 5px; }
@@ -15295,11 +15298,8 @@ label.btn.btn-outline-primary:not(.active) {
       padding: 5px 3px;
       height: 100%; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-active {
-    background-color: #337ab7;
-    color: #fff;
+    background-color: #81d4fa;
     cursor: default; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-active .sub-date-name {
-      font-weight: bold; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-date-name {
     margin-bottom: 2px; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .date-list {
@@ -15308,7 +15308,7 @@ label.btn.btn-outline-primary:not(.active) {
     cursor: pointer;
     margin-right: 5px;
     border-radius: 0;
-    background: #dfdfdf;
+    background: #e1f5fe;
     color: #353535;
     height: 30px;
     border: none;
@@ -15323,8 +15323,7 @@ label.btn.btn-outline-primary:not(.active) {
   .tpl-Calendar-Extended-CalendarViewPreProcess .date-list .date-active {
     cursor: default;
     white-space: nowrap;
-    background-color: #337ab7;
-    color: white; }
+    background-color: #81d4fa; }
 @media (max-width: 992px) {
   .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .subDateCount {
     margin-top: 3px;
@@ -15546,7 +15545,8 @@ label.btn.btn-outline-primary:not(.active) {
 .tpl-Calendar-Extended-CalendarViewPreProcess .js-css-element-queries[max-width~="1500px"] .o-calendar__view-btn .textHolder {
   display: none; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .nav-pills .nav-link.active {
-  color: #fff !important; }
+  color: #fff !important;
+  background: #4db6ac; }
 @media screen and (min-width: 992px) {
   .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel {
     bottom: 49px;
