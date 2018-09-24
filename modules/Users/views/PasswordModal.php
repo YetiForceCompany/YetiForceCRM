@@ -150,9 +150,8 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 	public function postProcessAjax(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule($request);
 		if (!$request->getBoolean('onlyBody')) {
-			$viewer->view('Modals/PasswordModalFooter.tpl', $moduleName);
+			$viewer->view('Modals/PasswordModalFooter.tpl', $request->getModule());
 		}
 	}
 }

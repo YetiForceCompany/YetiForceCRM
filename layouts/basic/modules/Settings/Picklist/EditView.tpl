@@ -10,13 +10,14 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Settings-Picklist-EditView -->
 	{assign var=OLD_VALUE value=\App\Purifier::encodeHtml($PICKLIST_VALUE['picklistValue'])}
-	<div class='tpl-Settings-Picklist-EditView modelContainer modal fade' tabindex="-1">
+	<div class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">
-						{\App\Language::translate('LBL_RENAME_PICKLIST_ITEM', $QUALIFIED_MODULE)}
+						{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}
 						: {\App\Language::translate($PICKLIST_VALUE['picklistValue'], $SOURCE_MODULE)}
 					</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -36,30 +37,21 @@
 					<input type="hidden" name="pickListValues"
 						   value='{\App\Purifier::encodeHtml(\App\Json::encode(App\Fields\Picklist::getEditablePicklistValues($FIELD_MODEL->getName())))}'/>
 					<div class="modal-body tabbable">
-						{if $EDITABLE}
-							<div class="form-group row align-items-center">
-								<div class="col-md-3 col-form-label text-right">
-									{\App\Language::translate('LBL_CURRENT_VALUE',$QUALIFIED_MODULE)}
-								</div>
-								<div class="col-md-9 controls">
-									<input name="oldValueReadonly" value="{$OLD_VALUE}" type="text"
-										   class="form-control" readonly disabled/>
-								</div>
+						<div class="form-group row align-items-center">
+							<div class="col-md-3 col-form-label text-right">
+								{\App\Language::translate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}
 							</div>
-							<div class="form-group row align-items-center">
-								<div class="col-md-3 col-form-label text-right">
-									{\App\Language::translate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}
-								</div>
+							{if $EDITABLE}
 								<div class="col-md-9 controls">
 									<input name="newValue" type="text"
 										   class="form-control"
 										   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 										   data-validator={\App\Json::encode([['name'=>'FieldLabel']])}>
 								</div>
-							</div>
-						{else}
-							<div class="alert alert-warning">{\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUES',$QUALIFIED_MODULE)}</div>
-						{/if}
+							{else}
+								<div class="col-md-9 controls alert alert-warning">{\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUE',$QUALIFIED_MODULE)}</div>
+							{/if}
+						</div>
 						<div class="form-group row align-items-center">
 							<div class="col-md-3 col-form-label text-right">
 								{\App\Language::translate('LBL_DESCRIPTION',$QUALIFIED_MODULE)}
@@ -92,4 +84,5 @@
 			</div>
 		</div>
 	</div>
+	<!-- /tpl-Settings-Picklist-EditView -->
 {/strip}

@@ -172,6 +172,11 @@ class ConfReport
 		'character_set_system' => ['container' => 'db', 'testCli' => false],
 		'character_set_filesystem' => ['container' => 'db', 'testCli' => false],
 		'datadir' => ['container' => 'db', 'testCli' => false],
+		'connect_timeout' => ['container' => 'db', 'testCli' => false],
+		'lock_wait_timeout' => ['container' => 'db', 'testCli' => false],
+		'lock_wait_timeout' => ['container' => 'db', 'testCli' => false],
+		'net_read_timeout' => ['container' => 'db', 'testCli' => false],
+		'net_write_timeout' => ['container' => 'db', 'testCli' => false],
 	];
 	/**
 	 * Performance map.
@@ -226,7 +231,6 @@ class ConfReport
 		'spaceStorage' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_STORAGE'],
 		'spaceTemp' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_TEMP'],
 		'lastCronStart' => ['container' => 'env', 'testCli' => false, 'label' => 'LAST_CRON_START'],
-		'allow_url_fopen' => ['container' => 'php', 'testCli' => true],
 		'open_basedir' => ['container' => 'php', 'testCli' => true],
 		'variables_order' => ['container' => 'php', 'testCli' => true],
 	];
@@ -310,7 +314,7 @@ class ConfReport
 	 *
 	 * @var string
 	 */
-	private static $sapi = 'www';
+	public static $sapi = 'www';
 
 	/**
 	 * Get all configuration values.
@@ -492,13 +496,19 @@ class ConfReport
 			if (isset($main[$key])) {
 				$item[static::$sapi] = $main[$key];
 			}
-			if (isset($cron[$key])) {
-				$item['cron'] = $cron[$key];
+			if ($item['testCli'] && static::$sapi === 'www') {
+				if (isset($cron[$key]['cron'])) {
+					$item['cron'] = $cron[$key]['cron'];
+				} else {
+					$item['status'] = false;
+				}
 			}
 			if (isset($item['type'])) {
 				$methodName = 'validate' . $item['type'];
 				if (\method_exists(__CLASS__, $methodName)) {
-					$item = call_user_func_array([__CLASS__, $methodName], [$key, $item, 'www']);
+					if (static::$sapi === 'www') {
+						$item = call_user_func_array([__CLASS__, $methodName], [$key, $item, 'www']);
+					}
 					if ($item['testCli'] && !empty($cron)) {
 						$item = call_user_func_array([__CLASS__, $methodName], [$key, $item, 'cron']);
 					}
@@ -561,22 +571,6 @@ class ConfReport
 	}
 
 	/**
-	 * Get configuration for cron.
-	 *
-	 * @return array
-	 */
-	public static function getForCron()
-	{
-		static::$sapi = 'cron';
-		static::init('all');
-		$all = [];
-		foreach (static::$types as $type) {
-			$all[$type] = static::parse($type);
-		}
-		return $all;
-	}
-
-	/**
 	 * Validate php version.
 	 *
 	 * @param string $name
@@ -612,7 +606,9 @@ class ConfReport
 			$row[$sapi] = $row['recommended'];
 		} else {
 			$row['status'] = false;
-			$row[$sapi] = implode(' | ', $errorReporting) . " ({$current})";
+			if (\is_array($errorReporting)) {
+				$row[$sapi] = implode(' | ', $errorReporting) . " ({$current})";
+			}
 		}
 		return $row;
 	}

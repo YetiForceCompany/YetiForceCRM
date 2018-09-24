@@ -1291,7 +1291,8 @@
     "LBL_PRINT": "Drukuj",
     "LBL_IMAGE_DOWNLOAD": "Pobierz obraz",
     "LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO": "Liczba scalanych rekord\u00F3w zosta\u0142a zredukowana do %d.",
-    "LBL_USE_VARIABLES": "W tym polu mo\u017Cesz skorzysta\u0107 ze zmiennych. Wystarczy \u017Ce skopiujesz do schowka dowoln\u0105 zmienn\u0105 z panelu i wkleisz w tym miejscu. Pole mo\u017Ce zawiera\u0107 kilka zmiennych."
+    "LBL_USE_VARIABLES": "W tym polu mo\u017Cesz skorzysta\u0107 ze zmiennych. Wystarczy \u017Ce skopiujesz do schowka dowoln\u0105 zmienn\u0105 z panelu i wkleisz w tym miejscu. Pole mo\u017Ce zawiera\u0107 kilka zmiennych.",
+    "BTN_RECORD_OPEN": "Odblokuj rekord"
   },
   "js": {
     "JS_APPROVE": "Zatwierd\u017A",
@@ -1433,6 +1434,7 @@
     "JS_YOU_ARE_IN_PAGE_NUMBER": "Jeste\u015b na stronie numer",
     "JS_YOU_CAN_SELECT_ONLY": "Mo\u017cna wybra\u0107 tylko",
     "LBL_DELETE_CONFIRMATION": "Czy na pewno chcesz usun\u0105\u0107 rekord?",
+    "JS_CHANGE_VALUE_CONFIRMATION": "Czy chcesz ustawi\u0107 t\u0119 warto\u015b\u0107?",
     "JS_DELETE_CONFIRMATION": "Czy na pewno chcesz usun\u0105\u0107 powi\u0105zanie z tym rekordem? Usuni\u0119te zostanie tylko powi\u0105zanie, aby usun\u0105\u0107 rekord musisz przej\u015b\u0107 do rekordu i klikn\u0105\u0107 usu\u0144.",
     "LBL_DELETE_USER_CONFIRMATION": "Gdy u\u017cytkownik zostanie usuni\u0119ty, u\u017cytkownik zostanie oznaczony jako \"nieaktywny\" i \u017cadne nowe zapisy mog\u0105 by\u0107 przypisane do u\u017cytkownika, i u\u017cytkownik nie b\u0119dzie m\u00f3g\u0142 si\u0119 zalogowa\u0107. Fakturowanie zatrzyma dla tego u\u017cytkownika. Czy na pewno chcesz usun\u0105\u0107?",
     "LBL_MASS_DELETE_CONFIRMATION": "Czy na pewno chcesz usun\u0105\u0107 zaznaczone rekordy?",

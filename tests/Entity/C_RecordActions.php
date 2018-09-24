@@ -162,7 +162,7 @@ class C_RecordActions extends \Tests\Base
 	 */
 	public function testCheckLockFields()
 	{
-		$this->assertTrue(static::$recordAccounts->checkLockFields());
+		$this->assertFalse(static::$recordAccounts->isLockByFields());
 	}
 
 	/**

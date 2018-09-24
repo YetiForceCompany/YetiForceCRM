@@ -298,7 +298,7 @@ class Vtiger_InventoryField_Model extends App\Base
 	public static function getTaxParam($taxParam, $net, $return = false)
 	{
 		$taxParam = json_decode($taxParam, true);
-		if (count($taxParam) === 0) {
+		if (empty($taxParam)) {
 			return [];
 		}
 		if (is_string($taxParam['aggregationType'])) {

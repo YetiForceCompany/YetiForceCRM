@@ -24,69 +24,37 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
+	/**
+	 * Main process.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return bool|void
+	 */
 	public function process(\App\Request $request)
 	{
-		$flon = $request->get('flon');
-		$flat = $request->get('flat');
-		$tlon = $request->get('tlon');
-		$tlat = $request->get('tlat');
-		$ilon = $request->get('ilon');
-		$ilat = $request->get('ilat');
-
-		$track = [];
-		$startLat = $flat;
-		$startLon = $flon;
-		if (!empty($ilon)) {
-			foreach ($ilon as $key => $tempLon) {
-				if (!empty($tempLon)) {
-					$endLon = $ilon[$key];
-					$endLat = $ilat[$key];
-					$tracks[] = [
-						'startLat' => $startLat,
-						'startLon' => $startLon,
-						'endLat' => $endLat,
-						'endLon' => $endLon,
-					];
-					$startLat = $endLat;
-					$startLon = $endLon;
-				}
+		$ilon = $request->getByType('ilon', 'Version');
+		$ilat = $request->getByType('ilat', 'Version');
+		$routeConnector = \App\Map\Route::getInstance();
+		$routeConnector->setStart($request->getByType('flat', 'Version'), $request->getByType('flon', 'Version'));
+		if (!empty($ilon) && !empty($ilat)) {
+			foreach ($ilon as $key => $lon) {
+				$routeConnector->addIndirectPoint($ilat[$key], $lon);
 			}
 		}
-		$tracks[] = [
-			'startLat' => $startLat,
-			'startLon' => $startLon,
-			'endLat' => $tlat,
-			'endLon' => $tlon,
-		];
-		$coordinates = [];
-		$travel = 0;
-		$description = '';
-		$urlToRoute = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE');
-		try {
-			foreach ($tracks as $track) {
-				$url = $urlToRoute . '?format=geojson&flat=' . $track['startLat'] . '&flon=' . $track['startLon'] . '&tlat=' . $track['endLat'] . '&tlon=' . $track['endLon'] . '&lang=' . App\Language::getLanguage() . '&instructions=1';
-				$response = Requests::get($url);
-				$json = \App\Json::decode($response->body);
-				$coordinates = array_merge($coordinates, $json['coordinates']);
-				$description .= $json['properties']['description'];
-				$travel = $travel + $json['properties']['traveltime'];
-				$distance = $distance + $json['properties']['distance'];
-			}
-			$result = [
-				'type' => 'LineString',
-				'coordinates' => $coordinates,
-				'properties' => [
-					'description' => $description,
-					'traveltime' => $travel,
-					'distance' => $distance,
-				],
-			];
-		} catch (Exception $ex) {
-			\App\Log::warning($ex->getMessage());
-			$result = false;
-		}
+		$routeConnector->setEnd($request->getByType('tlat', 'Version'), $request->getByType('tlon', 'Version'));
+		$routeConnector->calculate();
 		$response = new Vtiger_Response();
-		$response->setResult($result);
+		$response->setResult([
+			'geoJson' => $routeConnector->getGeoJson(),
+			'properties' => [
+				'description' => App\Purifier::purifyHtml($routeConnector->getDescription()),
+				'traveltime' => $routeConnector->getTravelTime(),
+				'distance' => $routeConnector->getDistance(),
+			],
+		]);
 		$response->emit();
 	}
 }

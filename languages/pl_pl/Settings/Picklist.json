@@ -2,6 +2,7 @@
   "php": {
     "Picklist": "Pole s\u0142ownikowe",
     "Calendar": "Do wykonania",
+    "LBL_EDIT": "Edytuj",
     "LBL_ADD_ITEM_TO": "Dodaj warto\u015b\u0107 do",
     "LBL_ADD_VALUE": "Dodaj warto\u015b\u0107",
     "LBL_ALL_ROLES": "Wszystkie role",
@@ -21,7 +22,7 @@
     "LBL_ITEM_TO_RENAME": "Warto\u015b\u0107 do zmiany",
     "LBL_ITEM_VALUE": "Aktualna warto\u015b\u0107",
     "LBL_NON_EDITABLE_PICKLIST_VALUES": "Warto\u015bci nieedytowalne",
-    "LBL_RENAME_PICKLIST_ITEM": "Zmie\u0144 nazw\u0119 warto\u015bci",
+    "LBL_NON_EDITABLE_PICKLIST_VALUE": "Warto\u015b\u0107 jest nieedytowalna.",
     "LBL_RENAME_VALUE": "Zmie\u0144 warto\u015b\u0107",
     "LBL_REPLACE_IT_WITH": "Zamie\u0144 go z",
     "LBL_ROLE_NAME": "Nazwa roli",

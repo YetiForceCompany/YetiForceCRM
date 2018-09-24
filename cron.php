@@ -11,9 +11,11 @@
 /**
  * Start the cron services configured.
  */
+chdir(__DIR__);
 include_once __DIR__ . '/include/main/WebUI.php';
 \App\Config::$requestMode = 'Cron';
-file_put_contents(ROOT_DIRECTORY . '/user_privileges/cron.php', '<?php return ' . App\Utils::varExport(array_merge(\App\Utils\ConfReport::getForCron(), ['last_start' => time()])) . ';');
+\App\Utils\ConfReport::$sapi = 'cron';
+file_put_contents(ROOT_DIRECTORY . '/user_privileges/cron.php', '<?php return ' . App\Utils::varExport(array_merge(\App\Utils\ConfReport::getAll(), ['last_start' => time()])) . ';');
 App\Session::init();
 \App\Session::set('last_activity', microtime(true));
 $authenticatedUserId = App\Session::get('authenticated_user_id');

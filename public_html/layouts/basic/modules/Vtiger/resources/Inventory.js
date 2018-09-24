@@ -1215,9 +1215,9 @@ $.Class("Vtiger_Inventory_Js", {
 		const items = this.getInventoryItemsContainer();
 		let newRow = this.getBasicRow();
 		const sequenceNumber = this.getNextLineItemRowNumber();
-		const replaced = newRow.html().replace(/_NUM_/g, sequenceNumber);
+		const replaced = newRow.html().replace(/\_NUM_/g, sequenceNumber);
 		newRow.html(replaced);
-		newRow = newRow.find('.inventoryRow').appendTo(items.find('.js-inventory-items-body'));
+		newRow = newRow.children().appendTo(items.find('.js-inventory-items-body'));
 		newRow.find('.rowName input[name="popupReferenceModule"]').val(module).data('field', baseTableId);
 		newRow.find('.colPicklistField select').each(function (index, select) {
 			select = $(select);
@@ -1235,6 +1235,7 @@ $.Class("Vtiger_Inventory_Js", {
 			this.setRowData(newRow, rowData);
 		}
 	},
+
 	/**
 	 * Register add item button click
 	 * @param {jQuery} container
@@ -1286,7 +1287,7 @@ $.Class("Vtiger_Inventory_Js", {
 		thisInstance.form.on('click', '.toggleVisibility', function (e) {
 			var element = $(e.currentTarget);
 			var row = thisInstance.getClosestRow(element);
-			if (element.data('status') === '0') {
+			if (element.data('status') == 0) {
 				thisInstance.showExpandedRow(row);
 			} else {
 				thisInstance.hideExpandedRow(row);

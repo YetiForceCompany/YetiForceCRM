@@ -2,12 +2,13 @@
 /**
  * Cron task to archive old records.
  *
+ * @package   Cron
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-$configTwitter = (new \Settings_SocialMedia_Config_Model('twitter'));
-$days = $configTwitter->get('archiving_records_number_of_days');
+$days = \App\SocialMedia::getInstance('twitter')->get('archiving_records_number_of_days');
 if (empty($days)) {
 	\App\Log::info('Number of days is empty');
 } else {

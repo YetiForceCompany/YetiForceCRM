@@ -25,8 +25,10 @@ class Settings_SocialMedia_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function twitter(\App\Request $request)
 	{
-		$configTitter = (new Settings_SocialMedia_Config_Model('twitter'));
+		$configTitter = \App\SocialMedia::getInstance('twitter');
 		$configTitter->set('archiving_records_number_of_days', $request->getInteger('archiving_records_number_of_days'));
+		$configTitter->set('twitter_api_key', $request->getByType('twitter_api_key', 'Text'));
+		$configTitter->set('twitter_api_secret', $request->getByType('twitter_api_secret', 'Text'));
 		$configTitter->save();
 		$response = new Vtiger_Response();
 		$response->setResult([

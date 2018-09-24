@@ -578,6 +578,13 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			html = '';
 		for (let day = 0; day < daysToShow; ++day) {
 			let active = '';
+			if (app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all') {
+				if (prevDays.day() === 0 || prevDays.day() === 6) {
+					prevDays = moment(prevDays).add(1, 'days');
+					daysToShow++;
+					continue;
+				}
+			}
 			if (prevDays.format('DDD') === actualDay) {
 				active = ' sub-active';
 			}

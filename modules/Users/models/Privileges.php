@@ -207,11 +207,16 @@ class Users_Privileges_Model extends Users_Record_Model
 		return $return;
 	}
 
-	public static function clearLockEditCache($cacheName = false)
+	/**
+	 * Clear LockEdit Cache.
+	 *
+	 * @param string $cacheName
+	 */
+	public static function clearLockEditCache(string $cacheName = '')
 	{
-		if ($cacheName) {
+		if ($cacheName && isset(self::$lockEditCache[$cacheName])) {
 			unset(self::$lockEditCache[$cacheName]);
-		} else {
+		} elseif (!$cacheName) {
 			self::$lockEditCache = [];
 		}
 	}
