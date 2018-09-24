@@ -15591,9 +15591,6 @@ label.btn.btn-outline-primary:not(.active) {
     top: 3.125rem;
     right: calc(25% - 1px);
     z-index: 100;
-    border-bottom: 1px solid #ccc;
-    border-left: 1px solid #ccc;
-    border-radius: 25px 0 0 25px;
     font-size: 0.8125rem;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
@@ -15602,17 +15599,19 @@ label.btn.btn-outline-primary:not(.active) {
     transition: all 0.5s ease; }
     .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .toggleSiteBarRightButton {
       padding: 0.6875rem 0;
-      margin-top: 0.0625rem;
+      height: 100%;
       margin-left: 0.0625rem;
       margin-bottom: 0.0625rem;
       cursor: pointer;
-      width: 1.1875rem;
+      width: 1.375rem;
       z-index: 100;
       border: 0;
       display: inline-block;
-      border-radius: 25px 0 0 25px; }
+      border-radius: 25px 0 0 25px;
+      background: #546e7a;
+      color: #eceff1; }
       .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .toggleSiteBarRightButton:hover {
-        background: #eceff1; }
+        background: #90a4ae; }
     .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav {
       display: block; }
     .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-item {
@@ -15622,11 +15621,13 @@ label.btn.btn-outline-primary:not(.active) {
       height: 100%;
       padding: 0.0625rem 1.25rem;
       background: #eceff1;
-      border-left: 1px solid #eee;
+      border: 1px solid #ccc;
+      border-top: 0;
       border-radius: 0; }
       .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-link.active {
         background: transparent;
-        color: #6c757d !important; }
+        color: #6c757d !important;
+        border-right: 0; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .o-calendar__panel__tabs {
     right: 0; } }
 

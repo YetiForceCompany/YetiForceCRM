@@ -592,25 +592,26 @@ $sitebar-border: 1px solid #ccc;
 			top: $h-header;
 			right: calc(25% - 1px);
 			z-index: 100;
-			border-bottom: $sitebar-border;
-			border-left: $sitebar-border;
-			border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
+			//border-left: 1px solid material-color('grey', '300');
+			//border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
 			font-size: calculate-rem(13px);
 			@include u-transition(all 0.5s ease);
 
 			.toggleSiteBarRightButton {
 				padding: calculate-rem(11px) 0;
-				margin-top: calculate-rem(1px);
+				height: 100%;
 				margin-left: calculate-rem(1px);
 				margin-bottom: calculate-rem(1px);
 				cursor: pointer;
-				width: calculate-rem(19px);
+				width: calculate-rem(22px);
 				z-index: 100;
 				border: 0;
 				display: inline-block;
 				border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
+				background: material-color('blue-grey', '600');
+				color: material-color('blue-grey', '50');
 				&:hover {
-					background: material-color('blue-grey', '50');
+					background: material-color('blue-grey', '300');
 				}
 			}
 
@@ -627,12 +628,14 @@ $sitebar-border: 1px solid #ccc;
 				height: 100%;
 				padding: calculate-rem(1px) calculate-rem(20px);
 				background: material-color('blue-grey', '50');
-				border-left: 1px solid #eee;
+				border: $sitebar-border;
+				border-top: 0;
 				border-radius: 0;
 
 				&.active {
 					background: transparent;
 					color: $gray-600 !important;
+					border-right: 0;
 				}
 			}
 		}
