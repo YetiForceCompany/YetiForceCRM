@@ -163,10 +163,9 @@ $sitebar-border: 1px solid #ccc;
 			border-color: $clear-btn-color;
 		}
 	}
-	$active-date-list-color: material-color('light-blue', '200');
+	$active-date-list-color: material-color('indigo', '200');
 	.sub-date-list {
 		text-align: center;
-		margin: 0 0 5px;
 		.sub-record {
 			$margin: calculate-rem(5px);
 			height: calculate-rem(30px);
@@ -174,14 +173,14 @@ $sitebar-border: 1px solid #ccc;
 			min-width: 80px;
 			cursor: pointer;
 			.sub-record-content {
-				border: 1px solid #eee;
-				padding: 5px 3px;
+				background-color: material-color('blue-grey', '50');
+				padding: 6px 3px;
 				height: 100%;
 			}
-		}
-		.sub-active {
-			background-color: $active-date-list-color;
-			cursor: default;
+			.sub-record-content.sub-active {
+				background-color: material-color('blue-grey', '200');
+				cursor: default;
+			}
 		}
 		.sub-date-name {
 			margin-bottom: 2px;
@@ -191,9 +190,8 @@ $sitebar-border: 1px solid #ccc;
 		text-align: center;
 		.date-record {
 			cursor: pointer;
-			margin-right: 5px;
 			border-radius: 0;
-			background: material-color('light-blue', '50');
+			background: material-color('indigo', '100');
 			color: #353535;
 			height: 30px;
 			border: none;
@@ -380,9 +378,11 @@ $sitebar-border: 1px solid #ccc;
 
 	.fc-widget-header {
 		th {
-			padding: 4px 0px !important;
+			padding: 4px 0 !important;
 		}
+
 		color: #666;
+		font-weight: 400;
 		background: #eee;
 		border-color: #ccc;
 	}
@@ -414,7 +414,6 @@ $sitebar-border: 1px solid #ccc;
 		flex-wrap: wrap;
 
 		.fc-right {
-			order: 3;
 			div {
 				display: flex;
 			}
@@ -431,7 +430,6 @@ $sitebar-border: 1px solid #ccc;
 				background-color: #337ab7 !important;
 				border-color: #2e6da4 !important;
 				border: none;
-				margin-left: 20px;
 				&:hover {
 					background-color: #204d74 !important;
 					border-color: #122b40 !important;
@@ -462,18 +460,30 @@ $sitebar-border: 1px solid #ccc;
 				text-shadow: none;
 			}
 		}
-		.fc-center div {
-			button:not(.fc-today-button) {
-				background: none;
-				border: none;
-				box-shadow: none;
+		//fullcalendar toolbar breakpoint
+		@media(min-width: 1080px) {
+			.js-calendar-switch-container {
+				margin-right: 0;
 			}
-			display: flex;
-			h2 {
-				font-size: 0.85em;
-				margin-left: 5px;
-				margin-top: 10px;
-				text-transform: uppercase;
+		}
+
+		.fc-center {
+			margin-left: auto;
+			margin-right: auto;
+
+			div {
+				button:not(.fc-today-button) {
+					background: none;
+					border: none;
+					box-shadow: none;
+				}
+				display: flex;
+				h2 {
+					font-size: 1.4rem;
+					margin-left: calculate-rem(5px);
+					margin-top: calculate-rem(1px);
+					text-transform: uppercase;
+				}
 			}
 		}
 	}
@@ -502,11 +512,19 @@ $sitebar-border: 1px solid #ccc;
 				padding-right: 8px;
 			}
 			.fc-toolbar.fc-header-toolbar {
-				justify-content: center;
+				justify-content: start;
+
+				.fc-center {
+					margin: 0;
+				}
 				h2 {
-					font-size: 1.3rem;
+					font-size: 1rem;
 				}
 			}
+		}
+		&__event-badge {
+			padding: 0.2em 0.2em;
+			font-size: 80%;
 		}
 	}
 
@@ -592,25 +610,26 @@ $sitebar-border: 1px solid #ccc;
 			top: $h-header;
 			right: calc(25% - 1px);
 			z-index: 100;
-			border-bottom: $sitebar-border;
-			border-left: $sitebar-border;
-			border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
+			//border-left: 1px solid material-color('grey', '300');
+			//border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
 			font-size: calculate-rem(13px);
 			@include u-transition(all 0.5s ease);
 
 			.toggleSiteBarRightButton {
 				padding: calculate-rem(11px) 0;
-				margin-top: calculate-rem(1px);
+				height: 100%;
 				margin-left: calculate-rem(1px);
 				margin-bottom: calculate-rem(1px);
 				cursor: pointer;
-				width: calculate-rem(19px);
+				width: calculate-rem(22px);
 				z-index: 100;
 				border: 0;
 				display: inline-block;
 				border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
+				background: material-color('blue-grey', '600');
+				color: material-color('blue-grey', '50');
 				&:hover {
-					background: material-color('blue-grey', '50');
+					background: material-color('blue-grey', '300');
 				}
 			}
 
@@ -627,12 +646,14 @@ $sitebar-border: 1px solid #ccc;
 				height: 100%;
 				padding: calculate-rem(1px) calculate-rem(20px);
 				background: material-color('blue-grey', '50');
-				border-left: 1px solid #eee;
+				border: $sitebar-border;
+				border-top: 0;
 				border-radius: 0;
 
 				&.active {
 					background: transparent;
 					color: $gray-600 !important;
+					border-right: 0;
 				}
 			}
 		}
