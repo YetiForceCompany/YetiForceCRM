@@ -252,9 +252,6 @@ let YearView = View.extend({
 			cvid = this.getCurrentCvId(),
 			convertedFirstDay = CONFIG.firstDayOfWeekNo;
 
-		if (this.getCalendarView().fullCalendar('getView').type !== 'year') {
-			this.getCalendarView().fullCalendar('changeView', 'year');
-		}
 		if (app.getMainParams('switchingDays') === 'workDays') {
 			hiddenDays = app.getMainParams('hiddenDays', true);
 		}
