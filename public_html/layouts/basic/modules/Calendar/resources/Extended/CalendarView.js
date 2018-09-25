@@ -99,9 +99,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 						link.searchParams.get("record");
 				self.showStatusUpdate(url);
 			},
-			viewRender: function (view, element) {
-				self.registerViewRenderEvents(view, element);
-			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
 				app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
@@ -183,6 +180,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 						app.moduleCacheSet('defaultSwitchingDays', 'all');
 					}
 					app.moduleCacheSet('defaultView', calendarViewType);
+					this.subDateRow = false;
 					this.renderCalendar();
 					this.loadCalendarData();
 				});
@@ -256,13 +254,13 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	 * @param view
 	 * @param element
 	 */
-	registerViewRenderEvents(view, element) {
-		let toolbar = element.closest('#calendarview').find('.fc-toolbar.fc-header-toolbar');
+	registerViewRenderEvents(view) {
+		let toolbar = this.getCalendarView().find('.fc-toolbar.fc-header-toolbar');
 		let nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button');
 		let yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
 		this.appendSubDateRow(toolbar);
 		this.refreshDatesRowView(view);
-		if (view.name === 'year') {
+		if (view.type === 'year') {
 			nextPrevButtons.hide();
 			yearButtons.show();
 			this.subDateRow.hide();
@@ -538,6 +536,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			}).then((events) => {
 				thisInstance.getCalendarView().fullCalendar('removeEvents');
 				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
+				thisInstance.registerViewRenderEvents(thisInstance.getCalendarView().fullCalendar('getView'));
 				progressInstance.progressIndicator({mode: 'hide'});
 			});
 		}
