@@ -612,28 +612,27 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	saveComment: function (e) {
-		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
-		var currentTarget = jQuery(e.currentTarget);
-		var commentMode = currentTarget.data('mode');
-		var closestCommentBlock = currentTarget.closest('.js-add-comment-block');
-		var commentContent = closestCommentBlock.find('.js-comment-content');
-		var commentContentValue = commentContent.val();
-		var errorMsg;
-		if (commentContentValue == "") {
+		let aDeferred = jQuery.Deferred(),
+			currentTarget = jQuery(e.currentTarget),
+			commentMode = currentTarget.data('mode'),
+			closestCommentBlock = currentTarget.closest('.js-add-comment-block'),
+			commentContent = closestCommentBlock.find('.js-comment-content'),
+			commentContentValue = commentContent.val(),
+			errorMsg, editCommentReason;
+		if ("" === commentContentValue) {
 			errorMsg = app.vtranslate('JS_LBL_COMMENT_VALUE_CANT_BE_EMPTY')
 			commentContent.validationEngine('showPrompt', errorMsg, 'error', 'bottomLeft', true);
 			aDeferred.reject(errorMsg);
 			return aDeferred.promise();
 		}
-		if (commentMode == "edit") {
-			var editCommentReason = closestCommentBlock.find('[name="reasonToEdit"]').val();
+		if ("edit" === commentMode) {
+			editCommentReason = closestCommentBlock.find('[name="reasonToEdit"]').val();
 		}
-		var element = jQuery(e.currentTarget);
-		var commentInfoHeader = closestCommentBlock.closest('.commentDetails').find('.commentInfoHeader');
-		var commentId = commentInfoHeader.data('commentid');
-		var parentCommentId = commentInfoHeader.data('parentcommentid');
-		thisInstance.saveCommentAjax(element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId, aDeferred);
+		let element = jQuery(e.currentTarget),
+			commentInfoHeader = closestCommentBlock.closest('.commentDetails').find('.commentInfoHeader'),
+			commentId = commentInfoHeader.data('commentid'),
+			parentCommentId = commentInfoHeader.data('parentcommentid');
+		this.saveCommentAjax(element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId, aDeferred);
 		return aDeferred.promise();
 	},
 	/**
@@ -658,8 +657,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * return jQuery Obj.
 	 */
 	getCommentBlock: function () {
-		var detailContentsHolder = this.getContentHolder();
-		var clonedCommentBlock = jQuery('.basicAddCommentBlock', detailContentsHolder).clone(true, true).removeClass('basicAddCommentBlock d-none').addClass('js-add-comment-block');
+		let clonedCommentBlock = jQuery('.basicAddCommentBlock', this.getContentHolder()).clone(true, true).removeClass('basicAddCommentBlock d-none').addClass('js-add-comment-block');
 		clonedCommentBlock.find('.commentcontenthidden').removeClass('commentcontenthidden').addClass('js-comment-content');
 		return clonedCommentBlock;
 	},
@@ -668,8 +666,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * return jQuery Obj.
 	 */
 	getEditCommentBlock: function () {
-		var detailContentsHolder = this.getContentHolder();
-		var clonedCommentBlock = jQuery('.basicEditCommentBlock', detailContentsHolder).clone(true, true).removeClass('basicEditCommentBlock d-none').addClass('js-add-comment-block');
+		let clonedCommentBlock = jQuery('.basicEditCommentBlock', this.getContentHolder()).clone(true, true).removeClass('basicEditCommentBlock d-none').addClass('js-add-comment-block');
 		clonedCommentBlock.find('.commentcontenthidden').removeClass('commentcontenthidden').addClass('js-comment-content');
 		return clonedCommentBlock;
 	},
