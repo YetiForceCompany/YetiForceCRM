@@ -556,11 +556,12 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			sidebar = thisInstance.getSidebarView();
 		$(".js-calendar-clear-filters").on('click', () => {
 			$(".js-calendar-extended-filter-tab a").removeClass('active');
+			$(".js-calendar-switch-container .js-switch").eq(1).find('.js-switch--label-on').click();
 			sidebar.find("input:checkbox").prop('checked', false);
 			sidebar.find("option:selected").prop('selected', false).trigger('change');
 			sidebar.find(".js-inputUserOwnerId[value=" + app.getMainParams('userId') + "]").prop('checked', true);
 			thisInstance.loadCalendarData();
-		})
+		});
 	},
 	generateSubMonthList(dateStart, dateEnd) {
 		let datesView = this.getDatesRowView(),
