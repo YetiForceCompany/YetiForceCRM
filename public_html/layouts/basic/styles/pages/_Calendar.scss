@@ -511,6 +511,7 @@ $sitebar-border: 1px solid #ccc;
 			> .fc-view-container {
 				padding-right: 8px;
 			}
+
 			.fc-toolbar.fc-header-toolbar {
 				justify-content: start;
 
@@ -521,6 +522,7 @@ $sitebar-border: 1px solid #ccc;
 					font-size: 1rem;
 				}
 			}
+
 			.fc-event {
 				background-color: inherit;
 				border: none;
@@ -529,12 +531,18 @@ $sitebar-border: 1px solid #ccc;
 					display: none;
 				}
 			}
+
 			.fc-bgevent-skeleton {
 				.fc-bgevent {
 					font-size: 12px;
 					text-overflow: ellipsis;
 					overflow: hidden;
 				}
+			}
+
+			.fc-day-number {
+				padding: 0px 2px;
+				height: 15px;
 			}
 		}
 		&__event-badge {

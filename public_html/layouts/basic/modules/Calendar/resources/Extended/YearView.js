@@ -14,21 +14,25 @@ let YearView = View.extend({
 		this.createAddSwitch();
 	},
 	renderHtml: function () {
+		let col2Breakpoint = 'col-xxl-2';
+		if ($('#switchingDays').val() === 'all') {
+			col2Breakpoint = 'col-xxxl-2';
+		}
 		return `	
 			<div class="h-100 fc-year">
 				<div class="fc-year__container row no-gutters">
-					<div class="fc-january fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
-					<div class="fc-february fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
-					<div class="fc-march fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
-					<div class="fc-april fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
-					<div class="fc-may fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
-					<div class="fc-june fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
-					<div class="fc-july fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
-					<div class="fc-august fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
-					<div class="fc-septempber fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
-					<div class="fc-october fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
-					<div class="fc-november fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
-					<div class="fc-december fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
+					<div class="fc-january fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
+					<div class="fc-february fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
+					<div class="fc-march fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
+					<div class="fc-april fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
+					<div class="fc-may fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
+					<div class="fc-june fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
+					<div class="fc-july fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
+					<div class="fc-august fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
+					<div class="fc-september fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
+					<div class="fc-october fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
+					<div class="fc-november fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
+					<div class="fc-december fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
 				</div>
 			</div>
 		`;
@@ -270,7 +274,6 @@ let YearView = View.extend({
 			time: app.getMainParams('showType'),
 			cvid: cvid
 		}).done(function (events) {
-			console.log(events);
 			yearView.find('.fc-year__month').each(function (i) {
 				self.loadCalendarData($(this).fullCalendar({
 					defaultView: 'month',
