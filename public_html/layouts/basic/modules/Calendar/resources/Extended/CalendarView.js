@@ -152,6 +152,50 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			thisInstance.calendarCreateView = false;
 		});
 	},
+	createAddSwitch() {
+		const calendarview = this.getCalendarView();
+		let switchHistory,
+			switchAllDays,
+			switchContainer = $(`<div class="js-calendar-switch-container"></div>`).insertAfter(calendarview.find('.fc-center'));
+		if (app.getMainParams('showType') == 'current' && app.moduleCacheGet('defaultShowType') != 'history') {
+			switchHistory = false;
+		} else {
+			switchHistory = true;
+		}
+		$(this.switchTpl(app.vtranslate('JS_TO_REALIZE'), app.vtranslate('JS_HISTORY'), switchHistory))
+			.prependTo(switchContainer)
+			.on('change', 'input', (e) => {
+				const currentTarget = $(e.currentTarget);
+				if (typeof currentTarget.data('on-text') !== 'undefined') {
+					app.setMainParams('showType', 'current');
+					app.moduleCacheSet('defaultShowType', 'current');
+				} else if (typeof currentTarget.data('off-text') !== 'undefined') {
+					app.setMainParams('showType', 'history');
+					app.moduleCacheSet('defaultShowType', 'history');
+				}
+				this.loadCalendarData();
+			});
+		if (app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all') {
+			switchAllDays = false;
+		} else {
+			switchAllDays = true;
+		}
+		if (app.getMainParams('hiddenDays', true) !== false) {
+			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), switchAllDays))
+				.prependTo(switchContainer)
+				.on('change', 'input', (e) => {
+					const currentTarget = $(e.currentTarget);
+					if (typeof currentTarget.data('on-text') !== 'undefined') {
+						app.setMainParams('switchingDays', 'workDays');
+						app.moduleCacheSet('defaultSwitchingDays', 'workDays');
+					} else if (typeof currentTarget.data('off-text') !== 'undefined') {
+						app.setMainParams('switchingDays', 'all');
+						app.moduleCacheSet('defaultSwitchingDays', 'all');
+					}
+					this.loadCalendarData();
+				});
+		}
+	},
 	eventRender: function (event, element) {
 		const self = this;
 		let valueEventVis = '';
