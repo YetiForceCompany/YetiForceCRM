@@ -130,9 +130,18 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				e = moment(app.moduleCacheGet('end')).valueOf();
 			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
 		}
-		self.getCalendarView().fullCalendar('destroy');
-		self.getCalendarView().fullCalendar(options);
-		self.createAddSwitch();
+		this.calendar = self.getCalendarView();
+		this.calendar.fullCalendar('destroy');
+		this.calendar.fullCalendar(options);
+		this.createAddSwitch();
+		this.addHeaderButtons()
+	},
+	addHeaderButtons() {
+		let buttonsContainer = this.calendar.prev('.js-calendar__header-buttons'),
+			viewBtn = buttonsContainer.find('.js-calendar__view-btn'),
+			filters = buttonsContainer.find('.js-calendar__filter-container');
+		this.calendar.find('.fc-left').prepend(viewBtn);
+		this.calendar.find('.fc-center').after(filters);
 	},
 	showStatusUpdate(params) {
 		const thisInstance = this,
@@ -322,11 +331,11 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		});
 	},
 	getCurrentCvId() {
-		return $(".js-calendar-extended-filter-tab .active").parent('.js-filter-tab').data('cvid');
+		return $(".js-calendar__extended-filter-tab .active").parent('.js-filter-tab').data('cvid');
 	},
 	registerFilterTabChange() {
 		const thisInstance = this;
-		$(".js-calendar-extended-filter-tab").on('shown.bs.tab', function () {
+		$(".js-calendar__extended-filter-tab").on('shown.bs.tab', function () {
 			thisInstance.loadCalendarData();
 		});
 	},
@@ -548,14 +557,14 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		let currentUser = parseInt(app.getMainParams('userId')),
 			time = app.getMainParams('showType'),
 			statement = ((user.length === 0 || (user.length === 1 && parseInt(user) === currentUser)) && filters.length === 0 && cvid === undefined && time === 'current');
-		$(".js-calendar-clear-filters").toggleClass('d-none', statement);
+		$(".js-calendar__clear-filters").toggleClass('d-none', statement);
 
 	},
 	registerClearFilterButton() {
 		const thisInstance = this,
 			sidebar = thisInstance.getSidebarView();
-		$(".js-calendar-clear-filters").on('click', () => {
-			$(".js-calendar-extended-filter-tab a").removeClass('active');
+		$(".js-calendar__clear-filters").on('click', () => {
+			$(".js-calendar__extended-filter-tab a").removeClass('active');
 			$(".js-calendar-switch-container .js-switch").eq(1).find('.js-switch--label-on').click();
 			sidebar.find("input:checkbox").prop('checked', false);
 			sidebar.find("option:selected").prop('selected', false).trigger('change');

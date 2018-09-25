@@ -113,11 +113,11 @@ let YearView = View.extend({
 		let currentUser = parseInt(app.getMainParams('userId')),
 			time = app.getMainParams('showType'),
 			statement = ((user.length === 0 || (user.length === 1 && parseInt(user) === currentUser)) && cvid === undefined && time === 'current');
-		$(".js-calendar-clear-filters").toggleClass('d-none', statement);
+		$(".js-calendar__clear-filters").toggleClass('d-none', statement);
 	},
 	registerFilterTabChange() {
 		const thisInstance = this;
-		$(".js-calendar-extended-filter-tab").on('shown.bs.tab', function () {
+		$(".js-calendar__extended-filter-tab").on('shown.bs.tab', function () {
 			thisInstance.render();
 		});
 	},
@@ -135,7 +135,7 @@ let YearView = View.extend({
 		return users;
 	},
 	getCurrentCvId() {
-		return $(".js-calendar-extended-filter-tab .active").parent('.js-filter-tab').data('cvid');
+		return $(".js-calendar__extended-filter-tab .active").parent('.js-filter-tab').data('cvid');
 	},
 	registerUsersChange() {
 		const thisInstance = this;
@@ -152,8 +152,8 @@ let YearView = View.extend({
 	registerClearFilterButton() {
 		const thisInstance = this,
 			sidebar = thisInstance.getSidebarView();
-		$(".js-calendar-clear-filters").on('click', () => {
-			$(".js-calendar-extended-filter-tab a").removeClass('active');
+		$(".js-calendar__clear-filters").on('click', () => {
+			$(".js-calendar__extended-filter-tab a").removeClass('active');
 			$(".js-calendar-switch-container .js-switch").eq(1).find('.js-switch--label-on').click();
 			sidebar.find("input:checkbox").prop('checked', false);
 			sidebar.find(".js-inputUserOwnerId[value=" + app.getMainParams('userId') + "]").prop('checked', true);
@@ -296,17 +296,15 @@ let YearView = View.extend({
 							element.append(`<span class="${event.icon} mr-1"></span>${event.title}`)
 							return element;
 						}
-						let badges = `<div class="js-show-day cell-calendar u-cursor-pointer" data-date="${event.date}" data-js="click">`,
-							countEvents = 0;
+						let badges = `<div class="js-show-day cell-calendar u-cursor-pointer" data-date="${event.date}" data-js="click">`;
 						for (let key in event.event) {
-							countEvents += event.event[key].count;
-						}
-						badges += `
-							<a class="" href="#" data-date="${event.date}">
-								<span class="small-badge badge badge-secondary fc-year__event-badge">
-									${countEvents}
+							badges += `
+							<a class="" href="#" data-date="${event.date}" data-type="${key}" title="${event.event[key].label}">
+								<span class="${event.event[key].className} small-badge badge badge-secondary fc-year__event-badge">
+									${event.event[key].count}
 								</span>
 							</a>`;
+						}
 						badges += '</div>';
 						element = badges;
 						return element;
