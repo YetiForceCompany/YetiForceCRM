@@ -15954,7 +15954,6 @@ label.btn.btn-outline-primary:not(.active) {
     min-width: 80px;
     cursor: pointer; }
     .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record .sub-record-content {
-      background-color: #eceff1;
       padding: 6px 3px;
       height: 100%; }
     .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record .sub-record-content.sub-active {
@@ -16227,12 +16226,21 @@ label.btn.btn-outline-primary:not(.active) {
   background: #f8f9fa; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__event-badge {
   padding: 0.2em 0.2em; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .c-calendar-switch__button {
-  font-size: 0.875rem;
-  border-radius: 0;
-  height: 1.875rem;
-  line-height: 1.3;
-  padding: 0.3125rem 1.125rem !important; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .js-calendar-switch-container {
+  margin-right: 0;
+  display: flex;
+  flex-wrap: wrap; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .c-calendar-switch {
+  margin-top: 0.3125rem;
+  margin-bottom: 0; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .c-calendar-switch:first-child {
+    margin-right: 0.3125rem; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .c-calendar-switch__button {
+    font-size: 0.875rem;
+    border-radius: 0;
+    height: 1.875rem;
+    line-height: 1.3;
+    padding: 0.3125rem 0.5rem !important; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .js-css-element-queries[max-width~="1500px"] .o-calendar__view-btn .textHolder {
   display: none; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .c-tab--small .nav-link.active, .tpl-Calendar-Extended-CalendarViewPreProcess .detailViewInfo .dropdown.tabdrop .nav-link.active, .detailViewInfo .tpl-Calendar-Extended-CalendarViewPreProcess .dropdown.tabdrop .nav-link.active {
