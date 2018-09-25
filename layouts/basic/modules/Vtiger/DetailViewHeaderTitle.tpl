@@ -1,19 +1,19 @@
+{*<!--
+/*********************************************************************************
+** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+* Contributor(s): YetiForce Sp. z o.o.
+********************************************************************************/
+-->*}
 {strip}
-	{*<!--
-	/*********************************************************************************
-	** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-	* ("License"); You may not use this file except in compliance with the License
-	* The Original Code is:  vtiger CRM Open Source
-	* The Initial Developer of the Original Code is vtiger.
-	* Portions created by vtiger are Copyright (C) vtiger.
-	* All Rights Reserved.
-	* Contributor(s): YetiForce Sp. z o.o.
-	********************************************************************************/
-	-->*}
 	<!-- tpl-Base-DetailViewHeaderTitle -->
 	<div class="d-flex flex-wrap flex-md-nowrap px-3 w-100">
 		<div class="u-min-w-md-70 w-100">
-			<div class="moduleIcon marginTop20">
+			<div class="moduleIcon mt-3">
 				<span class="o-detail__icon js-detail__icon u-cursor-pointer userIcon-{$MODULE}"></span>
 			</div>
 			<div class="pl-1">
