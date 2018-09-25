@@ -197,21 +197,6 @@ class Twitter extends Base
 	}
 
 	/**
-	 * Log warning.
-	 *
-	 * @param string $message
-	 *
-	 * @throws \App\Exceptions\AppException
-	 * @throws \yii\db\Exception
-	 */
-	private function logWarningDb(string $message)
-	{
-		if (static::$logOn) {
-			static::logWarning("[{$this->userName}]: {$message}");
-		}
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function remove()
