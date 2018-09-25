@@ -10014,6 +10014,9 @@ span[name=existingImages] img {
 .cursorDefault {
   cursor: default !important; }
 
+.cursorPointer{
+  cursor: pointer !important; }
+  
 .activityWidgetContainer .popover {
   min-width: 240px; }
 
