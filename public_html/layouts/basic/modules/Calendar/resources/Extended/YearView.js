@@ -54,6 +54,7 @@ let YearView = View.extend({
 		calendar.find(".cell-calendar").on('click', function () {
 				let date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase());
 				thisInstance.getCalendarView().fullCalendar('changeView', 'agendaDay', date);
+				$(".js-sub-record .sub-active").click();
 			}
 		);
 	},
@@ -285,14 +286,14 @@ let YearView = View.extend({
 					},
 					defaultDate: moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD"),
 					eventRender: function (event, element) {
-						element = '<div class="cell-calendar">';
+						element = `<div class="cell-calendar u-cursor-pointer" data-date="${event.date}">`;
 						for (let key in event.event) {
 							element += `
-							<a class="" href="#" data-date="${event.date}" data-type="${key}" title="${event.event[key].label}">
+							<span class="" href="#" data-type="${key}" title="${event.event[key].label}">
 								<span class="${event.event[key].className} ${event.width <= 20 ? 'small-badge' : ''} ${(event.width >= 24) ? 'big-badge' : ''} badge badge-secondary u-font-size-95per">
 									${event.event[key].count}
 								</span>
-							</a>`;
+							</span>`;
 						}
 						element += '</div>';
 						return element;
