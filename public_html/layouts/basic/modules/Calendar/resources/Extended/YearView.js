@@ -154,10 +154,11 @@ let YearView = View.extend({
 			sidebar = thisInstance.getSidebarView();
 		$(".js-calendar-clear-filters").on('click', () => {
 			$(".js-calendar-extended-filter-tab a").removeClass('active');
+			$(".js-calendar-switch-container .js-switch").eq(1).find('.js-switch--label-on').click();
 			sidebar.find("input:checkbox").prop('checked', false);
 			sidebar.find(".js-inputUserOwnerId[value=" + app.getMainParams('userId') + "]").prop('checked', true);
 			thisInstance.render();
-		})
+		});
 	},
 	showRightPanelForm() {
 		if ($('.js-calendarRightPanel').hasClass('hideSiteBar')) {
