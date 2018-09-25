@@ -17,18 +17,18 @@ let YearView = View.extend({
 		return `	
 			<div class="h-100 fc-year">
 				<div class="fc-year__container row no-gutters">
-					<div class="fc-january fc-year__month col-sm-6 col-xl-4"></div>
-					<div class="fc-february fc-year__month col-sm-6 col-xl-4"></div>
-					<div class="fc-march fc-year__month col-sm-6 col-xl-4"></div>
-					<div class="fc-april fc-year__month col-sm-6 col-xl-4"></div>
-					<div class="fc-may fc-year__month col-sm-6 col-xl-4"></div>
-					<div class="fc-june fc-year__month col-sm-6 col-xl-4"></div>
-					<div class="fc-july fc-year__month col-sm-6 col-xl-4"></div>
-					<div class="fc-august fc-year__month col-sm-6 col-xl-4"></div>
-					<div class="fc-septempber fc-year__month col-sm-6 col-xl-4"></div>
-					<div class="fc-october fc-year__month col-sm-6 col-xl-4"></div>
-					<div class="fc-november fc-year__month col-sm-6 col-xl-4"></div>
-					<div class="fc-december fc-year__month col-sm-6 col-xl-4"></div>
+					<div class="fc-january fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
+					<div class="fc-february fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
+					<div class="fc-march fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
+					<div class="fc-april fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
+					<div class="fc-may fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
+					<div class="fc-june fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
+					<div class="fc-july fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
+					<div class="fc-august fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
+					<div class="fc-septempber fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
+					<div class="fc-october fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
+					<div class="fc-november fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
+					<div class="fc-december fc-year__month col-sm-6 col-lg-4 col-xl-3 col-xxl-2"></div>
 				</div>
 			</div>
 		`;
@@ -290,7 +290,7 @@ let YearView = View.extend({
 						for (let key in event.event) {
 							element += `
 							<span class="" href="#" data-type="${key}" title="${event.event[key].label}">
-								<span class="${event.event[key].className} ${event.width <= 20 ? 'small-badge' : ''} ${(event.width >= 24) ? 'big-badge' : ''} badge badge-secondary u-font-size-95per">
+								<span class="${event.event[key].className} small-badge badge badge-secondary fc-year__event-badge">
 									${event.event[key].count}
 								</span>
 							</span>`;
