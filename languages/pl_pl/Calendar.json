@@ -225,6 +225,8 @@
     "JS_CHANGE_ACTIVITY_TIME": "Zmie\u0144 czas zdarzenia na do realizacji lub histori\u0119",
     "JS_SWITCHING_DAYS": "Prze\u0142\u0105czanie dni ",
     "JS_ALL": "Wszystkie",
-    "JS_WORK_DAYS": "Dni robocze"
+    "JS_WORK_DAYS": "Dni robocze",
+    "JS_DATES_SELECTED_INPUTS": "Daty wbrane w polach: ",
+    "JS_DATES_SELECTED_HOLIDAYS": " s\u0105 dniami \u015bwi\u0105tecznymi. Czy chcesz zapisa\u0107?"
   }
 }

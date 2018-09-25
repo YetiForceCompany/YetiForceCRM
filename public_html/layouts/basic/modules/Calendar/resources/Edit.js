@@ -492,6 +492,56 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 
 		});
 	},
+	/**
+	 * Function validate is holiday day
+	 * @param {jQuery} form
+	 * @returns {Array}
+	 */
+	validateHolidayDate(form) {
+		let fields = form.find('[name="date_start"], [name="due_date"]'),
+			fieldHoliday = [];
+		$.each(fields, function (index, fieldObj) {
+			AppConnector.request({
+				async: false,
+				data: {
+					module: form.find('[name="module"]').length ? form.find('[name="module"]').val() : app.getModuleName(),
+					action: 'Fields',
+					mode: 'verifyIsHolidayDate',
+					fieldName: fieldObj.name,
+					date: fieldObj.value
+				}
+			}).done(function (data) {
+				if (data.success === true) {
+					if (data.result.isHolidayDate === true) {
+						fieldHoliday.push(fieldObj.title);
+					}
+				}
+			});
+		});
+		return fieldHoliday;
+	},
+	/**
+	 * Register pre save event
+	 * @param {jQuery} form
+	 */
+	registerRecordPreSaveEventEvent: function (form) {
+		const self = this;
+		let lockSave = true;
+		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
+			let holidaysArray = self.validateHolidayDate(form);
+			if (lockSave && holidaysArray.length !== 0) {
+				e.preventDefault();
+				let messageContent = app.vtranslate("JS_DATES_SELECTED_INPUTS") + '"' + holidaysArray.join(', ') + '"' + app.vtranslate("JS_DATES_SELECTED_HOLIDAYS");
+				Vtiger_Helper_Js.showConfirmationBox({'message': messageContent}).done(function () {
+					lockSave = false;
+					form.submit();
+				});
+			} else {
+				form.submit();
+			}
+		});
+		lockSave = true;
+	},
 	registerRow: function (row) {
 		var thisInstance = this;
 		row.on("click", '.inviteRemove', function (e) {
