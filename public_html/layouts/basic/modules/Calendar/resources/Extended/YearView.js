@@ -13,7 +13,7 @@ let YearView = View.extend({
 		this.registerUsersChange();
 		this.createAddSwitch();
 	},
-	renderHtml: function () {
+	renderHtml: function (year) {
 		let col2Breakpoint = 'col-xxl-2';
 		if ($('#switchingDays').val() === 'all') {
 			col2Breakpoint = 'col-xxxl-2';
@@ -21,18 +21,18 @@ let YearView = View.extend({
 		return `	
 			<div class="h-100 fc-year">
 				<div class="fc-year__container row no-gutters">
-					<div class="fc-january fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
-					<div class="fc-february fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
-					<div class="fc-march fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
-					<div class="fc-april fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
-					<div class="fc-may fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
-					<div class="fc-june fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
-					<div class="fc-july fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
-					<div class="fc-august fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
-					<div class="fc-september fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
-					<div class="fc-october fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
-					<div class="fc-november fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
-					<div class="fc-december fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}"></div>
+					<div class="fc-january fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-01-01"></div>
+					<div class="fc-february fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-02-01"></div>
+					<div class="fc-march fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-03-01"></div>
+					<div class="fc-april fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-04-01"></div>
+					<div class="fc-may fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-05-01"></div>
+					<div class="fc-june fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-06-01"></div>
+					<div class="fc-july fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-07-01"></div>
+					<div class="fc-august fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-08-01"></div>
+					<div class="fc-september fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-09-01"></div>
+					<div class="fc-october fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-10-01"></div>
+					<div class="fc-november fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-11-01"></div>
+					<div class="fc-december fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-12-01"></div>
 				</div>
 			</div>
 		`;
@@ -55,12 +55,14 @@ let YearView = View.extend({
 		calendar.fullCalendar('addEventSource',
 			events.result
 		);
-		calendar.find(".cell-calendar").on('click', function () {
-				let date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase());
-				thisInstance.getCalendarView().fullCalendar('changeView', 'agendaDay', date);
-				$(".js-sub-record .sub-active").click();
-			}
-		);
+		calendar.find(".js-show-day").on('click', function () {
+			let date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase());
+			thisInstance.getCalendarView().fullCalendar('changeView', 'agendaDay', date);
+		});
+		calendar.find(".fc-center").on('click', function () {
+			let date = moment($(this).closest('[data-date]').data('date')).format(CONFIG.dateFormat.toUpperCase());
+			thisInstance.getCalendarView().fullCalendar('changeView', 'month', date);
+		});
 	},
 
 	selectDays: function (startDate, endDate) {
@@ -249,9 +251,9 @@ let YearView = View.extend({
 		const self = this;
 		let hiddenDays = [],
 			calendar = self.getCalendarView().fullCalendar('getCalendar'),
-			yearView = this.el.html(this.renderHtml()),
-			user = this.getSelectedUsersCalendar(),
 			date = calendar.getDate().year(),
+			yearView = this.el.html(this.renderHtml(date)),
+			user = this.getSelectedUsersCalendar(),
 			progressInstance = $.progressIndicator({blockInfo: {enabled: true}}),
 			cvid = this.getCurrentCvId(),
 			convertedFirstDay = CONFIG.firstDayOfWeekNo;
@@ -291,7 +293,7 @@ let YearView = View.extend({
 							element.append(`<span class="${event.icon} mr-1"></span>${event.title}`)
 							return element;
 						}
-						let badges = `<div class="cell-calendar u-cursor-pointer" data-date="${event.date}">`;
+						let badges = `<div class="js-show-day cell-calendar u-cursor-pointer" data-date="${event.date}" data-js="click">`;
 						for (let key in event.event) {
 							badges += `
 							<a class="" href="#" data-date="${event.date}" data-type="${key}" title="${event.event[key].label}">

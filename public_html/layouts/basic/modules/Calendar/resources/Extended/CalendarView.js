@@ -100,8 +100,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				self.showStatusUpdate(url);
 			},
 			viewRender: function (view, element) {
-				self.toggleNextPrevArrows(view, element);
-				view.type = view.name;
+				self.registerViewRenderEvents(view, element);
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
@@ -257,11 +256,12 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	 * @param view
 	 * @param element
 	 */
-	toggleNextPrevArrows(view, element) {
+	registerViewRenderEvents(view, element) {
 		let toolbar = element.closest('#calendarview').find('.fc-toolbar.fc-header-toolbar');
 		let nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button');
 		let yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
 		this.appendSubDateRow(toolbar);
+		this.refreshDatesRowView(view);
 		if (view.name === 'year') {
 			nextPrevButtons.hide();
 			yearButtons.show();
@@ -506,7 +506,6 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			formatDate = CONFIG.dateFormat.toUpperCase(),
 			cvid = thisInstance.getCurrentCvId();
 		thisInstance.getCalendarView().fullCalendar('removeEvents');
-		thisInstance.refreshDatesRowView(view);
 		if (view.type !== 'year') {
 			let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 			user = thisInstance.getSelectedUsersCalendar();
