@@ -153,11 +153,14 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	},
 	createAddSwitch() {
 		const calendarview = this.getCalendarView();
+		if ($('.js-calendar-switch-container').length) {
+			return;
+		}
 		let switchAllDays = !(app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all'),
-			switchContainer = $(`<div class="js-calendar-switch-container"></div>`).insertAfter(calendarview.find('.fc-center')),
+			switchContainer = $(`<div class="js-calendar-switch-container"></div>`).prependTo($('.formsContainer')),
 			switchHistory = !(app.getMainParams('showType') === 'current' && app.moduleCacheGet('defaultShowType') !== 'history');
-		$(this.switchTpl(app.vtranslate('JS_TO_REALIZE'), app.vtranslate('JS_HISTORY'), switchHistory))
-			.prependTo(switchContainer)
+
+		$(this.switchTpl(app.vtranslate('JS_TO_REALIZE'), app.vtranslate('JS_HISTORY'), switchHistory)).prependTo(switchContainer)
 			.on('change', 'input', (e) => {
 				const currentTarget = $(e.currentTarget);
 				if (typeof currentTarget.data('on-text') !== 'undefined') {
@@ -170,21 +173,20 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				this.loadCalendarData();
 			});
 		if (app.getMainParams('hiddenDays', true) !== false) {
-			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), switchAllDays))
-				.prependTo(switchContainer)
+			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), switchAllDays)).prependTo(switchContainer)
 				.on('change', 'input', (e) => {
-					const currentTarget = $(e.currentTarget),
-						calendarViewType = calendarview.fullCalendar('getView').type;
+					const currentTarget = $(e.currentTarget);
+					let hiddenDays = [];
 					if (typeof currentTarget.data('on-text') !== 'undefined') {
 						app.setMainParams('switchingDays', 'workDays');
 						app.moduleCacheSet('defaultSwitchingDays', 'workDays');
+						hiddenDays = app.getMainParams('hiddenDays', true);
 					} else if (typeof currentTarget.data('off-text') !== 'undefined') {
 						app.setMainParams('switchingDays', 'all');
 						app.moduleCacheSet('defaultSwitchingDays', 'all');
 					}
-					app.moduleCacheSet('defaultView', calendarViewType);
+					calendarview.fullCalendar('option', 'hiddenDays', hiddenDays);
 					this.subDateRow = false;
-					this.renderCalendar();
 					this.loadCalendarData();
 				});
 		}
@@ -225,9 +227,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		}
 	},
 	getDatesRowView() {
-		if (!this.datesRowView || !this.datesRowView.length) {
-			this.datesRowView = $('.js-dates-row');
-		}
+		this.datesRowView = $('.js-dates-row');
 		return this.datesRowView;
 	},
 	/**
