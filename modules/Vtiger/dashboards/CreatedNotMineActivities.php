@@ -4,7 +4,7 @@
  * Vtiger CreatedNotMineActivities dashboard class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -43,12 +43,12 @@ class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 				['not in', 'vtiger_crmentity.smownerid', $params['user']],
 			],
 		];
-
+		if (!$request->isEmpty('activitytype') && $request->getByType('activitytype') !== 'all') {
+			$params['activitytype'] = $request->getByType('activitytype');
+		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('createdByMeButNotMine', $pagingModel, $owner, false, $params);
-
 		$viewer = $this->getViewer($request);
-
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -58,6 +58,7 @@ class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('NAMELENGTH', AppConfig::main('title_max_length'));
 		$viewer->assign('HREFNAMELENGTH', AppConfig::main('href_max_length'));
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_RECORDS_MATCHED_THIS_CRITERIA');
+		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('USER_CONDITIONS', $conditions);
