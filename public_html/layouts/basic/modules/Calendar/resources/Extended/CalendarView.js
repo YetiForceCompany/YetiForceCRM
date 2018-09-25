@@ -154,14 +154,9 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	},
 	createAddSwitch() {
 		const calendarview = this.getCalendarView();
-		let switchHistory,
-			switchAllDays,
-			switchContainer = $(`<div class="js-calendar-switch-container"></div>`).insertAfter(calendarview.find('.fc-center'));
-		if (app.getMainParams('showType') == 'current' && app.moduleCacheGet('defaultShowType') != 'history') {
-			switchHistory = false;
-		} else {
-			switchHistory = true;
-		}
+		let switchAllDays,
+			switchContainer = $(`<div class="js-calendar-switch-container"></div>`).insertAfter(calendarview.find('.fc-center')),
+			switchHistory = !(app.getMainParams('showType') === 'current' && app.moduleCacheGet('defaultShowType') !== 'history');
 		$(this.switchTpl(app.vtranslate('JS_TO_REALIZE'), app.vtranslate('JS_HISTORY'), switchHistory))
 			.prependTo(switchContainer)
 			.on('change', 'input', (e) => {
