@@ -296,15 +296,17 @@ let YearView = View.extend({
 							element.append(`<span class="${event.icon} mr-1"></span>${event.title}`)
 							return element;
 						}
-						let badges = `<div class="js-show-day cell-calendar u-cursor-pointer" data-date="${event.date}" data-js="click">`;
+						let badges = `<div class="js-show-day cell-calendar u-cursor-pointer" data-date="${event.date}" data-js="click">`,
+							countEvents = 0;
 						for (let key in event.event) {
-							badges += `
-							<a class="" href="#" data-date="${event.date}" data-type="${key}" title="${event.event[key].label}">
-								<span class="${event.event[key].className} small-badge badge badge-secondary fc-year__event-badge">
-									${event.event[key].count}
+							countEvents += event.event[key].count;
+						}
+						badges += `
+							<a class="" href="#" data-date="${event.date}">
+								<span class="small-badge badge badge-secondary fc-year__event-badge">
+									${countEvents}
 								</span>
 							</a>`;
-						}
 						badges += '</div>';
 						element = badges;
 						return element;
