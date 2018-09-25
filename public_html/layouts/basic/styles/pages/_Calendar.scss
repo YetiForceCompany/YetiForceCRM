@@ -589,7 +589,7 @@ $sitebar-border: 1px solid #ccc;
 		}
 	}
 	//filter tabs active user color overwrite
-	.nav-pills .nav-link.active {
+	.c-tab--small .nav-link.active {
 		color: $white !important;
 		background: material-color('teal', '300');
 	}

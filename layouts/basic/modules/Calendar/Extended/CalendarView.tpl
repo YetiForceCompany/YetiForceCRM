@@ -50,7 +50,7 @@
 						</ul>
 					{/if}
 				</div>
-				<a class="o-calendar__clear-btn btn btn-warning d-none js-calendar-clear-filters" role="button"
+				<a class="o-calendar__clear-btn btn btn-warning d-none h-100 js-calendar-clear-filters" role="button"
 				   data-js="class: d-none">
 					<span class="fas fa-eraser mr-1"></span>
 					<span class="o-calendar__clear-btn__text">{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}</span>

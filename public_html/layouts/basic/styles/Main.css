@@ -16235,7 +16235,7 @@ label.btn.btn-outline-primary:not(.active) {
   padding: 0.3125rem 1.125rem !important; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .js-css-element-queries[max-width~="1500px"] .o-calendar__view-btn .textHolder {
   display: none; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .nav-pills .nav-link.active {
+.tpl-Calendar-Extended-CalendarViewPreProcess .c-tab--small .nav-link.active, .tpl-Calendar-Extended-CalendarViewPreProcess .detailViewInfo .dropdown.tabdrop .nav-link.active, .detailViewInfo .tpl-Calendar-Extended-CalendarViewPreProcess .dropdown.tabdrop .nav-link.active {
   color: #fff !important;
   background: #4db6ac; }
 @media screen and (min-width: 992px) {
