@@ -12,10 +12,10 @@
 {strip}
 	{assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 	{* Change to this also refer: AddCommentForm.tpl *}
-	<div class="tpl-RecentComments js-commentContainer commentContainer recentComments" data-js="container">
+	<div class="tpl-Base-RecentComments js-commentContainer commentContainer recentComments" data-js="container">
 		<div class="commentTitle">
 			{if !$IS_READ_ONLY && $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-				<div class="js-addCommentBlock addCommentBlock">
+				<div class="js-add-comment-block addCommentBlock" data-js="container|remove">
 					<div class="input-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text">
@@ -23,9 +23,10 @@
 							</span>
 						</div>
 						<textarea name="commentcontent" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"
-								  class="commentcontent form-control"
+								  class="js-comment-content commentcontent form-control"
 								  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
-								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
+								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+								  data-js="val"></textarea>
 						<div class="input-group-append">
 							<button class="btn btn-success detailViewSaveComment" type="button" data-mode="add">
 								<span class="fa fa-plus"></span>
@@ -74,7 +75,7 @@
 			</div>
 		</div>
 		<hr>
-		<div class="js-commentsBody commentsBody">
+		<div class="js-comments-body commentsBody" data-js="html">
 			{if !empty($PARENT_COMMENTS)}
 				{include file=\App\Layout::getTemplatePath('Comments.tpl') PARENT_COMMENTS=$PARENT_COMMENTS CURRENT_COMMENT=$CURRENT_COMMENT}
 			{else}

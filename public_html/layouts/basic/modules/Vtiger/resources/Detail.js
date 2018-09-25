@@ -557,9 +557,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * function to remove comment block if its exists.
 	 */
 	removeCommentBlockIfExists: function () {
-		var detailContentsHolder = this.getContentHolder();
-		var Commentswidget = jQuery('.commentsBody', detailContentsHolder);
-		jQuery('.addCommentBlock', Commentswidget).remove();
+		$('.js-add-comment-block', $('.commentsBody', this.getContentHolder())).remove();
 	},
 	/**
 	 * function to get the Comment thread for the given parent.
@@ -618,8 +616,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var aDeferred = jQuery.Deferred();
 		var currentTarget = jQuery(e.currentTarget);
 		var commentMode = currentTarget.data('mode');
-		var closestCommentBlock = currentTarget.closest('.addCommentBlock');
-		var commentContent = closestCommentBlock.find('.commentcontent');
+		var closestCommentBlock = currentTarget.closest('.js-add-comment-block');
+		var commentContent = closestCommentBlock.find('.js-comment-content');
 		var commentContentValue = commentContent.val();
 		var errorMsg;
 		if (commentContentValue == "") {
@@ -661,8 +659,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 */
 	getCommentBlock: function () {
 		var detailContentsHolder = this.getContentHolder();
-		var clonedCommentBlock = jQuery('.basicAddCommentBlock', detailContentsHolder).clone(true, true).removeClass('basicAddCommentBlock d-none').addClass('addCommentBlock');
-		clonedCommentBlock.find('.commentcontenthidden').removeClass('commentcontenthidden').addClass('commentcontent');
+		var clonedCommentBlock = jQuery('.basicAddCommentBlock', detailContentsHolder).clone(true, true).removeClass('basicAddCommentBlock d-none').addClass('js-add-comment-block');
+		clonedCommentBlock.find('.commentcontenthidden').removeClass('commentcontenthidden').addClass('js-comment-content');
 		return clonedCommentBlock;
 	},
 	/**
@@ -671,8 +669,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 */
 	getEditCommentBlock: function () {
 		var detailContentsHolder = this.getContentHolder();
-		var clonedCommentBlock = jQuery('.basicEditCommentBlock', detailContentsHolder).clone(true, true).removeClass('basicEditCommentBlock d-none').addClass('addCommentBlock');
-		clonedCommentBlock.find('.commentcontenthidden').removeClass('commentcontenthidden').addClass('commentcontent');
+		var clonedCommentBlock = jQuery('.basicEditCommentBlock', detailContentsHolder).clone(true, true).removeClass('basicEditCommentBlock d-none').addClass('js-add-comment-block');
+		clonedCommentBlock.find('.commentcontenthidden').removeClass('commentcontenthidden').addClass('js-comment-content');
 		return clonedCommentBlock;
 	},
 	/*
@@ -1787,7 +1785,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * @returns {string}
 	 */
 	getParentComments(commentId) {
-		let aDeferred = jQuery.Deferred(),
+		let aDeferred = $.Deferred(),
 			url = 'module=' + app.getModuleName() + '&view=Detail&record=' + this.getRecordId() + '&mode=showParentComments&commentid=' + commentId;
 		this.getCommentThread(url).done(function (data) {
 			aDeferred.resolve(data);
@@ -1939,8 +1937,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 	addComment: function (currentTarget, data) {
 		const self = this;
 		let mode = currentTarget.data('mode'),
-			closestAddCommentBlock = currentTarget.closest('.addCommentBlock'),
-			commentTextAreaElement = closestAddCommentBlock.find('.commentcontent'),
+			closestAddCommentBlock = currentTarget.closest('.js-add-comment-block'),
+			commentTextAreaElement = closestAddCommentBlock.find('.js-comment-content'),
 			commentInfoBlock = currentTarget.closest('.js-comment-single');
 		commentTextAreaElement.val('');
 		if (mode == "add") {
@@ -2000,14 +1998,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 */
 	registerCommentEvents(detailContentsHolder) {
 		const self = this;
-		detailContentsHolder.on('click', '.addCommentBtn', function (e) {
-			self.removeCommentBlockIfExists();
-			self.getCommentBlock().appendTo('.commentBlock');
-		});
 		detailContentsHolder.on('click', '.closeCommentBlock', function (e) {
-			let commentInfoBlock = jQuery(e.currentTarget.closest('.js-comment-single'));
+			let commentInfoBlock = $(e.currentTarget.closest('.js-comment-single'));
 			commentInfoBlock.find('.js-comment-container').show();
-			commentInfoBlock.find('.commentInfoContent').show();
+			commentInfoBlock.find('.js-comment-info').show();
 			self.removeCommentBlockIfExists();
 		});
 		detailContentsHolder.on('click', '.js-replyComment', function (e) {
@@ -2019,9 +2013,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 		detailContentsHolder.on('click', '.js-edit-comment', function (e) {
 			self.removeCommentBlockIfExists();
 			let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single'),
-				commentInfoContent = commentInfoBlock.find('.commentInfoContent'),
+				commentInfoContent = commentInfoBlock.find('.js-comment-info'),
 				editCommentBlock = self.getEditCommentBlock();
-			editCommentBlock.find('.commentcontent').val(commentInfoContent.text());
+			editCommentBlock.find('.js-comment-content').val(commentInfoContent.text());
 			editCommentBlock.find('.js-reasonToEdit').val(commentInfoBlock.find('.js-editReasonSpan').text());
 			commentInfoContent.hide();
 			commentInfoBlock.find('.js-comment-container').hide();
@@ -2089,7 +2083,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			let request = widgetContainer.data('url');
 			AppConnector.request(request).done(function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				detailContentsHolder.find('.js-commentContainer').html(data);
+				detailContentsHolder.find('.js-comment-container').html(data);
 			});
 		} else {
 			let hierarchy = detailContentsHolder.find('.js-detailHierarchyComments:checked').val(),
@@ -2114,7 +2108,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				if (!searchTextDom.val()) {
 					detailContentsHolder.html(data);
 				} else {
-					detailContentsHolder.find('.js-commentsBody').html(data);
+					detailContentsHolder.find('.js-comments-body').html(data);
 				}
 			});
 		}
@@ -2344,7 +2338,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				currentTargetParent = currentTarget.parent(),
 				commentId = currentTarget.closest('.commentDiv').find('.js-commentInfoHeader').data('commentid');
 			thisInstance.getParentComments(commentId).done(function (data) {
-				jQuery(e.currentTarget.closest('.js-commentDetails')).html(data);
+				$(e.currentTarget.closest('.js-commentDetails')).html(data);
 				currentTarget.closest('.commentActions').find('.hideThreadBlock').show();
 				currentTargetParent.hide();
 			});

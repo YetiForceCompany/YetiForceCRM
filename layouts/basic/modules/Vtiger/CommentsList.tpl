@@ -14,7 +14,7 @@
 	{if !empty($CHILD_COMMENTS)}
 		<div class="ml-4">
 	{/if}
-	<div class="js-commentsBody commentsBody">
+	<div class="js-comments-body commentsBody" data-js="html">
 		{if !empty($PARENT_COMMENTS) && !empty($SHOW_CHILD_COMMENTS)}
 			{foreach key=CURRENT_COMMENT_KEY item=CURRENT_COMMENT from=$PARENT_COMMENTS}
 				{include file=\App\Layout::getTemplatePath('Comments.tpl') PARENT_COMMENTS=$CURRENT_COMMENT CURRENT_COMMENT=$CURRENT_COMMENT}
