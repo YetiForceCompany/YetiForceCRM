@@ -138,7 +138,7 @@
 								</a>
 							</span>
 					{/if}
-					{if !empty($BUTTON_SHOW_PARENT) && !empty($COMMENT->get('parents'))}
+					{if empty($SHOW_CHILD_COMMENTS) && !empty($COMMENT->get('parents'))}
 						<span class="viewParentThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 								<button type="button"
 										class="btn btn-sm btn-secondary js-viewParentThread viewParentThread ml-1"
