@@ -58,10 +58,12 @@ let YearView = View.extend({
 		calendar.find(".js-show-day").on('click', function () {
 			let date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase());
 			thisInstance.getCalendarView().fullCalendar('changeView', 'agendaDay', date);
+			$(".js-sub-record .sub-active").click();
 		});
 		calendar.find(".fc-center").on('click', function () {
 			let date = moment($(this).closest('[data-date]').data('date')).format(CONFIG.dateFormat.toUpperCase());
 			thisInstance.getCalendarView().fullCalendar('changeView', 'month', date);
+			$(".js-sub-record .sub-active").click();
 		});
 	},
 
