@@ -8,7 +8,7 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Tests\Entity;
+namespace Tests\Base;
 
 class F_Library extends \Tests\Base
 {

@@ -7,7 +7,7 @@
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 
-namespace Tests\Entity;
+namespace Tests\Base;
 
 /**
  * Class RecordNumber.

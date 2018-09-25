@@ -15,8 +15,8 @@
 		<testsuite name="Init">
 			<directory suffix=".php">./Init/</directory>
 		</testsuite>
-		<testsuite name="Entity">
-			<directory suffix=".php">./Entity/</directory>
+		<testsuite name="Base">
+			<directory suffix=".php">./Base/</directory>
 		</testsuite>
 		<testsuite name="Integrations">
 			<directory suffix=".php">./Integrations/</directory>

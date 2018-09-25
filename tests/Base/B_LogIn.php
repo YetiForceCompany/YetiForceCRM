@@ -8,7 +8,7 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Tests\Entity;
+namespace Tests\Base;
 
 class B_LogIn extends \Tests\Base
 {
@@ -20,11 +20,11 @@ class B_LogIn extends \Tests\Base
 		$userName = 'demo';
 		$userRecordModel = \Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
 		if ($userRecordModel->doLogin($userName)) {
-			\App\Session::set('authenticated_user_id', \Tests\Entity\A_User::createUsersRecord()->getId());
+			\App\Session::set('authenticated_user_id', \Tests\Base\A_User::createUsersRecord()->getId());
 			\App\Session::set('app_unique_key', \AppConfig::main('application_unique_key'));
 			\App\Session::set('user_name', $userName);
-			\App\Session::set('full_user_name', \App\Fields\Owner::getUserLabel(\Tests\Entity\A_User::createUsersRecord()->getId()));
-			$this->assertInternalType('int', \Tests\Entity\A_User::createUsersRecord()->getId());
+			\App\Session::set('full_user_name', \App\Fields\Owner::getUserLabel(\Tests\Base\A_User::createUsersRecord()->getId()));
+			$this->assertInternalType('int', \Tests\Base\A_User::createUsersRecord()->getId());
 		}
 	}
 
@@ -45,10 +45,10 @@ class B_LogIn extends \Tests\Base
 	public function testUserVerifyData()
 	{
 		$this->assertTrue(\Users_Module_Model::checkMailExist('demo@yetiforce.com'));
-		$this->assertFalse(\Users_Module_Model::checkMailExist('demo@yetiforce.com', \Tests\Entity\A_User::createUsersRecord()->getId()));
+		$this->assertFalse(\Users_Module_Model::checkMailExist('demo@yetiforce.com', \Tests\Base\A_User::createUsersRecord()->getId()));
 		$this->assertFalse(\Users_Module_Model::checkMailExist('xxx@yetiforce.com'));
 		$this->assertSame(\Users_Module_Model::checkUserName('demo'), \App\Language::translate('LBL_USER_NAME_EXISTS', 'Users'));
-		$this->assertSame(\Users_Module_Model::checkUserName('demo', \Tests\Entity\A_User::createUsersRecord()->getId()), \App\Language::translate('LBL_USER_NAME_HAS_ALREADY_BEEN_USED', 'Users'));
+		$this->assertSame(\Users_Module_Model::checkUserName('demo', \Tests\Base\A_User::createUsersRecord()->getId()), \App\Language::translate('LBL_USER_NAME_HAS_ALREADY_BEEN_USED', 'Users'));
 		$this->assertSame(\Users_Module_Model::checkUserName('test', 1), \App\Language::translate('LBL_FORBIDDEN_USERNAMES', 'Users'));
 	}
 
