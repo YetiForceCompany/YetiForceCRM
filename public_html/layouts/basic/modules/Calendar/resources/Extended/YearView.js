@@ -111,9 +111,9 @@ let YearView = View.extend({
 	},
 	clearFilterButton(user, cvid) {
 		let currentUser = parseInt(app.getMainParams('userId')),
-			statement = ((user.length === 0 || (user.length === 1 && parseInt(user) === currentUser)) && cvid === undefined);
+			time = app.getMainParams('showType'),
+			statement = ((user.length === 0 || (user.length === 1 && parseInt(user) === currentUser)) && cvid === undefined && time === 'current');
 		$(".js-calendar-clear-filters").toggleClass('d-none', statement);
-
 	},
 	registerFilterTabChange() {
 		const thisInstance = this;
