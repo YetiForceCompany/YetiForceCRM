@@ -15540,6 +15540,15 @@ label.btn.btn-outline-primary:not(.active) {
     margin: 0; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-toolbar.fc-header-toolbar h2 {
     font-size: 1rem; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-event {
+  background-color: inherit;
+  border: none; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-event .fc-content {
+    display: none; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-bgevent-skeleton .fc-bgevent {
+  font-size: 12px;
+  text-overflow: ellipsis;
+  overflow: hidden; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__event-badge {
   padding: 0.2em 0.2em;
   font-size: 80%; }

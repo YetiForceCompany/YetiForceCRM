@@ -270,6 +270,7 @@ let YearView = View.extend({
 			time: app.getMainParams('showType'),
 			cvid: cvid
 		}).done(function (events) {
+			console.log(events);
 			yearView.find('.fc-year__month').each(function (i) {
 				self.loadCalendarData($(this).fullCalendar({
 					defaultView: 'month',
@@ -283,16 +284,20 @@ let YearView = View.extend({
 					},
 					defaultDate: moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD"),
 					eventRender: function (event, element) {
-						element = `<div class="cell-calendar u-cursor-pointer" data-date="${event.date}">`;
+						if (event.rendering === 'background') {
+							element.append(`<span class="${event.icon} mr-1"></span>${event.title}`)
+						}
+						let badges = '<div class="cell-calendar u-cursor-pointer" data-date="${event.date}">';
 						for (let key in event.event) {
-							element += `
-							<span class="" href="#" data-type="${key}" title="${event.event[key].label}">
+							badges += `
+							<a class="" href="#" data-date="${event.date}" data-type="${key}" title="${event.event[key].label}">
 								<span class="${event.event[key].className} small-badge badge badge-secondary fc-year__event-badge">
 									${event.event[key].count}
 								</span>
-							</span>`;
+							</a>`;
 						}
-						element += '</div>';
+						badges += '</div>';
+						element.append(badges);
 						return element;
 					},
 					hiddenDays: hiddenDays,

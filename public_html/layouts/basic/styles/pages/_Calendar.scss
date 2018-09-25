@@ -521,6 +521,21 @@ $sitebar-border: 1px solid #ccc;
 					font-size: 1rem;
 				}
 			}
+			.fc-event {
+				background-color: inherit;
+				border: none;
+
+				.fc-content {
+					display: none;
+				}
+			}
+			.fc-bgevent-skeleton {
+				.fc-bgevent {
+					font-size: 12px;
+					text-overflow: ellipsis;
+					overflow: hidden;
+				}
+			}
 		}
 		&__event-badge {
 			padding: 0.2em 0.2em;
