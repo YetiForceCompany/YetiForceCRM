@@ -926,7 +926,7 @@
     "LBL_ENTITY_STATE_ARCHIVED": "W archiwum",
     "LBL_ENTITY_STATE_TRASH": "W koszu",
     "LBL_ENTITY_STATE_ACTIVE": "Aktywne",
-    "LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES": "Terminy\/Zadania przekazane innym",
+    "LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES": "Sprawy oddelegowane",
     "LBL_FILTERING": "Filtr",
     "LBL_ALL_PRIORITY": "Wszystko",
     "LBL_LOW_PRIORITY": "Niski priorytet",
