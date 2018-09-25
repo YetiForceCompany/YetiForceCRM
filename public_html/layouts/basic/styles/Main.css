@@ -16192,6 +16192,8 @@ label.btn.btn-outline-primary:not(.active) {
   min-height: 9em !important; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__container {
   margin-right: -8px; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month * {
+  border-color: #f8f9fa; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month > .fc-toolbar,
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month > .fc-view-container {
   padding-right: 8px; }
@@ -16203,19 +16205,27 @@ label.btn.btn-outline-primary:not(.active) {
     font-size: 1rem; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-event {
   background-color: inherit;
-  border: none; }
+  border: none;
+  margin: 0; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-event .fc-content {
     display: none; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-bgevent-skeleton .fc-bgevent {
-  font-size: 12px;
+  font-size: 0.75rem;
   text-overflow: ellipsis;
-  overflow: hidden; }
+  overflow: hidden;
+  line-height: 1.1; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-day-number {
   padding: 0px 2px;
-  height: 15px; }
+  height: 15px;
+  font-size: 0.75rem; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-basic-view .fc-body .fc-row {
+  min-height: 2.5em; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-day-header.fc-widget-header {
+  padding: 0.125rem 0 !important;
+  font-size: 0.75rem;
+  background: #f8f9fa; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__event-badge {
-  padding: 0.2em 0.2em;
-  font-size: 80%; }
+  padding: 0.2em 0.2em; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .c-calendar-switch__button {
   font-size: 0.875rem;
   border-radius: 0;

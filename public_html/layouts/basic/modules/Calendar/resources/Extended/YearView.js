@@ -289,8 +289,9 @@ let YearView = View.extend({
 					eventRender: function (event, element) {
 						if (event.rendering === 'background') {
 							element.append(`<span class="${event.icon} mr-1"></span>${event.title}`)
+							return element;
 						}
-						let badges = '<div class="cell-calendar u-cursor-pointer" data-date="${event.date}">';
+						let badges = `<div class="cell-calendar u-cursor-pointer" data-date="${event.date}">`;
 						for (let key in event.event) {
 							badges += `
 							<a class="" href="#" data-date="${event.date}" data-type="${key}" title="${event.event[key].label}">
@@ -300,7 +301,7 @@ let YearView = View.extend({
 							</a>`;
 						}
 						badges += '</div>';
-						element.append(badges);
+						element = badges;
 						return element;
 					},
 					hiddenDays: hiddenDays,

@@ -507,6 +507,11 @@ $sitebar-border: 1px solid #ccc;
 		}
 
 		&__month {
+			$year-month-border-color: $light;
+			* {
+				border-color: $year-month-border-color;
+			}
+			$year-month-font-size: calculate-rem(12px);
 			> .fc-toolbar,
 			> .fc-view-container {
 				padding-right: 8px;
@@ -526,6 +531,7 @@ $sitebar-border: 1px solid #ccc;
 			.fc-event {
 				background-color: inherit;
 				border: none;
+				margin: 0;
 
 				.fc-content {
 					display: none;
@@ -534,20 +540,29 @@ $sitebar-border: 1px solid #ccc;
 
 			.fc-bgevent-skeleton {
 				.fc-bgevent {
-					font-size: 12px;
+					font-size: $year-month-font-size;
 					text-overflow: ellipsis;
 					overflow: hidden;
+					line-height: 1.1;
 				}
 			}
 
 			.fc-day-number {
 				padding: 0px 2px;
 				height: 15px;
+				font-size: $year-month-font-size;
+			}
+			.fc-basic-view .fc-body .fc-row {
+				min-height: 2.5em;
+			}
+			.fc-day-header.fc-widget-header {
+				padding: calculate-rem(2px) 0 !important;
+				font-size: $year-month-font-size;
+				background: $year-month-border-color;
 			}
 		}
 		&__event-badge {
 			padding: 0.2em 0.2em;
-			font-size: 80%;
 		}
 	}
 
