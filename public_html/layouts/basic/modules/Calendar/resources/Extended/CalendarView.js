@@ -92,6 +92,9 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			eventRender: function (event, element) {
 				self.eventRender(event, element);
 			},
+			viewRender: function (view, element) {
+				self.registerViewRenderEvents(view)
+			},
 			eventClick: function (calEvent, jsEvent, view) {
 				jsEvent.preventDefault();
 				let link = new URL($(this)[0].href),
