@@ -12,7 +12,7 @@
 						data-js="container">
 						{assign var=ARROW_CLASS value="before"}
 						{foreach from=$PICKLIST_VALUES item=VALUE_DATA name=picklistValues}
-							<li class="c-arrows__item {if $smarty.foreach.picklistValues.first}first{/if} {if $VALUE_DATA['picklistValue'] eq $RECORD->get($NAME)}active{assign var=ARROW_CLASS value="after"}{else}{$ARROW_CLASS}{/if}{if $RECORD->isEditable() && $FIELD_MODEL->isAjaxEditable() && $VALUE_DATA['picklistValue'] !== $RECORD->get($NAME) && isset($PICKLIST_OF_FIELD[$VALUE_DATA['picklistValue']])} cursorPointer js-access{/if}"
+							<li class="c-arrows__item {if $smarty.foreach.picklistValues.first}first{/if} {if $VALUE_DATA['picklistValue'] eq $RECORD->get($NAME)}active{assign var=ARROW_CLASS value="after"}{else}{$ARROW_CLASS}{/if}{if $RECORD->isEditable() && $FIELD_MODEL->isAjaxEditable() && $VALUE_DATA['picklistValue'] !== $RECORD->get($NAME) && isset($PICKLIST_OF_FIELD[$VALUE_DATA['picklistValue']])} u-cursor-pointer js-access{/if}"
 								data-picklist-value="{$VALUE_DATA['picklistValue']}"
 								data-js="confirm|click">
 								<a class="c-arrows__link pr-1">
