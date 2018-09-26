@@ -69,7 +69,9 @@ class Configuration extends \App\SystemWarnings\Template
 			if (!empty($errors['performance'])) {
 				$errorsText .= '<strong>' . \App\Language::translate('LBL_PERFORMANCE', 'Settings:SystemWarnings') . ':</strong>';
 				foreach ($errors['performance'] as $key => $value) {
-					$errorsText .= PHP_EOL . "  {$key} = " . \yii\helpers\VarDumper::dumpAsString($value) . ' (' . \App\Language::translate('LBL_RECOMMENDED_VALUE', 'Settings:SystemWarnings') . ': \'' . $reference['performance'][$key]['recommended'] . '\')';
+					if (!empty($reference['performance'][$key]['recommended'])) {
+						$errorsText .= PHP_EOL . "  {$key} = " . \yii\helpers\VarDumper::dumpAsString($value) . ' (' . \App\Language::translate('LBL_RECOMMENDED_VALUE', 'Settings:SystemWarnings') . ': \'' . $reference['performance'][$key]['recommended'] . '\')';
+					}
 				}
 				$errorsText .= PHP_EOL . PHP_EOL;
 			}
