@@ -153,6 +153,8 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			filters = buttonsContainer.find('.js-calendar__filter-container').clone();
 		this.calendar.find('.fc-left').prepend(viewBtn);
 		this.calendar.find('.fc-center').after(filters);
+		this.registerClearFilterButton();
+		this.registerFilterTabChange();
 	},
 	showStatusUpdate(params) {
 		const thisInstance = this,
@@ -347,7 +349,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	},
 	registerFilterTabChange() {
 		const thisInstance = this;
-		$(".js-calendar__extended-filter-tab").on('shown.bs.tab', function () {
+		this.calendar.find(".js-calendar__extended-filter-tab").on('shown.bs.tab', function () {
 			thisInstance.loadCalendarData();
 		});
 	},
@@ -520,7 +522,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		);
 		return aDeferred.promise();
 	},
-	loadCalendarData(allEvents) {
+	loadCalendarData() {
 		const thisInstance = this,
 			view = thisInstance.getCalendarView().fullCalendar('getView');
 		let user = [],
@@ -573,15 +575,14 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 
 	},
 	registerClearFilterButton() {
-		const thisInstance = this,
-			sidebar = thisInstance.getSidebarView();
-		$(".js-calendar__clear-filters").on('click', () => {
+		const sidebar = this.getSidebarView();
+		this.calendar.find('.js-calendar__clear-filters').on('click', () => {
 			$(".js-calendar__extended-filter-tab a").removeClass('active');
 			$(".js-calendar-switch-container .js-switch").eq(1).find('.js-switch--label-on').click();
 			sidebar.find("input:checkbox").prop('checked', false);
 			sidebar.find("option:selected").prop('selected', false).trigger('change');
 			sidebar.find(".js-inputUserOwnerId[value=" + app.getMainParams('userId') + "]").prop('checked', true);
-			thisInstance.loadCalendarData();
+			this.loadCalendarData();
 		});
 	},
 	generateSubMonthList(dateStart, dateEnd) {
@@ -894,9 +895,8 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	 * Register load calendar data
 	 */
 	registerLoadCalendarData() {
-		this.loadCalendarData(true);
+		this.loadCalendarData();
 		this.registerFilterTabChange();
-		this.registerClearFilterButton();
 	},
 	registerAddForm() {
 		const thisInstance = this;
