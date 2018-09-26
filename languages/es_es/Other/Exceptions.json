@@ -24,6 +24,8 @@
     "ERR_FILE_XPACKET_CODE_INJECTION": "File contains dangerous XPACKET code and was rejected",
     "ERR_NO_PERMISSIONS_TO_CREATE_DIRECTORIES": "No tienes permisos para crear directorios",
     "ERR_AUTO_LOGOUT": "Logged out automatically due to no activity",
-    "ERR_FIELD_NOT_FOUND": "Field not found"
+    "ERR_FIELD_NOT_FOUND": "Field not found",
+    "ERR_NO_VALUE": "No value",
+    "ERR_API": "Error in API"
   }
 }
