@@ -70,7 +70,7 @@ class ConfReport
 		'date.timezone' => ['type' => 'TimeZone', 'container' => 'php', 'testCli' => true], //Roundcube
 		'allow_url_fopen' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true], //Roundcube
 		'auto_detect_line_endings' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true], //CSVReader
-		'httpMethods' => ['recommended' => 'GET,POST,PUT,OPTIONS,PATCH,PROPFIND,REPORT,LOCK,DELETE,COPY,MOVE', 'type' => 'HttpMethods', 'container' => 'request', 'testCli' => false, 'label' => 'HTTP_METHODS'],
+		'httpMethods' => ['recommended' => 'GET, POST, PUT, OPTIONS, PATCH, PROPFIND, REPORT, LOCK, DELETE, COPY, MOVE', 'type' => 'HttpMethods', 'container' => 'request', 'testCli' => false, 'label' => 'HTTP_METHODS'],
 	];
 	/**
 	 * Security variables map.
@@ -1030,7 +1030,7 @@ class ConfReport
 		unset($name);
 		$supported = [];
 		$requestUrl = \AppConfig::main('site_URL') . 'shorturl.php';
-		foreach (\explode(',', $row['recommended']) as $type) {
+		foreach (\explode(', ', $row['recommended']) as $type) {
 			try {
 				$response = (new \GuzzleHttp\Client())->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
 				if ($response->getStatusCode() === 200 && 'No uid' === (string) $response->getBody()) {
@@ -1039,7 +1039,7 @@ class ConfReport
 			} catch (\Throwable $e) {
 			}
 		}
-		return \implode(',', $supported);
+		return \implode(', ', $supported);
 	}
 
 	/**
