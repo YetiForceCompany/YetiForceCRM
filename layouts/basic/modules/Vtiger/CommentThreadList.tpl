@@ -83,15 +83,15 @@
 					<span class="float-right commentActions">
 				{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-							<button type="button" class="btn btn-sm btn-success js-replyComment" data-js="click">
+							<button type="button" class="btn btn-sm btn-success js-replyComment"
+									title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}" data-js="click">
 						<span class="fas fa-share"></span>
-						&nbsp;{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 					</button>
 						{/if}
 						{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
 							<button type="button" class="btn btn-sm btn-primary js-edit-comment feedback marginLeft5"
-									data-js="click">
-						<span class="fas fa-edit"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
+									title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}" data-js="click">
+						<span class="fas fa-edit"></span>
 					</button>
 						{/if}
 						{assign var=LINKS value=$COMMENT->getCommentLinks()}

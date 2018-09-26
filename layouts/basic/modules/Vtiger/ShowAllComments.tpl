@@ -38,22 +38,25 @@
 			</div>
 		{/if}
 	</div>
-	{if count($HIERARCHY_LIST) != 1}
-		<div class="row">
-			<div class="col-lg-6"></div>
-			<div class="col-md-12 col-lg-6 form-row commentsHeader my-3">
-				<div class="col-6 col-lg-6 col-md-6 col-sm-6 p-0">
-					<div class="input-group-append bg-white rounded-right">
-						<input type="text" class="js-commentSearch form-control commentSearch"
-							   placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
-							   aria-describedby="commentSearchAddon"
-							   data-js="keypress|data">
-						<button class="btn btn-outline-dark border-0 h-100 js-searchIcon searchIcon" type="button"
-								data-js="click">
-							<span class="fas fa-search fa-fw" title="{\App\Language::translate('LBL_SEARCH')}"></span>
-						</button>
-					</div>
+	<div class="row">
+		<div class="col-lg-6"></div>
+		<div class="col-md-12 col-lg-6 form-row commentsHeader my-3">
+			{if count($HIERARCHY_LIST) == 1}
+				<div class="col-6 col-lg-6 col-md-6 col-sm-6 p-0"></div>
+			{/if}
+			<div class="col-6 col-lg-6 col-md-6 col-sm-6 p-0">
+				<div class="input-group-append bg-white rounded-right">
+					<input type="text" class="js-commentSearch form-control commentSearch"
+						   placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
+						   aria-describedby="commentSearchAddon"
+						   data-js="keypress|data">
+					<button class="btn btn-outline-dark border-0 h-100 js-searchIcon searchIcon" type="button"
+							data-js="click">
+						<span class="fas fa-search fa-fw" title="{\App\Language::translate('LBL_SEARCH')}"></span>
+					</button>
 				</div>
+			</div>
+			{if count($HIERARCHY_LIST) != 1}
 				<div class="col-5 col-lg-6 col-md-6 col-sm-6 p-0 text-right m-md-0 m-lg-0"
 					 data-toggle="buttons">
 					<div class="btn-group btn-group-toggle detailCommentsHierarchy" data-toggle="buttons">
@@ -74,9 +77,9 @@
 						</label>
 					</div>
 				</div>
-			</div>
+			{/if}
 		</div>
-	{/if}
+	</div>
 	<div class="commentContainer">
 		<div class="commentsList col-md-12 px-0">
 			{include file=\App\Layout::getTemplatePath('CommentsList.tpl') COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
