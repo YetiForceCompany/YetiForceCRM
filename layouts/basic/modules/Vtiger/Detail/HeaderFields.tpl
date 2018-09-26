@@ -1,7 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	{if isset($FIELDS_HEADER['value']) || $CUSTOM_FIELDS_HEADER}
-		<div class="tpl-Base-Detail-HeaderFields ml-md-2 pr-md-2 u-min-w-md-30 w-100">
+	<div class="tpl-Base-Detail-HeaderFields ml-md-2 pr-md-2 u-min-w-md-30 w-100">
+		{include file=\App\Layout::getTemplatePath('Detail/HeaderButtons.tpl', $MODULE_NAME)}
+		{if isset($FIELDS_HEADER['value']) || $CUSTOM_FIELDS_HEADER}
 			{if $CUSTOM_FIELDS_HEADER}
 				{foreach from=$CUSTOM_FIELDS_HEADER item=ROW}
 					<div class="badge badge-info d-flex flex-nowrap align-items-center justify-content-center my-1 js-popover-tooltip"
@@ -36,6 +37,6 @@
 					{/if}
 				{/foreach}
 			{/if}
-		</div>
-	{/if}
+		{/if}
+	</div>
 {/strip}

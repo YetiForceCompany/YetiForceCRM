@@ -402,6 +402,11 @@ var App = {},
 		 * This api assumes that we are using block ui plugin and uses unblock api to unblock it
 		 */
 		hideModalWindow: function (callback, id) {
+			if (window.parent !== window) {
+				this.childFrame = true;
+				window.parent.app.hideModalWindow(callback, id);
+				return;
+			}
 			let container;
 			if (callback && typeof callback === 'object') {
 				container = callback;
@@ -1433,6 +1438,18 @@ var App = {},
 				$('.historyList').html(`<a class="item dropdown-item" href="#" role="listitem">${app.vtranslate('JS_NO_RECORDS')}</a>`);
 			});
 		},
+
+		/**
+		 * Open url in top window
+		 * @param string url
+		 */
+		openUrl(url) {
+			if (window.location !== window.top.location) {
+				window.top.location.href = url;
+			} else {
+				window.location.href = url;
+			}
+		},
 		showConfirmation: function (data, element) {
 			var params = {};
 			if (data) {
@@ -1453,7 +1470,7 @@ var App = {},
 			Vtiger_Helper_Js.showConfirmationBox(params).done(function () {
 				if (params.type == 'href') {
 					AppConnector.request(params.url).done(function (data) {
-						window.location.href = data.result;
+						app.openUrl(data.result);
 					});
 				} else if (params.type == 'reloadTab') {
 					AppConnector.request(params.url).done(function (data) {

@@ -1,9 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-ButtonLink -->
 	{if empty($CLASS)}
 		{assign var='CLASS' value=''}
 	{/if}
-	<div class="tpl-ButtonLink c-btn-link btn-group {if $BUTTON_VIEW|strrpos:'listView' !== false && $USER_MODEL->get('rowheight') eq 'narrow'}btn-group-sm{/if} {$CLASS}">
+	<div class="c-btn-link btn-group {if $BUTTON_VIEW|strrpos:'listView' !== false && $USER_MODEL->get('rowheight') eq 'narrow'}btn-group-sm{/if} {$CLASS}">
 		{assign var="LABEL" value=$LINK->getLabel()}
 		{assign var="ACTION_NAME" value=$LABEL}
 		{if $LINK->get('linkhint') neq ''}
@@ -49,7 +50,7 @@
 							{if stripos($LINK_URL, 'javascript:')===0}
 								onclick='{$LINK_URL|substr:strlen("javascript:")};'
 							{else}
-								onclick='window.location.href = "{$LINK_URL}"'
+								onclick='app.openUrl("{$LINK_URL}")'
 							{/if}
 						{/if}
 					{/if}
@@ -65,4 +66,5 @@
 			{/if}
 			{if $LINK->get('linkhref')}</a>{else}</button>{/if}
 	</div>
+	<!-- /tpl-Base-ButtonLink -->
 {/strip}

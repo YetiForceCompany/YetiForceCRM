@@ -344,24 +344,17 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$numMsg = imap_num_msg($mbox);
 		$getEmails = false;
 		if ($msgno === 0 && $numMsg !== 0) {
-			$lastEmailUid = imap_uid($mbox, $numMsg);
-			if ($lastScanUid === 1) {
-				$getEmails = true;
+			if ($lastScanUid === 0) {
 				$msgno = 1;
-			} elseif ($lastEmailUid > $lastScanUid) {
-				$exit = true;
-				while ($exit) {
-					++$lastScanUid;
-					$lastScanedNum = imap_msgno($mbox, $lastScanUid);
-					if ($lastScanedNum !== 0) {
-						$exit = false;
-						$msgno = $lastScanedNum;
-					} elseif ($lastScanUid === $lastEmailUid) {
-						$exit = false;
-						$msgno = $numMsg;
+				$getEmails = true;
+			} elseif (imap_uid($mbox, $numMsg) > $lastScanUid) {
+				foreach (imap_search($mbox, 'ALL', SE_UID) as $uid) {
+					if ($uid > $lastScanUid) {
+						$msgno = imap_msgno($mbox, $uid);
+						$getEmails = true;
+						break;
 					}
 				}
-				$getEmails = true;
 			}
 		} elseif ($msgno < $numMsg) {
 			++$msgno;
@@ -513,15 +506,14 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			\App\Log::warning(\App\Language::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
 			return \App\Language::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
 		}
-		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		$countEmails = 0;
-		$scanId = 0;
 		$accounts = OSSMail_Record_Model::getAccountsList();
 		if (!$accounts) {
 			\App\Log::info('There are no accounts to be scanned');
 			return false;
 		}
 		$this->setCronStatus(2);
+		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+		$countEmails = 0;
 		$scanId = $scannerModel->addScanHistory(['user' => $whoTrigger]);
 		foreach ($accounts as $account) {
 			\App\Log::trace('Start checking account: ' . $account['username']);
