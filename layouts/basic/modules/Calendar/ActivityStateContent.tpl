@@ -6,7 +6,7 @@
 	{assign var=END_TIME value=$RECORD->get('time_end')}
 	<div class="form-horizontal modalSummaryValues">
 		<div class="form-group row">
-			<label class="col-4 col-form-label col-form-label-sm">
+			<label class="col-4 u-font-weight-500">
 				{\App\Language::translate('Subject',$MODULE_NAME)}:
 			</label>
 			<div class="col-8 u-text-ellipsis fieldVal"
@@ -16,7 +16,7 @@
 		</div>
 		<div class="">
 			<div class="form-group row">
-				<label class="col-4 col-form-label col-form-label-sm">
+				<label class="col-4 u-font-weight-500">
 					{\App\Language::translate('Start Date & Time',$MODULE_NAME)}:
 				</label>
 				<div class="col-8">
@@ -24,7 +24,7 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-4 col-form-label col-form-label-sm">
+				<label class="col-4 u-font-weight-500">
 					{\App\Language::translate('Due Date',$MODULE_NAME)}:
 				</label>
 				<div class="col-8">
@@ -33,7 +33,7 @@
 			</div>
 			{if $RECORD->get('activitystatus') neq '' }
 				<div class="form-group row">
-					<label class="col-4 col-form-label col-form-label-sm">
+					<label class="col-4 u-font-weight-500">
 						{\App\Language::translate('Status',$MODULE_NAME)}:
 					</label>
 					<div class="col-8">
@@ -43,7 +43,7 @@
 			{/if}
 			{if $RECORD->get('linkextend') neq '' }
 				<div class="form-group row">
-					<label class="col-4 col-form-label col-form-label-sm">
+					<label class="col-4 u-font-weight-500">
 						{\App\Language::translate('FL_RELATION_EXTEND',$MODULE_NAME)}:
 					</label>
 					<div class="col-8 u-text-ellipsis">
@@ -63,7 +63,7 @@
 			{/if}
 			{if $RECORD->get('process') neq '' }
 				<div class="form-group row">
-					<label class="col-4 col-form-label col-form-label-sm">
+					<label class="col-4 u-font-weight-500">
 						{\App\Language::translate('Process',$MODULE_NAME)}:
 					</label>
 					<div class="col-8 u-text-ellipsis">
@@ -73,7 +73,7 @@
 			{/if}
 			<hr/>
 			<div class="form-group row">
-				<label class="col-4 col-form-label col-form-label-sm">
+				<label class="col-4 u-font-weight-500">
 					{\App\Language::translate('Description',$MODULE_NAME)}:
 				</label>
 				<div class="col-8">
@@ -86,7 +86,7 @@
 			</div>
 			<hr/>
 			<div class="form-group row">
-				<label class="col-4 col-form-label col-form-label-sm">
+				<label class="col-4 u-font-weight-500">
 					{\App\Language::translate('Created By',$MODULE_NAME)}:
 				</label>
 				<div class="col-8 u-text-ellipsis">
@@ -94,14 +94,14 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-4 col-form-label col-form-label-sm">
+				<label class="col-4 u-font-weight-500">
 					{\App\Language::translate('Assigned To',$MODULE_NAME)}:
 				</label>
 				<div class="col-8 u-text-ellipsis">{$RECORD->getDisplayValue('assigned_user_id',false,false,true)}</div>
 			</div>
 			{if $RECORD->get('shownerid')}
 				<div class="form-group row">
-					<label class="col-4 col-form-label col-form-label-sm">
+					<label class="col-4 u-font-weight-500">
 						{\App\Language::translate('Share with users',$MODULE_NAME)}:
 					</label>
 					<div class="col-8">{$RECORD->getDisplayValue('shownerid',false,false,true)}</div>

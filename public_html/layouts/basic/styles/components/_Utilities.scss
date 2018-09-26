@@ -43,6 +43,10 @@
 	font-size: calculate-rem(19px);
 }
 
+.u-font-weight-500 {
+	font-weight: 500 !important;
+}
+
 .u-text-ellipsis {
 	overflow: hidden;
 	text-overflow: ellipsis;

@@ -11875,6 +11875,9 @@ ul.tweets li {
 .u-font-size-19px {
   font-size: 1.1875rem; }
 
+.u-font-weight-500 {
+  font-weight: 500 !important; }
+
 .u-text-ellipsis, ul.ui-autocomplete div.ui-menu-item-wrapper {
   overflow: hidden;
   text-overflow: ellipsis;

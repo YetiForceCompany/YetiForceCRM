@@ -9,7 +9,7 @@
 					{\App\Language::translate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}
 				</h6>
 			</div>
-			<div class="d-flex justify-content-center flex-wrap mb-1">
+			<div class="d-flex justify-content-center flex-wrap mb-2">
 				{if $RECORD->isEditable()}
 					{assign var=ACTIVITY_STATE_LABEL value=Calendar_Module_Model::getComponentActivityStateLabel()}
 					{assign var=ACTIVITY_STATE value=$RECORD->get('activitystatus')}
@@ -68,10 +68,6 @@
 							{/if}
 						{/if}
 					{/if}
-					<a class="btn btn-sm mt-1 btn-default mr-1" role="button" href="{$URLDATA}"
-					   title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
-						<span class="fas fa-envelope"></span>
-					</a>
 					{if $RECORD->isEditable()}
 						<a href="#" data-url="{$RECORD->getEditViewUrl()}" data-id="{$ID}"
 						   class="editRecord btn btn-sm mt-1 btn-default mr-1"
