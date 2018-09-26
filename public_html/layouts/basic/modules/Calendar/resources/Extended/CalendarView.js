@@ -9,6 +9,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	 */
 	renderCalendar() {
 		const self = this;
+		this.calendar = self.getCalendarView();
 		let eventLimit = app.getMainParams('eventLimit'),
 			weekView = app.getMainParams('weekView'),
 			dayView = app.getMainParams('dayView'),
@@ -139,7 +140,6 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				e = moment(app.moduleCacheGet('end')).valueOf();
 			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
 		}
-		this.calendar = self.getCalendarView();
 		this.calendar.fullCalendar('destroy');
 		this.calendar.fullCalendar(options);
 		this.createAddSwitch();
@@ -257,7 +257,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	 * @param toolbar
 	 */
 	appendSubDateRow(toolbar) {
-		if (!this.subDateRow) {
+		if (!this.calendar.find('.js-dates-row').length) {
 			this.subDateRow = $(`
 								<div class="js-scroll js-dates-row u-overflow-auto-lg-down order-4 flex-grow-1 position-relative my-1 w-100" data-js="perfectScrollbar | container">
 									<div class="d-flex flex-nowrap w-100">
@@ -279,7 +279,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	 * @param element
 	 */
 	registerViewRenderEvents(view, noCounting) {
-		let toolbar = this.getCalendarView().find('.fc-toolbar.fc-header-toolbar'),
+		this.calendar = this.getCalendarView();
+		let toolbar = this.calendar.find('.fc-toolbar.fc-header-toolbar'),
 			nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button'),
 			yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
 		this.appendSubDateRow(toolbar);
