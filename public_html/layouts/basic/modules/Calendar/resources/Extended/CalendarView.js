@@ -102,7 +102,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 				self.eventRender(event, element);
 			},
 			viewRender: function (view, element) {
-				self.registerViewRenderEvents(view)
+				self.registerViewRenderEvents(view, true)
 			},
 			eventClick: function (calEvent, jsEvent, view) {
 				jsEvent.preventDefault();
@@ -279,12 +279,12 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	 * @param view
 	 * @param element
 	 */
-	registerViewRenderEvents(view) {
+	registerViewRenderEvents(view, noCounting) {
 		let toolbar = this.getCalendarView().find('.fc-toolbar.fc-header-toolbar');
 		let nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button');
 		let yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
 		this.appendSubDateRow(toolbar);
-		this.refreshDatesRowView(view);
+		this.refreshDatesRowView(view, noCounting);
 		this.addHeaderButtons();
 		if (view.type === 'year') {
 			nextPrevButtons.hide();
@@ -296,7 +296,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			this.subDateRow.show();
 		}
 	},
-	refreshDatesRowView(calendarView) {
+	refreshDatesRowView(calendarView, noCounting) {
 		const self = this;
 		let dateListUnit = calendarView.type,
 			subDateListUnit = 'week';
@@ -322,7 +322,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			self.generateWeekList(calendarView.start, calendarView.end);
 			self.generateSubDaysList(calendarView.start, calendarView.end);
 		}
-		if ('year' !== subDateListUnit) {
+		if ('year' !== subDateListUnit && !noCounting) {
 			self.updateCountTaskCalendar();
 		}
 		self.registerDatesChange();
@@ -562,7 +562,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			}).then((events) => {
 				thisInstance.getCalendarView().fullCalendar('removeEvents');
 				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
-				thisInstance.registerViewRenderEvents(thisInstance.getCalendarView().fullCalendar('getView'));
+				thisInstance.registerViewRenderEvents(thisInstance.getCalendarView().fullCalendar('getView'), false);
 				progressInstance.progressIndicator({mode: 'hide'});
 			});
 		}
