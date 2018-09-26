@@ -640,7 +640,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			}
 			if (view.name != 'agendaDay' && view.name != 'agendaWeek') {
 				startDate = startDate + 'T' + start_hour + ':00';
-				endDate = endDate + 'T' + start_hour + ':00';
+				endDate = endDate + 'T' + end_hour + ':00';
 				if (startDate == endDate) {
 					let defaulDuration = 0;
 					if (data.find('[name="activitytype"]').val() == 'Call') {

@@ -11,7 +11,7 @@
 jQuery.Class("Calendar_Calendar_Js", {
 	getInstanceByView: function (view) {
 		if(typeof view === 'undefined' ) {
-			var view = $('#currentView').val();
+			view = $('#currentView').val();
 		}
 		var moduleClassName = "Calendar_" + view + "_Js";
 		var instance;

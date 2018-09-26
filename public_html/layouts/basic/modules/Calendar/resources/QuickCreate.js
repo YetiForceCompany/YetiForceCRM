@@ -9,12 +9,59 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 		this.container = container;
 	},
 	registerExtendCalendar: function () {
+		let container = this.getContainer();
 		let instance = Calendar_Calendar_Js.getInstanceByView('CalendarExtended');
-		instance.setContainer(this.getContainer());
 		instance.calendarView = this.getContainer().find('#calendarview');
+		instance.setContainer(this.getContainer());
+
+		var selectDays = function (startDate, endDate) {
+			let start_hour = $('#start_hour').val(),
+				end_hour = $('#end_hour').val(),
+				view = instance.getCalendarView().fullCalendar('getView');
+			if (endDate.hasTime() == false) {
+				endDate.add(-1, 'days');
+			}
+			startDate = startDate.format();
+			endDate = endDate.format();
+			if (start_hour == '') {
+				start_hour = '00';
+			}
+			if (end_hour == '') {
+				end_hour = '00';
+			}
+			if (view.name != 'agendaDay' && view.name != 'agendaWeek') {
+				startDate = startDate + 'T' + start_hour + ':00';
+				endDate = endDate + 'T' + end_hour + ':00';
+				if (startDate == endDate) {
+					let defaulDuration = 0;
+					if (container.find('[name="activitytype"]').val() == 'Call') {
+						defaulDuration = container.find('[name="defaultCallDuration"]').val();
+					} else {
+						defaulDuration = container.find('[name="defaultOtherEventDuration"]').val();
+					}
+					endDate = moment(endDate).add(defaulDuration, 'minutes').toISOString();
+				}
+			}
+			let dateFormat = container.find('[name="date_start"]').data('dateFormat').toUpperCase(),
+				timeFormat = container.find('[name="time_start"]').data('format'),
+				defaultTimeFormat = '';
+			if (timeFormat == 24) {
+				defaultTimeFormat = 'HH:mm';
+			} else {
+				defaultTimeFormat = 'hh:mm A';
+			}
+			container.find('[name="date_start"]').val(moment(startDate).format(dateFormat));
+			container.find('[name="due_date"]').val(moment(endDate).format(dateFormat));
+			container.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
+			container.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
+		};
+		FC.views.year = FC.views.year.extend({
+			selectDays: selectDays
+		});
 		instance.renderCalendar();
 		instance.registerChangeView();
 		instance.loadCalendarData();
+		instance.selectDays = selectDays;
 	},
 	registerStandardCalendar: function () {
 		const thisInstance = this;

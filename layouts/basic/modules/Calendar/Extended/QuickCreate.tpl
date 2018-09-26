@@ -34,6 +34,7 @@
 							<input type="hidden" id="hiddenDays"
 								   value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"/>
 							<input type="hidden" id="start_hour" value="{$CURRENT_USER->get('start_hour')}"/>
+							<input type="hidden" id="end_hour" value="{$CURRENT_USER->get('end_hour')}"/>
 							<div class="tpl-Calendar-Extended-CalendarViewPreProcess">
 								<div class="o-calendar__container js-calendar__container" data-js="offset">
 									<div id="calendarview"></div>
