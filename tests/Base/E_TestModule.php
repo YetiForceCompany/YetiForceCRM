@@ -42,18 +42,4 @@ class E_TestModule extends \Tests\Base
 		} catch (\Exception $exc) {
 		}
 	}
-
-	/**
-	 * @codeCoverageIgnore
-	 * Cleaning after tests.
-	 */
-	public static function tearDownAfterClass()
-	{
-		if (\file_exists('./languages/pl_pl/Settings/TestData.php')) {
-			\unlink('./languages/pl_pl/Settings/TestData.php');
-		}
-		if (\file_exists('./languages/en_us/Settings/TestData.php')) {
-			\unlink('./languages/en_us/Settings/TestData.php');
-		}
-	}
 }

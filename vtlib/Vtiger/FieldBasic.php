@@ -202,6 +202,7 @@ class FieldBasic
 			'masseditable' => $this->masseditable,
 		])->execute();
 		Profile::initForField($this);
+		$this->clearCache();
 		\App\Log::trace("Creating field $this->name ... DONE", __METHOD__);
 	}
 
@@ -225,6 +226,7 @@ class FieldBasic
 
 	public function __update()
 	{
+		$this->clearCache();
 		\App\Log::trace("Updating Field $this->name ... DONE", __METHOD__);
 	}
 
@@ -253,6 +255,7 @@ class FieldBasic
 			}
 			$db->createCommand()->delete('vtiger_field', ['fieldid' => $rowExtra['fieldid']])->execute();
 		}
+		$this->clearCache();
 		\App\Log::trace("Deleteing Field $this->name ... DONE", __METHOD__);
 	}
 
@@ -313,9 +316,6 @@ class FieldBasic
 		} else {
 			$this->__create($blockInstance);
 		}
-		\App\Cache::delete('ModuleFields', $this->getModuleId());
-		\App\Cache::delete('module', $this->getModuleId());
-		\App\Cache::delete('module', $this->getModuleName());
 		return $this->id;
 	}
 
@@ -378,5 +378,15 @@ class FieldBasic
 			return $this->block->label;
 		}
 		return '';
+	}
+
+	/**
+	 * Clear cache.
+	 */
+	protected function clearCache()
+	{
+		\App\Cache::delete('ModuleFields', $this->getModuleId());
+		\App\Cache::staticDelete('module', $this->getModuleId());
+		\App\Cache::staticDelete('module', $this->getModuleName());
 	}
 }
