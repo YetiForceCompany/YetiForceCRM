@@ -666,8 +666,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		const self = this,
 			sidebar = self.getSidebarView();
 		if (self.isRegisterUsersChangeRegistered) {
-			sidebar.find('.js-inputUserOwnerId').unbind("change");
-			sidebar.find('.js-inputUserOwnerIdAjax').unbind("click");
+			sidebar.off('change', '.js-inputUserOwnerId');
+			sidebar.off('change', '.js-inputUserOwnerIdAjax');
 		}
 		self.isRegisterUsersChangeRegistered = true;
 		sidebar.find('.js-inputUserOwnerId').on('change', () => {
