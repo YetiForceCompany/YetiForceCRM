@@ -159,7 +159,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	showStatusUpdate(params) {
 		const thisInstance = this,
 			progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		AppConnector.request(params).then((data) => {
+		AppConnector.request(params).done((data) => {
 			progressInstance.progressIndicator({mode: 'hide'});
 			let sideBar = thisInstance.getSidebarView();
 			sideBar.find('.js-qcForm').html(data);
@@ -394,7 +394,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			user: user,
 			time: app.getMainParams('showType'),
 			cvid: this.getCurrentCvId()
-		}).then(function (events) {
+		}).done(function (events) {
 			subDatesElements.each(function (key, element) {
 				$(this).find('.js-count-events').removeClass('hide').html(events.result[key]);
 			});
@@ -406,51 +406,48 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			'module': app.getModuleName(),
 			'view': 'EventForm',
 			'record': id
-		}).then(
-			(data) => {
-				aDeferred.resolve($(data));
-			},
-			() => {
-				aDeferred.reject();
-			}
-		);
+		}).done((data) => {
+			aDeferred.resolve($(data));
+		}).fail((error) => {
+			aDeferred.reject();
+			app.errorLog(error);
+		});
 		return aDeferred.promise();
 	},
 	getCalendarEditView(id) {
 		const thisInstance = this,
 			aDeferred = $.Deferred();
 		const progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		thisInstance.loadCalendarEditView(id).then((data) => {
-				progressInstance.progressIndicator({mode: 'hide'});
-				let sideBar = thisInstance.getSidebarView();
-				thisInstance.showRightPanelForm();
-				sideBar.find('.js-qcForm').html(data);
-				let rightFormCreate = $(document).find('form[name="QuickCreate"]'),
-					editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(sideBar.find('[name="module"]').val()),
-					headerInstance = new Vtiger_Header_Js();
-				editViewInstance.registerBasicEvents(rightFormCreate);
-				rightFormCreate.validationEngine(app.validationEngineOptions);
-				headerInstance.registerHelpInfo(rightFormCreate);
-				App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
-				thisInstance.registerSubmitForm();
-				sideBar.find('.summaryCloseEdit').on('click', function () {
-					thisInstance.getCalendarCreateView();
+		thisInstance.loadCalendarEditView(id).done((data) => {
+			progressInstance.progressIndicator({mode: 'hide'});
+			let sideBar = thisInstance.getSidebarView();
+			thisInstance.showRightPanelForm();
+			sideBar.find('.js-qcForm').html(data);
+			let rightFormCreate = $(document).find('form[name="QuickCreate"]'),
+				editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(sideBar.find('[name="module"]').val()),
+				headerInstance = new Vtiger_Header_Js();
+			editViewInstance.registerBasicEvents(rightFormCreate);
+			rightFormCreate.validationEngine(app.validationEngineOptions);
+			headerInstance.registerHelpInfo(rightFormCreate);
+			App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
+			thisInstance.registerSubmitForm();
+			sideBar.find('.summaryCloseEdit').on('click', function () {
+				thisInstance.getCalendarCreateView();
+			});
+			headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, {});
+			$.each(sideBar.find('.ckEditorSource'), function (key, element) {
+				let ckEditorInstance = new Vtiger_CkEditor_Js();
+				ckEditorInstance.loadCkEditor($(element), {
+					height: '5em',
+					toolbar: 'Min'
 				});
-				headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, {});
-				$.each(sideBar.find('.ckEditorSource'), function (key, element) {
-					let ckEditorInstance = new Vtiger_CkEditor_Js();
-					ckEditorInstance.loadCkEditor($(element), {
-						height: '5em',
-						toolbar: 'Min'
-					});
-				});
-				thisInstance.calendarCreateView = false;
-				aDeferred.resolve(sideBar.find('.js-qcForm'));
-			},
-			() => {
-				progressInstance.progressIndicator({mode: 'hide'});
-			}
-		);
+			});
+			thisInstance.calendarCreateView = false;
+			aDeferred.resolve(sideBar.find('.js-qcForm'));
+		}).fail((error) => {
+			progressInstance.progressIndicator({mode: 'hide'});
+			app.errorLog(error);
+		});
 		return aDeferred.promise();
 	},
 	loadCalendarData() {
@@ -490,7 +487,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				time: app.getMainParams('showType'),
 				filters: filters,
 				cvid: cvid
-			}).then((events) => {
+			}).done((events) => {
 				thisInstance.getCalendarView().fullCalendar('removeEvents');
 				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
 				progressInstance.progressIndicator({mode: 'hide'});
@@ -636,7 +633,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		if (end_hour == '') {
 			end_hour = '00';
 		}
-		this.getCalendarCreateView().then(function (data) {
+		this.getCalendarCreateView().done(function (data) {
 			if (data.length <= 0) {
 				return;
 			}
@@ -713,7 +710,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		$(document).find('form[name="QuickCreate"]').find('.save').on('click', function (e) {
 			if ($(this).parents('form:first').validationEngine('validate')) {
 				let formData = $(e.currentTarget).parents('form:first').serializeFormData();
-				AppConnector.request(formData).then((data) => {
+				AppConnector.request(formData).done((data) => {
 						if (data.success) {
 							let textToShow = '';
 							if (formData.record) {
@@ -756,14 +753,12 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		AppConnector.request({
 			'module': app.getModuleName(),
 			'view': 'EventForm',
-		}).then(
-			(data) => {
-				aDeferred.resolve($(data));
-			},
-			() => {
-				aDeferred.reject();
-			}
-		);
+		}).done((data) => {
+			aDeferred.resolve($(data));
+		}).fail((error) => {
+			aDeferred.reject();
+			app.errorLog(error);
+		});
 		return aDeferred.promise();
 	},
 	updateCalendarEvent(calendarEventId, eventData) {
@@ -796,35 +791,33 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			return thisInstance.calendarCreateView;
 		}
 		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		this.loadCalendarCreateView().then(
-			(data) => {
-				let sideBar = thisInstance.getSidebarView();
-				progressInstance.progressIndicator({mode: 'hide'});
-				thisInstance.showRightPanelForm();
-				sideBar.find('.js-qcForm').html(data);
-				let rightFormCreate = $(document).find('form[name="QuickCreate"]'),
-					moduleName = sideBar.find('[name="module"]').val(),
-					editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName),
-					headerInstance = new Vtiger_Header_Js();
-				App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
-				editViewInstance.registerBasicEvents(rightFormCreate);
-				rightFormCreate.validationEngine(app.validationEngineOptions);
-				headerInstance.registerHelpInfo(rightFormCreate);
-				thisInstance.registerSubmitForm();
-				headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, {});
-				$.each(sideBar.find('.ckEditorSource'), function (key, element) {
-					let ckEditorInstance = new Vtiger_CkEditor_Js();
-					ckEditorInstance.loadCkEditor($(element), {
-						height: '5em',
-						toolbar: 'Min'
-					});
+		this.loadCalendarCreateView().done((data) => {
+			let sideBar = thisInstance.getSidebarView();
+			progressInstance.progressIndicator({mode: 'hide'});
+			thisInstance.showRightPanelForm();
+			sideBar.find('.js-qcForm').html(data);
+			let rightFormCreate = $(document).find('form[name="QuickCreate"]'),
+				moduleName = sideBar.find('[name="module"]').val(),
+				editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName),
+				headerInstance = new Vtiger_Header_Js();
+			App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
+			editViewInstance.registerBasicEvents(rightFormCreate);
+			rightFormCreate.validationEngine(app.validationEngineOptions);
+			headerInstance.registerHelpInfo(rightFormCreate);
+			thisInstance.registerSubmitForm();
+			headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, {});
+			$.each(sideBar.find('.ckEditorSource'), function (key, element) {
+				let ckEditorInstance = new Vtiger_CkEditor_Js();
+				ckEditorInstance.loadCkEditor($(element), {
+					height: '5em',
+					toolbar: 'Min'
 				});
-				aDeferred.resolve(sideBar.find('.js-qcForm'));
-			},
-			() => {
-				progressInstance.progressIndicator({mode: 'hide'});
-			}
-		);
+			});
+			aDeferred.resolve(sideBar.find('.js-qcForm'));
+		}).fail((error) => {
+			progressInstance.progressIndicator({mode: 'hide'});
+			app.errorLog(error);
+		});
 		thisInstance.calendarCreateView = aDeferred.promise();
 		return thisInstance.calendarCreateView;
 	},
@@ -836,18 +829,16 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				'action': 'Calendar',
 				'mode': 'pinOrUnpinUser',
 				'element_id': thisInstance.data('elementid'),
-			}).then(
-				(data) => {
-					let response = data.result;
-					if (response === 'unpin') {
-						thisInstance.find('.fa-thumbtack').addClass('u-opacity-muted');
-					} else if (response === 'pin') {
-						thisInstance.find('.fa-thumbtack').removeClass('u-opacity-muted');
-					} else {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
-					}
+			}).done((data) => {
+				let response = data.result;
+				if (response === 'unpin') {
+					thisInstance.find('.fa-thumbtack').addClass('u-opacity-muted');
+				} else if (response === 'pin') {
+					thisInstance.find('.fa-thumbtack').removeClass('u-opacity-muted');
+				} else {
+					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
 				}
-			);
+			});
 		});
 	},
 	/**
