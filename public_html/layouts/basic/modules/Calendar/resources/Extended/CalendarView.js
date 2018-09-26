@@ -400,28 +400,6 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			});
 		});
 	},
-	generateYearList(dateStart, dateEnd) {
-		const thisInstance = this,
-			datesView = thisInstance.getDatesRowView();
-		let prevYear = moment(dateStart).subtract(1, 'year'),
-			actualYear = moment(dateStart),
-			nextYear = moment(dateStart).add(1, 'year'),
-			html = '',
-			active = '';
-		while (prevYear <= nextYear) {
-			if (prevYear.format('YYYY') === actualYear.format('YYYY')) {
-				active = ' date-active';
-			} else {
-				active = '';
-			}
-			html += '<div class="js-sub-record date-record col-4' + active + '" data-date="' + prevYear.format('YYYY') + '" data-js="click|class:date-active" data-type="years">' +
-				prevYear.format('YYYY') +
-				'<div class="js-count-events count badge badge-danger ml-1" data-js="html">0</div>' +
-				'</div>';
-			prevYear = moment(prevYear).add(1, 'year');
-		}
-		datesView.find('.js-sub-date-list').html(html);
-	},
 	loadCalendarEditView(id) {
 		const aDeferred = $.Deferred();
 		AppConnector.request({
@@ -539,6 +517,33 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			sidebar.find(".js-inputUserOwnerId[value=" + app.getMainParams('userId') + "]").prop('checked', true);
 			this.loadCalendarData();
 		});
+	},
+	generateYearList(dateStart, dateEnd) {
+		const thisInstance = this,
+			datesView = thisInstance.getDatesRowView();
+		let prevYear = moment(dateStart).subtract(1, 'year'),
+			actualYear = moment(dateStart),
+			nextYear = moment(dateStart).add(1, 'year'),
+			html = '',
+			active = '';
+		while (prevYear <= nextYear) {
+			if (prevYear.format('YYYY') === actualYear.format('YYYY')) {
+				active = 'sub-active';
+			} else {
+				active = '';
+			}
+			html +=
+				`<div class="js-sub-record sub-record col-4" data-date="${prevYear.format('YYYY')}" data-type="years" data-js="click|class:date-active">
+					<div class="sub-record-content ${active}">
+						<div class="sub-date-name">
+							${prevYear.format('YYYY')}
+							<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>
+						</div>
+					</div>
+				</div>`;
+			prevYear = moment(prevYear).add(1, 'year');
+		}
+		datesView.find('.js-sub-date-list').html(html);
 	},
 	generateSubMonthList(dateStart, dateEnd) {
 		let datesView = this.getDatesRowView(),
@@ -669,14 +674,14 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			sidebar.off('change', '.js-inputUserOwnerId');
 			sidebar.off('change', '.js-inputUserOwnerIdAjax');
 		}
-		self.isRegisterUsersChangeRegistered = true;
+			self.isRegisterUsersChangeRegistered = true;
 		sidebar.find('.js-inputUserOwnerId').on('change', () => {
-			self.loadCalendarData();
-		});
+				self.loadCalendarData();
+			});
 		sidebar.find('.js-inputUserOwnerIdAjax').on('change', () => {
-			self.loadCalendarData();
-		});
-		self.registerPinUser();
+				self.loadCalendarData();
+			});
+			self.registerPinUser();
 	},
 	addCalendarEvent(calendarDetails) {
 		let calendar = this.getCalendarView(),

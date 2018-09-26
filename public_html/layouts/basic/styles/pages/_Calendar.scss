@@ -192,13 +192,9 @@ $sitebar-border: 1px solid #ccc;
 			}
 		}
 	}
+
 	.sub-date-list {
 		text-align: center;
-
-		.date-active {
-			cursor: default;
-			background-color: material-color('blue-grey', '200');
-		}
 
 		.sub-record {
 			$margin: calculate-rem(5px);
@@ -206,32 +202,20 @@ $sitebar-border: 1px solid #ccc;
 			font-size: calculate-rem(13px);
 			min-width: 80px;
 			cursor: pointer;
+
 			.sub-record-content {
 				padding: 6px 3px;
 				height: 100%;
 			}
+
 			.sub-record-content.sub-active {
-				background-color: material-color('blue-grey', '200');
+				background-color: material-color('blue-grey', '50');
 				cursor: default;
 			}
 		}
 
 		.sub-date-name {
 			margin-bottom: 2px;
-		}
-	}
-
-	@media (max-width: 992px) {
-		.sub-date-list .subDateCount {
-			margin-top: 3px;
-			margin-bottom: 3px;
-		}
-	}
-
-	@media (min-width: 992px) {
-		.sub-date-list .subDateCount {
-			margin-top: 2px;
-			margin-bottom: 0px;
 		}
 	}
 

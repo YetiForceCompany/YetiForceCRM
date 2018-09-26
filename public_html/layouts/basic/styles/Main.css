@@ -15967,9 +15967,6 @@ label.btn.btn-outline-primary:not(.active) {
     margin-left: 0.3125rem; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list {
   text-align: center; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .date-active {
-    cursor: default;
-    background-color: #b0bec5; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record {
     height: 1.875rem;
     font-size: 0.8125rem;
@@ -15979,18 +15976,10 @@ label.btn.btn-outline-primary:not(.active) {
       padding: 6px 3px;
       height: 100%; }
     .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record .sub-record-content.sub-active {
-      background-color: #b0bec5;
+      background-color: #eceff1;
       cursor: default; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-date-name {
     margin-bottom: 2px; }
-@media (max-width: 992px) {
-  .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .subDateCount {
-    margin-top: 3px;
-    margin-bottom: 3px; } }
-@media (min-width: 992px) {
-  .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .subDateCount {
-    margin-top: 2px;
-    margin-bottom: 0px; } }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-state-default .fc-button-effect {
   top: 100% !important; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style1 {
@@ -16566,6 +16555,16 @@ label.btn.btn-outline-primary:not(.active) {
   position: relative;
   top: 0;
   left: 0.3125rem;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 0.6875rem;
+  vertical-align: bottom; }
+.c-arrows__icon {
+  display: inline-block;
+  position: relative;
+  top: -0.20rem;
+  left: 0.3125rem;
+  margin-right: 0.25rem;
   white-space: nowrap;
   overflow: hidden;
   font-size: 0.6875rem;
