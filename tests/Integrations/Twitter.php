@@ -67,7 +67,6 @@ class Twitter extends \Tests\Base
 		$param['blockid'] = $block->id;
 		$param['sourceModule'] = 'Contacts';
 		$param['fieldTypeList'] = 0;
-		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
 		static::$twitterFields[] = $moduleModel->addField($param['fieldType'], $block->id, $param);
 
 		static::addTwitter('yeti');
@@ -106,6 +105,12 @@ class Twitter extends \Tests\Base
 		);
 		try {
 			$fieldModel->getUITypeModel()->validate('abcd');
+			$this->assertTrue(true);
+		} catch (\App\Exceptions\Security $e) {
+			$this->assertTrue(false, $e->getMessage());
+		}
+		try {
+			$fieldModel->getUITypeModel()->validate('aBcD_314');
 			$this->assertTrue(true);
 		} catch (\App\Exceptions\Security $e) {
 			$this->assertTrue(false, $e->getMessage());
