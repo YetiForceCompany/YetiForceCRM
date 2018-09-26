@@ -3,6 +3,7 @@
     "YetiForce": "YetiForce",
     "LBL_YETIFORCE_STATUS_HEADER": "YetiForce Status",
     "LBL_YETIFORCE_STATUS_DESC": "Konfiguracja parametr\u00f3w us\u0142ugi status.",
+    "LBL_YETIFORCE_STATUS_FULL_DESC": "Mechanizm status-a ma na celu monitorowanie pracy systemu CRM i przekazywaniu wybranych informacji do YetiForce Sp. z o.o.\r\nZbierane informacje nie b\u0119d\u0105 publikowane i maj\u0105 na celu tylko monitorowanie systemu pod k\u0105tem nieprawid\u0142owego dzia\u0142ania systemu CRM i \u015brodowiska na kt\u00f3rym jest zainstalowany.",
     "LBL_PARAM_NAME": "Parametr",
     "LBL_PARAM_VAL": "Ustawienie",
     "LBL_PARAM_NOT_ALLOWED": "Niedozwolony parametr",

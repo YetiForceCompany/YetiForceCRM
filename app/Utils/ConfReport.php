@@ -90,7 +90,7 @@ class ConfReport
 		'session.name' => ['recommended' => 'YTSID', 'container' => 'php', 'type' => 'Equal', 'testCli' => false],
 		'expose_php' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session_regenerate_id' => ['recommended' => 'On', 'type' => 'SessionRegenerate', 'testCli' => true],
-		'disable_functions' => ['recommended' => 'shell_exec,exec,system,passthru', 'type' => 'In', 'container' => 'php', 'testCli' => true],
+		'disable_functions' => ['recommended' => 'shell_exec, exec, system, passthru', 'type' => 'In', 'container' => 'php', 'testCli' => true],
 		'allow_url_include' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'Header: Server' => ['recommended' => '', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: X-Powered-By' => ['recommended' => '', 'type' => 'Header', 'contaiuse_only_cookiesner' => 'request', 'testCli' => false],
@@ -277,7 +277,6 @@ class ConfReport
 		'public_html/modules/OSSMail/' => ['type' => 'IsWritable', 'testCli' => true],
 		'public_html/libraries/' => ['type' => 'IsWritable', 'testCli' => true],
 		'public_html/layouts/resources/Logo/' => ['type' => 'IsWritable', 'testCli' => true],
-		'vendor/mPDF/' => ['type' => 'IsWritable', 'testCli' => true],
 	];
 	/**
 	 * Php variables.
@@ -937,9 +936,9 @@ class ConfReport
 		unset($name);
 		$value = $row[$sapi];
 		if (!\is_array($row[$sapi])) {
-			$value = \explode(',', $row[$sapi]);
+			$value = \explode(', ', $row[$sapi]);
 		}
-		$recommended = \explode(',', $row['recommended']);
+		$recommended = \explode(', ', $row['recommended']);
 		foreach ($recommended as &$item) {
 			if (!\in_array($item, $value)) {
 				$row['status'] = false;
