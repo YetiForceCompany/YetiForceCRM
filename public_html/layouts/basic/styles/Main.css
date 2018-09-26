@@ -15940,12 +15940,17 @@ label.btn.btn-outline-primary:not(.active) {
       margin-bottom: 0.5rem; }
     .js-calendar-switch-container .btn-group:last-child {
       margin-left: 0.5rem !important; } }
+.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .c-tab--small .nav-link, .tpl-Calendar-Extended-CalendarViewPreProcess .detailViewInfo .dropdown.tabdrop .nav-link, .detailViewInfo .tpl-Calendar-Extended-CalendarViewPreProcess .dropdown.tabdrop .nav-link {
+  font-size: 14px !important;
+  line-height: 1.42857143;
+  height: 1.875rem; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn {
   padding: 0.44rem 1rem;
   font-size: 14px; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn {
   background: #ffe082;
-  border-color: #ffe082; }
+  border-color: #ffe082;
+  padding: 0.25rem 0.75rem; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn {
   border-radius: 0;
   height: 1.875rem !important;
@@ -16251,10 +16256,6 @@ label.btn.btn-outline-primary:not(.active) {
     padding: 0.3125rem 0.5rem !important; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .js-css-element-queries[max-width~="1500px"] .o-calendar__view-btn .textHolder {
   display: none; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .c-tab--small .nav-link, .tpl-Calendar-Extended-CalendarViewPreProcess .detailViewInfo .dropdown.tabdrop .nav-link, .detailViewInfo .tpl-Calendar-Extended-CalendarViewPreProcess .dropdown.tabdrop .nav-link {
-  font-size: 14px;
-  line-height: 1.42857143;
-  height: 1.875rem; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .c-tab--small .nav-link, .tpl-Calendar-Extended-CalendarViewPreProcess .detailViewInfo .dropdown.tabdrop .nav-link, .detailViewInfo .tpl-Calendar-Extended-CalendarViewPreProcess .dropdown.tabdrop .nav-link {
   padding: 0.3125rem 0.75rem; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .c-tab--small .nav-link.active, .tpl-Calendar-Extended-CalendarViewPreProcess .detailViewInfo .dropdown.tabdrop .nav-link.active, .detailViewInfo .tpl-Calendar-Extended-CalendarViewPreProcess .dropdown.tabdrop .nav-link.active {

@@ -75,6 +75,15 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 					eventLimitText: app.vtranslate('JS_COUNT_RECORDS'),
 					titleFormat: 'YYYY'
 				},
+				month: {
+					titleFormat: 'YYYY MMMM'
+				},
+				week: {
+					titleFormat: 'YYYY MMM D'
+				},
+				day: {
+					titleFormat: 'YYYY MMM D'
+				},
 				basicDay: {
 					type: 'agendaDay'
 				}

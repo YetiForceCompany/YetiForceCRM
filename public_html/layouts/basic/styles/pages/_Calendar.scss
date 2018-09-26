@@ -146,6 +146,11 @@ $sitebar-border: 1px solid #ccc;
 //Calendar Extended
 .tpl-Calendar-Extended-CalendarViewPreProcess {
 	$header-btn-font-size: 14px;
+	%calendar-header-button {
+		font-size: $header-btn-font-size !important;
+		line-height: 1.42857143;
+		height: calculate-rem(30px);
+	}
 	.o-calendar {
 		&__container {
 			@extend .pt-0;
@@ -160,9 +165,11 @@ $sitebar-border: 1px solid #ccc;
 		}
 
 		&__clear-btn {
+			@extend %calendar-header-button;
 			$clear-btn-color: material-color('amber', '200');
 			background: $clear-btn-color;
 			border-color: $clear-btn-color;
+			padding: calculate-rem(4px) calculate-rem(12px);
 		}
 
 		&__view-btn {
@@ -611,11 +618,6 @@ $sitebar-border: 1px solid #ccc;
 				}
 			}
 		}
-	}
-	%calendar-header-button {
-		font-size: $header-btn-font-size;
-		line-height: 1.42857143;
-		height: calculate-rem(30px);
 	}
 	//filter tabs active user color overwrite
 	.c-tab--small {
