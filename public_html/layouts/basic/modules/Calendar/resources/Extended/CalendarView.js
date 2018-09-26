@@ -663,17 +663,20 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		});
 	},
 	registerUsersChange() {
-		const self = this;
-		if (!self.isRegisterUsersChangeRegistered) {
-			self.isRegisterUsersChangeRegistered = true;
-			self.getSidebarView().find('.js-inputUserOwnerId').on('change', () => {
-				self.loadCalendarData();
-			});
-			self.getSidebarView().find('.js-inputUserOwnerIdAjax').on('change', () => {
-				self.loadCalendarData();
-			});
-			self.registerPinUser();
+		const self = this,
+			sidebar = self.getSidebarView();
+		if (self.isRegisterUsersChangeRegistered) {
+			sidebar.find('.js-inputUserOwnerId').unbind("change");
+			sidebar.find('.js-inputUserOwnerIdAjax').unbind("click");
 		}
+		self.isRegisterUsersChangeRegistered = true;
+		sidebar.find('.js-inputUserOwnerId').on('change', () => {
+			self.loadCalendarData();
+		});
+		sidebar.find('.js-inputUserOwnerIdAjax').on('change', () => {
+			self.loadCalendarData();
+		});
+		self.registerPinUser();
 	},
 	addCalendarEvent(calendarDetails) {
 		let calendar = this.getCalendarView(),
