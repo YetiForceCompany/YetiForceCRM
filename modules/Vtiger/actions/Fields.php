@@ -227,10 +227,9 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 			$data = ['isHolidayDate' => false];
 			if ($request->isEmpty('date', true)) {
 				$data['message'] = \App\Language::translate('LBL_NO_DATE');
-			}
-			if (empty($data['message'])) {
+			} else {
 				try {
-					$holidays = Settings_PublicHoliday_Module_Model::getHolidays([$request->getByType('date', 'Date'), $request->getByType('date', 'Date')]);
+					$holidays = Settings_PublicHoliday_Module_Model::getHolidays($request->getArray('date', 'Date'));
 					if (!empty($holidays)) {
 						$data = ['isHolidayDate' => true];
 					}

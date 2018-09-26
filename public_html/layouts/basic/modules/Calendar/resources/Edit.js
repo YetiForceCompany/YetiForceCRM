@@ -495,30 +495,30 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 	/**
 	 * Function validate is holiday day
 	 * @param {jQuery} form
-	 * @returns {Array}
+	 * @returns {boolean}
 	 */
 	validateHolidayDate(form) {
 		let fields = form.find('[name="date_start"], [name="due_date"]'),
-			fieldHoliday = [];
+			isHoliday = false,
+			fieldHolidayArray = [];
 		$.each(fields, function (index, fieldObj) {
-			AppConnector.request({
-				async: false,
-				data: {
-					module: form.find('[name="module"]').length ? form.find('[name="module"]').val() : app.getModuleName(),
-					action: 'Fields',
-					mode: 'verifyIsHolidayDate',
-					fieldName: fieldObj.name,
-					date: fieldObj.value
-				}
-			}).done(function (data) {
-				if (data.success === true) {
-					if (data.result.isHolidayDate === true) {
-						fieldHoliday.push(fieldObj.title);
-					}
-				}
-			});
+			fieldHolidayArray.push(fieldObj.value);
 		});
-		return fieldHoliday;
+		AppConnector.request({
+			async: false,
+			data: {
+				module: form.find('[name="module"]').length ? form.find('[name="module"]').val() : app.getModuleName(),
+				action: 'Fields',
+				mode: 'verifyIsHolidayDate',
+				fieldName: 'date_start',
+				date: fieldHolidayArray
+			}
+		}).done(function (data) {
+			if (true === data.success && true === data.result.isHolidayDate) {
+				isHoliday = true;
+			}
+		});
+		return isHoliday;
 	},
 	/**
 	 * Register pre save event
@@ -531,8 +531,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			let holidaysArray = self.validateHolidayDate(form);
 			if (lockSave && holidaysArray.length !== 0) {
 				e.preventDefault();
-				let messageContent = app.vtranslate("JS_DATES_SELECTED_INPUTS") + '"' + holidaysArray.join(', ') + '"' + app.vtranslate("JS_DATES_SELECTED_HOLIDAYS");
-				Vtiger_Helper_Js.showConfirmationBox({'message': messageContent}).done(function () {
+				Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate("JS_DATES_SELECTED_HOLIDAYS")}).done(function () {
 					lockSave = false;
 					form.submit();
 				});
