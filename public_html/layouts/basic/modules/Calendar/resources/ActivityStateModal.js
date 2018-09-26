@@ -5,40 +5,47 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 	registerActivityState() {
 		const self = this;
 		$('.js-activity-state button:not(.close)').on('click', function (e) {
-			let currentTarget = $(e.currentTarget);
+			let currentTarget = $(e.currentTarget),
+				viewName = app.getViewName();
 			currentTarget.closest('.modal').addClass('d-none');
-			if (currentTarget.data('type') == '1') {
+
+			if (1 === currentTarget.data('type')) {
 				self.updateActivityState(currentTarget);
-			}
-			if (currentTarget.hasClass('showQuickCreate')) {
-				let progressIndicatorElement = $.progressIndicator({
-						'position': 'html',
-						'blockInfo': {
-							'enabled': true
-						}
-					}),
-					url = 'index.php?module=Calendar&view=QuickCreateAjax&addRelation=true&sourceModule=Calendar&sourceRecord=' + currentTarget.data('id'),
-					params = {},
-					subject = currentTarget.closest('.modalEditStatus').find('.modalSummaryValues .fieldVal').data('subject'),
-					headerInstance = Vtiger_Header_Js.getInstance();
-				params.noCache = true;
-				headerInstance.getQuickCreateForm(url, 'Calendar', params).done(function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					if (currentTarget.data('type') == '0' && typeof subject !== "undefined" && subject.length > 0) {
-						data = $(data);
-						let element = data.find('[name="subject"]');
-						if (element.length) {
-							element.val(subject);
-						}
-					}
-					headerInstance.handleQuickCreateData(data, {
-						callbackFunction: function (data) {
-							if (data && data.success && data.result.followup.value == currentTarget.data('id')) {
-								self.updateActivityState(currentTarget);
+			} else {
+				if (app.getModuleName() === 'Calendar' && viewName === 'CalendarExtended') {
+					(Calendar_Calendar_Js.getInstanceByView()).getCalendarEditView(currentTarget.data('id'));
+				} else {
+					if (currentTarget.hasClass('showQuickCreate')) {
+						let progressIndicatorElement = $.progressIndicator({
+								'position': 'html',
+								'blockInfo': {
+									'enabled': true
+								}
+							}),
+							url = 'index.php?module=Calendar&view=QuickCreateAjax&addRelation=true&sourceModule=Calendar&sourceRecord=' + currentTarget.data('id'),
+							params = {},
+							subject = currentTarget.closest('.modalEditStatus').find('.modalSummaryValues .fieldVal').data('subject'),
+							headerInstance = Vtiger_Header_Js.getInstance();
+						params.noCache = true;
+						headerInstance.getQuickCreateForm(url, 'Calendar', params).done(function (data) {
+							progressIndicatorElement.progressIndicator({'mode': 'hide'});
+							if (currentTarget.data('type') == '0' && typeof subject !== "undefined" && subject.length > 0) {
+								data = $(data);
+								let element = data.find('[name="subject"]');
+								if (element.length) {
+									element.val(subject);
+								}
 							}
-						}
-					});
-				});
+							headerInstance.handleQuickCreateData(data, {
+								callbackFunction: function (data) {
+									if (data && data.success && data.result.followup.value == currentTarget.data('id')) {
+										self.updateActivityState(currentTarget);
+									}
+								}
+							});
+						});
+					}
+				}
 			}
 		});
 	},
@@ -85,8 +92,9 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 					(new Vtiger_DashBoard_Js()).getContainer().find('a[name="drefresh"]').trigger('click');
 				}
 				if (app.getModuleName() === 'Calendar' && (viewName === 'Calendar' || viewName === 'CalendarExtended')) {
-					(Calendar_Calendar_Js.getInstanceByView()).loadCalendarData();
-					(Calendar_Calendar_Js.getInstanceByView()).getCalendarCreateView();
+					const calendarInstance = Calendar_Calendar_Js.getInstanceByView();
+					calendarInstance.loadCalendarData();
+					calendarInstance.getCalendarCreateView();
 				}
 				//updates the Calendar Reminder popup's status
 				Vtiger_Index_Js.requestReminder();
