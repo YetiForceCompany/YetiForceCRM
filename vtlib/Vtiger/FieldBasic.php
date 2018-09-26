@@ -313,6 +313,9 @@ class FieldBasic
 		} else {
 			$this->__create($blockInstance);
 		}
+		\App\Cache::delete('ModuleFields', $this->getModuleId());
+		\App\Cache::get('module', $this->getModuleId());
+		\App\Cache::get('module', $this->getModuleName());
 		return $this->id;
 	}
 
