@@ -674,14 +674,14 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			sidebar.off('change', '.js-inputUserOwnerId');
 			sidebar.off('change', '.js-inputUserOwnerIdAjax');
 		}
-			self.isRegisterUsersChangeRegistered = true;
+		self.isRegisterUsersChangeRegistered = true;
 		sidebar.find('.js-inputUserOwnerId').on('change', () => {
-				self.loadCalendarData();
-			});
+			self.loadCalendarData();
+		});
 		sidebar.find('.js-inputUserOwnerIdAjax').on('change', () => {
-				self.loadCalendarData();
-			});
-			self.registerPinUser();
+			self.loadCalendarData();
+		});
+		self.registerPinUser();
 	},
 	addCalendarEvent(calendarDetails) {
 		let calendar = this.getCalendarView(),
@@ -692,6 +692,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				title: calendarDetails.subject.display_value,
 				start: startDate.format(),
 				end: endDate.format(),
+				module: 'Calendar',
 				url: 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId,
 				activitytype: calendarDetails.activitytype.value,
 				allDay: calendarDetails.allday.value == 'on',
