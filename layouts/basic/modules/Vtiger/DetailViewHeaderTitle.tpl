@@ -64,6 +64,6 @@
 		</div>
 		{include file=\App\Layout::getTemplatePath('Detail/HeaderFields.tpl', $MODULE_NAME)}
 	</div>
-	{include file=\App\Layout::getTemplatePath('Detail/HeaderProgress.tpl', $MODULE_NAME)}\
+	{include file=\App\Layout::getTemplatePath('Detail/HeaderProgress.tpl', $MODULE_NAME)}
 	<!-- /tpl-Base-DetailViewHeaderTitle -->
 {/strip}
