@@ -358,7 +358,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			if (self.hasClass('active')) {
 				container.find('.js-completed').remove();
 			} else {
-				container.append('<input class="js-completed" type=hidden name="markAsCompleted" value="PLL_COMPLETED" data-js="remove">');
+				container.append('<input class="js-completed" type=hidden name="activitystatus" value="PLL_COMPLETED" data-js="remove">');
 			}
 		});
 	},

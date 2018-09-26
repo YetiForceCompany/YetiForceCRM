@@ -26,9 +26,6 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		} else {
 			$recordModel = parent::getRecordModelFromRequest($request);
 		}
-		if ($request->has('markAsCompleted')) {
-			$recordModel->set('activitystatus', $request->get('markAsCompleted'));
-		}
 		return $recordModel;
 	}
 }

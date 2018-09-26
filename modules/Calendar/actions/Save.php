@@ -48,9 +48,6 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 	protected function getRecordModelFromRequest(\App\Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
-		if ($request->has('markAsCompleted')) {
-			$recordModel->set('activitystatus', $request->get('markAsCompleted'));
-		}
 		if (!$request->isEmpty('typeSaving') && $request->getInteger('typeSaving') === Calendar_RecuringEvents_Model::UPDATE_THIS_EVENT) {
 			$recordModel->set('recurrence', $recordModel->getPreviousValue('recurrence'));
 		}
