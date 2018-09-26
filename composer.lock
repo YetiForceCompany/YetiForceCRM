@@ -329,16 +329,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.9.13",
+            "version": "8.9.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "cb4e0cf25f742a838b9d53ed6a7088c4f24086f3"
+                "reference": "338f988183bee1e85ec7b4ef425a3e64a7604473"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/cb4e0cf25f742a838b9d53ed6a7088c4f24086f3",
-                "reference": "cb4e0cf25f742a838b9d53ed6a7088c4f24086f3",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/338f988183bee1e85ec7b4ef425a3e64a7604473",
+                "reference": "338f988183bee1e85ec7b4ef425a3e64a7604473",
                 "shasum": ""
             },
             "require": {
@@ -352,7 +352,7 @@
                 "pear/versioncontrol_git": "^0.5",
                 "phing/phing": "^2.7",
                 "php-coveralls/php-coveralls": "^1.0|^2.0",
-                "phpunit/phpunit": "^4.8|^5.0",
+                "phpunit/phpunit": "^4.8.36|^5.0",
                 "symfony/console": "^2.8|^3.0"
             },
             "type": "library",
@@ -393,7 +393,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2018-09-10T15:26:43+00:00"
+            "time": "2018-09-19T15:54:29+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -627,16 +627,16 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v5.7.3",
+            "version": "v5.7.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
-                "reference": "fd5d68eddfe49647f8354ac4c5f09cb88ccece7a"
+                "reference": "2daf3c078610f744e2a4dc2f44fb5060cce9835b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/contracts/zipball/fd5d68eddfe49647f8354ac4c5f09cb88ccece7a",
-                "reference": "fd5d68eddfe49647f8354ac4c5f09cb88ccece7a",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/2daf3c078610f744e2a4dc2f44fb5060cce9835b",
+                "reference": "2daf3c078610f744e2a4dc2f44fb5060cce9835b",
                 "shasum": ""
             },
             "require": {
@@ -667,20 +667,20 @@
             ],
             "description": "The Illuminate Contracts package.",
             "homepage": "https://laravel.com",
-            "time": "2018-09-05T21:56:43+00:00"
+            "time": "2018-09-18T12:50:05+00:00"
         },
         {
             "name": "illuminate/support",
-            "version": "v5.7.3",
+            "version": "v5.7.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "966c3198b5f82c00f8e5f7b6f16c35ffcb636acc"
+                "reference": "f7c68e8c8aab200cc8ad84f974d5511cda58a742"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/966c3198b5f82c00f8e5f7b6f16c35ffcb636acc",
-                "reference": "966c3198b5f82c00f8e5f7b6f16c35ffcb636acc",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/f7c68e8c8aab200cc8ad84f974d5511cda58a742",
+                "reference": "f7c68e8c8aab200cc8ad84f974d5511cda58a742",
                 "shasum": ""
             },
             "require": {
@@ -726,7 +726,7 @@
             ],
             "description": "The Illuminate Support package.",
             "homepage": "https://laravel.com",
-            "time": "2018-09-07T22:44:17+00:00"
+            "time": "2018-09-19T18:36:57+00:00"
         },
         {
             "name": "kzykhys/php-csv-parser",
@@ -910,16 +910,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.33.0",
+            "version": "1.34.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "55667c1007a99e82030874b1bb14d24d07108413"
+                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/55667c1007a99e82030874b1bb14d24d07108413",
-                "reference": "55667c1007a99e82030874b1bb14d24d07108413",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
+                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
                 "shasum": ""
             },
             "require": {
@@ -961,7 +961,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-08-07T08:39:47+00:00"
+            "time": "2018-09-20T19:36:25+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -2304,16 +2304,16 @@
         },
         {
             "name": "tecnickcom/tcpdf",
-            "version": "6.2.22",
+            "version": "6.2.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "ac6e92fccc7d9383dfd787056831349621b1aca2"
+                "reference": "a5135e2cf02f8c935b71e9e7d676f0f1d31b1b9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/ac6e92fccc7d9383dfd787056831349621b1aca2",
-                "reference": "ac6e92fccc7d9383dfd787056831349621b1aca2",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/a5135e2cf02f8c935b71e9e7d676f0f1d31b1b9d",
+                "reference": "a5135e2cf02f8c935b71e9e7d676f0f1d31b1b9d",
                 "shasum": ""
             },
             "require": {
@@ -2362,7 +2362,7 @@
                 "pdf417",
                 "qrcode"
             ],
-            "time": "2018-09-14T15:26:29+00:00"
+            "time": "2018-09-23T07:52:24+00:00"
         },
         {
             "name": "yetiforce/csrf-magic",
