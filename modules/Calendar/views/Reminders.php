@@ -11,18 +11,17 @@
 
 class Calendar_Reminders_View extends Vtiger_IndexAjax_View
 {
+	/**
+	 * Process.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		if ($request->getBoolean('type_remainder')) {
-			$recordModels = Calendar_Module_Model::getCalendarReminder(true);
-		} else {
-			$recordModels = Calendar_Module_Model::getCalendarReminder();
-		}
-		foreach ($recordModels as $record) {
-			$record->updateReminderStatus(2);
-		}
+		$recordModels = Calendar_Module_Model::getCalendarReminder();
+
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 		$permissionToSendEmail = $permission && AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail');
