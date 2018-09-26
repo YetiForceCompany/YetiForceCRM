@@ -86,6 +86,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 				}
 				if (app.getModuleName() === 'Calendar' && (viewName === 'Calendar' || viewName === 'CalendarExtended')) {
 					(Calendar_Calendar_Js.getInstanceByView()).loadCalendarData();
+					(Calendar_Calendar_Js.getInstanceByView()).getCalendarCreateView();
 				}
 				//updates the Calendar Reminder popup's status
 				Vtiger_Index_Js.requestReminder();
