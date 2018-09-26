@@ -21,18 +21,18 @@ let YearView = View.extend({
 		return `	
 			<div class="h-100 fc-year">
 				<div class="fc-year__container row no-gutters">
-					<div class="fc-january fc-year__month col-sm-6 col-lg-4 col-xl-3" data-date="${year}-01-01"></div>
-					<div class="fc-february fc-year__month col-sm-6 col-lg-4 col-xl-3" data-date="${year}-02-01"></div>
-					<div class="fc-march fc-year__month col-sm-6 col-lg-4 col-xl-3" data-date="${year}-03-01"></div>
-					<div class="fc-april fc-year__month col-sm-6 col-lg-4 col-xl-3" data-date="${year}-04-01"></div>
-					<div class="fc-may fc-year__month col-sm-6 col-lg-4 col-xl-3" data-date="${year}-05-01"></div>
-					<div class="fc-june fc-year__month col-sm-6 col-lg-4 col-xl-3" data-date="${year}-06-01"></div>
-					<div class="fc-july fc-year__month col-sm-6 col-lg-4 col-xl-3" data-date="${year}-07-01"></div>
-					<div class="fc-august fc-year__month col-sm-6 col-lg-4 col-xl-3" data-date="${year}-08-01"></div>
-					<div class="fc-september fc-year__month col-sm-6 col-lg-4 col-xl-3" data-date="${year}-09-01"></div>
-					<div class="fc-october fc-year__month col-sm-6 col-lg-4 col-xl-3" data-date="${year}-10-01"></div>
-					<div class="fc-november fc-year__month col-sm-6 col-lg-4 col-xl-3" data-date="${year}-11-01"></div>
-					<div class="fc-december fc-year__month col-sm-6 col-lg-4 col-xl-3" data-date="${year}-12-01"></div>
+					<div class="fc-january fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-01-01"></div>
+					<div class="fc-february fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-02-01"></div>
+					<div class="fc-march fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-03-01"></div>
+					<div class="fc-april fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-04-01"></div>
+					<div class="fc-may fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-05-01"></div>
+					<div class="fc-june fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-06-01"></div>
+					<div class="fc-july fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-07-01"></div>
+					<div class="fc-august fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-08-01"></div>
+					<div class="fc-september fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-09-01"></div>
+					<div class="fc-october fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-10-01"></div>
+					<div class="fc-november fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-11-01"></div>
+					<div class="fc-december fc-year__month col-sm-6 col-lg-4 col-xl-3 ${col2Breakpoint}" data-date="${year}-12-01"></div>
 				</div>
 			</div>
 		`;
