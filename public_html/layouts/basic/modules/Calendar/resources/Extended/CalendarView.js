@@ -384,7 +384,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			} else if (type === 'weeks') {
 				dateArray[key] = [moment(data).format('YYYY-MM-DD'), moment(data).add(1, 'weeks').format('YYYY-MM-DD')];
 			} else if (type === 'days') {
-				dateArray[key] = [moment(data).format('YYYY-MM-DD'), moment(data).format('YYYY-MM-DD')];
+				dateArray[key] = [moment(data).format('YYYY-MM-DD'), moment(data).add(1, 'day').format('YYYY-MM-DD')];
 			}
 		});
 		AppConnector.request({
