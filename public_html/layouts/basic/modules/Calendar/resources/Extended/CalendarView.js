@@ -143,12 +143,14 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		this.calendar.fullCalendar('destroy');
 		this.calendar.fullCalendar(options);
 		this.createAddSwitch();
-		this.addHeaderButtons()
 	},
 	addHeaderButtons() {
+		if (this.calendar.find('.js-calendar__view-btn').length) {
+			return;
+		}
 		let buttonsContainer = this.calendar.prev('.js-calendar__header-buttons'),
-			viewBtn = buttonsContainer.find('.js-calendar__view-btn'),
-			filters = buttonsContainer.find('.js-calendar__filter-container');
+			viewBtn = buttonsContainer.find('.js-calendar__view-btn').clone(),
+			filters = buttonsContainer.find('.js-calendar__filter-container').clone();
 		this.calendar.find('.fc-left').prepend(viewBtn);
 		this.calendar.find('.fc-center').after(filters);
 	},
@@ -281,6 +283,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 		let yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
 		this.appendSubDateRow(toolbar);
 		this.refreshDatesRowView(view);
+		this.addHeaderButtons();
 		if (view.type === 'year') {
 			nextPrevButtons.hide();
 			yearButtons.show();
