@@ -261,7 +261,6 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			this.subDateRow = $(`
 								<div class="js-scroll js-dates-row u-overflow-auto-lg-down order-4 flex-grow-1 position-relative my-1" data-js="perfectScrollbar | container">
 									<div class="d-flex flex-nowrap w-100">
-										<div class="js-date-list date-list d-flex mr-1" js-data="html"></div>
 										<div class="js-sub-date-list w-100 sub-date-list row no-gutters flex-nowrap" data-js="data-type"></div>
 									</div>
 								</div>
@@ -280,20 +279,18 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	 * @param element
 	 */
 	registerViewRenderEvents(view, noCounting) {
-		let toolbar = this.getCalendarView().find('.fc-toolbar.fc-header-toolbar');
-		let nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button');
-		let yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
+		let toolbar = this.getCalendarView().find('.fc-toolbar.fc-header-toolbar'),
+			nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button'),
+			yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
 		this.appendSubDateRow(toolbar);
 		this.refreshDatesRowView(view, noCounting);
 		this.addHeaderButtons();
 		if (view.type === 'year') {
 			nextPrevButtons.hide();
 			yearButtons.show();
-			this.subDateRow.hide();
 		} else {
 			nextPrevButtons.show();
 			yearButtons.hide();
-			this.subDateRow.show();
 		}
 	},
 	refreshDatesRowView(calendarView, noCounting) {
@@ -311,18 +308,14 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		}
 		if ('year' === subDateListUnit) {
 			self.generateYearList(calendarView.intervalStart, calendarView.intervalEnd);
-			self.getDatesRowView().find('.js-sub-date-list').html('');
 		} else if ('month' === subDateListUnit) {
-			self.generateYearList(calendarView.intervalStart, calendarView.intervalEnd);
 			self.generateSubMonthList(calendarView.intervalStart, calendarView.intervalEnd);
 		} else if ('week' === subDateListUnit) {
-			self.generateMonthList(calendarView.intervalStart, calendarView.intervalEnd);
 			self.generateSubWeekList(calendarView.start, calendarView.end);
 		} else if ('day' === subDateListUnit) {
-			self.generateWeekList(calendarView.start, calendarView.end);
 			self.generateSubDaysList(calendarView.start, calendarView.end);
 		}
-		if ('year' !== subDateListUnit && !noCounting) {
+		if (!noCounting) {
 			self.updateCountTaskCalendar();
 		}
 		self.registerDatesChange();
@@ -383,7 +376,9 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		subDatesElements.each(function (key, element) {
 			let data = $(this).data('date'),
 				type = $(this).data('type');
-			if (type === 'months') {
+			if (type === 'years') {
+				dateArray[key] = [moment(data + '-01').format('YYYY-MM') + '-01', moment(data + '-01').endOf('year').format('YYYY-MM-DD')];
+			} else if (type === 'months') {
 				dateArray[key] = [moment(data).format('YYYY-MM') + '-01', moment(data).endOf('month').format('YYYY-MM-DD')];
 			} else if (type === 'weeks') {
 				dateArray[key] = [moment(data).format('YYYY-MM-DD'), moment(data).add(1, 'weeks').format('YYYY-MM-DD')];
@@ -419,55 +414,13 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			} else {
 				active = '';
 			}
-			html += '<div class="js-date-record date-record' + active + '" data-date="' + prevYear.format('YYYY') + '" data-js="click|class:date-active">' +
+			html += '<div class="js-sub-record date-record col-4' + active + '" data-date="' + prevYear.format('YYYY') + '" data-js="click|class:date-active" data-type="years">' +
 				prevYear.format('YYYY') +
+				'<div class="js-count-events count badge badge-danger c-badge--md ml-1" data-js="html">0</div>' +
 				'</div>';
 			prevYear = moment(prevYear).add(1, 'year');
 		}
-		datesView.find('.js-date-list').html(html);
-	},
-	generateMonthList(dateStart, dateEnd) {
-		const thisInstance = this,
-			datesView = thisInstance.getDatesRowView();
-		let prevMonth = moment(dateStart).subtract(1, 'months'),
-			actualMonth = moment(dateStart),
-			nextMonth = moment(dateStart).add(1, 'months'),
-			html = '',
-			active = '';
-		while (prevMonth <= nextMonth) {
-			if (prevMonth.format('YYYY-MM') === actualMonth.format('YYYY-MM')) {
-				active = ' date-active';
-			} else {
-				active = '';
-			}
-			html += '<div class="js-date-record date-record' + active + '" data-date="' + prevMonth.format('YYYY-MM-DD') + '">' +
-				prevMonth.format('MMMM') +
-				'</div>';
-			prevMonth = moment(prevMonth).add(1, 'months');
-		}
-		datesView.find('.js-date-list').html(html);
-	},
-	generateWeekList(dateStart, dateEnd) {
-		const thisInstance = this,
-			datesView = thisInstance.getDatesRowView();
-		let prevMonth = moment(dateStart).subtract(1, 'week'),
-			actualMonth = moment(dateStart),
-			nextMonth = moment(dateStart).add(1, 'week'),
-			html = '',
-			active = '';
-		while (prevMonth <= nextMonth) {
-			if (prevMonth.format('WW') === actualMonth.format('WW') && prevMonth.format('YYYY') === actualMonth.format('YYYY')) {
-				active = ' date-active';
-			} else {
-				active = '';
-			}
-			html += '<div class="js-date-record date-record' + active + '" data-date="' + prevMonth.format('YYYY-MM-DD') + '">' +
-				app.vtranslate('JS_WEEK_SHORT') + ' ' +
-				prevMonth.format('WW') +
-				'</div>';
-			prevMonth = moment(prevMonth).add(1, 'week');
-		}
-		datesView.find('.js-date-list').html(html);
+		datesView.find('.js-sub-date-list').html(html);
 	},
 	loadCalendarEditView(id) {
 		const aDeferred = $.Deferred();
@@ -562,10 +515,10 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			}).then((events) => {
 				thisInstance.getCalendarView().fullCalendar('removeEvents');
 				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
-				thisInstance.registerViewRenderEvents(thisInstance.getCalendarView().fullCalendar('getView'), false);
 				progressInstance.progressIndicator({mode: 'hide'});
 			});
 		}
+		thisInstance.registerViewRenderEvents(thisInstance.getCalendarView().fullCalendar('getView'), false);
 	},
 	clearFilterButton(user, filters, cvid) {
 		let currentUser = parseInt(app.getMainParams('userId')),
