@@ -8,17 +8,17 @@
  *************************************************************************************/
 'use strict';
 
-jQuery.Class("Calendar_CalendarView_Js", {
-	currentInstance: false,
-	getInstanceByView: function () {
-		var view = $('#currentView').val();
-		var jsFileName = view + 'View';
-		var moduleClassName = "Calendar_" + jsFileName + "_Js";
+jQuery.Class("Calendar_Calendar_Js", {
+	getInstanceByView: function (view) {
+		if(typeof view === 'undefined' ) {
+			var view = $('#currentView').val();
+		}
+		var moduleClassName = "Calendar_" + view + "_Js";
 		var instance;
 		if (typeof window[moduleClassName] !== "undefined") {
 			instance = new window[moduleClassName]();
 		} else {
-			instance = new Calendar_CalendarView_Js();
+			instance = new Calendar_Calendar_Js();
 		}
 		return instance;
 	},
@@ -37,6 +37,16 @@ jQuery.Class("Calendar_CalendarView_Js", {
 }, {
 	calendarView: false,
 	calendarCreateView: false,
+	container: false,
+	getContainer: function(){
+		if(!this.container) {
+			this.container = $('.js-base-container');
+		}
+		return this.container;
+	},
+	setContainer: function(container){
+		this.container = container;
+	},
 	renderCalendar: function () {
 		var thisInstance = this;
 		var eventLimit = app.getMainParams('eventLimit');
@@ -97,7 +107,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			selectable: true,
 			selectHelper: true,
 			hiddenDays: hiddenDays,
-			height: app.setCalendarHeight(),
+			height: app.setCalendarHeight(this.getContainer()),
 			views: {
 				basic: {
 					eventLimit: false,
@@ -632,9 +642,4 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		this.registerButtonSelectAll();
 		this.registerChangeView();
 	}
-});
-jQuery(document).ready(function () {
-	let instance = Calendar_CalendarView_Js.getInstanceByView();
-	instance.registerEvents();
-	Calendar_CalendarView_Js.currentInstance = instance;
 });

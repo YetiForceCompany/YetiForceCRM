@@ -79,7 +79,7 @@
 					{/if}
 				{/foreach}
 			{/if}
-			<button type="button" class="btn btn-success save mt-1"
+			<button type="submit" class="btn btn-success save mt-1"
 					title="{\App\Language::translate('LBL_SAVE', $MODULE)}" data-js="click">
 				{\App\Language::translate('LBL_SAVE', $MODULE)}
 			</button>

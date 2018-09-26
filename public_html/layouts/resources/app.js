@@ -1405,8 +1405,10 @@ var App = {},
 			}
 			return $(window).height() * percantage / 100;
 		},
-		setCalendarHeight() {
-			const container = $('.js-base-container');
+		setCalendarHeight(container) {
+			if (typeof container === 'undefined') {
+				container = $('.js-base-container');
+			}
 			let paddingTop = 15;
 			if ('CalendarExtended' === CONFIG.view) {
 				paddingTop = 5;

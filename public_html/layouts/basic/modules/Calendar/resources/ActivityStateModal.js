@@ -85,7 +85,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 					(new Vtiger_DashBoard_Js()).getContainer().find('a[name="drefresh"]').trigger('click');
 				}
 				if (app.getModuleName() === 'Calendar' && (viewName === 'Calendar' || viewName === 'CalendarExtended')) {
-					(Calendar_CalendarView_Js.getInstanceByView()).loadCalendarData();
+					(Calendar_Calendar_Js.getInstanceByView()).loadCalendarData();
 				}
 				//updates the Calendar Reminder popup's status
 				Vtiger_Index_Js.requestReminder();

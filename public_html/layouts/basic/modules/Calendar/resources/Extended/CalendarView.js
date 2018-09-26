@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
+Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	isRegisterUsersChangeRegistered: false,
 	datesRowView: false,
 	/**
@@ -65,7 +65,7 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 			selectable: true,
 			selectHelper: true,
 			hiddenDays: hiddenDays,
-			height: app.setCalendarHeight(),
+			height: app.setCalendarHeight(this.getContainer()),
 			views: {
 				basic: {
 					eventLimit: false,

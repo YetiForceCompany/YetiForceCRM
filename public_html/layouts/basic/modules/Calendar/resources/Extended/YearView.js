@@ -1,9 +1,9 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
-let FC = $.fullCalendar; // a reference to FullCalendar's root namespace
-let View = FC.View;      // the class that all views must inherit from
+var FC = $.fullCalendar; // a reference to FullCalendar's root namespace
+var View = FC.View;      // the class that all views must inherit from
 
-let YearView = View.extend({
+var YearView = View.extend({
 	isRegisterUsersChangeRegistered: false,
 	calendarView: false,
 	calendarCreateView: false,
