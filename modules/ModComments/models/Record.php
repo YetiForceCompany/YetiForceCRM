@@ -169,9 +169,9 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	{
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
-			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', ]);
+			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'parents']);
 		$queryGenerator->setSourceRecord($parentId);
-		if (empty($hierarchy) || (count($hierarchy) == 1 && reset($hierarchy) == 0)) {
+		if (empty($hierarchy) || (count($hierarchy) === 1 && reset($hierarchy) === 0)) {
 			$queryGenerator->addNativeCondition(['related_to' => $parentId]);
 		} else {
 			$recordIds = \App\ModuleHierarchy::getRelatedRecords($parentId, $hierarchy);
@@ -234,7 +234,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Returns child comments models for a comment.
 	 *
-	 * @return ModComment_Record_Model(s)
+	 * @return ModComment_Record_Model[]
 	 */
 	public function getChildComments()
 	{
@@ -244,7 +244,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		}
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
-			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid', ]);
+			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid', 'parents']);
 		//Condition are directly added as query_generator transforms the
 		//reference field and searches their entity names
 		$queryGenerator->addNativeCondition(['parent_comments' => $parentCommentId, 'related_to' => $this->get('related_to')]);
@@ -254,6 +254,102 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$recordInstance = new self();
 			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 			$recordInstances[] = $recordInstance;
+		}
+		return $recordInstances;
+	}
+
+	/**
+	 * Returns parent comment models for a comment.
+	 *
+	 * @return ModComment_Record_Model[]
+	 */
+	public function getParentComments()
+	{
+		$commentId = $this->getId();
+		$parentCommentId = explode('::', $this->get('parents'))[0];
+		if (empty($commentId) || empty($parentCommentId)) {
+			return;
+		}
+		$queryGenerator = new \App\QueryGenerator('ModComments');
+		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
+			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid', 'parents']);
+		$queryGenerator->addNativeCondition(['modcommentsid' => $parentCommentId, 'related_to' => $this->get('related_to')]);
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		$recordInstances = [];
+		while ($row = $dataReader->read()) {
+			$recordInstance = new self();
+			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
+			$recordInstances[] = $recordInstance;
+		}
+		return $recordInstances;
+	}
+
+	/**
+	 * Function returns all the parent comments model.
+	 *
+	 * @param int                 $parentId
+	 * @param string              $searchValue
+	 * @param bool                $isWidget
+	 * @param int[]               $hierarchy
+	 * @param Vtiger_Paging_Model $pagingModel
+	 *
+	 * @return \ModComments_Record_Model[]
+	 */
+	public static function getSearchComments(int $parentId, string $searchValue, bool $isWidget, array $hierarchy = [], Vtiger_Paging_Model $pagingModel = null)
+	{
+		$queryGenerator = new \App\QueryGenerator('ModComments');
+		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
+			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'parents']);
+		$queryGenerator->setSourceRecord($parentId);
+		if (empty($hierarchy) || (count($hierarchy) === 1 && reset($hierarchy) === 0)) {
+			$queryGenerator->addNativeCondition(['related_to' => $parentId]);
+		} else {
+			$recordIds = \App\ModuleHierarchy::getRelatedRecords($parentId, $hierarchy);
+			if (empty($recordIds)) {
+				return [];
+			}
+			$queryGenerator->addNativeCondition(['related_to' => $recordIds]);
+		}
+		$queryGenerator->addNativeCondition(['like', 'commentcontent', '%' . $searchValue . '%', false]);
+		$query = $queryGenerator->createQuery()->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC]);
+		if ($pagingModel && $pagingModel->get('limit') !== 0) {
+			$query->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
+		}
+		$dataReader = $query->createCommand()->query();
+		if ($isWidget) {
+			while ($row = $dataReader->read()) {
+				$recordInstance = new self();
+				$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
+				$recordInstances[] = $recordInstance;
+			}
+			$dataReader->close();
+		} else {
+			$commentsId = [];
+			while ($row = $dataReader->read()) {
+				$parentTempId = strstr($row['parents'], '::', true) ?: $row['parents'];
+				if (!empty($parentTempId) && !$isWidget) {
+					$commentsId[] = $parentTempId;
+				} else {
+					$commentsId[] = $row['id'];
+				}
+			}
+			$recordInstances = [];
+			if (!empty($commentsId)) {
+				$queryGeneratorParents = new \App\QueryGenerator('ModComments');
+				$queryGeneratorParents->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
+					'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'parents']);
+				$queryGeneratorParents->addNativeCondition(['in', 'modcommentsid', array_unique($commentsId)], false);
+				$parentQuery = $queryGeneratorParents->createQuery();
+				if ($pagingModel && $pagingModel->get('limit') !== 0) {
+					$parentQuery->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
+				}
+				$dataReaderParents = $parentQuery->createCommand()->query();
+				while ($row = $dataReaderParents->read()) {
+					$recordInstance = new self();
+					$recordInstance->setData($row)->setModuleFromInstance($queryGeneratorParents->getModuleModel());
+					$recordInstances[] = $recordInstance;
+				}
+			}
 		}
 		return $recordInstances;
 	}
@@ -269,32 +365,32 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
 		if ($this->privilegeToArchive()) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'LBL_ARCHIVE_RECORD',
-					'title' => \App\Language::translate('LBL_ARCHIVE_RECORD'),
-					'linkurl' => 'javascript:app.showConfirmation({type: "reloadTab"},this)',
-					'linkdata' => [
-						'url' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived&sourceView=List&record=' . $this->getId(),
-						'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'),
-					],
-					'linkicon' => 'fas fa-archive',
-					'linkclass' => 'btn-xs entityStateBtn',
-					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
-					'showLabel' => true,
+				'linklabel' => 'LBL_ARCHIVE_RECORD',
+				'title' => \App\Language::translate('LBL_ARCHIVE_RECORD'),
+				'linkurl' => 'javascript:app.showConfirmation({type: "reloadTab"},this)',
+				'linkdata' => [
+					'url' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived&sourceView=List&record=' . $this->getId(),
+					'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'),
+				],
+				'linkicon' => 'fas fa-archive',
+				'linkclass' => 'btn-xs entityStateBtn',
+				'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
+				'showLabel' => true,
 			]);
 		}
 		if ($this->privilegeToMoveToTrash()) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'LBL_MOVE_TO_TRASH',
-					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
-					'linkurl' => 'javascript:app.showConfirmation({type: "reloadTab"},this)',
-					'linkdata' => [
-						'url' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&sourceView=List&record=' . $this->getId(),
-						'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC'),
-					],
-					'linkicon' => 'fas fa-trash-alt',
-					'linkclass' => 'btn-xs entityStateBtn',
-					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
-					'showLabel' => true,
+				'linklabel' => 'LBL_MOVE_TO_TRASH',
+				'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
+				'linkurl' => 'javascript:app.showConfirmation({type: "reloadTab"},this)',
+				'linkdata' => [
+					'url' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&sourceView=List&record=' . $this->getId(),
+					'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC'),
+				],
+				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn-xs entityStateBtn',
+				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
+				'showLabel' => true,
 			]);
 		}
 		return $links;

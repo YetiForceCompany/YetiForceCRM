@@ -79,13 +79,14 @@ class Install_InitSchema_Model
 					++$executed_query;
 				}
 			}
-			$this->db->createCommand('SET FOREIGN_KEY_CHECKS = 1;')->execute();
 			\App\Log::info("create_query: $create_query | insert_query: $insert_query | alter_query: $alter_query | executed_query: $executed_query");
 			$_SESSION['instalation_success'] = $create_query && $executed_query;
 		} catch (Throwable $e) {
 			$return = false;
 			\App\Log::error($e->__toString());
 			$_SESSION['instalation_success'] = false;
+		} finally {
+			$this->db->createCommand('SET FOREIGN_KEY_CHECKS = 1;')->execute();
 		}
 		return ['status' => $return, 'create' => $create_query, 'insert' => $insert_query, 'alter' => $alter_query, 'executed' => $executed_query];
 	}

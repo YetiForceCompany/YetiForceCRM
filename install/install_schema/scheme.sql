@@ -5517,7 +5517,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2770 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2771 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6656,6 +6656,7 @@ CREATE TABLE `vtiger_modcomments` (
   `customer` int(11) DEFAULT NULL,
   `userid` int(10) DEFAULT NULL,
   `reasontoedit` varchar(100) DEFAULT NULL,
+  `parents` text DEFAULT NULL,
   PRIMARY KEY (`modcommentsid`),
   KEY `relatedto_idx` (`related_to`),
   KEY `modcommentsid` (`modcommentsid`),

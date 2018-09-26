@@ -36,7 +36,6 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$result['id'] = $recordModel->getId();
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
-
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);

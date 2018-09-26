@@ -1080,9 +1080,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 							text: '<b>' + fieldInfo.data.label + '</b><br>' +
-							'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
-							prevDisplayValue + '<br> ' +
-							'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
+								'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
+								prevDisplayValue + '<br> ' +
+								'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
 							type: 'info',
 							textTrusted: true
 						});
@@ -1782,6 +1782,19 @@ jQuery.Class("Vtiger_Detail_Js", {
 		return aDeferred.promise();
 	},
 	/**
+	 * Function to get parent comment
+	 * @param {number} commentId
+	 * @returns {string}
+	 */
+	getParentComments(commentId) {
+		let aDeferred = jQuery.Deferred(),
+			url = 'module=' + app.getModuleName() + '&view=Detail&record=' + this.getRecordId() + '&mode=showParentComments&commentid=' + commentId;
+		this.getCommentThread(url).done(function (data) {
+			aDeferred.resolve(data);
+		});
+		return aDeferred.promise();
+	},
+	/**
 	 * Function to show total records count in listview on hover
 	 * of pageNumber text
 	 */
@@ -1924,105 +1937,102 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * Function to display a new comments
 	 */
 	addComment: function (currentTarget, data) {
-		var thisInstance = this;
-		var mode = currentTarget.data('mode');
-		var closestAddCommentBlock = currentTarget.closest('.addCommentBlock');
-		var commentTextAreaElement = closestAddCommentBlock.find('.commentcontent');
-		var commentInfoBlock = currentTarget.closest('.singleComment');
+		const self = this;
+		let mode = currentTarget.data('mode'),
+			closestAddCommentBlock = currentTarget.closest('.addCommentBlock'),
+			commentTextAreaElement = closestAddCommentBlock.find('.commentcontent'),
+			commentInfoBlock = currentTarget.closest('.js-comment-single');
 		commentTextAreaElement.val('');
 		if (mode == "add") {
-			var commentId = data['result']['id'];
-			var commentHtml = thisInstance.getCommentUI(commentId);
+			let commentId = data['result']['id'],
+				commentHtml = self.getCommentUI(commentId);
 			commentHtml.done(function (data) {
-				var commentBlock = closestAddCommentBlock.closest('.commentDetails');
-				var detailContentsHolder = thisInstance.getContentHolder();
-				var noCommentsMsgContainer = jQuery('.noCommentsMsgContainer', detailContentsHolder);
+				let commentBlock = closestAddCommentBlock.closest('.js-commentDetails'),
+					detailContentsHolder = self.getContentHolder(),
+					noCommentsMsgContainer = $('.js-noCommentsMsgContainer', detailContentsHolder);
 				noCommentsMsgContainer.remove();
 				if (commentBlock.length > 0) {
 					closestAddCommentBlock.remove();
-					var childComments = commentBlock.find('ul');
+					let childComments = commentBlock.find('ul');
 					if (childComments.length <= 0) {
-						var currentChildCommentsCount = commentInfoBlock.find('.viewThreadBlock').data('childCommentsCount');
-						var newChildCommentCount = currentChildCommentsCount + 1;
+						let currentChildCommentsCount = commentInfoBlock.find('.js-viewThreadBlock').data('childCommentsCount'),
+							newChildCommentCount = currentChildCommentsCount + 1;
 						commentInfoBlock.find('.childCommentsCount').text(newChildCommentCount);
-						var parentCommentId = commentInfoBlock.find('.commentInfoHeader').data('commentid');
-						thisInstance.getChildComments(parentCommentId).done(function (responsedata) {
-							jQuery(responsedata).appendTo(commentBlock);
-							commentInfoBlock.find('.viewThreadBlock').hide();
+						let parentCommentId = commentInfoBlock.find('.js-commentInfoHeader').data('commentid');
+						self.getChildComments(parentCommentId).done(function (responsedata) {
+							$(responsedata).appendTo(commentBlock);
+							commentInfoBlock.find('.js-viewThreadBlock').hide();
 							commentInfoBlock.find('.hideThreadBlock').show();
 						});
 					} else {
-						jQuery('<ul class="liStyleNone"><li class="commentDetails">' + data + '</li></ul>').appendTo(commentBlock);
+						$('<ul class="liStyleNone"><li class="js-commentDetails commentDetails">' + data + '</li></ul>').appendTo(commentBlock);
 					}
 				} else {
-					jQuery('<ul class="liStyleNone"><li class="commentDetails">' + data + '</li></ul>').prependTo(closestAddCommentBlock.closest('.contents').find('.commentsList'));
+					$('<ul class="liStyleNone"><li class="js-commentDetails commentDetails">' + data + '</li></ul>').prependTo(closestAddCommentBlock.closest('.contents').find('.commentsList'));
 				}
-				commentInfoBlock.find('.commentActionsContainer').show();
+				commentInfoBlock.find('.js-comment-container').show();
 				app.event.trigger("DetailView.SaveComment.AfterLoad", commentInfoBlock, data);
 			});
 		} else if (mode == "edit") {
-			var modifiedTime = commentInfoBlock.find('.commentModifiedTime');
-			var commentInfoContent = commentInfoBlock.find('.commentInfoContent');
-			var commentEditStatus = commentInfoBlock.find('[name="editStatus"]');
-			var commentReason = commentInfoBlock.find('[name="editReason"]');
+			let modifiedTime = commentInfoBlock.find('.js-commentModifiedTime'),
+				commentInfoContent = commentInfoBlock.find('.js-comment-info'),
+				commentEditStatus = commentInfoBlock.find('.js-editStatus'),
+				commentReason = commentInfoBlock.find('.js-editReasonSpan');
 			commentInfoContent.html(data.result.commentcontent);
 			commentReason.html(data.result.reasontoedit);
-			modifiedTime.text(data.result.modifiedtime);
+			modifiedTime.html(data.result.modifiedtime);
 			modifiedTime.attr('title', data.result.modifiedtimetitle)
 			if (commentEditStatus.hasClass('d-none')) {
 				commentEditStatus.removeClass('d-none');
 			}
 			if (data.result.reasontoedit != "") {
-				commentInfoBlock.find('.editReason').removeClass('d-none')
+				commentInfoBlock.find('.js-editReason').removeClass('d-none')
 			}
 			commentInfoContent.show();
-			commentInfoBlock.find('.commentActionsContainer').show();
+			commentInfoBlock.find('.js-comment-container').show();
 			closestAddCommentBlock.remove();
 			app.event.trigger("DetailView.SaveComment.AfterUpdate", commentInfoBlock, data);
 		}
 	},
-	registerCommentEvents: function (detailContentsHolder) {
-		var thisInstance = this;
+	/**
+	 * Register all comment events
+	 * @param {jQuery} detailContentsHolder
+	 */
+	registerCommentEvents(detailContentsHolder) {
+		const self = this;
 		detailContentsHolder.on('click', '.addCommentBtn', function (e) {
-			thisInstance.removeCommentBlockIfExists();
-			var addCommentBlock = thisInstance.getCommentBlock();
-			addCommentBlock.appendTo('.commentBlock');
+			self.removeCommentBlockIfExists();
+			self.getCommentBlock().appendTo('.commentBlock');
 		});
 		detailContentsHolder.on('click', '.closeCommentBlock', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var commentInfoBlock = currentTarget.closest('.singleComment');
-			commentInfoBlock.find('.commentActionsContainer').show();
+			let commentInfoBlock = jQuery(e.currentTarget.closest('.js-comment-single'));
+			commentInfoBlock.find('.js-comment-container').show();
 			commentInfoBlock.find('.commentInfoContent').show();
-			thisInstance.removeCommentBlockIfExists();
+			self.removeCommentBlockIfExists();
 		});
-		detailContentsHolder.on('click', '.replyComment', function (e) {
-			thisInstance.removeCommentBlockIfExists();
-			var currentTarget = jQuery(e.currentTarget);
-			var commentInfoBlock = currentTarget.closest('.singleComment');
-			var addCommentBlock = thisInstance.getCommentBlock();
-			commentInfoBlock.find('.commentActionsContainer').hide();
-			addCommentBlock.appendTo(commentInfoBlock).show();
+		detailContentsHolder.on('click', '.js-replyComment', function (e) {
+			self.removeCommentBlockIfExists();
+			let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single');
+			commentInfoBlock.find('.js-comment-container').hide();
+			self.getCommentBlock().appendTo(commentInfoBlock).show();
 		});
-		detailContentsHolder.on('click', '.editComment', function (e) {
-			thisInstance.removeCommentBlockIfExists();
-			var currentTarget = jQuery(e.currentTarget);
-			var commentInfoBlock = currentTarget.closest('.singleComment');
-			var commentInfoContent = commentInfoBlock.find('.commentInfoContent');
-			var commentReason = commentInfoBlock.find('[name="editReason"]');
-			var editCommentBlock = thisInstance.getEditCommentBlock();
+		detailContentsHolder.on('click', '.js-edit-comment', function (e) {
+			self.removeCommentBlockIfExists();
+			let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single'),
+				commentInfoContent = commentInfoBlock.find('.commentInfoContent'),
+				editCommentBlock = self.getEditCommentBlock();
 			editCommentBlock.find('.commentcontent').val(commentInfoContent.text());
-			editCommentBlock.find('[name="reasonToEdit"]').val(commentReason.text());
+			editCommentBlock.find('.js-reasonToEdit').val(commentInfoBlock.find('.js-editReasonSpan').text());
 			commentInfoContent.hide();
-			commentInfoBlock.find('.commentActionsContainer').hide();
+			commentInfoBlock.find('.js-comment-container').hide();
 			editCommentBlock.appendTo(commentInfoBlock).show();
 		});
 		detailContentsHolder.on('click', '.detailViewSaveComment', function (e) {
-			var element = jQuery(e.currentTarget);
+			let element = $(e.currentTarget);
 			if (!element.is(":disabled")) {
-				thisInstance.saveComment(e).done(function () {
-					thisInstance.registerRelatedModulesRecordCount();
-					var commentsContainer = detailContentsHolder.find("[data-type='Comments']");
-					thisInstance.loadWidget(commentsContainer).done(function () {
+				self.saveComment(e).done(function () {
+					self.registerRelatedModulesRecordCount();
+					self.loadWidget(detailContentsHolder.find("[data-type='Comments']")).done(function () {
 						element.removeAttr('disabled');
 					});
 				}).fail(function (error, err) {
@@ -2031,13 +2041,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 		});
-		detailContentsHolder.on('click', '.saveComment', function (e) {
-			var element = jQuery(e.currentTarget);
+		detailContentsHolder.on('click', '.js-saveComment', function (e) {
+			let element = $(e.currentTarget);
 			if (!element.is(":disabled")) {
-				thisInstance.saveComment(e).done(function (data) {
-					var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
-					thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
-					thisInstance.addComment(element, data);
+				self.saveComment(e).done(function (data) {
+					self.registerRelatedModulesRecordCount(self.getTabByLabel(self.detailViewRecentCommentsTabLabel));
+					self.addComment(element, data);
 					element.removeAttr('disabled');
 				}).fail(function (error, err) {
 					element.removeAttr('disabled');
@@ -2045,14 +2054,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 		});
-		detailContentsHolder.on('click', '.moreRecentComments', function () {
-			var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
-			recentCommentsTab.trigger('click');
+		detailContentsHolder.on('click', '.js-moreRecentComments', function () {
+			self.getTabByLabel(self.detailViewRecentCommentsTabLabel).trigger('click');
 		});
-		detailContentsHolder.find('.commentsHierarchy').on('change', function (e) {
-			var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
-			var url = recentCommentsTab.data('url');
-			var regex = /&hierarchy=+([\w,]+)/;
+		detailContentsHolder.on('change', '.js-detailHierarchyComments', function (e) {
+			let recentCommentsTab = self.getTabByLabel(self.detailViewRecentCommentsTabLabel),
+				url = recentCommentsTab.data('url'),
+				regex = /&hierarchy=+([\w,]+)/;
 			url = url.replace(regex, "");
 			if ($(this).val()) {
 				url += '&hierarchy=' + $(this).val();
@@ -2060,27 +2068,64 @@ jQuery.Class("Vtiger_Detail_Js", {
 			recentCommentsTab.data('url', url);
 			recentCommentsTab.trigger('click');
 		});
-		detailContentsHolder.find('.commentSearch').on('keyup', function (e) {
-			var text = $(this).val();
-			if (text) {
-				detailContentsHolder.find('.commentDetails').addClass('d-none');
-				var contains = detailContentsHolder.find(".js-comment-search__value:contains(" + text + ")");
-				contains.each(function (e) {
-					$(this).closest('.commentDetails').removeClass('d-none');
-				});
-				if (contains.length == 0) {
-					detailContentsHolder.find('.noCommentsMsgContainer').removeClass('d-none');
-				}
-			} else {
-				detailContentsHolder.find('.commentDetails').removeClass('d-none');
-				detailContentsHolder.find('.noCommentsMsgContainer').addClass('d-none');
+		detailContentsHolder.on('keypress', '.js-commentSearch', function (e) {
+			if (13 === e.which) {
+				self.submitSearchForm(detailContentsHolder);
 			}
 		});
+		detailContentsHolder.on('click', '.js-searchIcon', function (e) {
+			self.submitSearchForm(detailContentsHolder);
+		});
 	},
-	registerCommentEventsInDetail: function (widgetContainer) {
-		var thisInstance = this;
-		widgetContainer.find('.hierarchyComments').on('change', function (e) {
-			var progressIndicatorElement = jQuery.progressIndicator();
+	/**
+	 * Submit search comment form
+	 * @param {jQuery} detailContentsHolder
+	 */
+	submitSearchForm(detailContentsHolder) {
+		let searchTextDom = detailContentsHolder.find('.js-commentSearch'),
+			widgetContainer = searchTextDom.closest('[data-name="ModComments"]'),
+			progressIndicatorElement = $.progressIndicator();
+		if (searchTextDom.data('container') === 'widget' && !searchTextDom.val()) {
+			let request = widgetContainer.data('url');
+			AppConnector.request(request).done(function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				detailContentsHolder.find('.js-commentContainer').html(data);
+			});
+		} else {
+			let hierarchy = detailContentsHolder.find('.js-detailHierarchyComments:checked').val(),
+				limit = '',
+				isWidget = false;
+			if (searchTextDom.data('container') === 'widget') {
+				hierarchy = detailContentsHolder.find('.js-hierarchyComments:checked').val();
+				limit = widgetContainer.data('limit');
+				isWidget = true;
+			}
+			AppConnector.request({
+				module: app.getModuleName(),
+				view: 'Detail',
+				mode: 'showSearchComments',
+				hierarchy: hierarchy,
+				limit: limit,
+				record: app.getRecordId(),
+				search_key: searchTextDom.val(),
+				is_widget: isWidget,
+			}).done(function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				if (!searchTextDom.val()) {
+					detailContentsHolder.html(data);
+				} else {
+					detailContentsHolder.find('.js-commentsBody').html(data);
+				}
+			});
+		}
+	},
+	/**
+	 * Register hierarchy comments buttons
+	 * @param {jQuery} widgetContainer
+	 */
+	registerCommentEventsInDetail(widgetContainer) {
+		widgetContainer.on('change', '.js-hierarchyComments', function (e) {
+			let progressIndicatorElement = $.progressIndicator();
 			AppConnector.request({
 				module: app.getModuleName(),
 				view: 'Detail',
@@ -2089,7 +2134,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				record: app.getRecordId(),
 			}).done(function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				var widgetDataContainer = widgetContainer.find('.js-detail-widget-content');
+				let widgetDataContainer = widgetContainer.find('.js-detail-widget-content');
 				widgetDataContainer.html(data);
 				App.Fields.Picklist.showSelect2ElementView(widgetDataContainer.find('.select2'));
 			});
@@ -2276,21 +2321,31 @@ jQuery.Class("Vtiger_Detail_Js", {
 			return false;
 		});
 		detailContentsHolder.on('click', '.viewThread', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var currentTargetParent = currentTarget.parent();
-			var commentActionsBlock = currentTarget.closest('.commentActions');
-			var currentCommentBlock = currentTarget.closest('.commentDetails');
-			var ulElements = currentCommentBlock.find('ul');
+			let currentTarget = jQuery(e.currentTarget),
+				currentTargetParent = currentTarget.parent(),
+				commentActionsBlock = currentTarget.closest('.commentActions'),
+				currentCommentBlock = currentTarget.closest('.js-commentDetails'),
+				ulElements = currentCommentBlock.find('ul');
 			if (ulElements.length > 0) {
 				ulElements.show();
 				commentActionsBlock.find('.hideThreadBlock').show();
 				currentTargetParent.hide();
 				return;
 			}
-			var commentId = currentTarget.closest('.commentDiv').find('.commentInfoHeader').data('commentid');
+			var commentId = currentTarget.closest('.commentDiv').find('.js-commentInfoHeader').data('commentid');
 			thisInstance.getChildComments(commentId).done(function (data) {
-				jQuery(data).appendTo(jQuery(e.currentTarget).closest('.commentDetails'));
+				jQuery(data).appendTo(jQuery(e.currentTarget).closest('.js-commentDetails'));
 				commentActionsBlock.find('.hideThreadBlock').show();
+				currentTargetParent.hide();
+			});
+		});
+		detailContentsHolder.on('click', '.js-viewParentThread', function (e) {
+			let currentTarget = jQuery(e.currentTarget),
+				currentTargetParent = currentTarget.parent(),
+				commentId = currentTarget.closest('.commentDiv').find('.js-commentInfoHeader').data('commentid');
+			thisInstance.getParentComments(commentId).done(function (data) {
+				jQuery(e.currentTarget.closest('.js-commentDetails')).html(data);
+				currentTarget.closest('.commentActions').find('.hideThreadBlock').show();
 				currentTargetParent.hide();
 			});
 		});
@@ -2298,7 +2353,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var currentTarget = jQuery(e.currentTarget);
 			var currentTargetParent = currentTarget.parent();
 			var commentActionsBlock = currentTarget.closest('.commentActions');
-			var currentCommentBlock = currentTarget.closest('.commentDetails');
+			var currentCommentBlock = currentTarget.closest('.js-commentDetails');
 			currentCommentBlock.find('ul').hide();
 			currentTargetParent.hide();
 			commentActionsBlock.find('.viewThreadBlock').show();
@@ -2317,24 +2372,22 @@ jQuery.Class("Vtiger_Detail_Js", {
 			recentCommentsTab.trigger('click');
 		});
 		detailContentsHolder.on('change', '.relatedHistoryTypes', function (e) {
-			var widgetContent = jQuery(this).closest('.widgetContentBlock').find('.widgetContent');
-			var types = jQuery(e.currentTarget).val();
-			var pageLimit = widgetContent.find("#relatedHistoryPageLimit").val();
-			var progressIndicatorElement = jQuery.progressIndicator({
-				position: 'html',
-				blockInfo: {
-					'enabled': true,
-					'elementToBlock': widgetContent
-				}
-			});
+			let widgetContent = jQuery(this).closest('.widgetContentBlock').find('.widgetContent'),
+				progressIndicatorElement = jQuery.progressIndicator({
+					position: 'html',
+					blockInfo: {
+						'enabled': true,
+						'elementToBlock': widgetContent
+					}
+				});
 			AppConnector.request({
 				module: app.getModuleName(),
 				view: 'Detail',
 				record: app.getRecordId(),
 				mode: 'showRecentRelation',
 				page: 1,
-				limit: pageLimit,
-				type: types,
+				limit: widgetContent.find(".js-relatedHistoryPageLimit").val(),
+				type: $(e.currentTarget).val(),
 			}).done(function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				widgetContent.find("#relatedHistoryCurrentPage").remove();

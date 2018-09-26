@@ -40,8 +40,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showRecentComments');
 		$this->exposeMethod('showRelatedList');
 		$this->exposeMethod('showChildComments');
+		$this->exposeMethod('showParentComments');
 		$this->exposeMethod('showAllComments');
 		$this->exposeMethod('showThreadComments');
+		$this->exposeMethod('showSearchComments');
 		$this->exposeMethod('getActivities');
 		$this->exposeMethod('showRelatedProductsServices');
 		$this->exposeMethod('showRelatedRecords');
@@ -159,17 +161,17 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
-		$defaultModeValue = $this->defaultMode;
-		if ($defaultModeValue == 'showDetailViewByMode') {
+		$defaultMode = $this->defaultMode;
+		if ($defaultMode === 'showDetailViewByMode') {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
-			if (!($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList)) {
-				$defaultModeValue = 'showModuleDetailView';
+			if (!('Summary' === $currentUserModel->get('default_record_view') && $this->record->widgetsList)) {
+				$defaultMode = 'showModuleDetailView';
 			}
-		} elseif ($defaultModeValue === false) {
-			$defaultModeValue = 'showDetailViewByMode';
+		} elseif (false === $defaultMode) {
+			$defaultMode = 'showDetailViewByMode';
 		}
-		echo $this->$defaultModeValue($request);
+		echo $this->$defaultMode($request);
 	}
 
 	public function postProcess(\App\Request $request, $display = true)
@@ -427,31 +429,22 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		}
-		$hierarchy = [];
-		if ($request->has('hierarchy')) {
-			$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
-			$hierarchyValue = $request->getByType('hierarchy');
-			if ($level === 0) {
-				$hierarchy = $hierarchyValue === 'all' ? [1, 2] : [];
-			} elseif ($level === 1) {
-				$hierarchy = $hierarchyValue === 'all' ? [2] : [];
-			}
-		}
-		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $hierarchy, $pagingModel);
+		$hierarchyValue = $request->getByType('hierarchy');
+		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $this->getHierarchy($request), $pagingModel);
 		$pagingModel->calculatePageRange(count($parentCommentModels));
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PARENT_RECORD', $parentId);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('HIERARCHY_VALUE', $hierarchyValue);
+		$viewer->assign('LEVEL', \App\ModuleHierarchy::getModuleLevel($moduleName));
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		$viewer->assign('CURRENT_COMMENT', null);
-
 		return $viewer->view('RecentComments.tpl', $moduleName, true);
 	}
 
@@ -506,14 +499,43 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$childComments = $parentCommentModel->getChildComments();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PARENT_COMMENTS', $childComments);
+		$viewer->assign('CHILD_COMMENTS', true);
+		$viewer->assign('NO_COMMENT_FORM', true);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('CURRENT_COMMENT', null);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		return $viewer->view('CommentsList.tpl', $request->getModule(), true);
+	}
 
+	/**
+	 * Function sends the parent comment for a comment.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return mixed
+	 */
+	public function showParentComments(\App\Request $request)
+	{
+		if (!\App\Privilege::isPermitted('ModComments')) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$parentCommentModel = Vtiger_Record_Model::getInstanceById($request->getInteger('commentid'));
+		$parentThreadComments = $parentCommentModel->getParentComments();
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
+		$viewer = $this->getViewer($request);
+		$viewer->assign('PARENT_COMMENTS', $parentThreadComments);
+		$viewer->assign('SHOW_CHILD_COMMENTS', true);
+		$viewer->assign('NO_COMMENT_FORM', true);
+		$viewer->assign('CURRENTUSER', $currentUserModel);
+		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
+		$viewer->assign('CURRENT_COMMENT', null);
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		return $viewer->view('CommentsList.tpl', $request->getModule(), true);
 	}
 
@@ -563,11 +585,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$parentRecordId = $request->getInteger('record');
 		$commentRecordId = $request->getInteger('commentid');
-		$hierarchy = [];
-		if ($request->has('hierarchy')) {
-			$hierarchy = $request->getExploded('hierarchy', ',', 'Integer');
-		}
 		$moduleName = $request->getModule();
+		$hierarchy = $this->getHierarchy($request);
+		$hierarchyValue = $request->getByType('hierarchy');
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId, $hierarchy);
@@ -587,14 +607,85 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('PARENT_RECORD', $parentRecordId);
 		$viewer->assign('HIERARCHY', $hierarchy);
+		$viewer->assign('HIERARCHY_VALUE', $hierarchyValue);
 		$viewer->assign('HIERARCHY_LIST', $hierarchyList);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-
 		return $viewer->view('ShowAllComments.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Function send all the comments with search value.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return mixed
+	 */
+	public function showSearchComments(\App\Request $request)
+	{
+		if (!\App\Privilege::isPermitted('ModComments')) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$recordId = $request->getInteger('record');
+		$moduleName = $request->getModule();
+		$isWidget = false;
+		if (!$request->isEmpty('is_widget', true)) {
+			$isWidget = $request->getBoolean('is_widget');
+		}
+		if ($request->isEmpty('search_key', true)) {
+			return $this->showAllComments($request);
+		} else {
+			$searchValue = $request->getByType('search_key', 'Text');
+			$parentCommentModels = ModComments_Record_Model::getSearchComments($recordId, $searchValue, $isWidget, $this->getHierarchy($request));
+		}
+		$viewer = $this->getViewer($request);
+		if (!empty($parentCommentModels)) {
+			$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
+			$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
+			$viewer->assign('CURRENTUSER', $currentUserModel);
+			$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
+			$viewer->assign('CURRENT_COMMENT', false);
+			$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+			$viewer->assign('NO_COMMENT_FORM', true);
+			$viewer->assign('MODULE', $moduleName);
+			if ($isWidget === false) {
+				$viewer->assign('SHOW_CHILD_COMMENTS', true);
+			} else {
+				$viewer->assign('BUTTON_SHOW_PARENT', true);
+			}
+			return $viewer->view('CommentsList.tpl', $moduleName, true);
+		} else {
+			return $viewer->view('NoComments.tpl', $moduleName, true);
+		}
+	}
+
+	/**
+	 * Get comments hierarchy.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return array
+	 */
+	public function getHierarchy(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$hierarchy = [];
+		if ($request->has('hierarchy')) {
+			$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
+			$hierarchyValue = $request->getByType('hierarchy');
+			if (0 === $level) {
+				$hierarchy = $hierarchyValue === 'all' ? [1, 2] : [];
+			} elseif (1 === $level) {
+				$hierarchy = $hierarchyValue === 'all' ? [2] : [];
+			}
+		}
+		return $hierarchy;
 	}
 
 	/**
