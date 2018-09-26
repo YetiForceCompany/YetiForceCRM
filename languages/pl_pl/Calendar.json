@@ -181,7 +181,8 @@
     "LBL_DELETE_FUTURE_EVENTS_DESCRIPTION": "Usuni\u0119te zostan\u0105 tylko kolejne rekordy",
     "LBL_DELETE_ALL_EVENTS": "Usu\u0144 wszystkie rekordy",
     "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "Usuni\u0119te zostan\u0105 wszystkie rekordy w serii",
-    "LBL_REPEATEVENT": "Powt\u00f3rz raz co"
+    "LBL_REPEATEVENT": "Powt\u00f3rz raz co",
+    "LBL_VIEW_CALENDAREXTENDED": "Kalendarz graficzny"
   },
   "js": {
     "JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY": "Dodano kalendarz",
