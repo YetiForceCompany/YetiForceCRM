@@ -104,6 +104,24 @@ class Twitter extends \Tests\Base
 			$fieldModel->getId(),
 			'Vtiger_Field_Model problem'
 		);
+		try {
+			$fieldModel->getUITypeModel()->validate('abcd');
+			$this->assertTrue(true);
+		} catch (\App\Exceptions\Security $e) {
+			$this->assertTrue(false, $e->getMessage());
+		}
+		try {
+			$fieldModel->getUITypeModel()->validate('abcd%$#%$#');
+			$this->assertTrue(false, 'Validation does not work');
+		} catch (\App\Exceptions\Security $e) {
+			$this->assertTrue(true);
+		}
+		try {
+			$fieldModel->getUITypeModel()->validate('abcde1234567890abcde');
+			$this->assertTrue(false, 'Validation does not work');
+		} catch (\App\Exceptions\Security $e) {
+			$this->assertTrue(true);
+		}
 	}
 
 	/**
