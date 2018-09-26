@@ -14,7 +14,7 @@
 	<div class="d-flex flex-wrap flex-md-nowrap px-3 w-100">
 		<div class="u-min-w-md-70 w-100">
 			<div class="moduleIcon mt-3">
-				<span class="o-detail__icon js-detail__icon u-cursor-pointer userIcon-{$MODULE}"></span>
+				<span class="o-detail__icon js-detail__icon u-cursor-pointer userIcon-{$MODULE_NAME}"></span>
 				{if AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
 					<span class="hierarchy">
 						<span class="badge {if $RECORD->get('active')} bgGreen {else} bgOrange {/if}"></span>
