@@ -249,6 +249,17 @@ var YearView = View.extend({
 		);
 		return aDeferred.promise();
 	},
+	appendWeekButton() {
+		$('.fc-row.fc-week.fc-widget-content').each(function () {
+			let date = $(this).find('.fc-day-top').first().data('date');
+			$(this).prepend(`<div class="js-show-week fc-year__show-week-btn" data-date="${date}" data-js="click"><span class="fas fa-angle-double-right"></span></div>`);
+		});
+		this.getCalendarView().find(".js-show-week").on('click', (e) => {
+			let date = moment($(e.currentTarget).data('date')).format(CONFIG.dateFormat.toUpperCase());
+			this.getCalendarView().fullCalendar('changeView', 'agendaWeek', date);
+			$(".js-sub-record .sub-active").click();
+		});
+	},
 	render: function () {
 		const self = this;
 		let hiddenDays = [],
@@ -327,6 +338,7 @@ var YearView = View.extend({
 					allDayText: app.vtranslate('JS_ALL_DAY'),
 				}), events);
 			});
+			self.appendWeekButton();
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
 	},

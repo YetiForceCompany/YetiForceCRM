@@ -565,6 +565,15 @@ $sitebar-border: 1px solid #ccc;
 		&__event-badge {
 			@extend %calendar-count-badge;
 		}
+		
+		&__show-week-btn {
+			position: absolute;
+			color: material-color('blue', '200');
+			font-size: calculate-rem(13px);
+			z-index: 148;
+			cursor: pointer;
+			line-height: 1.3;
+		}
 	}
 
 	.js-calendar-switch-container {
