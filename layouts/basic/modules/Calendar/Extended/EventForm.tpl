@@ -71,20 +71,20 @@
 					   data-fieldtype="{$RELATED_FIELD_MODEL->getFieldDataType()}"/>
 			{/foreach}
 		{/if}
-		<div class="formActionsPanel my-2 my-lg-0">
+		<div class="formActionsPanel mb-1">
 			{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
 				{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
 					{if $LINK->get('linkhint') neq 'LBL_GO_TO_FULL_FORM'}
-						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
+						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS="mt-1"}
 					{/if}
 				{/foreach}
 			{/if}
-			<button type="button" class="btn btn-success save"
+			<button type="button" class="btn btn-success save mt-1"
 					title="{\App\Language::translate('LBL_SAVE', $MODULE)}" data-js="click">
 				{\App\Language::translate('LBL_SAVE', $MODULE)}
 			</button>
 			{if !empty($RECORD_ID)}
-				<a href="#" role="button" class="btn btn-danger summaryCloseEdit">
+				<a href="#" role="button" class="btn btn-danger summaryCloseEdit mt-1">
 							<span title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"
 								  class="fas fa-times ml-1"></span>
 				</a>

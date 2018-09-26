@@ -16264,8 +16264,7 @@ label.btn.btn-outline-primary:not(.active) {
 @media screen and (min-width: 992px) {
   .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel {
     bottom: 49px;
-    width: calc(25% - 30px);
-    margin-right: 15px;
+    width: calc(25% - 10px);
     text-align: center;
     border-top: 1px solid #ddd;
     right: 0px;
@@ -16277,11 +16276,10 @@ label.btn.btn-outline-primary:not(.active) {
     position: fixed;
     bottom: 1.9375rem;
     background: #f8f9fa;
-    margin-left: -10px;
     text-align: center;
     border-top: 1px solid #ddd;
     z-index: 5;
-    padding: 5px; }
+    margin: 0 5px 5px; }
     .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .btn-group {
       margin-right: 3px; }
     .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .saveAndComplete {
