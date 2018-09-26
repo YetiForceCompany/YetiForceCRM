@@ -271,7 +271,7 @@ let YearView = View.extend({
 		AppConnector.request({
 			module: 'Calendar',
 			action: 'Calendar',
-			mode: 'getEvents',
+			mode: 'getEventsYear',
 			start: date + '-01-01',
 			end: date + '-12-31',
 			user: user,
@@ -293,17 +293,13 @@ let YearView = View.extend({
 					defaultDate: moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD"),
 					eventRender: function (event, element) {
 						if (event.rendering === 'background') {
-							element.append(`<span class="${event.icon} mr-1"></span>${event.title}`)
+							element.append(`<span class="${event.icon} mr-1"></span>${event.title}`);
 							return element;
-						}
-						let badgeCount = 0;
-						for (let key in event.event) {
-							badgeCount += event.event[key].count;
 						}
 						element = `<div class="js-show-day cell-calendar u-cursor-pointer" data-date="${event.date}" data-js="click">
 							<a class="" href="#" data-date="${event.date}">
 								<span class="badge badge-primary fc-year__event-badge">
-									${badgeCount}
+									${event.count}
 								</span>
 							</a>
 						</div>`;

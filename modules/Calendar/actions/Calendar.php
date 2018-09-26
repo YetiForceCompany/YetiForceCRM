@@ -32,6 +32,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	{
 		parent::__construct();
 		$this->exposeMethod('getEvents');
+		$this->exposeMethod('getEventsYear');
 		$this->exposeMethod('getCountEvents');
 		$this->exposeMethod('updateEvent');
 		$this->exposeMethod('getCountEventsGroup');
@@ -63,6 +64,33 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		} else {
 			$entity = array_merge($record->getEntity(), $record->getPublicHolidays());
 		}
+
+		$response = new Vtiger_Response();
+		$response->setResult($entity);
+		$response->emit();
+	}
+
+	/**
+	 * Get events for year view.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function getEventsYear(\App\Request $request)
+	{
+		$record = Calendar_Calendar_Model::getCleanInstance();
+		$record->set('user', $request->getArray('user'));
+		$record->set('time', $request->getByType('time'));
+		if ($request->has('start') && $request->has('end')) {
+			$record->set('start', $request->getByType('start', 'DateInUserFormat'));
+			$record->set('end', $request->getByType('end', 'DateInUserFormat'));
+		}
+		if ($request->has('filters')) {
+			$record->set('filters', $request->get('filters'));
+		}
+		if ($request->has('cvid')) {
+			$record->set('customFilter', $request->get('cvid'));
+		}
+		$entity = array_merge($record->getEntityYearCount(), $record->getPublicHolidays());
 
 		$response = new Vtiger_Response();
 		$response->setResult($entity);
