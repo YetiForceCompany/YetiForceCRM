@@ -297,9 +297,7 @@ var YearView = View.extend({
 						}
 						element = `<div class="js-show-day cell-calendar u-cursor-pointer d-flex" data-date="${event.date}" data-js="click">
 							<a class="mx-auto" href="#" data-date="${event.date}">
-								<span class="badge fc-year__event-badge">
-									${event.count}
-								</span>
+								<span class="badge fc-year__event-badge">&nbsp;&nbsp;</span>
 							</a>
 						</div>`;
 						return element;
