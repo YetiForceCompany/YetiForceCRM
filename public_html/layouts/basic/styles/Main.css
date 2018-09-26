@@ -15967,6 +15967,9 @@ label.btn.btn-outline-primary:not(.active) {
     margin-left: 0.3125rem; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list {
   text-align: center; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .date-active {
+    cursor: default;
+    background-color: #b0bec5; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record {
     height: 1.875rem;
     font-size: 0.8125rem;
@@ -15980,27 +15983,6 @@ label.btn.btn-outline-primary:not(.active) {
       cursor: default; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-date-name {
     margin-bottom: 2px; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .date-list {
-  text-align: center; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .date-list .date-record {
-    cursor: pointer;
-    border-radius: 0;
-    background: #c5cae9;
-    color: #353535;
-    height: 30px;
-    border: none;
-    box-shadow: none;
-    padding: 0.3125rem 1.125rem !important;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .date-list .date-active {
-    cursor: default;
-    white-space: nowrap;
-    background-color: #9fa8da; }
 @media (max-width: 992px) {
   .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .subDateCount {
     margin-top: 3px;
@@ -16203,7 +16185,7 @@ label.btn.btn-outline-primary:not(.active) {
       .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-center div h2 {
         font-size: 1.4rem;
         margin-left: 0.3125rem;
-        margin-top: 0.0625rem;
+        margin-top: 0.1875rem;
         text-transform: uppercase; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-time-grid .fc-time-grid-event.fc-event {
   min-height: 27px;

@@ -192,9 +192,14 @@ $sitebar-border: 1px solid #ccc;
 			}
 		}
 	}
-	$active-date-list-color: material-color('indigo', '200');
 	.sub-date-list {
 		text-align: center;
+
+		.date-active {
+			cursor: default;
+			background-color: material-color('blue-grey', '200');
+		}
+
 		.sub-record {
 			$margin: calculate-rem(5px);
 			height: calculate-rem(30px);
@@ -210,32 +215,9 @@ $sitebar-border: 1px solid #ccc;
 				cursor: default;
 			}
 		}
+
 		.sub-date-name {
 			margin-bottom: 2px;
-		}
-	}
-	.date-list {
-		text-align: center;
-		.date-record {
-			cursor: pointer;
-			border-radius: 0;
-			background: material-color('indigo', '100');
-			color: #353535;
-			height: 30px;
-			border: none;
-			box-shadow: none;
-			padding: 0.3125rem 1.125rem !important;
-			font-size: 14px;
-			font-weight: normal;
-			line-height: 1.42857143;
-			text-align: center;
-			white-space: nowrap;
-			vertical-align: middle;
-		}
-		.date-active {
-			cursor: default;
-			white-space: nowrap;
-			background-color: $active-date-list-color;
 		}
 	}
 
@@ -514,7 +496,7 @@ $sitebar-border: 1px solid #ccc;
 				h2 {
 					font-size: 1.4rem;
 					margin-left: calculate-rem(5px);
-					margin-top: calculate-rem(1px);
+					margin-top: calculate-rem(3px);
 					text-transform: uppercase;
 				}
 			}

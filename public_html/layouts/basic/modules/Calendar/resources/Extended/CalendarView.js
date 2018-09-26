@@ -259,7 +259,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	appendSubDateRow(toolbar) {
 		if (!this.subDateRow) {
 			this.subDateRow = $(`
-								<div class="js-scroll js-dates-row u-overflow-auto-lg-down order-4 flex-grow-1 position-relative my-1" data-js="perfectScrollbar | container">
+								<div class="js-scroll js-dates-row u-overflow-auto-lg-down order-4 flex-grow-1 position-relative my-1 w-100" data-js="perfectScrollbar | container">
 									<div class="d-flex flex-nowrap w-100">
 										<div class="js-sub-date-list w-100 sub-date-list row no-gutters flex-nowrap" data-js="data-type"></div>
 									</div>
@@ -416,7 +416,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			}
 			html += '<div class="js-sub-record date-record col-4' + active + '" data-date="' + prevYear.format('YYYY') + '" data-js="click|class:date-active" data-type="years">' +
 				prevYear.format('YYYY') +
-				'<div class="js-count-events count badge badge-danger c-badge--md ml-1" data-js="html">0</div>' +
+				'<div class="js-count-events count badge badge-danger ml-1" data-js="html">0</div>' +
 				'</div>';
 			prevYear = moment(prevYear).add(1, 'year');
 		}
