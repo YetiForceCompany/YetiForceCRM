@@ -157,7 +157,7 @@ $sitebar-border: 1px solid #ccc;
 		}
 		&__clear-btn,
 		&__view-btn {
-			padding: 0.44rem 1rem;
+			padding: calculate-rem(4px) calculate-rem(8px);
 			font-size: $header-btn-font-size;
 			.textHolder {
 				@extend .ml-1;
@@ -169,13 +169,15 @@ $sitebar-border: 1px solid #ccc;
 			$clear-btn-color: material-color('amber', '200');
 			background: $clear-btn-color;
 			border-color: $clear-btn-color;
-			padding: calculate-rem(4px) calculate-rem(12px);
+			padding: calculate-rem(4px) calculate-rem(8px);
 		}
 
 		&__view-btn {
 			border-radius: 0;
 			height: calculate-rem(30px) !important;
-			padding: calculate-rem(5px) calculate-rem(18px) !important;
+			svg {
+				margin-left: calculate-rem(5px);
+			}
 		}
 	}
 	$active-date-list-color: material-color('indigo', '200');

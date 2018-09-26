@@ -18,8 +18,8 @@
 	<div class="calendarViewContainer rowContent js-css-element-queries" data-js="css-element-queries">
 		<div class="o-calendar__container u-overflow-y-auto mt-2" data-js="offset">
 			<div class="d-none js-calendar__header-buttons">
-				<div class="js-calendar__view-btn btn-toolbar flex-nowrap mb-1 mb-sm-0 align-items-center mr-1">
-					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions w-100 u-remove-dropdown-icon u-text-ellipsis' BTN_CLASS='btn-light o-calendar__view-btn w-100'}
+				<div class="js-calendar__view-btn mb-1 mb-sm-0 mr-1">
+					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions u-remove-dropdown-icon' BTN_CLASS='btn-light o-calendar__view-btn'}
 				</div>
 				<div class="js-calendar__filter-container">
 					{if $CUSTOM_VIEWS|@count gt 0}
@@ -49,10 +49,9 @@
 							{/foreach}
 						</ul>
 					{/if}
-					<a class="o-calendar__clear-btn btn btn-warning d-none js-calendar__clear-filters" role="button"
-					   data-js="class: d-none">
-						<span class="fas fa-eraser mr-1" title="{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}"></span>
-						<span class="o-calendar__clear-btn__text">{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}</span>
+					<a class="o-calendar__clear-btn btn btn-warning d-none ml-1 js-calendar__clear-filters js-popover-tooltip" role="button" data-content="{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}"
+					   data-js="class: d-none | popover">
+						<span class="fas fa-eraser" title="{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}"></span>
 					</a>
 				</div>
 			</div>

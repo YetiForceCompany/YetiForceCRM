@@ -15948,16 +15948,17 @@ label.btn.btn-outline-primary:not(.active) {
   line-height: 1.42857143;
   height: 1.875rem; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn {
-  padding: 0.44rem 1rem;
+  padding: 0.25rem 0.5rem;
   font-size: 14px; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn {
   background: #ffe082;
   border-color: #ffe082;
-  padding: 0.25rem 0.75rem; }
+  padding: 0.25rem 0.5rem; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn {
   border-radius: 0;
-  height: 1.875rem !important;
-  padding: 0.3125rem 1.125rem !important; }
+  height: 1.875rem !important; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn svg {
+    margin-left: 0.3125rem; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list {
   text-align: center; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record {

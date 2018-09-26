@@ -71,7 +71,7 @@
 					   data-fieldtype="{$RELATED_FIELD_MODEL->getFieldDataType()}"/>
 			{/foreach}
 		{/if}
-		<div class="formActionsPanel mb-1">
+		<div class="formActionsPanel mb-1 d-flex justify-content-center flex-wrap">
 			{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
 				{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
 					{if $LINK->get('linkhint') neq 'LBL_GO_TO_FULL_FORM'}
@@ -84,9 +84,9 @@
 				{\App\Language::translate('LBL_SAVE', $MODULE)}
 			</button>
 			{if !empty($RECORD_ID)}
-				<a href="#" role="button" class="btn btn-danger summaryCloseEdit mt-1">
+				<a href="#" role="button" class="btn btn-danger summaryCloseEdit mt-1 ml-auto">
 							<span title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"
-								  class="fas fa-times ml-1"></span>
+								  class="fas fa-times"></span>
 				</a>
 			{/if}
 		</div>

@@ -576,7 +576,9 @@ Calendar_CalendarView_Js('Calendar_CalendarExtendedView_Js', {}, {
 	},
 	registerClearFilterButton() {
 		const sidebar = this.getSidebarView();
-		this.calendar.find('.js-calendar__clear-filters').on('click', () => {
+		let clearBtn = this.calendar.find('.js-calendar__clear-filters');
+		app.showPopoverElementView(clearBtn);
+		clearBtn.on('click', () => {
 			$(".js-calendar__extended-filter-tab a").removeClass('active');
 			$(".js-calendar-switch-container .js-switch").eq(1).find('.js-switch--label-on').click();
 			sidebar.find("input:checkbox").prop('checked', false);
