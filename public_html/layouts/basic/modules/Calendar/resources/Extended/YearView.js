@@ -296,17 +296,17 @@ let YearView = View.extend({
 							element.append(`<span class="${event.icon} mr-1"></span>${event.title}`)
 							return element;
 						}
-						let badges = `<div class="js-show-day cell-calendar u-cursor-pointer" data-date="${event.date}" data-js="click">`;
+						let badgeCount = 0;
 						for (let key in event.event) {
-							badges += `
-							<a class="" href="#" data-date="${event.date}" data-type="${key}" title="${event.event[key].label}">
-								<span class="${event.event[key].className} small-badge badge badge-secondary fc-year__event-badge">
-									${event.event[key].count}
-								</span>
-							</a>`;
+							badgeCount += event.event[key].count;
 						}
-						badges += '</div>';
-						element = badges;
+						element = `<div class="js-show-day cell-calendar u-cursor-pointer" data-date="${event.date}" data-js="click">
+							<a class="" href="#" data-date="${event.date}">
+								<span class="badge badge-primary fc-year__event-badge">
+									${badgeCount}
+								</span>
+							</a>
+						</div>`;
 						return element;
 					},
 					hiddenDays: hiddenDays,
