@@ -6,9 +6,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-
 namespace Tests\Entity;
-
 /**
  * @codeCoverageIgnore
  */
@@ -36,9 +34,9 @@ class E_TestModule extends \Tests\Base
 			$db = \App\Db::getInstance();
 			$db->createCommand()
 				->update('vtiger_cron_task', [
-					'sequence' => 0,
-				], ['name' => 'TestData'])
-				->execute();
+						'sequence' => 0,
+					], ['name' => 'TestData'])
+					->execute();
 		} catch (\Exception $exc) {
 		}
 	}
