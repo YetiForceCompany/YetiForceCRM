@@ -103,30 +103,64 @@ class Twitter extends \Tests\Base
 			$fieldModel->getId(),
 			'Vtiger_Field_Model problem'
 		);
-		try {
-			$fieldModel->getUITypeModel()->validate('abcd');
-			$this->assertTrue(true);
-		} catch (\App\Exceptions\Security $e) {
-			$this->assertTrue(false, $e->getMessage());
-		}
-		try {
-			$fieldModel->getUITypeModel()->validate('aBcD_314');
-			$this->assertTrue(true);
-		} catch (\App\Exceptions\Security $e) {
-			$this->assertTrue(false, $e->getMessage());
-		}
-		try {
-			$fieldModel->getUITypeModel()->validate('abcd%$#%$#');
-			$this->assertTrue(false, 'Validation does not work');
-		} catch (\App\Exceptions\Security $e) {
-			$this->assertTrue(true);
-		}
-		try {
-			$fieldModel->getUITypeModel()->validate('abcde1234567890abcde');
-			$this->assertTrue(false, 'Validation does not work');
-		} catch (\App\Exceptions\Security $e) {
-			$this->assertTrue(true);
-		}
+	}
+
+	/**
+	 * Validation testing for uitype twitter.
+	 *
+	 * @param mixed $value
+	 *
+	 * @throws \App\Exceptions\Security
+	 *
+	 * @dataProvider providerUiTypeWrongData
+	 */
+	public function testUiTypeWrongData($value)
+	{
+		$this->expectExceptionCode(406);
+		static::$twitterFields[0]->getUITypeModel()->validate($value);
+	}
+
+	/**
+	 * Validation testing for uitype twitter.
+	 *
+	 * @param $value
+	 *
+	 * @throws \App\Exceptions\Security
+	 * @dataProvider providerUiTypeGoodData
+	 */
+	public function testUiTypeGoodData($value)
+	{
+		$this->assertNull(static::$twitterFields[0]->getUITypeModel()->validate($value));
+	}
+
+	/**
+	 * Data provider for testUiTypeWrongData.
+	 *
+	 * @return []
+	 * @codeCoverageIgnore
+	 */
+	public function providerUiTypeWrongData()
+	{
+		return [
+			['$#@%^$^%'],
+			['gfdsgf abc'],
+			['abcde1234567890abcde'],
+		];
+	}
+
+	/**
+	 * Data provider for testUiTypeGoodData.
+	 *
+	 * @return []
+	 * @codeCoverageIgnore
+	 */
+	public function providerUiTypeGoodData()
+	{
+		return [
+			['abc'],
+			['yf123'],
+			['YFlogin'],
+		];
 	}
 
 	/**
