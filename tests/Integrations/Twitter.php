@@ -85,6 +85,28 @@ class Twitter extends \Tests\Base
 	}
 
 	/**
+	 * Check if the Twitter field exists.
+	 */
+	public function testFieldTwitter()
+	{
+		$this->assertInternalType('integer', static::$twitterFields[0]->getId());
+		$this->assertTrue(
+			(new \App\Db\Query())
+				->from('vtiger_field')
+				->where(['fieldid' => static::$twitterFields[0]->getId()])->exists(),
+			'Field twitter not exists'
+		);
+		$fieldModel = \Vtiger_Module_Model::getInstance('Contacts')
+			->getFieldByName(static::$twitterFields[0]->getFieldName());
+		$this->assertNotFalse($fieldModel, 'Vtiger_Field_Model problem - not exists');
+		$this->assertSame(
+			static::$twitterFields[0]->getId(),
+			$fieldModel->getId(),
+			'Vtiger_Field_Model problem'
+		);
+	}
+
+	/**
 	 * Testing adding a Twitter account.
 	 *
 	 * @throws \Exception

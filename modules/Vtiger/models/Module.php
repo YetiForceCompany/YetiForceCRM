@@ -182,15 +182,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public static function getInstance($mixed)
 	{
-		$instance = Vtiger_Cache::get('module', $mixed);
-		if (!$instance) {
-			$instance = false;
-			$moduleObject = parent::getInstance($mixed);
-			if ($moduleObject) {
-				$instance = self::getInstanceFromModuleObject($moduleObject);
-				Vtiger_Cache::set('module', $moduleObject->id, $instance);
-				Vtiger_Cache::set('module', $moduleObject->name, $instance);
-			}
+		if (\App\Cache::has('module', $mixed)) {
+			return \App\Cache::get('module', $mixed);
+		}
+		$instance = false;
+		$moduleObject = parent::getInstance($mixed);
+		if ($moduleObject) {
+			$instance = self::getInstanceFromModuleObject($moduleObject);
+			\App\Cache::save('module', $moduleObject->id, $instance);
+			\App\Cache::save('module', $moduleObject->name, $instance);
 		}
 		return $instance;
 	}
