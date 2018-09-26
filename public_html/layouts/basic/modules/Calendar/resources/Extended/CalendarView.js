@@ -602,7 +602,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				`<div class="js-sub-record sub-record col-1 px-0" data-type="months" data-date="${moment(dateStart).month(month).format('YYYY-MM')}">
 					<div class="sub-record-content ${active}">
 						<div class="sub-date-name">${app.vtranslate('JS_' + moment().month(month).format('MMM').toUpperCase()).toUpperCase()}
-							<div class="js-count-events count badge badge-danger c-badge--md ml-1" data-js="html">0</div>
+							<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>
 						</div>
 					</div>
 				</div>`;
@@ -623,7 +623,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			html += '<div class="js-sub-record sub-record col-1 px-0" data-type="weeks" data-date="' + prevWeeks.format('YYYY-MM-DD') + '">' +
 				'<div class="sub-record-content' + active + '">' +
 				'<div class="sub-date-name">' + app.vtranslate('JS_WEEK_SHORT') + ' ' + prevWeeks.format('WW') +
-				'<div class="js-count-events count badge badge-danger c-badge--md ml-1" data-js="html">0</div>' +
+				'<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>' +
 				'</div>' +
 				'</div>' +
 				'</div>';
@@ -654,7 +654,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			html += '<div class="js-sub-record sub-record col-1 px-0" data-type="days" data-date="' + prevDays.format('YYYY-MM-DD') + '">' +
 				'<div class="sub-record-content' + active + '">' +
 				'<div class="sub-date-name">' + app.vtranslate('JS_DAY_SHORT') + ' ' + prevDays.format('DD') +
-				'<div class="js-count-events count badge badge-danger c-badge--md ml-1" data-js="html">0</div>' +
+				'<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>' +
 				'</div>' +
 				'</div>' +
 				'</div>';

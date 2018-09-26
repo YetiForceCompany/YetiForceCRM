@@ -146,10 +146,22 @@ $sitebar-border: 1px solid #ccc;
 //Calendar Extended
 .tpl-Calendar-Extended-CalendarViewPreProcess {
 	$header-btn-font-size: 14px;
+	$count-badge-color: material-color('red', '200');
+
+	%calendar-count-badge {
+		border: calculate-rem(2px) solid;
+		border-color: transparent !important;
+		border-radius: calculate-rem(23px);
+		color: $white;
+		background: $count-badge-color;
+	}
 	%calendar-header-button {
 		font-size: $header-btn-font-size !important;
 		line-height: 1.42857143;
 		height: calculate-rem(30px);
+	}
+	.badge.count {
+		@extend %calendar-count-badge;
 	}
 	.o-calendar {
 		&__container {
@@ -583,8 +595,9 @@ $sitebar-border: 1px solid #ccc;
 				background: $year-month-border-color;
 			}
 		}
+
 		&__event-badge {
-			padding: 0.2em 0.2em;
+			@extend %calendar-count-badge;
 		}
 	}
 

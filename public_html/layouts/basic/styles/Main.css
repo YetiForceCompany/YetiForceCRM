@@ -15943,6 +15943,12 @@ label.btn.btn-outline-primary:not(.active) {
       margin-bottom: 0.5rem; }
     .js-calendar-switch-container .btn-group:last-child {
       margin-left: 0.5rem !important; } }
+.tpl-Calendar-Extended-CalendarViewPreProcess .badge.count, .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__event-badge {
+  border: 0.125rem solid;
+  border-color: transparent !important;
+  border-radius: 1.4375rem;
+  color: #fff;
+  background: #ef9a9a; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .c-tab--small .nav-link, .tpl-Calendar-Extended-CalendarViewPreProcess .detailViewInfo .dropdown.tabdrop .nav-link, .detailViewInfo .tpl-Calendar-Extended-CalendarViewPreProcess .dropdown.tabdrop .nav-link {
   font-size: 14px !important;
   line-height: 1.42857143;
@@ -16241,8 +16247,6 @@ label.btn.btn-outline-primary:not(.active) {
   padding: 0.125rem 0 !important;
   font-size: 0.75rem;
   background: #f8f9fa; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__event-badge {
-  padding: 0.2em 0.2em; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .js-calendar-switch-container {
   margin-right: 0;
   display: flex;
