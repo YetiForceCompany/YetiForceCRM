@@ -9,6 +9,11 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	 */
 	renderCalendar(readonly = false) {
 		const self = this;
+		FC.views.year = FC.views.year.extend({
+			selectDays: self.selectDays,
+			getCalendarCreateView: self.getCalendarCreateView,
+			registerSubmitForm: self.registerSubmitForm
+		});
 		this.calendar = self.getCalendarView();
 		let eventLimit = app.getMainParams('eventLimit'),
 			weekView = app.getMainParams('weekView'),
@@ -74,7 +79,10 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				year: {
 					eventLimit: 10,
 					eventLimitText: app.vtranslate('JS_COUNT_RECORDS'),
-					titleFormat: 'YYYY'
+					titleFormat: 'YYYY',
+					select: function (start, end) {
+
+					}
 				},
 				month: {
 					titleFormat: 'YYYY MMMM'
@@ -710,7 +718,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	},
 	registerSubmitForm() {
 		const thisInstance = this;
-		$(document).find('form[name="QuickCreate"]').find('.save').on('click', function (e) {
+		$('.js-save-event').on('click', function (e) {
 			if ($(this).parents('form:first').validationEngine('validate')) {
 				let formData = $(e.currentTarget).parents('form:first').serializeFormData();
 				AppConnector.request(formData).done((data) => {
@@ -724,7 +732,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 								textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR');
 							}
 							thisInstance.calendarCreateView = false;
-							thisInstance.getCalendarCreateView();
+							//thisInstance.getCalendarCreateView();
 							Vtiger_Helper_Js.showPnotify({
 								text: textToShow,
 								type: 'success',

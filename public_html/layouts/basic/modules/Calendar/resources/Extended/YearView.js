@@ -65,45 +65,8 @@ var YearView = View.extend({
 			$(".js-sub-record .sub-active").click();
 		});
 	},
-
-	selectDays: function (startDate, endDate) {
-		let start_hour = $('#start_hour').val();
-		if (endDate.hasTime() === false) {
-			endDate.add(-1, 'days');
-		}
-		startDate = startDate.format();
-		endDate = endDate.format();
-		if (start_hour === '') {
-			start_hour = '00';
-		}
-		this.getCalendarCreateView().then(function (data) {
-			if (data.length <= 0) {
-				return;
-			}
-			startDate = startDate + 'T' + start_hour + ':00';
-			endDate = endDate + 'T' + start_hour + ':00';
-			if (startDate === endDate) {
-				let defaulDuration = 0;
-				if (data.find('[name="activitytype"]').val() === 'Call') {
-					defaulDuration = data.find('[name="defaultCallDuration"]').val();
-				} else {
-					defaulDuration = data.find('[name="defaultOtherEventDuration"]').val();
-				}
-				endDate = moment(endDate).add(defaulDuration, 'minutes').toISOString();
-			}
-			let dateFormat = data.find('[name="date_start"]').data('dateFormat').toUpperCase(),
-				timeFormat = data.find('[name="time_start"]').data('format'),
-				defaultTimeFormat = '';
-			if (timeFormat === 24) {
-				defaultTimeFormat = 'HH:mm';
-			} else {
-				defaultTimeFormat = 'hh:mm A';
-			}
-			data.find('[name="date_start"]').val(moment(startDate).format(dateFormat));
-			data.find('[name="due_date"]').val(moment(endDate).format(dateFormat));
-			data.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
-			data.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
-		});
+	addCalendarEvent() {
+		this.render();
 	},
 	getSidebarView() {
 		return $('#rightPanel');
@@ -166,73 +129,6 @@ var YearView = View.extend({
 		if (!$('.js-rightPanelEvent').hasClass('active')) {
 			$('.js-rightPanelEventLink').trigger('click');
 		}
-	},
-	getCalendarCreateView() {
-		const thisInstance = this;
-		let aDeferred = $.Deferred();
-		if (thisInstance.calendarCreateView !== false) {
-			return thisInstance.calendarCreateView;
-		}
-		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		this.loadCalendarCreateView().then(
-			(data) => {
-				let sideBar = thisInstance.getSidebarView();
-				progressInstance.progressIndicator({mode: 'hide'});
-				thisInstance.showRightPanelForm();
-				sideBar.find('.js-qcForm').html(data);
-				let rightFormCreate = $(document).find('form[name="QuickCreate"]'),
-					moduleName = sideBar.find('[name="module"]').val(),
-					editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName),
-					headerInstance = new Vtiger_Header_Js();
-				App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
-				editViewInstance.registerBasicEvents(rightFormCreate);
-				rightFormCreate.validationEngine(app.validationEngineOptions);
-				headerInstance.registerHelpInfo(rightFormCreate);
-				thisInstance.registerSubmitForm();
-				headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, {});
-				$.each(sideBar.find('.ckEditorSource'), function (key, element) {
-					let ckEditorInstance = new Vtiger_CkEditor_Js();
-					ckEditorInstance.loadCkEditor($(element), {
-						height: '5em',
-						toolbar: 'Min'
-					});
-				});
-				aDeferred.resolve(sideBar.find('.js-qcForm'));
-			},
-			() => {
-				progressInstance.progressIndicator({mode: 'hide'});
-			}
-		);
-		thisInstance.calendarCreateView = aDeferred.promise();
-		return thisInstance.calendarCreateView;
-	},
-	registerSubmitForm() {
-		const thisInstance = this;
-		$(document).find('form[name="QuickCreate"]').find('.save').on('click', function (e) {
-			if ($(this).parents('form:first').validationEngine('validate')) {
-				let formData = $(e.currentTarget).parents('form:first').serializeFormData();
-				AppConnector.request(formData).then((data) => {
-						if (data.success) {
-							let textToShow = '';
-							if (formData.record) {
-								thisInstance.updateCalendarEvent(formData.record, data.result);
-								textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_UPDATED_IN_YOUR_CALENDAR');
-							} else {
-								thisInstance.render();
-								textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR');
-							}
-							thisInstance.calendarCreateView = false;
-							thisInstance.getCalendarCreateView();
-							Vtiger_Helper_Js.showPnotify({
-								text: textToShow,
-								type: 'success',
-								animation: 'show'
-							});
-						}
-					}
-				);
-			}
-		});
 	},
 	loadCalendarCreateView() {
 		let aDeferred = $.Deferred();
