@@ -38,7 +38,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	public function postProcessAjax(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$tplName = AppConfig::module('Calendar', 'CALENDAR_VIEW') . '\QuickCreate.tpl';
+		$tplName = AppConfig::module('Calendar', 'CALENDAR_VIEW') . DIRECTORY_SEPARATOR . 'QuickCreate.tpl';
 		$viewer->assign('RECORD', $this->record);
 		$viewer->assign('CURRENT_USER', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('EVENT_LIMIT', AppConfig::module('Calendar', 'EVENT_LIMIT'));
