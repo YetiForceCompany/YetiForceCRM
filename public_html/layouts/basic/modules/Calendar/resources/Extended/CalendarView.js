@@ -869,9 +869,9 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			}).done((data) => {
 				let response = data.result;
 				if (response === 'unpin') {
-					thisInstance.find('.fa-thumbtack').addClass('u-opacity-muted');
+					thisInstance.find('.js-pin-icon').removeClass('fas').addClass('far');
 				} else if (response === 'pin') {
-					thisInstance.find('.fa-thumbtack').removeClass('u-opacity-muted');
+					thisInstance.find('.js-pin-icon').removeClass('far').addClass('fas');
 				} else {
 					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
 				}

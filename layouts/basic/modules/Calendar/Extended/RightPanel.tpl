@@ -25,7 +25,8 @@
 									<div class="js-pinUser d-inline-block align-middle text-center"
 										 data-elementid="{$OWNER_ID}"
 										 data-js="click|data-elementid">
-										<span class="fas fa-thumbtack u-cursor-pointer {if empty($FAVOURITES_USERS[$OWNER_ID])}u-opacity-muted{/if}"></span>
+										<span class="{if empty($FAVOURITES_USERS[$OWNER_ID])}far{else}fas{/if} fa-star js-pin-icon u-cursor-pointer"
+											  data-js="class: fas | far"></span>
 									</div>
 								</div>
 								<label class="m-0 col-9 js-filter__item__value u-text-ellipsis"
