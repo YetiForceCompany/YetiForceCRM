@@ -59,7 +59,6 @@ class Vtiger_Base_UIType extends \App\Base
 	 * Set default value from request.
 	 *
 	 * @param \App\Request $request
-	 * @param bool         $requestFieldName
 	 *
 	 * @throws \App\Exceptions\Security
 	 */

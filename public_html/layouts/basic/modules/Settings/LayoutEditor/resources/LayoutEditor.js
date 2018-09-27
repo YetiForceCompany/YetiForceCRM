@@ -1418,12 +1418,15 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 					thisInstance.registerVaribleToParsers(modalContainer);
 					app.registerEventForClockPicker(modalContainer.find('.clockPicker'));
 				},
-				sendByAjaxCb: function (formData, response) {
+				sendByAjaxCb: (formData, response) => {
+					if (!response.success) {
+						return;
+					}
 					Settings_Vtiger_Index_Js.showMessage({
 						text: app.vtranslate('JS_FIELD_DETAILS_SAVED')
 					});
-					var result = response['result'];
-					var fieldLabel = fieldRow.find('.fieldLabel');
+					let result = response['result'];
+					let fieldLabel = fieldRow.find('.fieldLabel');
 					if (result['presence'] === '1') {
 						fieldRow.parent().fadeOut('slow').remove();
 						if ($.isEmptyObject(thisInstance.inActiveFieldsList[blockId])) {
