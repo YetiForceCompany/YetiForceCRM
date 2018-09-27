@@ -218,16 +218,16 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$favouritesId = $request->getInteger('element_id');
 			if (\App\User::isExists($favouritesId)) {
 				$query = new \App\Db\Query();
-				$countRecords = $query->select('fav_element_id')
+				$existsRecords = $query->select('fav_element_id')
 					->from('u_#__users_pinned')
 					->where(['owner_id' => $userId])
 					->where(['fav_element_id' => $favouritesId])
-					->count();
+					->exists();
 				$data = [
 					'owner_id' => $userId,
 					'fav_element_id' => $favouritesId,
 				];
-				if ($countRecords === 0) {
+				if (!$existsRecords) {
 					$db->createCommand()->insert('u_#__users_pinned', $data)->execute();
 					$result = 'pin';
 				} else {
