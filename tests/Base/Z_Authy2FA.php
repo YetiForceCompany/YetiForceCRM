@@ -7,7 +7,7 @@
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
-namespace Tests\Entity;
+namespace Tests\Base;
 
 class Z_Authy2FA extends \Tests\Base
 {
