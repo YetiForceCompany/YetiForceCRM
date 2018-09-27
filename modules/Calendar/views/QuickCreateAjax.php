@@ -16,21 +16,19 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	 *
 	 * @var Calendar_QuickCreateAjax_View
 	 */
-	public $record = false;
+	public $record;
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
+		parent::checkPermission($request);
 		if ($request->has('sourceRecord')) {
-			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $moduleName);
+			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModuleName', 2));
 			if (!($this->record->isEditable() || ($this->record->isCreateable() && $this->record->isViewable()))) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
-		} else {
-			parent::checkPermission($request);
 		}
 	}
 
@@ -41,10 +39,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	{
 		$viewer = $this->getViewer($request);
 		$tplName = AppConfig::module('Calendar', 'CALENDAR_VIEW') . '\QuickCreate.tpl';
-		if ($request->has('sourceRecord')) {
-			$recordModel = $this->record ?: Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'));
-		}
-		$viewer->assign('RECORD', $recordModel ?? null);
+		$viewer->assign('RECORD', $this->record);
 		$viewer->assign('CURRENT_USER', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('EVENT_LIMIT', AppConfig::module('Calendar', 'EVENT_LIMIT'));
 		$viewer->assign('WEEK_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
