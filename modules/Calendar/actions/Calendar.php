@@ -218,7 +218,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$favouritesId = $request->getInteger('element_id');
 			if (\App\User::isExists($favouritesId)) {
 				$query = new \App\Db\Query();
-				$existsRecords = $query->select('fav_element_id')
+				$existsRecords = $query
 					->from('u_#__users_pinned')
 					->where(['owner_id' => $userId])
 					->where(['fav_element_id' => $favouritesId])
