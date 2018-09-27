@@ -565,7 +565,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 		let container = $('#layoutEditorContainer'),
 			contents = container.find('.contents');
 		contents.find('.addCustomField').on('click', function (e) {
-			let blockId = $(e.currentTarget).closest('.editFieldsTable').data('blockId'),
+			let blockId = $(e.currentTarget).closest('.editFieldsTable').data('block-id'),
 				addFieldContainer = container.find('.createFieldModal').clone(true, true);
 			addFieldContainer.removeClass('d-none').show();
 			let callBackFunction = function (data) {
