@@ -15943,16 +15943,16 @@ label.btn.btn-outline-primary:not(.active) {
       margin-bottom: 0.5rem; }
     .js-calendar-switch-container .btn-group:last-child {
       margin-left: 0.5rem !important; } }
-.tpl-Calendar-Extended-CalendarViewPreProcess .badge.count, .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__event-badge {
+.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .c-tab--small .nav-link, .tpl-Calendar-Extended-CalendarViewPreProcess .detailViewInfo .dropdown.tabdrop .nav-link, .detailViewInfo .tpl-Calendar-Extended-CalendarViewPreProcess .dropdown.tabdrop .nav-link {
+  font-size: 14px !important;
+  line-height: 1.42857143;
+  height: 1.875rem; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .badge.count {
   border: 0.125rem solid;
   border-color: transparent !important;
   border-radius: 1.4375rem;
   color: #fff;
   background: #ef9a9a; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .c-tab--small .nav-link, .tpl-Calendar-Extended-CalendarViewPreProcess .detailViewInfo .dropdown.tabdrop .nav-link, .detailViewInfo .tpl-Calendar-Extended-CalendarViewPreProcess .dropdown.tabdrop .nav-link {
-  font-size: 14px !important;
-  line-height: 1.42857143;
-  height: 1.875rem; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn {
   padding: 0.25rem 0.5rem;
   font-size: 14px; }
@@ -16221,6 +16221,14 @@ label.btn.btn-outline-primary:not(.active) {
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-week-btn {
   position: absolute;
   color: #90caf9;
+  font-size: 0.8125rem;
+  z-index: 148;
+  cursor: pointer;
+  line-height: 1.3; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-day-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-week-btn {
+  color: #90caf9; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-week-btn {
+  position: absolute;
   font-size: 0.8125rem;
   z-index: 148;
   cursor: pointer;

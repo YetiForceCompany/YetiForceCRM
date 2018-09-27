@@ -148,21 +148,20 @@ $sitebar-border: 1px solid #ccc;
 	$header-btn-font-size: 14px;
 	$count-badge-color: material-color('red', '200');
 
-	%calendar-count-badge {
+	%calendar-header-button {
+		font-size: $header-btn-font-size !important;
+		line-height: 1.42857143;
+		height: calculate-rem(30px);
+	}
+
+	.badge.count {
 		border: calculate-rem(2px) solid;
 		border-color: transparent !important;
 		border-radius: calculate-rem(23px);
 		color: $white;
 		background: $count-badge-color;
 	}
-	%calendar-header-button {
-		font-size: $header-btn-font-size !important;
-		line-height: 1.42857143;
-		height: calculate-rem(30px);
-	}
-	.badge.count {
-		@extend %calendar-count-badge;
-	}
+
 	.o-calendar {
 		&__container {
 			@extend .pt-0;
@@ -562,13 +561,22 @@ $sitebar-border: 1px solid #ccc;
 			}
 		}
 
-		&__event-badge {
-			@extend %calendar-count-badge;
-		}
-		
 		&__show-week-btn {
 			position: absolute;
 			color: material-color('blue', '200');
+			font-size: calculate-rem(13px);
+			z-index: 148;
+			cursor: pointer;
+			line-height: 1.3;
+		}
+
+		&__show-day-btn,
+		&__show-week-btn {
+			color: material-color('blue', '200');
+		}
+
+		&__show-week-btn {
+			position: absolute;
 			font-size: calculate-rem(13px);
 			z-index: 148;
 			cursor: pointer;
