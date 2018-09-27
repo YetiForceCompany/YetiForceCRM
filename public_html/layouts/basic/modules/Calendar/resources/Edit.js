@@ -500,7 +500,8 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 	validateHolidayDate(form) {
 		let fields = form.find('[name="date_start"], [name="due_date"]'),
 			isHoliday = false,
-			fieldHolidayArray = [];
+			fieldHolidayArray = [],
+			aDeferred = $.Deferred();
 		$.each(fields, function (index, fieldObj) {
 			fieldHolidayArray.push(fieldObj.value);
 		});
@@ -517,8 +518,11 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			if (true === data.success && true === data.result.isHolidayDate) {
 				isHoliday = true;
 			}
+			aDeferred.resolve(isHoliday);
+		}).fail(function (error) {
+			aDeferred.reject(false);
 		});
-		return isHoliday;
+		return aDeferred.promise();
 	},
 	/**
 	 * Register pre save event
@@ -528,16 +532,17 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		const self = this;
 		let lockSave = true;
 		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
-			let holidaysArray = self.validateHolidayDate(form);
-			if (lockSave && holidaysArray.length !== 0) {
-				e.preventDefault();
-				Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate("JS_DATES_SELECTED_HOLIDAYS")}).done(function () {
-					lockSave = false;
+			self.validateHolidayDate(form).done(function (isHoliday) {
+				if (lockSave && isHoliday) {
+					e.preventDefault();
+					Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate("JS_DATES_SELECTED_HOLIDAYS")}).done(function () {
+						lockSave = false;
+						form.submit();
+					});
+				} else {
 					form.submit();
-				});
-			} else {
-				form.submit();
-			}
+				}
+			});
 		});
 	},
 	registerRow: function (row) {
