@@ -4,10 +4,13 @@
  * OSSEmployees DetailView model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSEmployees_DetailView_Model extends Vtiger_DetailView_Model
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDetailViewLinks($linkParams)
 	{
 		$recordModel = $this->getRecord();
