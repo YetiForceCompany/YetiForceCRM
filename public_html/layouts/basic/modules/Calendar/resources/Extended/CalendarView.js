@@ -4,6 +4,8 @@
 Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	isRegisterUsersChangeRegistered: false,
 	datesRowView: false,
+	sidebarView: {length: 0},
+	calendar: false,
 	/**
 	 * Render calendar
 	 */
@@ -12,7 +14,16 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		FC.views.year = FC.views.year.extend({
 			selectDays: self.selectDays,
 			getCalendarCreateView: self.getCalendarCreateView,
-			registerSubmitForm: self.registerSubmitForm
+			registerSubmitForm: self.registerSubmitForm,
+			getSidebarView: self.getSidebarView,
+			getCurrentCvId: self.getCurrentCvId,
+			getCalendarView: self.getCalendarView,
+			showRightPanelForm: self.showRightPanelForm,
+			getSelectedUsersCalendar: self.getSelectedUsersCalendar,
+			registerClearFilterButton: self.registerClearFilterButton,
+			clearFilterButton: self.clearFilterButton,
+			registerFilterTabChange: self.registerFilterTabChange,
+			sidebarView: self.sidebarView,
 		});
 		this.calendar = self.getCalendarView();
 		let eventLimit = app.getMainParams('eventLimit'),
@@ -353,7 +364,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	},
 	registerFilterTabChange() {
 		const thisInstance = this;
-		this.calendar.find(".js-calendar__extended-filter-tab").on('shown.bs.tab', function () {
+		this.getCalendarView().find(".js-calendar__extended-filter-tab").on('shown.bs.tab', function () {
 			thisInstance.loadCalendarData();
 		});
 	},
@@ -373,7 +384,9 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		return users;
 	},
 	getSidebarView() {
-		this.sidebarView = $('#rightPanel');
+		if (!this.sidebarView.length) {
+			this.sidebarView = $('#rightPanel');
+		}
 		return this.sidebarView;
 	},
 	updateCountTaskCalendar() {
@@ -382,7 +395,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			dateArray = {},
 			user = this.getSelectedUsersCalendar();
 		if (user.length === 0) {
-			user = [app.getMainParams('userId')];
+			user = [app.getMainParams('current_user_id')];
 		}
 		subDatesElements.each(function (key, element) {
 			let data = $(this).data('date'),
@@ -515,7 +528,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	},
 	registerClearFilterButton() {
 		const sidebar = this.getSidebarView();
-		let clearBtn = this.calendar.find('.js-calendar__clear-filters');
+		let clearBtn = this.getCalendarView().find('.js-calendar__clear-filters');
 		app.showPopoverElementView(clearBtn);
 		clearBtn.on('click', () => {
 			$(".js-calendar__extended-filter-tab a").removeClass('active');

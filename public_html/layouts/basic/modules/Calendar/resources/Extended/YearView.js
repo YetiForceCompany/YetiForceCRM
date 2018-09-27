@@ -36,13 +36,7 @@ var YearView = View.extend({
 			</div>
 		`;
 	},
-	getCalendarView: function () {
-		if (this.calendarView === false) {
-			this.calendarView = $('#calendarview');
-		}
-		return this.calendarView;
-	},
-	loadCalendarData: function (calendar, events) {
+	loadMonthData: function (calendar, events) {
 		const thisInstance = this;
 		let height = (calendar.find('.fc-bg :first').height() - calendar.find('.fc-day-number').height()) - 10,
 			width = (calendar.find('.fc-day-number').width() / 2) - 10,
@@ -68,37 +62,6 @@ var YearView = View.extend({
 	addCalendarEvent() {
 		this.render();
 	},
-	getSidebarView() {
-		return $('#rightPanel');
-	},
-	clearFilterButton(user, cvid) {
-		let currentUser = parseInt(app.getMainParams('userId')),
-			time = app.getMainParams('showType'),
-			statement = ((user.length === 0 || (user.length === 1 && parseInt(user) === currentUser)) && cvid === undefined && time === 'current');
-		$(".js-calendar__clear-filters").toggleClass('d-none', statement);
-	},
-	registerFilterTabChange() {
-		const thisInstance = this;
-		$(".js-calendar__extended-filter-tab").on('shown.bs.tab', function () {
-			thisInstance.render();
-		});
-	},
-	getSelectedUsersCalendar() {
-		let selectedUsers = this.getSidebarView().find('.js-inputUserOwnerId:checked'),
-			selectedUsersAjax = this.getSidebarView().find('.js-inputUserOwnerIdAjax'),
-			users = [];
-		if (selectedUsers.length > 0) {
-			selectedUsers.each(function () {
-				users.push($(this).val());
-			});
-		} else if (selectedUsersAjax.length > 0) {
-			users = this.getSidebarView().find('.js-inputUserOwnerIdAjax').val();
-		}
-		return users;
-	},
-	getCurrentCvId() {
-		return $(".js-calendar__extended-filter-tab .active").parent('.js-filter-tab').data('cvid');
-	},
 	registerUsersChange() {
 		const thisInstance = this;
 		if (!thisInstance.isRegisterUsersChangeRegistered) {
@@ -111,24 +74,8 @@ var YearView = View.extend({
 			});
 		}
 	},
-	registerClearFilterButton() {
-		const thisInstance = this,
-			sidebar = thisInstance.getSidebarView();
-		$(".js-calendar__clear-filters").on('click', () => {
-			$(".js-calendar__extended-filter-tab a").removeClass('active');
-			$(".js-calendar-switch-container .js-switch").eq(1).find('.js-switch--label-on').click();
-			sidebar.find("input:checkbox").prop('checked', false);
-			sidebar.find(".js-inputUserOwnerId[value=" + app.getMainParams('userId') + "]").prop('checked', true);
-			thisInstance.render();
-		});
-	},
-	showRightPanelForm() {
-		if ($('.js-calendarRightPanel').hasClass('hideSiteBar')) {
-			$('.js-toggleSiteBarRightButton').trigger('click');
-		}
-		if (!$('.js-rightPanelEvent').hasClass('active')) {
-			$('.js-rightPanelEventLink').trigger('click');
-		}
+	loadCalendarData() {
+		this.render();
 	},
 	loadCalendarCreateView() {
 		let aDeferred = $.Deferred();
@@ -165,7 +112,8 @@ var YearView = View.extend({
 			user = this.getSelectedUsersCalendar(),
 			progressInstance = $.progressIndicator({blockInfo: {enabled: true}}),
 			cvid = this.getCurrentCvId(),
-			convertedFirstDay = CONFIG.firstDayOfWeekNo;
+			convertedFirstDay = CONFIG.firstDayOfWeekNo,
+			filters = [];
 
 		if (app.getMainParams('switchingDays') === 'workDays') {
 			hiddenDays = app.getMainParams('hiddenDays', true);
@@ -173,7 +121,19 @@ var YearView = View.extend({
 		if (user.length === 0) {
 			user = [app.getMainParams('userId')];
 		}
-		this.clearFilterButton(user, cvid);
+		$(".calendarFilters .filterField").each(function (index) {
+			let element = $(this),
+				name, value;
+			if (element.attr('type') === 'checkbox') {
+				name = element.val();
+				value = element.prop('checked') ? 1 : 0;
+			} else {
+				name = element.attr('name');
+				value = element.val();
+			}
+			filters.push({name: name, value: value});
+		});
+		this.clearFilterButton(user, filters, cvid);
 		AppConnector.request({
 			module: 'Calendar',
 			action: 'Calendar',
@@ -182,11 +142,12 @@ var YearView = View.extend({
 			end: date + '-12-31',
 			user: user,
 			yearView: true,
+			filters: filters,
 			time: app.getMainParams('showType'),
 			cvid: cvid
 		}).done(function (events) {
 			yearView.find('.fc-year__month').each(function (i) {
-				self.loadCalendarData($(this).fullCalendar({
+				self.loadMonthData($(this).fullCalendar({
 					defaultView: 'month',
 					titleFormat: 'MMMM',
 					header: {center: 'title', left: false, right: false},
