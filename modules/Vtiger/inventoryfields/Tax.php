@@ -56,6 +56,13 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		$this->validate($value, $column, true);
 		$insertData[$column] = $value;
 		$value = \App\Json::encode($request->getArray('taxparam' . $i));
+		if (!empty($request->getArray('taxparam' . $i)['individualTax'])) {
+			$individualTax = $request->getArray('taxparam' . $i)['individualTax'];
+		}
+		if (strstr($individualTax, ',') || strstr($individualTax, '\'') || strstr($individualTax, ' ') || strstr($individualTax, '$')) {
+			$parseSeparator = str_replace([',', ' ', '\'', '$'], '.', $individualTax);
+			$value = str_replace($individualTax, $parseSeparator, $value);
+		}
 		$this->validate($value, 'taxparam', true);
 		$insertData['taxparam'] = $value;
 	}
