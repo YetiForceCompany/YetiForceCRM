@@ -128,8 +128,7 @@ class Calendar_Calendar_Model extends App\Base
 	 */
 	public function getEntityRecordsCount()
 	{
-		$count = $this->getQuery()->count();
-		return $count;
+		return $this->getQuery()->count();
 	}
 
 	/**

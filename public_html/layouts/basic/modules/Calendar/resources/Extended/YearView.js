@@ -11,6 +11,7 @@ var YearView = View.extend({
 		this.registerFilterTabChange();
 		this.registerClearFilterButton();
 		this.registerUsersChange();
+		this.createAddSwitch();
 	},
 	renderHtml: function (year) {
 		let col2Breakpoint = 'col-xxl-2';
@@ -199,6 +200,23 @@ var YearView = View.extend({
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
 	},
+	createAddSwitch() {
+		const thisInstance = this;
+		let switchContainer = $(".js-calendar-switch-container");
+		switchContainer.find('.js-switch').eq(1).on('change', 'input', (e) => {
+			const currentTarget = $(e.currentTarget);
+			if (typeof currentTarget.data('on-text') !== 'undefined') {
+				app.setMainParams('showType', 'current');
+				app.moduleCacheSet('defaultShowType', 'current');
+			} else if (typeof currentTarget.data('off-text') !== 'undefined') {
+				app.setMainParams('showType', 'history');
+				app.moduleCacheSet('defaultShowType', 'history');
+			}
+			if (thisInstance.getCalendarView().fullCalendar('getView').type === 'year') {
+				thisInstance.render();
+			}
+		});
+	}
 });
 
 FC.views.year = YearView; // register our class with the view system
