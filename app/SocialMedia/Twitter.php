@@ -93,6 +93,21 @@ class Twitter extends Base
 	}
 
 	/**
+	 * Format Twitter login/name.
+	 *
+	 * @param string $twitterLogin
+	 *
+	 * @return string
+	 */
+	public static function formatLogin(string $twitterLogin)
+	{
+		if (!empty($twitterLogin) && $twitterLogin[0] !== '@') {
+			return '@' . $twitterLogin;
+		}
+		return $twitterLogin;
+	}
+
+	/**
 	 * Twitter constructor.
 	 *
 	 * @param string $userName
@@ -138,9 +153,8 @@ class Twitter extends Base
 			$param['since_id'] = $maxId;
 		}
 		$this->logInfoDb('Begin downloading new messages');
-		$allMessages = $this->getFromApi('statuses/user_timeline', $param);
 		$cnt = 0;
-		foreach ($allMessages as $rowTwitter) {
+		foreach ($this->getFromApi('statuses/user_timeline', $param) as $rowTwitter) {
 			$rowTwitter['id'] = \App\Purifier::encodeHtml($rowTwitter['id']);
 			$rowTwitter['created_at'] = \App\Purifier::encodeHtml($rowTwitter['created_at']);
 			$rowTwitter[$rowTwitter[$indexOfText]] = \App\Purifier::encodeHtml($rowTwitter[$indexOfText]);
@@ -206,6 +220,46 @@ class Twitter extends Base
 	}
 
 	/**
+	 * Replay to twitts.
+	 *
+	 * @param string $twitterLogin
+	 * @param string $idReplyTo
+	 * @param string $message
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return mixed
+	 */
+	public function reply(string $twitterLogin, string $idReplyTo, string $message)
+	{
+		return $this->send(static::formatLogin($twitterLogin) . ' ' . $message, ['in_reply_to_status_id' => $idReplyTo]);
+	}
+
+	/**
+	 * Send message.
+	 *
+	 * @param string $message
+	 * @param array  $extendedParam
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return mixed
+	 */
+	public function send(string $message, array $extendedParam = [])
+	{
+		try {
+			$response = static::$twitterConnection->post(
+				'statuses/update', \array_merge(['status' => $message], $extendedParam)
+			);
+			$this->isError($response);
+			return $response;
+		} catch (\Throwable $e) {
+			$this->logErrorDb('Twitter API error: ' . $e->getMessage());
+		}
+		throw new \App\Exceptions\AppException('ERR_API');
+	}
+
+	/**
 	 * Make GET requests to the API.
 	 *
 	 * @param string $path
@@ -219,22 +273,34 @@ class Twitter extends Base
 	{
 		try {
 			$response = static::$twitterConnection->get($path, $parameters);
-			if (isset($response['errors'])) {
-				if (\is_array($response['errors'])) {
-					foreach ($response['errors'] as $error) {
-						$errorMessage = \App\Purifier::encodeHtml($error['message']);
-						$errorCode = (int) $error['code'];
-						$this->logErrorDb('Twitter API error[code: ' . $errorCode . ']: ' . $errorMessage);
-					}
-				} else {
-					$this->logErrorDb('Twitter API unknown error');
-				}
-				throw new \App\Exceptions\AppException('ERR_API');
-			}
+			$this->isError($response);
 			return $response;
 		} catch (\Throwable $e) {
 			$this->logErrorDb('Twitter API error: ' . $e->getMessage());
 		}
 		throw new \App\Exceptions\AppException('ERR_API');
+	}
+
+	/**
+	 * Check if there is an error in response.
+	 *
+	 * @param mixed $response
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	private function isError($response)
+	{
+		if (isset($response['errors'])) {
+			if (\is_array($response['errors'])) {
+				foreach ($response['errors'] as $error) {
+					$errorMessage = \App\Purifier::encodeHtml($error['message']);
+					$errorCode = (int) $error['code'];
+					$this->logErrorDb('Twitter API error[code: ' . $errorCode . ']: ' . $errorMessage);
+				}
+			} else {
+				$this->logErrorDb('Twitter API unknown error');
+			}
+			throw new \App\Exceptions\AppException('ERR_API');
+		}
 	}
 }
