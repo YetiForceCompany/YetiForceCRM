@@ -32,6 +32,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 				'linklabel' => 'LBL_DOWNLOAD_FILE',
 				'linkurl' => $recordModel->getDownloadFileURL(),
 				'linkicon' => 'fas fa-download',
+				'linkclass' => 'btn-outline-dark btn-sm',
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
@@ -40,6 +41,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 			'linklabel' => 'LBL_CHECK_FILE_INTEGRITY',
 			'linkurl' => $recordModel->checkFileIntegrityURL(),
 			'linkicon' => 'fas fa-check',
+			'linkclass' => 'btn-outline-dark btn-sm',
 		];
 		$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 
@@ -52,6 +54,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 					'linktarget' => '_blank',
 					'linkurl' => 'index.php?module=OSSMail&view=Compose&type=new&crmModule=Documents&crmRecord=' . $recordModel->getId(),
 					'linkicon' => 'fas fa-envelope',
+					'linkclass' => 'btn-outline-dark btn-sm',
 				];
 				$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 			}
