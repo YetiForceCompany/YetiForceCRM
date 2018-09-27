@@ -539,8 +539,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 						lockSave = false;
 						form.submit();
 					});
-				} else {
-					form.submit();
 				}
 			});
 		});
