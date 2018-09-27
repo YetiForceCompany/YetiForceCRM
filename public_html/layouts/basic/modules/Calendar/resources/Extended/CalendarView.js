@@ -238,9 +238,11 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 						app.moduleCacheSet('defaultSwitchingDays', 'all');
 					}
 					calendarview.fullCalendar('option', 'hiddenDays', hiddenDays);
+					thisInstance.subDateRow = false;
 					if (thisInstance.getCalendarView().fullCalendar('getView').type !== 'year') {
-						thisInstance.subDateRow = false;
 						this.loadCalendarData();
+					} else {
+						thisInstance.registerViewRenderEvents(thisInstance.getCalendarView().fullCalendar('getView'), false);
 					}
 				});
 		}
