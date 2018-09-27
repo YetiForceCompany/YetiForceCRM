@@ -2410,12 +2410,10 @@ YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 			let activitiesStatus = container.data('name');
 			if (activitiesStatus === 'OverdueActivities') {
 				status = 'PLL_OVERDUE';
+			} else if (activitiesStatus === 'CalendarActivities') {
+				status = 'PLL_IN_REALIZATION##PLL_PLANNED';
 			} else {
-				if (activitiesStatus === 'CalendarActivities') {
-					status = 'PLL_IN_REALIZATION##PLL_PLANNED';
-				} else {
-					status = 'PLL_IN_REALIZATION##PLL_PLANNED##PLL_OVERDUE';
-				}
+				status = 'PLL_IN_REALIZATION##PLL_PLANNED##PLL_OVERDUE';
 			}
 			let url = 'index.php?module=Calendar&view=List&viewname=All';
 			url += '&search_params=[[';
