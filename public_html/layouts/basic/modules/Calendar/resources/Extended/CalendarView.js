@@ -374,7 +374,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			dateArray = {},
 			user = this.getSelectedUsersCalendar();
 		if (user.length === 0) {
-			user = [app.getMainParams('current_user_id')];
+			user = [app.getMainParams('userId')];
 		}
 		subDatesElements.each(function (key, element) {
 			let data = $(this).data('date'),
