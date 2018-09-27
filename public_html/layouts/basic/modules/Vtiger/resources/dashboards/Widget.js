@@ -2380,6 +2380,7 @@ YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 		this._super();
 		this.registerActivityChange();
 		this.registerListViewButton();
+		this.addQuickCreateButton();
 	},
 	postRefreshWidget: function () {
 		this._super();
@@ -2401,6 +2402,11 @@ YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 				app.showModalWindow(null, url, callbackFunction);
 			}
 		})
+	},
+	addQuickCreateButton: function () {
+		this.getContainer().find('.js-quickCreate_btn').on('click', function () {
+			Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
+		});
 	},
 	registerListViewButton: function () {
 		const thisInstance = this,

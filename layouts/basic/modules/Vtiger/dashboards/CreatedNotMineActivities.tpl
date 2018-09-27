@@ -8,8 +8,7 @@
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-6"}
 			<div class="d-inline-flex">
 				{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
-					<a class="btn btn-sm btn-light" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
-							return false;" aria-label="{\App\Language::translate('LBL_ADD_RECORD')}" href="#"
+					<a class="btn btn-sm btn-light js-quickCreate_btn" data-js="click" aria-label="{\App\Language::translate('LBL_ADD_RECORD')}" href="#"
 					   role="button">
 						<span class='fas fa-plus' title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 					</a>
