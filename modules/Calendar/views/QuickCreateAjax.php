@@ -19,6 +19,9 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$viewer = $this->getViewer($request);
 		$tplName = AppConfig::module('Calendar', 'CALENDAR_VIEW') . '\QuickCreate.tpl';
 		$viewer->assign('CURRENT_USER', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('EVENT_LIMIT', AppConfig::module('Calendar', 'EVENT_LIMIT'));
+		$viewer->assign('WEEK_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
+		$viewer->assign('DAY_VIEW', AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
 		$viewer->assign('STYLES', $this->getHeaderCss($request));
 		$viewer->view($tplName, $request->getModule());
 	}
@@ -38,7 +41,6 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 				'modules.Calendar.resources.Standard.CalendarView',
 				'modules.Calendar.resources.Extended.YearView',
 				'modules.Calendar.resources.Extended.CalendarView',
-				'modules.Calendar.resources.Extended.QuickCreate',
 			]));
 		}
 		return $jsFiles;

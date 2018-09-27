@@ -58,7 +58,7 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 		FC.views.year = FC.views.year.extend({
 			selectDays: selectDays
 		});
-		instance.renderCalendar();
+		instance.renderCalendar(true);
 		instance.registerChangeView();
 		instance.loadCalendarData();
 		instance.selectDays = selectDays;

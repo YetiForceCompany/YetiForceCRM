@@ -10,7 +10,7 @@
 
 jQuery.Class("Calendar_Calendar_Js", {
 	getInstanceByView: function (view) {
-		if(typeof view === 'undefined' ) {
+		if (typeof view === 'undefined') {
 			view = $('#currentView').val();
 		}
 		var moduleClassName = "Calendar_" + view + "_Js";
@@ -38,13 +38,13 @@ jQuery.Class("Calendar_Calendar_Js", {
 	calendarView: false,
 	calendarCreateView: false,
 	container: false,
-	getContainer: function(){
-		if(!this.container) {
+	getContainer: function () {
+		if (!this.container) {
 			this.container = $('.js-base-container');
 		}
 		return this.container;
 	},
-	setContainer: function(container){
+	setContainer: function (container) {
 		this.container = container;
 	},
 	renderCalendar: function () {
