@@ -7,9 +7,9 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	sidebarView: {length: 0},
 	calendar: false,
 	/**
-	 * Render calendar
+	 * Function extends FC.views.year with current class methods
 	 */
-	renderCalendar(readonly = false) {
+	addCommonMethodsToYearView() {
 		const self = this;
 		FC.views.year = FC.views.year.extend({
 			selectDays: self.selectDays,
@@ -24,7 +24,14 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			clearFilterButton: self.clearFilterButton,
 			registerFilterTabChange: self.registerFilterTabChange,
 			sidebarView: self.sidebarView,
+			getActiveFilters: self.getActiveFilters
 		});
+	},
+	/**
+	 * Render calendar
+	 */
+	renderCalendar(readonly = false) {
+		const self = this;
 		this.calendar = self.getCalendarView();
 		let eventLimit = app.getMainParams('eventLimit'),
 			weekView = app.getMainParams('weekView'),
@@ -61,6 +68,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		if (app.getMainParams('switchingDays') === 'workDays') {
 			hiddenDays = app.getMainParams('hiddenDays', true);
 		}
+		this.addCommonMethodsToYearView();
 		let options = {
 			header: {
 				left: 'year,month,' + weekView + ',' + dayView,
@@ -478,16 +486,16 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		return aDeferred.promise();
 	},
 	loadCalendarData() {
-		const thisInstance = this,
-			view = thisInstance.getCalendarView().fullCalendar('getView');
+		const self = this,
+			view = self.getCalendarView().fullCalendar('getView');
 		let user = [],
-			filters = [],
+			filters = this.getActiveFilters(),
 			formatDate = CONFIG.dateFormat.toUpperCase(),
-			cvid = thisInstance.getCurrentCvId();
-		thisInstance.getCalendarView().fullCalendar('removeEvents');
+			cvid = self.getCurrentCvId();
+		self.getCalendarView().fullCalendar('removeEvents');
 		if (view.type !== 'year') {
 			let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-			user = thisInstance.getSelectedUsersCalendar();
+			user = self.getSelectedUsersCalendar();
 			if (0 === user.length) {
 				user = [app.getMainParams('userId')];
 			}
@@ -503,7 +511,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				}
 				filters.push({name: name, value: value});
 			});
-			thisInstance.clearFilterButton(user, filters, cvid);
+			self.clearFilterButton(user, filters, cvid);
 			AppConnector.request({
 				module: 'Calendar',
 				action: 'Calendar',
@@ -515,12 +523,12 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				filters: filters,
 				cvid: cvid
 			}).done((events) => {
-				thisInstance.getCalendarView().fullCalendar('removeEvents');
-				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
+				self.getCalendarView().fullCalendar('removeEvents');
+				self.getCalendarView().fullCalendar('addEventSource', events.result);
 				progressInstance.progressIndicator({mode: 'hide'});
 			});
 		}
-		thisInstance.registerViewRenderEvents(thisInstance.getCalendarView().fullCalendar('getView'), false);
+		self.registerViewRenderEvents(self.getCalendarView().fullCalendar('getView'), false);
 	},
 	clearFilterButton(user, filters, cvid) {
 		let currentUser = parseInt(app.getMainParams('userId')),
@@ -941,6 +949,26 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		this.getSidebarView().find('a[data-toggle="tab"]').one('shown.bs.tab', function (e) {
 			$(".js-filter__search").on('keyup', self.findElementOnList.bind(self));
 		});
+	},
+	/**
+	 * Get active filters
+	 * @returns {Array}
+	 */
+	getActiveFilters() {
+		let filters = [];
+		$(".calendarFilters .filterField").each(function () {
+			let element = $(this),
+				name, value;
+			if (element.attr('type') === 'checkbox') {
+				name = element.val();
+				value = element.prop('checked') ? 1 : 0;
+			} else {
+				name = element.attr('name');
+				value = element.val();
+			}
+			filters.push({name: name, value: value});
+		});
+		return filters;
 	},
 	/**
 	 * Register events

@@ -114,26 +114,13 @@ var YearView = View.extend({
 			progressInstance = $.progressIndicator({blockInfo: {enabled: true}}),
 			cvid = this.getCurrentCvId(),
 			convertedFirstDay = CONFIG.firstDayOfWeekNo,
-			filters = [];
-
+			filters = this.getActiveFilters();
 		if (app.getMainParams('switchingDays') === 'workDays') {
 			hiddenDays = app.getMainParams('hiddenDays', true);
 		}
 		if (user.length === 0) {
 			user = [app.getMainParams('userId')];
 		}
-		$(".calendarFilters .filterField").each(function (index) {
-			let element = $(this),
-				name, value;
-			if (element.attr('type') === 'checkbox') {
-				name = element.val();
-				value = element.prop('checked') ? 1 : 0;
-			} else {
-				name = element.attr('name');
-				value = element.val();
-			}
-			filters.push({name: name, value: value});
-		});
 		this.clearFilterButton(user, filters, cvid);
 		AppConnector.request({
 			module: 'Calendar',
