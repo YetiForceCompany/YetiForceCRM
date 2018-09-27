@@ -15948,7 +15948,7 @@ label.btn.btn-outline-primary:not(.active) {
   line-height: 1.42857143;
   height: 1.875rem; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .badge.count {
-  border: 0.125rem solid;
+  border: 0.0625rem solid;
   border-color: transparent !important;
   border-radius: 1.4375rem;
   color: #fff;
@@ -15975,8 +15975,8 @@ label.btn.btn-outline-primary:not(.active) {
     .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record .sub-record-content {
       padding: 6px 3px;
       height: 100%; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record .sub-record-content.sub-active {
-      background-color: #eceff1;
+    .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record .sub-record-content.active {
+      background-color: inherit !important;
       cursor: default; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-date-name {
     margin-bottom: 2px; }

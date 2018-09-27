@@ -155,7 +155,7 @@ $sitebar-border: 1px solid #ccc;
 	}
 
 	.badge.count {
-		border: calculate-rem(2px) solid;
+		border: calculate-rem(1px) solid;
 		border-color: transparent !important;
 		border-radius: calculate-rem(23px);
 		color: $white;
@@ -207,8 +207,8 @@ $sitebar-border: 1px solid #ccc;
 				height: 100%;
 			}
 
-			.sub-record-content.sub-active {
-				background-color: material-color('blue-grey', '50');
+			.sub-record-content.active {
+				background-color: inherit !important;
 				cursor: default;
 			}
 		}

@@ -293,7 +293,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			this.subDateRow = $(`
 								<div class="js-scroll js-dates-row u-overflow-auto-lg-down order-4 flex-grow-1 position-relative my-1 w-100" data-js="perfectScrollbar | container">
 									<div class="d-flex flex-nowrap w-100">
-										<div class="js-sub-date-list w-100 sub-date-list row no-gutters flex-nowrap" data-js="data-type"></div>
+										<div class="js-sub-date-list w-100 sub-date-list row no-gutters flex-nowrap nav nav-tabs" data-js="data-type"></div>
 									</div>
 								</div>
 								`);
@@ -364,8 +364,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			thisInstance.loadCalendarData();
 		});
 		subDatesView.on('click', function () {
-			datesView.removeClass('sub-active');
-			$(this).addClass('sub-active');
+			datesView.removeClass('active');
+			$(this).addClass('active');
 			thisInstance.getCalendarView().fullCalendar('gotoDate', moment($(this).data('date'), "YYYY-MM-DD"));
 			thisInstance.loadCalendarData();
 		});
@@ -560,13 +560,13 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			active = '';
 		while (prevYear <= nextYear) {
 			if (prevYear.format('YYYY') === actualYear.format('YYYY')) {
-				active = 'sub-active';
+				active = 'active';
 			} else {
 				active = '';
 			}
 			html +=
-				`<div class="js-sub-record sub-record col-4" data-date="${prevYear.format('YYYY')}" data-type="years" data-js="click|class:date-active">
-					<div class="sub-record-content ${active}">
+				`<div class="js-sub-record sub-record col-4 nav-item" data-date="${prevYear.format('YYYY')}" data-type="years" data-js="click|class:date-active">
+					<div class="sub-record-content nav-link ${active}">
 						<div class="sub-date-name">
 							${prevYear.format('YYYY')}
 							<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>
@@ -584,13 +584,13 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			active = '';
 		for (let month = 0; 12 > month; ++month) {
 			if (month === activeMonth) {
-				active = 'sub-active';
+				active = 'active';
 			} else {
 				active = '';
 			}
 			html +=
-				`<div class="js-sub-record sub-record col-1 px-0" data-type="months" data-date="${moment(dateStart).month(month).format('YYYY-MM')}">
-					<div class="sub-record-content ${active}">
+				`<div class="js-sub-record sub-record nav-item col-1 px-0" data-type="months" data-date="${moment(dateStart).month(month).format('YYYY-MM')}">
+					<div class="sub-record-content nav-link ${active}">
 						<div class="sub-date-name">${app.vtranslate('JS_' + moment().month(month).format('MMM').toUpperCase()).toUpperCase()}
 							<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>
 						</div>
@@ -608,10 +608,10 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		while (prevWeeks <= nextWeeks) {
 			let active = '';
 			if (prevWeeks.format('WW') === actualWeek) {
-				active = ' sub-active';
+				active = ' active';
 			}
-			html += '<div class="js-sub-record sub-record col-1 px-0" data-type="weeks" data-date="' + prevWeeks.format('YYYY-MM-DD') + '">' +
-				'<div class="sub-record-content' + active + '">' +
+			html += '<div class="js-sub-record sub-record nav-item col-1 px-0" data-type="weeks" data-date="' + prevWeeks.format('YYYY-MM-DD') + '">' +
+				'<div class="sub-record-content nav-link' + active + '">' +
 				'<div class="sub-date-name">' + app.vtranslate('JS_WEEK_SHORT') + ' ' + prevWeeks.format('WW') +
 				'<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>' +
 				'</div>' +
@@ -639,10 +639,10 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				}
 			}
 			if (prevDays.format('DDD') === actualDay) {
-				active = ' sub-active';
+				active = ' active';
 			}
-			html += '<div class="js-sub-record sub-record col-1 px-0" data-type="days" data-date="' + prevDays.format('YYYY-MM-DD') + '">' +
-				'<div class="sub-record-content' + active + '">' +
+			html += '<div class="js-sub-record sub-record nav-item col-1 px-0" data-type="days" data-date="' + prevDays.format('YYYY-MM-DD') + '">' +
+				'<div class="sub-record-content nav-link' + active + '">' +
 				'<div class="sub-date-name">' + app.vtranslate('JS_DAY_SHORT') + ' ' + prevDays.format('DD') +
 				'<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>' +
 				'</div>' +
