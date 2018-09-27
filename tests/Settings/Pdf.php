@@ -74,7 +74,7 @@ class Pdf extends \Tests\Base
 	public function testGenerate()
 	{
 		$pathToFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache/pdf/' . self::FILE_NAME;
-		\Vtiger_PDF_Model::exportToPdf(\Tests\Entity\C_RecordActions::createAccountRecord()->getId(), self::MODULE_NAME, self::$pdfModel->get('pdfid'), $pathToFile, 'F');
+		\Vtiger_PDF_Model::exportToPdf(\Tests\Base\C_RecordActions::createAccountRecord()->getId(), self::MODULE_NAME, self::$pdfModel->get('pdfid'), $pathToFile, 'F');
 		$this->assertFileExists($pathToFile);
 	}
 
