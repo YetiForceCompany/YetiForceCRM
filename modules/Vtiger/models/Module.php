@@ -182,6 +182,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public static function getInstance($mixed)
 	{
+		if (is_numeric($mixed)) {
+			$mixed = \App\Module::getModuleName($mixed);
+		}
 		if (\App\Cache::staticHas('module', $mixed)) {
 			return \App\Cache::staticGet('module', $mixed);
 		}
@@ -189,7 +192,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$moduleObject = parent::getInstance($mixed);
 		if ($moduleObject) {
 			$instance = self::getInstanceFromModuleObject($moduleObject);
-			\App\Cache::staticSave('module', $moduleObject->id, $instance);
 			\App\Cache::staticSave('module', $moduleObject->name, $instance);
 		}
 		return $instance;
