@@ -196,6 +196,7 @@
     "JS_NO_DELETE_PERMISSION": "Nie masz uprawnie\u0144 do usuwania wpis\u00f3w w kalendarzu.",
     "JS_NO_EDIT_PERMISSION": "Nie masz uprawnie\u0144 do modyfikowania wpis\u00f3w w kalendarzu",
     "JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR": "Zadanie zosta\u0142o poprawnie dodane do kalendarza",
+    "JS_TASK_IS_SUCCESSFULLY_UPDATED_IN_YOUR_CALENDAR": "Zadanie zosta\u0142o poprawnie zaktualizowane w kalendarzu",
     "JS_RECORD_DELETED": "Zdarzenie zosta\u0142o usuni\u0119te",
     "JS_START_DATE": "Czas rozpocz\u0119cia",
     "JS_END_DATE": "Czas zako\u0144czenia",

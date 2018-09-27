@@ -758,7 +758,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 								textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR');
 							}
 							thisInstance.calendarCreateView = false;
-							//thisInstance.getCalendarCreateView();
+							thisInstance.getCalendarCreateView();
 							Vtiger_Helper_Js.showPnotify({
 								text: textToShow,
 								type: 'success',
