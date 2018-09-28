@@ -124,7 +124,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				self.eventRender(event, element);
 			},
 			viewRender: function (view, element) {
-				self.registerViewRenderEvents(view, true)
+				self.registerViewRenderEvents(view, false)
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
