@@ -1455,7 +1455,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			a.remove();
 		});
 		container.find('.js-widget-quick-create').on('click', function () {
-			Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
+			Vtiger_Header_Js.getInstance().quickCreateModule(container.find('.js-widget-quick-create').data('module-name'));
 		});
 	},
 	registerChangeSorting: function registerChangeSorting() {

@@ -8,7 +8,9 @@
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-6"}
 			<div class="d-inline-flex">
 				{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
-					<button class="btn btn-sm btn-light  js-widget-quick-create" data-js="click" aria-label="{\App\Language::translate('LBL_ADD_RECORD')}">
+					<button class="btn btn-sm btn-light  js-widget-quick-create" data-js="click"
+							data-module-name="Calendar"
+							aria-label="{\App\Language::translate('LBL_ADD_RECORD')}">
 						<span class='fas fa-plus' title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 					</button>
 				{/if}
