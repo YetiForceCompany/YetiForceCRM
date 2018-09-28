@@ -6,7 +6,6 @@ var View = FC.View;      // the class that all views must inherit from
 var YearView = View.extend({
 	isRegisterUsersChangeRegistered: false,
 	calendarView: false,
-	calendarCreateView: false,
 	initialize: function () {
 		this.registerFilterTabChange();
 		this.registerClearFilterButton();
@@ -59,9 +58,6 @@ var YearView = View.extend({
 			thisInstance.getCalendarView().fullCalendar('changeView', 'month', date);
 			$(".js-sub-record .active").click();
 		});
-	},
-	addCalendarEvent() {
-		this.render();
 	},
 	registerUsersChange() {
 		const thisInstance = this;

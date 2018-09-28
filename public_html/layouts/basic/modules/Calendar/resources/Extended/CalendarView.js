@@ -126,6 +126,31 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			viewRender: function (view, element) {
 				self.registerViewRenderEvents(view, false);
 			},
+			addCalendarEvent(calendarDetails) {
+				let calendar = self.getCalendarView(),
+					startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value),
+					endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value),
+					eventObject = {
+						id: calendarDetails._recordId,
+						title: calendarDetails.subject.display_value,
+						start: startDate.format(),
+						end: endDate.format(),
+						module: 'Calendar',
+						url: 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId,
+						activitytype: calendarDetails.activitytype.value,
+						allDay: calendarDetails.allday.value == 'on',
+						state: calendarDetails.state.value,
+						vis: calendarDetails.visibility.value,
+						sta: calendarDetails.activitystatus.value,
+						className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value,
+						start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
+						end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
+						smownerid: calendarDetails.assigned_user_id.display_value,
+						pri: calendarDetails.taskpriority.value,
+						lok: calendarDetails.location.display_value
+					};
+				self.getCalendarView().fullCalendar('renderEvent', eventObject);
+			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
 				app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
@@ -722,55 +747,28 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		});
 		self.registerPinUser();
 	},
-	addCalendarEvent(calendarDetails) {
-		let calendar = this.getCalendarView(),
-			startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value),
-			endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value),
-			eventObject = {
-				id: calendarDetails._recordId,
-				title: calendarDetails.subject.display_value,
-				start: startDate.format(),
-				end: endDate.format(),
-				module: 'Calendar',
-				url: 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId,
-				activitytype: calendarDetails.activitytype.value,
-				allDay: calendarDetails.allday.value == 'on',
-				state: calendarDetails.state.value,
-				vis: calendarDetails.visibility.value,
-				sta: calendarDetails.activitystatus.value,
-				className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value,
-				start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
-				end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
-				smownerid: calendarDetails.assigned_user_id.display_value,
-				pri: calendarDetails.taskpriority.value,
-				lok: calendarDetails.location.display_value
-			};
-		this.getCalendarView().fullCalendar('renderEvent', eventObject);
-	},
 	/**
 	 * Register actions to do after save record
 	 * @param instance
 	 * @param data
 	 * @returns {function}
 	 */
-	registerAfterSubmitForm(instance, data) {
-		const thisInstance = instance;
+	registerAfterSubmitForm(self, data) {
 		let returnFunction = function (data) {
 			if (data.success) {
 				let textToShow = '';
-				if (thisInstance.getCalendarView().fullCalendar('clientEvents', data.result._recordId)[0]) {
-					thisInstance.updateCalendarEvent(data.result._recordId, data.result);
+				if (self.getCalendarView().fullCalendar('clientEvents', data.result._recordId)[0]) {
+					self.updateCalendarEvent(data.result._recordId, data.result);
 					textToShow = app.vtranslate('JS_SAVE_NOTIFY_OK');
 				} else {
-					//condition temporarily fixing year instance, which should automatically changes during view change
-					if (thisInstance.getCalendarView().fullCalendar('getCalendar').view.type !== 'year') {
-						let instance = Calendar_Calendar_Js.getInstanceByView('CalendarExtended');
-						instance.addCalendarEvent(data.result);
-						if (data.result.followup.value !== undefined) {
-							thisInstance.getCalendarView().fullCalendar('removeEvents', data.result.followup.value);
-						}
+					const calendarInstance = self.getCalendarView().fullCalendar('getCalendar');
+					if (calendarInstance.view.type !== 'year') {
+						calendarInstance.view.options.addCalendarEvent(data.result);
 					} else {
-						thisInstance.addCalendarEvent();
+						calendarInstance.view.render();
+					}
+					if (data.result.followup.value !== undefined) {
+						self.getCalendarView().fullCalendar('removeEvents', data.result.followup.value);
 					}
 					textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR');
 				}
@@ -843,8 +841,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			aDeferred = $.Deferred();
 		if (qcForm.find('form').length > 0 && qcForm.find('input[name=record]').length === 0) {
 			aDeferred.resolve(qcForm);
-			thisInstance.calendarCreateView = aDeferred.promise();
-			return thisInstance.calendarCreateView;
+			return aDeferred.promise();
 		}
 		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 		this.loadCalendarCreateView().done((data) => {
