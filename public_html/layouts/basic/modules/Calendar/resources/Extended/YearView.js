@@ -60,9 +60,6 @@ var YearView = View.extend({
 			$(".js-sub-record .active").click();
 		});
 	},
-	addCalendarEvent() {
-		this.render();
-	},
 	registerUsersChange() {
 		const thisInstance = this;
 		if (!thisInstance.isRegisterUsersChangeRegistered) {
