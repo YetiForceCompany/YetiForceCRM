@@ -105,65 +105,64 @@ class OSSEmployees extends Vtiger_CRMEntity
 	{
 		\App\Log::trace('Entering getEmployeeHierarchy(' . $id . ') method ...');
 
-		$listview_header = [];
-		$listview_entries = [];
+		$listViewHeader = [];
+		$listViewEntries = [];
 
-		foreach ($this->list_fields_name as $fieldname => $colname) {
-			if (\App\Field::getFieldPermission('OSSEmployees', $colname)) {
-				$listview_header[] = \App\Language::translate($fieldname);
+		foreach ($this->list_fields_name as $fieldName => $colName) {
+			if (\App\Field::getFieldPermission('OSSEmployees', $colName)) {
+				$listViewHeader[] = \App\Language::translate($fieldName);
 			}
 		}
 
-		$rows_list = [];
-		$encountered_accounts = [$id];
-		$rows_list = $this->__getParentEmployees($id, $rows_list, $encountered_accounts);
-		$rows_list = $this->__getChildEmployees($id, $rows_list, $rows_list[$id]['depth']);
-		foreach ($rows_list as $employees_id => $account_info) {
-			$account_info_data = [];
-
-			$hasRecordViewAccess = \App\Privilege::isPermitted('OSSEmployees', 'DetailView', $employees_id);
-			foreach ($this->list_fields_name as $fieldname => $colname) {
-				if (!$hasRecordViewAccess && $colname != 'name') {
-					$account_info_data[] = '';
-				} elseif (\App\Field::getFieldPermission('OSSEmployees', $colname)) {
-					$data = \App\Purifier::encodeHtml($account_info[$colname]);
-					if ($colname == 'ossemployees_no') {
-						if ($employees_id != $id) {
+		$rowsList = [];
+		$encounteredAccounts = [$id];
+		$rowsList = $this->__getParentEmployees($id, $rowsList, $encounteredAccounts);
+		$rowsList = $this->__getChildEmployees($id, $rowsList, $rowsList[$id]['depth']);
+		foreach ($rowsList as $employeesId => $accountInfo) {
+			$accountInfoData = [];
+			$hasRecordViewAccess = \App\Privilege::isPermitted('OSSEmployees', 'DetailView', $employeesId);
+			foreach ($this->list_fields_name as $fieldName => $colName) {
+				if (!$hasRecordViewAccess && $colName != 'name') {
+					$accountInfoData[] = '';
+				} elseif (\App\Field::getFieldPermission('OSSEmployees', $colName)) {
+					$data = \App\Purifier::encodeHtml($accountInfo[$colName]);
+					if ($colName == 'ossemployees_no') {
+						if ($employeesId != $id) {
 							if ($hasRecordViewAccess) {
-								$data = '<a href="index.php?module=OSSEmployees&view=Detail&record=' . $employees_id . '">' . $data . '</a>';
+								$data = '<a href="index.php?module=OSSEmployees&view=Detail&record=' . $employeesId . '">' . $data . '</a>';
 							} else {
 								$data = '<i>' . $data . '</i>';
 							}
 						} else {
 							$data = '<b>' . $data . '</b>';
 						}
-						$account_depth = str_repeat(' .. ', $account_info['depth'] * 2);
-						$data = $account_depth . $data;
-					} elseif ($colname == 'parentid' || $colname == 'projectid' || $colname == 'ticketid' || $colname == 'relategid') {
+						$accountDepth = str_repeat(' .. ', $accountInfo['depth'] * 2);
+						$data = $accountDepth . $data;
+					} elseif ($colName == 'parentid' || $colName == 'projectid' || $colName == 'ticketid' || $colName == 'relategid') {
 						$data = '<a href="index.php?module=' . \App\Record::getType($data) . '&action=DetailView&record=' . $data . '">' . vtlib\Functions::getCRMRecordLabel($data) . '</a>';
 					}
-					$account_info_data[] = $data;
+					$accountInfoData[] = $data;
 				}
 			}
-			$listview_entries[$employees_id] = $account_info_data;
+			$listViewEntries[$employeesId] = $accountInfoData;
 		}
-		$hierarchy = ['header' => $listview_header, 'entries' => $listview_entries];
+		$hierarchy = ['header' => $listViewHeader, 'entries' => $listViewEntries];
 		\App\Log::trace('Exiting getEmployeeHierarchy method ...');
 
 		return $hierarchy;
 	}
 
-	public function __getParentEmployees($id, &$parent_accounts, &$encountered_accounts)
+	public function __getParentEmployees($id, &$parentAccounts, &$encounteredAccounts)
 	{
-		\App\Log::trace('Entering __getParentEmployees(' . $id . ',' . $parent_accounts . ') method ...');
+		\App\Log::trace('Entering __getParentEmployees(' . $id . ',' . $parentAccounts . ') method ...');
 		$parentId = (new App\Db\Query())
 			->select(['parentid'])
 			->from('vtiger_ossemployees')
 			->innerJoin('vtiger_crmentity', 'vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid')
 			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_ossemployees.ossemployeesid' => $id])->scalar();
-		if (!empty($parentId) && !in_array($parentId, $encountered_accounts)) {
-			$encountered_accounts[] = $parentId;
-			$this->__getParentEmployees($parentId, $parent_accounts, $encountered_accounts);
+		if (!empty($parentId) && !in_array($parentId, $encounteredAccounts)) {
+			$encounteredAccounts[] = $parentId;
+			$this->__getParentEmployees($parentId, $parentAccounts, $encounteredAccounts);
 		}
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		$data = (new App\Db\Query())
@@ -174,29 +173,29 @@ class OSSEmployees extends Vtiger_CRMEntity
 			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
 			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_ossemployees.ossemployeesid' => $id])
 			->one();
-		$parent_account_info = [];
+		$parentAccountInfo = [];
 		$depth = 0;
-		$immediate_parentid = $data['parentid'];
-		if (isset($parent_accounts[$immediate_parentid])) {
-			$depth = $parent_accounts[$immediate_parentid]['depth'] + 1;
+		$immediateParentId = $data['parentid'];
+		if (isset($parentAccounts[$immediateParentId])) {
+			$depth = $parentAccounts[$immediateParentId]['depth'] + 1;
 		}
-		$parent_account_info['depth'] = $depth;
-		foreach ($this->list_fields_name as $fieldname => $columnname) {
-			if ($columnname == 'assigned_user_id') {
-				$parent_account_info[$columnname] = $data['user_name'];
+		$parentAccountInfo['depth'] = $depth;
+		foreach ($this->list_fields_name as $fieldName => $columnName) {
+			if ($columnName == 'assigned_user_id') {
+				$parentAccountInfo[$columnName] = $data['user_name'];
 			} else {
-				$parent_account_info[$columnname] = $data[$columnname];
+				$parentAccountInfo[$columnName] = $data[$columnName];
 			}
 		}
-		$parent_accounts[$id] = $parent_account_info;
+		$parentAccounts[$id] = $parentAccountInfo;
 		\App\Log::trace('Exiting __getParentEmployees method ...');
 
-		return $parent_accounts;
+		return $parentAccounts;
 	}
 
-	public function __getChildEmployees($id, &$child_accounts, $depth)
+	public function __getChildEmployees($id, &$childAccounts, $depth)
 	{
-		\App\Log::trace('Entering __getChildEmployees(' . $id . ',' . $child_accounts . ',' . $depth . ') method ...');
+		\App\Log::trace('Entering __getChildEmployees(' . $id . ',' . $childAccounts . ',' . $depth . ') method ...');
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		$dataReader = (new App\Db\Query())
 			->select(['vtiger_ossemployees.*', 'user_name' => new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END")])
@@ -208,36 +207,36 @@ class OSSEmployees extends Vtiger_CRMEntity
 		if ($dataReader->count() > 0) {
 			++$depth;
 			while ($row = $dataReader->read()) {
-				$child_acc_id = $row['ossemployeesid'];
-				if (array_key_exists($child_acc_id, $child_accounts)) {
+				$childAccId = $row['ossemployeesid'];
+				if (array_key_exists($childAccId, $childAccounts)) {
 					continue;
 				}
-				$child_account_info = [];
-				$child_account_info['depth'] = $depth;
-				foreach ($this->list_fields_name as $fieldname => $columnname) {
-					if ($columnname == 'assigned_user_id') {
-						$child_account_info[$columnname] = $row['user_name'];
+				$childAccountInfo = [];
+				$childAccountInfo['depth'] = $depth;
+				foreach ($this->list_fields_name as $fieldName => $columnName) {
+					if ($columnName == 'assigned_user_id') {
+						$childAccountInfo[$columnName] = $row['user_name'];
 					} else {
-						$child_account_info[$columnname] = $row[$columnname];
+						$childAccountInfo[$columnName] = $row[$columnName];
 					}
 				}
-				$child_accounts[$child_acc_id] = $child_account_info;
-				$this->__getChildEmployees($child_acc_id, $child_accounts, $depth);
+				$childAccounts[$childAccId] = $childAccountInfo;
+				$this->__getChildEmployees($childAccId, $childAccounts, $depth);
 			}
 		}
 		\App\Log::trace('Exiting __getChildEmployees method ...');
 
-		return $child_accounts;
+		return $childAccounts;
 	}
 
-	public function moduleHandler($modulename, $event_type)
+	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($event_type == 'module.postinstall') {
+		if ($eventType == 'module.postinstall') {
 			//block with fields in summary
-			$tabid = \App\Module::getModuleId($modulename);
-			\App\Db::getInstance()->createCommand()->update('vtiger_field', ['summaryfield' => 1], ['and', ['tabid' => $tabid],
+			$tabId = \App\Module::getModuleId($moduleName);
+			\App\Db::getInstance()->createCommand()->update('vtiger_field', ['summaryfield' => 1], ['and', ['tabid' => $tabId],
 				['columnname' => ['ossemployees_no', 'employee_status', 'name', 'last_name', 'pesel', 'id_card', 'employee_education', 'parentid', 'business_mail']], ])->execute();
-			\App\Fields\RecordNumber::setNumber($modulename, 'P', '1');
+			\App\Fields\RecordNumber::setNumber($moduleName, 'P', '1');
 			// block with comments
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
