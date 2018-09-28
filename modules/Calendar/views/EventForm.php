@@ -21,7 +21,10 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 		$moduleName = $request->getModule();
 		if ($request->has('record')) {
 			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-			if (!$this->record->isEditable()) {
+			if (!$this->record->isEditable() ||
+				($request->getBoolean('isDuplicate') === true && (
+						!$this->record->isCreateable() || !$this->record->isPermitted('DuplicateRecord') || !$this->record->isPermitted('ActivityPostponed')))
+			) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		} else {
@@ -40,6 +43,21 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
 			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
 			$recordStructure = $recordStructureInstance->getStructure();
+			$fieldValues = [];
+			$fieldList = $recordModel->getModule()->getFields();
+			$sourceRelatedField = $recordModel->getModule()->getValuesFromSource($request);
+			foreach ($sourceRelatedField as $fieldName => &$fieldValue) {
+				if (isset($recordStructure[$fieldName])) {
+					$fieldvalue = $recordStructure[$fieldName]->get('fieldvalue');
+					if (empty($fieldvalue)) {
+						$recordStructure[$fieldName]->set('fieldvalue', $fieldValue);
+					}
+				} elseif (isset($fieldList[$fieldName])) {
+					$fieldModel = $fieldList[$fieldName];
+					$fieldModel->set('fieldvalue', $fieldValue);
+					$fieldValues[$fieldName] = $fieldModel;
+				}
+			}
 			$viewer->assign('QUICKCREATE_LINKS', Vtiger_QuickCreateView_Model::getInstance($moduleName)->getLinks([]));
 			$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(
 				\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName))
@@ -49,10 +67,11 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 			);
 			$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 			$viewer->assign('RECORD_STRUCTURE', $recordStructure);
-			$viewer->assign('SOURCE_RELATED_FIELD', []);
+			$viewer->assign('SOURCE_RELATED_FIELD', $fieldValues);
+			$viewer->assign('IS_POSTPONED', $request->getBoolean('isDuplicate'));
 			$viewer->assign('RECORD', $recordModel);
 			$viewer->assign('MODULE', $moduleName);
-			$viewer->assign('RECORD_ID', $recordModel->getId());
+			$viewer->assign('RECORD_ID', $request->getBoolean('isDuplicate') ? '' : $recordModel->getId());
 			$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 			$viewer->assign('VIEW', $request->getByType('view'));
 		} else {

@@ -437,13 +437,22 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			});
 		});
 	},
-	loadCalendarEditView(id) {
+	/**
+	 * Load calendar edit view
+	 * @param int id
+	 * @param Object params
+	 */
+	loadCalendarEditView(id, params) {
 		const aDeferred = $.Deferred();
-		AppConnector.request({
+		let formData = {
 			'module': app.getModuleName(),
 			'view': 'EventForm',
 			'record': id
-		}).done((data) => {
+		};
+		if (typeof params !== 'undefined') {
+			$.extend(formData, params);
+		}
+		AppConnector.request(formData).done((data) => {
 			aDeferred.resolve($(data));
 		}).fail((error) => {
 			aDeferred.reject();
@@ -451,11 +460,16 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		});
 		return aDeferred.promise();
 	},
-	getCalendarEditView(id) {
+	/**
+	 * EditView
+	 * @param int id
+	 * @param Object params
+	 */
+	getCalendarEditView(id, params) {
 		const thisInstance = this,
 			aDeferred = $.Deferred();
 		const progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		thisInstance.loadCalendarEditView(id).done((data) => {
+		thisInstance.loadCalendarEditView(id, params).done((data) => {
 			progressInstance.progressIndicator({mode: 'hide'});
 			let sideBar = thisInstance.getSidebarView();
 			thisInstance.showRightPanelForm();

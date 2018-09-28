@@ -16,6 +16,9 @@
 			<input name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'
 				   type="hidden"/>
 		{/if}
+		{if !empty($IS_POSTPONED)}
+			<input name="postponed" value="1" type="hidden"/>
+		{/if}
 		<input name="module" value="{$MODULE_NAME}" type="hidden"/>
 		<input name="action" value="SaveAjax" type="hidden"/>
 		<input name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" type="hidden"/>

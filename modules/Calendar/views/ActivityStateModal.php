@@ -28,10 +28,7 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if ($request->isEmpty('record')) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView', $request->getInteger('record'))) {
+		if ($request->isEmpty('record', true) || !\App\Privilege::isPermitted($request->getModule(), 'EditView', $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
@@ -43,15 +40,8 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('PERMISSION_TO_SENDE_MAIL',
-			\App\Module::isModuleActive('OSSMail') && \App\Privilege::isPermitted('OSSMail')
-		);
-		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('RECORD', Vtiger_Record_Model::getInstanceById(
-			$request->getInteger('record'),
-			$moduleName
-		));
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('PERMISSION_TO_SENDE_MAIL', \App\Privilege::isPermitted('OSSMail'));
+		$viewer->assign('RECORD', Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName));
 		$viewer->assign('SCRIPTS', $this->getScripts($request));
 		$viewer->view($this->getTpl(), $moduleName);
 	}

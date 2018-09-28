@@ -8,43 +8,45 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 			let currentTarget = $(e.currentTarget),
 				viewName = app.getViewName();
 			currentTarget.closest('.modal').addClass('d-none');
-
 			if (1 === currentTarget.data('type')) {
 				self.updateActivityState(currentTarget);
 			} else {
 				if (app.getModuleName() === 'Calendar' && viewName === 'CalendarExtended') {
-					(Calendar_Calendar_Js.getInstanceByView()).getCalendarEditView(currentTarget.data('id'));
-				} else {
-					if (currentTarget.hasClass('showQuickCreate')) {
-						let progressIndicatorElement = $.progressIndicator({
-								'position': 'html',
-								'blockInfo': {
-									'enabled': true
-								}
-							}),
-							url = 'index.php?module=Calendar&view=QuickCreateAjax&addRelation=true&sourceModule=Calendar&sourceRecord=' + currentTarget.data('id'),
-							params = {},
-							subject = currentTarget.closest('.modalEditStatus').find('.modalSummaryValues .fieldVal').data('subject'),
-							headerInstance = Vtiger_Header_Js.getInstance();
-						params.noCache = true;
-						headerInstance.getQuickCreateForm(url, 'Calendar', params).done(function (data) {
-							progressIndicatorElement.progressIndicator({'mode': 'hide'});
-							if (currentTarget.data('type') == '0' && typeof subject !== "undefined" && subject.length > 0) {
-								data = $(data);
-								let element = data.find('[name="subject"]');
-								if (element.length) {
-									element.val(subject);
+					(Calendar_Calendar_Js.getInstanceByView()).getCalendarEditView(currentTarget.data('id'), {
+						isDuplicate: true,
+						addRelation: true,
+						sourceModule: 'Calendar',
+						sourceRecord: currentTarget.data('id')
+					})
+				} else if (currentTarget.hasClass('showQuickCreate')) {
+					let progressIndicatorElement = $.progressIndicator({
+							'position': 'html',
+							'blockInfo': {
+								'enabled': true
+							}
+						}),
+						url = 'index.php?module=Calendar&view=QuickCreateAjax&addRelation=true&sourceModule=Calendar&sourceRecord=' + currentTarget.data('id'),
+						params = {},
+						subject = currentTarget.closest('.modalEditStatus').find('.modalSummaryValues .fieldVal').data('subject'),
+						headerInstance = Vtiger_Header_Js.getInstance();
+					params.noCache = true;
+					headerInstance.getQuickCreateForm(url, 'Calendar', params).done(function (data) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						if (currentTarget.data('type') == '0' && typeof subject !== "undefined" && subject.length > 0) {
+							data = $(data);
+							let element = data.find('[name="subject"]');
+							if (element.length) {
+								element.val(subject);
+							}
+						}
+						headerInstance.handleQuickCreateData(data, {
+							callbackFunction: function (data) {
+								if (data && data.success && data.result.followup.value == currentTarget.data('id')) {
+									self.updateActivityState(currentTarget);
 								}
 							}
-							headerInstance.handleQuickCreateData(data, {
-								callbackFunction: function (data) {
-									if (data && data.success && data.result.followup.value == currentTarget.data('id')) {
-										self.updateActivityState(currentTarget);
-									}
-								}
-							});
 						});
-					}
+					});
 				}
 			}
 		});

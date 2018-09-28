@@ -12,11 +12,21 @@
 class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
 	/**
-	 * Function to get the record model based on the request parameters.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 * {@inheritdoc}
+	 */
+	public function saveRecord(\App\Request $request)
+	{
+		$recordModel = parent::saveRecord($request);
+		if ($request->getBoolean('postponed') && ($relId = $recordModel->get('followup')) && \App\Privilege::isPermitted($recordModel->getModuleName(), 'ActivityPostponed', $relId)) {
+			$relRecord = Vtiger_Record_Model::getInstanceById($relId, $recordModel->getModuleName());
+			$relRecord->set('activitystatus', 'PLL_POSTPONED');
+			$relRecord->save();
+		}
+		return $recordModel;
+	}
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function getRecordModelFromRequest(\App\Request $request)
 	{

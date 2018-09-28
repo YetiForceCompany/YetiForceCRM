@@ -36,7 +36,7 @@
 						</button>
 					{/if}
 					{if $EMPTY && \App\Privilege::isPermitted($MODULE_NAME, 'ActivityPostponed', $ID)}
-						<button type="button" class="mr-1 mt-1 btn btn-sm btn-primary showQuickCreate"
+						<button type="button" class="mr-1 mt-1 btn btn-sm btn-primary"
 								data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}"
 								data-type="0"
 								data-js="click"
