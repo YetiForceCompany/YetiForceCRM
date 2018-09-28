@@ -1454,7 +1454,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			a[0].click();
 			a.remove();
 		});
-		container.find('.js-quickCreate_btn').on('click', function () {
+		container.find('.js-widget-quick-create').on('click', function () {
 			Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
 		});
 	},
