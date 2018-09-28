@@ -137,6 +137,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		$value = $request->getByType($fieldName, 'Text');
 		if (!\App\TextParser::isVaribleToParse($value)) {
 			$this->validate($value, true);
+			$value = $this->getDBValue($value);
 		}
 		$this->getFieldModel()->set('defaultvalue', $value);
 	}
