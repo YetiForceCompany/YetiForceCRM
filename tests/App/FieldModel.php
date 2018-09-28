@@ -27,7 +27,6 @@ class FieldModel extends \Tests\Base
 	 * @param int    $uiType
 	 * @param string $typeOfData
 	 * @param string $columnType
-	 * @param mixed  $value
 	 *
 	 * @return \Vtiger_Field_Model
 	 * @codeCoverageIgnore
@@ -74,7 +73,7 @@ class FieldModel extends \Tests\Base
 	 * @param mixed  $value
 	 * @dataProvider providerWrongData
 	 */
-	public function testValidateUserFormatWrongeData(int $uiType, string $typeOfData, string $columnType, $value)
+	public function testValidateUserFormatWrongData(int $uiType, string $typeOfData, string $columnType, $value)
 	{
 		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType);
 		$this->expectExceptionCode(406);
@@ -90,7 +89,7 @@ class FieldModel extends \Tests\Base
 	 * @param mixed  $value
 	 * @dataProvider providerWrongData
 	 */
-	public function testValidateWrongeData(int $uiType, string $typeOfData, string $columnType, $value)
+	public function testValidateWrongData(int $uiType, string $typeOfData, string $columnType, $value)
 	{
 		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType);
 		$this->expectExceptionCode(406);
@@ -142,7 +141,7 @@ class FieldModel extends \Tests\Base
 	}
 
 	/**
-	 * Data provider.
+	 * Data provider for the test of correct data. For the "validate" method test.
 	 *
 	 * @return []
 	 * @codeCoverageIgnore
@@ -155,7 +154,7 @@ class FieldModel extends \Tests\Base
 	}
 
 	/**
-	 * Data provider.
+	 * Data provider for the test of wrong data. For the "validate" method test.
 	 *
 	 * @return []
 	 * @codeCoverageIgnore
@@ -171,7 +170,7 @@ class FieldModel extends \Tests\Base
 	}
 
 	/**
-	 * Data provider.
+	 * Data provider for the test of correct data. For the "setDefaultValueFromRequest" method test.
 	 *
 	 * @return []
 	 * @codeCoverageIgnore
@@ -192,7 +191,7 @@ class FieldModel extends \Tests\Base
 	}
 
 	/**
-	 * Data provider.
+	 * Data provider for the test of wrong data. For the "setDefaultValueFromRequest" method test.
 	 *
 	 * @return []
 	 * @codeCoverageIgnore
