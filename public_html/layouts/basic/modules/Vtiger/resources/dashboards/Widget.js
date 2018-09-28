@@ -1454,9 +1454,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 			a[0].click();
 			a.remove();
 		});
-		var quickQreate = container.find('.js-widget-quick-create');
-		quickQreate.on('click', function () {
-			Vtiger_Header_Js.getInstance().quickCreateModule(quickQreate.data('module-name'));
+		container.find('.js-widget-quick-create').on('click', function (e) {
+			Vtiger_Header_Js.getInstance().quickCreateModule($(this).data('module-name'));
 		});
 	},
 	registerChangeSorting: function registerChangeSorting() {
