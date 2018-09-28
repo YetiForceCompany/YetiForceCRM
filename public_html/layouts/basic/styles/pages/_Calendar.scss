@@ -681,8 +681,8 @@ $sitebar-border: 1px solid #ccc;
 			position: relative;
 
 			@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
-				height: calc(100vh - #{$h-footer} - 17px - 90px - 34px - 10px - 20px - 65px);
-				overflow-y: scroll;
+				height: calc(100vh - #{$h-footer} - 17px - 90px - 34px - 10px - 20px - 30px);
+				overflow-y: auto;
 				overflow-x: hidden;
 			}
 		}
@@ -761,5 +761,11 @@ $sitebar-border: 1px solid #ccc;
 		.hideSiteBar .o-calendar__panel__tabs {
 			right: 0;
 		}
+	}
+}
+
+.tpl-Calendar-Extended-QuickCreate {
+	.boxEventTitle {
+		display: none;
 	}
 }

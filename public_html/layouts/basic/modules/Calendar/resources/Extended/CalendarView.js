@@ -781,7 +781,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 					animation: 'show'
 				});
 			}
-		}
+		};
 		return returnFunction;
 	},
 	showRightPanelForm() {

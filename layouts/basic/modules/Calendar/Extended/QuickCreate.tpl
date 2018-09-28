@@ -44,7 +44,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-4 py-2">
+						<div class="col-4">
 							{include file=\App\Layout::getTemplatePath('Extended/EventForm.tpl', $MODULE)}
 						</div>
 					</div>
