@@ -22,10 +22,12 @@ class FieldModel extends \Tests\Base
 	protected static $fields;
 
 	/**
+	 * Create Vtiger_Field_Model for tests.
+	 *
 	 * @param int    $uiType
 	 * @param string $typeOfData
 	 * @param string $columnType
-	 * @param        $value
+	 * @param mixed  $value
 	 *
 	 * @return \Vtiger_Field_Model
 	 * @codeCoverageIgnore
@@ -48,26 +50,31 @@ class FieldModel extends \Tests\Base
 	}
 
 	/**
+	 * Test validate for good data.
+	 *
 	 * @param int    $uiType
 	 * @param string $typeOfData
 	 * @param string $columnType
-	 * @param        $value
+	 * @param mixed  $value
 	 * @dataProvider providerGoodData
 	 */
 	public function testValidateGoodData(int $uiType, string $typeOfData, string $columnType, $value)
 	{
 		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType, $value);
 		$this->assertNull($fieldModel->getUITypeModel()->validate($value, true));
+		$this->assertNull($fieldModel->getUITypeModel()->validate($value, false));
 	}
 
 	/**
+	 * Test validate for user format.
+	 *
 	 * @param int    $uiType
 	 * @param string $typeOfData
 	 * @param string $columnType
-	 * @param        $value
+	 * @param mixed  $value
 	 * @dataProvider providerWrongData
 	 */
-	public function testValidateWrongeData(int $uiType, string $typeOfData, string $columnType, $value)
+	public function testValidateUserFormatWrongeData(int $uiType, string $typeOfData, string $columnType, $value)
 	{
 		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType, $value);
 		$this->expectExceptionCode(406);
@@ -75,10 +82,28 @@ class FieldModel extends \Tests\Base
 	}
 
 	/**
+	 * Test validate for wrong data.
+	 *
 	 * @param int    $uiType
 	 * @param string $typeOfData
 	 * @param string $columnType
-	 * @param        $value
+	 * @param mixed  $value
+	 * @dataProvider providerWrongData
+	 */
+	public function testValidateWrongeData(int $uiType, string $typeOfData, string $columnType, $value)
+	{
+		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType, $value);
+		$this->expectExceptionCode(406);
+		$fieldModel->getUITypeModel()->validate($value, false);
+	}
+
+	/**
+	 * Test default value for good data.
+	 *
+	 * @param int    $uiType
+	 * @param string $typeOfData
+	 * @param string $columnType
+	 * @param mixed  $value
 	 *
 	 * @throws \App\Exceptions\Security
 	 *
@@ -95,10 +120,12 @@ class FieldModel extends \Tests\Base
 	}
 
 	/**
+	 * Test default value for wrong data.
+	 *
 	 * @param int    $uiType
 	 * @param string $typeOfData
 	 * @param string $columnType
-	 * @param        $value
+	 * @param mixed  $value
 	 *
 	 * @throws \App\Exceptions\Security
 	 *
@@ -128,7 +155,7 @@ class FieldModel extends \Tests\Base
 	}
 
 	/**
-	 * Data provider for testValidate.
+	 * Data provider.
 	 *
 	 * @return []
 	 * @codeCoverageIgnore
@@ -139,6 +166,7 @@ class FieldModel extends \Tests\Base
 			[5, 'D~O', 'varchar(255)', '201872a'], //date
 			[5, 'D~O', 'varchar(255)', '2018-72-12'], //date
 			[5, 'D~O', 'varchar(255)', '-2018-02-12'], //date
+			[5, 'D~O', 'varchar(255)', 20180612], //date
 		];
 	}
 
