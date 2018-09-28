@@ -455,9 +455,21 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->andWhere(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]])->exists();
 	}
 
-	public function checkFieldNameIsAnException($fieldName, $moduleName)
+	/**
+	 * Check if the field name is reserved.
+	 *
+	 * @param string $fieldName
+	 * @param string $moduleName
+	 *
+	 * @return bool
+	 */
+	public function checkFieldNameIsAnException(string $fieldName, string $moduleName)
 	{
-		$exceptions = ['id', 'inventoryItemsNo', 'seq'];
+		$exceptions = [
+			'id', 'inventoryItemsNo', 'seq', 'header_type', 'header_class',
+			'module', 'parent', 'action', 'mode', 'view', 'selected_ids',
+			'excluded_ids'
+		];
 		$instance = Vtiger_InventoryField_Model::getInstance($moduleName);
 		foreach ($instance->getAllFields() as $field) {
 			$exceptions[] = $field->getColumnName();
@@ -468,6 +480,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$exceptions[] = $columnName;
 			}
 		}
+		array_walk($exceptions, function (&$val, $key) {
+			$val = strtolower($val);
+		});
 		return in_array($fieldName, $exceptions);
 	}
 
