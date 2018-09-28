@@ -55,13 +55,10 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 			container.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
 			container.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
 		};
-		FC.views.year = FC.views.year.extend({
-			selectDays: selectDays
-		});
+		instance.selectDays = selectDays;
 		instance.renderCalendar(true);
 		instance.registerChangeView();
 		instance.loadCalendarData();
-		instance.selectDays = selectDays;
 	},
 	registerStandardCalendar: function () {
 		const thisInstance = this;
