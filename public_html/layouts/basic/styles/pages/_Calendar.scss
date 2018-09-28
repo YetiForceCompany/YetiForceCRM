@@ -664,7 +664,7 @@ $sitebar-border: 1px solid #ccc;
 			}
 
 			@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
-				position: static;
+				position: static !important;
 				width: 100%;
 				background: transparent;
 			}
@@ -674,13 +674,16 @@ $sitebar-border: 1px solid #ccc;
 		.hideSiteBar .qcForm .formActionsPanel {
 			right: -25%;
 		}
-		.o-calendar__form__wrapper {
-				/*computed height: footer, userinfo, header filter buttons, padding */
-				height: calc(100vh - #{$h-footer} - 17px - 90px - 34px - 10px - 20px);
-				position: relative;
 
-				@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
-					height: calc(100vh - #{$h-footer} - 17px - 90px - 34px - 10px - 20px - 65px);
+		.o-calendar__form__wrapper {
+			/*computed height: footer, userinfo, header filter buttons, padding */
+			height: calc(100vh - #{$h-footer} - 17px - 90px - 34px - 10px - 20px);
+			position: relative;
+
+			@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
+				height: calc(100vh - #{$h-footer} - 17px - 90px - 34px - 10px - 20px - 65px);
+				overflow-y: scroll;
+				overflow-x: hidden;
 			}
 		}
 		.formActionsPanel[min-height~="80px"] {

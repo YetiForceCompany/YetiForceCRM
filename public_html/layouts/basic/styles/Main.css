@@ -16387,7 +16387,7 @@ label.btn.btn-outline-primary:not(.active) {
     .c-menu--open .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel, .tpl-Calendar-Extended-QuickCreate .formActionsPanel {
       width: calc(25% - 60px); }
     .tpl-Calendar-Extended-QuickCreate .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel, .tpl-Calendar-Extended-QuickCreate .formActionsPanel {
-      position: static;
+      position: static !important;
       width: 100%;
       background: transparent; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .qcForm .formActionsPanel,
@@ -16399,7 +16399,9 @@ label.btn.btn-outline-primary:not(.active) {
     height: calc(100vh - 1.9375rem - 17px - 90px - 34px - 10px - 20px);
     position: relative; }
     .tpl-Calendar-Extended-QuickCreate .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper, .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
-      height: calc(100vh - 1.9375rem - 17px - 90px - 34px - 10px - 20px - 65px); }
+      height: calc(100vh - 1.9375rem - 17px - 90px - 34px - 10px - 20px - 65px);
+      overflow-y: scroll;
+      overflow-x: hidden; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel[min-height~="80px"] button,
   .tpl-Calendar-Extended-QuickCreate .formActionsPanel[min-height~="80px"] button {
     margin-bottom: 0.25rem; }
