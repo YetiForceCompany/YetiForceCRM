@@ -23,6 +23,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			clearFilterButton: self.clearFilterButton,
 			registerFilterTabChange: self.registerFilterTabChange,
 			sidebarView: self.sidebarView,
+			registerAfterSubmitForm: self.registerAfterSubmitForm,
 			getActiveFilters: self.getActiveFilters
 		});
 	},
@@ -198,7 +199,6 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			sideBar.find('.js-activity-state .editRecord').on('click', function () {
 				thisInstance.getCalendarEditView($(this).data('id'));
 			});
-			thisInstance.calendarCreateView = false;
 		});
 	},
 	createAddSwitch() {
@@ -493,7 +493,6 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 					toolbar: 'Min'
 				});
 			});
-			thisInstance.calendarCreateView = false;
 			aDeferred.resolve(sideBar.find('.js-qcForm'));
 		}).fail((error) => {
 			progressInstance.progressIndicator({mode: 'hide'});
@@ -775,7 +774,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 					}
 					textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR');
 				}
-				thisInstance.calendarCreateView = false;
+				thisInstance.getSidebarView().find('.js-qcForm').html('');
 				thisInstance.getCalendarCreateView();
 				Vtiger_Helper_Js.showPnotify({
 					text: textToShow,
@@ -839,16 +838,19 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	},
 	getCalendarCreateView() {
 		const thisInstance = this;
-		let aDeferred = $.Deferred();
-		if (thisInstance.calendarCreateView !== false) {
+		let sideBar = thisInstance.getSidebarView(),
+			qcForm = sideBar.find('.js-qcForm'),
+			aDeferred = $.Deferred();
+		if (qcForm.find('form').length > 0 && qcForm.find('input[name=record]').length === 0) {
+			aDeferred.resolve(qcForm);
+			thisInstance.calendarCreateView = aDeferred.promise();
 			return thisInstance.calendarCreateView;
 		}
 		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 		this.loadCalendarCreateView().done((data) => {
-			let sideBar = thisInstance.getSidebarView();
 			progressInstance.progressIndicator({mode: 'hide'});
 			thisInstance.showRightPanelForm();
-			sideBar.find('.js-qcForm').html(data);
+			qcForm.html(data);
 			let rightFormCreate = $(document).find('form[name="QuickCreate"]'),
 				moduleName = sideBar.find('[name="module"]').val(),
 				editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName),
@@ -867,13 +869,12 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 					toolbar: 'Min'
 				});
 			});
-			aDeferred.resolve(sideBar.find('.js-qcForm'));
+			aDeferred.resolve(qcForm);
 		}).fail((error) => {
 			progressInstance.progressIndicator({mode: 'hide'});
 			app.errorLog(error);
 		});
-		thisInstance.calendarCreateView = aDeferred.promise();
-		return thisInstance.calendarCreateView;
+		return aDeferred.promise();
 	},
 	registerPinUser() {
 		$('.js-pinUser').off('click').on('click', function () {
