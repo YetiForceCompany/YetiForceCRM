@@ -1454,6 +1454,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 			a[0].click();
 			a.remove();
 		});
+		container.find('.js-widget-quick-create').on('click', function (e) {
+			Vtiger_Header_Js.getInstance().quickCreateModule($(this).data('module-name'));
+		});
 	},
 	registerChangeSorting: function registerChangeSorting() {
 		var thisInstance = this;
@@ -2402,15 +2405,19 @@ YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 			}
 		})
 	},
+
 	registerListViewButton: function () {
 		const thisInstance = this,
 			container = thisInstance.getContainer();
 		container.find('.goToListView').on('click', function () {
 			let status;
-			if (container.data('name') === 'OverdueActivities') {
+			let activitiesStatus = container.data('name');
+			if (activitiesStatus === 'OverdueActivities') {
 				status = 'PLL_OVERDUE';
+			} else if (activitiesStatus === 'CalendarActivities') {
+				status = 'PLL_IN_REALIZATION##PLL_PLANNED';
 			} else {
-				status = 'PLL_IN_REALIZATION,PLL_PLANNED';
+				status = 'PLL_IN_REALIZATION##PLL_PLANNED##PLL_OVERDUE';
 			}
 			let url = 'index.php?module=Calendar&view=List&viewname=All';
 			url += '&search_params=[[';
@@ -2418,7 +2425,7 @@ YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 			if (owner.val() !== 'all') {
 				url += '["assigned_user_id","e","' + owner.val() + '"],';
 			}
-			url += '["activitystatus","e","' + status + '"]]]';
+			url += '["activitystatus","e","' + encodeURIComponent(status) + '"]]]';
 			window.location.href = url;
 		});
 	}

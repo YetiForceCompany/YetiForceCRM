@@ -127,4 +127,18 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	{
 		return null;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setDefaultValueFromRequest(\App\Request $request)
+	{
+		$fieldName = $this->getFieldModel()->getFieldName();
+		$value = $request->getByType($fieldName, 'Text');
+		if (!\App\TextParser::isVaribleToParse($value)) {
+			$this->validate($value, true);
+			$value = $this->getDBValue($value);
+		}
+		$this->getFieldModel()->set('defaultvalue', $value);
+	}
 }

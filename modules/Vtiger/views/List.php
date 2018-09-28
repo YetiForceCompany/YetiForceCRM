@@ -42,11 +42,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$title = App\Language::translate($moduleName, $moduleName);
 		$title = $title . ' ' . App\Language::translate('LBL_VIEW_LIST', $moduleName);
 
-		if ($request->has('viewname')) {
+		if ($request->has('viewname') && !empty(CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)])) {
 			$customView = CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)];
-			if (!empty($customView)) {
-				$title .= ' [' . App\Language::translate('LBL_FILTER', $moduleName) . ': ' . App\Language::translate($customView->get('viewname'), $moduleName) . ']';
-			}
+			$title .= ' [' . App\Language::translate('LBL_FILTER', $moduleName) . ': ' . App\Language::translate($customView->get('viewname'), $moduleName) . ']';
 		}
 		return $title;
 	}
@@ -55,12 +53,10 @@ class Vtiger_List_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$title = \App\Language::translate('LBL_VIEW_LIST', $moduleName);
-		if ($request->has('viewname')) {
+		if ($request->has('viewname') && !empty(CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)])) {
 			$customView = CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)];
-			if (!empty($customView)) {
-				$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> [' . \App\Language::translate('LBL_FILTER', $moduleName)
-					. ': ' . \App\Language::translate($customView->get('viewname'), $moduleName) . ']</div>';
-			}
+			$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> [' . \App\Language::translate('LBL_FILTER', $moduleName)
+				. ': ' . \App\Language::translate($customView->get('viewname'), $moduleName) . ']</div>';
 		}
 		return $title;
 	}
