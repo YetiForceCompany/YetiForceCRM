@@ -8,10 +8,9 @@
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-6"}
 			<div class="d-inline-flex">
 				{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
-					<a class="btn btn-sm btn-light js-quickCreate_btn" data-js="click" aria-label="{\App\Language::translate('LBL_ADD_RECORD')}" href="#"
-					   role="button">
+					<button class="btn btn-sm btn-light js-quickCreate_btn" data-js="click" aria-label="{\App\Language::translate('LBL_ADD_RECORD')}">
 						<span class='fas fa-plus' title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
-					</a>
+					</button>
 				{/if}
 				<button class="btn btn-light btn-sm ml-1 changeRecordSort"
 						title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}"
