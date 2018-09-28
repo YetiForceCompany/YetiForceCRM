@@ -2,8 +2,10 @@
 {strip}
 	<!-- tpl-Base-Edit-Field-DefaultDate -->
 	{assign var=IS_CUSTOM_DEFAULT_VALUE value=\App\TextParser::isVaribleToParse($FIELD_MODEL->get('defaultvalue'))}
-	<div class="js-base-element row {if $IS_CUSTOM_DEFAULT_VALUE} d-none{/if}" data-js="container|data-name" data-name="{$FIELD_MODEL->getName()}">
+	<div class="js-base-element row {if $IS_CUSTOM_DEFAULT_VALUE} d-none{/if}" data-js="container|data-name"
+		 data-name="{$FIELD_MODEL->getName()}">
 		<div class="col-10">
+			{$FIELD_MODEL->set('fieldvalue', $FIELD_MODEL->get('defaultvalue'))}
 			{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $FIELD_MODEL->getModuleName())}
 		</div>
 		<div class="col-2">
@@ -15,9 +17,12 @@
 			</span>
 		</div>
 	</div>
-	<div class="input-group js-base-element {if !$IS_CUSTOM_DEFAULT_VALUE} d-none{/if}" data-js="container|data-name" data-name="{$FIELD_MODEL->getName()}">
-		<input name="{$FIELD_MODEL->getName()}" value="{if $IS_CUSTOM_DEFAULT_VALUE}{$FIELD_MODEL->get('defaultvalue')}{/if}"
-			   type="text" class="form-control" {if !$FIELD_MODEL->hasDefaultValue() || !$IS_CUSTOM_DEFAULT_VALUE} disabled="disabled"{/if}
+	<div class="input-group js-base-element {if !$IS_CUSTOM_DEFAULT_VALUE} d-none{/if}" data-js="container|data-name"
+		 data-name="{$FIELD_MODEL->getName()}">
+		<input name="{$FIELD_MODEL->getName()}"
+			   value="{if $IS_CUSTOM_DEFAULT_VALUE}{$FIELD_MODEL->get('defaultvalue')}{/if}"
+			   type="text"
+			   class="form-control" {if !$FIELD_MODEL->hasDefaultValue() || !$IS_CUSTOM_DEFAULT_VALUE} disabled="disabled"{/if}
 			   data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   data-fieldinfo="{\App\Purifier::encodeHtml('{"type":"textParser"}')}"/>
 		<span class="input-group-prepend">
