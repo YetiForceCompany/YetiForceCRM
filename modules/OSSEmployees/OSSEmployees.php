@@ -3,7 +3,7 @@
  * OSSEmployees CRMEntity class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
@@ -155,46 +155,37 @@ class OSSEmployees extends Vtiger_CRMEntity
 
 	public function __getParentEmployees($id, &$parent_accounts, &$encountered_accounts)
 	{
-		$adb = PearDatabase::getInstance();
-
 		\App\Log::trace('Entering __getParentEmployees(' . $id . ',' . $parent_accounts . ') method ...');
-		$query = 'SELECT parentid FROM vtiger_ossemployees ' .
-			' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossemployees.ossemployeesid' .
-			' WHERE vtiger_crmentity.deleted = 0 and vtiger_ossemployees.ossemployeesid = ?';
-		$params = [$id];
-		$res = $adb->pquery($query, $params);
-		if ($adb->numRows($res) > 0 &&
-			$adb->queryResult($res, 0, 'parentid') != '' && $adb->queryResult($res, 0, 'parentid') != 0 &&
-			!in_array($adb->queryResult($res, 0, 'parentid'), $encountered_accounts)) {
-			$parentid = $adb->queryResult($res, 0, 'parentid');
-			$encountered_accounts[] = $parentid;
-			$this->__getParentEmployees($parentid, $parent_accounts, $encountered_accounts);
+		$parentId = (new App\Db\Query())
+			->select(['parentid'])
+			->from('vtiger_ossemployees')
+			->innerJoin('vtiger_crmentity', 'vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_ossemployees.ossemployeesid' => $id])->scalar();
+		if (!empty($parentId) && !in_array($parentId, $encountered_accounts)) {
+			$encountered_accounts[] = $parentId;
+			$this->__getParentEmployees($parentId, $parent_accounts, $encountered_accounts);
 		}
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-		$query = 'SELECT vtiger_ossemployees.*,' .
-			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
-			' FROM vtiger_ossemployees' .
-			' INNER JOIN vtiger_crmentity ' .
-			' ON vtiger_crmentity.crmid = vtiger_ossemployees.ossemployeesid' .
-			' LEFT JOIN vtiger_groups' .
-			' ON vtiger_groups.groupid = vtiger_crmentity.smownerid' .
-			' LEFT JOIN vtiger_users' .
-			' ON vtiger_users.id = vtiger_crmentity.smownerid' .
-			' WHERE vtiger_crmentity.deleted = 0 and vtiger_ossemployees.ossemployeesid = ?';
-		$params = [$id];
-		$res = $adb->pquery($query, $params);
+		$data = (new App\Db\Query())
+			->select(['vtiger_ossemployees.*', 'user_name' => new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END")])
+			->from('vtiger_ossemployees')
+			->innerJoin('vtiger_crmentity', 'vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid')
+			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
+			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_ossemployees.ossemployeesid' => $id])
+			->one();
 		$parent_account_info = [];
 		$depth = 0;
-		$immediate_parentid = $adb->queryResult($res, 0, 'parentid');
+		$immediate_parentid = $data['parentid'];
 		if (isset($parent_accounts[$immediate_parentid])) {
 			$depth = $parent_accounts[$immediate_parentid]['depth'] + 1;
 		}
 		$parent_account_info['depth'] = $depth;
 		foreach ($this->list_fields_name as $fieldname => $columnname) {
 			if ($columnname == 'assigned_user_id') {
-				$parent_account_info[$columnname] = $adb->queryResult($res, 0, 'user_name');
+				$parent_account_info[$columnname] = $data['user_name'];
 			} else {
-				$parent_account_info[$columnname] = $adb->queryResult($res, 0, $columnname);
+				$parent_account_info[$columnname] = $data[$columnname];
 			}
 		}
 		$parent_accounts[$id] = $parent_account_info;
@@ -205,27 +196,19 @@ class OSSEmployees extends Vtiger_CRMEntity
 
 	public function __getChildEmployees($id, &$child_accounts, $depth)
 	{
-		$adb = PearDatabase::getInstance();
-
 		\App\Log::trace('Entering __getChildEmployees(' . $id . ',' . $child_accounts . ',' . $depth . ') method ...');
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-		$query = 'SELECT vtiger_ossemployees.*,' .
-			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
-			' FROM vtiger_ossemployees' .
-			' INNER JOIN vtiger_crmentity ' .
-			' ON vtiger_crmentity.crmid = vtiger_ossemployees.ossemployeesid' .
-			' LEFT JOIN vtiger_groups' .
-			' ON vtiger_groups.groupid = vtiger_crmentity.smownerid' .
-			' LEFT JOIN vtiger_users' .
-			' ON vtiger_users.id = vtiger_crmentity.smownerid' .
-			' WHERE vtiger_crmentity.deleted = 0 and parentid = ?';
-		$params = [$id];
-		$res = $adb->pquery($query, $params);
-		$numRows = $adb->numRows($res);
-		if ($numRows > 0) {
-			$depth = $depth + 1;
-			for ($i = 0; $i < $numRows; ++$i) {
-				$child_acc_id = $adb->queryResult($res, $i, 'ossemployeesid');
+		$dataReader = (new App\Db\Query())
+			->select(['vtiger_ossemployees.*', 'user_name' => new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END")])
+			->from('vtiger_ossemployees')
+			->innerJoin('vtiger_crmentity', 'vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid')
+			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
+			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
+			->where(['vtiger_crmentity.deleted' => 0, 'parentid' => $id])->createCommand()->query();
+		if ($dataReader->count() > 0) {
+			++$depth;
+			while ($row = $dataReader->read()) {
+				$child_acc_id = $row['ossemployeesid'];
 				if (array_key_exists($child_acc_id, $child_accounts)) {
 					continue;
 				}
@@ -233,9 +216,9 @@ class OSSEmployees extends Vtiger_CRMEntity
 				$child_account_info['depth'] = $depth;
 				foreach ($this->list_fields_name as $fieldname => $columnname) {
 					if ($columnname == 'assigned_user_id') {
-						$child_account_info[$columnname] = $adb->queryResult($res, $i, 'user_name');
+						$child_account_info[$columnname] = $row['user_name'];
 					} else {
-						$child_account_info[$columnname] = $adb->queryResult($res, $i, $columnname);
+						$child_account_info[$columnname] = $row[$columnname];
 					}
 				}
 				$child_accounts[$child_acc_id] = $child_account_info;
