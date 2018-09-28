@@ -101,7 +101,7 @@ var YearView = View.extend({
 		this.getCalendarView().find(".js-show-week").on('click', (e) => {
 			let date = moment($(e.currentTarget).data('date')).format(CONFIG.dateFormat.toUpperCase());
 			this.getCalendarView().fullCalendar('changeView', 'agendaWeek', date);
-			$(".js-sub-record .sub-active").click();
+			$(".js-sub-record .active").click();
 		});
 	},
 	render: function () {
