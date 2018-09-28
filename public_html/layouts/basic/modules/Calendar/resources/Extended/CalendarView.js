@@ -5,7 +5,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	isRegisterUsersChangeRegistered: false,
 	datesRowView: false,
 	sidebarView: {length: 0},
-	calendar: false,
+	calendarContainer: false,
 	/**
 	 * Function extends FC.views.year with current class methods
 	 */
@@ -124,7 +124,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				self.eventRender(event, element);
 			},
 			viewRender: function (view, element) {
-				self.registerViewRenderEvents(view, false)
+				self.registerViewRenderEvents(view, false);
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
@@ -177,11 +177,11 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		if (this.calendar.find('.js-calendar__view-btn').length) {
 			return;
 		}
-		let buttonsContainer = this.calendar.prev('.js-calendar__header-buttons'),
+		let buttonsContainer = this.calendarContainer.prev('.js-calendar__header-buttons'),
 			viewBtn = buttonsContainer.find('.js-calendar__view-btn').clone(),
 			filters = buttonsContainer.find('.js-calendar__filter-container').clone();
-		this.calendar.find('.fc-left').prepend(viewBtn);
-		this.calendar.find('.fc-center').after(filters);
+		this.calendarContainer.find('.fc-left').prepend(viewBtn);
+		this.calendarContainer.find('.fc-center').after(filters);
 		this.registerClearFilterButton();
 		this.registerFilterTabChange();
 	},
@@ -291,7 +291,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	 * @param toolbar
 	 */
 	appendSubDateRow(toolbar) {
-		if (!this.calendar.find('.js-dates-row').length) {
+		if (!this.calendarContainer.find('.js-dates-row').length) {
 			this.subDateRow = $(`
 								<div class="js-scroll js-dates-row u-overflow-auto-lg-down order-4 flex-grow-1 position-relative my-1 w-100" data-js="perfectScrollbar | container">
 									<div class="d-flex flex-nowrap w-100">
@@ -313,8 +313,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	 * @param element
 	 */
 	registerViewRenderEvents(view, noCounting) {
-		this.calendar = this.getCalendarView();
-		let toolbar = this.calendar.find('.fc-toolbar.fc-header-toolbar'),
+		this.calendarContainer = this.getCalendarView();
+		let toolbar = this.calendarContainer.find('.fc-toolbar.fc-header-toolbar'),
 			nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button'),
 			yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
 		this.appendSubDateRow(toolbar);
@@ -515,18 +515,6 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			if (0 === user.length) {
 				user = [app.getMainParams('userId')];
 			}
-			$(".calendarFilters .filterField").each(function (index) {
-				let element = $(this),
-					name, value;
-				if (element.attr('type') === 'checkbox') {
-					name = element.val();
-					value = element.prop('checked') ? 1 : 0;
-				} else {
-					name = element.attr('name');
-					value = element.val();
-				}
-				filters.push({name: name, value: value});
-			});
 			self.clearFilterButton(user, filters, cvid);
 			if (view.type === 'agendaDay') {
 				self.selectDays(view.start, view.end);
@@ -772,7 +760,13 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 								thisInstance.updateCalendarEvent(formData.record, data.result);
 								textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_UPDATED_IN_YOUR_CALENDAR');
 							} else {
-								thisInstance.addCalendarEvent(data.result);
+								//condition temporarily fixing year instance, which should automatically changes during view change
+								if (thisInstance.getCalendarView().fullCalendar('getCalendar').view.type !== 'year') {
+									let instance = Calendar_Calendar_Js.getInstanceByView('CalendarExtended');
+									instance.addCalendarEvent(data.result);
+								} else {
+									thisInstance.addCalendarEvent();
+								}
 								textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR');
 							}
 							thisInstance.calendarCreateView = false;
