@@ -45,10 +45,10 @@
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-10"}
 		<div class="d-inline-flex">
 			{if \App\Privilege::isPermitted('OSSTimeControl', 'CreateView')}
-				<a class="btn btn-sm btn-light"
-				   onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSTimeControl'); return false;">
+				<button class="btn btn-sm btn-light  js-widget-quick-create" data-js="click"
+						data-module-name="OSSTimeControl">
 					<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
-				</a>
+				</button>
 			{/if}
 			<a class="btn btn-sm btn-light" href="javascript:void(0);" name="drefresh"
 			   data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
