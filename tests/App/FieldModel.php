@@ -32,7 +32,7 @@ class FieldModel extends \Tests\Base
 	 * @return \Vtiger_Field_Model
 	 * @codeCoverageIgnore
 	 */
-	protected function createFieldModel(int $uiType, string $typeOfData, string $columnType, $value)
+	protected function createFieldModel(int $uiType, string $typeOfData, string $columnType)
 	{
 		$key = \md5($uiType . $typeOfData . $columnType);
 		if (isset(static::$fields[$key])) {
@@ -60,7 +60,7 @@ class FieldModel extends \Tests\Base
 	 */
 	public function testValidateGoodData(int $uiType, string $typeOfData, string $columnType, $value)
 	{
-		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType, $value);
+		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType);
 		$this->assertNull($fieldModel->getUITypeModel()->validate($value, true));
 		$this->assertNull($fieldModel->getUITypeModel()->validate($value, false));
 	}
@@ -76,7 +76,7 @@ class FieldModel extends \Tests\Base
 	 */
 	public function testValidateUserFormatWrongeData(int $uiType, string $typeOfData, string $columnType, $value)
 	{
-		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType, $value);
+		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType);
 		$this->expectExceptionCode(406);
 		$fieldModel->getUITypeModel()->validate($value, true);
 	}
@@ -92,7 +92,7 @@ class FieldModel extends \Tests\Base
 	 */
 	public function testValidateWrongeData(int $uiType, string $typeOfData, string $columnType, $value)
 	{
-		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType, $value);
+		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType);
 		$this->expectExceptionCode(406);
 		$fieldModel->getUITypeModel()->validate($value, false);
 	}
@@ -111,12 +111,12 @@ class FieldModel extends \Tests\Base
 	 */
 	public function testDefaultValueGoodData(int $uiType, string $typeOfData, string $columnType, $value)
 	{
-		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType, $value);
+		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType);
 		$fieldModel->name = 'val';
 		$request = new \App\Request([]);
 		$request->set('val', $value);
 		$this->assertNull($fieldModel->getUITypeModel()->setDefaultValueFromRequest($request));
-		$this->assertSame($fieldModel->getDBValue($value), $fieldModel->get('defaultvalue'));
+		$this->assertSame($value, $fieldModel->get('defaultvalue'));
 	}
 
 	/**
@@ -133,7 +133,7 @@ class FieldModel extends \Tests\Base
 	 */
 	public function testDefaultValueWrongData(int $uiType, string $typeOfData, string $columnType, $value)
 	{
-		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType, $value);
+		$fieldModel = static::createFieldModel($uiType, $typeOfData, $columnType);
 		$fieldModel->name = 'val';
 		$request = new \App\Request([]);
 		$request->set('val', $value);
