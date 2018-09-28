@@ -16399,8 +16399,8 @@ label.btn.btn-outline-primary:not(.active) {
     height: calc(100vh - 1.9375rem - 17px - 90px - 34px - 10px - 20px);
     position: relative; }
     .tpl-Calendar-Extended-QuickCreate .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper, .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
-      height: calc(100vh - 1.9375rem - 17px - 90px - 34px - 10px - 20px - 65px);
-      overflow-y: scroll;
+      height: calc(100vh - 1.9375rem - 17px - 90px - 34px - 10px - 20px - 30px);
+      overflow-y: auto;
       overflow-x: hidden; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel[min-height~="80px"] button,
   .tpl-Calendar-Extended-QuickCreate .formActionsPanel[min-height~="80px"] button {
@@ -16466,6 +16466,9 @@ label.btn.btn-outline-primary:not(.active) {
   .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .o-calendar__panel__tabs,
   .tpl-Calendar-Extended-QuickCreate .hideSiteBar .o-calendar__panel__tabs {
     right: 0; } }
+
+.tpl-Calendar-Extended-QuickCreate .boxEventTitle {
+  display: none; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .o-detail__icon {
