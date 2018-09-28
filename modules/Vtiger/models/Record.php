@@ -43,7 +43,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function setId($value)
 	{
-		return $this->set('id', (int)$value);
+		return $this->set('id', (int) $value);
 	}
 
 	/**
@@ -141,7 +141,7 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		if (!isset($this->isWatchingRecord)) {
 			$watchdog = Vtiger_Watchdog_Model::getInstanceById($this->getId(), $this->getModuleName());
-			$this->isWatchingRecord = (bool)$watchdog->isWatchingRecord();
+			$this->isWatchingRecord = (bool) $watchdog->isWatchingRecord();
 		}
 		return $this->isWatchingRecord;
 	}
@@ -473,7 +473,7 @@ class Vtiger_Record_Model extends \App\Base
 			if ($this->isNew()) {
 				if ($tableName === 'vtiger_crmentity') {
 					$db->createCommand()->insert($tableName, $tableData)->execute();
-					$this->setId((int)$db->getLastInsertID('vtiger_crmentity_crmid_seq'));
+					$this->setId((int) $db->getLastInsertID('vtiger_crmentity_crmid_seq'));
 				} else {
 					$db->createCommand()->insert($tableName, [$entityInstance->tab_name_index[$tableName] => $this->getId()] + $tableData)->execute();
 				}
@@ -977,7 +977,7 @@ class Vtiger_Record_Model extends \App\Base
 					if (isset($blockObiect->reference) && !\App\Module::isModuleActive($blockObiect->reference)) {
 						continue;
 					}
-					$summaryBlocks[(int)($blockCount / $this->summaryRowCount)][$blockObiect->sequence] = ['name' => $blockObiect->name, 'data' => $blockObiect->process($this), 'reference' => $blockObiect->reference];
+					$summaryBlocks[(int) ($blockCount / $this->summaryRowCount)][$blockObiect->sequence] = ['name' => $blockObiect->name, 'data' => $blockObiect->process($this), 'reference' => $blockObiect->reference];
 					++$blockCount;
 				}
 			}
@@ -1322,14 +1322,14 @@ class Vtiger_Record_Model extends \App\Base
 			];
 		}
 		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
-			$watching = (int)($this->isWatchingRecord());
+			$watching = (int) ($this->isWatchingRecord());
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'BTN_WATCHING_RECORD',
 				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 				'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
 				'linkclass' => 'btn-sm ' . ($watching ? 'btn-dark' : 'btn-outline-dark'),
-				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int)!$watching, 'on' => 'btn-dark', 'off' => 'btn-outline-dark', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
+				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-dark', 'off' => 'btn-outline-dark', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			];
 		}
 		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
@@ -1422,13 +1422,13 @@ class Vtiger_Record_Model extends \App\Base
 			]);
 		}
 		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
-			$watching = (int)($this->isWatchingRecord());
+			$watching = (int) ($this->isWatchingRecord());
 			$links['BTN_WATCHING_RECORD'] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'BTN_WATCHING_RECORD',
 				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 				'linkicon' => 'fas ' . ($watching ? 'fa-eye-slash' : 'fa-eye'),
 				'linkclass' => 'btn-sm ' . ($watching ? 'btn-dark' : 'btn-outline-dark'),
-				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int)!$watching, 'on' => 'btn-dark', 'off' => 'btn-outline-dark', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
+				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-dark', 'off' => 'btn-outline-dark', 'icon-on' => 'fa-eye', 'icon-off' => 'fa-eye-slash'],
 			]);
 		}
 		if ($relationModel->privilegeToDelete() && $this->privilegeToMoveToTrash()) {
