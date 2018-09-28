@@ -15,7 +15,6 @@
  */
 class Vtiger_Unlock_Action extends \App\Controller\Action
 {
-
 	/**
 	 * {@inheritdoc}
 	 */
@@ -31,7 +30,6 @@ class Vtiger_Unlock_Action extends \App\Controller\Action
 	 */
 	public function process(\App\Request $request)
 	{
-
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
 		foreach ($recordModel->getUnlockFields() as $fieldName => $values) {
 			if ($request->has($fieldName)) {

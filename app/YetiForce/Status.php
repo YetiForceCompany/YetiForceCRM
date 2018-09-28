@@ -34,6 +34,7 @@ class Status
 		'spaceRoot' => 'bool',
 		'spaceStorage' => 'bool',
 		'spaceTemp' => 'bool',
+		'updates' => 'bool',
 		//ConfReport
 		'security' => 'bool',
 		'stability' => 'bool',
@@ -363,5 +364,19 @@ class Status
 	public function getDomain()
 	{
 		return \AppConfig::main('site_URL');
+	}
+
+	/**
+	 * Get updates.
+	 *
+	 * @return array
+	 */
+	public function getUpdates()
+	{
+		$rows = [];
+		foreach (\Settings_Updates_Module_Model::getUpdates() as $row) {
+			$rows[] = [$row['name'], $row['from_version'], $row['to_version'], $row['result']];
+		}
+		return $rows;
 	}
 }

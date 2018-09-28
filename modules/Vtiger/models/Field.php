@@ -922,26 +922,24 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public static function getAllForModule(vtlib\ModuleBasic $moduleModel)
 	{
-		$fieldModelList = Vtiger_Cache::get('ModuleFields', $moduleModel->id);
-		if (!$fieldModelList) {
-			$fieldObjects = parent::getAllForModule($moduleModel);
-
-			$fieldModelList = [];
-			//if module dont have any fields
-			if (!is_array($fieldObjects)) {
-				$fieldObjects = [];
-			}
-
-			foreach ($fieldObjects as &$fieldObject) {
-				$fieldModelObject = self::getInstanceFromFieldObject($fieldObject);
-				$block = $fieldModelObject->get('block') ? $fieldModelObject->get('block')->id : 0;
-				$fieldModelList[$block][] = $fieldModelObject;
-				Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
-				Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
-			}
-
-			Vtiger_Cache::set('ModuleFields', $moduleModel->id, $fieldModelList);
+		if (\App\Cache::has('ModuleFields', $moduleModel->id)) {
+			return \App\Cache::get('ModuleFields', $moduleModel->id);
 		}
+		$fieldModelList = [];
+		$fieldObjects = parent::getAllForModule($moduleModel);
+		$fieldModelList = [];
+		//if module dont have any fields
+		if (!is_array($fieldObjects)) {
+			$fieldObjects = [];
+		}
+		foreach ($fieldObjects as &$fieldObject) {
+			$fieldModelObject = self::getInstanceFromFieldObject($fieldObject);
+			$block = $fieldModelObject->get('block') ? $fieldModelObject->get('block')->id : 0;
+			$fieldModelList[$block][] = $fieldModelObject;
+			Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
+			Vtiger_Cache::set('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
+		}
+		\App\Cache::save('ModuleFields', $moduleModel->id, $fieldModelList);
 		return $fieldModelList;
 	}
 

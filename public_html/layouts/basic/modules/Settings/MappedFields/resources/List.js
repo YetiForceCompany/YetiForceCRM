@@ -119,16 +119,11 @@ Settings_Vtiger_List_Js("Settings_MappedFields_List_Js", {}, {
 		return aDeferred.promise();
 	},
 	registerDeleteMap: function () {
-		var thisInstance = this;
-		this.getListContainer().find('.deleteMap').each(function (index) {
-			jQuery(this).on('click', function (e) {
-				e.stopPropagation();
-				e.preventDefault();
-				var templateId = jQuery(this).closest('tr').data('id');
-				Settings_MappedFields_List_Js.deleteById(templateId).done(function () {
-					thisInstance.registerBasic();
-				});
-			});
+		this.getListContainer().on('click', '.deleteMap', function (e) {
+			e.stopPropagation();
+			e.preventDefault();
+			var templateId = $(e.currentTarget).closest('tr').data('id');
+			Settings_MappedFields_List_Js.deleteById(templateId);
 		});
 	},
 	registerBasic: function () {

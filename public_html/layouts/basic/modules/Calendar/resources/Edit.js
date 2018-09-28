@@ -493,6 +493,57 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 
 		});
 	},
+	/**
+	 * Function validate is holiday day
+	 * @param {jQuery} form
+	 * @returns {boolean}
+	 */
+	validateHolidayDate(form) {
+		let fields = form.find('[name="date_start"], [name="due_date"]'),
+			isHoliday = false,
+			fieldHolidayArray = [],
+			aDeferred = $.Deferred();
+		$.each(fields, function (index, fieldObj) {
+			fieldHolidayArray.push(fieldObj.value);
+		});
+		AppConnector.request({
+			async: false,
+			data: {
+				module: form.find('[name="module"]').length ? form.find('[name="module"]').val() : app.getModuleName(),
+				action: 'Fields',
+				mode: 'verifyIsHolidayDate',
+				fieldName: 'date_start',
+				date: fieldHolidayArray
+			}
+		}).done(function (data) {
+			if (true === data.success && true === data.result.isHolidayDate) {
+				isHoliday = true;
+			}
+			aDeferred.resolve(isHoliday);
+		}).fail(function (error) {
+			aDeferred.reject(false);
+		});
+		return aDeferred.promise();
+	},
+	/**
+	 * Register pre save event
+	 * @param {jQuery} form
+	 */
+	registerRecordPreSaveEventEvent: function (form) {
+		const self = this;
+		let lockSave = true;
+		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
+			self.validateHolidayDate(form).done(function (isHoliday) {
+				if (lockSave && isHoliday) {
+					e.preventDefault();
+					Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate("JS_DATES_SELECTED_HOLIDAYS")}).done(function () {
+						lockSave = false;
+						form.submit();
+					});
+				}
+			});
+		});
+	},
 	registerRow: function (row) {
 		var thisInstance = this;
 		row.on("click", '.inviteRemove', function (e) {

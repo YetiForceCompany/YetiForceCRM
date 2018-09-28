@@ -51,6 +51,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		$this->exposeMethod('getUserRole');
 		$this->exposeMethod('verifyPhoneNumber');
 		$this->exposeMethod('findAddress');
+		$this->exposeMethod('verifyIsHolidayDate');
 	}
 
 	/**
@@ -210,5 +211,36 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 			$response->setResult($instance->find($request->getByType('value', 'Text')));
 		}
 		$response->emit();
+	}
+
+	/**
+	 * Verify is holiday date.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public function verifyIsHolidayDate(\App\Request $request)
+	{
+		if ($this->fieldModel->getFieldDataType() === 'datetime' || $this->fieldModel->getFieldDataType() === 'date') {
+			$response = new Vtiger_Response();
+			$data = ['isHolidayDate' => false];
+			if ($request->isEmpty('date', true)) {
+				$data['message'] = \App\Language::translate('LBL_NO_DATE');
+			} else {
+				try {
+					$holidays = Settings_PublicHoliday_Module_Model::getHolidays($request->getArray('date', 'Date'));
+					if (!empty($holidays)) {
+						$data = ['isHolidayDate' => true];
+					}
+				} catch (\App\Exceptions\FieldException $e) {
+					$data = ['isHolidayDate' => false];
+				}
+			}
+			$response->setResult($data);
+			$response->emit();
+		} else {
+			throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_TO_FIELD');
+		}
 	}
 }

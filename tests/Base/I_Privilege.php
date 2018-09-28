@@ -8,7 +8,7 @@
  * @author    Arkadiusz Dudek < a . dudek@yetiforce . com >
  */
 
-namespace Tests\Entity;
+namespace Tests\Base;
 
 class I_Privilege extends \Tests\Base
 {

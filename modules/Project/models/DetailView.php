@@ -11,6 +11,9 @@
 
 class Project_DetailView_Model extends Vtiger_DetailView_Model
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDetailViewLinks($linkParams)
 	{
 		$recordModel = $this->getRecord();
@@ -24,6 +27,7 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 				'linkurl' => 'index.php?module=ProjectTask&action=EditView&projectid=' . $recordId . '&return_module=Project&return_action=DetailView&return_id=' . $recordId,
 				'linkicon' => 'fas fa-tasks',
 				'linkhint' => 'Add Project Task',
+				'linkclass' => 'btn-outline-dark btn-sm'
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($viewLinks);
 		}
@@ -34,6 +38,7 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 				'linkurl' => 'index.php?module=Documents&action=EditView&return_module=Project&return_action=DetailView&return_id=' . $recordId . '&parent_id=' . $recordId,
 				'linkicon' => 'fas fa-file',
 				'linkhint' => 'Add Note',
+				'linkclass' => 'btn-outline-dark btn-sm'
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($viewLinks);
 		}

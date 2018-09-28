@@ -30,7 +30,22 @@
     "LBL_VULNERABILITIES_IN_DEPENDENCIES": "Vulnerabilities in libraries",
     "LBL_VULNERABILITIES_IN_DEPENDENCIES_DESC": "Vulnerabilities in libraries were detected, it is recommended to update them quickly. \r\n Vulnerabilities:",
     "LBL_MECHANISM_ENCRYPTION": "Encryption mechanism",
-    "LBL_CONFIGURE_ENCRYPTION_DESCRIPTION": "No encryption causes that sensitive data such as passwords to mailboxes and access keys are stored in a public form in the database."
+    "LBL_CONFIGURE_ENCRYPTION_DESCRIPTION": "No encryption causes that sensitive data such as passwords to mailboxes and access keys are stored in a public form in the database.",
+    "LBL_RECOMMENDED_VALUE": "Recommended",
+    "LBL_CONFIG_DOC_URL": "https:\/\/yetiforce.com\/en\/knowledge-base\/documentation\/implementer-documentation\/item\/web-server-requirements",
+    "LBL_CONFIG_DOC_URL_LABEL": "Web server requirements at yetiforce.com",
+    "LBL_CONFIG_SERVER_DESC": "Server configuration was not set properly. There may be problems with the system, or the data entered may be damaged or deleted. More information can be found in the article %s. Detected problems:",
+    "LBL_PERFORMANCE": "Performance",
+    "LBL_PHPEXT": "PHP extensions",
+    "LBL_DATABASE": "Data base",
+    "LBL_STABILITY": "Stability",
+    "LBL_CONFIG_SERVER": "Server configuration",
+    "LBL_SECURITY": "Security",
+    "LBL_NO_FILE_WRITE_RIGHTS": "No file write rights",
+    "LBL_SECURITY_CONF": "Security configuration",
+    "LBL_SECURITY_CONF_DESC": "Detected errors in the configuration of parameters related to system security. There may be problems with the system, or the entered data may be damaged or deleted. More information can be found in the article %s. Adjust the following parameters:",
+    "LBL_LIB_REQUIRED": "Required",
+    "LBL_LIB_OPTIONAL": "Optional"
   },
   "js": []
 }

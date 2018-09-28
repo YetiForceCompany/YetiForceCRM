@@ -45,7 +45,7 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model
 			$basicActionLink = [
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => '',
-				'linkclass' => 'btn-outline-info btn-convertLead ' . $convert,
+				'linkclass' => 'btn-sm btn-outline-info btn-convertLead ' . $convert,
 				'linkhint' => \App\Language::translate('LBL_CONVERT_LEAD', $moduleName),
 				'linkurl' => 'javascript:Leads_Detail_Js.convertLead("' . $recordModel->getConvertLeadUrl() . '",this);',
 				'linkicon' => 'fas fa-exchange-alt',

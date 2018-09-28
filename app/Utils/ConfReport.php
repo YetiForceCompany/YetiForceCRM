@@ -70,7 +70,7 @@ class ConfReport
 		'date.timezone' => ['type' => 'TimeZone', 'container' => 'php', 'testCli' => true], //Roundcube
 		'allow_url_fopen' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true], //Roundcube
 		'auto_detect_line_endings' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true], //CSVReader
-		'httpMethods' => ['recommended' => 'GET,POST,PUT,OPTIONS,PATCH,PROPFIND,REPORT,LOCK,DELETE,COPY,MOVE', 'type' => 'HttpMethods', 'container' => 'request', 'testCli' => false, 'label' => 'HTTP_METHODS'],
+		'httpMethods' => ['recommended' => 'GET, POST, PUT, OPTIONS, PATCH, PROPFIND, REPORT, LOCK, DELETE, COPY, MOVE', 'type' => 'HttpMethods', 'container' => 'request', 'testCli' => false, 'label' => 'HTTP_METHODS'],
 	];
 	/**
 	 * Security variables map.
@@ -90,7 +90,7 @@ class ConfReport
 		'session.name' => ['recommended' => 'YTSID', 'container' => 'php', 'type' => 'Equal', 'testCli' => false],
 		'expose_php' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session_regenerate_id' => ['recommended' => 'On', 'type' => 'SessionRegenerate', 'testCli' => true],
-		'disable_functions' => ['recommended' => 'shell_exec,exec,system,passthru', 'type' => 'In', 'container' => 'php', 'testCli' => true],
+		'disable_functions' => ['recommended' => 'shell_exec, exec, system, passthru', 'type' => 'In', 'container' => 'php', 'testCli' => true],
 		'allow_url_include' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'Header: Server' => ['recommended' => '', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: X-Powered-By' => ['recommended' => '', 'type' => 'Header', 'contaiuse_only_cookiesner' => 'request', 'testCli' => false],
@@ -277,7 +277,6 @@ class ConfReport
 		'public_html/modules/OSSMail/' => ['type' => 'IsWritable', 'testCli' => true],
 		'public_html/libraries/' => ['type' => 'IsWritable', 'testCli' => true],
 		'public_html/layouts/resources/Logo/' => ['type' => 'IsWritable', 'testCli' => true],
-		'vendor/mPDF/' => ['type' => 'IsWritable', 'testCli' => true],
 	];
 	/**
 	 * Php variables.
@@ -937,9 +936,9 @@ class ConfReport
 		unset($name);
 		$value = $row[$sapi];
 		if (!\is_array($row[$sapi])) {
-			$value = \explode(',', $row[$sapi]);
+			$value = \explode(', ', $row[$sapi]);
 		}
-		$recommended = \explode(',', $row['recommended']);
+		$recommended = \explode(', ', $row['recommended']);
 		foreach ($recommended as &$item) {
 			if (!\in_array($item, $value)) {
 				$row['status'] = false;
@@ -1030,7 +1029,7 @@ class ConfReport
 		unset($name);
 		$supported = [];
 		$requestUrl = \AppConfig::main('site_URL') . 'shorturl.php';
-		foreach (\explode(',', $row['recommended']) as $type) {
+		foreach (\explode(', ', $row['recommended']) as $type) {
 			try {
 				$response = (new \GuzzleHttp\Client())->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
 				if ($response->getStatusCode() === 200 && 'No uid' === (string) $response->getBody()) {
@@ -1039,7 +1038,7 @@ class ConfReport
 			} catch (\Throwable $e) {
 			}
 		}
-		return \implode(',', $supported);
+		return \implode(', ', $supported);
 	}
 
 	/**

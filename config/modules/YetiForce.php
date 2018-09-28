@@ -19,6 +19,7 @@ return [
 	'spaceRoot' => false,
 	'spaceStorage' => false,
 	'spaceTemp' => false,
+	'updates' => false,
 	//ConfReport
 	'security' => false,
 	'stability' => false,

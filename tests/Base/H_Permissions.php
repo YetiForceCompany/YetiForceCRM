@@ -8,7 +8,7 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Tests\Entity;
+namespace Tests\Base;
 
 class H_Permissions extends \Tests\Base
 {
@@ -17,7 +17,7 @@ class H_Permissions extends \Tests\Base
 	 */
 	public function testIsPermitted()
 	{
-		$this->assertTrue(\App\Privilege::isPermitted('Accounts', 'DetailView', \Tests\Entity\C_RecordActions::createAccountRecord()->getId()));
+		$this->assertTrue(\App\Privilege::isPermitted('Accounts', 'DetailView', \Tests\Base\C_RecordActions::createAccountRecord()->getId()));
 	}
 
 	/**
