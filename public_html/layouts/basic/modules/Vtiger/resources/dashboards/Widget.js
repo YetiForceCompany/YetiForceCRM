@@ -1454,6 +1454,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 			a[0].click();
 			a.remove();
 		});
+		container.find('.js-quickCreate_btn').on('click', function () {
+			Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
+		});
 	},
 	registerChangeSorting: function registerChangeSorting() {
 		var thisInstance = this;
@@ -2380,7 +2383,6 @@ YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 		this._super();
 		this.registerActivityChange();
 		this.registerListViewButton();
-		this.addQuickCreateButton();
 	},
 	postRefreshWidget: function () {
 		this._super();
@@ -2403,11 +2405,7 @@ YetiForce_Widget_Js('YetiForce_CalendarActivities_Widget_Js', {}, {
 			}
 		})
 	},
-	addQuickCreateButton: function () {
-		this.getContainer().find('.js-quickCreate_btn').on('click', function () {
-			Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
-		});
-	},
+
 	registerListViewButton: function () {
 		const thisInstance = this,
 			container = thisInstance.getContainer();
