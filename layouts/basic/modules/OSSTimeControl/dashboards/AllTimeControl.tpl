@@ -4,8 +4,8 @@
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-10"}
 		<div class="d-inline-flex">
 			{if \App\Privilege::isPermitted('OSSTimeControl', 'CreateView')}
-				<button class="btn btn-sm btn-light js-widget-quick-create" data-js="click"
-				   data-module-name="OSSTimeControl">
+				<button class="btn btn-sm btn-light js-widget-quick-create" data-js="click" type="button"
+						data-module-name="OSSTimeControl">
 					<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 				</button>
 			{/if}

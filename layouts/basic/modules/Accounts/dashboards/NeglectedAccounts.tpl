@@ -4,21 +4,24 @@
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 		<div class="d-inline-flex">
 			{if \App\Privilege::isPermitted('Accounts', 'CreateView')}
-				<a class="btn btn-sm btn-light" role="button" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Accounts'); return false;">
+				<button class="btn btn-sm btn-ligh js-widget-quick-create" data-js="click" type="button"
+						data-module-name="Accounts">
 					<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
-				</a>
+				</button>
 			{/if}
-			<a class="btn btn-sm btn-light" role="button" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
+			<a class="btn btn-sm btn-light" role="button" href="javascript:void(0);" name="drefresh"
+			   data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
 				<span class="fas fa-sync-alt" title="{\App\Language::translate('LBL_REFRESH')}"></span>
 			</a>
 			{if !$WIDGET->isDefault()}
-				<a class="btn btn-sm btn-light" role="button" class="js-widget-remove" data-js="click | bootbox" data-url="{$WIDGET->getDeleteUrl()}">
+				<a class="btn btn-sm btn-light" role="button" class="js-widget-remove" data-js="click | bootbox"
+				   data-url="{$WIDGET->getDeleteUrl()}">
 					<span class="fas fa-times" title="{\App\Language::translate('LBL_CLOSE')}"></span>
 				</a>
 			{/if}
 		</div>
 	</div>
-	<hr class="widgetHr" />
+	<hr class="widgetHr"/>
 	<div class="row no-gutters">
 		<div class="col-ceq-xsm-6">
 			{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
