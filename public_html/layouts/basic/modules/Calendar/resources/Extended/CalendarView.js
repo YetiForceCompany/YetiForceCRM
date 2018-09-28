@@ -516,6 +516,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			self.clearFilterButton(user, filters, cvid);
 			if (view.type === 'agendaDay') {
 				self.selectDays(view.start, view.end);
+				view.end = view.end.add(1, 'day');
 			}
 			AppConnector.request({
 				module: 'Calendar',
