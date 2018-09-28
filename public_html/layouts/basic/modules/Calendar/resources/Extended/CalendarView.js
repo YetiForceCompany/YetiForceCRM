@@ -14,7 +14,6 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		FC.views.year = FC.views.year.extend({
 			selectDays: self.selectDays,
 			getCalendarCreateView: self.getCalendarCreateView,
-			registerSubmitForm: self.registerSubmitForm,
 			getSidebarView: self.getSidebarView,
 			getCurrentCvId: self.getCurrentCvId,
 			getCalendarView: self.getCalendarView,
@@ -476,16 +475,17 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			sideBar.find('.js-qcForm').html(data);
 			let rightFormCreate = $(document).find('form[name="QuickCreate"]'),
 				editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(sideBar.find('[name="module"]').val()),
-				headerInstance = new Vtiger_Header_Js();
+				headerInstance = new Vtiger_Header_Js(),
+				params = [];
 			editViewInstance.registerBasicEvents(rightFormCreate);
 			rightFormCreate.validationEngine(app.validationEngineOptions);
 			headerInstance.registerHelpInfo(rightFormCreate);
 			App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
-			thisInstance.registerSubmitForm();
 			sideBar.find('.summaryCloseEdit').on('click', function () {
 				thisInstance.getCalendarCreateView();
 			});
-			headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, {});
+			params.callbackFunction = thisInstance.registerAfterSubmitForm(thisInstance, data);
+			headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, params);
 			$.each(sideBar.find('.ckEditorSource'), function (key, element) {
 				let ckEditorInstance = new Vtiger_CkEditor_Js();
 				ckEditorInstance.loadCkEditor($(element), {
@@ -748,42 +748,43 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			};
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	},
-	registerSubmitForm() {
-		const thisInstance = this;
-		$('.js-save-event').on('click', function (e) {
-			if ($(this).parents('form:first').validationEngine('validate')) {
-				let formData = $(e.currentTarget).parents('form:first').serializeFormData();
-				AppConnector.request(formData).done((data) => {
-						if (data.success) {
-							let textToShow = '';
-							if (formData.record) {
-								thisInstance.updateCalendarEvent(formData.record, data.result);
-								textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_UPDATED_IN_YOUR_CALENDAR');
-							} else {
-								//condition temporarily fixing year instance, which should automatically changes during view change
-								if (thisInstance.getCalendarView().fullCalendar('getCalendar').view.type !== 'year') {
-									let instance = Calendar_Calendar_Js.getInstanceByView('CalendarExtended');
-									instance.addCalendarEvent(data.result);
-									if (data.result.followup.value !== undefined) {
-										thisInstance.getCalendarView().fullCalendar('removeEvents', data.result.followup.value);
-									}
-								} else {
-									thisInstance.addCalendarEvent();
-								}
-								textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR');
-							}
-							thisInstance.calendarCreateView = false;
-							thisInstance.getCalendarCreateView();
-							Vtiger_Helper_Js.showPnotify({
-								text: textToShow,
-								type: 'success',
-								animation: 'show'
-							});
+	/**
+	 * Register actions to do after save record
+	 * @param instance
+	 * @param data
+	 * @returns {function}
+	 */
+	registerAfterSubmitForm(instance, data) {
+		const thisInstance = instance;
+		let returnFunction = function (data) {
+			if (data.success) {
+				let textToShow = '';
+				if (thisInstance.getCalendarView().fullCalendar('clientEvents', data.result._recordId)[0]) {
+					thisInstance.updateCalendarEvent(data.result._recordId, data.result);
+					textToShow = app.vtranslate('JS_SAVE_NOTIFY_OK');
+				} else {
+					//condition temporarily fixing year instance, which should automatically changes during view change
+					if (thisInstance.getCalendarView().fullCalendar('getCalendar').view.type !== 'year') {
+						let instance = Calendar_Calendar_Js.getInstanceByView('CalendarExtended');
+						instance.addCalendarEvent(data.result);
+						if (data.result.followup.value !== undefined) {
+							thisInstance.getCalendarView().fullCalendar('removeEvents', data.result.followup.value);
 						}
+					} else {
+						thisInstance.addCalendarEvent();
 					}
-				);
+					textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR');
+				}
+				thisInstance.calendarCreateView = false;
+				thisInstance.getCalendarCreateView();
+				Vtiger_Helper_Js.showPnotify({
+					text: textToShow,
+					type: 'success',
+					animation: 'show'
+				});
 			}
-		});
+		}
+		return returnFunction;
 	},
 	showRightPanelForm() {
 		let calendarRightPanel = $('.js-calendarRightPanel'),
@@ -851,13 +852,14 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			let rightFormCreate = $(document).find('form[name="QuickCreate"]'),
 				moduleName = sideBar.find('[name="module"]').val(),
 				editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName),
-				headerInstance = new Vtiger_Header_Js();
+				headerInstance = new Vtiger_Header_Js(),
+				params = [];
 			App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
 			editViewInstance.registerBasicEvents(rightFormCreate);
 			rightFormCreate.validationEngine(app.validationEngineOptions);
 			headerInstance.registerHelpInfo(rightFormCreate);
-			thisInstance.registerSubmitForm();
-			headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, {});
+			params.callbackFunction = thisInstance.registerAfterSubmitForm(thisInstance, data);
+			headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, params);
 			$.each(sideBar.find('.ckEditorSource'), function (key, element) {
 				let ckEditorInstance = new Vtiger_CkEditor_Js();
 				ckEditorInstance.loadCkEditor($(element), {
