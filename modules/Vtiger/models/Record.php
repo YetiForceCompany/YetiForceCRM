@@ -1076,7 +1076,7 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @param \App\Request $data
 	 */
-	public function setInventoryRawData($data)
+	public function setInventoryRawData(\App\Request $data)
 	{
 		$this->inventoryRawData = $data;
 	}
