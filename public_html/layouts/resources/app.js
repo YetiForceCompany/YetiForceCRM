@@ -1418,6 +1418,10 @@ var App = {},
 			if ('CalendarExtended' === CONFIG.view) {
 				paddingTop = 5;
 			}
+			console.log(container);
+			if (container.hasClass('quickCreateContainer')) {
+				paddingTop = 65;
+			}
 			if ($(window).width() > 993) {
 				let calendarH = $(window).height() - container.find('.js-calendar__container').offset().top - $('.js-footer').height() - paddingTop;
 				new ResizeSensor(container.find('.contentsDiv'), () => {

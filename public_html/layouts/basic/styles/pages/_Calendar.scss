@@ -144,7 +144,8 @@ $sitebar-border: 1px solid #ccc;
 }
 
 //Calendar Extended
-.tpl-Calendar-Extended-CalendarViewPreProcess {
+.tpl-Calendar-Extended-CalendarViewPreProcess,
+.tpl-Calendar-Extended-QuickCreate {
 	$header-btn-font-size: 14px;
 	$count-badge-color: material-color('red', '200');
 
@@ -652,6 +653,12 @@ $sitebar-border: 1px solid #ccc;
 			.saveAndComplete {
 				margin-right: 6px;
 			}
+
+			@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
+				position: static;
+				width: 100%;
+				background: transparent;
+			}
 		}
 
 		.hideSiteBar .qcForm .formActionsPanel {
@@ -661,6 +668,10 @@ $sitebar-border: 1px solid #ccc;
 			/*computed height: footer, userinfo, header filter buttons, padding */
 			height: calc(100vh - #{$h-footer} - 17px - 90px - 34px - 10px - 20px);
 			position: relative;
+
+			@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
+				height: calc(100vh - #{$h-footer} - 17px - 90px - 34px - 10px - 20px - 65px);
+			}
 		}
 		.formActionsPanel[min-height~="80px"] {
 			button {

@@ -6354,6 +6354,8 @@ button.bg-dark:focus {
   margin-bottom: 0.25rem !important; }
 
 .ml-1, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn .textHolder, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn .textHolder,
+.tpl-Calendar-Extended-QuickCreate .o-calendar__clear-btn .textHolder,
+.tpl-Calendar-Extended-QuickCreate .o-calendar__view-btn .textHolder,
 .mx-1,
 .childrenMarginTopX > * {
   margin-left: 0.25rem !important; }
@@ -6442,6 +6444,7 @@ button.bg-dark:focus {
   padding: 0 !important; }
 
 .pt-0, .js-css-element-queries[min-width~="400px"] .col-ceq-xsm-6:nth-child(2), .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__container,
+.tpl-Calendar-Extended-QuickCreate .o-calendar__container,
 .py-0,
 .c-panel__body,
 .c-detail-widget__header,
@@ -15943,128 +15946,168 @@ label.btn.btn-outline-primary:not(.active) {
       margin-bottom: 0.5rem; }
     .js-calendar-switch-container .btn-group:last-child {
       margin-left: 0.5rem !important; } }
-.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .c-tab--small .nav-link, .tpl-Calendar-Extended-CalendarViewPreProcess .detailViewInfo .dropdown.tabdrop .nav-link, .detailViewInfo .tpl-Calendar-Extended-CalendarViewPreProcess .dropdown.tabdrop .nav-link {
+.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .c-tab--small .nav-link, .tpl-Calendar-Extended-CalendarViewPreProcess .detailViewInfo .dropdown.tabdrop .nav-link, .detailViewInfo .tpl-Calendar-Extended-CalendarViewPreProcess .dropdown.tabdrop .nav-link,
+.tpl-Calendar-Extended-QuickCreate .c-tab--small .tpl-Calendar-Extended-CalendarViewPreProcess .nav-link,
+.tpl-Calendar-Extended-QuickCreate .detailViewInfo .dropdown.tabdrop .tpl-Calendar-Extended-CalendarViewPreProcess .nav-link,
+.detailViewInfo .tpl-Calendar-Extended-QuickCreate .dropdown.tabdrop .tpl-Calendar-Extended-CalendarViewPreProcess .nav-link,
+.tpl-Calendar-Extended-QuickCreate .o-calendar__clear-btn,
+.tpl-Calendar-Extended-CalendarViewPreProcess .c-tab--small .tpl-Calendar-Extended-QuickCreate .nav-link,
+.tpl-Calendar-Extended-CalendarViewPreProcess .detailViewInfo .dropdown.tabdrop .tpl-Calendar-Extended-QuickCreate .nav-link,
+.detailViewInfo .tpl-Calendar-Extended-CalendarViewPreProcess .dropdown.tabdrop .tpl-Calendar-Extended-QuickCreate .nav-link,
+.tpl-Calendar-Extended-QuickCreate .c-tab--small .nav-link,
+.tpl-Calendar-Extended-QuickCreate .detailViewInfo .dropdown.tabdrop .nav-link,
+.detailViewInfo .tpl-Calendar-Extended-QuickCreate .dropdown.tabdrop .nav-link {
   font-size: 14px !important;
   line-height: 1.42857143;
   height: 1.875rem; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .badge.count {
+.tpl-Calendar-Extended-CalendarViewPreProcess .badge.count,
+.tpl-Calendar-Extended-QuickCreate .badge.count {
   border: 0.0625rem solid;
   border-color: transparent !important;
   border-radius: 1.4375rem;
   color: #fff;
   background: #ef9a9a; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn {
+.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn,
+.tpl-Calendar-Extended-QuickCreate .o-calendar__clear-btn,
+.tpl-Calendar-Extended-QuickCreate .o-calendar__view-btn {
   padding: 0.25rem 0.5rem;
   font-size: 14px; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn {
+.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__clear-btn,
+.tpl-Calendar-Extended-QuickCreate .o-calendar__clear-btn {
   background: #ffe082;
   border-color: #ffe082;
   padding: 0.25rem 0.5rem; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn {
+.tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn,
+.tpl-Calendar-Extended-QuickCreate .o-calendar__view-btn {
   border-radius: 0;
   height: 1.875rem !important; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn svg {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__view-btn svg,
+  .tpl-Calendar-Extended-QuickCreate .o-calendar__view-btn svg {
     margin-left: 0.3125rem; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list {
+.tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list,
+.tpl-Calendar-Extended-QuickCreate .sub-date-list {
   text-align: center; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record,
+  .tpl-Calendar-Extended-QuickCreate .sub-date-list .sub-record {
     height: 1.875rem;
     font-size: 0.8125rem;
     min-width: 80px;
     cursor: pointer; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record .sub-record-content {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record .sub-record-content,
+    .tpl-Calendar-Extended-QuickCreate .sub-date-list .sub-record .sub-record-content {
       padding: 6px 3px;
       height: 100%; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record .sub-record-content.active {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-record .sub-record-content.active,
+    .tpl-Calendar-Extended-QuickCreate .sub-date-list .sub-record .sub-record-content.active {
       background-color: inherit !important;
       cursor: default; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-date-name {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .sub-date-list .sub-date-name,
+  .tpl-Calendar-Extended-QuickCreate .sub-date-list .sub-date-name {
     margin-bottom: 2px; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-state-default .fc-button-effect {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-state-default .fc-button-effect,
+.tpl-Calendar-Extended-QuickCreate .fc-state-default .fc-button-effect {
   top: 100% !important; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style1 {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style1,
+.tpl-Calendar-Extended-QuickCreate .fc-event-style1 {
   background: #17309a;
   border-color: #17309a;
   font-weight: normal;
   text-shadow: none; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style1 .fc-event-skin {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style1 .fc-event-skin,
+  .tpl-Calendar-Extended-QuickCreate .fc-event-style1 .fc-event-skin {
     background: #17309a;
     border-color: #17309a;
     font-weight: normal;
     text-shadow: none; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style2 {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style2,
+.tpl-Calendar-Extended-QuickCreate .fc-event-style2 {
   background: #3a87ad;
   border-color: #3a87ad;
   font-weight: normal;
   text-shadow: none; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style2 .fc-event-skin {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style2 .fc-event-skin,
+  .tpl-Calendar-Extended-QuickCreate .fc-event-style2 .fc-event-skin {
     background: #3a87ad;
     border-color: #3a87ad;
     font-weight: normal;
     text-shadow: none; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style3 {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style3,
+.tpl-Calendar-Extended-QuickCreate .fc-event-style3 {
   background: #aa6705;
   border-color: #aa6705;
   font-weight: normal;
   text-shadow: none; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style3 .fc-event-skin {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style3 .fc-event-skin,
+  .tpl-Calendar-Extended-QuickCreate .fc-event-style3 .fc-event-skin {
     background: #aa6705;
     border-color: #aa6705;
     font-weight: normal;
     text-shadow: none; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style4 {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style4,
+.tpl-Calendar-Extended-QuickCreate .fc-event-style4 {
   background: #953b39;
   border-color: #953b39;
   font-weight: normal;
   text-shadow: none; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style4 .fc-event-skin {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style4 .fc-event-skin,
+  .tpl-Calendar-Extended-QuickCreate .fc-event-style4 .fc-event-skin {
     background: #953b39;
     border-color: #953b39;
     font-weight: normal;
     text-shadow: none; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style5 {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style5,
+.tpl-Calendar-Extended-QuickCreate .fc-event-style5 {
   background: #545252;
   border-color: #545252;
   font-weight: normal;
   text-shadow: none; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style5 .fc-event-skin {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style5 .fc-event-skin,
+  .tpl-Calendar-Extended-QuickCreate .fc-event-style5 .fc-event-skin {
     background: #545252;
     border-color: #545252;
     font-weight: normal;
     text-shadow: none; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style6 {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style6,
+.tpl-Calendar-Extended-QuickCreate .fc-event-style6 {
   background: #87865d;
   border-color: #87865d;
   font-weight: normal;
   text-shadow: none; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style6 .fc-event-skin {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style6 .fc-event-skin,
+  .tpl-Calendar-Extended-QuickCreate .fc-event-style6 .fc-event-skin {
     background: #87865d;
     border-color: #87865d;
     font-weight: normal;
     text-shadow: none; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style7 {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style7,
+.tpl-Calendar-Extended-QuickCreate .fc-event-style7 {
   background: #c71585;
   border-color: #c71585;
   font-weight: normal;
   text-shadow: none; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style7 .fc-event-calendarMassEditskin {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style7 .fc-event-calendarMassEditskin,
+  .tpl-Calendar-Extended-QuickCreate .fc-event-style7 .fc-event-calendarMassEditskin {
     background: #c71585;
     border-color: #c71585;
     font-weight: normal;
     text-shadow: none; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style8 {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style8,
+.tpl-Calendar-Extended-QuickCreate .fc-event-style8 {
   background: #006400;
   border-color: #006400;
   font-weight: normal;
   text-shadow: none; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style8 .fc-event-skin {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-style8 .fc-event-skin,
+  .tpl-Calendar-Extended-QuickCreate .fc-event-style8 .fc-event-skin {
     background: #006400;
     border-color: #006400;
     font-weight: normal;
     text-shadow: none; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-agenda-divider + div {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-agenda-divider + div,
+.tpl-Calendar-Extended-QuickCreate .fc-agenda-divider + div {
   overflow-y: visible !important; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-button {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-button,
+.tpl-Calendar-Extended-QuickCreate .fc-button {
   /* FullCalendar buttons */
   display: inline-block;
   padding: 6px 0.4em !important;
@@ -16085,49 +16128,65 @@ label.btn.btn-outline-primary:not(.active) {
   background-image: none;
   border: 1px solid transparent;
   border-radius: 0 !important; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-button:active .fc-button-inner {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-button:active .fc-button-inner,
+  .tpl-Calendar-Extended-QuickCreate .fc-button:active .fc-button-inner {
     background: transparent; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-button:active .fc-button-inner .fc-button-content {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-button:active .fc-button-inner .fc-button-content,
+    .tpl-Calendar-Extended-QuickCreate .fc-button:active .fc-button-inner .fc-button-content {
       color: #ffffff; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-button.fc-state-active .fc-button-inner .fc-button-content, .tpl-Calendar-Extended-CalendarViewPreProcess .fc-button:active .fc-button-inner .fc-button-content {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-button.fc-state-active .fc-button-inner .fc-button-content, .tpl-Calendar-Extended-CalendarViewPreProcess .fc-button:active .fc-button-inner .fc-button-content,
+  .tpl-Calendar-Extended-QuickCreate .fc-button.fc-state-active .fc-button-inner .fc-button-content,
+  .tpl-Calendar-Extended-QuickCreate .fc-button:active .fc-button-inner .fc-button-content {
     color: #000000 !important;
     background: transparent;
     background-image: none; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-header-title h2 {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-header-title h2,
+.tpl-Calendar-Extended-QuickCreate .fc-header-title h2 {
   font-size: 15px;
   line-height: 20px; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-widget-header {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-widget-header,
+.tpl-Calendar-Extended-QuickCreate .fc-widget-header {
   color: #666;
   font-weight: 400;
   background: #eee;
   border-color: #ccc; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-widget-header th {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-widget-header th,
+  .tpl-Calendar-Extended-QuickCreate .fc-widget-header th {
     padding: 4px 0 !important; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-content {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-content,
+.tpl-Calendar-Extended-QuickCreate .fc-content {
   background: #fff;
   margin-left: 10px; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-container .fc-event.fc-draggable {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-event-container .fc-event.fc-draggable,
+.tpl-Calendar-Extended-QuickCreate .fc-event-container .fc-event.fc-draggable {
   margin: 0 0px 2px 0px;
   border-radius: 0; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-content .fc-title {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-content .fc-title,
+.tpl-Calendar-Extended-QuickCreate .fc-content .fc-title {
   padding-left: 2px; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-content td:hover {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-content td:hover,
+.tpl-Calendar-Extended-QuickCreate .fc-content td:hover {
   background: #f3f3f3; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar,
+.tpl-Calendar-Extended-QuickCreate .fc-toolbar {
   margin-bottom: 0 !important;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right div {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right div,
+  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right div {
     display: flex; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right button.btn, .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .btn {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right button.btn, .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right .btn,
+  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right button.btn,
+  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right .btn {
     border-radius: 0;
     font-size: 12px;
     max-height: 30px;
     box-shadow: none;
     text-shadow: none; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right button.fc-today-button {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right button.fc-today-button,
+  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right button.fc-today-button {
     color: #fff !important;
     background-image: none !important;
     background-color: #337ab7 !important;
@@ -16135,15 +16194,18 @@ label.btn.btn-outline-primary:not(.active) {
     font-size: 14px;
     line-height: 1.42857143;
     height: 1.875rem !important; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right button.fc-today-button:hover {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right button.fc-today-button:hover,
+    .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right button.fc-today-button:hover {
       background-color: #204d74 !important;
       border-color: #122b40 !important; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right button.fc-today-button:active {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-right button.fc-today-button:active,
+    .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-right button.fc-today-button:active {
       background-image: none;
       outline: 0;
       -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
       box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-left .fc-button {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-left .fc-button,
+  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-button {
     margin-right: 5px;
     border-radius: 0;
     background: #dfdfdf;
@@ -16152,111 +16214,150 @@ label.btn.btn-outline-primary:not(.active) {
     border: none;
     box-shadow: none;
     padding: 0.3125rem 1.125rem !important; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-left .fc-state-active {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-left .fc-state-active,
+  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-state-active {
     z-index: 4;
     background: #337ab7 !important;
     color: #fff !important;
     text-shadow: none; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-left .fc-button-group {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-left .fc-button-group,
+  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-left .fc-button-group {
     margin-left: 0; }
   @media (min-width: 1080px) {
-    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .js-calendar-switch-container {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .js-calendar-switch-container,
+    .tpl-Calendar-Extended-QuickCreate .fc-toolbar .js-calendar-switch-container {
       margin-right: 0; } }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-center {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-center,
+  .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-center {
     margin-left: auto;
     margin-right: auto; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-center div {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-center div,
+    .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-center div {
       display: flex; }
-      .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-center div button:not(.fc-today-button) {
+      .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-center div button:not(.fc-today-button),
+      .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-center div button:not(.fc-today-button) {
         background: none;
         border: none;
         box-shadow: none; }
-      .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-center div h2 {
+      .tpl-Calendar-Extended-CalendarViewPreProcess .fc-toolbar .fc-center div h2,
+      .tpl-Calendar-Extended-QuickCreate .fc-toolbar .fc-center div h2 {
         font-size: 1.4rem;
         margin-left: 0.3125rem;
         margin-top: 0.1875rem;
         text-transform: uppercase; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-time-grid .fc-time-grid-event.fc-event {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-time-grid .fc-time-grid-event.fc-event,
+.tpl-Calendar-Extended-QuickCreate .fc-time-grid .fc-time-grid-event.fc-event {
   min-height: 27px;
   min-width: 100px; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-time-grid-event.fc-short .fc-title {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-time-grid-event.fc-short .fc-title,
+.tpl-Calendar-Extended-QuickCreate .fc-time-grid-event.fc-short .fc-title {
   font-size: 1em; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .bottom_margin .fc-basic-view .fc-body .fc-row {
+.tpl-Calendar-Extended-CalendarViewPreProcess .bottom_margin .fc-basic-view .fc-body .fc-row,
+.tpl-Calendar-Extended-QuickCreate .bottom_margin .fc-basic-view .fc-body .fc-row {
   min-height: 9em !important; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__container {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__container,
+.tpl-Calendar-Extended-QuickCreate .fc-year__container {
   margin-right: -8px; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month * {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month *,
+.tpl-Calendar-Extended-QuickCreate .fc-year__month * {
   border-color: #f8f9fa; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month > .fc-toolbar,
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month > .fc-view-container {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month > .fc-view-container,
+.tpl-Calendar-Extended-QuickCreate .fc-year__month > .fc-toolbar,
+.tpl-Calendar-Extended-QuickCreate .fc-year__month > .fc-view-container {
   padding-right: 8px; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-toolbar.fc-header-toolbar {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-toolbar.fc-header-toolbar,
+.tpl-Calendar-Extended-QuickCreate .fc-year__month .fc-toolbar.fc-header-toolbar {
   justify-content: start; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-toolbar.fc-header-toolbar .fc-center {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-toolbar.fc-header-toolbar .fc-center,
+  .tpl-Calendar-Extended-QuickCreate .fc-year__month .fc-toolbar.fc-header-toolbar .fc-center {
     margin: 0;
     cursor: pointer; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-toolbar.fc-header-toolbar h2 {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-toolbar.fc-header-toolbar h2,
+  .tpl-Calendar-Extended-QuickCreate .fc-year__month .fc-toolbar.fc-header-toolbar h2 {
     font-size: 1rem; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-event {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-event,
+.tpl-Calendar-Extended-QuickCreate .fc-year__month .fc-event {
   background-color: inherit;
   border: none;
   margin: 0; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-event .fc-content {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-event .fc-content,
+  .tpl-Calendar-Extended-QuickCreate .fc-year__month .fc-event .fc-content {
     display: none; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-bgevent-skeleton .fc-bgevent {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-bgevent-skeleton .fc-bgevent,
+.tpl-Calendar-Extended-QuickCreate .fc-year__month .fc-bgevent-skeleton .fc-bgevent {
   font-size: 0.75rem;
   text-overflow: ellipsis;
   overflow: hidden;
   line-height: 1.1; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-day-number {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-day-number,
+.tpl-Calendar-Extended-QuickCreate .fc-year__month .fc-day-number {
   padding: 0px 2px;
   height: 15px;
   font-size: 0.75rem; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-basic-view .fc-body .fc-row {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-basic-view .fc-body .fc-row,
+.tpl-Calendar-Extended-QuickCreate .fc-year__month .fc-basic-view .fc-body .fc-row {
   min-height: 2.5em; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-day-header.fc-widget-header {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month .fc-day-header.fc-widget-header,
+.tpl-Calendar-Extended-QuickCreate .fc-year__month .fc-day-header.fc-widget-header {
   padding: 0.125rem 0 !important;
   font-size: 0.75rem;
   background: #f8f9fa; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-week-btn {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-week-btn,
+.tpl-Calendar-Extended-QuickCreate .fc-year__show-week-btn {
   position: absolute;
   color: #90caf9;
   font-size: 0.8125rem;
   z-index: 148;
   cursor: pointer;
   line-height: 1.3; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-day-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-week-btn {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-day-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-week-btn,
+.tpl-Calendar-Extended-QuickCreate .fc-year__show-day-btn,
+.tpl-Calendar-Extended-QuickCreate .fc-year__show-week-btn {
   color: #90caf9; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-week-btn {
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-week-btn,
+.tpl-Calendar-Extended-QuickCreate .fc-year__show-week-btn {
   position: absolute;
   font-size: 0.8125rem;
   z-index: 148;
   cursor: pointer;
   line-height: 1.3; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .js-calendar-switch-container {
+.tpl-Calendar-Extended-CalendarViewPreProcess .js-calendar-switch-container,
+.tpl-Calendar-Extended-QuickCreate .js-calendar-switch-container {
   margin-right: 0;
   display: flex;
   flex-wrap: wrap; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .c-calendar-switch {
+.tpl-Calendar-Extended-CalendarViewPreProcess .c-calendar-switch,
+.tpl-Calendar-Extended-QuickCreate .c-calendar-switch {
   margin-top: 0.3125rem;
   margin-bottom: 0; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .c-calendar-switch:first-child {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .c-calendar-switch:first-child,
+  .tpl-Calendar-Extended-QuickCreate .c-calendar-switch:first-child {
     margin-right: 0.3125rem; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .c-calendar-switch__button {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .c-calendar-switch__button,
+  .tpl-Calendar-Extended-QuickCreate .c-calendar-switch__button {
     font-size: 0.875rem;
     border-radius: 0;
     height: 1.875rem;
     line-height: 1.3;
     padding: 0.3125rem 0.5rem !important; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .js-css-element-queries[max-width~="1500px"] .o-calendar__view-btn .textHolder {
+.tpl-Calendar-Extended-CalendarViewPreProcess .js-css-element-queries[max-width~="1500px"] .o-calendar__view-btn .textHolder,
+.tpl-Calendar-Extended-QuickCreate .js-css-element-queries[max-width~="1500px"] .o-calendar__view-btn .textHolder {
   display: none; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .c-tab--small .nav-link, .tpl-Calendar-Extended-CalendarViewPreProcess .detailViewInfo .dropdown.tabdrop .nav-link, .detailViewInfo .tpl-Calendar-Extended-CalendarViewPreProcess .dropdown.tabdrop .nav-link {
+.tpl-Calendar-Extended-CalendarViewPreProcess .c-tab--small .nav-link, .tpl-Calendar-Extended-CalendarViewPreProcess .detailViewInfo .dropdown.tabdrop .nav-link, .detailViewInfo .tpl-Calendar-Extended-CalendarViewPreProcess .dropdown.tabdrop .nav-link,
+.tpl-Calendar-Extended-QuickCreate .c-tab--small .nav-link,
+.tpl-Calendar-Extended-QuickCreate .detailViewInfo .dropdown.tabdrop .nav-link,
+.detailViewInfo .tpl-Calendar-Extended-QuickCreate .dropdown.tabdrop .nav-link {
   padding: 0.3125rem 0.75rem; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .c-tab--small .nav-link.active, .tpl-Calendar-Extended-CalendarViewPreProcess .detailViewInfo .dropdown.tabdrop .nav-link.active, .detailViewInfo .tpl-Calendar-Extended-CalendarViewPreProcess .dropdown.tabdrop .nav-link.active {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .c-tab--small .nav-link.active, .tpl-Calendar-Extended-CalendarViewPreProcess .detailViewInfo .dropdown.tabdrop .nav-link.active, .detailViewInfo .tpl-Calendar-Extended-CalendarViewPreProcess .dropdown.tabdrop .nav-link.active,
+  .tpl-Calendar-Extended-QuickCreate .c-tab--small .nav-link.active,
+  .tpl-Calendar-Extended-QuickCreate .detailViewInfo .dropdown.tabdrop .nav-link.active,
+  .detailViewInfo .tpl-Calendar-Extended-QuickCreate .dropdown.tabdrop .nav-link.active {
     color: #fff !important;
     background: #4db6ac; }
 @media screen and (min-width: 992px) {
-  .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel,
+  .tpl-Calendar-Extended-QuickCreate .formActionsPanel {
     bottom: 49px;
     width: calc(25% - 10px);
     text-align: center;
@@ -16274,22 +16375,35 @@ label.btn.btn-outline-primary:not(.active) {
     border-top: 1px solid #ddd;
     z-index: 5;
     margin: 0 5px 5px; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .btn-group {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .btn-group,
+    .tpl-Calendar-Extended-QuickCreate .formActionsPanel .btn-group {
       margin-right: 3px; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .saveAndComplete {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .saveAndComplete,
+    .tpl-Calendar-Extended-QuickCreate .formActionsPanel .saveAndComplete {
       margin-right: 6px; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .qcForm .formActionsPanel {
+    .tpl-Calendar-Extended-QuickCreate .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel, .tpl-Calendar-Extended-QuickCreate .formActionsPanel {
+      position: static;
+      width: 100%;
+      background: transparent; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .qcForm .formActionsPanel,
+  .tpl-Calendar-Extended-QuickCreate .hideSiteBar .qcForm .formActionsPanel {
     right: -25%; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper,
+  .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
     /*computed height: footer, userinfo, header filter buttons, padding */
     height: calc(100vh - 1.9375rem - 17px - 90px - 34px - 10px - 20px);
     position: relative; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel[min-height~="80px"] button {
+    .tpl-Calendar-Extended-QuickCreate .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper, .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
+      height: calc(100vh - 1.9375rem - 17px - 90px - 34px - 10px - 20px - 65px); }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel[min-height~="80px"] button,
+  .tpl-Calendar-Extended-QuickCreate .formActionsPanel[min-height~="80px"] button {
     margin-bottom: 0.25rem; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .formsContainer {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .formsContainer,
+  .tpl-Calendar-Extended-QuickCreate .formsContainer {
     /*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
     height: calc(100vh - 35px - 17px - 50px - 34px - 6px); }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs,
+  .tpl-Calendar-Extended-QuickCreate .o-calendar__panel__tabs {
     display: flex;
     height: 3rem;
     background: #f8f9fa;
@@ -16303,7 +16417,8 @@ label.btn.btn-outline-primary:not(.active) {
     -ms-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .toggleSiteBarRightButton {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .toggleSiteBarRightButton,
+    .tpl-Calendar-Extended-QuickCreate .o-calendar__panel__tabs .toggleSiteBarRightButton {
       padding: 0.6875rem 0;
       height: 100%;
       margin-left: 0.0625rem;
@@ -16316,13 +16431,17 @@ label.btn.btn-outline-primary:not(.active) {
       border-radius: 25px 0 0 25px;
       background: #546e7a;
       color: #eceff1; }
-      .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .toggleSiteBarRightButton:hover {
+      .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .toggleSiteBarRightButton:hover,
+      .tpl-Calendar-Extended-QuickCreate .o-calendar__panel__tabs .toggleSiteBarRightButton:hover {
         background: #90a4ae; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav,
+    .tpl-Calendar-Extended-QuickCreate .o-calendar__panel__tabs .nav {
       display: block; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-item {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-item,
+    .tpl-Calendar-Extended-QuickCreate .o-calendar__panel__tabs .nav-item {
       height: 50%; }
-    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-link {
+    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-link,
+    .tpl-Calendar-Extended-QuickCreate .o-calendar__panel__tabs .nav-link {
       text-align: center;
       height: 100%;
       padding: 0.0625rem 1.25rem;
@@ -16330,11 +16449,13 @@ label.btn.btn-outline-primary:not(.active) {
       border: 1px solid #ccc;
       border-top: 0;
       border-radius: 0; }
-      .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-link.active {
+      .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs .nav-link.active,
+      .tpl-Calendar-Extended-QuickCreate .o-calendar__panel__tabs .nav-link.active {
         background: transparent;
         color: #6c757d !important;
         border-right: 0; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .o-calendar__panel__tabs {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .o-calendar__panel__tabs,
+  .tpl-Calendar-Extended-QuickCreate .hideSiteBar .o-calendar__panel__tabs {
     right: 0; } }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
