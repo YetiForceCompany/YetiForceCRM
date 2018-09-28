@@ -146,7 +146,6 @@ class Twitter extends \Tests\Base
 	 */
 	public function testUiTypeGoodData($value)
 	{
-		$this->assertNull(static::$twitterFields[0]->getUITypeModel()->validate($value, true));
 		$this->assertNull(static::$twitterFields[0]->getUITypeModel()->validate($value, false));
 	}
 
