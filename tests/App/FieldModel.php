@@ -150,7 +150,7 @@ class FieldModel extends \Tests\Base
 	public function providerGoodData()
 	{
 		return [
-			[5, 'D~O', 'varchar(255)', '2018-07-02'], //date
+			[5, 'D~O', 'varchar(255)', '2018-07-02'],
 		];
 	}
 
@@ -163,10 +163,10 @@ class FieldModel extends \Tests\Base
 	public function providerWrongData()
 	{
 		return [
-			[5, 'D~O', 'varchar(255)', '201872a'], //date
-			[5, 'D~O', 'varchar(255)', '2018-72-12'], //date
-			[5, 'D~O', 'varchar(255)', '-2018-02-12'], //date
-			[5, 'D~O', 'varchar(255)', 20180612], //date
+			[5, 'D~O', 'varchar(255)', '201872a'],
+			[5, 'D~O', 'varchar(255)', '2018-72-12'],
+			[5, 'D~O', 'varchar(255)', '-2018-02-12'],
+			[5, 'D~O', 'varchar(255)', 20180612],
 		];
 	}
 
@@ -179,15 +179,15 @@ class FieldModel extends \Tests\Base
 	public function providerGoodDataForDefault()
 	{
 		return [
-			[5, 'D~O', 'varchar(255)', '2018-07-02'], //date
-			[5, 'D~O', 'varchar(255)', '$(date : now)$'], //date
-			[5, 'D~O', 'varchar(255)', '$(date : tomorrow)$'], //date
-			[5, 'D~O', 'varchar(255)', '$(date : yesterday)$'], //date
-			[5, 'D~O', 'varchar(255)', '$(date : monday this week)$'], //date
-			[5, 'D~O', 'varchar(255)', '$(date : monday next week)$'], //date
-			[5, 'D~O', 'varchar(255)', '$(date : first day of this month)$'], //date
-			[5, 'D~O', 'varchar(255)', '$(date : last day of this month)$'], //date
-			[5, 'D~O', 'varchar(255)', '$(date : first day of next month)$'], //date
+			[5, 'D~O', 'varchar(255)', '2018-07-02'],
+			[5, 'D~O', 'varchar(255)', '$(date : now)$'],
+			[5, 'D~O', 'varchar(255)', '$(date : tomorrow)$'],
+			[5, 'D~O', 'varchar(255)', '$(date : yesterday)$'],
+			[5, 'D~O', 'varchar(255)', '$(date : monday this week)$'],
+			[5, 'D~O', 'varchar(255)', '$(date : monday next week)$'],
+			[5, 'D~O', 'varchar(255)', '$(date : first day of this month)$'],
+			[5, 'D~O', 'varchar(255)', '$(date : last day of this month)$'],
+			[5, 'D~O', 'varchar(255)', '$(date : first day of next month)$'],
 		];
 	}
 
@@ -200,12 +200,12 @@ class FieldModel extends \Tests\Base
 	public function providerWrongDataForDefault()
 	{
 		return [
-			[5, 'D~O', 'varchar(255)', '201807o2'], //date
-			[5, 'D~O', 'varchar(255)', 'abc'], //date
-			[5, 'D~O', 'varchar(255)', 20180612], //date
-			[5, 'D~O', 'varchar(255)', '(date : now)'], //date
-			[5, 'D~O', 'varchar(255)', '$date : now$'], //date
-			[5, 'D~O', 'varchar(255)', '$(date)$'], //date
+			[5, 'D~O', 'varchar(255)', '201807o2'],
+			[5, 'D~O', 'varchar(255)', 'abc'],
+			[5, 'D~O', 'varchar(255)', 20180612],
+			[5, 'D~O', 'varchar(255)', '(date : now)'],
+			[5, 'D~O', 'varchar(255)', '$date : now$'],
+			[5, 'D~O', 'varchar(255)', '$(date)$'],
 		];
 	}
 }
