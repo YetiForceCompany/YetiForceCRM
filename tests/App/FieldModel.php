@@ -7,7 +7,7 @@
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
-namespace Tests\Integrations;
+namespace Tests\App;
 
 /**
  * Class FieldModel for test.
