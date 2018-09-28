@@ -16384,12 +16384,12 @@ label.btn.btn-outline-primary:not(.active) {
     .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .saveAndComplete,
     .tpl-Calendar-Extended-QuickCreate .formActionsPanel .saveAndComplete {
       margin-right: 6px; }
+    .c-menu--open .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel, .tpl-Calendar-Extended-QuickCreate .formActionsPanel {
+      width: calc(25% - 60px); }
     .tpl-Calendar-Extended-QuickCreate .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel, .tpl-Calendar-Extended-QuickCreate .formActionsPanel {
       position: static;
       width: 100%;
       background: transparent; }
-    .c-menu--open .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel, .tpl-Calendar-Extended-QuickCreate .formActionsPanel {
-      width: calc(25% - 60px); }
   .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .qcForm .formActionsPanel,
   .tpl-Calendar-Extended-QuickCreate .hideSiteBar .qcForm .formActionsPanel {
     right: -25%; }

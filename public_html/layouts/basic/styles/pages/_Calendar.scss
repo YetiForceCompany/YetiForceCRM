@@ -659,27 +659,28 @@ $sitebar-border: 1px solid #ccc;
 				margin-right: 6px;
 			}
 
+			@at-root .c-menu--open #{&} {
+				width: calc(25% - 60px);
+			}
+
 			@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
 				position: static;
 				width: 100%;
 				background: transparent;
 			}
 
-			@at-root .c-menu--open #{&} {
-				width: calc(25% - 60px);
-			}
 		}
 
 		.hideSiteBar .qcForm .formActionsPanel {
 			right: -25%;
 		}
 		.o-calendar__form__wrapper {
-			/*computed height: footer, userinfo, header filter buttons, padding */
-			height: calc(100vh - #{$h-footer} - 17px - 90px - 34px - 10px - 20px);
-			position: relative;
+				/*computed height: footer, userinfo, header filter buttons, padding */
+				height: calc(100vh - #{$h-footer} - 17px - 90px - 34px - 10px - 20px);
+				position: relative;
 
-			@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
-				height: calc(100vh - #{$h-footer} - 17px - 90px - 34px - 10px - 20px - 65px);
+				@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
+					height: calc(100vh - #{$h-footer} - 17px - 90px - 34px - 10px - 20px - 65px);
 			}
 		}
 		.formActionsPanel[min-height~="80px"] {
