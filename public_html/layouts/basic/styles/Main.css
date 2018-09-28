@@ -16258,9 +16258,12 @@ label.btn.btn-outline-primary:not(.active) {
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__container,
 .tpl-Calendar-Extended-QuickCreate .fc-year__container {
   margin-right: -8px; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month td.fc-widget-content,
+.tpl-Calendar-Extended-QuickCreate .fc-year__month td.fc-widget-content {
+  background: #fbfbfb; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month *,
 .tpl-Calendar-Extended-QuickCreate .fc-year__month * {
-  border-color: #f8f9fa; }
+  border-color: #f3f3f3; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month > .fc-toolbar,
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__month > .fc-view-container,
 .tpl-Calendar-Extended-QuickCreate .fc-year__month > .fc-toolbar,
@@ -16302,7 +16305,7 @@ label.btn.btn-outline-primary:not(.active) {
 .tpl-Calendar-Extended-QuickCreate .fc-year__month .fc-day-header.fc-widget-header {
   padding: 0.125rem 0 !important;
   font-size: 0.75rem;
-  background: #f8f9fa; }
+  background: #f3f3f3; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-week-btn,
 .tpl-Calendar-Extended-QuickCreate .fc-year__show-week-btn {
   position: absolute;

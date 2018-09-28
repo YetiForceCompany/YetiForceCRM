@@ -506,7 +506,12 @@ $sitebar-border: 1px solid #ccc;
 		}
 
 		&__month {
-			$year-month-border-color: $light;
+			$year-month-border-color: #f3f3f3;
+			$year-month-background-color: #fbfbfb;
+
+			td.fc-widget-content {
+				background: $year-month-background-color;
+			}
 			* {
 				border-color: $year-month-border-color;
 			}
