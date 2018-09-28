@@ -11,7 +11,7 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 	registerExtendCalendar: function () {
 		let container = this.getContainer();
 		let instance = Calendar_Calendar_Js.getInstanceByView('CalendarExtended');
-		instance.calendarView = this.getContainer().find('#calendarview');
+		instance.calendarView = this.getContainer().find('.js-calendar__container');
 		instance.setContainer(this.getContainer());
 
 		var selectDays = function (startDate, endDate) {

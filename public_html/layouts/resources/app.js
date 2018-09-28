@@ -1422,8 +1422,8 @@ var App = {},
 				let calendarH = $(window).height() - container.find('.js-calendar__container').offset().top - $('.js-footer').height() - paddingTop;
 				new ResizeSensor(container.find('.contentsDiv'), () => {
 					calendarH = $(window).height() - container.find('.js-calendar__container').offset().top - $('.js-footer').height() - paddingTop;
-					$('#calendarview').fullCalendar('option', 'height', calendarH);
-					$('#calendarview').height(calendarH + 10); // without this line calendar scroll stops working
+					$('.js-calendar__container').fullCalendar('option', 'height', calendarH);
+					$('.js-calendar__container').height(calendarH + 10); // without this line calendar scroll stops working
 				});
 				return calendarH;
 			} else if ($(window).width() < 993) {

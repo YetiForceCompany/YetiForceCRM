@@ -354,7 +354,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 	},
 	getCalendarView: function () {
 		if (this.calendarView == false) {
-			this.calendarView = jQuery('#calendarview');
+			this.calendarView = jQuery('.js-calendar__container');
 		}
 		return this.calendarView;
 	},

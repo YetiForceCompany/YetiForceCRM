@@ -55,7 +55,7 @@
 					</a>
 				</div>
 			</div>
-			<div class="js-calendar__container" id="calendarview"></div>
+			<div class="js-calendar__container" data-js="fullcalendar | offset"></div>
 		</div>
 	</div>
 	<!-- /tpl-Calendar-Extended-CalendarView -->
