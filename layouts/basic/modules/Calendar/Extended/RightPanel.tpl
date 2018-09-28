@@ -1,8 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Calendar-Extended-RightPanel -->
 	{if !empty($ALL_ACTIVEUSER_LIST)}
 		<div class="js-filter__container border-bottom">
-			<h6 class="boxFilterTitle mt-3">{\App\Language::translate('LBL_SELECT_USER_CALENDAR',$MODULE)}</h6>
+			<h6 class="boxFilterTitle mt-3">{\App\Language::translate('LBL_SELECT_USER_CALENDAR',$MODULE_NAME)}</h6>
 			{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
@@ -100,17 +101,5 @@
 			{/if}
 		</div>
 	{/if}
-	{if !empty($ACTIVITY_TYPE)}
-		<div>
-			<ul class="nav">
-				<li>
-					{foreach item=ITEM from=$ACTIVITY_TYPE}
-						<input value="{$ITEM}" type="checkbox" id="itemId{$ITEM}"
-							   class="picklistCBr_Calendar_activitytype_{$ITEM}" selected>
-						<label for="itemId{$ITEM}">{\App\Language::translate($ITEM,$MODULE)}</label>
-					{/foreach}
-				</li>
-			</ul>
-		</div>
-	{/if}
+	<!-- /tpl-Calendar-Extended-RightPanel -->
 {/strip}

@@ -59,7 +59,6 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 			parent::process($request);
 			$viewer->assign('RECORD', null);
 			$viewer->assign('RECORD_ID', '');
-			$viewer->assign('MODULE', $moduleName);
 		}
 	}
 

@@ -16,7 +16,7 @@
 			<input name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'
 				   type="hidden"/>
 		{/if}
-		<input name="module" value="{$MODULE}" type="hidden"/>
+		<input name="module" value="{$MODULE_NAME}" type="hidden"/>
 		<input name="action" value="SaveAjax" type="hidden"/>
 		<input name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" type="hidden"/>
 		<input name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" type="hidden"/>
@@ -25,10 +25,10 @@
 			<h6 class="boxEventTitle text-muted text-center mt-1">
 				{if !empty($RECORD_ID)}
 					<span class="fas fa-edit mr-1"></span>
-				{\App\Language::translate('LBL_EDIT_EVENT',$MODULE)}
+				{\App\Language::translate('LBL_EDIT_EVENT',$MODULE_NAME)}
 				{else}
 					<span class="fas fa-plus mr-1"></span>
-					{\App\Language::translate('LBL_ADD',$MODULE)}
+					{\App\Language::translate('LBL_ADD',$MODULE_NAME)}
 				{/if}
 			</h6>
 			<div class="o-calendar__form__wrapper js-calendar__form__wrapper massEditTable no-margin">
@@ -40,7 +40,7 @@
 						<div class="row fieldsLabelValue paddingLRZero">
 							<div class="col-12">
 								{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
-								{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
+								{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 								<label class="muted pull-left-xs pull-left-sm pull-left-lg">
 									{if $FIELD_MODEL->isMandatory() eq true}
 										<span class="redColor">*</span>
@@ -48,12 +48,12 @@
 									{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 										<a href="#" class="HelpInfoPopover pull-right"
 										   title="" data-placement="auto top"
-										   data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}"
-										   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'>
+										   data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}"
+										   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'>
 											<span class="glyphicon glyphicon-info-sign"></span>
 										</a>
 									{/if}
-									{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
+									{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 								</label>
 							</div>
 							<div class="fieldValue col-12">
@@ -75,13 +75,13 @@
 			{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
 				{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
 					{if $LINK->get('linkhint') neq 'LBL_GO_TO_FULL_FORM'}
-						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS="mt-1"}
+						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='quickcreateViewHeader' CLASS="mt-1"}
 					{/if}
 				{/foreach}
 			{/if}
 			<button type="button" class="js-save-event btn btn-success mt-1"
-					title="{\App\Language::translate('LBL_SAVE', $MODULE)}" data-js="click">
-				{\App\Language::translate('LBL_SAVE', $MODULE)}
+					title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" data-js="click">
+				{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
 			</button>
 			{if !empty($RECORD_ID)}
 				<a href="#" role="button" class="btn btn-danger summaryCloseEdit mt-1 ml-auto">
