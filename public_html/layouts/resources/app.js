@@ -1418,7 +1418,6 @@ var App = {},
 			if ('CalendarExtended' === CONFIG.view) {
 				paddingTop = 5;
 			}
-			console.log(container);
 			if (container.hasClass('quickCreateContainer')) {
 				paddingTop = 65;
 			}
