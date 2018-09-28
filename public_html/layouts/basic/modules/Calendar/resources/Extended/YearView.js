@@ -9,7 +9,6 @@ var YearView = View.extend({
 	initialize: function () {
 		this.registerFilterTabChange();
 		this.registerClearFilterButton();
-		this.registerUsersChange();
 		this.createAddSwitch();
 	},
 	renderHtml: function (year) {
@@ -58,18 +57,6 @@ var YearView = View.extend({
 			thisInstance.getCalendarView().fullCalendar('changeView', 'month', date);
 			$(".js-sub-record .active").click();
 		});
-	},
-	registerUsersChange() {
-		const thisInstance = this;
-		if (!thisInstance.isRegisterUsersChangeRegistered) {
-			thisInstance.isRegisterUsersChangeRegistered = true;
-			thisInstance.getSidebarView().find('.js-inputUserOwnerId').on('change', () => {
-				thisInstance.render();
-			});
-			thisInstance.getSidebarView().find('.js-inputUserOwnerIdAjax').on('change', () => {
-				thisInstance.render();
-			});
-		}
 	},
 	loadCalendarData() {
 		this.render();

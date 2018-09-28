@@ -739,11 +739,13 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			sidebar.off('change', '.js-inputUserOwnerIdAjax');
 		}
 		self.isRegisterUsersChangeRegistered = true;
-		sidebar.find('.js-inputUserOwnerId').on('change', () => {
-			self.loadCalendarData();
-		});
-		sidebar.find('.js-inputUserOwnerIdAjax').on('change', () => {
-			self.loadCalendarData();
+		sidebar.find('.js-inputUserOwnerIdAjax, .js-inputUserOwnerId').on('change', () => {
+			const calendarInstance = self.getCalendarView().fullCalendar('getCalendar');
+			if (calendarInstance.view.type !== 'year') {
+				self.loadCalendarData();
+			} else {
+				calendarInstance.view.render();
+			}
 		});
 		self.registerPinUser();
 	},
