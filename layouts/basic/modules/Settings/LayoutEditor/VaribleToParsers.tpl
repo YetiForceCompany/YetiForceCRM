@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="modal-header">
+	<div class="tpl-Settings-LayoutEditor-VaribleToParsers modal-header">
 		<h5 class="modal-title">{App\Language::translate('LBL_CUSTOM_VARIABLES', 'Other::TextParser')}</h5>
 		<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 			<span aria-hidden="true">&times;</span>
