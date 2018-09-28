@@ -764,6 +764,9 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 								if (thisInstance.getCalendarView().fullCalendar('getCalendar').view.type !== 'year') {
 									let instance = Calendar_Calendar_Js.getInstanceByView('CalendarExtended');
 									instance.addCalendarEvent(data.result);
+									if (data.result.followup.value !== undefined) {
+										thisInstance.getCalendarView().fullCalendar('removeEvents', data.result.followup.value);
+									}
 								} else {
 									thisInstance.addCalendarEvent();
 								}
