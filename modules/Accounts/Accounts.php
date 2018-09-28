@@ -218,29 +218,21 @@ class Accounts extends CRMEntity
 	 */
 	public function __getParentAccounts($id, &$parent_accounts, &$encountered_accounts, $depthBase = 0)
 	{
-		$adb = PearDatabase::getInstance();
-
 		\App\Log::trace('Entering __getParentAccounts(' . $id . ') method ...');
-
 		if ($depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting __getParentAccounts method ... - exceeded maximum depth of hierarchy');
 
 			return $parent_accounts;
 		}
-
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-		$query = 'SELECT vtiger_account.*, vtiger_accountaddress.*,' .
-			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
-			' FROM vtiger_account' .
-			' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_account.accountid' .
-			' INNER JOIN vtiger_accountaddress ON vtiger_account.accountid = vtiger_accountaddress.accountaddressid ' .
-			' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid' .
-			' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid' .
-			' WHERE vtiger_crmentity.deleted = 0 and vtiger_account.accountid = ?';
-		$res = $adb->pquery($query, [$id]);
-
-		if ($adb->getRowCount($res) > 0) {
-			$row = $adb->getRow($res);
+		$row = (new App\Db\Query())->select(['vtiger_account.*', 'vtiger_accountaddress.*', 'user_name' => new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END")])
+			->from('vtiger_account')
+			->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_accountaddress', 'vtiger_accountaddress.accountaddressid = vtiger_account.accountid')
+			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
+			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_account.accountid' => $id])->one();
+		if ($row) {
 			$parentid = $row['parentid'];
 			if ($parentid != '' && $parentid != 0 && !in_array($parentid, $encountered_accounts)) {
 				$encountered_accounts[] = $parentid;
@@ -270,7 +262,6 @@ class Accounts extends CRMEntity
 			$parent_accounts[$id] = $parent_account_info;
 		}
 		\App\Log::trace('Exiting __getParentAccounts method ...');
-
 		return $parent_accounts;
 	}
 
@@ -284,30 +275,23 @@ class Accounts extends CRMEntity
 	 */
 	public function __getChildAccounts($id, &$child_accounts, $depthBase)
 	{
-		$adb = PearDatabase::getInstance();
-
 		\App\Log::trace('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
-
 		if (empty($id) || $depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
-
 			return $child_accounts;
 		}
-
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-		$query = 'SELECT vtiger_account.*, vtiger_accountaddress.*,' .
-			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
-			' FROM vtiger_account' .
-			' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_account.accountid' .
-			' INNER JOIN vtiger_accountaddress ON vtiger_account.accountid = vtiger_accountaddress.accountaddressid ' .
-			' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid' .
-			' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid' .
-			' WHERE vtiger_crmentity.deleted = 0 and parentid = ?';
-		$res = $adb->pquery($query, [$id]);
-
-		if ($adb->getRowCount($res) > 0) {
+		$dataReader = (new App\Db\Query())
+			->select(['vtiger_account.*', 'vtiger_accountaddress.*', 'user_name' => new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END")])
+			->from('vtiger_account')
+			->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_accountaddress', 'vtiger_account.accountid = vtiger_accountaddress.accountaddressid')
+			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
+			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
+			->where(['vtiger_crmentity.deleted' => 0, 'parentid' => $id])->createCommand()->query();
+		if ($dataReader->count() > 0) {
 			$depth = $depthBase + 1;
-			while ($row = $adb->getRow($res)) {
+			while ($row = $dataReader->read()) {
 				$child_acc_id = $row['accountid'];
 				$child_account_info = [];
 				$child_account_info['depth'] = $depth;
@@ -330,7 +314,6 @@ class Accounts extends CRMEntity
 			}
 		}
 		\App\Log::trace('Exiting __getChildAccounts method ...');
-
 		return $child_accounts;
 	}
 
@@ -340,7 +323,6 @@ class Accounts extends CRMEntity
 		if (empty($return_module) || empty($return_id)) {
 			return;
 		}
-
 		if ($return_module === 'Campaigns') {
 			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
 		} elseif ($return_module === 'Products') {
