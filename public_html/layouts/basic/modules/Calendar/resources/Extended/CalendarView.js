@@ -503,8 +503,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		thisInstance.loadCalendarEditView(id, params).done((data) => {
 			progressInstance.progressIndicator({mode: 'hide'});
 			let sideBar = thisInstance.getSidebarView();
-			thisInstance.showRightPanelForm();
 			sideBar.find('.js-qcForm').html(data);
+			thisInstance.showRightPanelForm();
 			let rightFormCreate = $(document).find('form[name="QuickCreate"]'),
 				editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(sideBar.find('[name="module"]').val()),
 				headerInstance = new Vtiger_Header_Js(),
@@ -524,9 +524,6 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 					height: '5em',
 					toolbar: 'Min'
 				});
-			});
-			app.showNewScrollbar(sideBar.find('.js-calendar__form__wrapper'), {
-				suppressScrollX: true
 			});
 			aDeferred.resolve(sideBar.find('.js-qcForm'));
 		}).fail((error) => {
@@ -808,7 +805,10 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			if (calendarRightPanel.hasClass('hideSiteBar')) {
 				sitebarButton.trigger('click');
 			}
-		})
+		});
+		app.showNewScrollbar(calendarRightPanel.find('.js-calendar__form__wrapper'), {
+			suppressScrollX: true
+		});
 	},
 	loadCalendarCreateView() {
 		let aDeferred = $.Deferred();
@@ -858,8 +858,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 		this.loadCalendarCreateView().done((data) => {
 			progressInstance.progressIndicator({mode: 'hide'});
-			thisInstance.showRightPanelForm();
 			qcForm.html(data);
+			thisInstance.showRightPanelForm();
 			let rightFormCreate = $(document).find('form[name="QuickCreate"]'),
 				moduleName = sideBar.find('[name="module"]').val(),
 				editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName),
@@ -920,11 +920,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	registerAddForm() {
 		const thisInstance = this;
 		let sideBar = thisInstance.getSidebarView();
-		thisInstance.getCalendarCreateView().done(function () {
-			app.showNewScrollbar($('.js-calendar__form__wrapper'), {
-				suppressScrollX: true
-			});
-		});
+		thisInstance.getCalendarCreateView();
 		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList').done(
 			function (data) {
 				if (data) {

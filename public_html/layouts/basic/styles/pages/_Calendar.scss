@@ -645,6 +645,7 @@ $sitebar-border: 1px solid #ccc;
 			text-align: center;
 			border-top: 1px solid #ddd;
 			z-index: 5;
+			min-height: calculate-rem(48px);
 			padding: 0 calculate-rem(5px) calculate-rem(5px);
 
 			.btn-group {
@@ -656,6 +657,10 @@ $sitebar-border: 1px solid #ccc;
 			}
 		}
 
+		.tpl-Calendar-Extended-ActivityState .formActionsPanel {
+			min-height: unset !important;
+		}
+		
 		.hideSiteBar .qcForm .formActionsPanel {
 			right: -25%;
 		}
@@ -663,6 +668,7 @@ $sitebar-border: 1px solid #ccc;
 		.o-calendar {
 			&__form {
 				height: calc(100vh - #{$h-footer} - #{$h-header});
+
 				@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
 					/*computed height: footer, userinfo, header filter buttons, padding */
 					height: auto;

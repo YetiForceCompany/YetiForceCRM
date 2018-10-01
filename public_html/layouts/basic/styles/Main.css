@@ -16373,6 +16373,7 @@ label.btn.btn-outline-primary:not(.active) {
     text-align: center;
     border-top: 1px solid #ddd;
     z-index: 5;
+    min-height: 3rem;
     padding: 0 0.3125rem 0.3125rem; }
     .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .btn-group,
     .tpl-Calendar-Extended-QuickCreate .formActionsPanel .btn-group {
@@ -16380,6 +16381,9 @@ label.btn.btn-outline-primary:not(.active) {
     .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .saveAndComplete,
     .tpl-Calendar-Extended-QuickCreate .formActionsPanel .saveAndComplete {
       margin-right: 6px; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .tpl-Calendar-Extended-ActivityState .formActionsPanel,
+  .tpl-Calendar-Extended-QuickCreate .tpl-Calendar-Extended-ActivityState .formActionsPanel {
+    min-height: unset !important; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .qcForm .formActionsPanel,
   .tpl-Calendar-Extended-QuickCreate .hideSiteBar .qcForm .formActionsPanel {
     right: -25%; }
