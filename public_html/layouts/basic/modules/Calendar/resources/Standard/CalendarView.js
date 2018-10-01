@@ -534,14 +534,17 @@ jQuery.Class("Calendar_Calendar_Js", {
 				.prependTo(switchContainer)
 				.on('change', 'input', (e) => {
 					const currentTarget = $(e.currentTarget);
+					let hiddenDays = [];
 					if (typeof currentTarget.data('on-text') !== 'undefined') {
 						app.setMainParams('switchingDays', 'workDays');
 						app.moduleCacheSet('defaultSwitchingDays', 'workDays');
+						hiddenDays = app.getMainParams('hiddenDays', true);
 					} else if (typeof currentTarget.data('off-text') !== 'undefined') {
 						app.setMainParams('switchingDays', 'all');
 						app.moduleCacheSet('defaultSwitchingDays', 'all');
 					}
-					this.renderCalendar();
+					calendarview.fullCalendar('option', 'hiddenDays', hiddenDays);
+					this.createAddSwitch();
 					this.loadCalendarData();
 				});
 		}
