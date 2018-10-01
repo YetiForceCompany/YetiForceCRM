@@ -299,7 +299,10 @@ class Calendar_Calendar_Model extends App\Base
 		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));
 		$endDate = DateTimeField::convertToDBTimeZone($this->get('end'));
 		$endDate = strtotime($endDate->format('Y-m-d H:i:s'));
-		$dataReader = $this->getQuery()->createCommand()->query();
+		$dataReader = $this->getQuery()
+			->select(['vtiger_activity.date_start', 'vtiger_activity.due_date', 'vtiger_activity.time_start', 'vtiger_activity.time_end'])
+			->createCommand()
+			->query();
 		$return = [];
 		while ($record = $dataReader->read()) {
 			$activitytype = $record['activitytype'];
@@ -355,7 +358,10 @@ class Calendar_Calendar_Model extends App\Base
 		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));
 		$endDate = DateTimeField::convertToDBTimeZone($this->get('end'));
 		$endDate = strtotime($endDate->format('Y-m-d H:i:s'));
-		$dataReader = $this->getQuery()->createCommand()->query();
+		$dataReader = $this->getQuery()
+			->select(['vtiger_activity.date_start', 'vtiger_activity.due_date', 'vtiger_activity.time_start', 'vtiger_activity.time_end'])
+			->createCommand()
+			->query();
 		$return = [];
 		while ($record = $dataReader->read()) {
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
