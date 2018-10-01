@@ -143,8 +143,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 						vis: calendarDetails.visibility.value,
 						sta: calendarDetails.activitystatus.value,
 						className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value,
-						start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
-						end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
+						start_display: calendarDetails.date_start.display_value,
+						end_display: calendarDetails.due_date.display_value,
 						smownerid: calendarDetails.assigned_user_id.display_value,
 						pri: calendarDetails.taskpriority.value,
 						lok: calendarDetails.location.display_value
