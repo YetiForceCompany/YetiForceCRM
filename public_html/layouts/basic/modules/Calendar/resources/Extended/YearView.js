@@ -79,7 +79,8 @@ var YearView = View.extend({
 	appendWeekButton() {
 		$('.fc-row.fc-week.fc-widget-content').each(function () {
 			let date = $(this).find('.fc-day-top').first().data('date');
-			$(this).prepend(`<div class="js-show-week fc-year__show-week-btn" data-date="${date}" data-js="click"><span class="fas fa-angle-double-right"></span></div>`);
+			let actualWeek = moment(date).format('WW');
+			$(this).prepend(`<div class="js-show-week js-popover-tooltip fc-year__show-week-btn" data-toggle="popover" data-date="${date}" data-content="${app.vtranslate('JS_WEEK')} ${actualWeek}" role="tooltip" data-js="click | popover">${actualWeek}</div>`);
 		});
 		this.getCalendarView().find(".js-show-week").on('click', (e) => {
 			let date = moment($(e.currentTarget).data('date')).format(CONFIG.dateFormat.toUpperCase());
@@ -174,6 +175,7 @@ var YearView = View.extend({
 				}), events);
 			});
 			self.appendWeekButton();
+			app.showPopoverElementView();
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
 	},

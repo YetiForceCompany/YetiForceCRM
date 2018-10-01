@@ -173,7 +173,7 @@ var App = {},
 			clone.remove();
 			return false;
 		},
-		showPopoverElementView: function (selectElement, params = {}) {
+		showPopoverElementView: function (selectElement = $('.js-popover-tooltip'), params = {}) {
 			let defaultParams = {
 				trigger: 'manual',
 				placement: 'auto',
