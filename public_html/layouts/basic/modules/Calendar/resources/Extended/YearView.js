@@ -134,9 +134,14 @@ var YearView = View.extend({
 							element.append(`<span class="${event.icon} mr-1"></span>${event.title}`);
 							return element;
 						}
-						element = `<div class="js-show-day cell-calendar u-cursor-pointer d-flex" data-date="${event.date}" data-js="click">
-							<a class="fc-year__show-day-btn mx-auto" href="#" data-date="${event.date}">
-								<span class="far fa-calendar-check"></span>
+						event.countShow ='+99';
+						if (event.count < 100) {
+							event.countShow = event.count;
+						}
+						element = `<div class="js-show-day cell-calendar u-cursor-pointer d-flex badge" data-date="${event.date}" data-js="click">
+							<a class="fc-year__show-day-btn mx-auto" href="#" data-date="${event.date}" title="${event.count}">
+								<span class="far fa-calendar-check"></span><br>
+								${event.countShow}
 							</a>
 						</div>`;
 						return element;

@@ -380,6 +380,11 @@ class Calendar_Calendar_Model extends App\Base
 					$date = date('Y-m-d', $date);
 					$return[$date]['start'] = $date;
 					$return[$date]['date'] = $date;
+					if (isset($return[$date]['count'])) {
+						$return[$date]['count'] += 1;
+					} else {
+						$return[$date]['count'] = 1;
+					}
 				}
 			}
 		}
