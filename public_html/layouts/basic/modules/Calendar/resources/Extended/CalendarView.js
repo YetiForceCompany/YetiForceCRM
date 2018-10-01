@@ -674,7 +674,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		for (let day = 0; day < daysToShow; ++day) {
 			let active = '';
 			if (app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all') {
-				if (prevDays.day() === 0 || prevDays.day() === 6) {
+				if ($.inArray(prevDays.day(), app.getMainParams('hiddenDays', true)) !== -1) {
 					prevDays = moment(prevDays).add(1, 'days');
 					daysToShow++;
 					continue;
