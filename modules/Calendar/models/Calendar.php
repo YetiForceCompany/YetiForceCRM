@@ -384,7 +384,6 @@ class Calendar_Calendar_Model extends App\Base
 				$date = strtotime($dt->format('Y-m-d'));
 				if ($date >= $startDate && $date <= $endDate) {
 					$date = date('Y-m-d', $date);
-					$return[$date]['start'] = $date;
 					$return[$date]['date'] = $date;
 					if (isset($return[$date]['count'])) {
 						$return[$date]['count'] += 1;
