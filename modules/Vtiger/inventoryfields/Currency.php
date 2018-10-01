@@ -3,9 +3,11 @@
 /**
  * Inventory Currency Field Class.
  *
+ * @package   InventoryField
+ *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 {
@@ -23,11 +25,15 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	];
 
 	/**
-	 * Getting value to display.
-	 *
-	 * @param int $value
-	 *
-	 * @return string
+	 * {@inheritdoc}
+	 */
+	public function getEditTemplateName()
+	{
+		return 'inventoryTypes/Currency.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $rawText = false)
 	{

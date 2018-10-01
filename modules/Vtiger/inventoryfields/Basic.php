@@ -3,6 +3,8 @@
 /**
  * Inventory Basic Field Class.
  *
+ * @package   InventoryField
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -86,6 +88,18 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function getRangeValues()
 	{
 		return $this->maximumLength;
+	}
+
+	/**
+	 * Get template name for edit.
+	 *
+	 * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+	 *
+	 * @return string
+	 */
+	public function getEditTemplateName()
+	{
+		return 'inventoryTypes/Base.tpl';
 	}
 
 	/**

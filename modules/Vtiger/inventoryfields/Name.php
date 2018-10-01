@@ -3,6 +3,8 @@
 /**
  * Inventory Name Field Class.
  *
+ * @package   InventoryField
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -18,11 +20,15 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	protected $maximumLength = '-2147483648,2147483647';
 
 	/**
-	 * Getting value to display.
-	 *
-	 * @param type $value
-	 *
-	 * @return type
+	 * {@inheritdoc}
+	 */
+	public function getEditTemplateName()
+	{
+		return 'inventoryTypes/Name.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $rawText = false)
 	{
