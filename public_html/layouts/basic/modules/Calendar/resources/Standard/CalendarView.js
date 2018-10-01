@@ -277,6 +277,7 @@ jQuery.Class("Calendar_Calendar_Js", {
 			AppConnector.request(params).done(function (events) {
 				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
 				progressInstance.progressIndicator({mode: 'hide'});
+				thisInstance.registerSelect2Event();
 			});
 		} else {
 			thisInstance.getCalendarView().fullCalendar('removeEvents');

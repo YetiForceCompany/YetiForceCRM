@@ -43,11 +43,4 @@
 			</p>
 		</div>
 	{/if}
-	{if !empty($ACTIVITY_TYPE) || !empty($ALL_ACTIVEGROUP_LIST) || !empty($ALL_ACTIVEUSER_LIST)}
-		<script type="text/javascript">
-			jQuery(document).ready(function () {
-				Calendar_Calendar_Js.currentInstance.registerSelect2Event();
-			});
-		</script>
-	{/if}
 {/strip}
