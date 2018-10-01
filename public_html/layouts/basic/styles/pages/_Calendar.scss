@@ -567,18 +567,20 @@ $sitebar-border: 1px solid #ccc;
 			}
 		}
 
-		&__show-week-btn {
-			position: absolute;
-			color: material-color('blue', '200');
-			font-size: calculate-rem(13px);
-			z-index: 148;
-			cursor: pointer;
-			line-height: 1.3;
-		}
-
 		&__show-day-btn,
 		&__show-week-btn {
 			color: material-color('blue', '200');
+		}
+
+		&__show-day-btn {
+			position: relative;
+			bottom: calculate-rem(1px);
+			height: 0;
+			color: material-color('blue', '100');
+
+			&__text {
+				font-size: calculate-rem(17px);
+			}
 		}
 
 		&__show-week-btn {
@@ -660,7 +662,7 @@ $sitebar-border: 1px solid #ccc;
 		.tpl-Calendar-Extended-ActivityState .formActionsPanel {
 			min-height: unset !important;
 		}
-		
+
 		.hideSiteBar .qcForm .formActionsPanel {
 			right: -25%;
 		}
