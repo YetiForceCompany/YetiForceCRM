@@ -301,6 +301,12 @@ var App = {},
 					}, this))
 			};
 			const modalContainer = container.find('.modal:first');
+			let backdrop = $('.modal-backdrop');
+			modalContainer.one('show.bs.modal', function () {
+				if (backdrop.length) {
+					backdrop.remove();
+				}
+			});
 			modalContainer.one('shown.bs.modal', function () {
 				cb(modalContainer);
 				App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'));
