@@ -3,9 +3,9 @@
 	<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 		<div class="d-inline-flex">
-			{if \App\Privilege::isPermitted('Accounts', 'CreateView')}
+			{if \App\Privilege::isPermitted($MODULE_NAME, 'CreateView')}
 				<button class="btn btn-sm btn-light js-widget-quick-create" data-js="click" type="button"
-						data-module-name="Accounts">
+						data-module-name="{$MODULE_NAME}">
 					<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 				</button>
 			{/if}

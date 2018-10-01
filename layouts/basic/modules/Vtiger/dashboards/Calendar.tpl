@@ -8,9 +8,9 @@
 			<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 				{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 				<div class="d-inline-flex">
-					{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
+					{if \App\Privilege::isPermitted($SOURCE_MODULE, 'CreateView')}
 						<button class="btn btn-sm btn-light js-widget-quick-create" data-js="click" type="button"
-								data-module-name="Calendar"
+								data-module-name="{$SOURCE_MODULE}"
 							<span class='fas fa-plus' title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 						</button>
 					{/if}
