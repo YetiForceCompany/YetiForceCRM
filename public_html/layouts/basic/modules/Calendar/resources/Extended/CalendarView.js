@@ -280,6 +280,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		if (event.vis !== '') {
 			valueEventVis = app.vtranslate('JS_' + event.vis);
 		}
+		$(document).find('.calendarPopover.show').hide();
 		app.showPopoverElementView(element.find('.fc-content'), {
 			title: event.title + '<a href="javascript:void(0);" class="float-right mx-1 js-edit-element" data-js="click"><span class="fas fa-edit float-right"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
 			container: 'body',
