@@ -13,8 +13,8 @@
     "FL_ACCOUNT": "Organisation",
     "FL_TOTAL": "Gesamt",
     "FL_GROSS": "Brutto",
-    "PLL_CASH": "Cash",
-    "PLL_TRANSFER": "Bank transfer",
-    "PLL_WIRE_TRANSFER": "Electronic transfer"
+    "PLL_CASH": "Bar",
+    "PLL_TRANSFER": "Banktransfer",
+    "PLL_WIRE_TRANSFER": "Electronischer Transfer"
   }
 }
