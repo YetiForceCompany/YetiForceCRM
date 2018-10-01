@@ -10,10 +10,11 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Base-Edit-Field-Boolean -->
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
-	<div class="tpl-Base-Edit-Field-Boolean checkbox">
+	<div class="checkbox">
 		<label class="d-flex m-0">
 			{if $FIELD_MODEL->isEditableReadOnly()}
 				<input type="hidden" name="{$FIELD_MODEL->getFieldName()}"
@@ -31,4 +32,5 @@
 					{if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}/>
 		</label>
 	</div>
+	<!-- /tpl-Base-Edit-Field-Boolean -->
 {/strip}
