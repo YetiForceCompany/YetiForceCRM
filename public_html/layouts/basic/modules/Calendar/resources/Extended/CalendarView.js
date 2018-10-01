@@ -199,7 +199,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		this.createAddSwitch();
 	},
 	addHeaderButtons() {
-		if (this.calendar.find('.js-calendar__view-btn').length) {
+		if (this.calendarContainer.find('.js-calendar__view-btn').length) {
 			return;
 		}
 		let buttonsContainer = this.calendarContainer.prev('.js-calendar__header-buttons'),
