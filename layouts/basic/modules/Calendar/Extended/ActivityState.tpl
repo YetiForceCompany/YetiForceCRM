@@ -3,12 +3,10 @@
 	<div class="tpl-Calendar-Extended-ActivityState js-activity-state modalEditStatus"
 		 data-js="container" tabindex="-1">
 		{assign var=ID value=$RECORD->getId()}
-		<div>
-			<div class="clearfix">
+		<div class="o-calendar__form w-100 d-flex flex-column">
 				<h6 class="boxEventTitle text-muted text-center my-1">
 					{\App\Language::translate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}
 				</h6>
-			</div>
 			<div class="d-flex justify-content-center flex-wrap mb-2">
 				{if $RECORD->isEditable()}
 					{assign var=ACTIVITY_STATE_LABEL value=Calendar_Module_Model::getComponentActivityStateLabel()}

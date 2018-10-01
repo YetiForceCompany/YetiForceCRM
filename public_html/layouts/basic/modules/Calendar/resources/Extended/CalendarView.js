@@ -218,6 +218,9 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			let sideBar = thisInstance.getSidebarView();
 			sideBar.find('.js-qcForm').html(data);
 			thisInstance.showRightPanelForm();
+			app.showNewScrollbar(sideBar.find('.js-calendar__form__wrapper'), {
+				suppressScrollX: true
+			});
 			sideBar.find('.js-activity-state .summaryCloseEdit').on('click', function () {
 				thisInstance.getCalendarCreateView();
 			});
@@ -521,6 +524,9 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 					height: '5em',
 					toolbar: 'Min'
 				});
+			});
+			app.showNewScrollbar(sideBar.find('.js-calendar__form__wrapper'), {
+				suppressScrollX: true
 			});
 			aDeferred.resolve(sideBar.find('.js-qcForm'));
 		}).fail((error) => {

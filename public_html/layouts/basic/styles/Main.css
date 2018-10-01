@@ -16361,54 +16361,45 @@ label.btn.btn-outline-primary:not(.active) {
 @media screen and (min-width: 992px) {
   .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel,
   .tpl-Calendar-Extended-QuickCreate .formActionsPanel {
-    bottom: 49px;
-    width: calc(25% - 10px);
+    margin-top: auto;
     text-align: center;
     border-top: 1px solid #ddd;
-    right: 0px;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -ms-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
-    position: fixed;
-    bottom: 1.9375rem;
-    background: #f8f9fa;
+    width: 100%;
     text-align: center;
     border-top: 1px solid #ddd;
     z-index: 5;
-    margin: 0 5px 5px; }
+    padding: 0 0.3125rem 0.3125rem; }
     .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .btn-group,
     .tpl-Calendar-Extended-QuickCreate .formActionsPanel .btn-group {
       margin-right: 3px; }
     .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel .saveAndComplete,
     .tpl-Calendar-Extended-QuickCreate .formActionsPanel .saveAndComplete {
       margin-right: 6px; }
-    .c-menu--open .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel, .tpl-Calendar-Extended-QuickCreate .formActionsPanel {
-      width: calc(25% - 60px); }
-    .tpl-Calendar-Extended-QuickCreate .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel, .tpl-Calendar-Extended-QuickCreate .formActionsPanel {
-      position: static !important;
-      width: 100%;
-      background: transparent; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .qcForm .formActionsPanel,
   .tpl-Calendar-Extended-QuickCreate .hideSiteBar .qcForm .formActionsPanel {
     right: -25%; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form,
+  .tpl-Calendar-Extended-QuickCreate .o-calendar__form {
+    height: calc(100vh - 1.9375rem - 3.125rem); }
+    .tpl-Calendar-Extended-QuickCreate .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form, .tpl-Calendar-Extended-QuickCreate .o-calendar__form {
+      /*computed height: footer, userinfo, header filter buttons, padding */
+      height: auto; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper,
   .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
-    /*computed height: footer, userinfo, header filter buttons, padding */
-    height: calc(100vh - 1.9375rem - 17px - 90px - 34px - 10px - 20px);
     position: relative; }
     .tpl-Calendar-Extended-QuickCreate .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper, .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
+      /*computed height: footer, userinfo, header filter buttons, padding */
       height: calc(100vh - 1.9375rem - 17px - 90px - 34px - 10px - 20px - 30px);
       overflow-y: auto;
       overflow-x: hidden; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel[min-height~="80px"] button,
-  .tpl-Calendar-Extended-QuickCreate .formActionsPanel[min-height~="80px"] button {
-    margin-bottom: 0.25rem; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .formsContainer,
-  .tpl-Calendar-Extended-QuickCreate .formsContainer {
-    /*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
-    height: calc(100vh - 35px - 17px - 50px - 34px - 6px); }
+    .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form__wrapper .ps__rail-y,
+    .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper .ps__rail-y {
+      z-index: 100; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__panel__tabs,
   .tpl-Calendar-Extended-QuickCreate .o-calendar__panel__tabs {
     display: flex;
@@ -16463,6 +16454,13 @@ label.btn.btn-outline-primary:not(.active) {
         background: transparent;
         color: #6c757d !important;
         border-right: 0; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel[min-height~="70px"] button,
+  .tpl-Calendar-Extended-QuickCreate .formActionsPanel[min-height~="70px"] button {
+    margin-bottom: 0.25rem; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .formsContainer,
+  .tpl-Calendar-Extended-QuickCreate .formsContainer {
+    /*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
+    height: calc(100vh - 35px - 17px - 50px - 34px - 6px); }
   .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .o-calendar__panel__tabs,
   .tpl-Calendar-Extended-QuickCreate .hideSiteBar .o-calendar__panel__tabs {
     right: 0; } }

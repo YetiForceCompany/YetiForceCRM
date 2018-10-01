@@ -4,7 +4,7 @@
 	{assign var=START_TIME value=$RECORD->get('time_start')}
 	{assign var=END_DATE value=$RECORD->get('due_date')}
 	{assign var=END_TIME value=$RECORD->get('time_end')}
-	<div class="form-horizontal modalSummaryValues">
+	<div class="o-calendar__form__wrapper js-calendar__form__wrapper form-horizontal modalSummaryValues" data-js="perfectscrollbar">
 		<div class="form-group row">
 			<label class="col-4 u-font-weight-500">
 				{\App\Language::translate('Subject',$MODULE_NAME)}:

@@ -24,7 +24,7 @@
 		<input name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" type="hidden"/>
 		<input name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" type="hidden"/>
 		<input name="userChangedEndDateTime" value="0" type="hidden"/>
-		<div class=" w-100 d-flex flex-column">
+		<div class="o-calendar__form w-100 d-flex flex-column">
 			<h6 class="boxEventTitle text-muted text-center mt-1">
 				{if !empty($RECORD_ID)}
 					<span class="fas fa-edit mr-1"></span>
@@ -34,8 +34,8 @@
 					{\App\Language::translate('LBL_ADD',$MODULE_NAME)}
 				{/if}
 			</h6>
-			<div class="o-calendar__form__wrapper js-calendar__form__wrapper massEditTable no-margin">
-				<div class="fieldRow mt-2">
+			<div class="o-calendar__form__wrapper js-calendar__form__wrapper massEditTable no-margin" data-js="perfectscrollbar">
+				<div class="fieldRow my-2">
 					{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 						{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 						{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
@@ -44,16 +44,16 @@
 							<div class="col-12">
 								{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 								{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-								<label class="muted pull-left-xs pull-left-sm pull-left-lg">
+								<label class="muted">
 									{if $FIELD_MODEL->isMandatory() eq true}
 										<span class="redColor">*</span>
 									{/if}
 									{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-										<a href="#" class="HelpInfoPopover pull-right"
+										<a href="#" class="HelpInfoPopover"
 										   title="" data-placement="auto top"
 										   data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}"
 										   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'>
-											<span class="glyphicon glyphicon-info-sign"></span>
+											<span class="fas fa-info-circle"></span>
 										</a>
 									{/if}
 									{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
@@ -66,32 +66,32 @@
 					{/foreach}
 				</div>
 			</div>
-		</div>
-		{if !empty($SOURCE_RELATED_FIELD)}
-			{foreach key=RELATED_FIELD_NAME item=RELATED_FIELD_MODEL from=$SOURCE_RELATED_FIELD}
-				<input type="hidden" name="{$RELATED_FIELD_NAME}"
-					   value="{\App\Purifier::encodeHtml($RELATED_FIELD_MODEL->get('fieldvalue'))}"
-					   data-fieldtype="{$RELATED_FIELD_MODEL->getFieldDataType()}"/>
-			{/foreach}
-		{/if}
-		<div class="formActionsPanel mb-1 d-flex justify-content-center flex-wrap">
-			{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
-				{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-					{if $LINK->get('linkhint') neq 'LBL_GO_TO_FULL_FORM'}
-						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='quickcreateViewHeader' CLASS="mt-1"}
-					{/if}
+			{if !empty($SOURCE_RELATED_FIELD)}
+				{foreach key=RELATED_FIELD_NAME item=RELATED_FIELD_MODEL from=$SOURCE_RELATED_FIELD}
+					<input type="hidden" name="{$RELATED_FIELD_NAME}"
+						   value="{\App\Purifier::encodeHtml($RELATED_FIELD_MODEL->get('fieldvalue'))}"
+						   data-fieldtype="{$RELATED_FIELD_MODEL->getFieldDataType()}"/>
 				{/foreach}
 			{/if}
-			<button type="submit" class="js-save-event btn btn-success mt-1"
-					title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" data-js="click">
-				{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
-			</button>
-			{if !empty($RECORD_ID)}
-				<a href="#" role="button" class="btn btn-danger summaryCloseEdit mt-1 ml-auto">
+			<div class="formActionsPanel d-flex justify-content-center flex-wrap pt-1">
+				{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
+					{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
+						{if $LINK->get('linkhint') neq 'LBL_GO_TO_FULL_FORM'}
+							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='quickcreateViewHeader'}
+						{/if}
+					{/foreach}
+				{/if}
+				<button type="submit" class="js-save-event btn btn-success"
+						title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" data-js="click">
+					{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
+				</button>
+				{if !empty($RECORD_ID)}
+					<a href="#" role="button" class="btn btn-danger summaryCloseEdit ml-auto">
 							<span title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"
 								  class="fas fa-times"></span>
-				</a>
-			{/if}
+					</a>
+				{/if}
+			</div>
 		</div>
 	</form>
 	<!-- /tpl-Calendar-Extended-EventForm -->
