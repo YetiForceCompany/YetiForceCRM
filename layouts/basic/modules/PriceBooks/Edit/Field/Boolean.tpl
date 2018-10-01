@@ -10,10 +10,11 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-PriceBooks-Edit-Field-Boolean -->
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
-	<div class="tpl-PriceBooks-Edit-Field-Boolean checkbox">
+	<div class="checkbox">
 		<label>
 			<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="{if !empty($IS_RELATION)}1{else}0{/if}"/>
 			<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="checkbox"
@@ -27,4 +28,5 @@
 			/>
 		</label>
 	</div>
+	<!-- /tpl-PriceBooks-Edit-Field-Boolean -->
 {/strip}
