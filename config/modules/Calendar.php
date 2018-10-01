@@ -45,6 +45,6 @@ return [
 	'CRON_MAX_NUMBERS_ACTIVITY_STATS' => 5000,
 	// Show number of current records in record preview for related modules
 	'SHOW_ONLY_CURRENT_RECORDS_COUNT' => false,
-	//Calendar view - allowed values: Extended, ''
+	//Calendar view - allowed values: Extended, Standard
 	'CALENDAR_VIEW' => 'Extended'
 ];
