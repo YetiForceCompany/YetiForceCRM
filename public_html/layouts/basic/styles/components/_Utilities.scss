@@ -43,8 +43,10 @@
 	font-size: calculate-rem(19px);
 }
 
-.u-font-weight-500 {
-	font-weight: 500 !important;
+@for $i from 1 through 9 {
+	.u-font-weight-#{$i*100} {
+		font-weight: #{$i*100} !important;
+	}
 }
 
 .u-text-ellipsis {

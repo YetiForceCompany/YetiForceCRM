@@ -11878,8 +11878,32 @@ ul.tweets li {
 .u-font-size-19px {
   font-size: 1.1875rem; }
 
+.u-font-weight-100 {
+  font-weight: 100 !important; }
+
+.u-font-weight-200 {
+  font-weight: 200 !important; }
+
+.u-font-weight-300 {
+  font-weight: 300 !important; }
+
+.u-font-weight-400 {
+  font-weight: 400 !important; }
+
 .u-font-weight-500 {
   font-weight: 500 !important; }
+
+.u-font-weight-600 {
+  font-weight: 600 !important; }
+
+.u-font-weight-700 {
+  font-weight: 700 !important; }
+
+.u-font-weight-800 {
+  font-weight: 800 !important; }
+
+.u-font-weight-900 {
+  font-weight: 900 !important; }
 
 .u-text-ellipsis, ul.ui-autocomplete div.ui-menu-item-wrapper {
   overflow: hidden;
@@ -16306,18 +16330,19 @@ label.btn.btn-outline-primary:not(.active) {
   padding: 0.125rem 0 !important;
   font-size: 0.75rem;
   background: #f3f3f3; }
-.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-week-btn,
-.tpl-Calendar-Extended-QuickCreate .fc-year__show-week-btn {
-  position: absolute;
-  color: #90caf9;
-  font-size: 0.8125rem;
-  z-index: 148;
-  cursor: pointer;
-  line-height: 1.3; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-day-btn, .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-week-btn,
 .tpl-Calendar-Extended-QuickCreate .fc-year__show-day-btn,
 .tpl-Calendar-Extended-QuickCreate .fc-year__show-week-btn {
   color: #90caf9; }
+.tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-day-btn,
+.tpl-Calendar-Extended-QuickCreate .fc-year__show-day-btn {
+  position: relative;
+  bottom: 0.0625rem;
+  height: 0;
+  color: #bbdefb; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-day-btn__text,
+  .tpl-Calendar-Extended-QuickCreate .fc-year__show-day-btn__text {
+    font-size: 1.0625rem; }
 .tpl-Calendar-Extended-CalendarViewPreProcess .fc-year__show-week-btn,
 .tpl-Calendar-Extended-QuickCreate .fc-year__show-week-btn {
   position: absolute;
