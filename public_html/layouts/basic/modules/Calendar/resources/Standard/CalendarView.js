@@ -363,7 +363,6 @@ jQuery.Class("Calendar_Calendar_Js", {
 					thisInstance.addCalendarEvent(data.result);
 				}
 			});
-			jQuery('.modal-body').css({'max-height': app.getScreenHeight(70) + 'px', 'overflow-y': 'auto'});
 		});
 	},
 	addCalendarEvent: function (calendarDetails) {
