@@ -272,6 +272,9 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		}
 	},
 	eventRender: function (event, element) {
+		if (event.id === undefined) {
+			return;
+		}
 		const self = this;
 		let valueEventVis = '';
 		if (event.vis !== '') {
