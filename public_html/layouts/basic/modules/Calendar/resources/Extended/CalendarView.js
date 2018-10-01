@@ -227,8 +227,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		});
 	},
 	createAddSwitch() {
-		const calendarview = this.getCalendarView(),
-			thisInstance = this;
+		const calendarview = this.getCalendarView();
 		if ($('.js-calendar-switch-container').length) {
 			return;
 		}
@@ -262,11 +261,12 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 						app.moduleCacheSet('defaultSwitchingDays', 'all');
 					}
 					calendarview.fullCalendar('option', 'hiddenDays', hiddenDays);
-					thisInstance.subDateRow = false;
-					if (thisInstance.getCalendarView().fullCalendar('getView').type !== 'year') {
+					this.subDateRow = false;
+					if (calendarview.fullCalendar('getView').type !== 'year') {
 						this.loadCalendarData();
+						calendarview.fullCalendar('option', 'height', app.setCalendarHeight());
 					} else {
-						thisInstance.registerViewRenderEvents(thisInstance.getCalendarView().fullCalendar('getView'), false);
+						this.registerViewRenderEvents(calendarview.fullCalendar('getView'), false);
 					}
 				});
 		}
