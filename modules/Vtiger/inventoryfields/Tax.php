@@ -55,13 +55,11 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		$value = $request->getByType($column . $i, 'NumberInUserFormat');
 		$this->validate($value, $column, true);
 		$insertData[$column] = $value;
-		$value = \App\Json::encode($request->getArray('taxparam' . $i));
-		$currencySeparator = \App\User::getUserModel(\App\User::getCurrentUserId())->getDetail('currency_decimal_separator');
-		$individualTax = $request->getArray('taxparam' . $i)['individualTax'];
-		if (strstr($individualTax, $currencySeparator)) {
-			$parseSeparator = str_replace($currencySeparator, '.', $individualTax);
-			$value = str_replace($individualTax, $parseSeparator, $value);
+		$taxparam = $request->getArray('taxparam' . $i);
+		if (isset($taxparam['individualTax'])) {
+			$taxparam['individualTax'] = \App\Purifier::purifyByType($taxparam['individualTax'], 'NumberInUserFormat');
 		}
+		$value = \App\Json::encode($taxparam);
 		$this->validate($value, 'taxparam', true);
 		$insertData['taxparam'] = $value;
 	}

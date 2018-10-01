@@ -56,7 +56,7 @@
 						{/if}
 						<tr>
 							<td class="textAlignRight" width='70px'>
-								{$KEY}%
+								{CurrencyField::convertToUserFormat($KEY)}%
 							</td>
 							<td class="textAlignRight">
 								{CurrencyField::convertToUserFormatSymbol($TAX,false,$CURRENCY_SYMBOLAND['symbol'])}
@@ -91,7 +91,7 @@
 							{assign var="CURRENY_AMOUNT" value=$CURRENY_AMOUNT + $TAX}
 							<tr>
 								<td class="textAlignRight" width='70px'>
-									{$KEY}%
+									{CurrencyField::convertToUserFormat($KEY)}%
 								</td>
 								<td class="textAlignRight">
 									{CurrencyField::convertToUserFormatSymbol($TAX * $RATE,false,$BASE_CURRENCY['currency_symbol'],true)}
