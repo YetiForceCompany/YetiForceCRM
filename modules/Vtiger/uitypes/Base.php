@@ -46,6 +46,9 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
+		if (10 === $this->getFieldModel()->getDisplayType()) {
+			return;
+		}
 		$fieldName = $this->getFieldModel()->getFieldName();
 		if (!$requestFieldName) {
 			$requestFieldName = $fieldName;
