@@ -13,10 +13,11 @@
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
-	<div class="tpl-Edit-Field-Boolean checkbox">
+	<div class="tpl-PriceBooks-Edit-Field-Boolean checkbox">
 		<label>
 			<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="{if !empty($IS_RELATION)}1{else}0{/if}"/>
 			<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="checkbox"
+				   {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly" disabled="disabled" {/if}
 				   title="{if !empty($IS_RELATION)}1{else}0{/if}" name="{$FIELD_MODEL->getFieldName()}"
 				   data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 				   data-fieldinfo='{$FIELD_INFO}'
