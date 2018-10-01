@@ -134,7 +134,7 @@ var YearView = View.extend({
 							element.append(`<span class="${event.icon} mr-1"></span>${event.title}`);
 							return element;
 						}
-						event.countShow ='+99';
+						event.countShow ='99+';
 						if (event.count < 100) {
 							event.countShow = event.count;
 						}
