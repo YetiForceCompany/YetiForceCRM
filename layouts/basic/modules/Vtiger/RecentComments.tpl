@@ -12,7 +12,7 @@
 {strip}
 	{assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 	{* Change to this also refer: AddCommentForm.tpl *}
-	<div class="tpl-Base-RecentComments js-commentContainer commentContainer recentComments" data-js="container">
+	<div class="tpl-Base-RecentComments js-comments-container commentContainer recentComments" data-js="container">
 		<div class="commentTitle">
 			{if !$IS_READ_ONLY && $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 				<div class="js-add-comment-block addCommentBlock" data-js="container|remove">
@@ -28,7 +28,7 @@
 								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
 								  data-js="val"></textarea>
 						<div class="input-group-append">
-							<button class="btn btn-success detailViewSaveComment" type="button" data-mode="add">
+							<button class="btn btn-success js-detail-view-save-comment" type="button" data-mode="add">
 								<span class="fa fa-plus"></span>
 							</button>
 						</div>
@@ -39,12 +39,12 @@
 		<div class="col-md-12 form-row commentsHeader my-3 mx-0 px-0">
 			<div class="col-9 col-lg-5 col-md-12 col-sm-6 p-0">
 				<div class="input-group-append bg-white rounded-right">
-					<input type="text" class="js-commentSearch form-control commentSearch"
+					<input type="text" class="js-comment-search form-control"
 						   placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
 						   aria-describedby="commentSearchAddon"
 						   data-container="widget"
 						   data-js="keypress|data">
-					<button class="btn btn-outline-dark border-0 h-100 js-searchIcon searchIcon" type="button"
+					<button class="btn btn-outline-dark border-0 h-100 js-search-icon searchIcon" type="button"
 							data-js="click">
 						<span class="fas fa-search fa-fw" title="{\App\Language::translate('LBL_SEARCH')}"></span>
 					</button>
@@ -100,11 +100,12 @@
 								<span class="input-group-text"><span class="fas fa-comments"></span></span>
 							</span>
 							<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"
-									  class="form-control commentcontenthidden fullWidthAlways" name="commentcontent"
+									  class="form-control commentcontenthidden fullWidthAlways js-comment-content"
+									  name="commentcontent"
 									  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
 									  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 						</div>
-						<button class="u-cursor-pointer closeCommentBlock mt-3 btn btn-warning float-right cancel"
+						<button class="u-cursor-pointer js-close-comment-block mt-3 btn btn-warning float-right cancel"
 								type="reset">
 							<span class="visible-xs-inline-block fas fa-times"></span>
 							<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
@@ -125,7 +126,7 @@
 						<input type="text" name="reasonToEdit"
 							   title="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
 							   placeholder="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
-							   class="js-reasonToEdit input-block-level form-control"
+							   class="js-reason-to-edit input-block-level form-control"
 							   data-js="value"
 						>
 					</div>
@@ -137,11 +138,12 @@
 								<span class="input-group-text"><span class="fas fa-comments"></span></span>
 							</span>
 							<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"
-									  class="form-control commentcontenthidden fullWidthAlways" name="commentcontent"
+									  class="form-control commentcontenthidden fullWidthAlways js-comment-content"
+									  name="commentcontent"
 									  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
 									  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 						</div>
-						<button class="u-cursor-pointer closeCommentBlock mt-3 btn btn-warning float-right cancel"
+						<button class="u-cursor-pointer js-close-comment-block mt-3 btn btn-warning float-right cancel"
 								type="reset">
 							<span class="visible-xs-inline-block fas fa-times"></span>
 							<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>

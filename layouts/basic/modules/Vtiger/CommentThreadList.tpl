@@ -61,7 +61,7 @@
 						<p>
 							<small>
 								[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] :
-								<span name="editReason" class="js-editReasonSpan u-text-ellipsis ml-1" data-js="text">
+								<span name="editReason" class="js-edit-reason-span u-text-ellipsis ml-1" data-js="text">
 									{nl2br($REASON_TO_EDIT)}
 								</span>
 							</small>
@@ -83,13 +83,13 @@
 					<span class="float-right commentActions">
 				{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-							<button type="button" class="btn btn-sm btn-success js-replyComment"
+							<button type="button" class="btn btn-sm btn-success js-reply-comment"
 									title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}" data-js="click">
 						<span class="fas fa-share"></span>
 					</button>
 						{/if}
 						{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-							<button type="button" class="btn btn-sm btn-primary js-edit-comment feedback marginLeft5"
+							<button type="button" class="btn btn-sm btn-primary js-edit-comment feedback ml-1 mr-1"
 									title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}" data-js="click">
 						<span class="fas fa-edit"></span>
 					</button>

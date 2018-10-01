@@ -61,7 +61,7 @@
 					<p>
 						<small>
 							[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] :
-							<span name="editReason" class="js-editReasonSpan u-text-ellipsis ml-1" data-js="text">
+							<span name="editReason" class="js-edit-reason-span u-text-ellipsis ml-1" data-js="text">
 								{nl2br($REASON_TO_EDIT)}
 							</span>
 						</small>
@@ -85,13 +85,13 @@
 						{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 					{/if}
 					{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-						<button type="button" class="btn btn-sm btn-success js-replyComment"
+						<button type="button" class="btn btn-sm btn-success js-reply-comment"
 								title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}" data-js="click">
 							<span class="fas fa-share"></span>
 						</button>
 					{/if}
 					{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-						<button type="button" class="btn btn-sm btn-primary js-edit-comment feedback ml-1"
+						<button type="button" class="btn btn-sm btn-primary js-edit-comment feedback ml-1 mr-1"
 								data-js="click" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}">
 							<span class="fas fa-edit"></span>
 						</button>
@@ -142,10 +142,10 @@
 								</a>
 							</span>
 					{/if}
-					{if empty($SHOW_CHILD_COMMENTS) && !empty($COMMENT->get('parents'))}
-						<span class="viewParentThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
+					{if !empty($BUTTON_SHOW_PARENT) && !empty($COMMENT->get('parents'))}
+						<span class="view-parent-thread-block">
 								<button type="button"
-										class="btn btn-sm btn-secondary js-viewParentThread viewParentThread ml-1"
+										class="btn btn-sm btn-secondary js-view-parent-thread ml-1"
 										data-js="click" title="{\App\Language::translate('LBL_THREAD',$MODULE_NAME)}">
 									<span class="fas fa-share"></span>
 								</button>

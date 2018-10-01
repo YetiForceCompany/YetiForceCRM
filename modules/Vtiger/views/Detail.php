@@ -656,6 +656,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$viewer->assign('MODULE', $moduleName);
 			if ($isWidget === false) {
 				$viewer->assign('SHOW_CHILD_COMMENTS', true);
+			} else {
+				$viewer->assign('BUTTON_SHOW_PARENT', true);
 			}
 			return $viewer->view('CommentsList.tpl', $moduleName, true);
 		} else {

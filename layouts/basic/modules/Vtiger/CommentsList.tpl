@@ -39,11 +39,11 @@
 								<span class="input-group-text"><span class="fas fa-comments"></span></span>
 							</span>
 						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"
-								  class="form-control commentcontenthidden fullWidthAlways" name="commentcontent"
+								  class="form-control commentcontenthidden fullWidthAlways js-comment-content" name="commentcontent"
 								  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
 								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 					</div>
-					<button class="u-cursor-pointer closeCommentBlock mt-3 btn btn-warning float-right cancel"
+					<button class="u-cursor-pointer js-close-comment-block mt-3 btn btn-warning float-right cancel"
 							type="reset">
 						<span class="visible-xs-inline-block fas fa-times"></span>
 						<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
@@ -64,7 +64,7 @@
 					<input type="text" name="reasonToEdit"
 						   title="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
 						   placeholder="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
-						   class="js-reasonToEdit input-block-level form-control"
+						   class="js-reason-to-edit input-block-level form-control"
 						   data-js="value"
 					>
 				</div>
@@ -76,11 +76,11 @@
 								<span class="input-group-text"><span class="fas fa-comments"></span></span>
 							</span>
 						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"
-								  class="form-control commentcontenthidden fullWidthAlways" name="commentcontent"
+								  class="form-control commentcontenthidden fullWidthAlways js-comment-content" name="commentcontent"
 								  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
 								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 					</div>
-					<button class="u-cursor-pointer closeCommentBlock mt-3 btn btn-warning float-right cancel"
+					<button class="u-cursor-pointer js-close-comment-block mt-3 btn btn-warning float-right cancel"
 							type="reset">
 						<span class="visible-xs-inline-block fas fa-times"></span>
 						<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
