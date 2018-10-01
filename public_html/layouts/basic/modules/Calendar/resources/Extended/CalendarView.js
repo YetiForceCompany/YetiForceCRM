@@ -809,6 +809,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		app.showNewScrollbar(calendarRightPanel.find('.js-calendar__form__wrapper'), {
 			suppressScrollX: true
 		});
+		app.showPopoverElementView(calendarRightPanel.find('.js-popover-tooltip'));
 	},
 	loadCalendarCreateView() {
 		let aDeferred = $.Deferred();

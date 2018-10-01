@@ -45,16 +45,15 @@
 								{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 								{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 								<label class="muted">
+									{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
+										<a href="#" class="js-popover-tooltip mr-1" data-toggle="popover"
+										   data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}"
+										   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}' role="button">
+											<span class="fas fa-info-circle small align-baseline"></span>
+										</a>
+									{/if}
 									{if $FIELD_MODEL->isMandatory() eq true}
 										<span class="redColor">*</span>
-									{/if}
-									{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-										<a href="#" class="HelpInfoPopover"
-										   title="" data-placement="auto top"
-										   data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}"
-										   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'>
-											<span class="fas fa-info-circle"></span>
-										</a>
 									{/if}
 									{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 								</label>
