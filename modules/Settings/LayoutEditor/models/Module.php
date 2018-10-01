@@ -466,9 +466,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function checkFieldNameIsAnException(string $fieldName, string $moduleName)
 	{
 		$exceptions = [
-			'id', 'inventoryItemsNo', 'seq', 'header_type', 'header_class',
+			'id', 'inventoryitemsno', 'seq', 'header_type', 'header_class',
 			'module', 'parent', 'action', 'mode', 'view', 'selected_ids',
-			'excluded_ids'
+			'excluded_ids', 'search_params', 'search_key', 'page', 'operator',
+			'source_module', 'viewname', 'sortorder', 'orderby'
 		];
 		$instance = Vtiger_InventoryField_Model::getInstance($moduleName);
 		foreach ($instance->getAllFields() as $field) {
@@ -480,9 +481,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$exceptions[] = $columnName;
 			}
 		}
-		array_walk($exceptions, function (&$val, $key) {
-			$val = strtolower($val);
-		});
 		return in_array($fieldName, $exceptions);
 	}
 

@@ -65,7 +65,7 @@
 						</div>
 						<div class="form-group row align-items-center">
 							<div class="col-md-3 col-form-label text-right">
-								<span class="redColor">*</span>&nbsp;
+								<span class="redColor">*</span>
 								{App\Language::translate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-8 controls">
@@ -117,7 +117,7 @@
 								{App\Language::translate('LBL_RELATION_VALUES', $QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-8 controls">
-								<select {if $FIELD_TYPE_INFO['Related1M']['ModuleListMultiple'] eq true}multiple{/if}
+								<select {if $FIELD_TYPE_INFO['Related1M']['ModuleListMultiple'] eq true}multiple="multiple" {/if}
 										class="referenceModule form-control" name="referenceModule">
 									{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
 										<option value="{$MODULE_NAME}">{App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
