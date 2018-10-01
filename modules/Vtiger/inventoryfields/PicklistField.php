@@ -3,9 +3,11 @@
 /**
  * Inventory Picklist from Field Class.
  *
+ * @package   InventoryField
+ *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 {
@@ -14,6 +16,14 @@ class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 	protected $columnName = 'picklistfield';
 	protected $dbType = 'string';
 	protected $onlyOne = false;
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEditTemplateName()
+	{
+		return 'inventoryTypes/PicklistField.tpl';
+	}
 
 	public function getParams()
 	{

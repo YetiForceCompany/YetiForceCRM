@@ -3,6 +3,8 @@
 /**
  * Inventory MarginP Field Class.
  *
+ * @package   InventoryField
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -20,11 +22,7 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	protected $maximumLength = '99999999999999999999';
 
 	/**
-	 * Getting value to display.
-	 *
-	 * @param type $value
-	 *
-	 * @return type
+	 * {@inheritdoc}
 	 */
 	public function getDisplayValue($value, $rawText = false)
 	{
