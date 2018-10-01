@@ -536,7 +536,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			self.validateHolidayDate(form).done(function (isHoliday) {
 				if (lockSave && isHoliday) {
 					e.preventDefault();
-					Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate("JS_DATES_SELECTED_HOLIDAYS")}).done(function () {
+					app.showConfirmModal(app.vtranslate("JS_DATES_SELECTED_HOLIDAYS"), function () {
 						lockSave = false;
 						form.submit();
 					});
