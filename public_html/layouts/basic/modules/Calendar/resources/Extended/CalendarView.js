@@ -369,7 +369,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			subDateListUnit = 'month';
 		} else if ('week' === dateListUnit) {
 			subDateListUnit = 'week';
-		} else if ('day' === dateListUnit || 'agendaDay' === dateListUnit) {
+		} else if ('basicDay' === dateListUnit || 'agendaDay' === dateListUnit) {
 			subDateListUnit = 'day';
 		}
 		if ('year' === subDateListUnit) {
