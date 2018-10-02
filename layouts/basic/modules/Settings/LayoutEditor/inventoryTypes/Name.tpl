@@ -8,7 +8,7 @@
 			{assign var='PARAMS' value=\App\Json::decode($FIELD_INSTANCE->get('params'))}
 			{foreach from=$FIELD_INSTANCE->getParams() item=ITEM key=KEY}
 				<div class="form-group row align-items-center">
-					<div class="col-md-4 col-form-label text-left">
+					<div class="col-md-4 col-form-label text-right">
 						{\App\Language::translate('LBL_PARAMS_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}:
 						{if $ITEM eq 'limit'}
 							{assign var="GROSS_PRICE" value=Vtiger_InventoryField_Model::getFieldInstance($MODULE, 'GrossPrice')}
