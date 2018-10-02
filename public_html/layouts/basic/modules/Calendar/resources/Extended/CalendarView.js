@@ -129,6 +129,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		this.calendar.fullCalendar('destroy');
 		this.calendar.fullCalendar(options);
 	},
+	registerChangeView: function () {
+	},
 	addHeaderButtons() {
 		if (this.calendarContainer.find('.js-calendar__view-btn').length) {
 			return;
@@ -833,7 +835,6 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	 * Register load calendar data
 	 */
 	registerLoadCalendarData() {
-		this.loadCalendarData();
 		this.registerFilterTabChange();
 	},
 	registerAddForm() {
