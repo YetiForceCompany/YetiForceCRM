@@ -30,11 +30,11 @@
 									{if $CUSTOM_VIEW->isFeatured()}
 										<li class="nav-item js-filter-tab c-tab--small font-weight-bold"
 											data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
-											<a class="nav-link{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}"
+											<a class="nav-link"
 											   href="#"
 											   {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if}
 											   data-toggle="tab" role="tab"
-											   aria-selected="{if $VIEWID == $CUSTOM_VIEW->getId()}true{else}false{/if}">
+											   aria-selected="false">
 												{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 												{if $CUSTOM_VIEW->get('description')}
 													<span class="js-popover-tooltip fas fa-info-circle"
