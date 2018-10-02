@@ -131,7 +131,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				self.eventRender(event, element);
 			},
 			viewRender: function (view, element) {
-				self.registerViewRenderEvents(view);
+				self.loadCalendarData(view);
 			},
 			addCalendarEvent(calendarDetails) {
 				let calendar = self.getCalendarView(),
@@ -399,20 +399,11 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		self.registerDatesChange();
 	},
 	registerDatesChange() {
-		const thisInstance = this;
-		let datesView = thisInstance.getDatesRowView().find('.js-date-record'),
-			subDatesView = thisInstance.getDatesRowView().find('.js-sub-record');
-		datesView.on('click', function () {
-			datesView.removeClass('date-active');
-			$(this).addClass('date-active');
-			thisInstance.getCalendarView().fullCalendar('gotoDate', moment($(this).data('date') + '-01-01', "YYYY-MM-DD"));
-			thisInstance.loadCalendarData();
-		});
-		subDatesView.on('click', function () {
-			datesView.removeClass('active');
-			$(this).addClass('active');
-			thisInstance.getCalendarView().fullCalendar('gotoDate', moment($(this).data('date'), "YYYY-MM-DD"));
-			thisInstance.loadCalendarData();
+		this.getDatesRowView().find('.js-sub-record').on('click', (e) => {
+			let currentTarget = $(e.currentTarget);
+			currentTarget.addClass('active');
+			this.getCalendarView().fullCalendar('gotoDate', moment(currentTarget.data('date'), "YYYY-MM-DD"));
+			this.loadCalendarData();
 		});
 	},
 	getCurrentCvId() {
@@ -544,14 +535,14 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		});
 		return aDeferred.promise();
 	},
-	loadCalendarData() {
-		const self = this,
-			view = self.getCalendarView().fullCalendar('getView');
+	loadCalendarData(view = this.getCalendarView().fullCalendar('getView')) {
+		const self = this;
 		let user = [],
 			filters = this.getActiveFilters(),
 			formatDate = CONFIG.dateFormat.toUpperCase(),
-			cvid = self.getCurrentCvId();
-		self.getCalendarView().fullCalendar('removeEvents');
+			cvid = self.getCurrentCvId(),
+			calendarInstance = this.getCalendarView();
+		calendarInstance.fullCalendar('removeEvents');
 		if (view.type !== 'year') {
 			let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 			user = self.getSelectedUsersCalendar();
@@ -574,12 +565,12 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				filters: filters,
 				cvid: cvid
 			}).done((events) => {
-				self.getCalendarView().fullCalendar('removeEvents');
-				self.getCalendarView().fullCalendar('addEventSource', events.result);
+				calendarInstance.fullCalendar('removeEvents');
+				calendarInstance.fullCalendar('addEventSource', events.result);
 				progressInstance.progressIndicator({mode: 'hide'});
 			});
 		}
-		self.registerViewRenderEvents(self.getCalendarView().fullCalendar('getView'));
+		self.registerViewRenderEvents(view);
 	},
 	clearFilterButton(user, filters, cvid) {
 		let currentUser = parseInt(app.getMainParams('userId')),
@@ -616,7 +607,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				active = '';
 			}
 			html +=
-				`<div class="js-sub-record sub-record col-4 nav-item" data-date="${prevYear.format('YYYY')}" data-type="years" data-js="click|class:date-active">
+				`<div class="js-sub-record sub-record col-4 nav-item" data-date="${prevYear.format('YYYY')}" data-type="years" data-js="click | class: active">
 					<div class="sub-record-content nav-link ${active}">
 						<div class="sub-date-name">
 							${prevYear.format('YYYY')}
@@ -640,7 +631,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				active = '';
 			}
 			html +=
-				`<div class="js-sub-record sub-record nav-item col-1 px-0" data-type="months" data-date="${moment(dateStart).month(month).format('YYYY-MM')}">
+				`<div class="js-sub-record sub-record nav-item col-1 px-0" data-type="months" data-date="${moment(dateStart).month(month).format('YYYY-MM')}" data-js="click | class: active">
 					<div class="sub-record-content nav-link ${active}">
 						<div class="sub-date-name">${app.vtranslate('JS_' + moment().month(month).format('MMM').toUpperCase()).toUpperCase()}
 							<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>
@@ -661,7 +652,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			if (prevWeeks.format('WW') === actualWeek) {
 				active = ' active';
 			}
-			html += '<div class="js-sub-record sub-record nav-item col-1 px-0" data-type="weeks" data-date="' + prevWeeks.format('YYYY-MM-DD') + '">' +
+			html += '<div class="js-sub-record sub-record nav-item col-1 px-0" data-type="weeks" data-date="' + prevWeeks.format('YYYY-MM-DD') + '" data-js="click | class: active">' +
 				'<div class="sub-record-content nav-link' + active + '">' +
 				'<div class="sub-date-name">' + app.vtranslate('JS_WEEK_SHORT') + ' ' + prevWeeks.format('WW') +
 				'<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>' +
@@ -692,7 +683,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			if (prevDays.format('DDD') === actualDay) {
 				active = ' active';
 			}
-			html += '<div class="js-sub-record sub-record nav-item col-1 px-0" data-type="days" data-date="' + prevDays.format('YYYY-MM-DD') + '">' +
+			html += '<div class="js-sub-record sub-record nav-item col-1 px-0" data-type="days" data-date="' + prevDays.format('YYYY-MM-DD') + '" data-js="click | class: active">' +
 				'<div class="sub-record-content nav-link' + active + '">' +
 				'<div class="sub-date-name">' + app.vtranslate('JS_DAY_SHORT') + ' ' + prevDays.format('DD') +
 				'<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>' +
