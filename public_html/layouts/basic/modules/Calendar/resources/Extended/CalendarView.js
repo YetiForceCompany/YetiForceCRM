@@ -57,19 +57,34 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 						eventLimitText: app.vtranslate('JS_COUNT_RECORDS'),
 						titleFormat: 'YYYY',
 						select: function (start, end) {
+						},
+						loadView: function () {
+							self.getCalendarView().fullCalendar('getCalendar').view.render();
 						}
 					},
 					month: {
-						titleFormat: 'YYYY MMMM'
+						titleFormat: 'YYYY MMMM',
+						loadView: function () {
+							self.loadCalendarData();
+						}
 					},
 					week: {
-						titleFormat: 'YYYY MMM D'
+						titleFormat: 'YYYY MMM D',
+						loadView: function () {
+							self.loadCalendarData();
+						}
 					},
 					day: {
-						titleFormat: 'YYYY MMM D'
+						titleFormat: 'YYYY MMM D',
+						loadView: function () {
+							self.loadCalendarData();
+						}
 					},
 					basicDay: {
-						type: 'agendaDay'
+						type: 'agendaDay',
+						loadView: function () {
+							self.loadCalendarData();
+						}
 					}
 				},
 				select: function (start, end) {
@@ -335,7 +350,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	registerFilterTabChange() {
 		const thisInstance = this;
 		this.getCalendarView().find(".js-calendar__extended-filter-tab").on('shown.bs.tab', function () {
-			thisInstance.loadCalendarData();
+			thisInstance.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
 		});
 	},
 	getSelectedUsersCalendar() {
@@ -500,7 +515,6 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			time = app.getMainParams('showType'),
 			statement = ((user.length === 0 || (user.length === 1 && parseInt(user) === currentUser)) && filters.length === 0 && cvid === undefined && time === 'current');
 		$(".js-calendar__clear-filters").toggleClass('d-none', statement);
-
 	},
 	registerClearFilterButton() {
 		const sidebar = this.getSidebarView();
@@ -512,7 +526,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			sidebar.find("input:checkbox").prop('checked', false);
 			sidebar.find("option:selected").prop('selected', false).trigger('change');
 			sidebar.find(".js-inputUserOwnerId[value=" + app.getMainParams('userId') + "]").prop('checked', true);
-			this.loadCalendarData();
+			this.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
 		});
 	},
 	generateYearList(dateStart, dateEnd) {

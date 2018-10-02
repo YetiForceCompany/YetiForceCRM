@@ -5,10 +5,6 @@ var View = FC.View;      // the class that all views must inherit from
 
 var YearView = View.extend({
 	calendarView: false,
-	initialize: function () {
-		this.registerFilterTabChange();
-		this.registerClearFilterButton();
-	},
 	renderHtml: function (year) {
 		let col2Breakpoint = 'col-xxl-2';
 		if ($('#switchingDays').val() === 'all') {
@@ -59,21 +55,6 @@ var YearView = View.extend({
 	loadCalendarData() {
 		this.render();
 	},
-	loadCalendarCreateView() {
-		let aDeferred = $.Deferred();
-		AppConnector.request({
-			'module': app.getModuleName(),
-			'view': 'EventForm',
-		}).then(
-			(data) => {
-				aDeferred.resolve($(data));
-			},
-			() => {
-				aDeferred.reject();
-			}
-		);
-		return aDeferred.promise();
-	},
 	appendWeekButton() {
 		$('.fc-row.fc-week.fc-widget-content').each(function () {
 			let date = $(this).find('.fc-day-top').first().data('date');
@@ -89,18 +70,13 @@ var YearView = View.extend({
 	},
 	render: function () {
 		const self = this;
-		let hiddenDays = [],
-			calendar = self.getCalendarView().fullCalendar('getCalendar'),
+		let calendar = self.getCalendarView().fullCalendar('getCalendar'),
 			date = calendar.getDate().year(),
 			yearView = this.el.html(this.renderHtml(date)),
 			user = this.getSelectedUsersCalendar(),
 			progressInstance = $.progressIndicator({blockInfo: {enabled: true}}),
 			cvid = this.getCurrentCvId(),
-			convertedFirstDay = CONFIG.firstDayOfWeekNo,
 			filters = this.getActiveFilters();
-		if (app.getMainParams('switchingDays') === 'workDays') {
-			hiddenDays = app.getMainParams('hiddenDays', true);
-		}
 		if (user.length === 0) {
 			user = [app.getMainParams('userId')];
 		}
@@ -118,27 +94,27 @@ var YearView = View.extend({
 			cvid: cvid
 		}).done(function (events) {
 			yearView.find('.fc-year__month').each(function (i) {
-				self.loadMonthData($(this).fullCalendar({
-					defaultView: 'month',
-					titleFormat: 'MMMM',
-					header: {center: 'title', left: false, right: false},
-					height: 'auto',
-					selectable: true,
-					firstDay: convertedFirstDay,
-					select: function (start, end) {
-						self.selectDays(start, end);
-					},
-					defaultDate: moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD"),
-					eventRender: function (event, element) {
-						if (event.rendering === 'background') {
-							element.append(`<span class="${event.icon} mr-1"></span>${event.title}`);
-							return element;
-						}
-						event.countShow = '99+';
-						if (event.count < 100) {
-							event.countShow = event.count;
-						}
-						element = `<div class="js-show-day cell-calendar u-cursor-pointer d-flex" data-date="${event.date}" data-js="click">
+				let calendarInstance = new Calendar_Calendar_Js;
+				let basicOptions = calendarInstance.getCalendarMinimalConfig(),
+					options = {
+						defaultView: 'month',
+						titleFormat: 'MMMM',
+						header: {center: 'title', left: false, right: false},
+						height: 'auto',
+						select: function (start, end) {
+							self.selectDays(start, end);
+						},
+						defaultDate: moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD"),
+						eventRender: function (event, element) {
+							if (event.rendering === 'background') {
+								element.append(`<span class="${event.icon} mr-1"></span>${event.title}`);
+								return element;
+							}
+							event.countShow = '99+';
+							if (event.count < 100) {
+								event.countShow = event.count;
+							}
+							element = `<div class="js-show-day cell-calendar u-cursor-pointer d-flex" data-date="${event.date}" data-js="click">
 							<a class="fc-year__show-day-btn mx-auto" href="#" data-date="${event.date}" title="${event.count}">
 								  <span class="fa-layers fa-fw">
 									<span class="fas fa-calendar fa-lg"></span>
@@ -146,32 +122,10 @@ var YearView = View.extend({
 								  </span>	
 							</a>
 						</div>`;
-						return element;
-					},
-					hiddenDays: hiddenDays,
-					monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
-						app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
-						app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
-						app.vtranslate('JS_NOVEMBER'), app.vtranslate('JS_DECEMBER')],
-					monthNamesShort: [app.vtranslate('JS_JAN'), app.vtranslate('JS_FEB'), app.vtranslate('JS_MAR'),
-						app.vtranslate('JS_APR'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUN'), app.vtranslate('JS_JUL'),
-						app.vtranslate('JS_AUG'), app.vtranslate('JS_SEP'), app.vtranslate('JS_OCT'), app.vtranslate('JS_NOV'),
-						app.vtranslate('JS_DEC')],
-					dayNames: [app.vtranslate('JS_SUNDAY'), app.vtranslate('JS_MONDAY'), app.vtranslate('JS_TUESDAY'),
-						app.vtranslate('JS_WEDNESDAY'), app.vtranslate('JS_THURSDAY'), app.vtranslate('JS_FRIDAY'),
-						app.vtranslate('JS_SATURDAY')],
-					dayNamesShort: [app.vtranslate('JS_SUN'), app.vtranslate('JS_MON'), app.vtranslate('JS_TUE'),
-						app.vtranslate('JS_WED'), app.vtranslate('JS_THU'), app.vtranslate('JS_FRI'),
-						app.vtranslate('JS_SAT')],
-					buttonText: {
-						today: app.vtranslate('JS_TODAY'),
-						year: app.vtranslate('JS_YEAR'),
-						month: app.vtranslate('JS_MONTH'),
-						week: app.vtranslate('JS_WEEK'),
-						day: app.vtranslate('JS_DAY')
-					},
-					allDayText: app.vtranslate('JS_ALL_DAY'),
-				}), events);
+							return element;
+						},
+					};
+				self.loadMonthData($(this).fullCalendar($.extend(basicOptions, options)), events);
 			});
 			self.appendWeekButton();
 			app.showPopoverElementView();

@@ -47,12 +47,29 @@ jQuery.Class("Calendar_Calendar_Js", {
 	setContainer: function (container) {
 		this.container = container;
 	},
+	getCalendarMinimalConfig() {
+		let hiddenDays = [];
+		if (app.getMainParams('switchingDays') === 'workDays') {
+			hiddenDays = app.getMainParams('hiddenDays', true);
+		}
+		return {
+			firstDay: CONFIG.firstDayOfWeekNo,
+			selectable: true,
+			hiddenDays: hiddenDays,
+			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
+				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
+				app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
+				app.vtranslate('JS_NOVEMBER'), app.vtranslate('JS_DECEMBER')],
+			dayNamesShort: [app.vtranslate('JS_SUN'), app.vtranslate('JS_MON'), app.vtranslate('JS_TUE'),
+				app.vtranslate('JS_WED'), app.vtranslate('JS_THU'), app.vtranslate('JS_FRI'),
+				app.vtranslate('JS_SAT')],
+		};
+	},
 	getCalendarBasicConfig() {
 		let eventLimit = app.getMainParams('eventLimit'),
 			userDefaultActivityView = app.getMainParams('activity_view'),
 			defaultView = app.moduleCacheGet('defaultView'),
-			userDefaultTimeFormat = app.getMainParams('time_format'),
-			hiddenDays = [];
+			userDefaultTimeFormat = app.getMainParams('time_format');
 		if (eventLimit == 'true') {
 			eventLimit = true;
 		} else if (eventLimit == 'false') {
@@ -75,13 +92,9 @@ jQuery.Class("Calendar_Calendar_Js", {
 		} else {
 			userDefaultTimeFormat = 'h:mmt';
 		}
-		if (app.getMainParams('switchingDays') === 'workDays') {
-			hiddenDays = app.getMainParams('hiddenDays', true);
-		}
 		let options = {
 			timeFormat: userDefaultTimeFormat,
 			axisFormat: userDefaultTimeFormat,
-			firstDay: CONFIG.firstDayOfWeekNo,
 			defaultView: userDefaultActivityView,
 			hiddenDays: hiddenDays,
 			slotMinutes: 15,
@@ -90,13 +103,8 @@ jQuery.Class("Calendar_Calendar_Js", {
 			defaultTimedEventDuration: '01:00:00',
 			eventLimit: eventLimit,
 			eventLimitText: app.vtranslate('JS_MORE'),
-			selectable: true,
 			selectHelper: true,
 			scrollTime: app.getMainParams('start_hour') + ':00',
-			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
-				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
-				app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
-				app.vtranslate('JS_NOVEMBER'), app.vtranslate('JS_DECEMBER')],
 			monthNamesShort: [app.vtranslate('JS_JAN'), app.vtranslate('JS_FEB'), app.vtranslate('JS_MAR'),
 				app.vtranslate('JS_APR'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUN'), app.vtranslate('JS_JUL'),
 				app.vtranslate('JS_AUG'), app.vtranslate('JS_SEP'), app.vtranslate('JS_OCT'), app.vtranslate('JS_NOV'),
@@ -104,9 +112,6 @@ jQuery.Class("Calendar_Calendar_Js", {
 			dayNames: [app.vtranslate('JS_SUNDAY'), app.vtranslate('JS_MONDAY'), app.vtranslate('JS_TUESDAY'),
 				app.vtranslate('JS_WEDNESDAY'), app.vtranslate('JS_THURSDAY'), app.vtranslate('JS_FRIDAY'),
 				app.vtranslate('JS_SATURDAY')],
-			dayNamesShort: [app.vtranslate('JS_SUN'), app.vtranslate('JS_MON'), app.vtranslate('JS_TUE'),
-				app.vtranslate('JS_WED'), app.vtranslate('JS_THU'), app.vtranslate('JS_FRI'),
-				app.vtranslate('JS_SAT')],
 			buttonText: {
 				today: app.vtranslate('JS_TODAY'),
 				year: app.vtranslate('JS_YEAR'),
@@ -121,7 +126,7 @@ jQuery.Class("Calendar_Calendar_Js", {
 			var e = moment(app.moduleCacheGet('end')).valueOf();
 			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
 		}
-		return options;
+		return $.extend(this.getCalendarMinimalConfig(), options);
 	},
 	renderCalendar: function () {
 		let self = this,
