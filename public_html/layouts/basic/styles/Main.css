@@ -16420,6 +16420,9 @@ label.btn.btn-outline-primary:not(.active) {
   .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form,
   .tpl-Calendar-Extended-QuickCreate .o-calendar__form {
     height: calc(100vh - 1.9375rem - 3.125rem); }
+    .user-info--active .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form, .tpl-Calendar-Extended-QuickCreate .o-calendar__form {
+      /*computed height: footer, userinfo, header filter buttons, padding */
+      height: calc(100vh - 3.4375rem - 3.125rem); }
     .tpl-Calendar-Extended-QuickCreate .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form, .tpl-Calendar-Extended-QuickCreate .o-calendar__form {
       /*computed height: footer, userinfo, header filter buttons, padding */
       height: auto; }

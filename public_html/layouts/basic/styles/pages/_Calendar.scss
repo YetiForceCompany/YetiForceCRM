@@ -676,6 +676,11 @@ $sitebar-border: 1px solid #ccc;
 			&__form {
 				height: calc(100vh - #{$h-footer} - #{$h-header});
 
+				@at-root .user-info--active #{&} {
+					/*computed height: footer, userinfo, header filter buttons, padding */
+					height: calc(100vh - #{$h-footer-user-info} - #{$h-header});;
+				}
+
 				@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
 					/*computed height: footer, userinfo, header filter buttons, padding */
 					height: auto;
