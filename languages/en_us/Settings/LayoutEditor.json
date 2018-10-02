@@ -113,6 +113,7 @@
     "LBL_PARAMS_MODULES": "Modules",
     "LBL_PARAMS_LIMIT": "Limit",
     "LBL_PARAMS_LIMIT_CONDITIONS": "Required fields",
+    "LBL_PARAMS_MANDATORY": "Mandatory field",
     "LBL_DISPLAYTYPE_ALL": "Visible everywhere",
     "LBL_DISPLAYTYPE_READONLY": "Read-only",
     "LBL_DISPLAYTYPE_ONLY_DETAIL": "Visible in detail view",
