@@ -47,9 +47,12 @@ jQuery.Class("Calendar_Calendar_Js", {
 	setContainer: function (container) {
 		this.container = container;
 	},
-	renderCalendar: function () {
-		var thisInstance = this;
-		var eventLimit = app.getMainParams('eventLimit');
+	getCalendarBasicConfig() {
+		let eventLimit = app.getMainParams('eventLimit'),
+			userDefaultActivityView = app.getMainParams('activity_view'),
+			defaultView = app.moduleCacheGet('defaultView'),
+			userDefaultTimeFormat = app.getMainParams('time_format'),
+			hiddenDays = [];
 		if (eventLimit == 'true') {
 			eventLimit = true;
 		} else if (eventLimit == 'false') {
@@ -57,115 +60,39 @@ jQuery.Class("Calendar_Calendar_Js", {
 		} else {
 			eventLimit = parseInt(eventLimit) + 1;
 		}
-		var weekView = app.getMainParams('weekView');
-		var dayView = app.getMainParams('dayView');
-		//User preferred default view
-		var userDefaultActivityView = app.getMainParams('activity_view');
-		if (userDefaultActivityView == 'Today') {
-			userDefaultActivityView = dayView;
-		} else if (userDefaultActivityView == 'This Week') {
-			userDefaultActivityView = weekView;
+		if (userDefaultActivityView === 'Today') {
+			userDefaultActivityView = app.getMainParams('dayView');
+		} else if (userDefaultActivityView === 'This Week') {
+			userDefaultActivityView = app.getMainParams('weekView');
 		} else {
 			userDefaultActivityView = 'month';
 		}
-		var defaultView = app.moduleCacheGet('defaultView');
 		if (defaultView != null) {
 			userDefaultActivityView = defaultView;
 		}
-		//Default time format
-		var userDefaultTimeFormat = app.getMainParams('time_format');
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H:mm';
 		} else {
 			userDefaultTimeFormat = 'h:mmt';
 		}
-		//Default first day of the week
-		var convertedFirstDay = CONFIG.firstDayOfWeekNo;
-		//Default first hour of the day
-		var defaultFirstHour = app.getMainParams('start_hour') + ':00';
-		var hiddenDays = [];
-		if (app.getMainParams('switchingDays') == 'workDays') {
+		if (app.getMainParams('switchingDays') === 'workDays') {
 			hiddenDays = app.getMainParams('hiddenDays', true);
 		}
-		var options = {
-			header: {
-				left: 'month,' + weekView + ',' + dayView,
-				center: 'title today',
-				right: 'prev,next'
-			},
+		let options = {
 			timeFormat: userDefaultTimeFormat,
 			axisFormat: userDefaultTimeFormat,
-			scrollTime: defaultFirstHour,
-			firstDay: convertedFirstDay,
+			firstDay: CONFIG.firstDayOfWeekNo,
 			defaultView: userDefaultActivityView,
-			editable: true,
+			hiddenDays: hiddenDays,
 			slotMinutes: 15,
 			defaultEventMinutes: 0,
 			forceEventDuration: true,
 			defaultTimedEventDuration: '01:00:00',
 			eventLimit: eventLimit,
+			eventLimitText: app.vtranslate('JS_MORE'),
 			selectable: true,
 			selectHelper: true,
-			hiddenDays: hiddenDays,
-			height: app.setCalendarHeight(this.getContainer()),
-			views: {
-				basic: {
-					eventLimit: false,
-				}
-			},
-			select: function (start, end) {
-				thisInstance.selectDays(start, end);
-				thisInstance.getCalendarView().fullCalendar('unselect');
-			},
-			eventDrop: function (event, delta, revertFunc) {
-				thisInstance.updateEvent(event, delta, revertFunc);
-			},
-			eventResize: function (event, delta, revertFunc) {
-				thisInstance.updateEvent(event, delta, revertFunc);
-			},
-			eventRender: function (event, element) {
-				let valueEventVis = '';
-				if (event.vis !== '') {
-					valueEventVis = app.vtranslate('JS_' + event.vis);
-				}
-				app.showPopoverElementView(element.find('.fc-content'), {
-					title: event.title + '<a href="index.php?module=' + event.module + '&view=Edit&record=' + event.id + '" class="float-right"><span class="fas fa-edit"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
-					container: 'body',
-					html: true,
-					placement: 'auto',
-					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
-					content: '<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start_display + '</div>' +
-						'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
-						(event.lok ? '<div><span class="fas fa-globe"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
-						(event.pri ? '<div><span class="fas fa-exclamation-circle"></span> <label>' + app.vtranslate('JS_PRIORITY') + '</label>: <span class="picklistCT_Calendar_taskpriority_' + event.pri + '">' + app.vtranslate('JS_' + event.pri) + '</span></div>' : '') +
-						'<div><span class="fas fa-question-circle"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>:  <span class="picklistCT_Calendar_activitystatus_' + event.sta + '">' + app.vtranslate('JS_' + event.sta) + '</span></div>' +
-						(event.accname ? '<div><span class="userIcon-Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ACCOUNTS') + '</label>: <span class="modCT_Accounts">' + event.accname + '</span></div>' : '') +
-						(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a class="modCT_' + event.linkexm + '" target="_blank" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
-						(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a class="modCT_' + event.linkm + '" target="_blank" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</span></a></div>' : '') +
-						(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a class="modCT_' + event.procm + '"target="_blank" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
-						(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a class="modCT_' + event.subprocm + '" target="_blank" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
-						(event.state ? '<div><span class="far fa-star"></span> <label>' + app.vtranslate('JS_STATE') + '</label>:  <span class="picklistCT_Calendar_state_' + event.state + '">' + app.vtranslate(event.state) + '</span></div>' : '') +
-						'<div><span class="fas fa-eye"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>:  <span class="picklistCT_Calendar_visibility_' + event.vis + '">' + valueEventVis + '</div>' +
-						(event.smownerid ? '<div><span class="fas fa-user"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
-				});
-				if (event.rendering === 'background') {
-					element.append(`<span class="${event.icon} mr-1"></span>${event.title}`)
-				}
-			},
-			eventClick: function (calEvent, jsEvent, view) {
-				jsEvent.preventDefault();
-				var link = new URL($(this)[0].href);
-				var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
-				var url = 'index.php?module=Calendar&view=ActivityStateModal&record=' + link.searchParams.get("record");
-				var callbackFunction = function (data) {
-					progressInstance.progressIndicator({mode: 'hide'});
-				};
-				var modalWindowParams = {
-					url: url,
-					cb: callbackFunction
-				};
-				app.showModalWindow(modalWindowParams);
-			},
+			scrollTime: app.getMainParams('start_hour') + ':00',
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
 				app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
@@ -182,23 +109,101 @@ jQuery.Class("Calendar_Calendar_Js", {
 				app.vtranslate('JS_SAT')],
 			buttonText: {
 				today: app.vtranslate('JS_TODAY'),
+				year: app.vtranslate('JS_YEAR'),
 				month: app.vtranslate('JS_MONTH'),
 				week: app.vtranslate('JS_WEEK'),
 				day: app.vtranslate('JS_DAY')
 			},
 			allDayText: app.vtranslate('JS_ALL_DAY'),
-			eventLimitText: app.vtranslate('JS_MORE')
 		};
-
-		if (app.moduleCacheGet('start') != null) {
+		if (app.moduleCacheGet('start') !== null) {
 			var s = moment(app.moduleCacheGet('start')).valueOf();
 			var e = moment(app.moduleCacheGet('end')).valueOf();
 			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
 		}
-
-		thisInstance.getCalendarView().fullCalendar('destroy');
-		thisInstance.getCalendarView().fullCalendar(options);
-		thisInstance.createAddSwitch();
+		return options;
+	},
+	renderCalendar: function () {
+		let self = this,
+			basicOptions = this.getCalendarBasicConfig(),
+			options = {
+				header: {
+					left: 'month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
+					center: 'title today',
+					right: 'prev,next'
+				},
+				editable: true,
+				slotMinutes: 15,
+				defaultEventMinutes: 0,
+				forceEventDuration: true,
+				defaultTimedEventDuration: '01:00:00',
+				eventLimit: eventLimit,
+				selectable: true,
+				selectHelper: true,
+				hiddenDays: hiddenDays,
+				height: app.setCalendarHeight(this.getContainer()),
+				views: {
+					basic: {
+						eventLimit: false,
+					}
+				},
+				select: function (start, end) {
+					self.selectDays(start, end);
+					self.getCalendarView().fullCalendar('unselect');
+				},
+				eventDrop: function (event, delta, revertFunc) {
+					self.updateEvent(event, delta, revertFunc);
+				},
+				eventResize: function (event, delta, revertFunc) {
+					self.updateEvent(event, delta, revertFunc);
+				},
+				eventRender: function (event, element) {
+					let valueEventVis = '';
+					if (event.vis !== '') {
+						valueEventVis = app.vtranslate('JS_' + event.vis);
+					}
+					app.showPopoverElementView(element.find('.fc-content'), {
+						title: event.title + '<a href="index.php?module=' + event.module + '&view=Edit&record=' + event.id + '" class="float-right"><span class="fas fa-edit"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
+						container: 'body',
+						html: true,
+						placement: 'auto',
+						template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+						content: '<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start_display + '</div>' +
+							'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
+							(event.lok ? '<div><span class="fas fa-globe"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
+							(event.pri ? '<div><span class="fas fa-exclamation-circle"></span> <label>' + app.vtranslate('JS_PRIORITY') + '</label>: <span class="picklistCT_Calendar_taskpriority_' + event.pri + '">' + app.vtranslate('JS_' + event.pri) + '</span></div>' : '') +
+							'<div><span class="fas fa-question-circle"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>:  <span class="picklistCT_Calendar_activitystatus_' + event.sta + '">' + app.vtranslate('JS_' + event.sta) + '</span></div>' +
+							(event.accname ? '<div><span class="userIcon-Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ACCOUNTS') + '</label>: <span class="modCT_Accounts">' + event.accname + '</span></div>' : '') +
+							(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a class="modCT_' + event.linkexm + '" target="_blank" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
+							(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a class="modCT_' + event.linkm + '" target="_blank" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</span></a></div>' : '') +
+							(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a class="modCT_' + event.procm + '"target="_blank" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
+							(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a class="modCT_' + event.subprocm + '" target="_blank" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
+							(event.state ? '<div><span class="far fa-star"></span> <label>' + app.vtranslate('JS_STATE') + '</label>:  <span class="picklistCT_Calendar_state_' + event.state + '">' + app.vtranslate(event.state) + '</span></div>' : '') +
+							'<div><span class="fas fa-eye"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>:  <span class="picklistCT_Calendar_visibility_' + event.vis + '">' + valueEventVis + '</div>' +
+							(event.smownerid ? '<div><span class="fas fa-user"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
+					});
+					if (event.rendering === 'background') {
+						element.append(`<span class="${event.icon} mr-1"></span>${event.title}`)
+					}
+				},
+				eventClick: function (calEvent, jsEvent, view) {
+					jsEvent.preventDefault();
+					var link = new URL($(this)[0].href);
+					var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
+					var url = 'index.php?module=Calendar&view=ActivityStateModal&record=' + link.searchParams.get("record");
+					var callbackFunction = function (data) {
+						progressInstance.progressIndicator({mode: 'hide'});
+					};
+					var modalWindowParams = {
+						url: url,
+						cb: callbackFunction
+					};
+					app.showModalWindow(modalWindowParams);
+				}
+			};
+		options = $.extend(basicOptions, options);
+		self.getCalendarView().fullCalendar('destroy');
+		self.getCalendarView().fullCalendar(options);
 	},
 	getValuesFromSelect2: function (element, data, text) {
 		if (element.hasClass('select2-hidden-accessible')) {
@@ -502,7 +507,7 @@ jQuery.Class("Calendar_Calendar_Js", {
 					</label>
 				</div>`;
 	},
-	createAddSwitch() {
+	registerSwitchEvents() {
 		const calendarview = this.getCalendarView();
 		let switchHistory,
 			switchAllDays,
@@ -545,7 +550,7 @@ jQuery.Class("Calendar_Calendar_Js", {
 						app.moduleCacheSet('defaultSwitchingDays', 'all');
 					}
 					calendarview.fullCalendar('option', 'hiddenDays', hiddenDays);
-					this.createAddSwitch();
+					this.registerSwitchEvents();
 					this.loadCalendarData();
 				});
 		}
@@ -640,6 +645,7 @@ jQuery.Class("Calendar_Calendar_Js", {
 	registerEvents: function () {
 		this.registerCacheSettings();
 		this.renderCalendar();
+		this.registerSwitchEvents();
 		this.registerAddButton();
 		this.registerLoadCalendarData();
 		this.registerButtonSelectAll();

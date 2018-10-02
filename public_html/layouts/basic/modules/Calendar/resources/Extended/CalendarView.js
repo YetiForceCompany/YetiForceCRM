@@ -38,149 +38,77 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	 * Render calendar
 	 */
 	renderCalendar(readonly = false) {
-		const self = this;
-		this.calendar = self.getCalendarView();
-		let eventLimit = app.getMainParams('eventLimit'),
-			weekView = app.getMainParams('weekView'),
-			dayView = app.getMainParams('dayView'),
-			userDefaultActivityView = app.getMainParams('activity_view'),
-			defaultView = app.moduleCacheGet('defaultView'),
-			userDefaultTimeFormat = app.getMainParams('time_format'),
-			convertedFirstDay = CONFIG.firstDayOfWeekNo,
-			defaultFirstHour = app.getMainParams('start_hour') + ':00',
-			hiddenDays = [];
-		if (eventLimit == 'true') {
-			eventLimit = true;
-		} else if (eventLimit == 'false') {
-			eventLimit = false;
-		} else {
-			eventLimit = parseInt(eventLimit) + 1;
-		}
-		if (userDefaultActivityView === 'Today') {
-			userDefaultActivityView = dayView;
-		} else if (userDefaultActivityView === 'This Week') {
-			userDefaultActivityView = weekView;
-		} else {
-			userDefaultActivityView = 'month';
-		}
-		if (defaultView != null) {
-			userDefaultActivityView = defaultView;
-		}
-		self.getDatesRowView().find('.js-sub-date-list').data('type', userDefaultActivityView);
-		if (userDefaultTimeFormat == 24) {
-			userDefaultTimeFormat = 'H:mm';
-		} else {
-			userDefaultTimeFormat = 'h:mmt';
-		}
-		if (app.getMainParams('switchingDays') === 'workDays') {
-			hiddenDays = app.getMainParams('hiddenDays', true);
-		}
-		this.addCommonMethodsToYearView();
-		let options = {
-			header: {
-				left: 'year,month,' + weekView + ',' + dayView,
-				center: 'prevYear,prev,title,next,nextYear',
-				right: 'today'
-			},
-			timeFormat: userDefaultTimeFormat,
-			axisFormat: userDefaultTimeFormat,
-			scrollTime: defaultFirstHour,
-			firstDay: convertedFirstDay,
-			defaultView: userDefaultActivityView,
-			editable: !readonly,
-			slotMinutes: 15,
-			defaultEventMinutes: 0,
-			forceEventDuration: true,
-			defaultTimedEventDuration: '01:00:00',
-			eventLimit: eventLimit,
-			eventLimitText: app.vtranslate('JS_MORE'),
-			selectable: true,
-			selectHelper: true,
-			hiddenDays: hiddenDays,
-			height: app.setCalendarHeight(this.getContainer()),
-			views: {
-				basic: {
-					eventLimit: false,
+		let self = this,
+			basicOptions = this.getCalendarBasicConfig(),
+			options = {
+				header: {
+					left: 'year,month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
+					center: 'prevYear,prev,title,next,nextYear',
+					right: 'today'
 				},
-				year: {
-					eventLimit: 10,
-					eventLimitText: app.vtranslate('JS_COUNT_RECORDS'),
-					titleFormat: 'YYYY',
-					select: function (start, end) {
-
+				editable: !readonly,
+				height: app.setCalendarHeight(this.getContainer()),
+				views: {
+					basic: {
+						eventLimit: false,
+					},
+					year: {
+						eventLimit: 10,
+						eventLimitText: app.vtranslate('JS_COUNT_RECORDS'),
+						titleFormat: 'YYYY',
+						select: function (start, end) {
+						}
+					},
+					month: {
+						titleFormat: 'YYYY MMMM'
+					},
+					week: {
+						titleFormat: 'YYYY MMM D'
+					},
+					day: {
+						titleFormat: 'YYYY MMM D'
+					},
+					basicDay: {
+						type: 'agendaDay'
 					}
 				},
-				month: {
-					titleFormat: 'YYYY MMMM'
+				select: function (start, end) {
+					self.selectDays(start, end);
+					self.getCalendarView().fullCalendar('unselect');
 				},
-				week: {
-					titleFormat: 'YYYY MMM D'
+				eventRender: function (event, element) {
+					self.eventRender(event, element);
 				},
-				day: {
-					titleFormat: 'YYYY MMM D'
+				viewRender: function (view, element) {
+					self.loadCalendarData(view);
 				},
-				basicDay: {
-					type: 'agendaDay'
+				addCalendarEvent(calendarDetails) {
+					let calendar = self.getCalendarView(),
+						startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value),
+						endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value),
+						eventObject = {
+							id: calendarDetails._recordId,
+							title: calendarDetails.subject.display_value,
+							start: startDate.format(),
+							end: endDate.format(),
+							module: 'Calendar',
+							url: 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId,
+							activitytype: calendarDetails.activitytype.value,
+							allDay: calendarDetails.allday.value == 'on',
+							state: calendarDetails.state.value,
+							vis: calendarDetails.visibility.value,
+							sta: calendarDetails.activitystatus.value,
+							className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value,
+							start_display: calendarDetails.date_start.display_value,
+							end_display: calendarDetails.due_date.display_value,
+							smownerid: calendarDetails.assigned_user_id.display_value,
+							pri: calendarDetails.taskpriority.value,
+							lok: calendarDetails.location.display_value
+						};
+					self.getCalendarView().fullCalendar('renderEvent', eventObject);
 				}
-			},
-			select: function (start, end) {
-				self.selectDays(start, end);
-				self.getCalendarView().fullCalendar('unselect');
-			},
-			eventRender: function (event, element) {
-				self.eventRender(event, element);
-			},
-			viewRender: function (view, element) {
-				self.loadCalendarData(view);
-			},
-			addCalendarEvent(calendarDetails) {
-				let calendar = self.getCalendarView(),
-					startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value),
-					endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value),
-					eventObject = {
-						id: calendarDetails._recordId,
-						title: calendarDetails.subject.display_value,
-						start: startDate.format(),
-						end: endDate.format(),
-						module: 'Calendar',
-						url: 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId,
-						activitytype: calendarDetails.activitytype.value,
-						allDay: calendarDetails.allday.value == 'on',
-						state: calendarDetails.state.value,
-						vis: calendarDetails.visibility.value,
-						sta: calendarDetails.activitystatus.value,
-						className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value,
-						start_display: calendarDetails.date_start.display_value,
-						end_display: calendarDetails.due_date.display_value,
-						smownerid: calendarDetails.assigned_user_id.display_value,
-						pri: calendarDetails.taskpriority.value,
-						lok: calendarDetails.location.display_value
-					};
-				self.getCalendarView().fullCalendar('renderEvent', eventObject);
-			},
-			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
-				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
-				app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
-				app.vtranslate('JS_NOVEMBER'), app.vtranslate('JS_DECEMBER')],
-			monthNamesShort: [app.vtranslate('JS_JAN'), app.vtranslate('JS_FEB'), app.vtranslate('JS_MAR'),
-				app.vtranslate('JS_APR'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUN'), app.vtranslate('JS_JUL'),
-				app.vtranslate('JS_AUG'), app.vtranslate('JS_SEP'), app.vtranslate('JS_OCT'), app.vtranslate('JS_NOV'),
-				app.vtranslate('JS_DEC')],
-			dayNames: [app.vtranslate('JS_SUNDAY'), app.vtranslate('JS_MONDAY'), app.vtranslate('JS_TUESDAY'),
-				app.vtranslate('JS_WEDNESDAY'), app.vtranslate('JS_THURSDAY'), app.vtranslate('JS_FRIDAY'),
-				app.vtranslate('JS_SATURDAY')],
-			dayNamesShort: [app.vtranslate('JS_SUN'), app.vtranslate('JS_MON'), app.vtranslate('JS_TUE'),
-				app.vtranslate('JS_WED'), app.vtranslate('JS_THU'), app.vtranslate('JS_FRI'),
-				app.vtranslate('JS_SAT')],
-			buttonText: {
-				today: app.vtranslate('JS_TODAY'),
-				year: app.vtranslate('JS_YEAR'),
-				month: app.vtranslate('JS_MONTH'),
-				week: app.vtranslate('JS_WEEK'),
-				day: app.vtranslate('JS_DAY')
-			},
-			allDayText: app.vtranslate('JS_ALL_DAY'),
-		};
+			};
+		options = $.extend(basicOptions, options);
 		if (!readonly) {
 			options.eventDrop = function (event, delta, revertFunc) {
 				self.updateEvent(event, delta, revertFunc);
@@ -196,14 +124,10 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				self.showStatusUpdate(url);
 			};
 		}
-		if (app.moduleCacheGet('start') != null) {
-			let s = moment(app.moduleCacheGet('start')).valueOf(),
-				e = moment(app.moduleCacheGet('end')).valueOf();
-			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
-		}
+		this.addCommonMethodsToYearView();
+		this.calendar = self.getCalendarView();
 		this.calendar.fullCalendar('destroy');
 		this.calendar.fullCalendar(options);
-		this.createAddSwitch();
 	},
 	addHeaderButtons() {
 		if (this.calendarContainer.find('.js-calendar__view-btn').length) {
@@ -236,7 +160,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			});
 		});
 	},
-	createAddSwitch() {
+	registerSwitchEvents() {
 		const calendarview = this.getCalendarView();
 		let isWorkDays = (app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all'),
 			switchShowTypeVal = (app.getMainParams('showType') === 'current' && app.moduleCacheGet('defaultShowType') !== 'history'),
