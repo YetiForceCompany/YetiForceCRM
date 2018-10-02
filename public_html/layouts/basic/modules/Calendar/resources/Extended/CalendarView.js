@@ -131,7 +131,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				self.eventRender(event, element);
 			},
 			viewRender: function (view, element) {
-				self.registerViewRenderEvents(view, false);
+				self.registerViewRenderEvents(view);
 			},
 			addCalendarEvent(calendarDetails) {
 				let calendar = self.getCalendarView(),
@@ -283,7 +283,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 					this.loadCalendarData();
 					calendarview.fullCalendar('option', 'height', app.setCalendarHeight());
 				} else {
-					this.registerViewRenderEvents(calendarview.fullCalendar('getView'), false);
+					this.registerViewRenderEvents(calendarview.fullCalendar('getView'));
 				}
 			});
 		}
@@ -357,13 +357,13 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	 * @param view
 	 * @param element
 	 */
-	registerViewRenderEvents(view, noCounting) {
+	registerViewRenderEvents(view) {
 		this.calendarContainer = this.getCalendarView();
 		let toolbar = this.calendarContainer.find('.fc-toolbar.fc-header-toolbar'),
 			nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button'),
 			yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
 		this.appendSubDateRow(toolbar);
-		this.refreshDatesRowView(view, noCounting);
+		this.refreshDatesRowView(view);
 		this.addHeaderButtons();
 		if (view.type === 'year') {
 			nextPrevButtons.hide();
@@ -373,7 +373,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			yearButtons.hide();
 		}
 	},
-	refreshDatesRowView(calendarView, noCounting) {
+	refreshDatesRowView(calendarView) {
 		const self = this;
 		let dateListUnit = calendarView.type,
 			subDateListUnit = 'week';
@@ -395,9 +395,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		} else if ('day' === subDateListUnit) {
 			self.generateSubDaysList(calendarView.start, calendarView.end);
 		}
-		if (!noCounting) {
-			self.updateCountTaskCalendar();
-		}
+		self.updateCountTaskCalendar();
 		self.registerDatesChange();
 	},
 	registerDatesChange() {
@@ -581,7 +579,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				progressInstance.progressIndicator({mode: 'hide'});
 			});
 		}
-		self.registerViewRenderEvents(self.getCalendarView().fullCalendar('getView'), false);
+		self.registerViewRenderEvents(self.getCalendarView().fullCalendar('getView'));
 	},
 	clearFilterButton(user, filters, cvid) {
 		let currentUser = parseInt(app.getMainParams('userId')),

@@ -89,7 +89,7 @@ var YearView = View.extend({
 	},
 	render: function () {
 		const self = this;
-		self.registerViewRenderEvents(self.getCalendarView().fullCalendar('getView'), false);
+		self.registerViewRenderEvents(self.getCalendarView().fullCalendar('getView'));
 		let hiddenDays = [],
 			calendar = self.getCalendarView().fullCalendar('getCalendar'),
 			date = calendar.getDate().year(),
