@@ -16491,13 +16491,13 @@ label.btn.btn-outline-primary:not(.active) {
         background: transparent;
         color: #6c757d !important;
         border-right: 0; }
+  .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__tab--filters,
+  .tpl-Calendar-Extended-QuickCreate .o-calendar__tab--filters {
+    /*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
+    height: calc(100vh - 35px - 17px - 50px - 34px - 6px); }
   .tpl-Calendar-Extended-CalendarViewPreProcess .formActionsPanel[min-height~="70px"] button,
   .tpl-Calendar-Extended-QuickCreate .formActionsPanel[min-height~="70px"] button {
     margin-bottom: 0.25rem; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .formsContainer,
-  .tpl-Calendar-Extended-QuickCreate .formsContainer {
-    /*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
-    height: calc(100vh - 35px - 17px - 50px - 34px - 6px); }
   .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .o-calendar__panel__tabs,
   .tpl-Calendar-Extended-QuickCreate .hideSiteBar .o-calendar__panel__tabs {
     right: 0; } }

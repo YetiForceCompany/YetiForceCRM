@@ -238,47 +238,54 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	},
 	createAddSwitch() {
 		const calendarview = this.getCalendarView();
-		if ($('.js-calendar-switch-container').length) {
-			return;
-		}
-		let switchAllDays = !(app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all'),
-			switchContainer = $(`<div class="js-calendar-switch-container"></div>`).prependTo($('.formsContainer')),
-			switchHistory = !(app.getMainParams('showType') === 'current' && app.moduleCacheGet('defaultShowType') !== 'history');
+		let isWorkDays = (app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all'),
+			switchShowTypeVal = (app.getMainParams('showType') === 'current' && app.moduleCacheGet('defaultShowType') !== 'history'),
+			switchContainer = $('.js-calendar__tab--filters'),
+			switchShowType = switchContainer.find('.js-switch--showType'),
+			switchSwitchingDays = switchContainer.find('.js-switch--switchingDays');
 
-		$(this.switchTpl(app.vtranslate('JS_TO_REALIZE'), app.vtranslate('JS_HISTORY'), switchHistory)).prependTo(switchContainer)
-			.on('change', 'input', (e) => {
-				const currentTarget = $(e.currentTarget);
-				if (typeof currentTarget.data('on-text') !== 'undefined') {
-					app.setMainParams('showType', 'current');
-					app.moduleCacheSet('defaultShowType', 'current');
-				} else if (typeof currentTarget.data('off-text') !== 'undefined') {
-					app.setMainParams('showType', 'history');
-					app.moduleCacheSet('defaultShowType', 'history');
-				}
+		if (!switchShowTypeVal) {
+			switchShowType.find('.js-switch--label-off').button('toggle');
+		}
+		switchShowType.on('change', 'input', (e) => {
+			const currentTarget = $(e.currentTarget);
+			if (typeof currentTarget.data('on-text') !== 'undefined') {
+				app.setMainParams('showType', 'current');
+				app.moduleCacheSet('defaultShowType', 'current');
+			} else if (typeof currentTarget.data('off-text') !== 'undefined') {
+				app.setMainParams('showType', 'history');
+				app.moduleCacheSet('defaultShowType', 'history');
+			}
+			if (calendarview.fullCalendar('getView').type !== 'year') {
 				this.loadCalendarData();
+			} else {
+				calendarview.fullCalendar('getCalendar').view.render();
+			}
+		});
+		if (switchSwitchingDays.length) {
+			if (!isWorkDays) {
+				switchSwitchingDays.find('.js-switch--label-off').button('toggle');
+			}
+			switchSwitchingDays.on('change', 'input', (e) => {
+				const currentTarget = $(e.currentTarget);
+				let hiddenDays = [];
+				if (typeof currentTarget.data('on-text') !== 'undefined') {
+					app.setMainParams('switchingDays', 'workDays');
+					app.moduleCacheSet('defaultSwitchingDays', 'workDays');
+					hiddenDays = app.getMainParams('hiddenDays', true);
+				} else if (typeof currentTarget.data('off-text') !== 'undefined') {
+					app.setMainParams('switchingDays', 'all');
+					app.moduleCacheSet('defaultSwitchingDays', 'all');
+				}
+				calendarview.fullCalendar('option', 'hiddenDays', hiddenDays);
+				this.subDateRow = false;
+				if (calendarview.fullCalendar('getView').type !== 'year') {
+					this.loadCalendarData();
+					calendarview.fullCalendar('option', 'height', app.setCalendarHeight());
+				} else {
+					this.registerViewRenderEvents(calendarview.fullCalendar('getView'), false);
+				}
 			});
-		if (app.getMainParams('hiddenDays', true) !== false) {
-			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), switchAllDays)).prependTo(switchContainer)
-				.on('change', 'input', (e) => {
-					const currentTarget = $(e.currentTarget);
-					let hiddenDays = [];
-					if (typeof currentTarget.data('on-text') !== 'undefined') {
-						app.setMainParams('switchingDays', 'workDays');
-						app.moduleCacheSet('defaultSwitchingDays', 'workDays');
-						hiddenDays = app.getMainParams('hiddenDays', true);
-					} else if (typeof currentTarget.data('off-text') !== 'undefined') {
-						app.setMainParams('switchingDays', 'all');
-						app.moduleCacheSet('defaultSwitchingDays', 'all');
-					}
-					calendarview.fullCalendar('option', 'hiddenDays', hiddenDays);
-					this.subDateRow = false;
-					if (calendarview.fullCalendar('getView').type !== 'year') {
-						this.loadCalendarData();
-						calendarview.fullCalendar('option', 'height', app.setCalendarHeight());
-					} else {
-						this.registerViewRenderEvents(calendarview.fullCalendar('getView'), false);
-					}
-				});
 		}
 	},
 	eventRender: function (event, element) {
@@ -589,7 +596,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		app.showPopoverElementView(clearBtn);
 		clearBtn.on('click', () => {
 			$(".js-calendar__extended-filter-tab a").removeClass('active');
-			$(".js-calendar-switch-container .js-switch").eq(1).find('.js-switch--label-on').click();
+			$(".js-calendar__tab--filters .js-switch").eq(1).find('.js-switch--label-on').click();
 			sidebar.find("input:checkbox").prop('checked', false);
 			sidebar.find("option:selected").prop('selected', false).trigger('change');
 			sidebar.find(".js-inputUserOwnerId[value=" + app.getMainParams('userId') + "]").prop('checked', true);

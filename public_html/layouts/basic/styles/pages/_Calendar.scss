@@ -764,16 +764,17 @@ $sitebar-border: 1px solid #ccc;
 					}
 				}
 			}
+
+			&__tab--filters {
+				/*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
+				height: calc(100vh - 35px - 17px - 50px - 34px - 6px);
+			}
 		}
+
 		.formActionsPanel[min-height~="70px"] {
 			button {
 				margin-bottom: 0.25rem;
 			}
-		}
-
-		.formsContainer {
-			/*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
-			height: calc(100vh - 35px - 17px - 50px - 34px - 6px);
 		}
 
 		.hideSiteBar .o-calendar__panel__tabs {
