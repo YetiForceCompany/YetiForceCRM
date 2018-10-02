@@ -596,7 +596,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		app.showPopoverElementView(clearBtn);
 		clearBtn.on('click', () => {
 			$(".js-calendar__extended-filter-tab a").removeClass('active');
-			$(".js-calendar__tab--filters .js-switch").eq(1).find('.js-switch--label-on').click();
+			$(".js-calendar__tab--filters .js-switch--showType").find('.js-switch--label-on').click();
 			sidebar.find("input:checkbox").prop('checked', false);
 			sidebar.find("option:selected").prop('selected', false).trigger('change');
 			sidebar.find(".js-inputUserOwnerId[value=" + app.getMainParams('userId') + "]").prop('checked', true);
