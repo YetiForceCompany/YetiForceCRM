@@ -30,29 +30,31 @@
 			</div>
 			<div class="tab-pane fade" id="rightPanelFilter" role="tabpanel" aria-labelledby="rightPanelFilter-tab">
 				<div class="o-calendar__tab--filters js-calendar__tab--filters border-bottom d-flex flex-column">
-					<div class="btn-group btn-group-toggle js-switch js-switch--showType c-calendar-switch" data-toggle="buttons">
-						<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on active">
-							<input type="radio" name="options" data-on-text="{\App\Language::translate('LBL_FILTER', $MODULE)}" autocomplete="off" checked>
-							{\App\Language::translate('LBL_TO_REALIZE', $MODULE)}
-						</label>
-						<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-off">
-							<input type="radio" name="options" data-off-text="{\App\Language::translate('LBL_HISTORY', $MODULE)}" autocomplete="off">
-							{\App\Language::translate('LBL_HISTORY', $MODULE)}
-						</label>
-					</div>
-					{if \AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')}
-						<div class="btn-group btn-group-toggle js-switch js-switch--switchingDays c-calendar-switch" data-toggle="buttons">
+					<div>
+						<div class="btn-group btn-group-toggle js-switch js-switch--showType c-calendar-switch" data-toggle="buttons">
 							<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on active">
-								<input type="radio" name="options" data-on-text="{\App\Language::translate('LBL_WORK_DAYS', $MODULE)}" autocomplete="off" checked>
-								{\App\Language::translate('LBL_WORK_DAYS', $MODULE)}
+								<input type="radio" name="options" data-on-text="{\App\Language::translate('LBL_FILTER', $MODULE)}" autocomplete="off" checked>
+								{\App\Language::translate('LBL_TO_REALIZE', $MODULE)}
 							</label>
 							<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-off">
-								<input type="radio" name="options" data-off-text="{\App\Language::translate('LBL_ALL', $MODULE)}
-" autocomplete="off" checked>
-								{\App\Language::translate('LBL_ALL', $MODULE)}
+								<input type="radio" name="options" data-off-text="{\App\Language::translate('LBL_HISTORY', $MODULE)}" autocomplete="off">
+								{\App\Language::translate('LBL_HISTORY', $MODULE)}
 							</label>
 						</div>
-					{/if}
+						{if \AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')}
+							<div class="btn-group btn-group-toggle js-switch js-switch--switchingDays c-calendar-switch" data-toggle="buttons">
+								<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on active">
+									<input type="radio" name="options" data-on-text="{\App\Language::translate('LBL_WORK_DAYS', $MODULE)}" autocomplete="off" checked>
+									{\App\Language::translate('LBL_WORK_DAYS', $MODULE)}
+								</label>
+								<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-off">
+									<input type="radio" name="options" data-off-text="{\App\Language::translate('LBL_ALL', $MODULE)}
+" autocomplete="off" checked>
+									{\App\Language::translate('LBL_ALL', $MODULE)}
+								</label>
+							</div>
+						{/if}
+					</div>
 					<div class="js-usersForm usersForm position-relative" data-js="perfectScrollbar | html | container"></div>
 					<div class="js-groupForm groupForm position-relative" data-js="perfectScrollbar | html | container | class: u-min-h-30per"></div>
 				</div>

@@ -167,7 +167,8 @@
     "LBL_DELETE_FUTURE_EVENTS_DESCRIPTION": "Only subsequent records will be deleted",
     "LBL_DELETE_ALL_EVENTS": "Delete all records",
     "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "All records in sequence will be deleted",
-    "LBL_REPEATEVENT": "Una volta ogni"
+    "LBL_REPEATEVENT": "Una volta ogni",
+    "LBL_WORK_DAYS": "Work days"
   },
   "js": {
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "Cant select contact from leads",

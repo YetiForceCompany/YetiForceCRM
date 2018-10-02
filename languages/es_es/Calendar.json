@@ -159,7 +159,8 @@
     "LBL_NEEDS-ACTION": "A la espera de aceptaci\u00f3n",
     "LBL_ACCEPTED": "Aceptada",
     "LBL_DECLINED": "Rechazada",
-    "LBL_REPEATEVENT": "Un vez cada"
+    "LBL_REPEATEVENT": "Un vez cada",
+    "LBL_WORK_DAYS": "D\u00edas laborables"
   },
   "js": {
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "No se puede seleccionar el contacto de \"Potenciales\"",

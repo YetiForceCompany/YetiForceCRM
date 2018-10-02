@@ -173,7 +173,8 @@
     "LBL_DELETE_FUTURE_EVENTS_DESCRIPTION": "Somente os registros subsequentes ser\u00e3o deletados",
     "LBL_DELETE_ALL_EVENTS": "Excluir todos os registros",
     "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "Todos os registros em sequ\u00eancia ser\u00e3o exclu\u00eddos",
-    "LBL_REPEATEVENT": "Repetir um por vez"
+    "LBL_REPEATEVENT": "Repetir um por vez",
+    "LBL_WORK_DAYS": "Dias uteis"
   },
   "js": {
     "JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY": "A visualiza\u00e7\u00e3o da Agenda foi adicionada com sucesso",
