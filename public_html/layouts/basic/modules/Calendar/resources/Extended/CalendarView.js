@@ -679,16 +679,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		});
 	},
 	registerUsersChange(formContainer) {
-		const self = this;
-		formContainer.find('.js-inputUserOwnerIdAjax, .js-inputUserOwnerId').on('change', () => {
-			const calendarInstance = self.getCalendarView().fullCalendar('getCalendar');
-			if (calendarInstance.view.type !== 'year') {
-				self.loadCalendarData();
-			} else {
-				calendarInstance.view.render();
-			}
-		});
-		self.registerPinUser();
+		formContainer.find('.js-inputUserOwnerIdAjax, .js-inputUserOwnerId').on('change', this.getCalendarView().fullCalendar('getCalendar').view.options.loadView);
+		this.registerPinUser();
 	},
 	/**
 	 * Register actions to do after save record
