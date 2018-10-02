@@ -31,10 +31,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getCalendarViewName()
 	{
-		if ('Standard' === $calendarView = AppConfig::module('Calendar', 'CALENDAR_VIEW')) {
-			$returnView = 'Calendar';
-		} else {
-			$returnView = 'Calendar' . $calendarView;
+		$returnView = 'Calendar';
+		if ('Standard' !== $calendarView = AppConfig::module('Calendar', 'CALENDAR_VIEW')) {
+			$returnView .= $calendarView;
 		}
 		return $returnView;
 	}

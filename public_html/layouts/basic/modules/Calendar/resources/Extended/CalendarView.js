@@ -373,27 +373,25 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			yearButtons.hide();
 		}
 	},
+	/**
+	 * Date bar with counts
+	 * @param object calendarView
+	 */
 	refreshDatesRowView(calendarView) {
 		const self = this;
-		let dateListUnit = calendarView.type,
-			subDateListUnit = 'week';
-		if ('year' === dateListUnit) {
-			subDateListUnit = 'year';
-		} else if ('month' === dateListUnit) {
-			subDateListUnit = 'month';
-		} else if ('week' === dateListUnit) {
-			subDateListUnit = 'week';
-		} else if ('basicDay' === dateListUnit || 'agendaDay' === dateListUnit) {
-			subDateListUnit = 'day';
-		}
-		if ('year' === subDateListUnit) {
-			self.generateYearList(calendarView.intervalStart, calendarView.intervalEnd);
-		} else if ('month' === subDateListUnit) {
-			self.generateSubMonthList(calendarView.intervalStart, calendarView.intervalEnd);
-		} else if ('week' === subDateListUnit) {
-			self.generateSubWeekList(calendarView.start, calendarView.end);
-		} else if ('day' === subDateListUnit) {
-			self.generateSubDaysList(calendarView.start, calendarView.end);
+		switch (calendarView.type) {
+			case 'year':
+				self.generateYearList(calendarView.intervalStart, calendarView.intervalEnd);
+				break;
+			case 'month':
+				self.generateSubMonthList(calendarView.intervalStart, calendarView.intervalEnd);
+				break;
+			case 'week':
+			case 'agendaWeek':
+				self.generateSubWeekList(calendarView.start, calendarView.end);
+				break;
+			default:
+				self.generateSubDaysList(calendarView.start, calendarView.end);
 		}
 		self.updateCountTaskCalendar();
 		self.registerDatesChange();
