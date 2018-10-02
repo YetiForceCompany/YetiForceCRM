@@ -401,7 +401,6 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			let currentTarget = $(e.currentTarget);
 			currentTarget.addClass('active');
 			this.getCalendarView().fullCalendar('gotoDate', moment(currentTarget.data('date'), "YYYY-MM-DD"));
-			this.loadCalendarData();
 		});
 	},
 	getCurrentCvId() {
