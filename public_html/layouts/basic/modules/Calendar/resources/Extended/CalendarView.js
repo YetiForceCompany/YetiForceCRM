@@ -24,7 +24,15 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			registerFilterTabChange: self.registerFilterTabChange,
 			sidebarView: self.sidebarView,
 			registerAfterSubmitForm: self.registerAfterSubmitForm,
-			getActiveFilters: self.getActiveFilters
+			registerViewRenderEvents: self.registerViewRenderEvents,
+			appendSubDateRow: self.appendSubDateRow,
+			refreshDatesRowView: self.refreshDatesRowView,
+			generateYearList: self.generateYearList,
+			getDatesRowView: self.getDatesRowView,
+			updateCountTaskCalendar: self.updateCountTaskCalendar,
+			registerDatesChange: self.registerDatesChange,
+			addHeaderButtons: self.addHeaderButtons,
+			getActiveFilters: self.getActiveFilters,
 		});
 	},
 	/**
