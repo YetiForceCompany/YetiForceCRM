@@ -7,16 +7,16 @@
 			<input type="hidden" value='{\App\Json::encode($FIELD_INSTANCE->getParams())}' id="params"/>
 			{assign var='PARAMS' value=\App\Json::decode($FIELD_INSTANCE->get('params'))}
 			{foreach from=$FIELD_INSTANCE->getParams() item=ITEM key=KEY}
-				<div class="form-group paramsJson">
-					<div class="col-md-7 col-form-label text-left">
-						{\App\Language::translate('LBL_PARAMS_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}
+				<div class="form-group row align-items-center">
+					<div class="col-md-4 col-form-label text-left">
+						{\App\Language::translate('LBL_PARAMS_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}:
 						{if $ITEM eq 'limit'}
-						{assign var="GROSS_PRICE" value=Vtiger_InventoryField_Model::getFieldInstance($MODULE, 'GrossPrice')}
-						<a href="#" class="js-help-info" data-placement="top"
-						   data-content="{\App\Language::translate('LBL_PARAMS_LIMIT_CONDITIONS', $QUALIFIED_MODULE)}: {\App\Language::translate($GROSS_PRICE->getDefaultLabel(), $QUALIFIED_MODULE)}">
+							{assign var="GROSS_PRICE" value=Vtiger_InventoryField_Model::getFieldInstance($MODULE, 'GrossPrice')}
+							<span class="js-popover-tooltip ml-2" data-js="popover"{' '}
+								  data-content="{\App\Language::translate('LBL_PARAMS_LIMIT_CONDITIONS', $QUALIFIED_MODULE)}: {\App\Language::translate($GROSS_PRICE->getDefaultLabel(), $QUALIFIED_MODULE)}">
 							<span class="fas fa-info-circle"></span>
-						</a>
-						{/if}:
+							</span>
+						{/if}
 					</div>
 					{assign var='functionName' value=$ITEM|cat:'Values'}
 					<div class="col-md-7">

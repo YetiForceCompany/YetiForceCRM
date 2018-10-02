@@ -18,7 +18,8 @@
 								{\App\Language::translate('LBL_SELECT_TYPE_OF_INVENTORY', $QUALIFIED_MODULE)}:
 							</div>
 							<div class="col-md-7">
-								<select name="type" class="select2 form-control type">
+								<select name="type" class="select2 form-control type"
+										data-validation-engine="validate[required]">
 									{foreach from=$MODULE_MODELS item=ITEM key=KEY}
 										{if ((in_array($ITEM->getColumnName(),$FIELDSEXISTS) && !$ITEM->isOnlyOne()) || !in_array($ITEM->getColumnName(),$FIELDSEXISTS) ) && in_array($BLOCK,$ITEM->getBlocks())}
 											<option value="{$ITEM->getName()}">{\App\Language::translate($ITEM->getDefaultLabel(), $QUALIFIED_MODULE)}</option>
@@ -40,10 +41,15 @@
 				</div>
 				<div class="modal-footer">
 					<div class="float-right cancelLinkContainer">
-						<button class="btn btn-success nextButton" type="submit">
-							<strong>{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
-						<button class="btn cancelLink btn-warning" type="reset"
-								data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success mr-1 js-next-button" type="submit" data-js="click">
+							<span class="fas fa-lg fa-arrow-circle-right mr-1"></span>
+							<b>{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</b>
+						</button>
+						<button class="btn btn-danger" type="reset" data-dismiss="modal"{' '}
+								title="{\App\Language::translate('LBL_CLOSE')}">
+							<span class="fas fa-times mr-1"></span>
+							<b>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</b>
+						</button>
 					</div>
 				</div>
 			</div>
