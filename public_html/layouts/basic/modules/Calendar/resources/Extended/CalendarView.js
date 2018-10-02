@@ -2,7 +2,6 @@
 'use strict';
 
 Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
-	isRegisterUsersChangeRegistered: false,
 	datesRowView: false,
 	sidebarView: {length: 0},
 	calendarContainer: false,
@@ -746,15 +745,9 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			data.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
 		});
 	},
-	registerUsersChange() {
-		const self = this,
-			sidebar = self.getSidebarView();
-		if (self.isRegisterUsersChangeRegistered) {
-			sidebar.off('change', '.js-inputUserOwnerId');
-			sidebar.off('change', '.js-inputUserOwnerIdAjax');
-		}
-		self.isRegisterUsersChangeRegistered = true;
-		sidebar.find('.js-inputUserOwnerIdAjax, .js-inputUserOwnerId').on('change', () => {
+	registerUsersChange(formContainer) {
+		const self = this;
+		formContainer.find('.js-inputUserOwnerIdAjax, .js-inputUserOwnerId').on('change', () => {
 			const calendarInstance = self.getCalendarView().fullCalendar('getCalendar');
 			if (calendarInstance.view.type !== 'year') {
 				self.loadCalendarData();
@@ -935,7 +928,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				if (data) {
 					let formContainer = sideBar.find('.js-usersForm');
 					formContainer.html(data);
-					thisInstance.registerUsersChange();
+					thisInstance.registerUsersChange(formContainer);
 					App.Fields.Picklist.showSelect2ElementView(formContainer.find('select'));
 					app.showNewScrollbar(formContainer, {
 						suppressScrollX: true
@@ -948,7 +941,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				if (data) {
 					let formContainer = sideBar.find('.js-groupForm');
 					formContainer.html(data);
-					thisInstance.registerUsersChange();
+					thisInstance.registerUsersChange(formContainer);
 					App.Fields.Picklist.showSelect2ElementView(formContainer.find('select'));
 					formContainer.addClass('u-min-h-30per');
 					app.showNewScrollbar(formContainer, {

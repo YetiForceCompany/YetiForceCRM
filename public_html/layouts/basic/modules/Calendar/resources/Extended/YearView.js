@@ -4,7 +4,6 @@ var FC = $.fullCalendar; // a reference to FullCalendar's root namespace
 var View = FC.View;      // the class that all views must inherit from
 
 var YearView = View.extend({
-	isRegisterUsersChangeRegistered: false,
 	calendarView: false,
 	initialize: function () {
 		this.registerFilterTabChange();
