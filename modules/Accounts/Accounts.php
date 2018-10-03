@@ -220,8 +220,8 @@ class Accounts extends CRMEntity
 			\App\Log::error('Exiting __getParentAccounts method ... - exceeded maximum depth of hierarchy');
 			return $parentAccounts;
 		}
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-		$row = (new App\Db\Query())->select(['vtiger_account.*', 'vtiger_accountaddress.*', 'user_name' => new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END")])
+		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
+		$row = (new App\Db\Query())->select(['vtiger_account.*', 'vtiger_accountaddress.*', 'user_name' => new \yii\db\Expression('CASE when (vtiger_users.user_name not like ' . App\Db::getInstance()->quoteValue('') . ") THEN $userNameSql ELSE vtiger_groups.groupname END")])
 			->from('vtiger_account')
 			->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_accountaddress', 'vtiger_accountaddress.accountaddressid = vtiger_account.accountid')
@@ -276,9 +276,10 @@ class Accounts extends CRMEntity
 			\App\Log::error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
 			return $childAccounts;
 		}
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
+
+		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$dataReader = (new App\Db\Query())
-			->select(['vtiger_account.*', 'vtiger_accountaddress.*', 'user_name' => new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END")])
+			->select(['vtiger_account.*', 'vtiger_accountaddress.*', 'user_name' => new \yii\db\Expression('CASE when (vtiger_users.user_name not like ' . App\Db::getInstance()->quoteValue('') . ") THEN $userNameSql ELSE vtiger_groups.groupname END")])
 			->from('vtiger_account')
 			->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_accountaddress', 'vtiger_account.accountid = vtiger_accountaddress.accountaddressid')

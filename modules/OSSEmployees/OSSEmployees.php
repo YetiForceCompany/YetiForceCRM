@@ -50,8 +50,8 @@ class OSSEmployees extends Vtiger_CRMEntity
 	];
 	public $list_fields_name = [
 		// Format: Field Label => fieldname
-		'LBL_LASTNAME' => 'last_name',
 		'LBL_NAME' => 'name',
+		'LBL_LASTNAME' => 'last_name',
 		'LBL_BUSINESSPHONE' => 'business_phone',
 		'LBL_BUSINESSMAIL' => 'business_mail',
 		'Assigned To' => 'assigned_user_id',
@@ -126,7 +126,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 					$accountInfoData[] = '';
 				} elseif (\App\Field::getFieldPermission('OSSEmployees', $colName)) {
 					$data = \App\Purifier::encodeHtml($accountInfo[$colName]);
-					if ($colName == 'ossemployees_no') {
+					if ($colName == 'name') {
 						if ($employeesId != $id) {
 							if ($hasRecordViewAccess) {
 								$data = '<a href="index.php?module=OSSEmployees&view=Detail&record=' . $employeesId . '">' . $data . '</a>';
@@ -138,7 +138,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 						}
 						$accountDepth = str_repeat(' .. ', $accountInfo['depth'] * 2);
 						$data = $accountDepth . $data;
-					} elseif ($colName == 'parentid' || $colName == 'projectid' || $colName == 'ticketid' || $colName == 'relategid') {
+					} elseif ($colName == 'parentid') {
 						$data = '<a href="index.php?module=' . \App\Record::getType($data) . '&action=DetailView&record=' . $data . '">' . vtlib\Functions::getCRMRecordLabel($data) . '</a>';
 					}
 					$accountInfoData[] = $data;
@@ -164,9 +164,9 @@ class OSSEmployees extends Vtiger_CRMEntity
 			$encounteredAccounts[] = $parentId;
 			$this->__getParentEmployees($parentId, $parentAccounts, $encounteredAccounts);
 		}
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
+		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$data = (new App\Db\Query())
-			->select(['vtiger_ossemployees.*', 'user_name' => new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END")])
+			->select(['vtiger_ossemployees.*', 'user_name' => new \yii\db\Expression('CASE when (vtiger_users.user_name not like ' . App\Db::getInstance()->quoteValue('') . ") THEN $userNameSql ELSE vtiger_groups.groupname END")])
 			->from('vtiger_ossemployees')
 			->innerJoin('vtiger_crmentity', 'vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid')
 			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
@@ -196,9 +196,9 @@ class OSSEmployees extends Vtiger_CRMEntity
 	public function __getChildEmployees($id, &$childAccounts, $depth)
 	{
 		\App\Log::trace('Entering __getChildEmployees(' . $id . ',' . $childAccounts . ',' . $depth . ') method ...');
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
+		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$dataReader = (new App\Db\Query())
-			->select(['vtiger_ossemployees.*', 'user_name' => new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END")])
+			->select(['vtiger_ossemployees.*', 'user_name' => new \yii\db\Expression('CASE when (vtiger_users.user_name not like ' . App\Db::getInstance()->quoteValue('') . ") THEN $userNameSql ELSE vtiger_groups.groupname END")])
 			->from('vtiger_ossemployees')
 			->innerJoin('vtiger_crmentity', 'vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid')
 			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
