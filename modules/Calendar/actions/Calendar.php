@@ -53,7 +53,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$record->set('filters', $request->get('filters'));
 		}
 		if ($request->has('cvid')) {
-			$record->set('customFilter', $request->get('cvid'));
+			$record->set('customFilter', $request->getInteger('cvid'));
 		}
 		if ($request->get('widget')) {
 			$record->set('customFilter', $request->getByType('customFilter', 2));
@@ -88,10 +88,9 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$record->set('filters', $request->get('filters'));
 		}
 		if ($request->has('cvid')) {
-			$record->set('customFilter', $request->get('cvid'));
+			$record->set('customFilter', $request->getInteger('cvid'));
 		}
 		$entity = array_merge($record->getEntityYearCount(), $record->getPublicHolidays());
-
 		$response = new Vtiger_Response();
 		$response->setResult($entity);
 		$response->emit();
@@ -116,7 +115,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$record->set('filters', $request->get('filters'));
 		}
 		if ($request->has('cvid')) {
-			$record->set('customFilter', $request->get('cvid'));
+			$record->set('customFilter', $request->getInteger('cvid'));
 		}
 		$entity = $record->getEntityRecordsCount();
 		$response = new Vtiger_Response();
@@ -139,7 +138,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$record->set('filters', $request->get('filters'));
 		}
 		if ($request->has('cvid')) {
-			$record->set('customFilter', $request->get('cvid'));
+			$record->set('customFilter', $request->getInteger('cvid'));
 		}
 		$result = [];
 		foreach ($request->getArray('dates', false, []) as $datePair) {
@@ -147,7 +146,6 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$record->set('end', $datePair[1]);
 			$result[] = $record->getEntityRecordsCount();
 		}
-
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
@@ -158,7 +156,6 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('id');
 		$delta = $request->getArray('delta');
-
 		$start = DateTimeField::convertToDBTimeZone($request->get('start'));
 		$date_start = $start->format('Y-m-d');
 		$time_start = $start->format('H:i:s');

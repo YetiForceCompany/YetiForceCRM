@@ -171,7 +171,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			app.showNewScrollbar(sideBar.find('.js-calendar__form__wrapper'), {
 				suppressScrollX: true
 			});
-			sideBar.find('.js-activity-state .summaryCloseEdit').on('click', function () {
+			sideBar.find('.js-activity-state .js-summary-close-edit').on('click', function () {
 				thisInstance.getCalendarCreateView();
 			});
 			sideBar.find('.js-activity-state .editRecord').on('click', function () {
@@ -233,7 +233,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		if (event.vis !== '') {
 			valueEventVis = app.vtranslate('JS_' + event.vis);
 		}
-		$(document).find('.calendarPopover.show').hide();
+		$(document).find('.js-calendar-popover.show').hide();
 		app.showPopoverElementView(element.find('.fc-content'), {
 			title: event.title + '<a href="javascript:void(0);" class="float-right mx-1 js-edit-element" data-js="click"><span class="fas fa-edit float-right"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
 			container: 'body',
@@ -244,7 +244,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 					self.getCalendarEditView(event.id);
 				});
 			},
-			template: '<div class="popover calendarPopover js-calendar-popover' + event.id + '" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+			template: '<div class="popover calendarPopover js-calendar-popover' + event.id + '" role="tooltip" data-js="hide"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
 			content: '<div><span class="fas fa-clock"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start_display + '</div>' +
 				'<div><span class="fas fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
 				(event.lok ? '<div><span class="fas fa-globe"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
@@ -449,7 +449,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			rightFormCreate.validationEngine(app.validationEngineOptions);
 			headerInstance.registerHelpInfo(rightFormCreate);
 			App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
-			sideBar.find('.summaryCloseEdit').on('click', function () {
+			sideBar.find('.js-summary-close-edit').on('click', function () {
 				thisInstance.getCalendarCreateView();
 			});
 			params.callbackFunction = thisInstance.registerAfterSubmitForm(thisInstance, data);

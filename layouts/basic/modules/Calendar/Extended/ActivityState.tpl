@@ -82,7 +82,7 @@
 						</a>
 					{/if}
 				</div>
-				<a href="#" class="btn btn-sm mt-1 btn-danger summaryCloseEdit float-right"
+				<a href="#" class="btn btn-sm mt-1 btn-danger js-summary-close-edit float-right"
 				   title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}">
 					<span class="fas fa-times" title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"></span>
 					<span class="ml-1 d-none d-xxl-inline">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</span>

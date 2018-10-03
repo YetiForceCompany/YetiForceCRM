@@ -34,13 +34,14 @@
 					{\App\Language::translate('LBL_ADD',$MODULE_NAME)}
 				{/if}
 			</h6>
-			<div class="o-calendar__form__wrapper js-calendar__form__wrapper massEditTable no-margin" data-js="perfectscrollbar">
+			<div class="o-calendar__form__wrapper js-calendar__form__wrapper massEditTable no-margin"
+				 data-js="perfectscrollbar">
 				<div class="fieldRow my-2">
 					{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 						{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 						{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
 						{assign var="refrenceListCount" value=count($refrenceList)}
-						<div class="row fieldsLabelValue paddingLRZero">
+						<div class="row fieldsLabelValue pl-0 pr-0">
 							<div class="col-12">
 								{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 								{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
@@ -48,7 +49,8 @@
 									{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 										<a href="#" class="js-popover-tooltip mr-1" data-toggle="popover"
 										   data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}"
-										   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}' role="tooltip">
+										   data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'
+										   role="tooltip">
 											<span class="fas fa-info-circle small align-baseline"></span>
 										</a>
 									{/if}
@@ -85,7 +87,7 @@
 					{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
 				</button>
 				{if !empty($RECORD_ID)}
-					<a href="#" role="button" class="btn btn-danger summaryCloseEdit ml-auto">
+					<a href="#" role="button" class="btn btn-danger js-summary-close-edit ml-auto">
 							<span title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"
 								  class="fas fa-times"></span>
 					</a>
