@@ -166,7 +166,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		AppConnector.request(params).done((data) => {
 			progressInstance.progressIndicator({mode: 'hide'});
 			let sideBar = thisInstance.getSidebarView();
-			sideBar.find('.js-qcForm').html(data);
+			sideBar.find('.js-qc-form').html(data);
 			thisInstance.showRightPanelForm();
 			app.showNewScrollbar(sideBar.find('.js-calendar__form__wrapper'), {
 				suppressScrollX: true
@@ -357,9 +357,9 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	},
 	getSelectedUsersCalendar() {
 		const self = this;
-		let selectedUsers = self.getSidebarView().find('.js-inputUserOwnerId:checked'),
-			selectedUsersAjax = self.getSidebarView().find('.js-inputUserOwnerIdAjax'),
-			selectedRolesAjax = self.getSidebarView().find('.js-inputRoleOwnerIdAjax'),
+		let selectedUsers = self.getSidebarView().find('.js-input-user-owner-id:checked'),
+			selectedUsersAjax = self.getSidebarView().find('.js-input-user-owner-id-ajax'),
+			selectedRolesAjax = self.getSidebarView().find('.js-input-role-owner-id-ajax'),
 			users = [];
 		if (selectedUsers.length > 0) {
 			selectedUsers.each(function () {
@@ -446,7 +446,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		thisInstance.loadCalendarEditView(id, params).done((data) => {
 			progressInstance.progressIndicator({mode: 'hide'});
 			let sideBar = thisInstance.getSidebarView();
-			sideBar.find('.js-qcForm').html(data);
+			sideBar.find('.js-qc-form').html(data);
 			thisInstance.showRightPanelForm();
 			let rightFormCreate = $(document).find('form[name="QuickCreate"]'),
 				editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(sideBar.find('[name="module"]').val()),
@@ -468,7 +468,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 					toolbar: 'Min'
 				});
 			});
-			aDeferred.resolve(sideBar.find('.js-qcForm'));
+			aDeferred.resolve(sideBar.find('.js-qc-form'));
 		}).fail((error) => {
 			progressInstance.progressIndicator({mode: 'hide'});
 			app.errorLog(error);
@@ -525,7 +525,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			$(".js-calendar__tab--filters .js-switch--showType").find('.js-switch--label-on').click();
 			sidebar.find("input:checkbox").prop('checked', false);
 			sidebar.find("option:selected").prop('selected', false).trigger('change');
-			sidebar.find(".js-inputUserOwnerId[value=" + app.getMainParams('userId') + "]").prop('checked', true);
+			sidebar.find(".js-input-user-owner-id[value=" + app.getMainParams('userId') + "]").prop('checked', true);
 			this.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
 		});
 	},
@@ -679,7 +679,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		});
 	},
 	registerUsersChange(formContainer) {
-		formContainer.find('.js-inputUserOwnerIdAjax, .js-inputUserOwnerId').on('change', () => {
+		formContainer.find('.js-input-user-owner-id-ajax, .js-input-user-owner-id').on('change', () => {
 			this.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
 		});
 		this.registerPinUser();
@@ -709,7 +709,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 					}
 					textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR');
 				}
-				self.getSidebarView().find('.js-qcForm').html('');
+				self.getSidebarView().find('.js-qc-form').html('');
 				self.getCalendarCreateView();
 				Vtiger_Helper_Js.showPnotify({
 					text: textToShow,
@@ -721,13 +721,13 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		return returnFunction;
 	},
 	showRightPanelForm() {
-		let calendarRightPanel = $('.js-calendarRightPanel'),
-			sitebarButton = $('.js-toggleSiteBarRightButton');
+		let calendarRightPanel = $('.js-calendar-right-panel'),
+			sitebarButton = $('.js-toggle-site-bar-right-button');
 		if (calendarRightPanel.hasClass('hideSiteBar')) {
 			sitebarButton.trigger('click');
 		}
-		if (!$('.js-rightPanelEvent').hasClass('active')) {
-			$('.js-rightPanelEventLink').trigger('click');
+		if (!$('.js-right-panel-event').hasClass('active')) {
+			$('.js-right-panel-event-link').trigger('click');
 		}
 		$('.js-show-sitebar').on('click', () => {
 			if (calendarRightPanel.hasClass('hideSiteBar')) {
@@ -778,7 +778,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	getCalendarCreateView() {
 		const thisInstance = this;
 		let sideBar = thisInstance.getSidebarView(),
-			qcForm = sideBar.find('.js-qcForm'),
+			qcForm = sideBar.find('.js-qc-form'),
 			aDeferred = $.Deferred();
 		if (qcForm.find('form').length > 0 && qcForm.find('input[name=record]').length === 0) {
 			aDeferred.resolve(qcForm);
@@ -815,7 +815,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		return aDeferred.promise();
 	},
 	registerPinUser() {
-		$('.js-pinUser').off('click').on('click', function () {
+		$('.js-pin-user').off('click').on('click', function () {
 			const thisInstance = $(this);
 			AppConnector.request({
 				'module': app.getModuleName(),
@@ -851,7 +851,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getUsersList').done(
 			function (data) {
 				if (data) {
-					let formContainer = sideBar.find('.js-usersForm');
+					let formContainer = sideBar.find('.js-users-form');
 					formContainer.html(data);
 					thisInstance.registerUsersChange(formContainer);
 					App.Fields.Picklist.showSelect2ElementView(formContainer.find('select'));
@@ -864,7 +864,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		AppConnector.request('index.php?module=Calendar&view=RightPanelExtended&mode=getGroupsList').done(
 			function (data) {
 				if (data) {
-					let formContainer = sideBar.find('.js-groupForm');
+					let formContainer = sideBar.find('.js-group-form');
 					formContainer.html(data);
 					thisInstance.registerUsersChange(formContainer);
 					App.Fields.Picklist.showSelect2ElementView(formContainer.find('select'));

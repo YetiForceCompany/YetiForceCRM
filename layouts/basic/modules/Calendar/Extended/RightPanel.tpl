@@ -20,10 +20,10 @@
 							<div class="mr-0 col-12 form-row d-flex align-items-center">
 								<div class="mr-2">
 									<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
-										   class="js-inputUserOwnerId alignMiddle mr-2"
+										   class="js-input-user-owner-id alignMiddle mr-2"
 											{if $USER_MODEL->getId() eq $OWNER_ID} checked{/if}>
 
-									<div class="js-pinUser d-inline-block align-middle text-center"
+									<div class="js-pin-user d-inline-block align-middle text-center"
 										 data-elementid="{$OWNER_ID}"
 										 data-js="click|data-elementid">
 										<span class="{if empty($FAVOURITES_USERS[$OWNER_ID])}far{else}fas{/if} fa-star js-pin-icon u-cursor-pointer"
@@ -40,7 +40,7 @@
 					{/foreach}
 				</ul>
 			{else}
-				<select class="js-inputUserOwnerIdAjax form-control"
+				<select class="js-input-user-owner-id-ajax form-control"
 						data-validation-engine="validate[required]"
 						title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE)}"
 						name="transferOwnerId" id="transferOwnerId" multiple="multiple"
@@ -74,7 +74,7 @@
 							<div class="mr-0 col-12 form-row d-flex align-items-center">
 								<div class="col-1">
 									<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
-										   class="js-inputUserOwnerId alignMiddle"
+										   class="js-input-user-owner-id alignMiddle"
 											{if $USER_MODEL->getId() eq $OWNER_ID} checked{/if}>
 								</div>
 								<label class="m-0 col-10 js-filter__item__value u-text-ellipsis"
@@ -86,7 +86,7 @@
 					{/foreach}
 				</ul>
 			{else}
-				<select class="js-inputRoleOwnerIdAjax form-control"
+				<select class="js-input-role-owner-id-ajax form-control"
 						data-validation-engine="validate[required]"
 						title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE)}"
 						name="transferRoleOwnerId" id="transferRoleOwnerId" multiple="multiple"
