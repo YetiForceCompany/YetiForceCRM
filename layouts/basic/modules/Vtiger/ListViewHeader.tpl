@@ -95,13 +95,13 @@
 						{if $CUSTOM_VIEW->isFeatured()}
 							<li class="nav-item js-filter-tab c-tab--small font-weight-bold"
 								data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
-								<a class="nav-link{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}" href="#"
-								   {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if}
+								<a class="nav-link btn-light{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}"
+								   href="#"
+								   {if $CUSTOM_VIEW->get('color')}style="background-color: {$CUSTOM_VIEW->get('color')};"{/if}
 								   data-toggle="tab" role="tab"
 								   aria-selected="{if $VIEWID == $CUSTOM_VIEW->getId()}true{else}false{/if}">
 									{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 									{if $CUSTOM_VIEW->get('description')}
-										&nbsp;
 										<span class="js-popover-tooltip fas fa-info-circle" data-js="popover"
 											  data-placement="auto right"
 											  data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
