@@ -4,11 +4,11 @@
  * Returns special functions for PDF Settings.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Adrian Koń <a.kon@yetiforce.com>
- * @author Rafal Pospiech <r.pospiech@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Adrian Koń <a.kon@yetiforce.com>
+ * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 class Vtiger_PDF_Action extends \App\Controller\Action
 {
@@ -115,7 +115,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		} else {
 			if ($singlePdf) {
 				$pdf = new \App\Pdf\Tcpdf();
-				foreach ($recordId as $index => $record) {
+				foreach ($recordId as $record) {
 					$templateIdsTemp = $templateIds;
 					$firstTemplate = array_shift($templateIdsTemp);
 					$pdf = $pdf->generateContent($recordId[0], $moduleName, $firstTemplate, $record);

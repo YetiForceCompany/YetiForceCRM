@@ -437,7 +437,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$subordinateUsers = [];
 		$subordinateRoleUsers = $privilegesModel->get('subordinate_roles_users');
 		if ($subordinateRoleUsers) {
-			foreach ($subordinateRoleUsers as $role => $users) {
+			foreach ($subordinateRoleUsers as $users) {
 				foreach ($users as $user) {
 					$subordinateUsers[$user] = $privilegesModel->getDisplayName();
 				}
@@ -824,7 +824,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 					break;
 			}
 		}
-		return '';
+		return $return;
 	}
 
 	public function getHeadLocks()

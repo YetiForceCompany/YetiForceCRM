@@ -1048,7 +1048,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$relatedModel = $this->getRelationModuleModel();
 			$relatedModelFields = $relatedModel->getFields();
 
-			foreach ($relatedModelFields as $fieldName => $fieldModel) {
+			foreach ($relatedModelFields as $fieldModel) {
 				if ($fieldModel->isViewable()) {
 					$fields[] = $fieldModel;
 				}
