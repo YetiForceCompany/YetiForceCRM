@@ -1297,6 +1297,7 @@
   },
   "js": {
     "JS_APPROVE": "Zatwierd\u017A",
+    "JS_ADD_RECORD": "Rekord zosta\u0142 dodany.",
     "JS_SUMMARY": "Podsumowanie",
     "JS_LOADING_PLEASE_WAIT": "Prosz\u0119 czeka\u0107..",
     "JS_SELECTED_RECORDS": "Zaznaczonych rekord\u00f3w",

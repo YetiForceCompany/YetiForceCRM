@@ -352,7 +352,20 @@ $.Class("Vtiger_Header_Js", {
 							});
 						}
 						app.event.trigger("QuickCreate.AfterSaveFinal", data, form);
-						$.progressIndicator({'mode': 'hide'});
+						let progress = $.progressIndicator({
+							'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
+							'position': 'html',
+							'blockInfo': {
+								'enabled': true
+							}
+						});
+						if (data.success) {
+							progress.progressIndicator({'mode': 'hide'});
+							Vtiger_Helper_Js.showPnotify({
+								text: app.vtranslate('JS_ADD_RECORD'),
+								type: 'success'
+							});
+						}
 					});
 				} else {
 					//If validation fails in recordPreSaveEvent, form should submit again
