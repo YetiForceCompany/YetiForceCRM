@@ -522,9 +522,10 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		app.showPopoverElementView(clearBtn);
 		clearBtn.on('click', () => {
 			$(".js-calendar__extended-filter-tab a").removeClass('active');
-			$(".js-calendar__tab--filters .js-switch--showType").find('.js-switch--label-on').click();
+			app.setMainParams('showType', 'current');
+			app.moduleCacheSet('defaultShowType', 'current');
 			sidebar.find("input:checkbox").prop('checked', false);
-			sidebar.find("option:selected").prop('selected', false).trigger('change');
+			sidebar.find("option:selected").prop('selected', false);
 			sidebar.find(".js-input-user-owner-id[value=" + app.getMainParams('userId') + "]").prop('checked', true);
 			this.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
 		});

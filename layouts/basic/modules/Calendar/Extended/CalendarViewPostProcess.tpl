@@ -39,7 +39,7 @@
 								</label>
 								<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-off">
 									<input type="radio" name="options" data-off-text="{\App\Language::translate('LBL_ALL', $MODULE)}
-" autocomplete="off" checked>
+" autocomplete="off">
 									{\App\Language::translate('LBL_ALL', $MODULE)}
 								</label>
 							</div>

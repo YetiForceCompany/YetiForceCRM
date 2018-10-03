@@ -16414,8 +16414,8 @@ label.btn.btn-outline-primary:not(.active) {
   .tpl-Calendar-Extended-CalendarViewPreProcess .tpl-Calendar-Extended-ActivityState .formActionsPanel,
   .tpl-Calendar-Extended-QuickCreate .tpl-Calendar-Extended-ActivityState .formActionsPanel {
     min-height: unset !important; }
-  .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .qcForm .formActionsPanel,
-  .tpl-Calendar-Extended-QuickCreate .hideSiteBar .qcForm .formActionsPanel {
+  .tpl-Calendar-Extended-CalendarViewPreProcess .hideSiteBar .qc-form .formActionsPanel,
+  .tpl-Calendar-Extended-QuickCreate .hideSiteBar .qc-form .formActionsPanel {
     right: -25%; }
   .tpl-Calendar-Extended-CalendarViewPreProcess .o-calendar__form,
   .tpl-Calendar-Extended-QuickCreate .o-calendar__form {
