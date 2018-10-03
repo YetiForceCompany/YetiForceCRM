@@ -126,7 +126,7 @@ class Vtiger_AdvancedFilter_Helper
 		$firstGroup = [];
 		$secondGroup = [];
 		if (!empty($conditions)) {
-			foreach ($conditions as $index => $info) {
+			foreach ($conditions as $info) {
 				if (!($info['groupid'])) {
 					$firstGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
 						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid'], ];

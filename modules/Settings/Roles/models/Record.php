@@ -118,7 +118,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$parentRoles = \App\PrivilegeUtil::getParentRole($this->getId());
 			$currentRoleDepth = $this->getDepth();
 			$parentRoleString = '';
-			foreach ($parentRoles as $key => $role) {
+			foreach ($parentRoles as $role) {
 				if (empty($parentRoleString)) {
 					$parentRoleString = $role;
 				} else {
@@ -274,7 +274,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		$this->set('allowassignedrecordsto', $this->get('allowassignedrecordsto'));
 		$this->save();
 
-		foreach ($allChildren as $roleId => $roleModel) {
+		foreach ($allChildren as $roleModel) {
 			$oldChildDepth = $roleModel->getDepth();
 			$newChildDepth = $oldChildDepth + $depthDifference;
 

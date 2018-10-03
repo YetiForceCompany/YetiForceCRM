@@ -130,7 +130,7 @@ class Vtiger_InventoryField_Model extends App\Base
 			return $this->columns;
 		}
 		$columnsArray = [];
-		foreach ($this->getFields() as $key => $field) {
+		foreach ($this->getFields() as $field) {
 			$column = $field->getColumnName();
 			if (!empty($column) && $column != '-') {
 				$columnsArray[] = $column;

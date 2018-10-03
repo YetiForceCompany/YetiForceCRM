@@ -2,9 +2,9 @@
 
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 {
@@ -18,7 +18,7 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 		$identityList = [];
 		if ($mailModuleActive) {
 			$accountsList = OSSMail_Record_Model::getAccountsList();
-			foreach ($accountsList as $key => $account) {
+			foreach ($accountsList as $account) {
 				$identityList[$account['user_id']] = OSSMailScanner_Record_Model::getIdentities($account['user_id']);
 			}
 		}

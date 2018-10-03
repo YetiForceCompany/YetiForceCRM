@@ -288,7 +288,7 @@ class Vtiger_Export_Model extends \App\Base
 					$recordModule = \App\Record::getType($value);
 					$displayValueArray = \App\Record::computeLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
-						foreach ($displayValueArray as $k => $v) {
+						foreach ($displayValueArray as $v) {
 							$displayValue = $v;
 						}
 					}
