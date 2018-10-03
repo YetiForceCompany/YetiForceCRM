@@ -180,7 +180,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		});
 	},
 	registerSwitchEvents() {
-		const calendarview = this.getCalendarView();
+		const calendarView = this.getCalendarView();
 		let isWorkDays = (app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all'),
 			switchShowTypeVal = (app.getMainParams('showType') === 'current' && app.moduleCacheGet('defaultShowType') !== 'history'),
 			switchContainer = $('.js-calendar__tab--filters'),
@@ -199,7 +199,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				app.setMainParams('showType', 'history');
 				app.moduleCacheSet('defaultShowType', 'history');
 			}
-			this.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
+			calendarView.fullCalendar('getCalendar').view.options.loadView();
 		});
 		if (switchSwitchingDays.length) {
 			if (!isWorkDays) {
@@ -216,10 +216,10 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 					app.setMainParams('switchingDays', 'all');
 					app.moduleCacheSet('defaultSwitchingDays', 'all');
 				}
-				calendarview.fullCalendar('option', 'hiddenDays', hiddenDays);
-				calendarview.fullCalendar('option', 'height', app.setCalendarHeight());
-				if (calendarview.fullCalendar('getView').type === 'year') {
-					this.registerViewRenderEvents(calendarview.fullCalendar('getView'));
+				calendarView.fullCalendar('option', 'hiddenDays', hiddenDays);
+				calendarView.fullCalendar('option', 'height', app.setCalendarHeight());
+				if (calendarView.fullCalendar('getView').type === 'year') {
+					this.registerViewRenderEvents(calendarView.fullCalendar('getView'));
 				}
 			});
 		}
@@ -349,10 +349,11 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		});
 	},
 	getSelectedUsersCalendar() {
-		const self = this;
-		let selectedUsers = self.getSidebarView().find('.js-input-user-owner-id:checked'),
-			selectedUsersAjax = self.getSidebarView().find('.js-input-user-owner-id-ajax'),
-			selectedRolesAjax = self.getSidebarView().find('.js-input-role-owner-id-ajax'),
+		const self = this,
+			sidebar = this.getSidebarView();
+		let selectedUsers = sidebar.find('.js-input-user-owner-id:checked'),
+			selectedUsersAjax = sidebar.find('.js-input-user-owner-id-ajax'),
+			selectedRolesAjax = sidebar.find('.js-input-role-owner-id-ajax'),
 			users = [];
 		if (selectedUsers.length > 0) {
 			selectedUsers.each(function () {
@@ -510,8 +511,9 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		$(".js-calendar__clear-filters").toggleClass('d-none', statement);
 	},
 	registerClearFilterButton() {
-		const sidebar = this.getSidebarView();
-		let clearBtn = this.getCalendarView().find('.js-calendar__clear-filters');
+		const sidebar = this.getSidebarView(),
+			calendarView = this.getCalendarView();
+		let clearBtn = calendarView.find('.js-calendar__clear-filters');
 		app.showPopoverElementView(clearBtn);
 		clearBtn.on('click', () => {
 			$(".js-calendar__extended-filter-tab a").removeClass('active');
@@ -520,7 +522,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			sidebar.find("input:checkbox").prop('checked', false);
 			sidebar.find("option:selected").prop('selected', false);
 			sidebar.find(".js-input-user-owner-id[value=" + app.getMainParams('userId') + "]").prop('checked', true);
-			this.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
+			calendarView.fullCalendar('getCalendar').view.options.loadView();
 		});
 	},
 	generateYearList(dateStart, dateEnd) {
@@ -685,21 +687,22 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	 * @returns {function}
 	 */
 	registerAfterSubmitForm(self, data) {
+		const calendarView = this.getCalendarView();
 		let returnFunction = function (data) {
 			if (data.success) {
 				let textToShow = '';
-				if (self.getCalendarView().fullCalendar('clientEvents', data.result._recordId)[0]) {
+				if (calendarView.fullCalendar('clientEvents', data.result._recordId)[0]) {
 					self.updateCalendarEvent(data.result._recordId, data.result);
 					textToShow = app.vtranslate('JS_SAVE_NOTIFY_OK');
 				} else {
-					const calendarInstance = self.getCalendarView().fullCalendar('getCalendar');
+					const calendarInstance = calendarView.fullCalendar('getCalendar');
 					if (calendarInstance.view.type !== 'year') {
 						calendarInstance.view.options.addCalendarEvent(data.result);
 					} else {
 						calendarInstance.view.render();
 					}
 					if (data.result.followup.value !== undefined) {
-						self.getCalendarView().fullCalendar('removeEvents', data.result.followup.value);
+						calendarView.fullCalendar('removeEvents', data.result.followup.value);
 					}
 					textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR');
 				}
