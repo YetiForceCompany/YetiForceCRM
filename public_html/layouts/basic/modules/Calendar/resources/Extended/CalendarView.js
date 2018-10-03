@@ -715,23 +715,22 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		return returnFunction;
 	},
 	showRightPanelForm() {
-		let calendarRightPanel = $('.js-calendar-right-panel'),
-			sitebarButton = $('.js-toggle-site-bar-right-button');
-		if (calendarRightPanel.hasClass('hideSiteBar')) {
-			sitebarButton.trigger('click');
+		let calendarRightPanel = $('.js-calendar-right-panel');
+		if (!calendarRightPanel.find('.js-right-panel-event').hasClass('active')) {
+			calendarRightPanel.find('.js-right-panel-event-link').trigger('click');
 		}
-		if (!$('.js-right-panel-event').hasClass('active')) {
-			$('.js-right-panel-event-link').trigger('click');
-		}
-		$('.js-show-sitebar').on('click', () => {
-			if (calendarRightPanel.hasClass('hideSiteBar')) {
-				sitebarButton.trigger('click');
-			}
-		});
 		app.showNewScrollbar(calendarRightPanel.find('.js-calendar__form__wrapper'), {
 			suppressScrollX: true
 		});
 		app.showPopoverElementView(calendarRightPanel.find('.js-popover-tooltip'));
+	},
+	registerSiteBarEvents() {
+		let calendarRightPanel = $('.js-calendar-right-panel');
+		calendarRightPanel.find('.js-show-sitebar').on('click', () => {
+			if (calendarRightPanel.hasClass('hideSiteBar')) {
+				calendarRightPanel.find('.js-toggle-site-bar-right-button').trigger('click');
+			}
+		});
 	},
 	loadCalendarCreateView() {
 		let aDeferred = $.Deferred();
@@ -922,6 +921,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	registerEvents() {
 		this._super();
 		this.registerAddForm();
+		this.registerSiteBarEvents();
 		this.registerFilterForm();
 		ElementQueries.listen();
 	}

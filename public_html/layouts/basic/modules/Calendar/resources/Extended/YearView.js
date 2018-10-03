@@ -38,9 +38,7 @@ var YearView = View.extend({
 			events.result[i]['width'] = width;
 			events.result[i]['height'] = height;
 		}
-		calendar.fullCalendar('addEventSource',
-			events.result
-		);
+		calendar.fullCalendar('addEventSource', events.result);
 		calendar.find(".js-show-day").on('click', function () {
 			let date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase());
 			thisInstance.getCalendarView().fullCalendar('changeView', 'agendaDay', date);
