@@ -716,6 +716,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 						}
 					}
 				}
+				self.refreshDatesRowView(calendarView.fullCalendar('getView'));
 				self.getSidebarView().find('.js-qc-form').html('');
 				self.getCalendarCreateView();
 				Vtiger_Helper_Js.showPnotify({
