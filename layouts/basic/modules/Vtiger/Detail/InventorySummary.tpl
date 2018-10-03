@@ -48,12 +48,9 @@
 					</tr>
 					</thead>
 					<tbody>
+					{assign var="TAX_AMOUNT" value=0}
 					{foreach item=TAX key=KEY from=$TAXS}
-						{if isset($TAX_AMOUNT)}
-							{assign var="TAX_AMOUNT" value=$TAX_AMOUNT + $TAX}
-						{else}
-							{assign var="TAX_AMOUNT" value=$TAX}
-						{/if}
+						{assign var="TAX_AMOUNT" value=$TAX_AMOUNT + $TAX}
 						<tr>
 							<td class="textAlignRight" width='70px'>
 								{CurrencyField::convertToUserFormat($KEY)}%
