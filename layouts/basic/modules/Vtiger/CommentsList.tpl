@@ -48,7 +48,7 @@
 						<span class="visible-xs-inline-block fas fa-times"></span>
 						<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 					</button>
-					<button class="btn btn-success js-saveComment saveComment mt-3 float-right" type="button"
+					<button class="btn btn-success js-save-comment mt-3 float-right" type="button"
 							data-mode="add"
 							data-js="click|data-mode">
 						<span class="visible-xs-inline-block fas fa-check"></span>
@@ -85,7 +85,7 @@
 						<span class="visible-xs-inline-block fas fa-times"></span>
 						<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 					</button>
-					<button class="btn btn-success js-saveComment saveComment mt-3 float-right" type="button"
+					<button class="btn btn-success js-save-comment mt-3 float-right" type="button"
 							data-mode="edit"
 							data-js="click|data-mode">
 						<span class="visible-xs-inline-block fas fa-check"></span>

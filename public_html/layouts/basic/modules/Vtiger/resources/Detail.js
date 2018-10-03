@@ -1971,17 +1971,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 		} else if (mode == "edit") {
 			let modifiedTime = commentInfoBlock.find('.js-commentModifiedTime'),
 				commentInfoContent = commentInfoBlock.find('.js-comment-info'),
-				commentEditStatus = commentInfoBlock.find('.js-editStatus'),
-				commentReason = commentInfoBlock.find('.js-editReasonSpan');
+				commentEditStatus = commentInfoBlock.find('.js-edited-status'),
+				commentReason = commentInfoBlock.find('.js-edit-reason-span');
 			commentInfoContent.html(data.result.commentcontent);
 			commentReason.html(data.result.reasontoedit);
 			modifiedTime.html(data.result.modifiedtime);
-			modifiedTime.attr('title', data.result.modifiedtimetitle)
+			modifiedTime.attr('title', data.result.modifiedtimetitle);
 			if (commentEditStatus.hasClass('d-none')) {
 				commentEditStatus.removeClass('d-none');
 			}
 			if (data.result.reasontoedit != "") {
-				commentInfoBlock.find('.js-editReason').removeClass('d-none')
+				commentInfoBlock.find('.js-edit-reason').removeClass('d-none')
 			}
 			commentInfoContent.show();
 			commentInfoBlock.find('.js-comment-container').show();
@@ -2032,7 +2032,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 		});
-		detailContentsHolder.on('click', '.js-saveComment', function (e) {
+		detailContentsHolder.on('click', '.js-save-comment', function (e) {
 			let element = $(e.currentTarget);
 			if (!element.is(":disabled")) {
 				self.saveComment(e).done(function (data) {
@@ -2045,10 +2045,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 		});
-		detailContentsHolder.on('click', '.js-moreRecentComments', function () {
+		detailContentsHolder.on('click', '.js-more-recent-comments ', function () {
 			self.getTabByLabel(self.detailViewRecentCommentsTabLabel).trigger('click');
 		});
-		detailContentsHolder.on('change', '.js-detailHierarchyComments', function (e) {
+		detailContentsHolder.on('change', '.js-detail-hierarchy-comments', function (e) {
 			let recentCommentsTab = self.getTabByLabel(self.detailViewRecentCommentsTabLabel),
 				url = recentCommentsTab.data('url'),
 				regex = /&hierarchy=+([\w,]+)/;
@@ -2083,11 +2083,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 				detailContentsHolder.find('.js-comments-container').html(data);
 			});
 		} else {
-			let hierarchy = detailContentsHolder.find('.js-detailHierarchyComments:checked').val(),
+			let hierarchy = detailContentsHolder.find('.js-detail-hierarchy-comments:checked').val(),
 				limit = '',
 				isWidget = false;
 			if (searchTextDom.data('container') === 'widget') {
-				hierarchy = detailContentsHolder.find('.js-hierarchyComments:checked').val();
+				hierarchy = detailContentsHolder.find('.js-detail-hierarchy-comments:checked').val();
 				limit = widgetContainer.data('limit');
 				isWidget = true;
 			}

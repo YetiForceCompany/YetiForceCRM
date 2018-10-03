@@ -84,7 +84,7 @@
 			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
 				<div class="col-12 float-right p-0 mb-2">
 					<a href="javascript:void(0)"
-					   class="js-moreRecentComments moreRecentComments btn btn-sm btn-info marginTop5 marginRight15"
+					   class="js-more-recent-comments btn btn-sm btn-info marginTop5 marginRight15"
 					   data-js="click">
 						{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..
 					</a>
@@ -110,7 +110,7 @@
 							<span class="visible-xs-inline-block fas fa-times"></span>
 							<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 						</button>
-						<button class="btn btn-success js-saveComment saveComment mt-3 float-right" type="button"
+						<button class="btn btn-success js-save-comment mt-3 float-right" type="button"
 								data-mode="add"
 								data-js="click|data-mode">
 							<span class="visible-xs-inline-block fas fa-check"></span>
@@ -148,7 +148,7 @@
 							<span class="visible-xs-inline-block fas fa-times"></span>
 							<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 						</button>
-						<button class="btn btn-success js-saveComment saveComment mt-3 float-right" type="button"
+						<button class="btn btn-success js-save-comment mt-3 float-right" type="button"
 								data-mode="edit"
 								data-js="click|data-mode">
 							<span class="visible-xs-inline-block fas fa-check"></span>

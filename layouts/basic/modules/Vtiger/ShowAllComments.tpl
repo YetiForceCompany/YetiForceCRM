@@ -28,7 +28,7 @@
 								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
 								  data-js="val"></textarea>
 					</div>
-					<button class="btn btn-success mt-3 js-saveComment saveComment float-right" type="button"
+					<button class="btn btn-success mt-3 js-save-comment float-right" type="button"
 							data-mode="add"
 							data-js="click|data-mode">
 						<span class="visible-xs-inline-block fas fa-check"></span>
@@ -61,7 +61,7 @@
 					 data-toggle="buttons">
 					<div class="btn-group btn-group-toggle detailCommentsHierarchy" data-toggle="buttons">
 						<label class="btn btn-sm btn-outline-primary {if $HIERARCHY_VALUE !== 'all'}active{/if}">
-							<input class="js-detailHierarchyComments detailHierarchyComments" type="radio"
+							<input class="js-detail-hierarchy-comments" type="radio"
 								   name="options" id="option1"
 								   value="current" autocomplete="off"
 								   {if $HIERARCHY_VALUE !== 'all'}checked="checked"{/if}
@@ -69,7 +69,7 @@
 							> {\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
 						</label>
 						<label class="btn btn-sm btn-outline-primary {if $HIERARCHY_VALUE === 'all'}active{/if}">
-							<input class="js-detailHierarchyComments detailHierarchyComments" type="radio"
+							<input class="js-detail-hierarchy-comments" type="radio"
 								   name="options" id="option2" value="all"
 								   {if $HIERARCHY_VALUE === 'all'}checked="checked"{/if}
 								   data-js="change"

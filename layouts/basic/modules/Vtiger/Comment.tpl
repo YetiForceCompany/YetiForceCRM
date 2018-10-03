@@ -56,8 +56,8 @@
 		<div class="js-comment-container commentActionsContainer d-flex flex-wrap justify-content-between align-items-center m-0"
 			 data-js="hide|show">
 			{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
-			<div class="js-editedStatus editedStatus" name="editStatus" data-js="class: d-none">
-				<span class="{if empty($REASON_TO_EDIT)}d-none{/if} js-editReason text-muted" data-js="class: d-none">
+			<div class="js-edited-status editedStatus" name="editStatus" data-js="class: d-none">
+				<span class="{if empty($REASON_TO_EDIT)}d-none{/if} js-edit-reason text-muted" data-js="class: d-none">
 					<p>
 						<small>
 							[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] :

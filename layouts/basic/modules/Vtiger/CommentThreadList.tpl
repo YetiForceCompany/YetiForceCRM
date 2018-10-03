@@ -55,8 +55,8 @@
 			</div>
 			<div class="js-comment-container commentActionsContainer row no-margin" data-js="hide|show">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
-				<div class="js-editedStatus editedStatus" name="editStatus" data-js="class: d-none">
-					<span class="{if empty($REASON_TO_EDIT)}d-none{/if} js-editReason text-muted"
+				<div class="js-edited-status editedStatus" name="editStatus" data-js="class: d-none">
+					<span class="{if empty($REASON_TO_EDIT)}d-none{/if} js-edit-reason text-muted"
 						  data-js="class: d-none">
 						<p>
 							<small>
