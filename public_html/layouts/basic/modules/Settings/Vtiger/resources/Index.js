@@ -74,7 +74,7 @@ $.Class("Settings_Vtiger_Index_Js", {
 		$('li[data-mode="systemWarnings"] a').click();
 	},
 	showSecurity: function () {
-		$('li[data-mode="security"] a').click();
+		window.location.href = 'index.php?module=Log&parent=' + app.getParentModuleName() + '&view=Index&type=access_for_admin';
 	},
 }, {
 	registerDeleteShortCutEvent: function (shortCutBlock) {
