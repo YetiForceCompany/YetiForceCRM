@@ -52,9 +52,6 @@ var YearView = View.extend({
 			$(".js-sub-record .active").click();
 		});
 	},
-	loadCalendarData() {
-		this.render();
-	},
 	appendWeekButton() {
 		$('.fc-row.fc-week.fc-widget-content').each(function () {
 			let date = $(this).find('.fc-day-top').first().data('date');
@@ -80,6 +77,7 @@ var YearView = View.extend({
 		if (user.length === 0) {
 			user = [app.getMainParams('userId')];
 		}
+		this.refreshDatesRowView(calendar.view);
 		this.clearFilterButton(user, filters, cvid);
 		AppConnector.request({
 			module: 'Calendar',

@@ -95,7 +95,9 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 					self.eventRender(event, element);
 				},
 				viewRender: function (view, element) {
-					self.loadCalendarData(view);
+					if (view.type !== 'year') {
+						self.loadCalendarData(view);
+					}
 				},
 				addCalendarEvent(calendarDetails) {
 					let calendar = self.getCalendarView(),
@@ -481,33 +483,31 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			cvid = self.getCurrentCvId(),
 			calendarInstance = this.getCalendarView();
 		calendarInstance.fullCalendar('removeEvents');
-		if (view.type !== 'year') {
-			let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-			user = self.getSelectedUsersCalendar();
-			if (0 === user.length) {
-				user = [app.getMainParams('userId')];
-			}
-			self.clearFilterButton(user, filters, cvid);
-			if (view.type === 'agendaDay') {
-				self.selectDays(view.start, view.end);
-				view.end = view.end.add(1, 'day');
-			}
-			AppConnector.request({
-				module: 'Calendar',
-				action: 'Calendar',
-				mode: 'getEvents',
-				start: view.start.format(formatDate),
-				end: view.end.format(formatDate),
-				user: user,
-				time: app.getMainParams('showType'),
-				filters: filters,
-				cvid: cvid
-			}).done((events) => {
-				calendarInstance.fullCalendar('removeEvents');
-				calendarInstance.fullCalendar('addEventSource', events.result);
-				progressInstance.progressIndicator({mode: 'hide'});
-			});
+		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
+		user = self.getSelectedUsersCalendar();
+		if (0 === user.length) {
+			user = [app.getMainParams('userId')];
 		}
+		self.clearFilterButton(user, filters, cvid);
+		if (view.type === 'agendaDay') {
+			self.selectDays(view.start, view.end);
+			view.end = view.end.add(1, 'day');
+		}
+		AppConnector.request({
+			module: 'Calendar',
+			action: 'Calendar',
+			mode: 'getEvents',
+			start: view.start.format(formatDate),
+			end: view.end.format(formatDate),
+			user: user,
+			time: app.getMainParams('showType'),
+			filters: filters,
+			cvid: cvid
+		}).done((events) => {
+			calendarInstance.fullCalendar('removeEvents');
+			calendarInstance.fullCalendar('addEventSource', events.result);
+			progressInstance.progressIndicator({mode: 'hide'});
+		});
 		self.registerViewRenderEvents(view);
 	},
 	clearFilterButton(user, filters, cvid) {
@@ -679,7 +679,9 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		});
 	},
 	registerUsersChange(formContainer) {
-		formContainer.find('.js-inputUserOwnerIdAjax, .js-inputUserOwnerId').on('change', this.getCalendarView().fullCalendar('getCalendar').view.options.loadView);
+		formContainer.find('.js-inputUserOwnerIdAjax, .js-inputUserOwnerId').on('change', () => {
+			this.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
+		});
 		this.registerPinUser();
 	},
 	/**
@@ -841,7 +843,6 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 	 * Register load calendar data
 	 */
 	registerLoadCalendarData() {
-		this.registerFilterTabChange();
 	},
 	registerAddForm() {
 		const thisInstance = this;
