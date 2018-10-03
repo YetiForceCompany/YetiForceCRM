@@ -690,21 +690,25 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		const calendarView = this.getCalendarView();
 		let returnFunction = function (data) {
 			if (data.success) {
-				let textToShow = '';
-				if (calendarView.fullCalendar('clientEvents', data.result._recordId)[0]) {
-					self.updateCalendarEvent(data.result._recordId, data.result);
-					textToShow = app.vtranslate('JS_SAVE_NOTIFY_OK');
-				} else {
-					const calendarInstance = calendarView.fullCalendar('getCalendar');
-					if (calendarInstance.view.type !== 'year') {
-						calendarInstance.view.options.addCalendarEvent(data.result);
+				let textToShow = app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
+					recordActivityStatus = data.result.activitystatus.value,
+					historyStatus = app.getMainParams('activityStateLabels', true).history,
+					inHistoryStatus = $.inArray(recordActivityStatus, historyStatus),
+					showType = app.getMainParams('showType');
+				if ((-1 !== inHistoryStatus && 'history' === showType) || (-1 === inHistoryStatus && 'history' !== showType)) {
+					if (calendarView.fullCalendar('clientEvents', data.result._recordId)[0]) {
+						self.updateCalendarEvent(data.result._recordId, data.result);
 					} else {
-						calendarInstance.view.render();
+						const calendarInstance = calendarView.fullCalendar('getCalendar');
+						if (calendarInstance.view.type !== 'year') {
+							calendarInstance.view.options.addCalendarEvent(data.result);
+						} else {
+							calendarInstance.view.render();
+						}
+						if (data.result.followup.value !== undefined) {
+							calendarView.fullCalendar('removeEvents', data.result.followup.value);
+						}
 					}
-					if (data.result.followup.value !== undefined) {
-						calendarView.fullCalendar('removeEvents', data.result.followup.value);
-					}
-					textToShow = app.vtranslate('JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR');
 				}
 				self.getSidebarView().find('.js-qc-form').html('');
 				self.getCalendarCreateView();
