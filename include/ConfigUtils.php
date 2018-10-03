@@ -91,7 +91,7 @@ class AppConfig
 
 	public static function api($key, $defvalue = false)
 	{
-		return self::$api[$key];
+		return self::$api[$key] ?? $defvalue;
 	}
 
 	public static function debug($key, $defvalue = false)
@@ -100,7 +100,7 @@ class AppConfig
 			require_once 'config/debug.php';
 			self::load('debug', $DEBUG_CONFIG);
 		}
-		return isset(self::$debug[$key]) ? self::$debug[$key] : $defvalue;
+		return isset(self::$debug[$key]) ?? $defvalue;
 	}
 
 	public static function developer($key, $defvalue = false)
@@ -109,7 +109,7 @@ class AppConfig
 			require_once 'config/developer.php';
 			self::load('developer', $DEVELOPER_CONFIG);
 		}
-		return isset(self::$developer[$key]) ? self::$developer[$key] : $defvalue;
+		return isset(self::$developer[$key]) ?? $defvalue;
 	}
 
 	public static function security($key, $defvalue = false)
@@ -118,7 +118,7 @@ class AppConfig
 			require_once 'config/security.php';
 			self::load('security', $SECURITY_CONFIG);
 		}
-		return isset(self::$security[$key]) ? self::$security[$key] : $defvalue;
+		return isset(self::$security[$key]) ?? $defvalue;
 	}
 
 	public static function securityKeys($key, $defvalue = false)
@@ -127,7 +127,7 @@ class AppConfig
 			require_once 'config/secret_keys.php';
 			self::load('securityKeys', $SECURITY_KEYS_CONFIG);
 		}
-		return isset(self::$securityKeys[$key]) ? self::$securityKeys[$key] : $defvalue;
+		return isset(self::$securityKeys[$key]) ?? $defvalue;
 	}
 
 	public static function performance($key, $defvalue = false)
@@ -136,7 +136,7 @@ class AppConfig
 			require_once 'config/performance.php';
 			self::load('performance', $PERFORMANCE_CONFIG);
 		}
-		return isset(self::$performance[$key]) ? self::$performance[$key] : $defvalue;
+		return isset(self::$performance[$key]) ?? $defvalue;
 	}
 
 	public static function relation($key, $defvalue = false)
@@ -145,7 +145,7 @@ class AppConfig
 			require_once 'config/relation.php';
 			self::load('relation', $RELATION_CONFIG);
 		}
-		return isset(self::$relation[$key]) ? self::$relation[$key] : $defvalue;
+		return isset(self::$relation[$key]) ?? $defvalue;
 	}
 
 	public static function sounds()
@@ -168,7 +168,7 @@ class AppConfig
 			require_once 'config/search.php';
 			self::load('search', $CONFIG);
 		}
-		return self::$search[$key];
+		return self::$search[$key] ?? $defvalue;
 	}
 
 	public static function load($key, $config)

@@ -3,7 +3,7 @@
  * OSSEmployees CRMEntity class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
@@ -190,7 +190,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			$depth = $parent_accounts[$immediate_parentid]['depth'] + 1;
 		}
 		$parent_account_info['depth'] = $depth;
-		foreach ($this->list_fields_name as $fieldname => $columnname) {
+		foreach ($this->list_fields_name as $columnname) {
 			if ($columnname == 'assigned_user_id') {
 				$parent_account_info[$columnname] = $adb->queryResult($res, 0, 'user_name');
 			} else {
@@ -231,7 +231,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 				}
 				$child_account_info = [];
 				$child_account_info['depth'] = $depth;
-				foreach ($this->list_fields_name as $fieldname => $columnname) {
+				foreach ($this->list_fields_name as $columnname) {
 					if ($columnname == 'assigned_user_id') {
 						$child_account_info[$columnname] = $adb->queryResult($res, $i, 'user_name');
 					} else {

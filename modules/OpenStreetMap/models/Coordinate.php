@@ -86,7 +86,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$queryGenerator->addNativeCondition(['vtiger_crmentity.crmid' => $crmid]);
 		$row = $queryGenerator->createQuery()->one();
 		$html = '';
-		foreach ($row as $fieldName => $value) {
+		foreach ($row as $value) {
 			if (!empty($value)) {
 				$html .= \App\Purifier::encodeHtml($value) . '<br />';
 			}
