@@ -517,6 +517,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$scanId = $scannerModel->addScanHistory(['user' => $whoTrigger]);
 		foreach ($accounts as $account) {
 			\App\Log::trace('Start checking account: ' . $account['username']);
+			if (!$this->isConnection($account)) {
+				continue;
+			}
 			foreach ($scannerModel->getFolders($account['user_id']) as &$folderRow) {
 				$folder = $folderRow['folder'];
 				\App\Log::trace('Start checking folder: ' . $folder);
@@ -542,6 +545,28 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		\App\Log::trace('End executeCron');
 
 		return 'ok';
+	}
+
+	/**
+	 * Function checks connection to mailbox.
+	 *
+	 * @param array $account
+	 *
+	 * @return bool
+	 */
+	public function isConnection(array $account)
+	{
+		$result = false;
+		try {
+			$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], '');
+			if (is_resource($mbox)) {
+				imap_close($mbox);
+				$result = true;
+			}
+		} catch (\Throwable $e) {
+			$result = false;
+		}
+		return $result;
 	}
 
 	/**
