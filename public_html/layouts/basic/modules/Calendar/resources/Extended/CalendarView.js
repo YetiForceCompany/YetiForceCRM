@@ -137,11 +137,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				jsEvent.preventDefault();
 				let link = new URL($(this)[0].href),
 					url = 'index.php?module=Calendar&view=ActivityState&record=' +
-						link.searchParams.get("record"),
-					calendarRightPanel = $('.js-calendar-right-panel');
-				if (calendarRightPanel.hasClass('hideSiteBar')) {
-					calendarRightPanel.find('.js-toggle-site-bar-right-button').trigger('click');
-				}
+						link.searchParams.get("record");
+				self.openRightPanel();
 				self.showStatusUpdate(url);
 			};
 		}
@@ -233,18 +230,23 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			return;
 		}
 		const self = this;
-		let valueEventVis = '';
+		let editableButton = '',
+			valueEventVis = '';
+		if (self.getCalendarView().fullCalendar('getCalendar').view.options.editable) {
+			editableButton = '<a href="javascript:void(0);" class="float-right mx-1 js-edit-element" data-js="click"><span class="fas fa-edit float-right"></span></a>';
+		}
 		if (event.vis !== '') {
 			valueEventVis = app.vtranslate('JS_' + event.vis);
 		}
 		$(document).find('.js-calendar-popover.show').hide();
 		app.showPopoverElementView(element.find('.fc-content'), {
-			title: event.title + '<a href="javascript:void(0);" class="float-right mx-1 js-edit-element" data-js="click"><span class="fas fa-edit float-right"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
+			title: event.title + editableButton + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
 			container: 'body',
 			html: true,
 			placement: 'auto',
 			callbackShown: function () {
 				$('.js-calendar-popover' + event.id).find('.js-edit-element').on('click', function () {
+					self.openRightPanel();
 					self.getCalendarEditView(event.id);
 				});
 			},
@@ -724,6 +726,12 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			}
 		};
 		return returnFunction;
+	},
+	openRightPanel() {
+		let calendarRightPanel = $('.js-calendar-right-panel');
+		if (calendarRightPanel.hasClass('hideSiteBar')) {
+			calendarRightPanel.find('.js-toggle-site-bar-right-button').trigger('click');
+		}
 	},
 	showRightPanelForm() {
 		let calendarRightPanel = $('.js-calendar-right-panel');
