@@ -137,7 +137,11 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				jsEvent.preventDefault();
 				let link = new URL($(this)[0].href),
 					url = 'index.php?module=Calendar&view=ActivityState&record=' +
-						link.searchParams.get("record");
+						link.searchParams.get("record"),
+					calendarRightPanel = $('.js-calendar-right-panel');
+				if (calendarRightPanel.hasClass('hideSiteBar')) {
+					calendarRightPanel.find('.js-toggle-site-bar-right-button').trigger('click');
+				}
 				self.showStatusUpdate(url);
 			};
 		}
