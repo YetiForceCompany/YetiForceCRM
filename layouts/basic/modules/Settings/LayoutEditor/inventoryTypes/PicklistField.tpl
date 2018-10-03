@@ -4,7 +4,8 @@
 	{include file=\App\Layout::getTemplatePath('inventoryTypes/Base.tpl', $QUALIFIED_MODULE)}
 	{if $FIELD_INSTANCE->getParams()}
 		<div class="paramsJson">
-			<input id="params" class="" type="hidden" value='{\App\Json::encode($FIELD_INSTANCE->getParams())}'/>
+			<input value='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INSTANCE->getParams()))}' type="hidden"
+				   id="params"/>
 			{assign var=PARAMS value=\App\Json::decode($FIELD_INSTANCE->get('params'))}
 			{foreach from=$FIELD_INSTANCE->getParams() item=MODULE}
 				<div class="form-group row align-items-center">

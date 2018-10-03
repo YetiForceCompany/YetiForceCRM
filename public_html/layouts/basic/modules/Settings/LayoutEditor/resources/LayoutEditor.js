@@ -1600,8 +1600,8 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	/**
 	 * Function to adding inventory field first step
 	 *
-	 * @param jQuery container
-	 * @param int blockId
+	 * @param {jQuery} container
+	 * @param {int} blockId
 	 */
 	registerStep1(container, blockId) {
 		const thisInstance = this;

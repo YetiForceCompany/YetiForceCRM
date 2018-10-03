@@ -3,7 +3,7 @@
 	<!-- tpl-Settings-LayoutEditor-inventoryTypes-Picklist -->
 	{include file=\App\Layout::getTemplatePath('inventoryTypes/Base.tpl', $QUALIFIED_MODULE)}
 	<div class="form-group row align-items-center">
-		<input id="params" class="" type="hidden" value='["values"]'>
+		<input value='["values"]' type="hidden" id="params">
 		<div class="col-md-4 col-form-label text-right">
 			{\App\Language::translate('LBL_PICKLIST_VALUES', $QUALIFIED_MODULE)}:
 		</div>
