@@ -3,8 +3,10 @@
 /**
  * Settings OSSMailView index view class.
  *
+ * @package   View
+ *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Index_View
 {
@@ -31,7 +33,7 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$viewer = $this->getViewer($request);
 		// get widgets list
 		$widgets = $dashboardModules[$sourceModule];
-		$dashboardStored = $widgetsManagementModel->getDashboardForModule($sourceModule, $currentDashboard);
+		$dashboardStored = $widgetsManagementModel->getDashboardForModule($sourceModule);
 		$defaultValues = $widgetsManagementModel->getDefaultValues();
 		$size = $widgetsManagementModel->getSize();
 		$widgetsWithLimit = $widgetsManagementModel->getWidgetsWithLimit();
