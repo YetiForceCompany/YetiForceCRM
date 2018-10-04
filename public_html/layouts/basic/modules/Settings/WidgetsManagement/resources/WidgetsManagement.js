@@ -47,8 +47,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		});
 		return fields;
 	},
-	getCurrentDashboardId: function () {
-		return $('.selectDashboard li.active').data('id');
+	getCurrentDashboardId() {
+		return $('.selectDashboard li a.active').parent().data('id');
 	},
 	registerAddedDashboard: function () {
 		var thisInstance = this;
@@ -67,12 +67,13 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		});
 	},
 	registerSelectDashboard: function () {
-		var thisInstance = this;
-		$('.selectDashboard li').on('click', function (e) {
-			var currentTarget = $(e.currentTarget);
-			var dashboardId = currentTarget.data('id');
-			var contentsDiv = $('.contentsDiv');
-			thisInstance.getModuleLayoutEditor('Home', dashboardId).done(function (data) {
+		const thisInstance = this;
+		$('.selectDashboard li').on('click', (e) => {
+			let currentTarget = $(e.currentTarget);
+			let dashboardId = currentTarget.data('id');
+			let contentsDiv = $('.contentsDiv');
+			let selectedModule = $('#selectedModuleName').val();
+			thisInstance.getModuleLayoutEditor(selectedModule, dashboardId).done((data) => {
 				contentsDiv.html(data);
 				thisInstance.registerEvents();
 			});
