@@ -1248,12 +1248,11 @@ jQuery.Class("Vtiger_List_Js", {
 				link = target.find('a'),
 				color = link.data('color'),
 				parent = target.closest('ul');
-			parent.find('a').css('border', '').css('border-bottom', '');
-			if (color === undefined) {
-				color = '#dee2e6';
+			parent.css('border-bottom', '').find('a').css('border', '').css('border-bottom', '');
+			if (color !== undefined) {
+				link.css('border', 'solid 1px ' + color);
+				parent.css('border-bottom', 'solid 1px ' + color);
 			}
-			link.css('border', 'solid 1px ' + color).css('border-bottom', 'solid 1px #f8f9fa');
-			parent.css('border-bottom', 'solid 1px ' + color);
 			selectOption.trigger('click');
 			$('#select2-customFilter-container span').contents().last().replaceWith(selectOption.text());
 			filterSelect.val(cvId).trigger('change');

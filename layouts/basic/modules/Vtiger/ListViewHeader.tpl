@@ -51,7 +51,7 @@
 												value="{$CUSTOM_VIEW->get('cvid')}" {' '}
 												data-id="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected" {elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'} selected="selected" {/if}
 												class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}{if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'System'} [ {$CUSTOM_VIEW->getOwnerName()} ]  {/if}</option>
-										{if $VIEWID === $CUSTOM_VIEW->getId() && $CUSTOM_VIEW->get('color')}
+										{if $VIEWID === $CUSTOM_VIEW->getId() && !empty($CUSTOM_VIEW->get('color'))}
 											{assign var=CUSTOM_VIEW_ACTIVE_COLOR value=$CUSTOM_VIEW->get('color')}
 										{/if}
 									{/foreach}
@@ -92,8 +92,8 @@
 			</div>
 		</div>
 		{if $CUSTOM_VIEWS|@count gt 0}
-			<ul class="nav nav-tabs pt-1" role="tablist"
-				{if isset($CUSTOM_VIEW_ACTIVE_COLOR)} style="border-bottom: solid 1px {$CUSTOM_VIEW_ACTIVE_COLOR}"{/if}>
+			<ul class="nav nav-tabs c-color-nav-tabs pt-1" role="tablist"
+					{if isset($CUSTOM_VIEW_ACTIVE_COLOR)} style="border-bottom: solid 1px {$CUSTOM_VIEW_ACTIVE_COLOR}"{/if}>
 				{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 					{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 						{if $CUSTOM_VIEW->isFeatured()}
@@ -101,8 +101,8 @@
 								data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
 								<a class="nav-link pt-1 pb-1{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}"
 								   href="#"
-										{if $CUSTOM_VIEW->get('color')}
-											style="color: {$CUSTOM_VIEW->get('color')};{if $VIEWID == $CUSTOM_VIEW->getId()}border: 1px solid {$CUSTOM_VIEW->get('color')}; border-bottom: 1px solid #f8f9fa;{/if}"
+										{if !empty($CUSTOM_VIEW->get('color'))}
+											style="color: {$CUSTOM_VIEW->get('color')};{if $VIEWID == $CUSTOM_VIEW->getId()}border: 1px solid {$CUSTOM_VIEW->get('color')};{/if}"
 											data-color="{$CUSTOM_VIEW->get('color')}"
 										{/if}
 								   data-toggle="tab" role="tab"
