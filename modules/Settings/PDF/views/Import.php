@@ -24,8 +24,8 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 			$base64Image = false;
 			$pdfModel = Settings_PDF_Record_Model::getCleanInstance();
 			$xml = simplexml_load_file($fileInstance->getPath());
-			foreach ($xml as $fieldsKey => $fieldsValue) {
-				foreach ($fieldsValue as $fieldKey => $fieldValue) {
+			foreach ($xml as $fieldsValue) {
+				foreach ($fieldsValue as $fieldValue) {
 					foreach ($fieldValue as $columnKey => $columnValue) {
 						switch ($columnKey) {
 							case 'imageblob':

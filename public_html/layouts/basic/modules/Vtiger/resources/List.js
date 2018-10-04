@@ -1413,7 +1413,7 @@ jQuery.Class("Vtiger_List_Js", {
 	createFilterClickEvent: function (event) {
 		//to close the dropdown
 		this.getFilterSelectElement().data('select2').close();
-		Vtiger_CustomView_Js.loadFilterView($(event.currentTarget).find('#createFilter').data('createurl'));
+		new CustomView($(event.currentTarget).find('#createFilter').data('createurl'));
 	},
 	/*
 	 * Function to register the click event for duplicate filter
@@ -1428,7 +1428,7 @@ jQuery.Class("Vtiger_List_Js", {
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
 				var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 				var editUrl = currentOptionElement.data('duplicateurl');
-				Vtiger_CustomView_Js.loadFilterView(editUrl);
+				new CustomView(editUrl);
 				event.stopPropagation();
 			});
 		}
@@ -1446,7 +1446,7 @@ jQuery.Class("Vtiger_List_Js", {
 				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
 				var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 				var editUrl = currentOptionElement.data('editurl');
-				Vtiger_CustomView_Js.loadFilterView(editUrl);
+				new CustomView(editUrl);
 				var cvId = jQuery(this).data('cvid');
 				event.stopPropagation();
 			});

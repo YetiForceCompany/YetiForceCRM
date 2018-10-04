@@ -1559,15 +1559,15 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	/**
 	 * Function to adding inventory field
 	 */
-	registerAddInventoryField: function () {
-		var thisInstance = this;
-		var container = thisInstance.getInventoryViewLayout();
-		container.find('.addInventoryField').on('click', function (e) {
-			var currentTarget = $(e.currentTarget);
-			var selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
-			var blockId = currentTarget.closest('.inventoryBlock').data('block-id');
-			var progress = $.progressIndicator();
-			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step1&type=" + selectedModule + "&block=" + blockId, function (modalContainer) {
+	registerAddInventoryField() {
+		const thisInstance = this;
+		let container = thisInstance.getInventoryViewLayout();
+		container.find('.addInventoryField').on('click', (e) => {
+			let currentTarget = $(e.currentTarget);
+			let selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+			let blockId = currentTarget.closest('.inventoryBlock').data('block-id');
+			const progress = $.progressIndicator();
+			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step1&type=" + selectedModule + "&block=" + blockId, (modalContainer) => {
 				app.showScrollBar(modalContainer.find('.well'), {
 					height: '300px'
 				});
@@ -1599,23 +1599,32 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 	},
 	/**
 	 * Function to adding inventory field first step
+	 *
+	 * @param {jQuery} container
+	 * @param {int} blockId
 	 */
-	registerStep1: function (container, blockId) {
-		var thisInstance = this;
-		container.find('.nextButton').on('click', function (e) {
-			var selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
-			var type = container.find('select.type').val();
-			app.hideModalWindow();
-			var progress = $.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
-				}
-			});
-			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&type=" + selectedModule + "&mtype=" + type, function (modalContainer) {
-				thisInstance.registerStep2(modalContainer, blockId);
-				progress.progressIndicator({'mode': 'hide'});
-			});
+	registerStep1(container, blockId) {
+		const thisInstance = this;
+		container.find('.js-next-button').on('click', (e) => {
+			let selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+			let type = container.find('select.type').val();
+			if (type === null) {
+				container.find('select.type').validationEngine(
+					'showPrompt', app.vtranslate('JS_REQUIRED_FIELD'), 'error', 'topRight', true
+				);
+			} else {
+				app.hideModalWindow();
+				const progress = $.progressIndicator({
+					'position': 'html',
+					'blockInfo': {
+						'enabled': true
+					}
+				});
+				app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&type=" + selectedModule + "&mtype=" + type, (modalContainer) => {
+					thisInstance.registerStep2(modalContainer, blockId);
+					progress.progressIndicator({'mode': 'hide'});
+				});
+			}
 		});
 	},
 	/**

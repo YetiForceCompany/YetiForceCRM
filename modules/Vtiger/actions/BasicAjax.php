@@ -31,7 +31,7 @@ class Vtiger_BasicAjax_Action extends \App\Controller\Action
 		$records = $searchModuleModel->searchRecord($request->get('search_value'), $request->getInteger('parent_id'), $request->getByType('parent_module'), $request->getModule());
 		$result = [];
 		if (is_array($records)) {
-			foreach ($records as $moduleName => $recordModels) {
+			foreach ($records as $recordModels) {
 				foreach ($recordModels as $recordModel) {
 					$result[] = [
 						'label' => App\Purifier::decodeHtml($recordModel->getSearchName()),

@@ -98,7 +98,7 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 			$headerLinkInstances[] = $headerLinkInstance;
 		}
 		$headerLinks = Vtiger_Link_Model::getAllByType(vtlib\Link::IGNORE_MODULE, ['HEADERLINK']);
-		foreach ($headerLinks as $headerType => $headerLinks) {
+		foreach ($headerLinks as $headerLinks) {
 			foreach ($headerLinks as $headerLink) {
 				$headerLinkInstances[] = Vtiger_Link_Model::getInstanceFromLinkObject($headerLink);
 			}
@@ -117,7 +117,7 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$headerScripts = Vtiger_Link_Model::getAllByType(vtlib\Link::IGNORE_MODULE, ['HEADERSCRIPT']);
-		foreach ($headerScripts as $headerType => $headerScripts) {
+		foreach ($headerScripts as $headerScripts) {
 			foreach ($headerScripts as $headerScript) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($headerScript->linkurl)) {
 					if (!IS_PUBLIC_DIR) {
@@ -145,7 +145,7 @@ abstract class Vtiger_Header_View extends \App\Controller\View
 		$cssScriptModel = new Vtiger_CssScript_Model();
 		$headerCssInstances[] = $cssScriptModel->set('href', $selectedThemeCssPath);
 
-		foreach ($headerCss as $headerType => $cssLinks) {
+		foreach ($headerCss as $cssLinks) {
 			foreach ($cssLinks as $cssLink) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($cssLink->linkurl)) {
 					$headerCssInstances[] = Vtiger_CssScript_Model::getInstanceFromLinkObject($cssLink);

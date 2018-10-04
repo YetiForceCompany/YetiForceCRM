@@ -485,7 +485,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				$moduleFields = $moduleModel->getFields();
 				$allFieldPermissions = $this->getProfileTabFieldPermissions($id);
-				foreach ($moduleFields as $fieldName => $fieldModel) {
+				foreach ($moduleFields as $fieldModel) {
 					$fieldPermissions = [];
 					$fieldId = $fieldModel->getId();
 					$fieldPermissions['visible'] = Settings_Profiles_Module_Model::IS_PERMITTED_VALUE;

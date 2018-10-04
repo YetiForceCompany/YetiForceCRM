@@ -288,7 +288,7 @@ class Vtiger_Link_Model extends vtlib\Link
 			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 			if ($relationModel && $relationModel->isDirectRelation()) {
 				$fieldList = $relatedModuleModel->getFields();
-				foreach ($fieldList as $fieldName => $fieldModel) {
+				foreach ($fieldList as $fieldModel) {
 					if ($fieldModel->isReferenceField()) {
 						$referenceList = $fieldModel->getReferenceList();
 						if (in_array($sourceModuleModel->get('name'), $referenceList)) {

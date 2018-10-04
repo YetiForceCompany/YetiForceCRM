@@ -1116,7 +1116,8 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getInventoryDefaultDataFields()
 	{
-		$lastItem = end($this->getInventoryData());
+		$inventoryData = $this->getInventoryData();
+		$lastItem = end($inventoryData);
 		$defaultData = [];
 		if (!empty($lastItem)) {
 			$items = ['discountparam', 'currencyparam', 'taxparam', 'taxmode', 'discountmode'];
