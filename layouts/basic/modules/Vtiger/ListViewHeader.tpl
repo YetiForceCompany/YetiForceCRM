@@ -92,15 +92,17 @@
 			</div>
 		</div>
 		{if $CUSTOM_VIEWS|@count gt 0}
-			<ul class="nav nav-tabs c-color-nav-tabs pt-1" role="tablist"
+			<ul class="nav nav-tabs c-color-nav-tab pt-1 js-color-nav-tab" role="tablist"
+				data-js="container|css:border-bottom"
 					{if isset($CUSTOM_VIEW_ACTIVE_COLOR)} style="border-bottom: solid 1px {$CUSTOM_VIEW_ACTIVE_COLOR}"{/if}>
 				{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 					{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 						{if $CUSTOM_VIEW->isFeatured()}
 							<li class="nav-item js-filter-tab c-tab--small font-weight-bold"
 								data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
-								<a class="nav-link pt-1 pb-1{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}"
+								<a class="nav-link pt-1 pb-1 js-color-nav-tab-link{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}"
 								   href="#"
+								   data-js="click|css:border|data:color"
 										{if !empty($CUSTOM_VIEW->get('color'))}
 											style="color: {$CUSTOM_VIEW->get('color')};{if $VIEWID == $CUSTOM_VIEW->getId()}border: 1px solid {$CUSTOM_VIEW->get('color')};{/if}"
 											data-color="{$CUSTOM_VIEW->get('color')}"

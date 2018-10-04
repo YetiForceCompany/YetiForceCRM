@@ -1245,10 +1245,10 @@ jQuery.Class("Vtiger_List_Js", {
 			const target = $(e.currentTarget);
 			let cvId = target.data('cvid'),
 				selectOption = filterSelect.find(`[value=${cvId}]`),
-				link = target.find('a'),
+				link = target.find('.js-color-nav-tab-link'),
 				color = link.data('color'),
-				parent = target.closest('ul');
-			parent.css('border-bottom', '').find('a').css('border', '').css('border-bottom', '');
+				parent = target.closest('.js-color-nav-tab');
+			parent.css('border-bottom', '').find('.js-color-nav-tab-link').css('border', '').css('border-bottom', '');
 			if (color !== undefined) {
 				link.css('border', 'solid 1px ' + color);
 				parent.css('border-bottom', 'solid 1px ' + color);
