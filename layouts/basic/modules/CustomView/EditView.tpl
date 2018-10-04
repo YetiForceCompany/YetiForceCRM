@@ -63,19 +63,26 @@
 									<div class="columnsSelectDiv col-md-12">
 										{assign var=MANDATORY_FIELDS value=[]}
 										<div class="">
-											<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="select2 form-control js-select2-sortable" id="viewColumnsSelect">
+											<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}"
+													multiple="multiple"
+													class="select2 form-control js-select2-sortable js-view-columns-select"
+													id="viewColumnsSelect"
+													data-js="appendTo">
 												{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-													<optgroup label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}'>
+													<optgroup
+															label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}'>
 														{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 															{if $FIELD_MODEL->isMandatory()}
 																{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewColumnName())}
 															{/if}
+															{assign var=IN_ARRAY value=array_search($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
 															<option value="{$FIELD_MODEL->getCustomViewColumnName()}"
 																	data-field-name="{$FIELD_NAME}"
-																	{if in_array($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
-																		selected
+																	{if $IN_ARRAY !== false}
+																		data-sort-index="{$IN_ARRAY}" selected="selected"
 																	{/if}
-															>{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
+																	data-js="data-sort-index|data-field-name">
+																{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
 																{if $FIELD_MODEL->isMandatory() eq true}
 																	<span>*</span>
 																{/if}
@@ -85,7 +92,10 @@
 												{/foreach}
 											</select>
 										</div>
-										<input type="hidden" name="columnslist" value='{\App\Json::encode($SELECTED_FIELDS)}'/>
+										<input type="hidden" name="columnslist"
+											   value='{\App\Json::encode($SELECTED_FIELDS)}'
+											   class="js-columnslist"
+											   data-js="val"/>
 										<input id="mandatoryFieldsList" type="hidden"
 											   value='{\App\Json::encode($MANDATORY_FIELDS)}'/>
 									</div>

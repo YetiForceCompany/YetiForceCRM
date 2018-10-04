@@ -656,11 +656,17 @@ App.Fields = {
 				});
 
 				if (select.hasClass('js-select2-sortable')) {
+					self.sortSelect2Options(select);
 					self.registerSelect2Sortable(select, params.sortableCb);
 				}
 			})
 
 			return selectElement;
+		},
+		sortSelect2Options(select) {
+			select.find('option[data-sort-index]').sort((a, b) => {
+				return ($(b).data('sort-index')) < ($(a).data('sort-index')) ? 1 : -1;
+			}).appendTo(select);
 		},
 		/**
 		 * Register select2 drag and drop sorting
