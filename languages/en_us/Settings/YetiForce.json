@@ -14,6 +14,7 @@
     "LBL_OSVERSION": "System version",
     "LBL_DBVERSION": "Database version",
     "LBL_DATABASE": "Database information",
+    "LBL_YETIFORCE_STATUS_FULL_DESC": "The status mechanism monitors the CRM system work and transfers selected information to YetiForce Sp. z o.o. All collected information will not be published and is intended only to monitor the CRM system for incorrect operation and the environment on which it is installed.",
     "LBL_SAPIVERSION": "API server version",
     "LBL_LASTCRONTIME": "Last Cron time",
     "LBL_SPACEROOT": "Root space",
