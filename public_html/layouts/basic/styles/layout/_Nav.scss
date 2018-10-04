@@ -255,8 +255,8 @@
 			}
 
 			.c-badge--top-right {
-				position:inherit;
-				margin-left:5px;
+				position: inherit;
+				margin-left: 5px;
 			}
 
 			&.show .dropdown-toggle,
@@ -334,3 +334,29 @@
 	}
 }
 
+.dashboardViewContainer {
+	.nav-inverted-tabs {
+		border-top: 1px solid #dee2e6;
+		.nav-item {
+			.nav-link {
+				border: 1px solid #ffffff;
+				border-top: 0;
+				border-radius: 0 0 0.25rem 0.25rem;
+				&:hover {
+					border: 1px solid #dee2e6;
+					border-top: 0;
+				}
+				&.active {
+					color: #495057;
+					background: #f8f9fa;
+					border: 1px solid #dee2e6;
+					border-top: 0;
+					border-radius: 0 0 0.25rem 0.25rem;
+					&:hover {
+						background: #dee2e6;
+					}
+				}
+			}
+		}
+	}
+}
