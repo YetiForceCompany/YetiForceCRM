@@ -42,28 +42,17 @@ class Vtiger_Widget_Model extends \App\Base
 		return $defaultSize;
 	}
 
-	public function getPositionCol($default = 0)
+	public function getPosition($default = 0, $coordinate)
 	{
 		$position = $this->get('position');
 		if ($position) {
 			$position = \App\Json::decode(App\Purifier::decodeHtml($position));
 			if (isset($position[App\Session::get('fingerprint')])) {
-				return (int) $position[App\Session::get('fingerprint')]['col'];
+				return (int) $position[App\Session::get('fingerprint')][$coordinate];
 			}
-			return (int) ($position['col']);
-		}
-		return $default;
-	}
-
-	public function getPositionRow($default = 0)
-	{
-		$position = $this->get('position');
-		if ($position) {
-			$position = \App\Json::decode(App\Purifier::decodeHtml($position));
-			if (isset($position[App\Session::get('fingerprint')])) {
-				return (int) $position[App\Session::get('fingerprint')]['row'];
+			if (isset($position[$coordinate])) {
+				return (int)($position[$coordinate]);
 			}
-			return (int) ($position['row']);
 		}
 		return $default;
 	}
