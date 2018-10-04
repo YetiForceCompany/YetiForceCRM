@@ -663,6 +663,10 @@ App.Fields = {
 
 			return selectElement;
 		},
+		/**
+		 * Sort elements (options) in select by data-sort-index
+		 * @param {jQuery} select2 element
+		 */
 		sortSelect2Options(select) {
 			select.find('option[data-sort-index]').sort((a, b) => {
 				return ($(b).data('sort-index')) < ($(a).data('sort-index')) ? 1 : -1;
