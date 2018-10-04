@@ -54,7 +54,7 @@ class Import_FileReader_Reader
 		return false;
 	}
 
-	public function getFirstRowData()
+	public function getFirstRowData($hasHeader = true)
 	{
 		return null;
 	}
