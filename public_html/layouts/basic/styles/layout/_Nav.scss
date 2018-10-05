@@ -255,8 +255,8 @@
 			}
 
 			.c-badge--top-right {
-				position:inherit;
-				margin-left:5px;
+				position: inherit;
+				margin-left: 5px;
 			}
 
 			&.show .dropdown-toggle,
@@ -313,6 +313,29 @@
 		align-items: center;
 
 		@extend .small;
+	}
+
+	&--border {
+		border-bottom: 0;
+
+		.nav-link {
+			&:not(.active) {
+				border-color: transparent !important;
+			}
+			&.active {
+				border-bottom-color: transparent !important;
+			}
+
+			&.active:after {
+				content: '';
+				width: 100%;
+				right: 0;
+				top: calculate-rem(35px);
+				position: absolute;
+				border: solid 1px;
+				z-index: -1;
+			}
+		}
 	}
 
 	&--gray {
