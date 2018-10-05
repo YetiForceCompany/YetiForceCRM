@@ -31,29 +31,29 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getByType('source_module', 2);
-		$module = $request->getModule();
+		$sourceModuleName = $request->getByType('source_module', 2);
+		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
-		if (is_numeric($moduleName)) {
-			$moduleName = \App\Module::getModuleName($moduleName);
+		if (is_numeric($sourceModuleName)) {
+			$sourceModuleName = \App\Module::getModuleName($sourceModuleName);
 		}
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
+		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModuleName);
+		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($sourceModuleModel);
 
 		if (!empty($record)) {
 			$customViewModel = CustomView_Record_Model::getInstanceById($record);
 			$viewer->assign('MODE', 'edit');
 		} else {
 			$customViewModel = new CustomView_Record_Model();
-			$customViewModel->setModule($moduleName);
+			$customViewModel->setModule($sourceModuleName);
 			$viewer->assign('MODE', '');
 		}
 
 		$viewer->assign('ADVANCE_CRITERIA', $customViewModel->transformToNewAdvancedFilter());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
-		$viewer->assign('DATE_FILTERS', Vtiger_AdvancedFilter_Helper::getDateFilter($module));
+		$viewer->assign('DATE_FILTERS', Vtiger_AdvancedFilter_Helper::getDateFilter($moduleName));
 		// Added to show event module custom fields
-		if ($moduleName === 'Calendar') {
+		if ($sourceModuleName === 'Calendar') {
 			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
 		} else {
 			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();
@@ -66,9 +66,8 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		if (!$request->getBoolean('duplicate')) {
 			$viewer->assign('RECORD_ID', $record);
 		}
-		$viewer->assign('QUALIFIED_MODULE', $moduleName);
-		$viewer->assign('MODULE', $module);
-		$viewer->assign('SOURCE_MODULE', $moduleName);
+		$viewer->assign('QUALIFIED_MODULE', $sourceModuleName);
+		$viewer->assign('SOURCE_MODULE', $sourceModuleName);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		if ($customViewModel->get('viewname') === 'All') {
 			$viewer->assign('CV_PRIVATE_VALUE', App\CustomView::CV_STATUS_DEFAULT);
@@ -77,7 +76,7 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		}
 		$viewer->assign('CV_PENDING_VALUE', App\CustomView::CV_STATUS_PENDING);
 		$viewer->assign('CV_PUBLIC_VALUE', App\CustomView::CV_STATUS_PUBLIC);
-		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->view('EditView.tpl', $module);
+		$viewer->assign('MODULE_MODEL', $sourceModuleModel);
+		$viewer->view('EditView.tpl', $moduleName);
 	}
 }
