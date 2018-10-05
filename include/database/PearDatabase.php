@@ -745,7 +745,7 @@ class PearDatabase
 			$this->checkError('sqlExprDatalist: empty arrays not allowed');
 		}
 		$l = '';
-		foreach ($array as $key => $val) {
+		foreach ($array as $val) {
 			$l .= ($l ? ',' : '') . $this->quote($val);
 		}
 		return ' ( ' . $l . ' ) ';

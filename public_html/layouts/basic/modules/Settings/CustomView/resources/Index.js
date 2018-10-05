@@ -29,7 +29,7 @@ jQuery.Class('Settings_CustomView_Index_Js', {}, {
 	update: function (e) {
 		var target = $(e.currentTarget);
 		var editUrl = target.data('editurl');
-		Vtiger_CustomView_Js.loadFilterView(editUrl);
+		new CustomView(editUrl);
 	},
 	/**
 	 * Update parameter

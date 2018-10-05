@@ -849,7 +849,7 @@ class Vtiger_Field_Model extends vtlib\Field
 				}
 				break;
 			case 'modules':
-				foreach ($this->getModulesListValues() as $moduleId => $module) {
+				foreach ($this->getModulesListValues() as $module) {
 					$modulesList[$module['name']] = $module['label'];
 				}
 				$this->fieldInfo['picklistvalues'] = $modulesList;

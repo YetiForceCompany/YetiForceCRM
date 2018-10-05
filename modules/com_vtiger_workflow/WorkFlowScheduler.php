@@ -91,7 +91,7 @@ class WorkFlowScheduler
 		date_default_timezone_set($default_timezone);
 
 		$scheduledWorkflows = $vtWorflowManager->getScheduledWorkflows($currentTimestamp);
-		foreach ($scheduledWorkflows as $i => &$workflow) {
+		foreach ($scheduledWorkflows as &$workflow) {
 			$tm = new VTTaskManager();
 			$tasks = $tm->getTasksForWorkflow($workflow->id);
 			if ($tasks) {

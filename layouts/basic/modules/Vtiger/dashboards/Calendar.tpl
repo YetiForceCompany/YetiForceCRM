@@ -8,11 +8,11 @@
 			<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 				{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 				<div class="d-inline-flex">
-					{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
-						<a class="btn btn-light btn-sm" role="button"
-						   onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar'); return false;">
+					{if \App\Privilege::isPermitted($SOURCE_MODULE, 'CreateView')}
+						<button class="btn btn-sm btn-light js-widget-quick-create" data-js="click" type="button"
+								data-module-name="{$SOURCE_MODULE}"
 							<span class='fas fa-plus' title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
-						</a>
+						</button>
 					{/if}
 					{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 				</div>

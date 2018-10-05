@@ -36,7 +36,7 @@ class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 		$records = $searchModuleModel->searchRecord($searchValue, $parentRecordId, $parentModuleName);
 		$result = [];
 		if (is_array($records)) {
-			foreach ($records as $moduleName => $recordModels) {
+			foreach ($records as $recordModels) {
 				foreach ($recordModels as $recordModel) {
 					$result[] = [
 						'label' => App\Purifier::decodeHtml($recordModel->getName()),

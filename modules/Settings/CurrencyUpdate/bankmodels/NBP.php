@@ -1,8 +1,8 @@
 <?php
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
  */
 
 /**
@@ -160,7 +160,7 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 			}
 		}
 		for ($i = 0; $i <= $num; ++$i) {
-			if (!isset($xmlObj->pozycja[$i]) && $xmlObj->pozycja[$i]->nazwa_waluty) {
+			if (!isset($xmlObj->pozycja[$i])) {
 				continue;
 			}
 			$currency = (string) $xmlObj->pozycja[$i]->kod_waluty;

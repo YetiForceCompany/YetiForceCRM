@@ -23,7 +23,7 @@
 			</div>
 		</div>
 		<div class="u-columns-count-3 u-columns-gap-1rem u-columns-width-36rem pt-2 text-center u-align-middle-children">
-			<div class="u-columns__item pb-3 libraries">
+			<div class="u-columns__item pb-3 libraries table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>
 					<tr>
@@ -32,16 +32,16 @@
 						</th>
 					</tr>
 					<tr>
-						<th colspan="1" scope="col" class="text-left">
+						<th colspan="1" scope="col" class="text-left u-text-ellipsis">
 							{App\Language::translate('LBL_FILE', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_MANDATORY', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_WWW_VALUE', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_CLI_VALUE', $MODULE)}
 						</th>
 					</tr>
@@ -90,7 +90,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="u-columns__item pb-3 performance">
+			<div class="u-columns__item pb-3 performance table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>
 					<tr>
@@ -99,16 +99,16 @@
 						</th>
 					</tr>
 					<tr>
-						<th colspan="1" scope="col" class="text-left">
+						<th colspan="1" scope="col" class="text-left u-text-ellipsis">
 							{App\Language::translate('LBL_PARAMETER', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_RECOMMENDED', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_WWW_VALUE', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_CLI_VALUE', $MODULE)}
 						</th>
 					</tr>
@@ -153,7 +153,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="u-columns__item pb-3 publicDirectoryAccess">
+			<div class="u-columns__item pb-3 publicDirectoryAccess table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>
 					<tr>
@@ -162,10 +162,10 @@
 						</th>
 					</tr>
 					<tr>
-						<th colspan="1" scope="col" class="text-left">
+						<th colspan="1" scope="col" class="text-left u-text-ellipsis">
 							{App\Language::translate('LBL_PUBLIC_DIR', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_DENY_PUBLIC_DIR_STATUS', $MODULE)}
 						</th>
 					</tr>
@@ -198,7 +198,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="u-columns__item pb-3 stability">
+			<div class="u-columns__item pb-3 stability table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>
 					<tr>
@@ -207,16 +207,16 @@
 						</th>
 					</tr>
 					<tr>
-						<th colspan="1" scope="col" class="text-left">
+						<th colspan="1" scope="col" class="text-left u-text-ellipsis">
 							{App\Language::translate('LBL_PARAMETER', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_RECOMMENDED', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_WWW_VALUE', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_CLI_VALUE', $MODULE)}
 						</th>
 					</tr>
@@ -261,7 +261,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="u-columns__item pb-3 environment">
+			<div class="u-columns__item pb-3 environment table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>
 					<tr>
@@ -270,14 +270,14 @@
 						</th>
 					</tr>
 					<tr>
-						<th colspan="1" scope="col" class="text-left">
+						<th colspan="1" scope="col" class="text-left u-text-ellipsis">
 							{App\Language::translate('LBL_PARAMETER', $MODULE)}
 						</th>
 						<th colspan=" 1
-							" scope="col">
+							" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_WWW_VALUE', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_CLI_VALUE', $MODULE)}
 						</th>
 					</tr>
@@ -315,7 +315,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="u-columns__item pb-3 writableFilesAndFolders">
+			<div class="u-columns__item pb-3 writableFilesAndFolders table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>
 					<tr>
@@ -324,14 +324,14 @@
 						</th>
 					</tr>
 					<tr>
-						<th colspan="1" scope="col" class="text-left">
+						<th colspan="1" scope="col" class="text-left u-text-ellipsis">
 							{App\Language::translate('LBL_PARAMETER', $MODULE)}
 						</th>
 						<th colspan=" 1
-							" scope="col">
+							" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_WWW_VALUE', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_CLI_VALUE', $MODULE)}
 						</th>
 					</tr>
@@ -369,7 +369,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="u-columns__item pb-3 security">
+			<div class="u-columns__item pb-3 security table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>
 					<tr>
@@ -378,16 +378,16 @@
 						</th>
 					</tr>
 					<tr>
-						<th colspan="1" scope="col" class="text-left">
+						<th colspan="1" scope="col" class="text-left u-text-ellipsis">
 							{App\Language::translate('LBL_PARAMETER', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_RECOMMENDED', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_WWW_VALUE', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_CLI_VALUE', $MODULE)}
 						</th>
 					</tr>
@@ -433,7 +433,7 @@
 				</table>
 			</div>
 
-			<div class="u-columns__item pb-3 database">
+			<div class="u-columns__item pb-3 database table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>
 					<tr>
@@ -442,13 +442,13 @@
 						</th>
 					</tr>
 					<tr>
-						<th colspan="1" scope="col" class="text-left">
+						<th colspan="1" scope="col" class="text-left u-text-ellipsis">
 							{App\Language::translate('LBL_PARAMETER', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							{App\Language::translate('LBL_RECOMMENDED', $MODULE)}
 						</th>
-						<th colspan="1" scope="col">
+						<th colspan="1" scope="col" class="u-text-ellipsis">
 							<span>{App\Language::translate('LBL_VALUE', $MODULE)}</span>
 						</th>
 					</tr>

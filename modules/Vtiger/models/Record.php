@@ -1074,9 +1074,9 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Set inventory raw data.
 	 *
-	 * @param array $data
+	 * @param \App\Request $data
 	 */
-	public function setInventoryRawData($data)
+	public function setInventoryRawData(\App\Request $data)
 	{
 		$this->inventoryRawData = $data;
 	}
@@ -1116,7 +1116,8 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getInventoryDefaultDataFields()
 	{
-		$lastItem = end($this->getInventoryData());
+		$inventoryData = $this->getInventoryData();
+		$lastItem = end($inventoryData);
 		$defaultData = [];
 		if (!empty($lastItem)) {
 			$items = ['discountparam', 'currencyparam', 'taxparam', 'taxmode', 'discountmode'];

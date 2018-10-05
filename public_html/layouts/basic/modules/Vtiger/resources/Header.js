@@ -262,6 +262,13 @@ $.Class("Vtiger_Header_Js", {
 					if (typeof (moduleInstance.quickCreateSave) === 'function') {
 						targetInstance = moduleInstance;
 					}
+					let progress = $.progressIndicator({
+						'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
+						'position': 'html',
+						'blockInfo': {
+							'enabled': true
+						}
+					});
 					targetInstance.quickCreateSave(form).done(function (data) {
 						app.hideModalWindow();
 						var parentModule = app.getModuleName();
@@ -280,7 +287,13 @@ $.Class("Vtiger_Header_Js", {
 							});
 						}
 						app.event.trigger("QuickCreate.AfterSaveFinal", data, form);
-						$.progressIndicator({'mode': 'hide'});
+						progress.progressIndicator({'mode': 'hide'});
+						if (data.success) {
+							Vtiger_Helper_Js.showPnotify({
+								text: app.vtranslate('JS_ADD_RECORD'),
+								type: 'success'
+							});
+						}
 					});
 				} else {
 					//If validation fails in recordPreSaveEvent, form should submit again

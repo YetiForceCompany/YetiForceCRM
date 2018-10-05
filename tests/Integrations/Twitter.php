@@ -35,6 +35,7 @@ class Twitter extends \Tests\Base
 	 * @param string $twitterLogin
 	 *
 	 * @throws \yii\db\Exception
+	 * @codeCoverageIgnore
 	 */
 	private static function addTwitter(string $twitterLogin)
 	{
@@ -117,7 +118,22 @@ class Twitter extends \Tests\Base
 	public function testUiTypeWrongData($value)
 	{
 		$this->expectExceptionCode(406);
-		static::$twitterFields[0]->getUITypeModel()->validate($value);
+		static::$twitterFields[0]->getUITypeModel()->validate($value, false);
+	}
+
+	/**
+	 * Validation testing for uitype twitter - user format.
+	 *
+	 * @param mixed $value
+	 *
+	 * @throws \App\Exceptions\Security
+	 *
+	 * @dataProvider providerUiTypeWrongData
+	 */
+	public function testUiTypeUserFormatWrongData($value)
+	{
+		$this->expectExceptionCode(406);
+		static::$twitterFields[0]->getUITypeModel()->validate($value, true);
 	}
 
 	/**
@@ -130,7 +146,7 @@ class Twitter extends \Tests\Base
 	 */
 	public function testUiTypeGoodData($value)
 	{
-		$this->assertNull(static::$twitterFields[0]->getUITypeModel()->validate($value));
+		$this->assertNull(static::$twitterFields[0]->getUITypeModel()->validate($value, false));
 	}
 
 	/**

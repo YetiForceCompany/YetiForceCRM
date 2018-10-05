@@ -4,7 +4,7 @@
  * OSSEmployees record model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSEmployees_Record_Model extends Vtiger_Record_Model
 {
@@ -22,10 +22,14 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model
 			if ($matches !== null) {
 				preg_match('/[.\s]+/', $employeeInfo[0], $dashes);
 				preg_match("/<a(.*)>(.*)<\/a>/i", $employeeInfo[0], $name);
-
+				if (empty($name[2])) {
+					$label = $employeeInfo[0];
+				} else {
+					$label = $name[2];
+				}
 				$recordModel = Vtiger_Record_Model::getCleanInstance('OSSEmployees');
 				$recordModel->setId($employeeId);
-				$hierarchy['entries'][$employeeId][0] = $dashes[0] . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $name[2] . '</a>';
+				$hierarchy['entries'][$employeeId][0] = $dashes[0] . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $label . '</a>';
 			}
 		}
 		return $hierarchy;

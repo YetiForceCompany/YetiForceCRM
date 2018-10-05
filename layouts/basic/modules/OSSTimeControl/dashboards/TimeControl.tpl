@@ -44,11 +44,11 @@
 	<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-10"}
 		<div class="d-inline-flex">
-			{if \App\Privilege::isPermitted('OSSTimeControl', 'CreateView')}
-				<a class="btn btn-sm btn-light"
-				   onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSTimeControl'); return false;">
+			{if \App\Privilege::isPermitted($MODULE_NAME, 'CreateView')}
+				<button class="btn btn-sm btn-light  js-widget-quick-create" data-js="click" type="button"
+						data-module-name="{$MODULE_NAME}">
 					<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
-				</a>
+				</button>
 			{/if}
 			<a class="btn btn-sm btn-light" href="javascript:void(0);" name="drefresh"
 			   data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">

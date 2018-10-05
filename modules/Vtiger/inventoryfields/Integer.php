@@ -3,6 +3,8 @@
 /**
  * Inventory Integer Field Class.
  *
+ * @package   InventoryField
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -27,7 +29,7 @@ class Vtiger_Integer_InventoryField extends Vtiger_Basic_InventoryField
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 		}
-		if ($value > $this->maximumLength  || $value <  -$this->maximumLength) {
+		if ($value > $this->maximumLength || $value < -$this->maximumLength) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value < $this->maximumLength", 406);
 		}
 	}

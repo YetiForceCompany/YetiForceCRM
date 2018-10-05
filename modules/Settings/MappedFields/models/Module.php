@@ -374,7 +374,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 				}
 				$instances[$combine[$fieldsKey]] = Vtiger_Module_Model::getInstance((string) $fieldsValue);
 			} elseif ($fieldsKey === 'fields') {
-				foreach ($fieldsValue as $fieldKey => $fieldValue) {
+				foreach ($fieldsValue as $fieldValue) {
 					foreach ($fieldValue as $columnKey => $columnValue) {
 						settype($columnKey, 'string');
 						settype($columnValue, 'string');
