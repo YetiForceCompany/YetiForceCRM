@@ -99,67 +99,6 @@ class Calendar extends CRMEntity
 		return parent::getJoinClause($tableName);
 	}
 
-	/**
-	 * Function to get reminder for activity.
-	 *
-	 * @param int    $activityId   - activity id
-	 * @param string $reminderTime - reminder time
-	 * @param int    $reminderSent - 0 or 1
-	 * @param int    $recurid      - recuring eventid
-	 * @param string $reminderMode - string like 'edit'
-	 */
-	public function activityReminder($activityId, $reminderTime, $reminderSent, $recurid, $reminderMode = '')
-	{
-		\App\Log::trace("Entering vtiger_activity_reminder($activityId,$reminderTime,$reminderSent,$recurid,$reminderMode) method ...");
-		//Check for vtiger_activityid already present in the reminder_table
-		$query = sprintf('SELECT activity_id FROM %s WHERE activity_id = ?', $this->reminder_table);
-		$resultExist = $this->db->pquery($query, [$activityId]);
-
-		if ($reminderMode == 'edit') {
-			if ($this->db->getRowCount($resultExist) > 0) {
-				$this->db->update($this->reminder_table, [
-					'reminder_time' => $reminderTime,
-					'reminder_sent' => $reminderSent,
-				], 'activity_id = ?', [$activityId]
-				);
-			} else {
-				$this->db->insert($this->reminder_table, [
-					'activity_id' => $activityId,
-					'reminder_time' => $reminderTime,
-					'reminder_sent' => 0,
-				]);
-			}
-		} elseif (($reminderMode == 'delete') && ($this->db->getRowCount($resultExist) > 0)) {
-			$this->db->delete($this->reminder_table, 'activity_id = ?', [$activityId]);
-		} else {
-			if (\App\Request::_get('set_reminder') == 'Yes') {
-				$this->db->insert($this->reminder_table, [
-					'activity_id' => $activityId,
-					'reminder_time' => $reminderTime,
-					'reminder_sent' => 0,
-				]);
-			}
-		}
-		\App\Log::trace('Exiting vtiger_activity_reminder method ...');
-	}
-
-	/**
-	 * this function sets the status flag of activity to true or false depending on the status passed to it.
-	 *
-	 * @param string $status - the status of the activity flag to set
-	 * @return:: true if successful; false otherwise
-	 */
-	public function setActivityReminder($status)
-	{
-		\App\Db::getInstance()->createCommand()
-			->update('vtiger_activity_reminder_popup', [
-				'status' => 1,
-			], ['recordid' => $this->id])
-			->execute();
-
-		return true;
-	}
-
 	public function deleteRelatedDependent($crmid, $withModule, $withCrmid)
 	{
 		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.tablename', 'vtiger_field.columnname', 'vtiger_tab.name'])

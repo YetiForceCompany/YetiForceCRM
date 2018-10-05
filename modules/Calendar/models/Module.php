@@ -31,7 +31,11 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getCalendarViewName()
 	{
-		return 'Calendar';
+		$returnView = 'Calendar';
+		if ('Standard' !== $calendarView = AppConfig::module('Calendar', 'CALENDAR_VIEW')) {
+			$returnView .= $calendarView;
+		}
+		return $returnView;
 	}
 
 	/**
@@ -87,7 +91,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'SIDEBARLINK',
 					'linklabel' => 'LBL_CALENDAR_LIST',
-					'linkurl' => 'javascript:Calendar_CalendarView_Js.getInstanceByView().goToRecordsList("' . $this->getListViewUrl() . '&viewname=All");',
+					'linkurl' => 'javascript:Calendar_Calendar_Js.getInstanceByView().goToRecordsList("' . $this->getListViewUrl() . '&viewname=All");',
 					'linkicon' => 'far fa-calendar-minus',
 				]);
 			}
@@ -198,40 +202,26 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return \Calendar_Record_Model[]
 	 */
-	public static function getCalendarReminder($allReminder = false)
+	public static function getCalendarReminder()
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$activityReminder = $currentUserModel->getCurrentUserActivityReminderInSeconds();
 		$recordModels = [];
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission('Calendar');
-		$permissionToSendEmail = $permission && AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail');
 		if (!empty($activityReminder)) {
-			$currentTime = time();
-			$time = date('Y-m-d H:i:s', strtotime("+$activityReminder seconds", $currentTime));
+			$time = date('Y-m-d H:i:s', strtotime("+$activityReminder seconds"));
 			$query = (new \App\Db\Query())
 				->select(['recordid', 'vtiger_activity_reminder_popup.datetime'])
 				->from('vtiger_activity_reminder_popup')
 				->innerJoin('vtiger_activity', 'vtiger_activity_reminder_popup.recordid = vtiger_activity.activityid')
 				->innerJoin('vtiger_crmentity', 'vtiger_activity_reminder_popup.recordid = vtiger_crmentity.crmid')
+				->where(['vtiger_crmentity.smownerid' => $currentUserModel->getId(), 'vtiger_crmentity.deleted' => 0, 'vtiger_activity.status' => self::getComponentActivityStateLabel('current')])
+				->andWhere(['or', ['and', ['vtiger_activity_reminder_popup.status' => Calendar_Record_Model::REMNDER_POPUP_ACTIVE], ['<=', 'vtiger_activity_reminder_popup.datetime', $time]], ['and', ['vtiger_activity_reminder_popup.status' => Calendar_Record_Model::REMNDER_POPUP_WAIT], ['<=', 'vtiger_activity_reminder_popup.datetime', date('Y-m-d H:i:s')]]])
+				->orderBy(['vtiger_activity_reminder_popup.datetime' => SORT_DESC])
 				->distinct()
 				->limit(20);
-			if ($allReminder) {
-				$query->where(['or', ['vtiger_activity_reminder_popup.status' => 0], ['vtiger_activity_reminder_popup.status' => 2]]);
-			} else {
-				$query->where(['vtiger_activity_reminder_popup.status' => 0]);
-			}
-			$query->andWhere(['vtiger_crmentity.smownerid' => $currentUserModel->getId(), 'vtiger_crmentity.deleted' => 0, 'vtiger_activity.status' => self::getComponentActivityStateLabel('current')]);
-			$query->andWhere(['<=', 'vtiger_activity_reminder_popup.datetime', $time])->orderBy(['vtiger_activity_reminder_popup.datetime' => SORT_DESC]);
 			$dataReader = $query->createCommand()->query();
 			while ($recordId = $dataReader->readColumn(0)) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
-				$link = $recordModel->get('link');
-				if ($link && $permissionToSendEmail) {
-					$url = 'index.php?module=OSSMail&view=Compose&mod=' . \App\Record::getType($link) . "&record=$link";
-					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='fas fa-envelope icon-white'></span>&nbsp;&nbsp;" . \App\Language::translate('LBL_SEND_MAIL') . '</a>');
-				}
-				$recordModels[] = $recordModel;
+				$recordModels[] = Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
 			}
 		}
 		return $recordModels;
@@ -304,12 +294,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	public static function getCalendarTypes()
 	{
-		$calendarConfig = ['Task'];
-		$eventConfig = App\Fields\Picklist::getValuesName('activitytype');
-		if (is_array($eventConfig)) {
-			$calendarConfig = array_merge($calendarConfig, $eventConfig);
-		}
-		return $calendarConfig;
+		return App\Fields\Picklist::getValuesName('activitytype');
 	}
 
 	public static function getCalendarState($data = [])
@@ -393,5 +378,62 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			return $componentsActivityState[$key];
 		}
 		return $componentsActivityState;
+	}
+
+	/**
+	 * Import calendar rekords from ICS.
+	 *
+	 * @param string $filePath
+	 *
+	 * @throws \Exception
+	 *
+	 * @return array
+	 */
+	public function importICS(string $filePath)
+	{
+		$userModel = \App\User::getCurrentUserModel();
+
+		$lastImport = new IcalLastImport();
+		$lastImport->clearRecords($userModel->getId());
+		$eventModule = 'Events';
+		$todoModule = 'Calendar';
+		$totalCount = $skipCount = [$eventModule => 0, $todoModule => 0];
+		$ical = new Ical();
+		$icalActivities = $ical->iCalReader($filePath);
+		$noOfActivities = count($icalActivities);
+		for ($i = 0; $i < $noOfActivities; ++$i) {
+			if ($icalActivities[$i]['TYPE'] == 'VEVENT') {
+				$activity = new IcalendarEvent();
+				$module = $eventModule;
+			} else {
+				$activity = new IcalendarTodo();
+				$module = $todoModule;
+			}
+			$skipRecord = false;
+			++$totalCount[$module];
+			$activityFieldsList = $activity->generateArray($icalActivities[$i]);
+			$activityFieldsList['assigned_user_id'] = $userModel->getId();
+			$activityFieldsList['time_end'] = $activityFieldsList['time_end'] ?? $userModel->getDetail('end_hour') . ':00';
+			$recordModel = Vtiger_Record_Model::getCleanInstance($this->getName());
+			foreach ($this->getFields() as $fieldName => $fieldModel) {
+				if (empty($activityFieldsList[$fieldName]) && $fieldModel->isActiveField() && $fieldModel->isMandatory()) {
+					++$skipCount[$module];
+					$skipRecord = true;
+					break;
+				}
+				if (!$fieldModel->isWritable() || !isset($activityFieldsList[$fieldName])) {
+					continue;
+				}
+				$recordModel->set($fieldName, $activityFieldsList[$fieldName]);
+			}
+			if ($skipRecord) {
+				continue;
+			}
+			$recordModel->save();
+			$lastImport = new IcalLastImport();
+			$lastImport->setFields(['userid' => $userModel->getId(), 'entitytype' => $this->getName(), 'crmid' => $recordModel->getId()]);
+			$lastImport->save();
+		}
+		return ['events' => $totalCount[$eventModule] - $skipCount[$eventModule], 'skipped_events' => $skipCount[$eventModule], 'task' => $totalCount[$todoModule] - $skipCount[$todoModule], 'skipped_task' => $skipCount[$todoModule]];
 	}
 }

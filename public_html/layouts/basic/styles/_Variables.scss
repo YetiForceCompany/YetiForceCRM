@@ -9,13 +9,14 @@ $secondary: #5e666c;
 $blue: #337ab7;
 $pagination-color: $link-color;
 $grid-breakpoints: (
-	xs: 0,
-	xsm: 400px,
-	sm: 576px,
-	md: 768px,
-	lg: 992px,
-	xl: 1200px,
-	xxl:1300px
+		xs: 0,
+		xsm: 400px,
+		sm: 576px,
+		md: 768px,
+		lg: 992px,
+		xl: 1200px,
+		xxl:1300px,
+		xxxl:1800px
 );
 //-------- sizes --------//
 $w-icon-button: calculate-rem(42px);
@@ -34,6 +35,8 @@ $h-dashboard-tabs: calculate-rem(58px);
 $h-header-logo: calculate-rem(52px);
 $w-header-search: 500px;
 $h-main-viewport: calc(100vh - (#{$h-footer} + #{$h-header}));
+$h-date-list: calculate-rem(95px);
+$h-filter-tabs: calculate-rem(43px);
 $p-bs4-button: 0.375rem 0.75rem;
 
 $font-size-small: 0.8rem;

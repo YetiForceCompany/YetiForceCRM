@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  *************************************************************************************/
 'use strict';
 
@@ -357,7 +358,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			if (self.hasClass('active')) {
 				container.find('.js-completed').remove();
 			} else {
-				container.append('<input class="js-completed" type=hidden name="markAsCompleted" value="PLL_COMPLETED" data-js="remove">');
+				container.append('<input class="js-completed" type=hidden name="activitystatus" value="PLL_COMPLETED" data-js="remove">');
 			}
 		});
 	},
@@ -535,7 +536,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			self.validateHolidayDate(form).done(function (isHoliday) {
 				if (lockSave && isHoliday) {
 					e.preventDefault();
-					Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate("JS_DATES_SELECTED_HOLIDAYS")}).done(function () {
+					app.showConfirmModal(app.vtranslate("JS_DATES_SELECTED_HOLIDAYS"), function () {
 						lockSave = false;
 						form.submit();
 					});

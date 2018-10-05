@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-Edit-Field-SharedOwner -->
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{if $FIELD_MODEL->getUIType() eq '120'}
@@ -15,7 +16,7 @@
 			{assign var=NOT_DISPLAY_LIST value=[]}
 			{assign var=FIELD_VALUE value=[]}
 		{/if}
-		<div class="tpl-Edit-Field-SharedOwner">
+		<div>
 			<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=""/>
 			<select class="select2 form-control {if !empty($NOT_DISPLAY_LIST)}hideSelected{/if} {$ASSIGNED_USER_ID}"
 					title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
@@ -33,26 +34,30 @@
 						</option>
 					{/foreach}
 				{else}
-					<optgroup label="{\App\Language::translate('LBL_USERS')}">
-						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-							<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}"
-									{foreach item=USER from=$FIELD_VALUE}
-								{if $USER eq $OWNER_ID } selected {/if}
-									{/foreach}>
-								{$OWNER_NAME}
-							</option>
-						{/foreach}
-					</optgroup>
-					<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
-						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-							<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}"
-									{foreach item=GROUP from=$FIELD_VALUE}
-								{if $GROUP eq $OWNER_ID } selected {/if}
-									{/foreach}>
-								{\App\Language::translate($OWNER_NAME, $MODULE)}
-							</option>
-						{/foreach}
-					</optgroup>
+					{if $ALL_ACTIVEUSER_LIST}
+						<optgroup label="{\App\Language::translate('LBL_USERS')}">
+							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+								<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}"
+										{foreach item=USER from=$FIELD_VALUE}
+									{if $USER eq $OWNER_ID } selected {/if}
+										{/foreach}>
+									{$OWNER_NAME}
+								</option>
+							{/foreach}
+						</optgroup>
+					{/if}
+					{if $ALL_ACTIVEGROUP_LIST}
+						<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
+							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
+								<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}"
+										{foreach item=GROUP from=$FIELD_VALUE}
+									{if $GROUP eq $OWNER_ID } selected {/if}
+										{/foreach}>
+									{\App\Language::translate($OWNER_NAME, $MODULE)}
+								</option>
+							{/foreach}
+						</optgroup>
+					{/if}
 					{if !empty($NOT_DISPLAY_LIST)}
 						{foreach from=$NOT_DISPLAY_LIST key=OWNER_ID item=OWNER_NAME}
 							<option value="{$OWNER_ID}"
@@ -64,4 +69,5 @@
 			</select>
 		</div>
 	{/if}
+	<!-- /tpl-Base-Edit-Field-SharedOwner -->
 {/strip}

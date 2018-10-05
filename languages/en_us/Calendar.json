@@ -51,7 +51,7 @@
     "LBL_SELECT_USERS": "Select Users",
     "LBL_SHARED_CALENDAR": "Shared Calendar",
     "LBL_STATUS": "Status",
-    "LBL_TASK_INFORMATION": "To Do details",
+    "LBL_TASK_INFORMATION": "Details",
     "LBL_TASKS": "To Do",
     "LBL_TASK": "To Do",
     "LBL_TODOS": "To Do",
@@ -174,7 +174,8 @@
     "LBL_DELETE_FUTURE_EVENTS_DESCRIPTION": "Only subsequent records will be deleted",
     "LBL_DELETE_ALL_EVENTS": "Delete all records",
     "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "All records in sequence will be deleted",
-    "LBL_REPEATEVENT": "Once in every"
+    "LBL_REPEATEVENT": "Once in every",
+    "LBL_WORK_DAYS": "Work days"
   },
   "js": {
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "Cant select contact from leads",

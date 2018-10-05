@@ -11,10 +11,10 @@ return [
 	'EVENT_LIMIT' => 10,
 	// Show calendar timeline in monthly view
 	// false = basicWeek, true = agendaWeek
-	'SHOW_TIMELINE_WEEK' => false, // Boolean
+	'SHOW_TIMELINE_WEEK' => true, // Boolean
 	// Show calendar timeline in day view
 	// false = basicDay, true = agendaDay
-	'SHOW_TIMELINE_DAY' => false, //  Boolean
+	'SHOW_TIMELINE_DAY' => true, //  Boolean
 	// switch - Switch "To realize" and "History",
 	// list - filter list
 	'DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE' => 'list',
@@ -46,5 +46,5 @@ return [
 	// Show number of current records in record preview for related modules
 	'SHOW_ONLY_CURRENT_RECORDS_COUNT' => false,
 	//Calendar view - allowed values: Extended, Standard
-	'CALENDAR_VIEW' => 'Standard'
+	'CALENDAR_VIEW' => 'Extended'
 ];

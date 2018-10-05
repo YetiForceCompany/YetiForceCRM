@@ -173,14 +173,14 @@ var App = {},
 			clone.remove();
 			return false;
 		},
-		showPopoverElementView: function (selectElement, params = {}) {
+		showPopoverElementView: function (selectElement = $('.js-popover-tooltip'), params = {}) {
 			let defaultParams = {
 				trigger: 'manual',
 				placement: 'auto',
 				html: true,
 				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
 				container: 'body',
-				delay: {"show": 300, "hide": 100},
+				delay: {"show": 300, "hide": 100}
 			};
 			selectElement.each(function (index, domElement) {
 				let element = $(domElement);
@@ -206,6 +206,11 @@ var App = {},
 				element.popover(elementParams);
 				if (elementParams.trigger === 'manual' || typeof elementParams.trigger === 'undefined') {
 					app.registerPopoverManualTrigger(element);
+				}
+				if (elementParams.callbackShown) {
+					element.on('shown.bs.popover', function () {
+						elementParams.callbackShown();
+					})
 				}
 			});
 			return selectElement;
@@ -1405,15 +1410,23 @@ var App = {},
 			}
 			return $(window).height() * percantage / 100;
 		},
-		setCalendarHeight() {
-			const container = $('.js-base-container');
-			const paddingTop = 15;
+		setCalendarHeight(container) {
+			if (typeof container === 'undefined') {
+				container = $('.js-base-container');
+			}
+			let paddingTop = 15;
+			if ('CalendarExtended' === CONFIG.view) {
+				paddingTop = 5;
+			}
+			if (container.hasClass('quickCreateContainer')) {
+				paddingTop = 65;
+			}
 			if ($(window).width() > 993) {
-				let calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
+				let calendarH = $(window).height() - container.find('.js-calendar__container').offset().top - $('.js-footer').height() - paddingTop;
 				new ResizeSensor(container.find('.contentsDiv'), () => {
-					calendarH = $(window).height() - container.find('.o-calendar-container').offset().top - $('.js-footer').height() - paddingTop;
-					$('#calendarview').fullCalendar('option', 'height', calendarH);
-					$('#calendarview').height(calendarH + 10); // without this line calendar scroll stops working
+					calendarH = $(window).height() - container.find('.js-calendar__container').offset().top - $('.js-footer').height() - paddingTop;
+					$('.js-calendar__container').fullCalendar('option', 'height', calendarH);
+					$('.js-calendar__container').height(calendarH + 10); // without this line calendar scroll stops working
 				});
 				return calendarH;
 			} else if ($(window).width() < 993) {

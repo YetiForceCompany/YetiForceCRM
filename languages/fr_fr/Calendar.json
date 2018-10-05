@@ -59,7 +59,7 @@
     "LBL_SELECT_USERS": "Selectionner Utilisateurs",
     "LBL_SHARED_CALENDAR": "Calendrier partag\u00e9",
     "LBL_STATUS": "Statut",
-    "LBL_TASK_INFORMATION": "D\u00e9tails de la t\u00e2che",
+    "LBL_TASK_INFORMATION": "D\u00e9tails",
     "LBL_TASKS": "T\u00e2ches",
     "LBL_TASK": "T\u00e2che",
     "LBL_TODOS": "T\u00e2ches",
@@ -174,7 +174,8 @@
     "LBL_UPDATE_THIS_EVENT_DESCRIPTION": "Seul cet enregistrement sera modifi\u00e9, le reste reste inchang\u00e9",
     "LBL_UPDATE_THIS_EVENT": "Mettre \u00e0 jour uniquement cet enregistrement",
     "LBL_TITLE_TYPE_SAVING": "Mode d'enregistrement",
-    "LBL_REPEATEVENT": "Une fois tous les "
+    "LBL_REPEATEVENT": "Une fois tous les ",
+    "LBL_WORK_DAYS": "Jours travaill\u00e9s"
   },
   "js": {
     "JS_Normal": "Normal",

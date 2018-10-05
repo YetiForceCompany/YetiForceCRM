@@ -19,9 +19,9 @@
 				</button>
 			</div>
 		</div>
-		<div class="o-calendar-container">
+		<div class="o-calendar__container">
 			<p class="m-0"><!-- Divider --></p>
-			<div id="calendarview"></div>
+			<div class="js-calendar__container" data-js="fullcalendar | offset"></div>
 		</div>
 	</div>
 {/strip}
