@@ -1405,6 +1405,30 @@ jQuery.Class("Vtiger_List_Js", {
 		this.getFilterSelectElement().data('select2').close();
 		new CustomView($(event.currentTarget).find('#createFilter').data('createurl'));
 	},
+	registerFeaturedFilterClickEvent: function () {
+		let thisInstance = this;
+		let listViewFilterBlock = this.getFilterBlock();
+		if (listViewFilterBlock != false) {
+			listViewFilterBlock.on('mouseup', 'li [data-fa-i2svg].js-filter-favorites', function (event) {
+				let liElement = $(this).closest('.select2-results__option');
+				let currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
+				let params = {
+					cvid: currentOptionElement.attr('value'),
+					module: 'CustomView',
+					action: 'Featured',
+				};
+				if (currentOptionElement.data('featured') === 1) {
+					params['actions'] = 'remove'
+				} else {
+					params['actions'] = 'add'
+				}
+				AppConnector.request(params).done(function (data) {
+					window.location.reload();
+				});
+				event.stopPropagation();
+			});
+		}
+	},
 	/*
 	 * Function to register the click event for duplicate filter
 	 */
@@ -1524,6 +1548,8 @@ jQuery.Class("Vtiger_List_Js", {
 	appendFilterActionsTemplate: function (liElement) {
 		let currentOptionElement = this.getSelectOptionFromChosenOption(liElement);
 		let template = $(`<span class="js-filter-actions o-filter-actions float-right">
+					<span title="${app.vtranslate('JS_ADD_TO_FAVORITES')}" data-value="favorites" data-js="click"
+						  class=" mr-1 js-filter-favorites ${currentOptionElement.data('featured') === 1 ? 'fas fa-star' : 'far fa-star'}"></span>
 					<span title="${app.vtranslate('JS_DUPLICATE')}" data-value="duplicate" data-js="click"
 						  class="fas fa-retweet mr-1 js-filter-duplicate ${$("#createFilter").length !== 0 ? '' : 'd-none'}"></span>
 					<span title="${app.vtranslate('JS_EDIT')}" data-value="edit" data-js="click"
@@ -2024,6 +2050,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerHeadersClickEvent();
 		this.registerMassActionSubmitEvent();
 		this.changeCustomFilterElementView();
+		this.registerFeaturedFilterClickEvent();
 		this.registerChangeCustomFilterEventListeners();
 		this.registerChangeEntityStateEvent();
 		this.registerDuplicateFilterClickEvent();

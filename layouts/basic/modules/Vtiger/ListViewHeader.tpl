@@ -45,6 +45,7 @@
 												data-duplicateurl="{$CUSTOM_VIEW->getDuplicateUrl()}" {' '}
 												data-editable="{$CUSTOM_VIEW->isEditable()}"
 												data-deletable="{$CUSTOM_VIEW->privilegeToDelete()}" {' '}
+												data-featured="{$CUSTOM_VIEW->isFeatured()}"
 												data-pending="{$CUSTOM_VIEW->isPending()}" {' '}
 												data-public="{$CUSTOM_VIEW->isPublic() && $USER_MODEL->isAdminUser()}"
 												id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" {' '}
