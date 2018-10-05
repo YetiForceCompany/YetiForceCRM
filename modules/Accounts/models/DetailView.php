@@ -122,6 +122,14 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => 'fa-twitter',
 			];
 		}
+		if (\App\Module::isModuleActive('Chat')) {
+			$relatedLinks[] = [
+				'linktype' => 'DETAILVIEWTAB',
+				'linklabel' => 'LBL_CHAT',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showChat',
+				'linkicon' => 'fas fa-comments',
+			];
+		}
 		foreach ($parentModuleModel->getRelations() as $relation) {
 			if ($relation->isRelatedViewType('RelatedTab')) {
 				$relatedLinks[] = [

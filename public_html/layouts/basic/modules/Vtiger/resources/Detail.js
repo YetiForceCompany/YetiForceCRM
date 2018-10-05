@@ -1080,9 +1080,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 							text: '<b>' + fieldInfo.data.label + '</b><br>' +
-								'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
-								prevDisplayValue + '<br> ' +
-								'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
+							'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
+							prevDisplayValue + '<br> ' +
+							'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
 							type: 'info',
 							textTrusted: true
 						});
@@ -2207,6 +2207,60 @@ jQuery.Class("Vtiger_Detail_Js", {
 			progress.progressIndicator({'mode': 'hide'});
 		});
 	},
+	/**
+	 * Add chat room to record.
+	 *
+	 * @param {jQuery} container
+	 */
+	addChatRoom(container) {
+		const self = this;
+		AppConnector.request({
+			module: 'Chat',
+			action: 'Entries',
+			mode: 'addChatRoom',
+			record: app.getRecordId()
+		}).done((data) => {
+			/*if (html) {
+				//$('.chatModal .modal-body').append(html);
+			}*/
+			if (data && data.success) {
+				container.find('');
+			} else {
+				console.log(JSON.stringify(data));
+			}
+		}).fail((error, err) => {
+			app.errorLog(error, err);
+		});
+	},
+	/**
+	 * Send chat message.
+	 * @param {jQuery} container
+	 * @param {jQuery} inputMessage
+	 */
+	sendChatMessage(container, inputMessage) {
+		//var message = modal.find('.message').val();
+		//clearTimeout(self.chatTimer);
+		AppConnector.request({
+			dataType: 'html',
+			data: {
+				module: 'Chat',
+				action: 'Entries',
+				mode: 'add',
+				record: app.getRecordId(),
+				message: inputMessage.val(),
+				//cid: $('.chatModal .chatItem').last().data('cid')
+			}
+		}).done((html) => {
+			container.find(".js-chat-items").html(html);
+			//$('.chatModal .modal-body').append(html);
+			//self.registerChatLoadItems(modal.data('timer'));
+			console.log(html);
+			inputMessage.val("");
+		}).fail((error, err) => {
+			app.errorLog(error, err);
+		});
+		//modal.find('.message').val('');
+	},
 	registerEmailEvents: function (detailContentsHolder) {
 		Vtiger_Index_Js.registerMailButtons(detailContentsHolder);
 	},
@@ -2220,6 +2274,31 @@ jQuery.Class("Vtiger_Detail_Js", {
 	registerSocialMediaEvents(container) {
 		let socialMediaContainer = container.find('.tpl-Detail-SocialMedia');
 		if (socialMediaContainer.length) {
+		}
+	},
+	/**
+	 * Register chat events
+	 * @param container
+	 */
+	registerChatEvents(container) {
+		const self = this;
+		let chatContainer = container.find('.js-chat-container');
+		if (chatContainer.length) {
+			chatContainer.find('.js-create-chatroom').on('click', (e) => {
+				self.addChatRoom(chatContainer);
+			});
+			/*chatContainer.find('.js-chat-message').on('change', (e) => {
+				console.log('MSG: ' + $(e.currentTarget).val());
+			});*/
+			chatContainer.find('.js-chat-message').on('keydown', (e) => {
+				if (e.keyCode === 13) {
+					e.preventDefault();
+
+					console.log('MSG2: ' + $(e.currentTarget).val());
+					self.sendChatMessage(chatContainer, $(e.currentTarget));
+					return false;
+				}
+			});
 		}
 	},
 	registerShowSummary: function (container) {
@@ -2283,6 +2362,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerEmailEvents(detailContentsHolder);
 		thisInstance.registerMapsEvents(detailContentsHolder);
 		thisInstance.registerSocialMediaEvents(detailContentsHolder);
+		thisInstance.registerChatEvents(detailContentsHolder);
 		App.Fields.Date.register(detailContentsHolder);
 		App.Fields.DateTime.register(detailContentsHolder);
 		App.Fields.MultiImage.register(detailContentsHolder);

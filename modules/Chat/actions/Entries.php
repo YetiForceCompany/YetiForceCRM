@@ -4,8 +4,8 @@
  * Chat Entries Action Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Chat_Entries_Action extends \App\Controller\Action
 {
@@ -33,6 +33,7 @@ class Chat_Entries_Action extends \App\Controller\Action
 	{
 		parent::__construct();
 		$this->exposeMethod('add');
+		$this->exposeMethod('addChatRoom');
 	}
 
 	/**
@@ -45,5 +46,26 @@ class Chat_Entries_Action extends \App\Controller\Action
 		Chat_Module_Model::add($request->get('message'));
 		$view = new Chat_Entries_View();
 		$view->get($request);
+	}
+
+	/**
+	 * Add entries function.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function addChatRoom(\App\Request $request)
+	{
+		/*Chat_Module_Model::add($request->get('message'));
+		$view = new Chat_Entries_View();
+		$view->get($request);*/
+
+		$id = $request->getInteger('record');
+		$roomId = \App\Chat::getInstanceById($id)->save();
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'message' => "ZXC {$roomId}",
+		]);
+		$response->emit();
 	}
 }

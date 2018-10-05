@@ -9,6 +9,11 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+/**
+ * Class Vtiger_Detail_View.
+ *
+ * @package View
+ */
 class Vtiger_Detail_View extends Vtiger_Index_View
 {
 	use \App\Controller\ExposeMethod;
@@ -52,6 +57,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showOpenStreetMap');
 		$this->exposeMethod('showSocialMedia');
 		$this->exposeMethod('showInventoryDetails');
+		$this->exposeMethod('showChat');
 	}
 
 	/**
@@ -994,7 +1000,17 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return $viewer->view('HistoryRelation.tpl', $moduleName, true);
 	}
 
-	public function showOpenStreetMap($request)
+	/**
+	 * Show open street map.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return \html
+	 */
+	public function showOpenStreetMap(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted('OpenStreetMap')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -1013,8 +1029,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * Show social media.
 	 *
 	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return \html
 	 */
-	public function showSocialMedia($request)
+	public function showSocialMedia(\App\Request $request)
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
 		if (!Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel)->isEnableForRecord()) {
@@ -1026,6 +1047,31 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('SOCIAL_MODEL', Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		return $viewer->view('Detail\SocialMedia.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Show chat for record.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 *
+	 * @return \html
+	 */
+	public function showChat(\App\Request $request)
+	{
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
+		if (!\App\Module::isModuleActive('Chat')) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('RECORD_MODEL', $recordModel);
+		$viewer->assign('CHAT', \App\Chat::getInstanceById($recordModel->getId()));
+		$viewer->assign('CHAT_ENTRIES', (new Chat_Module_Model())->getEntries($request->getInteger('cid')));
+		return $viewer->view('Detail\Chat.tpl', $moduleName, true);
 	}
 
 	/**
