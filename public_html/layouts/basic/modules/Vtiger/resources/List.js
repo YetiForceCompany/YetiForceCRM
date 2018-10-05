@@ -1242,8 +1242,17 @@ jQuery.Class("Vtiger_List_Js", {
 		// event triggered by tab filter click
 		this.getFilterBlock().on('mouseup', 'li .select2-results__option', this.registerChangeCustomFilterEvent.bind(this));
 		this.getListViewTopMenuContainer().find('.js-filter-tab').on('click', (e) => {
-			const cvId = $(e.currentTarget).data('cvid');
-			let selectOption = filterSelect.find(`[value=${cvId}]`);
+			const target = $(e.currentTarget);
+			let cvId = target.data('cvid'),
+				selectOption = filterSelect.find(`[value=${cvId}]`),
+				link = target.find('.js-color-nav-tab-link'),
+				color = link.data('color'),
+				parent = target.closest('.js-color-nav-tab');
+			parent.css('border-bottom', '').find('.js-color-nav-tab-link').css('border', '').css('border-bottom', '');
+			if (color !== undefined) {
+				link.css('border', 'solid 1px ' + color);
+				parent.css('border-bottom', 'solid 1px ' + color);
+			}
 			selectOption.trigger('click');
 			$('#select2-customFilter-container span').contents().last().replaceWith(selectOption.text());
 			filterSelect.val(cvId).trigger('change');

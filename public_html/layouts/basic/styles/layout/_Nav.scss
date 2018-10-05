@@ -255,8 +255,8 @@
 			}
 
 			.c-badge--top-right {
-				position:inherit;
-				margin-left:5px;
+				position: inherit;
+				margin-left: 5px;
 			}
 
 			&.show .dropdown-toggle,
@@ -334,3 +334,13 @@
 	}
 }
 
+.listViewTopMenuDiv {
+	.c-color-nav-tab {
+		border-bottom: solid 1px #dee2e6;
+		.nav-link.active {
+			border: 1px solid #dee2e6;
+			border-bottom: solid 1px #f8f9fa !important;
+		}
+	}
+
+}
