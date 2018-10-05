@@ -26,7 +26,7 @@
 					{if !empty($RECORD_ID)}
 						<input type="hidden" name="record" id="record" value="{$RECORD_ID}"/>
 					{/if}
-					<input type="hidden" name="module" value="{$MODULE}"/>
+					<input type="hidden" name="module" value="{$MODULE_NAME}"/>
 					<input type="hidden" name="action" value="Save"/>
 					<input type="hidden" name="source_module" value="{$SOURCE_MODULE}"/>
 					<input type="hidden" id="stdfilterlist" name="stdfilterlist" value=""/>
@@ -41,13 +41,13 @@
 							<div class="blockHeader  c-panel__header">
 					<span class="iconToggle fas fa-chevron-down small m-1 mt-2" data-hide="fas fa-chevron-right"
 						  data-show="fas fa-chevron-down"></span>
-								<h5 class="">{\App\Language::translate('LBL_BASIC_DETAILS',$MODULE)}</h5>
+								<h5 class="">{\App\Language::translate('LBL_BASIC_DETAILS',$MODULE_NAME)}</h5>
 							</div>
 							<div class="c-panel__body py-1">
 								<div class="form-group">
 									<div class="row col-md-5">
 										<label class="float-left col-form-label "><span
-													class="redColor">*</span> {\App\Language::translate('LBL_VIEW_NAME',$MODULE)}
+													class="redColor">*</span> {\App\Language::translate('LBL_VIEW_NAME',$MODULE_NAME)}
 											:</label>
 										<div class="col-md-7">
 											<input type="text" id="viewname" class="form-control"
@@ -58,12 +58,12 @@
 								</div>
 								<div class="form-group">
 									<label class=" col-form-label"><span
-												class="redColor">*</span> {\App\Language::translate('LBL_CHOOSE_COLUMNS',$MODULE)}
+												class="redColor">*</span> {\App\Language::translate('LBL_CHOOSE_COLUMNS',$MODULE_NAME)}
 										({\App\Language::translate('LBL_MAX_NUMBER_FILTER_COLUMNS')}):</label>
 									<div class="columnsSelectDiv col-md-12">
 										{assign var=MANDATORY_FIELDS value=[]}
 										<div class="">
-											<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}"
+											<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE_NAME)}"
 													multiple class="select2 form-control js-select2-sortable"
 													id="viewColumnsSelect">
 												{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
@@ -96,7 +96,7 @@
 								</div>
 								<div class="form-group marginbottomZero">
 									<div class="row col-md-5">
-										<label class="float-left col-form-label ">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE)}
+										<label class="float-left col-form-label ">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE_NAME)}
 											:</label>
 										<div class="col-md-7">
 											<div class="input-group js-color-picker" data-js="color-picker">
@@ -115,7 +115,7 @@
 							<div class="blockHeader c-panel__header">
 					<span class="iconToggle fas fa-chevron-right small m-1 mt-2" data-hide="fas fa-chevron-right"
 						  data-show="fas fa-chevron-down"></span>
-								<h5 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE)}</h5>
+								<h5 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE_NAME)}</h5>
 							</div>
 							<div class="c-panel__body py-1 d-none">
 								<textarea name="description" id="description" class="js-editor"
@@ -126,7 +126,8 @@
 							<div class="blockHeader c-panel__header">
 					<span class="iconToggle fas fa-chevron-down small m-1 mt-2" data-hide="fas fa-chevron-right"
 						  data-show="fas fa-chevron-down"></span>
-								<h5 class="">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE)}:</h5>
+								<h5 class="">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE_NAME)}
+									:</h5>
 							</div>
 							<div class="c-panel__body py-1">
 								<div class="filterConditionsDiv">
@@ -143,7 +144,7 @@
 						<div class="w-75 btn-group js-filter-preferences btn-group-toggle flex-wrap align-items-stretch mt-1  c-btn-block-sm-down pl-1 flex-xl-row flex-column"
 							 data-toggle="buttons" data-js="change">
 							<label class="c-btn-block-sm-down btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isDefault()} active{/if}"
-								   title="{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE)}">
+								   title="{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE_NAME)}">
 								<input name="setdefault" value="1" type="checkbox"
 									   class="js-filter-preference"
 									   data-js="change"
@@ -153,11 +154,11 @@
 								<span class="{if $CUSTOMVIEW_MODEL->isDefault()}fas{else}far{/if} fa-heart mr-1"
 									  data-check="fas fa-heart" data-unchecked="far fa-heart"
 									  data-fa-transform="grow-2"></span>
-								{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE)}
+								{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE_NAME)}
 
 							</label>
 							<label class="c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isSetPublic()} active{/if}"
-								   title="{\App\Language::translate('LBL_SET_AS_PUBLIC',$MODULE)}">
+								   title="{\App\Language::translate('LBL_SET_AS_PUBLIC',$MODULE_NAME)}">
 								<input name="status" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if}
 									   type="checkbox" class="js-filter-preference" data-js="change"
 									   id="status"
@@ -165,10 +166,10 @@
 								<span class="far {if $CUSTOMVIEW_MODEL->isSetPublic()}fa-eye{else}fa-eye-slash{/if} mr-1"
 									  data-check="fa-eye" data-unchecked="fa-eye-slash"
 									  data-fa-transform="grow-2"></span>
-								{\App\Language::translate('LBL_SET_AS_PUBLIC',$MODULE)}
+								{\App\Language::translate('LBL_SET_AS_PUBLIC',$MODULE_NAME)}
 							</label>
 							<label class="c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isFeatured(true)} active{/if}"
-								   title="{\App\Language::translate('LBL_FEATURED',$MODULE)}">
+								   title="{\App\Language::translate('LBL_FEATURED',$MODULE_NAME)}">
 								<input name="featured" value="1" type="checkbox"
 									   class="js-filter-preference"
 									   data-js="change" id="featured"
@@ -177,10 +178,10 @@
 								<span class="{if $CUSTOMVIEW_MODEL->isFeatured(true)}fas{else}far{/if} fa-star mr-1"
 									  data-check="fas" data-unchecked="far"
 									  data-fa-transform="grow-2"></span>
-								{\App\Language::translate('LBL_FEATURED',$MODULE)}
+								{\App\Language::translate('LBL_FEATURED',$MODULE_NAME)}
 							</label>
 							<label class="c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-dark{if $CUSTOMVIEW_MODEL->get('setmetrics')} active{/if}"
-								   title="{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE)}">
+								   title="{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE_NAME)}">
 								<input name="setmetrics" value="1" type="checkbox"
 									   class="js-filter-preference"
 									   data-js="change"
@@ -191,17 +192,17 @@
 								<span class="fas fa-chart-line" data-fa-transform="shrink-5 right-7 down-6"></span>
 								<span class="fas fa-chart-area" data-fa-transform="shrink-5 left-7 down-6"></span>
 							</span>
-								{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE)}
+								{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE_NAME)}
 							</label>
 						</div>
 						<div class="w-25 d-flex flex-wrap flex-md-nowrap justify-content-end  pr-0 mt-1  c-btn-block-sm-down ml-0 pr-1 pr-md-0">
 
 							<button class="btn btn-success mr-md-1" type="submit">
-								<span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $MODULE)}
+								<span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
 							</button>
 							<button class="btn btn-danger mt-1 mt-md-0" type="reset" data-dismiss="modal">
 								<span
-										class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}
+										class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}
 							</button>
 						</div>
 					</div>
