@@ -21,9 +21,9 @@ class Vtiger_Widget_Model extends \App\Base
 		if ($size) {
 			$size = \App\Json::decode(App\Purifier::decodeHtml($size));
 			if (isset($size[App\Session::get('fingerprint')])) {
-				return (int) $size[App\Session::get('fingerprint')]['width'];
+				return (int)$size[App\Session::get('fingerprint')]['width'];
 			}
-			return (int) ($size['width']);
+			return (int)($size['width']);
 		}
 		return $defaultSize;
 	}
@@ -35,26 +35,28 @@ class Vtiger_Widget_Model extends \App\Base
 		if ($size) {
 			$size = \App\Json::decode(App\Purifier::decodeHtml($size));
 			if (isset($size[App\Session::get('fingerprint')])) {
-				return (int) $size[App\Session::get('fingerprint')]['height'];
+				return (int)$size[App\Session::get('fingerprint')]['height'];
 			}
-			return (int) ($size['height']);
+			return (int)($size['height']);
 		}
 		return $defaultSize;
 	}
 
-	public function getPosition($default = 0, $coordinate)
+	public function getPosition($defaultPosition, $coordinate)
 	{
 		$position = $this->get('position');
 		if ($position) {
 			$position = \App\Json::decode(App\Purifier::decodeHtml($position));
 			if (isset($position[App\Session::get('fingerprint')])) {
-				return (int) $position[App\Session::get('fingerprint')][$coordinate];
+				$position = (int)$position[App\Session::get('fingerprint')][$coordinate];
 			}
 			if (isset($position[$coordinate])) {
-				return (int)($position[$coordinate]);
+				$position = (int)($position[$coordinate]);
 			}
+		} else {
+			$position = $defaultPosition;
 		}
-		return $default;
+		return $position;
 	}
 
 	/**
@@ -262,7 +264,7 @@ class Vtiger_Widget_Model extends \App\Base
 	/**
 	 * Process the UI Widget requested.
 	 *
-	 * @param vtlib\Link             $widgetLink
+	 * @param vtlib\Link $widgetLink
 	 * @param Current Smarty Context $context
 	 */
 	public function processWidget(Vtiger_Link_Model $widgetLink, Vtiger_Record_Model $recordModel)
