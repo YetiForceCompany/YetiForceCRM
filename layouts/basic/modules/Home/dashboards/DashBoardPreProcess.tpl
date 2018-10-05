@@ -10,11 +10,13 @@
 ********************************************************************************/
 -->*}
 {strip}
+<!-- tpl-Home-dashboards-DashBoardPreProcess -->
 {include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
-<div class="tpl-Home-dashboards-DashBoardPreProcess bodyContents">
+<div class="bodyContents">
 	<div class="mainContainer">
 		<div class="contentsDiv mx-md-0 dashboardContainer">
 			{include file=\App\Layout::getTemplatePath('dashboards/DashBoardHeader.tpl', $MODULE_NAME) DASHBOARDHEADER_TITLE=\App\Language::translate($MODULE, $MODULE)}
 			<div class="dashboardViewContainer">
 				{include file=\App\Layout::getTemplatePath('dashboards/DashBoardPreProcessAjax.tpl', $MODULE_NAME)}
 				{/strip}
+				<!-- /tpl-Home-dashboards-DashBoardPreProcess -->
