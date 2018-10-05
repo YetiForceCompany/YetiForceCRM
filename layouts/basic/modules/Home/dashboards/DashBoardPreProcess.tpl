@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce Sp. z o.o.
 ********************************************************************************/
 -->*}
 {strip}
@@ -18,5 +18,5 @@
 			{include file=\App\Layout::getTemplatePath('dashboards/DashBoardHeader.tpl', $MODULE_NAME) DASHBOARDHEADER_TITLE=\App\Language::translate($MODULE, $MODULE)}
 			<div class="dashboardViewContainer">
 				{include file=\App\Layout::getTemplatePath('dashboards/DashBoardPreProcessAjax.tpl', $MODULE_NAME)}
-				{/strip}
-				<!-- /tpl-Home-dashboards-DashBoardPreProcess -->
+<!-- /tpl-Home-dashboards-DashBoardPreProcess -->
+{/strip}
