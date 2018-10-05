@@ -1416,6 +1416,7 @@ jQuery.Class("Vtiger_List_Js", {
 					cvid: currentOptionElement.attr('value'),
 					module: 'CustomView',
 					action: 'Featured',
+					sorceModuleName: app.getModuleName(),
 				};
 				if (currentOptionElement.data('featured') === 1) {
 					params['actions'] = 'remove'
