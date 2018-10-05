@@ -48,6 +48,7 @@
     "LBL_SELECT_ACTIVITY_TYPE": "Selecteaza tip activitate",
     "LBL_SELECT_CALENDAR_COLOR": "Selecteaza culoare Calendar",
     "LBL_SELECT_USER_CALENDAR": "Selecteaza utilizator Calendar",
+    "LBL_SELECT_GROUP_CALENDAR": "Select group calendar",
     "LBL_SELECT_USERS": "Selecteaza utilizatori",
     "LBL_SHARED_CALENDAR": "Calendar distribuit",
     "LBL_STATUS": "Status",
@@ -126,6 +127,11 @@
     "LBL_RELATED_TO": "Relatat la",
     "LBL_NO_AVAILABLE_ACTIONS": "Nu exista actiuni disponibile",
     "LBL_CALENDAR_FILTERS": "Filtre",
+    "LBL_FILTER": "Filters",
+    "LBL_MEET": "MEETING",
+    "LBL_PHONE": "PHONE",
+    "LBL_EDIT_EVENT": "Edit event",
+    "LBL_USER_NAME": "User name",
     "LBL_AUTO_FILL_DESCRIPTION": "Completati data de incepere pe baza primei date disponibile",
     "LBL_CACHE_SELECTED_FILTERS": "Vizualizarea standard in Calendar a fost modificata. Click \"Sterge vizualizare\" pentru a o sterge.",
     "LBL_CACHE_CLEAR": "Curata vizualizare",
@@ -174,7 +180,11 @@
     "LBL_DELETE_FUTURE_EVENTS_DESCRIPTION": "Doar inregistrarile ulterioare vor fi modificate",
     "LBL_DELETE_ALL_EVENTS": "Sterge toate inregistrarile",
     "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "Toate inregistrarile in ordine vor fi sterse",
-    "LBL_REPEATEVENT": "Odata in fiecare"
+    "LBL_REPEATEVENT": "Odata in fiecare",
+    "LBL_VIEW_CALENDAREXTENDED": "Graphical calendar",
+    "LBL_REMAIND_HOURS": "Remind after the selected number of hours",
+    "LBL_REMAIND_MINS": "Remind after the selected number of minutes",
+    "LBL_WORK_DAYS": "Work days"
   },
   "js": {
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "Nu pot selecta contact din lead-uri",
