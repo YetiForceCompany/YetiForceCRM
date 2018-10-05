@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class='tpl-CustomView-EditView modal fade js-filter-modal__container' tabindex="-1" data-js="container">
+	<div class="tpl-CustomView-EditView modal fade js-filter-modal__container" tabindex="-1" data-js="container">
 		<div class="modal-dialog modal-fullscreen">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -34,7 +34,7 @@
 					<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}"/>
 					<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}"/>
 					<input type="hidden" name="date_filters"
-						   data-value='{\App\Purifier::encodeHtml(\App\Json::encode($DATE_FILTERS))}'/>
+						   data-value="{\App\Purifier::encodeHtml(\App\Json::encode($DATE_FILTERS))}"/>
 					{assign var=SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
 					<div class="childrenMarginTopX">
 						<div class="js-toggle-panel c-panel" data-js="click">
@@ -70,7 +70,7 @@
 													data-js="appendTo">
 												{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 													<optgroup
-															label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}'>
+															label="{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}">
 														{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 															{if $FIELD_MODEL->isMandatory()}
 																{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewColumnName())}
@@ -93,11 +93,11 @@
 											</select>
 										</div>
 										<input type="hidden" name="columnslist"
-											   value='{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_FIELDS))}'
+											   value="{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_FIELDS))}"
 											   class="js-columnslist"
 											   data-js="val"/>
 										<input id="mandatoryFieldsList" type="hidden"
-											   value='{\App\Purifier::encodeHtml(\App\Json::encode($MANDATORY_FIELDS))}'/>
+											   value="{\App\Purifier::encodeHtml(\App\Json::encode($MANDATORY_FIELDS))}"/>
 									</div>
 								</div>
 								<div class="form-group marginbottomZero">
