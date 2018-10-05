@@ -11,7 +11,7 @@
 -->*}
 {strip}
 {include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
-<div class="bodyContents">
+<div class="tpl-Home-dashboards-DashBoardPreProcess bodyContents">
 	<div class="mainContainer">
 		<div class="contentsDiv mx-md-0 dashboardContainer">
 			{include file=\App\Layout::getTemplatePath('dashboards/DashBoardHeader.tpl', $MODULE_NAME) DASHBOARDHEADER_TITLE=\App\Language::translate($MODULE, $MODULE)}
