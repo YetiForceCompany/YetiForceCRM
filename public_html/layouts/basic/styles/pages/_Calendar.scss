@@ -20,9 +20,10 @@ $sitebar-border: 1px solid #ccc;
 }
 
 @media(min-width: map_get($grid-breakpoints, lg)) {
-	.Calendar_CalendarExtended .mainBody,
-	.Calendar_Calendar .mainBody {
-		overflow: hidden;
+	.basePanel[class*="_Calendar"] {
+		.mainBody {
+			overflow: hidden;
+		}
 	}
 }
 
@@ -57,7 +58,7 @@ $sitebar-border: 1px solid #ccc;
 }
 
 //standard calendar toggle button
-.Calendar_Calendar {
+.basePanel:not(.Calendar_CalendarExtended) {
 	.toggleSiteBarRightButton {
 		background: $light;
 		font-weight: bold;
