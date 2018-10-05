@@ -246,6 +246,31 @@ class CustomView_Record_Model extends \App\Base
 		return false;
 	}
 
+	/**
+	 * Function adds a filter to your favorites.
+	 *
+	 * @param int    $cvId
+	 * @param string $user
+	 * @param string $action
+	 *
+	 * @return bool
+	 */
+	public static function setFeaturedFilterView($cvId, $user, $action)
+	{
+		$db = \App\Db::getInstance();
+		if ($action === 'add') {
+			$db->createCommand()->insert('u_#__featured_filter', [
+				'user' => $user,
+				'cvid' => $cvId,
+			])->execute();
+		} elseif ($action === 'remove') {
+			$db->createCommand()
+				->delete('u_#__featured_filter', ['user' => $user, 'cvid' => $cvId])
+				->execute();
+		}
+		return false;
+	}
+
 	public function privilegeToDelete()
 	{
 		return $this->isEditable() && $this->get('presence') != 0;
