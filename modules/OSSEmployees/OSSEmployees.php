@@ -180,7 +180,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			$depth = $parentAccounts[$immediateParentId]['depth'] + 1;
 		}
 		$parentAccountInfo['depth'] = $depth;
-		foreach ($this->list_fields_name as $fieldName => $columnName) {
+		foreach ($this->list_fields_name as $columnName) {
 			if ($columnName == 'assigned_user_id') {
 				$parentAccountInfo[$columnName] = $data['user_name'];
 			} else {
@@ -213,7 +213,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 				}
 				$childAccountInfo = [];
 				$childAccountInfo['depth'] = $depth;
-				foreach ($this->list_fields_name as $fieldName => $columnName) {
+				foreach ($this->list_fields_name as $columnName) {
 					if ($columnName == 'assigned_user_id') {
 						$childAccountInfo[$columnName] = $row['user_name'];
 					} else {

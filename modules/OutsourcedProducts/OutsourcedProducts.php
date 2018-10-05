@@ -3,7 +3,7 @@
  * OutsourcedProducts CRMEntity class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
@@ -135,7 +135,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 		$entityTblFieldArr = ['vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid'];
 
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($relTableArr as $relModule => $relTable) {
+			foreach ($relTableArr as $relTable) {
 				$idField = $tblFieldArr[$relTable];
 				$entityIdField = $entityTblFieldArr[$relTable];
 				// IN clause to avoid duplicate entries

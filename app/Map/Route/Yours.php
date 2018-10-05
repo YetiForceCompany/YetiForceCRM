@@ -2,13 +2,13 @@
 /**
  * Connector to find route. Connector based on service YOURS.
  *
- * @package App
+ * @package   App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  *
- * @link https://wiki.openstreetmap.org/wiki/YOURS
+ * @link      https://wiki.openstreetmap.org/wiki/YOURS
  */
 
 namespace App\Map\Route;
@@ -29,15 +29,15 @@ class Yours extends Base
 		$startLat = $this->start['lat'];
 		$startLon = $this->start['lon'];
 		if (!empty($this->indirectPoints)) {
-			foreach ($this->indirectPoints as $key => $tempLon) {
+			foreach ($this->indirectPoints as $tempLon) {
 				$endLon = $tempLon['lon'];
 				$endLat = $tempLon['lat'];
 				$tracks[] = [
-						'startLat' => $startLat,
-						'startLon' => $startLon,
-						'endLat' => $endLat,
-						'endLon' => $endLon,
-					];
+					'startLat' => $startLat,
+					'startLon' => $startLon,
+					'endLat' => $endLat,
+					'endLon' => $endLon,
+				];
 				$startLat = $endLat;
 				$startLon = $endLon;
 			}

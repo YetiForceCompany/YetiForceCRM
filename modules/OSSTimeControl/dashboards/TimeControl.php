@@ -4,7 +4,7 @@
  * OSSTimeControl TimeControl dashboard class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -96,7 +96,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		}
 		if ($dataReader->count() > 0) {
 			$chartData['show_chart'] = true;
-			foreach ($workingTime as $dueDate => $timeValue) {
+			foreach ($workingTime as $timeValue) {
 				foreach ($timeTypes as $timeTypeId => $timeType) {
 					if ($timeValue[$timeType]) {
 						$value = $timeValue[$timeType];

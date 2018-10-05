@@ -4,8 +4,8 @@
  * Time control list parser class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSTimeControl_List_Textparser extends \App\TextParser\Base
 {
@@ -50,7 +50,7 @@ class OSSTimeControl_List_Textparser extends \App\TextParser\Base
 		foreach ($ids as $recordId) {
 			$html .= '<tr>';
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
-			foreach ($this->columnNames as $key => $column) {
+			foreach ($this->columnNames as $column) {
 				$fieldModel = $fields[$column];
 				$class = '';
 				if (in_array($column, ['time_start', 'time_end', 'due_date', 'date_start', 'sum_time'])) {

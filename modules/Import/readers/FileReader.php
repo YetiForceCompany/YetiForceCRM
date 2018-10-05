@@ -138,7 +138,7 @@ class Import_FileReader_Reader
 			$columns = [
 				'id' => $schema->createColumnSchemaBuilder('integer', 19),
 			];
-			foreach ($inventoryFieldModel->getFields() as $columnName => $fieldObject) {
+			foreach ($inventoryFieldModel->getFields() as $fieldObject) {
 				$dbType = $fieldObject->getDBType();
 				if (in_array($fieldObject->getName(), ['Name', 'Reference'])) {
 					$dbType = $schema->createColumnSchemaBuilder('string', 200);

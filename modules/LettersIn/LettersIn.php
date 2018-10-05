@@ -4,7 +4,7 @@
  * LettersIn CRMEntity class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class LettersIn extends CRMEntity
 {
@@ -102,7 +102,6 @@ class LettersIn extends CRMEntity
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType === 'module.postinstall') {
-			$ModuleInstance = CRMEntity::getInstance($moduleName);
 			\App\Fields\RecordNumber::setNumber($moduleName, 'LI', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
