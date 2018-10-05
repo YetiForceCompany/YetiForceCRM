@@ -104,7 +104,7 @@ class ProductsTableRelatedModule extends Base
 					$html .= '">';
 					if ($field->isSummary()) {
 						$sum = 0;
-						foreach ($inventoryRows as $key => &$inventoryRow) {
+						foreach ($inventoryRows as &$inventoryRow) {
 							$sum += $inventoryRow[$field->get('columnname')];
 						}
 						$html .= \CurrencyField::convertToUserFormat($sum, null, true);

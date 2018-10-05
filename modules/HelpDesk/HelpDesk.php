@@ -106,7 +106,7 @@ class HelpDesk extends CRMEntity
 		$entity_tbl_field_arr = ['vtiger_seattachmentsrel' => 'crmid', 'vtiger_senotesrel' => 'crmid'];
 
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($rel_table_arr as $rel_module => $rel_table) {
+			foreach ($rel_table_arr as $rel_table) {
 				$id_field = $tbl_field_arr[$rel_table];
 				$entity_id_field = $entity_tbl_field_arr[$rel_table];
 				// IN clause to avoid duplicate entries

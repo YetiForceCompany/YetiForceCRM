@@ -54,7 +54,7 @@ class PBXManager_PBXManager_Connector
 		return 'PBXManager';
 	}
 
-	public function getPicklistValues($field)
+	public function getPicklistValues()
 	{
 	}
 
@@ -280,7 +280,7 @@ class PBXManager_PBXManager_Connector
 		$response .= 'Success</Authentication>';
 
 		if (self::$NUMBERS) {
-			foreach (self::$NUMBERS as $userId => $number) {
+			foreach (self::$NUMBERS as $number) {
 				$callPermission = \App\Privilege::isPermitted('PBXManager', 'ReceiveIncomingCalls');
 
 				if ($number != $details->get('callerIdNumber') && $callPermission) {
