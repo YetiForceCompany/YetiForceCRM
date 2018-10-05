@@ -93,11 +93,11 @@
 											</select>
 										</div>
 										<input type="hidden" name="columnslist"
-											   value='{\App\Json::encode($SELECTED_FIELDS)}'
+											   value='{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_FIELDS))}'
 											   class="js-columnslist"
 											   data-js="val"/>
 										<input id="mandatoryFieldsList" type="hidden"
-											   value='{\App\Json::encode($MANDATORY_FIELDS)}'/>
+											   value='{\App\Purifier::encodeHtml(\App\Json::encode($MANDATORY_FIELDS))}'/>
 									</div>
 								</div>
 								<div class="form-group marginbottomZero">
