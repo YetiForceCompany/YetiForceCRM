@@ -45,6 +45,9 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
+		if (isset($headerScriptInstances['modules.' . $moduleName . '.resources.Calendar'])) {
+			unset($headerScriptInstances['modules.' . $moduleName . '.resources.Calendar']);
+		}
 		$jsFileNames = [
 			'~libraries/fullcalendar/dist/fullcalendar.js',
 			'~libraries/css-element-queries/src/ResizeSensor.js',
