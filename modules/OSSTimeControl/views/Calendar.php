@@ -4,7 +4,7 @@
  * OSSTimeControl calendar view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 {
@@ -49,6 +49,7 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 			'~libraries/fullcalendar/dist/fullcalendar.js',
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',
+			'~layouts/resources/BasicCalendar.js',
 			'modules.' . $moduleName . '.resources.Calendar',
 		];
 
