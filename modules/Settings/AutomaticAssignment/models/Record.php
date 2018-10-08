@@ -249,7 +249,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				}
 
 				return $rows;
-				break;
 			case 'tabid':
 				$value = (int) $value;
 				break;
@@ -266,7 +265,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				}
 
 				return $rows;
-				break;
 			default:
 				break;
 		}
