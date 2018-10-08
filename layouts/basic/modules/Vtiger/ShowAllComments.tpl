@@ -46,7 +46,7 @@
 			{/if}
 			<div class="col-6 col-lg-6 col-md-6 col-sm-6 p-0">
 				<div class="input-group-append bg-white rounded-right">
-					<input type="text" class="js-comment-search form-control commentSearch"
+					<input type="text" class="js-comment-search form-control"
 						   placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
 						   aria-describedby="commentSearchAddon"
 						   data-js="keypress|data">

@@ -44,7 +44,7 @@
 						   aria-describedby="commentSearchAddon"
 						   data-container="widget"
 						   data-js="keypress|data">
-					<button class="btn btn-outline-dark border-0 h-100 js-search-icon searchIcon" type="button"
+					<button class="btn btn-outline-dark border-0 h-100 js-search-icon" type="button"
 							data-js="click">
 						<span class="fas fa-search fa-fw" title="{\App\Language::translate('LBL_SEARCH')}"></span>
 					</button>
@@ -55,7 +55,7 @@
 					<div class="btn-group btn-group-toggle hierarchyButtons float-right float-md-none"
 						 data-toggle="buttons">
 						<label class="btn btn-sm btn-outline-primary {if $HIERARCHY_VALUE !== 'all'}active{/if}">
-							<input class="js-hierarchyComments hierarchyComments" type="radio" name="options"
+							<input class="js-hierarchy-comments" type="radio" name="options"
 								   id="option1"
 								   value="current" autocomplete="off"
 								   {if $HIERARCHY_VALUE !== 'all'}checked="checked"{/if}
@@ -63,7 +63,7 @@
 							> {\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
 						</label>
 						<label class="btn btn-sm btn-outline-primary {if $HIERARCHY_VALUE === 'all'}active{/if}">
-							<input class="js-hierarchyComments hierarchyComments" type="radio" name="options"
+							<input class="js-hierarchy-comments" type="radio" name="options"
 								   id="option2" value="all"
 								   {if $HIERARCHY_VALUE === 'all'}checked="checked"{/if}
 								   autocomplete="off"

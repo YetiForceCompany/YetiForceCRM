@@ -11,9 +11,9 @@
 -->*}
 {strip}
 {assign var="HIERARCHY" value=isset($PARENT_RECORD) && $PARENT_RECORD != $COMMENT->get('related_to')}
-<div class="tpl-Base-Comment Comment commentDiv">
+<div class="tpl-Base-Comment Comment comment-div js-comment-div" data-js="container">
 	<div class="js-comment-single singleComment" data-js="append">
-		<div class="js-commentInfoHeader commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}"
+		<div class="js-comment-info-header commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}"
 			 data-parentcommentid="{$COMMENT->get('parent_comments')}"
 			 data-js="data-commentid|data-parentcommentid">
 			<div class="float-left">
@@ -56,7 +56,7 @@
 		<div class="js-comment-container commentActionsContainer d-flex flex-wrap justify-content-between align-items-center m-0"
 			 data-js="hide|show">
 			{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
-			<div class="js-edited-status editedStatus" name="editStatus" data-js="class: d-none">
+			<div class="js-edited-status edited-status" name="editStatus" data-js="class: d-none">
 				<span class="{if empty($REASON_TO_EDIT)}d-none{/if} js-edit-reason text-muted" data-js="class: d-none">
 					<p>
 						<small>
@@ -70,7 +70,7 @@
 								<small>
 									<em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em>
 								</small>&nbsp;
-								<small class="js-commentModifiedTime commentModifiedTime" data-js="html">
+								<small class="js-comment-modified-time commentModifiedTime" data-js="html">
 									{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}
 								</small>
 							</span>
@@ -104,39 +104,39 @@
 					{/if}
 					{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 					{if !empty($CHILD_COMMENTS_MODEL) && !empty($PARENT_COMMENT_ID) && (empty($CHILDS_ROOT_PARENT_ID) || $CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID) && empty($SHOW_CHILD_COMMENTS)}
-						<span class="js-viewThreadBlock viewThreadBlock"
+						<span class="js-view-thread-block viewThreadBlock"
 							  data-child-comments-count="{$CHILD_COMMENTS_COUNT}"
 							  data-js="data-child-comments-count">
 								<button type="button" class="btn btn-sm btn-info viewThread ml-1"
 										title="{$CHILD_COMMENTS_COUNT}&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}"
 										data-js="click">
-									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>
+									<span class="js-child-comments-count">{$CHILD_COMMENTS_COUNT}</span>
 									&nbsp;
 									<span class="fas fa-share"></span>
 								</button>
 							</span>
 						<span class="d-none hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 								<a class="u-cursor-pointer hideThread">
-									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}
+									<span class="js-child-comments-count" data-js="text">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}
 									&nbsp;
 									<img class="alignMiddle" src="{\App\Layout::getImagePath('downArrowSmall.png')}"/>
 								</a>
 							</span>
-					{elseif !empty($CHILD_COMMENTS) and ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
-						<span class="js-viewThreadBlock viewThreadBlock"
+					{elseif !empty($CHILD_COMMENTS) && !empty($CHILDS_ROOT_PARENT_ID) && ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
+						<span class="js-view-thread-block viewThreadBlock"
 							  data-child-comments-count="{$CHILD_COMMENTS_COUNT}"
 							  data-js="data-child-comments-count">
 								<button type="button" class="btn btn-sm btn-info viewThread ml-1"
 										title="{$CHILD_COMMENTS_COUNT}&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}"
 										data-js="click">
-									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>
+									<span class="js-child-comments-count" data-js="text">{$CHILD_COMMENTS_COUNT}</span>
 									&nbsp;
 									<span class="fas fa-share"></span>
 								</button>
 							</span>
 						<span class="hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 								<a class="u-cursor-pointer hideThread">
-									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}
+									<span class="js-child-comments-count" data-js="text">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}
 									&nbsp;
 									<img class="alignMiddle" src="{\App\Layout::getImagePath('downArrowSmall.png')}"/>
 								</a>

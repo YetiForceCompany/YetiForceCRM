@@ -55,7 +55,7 @@
 			</table>
 		</div>
 	{else}
-		<div class="summaryWidgetContainer noCommentsMsgContainer">
+		<div class="summaryWidgetContainer js-no-comments-msg-container">
 			<p class="textAlignCenter">{\App\Language::translate('LBL_NO_RECORDS_FOUND',$MODULE_NAME)}</p>
 		</div>
 	{/if}

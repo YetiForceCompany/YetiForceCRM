@@ -13,7 +13,7 @@
 	<!-- tpl-Base-AddCommentForm -->
 	{* Change to this also refer: RecentComments.tpl *}
 	{assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
-	<div id="addCommentContainer" class="modal fade" tabindex="-1" role="dialog">
+	<div id="add-comment__container" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">

@@ -22,7 +22,7 @@
 		{else}
 			{include file=\App\Layout::getTemplatePath('Comments.tpl') PARENT_COMMENTS=$PARENT_COMMENTS CURRENT_COMMENT=$CURRENT_COMMENT}
 		{/if}
-		<div class="tpl-CommentsList js-noCommentsMsgContainer summaryWidgetContainer noCommentsMsgContainer {if !empty($PARENT_COMMENTS)}d-none{/if}"
+		<div class="js-no-comments-msg-container summaryWidgetContainer {if !empty($PARENT_COMMENTS)}d-none{/if}"
 			 data-js="container">
 			<p class="textAlignCenter"> {\App\Language::translate('LBL_NO_COMMENTS',$MODULE_NAME)}</p>
 		</div>
@@ -39,7 +39,8 @@
 								<span class="input-group-text"><span class="fas fa-comments"></span></span>
 							</span>
 						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"
-								  class="form-control commentcontenthidden fullWidthAlways js-comment-content" name="commentcontent"
+								  class="form-control commentcontenthidden fullWidthAlways js-comment-content"
+								  name="commentcontent"
 								  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
 								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 					</div>
@@ -76,7 +77,8 @@
 								<span class="input-group-text"><span class="fas fa-comments"></span></span>
 							</span>
 						<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"
-								  class="form-control commentcontenthidden fullWidthAlways js-comment-content" name="commentcontent"
+								  class="form-control commentcontenthidden fullWidthAlways js-comment-content"
+								  name="commentcontent"
 								  title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
 								  placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 					</div>

@@ -10,9 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-Base-CommentThreadList Comment commentDiv">
+	<div class="tpl-Base-CommentThreadList Comment comment-div js-comment-div" data-js="container">
 		<div class="js-comment-single singleComment" data-js="append">
-			<div class="js-commentInfoHeader commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}"
+			<div class="js-comment-info-header commentInfoHeader m-0" data-commentid="{$COMMENT->getId()}"
 				 data-parentcommentid="{$COMMENT->get('parent_comments')}"
 				 data-js="data-commentid|data-parentcommentid">
 				<div class="float-left">
@@ -55,7 +55,7 @@
 			</div>
 			<div class="js-comment-container commentActionsContainer row no-margin" data-js="hide|show">
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
-				<div class="js-edited-status editedStatus" name="editStatus" data-js="class: d-none">
+				<div class="js-edited-status edited-status" name="editStatus" data-js="class: d-none">
 					<span class="{if empty($REASON_TO_EDIT)}d-none{/if} js-edit-reason text-muted"
 						  data-js="class: d-none">
 						<p>
@@ -70,7 +70,7 @@
 									<small>
 										<em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em>
 									</small>&nbsp;
-									<small class="js-commentModifiedTime commentModifiedTime" data-js="html">
+									<small class="js-comment-modified-time commentModifiedTime" data-js="html">
 										{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}
 									</small>
 								</span>
