@@ -72,7 +72,6 @@ class RecordSearch
 				return $this->getLabelQuery();
 			default:
 				return false;
-				break;
 		}
 	}
 
