@@ -1686,6 +1686,8 @@ $(document).ready(function () {
 	}
 	// Instantiate Page Controller
 	var pageController = app.getPageController();
+	console.log(typeof pageController);
+	console.log(pageController);
 	if (pageController) {
 		pageController.registerEvents();
 	}

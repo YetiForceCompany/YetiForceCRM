@@ -2,6 +2,22 @@
 'use strict';
 window.OSSTimeControl_Calendar_Js = class OSSTimeControl_Calendar_Js extends BasicCalendar_Js {
 
+	constructor() {
+		super();
+	}
+
+	getCalendarModuleOptions() {
+		let self = this;
+		return {
+			allDaySlot: false,
+			dayClick: function (date, jsEvent, view) {
+				self.selectDay(date.format());
+				self.getCalendarView().fullCalendar('unselect');
+			},
+			selectable: false
+		};
+	}
+
 	addCalendarEvent(calendarDetails, dateFormat) {
 		let usersList = $("#calendarUserList").val();
 		if (usersList.length === 0) {

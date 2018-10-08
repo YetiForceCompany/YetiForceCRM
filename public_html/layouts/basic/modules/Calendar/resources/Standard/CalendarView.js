@@ -84,7 +84,6 @@ jQuery.Class("Calendar_Calendar_Js", {
 			timeFormat: userDefaultTimeFormat,
 			axisFormat: userDefaultTimeFormat,
 			defaultView: userDefaultActivityView,
-			hiddenDays: hiddenDays,
 			slotMinutes: 15,
 			defaultEventMinutes: 0,
 			forceEventDuration: true,
@@ -130,10 +129,8 @@ jQuery.Class("Calendar_Calendar_Js", {
 				defaultEventMinutes: 0,
 				forceEventDuration: true,
 				defaultTimedEventDuration: '01:00:00',
-				eventLimit: eventLimit,
 				selectable: true,
 				selectHelper: true,
-				hiddenDays: hiddenDays,
 				height: app.setCalendarHeight(this.getContainer()),
 				views: {
 					basic: {
@@ -625,16 +622,7 @@ jQuery.Class("Calendar_Calendar_Js", {
 			});
 		}
 	},
-	registerLoadCalendarData: function () {
-		var thisInstance = this;
-		var widgets = $('.siteBarRight .widgetContainer').length;
-		$('.bodyContents').on('Vtiger.Widget.Load.undefined', function (e, data) {
-			widgets -= 1;
-			if (widgets == 0) {
-				thisInstance.loadCalendarData(true);
-			}
-		});
-	},
+
 	registerEvents: function () {
 		this.registerCacheSettings();
 		this.renderCalendar();

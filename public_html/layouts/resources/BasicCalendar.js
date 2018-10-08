@@ -4,8 +4,14 @@
 window.BasicCalendar_Js = class BasicCalendar_Js {
 
 	constructor() {
+		const self = this;
 		this.calendarView = false;
 		this.calendarCreateView = false;
+		this.calendarBasicOptions = this.getCalendarBasicConfig();
+		this.calendarAdvancedOptions = this.getCalendarAdvancedConfig();
+		this.container = $('.js-base-container');
+		this.calendarModuleOptions = this.getCalendarModuleOptions();
+		this.calendarMergedOptions = Object.assign(this.calendarBasicOptions, this.calendarAdvancedOptions, this.calendarModuleOptions);
 	}
 
 	getInstanceByView(view) {
@@ -35,71 +41,29 @@ window.BasicCalendar_Js = class BasicCalendar_Js {
 		App.Fields.Picklist.changeSelectElementView(field, 'select2', params);
 	}
 
-	registerCalendar() {
-		var self = this;
-		var eventLimit = jQuery('#eventLimit').val();
-		if (eventLimit == 'true') {
-			eventLimit = true;
-		} else if (eventLimit == 'false') {
-			eventLimit = false;
-		} else {
-			eventLimit = parseInt(eventLimit) + 1;
-		}
-		var weekView = jQuery('#weekView').val();
-		var dayView = jQuery('#dayView').val();
+	renderCalendar() {
+		//self.getCalendarView().fullCalendar('destroy');
+		console.log(this.calendarMergedOptions);
+		this.getCalendarView().fullCalendar(this.calendarMergedOptions);
+	}
 
-		//User preferred default view
-		var userDefaultActivityView = jQuery('#activity_view').val();
-		if (userDefaultActivityView == 'Today') {
-			userDefaultActivityView = dayView;
-		} else if (userDefaultActivityView == 'This Week') {
-			userDefaultActivityView = weekView;
-		} else {
-			userDefaultActivityView = 'month';
-		}
+	getCalendarModuleOptions() {
+		return {};
+	}
 
-		//Default time format
-		var userDefaultTimeFormat = jQuery('#time_format').val();
-		if (userDefaultTimeFormat == 24) {
-			userDefaultTimeFormat = 'H:mm';
-		} else {
-			userDefaultTimeFormat = 'h:mmt';
-		}
-		//Default first day of the week
-		var convertedFirstDay = CONFIG.firstDayOfWeekNo;
-
-		//Default first hour of the day
-		var defaultFirstHour = jQuery('#start_hour').val();
-		var explodedTime = defaultFirstHour.split(':');
-		defaultFirstHour = explodedTime['0'];
-
-		self.getCalendarView().fullCalendar({
+	getCalendarAdvancedConfig() {
+		let self = this;
+		return {
 			header: {
-				left: 'month,' + weekView + ',' + dayView,
+				left: 'month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
 				center: 'title today',
 				right: 'prev,next'
 			},
-			timeFormat: userDefaultTimeFormat,
-			axisFormat: userDefaultTimeFormat,
-			firstHour: defaultFirstHour,
-			firstDay: convertedFirstDay,
-			defaultView: userDefaultActivityView,
-			editable: true,
-			slotMinutes: 15,
-			defaultEventMinutes: 0,
-			forceEventDuration: true,
-			defaultTimedEventDuration: '01:00:00',
-			eventLimit: eventLimit,
 			allDaySlot: false,
-			height: app.setCalendarHeight(),
 			views: {
 				basic: {
 					eventLimit: false,
 				}
-			},
-			dayClick: function (date, jsEvent, view) {
-				self.selectDay(date.format());
-				self.getCalendarView().fullCalendar('unselect');
 			},
 			eventDrop: function (event, delta, revertFunc) {
 				self.updateEvent(event, delta, revertFunc);
@@ -107,11 +71,50 @@ window.BasicCalendar_Js = class BasicCalendar_Js {
 			eventResize: function (event, delta, revertFunc) {
 				self.updateEvent(event, delta, revertFunc);
 			},
-			eventRender: self.eventRenderer.bind(self),
-			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
-				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
-				app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
-				app.vtranslate('JS_NOVEMBER'), app.vtranslate('JS_DECEMBER')],
+			eventRender: self.eventRenderer,
+			height: app.setCalendarHeight(this.container)
+		}
+	}
+
+	getCalendarBasicConfig() {
+		let eventLimit = app.getMainParams('eventLimit'),
+			userDefaultActivityView = app.getMainParams('activity_view'),
+			defaultView = app.moduleCacheGet('defaultView'),
+			userDefaultTimeFormat = app.getMainParams('time_format');
+		if (eventLimit == 'true') {
+			eventLimit = true;
+		} else if (eventLimit == 'false') {
+			eventLimit = false;
+		} else {
+			eventLimit = parseInt(eventLimit) + 1;
+		}
+		if (userDefaultActivityView === 'Today') {
+			userDefaultActivityView = app.getMainParams('dayView');
+		} else if (userDefaultActivityView === 'This Week') {
+			userDefaultActivityView = app.getMainParams('weekView');
+		} else {
+			userDefaultActivityView = 'month';
+		}
+		if (defaultView != null) {
+			userDefaultActivityView = defaultView;
+		}
+		if (userDefaultTimeFormat == 24) {
+			userDefaultTimeFormat = 'H:mm';
+		} else {
+			userDefaultTimeFormat = 'h:mmt';
+		}
+		let options = {
+			timeFormat: userDefaultTimeFormat,
+			axisFormat: userDefaultTimeFormat,
+			defaultView: userDefaultActivityView,
+			slotMinutes: 15,
+			defaultEventMinutes: 0,
+			forceEventDuration: true,
+			defaultTimedEventDuration: '01:00:00',
+			eventLimit: eventLimit,
+			eventLimitText: app.vtranslate('JS_MORE'),
+			selectHelper: true,
+			scrollTime: app.getMainParams('start_hour') + ':00',
 			monthNamesShort: [app.vtranslate('JS_JAN'), app.vtranslate('JS_FEB'), app.vtranslate('JS_MAR'),
 				app.vtranslate('JS_APR'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUN'), app.vtranslate('JS_JUL'),
 				app.vtranslate('JS_AUG'), app.vtranslate('JS_SEP'), app.vtranslate('JS_OCT'), app.vtranslate('JS_NOV'),
@@ -119,18 +122,40 @@ window.BasicCalendar_Js = class BasicCalendar_Js {
 			dayNames: [app.vtranslate('JS_SUNDAY'), app.vtranslate('JS_MONDAY'), app.vtranslate('JS_TUESDAY'),
 				app.vtranslate('JS_WEDNESDAY'), app.vtranslate('JS_THURSDAY'), app.vtranslate('JS_FRIDAY'),
 				app.vtranslate('JS_SATURDAY')],
-			dayNamesShort: [app.vtranslate('JS_SUN'), app.vtranslate('JS_MON'), app.vtranslate('JS_TUE'),
-				app.vtranslate('JS_WED'), app.vtranslate('JS_THU'), app.vtranslate('JS_FRI'),
-				app.vtranslate('JS_SAT')],
 			buttonText: {
 				today: app.vtranslate('JS_TODAY'),
+				year: app.vtranslate('JS_YEAR'),
 				month: app.vtranslate('JS_MONTH'),
 				week: app.vtranslate('JS_WEEK'),
 				day: app.vtranslate('JS_DAY')
 			},
 			allDayText: app.vtranslate('JS_ALL_DAY'),
-			eventLimitText: app.vtranslate('JS_MORE')
-		});
+		};
+		if (app.moduleCacheGet('start') !== null) {
+			var s = moment(app.moduleCacheGet('start')).valueOf();
+			var e = moment(app.moduleCacheGet('end')).valueOf();
+			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
+		}
+		return $.extend(this.getCalendarMinimalConfig(), options);
+	}
+
+	getCalendarMinimalConfig() {
+		let hiddenDays = [];
+		if (app.getMainParams('switchingDays') === 'workDays') {
+			hiddenDays = app.getMainParams('hiddenDays', true);
+		}
+		return {
+			firstDay: CONFIG.firstDayOfWeekNo,
+			selectable: true,
+			hiddenDays: hiddenDays,
+			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
+				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
+				app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
+				app.vtranslate('JS_NOVEMBER'), app.vtranslate('JS_DECEMBER')],
+			dayNamesShort: [app.vtranslate('JS_SUN'), app.vtranslate('JS_MON'), app.vtranslate('JS_TUE'),
+				app.vtranslate('JS_WED'), app.vtranslate('JS_THU'), app.vtranslate('JS_FRI'),
+				app.vtranslate('JS_SAT')],
+		};
 	}
 
 	eventRenderer(event, element) {
@@ -387,7 +412,7 @@ window.BasicCalendar_Js = class BasicCalendar_Js {
 	}
 
 	registerEvents() {
-		this.registerCalendar();
+		this.renderCalendar();
 		this.registerLoadCalendarData();
 		this.registerChangeView();
 		this.registerButtonSelectAll();

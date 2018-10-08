@@ -7,6 +7,18 @@ window.Reservations_Calendar_Js = class Reservations_Calendar_Js extends BasicCa
 		super();
 	}
 
+	getCalendarModuleOptions() {
+		let self = this;
+		return {
+			allDaySlot: false,
+			dayClick: function (date, jsEvent, view) {
+				self.selectDay(date.format());
+				self.getCalendarView().fullCalendar('unselect');
+			},
+			selectable: false
+		};
+	}
+
 	addCalendarEvent(calendarDetails, dateFormat) {
 		if ($("#calendarUserList").val().length && $.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0) {
 			return;
@@ -25,6 +37,8 @@ window.Reservations_Calendar_Js = class Reservations_Calendar_Js extends BasicCa
 			isPrivate: calendarDetails.isPrivate,
 			start: startDate.toString(),
 			end: endDate.toString(),
+			start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
+			end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
 			url: 'index.php?module=Reservations&view=Detail&record=' + calendarDetails._recordId,
 			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBg_OSSTimeControl_timecontrol_type_' + calendarDetails.type.value,
 			totalTime: calendarDetails.sum_time.display_value,
