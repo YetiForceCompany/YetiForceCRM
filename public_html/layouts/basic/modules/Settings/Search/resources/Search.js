@@ -79,7 +79,6 @@ var Settings_Index_Js = {
 				type: 'success'
 			};
 			Vtiger_Helper_Js.showPnotify(params);
-			resp = response['success'];
 			progress.progressIndicator({'mode': 'hide'});
 		}).fail(function (data, err) {
 			progress.progressIndicator({'mode': 'hide'});

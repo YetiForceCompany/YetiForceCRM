@@ -52,15 +52,14 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 		});
 	},
 	updateActivityState: function (currentTarget) {
-		var thisInstance = this;
-		var params = {
+		let params = {
 			module: 'Calendar',
 			action: "ActivityStateAjax",
 			record: currentTarget.data('id'),
 			state: currentTarget.data('state')
 		};
 		app.hideModalWindow();
-		var progressIndicatorElement = jQuery.progressIndicator({
+		let progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true

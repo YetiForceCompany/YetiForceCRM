@@ -980,7 +980,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	registerDeleteCustomBlockEvent: function () {
 		var thisInstance = this;
 		var contents = jQuery('#layoutDashBoards');
-		var table = contents.find('.editFieldsTable');
 		contents.on('click', '.deleteCustomBlock', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var table = currentTarget.closest('div.editFieldsTable');
@@ -1035,7 +1034,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	 * Function to get the respective module layout editor through pjax
 	 */
 	getModuleLayoutEditor: function (selectedModule, selectedDashboard) {
-		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',

@@ -268,7 +268,6 @@ $.Class("Vtiger_DashBoard_Js", {
 		});
 	},
 	registerChangeMailUser: function () {
-		var thisInstance = this;
 		var container = this.getContainer();
 
 		container.on('change', '#mailUserList', function (e) {
@@ -294,7 +293,6 @@ $.Class("Vtiger_DashBoard_Js", {
 		var thisInstance = this;
 		$('.dashboardHeading').off('click', '.addChartFilter').on('click', '.addChartFilter', function (e) {
 			var element = $(e.currentTarget);
-			var fieldTypeToGroup = ['currency', 'double', 'percentage', 'integer'];
 			app.showModalWindow(null, "index.php?module=Home&view=ChartFilter&step=step1", function (wizardContainer) {
 				var form = $('form', wizardContainer);
 				form.on("keypress", function (event) {
@@ -405,7 +403,6 @@ $.Class("Vtiger_DashBoard_Js", {
 						if (Array.isArray(selectedFiltersId)) {
 							selectedFiltersId = selectedFiltersId.join(',');
 						}
-						const selectedFilterLabel = form.find('.filterId').find(':selected').text();
 						const selectedFieldLabel = form.find('.groupField').find(':selected').text();
 						const data = {
 							module: selectedModule,
