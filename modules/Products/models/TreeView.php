@@ -4,8 +4,8 @@
  * Products TreeView Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Products_TreeView_Model extends Vtiger_TreeView_Model
 {
@@ -48,8 +48,6 @@ class Products_TreeView_Model extends Vtiger_TreeView_Model
 	{
 		$tree = parent::getTreeList();
 		$treeWithItems = $this->getRecords();
-		$tree = array_merge($tree, $treeWithItems);
-
-		return $tree;
+		return array_merge($tree, $treeWithItems);
 	}
 }

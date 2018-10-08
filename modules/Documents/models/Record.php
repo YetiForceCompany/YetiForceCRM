@@ -156,9 +156,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 
 	public static function getFileIconByFileType($fileType)
 	{
-		$fileIcon = \App\Layout\Icon::getIconByFileType($fileType);
-
-		return $fileIcon;
+		return \App\Layout\Icon::getIconByFileType($fileType);
 	}
 
 	/**

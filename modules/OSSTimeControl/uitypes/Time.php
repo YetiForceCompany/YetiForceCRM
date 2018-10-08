@@ -4,7 +4,7 @@
  * OSSTimeControl time uitype class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSTimeControl_Time_UIType extends Vtiger_Time_UIType
 {
@@ -43,8 +43,6 @@ class OSSTimeControl_Time_UIType extends Vtiger_Time_UIType
 		}
 
 		$dateTimeField = new DateTimeField($date->format('Y-m-d H:i:s'));
-		$value = $dateTimeField->getDisplayTime();
-
-		return $value;
+		return $dateTimeField->getDisplayTime();
 	}
 }

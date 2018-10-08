@@ -60,9 +60,7 @@ class Products_Module_Model extends Vtiger_Module_Model
 	public function getSpecificRelationQuery($relatedModule)
 	{
 		if ($relatedModule === 'Leads') {
-			$specificQuery = 'AND vtiger_leaddetails.converted = 0';
-
-			return $specificQuery;
+			return 'AND vtiger_leaddetails.converted = 0';
 		}
 		return parent::getSpecificRelationQuery($relatedModule);
 	}
@@ -81,20 +79,20 @@ class Products_Module_Model extends Vtiger_Module_Model
 		if (count($productIdsList) > 0) {
 			if ($this->getName() === 'Services') {
 				$dataReader = (new \App\Db\Query())->select(['vtiger_currency_info.id', 'vtiger_currency_info.conversion_rate',
-							'productid' => 'vtiger_service.serviceid', 'vtiger_service.unit_price', 'vtiger_productcurrencyrel.actual_price', ])
-							->from('vtiger_service')
-							->leftJoin('vtiger_productcurrencyrel', 'vtiger_service.serviceid = vtiger_productcurrencyrel.productid')
-							->leftJoin('vtiger_currency_info', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')
-							->where(['vtiger_service.serviceid' => $productIdsList, 'vtiger_currency_info.id' => $currencyId])
-							->createCommand()->query();
+					'productid' => 'vtiger_service.serviceid', 'vtiger_service.unit_price', 'vtiger_productcurrencyrel.actual_price', ])
+					->from('vtiger_service')
+					->leftJoin('vtiger_productcurrencyrel', 'vtiger_service.serviceid = vtiger_productcurrencyrel.productid')
+					->leftJoin('vtiger_currency_info', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')
+					->where(['vtiger_service.serviceid' => $productIdsList, 'vtiger_currency_info.id' => $currencyId])
+					->createCommand()->query();
 			} else {
 				$dataReader = (new \App\Db\Query())->select(['vtiger_currency_info.id', 'vtiger_currency_info.conversion_rate',
-							'vtiger_products.productid', 'vtiger_products.unit_price', 'vtiger_productcurrencyrel.actual_price', ])
-							->from('vtiger_products')
-							->leftJoin('vtiger_productcurrencyrel', 'vtiger_products.productid = vtiger_productcurrencyrel.productid')
-							->leftJoin('vtiger_currency_info', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')
-							->where(['vtiger_products.productid' => $productIdsList, 'vtiger_currency_info.id' => $currencyId])
-							->createCommand()->query();
+					'vtiger_products.productid', 'vtiger_products.unit_price', 'vtiger_productcurrencyrel.actual_price', ])
+					->from('vtiger_products')
+					->leftJoin('vtiger_productcurrencyrel', 'vtiger_products.productid = vtiger_productcurrencyrel.productid')
+					->leftJoin('vtiger_currency_info', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')
+					->where(['vtiger_products.productid' => $productIdsList, 'vtiger_currency_info.id' => $currencyId])
+					->createCommand()->query();
 			}
 			while ($row = $dataReader->read()) {
 				$productId = $row['productid'];

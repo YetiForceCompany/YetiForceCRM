@@ -2,8 +2,8 @@
 
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Wojciech Bruggemann <w.bruggemann@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Wojciech Bruggemann <w.bruggemann@yetiforce.com>
  */
 class Settings_Countries_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -34,11 +34,9 @@ class Settings_Countries_Module_Model extends Settings_Vtiger_Module_Model
 	public function updateStatus($id, $status)
 	{
 		$db = App\Db::getInstance();
-		$result = $db->createCommand()
+		return $db->createCommand()
 			->update('u_#__countries', ['status' => $status], ['id' => $id])
 			->execute();
-
-		return $result;
 	}
 
 	/**
@@ -51,11 +49,9 @@ class Settings_Countries_Module_Model extends Settings_Vtiger_Module_Model
 	public function updateAllStatuses($status)
 	{
 		$db = App\Db::getInstance();
-		$result = $db->createCommand()
+		return $db->createCommand()
 			->update('u_#__countries', ['status' => $status])
 			->execute();
-
-		return $result;
 	}
 
 	/**
@@ -69,11 +65,9 @@ class Settings_Countries_Module_Model extends Settings_Vtiger_Module_Model
 	public function updatePhone($id, $phone)
 	{
 		$db = App\Db::getInstance();
-		$result = $db->createCommand()
+		return $db->createCommand()
 			->update('u_#__countries', ['phone' => $phone], ['id' => $id])
 			->execute();
-
-		return $result;
 	}
 
 	/**
@@ -87,10 +81,8 @@ class Settings_Countries_Module_Model extends Settings_Vtiger_Module_Model
 	public function updateUitype($id, $uitype)
 	{
 		$db = App\Db::getInstance();
-		$result = $db->createCommand()
+		return $db->createCommand()
 			->update('u_#__countries', ['uitype' => $uitype], ['id' => $id])
 			->execute();
-
-		return $result;
 	}
 }

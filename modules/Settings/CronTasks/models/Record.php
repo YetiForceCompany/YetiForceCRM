@@ -146,8 +146,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$lastStart = (int) ($this->get('laststart'));
 		$lastEnd = (int) ($this->get('lastend'));
-		$timeDiff = $lastEnd - $lastStart;
-		return $timeDiff;
+		return $lastEnd - $lastStart;
 	}
 
 	/**

@@ -4,7 +4,7 @@
  * OSSEmployees module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSEmployees_Module_Model extends Vtiger_Module_Model
 {
@@ -38,9 +38,7 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model
 				}
 				$begin += 86400; // +1 day
 			}
-			$working_days = $no_days - $weekends;
-
-			return $working_days;
+			return $no_days - $weekends;
 		}
 	}
 
