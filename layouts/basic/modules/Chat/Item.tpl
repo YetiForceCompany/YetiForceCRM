@@ -9,7 +9,7 @@
 		</div>
 		<div class="author">
 			<i class="far fa-comment"></i>
-			<span>{$ROW['user_name']}</span>
+			<b>{$ROW['user_name']}</b>
 		</div>
 		<div class="messages">{$ROW['messages']}</div>
 	</div>

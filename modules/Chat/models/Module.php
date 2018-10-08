@@ -4,8 +4,8 @@
  * Chat module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Chat_Module_Model extends Vtiger_Module_Model
 {
@@ -37,7 +37,7 @@ class Chat_Module_Model extends Vtiger_Module_Model
 	/**
 	 * @param string $message
 	 */
-	public static function add($message)
+	public static function add($message, $chatRoomId = null)
 	{
 		$currentUser = \App\User::getCurrentUserModel();
 		\App\Db::getInstance()->createCommand()
@@ -46,6 +46,7 @@ class Chat_Module_Model extends Vtiger_Module_Model
 				'created' => strtotime('now'),
 				'user_name' => $currentUser->getName(),
 				'messages' => $message,
+				'room_id' => $chatRoomId
 			])->execute();
 	}
 }

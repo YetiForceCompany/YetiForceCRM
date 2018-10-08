@@ -34,6 +34,7 @@ class Chat_Entries_Action extends \App\Controller\Action
 		parent::__construct();
 		$this->exposeMethod('add');
 		$this->exposeMethod('addChatRoom');
+		$this->exposeMethod('switchChatRoom');
 	}
 
 	/**
@@ -43,7 +44,10 @@ class Chat_Entries_Action extends \App\Controller\Action
 	 */
 	public function add(\App\Request $request)
 	{
-		Chat_Module_Model::add($request->get('message'));
+		Chat_Module_Model::add(
+			$request->get('message'),
+			$request->has('chat_room_id') ? $request->getInteger('chat_room_id') : null
+		);
 		$view = new Chat_Entries_View();
 		$view->get($request);
 	}
@@ -55,16 +59,32 @@ class Chat_Entries_Action extends \App\Controller\Action
 	 */
 	public function addChatRoom(\App\Request $request)
 	{
-		/*Chat_Module_Model::add($request->get('message'));
-		$view = new Chat_Entries_View();
-		$view->get($request);*/
-
-		$id = $request->getInteger('record');
-		$roomId = \App\Chat::getInstanceById($id)->save();
+		$roomId = \App\Chat::getInstanceById($request->getInteger('record'))->save();
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => "ZXC {$roomId}",
+			'chat_room_id' => $roomId
+		]);
+		$response->emit();
+	}
+
+	/**
+	 * Switch chat room.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 */
+	public function switchChatRoom(\App\Request $request)
+	{
+		$roomId = $request->getInteger('chat_room_id');
+		\App\Chat::setCurrentRoomId($roomId);
+
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'chat_room_id' => $roomId,
+			'items' => \App\Chat::getInstanceById($roomId)->getEntries()
 		]);
 		$response->emit();
 	}

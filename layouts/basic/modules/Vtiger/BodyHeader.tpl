@@ -258,7 +258,7 @@
 							</a>
 						</div>
 					{/if}
-					{if isset($CHAT_ENTRIES)}
+					{if isset($CHAT)}
 						{include file=\App\Layout::getTemplatePath('Chat.tpl', 'Chat')}
 					{/if}
 					{if $REMINDER_ACTIVE}

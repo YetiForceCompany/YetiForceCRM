@@ -49,7 +49,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			$viewer->assign('SEARCHED_MODULE', $selectedModule);
 		}
 		if (\App\Module::isModuleActive('Chat')) {
-			$viewer->assign('CHAT_ENTRIES', (new Chat_Module_Model())->getEntries());
+			$viewer->assign('CHAT', \App\Chat::getInstanceById(\App\Chat::getCurrentRoomId()));
 		}
 		$viewer->assign('REMINDER_ACTIVE', $activeReminder);
 		if ($display) {
