@@ -21,18 +21,6 @@ jQuery.Class("Calendar_Calendar_Js", {
 			instance = new Calendar_Calendar_Js();
 		}
 		return instance;
-	},
-	registerColorField: function (field, fieldClass) {
-		var params = {};
-		params.dropdownCss = {'z-index': 0};
-		params.formatSelection = function (object, container) {
-			var selectedId = object.id;
-			var selectedOptionTag = field.find('option[value="' + selectedId + '"]');
-			container.addClass(fieldClass + '_' + selectedId);
-			var element = '<div>' + selectedOptionTag.text() + '</div>';
-			return element;
-		};
-		App.Fields.Picklist.changeSelectElementView(field, 'select2', params);
 	}
 }, {
 	calendarView: false,
