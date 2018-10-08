@@ -28,7 +28,7 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if (!in_array($value, [0, 1, '1', '0', 'on'])) {
