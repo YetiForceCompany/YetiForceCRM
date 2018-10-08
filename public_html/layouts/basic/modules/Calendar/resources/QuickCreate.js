@@ -10,7 +10,7 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 	},
 	registerExtendCalendar: function () {
 		let container = this.getContainer();
-		let instance = Calendar_Calendar_Js.getInstanceByView('CalendarExtended');
+		let instance = new Calendar_CalendarExtended_Js;
 		instance.calendarView = this.getContainer().find('.js-calendar__container');
 		instance.setContainer(this.getContainer());
 

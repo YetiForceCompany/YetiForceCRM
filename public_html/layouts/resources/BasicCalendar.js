@@ -181,6 +181,7 @@ window.BasicCalendar_Js = class BasicCalendar_Js {
 		$('.siteBarRight .select2, .siteBarRight .filterField').off('change');
 		App.Fields.Picklist.showSelect2ElementView($('#calendarUserList'));
 		App.Fields.Picklist.showSelect2ElementView($('#timecontrolTypes'));
+		App.Fields.Picklist.showSelect2ElementView($('#calendarActivityTypeList'));
 		$('.siteBarRight .select2, .siteBarRight .filterField').on('change', function () {
 			var element = $(this);
 			var value = element.val();
