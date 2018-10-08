@@ -55,7 +55,6 @@ Vtiger_List_Js("Settings_Vtiger_List_Js", {
 	 */
 	DeleteRecord: function (url) {
 		var thisInstance = this;
-		var css = jQuery.extend({'text-align': 'left'}, css);
 
 		AppConnector.request(url).done(function (data) {
 			if (data) {

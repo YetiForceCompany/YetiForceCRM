@@ -178,21 +178,20 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		});
 	},
 	registerEndDateTimeChangeLogger: function (container) {
-		var thisInstance = this;
 		container.find('[name="time_end"]').on('change', function (e) {
-			var timeElement = jQuery(e.currentTarget);
-			var result = Vtiger_Time_Validator_Js.invokeValidation(timeElement);
+			let timeElement = jQuery(e.currentTarget);
+			let result = Vtiger_Time_Validator_Js.invokeValidation(timeElement);
 			if (result != true) {
 				return;
 			}
-			var timeDateElement = timeElement.closest('.fieldValue').find('[name="due_date"]');
+			let timeDateElement = timeElement.closest('.fieldValue').find('[name="due_date"]');
 			jQuery('[name="userChangedEndDateTime"]').val('1');
 			timeDateElement.data('userChangedTime', true);
 		});
 
 		container.find('[name="due_date"]').on('change', function (e) {
-			var dueDateElement = jQuery(e.currentTarget);
-			var result = Vtiger_Date_Validator_Js.invokeValidation(dueDateElement);
+			let dueDateElement = jQuery(e.currentTarget);
+			let result = Vtiger_Date_Validator_Js.invokeValidation(dueDateElement);
 			if (result != true) {
 				return;
 			}
@@ -412,19 +411,17 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		}
 	},
 	registerInviteEvent: function (editViewForm) {
-		var thisInstance = this;
 		this.registerRow(editViewForm);
-		var inviteesContent = editViewForm.find('.inviteesContent');
-		var inviteesSearch = editViewForm.find('input.inviteesSearch');
+		let inviteesContent = editViewForm.find('.inviteesContent');
+		let inviteesSearch = editViewForm.find('input.inviteesSearch');
 		$.widget("custom.ivAutocomplete", $.ui.autocomplete, {
 			_create: function () {
 				this._super();
 				this.widget().menu("option", "items", "> :not(.ui-autocomplete-category)");
 			},
 			_renderMenu: function (ul, items) {
-				var that = this, currentCategory = "";
+				let that = this, currentCategory = "";
 				$.each(items, function (index, item) {
-					var li;
 					if (item.category != currentCategory) {
 						ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
 						currentCategory = item.category;
@@ -545,7 +542,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		});
 	},
 	registerRow: function (row) {
-		var thisInstance = this;
 		row.on("click", '.inviteRemove', function (e) {
 			$(e.target).closest('.inviteRow').remove();
 		});

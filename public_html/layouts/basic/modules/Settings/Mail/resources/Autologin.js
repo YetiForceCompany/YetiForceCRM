@@ -3,7 +3,6 @@
 
 jQuery.Class('Settings_Mail_Autologin_Js', {}, {
 	registerChangeUser: function () {
-		var thisInstance = this;
 		var container = jQuery('.autologinContainer');
 		container.on('change', '.users', function () {
 			var row = jQuery(this).closest('tr');
@@ -29,7 +28,6 @@ jQuery.Class('Settings_Mail_Autologin_Js', {}, {
 		});
 	},
 	registerChangeConfig: function () {
-		var thisInstance = this;
 		var container = jQuery('.autologinContainer');
 		container.on('change', '.configCheckbox', function () {
 			var name = jQuery(this).attr('name');

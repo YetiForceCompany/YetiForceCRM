@@ -57,13 +57,10 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 
 		//Default time format
 		let userDefaultTimeFormat = jQuery('#time_format').val();
-		let popoverTimeFormat;
 		if (userDefaultTimeFormat == 24) {
 			userDefaultTimeFormat = 'H:mm';
-			popoverTimeFormat = 'HH:mm';
 		} else {
 			userDefaultTimeFormat = 'h:mmt';
-			popoverTimeFormat = 'hh:mm A';
 		}
 
 		//Default first day of the week
@@ -217,7 +214,6 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 	updateEvent: function (event, delta, revertFunc) {
 		var progressInstance = jQuery.progressIndicator();
 		var start = event.start.format();
-		var end = event.end.format();
 		var params = {
 			module: 'OSSTimeControl',
 			action: 'Calendar',

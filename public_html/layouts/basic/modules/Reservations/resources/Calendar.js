@@ -3,7 +3,6 @@
 
 jQuery.Class("Reservations_Calendar_Js", {
 	registerUserListWidget: function () {
-		var thisInstance = new Reservations_Calendar_Js();
 		var widgetContainer = $('.widgetContainer');
 		widgetContainer.hover(
 			function () {
@@ -208,7 +207,6 @@ jQuery.Class("Reservations_Calendar_Js", {
 	updateEvent: function (event, delta, revertFunc) {
 		var progressInstance = jQuery.progressIndicator();
 		var start = event.start.format();
-		var end = event.end.format();
 		var params = {
 			module: 'Reservations',
 			action: 'Calendar',
