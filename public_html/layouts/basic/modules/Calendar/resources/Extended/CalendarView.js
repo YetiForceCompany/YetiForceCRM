@@ -60,7 +60,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 					right: 'today'
 				},
 				editable: !readonly,
-				height: app.setCalendarHeight(self.container),
+				height: self.setCalendarHeight(),
 				views: {
 					basic: {
 						eventLimit: false,
@@ -232,7 +232,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 					app.moduleCacheSet('defaultSwitchingDays', 'all');
 				}
 				calendarView.fullCalendar('option', 'hiddenDays', hiddenDays);
-				calendarView.fullCalendar('option', 'height', app.setCalendarHeight());
+				calendarView.fullCalendar('option', 'height', this.setCalendarHeight());
 				if (calendarView.fullCalendar('getView').type === 'year') {
 					this.registerViewRenderEvents(calendarView.fullCalendar('getView'));
 				}
