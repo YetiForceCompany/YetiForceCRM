@@ -157,7 +157,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public function isDefault()
 	{
 		$wf = $this->getWorkflowObject();
-		if ($wf->defaultworkflow == 1) {
+		if (!empty($wf->defaultworkflow) && $wf->defaultworkflow == 1) {
 			return true;
 		}
 		return false;
