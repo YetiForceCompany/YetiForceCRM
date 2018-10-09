@@ -892,18 +892,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		});
 	}
 
-	/**
-	 * Overwriting the parent function
-	 */
-	registerAddButton() {
-	}
-
-	/**
-	 * Register load calendar data
-	 */
-	registerLoadCalendarData() {
-	}
-
 	registerAddForm() {
 		const thisInstance = this;
 		let sideBar = thisInstance.getSidebarView();
