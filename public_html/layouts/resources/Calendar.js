@@ -13,33 +13,6 @@ window.Calendar_Js = class Calendar_Js {
 		this.calendarMergedOptions = this.setCalendarMergedOptions();
 	}
 
-	registerSiteBarButton() {
-		const key = 'ShowHideRightPanel' + app.getModuleName();
-		if (app.cacheGet(key) == 'show') {
-			this.toggleSiteBar(this.container.find('.toggleSiteBarRightButton'));
-		} else if (app.cacheGet(key) == null) {
-			if (this.container.find('.siteBarRight').data('showpanel') == 1) {
-				this.toggleSiteBar(this.container.find('.toggleSiteBarRightButton'));
-			}
-		}
-		this.container.find('.toggleSiteBarRightButton').on('click', (e) => {
-			let toogleButton = $(e.currentTarget);
-			if (toogleButton.closest('.siteBarRight').hasClass('hideSiteBar')) {
-				app.cacheSet(key, 'show');
-			} else {
-				app.cacheSet(key, 'hide');
-			}
-			this.toggleSiteBar(toogleButton);
-		});
-	}
-
-	toggleSiteBar(toogleButton) {
-		this.container.find('.rowContent').toggleClass('js-sitebar--active');
-		toogleButton.closest('.siteBarRight').toggleClass('hideSiteBar');
-		toogleButton.find('[data-fa-i2svg]').toggleClass('fa-chevron-left').toggleClass("fa-chevron-right");
-		toogleButton.toggleClass('hideToggleSiteBarRightButton');
-	}
-
 	setCalendarHeight() {
 		let paddingTop = 15, calendarH;
 		if ('CalendarExtended' === CONFIG.view) {
@@ -378,7 +351,6 @@ window.Calendar_Js = class Calendar_Js {
 		this.registerChangeView();
 		this.registerButtonSelectAll();
 		this.registerAddButton();
-		this.registerSiteBarButton();
 	}
 }
 
