@@ -1078,9 +1078,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 							text: '<b>' + fieldInfo.data.label + '</b><br>' +
-							'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
-							prevDisplayValue + '<br> ' +
-							'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
+								'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
+								prevDisplayValue + '<br> ' +
+								'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
 							type: 'info',
 							textTrusted: true
 						});
@@ -1466,11 +1466,25 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 
 		summaryViewContainer.on('click', '.editDefaultStatus', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			currentTarget.popover('hide');
-			var url = currentTarget.data('url');
-			if (url) {
-				app.showModalWindow(null, url);
+			let activityForm = app.getMainParams('activityForm', false);
+			if (activityForm === "true") {
+				let customParams = {},
+					QuickCreateParams = {},
+					currentTarget = $(e.currentTarget),
+					activityDiv = currentTarget.closest('.activityEntries'),
+					activityId = activityDiv.find('.activityId').val();
+				customParams['sourceModule'] = 'Calendar';
+				customParams['record'] = activityId;
+				QuickCreateParams['data'] = customParams;
+				QuickCreateParams['noCache'] = true;
+				Vtiger_Header_Js.getInstance().quickEditModule('Calendar', QuickCreateParams);
+			} else {
+				let currentTarget = $(e.currentTarget),
+					url = currentTarget.data('url');
+				currentTarget.popover('hide');
+				if (url && typeof url !== "undefined") {
+					app.showModalWindow(null, url);
+				}
 			}
 		});
 

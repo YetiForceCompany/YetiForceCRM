@@ -7,6 +7,8 @@
 	<input value="{$CURRENT_USER->get('start_hour')}" type="hidden" id="start_hour"/>
 	<input value="{$CURRENT_USER->get('end_hour')}" type="hidden" id="end_hour"/>
 	<input value="{$CURRENT_USER->get('date_format')}" type="hidden" id="date_format"/>
+	<input value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::module('Calendar', 'SHOW_ONLY_EDIT_FORM')))}"
+		   type="hidden" id="activityForm"/>
 	<input value="current" type="hidden" id="showType"/>
 	<input value="workDays" type="hidden" id="switchingDays"/>
 	<input value="{$EVENT_LIMIT}" type="hidden" id="eventLimit"/>
@@ -49,9 +51,11 @@
 							{/foreach}
 						</ul>
 					{/if}
-					<a class="o-calendar__clear-btn btn btn-warning d-none ml-1 js-calendar__clear-filters js-popover-tooltip" role="button" data-content="{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}"
+					<a class="o-calendar__clear-btn btn btn-warning d-none ml-1 js-calendar__clear-filters js-popover-tooltip"
+					   role="button" data-content="{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}"
 					   data-js="class: d-none | popover">
-						<span class="fas fa-eraser" title="{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}"></span>
+						<span class="fas fa-eraser"
+							  title="{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}"></span>
 					</a>
 				</div>
 			</div>

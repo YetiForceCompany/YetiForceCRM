@@ -2,8 +2,8 @@
 'use strict';
 window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends Calendar_Calendar_Js {
 
-	constructor() {
-		super();
+	constructor(container) {
+		super(container);
 		this.datesRowView = false;
 		this.sidebarView = {
 			length: 0
@@ -11,10 +11,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		this.calendarContainer = false;
 		this.addCommonMethodsToYearView();
 		this.calendar = this.getCalendarView();
-	}
-
-	setContainer(container) {
-		this.container = container;
 	}
 
 	/**
@@ -53,6 +49,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	renderCalendar(readonly = false) {
 		let self = this,
 			basicOptions = this.setCalendarBasicOptions(),
+			activityForm = app.getMainParams('activityForm', false),
 			options = {
 				header: {
 					left: 'year,month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
@@ -152,7 +149,11 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 					url = 'index.php?module=Calendar&view=ActivityState&record=' +
 						link.searchParams.get("record");
 				self.openRightPanel();
-				self.showStatusUpdate(url);
+				if (activityForm === "true") {
+					self.getCalendarEditView(link.searchParams.get("record"));
+				} else {
+					self.showStatusUpdate(url);
+				}
 			};
 		}
 		this.calendar.fullCalendar(options);
