@@ -13,6 +13,54 @@ window.BasicCalendar_Js = class BasicCalendar_Js {
 		this.calendarMergedOptions = this.setCalendarMergedOptions();
 	}
 
+	registerShowHideRightPanelEvent() {
+		var thisInstance = this;
+		var key = 'ShowHideRightPanel' + app.getModuleName();
+		if (app.cacheGet(key) == 'show') {
+			thisInstance.showSiteBar(this.container.find('.toggleSiteBarRightButton'));
+		}
+
+		if (app.cacheGet(key) == null) {
+			if (this.container.find('.siteBarRight').data('showpanel') == 1) {
+				thisInstance.showSiteBar(this.container.find('.toggleSiteBarRightButton'));
+			}
+		}
+		this.container.find('.toggleSiteBarRightButton').on('click', (e) => {
+			var toogleButton = $(e.currentTarget);
+			if (toogleButton.closest('.siteBarRight').hasClass('hideSiteBar')) {
+				app.cacheSet(key, 'show');
+				thisInstance.showSiteBar(toogleButton);
+			} else {
+				app.cacheSet(key, 'hide');
+				thisInstance.hideSiteBar(toogleButton);
+			}
+		});
+	}
+
+	hideSiteBar(toogleButton) {
+		var siteBarRight, content, buttonImage;
+		siteBarRight = toogleButton.closest('.siteBarRight');
+		content = this.container.find('.rowContent');
+		buttonImage = toogleButton.find('[data-fa-i2svg]');
+
+		siteBarRight.addClass('hideSiteBar');
+		content.removeClass('js-sitebar--active');
+		buttonImage.removeClass('fa-chevron-right').addClass("fa-chevron-left");
+		toogleButton.addClass('hideToggleSiteBarRightButton');
+	}
+
+	showSiteBar(toogleButton) {
+		var siteBarRight, content, buttonImage;
+		siteBarRight = toogleButton.closest('.siteBarRight');
+		content = this.container.find('.rowContent');
+		buttonImage = toogleButton.find('[data-fa-i2svg]');
+
+		siteBarRight.removeClass('hideSiteBar');
+		content.addClass('js-sitebar--active');
+		buttonImage.removeClass('fa-chevron-left').addClass("fa-chevron-right");
+		toogleButton.removeClass('hideToggleSiteBarRightButton');
+	}
+
 	setCalendarHeight() {
 		let paddingTop = 15, calendarH;
 		if ('CalendarExtended' === CONFIG.view) {
@@ -293,14 +341,6 @@ window.BasicCalendar_Js = class BasicCalendar_Js {
 		return aDeferred.promise();
 	}
 
-	registerRefreshEvent() {
-		var thisInstance = this;
-		$(".refreshCalendar").on('click', function () {
-			$(this).closest('.refreshHeader').addClass('d-none');
-			thisInstance.loadCalendarData();
-		});
-	}
-
 	loadCalendarCreateView() {
 		var aDeferred = jQuery.Deferred();
 		var moduleName = app.getModuleName();
@@ -358,8 +398,8 @@ window.BasicCalendar_Js = class BasicCalendar_Js {
 		this.registerLoadCalendarData();
 		this.registerChangeView();
 		this.registerButtonSelectAll();
-		this.registerRefreshEvent();
 		this.registerAddButton();
+		this.registerShowHideRightPanelEvent();
 	}
 }
 

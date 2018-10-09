@@ -390,12 +390,8 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends BasicCalendar_J
 	}
 
 	registerEvents() {
+		super.registerEvents();
 		this.registerCacheSettings();
-		this.renderCalendar();
 		this.registerSwitchEvents();
-		this.registerAddButton();
-		this.registerLoadCalendarData();
-		this.registerButtonSelectAll();
-		this.registerChangeView();
 	}
 }

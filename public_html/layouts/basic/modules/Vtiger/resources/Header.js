@@ -635,51 +635,6 @@ $.Class("Vtiger_Header_Js", {
 		var records = $('.customTableRWD').find('[data-toggle-visible=false]');
 		records.find('.footable-toggle').css("display", "none");
 	},
-	registerShowHideRightPanelEvent: function (container) {
-		var thisInstance = this;
-		var key = 'ShowHideRightPanel' + app.getModuleName();
-		if (app.cacheGet(key) == 'show') {
-			thisInstance.showSiteBar(container, container.find('.toggleSiteBarRightButton'));
-		}
-
-		if (app.cacheGet(key) == null) {
-			if (container.find('.siteBarRight').data('showpanel') == 1) {
-				thisInstance.showSiteBar(container, container.find('.toggleSiteBarRightButton'));
-			}
-		}
-		container.find('.toggleSiteBarRightButton').on('click', function (e) {
-			var toogleButton = $(this);
-			if (toogleButton.closest('.siteBarRight').hasClass('hideSiteBar')) {
-				app.cacheSet(key, 'show');
-				thisInstance.showSiteBar(container, toogleButton);
-			} else {
-				app.cacheSet(key, 'hide');
-				thisInstance.hideSiteBar(container, toogleButton);
-			}
-		});
-	},
-	hideSiteBar: function (container, toogleButton) {
-		var key, siteBarRight, content, buttonImage;
-		siteBarRight = toogleButton.closest('.siteBarRight');
-		content = container.find('.rowContent');
-		buttonImage = toogleButton.find('[data-fa-i2svg]');
-
-		siteBarRight.addClass('hideSiteBar');
-		content.removeClass('js-sitebar--active');
-		buttonImage.removeClass('fa-chevron-right').addClass("fa-chevron-left");
-		toogleButton.addClass('hideToggleSiteBarRightButton');
-	},
-	showSiteBar: function (container, toogleButton) {
-		var key, siteBarRight, content, buttonImage;
-		siteBarRight = toogleButton.closest('.siteBarRight');
-		content = container.find('.rowContent');
-		buttonImage = toogleButton.find('[data-fa-i2svg]');
-
-		siteBarRight.removeClass('hideSiteBar');
-		content.addClass('js-sitebar--active');
-		buttonImage.removeClass('fa-chevron-left').addClass("fa-chevron-right");
-		toogleButton.removeClass('hideToggleSiteBarRightButton');
-	},
 	registerToggleButton: function () {
 		$(".buttonTextHolder .dropdown-menu a").on('click', function () {
 			$(this).parents('.d-inline-block').find('.dropdown-toggle .textHolder').html($(this).text());
@@ -775,7 +730,6 @@ $.Class("Vtiger_Header_Js", {
 		app.showNewScrollbar(menuContainer.find('.subMenu').last(), {suppressScrollX: true});
 		thisInstance.listenTextAreaChange();
 		thisInstance.registerFooTable(); //Enable footable
-		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));
 		$('.js-clear-history').on('click', () => {
 			app.clearBrowsingHistory();
 		});
