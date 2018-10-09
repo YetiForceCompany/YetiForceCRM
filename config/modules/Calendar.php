@@ -6,6 +6,9 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
+	// Shows number of the week in the year view
+	// true - show, false - hide
+	'WEEK_COUNT' => true, //Boolean
 	// Limits the number of events displayed on a day.
 	// Boolean, Integer. default: false
 	'EVENT_LIMIT' => 10,
