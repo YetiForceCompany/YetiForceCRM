@@ -34,7 +34,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$db->createCommand()->dropColumn($tablename, $columnName)->execute();
 		}
 		//we have to remove the entries in customview and report related tables which have this field ($colName)
-		$db->createCommand()->delete('vtiger_cvcolumnlist', ['columnname' => $deleteColumnName])->execute();
+		$db->createCommand()->delete('vtiger_cvcolumnlist', ['field_name' => $fieldname, 'module_name' => $fldModule])->execute();
 		$db->createCommand()->delete('vtiger_cvstdfilter', ['columnname' => $columnCvstdfilter])->execute();
 		$db->createCommand()->delete('vtiger_cvadvfilter', ['columnname' => $deleteColumnName])->execute();
 		//Deleting from convert lead mapping vtiger_table- Jaguar

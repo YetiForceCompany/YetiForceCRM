@@ -362,8 +362,8 @@ class CustomView
 	{
 		\App\Log::trace(__METHOD__ . ' - ' . $cvId);
 		if (is_numeric($cvId)) {
-			$query = (new Db\Query())->select(['columnindex', 'columnname'])->from('vtiger_cvcolumnlist')->where(['cvid' => $cvId])->orderBy('columnindex');
-			$columnList = $query->createCommand()->queryAllByGroup();
+			$query = (new Db\Query())->select(['columnindex', 'field_name', 'module_name', 'source_field_name'])->from('vtiger_cvcolumnlist')->where(['cvid' => $cvId])->orderBy('columnindex');
+			$columnList = $query->createCommand()->queryAllByGroup(1);
 			if ($columnList) {
 				Cache::save('getColumnsListByCvid', $cvId, $columnList);
 			}

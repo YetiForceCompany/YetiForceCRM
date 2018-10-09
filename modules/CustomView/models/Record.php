@@ -534,11 +534,14 @@ class CustomView_Record_Model extends \App\Base
 	{
 		$db = App\Db::getInstance();
 		$cvId = $this->getId();
-		foreach ($this->get('columnslist') as $index => $columnName) {
+		foreach ($this->get('columnslist') as $index => $columnInfo) {
+			$columnInfo = explode(':', $columnInfo);
 			$db->createCommand()->insert('vtiger_cvcolumnlist', [
 				'cvid' => $cvId,
 				'columnindex' => $index,
-				'columnname' => $columnName,
+				'field_name' => $columnInfo[1],
+				'module_name' => $columnInfo[0],
+				'source_field_name' => $columnInfo[2] ?? null,
 			])->execute();
 		}
 	}
@@ -617,11 +620,19 @@ class CustomView_Record_Model extends \App\Base
 		if (!$cvId) {
 			return [];
 		}
-		return (new App\Db\Query())->select('vtiger_cvcolumnlist.columnindex, vtiger_cvcolumnlist.columnname')
+		$selectedFields = (new App\Db\Query())->select([
+			'vtiger_cvcolumnlist.columnindex',
+			'vtiger_cvcolumnlist.field_name',
+			'vtiger_cvcolumnlist.module_name',
+			'vtiger_cvcolumnlist.source_field_name'
+		])
 			->from('vtiger_cvcolumnlist')
 			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
 			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
-			->createCommand()->queryAllByGroup();
+			->createCommand()->queryAllByGroup(1);
+		return array_map(function ($item) {
+			return "{$item['module_name']}:{$item['field_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
+		}, $selectedFields);
 	}
 
 	/**
