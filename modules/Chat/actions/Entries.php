@@ -3,9 +3,12 @@
 /**
  * Chat Entries Action Class.
  *
+ * @package   Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 class Chat_Entries_Action extends \App\Controller\Action
 {
@@ -44,10 +47,7 @@ class Chat_Entries_Action extends \App\Controller\Action
 	 */
 	public function add(\App\Request $request)
 	{
-		Chat_Module_Model::add(
-			$request->get('message'),
-			$request->has('chat_room_id') ? $request->getInteger('chat_room_id') : null
-		);
+		\App\Chat::getInstanceById($request->getInteger('chat_room_id'))->add($request->get('message'));
 		$view = new Chat_Entries_View();
 		$view->get($request);
 	}
@@ -59,11 +59,12 @@ class Chat_Entries_Action extends \App\Controller\Action
 	 */
 	public function addChatRoom(\App\Request $request)
 	{
-		$roomId = \App\Chat::getInstanceById($request->getInteger('record'))->save();
+		$chatRoom = \App\Chat::createRoomById($request->getInteger('record'));
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'chat_room_id' => $roomId
+			'chat_room_id' => $chatRoom->getChatRoomId(),
+			'name' => $chatRoom->getChatRoomName()
 		]);
 		$response->emit();
 	}
@@ -77,15 +78,7 @@ class Chat_Entries_Action extends \App\Controller\Action
 	 */
 	public function switchChatRoom(\App\Request $request)
 	{
-		$roomId = $request->getInteger('chat_room_id');
-		\App\Chat::setCurrentRoomId($roomId);
-
-		$response = new Vtiger_Response();
-		$response->setResult([
-			'success' => true,
-			'chat_room_id' => $roomId,
-			'items' => \App\Chat::getInstanceById($roomId)->getEntries()
-		]);
-		$response->emit();
+		\App\Chat::setCurrentRoomId($request->getInteger('chat_room_id'));
+		(new Chat_Entries_View())->get($request);
 	}
 }

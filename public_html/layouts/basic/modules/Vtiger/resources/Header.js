@@ -704,34 +704,56 @@ $.Class("Vtiger_Header_Js", {
 		elem.height(elem[0].scrollHeight - elem[0].clientHeight + elem.height());
 	},
 	/**
+	 * Add new item to room list.
+	 * @param {int} roomId
+	 * @param {string} name
+	 */
+	addRoomItem(roomId, name) {
+		let template = $('.js-chat-modal .js-room-template');
+		if (template.length) {
+			let item = template.clone(false, false);
+			item.removeClass('hide');
+			item.removeClass('js-room-template');
+			item.removeClass('fontBold');
+			item.find('.row').html(name);
+			item.data('roomId', roomId);
+			$('.js-chat-modal .js-chat-rooms-list').append(item);
+			this.registerSwitchRoom($('.js-chat-modal'));
+		}
+	},
+	/**
 	 * Add chat room to record.
 	 *
 	 * @param {jQuery} container
 	 */
 	addChatRoom(container) {
-		const chatRoomId = container.find('.js-container-items .js-chat-items').data('chatRoomId');
-		const self = this;
-		console.log('addChatRoom: ' + chatRoomId + ' ');
-		AppConnector.request({
-			module: 'Chat',
-			action: 'Entries',
-			mode: 'addChatRoom',
-			record: chatRoomId
-		}).done((data) => {
-			if (data && data.success) {
-				if (container.find('.js-container-button').hasClass('hide')) {
-					container.find('.js-container-button').removeClass('hide');
-					container.find('.js-container-items').addClass('hide');
+		const chatRoomId = container.data('chatRoomId');
+		if (typeof chatRoomId !== 'undefined') {
+			const self = this;
+			AppConnector.request({
+				module: 'Chat',
+				action: 'Entries',
+				mode: 'addChatRoom',
+				record: chatRoomId,
+			}).done((data) => {
+				if (data && data.success) {
+					if (container.find('.js-container-button').hasClass('hide')) {
+						container.find('.js-container-button').removeClass('hide');
+						container.find('.js-container-items').addClass('hide');
+					} else {
+						container.find('.js-container-button').addClass('hide');
+						container.find('.js-container-items').removeClass('hide');
+					}
+					this.addRoomItem(data.result.chat_room_id, data.result.name);
 				} else {
-					container.find('.js-container-button').addClass('hide');
-					container.find('.js-container-items').removeClass('hide');
+					console.log(JSON.stringify(data));
 				}
-			} else {
-				console.log(JSON.stringify(data));
-			}
-		}).fail((error, err) => {
-			app.errorLog(error, err);
-		});
+			}).fail((error, err) => {
+				app.errorLog(error, err);
+			});
+		} else {
+			app.errorLog(new Error("Unknown chat room id"));
+		}
 	},
 	/**
 	 * Send chat message.
@@ -739,62 +761,77 @@ $.Class("Vtiger_Header_Js", {
 	 * @param {jQuery} inputMessage
 	 */
 	sendChatMessage(container, inputMessage) {
-		const self = this;
-		clearTimeout(self.chatTimer);
-
-		const chatItems = inputMessage.closest('.js-chat-container').find('.js-chat-items');
-
-		console.log('C = ' + inputMessage.closest('.js-chat-container').find('.js-chat-items').length);
-		console.log('CD = ' + inputMessage.closest('.js-chat-container').find('.js-chat-items').data('chatRoomId'));
-
-		console.log('PP = ' + container.find('.js-chat-items').length);
-		console.log('chatRoomId = ' + inputMessage.closest('.js-chat-container').data('chatRoomId'));
-		//container.find('.js-chat-items').data('chatRoomId');
-
-		AppConnector.request({
-			dataType: 'html',
-			data: {
-				module: 'Chat',
-				action: 'Entries',
-				mode: 'add',
-				record: app.getRecordId(),
-				message: inputMessage.val(),
-				cid: chatItems.find('.chatItem').last().data('cid'),
-				chat_room_id: inputMessage.closest('.js-chat-container').data('chatRoomId')
-			}
-		}).done((html) => {
-			let chatItems = container.find(".js-chat-items");
-			chatItems.append(html);
-			chatItems.animate({scrollTop: chatItems.get(0).scrollHeight});
-			inputMessage.val("");
-		}).fail((error, err) => {
-			app.errorLog(error, err);
-		});
+		if (inputMessage.val() == '') {
+			return;
+		}
+		const chatRoomId = container.data('chatRoomId');
+		if (typeof chatRoomId !== 'undefined') {
+			const self = this;
+			const chatItems = container.find('.js-chat-items');
+			let icon = container.find('.modal-title .fa-comments');
+			icon.css('color', '#00e413');
+			AppConnector.request({
+				dataType: 'html',
+				data: {
+					module: 'Chat',
+					action: 'Entries',
+					mode: 'add',
+					message: inputMessage.val(),
+					cid: chatItems.find('.chatItem').last().data('cid'),
+					chat_room_id: chatRoomId
+				}
+			}).done((html) => {
+				self.updateChat(chatRoomId, html);
+				inputMessage.val("");
+				icon.css('color', '#000');
+			}).fail((error, err) => {
+				app.errorLog(error, err);
+			});
+		} else {
+			app.errorLog(new Error("Unknown chat room id"));
+		}
+	},
+	/**
+	 * Update chat.
+	 * @param {int} chatRoomId
+	 * @param {html} html
+	 */
+	updateChat(chatRoomId, html) {
+		let chatRoom = $('.js-chat-room-' + chatRoomId);
+		chatRoom.append(html);
+		//console.log('1) chatRoom ' + chatRoom.height());
+		//console.log('2) chatRoom ' + chatRoom.get(0).scrollHeight);
+		chatRoom.animate({scrollTop: chatRoom.get(0).scrollHeight});
 	},
 	/**
 	 * Register chat events
 	 * @param container
 	 */
 	registerChatEvents(container) {
-		const self = this;
-		let chatContainer = container.find('.js-chat-container');
-		if (chatContainer.length) {
-			chatContainer.find('.js-create-chatroom').on('click', (e) => {
-				self.addChatRoom(chatContainer);
+		if (container.length) {
+			const self = this;
+			container.find('.js-create-chatroom').on('click', (e) => {
+				self.addChatRoom(container);
 			});
-			chatContainer.find('.js-chat-message').on('keydown', (e) => {
+			container.find('.js-add-msg').on('click', (e) => {
+				self.sendChatMessage(container, container.find('.js-chat-message'));
+			});
+			container.find('.js-chat-message').on('keydown', (e) => {
 				if (e.keyCode === 13) {
 					e.preventDefault();
-					self.sendChatMessage(chatContainer, $(e.currentTarget));
+					self.sendChatMessage(container, $(e.currentTarget));
 					return false;
 				}
 			});
-			let modal = $('.chatModal');
-			app.showNewScrollbar(modal.find('.modal-body'), {wheelPropagation: true});
-			self.registerSwitchRoom(chatContainer);
-			self.registerHeaderLinkChat();
-			self.registerChatLoadItems(modal.data('timer'), container);
-			app.animateModal(modal, 'slideInRight', 'slideOutRight');
+			let modal = container.closest('.chatModal');
+			if (modal.length) {
+				self.registerSwitchRoom(container);
+				self.registerHeaderLinkChat();
+				app.showNewScrollbar(modal.find('.modal-body'), {wheelPropagation: true});
+				self.registerChatLoadItems(modal.data('timer'), container);
+				self.registerChatCheck(modal.data('timer'), container);
+				app.animateModal(modal, 'slideInRight', 'slideOutRight');
+			}
 		}
 	},
 	/**
@@ -802,12 +839,18 @@ $.Class("Vtiger_Header_Js", {
 	 * @param {jQuery} container
 	 */
 	registerSwitchRoom(container) {
-		container.find('.js-change-room').on('click', (e) => {
+		container.find('.js-change-room').off('click').on('click', (e) => {
 			let chatModal = $(e.currentTarget).closest('.js-chat-modal');
 			let roomId = $(e.currentTarget).data('roomId');
-			console.log('KK ' + roomId);
+			console.log('roomId: ' + roomId);
+			const progressIndicatorElement = $.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
 			AppConnector.request({
-				dataType: 'json',
+				dataType: 'html',
 				data: {
 					module: 'Chat',
 					action: 'Entries',
@@ -815,19 +858,20 @@ $.Class("Vtiger_Header_Js", {
 					chat_room_id: roomId
 				}
 			}).done((dataResult) => {
-				let currentRoomId = dataResult.result.chat_room_id;
-				chatModal.data('chatRoomId', currentRoomId);
-
-				console.log(dataResult);
-				console.log(dataResult.result.items);
-
+				let prevChatRoomId = container.data('chatRoomId');
+				container.data('chatRoomId', roomId);
+				container.find('.js-chat-items').html(dataResult);
 				chatModal.find('.js-change-room').each((index, element) => {
-					if (currentRoomId == $(element).data('roomId')) {
+					if (roomId == $(element).data('roomId')) {
 						$(element).removeClass('fontBold').addClass('fontBold');
+						container.find('.js-chat-items')
+							.removeClass('js-chat-room-' + prevChatRoomId)
+							.addClass('js-chat-room-' + roomId);
 					} else {
 						$(element).removeClass('fontBold');
 					}
 				});
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			}).fail((error, err) => {
 				app.errorLog(error, err);
 			});
@@ -847,32 +891,40 @@ $.Class("Vtiger_Header_Js", {
 			$('.chatModal').modal({backdrop: false});
 		});
 	},
+	registerChatCheck(timer, container) {
+		const self = this;
+		self.chatCheckTimer = setTimeout(() => {
+			//self.getChatItems(container);
+			self.registerChatCheck(timer, container);
+		}, timer);
+	},
 	registerChatLoadItems(timer, container) {
 		const self = this;
-		let icon = $('.chatModal .modal-title .fa-comments');
 		self.chatTimer = setTimeout(() => {
-			icon.css('color', '#00e413');
 			self.getChatItems(container);
 			self.registerChatLoadItems(timer, container);
-			icon.css('color', '#000');
 		}, timer);
 	},
 	getChatItems(container) {
+		const chatRoomId = container.data('chatRoomId');
 		const self = this;
-		AppConnector.request({
-			module: 'Chat',
-			view: 'Entries',
-			mode: 'get',
-			cid: $('.chatModal .chatItem').last().data('cid')
-		}).done((html) => {
-			if (html) {
-				let chatItems = container.find(".js-chat-items");
-				chatItems.append(html);
-				chatItems.animate({scrollTop: chatItems.get(0).scrollHeight});
-			}
-		}).fail(function (error, err) {
-			clearTimeout(self.chatTimer);
-		});
+		if (typeof chatRoomId !== 'undefined') {
+			AppConnector.request({
+				module: 'Chat',
+				view: 'Entries',
+				mode: 'get',
+				cid: $('.chatModal .chatItem').last().data('cid'),
+				chat_room_id: chatRoomId
+			}).done((html) => {
+				if (html) {
+					self.updateChat(chatRoomId, html);
+				}
+			}).fail(function (error, err) {
+				clearTimeout(self.chatTimer);
+			});
+		} else {
+			app.errorLog(new Error("Unknown chat room id"));
+		}
 	},
 	registerEvents: function () {
 		var thisInstance = this;
@@ -923,7 +975,8 @@ $.Class("Vtiger_Header_Js", {
 		thisInstance.registerMobileEvents();
 		thisInstance.registerReminderNotice();
 		thisInstance.registerReminderNotification();
-		thisInstance.registerChatEvents($('body'));
+		thisInstance.registerChatEvents($('.js-chat-detail'));
+		thisInstance.registerChatEvents($('.js-chat-modal'));
 		thisInstance.registerQuickCreateSearch();
 	}
 });

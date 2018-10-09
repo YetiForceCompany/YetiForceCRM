@@ -3,9 +3,12 @@
 /**
  * Chat Entries View Class.
  *
+ * @package   View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 class Chat_Entries_View extends Vtiger_IndexAjax_View
 {
@@ -25,9 +28,16 @@ class Chat_Entries_View extends Vtiger_IndexAjax_View
 	 */
 	public function get(\App\Request $request)
 	{
+		$roomId = $request->has('chat_room_id') ? $request->getInteger('chat_room_id') : \App\Chat::getCurrentRoomId();
 		$viewer = Vtiger_Viewer::getInstance();
-		$viewer->assign('CHAT_ENTRIES', \App\Chat::getInstanceById(\App\Chat::getCurrentRoomId())->getEntries($request->getInteger('cid')));
-		$viewer->view('Items.tpl', 'Chat');
+		$chatItems = \App\Chat::getInstanceById($roomId)->getEntries($request->getInteger('cid'));
+		if (count($chatItems)) {
+			$viewer->assign('CHAT_ENTRIES', $chatItems);
+			$viewer->view('Items.tpl', 'Chat');
+		} else {
+			$response = new \Vtiger_Response();
+			$response->setHeader('HTTP/1.1 304 Not Modified');
+		}
 	}
 
 	/**

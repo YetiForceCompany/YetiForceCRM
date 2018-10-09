@@ -25,6 +25,21 @@ class Chat
 	protected $chatRoomId = false;
 
 	/**
+	 * @var int|null
+	 */
+	protected $lastMessage;
+
+	/**
+	 * @var bool
+	 */
+	protected $favorite = false;
+
+	/**
+	 * @var bool
+	 */
+	protected $isAssigned = false;
+
+	/**
 	 * Chat constructor.
 	 */
 	public function __construct()
@@ -64,16 +79,41 @@ class Chat
 	public static function getInstanceById(int $id)
 	{
 		$instance = new self();
+
 		$chatRoomRow = (new \App\Db\Query())
+			->from(['CR' => 'u_#__chat_rooms'])
+			->leftJoin(['CU' => 'u_#__chat_users'], 'CU.room_id = CR.room_id')
+			->where(['CU.room_id' => $id])
+			->one();
+		/*$chatRoomRow = (new \App\Db\Query())
 			->from('u_#__chat_rooms')
 			->where(['room_id' => $id])
-			->one();
+			->one();*/
 		if ($chatRoomRow) {
 			$instance->chatRoomId = $chatRoomRow['room_id'];
 			$instance->recordId = $id;
+			$instance->lastMessage = $chatRoomRow['last_message'];
+			$instance->favorite = $chatRoomRow['favorite'];
+			$instance->isAssigned = !empty($chatRoomRow['userid']);
 		} elseif ($id !== 0) {
 			$instance->nameOfRoom = \Vtiger_Record_Model::getInstanceById($id)->getDisplayName();
 		}
+		return $instance;
+	}
+
+	/**
+	 * Create new chat room by record id.
+	 *
+	 * @param int $recordId
+	 *
+	 * @return \App\Chat
+	 */
+	public static function createRoomById(int $recordId)
+	{
+		$instance = new self();
+		$instance->recordId = $recordId;
+		$instance->nameOfRoom = \Vtiger_Record_Model::getInstanceById($recordId)->getDisplayName();
+		$instance->save();
 		return $instance;
 	}
 
@@ -102,6 +142,25 @@ class Chat
 	}
 
 	/**
+	 * Get all chat rooms by user.
+	 *
+	 * @param int|null $userId
+	 *
+	 * @return array
+	 */
+	public static function getRoomsByUser(?int $userId = null)
+	{
+		if (empty($userId)) {
+			$userId = \App\User::getCurrentUserId();
+		}
+		return (new \App\Db\Query())
+			->from(['CR' => 'u_#__chat_rooms'])
+			->innerJoin(['CU' => 'u_#__chat_users'], 'CU.room_id = CR.room_id')
+			->where(['CU.userid' => $userId])
+			->all();
+	}
+
+	/**
 	 * Check if chat room exists.
 	 *
 	 * @return bool
@@ -121,9 +180,36 @@ class Chat
 		return $this->chatRoomId;
 	}
 
-	public function save()
+	public function getChatRoomName()
 	{
-		$id = false;
+		return $this->nameOfRoom;
+	}
+
+	/**
+	 * Mark room as favorite.
+	 *
+	 * @param bool     $favorite
+	 * @param int|null $userId
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public function markAsFavorite(bool $favorite, ?int $userId = null)
+	{
+		if (empty($userId)) {
+			$userId = \App\User::getCurrentUserId();
+		}
+		\App\db::getInstance()->createCommand()
+			->update('u_#__chat_users', ['favorite' => $favorite], [
+				'room_id' => $this->chatRoomId,
+				'userid' => $userId
+			])->execute();
+	}
+
+	public function save(?int $userId = null)
+	{
+		if (empty($userId)) {
+			$userId = \App\User::getCurrentUserId();
+		}
 		if ($this->isCharRoomExists()) {
 		} else {
 			\App\db::getInstance()
@@ -132,19 +218,50 @@ class Chat
 					'name' => $this->nameOfRoom,
 					'room_id' => $this->recordId
 				])->execute();
-			$id = \App\db::getInstance()->getLastInsertID('u_#__chat_rooms_room_id_seq');
+			$this->chatRoomId = $this->recordId;
+			\App\db::getInstance()
+				->createCommand()
+				->insert('u_#__chat_users', [
+					'room_id' => $this->chatRoomId,
+					'userid' => $userId,
+					'last_message' => null,
+					'favorite' => false
+				])->execute();
 		}
-		return $id;
+		return $this->chatRoomId;
 	}
 
-	public function getRecords()
+	/**
+	 * Add new message to chat room.
+	 *
+	 * @param string   $message
+	 * @param int|null $userId
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public function add(string $message, ?int $userId = null)
 	{
-		/*$dataReader = (new \App\Db\Query())
-			->from('u_#__chat_rooms')
-			->where(['crmid' => $instance->recordId])
-			->createCommand()
-			->query();*/
-		//AppConfig::module('Chat', 'ROWS_LIMIT')
+		$currentUser = empty($userId) ? \App\User::getCurrentUserModel() : \App\User::getUserModel($userId);
+		\App\Db::getInstance()->createCommand()
+			->insert('u_#__chat_messages', [
+				'userid' => $currentUser->getId(),
+				'created' => strtotime('now'),
+				'user_name' => $currentUser->getName(),
+				'messages' => $message,
+				'room_id' => $this->chatRoomId
+			])->execute();
+		DebugerEx::log($this->isAssigned);
+		if (!$this->isAssigned) {
+			\App\db::getInstance()
+				->createCommand()
+				->insert('u_#__chat_users', [
+					'room_id' => $this->chatRoomId,
+					'userid' => $currentUser->getId(),
+					'last_message' => null,
+					'favorite' => false
+				])->execute();
+			$this->isAssigned = true;
+		}
 	}
 
 	/**
@@ -158,12 +275,10 @@ class Chat
 	{
 		$query = (new \App\Db\Query())
 			->from('u_#__chat_messages')
-			->limit(\AppConfig::module('Chat', 'ROWS_LIMIT'));
+			->limit(\AppConfig::module('Chat', 'ROWS_LIMIT'))
+			->where(['room_id' => $this->chatRoomId]);
 		if ($id) {
-			$query->where(['>', 'id', $id]);
-		}
-		if ($this->chatRoomId !== false) {
-			$query->where(['room_id' => $this->chatRoomId]);
+			$query->andWhere(['>', 'id', $id]);
 		}
 		$rows = [];
 		$dataReader = $query->createCommand()->query();
