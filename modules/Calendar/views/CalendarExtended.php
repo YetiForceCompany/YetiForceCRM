@@ -44,6 +44,7 @@ class Calendar_CalendarExtended_View extends Calendar_Calendar_View
 			'~libraries/fullcalendar/dist/fullcalendar.js',
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',
+			'~layouts/resources/Calendar.js',
 			'modules.Calendar.resources.Standard.CalendarView',
 			'modules.Calendar.resources.Extended.YearView',
 			'modules.Calendar.resources.Extended.CalendarView',
