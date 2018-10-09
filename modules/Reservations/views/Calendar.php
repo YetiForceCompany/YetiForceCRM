@@ -57,7 +57,7 @@ class Reservations_Calendar_View extends Vtiger_Index_View
 			'~libraries/fullcalendar/dist/fullcalendar.js',
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',
-			'~layouts/resources/BasicCalendar.js',
+			'~layouts/resources/Calendar.js',
 			'modules.' . $moduleName . '.resources.Calendar',
 		];
 

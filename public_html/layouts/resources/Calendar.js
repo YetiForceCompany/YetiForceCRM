@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-window.BasicCalendar_Js = class BasicCalendar_Js {
+window.Calendar_Js = class Calendar_Js {
 
 	constructor() {
 		this.calendarView = false;
