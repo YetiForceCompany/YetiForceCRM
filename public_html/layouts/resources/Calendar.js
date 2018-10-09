@@ -3,10 +3,10 @@
 
 window.Calendar_Js = class Calendar_Js {
 
-	constructor() {
+	constructor(container = $('.js-base-container')) {
 		this.calendarView = false;
 		this.calendarCreateView = false;
-		this.container = $('.js-base-container');
+		this.container = container;
 		this.calendarBasicOptions = this.setCalendarBasicOptions();
 		this.calendarAdvancedOptions = this.setCalendarAdvancedOptions();
 		this.calendarModuleOptions = this.setCalendarModuleOptions();
