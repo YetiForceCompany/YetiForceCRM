@@ -2,8 +2,8 @@
 'use strict';
 window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends Calendar_Calendar_Js {
 
-	constructor() {
-		super();
+	constructor(container) {
+		super(container);
 		this.datesRowView = false;
 		this.sidebarView = {
 			length: 0
@@ -11,10 +11,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		this.calendarContainer = false;
 		this.addCommonMethodsToYearView();
 		this.calendar = this.getCalendarView();
-	}
-
-	setContainer(container) {
-		this.container = container;
 	}
 
 	/**

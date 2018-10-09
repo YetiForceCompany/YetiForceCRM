@@ -10,8 +10,8 @@
 
 window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Calendar_Js {
 
-	constructor() {
-		super();
+	constructor(container) {
+		super(container);
 	}
 
 	setCalendarModuleOptions() {

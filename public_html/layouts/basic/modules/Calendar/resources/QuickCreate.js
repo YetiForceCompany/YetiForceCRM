@@ -10,9 +10,8 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 	},
 	registerExtendCalendar: function () {
 		let container = this.getContainer();
-		let instance = new Calendar_CalendarExtended_Js;
+		let instance = new Calendar_CalendarExtended_Js($('.js-modal-container'));
 		instance.calendarView = this.getContainer().find('.js-calendar__container');
-		instance.setContainer(this.getContainer());
 
 		var selectDays = function (startDate, endDate) {
 			let start_hour = $('#start_hour').val(),
