@@ -635,6 +635,31 @@ $.Class("Vtiger_Header_Js", {
 		var records = $('.customTableRWD').find('[data-toggle-visible=false]');
 		records.find('.footable-toggle').css("display", "none");
 	},
+	registerSiteBarButton(container) {
+		const key = 'ShowHideRightPanel' + app.getModuleName();
+		if (app.cacheGet(key) == 'show') {
+			this.toggleSiteBar(container.find('.toggleSiteBarRightButton'));
+		} else if (app.cacheGet(key) == null) {
+			if (container.find('.siteBarRight').data('showpanel') == 1) {
+				this.toggleSiteBar(container.find('.toggleSiteBarRightButton'));
+			}
+		}
+		container.find('.toggleSiteBarRightButton').on('click', (e) => {
+			let toogleButton = $(e.currentTarget);
+			if (toogleButton.closest('.siteBarRight').hasClass('hideSiteBar')) {
+				app.cacheSet(key, 'show');
+			} else {
+				app.cacheSet(key, 'hide');
+			}
+			this.toggleSiteBar(toogleButton);
+		});
+	},
+	toggleSiteBar(toogleButton) {
+		toogleButton.closest('.rowContent').toggleClass('js-sitebar--active');
+		toogleButton.closest('.siteBarRight').toggleClass('hideSiteBar');
+		toogleButton.find('[data-fa-i2svg]').toggleClass('fa-chevron-left').toggleClass("fa-chevron-right");
+		toogleButton.toggleClass('hideToggleSiteBarRightButton');
+	},
 	registerToggleButton: function () {
 		$(".buttonTextHolder .dropdown-menu a").on('click', function () {
 			$(this).parents('.d-inline-block').find('.dropdown-toggle .textHolder').html($(this).text());
@@ -751,6 +776,7 @@ $.Class("Vtiger_Header_Js", {
 		thisInstance.registerAnnouncements();
 		thisInstance.registerHotKeys();
 		thisInstance.registerToggleButton();
+		thisInstance.registerSiteBarButton($('#centerPanel'));
 		//this.registerCalendarButtonClickEvent();
 		//After selecting the global search module, focus the input element to type
 		$('.basicSearchModulesList').on('change', function () {
