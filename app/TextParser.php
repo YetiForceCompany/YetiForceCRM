@@ -792,6 +792,14 @@ class TextParser
 			$pagingModel->set('limit', (int) $limit);
 		}
 		if ($columns) {
+			$headerFields = [];
+			foreach(explode(',', $columns) as $fieldName) {
+				$headerFields []= [
+					'field_name' => $fieldName,
+					'module_name' => $moduleName
+				];
+			}
+			$listView->set('header_fields', $headerFields);
 			$listView->getQueryGenerator()->setFields(explode(',', $columns));
 			$listView->getQueryGenerator()->setField('id');
 		}

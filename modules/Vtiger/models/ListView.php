@@ -407,8 +407,12 @@ class Vtiger_ListView_Model extends \App\Base
 			$headerFields = $this->getQueryGenerator()->getListViewFields();
 		} else {
 			$headerFields = [];
-			$customView = App\CustomView::getInstance($this->getModule()->getName());
-			$fields = $customView->getColumnsListByCvid($this->get('viewId'));
+			if (!$this->isEmpty('header_fields')) {
+				$fields = $this->get('header_fields');
+			} else {
+				$customView = App\CustomView::getInstance($this->getModule()->getName());
+				$fields = $customView->getColumnsListByCvid($this->get('viewId'));
+			}
 			foreach ($fields as $fieldInfo) {
 				$fieldName = $fieldInfo['field_name'];
 				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldInfo['module_name']));
