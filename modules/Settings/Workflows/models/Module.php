@@ -252,15 +252,16 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function importTaskMethod(array &$method, array &$messages)
 	{
+		$moduleName = $this->getName(true);
 		if (!file_exists($method['function_path'])) {
 			$scriptData = base64_decode($method['script_content']);
-			if (file_put_contents($method['function_path'], $scriptData) === false) {
-				$messages['error'][] = \App\Language::translate('LBL_FAILED_TO_SAVE_SCRIPT', $this->getName(true), basename($method['function_path']), $method['function_path']);
+			if (file_put_contents($method['function_path'], $scriptData) == false) {
+				$messages['error'][] = \App\Language::translate('LBL_FAILED_TO_SAVE_SCRIPT', $moduleName) . ' ' . basename($method['function_path']) . ' ' . \App\Language::translate('LBL_TO', $moduleName) . ' ' . $method['function_path'];
 			}
 		} else {
 			require_once $method['function_path'];
 			if (!function_exists($method['function_name'])) {
-				$messages['error'][] = \App\Language::translate('LBL_SCRIPT_EXISTS_FUNCTION_NOT', $this->getName(true), $method['function_name'], $method['function_path']);
+				$messages['error'][] = \App\Language::translate('LBL_SCRIPT_EXISTS_FUNCTION_NOT', $moduleName) . ' ' . $method['function_name'] . ' ' . \App\Language::translate('LBL_TO', $moduleName) . ' ' . $method['function_path'];
 			}
 		}
 		$num = (new \App\Db\Query())->from('com_vtiger_workflowtasks_entitymethod')->where(['module_name' => $method['module_name'], 'method_name' => $method['method_name'], 'function_path' => $method['function_path'], 'function_name' => $method['function_name']])->count();
