@@ -102,20 +102,18 @@ Settings_Vtiger_List_Js("Settings_MappedFields_List_Js", {}, {
 			formData.append("imported_xml", file);
 			file = false;
 		}
-		if (formData) {
-			var params = {
-				url: "index.php",
-				type: "POST",
-				data: formData,
-				processData: false,
-				contentType: false
-			};
-			AppConnector.request(params).done(function (data) {
-				aDeferred.resolve(data);
-			}).fail(function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
-			});
-		}
+		var params = {
+			url: "index.php",
+			type: "POST",
+			data: formData,
+			processData: false,
+			contentType: false
+		};
+		AppConnector.request(params).done(function (data) {
+			aDeferred.resolve(data);
+		}).fail(function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
 		return aDeferred.promise();
 	},
 	registerDeleteMap: function () {

@@ -365,10 +365,9 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends BasicCalendar_J
 			}
 		});
 		calendar.find('.fc-toolbar .fc-button').on('click', function (e) {
-			var defaultView, view, options;
-			var element = $(e.currentTarget);
+			let view;
+			let element = $(e.currentTarget);
 			view = calendar.fullCalendar('getView');
-			options = view.options;
 			if (element.hasClass('fc-' + view.name + '-button')) {
 				app.moduleCacheSet('defaultView', view.name);
 			} else if (element.hasClass('fc-prev-button') || element.hasClass('fc-next-button') || element.hasClass('fc-today-button')) {

@@ -516,7 +516,6 @@ class TextParser
 				return ($userModel && $userModel->getDetail('time_zone')) ? $userModel->getDetail('time_zone') : \AppConfig::main('default_timezone');
 			default:
 				return $key;
-				break;
 		}
 	}
 

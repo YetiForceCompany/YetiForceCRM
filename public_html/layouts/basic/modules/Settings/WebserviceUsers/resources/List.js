@@ -21,16 +21,15 @@ Settings_Vtiger_List_Js('Settings_WebserviceUsers_List_Js', {}, {
 		return this.getContainer().find('.tabApi.active').data('typeapi');
 	},
 	getListViewRecords: function (urlParams) {
-		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		if (typeof urlParams === "undefined") {
 			urlParams = {};
 		}
 		this.reloadTab(urlParams).done(function (data) {
-				aDeferred.resolve(data);
-			}).fail(function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
-			});
+			aDeferred.resolve(data);
+		}).fail(function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
 		return aDeferred.promise();
 	},
 	updatePagination: function (pageNumber) {
@@ -69,14 +68,14 @@ Settings_Vtiger_List_Js('Settings_WebserviceUsers_List_Js', {}, {
 		var defaultParams = this.getDefaultParams();
 		var params = jQuery.extend(defaultParams, urlParams);
 		AppConnector.request(params).done(function (data) {
-				tabContainer.html(data);
-				Vtiger_Header_Js.getInstance().registerFooTable();
-				thisInstance.registerPageNavigationEvents();
-				aDeferred.resolve(data);
-			}).fail(function (textStatus, errorThrown) {
-				app.errorLog(textStatus, errorThrown);
-				aDeferred.reject(textStatus, errorThrown);
-			});
+			tabContainer.html(data);
+			Vtiger_Header_Js.getInstance().registerFooTable();
+			thisInstance.registerPageNavigationEvents();
+			aDeferred.resolve(data);
+		}).fail(function (textStatus, errorThrown) {
+			app.errorLog(textStatus, errorThrown);
+			aDeferred.reject(textStatus, errorThrown);
+		});
 		return aDeferred.promise();
 	},
 	registerEvents: function () {

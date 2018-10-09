@@ -3,7 +3,6 @@
 
 $.Class('Settings_Mail_Config_Js', {}, {
 	registerChangeConfig() {
-		const thisInstance = this;
 		const container = $('.configContainer');
 		container.on('change', '.configCheckbox', function () {
 			const progressIndicator = $.progressIndicator();

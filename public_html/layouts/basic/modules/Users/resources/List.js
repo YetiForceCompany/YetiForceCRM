@@ -185,7 +185,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 	/*
 	 *Function to mass off 2FA
 	 */
-	triggerMassOff2FA: function(){
+	triggerMassOff2FA: function () {
 		let url = window.location.href;
 		let listInstance = Settings_Vtiger_List_Js.getInstance();
 		let validationResult = listInstance.checkListRecordSelected();
@@ -245,7 +245,6 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 	 */
 	getPageJumpParams: function () {
 		var module = app.getModuleName();
-		var cvId = this.getCurrentCvId();
 		var pageCountParams = {
 			module: module,
 			view: "ListAjax",

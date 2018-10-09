@@ -307,7 +307,6 @@ class Record
 			case 2:
 				return 'Archived';
 		}
-		return null;
 	}
 
 	/**

@@ -210,7 +210,6 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 				data = JSON.parse(data);
 			}
 			var response = data['result'];
-			var result = response['success'];
 			aDeferred.resolve(response);
 		}).fail(function (error, err) {
 			aDeferred.reject(error, err);
@@ -261,7 +260,6 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 		return aDeferred.promise();
 	},
 	removeInventory: function (inventoryElement) {
-		var thisInstance = this;
 		var message = app.vtranslate('JS_DELETE_INVENTORY_CONFIRMATION');
 		Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
 			var params = {};

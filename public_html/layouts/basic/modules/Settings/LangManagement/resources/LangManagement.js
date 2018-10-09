@@ -50,7 +50,6 @@ var Settings_Index_Js = {
 		});
 	},
 	initEditLang: function (position) {
-		var thisInstance = this;
 		App.Fields.Picklist.changeSelectElementView($(".LangManagement .layoutContent .active .select2"), 'select2').on("change", function (e) {
 			e = jQuery(this).closest('.active');
 			Settings_Index_Js.LoadEditLang(e);
@@ -80,7 +79,6 @@ var Settings_Index_Js = {
 		$('' + position + ' .listViewEntriesTable').dataTable();
 	},
 	ShowDifferences: function (e) {
-		var target = $(e.currentTarget);
 		if ($(this).is(':checked')) {
 			document.showDiff = true;
 		} else {
@@ -176,7 +174,6 @@ var Settings_Index_Js = {
 		});
 	},
 	ShowLangMondal: function (e) {
-		var target = $(e.currentTarget);
 		var cloneModal = $('.AddNewLangMondal').clone(true, true);
 		app.showModalWindow($(cloneModal));
 		$(cloneModal).css("z-index", "9999999");
@@ -190,7 +187,6 @@ var Settings_Index_Js = {
 			langs_fields += '<div class="form-group"><label class="col-md-4 col-form-label">' + langs_list[key] + ':</label><div class="col-md-8"><input name="' + langs_list[key] + '" class="form-control" type="text" /></div></div>';
 		});
 		cloneModal.find('.add_translation_block').html(langs_fields);
-		var target = $(e.currentTarget);
 
 		app.showModalWindow($(cloneModal));
 		$(cloneModal).css("z-index", "9999999");
@@ -234,7 +230,7 @@ var Settings_Index_Js = {
 		$(e.currentTarget).remove();
 		var prefix = SaveEvent.result['prefixOld'];
 		var tbodyElement = closestTrElement.closest('tbody');
-		OldTrDefaultLang = tbodyElement.find('tr[data-prefix="' + prefix + '"]')
+		let OldTrDefaultLang = tbodyElement.find('tr[data-prefix="' + prefix + '"]')
 		OldTrDefaultLang.find('td:last').prepend('<button class="btn btn-danger marginLeftZero" data-toggle="confirmation" data-original-title="" id="deleteItemC">' + app.vtranslate('Delete') + '</button> <button class="btn btn-primary marginLeftZero" data-toggle="confirmation" id="setAsDefault">' + app.vtranslate('JS_DEFAULT') + '</button>');
 		Settings_Index_Js.initEvant(OldTrDefaultLang);
 	},

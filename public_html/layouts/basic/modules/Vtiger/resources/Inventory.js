@@ -74,9 +74,9 @@ $.Class("Vtiger_Inventory_Js", {
 	},
 	getNextLineItemRowNumber: function () {
 		var $inventoryItemsNo = $('#inventoryItemsNo');
-		var rowNumber = parseInt($inventoryItemsNo.val());
-		$inventoryItemsNo.val(rowNumber + 1);
-		return ++rowNumber;
+		var rowNumber = parseInt($inventoryItemsNo.val()) + 1;
+		$inventoryItemsNo.val(rowNumber);
+		return rowNumber;
 	},
 	getAccountId: function () {
 		var accountReferenceField = $('#accountReferenceField').val();

@@ -93,8 +93,6 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	/**
 	 * Get template name for edit.
 	 *
-	 * @author    Arkadiusz Adach <a.adach@yetiforce.com>
-	 *
 	 * @return string
 	 */
 	public function getEditTemplateName()

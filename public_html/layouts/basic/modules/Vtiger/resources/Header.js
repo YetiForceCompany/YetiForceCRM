@@ -720,7 +720,6 @@ $.Class("Vtiger_Header_Js", {
 			$('.actionMenu').removeClass('actionMenuOn');
 			$('.chatModal').modal({backdrop: false});
 		});
-		var modalDialog = modal.find('.modal-dialog');
 		this.registerChatLoadItems(modal.data('timer'));
 		modal.find('.addMsg').on('click', function (e) {
 			var message = modal.find('.message').val();
