@@ -7,10 +7,10 @@ window.BasicCalendar_Js = class BasicCalendar_Js {
 		this.calendarView = false;
 		this.calendarCreateView = false;
 		this.container = $('.js-base-container');
-		this.calendarBasicOptions = this.getCalendarBasicConfig();
-		this.calendarAdvancedOptions = this.getCalendarAdvancedConfig();
-		this.calendarModuleOptions = this.getCalendarModuleOptions();
-		this.calendarMergedOptions = Object.assign(this.calendarBasicOptions, this.calendarAdvancedOptions, this.calendarModuleOptions);
+		this.calendarBasicOptions = this.setCalendarBasicOptions();
+		this.calendarAdvancedOptions = this.setCalendarAdvancedOptions();
+		this.calendarModuleOptions = this.setCalendarModuleOptions();
+		this.calendarMergedOptions = this.setCalendarMergedOptions();
 	}
 
 	setCalendarHeight() {
@@ -34,29 +34,19 @@ window.BasicCalendar_Js = class BasicCalendar_Js {
 		return calendarH;
 	}
 
-	getInstanceByView(view) {
-		if (typeof view === 'undefined') {
-			view = $('#currentView').val();
-		}
-		var moduleClassName = "Calendar_" + view + "_Js";
-		var instance;
-		if (typeof window[moduleClassName] !== "undefined") {
-			instance = new window[moduleClassName]();
-		} else {
-			instance = new Calendar_Calendar_Js();
-		}
-		return instance;
-	}
-
 	renderCalendar() {
 		this.getCalendarView().fullCalendar(this.calendarMergedOptions);
 	}
 
-	getCalendarModuleOptions() {
+	setCalendarMergedOptions() {
+		return Object.assign(this.calendarBasicOptions, this.calendarAdvancedOptions, this.calendarModuleOptions);
+	}
+
+	setCalendarModuleOptions() {
 		return {};
 	}
 
-	getCalendarAdvancedConfig() {
+	setCalendarAdvancedOptions() {
 		let self = this;
 		return {
 			header: {
@@ -81,7 +71,7 @@ window.BasicCalendar_Js = class BasicCalendar_Js {
 		}
 	}
 
-	getCalendarBasicConfig() {
+	setCalendarBasicOptions() {
 		let eventLimit = app.getMainParams('eventLimit'),
 			userDefaultActivityView = app.getMainParams('activity_view'),
 			defaultView = app.moduleCacheGet('defaultView'),

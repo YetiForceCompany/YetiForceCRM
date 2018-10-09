@@ -14,7 +14,7 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends BasicCalendar_J
 		super();
 	}
 
-	getCalendarModuleOptions() {
+	setCalendarModuleOptions() {
 		let self = this,
 			options = {
 				select: function (start, end) {

@@ -6,7 +6,7 @@ window.OSSTimeControl_Calendar_Js = class OSSTimeControl_Calendar_Js extends Bas
 		super();
 	}
 
-	getCalendarModuleOptions() {
+	setCalendarModuleOptions() {
 		let self = this;
 		return {
 			allDaySlot: false,

@@ -7,7 +7,7 @@ window.Reservations_Calendar_Js = class Reservations_Calendar_Js extends BasicCa
 		super();
 	}
 
-	getCalendarModuleOptions() {
+	setCalendarModuleOptions() {
 		let self = this;
 		return {
 			allDaySlot: false,
@@ -48,7 +48,6 @@ window.Reservations_Calendar_Js = class Reservations_Calendar_Js extends BasicCa
 	}
 
 	eventRenderer(event, element) {
-		let self = this;
 		app.showPopoverElementView(element.find('.fc-content'), {
 			title: event.title + '<a href="index.php?module=Reservations&view=Edit&record=' + event.id + '" class="float-right"><span class="fas fa-edit"></span></a>' + '<a href="index.php?module=Reservations&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
 			container: 'body',

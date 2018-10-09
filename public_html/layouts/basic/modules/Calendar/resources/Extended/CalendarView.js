@@ -52,7 +52,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	 */
 	renderCalendar(readonly = false) {
 		let self = this,
-			basicOptions = this.getCalendarBasicConfig(),
+			basicOptions = this.setCalendarBasicOptions(),
 			options = {
 				header: {
 					left: 'year,month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
