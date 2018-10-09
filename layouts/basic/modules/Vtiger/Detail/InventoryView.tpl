@@ -42,54 +42,56 @@
 			</table>
 		{/if}
 		{assign var="FIELDS_TEXT_ALIGN_RIGHT" value=['TotalPrice','Tax','MarginP','Margin','Purchase','Discount','NetPrice','GrossPrice','UnitPrice','Quantity']}
-		<table class="table blockContainer inventoryItems">
-			<thead>
-			<tr>
-				{foreach item=FIELD from=$FIELDS[1]}
-					<th {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan')}%" {/if}
-							class="textAlignCenter">
-						{\App\Language::translate($FIELD->get('label'), $MODULE_NAME)}
-					</th>
-				{/foreach}
-			</tr>
-			</thead>
-			<tbody class="js-inventory-items-body" data-js="container">
-			{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
-				{assign var="ROW_NO" value=$KEY+1}
-				{if $INVENTORY_ROW['name']}
-					{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
-				{/if}
+		<div class="table-responsive">
+			<table class="table blockContainer inventoryItems">
+				<thead>
 				<tr>
 					{foreach item=FIELD from=$FIELDS[1]}
-						<td {if in_array($FIELD->getName(), $FIELDS_TEXT_ALIGN_RIGHT)}class="textAlignRight"{/if}>
-							{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
-							{if $FIELD->get('columnname') === 'unit'}
-								{assign var="INV_RECORD_MODEL" value=Vtiger_Record_Model::getInstanceById($INVENTORY_ROW['name'])}
-								{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_VALUE=\App\Language::translate($INVENTORY_ROW[$FIELD->get('columnname')], $INV_RECORD_MODEL->getModuleName())}
-							{else}
-								{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_VALUE=$INVENTORY_ROW[$FIELD->get('columnname')]}
-							{/if}
+						<th {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan')}%" {/if}
+								class="textAlignCenter">
+							{\App\Language::translate($FIELD->get('label'), $MODULE_NAME)}
+						</th>
+					{/foreach}
+				</tr>
+				</thead>
+				<tbody class="js-inventory-items-body" data-js="container">
+				{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
+					{assign var="ROW_NO" value=$KEY+1}
+					{if $INVENTORY_ROW['name']}
+						{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
+					{/if}
+					<tr>
+						{foreach item=FIELD from=$FIELDS[1]}
+							<td {if in_array($FIELD->getName(), $FIELDS_TEXT_ALIGN_RIGHT)}class="textAlignRight"{/if}>
+								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
+								{if $FIELD->get('columnname') === 'unit'}
+									{assign var="INV_RECORD_MODEL" value=Vtiger_Record_Model::getInstanceById($INVENTORY_ROW['name'])}
+									{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_VALUE=\App\Language::translate($INVENTORY_ROW[$FIELD->get('columnname')], $INV_RECORD_MODEL->getModuleName())}
+								{else}
+									{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_VALUE=$INVENTORY_ROW[$FIELD->get('columnname')]}
+								{/if}
 
+							</td>
+						{/foreach}
+					</tr>
+				{/foreach}
+				</tbody>
+				<tfoot>
+				<tr>
+					{foreach item=FIELD from=$FIELDS[1]}
+						<td {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan')}%" {/if}
+								class="col{$FIELD->getName()} textAlignRight {if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}"
+								data-sumfield="{lcfirst($FIELD->get('invtype'))}">
+							{if $FIELD->isSummary()}
+								{assign var="SUM" value=$FIELD->getSummaryValuesFromData($INVENTORY_ROWS)}
+								{CurrencyField::convertToUserFormat($SUM, null, true)}
+							{/if}
 						</td>
 					{/foreach}
 				</tr>
-			{/foreach}
-			</tbody>
-			<tfoot>
-			<tr>
-				{foreach item=FIELD from=$FIELDS[1]}
-					<td {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan')}%" {/if}
-							class="col{$FIELD->getName()} textAlignRight {if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}"
-							data-sumfield="{lcfirst($FIELD->get('invtype'))}">
-						{if $FIELD->isSummary()}
-							{assign var="SUM" value=$FIELD->getSummaryValuesFromData($INVENTORY_ROWS)}
-							{CurrencyField::convertToUserFormat($SUM, null, true)}
-						{/if}
-					</td>
-				{/foreach}
-			</tr>
-			</tfoot>
-		</table>
+				</tfoot>
+			</table>
+		</div>
 		{include file=\App\Layout::getTemplatePath('Detail/InventorySummary.tpl', $MODULE_NAME)}
 	{/if}
 {/strip}
