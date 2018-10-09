@@ -8,7 +8,7 @@
 	<input type="hidden" id="listMaxEntriesMassEdit" value="{\AppConfig::main('listMaxEntriesMassEdit')}" />
 	<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
 	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber' />
-	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit' />
+	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id="pageLimit" />
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries" />
 
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE_NAME)}
@@ -35,11 +35,15 @@
 					</th>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<th {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if $COLUMN_NAME eq $LISTVIEW_HEADER->getColumnName()}columnSorted{/if}">
-							<a href="javascript:void(0);" class="listViewHeaderValues float-left" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->getColumnName()}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER->getColumnName()}">{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}
+							<a href="javascript:void(0);" class="listViewHeaderValues float-left" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->getColumnName()}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER->getColumnName()}">
+								{if $LISTVIEW_HEADER->getModuleName() !== $MODULE_NAME && !empty($LISTVIEW_HEADER->get('source_field_name'))}
+									{\App\Language::translate(Vtiger_Field_Model::getInstance($LISTVIEW_HEADER->get('source_field_name'),$MODULE_MODEL)->getFieldLabel(), $MODULE_NAME)}&nbsp;-&nbsp;
+								{/if}
+								{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $LISTVIEW_HEADER->getModuleName())}
 								&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->getColumnName()}<span class="{$SORT_IMAGE}"></span>{/if}</a>
 								{if $LISTVIEW_HEADER->getFieldDataType() eq 'tree' || $LISTVIEW_HEADER->getFieldDataType() eq 'categoryMultipicklist'}
 									{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
-								<div class='float-left'>
+								<div class="float-left">
 									<span class="float-right js-popover-tooltip delay0" data-js="popover"  data-placement="top" data-original-title="{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}"
 										  data-content="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
 										<span class="fas fa-info-circle"></span>
@@ -65,15 +69,17 @@
 					</td>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<td>
-							{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
-							{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
-							{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME])}
-								{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]}
-							{else}
-								{assign var=SEARCH_INFO value=[]}
+							{if $LISTVIEW_HEADER->getModuleName() === $MODULE_NAME}
+								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
+								{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
+								{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME])}
+									{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]}
+								{else}
+									{assign var=SEARCH_INFO value=[]}
+								{/if}
+								{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME)
+									FIELD_MODEL=$LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 							{/if}
-							{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME)
-								FIELD_MODEL=$LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 						</td>
 					{/foreach}
 					<td class="reducePadding"></td>
@@ -92,16 +98,16 @@
 					</td>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
 						{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->getFieldName()}
-						<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" {if $LISTVIEW_HEADERNAME eq 'password'} id="{$PASS_ID}" {/if} {if $smarty.foreach.listHeaderForeach.iteration eq $LISTVIEW_HEADER_COUNT}colspan="2"{/if} data-raw-value="{\App\Purifier::encodeHtml($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}">
+						<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" {if $LISTVIEW_HEADERNAME eq 'password'} id="{$PASS_ID}" {/if} {if $smarty.foreach.listHeaderForeach.iteration eq $LISTVIEW_HEADER_COUNT}colspan="2"{/if} data-raw-value="{\App\Purifier::encodeHtml($LISTVIEW_ENTRY->get($LISTVIEW_HEADER->getFieldName()))}">
 							{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true && $LISTVIEW_ENTRY->isViewable()}
 								<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modCT_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
-									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
+									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER)}
 								</a>
 							{else}
 								{if $LISTVIEW_HEADERNAME eq 'password'}
 									{str_repeat('*', 10)}
 								{else}
-									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
+									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER)}
 								{/if}
 							{/if}
 						</td>

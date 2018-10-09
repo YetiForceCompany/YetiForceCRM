@@ -4810,7 +4810,9 @@ CREATE TABLE `vtiger_cvadvfilter_grouping` (
 CREATE TABLE `vtiger_cvcolumnlist` (
   `cvid` int(10) NOT NULL,
   `columnindex` int(10) NOT NULL,
-  `columnname` varchar(250) DEFAULT '',
+  `field_name` varchar(50) DEFAULT NULL,
+  `module_name` varchar(25) DEFAULT NULL,
+  `source_field_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`cvid`,`columnindex`),
   KEY `cvcolumnlist_columnindex_idx` (`columnindex`),
   KEY `cvcolumnlist_cvid_idx` (`cvid`),

@@ -80,7 +80,7 @@ class CustomView_Save_Action extends \App\Controller\Action
 			$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', 2));
 			$cvIdDefault = $moduleModel->getAllFilterCvidForModule();
 			if ($cvIdDefault === false) {
-				$cvId = App\CustomView::getInstance($request->getByType('source_module', 2))->getDefaultCvId();
+				$cvIdDefault = App\CustomView::getInstance($request->getByType('source_module', 2))->getDefaultCvId();
 			}
 			$defaultCustomViewModel = CustomView_Record_Model::getInstanceById($cvIdDefault);
 			$selectedColumnsList = $defaultCustomViewModel->getSelectedFields();
