@@ -4,7 +4,7 @@
  * Reservations calendar view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Reservations_Calendar_View extends Vtiger_Index_View
 {
@@ -50,10 +50,14 @@ class Reservations_Calendar_View extends Vtiger_Index_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
+		if (isset($headerScriptInstances['modules.' . $moduleName . '.resources.Calendar'])) {
+			unset($headerScriptInstances['modules.' . $moduleName . '.resources.Calendar']);
+		}
 		$jsFileNames = [
 			'~libraries/fullcalendar/dist/fullcalendar.js',
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',
+			'~layouts/resources/Calendar.js',
 			'modules.' . $moduleName . '.resources.Calendar',
 		];
 

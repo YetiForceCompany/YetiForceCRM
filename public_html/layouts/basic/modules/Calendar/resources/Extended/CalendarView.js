@@ -1,10 +1,22 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
+window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends Calendar_Calendar_Js {
 
-Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
-	datesRowView: false,
-	sidebarView: {length: 0},
-	calendarContainer: false,
+	constructor() {
+		super();
+		this.datesRowView = false;
+		this.sidebarView = {
+			length: 0
+		};
+		this.calendarContainer = false;
+		this.addCommonMethodsToYearView();
+		this.calendar = this.getCalendarView();
+	}
+
+	setContainer(container) {
+		this.container = container;
+	}
+
 	/**
 	 * Function extends FC.views.year with current class methods
 	 */
@@ -33,13 +45,14 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			addHeaderButtons: self.addHeaderButtons,
 			getActiveFilters: self.getActiveFilters,
 		});
-	},
+	}
+
 	/**
 	 * Render calendar
 	 */
 	renderCalendar(readonly = false) {
 		let self = this,
-			basicOptions = this.getCalendarBasicConfig(),
+			basicOptions = this.setCalendarBasicOptions(),
 			options = {
 				header: {
 					left: 'year,month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
@@ -47,7 +60,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 					right: 'today'
 				},
 				editable: !readonly,
-				height: app.setCalendarHeight(this.getContainer()),
+				height: self.setCalendarHeight(),
 				views: {
 					basic: {
 						eventLimit: false,
@@ -92,7 +105,7 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 					self.getCalendarView().fullCalendar('unselect');
 				},
 				eventRender: function (event, element) {
-					self.eventRender(event, element);
+					self.eventRenderer(event, element);
 				},
 				viewRender: function (view, element) {
 					if (view.type !== 'year') {
@@ -142,13 +155,12 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				self.showStatusUpdate(url);
 			};
 		}
-		this.addCommonMethodsToYearView();
-		this.calendar = self.getCalendarView();
-		this.calendar.fullCalendar('destroy');
 		this.calendar.fullCalendar(options);
-	},
-	registerChangeView: function () {
-	},
+	}
+
+	registerChangeView() {
+	}
+
 	addHeaderButtons() {
 		if (this.calendarContainer.find('.js-calendar__view-btn').length) {
 			return;
@@ -160,7 +172,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		this.calendarContainer.find('.fc-center').after(filters);
 		this.registerClearFilterButton();
 		this.registerFilterTabChange();
-	},
+	}
+
 	showStatusUpdate(params) {
 		const thisInstance = this,
 			progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
@@ -179,7 +192,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				thisInstance.getCalendarEditView($(this).data('id'));
 			});
 		});
-	},
+	}
+
 	registerSwitchEvents() {
 		const calendarView = this.getCalendarView();
 		let isWorkDays = (app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all'),
@@ -218,14 +232,15 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 					app.moduleCacheSet('defaultSwitchingDays', 'all');
 				}
 				calendarView.fullCalendar('option', 'hiddenDays', hiddenDays);
-				calendarView.fullCalendar('option', 'height', app.setCalendarHeight());
+				calendarView.fullCalendar('option', 'height', this.setCalendarHeight());
 				if (calendarView.fullCalendar('getView').type === 'year') {
 					this.registerViewRenderEvents(calendarView.fullCalendar('getView'));
 				}
 			});
 		}
-	},
-	eventRender: function (event, element) {
+	}
+
+	eventRenderer(event, element) {
 		if (event.id === undefined) {
 			return;
 		}
@@ -268,11 +283,13 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		if (event.rendering === 'background') {
 			element.append(`<span class="${event.icon} mr-1"></span>${event.title}`)
 		}
-	},
+	}
+
 	getDatesRowView() {
 		this.datesRowView = $('.js-dates-row');
 		return this.datesRowView;
-	},
+	}
+
 	/**
 	 * Appends subdate row to calendar header and register its scroll
 	 * @param toolbar
@@ -293,7 +310,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				});
 			}
 		}
-	},
+	}
+
 	/**
 	 * Function toggles next year/month and general arrows on view render
 	 * @param view
@@ -314,7 +332,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			nextPrevButtons.show();
 			yearButtons.hide();
 		}
-	},
+	}
+
 	/**
 	 * Date bar with counts
 	 * @param object calendarView
@@ -337,23 +356,27 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		}
 		self.updateCountTaskCalendar();
 		self.registerDatesChange();
-	},
+	}
+
 	registerDatesChange() {
 		this.getDatesRowView().find('.js-sub-record').on('click', (e) => {
 			let currentTarget = $(e.currentTarget);
 			currentTarget.addClass('active');
 			this.getCalendarView().fullCalendar('gotoDate', moment(currentTarget.data('date'), "YYYY-MM-DD"));
 		});
-	},
+	}
+
 	getCurrentCvId() {
 		return $(".js-calendar__extended-filter-tab .active").parent('.js-filter-tab').data('cvid');
-	},
+	}
+
 	registerFilterTabChange() {
 		const thisInstance = this;
 		this.getCalendarView().find(".js-calendar__extended-filter-tab").on('shown.bs.tab', function () {
 			thisInstance.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
 		});
-	},
+	}
+
 	getSelectedUsersCalendar() {
 		const sidebar = this.getSidebarView();
 		let selectedUsers = sidebar.find('.js-input-user-owner-id:checked'),
@@ -368,13 +391,15 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			users = selectedUsersAjax.val().concat(selectedRolesAjax.val());
 		}
 		return users;
-	},
+	}
+
 	getSidebarView() {
 		if (!this.sidebarView.length) {
 			this.sidebarView = $('#rightPanel');
 		}
 		return this.sidebarView;
-	},
+	}
+
 	updateCountTaskCalendar() {
 		let datesView = this.getDatesRowView(),
 			subDatesElements = datesView.find('.js-sub-record'),
@@ -409,7 +434,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				$(this).find('.js-count-events').removeClass('hide').html(events.result[key]);
 			});
 		});
-	},
+	}
+
 	/**
 	 * Load calendar edit view
 	 * @param int id
@@ -432,7 +458,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			app.errorLog(error);
 		});
 		return aDeferred.promise();
-	},
+	}
+
 	/**
 	 * EditView
 	 * @param int id
@@ -473,7 +500,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			app.errorLog(error);
 		});
 		return aDeferred.promise();
-	},
+	}
+
 	loadCalendarData(view = this.getCalendarView().fullCalendar('getView')) {
 		const self = this;
 		let user = [],
@@ -508,13 +536,15 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
 		self.registerViewRenderEvents(view);
-	},
+	}
+
 	clearFilterButton(user, filters, cvid) {
 		let currentUser = parseInt(app.getMainParams('userId')),
 			time = app.getMainParams('showType'),
 			statement = ((user.length === 0 || (user.length === 1 && parseInt(user) === currentUser)) && filters.length === 0 && cvid === undefined && time === 'current');
 		$(".js-calendar__clear-filters").toggleClass('d-none', statement);
-	},
+	}
+
 	registerClearFilterButton() {
 		const sidebar = this.getSidebarView(),
 			calendarView = this.getCalendarView();
@@ -529,7 +559,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			sidebar.find(".js-input-user-owner-id[value=" + app.getMainParams('userId') + "]").prop('checked', true);
 			calendarView.fullCalendar('getCalendar').view.options.loadView();
 		});
-	},
+	}
+
 	generateYearList(dateStart, dateEnd) {
 		const thisInstance = this,
 			datesView = thisInstance.getDatesRowView();
@@ -556,7 +587,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			prevYear = moment(prevYear).add(1, 'year');
 		}
 		datesView.find('.js-sub-date-list').html(html);
-	},
+	}
+
 	generateSubMonthList(dateStart, dateEnd) {
 		let datesView = this.getDatesRowView(),
 			activeMonth = parseInt(moment(dateStart).locale('en').format('M')) - 1,
@@ -578,7 +610,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				</div>`;
 		}
 		datesView.find('.js-sub-date-list').html(html);
-	},
+	}
+
 	generateSubWeekList(dateStart, dateEnd) {
 		let datesView = this.getDatesRowView(),
 			prevWeeks = moment(dateStart).subtract(5, 'weeks'),
@@ -600,7 +633,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			prevWeeks = moment(prevWeeks).add(1, 'weeks');
 		}
 		datesView.find('.js-sub-date-list').html(html);
-	},
+	}
+
 	generateSubDaysList(dateStart, dateEnd) {
 		const thisInstance = this;
 		let datesView = thisInstance.getDatesRowView(),
@@ -631,7 +665,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			prevDays = moment(prevDays).add(1, 'days');
 		}
 		datesView.find('.js-sub-date-list').html(html);
-	},
+	}
+
 	selectDays(startDate, endDate) {
 		const thisInstance = this;
 		let start_hour = $('#start_hour').val(),
@@ -678,13 +713,15 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			data.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
 			data.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
 		});
-	},
+	}
+
 	registerUsersChange(formContainer) {
 		formContainer.find('.js-input-user-owner-id-ajax, .js-input-user-owner-id').on('change', () => {
 			this.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
 		});
 		this.registerPinUser();
-	},
+	}
+
 	/**
 	 * Register actions to do after save record
 	 * @param instance
@@ -726,13 +763,15 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			}
 		};
 		return returnFunction;
-	},
+	}
+
 	openRightPanel() {
 		let calendarRightPanel = $('.js-calendar-right-panel');
 		if (calendarRightPanel.hasClass('hideSiteBar')) {
 			calendarRightPanel.find('.js-toggle-site-bar-right-button').trigger('click');
 		}
-	},
+	}
+
 	showRightPanelForm() {
 		let calendarRightPanel = $('.js-calendar-right-panel');
 		if (!calendarRightPanel.find('.js-right-panel-event').hasClass('active')) {
@@ -742,7 +781,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			suppressScrollX: true
 		});
 		app.showPopoverElementView(calendarRightPanel.find('.js-popover-tooltip'));
-	},
+	}
+
 	registerSiteBarEvents() {
 		let calendarRightPanel = $('.js-calendar-right-panel');
 		calendarRightPanel.find('.js-show-sitebar').on('click', () => {
@@ -750,7 +790,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				calendarRightPanel.find('.js-toggle-site-bar-right-button').trigger('click');
 			}
 		});
-	},
+	}
+
 	loadCalendarCreateView() {
 		let aDeferred = $.Deferred();
 		AppConnector.request({
@@ -763,7 +804,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			app.errorLog(error);
 		});
 		return aDeferred.promise();
-	},
+	}
+
 	updateCalendarEvent(calendarEventId, eventData) {
 		const calendar = this.getCalendarView();
 		let recordToUpdate = calendar.fullCalendar('clientEvents', calendarEventId)[0],
@@ -786,7 +828,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		recordToUpdate.pri = calendarDetails.taskpriority.value;
 		recordToUpdate.lok = calendarDetails.location.display_value;
 		calendar.fullCalendar('updateEvent', recordToUpdate);
-	},
+	}
+
 	getCalendarCreateView() {
 		const thisInstance = this;
 		let sideBar = thisInstance.getSidebarView(),
@@ -825,7 +868,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			app.errorLog(error);
 		});
 		return aDeferred.promise();
-	},
+	}
+
 	registerPinUser() {
 		$('.js-pin-user').off('click').on('click', function () {
 			const thisInstance = $(this);
@@ -845,17 +889,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				}
 			});
 		});
-	},
-	/**
-	 * Overwriting the parent function
-	 */
-	registerAddButton() {
-	},
-	/**
-	 * Register load calendar data
-	 */
-	registerLoadCalendarData() {
-	},
+	}
+
 	registerAddForm() {
 		const thisInstance = this;
 		let sideBar = thisInstance.getSidebarView();
@@ -887,7 +922,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				}
 			}
 		);
-	},
+	}
+
 	/**
 	 * Find element on list (user, group)
 	 * @param {jQuery.Event} e
@@ -904,7 +940,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 				item.addClass('d-none');
 			}
 		});
-	},
+	}
+
 	/**
 	 * Register filter for users and groups
 	 */
@@ -913,7 +950,8 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 		this.getSidebarView().find('a[data-toggle="tab"]').one('shown.bs.tab', function (e) {
 			$(".js-filter__search").on('keyup', self.findElementOnList.bind(self));
 		});
-	},
+	}
+
 	/**
 	 * Get active filters
 	 * @returns {Array}
@@ -933,15 +971,16 @@ Calendar_Calendar_Js('Calendar_CalendarExtended_Js', {}, {
 			filters.push({name: name, value: value});
 		});
 		return filters;
-	},
+	}
+
 	/**
 	 * Register events
 	 */
 	registerEvents() {
-		this._super();
+		super.registerEvents();
 		this.registerAddForm();
 		this.registerSiteBarEvents();
 		this.registerFilterForm();
 		ElementQueries.listen();
 	}
-});
+}

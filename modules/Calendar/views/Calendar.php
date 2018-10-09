@@ -75,6 +75,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 			'~libraries/fullcalendar/dist/fullcalendar.js',
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',
+			'~layouts/resources/Calendar.js',
 			'modules.Calendar.resources.Standard.CalendarView'
 		]));
 	}

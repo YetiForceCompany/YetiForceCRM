@@ -88,6 +88,7 @@ class Reservations_Calendar_Model extends \App\Base
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			$item['start'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];
+			$item['start_display'] = $userDateTimeString;
 			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
@@ -95,6 +96,7 @@ class Reservations_Calendar_Model extends \App\Base
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			$item['end'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];
+			$item['end_display'] = $userDateTimeString;
 			$item['className'] = ' ownerCBg_' . $record['smownerid'];
 			$result[] = $item;
 		}
