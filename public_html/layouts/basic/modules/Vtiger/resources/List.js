@@ -1382,7 +1382,7 @@ jQuery.Class("Vtiger_List_Js", {
 	registerHeadersClickEvent: function () {
 		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
-		listViewPageDiv.on('click', '.listViewHeaderValues', function (e) {
+		listViewPageDiv.on('click', '.js-listview_header', function (e) {
 			var fieldName = jQuery(e.currentTarget).data('columnname');
 			var sortOrderVal = jQuery(e.currentTarget).data('nextsortorderval');
 			if (typeof sortOrderVal === "undefined")
