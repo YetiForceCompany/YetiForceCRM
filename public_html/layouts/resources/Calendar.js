@@ -6,6 +6,7 @@ window.Calendar_Js = class Calendar_Js {
 	constructor(container = $('.js-base-container')) {
 		this.calendarView = false;
 		this.calendarCreateView = false;
+		this.firstLoad = true;
 		this.container = container;
 		this.browserHistoryConfig = this.setBrowserHistoryConfig();
 		this.calendarBasicOptions = this.setCalendarBasicOptions();
@@ -158,10 +159,7 @@ window.Calendar_Js = class Calendar_Js {
 		let historyParams = app.getMainParams('historyParams', true),
 			options = {};
 		if (historyParams !== null) {
-			var s = moment(options.start).valueOf();
-			var e = moment(options.end).valueOf();
 			options = {
-				defaultDate: moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD')),
 				start: historyParams.start,
 				end: historyParams.end,
 				user: historyParams.user.split(",").map((x) => {
@@ -172,7 +170,9 @@ window.Calendar_Js = class Calendar_Js {
 				// cvid: historyParams.cvid
 			};
 			//options = Object.assign(historyParams, options);
-
+			let s = moment(options.start).valueOf();
+			let e = moment(options.end).valueOf();
+			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
 		} else {
 			options = null;
 		}
