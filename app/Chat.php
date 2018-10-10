@@ -90,19 +90,19 @@ class Chat
 			$userId = \App\User::getCurrentUserId();
 		}
 		$instance = new self();
-		$chatRoomRow = (new \App\Db\Query())
+		$roomRow = (new \App\Db\Query())
 			->select(['CR.*', 'CU.userid', 'CU.last_message', 'CU.favorite'])
 			->from(['CR' => 'u_#__chat_rooms'])
 			->leftJoin(['CU' => 'u_#__chat_users'], "CU.room_id = CR.room_id AND CU.userid={$userId}")
 			->where(['CR.room_id' => $id])
 			->one();
-		if ($chatRoomRow) {
-			$instance->roomId = $chatRoomRow['room_id'];
-			$instance->nameOfRoom = $chatRoomRow['name'];
+		if ($roomRow) {
+			$instance->roomId = $roomRow['room_id'];
+			$instance->nameOfRoom = $roomRow['name'];
 			$instance->recordId = $id;
-			$instance->lastMessage = $chatRoomRow['last_message'];
-			$instance->favorite = $chatRoomRow['favorite'];
-			$instance->isAssigned = !empty($chatRoomRow['userid']);
+			$instance->lastMessage = $roomRow['last_message'];
+			$instance->favorite = $roomRow['favorite'];
+			$instance->isAssigned = !empty($roomRow['userid']);
 		}
 		return $instance;
 	}
@@ -114,7 +114,7 @@ class Chat
 	 *
 	 * @return \App\Chat
 	 */
-	public static function createRoomById(int $recordId)
+	public static function createRoom(int $recordId)
 	{
 		$instance = new self();
 		$instance->recordId = $recordId;
@@ -281,18 +281,18 @@ class Chat
 	/**
 	 * Get entries function.
 	 *
-	 * @param bool|int $id
+	 * @param bool|int $messageId
 	 *
 	 * @return array
 	 */
-	public function getEntries($id = false)
+	public function getEntries($messageId = false)
 	{
 		$query = (new \App\Db\Query())
 			->from('u_#__chat_messages')
 			->limit(\AppConfig::module('Chat', 'ROWS_LIMIT'))
 			->where(['room_id' => $this->roomId]);
-		if ($id) {
-			$query->andWhere(['>', 'id', $id]);
+		if ($messageId) {
+			$query->andWhere(['>', 'id', $messageId]);
 		}
 		$rows = [];
 		$dataReader = $query->createCommand()->query();

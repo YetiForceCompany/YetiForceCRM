@@ -23,10 +23,17 @@ class Chat_Entries_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (
-			!$currentUserPriviligesModel->hasModulePermission($request->getModule()) ||
+			!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule()) ||
 			!\App\Module::isModuleActive('Chat')
+		) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$mode = $request->getMode();
+		if (
+			($mode === 'addMessage' && !$request->has('chat_room_id')) ||
+			($mode === 'addRoom' && !$request->has('record')) ||
+			($mode === 'switchRoom' && !$request->has('chat_room_id'))
 		) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
@@ -63,15 +70,15 @@ class Chat_Entries_Action extends \App\Controller\Action
 	 */
 	public function addMessage(\App\Request $request)
 	{
-		$chatRoom = \App\Chat::getInstanceById($request->getInteger('chat_room_id'));
-		$isAssigned = $chatRoom->isAssigned();
-		$chatRoom->addMessage($request->get('message'));
+		$room = \App\Chat::getInstanceById($request->getInteger('chat_room_id'));
+		$isAssigned = $room->isAssigned();
+		$room->addMessage($request->get('message'));
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'html' => (new Chat_Entries_View())->getHTML($request, $chatRoom),
-			'user_added_to_room' => $isAssigned !== $chatRoom->isAssigned(),
-			'room' => ['name' => $chatRoom->getRoomName(), 'room_id' => $chatRoom->getRoomId()]
+			'html' => (new Chat_Entries_View())->getHTML($request, $room),
+			'user_added_to_room' => $isAssigned !== $room->isAssigned(),
+			'room' => ['name' => $room->getRoomName(), 'room_id' => $room->getRoomId()]
 		]);
 		$response->emit();
 	}
@@ -83,12 +90,12 @@ class Chat_Entries_Action extends \App\Controller\Action
 	 */
 	public function addRoom(\App\Request $request)
 	{
-		$chatRoom = \App\Chat::createRoomById($request->getInteger('record'));
+		$room = \App\Chat::createRoom($request->getInteger('record'));
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'chat_room_id' => $chatRoom->getRoomId(),
-			'name' => $chatRoom->getRoomName()
+			'chat_room_id' => $room->getRoomId(),
+			'name' => $room->getRoomName()
 		]);
 		$response->emit();
 	}

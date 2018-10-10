@@ -30,14 +30,14 @@ class Chat_Entries_View extends Vtiger_IndexAjax_View
 	 */
 	public function get(\App\Request $request)
 	{
-		$chatRoom = \App\Chat::getInstanceById(
+		$room = \App\Chat::getInstanceById(
 			$request->has('chat_room_id') ? $request->getInteger('chat_room_id') : \App\Chat::getCurrentRoomId()
 		);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'html' => (new self())->getHTML($request, $chatRoom),
-			'room_id' => $chatRoom->getRoomId()
+			'html' => (new self())->getHTML($request, $room),
+			'room_id' => $room->getRoomId()
 		]);
 		$response->emit();
 	}
@@ -46,23 +46,23 @@ class Chat_Entries_View extends Vtiger_IndexAjax_View
 	 * Get HTML.
 	 *
 	 * @param \App\Request   $request
-	 * @param \App\Chat|null $chatRoom
+	 * @param \App\Chat|null $room
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 *
 	 * @return \html|string
 	 */
-	public function getHTML(\App\Request $request, \App\Chat $chatRoom = null)
+	public function getHTML(\App\Request $request, \App\Chat $room = null)
 	{
-		if (empty($chatRoom)) {
-			$chatRoom = \App\Chat::getInstanceById(
+		if (empty($room)) {
+			$room = \App\Chat::getInstanceById(
 				$request->has('chat_room_id') ? $request->getInteger('chat_room_id') : \App\Chat::getCurrentRoomId()
 			);
 		}
-		$chatItems = $chatRoom->getEntries($request->getInteger('cid'));
-		if (count($chatItems)) {
+		$items = $room->getEntries($request->getInteger('cid'));
+		if (count($items)) {
 			$viewer = Vtiger_Viewer::getInstance();
-			$viewer->assign('CHAT_ENTRIES', $chatItems);
+			$viewer->assign('CHAT_ENTRIES', $items);
 			return $viewer->view('Items.tpl', 'Chat', true);
 		}
 		return '';

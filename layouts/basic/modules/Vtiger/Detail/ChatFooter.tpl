@@ -2,6 +2,7 @@
 {strip}
 	<div class="tpl-Base-Detail-ChatFooter row mx-0 d-block">
 		<input type="text" class="form-control message js-chat-message"{' '}
-			   placeholder="{\App\Language::translate('LBL_MESSAGE', 'Notification')}" autocomplete="off"/>
+			   placeholder="{\App\Language::translate('LBL_MESSAGE', 'Notification')}" autocomplete="off"{' '}
+			   data-js="keydown"/>
 	</div>
 {/strip}
