@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 'use strict';
 
@@ -12,8 +13,8 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 
 	form: false,
 	getForm: function () {
-		if (this.form == false) {
-			this.form = jQuery('#EditView');
+		if (this.form === false) {
+			this.form = $('#EditView');
 		}
 		return this.form;
 	},
@@ -24,23 +25,8 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 	registerOnChangeEventOfSourceModule() {
 		const editViewForm = this.getForm();
 		editViewForm.find('[name="sourceModule"]').on('change', function (e) {
-			$('.saveButton').removeAttr('disabled');
-			AppConnector.request({
-				'module': app.getModuleName(),
-				'parent': app.getParentModuleName(),
-				'action': "CustomRecordNumberingAjax",
-				'mode': "getModuleCustomNumberingData",
-				'sourceModule': $(e.currentTarget).val()
-			}).done(function (data) {
-				if (data) {
-					editViewForm.find('[name="prefix"]').val(data.result.prefix);
-					editViewForm.find('[name="leading_zeros"]').val(data.result.leading_zeros).trigger('change');
-					editViewForm.find('[name="reset_sequence"]').val(data.result.reset_sequence).trigger('change');
-					editViewForm.find('[name="postfix"]').val(data.result.postfix);
-					editViewForm.find('[name="sequenceNumber"]').val(data.result.sequenceNumber);
-					editViewForm.find('[name="sequenceNumber"]').data('oldSequenceNumber', data.result.sequenceNumber);
-				}
-			});
+			editViewForm.find('.saveButton').removeAttr('disabled');
+			window.location.href = 'index.php?parent=Settings&module=Vtiger&view=CustomRecordNumbering&sourceModule=' + $(e.currentTarget).val();
 		});
 	},
 
@@ -57,7 +43,7 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 		const leadingZeros = editViewForm.find('[name="leading_zeros"]').val();
 		const currentPrefix = $.trim(prefix.val());
 		const postfix = editViewForm.find('[name="postfix"]');
-		const currentPostfix = jQuery.trim(postfix.val());
+		const currentPostfix = $.trim(postfix.val());
 		const sequenceNumberElement = editViewForm.find('[name="sequenceNumber"]');
 		const sequenceNumber = sequenceNumberElement.val();
 		const oldSequenceNumber = sequenceNumberElement.data('oldSequenceNumber');
@@ -121,14 +107,17 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 		this.getForm().find('[name="prefix"],[name="leading_zeros"],[name="sequenceNumber"],[name="postfix"],[name="reset_sequence"]').on('change', this.checkResetSequence.bind(this))
 	},
 
-	registerCopyClipboard: function (editViewForm) {
-		new ClipboardJS('#customVariableCopy', {
+	/**
+	 * Function to register ClipboardJs to copy special fields value
+	 */
+	registerCopyClipboard: function () {
+		new ClipboardJS('.js-value-copy', {
 			text: function (trigger) {
 				Vtiger_Helper_Js.showPnotify({
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 					type: 'success'
 				});
-				return '{{' + editViewForm.find('#customVariables').val() + '}}';
+				return '{{' + $(trigger).closest('.input-group').find('select').val() + '}}';
 			}
 		});
 	},
@@ -208,10 +197,10 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 		};
 		editViewForm.validationEngine('detach');
 		editViewForm.validationEngine('attach', params);
-		this.registerCopyClipboard(editViewForm);
+		this.registerCopyClipboard();
 	}
 });
-jQuery(document).ready(function () {
+$(document).ready(function () {
 	var customRecordNumberingInstance = new Settings_CustomRecordNumbering_Js();
 	customRecordNumberingInstance.registerEvents();
 });

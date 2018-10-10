@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_View
@@ -24,14 +25,14 @@ class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_V
 
 		$sourceModule = $request->getByType('sourceModule', 2);
 		if ($sourceModule) {
-			$defaultModuleModel = $supportedModules[\App\Module::getModuleId($sourceModule)];
+			$selectedModuleModel = $supportedModules[\App\Module::getModuleId($sourceModule)];
 		} else {
-			$defaultModuleModel = reset($supportedModules);
+			$selectedModuleModel = reset($supportedModules);
 		}
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SUPPORTED_MODULES', $supportedModules);
-		$viewer->assign('DEFAULT_MODULE_MODEL', $defaultModuleModel);
+		$viewer->assign('SELECTED_MODULE_MODEL', $selectedModuleModel);
 		$viewer->view('CustomRecordNumbering.tpl', $qualifiedModuleName);
 	}
 
@@ -40,7 +41,7 @@ class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_V
 	 *
 	 * @param \App\Request $request
 	 *
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return array - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
