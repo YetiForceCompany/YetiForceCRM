@@ -5,7 +5,7 @@
 		   class="js-change-room{if \App\Chat::getCurrentRoomId()==$ROOM['room_id'] } fontBold{/if} {$CLASS_NAME}"
 		   data-room-id="{$ROOM['room_id']}">
 			<div class="row">
-				{$ROOM['name']}
+				{\App\Language::translate($ROOM['name'])}
 			</div>
 		</a>
 	{/function}
@@ -18,11 +18,10 @@
 			<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_CHAT')}</span>
 
 		</a>
-		<div class="chatModal modal-full fade c-modal--custom-animation js-chat-modal" tabindex="-1"
+		<div class="chatModal chatModalWindow modal-full fade c-modal--custom-animation js-chat-modal" tabindex="-1"
 			 role="dialog"
-			 style="position:fixed;top:0;right:0;bottom:0;z-index:1040;display:none;overflow:auto;overflow-y:scroll"
 			 aria-labelledby="c-chat-modal__title"
-			 data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000"
+			 data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}"
 			 data-chat-room-id="{\App\Chat::getCurrentRoomId()}">
 			<div class="modal-dialog">
 				<div class="modal-body modalRightSiteBar px-0" role="document">
@@ -37,7 +36,7 @@
 							</button>
 						</div>
 						<div class="row">
-							<div class="col-sm-4 pl-5">
+							<div class="col-sm-2 pl-5">
 								{ROOM_ITEM ROOM=['room_id'=>'', 'name'=>''] CLASS_NAME='js-room-template hide'}
 								<div class="js-chat-rooms-list">
 									{foreach item=ROOM from=\App\Chat::getRoomsByUser()}
@@ -45,9 +44,8 @@
 									{/foreach}
 								</div>
 							</div>
-							<div class="col-sm-8 ps">
-								<div class="js-chat-items js-chat-room-{\App\Chat::getCurrentRoomId()}"
-									 style="max-height: calc(100vh - 12.125rem); overflow: auto;"
+							<div class="col-sm-10 ps pr-4">
+								<div class="js-chat-items js-chat-room-{\App\Chat::getCurrentRoomId()} chatItems"
 									 data-js="html">
 									{include file=\App\Layout::getTemplatePath('Items.tpl', 'Chat') CHAT_ENTRIES=$CHAT->getEntries()}
 								</div>

@@ -1062,7 +1062,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function showChat(\App\Request $request)
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
-		if (!\App\Module::isModuleActive('Chat')) {
+		if (!\App\Module::isModuleActive('Chat') || !$recordModel->isViewable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$moduleName = $request->getModule();

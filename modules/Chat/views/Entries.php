@@ -25,19 +25,47 @@ class Chat_Entries_View extends Vtiger_IndexAjax_View
 	 * Get entries function.
 	 *
 	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
 	 */
 	public function get(\App\Request $request)
 	{
-		$roomId = $request->has('chat_room_id') ? $request->getInteger('chat_room_id') : \App\Chat::getCurrentRoomId();
-		$viewer = Vtiger_Viewer::getInstance();
-		$chatItems = \App\Chat::getInstanceById($roomId)->getEntries($request->getInteger('cid'));
-		if (count($chatItems)) {
-			$viewer->assign('CHAT_ENTRIES', $chatItems);
-			$viewer->view('Items.tpl', 'Chat');
-		} else {
-			$response = new \Vtiger_Response();
-			$response->setHeader('HTTP/1.1 304 Not Modified');
+		$chatRoom = \App\Chat::getInstanceById(
+			$request->has('chat_room_id') ? $request->getInteger('chat_room_id') : \App\Chat::getCurrentRoomId()
+		);
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'html' => (new self())->getHTML($request, $chatRoom),
+			'room_id' => $chatRoom->getChatRoomId()
+		]);
+		$response->emit();
+	}
+
+	/**
+	 * Get HTML.
+	 *
+	 * @param \App\Request   $request
+	 * @param \App\Chat|null $chatRoom
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 *
+	 * @return \html|string
+	 */
+	public function getHTML(\App\Request $request, \App\Chat $chatRoom = null)
+	{
+		if (empty($chatRoom)) {
+			$chatRoom = \App\Chat::getInstanceById(
+				$request->has('chat_room_id') ? $request->getInteger('chat_room_id') : \App\Chat::getCurrentRoomId()
+			);
 		}
+		$chatItems = $chatRoom->getEntries($request->getInteger('cid'));
+		if (count($chatItems)) {
+			$viewer = Vtiger_Viewer::getInstance();
+			$viewer->assign('CHAT_ENTRIES', $chatItems);
+			return $viewer->view('Items.tpl', 'Chat', true);
+		}
+		return '';
 	}
 
 	/**

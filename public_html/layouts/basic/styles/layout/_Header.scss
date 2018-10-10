@@ -135,6 +135,21 @@
 	}
 }
 
+.chatModalWindow {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1040;
+	display: none;
+	max-width: 64%;
+}
+
+.chatItems {
+	max-height: calc(100vh - 14.125rem);
+	overflow: auto;
+}
+
 .chatModal {
 	@extend .col-12, .col-sm-8, .col-lg-3;
 

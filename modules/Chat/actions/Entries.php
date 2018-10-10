@@ -24,7 +24,10 @@ class Chat_Entries_Action extends \App\Controller\Action
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+		if (
+			!$currentUserPriviligesModel->hasModulePermission($request->getModule()) ||
+			!\App\Module::isModuleActive('Chat')
+		) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -47,9 +50,17 @@ class Chat_Entries_Action extends \App\Controller\Action
 	 */
 	public function add(\App\Request $request)
 	{
-		\App\Chat::getInstanceById($request->getInteger('chat_room_id'))->add($request->get('message'));
-		$view = new Chat_Entries_View();
-		$view->get($request);
+		$chatRoom = \App\Chat::getInstanceById($request->getInteger('chat_room_id'));
+		$isAssigned = $chatRoom->isAssigned();
+		$chatRoom->add($request->get('message'));
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'html' => (new Chat_Entries_View())->getHTML($request, $chatRoom),
+			'user_added_to_room' => $isAssigned !== $chatRoom->isAssigned(),
+			'room' => ['name' => $chatRoom->getChatRoomName(), 'room_id' => $chatRoom->getChatRoomId()]
+		]);
+		$response->emit();
 	}
 
 	/**
@@ -79,6 +90,11 @@ class Chat_Entries_Action extends \App\Controller\Action
 	public function switchChatRoom(\App\Request $request)
 	{
 		\App\Chat::setCurrentRoomId($request->getInteger('chat_room_id'));
-		(new Chat_Entries_View())->get($request);
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'html' => (new Chat_Entries_View())->getHTML($request)
+		]);
+		$response->emit();
 	}
 }

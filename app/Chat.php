@@ -1,12 +1,18 @@
 <?php
 /**
  * Chat.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
 namespace App;
 
 /**
  * Class Chat.
+ *
+ * @package App
  */
 class Chat
 {
@@ -14,6 +20,7 @@ class Chat
 	 * @var int
 	 */
 	protected $recordId;
+
 	/**
 	 * @var string
 	 */
@@ -76,21 +83,21 @@ class Chat
 	 *
 	 * @return \App\Chat
 	 */
-	public static function getInstanceById(int $id)
+	public static function getInstanceById(int $id, ?int $userId = null)
 	{
+		if (empty($userId)) {
+			$userId = \App\User::getCurrentUserId();
+		}
 		$instance = new self();
-
 		$chatRoomRow = (new \App\Db\Query())
+			->select(['CR.*', 'CU.userid', 'CU.last_message', 'CU.favorite'])
 			->from(['CR' => 'u_#__chat_rooms'])
-			->leftJoin(['CU' => 'u_#__chat_users'], 'CU.room_id = CR.room_id')
-			->where(['CU.room_id' => $id])
+			->leftJoin(['CU' => 'u_#__chat_users'], "CU.room_id = CR.room_id AND CU.userid={$userId}")
+			->where(['CR.room_id' => $id])
 			->one();
-		/*$chatRoomRow = (new \App\Db\Query())
-			->from('u_#__chat_rooms')
-			->where(['room_id' => $id])
-			->one();*/
 		if ($chatRoomRow) {
 			$instance->chatRoomId = $chatRoomRow['room_id'];
+			$instance->nameOfRoom = $chatRoomRow['name'];
 			$instance->recordId = $id;
 			$instance->lastMessage = $chatRoomRow['last_message'];
 			$instance->favorite = $chatRoomRow['favorite'];
@@ -114,20 +121,6 @@ class Chat
 		$instance->recordId = $recordId;
 		$instance->nameOfRoom = \Vtiger_Record_Model::getInstanceById($recordId)->getDisplayName();
 		$instance->save();
-		return $instance;
-	}
-
-	/**
-	 * Get instance by name of room.
-	 *
-	 * @param string $nameOfRoom
-	 *
-	 * @return \App\Chat
-	 */
-	public static function getInstanceByName(string $nameOfRoom)
-	{
-		$instance = new self();
-		$instance->nameOfRoom = $nameOfRoom;
 		return $instance;
 	}
 
@@ -171,6 +164,16 @@ class Chat
 	}
 
 	/**
+	 * Is the user assigned to the room.
+	 *
+	 * @return bool
+	 */
+	public function isAssigned()
+	{
+		return $this->isAssigned;
+	}
+
+	/**
 	 * Return chat room id.
 	 *
 	 * @return int
@@ -180,6 +183,11 @@ class Chat
 		return $this->chatRoomId;
 	}
 
+	/**
+	 * Get name of chat room.
+	 *
+	 * @return string
+	 */
 	public function getChatRoomName()
 	{
 		return $this->nameOfRoom;
@@ -210,8 +218,7 @@ class Chat
 		if (empty($userId)) {
 			$userId = \App\User::getCurrentUserId();
 		}
-		if ($this->isCharRoomExists()) {
-		} else {
+		if (!$this->isCharRoomExists()) {
 			\App\db::getInstance()
 				->createCommand()
 				->insert('u_#__chat_rooms', [
@@ -250,7 +257,6 @@ class Chat
 				'messages' => $message,
 				'room_id' => $this->chatRoomId
 			])->execute();
-		DebugerEx::log($this->isAssigned);
 		if (!$this->isAssigned) {
 			\App\db::getInstance()
 				->createCommand()
