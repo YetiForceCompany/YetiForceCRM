@@ -516,6 +516,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			self.selectDays(view.start, view.end);
 			view.end = view.end.add(1, 'day');
 		}
+		console.log(view);
 		AppConnector.requestPjax({
 			module: 'Calendar',
 			action: 'Calendar',
@@ -526,7 +527,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			time: app.getMainParams('showType'),
 			filters: filters,
 			cvid: cvid,
-			historyUrl: `index.php?module=Calendar&view=CalendarExtended&viewType=${view.type}&start=${view.start.format(formatDate)}&end=${view.end.format(formatDate)}&user=${user}&filters=${filters}&cvid=${cvid}`
+			historyUrl: `index.php?module=Calendar&view=CalendarExtended&history=true&viewType=${view.type}&start=${view.start.format(formatDate)}&end=${view.end.format(formatDate)}&user=${user}&time=${app.getMainParams('showType')}&filters=${filters}&cvid=${cvid}&hiddenDays=${view.options.hiddenDays}`
 		}).done((events) => {
 			calendarInstance.fullCalendar('removeEvents');
 			calendarInstance.fullCalendar('addEventSource', events.result);

@@ -16,6 +16,7 @@
 	<input value="{\App\Purifier::encodeHtml(\App\Json::encode(\AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"
 		   type="hidden" id="hiddenDays"/>
 	<input value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" type="hidden" id="activityStateLabels"/>
+	<input value="{\App\Purifier::encodeHtml(\App\Json::encode($HISTORY_PARAMS))}" type="hidden" id="historyParams"/>
 	<div class="calendarViewContainer rowContent js-css-element-queries" data-js="css-element-queries">
 		<div class="o-calendar__container u-overflow-y-auto mt-2" data-js="offset">
 			<div class="d-none js-calendar__header-buttons">
