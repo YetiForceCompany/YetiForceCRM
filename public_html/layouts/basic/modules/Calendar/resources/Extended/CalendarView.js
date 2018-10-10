@@ -536,7 +536,8 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			cvid: cvid,
 			historyUrl: `index.php?module=Calendar&view=CalendarExtended&history=true&viewType=${view.type}&start=${view.start.format(formatDate)}&end=${view.end.format(formatDate)}&user=${user}&time=${app.getMainParams('showType')}&filters=${filters}&cvid=${cvid}&hiddenDays=${view.options.hiddenDays}`
 		};
-		if (this.browserHistoryConfig !== null) {
+		let connectorMethod = window["AppConnector"]["requestPjax"];
+		if (this.firstLoad && this.browserHistoryConfig !== null) {
 			options = Object.assign(options, {
 				start: this.browserHistoryConfig.start,
 				end: this.browserHistoryConfig.end,
@@ -545,13 +546,15 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				filters: this.browserHistoryConfig.filters,
 				cvid: this.browserHistoryConfig.cvid
 			});
+			connectorMethod = window["AppConnector"]["request"];
 		}
-		AppConnector.requestPjax(options).done((events) => {
+		connectorMethod(options).done((events) => {
 			calendarInstance.fullCalendar('removeEvents');
 			calendarInstance.fullCalendar('addEventSource', events.result);
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
 		self.registerViewRenderEvents(view);
+		this.firstLoad = false;
 	}
 
 	clearFilterButton(user, filters, cvid) {
