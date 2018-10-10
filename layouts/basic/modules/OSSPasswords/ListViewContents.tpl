@@ -35,7 +35,7 @@
 					</th>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<th {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if $COLUMN_NAME eq $LISTVIEW_HEADER->getColumnName()}columnSorted{/if}">
-							<a href="javascript:void(0);" class="listViewHeaderValues float-left" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->getColumnName()}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER->getColumnName()}">
+							<a href="javascript:void(0);" class="listViewHeaderValues js-listview_header float-left" data-js="click" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->getColumnName()}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER->getColumnName()}">
 								{if $LISTVIEW_HEADER->getModuleName() !== $MODULE_NAME && !empty($LISTVIEW_HEADER->get('source_field_name'))}
 									{\App\Language::translate(Vtiger_Field_Model::getInstance($LISTVIEW_HEADER->get('source_field_name'),$MODULE_MODEL)->getFieldLabel(), $MODULE_NAME)}&nbsp;-&nbsp;
 								{/if}
@@ -69,7 +69,7 @@
 					</td>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<td>
-							{if $LISTVIEW_HEADER->getModuleName() === $MODULE_NAME}
+							{if empty($LISTVIEW_HEADER->get('source_field_name'))}
 								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
 								{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
 								{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME])}
@@ -98,7 +98,7 @@
 					</td>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
 						{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->getFieldName()}
-						<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" {if $LISTVIEW_HEADERNAME eq 'password'} id="{$PASS_ID}" {/if} {if $smarty.foreach.listHeaderForeach.iteration eq $LISTVIEW_HEADER_COUNT}colspan="2"{/if} data-raw-value="{\App\Purifier::encodeHtml($LISTVIEW_ENTRY->get($LISTVIEW_HEADER->getFieldName()))}">
+						<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" {if $LISTVIEW_HEADERNAME eq 'password'} id="{$PASS_ID}" {/if} {if $smarty.foreach.listHeaderForeach.iteration eq $LISTVIEW_HEADER_COUNT}colspan="2"{/if}>
 							{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true && $LISTVIEW_ENTRY->isViewable()}
 								<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modCT_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
 									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER)}
