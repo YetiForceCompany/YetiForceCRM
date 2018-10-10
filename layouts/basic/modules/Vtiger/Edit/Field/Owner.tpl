@@ -6,10 +6,11 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce Sp. z o.o
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Base-Edit-Field-Owner -->
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{if $FIELD_MODEL->getUIType() eq '53'}
@@ -23,7 +24,7 @@
 			{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
 		{/if}
 		{assign var=FOUND_SELECT_VALUE value=0}
-		<div class="tpl-Edit-Field-Owner">
+		<div>
 			<select class="select2 form-control {$ASSIGNED_USER_ID}"
 					title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 					data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
@@ -38,23 +39,27 @@
 							<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
 						</optgroup>
 					{/if}
-					<optgroup label="{\App\Language::translate('LBL_USERS')}">
-						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-							<option value="{$OWNER_ID}"
-									data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {assign var=FOUND_SELECT_VALUE value=1}{/if}
-									data-userId="{$CURRENT_USER_ID}">
-								{$OWNER_NAME}
-							</option>
-						{/foreach}
-					</optgroup>
-					<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
-						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-							<option value="{$OWNER_ID}"
-									data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {assign var=FOUND_SELECT_VALUE value=1}{/if}>
-								{\App\Language::translate($OWNER_NAME, $MODULE)}
-							</option>
-						{/foreach}
-					</optgroup>
+					{if $ALL_ACTIVEUSER_LIST}
+						<optgroup label="{\App\Language::translate('LBL_USERS')}">
+							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+								<option value="{$OWNER_ID}"
+										data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {assign var=FOUND_SELECT_VALUE value=1}{/if}
+										data-userId="{$CURRENT_USER_ID}">
+									{$OWNER_NAME}
+								</option>
+							{/foreach}
+						</optgroup>
+					{/if}
+					{if $ALL_ACTIVEGROUP_LIST}
+						<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
+							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
+								<option value="{$OWNER_ID}"
+										data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {assign var=FOUND_SELECT_VALUE value=1}{/if}>
+									{\App\Language::translate($OWNER_NAME, $MODULE)}
+								</option>
+							{/foreach}
+						</optgroup>
+					{/if}
 					{if !empty($FIELD_VALUE) && $FOUND_SELECT_VALUE == 0 && !($ROLE_RECORD_MODEL->get('allowassignedrecordsto') == 5 && count($ALL_ACTIVEGROUP_LIST) != 0 && $FIELD_VALUE == '')}
 						{assign var=OWNER_NAME value=\App\Fields\Owner::getLabel($FIELD_VALUE)}
 						<option value="{$FIELD_VALUE}" data-picklistvalue="{$OWNER_NAME}" selected
@@ -79,4 +84,5 @@
 			</select>
 		</div>
 	{/if}
+	<!-- tpl-Base-Edit-Field-Owner -->
 {/strip}

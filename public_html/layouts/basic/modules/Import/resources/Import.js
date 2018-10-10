@@ -185,7 +185,6 @@ if (typeof (ImportJs) === "undefined") {
 						opt.text(srcObj[0].options[i].text);
 						jQuery(destObj[0]).append(opt);
 						srcObj[0].options[i].selected = false;
-						rowFound = false;
 					} else {
 						if (existingObj != null)
 							existingObj.selected = true;

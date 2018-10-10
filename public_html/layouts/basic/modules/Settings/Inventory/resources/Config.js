@@ -4,7 +4,6 @@
 jQuery.Class("Settings_Inventory_Config_Js", {}, {
 
 	registerChangeCheckbox: function (content) {
-		var thisInstance = this;
 		content.find('input[type="checkbox"]').on('change', function (e) {
 			var target = $(e.currentTarget);
 			var value = 0;
@@ -31,7 +30,6 @@ jQuery.Class("Settings_Inventory_Config_Js", {}, {
 		});
 	},
 	registerChangeVal: function (content) {
-		var thisInstance = this;
 		content.find('select').on('change', function (e) {
 			var target = $(e.currentTarget);
 			var params = {};

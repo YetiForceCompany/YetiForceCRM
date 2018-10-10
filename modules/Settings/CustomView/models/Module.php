@@ -74,22 +74,6 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		return false;
 	}
 
-	public static function setFeaturedFilterView($cvId, $user, $action)
-	{
-		$db = \App\Db::getInstance();
-		if ($action == 'add') {
-			$db->createCommand()->insert('u_#__featured_filter', [
-				'user' => $user,
-				'cvid' => $cvId,
-			])->execute();
-		} elseif ($action == 'remove') {
-			$db->createCommand()
-				->delete('u_#__featured_filter', ['user' => $user, 'cvid' => $cvId])
-				->execute();
-		}
-		return false;
-	}
-
 	/**
 	 * Function to delete filter.
 	 *

@@ -216,7 +216,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		switch ($moduleName) {
 			case 'Documents':
 				return 'file.php?module=Documents&action=DownloadFile&record=' . $this->get('crmid');
-				break;
 			case 'OSSMailView':
 				$action = 'view=preview';
 				break;

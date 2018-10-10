@@ -446,7 +446,7 @@ Vtiger_Picklist_Field_Js('Workflows_Picklist_Field_Js', {}, {
 		var selectContainer = jQuery(html).val(pickListValues[selectedOption]);
 		selectContainer.data('tags', tagsArray).data('picklistvalues', pickListValuesArrayFlip);
 		this.addValidationToElement(selectContainer);
-		var fieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(selectContainer, {
+		App.Fields.Picklist.showSelect2ElementView(selectContainer, {
 			placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
 			closeOnSelect: true,
 			maximumSelectionLength: 1

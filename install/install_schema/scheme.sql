@@ -3658,6 +3658,17 @@ CREATE TABLE `u_yf_timeline` (
   CONSTRAINT `fk_1_u_yf_timeline` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_users_pinned` */
+
+CREATE TABLE `u_yf_users_pinned` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `owner_id` int(11) NOT NULL,
+  `fav_element_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `u_yf_users_pinned` (`owner_id`),
+  CONSTRAINT `u_yf_users_pinned_fk_1` FOREIGN KEY (`owner_id`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_watchdog_module` */
 
 CREATE TABLE `u_yf_watchdog_module` (
@@ -4797,7 +4808,9 @@ CREATE TABLE `vtiger_cvadvfilter_grouping` (
 CREATE TABLE `vtiger_cvcolumnlist` (
   `cvid` int(10) NOT NULL,
   `columnindex` int(10) NOT NULL,
-  `columnname` varchar(250) DEFAULT '',
+  `field_name` varchar(50) DEFAULT NULL,
+  `module_name` varchar(25) DEFAULT NULL,
+  `source_field_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`cvid`,`columnindex`),
   KEY `cvcolumnlist_columnindex_idx` (`columnindex`),
   KEY `cvcolumnlist_cvid_idx` (`cvid`),

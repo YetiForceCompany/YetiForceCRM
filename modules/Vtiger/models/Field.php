@@ -19,6 +19,14 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $uitype_instance;
 	public $picklistValues;
 	/**
+	 * @var bool
+	 */
+	protected $isListviewSortable = true;
+	/**
+	 * @var bool
+	 */
+	protected $isCalculateField = true;
+	/**
 	 * @var Vtiger_Base_UIType Vtiger_Base_UIType or UI Type specific model instance
 	 */
 	protected $uitypeModel;
@@ -314,6 +322,9 @@ class Vtiger_Field_Model extends vtlib\Field
 						break;
 					case 314:
 						$fieldDataType = 'multiEmail';
+						break;
+					case 315:
+						$fieldDataType = 'multiDependField';
 						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
@@ -699,7 +710,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isListviewSortable()
 	{
-		return $this->getUITypeModel()->isListviewSortable();
+		return $this->isListviewSortable && $this->getUITypeModel()->isListviewSortable();
 	}
 
 	/**
@@ -737,6 +748,20 @@ class Vtiger_Field_Model extends vtlib\Field
 		$moduleFieldLabel = $moduleName . '_' . $escapedFieldLabel;
 
 		return $tableName . ':' . $columnName . ':' . $fieldName . ':' . $moduleFieldLabel;
+	}
+
+	/**
+	 * Function to get value for customview.
+	 *
+	 * @param string $sourceFieldName
+	 *
+	 * @throws \Exception
+	 *
+	 * @return string
+	 */
+	public function getCustomViewSelectColumnName(string $sourceFieldName = '')
+	{
+		return  "{$this->getModuleName()}:{$this->get('name')}" . ($sourceFieldName ? ":$sourceFieldName" : '');
 	}
 
 	/**
@@ -849,7 +874,7 @@ class Vtiger_Field_Model extends vtlib\Field
 				}
 				break;
 			case 'modules':
-				foreach ($this->getModulesListValues() as $moduleId => $module) {
+				foreach ($this->getModulesListValues() as $module) {
 					$modulesList[$module['name']] = $module['label'];
 				}
 				$this->fieldInfo['picklistvalues'] = $modulesList;
@@ -1273,7 +1298,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isCalculateField()
 	{
-		return $this->getUIType() === 71 || $this->getUIType() === 7;
+		return $this->isCalculateField && ($this->getUIType() === 71 || $this->getUIType() === 7);
 	}
 
 	/**

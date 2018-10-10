@@ -21,7 +21,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if (!filter_var($value, FILTER_VALIDATE_EMAIL) || $value !== filter_var($value, FILTER_SANITIZE_EMAIL)) {

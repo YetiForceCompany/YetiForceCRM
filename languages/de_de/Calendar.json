@@ -50,6 +50,7 @@
     "LBL_SELECT_ACTIVITY_TYPE": "Aktivit\u00e4tsart w\u00e4hlen",
     "LBL_SELECT_CALENDAR_COLOR": "W\u00e4hle Kalenderfarbe",
     "LBL_SELECT_USER_CALENDAR": "W\u00e4hle Benutzerkalender",
+    "LBL_SELECT_GROUP_CALENDAR": "Select group calendar",
     "LBL_SELECT_USERS": "W\u00e4hle Benutzer",
     "LBL_SHARED_CALENDAR": "Geteilte Kalender",
     "LBL_STATUS": "Status",
@@ -126,6 +127,11 @@
     "LBL_RELATED_TO": "zugeordnet",
     "LBL_NO_AVAILABLE_ACTIONS": "Keine verf\u00fcgbaren Aktionen",
     "LBL_CALENDAR_FILTERS": "Filter",
+    "LBL_FILTER": "Filters",
+    "LBL_MEET": "MEETING",
+    "LBL_PHONE": "PHONE",
+    "LBL_EDIT_EVENT": "Edit event",
+    "LBL_USER_NAME": "User name",
     "LBL_AUTO_FILL_DESCRIPTION": "Bitte das Startdatum auf das erste verf\u00fcgbare Datum setzen",
     "LBL_CACHE_SELECTED_FILTERS": "Standardsicht des Kalenders ge\u00e4ndert. Klicke \"View leeren\" um zu l\u00f6schen.",
     "LBL_CACHE_CLEAR": "View leeren",
@@ -174,7 +180,11 @@
     "LBL_DELETE_FUTURE_EVENTS_DESCRIPTION": "Nur die nachfolgenden Datens\u00e4tze werden gel\u00f6scht",
     "LBL_DELETE_ALL_EVENTS": "Alle Datens\u00e4tze l\u00f6schen",
     "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "Alle Datens\u00e4tze werden der Reihenfolge nach gel\u00f6scht",
-    "LBL_REPEATEVENT": "Einmal in jeder"
+    "LBL_REPEATEVENT": "Einmal in jeder",
+    "LBL_VIEW_CALENDAREXTENDED": "Graphical calendar",
+    "LBL_REMAIND_HOURS": "Remind after the selected number of hours",
+    "LBL_REMAIND_MINS": "Remind after the selected number of minutes",
+    "LBL_WORK_DAYS": "Arbeitstage"
   },
   "js": {
     "LBL_CANT_SELECT_CONTACT_FROM_LEADS": "Kontakt aus Lead nicht verwendbar",

@@ -1,296 +1,24 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
+window.OSSTimeControl_Calendar_Js = class OSSTimeControl_Calendar_Js extends Calendar_Js {
 
-jQuery.Class("OSSTimeControl_Calendar_Js", {
-	registerUserListWidget: function () {
-		var widgetContainer = $('.widgetContainer');
-		widgetContainer.hover(
-			function () {
-				$(this).css('overflow', 'visible');
-			}, function () {
-				$(this).css('overflow', 'hidden');
-			}
-		);
-		this.registerColorField(widgetContainer.find('#calendarUserList'), 'userCol');
-		this.registerColorField(widgetContainer.find('#timecontrolTypes'), 'listCol');
-		widgetContainer.find('.select2').on('change', function () {
-			$(this).closest('.siteBarContent').find('.refreshHeader').removeClass('d-none');
-		});
-	},
-	registerColorField: function (field, fieldClass) {
-		var params = {};
-		params.dropdownCss = {'z-index': 0};
-		params.formatSelection = function (object, container) {
-			var selectedId = object.id;
-			var selectedOptionTag = field.find('option[value="' + selectedId + '"]');
-			container.addClass(fieldClass + '_' + selectedId);
-			var element = '<div>' + selectedOptionTag.text() + '</div>';
-			return element;
-		};
-		App.Fields.Picklist.changeSelectElementView(field, 'select2', params);
-	},
-}, {
-	calendarView: false,
-	calendarCreateView: false,
-	registerCalendar: function () {
-		const thisInstance = this;
-		let eventLimit = jQuery('#eventLimit').val();
-		if (eventLimit == 'true') {
-			eventLimit = true;
-		} else if (eventLimit == 'false') {
-			eventLimit = false;
-		} else {
-			eventLimit = parseInt(eventLimit) + 1;
-		}
-		const weekView = jQuery('#weekView').val();
-		const dayView = jQuery('#dayView').val();
+	constructor() {
+		super();
+	}
 
-		//User preferred default view
-		let userDefaultActivityView = jQuery('#activity_view').val();
-		if (userDefaultActivityView == 'Today') {
-			userDefaultActivityView = dayView;
-		} else if (userDefaultActivityView == 'This Week') {
-			userDefaultActivityView = weekView;
-		} else {
-			userDefaultActivityView = 'month';
-		}
-
-		//Default time format
-		let userDefaultTimeFormat = jQuery('#time_format').val();
-		let popoverTimeFormat;
-		if (userDefaultTimeFormat == 24) {
-			userDefaultTimeFormat = 'H:mm';
-			popoverTimeFormat = 'HH:mm';
-		} else {
-			userDefaultTimeFormat = 'h:mmt';
-			popoverTimeFormat = 'hh:mm A';
-		}
-
-		//Default first day of the week
-		const convertedFirstDay = CONFIG.firstDayOfWeekNo;
-		//Default first hour of the day
-		let defaultFirstHour = jQuery('#start_hour').val();
-		const explodedTime = defaultFirstHour.split(':');
-		defaultFirstHour = explodedTime['0'];
-		thisInstance.getCalendarView().fullCalendar('destroy');
-		thisInstance.getCalendarView().fullCalendar({
-			header: {
-				left: 'month,' + weekView + ',' + dayView,
-				center: 'title today',
-				right: 'prev,next'
-			},
-			timeFormat: userDefaultTimeFormat,
-			axisFormat: userDefaultTimeFormat,
-			firstHour: defaultFirstHour,
-			firstDay: convertedFirstDay,
-			defaultView: userDefaultActivityView,
-			editable: true,
-			slotMinutes: 15,
-			defaultEventMinutes: 0,
-			forceEventDuration: true,
-			defaultTimedEventDuration: '01:00:00',
-			eventLimit: eventLimit,
+	setCalendarModuleOptions() {
+		let self = this;
+		return {
 			allDaySlot: false,
-			height: app.setCalendarHeight(),
-			views: {
-				basic: {
-					eventLimit: false,
-				}
-			},
 			dayClick: function (date, jsEvent, view) {
-				thisInstance.selectDay(date.format());
-				thisInstance.getCalendarView().fullCalendar('unselect');
+				self.selectDay(date.format());
+				self.getCalendarView().fullCalendar('unselect');
 			},
-			eventDrop: function (event, delta, revertFunc) {
-				thisInstance.updateEvent(event, delta, revertFunc);
-			},
-			eventResize: function (event, delta, revertFunc) {
-				thisInstance.updateEvent(event, delta, revertFunc);
-			},
-			eventRender: function (event, element) {
-				app.showPopoverElementView(element.find('.fc-content'), {
-					title: event.title + '<a href="index.php?module=OSSTimeControl&view=Edit&record=' + event.id + '" class="float-right"><span class="fas fa-edit"></span></a>' + '<a href="index.php?module=OSSTimeControl&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
-					container: 'body',
-					html: true,
-					placement: 'auto',
-					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
-					content: '<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start_display + '</div>' +
-						'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
-						'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_TOTAL_TIME') + '</label>: ' + event.totalTime + '</div>' +
-						'<div><span class="fas fa-bars"></span> <label>' + app.vtranslate('JS_NUMBER') + '</label>: ' + event.number + '</div>' +
-						'<div><span class="fas fa-question-circle"></span> <label>' + app.vtranslate('JS_TYPE') + '</label>: <span class="picklistCT_OSSTimeControl_timecontrol_type_' + event.type_value + '">' + event.type + '</span></div>' +
-						(event.status ? '<div><span class="far fa-star"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: <span class="picklistCT_OSSTimeControl_osstimecontrol_status_' + event.sta + '">' + event.status + '</span></div>' : '') +
-						(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a class="modCT_' + event.linkm + '" target="_blank" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</a></div>' : '') +
-						(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a class="modCT_' + event.linkexm + '" target="_blank" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
-						(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a class="modCT_' + event.procm + '" target="_blank" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
-						(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a class="modCT_' + event.subprocm + '" target="_blank" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
-						(event.smownerid ? '<div><span class="fas fa-user"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
-				});
-			},
-			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
-				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
-				app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
-				app.vtranslate('JS_NOVEMBER'), app.vtranslate('JS_DECEMBER')],
-			monthNamesShort: [app.vtranslate('JS_JAN'), app.vtranslate('JS_FEB'), app.vtranslate('JS_MAR'),
-				app.vtranslate('JS_APR'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUN'), app.vtranslate('JS_JUL'),
-				app.vtranslate('JS_AUG'), app.vtranslate('JS_SEP'), app.vtranslate('JS_OCT'), app.vtranslate('JS_NOV'),
-				app.vtranslate('JS_DEC')],
-			dayNames: [app.vtranslate('JS_SUNDAY'), app.vtranslate('JS_MONDAY'), app.vtranslate('JS_TUESDAY'),
-				app.vtranslate('JS_WEDNESDAY'), app.vtranslate('JS_THURSDAY'), app.vtranslate('JS_FRIDAY'),
-				app.vtranslate('JS_SATURDAY')],
-			dayNamesShort: [app.vtranslate('JS_SUN'), app.vtranslate('JS_MON'), app.vtranslate('JS_TUE'),
-				app.vtranslate('JS_WED'), app.vtranslate('JS_THU'), app.vtranslate('JS_FRI'),
-				app.vtranslate('JS_SAT')],
-			buttonText: {
-				today: app.vtranslate('JS_TODAY'),
-				month: app.vtranslate('JS_MONTH'),
-				week: app.vtranslate('JS_WEEK'),
-				day: app.vtranslate('JS_DAY')
-			},
-			allDayText: app.vtranslate('JS_ALL_DAY'),
-			eventLimitText: app.vtranslate('JS_MORE')
-		});
-	},
-	registerRefreshEvent: function () {
-		var thisInstance = this;
-		$(".refreshCalendar").on('click', function () {
-			$(this).closest('.refreshHeader').addClass('d-none');
-			thisInstance.loadCalendarData();
-		});
-	},
-	registerButtonSelectAll: function () {
-		var selectBtn = $('.selectAllBtn');
-
-		selectBtn.on('click', function (e) {
-			var selectAllLabel = $(this).find('.selectAll');
-			var deselectAllLabel = $(this).find('.deselectAll');
-
-			if (selectAllLabel.hasClass('d-none')) {
-				selectAllLabel.removeClass('d-none');
-				deselectAllLabel.addClass('d-none');
-				$(this).closest('.quickWidget').find('select option').prop("selected", false);
-			} else {
-				$(this).closest('.quickWidget').find('select option').prop("selected", true);
-				deselectAllLabel.removeClass('d-none');
-				selectAllLabel.addClass('d-none');
-			}
-			$(this).closest('.quickWidget').find('select').trigger("change");
-		});
-	},
-	loadCalendarData: function (allEvents) {
-		var progressInstance = jQuery.progressIndicator();
-		var thisInstance = this;
-		thisInstance.getCalendarView().fullCalendar('removeEvents');
-		var view = thisInstance.getCalendarView().fullCalendar('getView');
-		const formatDate = CONFIG.dateFormat.toUpperCase();
-		var user;
-		if (jQuery('#calendarUserList').length == 0) {
-			user = CONFIG.userId;
-		} else {
-			user = jQuery('#calendarUserList').val();
-		}
-		if (jQuery('#timecontrolTypes').length > 0) {
-			var types = jQuery('#timecontrolTypes').val();
-		} else {
-			allEvents = true;
-		}
-
-		if (allEvents == true || types != null) {
-			var params = {
-				module: 'OSSTimeControl',
-				action: 'Calendar',
-				mode: 'getEvent',
-				start: view.start.format(formatDate),
-				end: view.end.format(formatDate),
-				user: user,
-				types: types
-			};
-			AppConnector.request(params).done(function (events) {
-				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
-				progressInstance.hide();
-			});
-		} else {
-			thisInstance.getCalendarView().fullCalendar('removeEvents');
-			progressInstance.hide();
-		}
-	},
-	updateEvent: function (event, delta, revertFunc) {
-		var progressInstance = jQuery.progressIndicator();
-		var start = event.start.format();
-		var end = event.end.format();
-		var params = {
-			module: 'OSSTimeControl',
-			action: 'Calendar',
-			mode: 'updateEvent',
-			id: event.id,
-			start: start,
-			delta: delta._data
+			selectable: false
 		};
-		AppConnector.request(params).done(function (response) {
-			if (!response['result']) {
-				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
-				revertFunc();
-			}
-			progressInstance.hide();
-		}).fail(function () {
-			progressInstance.hide();
-			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
-			revertFunc();
-		});
-	},
-	selectDay: function (date) {
-		var thisInstance = this;
-		thisInstance.getCalendarCreateView().done(function (data) {
-			if (data.length <= 0) {
-				return;
-			}
-			var dateFormat = data.find('[name="date_start"]').data('dateFormat').toUpperCase();
-			var timeFormat = data.find('[name="time_start"]').data('format');
-			if (timeFormat == 24) {
-				var defaultTimeFormat = 'HH:mm';
-			} else {
-				defaultTimeFormat = 'hh:mm A';
-			}
-			var startDateInstance = Date.parse(date);
-			var startDateString = moment(date).format(dateFormat);
-			var startTimeString = moment(date).format(defaultTimeFormat);
-			var endDateInstance = Date.parse(date);
-			var endDateString = moment(date).format(dateFormat);
+	}
 
-			var view = thisInstance.getCalendarView().fullCalendar('getView');
-			if ('month' == view.name) {
-				var diffDays = parseInt((endDateInstance - startDateInstance) / (1000 * 60 * 60 * 24));
-				var endTimeString;
-				if (diffDays > 1) {
-					var defaultFirstHour = jQuery('#start_hour').val();
-					var explodedTime = defaultFirstHour.split(':');
-					startTimeString = explodedTime['0'];
-
-					var defaultLastHour = jQuery('#end_hour').val();
-					explodedTime = defaultLastHour.split(':');
-					endTimeString = explodedTime['0'];
-				} else {
-					var now = new Date();
-					startTimeString = moment(now).format(defaultTimeFormat);
-					endTimeString = moment(now).add(15, 'minutes').format(defaultTimeFormat);
-				}
-			} else {
-				endTimeString = moment(endDateInstance).add(30, 'minutes').format(defaultTimeFormat);
-			}
-			data.find('[name="date_start"]').val(startDateString);
-			data.find('[name="due_date"]').val(endDateString);
-			data.find('[name="time_start"]').val(startTimeString);
-			data.find('[name="time_end"]').val(endTimeString);
-			var headerInstance = new Vtiger_Header_Js();
-			headerInstance.handleQuickCreateData(data, {
-				callbackFunction: function (data) {
-					thisInstance.addCalendarEvent(data.result, dateFormat);
-				}
-			});
-			jQuery('.modal-body').css({'max-height': app.getScreenHeight(70) + 'px', 'overflow-y': 'auto'});
-		});
-	},
-	addCalendarEvent: function (calendarDetails, dateFormat) {
+	addCalendarEvent(calendarDetails, dateFormat) {
 		let usersList = $("#calendarUserList").val();
 		if (usersList.length === 0) {
 			usersList = [CONFIG.userId.toString()];
@@ -321,68 +49,80 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			smownerid: calendarDetails.assigned_user_id.display_value,
 		};
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
-	},
-	getCalendarCreateView: function () {
-		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
+	}
 
-		if (this.calendarCreateView !== false) {
-			aDeferred.resolve(this.calendarCreateView.clone(true, true));
-			return aDeferred.promise();
-		}
-		var progressInstance = jQuery.progressIndicator();
-		this.loadCalendarCreateView().done(function (data) {
-			progressInstance.hide();
-			thisInstance.calendarCreateView = data;
-			aDeferred.resolve(data.clone(true, true));
-		}).fail(function () {
-			progressInstance.hide();
+	eventRenderer(event, element) {
+		app.showPopoverElementView(element.find('.fc-content'), {
+			title: event.title + '<a href="index.php?module=OSSTimeControl&view=Edit&record=' + event.id + '" class="float-right"><span class="fas fa-edit"></span></a>' + '<a href="index.php?module=OSSTimeControl&view=Detail&record=' + event.id + '" class="float-right mx-1"><span class="fas fa-th-list"></span></a>',
+			container: 'body',
+			html: true,
+			placement: 'auto',
+			template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+			content: '<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start_display + '</div>' +
+				'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end_display + '</div>' +
+				'<div><span class="far fa-clock"></span> <label>' + app.vtranslate('JS_TOTAL_TIME') + '</label>: ' + event.totalTime + '</div>' +
+				'<div><span class="fas fa-bars"></span> <label>' + app.vtranslate('JS_NUMBER') + '</label>: ' + event.number + '</div>' +
+				'<div><span class="fas fa-question-circle"></span> <label>' + app.vtranslate('JS_TYPE') + '</label>: <span class="picklistCT_OSSTimeControl_timecontrol_type_' + event.type_value + '">' + event.type + '</span></div>' +
+				(event.status ? '<div><span class="far fa-star"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: <span class="picklistCT_OSSTimeControl_osstimecontrol_status_' + event.sta + '">' + event.status + '</span></div>' : '') +
+				(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a class="modCT_' + event.linkm + '" target="_blank" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</a></div>' : '') +
+				(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a class="modCT_' + event.linkexm + '" target="_blank" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
+				(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a class="modCT_' + event.procm + '" target="_blank" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
+				(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a class="modCT_' + event.subprocm + '" target="_blank" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
+				(event.smownerid ? '<div><span class="fas fa-user"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 		});
-		return aDeferred.promise();
-	},
-	loadCalendarCreateView: function () {
-		var aDeferred = jQuery.Deferred();
-		var moduleName = app.getModuleName();
-		var url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
-		var headerInstance = Vtiger_Header_Js.getInstance();
-		headerInstance.getQuickCreateForm(url, moduleName).done(function (data) {
-			aDeferred.resolve(jQuery(data));
-		}).fail(function (textStatus, errorThrown) {
-			aDeferred.reject(textStatus, errorThrown);
-		});
-		return aDeferred.promise();
-	},
-	getCalendarView: function () {
-		if (this.calendarView == false) {
-			this.calendarView = jQuery('#calendarview');
-		}
-		return this.calendarView;
-	},
-	registerChangeView: function () {
+	}
+
+	selectDay(date) {
 		var thisInstance = this;
-		thisInstance.getCalendarView().find("button.fc-button:not(.dropdown-toggle)").on('click', function () {
-			thisInstance.loadCalendarData();
-		});
-	},
-	registerAddButton: function () {
-		const self = this;
-		$('.js-add').on('click', (e) => {
-			self.getCalendarCreateView().done((data) => {
-				const headerInstance = new Vtiger_Header_Js();
-				headerInstance.handleQuickCreateData(data, {
-					callbackFunction: (data) => {
-						self.addCalendarEvent(data.result);
-					}
-				});
+
+		thisInstance.getCalendarCreateView().done(function (data) {
+			if (data.length <= 0) {
+				return;
+			}
+			var dateFormat = data.find('[name="date_start"]').data('dateFormat').toUpperCase();
+			var timeFormat = data.find('[name="time_start"]').data('format');
+			if (timeFormat == 24) {
+				var defaultTimeFormat = 'HH:mm';
+			} else {
+				defaultTimeFormat = 'hh:mm A';
+			}
+			var startDateInstance = Date.parse(date);
+			var startDateString = moment(date).format(dateFormat);
+			var startTimeString = moment(date).format(defaultTimeFormat);
+			var endDateInstance = Date.parse(date);
+			var endDateString = moment(date).format(dateFormat);
+
+			var view = thisInstance.getCalendarView().fullCalendar('getView');
+			var endTimeString;
+			if ('month' == view.name) {
+				var diffDays = parseInt((endDateInstance - startDateInstance) / (1000 * 60 * 60 * 24));
+				if (diffDays > 1) {
+					var defaultFirstHour = jQuery('#start_hour').val();
+					var explodedTime = defaultFirstHour.split(':');
+					startTimeString = explodedTime['0'];
+					var defaultLastHour = jQuery('#end_hour').val();
+					explodedTime = defaultLastHour.split(':');
+					endTimeString = explodedTime['0'];
+				} else {
+					var now = new Date();
+					startTimeString = moment(now).format(defaultTimeFormat);
+					endTimeString = moment(now).add(15, 'minutes').format(defaultTimeFormat);
+				}
+			} else {
+				endTimeString = moment(endDateInstance).add(30, 'minutes').format(defaultTimeFormat);
+			}
+			data.find('[name="date_start"]').val(startDateString);
+			data.find('[name="due_date"]').val(endDateString);
+			data.find('[name="time_start"]').val(startTimeString);
+			data.find('[name="time_end"]').val(endTimeString);
+
+			var headerInstance = new Vtiger_Header_Js();
+			headerInstance.handleQuickCreateData(data, {
+				callbackFunction(data) {
+					thisInstance.addCalendarEvent(data.result, dateFormat);
+				}
 			});
 		});
-	},
-	registerEvents: function () {
-		this.registerCalendar();
-		this.loadCalendarData(true);
-		this.registerChangeView();
-		this.registerButtonSelectAll();
-		this.registerRefreshEvent();
-		this.registerAddButton();
 	}
-});
+
+}

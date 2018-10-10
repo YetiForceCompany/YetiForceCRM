@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-Detail-InventorySummary -->
 	{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
 		{if isset($DISCOUNT)}
 			{assign var="DISCOUNT" value=$DISCOUNT + $INVENTORY_ROW['discount']}
@@ -48,15 +49,12 @@
 					</tr>
 					</thead>
 					<tbody>
+					{assign var="TAX_AMOUNT" value=0}
 					{foreach item=TAX key=KEY from=$TAXS}
-						{if isset($TAX_AMOUNT)}
-							{assign var="TAX_AMOUNT" value=$TAX_AMOUNT + $TAX}
-						{else}
-							{assign var="TAX_AMOUNT" value=$TAX}
-						{/if}
+						{assign var="TAX_AMOUNT" value=$TAX_AMOUNT + $TAX}
 						<tr>
 							<td class="textAlignRight" width='70px'>
-								{$KEY}%
+								{CurrencyField::convertToUserFormat($KEY)}%
 							</td>
 							<td class="textAlignRight">
 								{CurrencyField::convertToUserFormatSymbol($TAX,false,$CURRENCY_SYMBOLAND['symbol'])}
@@ -91,7 +89,7 @@
 							{assign var="CURRENY_AMOUNT" value=$CURRENY_AMOUNT + $TAX}
 							<tr>
 								<td class="textAlignRight" width='70px'>
-									{$KEY}%
+									{CurrencyField::convertToUserFormat($KEY)}%
 								</td>
 								<td class="textAlignRight">
 									{CurrencyField::convertToUserFormatSymbol($TAX * $RATE,false,$BASE_CURRENCY['currency_symbol'],true)}
@@ -112,4 +110,5 @@
 			{/if}
 		{/if}
 	</div>
+	<!-- /tpl-Base-Detail-InventorySummary -->
 {/strip}

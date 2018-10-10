@@ -181,14 +181,14 @@ class VTFieldExpressionEvaluater
 	{
 		$type = $arr[0];
 		switch ($type) {
-			case 'today': return date('Y-m-d');
-				break;
-			case 'tomorrow': return date('Y-m-d', strtotime('+1 day'));
-				break;
-			case 'yesterday': return date('Y-m-d', strtotime('-1 day'));
-				break;
-			default: return date('Y-m-d');
-				break;
+			case 'today':
+				return date('Y-m-d');
+			case 'tomorrow':
+				return date('Y-m-d', strtotime('+1 day'));
+			case 'yesterday':
+				return date('Y-m-d', strtotime('-1 day'));
+			default:
+				return date('Y-m-d');
 		}
 	}
 

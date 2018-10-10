@@ -17,19 +17,15 @@
 								data-js="confirm|click">
 								<a class="c-arrows__link pr-1">
 									{if isset($CLOSE_STATES[$VALUE_DATA['picklist_valueid']]) }
-										<span class="c-arrows__icon fas fa-lock"></span>
+									<span class="c-arrows__icon fas fa-lock"></span>
 									{/if}
-									<span class="c-arrows__text">
-										{$FIELD_MODEL->getDisplayValue($VALUE_DATA['picklistValue'], false, false, true)}
+									<span class="c-arrows__text{if !empty($VALUE_DATA['description'])} js-popover-tooltip"
+										  data-js="popover"
+										  data-trigger="hover focus"
+										  data-content="{\App\Purifier::encodeHtml($VALUE_DATA['description'])}"
+									{else}"{/if}>
+									{$FIELD_MODEL->getDisplayValue($VALUE_DATA['picklistValue'], false, false, true)}
 									</span>
-									{if !empty($VALUE_DATA['description'])}
-										<span class="c-arrows__text ml-1 u-mr-minus-8px js-popover-tooltip"
-											  data-js="popover"
-											  data-trigger="hover focus"
-											  data-content="{\App\Purifier::encodeHtml($VALUE_DATA['description'])}">
-											<span class="fas fa-info-circle"></span>
-										</span>
-									{/if}
 								</a>
 							</li>
 						{/foreach}

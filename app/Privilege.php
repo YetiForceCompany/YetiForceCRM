@@ -327,7 +327,6 @@ class Privilege
 		} else {
 			return true;
 		}
-		return false;
 	}
 
 	/** Function to check if the currently logged in user has Read Access due to Sharing for the specified record

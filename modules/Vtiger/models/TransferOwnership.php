@@ -146,7 +146,7 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 	{
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relatedModelFields = $relatedModuleModel->getFields();
-		foreach ($relatedModelFields as $fieldName => $fieldModel) {
+		foreach ($relatedModelFields as $fieldModel) {
 			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
 				if (in_array($findModule, $referenceList)) {

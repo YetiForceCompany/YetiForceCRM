@@ -110,24 +110,22 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 		if (details.default === 1) {
 			table.find('.default').prop('checked', false);
 		}
-		let actionButtonsTpl = `<div class="actions">
-							<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer" data-url="' + details._editurl + '">
-							<span title="Edycja" class="fas fa-edit alignBottom"></span>
-							</button>
-							<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white" data-url="' + details._editurl + '">
-							<span title="Usuń" class="fas fa-trash-alt alignBottom"></span>
-							</button>
-						</div>`;
-		let tdDefault = `<td class="textAlignCenter ${details.row_type}"><div class="float-right  w-50 d-flex justify-content-between mr-2"><input class="default js-update-field mt-2" ${defaultCheck} data-field-name="default" type="checkbox">${actionButtonsTpl}</div></td>`
 		let trElement = $(`<tr class="opacity" data-id="${details.id}">
 					<td class="textAlignCenter ${details.row_type}"><label class="name">${details.name}</label></td>
 					<td class="textAlignCenter ${details.row_type}"><span class="value">${details.value} ${symbol}</span></td>
 					<td class="textAlignCenter ${details.row_type}">
 					<div class="float-right  w-50 d-flex justify-content-between mr-2">
-					<input class="status js-update-field mt-2" checked type="checkbox">
-${CONFIG.view !== 'Taxes' ? actionButtonsTpl : ''}</div>
+						<input class="status js-update-field mt-2" checked type="checkbox">
+						<div class="actions">
+							<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer" data-url="${details._editurl}">
+							<span title="Edycja" class="fas fa-edit alignBottom"></span>
+							</button>
+							<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white" data-url="${details._editurl}">
+							<span title="Usuń" class="fas fa-trash-alt alignBottom"></span>
+							</button>
+						</div>
+					</div>
 					</td>
-					${CONFIG.view === 'Taxes' ? tdDefault : ''}
 					</tr>`);
 		table.append(trElement);
 	},
@@ -212,7 +210,6 @@ ${CONFIG.view !== 'Taxes' ? actionButtonsTpl : ''}</div>
 				data = JSON.parse(data);
 			}
 			var response = data['result'];
-			var result = response['success'];
 			aDeferred.resolve(response);
 		}).fail(function (error, err) {
 			aDeferred.reject(error, err);
@@ -263,7 +260,6 @@ ${CONFIG.view !== 'Taxes' ? actionButtonsTpl : ''}</div>
 		return aDeferred.promise();
 	},
 	removeInventory: function (inventoryElement) {
-		var thisInstance = this;
 		var message = app.vtranslate('JS_DELETE_INVENTORY_CONFIRMATION');
 		Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (e) {
 			var params = {};

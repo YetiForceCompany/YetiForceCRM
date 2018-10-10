@@ -2171,7 +2171,9 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		if (this.paramCache && defaultDate != moment().format('YYYY-MM-DD')) {
 			defaultDate = moment(defaultDate).format('D') == 1 ? moment(defaultDate) : moment(defaultDate).add(1, 'M');
 		}
-
+		container.find('.js-widget-quick-create').on('click', function (e) {
+			Vtiger_Header_Js.getInstance().quickCreateModule($(this).data('module-name'));
+		});
 		thisInstance.getCalendarView().fullCalendar({
 			header: {
 				left: ' ',
@@ -2331,7 +2333,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 	},
 	getCalendarView: function () {
 		if (this.calendarView == false) {
-			this.calendarView = this.getContainer().find('#calendarview');
+			this.calendarView = this.getContainer().find('.js-calendar__container');
 		}
 		return this.calendarView;
 	},

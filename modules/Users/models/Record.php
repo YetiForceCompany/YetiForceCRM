@@ -437,7 +437,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$subordinateUsers = [];
 		$subordinateRoleUsers = $privilegesModel->get('subordinate_roles_users');
 		if ($subordinateRoleUsers) {
-			foreach ($subordinateRoleUsers as $role => $users) {
+			foreach ($subordinateRoleUsers as $users) {
 				foreach ($users as $user) {
 					$subordinateUsers[$user] = $privilegesModel->getDisplayName();
 				}
@@ -824,7 +824,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 					break;
 			}
 		}
-		return '';
+		return $return;
 	}
 
 	public function getHeadLocks()
@@ -993,5 +993,26 @@ class Users_Record_Model extends Vtiger_Record_Model
 			\App\Session::set('ShowUserPasswordChange', 1);
 		}
 		return false;
+	}
+
+	/**
+	 * Return user favourite users.
+	 *
+	 * @return array
+	 */
+	public function getFavouritesUsers()
+	{
+		if (\App\Cache::has('UsersFavourite', $this->getId())) {
+			$favouriteUsers = \App\Cache::get('UsersFavourite', $this->getId());
+		} else {
+			$query = new \App\Db\Query();
+			$favouriteUsers = $query->select(['fav_element_id', 'pinned_id' => 'fav_element_id'])
+				->from('u_#__users_pinned')
+				->where(['owner_id' => $this->getId()])
+				->createCommand()
+				->queryAllByGroup();
+			\App\Cache::save('UsersFavourite', $this->getId(), $favouriteUsers, \App\Cache::LONG);
+		}
+		return $favouriteUsers;
 	}
 }

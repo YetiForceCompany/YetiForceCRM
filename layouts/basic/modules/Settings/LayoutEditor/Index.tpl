@@ -109,50 +109,48 @@
 													</button>
 												</div>
 											{/if}
-											{if $BLOCK_MODEL->isActionsAllowed()}
-												<div class="btn-group ml-1">
-													<button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-														<strong>{App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
-														<span class="caret"></span>
-													</button>
-													<ul class="dropdown-menu float-right">
-														<li class="blockVisibility"
-															data-visible="0"
-															data-block-id="{$BLOCK_MODEL->get('id')}">
-															<a class="dropdown-item" href="javascript:void(0)">
-																<span class="fas fa-check {if !$BLOCK_MODEL->isHidden()} d-none {/if}"></span>&nbsp;
-																{App\Language::translate('LBL_ALWAYS_HIDE', $QUALIFIED_MODULE)}
-															</a>
-														</li>
-														<li class="blockVisibility"
-															data-visible="1"
-															data-block-id="{$BLOCK_MODEL->get('id')}">
-															<a class="dropdown-item" href="javascript:void(0)">
-																<span class="fas fa-check {if $BLOCK_MODEL->isHidden() || $BLOCK_MODEL->isDynamic()} d-none {/if}"></span>&nbsp;
-																{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
-															</a>
-														</li>
-														<li class="blockVisibility"
-															data-visible="2"
-															data-block-id="{$BLOCK_MODEL->get('id')}">
-															<a class="dropdown-item" href="javascript:void(0)">
-																<span class="fas fa-check {if !$BLOCK_MODEL->isDynamic()} d-none {/if}"></span>&nbsp;
-																{App\Language::translate('LBL_DYNAMIC_SHOW', $QUALIFIED_MODULE)}
-															</a>
-														</li>
-														<li class="inActiveFields">
+											<div class="btn-group ml-1">
+												<button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+													<strong>{App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
+													<span class="caret"></span>
+												</button>
+												<ul class="dropdown-menu float-right">
+													<li class="blockVisibility"
+														data-visible="0"
+														data-block-id="{$BLOCK_MODEL->get('id')}">
+														<a class="dropdown-item" href="javascript:void(0)">
+															<span class="fas fa-check {if !$BLOCK_MODEL->isHidden()} d-none {/if}"></span>&nbsp;
+															{App\Language::translate('LBL_ALWAYS_HIDE', $QUALIFIED_MODULE)}
+														</a>
+													</li>
+													<li class="blockVisibility"
+														data-visible="1"
+														data-block-id="{$BLOCK_MODEL->get('id')}">
+														<a class="dropdown-item" href="javascript:void(0)">
+															<span class="fas fa-check {if $BLOCK_MODEL->isHidden() || $BLOCK_MODEL->isDynamic()} d-none {/if}"></span>&nbsp;
+															{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
+														</a>
+													</li>
+													<li class="blockVisibility"
+														data-visible="2"
+														data-block-id="{$BLOCK_MODEL->get('id')}">
+														<a class="dropdown-item" href="javascript:void(0)">
+															<span class="fas fa-check {if !$BLOCK_MODEL->isDynamic()} d-none {/if}"></span>&nbsp;
+															{App\Language::translate('LBL_DYNAMIC_SHOW', $QUALIFIED_MODULE)}
+														</a>
+													</li>
+													<li class="inActiveFields">
+														<a class="dropdown-item"
+														   href="javascript:void(0)">{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</a>
+													</li>
+													{if $BLOCK_MODEL->isCustomized()}
+														<li class="deleteCustomBlock">
 															<a class="dropdown-item"
-															   href="javascript:void(0)">{App\Language::translate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</a>
+															   href="javascript:void(0)">{App\Language::translate('LBL_DELETE_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</a>
 														</li>
-														{if $BLOCK_MODEL->isCustomized()}
-															<li class="deleteCustomBlock">
-																<a class="dropdown-item"
-																   href="javascript:void(0)">{App\Language::translate('LBL_DELETE_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</a>
-															</li>
-														{/if}
-													</ul>
-												</div>
-											{/if}
+													{/if}
+												</ul>
+											</div>
 										</div>
 									</div>
 								</div>

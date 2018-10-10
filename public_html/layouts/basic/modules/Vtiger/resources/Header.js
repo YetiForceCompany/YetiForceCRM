@@ -194,12 +194,15 @@ $.Class("Vtiger_Header_Js", {
 			params = {};
 		}
 		var thisInstance = this;
-		app.showModalWindow(data, function (data) {
-			var quickCreateForm = data.find('form[name="QuickCreate"]');
+		app.showModalWindow(data, function (container) {
+			var quickCreateForm = container.find('form[name="QuickCreate"]');
 			var moduleName = quickCreateForm.find('[name="module"]').val();
 			var editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
 			editViewInstance.registerBasicEvents(quickCreateForm);
-			thisInstance.registerChangeNearCalendarEvent(quickCreateForm, moduleName);
+			let moduleClassName = moduleName + '_QuickCreate_Js';
+			if (typeof window[moduleClassName] !== "undefined") {
+				(new window[moduleClassName]()).registerEvents(container);
+			}
 			quickCreateForm.validationEngine(app.validationEngineOptions);
 			if (typeof params.callbackPostShown !== "undefined") {
 				params.callbackPostShown(quickCreateForm);
@@ -215,82 +218,7 @@ $.Class("Vtiger_Header_Js", {
 		}
 		return false;
 	},
-	getNearCalendarEvent: function (container, module) {
-		var thisInstance = this;
-		var dateStartVal = container.find('[name="date_start"]').val();
-		if (typeof dateStartVal === "undefined" || dateStartVal === '') {
-			return;
-		}
-		var params = {
-			module: module,
-			view: 'QuickCreateEvents',
-			currentDate: dateStartVal,
-			user: container.find('[name="assigned_user_id"]').val(),
-		}
-		var progressIndicatorElement = $.progressIndicator({
-			position: 'html',
-			blockInfo: {
-				enabled: true,
-				elementToBlock: container.find('.eventsTable')
-			}
-		});
-		AppConnector.request(params).done(function (events) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			container.find('.eventsTable').remove();
-			container.append(events);
-			thisInstance.registerHelpInfo(container);
-		});
-	},
-	registerChangeNearCalendarEvent: function (data, module) {
-		var thisInstance = this;
-		if (!data || module != 'Calendar' || typeof module === "undefined" || !app.getMainParams('showEventsTable')) {
-			return;
-		}
-		var user = data.find('[name="assigned_user_id"]');
-		var dateStartEl = data.find('[name="date_start"]');
-		var dateEnd = data.find('[name="due_date"]');
-		user.on('change', function (e) {
-			var element = $(e.currentTarget);
-			var data = element.closest('form');
-			thisInstance.getNearCalendarEvent(data, module);
-		});
-		dateStartEl.on('change', function (e) {
-			var element = $(e.currentTarget);
-			var data = element.closest('form');
-			thisInstance.getNearCalendarEvent(data, module);
-		});
-		data.find('ul li a').on('click', function (e) {
-			var element = $(e.currentTarget);
-			var data = element.closest('form');
-			data.find('.addedNearCalendarEvent').remove();
-			thisInstance.getNearCalendarEvent(data, module);
-		});
-		data.on('click', '.nextDayBtn', function () {
-			var dateStartEl = data.find('[name="date_start"]')
-			var startDay = dateStartEl.val();
-			var dateStartFormat = dateStartEl.data('date-format');
-			startDay = moment(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '+7', ' ')).format(dateStartFormat.toUpperCase());
-			dateStartEl.val(startDay);
-			dateEnd.val(startDay);
-			thisInstance.getNearCalendarEvent(data, module);
-		});
-		data.on('click', '.previousDayBtn', function () {
-			var dateStartEl = data.find('[name="date_start"]')
-			var startDay = dateStartEl.val();
-			var dateStartFormat = dateStartEl.data('date-format');
-			startDay = moment(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '-7', ' ')).format(dateStartFormat.toUpperCase());
-			dateStartEl.val(startDay);
-			dateEnd.val(startDay);
-			thisInstance.getNearCalendarEvent(data, module);
-		});
-		data.on('click', '.dateBtn', function (e) {
-			var element = $(e.currentTarget);
-			dateStartEl.val(element.data('date'));
-			data.find('[name="due_date"]').val(element.data('date'));
-			data.find('[name="date_start"]').trigger('change');
-		});
-		thisInstance.getNearCalendarEvent(data, module);
-	},
+
 	registerQuickCreatePostLoadEvents: function (form, params) {
 		var thisInstance = this;
 		var submitSuccessCallbackFunction = params.callbackFunction;
@@ -334,6 +262,13 @@ $.Class("Vtiger_Header_Js", {
 					if (typeof (moduleInstance.quickCreateSave) === 'function') {
 						targetInstance = moduleInstance;
 					}
+					let progress = $.progressIndicator({
+						'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
+						'position': 'html',
+						'blockInfo': {
+							'enabled': true
+						}
+					});
 					targetInstance.quickCreateSave(form).done(function (data) {
 						app.hideModalWindow();
 						var parentModule = app.getModuleName();
@@ -352,7 +287,13 @@ $.Class("Vtiger_Header_Js", {
 							});
 						}
 						app.event.trigger("QuickCreate.AfterSaveFinal", data, form);
-						$.progressIndicator({'mode': 'hide'});
+						progress.progressIndicator({'mode': 'hide'});
+						if (data.success) {
+							Vtiger_Helper_Js.showPnotify({
+								text: app.vtranslate('JS_ADD_RECORD'),
+								type: 'success'
+							});
+						}
 					});
 				} else {
 					//If validation fails in recordPreSaveEvent, form should submit again
@@ -694,50 +635,30 @@ $.Class("Vtiger_Header_Js", {
 		var records = $('.customTableRWD').find('[data-toggle-visible=false]');
 		records.find('.footable-toggle').css("display", "none");
 	},
-	registerShowHideRightPanelEvent: function (container) {
-		var thisInstance = this;
-		var key = 'ShowHideRightPanel' + app.getModuleName();
+	registerSiteBarButton(container) {
+		const key = 'ShowHideRightPanel' + app.getModuleName();
 		if (app.cacheGet(key) == 'show') {
-			thisInstance.showSiteBar(container, container.find('.toggleSiteBarRightButton'));
-		}
-
-		if (app.cacheGet(key) == null) {
+			this.toggleSiteBar(container.find('.toggleSiteBarRightButton'));
+		} else if (app.cacheGet(key) == null) {
 			if (container.find('.siteBarRight').data('showpanel') == 1) {
-				thisInstance.showSiteBar(container, container.find('.toggleSiteBarRightButton'));
+				this.toggleSiteBar(container.find('.toggleSiteBarRightButton'));
 			}
 		}
-		container.find('.toggleSiteBarRightButton').on('click', function (e) {
-			var toogleButton = $(this);
+		container.find('.toggleSiteBarRightButton').on('click', (e) => {
+			let toogleButton = $(e.currentTarget);
 			if (toogleButton.closest('.siteBarRight').hasClass('hideSiteBar')) {
 				app.cacheSet(key, 'show');
-				thisInstance.showSiteBar(container, toogleButton);
 			} else {
 				app.cacheSet(key, 'hide');
-				thisInstance.hideSiteBar(container, toogleButton);
 			}
+			this.toggleSiteBar(toogleButton);
 		});
 	},
-	hideSiteBar: function (container, toogleButton) {
-		var key, siteBarRight, content, buttonImage;
-		siteBarRight = toogleButton.closest('.siteBarRight');
-		content = container.find('.rowContent');
-		buttonImage = toogleButton.find('[data-fa-i2svg]');
-
-		siteBarRight.addClass('hideSiteBar');
-		content.removeClass('js-sitebar--active');
-		buttonImage.removeClass('fa-chevron-right').addClass("fa-chevron-left");
-		toogleButton.addClass('hideToggleSiteBarRightButton');
-	},
-	showSiteBar: function (container, toogleButton) {
-		var key, siteBarRight, content, buttonImage;
-		siteBarRight = toogleButton.closest('.siteBarRight');
-		content = container.find('.rowContent');
-		buttonImage = toogleButton.find('[data-fa-i2svg]');
-
-		siteBarRight.removeClass('hideSiteBar');
-		content.addClass('js-sitebar--active');
-		buttonImage.removeClass('fa-chevron-left').addClass("fa-chevron-right");
-		toogleButton.removeClass('hideToggleSiteBarRightButton');
+	toggleSiteBar(toogleButton) {
+		$('.rowContent').toggleClass('js-sitebar--active');
+		toogleButton.closest('.siteBarRight').toggleClass('hideSiteBar');
+		toogleButton.find('[data-fa-i2svg]').toggleClass('fa-chevron-left').toggleClass("fa-chevron-right");
+		toogleButton.toggleClass('hideToggleSiteBarRightButton');
 	},
 	registerToggleButton: function () {
 		$(".buttonTextHolder .dropdown-menu a").on('click', function () {
@@ -779,7 +700,6 @@ $.Class("Vtiger_Header_Js", {
 			$('.actionMenu').removeClass('actionMenuOn');
 			$('.chatModal').modal({backdrop: false});
 		});
-		var modalDialog = modal.find('.modal-dialog');
 		this.registerChatLoadItems(modal.data('timer'));
 		modal.find('.addMsg').on('click', function (e) {
 			var message = modal.find('.message').val();
@@ -835,7 +755,6 @@ $.Class("Vtiger_Header_Js", {
 		app.showNewScrollbar(menuContainer.find('.subMenu').last(), {suppressScrollX: true});
 		thisInstance.listenTextAreaChange();
 		thisInstance.registerFooTable(); //Enable footable
-		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));
 		$('.js-clear-history').on('click', () => {
 			app.clearBrowsingHistory();
 		});
@@ -857,6 +776,7 @@ $.Class("Vtiger_Header_Js", {
 		thisInstance.registerAnnouncements();
 		thisInstance.registerHotKeys();
 		thisInstance.registerToggleButton();
+		thisInstance.registerSiteBarButton($('#centerPanel'));
 		//this.registerCalendarButtonClickEvent();
 		//After selecting the global search module, focus the input element to type
 		$('.basicSearchModulesList').on('change', function () {

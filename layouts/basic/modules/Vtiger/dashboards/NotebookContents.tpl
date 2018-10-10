@@ -5,25 +5,27 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): YetiForce.com
 *************************************************************************************}
 {strip}
-	<div style='padding:5px'>
-		<div class="">
+	<div class="tpl-Base-dashboards-NotebookContents p-5">
+		<div>
 			<div class="dashboard_notebookWidget_view row">
-				<div class="">
+				<div>
 					<span class="col-md-10 muted">
-						<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE)}</i> {\App\Fields\DateTime::formatToDay($WIDGET->getLastSavedDate())}
+						<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE_NAME)}</i> {\App\Fields\DateTime::formatToDay($WIDGET->getLastSavedDate())}
 					</span>
 					<span class="col-md-2">
 						<span class="float-right">
 							<button class="btn btn-sm btn-light float-right dashboard_notebookWidget_edit">
-								<strong>{\App\Language::translate('LBL_EDIT', $MODULE)}</strong>
+								<strong>{\App\Language::translate('LBL_EDIT', $MODULE_NAME)}</strong>
 							</button>
 						</span>
 					</span>
 				</div>
 				<div class="col-md-12 pushDown2per">
-					<div class="dashboard_notebookWidget_viewarea boxSizingBorderBox" style="background-color:white;border: 1px solid #CCC">
+					<div class="dashboard_notebookWidget_viewarea boxSizingBorderBox"
+						 style="background-color:white;border: 1px solid #CCC">
 						{$WIDGET->getContent()|nl2br}
 					</div>
 				</div>
@@ -31,19 +33,21 @@
 			<div class="dashboard_notebookWidget_text" style="display:none;">
 				<div class="row">
 					<span class="col-md-10 muted">
-						<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE)}</i> {\App\Fields\DateTime::formatToDay($WIDGET->getLastSavedDate())}
+						<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE_NAME)}</i> {\App\Fields\DateTime::formatToDay($WIDGET->getLastSavedDate())}
 					</span>
 					<span class="col-md-2">
 						<span class="float-right">
 							<button class="btn btn-sm btn-success float-right dashboard_notebookWidget_save">
-								<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
+								<strong>{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}</strong>
 							</button>
 						</span>
 					</span>
 				</div>
 				<div class="row pushDown2per">
 					<span class="col-md-12">
-						<textarea class="dashboard_notebookWidget_textarea form-control boxSizingBorderBox" style="background-color: #ffffdd;resize: none;" data-note-book-id="{$WIDGET->get('id')}">
+						<textarea class="dashboard_notebookWidget_textarea form-control boxSizingBorderBox"
+								  style="background-color: #ffffdd;resize: none;"
+								  data-note-book-id="{$WIDGET->get('id')}">
 							{$WIDGET->getContent()}
 						</textarea>
 					</span>

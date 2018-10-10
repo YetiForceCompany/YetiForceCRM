@@ -4,8 +4,8 @@
  * UIType Company Field Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Adrian Koń <a.kon@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Adrian Koń <a.kon@yetiforce.com>
  */
 class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 {
@@ -14,7 +14,7 @@ class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if (!is_numeric($value)) {

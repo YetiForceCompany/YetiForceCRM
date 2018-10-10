@@ -4,8 +4,8 @@
  * LangManagement Module Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author YetiForce.com
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    YetiForce.com
  */
 class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -26,7 +26,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			$folders[] = 'Settings';
 		}
 		$loc = '';
-		foreach ($folders as $key => $name) {
+		foreach ($folders as $name) {
 			$loc .= DIRECTORY_SEPARATOR . $name;
 			if (!file_exists(ROOT_DIRECTORY . $loc)) {
 				if (!mkdir(ROOT_DIRECTORY . $loc)) {

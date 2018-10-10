@@ -3,8 +3,8 @@
  * IStorages CRMEntity Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
@@ -140,7 +140,7 @@ class IStorages extends Vtiger_CRMEntity
 			$listColumns = $this->list_fields_name;
 		}
 
-		foreach ($listColumns as $fieldname => $colname) {
+		foreach ($listColumns as $colname) {
 			// Permission to view storage is restricted, avoid showing field values (except storage name)
 			if (\App\Field::getFieldPermission('IStorages', $colname)) {
 				$data = \App\Purifier::encodeHtml($iStorageInfoBase[$colname]);
@@ -232,7 +232,7 @@ class IStorages extends Vtiger_CRMEntity
 				$listColumns = $this->list_fields_name;
 			}
 
-			foreach ($listColumns as $fieldname => $columnname) {
+			foreach ($listColumns as $columnname) {
 				if ($columnname == 'assigned_user_id') {
 					$parentIStorageInfo[$columnname] = $row['user_name'];
 				} else {
@@ -291,7 +291,7 @@ class IStorages extends Vtiger_CRMEntity
 				$childIStorageInfo = [];
 				$childIStorageInfo['depth'] = $depth;
 
-				foreach ($listColumns as $fieldname => $columnname) {
+				foreach ($listColumns as $columnname) {
 					if ($columnname == 'assigned_user_id') {
 						$childIStorageInfo[$columnname] = $row['user_name'];
 					} else {

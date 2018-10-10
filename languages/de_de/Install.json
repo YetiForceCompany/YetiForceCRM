@@ -32,6 +32,7 @@
     "LBL_INSTALL_BUTTON": "Installieren",
     "LBL_INSTALL_PREREQUISITES": "Server Konfiguration pr\u00FCfen",
     "LBL_MORE_INFORMATION": "Weitere Informationen",
+    "LBL_LIBRARY_NAME": "Library name",
     "LBL_NEXT": "Weiter",
     "LBL_ONE_LAST_THING": "Eine letzte Sache...",
     "LBL_PASSWORD_MISMATCH": "Bitte geben Sie erneut die Passw\u00f6rter ein. Die beiden Passw\u00f6rter stimmen nicht \u00fcberein.",
@@ -72,6 +73,7 @@
     "LBL_PDO_SUPPORT": "PDO Support",
     "LBL_OPEN_SSL": "openSSL Support",
     "LBL_LICENSE": "Lizenz",
+    "LBL_EXTERNAL_LIBRARIES_LICENSES": "Third-party library licenses",
     "LBL_CURL": "cURL Support",
     "LBL_INDUSTRY_OPTION": "Bitte w\u00e4hlen Sie eine entsprechende Branche.",
     "LBL_ERROR_LOGIN": "Berechtigungsfehler, Login Daten falsch",
@@ -99,7 +101,8 @@
     "LBL_MIGRATION_IN_PROGRESS": "Migration in Bearbeitung",
     "LBL_BACK": "Zur\u00fcck",
     "LBL_READ_LICENSE": "Lizenz lesen",
-    "LBL_SETUP_WIZARD_HEADER": "YetiForce Installation Wizard"
+    "LBL_SETUP_WIZARD_HEADER": "YetiForce Installation Wizard",
+    "LBL_VERSION": "Version"
   },
   "js": {
     "JS_ALL": "Alle",

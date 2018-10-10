@@ -173,7 +173,7 @@ class Vtiger_Viewer extends SmartyBC
 			$templateFound = \App\Cache::get('ViewerTemplateExists', $templatePath);
 		} else {
 			$templateFound = $this->templateExists($templatePath);
-			\App\Cache::get('ViewerTemplateExists', $templatePath, $templateFound, \App\Cache::LONG);
+			\App\Cache::save('ViewerTemplateExists', $templatePath, $templateFound, \App\Cache::LONG);
 		}
 		// Logging
 		if (self::$debugViewer) {

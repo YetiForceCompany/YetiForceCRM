@@ -39,9 +39,4 @@
 			</div>
 		</div>
 	{/if}
-	<script type="text/javascript">
-		jQuery(document).ready(function () {
-			OSSTimeControl_Calendar_Js.registerUserListWidget();
-		});
-	</script>
 {/strip}

@@ -26,6 +26,7 @@
     "ERR_AUTO_LOGOUT": "Nast\u0105pi\u0142o automatyczne wylogowanie ze wzgl\u0119du na brak aktywno\u015bci",
     "ERR_FIELD_NOT_FOUND": "Nie znaleziono pola",
     "ERR_NO_VALUE": "Brak warto\u015bci",
-    "ERR_API": "B\u0142\u0105d w API"
+    "ERR_API": "B\u0142\u0105d w API",
+    "ERR_NO_PERMISSIONS_TO_FIELD": "Brak uprawnie\u0144 do danego pola"
   }
 }

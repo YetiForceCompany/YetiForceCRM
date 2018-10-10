@@ -61,7 +61,6 @@ Vtiger_List_Js("Rss_List_Js", {},
 		 * Function show rssAddForm model
 		 */
 		showRssModal: function (mode) {
-			var thisInstance = this;
 			var aDeferred = jQuery.Deferred();
 			var progressInstance = jQuery.progressIndicator({});
 			var actionParams = {
@@ -295,7 +294,6 @@ Vtiger_List_Js("Rss_List_Js", {},
 		 * Function to make a record as default rss feed
 		 */
 		makeDefault: function (container) {
-			var listInstance = Vtiger_List_Js.getInstance();
 			var recordId = container.find('#recordId').val();
 			var module = app.getModuleName();
 			var postData = {

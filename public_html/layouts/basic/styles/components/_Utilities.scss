@@ -43,6 +43,12 @@
 	font-size: calculate-rem(19px);
 }
 
+@for $i from 1 through 9 {
+	.u-font-weight-#{$i*100} {
+		font-weight: #{$i*100} !important;
+	}
+}
+
 .u-text-ellipsis {
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -248,6 +254,10 @@
 	min-width: 650px !important;
 }
 
+.u-w-1em {
+	width: 1em;
+}
+
 @include media-breakpoint-down(sm) {
 	.u-w-sm-down-100 {
 		width: 100%;
@@ -283,6 +293,14 @@
 
 .u-h-70vh {
 	height: 70vh !important;
+}
+
+.u-h-1em {
+	height: 1em;
+}
+
+.u-min-h-30per {
+	min-height: 30%;
 }
 
 //--- WHITE SPACE ---//
@@ -334,6 +352,10 @@
 	z-index: -1;
 }
 
+.u-z-index-100 {
+	z-index: 100;
+}
+
 .u-white-space-n {
 	white-space: normal !important;
 }
@@ -355,6 +377,10 @@
 	overflow: auto !important;
 }
 
+.u-overflow-y-auto {
+	overflow-y: auto !important;
+}
+
 @include media-breakpoint-down(xs) {
 	.u-overflow-scroll-xs-down {
 		overflow: scroll !important;
@@ -368,6 +394,9 @@
 }
 
 @include media-breakpoint-down(lg) {
+	.u-overflow-auto-lg-down {
+		overflow: auto !important;
+	}
 	.u-remove-dropdown-icon-down-lg {
 		.dropdown-toggle::after {
 			display: none;
