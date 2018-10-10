@@ -425,7 +425,7 @@ class Users_Privileges_Model extends Users_Record_Model
 								$relatedPermission = $recordMetaData['smownerid'] == $currentUserId || in_array($recordMetaData['smownerid'], $currentUserGroups);
 								break;
 							case 1:
-								$relatedPermission = in_array($currentUserId, \App\Fields\SharedOwner::getById($id, $recordMetaData['setype']));
+								$relatedPermission = in_array($currentUserId, \App\Fields\SharedOwner::getById($id));
 								break;
 							case 2:
 								$relatedPermission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
