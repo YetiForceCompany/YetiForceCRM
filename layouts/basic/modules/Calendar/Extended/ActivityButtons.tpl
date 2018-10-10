@@ -33,6 +33,7 @@
 					<button type="button" class="mr-1 mt-1 btn btn-sm btn-primary showQuickCreate"
 							data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}"
 							data-type="0"
+							data-dismiss="modal"
 							data-js="click"
 							title="{\App\Language::translate($ACTIVITY_STATE_LABEL.postponed, $MODULE_NAME)}">
 						<span class="fas fa-angle-double-right"></span>

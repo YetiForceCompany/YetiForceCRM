@@ -77,6 +77,7 @@
 								{if $EMPTY && \App\Privilege::isPermitted($MODULE_NAME, 'ActivityPostponed', $ID)}
 									<button type="button" class="mr-1 btn btn-primary showQuickCreate"
 											data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}"
+											data-dismiss="modal"
 											data-type="0">
 										<span class="fas fa-angle-double-right mr-1"></span>
 										{\App\Language::translate($ACTIVITY_STATE_LABEL.postponed, $MODULE_NAME)}
