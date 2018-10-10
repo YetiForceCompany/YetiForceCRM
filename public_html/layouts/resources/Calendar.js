@@ -155,10 +155,28 @@ window.Calendar_Js = class Calendar_Js {
 	}
 
 	setBrowserHistoryConfig() {
-		const historyParams = app.getMainParams('historyParams', true);
-		var s = moment(historyParams.start).valueOf();
-		var e = moment(historyParams.end).valueOf();
-		return {defaultDate: moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'))}
+		let historyParams = app.getMainParams('historyParams', true),
+			options = {};
+		if (historyParams !== null) {
+			var s = moment(options.start).valueOf();
+			var e = moment(options.end).valueOf();
+			options = {
+				defaultDate: moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD')),
+				start: historyParams.start,
+				end: historyParams.end,
+				user: historyParams.user.split(",").map((x) => {
+					return parseInt(x)
+				}),
+				time: historyParams.time,
+				// filters: historyParams.filters.split(","),
+				// cvid: historyParams.cvid
+			};
+			//options = Object.assign(historyParams, options);
+
+		} else {
+			options = null;
+		}
+		return options;
 	}
 
 	eventRenderer(event, element) {
