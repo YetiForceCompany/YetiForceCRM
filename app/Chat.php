@@ -17,31 +17,43 @@ namespace App;
 class Chat
 {
 	/**
+	 * Record id.
+	 *
 	 * @var int
 	 */
 	protected $recordId;
 
 	/**
+	 * Name of room.
+	 *
 	 * @var string
 	 */
 	protected $nameOfRoom;
 
 	/**
+	 * Room id.
+	 *
 	 * @var int
 	 */
 	protected $roomId = false;
 
 	/**
+	 * Last message id.
+	 *
 	 * @var int|null
 	 */
 	protected $lastMessage;
 
 	/**
+	 * Determines if the room is a favorite.
+	 *
 	 * @var bool
 	 */
 	protected $favorite = false;
 
 	/**
+	 * Specifies whether the user is assigned to a room.
+	 *
 	 * @var bool
 	 */
 	protected $isAssigned = false;
