@@ -239,7 +239,7 @@
 									</select>
 									<div class="input-group-append">
 										<button type="button" class="btn btn-primary js-value-copy"
-												data-copy-target="#recordVariable"
+												data-js="click"
 												title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
 											<span class="fas fa-copy"></span>
 										</button>
@@ -265,7 +265,9 @@
 													<optgroup label="{$BLOCK_NAME}">
 														{foreach item=ITEM from=$RELATED_FIELDS}
 															<option value="{$ITEM['var_value']}"
-																	data-label="{$ITEM['var_label']}">{$ITEM['label']}</option>
+																	data-label="{$ITEM['var_label']}">
+																{$ITEM['label']}
+															</option>
 														{/foreach}
 													</optgroup>
 												{/foreach}
@@ -273,7 +275,7 @@
 										</select>
 										<div class="input-group-append">
 											<button type="button" class="btn btn-primary js-value-copy"
-													data-copy-target="#relatedVariable"
+													data-js="click"
 													title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
 												<span class="fas fa-copy"></span>
 											</button>
@@ -319,7 +321,7 @@
 										</select>
 										<div class="input-group-append">
 											<button type="button" class="btn btn-primary js-value-copy"
-													data-copy-target="#sourceVariable"
+													data-js="click"
 													title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
 												<span class="fas fa-copy"></span>
 											</button>
@@ -355,7 +357,7 @@
 									</select>
 									<div class="input-group-append">
 										<button type="button" class="btn btn-primary js-value-copy"
-												data-copy-target="#generalVariable"
+												data-js="click"
 												title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')}">
 											<span class="fas fa-copy"></span>
 										</button>
