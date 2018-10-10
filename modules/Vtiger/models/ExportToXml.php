@@ -60,7 +60,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
 		$this->inventoryFields = $inventoryFieldModel->getFields();
 		$table = $inventoryFieldModel->getTableName('data');
-		$dataReader = (new \App\Db\Query())->from($table)->where(['id' => $recordData['id']])->orderBy('seq', SORT_ASC)->createCommand()->query();
+		$dataReader = (new \App\Db\Query())->from($table)->where(['id' => $recordData['id']])->orderBy(['seq' => SORT_ASC])->createCommand()->query();
 		while ($inventoryRow = $dataReader->read()) {
 			$entries[] = $inventoryRow;
 		}

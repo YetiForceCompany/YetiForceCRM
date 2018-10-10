@@ -55,7 +55,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$currentUserPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
-		if ($action === 'Header') {
+		if ($action == 'Header') {
 			$action = 0;
 		}
 		$query = (new \App\Db\Query())->select('vtiger_links.*, mdw.userid, mdw.data, mdw.active, mdw.title, mdw.size, mdw.filterid,
