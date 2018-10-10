@@ -221,6 +221,16 @@ class QueryGenerator
 	}
 
 	/**
+	 * Returns related fields.
+	 *
+	 * @return array
+	 */
+	public function getRelatedFields()
+	{
+		return $this->relatedFields;
+	}
+
+	/**
 	 * Set query field.
 	 *
 	 * @param string|string[] $fields
@@ -324,6 +334,21 @@ class QueryGenerator
 	}
 
 	/**
+	 * Returns related fields for section SELECT.
+	 *
+	 * @return array
+	 */
+	public function loadRelatedFields()
+	{
+		$fields = [];
+		foreach ($this->relatedFields as $field) {
+			$relatedFieldModel = $this->addRelatedJoin($field);
+			$fields["{$field['sourceField']}{$field['relatedModule']}{$relatedFieldModel->getName()}"] = "{$relatedFieldModel->getTableName()}{$field['sourceField']}.{$relatedFieldModel->getColumnName()}";
+		}
+		return $fields;
+	}
+
+	/**
 	 * Set related field.
 	 *
 	 * @param string[] $field
@@ -332,8 +357,7 @@ class QueryGenerator
 	 */
 	public function addRelatedField($field)
 	{
-		$relatedFieldModel = $this->addRelatedJoin($field);
-		$this->relatedFields["{$field['relatedModule']}{$relatedFieldModel->getName()}"] = "{$relatedFieldModel->getTableName()}{$field['sourceField']}.{$field['relatedField']}";
+		$this->relatedFields[] = $field;
 
 		return $this;
 	}
@@ -519,7 +543,7 @@ class QueryGenerator
 	 * @param bool $noCache
 	 * @param bool $onlyFields
 	 *
-	 * @return bool
+	 * @return mixed
 	 */
 	public function initForDefaultCustomView($noCache = false, $onlyFields = false)
 	{
@@ -529,8 +553,7 @@ class QueryGenerator
 			return false;
 		}
 		$this->initForCustomViewById($viewId, $onlyFields);
-
-		return true;
+		return $viewId;
 	}
 
 	/**
@@ -575,16 +598,23 @@ class QueryGenerator
 	/**
 	 * Add custom view fields from column.
 	 *
-	 * @param $cvColumn
+	 * @param string[] $cvColumn
 	 */
-	private function addCustomViewFields($cvColumn)
+	private function addCustomViewFields(array $cvColumn)
 	{
-		list($tableName, $columnName, $fieldName) = explode(':', $cvColumn);
-		if (empty($fieldName) && $columnName === 'crmid' && $tableName === 'vtiger_crmentity') {
+		$fieldName = $cvColumn['field_name'];
+		$sourceFieldName = $cvColumn['source_field_name'];
+		if (empty($sourceFieldName)) {
 			$this->customViewFields[] = 'id';
+			if ($fieldName !== 'id') {
+				$this->fields[] = $fieldName;
+			}
 		} else {
-			$this->fields[] = $fieldName;
-			$this->customViewFields[] = $fieldName;
+			$this->addRelatedField([
+				'sourceField' => $sourceFieldName,
+				'relatedModule' => $cvColumn['module_name'],
+				'relatedField' => $fieldName
+			]);
 		}
 	}
 
@@ -712,7 +742,7 @@ class QueryGenerator
 				$columns[$key] = $customColumn;
 			}
 		}
-		$this->query->select(array_merge($columns, $this->relatedFields));
+		$this->query->select(array_merge($columns, $this->loadRelatedFields()));
 	}
 
 	/**

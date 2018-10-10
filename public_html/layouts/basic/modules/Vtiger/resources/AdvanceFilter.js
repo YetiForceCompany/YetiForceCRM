@@ -111,7 +111,6 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		if (fieldType != 'D' && fieldType != 'DT') {
 			return [];
 		}
-		var filterContainer = this.getFilterContainer();
 		var dateFilters = this.getDateSpecificConditionInfo();
 		return Object.keys(dateFilters);
 	},
@@ -193,7 +192,6 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		var fieldSelected = fieldSelect.find('option:selected');
 		var fieldSpecificType = this.getFieldSpecificType(fieldSelected);
 		var conditionList = this.getConditionListFromType(fieldSpecificType);
-		var fieldName = fieldSelected.data('field-name');
 		var fieldInfo = fieldSelected.data('fieldinfo');
 		//for none in field name
 		if (typeof conditionList === "undefined") {
@@ -399,8 +397,6 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	 * @return - boolen true/false
 	 */
 	isFieldSupportsValidation: function (fieldSelect) {
-		var selectedOption = fieldSelect.find('option:selected');
-
 		var fieldModel = this.fieldModelInstance;
 		var type = fieldModel.getType();
 
@@ -410,7 +406,6 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 
 		var row = fieldSelect.closest('div.js-conditions-row');
 		var conditionSelectElement = row.find('select[name="comparator"]');
-		var selectedCondition = conditionSelectElement.find('option:selected');
 
 		var conditionValue = conditionSelectElement.val();
 
@@ -562,7 +557,6 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			var comparatorSelectElement = jQuery(e.currentTarget);
 			var row = comparatorSelectElement.closest('div.js-conditions-row');
 			var fieldSelectElement = row.find('select[name="columnname"]');
-			var selectedOption = fieldSelectElement.find('option:selected');
 			//To handle the validation depending on condtion
 			thisInstance.loadFieldSpecificUi(fieldSelectElement);
 			thisInstance.addValidationToFieldIfNeeded(fieldSelectElement);

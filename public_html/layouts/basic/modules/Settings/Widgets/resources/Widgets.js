@@ -121,7 +121,6 @@ jQuery.Class('Settings_Widgets_Index_Js', {}, {
 				type: 'success'
 			};
 			Vtiger_Helper_Js.showPnotify(params);
-			resp = response['success'];
 		});
 	},
 	loadFilters: function (contener) {

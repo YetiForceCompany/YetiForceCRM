@@ -17,7 +17,6 @@
     "PLL_FOR_VERIFICATION": "Zur Validierung",
     "PLL_CANCELLED": "Abgebrochen",
     "PLL_COMPLETED": "Vollst\u00e4ndig",
-    "LBL_CHANGE_STATUS": "\u00c4nderungsstatus",
-    "SINGLE_Campaigns": "Kampagne"
+    "LBL_CHANGE_STATUS": "\u00c4nderungsstatus"
   }
 }

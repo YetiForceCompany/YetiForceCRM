@@ -23,7 +23,6 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 							action: function (data) {
 								var inst = $.jstree.reference(data.reference);
 								var id = inst.get_selected();
-								var menu = inst.get_node(id);
 								var progress = jQuery.progressIndicator();
 								app.showModalWindow(null, "index.php?module=Menu&parent=Settings&view=EditMenu&id=" + id, function (container) {
 									thisInstance.registerEditMenu(container);
@@ -103,7 +102,6 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		});
 	},
 	getMenuData: function (selectedRole) {
-		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var params = {};
 		params['module'] = app.getModuleName();

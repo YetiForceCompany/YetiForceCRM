@@ -12,12 +12,13 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 				self.updateActivityState(currentTarget);
 			} else {
 				if (app.getModuleName() === 'Calendar' && viewName === 'CalendarExtended') {
-					(Calendar_Calendar_Js.getInstanceByView()).getCalendarEditView(currentTarget.data('id'), {
+					let calendarInstance = new Calendar_CalendarExtended_Js;
+					calendarInstance.getCalendarEditView(currentTarget.data('id'), {
 						isDuplicate: true,
 						addRelation: true,
 						sourceModule: 'Calendar',
 						sourceRecord: currentTarget.data('id')
-					})
+					});
 				} else if (currentTarget.hasClass('showQuickCreate')) {
 					let progressIndicatorElement = $.progressIndicator({
 							'position': 'html',
@@ -52,15 +53,14 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 		});
 	},
 	updateActivityState: function (currentTarget) {
-		var thisInstance = this;
-		var params = {
+		let params = {
 			module: 'Calendar',
 			action: "ActivityStateAjax",
 			record: currentTarget.data('id'),
 			state: currentTarget.data('state')
 		};
 		app.hideModalWindow();
-		var progressIndicatorElement = jQuery.progressIndicator({
+		let progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
@@ -94,7 +94,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 					(new Vtiger_DashBoard_Js()).getContainer().find('a[name="drefresh"]').trigger('click');
 				}
 				if (app.getModuleName() === 'Calendar' && (viewName === 'Calendar' || viewName === 'CalendarExtended')) {
-					const calendarInstance = Calendar_Calendar_Js.getInstanceByView();
+					const calendarInstance = new `Calendar_${viewName}_Js`;
 					calendarInstance.loadCalendarData();
 					calendarInstance.getCalendarCreateView();
 				}

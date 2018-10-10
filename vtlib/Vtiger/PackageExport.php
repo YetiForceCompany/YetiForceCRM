@@ -541,13 +541,11 @@ class PackageExport
 			$cvid = $row['cvid'];
 			$cvcolumnres = $db->pquery('SELECT * FROM vtiger_cvcolumnlist WHERE cvid=?', [$cvid]);
 			while ($cvRow = $db->getRow($cvcolumnres)) {
-				$cvColumnNames = explode(':', $cvRow['columnname']);
-
 				$this->openNode('field');
-				$this->outputNode($cvColumnNames[2], 'fieldname');
+				$this->outputNode($cvRow['field_name'], 'fieldname');
+				$fieldModel = \Vtiger_Field_Model::getInstance($cvRow['field_name'], \Vtiger_Module_Model::getInstance($cvRow['module_name']));
 				$this->outputNode($cvRow['columnindex'], 'columnindex');
-
-				$cvcolumnruleres = $db->pquery('SELECT * FROM vtiger_cvadvfilter WHERE cvid=? && columnname=?', [$cvid, $cvRow['columnname']]);
+				$cvcolumnruleres = $db->pquery('SELECT * FROM vtiger_cvadvfilter WHERE cvid=? && columnname=?', [$cvid, $fieldModel->getCustomViewColumnName()]);
 				if ($cvcolumnruleres->rowCount()) {
 					$this->openNode('rules');
 					while ($rulesRow = $db->getRow($cvcolumnruleres)) {

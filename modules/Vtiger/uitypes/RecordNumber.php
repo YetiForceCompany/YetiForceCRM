@@ -14,7 +14,7 @@ class Vtiger_RecordNumber_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		$maximumLength = $this->getFieldModel()->get('maximumlength');

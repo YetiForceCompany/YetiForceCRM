@@ -20,9 +20,10 @@ $sitebar-border: 1px solid #ccc;
 }
 
 @media(min-width: map_get($grid-breakpoints, lg)) {
-	.Calendar_CalendarExtended .mainBody,
-	.Calendar_Calendar .mainBody {
-		overflow: hidden;
+	.basePanel[class*="_Calendar"] {
+		.mainBody {
+			overflow: hidden;
+		}
 	}
 }
 
@@ -57,7 +58,7 @@ $sitebar-border: 1px solid #ccc;
 }
 
 //standard calendar toggle button
-.Calendar_Calendar {
+.basePanel:not(.Calendar_CalendarExtended) {
 	.toggleSiteBarRightButton {
 		background: $light;
 		font-weight: bold;
@@ -500,6 +501,19 @@ $sitebar-border: 1px solid #ccc;
 		min-height: 9em !important;
 	}
 
+	.fc-day-top {
+		.fc-day-number {
+			font-weight: bold;
+			font-size: 24px;
+			color: #c1c1c1;
+		}
+		&.fc-today {
+			.fc-day-number {
+				color: #546e7a;
+			}
+		}
+	}
+
 	.fc-year {
 		&__container {
 			margin-right: -8px;
@@ -696,7 +710,12 @@ $sitebar-border: 1px solid #ccc;
 					overflow-y: auto;
 					overflow-x: hidden;
 				}
-
+				label {
+					margin-bottom: 0.1rem;
+					font-weight: 500;
+					margin-top: 0.6rem;
+					color: #6c757d;
+				}
 				.ps__rail-y {
 					z-index: 100;
 				}

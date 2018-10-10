@@ -12,7 +12,6 @@ jQuery.Class('Settings_Users_SwitchUsers_Js', {}, {
 				});
 			});
 			var id = parseInt(content.find('#suCount').val()) + 1;
-			var target = $(e.currentTarget);
 			var cloneItem = content.find('.cloneItem tbody').clone(true, true);
 			var suFrom = cloneItem.find('.sufrom option')
 			suFrom.each(function (index, option) {

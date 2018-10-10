@@ -365,16 +365,23 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Function to get the display value in ListView.
 	 *
-	 * @param string $fieldName
-	 * @param bool   $rawText
+	 * @param string|Vtiger_Field_Model $field
+	 * @param bool                      $rawText
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return mixed
 	 */
-	public function getListViewDisplayValue($fieldName, $rawText = false)
+	public function getListViewDisplayValue($field, $rawText = false)
 	{
-		return $this->getModule()->getFieldByName($fieldName)->getUITypeModel()->getListViewDisplayValue($this->get($fieldName), $this->getId(), $this, $rawText);
+		if ($field instanceof Vtiger_Field_Model) {
+			if (!empty($field->get('source_field_name')) && isset($this->ext[$field->get('source_field_name')][$field->getModuleName()])) {
+				return $this->ext[$field->get('source_field_name')][$field->getModuleName()]->getListViewDisplayValue($field, $rawText);
+			}
+		} else {
+			$field = $this->getModule()->getFieldByName($field);
+		}
+		return $field->getUITypeModel()->getListViewDisplayValue($this->get($field->getFieldName()), $this->getId(), $this, $rawText);
 	}
 
 	/**

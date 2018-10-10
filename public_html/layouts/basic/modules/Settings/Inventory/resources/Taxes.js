@@ -9,13 +9,15 @@ Settings_Inventory_Index_Js("Settings_Inventory_Taxes_Js", {}, {
 		let container = jQuery('#inventory'),
 			currency = jQuery('#currency'),
 			symbol = '%',
-			table = $('.inventoryTable', container);
+			table = $('.inventoryTable', container),
+			defaultCheck = '';
 		if (currency.length > 0) {
 			currency = JSON.parse(currency.val());
 			symbol = currency.currency_symbol;
 		}
 		if (details.default === 1) {
 			table.find('.default').prop('checked', false);
+			defaultCheck = 'checked';
 		}
 		let trElement = $(
 			`<tr class="opacity" data-id="${details.id}">
@@ -26,10 +28,10 @@ Settings_Inventory_Index_Js("Settings_Inventory_Taxes_Js", {}, {
 					<div class="float-right  w-50 d-flex justify-content-between mr-2">
 						<input class="default js-update-field mt-2" ${defaultCheck} data-field-name="default" type="checkbox">
 						<div class="actions">
-							<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer" data-url="' + details._editurl + '">
+							<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer" data-url="${details._editurl}">
 								<span title="Edycja" class="fas fa-edit alignBottom"></span>
 							</button>
-							<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white" data-url="' + details._editurl + '">
+							<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white" data-url="${details._editurl}">
 								<span title="Usuń" class="fas fa-trash-alt alignBottom"></span>
 							</button>
 						</div>

@@ -636,50 +636,30 @@ $.Class("Vtiger_Header_Js", {
 		var records = $('.customTableRWD').find('[data-toggle-visible=false]');
 		records.find('.footable-toggle').css("display", "none");
 	},
-	registerShowHideRightPanelEvent: function (container) {
-		var thisInstance = this;
-		var key = 'ShowHideRightPanel' + app.getModuleName();
+	registerSiteBarButton(container) {
+		const key = 'ShowHideRightPanel' + app.getModuleName();
 		if (app.cacheGet(key) == 'show') {
-			thisInstance.showSiteBar(container, container.find('.toggleSiteBarRightButton'));
-		}
-
-		if (app.cacheGet(key) == null) {
+			this.toggleSiteBar(container.find('.toggleSiteBarRightButton'));
+		} else if (app.cacheGet(key) == null) {
 			if (container.find('.siteBarRight').data('showpanel') == 1) {
-				thisInstance.showSiteBar(container, container.find('.toggleSiteBarRightButton'));
+				this.toggleSiteBar(container.find('.toggleSiteBarRightButton'));
 			}
 		}
-		container.find('.toggleSiteBarRightButton').on('click', function (e) {
-			var toogleButton = $(this);
+		container.find('.toggleSiteBarRightButton').on('click', (e) => {
+			let toogleButton = $(e.currentTarget);
 			if (toogleButton.closest('.siteBarRight').hasClass('hideSiteBar')) {
 				app.cacheSet(key, 'show');
-				thisInstance.showSiteBar(container, toogleButton);
 			} else {
 				app.cacheSet(key, 'hide');
-				thisInstance.hideSiteBar(container, toogleButton);
 			}
+			this.toggleSiteBar(toogleButton);
 		});
 	},
-	hideSiteBar: function (container, toogleButton) {
-		var key, siteBarRight, content, buttonImage;
-		siteBarRight = toogleButton.closest('.siteBarRight');
-		content = container.find('.rowContent');
-		buttonImage = toogleButton.find('[data-fa-i2svg]');
-
-		siteBarRight.addClass('hideSiteBar');
-		content.removeClass('js-sitebar--active');
-		buttonImage.removeClass('fa-chevron-right').addClass("fa-chevron-left");
-		toogleButton.addClass('hideToggleSiteBarRightButton');
-	},
-	showSiteBar: function (container, toogleButton) {
-		var key, siteBarRight, content, buttonImage;
-		siteBarRight = toogleButton.closest('.siteBarRight');
-		content = container.find('.rowContent');
-		buttonImage = toogleButton.find('[data-fa-i2svg]');
-
-		siteBarRight.removeClass('hideSiteBar');
-		content.addClass('js-sitebar--active');
-		buttonImage.removeClass('fa-chevron-left').addClass("fa-chevron-right");
-		toogleButton.removeClass('hideToggleSiteBarRightButton');
+	toggleSiteBar(toogleButton) {
+		$('.rowContent').toggleClass('js-sitebar--active');
+		toogleButton.closest('.siteBarRight').toggleClass('hideSiteBar');
+		toogleButton.find('[data-fa-i2svg]').toggleClass('fa-chevron-left').toggleClass("fa-chevron-right");
+		toogleButton.toggleClass('hideToggleSiteBarRightButton');
 	},
 	registerToggleButton: function () {
 		$(".buttonTextHolder .dropdown-menu a").on('click', function () {
@@ -959,7 +939,6 @@ $.Class("Vtiger_Header_Js", {
 		app.showNewScrollbar(menuContainer.find('.subMenu').last(), {suppressScrollX: true});
 		thisInstance.listenTextAreaChange();
 		thisInstance.registerFooTable(); //Enable footable
-		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));
 		$('.js-clear-history').on('click', () => {
 			app.clearBrowsingHistory();
 		});
@@ -981,6 +960,7 @@ $.Class("Vtiger_Header_Js", {
 		thisInstance.registerAnnouncements();
 		thisInstance.registerHotKeys();
 		thisInstance.registerToggleButton();
+		thisInstance.registerSiteBarButton($('#centerPanel'));
 		//this.registerCalendarButtonClickEvent();
 		//After selecting the global search module, focus the input element to type
 		$('.basicSearchModulesList').on('change', function () {

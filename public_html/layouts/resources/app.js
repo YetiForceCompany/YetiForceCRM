@@ -1410,29 +1410,6 @@ var App = {},
 			}
 			return $(window).height() * percantage / 100;
 		},
-		setCalendarHeight(container) {
-			if (typeof container === 'undefined') {
-				container = $('.js-base-container');
-			}
-			let paddingTop = 15;
-			if ('CalendarExtended' === CONFIG.view) {
-				paddingTop = 5;
-			}
-			if (container.hasClass('quickCreateContainer')) {
-				paddingTop = 65;
-			}
-			if ($(window).width() > 993) {
-				let calendarH = $(window).height() - container.find('.js-calendar__container').offset().top - $('.js-footer').height() - paddingTop;
-				new ResizeSensor(container.find('.contentsDiv'), () => {
-					calendarH = $(window).height() - container.find('.js-calendar__container').offset().top - $('.js-footer').height() - paddingTop;
-					$('.js-calendar__container').fullCalendar('option', 'height', calendarH);
-					$('.js-calendar__container').height(calendarH + 10); // without this line calendar scroll stops working
-				});
-				return calendarH;
-			} else if ($(window).width() < 993) {
-				return 'auto';
-			}
-		},
 		clearBrowsingHistory: function () {
 			AppConnector.request({
 				module: 'Home',
@@ -1441,7 +1418,6 @@ var App = {},
 				$('.historyList').html(`<a class="item dropdown-item" href="#" role="listitem">${app.vtranslate('JS_NO_RECORDS')}</a>`);
 			});
 		},
-
 		/**
 		 * Open url in top window
 		 * @param string url

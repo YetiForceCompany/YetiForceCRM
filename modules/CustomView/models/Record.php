@@ -246,6 +246,31 @@ class CustomView_Record_Model extends \App\Base
 		return false;
 	}
 
+	/**
+	 * Function adds a filter to your favorites.
+	 *
+	 * @param int    $cvId
+	 * @param string $user
+	 * @param string $action
+	 *
+	 * @return bool
+	 */
+	public static function setFeaturedFilterView($cvId, $user, $action)
+	{
+		$db = \App\Db::getInstance();
+		if ($action === 'add') {
+			$db->createCommand()->insert('u_#__featured_filter', [
+				'user' => $user,
+				'cvid' => $cvId,
+			])->execute();
+		} elseif ($action === 'remove') {
+			$db->createCommand()
+				->delete('u_#__featured_filter', ['user' => $user, 'cvid' => $cvId])
+				->execute();
+		}
+		return false;
+	}
+
 	public function privilegeToDelete()
 	{
 		return $this->isEditable() && $this->get('presence') != 0;
@@ -343,13 +368,13 @@ class CustomView_Record_Model extends \App\Base
 
 		$userId = 'Users:' . $currentUserModel->getId();
 		if (!empty($featured) && empty($cvIdOrg)) {
-			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'add');
+			self::setFeaturedFilterView($cvId, $userId, 'add');
 		} elseif (empty($featured) && !empty($cvIdOrg)) {
-			Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'remove');
+			self::setFeaturedFilterView($cvId, $userId, 'remove');
 		} elseif (!empty($featured)) {
 			$isExists = (new App\Db\Query())->from('u_#__featured_filter')->where(['cvid' => $cvId, 'user' => $userId])->exists();
 			if (!$isExists) {
-				Settings_CustomView_Module_Model::setFeaturedFilterView($cvId, $userId, 'add');
+				self::setFeaturedFilterView($cvId, $userId, 'add');
 			}
 		}
 		if (empty($setDefault) && !empty($cvIdOrg)) {
@@ -509,11 +534,14 @@ class CustomView_Record_Model extends \App\Base
 	{
 		$db = App\Db::getInstance();
 		$cvId = $this->getId();
-		foreach ($this->get('columnslist') as $index => $columnName) {
+		foreach ($this->get('columnslist') as $index => $columnInfo) {
+			$columnInfo = explode(':', $columnInfo);
 			$db->createCommand()->insert('vtiger_cvcolumnlist', [
 				'cvid' => $cvId,
 				'columnindex' => $index,
-				'columnname' => $columnName,
+				'field_name' => $columnInfo[1],
+				'module_name' => $columnInfo[0],
+				'source_field_name' => $columnInfo[2] ?? null,
 			])->execute();
 		}
 	}
@@ -592,11 +620,19 @@ class CustomView_Record_Model extends \App\Base
 		if (!$cvId) {
 			return [];
 		}
-		return (new App\Db\Query())->select('vtiger_cvcolumnlist.columnindex, vtiger_cvcolumnlist.columnname')
+		$selectedFields = (new App\Db\Query())->select([
+			'vtiger_cvcolumnlist.columnindex',
+			'vtiger_cvcolumnlist.field_name',
+			'vtiger_cvcolumnlist.module_name',
+			'vtiger_cvcolumnlist.source_field_name'
+		])
 			->from('vtiger_cvcolumnlist')
 			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
 			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
-			->createCommand()->queryAllByGroup();
+			->createCommand()->queryAllByGroup(1);
+		return array_map(function ($item) {
+			return "{$item['module_name']}:{$item['field_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
+		}, $selectedFields);
 	}
 
 	/**

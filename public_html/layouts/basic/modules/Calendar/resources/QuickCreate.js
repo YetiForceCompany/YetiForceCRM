@@ -10,9 +10,8 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 	},
 	registerExtendCalendar: function () {
 		let container = this.getContainer();
-		let instance = Calendar_Calendar_Js.getInstanceByView('CalendarExtended');
+		let instance = new Calendar_CalendarExtended_Js($('.js-modal-container'));
 		instance.calendarView = this.getContainer().find('.js-calendar__container');
-		instance.setContainer(this.getContainer());
 
 		var selectDays = function (startDate, endDate) {
 			let start_hour = $('#start_hour').val(),
@@ -110,18 +109,17 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 		thisInstance.getNearCalendarEvent(data);
 	},
 	getNearCalendarEvent: function (container) {
-		var thisInstance = this;
-		var dateStartVal = container.find('[name="date_start"]').val();
+		let dateStartVal = container.find('[name="date_start"]').val();
 		if (typeof dateStartVal === "undefined" || dateStartVal === '') {
 			return;
 		}
-		var params = {
+		let params = {
 			module: 'Calendar',
 			view: 'QuickCreateEvents',
 			currentDate: dateStartVal,
 			user: container.find('[name="assigned_user_id"]').val(),
 		}
-		var progressIndicatorElement = $.progressIndicator({
+		let progressIndicatorElement = $.progressIndicator({
 			position: 'html',
 			blockInfo: {
 				enabled: true,
