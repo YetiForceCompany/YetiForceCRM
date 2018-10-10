@@ -734,7 +734,7 @@ $.Class("Vtiger_Header_Js", {
 			AppConnector.request({
 				module: 'Chat',
 				action: 'Entries',
-				mode: 'addChatRoom',
+				mode: 'addRoom',
 				record: chatRoomId,
 			}).done((data) => {
 				if (data && data.success) {
@@ -774,7 +774,7 @@ $.Class("Vtiger_Header_Js", {
 				data: {
 					module: 'Chat',
 					action: 'Entries',
-					mode: 'add',
+					mode: 'addMessage',
 					message: inputMessage.val(),
 					cid: chatItems.find('.chatItem').last().data('cid'),
 					chat_room_id: chatRoomId
@@ -852,7 +852,7 @@ $.Class("Vtiger_Header_Js", {
 				data: {
 					module: 'Chat',
 					action: 'Entries',
-					mode: 'switchChatRoom',
+					mode: 'switchRoom',
 					chat_room_id: roomId
 				}
 			}).done((dataResult) => {

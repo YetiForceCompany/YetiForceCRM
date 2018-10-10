@@ -1,15 +1,16 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Chat-Chat -->
 	{function ROOM_ITEM CLASS_NAME=''}
 		<a href="#"
 		   class="js-change-room{if \App\Chat::getCurrentRoomId()==$ROOM['room_id'] } fontBold{/if} {$CLASS_NAME}"
-		   data-room-id="{$ROOM['room_id']}">
+		   data-room-id="{$ROOM['room_id']}" data-js="click">
 			<div class="row">
 				{\App\Language::translate($ROOM['name'])}
 			</div>
 		</a>
 	{/function}
-	<div class="tpl-Chat-Chat o-action-menu__item">
+	<div class="o-action-menu__item">
 		<a class="c-header__btn ml-2 btn btn-light btn headerLinkChat js-popover-tooltip"
 		   role="button"
 		   data-js="popover" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
@@ -57,4 +58,5 @@
 			</div>
 		</div>
 	</div>
+	<!-- /tpl-Chat-Chat -->
 {/strip}

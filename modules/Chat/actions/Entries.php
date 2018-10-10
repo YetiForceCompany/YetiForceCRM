@@ -28,7 +28,20 @@ class Chat_Entries_Action extends \App\Controller\Action
 			!$currentUserPriviligesModel->hasModulePermission($request->getModule()) ||
 			!\App\Module::isModuleActive('Chat')
 		) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		if (
+			$request->has('record') &&
+			!Vtiger_Record_Model::getInstanceById($request->getInteger('record'))->isViewable()
+		) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		if (
+			$request->has('chat_room_id') &&
+			$request->getInteger('chat_room_id') !== 0 &&
+			!Vtiger_Record_Model::getInstanceById($request->getInteger('chat_room_id'))->isViewable()
+		) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -38,9 +51,9 @@ class Chat_Entries_Action extends \App\Controller\Action
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('add');
-		$this->exposeMethod('addChatRoom');
-		$this->exposeMethod('switchChatRoom');
+		$this->exposeMethod('addMessage');
+		$this->exposeMethod('addRoom');
+		$this->exposeMethod('switchRoom');
 	}
 
 	/**
@@ -48,17 +61,17 @@ class Chat_Entries_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function add(\App\Request $request)
+	public function addMessage(\App\Request $request)
 	{
 		$chatRoom = \App\Chat::getInstanceById($request->getInteger('chat_room_id'));
 		$isAssigned = $chatRoom->isAssigned();
-		$chatRoom->add($request->get('message'));
+		$chatRoom->addMessage($request->get('message'));
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
 			'html' => (new Chat_Entries_View())->getHTML($request, $chatRoom),
 			'user_added_to_room' => $isAssigned !== $chatRoom->isAssigned(),
-			'room' => ['name' => $chatRoom->getChatRoomName(), 'room_id' => $chatRoom->getChatRoomId()]
+			'room' => ['name' => $chatRoom->getRoomName(), 'room_id' => $chatRoom->getRoomId()]
 		]);
 		$response->emit();
 	}
@@ -68,14 +81,14 @@ class Chat_Entries_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function addChatRoom(\App\Request $request)
+	public function addRoom(\App\Request $request)
 	{
 		$chatRoom = \App\Chat::createRoomById($request->getInteger('record'));
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'chat_room_id' => $chatRoom->getChatRoomId(),
-			'name' => $chatRoom->getChatRoomName()
+			'chat_room_id' => $chatRoom->getRoomId(),
+			'name' => $chatRoom->getRoomName()
 		]);
 		$response->emit();
 	}
@@ -87,7 +100,7 @@ class Chat_Entries_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function switchChatRoom(\App\Request $request)
+	public function switchRoom(\App\Request $request)
 	{
 		\App\Chat::setCurrentRoomId($request->getInteger('chat_room_id'));
 		$response = new Vtiger_Response();

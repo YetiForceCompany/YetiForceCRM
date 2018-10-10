@@ -37,7 +37,7 @@ class Chat_Entries_View extends Vtiger_IndexAjax_View
 		$response->setResult([
 			'success' => true,
 			'html' => (new self())->getHTML($request, $chatRoom),
-			'room_id' => $chatRoom->getChatRoomId()
+			'room_id' => $chatRoom->getRoomId()
 		]);
 		$response->emit();
 	}
