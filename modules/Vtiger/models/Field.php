@@ -582,8 +582,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isViewable()
 	{
-		var_dump($this->getDisplayType());
-		exit();
 		if (!$this->isViewEnabled() || !$this->isActiveReference() || (($this->get('uitype') === 306 || $this->get('uitype') === 307 || $this->get('uitype') === 311 || $this->get('uitype') === 312) && $this->getDisplayType() == 2)) {
 			return false;
 		}
