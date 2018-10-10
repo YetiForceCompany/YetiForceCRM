@@ -31,12 +31,6 @@
 			<div class="tab-pane fade" id="rightPanelFilter" role="tabpanel" aria-labelledby="rightPanelFilter-tab">
 				<div class="o-calendar__tab--filters js-calendar__tab--filters border-bottom d-flex flex-column">
 					<div>
-						<h1>
-							{if isset($HISTORY_PARAMS)}
-								{$HISTORY_PARAMS['hiddenDays'] eq true}
-							{/if}
-						</h1>
-
 						{if \AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')}
 							<div class="btn-group btn-group-toggle js-switch js-switch--switchingDays c-calendar-switch" data-toggle="buttons">
 								<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on{if $HISTORY_PARAMS['hiddenDays']} active{/if}">
