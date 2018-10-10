@@ -19,7 +19,7 @@
 			<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_CHAT')}</span>
 
 		</a>
-		<div class="chatModal chatModalWindow modal-full fade c-modal--custom-animation js-chat-modal" tabindex="-1"
+		<div class="chatModal o-chat-modal-window modal-full fade c-modal--custom-animation js-chat-modal" tabindex="-1"
 			 role="dialog"
 			 aria-labelledby="c-chat-modal__title"
 			 data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}"
@@ -46,7 +46,7 @@
 								</div>
 							</div>
 							<div class="col-sm-10 ps pr-4">
-								<div class="js-chat-items js-chat-room-{\App\Chat::getCurrentRoomId()} chatItems"
+								<div class="js-chat-items js-chat-room-{\App\Chat::getCurrentRoomId()} o-chat-items"
 									 data-js="html">
 									{include file=\App\Layout::getTemplatePath('Items.tpl', 'Chat') CHAT_ENTRIES=$CHAT->getEntries()}
 								</div>

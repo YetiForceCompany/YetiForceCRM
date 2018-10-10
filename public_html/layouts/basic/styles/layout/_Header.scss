@@ -135,7 +135,7 @@
 	}
 }
 
-.chatModalWindow {
+.o-chat-modal-window {
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -145,7 +145,7 @@
 	max-width: 64%;
 }
 
-.chatItems {
+.o-chat-items {
 	max-height: calc(100vh - 14.125rem);
 	overflow: auto;
 }
