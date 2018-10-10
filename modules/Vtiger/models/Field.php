@@ -1420,21 +1420,18 @@ class Vtiger_Field_Model extends vtlib\Field
 				} else {
 					return '-2147483648,2147483647';
 				}
-			// no break
 			case 'smallint':
 				if ($data['unsigned']) {
 					return '65535';
 				} else {
 					return '-32768,32767';
 				}
-			// no break
 			case 'tinyint':
 				if ($data['unsigned']) {
 					return '255';
 				} else {
 					return '-128,127';
 				}
-			// no break
 			case 'decimal':
 				return pow(10, $data['size'] - $data['scale']) - 1;
 			default:
