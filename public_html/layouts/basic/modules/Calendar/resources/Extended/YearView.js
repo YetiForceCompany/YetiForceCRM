@@ -123,7 +123,7 @@ var YearView = View.extend({
 					};
 				self.loadMonthData($(this).fullCalendar($.extend(basicOptions, options)), events);
 			});
-			if ($('#weekCount').val() === '1') {
+			if (app.getMainParams('weekCount') === '1') {
 				self.appendWeekButton();
 			}
 			app.showPopoverElementView();
