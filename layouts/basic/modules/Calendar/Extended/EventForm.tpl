@@ -4,8 +4,10 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
-	{if !empty(AppConfig::module('Calendar', 'SHOW_ONLY_EDIT_FORM')) && empty($IS_POSTPONED)}
+	{assign var="ADDITIONAL_CLASS" value=""}
+	{if !empty(AppConfig::module('Calendar', 'SHOW_ONLY_EDIT_FORM')) && empty($IS_POSTPONED) && !empty($RECORD_ID)}
 		{include file=\App\Layout::getTemplatePath('Extended/ActivityButtons.tpl', $MODULE)}
+		{assign var="ADDITIONAL_CLASS" value=" quick-buttons--active"}
 	{/if}
 	<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
 		{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
@@ -27,7 +29,7 @@
 		<input name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" type="hidden"/>
 		<input name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" type="hidden"/>
 		<input name="userChangedEndDateTime" value="0" type="hidden"/>
-		<div class="o-calendar__form w-100 d-flex flex-column">
+		<div class="o-calendar__form w-100 d-flex flex-column {$ADDITIONAL_CLASS}">
 			<h6 class="boxEventTitle text-muted text-center mt-1">
 				{if !empty($RECORD_ID)}
 					<span class="fas fa-edit mr-1"></span>
