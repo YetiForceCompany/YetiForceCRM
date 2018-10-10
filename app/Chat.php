@@ -79,7 +79,8 @@ class Chat
 	/**
 	 * Get instance by record id.
 	 *
-	 * @param int $id
+	 * @param int      $id
+	 * @param int|null $userId
 	 *
 	 * @return \App\Chat
 	 */
