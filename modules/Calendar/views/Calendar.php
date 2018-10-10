@@ -98,7 +98,10 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if ($request->get('history')) {
-			$viewer->assign('HISTORY_PARAMS', $request->getAll());
+			$historyParams = array_diff_key($request->getAll(), array_flip(['history', 'module', 'view']));
+			$viewer->assign('HISTORY_PARAMS', $historyParams);
+			$viewer->assign('HIDDEN_DAYS', $request->get('hiddenDays'));
+			$viewer->assign('TIME', $request->get('time'));
 		}
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 		$viewer->assign('WEEK_COUNT', AppConfig::module('Calendar', 'WEEK_COUNT'));

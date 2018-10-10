@@ -7,6 +7,7 @@ window.Calendar_Js = class Calendar_Js {
 		this.calendarView = false;
 		this.calendarCreateView = false;
 		this.container = container;
+		this.browserHistoryConfig = this.setBrowserHistoryConfig();
 		this.calendarBasicOptions = this.setCalendarBasicOptions();
 		this.calendarAdvancedOptions = this.setCalendarAdvancedOptions();
 		this.calendarModuleOptions = this.setCalendarModuleOptions();
@@ -39,7 +40,7 @@ window.Calendar_Js = class Calendar_Js {
 	}
 
 	setCalendarMergedOptions() {
-		return Object.assign(this.calendarBasicOptions, this.calendarAdvancedOptions, this.calendarModuleOptions);
+		return Object.assign(this.calendarBasicOptions, this.calendarAdvancedOptions, this.calendarModuleOptions, this.browserHistoryConfig);
 	}
 
 	setCalendarModuleOptions() {
@@ -151,6 +152,13 @@ window.Calendar_Js = class Calendar_Js {
 				app.vtranslate('JS_WED'), app.vtranslate('JS_THU'), app.vtranslate('JS_FRI'),
 				app.vtranslate('JS_SAT')],
 		};
+	}
+
+	setBrowserHistoryConfig() {
+		const historyParams = app.getMainParams('historyParams', true);
+		var s = moment(historyParams.start).valueOf();
+		var e = moment(historyParams.end).valueOf();
+		return {defaultDate: moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'))}
 	}
 
 	eventRenderer(event, element) {

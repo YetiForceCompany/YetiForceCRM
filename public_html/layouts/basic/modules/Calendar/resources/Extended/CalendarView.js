@@ -192,14 +192,22 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 
 	registerSwitchEvents() {
 		const calendarView = this.getCalendarView();
-		let isWorkDays = (app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all'),
-			switchShowTypeVal = (app.getMainParams('showType') === 'current' && app.moduleCacheGet('defaultShowType') !== 'history'),
+		let isWorkDays,
+			switchShowTypeVal,
 			switchContainer = $('.js-calendar__tab--filters'),
 			switchShowType = switchContainer.find('.js-switch--showType'),
 			switchSwitchingDays = switchContainer.find('.js-switch--switchingDays');
+		let historyParams = app.getMainParams('historyParams', true);
+		if (historyParams == null) {
+			isWorkDays = (app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all'),
+				switchShowTypeVal = (app.getMainParams('showType') === 'current' && app.moduleCacheGet('defaultShowType') !== 'history');
+			if (!switchShowTypeVal) {
+				switchShowType.find('.js-switch--label-off').button('toggle');
+			}
+		} else {
+			app.setMainParams('showType', historyParams.time);
+			app.setMainParams('switchingDays', historyParams.hiddenDays === '' ? 'all' : 'workDays');
 
-		if (!switchShowTypeVal) {
-			switchShowType.find('.js-switch--label-off').button('toggle');
 		}
 		switchShowType.on('change', 'input', (e) => {
 			const currentTarget = $(e.currentTarget);
@@ -213,7 +221,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			calendarView.fullCalendar('getCalendar').view.options.loadView();
 		});
 		if (switchSwitchingDays.length) {
-			if (!isWorkDays) {
+			if (typeof isWorkDays !== 'undefined' && !isWorkDays) {
 				switchSwitchingDays.find('.js-switch--label-off').button('toggle');
 			}
 			switchSwitchingDays.on('change', 'input', (e) => {
@@ -516,7 +524,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			self.selectDays(view.start, view.end);
 			view.end = view.end.add(1, 'day');
 		}
-		console.log(view);
 		AppConnector.requestPjax({
 			module: 'Calendar',
 			action: 'Calendar',
