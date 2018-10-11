@@ -39,7 +39,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			updateCountTaskCalendar: self.updateCountTaskCalendar,
 			registerDatesChange: self.registerDatesChange,
 			addHeaderButtons: self.addHeaderButtons,
-			getActiveFilters: self.getActiveFilters,
 			browserHistoryConfig: self.browserHistoryConfig
 		});
 	}
@@ -967,27 +966,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		this.getSidebarView().find('a[data-toggle="tab"]').one('shown.bs.tab', function (e) {
 			$(".js-filter__search").on('keyup', self.findElementOnList.bind(self));
 		});
-	}
-
-	/**
-	 * Get active filters
-	 * @returns {Array}
-	 */
-	getActiveFilters() {
-		let filters = [];
-		$(".calendarFilters .filterField").each(function () {
-			let element = $(this),
-				name, value;
-			if (element.attr('type') === 'checkbox') {
-				name = element.val();
-				value = element.prop('checked') ? 1 : 0;
-			} else {
-				name = element.attr('name');
-				value = element.val();
-			}
-			filters.push({name: name, value: value});
-		});
-		return filters;
 	}
 
 	/**
