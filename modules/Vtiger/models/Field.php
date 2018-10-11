@@ -1147,17 +1147,13 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to get Default Field Value.
 	 *
-	 * @return string defaultvalue
+	 * @throws \Exception
+	 *
+	 * @return mixed
 	 */
 	public function getDefaultFieldValue()
 	{
-		if ($this->defaultvalue && $this->getFieldDataType() === 'date') {
-			$textParser = \App\TextParser::getInstance($this->getModuleName());
-			$textParser->setContent($this->defaultvalue)->parse();
-
-			return $textParser->getContent();
-		}
-		return $this->defaultvalue;
+		return $this->getUITypeModel()->getDefaultValue();
 	}
 
 	/**
@@ -1420,18 +1416,21 @@ class Vtiger_Field_Model extends vtlib\Field
 				} else {
 					return '-2147483648,2147483647';
 				}
+				// no break
 			case 'smallint':
 				if ($data['unsigned']) {
 					return '65535';
 				} else {
 					return '-32768,32767';
 				}
+				// no break
 			case 'tinyint':
 				if ($data['unsigned']) {
 					return '255';
 				} else {
 					return '-128,127';
 				}
+				// no break
 			case 'decimal':
 				return pow(10, $data['size'] - $data['scale']) - 1;
 			default:
