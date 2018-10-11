@@ -79,18 +79,16 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		$fieldName = $this->getName();
-		if ($fieldName == 'time_start' || $fieldName == 'time_end') {
-			return $this->getUITypeModel()->getDisplayTimeDifferenceValue($fieldName, $value);
-		}
-		//Set the start date and end date
 		if (empty($value)) {
+			$fieldName = $this->getName();
 			if ($fieldName === 'date_start') {
 				return DateTimeField::convertToUserFormat(date('Y-m-d'));
 			} elseif ($fieldName === 'due_date') {
-				$currentUser = Users_Record_Model::getCurrentUserModel();
-				$minutes = $currentUser->get('callduration');
-
+				$userModel = \App\User::getCurrentUserModel();
+				$defaultType = $userModel->getDetail('defaultactivitytype');
+				$typeByDuration = \App\Json::decode($userModel->getDetail('othereventduration'));
+				$typeByDuration = array_column($typeByDuration, 'duration', 'activitytype');
+				$minutes = $typeByDuration[$defaultType] ?? 0;
 				return DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
 			}
 		}

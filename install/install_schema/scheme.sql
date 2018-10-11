@@ -588,6 +588,20 @@ CREATE TABLE `l_yf_settings_tracker_detail` (
   KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `l_yf_social_media_logs` */
+
+CREATE TABLE `l_yf_social_media_logs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `date` datetime NOT NULL,
+  `type` varchar(16) NOT NULL,
+  `name` varchar(16) NOT NULL,
+  `message` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `date` (`date`),
+  KEY `type` (`type`),
+  KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `l_yf_sqltime` */
 
 CREATE TABLE `l_yf_sqltime` (
@@ -1096,20 +1110,6 @@ CREATE TABLE `s_yf_smsnotifier_queue` (
   `records` text NOT NULL,
   `module` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `l_yf_social_media_logs` */
-
-CREATE TABLE `l_yf_social_media_logs` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `date` datetime NOT NULL,
-  `type` varchar(16) NOT NULL,
-  `name` varchar(16) NOT NULL,
-  `message` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `date` (`date`),
-  KEY `type` (`type`),
-  KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_activity_invitation` */
@@ -4244,22 +4244,6 @@ CREATE TABLE `vtiger_calendar_config` (
   `value` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_callduration` */
-
-CREATE TABLE `vtiger_callduration` (
-  `calldurationid` int(10) NOT NULL AUTO_INCREMENT,
-  `callduration` varchar(200) NOT NULL,
-  `sortorderid` int(10) DEFAULT NULL,
-  `presence` int(10) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`calldurationid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_callduration_seq` */
-
-CREATE TABLE `vtiger_callduration_seq` (
-  `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_callhistory` */
 
 CREATE TABLE `vtiger_callhistory` (
@@ -7314,22 +7298,6 @@ CREATE TABLE `vtiger_osstimecontrolcf` (
   CONSTRAINT `vtiger_osstimecontrolcf` FOREIGN KEY (`osstimecontrolid`) REFERENCES `vtiger_osstimecontrol` (`osstimecontrolid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_othereventduration` */
-
-CREATE TABLE `vtiger_othereventduration` (
-  `othereventdurationid` int(10) NOT NULL AUTO_INCREMENT,
-  `othereventduration` varchar(200) NOT NULL,
-  `sortorderid` int(10) DEFAULT NULL,
-  `presence` int(10) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`othereventdurationid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_othereventduration_seq` */
-
-CREATE TABLE `vtiger_othereventduration_seq` (
-  `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_outsourcedproducts` */
 
 CREATE TABLE `vtiger_outsourcedproducts` (
@@ -9176,8 +9144,7 @@ CREATE TABLE `vtiger_users` (
   `no_of_currency_decimals` varchar(1) DEFAULT NULL,
   `truncate_trailing_zeros` tinyint(1) unsigned DEFAULT NULL,
   `dayoftheweek` varchar(100) DEFAULT NULL,
-  `callduration` varchar(3) DEFAULT NULL,
-  `othereventduration` varchar(3) DEFAULT NULL,
+  `othereventduration` text DEFAULT NULL,
   `default_record_view` varchar(10) DEFAULT NULL,
   `leftpanelhide` tinyint(3) unsigned DEFAULT NULL,
   `rowheight` varchar(10) DEFAULT NULL,

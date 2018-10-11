@@ -32,13 +32,17 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 				startDate = startDate + 'T' + start_hour + ':00';
 				endDate = endDate + 'T' + end_hour + ':00';
 				if (startDate == endDate) {
-					let defaulDuration = 0;
-					if (container.find('[name="activitytype"]').val() == 'Call') {
-						defaulDuration = container.find('[name="defaultCallDuration"]').val();
-					} else {
-						defaulDuration = container.find('[name="defaultOtherEventDuration"]').val();
+					let activityType = container.find('[name="activitytype"]').val();
+					let activityDurations = JSON.parse(container.find('[name="defaultOtherEventDuration"]').val());
+					let minutes = 0;
+					for (let i in activityDurations) {
+						if (activityDurations[i].activitytype === activityType) {
+							minutes = parseInt(activityDurations[i].duration);
+							break;
+						}
 					}
-					endDate = moment(endDate).add(defaulDuration, 'minutes').toISOString();
+					console.log(minutes)
+					endDate = moment(endDate).add(minutes, 'minutes').toISOString();
 				}
 			}
 			let dateFormat = container.find('[name="date_start"]').data('dateFormat').toUpperCase(),
