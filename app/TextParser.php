@@ -793,8 +793,8 @@ class TextParser
 		}
 		if ($columns) {
 			$headerFields = [];
-			foreach(explode(',', $columns) as $fieldName) {
-				$headerFields []= [
+			foreach (explode(',', $columns) as $fieldName) {
+				$headerFields[] = [
 					'field_name' => $fieldName,
 					'module_name' => $moduleName
 				];
@@ -1038,29 +1038,32 @@ class TextParser
 	 * Get record variables.
 	 *
 	 * @param bool|string $fieldType
+	 * @param array       $notFieldName
 	 *
 	 * @return array
 	 */
-	public function getRecordVariable($fieldType = false)
+	public function getRecordVariable($fieldType = false, $notField = [])
 	{
-		$cacheKey = "$this->moduleName|$fieldType";
+		$cacheKey = "$this->moduleName|$fieldType|$notField";
 		if (isset(static::$recordVariable[$cacheKey])) {
 			return static::$recordVariable[$cacheKey];
 		}
 		$variables = [];
 		if (!$fieldType) {
 			foreach (static::$variableEntity as $key => $name) {
-				$variables[Language::translate('LBL_ENTITY_VARIABLES', 'Other.TextParser')][] = [
-					'var_value' => "$(record : $key)$",
-					'var_label' => "$(translate : Other.TextParser|$name)$",
-					'label' => Language::translate($name, 'Other.TextParser'),
-				];
+				if (!in_array($key, $notField)) {
+					$variables[Language::translate('LBL_ENTITY_VARIABLES', 'Other.TextParser')][] = [
+						'var_value' => "$(record : $key)$",
+						'var_label' => "$(translate : Other.TextParser|$name)$",
+						'label' => Language::translate($name, 'Other.TextParser'),
+					];
+				}
 			}
 		}
 		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
 		foreach ($moduleModel->getBlocks() as $blockModel) {
 			foreach ($blockModel->getFields() as $fieldModel) {
-				if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {
+				if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType) && !in_array($fieldModel->getFieldDataType(), $notField) && !in_array($fieldModel->getName(), $notField)) {
 					$variables[Language::translate($blockModel->get('label'), $this->moduleName)][] = [
 						'var_value' => "$(record : {$fieldModel->getName()})$",
 						'var_label' => "$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})$",

@@ -226,7 +226,7 @@
 								<div class="input-group">
 									<select class="select2 form-control" id="recordVariable"
 											data-width="style">
-										{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable()}
+										{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable(false, ['RecordId', 'recordNumber'])}
 											<optgroup label="{$BLOCK_NAME}">
 												{foreach item=ITEM from=$FIELDS}
 													<option value="{$ITEM['var_value']}"
