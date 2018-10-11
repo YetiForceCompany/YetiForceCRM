@@ -52,7 +52,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 	 *
 	 * @return Vtiger_Widget_Model[]
 	 */
-	public function getDashboards(int $action)
+	public function getDashboards(int $action = 1)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$currentUserPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();

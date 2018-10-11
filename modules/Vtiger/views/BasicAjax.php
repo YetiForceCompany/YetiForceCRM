@@ -214,7 +214,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
 		$dashBoardModel->set('dashboardId', $request->getInteger('dashboardId'));
 		$dashBoardModel->verifyDashboard($moduleName);
-		$widgets = $dashBoardModel->getDashboards('Header');
+		$widgets = $dashBoardModel->getDashboards(0);
 		$viewer->assign('WIDGETS', $widgets);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->view('dashboards/DashBoardWidgetsList.tpl', $moduleName);
