@@ -74,8 +74,6 @@ class OSSTimeControl_List_Textparser extends \App\TextParser\Base
 			}
 			$html .= '<td class="summary ' . $class . '">' . $content . '</td>';
 		}
-		$html .= '</tr></tfoot></table>';
-
-		return $html;
+		return $html . '</tr></tfoot></table>';
 	}
 }

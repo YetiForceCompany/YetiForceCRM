@@ -575,8 +575,7 @@ class Import_Data_Action extends \App\Controller\Action
 		foreach ($explodedValue as $key => $value) {
 			$explodedValue[$key] = trim($value);
 		}
-		$implodeValue = implode(' |##| ', $explodedValue);
-		return $implodeValue;
+		return implode(' |##| ', $explodedValue);
 	}
 
 	/**
