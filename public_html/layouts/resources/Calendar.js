@@ -177,7 +177,6 @@ window.Calendar_Js = class Calendar_Js {
 		} else {
 			options = null;
 		}
-
 		window.addEventListener('popstate', function (event) {
 			app.moduleCacheSet('browserHistoryEvent', true)
 		}, false);
