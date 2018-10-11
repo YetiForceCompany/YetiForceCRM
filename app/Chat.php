@@ -192,7 +192,7 @@ class Chat
 	 *
 	 * @return string
 	 */
-	public function getRoomName()
+	public function getNameOfRoom()
 	{
 		return $this->nameOfRoom;
 	}

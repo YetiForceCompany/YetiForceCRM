@@ -380,6 +380,7 @@
     "LBL_PAGE": "Stron",
     "LBL_PARENT_OWNER": "Nadrz\u0119dny w\u0142a\u015bciciela rekordu",
     "LBL_PERMISSION_DENIED": "Brak uprawnie\u0144",
+    "ERR_PERMISSION_DENIED": "Brak uprawnie\u0144",
     "LBL_PLEASE_SELECT_MODULE": "Prosz\u0119 wybra\u0107 modu\u0142",
     "LBL_POST": "Dodaj",
     "LBL_PREDEFINED_WIDGETS": "Predefiniowane wid\u017Cety",

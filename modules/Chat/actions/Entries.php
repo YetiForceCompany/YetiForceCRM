@@ -23,32 +23,27 @@ class Chat_Entries_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (
-			!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule()) ||
-			!\App\Module::isModuleActive('Chat')
-		) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
 		$mode = $request->getMode();
 		if (
+			!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule()) ||
 			($mode === 'addMessage' && !$request->has('chat_room_id')) ||
 			($mode === 'addRoom' && !$request->has('record')) ||
 			($mode === 'switchRoom' && !$request->has('chat_room_id'))
 		) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_PERMISSION_DENIED', 406);
 		}
 		if (
 			$request->has('record') &&
 			!Vtiger_Record_Model::getInstanceById($request->getInteger('record'))->isViewable()
 		) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_PERMISSION_DENIED', 406);
 		}
 		if (
 			$request->has('chat_room_id') &&
 			$request->getInteger('chat_room_id') !== 0 &&
 			!Vtiger_Record_Model::getInstanceById($request->getInteger('chat_room_id'))->isViewable()
 		) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -78,7 +73,7 @@ class Chat_Entries_Action extends \App\Controller\Action
 			'success' => true,
 			'html' => (new Chat_Entries_View())->getHTML($request, $room),
 			'user_added_to_room' => $isAssigned !== $room->isAssigned(),
-			'room' => ['name' => $room->getRoomName(), 'room_id' => $room->getRoomId()]
+			'room' => ['name' => $room->getNameOfRoom(), 'room_id' => $room->getRoomId()]
 		]);
 		$response->emit();
 	}
@@ -95,7 +90,7 @@ class Chat_Entries_Action extends \App\Controller\Action
 		$response->setResult([
 			'success' => true,
 			'chat_room_id' => $room->getRoomId(),
-			'name' => $room->getRoomName()
+			'name' => $room->getNameOfRoom()
 		]);
 		$response->emit();
 	}
