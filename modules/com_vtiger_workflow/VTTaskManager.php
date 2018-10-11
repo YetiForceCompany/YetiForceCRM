@@ -97,6 +97,8 @@ class VTTaskManager
 	 * Return tasks for workflow.
 	 *
 	 * @param int $workflowId
+	 *
+	 * @return array
 	 */
 	public function getTasksForWorkflow($workflowId)
 	{
@@ -115,8 +117,7 @@ class VTTaskManager
 			$task->id = $row['task_id'];
 			$tasks[] = $task;
 		}
-		\App\Cache::staticGet('getTasksForWorkflow', $workflowId, $tasks);
-
+		\App\Cache::staticSave('getTasksForWorkflow', $workflowId, $tasks);
 		return $tasks;
 	}
 
