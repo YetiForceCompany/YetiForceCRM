@@ -40,6 +40,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			registerDatesChange: self.registerDatesChange,
 			addHeaderButtons: self.addHeaderButtons,
 			getActiveFilters: self.getActiveFilters,
+			browserHistoryConfig: self.browserHistoryConfig
 		});
 	}
 
@@ -509,7 +510,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	loadCalendarData(view = this.getCalendarView().fullCalendar('getView')) {
 		const self = this;
 		let user = [],
-			filters = this.getActiveFilters(),
 			formatDate = CONFIG.dateFormat.toUpperCase(),
 			cvid = self.getCurrentCvId(),
 			calendarInstance = this.getCalendarView();
@@ -519,7 +519,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		if (0 === user.length) {
 			user = [app.getMainParams('userId')];
 		}
-		self.clearFilterButton(user, filters, cvid);
+		self.clearFilterButton(user, cvid);
 		if (view.type === 'agendaDay') {
 			self.selectDays(view.start, view.end);
 			view.end = view.end.add(1, 'day');
@@ -532,9 +532,8 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			end: view.end.format(formatDate),
 			user: user,
 			time: app.getMainParams('showType'),
-			filters: filters,
 			cvid: cvid,
-			historyUrl: `index.php?module=Calendar&view=CalendarExtended&history=true&viewType=${view.type}&start=${view.start.format(formatDate)}&end=${view.end.format(formatDate)}&user=${user}&time=${app.getMainParams('showType')}&filters=${filters}&cvid=${cvid}&hiddenDays=${view.options.hiddenDays}`
+			historyUrl: `index.php?module=Calendar&view=CalendarExtended&history=true&viewType=${view.type}&start=${view.start.format(formatDate)}&end=${view.end.format(formatDate)}&user=${user}&time=${app.getMainParams('showType')}&cvid=${cvid}&hiddenDays=${view.options.hiddenDays}`
 		};
 		let connectorMethod = window["AppConnector"]["requestPjax"];
 		if (this.firstLoad && this.browserHistoryConfig !== null) {
@@ -543,7 +542,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				end: this.browserHistoryConfig.end,
 				user: this.browserHistoryConfig.user,
 				time: this.browserHistoryConfig.time,
-				filters: this.browserHistoryConfig.filters,
 				cvid: this.browserHistoryConfig.cvid
 			});
 			connectorMethod = window["AppConnector"]["request"];
@@ -557,10 +555,10 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		this.firstLoad = false;
 	}
 
-	clearFilterButton(user, filters, cvid) {
+	clearFilterButton(user, cvid) {
 		let currentUser = parseInt(app.getMainParams('userId')),
 			time = app.getMainParams('showType'),
-			statement = ((user.length === 0 || (user.length === 1 && parseInt(user) === currentUser)) && filters.length === 0 && cvid === undefined && time === 'current');
+			statement = ((user.length === 0 || (user.length === 1 && parseInt(user) === currentUser)) && cvid === undefined && time === 'current');
 		$(".js-calendar__clear-filters").toggleClass('d-none', statement);
 	}
 

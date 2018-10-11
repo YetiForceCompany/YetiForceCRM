@@ -157,7 +157,7 @@ window.Calendar_Js = class Calendar_Js {
 
 	setBrowserHistoryConfig() {
 		let historyParams = app.getMainParams('historyParams', true),
-			options = {};
+			options;
 		if (historyParams !== null) {
 			options = {
 				start: historyParams.start,
@@ -166,13 +166,13 @@ window.Calendar_Js = class Calendar_Js {
 					return parseInt(x)
 				}),
 				time: historyParams.time,
-				// filters: historyParams.filters.split(","),
-				// cvid: historyParams.cvid
+				cvid: historyParams.cvid,
+				defaultView: historyParams.viewType
 			};
-			//options = Object.assign(historyParams, options);
 			let s = moment(options.start).valueOf();
 			let e = moment(options.end).valueOf();
 			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
+			Object.keys(options).forEach(key => options[key] === 'undefined' && delete options[key]);
 		} else {
 			options = null;
 		}
