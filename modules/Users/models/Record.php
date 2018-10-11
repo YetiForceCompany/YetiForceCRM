@@ -269,22 +269,16 @@ class Users_Record_Model extends Vtiger_Record_Model
 		switch ($fieldName) {
 			case 'currency_id':
 				return CurrencyField::getDBCurrencyId();
-				break;
 			case 'accesskey':
 				return \App\Encryption::generatePassword(20, 'lbn');
-				break;
 			case 'language':
 				return \App\Language::getLanguage();
-				break;
 			case 'time_zone':
 				return App\Fields\DateTime::getTimeZone();
-				break;
 			case 'theme':
 				return Vtiger_Viewer::DEFAULTTHEME;
-				break;
 			case 'is_admin':
 				return 'off';
-				break;
 			default:
 				break;
 		}

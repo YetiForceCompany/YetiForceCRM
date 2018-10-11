@@ -107,7 +107,7 @@ class Users_Login_Action extends \App\Controller\Action
 	{
 		$userName = $request->getByType('username', 'Text');
 		$password = $request->getRaw('password');
-		if ($request->getMode('mode') === 'install') {
+		if ($request->getMode() === 'install') {
 			$this->cleanInstallationFiles();
 		}
 		$this->userRecordModel = Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);

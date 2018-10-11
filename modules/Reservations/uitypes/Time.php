@@ -4,7 +4,7 @@
  * Reservations time UIType class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Reservations_Time_UIType extends Vtiger_Time_UIType
 {
@@ -36,14 +36,9 @@ class Reservations_Time_UIType extends Vtiger_Time_UIType
 	public function getDisplayTimeDifferenceValue($fieldName, $value)
 	{
 		$date = new DateTime($value);
-
 		if ($fieldName === 'time_end' && empty($value)) {
 			$date->modify('+15 minutes');
 		}
-
-		$dateTimeField = new DateTimeField($date->format('Y-m-d H:i:s'));
-		$value = $dateTimeField->getDisplayTime();
-
-		return $value;
+		return (new DateTimeField($date->format('Y-m-d H:i:s')))->getDisplayTime();
 	}
 }

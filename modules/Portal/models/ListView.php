@@ -16,7 +16,7 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 {
 	public function getListViewEntries(Vtiger_Paging_Model $pagingModel, $searchResult = false)
 	{
-		$listViewRecordModels =[];
+		$listViewRecordModels = [];
 		$moduleModel = Vtiger_Module_Model::getInstance('Portal');
 
 		$query = $this->getQuery();
@@ -88,7 +88,7 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 			$nextPageExists = false;
 		}
 
-		$result = [
+		return [
 			'startSequence' => $startSequence,
 			'endSequence' => $endSequence,
 			'recordCount' => $recordCount,
@@ -96,8 +96,6 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 			'nextPageExists' => $nextPageExists,
 			'pageLimit' => $pageLimit,
 		];
-
-		return $result;
 	}
 
 	public function getRecordCount()
