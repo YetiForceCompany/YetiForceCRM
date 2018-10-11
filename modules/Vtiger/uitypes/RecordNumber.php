@@ -29,7 +29,7 @@ class Vtiger_RecordNumber_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		$value = \App\Fields\RecordNumber::incrementNumber(\App\Module::getModuleId($recordModel->getModuleName()));
+		$value = \App\Fields\RecordNumber::incrementNumber($recordModel);
 		$recordModel->set($this->getFieldModel()->getFieldName(), $value);
 
 		return $value;

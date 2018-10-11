@@ -75,8 +75,7 @@
 							<td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
 								<input type="text" class="form-control" value="{$SELECTED_MODULE_DATA['prefix']}"
 									   placeholder="{\App\Language::translate('LBL_NO_PREFIX', $QUALIFIED_MODULE)}"
-									   data-old-prefix="{$SELECTED_MODULE_DATA['prefix']}" name="prefix"
-									   data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js.invokeValidation]]"/>
+									   data-old-prefix="{$SELECTED_MODULE_DATA['prefix']}" name="prefix"/>
 							</td>
 						</tr>
 						<tr>
@@ -136,8 +135,7 @@
 							<td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
 								<input type="text" class="form-control" value="{$SELECTED_MODULE_DATA['postfix']}"
 									   placeholder="{\App\Language::translate('LBL_NO_POSTFIX', $QUALIFIED_MODULE)}"
-									   data-old-postfix="{$SELECTED_MODULE_DATA['postfix']}" name="postfix"
-									   data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js.invokeValidation]]"/>
+									   data-old-postfix="{$SELECTED_MODULE_DATA['postfix']}" name="postfix"/>
 							</td>
 						</tr>
 						</tbody>

@@ -81,19 +81,20 @@ class RecordNumber
 	/**
 	 * Function that gets the next sequence number of a record.
 	 *
-	 * @param int $moduleId Number id for module
+	 * @param \Vtiger_Record_Model $recordModel
 	 *
 	 * @return string
 	 */
-	public static function incrementNumber($moduleId)
+	public static function incrementNumber($recordModel)
 	{
+		$moduleId = $recordModel->$module->getId();
 		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $moduleId])->one();
 		$actualSequence = static::getSequenceNumber($row['reset_sequence']);
 		if ($row['reset_sequence'] && $row['cur_sequence'] !== $actualSequence) {
 			$row['cur_id'] = 1;
 		}
-		$fullPrefix = static::parse($row['prefix'], $row['cur_id'], $row['postfix'], $row['leading_zeros']);
-		$strip = strlen($row['cur_id']) - strlen($row['cur_id'] + 1);
+		$fullPrefix = static::parse($row['prefix'], $row['cur_id'], $row['postfix'], $row['leading_zeros'], $recordModel);
+		$strip = \strlen($row['cur_id']) - \strlen($row['cur_id'] + 1);
 		if ($strip < 0) {
 			$strip = 0;
 		}
@@ -107,6 +108,8 @@ class RecordNumber
 	 * Get sequence number that should be saved.
 	 *
 	 * @param string $resetSequence one character
+	 *
+	 * @return string|date
 	 */
 	public static function getSequenceNumber($resetSequence)
 	{
@@ -143,17 +146,29 @@ class RecordNumber
 	 *
 	 * @see Important: When you add new parameter in this function you also must add it in Email::findRecordNumber()
 	 *
-	 * @param string $prefix
-	 * @param string $number
-	 * @param string $postfix
-	 * @param int    $leadingZeros
+	 * @param string                     $prefix
+	 * @param string                     $number
+	 * @param string                     $postfix
+	 * @param int                        $leadingZeros
+	 * @param \Vtiger_Record_Model|false $recordModel
 	 *
 	 * @return string
 	 */
-	public static function parse($prefix, $number, $postfix, $leadingZeros)
+	public static function parse($prefix, $number, $postfix, $leadingZeros, $recordModel = false)
 	{
 		$number = str_pad((string) $number, $leadingZeros, '0', STR_PAD_LEFT);
-		return str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [static::date('Y'), static::date('y'), static::date('m'), static::date('n'), static::date('d'), static::date('j')], $prefix . $number . $postfix);
+		$number = $prefix . $number . $postfix;
+		if ($recordModel) {
+			$textParser = \App\TextParser::getInstanceByModel($recordModel);
+			$textParser->setContent($number);
+			$textParser->parse();
+			$number = $textParser->getContent();
+		}
+		return str_replace(
+			['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}', '{', '}'],
+			[static::date('Y'), static::date('y'), static::date('m'), static::date('n'), static::date('d'), static::date('j'), '', ''],
+			$number
+		);
 	}
 
 	/**
