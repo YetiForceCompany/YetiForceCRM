@@ -216,6 +216,8 @@
     "LBL_CC": "Cc",
     "LBL_CHANGED": "changed",
     "LBL_CHAT_SUPPORT": "Chat support",
+    "LBL_GENERAL": "General",
+    "LBL_CREATE_CHAT_ROOM": "Create a chat room",
     "LBL_CHOOSE_COLUMNS": "Choose columns and order",
     "LBL_CHOOSE_FILTER_CONDITIONS": "Choose filter conditions",
     "LBL_CLEAR": "Clear",

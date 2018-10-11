@@ -55,7 +55,7 @@ class Vtiger_ListView_Model extends \App\Base
 		}
 
 		$instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
-		\App\Cache::staticGet('ListView_Model', $cacheName, $instance);
+		\App\Cache::staticSave('ListView_Model', $cacheName, $instance);
 
 		return $instance;
 	}
