@@ -19,18 +19,13 @@ class Services_Detail_View extends Products_Detail_View
 		$moduleRelatedListFile = 'modules.' . $moduleName . '.resources.RelatedList';
 		unset($headerScriptInstances[$modulePopUpFile], $headerScriptInstances[$moduleDetailFile], $headerScriptInstances[$moduleRelatedListFile]);
 
-		$jsFileNames = [
+		return array_merge($headerScriptInstances, $this->checkAndConvertJsScripts([
 			'modules.Products.resources.Edit',
 			'modules.Products.resources.Detail',
 			'modules.Products.resources.RelatedList',
-		];
-		$jsFileNames[] = $modulePopUpFile;
-		$jsFileNames[] = $moduleDetailFile;
-		$jsFileNames[] = $moduleRelatedListFile;
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+			$modulePopUpFile,
+			$moduleDetailFile,
+			$moduleRelatedListFile
+		]));
 	}
 }

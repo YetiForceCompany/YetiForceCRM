@@ -19,12 +19,9 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$cssFileNames = [
+		return $this->checkAndConvertCssStyles([
 			//Place your widget specific css files here
-		];
-		$headerCssScriptInstances = $this->checkAndConvertCssStyles($cssFileNames);
-
-		return $headerCssScriptInstances;
+		]);
 	}
 
 	public function getSearchParams($stage, $assignedto, $dates)

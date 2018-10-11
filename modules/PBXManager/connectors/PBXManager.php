@@ -84,9 +84,7 @@ class PBXManager_PBXManager_Connector
 		$response = '<?xml version="1.0" encoding="utf-8"?>';
 		$response .= '<Response><Authentication>';
 		$response .= 'Failure';
-		$response .= '</Authentication></Response>';
-
-		return $response;
+		return $response . '</Authentication></Response>';
 	}
 
 	/**

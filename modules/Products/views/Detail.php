@@ -46,14 +46,8 @@ class Products_Detail_View extends Vtiger_Detail_View
 		$moduleRelatedListFile = 'modules.' . $moduleName . '.resources.RelatedList';
 		unset($headerScriptInstances[$moduleDetailFile], $headerScriptInstances[$moduleRelatedListFile]);
 
-		$jsFileNames = [
-			'modules.PriceBooks.resources.RelatedList',
-		];
-		$jsFileNames[] = $moduleDetailFile;
-		$jsFileNames[] = $moduleRelatedListFile;
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		return array_merge($headerScriptInstances, $this->checkAndConvertJsScripts([
+			'modules.PriceBooks.resources.RelatedList', $moduleDetailFile, $moduleRelatedListFile
+		]));
 	}
 }
