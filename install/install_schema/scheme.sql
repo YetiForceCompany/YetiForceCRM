@@ -1268,7 +1268,26 @@ CREATE TABLE `u_yf_chat_messages` (
   `user_name` varchar(50) NOT NULL,
   `created` int(10) unsigned DEFAULT NULL,
   `messages` text DEFAULT NULL,
+  `room_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_chat_rooms` */
+
+CREATE TABLE `u_yf_chat_rooms` (
+  `room_id` int(10) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`room_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_chat_users` */
+
+CREATE TABLE `u_yf_chat_users` (
+  `userid` int(10) NOT NULL,
+  `room_id` int(10) NOT NULL,
+  `last_message` int(10) DEFAULT NULL,
+  `favorite` tinyint(1) NOT NULL,
+  PRIMARY KEY (`userid`,`room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_cinternaltickets` */

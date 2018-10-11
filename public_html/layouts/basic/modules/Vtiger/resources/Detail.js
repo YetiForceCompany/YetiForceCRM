@@ -1651,6 +1651,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					delete urlAttributes.callback;
 				}
 				thisInstance.loadContents(url, urlAttributes).done(function (data) {
+					Vtiger_Header_Js.getInstance().registerChatEvents($('.js-chat-detail'));
 					thisInstance.deSelectAllrelatedTabs();
 					thisInstance.markTabAsSelected(tabElement);
 					Vtiger_Helper_Js.showHorizontalTopScrollBar();
@@ -2602,6 +2603,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerEvents: function () {
 		//this.triggerDisplayTypeEvent();
+		Vtiger_Header_Js.getInstance().registerChatEvents($('.js-chat-detail'));
 		this.registerHelpInfo();
 		this.registerSendSmsSubmitEvent();
 		this.registerAjaxEditEvent();
