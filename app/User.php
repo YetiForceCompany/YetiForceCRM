@@ -6,9 +6,9 @@ namespace App;
  * User basic class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class User
 {
@@ -374,7 +374,7 @@ class User
 				$adminId = (new Db\Query())->select('id')
 					->from('vtiger_users')
 					->where(['is_admin' => 'on', 'status' => 'Active'])
-					->orderBy('id', SORT_ASC)
+					->orderBy(['id' => SORT_ASC])
 					->limit(1)->scalar();
 			}
 			Cache::save(__METHOD__, $key, $adminId, Cache::LONG);
