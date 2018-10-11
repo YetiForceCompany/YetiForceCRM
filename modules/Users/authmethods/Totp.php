@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * TOTP authentication method class.
  * TOTP - Time-based One-time Password.

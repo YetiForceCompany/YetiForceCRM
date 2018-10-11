@@ -51,7 +51,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 				->update('vtiger_troubletickets', [
 					'response_time' => $currentDate,
 					], ['ticketid' => $recordModel->getId()])
-					->execute();
+				->execute();
 		}
 		$closedTime = $recordModel->get('closedtime');
 		if (!empty($closedTime) && $recordModel->has('report_time')) {

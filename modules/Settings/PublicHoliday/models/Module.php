@@ -113,7 +113,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 				'holidayname' => $name,
 				'holidaytype' => $type,
 				], ['publicholidayid' => $id])
-				->execute();
+			->execute();
 		\App\Log::trace('Exiting Settings_PublicHoliday_Module_Model::edit() method ...');
 		if ($saved === 1) {
 			return true;

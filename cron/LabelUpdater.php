@@ -10,13 +10,13 @@ $limit = AppConfig::performance('CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER');
 $executed = [];
 $dataReader = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype',
 			'u_#__crmentity_label.label', 'u_#__crmentity_search_label.searchlabel', ])
-			->from('vtiger_crmentity')
-			->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_crmentity.setype')
-			->leftJoin('u_#__crmentity_label', ' u_#__crmentity_label.crmid = vtiger_crmentity.crmid')
-			->leftJoin('u_#__crmentity_search_label', 'u_#__crmentity_search_label.crmid = vtiger_crmentity.crmid')
-			->where(['and', ['vtiger_crmentity.deleted' => 0], ['or', ['u_#__crmentity_label.label' => null], ['u_#__crmentity_search_label.searchlabel' => null]], ['vtiger_tab.presence' => 0]])
-			->limit($limit)
-			->createCommand()->query();
+	->from('vtiger_crmentity')
+	->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_crmentity.setype')
+	->leftJoin('u_#__crmentity_label', ' u_#__crmentity_label.crmid = vtiger_crmentity.crmid')
+	->leftJoin('u_#__crmentity_search_label', 'u_#__crmentity_search_label.crmid = vtiger_crmentity.crmid')
+	->where(['and', ['vtiger_crmentity.deleted' => 0], ['or', ['u_#__crmentity_label.label' => null], ['u_#__crmentity_search_label.searchlabel' => null]], ['vtiger_tab.presence' => 0]])
+	->limit($limit)
+	->createCommand()->query();
 while ($row = $dataReader->read()) {
 	$updater = false;
 	if ($row['label'] === null && $row['searchlabel'] !== null) {

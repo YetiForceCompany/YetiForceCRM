@@ -793,8 +793,8 @@ class TextParser
 		}
 		if ($columns) {
 			$headerFields = [];
-			foreach(explode(',', $columns) as $fieldName) {
-				$headerFields []= [
+			foreach (explode(',', $columns) as $fieldName) {
+				$headerFields[]= [
 					'field_name' => $fieldName,
 					'module_name' => $moduleName
 				];
