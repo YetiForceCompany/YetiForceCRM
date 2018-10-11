@@ -32,11 +32,11 @@
 									{if $CUSTOM_VIEW->isFeatured()}
 										<li class="nav-item js-filter-tab c-tab--small font-weight-bold"
 											data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
-											<a class="nav-link"
+											<a class="nav-link{if $HISTORY_PARAMS['cvid'] && $HISTORY_PARAMS['cvid'] eq {$CUSTOM_VIEW->getId()}} active show{/if}"
 											   href="#"
 											   {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if}
 											   data-toggle="tab" role="tab"
-											   aria-selected="false">
+											   aria-selected="{if $HISTORY_PARAMS['cvid'] && $HISTORY_PARAMS['cvid'] eq {$CUSTOM_VIEW->getId()}}true{else}false{/if}">
 												{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 												{if $CUSTOM_VIEW->get('description')}
 													<span class="js-popover-tooltip fas fa-info-circle"
