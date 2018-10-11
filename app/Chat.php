@@ -78,7 +78,7 @@ class Chat
 		if (!\App\Session::has('chat-current-room-id')) {
 			return (int) 0;
 		}
-		return \App\Session::get('chat-current-room-id');
+		return (int) \App\Session::get('chat-current-room-id');
 	}
 
 	/**
