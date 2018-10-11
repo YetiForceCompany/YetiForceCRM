@@ -2,13 +2,16 @@
 {strip}
 	<!-- tpl-Chat-Chat -->
 	{function ROOM_ITEM CLASS_NAME=''}
-		<a href="#"
-		   class="js-change-room{if \App\Chat::getCurrentRoomId()==$ROOM['room_id'] } fontBold{/if} {$CLASS_NAME}"
-		   data-room-id="{$ROOM['room_id']}" data-js="click">
-			<div class="row">
+		<div class="row {if \App\Chat::getCurrentRoomId()==$ROOM['room_id'] } u-font-weight-700{/if} {$CLASS_NAME}"
+			 data-room-id="{$ROOM['room_id']}" data-selected-class="u-font-weight-700">
+			{if $ROOM['room_id']!==0 }
+				<span class="js-remove-room fas fa-trash-alt c-icon-button" data-js="click"></span>
+			{/if}
+			<a href="#" class="js-change-room js-popover-tooltip" data-trigger="focus hover" data-placement="right"
+			   data-content="{\App\Language::translate($ROOM['name'])}" data-js="click">
 				{\App\Language::translate($ROOM['name'])}
-			</div>
-		</a>
+			</a>
+		</div>
 	{/function}
 	<div class="o-action-menu__item">
 		<a class="c-header__btn ml-2 btn btn-light btn headerLinkChat js-popover-tooltip"
@@ -46,7 +49,7 @@
 								</div>
 							</div>
 							<div class="col-sm-10 ps pr-4">
-								{include file=\App\Layout::getTemplatePath('Detail/ChatFooter.tpl')}
+								{include file=\App\Layout::getTemplatePath('Detail/ChatInput.tpl')}
 								<div class="js-chat-items js-chat-room-{\App\Chat::getCurrentRoomId()} o-chat-items"
 									 data-js="html">
 									{include file=\App\Layout::getTemplatePath('Items.tpl', 'Chat') CHAT_ENTRIES=$CHAT->getEntries()}

@@ -143,6 +143,16 @@
 	z-index: 1040;
 	display: none;
 	max-width: 64%;
+	.c-icon-button {
+		display: inline-block;
+		height: 24px;
+		color: #d50000;
+		padding: 0px;
+		margin-left: 0;
+		margin-right: 5px;
+		margin-bottom: 0;
+		margin-top: 0;
+	}
 }
 
 .o-chat-items {

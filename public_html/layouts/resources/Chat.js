@@ -35,12 +35,49 @@ window.Chat_Js = class Chat_Js {
 			let item = template.clone(false, false);
 			item.removeClass('hide');
 			item.removeClass('js-room-template');
-			item.removeClass('fontBold');
-			item.find('.row').html(name);
+			item.removeClass(item.data('selectedClass'));
+			item.find('.js-change-room').html(name);
 			item.data('roomId', roomId);
 			$('.js-chat-modal .js-chat-rooms-list').append(item);
 			this.registerSwitchRoom($('.js-chat-modal'));
+			this.registerRemoveRoom($('.js-chat-modal'));
 		}
+	}
+
+	/**
+	 * Remove room item.
+	 * @param {int} roomId
+	 */
+	removeRoomItem(roomId) {
+		$('.js-chat-modal .js-remove-room').each((index, element) => {
+			if ($(element).closest('.row').data('roomId') == roomId) {
+				$(element).closest('.row').remove();
+			}
+		});
+	}
+
+	/**
+	 * Update room.
+	 * @param {jQuery} container
+	 * @param {jQuery} itemRoom
+	 * @param {string} html
+	 * @param {int} roomId
+	 */
+	updateRoom(container, itemRoom, html, roomId) {
+		let prevChatRoomId = container.data('chatRoomId');
+		let selectedClass = itemRoom.closest('.row').data('selectedClass');
+		container.find('.js-chat-items').html(html);
+		container.data('chatRoomId', roomId);
+		itemRoom.closest('.js-chat-modal').find('.js-change-room').each((index, element) => {
+			if (roomId == $(element).closest('.row').data('roomId')) {
+				$(element).closest('.row').removeClass(selectedClass).addClass(selectedClass);
+				container.find('.js-chat-items').closest('.row')
+					.removeClass('js-chat-room-' + prevChatRoomId)
+					.addClass('js-chat-room-' + roomId);
+			} else {
+				$(element).closest('.row').removeClass(selectedClass);
+			}
+		});
 	}
 
 	/**
@@ -48,9 +85,10 @@ window.Chat_Js = class Chat_Js {
 	 * @param {jQuery} container
 	 */
 	registerSwitchRoom(container) {
+		const self = this;
 		container.find('.js-change-room').off('click').on('click', (e) => {
-			let chatModal = $(e.currentTarget).closest('.js-chat-modal');
-			let roomId = $(e.currentTarget).data('roomId');
+			let itemRoom = $(e.currentTarget);
+			let roomId = $(e.currentTarget).closest('.row').data('roomId');
 			const progressIndicatorElement = $.progressIndicator({
 				'position': 'html',
 				'blockInfo': {
@@ -66,24 +104,47 @@ window.Chat_Js = class Chat_Js {
 					chat_room_id: roomId
 				}
 			}).done((dataResult) => {
-				let chatRoom = container.find('.js-chat-items');
-				if (typeof dataResult === 'undefined') {
-					chatRoom.html('');
-				} else {
-					chatRoom.html(dataResult.result.html);
+				let html = ''
+				if (typeof dataResult !== 'undefined') {
+					html = dataResult.result.html;
 				}
-				let prevChatRoomId = container.data('chatRoomId');
-				container.data('chatRoomId', roomId);
-				chatModal.find('.js-change-room').each((index, element) => {
-					if (roomId == $(element).data('roomId')) {
-						$(element).removeClass('fontBold').addClass('fontBold');
-						container.find('.js-chat-items')
-							.removeClass('js-chat-room-' + prevChatRoomId)
-							.addClass('js-chat-room-' + roomId);
-					} else {
-						$(element).removeClass('fontBold');
-					}
-				});
+				self.updateRoom(container, itemRoom, html, roomId);
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			}).fail((error, err) => {
+				app.errorLog(error, err);
+			});
+		});
+
+	}
+
+	/**
+	 * Register remove room.
+	 * @param {jQuery} container
+	 */
+	registerRemoveRoom(container) {
+		const self = this;
+		container.find('.js-remove-room').off('click').on('click', (e) => {
+			let itemRoom = $(e.currentTarget);
+			let roomId = $(e.currentTarget).closest('.row').data('roomId');
+			const progressIndicatorElement = $.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			AppConnector.request({
+				dataType: 'json',
+				data: {
+					module: 'Chat',
+					action: 'Entries',
+					mode: 'removeRoom',
+					chat_room_id: roomId
+				}
+			}).done((dataResult) => {
+				if (typeof dataResult !== 'undefined') {
+					self.updateRoom(container, itemRoom, dataResult.result.html, dataResult.result['chat_room_id']);
+					itemRoom.closest('.row').remove();
+				}
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			}).fail((error, err) => {
 				app.errorLog(error, err);
@@ -114,7 +175,7 @@ window.Chat_Js = class Chat_Js {
 						container.find('.js-container-button').addClass('hide');
 						container.find('.js-container-items').removeClass('hide');
 					}
-					self.addRoomItem(data.result.chat_room_id, data.result.name);
+					self.addRoomItem(data.result['chat_room_id'], data.result['name']);
 				}
 			}).fail((error, err) => {
 				app.errorLog(error, err);
@@ -253,9 +314,50 @@ window.Chat_Js = class Chat_Js {
 	registerChatCheck(timer, container) {
 		const self = this;
 		self.chatCheckTimer = setTimeout(() => {
-			//self.getChatItems(container);
 			self.registerChatCheck(timer, container);
 		}, timer);
+	}
+
+	/**
+	 * Toggle favorite.
+	 * @param {jQuery} container
+	 */
+	registerToggleFavorite(container) {
+		container.find('.js-chat-favorite').on('click', (e) => {
+			let button = $(e.currentTarget);
+			let favorite = button.data('favorite');
+			const self = this;
+			const progressIndicatorElement = $.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			AppConnector.request({
+				dataType: 'json',
+				data: {
+					module: 'Chat',
+					action: 'Entries',
+					mode: 'addRoomToFavorite',
+					chat_room_id: container.data('chatRoomId'),
+					favorite: favorite
+				}
+			}).done((dataResult) => {
+				if (typeof dataResult !== 'undefined' && dataResult.result.success) {
+					if (dataResult.result['favorite']) {
+						button.removeClass('btn-success').addClass('btn-danger');
+						self.addRoomItem(dataResult.result['chat_room_id'], dataResult.result['name_of_room']);
+					} else {
+						button.removeClass('btn-danger').addClass('btn-success');
+						self.removeRoomItem(dataResult.result['chat_room_id']);
+					}
+					button.data('favorite', !dataResult.result['favorite']);
+				}
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			}).fail((error, err) => {
+				app.errorLog(error, err);
+			});
+		});
 	}
 
 	/**
@@ -276,10 +378,12 @@ window.Chat_Js = class Chat_Js {
 					return false;
 				}
 			});
+			self.registerToggleFavorite(container);
 			self.registerChatLoadItems(container);
 			let modal = container.closest('.chatModal');
 			if (modal.length) {
 				self.registerSwitchRoom(container);
+				self.registerRemoveRoom(container);
 				self.registerHeaderLinkChat();
 				app.showNewScrollbar(modal.find('.modal-body'), {wheelPropagation: true});
 				app.animateModal(modal, 'slideInRight', 'slideOutRight');
