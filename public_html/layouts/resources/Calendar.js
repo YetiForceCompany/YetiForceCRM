@@ -385,4 +385,3 @@ window.Calendar_Js = class Calendar_Js {
 		this.registerAddButton();
 	}
 }
-

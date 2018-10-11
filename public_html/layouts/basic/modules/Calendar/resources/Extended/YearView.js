@@ -103,7 +103,7 @@ var YearView = View.extend({
 			yearView.find('.fc-year__month').each(function (i) {
 				let calendarInstance = new Calendar_Calendar_Js;
 				let basicOptions = calendarInstance.getCalendarMinimalConfig(),
-					options = {
+					monthOptions = {
 						defaultView: 'month',
 						titleFormat: 'MMMM',
 						header: {center: 'title', left: false, right: false},
@@ -132,7 +132,7 @@ var YearView = View.extend({
 							return element;
 						},
 					};
-				self.loadMonthData($(this).fullCalendar($.extend(basicOptions, options)), events);
+				self.loadMonthData($(this).fullCalendar($.extend(basicOptions, monthOptions)), events);
 			});
 			if (app.getMainParams('weekCount') === '1') {
 				self.appendWeekButton();
