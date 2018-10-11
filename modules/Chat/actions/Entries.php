@@ -15,6 +15,19 @@ class Chat_Entries_Action extends \App\Controller\Action
 	use \App\Controller\ExposeMethod;
 
 	/**
+	 * Constructor with a list of allowed methods.
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('addMessage');
+		$this->exposeMethod('addRoom');
+		$this->exposeMethod('switchRoom');
+		$this->exposeMethod('removeRoom');
+		$this->exposeMethod('addRoomToFavorite');
+	}
+
+	/**
 	 * Function to check permission.
 	 *
 	 * @param \App\Request $request
@@ -45,17 +58,6 @@ class Chat_Entries_Action extends \App\Controller\Action
 		) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-	}
-
-	/**
-	 * Constructor with a list of allowed methods.
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('addMessage');
-		$this->exposeMethod('addRoom');
-		$this->exposeMethod('switchRoom');
 	}
 
 	/**
@@ -109,6 +111,56 @@ class Chat_Entries_Action extends \App\Controller\Action
 		$response->setResult([
 			'success' => true,
 			'html' => (new Chat_Entries_View())->getHTML($request)
+		]);
+		$response->emit();
+	}
+
+	/**
+	 * Remove chat room from the list of favorites.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	public function removeRoom(\App\Request $request)
+	{
+		$roomId = $request->getInteger('chat_room_id');
+		if ($roomId === \App\Chat::getCurrentRoomId()) {
+			$roomId = 0;
+			\App\Chat::setCurrentRoomId(0);
+		}
+		$room = \App\Chat::getInstanceById($roomId);
+		$room->markAsFavorite(false);
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'html' => (new Chat_Entries_View())->getHTML(
+				$request, \App\Chat::getInstanceById(\App\Chat::getCurrentRoomId())
+			),
+			'chat_room_id' => \App\Chat::getCurrentRoomId()
+		]);
+		$response->emit();
+	}
+
+	/**
+	 * Add room to favorite.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	public function addRoomToFavorite(\App\Request $request)
+	{
+		$room = \App\Chat::getInstanceById($request->getInteger('chat_room_id'));
+		$room->markAsFavorite($request->getBoolean('favorite'));
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'chat_room_id' => $room->getRoomId(),
+			'name_of_room' => $room->getNameOfRoom(),
+			'favorite' => $room->isFavorite(),
 		]);
 		$response->emit();
 	}

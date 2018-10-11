@@ -154,7 +154,18 @@ class Chat
 			->from(['CR' => 'u_#__chat_rooms'])
 			->innerJoin(['CU' => 'u_#__chat_users'], 'CU.room_id = CR.room_id')
 			->where(['CU.userid' => $userId])
+			->andWhere(['CU.favorite' => 1])
 			->all();
+	}
+
+	/**
+	 * Check if the chat room is a favorite.
+	 *
+	 * @return bool
+	 */
+	public function isFavorite()
+	{
+		return $this->favorite;
 	}
 
 	/**
@@ -215,6 +226,7 @@ class Chat
 				'room_id' => $this->roomId,
 				'userid' => $userId
 			])->execute();
+		$this->favorite = $favorite;
 	}
 
 	/**
