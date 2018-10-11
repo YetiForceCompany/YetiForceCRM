@@ -21,8 +21,7 @@
 		{/if}
 		<input name="module" value="{$MODULE_NAME}" type="hidden"/>
 		<input name="action" value="SaveAjax" type="hidden"/>
-		<input name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" type="hidden"/>
-		<input name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" type="hidden"/>
+		<input name="defaultOtherEventDuration" value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
 		<input name="userChangedEndDateTime" value="0" type="hidden"/>
 		<div class="o-calendar__form w-100 d-flex flex-column">
 			<h6 class="boxEventTitle text-muted text-center mt-1">

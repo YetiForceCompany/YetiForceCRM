@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 class Calendar_Time_UIType extends Vtiger_Time_UIType
@@ -15,37 +16,18 @@ class Calendar_Time_UIType extends Vtiger_Time_UIType
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		if (!empty($value)) {
-			return parent::getEditViewDisplayValue($value, $recordModel);
-		}
-		$specialTimeFields = ['time_start', 'time_end'];
 		$fieldName = $this->get('field')->getFieldName();
-		if (!in_array($fieldName, $specialTimeFields)) {
-			return parent::getEditViewDisplayValue($value, $recordModel);
-		} else {
-			return $this->getDisplayTimeDifferenceValue($fieldName, $value);
+		if (empty($value) && ($fieldName === 'time_end' || $fieldName === 'time_start')) {
+			$minutes = 0;
+			if ($fieldName === 'time_end') {
+				$userModel = \App\User::getCurrentUserModel();
+				$defaultType = $userModel->getDetail('defaultactivitytype');
+				$typeByDuration = \App\Json::decode($userModel->getDetail('othereventduration'));
+				$typeByDuration = array_column($typeByDuration, 'duration', 'activitytype');
+				$minutes = $typeByDuration[$defaultType] ?? 0;
+			}
+			$value = date('H:i', strtotime("+$minutes minutes"));
 		}
-	}
-
-	/**
-	 * Function to get the calendar event call duration value in hour format.
-	 *
-	 * @param type $fieldName
-	 * @param type $value
-	 *
-	 * @return <Vtiger_Time_UIType> - getTimeValue
-	 */
-	public function getDisplayTimeDifferenceValue($fieldName, $value)
-	{
-		$userModel = Users_Privileges_Model::getCurrentUserModel();
-		$date = new DateTime($value);
-
-		if ($fieldName === 'time_end' && empty($value)) {
-			$defaultCallDuration = $userModel->get('callduration');
-			$date->modify("+{$defaultCallDuration} minutes");
-		}
-
-		$dateTimeField = new DateTimeField($date->format('Y-m-d H:i:s'));
-		return $dateTimeField->getDisplayTime();
+		return parent::getEditViewDisplayValue($value, $recordModel);
 	}
 }
