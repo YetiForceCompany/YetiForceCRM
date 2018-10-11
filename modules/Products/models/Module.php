@@ -101,7 +101,7 @@ class Products_Module_Model extends Vtiger_Module_Model
 				$productId = $row['productid'];
 				if (\App\Field::getFieldPermission($moduleName, 'unit_price')) {
 					$actualPrice = (float) $row['actual_price'];
-					if ($row['actual_price'] == null) {
+					if (empty($row['actual_price'])) {
 						$actualPrice = $row['unit_price'] * $row['conversion_rate'] * Products_Record_Model::getBaseConversionRateForProduct($productId, 'edit', $moduleName);
 					}
 					$priceList[$productId] = $actualPrice;
