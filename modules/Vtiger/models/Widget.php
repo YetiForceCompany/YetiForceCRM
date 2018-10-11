@@ -42,6 +42,16 @@ class Vtiger_Widget_Model extends \App\Base
 		return $defaultSize;
 	}
 
+	/**
+	 * Function to get the position of the widget.
+	 *
+	 * @param $defaultPosition
+	 * @param $coordinate
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return int|mixed
+	 */
 	public function getPosition($defaultPosition, $coordinate)
 	{
 		$position = $this->get('position');
