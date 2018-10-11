@@ -442,6 +442,7 @@
     "LBL_PAGE": "Page",
     "LBL_PARENT_OWNER": "Parent record owner",
     "LBL_PERMISSION_DENIED": "Permission denied",
+    "ERR_PERMISSION_DENIED": "Permission denied",
     "LBL_PLEASE_SELECT_MODULE": "Please select any module to search",
     "LBL_POST": "Post",
     "LBL_PREDEFINED_WIDGETS": "Predefined widgets",
