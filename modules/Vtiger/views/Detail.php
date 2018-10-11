@@ -94,7 +94,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->getByType('view', 2)];
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
-		$this->record->getWidgets($detailViewLinkParams);
+		$this->record->getWidgets();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
@@ -170,7 +170,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$defaultMode = $this->defaultMode;
 		if ($defaultMode === 'showDetailViewByMode') {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
-			$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
+			$this->record->getWidgets();
 			if (!('Summary' === $currentUserModel->get('default_record_view') && $this->record->widgetsList)) {
 				$defaultMode = 'showModuleDetailView';
 			}
@@ -310,7 +310,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recordModel = $this->record->getRecord();
 		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->getByType('view', 2)];
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
-		$this->record->getWidgets($detailViewLinkParams);
+		$this->record->getWidgets();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE_SUMMARY', $this->showModuleSummaryView($request));

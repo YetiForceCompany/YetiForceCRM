@@ -10,7 +10,7 @@
 		{if Settings_ModuleManager_Library_Model::checkLibrary('mPDF')}
 			<div class="alert alert-danger" role="alert">
 				<div>
-					<h5>{\App\Language::translateArgs('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','mPDF')|unescape:"html"}</h5>
+					<h5>{\App\Language::translateArgs('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','mPDF', '<a href="index.php?module=ModuleManager&parent=Settings&view=List">'|cat:\App\Language::translate("VTLIB_LBL_MODULE_MANAGER",'Settings:Base')|cat:'</a>')|unescape:"html"}</h5>
 				</div>
 			</div>
 			<hr>
