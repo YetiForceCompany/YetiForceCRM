@@ -17,10 +17,14 @@ class Calendar_QuickEditAjax_View extends Vtiger_QuickCreateAjax_View
 	public function checkPermission(\App\Request $request)
 	{
 		parent::checkPermission($request);
-		if (!$request->isEmpty('record', true)) {
-			if (!\App\Privilege::isPermitted($request->getByType('sourceModule', 2), 'DetailView', $request->getInteger('sourceRecord'))) {
-				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-			}
+		$isPermited = false;
+		$moduleName = $request->getModule();
+		if ($request->has('record')) {
+			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+			$isPermited = $this->record->isEditable();
+		}
+		if (!$isPermited) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -71,7 +75,7 @@ class Calendar_QuickEditAjax_View extends Vtiger_QuickCreateAjax_View
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 		$viewer->assign('STYLES', $this->getHeaderCss($request));
 		$viewer->assign('VIEW', $request->getByType('view'));
-		$tplName = AppConfig::module('Calendar', 'CALENDAR_VIEW') . DIRECTORY_SEPARATOR . 'QuickEdit.tpl';
+		$tplName = AppConfig::module('Calendar', 'CALENDAR_VIEW') . DIRECTORY_SEPARATOR . 'QuickCreate.tpl';
 		$viewer->view($tplName, $request->getModule());
 	}
 

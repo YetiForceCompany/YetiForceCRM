@@ -500,11 +500,8 @@ $.Class("Vtiger_Header_Js", {
 			params.callbackFunction = function () {
 			};
 		}
-		let url = 'index.php?module=' + moduleName + '&view=QuickEditAjax',
+		let url = 'index.php?module=' + moduleName + '&view=QuickEditAjax&record=' + params.data.record,
 			progress = $.progressIndicator();
-		if ((app.getViewName() === 'Detail' || app.getViewName() === 'Edit') && app.getParentModuleName() != 'Settings') {
-			url += '&record=' + params.data.record;
-		}
 		self.getQuickCreateForm(url, moduleName, params).done(function (data) {
 			self.handleQuickCreateData(data, params);
 			app.registerEventForClockPicker();
@@ -686,7 +683,7 @@ $.Class("Vtiger_Header_Js", {
 		});
 	},
 	toggleSiteBar(toogleButton) {
-		toogleButton.closest('.rowContent').toggleClass('js-sitebar--active');
+		$('.rowContent').toggleClass('js-sitebar--active');
 		toogleButton.closest('.siteBarRight').toggleClass('hideSiteBar');
 		toogleButton.find('[data-fa-i2svg]').toggleClass('fa-chevron-left').toggleClass("fa-chevron-right");
 		toogleButton.toggleClass('hideToggleSiteBarRightButton');

@@ -20,7 +20,7 @@
 			{/if}
 			<input type="hidden" class="countActivities" value="{count($ACTIVITIES)}"/>
 			<input type="hidden" class="currentPage" value="{$PAGE_NUMBER}"/>
-			<input value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::module('Calendar', 'SHOW_ONLY_EDIT_FORM')))}"
+			<input value="{\App\Purifier::encodeHtml(AppConfig::module('Calendar', 'SHOW_ONLY_EDIT_FORM'))}"
 				   type="hidden" id="activityForm"/>
 			{foreach item=RECORD key=KEY from=$ACTIVITIES name=activities}
 				{if $PAGE_NUMBER neq 1 && $smarty.foreach.activities.first}

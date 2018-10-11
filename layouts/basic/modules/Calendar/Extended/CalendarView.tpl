@@ -7,7 +7,7 @@
 	<input value="{$CURRENT_USER->get('start_hour')}" type="hidden" id="start_hour"/>
 	<input value="{$CURRENT_USER->get('end_hour')}" type="hidden" id="end_hour"/>
 	<input value="{$CURRENT_USER->get('date_format')}" type="hidden" id="date_format"/>
-	<input value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::module('Calendar', 'SHOW_ONLY_EDIT_FORM')))}"
+	<input value="{\App\Purifier::encodeHtml(AppConfig::module('Calendar', 'SHOW_ONLY_EDIT_FORM'))}"
 		   type="hidden" id="activityForm"/>
 	<input value="current" type="hidden" id="showType"/>
 	<input value="workDays" type="hidden" id="switchingDays"/>

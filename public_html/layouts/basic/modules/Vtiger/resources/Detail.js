@@ -1467,7 +1467,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 		summaryViewContainer.on('click', '.editDefaultStatus', function (e) {
 			let activityForm = app.getMainParams('activityForm', false);
-			if (activityForm === "true") {
+			if (activityForm) {
 				let customParams = {},
 					QuickCreateParams = {},
 					currentTarget = $(e.currentTarget),

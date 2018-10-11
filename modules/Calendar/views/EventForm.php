@@ -96,11 +96,9 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$jsFiles = parent::getFooterScripts($request);
-		if (AppConfig::module('Calendar', 'CALENDAR_VIEW') === 'Extended') {
-			$jsFiles = array_merge($jsFiles, $this->checkAndConvertJsScripts([
-				'modules.Calendar.resources.ActivityStateModal'
-			]));
-		}
+		$jsFiles = array_merge($jsFiles, $this->checkAndConvertJsScripts([
+			'modules.Calendar.resources.ActivityStateModal'
+		]));
 		return $jsFiles;
 	}
 }

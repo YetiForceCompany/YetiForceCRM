@@ -149,7 +149,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 					url = 'index.php?module=Calendar&view=ActivityState&record=' +
 						link.searchParams.get("record");
 				self.openRightPanel();
-				if (activityForm === "true") {
+				if (activityForm) {
 					self.getCalendarEditView(link.searchParams.get("record"));
 				} else {
 					self.showStatusUpdate(url);
