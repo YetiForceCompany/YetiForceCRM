@@ -46,7 +46,7 @@ foreach ($rows as &$multireference) {
 					->update('s_#__multireference', [
 						'lastid' => $id,
 						], ['source_module' => $multireference['source_module'], 'dest_module' => $multireference['dest_module'], 'type' => 0])
-						->execute();
+					->execute();
 			}
 		}
 		$dataReader->close();
