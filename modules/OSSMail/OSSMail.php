@@ -39,7 +39,7 @@ class OSSMail
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_DisabledModule', 'info' => $moduleName, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
 		} elseif ($eventType === 'module.enabled') {
 			if (Settings_ModuleManager_Library_Model::checkLibrary('roundcube')) {
-				throw new \App\Exceptions\NotAllowedMethod(\App\Language::translateArgs('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger', 'roundcube'));
+				throw new \App\Exceptions\NotAllowedMethod(\App\Language::translateArgs('ERR_NO_REQUIRED_LIBRARY', 'Settings:Base', 'roundcube', '<a href="index.php?module=ModuleManager&parent=Settings&view=List">' . \App\Language::translate('VTLIB_LBL_MODULE_MANAGER', 'Settings:Base') . '</a>'));
 			}
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
@@ -47,7 +47,7 @@ class OSSMail
 			$OSSMail = vtlib\Module::getInstance('OSSMail');
 			if (version_compare($OSSMail->version, '1.39', '>')) {
 				$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-				$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_UpdateModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
+				$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_UpdateModule', 'info' => $moduleName . ' ' . $OSSMail->version, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
 			}
 		}
 	}

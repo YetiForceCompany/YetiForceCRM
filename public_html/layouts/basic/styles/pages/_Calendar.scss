@@ -501,20 +501,19 @@ $sitebar-border: 1px solid #ccc;
 		min-height: 9em !important;
 	}
 
-	.fc-week {
-		.fc-day-top {
+	.fc-day-top {
+		.fc-day-number {
+			font-weight: bold;
+			font-size: 24px;
+			color: #c1c1c1;
+		}
+		&.fc-today {
 			.fc-day-number {
-				font-weight: bold;
-				font-size: 24px;
-				color: #c1c1c1;
-			}
-			&.fc-today {
-				.fc-day-number {
-					color: #546e7a;
-				}
+				color: #546e7a;
 			}
 		}
 	}
+
 	.fc-year {
 		&__container {
 			margin-right: -8px;

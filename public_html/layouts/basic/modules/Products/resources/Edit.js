@@ -98,7 +98,6 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 		var thisInstance = this;
 		$(container).on('click', '.currencyReset', function (e) {
 			var parentElem = thisInstance.getCurrentElem(e).closest('tr');
-			var unitPriceFieldData = thisInstance.getUnitPrice().data();
 			var unitPrice = thisInstance.getDataBaseFormatUnitPrice();
 			var conversionRate = $('.conversionRate', parentElem).val();
 			var price = parseFloat(unitPrice) * parseFloat(conversionRate);
@@ -148,7 +147,6 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 			if (elem.is(':checked')) {
 				elem.attr('checked', "checked");
 				var conversionRate = $('.conversionRate', parentRow).val();
-				var unitPriceFieldData = thisInstance.getUnitPrice().data();
 				var unitPrice = thisInstance.getDataBaseFormatUnitPrice();
 				var price = parseFloat(unitPrice) * parseFloat(conversionRate);
 				$('input', parentRow).attr('disabled', true).removeAttr('disabled');
@@ -211,7 +209,6 @@ Vtiger_Edit_Js("Products_Edit_Js", {}, {
 	 */
 	registerEventForMoreCurrencies: function () {
 		var thisInstance = this;
-		var form = this.getForm();
 		$('#moreCurrencies').on('click', function (e) {
 			var progressInstance = $.progressIndicator();
 			thisInstance.getMoreCurrenciesUI().done(function () {

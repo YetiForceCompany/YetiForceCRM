@@ -59,7 +59,6 @@ class Gantt {
 	 * @returns {string}
 	 */
 	registerTemplates() {
-		const self = this;
 		this.ganttTemplateFunctions = [];
 		this.ganttTemplateFunctions.push({
 			type: "GANTBUTTONS",

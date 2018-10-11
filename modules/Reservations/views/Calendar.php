@@ -48,11 +48,17 @@ class Reservations_Calendar_View extends Vtiger_Index_View
 
 	public function getFooterScripts(\App\Request $request)
 	{
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+		$headerScriptInstances = parent::getFooterScripts($request);
+		$moduleName = $request->getModule();
+		if (isset($headerScriptInstances['modules.' . $moduleName . '.resources.Calendar'])) {
+			unset($headerScriptInstances['modules.' . $moduleName . '.resources.Calendar']);
+		}
+		return array_merge($headerScriptInstances, $this->checkAndConvertJsScripts([
 			'~libraries/fullcalendar/dist/fullcalendar.js',
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',
-			'modules.' . $request->getModule() . '.resources.Calendar',
+			'~layouts/resources/Calendar.js',
+			'modules.' . $moduleName . '.resources.Calendar',
 		]));
 	}
 

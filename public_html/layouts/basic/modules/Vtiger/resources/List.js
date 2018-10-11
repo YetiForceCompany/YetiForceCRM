@@ -147,7 +147,6 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	triggerQuickExportToExcel: function (module) {
 		var massActionUrl = "index.php";
-		var thisInstance = this;
 		var listInstance = Vtiger_List_Js.getInstance();
 		var validationResult = listInstance.checkListRecordSelected();
 		if (validationResult != true) {
@@ -1383,7 +1382,7 @@ jQuery.Class("Vtiger_List_Js", {
 	registerHeadersClickEvent: function () {
 		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
-		listViewPageDiv.on('click', '.listViewHeaderValues', function (e) {
+		listViewPageDiv.on('click', '.js-listview_header', function (e) {
 			var fieldName = jQuery(e.currentTarget).data('columnname');
 			var sortOrderVal = jQuery(e.currentTarget).data('nextsortorderval');
 			if (typeof sortOrderVal === "undefined")
@@ -1462,7 +1461,6 @@ jQuery.Class("Vtiger_List_Js", {
 				var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 				var editUrl = currentOptionElement.data('editurl');
 				new CustomView(editUrl);
-				var cvId = jQuery(this).data('cvid');
 				event.stopPropagation();
 			});
 		}
@@ -1586,7 +1584,6 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function to register the list view row click event
 	 */
 	registerRowClickEvent: function () {
-		var thisInstance = this;
 		var listViewContentDiv = this.getListViewContentContainer();
 		listViewContentDiv.on('click', '.listViewEntries', function (e) {
 			if (jQuery(e.target).closest('div').hasClass('actions'))
@@ -1887,7 +1884,6 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 	},
 	registerUnreviewedCountEvent: function () {
-		var thisInstance = this;
 		var ids = [];
 		var listViewContentDiv = this.getListViewContentContainer();
 		var isUnreviewedActive = listViewContentDiv.find('.unreviewed').length;
@@ -1921,7 +1917,6 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 	},
 	registerLastRelationsEvent: function () {
-		var thisInstance = this;
 		var ids = [];
 		var listViewContentDiv = this.getListViewContentContainer();
 		var isTimeLineActive = listViewContentDiv.find('.timeLineIconList').length;
@@ -2098,7 +2093,6 @@ jQuery.Class("Vtiger_List_Js", {
 		var aDeferred = jQuery.Deferred();
 		var listInstance = Vtiger_List_Js.getInstance();
 		app.hideModalWindow();
-		var module = app.getModuleName();
 		listInstance.getListViewRecords().done(function (data) {
 			jQuery('#recordsCount').val('');
 			jQuery('#totalPageCount').text('');

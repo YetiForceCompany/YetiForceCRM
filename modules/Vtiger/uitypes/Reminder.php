@@ -52,7 +52,7 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if (($isUserFormat && !in_array($value, [0, 1, '1', '0', 'on'])) || (!$isUserFormat && !(empty($value) || is_numeric($value)))) {

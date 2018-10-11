@@ -40,7 +40,6 @@ Settings_Vtiger_Detail_Js("Settings_Mail_Detail_Js", {}, {
 		});
 	},
 	sendMailManually: function () {
-		var thisInstance = this;
 		var container = jQuery('.contentsDiv');
 		container.on('click', '.sendManually', function (e) {
 			var progressIndicator = jQuery.progressIndicator();

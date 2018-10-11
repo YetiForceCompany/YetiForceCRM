@@ -7,7 +7,8 @@
 * All Rights Reserved.
 *************************************************************************************}
 {strip}
-	<form name="EditWorkflow" action="index.php" method="post" id="workflow_step2" class="tpl-Settings-Workflows-Step2 form-horizontal">
+	<form name="EditWorkflow" action="index.php" method="post" id="workflow_step2"
+		  class="tpl-Settings-Workflows-Step2 form-horizontal">
 		<input type="hidden" name="module" value="Workflows"/>
 		<input type="hidden" name="action" value="Save"/>
 		<input type="hidden" name="parent" value="Settings"/>
@@ -17,14 +18,18 @@
 		<input type="hidden" name="module_name" value="{$WORKFLOW_MODEL->get('module_name')}"/>
 		<input type="hidden" name="execution_condition" value="{$WORKFLOW_MODEL->get('execution_condition')}"/>
 		<input type="hidden" name="conditions" id="advanced_filter" value=''/>
-		<input type="hidden" id="olderConditions" value='{\App\Json::encode($WORKFLOW_MODEL->get('conditions'))}'/>
+		<input type="hidden" id="olderConditions"
+			   value="{\App\Purifier::encodeHtml(\App\Json::encode($WORKFLOW_MODEL->get('conditions')))}"/>
 		<input type="hidden" name="filtersavedinnew" value="{$WORKFLOW_MODEL->get('filtersavedinnew')}"/>
 		<input type="hidden" name="schtypeid" value="{$WORKFLOW_MODEL->get('schtypeid')}"/>
 		<input type="hidden" name="schtime" value="{$WORKFLOW_MODEL->get('schtime')}"/>
-		<input type="hidden" name="schdate" value={$WORKFLOW_MODEL->get('schdate')}/>
-		<input type="hidden" name="schdayofweek" value={\App\Json::encode($WORKFLOW_MODEL->get('schdayofweek'))}/>
-		<input type="hidden" name="schdayofmonth" value={\App\Json::encode($WORKFLOW_MODEL->get('schdayofmonth'))}/>
-		<input type="hidden" name="schannualdates" value={\App\Json::encode($WORKFLOW_MODEL->get('schannualdates'))}/>
+		<input type="hidden" name="schdate" value="{$WORKFLOW_MODEL->get('schdate')}"/>
+		<input type="hidden" name="schdayofweek"
+			   value="{\App\Purifier::encodeHtml(\App\Json::encode($WORKFLOW_MODEL->get('schdayofweek')))}"/>
+		<input type="hidden" name="schdayofmonth"
+			   value="{\App\Purifier::encodeHtml(\App\Json::encode($WORKFLOW_MODEL->get('schdayofmonth')))}"/>
+		<input type="hidden" name="schannualdates"
+			   value="{\App\Purifier::encodeHtml(\App\Json::encode($WORKFLOW_MODEL->get('schannualdates')))}"/>
 		<div class="" style="border:1px solid #ccc;">
 			{if $IS_FILTER_SAVED_NEW == false}
 				<div class="alert alert-info">

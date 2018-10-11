@@ -134,7 +134,6 @@ $.Class("Settings_Vtiger_Index_Js", {
 					'view': 'IndexAjax'
 				}
 				AppConnector.request(params).done(function (data) {
-					var shortCutsMainContainer = $('#settingsShortCutsContainer');
 					var existingDivBlock = $('#settingsShortCutsContainer');
 					$(data).appendTo(existingDivBlock);
 					progressIndicatorElement.progressIndicator({

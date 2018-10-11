@@ -38,8 +38,12 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 			$sourceModuleName = \App\Module::getModuleName($sourceModuleName);
 		}
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModuleName);
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($sourceModuleModel);
-
+		$recordStructureModulesField = [];
+		foreach ($sourceModuleModel->getFieldsByReference() as $referenceField) {
+			foreach ($referenceField->getReferenceList() as $relatedModuleName) {
+				$recordStructureModulesField[$relatedModuleName][$referenceField->getFieldName()] = Vtiger_RecordStructure_Model::getInstanceForModule(Vtiger_Module_Model::getInstance($relatedModuleName))->getStructure();
+			}
+		}
 		if (!empty($record)) {
 			$customViewModel = CustomView_Record_Model::getInstanceById($record);
 			$viewer->assign('MODE', 'edit');
@@ -60,8 +64,8 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		}
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
-		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
-		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
+		$viewer->assign('RECORD_STRUCTURE_RELATED_MODULES', $recordStructureModulesField);
+		$viewer->assign('RECORD_STRUCTURE', Vtiger_RecordStructure_Model::getInstanceForModule($sourceModuleModel)->getStructure());
 		$viewer->assign('CUSTOMVIEW_MODEL', $customViewModel);
 		if (!$request->getBoolean('duplicate')) {
 			$viewer->assign('RECORD_ID', $record);

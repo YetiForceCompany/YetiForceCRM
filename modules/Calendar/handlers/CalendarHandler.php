@@ -71,7 +71,7 @@ class Calendar_CalendarHandler_Handler
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if ($recordModel->get('allday') && ($recordModel->isNew() || $recordModel->getPreviousValue('allday') !== false)) {
-			$userModel = \App\User::getCurrentUserModel($recordModel->get('assigned_user_id'));
+			$userModel = \App\User::getUserModel($recordModel->get('assigned_user_id'));
 			$recordModel->set('time_start', $userModel->getDetail('start_hour') . ':00');
 			$recordModel->set('time_end', $userModel->getDetail('end_hour') . ':00');
 		}

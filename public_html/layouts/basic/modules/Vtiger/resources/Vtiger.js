@@ -36,42 +36,40 @@ var Vtiger_Index_Js = {
 				e.preventDefault();
 				app.removeEmptyFilesInput(form[0]);
 				var formData = new FormData(form[0]);
-				if (formData) {
-					url = 'index.php';
-					if (app.getViewName() === 'Detail') {
-						formData.append('createmode', 'link');
-						formData.append('return_module', app.getModuleName());
-						formData.append('return_id', app.getRecordId());
-					}
-					var params = {
-						url: url,
-						type: "POST",
-						data: formData,
-						processData: false,
-						contentType: false
-					};
-					var progressIndicatorElement = $.progressIndicator({
-						blockInfo: {'enabled': true}
-					});
-					AppConnector.request(params).done(function (data) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						app.hideModalWindow();
-						if (app.getViewName() === 'Detail') {
-							var detailView = Vtiger_Detail_Js.getInstance();
-							if (detailView.getSelectedTab().data('reference') === 'Documents') {
-								detailView.reloadTabContent();
-							} else {
-								var updatesWidget = detailView.getContentHolder().find("[data-type='RelatedModule'][data-name='Documents']");
-								if (updatesWidget.length > 0) {
-									var params = detailView.getFiltersData(updatesWidget);
-									detailView.loadWidget(updatesWidget, params['params']);
-								}
-							}
-						} else {
-							Vtiger_List_Js.getInstance().getListViewRecords();
-						}
-					});
+				url = 'index.php';
+				if (app.getViewName() === 'Detail') {
+					formData.append('createmode', 'link');
+					formData.append('return_module', app.getModuleName());
+					formData.append('return_id', app.getRecordId());
 				}
+				var params = {
+					url: url,
+					type: "POST",
+					data: formData,
+					processData: false,
+					contentType: false
+				};
+				var progressIndicatorElement = $.progressIndicator({
+					blockInfo: {'enabled': true}
+				});
+				AppConnector.request(params).done(function (data) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					app.hideModalWindow();
+					if (app.getViewName() === 'Detail') {
+						var detailView = Vtiger_Detail_Js.getInstance();
+						if (detailView.getSelectedTab().data('reference') === 'Documents') {
+							detailView.reloadTabContent();
+						} else {
+							var updatesWidget = detailView.getContentHolder().find("[data-type='RelatedModule'][data-name='Documents']");
+							if (updatesWidget.length > 0) {
+								var params = detailView.getFiltersData(updatesWidget);
+								detailView.loadWidget(updatesWidget, params['params']);
+							}
+						}
+					} else {
+						Vtiger_List_Js.getInstance().getListViewRecords();
+					}
+				});
 			});
 		});
 	},

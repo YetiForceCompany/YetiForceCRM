@@ -73,13 +73,14 @@
 									   type="checkbox" data-type="row" data-js="click"/>
 							{/if}
 						</td>
-						{foreach item=LISTVIEW_HEADER key=LISTVIEW_HEADERNAME from=$LISTVIEW_HEADERS}
+						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->getFieldName()}
 							<td class="{$WIDTHTYPE}" data-field="{$LISTVIEW_HEADERNAME}"
 								data-type="{$LISTVIEW_HEADER->getFieldDataType()}">
 								{if $LISTVIEW_HEADER->get('fromOutsideList') eq true}
 									{$LISTVIEW_HEADER->getDisplayValue($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
 								{else}
-									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME,true)}
+									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER,true)}
 								{/if}
 							</td>
 						{/foreach}

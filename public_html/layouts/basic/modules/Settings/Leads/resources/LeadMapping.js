@@ -253,17 +253,10 @@ jQuery.Class("Settings_LeadMapping_Js", {
 
 			if (duplicateOption) {
 				var selectedFieldId = selectElement.attr('selectedid');
-				var previousSelectedValue;
 				if (selectedFieldId == "false") {
-					previousSelectedValue = selectElement.find('option[label="None"]').text();
 					selectElement.attr('selectedId', "false");
 				} else if (selectedFieldId != "false") {
-					previousSelectedValue = selectElement.find('option[value="' + selectedFieldId + '"]').text();
 					selectElement.attr('selectedId', selectedFieldId);
-				}
-				var params = {
-					'id': previousSelectedValue,
-					'text': previousSelectedValue
 				}
 				var warningMessage = selectedValue + " " + app.vtranslate('JS_IS_ALREADY_BEEN_MAPPED');
 				var notificationParams = {
@@ -272,7 +265,7 @@ jQuery.Class("Settings_LeadMapping_Js", {
 				};
 				Settings_Vtiger_Index_Js.showMessage(notificationParams);
 				selectElement.val(0).trigger('change');
-			} else if (duplicateOption == false) {
+			} else {
 				selectElement.attr('selectedId', selectedOptionId);
 			}
 		});

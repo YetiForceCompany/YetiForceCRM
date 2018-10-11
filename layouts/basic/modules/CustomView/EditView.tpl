@@ -34,7 +34,7 @@
 					<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}"/>
 					<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}"/>
 					<input type="hidden" name="date_filters"
-						   data-value='{\App\Purifier::encodeHtml(\App\Json::encode($DATE_FILTERS))}'/>
+						   data-value="{\App\Purifier::encodeHtml(\App\Json::encode($DATE_FILTERS))}"/>
 					{assign var=SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
 					<div class="childrenMarginTopX">
 						<div class="js-toggle-panel c-panel" data-js="click">
@@ -67,15 +67,14 @@
 													multiple class="select2 form-control js-select2-sortable"
 													id="viewColumnsSelect">
 												{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-													<optgroup
-															label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}'>
+													<optgroup label="{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}">
 														{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 															{if $FIELD_MODEL->isMandatory()}
-																{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewColumnName())}
+																{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewSelectColumnName())}
 															{/if}
-															<option value="{$FIELD_MODEL->getCustomViewColumnName()}"
+															<option value="{$FIELD_MODEL->getCustomViewSelectColumnName()}"
 																	data-field-name="{$FIELD_NAME}"
-																	{if in_array($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
+																	{if in_array($FIELD_MODEL->getCustomViewSelectColumnName(), $SELECTED_FIELDS)}
 																		selected
 																	{/if}
 															>{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
@@ -85,6 +84,25 @@
 															</option>
 														{/foreach}
 													</optgroup>
+												{/foreach}
+												{foreach key=MODULE_KEY item=RECORD_STRUCTURE_FIELD from=$RECORD_STRUCTURE_RELATED_MODULES}
+													{foreach key=RELATED_FIELD_NAME item=RECORD_STRUCTURE from=$RECORD_STRUCTURE_FIELD}
+														{assign var=RELATED_FIELD_LABEL value=Vtiger_Field_Model::getInstance($RELATED_FIELD_NAME, Vtiger_Module_Model::getInstance($SOURCE_MODULE))->getFieldLabel()}
+														{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
+															<optgroup
+																	label="{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}&nbsp;-&nbsp;{\App\Language::translate($MODULE_KEY, $MODULE_KEY)}&nbsp;-&nbsp;{\App\Language::translate($BLOCK_LABEL, $MODULE_KEY)}">
+																{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
+																	<option value="{$FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME)}"
+																			data-field-name="{$FIELD_NAME}"
+																			{if in_array($FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME), $SELECTED_FIELDS)}
+																				selected
+																			{/if}
+																	>{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}&nbsp;-&nbsp;{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_KEY)}
+																	</option>
+																{/foreach}
+															</optgroup>
+														{/foreach}
+													{/foreach}
 												{/foreach}
 											</select>
 										</div>
