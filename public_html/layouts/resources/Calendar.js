@@ -4,7 +4,6 @@
 window.Calendar_Js = class Calendar_Js {
 
 	constructor(container = $('.js-base-container')) {
-		console.log(window.his);
 		this.calendarView = false;
 		this.calendarCreateView = false;
 		this.container = container;
@@ -166,6 +165,9 @@ window.Calendar_Js = class Calendar_Js {
 					return parseInt(x)
 				}),
 				time: historyParams.time,
+				hiddenDays: historyParams.hiddenDays.split(",").map((x) => {
+					return parseInt(x)
+				}),
 				cvid: historyParams.cvid,
 				defaultView: historyParams.viewType
 			};
