@@ -132,6 +132,7 @@
     "LBL_MEET": "SPOTKANIE",
     "LBL_PHONE": "TELEFON",
     "LBL_EDIT_EVENT": "Edytuj termin",
+    "LBL_POSTPONE_EDIT": "Prze\u0142\u00f3\u017c termin",
     "LBL_USER_NAME": "Nazwa u\u017cytkownika",
     "LBL_AUTO_FILL_DESCRIPTION": "Wype\u0142nienie daty rozpocz\u0119cia na podstawie pierwszego wolnego terminu",
     "LBL_CACHE_SELECTED_FILTERS": "Zmieni\u0142e\u015b standardowy widok w kalendarzu, aby go wyczy\u015bci\u0107 wci\u015bnij przycisk \"Wyczy\u015b\u0107 widok\".",
@@ -185,7 +186,8 @@
     "LBL_VIEW_CALENDAREXTENDED": "Kalendarz graficzny",
     "LBL_REMAIND_HOURS": "Przypomnij po wybranej liczbie godzin",
     "LBL_REMAIND_MINS": "Przypomnij po wybranej liczbie minut",
-    "LBL_WORK_DAYS": "Dni robocze"
+    "LBL_WORK_DAYS": "Dni robocze",
+    "LBL_QUICK_EDIT": "Szybka edycja"
   },
   "js": {
     "JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY": "Dodano kalendarz",
