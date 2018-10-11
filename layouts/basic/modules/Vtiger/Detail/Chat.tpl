@@ -10,10 +10,10 @@
 			</button>
 		</div>
 		<div class="{if !$CHAT->isRoomExists()}hide {/if}js-container-items">
+			{include file=\App\Layout::getTemplatePath('Detail/ChatFooter.tpl')}
 			<div class="js-chat-items js-chat-room-{$RECORD_MODEL->getId()} pr-2" data-js="html">
 				{include file=\App\Layout::getTemplatePath('Items.tpl', 'Chat') CHAT_ENTRIES=$CHAT->getEntries($CHAT_ID)}
 			</div>
-			{include file=\App\Layout::getTemplatePath('Detail/ChatFooter.tpl')}
 		</div>
 	</div>
 {/strip}

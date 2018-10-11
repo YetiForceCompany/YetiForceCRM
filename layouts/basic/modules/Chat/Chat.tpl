@@ -46,11 +46,11 @@
 								</div>
 							</div>
 							<div class="col-sm-10 ps pr-4">
+								{include file=\App\Layout::getTemplatePath('Detail/ChatFooter.tpl')}
 								<div class="js-chat-items js-chat-room-{\App\Chat::getCurrentRoomId()} o-chat-items"
 									 data-js="html">
 									{include file=\App\Layout::getTemplatePath('Items.tpl', 'Chat') CHAT_ENTRIES=$CHAT->getEntries()}
 								</div>
-								{include file=\App\Layout::getTemplatePath('Detail/ChatFooter.tpl')}
 							</div>
 						</div>
 					</div>
