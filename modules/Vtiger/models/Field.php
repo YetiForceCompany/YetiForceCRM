@@ -201,7 +201,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getDisplayType()
 	{
-		return $this->get('displaytype');
+		return (int) $this->get('displaytype');
 	}
 
 	/**
