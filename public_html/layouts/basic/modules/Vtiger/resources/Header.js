@@ -483,6 +483,34 @@ $.Class("Vtiger_Header_Js", {
 			});
 		});
 	},
+	/**
+	 * Show quick edit calendar entry
+	 * @param moduleName
+	 * @param params
+	 */
+	quickEditModule(moduleName, params) {
+		const self = this;
+		if (window !== window.parent) {
+			window.parent.Vtiger_Header_Js.getInstance().quickEditModule(moduleName, params);
+			return;
+		}
+		if (typeof params === "undefined") {
+			params = {};
+		}
+		if (typeof params.callbackFunction === "undefined") {
+			params.callbackFunction = function () {
+			};
+		}
+		let url = 'index.php?module=' + moduleName + '&view=QuickEditAjax&record=' + params.data.record,
+			progress = $.progressIndicator();
+		self.getQuickCreateForm(url, moduleName, params).done(function (data) {
+			self.handleQuickCreateData(data, params);
+			app.registerEventForClockPicker();
+			progress.progressIndicator({
+				'mode': 'hide'
+			});
+		});
+	},
 	registerReminderNotice: function () {
 		var self = this;
 		$('#page').before(`<div class="remindersNoticeContainer" tabindex="-1" role="dialog" aria-label="${app.vtranslate('JS_REMINDER')}" aria-hidden="true"></div>`);
