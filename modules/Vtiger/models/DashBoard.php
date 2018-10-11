@@ -48,16 +48,15 @@ class Vtiger_DashBoard_Model extends \App\Base
 	/**
 	 * Function returns List of User's selected Dashboard Widgets.
 	 *
-	 * @return <Array of Vtiger_Widget_Model>
+	 * @param int $action
+	 *
+	 * @return Vtiger_Widget_Model[]
 	 */
-	public function getDashboards($action = 1)
+	public function getDashboards(int $action)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$currentUserPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
-		if ($action == 'Header') {
-			$action = 0;
-		}
 		$query = (new \App\Db\Query())->select('vtiger_links.*, mdw.userid, mdw.data, mdw.active, mdw.title, mdw.size, mdw.filterid,
 					mdw.id AS widgetid, mdw.position, vtiger_links.linkid AS id, mdw.limit, mdw.cache, mdw.owners, mdw.isdefault')
 			->from('vtiger_links')
