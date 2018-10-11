@@ -41,7 +41,6 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 							break;
 						}
 					}
-					console.log(minutes)
 					endDate = moment(endDate).add(minutes, 'minutes').toISOString();
 				}
 			}
