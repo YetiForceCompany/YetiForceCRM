@@ -295,7 +295,8 @@ class Chat
 		$query = (new \App\Db\Query())
 			->from('u_#__chat_messages')
 			->limit(\AppConfig::module('Chat', 'ROWS_LIMIT'))
-			->where(['room_id' => $this->roomId]);
+			->where(['room_id' => $this->roomId])
+			->orderBy(['created' => \SORT_DESC]);
 		if ($messageId) {
 			$query->andWhere(['>', 'id', $messageId]);
 		}

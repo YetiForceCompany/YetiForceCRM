@@ -1,6 +1,10 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
+/**
+ * Class Chat_Js.
+ * @type {Window.Chat_Js}
+ */
 window.Chat_Js = class Chat_Js {
 	/**
 	 * Get instance of Chat_Js.
@@ -68,7 +72,6 @@ window.Chat_Js = class Chat_Js {
 				} else {
 					chatRoom.html(dataResult.result.html);
 				}
-				chatRoom.animate({scrollTop: chatRoom.get(0).scrollHeight});
 				let prevChatRoomId = container.data('chatRoomId');
 				container.data('chatRoomId', roomId);
 				chatModal.find('.js-change-room').each((index, element) => {
@@ -129,9 +132,17 @@ window.Chat_Js = class Chat_Js {
 	updateChat(container, chatRoomId, html) {
 		if (html) {
 			let chatRoom = container.find('.js-chat-room-' + chatRoomId);
-			chatRoom.append(html);
-			chatRoom.animate({scrollTop: chatRoom.get(0).scrollHeight});
+			$(html).insertBefore(chatRoom.find('.chatItem').first());
 		}
+	}
+
+	/**
+	 * Get last chat ID.
+	 * @param {jQuery} container
+	 * @returns {int}
+	 */
+	getLastChatId(container) {
+		return container.find('.js-chat-items .chatItem').first().data('cid');
 	}
 
 	/**
@@ -156,7 +167,7 @@ window.Chat_Js = class Chat_Js {
 					action: 'Entries',
 					mode: 'addMessage',
 					message: inputMessage.val(),
-					cid: chatItems.find('.chatItem').last().data('cid'),
+					cid: self.getLastChatId(container),
 					chat_room_id: chatRoomId
 				}
 			}).done((dataResult) => {
@@ -189,7 +200,7 @@ window.Chat_Js = class Chat_Js {
 					module: 'Chat',
 					view: 'Entries',
 					mode: 'get',
-					cid: chatItems.find('.chatItem').last().data('cid'),
+					cid: self.getLastChatId(container),
 					chat_room_id: chatRoomId
 				}
 			}).done((dataResult) => {
@@ -252,7 +263,6 @@ window.Chat_Js = class Chat_Js {
 	 * @param {jQuery} container
 	 */
 	registerEvents(container = $('.js-chat-modal')) {
-		console.log('registerEvents: ' + container.length);
 		if (container.length) {
 			const self = this;
 			container.data('chat-room-idx', self.chatRoom.length);
