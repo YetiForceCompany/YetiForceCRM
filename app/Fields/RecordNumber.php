@@ -87,7 +87,7 @@ class RecordNumber
 	 */
 	public static function incrementNumber($recordModel)
 	{
-		$moduleId = $recordModel->$module->getId();
+		$moduleId = $recordModel->getModule()->getId();
 		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $moduleId])->one();
 		$actualSequence = static::getSequenceNumber($row['reset_sequence']);
 		if ($row['reset_sequence'] && $row['cur_sequence'] !== $actualSequence) {
