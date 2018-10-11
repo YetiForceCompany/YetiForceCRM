@@ -4,9 +4,9 @@
 window.Calendar_Js = class Calendar_Js {
 
 	constructor(container = $('.js-base-container')) {
+		console.log(window.his);
 		this.calendarView = false;
 		this.calendarCreateView = false;
-		this.firstLoad = true;
 		this.container = container;
 		this.browserHistoryConfig = this.setBrowserHistoryConfig();
 		this.calendarBasicOptions = this.setCalendarBasicOptions();
@@ -158,7 +158,7 @@ window.Calendar_Js = class Calendar_Js {
 	setBrowserHistoryConfig() {
 		let historyParams = app.getMainParams('historyParams', true),
 			options;
-		if (historyParams !== null) {
+		if (historyParams !== null && app.moduleCacheGet('browserHistoryEvent')) {
 			options = {
 				start: historyParams.start,
 				end: historyParams.end,
@@ -173,9 +173,14 @@ window.Calendar_Js = class Calendar_Js {
 			let e = moment(options.end).valueOf();
 			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
 			Object.keys(options).forEach(key => options[key] === 'undefined' && delete options[key]);
+			app.moduleCacheSet('browserHistoryEvent', false)
 		} else {
 			options = null;
 		}
+
+		window.addEventListener('popstate', function (event) {
+			app.moduleCacheSet('browserHistoryEvent', true)
+		}, false);
 		return options;
 	}
 

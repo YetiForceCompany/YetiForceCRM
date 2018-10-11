@@ -50,6 +50,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		let self = this,
 			basicOptions = this.setCalendarMergedOptions(),
 			options = {
+				firstLoad: true,
 				header: {
 					left: 'year,month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
 					center: 'prevYear,prev,title,next,nextYear',
@@ -65,6 +66,9 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 						eventLimit: 10,
 						eventLimitText: app.vtranslate('JS_COUNT_RECORDS'),
 						titleFormat: 'YYYY',
+						header: {
+							center: 'prevYear,title,nextYear'
+						},
 						select: function (start, end) {
 						},
 						loadView: function () {
@@ -535,7 +539,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			historyUrl: `index.php?module=Calendar&view=CalendarExtended&history=true&viewType=${view.type}&start=${view.start.format(formatDate)}&end=${view.end.format(formatDate)}&user=${user}&time=${app.getMainParams('showType')}&cvid=${cvid}&hiddenDays=${view.options.hiddenDays}`
 		};
 		let connectorMethod = window["AppConnector"]["requestPjax"];
-		if (this.firstLoad && this.browserHistoryConfig !== null) {
+		if (view.options.firstLoad && this.browserHistoryConfig !== null) {
 			options = Object.assign(options, {
 				start: this.browserHistoryConfig.start,
 				end: this.browserHistoryConfig.end,
@@ -551,7 +555,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
 		self.registerViewRenderEvents(view);
-		this.firstLoad = false;
+		view.options.firstLoad = false;
 	}
 
 	clearFilterButton(user, cvid) {
