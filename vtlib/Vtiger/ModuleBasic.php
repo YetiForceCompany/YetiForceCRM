@@ -199,7 +199,7 @@ class ModuleBasic
 			Block::deleteForModule($this);
 		}
 		$this->deleteIcons();
-		$this->unsetAllRelatedList($moduleInstance);
+		$this->unsetAllRelatedList();
 		\ModComments_Module_Model::deleteForModule($moduleInstance);
 		Language::deleteForModule($moduleInstance);
 		Access::deleteSharing($moduleInstance);

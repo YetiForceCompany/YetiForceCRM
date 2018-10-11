@@ -588,20 +588,6 @@ CREATE TABLE `l_yf_settings_tracker_detail` (
   KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `l_yf_social_media_logs` */
-
-CREATE TABLE `l_yf_social_media_logs` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `date` datetime NOT NULL,
-  `type` varchar(16) NOT NULL,
-  `name` varchar(16) NOT NULL,
-  `message` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `date` (`date`),
-  KEY `type` (`type`),
-  KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `l_yf_sqltime` */
 
 CREATE TABLE `l_yf_sqltime` (
@@ -1112,6 +1098,20 @@ CREATE TABLE `s_yf_smsnotifier_queue` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `l_yf_social_media_logs` */
+
+CREATE TABLE `l_yf_social_media_logs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `date` datetime NOT NULL,
+  `type` varchar(16) NOT NULL,
+  `name` varchar(16) NOT NULL,
+  `message` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `date` (`date`),
+  KEY `type` (`type`),
+  KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_activity_invitation` */
 
 CREATE TABLE `u_yf_activity_invitation` (
@@ -1268,7 +1268,26 @@ CREATE TABLE `u_yf_chat_messages` (
   `user_name` varchar(50) NOT NULL,
   `created` int(10) unsigned DEFAULT NULL,
   `messages` text DEFAULT NULL,
+  `room_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_chat_rooms` */
+
+CREATE TABLE `u_yf_chat_rooms` (
+  `room_id` int(10) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`room_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_chat_users` */
+
+CREATE TABLE `u_yf_chat_users` (
+  `userid` int(10) NOT NULL,
+  `room_id` int(10) NOT NULL,
+  `last_message` int(10) DEFAULT NULL,
+  `favorite` tinyint(1) NOT NULL,
+  PRIMARY KEY (`userid`,`room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_cinternaltickets` */
@@ -3074,15 +3093,15 @@ CREATE TABLE `u_yf_squoteenquiries` (
   `squoteenquiriesid` int(10) NOT NULL DEFAULT 0,
   `squoteenquiries_no` varchar(255) DEFAULT '',
   `subject` varchar(255) DEFAULT NULL,
+  `salesprocessid` int(10) DEFAULT NULL,
   `category` varchar(255) DEFAULT NULL,
   `squoteenquiries_status` varchar(255) DEFAULT NULL,
   `accountid` int(10) DEFAULT NULL,
   `response_time` decimal(10,2) DEFAULT 0.00,
   `sum_time` decimal(10,2) DEFAULT 0.00,
-  `campaigns_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`squoteenquiriesid`),
+  KEY `salesprocessid` (`salesprocessid`),
   KEY `accountid` (`accountid`),
-  KEY `u_yf_squoteenquiries_campaigns_id_idx` (`campaigns_id`),
   CONSTRAINT `fk_1_u_yf_squoteenquiries` FOREIGN KEY (`squoteenquiriesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3441,13 +3460,11 @@ CREATE TABLE `u_yf_ssalesprocesses` (
   `campaignid` int(10) DEFAULT NULL,
   `parentid` int(10) DEFAULT 0,
   `startdate` date DEFAULT NULL,
-  `squoteenquiries_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`ssalesprocessesid`),
   KEY `related_to` (`related_to`),
   KEY `campaignid` (`campaignid`),
   KEY `parentid` (`parentid`),
   KEY `ssalesprocesses_no` (`ssalesprocesses_no`),
-  KEY `u_yf_ssalesprocesses_squoteenquiries_id_idx` (`squoteenquiries_id`),
   CONSTRAINT `fk_1_u_yf_ssalesprocesses` FOREIGN KEY (`ssalesprocessesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5521,7 +5538,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2773 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2771 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -8071,7 +8088,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=580 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=577 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 

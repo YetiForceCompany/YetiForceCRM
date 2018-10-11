@@ -1489,9 +1489,7 @@ $.Class('Settings_LayoutEditor_Js', {}, {
 			contents = $('#layoutEditorContainer').find('.contents');
 		}
 		App.Fields.Date.register(contents);
-		app.registerEventForClockPicker(contents);
 		App.Fields.Picklist.changeSelectElementView(contents);
-
 		thisInstance.makeFieldsListSortable();
 		thisInstance.registerDeleteCustomFieldEvent(contents);
 		thisInstance.registerEditFieldDetailsClick(contents);

@@ -9,15 +9,15 @@ return [
 		'Competition' => ['level' => 0],
 		'OSSEmployees' => ['level' => 0],
 		'Contacts' => ['level' => 3],
-		'Campaigns' => ['level' => 1],
 		'SSalesProcesses' => ['level' => 1],
 		'Project' => ['level' => 1],
 		'ServiceContracts' => ['level' => 1],
+		'Campaigns' => ['level' => 1],
 		'FBookkeeping' => ['level' => 1],
-		'SQuoteEnquiries' => ['level' => 1],
 		'HelpDesk' => ['level' => 2, 'parentModule' => 'ServiceContracts'],
 		'ProjectTask' => ['level' => 2, 'parentModule' => 'Project'],
 		'ProjectMilestone' => ['level' => 2, 'parentModule' => 'Project'],
+		'SQuoteEnquiries' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 		'SRequirementsCards' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 		'SCalculations' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 		'SQuotes' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
@@ -59,6 +59,9 @@ return [
 		],
 		'SRecurringOrders' => [
 			'accountid' => ['Accounts' => ['company' => ['accountname']]],
+			'salesprocessid' => ['SSalesProcesses' => ['accountid' => ['related_to']]]
+		],
+		'SQuoteEnquiries' => [
 			'salesprocessid' => ['SSalesProcesses' => ['accountid' => ['related_to']]]
 		],
 		'SSalesProcesses' => [
