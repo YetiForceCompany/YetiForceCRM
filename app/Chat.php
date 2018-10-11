@@ -17,7 +17,7 @@ namespace App;
 class Chat
 {
 	/**
-	 * Record id.
+	 * Record ID.
 	 *
 	 * @var int
 	 */
@@ -31,14 +31,14 @@ class Chat
 	protected $nameOfRoom;
 
 	/**
-	 * Room id.
+	 * Room ID.
 	 *
 	 * @var int
 	 */
 	protected $roomId = false;
 
 	/**
-	 * Last message id.
+	 * Last message ID.
 	 *
 	 * @var int|null
 	 */
@@ -59,17 +59,17 @@ class Chat
 	protected $isAssigned = false;
 
 	/**
-	 * Set current room id.
+	 * Set current room ID.
 	 *
 	 * @param int $id
 	 */
-	public static function setCurrentRoomId($id)
+	public static function setCurrentRoomId(int $id)
 	{
 		\App\Session::set('chat-current-room-id', $id);
 	}
 
 	/**
-	 * Get current room id.
+	 * Get current room ID.
 	 *
 	 * @return int
 	 */
@@ -82,9 +82,9 @@ class Chat
 	}
 
 	/**
-	 * Get instance by record id.
+	 * Get instance by record ID.
 	 *
-	 * @param int      $id
+	 * @param int      $id     room ID or crm ID
 	 * @param int|null $userId
 	 *
 	 * @return \App\Chat
@@ -113,7 +113,7 @@ class Chat
 	}
 
 	/**
-	 * Create new chat room by record id.
+	 * Create new chat room by record ID.
 	 *
 	 * @param int $recordId
 	 *
@@ -178,7 +178,7 @@ class Chat
 	}
 
 	/**
-	 * Return chat room id.
+	 * Return chat room ID.
 	 *
 	 * @return int
 	 */
