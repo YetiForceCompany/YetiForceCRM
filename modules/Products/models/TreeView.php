@@ -46,8 +46,6 @@ class Products_TreeView_Model extends Vtiger_TreeView_Model
 	 */
 	public function getTreeList()
 	{
-		$tree = parent::getTreeList();
-		$treeWithItems = $this->getRecords();
-		return array_merge($tree, $treeWithItems);
+		return array_merge(parent::getTreeList(), $this->getRecords());
 	}
 }

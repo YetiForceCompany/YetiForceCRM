@@ -28,17 +28,17 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model
 		if ($begin > $end) {
 			return 0;
 		} else {
-			$no_days = 0;
+			$noDays = 0;
 			$weekends = 0;
 			while ($begin <= $end) {
-				++$no_days; // no of days in the given interval
-				$what_day = date('N', $begin);
-				if ($what_day > 5) { // 6 and 7 are weekend days
+				++$noDays; // no of days in the given interval
+				$whatDay = date('N', $begin);
+				if ($whatDay > 5) { // 6 and 7 are weekend days
 					++$weekends;
 				}
 				$begin += 86400; // +1 day
 			}
-			return $no_days - $weekends;
+			return $noDays - $weekends;
 		}
 	}
 

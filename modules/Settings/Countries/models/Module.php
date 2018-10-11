@@ -33,8 +33,7 @@ class Settings_Countries_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function updateStatus($id, $status)
 	{
-		$db = App\Db::getInstance();
-		return $db->createCommand()
+		return App\Db::getInstance()->createCommand()
 			->update('u_#__countries', ['status' => $status], ['id' => $id])
 			->execute();
 	}
@@ -48,8 +47,7 @@ class Settings_Countries_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function updateAllStatuses($status)
 	{
-		$db = App\Db::getInstance();
-		return $db->createCommand()
+		return App\Db::getInstance()->createCommand()
 			->update('u_#__countries', ['status' => $status])
 			->execute();
 	}
@@ -64,8 +62,7 @@ class Settings_Countries_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function updatePhone($id, $phone)
 	{
-		$db = App\Db::getInstance();
-		return $db->createCommand()
+		return App\Db::getInstance()->createCommand()
 			->update('u_#__countries', ['phone' => $phone], ['id' => $id])
 			->execute();
 	}
@@ -80,8 +77,7 @@ class Settings_Countries_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function updateUitype($id, $uitype)
 	{
-		$db = App\Db::getInstance();
-		return $db->createCommand()
+		return App\Db::getInstance()->createCommand()
 			->update('u_#__countries', ['uitype' => $uitype], ['id' => $id])
 			->execute();
 	}
