@@ -52,6 +52,7 @@ cache:
 branches:
   only:
   - developer
+  - /^greenkeeper/.*$/
 
 services:
 - mysql
