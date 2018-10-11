@@ -256,7 +256,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 			$fields[] = $groupByField;
 			$fieldModel = Vtiger_Field_Model::getInstance($groupByField, $moduleModel);
 			if ($fieldModel !== false) {
-				$groupByFieldColumn = $fieldModel->get('column');
+				$groupByFieldColumn = $fieldModel->getFieldName();
 			}
 		}
 		$queryGenerator = new App\QueryGenerator($moduleName);
@@ -283,7 +283,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 					'lat' => $row['lat'],
 					'lon' => $row['lon'],
 					'label' => self::getLabelToPopupByArray($row, $moduleName),
-					'color' => self::getMarkerColor($row[$groupByFieldColumn]),
+					'color' => isset($row[$groupByFieldColumn]) ? self::getMarkerColor($row[$groupByFieldColumn]) : ''
 				];
 			}
 		}
@@ -425,7 +425,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 				->select('crmids')
 				->from('u_#__openstreetmap_cache')
 				->where(['user_id' => $userId, 'module_name' => $moduleName])
-				->createCommand($db)->queryColumn(0);
+				->createCommand($db)->queryColumn();
 			if (!empty($records)) {
 				$this->set('srcModuleModel', Vtiger_Module_Model::getInstance($moduleName));
 				$coordinates[$moduleName] = $this->readCoordinatesByRecords($records);
