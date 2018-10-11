@@ -66,9 +66,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 						eventLimit: 10,
 						eventLimitText: app.vtranslate('JS_COUNT_RECORDS'),
 						titleFormat: 'YYYY',
-						header: {
-							center: 'prevYear,title,nextYear'
-						},
 						select: function (start, end) {
 						},
 						loadView: function () {
@@ -335,6 +332,9 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		this.addHeaderButtons();
 		if (view.type === 'year') {
 			nextPrevButtons.hide();
+			yearButtons.show();
+		} else if (view.type === 'month') {
+			nextPrevButtons.show();
 			yearButtons.show();
 		} else {
 			nextPrevButtons.show();
