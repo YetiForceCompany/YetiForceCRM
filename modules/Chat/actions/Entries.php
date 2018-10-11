@@ -30,20 +30,20 @@ class Chat_Entries_Action extends \App\Controller\Action
 			($mode === 'addRoom' && !$request->has('record')) ||
 			($mode === 'switchRoom' && !$request->has('chat_room_id'))
 		) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_PERMISSION_DENIED', 406);
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (
 			$request->has('record') &&
 			!Vtiger_Record_Model::getInstanceById($request->getInteger('record'))->isViewable()
 		) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_PERMISSION_DENIED', 406);
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (
 			$request->has('chat_room_id') &&
 			$request->getInteger('chat_room_id') !== 0 &&
 			!Vtiger_Record_Model::getInstanceById($request->getInteger('chat_room_id'))->isViewable()
 		) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_PERMISSION_DENIED', 406);
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
