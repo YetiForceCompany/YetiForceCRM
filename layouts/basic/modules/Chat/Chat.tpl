@@ -2,11 +2,11 @@
 {strip}
 	<!-- tpl-Chat-Chat -->
 	{function ROOM_ITEM CLASS_NAME=''}
-		<div class="row mb-1 {if \App\Chat::getCurrentRoomId()==$ROOM['room_id'] } bg-color-grey-200{/if} {$CLASS_NAME}"
+		<div class="row mb-1 btn-group {if \App\Chat::getCurrentRoomId()==$ROOM['room_id'] } bg-color-grey-200{/if} {$CLASS_NAME}"
 			 data-room-id="{$ROOM['room_id']}" data-selected-class="bg-color-grey-200" data-init-class="d-flex">
 			{if $ROOM['room_id']!==0 }
 				<button class="p-2 btn btn-outline-dark">
-					<span class="fas fa-trash-alt c-icon-button js-remove-room"></span>
+					<span class="fas fa-trash-alt color-red-600 js-remove-room"></span>
 				</button>
 			{/if}
 			<button class="p-2 btn btn-outline-dark flex-fill js-change-room js-popover-tooltip"
