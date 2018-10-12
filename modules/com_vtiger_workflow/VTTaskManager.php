@@ -98,7 +98,7 @@ class VTTaskManager
 	 *
 	 * @param int $workflowId
 	 *
-	 * @return []
+	 * @return array
 	 */
 	public function getTasksForWorkflow($workflowId)
 	{
