@@ -19,7 +19,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		$arrayDateTime = explode(' ', $value, 2);

@@ -1,3 +1,8 @@
+---
+name: Bug report
+about: Create a report to help us improve
+---
+
 <!--- Before you create a new issue, please check out our [manual] (https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/how-to-report-bugs) --->
 
 #### Issue

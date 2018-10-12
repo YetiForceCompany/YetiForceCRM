@@ -19,6 +19,14 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $uitype_instance;
 	public $picklistValues;
 	/**
+	 * @var bool
+	 */
+	protected $isListviewSortable = true;
+	/**
+	 * @var bool
+	 */
+	protected $isCalculateField = true;
+	/**
 	 * @var Vtiger_Base_UIType Vtiger_Base_UIType or UI Type specific model instance
 	 */
 	protected $uitypeModel;
@@ -189,11 +197,11 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to retrieve display type of a field.
 	 *
-	 * @return string display type of the field
+	 * @return int display type of the field
 	 */
 	public function getDisplayType()
 	{
-		return $this->get('displaytype');
+		return (int) $this->get('displaytype');
 	}
 
 	/**
@@ -314,6 +322,9 @@ class Vtiger_Field_Model extends vtlib\Field
 						break;
 					case 314:
 						$fieldDataType = 'multiEmail';
+						break;
+					case 315:
+						$fieldDataType = 'multiDependField';
 						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
@@ -699,7 +710,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isListviewSortable()
 	{
-		return $this->getUITypeModel()->isListviewSortable();
+		return $this->isListviewSortable && $this->getUITypeModel()->isListviewSortable();
 	}
 
 	/**
@@ -737,6 +748,20 @@ class Vtiger_Field_Model extends vtlib\Field
 		$moduleFieldLabel = $moduleName . '_' . $escapedFieldLabel;
 
 		return $tableName . ':' . $columnName . ':' . $fieldName . ':' . $moduleFieldLabel;
+	}
+
+	/**
+	 * Function to get value for customview.
+	 *
+	 * @param string $sourceFieldName
+	 *
+	 * @throws \Exception
+	 *
+	 * @return string
+	 */
+	public function getCustomViewSelectColumnName(string $sourceFieldName = '')
+	{
+		return "{$this->getModuleName()}:{$this->get('name')}" . ($sourceFieldName ? ":$sourceFieldName" : '');
 	}
 
 	/**
@@ -1122,17 +1147,13 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to get Default Field Value.
 	 *
-	 * @return string defaultvalue
+	 * @throws \Exception
+	 *
+	 * @return mixed
 	 */
 	public function getDefaultFieldValue()
 	{
-		if ($this->defaultvalue && $this->getFieldDataType() === 'date') {
-			$textParser = \App\TextParser::getInstance($this->getModuleName());
-			$textParser->setContent($this->defaultvalue)->parse();
-
-			return $textParser->getContent();
-		}
-		return $this->defaultvalue;
+		return $this->getUITypeModel()->getDefaultValue();
 	}
 
 	/**
@@ -1273,7 +1294,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isCalculateField()
 	{
-		return $this->getUIType() === 71 || $this->getUIType() === 7;
+		return $this->isCalculateField && ($this->getUIType() === 71 || $this->getUIType() === 7);
 	}
 
 	/**
@@ -1395,21 +1416,21 @@ class Vtiger_Field_Model extends vtlib\Field
 				} else {
 					return '-2147483648,2147483647';
 				}
-				break;
+				// no break
 			case 'smallint':
 				if ($data['unsigned']) {
 					return '65535';
 				} else {
 					return '-32768,32767';
 				}
-				break;
+				// no break
 			case 'tinyint':
 				if ($data['unsigned']) {
 					return '255';
 				} else {
 					return '-128,127';
 				}
-				break;
+				// no break
 			case 'decimal':
 				return pow(10, $data['size'] - $data['scale']) - 1;
 			default:

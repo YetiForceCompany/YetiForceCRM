@@ -41,9 +41,9 @@ class CustomView extends \Tests\Base
 			$this->assertEmpty($moduleModel->getFilterPermissionsView($recordModel['cvid'], 'default'), 'Custom view permissions list(default) should be emptied');
 			$this->assertInternalType('array', $moduleModel->getFilterPermissionsView($recordModel['cvid'], 'featured'), 'Custom view permissions list(featured) should be array type');
 			$this->assertEmpty($moduleModel->getFilterPermissionsView($recordModel['cvid'], 'featured'), 'Custom view permissions list(featured) should be empty');
-			$moduleModel->setFeaturedFilterView($recordModel['cvid'], \App\User::getActiveAdminId(), 'add');
+			\CustomView_Record_Model::setFeaturedFilterView($recordModel['cvid'], \App\User::getActiveAdminId(), 'add');
 			$this->assertNotEmpty($moduleModel->getFilterPermissionsView($recordModel['cvid'], 'featured'), 'Custom view permissions list(featured) should be not empty');
-			$moduleModel->setFeaturedFilterView($recordModel['cvid'], \App\User::getActiveAdminId(), 'remove');
+			\CustomView_Record_Model::setFeaturedFilterView($recordModel['cvid'], \App\User::getActiveAdminId(), 'remove');
 			$this->assertEmpty($moduleModel->getFilterPermissionsView($recordModel['cvid'], 'featured'), 'Custom view permissions list(featured) should be empty');
 		}
 		$supportedModules = \Settings_CustomView_Module_Model::getSupportedModules();

@@ -21,9 +21,7 @@ class Campaigns_Module_Model extends Vtiger_Module_Model
 	public function getSpecificRelationQuery($relatedModule)
 	{
 		if ($relatedModule === 'Leads') {
-			$specificQuery = 'AND vtiger_leaddetails.converted = 0';
-
-			return $specificQuery;
+			return 'AND vtiger_leaddetails.converted = 0';
 		}
 		return parent::getSpecificRelationQuery($relatedModule);
 	}

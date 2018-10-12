@@ -251,9 +251,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			WHERE vtiger_crmentity.deleted = 0 && vtiger_ossmailview_relation.crmid = '$recordId'";
-		$sql .= \App\PrivilegeQuery::getAccessConditions($moduleName, false, $recordId);
-
-		return $sql;
+		return $sql . \App\PrivilegeQuery::getAccessConditions($moduleName, false, $recordId);
 	}
 
 	/**

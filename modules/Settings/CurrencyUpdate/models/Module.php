@@ -2,10 +2,10 @@
 
 /**
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Maciej Stencel <m.stencel@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_CurrencyUpdate_Module_Model extends \App\Base
 {
@@ -13,9 +13,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 
 	public static function getCleanInstance()
 	{
-		$instance = new self();
-
-		return $instance;
+		return new self();
 	}
 
 	/*
@@ -287,8 +285,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 				$fromExchange = (float) ($query->scalar());
 				$exchange = 1 / ($fromExchange * $convertToMainCurrency);
 			}
-		}
-		// get conversion rate from archive
+		} // get conversion rate from archive
 		else {
 			$query = new App\Db\Query();
 			$query->from('yetiforce_currencyupdate')
@@ -296,7 +293,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 				->where(['yetiforce_currencyupdate.exchange_date' => $date,
 					'yetiforce_currencyupdate.bank_id' => $activeBankId,
 					'vtiger_currency_info.currency_code' => $to, ])
-					->limit(1);
+				->limit(1);
 			$num = (float) ($query->count());
 			// no exchange rate in archive, fetch new rates
 			if ($num == 0) {
@@ -309,7 +306,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 				->where(['yetiforce_currencyupdate.exchange_date' => $date,
 					'yetiforce_currencyupdate.bank_id' => $activeBankId,
 					'vtiger_currency_info.currency_code' => $to, ])
-					->limit(1);
+				->limit(1);
 			$exchange = (float) ($query->scalar());
 			if ($exchange > 0) {
 				$exchange = 1 / $exchange;
@@ -324,7 +321,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 					->where(['yetiforce_currencyupdate.exchange_date' => $date,
 						'yetiforce_currencyupdate.bank_id' => $activeBankId,
 						'vtiger_currency_info.currency_code' => $from, ])
-						->limit(1);
+					->limit(1);
 				$fromExchange = (float) ($query->scalar());
 				if ($from != $mainCurrencyCode && $to != $mainCurrencyCode) {
 					$exchange = $fromExchange / $convertToMainCurrency;

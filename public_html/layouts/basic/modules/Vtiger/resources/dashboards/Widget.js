@@ -2333,7 +2333,7 @@ YetiForce_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 	},
 	getCalendarView: function () {
 		if (this.calendarView == false) {
-			this.calendarView = this.getContainer().find('#calendarview');
+			this.calendarView = this.getContainer().find('.js-calendar__container');
 		}
 		return this.calendarView;
 	},

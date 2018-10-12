@@ -218,8 +218,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var rightSplitMaxWidth = (400 / $(window).width()) * 100;
 		var splitMinWidth = (25 / $(window).width()) * 100;
 		var splitMaxWidth = 100 - splitMinWidth;
-		var thWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first();
-		thWidth = ((thWidth.width() + thWidth.next().width() + 62) / $(window).width()) * 100;
 		var listPreview = container.find('.js-detail-preview');
 		const splitSizes = this.getSplitSizes();
 		var split = Split([this.list[0], listPreview[0]], {
@@ -262,7 +260,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			listPreview.hide();
 			split.setSizes([splitMaxWidth, splitMinWidth]);
 		}
-		this.gutter = container.find('.gutter');		
+		this.gutter = container.find('.gutter');
 		var mainWindowHeightCss = {height: $(window).height() - (this.gutter.offset().top + this.footerH)};
 		this.gutter.css(mainWindowHeightCss);
 		this.list.css(mainWindowHeightCss);
@@ -327,7 +325,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 * Sets initial iframe's height and fills the preview with first record's content.
 	 */
 	registerPreviewEvent: function () {
-		const thisInstance = this;
 		const iframe = $(".listPreviewframe");
 		const container = this.getListViewContentContainer();
 		this.getDomParams(container);

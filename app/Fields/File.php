@@ -712,8 +712,8 @@ class File
 		$fileName = \App\TextParser::textTruncate($file->getName(), 50, false);
 		$record = \Vtiger_Record_Model::getCleanInstance('Documents');
 		$record->setData($params);
-		$record->set('notes_title', $fileName);
-		$record->set('filename', $file->getName());
+		$record->set('notes_title', \App\Purifier::decodeHtml(\App\Purifier::purify($fileName)));
+		$record->set('filename', \App\Purifier::decodeHtml(\App\Purifier::purify($file->getName())));
 		$record->set('filestatus', 1);
 		$record->set('filelocationtype', 'I');
 		$record->set('folderid', 'T2');

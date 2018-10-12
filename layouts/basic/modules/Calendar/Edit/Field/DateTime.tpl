@@ -6,18 +6,18 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce Sp. z o.o.
 ********************************************************************************/
 -->*}
 {strip}
 	{if $FIELD_MODEL->getName() == 'date_start'}
 		{assign var=DATE_FIELD value=$FIELD_MODEL}
-		{assign var=MODULE_MODEL value=$RECORD_STRUCTURE_MODEL->getModule()}
+		{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
 		{assign var=TIME_FIELD value=$MODULE_MODEL->getField('time_start')}
 		{assign var=TIME_NAME value='time_start'}
 	{elseif $FIELD_MODEL->getName() == 'due_date'}
 		{assign var=DATE_FIELD value=$FIELD_MODEL}
-		{assign var=MODULE_MODEL value=$RECORD_STRUCTURE_MODEL->getModule()}
+		{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
 		{assign var=TIME_FIELD value=$MODULE_MODEL->getField('time_end')}
 		{assign var=TIME_NAME value='time_end'}
 	{/if}
@@ -28,7 +28,7 @@
 	{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
 	{if count($DATE_TIME_COMPONENTS) eq 2}
 		{assign var=TIME_FIELD value=$TIME_FIELD->set('fieldvalue',$DATE_TIME_COMPONENTS[1])}
-	{elseif $RECORD}
+	{elseif !empty($RECORD)}
 		{assign var=TIME_FIELD value=$TIME_FIELD->set('fieldvalue',$RECORD->get($TIME_NAME))}
 	{/if}
 	{* Set the date after converting with repsect to timezone *}

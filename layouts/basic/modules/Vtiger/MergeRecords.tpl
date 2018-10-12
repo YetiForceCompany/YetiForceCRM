@@ -16,7 +16,7 @@
 			{/if}
 			<input type="hidden" name=module value="{$MODULE_NAME}"/>
 			<input type="hidden" name="action" value="MergeRecords"/>
-			<input type="hidden" name="records" value={\App\Json::encode(array_keys($RECORD_MODELS))}/>
+			<input type="hidden" name="records" value="{\App\Purifier::encodeHtml(\App\Json::encode(array_keys($RECORD_MODELS)))}"/>
 			<div class="table-responsive">
 				<table class="table table-bordered table-condensed">
 					<thead class="listViewHeaders">

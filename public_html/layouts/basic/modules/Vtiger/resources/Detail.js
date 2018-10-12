@@ -94,7 +94,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		);
 	},
 	transferOwnershipSave: function (form) {
-		var thisInstance = this;
 		var transferOwner = jQuery('#transferOwnerId').val();
 		var relatedModules = jQuery('#related_modules').val();
 		var recordId = jQuery('#recordId').val();
@@ -472,7 +471,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.markTabAsSelected(moduleTab);
 	},
 	deSelectAllrelatedTabs: function () {
-		var relatedTabContainer = this.getTabContainer();
 		this.getTabs().removeClass('active');
 	},
 	markTabAsSelected: function (tabElement) {
@@ -1080,14 +1078,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 							text: '<b>' + fieldInfo.data.label + '</b><br>' +
-								'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
-								prevDisplayValue + '<br> ' +
-								'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
+							'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
+							prevDisplayValue + '<br> ' +
+							'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
 							type: 'info',
 							textTrusted: true
 						});
 						if (postSaveRecordDetails['isEditable'] === false) {
-							const progressIndicatorElement = jQuery.progressIndicator({
+							jQuery.progressIndicator({
 								'position': 'html',
 								'blockInfo': {
 									'enabled': true
@@ -1223,7 +1221,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var dateStartFormat = jQuery(dateStartEl).data('date-format');
 		var validDateFromat = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, modDay, type);
 		var map = jQuery.extend({}, ['#b6a996,black'])
-		var thisInstance = this;
 
 		var params = {
 			module: 'Calendar',
@@ -1326,7 +1323,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerAddingInventoryRecords: function () {
-		var thisInstance = this;
 		jQuery('.createInventoryRecordFromFilter').on('click', function (e) {
 			var currentElement = jQuery(e.currentTarget);
 			var createUrl = currentElement.data('url');
@@ -1343,9 +1339,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerEmailEvent: function () {
-		var thisInstance = this;
 		this.getContentHolder().find('.resetRelationsEmail').on('click', function (e) {
-			var currentElement = jQuery(e.currentTarget);
 			Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate('JS_EMAIL_RESET_RELATIONS_CONFIRMATION')}).done(function (data) {
 				AppConnector.request({
 					module: 'OSSMailView',
@@ -1372,7 +1366,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var widget = summaryWidgetContainer.find('.widgetContentBlock');
 		var url = '&' + widget.data('url');
 		var urlParams = {};
-		var parts = url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+		url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 			urlParams[key] = value;
 		});
 		var urlNewParams = [];
@@ -1388,7 +1382,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var selectedFilter = element.find('option:selected').val();
 				var fieldlable = element.data('fieldlable');
 				var filter = element.data('filter');
-				value = {};
 				if (selectedFilter != fieldlable) {
 					value = [[filter, 'e', selectedFilter]];
 				} else {
@@ -1453,7 +1446,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		/**
 		 * Function to handle the ajax edit for summary view fields
 		 */
-		var formElement = thisInstance.getForm();
 		summaryViewContainer.off('click').on('click', '.row .js-detail-quick-edit', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.addClass('d-none');
@@ -1477,7 +1469,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.popover('hide');
 			var url = currentTarget.data('url');
-			if (url && typeof url !== "undefined") {
+			if (url) {
 				app.showModalWindow(null, url);
 			}
 		});
@@ -1486,7 +1478,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		 * Register the event to edit Description for related activities
 		 */
 		summaryViewContainer.on('click', '.editDescription', function (e) {
-			var thisInstance = this;
 			var currentTarget = jQuery(e.currentTarget);
 			var currentDiv = currentTarget.closest('.activityDescription');
 			var editElement = currentDiv.find('.edit');
@@ -1660,6 +1651,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					delete urlAttributes.callback;
 				}
 				thisInstance.loadContents(url, urlAttributes).done(function (data) {
+					Vtiger_Header_Js.getInstance().registerChatEvents($('.js-chat-detail'));
 					thisInstance.deSelectAllrelatedTabs();
 					thisInstance.markTabAsSelected(tabElement);
 					Vtiger_Helper_Js.showHorizontalTopScrollBar();
@@ -1876,7 +1868,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			});
 			var fieldName = fieldContainer.data('fieldname');
 			fieldName = fieldName.replace("q_", "");
-			var prevValue = fieldContainer.data('prevvalue');
 			var fieldValue = fieldElement.val();
 			var errorExists = fieldElement.validationEngine('validate');
 			if (errorExists) {
@@ -1904,7 +1895,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		app.showPopoverElementView(form.find('.js-help-info'));
 	},
 	registerRelatedModulesRecordCount: function (tabContainer) {
-		var thisInstance = this;
 		var counter = [];
 		var moreList = $('.related .nav .dropdown-menu');
 		var relationContainer = tabContainer;
@@ -2211,7 +2201,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		Vtiger_Index_Js.registerMailButtons(detailContentsHolder);
 	},
 	registerMapsEvents: function (container) {
-		var coordinates = container.find('#coordinates').val();
 		if (container.find('#coordinates').length) {
 			var mapView = new OpenStreetMap_Map_Js();
 			mapView.registerDetailView(container);
@@ -2238,8 +2227,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	/**
 	 * Show confirmation on event click
-	 * @param jQuery element
-	 * @param string picklistName
+	 * @param {jQuery} element
+	 * @param {string} picklistName
 	 */
 	showProgressConfirmation(element, picklistName) {
 		const self = this;
@@ -2614,6 +2603,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerEvents: function () {
 		//this.triggerDisplayTypeEvent();
+		Vtiger_Header_Js.getInstance().registerChatEvents($('.js-chat-detail'));
 		this.registerHelpInfo();
 		this.registerSendSmsSubmitEvent();
 		this.registerAjaxEditEvent();

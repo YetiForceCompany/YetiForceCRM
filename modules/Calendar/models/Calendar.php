@@ -121,6 +121,21 @@ class Calendar_Calendar_Model extends App\Base
 		return $query;
 	}
 
+	/**
+	 * Get records count for extended calendar left column.
+	 *
+	 * @return int|string
+	 */
+	public function getEntityRecordsCount()
+	{
+		return $this->getQuery()->count();
+	}
+
+	/**
+	 * Get public holidays for rendenring them on the calendar.
+	 *
+	 * @return array
+	 */
 	public function getPublicHolidays()
 	{
 		$startDate = new DateTimeField($this->get('start'));
@@ -284,7 +299,9 @@ class Calendar_Calendar_Model extends App\Base
 		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));
 		$endDate = DateTimeField::convertToDBTimeZone($this->get('end'));
 		$endDate = strtotime($endDate->format('Y-m-d H:i:s'));
-		$dataReader = $this->getQuery()->createCommand()->query();
+		$dataReader = $this->getQuery()
+			->createCommand()
+			->query();
 		$return = [];
 		while ($record = $dataReader->read()) {
 			$activitytype = $record['activitytype'];
@@ -320,6 +337,57 @@ class Calendar_Calendar_Model extends App\Base
 					$return[$date]['event'][$activitytype]['className'] = '  fc-draggable picklistCBg_Calendar_activitytype_' . $activitytype;
 					$return[$date]['event'][$activitytype]['label'] = \App\Language::translate($activitytype, $this->getModuleName());
 					$return[$date]['type'] = 'widget';
+				}
+			}
+		}
+		$dataReader->close();
+
+		return array_values($return);
+	}
+
+	/**
+	 * Get entity count for year view.
+	 *
+	 * @return array
+	 */
+	public function getEntityYearCount()
+	{
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$startDate = DateTimeField::convertToDBTimeZone($this->get('start'));
+		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));
+		$endDate = DateTimeField::convertToDBTimeZone($this->get('end'));
+		$endDate = strtotime($endDate->format('Y-m-d H:i:s'));
+		$dataReader = $this->getQuery()
+			->createCommand()
+			->query();
+		$return = [];
+		while ($record = $dataReader->read()) {
+			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
+			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
+			$dateTimeComponents = explode(' ', $userDateTimeString);
+			$dateComponent = $dateTimeComponents[0];
+			$startDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
+
+			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
+			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
+			$dateTimeComponents = explode(' ', $userDateTimeString);
+			$dateComponent = $dateTimeComponents[0];
+			$endDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
+
+			$begin = new DateTime($startDateFormated);
+			$end = new DateTime($endDateFormated);
+			$end->modify('+1 day');
+			$interval = DateInterval::createFromDateString('1 day');
+			foreach (new DatePeriod($begin, $interval, $end) as $dt) {
+				$date = strtotime($dt->format('Y-m-d'));
+				if ($date >= $startDate && $date <= $endDate) {
+					$date = date('Y-m-d', $date);
+					$return[$date]['date'] = $date;
+					if (isset($return[$date]['count'])) {
+						$return[$date]['count'] += 1;
+					} else {
+						$return[$date]['count'] = 1;
+					}
 				}
 			}
 		}

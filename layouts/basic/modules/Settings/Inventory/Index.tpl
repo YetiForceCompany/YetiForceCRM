@@ -44,6 +44,16 @@
 									<input type="checkbox" data-field-name="status"
 										   class="status js-update-field my-2"
 										   {if !$RECORD->getStatus()}checked{/if} />
+									<div class="actions">
+										<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer mr-1"
+												data-url="{$RECORD->getEditUrl()}"><span
+													title="{\App\Language::translate('LBL_EDIT', $MODULE)}"
+													class="fas fa-edit alignBottom"></span></button>
+										<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white"
+												data-url="{$RECORD->getEditUrl()}"><span
+													title="{\App\Language::translate('LBL_DELETE', $MODULE)}"
+													class="fas fa-trash-alt alignBottom"></span></button>
+									</div>
 								</div>
 							</td>
 						</tr>

@@ -149,13 +149,13 @@ class Filter
 	 */
 	public function addField(FieldBasic $fieldInstance, $index = 0)
 	{
-		$cvcolvalue = $this->__getColumnValue($fieldInstance);
 		$db = \App\Db::getInstance();
 		$db->createCommand()->update('vtiger_cvcolumnlist', ['columnindex' => new \yii\db\Expression('columnindex + 1')], ['and', ['cvid' => $this->id], ['>=', 'columnindex', $index]])->execute();
 		$db->createCommand()->insert('vtiger_cvcolumnlist', [
 			'cvid' => $this->id,
 			'columnindex' => $index,
-			'columnname' => $cvcolvalue,
+			'field_name' => $fieldInstance->name,
+			'module_name' => $fieldInstance->getModuleName()
 		])->execute();
 		\App\Log::trace("Adding $fieldInstance->name to $this->name filter ... DONE", __METHOD__);
 

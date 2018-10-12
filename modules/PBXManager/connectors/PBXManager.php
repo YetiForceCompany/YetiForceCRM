@@ -54,7 +54,7 @@ class PBXManager_PBXManager_Connector
 		return 'PBXManager';
 	}
 
-	public function getPicklistValues($field)
+	public function getPicklistValues()
 	{
 	}
 
@@ -84,9 +84,7 @@ class PBXManager_PBXManager_Connector
 		$response = '<?xml version="1.0" encoding="utf-8"?>';
 		$response .= '<Response><Authentication>';
 		$response .= 'Failure';
-		$response .= '</Authentication></Response>';
-
-		return $response;
+		return $response . '</Authentication></Response>';
 	}
 
 	/**
@@ -280,7 +278,7 @@ class PBXManager_PBXManager_Connector
 		$response .= 'Success</Authentication>';
 
 		if (self::$NUMBERS) {
-			foreach (self::$NUMBERS as $userId => $number) {
+			foreach (self::$NUMBERS as $number) {
 				$callPermission = \App\Privilege::isPermitted('PBXManager', 'ReceiveIncomingCalls');
 
 				if ($number != $details->get('callerIdNumber') && $callPermission) {

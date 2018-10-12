@@ -311,7 +311,6 @@ $.Class("Vtiger_Edit_Js", {
 				return false;
 			},
 			'change': function (event, ui) {
-				var element = $(this);
 			},
 			'open': function (event, ui) {
 				//To Make the menu come up in the case of quick create
@@ -569,7 +568,6 @@ $.Class("Vtiger_Edit_Js", {
 	 */
 	registerEventForCopyAddress: function () {
 		var thisInstance = this;
-		var formElement = this.getForm();
 		var account_id = false;
 		var contact_id = false;
 		var lead_id = false;
@@ -853,7 +851,6 @@ $.Class("Vtiger_Edit_Js", {
 		}
 	},
 	registerMaskFields: function (container) {
-		var thisInstance = this;
 		container.find("[data-inputmask]").inputmask();
 	},
 	triggerDisplayTypeEvent: function () {
@@ -878,7 +875,6 @@ $.Class("Vtiger_Edit_Js", {
 					}
 				});
 				editViewForm.find('.js-toggle-panel').find('.js-block-content').removeClass('d-none');
-				var module = $(e.currentTarget).find('[name="module"]').val();
 				if (editViewForm.validationEngine('validate')) {
 					//Once the form is submiting add data attribute to that form element
 					editViewForm.data('submit', 'true');
@@ -1185,7 +1181,6 @@ $.Class("Vtiger_Edit_Js", {
 		return [];
 	},
 	registerValidationsFields: function (container) {
-		var thisInstance = this;
 		var params = app.validationEngineOptionsForRecord;
 		container.validationEngine(params);
 	},
@@ -1286,7 +1281,6 @@ $.Class("Vtiger_Edit_Js", {
 		});
 	},
 	registerFocusFirstField: function (container) {
-		var thisInstance = this;
 		container.find('.fieldValue input.form-control:not([type=hidden],[type=checkbox])').each(function (n, e) {
 			var element = $(e);
 			if (!element.prop('readonly') && !element.prop('disabled')) {
@@ -1345,6 +1339,7 @@ $.Class("Vtiger_Edit_Js", {
 		this.registerCopyValue(container);
 		this.registerMultiImageFields(container);
 		App.Fields.MultiEmail.register(container);
+		App.Fields.MultiDependField.register(container);
 	},
 	registerEvents: function () {
 		var editViewForm = this.getForm();

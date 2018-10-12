@@ -38,7 +38,7 @@ class Logout extends \Api\Core\BaseAction
 			->update('w_#__portal_user', [
 				'logout_time' => date('Y-m-d H:i:s'),
 				], ['id' => $this->session->get('id')])
-				->execute();
+			->execute();
 
 		return true;
 	}

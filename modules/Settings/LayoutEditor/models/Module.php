@@ -523,7 +523,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 */
 	public function isSortableAllowed()
 	{
-		return 'Calendar' !== $this->getName();
+		return true;
 	}
 
 	/**

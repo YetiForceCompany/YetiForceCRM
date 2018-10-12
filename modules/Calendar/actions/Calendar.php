@@ -32,7 +32,11 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	{
 		parent::__construct();
 		$this->exposeMethod('getEvents');
+		$this->exposeMethod('getEventsYear');
+		$this->exposeMethod('getCountEvents');
 		$this->exposeMethod('updateEvent');
+		$this->exposeMethod('getCountEventsGroup');
+		$this->exposeMethod('pinOrUnpinUser');
 	}
 
 	public function getEvents(\App\Request $request)
@@ -48,15 +52,102 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		if ($request->has('filters')) {
 			$record->set('filters', $request->get('filters'));
 		}
+		if ($request->has('cvid')) {
+			$record->set('customFilter', $request->getInteger('cvid'));
+		}
 		if ($request->get('widget')) {
 			$record->set('customFilter', $request->getByType('customFilter', 2));
 			$entity = array_merge($record->getEntityCount(), $record->getPublicHolidays());
 		} else {
-			$entity = array_merge($record->getEntity(), $record->getPublicHolidays());
+			if ($request->get('yearView')) {
+				$entity = array_merge($record->getEntityCount(), $record->getPublicHolidays());
+			} else {
+				$entity = array_merge($record->getEntity(), $record->getPublicHolidays());
+			}
 		}
-
 		$response = new Vtiger_Response();
 		$response->setResult($entity);
+		$response->emit();
+	}
+
+	/**
+	 * Get events for year view.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function getEventsYear(\App\Request $request)
+	{
+		$record = Calendar_Calendar_Model::getCleanInstance();
+		$record->set('user', $request->getArray('user'));
+		$record->set('time', $request->getByType('time'));
+		if ($request->has('start') && $request->has('end')) {
+			$record->set('start', $request->getByType('start', 'DateInUserFormat'));
+			$record->set('end', $request->getByType('end', 'DateInUserFormat'));
+		}
+		if ($request->has('filters')) {
+			$record->set('filters', $request->get('filters'));
+		}
+		if ($request->has('cvid')) {
+			$record->set('customFilter', $request->getInteger('cvid'));
+		}
+		$entity = array_merge($record->getEntityYearCount(), $record->getPublicHolidays());
+		$response = new Vtiger_Response();
+		$response->setResult($entity);
+		$response->emit();
+	}
+
+	/**
+	 * Get count Events for extended calendar's left column.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function getCountEvents(\App\Request $request)
+	{
+		$record = Calendar_Calendar_Model::getCleanInstance();
+		$record->set('user', $request->getArray('user'));
+		$record->set('types', $request->getArray('types'));
+		$record->set('time', $request->getByType('time'));
+		if ($request->has('start') && $request->has('end')) {
+			$record->set('start', $request->getByType('start', 'DateInUserFormat'));
+			$record->set('end', $request->getByType('end', 'DateInUserFormat'));
+		}
+		if ($request->has('filters')) {
+			$record->set('filters', $request->get('filters'));
+		}
+		if ($request->has('cvid')) {
+			$record->set('customFilter', $request->getInteger('cvid'));
+		}
+		$entity = $record->getEntityRecordsCount();
+		$response = new Vtiger_Response();
+		$response->setResult($entity);
+		$response->emit();
+	}
+
+	/**
+	 * Get count Events for extended calendar's left column.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function getCountEventsGroup(\App\Request $request)
+	{
+		$record = Calendar_Calendar_Model::getCleanInstance();
+		$record->set('user', $request->getArray('user'));
+		$record->set('types', $request->getArray('types'));
+		$record->set('time', $request->getByType('time'));
+		if ($request->has('filters')) {
+			$record->set('filters', $request->get('filters'));
+		}
+		if ($request->has('cvid')) {
+			$record->set('customFilter', $request->getInteger('cvid'));
+		}
+		$result = [];
+		foreach ($request->getArray('dates', false, []) as $datePair) {
+			$record->set('start', $datePair[0]);
+			$record->set('end', $datePair[1]);
+			$result[] = $record->getEntityRecordsCount();
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
 		$response->emit();
 	}
 
@@ -65,7 +156,6 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('id');
 		$delta = $request->getArray('delta');
-
 		$start = DateTimeField::convertToDBTimeZone($request->get('start'));
 		$date_start = $start->format('Y-m-d');
 		$time_start = $start->format('H:i:s');
@@ -110,5 +200,42 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$date = $date->modify('+' . $delta['minutes'] . ' minutes');
 		}
 		return ['date' => $date->format('Y-m-d'), 'time' => $date->format('H:i:s')];
+	}
+
+	/**
+	 * Get count Events for extended calendar's left column.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function pinOrUnpinUser(\App\Request $request)
+	{
+		$db = \App\Db::getInstance();
+		$userId = \App\User::getCurrentUserId();
+		if (!$request->isEmpty('element_id')) {
+			$favouritesId = $request->getInteger('element_id');
+			if (\App\User::isExists($favouritesId)) {
+				$query = new \App\Db\Query();
+				$existsRecords = $query
+					->from('u_#__users_pinned')
+					->where(['owner_id' => $userId])
+					->where(['fav_element_id' => $favouritesId])
+					->exists();
+				$data = [
+					'owner_id' => $userId,
+					'fav_element_id' => $favouritesId,
+				];
+				if (!$existsRecords) {
+					$db->createCommand()->insert('u_#__users_pinned', $data)->execute();
+					$result = 'pin';
+				} else {
+					$db->createCommand()->delete('u_#__users_pinned', $data)->execute();
+					$result = 'unpin';
+				}
+				\App\Cache::delete('UsersFavourite', $userId);
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
 	}
 }

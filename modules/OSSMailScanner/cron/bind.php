@@ -12,9 +12,9 @@ $dataReader = (new App\Db\Query())->select([
 			'vtiger_ossmailview.*',
 			'roundcube_users.actions',
 		])->from('vtiger_ossmailview')
-			->innerJoin('roundcube_users', 'roundcube_users.user_id = vtiger_ossmailview.rc_user')
-			->where(['vtiger_ossmailview.verify' => 1])
-			->createCommand()->query();
+	->innerJoin('roundcube_users', 'roundcube_users.user_id = vtiger_ossmailview.rc_user')
+	->where(['vtiger_ossmailview.verify' => 1])
+	->createCommand()->query();
 
 while ($row = $dataReader->read()) {
 	$scanerModel->bindMail($row);

@@ -10,50 +10,54 @@
 	<input value="current" type="hidden" id="showType"/>
 	<input value="workDays" type="hidden" id="switchingDays"/>
 	<input value="{$EVENT_LIMIT}" type="hidden" id="eventLimit"/>
+	<input value="{$WEEK_COUNT}" type="hidden" id="weekCount"/>
 	<input value="{$WEEK_VIEW}" type="hidden" id="weekView"/>
 	<input value="{$DAY_VIEW}" type="hidden" id="dayView"/>
 	<input value="{\App\Purifier::encodeHtml(\App\Json::encode(\AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"
 		   type="hidden" id="hiddenDays"/>
 	<input value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" type="hidden" id="activityStateLabels"/>
-	<div class="calendarViewContainer rowContent col-md-12 paddingLefttZero col-xs-12">
-		<div class="widget_header row marginbottomZero marginRightMinus20">
-			<div class="pull-left paddingLeftMd">
-				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
-			</div>
-			<div class="col-xs-10 col-sm-7">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-			</div>
-		</div>
-		<div class="alert alert-info marginTop10 hide" id="moduleCacheAlert" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close" data-js="click">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			{\App\Language::translate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}&nbsp;
-			<button type="button" class="pull-right btn btn-warning btn-xs marginRight10 cacheClear" data-js="click">
-				{\App\Language::translate('LBL_CACHE_CLEAR', $MODULE_NAME)}
-			</button>
-		</div>
-		<div class="hide">
-			{foreach item=ITEM from=$ACTIVITY_TYPE}
-				<span value="{$ITEM}" class="btn btn-success buttonCBr_Calendar_activitytype_{$ITEM}">
-					{\App\Language::translate($ITEM,$MODULE)}
-				</span>
-			{/foreach}
-		</div>
-		<div class="row">
-			<div id="datesColumn">
-				<p><!-- Divider --></p>
-				<div class="col-md-1 col-sm-1 hidden-xs">
-					<div class="dateList">
-					</div>
-					<div class="subDateList">
-					</div>
+	<div class="calendarViewContainer rowContent js-css-element-queries" data-js="css-element-queries">
+		<div class="o-calendar__container u-overflow-y-auto mt-2" data-js="offset">
+			<div class="d-none js-calendar__header-buttons">
+				<div class="js-calendar__view-btn mb-1 mb-sm-0 mr-1">
+					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions u-remove-dropdown-icon' BTN_CLASS='btn-light o-calendar__view-btn'}
 				</div>
-				<div id="calendarview" class="col-md-11 paddingLefttZero bottom_margin"></div>
+				<div class="js-calendar__filter-container">
+					{if $CUSTOM_VIEWS|@count gt 0}
+						<ul class="nav nav-pills u-w-fit js-calendar__extended-filter-tab" data-js="change"
+							role="tablist">
+							{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
+								{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
+									{if $CUSTOM_VIEW->isFeatured()}
+										<li class="nav-item js-filter-tab c-tab--small font-weight-bold"
+											data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
+											<a class="nav-link"
+											   href="#"
+											   {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if}
+											   data-toggle="tab" role="tab"
+											   aria-selected="false">
+												{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
+												{if $CUSTOM_VIEW->get('description')}
+													<span class="js-popover-tooltip fas fa-info-circle"
+														  data-js="popover"
+														  data-placement="auto right"
+														  data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
+												{/if}
+											</a>
+										</li>
+									{/if}
+								{/foreach}
+							{/foreach}
+						</ul>
+					{/if}
+					<a class="o-calendar__clear-btn btn btn-warning d-none ml-1 js-calendar__clear-filters js-popover-tooltip" role="button" data-content="{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}"
+					   data-js="class: d-none | popover">
+						<span class="fas fa-eraser" title="{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}"></span>
+					</a>
+				</div>
 			</div>
-		</div>
-		<div class="o-calendar-container">
-			<div id="calendarview"></div>
+			<div class="js-calendar__container" data-js="fullcalendar | offset"></div>
 		</div>
 	</div>
+	<!-- /tpl-Calendar-Extended-CalendarView -->
 {/strip}

@@ -38,7 +38,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$recordModel = Settings_Menu_Record_Model::getInstanceById($data['id']);
 		$recordModel->initialize($data);
 		$recordModel->set('edit', true);
-		$recordModel->save($data);
+		$recordModel->save();
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,

@@ -57,7 +57,7 @@ class Settings_Roles_Save_Action extends Settings_Vtiger_Basic_Action
 			if ($roleProfiles) {
 				foreach ($roleProfiles as $profileId) {
 					$profileRecordModel = Settings_Profiles_Record_Model::getInstanceById($profileId);
-					$profileRecordModel->recalculate([$recordId]);
+					$profileRecordModel->recalculate();
 				}
 			}
 		}

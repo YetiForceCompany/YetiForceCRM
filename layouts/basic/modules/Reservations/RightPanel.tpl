@@ -43,9 +43,4 @@
 			</div>
 		</div>
 	{/if}
-	<script type="text/javascript">
-		jQuery(document).ready(function () {
-			Reservations_Calendar_Js.registerUserListWidget();
-		});
-	</script>
 {/strip}

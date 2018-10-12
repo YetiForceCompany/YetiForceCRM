@@ -126,20 +126,18 @@ Vtiger_Edit_Js("Documents_Edit_Js", {}, {
 			formData.append("filename", file);
 			file = false;
 		}
-		if (typeof formData !== "undefined") {
-			var params = {
-				url: "index.php",
-				type: "POST",
-				data: formData,
-				processData: false,
-				contentType: false
-			};
-			AppConnector.request(params).done(function (data) {
-				aDeferred.resolve(data);
-			}).fail(function (textStatus, errorThrown) {
-				aDeferred.reject(textStatus, errorThrown);
-			});
-		}
+		var params = {
+			url: "index.php",
+			type: "POST",
+			data: formData,
+			processData: false,
+			contentType: false
+		};
+		AppConnector.request(params).done(function (data) {
+			aDeferred.resolve(data);
+		}).fail(function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
 		return aDeferred.promise();
 	},
 	registerBasicEvents: function (container) {

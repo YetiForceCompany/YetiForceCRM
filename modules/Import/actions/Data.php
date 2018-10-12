@@ -411,7 +411,7 @@ class Import_Data_Action extends \App\Controller\Action
 						$currencyParam = $data['currencyparam'];
 						$currencyParam = $fieldInstance->getCurrencyParam([], $currencyParam);
 						$newCurrencyParam = [];
-						foreach ($currencyParam as $key => $currencyData) {
+						foreach ($currencyParam as $currencyData) {
 							$valueData = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
 							if ($valueData) {
 								$currencyData['value'] = $valueData;
@@ -575,8 +575,7 @@ class Import_Data_Action extends \App\Controller\Action
 		foreach ($explodedValue as $key => $value) {
 			$explodedValue[$key] = trim($value);
 		}
-		$implodeValue = implode(' |##| ', $explodedValue);
-		return $implodeValue;
+		return implode(' |##| ', $explodedValue);
 	}
 
 	/**
@@ -854,7 +853,7 @@ class Import_Data_Action extends \App\Controller\Action
 	public static function runScheduledImport()
 	{
 		$scheduledImports = self::getScheduledImport();
-		foreach ($scheduledImports as $scheduledId => $importDataController) {
+		foreach ($scheduledImports as $importDataController) {
 			$importDataController->batchImport = false;
 			if (!$importDataController->initializeImport()) {
 				continue;

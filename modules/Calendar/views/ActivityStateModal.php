@@ -1,58 +1,58 @@
 <?php
 
 /**
+ * ActivityStateModal view Class.
+ *
+ * @package   View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 {
 	/**
-	 * Function to check permission.
+	 * Get tpl path file.
 	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedToRecord
+	 * @return string
 	 */
-	public function checkPermission(\App\Request $request)
+	protected function getTpl()
 	{
-		if ($request->isEmpty('record')) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView', $request->getInteger('record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-	}
-
-	public function process(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$id = $request->getInteger('record');
-		$recordInstance = Vtiger_Record_Model::getInstanceById($id, $moduleName);
-		$permissionToSendEmail = \App\Module::isModuleActive('OSSMail') && \App\Privilege::isPermitted('OSSMail');
-
-		$viewer = $this->getViewer($request);
-		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
-		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('RECORD', $recordInstance);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('SCRIPTS', $this->getScripts($request));
-		$viewer->view('ActivityStateModal.tpl', $moduleName);
+		return 'ActivityStateModal.tpl';
 	}
 
 	/**
-	 * Function to get the list of Script models to be included.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * {@inheritdoc}
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		if ($request->isEmpty('record', true) || !\App\Privilege::isPermitted($request->getModule(), 'EditView', $request->getInteger('record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$viewer->assign('PERMISSION_TO_SENDE_MAIL', \App\Privilege::isPermitted('OSSMail'));
+		$viewer->assign('RECORD', Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName));
+		$viewer->assign('SCRIPTS', $this->getScripts($request));
+		$viewer->view($this->getTpl(), $moduleName);
+	}
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function getScripts(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		return $this->checkAndConvertJsScripts([
-			"modules.$moduleName.resources.ActivityStateModal",
+			'modules.' . $request->getModule() . '.resources.ActivityStateModal'
 		]);
 	}
 }

@@ -269,22 +269,16 @@ class Users_Record_Model extends Vtiger_Record_Model
 		switch ($fieldName) {
 			case 'currency_id':
 				return CurrencyField::getDBCurrencyId();
-				break;
 			case 'accesskey':
 				return \App\Encryption::generatePassword(20, 'lbn');
-				break;
 			case 'language':
 				return \App\Language::getLanguage();
-				break;
 			case 'time_zone':
 				return App\Fields\DateTime::getTimeZone();
-				break;
 			case 'theme':
 				return Vtiger_Viewer::DEFAULTTHEME;
-				break;
 			case 'is_admin':
 				return 'off';
-				break;
 			default:
 				break;
 		}
@@ -993,5 +987,26 @@ class Users_Record_Model extends Vtiger_Record_Model
 			\App\Session::set('ShowUserPasswordChange', 1);
 		}
 		return false;
+	}
+
+	/**
+	 * Return user favourite users.
+	 *
+	 * @return array
+	 */
+	public function getFavouritesUsers()
+	{
+		if (\App\Cache::has('UsersFavourite', $this->getId())) {
+			$favouriteUsers = \App\Cache::get('UsersFavourite', $this->getId());
+		} else {
+			$query = new \App\Db\Query();
+			$favouriteUsers = $query->select(['fav_element_id', 'pinned_id' => 'fav_element_id'])
+				->from('u_#__users_pinned')
+				->where(['owner_id' => $this->getId()])
+				->createCommand()
+				->queryAllByGroup();
+			\App\Cache::save('UsersFavourite', $this->getId(), $favouriteUsers, \App\Cache::LONG);
+		}
+		return $favouriteUsers;
 	}
 }

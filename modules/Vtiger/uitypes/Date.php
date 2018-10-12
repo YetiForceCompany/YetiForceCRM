@@ -27,7 +27,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || empty($value)) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if ($isUserFormat) {
@@ -140,5 +140,19 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 			$value = $this->getDBValue($value);
 		}
 		$this->getFieldModel()->set('defaultvalue', $value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDefaultValue()
+	{
+		$defaultValue = $this->getFieldModel()->get('defaultvalue');
+		if ($defaultValue && \App\TextParser::isVaribleToParse($defaultValue)) {
+			$textParser = \App\TextParser::getInstance($this->getModuleName());
+			$textParser->setContent($this->defaultvalue)->parse();
+			$defaultValue = $textParser->getContent();
+		}
+		return $defaultValue;
 	}
 }

@@ -3,8 +3,8 @@
  * Time control detailed list parser.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -57,7 +57,7 @@ class OSSTimeControl_DetailedList_Textparser extends \App\TextParser\Base
 			$html .= '<tr>';
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
 			$class = '';
-			foreach ($this->columnNames as $key => $column) {
+			foreach ($this->columnNames as $column) {
 				if (is_array($column)) {
 					$fieldModel = $fields[current($column)];
 				} else {
@@ -82,9 +82,7 @@ class OSSTimeControl_DetailedList_Textparser extends \App\TextParser\Base
 			}
 			$html .= '<td class="summary ' . $class . '">' . $content . '</td>';
 		}
-		$html .= '</tr></tfoot></table>';
-
-		return $html;
+		return $html . '</tr></tfoot></table>';
 	}
 
 	/**

@@ -31,6 +31,7 @@ $.Class("Vtiger_Header_Js", {
 	menuContainer: false,
 	contentContainer: false,
 	quickCreateCallBacks: [],
+	chatRoom: [],
 	init: function () {
 		this.setContentsContainer('.js-base-container');
 	},
@@ -194,12 +195,15 @@ $.Class("Vtiger_Header_Js", {
 			params = {};
 		}
 		var thisInstance = this;
-		app.showModalWindow(data, function (data) {
-			var quickCreateForm = data.find('form[name="QuickCreate"]');
+		app.showModalWindow(data, function (container) {
+			var quickCreateForm = container.find('form[name="QuickCreate"]');
 			var moduleName = quickCreateForm.find('[name="module"]').val();
 			var editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
 			editViewInstance.registerBasicEvents(quickCreateForm);
-			thisInstance.registerChangeNearCalendarEvent(quickCreateForm, moduleName);
+			let moduleClassName = moduleName + '_QuickCreate_Js';
+			if (typeof window[moduleClassName] !== "undefined") {
+				(new window[moduleClassName]()).registerEvents(container);
+			}
 			quickCreateForm.validationEngine(app.validationEngineOptions);
 			if (typeof params.callbackPostShown !== "undefined") {
 				params.callbackPostShown(quickCreateForm);
@@ -215,82 +219,7 @@ $.Class("Vtiger_Header_Js", {
 		}
 		return false;
 	},
-	getNearCalendarEvent: function (container, module) {
-		var thisInstance = this;
-		var dateStartVal = container.find('[name="date_start"]').val();
-		if (typeof dateStartVal === "undefined" || dateStartVal === '') {
-			return;
-		}
-		var params = {
-			module: module,
-			view: 'QuickCreateEvents',
-			currentDate: dateStartVal,
-			user: container.find('[name="assigned_user_id"]').val(),
-		}
-		var progressIndicatorElement = $.progressIndicator({
-			position: 'html',
-			blockInfo: {
-				enabled: true,
-				elementToBlock: container.find('.eventsTable')
-			}
-		});
-		AppConnector.request(params).done(function (events) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			container.find('.eventsTable').remove();
-			container.append(events);
-			thisInstance.registerHelpInfo(container);
-		});
-	},
-	registerChangeNearCalendarEvent: function (data, module) {
-		var thisInstance = this;
-		if (!data || module != 'Calendar' || typeof module === "undefined" || !app.getMainParams('showEventsTable')) {
-			return;
-		}
-		var user = data.find('[name="assigned_user_id"]');
-		var dateStartEl = data.find('[name="date_start"]');
-		var dateEnd = data.find('[name="due_date"]');
-		user.on('change', function (e) {
-			var element = $(e.currentTarget);
-			var data = element.closest('form');
-			thisInstance.getNearCalendarEvent(data, module);
-		});
-		dateStartEl.on('change', function (e) {
-			var element = $(e.currentTarget);
-			var data = element.closest('form');
-			thisInstance.getNearCalendarEvent(data, module);
-		});
-		data.find('ul li a').on('click', function (e) {
-			var element = $(e.currentTarget);
-			var data = element.closest('form');
-			data.find('.addedNearCalendarEvent').remove();
-			thisInstance.getNearCalendarEvent(data, module);
-		});
-		data.on('click', '.nextDayBtn', function () {
-			var dateStartEl = data.find('[name="date_start"]')
-			var startDay = dateStartEl.val();
-			var dateStartFormat = dateStartEl.data('date-format');
-			startDay = moment(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '+7', ' ')).format(dateStartFormat.toUpperCase());
-			dateStartEl.val(startDay);
-			dateEnd.val(startDay);
-			thisInstance.getNearCalendarEvent(data, module);
-		});
-		data.on('click', '.previousDayBtn', function () {
-			var dateStartEl = data.find('[name="date_start"]')
-			var startDay = dateStartEl.val();
-			var dateStartFormat = dateStartEl.data('date-format');
-			startDay = moment(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '-7', ' ')).format(dateStartFormat.toUpperCase());
-			dateStartEl.val(startDay);
-			dateEnd.val(startDay);
-			thisInstance.getNearCalendarEvent(data, module);
-		});
-		data.on('click', '.dateBtn', function (e) {
-			var element = $(e.currentTarget);
-			dateStartEl.val(element.data('date'));
-			data.find('[name="due_date"]').val(element.data('date'));
-			data.find('[name="date_start"]').trigger('change');
-		});
-		thisInstance.getNearCalendarEvent(data, module);
-	},
+
 	registerQuickCreatePostLoadEvents: function (form, params) {
 		var thisInstance = this;
 		var submitSuccessCallbackFunction = params.callbackFunction;
@@ -334,6 +263,13 @@ $.Class("Vtiger_Header_Js", {
 					if (typeof (moduleInstance.quickCreateSave) === 'function') {
 						targetInstance = moduleInstance;
 					}
+					let progress = $.progressIndicator({
+						'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
+						'position': 'html',
+						'blockInfo': {
+							'enabled': true
+						}
+					});
 					targetInstance.quickCreateSave(form).done(function (data) {
 						app.hideModalWindow();
 						var parentModule = app.getModuleName();
@@ -352,7 +288,13 @@ $.Class("Vtiger_Header_Js", {
 							});
 						}
 						app.event.trigger("QuickCreate.AfterSaveFinal", data, form);
-						$.progressIndicator({'mode': 'hide'});
+						progress.progressIndicator({'mode': 'hide'});
+						if (data.success) {
+							Vtiger_Helper_Js.showPnotify({
+								text: app.vtranslate('JS_ADD_RECORD'),
+								type: 'success'
+							});
+						}
 					});
 				} else {
 					//If validation fails in recordPreSaveEvent, form should submit again
@@ -694,50 +636,30 @@ $.Class("Vtiger_Header_Js", {
 		var records = $('.customTableRWD').find('[data-toggle-visible=false]');
 		records.find('.footable-toggle').css("display", "none");
 	},
-	registerShowHideRightPanelEvent: function (container) {
-		var thisInstance = this;
-		var key = 'ShowHideRightPanel' + app.getModuleName();
+	registerSiteBarButton(container) {
+		const key = 'ShowHideRightPanel' + app.getModuleName();
 		if (app.cacheGet(key) == 'show') {
-			thisInstance.showSiteBar(container, container.find('.toggleSiteBarRightButton'));
-		}
-
-		if (app.cacheGet(key) == null) {
+			this.toggleSiteBar(container.find('.toggleSiteBarRightButton'));
+		} else if (app.cacheGet(key) == null) {
 			if (container.find('.siteBarRight').data('showpanel') == 1) {
-				thisInstance.showSiteBar(container, container.find('.toggleSiteBarRightButton'));
+				this.toggleSiteBar(container.find('.toggleSiteBarRightButton'));
 			}
 		}
-		container.find('.toggleSiteBarRightButton').on('click', function (e) {
-			var toogleButton = $(this);
+		container.find('.toggleSiteBarRightButton').on('click', (e) => {
+			let toogleButton = $(e.currentTarget);
 			if (toogleButton.closest('.siteBarRight').hasClass('hideSiteBar')) {
 				app.cacheSet(key, 'show');
-				thisInstance.showSiteBar(container, toogleButton);
 			} else {
 				app.cacheSet(key, 'hide');
-				thisInstance.hideSiteBar(container, toogleButton);
 			}
+			this.toggleSiteBar(toogleButton);
 		});
 	},
-	hideSiteBar: function (container, toogleButton) {
-		var key, siteBarRight, content, buttonImage;
-		siteBarRight = toogleButton.closest('.siteBarRight');
-		content = container.find('.rowContent');
-		buttonImage = toogleButton.find('[data-fa-i2svg]');
-
-		siteBarRight.addClass('hideSiteBar');
-		content.removeClass('js-sitebar--active');
-		buttonImage.removeClass('fa-chevron-right').addClass("fa-chevron-left");
-		toogleButton.addClass('hideToggleSiteBarRightButton');
-	},
-	showSiteBar: function (container, toogleButton) {
-		var key, siteBarRight, content, buttonImage;
-		siteBarRight = toogleButton.closest('.siteBarRight');
-		content = container.find('.rowContent');
-		buttonImage = toogleButton.find('[data-fa-i2svg]');
-
-		siteBarRight.removeClass('hideSiteBar');
-		content.addClass('js-sitebar--active');
-		buttonImage.removeClass('fa-chevron-left').addClass("fa-chevron-right");
-		toogleButton.removeClass('hideToggleSiteBarRightButton');
+	toggleSiteBar(toogleButton) {
+		$('.rowContent').toggleClass('js-sitebar--active');
+		toogleButton.closest('.siteBarRight').toggleClass('hideSiteBar');
+		toogleButton.find('[data-fa-i2svg]').toggleClass('fa-chevron-left').toggleClass("fa-chevron-right");
+		toogleButton.toggleClass('hideToggleSiteBarRightButton');
 	},
 	registerToggleButton: function () {
 		$(".buttonTextHolder .dropdown-menu a").on('click', function () {
@@ -762,69 +684,251 @@ $.Class("Vtiger_Header_Js", {
 		elem.scrollTop(0);
 		elem.height(elem[0].scrollHeight - elem[0].clientHeight + elem.height());
 	},
-	registerChat: function () {
-		const self = this;
-		var modal = $('.chatModal');
-		if (modal.length === 0) {
+	/**
+	 * Add new item to room list.
+	 * @param {int} roomId
+	 * @param {string} name
+	 */
+	addRoomItem(roomId, name) {
+		let template = $('.js-chat-modal .js-room-template');
+		if (template.length) {
+			let item = template.clone(false, false);
+			item.removeClass('hide');
+			item.removeClass('js-room-template');
+			item.removeClass('fontBold');
+			item.find('.row').html(name);
+			item.data('roomId', roomId);
+			$('.js-chat-modal .js-chat-rooms-list').append(item);
+			this.registerSwitchRoom($('.js-chat-modal'));
+		}
+	},
+	/**
+	 * Add chat room to record.
+	 *
+	 * @param {jQuery} container
+	 */
+	addChatRoom(container) {
+		const chatRoomId = container.data('chatRoomId');
+		if (typeof chatRoomId !== 'undefined') {
+			const self = this;
+			AppConnector.request({
+				module: 'Chat',
+				action: 'Entries',
+				mode: 'addRoom',
+				record: chatRoomId,
+			}).done((data) => {
+				if (data && data.success) {
+					if (container.find('.js-container-button').hasClass('hide')) {
+						container.find('.js-container-button').removeClass('hide');
+						container.find('.js-container-items').addClass('hide');
+					} else {
+						container.find('.js-container-button').addClass('hide');
+						container.find('.js-container-items').removeClass('hide');
+					}
+					this.addRoomItem(data.result.chat_room_id, data.result.name);
+				}
+			}).fail((error, err) => {
+				app.errorLog(error, err);
+			});
+		} else {
+			app.errorLog(new Error("Unknown chat room id"));
+		}
+	},
+	/**
+	 * Send chat message.
+	 * @param {jQuery} container
+	 * @param {jQuery} inputMessage
+	 */
+	sendChatMessage(container, inputMessage) {
+		if (inputMessage.val() == '') {
 			return;
 		}
-		var modalBody = modal.find('.modal-body');
-		app.showNewScrollbar(modalBody, {wheelPropagation: true});
-		$('.headerLinkChat').on('click', function (e) {
+		const chatRoomId = container.data('chatRoomId');
+		if (typeof chatRoomId !== 'undefined') {
+			const self = this;
+			const chatItems = container.find('.js-chat-items');
+			let icon = container.find('.modal-title .fa-comments');
+			icon.css('color', '#00e413');
+			AppConnector.request({
+				dataType: 'json',
+				data: {
+					module: 'Chat',
+					action: 'Entries',
+					mode: 'addMessage',
+					message: inputMessage.val(),
+					cid: chatItems.find('.chatItem').last().data('cid'),
+					chat_room_id: chatRoomId
+				}
+			}).done((dataResult) => {
+				self.updateChat(container, chatRoomId, dataResult.result.html);
+				inputMessage.val("");
+				icon.css('color', '#000');
+				if (dataResult.result['user_added_to_room']) {
+					self.addRoomItem(dataResult.result['room']['room_id'], dataResult.result['room']['name']);
+				}
+			}).fail((error, err) => {
+				app.errorLog(error, err);
+			});
+		} else {
+			app.errorLog(new Error("Unknown chat room id"));
+		}
+	},
+	/**
+	 * Update chat.
+	 * @param {int} chatRoomId
+	 * @param {html} html
+	 */
+	updateChat(container, chatRoomId, html) {
+		if (html) {
+			let chatRoom = container.find('.js-chat-room-' + chatRoomId);
+			chatRoom.append(html);
+			chatRoom.animate({scrollTop: chatRoom.get(0).scrollHeight});
+		}
+	},
+	/**
+	 * Register chat events
+	 * @param container
+	 */
+	registerChatEvents(container) {
+		if (container.length) {
+			const self = this;
+			container.data('chat-room-idx', self.chatRoom.length);
+			container.find('.js-create-chatroom').on('click', (e) => {
+				self.addChatRoom(container);
+			});
+			container.find('.js-chat-message').on('keydown', (e) => {
+				if (e.keyCode === 13) {
+					e.preventDefault();
+					self.sendChatMessage(container, $(e.currentTarget));
+					return false;
+				}
+			});
+			self.registerChatLoadItems(container);
+			let modal = container.closest('.chatModal');
+			if (modal.length) {
+				self.registerSwitchRoom(container);
+				self.registerHeaderLinkChat();
+				app.showNewScrollbar(modal.find('.modal-body'), {wheelPropagation: true});
+				app.animateModal(modal, 'slideInRight', 'slideOutRight');
+			}
+		}
+	},
+	/**
+	 * Register switch room.
+	 * @param {jQuery} container
+	 */
+	registerSwitchRoom(container) {
+		container.find('.js-change-room').off('click').on('click', (e) => {
+			let chatModal = $(e.currentTarget).closest('.js-chat-modal');
+			let roomId = $(e.currentTarget).data('roomId');
+			const progressIndicatorElement = $.progressIndicator({
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			AppConnector.request({
+				dataType: 'json',
+				data: {
+					module: 'Chat',
+					action: 'Entries',
+					mode: 'switchRoom',
+					chat_room_id: roomId
+				}
+			}).done((dataResult) => {
+				let chatRoom = container.find('.js-chat-items');
+				if (typeof dataResult === 'undefined') {
+					chatRoom.html('');
+				} else {
+					chatRoom.html(dataResult.result.html);
+				}
+				chatRoom.animate({scrollTop: chatRoom.get(0).scrollHeight});
+				let prevChatRoomId = container.data('chatRoomId');
+				container.data('chatRoomId', roomId);
+				chatModal.find('.js-change-room').each((index, element) => {
+					if (roomId == $(element).data('roomId')) {
+						$(element).removeClass('fontBold').addClass('fontBold');
+						container.find('.js-chat-items')
+							.removeClass('js-chat-room-' + prevChatRoomId)
+							.addClass('js-chat-room-' + roomId);
+					} else {
+						$(element).removeClass('fontBold');
+					}
+				});
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			}).fail((error, err) => {
+				app.errorLog(error, err);
+			});
+		});
+	},
+	/**
+	 * Register header link chat
+	 */
+	registerHeaderLinkChat() {
+		$('.headerLinkChat').on('click', (e) => {
 			e.stopPropagation();
-			var remindersNoticeContainer = $('.remindersNoticeContainer,.remindersNotificationContainer');
+			let remindersNoticeContainer = $('.remindersNoticeContainer,.remindersNotificationContainer');
 			if (remindersNoticeContainer.hasClass('toggled')) {
 				remindersNoticeContainer.removeClass('toggled');
 			}
 			$('.actionMenu').removeClass('actionMenuOn');
 			$('.chatModal').modal({backdrop: false});
 		});
-		var modalDialog = modal.find('.modal-dialog');
-		this.registerChatLoadItems(modal.data('timer'));
-		modal.find('.addMsg').on('click', function (e) {
-			var message = modal.find('.message').val();
-			clearTimeout(self.chatTimer);
-			AppConnector.request({
-				dataType: 'html',
-				data: {
-					module: 'Chat',
-					action: 'Entries',
-					mode: 'add',
-					message: message,
-					cid: $('.chatModal .chatItem').last().data('cid')
-				}
-			}).done(function (html) {
-				$('.chatModal .modal-body').append(html);
-				self.registerChatLoadItems(modal.data('timer'));
-			});
-			modal.find('.message').val('');
-		});
-		app.animateModal(modal, 'slideInRight', 'slideOutRight');
 	},
-	registerChatLoadItems: function (timer) {
+	registerChatCheck(timer, container) {
 		const self = this;
-		var icon = $('.chatModal .modal-title .fa-comments');
-		this.chatTimer = setTimeout(function () {
-			icon.css('color', '#00e413');
-			self.getChatItems();
-			self.registerChatLoadItems(timer);
-			icon.css('color', '#000');
+		self.chatCheckTimer = setTimeout(() => {
+			//self.getChatItems(container);
+			self.registerChatCheck(timer, container);
 		}, timer);
 	},
-	getChatItems: function () {
+	/**
+	 * Register chat load items.
+	 * @param {jQuery} container
+	 */
+	registerChatLoadItems(container) {
 		const self = this;
-		AppConnector.request({
-			module: 'Chat',
-			view: 'Entries',
-			mode: 'get',
-			cid: $('.chatModal .chatItem').last().data('cid')
-		}).done(function (html) {
-			if (html) {
-				$('.chatModal .modal-body').append(html);
-			}
-		}).fail(function (error, err) {
-			clearTimeout(self.chatTimer);
-		});
+		self.chatRoom[container.data('chatRoomIdx')] = setTimeout(() => {
+			self.getChatItems(container);
+			self.registerChatLoadItems(container);
+		}, container.data('timer'));
+	},
+	/**
+	 * Get chat items.
+	 * @param {jQuery} container
+	 */
+	getChatItems(container) {
+		const chatRoomId = container.data('chatRoomId');
+		const chatItems = container.find('.js-chat-items');
+		const self = this;
+		if (typeof chatRoomId !== 'undefined') {
+			AppConnector.request({
+				dataType: 'json',
+				data: {
+					module: 'Chat',
+					view: 'Entries',
+					mode: 'get',
+					cid: chatItems.find('.chatItem').last().data('cid'),
+					chat_room_id: chatRoomId
+				}
+			}).done((dataResult) => {
+				if (dataResult.result.success) {
+					if (
+						dataResult.result['room_id'] == chatRoomId &&
+						container.find('.js-container-button').length &&
+						!container.find('.js-container-button').hasClass('hide')
+					) {
+						container.find('.js-container-button').addClass('hide');
+						container.find('.js-container-items').removeClass('hide');
+					}
+					self.updateChat(container, chatRoomId, dataResult.result.html);
+				}
+			}).fail((error, err) => {
+				clearTimeout(self.chatRoom[container.data('chatRoomIdx')]);
+			});
+		} else {
+			app.errorLog(new Error("Unknown chat room id"));
+		}
 	},
 	registerEvents: function () {
 		var thisInstance = this;
@@ -835,7 +939,6 @@ $.Class("Vtiger_Header_Js", {
 		app.showNewScrollbar(menuContainer.find('.subMenu').last(), {suppressScrollX: true});
 		thisInstance.listenTextAreaChange();
 		thisInstance.registerFooTable(); //Enable footable
-		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));
 		$('.js-clear-history').on('click', () => {
 			app.clearBrowsingHistory();
 		});
@@ -857,6 +960,7 @@ $.Class("Vtiger_Header_Js", {
 		thisInstance.registerAnnouncements();
 		thisInstance.registerHotKeys();
 		thisInstance.registerToggleButton();
+		thisInstance.registerSiteBarButton($('#centerPanel'));
 		//this.registerCalendarButtonClickEvent();
 		//After selecting the global search module, focus the input element to type
 		$('.basicSearchModulesList').on('change', function () {
@@ -875,7 +979,7 @@ $.Class("Vtiger_Header_Js", {
 		thisInstance.registerMobileEvents();
 		thisInstance.registerReminderNotice();
 		thisInstance.registerReminderNotification();
-		thisInstance.registerChat();
+		thisInstance.registerChatEvents($('.js-chat-modal'));
 		thisInstance.registerQuickCreateSearch();
 	}
 });

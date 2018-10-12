@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * TOTP authentication method class.
  * TOTP - Time-based One-time Password.
@@ -87,15 +86,12 @@ class Users_Totp_Authmethod
 		switch ($type) {
 			case 'HTML':
 				return $qrCodeGenerator->getBarcodeHTML($otpAuthUrl, 'QRCODE');
-				break;
 			case 'SVG':
 				return $qrCodeGenerator->getBarcodeSVG($otpAuthUrl, 'QRCODE');
-				break;
 			case 'PNG':
 				return '<img src="data:image/png;base64,' .
 					$qrCodeGenerator->getBarcodePNG($otpAuthUrl, 'QRCODE') .
 					'" alt="QR code" />';
-				break;
 			default:
 				break;
 		}
@@ -151,13 +147,10 @@ class Users_Totp_Authmethod
 		switch (AppConfig::security('USER_AUTHY_MODE')) {
 			case 'TOTP_OFF':
 				return false;
-				break;
 			case 'TOTP_OPTIONAL':
 				return $userModel->getDetail('authy_methods') === 'PLL_AUTHY_TOTP';
-				break;
 			case 'TOTP_OBLIGATORY':
 				return true;
-				break;
 			default:
 				break;
 		}

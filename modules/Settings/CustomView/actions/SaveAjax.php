@@ -91,7 +91,7 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if ($type === 'default') {
 			$result = Settings_CustomView_Module_Model::setDefaultUsersFilterView($tabid, $cvid, $user, $operator);
 		} elseif ($type === 'featured') {
-			$result = Settings_CustomView_Module_Model::setFeaturedFilterView($cvid, $user, $operator);
+			$result = CustomView_Record_Model::setFeaturedFilterView($cvid, $user, $operator);
 		}
 		if (!empty($result)) {
 			$data = [

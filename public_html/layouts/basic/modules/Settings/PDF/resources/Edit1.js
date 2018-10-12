@@ -159,7 +159,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 			xhr.onload = function () {
 				if (xhr.status === 200) {
 					const response = JSON.parse(xhr.response);
-					const templateId = form.find('[name="record"]').val();
 					form.find('#watermark').html('<img src="' + response.result.base64 + '" class="col-md-9" />');
 					form.find('[name="watermark_image"]').val(response.result.fileName);
 					form.find('#deleteWM').removeClass('d-none');

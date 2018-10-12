@@ -51,8 +51,8 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 						'tabid' => $selectedTabidsList,
 						'generatedtype' => $selectedGeneratedTypes,
 					])
-					->andWhere(['and', ['NOT IN', 'uitype', $restrictedUitypes], ['NOT IN', 'fieldname', $restrictedFieldNames]])
-					->createCommand()->query();
+				->andWhere(['and', ['NOT IN', 'uitype', $restrictedUitypes], ['NOT IN', 'fieldname', $restrictedFieldNames]])
+				->createCommand()->query();
 			$this->supportedFieldIdsList = [];
 			while ($field = $dataReader->readColumn(0)) {
 				$this->supportedFieldIdsList[] = $field;

@@ -2,5 +2,5 @@
 {strip}
 	<!-- tpl-Base-Edit-Field-DefaultBase -->
 	{assign var="FIELD_MODEL" value=$FIELD_MODEL->set('fieldvalue',$FIELD_MODEL->get('defaultvalue'))}
-	{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $FIELD_MODEL->getModuleName())}
+	{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $FIELD_MODEL->getModuleName()) RECORD=false MODULE=$FIELD_MODEL->getModuleName()}
 {/strip}

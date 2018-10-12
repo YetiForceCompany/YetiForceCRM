@@ -516,7 +516,6 @@ class TextParser
 				return ($userModel && $userModel->getDetail('time_zone')) ? $userModel->getDetail('time_zone') : \AppConfig::main('default_timezone');
 			default:
 				return $key;
-				break;
 		}
 	}
 
@@ -793,6 +792,14 @@ class TextParser
 			$pagingModel->set('limit', (int) $limit);
 		}
 		if ($columns) {
+			$headerFields = [];
+			foreach (explode(',', $columns) as $fieldName) {
+				$headerFields[]= [
+					'field_name' => $fieldName,
+					'module_name' => $moduleName
+				];
+			}
+			$listView->set('header_fields', $headerFields);
 			$listView->getQueryGenerator()->setFields(explode(',', $columns));
 			$listView->getQueryGenerator()->setField('id');
 		}

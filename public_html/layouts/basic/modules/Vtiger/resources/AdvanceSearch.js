@@ -170,7 +170,6 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 	 * @params : data to be shown
 	 */
 	showSearchResults: function (data) {
-		var thisInstance = this;
 		var aDeferred = $.Deferred();
 		var postLoad = function (data) {
 			//app.showScrollBar($(data).find('.contents'));

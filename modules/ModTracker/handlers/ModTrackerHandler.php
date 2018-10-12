@@ -32,6 +32,8 @@ class ModTracker_ModTrackerHandler_Handler
 		} elseif (isset($recordModel->ext['modificationType'], ModTracker::getAllActionsTypes()[$recordModel->ext['modificationType']])) {
 			$delta = $recordModel->getPreviousValue();
 			$status = $recordModel->ext['modificationType'];
+			$watchdogTitle = $status === ModTracker::$TRANSFER_EDIT ? ModTracker_Record_Model::$statusLabel[$status] : '';
+			$watchdogMessage = '';
 		} else {
 			$delta = $recordModel->getPreviousValue();
 			$status = ModTracker::$UPDATED;
