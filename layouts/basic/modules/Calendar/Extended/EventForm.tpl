@@ -46,7 +46,7 @@
 						{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 						{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
 						{assign var="refrenceListCount" value=count($refrenceList)}
-						<div class="row fieldsLabelValue pl-0 pr-0 mb-1">
+						<div class="row fieldsLabelValue pl-0 pr-0 mb-2">
 							<div class="col-12">
 								{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 								{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
@@ -79,7 +79,7 @@
 						   data-fieldtype="{$RELATED_FIELD_MODEL->getFieldDataType()}"/>
 				{/foreach}
 			{/if}
-			<div class="formActionsPanel d-flex justify-content-center flex-wrap pt-1">
+			<div class="formActionsPanel d-flex justify-content-center flex-wrap">
 				{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
 					{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
 						{if $LINK->get('linkhint') neq 'LBL_GO_TO_FULL_FORM'}
