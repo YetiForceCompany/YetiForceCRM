@@ -45,14 +45,14 @@ class Vtiger_Widget_Model extends \App\Base
 	/**
 	 * Function to get the position of the widget.
 	 *
-	 * @param $defaultPosition
-	 * @param $coordinate
+	 * @param int $defaultPosition
+	 * @param string $coordinate
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return int|mixed
+	 * @return int
 	 */
-	public function getPosition($defaultPosition, $coordinate)
+	public function getPosition(int $defaultPosition, string $coordinate)
 	{
 		$position = $this->get('position');
 		if ($position) {
