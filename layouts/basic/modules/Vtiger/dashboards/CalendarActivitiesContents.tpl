@@ -43,9 +43,9 @@
 						{assign var=SUBPROCESS value=$ACTIVITY->get('subprocess')}
 						{assign var=CONTRACTOR value=$ACTIVITY->get('contractor')}
 						<div class="w-100 mx-1">
-							{$ACTIVITY->getDisplayName()|truncate:$NAMELENGTH:'...'}
+							{\App\TextParser::textTruncate($ACTIVITY->getDisplayName(), $NAMELENGTH)}
 							{if $CONTRACTOR}
-								<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{$CONTRACTOR->getDisplayName()|truncate:$HREFNAMELENGTH}</a></small></strong>			
+								<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{\App\TextParser::textTruncate($CONTRACTOR->getDisplayName(), $HREFNAMELENGTH)}</a></small></strong>			
 									{/if}
 									{if $LINK}
 								<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('link')}</strong></small>
