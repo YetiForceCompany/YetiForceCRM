@@ -29,7 +29,7 @@ window.Chat_Js = class Chat_Js {
 	 * @param {int} roomId
 	 * @param {string} name
 	 */
-	addRoomItem(roomId, name) {
+	addRoomItem(roomId, name, displayNameOfRoom) {
 		let template = $('.js-chat-modal .js-room-template');
 		if (template.length) {
 			let item = template.clone(false, false);
@@ -37,7 +37,8 @@ window.Chat_Js = class Chat_Js {
 			item.removeClass('js-room-template');
 			item.removeClass(item.data('selectedClass'));
 			item.addClass(item.data('initClass'));
-			item.find('.js-change-room').html(name);
+			item.find('.js-change-room').html(displayNameOfRoom);
+			item.find('.js-change-room').data('content', name);
 			item.data('roomId', roomId);
 			$('.js-chat-modal .js-chat-rooms-list').append(item);
 			this.registerSwitchRoom($('.js-chat-modal'));
@@ -102,7 +103,8 @@ window.Chat_Js = class Chat_Js {
 					module: 'Chat',
 					action: 'Entries',
 					mode: 'switchRoom',
-					chat_room_id: roomId
+					chat_room_id: roomId,
+					visible: container.is(":visible")
 				}
 			}).done((dataResult) => {
 				let html = ''
@@ -176,7 +178,11 @@ window.Chat_Js = class Chat_Js {
 						container.find('.js-container-button').addClass('hide');
 						container.find('.js-container-items').removeClass('hide');
 					}
-					self.addRoomItem(data.result['chat_room_id'], data.result['name']);
+					self.addRoomItem(
+						data.result['chat_room_id'],
+						data.result['name'],
+						data.result['display_name_of_room']
+					);
 				}
 			}).fail((error, err) => {
 				app.errorLog(error, err);
@@ -196,7 +202,7 @@ window.Chat_Js = class Chat_Js {
 			let chatRoom = container.find('.js-chat-room-' + chatRoomId);
 			let firstItem = chatRoom.find('.chatItem').first();
 			if (firstItem.length) {
-				$(html).insertBefore(chatRoom.find('.chatItem').first());
+				$(html).insertBefore(firstItem);
 			} else {
 				chatRoom.html(html);
 			}
@@ -242,7 +248,11 @@ window.Chat_Js = class Chat_Js {
 				inputMessage.val("");
 				icon.css('color', '#000');
 				if (dataResult.result['user_added_to_room']) {
-					self.addRoomItem(dataResult.result['room']['room_id'], dataResult.result['room']['name']);
+					self.addRoomItem(
+						dataResult.result['room']['room_id'],
+						dataResult.result['room']['name'],
+						dataResult.result['display_name_of_room']
+					);
 				}
 			}).fail((error, err) => {
 				app.errorLog(error, err);
@@ -268,7 +278,8 @@ window.Chat_Js = class Chat_Js {
 					view: 'Entries',
 					mode: 'get',
 					cid: self.getLastChatId(container),
-					chat_room_id: chatRoomId
+					chat_room_id: chatRoomId,
+					visible: container.is(":visible")
 				}
 			}).done((dataResult) => {
 				if (dataResult.result.success) {
@@ -353,7 +364,11 @@ window.Chat_Js = class Chat_Js {
 					if (dataResult.result['favorite']) {
 						button.removeClass('btn-success').addClass('btn-danger');
 						button.find('.js-lable').html(button.data('labelRemove'));
-						self.addRoomItem(dataResult.result['chat_room_id'], dataResult.result['name_of_room']);
+						self.addRoomItem(
+							dataResult.result['chat_room_id'],
+							dataResult.result['name_of_room'],
+							dataResult.result['display_name_of_room']
+						);
 					} else {
 						button.removeClass('btn-danger').addClass('btn-success');
 						button.find('.js-lable').html(button.data('labelAdd'));

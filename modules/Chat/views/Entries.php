@@ -61,6 +61,9 @@ class Chat_Entries_View extends Vtiger_IndexAjax_View
 		}
 		$items = $room->getEntries($request->getInteger('cid'));
 		if (count($items)) {
+			if ($request->has('visible') && $request->getBoolean('visible')) {
+				$room->setLastMessage();
+			}
 			$viewer = Vtiger_Viewer::getInstance();
 			$viewer->assign('CHAT_ENTRIES', $items);
 			return $viewer->view('Items.tpl', 'Chat', true);
