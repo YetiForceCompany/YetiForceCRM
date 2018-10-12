@@ -9,7 +9,7 @@
 		{if $FIELD_NAME neq 'time_end'}
 			<div class="input-group-prepend">
 				<span class="input-group-text"><span class="notEvent js-help-info" data-placement="top" data-content="{\App\Language::translate('LBL_AUTO_FILL_DESCRIPTION', $MODULE)}">
-						<input type="checkbox" class="js-autofill" data-js="prop"/>
+						<input type="checkbox" class="js-autofill" data-js="prop|change"/>
 					</span>
 				</span>
 			</div>
