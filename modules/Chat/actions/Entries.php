@@ -131,7 +131,7 @@ class Chat_Entries_Action extends \App\Controller\Action
 			\App\Chat::setCurrentRoomId(0);
 		}
 		$room = \App\Chat::getInstanceById($roomId);
-		$room->markAsFavorite(false);
+		$room->setFavorite(false);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
@@ -154,7 +154,7 @@ class Chat_Entries_Action extends \App\Controller\Action
 	public function addRoomToFavorite(\App\Request $request)
 	{
 		$room = \App\Chat::getInstanceById($request->getInteger('chat_room_id'));
-		$room->markAsFavorite($request->getBoolean('favorite'));
+		$room->setFavorite($request->getBoolean('favorite'));
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
