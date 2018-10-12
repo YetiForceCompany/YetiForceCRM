@@ -23,7 +23,7 @@
 									<button type="button" class="btn btn-sm btn-danger relationDelete"
 											data-id="{$ROW['id']}">
 										<span class="fas fa-trash-alt"
-											  title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL',$MODULE_NAME)}">
+											  title="{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}">
 										</span>
 									</button>
 								{/if}
