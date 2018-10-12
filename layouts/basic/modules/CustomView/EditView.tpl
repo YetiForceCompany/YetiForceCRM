@@ -75,11 +75,11 @@
 															{if $FIELD_MODEL->isMandatory()}
 																{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewColumnName())}
 															{/if}
-															{assign var=IN_ARRAY value=array_search($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
+															{assign var=ELEMENT_POSITION_IN_ARRAY value=array_search($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
 															<option value="{$FIELD_MODEL->getCustomViewColumnName()}"
 																	data-field-name="{$FIELD_NAME}"
-																	{if $IN_ARRAY !== false}
-																		data-sort-index="{$IN_ARRAY}" selected="selected"
+																	{if $ELEMENT_POSITION_IN_ARRAY !== false}
+																		data-sort-index="{$ELEMENT_POSITION_IN_ARRAY}" selected="selected"
 																	{/if}
 																	data-js="data-sort-index|data-field-name">
 																{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
