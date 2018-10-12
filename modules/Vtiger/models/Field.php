@@ -1147,17 +1147,13 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to get Default Field Value.
 	 *
-	 * @return string defaultvalue
+	 * @throws \Exception
+	 *
+	 * @return mixed
 	 */
 	public function getDefaultFieldValue()
 	{
-		if ($this->defaultvalue && $this->getFieldDataType() === 'date') {
-			$textParser = \App\TextParser::getInstance($this->getModuleName());
-			$textParser->setContent($this->defaultvalue)->parse();
-
-			return $textParser->getContent();
-		}
-		return $this->defaultvalue;
+		return $this->getUITypeModel()->getDefaultValue();
 	}
 
 	/**
