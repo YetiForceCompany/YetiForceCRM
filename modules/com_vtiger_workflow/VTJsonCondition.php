@@ -183,7 +183,7 @@ class VTJsonCondition
 		if ($fieldInstance) {
 			switch ($fieldInstance->getFieldDataType()) {
 				case 'datetime':
-					$fieldValue = $recordModel->getDisplayName();
+					$fieldValue = $recordModel->get($fieldInstance->getName());
 					break;
 				case 'date':
 					if ($condition !== 'between' && strtotime($value)) {
