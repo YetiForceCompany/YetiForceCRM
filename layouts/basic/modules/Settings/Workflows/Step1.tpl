@@ -223,9 +223,9 @@
 											{if !empty($WORKFLOW_MODEL_OBJ->schtime)}
 												{assign var=SCHTIME value=$WORKFLOW_MODEL_OBJ->getWFScheduleTimeUserFormat()}
 											{/if}
-											<input type='text' class="clockPicker form-control"
-												   data-format='{$USER_MODEL->get('hour_format')}'
-												   name='schtime' value="{if !empty($SCHTIME)}{$SCHTIME}{/if}"
+											<input type="text" class="clockPicker form-control"
+												   data-format="{$USER_MODEL->get('hour_format')}"
+												   name="schtime" value="{if !empty($SCHTIME)}{$SCHTIME}{/if}"
 												   data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
 											<div class="input-group-append">
 												<span class="input-group-text u-cursor-pointer js-clock__btn"
