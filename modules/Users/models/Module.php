@@ -126,7 +126,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 					'logout_time' => $outtime,
 					'status' => 'Signed off',
 					], ['login_id' => $loginId])
-					->execute();
+				->execute();
 		}
 	}
 

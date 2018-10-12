@@ -54,8 +54,12 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 			}
 			container.find('[name="date_start"]').val(moment(startDate).format(dateFormat));
 			container.find('[name="due_date"]').val(moment(endDate).format(dateFormat));
-			container.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
-			container.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
+			if (container.find('.js-autofill').prop('checked') === true) {
+				Calendar_Edit_Js.getInstance().getFreeTime(container);
+			} else {
+				container.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
+				container.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
+			}
 		};
 		instance.selectDays = selectDays;
 		instance.renderCalendar(true);

@@ -2,13 +2,19 @@
 {strip}
 	<!-- tpl-Chat-Chat -->
 	{function ROOM_ITEM CLASS_NAME=''}
-		<a href="#"
-		   class="js-change-room{if \App\Chat::getCurrentRoomId()==$ROOM['room_id'] } fontBold{/if} {$CLASS_NAME}"
-		   data-room-id="{$ROOM['room_id']}" data-js="click">
-			<div class="row">
+		<div class="row mb-1 btn-group {if \App\Chat::getCurrentRoomId()==$ROOM['room_id'] } bg-color-grey-200{/if} {$CLASS_NAME}"
+			 data-room-id="{$ROOM['room_id']}" data-selected-class="bg-color-grey-200" data-init-class="d-flex">
+			{if $ROOM['room_id']!==0 }
+				<button class="p-2 btn btn-outline-dark">
+					<span class="fas fa-trash-alt color-red-600 js-remove-room"></span>
+				</button>
+			{/if}
+			<button class="p-2 btn btn-outline-dark flex-fill js-change-room js-popover-tooltip"
+					data-trigger="focus hover" data-placement="right"
+					data-content="{\App\Language::translate($ROOM['name'])}" data-js="click|popover">
 				{\App\Language::translate($ROOM['name'])}
-			</div>
-		</a>
+			</button>
+		</div>
 	{/function}
 	<div class="o-action-menu__item">
 		<a class="c-header__btn ml-2 btn btn-light btn headerLinkChat js-popover-tooltip"
@@ -41,16 +47,16 @@
 								{ROOM_ITEM ROOM=['room_id'=>'', 'name'=>''] CLASS_NAME='js-room-template hide'}
 								<div class="js-chat-rooms-list">
 									{foreach item=ROOM from=\App\Chat::getRoomsByUser()}
-										{ROOM_ITEM ROOM=$ROOM}
+										{ROOM_ITEM ROOM=$ROOM CLASS_NAME='d-flex'}
 									{/foreach}
 								</div>
 							</div>
 							<div class="col-sm-10 ps pr-4">
+								{include file=\App\Layout::getTemplatePath('Detail/ChatInput.tpl')}
 								<div class="js-chat-items js-chat-room-{\App\Chat::getCurrentRoomId()} o-chat-items"
 									 data-js="html">
 									{include file=\App\Layout::getTemplatePath('Items.tpl', 'Chat') CHAT_ENTRIES=$CHAT->getEntries()}
 								</div>
-								{include file=\App\Layout::getTemplatePath('Detail/ChatFooter.tpl')}
 							</div>
 						</div>
 					</div>

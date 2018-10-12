@@ -73,7 +73,7 @@ class Chat
 	 *
 	 * @return int
 	 */
-	public static function getCurrentRoomId()
+	public static function getCurrentRoomId(): int
 	{
 		if (!\App\Session::has('chat-current-room-id')) {
 			return (int) 0;
@@ -89,7 +89,7 @@ class Chat
 	 *
 	 * @return \App\Chat
 	 */
-	public static function getInstanceById(int $id, ?int $userId = null)
+	public static function getInstanceById(int $id, ?int $userId = null): \App\Chat
 	{
 		if (empty($userId)) {
 			$userId = \App\User::getCurrentUserId();
@@ -106,7 +106,7 @@ class Chat
 			$instance->nameOfRoom = $roomRow['name'];
 			$instance->recordId = $id;
 			$instance->lastMessage = $roomRow['last_message'];
-			$instance->favorite = $roomRow['favorite'];
+			$instance->favorite = $roomRow['favorite'] ?? false;
 			$instance->isAssigned = !empty($roomRow['userid']);
 		}
 		return $instance;
@@ -119,7 +119,7 @@ class Chat
 	 *
 	 * @return \App\Chat
 	 */
-	public static function createRoom(int $recordId)
+	public static function createRoom(int $recordId): \App\Chat
 	{
 		$instance = new self();
 		$instance->recordId = $recordId;
@@ -154,7 +154,18 @@ class Chat
 			->from(['CR' => 'u_#__chat_rooms'])
 			->innerJoin(['CU' => 'u_#__chat_users'], 'CU.room_id = CR.room_id')
 			->where(['CU.userid' => $userId])
+			->andWhere(['CU.favorite' => 1])
 			->all();
+	}
+
+	/**
+	 * Check if the chat room is a favorite.
+	 *
+	 * @return bool
+	 */
+	public function isFavorite(): bool
+	{
+		return $this->favorite;
 	}
 
 	/**
@@ -162,7 +173,7 @@ class Chat
 	 *
 	 * @return bool
 	 */
-	public function isRoomExists()
+	public function isRoomExists(): bool
 	{
 		return $this->roomId !== false;
 	}
@@ -172,7 +183,7 @@ class Chat
 	 *
 	 * @return bool
 	 */
-	public function isAssigned()
+	public function isAssigned(): bool
 	{
 		return $this->isAssigned;
 	}
@@ -182,7 +193,7 @@ class Chat
 	 *
 	 * @return int
 	 */
-	public function getRoomId()
+	public function getRoomId(): int
 	{
 		return $this->roomId;
 	}
@@ -192,20 +203,20 @@ class Chat
 	 *
 	 * @return string
 	 */
-	public function getNameOfRoom()
+	public function getNameOfRoom(): string
 	{
 		return $this->nameOfRoom;
 	}
 
 	/**
-	 * Mark room as favorite.
+	 * Set room as favorite.
 	 *
 	 * @param bool     $favorite
 	 * @param int|null $userId
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public function markAsFavorite(bool $favorite, ?int $userId = null)
+	public function setFavorite(bool $favorite, ?int $userId = null)
 	{
 		if (empty($userId)) {
 			$userId = \App\User::getCurrentUserId();
@@ -215,6 +226,7 @@ class Chat
 				'room_id' => $this->roomId,
 				'userid' => $userId
 			])->execute();
+		$this->favorite = $favorite;
 	}
 
 	/**
@@ -226,7 +238,7 @@ class Chat
 	 *
 	 * @return int
 	 */
-	public function addRoom(?int $userId = null)
+	public function addRoom(?int $userId = null): int
 	{
 		if (empty($userId)) {
 			$userId = \App\User::getCurrentUserId();
@@ -295,7 +307,8 @@ class Chat
 		$query = (new \App\Db\Query())
 			->from('u_#__chat_messages')
 			->limit(\AppConfig::module('Chat', 'ROWS_LIMIT'))
-			->where(['room_id' => $this->roomId]);
+			->where(['room_id' => $this->roomId])
+			->orderBy(['created' => \SORT_DESC]);
 		if ($messageId) {
 			$query->andWhere(['>', 'id', $messageId]);
 		}

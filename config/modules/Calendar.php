@@ -49,5 +49,7 @@ return [
 	// Show number of current records in record preview for related modules
 	'SHOW_ONLY_CURRENT_RECORDS_COUNT' => false,
 	//Calendar view - allowed values: Extended, Standard
-	'CALENDAR_VIEW' => 'Extended'
+	'CALENDAR_VIEW' => 'Extended',
+	//Show activity status buttons in edit form
+	'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM' => true
 ];

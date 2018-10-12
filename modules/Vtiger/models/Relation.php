@@ -661,7 +661,7 @@ class Vtiger_Relation_Model extends \App\Base
 	{
 		$eventHandler = new \App\EventHandler();
 		$eventHandler->setModuleName($this->getParentModuleModel()->getName());
-		$params = ['sourceRecordId' => $this->get('parentRecord')->getId(), 'destinationModule' => $this->getRelationModuleModel()->getName()];
+		$params = ['sourceRecordId' => $this->get('parentRecord')->getId(), 'destinationModule' => $this->getRelationModuleModel()->getName(), 'sourceModule' => $eventHandler->getModuleName()];
 		$relationModel = \Vtiger_Relation_Model::getInstance($this->getRelationModuleModel(), $this->getParentModuleModel());
 
 		$updateRecords = [$params['sourceRecordId']];
@@ -673,7 +673,7 @@ class Vtiger_Relation_Model extends \App\Base
 			if ($relationModel->transferDb($params)) {
 				$updateRecords[] = $params['fromRecordId'];
 				\App\Db::getInstance()->createCommand()->update('vtiger_crmentity',
-					['modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()],
+					['modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserRealId()],
 					['crmid' => $updateRecords])->execute();
 				$eventHandler->trigger('EntityAfterTransferLink');
 				$updateRecords = [];

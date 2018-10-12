@@ -259,7 +259,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				}
 			}
 		} else {
-			$content .= \App\Language::translate('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . PHP_EOL;
+			$content .= \App\Language::translateArgs('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . PHP_EOL;
 			foreach (explode(PHP_EOL, $body) as $line) {
 				$line = trim($line);
 				if (!empty($line)) {

@@ -89,12 +89,12 @@ class PrivilegeUpdater
 			->update('u_#__crmentity_search_label', [
 				'userid' => $searchUsers,
 				], 'crmid = ' . $record)
-				->execute();
+			->execute();
 		$db->createCommand()
 			->update('vtiger_crmentity', [
 				'users' => $recordAccessUsers,
 				], 'crmid = ' . $record)
-				->execute();
+			->execute();
 	}
 
 	/**
@@ -119,7 +119,7 @@ class PrivilegeUpdater
 			->update('u_#__crmentity_search_label', [
 				'userid' => $searchUsers,
 				], 'crmid = ' . $record)
-				->execute();
+			->execute();
 	}
 
 	/**
@@ -144,7 +144,7 @@ class PrivilegeUpdater
 			->update('vtiger_crmentity', [
 				'users' => $recordAccessUsers,
 				], 'crmid = ' . $record)
-				->execute();
+			->execute();
 	}
 
 	/**

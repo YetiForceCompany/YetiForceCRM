@@ -145,7 +145,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			var start = thisInstance.getDateInstance(container, 'start');
 			var end = thisInstance.getDateInstance(container, 'end');
 			var dateFormat = CONFIG.dateFormat.toUpperCase();
-			container.find('.autofill:visible').trigger('change');
+			container.find('.js-autofill:visible').trigger('change');
 			if (start > end) {
 				end = start;
 				endDateElement.val(moment(end).format(dateFormat));
@@ -334,10 +334,10 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		var timeStart = container.find('[name="time_start"]');
 		var timeEnd = container.find('[name="time_end"]');
 		var dateEnd = container.find('[name="due_date"]');
-		container.find('.autofill').on('change', function (e) {
+		container.find('.js-autofill').on('change', function (e) {
 			var currentTarget = $(e.currentTarget);
 			if (currentTarget.is(':checked')) {
-				container.find('.autofill').prop('checked', true);
+				container.find('.js-autofill').prop('checked', true);
 				thisInstance.getFreeTime(container);
 				timeStart.attr('readonly', 'readonly');
 				timeEnd.attr('readonly', 'readonly');
@@ -346,7 +346,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 				allDay.trigger('change');
 				dateEnd.attr('readonly', 'readonly');
 			} else {
-				container.find('.autofill').prop('checked', false);
+				container.find('.js-autofill').prop('checked', false);
 				allDay.removeAttr('disabled');
 				timeStart.removeAttr('readonly');
 				timeEnd.removeAttr('readonly');

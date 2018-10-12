@@ -8,7 +8,6 @@
  */
 class OSSMail_SetUser_Action extends \App\Controller\Action
 {
-
 	/**
 	 * Function to check permission.
 	 *
@@ -27,6 +26,7 @@ class OSSMail_SetUser_Action extends \App\Controller\Action
 
 	/**
 	 * Process.
+	 *
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)

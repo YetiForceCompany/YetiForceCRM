@@ -40,10 +40,10 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 				'leadsourceid' => 'vtiger_leadsource.leadsourceid',
 				'count' => new \yii\db\Expression('COUNT(*)'),
 				'leadsourcevalue' => new \yii\db\Expression("CASE WHEN vtiger_leaddetails.leadsource IS NULL OR vtiger_leaddetails.leadsource = '' THEN '' ELSE vtiger_leaddetails.leadsource END"), ])
-				->from('vtiger_leaddetails')
-				->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
-				->innerJoin('vtiger_leadsource', 'vtiger_leaddetails.leadsource = vtiger_leadsource.leadsource')
-				->where(['deleted' => 0, 'converted' => 0]);
+			->from('vtiger_leaddetails')
+			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_leadsource', 'vtiger_leaddetails.leadsource = vtiger_leadsource.leadsource')
+			->where(['deleted' => 0, 'converted' => 0]);
 		if (!empty($owner)) {
 			$query->andWhere(['smownerid' => $owner]);
 		}
