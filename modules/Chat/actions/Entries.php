@@ -92,7 +92,8 @@ class Chat_Entries_Action extends \App\Controller\Action
 		$response->setResult([
 			'success' => true,
 			'chat_room_id' => $room->getRoomId(),
-			'name' => $room->getNameOfRoom()
+			'name' => $room->getNameOfRoom(),
+			'display_name_of_room' => $room->getDisplayNameOfRoom()
 		]);
 		$response->emit();
 	}
@@ -160,6 +161,7 @@ class Chat_Entries_Action extends \App\Controller\Action
 			'success' => true,
 			'chat_room_id' => $room->getRoomId(),
 			'name_of_room' => $room->getNameOfRoom(),
+			'display_name_of_room' => $room->getDisplayNameOfRoom(),
 			'favorite' => $room->isFavorite(),
 		]);
 		$response->emit();
