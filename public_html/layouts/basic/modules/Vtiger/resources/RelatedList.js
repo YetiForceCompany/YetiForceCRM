@@ -783,6 +783,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			var element = $(this);
 			Vtiger_Helper_Js.showConfirmationBox({message: app.vtranslate('JS_DELETE_CONFIRMATION')}).done(function (e) {
 				var row = element.closest('tr');
+				if (!row.length) {
+					row = element;
+				}
 				thisInstance.deleteRelation([row.data('id')]).done(function (response) {
 					if (response.result) {
 						var widget = element.closest('.widgetContentBlock');

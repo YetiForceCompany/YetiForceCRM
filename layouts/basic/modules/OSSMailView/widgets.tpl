@@ -4,18 +4,30 @@
 		{assign var=COUNT value=count($RECOLDLIST)}
 		{foreach from=$RECOLDLIST item=ROW key=KEY}
 			<div class="row{if $KEY%2 != 0} even{/if}">
-				{if \App\Privilege::isPermitted('OSSMailView', 'DetailView', $ROW['id'])}
+				{if \App\Privilege::isPermitted($MODULE_NAME, 'DetailView', $ROW['id'])}
 					<div class="col-12 mailActions d-flex justify-content-between mb-1">
 						<div>
-							<a class="showMailBody btn btn-sm btn-light mr-1" role="button">
-													<span class="body-icon fas fa-caret-down"
-														  title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}"></span>
+							<a class="showMailBody btn btn-sm btn-outline-secondary mr-1" role="button">
+									<span class="body-icon fas fa-caret-down"
+										  title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL',$MODULE_NAME)}">
+									</span>
 							</a>
-							<button type="button" class="btn btn-sm btn-light showMailModal"
-									data-url="{$ROW['url']}">
-													<span class="body-icon fas fa-search"
-														  title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}"></span>
-							</button>
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-sm btn-outline-secondary showMailModal"
+										data-url="{$ROW['url']}">
+									<span class="body-icon fas fa-search"
+										  title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL',$MODULE_NAME)}">
+									</span>
+								</button>
+								{if \App\Privilege::isPermitted($SMODULENAME, 'RemoveRelation') && \App\Privilege::isPermitted($MODULE_NAME, 'MoveToTrash', $ROW['id'])}
+									<button type="button" class="btn btn-sm btn-danger relationDelete"
+											data-id="{$ROW['id']}">
+										<span class="fas fa-trash-alt"
+											  title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL',$MODULE_NAME)}">
+										</span>
+									</button>
+								{/if}
+							</div>
 						</div>
 						<div>
 							{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
@@ -24,35 +36,35 @@
 									<button type="button" class="btn btn-sm btn-light sendMailBtn ml-1"
 											data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}">
 										<span class="fas fa-reply"
-											  title="{\App\Language::translate('LBL_REPLY','OSSMailView')}"></span>
+											  title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}"></span>
 									</button>
 									<button type="button" class="btn btn-sm btn-light sendMailBtn ml-1"
 											data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=replyAll"
 											data-popup="{$POPUP}">
 										<span class="fas fa-reply-all"
-											  title="{\App\Language::translate('LBL_REPLYALLL', 'OSSMailView')}"></span>
+											  title="{\App\Language::translate('LBL_REPLYALLL', $MODULE_NAME)}"></span>
 									</button>
 									<button type="button" class="btn btn-sm btn-light sendMailBtn ml-1"
 											data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=forward"
 											data-popup="{$POPUP}">
 										<span class="fas fa-share"
-											  title="{\App\Language::translate('LBL_FORWARD', 'OSSMailView')}"></span>
+											  title="{\App\Language::translate('LBL_FORWARD', $MODULE_NAME)}"></span>
 									</button>
 								{else}
 									<a class="btn btn-sm btn-light ml-1" role="button"
 									   href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply',$SRECORD,$SMODULENAME)}">
 										<span class="fas fa-reply"
-											  title="{\App\Language::translate('LBL_REPLY','OSSMailView')}"></span>
+											  title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}"></span>
 									</a>
 									<a class="btn btn-sm btn-light ml-1" role="button"
 									   href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'replyAll',$SRECORD,$SMODULENAME)}">
 										<span class="fas fa-reply-all"
-											  title="{\App\Language::translate('LBL_REPLYALLL', 'OSSMailView')}"></span>
+											  title="{\App\Language::translate('LBL_REPLYALLL', $MODULE_NAME)}"></span>
 									</a>
 									<a class="btn btn-sm btn-light ml-1" role="button"
 									   href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward',$SRECORD,$SMODULENAME)}">
 										<span class="fas fa-share"
-											  title="{\App\Language::translate('LBL_FORWARD', 'OSSMailView')}"></span>
+											  title="{\App\Language::translate('LBL_FORWARD', $MODULE_NAME)}"></span>
 									</a>
 								{/if}
 							{/if}
@@ -113,7 +125,7 @@
 			</div>
 		{/foreach}
 		{if $COUNT == 0}
-			<p class="textAlignCenter">{\App\Language::translate('LBL_NO_MAILS','OSSMailView')}</p>
+			<p class="textAlignCenter">{\App\Language::translate('LBL_NO_MAILS',$MODULE_NAME)}</p>
 		{/if}
 	</div>
 {/strip}
