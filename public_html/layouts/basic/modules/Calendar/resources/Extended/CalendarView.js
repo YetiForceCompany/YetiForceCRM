@@ -709,8 +709,12 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			}
 			data.find('[name="date_start"]').val(moment(startDate).format(dateFormat));
 			data.find('[name="due_date"]').val(moment(endDate).format(dateFormat));
-			data.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
-			data.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
+			if (data.find('.js-autofill').prop('checked') === true) {
+				Calendar_Edit_Js.getInstance().getFreeTime(data);
+			} else {
+				data.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
+				data.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
+			}
 		});
 	}
 
