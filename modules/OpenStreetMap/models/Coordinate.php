@@ -256,10 +256,6 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$groupByFieldColumn = '';
 		if (!empty($groupByField)) {
 			$fields[] = $groupByField;
-			$fieldModel = Vtiger_Field_Model::getInstance($groupByField, $moduleModel);
-			if ($fieldModel !== false) {
-				$groupByFieldColumn = $fieldModel->get('column');
-			}
 		}
 		$queryGenerator = new App\QueryGenerator($moduleName);
 		$queryGenerator->setFields($fields);
@@ -285,7 +281,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 					'lat' => $row['lat'],
 					'lon' => $row['lon'],
 					'label' => self::getLabelToPopupByArray($row, $moduleName),
-					'color' => self::getMarkerColor($row[$groupByFieldColumn])
+					'color' => self::getMarkerColor(empty($groupByField) ? '' : $row[$groupByField])
 				];
 			}
 		}
