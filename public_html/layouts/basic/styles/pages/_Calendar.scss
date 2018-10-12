@@ -690,7 +690,8 @@ $sitebar-border: 1px solid #ccc;
 		}
 
 		.o-calendar {
-			&__form {
+			&__form,
+			&__tab--filters {
 				height: calc(100vh - #{$h-footer} - #{$h-header});
 
 				@at-root .user-info--active #{&} {
@@ -790,11 +791,6 @@ $sitebar-border: 1px solid #ccc;
 						border-right: 0;
 					}
 				}
-			}
-
-			&__tab--filters {
-				/*computed height: footer, userinfo, header filter buttons, padding, filterbuttonsmargin */
-				height: calc(100vh - 35px - 17px - 50px - 34px - 6px);
 			}
 		}
 

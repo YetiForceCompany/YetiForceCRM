@@ -29,7 +29,7 @@
 				<div class="js-qc-form qc-form"></div>
 			</div>
 			<div class="tab-pane fade" id="rightPanelFilter" role="tabpanel" aria-labelledby="rightPanelFilter-tab">
-				<div class="o-calendar__tab--filters js-calendar__tab--filters border-bottom d-flex flex-column">
+				<div class="o-calendar__tab--filters js-calendar__tab--filters d-flex flex-column">
 					<div>
 						{if \AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')}
 							<div class="btn-group btn-group-toggle js-switch js-switch--switchingDays c-calendar-switch" data-toggle="buttons">
@@ -56,7 +56,7 @@
 						</div>
 					</div>
 					<div class="js-users-form usersForm position-relative" data-js="perfectScrollbar | html | container"></div>
-					<div class="js-group-form groupForm position-relative" data-js="perfectScrollbar | html | container | class: u-min-h-30per"></div>
+					<div class="js-group-form groupForm position-relative border-top" data-js="perfectScrollbar | html | container | class: u-min-h-30per"></div>
 				</div>
 			</div>
 		</div>
