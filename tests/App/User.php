@@ -60,7 +60,7 @@ class User extends \Tests\Base
 	 */
 	public function testIsAdmin()
 	{
-		$this->assertSame('1', \App\User::getCurrentUserModel()->isAdmin(), 'Expected that current user is admin');
+		$this->assertTrue(\App\User::getCurrentUserModel()->isAdmin() ? true : false, 'Expected that current user is admin');
 	}
 
 	/**
