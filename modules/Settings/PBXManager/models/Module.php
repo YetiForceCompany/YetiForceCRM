@@ -69,9 +69,7 @@ class Settings_PBXManager_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getMenuItem()
 	{
-		$menuItem = Settings_Vtiger_MenuItem_Model::getInstance('LBL_PBXMANAGER');
-
-		return $menuItem;
+		return Settings_Vtiger_MenuItem_Model::getInstance('LBL_PBXMANAGER');
 	}
 
 	/**
