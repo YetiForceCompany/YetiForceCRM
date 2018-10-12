@@ -96,11 +96,13 @@
 															<optgroup
 																	label="{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}&nbsp;-&nbsp;{\App\Language::translate($MODULE_KEY, $MODULE_KEY)}&nbsp;-&nbsp;{\App\Language::translate($BLOCK_LABEL, $MODULE_KEY)}">
 																{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
+																	{assign var=ELEMENT_POSITION_IN_ARRAY value=array_search($FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME), $SELECTED_FIELDS)}
 																	<option value="{$FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME)}"
 																			data-field-name="{$FIELD_NAME}"
-																			{if in_array($FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME), $SELECTED_FIELDS)}
-																				selected
+																			{if $ELEMENT_POSITION_IN_ARRAY !== false}
+																				data-sort-index="{$ELEMENT_POSITION_IN_ARRAY}" selected="selected"
 																			{/if}
+																			data-js="data-sort-index|data-field-name">
 																	>{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}&nbsp;-&nbsp;{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_KEY)}
 																	</option>
 																{/foreach}
