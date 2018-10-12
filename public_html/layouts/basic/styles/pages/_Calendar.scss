@@ -699,6 +699,11 @@ $sitebar-border: 1px solid #ccc;
 					/*computed height: footer, userinfo, header filter buttons, padding */
 					height: auto;
 				}
+				
+				&.quick-buttons--active {
+					/*computed height: footer, userinfo, header filter buttons, padding */
+					height: calc(100vh - #{$h-footer} - #{$h-header} - 3em);
+				}
 			}
 
 			&__form__wrapper {

@@ -4,7 +4,7 @@
 jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 	registerActivityState() {
 		const self = this;
-		$('.js-activity-state button:not(.close)').on('click', function (e) {
+		$('.js-activity-buttons button:not(.close)').on('click', function (e) {
 			let currentTarget = $(e.currentTarget),
 				viewName = app.getViewName();
 			currentTarget.closest('.modal').addClass('d-none');
