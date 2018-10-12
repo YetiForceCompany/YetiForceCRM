@@ -360,10 +360,11 @@ class TextParser
 		if (isset($this->language)) {
 			Language::setTemporaryLanguage($this->language);
 		}
-		$this->content = preg_replace_callback('/\$\((\w+) : ([,"\+\%\.\-\[\]\&\w\s\|]+)\)\$/u', function ($matches) {
-			list(, $function, $params) = array_pad($matches, 3, '');
+		$this->content = preg_replace_callback('/\$\((\w+) : ([,"\+\%\.\-\[\]\&\w\s\|]+)\)(?::([0-9]+))?\$/u', function ($matches) {
+			list(, $function, $params, $len) = array_pad($matches, 3, '');
 			if (in_array($function, static::$baseFunctions)) {
-				return $this->$function($params);
+				$content = $this->$function($params);
+				return (!empty($len)) ? \substr($content, 0, $len) : $content;
 			}
 			return '';
 		}, $this->content);
