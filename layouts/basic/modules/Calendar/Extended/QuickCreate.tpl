@@ -29,7 +29,7 @@
 							</button>
 						</div>
 					</div>
-					<div class="modal-body d-flex m-0">
+					<div class="modal-body row no-gutters m-0">
 						<div class="col-8">
 							<input type="hidden" id="hiddenDays"
 								   value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"/>
@@ -45,7 +45,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-4">
+						<div class="col-4 pl-3">
 							{include file=\App\Layout::getTemplatePath('Extended/EventForm.tpl', $MODULE)}
 						</div>
 					</div>

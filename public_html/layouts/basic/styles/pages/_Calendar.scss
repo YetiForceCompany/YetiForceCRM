@@ -667,7 +667,10 @@ $sitebar-border: 1px solid #ccc;
 			border-top: 1px solid #ddd;
 			z-index: 5;
 			min-height: calculate-rem(48px);
-			padding: 0 calculate-rem(5px) calculate-rem(5px);
+			padding: calculate-rem(6px) calculate-rem(5px) calculate-rem(5px);
+			@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
+				padding: calculate-rem(10px) 0 0;
+			}
 
 			.btn-group {
 				margin-right: 3px;
@@ -699,7 +702,7 @@ $sitebar-border: 1px solid #ccc;
 					/*computed height: footer, userinfo, header filter buttons, padding */
 					height: auto;
 				}
-				
+
 				&.quick-buttons--active {
 					/*computed height: footer, userinfo, header filter buttons, padding */
 					height: calc(100vh - #{$h-footer} - #{$h-header} - 3em);
@@ -711,7 +714,7 @@ $sitebar-border: 1px solid #ccc;
 
 				@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
 					/*computed height: footer, userinfo, header filter buttons, padding */
-					height: calc(100vh - #{$h-footer} - 17px - 90px - 34px - 10px - 20px - 30px);
+					height: calc(100vh - #{$h-footer} - 17px - 30px - 34px - 10px - 20px - 30px);
 					overflow-y: auto;
 					overflow-x: hidden;
 				}
