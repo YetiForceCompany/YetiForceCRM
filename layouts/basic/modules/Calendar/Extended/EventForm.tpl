@@ -4,6 +4,11 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
+	{assign var="ADDITIONAL_CLASS" value=""}
+	{if !empty(AppConfig::module('Calendar', 'SHOW_ONLY_EDIT_FORM')) && empty($IS_POSTPONED) && !empty($RECORD_ID)}
+		{include file=\App\Layout::getTemplatePath('Extended/ActivityButtons.tpl', $MODULE)}
+		{assign var="ADDITIONAL_CLASS" value=" quick-buttons--active"}
+	{/if}
 	<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
 		{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 			<input name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'
@@ -23,11 +28,14 @@
 		<input name="action" value="SaveAjax" type="hidden"/>
 		<input name="defaultOtherEventDuration" value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
 		<input name="userChangedEndDateTime" value="0" type="hidden"/>
-		<div class="o-calendar__form w-100 d-flex flex-column">
+		<div class="o-calendar__form w-100 d-flex flex-column {$ADDITIONAL_CLASS}">
 			<h6 class="boxEventTitle text-muted text-center mt-1">
 				{if !empty($RECORD_ID)}
 					<span class="fas fa-edit mr-1"></span>
 				{\App\Language::translate('LBL_EDIT_EVENT',$MODULE_NAME)}
+				{elseif !empty($IS_POSTPONED)}
+					<span class="fas fa-edit mr-1"></span>
+				{\App\Language::translate('LBL_POSTPONE_EDIT',$MODULE_NAME)}
 				{else}
 					<span class="fas fa-plus mr-1"></span>
 					{\App\Language::translate('LBL_ADD',$MODULE_NAME)}
@@ -85,7 +93,7 @@
 						title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" data-js="click">
 					{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
 				</button>
-				{if !empty($RECORD_ID)}
+				{if !empty($RECORD_ID) && (empty($VIEW) || 'QuickEditAjax' !== $VIEW)}
 					<a href="#" role="button" class="btn btn-danger js-summary-close-edit ml-auto">
 							<span title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"
 								  class="fas fa-times"></span>
