@@ -30,27 +30,27 @@
 			   value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
 		<input name="userChangedEndDateTime" value="0" type="hidden"/>
 		<div class="o-calendar__form w-100 d-flex flex-column{$ADDITIONAL_CLASS}">
-			<h6 class="boxEventTitle text-muted text-center mt-1">
-				{if !empty($RECORD_ID)}
-					<span class="fas fa-edit mr-1"></span>
-				{\App\Language::translate('LBL_EDIT_EVENT',$MODULE_NAME)}
-				{else}
-					<span class="fas fa-plus mr-1"></span>
-					{\App\Language::translate('LBL_ADD',$MODULE_NAME)}
-				{/if}
-			</h6>
 			<div class="o-calendar__form__wrapper js-calendar__form__wrapper massEditTable no-margin"
 				 data-js="perfectscrollbar">
-				<div class="fieldRow my-2">
+				<h6 class="boxEventTitle text-muted text-center mt-1">
+					{if !empty($RECORD_ID)}
+						<span class="fas fa-edit mr-1"></span>
+					{\App\Language::translate('LBL_EDIT_EVENT',$MODULE_NAME)}
+					{else}
+						<span class="fas fa-plus mr-1"></span>
+						{\App\Language::translate('LBL_ADD',$MODULE_NAME)}
+					{/if}
+				</h6>
+				<div class="fieldRow">
 					{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 						{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 						{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
 						{assign var="refrenceListCount" value=count($refrenceList)}
-						<div class="row fieldsLabelValue pl-0 pr-0">
+						<div class="row fieldsLabelValue pl-0 pr-0 mb-1">
 							<div class="col-12">
 								{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 								{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-								<label class="muted">
+								<label class="muted mt-0">
 									{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 										<a href="#" class="js-popover-tooltip mr-1" data-toggle="popover"
 										   data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}"
