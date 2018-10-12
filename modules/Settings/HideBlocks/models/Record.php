@@ -111,13 +111,13 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 				$columns = $condition['columns'];
 				if ($index == '1' && empty($columns)) {
 					$wfCondition[] = ['fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
-						'joincondition' => '', 'groupid' => '0', ];
+						'joincondition' => '', 'groupid' => '0',];
 				}
 				if (!empty($columns) && is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
 							'value' => $column['value'] ?? '', 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
-							'groupjoin' => $condition['condition'] ?? '', 'groupid' => $column['groupid'], ];
+							'groupjoin' => $condition['condition'] ?? '', 'groupid' => $column['groupid'],];
 					}
 				}
 			}
@@ -167,10 +167,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function getCleanInstance($qualifiedModuleName)
 	{
-		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
-		$recordModel = new $recordModelClass();
-
-		return $recordModel;
+		return new (Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName));
 	}
 
 	/**

@@ -4,7 +4,7 @@
  * Settings menu module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Menu_Module_Model
 {
@@ -38,9 +38,7 @@ class Settings_Menu_Module_Model
 	 */
 	public static function getInstance()
 	{
-		$instance = new self();
-
-		return $instance;
+		return new self();
 	}
 
 	/**
@@ -68,11 +66,13 @@ class Settings_Menu_Module_Model
 
 	public function getMenuName($row, $settings = false)
 	{
-		$name ='';
+		$name = '';
 		switch ($row['type']) {
-			case 0: $name = empty($row['label']) ? $row['name'] : $row['label'];
+			case 0:
+				$name = empty($row['label']) ? $row['name'] : $row['label'];
 				break;
-			case 3: $name = 'LBL_SEPARATOR';
+			case 3:
+				$name = 'LBL_SEPARATOR';
 				break;
 			case 5:
 				if ($row['label'] != '') {
@@ -81,7 +81,8 @@ class Settings_Menu_Module_Model
 					$name = \App\Language::translate('LBL_QUICK_CREATE_MODULE', 'Menu') . ': ' . Vtiger_Menu_Model::vtranslateMenu('SINGLE_' . $row['name'], $row['name']);
 				}
 				break;
-			case 6: $name = 'LBL_HOME';
+			case 6:
+				$name = 'LBL_HOME';
 				break;
 			case 7:
 				$query = (new \App\Db\Query())->select('viewname, entitytype')->from('vtiger_customview')->where(['cvid' => $row['dataurl']]);
@@ -92,7 +93,8 @@ class Settings_Menu_Module_Model
 					$name = Vtiger_Menu_Model::vtranslateMenu($data['viewname'], $data['entitytype']);
 				}
 				break;
-			default: $name = $row['label'];
+			default:
+				$name = $row['label'];
 				break;
 		}
 		return $name;
@@ -105,13 +107,17 @@ class Settings_Menu_Module_Model
 				$moduleModel = Vtiger_Module_Model::getInstance($row['module']);
 				$url = $moduleModel->getDefaultUrl() . '&mid=' . $row['id'] . '&parent=' . $row['parentid'];
 				break;
-			case 1: $url = $row['dataurl'];
+			case 1:
+				$url = $row['dataurl'];
 				break;
-			case 4: $url = addslashes($row['dataurl']);
+			case 4:
+				$url = addslashes($row['dataurl']);
 				break;
-			case 7: $url = 'index.php?module=' . $row['name'] . '&view=List&viewname=' . $row['dataurl'] . '&mid=' . $row['id'] . '&parent=' . $row['parentid'];
+			case 7:
+				$url = 'index.php?module=' . $row['name'] . '&view=List&viewname=' . $row['dataurl'] . '&mid=' . $row['id'] . '&parent=' . $row['parentid'];
 				break;
-			default: $url = null;
+			default:
+				$url = null;
 				break;
 		}
 		return $url;
