@@ -51,21 +51,6 @@ class Products_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get Specific Relation Query for this Module.
-	 *
-	 * @param <type> $relatedModule
-	 *
-	 * @return <type>
-	 */
-	public function getSpecificRelationQuery($relatedModule)
-	{
-		if ($relatedModule === 'Leads') {
-			return 'AND vtiger_leaddetails.converted = 0';
-		}
-		return parent::getSpecificRelationQuery($relatedModule);
-	}
-
-	/**
 	 * Function to get prices for specified products with specific currency.
 	 *
 	 * @param <Integer> $currenctId
