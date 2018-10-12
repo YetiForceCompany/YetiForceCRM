@@ -1204,20 +1204,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to get Specific Relation Query for this Module.
-	 *
-	 * @param <type> $relatedModule
-	 *
-	 * @return <type>
-	 */
-	public function getSpecificRelationQuery($relatedModule)
-	{
-		if ($relatedModule == 'Documents') {
-			return ' AND vtiger_notes.filestatus = 1 ';
-		}
-	}
-
-	/**
 	 * Function to get Settings links.
 	 *
 	 * @return <Array>
