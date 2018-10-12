@@ -1087,7 +1087,7 @@ var App = {},
 			}
 			let value = app.cacheParams[param];
 			if (json) {
-				if (value !== '') {
+				if (value) {
 					value = JSON.parse(value);
 				} else {
 					value = [];
