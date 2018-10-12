@@ -71,6 +71,18 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Function to get Default Field Value.
+	 *
+	 * @throws \Exception
+	 *
+	 * @return mixed
+	 */
+	public function getDefaultValue()
+	{
+		return $this->getFieldModel()->get('defaultvalue');
+	}
+
+	/**
 	 * Verification of data.
 	 *
 	 * @param string $value
