@@ -264,7 +264,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (widgetContent.find('[name="relatedModule"]').length) {
 				thisInstance.registerShowSummary(widgetContent);
 			}
-			if (relatedModuleName === 'Emails') {
+			if (relatedModuleName === 'OSSMailView') {
 				Vtiger_Index_Js.registerMailButtons(widgetContent);
 				widgetContent.find('.showMailModal').on('click', function (e) {
 					let progressIndicatorElement = jQuery.progressIndicator();
@@ -1078,9 +1078,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 							text: '<b>' + fieldInfo.data.label + '</b><br>' +
-							'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
-							prevDisplayValue + '<br> ' +
-							'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
+								'<b>' + app.vtranslate('JS_SAVED_FROM') + '</b>: ' +
+								prevDisplayValue + '<br> ' +
+								'<b>' + app.vtranslate('JS_SAVED_TO') + '</b>: ' + displayValue,
 							type: 'info',
 							textTrusted: true
 						});
@@ -2195,7 +2195,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		params['mailFilter'] = $('[name="mailFilter"]').val();
 		AppConnector.request(params).done(function (data) {
 			widgetDataContainer.html(data);
-			app.event.trigger("DetailView.Widget.AfterLoad", widgetDataContainer, 'Emails', thisInstance);
+			app.event.trigger("DetailView.Widget.AfterLoad", widgetDataContainer, params['module'], thisInstance);
 			progress.progressIndicator({'mode': 'hide'});
 		});
 	},

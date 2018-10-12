@@ -4,7 +4,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">{App\Language::translate('LBL_SELECT_EMAIL_IDS', 'Emails')}</h5>
+					<h5 class="modal-title">{App\Language::translate('LBL_SELECT_EMAIL_IDS')}</h5>
 					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -27,7 +27,7 @@
 							{/foreach}
 						</div>
 					</div>
-				</div>	
+				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-success selectButton">
 						{App\Language::translate('LBL_SELECT')}
