@@ -11,7 +11,7 @@
 		 data-js="container">
 		<div class="{if $CHAT->isRoomExists()}hide {/if}js-container-button">
 			<button type="button" class="btn btn-success js-create-chatroom" data-js="click">
-				<span class="fa fa-plus mr-2" title="{\App\Language::translate('LBL_CREATE', $MODULE)}"></span>
+				<span class="fa fa-plus mr-2" title="{\App\Language::translate('LBL_CREATE', $MODULE_NAME)}"></span>
 				{\App\Language::translate('LBL_CREATE_CHAT_ROOM')}
 			</button>
 		</div>

@@ -11,9 +11,14 @@
 			{/if}
 			<button class="p-2 btn btn-outline-dark flex-fill js-change-room js-popover-tooltip"
 					data-trigger="focus hover" data-placement="right"
-					data-content="{\App\Language::translate($ROOM['name'])}" data-js="click|popover">
-				{\App\Language::translate($ROOM['name'])|truncate:\App\Chat::getMaxDisplayLen():'...'}
-				({$ROOM['number_of_new']})
+					data-content="{\App\Language::translate($ROOM['name'])}" data-js="click|popover|data">
+				<span class="js-number-of-new {if $ROOM['number_of_new'] === 0}hide{/if} badge badge-danger c-badge--md mr-1"
+					  data-js="data">
+					{$ROOM['number_of_new']}
+				</span>
+				<span class="js-name {if $ROOM['number_of_new'] > 0}u-font-weight-700{/if}" data-js="data">
+					{\App\Language::translate($ROOM['name'])|truncate:\App\Chat::getMaxDisplayLen():'...'}
+				</span>
 			</button>
 		</div>
 	{/function}
@@ -45,7 +50,7 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-2 pl-5">
-								{ROOM_ITEM ROOM=['room_id'=>'', 'name'=>''] CLASS_NAME='js-room-template hide'}
+								{ROOM_ITEM ROOM=['room_id'=>'', 'name'=>'', 'number_of_new'=>0] CLASS_NAME='js-room-template hide'}
 								<div class="js-chat-rooms-list">
 									{foreach item=ROOM from=\App\Chat::getRoomsByUser()}
 										{ROOM_ITEM ROOM=$ROOM CLASS_NAME='d-flex'}
