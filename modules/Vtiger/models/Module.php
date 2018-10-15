@@ -824,9 +824,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$restrictListString = $restrictList ? 1 : 0;
 		if ($tree) {
 			$userModel = App\User::getCurrentUserModel();
-			$quickCreateModulesTree = App\Cache::get('getQuickCreateModules', 'tree' . $restrictListString . $userModel->getDetail('roleid'));
-			if ($quickCreateModulesTree !== false) {
-				return $quickCreateModulesTree;
+			$quickCreateModulesTreeCache = App\Cache::get('getQuickCreateModules', 'tree' . $restrictListString . $userModel->getDetail('roleid'));
+			if ($quickCreateModulesTreeCache !== false) {
+				return $quickCreateModulesTreeCache;
 			}
 		} else {
 			$quickCreateModules = App\Cache::get('getQuickCreateModules', $restrictListString);
