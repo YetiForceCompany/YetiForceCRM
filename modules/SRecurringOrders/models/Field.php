@@ -20,11 +20,6 @@ class SRecurringOrders_Field_Model extends Vtiger_Field_Model
 		if ($this->getFieldName() !== 'target_module') {
 			return $modules;
 		}
-		foreach ($modules as $id => $module) {
-			if ($module['name'] !== 'SSingleOrders') {
-				unset($modules[$id]);
-			}
-		}
-		return $modules;
+		return $modules[\App\Module::getModuleId('SSingleOrders')];
 	}
 }
