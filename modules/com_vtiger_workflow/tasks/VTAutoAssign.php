@@ -3,8 +3,8 @@
  * Auto assign records Task Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
@@ -26,8 +26,6 @@ class VTAutoAssign extends VTTask
 	{
 		$listViewModel = Settings_Vtiger_ListView_Model::getInstance('Settings:AutomaticAssignment');
 		$listViewModel->set('sourceModule', \App\Module::getModuleId($moduleName));
-		$entries = $listViewModel->getListViewEntries(new Vtiger_Paging_Model());
-
-		return $entries;
+		return $listViewModel->getListViewEntries(new Vtiger_Paging_Model());
 	}
 }

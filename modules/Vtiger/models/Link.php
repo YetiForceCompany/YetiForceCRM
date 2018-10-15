@@ -228,9 +228,7 @@ class Vtiger_Link_Model extends vtlib\Link
 		//Check if the link is not javascript
 		if (!$this->isPageLoadLink()) {
 			//To convert single quotes and double quotes
-			$url = \App\Purifier::encodeHtml($url);
-
-			return $url;
+			return \App\Purifier::encodeHtml($url);
 		}
 		$module = $parent = false;
 		$sourceModule = false;
@@ -305,9 +303,7 @@ class Vtiger_Link_Model extends vtlib\Link
 
 		$url = implode('&', $parametersParts);
 		//To convert single quotes and double quotes
-		$url = \App\Purifier::encodeHtml($url);
-
-		return $url;
+		return \App\Purifier::encodeHtml($url);
 	}
 
 	/**

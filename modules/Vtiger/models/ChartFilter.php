@@ -741,8 +741,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		}
 		$query = $queryGenerator->createQuery();
 		// we want colors from picklists if available
-		$query = $this->addPicklistsToQuery($query);
-		return $query;
+		return $this->addPicklistsToQuery($query);
 	}
 
 	/**

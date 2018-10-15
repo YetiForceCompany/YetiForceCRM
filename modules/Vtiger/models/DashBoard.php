@@ -134,9 +134,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 	 */
 	public function getDefaultWidgets()
 	{
-		$widgets = [];
-
-		return $widgets;
+		return [];
 	}
 
 	public function verifyDashboard($moduleName)

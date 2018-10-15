@@ -247,9 +247,7 @@ class VTWorkflowManager
 	protected function getWorkflowInstance($type = 'basic')
 	{
 		require_once 'modules/com_vtiger_workflow/VTWorkflowManager.php';
-		$workflow = new Workflow();
-
-		return $workflow;
+		return new Workflow();
 	}
 
 	/**
