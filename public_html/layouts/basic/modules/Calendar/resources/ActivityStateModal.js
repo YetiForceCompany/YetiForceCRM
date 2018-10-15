@@ -94,7 +94,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 					(new Vtiger_DashBoard_Js()).getContainer().find('a[name="drefresh"]').trigger('click');
 				}
 				if (app.getModuleName() === 'Calendar' && (viewName === 'Calendar' || viewName === 'CalendarExtended')) {
-					const calendarInstance = new `Calendar_${viewName}_Js`;
+					const calendarInstance = new window[`Calendar_${viewName}_Js`];
 					calendarInstance.loadCalendarData();
 					calendarInstance.getCalendarCreateView();
 				}
