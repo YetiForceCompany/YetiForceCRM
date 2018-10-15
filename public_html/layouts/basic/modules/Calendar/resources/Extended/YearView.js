@@ -89,7 +89,7 @@ var YearView = View.extend({
 			historyUrl: `index.php?module=Calendar&view=CalendarExtended&history=true&viewType=${calendar.view.type}&start=${date + '-01-01'}&end=${date + '-12-31'}&user=${user}&time=${app.getMainParams('showType')}&cvid=${cvid}&hiddenDays=${calendar.view.options.hiddenDays}`
 		};
 		let connectorMethod = window["AppConnector"]["requestPjax"];
-		if (calendar.view.options.firstLoad && this.browserHistoryConfig !== null) {
+		if (this.readonly || (calendar.view.options.firstLoad && this.browserHistoryConfig !== null)) {
 			options = Object.assign(options, {
 				start: this.browserHistoryConfig.start,
 				end: this.browserHistoryConfig.end,

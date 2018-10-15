@@ -3,11 +3,12 @@
 
 window.Calendar_Js = class Calendar_Js {
 
-	constructor(container = $('.js-base-container')) {
+	constructor(container = $('.js-base-container'), readonly = false) {
 		this.calendarView = false;
 		this.calendarCreateView = false;
 		this.container = container;
-		this.browserHistoryConfig = this.setBrowserHistoryConfig();
+		this.readonly = readonly;
+		this.browserHistoryConfig = readonly ? {} : this.setBrowserHistoryConfig();
 		this.calendarBasicOptions = this.setCalendarBasicOptions();
 		this.calendarAdvancedOptions = this.setCalendarAdvancedOptions();
 		this.calendarModuleOptions = this.setCalendarModuleOptions();
@@ -340,7 +341,7 @@ window.Calendar_Js = class Calendar_Js {
 
 	getCalendarView() {
 		if (this.calendarView == false) {
-			this.calendarView = jQuery('.js-calendar__container');
+			this.calendarView = this.container.find('.js-calendar__container');
 		}
 		return this.calendarView;
 	}

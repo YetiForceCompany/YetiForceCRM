@@ -10,7 +10,7 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 	},
 	registerExtendCalendar: function () {
 		let container = this.getContainer();
-		let instance = new Calendar_CalendarExtended_Js($('.js-modal-container'));
+		let instance = new Calendar_CalendarExtended_Js($('.js-modal-container'), true);
 		instance.calendarView = this.getContainer().find('.js-calendar__container');
 
 		var selectDays = function (startDate, endDate) {
@@ -62,9 +62,7 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 			}
 		};
 		instance.selectDays = selectDays;
-		instance.renderCalendar(true);
-		instance.registerChangeView();
-		instance.loadCalendarData();
+		instance.renderCalendar();
 	},
 	registerStandardCalendar: function () {
 		const thisInstance = this;
