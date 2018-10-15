@@ -187,7 +187,7 @@ class WorkFlowScheduler
 					$relatedModule = $matches[2];
 					$relatedFieldName = $matches[3];
 				}
-				if ($sourceField) {
+				if (!empty($sourceField)) {
 					$queryGenerator->addRelatedCondition([
 						'sourceField' => $sourceField,
 						'relatedModule' => $relatedModule,
