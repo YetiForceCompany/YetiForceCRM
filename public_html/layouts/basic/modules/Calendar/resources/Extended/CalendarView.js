@@ -201,7 +201,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			switchShowType = switchContainer.find('.js-switch--showType'),
 			switchSwitchingDays = switchContainer.find('.js-switch--switchingDays');
 		let historyParams = app.getMainParams('historyParams', true);
-		if (historyParams == null) {
+		if (historyParams === '') {
 			isWorkDays = (app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all'),
 				switchShowTypeVal = (app.getMainParams('showType') === 'current' && app.moduleCacheGet('defaultShowType') !== 'history');
 			if (!switchShowTypeVal) {
