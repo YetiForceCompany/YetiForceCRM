@@ -41,5 +41,5 @@
     "LBL_TRANSFER_UNLINK": "relation was deleted in the transfer process",
     "LBL_TRANSFER_LINK": "relation was added in the transfer process"
   },
-  "js": []
+  "js": {}
 }

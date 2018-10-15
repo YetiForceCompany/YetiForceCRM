@@ -351,7 +351,7 @@
     "LBL_2FA_TITLE": "Two-factor authentication",
     "LBL_2FA_DESCRIPTION": "This step confirms that the person who is trying to log in is actually you",
     "LBL_2FA_SECRET_ALREADY_SET": "Private key (TOTP) has been already generated, in order to change it, activate a new key.",
-    "FL_AUTHY_METHODS":"2FA authentication method",
+    "FL_AUTHY_METHODS": "2FA authentication method",
     "FL_LOGIN_METHOD": "Authentication method",
     "PLL_AUTHY_TOTP": "Single-use code (TOTP)",
     "FL_AUTHY_SECRET_TOTP": "Private key (TOTP)",

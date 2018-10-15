@@ -32,5 +32,5 @@
     "LBL_INDIVIDUAL_DELIVERY_INFO": "Les emails seront envoy\u00e9s individuellement pour chaque destinataire",
     "LBL_OPTIONS_INFO": "Exemple de param\u00e8tres suppl\u00e9mentaires:\r\n 'ssl' => [\r\n'verify_peer'  => true,\r\n'verify_depth' => 3,\r\n'allow_self_signed' => true,\r\n'peer_name' => 'smtp.example.com',\r\n'cafile' => '\/etc\/ssl\/ca_cert.pem',\r\n]"
   },
-  "js": []
+  "js": {}
 }
