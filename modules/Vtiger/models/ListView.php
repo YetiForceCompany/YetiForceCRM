@@ -418,7 +418,6 @@ class Vtiger_ListView_Model extends \App\Base
 				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldInfo['module_name']));
 				if (!empty($fieldInfo['source_field_name'])) {
 					$fieldModel->set('source_field_name', $fieldInfo['source_field_name']);
-					$fieldModel->set('isListviewSortable', false);
 					$fieldModel->set('isCalculateField', false);
 				} else {
 					$queryGenerator = $this->getQueryGenerator();
@@ -446,11 +445,15 @@ class Vtiger_ListView_Model extends \App\Base
 	{
 		$orderBy = $this->getForSql('orderby');
 		if (!empty($orderBy)) {
-			$field = $this->getModule()->getFieldByColumn($orderBy);
-			if ($field) {
-				$orderBy = $field->getName();
-			}
-			if ($field || $orderBy === 'id') {
+			[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $orderBy), 3, false);
+			if ($sourceFieldName) {
+				return $this->getQueryGenerator()->setRelatedOrder([
+					'sourceField' => $sourceFieldName,
+					'relatedModule' => $moduleName,
+					'relatedField' => $fieldName,
+					'relatedSortOrder' => $this->getForSql('sortorder')
+				]);
+			} else {
 				return $this->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
 			}
 			\App\Log::warning("[ListView] Incorrect value of sorting: '$orderBy'");
@@ -537,6 +540,7 @@ class Vtiger_ListView_Model extends \App\Base
 						$recordData[$relatedFieldName] = $row[$sourceField . $relatedModuleName . $relatedFieldName];
 						unset($row[$sourceField . $relatedModuleName . $relatedFieldName]);
 					}
+					$recordData['id'] = $row[$sourceField . $relatedModuleName . 'id'] ?? 0;
 					$extRecordModel[$sourceField][$relatedModuleName] = Vtiger_Module_Model::getInstance($relatedModuleName)->getRecordFromArray($recordData);
 				}
 			}

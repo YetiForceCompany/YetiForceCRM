@@ -21,10 +21,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * @var bool
 	 */
-	protected $isListviewSortable = true;
-	/**
-	 * @var bool
-	 */
 	protected $isCalculateField = true;
 	/**
 	 * @var Vtiger_Base_UIType Vtiger_Base_UIType or UI Type specific model instance
@@ -710,7 +706,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isListviewSortable()
 	{
-		return $this->isListviewSortable && $this->getUITypeModel()->isListviewSortable();
+		return $this->getUITypeModel()->isListviewSortable();
 	}
 
 	/**
