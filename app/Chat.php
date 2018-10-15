@@ -42,7 +42,7 @@ class Chat
 	 *
 	 * @var int|null
 	 */
-	protected $lastMessage;
+	protected $lastMessageId;
 
 	/**
 	 * Determines if the room is a favorite.
@@ -126,7 +126,7 @@ class Chat
 			$instance->roomId = $roomRow['room_id'];
 			$instance->nameOfRoom = $roomRow['name'];
 			$instance->recordId = $id;
-			$instance->lastMessage = $roomRow['last_message'];
+			$instance->lastMessageId = $roomRow['last_message'];
 			$instance->favorite = $roomRow['favorite'] ?? false;
 			$instance->isAssigned = !empty($roomRow['userid']);
 		}
@@ -185,10 +185,9 @@ class Chat
 				'number_of_new' => "({$sql})",
 				'CR.*', 'CU.userid', 'CU.last_message', 'CU.favorite'
 			])->from(['CR' => 'u_#__chat_rooms'])
-				->innerJoin(['CU' => 'u_#__chat_users'], 'CU.room_id = CR.room_id')
-				->where(['CU.userid' => $userId])
-				->andWhere(['CU.favorite' => 1])
-				->all();
+				->leftJoin(['CU' => 'u_#__chat_users'], 'CU.room_id = CR.room_id')
+				->where(['and', ['CR.room_id' => 0, 'CU.userid' => null]])
+				->orWhere(['and', ['CU.userid' => $userId, 'CU.favorite' => 1]])->all();
 	}
 
 	/**
@@ -217,9 +216,9 @@ class Chat
 	/**
 	 * @return int|null
 	 */
-	public function getLastMessage(): ?int
+	public function getLastMessageId(): ?int
 	{
-		return $this->lastMessage;
+		return $this->lastMessageId;
 	}
 
 	/**
@@ -305,14 +304,14 @@ class Chat
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public function setLastMessage(?int $lastMessageId = null)
+	public function setLastMessageId(?int $lastMessageId = null)
 	{
-		$lastMessageId = $lastMessageId ?? $this->lastId;
+		$this->lastMessageId = $lastMessageId ?? $this->lastId;
 		if ($this->isAssigned) {
 			\App\Db::getInstance()->createCommand()
 				->update(
 					'u_#__chat_users',
-					['last_message' => $lastMessageId],
+					['last_message' => $this->lastMessageId],
 					['room_id' => $this->getRoomId(), 'userid' => $this->userId]
 				)->execute();
 		}
@@ -343,6 +342,7 @@ class Chat
 					'last_message' => null,
 					'favorite' => false
 				])->execute();
+			$this->isAssigned = true;
 		}
 		return $this->roomId;
 	}
@@ -353,8 +353,10 @@ class Chat
 	 * @param string $message
 	 *
 	 * @throws \yii\db\Exception
+	 *
+	 * @return int
 	 */
-	public function addMessage(string $message)
+	public function addMessage(string $message): int
 	{
 		$currentUser = \App\User::getUserModel($this->userId);
 		\App\Db::getInstance()->createCommand()
@@ -365,10 +367,10 @@ class Chat
 				'messages' => $message,
 				'room_id' => $this->roomId
 			])->execute();
-		$lastMessageId = \App\Db::getInstance()->getLastInsertID('u_#__chat_messages_id_seq');
+		$this->lastMessageId = (int) \App\Db::getInstance()->getLastInsertID('u_#__chat_messages_id_seq');
 		if ($this->isAssigned) {
 			\App\db::getInstance()->createCommand()
-				->update('u_#__chat_users', ['last_message' => $lastMessageId], [
+				->update('u_#__chat_users', ['last_message' => $this->lastMessageId], [
 					'room_id' => $this->roomId,
 					'userid' => $currentUser->getId()
 				])->execute();
@@ -378,28 +380,29 @@ class Chat
 				->insert('u_#__chat_users', [
 					'room_id' => $this->roomId,
 					'userid' => $currentUser->getId(),
-					'last_message' => $lastMessageId,
-					'favorite' => false
+					'last_message' => $this->lastMessageId,
+					'favorite' => $this->getRoomId() === 0
 				])->execute();
 			$this->isAssigned = true;
 		}
+		return $this->lastMessageId;
 	}
 
 	/**
 	 * Get entries function.
 	 *
-	 * @param bool|int $messageId
+	 * @param null|int $messageId
 	 *
 	 * @return array
 	 */
-	public function getEntries($messageId = false)
+	public function getEntries(?int $messageId = null)
 	{
 		$query = (new \App\Db\Query())
 			->from('u_#__chat_messages')
 			->limit(\AppConfig::module('Chat', 'ROWS_LIMIT'))
 			->where(['room_id' => $this->roomId])
 			->orderBy(['created' => \SORT_DESC]);
-		if ($messageId) {
+		if (\is_null($messageId)) {
 			$query->andWhere(['>', 'id', $messageId]);
 		}
 		$this->lastId = $messageId;

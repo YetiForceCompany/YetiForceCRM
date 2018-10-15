@@ -18,6 +18,25 @@ window.Chat_Js = class Chat_Js {
 	}
 
 	/**
+	 * Get the amount of new messages.
+	 * @returns {int}
+	 */
+	static getAmountOfNewMessages() {
+		if (typeof Chat_Js.amountOfNewMessages === 'undefined') {
+			return 0;
+		}
+		return Chat_Js.amountOfNewMessages;
+	}
+
+	/**
+	 * Set the amount of new messages.
+	 * @param {int} val
+	 */
+	static setAmountOfNewMessages(val) {
+		Chat_Js.amountOfNewMessages = val;
+	}
+
+	/**
 	 * Constructor of class.
 	 */
 	constructor() {
@@ -96,7 +115,7 @@ window.Chat_Js = class Chat_Js {
 				itemRoom.find('.js-change-room .js-name').addClass('u-font-weight-700');
 				itemRoom.find('.js-number-of-new').html(data[i]['number_of_new']);
 				itemRoom.find('.js-number-of-new').removeClass('hide');
-				cntNew++;
+				cntNew += data[i]['number_of_new'];
 			} else {
 				itemRoom.find('.js-change-room .js-name').removeClass('u-font-weight-700');
 				itemRoom.find('.js-number-of-new').html('0');
@@ -105,8 +124,13 @@ window.Chat_Js = class Chat_Js {
 		}
 		if (cntNew > 0) {
 			$('.js-header-link-chat').addClass('color-red-600');
+			if (Chat_Js.getAmountOfNewMessages() < cntNew) {
+				app.playSound('REMINDERS');
+				Chat_Js.setAmountOfNewMessages(cntNew);
+			}
 		} else {
 			$('.js-header-link-chat').removeClass('color-red-600');
+			Chat_Js.setAmountOfNewMessages(0);
 		}
 	}
 
