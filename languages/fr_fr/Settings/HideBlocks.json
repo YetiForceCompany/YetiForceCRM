@@ -13,5 +13,5 @@
     "LBL_VIEW": "Vue",
     "LBL_MANDATORY_FIELDS_EXIST": "Ce bloc ne peut \u00eatre cach\u00e9 car il contient des champs obligatoires."
   },
-  "js": []
+  "js": {}
 }
