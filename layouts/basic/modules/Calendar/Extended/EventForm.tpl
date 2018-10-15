@@ -4,11 +4,6 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
-	{assign var="ADDITIONAL_CLASS" value=""}
-	{if !empty(AppConfig::module('Calendar', 'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM')) && empty($IS_POSTPONED) && !empty($RECORD_ID)}
-		{include file=\App\Layout::getTemplatePath('Extended/ActivityButtons.tpl', $MODULE)}
-		{assign var="ADDITIONAL_CLASS" value=" quick-buttons--active"}
-	{/if}
 	<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
 		{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 			<input name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'
@@ -41,6 +36,11 @@
 						{\App\Language::translate('LBL_ADD',$MODULE_NAME)}
 					{/if}
 				</h6>
+				{assign var="ADDITIONAL_CLASS" value=""}
+				{if !empty(AppConfig::module('Calendar', 'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM')) && empty($IS_POSTPONED) && !empty($RECORD_ID)}
+					{include file=\App\Layout::getTemplatePath('Extended/ActivityButtons.tpl', $MODULE)}
+					{assign var="ADDITIONAL_CLASS" value=" quick-buttons--active"}
+				{/if}
 				<div class="fieldRow">
 					{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 						{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
@@ -79,24 +79,26 @@
 						   data-fieldtype="{$RELATED_FIELD_MODEL->getFieldDataType()}"/>
 				{/foreach}
 			{/if}
-			<div class="formActionsPanel d-flex justify-content-center flex-wrap">
-				{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
-					{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-						{if $LINK->get('linkhint') neq 'LBL_GO_TO_FULL_FORM'}
-							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='quickcreateViewHeader'}
-						{/if}
-					{/foreach}
-				{/if}
-				<button type="submit" class="js-save-event btn btn-success"
-						title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" data-js="click">
-					{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
-				</button>
-				{if !empty($RECORD_ID)}
-					<a href="#" role="button" class="btn btn-danger js-summary-close-edit ml-auto">
+			<div class="o-calendar__form__actions">
+				<div class="d-flex flex-wrap{if empty($RECORD_ID)} justify-content-center{/if}">
+					{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
+						{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
+							{if $LINK->get('linkhint') neq 'LBL_GO_TO_FULL_FORM'}
+								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='quickcreateViewHeader'}
+							{/if}
+						{/foreach}
+					{/if}
+					<button type="submit" class="js-save-event btn btn-success"
+							title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" data-js="click">
+						{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
+					</button>
+					{if !empty($RECORD_ID)}
+						<a href="#" role="button" class="btn btn-danger js-summary-close-edit ml-auto u-h-fit">
 							<span title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"
 								  class="fas fa-times"></span>
-					</a>
-				{/if}
+						</a>
+					{/if}
+				</div>
 			</div>
 		</div>
 	</form>
