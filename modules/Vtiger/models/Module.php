@@ -855,11 +855,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		while ($row = $dataReader->read()) {
 			if ($userPrivModel->hasModuleActionPermission($row['tabid'], 'CreateView')) {
 				$moduleModel = self::getInstanceFromArray($row);
-				if ($tree) {
-					$quickCreateModules[$row['tabid']] = $moduleModel;
-				} else {
-					$quickCreateModules[$row['name']] = $moduleModel;
-				}
+				$quickCreateModules[$row['name']] = $moduleModel;
 			}
 		}
 		if ($tree) {
@@ -869,9 +865,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 				if (!empty($parent['childs'])) {
 					$items = [];
 					foreach ($parent['childs'] as $child) {
-						if (isset($quickCreateModules[$child['tabid']])) {
-							$items[$quickCreateModules[$child['tabid']]->name] = $quickCreateModules[$child['tabid']];
-							unset($quickCreateModules[$child['tabid']]);
+						if (isset($quickCreateModules[$child['mod']])) {
+							$items[$quickCreateModules[$child['mod']]->name] = $quickCreateModules[$child['mod']];
+							unset($quickCreateModules[$child['mod']]);
 						}
 					}
 					if (!empty($items)) {
