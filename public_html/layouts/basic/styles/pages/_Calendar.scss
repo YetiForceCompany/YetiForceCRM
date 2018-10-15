@@ -665,21 +665,6 @@ $sitebar-border: 1px solid #ccc;
 			&__form,
 			&__tab--filters {
 				height: calc(100vh - #{$h-footer} - #{$h-header});
-
-				@at-root .user-info--active #{&} {
-					/*computed height: footer, userinfo, header filter buttons, padding */
-					height: calc(100vh - #{$h-footer-user-info} - #{$h-header});;
-				}
-
-				@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
-					/*computed height: footer, userinfo, header filter buttons, padding */
-					height: auto;
-				}
-
-				&.quick-buttons--active {
-					/*computed height: footer, userinfo, header filter buttons, padding */
-					height: calc(100vh - #{$h-footer} - #{$h-header} - 3em);
-				}
 			}
 
 			&__form__wrapper {
@@ -764,6 +749,11 @@ $sitebar-border: 1px solid #ccc;
 					}
 				}
 			}
+		}
+
+		@at-root .user-info--active .o-calendar__tab--filters {
+			/*computed height: footer, userinfo, header filter buttons, padding */
+			height: calc(100vh - #{$h-footer-user-info} - #{$h-header});;
 		}
 
 		.o-calendar__form__actions[min-height~="70px"] {
