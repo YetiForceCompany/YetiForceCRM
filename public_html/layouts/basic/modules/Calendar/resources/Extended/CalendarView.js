@@ -139,12 +139,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			};
 		options = Object.assign(basicOptions, options);
 		if (!this.readonly) {
-			options.eventDrop = function (event, delta, revertFunc) {
-				self.updateEvent(event, delta, revertFunc);
-			};
-			options.eventResize = function (event, delta, revertFunc) {
-				self.updateEvent(event, delta, revertFunc);
-			};
 			options.eventClick = function (calEvent, jsEvent, view) {
 				jsEvent.preventDefault();
 				let link = new URL($(this)[0].href),
@@ -153,6 +147,8 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				self.openRightPanel();
 				self.showStatusUpdate(url);
 			};
+		} else {
+			options.eventClick = '';
 		}
 		this.calendar.fullCalendar(options);
 	}
