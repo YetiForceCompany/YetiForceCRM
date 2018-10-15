@@ -202,7 +202,12 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			} else if (fieldInfo.type == 'multipicklist' || fieldInfo.type == 'categoryMultipicklist') {
 				searchOperator = 'c';
 			}
-			searchInfo.push(fieldName);
+			let sourceFieldName = searchContributorElement.data('sourceFieldName');
+			if (sourceFieldName) {
+				searchInfo.push(fieldName + ':' + searchContributorElement.data('moduleName') + ':' + sourceFieldName);
+			} else {
+				searchInfo.push(fieldName);
+			}
 			searchInfo.push(searchOperator);
 			searchInfo.push(searchValue);
 			if (fieldInfo.type == 'tree' || fieldInfo.type == 'categoryMultipicklist') {
@@ -227,8 +232,13 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 							exist = true;
 						}
 					});
-					valueInSearch = listViewTable.find('.listSearchContributor[name="' + value[0] + '"]').val();
-					if (exist == false && valueInSearch != '' && valueInSearch !== null) {
+					if (value[0].indexOf(':') === -1) {
+						valueInSearch = listViewTable.find('.listSearchContributor[name="' + value[0] + '"]').val();
+					} else {
+						let fieldRelation = value[0].split(':');
+						valueInSearch = listViewTable.find('.listSearchContributor[name="' + fieldRelation[0] + '"][data-module-name="' + fieldRelation[1] + '"][data-source-field-name="' + fieldRelation[2] + '"]').val();
+					}
+					if (exist == false &&  valueInSearch != '' && valueInSearch !== null) {
 						searchParams.push(value);
 					}
 				});
