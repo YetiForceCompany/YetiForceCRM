@@ -168,6 +168,7 @@ class WorkFlowScheduler
 		 */
 		if ($conditions) {
 			foreach ($conditions as &$condition) {
+				$sourceField = '';
 				$operation = $condition['operation'];
 				//Cannot handle this condition for scheduled workflows
 				if ($operation === 'has changed') {
@@ -187,7 +188,7 @@ class WorkFlowScheduler
 					$relatedModule = $matches[2];
 					$relatedFieldName = $matches[3];
 				}
-				if ($sourceField) {
+				if (!empty($sourceField)) {
 					$queryGenerator->addRelatedCondition([
 						'sourceField' => $sourceField,
 						'relatedModule' => $relatedModule,
