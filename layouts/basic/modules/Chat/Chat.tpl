@@ -12,24 +12,23 @@
 			<button class="p-2 btn btn-outline-dark flex-fill js-change-room js-popover-tooltip"
 					data-trigger="focus hover" data-placement="right"
 					data-content="{\App\Language::translate($ROOM['name'])}" data-js="click|popover|data">
-				<span class="js-number-of-new {if $ROOM['number_of_new'] === 0}hide{/if} badge badge-danger c-badge--md mr-1"
-					  data-js="data">
-					{$ROOM['number_of_new']}
-				</span>
 				<span class="js-name {if $ROOM['number_of_new'] > 0}u-font-weight-700{/if}" data-js="data">
 					{\App\Language::translate($ROOM['name'])|truncate:\App\Chat::getMaxDisplayLen():'...'}
+				</span>
+				<span class="js-number-of-new {if $ROOM['number_of_new'] === 0}hide{/if} badge badge-danger c-badge--md mr-1 float-right"
+					  data-js="data">
+					{$ROOM['number_of_new']}
 				</span>
 			</button>
 		</div>
 	{/function}
 	<div class="o-action-menu__item">
-		<a class="c-header__btn ml-2 btn btn-light btn headerLinkChat js-popover-tooltip"
+		<a class="c-header__btn ml-2 btn btn-light btn js-header-link-chat js-popover-tooltip"
 		   role="button"
-		   data-js="popover" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
+		   data-js="popover|click" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
 		<span class="fas fa-comments fa-fw"
 			  title="{\App\Language::translate('LBL_CHAT')}"></span>
 			<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_CHAT')}</span>
-
 		</a>
 		<div class="chatModal o-chat-modal-window modal-full fade c-modal--custom-animation js-chat-modal" tabindex="-1"
 			 role="dialog"
@@ -49,7 +48,7 @@
 							</button>
 						</div>
 						<div class="row">
-							<div class="col-sm-2 pl-5">
+							<div class="col-sm-3 pl-5">
 								{ROOM_ITEM ROOM=['room_id'=>'', 'name'=>'', 'number_of_new'=>0] CLASS_NAME='js-room-template hide'}
 								<div class="js-chat-rooms-list">
 									{foreach item=ROOM from=\App\Chat::getRoomsByUser()}
@@ -57,7 +56,7 @@
 									{/foreach}
 								</div>
 							</div>
-							<div class="col-sm-10 ps pr-4">
+							<div class="col-sm-9 ps pr-4">
 								{include file=\App\Layout::getTemplatePath('Detail/ChatInput.tpl')}
 								<div class="js-chat-items js-chat-room-{\App\Chat::getCurrentRoomId()} o-chat-items"
 									 data-js="html">
