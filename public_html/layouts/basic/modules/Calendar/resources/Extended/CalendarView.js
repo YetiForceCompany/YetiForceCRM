@@ -510,15 +510,14 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 
 	loadCalendarData(view = this.getCalendarView().fullCalendar('getView')) {
 		const self = this;
-		let user = [],
-			formatDate = CONFIG.dateFormat.toUpperCase(),
+		let formatDate = CONFIG.dateFormat.toUpperCase(),
 			cvid = self.getCurrentCvId(),
 			calendarInstance = this.getCalendarView();
 		calendarInstance.fullCalendar('removeEvents');
 		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
-		user = self.getSelectedUsersCalendar();
+		let user = self.getSelectedUsersCalendar();
 		if (0 === user.length) {
-			user = [app.getMainParams('userId')];
+			user = [CONFIG.userId];
 		}
 		self.clearFilterButton(user, cvid);
 		if (view.type === 'agendaDay') {
@@ -536,8 +535,11 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			cvid: cvid,
 			historyUrl: `index.php?module=Calendar&view=CalendarExtended&history=true&viewType=${view.type}&start=${view.start.format(formatDate)}&end=${view.end.format(formatDate)}&user=${user}&time=${app.getMainParams('showType')}&cvid=${cvid}&hiddenDays=${view.options.hiddenDays}`
 		};
-		let connectorMethod = window["AppConnector"]["requestPjax"];
-		if (this.readonly || (view.options.firstLoad && this.browserHistoryConfig !== null)) {
+		let connectorMethod = window["AppConnector"]["request"];
+		if (!this.readonly) {
+			connectorMethod = window["AppConnector"]["requestPjax"];
+		}
+		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && (!this.readonly || view.options.firstLoad)) {
 			options = Object.assign(options, {
 				start: this.browserHistoryConfig.start,
 				end: this.browserHistoryConfig.end,
@@ -545,7 +547,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				time: this.browserHistoryConfig.time,
 				cvid: this.browserHistoryConfig.cvid
 			});
-			connectorMethod = window["AppConnector"]["request"];
 		}
 		connectorMethod(options).done((events) => {
 			calendarInstance.fullCalendar('removeEvents');
