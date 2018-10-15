@@ -37,17 +37,9 @@ class Settings_Vtiger_ListMenu_View extends Settings_Vtiger_Index_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Settings.Vtiger.resources.List',
-			"modules.Settings.$moduleName.resources.List",
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+			'modules.Settings.' . $request->getModule() . '.resources.List',
+		]));
 	}
 }

@@ -4,8 +4,8 @@
  * Settings Icons Model Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Vtiger_Icons_Model
 {
@@ -190,8 +190,6 @@ class Settings_Vtiger_Icons_Model
 		$icons = array_merge($icons, self::getUserIcon());
 		$icons = array_merge($icons, self::getAdminIcon());
 		$icons = array_merge($icons, self::getAdditionalIcon());
-		$icons = array_merge($icons, self::getFontAwesomeIcon());
-
-		return $icons;
+		return array_merge($icons, self::getFontAwesomeIcon());
 	}
 }

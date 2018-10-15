@@ -4,8 +4,8 @@
  * Basic TreeView View Class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_TreeRecords_View extends Vtiger_Index_View
 {
@@ -14,9 +14,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleModel);
-		$pageTitle = \App\Language::translate($treeViewModel->getName(), $moduleName);
-
-		return $pageTitle;
+		return \App\Language::translate($treeViewModel->getName(), $moduleName);
 	}
 
 	public function preProcess(\App\Request $request, $display = true)
@@ -82,9 +80,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 
 	public function getFooterScripts(\App\Request $request)
 	{
-		$parentScriptInstances = parent::getFooterScripts($request);
-
-		$scripts = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'~libraries/jstree/dist/jstree.js',
 			'~layouts/resources/libraries/jstree.category.js',
 			'~layouts/resources/libraries/jstree.checkbox.js',
@@ -92,24 +88,15 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
 			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js'
-		];
-		$viewInstances = $this->checkAndConvertJsScripts($scripts);
-		$scriptInstances = array_merge($parentScriptInstances, $viewInstances);
-
-		return $scriptInstances;
+		]));
 	}
 
 	public function getHeaderCss(\App\Request $request)
 	{
-		$parentCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = [
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
 			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
 			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
 			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css'
-		];
-		$modalInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$cssInstances = array_merge($parentCssInstances, $modalInstances);
-
-		return $cssInstances;
+		]));
 	}
 }

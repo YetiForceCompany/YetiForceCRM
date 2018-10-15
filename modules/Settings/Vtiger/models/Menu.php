@@ -55,9 +55,7 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 	{
 		$url = $this->get('linkto');
 		$url = App\Purifier::decodeHtml($url);
-		$url .= '&block=' . $this->getId();
-
-		return $url;
+		return $url . '&block=' . $this->getId();
 	}
 
 	/**

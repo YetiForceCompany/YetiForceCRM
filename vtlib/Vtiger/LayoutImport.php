@@ -29,9 +29,7 @@ class LayoutImport extends LayoutExport
 	 */
 	public function initImport($zipfile, $overwrite = true)
 	{
-		$name = $this->getModuleNameFromZip($zipfile);
-
-		return $name;
+		return $this->getModuleNameFromZip($zipfile);
 	}
 
 	/**
@@ -84,13 +82,11 @@ class LayoutImport extends LayoutExport
 				if (stripos($targetdir, "layouts/$name/skins") === 0) {
 					$dounzip = true;
 					$vtiger6format = true;
-				}
-				// vtiger6 format
+				} // vtiger6 format
 				elseif (stripos($targetdir, "layouts/$name/modules") === 0) {
 					$vtiger6format = true;
 					$dounzip = true;
-				}
-				//case handling for the  special library files
+				} //case handling for the  special library files
 				elseif (stripos($targetdir, "layouts/$name/libraries") === 0) {
 					$vtiger6format = true;
 					$dounzip = true;

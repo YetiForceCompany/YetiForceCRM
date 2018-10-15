@@ -20,9 +20,7 @@ class Deprecated
 	{
 		$entityInfo = \App\Module::getEntityInfo($module);
 		$fieldsName = $entityInfo['fieldname'];
-		$displayName = self::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues);
-
-		return $displayName;
+		return self::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues);
 	}
 
 	/**
@@ -167,9 +165,7 @@ class Deprecated
 		} else {
 			$formattedNameListString = $input[$fieldsName];
 		}
-		$sqlString = 'CONCAT(' . $formattedNameListString . ')';
-
-		return $sqlString;
+		return 'CONCAT(' . $formattedNameListString . ')';
 	}
 
 	/**

@@ -81,17 +81,9 @@ class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_Vi
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Settings.Vtiger.resources.Index',
-			"modules.Settings.$moduleName.resources.Index",
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+			'modules.Settings.' . $request->getModule() . '.resources.Index',
+		]));
 	}
 }

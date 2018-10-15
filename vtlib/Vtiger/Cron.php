@@ -138,9 +138,7 @@ class Cron
 	{
 		$lastStart = $this->getLastStart();
 		$lastEnd = $this->getLastEnd();
-		$timeDiff = $lastEnd - $lastStart;
-
-		return $timeDiff;
+		return $lastEnd - $lastStart;
 	}
 
 	/**
