@@ -188,6 +188,7 @@ $sitebar-border: 1px solid #ccc;
 		&__view-btn {
 			border-radius: 0;
 			height: calculate-rem(30px) !important;
+			line-height: 1.42857143;
 			svg {
 				margin-left: calculate-rem(5px);
 			}
@@ -629,7 +630,7 @@ $sitebar-border: 1px solid #ccc;
 	}
 
 	@media screen and (min-width: map-get($grid-breakpoints, lg)) {
-		.formActionsPanel {
+		.o-calendar__form__actions {
 			margin-top: auto;
 			text-align: center;
 			border-top: 1px solid #ddd;
@@ -638,8 +639,7 @@ $sitebar-border: 1px solid #ccc;
 			text-align: center;
 			border-top: 1px solid #ddd;
 			z-index: 5;
-			min-height: calculate-rem(48px);
-			padding: calculate-rem(6px) calculate-rem(5px) calculate-rem(5px);
+			padding: calculate-rem(6px) 0 calculate-rem(5px);
 			@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
 				padding: calculate-rem(10px) 0 0;
 			}
@@ -653,11 +653,11 @@ $sitebar-border: 1px solid #ccc;
 			}
 		}
 
-		.tpl-Calendar-Extended-ActivityState .formActionsPanel {
+		.tpl-Calendar-Extended-ActivityState .o-calendar__form__actions {
 			min-height: unset !important;
 		}
 
-		.hideSiteBar .qc-form .formActionsPanel {
+		.hideSiteBar .qc-form .o-calendar__form__actions {
 			right: -25%;
 		}
 
@@ -766,7 +766,8 @@ $sitebar-border: 1px solid #ccc;
 			}
 		}
 
-		.formActionsPanel[min-height~="70px"] {
+		.o-calendar__form__actions[min-height~="70px"] {
+			padding-bottom: 0;
 			button {
 				margin-bottom: 0.25rem;
 			}

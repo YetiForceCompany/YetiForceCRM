@@ -9,7 +9,7 @@
 			</h6>
 			{include file=\App\Layout::getTemplatePath('Extended/ActivityButtons.tpl', $MODULE_NAME)}
 			{include file=\App\Layout::getTemplatePath('ActivityStateContent.tpl', $MODULE_NAME)}
-			<div class="formActionsPanel d-none d-md-block">
+			<div class="o-calendar__form__actions d-none d-md-block">
 				<div class="float-left">
 					{if $RECORD->get('link') neq '' && $PERMISSION_TO_SENDE_MAIL}
 						{if $USER_MODEL->get('internal_mailer') == 1}
