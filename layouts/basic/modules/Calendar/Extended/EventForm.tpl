@@ -24,7 +24,7 @@
 		<input name="defaultOtherEventDuration"
 			   value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
 		<input name="userChangedEndDateTime" value="0" type="hidden"/>
-		<div class="o-calendar__form w-100 d-flex flex-column{$ADDITIONAL_CLASS}">
+		<div class="o-calendar__form w-100 d-flex flex-column">
 			<div class="o-calendar__form__wrapper js-calendar__form__wrapper massEditTable no-margin"
 				 data-js="perfectscrollbar">
 				<h6 class="boxEventTitle text-muted text-center mt-1">
@@ -36,10 +36,8 @@
 						{\App\Language::translate('LBL_ADD',$MODULE_NAME)}
 					{/if}
 				</h6>
-				{assign var="ADDITIONAL_CLASS" value=""}
 				{if !empty(AppConfig::module('Calendar', 'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM')) && empty($IS_POSTPONED) && !empty($RECORD_ID)}
 					{include file=\App\Layout::getTemplatePath('Extended/ActivityButtons.tpl', $MODULE)}
-					{assign var="ADDITIONAL_CLASS" value=" quick-buttons--active"}
 				{/if}
 				<div class="fieldRow">
 					{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
