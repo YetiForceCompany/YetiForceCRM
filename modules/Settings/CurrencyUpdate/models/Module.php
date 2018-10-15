@@ -185,8 +185,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 			$query->andWhere(['exchange_date' => $dateCur]);
 		}
 		$query->orderBy(['exchange_date' => SORT_DESC, 'currency_code' => SORT_ASC]);
-		$dataReader = $query->createCommand()->query();
-		return $dataReader->readAll();
+		return $query->createCommand()->query()->readAll();
 	}
 
 	/*
