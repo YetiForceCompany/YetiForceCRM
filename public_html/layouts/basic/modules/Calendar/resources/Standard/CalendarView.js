@@ -10,8 +10,8 @@
 
 window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Calendar_Js {
 
-	constructor(container) {
-		super(container);
+	constructor(container, readonly) {
+		super(container, readonly);
 	}
 
 	setCalendarModuleOptions() {
@@ -273,13 +273,6 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Calendar_Js {
 			aDeferred.reject();
 		});
 		return aDeferred.promise();
-	}
-
-	getCalendarView() {
-		if (this.calendarView == false) {
-			this.calendarView = jQuery('.js-calendar__container');
-		}
-		return this.calendarView;
 	}
 
 	switchTpl(on, off, state) {
