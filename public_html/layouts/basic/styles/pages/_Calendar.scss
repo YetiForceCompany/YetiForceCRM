@@ -751,9 +751,12 @@ $sitebar-border: 1px solid #ccc;
 			}
 		}
 
-		@at-root .user-info--active .o-calendar__tab--filters {
-			/*computed height: footer, userinfo, header filter buttons, padding */
-			height: calc(100vh - #{$h-footer-user-info} - #{$h-header});;
+		@at-root .user-info--active .o-calendar {
+			&__tab--filters,
+			&__form {
+				/*computed height: footer, userinfo, header filter buttons, padding */
+				height: calc(100vh - #{$h-footer-user-info} - #{$h-header});
+			}
 		}
 
 		.o-calendar__form__actions[min-height~="70px"] {
