@@ -88,9 +88,14 @@ class QueryGenerator
 	private $moduleModel;
 
 	/**
-	 * @var array \Vtiger_Field_Model
+	 * @var Vtiger_Field_Model[]
 	 */
 	private $fieldsModel;
+
+	/**
+	 * @var Vtiger_Field_Model[]
+	 */
+	private $relatedFieldsModel;
 
 	/**
 	 * @var \CRMEntity
@@ -341,8 +346,13 @@ class QueryGenerator
 	public function loadRelatedFields()
 	{
 		$fields = [];
+		$checkIds = [];
 		foreach ($this->relatedFields as $field) {
 			$relatedFieldModel = $this->addRelatedJoin($field);
+			if (!isset($checkIds[$field['sourceField']][$field['relatedModule']])) {
+				$checkIds[$field['sourceField']][$field['relatedModule']] = $field['relatedModule'];
+				$fields["{$field['sourceField']}{$field['relatedModule']}id"] = $relatedFieldModel->getTableName() .$field['sourceField']  .'.' . \Vtiger_CRMEntity::getInstance($field['relatedModule'])->tab_name_index[$relatedFieldModel->getTableName()];
+			}
 			$fields["{$field['sourceField']}{$field['relatedModule']}{$relatedFieldModel->getName()}"] = "{$relatedFieldModel->getTableName()}{$field['sourceField']}.{$relatedFieldModel->getColumnName()}";
 		}
 		return $fields;
@@ -507,6 +517,21 @@ class QueryGenerator
 	}
 
 	/**
+	 * Get fields module.
+	 *
+	 * @param $moduleName
+	 *
+	 * @return \Vtiger_Field_Model[]
+	 */
+	public function getRelatedModuleFields($moduleName)
+	{
+		if (isset($this->relatedFieldsModel[$moduleName])) {
+			return $this->relatedFieldsModel[$moduleName];
+		}
+		return $this->relatedFieldsModel[$moduleName] = \Vtiger_Module_Model::getInstance($moduleName)->getFields();
+	}
+
+	/**
 	 * Get field module.
 	 *
 	 * @return \Vtiger_Field_Model
@@ -518,6 +543,22 @@ class QueryGenerator
 		}
 		if (isset($this->fieldsModel[$fieldName])) {
 			return $this->fieldsModel[$fieldName];
+		}
+		return false;
+	}
+
+	/**
+	 * Get field in related module.
+	 *
+	 * @return \Vtiger_Field_Model
+	 */
+	public function getRelatedModuleField($fieldName, $moduleName)
+	{
+		if (!$this->relatedFieldsModel[$moduleName]) {
+			$this->getRelatedModuleFields($moduleName);
+		}
+		if (isset($this->relatedFieldsModel[$moduleName][$fieldName])) {
+			return $this->relatedFieldsModel[$moduleName][$fieldName];
 		}
 		return false;
 	}
@@ -684,11 +725,26 @@ class QueryGenerator
 				$filters = $filters['columns'];
 			}
 			foreach ($filters as &$filter) {
-				list($tableName, $columnName, $fieldName) = explode(':', $filter['columnname']);
-				if (empty($fieldName) && $columnName === 'crmid' && $tableName === 'vtiger_crmentity') {
-					$columnName = $this->getColumnName('id');
+				if (isset($filter['columnname'])) {
+					list($tableName, $columnName, $fieldName) = explode(':', $filter['columnname']);
+					if (empty($fieldName) && $columnName === 'crmid' && $tableName === 'vtiger_crmentity') {
+						$fieldName = $this->getColumnName('id');
+					}
+					$this->addCondition($fieldName, $filter['value'], $filter['comparator'], $and);
+				} else {
+					if (!empty($filter['source_field_name'])) {
+						$this->addRelatedCondition([
+							'sourceField' => $filter['source_field_name'],
+							'relatedModule' => $filter['module_name'],
+							'relatedField' => $filter['field_name'],
+							'value' => $filter['value'],
+							'operator' => $filter['comparator'],
+							'conditionGroup' => $and
+						]);
+					} else {
+						$this->addCondition($filter['field_name'], $filter['value'], $filter['comparator'], $and);
+					}
 				}
-				$this->addCondition($fieldName, $filter['value'], $filter['comparator'], $and);
 			}
 		}
 	}
@@ -1085,6 +1141,18 @@ class QueryGenerator
 	}
 
 	/**
+	 * Set order for related module
+	 * @param string[] $orderDetail
+	 */
+	public function setRelatedOrder($orderDetail){
+		$field = $this->addRelatedJoin($orderDetail);
+		if (!$field) {
+			return false;
+		}
+		$queryField = $this->getQueryRelatedField($field, $orderDetail);
+		$this->order = array_merge($this->order, $queryField->getOrderBy($orderDetail['relatedSortOrder']));
+	}
+	/**
 	 * Sets the ORDER BY part of the query.
 	 */
 	public function loadOrder()
@@ -1165,9 +1233,14 @@ class QueryGenerator
 			$groupColumnsInfo = [];
 			foreach ($groupInfo as $fieldSearchInfo) {
 				if ($fieldSearchInfo) {
-					list($fieldName, $operator, $fieldValue, $specialOption) = array_pad($fieldSearchInfo, 4, false);
+					[$fieldNameInfo, $operator, $fieldValue, $specialOption] = array_pad($fieldSearchInfo, 4, false);
 					$fieldValue = Purifier::decodeHtml($fieldValue);
-					$field = $this->getModuleField($fieldName);
+					[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $fieldNameInfo), 3, false);
+					if (!empty($sourceFieldName)) {
+						$field = $this->getRelatedModuleField($fieldName, $moduleName);
+					} else {
+						$field = $this->getModuleField($fieldName);
+					}
 					if (($field->getFieldDataType() === 'tree' || $field->getFieldDataType() === 'categoryMultipicklist') && $specialOption) {
 						$fieldValue = \Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $this->moduleModel);
 					}
@@ -1194,7 +1267,7 @@ class QueryGenerator
 						}
 						$fieldValue = implode(',', $dateValues);
 					}
-					$groupColumnsInfo[] = ['columnname' => $field->getCustomViewColumnName(), 'comparator' => $operator, 'value' => $fieldValue];
+					$groupColumnsInfo[] = ['field_name' => $fieldName, 'module_name' => $moduleName, 'source_field_name' => $sourceFieldName, 'comparator' => $operator, 'value' => $fieldValue];
 				}
 			}
 			$advFilterConditionFormat[$glueOrder[$groupIterator]] = $groupColumnsInfo;

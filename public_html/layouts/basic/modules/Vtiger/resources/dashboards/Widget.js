@@ -1611,9 +1611,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		App.Fields.Date.register(container);
 		App.Fields.Date.registerRange(container);
 		search.on('change apply.daterangepicker', (e) => {
-			const searchParams = [];
+			let searchParams = [];
 			container.find('.listSearchContributor').each((index, domElement) => {
-				const searchInfo = [];
+				let searchInfo = [];
 				const searchContributorElement = $(domElement);
 				const fieldInfo = searchContributorElement.data('fieldinfo');
 				const fieldName = searchContributorElement.attr('name');
