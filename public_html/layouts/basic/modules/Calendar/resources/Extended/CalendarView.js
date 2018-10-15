@@ -686,10 +686,10 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	}
 
 	selectDays(startDate, endDate) {
-		const thisInstance = this;
+		this.container.find('.js-right-panel-event-link').tab('show');
 		let start_hour = $('#start_hour').val(),
 			end_hour = $('#end_hour').val(),
-			view = thisInstance.getCalendarView().fullCalendar('getView');
+			view = this.getCalendarView().fullCalendar('getView');
 		if (endDate.hasTime() == false) {
 			endDate.add(-1, 'days');
 		}
