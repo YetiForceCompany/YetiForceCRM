@@ -247,7 +247,7 @@ class Workflow
 	/**
 	 * Return workflow schedule timestamp in user format.
 	 *
-	 * @return timestamp
+	 * @return string
 	 */
 	public function getWFScheduleTimeUserFormat()
 	{
