@@ -158,7 +158,7 @@ window.Calendar_Js = class Calendar_Js {
 	setBrowserHistoryConfig() {
 		let historyParams = app.getMainParams('historyParams', true),
 			options;
-		if (historyParams !== '' && app.moduleCacheGet('browserHistoryEvent')) {
+		if (historyParams && (historyParams.length || Object.keys(historyParams).length) && app.moduleCacheGet('browserHistoryEvent')) {
 			options = {
 				start: historyParams.start,
 				end: historyParams.end,

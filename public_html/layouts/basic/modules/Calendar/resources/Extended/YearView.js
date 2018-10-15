@@ -72,7 +72,7 @@ var YearView = View.extend({
 			progressInstance = $.progressIndicator({blockInfo: {enabled: true}}),
 			cvid = this.getCurrentCvId();
 		if (user.length === 0) {
-			user = [app.getMainParams('userId')];
+			user = [CONFIG.userId];
 		}
 		this.refreshDatesRowView(calendar.view);
 		this.clearFilterButton(user, cvid);
@@ -88,8 +88,11 @@ var YearView = View.extend({
 			cvid: cvid,
 			historyUrl: `index.php?module=Calendar&view=CalendarExtended&history=true&viewType=${calendar.view.type}&start=${date + '-01-01'}&end=${date + '-12-31'}&user=${user}&time=${app.getMainParams('showType')}&cvid=${cvid}&hiddenDays=${calendar.view.options.hiddenDays}`
 		};
-		let connectorMethod = window["AppConnector"]["requestPjax"];
-		if (this.readonly || (calendar.view.options.firstLoad && this.browserHistoryConfig !== null)) {
+		let connectorMethod = window["AppConnector"]["request"];
+		if (!this.readonly) {
+			connectorMethod = window["AppConnector"]["requestPjax"];
+		}
+		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && (!this.readonly || calendar.view.options.firstLoad)) {
 			options = Object.assign(options, {
 				start: this.browserHistoryConfig.start,
 				end: this.browserHistoryConfig.end,
@@ -97,11 +100,10 @@ var YearView = View.extend({
 				time: this.browserHistoryConfig.time,
 				cvid: this.browserHistoryConfig.cvid
 			});
-			connectorMethod = window["AppConnector"]["request"];
 		}
 		connectorMethod(options).done(function (events) {
 			yearView.find('.fc-year__month').each(function (i) {
-				let calendarInstance = new Calendar_Calendar_Js;
+				let calendarInstance = new Calendar_Calendar_Js(self.container, self.readonly);
 				let basicOptions = calendarInstance.getCalendarMinimalConfig(),
 					monthOptions = {
 						defaultView: 'month',
