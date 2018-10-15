@@ -88,6 +88,7 @@ window.Chat_Js = class Chat_Js {
 	 * @param {array} data
 	 */
 	updateAllRooms(container, data) {
+		let cntNew = 0;
 		let len = data.length;
 		for (let i = 0; i < len; ++i) {
 			let itemRoom = $('.js-chat-modal .js-chat-rooms-list .row[data-room-id=' + data[i]['room_id'] + ']');
@@ -95,11 +96,17 @@ window.Chat_Js = class Chat_Js {
 				itemRoom.find('.js-change-room .js-name').addClass('u-font-weight-700');
 				itemRoom.find('.js-number-of-new').html(data[i]['number_of_new']);
 				itemRoom.find('.js-number-of-new').removeClass('hide');
+				cntNew++;
 			} else {
 				itemRoom.find('.js-change-room .js-name').removeClass('u-font-weight-700');
 				itemRoom.find('.js-number-of-new').html('0');
 				itemRoom.find('.js-number-of-new').addClass('hide');
 			}
+		}
+		if (cntNew > 0) {
+			$('.js-header-link-chat').addClass('color-red-600');
+		} else {
+			$('.js-header-link-chat').removeClass('color-red-600');
 		}
 	}
 
@@ -340,7 +347,8 @@ window.Chat_Js = class Chat_Js {
 	 * Register header link chat
 	 */
 	registerHeaderLinkChat() {
-		$('.headerLinkChat').on('click', (e) => {
+		//color-red-600
+		$('.js-header-link-chat').on('click', (e) => {
 			e.stopPropagation();
 			let remindersNoticeContainer = $('.remindersNoticeContainer,.remindersNotificationContainer');
 			if (remindersNoticeContainer.hasClass('toggled')) {
