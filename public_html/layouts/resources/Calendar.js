@@ -294,9 +294,9 @@ window.Calendar_Js = class Calendar_Js {
 				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 				revertFunc();
 			}
-			progressInstance.hide();
+			progressInstance.progressIndicator({'mode': 'hide'});
 		}).fail(function () {
-			progressInstance.hide();
+			progressInstance.progressIndicator({'mode': 'hide'});
 			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 			revertFunc();
 		});
