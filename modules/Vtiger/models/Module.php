@@ -1464,7 +1464,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 						continue;
 					}
 					if (isset($sourceRecordData[$fieldName])) {
-						$fieldModel->getUITypeModel()->setValueFromRequest(new \App\Request($sourceRecordData), $recordModel);
+						$fieldModel->getUITypeModel()->setValueFromRequest(new \App\Request($sourceRecordData, false), $recordModel);
 					} else {
 						$defaultValue = $fieldModel->getDefaultFieldValue();
 						if ($defaultValue !== '') {
