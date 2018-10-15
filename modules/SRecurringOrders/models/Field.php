@@ -10,16 +10,13 @@
 class SRecurringOrders_Field_Model extends Vtiger_Field_Model
 {
 	/**
-	 * Function to get all the available picklist values for the current field.
-	 *
-	 * @return array List of picklist values if the field is of type picklist or multipicklist, null otherwise
+	 * {@inheritdoc}
 	 */
 	public function getModulesListValues()
 	{
-		$modules = parent::getModulesListValues();
 		if ($this->getFieldName() !== 'target_module') {
-			return $modules;
+			return parent::getModulesListValues();
 		}
-		return $modules[\App\Module::getModuleId('SSingleOrders')];
+		return [App\Module::getModuleId('SSingleOrders') => ['name' => 'SSingleOrders', 'label' => \App\Language::translate('SSingleOrders', 'SSingleOrders')]];
 	}
 }
