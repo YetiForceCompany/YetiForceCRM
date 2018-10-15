@@ -37,7 +37,7 @@ window.Chat_Js = class Chat_Js {
 			item.removeClass('js-room-template');
 			item.removeClass(item.data('selectedClass'));
 			item.addClass(item.data('initClass'));
-			item.find('.js-change-room').html(displayNameOfRoom);
+			item.find('.js-change-room .js-name').html(displayNameOfRoom);
 			item.find('.js-change-room').data('content', name);
 			item.data('roomId', roomId);
 			$('.js-chat-modal .js-chat-rooms-list').append(item);
@@ -83,6 +83,27 @@ window.Chat_Js = class Chat_Js {
 	}
 
 	/**
+	 * Updating chat room information.
+	 * @param {jQuery} container
+	 * @param {array} data
+	 */
+	updateAllRooms(container, data) {
+		let len = data.length;
+		for (let i = 0; i < len; ++i) {
+			let itemRoom = $('.js-chat-modal .js-chat-rooms-list .row[data-room-id=' + data[i]['room_id'] + ']');
+			if (data[i]['number_of_new'] > 0) {
+				itemRoom.find('.js-change-room .js-name').addClass('u-font-weight-700');
+				itemRoom.find('.js-number-of-new').html(data[i]['number_of_new']);
+				itemRoom.find('.js-number-of-new').removeClass('hide');
+			} else {
+				itemRoom.find('.js-change-room .js-name').removeClass('u-font-weight-700');
+				itemRoom.find('.js-number-of-new').html('0');
+				itemRoom.find('.js-number-of-new').addClass('hide');
+			}
+		}
+	}
+
+	/**
 	 * Register switch room.
 	 * @param {jQuery} container
 	 */
@@ -112,6 +133,7 @@ window.Chat_Js = class Chat_Js {
 					html = dataResult.result.html;
 				}
 				self.updateRoom(container, itemRoom, html, roomId);
+				self.updateAllRooms(container, dataResult.result['user_rooms']);
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			}).fail((error, err) => {
 				app.errorLog(error, err);
@@ -292,6 +314,7 @@ window.Chat_Js = class Chat_Js {
 						container.find('.js-container-items').removeClass('hide');
 					}
 					self.updateChat(container, chatRoomId, dataResult.result.html);
+					self.updateAllRooms(container, dataResult.result['user_rooms']);
 				}
 			}).fail((error, err) => {
 				clearTimeout(self.chatRoom[container.data('chatRoomIdx')]);
@@ -326,13 +349,6 @@ window.Chat_Js = class Chat_Js {
 			$('.actionMenu').removeClass('actionMenuOn');
 			$('.chatModal').modal({backdrop: false});
 		});
-	}
-
-	registerChatCheck(timer, container) {
-		const self = this;
-		self.chatCheckTimer = setTimeout(() => {
-			self.registerChatCheck(timer, container);
-		}, timer);
 	}
 
 	/**

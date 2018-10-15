@@ -215,6 +215,14 @@ class Chat
 	}
 
 	/**
+	 * @return int|null
+	 */
+	public function getLastMessage(): ?int
+	{
+		return $this->lastMessage;
+	}
+
+	/**
 	 * Check if chat room exists.
 	 *
 	 * @return bool
@@ -297,13 +305,14 @@ class Chat
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public function setLastMessage()
+	public function setLastMessage(?int $lastMessageId = null)
 	{
+		$lastMessageId = $lastMessageId ?? $this->lastId;
 		if ($this->isAssigned) {
 			\App\Db::getInstance()->createCommand()
 				->update(
 					'u_#__chat_users',
-					['last_message' => $this->lastId],
+					['last_message' => $lastMessageId],
 					['room_id' => $this->getRoomId(), 'userid' => $this->userId]
 				)->execute();
 		}
@@ -356,13 +365,20 @@ class Chat
 				'messages' => $message,
 				'room_id' => $this->roomId
 			])->execute();
-		if (!$this->isAssigned) {
+		$lastMessageId = \App\Db::getInstance()->getLastInsertID('u_#__chat_messages_id_seq');
+		if ($this->isAssigned) {
+			\App\db::getInstance()->createCommand()
+				->update('u_#__chat_users', ['last_message' => $lastMessageId], [
+					'room_id' => $this->roomId,
+					'userid' => $currentUser->getId()
+				])->execute();
+		} else {
 			\App\db::getInstance()
 				->createCommand()
 				->insert('u_#__chat_users', [
 					'room_id' => $this->roomId,
 					'userid' => $currentUser->getId(),
-					'last_message' => null,
+					'last_message' => $lastMessageId,
 					'favorite' => false
 				])->execute();
 			$this->isAssigned = true;
@@ -386,7 +402,7 @@ class Chat
 		if ($messageId) {
 			$query->andWhere(['>', 'id', $messageId]);
 		}
-		$this->lastId = null;
+		$this->lastId = $messageId;
 		$rows = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
