@@ -33,24 +33,24 @@
 					<div>
 						{if \AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')}
 							<div class="btn-group btn-group-toggle js-switch js-switch--switchingDays c-calendar-switch" data-toggle="buttons">
-								<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on{if $HISTORY_PARAMS['hiddenDays']} active{/if}">
-									<input type="radio" name="options" data-on-text="{\App\Language::translate('LBL_WORK_DAYS', $MODULE)}" autocomplete="off"{if $HISTORY_PARAMS['hiddenDays']} checked{/if}>
+								<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on{if $HISTORY_PARAMS eq '' || !empty($HISTORY_PARAMS['hiddenDays'])} active{/if}">
+									<input type="radio" name="options" data-on-text="{\App\Language::translate('LBL_WORK_DAYS', $MODULE)}" autocomplete="off"{if $HISTORY_PARAMS eq '' || !empty($HISTORY_PARAMS['hiddenDays'])} checked{/if}>
 									{\App\Language::translate('LBL_WORK_DAYS', $MODULE)}
 								</label>
-								<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-off{if !$HISTORY_PARAMS['hiddenDays']} active{/if}">
+								<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-off{if $HISTORY_PARAMS neq '' && empty($HISTORY_PARAMS['hiddenDays'])} active{/if}">
 									<input type="radio" name="options" data-off-text="{\App\Language::translate('LBL_ALL', $MODULE)}
-" autocomplete="off"{if !$HISTORY_PARAMS['hiddenDays']} checked{/if}>
+" autocomplete="off"{if $HISTORY_PARAMS neq '' && empty($HISTORY_PARAMS['hiddenDays'])} checked{/if}>
 									{\App\Language::translate('LBL_ALL', $MODULE)}
 								</label>
 							</div>
 						{/if}
 						<div class="btn-group btn-group-toggle js-switch js-switch--showType c-calendar-switch" data-toggle="buttons">
-							<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on{if !$HISTORY_PARAMS['time'] || $HISTORY_PARAMS['time'] eq 'current'} active{/if}">
-								<input type="radio" name="options" data-on-text="{\App\Language::translate('LBL_FILTER', $MODULE)}" autocomplete="off" {if !$HISTORY_PARAMS['time'] || $HISTORY_PARAMS['time'] eq 'current'} checked{/if}>
+							<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on{if empty($HISTORY_PARAMS['time'])} active{elseif $HISTORY_PARAMS['time'] eq 'current'} active{/if}">
+								<input type="radio" name="options" data-on-text="{\App\Language::translate('LBL_FILTER', $MODULE)}" autocomplete="off" {if empty($HISTORY_PARAMS['time'])} checked{elseif $HISTORY_PARAMS['time'] eq 'current'} checked{/if}>
 								{\App\Language::translate('LBL_TO_REALIZE', $MODULE)}
 							</label>
-							<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-off{if $HISTORY_PARAMS['time'] eq 'history'} active{/if}">
-								<input type="radio" name="options" data-off-text="{\App\Language::translate('LBL_HISTORY', $MODULE)}" autocomplete="off"{if $HISTORY_PARAMS['time'] eq 'history'} checked{/if}>
+							<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-off{if isset($HISTORY_PARAMS['time']) && $HISTORY_PARAMS['time'] eq 'history'} active{/if}">
+								<input type="radio" name="options" data-off-text="{\App\Language::translate('LBL_HISTORY', $MODULE)}" autocomplete="off"{if isset($HISTORY_PARAMS['time']) && $HISTORY_PARAMS['time'] eq 'history'} checked{/if}>
 								{\App\Language::translate('LBL_HISTORY', $MODULE)}
 							</label>
 						</div>

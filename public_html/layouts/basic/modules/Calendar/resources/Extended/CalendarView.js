@@ -578,6 +578,9 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			app.moduleCacheSet('defaultShowType', 'current');
 			sidebar.find("input:checkbox").prop('checked', false);
 			sidebar.find("option:selected").prop('selected', false);
+			let calendarSwitch = sidebar.find('.js-switch--showType [class*="js-switch--label"]');
+			calendarSwitch.last().removeClass('active');
+			calendarSwitch.first().addClass('active');
 			sidebar.find(".js-input-user-owner-id[value=" + app.getMainParams('userId') + "]").prop('checked', true);
 			calendarView.fullCalendar('getCalendar').view.options.loadView();
 		});
