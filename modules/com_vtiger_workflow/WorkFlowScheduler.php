@@ -168,6 +168,7 @@ class WorkFlowScheduler
 		 */
 		if ($conditions) {
 			foreach ($conditions as &$condition) {
+				$sourceField = '';
 				$operation = $condition['operation'];
 				//Cannot handle this condition for scheduled workflows
 				if ($operation === 'has changed') {
