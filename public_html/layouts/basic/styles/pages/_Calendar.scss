@@ -665,14 +665,16 @@ $sitebar-border: 1px solid #ccc;
 			&__form,
 			&__tab--filters {
 				height: calc(100vh - #{$h-footer} - #{$h-header});
+				@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
+					height: auto !important;
+				}
 			}
 
 			&__form__wrapper {
 				position: relative;
 
 				@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
-					/*computed height: footer, userinfo, header filter buttons, padding */
-					height: calc(100vh - #{$h-footer} - 17px - 30px - 34px - 10px - 20px - 30px);
+					height: calc(100vh - #{$h-footer} - #{calculate-rem(118px)} - #{$h-header}); // 118px - modal offsets
 					overflow-y: auto;
 					overflow-x: hidden;
 				}
@@ -751,14 +753,6 @@ $sitebar-border: 1px solid #ccc;
 			}
 		}
 
-		@at-root .user-info--active .o-calendar {
-			&__tab--filters,
-			&__form {
-				/*computed height: footer, userinfo, header filter buttons, padding */
-				height: calc(100vh - #{$h-footer-user-info} - #{$h-header});
-			}
-		}
-
 		.o-calendar__form__actions[min-height~="70px"] {
 			padding-bottom: 0;
 			.btn {
@@ -770,6 +764,18 @@ $sitebar-border: 1px solid #ccc;
 			right: 0;
 		}
 	}
+}
+
+.user-info--active .o-calendar {
+	&__tab--filters,
+	&__form {
+		/*computed height: footer, userinfo, header filter buttons, padding */
+		height: calc(100vh - #{$h-footer-user-info} - #{$h-header});
+	}
+}
+
+@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
+	height: auto;
 }
 
 .tpl-Calendar-Extended-QuickCreate {
