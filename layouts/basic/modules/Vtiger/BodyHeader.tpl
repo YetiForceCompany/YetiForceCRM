@@ -258,8 +258,8 @@
 							</a>
 						</div>
 					{/if}
-					{if isset($CHAT)}
-						{include file=\App\Layout::getTemplatePath('Chat.tpl', 'Chat')}
+					{if \App\Module::isModuleActive('Chat')}
+						{include file=\App\Layout::getTemplatePath('HeaderButton.tpl', 'Chat')}
 					{/if}
 					{if $REMINDER_ACTIVE}
 						<div class="o-action-menu__item">

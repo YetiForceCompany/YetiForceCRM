@@ -48,9 +48,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		if (AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
 			$viewer->assign('SEARCHED_MODULE', $selectedModule);
 		}
-		if (\App\Module::isModuleActive('Chat')) {
-			$viewer->assign('CHAT', \App\Chat::getInstanceById(\App\Chat::getCurrentRoomId()));
-		}
 		$viewer->assign('REMINDER_ACTIVE', $activeReminder);
 		if ($display) {
 			$this->preProcessDisplay($request);
