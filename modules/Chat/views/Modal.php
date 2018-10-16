@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Chat Entries View Class.
+ * Chat Modal View Class.
  *
  * @package   View
  *
@@ -10,7 +10,7 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-class Chat_Entries_View extends \App\Controller\View
+class Chat_Modal_View extends \App\Controller\Modal
 {
 	/**
 	 * {@inheritdoc}
@@ -28,6 +28,6 @@ class Chat_Entries_View extends \App\Controller\View
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->view('Entries.tpl', $request->getModule());
+		$viewer->view('Modal.tpl', $request->getModule());
 	}
 }
