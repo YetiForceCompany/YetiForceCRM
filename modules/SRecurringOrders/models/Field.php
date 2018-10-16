@@ -14,10 +14,10 @@ class SRecurringOrders_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getModulesListValues()
 	{
-		$moduleName = 'SSingleOrders';
 		if ($this->getFieldName() !== 'target_module') {
 			return parent::getModulesListValues();
 		}
+		$moduleName = 'SSingleOrders';
 		return [App\Module::getModuleId($moduleName) => ['name' => $moduleName, 'label' => \App\Language::translate($moduleName, $moduleName)]];
 	}
 }
