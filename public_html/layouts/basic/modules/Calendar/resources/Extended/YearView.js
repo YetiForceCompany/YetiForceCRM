@@ -72,7 +72,7 @@ var YearView = View.extend({
 			progressInstance = $.progressIndicator({blockInfo: {enabled: true}}),
 			cvid = this.getCurrentCvId();
 		if (user.length === 0) {
-			user = [CONFIG.userId];
+			user = [app.getMainParams('userId')];
 		}
 		this.refreshDatesRowView(calendar.view);
 		this.clearFilterButton(user, cvid);
