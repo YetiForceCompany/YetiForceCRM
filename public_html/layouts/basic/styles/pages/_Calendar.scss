@@ -73,17 +73,12 @@ $sitebar-border: 1px solid #ccc;
 		border-right: 0;
 		display: inline-block;
 		border-radius: 0;
-		-webkit-transition: all 0.5s ease;
-		-moz-transition: all 0.5s ease;
-		-o-transition: all 0.5s ease;
-		transition: all 0.5s ease;
 	}
 }
 
 .siteBarRight {
 	width: 100%;
 	position: relative;
-	@include u-transition(all 0.5s ease);
 	z-index: 100;
 }
 
@@ -634,7 +629,6 @@ $sitebar-border: 1px solid #ccc;
 			margin-top: auto;
 			text-align: center;
 			border-top: 1px solid #ddd;
-			@include u-transition(all 0.5s ease);
 			width: 100%;
 			text-align: center;
 			border-top: 1px solid #ddd;
@@ -707,8 +701,6 @@ $sitebar-border: 1px solid #ccc;
 					right: calc(25% - 51px);
 				}
 
-				@include u-transition(all 0.5s ease);
-
 				.toggleSiteBarRightButton {
 					padding: calculate-rem(11px) 0;
 					height: 100%;
@@ -772,10 +764,6 @@ $sitebar-border: 1px solid #ccc;
 		/*computed height: footer, userinfo, header filter buttons, padding */
 		height: calc(100vh - #{$h-footer-user-info} - #{$h-header});
 	}
-}
-
-@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
-	height: auto;
 }
 
 .tpl-Calendar-Extended-QuickCreate {
