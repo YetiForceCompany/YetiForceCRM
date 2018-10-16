@@ -16,7 +16,6 @@ stages:
 - coverage
 
 matrix:
-  env: BROWSER_NAME="chrome" CHROME_HEADLESS="1" DEPENDENCIES="--prefer-lowest"
   fast_finish: true
   allow_failures:
   - php: 7.3
@@ -34,19 +33,6 @@ addons:
     packages:
     - apache2
     - libapache2-mod-fastcgi
-
-  chrome: stable
-
-  sonarcloud:
-    organization: "yetiforcecompany"
-    token:
-      secure: ${SONAR_TOKEN}
-
-  coverity_scan:
-    project:
-      name: "YetiForceCompany/YetiForceCRM"
-    notification_email: m.krzaczkowski@yetiforce.com
-    branch_pattern: coverity_scan
 
 cache:
   yarn: true
@@ -69,18 +55,15 @@ mysql:
   encoding: utf8
 
 before_script:
-- if [ "$TRAVIS_SECURE_ENV_VARS" = true ]; then git fetch --unshallow; fi
 - sudo chmod -R 777 tests/setup/
 - ./tests/setup/before_script.sh
 - ./tests/setup/apache.sh
-- ./tests/setup/selenium.sh
 
 script:
 - cd tests
 - ../vendor/bin/phpunit --debug --verbose
 - sudo ls -all
 - cd ..
-- if [ "$TRAVIS_SECURE_ENV_VARS" = true ]; then sonar-scanner; fi
 - sudo ls -all
 
 after_script:
@@ -95,8 +78,6 @@ after_script:
 - cat ./cache/logs/Importer.log
 - cat ./cache/logs/webserviceDebug.log
 - cat ./cache/logs/webserviceErrors.log
-- php $HOME/build/YetiForceCompany/cache/ocular.phar code-coverage:upload --format=php-clover tests/coverage.xml
-- bash <(curl -s https://codecov.io/bash)
 - sudo ls -all ../screenshots
 
 jobs:
@@ -110,5 +91,46 @@ jobs:
     after_script: skip
     script: composer validate
   - stage: coverage
-    php: 7.2
+    env: BROWSER_NAME="chrome" CHROME_HEADLESS="1" DEPENDENCIES="--prefer-lowest"
+    php: 7.3
+    addons:
+      chrome: stable
+      sonarcloud:
+        organization: "yetiforcecompany"
+        token:
+          secure: ${SONAR_TOKEN}
 
+      coverity_scan:
+        project:
+          name: "YetiForceCompany/YetiForceCRM"
+        notification_email: m.krzaczkowski@yetiforce.com
+        branch_pattern: coverity_scan
+    before_script:
+    - if [ "$TRAVIS_SECURE_ENV_VARS" = true ]; then git fetch --unshallow; fi
+    - sudo chmod -R 777 tests/setup/
+    - ./tests/setup/before_script.sh
+    - ./tests/setup/apache.sh
+    - ./tests/setup/selenium.sh
+    script:
+    - cd tests
+    - ../vendor/bin/phpunit --debug --verbose
+    - sudo ls -all
+    - cd ..
+    - if [ "$TRAVIS_SECURE_ENV_VARS" = true ]; then sonar-scanner; fi
+    - sudo ls -all
+
+    after_script:
+    - sudo cat /var/log/apache2/error.log
+    - sudo cat /var/log/apache2/access.log
+    - sudo cat /var/log/apache2/other_vhosts_access.log
+    - cat ./tests/records.log
+    - cat ./cache/logs/errors.log
+    - cat ./cache/logs/request.log
+    - cat ./cache/logs/phpError.log
+    - cat ./cache/logs/system.log
+    - cat ./cache/logs/Importer.log
+    - cat ./cache/logs/webserviceDebug.log
+    - cat ./cache/logs/webserviceErrors.log
+    - php $HOME/build/YetiForceCompany/cache/ocular.phar code-coverage:upload --format=php-clover tests/coverage.xml
+    - bash <(curl -s https://codecov.io/bash)
+    - sudo ls -all ../screenshots
