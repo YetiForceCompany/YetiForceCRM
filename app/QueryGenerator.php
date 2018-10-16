@@ -351,7 +351,7 @@ class QueryGenerator
 			$relatedFieldModel = $this->addRelatedJoin($field);
 			if (!isset($checkIds[$field['sourceField']][$field['relatedModule']])) {
 				$checkIds[$field['sourceField']][$field['relatedModule']] = $field['relatedModule'];
-				$fields["{$field['sourceField']}{$field['relatedModule']}id"] = $relatedFieldModel->getTableName() .$field['sourceField']  .'.' . \Vtiger_CRMEntity::getInstance($field['relatedModule'])->tab_name_index[$relatedFieldModel->getTableName()];
+				$fields["{$field['sourceField']}{$field['relatedModule']}id"] = $relatedFieldModel->getTableName() . $field['sourceField'] . '.' . \Vtiger_CRMEntity::getInstance($field['relatedModule'])->tab_name_index[$relatedFieldModel->getTableName()];
 			}
 			$fields["{$field['sourceField']}{$field['relatedModule']}{$relatedFieldModel->getName()}"] = "{$relatedFieldModel->getTableName()}{$field['sourceField']}.{$relatedFieldModel->getColumnName()}";
 		}
@@ -519,11 +519,11 @@ class QueryGenerator
 	/**
 	 * Get fields module.
 	 *
-	 * @param $moduleName
+	 * @param string $moduleName
 	 *
 	 * @return \Vtiger_Field_Model[]
 	 */
-	public function getRelatedModuleFields($moduleName)
+	public function getRelatedModuleFields(string $moduleName)
 	{
 		if (isset($this->relatedFieldsModel[$moduleName])) {
 			return $this->relatedFieldsModel[$moduleName];
@@ -534,9 +534,11 @@ class QueryGenerator
 	/**
 	 * Get field module.
 	 *
-	 * @return \Vtiger_Field_Model
+	 * @param string $fieldName
+	 *
+	 * @return \Vtiger_Field_Model|bool
 	 */
-	public function getModuleField($fieldName)
+	public function getModuleField(string $fieldName)
 	{
 		if (!$this->fieldsModel) {
 			$this->getModuleFields();
@@ -548,11 +550,14 @@ class QueryGenerator
 	}
 
 	/**
-	 * Get field in related module.
+	 *  Get field in related module.
 	 *
-	 * @return \Vtiger_Field_Model
+	 * @param string $fieldName
+	 * @param string $moduleName
+	 *
+	 * @return \Vtiger_Field_Model|bool
 	 */
-	public function getRelatedModuleField($fieldName, $moduleName)
+	public function getRelatedModuleField(string $fieldName, string $moduleName)
 	{
 		if (!$this->relatedFieldsModel[$moduleName]) {
 			$this->getRelatedModuleFields($moduleName);
@@ -1141,17 +1146,20 @@ class QueryGenerator
 	}
 
 	/**
-	 * Set order for related module
+	 * Set order for related module.
+	 *
 	 * @param string[] $orderDetail
 	 */
-	public function setRelatedOrder($orderDetail){
+	public function setRelatedOrder(array $orderDetail)
+	{
 		$field = $this->addRelatedJoin($orderDetail);
 		if (!$field) {
-			return false;
+			return;
 		}
 		$queryField = $this->getQueryRelatedField($field, $orderDetail);
 		$this->order = array_merge($this->order, $queryField->getOrderBy($orderDetail['relatedSortOrder']));
 	}
+
 	/**
 	 * Sets the ORDER BY part of the query.
 	 */

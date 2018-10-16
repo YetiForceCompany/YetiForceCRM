@@ -9,7 +9,7 @@
 	{/if}
 	<div class="tpl-List-Field-Tree picklistSearchField">
 		<select class="select2noactive listSearchContributor tree form-control"
-				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple{' '}
+				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple="multiple"
 				name="{$FIELD_MODEL->getName()}" data-fieldinfo='{\App\Json::encode($FIELD_INFO)|escape}'
 				{if !empty($FIELD_MODEL->get('source_field_name'))}
 			data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"

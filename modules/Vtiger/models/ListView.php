@@ -46,14 +46,12 @@ class Vtiger_ListView_Model extends \App\Base
 			$instance->set('viewId', $viewId);
 			$queryGenerator->initForCustomViewById($viewId);
 		} else {
-			$viewId = $queryGenerator->initForDefaultCustomView();
-			if ($viewId) {
+			if ($viewId = $queryGenerator->initForDefaultCustomView()) {
 				$instance->set('viewId', $viewId);
 			} else {
 				$queryGenerator->loadListFields();
 			}
 		}
-
 		$instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
 		\App\Cache::staticSave('ListView_Model', $cacheName, $instance);
 
