@@ -141,11 +141,13 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		if (!this.readonly) {
 			options.eventClick = function (calEvent, jsEvent, view) {
 				jsEvent.preventDefault();
-				let link = new URL($(this)[0].href),
-					url = 'index.php?module=Calendar&view=ActivityState&record=' +
-						link.searchParams.get("record");
+				let link = new URL($(this)[0].href)
 				self.openRightPanel();
-				self.showStatusUpdate(url);
+				if (app.getMainParams('showEditForm')) {
+					self.getCalendarEditView(link.searchParams.get("record"));
+				} else {
+					self.showStatusUpdate('index.php?module=Calendar&view=ActivityState&record=' + link.searchParams.get("record"));
+				}
 			};
 		} else {
 			options.eventClick = '';

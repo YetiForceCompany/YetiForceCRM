@@ -51,5 +51,7 @@ return [
 	//Calendar view - allowed values: Extended, Standard
 	'CALENDAR_VIEW' => 'Extended',
 	//Show activity status buttons in edit form
-	'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM' => true
+	'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM' => true,
+	//Show default edit form
+	'SHOW_EDIT_FORM' => false
 ];
