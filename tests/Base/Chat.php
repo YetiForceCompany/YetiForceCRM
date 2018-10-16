@@ -140,7 +140,7 @@ class Chat extends \Tests\Base
 		$id = $recordModel->getId();
 		$recordModel->delete();
 		$this->assertFalse(
-			(new \App\Db\Query())->from('u_#__chat_rooms')->where(['room_id' => $recordModel->getId()])->one(),
+			(new \App\Db\Query())->from('u_#__chat_rooms')->where(['room_id' => $id])->one(),
 			"Chat room {$id} exists"
 		);
 	}

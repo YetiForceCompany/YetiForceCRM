@@ -10,7 +10,5 @@ return [
 	// Number of recent chat entries
 	'ROWS_LIMIT' => 20,
 	// What time to update the news, number of milliseconds
-	'REFRESH_TIME' => 4000,
-	//Maximum displays the length of the name.
-	'MAX_DISPLAY_NAME' => 15
+	'REFRESH_TIME' => 4000
 ];

@@ -2,18 +2,21 @@
 {strip}
 	<!-- tpl-Chat-Chat -->
 	{function ROOM_ITEM CLASS_NAME=''}
-		<div class="row mb-1 btn-group {if \App\Chat::getCurrentRoomId()==$ROOM['room_id'] } bg-color-grey-200{/if} {$CLASS_NAME}"
-			 data-room-id="{$ROOM['room_id']}" data-selected-class="bg-color-grey-200" data-init-class="d-flex">
+		{assign var=SELECTED value=\App\Chat::getCurrentRoomId()==$ROOM['room_id']}
+		<div class="row mb-1 btn-group {$CLASS_NAME}"
+			 data-room-id="{$ROOM['room_id']}" data-selected-class="btn-dark"
+			 data-unselected-class="btn-outline-dark" data-init-class="d-flex">
 			{if $ROOM['room_id']!==0 }
-				<button class="p-2 btn btn-outline-dark js-remove-room" data-js="click">
+				<button class="p-2 btn {if $SELECTED } btn-dark{else} btn-outline-dark{/if} js-remove-room"
+						data-js="click">
 					<span class="fas fa-trash-alt color-red-600"></span>
 				</button>
 			{/if}
-			<button class="p-2 btn btn-outline-dark flex-fill js-change-room js-popover-tooltip"
+			<button class="p-2 btn {if $SELECTED } btn-dark{else} btn-outline-dark{/if} flex-fill js-change-room js-popover-tooltip"
 					data-trigger="focus hover" data-placement="right"
 					data-content="{\App\Language::translate($ROOM['name'])}" data-js="click|popover|data">
-				<span class="js-name {if $ROOM['number_of_new'] > 0}u-font-weight-700{/if}" data-js="data">
-					{\App\Language::translate($ROOM['name'])|truncate:\App\Chat::getMaxDisplayLen():'...'}
+				<span class="text-truncate js-name d-inline-block c-chat-room-name" data-js="data">
+					{\App\Language::translate($ROOM['name'])}
 				</span>
 				<span class="js-number-of-new {if $ROOM['number_of_new'] === 0}hide{/if} badge badge-danger c-badge--md mr-1 float-right"
 					  data-js="data">
