@@ -7,13 +7,19 @@ language: php
 php:
 - 7.1
 - 7.2
+- 7.3
 - nightly
+
+stages:
+- composer validate
+- test with coverage
 
 matrix:
   env: BROWSER_NAME="chrome" CHROME_HEADLESS="1" DEPENDENCIES="--prefer-lowest"
   fast_finish: true
   allow_failures:
   - php: hhvm
+  - php: 7.3
   - php: nightly
 
 env:
@@ -92,3 +98,11 @@ after_script:
 - php $HOME/build/YetiForceCompany/cache/ocular.phar code-coverage:upload --format=php-clover tests/coverage.xml
 - bash <(curl -s https://codecov.io/bash)
 - sudo ls -all ../screenshots
+
+jobs:
+  include:
+  - stage: composer validate
+      php: 7.2
+      env: COMPOSER_FLAGS=""
+      install: skip
+      script: composer validate --strict
