@@ -60,7 +60,7 @@ before_script:
 
 script:
 - cd tests
-- ../vendor/bin/phpunit --debug --verbose
+- ../vendor/bin/phpunit --debug --verbose --testsuite Init,Base,Integrations,Settings,Apps
 - sudo ls -all
 - cd ..
 - sudo ls -all
@@ -112,7 +112,7 @@ jobs:
     - ./tests/setup/selenium.sh
     script:
     - cd tests
-    - ../vendor/bin/phpunit --debug --verbose
+    - ../vendor/bin/phpunit --debug --verbose --coverage-clover coverage.xml --log-junit execution.xml
     - sudo ls -all
     - cd ..
     - if [ "$TRAVIS_SECURE_ENV_VARS" = true ]; then sonar-scanner; fi
