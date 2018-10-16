@@ -132,20 +132,6 @@ class Chat extends \Tests\Base
 	}
 
 	/**
-	 * Testing the record model removal.
-	 */
-	public function testDeleteRecordModel()
-	{
-		$recordModel = \Vtiger_Record_Model::getInstanceById(static::$listId[0]);
-		$id = $recordModel->getId();
-		$recordModel->delete();
-		$this->assertFalse(
-			(new \App\Db\Query())->from('u_#__chat_rooms')->where(['room_id' => $id])->one(),
-			"Chat room {$id} exists"
-		);
-	}
-
-	/**
 	 * @codeCoverageIgnore
 	 * Cleaning after tests.
 	 */
