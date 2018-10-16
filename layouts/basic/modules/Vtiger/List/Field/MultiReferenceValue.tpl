@@ -15,7 +15,7 @@
 	{assign var="RELATED_FIELD_MODEL" value=Vtiger_Field_Model::getInstanceFromFieldId($PARAMS['field'])}
 	<div class="tpl-List-Field-MultiReferenceValue picklistSearchField">
 		<select class="select2noactive listSearchContributor" name="{$FIELD_MODEL->getName()}"
-				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple{' '}
+				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple="multiple"
 				data-fieldinfo="{$FIELD_INFO|escape}"
 				{if !empty($FIELD_MODEL->get('source_field_name'))}
 			data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"

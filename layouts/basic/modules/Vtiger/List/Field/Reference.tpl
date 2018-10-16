@@ -10,7 +10,7 @@
 	{/if}
 	<div class="tpl-List-Field-Reference picklistSearchField">
 		<select class="select2noactive listSearchContributor {$FIELD_MODEL->getName()}" name="{$FIELD_MODEL->getName()}"
-				multiple data-fieldinfo='{$FIELD_INFO|escape}'
+				multiple="multiple" data-fieldinfo='{$FIELD_INFO|escape}'
 				{if !empty($FIELD_MODEL->get('source_field_name'))}
 					data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
 					data-module-name="{$FIELD_MODEL->getModuleName()}"

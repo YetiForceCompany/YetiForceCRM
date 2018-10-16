@@ -59,9 +59,8 @@
 										  data-content="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
 										<span class="fas fa-info-circle"></span>
 									</span>
-								<input type="checkbox" id="searchInSubcategories{$LISTVIEW_HEADER_NAME}"
+								<input name="searchInSubcategories" class="float-right searchInSubcategories" value="1" type="checkbox" id="searchInSubcategories{$LISTVIEW_HEADER_NAME}"
 									   title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}"
-									   name="searchInSubcategories" class="float-right searchInSubcategories" value="1"
 									   data-columnname="{$LISTVIEW_HEADER->getColumnName()}" {if !empty($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]['specialOption'])} checked {/if} />
 							</div>
 						{/if}
@@ -114,7 +113,7 @@
 					data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}'
 					id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
 					<td class="{$WIDTHTYPE} noWrap leftRecordActions"
-						{if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
+						{if !empty($RECORD_COLORS['leftBorder'])}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
 						{include file=\App\Layout::getTemplatePath('ListViewLeftSide.tpl', $MODULE_NAME)}
 					</td>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
