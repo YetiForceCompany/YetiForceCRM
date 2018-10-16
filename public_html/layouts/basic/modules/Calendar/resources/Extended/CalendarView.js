@@ -517,7 +517,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		let progressInstance = $.progressIndicator({blockInfo: {enabled: true}});
 		let user = self.getSelectedUsersCalendar();
 		if (0 === user.length) {
-			user = [CONFIG.userId];
+			user = [app.getMainParams('userId')];
 		}
 		self.clearFilterButton(user, cvid);
 		if (view.type === 'agendaDay') {
