@@ -45,7 +45,7 @@ class Vtiger_Widget_Model extends \App\Base
 	/**
 	 * Function to get the position of the widget.
 	 *
-	 * @param int $defaultPosition
+	 * @param int    $defaultPosition
 	 * @param string $coordinate
 	 *
 	 * @throws \App\Exceptions\AppException

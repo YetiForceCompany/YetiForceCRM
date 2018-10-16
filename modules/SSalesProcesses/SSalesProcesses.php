@@ -211,11 +211,11 @@ class SSalesProcesses extends Vtiger_CRMEntity
 				'u_#__ssalesprocesses.*',
 				new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
 			])->from('u_#__ssalesprocesses')
-			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__ssalesprocesses.ssalesprocessesid')
-			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
-			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
-			->where(['vtiger_crmentity.deleted' => 0, 'u_#__ssalesprocesses.ssalesprocessesid' => $id])
-			->one();
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__ssalesprocesses.ssalesprocessesid')
+				->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+				->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
+				->where(['vtiger_crmentity.deleted' => 0, 'u_#__ssalesprocesses.ssalesprocessesid' => $id])
+				->one();
 		if ($row) {
 			$parentid = $row['parentid'];
 
@@ -274,11 +274,11 @@ class SSalesProcesses extends Vtiger_CRMEntity
 					'u_#__ssalesprocesses.*',
 					new \yii\db\Expression("CASE when (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
 				])->from('u_#__ssalesprocesses')
-			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__ssalesprocesses.ssalesprocessesid')
-			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
-			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
-			->where(['vtiger_crmentity.deleted' => 0, 'u_#__ssalesprocesses.parentid' => $id])
-			->createCommand()->query();
+					->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__ssalesprocesses.ssalesprocessesid')
+					->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+					->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
+					->where(['vtiger_crmentity.deleted' => 0, 'u_#__ssalesprocesses.parentid' => $id])
+					->createCommand()->query();
 		$listColumns = AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;

@@ -78,7 +78,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 					],
 				],
 			])->orderBy(['time_start' => SORT_ASC])
-			->createCommand()->query();
+				->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			if (\App\Fields\Date::getDiff($startTime, $row['time_start'], 'minutes') >= $durationEvent) {
 				$date = new DateTime($row['date_start'] . ' ' . $startTime);

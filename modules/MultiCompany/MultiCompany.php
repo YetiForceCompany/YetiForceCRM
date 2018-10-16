@@ -198,11 +198,11 @@ class MultiCompany extends Vtiger_CRMEntity
 				'u_#__multicompany.*',
 				new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
 			])->from('u_#__multicompany')
-			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__multicompany.multicompanyid')
-			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
-			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
-			->where(['vtiger_crmentity.deleted' => 0, 'u_#__multicompany.multicompanyid' => $id])
-			->one();
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__multicompany.multicompanyid')
+				->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+				->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
+				->where(['vtiger_crmentity.deleted' => 0, 'u_#__multicompany.multicompanyid' => $id])
+				->one();
 		if ($row) {
 			$parentid = $row['parent_id'];
 			if ($parentid !== '' && $parentid != 0 && !in_array($parentid, $encountered)) {
@@ -258,11 +258,11 @@ class MultiCompany extends Vtiger_CRMEntity
 					'u_#__multicompany.*',
 					new \yii\db\Expression("CASE when (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name"),
 				])->from('u_#__multicompany')
-			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__multicompany.multicompanyid')
-			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
-			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
-			->where(['vtiger_crmentity.deleted' => 0, 'u_#__multicompany.parent_id' => $id])
-			->createCommand()->query();
+					->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_#__multicompany.multicompanyid')
+					->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
+					->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
+					->where(['vtiger_crmentity.deleted' => 0, 'u_#__multicompany.parent_id' => $id])
+					->createCommand()->query();
 		$listColumns = AppConfig::module('MultiCompany', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;

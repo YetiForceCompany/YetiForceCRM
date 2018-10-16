@@ -47,10 +47,10 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 				'count' => new \yii\db\Expression('COUNT(*)'),
 				'vtiger_crmentity.smownerid',
 			])->from('vtiger_troubletickets')
-			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
-			->innerJoin('vtiger_ticketstatus', 'vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus')
-			->innerJoin('vtiger_ticketpriorities', 'vtiger_ticketpriorities.ticketpriorities = vtiger_troubletickets.priority')
-			->where(['vtiger_crmentity.deleted' => 0]);
+				->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
+				->innerJoin('vtiger_ticketstatus', 'vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus')
+				->innerJoin('vtiger_ticketpriorities', 'vtiger_ticketpriorities.ticketpriorities = vtiger_troubletickets.priority')
+				->where(['vtiger_crmentity.deleted' => 0]);
 		if (!empty($ticketStatus)) {
 			$query->andWhere(['vtiger_troubletickets.status' => $ticketStatus]);
 		}

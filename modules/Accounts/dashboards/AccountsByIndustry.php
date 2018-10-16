@@ -48,10 +48,10 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 				'industryid' => 'vtiger_industry.industryid',
 				'count' => new \yii\db\Expression('COUNT(*)'),
 				'industryvalue' => new \yii\db\Expression("CASE WHEN vtiger_account.industry IS NULL OR vtiger_account.industry = '' THEN '' ELSE vtiger_account.industry END"), ])
-			->from('vtiger_account')
-			->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
-			->innerJoin('vtiger_industry', 'vtiger_account.industry = vtiger_industry.industry')
-			->where(['deleted' => 0]);
+				->from('vtiger_account')
+				->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
+				->innerJoin('vtiger_industry', 'vtiger_account.industry = vtiger_industry.industry')
+				->where(['deleted' => 0]);
 		if (!empty($owner)) {
 			$query->andWhere(['smownerid' => $owner]);
 		}

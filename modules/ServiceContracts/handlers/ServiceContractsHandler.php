@@ -38,7 +38,7 @@ class ServiceContracts_ServiceContractsHandler_Handler
 									->from('vtiger_crmentityrel')
 									->where(['relmodule' => 'ServiceContracts', 'module' => 'HelpDesk', 'crmid' => $ticketId])
 							)
-						->createCommand()->query();
+							->createCommand()->query();
 					while ($contractId = $dataReader->readColumn(0)) {
 						$scFocus = CRMEntity::getInstance('ServiceContracts');
 						$scFocus->id = $contractId;
