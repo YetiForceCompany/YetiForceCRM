@@ -91,7 +91,7 @@ jobs:
     script: composer validate
   - stage: coverage
     env: BROWSER_NAME="chrome" CHROME_HEADLESS="1" DEPENDENCIES="--prefer-lowest"
-    php: 7.3
+    php: 7.2
     addons:
       apt:
         packages:
@@ -116,7 +116,7 @@ jobs:
     - ./tests/setup/selenium.sh
     script:
     - cd tests
-    - ../vendor/bin/phpunit --debug --verbose --log-junit tests/execution.xml --coverage-clover tests/coverage.xml
+    - ../vendor/bin/phpunit --debug --verbose --log-junit 'tests/execution.xml' --coverage-clover 'tests/coverage.xml'
     - sudo ls -all
     - cd ..
     - if [ "$TRAVIS_SECURE_ENV_VARS" = true ]; then sonar-scanner; fi
