@@ -110,7 +110,8 @@ class Chat_Entries_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'html' => (new Chat_Entries_View())->getHTML($request)
+			'html' => (new Chat_Entries_View())->getHTML($request),
+			'user_rooms' => \App\Chat::getRoomsByUser()
 		]);
 		$response->emit();
 	}
@@ -127,7 +128,6 @@ class Chat_Entries_Action extends \App\Controller\Action
 	{
 		$roomId = $request->getInteger('chat_room_id');
 		if ($roomId === \App\Chat::getCurrentRoomId()) {
-			$roomId = 0;
 			\App\Chat::setCurrentRoomId(0);
 		}
 		$room = \App\Chat::getInstanceById($roomId);

@@ -37,7 +37,8 @@ class Chat_Entries_View extends Vtiger_IndexAjax_View
 		$response->setResult([
 			'success' => true,
 			'html' => (new self())->getHTML($request, $room),
-			'room_id' => $room->getRoomId()
+			'room_id' => $room->getRoomId(),
+			'user_rooms' => \App\Chat::getRoomsByUser()
 		]);
 		$response->emit();
 	}
@@ -59,11 +60,17 @@ class Chat_Entries_View extends Vtiger_IndexAjax_View
 				$request->has('chat_room_id') ? $request->getInteger('chat_room_id') : \App\Chat::getCurrentRoomId()
 			);
 		}
-		$items = $room->getEntries($request->getInteger('cid'));
+		$chatId = $request->getInteger('cid');
+		$items = $room->getEntries($chatId);
 		if (count($items)) {
+			if ($request->getBoolean('visible')) {
+				$room->setLastMessageId();
+			}
 			$viewer = Vtiger_Viewer::getInstance();
 			$viewer->assign('CHAT_ENTRIES', $items);
 			return $viewer->view('Items.tpl', 'Chat', true);
+		} elseif ($room->getLastMessageId() < $chatId && $request->getBoolean('visible')) {
+			$room->setLastMessageId($chatId);
 		}
 		return '';
 	}

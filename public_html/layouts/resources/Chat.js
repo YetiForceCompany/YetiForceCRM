@@ -18,6 +18,25 @@ window.Chat_Js = class Chat_Js {
 	}
 
 	/**
+	 * Get the amount of new messages.
+	 * @returns {int}
+	 */
+	static getAmountOfNewMessages() {
+		if (typeof Chat_Js.amountOfNewMessages === 'undefined') {
+			return 0;
+		}
+		return Chat_Js.amountOfNewMessages;
+	}
+
+	/**
+	 * Set the amount of new messages.
+	 * @param {int} val
+	 */
+	static setAmountOfNewMessages(val) {
+		Chat_Js.amountOfNewMessages = val;
+	}
+
+	/**
 	 * Constructor of class.
 	 */
 	constructor() {
@@ -35,9 +54,10 @@ window.Chat_Js = class Chat_Js {
 			let item = template.clone(false, false);
 			item.removeClass('hide');
 			item.removeClass('js-room-template');
-			item.removeClass(item.data('selectedClass'));
+			item.children().removeClass(item.data('selectedClass')).addClass(item.data('unselectedClass'));
 			item.addClass(item.data('initClass'));
-			item.find('.js-change-room').html(name);
+			item.find('.js-change-room .js-name').html(name);
+			item.find('.js-change-room').data('content', name);
 			item.data('roomId', roomId);
 			$('.js-chat-modal .js-chat-rooms-list').append(item);
 			this.registerSwitchRoom($('.js-chat-modal'));
@@ -67,17 +87,56 @@ window.Chat_Js = class Chat_Js {
 	updateRoom(container, itemRoom, html, roomId) {
 		let prevChatRoomId = container.data('chatRoomId');
 		let selectedClass = itemRoom.closest('.row').data('selectedClass');
+		let unselectedClass = itemRoom.closest('.row').data('unselectedClass');
 		container.find('.js-chat-items').html(html);
 		container.data('chatRoomId', roomId);
 		itemRoom.closest('.js-chat-modal').find('.js-change-room').each((index, element) => {
 			if (roomId == $(element).closest('.row').data('roomId')) {
-				$(element).closest('.row').removeClass(selectedClass).addClass(selectedClass);
+				$(element).closest('.row').children().removeClass(unselectedClass).addClass(selectedClass);
 				container.find('.js-chat-items').closest('.row')
 					.removeClass('js-chat-room-' + prevChatRoomId)
 					.addClass('js-chat-room-' + roomId);
+				$(element).blur();
 			} else {
-				$(element).closest('.row').removeClass(selectedClass);
+				$(element).closest('.row').children().removeClass(selectedClass).addClass(unselectedClass);
 			}
+		});
+	}
+
+	/**
+	 * Updating chat room information.
+	 * @param {jQuery} container
+	 * @param {array} data
+	 */
+	updateAllRooms(container, data) {
+		let cntNew = 0;
+		let len = data.length;
+		for (let i = 0; i < len; ++i) {
+			let itemRoom = $('.js-chat-modal .js-chat-rooms-list .row[data-room-id=' + data[i]['room_id'] + ']');
+			itemRoom.find('.js-number-of-new').toggleClass('hide', data[i]['number_of_new'] <= 0);
+			itemRoom.find('.js-number-of-new').html(data[i]['number_of_new']);
+			cntNew += data[i]['number_of_new'];
+		}
+		if (cntNew > 0) {
+			$('.js-header-link-chat').addClass('color-red-600');
+			if (Chat_Js.getAmountOfNewMessages() < cntNew) {
+				app.playSound('REMINDERS');
+				Chat_Js.setAmountOfNewMessages(cntNew);
+			}
+		} else {
+			$('.js-header-link-chat').removeClass('color-red-600');
+			Chat_Js.setAmountOfNewMessages(0);
+		}
+	}
+
+	/**
+	 * Show progress indicator
+	 * @returns {jQuery}
+	 */
+	progressShow() {
+		return $.progressIndicator({
+			position: 'html',
+			blockInfo: {enabled: true}
 		});
 	}
 
@@ -90,19 +149,15 @@ window.Chat_Js = class Chat_Js {
 		container.find('.js-change-room').off('click').on('click', (e) => {
 			let itemRoom = $(e.currentTarget);
 			let roomId = $(e.currentTarget).closest('.row').data('roomId');
-			const progressIndicatorElement = $.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
-				}
-			});
+			const progressIndicatorElement = self.progressShow();
 			AppConnector.request({
 				dataType: 'json',
 				data: {
 					module: 'Chat',
 					action: 'Entries',
 					mode: 'switchRoom',
-					chat_room_id: roomId
+					chat_room_id: roomId,
+					visible: container.is(":visible")
 				}
 			}).done((dataResult) => {
 				let html = ''
@@ -110,7 +165,8 @@ window.Chat_Js = class Chat_Js {
 					html = dataResult.result.html;
 				}
 				self.updateRoom(container, itemRoom, html, roomId);
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				self.updateAllRooms(container, dataResult.result['user_rooms']);
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
 			}).fail((error, err) => {
 				app.errorLog(error, err);
 			});
@@ -127,12 +183,7 @@ window.Chat_Js = class Chat_Js {
 		container.find('.js-remove-room').off('click').on('click', (e) => {
 			let itemRoom = $(e.currentTarget);
 			let roomId = $(e.currentTarget).closest('.row').data('roomId');
-			const progressIndicatorElement = $.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
-				}
-			});
+			const progressIndicatorElement = self.progressShow();
 			AppConnector.request({
 				dataType: 'json',
 				data: {
@@ -146,7 +197,7 @@ window.Chat_Js = class Chat_Js {
 					self.updateRoom(container, itemRoom, dataResult.result.html, dataResult.result['chat_room_id']);
 					itemRoom.closest('.row').remove();
 				}
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
 			}).fail((error, err) => {
 				app.errorLog(error, err);
 			});
@@ -176,7 +227,10 @@ window.Chat_Js = class Chat_Js {
 						container.find('.js-container-button').addClass('hide');
 						container.find('.js-container-items').removeClass('hide');
 					}
-					self.addRoomItem(data.result['chat_room_id'], data.result['name']);
+					self.addRoomItem(
+						data.result['chat_room_id'],
+						data.result['name']
+					);
 				}
 			}).fail((error, err) => {
 				app.errorLog(error, err);
@@ -196,7 +250,7 @@ window.Chat_Js = class Chat_Js {
 			let chatRoom = container.find('.js-chat-room-' + chatRoomId);
 			let firstItem = chatRoom.find('.chatItem').first();
 			if (firstItem.length) {
-				$(html).insertBefore(chatRoom.find('.chatItem').first());
+				$(html).insertBefore(firstItem);
 			} else {
 				chatRoom.html(html);
 			}
@@ -242,7 +296,10 @@ window.Chat_Js = class Chat_Js {
 				inputMessage.val("");
 				icon.css('color', '#000');
 				if (dataResult.result['user_added_to_room']) {
-					self.addRoomItem(dataResult.result['room']['room_id'], dataResult.result['room']['name']);
+					self.addRoomItem(
+						dataResult.result['room']['room_id'],
+						dataResult.result['room']['name']
+					);
 				}
 			}).fail((error, err) => {
 				app.errorLog(error, err);
@@ -268,7 +325,8 @@ window.Chat_Js = class Chat_Js {
 					view: 'Entries',
 					mode: 'get',
 					cid: self.getLastChatId(container),
-					chat_room_id: chatRoomId
+					chat_room_id: chatRoomId,
+					visible: container.is(":visible")
 				}
 			}).done((dataResult) => {
 				if (dataResult.result.success) {
@@ -281,6 +339,7 @@ window.Chat_Js = class Chat_Js {
 						container.find('.js-container-items').removeClass('hide');
 					}
 					self.updateChat(container, chatRoomId, dataResult.result.html);
+					self.updateAllRooms(container, dataResult.result['user_rooms']);
 				}
 			}).fail((error, err) => {
 				clearTimeout(self.chatRoom[container.data('chatRoomIdx')]);
@@ -306,7 +365,7 @@ window.Chat_Js = class Chat_Js {
 	 * Register header link chat
 	 */
 	registerHeaderLinkChat() {
-		$('.headerLinkChat').on('click', (e) => {
+		$('.js-header-link-chat').on('click', (e) => {
 			e.stopPropagation();
 			let remindersNoticeContainer = $('.remindersNoticeContainer,.remindersNotificationContainer');
 			if (remindersNoticeContainer.hasClass('toggled')) {
@@ -315,13 +374,6 @@ window.Chat_Js = class Chat_Js {
 			$('.actionMenu').removeClass('actionMenuOn');
 			$('.chatModal').modal({backdrop: false});
 		});
-	}
-
-	registerChatCheck(timer, container) {
-		const self = this;
-		self.chatCheckTimer = setTimeout(() => {
-			self.registerChatCheck(timer, container);
-		}, timer);
 	}
 
 	/**
@@ -333,12 +385,7 @@ window.Chat_Js = class Chat_Js {
 			let button = $(e.currentTarget);
 			let favorite = button.data('favorite');
 			const self = this;
-			const progressIndicatorElement = $.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
-				}
-			});
+			const progressIndicatorElement = self.progressShow();
 			AppConnector.request({
 				dataType: 'json',
 				data: {
@@ -353,7 +400,10 @@ window.Chat_Js = class Chat_Js {
 					if (dataResult.result['favorite']) {
 						button.removeClass('btn-success').addClass('btn-danger');
 						button.find('.js-lable').html(button.data('labelRemove'));
-						self.addRoomItem(dataResult.result['chat_room_id'], dataResult.result['name_of_room']);
+						self.addRoomItem(
+							dataResult.result['chat_room_id'],
+							dataResult.result['name_of_room']
+						);
 					} else {
 						button.removeClass('btn-danger').addClass('btn-success');
 						button.find('.js-lable').html(button.data('labelAdd'));
@@ -361,7 +411,7 @@ window.Chat_Js = class Chat_Js {
 					}
 					button.data('favorite', !dataResult.result['favorite']);
 				}
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
 			}).fail((error, err) => {
 				app.errorLog(error, err);
 			});
