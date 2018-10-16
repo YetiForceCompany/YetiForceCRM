@@ -14,7 +14,7 @@ namespace App;
 /**
  * Class Chat.
  */
-class Chat
+class Chat2
 {
 	/**
 	 * Record ID.
