@@ -107,5 +107,5 @@ jobs:
     before_script: skip
     install: skip
     after_script: skip
-    script: composer validate --strict
+    script: composer validate
 
