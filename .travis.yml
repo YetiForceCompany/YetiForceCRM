@@ -104,6 +104,7 @@ jobs:
     php: 7.2
     env: COMPOSER_FLAGS=""
     addons: skip
+    services: skip
     before_script: skip
     install: skip
     after_script: skip
