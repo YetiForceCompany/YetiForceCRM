@@ -130,6 +130,17 @@ window.Chat_Js = class Chat_Js {
 	}
 
 	/**
+	 * Show progress indicator
+	 * @returns {jQuery}
+	 */
+	progressShow() {
+		return $.progressIndicator({
+			position: 'html',
+			blockInfo: {enabled: true}
+		});
+	}
+
+	/**
 	 * Register switch room.
 	 * @param {jQuery} container
 	 */
@@ -138,12 +149,7 @@ window.Chat_Js = class Chat_Js {
 		container.find('.js-change-room').off('click').on('click', (e) => {
 			let itemRoom = $(e.currentTarget);
 			let roomId = $(e.currentTarget).closest('.row').data('roomId');
-			const progressIndicatorElement = $.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
-				}
-			});
+			const progressIndicatorElement = self.progressShow();
 			AppConnector.request({
 				dataType: 'json',
 				data: {
@@ -160,7 +166,7 @@ window.Chat_Js = class Chat_Js {
 				}
 				self.updateRoom(container, itemRoom, html, roomId);
 				self.updateAllRooms(container, dataResult.result['user_rooms']);
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
 			}).fail((error, err) => {
 				app.errorLog(error, err);
 			});
@@ -177,12 +183,7 @@ window.Chat_Js = class Chat_Js {
 		container.find('.js-remove-room').off('click').on('click', (e) => {
 			let itemRoom = $(e.currentTarget);
 			let roomId = $(e.currentTarget).closest('.row').data('roomId');
-			const progressIndicatorElement = $.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
-				}
-			});
+			const progressIndicatorElement = self.progressShow();
 			AppConnector.request({
 				dataType: 'json',
 				data: {
@@ -196,7 +197,7 @@ window.Chat_Js = class Chat_Js {
 					self.updateRoom(container, itemRoom, dataResult.result.html, dataResult.result['chat_room_id']);
 					itemRoom.closest('.row').remove();
 				}
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
 			}).fail((error, err) => {
 				app.errorLog(error, err);
 			});
@@ -364,7 +365,6 @@ window.Chat_Js = class Chat_Js {
 	 * Register header link chat
 	 */
 	registerHeaderLinkChat() {
-		//color-red-600
 		$('.js-header-link-chat').on('click', (e) => {
 			e.stopPropagation();
 			let remindersNoticeContainer = $('.remindersNoticeContainer,.remindersNotificationContainer');
@@ -385,12 +385,7 @@ window.Chat_Js = class Chat_Js {
 			let button = $(e.currentTarget);
 			let favorite = button.data('favorite');
 			const self = this;
-			const progressIndicatorElement = $.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
-				}
-			});
+			const progressIndicatorElement = self.progressShow();
 			AppConnector.request({
 				dataType: 'json',
 				data: {
@@ -416,7 +411,7 @@ window.Chat_Js = class Chat_Js {
 					}
 					button.data('favorite', !dataResult.result['favorite']);
 				}
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
 			}).fail((error, err) => {
 				app.errorLog(error, err);
 			});
