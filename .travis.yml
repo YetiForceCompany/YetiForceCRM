@@ -94,6 +94,10 @@ jobs:
     env: BROWSER_NAME="chrome" CHROME_HEADLESS="1" DEPENDENCIES="--prefer-lowest"
     php: 7.3
     addons:
+      apt:
+        packages:
+        - apache2
+        - libapache2-mod-fastcgi
       chrome: stable
       sonarcloud:
         organization: "yetiforcecompany"
