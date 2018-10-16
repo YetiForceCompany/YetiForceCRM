@@ -8,6 +8,7 @@ php:
 - 7.1
 - 7.2
 - 7.3
+- hhvm
 - nightly
 
 stages:
@@ -102,8 +103,7 @@ after_script:
 jobs:
   include:
   - stage: composer validate
-    php: 7.2
-    env: COMPOSER_FLAGS=""
+    php: 7.3
     addons: skip
     services: skip
     before_script: skip
