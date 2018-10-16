@@ -289,7 +289,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	}
 
 	getDatesRowView() {
-		this.datesRowView = $('.js-dates-row');
+		this.datesRowView = this.container.find('.js-dates-row');
 		return this.datesRowView;
 	}
 
