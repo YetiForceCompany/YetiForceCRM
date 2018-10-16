@@ -73,16 +73,6 @@ class Chat
 	protected $userId;
 
 	/**
-	 * Get maximum displays the length of the name.
-	 *
-	 * @return int
-	 */
-	public static function getMaxDisplayLen(): int
-	{
-		return \AppConfig::module('Chat', 'MAX_DISPLAY_NAME');
-	}
-
-	/**
 	 * Set current room ID.
 	 *
 	 * @param int $id
@@ -262,16 +252,6 @@ class Chat
 	}
 
 	/**
-	 * Get display name of chat room.
-	 *
-	 * @return string
-	 */
-	public function getDisplayNameOfRoom(): string
-	{
-		return \App\TextParser::textTruncate(\App\Language::translate($this->nameOfRoom), static::getMaxDisplayLen());
-	}
-
-	/**
 	 * Set room as favorite.
 	 *
 	 * @param bool $favorite
@@ -402,7 +382,7 @@ class Chat
 			->limit(\AppConfig::module('Chat', 'ROWS_LIMIT'))
 			->where(['room_id' => $this->roomId])
 			->orderBy(['created' => \SORT_DESC]);
-		if (\is_null($messageId)) {
+		if (!\is_null($messageId)) {
 			$query->andWhere(['>', 'id', $messageId]);
 		}
 		$this->lastId = $messageId;

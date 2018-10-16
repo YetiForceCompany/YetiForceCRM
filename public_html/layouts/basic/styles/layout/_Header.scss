@@ -150,6 +150,10 @@
 	overflow: auto;
 }
 
+.c-chat-room-name {
+	max-width: 220px;
+}
+
 .chatModal {
 	@extend .col-12, .col-sm-8, .col-lg-3;
 

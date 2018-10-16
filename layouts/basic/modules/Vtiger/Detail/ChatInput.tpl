@@ -6,17 +6,17 @@
 				   placeholder="{\App\Language::translate('LBL_MESSAGE')}" autocomplete="off"{' '}
 				   data-js="keydown"/>
 		{/function}
-		{function BUTTON_FAVORITE FAVORITE="false" LBL_REMOVE='LBL_REMOVE_FROM_FAVORITES' LBL_ADD='LBL_ADD_TO_FAVORITES'}
+		{function BUTTON_FAVORITE FAVORITE="false"}
 			<button type="button" class="btn {$BTN_CLASS} js-chat-favorite"
 					data-favorite="{if $FAVORITE}true{else}false{/if}" data-js="click"
-					data-label-remove="{\App\Language::translate($LBL_REMOVE)}"
-					data-label-add="{\App\Language::translate($LBL_ADD)}">
+					data-label-remove="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES')}"
+					data-label-add="{\App\Language::translate('LBL_ADD_TO_FAVORITES')}">
 				<span class="fas fa-star color-yellow-600"></span>
 				<span class="js-lable" data-js="replace">
 					{if $FAVORITE}
-						{\App\Language::translate($LBL_ADD)}
+						{\App\Language::translate('LBL_ADD_TO_FAVORITES')}
 					{else}
-						{\App\Language::translate($LBL_REMOVE)}
+						{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES')}
 					{/if}
 				</span>
 			</button>

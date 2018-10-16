@@ -48,15 +48,15 @@ window.Chat_Js = class Chat_Js {
 	 * @param {int} roomId
 	 * @param {string} name
 	 */
-	addRoomItem(roomId, name, displayNameOfRoom) {
+	addRoomItem(roomId, name) {
 		let template = $('.js-chat-modal .js-room-template');
 		if (template.length) {
 			let item = template.clone(false, false);
 			item.removeClass('hide');
 			item.removeClass('js-room-template');
-			item.removeClass(item.data('selectedClass'));
+			item.children().removeClass(item.data('selectedClass')).addClass(item.data('unselectedClass'));
 			item.addClass(item.data('initClass'));
-			item.find('.js-change-room .js-name').html(displayNameOfRoom);
+			item.find('.js-change-room .js-name').html(name);
 			item.find('.js-change-room').data('content', name);
 			item.data('roomId', roomId);
 			$('.js-chat-modal .js-chat-rooms-list').append(item);
@@ -87,16 +87,18 @@ window.Chat_Js = class Chat_Js {
 	updateRoom(container, itemRoom, html, roomId) {
 		let prevChatRoomId = container.data('chatRoomId');
 		let selectedClass = itemRoom.closest('.row').data('selectedClass');
+		let unselectedClass = itemRoom.closest('.row').data('unselectedClass');
 		container.find('.js-chat-items').html(html);
 		container.data('chatRoomId', roomId);
 		itemRoom.closest('.js-chat-modal').find('.js-change-room').each((index, element) => {
 			if (roomId == $(element).closest('.row').data('roomId')) {
-				$(element).closest('.row').removeClass(selectedClass).addClass(selectedClass);
+				$(element).closest('.row').children().removeClass(unselectedClass).addClass(selectedClass);
 				container.find('.js-chat-items').closest('.row')
 					.removeClass('js-chat-room-' + prevChatRoomId)
 					.addClass('js-chat-room-' + roomId);
+				$(element).blur();
 			} else {
-				$(element).closest('.row').removeClass(selectedClass);
+				$(element).closest('.row').children().removeClass(selectedClass).addClass(unselectedClass);
 			}
 		});
 	}
@@ -111,16 +113,9 @@ window.Chat_Js = class Chat_Js {
 		let len = data.length;
 		for (let i = 0; i < len; ++i) {
 			let itemRoom = $('.js-chat-modal .js-chat-rooms-list .row[data-room-id=' + data[i]['room_id'] + ']');
-			if (data[i]['number_of_new'] > 0) {
-				itemRoom.find('.js-change-room .js-name').addClass('u-font-weight-700');
-				itemRoom.find('.js-number-of-new').html(data[i]['number_of_new']);
-				itemRoom.find('.js-number-of-new').removeClass('hide');
-				cntNew += data[i]['number_of_new'];
-			} else {
-				itemRoom.find('.js-change-room .js-name').removeClass('u-font-weight-700');
-				itemRoom.find('.js-number-of-new').html('0');
-				itemRoom.find('.js-number-of-new').addClass('hide');
-			}
+			itemRoom.find('.js-number-of-new').toggleClass('hide', data[i]['number_of_new'] <= 0);
+			itemRoom.find('.js-number-of-new').html(data[i]['number_of_new']);
+			cntNew += data[i]['number_of_new'];
 		}
 		if (cntNew > 0) {
 			$('.js-header-link-chat').addClass('color-red-600');
@@ -233,8 +228,7 @@ window.Chat_Js = class Chat_Js {
 					}
 					self.addRoomItem(
 						data.result['chat_room_id'],
-						data.result['name'],
-						data.result['display_name_of_room']
+						data.result['name']
 					);
 				}
 			}).fail((error, err) => {
@@ -303,8 +297,7 @@ window.Chat_Js = class Chat_Js {
 				if (dataResult.result['user_added_to_room']) {
 					self.addRoomItem(
 						dataResult.result['room']['room_id'],
-						dataResult.result['room']['name'],
-						dataResult.result['display_name_of_room']
+						dataResult.result['room']['name']
 					);
 				}
 			}).fail((error, err) => {
@@ -414,8 +407,7 @@ window.Chat_Js = class Chat_Js {
 						button.find('.js-lable').html(button.data('labelRemove'));
 						self.addRoomItem(
 							dataResult.result['chat_room_id'],
-							dataResult.result['name_of_room'],
-							dataResult.result['display_name_of_room']
+							dataResult.result['name_of_room']
 						);
 					} else {
 						button.removeClass('btn-danger').addClass('btn-success');
