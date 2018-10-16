@@ -105,3 +105,4 @@ jobs:
       env: COMPOSER_FLAGS=""
       install: skip
       script: composer validate --strict
+      
