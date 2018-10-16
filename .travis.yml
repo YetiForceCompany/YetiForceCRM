@@ -101,8 +101,8 @@ after_script:
 jobs:
   include:
   - stage: composer validate
-      php: 7.2
-      env: COMPOSER_FLAGS=""
-      install: skip
-      script: composer validate --strict
+    php: 7.2
+    env: COMPOSER_FLAGS=""
+    install: skip
+    script: composer validate --strict
 
