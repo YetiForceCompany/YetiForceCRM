@@ -19,7 +19,7 @@
 	<input value="{\App\Purifier::encodeHtml(\App\Json::encode($HISTORY_PARAMS))}" type="hidden" id="historyParams"/>
 	<input value="{\App\Purifier::encodeHtml(\AppConfig::module('Calendar', 'SHOW_EDIT_FORM'))}" type="hidden" id="showEditForm"/>
 	<div class="calendarViewContainer rowContent js-css-element-queries" data-js="css-element-queries">
-		<div class="o-calendar__container u-overflow-y-auto mt-2" data-js="offset">
+		<div class="o-calendar__container mt-2" data-js="offset">
 			<div class="d-none js-calendar__header-buttons">
 				<div class="js-calendar__view-btn mb-1 mb-sm-0 mr-1">
 					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions u-remove-dropdown-icon' BTN_CLASS='btn-light o-calendar__view-btn'}
