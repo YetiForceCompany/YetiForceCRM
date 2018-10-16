@@ -12,7 +12,8 @@ php:
 
 stages:
 - composer validate
-- test with coverage
+- test
+- coverage
 
 matrix:
   env: BROWSER_NAME="chrome" CHROME_HEADLESS="1" DEPENDENCIES="--prefer-lowest"
@@ -107,4 +108,6 @@ jobs:
     install: skip
     after_script: skip
     script: composer validate
+  - stage: coverage
+    php: 7.2
 
