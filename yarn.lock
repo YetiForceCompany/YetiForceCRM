@@ -7,8 +7,8 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.1.7.tgz#4336c4b06d0b5608ff1215464b66fcf9f4795284"
 
 "@fortawesome/fontawesome-common-types@^0.2.5":
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.5.tgz#a7f660607997b019cc985d525ec37d2fb72df926"
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.6.tgz#3f26b9d1bf2d057dfe0f448fe4a2c372508e97f0"
 
 "@fortawesome/fontawesome-free-brands@^5.0.9":
   version "5.0.13"
@@ -61,8 +61,8 @@ blueimp-canvas-to-blob@3.5.0:
   resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.5.0.tgz#5679ac32f6a2835821f0c3ad661719ff85a9236b"
 
 blueimp-file-upload@^9.21.0:
-  version "9.22.0"
-  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.22.0.tgz#056c386931778a7542a75d61e17a7fa44660b9fb"
+  version "9.23.0"
+  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.23.0.tgz#ff6c42e3ba06696f9121c9988598a0eba23e7ed2"
   optionalDependencies:
     blueimp-canvas-to-blob "3.5.0"
     blueimp-load-image "2.12.2"
@@ -109,8 +109,8 @@ bootstrap@^4.0, bootstrap@^4.1.3:
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.3.tgz#0eb371af2c8448e8c210411d0cb824a6409a12be"
 
 chart.js@>2.7.0, chart.js@^2.7.2:
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-2.7.2.tgz#3c9fde4dc5b95608211bdefeda7e5d33dffa5714"
+  version "2.7.3"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-2.7.3.tgz#cdb61618830bf216dc887e2f7b1b3c228b73c57e"
   dependencies:
     chartjs-color "^2.1.0"
     moment "^2.10.2"
@@ -220,7 +220,7 @@ footable@^2.0.6:
 
 fullcalendar@3.9.0:
   version "3.9.0"
-  resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.9.0.tgz#b608a9989f3416f0b1d526c6bdfeeaf2ac79eda5"
+  resolved "http://registry.npmjs.org/fullcalendar/-/fullcalendar-3.9.0.tgz#b608a9989f3416f0b1d526c6bdfeeaf2ac79eda5"
   dependencies:
     jquery "2 - 3"
     moment "^2.20.1"
@@ -390,8 +390,8 @@ select@^1.1.2:
   resolved "https://registry.yarnpkg.com/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
 
 split.js@^1.3.5:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.3.5.tgz#62e2ce66d2cf91cc774aa5f0749ff25138039f50"
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.5.4.tgz#099af10d1e6703bd9dffd095c25638ebeafee53e"
 
 "svg@https://github.com/kbwood/svg":
   version "0.0.0"
