@@ -101,6 +101,10 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 				$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->record);
 			}
 		}
+		if ($moduleModel->isInventory() && !$request->isEmpty('inventoryData')) {
+			$this->record->setInventoryRawData(new \App\Request(\App\Json::decode($request->getRaw('inventoryData')), false));
+			$this->record->initInventoryData();
+		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($this->record, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
 		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);

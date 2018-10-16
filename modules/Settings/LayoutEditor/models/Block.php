@@ -63,10 +63,7 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 
 	public static function getInstance($value, $moduleInstance = false)
 	{
-		$blockInstance = parent::getInstance($value, $moduleInstance);
-		$blockModel = self::getInstanceFromBlockObject($blockInstance);
-
-		return $blockModel;
+		return self::getInstanceFromBlockObject(parent::getInstance($value, $moduleInstance));
 	}
 
 	/**

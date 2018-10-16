@@ -196,6 +196,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field1->column = $field1->name;
 		$field1->columntype = 'string(255)';
 		$field1->typeofdata = 'V~M';
+		$field1->maximumlength = '255';
 		$block->addField($field1);
 
 		$module->setEntityIdentifier($field1);
@@ -209,6 +210,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field2->uitype = 4;
 		$field2->typeofdata = 'V~O';
 		$field2->columntype = 'string(32)';
+		$field2->maximumlength = '32';
 		$block->addField($field2);
 
 		$field3 = new vtlib\Field();
@@ -218,6 +220,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field3->column = 'smownerid';
 		$field3->uitype = 53;
 		$field3->typeofdata = 'V~M';
+		$field3->maximumlength = '65535';
 		$block->addField($field3);
 
 		$field4 = new vtlib\Field();
@@ -250,6 +253,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field6->displaytype = 2;
 		$field6->quickcreate = 3;
 		$field6->masseditable = 0;
+		$field6->maximumlength = '65535';
 		$block->addField($field6);
 
 		// Create default custom filter (mandatory)
@@ -282,8 +286,6 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 	public static function getUploadDirectory()
 	{
-		$uploadDir = 'cache/vtlib';
-
-		return $uploadDir;
+		return 'cache/vtlib';
 	}
 }

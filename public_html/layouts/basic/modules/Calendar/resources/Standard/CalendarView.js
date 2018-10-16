@@ -10,8 +10,8 @@
 
 window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Calendar_Js {
 
-	constructor(container) {
-		super(container);
+	constructor(container, readonly) {
+		super(container, readonly);
 	}
 
 	setCalendarModuleOptions() {
@@ -161,13 +161,16 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Calendar_Js {
 				startDate = startDate + 'T' + start_hour + ':00';
 				endDate = endDate + 'T' + start_hour + ':00';
 				if (startDate == endDate) {
-					var defaulDuration = 0;
-					if (data.find('[name="activitytype"]').val() == 'Call') {
-						defaulDuration = data.find('[name="defaultCallDuration"]').val();
-					} else {
-						defaulDuration = data.find('[name="defaultOtherEventDuration"]').val();
+					let activityType = data.find('[name="activitytype"]').val();
+					let activityDurations = JSON.parse(data.find('[name="defaultOtherEventDuration"]').val());
+					let minutes = 0;
+					for (let i in activityDurations) {
+						if (activityDurations[i].activitytype === activityType) {
+							minutes = parseInt(activityDurations[i].duration);
+							break;
+						}
 					}
-					endDate = moment(endDate).add(defaulDuration, 'minutes').toISOString();
+					endDate = moment(endDate).add(minutes, 'minutes').toISOString();
 				}
 			}
 			var dateFormat = data.find('[name="date_start"]').data('dateFormat').toUpperCase();
@@ -270,13 +273,6 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Calendar_Js {
 			aDeferred.reject();
 		});
 		return aDeferred.promise();
-	}
-
-	getCalendarView() {
-		if (this.calendarView == false) {
-			this.calendarView = jQuery('.js-calendar__container');
-		}
-		return this.calendarView;
 	}
 
 	switchTpl(on, off, state) {

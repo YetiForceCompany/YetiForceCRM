@@ -89,7 +89,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		var startTimeElement = container.find('[name="time_start"]');
 		var endTimeElement = container.find('[name="time_end"]');
 		var endDateElement = container.find('[name="due_date"]');
-
 		if (jQuery('[name="userChangedEndDateTime"]').val() == '1') {
 			return;
 		}
@@ -104,19 +103,22 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		var startDateTime = startDate + ' ' + startTime;
 		var dateFormat = container.find('[name="due_date"]').data('dateFormat').toUpperCase();
 		var timeFormat = endTimeElement.data('format');
-		var endDateString = '';
-		if (container.find('[name="activitytype"]').val() == 'Call') {
-			endDateString = moment(startDateTime, dateFormat).add(container.find('[name="defaultCallDuration"]').val(), 'minutes').format(dateFormat);
-		} else {
-			endDateString = moment(startDateTime, dateFormat).add(container.find('[name="defaultOtherEventDuration"]').val(), 'minutes').format(dateFormat);
+		let activityType = container.find('[name="activitytype"]').val();
+		let activityDurations = JSON.parse(container.find('[name="defaultOtherEventDuration"]').val());
+		let minutes = 0;
+		for (let i in activityDurations) {
+			if (activityDurations[i].activitytype === activityType) {
+				minutes = parseInt(activityDurations[i].duration);
+				break;
+			}
 		}
-		if (timeFormat == 24) {
-			var defaultTimeFormat = 'HH:mm';
-		} else {
+		let endDateString = moment(startDateTime, dateFormat).add(minutes, 'minutes').format(dateFormat);
+		let defaultTimeFormat = 'HH:mm';
+		if (timeFormat == 12) {
 			defaultTimeFormat = 'hh:mm A';
 		}
 		endDateElement.val(endDateString);
-		endTimeElement.val(moment(startTime, defaultTimeFormat).add(container.find('[name="defaultOtherEventDuration"]').val(), 'minutes').format(defaultTimeFormat));
+		endTimeElement.val(moment(startTime, defaultTimeFormat).add(minutes, 'minutes').format(defaultTimeFormat));
 	},
 	/**
 	 * Function to change the end time based on default call duration
@@ -143,7 +145,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 			var start = thisInstance.getDateInstance(container, 'start');
 			var end = thisInstance.getDateInstance(container, 'end');
 			var dateFormat = CONFIG.dateFormat.toUpperCase();
-			container.find('.autofill:visible').trigger('change');
+			container.find('.js-autofill:visible').trigger('change');
 			if (start > end) {
 				end = start;
 				endDateElement.val(moment(end).format(dateFormat));
@@ -314,11 +316,12 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		var params = {
 			module: 'Calendar',
 			action: 'GetFreeTime',
-			dateStart: dateStart.val()
+			dateStart: dateStart.val(),
+			activitytype: container.find('[name="activitytype"]').val()
 		};
-		container.progressIndicator({});
+		let progress = $.progressIndicator({position: 'html', blockInfo: {enabled: true}});
 		AppConnector.request(params).done(function (data) {
-			container.progressIndicator({mode: 'hide'});
+			progress.progressIndicator({mode: 'hide'});
 			timeStart.val(data.result.time_start);
 			timeEnd.val(data.result.time_end);
 			dateStart.val(data.result.date_start);
@@ -331,10 +334,10 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 		var timeStart = container.find('[name="time_start"]');
 		var timeEnd = container.find('[name="time_end"]');
 		var dateEnd = container.find('[name="due_date"]');
-		container.find('.autofill').on('change', function (e) {
+		container.find('.js-autofill').on('change', function (e) {
 			var currentTarget = $(e.currentTarget);
 			if (currentTarget.is(':checked')) {
-				container.find('.autofill').prop('checked', true);
+				container.find('.js-autofill').prop('checked', true);
 				thisInstance.getFreeTime(container);
 				timeStart.attr('readonly', 'readonly');
 				timeEnd.attr('readonly', 'readonly');
@@ -343,7 +346,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {}, {
 				allDay.trigger('change');
 				dateEnd.attr('readonly', 'readonly');
 			} else {
-				container.find('.autofill').prop('checked', false);
+				container.find('.js-autofill').prop('checked', false);
 				allDay.removeAttr('disabled');
 				timeStart.removeAttr('readonly');
 				timeEnd.removeAttr('readonly');

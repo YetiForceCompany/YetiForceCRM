@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class='tpl-CustomView-EditView modal fade js-filter-modal__container' tabindex="-1" data-js="container">
+	<div class="tpl-CustomView-EditView modal fade js-filter-modal__container" tabindex="-1" data-js="container">
 		<div class="modal-dialog modal-fullscreen">
 			<div class="modal-content pl-3 pr-3">
 				<div class="modal-header">
@@ -64,20 +64,24 @@
 										{assign var=MANDATORY_FIELDS value=[]}
 										<div class="">
 											<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE_NAME)}"
-													multiple class="select2 form-control js-select2-sortable"
-													id="viewColumnsSelect">
+													multiple="multiple"
+													class="select2 form-control js-select2-sortable js-view-columns-select"
+													id="viewColumnsSelect"
+													data-js="appendTo">
 												{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-													<optgroup label="{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}">
+													<optgroup	label="{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}">
 														{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 															{if $FIELD_MODEL->isMandatory()}
 																{array_push($MANDATORY_FIELDS, $FIELD_MODEL->getCustomViewSelectColumnName())}
 															{/if}
+															{assign var=ELEMENT_POSITION_IN_ARRAY value=array_search($FIELD_MODEL->getCustomViewSelectColumnName(), $SELECTED_FIELDS)}
 															<option value="{$FIELD_MODEL->getCustomViewSelectColumnName()}"
 																	data-field-name="{$FIELD_NAME}"
-																	{if in_array($FIELD_MODEL->getCustomViewSelectColumnName(), $SELECTED_FIELDS)}
-																		selected
+																	{if $ELEMENT_POSITION_IN_ARRAY !== false}
+																		data-sort-index="{$ELEMENT_POSITION_IN_ARRAY}" selected="selected"
 																	{/if}
-															>{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
+																	data-js="data-sort-index|data-field-name">
+																{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
 																{if $FIELD_MODEL->isMandatory() eq true}
 																	<span>*</span>
 																{/if}
@@ -92,11 +96,13 @@
 															<optgroup
 																	label="{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}&nbsp;-&nbsp;{\App\Language::translate($MODULE_KEY, $MODULE_KEY)}&nbsp;-&nbsp;{\App\Language::translate($BLOCK_LABEL, $MODULE_KEY)}">
 																{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
+																	{assign var=ELEMENT_POSITION_IN_ARRAY value=array_search($FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME), $SELECTED_FIELDS)}
 																	<option value="{$FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME)}"
 																			data-field-name="{$FIELD_NAME}"
-																			{if in_array($FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME), $SELECTED_FIELDS)}
-																				selected
+																			{if $ELEMENT_POSITION_IN_ARRAY !== false}
+																				data-sort-index="{$ELEMENT_POSITION_IN_ARRAY}" selected="selected"
 																			{/if}
+																			data-js="data-sort-index|data-field-name">
 																	>{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}&nbsp;-&nbsp;{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_KEY)}
 																	</option>
 																{/foreach}
@@ -107,9 +113,11 @@
 											</select>
 										</div>
 										<input type="hidden" name="columnslist"
-											   value='{\App\Json::encode($SELECTED_FIELDS)}'/>
+											   value="{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_FIELDS))}"
+											   class="js-columnslist"
+											   data-js="val"/>
 										<input id="mandatoryFieldsList" type="hidden"
-											   value='{\App\Json::encode($MANDATORY_FIELDS)}'/>
+											   value="{\App\Purifier::encodeHtml(\App\Json::encode($MANDATORY_FIELDS))}"/>
 									</div>
 								</div>
 								<div class="form-group marginbottomZero">

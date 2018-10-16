@@ -2,8 +2,8 @@
 {strip}
 	<!-- tpl-Calendar-Extended-RightPanel -->
 	{if !empty($ALL_ACTIVEUSER_LIST)}
-		<div class="js-filter__container border-bottom">
-			<h6 class="boxFilterTitle mt-3">{\App\Language::translate('LBL_SELECT_USER_CALENDAR',$MODULE_NAME)}</h6>
+		<div class="js-filter__container">
+			<h6 class="boxFilterTitle mt-2">{\App\Language::translate('LBL_SELECT_USER_CALENDAR',$MODULE_NAME)}</h6>
 			{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
@@ -57,7 +57,7 @@
 	{/if}
 	{if !empty($ALL_ACTIVEGROUP_LIST)}
 		<div class="js-filter__container">
-			<h6 class="boxFilterTitle mt-3">{\App\Language::translate('LBL_SELECT_GROUP_CALENDAR',$MODULE)}</h6>
+			<h6 class="boxFilterTitle mt-2">{\App\Language::translate('LBL_SELECT_GROUP_CALENDAR',$MODULE)}</h6>
 			{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">

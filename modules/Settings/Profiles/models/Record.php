@@ -324,9 +324,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			return false;
 		}
 		$allModulePermissions = $this->getModulePermissions();
-		$moduleModel = $allModulePermissions[$tabId];
-
-		return $moduleModel;
+		return $allModulePermissions[$tabId];
 	}
 
 	/**

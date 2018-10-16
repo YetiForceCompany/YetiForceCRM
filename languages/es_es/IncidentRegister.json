@@ -16,7 +16,7 @@
     "PLL_INTERNAL": "Interno",
     "PLL_EXTERNAL": "Externo",
     "LBL_INCIDENT_DATES": "Fecha de la incidencia",
-    "FL_INCIDENT_DATE":"Fecha de la incidencia",
+    "FL_INCIDENT_DATE": "Fecha de la incidencia",
     "FL_INCIDENT_DISCOVERY": "Fecha de descubrimiento de la incidencia",
     "FL_INCIDENT_REPORT_DATE": " Fecha del informe de la incidencia",
     "FL_INCIDENT_PUBLICATION_DATE": "Fecha de publicaci\u00f3n de la incidencia",
@@ -30,6 +30,5 @@
     "LBL_SECURITY_MEASURES": "Medidas de seguridad aplicadas",
     "FL_SECURITY_MEASURES": "Medidas de seguridad aplicadas"
   },
-  "js": {
-  }
+  "js": {}
 }

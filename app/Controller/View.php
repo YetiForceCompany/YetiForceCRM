@@ -309,6 +309,9 @@ abstract class View extends Base
 			'~layouts/resources/Connector.js',
 			'~layouts/resources/ProgressIndicator.js',
 		];
+		if (\App\Module::isModuleActive('Chat')) {
+			$jsFileNames[] = '~layouts/resources/Chat.js';
+		}
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
 		$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
 		if (!file_exists(\Vtiger_Loader::resolveNameToPath($fileName, 'js'))) {

@@ -33,7 +33,11 @@
 		{/if}
 	{/if}
 	<div class="tpl-List-Field-Owner picklistSearchField">
-		<select class="select2noactive listSearchContributor form-control {$ASSIGNED_USER_ID}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" name="{$ASSIGNED_USER_ID}" multiple{' '}
+		<select
+				name="{$ASSIGNED_USER_ID}"
+				class="select2noactive listSearchContributor form-control {$ASSIGNED_USER_ID}"
+				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
+				multiple="multiple"
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"{' '}
 				{/if}
@@ -46,7 +50,9 @@
 				{if count($ALL_ACTIVEUSER_LIST) gt 0}
 					<optgroup label="{\App\Language::translate('LBL_USERS')}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-							<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(App\Purifier::decodeHtml($OWNER_NAME)),$SEARCH_VALUES) || in_array($OWNER_ID, $SEARCH_VALUES)} selected {/if} data-userId="{$OWNER_ID}">
+							<option value="{$OWNER_ID}"
+									data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(App\Purifier::decodeHtml($OWNER_NAME)),$SEARCH_VALUES) || in_array($OWNER_ID, $SEARCH_VALUES)} selected {/if}
+									data-userId="{$OWNER_ID}">
 								{$OWNER_NAME}
 							</option>
 						{/foreach}
@@ -55,7 +61,8 @@
 				{if count($ALL_ACTIVEGROUP_LIST) gt 0}
 					<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-							<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(App\Purifier::decodeHtml($OWNER_NAME)),$SEARCH_VALUES) || in_array($OWNER_ID, $SEARCH_VALUES)} selected {/if} >
+							<option value="{$OWNER_ID}"
+									data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(App\Purifier::decodeHtml($OWNER_NAME)),$SEARCH_VALUES) || in_array($OWNER_ID, $SEARCH_VALUES)} selected {/if} >
 								{$OWNER_NAME}
 							</option>
 						{/foreach}

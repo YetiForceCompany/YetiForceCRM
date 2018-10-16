@@ -16,6 +16,7 @@
 	<input value="{\App\Purifier::encodeHtml(\App\Json::encode(\AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"
 		   type="hidden" id="hiddenDays"/>
 	<input value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" type="hidden" id="activityStateLabels"/>
+	<input value="{\App\Purifier::encodeHtml(\App\Json::encode($HISTORY_PARAMS))}" type="hidden" id="historyParams"/>
 	<div class="calendarViewContainer rowContent js-css-element-queries" data-js="css-element-queries">
 		<div class="o-calendar__container u-overflow-y-auto mt-2" data-js="offset">
 			<div class="d-none js-calendar__header-buttons">
@@ -31,11 +32,11 @@
 									{if $CUSTOM_VIEW->isFeatured()}
 										<li class="nav-item js-filter-tab c-tab--small font-weight-bold"
 											data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
-											<a class="nav-link"
+											<a class="nav-link{if $VIEWID eq $CUSTOM_VIEW->getId() || ($HISTORY_PARAMS['cvid'] && $HISTORY_PARAMS['cvid'] eq {$CUSTOM_VIEW->getId()})} active show{/if}"
 											   href="#"
 											   {if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};"{/if}
 											   data-toggle="tab" role="tab"
-											   aria-selected="false">
+											   aria-selected="{if $VIEWID eq $CUSTOM_VIEW->getId() || ($HISTORY_PARAMS['cvid'] && $HISTORY_PARAMS['cvid'] eq {$CUSTOM_VIEW->getId()})}true{else}false{/if}">
 												{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 												{if $CUSTOM_VIEW->get('description')}
 													<span class="js-popover-tooltip fas fa-info-circle"

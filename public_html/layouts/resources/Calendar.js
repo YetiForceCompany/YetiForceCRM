@@ -3,10 +3,12 @@
 
 window.Calendar_Js = class Calendar_Js {
 
-	constructor(container = $('.js-base-container')) {
+	constructor(container = $('.js-base-container'), readonly = false) {
 		this.calendarView = false;
 		this.calendarCreateView = false;
 		this.container = container;
+		this.readonly = readonly;
+		this.browserHistoryConfig = readonly ? {} : this.setBrowserHistoryConfig();
 		this.calendarBasicOptions = this.setCalendarBasicOptions();
 		this.calendarAdvancedOptions = this.setCalendarAdvancedOptions();
 		this.calendarModuleOptions = this.setCalendarModuleOptions();
@@ -39,7 +41,7 @@ window.Calendar_Js = class Calendar_Js {
 	}
 
 	setCalendarMergedOptions() {
-		return Object.assign(this.calendarBasicOptions, this.calendarAdvancedOptions, this.calendarModuleOptions);
+		return Object.assign(this.calendarBasicOptions, this.calendarAdvancedOptions, this.calendarModuleOptions, this.browserHistoryConfig);
 	}
 
 	setCalendarModuleOptions() {
@@ -153,6 +155,37 @@ window.Calendar_Js = class Calendar_Js {
 		};
 	}
 
+	setBrowserHistoryConfig() {
+		let historyParams = app.getMainParams('historyParams', true),
+			options;
+		if (historyParams && (historyParams.length || Object.keys(historyParams).length) && app.moduleCacheGet('browserHistoryEvent')) {
+			options = {
+				start: historyParams.start,
+				end: historyParams.end,
+				user: historyParams.user.split(",").map((x) => {
+					return parseInt(x)
+				}),
+				time: historyParams.time,
+				hiddenDays: historyParams.hiddenDays.split(",").map((x) => {
+					return parseInt(x)
+				}),
+				cvid: historyParams.cvid,
+				defaultView: historyParams.viewType
+			};
+			let s = moment(options.start).valueOf();
+			let e = moment(options.end).valueOf();
+			options.defaultDate = moment(moment(s + ((e - s) / 2)).format('YYYY-MM-DD'));
+			Object.keys(options).forEach(key => options[key] === 'undefined' && delete options[key]);
+			app.moduleCacheSet('browserHistoryEvent', false)
+		} else {
+			options = null;
+		}
+		window.addEventListener('popstate', function (event) {
+			app.moduleCacheSet('browserHistoryEvent', true)
+		}, false);
+		return options;
+	}
+
 	eventRenderer(event, element) {
 		//TODO:Write basci method
 	}
@@ -262,9 +295,9 @@ window.Calendar_Js = class Calendar_Js {
 				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 				revertFunc();
 			}
-			progressInstance.hide();
+			progressInstance.progressIndicator({'mode': 'hide'});
 		}).fail(function () {
-			progressInstance.hide();
+			progressInstance.progressIndicator({'mode': 'hide'});
 			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 			revertFunc();
 		});
@@ -308,7 +341,7 @@ window.Calendar_Js = class Calendar_Js {
 
 	getCalendarView() {
 		if (this.calendarView == false) {
-			this.calendarView = jQuery('.js-calendar__container');
+			this.calendarView = this.container.find('.js-calendar__container');
 		}
 		return this.calendarView;
 	}
@@ -353,4 +386,3 @@ window.Calendar_Js = class Calendar_Js {
 		this.registerAddButton();
 	}
 }
-

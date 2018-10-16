@@ -21,31 +21,34 @@
 		{/if}
 		<input name="module" value="{$MODULE_NAME}" type="hidden"/>
 		<input name="action" value="SaveAjax" type="hidden"/>
-		<input name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" type="hidden"/>
-		<input name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" type="hidden"/>
+		<input name="defaultOtherEventDuration"
+			   value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
 		<input name="userChangedEndDateTime" value="0" type="hidden"/>
 		<div class="o-calendar__form w-100 d-flex flex-column">
-			<h6 class="boxEventTitle text-muted text-center mt-1">
-				{if !empty($RECORD_ID)}
-					<span class="fas fa-edit mr-1"></span>
-				{\App\Language::translate('LBL_EDIT_EVENT',$MODULE_NAME)}
-				{else}
-					<span class="fas fa-plus mr-1"></span>
-					{\App\Language::translate('LBL_ADD',$MODULE_NAME)}
-				{/if}
-			</h6>
 			<div class="o-calendar__form__wrapper js-calendar__form__wrapper massEditTable no-margin"
 				 data-js="perfectscrollbar">
-				<div class="fieldRow my-2">
+				<h6 class="boxEventTitle text-muted text-center mt-1">
+					{if !empty($RECORD_ID)}
+						<span class="fas fa-edit mr-1"></span>
+					{\App\Language::translate('LBL_EDIT_EVENT',$MODULE_NAME)}
+					{else}
+						<span class="fas fa-plus mr-1"></span>
+						{\App\Language::translate('LBL_ADD',$MODULE_NAME)}
+					{/if}
+				</h6>
+				{if !empty(AppConfig::module('Calendar', 'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM')) && empty($IS_POSTPONED) && !empty($RECORD_ID)}
+					{include file=\App\Layout::getTemplatePath('Extended/ActivityButtons.tpl', $MODULE)}
+				{/if}
+				<div class="fieldRow">
 					{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
 						{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 						{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
 						{assign var="refrenceListCount" value=count($refrenceList)}
-						<div class="row fieldsLabelValue pl-0 pr-0">
+						<div class="row fieldsLabelValue pl-0 pr-0 mb-2">
 							<div class="col-12">
 								{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 								{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-								<label class="muted">
+								<label class="muted mt-0">
 									{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 										<a href="#" class="js-popover-tooltip mr-1" data-toggle="popover"
 										   data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}"
@@ -74,24 +77,26 @@
 						   data-fieldtype="{$RELATED_FIELD_MODEL->getFieldDataType()}"/>
 				{/foreach}
 			{/if}
-			<div class="formActionsPanel d-flex justify-content-center flex-wrap pt-1">
-				{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
-					{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-						{if $LINK->get('linkhint') neq 'LBL_GO_TO_FULL_FORM'}
-							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='quickcreateViewHeader'}
-						{/if}
-					{/foreach}
-				{/if}
-				<button type="submit" class="js-save-event btn btn-success"
-						title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" data-js="click">
-					{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
-				</button>
-				{if !empty($RECORD_ID)}
-					<a href="#" role="button" class="btn btn-danger js-summary-close-edit ml-auto">
+			<div class="o-calendar__form__actions">
+				<div class="d-flex flex-wrap{if empty($RECORD_ID)} justify-content-center{/if}">
+					{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
+						{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
+							{if $LINK->get('linkhint') neq 'LBL_GO_TO_FULL_FORM'}
+								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='quickcreateViewHeader'}
+							{/if}
+						{/foreach}
+					{/if}
+					<button type="submit" class="js-save-event btn btn-success"
+							title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" data-js="click">
+						{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
+					</button>
+					{if !empty($RECORD_ID)}
+						<a href="#" role="button" class="btn btn-danger js-summary-close-edit ml-auto u-h-fit">
 							<span title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"
 								  class="fas fa-times"></span>
-					</a>
-				{/if}
+						</a>
+					{/if}
+				</div>
 			</div>
 		</div>
 	</form>

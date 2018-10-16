@@ -6,5 +6,5 @@
     "LBL_INVALID_OLD_PASSWORD": "Valeur invalide pour ancien mot de passe.",
     "LBL_NEW_PASSWORD_MISMATCH": "Ancien et nouveau mot de passe ne concordent pas"
   },
-  "js": []
+  "js": {}
 }

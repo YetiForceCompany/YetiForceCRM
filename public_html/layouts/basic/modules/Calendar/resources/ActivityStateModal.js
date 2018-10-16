@@ -4,7 +4,7 @@
 jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 	registerActivityState() {
 		const self = this;
-		$('.js-activity-state button:not(.close)').on('click', function (e) {
+		$('.js-activity-buttons button:not(.close)').on('click', function (e) {
 			let currentTarget = $(e.currentTarget),
 				viewName = app.getViewName();
 			currentTarget.closest('.modal').addClass('d-none');
@@ -94,7 +94,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 					(new Vtiger_DashBoard_Js()).getContainer().find('a[name="drefresh"]').trigger('click');
 				}
 				if (app.getModuleName() === 'Calendar' && (viewName === 'Calendar' || viewName === 'CalendarExtended')) {
-					const calendarInstance = new `Calendar_${viewName}_Js`;
+					const calendarInstance = new window[`Calendar_${viewName}_Js`];
 					calendarInstance.loadCalendarData();
 					calendarInstance.getCalendarCreateView();
 				}

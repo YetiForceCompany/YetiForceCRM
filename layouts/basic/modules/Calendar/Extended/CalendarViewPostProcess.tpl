@@ -29,34 +29,34 @@
 				<div class="js-qc-form qc-form"></div>
 			</div>
 			<div class="tab-pane fade" id="rightPanelFilter" role="tabpanel" aria-labelledby="rightPanelFilter-tab">
-				<div class="o-calendar__tab--filters js-calendar__tab--filters border-bottom d-flex flex-column">
+				<div class="o-calendar__tab--filters js-calendar__tab--filters d-flex flex-column">
 					<div>
 						{if \AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')}
 							<div class="btn-group btn-group-toggle js-switch js-switch--switchingDays c-calendar-switch" data-toggle="buttons">
-								<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on active">
-									<input type="radio" name="options" data-on-text="{\App\Language::translate('LBL_WORK_DAYS', $MODULE)}" autocomplete="off" checked>
+								<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on{if $HISTORY_PARAMS['hiddenDays']} active{/if}">
+									<input type="radio" name="options" data-on-text="{\App\Language::translate('LBL_WORK_DAYS', $MODULE)}" autocomplete="off"{if $HISTORY_PARAMS['hiddenDays']} checked{/if}>
 									{\App\Language::translate('LBL_WORK_DAYS', $MODULE)}
 								</label>
-								<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-off">
+								<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-off{if !$HISTORY_PARAMS['hiddenDays']} active{/if}">
 									<input type="radio" name="options" data-off-text="{\App\Language::translate('LBL_ALL', $MODULE)}
-" autocomplete="off">
+" autocomplete="off"{if !$HISTORY_PARAMS['hiddenDays']} checked{/if}>
 									{\App\Language::translate('LBL_ALL', $MODULE)}
 								</label>
 							</div>
 						{/if}
 						<div class="btn-group btn-group-toggle js-switch js-switch--showType c-calendar-switch" data-toggle="buttons">
-							<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on active">
-								<input type="radio" name="options" data-on-text="{\App\Language::translate('LBL_FILTER', $MODULE)}" autocomplete="off" checked>
+							<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on{if !$HISTORY_PARAMS['time'] || $HISTORY_PARAMS['time'] eq 'current'} active{/if}">
+								<input type="radio" name="options" data-on-text="{\App\Language::translate('LBL_FILTER', $MODULE)}" autocomplete="off" {if !$HISTORY_PARAMS['time'] || $HISTORY_PARAMS['time'] eq 'current'} checked{/if}>
 								{\App\Language::translate('LBL_TO_REALIZE', $MODULE)}
 							</label>
-							<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-off">
-								<input type="radio" name="options" data-off-text="{\App\Language::translate('LBL_HISTORY', $MODULE)}" autocomplete="off">
+							<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-off{if $HISTORY_PARAMS['time'] eq 'history'} active{/if}">
+								<input type="radio" name="options" data-off-text="{\App\Language::translate('LBL_HISTORY', $MODULE)}" autocomplete="off"{if $HISTORY_PARAMS['time'] eq 'history'} checked{/if}>
 								{\App\Language::translate('LBL_HISTORY', $MODULE)}
 							</label>
 						</div>
 					</div>
 					<div class="js-users-form usersForm position-relative" data-js="perfectScrollbar | html | container"></div>
-					<div class="js-group-form groupForm position-relative" data-js="perfectScrollbar | html | container | class: u-min-h-30per"></div>
+					<div class="js-group-form groupForm position-relative border-top" data-js="perfectScrollbar | html | container | class: u-min-h-30per"></div>
 				</div>
 			</div>
 		</div>

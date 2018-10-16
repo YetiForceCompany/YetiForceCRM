@@ -70,14 +70,13 @@ var YearView = View.extend({
 			yearView = this.el.html(this.renderHtml(date)),
 			user = this.getSelectedUsersCalendar(),
 			progressInstance = $.progressIndicator({blockInfo: {enabled: true}}),
-			cvid = this.getCurrentCvId(),
-			filters = this.getActiveFilters();
+			cvid = this.getCurrentCvId();
 		if (user.length === 0) {
 			user = [app.getMainParams('userId')];
 		}
 		this.refreshDatesRowView(calendar.view);
-		this.clearFilterButton(user, filters, cvid);
-		AppConnector.request({
+		this.clearFilterButton(user, cvid);
+		let options = {
 			module: 'Calendar',
 			action: 'Calendar',
 			mode: 'getEventsYear',
@@ -85,14 +84,29 @@ var YearView = View.extend({
 			end: date + '-12-31',
 			user: user,
 			yearView: true,
-			filters: filters,
 			time: app.getMainParams('showType'),
-			cvid: cvid
-		}).done(function (events) {
+			cvid: cvid,
+			historyUrl: `index.php?module=Calendar&view=CalendarExtended&history=true&viewType=${calendar.view.type}&start=${date + '-01-01'}&end=${date + '-12-31'}&user=${user}&time=${app.getMainParams('showType')}&cvid=${cvid}&hiddenDays=${calendar.view.options.hiddenDays}`
+		};
+		let connectorMethod = window["AppConnector"]["request"];
+		if (!this.readonly) {
+			connectorMethod = window["AppConnector"]["requestPjax"];
+		}
+		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && calendar.view.options.firstLoad) {
+			options = Object.assign(options, {
+				start: this.browserHistoryConfig.start,
+				end: this.browserHistoryConfig.end,
+				user: this.browserHistoryConfig.user,
+				time: this.browserHistoryConfig.time,
+				cvid: this.browserHistoryConfig.cvid
+			});
+			connectorMethod = window["AppConnector"]["request"];
+		}
+		connectorMethod(options).done(function (events) {
 			yearView.find('.fc-year__month').each(function (i) {
-				let calendarInstance = new Calendar_Calendar_Js;
+				let calendarInstance = new Calendar_Calendar_Js(self.container, self.readonly);
 				let basicOptions = calendarInstance.getCalendarMinimalConfig(),
-					options = {
+					monthOptions = {
 						defaultView: 'month',
 						titleFormat: 'MMMM',
 						header: {center: 'title', left: false, right: false},
@@ -121,7 +135,7 @@ var YearView = View.extend({
 							return element;
 						},
 					};
-				self.loadMonthData($(this).fullCalendar($.extend(basicOptions, options)), events);
+				self.loadMonthData($(this).fullCalendar($.extend(basicOptions, monthOptions)), events);
 			});
 			if (app.getMainParams('weekCount') === '1') {
 				self.appendWeekButton();
@@ -129,6 +143,8 @@ var YearView = View.extend({
 			app.showPopoverElementView();
 			progressInstance.progressIndicator({mode: 'hide'});
 		});
+		this.registerViewRenderEvents(calendar.view);
+		calendar.view.options.firstLoad = false;
 	}
 });
 

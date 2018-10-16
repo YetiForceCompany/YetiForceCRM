@@ -416,9 +416,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	public static function getTotalRecordCount($recordId, $type = false)
 	{
 		$where = self::getConditionByType($type);
-		$count = (new \App\Db\Query())->from('vtiger_modtracker_basic')->where(['crmid' => $recordId])->andWhere($where)->count();
-
-		return $count;
+		return (new \App\Db\Query())->from('vtiger_modtracker_basic')->where(['crmid' => $recordId])->andWhere($where)->count();
 	}
 
 	public static function getConditionByType($type)

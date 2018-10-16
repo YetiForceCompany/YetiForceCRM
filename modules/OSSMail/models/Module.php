@@ -33,9 +33,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 
 	public static function getDefaultMailAccount($accounts)
 	{
-		$rcUser = (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $accounts)) ? $accounts[$_SESSION['AutoLoginUser']] : reset($accounts);
-
-		return $rcUser;
+		return (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $accounts)) ? $accounts[$_SESSION['AutoLoginUser']] : reset($accounts);
 	}
 
 	public static function getComposeUrl($moduleName = false, $record = false, $view = false, $type = false)
@@ -261,7 +259,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				}
 			}
 		} else {
-			$content .= \App\Language::translate('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . PHP_EOL;
+			$content .= \App\Language::translateArgs('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . PHP_EOL;
 			foreach (explode(PHP_EOL, $body) as $line) {
 				$line = trim($line);
 				if (!empty($line)) {
@@ -273,9 +271,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				}
 			}
 		}
-		$url .= '&body=' . rawurlencode($content);
-
-		return $url;
+		return $url . '&body=' . rawurlencode($content);
 	}
 
 	/**

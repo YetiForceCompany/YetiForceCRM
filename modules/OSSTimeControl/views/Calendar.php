@@ -48,18 +48,13 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 		if (isset($headerScriptInstances['modules.' . $moduleName . '.resources.Calendar'])) {
 			unset($headerScriptInstances['modules.' . $moduleName . '.resources.Calendar']);
 		}
-		$jsFileNames = [
+		return array_merge($headerScriptInstances, $this->checkAndConvertJsScripts([
 			'~libraries/fullcalendar/dist/fullcalendar.js',
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',
 			'~layouts/resources/Calendar.js',
 			'modules.' . $moduleName . '.resources.Calendar',
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		]));
 	}
 
 	/**
@@ -67,13 +62,8 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = [
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
 			'~libraries/fullcalendar/dist/fullcalendar.css',
-		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-
-		return $headerCssInstances;
+		]));
 	}
 }

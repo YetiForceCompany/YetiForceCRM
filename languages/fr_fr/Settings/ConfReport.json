@@ -24,7 +24,6 @@
     "LBL_ZIP_ARCHIVE": "ZIP",
     "LBL_FILEINFO_LIBRARY": "FileInfo",
     "LBL_LIBICONV_LIBRARY": "Libiconv",
-
     "LBL_SPACE_TOTAL": "Total",
     "LBL_EXIF_LIBRARY": "Exif (am\u00e9liore la s\u00e9curit\u00e9 des fichiers t\u00e9l\u00e9charg\u00e9s)",
     "LBL_LABEL_TMP_DIR": "R\u00e9pertoire temporaire",

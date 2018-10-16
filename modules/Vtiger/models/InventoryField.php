@@ -60,7 +60,7 @@ class Vtiger_InventoryField_Model extends App\Base
 			if (!App\Db::getInstance()->isTableExists($table)) {
 				return false;
 			}
-			$query = (new \App\Db\Query())->from($table)->where(['presence' => 0])->orderBy('sequence', SORT_ASC);
+			$query = (new \App\Db\Query())->from($table)->where(['presence' => 0])->orderBy(['sequence' => SORT_ASC]);
 			if ($ids) {
 				$query->andWhere(['id' => $ids]);
 			}
