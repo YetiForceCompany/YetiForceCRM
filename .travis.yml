@@ -107,5 +107,4 @@ jobs:
     install: skip
     after_script: skip
     script: composer validate
-  - stage: test with coverage
 
