@@ -61,6 +61,10 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 				container.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
 			}
 		};
+		let user =  container.find('form [name="assigned_user_id"]');
+		user.on('change', function (e) {
+			instance.loadCalendarData();
+		});
 		instance.selectDays = selectDays;
 		instance.renderCalendar();
 	},

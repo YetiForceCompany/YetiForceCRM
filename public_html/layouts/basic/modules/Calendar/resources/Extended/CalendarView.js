@@ -386,10 +386,13 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	getSelectedUsersCalendar() {
 		const sidebar = this.getSidebarView();
 		let selectedUsers = sidebar.find('.js-input-user-owner-id:checked'),
+			selectedUsersModal = this.container.find('.assigned_user_id'),
 			selectedUsersAjax = sidebar.find('.js-input-user-owner-id-ajax'),
 			selectedRolesAjax = sidebar.find('.js-input-role-owner-id-ajax'),
 			users = [];
-		if (selectedUsers.length > 0) {
+		if (selectedUsersModal.length > 0) {
+			users = selectedUsersModal.val();
+		} else if (selectedUsers.length > 0) {
 			selectedUsers.each(function () {
 				users.push($(this).val());
 			});
@@ -538,13 +541,15 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		};
 		let connectorMethod = window["AppConnector"]["requestPjax"];
 		if (this.readonly || (view.options.firstLoad && this.browserHistoryConfig !== null)) {
-			options = Object.assign(options, {
-				start: this.browserHistoryConfig.start,
-				end: this.browserHistoryConfig.end,
-				user: this.browserHistoryConfig.user,
-				time: this.browserHistoryConfig.time,
-				cvid: this.browserHistoryConfig.cvid
-			});
+			if (!this.readonly) {
+				options = Object.assign(options, {
+					start: this.browserHistoryConfig.start,
+					end: this.browserHistoryConfig.end,
+					user: this.browserHistoryConfig.user,
+					time: this.browserHistoryConfig.time,
+					cvid: this.browserHistoryConfig.cvid
+				});
+			}
 			connectorMethod = window["AppConnector"]["request"];
 		}
 		connectorMethod(options).done((events) => {
