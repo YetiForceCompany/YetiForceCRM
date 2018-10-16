@@ -671,11 +671,10 @@ $sitebar-border: 1px solid #ccc;
 					height: calc(100vh - #{$h-footer} - #{calculate-rem(118px)} - #{$h-header}); // 118px - modal offsets
 					overflow-y: auto;
 					overflow-x: hidden;
+					margin-top: 1rem;
 				}
 				label {
-					margin-bottom: 0.1rem;
 					font-weight: 500;
-					margin-top: 0.6rem;
 					color: #6c757d;
 				}
 				.ps__rail-y {

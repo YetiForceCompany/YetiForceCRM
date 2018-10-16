@@ -25,7 +25,7 @@
 			   value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
 		<input name="userChangedEndDateTime" value="0" type="hidden"/>
 		<div class="o-calendar__form w-100 d-flex flex-column">
-			<div class="o-calendar__form__wrapper js-calendar__form__wrapper massEditTable no-margin pt-3"
+			<div class="o-calendar__form__wrapper js-calendar__form__wrapper massEditTable no-margin"
 				 data-js="perfectscrollbar">
 				<h6 class="boxEventTitle text-muted text-center mt-1">
 					{if !empty($RECORD_ID)}
