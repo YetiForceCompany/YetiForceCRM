@@ -164,20 +164,24 @@ class Chat
 		if (empty($userId)) {
 			$userId = \App\User::getCurrentUserId();
 		}
-		$sql = (new \App\Db\Query())
-			->select(['COUNT(*)'])
-			->from(['CM' => 'u_yf_chat_messages'])
-			->where(['CM.room_id' => new \yii\db\Expression('CR.room_id')])
-			->andWhere(['>', 'CM.id', new \yii\db\Expression('CU.last_message')])
-			->createCommand()->getRawSql();
+		$subQuery = (new \App\Db\Query())
+			->select([
+				'number_of_new' => 'COUNT(*)', 'CU.room_id', 'CU.userid'
+			])
+			->from(['CU' => 'u_#__chat_users'])
+			->innerJoin(['CM' => 'u_#__chat_messages'], 'CM.room_id = CU.room_id')
+			->where(['>', 'CM.id', new \yii\db\Expression('CU.last_message')])
+			->groupBy(['CU.room_id', 'CU.userid']);
 		return (new \App\Db\Query())
 			->select([
-				'number_of_new' => "({$sql})",
+				'number_of_new' => new \yii\db\Expression('COALESCE(CNT.number_of_new, 0)'),
 				'CR.*', 'CU.userid', 'CU.last_message', 'CU.favorite'
 			])->from(['CR' => 'u_#__chat_rooms'])
 				->leftJoin(['CU' => 'u_#__chat_users'], 'CU.room_id = CR.room_id')
+				->leftJoin(['CNT' => $subQuery], 'CNT.room_id = CR.room_id AND CNT.userid = CU.userid')
 				->where(['and', ['CR.room_id' => 0, 'CU.userid' => null]])
-				->orWhere(['and', ['CU.userid' => $userId, 'CU.favorite' => 1]])->all();
+				->orWhere(['and', ['CU.userid' => $userId, 'CU.favorite' => 1]])
+				->all();
 	}
 
 	/**
