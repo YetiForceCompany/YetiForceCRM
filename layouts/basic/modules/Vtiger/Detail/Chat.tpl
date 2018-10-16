@@ -1,12 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Base-Detail-Chat -->
-	<script type="application/javascript">
-		$(document).ready((e) => {
-			Chat_Js.getInstance().registerEvents($('.js-chat-detail'));
-		});
-	</script>
-	<div class="js-chat-detail" data-chat-room-id="{$RECORD_MODEL->getId()}"
+	<div class="tpl-Base-Detail-Chat js-chat-detail" data-chat-room-id="{$RECORD_MODEL->getId()}"
 		 data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}"
 		 data-js="container">
 		<div class="{if $CHAT->isRoomExists()}hide {/if}js-container-button">
@@ -22,5 +16,4 @@
 			</div>
 		</div>
 	</div>
-	<!-- /tpl-Base-Detail-Chat -->
 {/strip}

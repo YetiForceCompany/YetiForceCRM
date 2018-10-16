@@ -4,15 +4,15 @@
 	{function ROOM_ITEM CLASS_NAME=''}
 		{assign var=SELECTED value=\App\Chat::getCurrentRoomId()==$ROOM['room_id']}
 		<div class="row mb-1 btn-group {$CLASS_NAME}"
-			 data-room-id="{$ROOM['room_id']}" data-selected-class="btn-dark"
+			 data-room-id="{$ROOM['room_id']}" data-selected-class="btn-primary"
 			 data-unselected-class="btn-outline-dark" data-init-class="d-flex">
 			{if $ROOM['room_id']!==0 }
-				<button class="p-2 btn {if $SELECTED } btn-dark{else} btn-outline-dark{/if} js-remove-room"
+				<button class="p-2 btn {if $SELECTED } btn-primary{else} btn-outline-dark{/if} js-remove-room"
 						data-js="click">
 					<span class="fas fa-trash-alt color-red-600"></span>
 				</button>
 			{/if}
-			<button class="p-2 btn {if $SELECTED } btn-dark{else} btn-outline-dark{/if} flex-fill js-change-room js-popover-tooltip"
+			<button class="p-2 btn {if $SELECTED } btn-primary{else} btn-outline-dark{/if} flex-fill js-change-room js-popover-tooltip"
 					data-trigger="focus hover" data-placement="right"
 					data-content="{\App\Language::translate($ROOM['name'])}" data-js="click|popover|data">
 				<span class="text-truncate js-name d-inline-block c-chat-room-name" data-js="data">

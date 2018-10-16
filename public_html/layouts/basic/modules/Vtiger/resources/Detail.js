@@ -2262,6 +2262,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerBasicEvents: function () {
+		Chat_Js.getInstance().registerEvents($('.js-chat-detail'));
 		var thisInstance = this;
 		var detailContentsHolder = thisInstance.getContentHolder();
 		var selectedTabElement = thisInstance.getSelectedTab();
