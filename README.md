@@ -21,6 +21,7 @@
 [![sonarcloud.io vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
 [![SecurityHeaders.io](https://securityheadersiobadges.azurewebsites.net/create/badge?domain=https://gitdeveloper.yetiforce.com/)](https://securityheaders.io/?q=https://gitdeveloper.yetiforce.com/&hide=on&followRedirects=on)
 [![Greenkeeper badge](https://badges.greenkeeper.io/YetiForceCompany/YetiForceCRM.svg)](https://greenkeeper.io/)
+[![SymfonyInsight](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c/mini.svg)](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c)
 
 <a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>  <img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' /></a>
 <a href='https://www.capterra.com/customer-relationship-management-software/#affordable' width="50"><img border='0' src='https://public.yetiforce.com/img/CRM-AF-2017.png' width="150" /></a>
