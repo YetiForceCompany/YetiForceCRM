@@ -8,7 +8,6 @@ php:
 - 7.1
 - 7.2
 - 7.3
-- hhvm
 - nightly
 
 stages:
@@ -19,7 +18,6 @@ matrix:
   env: BROWSER_NAME="chrome" CHROME_HEADLESS="1" DEPENDENCIES="--prefer-lowest"
   fast_finish: true
   allow_failures:
-  - php: hhvm
   - php: 7.3
   - php: nightly
 
@@ -109,4 +107,5 @@ jobs:
     install: skip
     after_script: skip
     script: composer validate
+  - stage: test with coverage
 
