@@ -2628,7 +2628,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.getForm().validationEngine(app.validationEngineOptionsForRecord);
 		this.loadWidgetsEvents();
 		this.loadWidgets();
-		this.updateRecordsPDFTemplateBtn();
 		this.registerBasicEvents();
 		this.registerEventForTotalRecordsCount();
 		this.registerProgress();
