@@ -9,59 +9,66 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 		this.container = container;
 	},
 	registerExtendCalendar: function () {
-		let container = this.getContainer();
-		let instance = new Calendar_CalendarExtended_Js($('.js-modal-container'), true);
+		let container = this.getContainer(),
+			instance = new Calendar_CalendarExtended_Js($('.js-modal-container'), true),
+			user = container.find('.assigned_user_id');
 		instance.calendarView = this.getContainer().find('.js-calendar__container');
-
-		var selectDays = function (startDate, endDate) {
-			let start_hour = $('#start_hour').val(),
-				end_hour = $('#end_hour').val(),
-				view = instance.getCalendarView().fullCalendar('getView');
-			if (endDate.hasTime() == false) {
-				endDate.add(-1, 'days');
-			}
-			startDate = startDate.format();
-			endDate = endDate.format();
-			if (start_hour == '') {
-				start_hour = '00';
-			}
-			if (end_hour == '') {
-				end_hour = '00';
-			}
-			if (view.name != 'agendaDay' && view.name != 'agendaWeek') {
-				startDate = startDate + 'T' + start_hour + ':00';
-				endDate = endDate + 'T' + end_hour + ':00';
-				if (startDate == endDate) {
-					let activityType = container.find('[name="activitytype"]').val();
-					let activityDurations = JSON.parse(container.find('[name="defaultOtherEventDuration"]').val());
-					let minutes = 0;
-					for (let i in activityDurations) {
-						if (activityDurations[i].activitytype === activityType) {
-							minutes = parseInt(activityDurations[i].duration);
-							break;
-						}
-					}
-					endDate = moment(endDate).add(minutes, 'minutes').toISOString();
+		let selectDays = function (startDate, endDate) {
+				let start_hour = $('#start_hour').val(),
+					end_hour = $('#end_hour').val(),
+					view = instance.getCalendarView().fullCalendar('getView');
+				if (endDate.hasTime() == false) {
+					endDate.add(-1, 'days');
 				}
-			}
-			let dateFormat = container.find('[name="date_start"]').data('dateFormat').toUpperCase(),
-				timeFormat = container.find('[name="time_start"]').data('format'),
-				defaultTimeFormat = '';
-			if (timeFormat == 24) {
-				defaultTimeFormat = 'HH:mm';
-			} else {
-				defaultTimeFormat = 'hh:mm A';
-			}
-			container.find('[name="date_start"]').val(moment(startDate).format(dateFormat));
-			container.find('[name="due_date"]').val(moment(endDate).format(dateFormat));
-			if (container.find('.js-autofill').prop('checked') === true) {
-				Calendar_Edit_Js.getInstance().getFreeTime(container);
-			} else {
-				container.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
-				container.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
-			}
-		};
+				startDate = startDate.format();
+				endDate = endDate.format();
+				if (start_hour == '') {
+					start_hour = '00';
+				}
+				if (end_hour == '') {
+					end_hour = '00';
+				}
+				if (view.name != 'agendaDay' && view.name != 'agendaWeek') {
+					startDate = startDate + 'T' + start_hour + ':00';
+					endDate = endDate + 'T' + end_hour + ':00';
+					if (startDate == endDate) {
+						let activityType = container.find('[name="activitytype"]').val();
+						let activityDurations = JSON.parse(container.find('[name="defaultOtherEventDuration"]').val());
+						let minutes = 0;
+						for (let i in activityDurations) {
+							if (activityDurations[i].activitytype === activityType) {
+								minutes = parseInt(activityDurations[i].duration);
+								break;
+							}
+						}
+						endDate = moment(endDate).add(minutes, 'minutes').toISOString();
+					}
+				}
+				let dateFormat = container.find('[name="date_start"]').data('dateFormat').toUpperCase(),
+					timeFormat = container.find('[name="time_start"]').data('format'),
+					defaultTimeFormat = '';
+				if (timeFormat == 24) {
+					defaultTimeFormat = 'HH:mm';
+				} else {
+					defaultTimeFormat = 'hh:mm A';
+				}
+				container.find('[name="date_start"]').val(moment(startDate).format(dateFormat));
+				container.find('[name="due_date"]').val(moment(endDate).format(dateFormat));
+				if (container.find('.js-autofill').prop('checked') === true) {
+					Calendar_Edit_Js.getInstance().getFreeTime(container);
+				} else {
+					container.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
+					container.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
+				}
+			},
+			getSelectedUsersCalendar = function () {
+				return user.val();
+			};
+		user.on('change', function (e) {
+			instance.loadCalendarData();
+		});
 		instance.selectDays = selectDays;
+		instance.getSelectedUsersCalendar = getSelectedUsersCalendar;
 		instance.renderCalendar();
 	},
 	registerStandardCalendar: function () {
