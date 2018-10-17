@@ -1,9 +1,31 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Chat-Modal modal-body pt-0 pb-0">
+	<!-- tpl-Chat-Modal -->
+	{function ROOM_ITEM CLASS_NAME=''}
+		{assign var=SELECTED value=false}
+		<li>{$ROOM['name']}</li>
+	{/function}
+	<div class="modal-body pt-0 pb-0">
 		<div class="row p-0">
-			<div class="col-3 bg-color-grey-200 m-0">
-				ROOMS
+			<div class="col-3 bg-color-grey-50 m-0 p-0">
+				<div class="text-uppercase bg-color-grey-200 p-2">{\App\Language::translate('LBL_FAVORITE', $MODULE_NAME)}</div>
+				<ul>
+					{foreach item=ROOM from=\App\Chat::getRoomsByUser()}
+						{ROOM_ITEM ROOM=$ROOM CLASS_NAME='d-flex'}
+					{/foreach}
+				</ul>
+				<div class="text-uppercase bg-color-grey-200 p-2">{\App\Language::translate('LBL_GROUP', $MODULE_NAME)}</div>
+				<ul>
+					{foreach item=ROOM from=\App\Chat::getRoomsByUser()}
+						{ROOM_ITEM ROOM=$ROOM CLASS_NAME='d-flex'}
+					{/foreach}
+				</ul>
+				<div class="text-uppercase bg-color-grey-200 p-2">{\App\Language::translate('LBL_GLOBAL', $MODULE_NAME)}</div>
+				<ul>
+					{foreach item=ROOM from=\App\Chat::getRoomsByUser()}
+						{ROOM_ITEM ROOM=$ROOM CLASS_NAME='d-flex'}
+					{/foreach}
+				</ul>
 			</div>
 			<div class="col-9 m-0">
 				CHAT
@@ -11,4 +33,5 @@
 			</div>
 		</div>
 	</div>
+	<!-- /tpl-Chat-Modal -->
 {/strip}
