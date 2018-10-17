@@ -33,14 +33,11 @@ class Colors
 			case 'module':
 				self::generateModules();
 				break;
+			case 'calendar':
 			case 'picklist':
 				self::generatePicklists();
 				break;
-			case 'calendar':
-				self::generateCalendar();
-				break;
 			default:
-				self::generateCalendar();
 				self::generateOwners();
 				self::generateModules();
 				self::generatePicklists();
@@ -150,23 +147,6 @@ class Colors
 	public static function sanitizeValue($value)
 	{
 		return str_replace([' ', '-', '=', '+', '@', '*', '!', '#', '$', '%', '^', '&', '(', ')', '[', ']', '{', '}', ';', ':', "\'", '"', ',', '<', '.', '>', '/', '?', '\\', '|'], '_', $value);
-	}
-
-	/**
-	 * Generate calendar colors stylesheet.
-	 */
-	private static function generateCalendar()
-	{
-		$css = '';
-		foreach (\Settings_Calendar_Module_Model::getCalendarConfig('colors') as $item) {
-			if (ltrim($item['value'], '#')) {
-				if ($item['label'] == 'Task') {
-					$css .= '.picklistCBr_Calendar_activitytype_Task { border-color: ' . $item['value'] . ' !important; }' . PHP_EOL . '.picklistCBg_Calendar_activitytype_Task { background: ' . $item['value'] . ' !important; }' . PHP_EOL . '.picklistCT_Calendar_activitytype_Task { color: ' . $item['value'] . ' !important; }';
-				}
-				$css .= '.listCol_' . $item['label'] . ' { background: ' . $item['value'] . '; }' . PHP_EOL;
-			}
-		}
-		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/calendar.css', $css);
 	}
 
 	/**
