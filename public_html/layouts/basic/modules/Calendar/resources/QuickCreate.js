@@ -5,7 +5,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 
 	constructor(container, readonly) {
 		super(container, readonly);
-		this.switchAllDays = app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all' ? true : false;
+		this.isSwitchAllDays = app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all' ? false : true;
 		this.user = this.container.find('.assigned_user_id');
 		this.user.on('change', () => {
 			this.loadCalendarData();
@@ -70,21 +70,21 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 		if (app.getMainParams('hiddenDays', true) !== false) {
 			let calendarview = this.getCalendarView(),
 				switchContainer = $(`<div class="js-calendar-switch-container"></div>`).insertAfter(calendarview.find('.fc-center'));
-			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), this.switchAllDays))
+			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), this.isSwitchAllDays))
 				.prependTo(switchContainer)
 				.on('change', 'input', (e) => {
 					const currentTarget = $(e.currentTarget);
 					let hiddenDays = [];
 					if (typeof currentTarget.data('on-text') !== 'undefined') {
 						hiddenDays = app.getMainParams('hiddenDays', true);
-						this.switchAllDays = false;
+						this.isSwitchAllDays = false;
 					} else {
-						this.switchAllDays = true;
+						this.isSwitchAllDays = true;
 					}
 					this.getCalendarView().fullCalendar('option', 'hiddenDays', hiddenDays);
 					//calendarView.fullCalendar('option', 'height', this.setCalendarHeight());
 					if (this.getCalendarView().fullCalendar('getView').type === 'year') {
-						this.registerViewRenderEvents(calendarView.fullCalendar('getView'));
+						this.registerViewRenderEvents(this.getCalendarView().fullCalendar('getView'));
 					}
 					this.registerSwitchEvents();
 				});
