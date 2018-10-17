@@ -659,9 +659,6 @@ $sitebar-border: 1px solid #ccc;
 			&__form,
 			&__tab--filters {
 				height: calc(100vh - #{$h-footer} - #{$h-header});
-				@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
-					height: auto !important;
-				}
 			}
 
 			&__form__wrapper {
@@ -768,5 +765,8 @@ $sitebar-border: 1px solid #ccc;
 .tpl-Calendar-Extended-QuickCreate {
 	.boxEventTitle {
 		display: none;
+	}
+	.o-calendar__form {
+		height: auto !important;
 	}
 }
