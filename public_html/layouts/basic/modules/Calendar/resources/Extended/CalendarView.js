@@ -41,7 +41,8 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			addHeaderButtons: self.addHeaderButtons,
 			browserHistoryConfig: self.browserHistoryConfig,
 			readonly: self.readonly,
-			container: self.container
+			container: self.container,
+			showChangeDateButtons: self.showChangeDateButtons
 		});
 	}
 
@@ -324,12 +325,35 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	 */
 	registerViewRenderEvents(view) {
 		this.calendarContainer = this.getCalendarView();
-		let toolbar = this.calendarContainer.find('.fc-toolbar.fc-header-toolbar'),
-			nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button'),
-			yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
+		let toolbar = this.calendarContainer.find('.fc-toolbar.fc-header-toolbar');
+		this.showChangeDateButtons(view, toolbar);
 		this.appendSubDateRow(toolbar);
 		this.refreshDatesRowView(view);
 		this.addHeaderButtons();
+	}
+
+	/**
+	 * Function shows change date buttons in calendar's header for specific view
+	 * @param view
+	 * @param toolbar
+	 */
+	showChangeDateButtons(view, toolbar) {
+		let viewType = view.type,
+			nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button'),
+			yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
+		if (viewType === 'agendaWeek') {
+			viewType = 'week'
+		} else if (viewType === 'agendaDay') {
+			viewType = 'day';
+		}
+		if (view.options.firstLoad) {
+			yearButtons.first().html(`<span class="fas small fa-minus mr-1"></span>${view.options.buttonText['year']}`);
+			yearButtons.last().html(`${view.options.buttonText['year']}<span class="fas small fa-plus ml-1"></span>`);
+		}
+		if (view.type !== 'year') {
+			nextPrevButtons.first().html(`<span class="fas small fa-minus mr-1"></span>${view.options.buttonText[viewType]}`);
+			nextPrevButtons.last().html(`${view.options.buttonText[viewType]}<span class="fas small fa-plus ml-1"></span>`);
+		}
 		if (view.type === 'year') {
 			nextPrevButtons.hide();
 			yearButtons.show();
