@@ -301,9 +301,8 @@ class Vtiger_Link_Model extends vtlib\Link
 			$this->relatedModuleName = $parent ? "$parent:$module" : $module;
 		}
 
-		$url = implode('&', $parametersParts);
 		//To convert single quotes and double quotes
-		return \App\Purifier::encodeHtml($url);
+		return \App\Purifier::encodeHtml(implode('&', $parametersParts));
 	}
 
 	/**
