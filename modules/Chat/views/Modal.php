@@ -15,6 +15,26 @@ class Chat_Modal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
+	public $dangerBtn;
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public $successBtn;
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public $modalSize = 'modal-fullscreen';
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public $modalIcon = 'fas fa-comments fa-fw';
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted($request->getModule())) {
