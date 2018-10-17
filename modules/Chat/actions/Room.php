@@ -10,7 +10,7 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-class Chat_Entries_Action extends \App\Controller\Action
+class Chat_Room_Action extends \App\Controller\Action
 {
 	use \App\Controller\ExposeMethod;
 
@@ -20,7 +20,7 @@ class Chat_Entries_Action extends \App\Controller\Action
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('sendMessage');
+		$this->exposeMethod('getAll');
 	}
 
 	/**
@@ -43,8 +43,11 @@ class Chat_Entries_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function sendMessage(\App\Request $request)
+	public function getAll(\App\Request $request)
 	{
-		echo $request->get('message');
+		$response = new Vtiger_Response();
+		$response->setResult([
+		]);
+		$response->emit();
 	}
 }

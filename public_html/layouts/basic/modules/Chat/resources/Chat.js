@@ -54,6 +54,7 @@ window.Chat_JS = class Chat_Js {
 		if (inputMessage.val() === '') {
 			return;
 		}
+		console.log('Sned: ' + inputMessage.val());
 		inputMessage.val('');
 	}
 
