@@ -33,7 +33,6 @@ class Colors
 			case 'module':
 				self::generateModules();
 				break;
-			case 'calendar':
 			case 'picklist':
 				self::generatePicklists();
 				break;
