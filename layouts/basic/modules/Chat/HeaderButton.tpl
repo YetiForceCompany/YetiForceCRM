@@ -3,7 +3,7 @@
 	<div class="tpl-Chat-HeaderButton o-action-menu__item">
 		<a class="c-header__btn ml-2 btn-light btn showModal js-popover-tooltip"
 		   role="button"
-		   data-url="index.php?module=Chat&view=Modal&onlyBody=1"
+		   data-url="index.php?module=Chat&view=Modal&onlyBody=0"
 		   data-js="popover|modal" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
 		<span class="fas fa-comments fa-fw"
 			  title="{\App\Language::translate('LBL_CHAT')}"></span>

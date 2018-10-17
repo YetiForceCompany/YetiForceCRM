@@ -16,4 +16,22 @@ namespace App;
  */
 class Chat
 {
+	/**
+	 * Get all chat rooms by user.
+	 *
+	 * @param int|null $userId
+	 *
+	 * @return array
+	 */
+	public static function getRoomsByUser(?int $userId = null)
+	{
+		if (empty($userId)) {
+			$userId = \App\User::getCurrentUserId();
+		}
+		return [
+			['name' => 'room1'],
+			['name' => 'room2'],
+			['name' => 'room3'],
+		];
+	}
 }
