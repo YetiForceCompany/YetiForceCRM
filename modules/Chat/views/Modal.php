@@ -15,16 +15,6 @@ class Chat_Modal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public $dangerBtn;
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public $successBtn;
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public $modalSize = 'modal-fullscreen';
 
 	/**
@@ -45,9 +35,26 @@ class Chat_Modal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
+	protected function preProcessTplName(\App\Request $request)
+	{
+		return 'ModalHeader.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view('Modal.tpl', $request->getModule());
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function postProcessAjax(\App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$viewer->view('ModalFooter.tpl', $request->getModule());
 	}
 }
