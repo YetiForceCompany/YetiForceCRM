@@ -26,6 +26,26 @@ window.Chat_JS = class Chat_Js {
 		return Chat_Js.instance;
 	}
 
+	sendRequest(data = {}) {
+		const aDeferred = jQuery.Deferred();
+		let param = {
+			module: 'Chat',
+			action: 'Entries',
+			mode: 'switchRoom'
+		};
+		param = $.extend(param, data);
+		AppConnector.request({
+			dataType: 'json',
+			data: param
+		}).done((data) => {
+			aDeferred.resolve(data);
+		}).fail((error, err) => {
+			console.log('error: ' + error + ' ' + err);
+			app.errorLog(error, err);
+		});
+		return aDeferred.promise();
+	}
+
 	/**
 	 * Send chat message.
 	 * @param {jQuery} inputMessage
@@ -77,6 +97,13 @@ window.Chat_JS = class Chat_Js {
 			let roomId = $(e.currentTarget).data('roomId');
 			let id = $(e.currentTarget).data('id');
 			console.log('room: ' + roomId + ' t: ' + roomType + ' id: ' + id);
+			this.sendRequest({
+				room_id: roomId,
+				room_type: roomType,
+				id: id
+			}).done((data) => {
+				console.log('DONE');
+			});
 		});
 	}
 
