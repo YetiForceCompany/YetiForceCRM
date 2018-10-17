@@ -26,20 +26,30 @@ window.Chat_JS = class Chat_Js {
 		return Chat_Js.instance;
 	}
 
-	sendRequest(data = {}) {
+	/**
+	 * Sending HTTP requests to the chat module.
+	 * @param {*} data
+	 * @param {bool} progress
+	 * @returns {*}
+	 */
+	sendRequest(data = {}, progress = true) {
 		const aDeferred = jQuery.Deferred();
-		let param = {
-			module: 'Chat',
-			action: 'Entries',
-			mode: 'switchRoom'
-		};
-		param = $.extend(param, data);
+		let progressIndicatorElement = null;
+		if (progress) {
+			progressIndicatorElement = this.progressShow();
+		}
 		AppConnector.request({
 			dataType: 'json',
-			data: param
+			data: $.extend({module: 'Chat'}, data)
 		}).done((data) => {
+			if (progress) {
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
+			}
 			aDeferred.resolve(data);
 		}).fail((error, err) => {
+			if (progress) {
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
+			}
 			console.log('error: ' + error + ' ' + err);
 			app.errorLog(error, err);
 		});
@@ -98,6 +108,8 @@ window.Chat_JS = class Chat_Js {
 			let id = $(e.currentTarget).data('id');
 			console.log('room: ' + roomId + ' t: ' + roomType + ' id: ' + id);
 			this.sendRequest({
+				action: 'Entries',
+				mode: 'switchRoom',
 				room_id: roomId,
 				room_type: roomType,
 				id: id
