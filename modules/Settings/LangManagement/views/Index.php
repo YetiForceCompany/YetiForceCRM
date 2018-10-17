@@ -4,7 +4,7 @@
  * Settings LangManagement index view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 {
@@ -35,9 +35,8 @@ class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$jsFileNames = [
-			"modules.Settings.$moduleName.resources.LangManagement",
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			'modules.Settings.' . $request->getModule() . '.resources.LangManagement',
 			'~libraries/datatables.net/js/jquery.dataTables.js',
 			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
@@ -45,9 +44,7 @@ class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 			'modules.Vtiger.resources.dashboards.Widget',
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js'
-		];
-
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
+		]));
 	}
 
 	/**
@@ -59,15 +56,10 @@ class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = [
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
 			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
 			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css',
 			'modules.Settings.LangManagement.LangManagement',
-		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-
-		return $headerCssInstances;
+		]));
 	}
 }

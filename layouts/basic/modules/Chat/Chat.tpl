@@ -2,28 +2,36 @@
 {strip}
 	<!-- tpl-Chat-Chat -->
 	{function ROOM_ITEM CLASS_NAME=''}
-		<div class="row mb-1 btn-group {if \App\Chat::getCurrentRoomId()==$ROOM['room_id'] } bg-color-grey-200{/if} {$CLASS_NAME}"
-			 data-room-id="{$ROOM['room_id']}" data-selected-class="bg-color-grey-200" data-init-class="d-flex">
+		{assign var=SELECTED value=\App\Chat::getCurrentRoomId()==$ROOM['room_id']}
+		<div class="row mb-1 btn-group {$CLASS_NAME}"
+			 data-room-id="{$ROOM['room_id']}" data-selected-class="btn-primary"
+			 data-unselected-class="btn-outline-dark" data-init-class="d-flex">
 			{if $ROOM['room_id']!==0 }
-				<button class="p-2 btn btn-outline-dark">
-					<span class="fas fa-trash-alt color-red-600 js-remove-room"></span>
+				<button class="p-2 btn {if $SELECTED } btn-primary{else} btn-outline-dark{/if} js-remove-room"
+						data-js="click">
+					<span class="fas fa-trash-alt color-red-600"></span>
 				</button>
 			{/if}
-			<button class="p-2 btn btn-outline-dark flex-fill js-change-room js-popover-tooltip"
+			<button class="p-2 btn {if $SELECTED } btn-primary{else} btn-outline-dark{/if} flex-fill js-change-room js-popover-tooltip"
 					data-trigger="focus hover" data-placement="right"
-					data-content="{\App\Language::translate($ROOM['name'])}" data-js="click|popover">
-				{\App\Language::translate($ROOM['name'])}
+					data-content="{\App\Language::translate($ROOM['name'])}" data-js="click|popover|data">
+				<span class="text-truncate js-name d-inline-block c-chat-room-name" data-js="data">
+					{\App\Language::translate($ROOM['name'])}
+				</span>
+				<span class="js-number-of-new {if $ROOM['number_of_new'] === 0}hide{/if} badge badge-danger c-badge--md mr-1 float-right"
+					  data-js="data">
+					{$ROOM['number_of_new']}
+				</span>
 			</button>
 		</div>
 	{/function}
 	<div class="o-action-menu__item">
-		<a class="c-header__btn ml-2 btn btn-light btn headerLinkChat js-popover-tooltip"
+		<a class="c-header__btn ml-2 btn btn-light btn js-header-link-chat js-popover-tooltip"
 		   role="button"
-		   data-js="popover" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
+		   data-js="popover|click" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
 		<span class="fas fa-comments fa-fw"
 			  title="{\App\Language::translate('LBL_CHAT')}"></span>
 			<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_CHAT')}</span>
-
 		</a>
 		<div class="chatModal o-chat-modal-window modal-full fade c-modal--custom-animation js-chat-modal" tabindex="-1"
 			 role="dialog"
@@ -43,15 +51,15 @@
 							</button>
 						</div>
 						<div class="row">
-							<div class="col-sm-2 pl-5">
-								{ROOM_ITEM ROOM=['room_id'=>'', 'name'=>''] CLASS_NAME='js-room-template hide'}
+							<div class="col-sm-3 pl-5">
+								{ROOM_ITEM ROOM=['room_id'=>'', 'name'=>'', 'number_of_new'=>0] CLASS_NAME='js-room-template hide'}
 								<div class="js-chat-rooms-list">
 									{foreach item=ROOM from=\App\Chat::getRoomsByUser()}
 										{ROOM_ITEM ROOM=$ROOM CLASS_NAME='d-flex'}
 									{/foreach}
 								</div>
 							</div>
-							<div class="col-sm-10 ps pr-4">
+							<div class="col-sm-9 ps pr-4">
 								{include file=\App\Layout::getTemplatePath('Detail/ChatInput.tpl')}
 								<div class="js-chat-items js-chat-room-{\App\Chat::getCurrentRoomId()} o-chat-items"
 									 data-js="html">

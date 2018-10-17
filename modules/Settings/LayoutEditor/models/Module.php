@@ -614,12 +614,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public static function getRelationsActions()
 	{
-		$actionList = [
+		return [
 			'ADD' => 'PLL_ADD',
 			'SELECT' => 'PLL_SELECT',
 		];
-
-		return $actionList;
 	}
 
 	public static function getRelationFields($moduleId)

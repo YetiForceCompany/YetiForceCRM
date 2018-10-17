@@ -4,9 +4,9 @@
  * Configuration notifications.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Notifications_Configuration_View extends Settings_Vtiger_Index_View
 {
@@ -39,18 +39,12 @@ class Settings_Notifications_Configuration_View extends Settings_Vtiger_Index_Vi
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-		$jsFileNames = [
-			"modules.Settings.$moduleName.resources.Configuration",
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			'modules.Settings.' . $request->getModule() . '.resources.Configuration',
 			'~libraries/datatables.net/js/jquery.dataTables.js',
 			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
 			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js'
-		];
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		]));
 	}
 }

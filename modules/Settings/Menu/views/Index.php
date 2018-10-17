@@ -4,7 +4,7 @@
  * Settings menu index view class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 {
@@ -36,28 +36,16 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'~libraries/jstree/dist/jstree.js',
-		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		]));
 	}
 
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$moduleName = $request->getModule();
-		$cssFileNames = [
+		return array_merge($this->checkAndConvertCssStyles([
 			'~libraries/jstree/dist/themes/default/style.css',
-			"modules.Settings.$moduleName.Index",
-		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
-
-		return $headerCssInstances;
+			'modules.Settings.' . $request->getModule() . '.Index',
+		]), parent::getHeaderCss($request));
 	}
 }

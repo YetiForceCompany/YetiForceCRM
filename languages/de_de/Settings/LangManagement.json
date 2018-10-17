@@ -51,7 +51,7 @@
     "LBL_SHOW": "Anzeigen",
     "LBL_STATS_INFO": "Die angezeigte Statistik stellt das prozentuale Verh\u00e4ltnis der nicht \u00fcbersetzten Labels zu allen Labels in den Standardsprachdateien.",
     "LBL_UNTRANSLATED_LABELS": "Nicht \u00fcbersetzte Labels",
-    "LBL_IMPORT_LANG": "Import language"
+    "LBL_IMPORT_LANG": "Import Sprache"
   },
   "js": {
     "Translations": "\u00dcbersetzungen",
@@ -66,6 +66,6 @@
     "Search": "Suchen:",
     "No data available in table": "Keine \u00dcbersetzung verf\u00fcgbar",
     "JS_EXPORT": "Exportieren",
-    "JS_NOTRANSLATION": "--No Translation--"
+    "JS_NOTRANSLATION": "--keine \u00dcbersetzung--"
   }
 }
