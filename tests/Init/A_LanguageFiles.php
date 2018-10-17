@@ -10,6 +10,8 @@
 
 namespace Tests\Init;
 
+use Seld\JsonLint\JsonParser;
+
 class A_LanguageFiles extends \Tests\Base
 {
 	/**
@@ -17,9 +19,15 @@ class A_LanguageFiles extends \Tests\Base
 	 */
 	public function testLoadFiles()
 	{
+		$parser = new JsonParser();
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isFile()) {
-				$this->assertNotEmpty(\json_decode(\file_get_contents($item->getPathname()), true), 'File: ' . $item->getPathname());
+				try {
+					$this->assertNotEmpty($parser->parse(file_get_contents($item->getPathname())), 'Language file: ' . $item->getPathname() . ' syntax error');
+				} catch (\Seld\JsonLint\ParsingException $e) {
+					$details = $e->getDetails();
+					$this->fail("{$e->getMessage()} in {$item->getPathname()} on line {$details['line']}");
+				}
 			}
 		}
 	}
