@@ -257,21 +257,44 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		});
 		return aDeferred.promise();
 	},
-	deleteRelation: function (relatedIdList) {
-		var aDeferred = jQuery.Deferred();
-		AppConnector.request({
-			module: this.parentModuleName,
-			action: 'RelationAjax',
-			mode: 'deleteRelation',
-			related_module: this.moduleName,
-			src_record: this.parentRecordId,
-			related_record_list: JSON.stringify(relatedIdList)
-		}).done(function (responseData) {
-			aDeferred.resolve(responseData);
-		}).fail(function (textStatus, errorThrown) {
-			aDeferred.reject(textStatus, errorThrown);
+	deleteRelation(target) {
+		let params = {};
+		if (target.data('url')) {
+			params = target.data('url');
+		} else {
+			let id = target.data('id') ? target.data('id') : element.closest('tr').data('id');
+			params = {
+				module: this.parentModuleName,
+				action: 'RelationAjax',
+				mode: 'deleteRelation',
+				related_module: this.moduleName,
+				src_record: this.parentRecordId,
+				related_record_list: JSON.stringify([id])
+			};
+		}
+		let progressInstance = $.progressIndicator({position: 'html', blockInfo: {enabled: true}});
+		AppConnector.request(params).done(response => {
+			progressInstance.progressIndicator({'mode': 'hide'});
+			if (response.result) {
+				let widget = target.closest('.widgetContentBlock');
+				const detail = Vtiger_Detail_Js.getInstance();
+				if (widget.length) {
+					detail.loadWidget(widget);
+					let updatesWidget = this.getContentHolder().find("[data-type='Updates']");
+					if (updatesWidget.length > 0) {
+						detail.loadWidget(updatesWidget);
+					}
+				} else {
+					this.loadRelatedList();
+				}
+				detail.registerRelatedModulesRecordCount();
+			} else {
+				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
+			}
+		}).fail(function (err, errThrow) {
+			progressInstance.progressIndicator({'mode': 'hide'});
+			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
 		});
-		return aDeferred.promise();
 	},
 	/**
 	 * Function to handle Sort
@@ -780,30 +803,18 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		});
 		this.content.find('button.relationDelete').on('click', function (e) {
 			e.stopImmediatePropagation();
-			var element = $(this);
-			Vtiger_Helper_Js.showConfirmationBox({message: app.vtranslate('JS_DELETE_CONFIRMATION')}).done(function (e) {
-				var row = element.closest('tr');
-				if (!row.length) {
-					row = element;
-				}
-				thisInstance.deleteRelation([row.data('id')]).done(function (response) {
-					if (response.result) {
-						var widget = element.closest('.widgetContentBlock');
-						var detail = Vtiger_Detail_Js.getInstance();
-						if (widget.length) {
-							detail.loadWidget(widget);
-							var updatesWidget = thisInstance.getContentHolder().find("[data-type='Updates']");
-							if (updatesWidget.length > 0) {
-								detail.loadWidget(updatesWidget);
-							}
-						} else {
-							thisInstance.loadRelatedList();
-						}
-						detail.registerRelatedModulesRecordCount();
-					} else {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
-					}
-				});
+			let target = $(e.currentTarget);
+			let params = {};
+			if (target.data('confirm')) {
+				params.message = target.data('confirm');
+				params.title = target.html() + ' ' + target.data('content');
+			} else if (target.data('content')) {
+				params.message = target.data('content');
+			} else {
+				params.message = app.vtranslate('JS_DELETE_CONFIRMATION');
+			}
+			Vtiger_Helper_Js.showConfirmationBox(params).done(function () {
+				thisInstance.deleteRelation(target);
 			});
 		});
 		this.content.find('.js-switch--calendar').on('change', function (e) {

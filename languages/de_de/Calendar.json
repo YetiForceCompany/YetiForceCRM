@@ -130,8 +130,8 @@
     "LBL_FILTER": "Filters",
     "LBL_MEET": "MEETING",
     "LBL_PHONE": "PHONE",
-    "LBL_EDIT_EVENT": "Edit event",
-    "LBL_USER_NAME": "User name",
+    "LBL_EDIT_EVENT": "Ereignis bearbeiten",
+    "LBL_USER_NAME": "Benutzername",
     "LBL_AUTO_FILL_DESCRIPTION": "Bitte das Startdatum auf das erste verf\u00fcgbare Datum setzen",
     "LBL_CACHE_SELECTED_FILTERS": "Standardsicht des Kalenders ge\u00e4ndert. Klicke \"View leeren\" um zu l\u00f6schen.",
     "LBL_CACHE_CLEAR": "View leeren",
@@ -181,9 +181,9 @@
     "LBL_DELETE_ALL_EVENTS": "Alle Datens\u00e4tze l\u00f6schen",
     "LBL_DELETE_ALL_EVENTS_DESCRIPTION": "Alle Datens\u00e4tze werden der Reihenfolge nach gel\u00f6scht",
     "LBL_REPEATEVENT": "Einmal in jeder",
-    "LBL_VIEW_CALENDAREXTENDED": "Graphical calendar",
-    "LBL_REMAIND_HOURS": "Remind after the selected number of hours",
-    "LBL_REMAIND_MINS": "Remind after the selected number of minutes",
+    "LBL_VIEW_CALENDAREXTENDED": "Grafischer Kalendar",
+    "LBL_REMAIND_HOURS": "Erinnern, nach der gew\u00e4hlten Anzahl von Stunden",
+    "LBL_REMAIND_MINS": "Erinnern, nach der gew\u00e4hlten Anzahl von Minuten",
     "LBL_WORK_DAYS": "Arbeitstage"
   },
   "js": {

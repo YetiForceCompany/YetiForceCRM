@@ -1281,7 +1281,7 @@ $.Class("Vtiger_Edit_Js", {
 		});
 	},
 	registerFocusFirstField: function (container) {
-		container.find('.fieldValue input.form-control:not([type=hidden],[type=checkbox])').each(function (n, e) {
+		container.find('.fieldValue input.form-control:not([type=hidden],[type=checkbox],.dateField,.clockPicker)').each(function (n, e) {
 			var element = $(e);
 			if (!element.prop('readonly') && !element.prop('disabled')) {
 				element = element.get(0);
