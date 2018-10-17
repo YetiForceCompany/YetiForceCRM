@@ -136,26 +136,24 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
 			$model->setData($row);
 			$model->setId($row['crmid']);
-			if (!empty($row['parent_id'])) {
-				if (\App\Record::isExists($row['parent_id'])) {
-					$record = Vtiger_Record_Model::getInstanceById($row['parent_id']);
-					if ($record->getModuleName() === 'Accounts') {
-						$model->set('contractor', $record);
-					} elseif ($record->getModuleName() === 'Project') {
-						if (\App\Record::isExists($record->get('linktoaccountscontacts'))) {
-							$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('linktoaccountscontacts'));
-							$model->set('contractor', $recordContractor);
-						}
-					} elseif ($record->getModuleName() === 'ServiceContracts') {
-						if (\App\Record::isExists($record->get('sc_realted_to'))) {
-							$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('sc_realted_to'));
-							$model->set('contractor', $recordContractor);
-						}
-					} elseif ($record->getModuleName() === 'HelpDesk') {
-						if (\App\Record::isExists($record->get('parent_id'))) {
-							$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('parent_id'));
-							$model->set('contractor', $recordContractor);
-						}
+			if (!empty($row['parent_id']) && \App\Record::isExists($row['parent_id'])) {
+				$record = Vtiger_Record_Model::getInstanceById($row['parent_id']);
+				if ($record->getModuleName() === 'Accounts') {
+					$model->set('contractor', $record);
+				} elseif ($record->getModuleName() === 'Project') {
+					if (\App\Record::isExists($record->get('linktoaccountscontacts'))) {
+						$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('linktoaccountscontacts'));
+						$model->set('contractor', $recordContractor);
+					}
+				} elseif ($record->getModuleName() === 'ServiceContracts') {
+					if (\App\Record::isExists($record->get('sc_realted_to'))) {
+						$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('sc_realted_to'));
+						$model->set('contractor', $recordContractor);
+					}
+				} elseif ($record->getModuleName() === 'HelpDesk') {
+					if (\App\Record::isExists($record->get('parent_id'))) {
+						$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('parent_id'));
+						$model->set('contractor', $recordContractor);
 					}
 				}
 			}
@@ -217,12 +215,10 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$model = Vtiger_Record_Model::getCleanInstance('ProjectTask');
 			$model->setData($row);
 			$model->setId($row['crmid']);
-			if ($row['projectid']) {
-				if (\App\Record::isExists($row['projectid'])) {
-					$record = Vtiger_Record_Model::getInstanceById($row['projectid'], 'Project');
-					if (\App\Record::isExists($record->get('linktoaccountscontacts'))) {
-						$model->set('account', '<a href="index.php?module=' . \App\Record::getType($record->get('linktoaccountscontacts')) . '&view=Detail&record=' . $record->get('linktoaccountscontacts') . '">' . vtlib\Functions::getCRMRecordLabel($record->get('linktoaccountscontacts')) . '</a>');
-					}
+			if ($row['projectid'] && \App\Record::isExists($row['projectid'])) {
+				$record = Vtiger_Record_Model::getInstanceById($row['projectid'], 'Project');
+				if (\App\Record::isExists($record->get('linktoaccountscontacts'))) {
+					$model->set('account', '<a href="index.php?module=' . \App\Record::getType($record->get('linktoaccountscontacts')) . '&view=Detail&record=' . $record->get('linktoaccountscontacts') . '">' . vtlib\Functions::getCRMRecordLabel($record->get('linktoaccountscontacts')) . '</a>');
 				}
 			}
 			$projecttasks[] = $model;

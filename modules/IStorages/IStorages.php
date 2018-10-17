@@ -144,23 +144,21 @@ class IStorages extends Vtiger_CRMEntity
 			// Permission to view storage is restricted, avoid showing field values (except storage name)
 			if (\App\Field::getFieldPermission('IStorages', $colname)) {
 				$data = \App\Purifier::encodeHtml($iStorageInfoBase[$colname]);
-				if ($getRawData === false) {
-					if ($colname == 'subject') {
-						if ($iStorageId != $id) {
-							if ($getLinks) {
-								if ($hasRecordViewAccess) {
-									$data = '<a href="index.php?module=IStorages&action=DetailView&record=' . $iStorageId . '">' . $data . '</a>';
-								} else {
-									$data = '<span>' . $data . '&nbsp;<span class="fas fa-exclamation-circle"></span></span>';
-								}
+				if ($getRawData === false && $colname == 'subject') {
+					if ($iStorageId != $id) {
+						if ($getLinks) {
+							if ($hasRecordViewAccess) {
+								$data = '<a href="index.php?module=IStorages&action=DetailView&record=' . $iStorageId . '">' . $data . '</a>';
+							} else {
+								$data = '<span>' . $data . '&nbsp;<span class="fas fa-exclamation-circle"></span></span>';
 							}
-						} else {
-							$data = '<strong>' . $data . '</strong>';
 						}
-						// - to show the hierarchy of the Storages
-						$iStorageDepth = str_repeat(' .. ', $iStorageInfoBase['depth']);
-						$data = $iStorageDepth . $data;
+					} else {
+						$data = '<strong>' . $data . '</strong>';
 					}
+					// - to show the hierarchy of the Storages
+					$iStorageDepth = str_repeat(' .. ', $iStorageInfoBase['depth']);
+					$data = $iStorageDepth . $data;
 				}
 				$iStorageInfoData[] = $data;
 			}

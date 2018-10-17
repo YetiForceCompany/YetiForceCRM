@@ -160,10 +160,8 @@ class Products extends CRMEntity
 					'usedcurrency' => Vtiger_Record_Model::getInstanceById($withCrmId, $withModule)->get('currency_id')
 				])->execute();
 			} elseif (in_array($withModule, ['Leads', 'Accounts', 'Contacts', 'Products'])) {
-				if ($withModule === 'Products') {
-					if ((new App\Db\Query())->from('vtiger_seproductsrel')->where(['productid' => $withCrmId])->exists()) {
-						continue;
-					}
+				if ($withModule === 'Products' && (new App\Db\Query())->from('vtiger_seproductsrel')->where(['productid' => $withCrmId])->exists()) {
+					continue;
 				}
 				$isExists = (new App\Db\Query())->from('vtiger_seproductsrel')->where(['crmid' => $withCrmId, 'productid' => $crmid])->exists();
 				if (!$isExists) {

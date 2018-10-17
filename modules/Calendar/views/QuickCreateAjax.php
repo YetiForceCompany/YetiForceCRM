@@ -24,10 +24,8 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	public function checkPermission(\App\Request $request)
 	{
 		parent::checkPermission($request);
-		if (!$request->isEmpty('sourceRecord', true)) {
-			if (!\App\Privilege::isPermitted($request->getByType('sourceModule', 2), 'DetailView', $request->getInteger('sourceRecord'))) {
-				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-			}
+		if (!$request->isEmpty('sourceRecord', true) && !\App\Privilege::isPermitted($request->getByType('sourceModule', 2), 'DetailView', $request->getInteger('sourceRecord'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
