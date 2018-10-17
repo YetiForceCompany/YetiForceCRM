@@ -203,17 +203,15 @@ class UserPrivilegesFile
 					foreach ($shareEntArr as $shareEntId) {
 						if ($shareType == 'ROLE') {
 							if ($sharePermission == 1) {
-								if ($def_org_share[$shareModId] == 3) {
-									if (!array_key_exists($shareEntId, $roleReadPer)) {
-										if (array_key_exists($shareEntId, $mod_share_read_per['ROLE'])) {
-											$shareRoleUsers = $mod_share_read_per['ROLE'][$shareEntId];
-										} elseif (array_key_exists($shareEntId, $mod_share_write_per['ROLE'])) {
-											$shareRoleUsers = $mod_share_write_per['ROLE'][$shareEntId];
-										} else {
-											$shareRoleUsers = PrivilegeUtil::getUsersByRole($shareEntId);
-										}
-										$roleReadPer[$shareEntId] = $shareRoleUsers;
+								if ($def_org_share[$shareModId] == 3 && !array_key_exists($shareEntId, $roleReadPer)) {
+									if (array_key_exists($shareEntId, $mod_share_read_per['ROLE'])) {
+										$shareRoleUsers = $mod_share_read_per['ROLE'][$shareEntId];
+									} elseif (array_key_exists($shareEntId, $mod_share_write_per['ROLE'])) {
+										$shareRoleUsers = $mod_share_write_per['ROLE'][$shareEntId];
+									} else {
+										$shareRoleUsers = PrivilegeUtil::getUsersByRole($shareEntId);
 									}
+									$roleReadPer[$shareEntId] = $shareRoleUsers;
 								}
 								if (!array_key_exists($shareEntId, $roleWritePer)) {
 									if (array_key_exists($shareEntId, $mod_share_read_per['ROLE'])) {
@@ -239,41 +237,37 @@ class UserPrivilegesFile
 							}
 						} elseif ($shareType == 'GROUP') {
 							if ($sharePermission == 1) {
-								if ($def_org_share[$shareModId] == 3) {
-									if (!array_key_exists($shareEntId, $grpReadPer)) {
-										if (array_key_exists($shareEntId, $mod_share_read_per['GROUP'])) {
-											$shareGrpUsers = $mod_share_read_per['GROUP'][$shareEntId];
-										} elseif (array_key_exists($shareEntId, $mod_share_write_per['GROUP'])) {
-											$shareGrpUsers = $mod_share_write_per['GROUP'][$shareEntId];
-										} else {
-											$usersByGroup = PrivilegeUtil::getUsersByGroup($shareEntId, true);
-											$shareGrpUsers = $usersByGroup['users'];
-											foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
-												if (!array_key_exists($subgrpid, $grpReadPer)) {
-													$grpReadPer[$subgrpid] = $subgrpusers;
-												}
+								if ($def_org_share[$shareModId] == 3 && !array_key_exists($shareEntId, $grpReadPer)) {
+									if (array_key_exists($shareEntId, $mod_share_read_per['GROUP'])) {
+										$shareGrpUsers = $mod_share_read_per['GROUP'][$shareEntId];
+									} elseif (array_key_exists($shareEntId, $mod_share_write_per['GROUP'])) {
+										$shareGrpUsers = $mod_share_write_per['GROUP'][$shareEntId];
+									} else {
+										$usersByGroup = PrivilegeUtil::getUsersByGroup($shareEntId, true);
+										$shareGrpUsers = $usersByGroup['users'];
+										foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
+											if (!array_key_exists($subgrpid, $grpReadPer)) {
+												$grpReadPer[$subgrpid] = $subgrpusers;
 											}
 										}
-										$grpReadPer[$shareEntId] = $shareGrpUsers;
 									}
+									$grpReadPer[$shareEntId] = $shareGrpUsers;
 								}
-								if (!array_key_exists($shareEntId, $grpWritePer)) {
-									if (!array_key_exists($shareEntId, $grpWritePer)) {
-										if (array_key_exists($shareEntId, $mod_share_read_per['GROUP'])) {
-											$shareGrpUsers = $mod_share_read_per['GROUP'][$shareEntId];
-										} elseif (array_key_exists($shareEntId, $mod_share_write_per['GROUP'])) {
-											$shareGrpUsers = $mod_share_write_per['GROUP'][$shareEntId];
-										} else {
-											$usersByGroup = PrivilegeUtil::getUsersByGroup($shareEntId, true);
-											$shareGrpUsers = $usersByGroup['users'];
-											foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
-												if (!array_key_exists($subgrpid, $grpWritePer)) {
-													$grpWritePer[$subgrpid] = $subgrpusers;
-												}
+								if (!array_key_exists($shareEntId, $grpWritePer) && !array_key_exists($shareEntId, $grpWritePer)) {
+									if (array_key_exists($shareEntId, $mod_share_read_per['GROUP'])) {
+										$shareGrpUsers = $mod_share_read_per['GROUP'][$shareEntId];
+									} elseif (array_key_exists($shareEntId, $mod_share_write_per['GROUP'])) {
+										$shareGrpUsers = $mod_share_write_per['GROUP'][$shareEntId];
+									} else {
+										$usersByGroup = PrivilegeUtil::getUsersByGroup($shareEntId, true);
+										$shareGrpUsers = $usersByGroup['users'];
+										foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
+											if (!array_key_exists($subgrpid, $grpWritePer)) {
+												$grpWritePer[$subgrpid] = $subgrpusers;
 											}
 										}
-										$grpWritePer[$shareEntId] = $shareGrpUsers;
 									}
+									$grpWritePer[$shareEntId] = $shareGrpUsers;
 								}
 							} elseif ($sharePermission == 0 && $def_org_share[$shareModId] == 3) {
 								if (!array_key_exists($shareEntId, $grpReadPer)) {

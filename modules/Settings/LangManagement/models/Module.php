@@ -28,11 +28,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$loc = '';
 		foreach ($folders as $name) {
 			$loc .= DIRECTORY_SEPARATOR . $name;
-			if (!file_exists(ROOT_DIRECTORY . $loc)) {
-				if (!mkdir(ROOT_DIRECTORY . $loc)) {
-					\App\Log::warning("No permissions to create directories: $loc");
-					throw new \App\Exceptions\AppException('No permissions to create directories');
-				}
+			if (!file_exists(ROOT_DIRECTORY . $loc) && !mkdir(ROOT_DIRECTORY . $loc)) {
+				\App\Log::warning("No permissions to create directories: $loc");
+				throw new \App\Exceptions\AppException('No permissions to create directories');
 			}
 		}
 	}
