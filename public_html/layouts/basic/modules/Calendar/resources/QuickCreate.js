@@ -6,17 +6,73 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 	constructor(container, readonly) {
 		super(container, readonly);
 		this.isSwitchAllDays = app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all' ? false : true;
-		this.user = this.container.find('.assigned_user_id');
-		this.user.on('change', () => {
-			this.loadCalendarData();
+		this.renderCalendar();
+		this.registerEvents();
+	}
+
+	/**
+	 * Functions register calendar events
+	 * Overwrites Calendar_CalendarExtended_Js
+	 */
+	registerEvents() {
+		this.registerSwitchEvents();
+		this.registerUsersChange();
+	}
+
+	/**
+	 * Functions register calendar switch event
+	 * Overwrites Calendar_CalendarExtended_Js
+	 */
+	registerSwitchEvents() {
+		if (app.getMainParams('hiddenDays', true) !== false) {
+			let calendarview = this.getCalendarView(),
+				switchContainer = $(`<div class="js-calendar-switch-container"></div>`).insertAfter(calendarview.find('.fc-center'));
+			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), this.isSwitchAllDays))
+				.prependTo(switchContainer)
+				.on('change', 'input', (e) => {
+					const currentTarget = $(e.currentTarget);
+					let hiddenDays = [];
+					if (typeof currentTarget.data('on-text') !== 'undefined') {
+						hiddenDays = app.getMainParams('hiddenDays', true);
+						this.isSwitchAllDays = false;
+					} else {
+						this.isSwitchAllDays = true;
+					}
+					this.getCalendarView().fullCalendar('option', 'hiddenDays', hiddenDays);
+					//calendarView.fullCalendar('option', 'height', this.setCalendarHeight());
+					if (this.getCalendarView().fullCalendar('getView').type === 'year') {
+						this.registerViewRenderEvents(this.getCalendarView().fullCalendar('getView'));
+					}
+					this.registerSwitchEvents();
+				});
+		}
+	}
+
+	/**
+	 * Functions register select's user change event
+	 * Overwrites Calendar_CalendarExtended_Js
+	 */
+	registerUsersChange() {
+		this.container.find('.assigned_user_id').on('change', () => {
+			this.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
 		});
 	}
 
-	renderCalendar() {
-		super.renderCalendar();
-		this.registerSwitchEvents();
+	/**
+	 * Function return user's id
+	 * Overwrites Calendar_CalendarExtended_Js
+	 * @returns {int}
+	 */
+	getSelectedUsersCalendar() {
+		return this.container.find('.assigned_user_id').val();
 	}
 
+	/**
+	 * Function invokes by fullcalendar, sets selected days in form
+	 * Overwrites Calendar_CalendarExtended_Js
+	 * @param startDate
+	 * @param endDate
+	 */
 	selectDays(startDate, endDate) {
 		let start_hour = $('#start_hour').val(),
 			end_hour = $('#end_hour').val(),
@@ -65,35 +121,6 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 			this.container.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
 		}
 	}
-
-	registerSwitchEvents() {
-		if (app.getMainParams('hiddenDays', true) !== false) {
-			let calendarview = this.getCalendarView(),
-				switchContainer = $(`<div class="js-calendar-switch-container"></div>`).insertAfter(calendarview.find('.fc-center'));
-			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), this.isSwitchAllDays))
-				.prependTo(switchContainer)
-				.on('change', 'input', (e) => {
-					const currentTarget = $(e.currentTarget);
-					let hiddenDays = [];
-					if (typeof currentTarget.data('on-text') !== 'undefined') {
-						hiddenDays = app.getMainParams('hiddenDays', true);
-						this.isSwitchAllDays = false;
-					} else {
-						this.isSwitchAllDays = true;
-					}
-					this.getCalendarView().fullCalendar('option', 'hiddenDays', hiddenDays);
-					//calendarView.fullCalendar('option', 'height', this.setCalendarHeight());
-					if (this.getCalendarView().fullCalendar('getView').type === 'year') {
-						this.registerViewRenderEvents(this.getCalendarView().fullCalendar('getView'));
-					}
-					this.registerSwitchEvents();
-				});
-		}
-	}
-
-	getSelectedUsersCalendar() {
-		return this.user.val();
-	}
 }
 
 jQuery.Class("Calendar_QuickCreate_Js", {}, {
@@ -105,7 +132,7 @@ jQuery.Class("Calendar_QuickCreate_Js", {}, {
 		this.container = container;
 	},
 	registerExtendCalendar: function () {
-		(new Calendar_CalendarModal_Js($('.js-modal-container'), true)).renderCalendar();
+		new Calendar_CalendarModal_Js($('.js-modal-container'), true);
 	},
 	registerStandardCalendar: function () {
 		const thisInstance = this;
