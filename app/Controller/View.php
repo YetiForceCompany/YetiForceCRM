@@ -310,7 +310,7 @@ abstract class View extends Base
 			'~layouts/resources/ProgressIndicator.js',
 		];
 		if (\App\Privilege::isPermitted('Chat')) {
-			$jsFileNames[] = '~layouts/resources/Chat.js';
+			$jsFileNames[] = '~layouts/basic/modules/Chat/resources/Chat.js';
 		}
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
 		$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";

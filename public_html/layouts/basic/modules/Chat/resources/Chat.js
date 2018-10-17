@@ -5,7 +5,7 @@
  * Class Chat_Js.
  * @type {Window.Chat_Js}
  */
-window.Chat_Js = class Chat_Js {
+window.Chat_JS = class Chat_Js {
 	/**
 	 * Get instance of Chat_Js.
 	 * @returns {Chat_Js|Window.Chat_Js}
