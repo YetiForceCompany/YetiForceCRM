@@ -13,6 +13,7 @@ window.Chat_JS = class Chat_Js {
 	constructor(container) {
 		this.container = container;
 		this.sendByEnter = true;
+
 	}
 
 	/**
@@ -32,26 +33,24 @@ window.Chat_JS = class Chat_Js {
 	 * @param {bool} progress
 	 * @returns {*}
 	 */
-	sendRequest(data = {}, progress = true) {
-		const aDeferred = jQuery.Deferred();
-		let progressIndicatorElement = null;
+	request(data = {}, progress = true) {
+		const aDeferred = $.Deferred();
+		let progressIndicator = null;
 		if (progress) {
-			progressIndicatorElement = this.progressShow();
+			progressIndicator = this.progressShow();
 		}
 		AppConnector.request({
 			dataType: 'json',
 			data: $.extend({module: 'Chat'}, data)
 		}).done((data) => {
 			if (progress) {
-				progressIndicatorElement.progressIndicator({mode: 'hide'});
+				progressIndicator.progressIndicator({mode: 'hide'});
 			}
 			aDeferred.resolve(data);
 		}).fail((error, err) => {
 			if (progress) {
-				progressIndicatorElement.progressIndicator({mode: 'hide'});
+				progressIndicator.progressIndicator({mode: 'hide'});
 			}
-			console.log('error: ' + error + ' ' + err);
-			app.errorLog(error, err);
 		});
 		return aDeferred.promise();
 	}
@@ -64,7 +63,8 @@ window.Chat_JS = class Chat_Js {
 		if (inputMessage.val() === '') {
 			return;
 		}
-		console.log('Sned: ' + inputMessage.val());
+		console.log('Send: ' + inputMessage.val());
+
 		inputMessage.val('');
 	}
 
@@ -84,7 +84,6 @@ window.Chat_JS = class Chat_Js {
 	 */
 	registerSendEvent() {
 		const self = this;
-		console.log(this.container);
 		const inputMessage = this.container.find('.js-chat-message');
 		if (this.sendByEnter) {
 			inputMessage.on('keydown', function (e) {
@@ -95,24 +94,25 @@ window.Chat_JS = class Chat_Js {
 			});
 		}
 		this.container.find('.js-btn-send').on('click', (e) => {
-			self.sendMessage(inputMessage);
+			this.sendMessage(inputMessage);
 		});
 	}
 
 	/**
-	 * Register switch room.
+	 * Register switch room
 	 */
 	registerSwitchRoom() {
 		this.container.find('.js-room-list .js-room').off('click').on('click', (e) => {
-			let roomType = $(e.currentTarget).closest('.js-room-type').data('roomType');
-			let roomId = $(e.currentTarget).data('roomId');
-			let id = $(e.currentTarget).data('id');
+			let element = $(e.currentTarget);
+			let roomType = element.closest('.js-room-type').data('roomType');
+			let roomId = element.data('roomId');
+			let id = element.data('id');
 			console.log('room: ' + roomId + ' t: ' + roomType + ' id: ' + id);
-			this.sendRequest({
-				action: 'Entries',
-				mode: 'switchRoom',
-				room_id: roomId,
-				room_type: roomType,
+			this.request({
+				view: 'Entries',
+				mode: 'get',
+				roomId: roomId,
+				roomType: roomType,
 				id: id
 			}).done((data) => {
 				console.log('DONE');
@@ -120,12 +120,22 @@ window.Chat_JS = class Chat_Js {
 		});
 	}
 
+	/**
+	 * Register tracking events
+	 */
+	registerTrackingEvents() {
+
+	}
+
+	/**
+	 * Register base events
+	 */
 	registerBaseEvents() {
 		this.registerSendEvent();
 	}
 
 	/**
-	 * Register chat events
+	 * Register modal events
 	 */
 	registerModalEvents() {
 		this.registerBaseEvents();

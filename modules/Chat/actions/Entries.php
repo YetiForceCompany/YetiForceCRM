@@ -10,17 +10,15 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
-class Chat_Entries_Action extends \App\Controller\Action
+class Chat_Entries_Action extends \App\Controller\View
 {
-	use \App\Controller\ExposeMethod;
-
 	/**
 	 * Constructor with a list of allowed methods.
 	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('sendMessage');
+		//$this->exposeMethod('send');
 	}
 
 	/**
@@ -36,15 +34,5 @@ class Chat_Entries_Action extends \App\Controller\Action
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
 		}
-	}
-
-	/**
-	 * Add entries function.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function sendMessage(\App\Request $request)
-	{
-		echo $request->get('message');
 	}
 }

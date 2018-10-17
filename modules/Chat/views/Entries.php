@@ -12,24 +12,49 @@
  */
 class Chat_Entries_View extends \App\Controller\View
 {
+	use \App\Controller\ExposeMethod;
+
 	/**
-	 * {@inheritdoc}
+	 * Constructor with a list of allowed methods.
 	 */
-	public function checkPermission(\App\Request $request)
+	public function __construct()
 	{
-		if (!\App\Privilege::isPermitted($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
-		}
+		parent::__construct();
+		$this->exposeMethod('send');
+		$this->exposeMethod('get');
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function checkPermission(\App\Request $request)
 	{
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
+		}
+	}
+
+	/**
+	 * Send message function.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function send(\App\Request $request)
+	{
+		echo $request->get('message');
+		//$viewer = $this->getViewer($request);
+		//$viewer->view('Modal.tpl', $request->getModule());
+	}
+
+	public function get(\App\Request $request)
+	{
+		if ($request->has('roomType') && $request->has('roomId')) {
+			$request->getByType('roomType');
+			$request->getByType('roomId');
+		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('CHAT_ENTRIES', []);
-		$viewer->view('Entries.tpl', $request->getModule());
+		$viewer->view('ModalFooter.tpl', $request->getModule());
 	}
 
 	/**
