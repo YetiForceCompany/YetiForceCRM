@@ -7,7 +7,7 @@
 	{/if}
 	{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{if isset($SEARCH_INFO['searchValue'])}
-		{assign var=SEARCH_VALUES value=explode('##', $SEARCH_INFO['searchValue'])}
+		{assign var=SEARCH_VALUES value=explode('##', \App\Purifier::decodeHtml($SEARCH_INFO['searchValue']))}
 	{else}
 		{assign var=SEARCH_VALUES value=[]}
 	{/if}

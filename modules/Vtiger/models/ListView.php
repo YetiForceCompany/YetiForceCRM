@@ -533,12 +533,13 @@ class Vtiger_ListView_Model extends \App\Base
 			$extRecordModel = [];
 			foreach ($relatedFields as $relatedModuleName => $fields) {
 				foreach ($fields as $sourceField => $field) {
-					$recordData = [];
+					$recordData = [
+						'id' => $row[$sourceField . $relatedModuleName . 'id'] ?? 0
+					];
 					foreach ($field as $relatedFieldName) {
 						$recordData[$relatedFieldName] = $row[$sourceField . $relatedModuleName . $relatedFieldName];
 						unset($row[$sourceField . $relatedModuleName . $relatedFieldName]);
 					}
-					$recordData['id'] = $row[$sourceField . $relatedModuleName . 'id'] ?? 0;
 					$extRecordModel[$sourceField][$relatedModuleName] = Vtiger_Module_Model::getInstance($relatedModuleName)->getRecordFromArray($recordData);
 				}
 			}

@@ -1433,4 +1433,36 @@ class Vtiger_Field_Model extends vtlib\Field
 				return null;
 		}
 	}
+
+	/**
+	 * Return allowed operators for field
+	 * @return string[]
+	 */
+	public function getOperators(){
+		$operators = $this->getUITypeModel()->getOperators();
+		$oper = [];
+		foreach($operators as $op) {
+			$label = '';
+			if(isset(\App\CustomView::ADVANCED_FILTER_OPTIONS[$op])) {
+				$label = \App\CustomView::ADVANCED_FILTER_OPTIONS[$op];
+			}
+			if (isset(\App\CustomView::DATE_FILTER_CONDITIONS[$op])) {
+				$label = \App\CustomView::DATE_FILTER_CONDITIONS[$op]['label'];
+			}
+			$oper[$op] = $label;
+		}
+		return $oper;
+	}
+
+	/**
+	 * Returns template for operator
+	 * @param string $operator
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator){
+		if (in_array($operator, App\CustomView::FILTERS_WITHOUT_VALUES)) {
+			return;
+		}
+		return $this->getUITypeModel()->getOperatorTemplateName($operator);
+	}
 }
