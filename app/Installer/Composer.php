@@ -156,16 +156,14 @@ class Composer
 		foreach (static::$publicPackage as $package) {
 			$src = 'vendor' . DIRECTORY_SEPARATOR . $package;
 			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-				if ($item->isFile() && in_array($item->getExtension(), $types)) {
-					if (!file_exists($rootDir . $item->getPathname())) {
-						if (!is_dir($rootDir . $item->getPath())) {
-							mkdir($rootDir . $item->getPath(), 0755, true);
-						}
-						if (!is_writable($rootDir . $item->getPath())) {
-							continue;
-						}
-						rename($item->getRealPath(), $rootDir . $item->getPathname());
+				if ($item->isFile() && in_array($item->getExtension(), $types) && !file_exists($rootDir . $item->getPathname())) {
+					if (!is_dir($rootDir . $item->getPath())) {
+						mkdir($rootDir . $item->getPath(), 0755, true);
 					}
+					if (!is_writable($rootDir . $item->getPath())) {
+						continue;
+					}
+					rename($item->getRealPath(), $rootDir . $item->getPathname());
 				}
 			}
 		}
@@ -199,11 +197,9 @@ class Composer
 				foreach (new \DirectoryIterator($level1->getPathname()) as $level2) {
 					if ($level2->isDir() && !$level2->isDot()) {
 						foreach (new \DirectoryIterator($level2->getPathname()) as $level3) {
-							if (isset(self::$clearFilesModule[$level1->getFileName() . '/' . $level2->getFilename()])) {
-								if (!$level3->isDot() && \in_array(strtolower($level3->getFilename()), self::$clearFilesModule[$level1->getFileName() . '/' . $level2->getFilename()])) {
-									\vtlib\Functions::recurseDelete($level3->getPathname(), true);
-									$deletedCount++;
-								}
+							if (isset(self::$clearFilesModule[$level1->getFileName() . '/' . $level2->getFilename()]) && !$level3->isDot() && \in_array(strtolower($level3->getFilename()), self::$clearFilesModule[$level1->getFileName() . '/' . $level2->getFilename()])) {
+								\vtlib\Functions::recurseDelete($level3->getPathname(), true);
+								$deletedCount++;
 							}
 						}
 					}

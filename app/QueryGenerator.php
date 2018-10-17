@@ -629,13 +629,11 @@ class QueryGenerator
 	{
 		$field = $this->getModuleField($fieldName);
 		$type = $field ? $field->getFieldDataType() : false;
-		if ($type === 'datetime') {
-			if (strrpos($value, ' ') === false) {
-				if ($first) {
-					$value .= ' 00:00:00';
-				} else {
-					$value .= ' 23:59:59';
-				}
+		if ($type === 'datetime' && strrpos($value, ' ') === false) {
+			if ($first) {
+				$value .= ' 00:00:00';
+			} else {
+				$value .= ' 23:59:59';
 			}
 		}
 		return $value;
@@ -683,29 +681,25 @@ class QueryGenerator
 		if ($this->moduleName === 'Calendar' && !in_array('activitytype', $this->fields)) {
 			$this->fields[] = 'activitytype';
 		}
-		if ($this->moduleName === 'Documents') {
-			if (in_array('filename', $this->fields)) {
-				if (!in_array('filelocationtype', $this->fields)) {
-					$this->fields[] = 'filelocationtype';
-				}
-				if (!in_array('filestatus', $this->fields)) {
-					$this->fields[] = 'filestatus';
-				}
+		if ($this->moduleName === 'Documents' && in_array('filename', $this->fields)) {
+			if (!in_array('filelocationtype', $this->fields)) {
+				$this->fields[] = 'filelocationtype';
+			}
+			if (!in_array('filestatus', $this->fields)) {
+				$this->fields[] = 'filestatus';
 			}
 		}
 		if (!$onlyFields) {
 			$this->stdFilterList = $customView->getStdFilterByCvid($viewId);
 			$this->advFilterList = $customView->getAdvFilterByCvid($viewId);
-			if (is_array($this->stdFilterList)) {
-				if (!empty($this->stdFilterList['columnname'])) {
-					list(, , $fieldName) = explode(':', $this->stdFilterList['columnname']);
-					$this->addNativeCondition([
-						'between',
-						$fieldName,
-						$this->fixDateTimeValue($fieldName, $this->stdFilterList['startdate']),
-						$this->fixDateTimeValue($fieldName, $this->stdFilterList['enddate'], false),
-					]);
-				}
+			if (is_array($this->stdFilterList) && !empty($this->stdFilterList['columnname'])) {
+				list(, , $fieldName) = explode(':', $this->stdFilterList['columnname']);
+				$this->addNativeCondition([
+					'between',
+					$fieldName,
+					$this->fixDateTimeValue($fieldName, $this->stdFilterList['startdate']),
+					$this->fixDateTimeValue($fieldName, $this->stdFilterList['enddate'], false),
+				]);
 			}
 			$this->parseAdvFilter();
 		}
