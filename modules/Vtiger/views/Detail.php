@@ -1069,9 +1069,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD_MODEL', $recordModel);
-		$viewer->assign('CHAT_ID', $request->getInteger('cid'));
-		$viewer->assign('CHAT', \App\Chat::getInstanceById($recordModel->getId()));
-		return $viewer->view('Detail\Chat.tpl', $moduleName, true);
+		return $viewer->view('Detail\Chat.tpl', 'Chat', true);
 	}
 
 	/**
