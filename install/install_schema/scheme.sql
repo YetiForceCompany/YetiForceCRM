@@ -1260,35 +1260,76 @@ CREATE TABLE `u_yf_cfixedassetscf` (
   CONSTRAINT `fk_1_vtiger_cfixedassetscfcfixedassetsid` FOREIGN KEY (`cfixedassetsid`) REFERENCES `u_yf_cfixedassets` (`cfixedassetsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `u_yf_chat_messages` */
+/*Table structure for table `u_yf_chat_messages_crm` */
 
-CREATE TABLE `u_yf_chat_messages` (
+CREATE TABLE `u_yf_chat_messages_crm` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `crmid` int(10) DEFAULT NULL,
   `userid` smallint(5) unsigned NOT NULL,
-  `user_name` varchar(50) NOT NULL,
-  `created` int(10) unsigned DEFAULT NULL,
-  `messages` text DEFAULT NULL,
-  `room_id` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `created` datetime DEFAULT NULL,
+  `messages` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `room_crmid` (`crmid`),
+  CONSTRAINT `fk_chat_messages` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `u_yf_chat_rooms` */
+/*Table structure for table `u_yf_chat_messages_global` */
 
-CREATE TABLE `u_yf_chat_rooms` (
-  `room_id` int(10) NOT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`room_id`)
+CREATE TABLE `u_yf_chat_messages_global` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `globalid` int(10) unsigned NOT NULL,
+  `userid` smallint(5) unsigned NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `messages` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `globalid` (`globalid`),
+  CONSTRAINT `u_yf_chat_messages_global_ibfk_1` FOREIGN KEY (`globalid`) REFERENCES `u_yf_chat_rooms_global` (`global_room_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `u_yf_chat_users` */
+/*Table structure for table `u_yf_chat_messages_group` */
 
-CREATE TABLE `u_yf_chat_users` (
+CREATE TABLE `u_yf_chat_messages_group` (
+  `id` bigint(10) unsigned NOT NULL AUTO_INCREMENT,
+  `groupid` int(10) DEFAULT NULL,
+  `userid` smallint(5) unsigned NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `messages` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `room_groupid` (`groupid`),
+  CONSTRAINT `fk_chat_group_messages` FOREIGN KEY (`groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_chat_rooms_crm` */
+
+CREATE TABLE `u_yf_chat_rooms_crm` (
+  `roomid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userid` int(10) NOT NULL,
-  `room_id` int(10) NOT NULL,
-  `last_message` int(10) DEFAULT NULL,
-  `favorite` tinyint(1) NOT NULL,
-  PRIMARY KEY (`userid`,`room_id`)
+  `crmid` int(10) DEFAULT NULL,
+  PRIMARY KEY (`roomid`),
+  KEY `fk_u_yf_chat_rooms_crm_users` (`userid`),
+  KEY `fk_u_yf_chat_rooms_crm_crm` (`crmid`),
+  CONSTRAINT `fk_u_yf_chat_rooms_crm_crm` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `fk_u_yf_chat_rooms_crm_users` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_chat_rooms_global` */
+
+CREATE TABLE `u_yf_chat_rooms_global` (
+  `global_room_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`global_room_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_chat_rooms_group` */
+
+CREATE TABLE `u_yf_chat_rooms_group` (
+  `roomid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` int(10) NOT NULL,
+  `groupid` int(10) NOT NULL,
+  PRIMARY KEY (`roomid`),
+  KEY `fk_u_yf_chat_rooms_group` (`groupid`),
+  CONSTRAINT `fk_u_yf_chat_rooms_group` FOREIGN KEY (`groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_cinternaltickets` */
 
