@@ -36,7 +36,10 @@ class Chat
 	 */
 	public static function getRoomsGlobal()
 	{
-		return (new \App\Db\Query())->from('u_#__chat_rooms_global')->all();
+		return (new \App\Db\Query())
+			->select(['roomid' => 'global_room_id', 'name'])
+			->from('u_#__chat_rooms_global')
+			->all();
 	}
 
 	/**
@@ -52,7 +55,7 @@ class Chat
 			$userId = \App\User::getCurrentUserId();
 		}
 		return (new \App\Db\Query())
-			->select(['GR.*', 'name' => 'VGR.groupname'])
+			->select(['GR.roomid', 'GR.userid', 'id' => 'GR.groupid', 'name' => 'VGR.groupname'])
 			->from(['GR' => 'u_#__chat_rooms_group'])
 			->innerJoin(['VGR' => 'vtiger_groups'], 'VGR.groupid = GR.groupid')
 			->where(['GR.userid' => $userId])
@@ -72,7 +75,7 @@ class Chat
 			$userId = \App\User::getCurrentUserId();
 		}
 		return (new \App\Db\Query())
-			->select(['C.*', 'name' => 'CL.label'])
+			->select(['C.roomid', 'C.userid', 'id' => 'C.crmid', 'name' => 'CL.label'])
 			->from(['C' => 'u_#__chat_rooms_crm'])
 			->leftJoin(['CL' => 'u_yf_crmentity_label'], 'CL.crmid = C.crmid')
 			->where(['C.userid' => $userId])

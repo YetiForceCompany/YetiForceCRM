@@ -3,19 +3,24 @@
 	<!-- tpl-Chat-Modal -->
 	{function ROOM_ITEM CLASS_NAME=''}
 		{assign var=SELECTED value=false}
-		<li>{\App\Language::translate($ROOM['name'], 'Chat')}</li>
+		<li class="text-truncate js-popover-tooltip js-room"
+			data-content="{\App\Language::translate($ROOM['name'], 'Chat')}"
+			data-room-id="{$ROOM['roomid']}" data-id="{if isset($ROOM['id'])}{$ROOM['id']}{/if}"
+			data-js="click|popover">
+			{\App\Language::translate($ROOM['name'], 'Chat')}
+		</li>
 	{/function}
 	<div class="modal-body pt-0 pb-0">
 		<div class="row p-0">
-			<div class="col-2 bg-color-grey-50 m-0 p-0">
+			<div class="col-2 bg-color-grey-50 m-0 p-0 js-room-list" data-js="container">
 				{foreach item=GROUP_ROOM key=KEY from=\App\Chat::getRoomsByUser()}
 					{assign var=LBL_GROUP_ROOM value="LBL_ROOM_$KEY"|upper}
 					<div class="text-uppercase bg-color-grey-200 p-2">
 						{\App\Language::translate($LBL_GROUP_ROOM, $MODULE_NAME)}
 					</div>
-					<ul>
+					<ul class="js-room-type" data-room-type="{$KEY}" data-js="data">
 						{foreach item=ROOM from=$GROUP_ROOM}
-							{ROOM_ITEM ROOM=$ROOM CLASS_NAME='d-flex'}
+							{ROOM_ITEM ROOM=$ROOM CLASS_NAME=''}
 						{/foreach}
 					</ul>
 				{/foreach}

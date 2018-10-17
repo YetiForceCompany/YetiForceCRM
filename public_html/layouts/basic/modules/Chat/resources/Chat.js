@@ -60,12 +60,27 @@ window.Chat_JS = class Chat_Js {
 	}
 
 	/**
+	 * Register switch room.
+	 * @param {jQuery} container
+	 */
+	registerSwitchRoom(container) {
+		const self = this;
+		container.find('.js-room-list .js-room').off('click').on('click', (e) => {
+			let roomType = $(e.currentTarget).closest('.js-room-type').data('roomType');
+			let roomId = $(e.currentTarget).data('roomId');
+			let id = $(e.currentTarget).data('id');
+			console.log('room: ' + roomId + ' t: ' + roomType + ' id: ' + id);
+		});
+	}
+
+	/**
 	 * Register chat events
 	 * @param {jQuery} container
 	 */
 	registerEvents(container) {
 		if (container.length) {
 			this.registerSendEvent(container);
+			this.registerSwitchRoom(container);
 		}
 	}
 }
