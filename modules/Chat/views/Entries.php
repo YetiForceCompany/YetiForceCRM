@@ -28,6 +28,15 @@ class Chat_Entries_View extends \App\Controller\View
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
+		$viewer->assign('CHAT_ENTRIES', []);
 		$viewer->view('Entries.tpl', $request->getModule());
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSessionExtend()
+	{
+		return false;
 	}
 }
