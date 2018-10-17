@@ -811,11 +811,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				self.refreshDatesRowView(calendarView.fullCalendar('getView'));
 				self.getSidebarView().find('.js-qc-form').html('');
 				self.getCalendarCreateView();
-				Vtiger_Helper_Js.showPnotify({
-					text: textToShow,
-					type: 'success',
-					animation: 'show'
-				});
 			}
 		};
 		return returnFunction;
