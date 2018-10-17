@@ -1318,7 +1318,7 @@ CREATE TABLE `u_yf_chat_rooms_global` (
   `global_room_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`global_room_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_chat_rooms_group` */
 
