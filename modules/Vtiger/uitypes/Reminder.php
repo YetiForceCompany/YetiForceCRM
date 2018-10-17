@@ -16,18 +16,18 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$reminder_value = '';
-		$reminder_time = $this->getEditViewDisplayValue($value, $recordModel);
-		if (!empty($reminder_time[0])) {
-			$reminder_value = $reminder_time[0] . ' ' . \App\Language::translate('LBL_DAYS');
+		$reminderValue = '';
+		$reminderTime = $this->getEditViewDisplayValue($value, $recordModel);
+		if (!empty($reminderTime[0])) {
+			$reminderValue = $reminderTime[0] . ' ' . \App\Language::translate('LBL_DAYS');
 		}
-		if (!empty($reminder_time[1])) {
-			$reminder_value = $reminder_value . ' ' . $reminder_time[1] . ' ' . \App\Language::translate('LBL_HOURS');
+		if (!empty($reminderTime[1])) {
+			$reminderValue = $reminderValue . ' ' . $reminderTime[1] . ' ' . \App\Language::translate('LBL_HOURS');
 		}
-		if (!empty($reminder_time[2])) {
-			$reminder_value = $reminder_value . ' ' . $reminder_time[2] . ' ' . \App\Language::translate('LBL_MINUTES');
+		if (!empty($reminderTime[2])) {
+			$reminderValue = $reminderValue . ' ' . $reminderTime[2] . ' ' . \App\Language::translate('LBL_MINUTES');
 		}
-		return $reminder_value;
+		return $reminderValue;
 	}
 
 	/**
@@ -36,10 +36,10 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		if ($value != 0) {
-			$rem_days = floor($value / (24 * 60));
-			$rem_hrs = floor(($value - $rem_days * 24 * 60) / 60);
-			$rem_min = ($value - ($rem_days * 24 * 60)) % 60;
-			return [$rem_days, $rem_hrs, $rem_min];
+			$days = floor($value / (24 * 60));
+			$hours = floor(($value - $days * 24 * 60) / 60);
+			$minutes = ($value - ($days * 24 * 60)) % 60;
+			return [$days, $hours, $minutes];
 		} else {
 			return '';
 		}
