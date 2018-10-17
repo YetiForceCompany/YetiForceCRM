@@ -353,7 +353,7 @@ Vtiger_Base_Validator_Js('Vtiger_Url_Validator_Js', {}, {
 		var regexp = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi;
 		var result = regexp.test(fieldValue);
 		if (!result) {
-			if (fieldValue.indexOf('http://') === 0 || fieldValue.indexOf('https://') === 0 || fieldValue.indexOf('ftp://') === 0 || fieldValue.indexOf('ftps://') === 0 || fieldValue.indexOf('telnet://') === 0 || fieldValue.indexOf('www.') === 0) {
+			if (fieldValue.indexOf('http://') === 0 || fieldValue.indexOf('https://') === 0 || fieldValue.indexOf('ftp://') === 0 || fieldValue.indexOf('ftps://') === 0 || fieldValue.indexOf('telnet://') === 0 || fieldValue.indexOf('smb://') === 0 || fieldValue.indexOf('www.') === 0) {
 				result = true;
 			}
 		}
