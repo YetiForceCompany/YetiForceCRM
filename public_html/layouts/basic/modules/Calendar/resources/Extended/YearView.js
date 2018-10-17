@@ -114,6 +114,7 @@ var YearView = View.extend({
 						select: function (start, end) {
 							self.selectDays(start, end);
 						},
+						hiddenDays: calendar.view.options.hiddenDays,
 						defaultDate: moment(calendar.getDate().year() + '-' + (i + 1), "YYYY-MM-DD"),
 						eventRender: function (event, element) {
 							if (event.rendering === 'background') {
