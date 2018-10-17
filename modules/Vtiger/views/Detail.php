@@ -1067,6 +1067,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
+		$viewer->assign('CHAT', \App\Chat::getInstanceByRecordModel($recordModel));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		return $viewer->view('Detail\Chat.tpl', 'Chat', true);

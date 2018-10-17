@@ -17,6 +17,19 @@ namespace App;
 class Chat
 {
 	/**
+	 * Get instance by record model.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return \App\Chat
+	 */
+	public static function getInstanceByRecordModel(\Vtiger_Record_Model $recordModel): \App\Chat
+	{
+		$instance = new self();
+		return $instance;
+	}
+
+	/**
 	 * Get all chat rooms by user.
 	 *
 	 * @param int|null $userId
@@ -29,9 +42,31 @@ class Chat
 			$userId = \App\User::getCurrentUserId();
 		}
 		return [
-			['name' => 'room1'],
-			['name' => 'room2'],
-			['name' => 'room3'],
+			'favorite' => [
+				['name' => 'f.room1'],
+				['name' => 'f.room2'],
+				['name' => 'f.room3'],
+			],
+			'group' => [
+				['name' => 'g.room1'],
+				['name' => 'g.room2'],
+				['name' => 'g.room3'],
+			],
+			'global' => [
+				['name' => 'gl.room1'],
+				['name' => 'gl.room2'],
+				['name' => 'gl.room3'],
+			],
 		];
+	}
+
+	/**
+	 * Check if chat room exists.
+	 *
+	 * @return bool
+	 */
+	public function isRoomExists(): bool
+	{
+		return false;
 	}
 }
