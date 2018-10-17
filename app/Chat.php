@@ -30,6 +30,56 @@ class Chat
 	}
 
 	/**
+	 * Global list of chat rooms.
+	 *
+	 * @return array
+	 */
+	public static function getRoomsGlobal()
+	{
+		return (new \App\Db\Query())->from('u_#__chat_rooms_global')->all();
+	}
+
+	/**
+	 * List of chat room groups.
+	 *
+	 * @param int|null $userId
+	 *
+	 * @return array
+	 */
+	public static function getRoomsGroup(?int $userId = null)
+	{
+		if (empty($userId)) {
+			$userId = \App\User::getCurrentUserId();
+		}
+		return (new \App\Db\Query())
+			->select(['GR.*', 'name' => 'VGR.groupname'])
+			->from(['GR' => 'u_#__chat_rooms_group'])
+			->innerJoin(['VGR' => 'vtiger_groups'], 'VGR.groupid = GR.groupid')
+			->where(['GR.userid' => $userId])
+			->all();
+	}
+
+	/**
+	 * CRM list of chat rooms.
+	 *
+	 * @param int|null $userId
+	 *
+	 * @return array
+	 */
+	public static function getRoomsCrm(?int $userId = null)
+	{
+		if (empty($userId)) {
+			$userId = \App\User::getCurrentUserId();
+		}
+		return (new \App\Db\Query())
+			->select(['C.*', 'name' => 'CL.label'])
+			->from(['C' => 'u_#__chat_rooms_crm'])
+			->leftJoin(['CL' => 'u_yf_crmentity_label'], 'CL.crmid = C.crmid')
+			->where(['C.userid' => $userId])
+			->all();
+	}
+
+	/**
 	 * Get all chat rooms by user.
 	 *
 	 * @param int|null $userId
@@ -38,47 +88,11 @@ class Chat
 	 */
 	public static function getRoomsByUser(?int $userId = null)
 	{
-		if (empty($userId)) {
-			$userId = \App\User::getCurrentUserId();
-		}
-		$queryGlobal = (new \App\Db\Query())
-			->select([
-				'room_type' => new \yii\db\Expression("'global'"),
-				'GL.global_room_id',
-				'userid' => new \yii\db\Expression('NULL'),
-				'id' => new \yii\db\Expression('NULL'),
-				'GL.name'
-			])->from(['GL' => 'u_#__chat_rooms_global']);
-		$queryGroup = (new \App\Db\Query())
-			->select([
-				'room_type' => new \yii\db\Expression("'group'"),
-				'GR.roomid', 'GR.userid',
-				'id' => new \yii\db\Expression('GR.groupid'),
-				'VGR.groupname'
-			])->from(['GR' => 'u_#__chat_rooms_group'])
-				->innerJoin(['VGR' => 'vtiger_groups'], 'VGR.groupid = GR.groupid')
-				->where(['GR.userid' => $userId]);
-		$dataReader = (new \App\Db\Query())
-			->select([
-				'room_type' => new \yii\db\Expression("'crm'"),
-				'C.roomid', 'C.userid',
-				'id' => new \yii\db\Expression('C.crmid'),
-				'name' => new \yii\db\Expression('NULL')
-			])->from(['C' => 'u_#__chat_rooms_crm'])
-				->where(['C.userid' => $userId])
-				->union($queryGroup, true)
-				->union($queryGlobal, true)
-				->createCommand()->query();
-		$arr = [
-			'crm' => [],
-			'group' => [],
-			'global' => [],
+		return [
+			'crm' => static::getRoomsCrm($userId),
+			'group' => static::getRoomsGroup($userId),
+			'global' => static::getRoomsGlobal(),
 		];
-		while ($row = $dataReader->read()) {
-			$arr[$row['room_type']][] = $row;
-		}
-		$dataReader->close();
-		return $arr;
 	}
 
 	/**
