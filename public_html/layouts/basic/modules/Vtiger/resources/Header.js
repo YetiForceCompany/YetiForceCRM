@@ -665,6 +665,17 @@ $.Class("Vtiger_Header_Js", {
 			$(this).parents('.d-inline-block').find('.dropdown-toggle .textHolder').html($(this).text());
 		});
 	},
+	registerPdfButton: function () {
+		let btnToolbar = $('.js-btn-toolbar .btn-toolbar:eq(1)'), btn;
+		btn = btnToolbar.find('.js-btn-pdf');
+		// console.log(btn);
+		if (btn.length) {
+			btn.on('click', function () {
+				console.log(btn);
+				window.location.href = 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' + app.getModuleName() + '&view=PDF&fromview=Detail&record=' + app.getRecordId() + '")';
+			});
+		}
+	},
 	listenTextAreaChange: function () {
 		var thisInstance = this;
 		$('textarea').on('keyup', function () {
@@ -728,7 +739,7 @@ $.Class("Vtiger_Header_Js", {
 			quickCreateModal.modal('hide');
 			thisInstance.quickCreateModule(moduleName);
 		});
-
+		thisInstance.registerPdfButton();
 		thisInstance.registerMobileEvents();
 		thisInstance.registerReminderNotice();
 		thisInstance.registerReminderNotification();

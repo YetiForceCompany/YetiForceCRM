@@ -2585,18 +2585,16 @@ jQuery.Class("Vtiger_Detail_Js", {
 			let btnToolbar = jQuery('.js-btn-toolbar .btn-toolbar:eq(1)');
 			let btn;
 			if (data['result'].valid === false) {
-				btn = btnToolbar.find('.btn-group:eq(2)');
+				btn = btnToolbar.find('.js-btn-pdf');
 				if (btn.length) {
 					btn.remove();
 				}
 			} else {
 				let btnGroup = btnToolbar;
-				btn = btnToolbar.find('.btn-group:eq(2)');
+				btn = btnToolbar.find('.js-btn-pdf');
 				if (btn.length === 0) {
-					btnGroup.append('<div class="c-btn-link btn-group  c-btn-link--responsive"><button class="btn btn btn-outline-dark btn-sm js-btn-pdf" data-js="click" data-content="' + app.vtranslate('LBL_EXPORT_PDF') + '" data-original-title="" title=""><span class="fas fa-file-excel icon-in-button"></span></button></div>');
-					$(btnGroup).find('.js-btn-pdf').on('click', function () {
-						window.location.href = 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' + app.getModuleName() + '&view=PDF&fromview=Detail&record=' + app.getRecordId() + '")';
-					});
+					btnGroup.append('<div class="c-btn-link btn-group  c-btn-link--responsive"><button class="btn btn btn-outline-dark btn-sm js-btn-pdf js-popover-tooltip" data-js="click|popover" data-placement="bottom" data-content="' + app.vtranslate('LBL_EXPORT_PDF') + '" data-target="focus hover" data-original-title="" title=""><span class="fas fa-file-excel icon-in-button"></span></button></div>');
+					Vtiger_Header_Js.getInstance().registerPdfButton();
 				}
 			}
 		}).fail(function (data, err) {
